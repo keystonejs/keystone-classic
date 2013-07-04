@@ -1,0 +1,122 @@
+.create-item {
+	
+	margin-bottom: 20px;
+	
+	.form, .toolbar-create {
+		display: none;
+	}
+	
+	.toolbar {
+		border-top: none;
+		padding-top: 10px;
+	}
+	
+}
+
+.items-list {
+	
+	table-layout: fixed;
+	width: 100%;
+	
+	th {
+		padding: 0 5px 10px;
+		text-align: left;
+		font-size: 16px;
+	}
+	
+	td {
+		padding: 0;
+		background-color: white;
+		border-bottom: 1px solid #e5e5e5;
+	}
+	
+	tbody {
+		> tr:nth-child(odd) > td,
+		> tr:nth-child(odd) > th {
+			background-color: #fafafa;
+		}
+	}
+	
+	tr.delete-hover {
+		td:nth-child(2) {
+			color: #e33737;
+			a { color: #e33737; }
+		}
+	}
+	
+	.control {
+		padding: 5px;
+		a {
+			display: block;
+			width: 16px;
+			height: 18px;
+			padding: 0px;
+			background: url('/prospekt/images/icons/list-controls.png') top left no-repeat;
+			opacity: 0.6;
+		}
+		a:hover {
+			opacity: 1;
+		}
+	}
+	
+	.control-delete i {
+		background-position: 0 0;
+	}
+	
+	.col-value {
+		padding: 6px 5px 2px;
+	}
+	
+	.col-checkbox {
+		text-align: left;
+		padding: 6px 5px 2px;
+	}
+	
+	a {
+		display: inline-block;
+		padding: 6px 5px;
+		text-decoration: none;
+		color: #111;
+		
+		&:hover {
+			color: #111;
+			text-decoration: underline;
+		}
+	}
+	
+}
+
+.pagination {
+	margin: 10px 0;
+	
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		.clearfix();
+		
+		li {
+			float: left;
+			
+			a {
+				color: #666;
+				display: block;
+				padding: 10px;
+				text-decoration: none;
+				
+				&:hover {
+					text-decoration: underline;
+					color: @linkColorHover;
+				}
+			}
+			
+			&.disabled a {
+				color: #ccc;
+				
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}

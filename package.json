@@ -1,0 +1,37 @@
+{
+  "name": "Prospekt",
+  "version": "0.0.1",
+  "description": "Prospekt",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JedWatson/prospekt.git"
+  },
+  "dependencies": {
+    "underscore": "~1.4.4",
+    "jade": "~0.31.1",
+    "less-middleware": "~0.1.12",
+    "async": "~0.2.9",
+    "bcrypt": "~0.7.5",
+    "cloudinary": "~1.0.2",
+    "moment": "~2.0.0",
+    "time": "~0.9.2",
+    "numeral": "~1.4.8",
+    "i": "~0.3.1"
+  },
+  "devDependencies": {
+    "express": "~3.2.6",
+    "mongoose": "~3.6.13"
+  },
+  "author": "Jed Watson",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "ef3fd612285315ea8e12f68da4c8d6031e2c7fe7",
+  "bugs": {
+    "url": "https://github.com/JedWatson/prospekt/issues"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  }
+}

@@ -1,0 +1,211 @@
+.item-id {
+	float: right;
+	color: #999;
+}
+
+h1.item-name {
+	
+	input {
+		font-size: 28px;
+		margin: 0px -4px;
+		border: 1px solid #eee;
+		.box-sizing(content-box);
+	}
+	
+}
+
+h2.item-name {
+	
+	margin-bottom: 10px;
+	
+	input {
+		font-size: 24px;
+		border: 1px solid #ccc;
+	}
+	
+}
+
+.field-type {
+	display: none;
+	color: #999;
+}
+
+.field {
+	
+	margin-bottom: 10px;
+	
+	.field-label {
+		margin-bottom: 3px;
+	}
+	
+	textarea {
+		height: 100px;
+		&.tall {
+			height: 200px;
+		}
+	}
+	
+	.field-ui input + input {
+		margin-left: 10px;
+	}
+	
+	.field-ui input + a {
+		margin-left: 10px;
+	}
+	
+	.field-value {
+		display: inline-block;
+		.box-sizing(border-box);
+		padding: 4px 6px;
+		font-size: @baseFontSize;
+		line-height: @baseLineHeight;
+		color: @gray;
+		background: #fafafa;
+		border: 1px solid #ddd;
+		.border-radius(3px);
+	}
+	
+	span.field-value {
+		margin-right: 5px;
+	}
+	
+	a.ui-related-item {
+		.field-value;
+		background: #white;
+		//border: 1px solid #72b3d8;
+		color: #0089cb;
+		margin-right: 5px;
+		text-decoration: none;
+		
+		&:hover {
+			background-color: #f0f8fc;
+			border-color: #80c4e5;
+			color: #0c699e;
+		};
+	}
+	
+	.row {
+		.clearfix;
+		clear: both;
+		padding-bottom: 5px;
+		
+		.label {
+			float: left;
+			line-height: 24px;
+			width: 110px;
+			padding-right: 10px;
+			color: #999;
+			
+			&.short {
+				width: 70px;
+			}
+		}
+		input {
+			float: left;
+		}
+		
+		.span1 {
+			float: left;
+			width: 300px;
+			margin-right: 10px;
+			
+			input {
+				width: 180px;
+			}
+		}
+		.span2 {
+			float: left;
+			width: 800px;
+			
+			input {
+				width: 450px;
+			}
+		}
+	}
+	
+	.width-full {
+		width: 100%;
+	}
+	.width-long {
+		width: 600px;
+	}
+	.width-medium {
+		width: 400px;
+	}
+	.width-short {
+		width: 200px;
+	}
+	
+	&.type-checkbox {
+		img {
+			margin-right: 10px;
+			vertical-align: middle;
+		}
+	}
+	
+	&.type-datetime, &.type-number, &.type-money {
+		input {
+			width: 200px;
+		}
+	}
+	
+	&.type-location {
+		.field-label {
+			margin-bottom: 8px;
+		}
+		.detect-geo {
+			color: #426147;
+		}
+	}
+	
+	&.type-image {
+		
+		.clearfix;
+		margin-bottom: 10px;
+		
+		.field-label {
+			margin-bottom: 8px;
+		}
+		
+		.image-preview {
+			float: left;
+			margin-right: 10px;
+		}
+		
+		.image-toolbar {
+			margin: 5px 0;
+		}
+		
+		.has-image {
+			.image-details, .image-toolbar {
+				margin-left: 110px;
+			}
+		}
+		
+		.upload-queued {
+			display: none;
+			background: #e5fbe5;
+			border: 1px solid #c5ddc5;
+			margin-right: 10px;
+			padding: 5px 10px;
+			.border-radius(3px);
+		}
+	}
+	
+	.field-upload {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		opacity: 0.01;
+	}
+	
+	.field-note {
+		margin: 5px 0;
+		color: @green;
+	}
+	
+	.change-password {
+		display: none;
+	}
+	
+}
