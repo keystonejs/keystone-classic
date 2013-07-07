@@ -4,8 +4,8 @@ Prospekt
 
 ## Disclaimer
 
-This project is currently under development, and unsupported. Please use it at your
-own risk.
+This project is currently under development, and unsupported. I strongly recommend waiting
+for it to gain maturity before playing with it.
 
 
 ## About

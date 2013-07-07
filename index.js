@@ -9,6 +9,8 @@ var fs = require('fs'),
 	image = require('./lib/image'),
 	List = require('./lib/list'),
 	Field = require('./lib/field');
+	
+Field.Types = require('./lib/fieldTypes');
 
 var templateCache = {};
 
