@@ -6,8 +6,6 @@ var prospekt = require('../'),
 
 exports = module.exports = function(req, res) {
 	
-	// req._tick("Finding Item");
-	
 	req.list.model.findById(req.params.item).exec(function(err, item) {
 		
 		if (Array.isArray(item))
@@ -17,8 +15,6 @@ exports = module.exports = function(req, res) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');
 			return res.redirect('/prospekt/' + req.list.path);
 		}
-		
-		// req._tick("Found Item");
 		
 		var renderView = function() {
 			
@@ -84,6 +80,9 @@ exports = module.exports = function(req, res) {
 				if (field.noedit)
 					return;
 				
+				field.updateItem(item, req.body);
+				
+				/*
 				switch (field.fieldType) {
 					case 'checkbox':
 						if (_.has(req.body, field.path) && req.body[field.path] == 'true' && !item.get(field.path))
@@ -92,7 +91,7 @@ exports = module.exports = function(req, res) {
 							item.set(field.path, false);
 					break;
 					case 'object':
-						if (_.has(req.body, field.path) && item.get(field.path) != req.body[field.path]/* && ObjectId.isValid(req.body[field.path])*/) // TODO: Try and make sure it's a valid ObjectId...
+						if (_.has(req.body, field.path) && item.get(field.path) != req.body[field.path]) // TODO: Try and make sure it's a valid ObjectId...
 							item.set(field.path, req.body[field.path] || undefined);
 					break;
 					case 'objects':
@@ -194,7 +193,7 @@ exports = module.exports = function(req, res) {
 						if (_.has(req.body, field.path) && item.get(field.path) != req.body[field.path])
 							item.set(field.path, req.body[field.path]);
 				}
-				
+				*/
 			});
 			
 			progress();

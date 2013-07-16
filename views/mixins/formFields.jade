@@ -83,7 +83,7 @@ mixin formField_date(field, item)
 	+formField_text_common('date', field, field.format(item, 'YYYY-MM-DD'), 'ui-datepicker')
 
 mixin formField_datetime(field, item)
-	+formField_text_common('datetime', field, field.format(item, 'YYYY-MM-DD h:mm a'))
+	+formField_text_common('datetime', field, field.format(item, 'YYYY-MM-DD HH:mm:ss'))
 
 mixin formField_number(field, item)
 	+formField_text_common('number', field, item.get(field.path))
