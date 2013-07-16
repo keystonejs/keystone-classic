@@ -1,5 +1,7 @@
 extends layout/base
 
+include mixins/initialFields
+
 block page-js
 	script(src='/prospekt/js/views/list.js')
 
@@ -11,99 +13,12 @@ block content
 			form(method='post', action='/prospekt/' + list.path)
 				input(type='hidden', name='action', value='create')
 				
-				- console.log(list);
-				
 				.form
-					if list.nameIsInitial
-						h2.item-name
-							input(type='text', name=list.mappings.name, value=submitted[list.mappings.name])
+					if list.nameField && list.nameIsInitial
+						mixin initialField_itemName(list.nameField, submitted)
 					
 					each field in list.initialFields
-						if field.fieldType == 'textfield'
-							.field.type-text
-								.field-label= field.label
-								.field-ui: input(type='text', name=field.path, class='width-' + field.width, autocomplete='off', value=submitted[field.path])
-								if field.note
-									.field-note= field.note
-						
-						if field.fieldType == 'password'
-							.field.type-password
-								.field-label= field.label
-								.field-ui
-									input(type='password', name=field.path, class='width-short', autocomplete='off', value=submitted[field.path])
-									input(type='password', name=field.path + '_confirm', class='width-short', autocomplete='off', value=submitted[field.path + '_confirm'])
-								if field.note
-									.field-note= field.note
-					
-						else if field.fieldType == 'key'
-							.field.type-key
-								.field-label= field.label
-								.field-ui: input(type='text', name=field.path, class='width-' + field.width, autocomplete='off', value=submitted[field.path]).code
-								if field.note
-									.field-note= field.note
-						
-						else if field.fieldType == 'textarea'
-							.field.type-textarea
-								.field-label= field.label
-								.field-ui: textarea(name=field.path, class='width-' + field.width, autocomplete='off')= submitted[field.path]
-								if field.note
-									.field-note= field.note
-						
-						else if field.fieldType == 'select'
-							.field.type-object
-								.field-label= field.label
-								.field-ui: select(name=field.path).ui-select2
-									option(value='')
-									each opt in field.options
-										option(value=opt.value, selected=(submitted[field.path] == opt.value))= opt.label
-								if field.note
-									.field-note= field.note
-						
-						else if field.fieldType == 'number'
-							//- TODO
-						
-						else if field.fieldType == 'money'
-							//- TODO
-						
-						else if field.fieldType == 'object'
-							//- TODO
-						
-						else if field.fieldType == 'image'
-							//- TODO
-						
-						else if field.fieldType == 'location'
-							//- TODO
-						
-						else if field.fieldType == 'wysiwyg'
-							//- TODO
-						
-						else if field.fieldType == 'date'
-							.field.type-datetime
-								.field-label= field.label
-								.field-ui: input(type='text', name=field.path, autocomplete='off', value=submitted[field.path]).ui-datepicker
-								if field.note
-									.field-note= field.note
-						
-						else if field.fieldType == 'datetime'
-							.field.type-datetime
-								.field-label= field.label
-								.field-ui: input(type='text', name=field.path, autocomplete='off', value=submitted[field.path])
-								if field.note
-									.field-note= field.note
-						
-						else if field.fieldType == 'latlng'
-							//- TODO
-						
-						else if field.fieldType == 'checkbox'
-							.field.type-checkbox
-								label(for=field.path)
-									input(type='checkbox', name=field.path, id=field.path, value='true', checked=(submitted[field.path] == 'true'))
-									= field.label
-								if field.note
-									.field-note= field.note
-						
-						else if field.fieldType == 'list'
-							//- TODO
+						mixin initialField(field, submitted)
 				
 				.toolbar
 					.toolbar-create
@@ -116,41 +31,30 @@ block content
 	table(cellpadding=0, cellspacing=0).items-list
 		if !list.get('nodelete')
 			col(width=26)
-		each col in list.columns
+		each col in columns
 			col(width=col.width)
 		thead
 			tr
-				each col, i in list.columns
-					th(colspan=i == 0 && !list.get('nodelete') ? 2 : false)= col.field.label
+				each col, i in columns
+					th(colspan=i == 0 && !list.get('nodelete') ? 2 : false)= col.label
 		tbody
 			each item in items.results
 				tr
 					if !list.get('nodelete')
 						td.control: a(href='/prospekt/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').control-delete
-					each col in list.columns
+					each col, i in columns
 						td
+							- var value = col.field ? col.field.format(item) : item.get(col.path);
 							if col.isName
-								a(href='/prospekt/' + list.path + '/' + item.id)= item.get(col.field.path) || "(no name)"
-							else if col.field.fieldType == 'object'
-								- var refItem = item.get(col.field.path), refList = col.field.getRefList()
-								if refItem
-									a(href='/prospekt/' + refList.path + '/' + refItem.id)= refList.getItemName(refItem)
-							else if col.field.fieldType == 'money'
-								div.col-value= numeral(item.get(col.field.path)).format('$0,0.00')
-							else if col.field.fieldType == 'date'
-								div.col-value= moment(item.get(col.field.path)).format('YYYY-MM-DD')
-							else if col.field.fieldType == 'datetime'
-								div.col-value= moment(item.get(col.field.path)).format('YYYY-MM-DD HH:DD a')
-							else if col.field.fieldType == 'checkbox'
-								div.col-checkbox
-									if item.get(col.field.path)
-										img(src='/prospekt/images/icons/16/checkbox-checked.png', width=16, height=16)
-									else
-										img(src='/prospekt/images/icons/16/checkbox-unchecked.png', width=16, height=16)
-							else if col.field.fieldType == 'select'
-								div.col-value= item[col.field.path + '_label']
+								a(href='/prospekt/' + list.path + '/' + item.id)= value || "(no name)"
+							else if col.type == 'boolean'
+								if (value)
+									img(src='/prospekt/images/icons/16/checkbox-checked.png', width=16, height=16)
+								else
+									img(src='/prospekt/images/icons/16/checkbox-unchecked.png', width=16, height=16)
 							else
-								div.col-value= item.get(col.field.path)
+								div.col-value= col.field.format(item)
+							
 	if items.totalPages > 1
 		- var basePath = '/prospekt/' + list.path
 		.pagination

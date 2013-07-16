@@ -1,0 +1,106 @@
+mixin initialField_itemName(field, submitted)
+	h2.item-name
+		if field.type == 'name'
+			input(type='text', name=field.paths.full, value=submitted[field.paths.full])
+		else if field.type == 'text'
+			input(type='text', name=field.path, value=submitted[field.path])
+		else
+			div.warning Unsupported field type (#{field.type}) for item name (#{field.path}).
+
+mixin initialField(field, value)
+	if field.type == 'text'
+		mixin initialField_text(field, value)
+	else if field.type == 'textarea'
+		mixin initialField_textarea(field, value)
+	else if field.type == 'key'
+		mixin initialField_key(field, value)
+	else if field.type == 'email'
+		mixin initialField_email(field, value)
+	else if field.type == 'password'
+		mixin initialField_password(field, value)
+	else if field.type == 'name'
+		mixin initialField_name(field, value)
+	else if field.type == 'date'
+		mixin initialField_date(field, value)
+	else if field.type == 'datetime'
+		mixin initialField_datetime(field, value)
+	else if field.type == 'number'
+		mixin initialField_number(field, value)
+	else if field.type == 'money'
+		mixin initialField_money(field, value)
+	else if field.type == 'boolean'
+		mixin initialField_boolean(field, value)
+	else if field.type == 'select'
+		mixin initialField_select(field, value)
+
+mixin initialField_text_common(type, field, value, cls)
+	div(class='field type-' + type)
+		.field-label= field.label
+		.field-ui: input(type='text', name=field.path, class=[cls,'width-' + field.width], autocomplete='off', value=submitted[field.path])
+		if field.note
+			.field-note= field.note
+
+mixin initialField_text(field, value)
+	mixin initialField_text_common('text', field, value)
+
+mixin initialField_key(field, value)
+	mixin initialField_text_common('key', field, value, 'code')
+
+mixin initialField_email(field, value)
+	mixin initialField_text_common('email', field, value)
+
+mixin initialField_textarea(field, value)
+	.field.type-textarea
+		.field-label= field.label
+		.field-ui: textarea(name=field.path, class='width-' + field.width, autocomplete='off')= submitted[field.path]
+		if field.note
+			.field-note= field.note
+
+mixin initialField_password(field, value)
+	.field.type-password
+		.field-label= field.label
+		.field-ui
+			input(type='password', name=field.path, class='width-short', autocomplete='off', value=submitted[field.path])
+			input(type='password', name=field.path + '_confirm', class='width-short', autocomplete='off', value=submitted[field.path + '_confirm'])
+		if field.note
+			.field-note= field.note
+
+mixin initialField_name(field, value)
+	.field.type-text
+		.field-label= field.label
+		.field-ui
+			input(type='text', name=field.paths.first, class='width-short', autocomplete='off', placeholder='first', value=submitted[field.paths.first])
+			input(type='text', name=field.paths.last, class='width-short', autocomplete='off', placeholder='last', value=submitted[field.paths.last])
+		if field.note
+			.field-note= field.note
+
+mixin initialField_date(field, value)
+	mixin initialField_text_common('date', field, value, 'ui-datepicker')
+
+mixin initialField_datetime(field, value)
+	mixin initialField_text_common('datetime', field, value)
+
+mixin initialField_number(field, value)
+	mixin initialField_text_common('number', field, value)
+
+mixin initialField_money(field, value)
+	mixin initialField_text_common('money', field, value)
+
+mixin initialField_boolean(field, value)
+	.field.type-checkbox
+		label(for=field.path)
+			input(type='checkbox', name=field.path, id=field.path, value='true', checked=(submitted[field.path] == 'true'))
+			= field.label
+		if field.note
+			.field-note= field.note
+
+mixin initialField_select(field, value)
+	.field.type-select
+		.field-label= field.label
+		.field-ui: select(name=field.path).ui-select2
+			option(value='')
+			each opt in field.ops
+				option(value=opt.value, selected=(submitted[field.path] == opt.value))= opt.label
+		if field.note
+			.field-note= field.note
+

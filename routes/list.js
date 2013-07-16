@@ -9,12 +9,14 @@ exports = module.exports = function(req, res) {
 	};
 	
 	var renderView = function() {
-		var q = req.list.paginate({ page: req.params.page }).sort(req.list.defaultSort).populate(req.list.populate.join(' '));
+		var columns = req.list.defaultColumns;
+		var q = req.list.paginate({ page: req.params.page }).sort(req.list.defaultSort); // TODO: .populate(req.list.populate.join(' '));
 		q.exec(function(err, items) {
 			//console.log(items);
 			prospekt.render(req, res, 'list', _.extend(viewLocals, {
 				section: req.list.key,
 				list: req.list,
+				columns: columns,
 				items: items,
 				submitted: req.body || {}
 			}));
@@ -38,6 +40,15 @@ exports = module.exports = function(req, res) {
 		
 		var item = new req.list.model();
 		
+		if (req.list.nameIsInitial) {
+			req.list.nameField.updateItem(item, req.body);
+		}
+		
+		_.each(req.list.initialFields, function(field) {
+			field.updateItem(item, req.body);
+		});
+		
+		/*
 		if (req.list.nameIsInitial)
 			item.set(req.list.map('name'), req.body[req.list.map('name')])
 		
@@ -72,6 +83,7 @@ exports = module.exports = function(req, res) {
 			}
 			
 		});
+		*/
 		
 		if (validationErrors.length) {
 			_.each(validationErrors, function(i) { req.flash('error', i); });
