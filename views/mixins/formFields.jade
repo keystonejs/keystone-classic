@@ -1,0 +1,275 @@
+mixin formField(field, item)
+	if field.type == 'text'
+		+formField_text(field, item)
+	else if field.type == 'textarea'
+		+formField_textarea(field, item)
+	else if field.type == 'key'
+		+formField_key(field, item)
+	else if field.type == 'email'
+		+formField_email(field, item)
+	else if field.type == 'password'
+		+formField_password(field, item)
+	else if field.type == 'name'
+		+formField_name(field, item)
+	else if field.type == 'date'
+		+formField_date(field, item)
+	else if field.type == 'datetime'
+		+formField_datetime(field, item)
+	else if field.type == 'number'
+		+formField_number(field, item)
+	else if field.type == 'money'
+		+formField_money(field, item)
+	else if field.type == 'boolean'
+		+formField_boolean(field, item)
+	else if field.type == 'select'
+		+formField_select(field, item)
+
+mixin formField_text_common(type, field, value, cls)
+	div(class='field type-' + type)
+		.field-label= field.label
+			span.field-type  (#{field.path} - #{field.fieldType})
+		.field-ui
+			if field.noedit
+				div(class='field-value width-' + field.width)= value || '&nbsp;'
+			else
+				input(type='text', name=field.path, value=value, class=[cls,'width-' + field.width], autocomplete='off')
+		if field.note
+			.field-note= field.note
+
+mixin formField_text(field, item)
+	+formField_text_common('text', field, item.get(field.path))
+
+mixin formField_key(field, item)
+	+formField_text_common('key', field, item.get(field.path), 'code')
+
+mixin formField_email(field, item)
+	+formField_text_common('email', field, item.get(field.path))
+
+mixin formField_textarea(field, item)
+	div(class='field type-textarea')
+		.field-label= field.label
+			span.field-type  (#{field.path} - #{field.fieldType})
+		.field-ui
+			if field.noedit
+				div(class='field-value width-' + field.width)!= textToHTML(item.get(field.path)) || '&nbsp;'
+			else
+				textarea(name=field.path, class='width-' + field.width)= item.get(field.path)
+		if field.note
+			.field-note= field.note
+
+mixin formField_password(field, item)
+	//- .field.type-password
+	//- 	.field-label= field.label
+	//- 	.field-ui
+	//- 		input(type='password', name=field.path, class='width-short', autocomplete='off', value=item[field.path])
+	//- 		input(type='password', name=field.path + '_confirm', class='width-short', autocomplete='off', value=item[field.path + '_confirm'])
+	//- 	if field.note
+	//- 		.field-note= field.note
+
+mixin formField_name(field, item)
+	div(class='field type-name')
+		.field-label= field.label
+			span.field-type  (#{field.path} - #{field.fieldType})
+		.field-ui
+			if field.noedit
+				div(class='field-value width-short')= field.format(item) || '&nbsp;'
+			else
+				input(type='text', name=field.paths.first, class='width-short', autocomplete='off', placeholder='first', value=item.get(field.paths.first))
+				input(type='text', name=field.paths.last, class='width-short', autocomplete='off', placeholder='last', value=item.get(field.paths.last))
+		if field.note
+			.field-note= field.note
+
+mixin formField_date(field, item)
+	+formField_text_common('date', field, field.format(item, 'YYYY-MM-DD'), 'ui-datepicker')
+
+mixin formField_datetime(field, item)
+	+formField_text_common('datetime', field, field.format(item, 'YYYY-MM-DD h:mm a'))
+
+mixin formField_number(field, item)
+	+formField_text_common('number', field, item.get(field.path))
+
+mixin formField_money(field, item)
+	+formField_text_common('money', field, item.get(field.path))
+
+mixin formField_boolean(field, item)
+	.field.type-boolean
+		if field.noedit
+			if item.get(field.path)
+				img(src='/prospekt/images/icons/16/checkbox-checked.png', width=16, height=16)
+			else
+				img(src='/prospekt/images/icons/16/checkbox-unchecked.png', width=16, height=16)
+			= field.label
+		else
+			label(for=field.path)
+				input(type='checkbox', name=field.path, id=field.path, value='true', checked=item.get(field.path))
+				= field.label
+		if field.note
+			.field-note= field.note
+
+mixin formField_select(field, item)
+	.field.type-select
+		.field-label= field.label
+			span.field-type  (#{field.path} - #{field.fieldType})
+		.field-ui
+			if field.noedit
+				div(class='field-value')= item.get(field.path) || '&nbsp;'
+			else
+				select(name=field.path).ui-select2
+					option(value='')
+					each opt in field.ops
+						option(value=opt.value, selected=(opt.value == item.get(field.path)))= opt.label
+		if field.note
+			.field-note= field.note
+
+
+
+//- else if field.fieldType == 'password'
+//- 	.field.type-text
+//- 		.field-label= field.label
+//- 			span.field-type  (#{field.path} - #{field.fieldType})
+//- 		.field-ui
+//- 			if field.noedit
+//- 				.field-value= (item.get(field.path)) ? "password set" : "password not set"
+//- 			else
+//- 				.leave-password
+//- 					a(href=js).btn.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
+//- 				.change-password
+//- 					input(type='password', name=field.path, class='width-short', autocomplete='off')
+//- 					input(type='password', name=field.path + '_confirm', class='width-short', autocomplete='off')
+//- 					a(href=js).btn.btn-cancel.btn-leave-password cancel
+//- 		if field.note
+//- 			.field-note= field.note
+
+//- else if field.fieldType == 'image'
+//- 	.field.type-image
+//- 		.field-label= field.label
+//- 			span.field-type  (#{field.path} - #{field.fieldType})
+//- 		- var hasImage = image(item.get(field.path))
+//- 		div(class=hasImage ? 'has-image' : false).field-ui
+//- 			if hasImage
+//- 				.image-preview
+//- 					if (image(item.get(field.path)))
+//- 						img(src=image.limit(item.get(field.path), 100, 100))
+//- 				.image-details
+//- 					.field-value= item.get(field.path + '.url')
+//- 					.field-value= item.get(field.path + '.width') + ' x ' + item.get(field.path + '.height')
+//- 			.image-toolbar
+//- 				input(type='file', name=field.path + '_upload').field-upload
+//- 				input(type='hidden', name=field.path + '_action', value='').field-action
+//- 				span.upload-queued Image selected - save to upload
+//- 				a(href=js).btn.btn-upload Upload Image
+//- 				if hasImage
+//- 					a(href=js).btn.btn-cancel.btn-delete-image Remove Image
+//- 		if field.note
+//- 			.field-note= field.note
+
+//- else if field.fieldType == 'location'
+//- 	.field.type-location
+//- 		.field-label= field.label
+//- 			span.field-type  (#{field.path} - #{field.fieldType})
+//- 		.field-ui
+//- 			.extras
+//- 				.row
+//- 					.span1
+//- 						span.label PO Box / Shop
+//- 						input(type='text', name=field.path + '[number]', value=item.get(field.path + '.number'))
+//- 				.row: .span2
+//- 						span.label Building Name
+//- 						input(type='text', name=field.path + '[name]', value=item.get(field.path + '.name'))
+//- 			.row: .span2
+//- 				span.label Street Address 1
+//- 				input(type='text', name=field.path + '[street1]', value=item.get(field.path + '.street1'))
+//- 			.row: .span2
+//- 				.label Street Address 2
+//- 				input(type='text', name=field.path + '[street2]', value=item.get(field.path + '.street2'))
+//- 			.row: .span2
+//- 				.label Suburb
+//- 				input(type='text', name=field.path + '[suburb]', value=item.get(field.path + '.suburb'))
+//- 			.row
+//- 				.span1
+//- 					span.label State
+//- 					input(type='text', name=field.path + '[state]', value=item.get(field.path + '.state'))
+//- 				.span1
+//- 					span.label.short Postcode
+//- 					input(type='text', name=field.path + '[postcode]', value=item.get(field.path + '.postcode'))
+//- 			.row: .span2
+//- 				span.label Country
+//- 				input(type='text', name=field.path + '[country]', value=item.get(field.path + '.country'))
+//- 			.row
+//- 				.span1
+//- 					span.label Latitude
+//- 					input(type='text', name=field.path + '[geo]', value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '')
+//- 				.span1
+//- 					span.label.short Longitude
+//- 					input(type='text', name=field.path + '[geo]', value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '')
+		
+//- 		label(for=field.path + '_improve').detect-geo
+//- 			input(type='checkbox', name=field.path + '_improve', id=field.path + '_improve', value='true')
+//- 			| autodetect and improve location on save
+		
+//- 		if field.note
+//- 			.field-note= field.note
+
+//- else if field.fieldType == 'wysiwyg'
+//- 	.field.type-wysiwyg
+//- 		.field-label= field.label
+//- 			span.field-type  (#{field.path} - #{field.fieldType})
+//- 		.field-ui
+//- 			textarea(name=field.path, data-wysiwyg=true).code.tall= item.get(field.path)
+//- 		if field.note
+//- 			.field-note= field.note
+
+//- else if field.fieldType == 'latlng'
+//- 	.field.type-latlng
+//- 		.field-label= field.label
+//- 			span.field-type  (#{field.path} - #{field.fieldType})
+//- 		.field-ui
+//- 			input(type='text', name=field.path, value=item.get(field.path)[0]).width-short
+//- 			input(type='text', name=field.path, value=item.get(field.path)[1]).width-short
+//- 		if field.note
+//- 			.field-note= field.note
+
+//- else if field.fieldType == 'list'
+//- 	.field.type-list
+//- 		.field-label= field.label
+//- 			span.field-type  (#{field.path} - #{field.fieldType})
+//- 		if field.noedit
+//- 			each value in item.get(field.path)
+//- 				span.field-value= value
+//- 		else
+//- 			input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path).join(','), class='width-full ui-select2-tags')
+//- 		if field.note
+//- 			.field-note= field.note
+
+//- else if field.fieldType == 'object'
+//- 	- var refList = field.getRefList()
+//- 	.field.type-object
+//- 		.field-label= field.label
+//- 			span.field-type  (#{field.path} - #{field.fieldType})
+//- 		.field-ui
+//- 			if field.noedit
+//- 				if item.get(field.path)
+//- 					a(href='/prospekt/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
+//- 				else
+//- 					div(class='field-value') (not set)
+//- 			else
+//- 				input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path), class='width-medium ui-select2-ref', data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
+//- 		if field.note
+//- 			.field-note= field.note
+
+//- else if field.fieldType == 'objects'
+//- 	.field.type-list
+//- 		.field-label= field.label
+//- 			span.field-type  (#{field.path} - #{field.fieldType})
+//- 		if field.noedit
+//- 			each value in item.get(field.path)
+//- 				span.field-value= value
+//- 			if !item.get(field.path).length
+//- 				span.field-value (none set)
+//- 		else
+//- 			- var refList = field.getRefList()
+//- 			input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path).join(','), class='width-full ui-select2-ref', data-ref-multiple="true", data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
+//- 		if field.note
+//- 			.field-note= field.note
+
+

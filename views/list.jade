@@ -14,8 +14,13 @@ block content
 				input(type='hidden', name='action', value='create')
 				
 				.form
-					if list.nameField && list.nameIsInitial
-						mixin initialField_itemName(list.nameField, submitted)
+					if list.nameIsInitial
+						if list.nameField.type == 'name'
+							h2.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full])
+						else if list.nameField.type == 'text'
+							h2.item-name: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path])
+						else
+							.alert.alert-error Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 					
 					each field in list.initialFields
 						mixin initialField(field, submitted)
@@ -25,7 +30,7 @@ block content
 						button(type='submit').btn Create
 						a(href=js).btn.btn-cancel.btn-cancel-create-item cancel
 					.toolbar-default
-						a(href=js).btn.btn-create-item Create #{list.singular}
+						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-create-item Create #{list.singular}
 			
 	
 	table(cellpadding=0, cellspacing=0).items-list

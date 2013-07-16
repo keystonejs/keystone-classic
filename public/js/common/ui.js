@@ -90,6 +90,13 @@ jQuery(function($) {
 		$(this).parent().find('.upload-queued')[($(this).val()) ? 'show' : 'hide']();
 	});
 	
+	$('.btn.autoclick').each(function() {
+		var $btn = $(this);
+		setTimeout(function() {
+			$btn.click();
+		}, 1);
+	});
+	
 	// fix toolbar
 	(function() {
 		

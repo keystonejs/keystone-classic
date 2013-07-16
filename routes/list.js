@@ -5,14 +5,14 @@ var _ = require('underscore'),
 exports = module.exports = function(req, res) {
 	
 	var viewLocals = {
-		validationErrors: {}
+		validationErrors: {},
+		showCreateForm: false
 	};
 	
 	var renderView = function() {
 		var columns = req.list.defaultColumns;
 		var q = req.list.paginate({ page: req.params.page }).sort(req.list.defaultSort); // TODO: .populate(req.list.populate.join(' '));
 		q.exec(function(err, items) {
-			//console.log(items);
 			prospekt.render(req, res, 'list', _.extend(viewLocals, {
 				section: req.list.key,
 				list: req.list,
@@ -41,52 +41,25 @@ exports = module.exports = function(req, res) {
 		var item = new req.list.model();
 		
 		if (req.list.nameIsInitial) {
-			req.list.nameField.updateItem(item, req.body);
+			if (req.list.nameField.validateInput(req.body))
+				req.list.nameField.updateItem(item, req.body);
+			else
+				validationErrors.push('Please provide a name.');
 		}
 		
 		_.each(req.list.initialFields, function(field) {
+			
+			// validate matching password fields
+			if (field.type == 'password' && req.body[field.path] != req.body[field.path + '_confirm'])
+				return validationErrors.push('Passwords must match.');
+			
 			field.updateItem(item, req.body);
-		});
-		
-		/*
-		if (req.list.nameIsInitial)
-			item.set(req.list.map('name'), req.body[req.list.map('name')])
-		
-		_.each(req.list.initialFields, function(field) {
-			
-			switch (field.fieldType) {
-				case 'checkbox':
-					if (_.has(req.body, field.path) && req.body[field.path] == 'true')
-						item.set(field.path, true);
-				break;
-				case 'date':
-				case 'datetime':
-					if (_.has(req.body, field.path)) {
-						var newValue = moment(req.body[field.path]);
-						if (newValue.isValid)
-							item.set(field.path, newValue.toDate());
-					}
-				break;
-				case 'password':
-					if (req.body[field.path]) {
-						// validate matching passwords
-						if (req.body[field.path] == req.body[field.path + '_confirm']) {
-							item.set(field.path, req.body[field.path]);
-						} else {
-							validationErrors.push('Passwords must match.');
-						}	
-					}
-				break;
-				default:
-					if (_.has(req.body, field.path))
-						item.set(field.path, req.body[field.path]);
-			}
 			
 		});
-		*/
 		
 		if (validationErrors.length) {
 			_.each(validationErrors, function(i) { req.flash('error', i); });
+			viewLocals.showCreateForm = true;
 			return renderView();
 		}
 		

@@ -538,7 +538,7 @@ input[type="checkbox"] {
 .items-list .col-value {
   padding: 6px 5px 2px;
 }
-.items-list .col-checkbox {
+.items-list .col-boolean {
   text-align: left;
   padding: 6px 5px 2px;
 }
@@ -732,7 +732,7 @@ h2.item-name input {
 .field .width-short {
   width: 200px;
 }
-.field.type-checkbox img {
+.field.type-boolean img {
   margin-right: 10px;
   vertical-align: middle;
 }

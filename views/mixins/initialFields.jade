@@ -1,62 +1,53 @@
-mixin initialField_itemName(field, submitted)
-	h2.item-name
-		if field.type == 'name'
-			input(type='text', name=field.paths.full, value=submitted[field.paths.full])
-		else if field.type == 'text'
-			input(type='text', name=field.path, value=submitted[field.path])
-		else
-			div.warning Unsupported field type (#{field.type}) for item name (#{field.path}).
-
-mixin initialField(field, value)
+mixin initialField(field, submitted)
 	if field.type == 'text'
-		mixin initialField_text(field, value)
+		+initialField_text(field, submitted)
 	else if field.type == 'textarea'
-		mixin initialField_textarea(field, value)
+		+initialField_textarea(field, submitted)
 	else if field.type == 'key'
-		mixin initialField_key(field, value)
+		+initialField_key(field, submitted)
 	else if field.type == 'email'
-		mixin initialField_email(field, value)
+		+initialField_email(field, submitted)
 	else if field.type == 'password'
-		mixin initialField_password(field, value)
+		+initialField_password(field, submitted)
 	else if field.type == 'name'
-		mixin initialField_name(field, value)
+		+initialField_name(field, submitted)
 	else if field.type == 'date'
-		mixin initialField_date(field, value)
+		+initialField_date(field, submitted)
 	else if field.type == 'datetime'
-		mixin initialField_datetime(field, value)
+		+initialField_datetime(field, submitted)
 	else if field.type == 'number'
-		mixin initialField_number(field, value)
+		+initialField_number(field, submitted)
 	else if field.type == 'money'
-		mixin initialField_money(field, value)
+		+initialField_money(field, submitted)
 	else if field.type == 'boolean'
-		mixin initialField_boolean(field, value)
+		+initialField_boolean(field, submitted)
 	else if field.type == 'select'
-		mixin initialField_select(field, value)
+		+initialField_select(field, submitted)
 
-mixin initialField_text_common(type, field, value, cls)
+mixin initialField_text_common(type, field, submitted, cls)
 	div(class='field type-' + type)
 		.field-label= field.label
 		.field-ui: input(type='text', name=field.path, class=[cls,'width-' + field.width], autocomplete='off', value=submitted[field.path])
 		if field.note
 			.field-note= field.note
 
-mixin initialField_text(field, value)
-	mixin initialField_text_common('text', field, value)
+mixin initialField_text(field, submitted)
+	+initialField_text_common('text', field, submitted)
 
-mixin initialField_key(field, value)
-	mixin initialField_text_common('key', field, value, 'code')
+mixin initialField_key(field, submitted)
+	+initialField_text_common('key', field, submitted, 'code')
 
-mixin initialField_email(field, value)
-	mixin initialField_text_common('email', field, value)
+mixin initialField_email(field, submitted)
+	+initialField_text_common('email', field, submitted)
 
-mixin initialField_textarea(field, value)
+mixin initialField_textarea(field, submitted)
 	.field.type-textarea
 		.field-label= field.label
 		.field-ui: textarea(name=field.path, class='width-' + field.width, autocomplete='off')= submitted[field.path]
 		if field.note
 			.field-note= field.note
 
-mixin initialField_password(field, value)
+mixin initialField_password(field, submitted)
 	.field.type-password
 		.field-label= field.label
 		.field-ui
@@ -65,7 +56,7 @@ mixin initialField_password(field, value)
 		if field.note
 			.field-note= field.note
 
-mixin initialField_name(field, value)
+mixin initialField_name(field, submitted)
 	.field.type-text
 		.field-label= field.label
 		.field-ui
@@ -74,27 +65,27 @@ mixin initialField_name(field, value)
 		if field.note
 			.field-note= field.note
 
-mixin initialField_date(field, value)
-	mixin initialField_text_common('date', field, value, 'ui-datepicker')
+mixin initialField_date(field, submitted)
+	+initialField_text_common('date', field, submitted, 'ui-datepicker')
 
-mixin initialField_datetime(field, value)
-	mixin initialField_text_common('datetime', field, value)
+mixin initialField_datetime(field, submitted)
+	+initialField_text_common('datetime', field, submitted)
 
-mixin initialField_number(field, value)
-	mixin initialField_text_common('number', field, value)
+mixin initialField_number(field, submitted)
+	+initialField_text_common('number', field, submitted)
 
-mixin initialField_money(field, value)
-	mixin initialField_text_common('money', field, value)
+mixin initialField_money(field, submitted)
+	+initialField_text_common('money', field, submitted)
 
-mixin initialField_boolean(field, value)
-	.field.type-checkbox
+mixin initialField_boolean(field, submitted)
+	.field.type-boolean
 		label(for=field.path)
 			input(type='checkbox', name=field.path, id=field.path, value='true', checked=(submitted[field.path] == 'true'))
 			= field.label
 		if field.note
 			.field-note= field.note
 
-mixin initialField_select(field, value)
+mixin initialField_select(field, submitted)
 	.field.type-select
 		.field-label= field.label
 		.field-ui: select(name=field.path).ui-select2
