@@ -35,7 +35,7 @@ and assumptions are made in the code that this has been done correctly.
 	a Mongo database with Mongoose's default connection
 
 3.	Connect-Flash ~0.1.1 must be included and configured in your Express app instance
-	*before* you call `prospekt.setup()`. This also requires the configuration of
+	*before* you call `prospekt.routes(app)`. This also requires the configuration of
 	`express.session()` in your Express app.
 
 
@@ -45,10 +45,151 @@ When first `require`d, Prospekt creates a single instance of itself. Do this som
 near the top of your app.js (or web.js, etc) file. Any subsequent `require('prospekt')`
 statements will return the same instance of Prospekt.
 
+You must provide a `mongoose` instance to Prospekt's `connect` function before defining
+any lists. `connect` returns `this` so you can do this in the `require` call.
+
+Configuration variables can be set at any time, and include:
+
+*	brand
+*	auth
+
+Prospekt can be locked down with the auth config. This must be a function matching the
+express middleware pattern `fn(req,res,next)`. It will be called before any Prospekt
+routes are matched. If the user fails the validation check they should be redirected to
+a signin or access-denied page implemented in the application.
+
+`prospekt.static(app)` adds Prospekt's static route-handling middleware to the Express
+app. It's a good idea to do this after your application's other static assets, before
+any dynamic logic (e.g. cookie parsing, session authentication, body parsing, etc)
+
+`prospekt.routes(app);` adds Prospekt's dynamic routes to the Express app router. This
+can be done before or after your application's routes are defined, although if they come
+after, you can explicitly lock down or replace Prospekt routes with your own.
+
+The `NODE_ENV` environment variable is used to control template caching and html formatting,
+and should be set to `production` for production environments.
+
+
+## Examples
+
+### Application script (web.js)
+
+	process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+	var express = require('express'),
+		http = require('http'),
+		path = require('path'),
+		flash = require('connect-flash'),
+		mongoose = require('mongoose'),
+		prospekt = require('prospekt').connect(mongoose);
+
+	require('./models');
+
+	var session = require('./lib/session');
+
+	prospekt.set('auth', session.prospektAuth); // session.prospektAuth is responsible for redirect visitors who shouldn't have access
+	prospekt.set('brand', 'Team 9'); // the brand is displayed in the top left hand corner of prospekt
+
+	// Initialise Express Application
+	var app = express();
+
+	app.configure(function() {
+		
+		// Setup
+		app.set('port', process.env.PORT || 3000);
+		app.set('views', __dirname + '/views');
+		app.set('view engine', 'jade');
+		
+		// Serve static assets
+		app.use(express.compress());
+		app.use(express.favicon(__dirname + '/public/favicon.ico'));
+		app.use(require('less-middleware')({ src: __dirname + '/public' }));
+		app.use(express.static(path.join(__dirname, 'public')));
+		prospekt.static(app);
+		
+		// Handle dynamic requests
+		app.use(express.logger('dev'));
+		app.use(express.bodyParser());
+		app.use(express.methodOverride());
+		app.use(express.cookieParser('-- your secret here --'));
+		app.use(express.session());
+		app.use(flash());
+		app.use(session.persist);
+		
+		// Route requests
+		app.use(app.router);
+
+		// Handle 404s
+		app.use(function(req, res, next) {
+			res.status(404).send("Sorry, no page could be found at this address.");
+		});
+
+	});
+
+	// Use Express error handler in the development environment
+	app.configure('development', function() {
+		app.use(express.errorHandler());
+	});
+
+	// Configure prospekt routes
+	prospekt.routes(app);
+
+	// Configure application routes
+	require('./routes')(app);
+
+	// Connect to the database and start the webserver
+	mongoose.connect('localhost', '-- your database --');
+
+	mongoose.connection.on('error', function() {
+		console.error('Website failed to launch: mongo connection error', arguments);
+	}).on('open', function() {
+		http.createServer(app).listen(app.get('port'), function() {
+			console.log("Website is ready on port " + app.get('port'));
+		});
+	});
+
+
+### Users Model
+
+	var prospekt = require('prospekt'),
+		Types = prospekt.Field.Types;
+
+	var User = new prospekt.List('User');
+
+	User.add({
+		name: { type: Types.Name, required: true, index: true },
+		email: { type: Types.Email, initial: true, required: true, index: true },
+		password: { type: Types.Password, initial: true, required: true },
+		isAdmin: { type: Boolean, initial: true }
+	});
+
+	User.addPattern('standard meta');
+	User.defaultColumns = 'name, email, isAdmin';
+	User.register();
+
 
 ## TODO
 
+### Field Types
+
+*	WYSIWYG
+*	Image
+*	Location
+*	Object (single)
+*	Objects (many)
+*	Arrays (simple)
+
+#### For later
+
+*	Arrays (complex)
+*	Nested Schemas
+
+### List Screen
+
 *	List filtering
+
+### Validation
+
 *	Integrate better with Mongoose's native validation capabilities
 *	Integrate field validation with UI (so invlaid fiends are hilighted)
 *	Client-side field validation
