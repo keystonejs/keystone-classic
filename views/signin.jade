@@ -1,0 +1,29 @@
+extends layout/session
+
+block intro
+	h1 Sign In
+
+block content
+	if !user
+		//- h1 Sign In
+		form(method="post", action="/prospekt/signin")#signin-form
+			.controls
+				label Email
+				input(type="email", name="email", value=submitted.email)
+			.controls
+				label Password
+				input(type="password", name="password")
+			.controls
+				input(type="submit", value="Sign in").btn
+
+	else
+		h3= 'Hi ' + user.name.first
+		p It appears you are already signed in...
+		a(href='/prospekt').btn Open Prospekt
+		a(href='/prospekt/signout').btn.btn-cancel Sign out
+
+block page-js
+	script.
+		jQuery(function($) {
+			$('input[name=email]').focus();
+		});

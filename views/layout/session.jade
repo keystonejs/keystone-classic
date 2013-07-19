@@ -14,16 +14,8 @@ html
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 		block head
 	body
-		.fb-root
-		
-		#header(data-spy="affix", data-offset-top="1"): .container
-			a(href='/prospekt', class=(section == 'home' ? 'selected' : null)).brand= brand
-			each list in lists
-				a(href='/prospekt/' + list.path, class=(section == list.key ? 'selected' : null))= list.label
-			if signout
-				a(href=signout).signout Sign Out
-		
 		#body: .container
+			block intro
 			if messages
 				#flash-messages
 					each message in messages.info
@@ -41,17 +33,6 @@ html
 		
 		script(src="/prospekt/js/lib/underscore/underscore-1.4.4.min.js")
 		script(src="/prospekt/js/lib/jquery/jquery-1.9.1.min.js")
-		script(src="/prospekt/js/lib/moment/moment-1.7.2.min.js")
-		
-		link(rel="stylesheet", href="/prospekt/js/lib/select2/select2-3.3.2.css")
-		link(rel="stylesheet", href="/prospekt/js/lib/select2/theme.css")
-		script(src="/prospekt/js/lib/select2/select2-3.3.2.js")
-		
-		link(rel="stylesheet", href="/prospekt/js/lib/pikaday/pikaday-1.1.0.css")
-		script(src="/prospekt/js/lib/pikaday/pikaday-1.1.0.js")
-		script(src="/prospekt/js/lib/pikaday/pikaday.jquery-1.1.0.js")
-		
-		script(src="/prospekt/js/common/ui.js")
 		
 		//- Page Scripts
 		block page-js

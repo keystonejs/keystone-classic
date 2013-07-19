@@ -96,6 +96,9 @@ a:hover {
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
   border-left: 1px solid #242c36;
 }
+#header a.signout {
+  float: right;
+}
 #header .brand {
   font-weight: bold;
 }
@@ -796,4 +799,11 @@ h2.item-name input {
 }
 .field .change-password {
   display: none;
+}
+#signin-form .controls {
+  margin: 10px 0;
+}
+#signin-form label {
+  display: inline-block;
+  width: 100px;
 }

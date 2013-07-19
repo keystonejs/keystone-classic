@@ -1,7 +1,6 @@
 var fs = require('fs'),
 	_ = require('underscore'),
 	express = require('express'),
-	mongoose = require('mongoose'),
 	jade = require('jade'),
 	moment = require('moment'),
 	numeral = require('numeral'),
@@ -17,8 +16,8 @@ var templateCache = {};
 
 /**
  * Prospekt Class
- *
- * @api internal
+ * 
+ * @api public
  */
 
 var Prospekt = function() {
@@ -30,6 +29,17 @@ var Prospekt = function() {
 	};
 }
 
+/**
+ * Connects prospekt to the application's mongoose instance
+ *
+ * ####Example:
+ *
+ *     var mongoose = require('mongoose');
+ *     prospekt.connect(mongoose)
+ *
+ * @param {Mongoose} mongoose instance
+ * @api public
+ */
 Prospekt.prototype.connect = function(_mongoose) {
 	mongoose = _mongoose;
 	this.mongoose = _mongoose;
@@ -40,11 +50,17 @@ Prospekt.prototype.connect = function(_mongoose) {
 
 /**
  * Sets prospekt options
- *
+ * 
+ * ####Options:
+ *   - auth (callback function to authenticate a request, or 'native' to use native session management)
+ *   - brand
+ *   - user model (list key for users if using native session management)
+ *   - signout (href for the signout link in the top right)
+ * 
  * ####Example:
- *
- *     prospekt.set('test', value) // sets the 'test' option to `value`
- *
+ * 
+ *     prospekt.set('user model', 'User') // sets the 'user model' option to `User`
+ * 
  * @param {String} key
  * @param {String} value
  * @api public
@@ -100,16 +116,24 @@ Prospekt.prototype.get = Prospekt.prototype.set;
 
 
 /**
- * Adds bindings for prospekt static resources
- * Can be included before other middleware (e.g. session management, logging, etc) for reduced overhead
+ * Initialises prospekt to use native session management and returns an express
+ * middleware callback to hook it in. Must be included before `app.router`.
  *
- * ####Example:
- *		
- *     var app = express();
- *     app.configure(...); // configuration settings
- *     prospekt.static(app);
- *     app.use(...); // other middleware
- *     prospekt.setup(app);
+ * @api public
+ */
+
+Prospekt.prototype.session = function() {
+	
+	var session = require('./lib/session');
+	return session.persist;
+	
+};
+
+
+/**
+ * Adds bindings for prospekt static resources
+ * Can be included before other middleware (e.g. session management, logging, etc) for
+ * reduced overhead
  *
  * @param {Express()} app
  * @api public
@@ -142,6 +166,21 @@ Prospekt.prototype.routes = function(app) {
 	this.app = app;
 	var prospekt = this;
 	
+	this.set('env', app.get('env'));
+	this.set('viewCache', this.get('env') == 'production');
+	
+	var auth = this.get('auth');
+	
+	if (auth == 'native') {
+		this.set('signout', '/prospekt/signout');
+		var session = require('./lib/session');
+		app.all('/prospekt/signin', require('./routes/signin'));
+		app.all('/prospekt/signout', require('./routes/signout'));
+		app.all('/prospekt*', session.prospektAuth);
+	} else if ('function' == typeof auth) {
+		app.all('/prospekt*', auth);
+	}
+	
 	var initList = function(req, res, next) {
 		req.list = prospekt.list(req.params.list);
 		if (!req.list) {
@@ -151,10 +190,6 @@ Prospekt.prototype.routes = function(app) {
 		next();
 	}
 	
-	this.set('env', app.get('env'));
-	this.set('viewCache', this.get('env') == 'production');
-	
-	app.all('/prospekt*', function(req, res, next) { if (prospekt.get('auth')) prospekt.get('auth')(req, res, next); else next(); });
 	app.all('/prospekt', require('./routes/home'));
 	app.all('/prospekt/:list/:page([0-9]{1,5})?', initList, require('./routes/list'));
 	app.all('/prospekt/:list/:item', initList, require('./routes/item'));
@@ -217,7 +252,9 @@ Prospekt.prototype.render = function(req, res, view, ext) {
 		textToHTML: utils.textToHTML,
 		messages: _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false,
 		lists: prospekt.lists,
-		js: 'javascript:;'
+		js: 'javascript:;',
+		user: req.user,
+		signout: this.get('signout')
 	};
 	
 	var html = template(_.extend(locals, ext));

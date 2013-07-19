@@ -168,6 +168,39 @@ and should be set to `production` for production environments.
 	User.register();
 
 
+### Subscribers Model
+
+	var prospekt = require('prospekt'),
+		Types = prospekt.Field.Types;
+
+	var Subscriber = new prospekt.List('Subscriber');
+
+	Subscriber.add({
+		name: { type: Types.Name },
+		email: { type: Types.Email, initial: true },
+		phone: { type: String, initial: true, width: 'short' },
+		relationship: { type: Types.Select, options: 'currentPlayer, previousPlayer, sponsor, supporter', initial: true },
+		isSubscribed: { type: Boolean, default: true, label: 'Currently Subscribed?', initial: true },
+		subscribedDate: { type: Date, default: Date.now },
+		unsubscribedDate: { type: Date }
+	});
+
+	Subscriber.addPattern('standard meta');
+
+	Subscriber.schema.pre('save', function(next) {
+		if (this.isModified('subscribed')) {
+			if (this.subscribed)
+				this.subscribedDate = date.now();
+			else
+				this.unsubscribedDate = date.now();
+		}	
+		next();
+	});
+
+	Subscriber.defaultColumns = 'name, email, phone, relationship, isSubscribed';
+	Subscriber.register();
+
+
 ## TODO
 
 ### Field Types
