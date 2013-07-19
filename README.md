@@ -46,6 +46,15 @@ near the top of your app.js (or web.js, etc) file. Any subsequent `require('pros
 statements will return the same instance of Prospekt.
 
 
+## TODO
+
+*	List filtering
+*	Integrate better with Mongoose's native validation capabilities
+*	Integrate field validation with UI (so invlaid fiends are hilighted)
+*	Client-side field validation
+*	Form validation is duplicated between the list:create and item:update route logic
+
+
 
 ## License
 

@@ -27,7 +27,6 @@ mixin formField(field, item)
 mixin formField_text_common(type, field, value, cls)
 	div(class='field type-' + type)
 		.field-label= field.label
-			span.field-type  (#{field.path} - #{field.fieldType})
 		.field-ui
 			if field.noedit
 				div(class='field-value width-' + field.width)= value || '&nbsp;'
@@ -48,7 +47,6 @@ mixin formField_email(field, item)
 mixin formField_textarea(field, item)
 	div(class='field type-textarea')
 		.field-label= field.label
-			span.field-type  (#{field.path} - #{field.fieldType})
 		.field-ui
 			if field.noedit
 				div(class='field-value width-' + field.width)!= textToHTML(item.get(field.path)) || '&nbsp;'
@@ -57,25 +55,31 @@ mixin formField_textarea(field, item)
 		if field.note
 			.field-note= field.note
 
-mixin formField_password(field, item)
-	//- .field.type-password
-	//- 	.field-label= field.label
-	//- 	.field-ui
-	//- 		input(type='password', name=field.path, class='width-short', autocomplete='off', value=item[field.path])
-	//- 		input(type='password', name=field.path + '_confirm', class='width-short', autocomplete='off', value=item[field.path + '_confirm'])
-	//- 	if field.note
-	//- 		.field-note= field.note
-
 mixin formField_name(field, item)
 	div(class='field type-name')
 		.field-label= field.label
-			span.field-type  (#{field.path} - #{field.fieldType})
 		.field-ui
 			if field.noedit
 				div(class='field-value width-short')= field.format(item) || '&nbsp;'
 			else
 				input(type='text', name=field.paths.first, class='width-short', autocomplete='off', placeholder='first', value=item.get(field.paths.first))
 				input(type='text', name=field.paths.last, class='width-short', autocomplete='off', placeholder='last', value=item.get(field.paths.last))
+		if field.note
+			.field-note= field.note
+
+mixin formField_password(field, item)
+	.field.type-password
+		.field-label= field.label
+		.field-ui
+			if field.noedit
+				.field-value= (item.get(field.path)) ? "password set" : "password not set"
+			else
+				.leave-password
+					a(href=js).btn.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
+				.change-password
+					input(type='password', name=field.path, class='width-short', autocomplete='off')
+					input(type='password', name=field.paths.confirm, class='width-short', autocomplete='off')
+					a(href=js).btn.btn-cancel.btn-leave-password cancel
 		if field.note
 			.field-note= field.note
 
@@ -109,7 +113,6 @@ mixin formField_boolean(field, item)
 mixin formField_select(field, item)
 	.field.type-select
 		.field-label= field.label
-			span.field-type  (#{field.path} - #{field.fieldType})
 		.field-ui
 			if field.noedit
 				div(class='field-value')= item.get(field.path) || '&nbsp;'
@@ -121,24 +124,6 @@ mixin formField_select(field, item)
 		if field.note
 			.field-note= field.note
 
-
-
-//- else if field.fieldType == 'password'
-//- 	.field.type-text
-//- 		.field-label= field.label
-//- 			span.field-type  (#{field.path} - #{field.fieldType})
-//- 		.field-ui
-//- 			if field.noedit
-//- 				.field-value= (item.get(field.path)) ? "password set" : "password not set"
-//- 			else
-//- 				.leave-password
-//- 					a(href=js).btn.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
-//- 				.change-password
-//- 					input(type='password', name=field.path, class='width-short', autocomplete='off')
-//- 					input(type='password', name=field.path + '_confirm', class='width-short', autocomplete='off')
-//- 					a(href=js).btn.btn-cancel.btn-leave-password cancel
-//- 		if field.note
-//- 			.field-note= field.note
 
 //- else if field.fieldType == 'image'
 //- 	.field.type-image

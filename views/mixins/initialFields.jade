@@ -52,7 +52,7 @@ mixin initialField_password(field, submitted)
 		.field-label= field.label
 		.field-ui
 			input(type='password', name=field.path, class='width-short', autocomplete='off', value=submitted[field.path])
-			input(type='password', name=field.path + '_confirm', class='width-short', autocomplete='off', value=submitted[field.path + '_confirm'])
+			input(type='password', name=field.paths.confirm, class='width-short', autocomplete='off', value=submitted[field.paths.confirm])
 		if field.note
 			.field-note= field.note
 

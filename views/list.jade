@@ -32,43 +32,45 @@ block content
 					.toolbar-default
 						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-create-item Create #{list.singular}
 			
-	
-	table(cellpadding=0, cellspacing=0).items-list
-		if !list.get('nodelete')
-			col(width=26)
-		each col in columns
-			col(width=col.width)
-		thead
-			tr
-				each col, i in columns
-					th(colspan=i == 0 && !list.get('nodelete') ? 2 : false)= col.label
-		tbody
-			each item in items.results
+	if items.results.length
+		table(cellpadding=0, cellspacing=0).items-list
+			if !list.get('nodelete')
+				col(width=26)
+			each col in columns
+				col(width=col.width)
+			thead
 				tr
-					if !list.get('nodelete')
-						td.control: a(href='/prospekt/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').control-delete
 					each col, i in columns
-						td
-							- var value = col.field ? col.field.format(item) : item.get(col.path);
-							if col.isName
-								a(href='/prospekt/' + list.path + '/' + item.id)= value || "(no name)"
-							else if col.type == 'boolean'
-								if (value)
-									img(src='/prospekt/images/icons/16/checkbox-checked.png', width=16, height=16)
+						th(colspan=i == 0 && !list.get('nodelete') ? 2 : false)= col.label
+			tbody
+				each item in items.results
+					tr
+						if !list.get('nodelete')
+							td.control: a(href='/prospekt/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').control-delete
+						each col, i in columns
+							td
+								- var value = col.field ? col.field.format(item) : item.get(col.path);
+								if col.isName
+									a(href='/prospekt/' + list.path + '/' + item.id)= value || "(no name)"
+								else if col.type == 'boolean'
+									if (value)
+										img(src='/prospekt/images/icons/16/checkbox-checked.png', width=16, height=16)
+									else
+										img(src='/prospekt/images/icons/16/checkbox-unchecked.png', width=16, height=16)
 								else
-									img(src='/prospekt/images/icons/16/checkbox-unchecked.png', width=16, height=16)
-							else
-								div.col-value= col.field.format(item)
-							
-	if items.totalPages > 1
-		- var basePath = '/prospekt/' + list.path
-		.pagination
-			ul
-				li(class=items.previous ? false : 'disabled')
-					a(href=items.previous ? basePath + '/' + items.previous : false) &laquo; Prev
-				each p, i in items.pages
-					li(class=items.currentPage == p ? 'disabled' : false)
-						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
-				li(class=items.next ? false : 'disabled')
-					a(href=items.next ? basePath + '/' + items.next : false) Next &raquo;
+									div.col-value= col.field.format(item)
 								
+		if items.totalPages > 1
+			- var basePath = '/prospekt/' + list.path
+			.pagination
+				ul
+					li(class=items.previous ? false : 'disabled')
+						a(href=items.previous ? basePath + '/' + items.previous : false) &laquo; Prev
+					each p, i in items.pages
+						li(class=items.currentPage == p ? 'disabled' : false)
+							a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
+					li(class=items.next ? false : 'disabled')
+						a(href=items.next ? basePath + '/' + items.next : false) Next &raquo;
+		
+	else
+		p.no-results No #{list.plural} found.

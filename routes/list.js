@@ -44,14 +44,29 @@ exports = module.exports = function(req, res) {
 			if (req.list.nameField.validateInput(req.body))
 				req.list.nameField.updateItem(item, req.body);
 			else
-				validationErrors.push('Please provide a name.');
+				validationErrors.push('Name is required.');
 		}
 		
 		_.each(req.list.initialFields, function(field) {
 			
-			// validate matching password fields
-			if (field.type == 'password' && req.body[field.path] != req.body[field.path + '_confirm'])
-				return validationErrors.push('Passwords must match.');
+			// Some field types have custom behaviours
+			switch (field.type) {
+				
+				case 'password':
+					// validate matching password fields
+					if (req.body[field.path] != req.body[field.paths.confirm])
+						return validationErrors.push('Passwords must match.');
+				break;
+				
+				case 'email':
+					if (req.body[field.path] && !utils.isEmail(req.body[field.path]))
+						return validationErrors.push('Please enter a valid email address in the ' + field.label + ' field.');
+				break;
+			}
+			
+			// validate required fields
+			if (field.required && !field.validateInput(req.body))
+				return validationErrors.push(field.label + ' is required.');
 			
 			field.updateItem(item, req.body);
 			

@@ -2,6 +2,7 @@ var prospekt = require('../'),
 	_ = require('underscore'),
 	cloudinary = require('cloudinary'),
 	moment = require('moment'),
+	utils = require('../lib/utils'),
 	image = require('../lib/image');
 
 exports = module.exports = function(req, res) {
@@ -16,32 +17,17 @@ exports = module.exports = function(req, res) {
 			return res.redirect('/prospekt/' + req.list.path);
 		}
 		
+		var viewLocals = {
+			validationErrors: {}
+		};
+		
 		var renderView = function() {
 			
-			var ready = function() {
-				prospekt.render(req, res, 'item', {
-					section: req.list.key,
-					list: req.list,
-					item: item
-				});
-			}
-			
-			/* not needed (yet...)
-			var populate = [];
-			
-			_.each(req.list.fields, function(field) {
-				if (field.fieldType == 'objects')
-					populate.push(field.path);
-			});
-			
-			if (populate.length) {
-				item.populate(populate.join(' '), ready);
-			} else {
-				ready();
-			}
-			*/
-			
-			ready();
+			prospekt.render(req, res, 'item', _.extend(viewLocals, {
+				section: req.list.key,
+				list: req.list,
+				item: item
+			}));
 			
 		}
 		
@@ -65,48 +51,65 @@ exports = module.exports = function(req, res) {
 			var saveItem = function() {
 				item.save(function(err) {
 					if (err) {
-						console.error('Error saving changes to ' + req.list.singular + ' ' + item.id + ':');
-						console.error(err);
-						req.flash('error', 'There was an error saving your changes. Please check the console.');
+						if (err.name == 'ValidationError') {
+							viewLocals.validationErrors = err.errors;
+							_.each(err.errors, function(e, path) {
+								if (e.type == 'required') {
+									req.flash('error', 'Field ' + path + ' is required.');
+								}
+							});
+						} else {
+							console.error('Error saving changes to ' + req.list.singular + ' ' + item.id + ':');
+							console.error(err);
+							req.flash('error', 'There was an error saving your changes. Please check the console.');
+						}
 						return renderView();
+					} else {
+						req.flash('success', 'Your changes have been saved.');
+						return res.redirect('/prospekt/' + req.list.path + '/' + item.id);
 					}
-					req.flash('success', 'Your changes have been saved.');
-					return res.redirect('/prospekt/' + req.list.path + '/' + item.id);
 				});
 			}
 			
-			_.each(req.list.fields, function(field) {
+			if (req.list.nameIsEditable) {
+				if (req.list.nameField.validateInput(req.body))
+					req.list.nameField.updateItem(item, req.body);
+				else
+					validationErrors.push(list.singular + ' name is required.');
+			}
+			
+			_.each(req.list.formFields, function(field) {
 				
+				// skip uneditable fields
 				if (field.noedit)
 					return;
+				
+				// Some field types have custom behaviours
+				switch (field.type) {
+					
+					case 'password':
+						// passwords should only be set if a value is provided
+						if (!req.body[field.path])
+							return;
+						// validate matching password fields
+						if (req.body[field.path] != req.body[field.paths.confirm])
+							validationErrors.push('Passwords must match.');
+					break;
+					
+					case 'email':
+						if (req.body[field.path] && !utils.isEmail(req.body[field.path]))
+							validationErrors.push('Please enter a valid email address in the ' + field.label + ' field.');
+					break;
+				}
+				
+				// validate required fields.
+				if (field.required && !field.validateInput(req.body))
+					validationErrors.push(field.label + ' is required.');
 				
 				field.updateItem(item, req.body);
 				
 				/*
 				switch (field.fieldType) {
-					case 'checkbox':
-						if (_.has(req.body, field.path) && req.body[field.path] == 'true' && !item.get(field.path))
-							item.set(field.path, true);
-						else if (item.get(field.path) && req.body[field.path] != 'true')
-							item.set(field.path, false);
-					break;
-					case 'object':
-						if (_.has(req.body, field.path) && item.get(field.path) != req.body[field.path]) // TODO: Try and make sure it's a valid ObjectId...
-							item.set(field.path, req.body[field.path] || undefined);
-					break;
-					case 'objects':
-						if (_.has(req.body, field.path)) {
-							var _old = item.get(field.path).map(function(i) { return String(i) }),
-								_new = _.compact(req.body[field.path].split(','));
-							// console.log("field " + field.path + ' was:');
-							// console.log(_old);
-							// console.log('... now:');
-							// console.log(_new);
-							if (_.difference(_old, _new).length || _.difference(_new, _old).length) {
-								item.set(field.path, _new);
-							}
-						}
-					break;
 					case 'image':
 						var oldImage = item.get(field.path);
 						if (_.has(req.body, field.path + '_action') && oldImage.public_id) {
@@ -142,24 +145,6 @@ exports = module.exports = function(req, res) {
 							});
 						}
 					break;
-					case 'date':
-					case 'datetime':
-						if (_.has(req.body, field.path)) {
-							var newValue = moment(req.body[field.path]);
-							if (!newValue.isSame(item.get(field.path)))
-								item.set(field.path, newValue.toDate());
-						}
-					break;
-					case 'password':
-						if (req.body[field.path]) {
-							// validate matching passwords
-							if (req.body[field.path] == req.body[field.path + '_confirm']) {
-								item.set(field.path, req.body[field.path]);
-							} else {
-								validationErrors.push('Passwords must match.');
-							}	
-						}
-					break;
 					case 'location':
 						if (_.has(req.body, field.path)) {
 							var ol = item.get(field.path);
@@ -189,9 +174,6 @@ exports = module.exports = function(req, res) {
 								});
 							}
 						}
-					default:
-						if (_.has(req.body, field.path) && item.get(field.path) != req.body[field.path])
-							item.set(field.path, req.body[field.path]);
 				}
 				*/
 			});
