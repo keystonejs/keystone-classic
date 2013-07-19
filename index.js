@@ -194,7 +194,7 @@ Prospekt.prototype.routes = function(app) {
 	app.all('/prospekt/:list/:page([0-9]{1,5})?', initList, require('./routes/list'));
 	app.all('/prospekt/:list/:item', initList, require('./routes/item'));
 	
-	app.get('/prospekt/api/:list/:action', initList, require('./api/list') );
+	app.get('/prospekt/api/:list/:action', initList, require('./routes/api/list') );
 	
 };
 
@@ -210,6 +210,15 @@ Prospekt.prototype.list = function(list) {
 		return list;
 	}
 	return this.lists[list] || this.lists[this.paths[list]];
+};
+
+
+/**
+ * Applies Application updates
+ */
+
+Prospekt.prototype.applyUpdates = function(callback) {
+	require('./lib/updates').apply(callback);
 };
 
 

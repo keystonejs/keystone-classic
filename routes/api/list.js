@@ -1,8 +1,7 @@
-var prospekt = require('../'),
+var prospekt = require('../../'),
 	_ = require('underscore'),
 	cloudinary = require('cloudinary'),
-	moment = require('moment'),
-	image = require('../lib/image');
+	moment = require('moment');
 
 exports = module.exports = function(req, res) {
 	

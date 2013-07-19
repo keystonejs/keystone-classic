@@ -1,6 +1,6 @@
 {
   "name": "prospekt",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Prospekt",
   "main": "index.js",
   "repository": {
@@ -17,7 +17,8 @@
     "moment": "~2.1.0",
     "time": "~0.9.2",
     "numeral": "~1.4.8",
-    "i": "~0.3.1"
+    "i": "~0.3.1",
+    "semver": "~2.0.10"
   },
   "devDependencies": {
     "express": "~3.2.6",
