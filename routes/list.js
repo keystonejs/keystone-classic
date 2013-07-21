@@ -1,6 +1,7 @@
 var _ = require('underscore'),
 	moment = require('moment'),
-	prospekt = require('../');
+	prospekt = require('../'),
+	utils = require('../lib/utils');
 
 exports = module.exports = function(req, res) {
 	

@@ -23,6 +23,8 @@ mixin formField(field, item)
 		+formField_boolean(field, item)
 	else if field.type == 'select'
 		+formField_select(field, item)
+	else if field.type == 'image'
+		+formField_image(field, item)
 
 mixin formField_text_common(type, field, value, cls)
 	div(class='field type-' + type)
@@ -124,29 +126,26 @@ mixin formField_select(field, item)
 		if field.note
 			.field-note= field.note
 
-
-//- else if field.fieldType == 'image'
-//- 	.field.type-image
-//- 		.field-label= field.label
-//- 			span.field-type  (#{field.path} - #{field.fieldType})
-//- 		- var hasImage = image(item.get(field.path))
-//- 		div(class=hasImage ? 'has-image' : false).field-ui
-//- 			if hasImage
-//- 				.image-preview
-//- 					if (image(item.get(field.path)))
-//- 						img(src=image.limit(item.get(field.path), 100, 100))
-//- 				.image-details
-//- 					.field-value= item.get(field.path + '.url')
-//- 					.field-value= item.get(field.path + '.width') + ' x ' + item.get(field.path + '.height')
-//- 			.image-toolbar
-//- 				input(type='file', name=field.path + '_upload').field-upload
-//- 				input(type='hidden', name=field.path + '_action', value='').field-action
-//- 				span.upload-queued Image selected - save to upload
-//- 				a(href=js).btn.btn-upload Upload Image
-//- 				if hasImage
-//- 					a(href=js).btn.btn-cancel.btn-delete-image Remove Image
-//- 		if field.note
-//- 			.field-note= field.note
+mixin formField_image(field, item)
+	.field.type-image
+		.field-label= field.label
+		- var hasImage = item.get(field.paths.exists)
+		div(class=hasImage ? 'has-image' : false).field-ui
+			if hasImage
+				.image-preview
+					//img(src=image.limit(item.get(field.path), 100, 100))
+				.image-details
+					.field-value= item.get(field.path.url)
+					.field-value= item.get(field.path.width) + ' x ' + item.get(field.path.height)
+			.image-toolbar
+				input(type='file', name=field.path + '_upload').field-upload
+				input(type='hidden', name=field.path + '_action', value='').field-action
+				span.upload-queued Image selected - save to upload
+				a(href=js).btn.btn-upload Upload Image
+				if hasImage
+					a(href=js).btn.btn-cancel.btn-delete-image Remove Image
+		if field.note
+			.field-note= field.note
 
 //- else if field.fieldType == 'location'
 //- 	.field.type-location
