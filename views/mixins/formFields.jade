@@ -132,14 +132,15 @@ mixin formField_image(field, item)
 		- var hasImage = item.get(field.paths.exists)
 		div(class=hasImage ? 'has-image' : false).field-ui
 			if hasImage
+				- var image = item.get(field.paths.methods)
 				.image-preview
-					//img(src=image.limit(item.get(field.path), 100, 100))
+					img(src=image.limit(100, 100))
 				.image-details
-					.field-value= item.get(field.path.url)
-					.field-value= item.get(field.path.width) + ' x ' + item.get(field.path.height)
+					.field-value= item.get(field.paths.url)
+					.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
 			.image-toolbar
-				input(type='file', name=field.path + '_upload').field-upload
-				input(type='hidden', name=field.path + '_action', value='').field-action
+				input(type='file', name=field.paths.upload).field-upload
+				input(type='hidden', name=field.paths.action, value='').field-action
 				span.upload-queued Image selected - save to upload
 				a(href=js).btn.btn-upload Upload Image
 				if hasImage

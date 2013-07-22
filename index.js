@@ -4,12 +4,8 @@ var fs = require('fs'),
 	jade = require('jade'),
 	moment = require('moment'),
 	numeral = require('numeral'),
-	utils = require('./lib/utils'),
-	image = require('./lib/image'),
-	List = require('./lib/list'),
-	Field = require('./lib/field');
-	
-Field.Types = require('./lib/fieldTypes');
+	cloudinary = require('cloudinary'),
+	utils = require('./lib/utils');
 
 var templateCache = {};
 
@@ -30,20 +26,38 @@ var Prospekt = function() {
 }
 
 /**
+ * The exports object is an instance of Prospekt.
+ *
+ * @api public
+ */
+var prospekt = module.exports = exports = new Prospekt;
+
+// Expose Classes
+prospekt.List = require('./lib/list');
+prospekt.Field = require('./lib/field');
+prospekt.Field.Types = require('./lib/fieldTypes');
+
+/**
  * Connects prospekt to the application's mongoose instance
  *
  * ####Example:
  *
  *     var mongoose = require('mongoose');
- *     prospekt.connect(mongoose)
+ *     
+ *     prospekt.connect({
+ *         mongoose: mongoose
+ *     });
  *
- * @param {Mongoose} mongoose instance
+ * @param {Object} connections
  * @api public
  */
-Prospekt.prototype.connect = function(_mongoose) {
-	mongoose = _mongoose;
-	this.mongoose = _mongoose;
-	this.List.prototype.mongoose = _mongoose;
+Prospekt.prototype.connect = function() {
+	// detect type of each argument, allowing for future connections to be added
+	for (var i = 0; i < arguments.length; i++) {
+		if (arguments[i].constructor.name == 'Mongoose') {
+			this.mongoose = arguments[i];
+		}
+	}
 	return this;
 }
 
@@ -53,9 +67,11 @@ Prospekt.prototype.connect = function(_mongoose) {
  * 
  * ####Options:
  *   - auth (callback function to authenticate a request, or 'native' to use native session management)
- *   - brand
  *   - user model (list key for users if using native session management)
- *   - signout (href for the signout link in the top right)
+ *   - brand (label displayed in the top left of the UI)
+ *   - cloudinary config `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
+ *   - cloudinary prefix (prefix for all native tags added to uploaded images)
+ *   - signout (href for the signout link in the top right of the UI)
  * 
  * ####Example:
  * 
@@ -66,8 +82,17 @@ Prospekt.prototype.connect = function(_mongoose) {
  * @api public
  */
  Prospekt.prototype.set = function(key, value) {
+	
 	if (arguments.length == 1)
 		return this._options[key];
+	
+	// handle special settings
+	switch (key) {
+		case 'cloudinary config':
+			cloudinary.config(value);
+		break;
+	}
+	
 	this._options[key] = value;
 	return this;
 };
@@ -204,7 +229,7 @@ Prospekt.prototype.routes = function(app) {
  */
 
 Prospekt.prototype.list = function(list) {
-	if (list && list.constructor == List) {
+	if (list && list.constructor == prospekt.List) {
 		this.lists[list.key] = list;
 		this.paths[list.path] = list.key;
 		return list;
@@ -255,7 +280,6 @@ Prospekt.prototype.render = function(req, res, view, ext) {
 		_: _,
 		moment: moment,
 		numeral: numeral,
-		image: image,
 		brand: prospekt.get('brand'),
 		copyright: prospekt.get('copyright'),
 		textToHTML: utils.textToHTML,
@@ -271,15 +295,6 @@ Prospekt.prototype.render = function(req, res, view, ext) {
 	res.send(html);
 }
 
-
-/**
- * The exports object is an instance of Prospekt.
- *
- * @api public
- */
-var prospekt = module.exports = exports = new Prospekt;
-
-
 /**
  * Prospekt version
  *
@@ -290,6 +305,3 @@ prospekt.version = JSON.parse(
 	require('fs').readFileSync(__dirname + '/package.json', 'utf8')
 ).version;
 
-// Expose Classes
-prospekt.List = List;
-prospekt.Field = Field;

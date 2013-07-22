@@ -2,8 +2,7 @@ var prospekt = require('../'),
 	_ = require('underscore'),
 	cloudinary = require('cloudinary'),
 	moment = require('moment'),
-	utils = require('../lib/utils'),
-	image = require('../lib/image');
+	utils = require('../lib/utils');
 
 exports = module.exports = function(req, res) {
 	
@@ -86,6 +85,14 @@ exports = module.exports = function(req, res) {
 				
 				// Some field types have custom behaviours
 				switch (field.type) {
+					
+					case 'image':
+						actionQueue.push(field.getRequestHandler(item, req, function(err) {
+							if (err)
+								req.flash('error', field.label + ' upload failed - ' + err.message);
+							progress();
+						}));
+					break;
 					
 					case 'password':
 						// passwords should only be set if a value is provided

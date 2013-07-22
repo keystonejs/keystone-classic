@@ -29,7 +29,7 @@ jQuery(function($) {
 				return;
 			$field.find('.field-action').val('delete');
 		} else {
-			$field.find('.field-action').val('clear');
+			$field.find('.field-action').val('reset');
 		}
 		
 		$field.find('.has-image').removeClass('has-image');

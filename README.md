@@ -50,8 +50,12 @@ any lists. `connect` returns `this` so you can do this in the `require` call.
 
 Configuration variables can be set at any time, and include:
 
-*	brand
-*	auth
+*	auth (callback function to authenticate a request, or 'native' to use native session management)
+*	user model (list key for users if using native session management)
+*	brand (label displayed in the top left of the UI)
+*	cloudinary config `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
+*	cloudinary prefix (prefix for all native tags added to uploaded images)
+*	signout (href for the signout link in the top right of the UI)
 
 Prospekt can be locked down with the auth config. This must be a function matching the
 express middleware pattern `fn(req,res,next)`. It will be called before any Prospekt
