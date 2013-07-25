@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Keystone",
   "main": "index.js",
   "repository": {
@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "underscore": "~1.5.1",
-    "jade": "~0.33.0",
+    "express": "~3.3.4",
+    "mongoose": "~3.6.15",
     "less-middleware": "~0.1.12",
+    "connect-flash": "~0.1.1",
+    "jade": "~0.33.0",
     "async": "~0.2.9",
     "bcrypt": "~0.7.6",
     "cloudinary": "~1.0.3",
@@ -19,10 +22,6 @@
     "numeral": "~1.4.8",
     "i": "~0.3.1",
     "semver": "~2.0.10"
-  },
-  "devDependencies": {
-    "express": "~3.2.6",
-    "mongoose": "~3.6.13"
   },
   "author": "Jed Watson",
   "license": "MIT",

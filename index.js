@@ -1,4 +1,6 @@
 var fs = require('fs'),
+	path = require('path'),
+	http = require('http'),
 	_ = require('underscore'),
 	express = require('express'),
 	jade = require('jade'),
@@ -20,45 +22,14 @@ var Keystone = function() {
 	this.lists = {};
 	this.paths = {};
 	this._options = {
-		brand: 'Keystone',
-		copyright: 'Jed Watson'
+		'name': 'Keystone',
+		'brand': 'Keystone',
+		'compress': true,
+		'headless': false,
+		'logger': 'dev',
+		'auto update': true
 	};
-}
-
-/**
- * The exports object is an instance of Keystone.
- *
- * @api public
- */
-var keystone = module.exports = exports = new Keystone;
-
-// Expose Classes
-keystone.List = require('./lib/list');
-keystone.Field = require('./lib/field');
-keystone.Field.Types = require('./lib/fieldTypes');
-
-/**
- * Connects keystone to the application's mongoose instance
- *
- * ####Example:
- *
- *     var mongoose = require('mongoose');
- *     
- *     keystone.connect({
- *         mongoose: mongoose
- *     });
- *
- * @param {Object} connections
- * @api public
- */
-Keystone.prototype.connect = function() {
-	// detect type of each argument, allowing for future connections to be added
-	for (var i = 0; i < arguments.length; i++) {
-		if (arguments[i].constructor.name == 'Mongoose') {
-			this.mongoose = arguments[i];
-		}
-	}
-	return this;
+	this.set('env', process.env.NODE_ENV || 'development');
 }
 
 
@@ -66,7 +37,8 @@ Keystone.prototype.connect = function() {
  * Sets keystone options
  * 
  * ####Options:
- *   - auth (callback function to authenticate a request, or 'native' to use native session management)
+ * 
+ *   - auth (callback function to authenticate a request, or true to use native session management)
  *   - user model (list key for users if using native session management)
  *   - brand (label displayed in the top left of the UI)
  *   - cloudinary config `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
@@ -90,6 +62,10 @@ Keystone.prototype.connect = function() {
 	switch (key) {
 		case 'cloudinary config':
 			cloudinary.config(value);
+		break;
+		case 'auth':
+			if (value === true && !this.get('session'))
+				this.set('session', true);
 		break;
 	}
 	
@@ -121,7 +97,7 @@ Keystone.prototype.options = function(options) {
 			this.set(k, options[k]);
 		}
 	}
-	return this;
+	return this._options;
 };
 
 
@@ -141,6 +117,222 @@ Keystone.prototype.get = Keystone.prototype.set;
 
 
 /**
+ * Connects keystone to the application's mongoose instance.
+ *
+ * ####Example:
+ *
+ *     var mongoose = require('mongoose');
+ *     
+ *     keystone.connect(mongoose);
+ *
+ * @param {Object} connections
+ * @api public
+ */
+
+Keystone.prototype.connect = function() {
+	// detect type of each argument
+	for (var i = 0; i < arguments.length; i++) {
+		if (arguments[i].constructor.name == 'Mongoose') {
+			// detected Mongoose
+			this.mongoose = arguments[i];
+		} else if (arguments[i].name == 'app') {
+			// detected Express app
+			this.app = arguments[i];
+		}
+	}
+	return this;
+}
+
+
+/**
+ * The exports object is an instance of Keystone.
+ *
+ * @api public
+ */
+
+var keystone = module.exports = exports = new Keystone;
+
+// Expose Classes
+keystone.List = require('./lib/list');
+keystone.Field = require('./lib/field');
+keystone.Field.Types = require('./lib/fieldTypes');
+
+
+/**
+ * Initialises Keystone in encapsulated mode.
+ * 
+ * Creates an Express app and configures it if none has been connected.
+ * 
+ * Also connects to the default mongoose instance if none has been connected.
+ * 
+ * Accepts an options argument.
+ *
+ * @param {Object} options
+ * @api public
+ */
+Keystone.prototype.init = function(options) {
+	
+	this.options(options);
+	
+	if (!this.app)
+		this.app = require('express')();
+	
+	if (!this.mongoose)
+		this.connect(require('mongoose'));
+	
+	return this;
+}
+
+
+/**
+ * Configures and starts a Keystone app in encapsulated mode.
+ * 
+ * Connects to the database, runs updates and listens for incoming requests.
+ * 
+ * 
+ * ####Options:
+ * 
+ * Keystone supports additional options when running in encapsulated mode:
+ * 
+ *   - name
+ *   - port
+ *   - views
+ *   - view engine
+ *   - compress
+ *   - favico
+ *   - less
+ *   - static
+ *   - headless
+ *   - logger
+ *   - cookie secret
+ *   - session
+ *   - 404
+ *   - routes
+ *   - locals
+ *   - auto update
+ * 
+ *
+ * @api public
+ */
+Keystone.prototype.start = function() {
+	
+	if (!this.app)
+		throw new Error("Keystone app must be initialised first.");
+	
+	var keystone = this,
+		app = this.app;
+	
+	var getPath = function(key) {
+		var path = keystone.get(key);
+		path = ('string' == typeof path && path.substr(0,1) != '/') ? process.cwd() + '/' + path : path;
+		return path;
+	}
+	
+	// Setup
+	
+	app.set('port', this.get('port') || process.env.PORT || 3000);
+	app.set('views', getPath('views') || '/views');
+	app.set('view engine', this.get('view engine'));
+	
+	// Apply locals
+	
+	if (utils.isObject(this.get('locals')))
+		_.extend(app.locals, this.get('locals'));
+	
+	if (this.get('env') != 'production')
+		app.locals.pretty = true;
+	
+	// Serve static assets
+	
+	if (this.get('compress'))
+		app.use(express.compress());
+	
+	if (this.get('favico'))
+		app.use(express.favicon(getPath('favico')));
+	
+	if (this.get('less'))
+		app.use(require('less-middleware')({ src: getPath('less') }));
+	
+	if (this.get('static'))
+		app.use(express.static(getPath('static')));
+	
+	if (!this.get('headless'))
+		keystone.static(app);
+	
+	// Handle dynamic requests
+	
+	if (this.get('logger'))
+		app.use(express.logger(this.get('logger')));
+	
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	
+	app.use(express.cookieParser(this.get('cookie secret')));
+	app.use(express.session());
+	app.use(require('connect-flash')());
+	
+	if (this.get('session') === true)
+		app.use(this.session());
+	else if ('function' == typeof this.get('session'))
+		app.use(this.get('session'));
+	
+	// Route requests
+	app.use(app.router);
+	
+	// Handle 404s
+	
+	var err404 = this.get('404');
+	
+	if ('function' == typeof err404) {
+		app.use(err404);
+	} else if ('string' == typeof err404) {
+		app.use(function(req, res, next) {
+			res.status(404).render(err404);
+		});
+	} else {
+		app.use(function(req, res, next) {
+			res.status(404).send("Sorry, no page could be found at this address (404)");
+		});
+	}
+	
+	// Use Express error handler in dev
+	if (this.get('env') == 'development')
+		app.use(express.errorHandler());
+	
+	// Configure keystone routes
+	if (!this.get('headless'))
+		this.routes(app);
+	
+	// Configure application routes
+	if ('function' == typeof this.get('routes'))
+		this.get('routes')(app);
+
+	// Connect to database
+	this.mongoose.connect.apply(this.mongoose, this.get('mongo'));
+	
+	this.mongoose.connection.on('error', function() {
+		console.error(keystone.get('name') + ' failed to launch: mongo connection error', arguments);
+	}).on('open', function() {
+		
+		// Create the http server
+		var listen = function() {
+			http.createServer(app).listen(app.get('port'), function() {
+				console.log(keystone.get('name') + ' is ready on port ' + app.get('port'));
+			});
+		}
+		
+		// Apply updates?
+		if (keystone.get('auto update'))
+			keystone.applyUpdates(listen);
+		else
+			listen();
+		
+	});
+	
+}
+
+
+/**
  * Initialises keystone to use native session management and returns an express
  * middleware callback to hook it in. Must be included before `app.router`.
  *
@@ -148,10 +340,7 @@ Keystone.prototype.get = Keystone.prototype.set;
  */
 
 Keystone.prototype.session = function() {
-	
-	var session = require('./lib/session');
-	return session.persist;
-	
+	return require('./lib/session').persist;
 };
 
 
@@ -191,12 +380,11 @@ Keystone.prototype.routes = function(app) {
 	this.app = app;
 	var keystone = this;
 	
-	this.set('env', app.get('env'));
 	this.set('viewCache', this.get('env') == 'production');
 	
 	var auth = this.get('auth');
 	
-	if (auth == 'native') {
+	if (auth === true) {
 		this.set('signout', '/keystone/signout');
 		var session = require('./lib/session');
 		app.all('/keystone/signin', require('./routes/signin'));
@@ -222,6 +410,87 @@ Keystone.prototype.routes = function(app) {
 	app.get('/keystone/api/:list/:action', initList, require('./routes/api/list') );
 	
 };
+
+
+/**
+ * Returns a function that looks in a specified path relative to the current
+ * directory, and returns all .js modules it.
+ *
+ * ####Example:
+ *		
+ *     var routes = {
+ *         site: importRoutes('./site'),
+ *         api: importRoutes('./api')
+ *     };
+ *
+ * @param {String} rel__dirname
+ * @api public
+ */
+
+Keystone.prototype.importer = function(rel__dirname) {
+	var importer = function(from) {
+		var imported = {};
+		var joinPath = function() {
+			return '.' + path.sep + path.join.apply(path, arguments);
+		}
+		var fsPath = joinPath(path.relative(process.cwd(), rel__dirname), from);
+		fs.readdirSync(fsPath).forEach(function(name) {
+			var info = fs.statSync(path.join(fsPath,name));
+			// recur
+			if (info.isDirectory()) {
+				imported[name] = importer(joinPath(from,name));
+			} else {
+				// only import .js files
+				var parts = name.split('.');
+				if (parts.pop() == 'js') {
+					imported[parts.join('-')] = require(path.join(rel__dirname, from, name));
+				}
+			}
+			return imported;
+		});
+		return imported;
+	}
+	return importer;
+}
+
+/**
+ * Middleware to initialise a standard API response.
+ * 
+ * Adds `res.apiResonse` and `res.apiError` methods.
+ *
+ * ####Example:
+ *		
+ *     app.all('/api*', initAPI);
+ *
+ * @param {app.request} req
+ * @param {app.response} res
+ * @param {function} next
+ * @api public
+ */
+
+Keystone.prototype.initAPI = function(req, res, next) {
+	
+	res.apiResponse = function(status) {
+		if (req.query.callback)
+			res.jsonp(status);
+		else
+			res.json(status);
+	};
+	
+	res.apiError = function(key, err, msg) {
+		msg = msg || 'Error';
+		key = key || 'unknown error';
+		msg += ' (' + key + ')';
+		console.log(msg + (err ? ':' : ''));
+		if (err) {
+			console.log(err);
+		}
+		res.status(500);
+		sendResponse({ error: key || 'error', detail: err });
+	};
+	
+	next();
+}
 
 
 /**
@@ -281,7 +550,6 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		moment: moment,
 		numeral: numeral,
 		brand: keystone.get('brand'),
-		copyright: keystone.get('copyright'),
 		textToHTML: utils.textToHTML,
 		messages: _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false,
 		lists: keystone.lists,
