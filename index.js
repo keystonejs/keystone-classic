@@ -308,7 +308,8 @@ Keystone.prototype.start = function() {
 		this.get('routes')(app);
 
 	// Connect to database
-	this.mongoose.connect.apply(this.mongoose, this.get('mongo'));
+	var mongooseArgs = this.get('mongo');
+	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
 	
 	this.mongoose.connection.on('error', function() {
 		console.error(keystone.get('name') + ' failed to launch: mongo connection error', arguments);
