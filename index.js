@@ -272,7 +272,7 @@ Keystone.prototype.start = function() {
 	app.use(require('connect-flash')());
 	
 	if (this.get('session') === true)
-		app.use(this.session());
+		app.use(this.session.persist);
 	else if ('function' == typeof this.get('session'))
 		app.use(this.get('session'));
 	
@@ -333,18 +333,6 @@ Keystone.prototype.start = function() {
 
 
 /**
- * Initialises keystone to use native session management and returns an express
- * middleware callback to hook it in. Must be included before `app.router`.
- *
- * @api public
- */
-
-Keystone.prototype.session = function() {
-	return require('./lib/session').persist;
-};
-
-
-/**
  * Adds bindings for keystone static resources
  * Can be included before other middleware (e.g. session management, logging, etc) for
  * reduced overhead
@@ -380,16 +368,21 @@ Keystone.prototype.routes = function(app) {
 	this.app = app;
 	var keystone = this;
 	
-	this.set('viewCache', this.get('env') == 'production');
+	this.set('view cache', this.get('env') == 'production');
 	
 	var auth = this.get('auth');
 	
 	if (auth === true) {
+		
 		this.set('signout', '/keystone/signout');
-		var session = require('./lib/session');
+		
+		if (!this.get('session'))
+			app.all('/keystone*', this.session.persist);
+		
 		app.all('/keystone/signin', require('./routes/signin'));
 		app.all('/keystone/signout', require('./routes/signout'));
-		app.all('/keystone*', session.keystoneAuth);
+		app.all('/keystone*', this.session.keystoneAuth);
+		
 	} else if ('function' == typeof auth) {
 		app.all('/keystone*', auth);
 	}
@@ -573,3 +566,6 @@ keystone.version = JSON.parse(
 	require('fs').readFileSync(__dirname + '/package.json', 'utf8')
 ).version;
 
+
+// Expose Modules
+keystone.session = require('./lib/session');

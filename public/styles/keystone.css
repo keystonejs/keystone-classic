@@ -112,6 +112,12 @@ a:hover {
   padding: 0 0 20px;
   color: #999;
 }
+#footer a {
+  color: #666;
+}
+#footer a:hover {
+  color: black;
+}
 .alert {
   padding: 8px 35px 8px 14px;
   margin-bottom: 20px;
