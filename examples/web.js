@@ -5,14 +5,14 @@ var express = require('express'),
 	path = require('path'),
 	flash = require('connect-flash'),
 	mongoose = require('mongoose'),
-	prospekt = require('prospekt').connect(mongoose);
+	keystone = require('keystone').connect(mongoose);
 
 require('./models');
 
 var session = require('./lib/session');
 
-prospekt.set('auth', session.prospektAuth);
-prospekt.set('brand', 'Team 9');
+keystone.set('auth', session.keystoneAuth);
+keystone.set('brand', 'Team 9');
 
 // Initialise Express Application
 var app = express();
@@ -29,7 +29,7 @@ app.configure(function() {
 	app.use(express.favicon(__dirname + '/public/favicon.ico'));
 	app.use(require('less-middleware')({ src: __dirname + '/public' }));
 	app.use(express.static(path.join(__dirname, 'public')));
-	prospekt.static(app);
+	keystone.static(app);
 	
 	// Handle dynamic requests
 	app.use(express.logger('dev'));
@@ -55,8 +55,8 @@ app.configure('development', function() {
 	app.use(express.errorHandler());
 });
 
-// Configure prospekt routes
-prospekt.routes(app);
+// Configure keystone routes
+keystone.routes(app);
 
 // Configure application routes
 require('./routes')(app);

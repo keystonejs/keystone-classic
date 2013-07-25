@@ -3,14 +3,14 @@ extends layout/base
 include mixins/formFields
 
 block page-js
-	script(src='/prospekt/js/views/item.js')
-	script(src='/prospekt/js/lib/wysihtml5/wysihtml5-0.4.0pre.min.js')
-	script(src='/prospekt/js/lib/wysihtml5/editor.js')
+	script(src='/keystone/js/views/item.js')
+	script(src='/keystone/js/lib/wysihtml5/wysihtml5-0.4.0pre.min.js')
+	script(src='/keystone/js/lib/wysihtml5/editor.js')
 
 block content
 	.item-id id: #{item.id}
 	
-	h3: a(href='/prospekt/' + list.path)= list.label
+	h3: a(href='/keystone/' + list.path)= list.label
 	
 	form(method='post', enctype='multipart/form-data')
 		input(type='hidden', name='action', value='updateItem')
@@ -27,7 +27,7 @@ block content
 		.toolbar.toolbar-fixed
 			if !list.get('noedit')
 				button(type='submit').btn Save
-				a(href='/prospekt/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-cancel reset changes
+				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-cancel reset changes
 			if !list.get('nodelete')
-				a(href='/prospekt/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-cancel delete #{list.singular.toLowerCase()}
+				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-cancel delete #{list.singular.toLowerCase()}
 				

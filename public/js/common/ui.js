@@ -35,7 +35,7 @@ jQuery(function($) {
 			allowClear: true,
 			multiple: multi,
 			ajax: {
-				url: '/prospekt/api/' + refPath + '/autocomplete',
+				url: '/keystone/api/' + refPath + '/autocomplete',
 				dataType: 'json',
 				quietMillis: 500,
 				data: function(term, page) {
@@ -64,7 +64,7 @@ jQuery(function($) {
 					}
 					
 					$.each(ids, function() {
-						$.ajax('/prospekt/api/' + refPath + '/get', {
+						$.ajax('/keystone/api/' + refPath + '/get', {
 							data: {
 								id: this,
 								dataset: 'simple'

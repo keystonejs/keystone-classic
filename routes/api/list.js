@@ -1,4 +1,4 @@
-var prospekt = require('../../'),
+var keystone = require('../../'),
 	_ = require('underscore'),
 	cloudinary = require('cloudinary'),
 	moment = require('moment');

@@ -10,7 +10,7 @@ jQuery(function($) {
 			$el.html(data.name);
 		};
 		
-		$.ajax('/prospekt/api/' + data.refPath + '/get', {
+		$.ajax('/keystone/api/' + data.refPath + '/get', {
 			data: {
 				id: itemId,
 				dataset: 'simple'

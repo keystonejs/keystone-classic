@@ -11,47 +11,47 @@ var templateCache = {};
 
 
 /**
- * Prospekt Class
+ * Keystone Class
  * 
  * @api public
  */
 
-var Prospekt = function() {
+var Keystone = function() {
 	this.lists = {};
 	this.paths = {};
 	this._options = {
-		brand: 'Prospekt',
+		brand: 'Keystone',
 		copyright: 'Jed Watson'
 	};
 }
 
 /**
- * The exports object is an instance of Prospekt.
+ * The exports object is an instance of Keystone.
  *
  * @api public
  */
-var prospekt = module.exports = exports = new Prospekt;
+var keystone = module.exports = exports = new Keystone;
 
 // Expose Classes
-prospekt.List = require('./lib/list');
-prospekt.Field = require('./lib/field');
-prospekt.Field.Types = require('./lib/fieldTypes');
+keystone.List = require('./lib/list');
+keystone.Field = require('./lib/field');
+keystone.Field.Types = require('./lib/fieldTypes');
 
 /**
- * Connects prospekt to the application's mongoose instance
+ * Connects keystone to the application's mongoose instance
  *
  * ####Example:
  *
  *     var mongoose = require('mongoose');
  *     
- *     prospekt.connect({
+ *     keystone.connect({
  *         mongoose: mongoose
  *     });
  *
  * @param {Object} connections
  * @api public
  */
-Prospekt.prototype.connect = function() {
+Keystone.prototype.connect = function() {
 	// detect type of each argument, allowing for future connections to be added
 	for (var i = 0; i < arguments.length; i++) {
 		if (arguments[i].constructor.name == 'Mongoose') {
@@ -63,7 +63,7 @@ Prospekt.prototype.connect = function() {
 
 
 /**
- * Sets prospekt options
+ * Sets keystone options
  * 
  * ####Options:
  *   - auth (callback function to authenticate a request, or 'native' to use native session management)
@@ -75,13 +75,13 @@ Prospekt.prototype.connect = function() {
  * 
  * ####Example:
  * 
- *     prospekt.set('user model', 'User') // sets the 'user model' option to `User`
+ *     keystone.set('user model', 'User') // sets the 'user model' option to `User`
  * 
  * @param {String} key
  * @param {String} value
  * @api public
  */
- Prospekt.prototype.set = function(key, value) {
+ Keystone.prototype.set = function(key, value) {
 	
 	if (arguments.length == 1)
 		return this._options[key];
@@ -99,17 +99,17 @@ Prospekt.prototype.connect = function() {
 
 
 /**
- * Sets multiple prospekt options.
+ * Sets multiple keystone options.
  *
  * ####Example:
  *
- *     prospekt.set({test: value}) // sets the 'test' option to `value`
+ *     keystone.set({test: value}) // sets the 'test' option to `value`
  *
  * @param {Object} options
  * @api public
  */
 
-Prospekt.prototype.options = function(options) {
+Keystone.prototype.options = function(options) {
 	if (!arguments.length)
 		return this._options;
 	if (utils.isObject(options)) {
@@ -126,28 +126,28 @@ Prospekt.prototype.options = function(options) {
 
 
 /**
- * Gets prospekt options
+ * Gets keystone options
  *
  * ####Example:
  *
- *     prospekt.get('test') // returns the 'test' value
+ *     keystone.get('test') // returns the 'test' value
  *
  * @param {String} key
  * @method get
  * @api public
  */
 
-Prospekt.prototype.get = Prospekt.prototype.set;
+Keystone.prototype.get = Keystone.prototype.set;
 
 
 /**
- * Initialises prospekt to use native session management and returns an express
+ * Initialises keystone to use native session management and returns an express
  * middleware callback to hook it in. Must be included before `app.router`.
  *
  * @api public
  */
 
-Prospekt.prototype.session = function() {
+Keystone.prototype.session = function() {
 	
 	var session = require('./lib/session');
 	return session.persist;
@@ -156,7 +156,7 @@ Prospekt.prototype.session = function() {
 
 
 /**
- * Adds bindings for prospekt static resources
+ * Adds bindings for keystone static resources
  * Can be included before other middleware (e.g. session management, logging, etc) for
  * reduced overhead
  *
@@ -164,32 +164,32 @@ Prospekt.prototype.session = function() {
  * @api public
  */
 
-Prospekt.prototype.static = function(app) {
+Keystone.prototype.static = function(app) {
 	
-	app.use('/prospekt', require('less-middleware')({ src: __dirname + '/public' }));
-	app.use('/prospekt', express.static(__dirname + '/public'));
+	app.use('/keystone', require('less-middleware')({ src: __dirname + '/public' }));
+	app.use('/keystone', express.static(__dirname + '/public'));
 	
 };
 
 
 /**
- * Adds bindings for the prospekt routes
+ * Adds bindings for the keystone routes
  *
  * ####Example:
  *		
  *     var app = express();
  *     app.configure(...); // configuration settings
- *     app.use(...); // middleware, routes, etc. should come before prospekt is initialised
- *     prospekt.routes(app);
+ *     app.use(...); // middleware, routes, etc. should come before keystone is initialised
+ *     keystone.routes(app);
  *
  * @param {Express()} app
  * @api public
  */
 
-Prospekt.prototype.routes = function(app) {
+Keystone.prototype.routes = function(app) {
 	
 	this.app = app;
-	var prospekt = this;
+	var keystone = this;
 	
 	this.set('env', app.get('env'));
 	this.set('viewCache', this.get('env') == 'production');
@@ -197,29 +197,29 @@ Prospekt.prototype.routes = function(app) {
 	var auth = this.get('auth');
 	
 	if (auth == 'native') {
-		this.set('signout', '/prospekt/signout');
+		this.set('signout', '/keystone/signout');
 		var session = require('./lib/session');
-		app.all('/prospekt/signin', require('./routes/signin'));
-		app.all('/prospekt/signout', require('./routes/signout'));
-		app.all('/prospekt*', session.prospektAuth);
+		app.all('/keystone/signin', require('./routes/signin'));
+		app.all('/keystone/signout', require('./routes/signout'));
+		app.all('/keystone*', session.keystoneAuth);
 	} else if ('function' == typeof auth) {
-		app.all('/prospekt*', auth);
+		app.all('/keystone*', auth);
 	}
 	
 	var initList = function(req, res, next) {
-		req.list = prospekt.list(req.params.list);
+		req.list = keystone.list(req.params.list);
 		if (!req.list) {
 			req.flash('error', 'List ' + req.params.list + ' could not be found.');
-			return res.redirect('/prospekt');
+			return res.redirect('/keystone');
 		}
 		next();
 	}
 	
-	app.all('/prospekt', require('./routes/home'));
-	app.all('/prospekt/:list/:page([0-9]{1,5})?', initList, require('./routes/list'));
-	app.all('/prospekt/:list/:item', initList, require('./routes/item'));
+	app.all('/keystone', require('./routes/home'));
+	app.all('/keystone/:list/:page([0-9]{1,5})?', initList, require('./routes/list'));
+	app.all('/keystone/:list/:item', initList, require('./routes/item'));
 	
-	app.get('/prospekt/api/:list/:action', initList, require('./routes/api/list') );
+	app.get('/keystone/api/:list/:action', initList, require('./routes/api/list') );
 	
 };
 
@@ -228,8 +228,8 @@ Prospekt.prototype.routes = function(app) {
  * Registers or retrieves a list
  */
 
-Prospekt.prototype.list = function(list) {
-	if (list && list.constructor == prospekt.List) {
+Keystone.prototype.list = function(list) {
+	if (list && list.constructor == keystone.List) {
 		this.lists[list.key] = list;
 		this.paths[list.path] = list.key;
 		return list;
@@ -242,26 +242,26 @@ Prospekt.prototype.list = function(list) {
  * Applies Application updates
  */
 
-Prospekt.prototype.applyUpdates = function(callback) {
+Keystone.prototype.applyUpdates = function(callback) {
 	require('./lib/updates').apply(callback);
 };
 
 
 /**
- * Renders a Prospekt View
+ * Renders a Keystone View
  *
  * @api private
  */
 
-Prospekt.prototype.render = function(req, res, view, ext) {
+Keystone.prototype.render = function(req, res, view, ext) {
 	
-	var prospekt = this,
+	var keystone = this,
 		template = templateCache[view];
 	
 	var templatePath = __dirname + '/views/' + view + '.jade';
 	
 	var compileTemplate = function() {
-		return jade.compile(fs.readFileSync(templatePath, 'utf8'), { filename: templatePath, pretty: prospekt.app.get('env') != 'production' });
+		return jade.compile(fs.readFileSync(templatePath, 'utf8'), { filename: templatePath, pretty: keystone.app.get('env') != 'production' });
 	}
 	
 	var template = this.get('viewCache')
@@ -280,11 +280,11 @@ Prospekt.prototype.render = function(req, res, view, ext) {
 		_: _,
 		moment: moment,
 		numeral: numeral,
-		brand: prospekt.get('brand'),
-		copyright: prospekt.get('copyright'),
+		brand: keystone.get('brand'),
+		copyright: keystone.get('copyright'),
 		textToHTML: utils.textToHTML,
 		messages: _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false,
-		lists: prospekt.lists,
+		lists: keystone.lists,
 		js: 'javascript:;',
 		user: req.user,
 		signout: this.get('signout')
@@ -296,12 +296,12 @@ Prospekt.prototype.render = function(req, res, view, ext) {
 }
 
 /**
- * Prospekt version
+ * Keystone version
  *
  * @api public
  */
 
-prospekt.version = JSON.parse(
+keystone.version = JSON.parse(
 	require('fs').readFileSync(__dirname + '/package.json', 'utf8')
 ).version;
 

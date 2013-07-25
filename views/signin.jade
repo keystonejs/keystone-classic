@@ -6,7 +6,7 @@ block intro
 block content
 	if !user
 		//- h1 Sign In
-		form(method="post", action="/prospekt/signin")#signin-form
+		form(method="post", action="/keystone/signin")#signin-form
 			.controls
 				label Email
 				input(type="email", name="email", value=submitted.email)
@@ -19,8 +19,8 @@ block content
 	else
 		h3= 'Hi ' + user.name.first
 		p It appears you are already signed in...
-		a(href='/prospekt').btn Open Prospekt
-		a(href='/prospekt/signout').btn.btn-cancel Sign out
+		a(href='/keystone').btn Open Keystone
+		a(href='/keystone/signout').btn.btn-cancel Sign out
 
 block page-js
 	script.

@@ -1,6 +1,6 @@
 var _ = require('underscore'),
 	moment = require('moment'),
-	prospekt = require('../'),
+	keystone = require('../'),
 	utils = require('../lib/utils');
 
 exports = module.exports = function(req, res) {
@@ -14,7 +14,7 @@ exports = module.exports = function(req, res) {
 		var columns = req.list.defaultColumns;
 		var q = req.list.paginate({ page: req.params.page }).sort(req.list.defaultSort); // TODO: .populate(req.list.populate.join(' '));
 		q.exec(function(err, items) {
-			prospekt.render(req, res, 'list', _.extend(viewLocals, {
+			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: req.list.key,
 				list: req.list,
 				columns: columns,
@@ -29,7 +29,7 @@ exports = module.exports = function(req, res) {
 			if (count) {
 				req.flash('success', req.list.singular + ' deleted successfully.');
 			}
-			res.redirect('/prospekt/' + req.list.path);
+			res.redirect('/keystone/' + req.list.path);
 		});
 		
 		return;
@@ -95,7 +95,7 @@ exports = module.exports = function(req, res) {
 				}
 				return renderView();
 			}
-			res.redirect('/prospekt/' + req.list.path + '/' + item.id);
+			res.redirect('/keystone/' + req.list.path + '/' + item.id);
 		});
 		
 		return;

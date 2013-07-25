@@ -1,4 +1,4 @@
-Prospekt
+Keystone
 ========
 
 
@@ -10,9 +10,9 @@ for it to gain maturity before playing with it.
 
 ## About
 
-Prospekt is designed to be used in a web application built on Express and Mongoose.
+Keystone is designed to be used in a web application built on Express and Mongoose.
 
-Prospekt provides:
+Keystone provides:
 *	Enhanced `models` with additional field types and functionality, building on those
 	natively supported by Mongoose
 *	Helpful utilities for generating webpages based on common `model` conventions and
@@ -20,32 +20,32 @@ Prospekt provides:
 *	An auto-generated Admin UI based on the defined `models`
 *	Integration with Coudinary for image uploading, storage and resizing
 
-Prospekt is *not* designed to execute as a standalone application.
+Keystone is *not* designed to execute as a standalone application.
 
 
 ## Installation & Requirements
 
-Specific congurations are required in your main application script for Prospekt to work,
+Specific congurations are required in your main application script for Keystone to work,
 and assumptions are made in the code that this has been done correctly.
 
 1.	Express ~3.2.6 and Mongoose ~3.6.13 must be included by your application, and must
-	be `require`d *before* Prospekt
+	be `require`d *before* Keystone
 	
-2.	Prospekt assumes that you have correctly configured, and successfully connected to,
+2.	Keystone assumes that you have correctly configured, and successfully connected to,
 	a Mongo database with Mongoose's default connection
 
 3.	Connect-Flash ~0.1.1 must be included and configured in your Express app instance
-	*before* you call `prospekt.routes(app)`. This also requires the configuration of
+	*before* you call `keystone.routes(app)`. This also requires the configuration of
 	`express.session()` in your Express app.
 
 
 ### Usage
 
-When first `require`d, Prospekt creates a single instance of itself. Do this somewhere
-near the top of your app.js (or web.js, etc) file. Any subsequent `require('prospekt')`
-statements will return the same instance of Prospekt.
+When first `require`d, Keystone creates a single instance of itself. Do this somewhere
+near the top of your app.js (or web.js, etc) file. Any subsequent `require('keystone')`
+statements will return the same instance of Keystone.
 
-You must provide a `mongoose` instance to Prospekt's `connect` function before defining
+You must provide a `mongoose` instance to Keystone's `connect` function before defining
 any lists. `connect` returns `this` so you can do this in the `require` call.
 
 Configuration variables can be set at any time, and include:
@@ -57,18 +57,18 @@ Configuration variables can be set at any time, and include:
 *	cloudinary prefix (prefix for all native tags added to uploaded images)
 *	signout (href for the signout link in the top right of the UI)
 
-Prospekt can be locked down with the auth config. This must be a function matching the
-express middleware pattern `fn(req,res,next)`. It will be called before any Prospekt
+Keystone can be locked down with the auth config. This must be a function matching the
+express middleware pattern `fn(req,res,next)`. It will be called before any Keystone
 routes are matched. If the user fails the validation check they should be redirected to
 a signin or access-denied page implemented in the application.
 
-`prospekt.static(app)` adds Prospekt's static route-handling middleware to the Express
+`keystone.static(app)` adds Keystone's static route-handling middleware to the Express
 app. It's a good idea to do this after your application's other static assets, before
 any dynamic logic (e.g. cookie parsing, session authentication, body parsing, etc)
 
-`prospekt.routes(app);` adds Prospekt's dynamic routes to the Express app router. This
+`keystone.routes(app);` adds Keystone's dynamic routes to the Express app router. This
 can be done before or after your application's routes are defined, although if they come
-after, you can explicitly lock down or replace Prospekt routes with your own.
+after, you can explicitly lock down or replace Keystone routes with your own.
 
 The `NODE_ENV` environment variable is used to control template caching and html formatting,
 and should be set to `production` for production environments.
@@ -85,14 +85,14 @@ and should be set to `production` for production environments.
 		path = require('path'),
 		flash = require('connect-flash'),
 		mongoose = require('mongoose'),
-		prospekt = require('prospekt').connect(mongoose);
+		keystone = require('keystone').connect(mongoose);
 
 	require('./models');
 
 	var session = require('./lib/session');
 
-	prospekt.set('auth', session.prospektAuth); // session.prospektAuth is responsible for redirect visitors who shouldn't have access
-	prospekt.set('brand', 'Team 9'); // the brand is displayed in the top left hand corner of prospekt
+	keystone.set('auth', session.keystoneAuth); // session.keystoneAuth is responsible for redirect visitors who shouldn't have access
+	keystone.set('brand', 'Team 9'); // the brand is displayed in the top left hand corner of keystone
 
 	// Initialise Express Application
 	var app = express();
@@ -109,7 +109,7 @@ and should be set to `production` for production environments.
 		app.use(express.favicon(__dirname + '/public/favicon.ico'));
 		app.use(require('less-middleware')({ src: __dirname + '/public' }));
 		app.use(express.static(path.join(__dirname, 'public')));
-		prospekt.static(app);
+		keystone.static(app);
 		
 		// Handle dynamic requests
 		app.use(express.logger('dev'));
@@ -135,8 +135,8 @@ and should be set to `production` for production environments.
 		app.use(express.errorHandler());
 	});
 
-	// Configure prospekt routes
-	prospekt.routes(app);
+	// Configure keystone routes
+	keystone.routes(app);
 
 	// Configure application routes
 	require('./routes')(app);
@@ -155,10 +155,10 @@ and should be set to `production` for production environments.
 
 ### Users Model
 
-	var prospekt = require('prospekt'),
-		Types = prospekt.Field.Types;
+	var keystone = require('keystone'),
+		Types = keystone.Field.Types;
 
-	var User = new prospekt.List('User');
+	var User = new keystone.List('User');
 
 	User.add({
 		name: { type: Types.Name, required: true, index: true },
@@ -174,10 +174,10 @@ and should be set to `production` for production environments.
 
 ### Subscribers Model
 
-	var prospekt = require('prospekt'),
-		Types = prospekt.Field.Types;
+	var keystone = require('keystone'),
+		Types = keystone.Field.Types;
 
-	var Subscriber = new prospekt.List('Subscriber');
+	var Subscriber = new keystone.List('Subscriber');
 
 	Subscriber.add({
 		name: { type: Types.Name },

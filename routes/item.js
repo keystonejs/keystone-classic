@@ -1,4 +1,4 @@
-var prospekt = require('../'),
+var keystone = require('../'),
 	_ = require('underscore'),
 	cloudinary = require('cloudinary'),
 	moment = require('moment'),
@@ -13,7 +13,7 @@ exports = module.exports = function(req, res) {
 		
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');
-			return res.redirect('/prospekt/' + req.list.path);
+			return res.redirect('/keystone/' + req.list.path);
 		}
 		
 		var viewLocals = {
@@ -22,7 +22,7 @@ exports = module.exports = function(req, res) {
 		
 		var renderView = function() {
 			
-			prospekt.render(req, res, 'item', _.extend(viewLocals, {
+			keystone.render(req, res, 'item', _.extend(viewLocals, {
 				section: req.list.key,
 				list: req.list,
 				item: item
@@ -65,7 +65,7 @@ exports = module.exports = function(req, res) {
 						return renderView();
 					} else {
 						req.flash('success', 'Your changes have been saved.');
-						return res.redirect('/prospekt/' + req.list.path + '/' + item.id);
+						return res.redirect('/keystone/' + req.list.path + '/' + item.id);
 					}
 				});
 			}
@@ -130,15 +130,15 @@ exports = module.exports = function(req, res) {
 							}
 						}
 						if (req.files && req.files[field.path + '_upload'] && req.files[field.path + '_upload'].size) {
-							var tp = prospekt.get('cloudinaryTagPrefix') || '';
+							var tp = keystone.get('cloudinaryTagPrefix') || '';
 							if (tp.length)
 								tp += '_';
 							var uploadOptions = {
 								tags: [tp + req.list.path + '_' + field.path, tp + req.list.path + '_' + field.path + '_' + item.id]
 							}
-							if (prospekt.get('cloudinaryTagPrefix'))
-								uploadOptions.tags.push(prospekt.get('cloudinaryTagPrefix'));
-							if (prospekt.get('env') != 'production')
+							if (keystone.get('cloudinaryTagPrefix'))
+								uploadOptions.tags.push(keystone.get('cloudinaryTagPrefix'));
+							if (keystone.get('env') != 'production')
 								uploadOptions.tags.push(tp + 'dev');
 							actionQueue.push(function() {
 								cloudinary.uploader.upload(req.files[field.path + '_upload'].path, function(result) {

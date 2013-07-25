@@ -3,14 +3,14 @@ extends layout/base
 include mixins/initialFields
 
 block page-js
-	script(src='/prospekt/js/views/list.js')
+	script(src='/keystone/js/views/list.js')
 
 block content
 	h1= list.label
 	
 	if (!list.get('nocreate'))
 		.create-item
-			form(method='post', action='/prospekt/' + list.path)
+			form(method='post', action='/keystone/' + list.path)
 				input(type='hidden', name='action', value='create')
 				
 				.form
@@ -46,22 +46,22 @@ block content
 				each item in items.results
 					tr
 						if !list.get('nodelete')
-							td.control: a(href='/prospekt/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').control-delete
+							td.control: a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').control-delete
 						each col, i in columns
 							td
 								- var value = col.field ? col.field.format(item) : item.get(col.path);
 								if col.isName
-									a(href='/prospekt/' + list.path + '/' + item.id)= value || "(no name)"
+									a(href='/keystone/' + list.path + '/' + item.id)= value || "(no name)"
 								else if col.type == 'boolean'
 									if (value)
-										img(src='/prospekt/images/icons/16/checkbox-checked.png', width=16, height=16)
+										img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16)
 									else
-										img(src='/prospekt/images/icons/16/checkbox-unchecked.png', width=16, height=16)
+										img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16)
 								else
 									div.col-value= col.field.format(item)
 								
 		if items.totalPages > 1
-			- var basePath = '/prospekt/' + list.path
+			- var basePath = '/keystone/' + list.path
 			.pagination
 				ul
 					li(class=items.previous ? false : 'disabled')

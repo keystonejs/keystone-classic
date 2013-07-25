@@ -1,10 +1,10 @@
-var prospekt = require('../'),
+var keystone = require('../'),
 	session = require('../lib/session');
 
 exports = module.exports = function(req, res) {
 	
 	var renderView = function() {
-		prospekt.render(req, res, 'signin', {
+		keystone.render(req, res, 'signin', {
 			submitted: req.body
 		});
 	}
@@ -18,7 +18,7 @@ exports = module.exports = function(req, res) {
 		}
 		
 		var onSuccess = function(user) {
-			res.redirect('/prospekt');
+			res.redirect('/keystone');
 		}
 		
 		var onFail = function() {

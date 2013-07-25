@@ -1,8 +1,8 @@
-var prospekt = require('../');
+var keystone = require('../');
 
 exports = module.exports = function(req, res) {
 	
-	prospekt.render(req, res, 'home', {
+	keystone.render(req, res, 'home', {
 		section: 'home'
 	});
 	

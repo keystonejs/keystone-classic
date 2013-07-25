@@ -1,10 +1,10 @@
-var prospekt = require('../'),
+var keystone = require('../'),
 	session = require('../lib/session');
 
 exports = module.exports = function(req, res) {
 	
 	session.signout(req, res, function() {
-		prospekt.render(req, res, 'signout');
+		keystone.render(req, res, 'signout');
 	});
 	
 }

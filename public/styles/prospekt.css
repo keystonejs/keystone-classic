@@ -414,40 +414,40 @@ input[type="checkbox"] {
   box-shadow: 0 0 5px rgba(86, 160, 207, 0.26), inset 0 2px 3px rgba(86, 160, 207, 0.22);
 }
 .wysihtml5-toolbar .icon-ok {
-  background-image: url('/prospekt/images/icons/16/tick-circle.png');
+  background-image: url('/keystone/images/icons/16/tick-circle.png');
 }
 .wysihtml5-toolbar .icon-remove {
-  background-image: url('/prospekt/images/icons/16/cross.png');
+  background-image: url('/keystone/images/icons/16/cross.png');
 }
 .wysihtml5-toolbar .icon-edit-size {
-  background-image: url('/prospekt/images/icons/16/edit-size.png');
+  background-image: url('/keystone/images/icons/16/edit-size.png');
 }
 .wysihtml5-toolbar .icon-edit-bold {
-  background-image: url('/prospekt/images/icons/16/edit-bold.png');
+  background-image: url('/keystone/images/icons/16/edit-bold.png');
 }
 .wysihtml5-toolbar .icon-edit-italic {
-  background-image: url('/prospekt/images/icons/16/edit-italic.png');
+  background-image: url('/keystone/images/icons/16/edit-italic.png');
 }
 .wysihtml5-toolbar .icon-edit-indent {
-  background-image: url('/prospekt/images/icons/16/edit-indent.png');
+  background-image: url('/keystone/images/icons/16/edit-indent.png');
 }
 .wysihtml5-toolbar .icon-edit-outdent {
-  background-image: url('/prospekt/images/icons/16/edit-outdent.png');
+  background-image: url('/keystone/images/icons/16/edit-outdent.png');
 }
 .wysihtml5-toolbar .icon-edit-list {
-  background-image: url('/prospekt/images/icons/16/edit-list.png');
+  background-image: url('/keystone/images/icons/16/edit-list.png');
 }
 .wysihtml5-toolbar .icon-edit-list-order {
-  background-image: url('/prospekt/images/icons/16/edit-list-order.png');
+  background-image: url('/keystone/images/icons/16/edit-list-order.png');
 }
 .wysihtml5-toolbar .icon-edit-code {
-  background-image: url('/prospekt/images/icons/16/edit-code.png');
+  background-image: url('/keystone/images/icons/16/edit-code.png');
 }
 .wysihtml5-toolbar .icon-edit-link {
-  background-image: url('/prospekt/images/icons/16/edit-link.png');
+  background-image: url('/keystone/images/icons/16/edit-link.png');
 }
 .wysihtml5-toolbar .icon-edit-image {
-  background-image: url('/prospekt/images/icons/16/edit-image.png');
+  background-image: url('/keystone/images/icons/16/edit-image.png');
 }
 .ui-wysiwyg-hint {
   font-size: 11px;
@@ -529,7 +529,7 @@ input[type="checkbox"] {
   width: 16px;
   height: 18px;
   padding: 0px;
-  background: url('/prospekt/images/icons/list-controls.png') top left no-repeat;
+  background: url('/keystone/images/icons/list-controls.png') top left no-repeat;
   opacity: 0.6;
 }
 .items-list .control a:hover {

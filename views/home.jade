@@ -3,4 +3,4 @@ extends layout/base
 block content
 	h1 Manage
 	each list in lists
-		h2: a(href='/prospekt/' + list.path, class=(section == list.key ? 'selected' : null))= list.label
+		h2: a(href='/keystone/' + list.path, class=(section == list.key ? 'selected' : null))= list.label

@@ -101,9 +101,9 @@ mixin formField_boolean(field, item)
 	.field.type-boolean
 		if field.noedit
 			if item.get(field.path)
-				img(src='/prospekt/images/icons/16/checkbox-checked.png', width=16, height=16)
+				img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16)
 			else
-				img(src='/prospekt/images/icons/16/checkbox-unchecked.png', width=16, height=16)
+				img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16)
 			= field.label
 		else
 			label(for=field.path)
@@ -234,7 +234,7 @@ mixin formField_image(field, item)
 //- 		.field-ui
 //- 			if field.noedit
 //- 				if item.get(field.path)
-//- 					a(href='/prospekt/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
+//- 					a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
 //- 				else
 //- 					div(class='field-value') (not set)
 //- 			else
