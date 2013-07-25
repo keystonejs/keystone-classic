@@ -27,7 +27,7 @@ var Keystone = function() {
 		'compress': true,
 		'headless': false,
 		'logger': 'dev',
-		'auto update': true
+		'auto update': false
 	};
 	this.set('env', process.env.NODE_ENV || 'development');
 }
