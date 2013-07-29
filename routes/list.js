@@ -94,8 +94,10 @@ exports = module.exports = function(req, res) {
 					req.flash('error', 'There was an error creating the new ' + req.list.singular + '. Please check the console.');
 				}
 				return renderView();
+			} else {
+				req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
+				res.redirect('/keystone/' + req.list.path + '/' + item.id);
 			}
-			res.redirect('/keystone/' + req.list.path + '/' + item.id);
 		});
 		
 		return;
