@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Keystone",
   "main": "index.js",
   "repository": {
@@ -17,6 +17,7 @@
     "async": "~0.2.9",
     "bcrypt": "~0.7.6",
     "cloudinary": "~1.0.3",
+    "mandrill-api": "~1.0.27",
     "moment": "~2.1.0",
     "numeral": "~1.4.8",
     "i": "~0.3.1",

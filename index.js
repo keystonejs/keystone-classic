@@ -7,6 +7,7 @@ var fs = require('fs'),
 	moment = require('moment'),
 	numeral = require('numeral'),
 	cloudinary = require('cloudinary'),
+	mandrillapi = require('mandrill-api'),
 	utils = require('./lib/utils');
 
 var templateCache = {};
@@ -63,6 +64,9 @@ var Keystone = function() {
 		case 'cloudinary config':
 			cloudinary.config(value);
 		break;
+		case 'mandrill api key':
+			this.mandrillAPI = new mandrillapi.Mandrill(value);
+		break;
 		case 'auth':
 			if (value === true && !this.get('session'))
 				this.set('session', true);
@@ -117,6 +121,25 @@ Keystone.prototype.get = Keystone.prototype.set;
 
 
 /**
+ * Gets a path option, expanded to include process.cwd() if it is relative
+ *
+ * ####Example:
+ *
+ *     keystone.get('test') // returns the 'test' value
+ *
+ * @param {String} key
+ * @method get
+ * @api public
+ */
+
+Keystone.prototype.getPath = function(key) {
+	var path = keystone.get(key);
+	path = ('string' == typeof path && path.substr(0,1) != '/') ? process.cwd() + '/' + path : path;
+	return path;
+}
+
+
+/**
  * Connects keystone to the application's mongoose instance.
  *
  * ####Example:
@@ -156,6 +179,7 @@ var keystone = module.exports = exports = new Keystone;
 keystone.List = require('./lib/list');
 keystone.Field = require('./lib/field');
 keystone.Field.Types = require('./lib/fieldTypes');
+keystone.Email = require('./lib/email');
 
 
 /**
@@ -182,7 +206,6 @@ Keystone.prototype.init = function(options) {
 	
 	return this;
 }
-
 
 /**
  * Configures and starts a Keystone app in encapsulated mode.
@@ -222,16 +245,10 @@ Keystone.prototype.start = function() {
 	var keystone = this,
 		app = this.app;
 	
-	var getPath = function(key) {
-		var path = keystone.get(key);
-		path = ('string' == typeof path && path.substr(0,1) != '/') ? process.cwd() + '/' + path : path;
-		return path;
-	}
-	
 	// Setup
 	
 	app.set('port', this.get('port') || process.env.PORT || 3000);
-	app.set('views', getPath('views') || '/views');
+	app.set('views', this.getPath('views') || '/views');
 	app.set('view engine', this.get('view engine'));
 	
 	// Apply locals
@@ -248,13 +265,13 @@ Keystone.prototype.start = function() {
 		app.use(express.compress());
 	
 	if (this.get('favico'))
-		app.use(express.favicon(getPath('favico')));
+		app.use(express.favicon(this.getPath('favico')));
 	
 	if (this.get('less'))
-		app.use(require('less-middleware')({ src: getPath('less') }));
+		app.use(require('less-middleware')({ src: this.getPath('less') }));
 	
 	if (this.get('static'))
-		app.use(express.static(getPath('static')));
+		app.use(express.static(this.getPath('static')));
 	
 	if (!this.get('headless'))
 		keystone.static(app);
