@@ -241,6 +241,8 @@ Keystone.prototype.start = function() {
 	
 	if (!this.app)
 		throw new Error("Keystone app must be initialised first.");
+		
+	this.nativeApp = true;
 	
 	var keystone = this,
 		app = this.app;
@@ -394,7 +396,7 @@ Keystone.prototype.routes = function(app) {
 		
 		this.set('signout', '/keystone/signout');
 		
-		if (!this.get('session'))
+		if (!this.nativeApp || !this.get('session'))
 			app.all('/keystone*', this.session.persist);
 		
 		app.all('/keystone/signin', require('./routes/signin'));
