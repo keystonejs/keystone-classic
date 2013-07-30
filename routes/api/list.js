@@ -1,7 +1,5 @@
-var keystone = require('../../'),
-	_ = require('underscore'),
-	cloudinary = require('cloudinary'),
-	moment = require('moment');
+var _ = require('underscore'),
+	keystone = require('../../');
 
 exports = module.exports = function(req, res) {
 	
@@ -34,7 +32,7 @@ exports = module.exports = function(req, res) {
 				switch (req.query.dataset) {
 					case 'simple':
 						return sendResponse({
-							name: req.list.getItemName(item),
+							name: req.list.getDocumentName(item),
 							id: item.id
 						});
 					break;
@@ -68,7 +66,7 @@ exports = module.exports = function(req, res) {
 							total: total,
 							items: items.map(function(i) {
 								return {
-									name: req.list.getItemName(i),
+									name: req.list.getDocumentName(i),
 									id: i.id
 								};
 							})

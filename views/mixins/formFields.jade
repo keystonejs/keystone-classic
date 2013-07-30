@@ -23,8 +23,10 @@ mixin formField(field, item)
 		+formField_boolean(field, item)
 	else if field.type == 'select'
 		+formField_select(field, item)
-	else if field.type == 'image'
-		+formField_image(field, item)
+	else if field.type == 'cloudinaryimage'
+		+formField_cloudinaryimage(field, item)
+	else if field.type == 'relationship'
+		+formField_relationship(field, item)
 
 mixin formField_text_common(type, field, value, cls)
 	div(class='field type-' + type)
@@ -126,8 +128,8 @@ mixin formField_select(field, item)
 		if field.note
 			.field-note= field.note
 
-mixin formField_image(field, item)
-	.field.type-image
+mixin formField_cloudinaryimage(field, item)
+	.field.type-cloudinaryimage
 		.field-label= field.label
 		- var hasImage = item.get(field.paths.exists)
 		div(class=hasImage ? 'has-image' : false).field-ui
@@ -145,6 +147,21 @@ mixin formField_image(field, item)
 				a(href=js).btn.btn-upload Upload Image
 				if hasImage
 					a(href=js).btn.btn-cancel.btn-delete-image Remove Image
+		if field.note
+			.field-note= field.note
+
+mixin formField_relationship(field, item)
+	- var refList = field.refList
+	.field.type-object
+		.field-label= field.label
+		.field-ui
+			if field.noedit
+				if item.get(field.path)
+					a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
+				else
+					div(class='field-value') (not set)
+			else
+				input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path), class='width-medium ui-select2-ref', data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
 		if field.note
 			.field-note= field.note
 
@@ -223,22 +240,6 @@ mixin formField_image(field, item)
 //- 				span.field-value= value
 //- 		else
 //- 			input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path).join(','), class='width-full ui-select2-tags')
-//- 		if field.note
-//- 			.field-note= field.note
-
-//- else if field.fieldType == 'object'
-//- 	- var refList = field.getRefList()
-//- 	.field.type-object
-//- 		.field-label= field.label
-//- 			span.field-type  (#{field.path} - #{field.fieldType})
-//- 		.field-ui
-//- 			if field.noedit
-//- 				if item.get(field.path)
-//- 					a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
-//- 				else
-//- 					div(class='field-value') (not set)
-//- 			else
-//- 				input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path), class='width-medium ui-select2-ref', data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
 //- 		if field.note
 //- 			.field-note= field.note
 

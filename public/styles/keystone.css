@@ -561,6 +561,9 @@ input[type="checkbox"] {
   color: #111;
   text-decoration: underline;
 }
+.items-list img {
+  margin-left: 5px;
+}
 .pagination {
   margin: 10px 0;
 }
@@ -756,34 +759,34 @@ h2.item-name input {
 .field.type-location .detect-geo {
   color: #426147;
 }
-.field.type-image {
+.field.type-cloudinaryimage {
   *zoom: 1;
   margin-bottom: 10px;
 }
-.field.type-image:before,
-.field.type-image:after {
+.field.type-cloudinaryimage:before,
+.field.type-cloudinaryimage:after {
   display: table;
   content: "";
   line-height: 0;
 }
-.field.type-image:after {
+.field.type-cloudinaryimage:after {
   clear: both;
 }
-.field.type-image .field-label {
+.field.type-cloudinaryimage .field-label {
   margin-bottom: 8px;
 }
-.field.type-image .image-preview {
+.field.type-cloudinaryimage .image-preview {
   float: left;
   margin-right: 10px;
 }
-.field.type-image .image-toolbar {
+.field.type-cloudinaryimage .image-toolbar {
   margin: 5px 0;
 }
-.field.type-image .has-image .image-details,
-.field.type-image .has-image .image-toolbar {
+.field.type-cloudinaryimage .has-image .image-details,
+.field.type-cloudinaryimage .has-image .image-toolbar {
   margin-left: 110px;
 }
-.field.type-image .upload-queued {
+.field.type-cloudinaryimage .upload-queued {
   display: none;
   background: #e5fbe5;
   border: 1px solid #c5ddc5;

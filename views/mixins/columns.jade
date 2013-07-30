@@ -1,0 +1,31 @@
+mixin column(col, item)
+	if col.type == 'relationship'
+		- var refData = item.get(col.path)
+		if (col.subField && col.subField.type == 'boolean')
+			+column_boolean(refData[col.refPath])
+		else
+			- var value = col.subField ? col.subField.format(refData) : refData[col.refPath]
+			if col.refList && refData && refData.id
+				+column_link(value, '/keystone/' + col.refList.path + '/' + refData.id)
+			else
+				+column_basic(value)
+	else
+		- var value = col.field ? col.field.format(item) : item.get(col.path)
+		if col.isName
+			+column_link(value || '(no name)', '/keystone/' + list.path + '/' + item.id)
+		else if col.type == 'boolean'
+			+column_boolean(value)
+		else
+			+column_basic(col.field.format(item))
+
+mixin column_link(value, href)
+	a(href=href)= value
+
+mixin column_boolean(value)
+	if (value)
+		img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16)
+	else
+		img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16)
+
+mixin column_basic(value)
+	div.col-value= value

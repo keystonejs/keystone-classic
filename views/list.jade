@@ -1,6 +1,7 @@
 extends layout/base
 
 include mixins/initialFields
+include mixins/columns
 
 block page-js
 	script(src='/keystone/js/views/list.js')
@@ -23,7 +24,7 @@ block content
 							.alert.alert-error Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 					
 					each field in list.initialFields
-						mixin initialField(field, submitted)
+						+initialField(field, submitted)
 				
 				.toolbar
 					.toolbar-create
@@ -49,16 +50,7 @@ block content
 							td.control: a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').control-delete
 						each col, i in columns
 							td
-								- var value = col.field ? col.field.format(item) : item.get(col.path);
-								if col.isName
-									a(href='/keystone/' + list.path + '/' + item.id)= value || "(no name)"
-								else if col.type == 'boolean'
-									if (value)
-										img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16)
-									else
-										img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16)
-								else
-									div.col-value= col.field.format(item)
+								+column(col, item)
 								
 		if items.totalPages > 1
 			- var basePath = '/keystone/' + list.path
