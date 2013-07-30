@@ -176,6 +176,7 @@ Keystone.prototype.connect = function() {
 var keystone = module.exports = exports = new Keystone;
 
 // Expose Classes
+keystone.utils = utils;
 keystone.List = require('./lib/list');
 keystone.Field = require('./lib/field');
 keystone.Field.Types = require('./lib/fieldTypes');

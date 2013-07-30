@@ -11,8 +11,9 @@ exports = module.exports = function(req, res) {
 	};
 	
 	var renderView = function() {
+		var q = req.list.paginate({ page: req.params.page }).sort(req.list.defaultSort);
 		var columns = req.list.defaultColumns;
-		var q = req.list.paginate({ page: req.params.page }).sort(req.list.defaultSort); // TODO: .populate(req.list.populate.join(' '));
+		req.list.selectColumns(q, columns);
 		q.exec(function(err, items) {
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: req.list.key,

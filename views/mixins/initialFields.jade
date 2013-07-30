@@ -23,6 +23,8 @@ mixin initialField(field, submitted)
 		+initialField_boolean(field, submitted)
 	else if field.type == 'select'
 		+initialField_select(field, submitted)
+	else if field.type == 'relationship'
+		+initialField_relationship(field, submitted)
 
 mixin initialField_text_common(type, field, submitted, cls)
 	div(class='field type-' + type)
@@ -92,6 +94,15 @@ mixin initialField_select(field, submitted)
 			option(value='')
 			each opt in field.ops
 				option(value=opt.value, selected=(submitted[field.path] == opt.value))= opt.label
+		if field.note
+			.field-note= field.note
+
+mixin initialField_relationship(field, submitted)
+	- var refList = field.refList
+	.field.type-object
+		.field-label= field.label
+		.field-ui
+			input(type='hidden', name=field.path, id='field_' + field.path, value=submitted[field.path], class='width-medium ui-select2-ref', data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
 		if field.note
 			.field-note= field.note
 

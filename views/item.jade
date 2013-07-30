@@ -22,7 +22,7 @@ block content
 				.name-value= list.nameField.format(item) || '(no name)'
 		
 		each field in list.formFields
-			mixin formField(field, item)
+			+formField(field, item)
 		
 		.toolbar.toolbar-fixed
 			if !list.get('noedit')
