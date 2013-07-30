@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "description": "Keystone",
   "main": "index.js",
   "repository": {
@@ -13,7 +13,7 @@
     "mongoose": "~3.6.15",
     "less-middleware": "~0.1.12",
     "connect-flash": "~0.1.1",
-    "jade": "~0.33.0",
+    "jade": "~0.34.1",
     "async": "~0.2.9",
     "bcrypt": "~0.7.6",
     "cloudinary": "~1.0.3",
