@@ -22,7 +22,7 @@ jQuery(function($) {
 		
 		el = $(el);
 		
-		var multi = el.data('refMultiple'),
+		var multi = el.data('refMany'),
 			refPath = el.data('refPath'),
 			label = {
 				singular: el.data('refSingular'),

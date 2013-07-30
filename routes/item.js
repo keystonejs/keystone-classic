@@ -60,7 +60,7 @@ exports = module.exports = function(req, res) {
 						} else {
 							console.error('Error saving changes to ' + req.list.singular + ' ' + item.id + ':');
 							console.error(err);
-							req.flash('error', 'There was an error saving your changes. Please check the console.');
+							req.flash('error', 'There was an error saving your changes: ' + err.message + ' (' + err.name + ')');
 						}
 						return renderView();
 					} else {
@@ -107,6 +107,7 @@ exports = module.exports = function(req, res) {
 						if (req.body[field.path] && !utils.isEmail(req.body[field.path]))
 							validationErrors.push('Please enter a valid email address in the ' + field.label + ' field.');
 					break;
+					
 				}
 				
 				// validate required fields.
@@ -117,41 +118,6 @@ exports = module.exports = function(req, res) {
 				
 				/*
 				switch (field.fieldType) {
-					case 'image':
-						var oldImage = item.get(field.path);
-						if (_.has(req.body, field.path + '_action') && oldImage.public_id) {
-							switch (req.body[field.path + '_action']) {
-								case 'delete':
-									actionQueue.push(function() {
-										cloudinary.uploader.destroy(oldImage.public_id, function() { progress(); });
-									});
-								case 'clear':
-									item.set(field.path, image.blank());
-							}
-						}
-						if (req.files && req.files[field.path + '_upload'] && req.files[field.path + '_upload'].size) {
-							var tp = keystone.get('cloudinaryTagPrefix') || '';
-							if (tp.length)
-								tp += '_';
-							var uploadOptions = {
-								tags: [tp + req.list.path + '_' + field.path, tp + req.list.path + '_' + field.path + '_' + item.id]
-							}
-							if (keystone.get('cloudinaryTagPrefix'))
-								uploadOptions.tags.push(keystone.get('cloudinaryTagPrefix'));
-							if (keystone.get('env') != 'production')
-								uploadOptions.tags.push(tp + 'dev');
-							actionQueue.push(function() {
-								cloudinary.uploader.upload(req.files[field.path + '_upload'].path, function(result) {
-									if (result.error) {
-										req.flash('error', 'Image upload failed - ' + result.error.message);
-									} else {
-										item.set(field.path, result);
-									}
-									progress();
-								}, uploadOptions);
-							});
-						}
-					break;
 					case 'location':
 						if (_.has(req.body, field.path)) {
 							var ol = item.get(field.path);

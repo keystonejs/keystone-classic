@@ -156,12 +156,37 @@ mixin formField_relationship(field, item)
 		.field-label= field.label
 		.field-ui
 			if field.noedit
-				if item.get(field.path)
+				if !field.many && item.get(field.path)
 					a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
+				else if field.many && item.get(field.path).length
+					each value in item.get(field.path)
+						a(href='/keystone/' + refList.path + '/' + value, data-ref-path=refList.path).ui-related-item= value
 				else
-					div(class='field-value') (not set)
+					div.field-value (not set)
 			else
-				input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path), class='width-medium ui-select2-ref', data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
+				input(type='hidden',
+					name=field.path,
+					id='field_' + field.path,
+					value=field.many ? item.get(field.path).join(',') : item.get(field.path),
+					class='ui-select2-ref width-' + (field.many ? 'full' : 'medium'),
+					data-ref-many=field.many ? 'true' : null,
+					data-ref-path=refList.path,
+					data-ref-singular=refList.singular,
+					data-ref-plural=refList.plural)	
+		if field.note
+			.field-note= field.note
+			
+else if field.fieldType == 'objects'
+	.field.type-list
+		.field-label= field.label
+		if field.noedit
+			each value in item.get(field.path)
+				span.field-value= value
+			if !item.get(field.path).length
+				span.field-value (none set)
+		else
+			- var refList = field.getRefList()
+			input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path).join(','), class='width-full ui-select2-ref', data-ref-multiple="true", data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
 		if field.note
 			.field-note= field.note
 
