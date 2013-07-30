@@ -21,8 +21,10 @@ block content
 		h2.item-name
 			if list.nameIsEditable
 				input(type='text', name=list.nameField.path, value=item.get(list.nameField.path))
-			else
+			else if list.nameField
 				.name-value= list.nameField.format(item) || '(no name)'
+			else
+				.name-value= item.get(list.namePath) || '(no name)'
 		
 		each field in list.formFields
 			+formField(field, item)
