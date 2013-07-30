@@ -51,31 +51,61 @@ exports = module.exports = function(req, res) {
 			
 			var query = req.list.model.find(req.list.getSearchFilters(req.query.q));
 			
-			query.limit(limit)
-				.skip(skip)
-				.sort(req.list.defaultSort)
-				.exec(function(err, items) {
-					
-					if (err) return sendError('database error', err);
-					
-					query.count(function(err, total) {
+			var doQuery = function() {
+				query.limit(limit)
+					.skip(skip)
+					.sort(req.list.defaultSort)
+					.exec(function(err, items) {
 						
 						if (err) return sendError('database error', err);
 						
-						sendResponse({
-							total: total,
-							items: items.map(function(i) {
-								return {
-									name: req.list.getDocumentName(i),
-									id: i.id
-								};
-							})
+						query.count(function(err, total) {
+							
+							if (err) return sendError('database error', err);
+							
+							sendResponse({
+								total: total,
+								items: items.map(function(i) {
+									return {
+										name: req.list.getDocumentName(i),
+										id: i.id
+									};
+								})
+							});
+							
 						});
 						
 					});
+			}
+			
+			if (req.query.context == 'relationship') {
+				
+				var srcList = keystone.list(req.query.list);
+				
+				if (!srcList) return sendError('invalid list provided');
+				
+				var field = srcList.fields[req.query.field];
+				
+				if (!field || field.type != 'relationship') return sendError('invalid field provided');
+				
+				if (!field.hasFilters) {
+					return doQuery();
+				}
+				
+				srcList.model.findById(req.query.item, function(err, item) {
 					
+					if (err) return sendError('database error', err);
+					
+					field.addFilters(query, item);
+					return doQuery();
 					
 				});
+				
+			} else {
+				return doQuery();
+			}
+			
+			
 		break;
 	}
 	

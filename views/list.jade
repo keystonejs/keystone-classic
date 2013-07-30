@@ -5,6 +5,8 @@ include mixins/columns
 
 block page-js
 	script(src='/keystone/js/views/list.js')
+	script.
+		Keystone.list = { path: "#{list.path}" };
 
 block content
 	h1= list.label

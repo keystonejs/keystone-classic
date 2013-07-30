@@ -30,6 +30,16 @@ jQuery(function($) {
 			},
 			perPage = 10;
 		
+		var args = {
+			context: 'relationship',
+			list: Keystone.list.path,
+			field: el.attr('name')
+		};
+		
+		if (Keystone.item) {
+			args.item = Keystone.item.id;
+		}
+		
 		el.select2({
 			placeholder: 'Search for ' + (multi ? label.plural : ' a ' + label.singular) + '...',
 			allowClear: true,
@@ -39,11 +49,11 @@ jQuery(function($) {
 				dataType: 'json',
 				quietMillis: 500,
 				data: function(term, page) {
-					return {
+					return _.extend({
 						q: term, //search term
 						limit: perPage, // page size
 						page: page // page number, tracked by select2, one-based
-					};
+					}, args);
 				},
 				results: function(data, page) {
 					var more = (page * perPage) < data.total; // whether or not there are more results available
