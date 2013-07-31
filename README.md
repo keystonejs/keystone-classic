@@ -13,12 +13,14 @@ for it to gain maturity before playing with it.
 Keystone is designed to be used in a web application built on Express and Mongoose.
 
 Keystone provides:
+*	A simple way to create an Express web app with custom routes, templates and models
+*	Out of the box session management and authentication
 *	Enhanced `models` with additional field types and functionality, building on those
 	natively supported by Mongoose
-*	Helpful utilities for generating webpages based on common `model` conventions and
-	field types
+*	An updates framework for managing data updates or initialisation
 *	An auto-generated Admin UI based on the defined `models`
 *	Integration with Coudinary for image uploading, storage and resizing
+*	Integration with Mandrill for sending emails easily
 
 Keystone is *not* designed to execute as a standalone application.
 
@@ -41,7 +43,7 @@ and assumptions are made in the code that this has been done correctly.
 
 ### Usage
 
-When first `require`d, Keystone creates a single instance of itself. Do this somewhere
+When you first `require` Keystone, it creates a single instance of itself. Do this somewhere
 near the top of your app.js (or web.js, etc) file. Any subsequent `require('keystone')`
 statements will return the same instance of Keystone.
 
@@ -76,26 +78,67 @@ and should be set to `production` for production environments.
 
 ## Examples
 
-### Application script (web.js)
+### Application script (web.js) - basic
 
-	process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+If you want, Keystone can take care of everything required to set up your express app and
+then start it for you.
+
+	var keystone = require('keystone');
+
+	keystone.init({
+		
+		'name': 'My Project',
+		'brand': 'Project Admin',
+		
+		'favicon': 'public/favicon.ico',
+		'less': 'public',
+		'static': 'public',
+		
+		'views': 'views',
+		'view engine': 'jade',
+		
+		'auto update': true,
+		'mongo': process.env.MONGOLAB_URI || ['localhost', 'my-project'],
+		
+		'auth': true,
+		'user model': 'User',
+		'cookie secret': '--- your secret ---',
+		
+		'emails': 'emails',
+		'mandrill api key': '--- your api key ---',
+		'email rules': { find: '/images/', replace: (keystone.get('env') != 'production') ? 'http://localhost:3000/images/' : 'http://www.team9.com.au/images/' },
+		
+		'cloudinary config': { cloud_name: '--- your cloud name ---', api_key: '--- your api key ---', api_secret: '--- your api secret ---' }
+		
+	});
+
+	require('./models');
+
+	keystone.set('routes', require('./routes'));
+		
+	keystone.start();
+
+### Application script (web.js) - advanced
+
+For full control over the express application, you can bind keystone by calling its
+integration methods as part of the application configuration.
 
 	var express = require('express'),
+		app = express(),
 		http = require('http'),
 		path = require('path'),
 		flash = require('connect-flash'),
 		mongoose = require('mongoose'),
-		keystone = require('keystone').connect(mongoose);
+		keystone = require('keystone').connect(mongoose, app);
 
 	require('./models');
-
-	var session = require('./lib/session');
+	
+	var session = require('./session');
 
 	keystone.set('auth', session.keystoneAuth); // session.keystoneAuth is responsible for redirect visitors who shouldn't have access
 	keystone.set('brand', 'Team 9'); // the brand is displayed in the top left hand corner of keystone
 
 	// Initialise Express Application
-	var app = express();
 
 	app.configure(function() {
 		
@@ -167,6 +210,10 @@ and should be set to `production` for production environments.
 		isAdmin: { type: Boolean, initial: true }
 	});
 
+	User.schema.virtual('canAccessKeystone').get(function() {
+		return this.isAdmin;
+	});
+
 	User.addPattern('standard meta');
 	User.defaultColumns = 'name, email, isAdmin';
 	User.register();
@@ -182,8 +229,6 @@ and should be set to `production` for production environments.
 	Subscriber.add({
 		name: { type: Types.Name },
 		email: { type: Types.Email, initial: true },
-		phone: { type: String, initial: true, width: 'short' },
-		relationship: { type: Types.Select, options: 'currentPlayer, previousPlayer, sponsor, supporter', initial: true },
 		isSubscribed: { type: Boolean, default: true, label: 'Currently Subscribed?', initial: true },
 		subscribedDate: { type: Date, default: Date.now },
 		unsubscribedDate: { type: Date }
@@ -201,7 +246,7 @@ and should be set to `production` for production environments.
 		next();
 	});
 
-	Subscriber.defaultColumns = 'name, email, phone, relationship, isSubscribed';
+	Subscriber.defaultColumns = 'name, email, isSubscribed';
 	Subscriber.register();
 
 
@@ -220,6 +265,7 @@ and should be set to `production` for production environments.
 
 *	List filtering
 *	Support all field types on Create
+*	Ordering Items
 
 ### Relationsips
 
