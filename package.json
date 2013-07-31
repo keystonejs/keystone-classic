@@ -16,7 +16,7 @@
     "jade": "~0.34.1",
     "async": "~0.2.9",
     "bcrypt": "~0.7.6",
-    "cloudinary": "~1.0.3",
+    "cloudinary": "~1.0.4",
     "mandrill-api": "~1.0.27",
     "moment": "~2.1.0",
     "numeral": "~1.4.8",

@@ -748,6 +748,7 @@ h2.item-name input {
   margin-right: 10px;
   vertical-align: middle;
 }
+.field.type-date input,
 .field.type-datetime input,
 .field.type-number input,
 .field.type-money input {

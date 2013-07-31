@@ -39,6 +39,7 @@ exports = module.exports = function(req, res) {
 	if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
 		
 		var validationErrors = [];
+		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 		
 		var item = new req.list.model();
 		
@@ -76,7 +77,6 @@ exports = module.exports = function(req, res) {
 		
 		if (validationErrors.length) {
 			_.each(validationErrors, function(i) { req.flash('error', i); });
-			viewLocals.showCreateForm = true;
 			return renderView();
 		}
 		
