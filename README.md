@@ -209,11 +209,6 @@ and should be set to `production` for production environments.
 
 ### Field Types
 
-*	WYSIWYG
-*	Image
-*	Location
-*	Object (single)
-*	Objects (many)
 *	Arrays (simple)
 
 #### For later
@@ -224,6 +219,11 @@ and should be set to `production` for production environments.
 ### List Screen
 
 *	List filtering
+*	Support all field types on Create
+
+### Relationsips
+
+*	Client-side handling of changes to filters
 
 ### Validation
 
