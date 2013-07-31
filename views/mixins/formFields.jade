@@ -27,6 +27,8 @@ mixin formField(field, item)
 		+formField_select(field, item)
 	else if field.type == 'cloudinaryimage'
 		+formField_cloudinaryimage(field, item)
+	else if field.type == 'location'
+		+formField_location(field, item)
 	else if field.type == 'relationship'
 		+formField_relationship(field, item)
 
@@ -159,6 +161,53 @@ mixin formField_cloudinaryimage(field, item)
 					a(href=js).btn.btn-cancel.btn-delete-image Remove Image
 		if field.note
 			.field-note= field.note
+			
+mixin formField_location(field, item)
+	.field.type-location
+		.field-label= field.label
+		.field-ui
+			.extras
+				.row
+					.span1
+						span.label PO Box / Shop
+						input(type='text', name=field.paths.number, value=item.get(field.paths.number))
+				.row: .span2
+						span.label Building Name
+						input(type='text', name=field.paths.name, value=item.get(field.paths.name))
+			.row: .span2
+				span.label Street Address 1
+				input(type='text', name=field.paths.street1, value=item.get(field.paths.street1))
+			.row: .span2
+				.label Street Address 2
+				input(type='text', name=field.paths.street2, value=item.get(field.paths.street2))
+			.row: .span2
+				.label Suburb
+				input(type='text', name=field.paths.suburb, value=item.get(field.paths.suburb))
+			.row
+				.span1
+					span.label State
+					input(type='text', name=field.paths.state, value=item.get(field.paths.state))
+				.span1
+					span.label.short Postcode
+					input(type='text', name=field.paths.postcode, value=item.get(field.paths.postcode))
+			.row: .span2
+				span.label Country
+				input(type='text', name=field.paths.country, value=item.get(field.paths.country))
+			
+			//- .row
+			//- 	.span1
+			//- 		span.label Latitude
+			//- 		input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '')
+			//- 	.span1
+			//- 		span.label.short Longitude
+			//- 		input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '')
+		
+		//- label(for=field.path + '_improve').detect-geo
+		//- 	input(type='checkbox', name=field.path + '_improve', id=field.path + '_improve', value='true')
+		//- 	| autodetect and improve location on save
+		
+		if field.note
+			.field-note= field.note
 
 mixin formField_relationship(field, item)
 	- var refList = field.refList
@@ -185,77 +234,6 @@ mixin formField_relationship(field, item)
 					data-ref-plural=refList.plural)	
 		if field.note
 			.field-note= field.note
-			
-else if field.fieldType == 'objects'
-	.field.type-list
-		.field-label= field.label
-		if field.noedit
-			each value in item.get(field.path)
-				span.field-value= value
-			if !item.get(field.path).length
-				span.field-value (none set)
-		else
-			- var refList = field.getRefList()
-			input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path).join(','), class='width-full ui-select2-ref', data-ref-multiple="true", data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
-		if field.note
-			.field-note= field.note
-
-//- else if field.fieldType == 'location'
-//- 	.field.type-location
-//- 		.field-label= field.label
-//- 			span.field-type  (#{field.path} - #{field.fieldType})
-//- 		.field-ui
-//- 			.extras
-//- 				.row
-//- 					.span1
-//- 						span.label PO Box / Shop
-//- 						input(type='text', name=field.path + '[number]', value=item.get(field.path + '.number'))
-//- 				.row: .span2
-//- 						span.label Building Name
-//- 						input(type='text', name=field.path + '[name]', value=item.get(field.path + '.name'))
-//- 			.row: .span2
-//- 				span.label Street Address 1
-//- 				input(type='text', name=field.path + '[street1]', value=item.get(field.path + '.street1'))
-//- 			.row: .span2
-//- 				.label Street Address 2
-//- 				input(type='text', name=field.path + '[street2]', value=item.get(field.path + '.street2'))
-//- 			.row: .span2
-//- 				.label Suburb
-//- 				input(type='text', name=field.path + '[suburb]', value=item.get(field.path + '.suburb'))
-//- 			.row
-//- 				.span1
-//- 					span.label State
-//- 					input(type='text', name=field.path + '[state]', value=item.get(field.path + '.state'))
-//- 				.span1
-//- 					span.label.short Postcode
-//- 					input(type='text', name=field.path + '[postcode]', value=item.get(field.path + '.postcode'))
-//- 			.row: .span2
-//- 				span.label Country
-//- 				input(type='text', name=field.path + '[country]', value=item.get(field.path + '.country'))
-//- 			.row
-//- 				.span1
-//- 					span.label Latitude
-//- 					input(type='text', name=field.path + '[geo]', value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '')
-//- 				.span1
-//- 					span.label.short Longitude
-//- 					input(type='text', name=field.path + '[geo]', value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '')
-		
-//- 		label(for=field.path + '_improve').detect-geo
-//- 			input(type='checkbox', name=field.path + '_improve', id=field.path + '_improve', value='true')
-//- 			| autodetect and improve location on save
-		
-//- 		if field.note
-//- 			.field-note= field.note
-
-//- else if field.fieldType == 'latlng'
-//- 	.field.type-latlng
-//- 		.field-label= field.label
-//- 			span.field-type  (#{field.path} - #{field.fieldType})
-//- 		.field-ui
-//- 			input(type='text', name=field.path, value=item.get(field.path)[0]).width-short
-//- 			input(type='text', name=field.path, value=item.get(field.path)[1]).width-short
-//- 		if field.note
-//- 			.field-note= field.note
 
 //- else if field.fieldType == 'list'
 //- 	.field.type-list
@@ -266,21 +244,6 @@ else if field.fieldType == 'objects'
 //- 				span.field-value= value
 //- 		else
 //- 			input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path).join(','), class='width-full ui-select2-tags')
-//- 		if field.note
-//- 			.field-note= field.note
-
-//- else if field.fieldType == 'objects'
-//- 	.field.type-list
-//- 		.field-label= field.label
-//- 			span.field-type  (#{field.path} - #{field.fieldType})
-//- 		if field.noedit
-//- 			each value in item.get(field.path)
-//- 				span.field-value= value
-//- 			if !item.get(field.path).length
-//- 				span.field-value (none set)
-//- 		else
-//- 			- var refList = field.getRefList()
-//- 			input(type='hidden', name=field.path, id='field_' + field.path, value=item.get(field.path).join(','), class='width-full ui-select2-ref', data-ref-multiple="true", data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
 //- 		if field.note
 //- 			.field-note= field.note
 
