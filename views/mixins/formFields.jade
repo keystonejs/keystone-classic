@@ -9,6 +9,8 @@ mixin formField(field, item)
 		+formField_email(field, item)
 	else if field.type == 'password'
 		+formField_password(field, item)
+	else if field.type == 'html'
+		+formField_html(field, item)
 	else if field.type == 'name'
 		+formField_name(field, item)
 	else if field.type == 'date'
@@ -84,6 +86,14 @@ mixin formField_password(field, item)
 					input(type='password', name=field.path, class='width-short', autocomplete='off')
 					input(type='password', name=field.paths.confirm, class='width-short', autocomplete='off')
 					a(href=js).btn.btn-cancel.btn-leave-password cancel
+		if field.note
+			.field-note= field.note
+
+mixin formField_html(field, item)
+	.field.type-html
+		.field-label= field.label
+		.field-ui
+			textarea(name=field.path, data-wysiwyg=true).code.tall= item.get(field.path)
 		if field.note
 			.field-note= field.note
 
@@ -234,15 +244,6 @@ else if field.fieldType == 'objects'
 //- 			input(type='checkbox', name=field.path + '_improve', id=field.path + '_improve', value='true')
 //- 			| autodetect and improve location on save
 		
-//- 		if field.note
-//- 			.field-note= field.note
-
-//- else if field.fieldType == 'wysiwyg'
-//- 	.field.type-wysiwyg
-//- 		.field-label= field.label
-//- 			span.field-type  (#{field.path} - #{field.fieldType})
-//- 		.field-ui
-//- 			textarea(name=field.path, data-wysiwyg=true).code.tall= item.get(field.path)
 //- 		if field.note
 //- 			.field-note= field.note
 
