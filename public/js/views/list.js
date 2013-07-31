@@ -30,4 +30,10 @@ jQuery(function($) {
 		$(this).closest('tr').removeClass('delete-hover');
 	});
 	
+	$('a.control-sort').hover(function(e) {
+		$(this).closest('tr').addClass('sort-hover');
+	}, function(e) {
+		$(this).closest('tr').removeClass('sort-hover');
+	});
+	
 });

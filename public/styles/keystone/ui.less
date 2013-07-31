@@ -2,6 +2,20 @@
 // UI Components
 // --------------------------------------------------
 
+.ui-mouse-blocker {
+	position: absolute;
+	z-index: 3000;
+	width: 60px;
+	height: 60px;
+	cursor: default;
+	top: 0px;
+	left: 0px;
+	
+	&.move {
+		cursor: move;
+	}
+}
+
 // Alerts
 // -------------------------
 

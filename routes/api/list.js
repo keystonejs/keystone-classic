@@ -1,4 +1,5 @@
 var _ = require('underscore'),
+	async = require('async'),
 	keystone = require('../../');
 
 exports = module.exports = function(req, res) {
@@ -20,6 +21,33 @@ exports = module.exports = function(req, res) {
 	};
 	
 	switch (req.params.action) {
+		
+		case 'order':
+			
+			var order = req.query.order || req.body.order,
+				queue = [];
+			
+			if ('string' == typeof order) {
+				order = order.split(',');
+			}
+			
+			_.each(order, function(id, i) {
+				queue.push(function(done) {
+					req.list.model.update({ _id: id }, { $set: { sortOrder: i }}, done);
+				});
+			});
+			
+			async.parallel(queue, function(err) {
+				
+				if (err) return sendError('database error', err);
+				
+				return sendResponse({
+					success: true
+				});
+				
+			});
+			
+		break;
 		
 		case 'get':
 			

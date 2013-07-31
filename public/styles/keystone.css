@@ -118,6 +118,18 @@ a:hover {
 #footer a:hover {
   color: black;
 }
+.ui-mouse-blocker {
+  position: absolute;
+  z-index: 3000;
+  width: 60px;
+  height: 60px;
+  cursor: default;
+  top: 0px;
+  left: 0px;
+}
+.ui-mouse-blocker.move {
+  cursor: move;
+}
 .alert {
   padding: 8px 35px 8px 14px;
   margin-bottom: 20px;
@@ -521,11 +533,23 @@ input[type="checkbox"] {
 .items-list tbody > tr:nth-child(odd) > th {
   background-color: #fafafa;
 }
-.items-list tr.delete-hover td:nth-child(2) {
-  color: #e33737;
+.items-list tr.delete-hover td {
+  color: #AD1212;
 }
-.items-list tr.delete-hover td:nth-child(2) a {
-  color: #e33737;
+.items-list tr.delete-hover td a {
+  color: #AD1212;
+}
+.items-list tr.sort-hover .control-sort,
+.items-list tr.dragged .control-sort {
+  opacity: 1;
+}
+.items-list tr.sort-hover td,
+.items-list tr.dragged td {
+  color: #246818;
+}
+.items-list tr.sort-hover td a,
+.items-list tr.dragged td a {
+  color: #246818;
 }
 .items-list .control {
   padding: 5px;
@@ -536,10 +560,20 @@ input[type="checkbox"] {
   height: 18px;
   padding: 0px;
   background: url('/keystone/images/icons/list-controls.png') top left no-repeat;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 .items-list .control a:hover {
   opacity: 1;
+}
+.items-list .control .control-delete {
+  background-position: 0 0;
+}
+.items-list .control .control-sort {
+  background-position: -32px 0;
+  cursor: move;
+}
+.items-list .control + .control {
+  padding-left: 3px;
 }
 .items-list .control-delete i {
   background-position: 0 0;

@@ -18,6 +18,22 @@ jQuery(function($) {
 		});
 	});
 	
+	$('.items-list.sortable').on('ui.sorted', function() {
+		var $this = $(this),
+			listPath = $this.data('listPath'),
+			order = _.pluck($this.find('tbody tr'), 'id');
+		$.ajax({
+			type: 'POST',
+			url: '/keystone/api/' + listPath + '/order',
+			data: {
+				order: order.join(',')
+			},
+			error: function() {
+				alert("There was a problem saving your changes. Please refresh to see the current data.");
+			}
+		});
+	});
+	
 	$('.ui-select2-ref').each(function(i, el) {
 		
 		el = $(el);
