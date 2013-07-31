@@ -86,7 +86,7 @@ exports = module.exports = function(req, res) {
 				// Some field types have custom behaviours
 				switch (field.type) {
 					
-					case 'image':
+					case 'cloudinaryimage':
 						actionQueue.push(field.getRequestHandler(item, req, function(err) {
 							if (err)
 								req.flash('error', field.label + ' upload failed - ' + err.message);
