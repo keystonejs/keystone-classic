@@ -3,11 +3,12 @@ mixin column(col, item)
 		- var refData = item.get(col.path)
 		if col.field.many
 			div.col-value
-				- var values = []
-				- _.first(refData, 3).forEach(function(i) { values.push(col.subField ? col.subField.format(i) : i[col.refPath]) })
-				= values.join(', ')
-				if refData.length > 3
-					| ... (#{refData.length - 3} more)
+				if Array.isArray(refData) && refData.length
+					- var values = []
+					- _.first(refData, 3).forEach(function(i) { values.push(col.subField ? col.subField.format(i) : i[col.refPath]) })
+					= values.join(', ')
+					if refData.length > 3
+						| ... (#{refData.length - 3} more)
 		else
 			if (col.subField && col.subField.type == 'boolean' && !col.many)
 				+column_boolean(refData[col.refPath])
