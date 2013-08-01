@@ -37,7 +37,10 @@ mixin formField_text_common(type, field, value, cls)
 		.field-label= field.label
 		.field-ui
 			if field.noedit
-				div(class='field-value width-' + field.width)= value || '&nbsp;'
+				if value
+					div(class='field-value width-' + field.width)= value
+				else
+					div(class='field-value width-' + field.width) &nbsp;
 			else
 				input(type='text', name=field.path, value=value, class=[cls,'width-' + field.width], autocomplete='off')
 		if field.note
@@ -68,7 +71,10 @@ mixin formField_name(field, item)
 		.field-label= field.label
 		.field-ui
 			if field.noedit
-				div(class='field-value width-short')= field.format(item) || '&nbsp;'
+				if value
+					div(class='field-value width-short')= value
+				else
+					div(class='field-value width-short') &nbsp;
 			else
 				input(type='text', name=field.paths.first, class='width-short', autocomplete='off', placeholder='first', value=item.get(field.paths.first))
 				input(type='text', name=field.paths.last, class='width-short', autocomplete='off', placeholder='last', value=item.get(field.paths.last))

@@ -9,7 +9,7 @@ exports = module.exports = function(req, res) {
 	};
 	
 	var sendError = function(key, err, msg) {
-		msg = msg || 'Error';
+		msg = msg || 'API Error';
 		key = key || 'unknown error';
 		msg += ' (' + key + ')';
 		console.log(msg + (err ? ':' : ''));
