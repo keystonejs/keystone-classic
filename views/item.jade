@@ -12,6 +12,8 @@ block page-js
 
 block content
 	.item-id id: #{item.id}
+		if list.autokey
+			|  / #{item.get(list.autokey.path)}
 	
 	h3: a(href='/keystone/' + list.path)= list.label
 	
