@@ -579,7 +579,7 @@ input[type="checkbox"] {
   background-position: 0 0;
 }
 .items-list .col-value {
-  padding: 6px 5px 2px;
+  padding: 6px 5px;
 }
 .items-list .col-boolean {
   text-align: left;

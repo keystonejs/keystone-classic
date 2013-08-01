@@ -22,13 +22,16 @@ mixin column(col, item)
 		- var value = col.field ? col.field.format(item) : item.get(col.path)
 		if col.isName
 			+column_link(value || '(no name)', '/keystone/' + list.path + '/' + item.id)
+		else if col.type == 'email'
+			+column_link(value, 'mailto:' + value)
 		else if col.type == 'boolean'
 			+column_boolean(value)
 		else
 			+column_basic(col.field.format(item))
 
 mixin column_link(value, href)
-	a(href=href)= value
+	if value
+		a(href=href)= value
 
 mixin column_boolean(value)
 	if (value)
