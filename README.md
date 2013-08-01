@@ -118,6 +118,7 @@ then start it for you.
 		
 	keystone.start();
 
+
 ### Application script (web.js) - advanced
 
 For full control over the express application, you can bind keystone by calling its
@@ -194,6 +195,41 @@ integration methods as part of the application configuration.
 			console.log("Website is ready on port " + app.get('port'));
 		});
 	});
+
+
+### Routes.js
+
+Keystone makes it easy to recursively import all routes in a directory, and provides
+additional methods to the `request` and `response` express objects for APIs.
+
+	var keystone = require('keystone'),
+		importRoutes = keystone.importer(__dirname);
+
+	// Load Routes
+	var routes = {
+		site: importRoutes('./site'),
+		api: importRoutes('./api')
+	};
+
+	keystone.set('404', routes.site['404']);
+
+	exports = module.exports = function(app) {
+
+		// Site
+		app.all('/', routes.site.index);
+		
+		// API
+		app.all('/api*', keystone.initAPI);
+		app.all('/api/contact', routes.api.contact);
+
+	}
+
+All route files are expected to export a single function like this:
+
+	exports = module.exports = function(req, res) {
+		res.render('site/index');
+	}
+
 
 
 ### Users Model
