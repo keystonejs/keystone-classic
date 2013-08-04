@@ -1,5 +1,6 @@
 extends layout/base
 
+include mixins/columns
 include mixins/formFields
 
 block page-js
@@ -37,4 +38,24 @@ block content
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-cancel reset changes
 			if !list.get('nodelete')
 				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-cancel delete #{list.singular.toLowerCase()}
-				
+	
+	if relationships.length
+		h2.relationships Relationships
+			each rel in relationships
+				if rel.items.results.length
+					h3: a(href='/keystone/' + rel.list.path)= rel.list.label
+					table(cellpadding=0, cellspacing=0).items-list
+						each col in rel.columns
+							col(width=col.width)
+						thead
+							tr
+								each col, i in rel.columns
+									th= col.label
+						tbody
+							each item in rel.items.results
+								tr(id=item.id)
+									each col, i in rel.columns
+										td
+											+column(rel.list, col, item)
+
+

@@ -844,6 +844,9 @@ h2.item-name input {
 .field .change-password {
   display: none;
 }
+.relationships {
+  margin-top: 25px;
+}
 #signin-form .controls {
   margin: 10px 0;
 }

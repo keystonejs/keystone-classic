@@ -1,5 +1,6 @@
 var keystone = require('../'),
 	_ = require('underscore'),
+	async = require('async'),
 	cloudinary = require('cloudinary'),
 	moment = require('moment'),
 	utils = require('../lib/utils');
@@ -22,11 +23,30 @@ exports = module.exports = function(req, res) {
 		
 		var renderView = function() {
 			
-			keystone.render(req, res, 'item', _.extend(viewLocals, {
-				section: req.list.key,
-				list: req.list,
-				item: item
-			}));
+			var relationships = _.values(_.map(req.list.relationships, function(i) { return _.clone(i); }));
+			
+			async.each(relationships, function(rel, done) {
+				
+				rel.list = keystone.list(rel.ref);
+				
+				// TODO: Handle relationships with more than 1 page of results
+				var q = rel.list.paginate({ page: 1 }).sort(rel.list.defaultSort);
+				rel.columns = rel.list.defaultColumns;
+				rel.list.selectColumns(q, rel.columns);
+				
+				q.exec(function(err, results) {
+					rel.items = results;
+					done(err);
+				});
+				
+			}, function(err) {
+				keystone.render(req, res, 'item', _.extend(viewLocals, {
+					section: req.list.key,
+					list: req.list,
+					item: item,
+					relationships: relationships
+				}));
+			});
 			
 		}
 		

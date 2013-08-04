@@ -59,7 +59,7 @@ block content
 							td.control: a(href=js).control-sort
 						each col, i in columns
 							td
-								+column(col, item)
+								+column(list, col, item)
 								
 		if items.totalPages > 1
 			- var basePath = '/keystone/' + list.path

@@ -1,4 +1,4 @@
-mixin column(col, item)
+mixin column(list, col, item)
 	if col.type == 'relationship'
 		- var refData = item.get(col.path)
 		if col.field.many
