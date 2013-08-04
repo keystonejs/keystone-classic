@@ -126,18 +126,20 @@ jQuery(function($) {
 	// fix toolbar
 	(function() {
 		
-		var viewY = 0,
+		var viewY = 0, // the lowest visible pixel
 			maxY = 0,
 			$window = $(window),
 			$body = $('#body'),
-			$toolbar = $('.toolbar-fixed'),
-			offsetY = $body.offset().top - 30;
+			$toolbar = $('.toolbar-fixed');
 		
 		if (!$toolbar.length)
 			return;
 		
 		$toolbar.wrap("<div class='toolbar-wrapper' style='position: relative'>");
-		$toolbar.parent().css("height", $toolbar.outerHeight());
+		
+		var toolbarHeight = $toolbar.outerHeight(),
+			$wrap = $toolbar.parent().css("height", toolbarHeight),
+			offsetY = $wrap.offset().top + toolbarHeight;
 		
 		$toolbar.css({
 			width: $toolbar.outerWidth(),
@@ -146,7 +148,7 @@ jQuery(function($) {
 		
 		var onScroll = function() {
 			viewY = $window.scrollTop() + $window.height();
-			maxY = $body.outerHeight() + offsetY;
+			maxY = offsetY;
 			$toolbar.css('top', (viewY > maxY) ? 0 : 0 - (maxY - viewY));
 		}
 		
