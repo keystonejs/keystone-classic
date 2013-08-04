@@ -138,8 +138,7 @@ jQuery(function($) {
 		$toolbar.wrap("<div class='toolbar-wrapper' style='position: relative'>");
 		
 		var toolbarHeight = $toolbar.outerHeight(),
-			$wrap = $toolbar.parent().css("height", toolbarHeight),
-			offsetY = $wrap.offset().top + toolbarHeight;
+			$wrap = $toolbar.parent().css("height", toolbarHeight);
 		
 		$toolbar.css({
 			width: $toolbar.outerWidth(),
@@ -147,8 +146,8 @@ jQuery(function($) {
 		});
 		
 		var onScroll = function() {
+			maxY = $wrap.offset().top + toolbarHeight + 15;
 			viewY = $window.scrollTop() + $window.height();
-			maxY = offsetY;
 			$toolbar.css('top', (viewY > maxY) ? 0 : 0 - (maxY - viewY));
 		}
 		
