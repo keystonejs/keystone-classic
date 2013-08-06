@@ -100,7 +100,9 @@ exports = module.exports = function(req, res) {
 				
 				async.each(relationships, function(rel, done) {
 					
+					// TODO: Handle invalid relationship config
 					rel.list = keystone.list(rel.ref);
+					rel.sortable = (rel.list.get('sortable') && rel.list.get('sortContext') == req.list.key + ':' + rel.path);
 					
 					// TODO: Handle relationships with more than 1 page of results
 					var q = rel.list.paginate({ page: 1 }).sort(rel.list.defaultSort);
