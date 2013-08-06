@@ -238,7 +238,7 @@ Keystone.prototype.init = function(options) {
  *
  * @api public
  */
-Keystone.prototype.start = function() {
+Keystone.prototype.start = function(onStart) {
 	
 	if (!this.app)
 		throw new Error("Keystone app must be initialised first.");
@@ -339,6 +339,8 @@ Keystone.prototype.start = function() {
 		var listen = function() {
 			http.createServer(app).listen(app.get('port'), function() {
 				console.log(keystone.get('name') + ' is ready on port ' + app.get('port'));
+				if ('function' == typeof onStart)
+					onStart();
 			});
 		}
 		
