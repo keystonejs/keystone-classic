@@ -152,9 +152,8 @@ mixin formField_cloudinaryimage(field, item)
 		- var hasImage = item.get(field.paths.exists)
 		div(class=hasImage ? 'has-image' : false).field-ui
 			if hasImage
-				- var image = item.get(field.paths.methods)
 				.image-preview
-					img(src=image.limit(100, 100))
+					img(src=field.apply(item, 'limit', 100, 100))
 				.image-details
 					.field-value= item.get(field.paths.url)
 					.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
