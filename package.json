@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "Keystone",
   "main": "index.js",
   "repository": {
