@@ -105,7 +105,10 @@ exports = module.exports = function(req, res) {
 					rel.sortable = (rel.list.get('sortable') && rel.list.get('sortContext') == req.list.key + ':' + rel.path);
 					
 					// TODO: Handle relationships with more than 1 page of results
-					var q = rel.list.paginate({ page: 1 }).sort(rel.list.defaultSort);
+					var q = rel.list.paginate({ page: 1 })
+						.where(rel.refPath).equals(item.id)
+						.sort(rel.list.defaultSort);
+						
 					rel.columns = rel.list.defaultColumns;
 					rel.list.selectColumns(q, rel.columns);
 					
