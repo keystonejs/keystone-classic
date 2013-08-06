@@ -16,7 +16,23 @@ block content
 		if list.autokey
 			|  / #{item.get(list.autokey.path)}
 	
-	h3: a(href='/keystone/' + list.path)= list.label
+	- console.log(drilldown)
+	
+	h3
+		if drilldown
+			each d in drilldown.items
+				if d.items
+					each di, i in d.items
+						a(href=di.href)= di.label
+						if i < d.items.length - 1
+							| , 
+					if d.more
+						span  ... 
+					span : 
+				else
+					a(href=d.href) #{d.label}
+					span : 
+		a(href='/keystone/' + list.path)= list.label
 	
 	form(method='post', enctype='multipart/form-data')
 		input(type='hidden', name='action', value='updateItem')
