@@ -788,6 +788,9 @@ h2.item-name input {
 .field.type-money input {
   width: 200px;
 }
+.field.type-email input {
+  width: 400px;
+}
 .field.type-location .field-label {
   margin-bottom: 8px;
 }
