@@ -301,7 +301,6 @@ All route files are expected to export a single function like this:
 
 *	List filtering
 *	Support all field types on Create
-*	Ordering Items
 
 ### Relationsips
 
