@@ -7,6 +7,10 @@ jQuery(function($) {
 		}
 	});
 	
+	$('a[data-opt-text]').each(function(i, el) {
+		
+	});
+	
 	$('.ui-datepicker').pikaday({ firstDay: 1 });
 	
 	$('.ui-select2').select2({ allowClear: true });

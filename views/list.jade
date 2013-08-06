@@ -36,12 +36,13 @@ block content
 						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-create-item Create #{list.singular}
 			
 	if items.results.length
+		- var sortable = list.get('sortable') && !list.get('sortContext')
 		- var firstColspan = 1;
-		table(cellpadding=0, cellspacing=0, class=list.get('sortable') ? 'sortable' : false, data-list-path=list.path).items-list
+		table(cellpadding=0, cellspacing=0, class=sortable ? 'sortable' : false, data-list-path=list.path).items-list
 			if !list.get('nodelete')
 				- firstColspan++;
 				col(width=26)
-			if list.get('sortable')
+			if sortable
 				- firstColspan++;
 				col(width=26)
 			each col in columns
@@ -55,7 +56,7 @@ block content
 					tr(id=item.id)
 						if !list.get('nodelete')
 							td.control: a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').control-delete
-						if list.get('sortable')
+						if sortable
 							td.control: a(href=js).control-sort
 						each col, i in columns
 							td

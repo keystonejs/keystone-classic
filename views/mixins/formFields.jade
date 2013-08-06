@@ -163,7 +163,7 @@ mixin formField_cloudinaryimage(field, item)
 				span.upload-queued Image selected - save to upload
 				a(href=js).btn.btn-upload Upload Image
 				if hasImage
-					a(href=js).btn.btn-cancel.btn-delete-image Remove Image
+					a(href=js, data-alt-text='Delete Image').btn.btn-cancel.btn-delete-image Remove Image
 		if field.note
 			.field-note= field.note
 			
