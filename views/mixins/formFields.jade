@@ -101,7 +101,7 @@ mixin formField_html(field, item)
 	.field.type-html
 		.field-label= field.label
 		.field-ui
-			textarea(name=field.path, data-wysiwyg=true).code.tall= item.get(field.path)
+			textarea(name=field.path, data-wysiwyg=field.wysiwyg ? 'true' : false).code.tall= item.get(field.path)
 		if field.note
 			.field-note= field.note
 
@@ -152,9 +152,8 @@ mixin formField_cloudinaryimage(field, item)
 		- var hasImage = item.get(field.paths.exists)
 		div(class=hasImage ? 'has-image' : false).field-ui
 			if hasImage
-				- var image = item.get(field.paths.methods)
 				.image-preview
-					img(src=image.limit(100, 100))
+					img(src=field.apply(item, 'limit', 100, 100))
 				.image-details
 					.field-value= item.get(field.paths.url)
 					.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
