@@ -37,17 +37,20 @@ block content
 		
 		input(type='hidden', name='action', value='updateItem')
 		
+		- var nameField = list.nameField, nameIsEditable = list.nameIsEditable;
+		
 		h2.item-name
-			if list.nameIsEditable
+			if nameIsEditable
 				input(type='text', name=list.nameField.path, value=item.get(list.nameField.path))
-			else if list.nameField
+			else if nameField
 				.name-value= list.nameField.format(item) || '(no name)'
 			else
 				.name-value= item.get(list.namePath) || '(no name)'
 		
 		each el in list.uiElements
 			if el.type == 'field'
-				+formField(el.field, item)
+				if el.field != nameField || !nameIsEditable
+					+formField(el.field, item)
 			else if el.type == 'heading'
 				h3= el.heading
 		
