@@ -17,6 +17,7 @@ exports = module.exports = function(req, res) {
 		q.exec(function(err, items) {
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: req.list.key,
+				title: 'Keystone: ' + req.list.plural,
 				list: req.list,
 				columns: columns,
 				items: items,

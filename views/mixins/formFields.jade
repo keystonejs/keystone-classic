@@ -218,6 +218,7 @@ mixin formField_relationship(field, item)
 	- var refList = field.refList
 	.field.type-relationship
 		.field-label= field.label
+		.field-message
 		.field-ui
 			if field.noedit
 				if !field.many && item.get(field.path)

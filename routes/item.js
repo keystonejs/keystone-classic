@@ -120,12 +120,15 @@ exports = module.exports = function(req, res) {
 				}, cb);
 			}
 			
+			/** Render View */
+			
 			async.parallel([
 				loadDrilldown,
 				loadRelationships
 			], function(err) {
 				keystone.render(req, res, 'item', _.extend(viewLocals, {
 					section: req.list.key,
+					title: 'Keystone: ' + req.list.singular + ': ' + req.list.getDocumentName(item),
 					list: req.list,
 					item: item,
 					relationships: relationships,

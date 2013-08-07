@@ -571,6 +571,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		lists: keystone.lists,
 		js: 'javascript:;',
 		user: req.user,
+		title: 'Keystone',
 		signout: this.get('signout')
 	};
 	
