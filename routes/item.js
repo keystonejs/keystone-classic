@@ -153,7 +153,9 @@ exports = module.exports = function(req, res) {
 			}
 			
 			var saveItem = function() {
+				console.log('saving item');
 				item.save(function(err) {
+					console.log('item saved');
 					if (err) {
 						if (err.name == 'ValidationError') {
 							viewLocals.validationErrors = err.errors;
