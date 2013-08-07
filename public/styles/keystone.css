@@ -47,6 +47,28 @@ a {
 a:hover {
   color: #0069ab;
 }
+h1 {
+  color: #214b81;
+  font-family: inherit;
+  font-weight: normal;
+}
+h1.black {
+  color: black;
+}
+h2 {
+  color: #0687ca;
+  font-size: 24px;
+  font-family: inherit;
+  font-weight: normal;
+}
+h3 {
+  color: #214b81;
+  font-family: inherit;
+  font-weight: normal;
+}
+h3 a {
+  color: #214b81;
+}
 #header {
   background-color: #464646;
   background-image: -moz-linear-gradient(top, #4c4c4c, #3d3d3d);
@@ -109,7 +131,7 @@ a:hover {
   padding: 20px 0;
 }
 #footer {
-  padding: 0 0 20px;
+  padding: 10px 0 30px;
   color: #999;
 }
 #footer a {
@@ -641,6 +663,7 @@ input[type="checkbox"] {
 }
 h1.item-name input {
   font-size: 28px;
+  color: #0687ca;
   margin: 0px -4px;
   border: 1px solid #eee;
   -webkit-box-sizing: content-box;
@@ -654,6 +677,7 @@ h2.item-name {
 }
 h2.item-name input {
   font-size: 24px;
+  color: #0687ca;
   border: 1px solid #ccc;
 }
 .field-type {

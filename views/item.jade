@@ -34,6 +34,7 @@ block content
 		a(href='/keystone/' + list.path)= list.label
 	
 	form(method='post', enctype='multipart/form-data')
+		
 		input(type='hidden', name='action', value='updateItem')
 		
 		h2.item-name
@@ -44,8 +45,11 @@ block content
 			else
 				.name-value= item.get(list.namePath) || '(no name)'
 		
-		each field in list.formFields
-			+formField(field, item)
+		each el in list.uiElements
+			if el.type == 'field'
+				+formField(el.field, item)
+			else if el.type == 'heading'
+				h3= el.heading
 		
 		.toolbar.toolbar-fixed
 			if !list.get('noedit')
@@ -54,7 +58,7 @@ block content
 			if !list.get('nodelete')
 				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-cancel delete #{list.singular.toLowerCase()}
 	
-	if relationships.length
+	if showRelationships
 		h2.relationships Relationships
 			each rel in relationships
 				if rel.items.results.length

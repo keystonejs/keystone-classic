@@ -35,6 +35,33 @@ a {
 	}
 }
 
+h1 {
+	color: @headingsColor;
+	font-family: @headingsFontFamily;
+	font-weight: @headingsFontWeight;
+	
+	&.black {
+		color: black;
+	}
+}
+
+h2 {
+	color: @linkColor;
+	font-size: 24px;
+	font-family: @headingsFontFamily;
+	font-weight: @headingsFontWeight;
+}
+
+h3 {
+	color: @headingsColor;
+	font-family: @headingsFontFamily;
+	font-weight: @headingsFontWeight;
+	
+	a {
+		color: @headingsColor;
+	}
+}
+
 #header {
 	
 	.container {
@@ -85,7 +112,7 @@ a {
 }
 
 #footer {
-	padding: 0 0 20px;
+	padding: 10px 0 30px;
 	color: #999;
 	
 	a {

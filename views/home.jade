@@ -1,6 +1,6 @@
 extends layout/base
 
 block content
-	h1 Manage
+	h1.black Manage
 	each list in lists
 		h2: a(href='/keystone/' + list.path, class=(section == list.key ? 'selected' : null))= list.label

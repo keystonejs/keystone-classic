@@ -126,14 +126,21 @@ exports = module.exports = function(req, res) {
 				loadDrilldown,
 				loadRelationships
 			], function(err) {
+				
+				var showRelationships = _.some(relationships, function(rel) {
+					return rel.items.results.length;
+				});
+				
 				keystone.render(req, res, 'item', _.extend(viewLocals, {
 					section: req.list.key,
 					title: 'Keystone: ' + req.list.singular + ': ' + req.list.getDocumentName(item),
 					list: req.list,
 					item: item,
 					relationships: relationships,
+					showRelationships: showRelationships,
 					drilldown: drilldown
 				}));
+				
 			});
 			
 		}
@@ -185,7 +192,7 @@ exports = module.exports = function(req, res) {
 					validationErrors.push(list.singular + ' name is required.');
 			}
 			
-			_.each(req.list.formFields, function(field) {
+			_.each(req.list.fields, function(field) {
 				
 				// skip uneditable fields
 				if (field.noedit)
