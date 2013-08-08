@@ -286,35 +286,6 @@ All route files are expected to export a single function like this:
 	Subscriber.register();
 
 
-## TODO
-
-### Field Types
-
-*	Arrays (simple)
-
-#### For later
-
-*	Arrays (complex)
-*	Nested Schemas
-
-### List Screen
-
-*	List filtering
-*	Support all field types on Create
-
-### Relationsips
-
-*	Client-side handling of changes to filters
-
-### Validation
-
-*	Integrate better with Mongoose's native validation capabilities
-*	Integrate field validation with UI (so invlaid fiends are hilighted)
-*	Client-side field validation
-*	Form validation is duplicated between the list:create and item:update route logic
-
-
-
 ## License
 
 (The MIT License)
