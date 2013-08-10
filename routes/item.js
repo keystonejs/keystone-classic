@@ -185,13 +185,6 @@ exports = module.exports = function(req, res) {
 				});
 			}
 			
-			if (req.list.nameIsEditable) {
-				if (req.list.nameField.validateInput(req.body))
-					req.list.nameField.updateItem(item, req.body);
-				else
-					validationErrors.push(list.singular + ' name is required.');
-			}
-			
 			_.each(req.list.fields, function(field) {
 				
 				// skip uneditable fields
