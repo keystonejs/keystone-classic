@@ -180,6 +180,7 @@ keystone.utils = utils;
 keystone.List = require('./lib/list');
 keystone.Field = require('./lib/field');
 keystone.Field.Types = require('./lib/fieldTypes');
+keystone.View = require('./lib/view');
 keystone.Email = require('./lib/email');
 
 
