@@ -570,6 +570,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		messages: _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false,
 		lists: keystone.lists,
 		js: 'javascript:;',
+		utils: utils,
 		user: req.user,
 		title: 'Keystone',
 		signout: this.get('signout')

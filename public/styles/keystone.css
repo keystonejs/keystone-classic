@@ -195,6 +195,17 @@ h3 a {
   border-color: #bce8f1;
   color: #3a87ad;
 }
+.alert h4 {
+  margin: 5px 0;
+}
+.alert ul {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.alert li {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 form {
   margin: 0 0 20px;
 }
@@ -766,6 +777,7 @@ h2.item-name input {
   float: left;
   line-height: 24px;
   width: 110px;
+  margin-top: 4px;
   padding-right: 10px;
   color: #999;
 }

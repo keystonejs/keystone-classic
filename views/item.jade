@@ -12,7 +12,7 @@ block page-js
 		Keystone.list = { path: "#{list.path}" };
 		Keystone.item = { id: "#{item.id}" };
 
-block content
+block intro
 	.item-id id: #{item.id}
 		if list.autokey
 			|  / #{item.get(list.autokey.path)}
@@ -33,6 +33,8 @@ block content
 					span : 
 		a(href='/keystone/' + list.path)= list.label
 	
+
+block content
 	form(method='post', enctype='multipart/form-data')
 		
 		input(type='hidden', name='action', value='updateItem')
