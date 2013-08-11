@@ -1,3 +1,5 @@
+include ../mixins/flashMessages
+
 doctype 5
 html
 	head
@@ -24,16 +26,8 @@ html
 				a(href=signout).signout Sign Out
 		
 		#body: .container
-			if messages
-				#flash-messages
-					each message in messages.info
-						.alert.alert-info= message
-					each message in messages.success
-						.alert.alert-success= message
-					each message in messages.warning
-						.alert= message
-					each message in messages.error
-						.alert.alert-error= message
+			block intro
+			+flash-messages(messages)
 			block content
 		
 		#footer: .container
