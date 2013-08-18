@@ -7,6 +7,8 @@ mixin formField(field, item)
 		+formField_key(field, item)
 	else if field.type == 'email'
 		+formField_email(field, item)
+	else if field.type == 'url'
+		+formField_url(field, item)
 	else if field.type == 'password'
 		+formField_password(field, item)
 	else if field.type == 'html'
@@ -53,7 +55,10 @@ mixin formField_key(field, item)
 	+formField_text_common('key', field, item.get(field.path), 'code')
 
 mixin formField_email(field, item)
-	+formField_text_common('email', field, item.get(field.path))
+	+formField_text_common('email', field, item.get(field.path), 'code')
+
+mixin formField_url(field, item)
+	+formField_text_common('url', field, item.get(field.path), 'code')
 
 mixin formField_textarea(field, item)
 	div(class='field type-textarea')

@@ -7,6 +7,8 @@ mixin initialField(field, submitted)
 		+initialField_key(field, submitted)
 	else if field.type == 'email'
 		+initialField_email(field, submitted)
+	else if field.type == 'url'
+		+initialField_url(field, submitted)
 	else if field.type == 'password'
 		+initialField_password(field, submitted)
 	else if field.type == 'name'
@@ -40,7 +42,10 @@ mixin initialField_key(field, submitted)
 	+initialField_text_common('key', field, submitted, 'code')
 
 mixin initialField_email(field, submitted)
-	+initialField_text_common('email', field, submitted)
+	+initialField_text_common('email', field, submitted, 'code')
+
+mixin initialField_url(field, submitted)
+	+initialField_text_common('url', field, submitted, 'code')
 
 mixin initialField_textarea(field, submitted)
 	.field.type-textarea
