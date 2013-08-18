@@ -1,13 +1,6 @@
 Keystone
 ========
 
-
-## Disclaimer
-
-This project is currently under development, and unsupported. I strongly recommend waiting
-for it to gain maturity before playing with it.
-
-
 ## About
 
 Keystone is designed to be used in a web application built on Express and Mongoose.

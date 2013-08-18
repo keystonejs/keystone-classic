@@ -30,6 +30,9 @@ var Keystone = function() {
 		'logger': 'dev',
 		'auto update': false
 	};
+	this._pre = {
+		routes: []
+	};
 	this.set('env', process.env.NODE_ENV || 'development');
 }
 
@@ -136,6 +139,25 @@ Keystone.prototype.getPath = function(key) {
 	var path = keystone.get(key);
 	path = ('string' == typeof path && path.substr(0,1) != '/') ? process.cwd() + '/' + path : path;
 	return path;
+}
+
+
+/**
+ * Registers a pre-event handler.
+ * 
+ * Valid events include:
+ * - `routes` - calls the function before any routes are matched, after all other middleware
+ *
+ * @param {String} event
+ * @param {Function} function to call
+ * @api public
+ */
+ 
+Keystone.prototype.pre = function(event, fn) {
+	if (!this._pre[event]) {
+		throw new Error('keystone.pre() Error: event ' + event + 'does not exist.');
+	}
+	this._pre[event].push(fn);
 }
 
 
@@ -296,6 +318,11 @@ Keystone.prototype.start = function(onStart) {
 		app.use(this.session.persist);
 	else if ('function' == typeof this.get('session'))
 		app.use(this.get('session'));
+	
+	// Pre-route middleware
+	this._pre.routes.forEach(function(fn) {
+		app.use(fn);
+	});
 	
 	// Route requests
 	app.use(app.router);

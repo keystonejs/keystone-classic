@@ -18,7 +18,7 @@ html
 	body
 		.fb-root
 		
-		#header(data-spy="affix", data-offset-top="1"): .container
+		#header: .container
 			a(href='/keystone', class=(section == 'home' ? 'selected' : null)).brand= brand
 			each list in lists
 				a(href='/keystone/' + list.path, class=(section == list.key ? 'selected' : null))= list.label

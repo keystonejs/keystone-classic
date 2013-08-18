@@ -14,6 +14,8 @@ html
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 		block head
 	body
+		#header: .container
+			a(href='/keystone').selected.brand= brand
 		#body: .container
 			block intro
 			if messages
