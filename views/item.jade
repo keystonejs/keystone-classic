@@ -55,6 +55,10 @@ block content
 					+formField(el.field, item)
 			else if el.type == 'heading'
 				h3= el.heading
+			else if el.type == 'indent'
+				| <div class="indent">
+			else if el.type == 'outdent'
+				| </div>
 		
 		.toolbar.toolbar-fixed
 			if !list.get('noedit')
