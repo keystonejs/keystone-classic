@@ -199,8 +199,8 @@ jQuery(function($) {
 	
 		var $field = $(this);
 		
-		if ( !$field.prop( 'id' ) )
-			$field.prop( 'id', 'ui-wysiwyg-' + new Date().getTime() );
+		if (!$field.prop('id'))
+			$field.prop('id', 'ui-wysiwyg-' + new Date().getTime());
 		
 		$field.wysihtml5();
 	
