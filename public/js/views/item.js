@@ -1,5 +1,33 @@
 jQuery(function($) {
 	
+	$('.field[data-field-collapse=true]').each(function() {
+		
+		var $field = $(this),
+			value = _.reduce($field.find('input'), function(input, memo) {
+				return memo + $(input).val();
+			}, '');
+		
+		if (!value) {
+			$field.wrapInner('<div class="field-collapsed">');
+			var $show = $('<a href="javascript:;" class="btn-uncollapse">set ' + $field.find('.field-label').text() + '</a>');
+			$show.on('click', function(e) {
+				$show.remove();
+				$field.find('.field-collapsed').removeClass('field-collapsed').show();
+				setTimeout(function() {
+					try {
+						$field.find('input')[0].focus();
+					} catch(e) {}
+				}, 10);
+			});
+			$field.prepend($show);
+			// wait 500ms for field ui initialisation before hiding the field
+			setTimeout(function() {
+				$field.find('.field-collapsed').hide();
+			}, 500);
+		}
+		
+	});
+	
 	$('.ui-related-item').each(function() {
 		
 		var $el = $(this),

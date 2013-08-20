@@ -730,6 +730,13 @@ h2.item-name input {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+.field .field-collapsed {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hiddden;
+  opacity: 0;
+}
 .field span.field-value {
   margin-right: 5px;
 }
