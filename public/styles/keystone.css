@@ -691,9 +691,15 @@ h2.item-name input {
   color: #0687ca;
   border: 1px solid #ccc;
 }
-.field-type {
-  display: none;
-  color: #999;
+.indent {
+  margin-left: 27px;
+}
+.field-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hiddden;
+  opacity: 0;
 }
 .field {
   margin-bottom: 10px;
@@ -729,13 +735,6 @@ h2.item-name input {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-}
-.field .field-collapsed {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hiddden;
-  opacity: 0;
 }
 .field span.field-value {
   margin-right: 5px;

@@ -27,9 +27,16 @@ h2.item-name {
 	
 }
 
-.field-type {
-	display: none;
-	color: #999;
+.indent {
+	margin-left: 27px;
+}
+	
+.field-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hiddden;
+	opacity: 0;
 }
 
 .field {
@@ -65,14 +72,6 @@ h2.item-name {
 		background: #fdfdfd;
 		border: 1px solid #eee;
 		.border-radius(3px);
-	}
-	
-	.field-collapsed {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		overflow: hiddden;
-		opacity: 0;
 	}
 	
 	span.field-value {

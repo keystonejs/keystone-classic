@@ -35,7 +35,7 @@ mixin formField(field, item)
 		+formField_relationship(field, item)
 
 mixin formField_text_common(type, field, value, cls)
-	div(class='field type-' + type, data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	div(class='field type-' + type, data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		.field-label= field.label
 		.field-ui
 			if field.noedit
@@ -61,7 +61,7 @@ mixin formField_url(field, item)
 	+formField_text_common('url', field, item.get(field.path), 'code')
 
 mixin formField_textarea(field, item)
-	div(class='field type-textarea', data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	div(class='field type-textarea', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		.field-label= field.label
 		.field-ui
 			if field.noedit
@@ -72,7 +72,7 @@ mixin formField_textarea(field, item)
 			.field-note= field.note
 
 mixin formField_name(field, item)
-	div(class='field type-name', data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	div(class='field type-name', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		.field-label= field.label
 		.field-ui
 			if field.noedit
@@ -87,7 +87,7 @@ mixin formField_name(field, item)
 			.field-note= field.note
 
 mixin formField_password(field, item)
-	.field.type-password(data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? "true" : "false")
+	.field.type-password(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? "true" : "false")
 		.field-label= field.label
 		.field-ui
 			if field.noedit
@@ -103,7 +103,7 @@ mixin formField_password(field, item)
 			.field-note= field.note
 
 mixin formField_html(field, item)
-	.field.type-html(data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	.field.type-html(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		.field-label= field.label
 		.field-ui
 			if field.noedit && item.get(field.path)
@@ -128,7 +128,7 @@ mixin formField_money(field, item)
 	+formField_text_common('money', field, item.get(field.path))
 
 mixin formField_boolean(field, item)
-	.field.type-boolean(data-field-type=field.type, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? 'true' : 'false')
+	.field.type-boolean(data-field-type=field.type, data-field-path=field.path, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? 'true' : 'false')
 		if field.noedit
 			if item.get(field.path)
 				img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16).checked
@@ -143,7 +143,7 @@ mixin formField_boolean(field, item)
 			.field-note= field.note
 
 mixin formField_select(field, item)
-	.field.type-select(data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
+	.field.type-select(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
 		.field-label= field.label
 		.field-ui
 			if field.noedit && item.get(field.path)
@@ -160,7 +160,7 @@ mixin formField_select(field, item)
 
 mixin formField_cloudinaryimage(field, item)
 	- var hasImage = item.get(field.paths.exists)
-	.field.type-cloudinaryimage(data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
+	.field.type-cloudinaryimage(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
 		.field-label= field.label
 		if field.noedit
 			if hasImage
@@ -191,7 +191,7 @@ mixin formField_cloudinaryimage(field, item)
 			.field-note= field.note
 			
 mixin formField_location(field, item)
-	.field.type-location(data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	.field.type-location(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		.field-label= field.label
 		.field-ui
 			if field.noedit
@@ -246,7 +246,7 @@ mixin formField_location(field, item)
 
 mixin formField_relationship(field, item)
 	- var refList = field.refList
-	.field.type-relationship(data-field-type=field.type, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
+	.field.type-relationship(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
 		.field-label= field.label
 		.field-message
 		.field-ui

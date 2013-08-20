@@ -1,18 +1,86 @@
 jQuery(function($) {
 	
+	var $fields = $('.field'),
+		fieldsMap = {};
+	
+	/*
+		The WYSIWYG editor fails to initialise on a hidden element, so we have to
+		wait about a second before we actually hide elements. The _initQueue
+		manages this for us.
+	*/
+	var _initQueue = [],
+		waitForInit = function(fn) {
+		if (_initQueue) {
+			_initQueue.push(fn);
+		} else {
+			fn();
+		}
+	}
+	setTimeout(function() {
+		while (_initQueue.length) {
+			_initQueue.pop()();
+		}
+		_initQueue = null;
+		$(window).trigger('redraw');
+	}, 1000);
+	
+	$fields.each(function() {
+		var $field = $(this);
+		fieldsMap[$field.data('field-path')] = $field;
+	});
+	
+	var getFieldValue = function($field) {
+		
+		//console.log('Getting value for field ' + $field.data('field-path'));
+		
+		if ($field.data('field-noedit')) {
+			
+			switch ($field.data('field-type')) {
+				case 'boolean':
+				case 'select':
+				case 'relationship':
+					return $field.data('field-value');
+			}
+			
+			return $field.find('field-value').text();
+			
+		} else {
+			
+			switch ($field.data('field-type')) {
+				case 'boolean':
+					return $field.find('input[type=checkbox]').prop('checked');
+				case 'select':
+					return $field.find('select').val();
+			}
+			
+			return _.reduce($field.find('input'), function(memo, input) {
+				return memo + $(input).val();
+			}, '');
+			
+		}
+		
+	}
+	
 	$('.field[data-field-collapse=true]').each(function() {
 		
 		var $field = $(this),
-			value = _.reduce($field.find('input'), function(input, memo) {
-				return memo + $(input).val();
-			}, '');
+			value = getFieldValue($field);
 		
 		if (!value) {
-			$field.wrapInner('<div class="field-collapsed">');
-			var $show = $('<a href="javascript:;" class="btn-uncollapse">set ' + $field.find('.field-label').text() + '</a>');
+			
+			$field.wrapInner('<div class="field-hidden">');
+			
+			waitForInit(function() {
+				$field.find('.field-hidden').hide();
+			});
+			
+			if ($field.data('field-noedit'))
+				return;
+			
+			var $show = $('<a href="javascript:;" class="btn-uncollapse">add ' + $field.find('.field-label').text().toLowerCase() + '</a>');
 			$show.on('click', function(e) {
 				$show.remove();
-				$field.find('.field-collapsed').removeClass('field-collapsed').show();
+				$field.find('.field-hidden').removeClass('field-hidden').show();
 				setTimeout(function() {
 					try {
 						$field.find('input')[0].focus();
@@ -20,11 +88,70 @@ jQuery(function($) {
 				}, 10);
 			});
 			$field.prepend($show);
-			// wait 500ms for field ui initialisation before hiding the field
-			setTimeout(function() {
-				$field.find('.field-collapsed').hide();
-			}, 500);
 		}
+		
+	});
+	
+	$('.field[data-field-depends-on]').each(function() {
+		
+		var $field = $(this),
+			dependsOn = $field.data('field-depends-on'),
+			conditions = {},
+			lastMet;
+		
+		_.each(dependsOn, function(val, path) {
+			conditions[path] = {
+				$field: fieldsMap[path],
+				value: val
+			};
+		});
+		
+		var hideField = function() {
+			$field.addClass('field-hidden');
+			waitForInit(function() {
+				if ($field.hasClass('field-hidden')) {
+					$field.hide();
+				}
+			});
+		}
+		
+		var showField = function() {
+			$field.removeClass('field-hidden').show();
+		}
+		
+		var evalConditions = function() {
+			
+			// console.log('evaluating conditions for ' + $field.data('field-path') + ':');
+			
+			var met = _.all(conditions, function(cond, path) {
+				var value = getFieldValue(cond.$field);
+				// console.log('evaluating condition ' + path + ' == (' + cond.value + ') with (' + value + ')')
+				return (cond.value === true && value || cond.value == value);
+			});
+			
+			// console.log(met ? '(met)' : '(not met)');
+			
+			if (met === lastMet) {
+				return;
+			}
+			
+			lastMet = met;
+			
+			if (met) {
+				showField();
+			} else {
+				hideField();
+			}
+			
+			$(window).trigger('redraw');
+			
+		}
+		
+		_.each(conditions, function(cond) {
+			cond.$field.on('change', evalConditions);
+		});
+		
+		evalConditions();
 		
 	});
 	
