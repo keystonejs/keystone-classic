@@ -31,7 +31,7 @@ jQuery(function($) {
 	
 	var getFieldValue = function($field) {
 		
-		//console.log('Getting value for field ' + $field.data('field-path'));
+		console.log('Getting value for field ' + $field.data('field-path'));
 		
 		if ($field.data('field-noedit')) {
 			
@@ -51,6 +51,9 @@ jQuery(function($) {
 					return $field.find('input[type=checkbox]').prop('checked');
 				case 'select':
 					return $field.find('select').val();
+				case 'html':
+				case 'textarea':
+					return $field.find('textarea').val();
 			}
 			
 			return _.reduce($field.find('input'), function(memo, input) {
@@ -78,6 +81,7 @@ jQuery(function($) {
 				return;
 			
 			var $show = $('<a href="javascript:;" class="btn-uncollapse">add ' + $field.find('.field-label').text().toLowerCase() + '</a>');
+			
 			$show.on('click', function(e) {
 				$show.remove();
 				$field.find('.field-hidden').removeClass('field-hidden').show();
@@ -87,7 +91,10 @@ jQuery(function($) {
 					} catch(e) {}
 				}, 10);
 			});
+			
 			$field.prepend($show);
+			
+			$(window).trigger('redraw');
 		}
 		
 	});
