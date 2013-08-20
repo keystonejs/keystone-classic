@@ -724,8 +724,8 @@ h2.item-name input {
   font-size: 14px;
   line-height: 20px;
   color: #555555;
-  background: #fafafa;
-  border: 1px solid #ddd;
+  background: #fdfdfd;
+  border: 1px solid #eee;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -751,8 +751,8 @@ h2.item-name input {
   font-size: 14px;
   line-height: 20px;
   color: #555555;
-  background: #fafafa;
-  border: 1px solid #ddd;
+  background: #fdfdfd;
+  border: 1px solid #eee;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -822,17 +822,30 @@ h2.item-name input {
   width: 200px;
 }
 .field.type-boolean img {
-  margin-right: 10px;
+  margin: -3px 10px 0 0;
   vertical-align: middle;
+}
+.field.type-boolean img.unchecked {
+  opacity: 0.5;
+}
+.field.type-boolean span {
+  display: inline-block;
+  padding: 5px 0;
 }
 .field.type-date input,
 .field.type-datetime input,
 .field.type-number input,
-.field.type-money input {
+.field.type-money input,
+.field.type-date .field-value,
+.field.type-datetime .field-value,
+.field.type-number .field-value,
+.field.type-money .field-value {
   width: 200px;
 }
 .field.type-email input,
-.field.type-url input {
+.field.type-url input,
+.field.type-email .field-value,
+.field.type-url .field-value {
   width: 400px;
 }
 .field.type-location .field-label {

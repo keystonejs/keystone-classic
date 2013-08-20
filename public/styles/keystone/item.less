@@ -62,8 +62,8 @@ h2.item-name {
 		font-size: @baseFontSize;
 		line-height: @baseLineHeight;
 		color: @gray;
-		background: #fafafa;
-		border: 1px solid #ddd;
+		background: #fdfdfd;
+		border: 1px solid #eee;
 		.border-radius(3px);
 	}
 	
@@ -149,19 +149,27 @@ h2.item-name {
 	
 	&.type-boolean {
 		img {
-			margin-right: 10px;
+			margin: -3px 10px 0 0;
 			vertical-align: middle;
+			
+			&.unchecked {
+				opacity: 0.5;
+			}
+		}
+		span {
+			display: inline-block;
+			padding: 5px 0;
 		}
 	}
 	
 	&.type-date, &.type-datetime, &.type-number, &.type-money {
-		input {
+		input, .field-value {
 			width: 200px;
 		}
 	}
 	
 	&.type-email, &.type-url {
-		input {
+		input, .field-value {
 			width: 400px;
 		}
 	}
