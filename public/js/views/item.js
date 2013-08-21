@@ -123,6 +123,10 @@ jQuery(function($) {
 			})
 		}
 		
+		$field.find('.autoimprove').on('change', function() {
+			$field.find('.overwrite')[$field.find('.autoimprove input').prop('checked') ? 'show' : 'hide']();
+		});
+		
 	});
 	
 	$('.field[data-field-depends-on]').each(function() {

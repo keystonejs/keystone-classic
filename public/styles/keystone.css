@@ -861,8 +861,13 @@ h2.item-name input {
 .field.type-location .field-label {
   margin-bottom: 8px;
 }
-.field.type-location .detect-geo {
+.field.type-location .autoimprove {
   color: #5a497d;
+  margin-right: 10px;
+}
+.field.type-location .overwrite {
+  color: #cb3965;
+  display: none;
 }
 .field.type-cloudinaryimage {
   *zoom: 1;

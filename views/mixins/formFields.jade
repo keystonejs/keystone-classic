@@ -217,7 +217,7 @@ mixin formField_location(field, item)
 					span.label Building Name
 					input(type='text', name=field.paths.name, value=item.get(field.paths.name))
 				.row: .span2
-					span.label Street Address 1
+					span.label Street Address
 					input(type='text', name=field.paths.street1, value=item.get(field.paths.street1))
 				.extras: .row: .span2
 					.label Street Address 2
@@ -242,10 +242,13 @@ mixin formField_location(field, item)
 					.span1
 						span.label.short Longitude
 						input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '')
-			//- if field.enableMapsAPI
-			//- 	label(for=field.paths.improve).detect-geo
-			//- 		input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
-			//- 		| autodetect and improve location on save
+			if field.enableMapsAPI
+				label(for=field.paths.improve).autoimprove
+					input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
+					| autodetect and improve location on save
+				label(for=field.paths.overwrite).overwrite
+					input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
+					| replace existing data
 		
 		if field.note
 			.field-note= field.note
