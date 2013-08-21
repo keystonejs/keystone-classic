@@ -76,8 +76,16 @@ mixin formField_name(field, item)
 		.field-label= field.label
 		.field-ui
 			if field.noedit
-				if value
-					div(class='field-value width-short')= value
+				- var value = field.format(item)
+				if item.get(field.paths.first) || item.get(field.paths.last)
+					if item.get(field.paths.first)
+						span(class='field-value')= item.get(field.paths.first)
+					else
+						span(class='field-value') &nbsp;
+					if item.get(field.paths.last)
+						span(class='field-value')= item.get(field.paths.last)
+					else
+						span(class='field-value') &nbsp;
 				else
 					div(class='field-value width-short') &nbsp;
 			else
