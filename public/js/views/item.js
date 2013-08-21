@@ -31,8 +31,6 @@ jQuery(function($) {
 	
 	var getFieldValue = function($field) {
 		
-		console.log('Getting value for field ' + $field.data('field-path'));
-		
 		if ($field.data('field-noedit')) {
 			
 			switch ($field.data('field-type')) {
@@ -56,8 +54,9 @@ jQuery(function($) {
 					return $field.find('textarea').val();
 			}
 			
-			return _.reduce($field.find('input'), function(memo, input) {
-				return memo + $(input).val();
+			return _.reduce($field.find('input:not([type="checkbox"])'), function(memo, input) {
+				memo += $(input).val();
+				return memo;
 			}, '');
 			
 		}
