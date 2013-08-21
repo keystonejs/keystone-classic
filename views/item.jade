@@ -51,7 +51,7 @@ block content
 		
 		each el in list.uiElements
 			if el.type == 'field'
-				if el.field.type != 'text' || el.field != nameField
+				if (el.field.type != 'text' || el.field != nameField) && !el.field.hidden
 					+formField(el.field, item)
 			else if el.type == 'heading'
 				h3= el.heading
