@@ -196,7 +196,7 @@ h3 a {
   color: #3a87ad;
 }
 .alert h4 {
-  margin: 5px 0;
+  margin: 5px 0 8px;
 }
 .alert ul {
   margin-top: 5px;
@@ -707,11 +707,22 @@ h2.item-name input {
 .field .field-label {
   margin-bottom: 3px;
 }
+.field .btn-show-extras {
+  margin-left: 20px;
+  font-size: 12px;
+  text-decoration: none;
+}
+.field .btn-show-extras:hover {
+  text-decoration: underline;
+}
 .field textarea {
   height: 100px;
 }
 .field textarea.tall {
   height: 200px;
+}
+.field .extras {
+  display: none;
 }
 .field .field-ui input + input {
   margin-left: 10px;
@@ -851,7 +862,7 @@ h2.item-name input {
   margin-bottom: 8px;
 }
 .field.type-location .detect-geo {
-  color: #426147;
+  color: #5a497d;
 }
 .field.type-cloudinaryimage {
   *zoom: 1;

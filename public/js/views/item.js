@@ -80,7 +80,7 @@ jQuery(function($) {
 			if ($field.data('field-noedit'))
 				return;
 			
-			var $show = $('<a href="javascript:;" class="btn-uncollapse">add ' + $field.find('.field-label').text().toLowerCase() + '</a>');
+			var $show = $('<a href="javascript:;" class="btn-uncollapse">add ' + $field.find('.field-label').text().replace('(show more fields)', '').toLowerCase() + '</a>');
 			
 			$show.on('click', function(e) {
 				$show.remove();
@@ -89,12 +89,38 @@ jQuery(function($) {
 					try {
 						$field.find('input')[0].focus();
 					} catch(e) {}
+					$(window).trigger('redraw');
 				}, 10);
 			});
 			
 			$field.prepend($show);
 			
-			$(window).trigger('redraw');
+		}
+		
+	});
+	
+	$('.field.type-location').each(function() {
+		
+		var $field = $(this),
+			$extras = $field.find('.extras'),
+			visible = 0;
+		
+		$extras.each(function() {
+			var $this = $(this);
+			if (_.any($(this).find('input'), function(i) { return $(i).val() })) {
+				visible++;
+				$this.show();
+			}
+		});
+		
+		if (visible >= $extras.length) {
+			$field.find('.btn-show-extras').remove();
+		} else {
+			$field.find('.btn-show-extras').on('click', function() {
+				$(this).remove();
+				$field.find('.extras').show();
+				$(window).trigger('redraw');
+			})
 		}
 		
 	});

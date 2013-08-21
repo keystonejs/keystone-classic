@@ -593,6 +593,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		_: _,
 		moment: moment,
 		numeral: numeral,
+		env: this.get('env'),
 		brand: keystone.get('brand'),
 		textToHTML: utils.textToHTML,
 		messages: _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false,

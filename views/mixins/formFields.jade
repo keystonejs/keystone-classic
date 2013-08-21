@@ -201,6 +201,7 @@ mixin formField_cloudinaryimage(field, item)
 mixin formField_location(field, item)
 	.field.type-location(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		.field-label= field.label
+			a(href=js).btn-show-extras (show more fields)
 		.field-ui
 			if field.noedit
 				- var value = field.format(item);
@@ -209,18 +210,16 @@ mixin formField_location(field, item)
 				else
 					.field-value.width-long &nbsp;
 			else
-				.extras
-					.row
-						.span1
-							span.label PO Box / Shop
-							input(type='text', name=field.paths.number, value=item.get(field.paths.number))
-					.row: .span2
-							span.label Building Name
-							input(type='text', name=field.paths.name, value=item.get(field.paths.name))
+				.extras: .row: .span1
+					span.label PO Box / Shop
+					input(type='text', name=field.paths.number, value=item.get(field.paths.number))
+				.extras: .row: .span2
+					span.label Building Name
+					input(type='text', name=field.paths.name, value=item.get(field.paths.name))
 				.row: .span2
 					span.label Street Address 1
 					input(type='text', name=field.paths.street1, value=item.get(field.paths.street1))
-				.row: .span2
+				.extras: .row: .span2
 					.label Street Address 2
 					input(type='text', name=field.paths.street2, value=item.get(field.paths.street2))
 				.row: .span2
@@ -236,18 +235,17 @@ mixin formField_location(field, item)
 				.row: .span2
 					span.label Country
 					input(type='text', name=field.paths.country, value=item.get(field.paths.country))
-				
-				//- .row
-				//- 	.span1
-				//- 		span.label Latitude
-				//- 		input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '')
-				//- 	.span1
-				//- 		span.label.short Longitude
-				//- 		input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '')
-			
-			//- label(for=field.path + '_improve').detect-geo
-			//- 	input(type='checkbox', name=field.path + '_improve', id=field.path + '_improve', value='true')
-			//- 	| autodetect and improve location on save
+				.extras: .row
+					.span1
+						span.label Latitude
+						input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '')
+					.span1
+						span.label.short Longitude
+						input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '')
+			//- if field.enableMapsAPI
+			//- 	label(for=field.paths.improve).detect-geo
+			//- 		input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
+			//- 		| autodetect and improve location on save
 		
 		if field.note
 			.field-note= field.note
