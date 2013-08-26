@@ -109,7 +109,7 @@ exports = module.exports = function(req, res) {
 						.where(rel.refPath).equals(item.id)
 						.sort(rel.list.defaultSort);
 						
-					rel.columns = rel.list.defaultColumns;
+					rel.columns = _.reject(rel.list.defaultColumns, function(col) { return (col.type == 'relationship' && col.refList == req.list) });
 					rel.list.selectColumns(q, rel.columns);
 					
 					q.exec(function(err, results) {
