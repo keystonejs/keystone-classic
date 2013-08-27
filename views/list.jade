@@ -9,7 +9,16 @@ block page-js
 		Keystone.list = { path: "#{list.path}" };
 
 block content
-	h1= list.label
+	h1= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
+		if search
+			small matching #{search}
+		if items.totalPages > 1
+			small (showing #{items.first} to #{items.last})
+	
+	.search-list
+		form(action='/keystone/' + list.path)
+			input(type='text', name='search', value=search)
+			button.btn Search
 	
 	if (!list.get('nocreate'))
 		.create-item
@@ -76,3 +85,4 @@ block content
 		
 	else
 		p.no-results No #{list.plural} found.
+	

@@ -55,6 +55,11 @@ h1 {
 h1.black {
   color: black;
 }
+h1 small {
+  color: #ccc;
+  margin-left: 20px;
+  font-size: .7em;
+}
 h2 {
   color: #0687ca;
   font-size: 24px;
@@ -547,6 +552,12 @@ input[type="checkbox"] {
 .create-item .toolbar {
   border-top: none;
   padding-top: 10px;
+}
+.search-list form {
+  margin-bottom: 10px;
+}
+.search-list input {
+  width: 250px;
 }
 .items-list {
   table-layout: fixed;

@@ -10,20 +10,28 @@ exports = module.exports = function(req, res) {
 		showCreateForm: false
 	};
 	
+	var filters = (req.query.search) ? req.list.getSearchFilters(req.query.search) : {};
+	
 	var renderView = function() {
-		var q = req.list.paginate({ page: req.params.page }).sort(req.list.defaultSort);
+		
+		var q = req.list.paginate({ filters: filters, page: req.params.page }).sort(req.list.defaultSort);
+		
 		var columns = req.list.defaultColumns;
 		req.list.selectColumns(q, columns);
+		
 		q.exec(function(err, items) {
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: req.list.key,
 				title: 'Keystone: ' + req.list.plural,
 				list: req.list,
+				filters: filters,
+				search: req.query.search,
 				columns: columns,
 				items: items,
 				submitted: req.body || {}
 			}));
 		});
+		
 	}
 	
 	if (!req.list.get('nodelete') && req.query['delete']) {

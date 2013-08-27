@@ -13,6 +13,14 @@ jQuery(function($) {
 		
 	});
 	
+	// Autofocus the search field if there has been a search
+	
+	if ($('.search-list input').val()) {
+		setTimeout(function() {
+			$('.search-list input').focus();
+		},10);
+	}
+	
 	$('.btn-cancel-create-item').click(function(e) {
 		
 		var $form = $(this).closest('form');
