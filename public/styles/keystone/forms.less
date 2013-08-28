@@ -1,0 +1,68 @@
+//
+// FORM ELEMENTS
+// --------------------------------------------------
+
+/*
+	Form control wrapper
+	==============================
+	
+	.form-control-wrapper should be exclusively used for attaching validation to
+	when no other ancestor is applicable. It has no ornamental styles of it's own.
+*/
+
+// Adding v-spacing between form elements
+.form-control-wrapper,
+.form-horizontal,
+.form-control,
+.form-row,
+.row {
+	& + & {
+		margin-top: 15px;
+	}
+}
+
+// Initially hidden fields
+.change-password {
+	display: none;
+}
+
+// Big ass fields (name fields)
+.input-xl {
+	.input-size((floor(@font-size-large * @line-height-large) + (@padding-large-vertical * 3) + 2); @padding-large-vertical; @padding-large-horizontal; floor(@font-size-base * 1.7); @line-height-large; @border-radius-large);
+	// color: black;
+	font-weight: 500;
+}
+
+// Disabled fields
+.form-control.disabled {
+	background-color: @input-bg-disabled;
+}
+
+// The note that sits beneath a field
+.field-note {
+	.help-block;
+}
+
+// align label copy with field text
+label {
+	padding-top: @padding-base-vertical + 1; // make up for border
+}
+
+// limit textareas to be vertically resizable only
+textarea {
+	.resizable(vertical);
+}
+
+// columns separated fields
+// need space when the form collapses
+.form-row {
+	.make-row(10px);
+	
+	[class^="col-"] { padding-left: 5px; padding-right: 5px; }
+	
+	@media (max-width: @screen-sm) {
+		[class^="col-"] + [class^="col-"] {
+			margin-top: .8em;
+		}
+	}
+}

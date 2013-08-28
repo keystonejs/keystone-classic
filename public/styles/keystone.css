@@ -1559,7 +1559,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.428571429;
-  color: #555555;
+  color: #333333;
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #cccccc;
@@ -5905,4 +5905,509 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+/*
+  Fill Space
+  ===================
+
+  Element will fill all available vertical and horizontal space provided by it's parent
+
+  Notes
+  ===================
+  * Apply attribute "auto" to either top / bottom if the element has a height
+  * Apply attribute "auto" to either left / right if the element has a width
+
+*/
+/*
+	Inline align
+	===================
+
+	Element will align with it's siblings along a lateral axis
+
+	Notes
+	===================
+	* Defaults to middle
+	* Other options
+		- baseline / sub / super / top / text-top / middle / bottom / text-bottom / inherit
+
+*/
+/*!
+ * Keystone v1.0
+ *
+ * Copyright 2013 Jed Watson
+ * Licensed under The MIT License
+ * http://opensource.org/licenses/MIT
+ *
+ * Designed and built with all the love in the world by @jedwatson
+ */
+#footer {
+  font-size: 12px;
+  padding-top: 40px;
+  padding-bottom: 30px;
+  margin-top: 100px;
+  border-top: 1px solid #eeeeee;
+}
+#footer p {
+  color: #999999;
+}
+#footer ul a {
+  color: #555555;
+}
+.create-item {
+  margin-bottom: 20px;
+}
+.create-item .form,
+.create-item .toolbar-create {
+  display: none;
+}
+.create-item .toolbar {
+  border-top: none;
+  padding-top: 10px;
+}
+.search-list {
+  margin-bottom: 2em;
+}
+.search-list form {
+  margin-bottom: 10px;
+}
+.items-list {
+  table-layout: fixed;
+  width: 100%;
+}
+.items-list th {
+  padding: 0 5px 10px;
+  text-align: left;
+  font-size: 16px;
+}
+.items-list td {
+  padding: 0;
+  background-color: white;
+  border-top: 1px solid #e5e5e5;
+}
+.items-list tbody > tr:nth-child(odd) > td,
+.items-list tbody > tr:nth-child(odd) > th {
+  background-color: #fafafa;
+}
+.items-list tr.delete-hover td {
+  color: #AD1212;
+}
+.items-list tr.delete-hover td a {
+  color: #AD1212;
+}
+.items-list tr.sort-hover .control-sort,
+.items-list tr.dragged .control-sort {
+  opacity: 1;
+}
+.items-list tr.sort-hover td,
+.items-list tr.dragged td {
+  color: #246818;
+}
+.items-list tr.sort-hover td a,
+.items-list tr.dragged td a {
+  color: #246818;
+}
+.items-list .control {
+  padding: 5px;
+}
+.items-list .control a {
+  display: block;
+  width: 16px;
+  height: 18px;
+  padding: 0px;
+  background: url('/keystone/images/icons/list-controls.png') top left no-repeat;
+  opacity: 0.5;
+}
+.items-list .control a:hover {
+  opacity: 1;
+}
+.items-list .control .control-delete {
+  background-position: 0 0;
+}
+.items-list .control .control-sort {
+  background-position: -32px 0;
+  cursor: move;
+}
+.items-list .control + .control {
+  padding-left: 3px;
+}
+.items-list .control-delete i {
+  background-position: 0 0;
+}
+.items-list .col-value {
+  padding: 6px 5px;
+}
+.items-list .col-boolean {
+  text-align: left;
+  padding: 6px 5px 2px;
+}
+.items-list a {
+  display: inline-block;
+  padding: 6px 5px;
+  text-decoration: none;
+  color: #111;
+}
+.items-list a:hover {
+  color: #111;
+  text-decoration: underline;
+}
+.items-list img {
+  margin-left: 5px;
+}
+.pagination {
+  margin: 10px 0;
+}
+.pagination ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pagination ul:before,
+.pagination ul:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.pagination ul:after {
+  clear: both;
+}
+.pagination ul:before,
+.pagination ul:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.pagination ul:after {
+  clear: both;
+}
+.pagination ul li {
+  float: left;
+}
+.pagination ul li a {
+  color: #666;
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+}
+.pagination ul li a:hover {
+  text-decoration: underline;
+  color: #2a6496;
+}
+.pagination ul li.disabled a {
+  color: #ccc;
+}
+.pagination ul li.disabled a:hover {
+  text-decoration: none;
+}
+.item-id {
+  float: right;
+  color: #999;
+}
+.item-id + h3 {
+  margin-top: 0;
+}
+.toolbar {
+  background-color: white;
+  border-top: 1px solid #eeeeee;
+  margin-top: 20px;
+  padding: 20px 0;
+  z-index: 1;
+}
+/*
+	Form control wrapper
+	==============================
+	
+	.form-control-wrapper should be exclusively used for attaching validation to
+	when no other ancestor is applicable. It has no ornamental styles of it's own.
+*/
+.form-control-wrapper + .form-control-wrapper,
+.form-control-wrapper + .form-horizontal,
+.form-control-wrapper + .form-control,
+.form-control-wrapper + .form-row,
+.form-control-wrapper + .row,
+.form-horizontal + .form-control-wrapper,
+.form-horizontal + .form-horizontal,
+.form-horizontal + .form-control,
+.form-horizontal + .form-row,
+.form-horizontal + .row,
+.form-control + .form-control-wrapper,
+.form-control + .form-horizontal,
+.form-control + .form-control,
+.form-control + .form-row,
+.form-control + .row,
+.form-row + .form-control-wrapper,
+.form-row + .form-horizontal,
+.form-row + .form-control,
+.form-row + .form-row,
+.form-row + .row,
+.row + .form-control-wrapper,
+.row + .form-horizontal,
+.row + .form-control,
+.row + .form-row,
+.row + .row {
+  margin-top: 15px;
+}
+.change-password {
+  display: none;
+}
+.input-xl {
+  height: 55px;
+  padding: 10px 16px;
+  font-size: 23px;
+  line-height: 1.33;
+  border-radius: 6px;
+  font-weight: 500;
+}
+select.input-xl {
+  height: 55px;
+  line-height: 55px;
+}
+textarea.input-xl {
+  height: auto;
+}
+.form-control.disabled {
+  background-color: #eeeeee;
+}
+.field-note {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #737373;
+}
+label {
+  padding-top: 7px;
+}
+textarea {
+  resize: vertical;
+  overflow: auto;
+}
+.form-row {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.form-row:before,
+.form-row:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.form-row:after {
+  clear: both;
+}
+.form-row:before,
+.form-row:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.form-row:after {
+  clear: both;
+}
+.form-row [class^="col-"] {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+@media (max-width: 768px) {
+  .form-row [class^="col-"] + [class^="col-"] {
+    margin-top: .8em;
+  }
+}
+.btn + .btn {
+  margin-left: 5px;
+}
+.btn + .btn.btn-block {
+  margin-left: 0;
+}
+.btn-link.text-muted {
+  color: #999999;
+}
+.btn-link.text-primary {
+  color: #428bca;
+}
+.btn-link.text-warning {
+  color: #c09853;
+}
+.btn-link.text-danger {
+  color: #b94a48;
+}
+.btn-link.text-success {
+  color: #468847;
+}
+.btn-link.text-info {
+  color: #3a87ad;
+}
+.btn-default {
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+  background-image: -webkit-gradient(linear, left 30%, left 100%, from(#ffffff), to(#fafafa));
+  background-image: -webkit-linear-gradient(top, #ffffff, 30%, #fafafa, 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 30%, #fafafa 100%);
+  background-image: linear-gradient(to bottom, #ffffff 30%, #fafafa 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fffafafa', GradientType=0);
+}
+/*
+	Button companion
+	==============================
+	
+	For a vertically aligned & horizontally spaced label/note beside your button
+*/
+.btn-companion,
+.btn-companion-lg,
+.btn-companion-sm,
+.btn-companion-xs {
+  display: inline-block;
+  vertical-align: middle;
+}
+.btn-companion {
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  border-radius: none;
+}
+.btn-companion-lg {
+  padding: 12px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: none;
+}
+.btn-companion-sm,
+.btn-companion-xs {
+  padding: 7px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: none;
+}
+.btn-companion-xs {
+  padding: 1px 5px;
+}
+.wysihtml5-toolbar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 10px;
+}
+.wysihtml5-toolbar:before,
+.wysihtml5-toolbar:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.wysihtml5-toolbar:after {
+  clear: both;
+}
+.wysihtml5-toolbar:before,
+.wysihtml5-toolbar:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.wysihtml5-toolbar:after {
+  clear: both;
+}
+.wysihtml5-toolbar > li {
+  float: left;
+  margin: 0 10px 0 0;
+}
+.wysihtml5-toolbar > li .btn {
+  margin-right: 0px;
+}
+.wysihtml5-toolbar i {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+  margin-top: 2px;
+  vertical-align: text-top;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.wysihtml5-toolbar .icon-ok {
+  background-image: url('/keystone/images/icons/16/tick-circle.png');
+}
+.wysihtml5-toolbar .icon-remove {
+  background-image: url('/keystone/images/icons/16/cross.png');
+}
+.wysihtml5-toolbar .icon-edit-size {
+  background-image: url('/keystone/images/icons/16/edit-size.png');
+}
+.wysihtml5-toolbar .icon-edit-bold {
+  background-image: url('/keystone/images/icons/16/edit-bold.png');
+}
+.wysihtml5-toolbar .icon-edit-italic {
+  background-image: url('/keystone/images/icons/16/edit-italic.png');
+}
+.wysihtml5-toolbar .icon-edit-indent {
+  background-image: url('/keystone/images/icons/16/edit-indent.png');
+}
+.wysihtml5-toolbar .icon-edit-outdent {
+  background-image: url('/keystone/images/icons/16/edit-outdent.png');
+}
+.wysihtml5-toolbar .icon-edit-list {
+  background-image: url('/keystone/images/icons/16/edit-list.png');
+}
+.wysihtml5-toolbar .icon-edit-list-order {
+  background-image: url('/keystone/images/icons/16/edit-list-order.png');
+}
+.wysihtml5-toolbar .icon-edit-code {
+  background-image: url('/keystone/images/icons/16/edit-code.png');
+}
+.wysihtml5-toolbar .icon-edit-link {
+  background-image: url('/keystone/images/icons/16/edit-link.png');
+}
+.wysihtml5-toolbar .icon-edit-image {
+  background-image: url('/keystone/images/icons/16/edit-image.png');
+}
+.ui-wysiwyg-hint {
+  font-size: 11px;
+  margin-top: 4px;
+}
+.ui-wysiwyg-dialog {
+  border: 1px solid #DEDEDE;
+  border-radius: 5px 5px 5px 5px;
+  display: block;
+  line-height: 0;
+  width: 624px;
+  overflow: hidden;
+  /*
+	.ok-btn {
+		display: inline-block;
+		padding: 3px 3px;
+	}
+	
+	.remove-btn {
+		display: inline-block;
+		padding: 6px 3px;
+	}
+	*/
+
+}
+.ui-wysiwyg-dialog input {
+  width: 565px !important;
+  float: left;
+  margin-bottom: 0px;
+  border: none;
+  padding: 4px 5px 3px;
+  font-size: 12px;
+}
+.ui-wysiwyg-dialog a {
+  display: inline-block;
+  padding: 3px 3px;
 }

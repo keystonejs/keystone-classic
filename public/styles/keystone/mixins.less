@@ -1,0 +1,44 @@
+//
+// Additional Mixins
+// --------------------------------------------------
+
+
+
+/*
+  Fill Space
+  ===================
+
+  Element will fill all available vertical and horizontal space provided by it's parent
+
+  Notes
+  ===================
+  * Apply attribute "auto" to either top / bottom if the element has a height
+  * Apply attribute "auto" to either left / right if the element has a width
+
+*/
+.fill-space(@top:0,@right:0,@bottom:0,@left:0) {
+	position: absolute;
+	bottom: @bottom;
+	left: @left;
+	right: @right;
+	top: @top;
+}
+
+
+/*
+	Inline align
+	===================
+
+	Element will align with it's siblings along a lateral axis
+
+	Notes
+	===================
+	* Defaults to middle
+	* Other options
+		- baseline / sub / super / top / text-top / middle / bottom / text-bottom / inherit
+
+*/
+.inline-align(@alignment:middle) {
+	display: inline-block;
+	vertical-align: @alignment;
+}

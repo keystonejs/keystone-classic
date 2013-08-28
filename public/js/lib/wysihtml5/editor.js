@@ -12,27 +12,27 @@
 		// 					"</ul>" +
 		// 				"</li>",
 		"emphasis":		 "<li>" +
-							"<div class='btn-group'>" +		
-								"<a class='btn btn-small' data-wysihtml5-command='bold' title='CTRL+B'><i class='icon-edit-bold'></i></a>" +
-								"<a class='btn btn-small' data-wysihtml5-command='italic' title='CTRL+I'><i class='icon-edit-italic'></i></a>" +
+							"<div class='btn-group btn-group-sm'>" +		
+								"<a class='btn btn-default' data-wysihtml5-command='bold' title='CTRL+B'><i class='icon-edit-bold'></i></a>" +
+								"<a class='btn btn-default' data-wysihtml5-command='italic' title='CTRL+I'><i class='icon-edit-italic'></i></a>" +
 							"</div>" +
 						"</li>",
 		"lists": 		"<li>" +
-							"<div class='btn-group'>" +
-								"<a class='btn btn-small' data-wysihtml5-command='insertUnorderedList' title='Unordered List'><i class='icon-edit-list'></i></a>" +
-								"<a class='btn btn-small' data-wysihtml5-command='insertOrderedList' title='Ordered List'><i class='icon-edit-list-order'></i></a>" +
-								"<a class='btn btn-small' data-wysihtml5-command='Indent' title='Indent'><i class='icon-edit-indent'></i></a>" +
-								"<a class='btn btn-small' data-wysihtml5-command='Outdent' title='Outdent'><i class='icon-edit-outdent'></i></a>" +
+							"<div class='btn-group btn-group-sm'>" +
+								"<a class='btn btn-default' data-wysihtml5-command='insertUnorderedList' title='Unordered List'><i class='icon-edit-list'></i></a>" +
+								"<a class='btn btn-default' data-wysihtml5-command='insertOrderedList' title='Ordered List'><i class='icon-edit-list-order'></i></a>" +
+								"<a class='btn btn-default' data-wysihtml5-command='Indent' title='Indent'><i class='icon-edit-indent'></i></a>" +
+								"<a class='btn btn-default' data-wysihtml5-command='Outdent' title='Outdent'><i class='icon-edit-outdent'></i></a>" +
 							"</div>" +
 						"</li>",
 		"assets":		"<li>" +
-		//					"<div class='btn-group'>" +
-		//						"<a class='btn btn-small insert-image' data-wysihtml5-command='insertImage' title='Insert Image' href='javascript:;'><i class='icon-edit-image'></i></a>" +
-								"<a class='btn btn-small insert-link' data-wysihtml5-command='createLink' title='Insert Link' href='javascript:;'><i class='icon-edit-link'></i></a>" +
+		//					"<div class='btn-group btn-group-sm'>" +
+		//						"<a class='btn btn-default btn-sm insert-image' data-wysihtml5-command='insertImage' title='Insert Image' href='javascript:;'><i class='icon-edit-image'></i></a>" +
+								"<a class='btn btn-default btn-sm insert-link' data-wysihtml5-command='createLink' title='Insert Link' href='javascript:;'><i class='icon-edit-link'></i></a>" +
 		//					"</div>" +
 						"</li>",
 		"source":		"<li>" +
-							"<a class='btn btn-small' data-wysihtml5-action='change_view'>" +
+							"<a class='btn btn-default btn-sm' data-wysihtml5-action='change_view'>" +
 								"<i class='icon-edit-code'></i>" +
 							"</a>" +
 						"</li>"

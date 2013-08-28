@@ -32,9 +32,8 @@ html
 			block content
 		
 		#footer: .container
-			| Powered by 
-			a(href='http://github.com/JedWatson/keystone', target='_blank') Keystone
-			| .
+			p Powered by 
+				a(href='http://github.com/JedWatson/keystone', target='_blank') Keystone
 		
 		script(src="/keystone/js/lib/underscore/underscore-1.4.4.min.js")
 		script(src="/keystone/js/lib/jquery/jquery-1.10.2.min.js")
@@ -52,6 +51,10 @@ html
 		script(src="/keystone/js/common/ui.js")
 		script(src="/keystone/js/common/ui-alt-text.js")
 		script(src="/keystone/js/common/ui-sortable.js")
+		
+		//- bootstrap scripts (compile later)
+		script(src='/js/lib/bootstrap/collapse.js')
+		script(src='/js/lib/bootstrap/dropdown.js')
 		
 		script.
 			Keystone = {};

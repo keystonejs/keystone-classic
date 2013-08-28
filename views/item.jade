@@ -43,7 +43,7 @@ block content
 		
 		h2.item-name
 			if nameIsEditable
-				input(type='text', name=list.nameField.path, value=item.get(list.nameField.path))
+				input(type='text', name=list.nameField.path, value=item.get(list.nameField.path)).form-control.input-xl
 			else if nameField
 				.name-value= list.nameField.format(item) || '(no name)'
 			else
@@ -62,7 +62,7 @@ block content
 		
 		.toolbar.toolbar-fixed
 			if !list.get('noedit')
-				button(type='submit').btn Save
+				button(type='submit').btn.btn-default Save
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-cancel reset changes
 			if !list.get('nodelete')
 				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-cancel delete #{list.singular.toLowerCase()}

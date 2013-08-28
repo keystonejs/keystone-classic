@@ -8,18 +8,19 @@ block page-js
 	script.
 		Keystone.list = { path: "#{list.path}" };
 
+block intro
+	.page-header
+		h1= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
+			if search
+				small matching #{search}
+			if items.totalPages > 1
+				small (showing #{items.first} to #{items.last})
+		.search-list
+			form(action='/keystone/' + list.path).form-row
+				.col-sm-4.col-lg-3: input(type='text', name='search', value=search).form-control
+				.col-sm-8.col-lg-9: button(type='submit').btn.btn-default Search
+			
 block content
-	h1= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
-		if search
-			small matching #{search}
-		if items.totalPages > 1
-			small (showing #{items.first} to #{items.last})
-	
-	.search-list
-		form(action='/keystone/' + list.path)
-			input(type='text', name='search', value=search)
-			button.btn Search
-	
 	if (!list.get('nocreate'))
 		.create-item
 			form(method='post', action='/keystone/' + list.path)
@@ -28,9 +29,9 @@ block content
 				.form
 					if list.nameIsInitial
 						if list.nameField.type == 'name'
-							h2.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full])
+							h2.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full]).form-control.input-xl
 						else if list.nameField.type == 'text'
-							h2.item-name: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path])
+							h2.item-name: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path]).form-control.input-xl
 						else
 							.alert.alert-error Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 					
@@ -39,10 +40,10 @@ block content
 				
 				.toolbar
 					.toolbar-create
-						button(type='submit').btn Create
+						button(type='submit').btn.btn-default Create
 						a(href=js).btn.btn-cancel.btn-cancel-create-item cancel
 					.toolbar-default
-						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-create-item Create #{list.singular}
+						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create-item Create #{list.singular}
 			
 	if items.results.length
 		- var sortable = list.get('sortable') && !list.get('sortContext')
