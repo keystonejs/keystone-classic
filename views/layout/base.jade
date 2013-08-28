@@ -6,25 +6,26 @@ html
 		meta(charset="utf-8")
 		title= title
 		link(rel="stylesheet", href="/keystone/styles/keystone.css")
-		//link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Lato:300,400,700")
 		block css
-		
-		//- IE hacks (uncomment if required)
-		//-	//if lt IE 10
-		//-		link(rel="stylesheet", href="/styles/ie-min.css", media="all")
 		
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 		block head
 	body
-		.fb-root
-		
-		#header: .container
-			a(href='/keystone', class=(section == 'home' ? 'selected' : null)).brand= brand
-			each list in lists
-				a(href='/keystone/' + list.path, class=(section == list.key ? 'selected' : null))= list.label
-			if signout
-				a(href=signout).signout Sign Out
-		
+		nav(role='navigation')#header.navbar.navbar-default.navbar-static-top: .container
+			.navbar-header
+				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-headernav-collapse')
+					span.sr-only Toggle navigation
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+				a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand=brand
+			.collapse.navbar-collapse.navbar-headernav-collapse
+				ul.nav.navbar-nav: each list in lists
+					li(class=(section == list.key ? 'active' : null)): a(href='/keystone/' + list.path)= list.label
+				if signout
+					ul.nav.navbar-nav.navbar-right
+						li: a(href=signout).signout Sign Out
+	
 		#body: .container
 			block intro
 			+flash-messages(messages)
