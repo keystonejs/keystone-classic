@@ -68,10 +68,10 @@ block content
 				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
 	
 	if showRelationships
-		h2.relationships Relationships
+		h2.relationships-heading Relationships
 			each rel in relationships
 				if rel.items.results.length
-					h3: a(href='/keystone/' + rel.list.path)= rel.list.label
+					h3.relationship-heading: a(href='/keystone/' + rel.list.path)= rel.list.label
 					- var firstColspan = 1
 					table(cellpadding=0, cellspacing=0, class=rel.sortable ? 'sortable' : false, data-list-path=rel.list.path).items-list
 						if rel.sortable

@@ -188,7 +188,19 @@
 // -------------------------------------------------- 
 
 // form heading
-.form-heading {
+.form-heading,
+.relationship-heading {
+	border-top: 1px dashed @gray-lighter;
+	color: @navbar-keystone-bg;
+	font-weight: 200;
+	margin-bottom: 15px;
+	margin-top: 40px;
+	padding-top: 40px;
+	position: relative;
+}
+
+// relationships heading
+.relationships-heading {
 	// border-top: 1px dashed @gray-lighter;
 	color: @navbar-keystone-bg;
 	font-weight: 200;
@@ -214,10 +226,30 @@
 		top: 0;
 	}
 }
+.relationships-heading + .relationship-heading {
+	border-top: 0 none;
+	padding-top: 0;
+}
+
+// Common fields
+.field .form-control {
+	border-radius: 1px;
+	border-color: #b6b6b6 #ddd #d6d6d6;
+	
+	&:hover {
+		.box-shadow( 0 );
+		border-color: @brand-primary;
+	}
+	
+	&:focus {
+		.box-shadow( 0 );
+		border-color: @brand-primary;
+	}
+}
 
 // Name field
 .item-name .form-control {
-	.input-size(@input-height-large; @padding-base-vertical; @padding-base-horizontal; ceil(@font-size-base * 1.70); @line-height-large; @border-radius-base);
+	.input-size(@input-height-large; @padding-base-vertical; @padding-base-horizontal; ceil(@font-size-base * 1.70); @line-height-large; 1px);
 	color: @navbar-keystone-bg;
 	font-weight: 200;
 }
