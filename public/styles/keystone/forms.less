@@ -11,26 +11,45 @@
 */
 
 // Adding v-spacing between form elements
+.field,
 .form-control-wrapper,
 .form-horizontal,
 .form-control,
 .form-row,
 .row {
 	& + & {
-		margin-top: 15px;
+		margin-top: 12px;
 	}
 }
 
+// Form headings
+.form-heading {
+	margin-top: 50px;
+}
+
+// All input
+.form-control {
+	-webkit-appearance: none;
+}
+
+// Alerts
+.alert {
+	border: 0 none;
+	padding: @padding-large-vertical @padding-large-horizontal;
+}
+
 // Initially hidden fields
+.field-hidden,
+.overwrite,
+.extras,
+.field-message,
 .change-password {
 	display: none;
 }
 
 // Big ass fields (name fields)
-.input-xl {
-	.input-size((floor(@font-size-large * @line-height-large) + (@padding-large-vertical * 3) + 2); @padding-large-vertical; @padding-large-horizontal; floor(@font-size-base * 1.7); @line-height-large; @border-radius-large);
-	// color: black;
-	font-weight: 500;
+.item-name .form-control {
+	margin-bottom: 20px;
 }
 
 // Disabled fields
@@ -43,14 +62,39 @@
 	.help-block;
 }
 
+// Field value. Used for non-editable fields
+.field-value {
+	background: #f6f6f6;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: @padding-base-vertical @padding-base-horizontal;
+	
+	&:empty {
+		display: none;
+	}
+}
+
 // align label copy with field text
 label {
+	font-weight: normal;
 	padding-top: @padding-base-vertical + 1; // make up for border
 }
 
-// limit textareas to be vertically resizable only
+// limit textareas to be vertically resizable only, set heights
 textarea {
 	.resizable(vertical);
+	min-height: 100px;
+	
+	&.tall {
+		min-height: 200px;
+	}
+}
+
+// radios + checkboxes
+.radio,
+.checkbox {
+	margin-bottom: 0;
+	margin-top: 0;
 }
 
 // columns separated fields
@@ -64,5 +108,88 @@ textarea {
 		[class^="col-"] + [class^="col-"] {
 			margin-top: .8em;
 		}
+	}
+}
+
+// location specific
+.field-postcode {
+	@media (min-width: @screen-sm) {
+		text-align: right;
+	}
+}
+
+// ============================================================
+// * * *
+// ============ OLD =============
+// * * *
+// ============================================================
+
+
+// cloudinary
+.field.type-cloudinaryimage {
+	
+	.clearfix;
+	margin-bottom: 10px;
+	
+	.field-label {
+		margin-bottom: 8px;
+	}
+	
+	.image-preview {
+		float: left;
+		margin-right: 10px;
+	}
+	
+	.has-image {
+		.image-details, .image-toolbar {
+			margin-left: 110px;
+		}
+	}
+	
+	.upload-queued {
+		border-radius: 3px;
+		display: none;
+		background: #e5fbe5;
+		border: 1px solid #c5ddc5;
+		margin-right: 10px;
+		padding: @padding-base-vertical @padding-base-horizontal;
+	}
+}
+.ui-related-item {
+	.field-value;
+	background: #white;
+	//border: 1px solid #72b3d8;
+	color: #0089cb;
+	margin-right: 5px;
+	text-decoration: none;
+	
+	&:hover {
+		background-color: #f0f8fc;
+		border-color: #80c4e5;
+		color: #0c699e;
+	};
+}
+
+.field-upload {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0.01;
+}
+
+.field-message {
+	
+	display: none;
+	min-height: 30px;
+	
+	span {
+		display: inline-block;
+		background: #f9f9f9;
+		border: 1px solid #ccc;
+		color: #999;
+		margin-right: 10px;
+		padding: 5px 10px;
+		// .border-radius(3px);
+		cursor: default;
 	}
 }

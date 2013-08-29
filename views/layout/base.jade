@@ -4,6 +4,8 @@ doctype 5
 html
 	head
 		meta(charset="utf-8")
+		meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
+		
 		title= title
 		link(rel="stylesheet", href="/keystone/styles/keystone.css")
 		block css
@@ -11,25 +13,28 @@ html
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 		block head
 	body
-		nav(role='navigation')#header.navbar.navbar-default.navbar-static-top: .container
-			.navbar-header
-				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-headernav-collapse')
-					span.sr-only Toggle navigation
-					span.icon-bar
-					span.icon-bar
-					span.icon-bar
-				a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand=brand
-			.collapse.navbar-collapse.navbar-headernav-collapse
-				ul.nav.navbar-nav: each list in lists
-					li(class=(section == list.key ? 'active' : null)): a(href='/keystone/' + list.path)= list.label
-				if signout
-					ul.nav.navbar-nav.navbar-right
-						li: a(href=signout).signout Sign Out
-	
-		#body: .container
-			block intro
-			+flash-messages(messages)
-			block content
+		#wrap
+			nav(role='navigation')#header.navbar: .container
+				a(href='/').navbar-backtobrand.hidden-xs: span.glyphicon.glyphicon-arrow-left
+				.navbar-header
+					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-headernav-collapse')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand=brand
+				.collapse.navbar-collapse.navbar-headernav-collapse
+					ul.nav.navbar-nav: each list in lists
+						li(class=(section == list.key ? 'active' : null)): a(href='/keystone/' + list.path)= list.label
+					if signout
+						ul.nav.navbar-nav.navbar-right
+							li.divider
+							li: a(href=signout).signout Sign Out
+		
+			#body: .container
+				block intro
+				+flash-messages(messages)
+				block content
 		
 		#footer: .container
 			p Powered by 

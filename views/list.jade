@@ -9,7 +9,7 @@ block page-js
 		Keystone.list = { path: "#{list.path}" };
 
 block intro
-	.page-header
+	.page-header.page-header-borderless
 		h1= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
 			if search
 				small matching #{search}
@@ -29,11 +29,11 @@ block content
 				.form
 					if list.nameIsInitial
 						if list.nameField.type == 'name'
-							h2.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full]).form-control.input-xl
+							h2.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full]).form-control.input-lg
 						else if list.nameField.type == 'text'
-							h2.item-name: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path]).form-control.input-xl
+							h2.item-name: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path]).form-control.input-lg
 						else
-							.alert.alert-error Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
+							.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 					
 					each field in list.initialFields
 						+initialField(field, submitted)

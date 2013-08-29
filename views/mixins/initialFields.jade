@@ -29,11 +29,12 @@ mixin initialField(field, submitted)
 		+initialField_relationship(field, submitted)
 
 mixin initialField_text_common(type, field, submitted, cls)
-	div(class='field type-' + type)
-		.field-label= field.label
-		.field-ui: input(type='text', name=field.path, class=[cls,'width-' + field.width], autocomplete='off', value=submitted[field.path]).form-control
-		if field.note
-			.field-note= field.note
+	.field(class='type-' + type).row
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-ui: input(type='text', name=field.path, class=[cls,'width-' + field.width], autocomplete='off', value=submitted[field.path]).form-control
+			if field.note
+				.field-note= field.note
 
 mixin initialField_text(field, submitted)
 	+initialField_text_common('text', field, submitted)
@@ -55,13 +56,14 @@ mixin initialField_textarea(field, submitted)
 			.field-note= field.note
 
 mixin initialField_password(field, submitted)
-	.field.type-password
-		.field-label= field.label
-		.field-ui
-			input(type='password', name=field.path, class='width-short', autocomplete='off', value=submitted[field.path]).form-control
-			input(type='password', name=field.paths.confirm, class='width-short', autocomplete='off', value=submitted[field.paths.confirm]).form-control
-		if field.note
-			.field-note= field.note
+	.field.type-password.row
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-ui: .form-row
+				.col-sm-6: input(type='password', name=field.path, class='width-short', autocomplete='off', value=submitted[field.path], placeholder='Set password').form-control
+				.col-sm-6: input(type='password', name=field.paths.confirm, class='width-short', autocomplete='off', value=submitted[field.paths.confirm], placeholder='Confirm password').form-control
+			if field.note
+				.field-note= field.note
 
 mixin initialField_name(field, submitted)
 	.field.type-text

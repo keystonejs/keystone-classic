@@ -1,5 +1,15 @@
 jQuery(function($) {
 	
+	//- @JM header back to brand arrow
+	$('.navbar-backtobrand').mouseenter(function(e) {
+		$('.navbar-headernav-collapse').addClass('navbar-headernav-hide');
+		$('.navbar-brand').text('Back to the FindYoga website');
+	});
+	$('.navbar-backtobrand').mouseleave(function() {
+		$('.navbar-headernav-collapse').removeClass('navbar-headernav-hide');
+		$('.navbar-brand').text('FindYoga');
+	});
+	
 	$('a[data-confirm]').click(function(e) {
 		if (!confirm($(this).data().confirm)) {
 			e.preventDefault();

@@ -79,14 +79,14 @@ jQuery(function($) {
 			if ($field.data('field-noedit'))
 				return;
 			
-			var $show = $('<a href="javascript:;" class="btn-uncollapse">add ' + $field.find('.field-label').text().replace('(show more fields)', '').toLowerCase() + '</a>');
+			var $show = $('<div class="col-sm-4 col-md-3"><label class="field-label"><a href="javascript:;" class="btn-uncollapse">+ Add ' + $field.find('.field-label').text().replace('(show more fields)', '').toLowerCase() + '</a></label></div>');
 			
 			$show.on('click', function(e) {
 				$show.remove();
 				$field.find('.field-hidden').removeClass('field-hidden').show();
 				setTimeout(function() {
 					try {
-						$field.find('input')[0].focus();
+						$field.find('.form-control')[0].focus();
 					} catch(e) {}
 					$(window).trigger('redraw');
 				}, 10);

@@ -3,18 +3,24 @@
 // --------------------------------------------------
 
 .item-id {
-	float: right;
 	color: #999;
-}
-
-.item-id + h3 {
-	margin-top: 0;
+	@media (min-width: @screen-sm) {
+		text-align: right;
+	}
 }
 
 .toolbar {
 	background-color: white;
 	border-top: 1px solid @gray-lighter;
 	margin-top: 20px;
-	padding: 20px 0;
+	padding: 20px 0 25px;
 	z-index: 1;
+}
+
+.page-header-borderless {
+	border-bottom: 0 none;
+	padding-bottom: 0;
+}
+.drilldown {
+	margin-top: 0;
 }

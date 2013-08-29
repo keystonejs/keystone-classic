@@ -13,25 +13,25 @@ block page-js
 		Keystone.item = { id: "#{item.id}" };
 
 block intro
-	.item-id id: #{item.id}
-		if list.autokey
-			|  / #{item.get(list.autokey.path)}
-	
-	h3
-		if drilldown
-			each d in drilldown.items
-				if d.items
-					each di, i in d.items
-						a(href=di.href)= di.label
-						if i < d.items.length - 1
-							| , 
-					if d.more
-						span  ... 
-					span : 
-				else
-					a(href=d.href) #{d.label}
-					span : 
-		a(href='/keystone/' + list.path)= list.label
+	.page-header: .row
+		.col-sm-6: h1.h4.drilldown
+			if drilldown
+				each d in drilldown.items
+					if d.items
+						each di, i in d.items
+							a(href=di.href)= di.label
+							if i < d.items.length - 1
+								| , 
+						if d.more
+							span  ... 
+						span : 
+					else
+						a(href=d.href) #{d.label}
+						span : 
+			a(href='/keystone/' + list.path)= list.label
+		.col-sm-6: .item-id id: #{item.id}
+			if list.autokey
+				|  / #{item.get(list.autokey.path)}
 	
 
 block content
@@ -43,7 +43,7 @@ block content
 		
 		h2.item-name
 			if nameIsEditable
-				input(type='text', name=list.nameField.path, value=item.get(list.nameField.path)).form-control.input-xl
+				input(type='text', name=list.nameField.path, value=item.get(list.nameField.path)).form-control.input-lg
 			else if nameField
 				.name-value= list.nameField.format(item) || '(no name)'
 			else
@@ -54,7 +54,7 @@ block content
 				if (el.field.type != 'text' || el.field != nameField) && !el.field.hidden
 					+formField(el.field, item)
 			else if el.type == 'heading'
-				h3= el.heading
+				h3.form-heading= el.heading
 			else if el.type == 'indent'
 				| <div class="indent">
 			else if el.type == 'outdent'
@@ -63,9 +63,9 @@ block content
 		.toolbar.toolbar-fixed
 			if !list.get('noedit')
 				button(type='submit').btn.btn-default Save
-				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-cancel reset changes
+				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
 			if !list.get('nodelete')
-				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-cancel delete #{list.singular.toLowerCase()}
+				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
 	
 	if showRelationships
 		h2.relationships Relationships

@@ -11,6 +11,42 @@
  
  
 //
+// Header
+// -------------------------------------------------- 
+#header {
+	.navbar-default;
+	.navbar-static-top;
+	
+	.container {
+		position: relative;
+	}
+	.navbar-headernav-hide {
+		display: none !important;
+	}
+	
+	// back arrow
+	.navbar-backtobrand {
+		.opacity(0);
+		.transition( opacity 160ms linear );
+		color: @navbar-default-link-color;
+		left: @navbar-padding-horizontal * -2;
+		padding: @navbar-padding-vertical @navbar-padding-horizontal;
+		position: absolute;
+		text-decoration: none;
+		
+		&:hover {
+			color: @navbar-default-link-hover-color;
+		}
+	}
+	// show on hover
+	&:hover .navbar-backtobrand {
+		.opacity(100);
+		// display: block;
+	}
+}
+
+
+//
 // Footer
 // --------------------------------------------------
 #footer {
