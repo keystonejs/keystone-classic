@@ -6247,60 +6247,9 @@ td.visible-print {
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
+  background-color: #fcfcfc;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  border-color: #bbb #ddd #eee;
-  -webkit-appearance: none;
-  background: #eeeeee;
-  height: auto;
-}
-.field-value:-moz-placeholder {
-  color: #999999;
-}
-.field-value::-moz-placeholder {
-  color: #999999;
-}
-.field-value:-ms-input-placeholder {
-  color: #999999;
-}
-.field-value::-webkit-input-placeholder {
-  color: #999999;
-}
-.field-value:focus {
-  border-color: #0088cc;
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
-}
-.field-value[disabled],
-.field-value[readonly],
-fieldset[disabled] .field-value {
-  cursor: not-allowed;
-  background-color: #eeeeee;
-}
-textarea.field-value {
-  height: auto;
-}
-.field-value + .field-value {
-  margin-top: 12px;
-}
-.field-value:hover {
-  border-color: #999 #bbb #ccc;
-}
-.field-value:focus {
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
-  border-color: #0088cc #0099e6 #0099e6;
-}
-.field-value:empty {
-  display: none;
 }
 label {
   display: inline-block;
@@ -6491,64 +6440,13 @@ textarea.field.type-html textarea {
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
+  background-color: #fcfcfc;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  border-color: #bbb #ddd #eee;
-  -webkit-appearance: none;
-  background: #eeeeee;
-  height: auto;
   background: #white;
   color: #0089cb;
   margin-right: 5px;
   text-decoration: none;
-}
-.ui-related-item:-moz-placeholder {
-  color: #999999;
-}
-.ui-related-item::-moz-placeholder {
-  color: #999999;
-}
-.ui-related-item:-ms-input-placeholder {
-  color: #999999;
-}
-.ui-related-item::-webkit-input-placeholder {
-  color: #999999;
-}
-.ui-related-item:focus {
-  border-color: #0088cc;
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
-}
-.ui-related-item[disabled],
-.ui-related-item[readonly],
-fieldset[disabled] .ui-related-item {
-  cursor: not-allowed;
-  background-color: #eeeeee;
-}
-textarea.ui-related-item {
-  height: auto;
-}
-.ui-related-item + .ui-related-item {
-  margin-top: 12px;
-}
-.ui-related-item:hover {
-  border-color: #999 #bbb #ccc;
-}
-.ui-related-item:focus {
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
-  border-color: #0088cc #0099e6 #0099e6;
-}
-.ui-related-item:empty {
-  display: none;
 }
 .ui-related-item:hover {
   background-color: #f0f8fc;
@@ -7066,6 +6964,10 @@ select.item-name .form-control {
 textarea.item-name .form-control {
   height: auto;
 }
+.type-boolean img {
+  margin-right: 8px;
+  margin-top: -3px;
+}
 .field-note {
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
@@ -7081,6 +6983,7 @@ textarea.item-name .form-control {
   background: none transparent;
   border: 0 none;
   line-height: 1.428571429;
+  padding-left: 20px;
 }
 .autoimprove {
   color: #5a497d;

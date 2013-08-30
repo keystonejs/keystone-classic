@@ -71,12 +71,21 @@
 
 // Field value. Used for non-editable fields
 .field-value {
-	.form-control;
-	background: @input-bg-disabled;
-	height: auto;
+	
+	display: block;
+	width: 100%;
+	height: @input-height-base;
+	padding: @padding-base-vertical @padding-base-horizontal;
+	font-size: @font-size-base;
+	line-height: @line-height-base;
+	color: @input-color;
+	vertical-align: middle;
+	background-color: mix(white, @input-bg-disabled, 80%);
+	border: 1px solid mix(white, @input-border, 40%);
+	border-radius: @input-border-radius;
 	
 	&:empty {
-		display: none;
+		
 	}
 }
 

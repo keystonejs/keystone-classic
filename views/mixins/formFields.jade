@@ -46,7 +46,7 @@ mixin formField_text_common(type, field, value, cls)
 					if value
 						div(class='width-' + field.width).field-value= value
 					else
-						div(class='width-' + field.width).field-value &nbsp;
+						div(class='width-' + field.width).field-value
 				else
 					input(type='text', name=field.path, value=value, class=[cls,'width-' + field.width], autocomplete='off').form-control
 			if field.note

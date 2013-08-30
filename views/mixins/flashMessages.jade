@@ -8,7 +8,7 @@ mixin flash-messages(messages)
 			each message in messages.warning
 				+flash-message(message, 'warning')
 			each message in messages.error
-				+flash-message(message, 'error')
+				+flash-message(message, 'danger')
 				
 mixin flash-message(message, type)
 	div(class='alert alert-' + type)
