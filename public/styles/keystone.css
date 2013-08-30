@@ -7078,7 +7078,9 @@ textarea.item-name .form-control {
   padding: 0 10px;
 }
 .type-boolean .field-note {
-  padding: 0 10px 0 19px;
+  background: none transparent;
+  border: 0 none;
+  line-height: 1.428571429;
 }
 .autoimprove {
   color: #5a497d;
