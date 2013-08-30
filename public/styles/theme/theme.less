@@ -237,10 +237,10 @@ h3.form-heading {
 
 // Heading 2
 h2.form-heading {
-	color: #222;
+	color: @brand-primary;
 	font-weight: 200;
-	margin-bottom: 15px;
-	margin-top: 40px;
+	margin-bottom: 20px;
+	margin-top: 20px;
 	position: relative;
 	
 	
@@ -432,7 +432,7 @@ table.items-list {
 	thead > tr > th,
 	tbody > tr > th,
 	tfoot > tr > th {
-		padding: 0 5px 10px;
+		padding: @table-cell-padding;
 		text-align: left;
 		font-size: @font-size-large;
 	}
@@ -473,10 +473,6 @@ table.items-list {
 			color: darken(@text-color, 10%);
 			text-decoration: underline;
 		}
-	}
-	
-	img {
-		margin-left: 5px;
 	}
 	
 	.col-value {
