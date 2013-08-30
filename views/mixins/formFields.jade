@@ -243,7 +243,7 @@ mixin formField_cloudinaryimage(field, item)
 //- LOCATION
 //- ------------------------------
 mixin formField_location(field, item)
-	.field.type-location(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	.field.type-location.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false'): .col-sm-12
 		label.field-label= field.label
 		p.help-block: a(href=js).btn-show-extras (show more fields)
 		.field-ui
@@ -255,30 +255,30 @@ mixin formField_location(field, item)
 					.field-value.width-long &nbsp;
 			else
 				.row.extras
-					.col-sm-3.col-md-2: label.field-label.text-muted PO Box / Shop
+					.col-sm-3.col-md-2: label.text-muted PO Box / Shop
 					.col-sm-3.col-md-2: input(type='text', name=field.paths.number, value=item.get(field.paths.number)).form-control
 				.row.extras
-					.col-sm-3.col-md-2: label.field-label.text-muted Building Name
+					.col-sm-3.col-md-2: label.text-muted Building Name
 					.col-sm-8.col-md-6: input(type='text', name=field.paths.name, value=item.get(field.paths.name)).form-control
 				.row
-					.col-sm-3.col-md-2: label.field-label.text-muted Street Address
+					.col-sm-3.col-md-2: label.text-muted Street Address
 					.col-sm-8.col-md-6: input(type='text', name=field.paths.street1, value=item.get(field.paths.street1)).form-control
 				.row.extras
-					.col-sm-3.col-md-2: label.field-label.text-muted Street Address 2
+					.col-sm-3.col-md-2: label.text-muted Street Address 2
 					.col-sm-8.col-md-6: input(type='text', name=field.paths.street2, value=item.get(field.paths.street2)).form-control
 				.row
-					.col-sm-3.col-md-2: label.field-label.text-muted Suburb
+					.col-sm-3.col-md-2: label.text-muted Suburb
 					.col-sm-8.col-md-6: input(type='text', name=field.paths.suburb, value=item.get(field.paths.suburb)).form-control
 				.row
-					.col-sm-3.col-md-2: label.field-label.text-muted State
+					.col-sm-3.col-md-2: label.text-muted State
 					.col-sm-3.col-md-2: input(type='text', name=field.paths.state, value=item.get(field.paths.state)).form-control
-					.col-sm-2.field-postcode: label.field-label.text-muted Postcode
+					.col-sm-2.field-postcode: label.text-muted Postcode
 					.col-sm-3.col-md-2: input(type='text', name=field.paths.postcode, value=item.get(field.paths.postcode)).form-control
 				.row
-					.col-sm-3.col-md-2: label.field-label.text-muted Country
+					.col-sm-3.col-md-2: label.text-muted Country
 					.col-sm-8.col-md-6: input(type='text', name=field.paths.country, value=item.get(field.paths.country)).form-control
 				.row.extras
-					.col-sm-3.col-md-2: label.field-label.text-muted Lat/Long
+					.col-sm-3.col-md-2: label.text-muted Lat/Long
 					.col-sm-8.col-md-6: .form-row
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '', placeholder='Latitude').form-control
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Longitude').form-control
