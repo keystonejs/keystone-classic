@@ -1555,8 +1555,8 @@ input[type="number"]::-webkit-inner-spin-button {
 .form-control {
   display: block;
   width: 100%;
-  height: 34px;
-  padding: 6px 12px;
+  height: 30px;
+  padding: 4px 6px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
@@ -1729,7 +1729,7 @@ textarea.input-lg {
 }
 .form-control-static {
   margin-bottom: 0;
-  padding-top: 7px;
+  padding-top: 5px;
 }
 .help-block {
   display: block;
@@ -1766,7 +1766,7 @@ textarea.input-lg {
 .form-horizontal .checkbox-inline {
   margin-top: 0;
   margin-bottom: 0;
-  padding-top: 7px;
+  padding-top: 5px;
 }
 .form-horizontal .form-group {
   margin-left: -15px;
@@ -1803,7 +1803,7 @@ textarea.input-lg {
 }
 .btn {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 4px 6px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -3206,7 +3206,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   vertical-align: middle;
 }
 .input-group-addon {
-  padding: 6px 12px;
+  padding: 4px 6px;
   font-size: 14px;
   font-weight: normal;
   line-height: 1;
@@ -3739,8 +3739,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -3796,8 +3796,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   right: 0;
 }
 .navbar-btn {
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .navbar-text {
   float: left;
@@ -4039,7 +4039,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .pagination > li > span {
   position: relative;
   float: left;
-  padding: 6px 12px;
+  padding: 4px 6px;
   line-height: 1.428571429;
   text-decoration: none;
   background-color: #ffffff;
@@ -6217,8 +6217,8 @@ td.visible-print {
 .field-value {
   display: block;
   width: 100%;
-  height: 34px;
-  padding: 6px 12px;
+  height: 30px;
+  padding: 4px 6px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
@@ -6280,7 +6280,7 @@ textarea.field-value {
 }
 label {
   font-weight: normal;
-  padding-top: 7px;
+  padding-top: 5px;
 }
 textarea {
   resize: vertical;
@@ -6387,13 +6387,13 @@ label.checkbox {
   background: #e5fbe5;
   border: 1px solid #c5ddc5;
   margin-right: 10px;
-  padding: 6px 12px;
+  padding: 4px 6px;
 }
 .ui-related-item {
   display: block;
   width: 100%;
-  height: 34px;
-  padding: 6px 12px;
+  height: 30px;
+  padding: 4px 6px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
@@ -6519,7 +6519,7 @@ textarea.ui-related-item {
   vertical-align: middle;
 }
 .btn-companion {
-  padding: 8px 12px;
+  padding: 6px 6px;
   font-size: 14px;
   line-height: 1.428571429;
   border-radius: none;
@@ -6854,7 +6854,7 @@ h3.relationship-heading {
 }
 .item-name .form-control {
   height: 45px;
-  padding: 6px 12px;
+  padding: 4px 6px;
   font-size: 24px;
   line-height: 1.33;
   border-radius: 3px;
