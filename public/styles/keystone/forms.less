@@ -1,0 +1,262 @@
+//
+// FORM ELEMENTS
+// --------------------------------------------------
+
+/*
+	Form control wrapper
+	==============================
+	
+	.form-control-wrapper should be exclusively used for attaching validation to
+	when no other ancestor is applicable. It has no ornamental styles of it's own.
+*/
+
+@input-vspacing: 12px;
+
+// Adding v-spacing between form elements
+.field,
+.form-control-wrapper,
+.form-horizontal,
+.form-control,
+.form-indent,
+.form-row,
+.row {
+	& + & {
+		margin-top: @input-vspacing;
+	}
+}
+
+// Form headings
+.form-heading {
+	margin-top: 50px;
+}
+
+// Indentation
+.form-indent {
+	margin-left: 20px;
+}
+
+// Alerts
+.alert {
+	border: 0 none;
+	padding: @padding-large-vertical @padding-large-horizontal;
+}
+
+// Initially hidden fields
+.overwrite,
+.extras,
+.field-message,
+.change-password {
+	display: none;
+}
+
+// Initially "invisible" but not hidden, workaround for wysiwyg init issue
+// *actually* hidden after page has initialised by JS
+.field-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hiddden;
+	opacity: 0;
+}
+
+// Big ass fields (name fields)
+.item-name .form-control {
+	margin-bottom: 20px;
+}
+
+// Disabled fields
+.form-control.disabled {
+	background-color: @input-bg-disabled;
+}
+
+// The note that sits beneath a field
+.field-note {
+	.help-block;
+}
+
+// Field value. Used for non-editable fields
+.field-value {
+	display: block;
+	width: 100%;
+	min-height: @input-height-base;
+	padding: @padding-base-vertical @padding-base-horizontal;
+	font-size: @font-size-base;
+	line-height: @line-height-base;
+	color: @input-color;
+	vertical-align: middle;
+	background-color: mix(white, @input-bg-disabled, 80%);
+	border: 1px solid mix(white, @input-border, 40%);
+	border-radius: @input-border-radius;
+	
+	&.no-value {
+		color: @gray-light;
+		cursor: default;
+	}
+}
+
+.field .help-block {
+	margin-bottom: 0px;
+}
+
+// align label copy with field text
+label {
+	.inline-align();
+	font-weight: normal; // bold's a bit intense
+}
+.field-label {
+	margin: 0;
+	
+	// so fields don't jump on reveal
+	padding-bottom: @padding-base-vertical + 1;
+	padding-top: @padding-base-vertical + 1;
+}
+
+// label companion
+// sits next to a label, keeps him company
+.field-label-companion {
+	.inline-align();
+	padding-bottom: @padding-base-vertical - 1;
+	padding-top: @padding-base-vertical + 1;
+	padding-left: @padding-base-horizontal;
+}
+
+// limit textareas to be vertically resizable only, set heights
+textarea {
+	.resizable(vertical);
+	min-height: 100px;
+	
+	&.tall {
+		min-height: 200px;
+	}
+}
+
+input, textarea {
+	&.code {
+		font-size: @font-size-small !important;
+	}
+}
+
+// radios + checkboxes
+.radio,
+.checkbox {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+label.checkbox {
+	padding-top: 0;
+}
+
+// columns separated fields
+// need space when the form collapses
+.form-row {
+	.make-row(10px);
+	
+	[class^="col-"] { padding-left: 5px; padding-right: 5px; }
+	
+	@media (max-width: @screen-sm) {
+		[class^="col-"] + [class^="col-"] {
+			margin-top: .8em;
+		}
+	}
+}
+
+// location specific
+.field-postcode {
+	@media (min-width: @screen-sm) {
+		text-align: right;
+	}
+}
+
+
+// FIELD TYPES
+// =======================================
+
+// Cloudinary
+.field.type-cloudinaryimage {
+	.image-details + .image-toolbar {
+		margin-top: @input-vspacing;
+	}
+}
+
+// Boolean
+.field.type-boolean {
+}
+
+// HTML
+.field.type-html {
+	textarea {
+		.form-control;
+	}
+}
+
+// ============================================================
+// * * *
+// ============ OLD =============
+// * * *
+// ============================================================
+
+
+// cloudinary
+.field.type-cloudinaryimage {
+	
+	.clearfix;
+	margin-bottom: 10px;
+	
+	.image-preview {
+		float: left;
+		margin-right: 10px;
+	}
+	
+	.has-image {
+		.image-details, .image-toolbar {
+			margin-left: 110px;
+		}
+	}
+	
+	.upload-queued {
+		border-radius: 3px;
+		display: none;
+		background: #e5fbe5;
+		border: 1px solid #c5ddc5;
+		margin-right: 10px;
+		padding: @padding-base-vertical @padding-base-horizontal;
+	}
+}
+.ui-related-item {
+	.field-value;
+	background: #white;
+	//border: 1px solid #72b3d8;
+	color: #0089cb;
+	margin-right: 5px;
+	text-decoration: none;
+	
+	&:hover {
+		background-color: #f0f8fc;
+		border-color: #80c4e5;
+		color: #0c699e;
+	};
+}
+
+.field-upload {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0.01;
+}
+
+.field-message {
+	
+	display: none;
+	min-height: 30px;
+	
+	span {
+		display: inline-block;
+		background: #f9f9f9;
+		border: 1px solid #ccc;
+		color: #999;
+		margin-right: 10px;
+		padding: 5px 10px;
+		// .border-radius(3px);
+		cursor: default;
+	}
+}

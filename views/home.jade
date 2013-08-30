@@ -1,6 +1,9 @@
 extends layout/base
 
+block intro
+	.page-header
+		h1 Manage
+		//p.lead Each item below represents a list in your database. See above for matching navigation.
 block content
-	h1.black Manage
 	each list in lists
-		h2: a(href='/keystone/' + list.path, class=(section == list.key ? 'selected' : null))= list.label
+		h3: a(href='/keystone/' + list.path, class=(section == list.key ? 'selected' : null))= list.label

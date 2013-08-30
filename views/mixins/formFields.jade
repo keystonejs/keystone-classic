@@ -34,20 +34,25 @@ mixin formField(field, item)
 	else if field.type == 'relationship'
 		+formField_relationship(field, item)
 
+//-
+//- COMMON
+//- ------------------------------
 mixin formField_text_common(type, field, value, cls)
-	div(class='field type-' + type, data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
-		.field-label= field.label
-		.field-ui
-			if field.noedit
-				if value
-					div(class='field-value width-' + field.width)= value
+	.row.field(class='type-' + type, data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-ui
+				if field.noedit
+					div(class='width-' + field.width).field-value= value
 				else
-					div(class='field-value width-' + field.width) &nbsp;
-			else
-				input(type='text', name=field.path, value=value, class=[cls,'width-' + field.width], autocomplete='off')
-		if field.note
-			.field-note= field.note
+					input(type='text', name=field.path, value=value, class=[cls,'width-' + field.width], autocomplete='off').form-control
+			if field.note
+				.field-note= field.note
 
+
+//-
+//- COMMON (duplicates)
+//- ------------------------------
 mixin formField_text(field, item)
 	+formField_text_common('text', field, item.get(field.path))
 
@@ -60,68 +65,80 @@ mixin formField_email(field, item)
 mixin formField_url(field, item)
 	+formField_text_common('url', field, item.get(field.path), 'code')
 
+
+//-
+//- TEXTAREA
+//- ------------------------------
 mixin formField_textarea(field, item)
-	div(class='field type-textarea', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
-		.field-label= field.label
-		.field-ui
-			if field.noedit
-				div(class='field-value width-' + field.width)!= textToHTML(item.get(field.path)) || '&nbsp;'
-			else
-				textarea(name=field.path, class='width-' + field.width)= item.get(field.path)
-		if field.note
-			.field-note= field.note
-
-mixin formField_name(field, item)
-	div(class='field type-name', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
-		.field-label= field.label
-		.field-ui
-			if field.noedit
-				- var value = field.format(item)
-				if item.get(field.paths.first) || item.get(field.paths.last)
-					if item.get(field.paths.first)
-						span(class='field-value')= item.get(field.paths.first)
-					else
-						span(class='field-value') &nbsp;
-					if item.get(field.paths.last)
-						span(class='field-value')= item.get(field.paths.last)
-					else
-						span(class='field-value') &nbsp;
+	div(class='field type-textarea', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false').row
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-ui
+				if field.noedit
+					.field-value(class='width-' + field.width)!= textToHTML(item.get(field.path))
 				else
-					div(class='field-value width-short') &nbsp;
-			else
-				input(type='text', name=field.paths.first, class='width-short', autocomplete='off', placeholder='first', value=item.get(field.paths.first))
-				input(type='text', name=field.paths.last, class='width-short', autocomplete='off', placeholder='last', value=item.get(field.paths.last))
-		if field.note
-			.field-note= field.note
+					textarea(name=field.path, class='width-' + field.width).form-control= item.get(field.path)
+			if field.note
+				.field-note= field.note
 
+
+//-
+//- NAME (split)
+//- ------------------------------
+mixin formField_name(field, item)
+	div(class='field type-name', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false').row
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-ui
+				if field.noedit
+					- var value = field.format(item)
+					if item.get(field.paths.first) || item.get(field.paths.last)
+						.field-value= item.get(field.paths.first)
+						.field-value= item.get(field.paths.last)
+					else
+						.field-value.width-short
+				else
+					.form-row
+						.col-sm-6: input(type='text', name=field.paths.first, class='width-short', autocomplete='off', placeholder='first name', value=item.get(field.paths.first)).form-control
+						.col-sm-6: input(type='text', name=field.paths.last, class='width-short', autocomplete='off', placeholder='last name', value=item.get(field.paths.last)).form-control
+			if field.note
+				.field-note= field.note
+
+//-
+//- PASSWORD
+//- ------------------------------
 mixin formField_password(field, item)
-	.field.type-password(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? "true" : "false")
-		.field-label= field.label
-		.field-ui
-			if field.noedit
-				.field-value= (item.get(field.path)) ? "password set" : "password not set"
-			else
-				.leave-password
-					a(href=js).btn.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
-				.change-password
-					input(type='password', name=field.path, class='width-short', autocomplete='off')
-					input(type='password', name=field.paths.confirm, class='width-short', autocomplete='off')
-					a(href=js).btn.btn-cancel.btn-leave-password cancel
-		if field.note
-			.field-note= field.note
+	.field.type-password.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? "true" : "false")
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-ui
+				if field.noedit
+					.field-value= (item.get(field.path)) ? "password set" : "password not set"
+				else
+					.leave-password
+						a(href=js).btn.btn-default.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
+					.change-password
+						.form-row
+							.col-sm-6: input(type='password', name=field.path, class='width-short', autocomplete='off', placeholder='new password').form-control
+							.col-sm-6: input(type='password', name=field.paths.confirm, class='width-short', autocomplete='off', placeholder='confirm').form-control
+						.form-control-wrapper: a(href=js).btn.btn-default.btn-cancel.btn-leave-password Cancel
+			if field.note
+				.field-note= field.note
 
+//-
+//- HTML
+//- ------------------------------
 mixin formField_html(field, item)
-	.field.type-html(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
-		.field-label= field.label
-		.field-ui
-			if field.noedit && item.get(field.path)
-				div(class='field-value width-' + field.width)= item.get(field.path)
-			else if field.noedit
-				div(class='field-value width-short') &nbsp;
-			else
-				textarea(name=field.path, data-wysiwyg=field.wysiwyg ? 'true' : false).code.tall= item.get(field.path)
-		if field.note
-			.field-note= field.note
+	.field.type-html.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-9.col-md-10
+			.field-ui
+				if field.noedit
+					div(class='field-value width-' + field.width)= item.get(field.path)
+				else
+					textarea(name=field.path, data-wysiwyg=field.wysiwyg ? 'true' : false, class='width-' + field.width).tall= item.get(field.path)
+			if field.note
+				.field-note= field.note
 
 mixin formField_date(field, item)
 	+formField_text_common('date', field, field.format(item, 'YYYY-MM-DD'), 'ui-datepicker')
@@ -135,155 +152,173 @@ mixin formField_number(field, item)
 mixin formField_money(field, item)
 	+formField_text_common('money', field, item.get(field.path))
 
+//-
+//- BOOLEAN
+//- ------------------------------
 mixin formField_boolean(field, item)
-	.field.type-boolean(data-field-type=field.type, data-field-path=field.path, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? 'true' : 'false')
-		if field.noedit
-			if item.get(field.path)
-				img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16).checked
+	.field.type-boolean(class=field.indent?'row':'', data-field-type=field.type, data-field-path=field.path, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? 'true' : 'false')
+		div(class=field.indent ? '.col-sm-8 col-md-6 col-sm-offset-3 col-md-offset-2' : '')
+			if field.noedit
+				if item.get(field.path)
+					img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16).checked
+				else
+					img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16).unchecked
+				span= field.label
 			else
-				img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16).unchecked
-			span= field.label
-		else
-			label(for=field.path)
-				input(type='checkbox', name=field.path, id=field.path, value='true', checked=item.get(field.path))
-				= field.label
-		if field.note
-			.field-note= field.note
+				label(for=field.path).checkbox
+					input(type='checkbox', name=field.path, id=field.path, value='true', checked=item.get(field.path))
+					=' ' + field.label
+			if field.note
+				.field-note &mdash; #{field.note}
 
+//-
+//- SELECT
+//- ------------------------------
 mixin formField_select(field, item)
-	.field.type-select(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
-		.field-label= field.label
-		.field-ui
-			if field.noedit && item.get(field.path)
-				div(class='field-value')= field.format(item)
-			else if field.noedit
-				div(class='field-value').width-short &nbsp;
-			else
-				select(name=field.path).ui-select2
-					option(value='')
-					each opt in field.ops
-						option(value=opt.value, selected=(opt.value == item.get(field.path)))= opt.label
-		if field.note
-			.field-note= field.note
+	.field.type-select.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-ui
+				if field.noedit
+					if item.get(field.path)
+						.field-value= field.format(item)
+					else
+						.help-block (not set)
+				else
+					select(name=field.path).ui-select2
+						option(value='')
+						each opt in field.ops
+							option(value=opt.value, selected=(opt.value == item.get(field.path)))= opt.label
+			if field.note
+				.field-note= field.note
 
+//-
+//- CLOUDINARY
+//- ------------------------------
 mixin formField_cloudinaryimage(field, item)
 	- var hasImage = item.get(field.paths.exists)
-	.field.type-cloudinaryimage(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
-		.field-label= field.label
-		if field.noedit
-			if hasImage
-				div.has-image
-					.image-preview
-						img(src=field.apply(item, 'limit', 100, 100))
-					.image-details
-						.field-value= item.get(field.paths.url)
-						.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
-			else
-				.field-value (no image)
-		else
-			div(class=hasImage ? 'has-image' : false).field-ui
-				if hasImage
-					.image-preview
-						img(src=field.apply(item, 'limit', 100, 100))
-					.image-details
-						.field-value= item.get(field.paths.url)
-						.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
-				.image-toolbar
-					input(type='file', name=field.paths.upload).field-upload
-					input(type='hidden', name=field.paths.action, value='').field-action
-					span.upload-queued Image selected - save to upload
-					a(href=js).btn.btn-upload Upload Image
-					if hasImage
-						a(href=js, data-alt-text='Delete Image').btn.btn-cancel.btn-delete-image Remove Image
-		if field.note
-			.field-note= field.note
-			
-mixin formField_location(field, item)
-	.field.type-location(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
-		.field-label= field.label
-			a(href=js).btn-show-extras (show more fields)
-		.field-ui
+	.field.type-cloudinaryimage.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
 			if field.noedit
-				- var value = field.format(item);
-				if value
-					.field-value.width-long= value
+				if hasImage
+					div.has-image
+						.image-preview
+							img(src=field.apply(item, 'limit', 100, 100))
+						.image-details
+							.field-value= item.get(field.paths.url)
+							.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
 				else
-					.field-value.width-long &nbsp;
+					.help-block (no image)
 			else
-				.extras: .row: .span1
-					span.label PO Box / Shop
-					input(type='text', name=field.paths.number, value=item.get(field.paths.number))
-				.extras: .row: .span2
-					span.label Building Name
-					input(type='text', name=field.paths.name, value=item.get(field.paths.name))
-				.row: .span2
-					span.label Street Address
-					input(type='text', name=field.paths.street1, value=item.get(field.paths.street1))
-				.extras: .row: .span2
-					.label Street Address 2
-					input(type='text', name=field.paths.street2, value=item.get(field.paths.street2))
-				.row: .span2
-					.label Suburb
-					input(type='text', name=field.paths.suburb, value=item.get(field.paths.suburb))
+				div(class=hasImage ? 'has-image' : false).field-ui
+					if hasImage
+						.image-preview
+							img(src=field.apply(item, 'limit', 100, 100))
+						.image-details
+							.field-value= item.get(field.paths.url)
+							.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
+					.image-toolbar
+						input(type='file', name=field.paths.upload).field-upload
+						input(type='hidden', name=field.paths.action, value='').field-action
+						span.upload-queued Image selected - save to upload
+						.form-control-wrapper
+							a(href=js).btn.btn-default.btn-upload Upload Image
+							if hasImage
+								a(href=js, data-alt-text='Delete Image').btn.btn-link.btn-cancel.btn-delete-image Remove Image
+			if field.note
+				.field-note= field.note
+
+//-
+//- LOCATION
+//- ------------------------------
+mixin formField_location(field, item)
+	.field.type-location.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false'): .col-sm-12
+		if field.noedit
+			.row
+				.col-sm-3.col-md-2: label.field-label= field.label
+				.col-sm-8.col-md-6: .field-value.width-long= field.format(item)
+		else
+			label.field-label= field.label
+				a(href=js).field-label-companion.btn-show-extras (show more fields)
+			.field-ui
+				.row.extras
+					.col-sm-3.col-md-2: label.text-muted PO Box / Shop
+					.col-sm-3.col-md-2: input(type='text', name=field.paths.number, value=item.get(field.paths.number)).form-control
+				.row.extras
+					.col-sm-3.col-md-2: label.text-muted Building Name
+					.col-sm-8.col-md-6: input(type='text', name=field.paths.name, value=item.get(field.paths.name)).form-control
 				.row
-					.span1
-						span.label State
-						input(type='text', name=field.paths.state, value=item.get(field.paths.state))
-					.span1
-						span.label.short Postcode
-						input(type='text', name=field.paths.postcode, value=item.get(field.paths.postcode))
-				.row: .span2
-					span.label Country
-					input(type='text', name=field.paths.country, value=item.get(field.paths.country))
-				.extras: .row
-					.span1
-						span.label Latitude
-						input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '')
-					.span1
-						span.label.short Longitude
-						input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '')
+					.col-sm-3.col-md-2: label.text-muted Street Address
+					.col-sm-8.col-md-6: input(type='text', name=field.paths.street1, value=item.get(field.paths.street1)).form-control
+				.row.extras
+					.col-sm-3.col-md-2: label.text-muted Street Address 2
+					.col-sm-8.col-md-6: input(type='text', name=field.paths.street2, value=item.get(field.paths.street2)).form-control
+				.row
+					.col-sm-3.col-md-2: label.text-muted Suburb
+					.col-sm-8.col-md-6: input(type='text', name=field.paths.suburb, value=item.get(field.paths.suburb)).form-control
+				.row
+					.col-sm-3.col-md-2: label.text-muted State
+					.col-sm-3.col-md-2: input(type='text', name=field.paths.state, value=item.get(field.paths.state)).form-control
+					.col-sm-2.field-postcode: label.text-muted Postcode
+					.col-sm-3.col-md-2: input(type='text', name=field.paths.postcode, value=item.get(field.paths.postcode)).form-control
+				.row
+					.col-sm-3.col-md-2: label.text-muted Country
+					.col-sm-8.col-md-6: input(type='text', name=field.paths.country, value=item.get(field.paths.country)).form-control
+				.row.extras
+					.col-sm-3.col-md-2: label.text-muted Lat/Long
+					.col-sm-8.col-md-6: .form-row
+						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '', placeholder='Latitude').form-control
+						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Longitude').form-control
+
 			if field.enableMapsAPI
-				label(for=field.paths.improve).autoimprove
-					input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
-					| autodetect and improve location on save
-				label(for=field.paths.overwrite).overwrite
-					input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
-					| replace existing data
+				.row
+					.col-sm-8.col-md-6.col-sm-offset-3.col-md-offset-2
+						label(for=field.paths.improve, title='When checked, this will attempt to fill missing fields. It will also get the lat/long').checkbox.autoimprove
+							input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
+							|  Autodetect and improve location on save
+						label(for=field.paths.overwrite).checkbox.overwrite
+							input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
+							|  Replace existing data
 		
 		if field.note
 			.field-note= field.note
 
+//-
+//- RELATIONSHIP
+//- ------------------------------
 mixin formField_relationship(field, item)
 	- var refList = field.refList
-	.field.type-relationship(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
-		.field-label= field.label
-		.field-message
-		.field-ui
-			if field.noedit
-				if !field.many && item.get(field.path)
-					a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
-				else if field.many && item.get(field.path).length
-					each value in item.get(field.path)
-						a(href='/keystone/' + refList.path + '/' + value, data-ref-path=refList.path).ui-related-item= value
+	.field.type-relationship.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-message
+			.field-ui
+				if field.noedit
+					if !field.many && item.get(field.path)
+						a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
+					else if field.many && item.get(field.path).length
+						each value in item.get(field.path)
+							a(href='/keystone/' + refList.path + '/' + value, data-ref-path=refList.path).ui-related-item= value
+					else
+						.help-block (not set)
 				else
-					div.field-value (not set)
-			else
-				input(type='hidden',
-					name=field.path,
-					id='field_' + field.path,
-					value=field.many ? item.get(field.path).join(',') : item.get(field.path),
-					class='ui-select2-ref width-' + (field.many ? 'full' : 'medium'),
-					data-ref-many=field.many ? 'true' : null,
-					data-ref-filters=field.filters,
-					data-ref-path=refList.path,
-					data-ref-singular=refList.singular,
-					data-ref-plural=refList.plural)
-		if field.note
-			.field-note= field.note
+					input(type='hidden',
+						name=field.path,
+						id='field_' + field.path,
+						value=field.many ? item.get(field.path).join(',') : item.get(field.path),
+						class='ui-select2-ref width-' + (field.many ? 'full' : 'medium'),
+						data-ref-many=field.many ? 'true' : null,
+						data-ref-filters=field.filters,
+						data-ref-path=refList.path,
+						data-ref-singular=refList.singular,
+						data-ref-plural=refList.plural)
+			if field.note
+				.field-note= field.note
 
 //- else if field.fieldType == 'list'
 //- 	.field.type-list
-//- 		.field-label= field.label
+//- 		label.field-label= field.label
 //- 			span.field-type  (#{field.path} - #{field.fieldType})
 //- 		if field.noedit
 //- 			each value in item.get(field.path)

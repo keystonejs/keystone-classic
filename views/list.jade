@@ -8,18 +8,32 @@ block page-js
 	script.
 		Keystone.list = { path: "#{list.path}" };
 
+block intro
+	.page-header.list-header
+		h1
+			if items.results.length
+				span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
+			else
+				span No #{list.plural.toLowerCase()} found
+					= search ? '' : '.'
+			if search
+				small matching #{search}
+			if items.totalPages > 1
+				small (showing #{items.first} to #{items.last})
+		if items.results.length || search
+			.search-list
+				form(action='/keystone/' + list.path).form-row
+					.col-sm-4.col-lg-3
+						if search
+							.input-group
+								input(type='text', name='search', placeholder='search #{list.plural}...', value=search).form-control
+								.input-group-btn: a.btn.btn-default(href='/keystone/#{list.path}'): span.glyphicon.glyphicon-remove
+						else
+							input(type='text', name='search', placeholder='search #{list.plural}...').form-control
+					.col-sm-8.col-lg-9
+						button(type='submit').btn.btn-default Search
+			
 block content
-	h1= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
-		if search
-			small matching #{search}
-		if items.totalPages > 1
-			small (showing #{items.first} to #{items.last})
-	
-	.search-list
-		form(action='/keystone/' + list.path)
-			input(type='text', name='search', value=search)
-			button.btn Search
-	
 	if (!list.get('nocreate'))
 		.create-item
 			form(method='post', action='/keystone/' + list.path)
@@ -28,26 +42,26 @@ block content
 				.form
 					if list.nameIsInitial
 						if list.nameField.type == 'name'
-							h2.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full])
+							.field.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' name').form-control.input-lg
 						else if list.nameField.type == 'text'
-							h2.item-name: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path])
+							.field.item-name: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' name').form-control.input-lg
 						else
-							.alert.alert-error Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
+							.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 					
 					each field in list.initialFields
 						+initialField(field, submitted)
 				
 				.toolbar
 					.toolbar-create
-						button(type='submit').btn Create
-						a(href=js).btn.btn-cancel.btn-cancel-create-item cancel
+						button(type='submit').btn.btn-default.btn-create Create
+						a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
 					.toolbar-default
-						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-create-item Create #{list.singular}
+						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
 			
 	if items.results.length
 		- var sortable = list.get('sortable') && !list.get('sortContext')
 		- var firstColspan = 1;
-		table(cellpadding=0, cellspacing=0, class=sortable ? 'sortable' : false, data-list-path=list.path).items-list
+		table(cellpadding=0, cellspacing=0, class=sortable ? 'sortable' : false, data-list-path=list.path).table.table-striped.items-list
 			if !list.get('nodelete')
 				- firstColspan++;
 				col(width=26)
@@ -73,16 +87,12 @@ block content
 								
 		if items.totalPages > 1
 			- var basePath = '/keystone/' + list.path
-			.pagination
-				ul
-					li(class=items.previous ? false : 'disabled')
-						a(href=items.previous ? basePath + '/' + items.previous : false) &laquo; Prev
-					each p, i in items.pages
-						li(class=items.currentPage == p ? 'disabled' : false)
-							a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
-					li(class=items.next ? false : 'disabled')
-						a(href=items.next ? basePath + '/' + items.next : false) Next &raquo;
-		
-	else
-		p.no-results No #{list.plural} found.
+			.text-center: ul.pagination
+				li(class=items.previous ? false : 'disabled')
+					a(href=items.previous ? basePath + '/' + items.previous : false) &laquo; Prev
+				each p, i in items.pages
+					li(class=items.currentPage == p ? 'disabled' : false)
+						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
+				li(class=items.next ? false : 'disabled')
+					a(href=items.next ? basePath + '/' + items.next : false) Next &raquo;
 	

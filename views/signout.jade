@@ -1,6 +1,9 @@
 extends layout/session
 
+block intro
+	.page-header.hidden-xs
+		h1 Sign Out
+		p.lead You have been signed out
 block content
-	h1 Sign Out
-	p You have been signed out.
-	a(href='/keystone/signin') Sign in again?
+	a(href='/keystone/signin').btn.btn-default Sign in again
+	a(href='/').btn.btn-link Back to #{brand}

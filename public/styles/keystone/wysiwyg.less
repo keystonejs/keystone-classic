@@ -1,0 +1,88 @@
+//
+// WYSIWYG
+// --------------------------------------------------
+
+.wysihtml5-toolbar {
+	
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 10px;
+	.clearfix();
+	
+	> li {
+		float: left;
+		margin: 0 10px 0 0;
+		
+		.btn {
+			margin-right: 0px;
+		}
+	}
+	
+	i {
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		vertical-align: text-top;
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
+	
+	.wysihtml5-command-active,
+	.wysihtml5-command-dialog-opened {
+		.btn.active;
+	}
+	
+	.icon-ok { background-image: url('/keystone/images/icons/16/tick-circle.png') }
+	.icon-remove { background-image: url('/keystone/images/icons/16/cross.png') }
+	.icon-edit-size { background-image: url('/keystone/images/icons/16/edit-size.png') }
+	.icon-edit-bold { background-image: url('/keystone/images/icons/16/edit-bold.png') }
+	.icon-edit-italic { background-image: url('/keystone/images/icons/16/edit-italic.png') }
+	.icon-edit-indent { background-image: url('/keystone/images/icons/16/edit-indent.png') }
+	.icon-edit-outdent { background-image: url('/keystone/images/icons/16/edit-outdent.png') }
+	.icon-edit-list { background-image: url('/keystone/images/icons/16/edit-list.png') }
+	.icon-edit-list-order { background-image: url('/keystone/images/icons/16/edit-list-order.png') }
+	.icon-edit-code { background-image: url('/keystone/images/icons/16/edit-code.png') }
+	.icon-edit-link { background-image: url('/keystone/images/icons/16/edit-link.png') }
+	.icon-edit-image { background-image: url('/keystone/images/icons/16/edit-image.png') }
+}
+
+.ui-wysiwyg-hint {
+	font-size: 11px;
+	margin-top: 4px;
+}
+
+.ui-wysiwyg-dialog {
+	margin-top: 5px;
+	border: 1px solid #DEDEDE;
+	border-radius: 5px 5px 5px 5px;
+	display: block;
+	line-height: 0;
+	width: 400px;
+	overflow: hidden;
+	
+	input {
+		width: 350px !important;
+		margin-bottom: 0px;
+		border: none;
+		padding: 4px 5px 3px;
+		// .code;
+		font-size: 12px;
+	}
+	
+	a {
+		display: inline-block;
+		padding: 3px 3px;
+	}
+	/*
+	.ok-btn {
+		display: inline-block;
+		padding: 3px 3px;
+	}
+	
+	.remove-btn {
+		display: inline-block;
+		padding: 6px 3px;
+	}
+	*/
+}

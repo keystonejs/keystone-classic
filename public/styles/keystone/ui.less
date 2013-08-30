@@ -1,336 +1,74 @@
+/*!
+ * Keystone v1.0
+ *
+ * Copyright 2013 Jed Watson
+ * Licensed under The MIT License
+ * http://opensource.org/licenses/MIT
+ *
+ * Designed and built with all the love in the world by @jedwatson
+ */
+ 
+ 
+ 
 //
-// UI Components
-// --------------------------------------------------
-
-.ui-mouse-blocker {
-	position: absolute;
-	z-index: 3000;
-	width: 60px;
-	height: 60px;
-	cursor: default;
-	top: 0px;
-	left: 0px;
+// Header
+// -------------------------------------------------- 
+#header {
+	.navbar-default;
+	.navbar-static-top;
 	
-	&.move {
-		cursor: move;
+	.container {
+		position: relative;
 	}
-}
-
-// Alerts
-// -------------------------
-
-.alert {
-	padding: 8px 35px 8px 14px;
-	margin-bottom: @baseLineHeight;
-	text-shadow: 0 1px 0 rgba(255,255,255,.5);
-	background-color: @warningBackground;
-	border: 1px solid @warningBorder;
-	.border-radius(4px);
-	color: @warningText;
-}
-.alert-success {
-	background-color: @successBackground;
-	border-color: @successBorder;
-	color: @successText;
-}
-.alert-danger,
-.alert-error {
-	background-color: @errorBackground;
-	border-color: @errorBorder;
-	color: @errorText;
-	
-	// TW: These styles need to be placed elsewhere
-	.error-wrap {
-		padding: 5px 0px;
-		color: @errorText;
-		span {
-			font-weight: bold;
-			color: @errorText;
-			display: block;
-			margin-bottom: 8px;
-		}
-		ul.error-list {
-			margin-bottom: 0px;
-		}
-	}
-}
-.alert-info {
-	background-color: @infoBackground;
-	border-color: @infoBorder;
-	color: @infoText;
-}
-
-.alert h4 {
-	margin: 5px 0 8px;
-}
-.alert ul {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-.alert li {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-
-// Forms
-// -------------------------
-
-// Make all forms have space below them
-form {
-	margin: 0 0 @baseLineHeight;
-}
-
-// Set font for forms
-label,
-input,
-button,
-select,
-textarea {
-	#font > .shorthand(@baseFontSize,normal,@baseLineHeight);
-}
-input,
-button,
-select,
-textarea {
-	font-family: @baseFontFamily;
-}
-
-select,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"] {
-	display: inline-block;
-	.box-sizing(border-box);
-	padding: 4px 6px;
-	font-size: @baseFontSize;
-	line-height: @baseLineHeight;
-	color: @gray;
-	background: white;
-	border: 1px solid #ccc;
-	.border-radius(3px);
-	//.box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
-	.transition(~"border linear .2s, box-shadow linear .2s");
-	
-	&:focus {
-		border-color: rgba(82,168,236,.8);
-		outline: 0;
-		outline: thin dotted \9; /* IE6-9 */
-		.box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(82,168,236,.6));
-	}
-}
-
-textarea,
-input[type="text"] {
-	width: 100%;
-	
-	&.code {
-		font-size: 12px;
-		//padding-top: 4px;
-		//padding-bottom: 2px;
-	}
-}
-
-input[type="checkbox"] {
-	margin-right: 10px;
-}
-
-/*input, textarea {
-	padding: 4px;
-	border-radius: 2px;
-	
-	
-}*/
-
-
-// Toolbars & Buttons
-// -------------------------
-
-.toolbar {
-	margin-top: 10px;
-	padding: 20px 0 20px;
-	background: white;
-	border-top: 1px solid #eee;
-	.box-shadow(0 0 10px 16px white);
-	z-index: 1;
-}
-
-.toolbar-fixed {
-	z-index: 2;
-}
-
-.btn {
-	
-	position: relative;
-	z-index: 1;
-	display: inline-block;
-	padding: 5px 20px;
-	color: black;
-	font-size: 14px;
-	line-height: 18px;
-	text-decoration: none;
-	border: 1px solid #dadada;
-	margin-right: 10px;
-	.border-radius(4px);
-	outline: none;
-	#gradient .vertical(rgba(255,255,255,.03), rgba(0,0,0,.03));
-	
-	&:focus {
-		border: 1px solid rgba(17,121,187,.56);
+	.navbar-headernav-hide {
+		display: none !important;
 	}
 	
-	&:hover {
-		z-index: 2;
-		color: #1c2e4e;
-		border: 1px solid rgba(17,121,187,.56);
-		#gradient .vertical(rgba(255,255,255,.08), rgba(34,125,210,.08));
-		.box-shadow(0 0 5px rgba(86,160,207,.26), inset 0 0 5px rgba(255,255,255,.75))
-	}
-	
-	&.pressed {
-		color: #1c2e4e;
-		background: #f3f7fd;
-		border: 1px solid rgba(17,121,187,.71);
-		.box-shadow(0 0 5px rgba(86,160,207,.26), inset 0 2px 3px rgba(86,160,207,.22));
-	}
-}
-
-.btn.btn-small {
-	padding: 3px 5px;
-}
-
-.btn.btn-text {
-	padding: 5px 10px;
-	background: white !important;
-	border: 1px solid transparent !important;
-	.box-shadow(none);
-	
-	&:focus, &:hover, &.pressed {
-		text-decoration: underline;
-		.box-shadow(none)
-	}
-}
-
-.btn.btn-cancel {
-	.btn.btn-text;
-	color: #666;
-	&:hover {
-		color: #bc2e2e;
-	}
-}
-
-.btn-group .btn {
-	margin-right: 0px;
-	.border-radius(0);
-	
-}
-.btn-group .btn:first-child {
-	.border-radius(4px 0 0 4px);
-}
-.btn-group .btn:last-child {
-	.border-radius(0 4px 4px 0);
-}
-
-// UI Components
-// -------------------------
-
-/* wysihtml5 */
-
-.wysihtml5-toolbar {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	padding-bottom: 10px;
-	.clearfix();
-	
-	> li {
-		float: left;
-		margin: 0 10px 0 0;
+	// back arrow
+	.navbar-backtobrand {
+		.opacity(0);
+		.transition( opacity 160ms linear );
+		color: @navbar-default-link-color;
+		left: @navbar-padding-horizontal * -2;
+		padding: @navbar-padding-vertical @navbar-padding-horizontal;
+		position: absolute;
+		text-decoration: none;
 		
-		.btn {
-			margin-right: 0px;
+		&:hover {
+			color: @navbar-default-link-hover-color;
 		}
 	}
-	
-	i {
-		display: inline-block;
-		width: 16px;
-		height: 16px;
-		margin-right: 2px;
-		margin-top: 2px;
-		vertical-align: text-top;
-		background-position: center center;
-		background-repeat: no-repeat;
-
-		.ie7-restore-right-whitespace();
+	// show on hover
+	&:hover .navbar-backtobrand {
+		.opacity(100);
+		// display: block;
 	}
-	
-	.wysihtml5-command-active {
-		.btn.pressed;
-	}
-	
-	.icon-ok { background-image: url('/keystone/images/icons/16/tick-circle.png') }
-	.icon-remove { background-image: url('/keystone/images/icons/16/cross.png') }
-	.icon-edit-size { background-image: url('/keystone/images/icons/16/edit-size.png') }
-	.icon-edit-bold { background-image: url('/keystone/images/icons/16/edit-bold.png') }
-	.icon-edit-italic { background-image: url('/keystone/images/icons/16/edit-italic.png') }
-	.icon-edit-indent { background-image: url('/keystone/images/icons/16/edit-indent.png') }
-	.icon-edit-outdent { background-image: url('/keystone/images/icons/16/edit-outdent.png') }
-	.icon-edit-list { background-image: url('/keystone/images/icons/16/edit-list.png') }
-	.icon-edit-list-order { background-image: url('/keystone/images/icons/16/edit-list-order.png') }
-	.icon-edit-code { background-image: url('/keystone/images/icons/16/edit-code.png') }
-	.icon-edit-link { background-image: url('/keystone/images/icons/16/edit-link.png') }
-	.icon-edit-image { background-image: url('/keystone/images/icons/16/edit-image.png') }
 }
 
-.ui-wysiwyg-hint {
-	font-size: 11px;
-	margin-top: 4px;
+//
+// Typography
+// --------------------------------------------------
+.code {
+	font-family: @font-family-monospace;
 }
 
-.ui-wysiwyg-dialog {
-	border: 1px solid #DEDEDE;
-	border-radius: 5px 5px 5px 5px;
-	display: block;
-	line-height: 0;
-	width: 624px;
-	overflow: hidden;
+
+//
+// Footer
+// --------------------------------------------------
+#footer {
+	font-size: @font-size-small;
+	padding-top: 40px;
+	padding-bottom: 30px;
+	margin-top: 60px;
+	// text-align: center;
+	border-top: 1px solid @gray-lighter;
 	
-	input {
-		width: 565px !important;
-		float: left;
-		margin-bottom: 0px;
-		border: none;
-		padding: 4px 5px 3px;
-		.code;
-		font-size: 12px;
+	p {
+		color: @gray-light;
 	}
 	
-	a {
-		display: inline-block;
-		padding: 3px 3px;
+	ul a {
+		color: @gray;
 	}
-	/*
-	.ok-btn {
-		display: inline-block;
-		padding: 3px 3px;
-	}
-	
-	.remove-btn {
-		display: inline-block;
-		padding: 6px 3px;
-	}
-	*/
 }

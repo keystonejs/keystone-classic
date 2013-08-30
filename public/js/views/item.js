@@ -31,16 +31,21 @@ jQuery(function($) {
 	
 	var getFieldValue = function($field) {
 		
+		if (!$field || !$field.length) {
+			return undefined;
+		}
+		
 		if ($field.data('field-noedit')) {
 			
 			switch ($field.data('field-type')) {
 				case 'boolean':
 				case 'select':
 				case 'relationship':
+				case 'cloudinaryimage':
 					return $field.data('field-value');
 			}
 			
-			return $field.find('field-value').text();
+			return $field.find('.field-value').text();
 			
 		} else {
 			
@@ -70,6 +75,10 @@ jQuery(function($) {
 		
 		if (!value) {
 			
+			if ($field.data('field-noedit')) {
+				return $field.remove();
+			}
+			
 			$field.wrapInner('<div class="field-hidden">');
 			
 			waitForInit(function() {
@@ -79,14 +88,14 @@ jQuery(function($) {
 			if ($field.data('field-noedit'))
 				return;
 			
-			var $show = $('<a href="javascript:;" class="btn-uncollapse">add ' + $field.find('.field-label').text().replace('(show more fields)', '').toLowerCase() + '</a>');
+			var $show = $('<div class="col-sm-12"><label class="field-label"><a href="javascript:;" class="btn-uncollapse">+ Add ' + $field.find('.field-label').first().text().replace('(show more fields)', '').toLowerCase() + '</a></label></div>');
 			
 			$show.on('click', function(e) {
 				$show.remove();
 				$field.find('.field-hidden').removeClass('field-hidden').show();
 				setTimeout(function() {
 					try {
-						$field.find('input')[0].focus();
+						$field.find('.form-control')[0].focus();
 					} catch(e) {}
 					$(window).trigger('redraw');
 				}, 10);
@@ -124,6 +133,7 @@ jQuery(function($) {
 		
 		$field.find('.autoimprove').on('change', function() {
 			$field.find('.overwrite')[$field.find('.autoimprove input').prop('checked') ? 'show' : 'hide']();
+			$(window).trigger('redraw');
 		});
 		
 	});
@@ -280,6 +290,8 @@ jQuery(function($) {
 		
 		$field.find('input')[0].focus();
 		
+		$(window).trigger('redraw');
+		
 	});
 	
 	$('.btn-leave-password').click(function(e) {
@@ -289,6 +301,8 @@ jQuery(function($) {
 		$field.find('input').val('');
 		$field.find('.leave-password').show();
 		$field.find('.change-password').hide();
+		
+		$(window).trigger('redraw');
 		
 	});
 	
