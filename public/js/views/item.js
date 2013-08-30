@@ -124,6 +124,7 @@ jQuery(function($) {
 		
 		$field.find('.autoimprove').on('change', function() {
 			$field.find('.overwrite')[$field.find('.autoimprove input').prop('checked') ? 'show' : 'hide']();
+			$(window).trigger('redraw');
 		});
 		
 	});
@@ -280,6 +281,8 @@ jQuery(function($) {
 		
 		$field.find('input')[0].focus();
 		
+		$(window).trigger('redraw');
+		
 	});
 	
 	$('.btn-leave-password').click(function(e) {
@@ -289,6 +292,8 @@ jQuery(function($) {
 		$field.find('input').val('');
 		$field.find('.leave-password').show();
 		$field.find('.change-password').hide();
+		
+		$(window).trigger('redraw');
 		
 	});
 	

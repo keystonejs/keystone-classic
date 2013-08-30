@@ -189,7 +189,7 @@
 	margin-top: 10px;
 	
 	&.list-header {
-		border-bottom: 0 none;
+		//border-bottom: 0 none;
 		padding-bottom: 0;
 	}
 	
@@ -298,9 +298,10 @@ h3.relationship-heading {
 
 // Field notes
 @note-color: #5CB85C;
+@note-background: #EFFDEF;
 .field-note {
 	.border-right-radius( 4px );
-	background-color: mix(white,@note-color,96%);
+	background-color: @note-background; // lighten(@note-color, 42%); // mix(white,@note-color,90%);
 	border-left: 1px solid @note-color;
 	color: @note-color;
 	height: 25px;
@@ -310,10 +311,10 @@ h3.relationship-heading {
 }
 
 .type-boolean .field-note {
-	background: none transparent;
-	border: 0 none;
-	line-height: @line-height-base;
-	padding: 0 20px;
+	//background: none transparent;
+	//border: 0 none;
+	//line-height: @line-height-base;
+	padding: 0 10px 0 19px;
 }
 
 // location field options

@@ -6846,7 +6846,7 @@ textarea.ui-related-item {
   font-size: 12px;
 }
 .select2-results .select2-result-label {
-  min-height: 31px;
+  min-height: 27px;
 }
 .select2-results .select2-highlighted {
   border-radius: 2px;
@@ -6972,7 +6972,6 @@ textarea.ui-related-item {
   margin-top: 10px;
 }
 .page-header.list-header {
-  border-bottom: 0 none;
   padding-bottom: 0;
 }
 .page-header h1 {
@@ -7070,7 +7069,7 @@ textarea.item-name .form-control {
 .field-note {
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
-  background-color: #f8fcf8;
+  background-color: #effdef;
   border-left: 1px solid #5cb85c;
   color: #5cb85c;
   height: 25px;
@@ -7079,10 +7078,7 @@ textarea.item-name .form-control {
   padding: 0 10px;
 }
 .type-boolean .field-note {
-  background: none transparent;
-  border: 0 none;
-  line-height: 1.428571429;
-  padding: 0 20px;
+  padding: 0 10px 0 19px;
 }
 .autoimprove {
   color: #5a497d;
