@@ -3,7 +3,7 @@
 // --------------------------------------------------
 
 // Reset keystone navbar basics
-@navbar-keystone-bg:                         #004a80;
+@navbar-keystone-bg:                         #154b7e;// #004a80;
 @navbar-keystone-color:                      mix(white,@navbar-keystone-bg,50%);
 @navbar-keystone-border:                     darken(@navbar-keystone-bg, 10%);
 
@@ -13,6 +13,7 @@
 @navbar-keystone-link-hover-bg:              transparent;
 @navbar-keystone-link-active-color:          @navbar-keystone-link-hover-color;
 @navbar-keystone-link-active-bg:             darken(@navbar-keystone-bg, 10%);
+@navbar-keystone-link-active-gradient:       darken(@navbar-keystone-bg, 10%);
 @navbar-keystone-link-disabled-color:        #444;
 @navbar-keystone-link-disabled-bg:           transparent;
 
@@ -37,7 +38,7 @@
 // -------------------------------------------------- 
 #header {
 	background-color: @navbar-keystone-bg;
-	border-color: @navbar-keystone-border;
+	.box-shadow( inset 0 -1px 2px @navbar-keystone-border );
 	
 	.navbar-backtobrand {
 		color: @navbar-keystone-link-color;
@@ -74,6 +75,9 @@
 			&,
 			&:hover,
 			&:focus {
+				#gradient .vertical( #247dc3, #3da2db, 0%, 100% );
+				.box-shadow( inset 0 0 3px #154b7e );
+				//
 				color: @navbar-keystone-link-active-color;
 				background-color: @navbar-keystone-link-active-bg;
 			}
@@ -533,20 +537,3 @@ table.relationships-list {
 
 
 
-
-
-
-//
-// No Results
-// -------------------------------------------------- 
-.no-results {
-	.jumbotron;
-	text-align: center;
-	
-	p {
-		.h2;
-		color: @gray-light;
-		font-weight: 200;
-		margin: 2em 0;
-	}
-}

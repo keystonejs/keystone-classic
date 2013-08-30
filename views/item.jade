@@ -14,7 +14,7 @@ block page-js
 
 block intro
 	.page-header.item-header: .row
-		.col-sm-8: ul.breadcrumb
+		.col-sm-6: ul.breadcrumb
 			if drilldown
 				each d in drilldown.items
 					if d.items
@@ -27,9 +27,10 @@ block intro
 					else
 						li: a(href=d.href) #{d.label}
 			li: a(href='/keystone/' + list.path)= list.label
-		.col-sm-4: .item-id id: #{item.id}
+		.col-sm-6: .item-id id: #{item.id}
 			if list.autokey
 				|  / #{item.get(list.autokey.path)}
+			a.btn.btn-default.btn-xs(style='margin-left:20px', href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
 	
 
 block content

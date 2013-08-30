@@ -30,6 +30,11 @@
 	margin-top: 50px;
 }
 
+// Indentation
+.form-indent {
+	margin-left: 20px;
+}
+
 // Alerts
 .alert {
 	border: 0 none;
@@ -71,10 +76,9 @@
 
 // Field value. Used for non-editable fields
 .field-value {
-	
 	display: block;
 	width: 100%;
-	height: @input-height-base;
+	min-height: @input-height-base;
 	padding: @padding-base-vertical @padding-base-horizontal;
 	font-size: @font-size-base;
 	line-height: @line-height-base;
@@ -84,9 +88,14 @@
 	border: 1px solid mix(white, @input-border, 40%);
 	border-radius: @input-border-radius;
 	
-	&:empty {
-		
+	&.no-value {
+		color: @gray-light;
+		cursor: default;
 	}
+}
+
+.field .help-block {
+	margin-bottom: 0px;
 }
 
 // align label copy with field text
@@ -118,6 +127,12 @@ textarea {
 	
 	&.tall {
 		min-height: 200px;
+	}
+}
+
+input, textarea {
+	&.code {
+		font-size: @font-size-small !important;
 	}
 }
 

@@ -41,6 +41,7 @@ jQuery(function($) {
 				case 'boolean':
 				case 'select':
 				case 'relationship':
+				case 'cloudinaryimage':
 					return $field.data('field-value');
 			}
 			
@@ -73,6 +74,10 @@ jQuery(function($) {
 			value = getFieldValue($field);
 		
 		if (!value) {
+			
+			if ($field.data('field-noedit')) {
+				return $field.remove();
+			}
 			
 			$field.wrapInner('<div class="field-hidden">');
 			

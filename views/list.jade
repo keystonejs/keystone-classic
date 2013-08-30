@@ -11,16 +11,27 @@ block page-js
 block intro
 	.page-header.list-header
 		h1
-			span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
+			if items.results.length
+				span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
+			else
+				span No #{list.plural.toLowerCase()} found
+					= search ? '' : '.'
 			if search
 				small matching #{search}
 			if items.totalPages > 1
 				small (showing #{items.first} to #{items.last})
-		if (!list.get('nocreate'))
+		if items.results.length || search
 			.search-list
 				form(action='/keystone/' + list.path).form-row
-					.col-sm-4.col-lg-3: input(type='text', name='search', value=search).form-control
-					.col-sm-8.col-lg-9: button(type='submit').btn.btn-default Search
+					.col-sm-4.col-lg-3
+						if search
+							.input-group
+								input(type='text', name='search', placeholder='search #{list.plural}...', value=search).form-control
+								.input-group-btn: a.btn.btn-default(href='/keystone/#{list.path}'): span.glyphicon.glyphicon-remove
+						else
+							input(type='text', name='search', placeholder='search #{list.plural}...').form-control
+					.col-sm-8.col-lg-9
+						button(type='submit').btn.btn-default Search
 			
 block content
 	if (!list.get('nocreate'))
@@ -84,8 +95,4 @@ block content
 						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
 				li(class=items.next ? false : 'disabled')
 					a(href=items.next ? basePath + '/' + items.next : false) Next &raquo;
-		
-	else
-		.no-results
-			p No #{list.plural.toLowerCase()} found
 	
