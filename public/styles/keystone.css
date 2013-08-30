@@ -1555,15 +1555,15 @@ input[type="number"]::-webkit-inner-spin-button {
 .form-control {
   display: block;
   width: 100%;
-  height: 30px;
-  padding: 4px 6px;
+  height: 34px;
+  padding: 6px 10px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #cccccc;
-  border-radius: 3px;
+  border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
@@ -1647,7 +1647,7 @@ fieldset[disabled] .checkbox-inline {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 select.input-sm {
   height: 30px;
@@ -1657,15 +1657,15 @@ textarea.input-sm {
   height: auto;
 }
 .input-lg {
-  height: 45px;
-  padding: 10px 16px;
-  font-size: 18px;
+  height: 39px;
+  padding: 8px 12px;
+  font-size: 16px;
   line-height: 1.33;
   border-radius: 6px;
 }
 select.input-lg {
-  height: 45px;
-  line-height: 45px;
+  height: 39px;
+  line-height: 39px;
 }
 textarea.input-lg {
   height: auto;
@@ -1729,7 +1729,7 @@ textarea.input-lg {
 }
 .form-control-static {
   margin-bottom: 0;
-  padding-top: 5px;
+  padding-top: 7px;
 }
 .help-block {
   display: block;
@@ -1766,7 +1766,7 @@ textarea.input-lg {
 .form-horizontal .checkbox-inline {
   margin-top: 0;
   margin-bottom: 0;
-  padding-top: 5px;
+  padding-top: 7px;
 }
 .form-horizontal .form-group {
   margin-left: -15px;
@@ -1803,7 +1803,7 @@ textarea.input-lg {
 }
 .btn {
   display: inline-block;
-  padding: 4px 6px;
+  padding: 6px 10px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -2103,8 +2103,8 @@ fieldset[disabled] .btn-link:focus {
   text-decoration: none;
 }
 .btn-lg {
-  padding: 10px 16px;
-  font-size: 18px;
+  padding: 8px 12px;
+  font-size: 16px;
   line-height: 1.33;
   border-radius: 6px;
 }
@@ -2113,7 +2113,7 @@ fieldset[disabled] .btn-link:focus {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 .btn-xs {
   padding: 1px 5px;
@@ -3017,18 +3017,18 @@ input[type="button"].btn-block {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 3px;
+  border-radius: 4px;
   padding: 1px 5px;
 }
 .btn-group-sm > .btn {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 .btn-group-lg > .btn {
-  padding: 10px 16px;
-  font-size: 18px;
+  padding: 8px 12px;
+  font-size: 16px;
   line-height: 1.33;
   border-radius: 6px;
 }
@@ -3152,17 +3152,17 @@ input[type="button"].btn-block {
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
-  height: 45px;
-  padding: 10px 16px;
-  font-size: 18px;
+  height: 39px;
+  padding: 8px 12px;
+  font-size: 16px;
   line-height: 1.33;
   border-radius: 6px;
 }
 select.input-group-lg > .form-control,
 select.input-group-lg > .input-group-addon,
 select.input-group-lg > .input-group-btn > .btn {
-  height: 45px;
-  line-height: 45px;
+  height: 39px;
+  line-height: 39px;
 }
 textarea.input-group-lg > .form-control,
 textarea.input-group-lg > .input-group-addon,
@@ -3176,7 +3176,7 @@ textarea.input-group-lg > .input-group-btn > .btn {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 select.input-group-sm > .form-control,
 select.input-group-sm > .input-group-addon,
@@ -3206,7 +3206,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   vertical-align: middle;
 }
 .input-group-addon {
-  padding: 4px 6px;
+  padding: 6px 10px;
   font-size: 14px;
   font-weight: normal;
   line-height: 1;
@@ -3218,11 +3218,11 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group-addon.input-sm {
   padding: 5px 10px;
   font-size: 12px;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 .input-group-addon.input-lg {
-  padding: 10px 16px;
-  font-size: 18px;
+  padding: 8px 12px;
+  font-size: 16px;
   border-radius: 6px;
 }
 .input-group-addon input[type="radio"],
@@ -3643,7 +3643,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-brand {
   float: left;
   padding: 15px 15px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 20px;
 }
 .navbar-brand:hover,
@@ -3739,8 +3739,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -3796,8 +3796,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   right: 0;
 }
 .navbar-btn {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 .navbar-text {
   float: left;
@@ -4039,7 +4039,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .pagination > li > span {
   position: relative;
   float: left;
-  padding: 4px 6px;
+  padding: 6px 10px;
   line-height: 1.428571429;
   text-decoration: none;
   background-color: #ffffff;
@@ -4086,8 +4086,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 .pagination-lg > li > a,
 .pagination-lg > li > span {
-  padding: 10px 16px;
-  font-size: 18px;
+  padding: 8px 12px;
+  font-size: 16px;
 }
 .pagination-lg > li:first-child > a,
 .pagination-lg > li:first-child > span {
@@ -4106,13 +4106,13 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 .pagination-sm > li:first-child > a,
 .pagination-sm > li:first-child > span {
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
 }
 .pagination-sm > li:last-child > a,
 .pagination-sm > li:last-child > span {
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
 }
 .pager {
   padding-left: 0;
@@ -4807,7 +4807,7 @@ a.list-group-item:focus {
 }
 .well-sm {
   padding: 9px;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 .close {
   float: right;
@@ -6090,7 +6090,7 @@ td.visible-print {
 }
 .create-item .toolbar {
   border-top: none;
-  padding-top: 0;
+  padding: 0;
 }
 .search-list {
   margin-bottom: 20px;
@@ -6124,6 +6124,9 @@ td.visible-print {
 }
 .items-list .control-delete i {
   background-position: 0 0;
+}
+.items-list img {
+  margin: 8px;
 }
 .item-id {
   color: #999;
@@ -6208,14 +6211,20 @@ td.visible-print {
 }
 .alert {
   border: 0 none;
-  padding: 10px 16px;
+  padding: 8px 12px;
 }
-.field-hidden,
 .overwrite,
 .extras,
 .field-message,
 .change-password {
   display: none;
+}
+.field-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hiddden;
+  opacity: 0;
 }
 .item-name .form-control {
   margin-bottom: 20px;
@@ -6232,15 +6241,15 @@ td.visible-print {
 .field-value {
   display: block;
   width: 100%;
-  height: 30px;
-  padding: 4px 6px;
+  height: 34px;
+  padding: 6px 10px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #cccccc;
-  border-radius: 3px;
+  border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
@@ -6286,8 +6295,8 @@ textarea.field-value {
   border-color: #999 #bbb #ccc;
 }
 .field-value:focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
   border-color: #0088cc #0099e6 #0099e6;
 }
 .field-value:empty {
@@ -6297,16 +6306,18 @@ label {
   display: inline-block;
   vertical-align: middle;
   font-weight: normal;
+}
+.field-label {
   margin: 0;
-  padding-bottom: 3px;
-  padding-top: 5px;
+  padding-bottom: 7px;
+  padding-top: 7px;
 }
 .field-label-companion {
   display: inline-block;
   vertical-align: middle;
-  padding-bottom: 3px;
-  padding-top: 5px;
-  padding-left: 6px;
+  padding-bottom: 5px;
+  padding-top: 7px;
+  padding-left: 10px;
 }
 textarea {
   resize: vertical;
@@ -6372,15 +6383,15 @@ label.checkbox {
 .field.type-html textarea {
   display: block;
   width: 100%;
-  height: 30px;
-  padding: 4px 6px;
+  height: 34px;
+  padding: 6px 10px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #cccccc;
-  border-radius: 3px;
+  border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
@@ -6424,8 +6435,8 @@ textarea.field.type-html textarea {
   border-color: #999 #bbb #ccc;
 }
 .field.type-html textarea:focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
   border-color: #0088cc #0099e6 #0099e6;
 }
 .field.type-cloudinaryimage {
@@ -6455,9 +6466,6 @@ textarea.field.type-html textarea {
 .field.type-cloudinaryimage:after {
   clear: both;
 }
-.field.type-cloudinaryimage .field-label {
-  margin-bottom: 8px;
-}
 .field.type-cloudinaryimage .image-preview {
   float: left;
   margin-right: 10px;
@@ -6472,20 +6480,20 @@ textarea.field.type-html textarea {
   background: #e5fbe5;
   border: 1px solid #c5ddc5;
   margin-right: 10px;
-  padding: 4px 6px;
+  padding: 6px 10px;
 }
 .ui-related-item {
   display: block;
   width: 100%;
-  height: 30px;
-  padding: 4px 6px;
+  height: 34px;
+  padding: 6px 10px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #cccccc;
-  border-radius: 3px;
+  border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
@@ -6535,8 +6543,8 @@ textarea.ui-related-item {
   border-color: #999 #bbb #ccc;
 }
 .ui-related-item:focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
   border-color: #0088cc #0099e6 #0099e6;
 }
 .ui-related-item:empty {
@@ -6604,14 +6612,14 @@ textarea.ui-related-item {
   vertical-align: middle;
 }
 .btn-companion {
-  padding: 6px 6px;
+  padding: 8px 10px;
   font-size: 14px;
   line-height: 1.428571429;
   border-radius: none;
 }
 .btn-companion-lg {
-  padding: 12px 16px;
-  font-size: 18px;
+  padding: 10px 12px;
+  font-size: 16px;
   line-height: 1.33;
   border-radius: none;
 }
@@ -6761,8 +6769,8 @@ textarea.ui-related-item {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   border: 1px solid #ccc;
-  height: 30px;
-  line-height: 30px;
+  height: 34px;
+  line-height: 34px;
   background-image: none;
   filter: none;
 }
@@ -6771,6 +6779,10 @@ textarea.ui-related-item {
   background: none;
   background-image: none;
   filter: none;
+}
+.select2-container .select2-choice div b {
+  height: 20px;
+  margin-top: 2px;
 }
 .select2-container-multi .select2-choices {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -6787,7 +6799,7 @@ textarea.ui-related-item {
   border-color: #B94A48;
 }
 .select2-container-multi .select2-choices .select2-search-field {
-  height: 30px;
+  height: 34px;
   line-height: 27px;
 }
 .select2-container-active .select2-choice,
@@ -6834,7 +6846,7 @@ textarea.ui-related-item {
   font-size: 12px;
 }
 .select2-results .select2-result-label {
-  min-height: 27px;
+  min-height: 31px;
 }
 .select2-results .select2-highlighted {
   border-radius: 2px;
@@ -6847,7 +6859,7 @@ textarea.ui-related-item {
  * then replaced by a select2 input when javascript kicks in. This can be 
  * removed if javascript is not present 
  */select.ui-select2 {
-  height: 30px;
+  height: 34px;
   visibility: hidden;
 }
 #header {
@@ -6991,10 +7003,10 @@ h3.form-heading {
   position: relative;
 }
 h2.form-heading {
-  color: #222;
+  color: #004a80;
   font-weight: 200;
-  margin-bottom: 15px;
-  margin-top: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   position: relative;
   /**
 		Diagonal Stripes
@@ -7035,22 +7047,22 @@ h3.relationship-heading {
   border-color: #999 #bbb #ccc;
 }
 .form-control:focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
   border-color: #0088cc #0099e6 #0099e6;
 }
 .item-name .form-control {
-  height: 45px;
-  padding: 4px 6px;
+  height: 49px;
+  padding: 6px 10px;
   font-size: 24px;
   line-height: 1.33;
-  border-radius: 3px;
+  border-radius: 4px;
   color: #004a80;
   font-weight: 200;
 }
 select.item-name .form-control {
-  height: 45px;
-  line-height: 45px;
+  height: 49px;
+  line-height: 49px;
 }
 textarea.item-name .form-control {
   height: auto;
@@ -7090,7 +7102,6 @@ textarea.item-name .form-control {
   background-image: linear-gradient(to bottom, #ffffff 30%, #fafafa 100%);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fffafafa', GradientType=0);
-  border-radius: 3px;
 }
 .btn-default:active,
 .btn-default.active {
@@ -7112,6 +7123,8 @@ textarea.item-name .form-control {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff4faf4', GradientType=0);
   color: #3d8b3d;
   border-color: #80c780;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 .btn.btn-create:hover {
   border-color: #449d44;
@@ -7130,6 +7143,8 @@ textarea.item-name .form-control {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffedf7fb', GradientType=0);
   color: #006699;
   border-color: #0088cc;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 .btn.btn-save:hover {
   border-color: #006699;
@@ -7142,8 +7157,7 @@ textarea.item-name .form-control {
 .breadcrumb {
   margin-bottom: 0;
   padding: 0;
-  font-weight: bold;
-  font-size: 18px;
+  font-size: 16px;
   background-color: transparent;
 }
 .breadcrumb > li {
@@ -7161,9 +7175,9 @@ table.items-list {
 table.items-list thead > tr > th,
 table.items-list tbody > tr > th,
 table.items-list tfoot > tr > th {
-  padding: 0 5px 10px;
+  padding: 8px;
   text-align: left;
-  font-size: 18px;
+  font-size: 16px;
 }
 table.items-list thead > tr > td,
 table.items-list tbody > tr > td,
@@ -7199,9 +7213,6 @@ table.items-list a {
 table.items-list a:hover {
   color: #1a1a1a;
   text-decoration: underline;
-}
-table.items-list img {
-  margin-left: 5px;
 }
 table.items-list .col-value {
   padding: 5px 10px;
