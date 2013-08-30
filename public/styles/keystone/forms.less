@@ -84,9 +84,13 @@
 label {
 	.inline-align();
 	font-weight: normal; // bold's a bit intense
+}
+.field-label {
 	margin: 0;
-	padding-bottom: @padding-base-vertical - 1;
-	padding-top: @padding-base-vertical + 1; // make up for border
+	
+	// so fields don't jump on reveal
+	padding-bottom: @padding-base-vertical + 1;
+	padding-top: @padding-base-vertical + 1;
 }
 
 // label companion
@@ -173,10 +177,6 @@ label.checkbox {
 	
 	.clearfix;
 	margin-bottom: 10px;
-	
-	.field-label {
-		margin-bottom: 8px;
-	}
 	
 	.image-preview {
 		float: left;

@@ -1570,10 +1570,10 @@ input[type="number"]::-webkit-inner-spin-button {
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .form-control:focus {
-  border-color: #66afe9;
+  border-color: #0088cc;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
 }
 .form-control[disabled],
 .form-control[readonly],
@@ -6265,10 +6265,10 @@ td.visible-print {
   color: #999999;
 }
 .field-value:focus {
-  border-color: #66afe9;
+  border-color: #0088cc;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
 }
 .field-value[disabled],
 .field-value[readonly],
@@ -6403,10 +6403,10 @@ label.checkbox {
   color: #999999;
 }
 .field.type-html textarea:focus {
-  border-color: #66afe9;
+  border-color: #0088cc;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
 }
 .field.type-html textarea[disabled],
 .field.type-html textarea[readonly],
@@ -6514,10 +6514,10 @@ textarea.field.type-html textarea {
   color: #999999;
 }
 .ui-related-item:focus {
-  border-color: #66afe9;
+  border-color: #0088cc;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);
 }
 .ui-related-item[disabled],
 .ui-related-item[readonly],
@@ -6670,7 +6670,8 @@ textarea.ui-related-item {
   background-position: center center;
   background-repeat: no-repeat;
 }
-.wysihtml5-toolbar .wysihtml5-command-active {
+.wysihtml5-toolbar .wysihtml5-command-active,
+.wysihtml5-toolbar .wysihtml5-command-dialog-opened {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -6747,6 +6748,107 @@ textarea.ui-related-item {
 .ui-wysiwyg-dialog a {
   display: inline-block;
   padding: 3px 3px;
+}
+/* 
+ * Custom theme for select2
+ * Based on github.com/t0m/select2-bootstrap-css/
+*/
+.select2-container {
+  vertical-align: middle;
+  min-width: 220px;
+}
+.select2-container .select2-choice {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  border: 1px solid #ccc;
+  height: 30px;
+  line-height: 30px;
+  background-image: none;
+  filter: none;
+}
+.select2-container .select2-choice div {
+  border-left: none;
+  background: none;
+  background-image: none;
+  filter: none;
+}
+.select2-container-multi .select2-choices {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-image: none;
+  filter: none;
+}
+.control-group.error .select2-container-multi .select2-choices {
+  border-color: #B94A48;
+}
+.control-group.error .select2-container .select2-choice {
+  border-color: #B94A48;
+}
+.select2-container-multi .select2-choices .select2-search-field {
+  height: 30px;
+  line-height: 27px;
+}
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices,
+.select2-container-multi.select2-container-active .select2-choices {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: none;
+}
+.input-append .select2-container,
+.input-prepend .select2-container {
+  font-size: 14px;
+}
+.input-prepend .select2-container > a.select2-choice,
+.input-prepend .select2-container-multi .select2-choices {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.input-append .select2-container > a,
+.input-append .select2-container-multi .select2-choices {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.input-prepend .select2-container > a.select2-choice > div,
+.input-append .select2-container > a.select2-choice > div {
+  display: none;
+}
+.select2-search {
+  padding-top: 5px;
+}
+.select2-search input {
+  padding: 2px 20px 2px 5px;
+}
+.select2-dropdown-open .select2-choice {
+  background: #f9f9f9;
+}
+.select2-results .select2-no-results,
+.select2-results .select2-more-results,
+.select2-results .select2-searching,
+.select2-results .select2-selection-limit {
+  background-color: white;
+  padding: 4px;
+  font-size: 12px;
+}
+.select2-results .select2-result-label {
+  min-height: 27px;
+}
+.select2-results .select2-highlighted {
+  border-radius: 2px;
+}
+.select2-dropdown-open .select2-choice {
+  background: none white;
+}
+/**
+ * This stops the quick flash when a native selectbox is shown and 
+ * then replaced by a select2 input when javascript kicks in. This can be 
+ * removed if javascript is not present 
+ */select.ui-select2 {
+  height: 30px;
+  visibility: hidden;
 }
 #header {
   background-color: #004a80;
