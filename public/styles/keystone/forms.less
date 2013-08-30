@@ -58,6 +58,9 @@
 .item-name .form-control {
 	margin-bottom: 20px;
 }
+.form-control:empty {
+	border-color: lighten(@input-border, 10%);
+}
 
 // Disabled fields
 .form-control.disabled {
@@ -71,9 +74,15 @@
 
 // Field value. Used for non-editable fields
 .field-value {
-	.form-control;
+	border-radius: @input-border-radius;
 	background: @input-bg-disabled;
+	border: 1px solid darken(@input-bg-disabled, 10%);
 	height: auto;
+	padding: @padding-base-vertical @padding-base-horizontal;
+	
+	& + & {
+		margin-top: @input-vspacing;
+	}
 	
 	&:empty {
 		display: none;
