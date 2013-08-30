@@ -46,7 +46,7 @@ block content
 						button(type='submit').btn.btn-default.btn-create Create
 						a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
 					.toolbar-default
-						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-lg.btn-default.btn-create.btn-create-item Create #{list.singular}
+						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
 			
 	if items.results.length
 		- var sortable = list.get('sortable') && !list.get('sortContext')
