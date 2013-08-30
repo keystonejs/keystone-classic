@@ -10,6 +10,8 @@
 	when no other ancestor is applicable. It has no ornamental styles of it's own.
 */
 
+@input-vspacing: 12px;
+
 // Adding v-spacing between form elements
 .field,
 .form-control-wrapper,
@@ -18,18 +20,13 @@
 .form-row,
 .row {
 	& + & {
-		margin-top: 12px;
+		margin-top: @input-vspacing;
 	}
 }
 
 // Form headings
 .form-heading {
 	margin-top: 50px;
-}
-
-// All input
-.form-control {
-	-webkit-appearance: none;
 }
 
 // Alerts
@@ -64,10 +61,9 @@
 
 // Field value. Used for non-editable fields
 .field-value {
-	background: #f6f6f6;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	padding: @padding-base-vertical @padding-base-horizontal;
+	.form-control;
+	background: @input-bg-disabled;
+	height: auto;
 	
 	&:empty {
 		display: none;
@@ -96,6 +92,9 @@ textarea {
 	margin-bottom: 0;
 	margin-top: 0;
 }
+label.checkbox {
+	padding-top: 0;
+}
 
 // columns separated fields
 // need space when the form collapses
@@ -116,6 +115,21 @@ textarea {
 	@media (min-width: @screen-sm) {
 		text-align: right;
 	}
+}
+
+
+// FIELD TYPES
+// =======================================
+
+// Cloudinary
+.field.type-cloudinaryimage {
+	.image-details + .image-toolbar {
+		margin-top: @input-vspacing;
+	}
+}
+
+// Boolean
+.field.type-boolean {
 }
 
 // ============================================================

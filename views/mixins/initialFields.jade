@@ -29,7 +29,7 @@ mixin initialField(field, submitted)
 		+initialField_relationship(field, submitted)
 
 mixin initialField_text_common(type, field, submitted, cls)
-	.field(class='type-' + type).row
+	.field.row(class='type-' + type)
 		.col-sm-3.col-md-2: label.field-label= field.label
 		.col-sm-8.col-md-6
 			.field-ui: input(type='text', name=field.path, class=[cls,'width-' + field.width], autocomplete='off', value=submitted[field.path]).form-control
@@ -106,10 +106,11 @@ mixin initialField_select(field, submitted)
 
 mixin initialField_relationship(field, submitted)
 	- var refList = field.refList
-	.field.type-object
-		.field-label= field.label
-		.field-ui
-			input(type='hidden', name=field.path, id='field_' + field.path, value=submitted[field.path], class='width-medium ui-select2-ref', data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
-		if field.note
-			.field-note= field.note
+	.field.type-object.row
+		.col-sm-3.col-md-2: label.field-label= field.label
+		.col-sm-8.col-md-6
+			.field-ui
+				input(type='hidden', name=field.path, id='field_' + field.path, value=submitted[field.path], class='width-medium ui-select2-ref', data-ref-path=refList.path, data-ref-singular=refList.singular, data-ref-plural=refList.plural)
+			if field.note
+				.field-note= field.note
 

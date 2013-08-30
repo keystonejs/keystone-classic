@@ -15,7 +15,7 @@
 	
 	.toolbar {
 		border-top: none;
-		padding-top: 10px;
+		padding-top: 0;
 	}
 	
 }
@@ -34,51 +34,12 @@
 
 
 //
-// Items
+// Items List
 // --------------------------------------------------
 .items-list {
 	
-	table-layout: fixed;
-	width: 100%;
-	
-	th {
-		padding: 0 5px 10px;
-		text-align: left;
-		font-size: 16px;
-	}
-	
-	td {
-		padding: 0;
-		background-color: white;
-		border-top: 1px solid #e5e5e5;
-	}
-	
-	tbody {
-		> tr:nth-child(odd) > td,
-		> tr:nth-child(odd) > th {
-			background-color: #fafafa;
-		}
-	}
-	
-	tr.delete-hover {
-		td {
-			color: #AD1212;
-			a { color: #AD1212; }
-		}
-	}
-	
-	tr.sort-hover, tr.dragged {
-		.control-sort {
-			opacity: 1;
-		}
-		td {
-			color: #246818;
-			a { color: #246818; }
-		}
-	}
-	
 	.control {
-		padding: 5px;
+		padding: @table-cell-padding;
 		a {
 			display: block;
 			width: 16px;
@@ -98,72 +59,12 @@
 			cursor: move;
 		}
 	}
-	.control+.control {
-		padding-left: 3px;
+	.control + .control {
+		padding-left: @table-cell-padding / 2;
 	}
 	
 	.control-delete i {
 		background-position: 0 0;
 	}
 	
-	.col-value {
-		padding: 6px 5px;
-	}
-	
-	.col-boolean {
-		text-align: left;
-		padding: 6px 5px 2px;
-	}
-	
-	a {
-		display: inline-block;
-		padding: 6px 5px;
-		text-decoration: none;
-		color: #111;
-		
-		&:hover {
-			color: #111;
-			text-decoration: underline;
-		}
-	}
-	
-	img {
-		margin-left: 5px;
-	}
-	
-}
-
-.pagination {
-	margin: 10px 0;
-	
-	ul {
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		.clearfix();
-		
-		li {
-			float: left;
-			
-			a {
-				color: #666;
-				display: block;
-				padding: 10px;
-				text-decoration: none;
-				
-				&:hover {
-					text-decoration: underline;
-					color: @link-hover-color;
-				}
-			}
-			
-			&.disabled a {
-				color: #ccc;
-				
-				&:hover {
-					text-decoration: none;
-				}
-			}
-		}
-	}
 }

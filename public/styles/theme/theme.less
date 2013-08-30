@@ -22,10 +22,9 @@
 @navbar-keystone-brand-hover-bg:             transparent;
 
 // Keystone navbar search
-// Normal navbar needs no special styles or vars
 @navbar-keystone-search-bg:                  lighten(@navbar-keystone-bg, 25%);
 @navbar-keystone-search-bg-focus:            #fff;
-@navbar-keystone-search-border:              @navbar-keystone-bg;
+@navbar-keystone-search-border:              darken(@navbar-keystone-bg, 10%);
 @navbar-keystone-search-placeholder-color:   #ccc;
 
 // Keystone navbar toggle
@@ -184,31 +183,65 @@
 
 
 //
+// Page Header
+// -------------------------------------------------- 
+.page-header {
+	margin-top: 10px;
+	
+	&.list-header {
+		border-bottom: 0 none;
+		padding-bottom: 0;
+	}
+	
+	h1 {
+		font-weight: 200;
+		margin-bottom: 15px;
+		
+		small {
+		 display: block;
+		 font-weight: 200;
+		}
+	}
+	@media (min-width: @screen-sm) {
+		
+		h1 {
+			span, small {
+				.inline-align();
+			}
+			small {
+			 margin-left: 1em;
+			}
+		}
+		
+	}
+}
+
+
+
+
+
+//
 // Forms
 // -------------------------------------------------- 
 
-// form heading
-.form-heading,
-.relationship-heading {
+// Heading 3
+h3.form-heading {
 	border-top: 1px dashed @gray-lighter;
-	color: @navbar-keystone-bg;
+	color: @brand-primary;
 	font-weight: 200;
-	margin-bottom: 15px;
-	margin-top: 40px;
-	padding-top: 40px;
+	margin-bottom: 20px;
+	margin-top: 30px;
+	padding-top: 30px;
 	position: relative;
 }
 
-// relationships heading
-.relationships-heading {
-	// border-top: 1px dashed @gray-lighter;
-	color: @navbar-keystone-bg;
+// Heading 2
+h2.form-heading {
+	color: #222;
 	font-weight: 200;
 	margin-bottom: 15px;
 	margin-top: 40px;
-	padding-top: 40px;
 	position: relative;
-	
 	
 	
 	/**
@@ -218,43 +251,52 @@
 		Courtesy of:
 		http://svgeneration.com/generate/Diagonal-Stripes
 	**/
-	&:before {
-		.size( 100%,8px );
-		background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0NScgaGVpZ2h0PSc5MCcgdmlld0JveD0nMCAwIDUgMTAnPgoJPHJlY3Qgd2lkdGg9JzExMCUnIHg9Jy01JScgeT0nLTUlJyBoZWlnaHQ9JzExMCUnIGZpbGw9JyNmZmZmZmYnLz4KCTxsaW5lIHgxPSctMicgeTE9JzEnIHgyPSc3JyB5Mj0nMTAnIHN0cm9rZT0nI2Y2ZjZmNicgc3Ryb2tlLXdpZHRoPScxLjc1Jy8+Cgk8bGluZSB4MT0nLTInIHkxPSc2JyB4Mj0nNycgeTI9JzE1JyBzdHJva2U9JyNmNmY2ZjYnIHN0cm9rZS13aWR0aD0nMS43NScvPgoJPGxpbmUgeDE9Jy0yJyB5MT0nLTQnIHgyPSc3JyB5Mj0nNScgc3Ryb2tlPScjZjZmNmY2JyBzdHJva2Utd2lkdGg9JzEuNzUnLz4KPC9zdmc+');
-		content: " ";
-		position: absolute;
-		top: 0;
+	&.relationship-heading {
+		padding-top: 40px;
+		&:before {
+			.size( 100%,8px );
+			background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0NScgaGVpZ2h0PSc5MCcgdmlld0JveD0nMCAwIDUgMTAnPgoJPHJlY3Qgd2lkdGg9JzExMCUnIHg9Jy01JScgeT0nLTUlJyBoZWlnaHQ9JzExMCUnIGZpbGw9JyNmZmZmZmYnLz4KCTxsaW5lIHgxPSctMicgeTE9JzEnIHgyPSc3JyB5Mj0nMTAnIHN0cm9rZT0nI2Y2ZjZmNicgc3Ryb2tlLXdpZHRoPScxLjc1Jy8+Cgk8bGluZSB4MT0nLTInIHkxPSc2JyB4Mj0nNycgeTI9JzE1JyBzdHJva2U9JyNmNmY2ZjYnIHN0cm9rZS13aWR0aD0nMS43NScvPgoJPGxpbmUgeDE9Jy0yJyB5MT0nLTQnIHgyPSc3JyB5Mj0nNScgc3Ryb2tlPScjZjZmNmY2JyBzdHJva2Utd2lkdGg9JzEuNzUnLz4KPC9zdmc+');
+			content: " ";
+			position: absolute;
+			top: 0;
+		}
 	}
 }
-.relationships-heading + .relationship-heading {
+h3.relationship-heading,
+h2.form-heading + h3.form-heading {
 	border-top: 0 none;
 	padding-top: 0;
+	margin-top: 30px;
+}
+h3.relationship-heading {
+	margin-top: 50px;
 }
 
 // Common fields
-.field .form-control {
-	border-radius: 1px;
-	border-color: #b6b6b6 #ddd #d6d6d6;
+.form-control {
+	.box-shadow( 0 1px 1px rgba(0, 0, 0, 0.075) inset );
+	border-color: #bbb #ddd #eee;
+	-webkit-appearance: none;
 	
 	&:hover {
-		.box-shadow( 0 );
-		border-color: @brand-primary;
+		border-color: #999 #bbb #ccc;
 	}
 	
 	&:focus {
-		.box-shadow( 0 );
-		border-color: @brand-primary;
+		@shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px fade(@brand-primary,50%);
+		.box-shadow( @shadow );
+		border-color: @link-color lighten(@link-color, 5%) lighten(@link-color, 5%);
 	}
 }
 
 // Name field
 .item-name .form-control {
-	.input-size(@input-height-large; @padding-base-vertical; @padding-base-horizontal; ceil(@font-size-base * 1.70); @line-height-large; 1px);
-	color: @navbar-keystone-bg;
+	.input-size(@input-height-large; @padding-base-vertical; @padding-base-horizontal; ceil(@font-size-base * 1.70); @line-height-large; @input-border-radius);
+	color: @brand-primary;
 	font-weight: 200;
 }
 
-// note beneath a field
+// Field notes
 @note-color: #5CB85C;
 .field-note {
 	.border-right-radius( 4px );
@@ -295,16 +337,214 @@
 
 // add little depth to the default button
 .btn-default {
-	// .box-shadow( ~"inset 0 0 0 1px white, 0 1px 0 rgba(0,0,0,0.04)" );
-	.box-shadow( ~"0 1px 0 rgba(0,0,0,0.03)" );
+	.box-shadow( ~"inset 0 0 0 1px white, 0 1px 0 rgba(0,0,0,0.04)" );
+	// .box-shadow( ~"0 1px 0 rgba(0,0,0,0.03)" );
 	#gradient .vertical( #fff, #fafafa, 30%, 100% );
+	border-radius: @border-radius-small;
+	
+	//	&:hover {
+	//		border-color: desaturate(lighten(@link-color, 15%), 45%) desaturate(lighten(@link-color, 5%), 35%) desaturate(darken(@link-color, 10%), 35%);
+	//	}
+
+	&:active,
+	&.active {
+		.box-shadow(inset 0 1px 2px rgba(0,0,0,.175));
+	}
 }
 
 // Cancel buttons
-.toolbar .btn-cancel {
+.btn-link.btn-cancel {
 	color: @gray;
 	
 	&:hover {
 		color: @state-danger-text;
+	}
+}
+
+// Create buttons
+.btn.btn-create {
+	#gradient .vertical( #fff, mix(white, @brand-success, 93%), 30%, 100% );
+	color: darken(@brand-success, 15%);
+	border-color: lighten(@brand-success, 10%);
+	
+	&:hover {
+		// color: darken(@brand-success, 5%);
+		border-color: darken(@brand-success, 10%);
+	}
+
+	&:active,
+	&.active {
+		color: darken(@brand-success, 15%);
+		background: mix(white, @brand-success, 93%);
+	}
+}
+
+// Save buttons
+.btn.btn-save {
+	#gradient .vertical( #fff, mix(white, @link-color, 93%), 30%, 100% );
+	color: darken(@link-color, 10%);
+	border-color: @link-color;
+	
+	&:hover {
+		// color: darken(@link-color, 5%);
+		border-color: darken(@link-color, 10%);
+	}
+
+	&:active,
+	&.active {
+		color: darken(@link-color, 15%);
+		background: mix(white, @link-color, 93%);
+	}
+}
+
+
+
+
+
+//
+// Breadcrumbs
+// --------------------------------------------------
+.breadcrumb {
+	margin-bottom: 0;
+	padding: 0;
+	font-weight: bold;
+	font-size: @font-size-large;
+	background-color: transparent;
+	
+	> li {
+		display: inline-block;
+		&+li:before {
+			content: "\003a\00a0"; // Colon separated
+			padding: 0 5px;
+			color: @breadcrumb-color;
+		}
+	}
+}
+
+
+
+
+
+//
+// Items List
+// --------------------------------------------------
+table.items-list {
+	table-layout: fixed;
+	width: 100%;
+	
+	thead > tr > th,
+	tbody > tr > th,
+	tfoot > tr > th {
+		padding: 0 5px 10px;
+		text-align: left;
+		font-size: @font-size-large;
+	}
+	
+	thead > tr > td,
+	tbody > tr > td,
+	tfoot > tr > td {
+		padding: 0;
+		background-color: white;
+		border-top: 1px solid #e5e5e5;
+	}
+	
+	tr.delete-hover {
+		td {
+			color: #AD1212;
+			a { color: #AD1212; }
+		}
+	}
+	
+	tr.sort-hover, tr.dragged {
+		.control-sort {
+			opacity: 1;
+		}
+		td {
+			color: #246818;
+			a { color: #246818; }
+		}
+	}
+	
+	// links get a larger hit area
+	a {
+		display: inline-block;
+		padding: @padding-small-vertical @padding-small-horizontal;
+		text-decoration: none;
+		color: @text-color;
+		
+		&:hover {
+			color: darken(@text-color, 10%);
+			text-decoration: underline;
+		}
+	}
+	
+	img {
+		margin-left: 5px;
+	}
+	
+	.col-value {
+		padding: @padding-small-vertical @padding-small-horizontal;
+	}
+	
+	.col-boolean {
+		text-align: left;
+		padding: @padding-small-vertical @padding-small-horizontal 2px;
+	}
+}
+
+
+
+
+
+//
+// Relationships List
+// --------------------------------------------------
+table.relationships-list {
+	
+	thead > tr > th,
+	tbody > tr > th,
+	tfoot > tr > th {
+		color: @gray-light;
+		font-size: @font-size-small;
+		text-transform: uppercase;
+	}
+}
+
+
+
+
+
+
+//
+// Pagination
+// -------------------------------------------------- 
+.pagination {
+	> .disabled {
+		> span,
+		> a,
+		> a:hover,
+		> a:focus {
+			cursor: default;
+		}
+	}
+}
+
+
+
+
+
+
+//
+// No Results
+// -------------------------------------------------- 
+.no-results {
+	.jumbotron;
+	text-align: center;
+	
+	p {
+		.h2;
+		color: @gray-light;
+		font-weight: 200;
+		margin: 2em 0;
 	}
 }
