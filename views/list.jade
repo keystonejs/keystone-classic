@@ -25,6 +25,7 @@ block intro
 block content
 	if (!list.get('nocreate'))
 		.create-item
+			hr
 			form(method='post', action='/keystone/' + list.path)
 				input(type='hidden', name='action', value='create')
 				
