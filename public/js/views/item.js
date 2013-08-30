@@ -31,6 +31,10 @@ jQuery(function($) {
 	
 	var getFieldValue = function($field) {
 		
+		if (!$field || !$field.length) {
+			return undefined;
+		}
+		
 		if ($field.data('field-noedit')) {
 			
 			switch ($field.data('field-type')) {
@@ -40,7 +44,7 @@ jQuery(function($) {
 					return $field.data('field-value');
 			}
 			
-			return $field.find('field-value').text();
+			return $field.find('.field-value').text();
 			
 		} else {
 			
