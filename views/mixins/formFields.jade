@@ -245,7 +245,7 @@ mixin formField_cloudinaryimage(field, item)
 mixin formField_location(field, item)
 	.field.type-location.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false'): .col-sm-12
 		label.field-label= field.label
-		p.help-block: a(href=js).btn-show-extras (show more fields)
+		a(href=js).field-label-companion.btn-show-extras (show more fields)
 		.field-ui
 			if field.noedit
 				- var value = field.format(item);

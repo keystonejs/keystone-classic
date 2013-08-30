@@ -6093,7 +6093,7 @@ td.visible-print {
   padding-top: 0;
 }
 .search-list {
-  margin-bottom: 2em;
+  margin-bottom: 20px;
 }
 .search-list form {
   margin-bottom: 10px;
@@ -6134,6 +6134,8 @@ td.visible-print {
   }
 }
 .toolbar {
+  -webkit-box-shadow: 0 -15px 5px 5px rgba(255, 255, 255, 0.95);
+  box-shadow: 0 -15px 5px 5px rgba(255, 255, 255, 0.95);
   background-color: white;
   border-top: 1px solid #eeeeee;
   margin-top: 20px;
@@ -6154,36 +6156,49 @@ td.visible-print {
 .field + .form-control-wrapper,
 .field + .form-horizontal,
 .field + .form-control,
+.field + .form-indent,
 .field + .form-row,
 .field + .row,
 .form-control-wrapper + .field,
 .form-control-wrapper + .form-control-wrapper,
 .form-control-wrapper + .form-horizontal,
 .form-control-wrapper + .form-control,
+.form-control-wrapper + .form-indent,
 .form-control-wrapper + .form-row,
 .form-control-wrapper + .row,
 .form-horizontal + .field,
 .form-horizontal + .form-control-wrapper,
 .form-horizontal + .form-horizontal,
 .form-horizontal + .form-control,
+.form-horizontal + .form-indent,
 .form-horizontal + .form-row,
 .form-horizontal + .row,
 .form-control + .field,
 .form-control + .form-control-wrapper,
 .form-control + .form-horizontal,
 .form-control + .form-control,
+.form-control + .form-indent,
 .form-control + .form-row,
 .form-control + .row,
+.form-indent + .field,
+.form-indent + .form-control-wrapper,
+.form-indent + .form-horizontal,
+.form-indent + .form-control,
+.form-indent + .form-indent,
+.form-indent + .form-row,
+.form-indent + .row,
 .form-row + .field,
 .form-row + .form-control-wrapper,
 .form-row + .form-horizontal,
 .form-row + .form-control,
+.form-row + .form-indent,
 .form-row + .form-row,
 .form-row + .row,
 .row + .field,
 .row + .form-control-wrapper,
 .row + .form-horizontal,
 .row + .form-control,
+.row + .form-indent,
 .row + .form-row,
 .row + .row {
   margin-top: 12px;
@@ -6279,8 +6294,19 @@ textarea.field-value {
   display: none;
 }
 label {
+  display: inline-block;
+  vertical-align: middle;
   font-weight: normal;
+  margin: 0;
+  padding-bottom: 5px;
   padding-top: 7px;
+}
+.field-label-companion {
+  display: inline-block;
+  vertical-align: middle;
+  padding-bottom: 5px;
+  padding-top: 7px;
+  padding-left: 12px;
 }
 textarea {
   resize: vertical;
@@ -6342,6 +6368,65 @@ label.checkbox {
 }
 .field.type-cloudinaryimage .image-details + .image-toolbar {
   margin-top: 12px;
+}
+.field.type-html textarea {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #333333;
+  vertical-align: middle;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  border-color: #bbb #ddd #eee;
+  -webkit-appearance: none;
+}
+.field.type-html textarea:-moz-placeholder {
+  color: #999999;
+}
+.field.type-html textarea::-moz-placeholder {
+  color: #999999;
+}
+.field.type-html textarea:-ms-input-placeholder {
+  color: #999999;
+}
+.field.type-html textarea::-webkit-input-placeholder {
+  color: #999999;
+}
+.field.type-html textarea:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.field.type-html textarea[disabled],
+.field.type-html textarea[readonly],
+fieldset[disabled] .field.type-html textarea {
+  cursor: not-allowed;
+  background-color: #eeeeee;
+}
+textarea.field.type-html textarea {
+  height: auto;
+}
+.field.type-html textarea + .field.type-html textarea {
+  margin-top: 12px;
+}
+.field.type-html textarea:hover {
+  border-color: #999 #bbb #ccc;
+}
+.field.type-html textarea:focus {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 5px -2px rgba(0, 74, 128, 0.5);
+  border-color: #0088cc #0099e6 #0099e6;
 }
 .field.type-cloudinaryimage {
   margin-bottom: 10px;

@@ -17,6 +17,7 @@
 .form-control-wrapper,
 .form-horizontal,
 .form-control,
+.form-indent,
 .form-row,
 .row {
 	& + & {
@@ -72,8 +73,20 @@
 
 // align label copy with field text
 label {
-	font-weight: normal;
+	.inline-align();
+	font-weight: normal; // bold's a bit intense
+	margin: 0;
+	padding-bottom: @padding-base-vertical - 1;
 	padding-top: @padding-base-vertical + 1; // make up for border
+}
+
+// label companion
+// sits next to a label, keeps him company
+.field-label-companion {
+	.inline-align();
+	padding-bottom: @padding-base-vertical - 1;
+	padding-top: @padding-base-vertical + 1;
+	padding-left: @padding-base-horizontal;
 }
 
 // limit textareas to be vertically resizable only, set heights
@@ -130,6 +143,13 @@ label.checkbox {
 
 // Boolean
 .field.type-boolean {
+}
+
+// HTML
+.field.type-html {
+	textarea {
+		.form-control;
+	}
 }
 
 // ============================================================
