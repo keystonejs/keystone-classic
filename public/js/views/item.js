@@ -57,6 +57,8 @@ jQuery(function($) {
 				case 'html':
 				case 'textarea':
 					return $field.find('textarea').val();
+				case 'cloudinaryimage':
+					return $field.data('field-value');
 			}
 			
 			return _.reduce($field.find('input:not([type="checkbox"])'), function(memo, input) {

@@ -189,39 +189,43 @@ label.checkbox {
 	}
 }
 
-// ============================================================
-// * * *
-// ============ OLD =============
-// * * *
-// ============================================================
-
-
-// cloudinary
+// Cloudinary Images
 .field.type-cloudinaryimage {
-	
-	.clearfix;
-	margin-bottom: 10px;
 	
 	.image-preview {
 		float: left;
 		margin-right: 10px;
 	}
-	
+	.image-details {
+		margin-left: 120px;
+		overflow: hidden;
+	}
+	.field-value {
+		width: auto;
+		float: left;
+		margin-right: 10px;
+	}
 	.has-image {
-		.image-details, .image-toolbar {
+		.image-toolbar {
 			margin-left: 110px;
 		}
 	}
-	
+	.alert {
+		float: left;
+	}
 	.upload-queued {
-		border-radius: 3px;
 		display: none;
-		background: #e5fbe5;
-		border: 1px solid #c5ddc5;
-		margin-right: 10px;
-		padding: @padding-base-vertical @padding-base-horizontal;
 	}
 }
+
+.field-upload {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0.01;
+}
+
+// Related Items
 .ui-related-item {
 	.field-value;
 	background: #white;
@@ -237,12 +241,7 @@ label.checkbox {
 	};
 }
 
-.field-upload {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	opacity: 0.01;
-}
+// Messages
 
 .field-message {
 	

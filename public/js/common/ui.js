@@ -119,11 +119,12 @@ jQuery(function($) {
 	});
 	
 	$('.btn-upload').click(function() {
-		$(this).parent().find('.field-upload').click();
+		$(this).closest('.field').find('.field-upload').click();
 	});
 	
 	$('.field-upload').change(function() {
-		$(this).parent().find('.upload-queued')[($(this).val()) ? 'show' : 'hide']();
+		$(this).closest('.field').find('.upload-queued')[($(this).val()) ? 'show' : 'hide']();
+		$(window).trigger('redraw');
 	});
 	
 	$('.btn.autoclick').each(function() {
