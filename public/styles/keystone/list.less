@@ -20,14 +20,96 @@
 	
 }
 
+
+//
+// List Pagination
+// --------------------------------------------------
+.list-pagination {
+	.clearfix;
+	color: @gray-light;
+	display: block;
+	font-size: @font-size-base;
+	margin: 0 0 15px;
+	
+	.count {
+		.inline-align();
+		margin-right: 10px;
+	}
+	.pagination {
+		.inline-align();
+		margin: 0;
+	}
+}
+
+
 //
 // Searching
 // --------------------------------------------------
+.list-toolbar {
+	// margin-top: 15px;
+	padding-bottom: 20px;
+}
 .search-list {
-	margin-bottom: 20px;
 	
 	form {
-		margin-bottom: 10px;
+		margin-bottom: 0;
+	
+		.search-button {
+			margin-top: 0 !important;
+		}
+	}
+	
+	.search-list-field {
+		position: relative;
+	}
+	.search-list-clear {
+		color: @gray-light;
+		font-weight: bold;
+		position: absolute;
+		padding: @padding-base-vertical @padding-base-horizontal;
+		top: 0;
+		right: 5px;
+		
+		&:hover,
+		&:focus {
+			color: @gray;
+			outline: 0 none;
+			text-decoration: none;
+		}
+		&:active {
+			color: @brand-danger;
+		}
+	}
+	
+}
+
+
+//
+// Sorting
+// --------------------------------------------------
+.list-sort-dropdown {
+	
+	.caret {
+		border-width: @caret-width-large;
+		border-bottom-width: 0;
+		border-top-color: @link-color;
+	}
+	
+	.dropdown-toggle:focus,
+	.dropdown-toggle:hover {
+		text-decoration: none;
+		.caret {
+			border-top-color: @link-hover-color;
+		}
+	}
+	
+	// menu
+	.dropdown-menu > .active > a {
+		&,
+		&:hover,
+		&:focus {
+			// background-color: @gray;
+		}
 	}
 	
 }

@@ -9,6 +9,7 @@ block page-js
 		Keystone.list = { path: "#{list.path}" };
 
 block intro
+	- var basePath = '/keystone/' + list.path
 	.page-header.list-header
 		h1
 			if items.results.length
@@ -17,22 +18,47 @@ block intro
 				span No #{list.plural.toLowerCase()} found
 					= search ? '' : '.'
 			if search
-				small matching #{search}
-			if items.totalPages > 1
-				small (showing #{items.first} to #{items.last})
+				span.text-muted  matching  
+				span=search
+			if items.results.length
+				span.text-muted  ordered by  
+				span.dropdown.list-sort-dropdown
+					a(href=js, data-toggle='dropdown').dropdown-toggle
+						| name&nbsp;(asc)&nbsp;
+						b.caret
+					ul.dropdown-menu: each col, i in columns
+						li.selected: a(href=js) 
+							unless i
+								span.glyphicon.glyphicon-ok.pull-right
+							span=col.label
+		if items.totalPages > 1
+			.list-pagination
+				.count Showing #{items.first} to #{items.last}
+				ul.pagination: each p, i in items.pages
+					li(class=items.currentPage == p ? 'active' : null)
+						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
 		if items.results.length || search
-			.search-list
-				form(action='/keystone/' + list.path).form-row
-					.col-sm-4.col-lg-3
-						if search
-							.input-group
-								input(type='text', name='search', placeholder='search #{list.plural}...', value=search).form-control
-								.input-group-btn: a.btn.btn-default(href='/keystone/#{list.path}'): span.glyphicon.glyphicon-remove
-						else
-							input(type='text', name='search', placeholder='search #{list.plural}...').form-control
-					.col-sm-8.col-lg-9
-						button(type='submit').btn.btn-default Search
-			
+			.list-toolbar.form-row
+				.col-sm-6: .search-list
+					form(action='/keystone/' + list.path).form-row
+						.col-xs-10.col-sm-9.col-md-10.search-field
+							input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search).form-control
+							if search
+								a(href='/keystone/#{list.path}').search-list-clear &times;
+						.col-xs-2.col-sm-3.col-md-2.search-button: button(type='submit').btn.btn-default.btn-search.btn-block
+							span.visible-xs Go
+							span.hidden-xs Search
+				.col-xs-4.col-sm-2
+					.dropdown.list-filter-dropdown
+						a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle More filters
+						ul.dropdown-menu
+							li: a(href=js) Name
+							li: a(href=js) Is Style
+							li: a(href=js) Style is Featured
+				.col-xs-8.col-sm-4.text-right
+					button.btn.btn-default Columns
+					button.btn.btn-default Export
+				
 block content
 	if (!list.get('nocreate'))
 		.create-item
@@ -86,13 +112,9 @@ block content
 								+column(list, col, item)
 								
 		if items.totalPages > 1
-			- var basePath = '/keystone/' + list.path
-			.text-center: ul.pagination
-				li(class=items.previous ? false : 'disabled')
-					a(href=items.previous ? basePath + '/' + items.previous : false) &laquo; Prev
-				each p, i in items.pages
-					li(class=items.currentPage == p ? 'disabled' : false)
+			.list-pagination
+				.count Showing #{items.first} to #{items.last}
+				ul.pagination: each p, i in items.pages
+					li(class=items.currentPage == p ? 'active' : null)
 						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
-				li(class=items.next ? false : 'disabled')
-					a(href=items.next ? basePath + '/' + items.next : false) Next &raquo;
 	

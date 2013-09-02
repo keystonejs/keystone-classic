@@ -12,7 +12,7 @@
 
 @input-vspacing: 12px;
 
-// Adding v-spacing between form elements
+// Adding vertical spacing between form elements
 .field,
 .form-control-wrapper,
 .form-horizontal,
@@ -55,16 +55,13 @@
 	position: absolute;
 	width: 1px;
 	height: 1px;
-	overflow: hiddden;
+	overflow: hidden;
 	opacity: 0;
 }
 
 // Big ass fields (name fields)
 .item-name .form-control {
 	margin-bottom: 20px;
-}
-.form-control:empty {
-	border-color: lighten(@input-border, 10%);
 }
 
 // Disabled fields
@@ -79,7 +76,7 @@
 
 // Field value. Used for non-editable fields
 .field-value {
-	background-color: mix(white, @input-bg-disabled, 80%);
+	background-color: mix(white, @input-bg-disabled, 10%);
 	border: 1px solid mix(white, @input-border, 40%);
 	border-radius: @input-border-radius;
 	color: @input-color;
@@ -250,9 +247,7 @@ label.checkbox {
 }
 
 // Messages
-
 .field-message {
-	
 	display: none;
 	min-height: 30px;
 	
