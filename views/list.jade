@@ -12,6 +12,7 @@ block page-js
 
 block intro
 	- var basePath = '/keystone/' + list.path
+	- var xFilters = _.size(filters);
 	.page-header.list-header
 		
 		//-
@@ -26,6 +27,12 @@ block intro
 			if search
 				span.text-muted  matching  
 				span=search
+				if xFilters
+					span.text-muted  and 
+					span= utils.plural(xFilters, '* other filter')
+			else if xFilters
+				span.text-muted  matching 
+				span= utils.plural(xFilters, '* filter')
 			
 			//- Sort
 			if items.results.length
@@ -64,17 +71,17 @@ block intro
 		//-
 		//- Filters
 		//- ------------------------------
-		form(action='/keystone/' + list.path)#list-filters
+		form#list-filters
 			
 			//-
 			//- Search Bar
 			//- ------------------------------
-			if items.results.length || search
+			if items.results.length || search || xFilters
 				.list-toolbar.form-row
 					.col-sm-6: .search-list
 						.form-row
 							.col-xs-10.col-sm-9.col-md-10.search-field
-								input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search).form-control
+								input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search)#list-search.form-control
 								if search
 									a(href='/keystone/#{list.path}').search-list-clear &times;
 							.col-xs-2.col-sm-3.col-md-2.search-button: button(type='submit').btn.btn-default.btn-search.btn-block
@@ -88,7 +95,7 @@ block intro
 							ul.dropdown-menu: each el in list.uiElements
 								if el.type == 'heading'
 									li.dropdown-header= el.heading
-								else if el.type == 'field' && el.field.type != 'relationship' && !el.field.nofilter
+								else if el.type == 'field' && !el.field.nofilter
 									li: a(href=js, data-path=el.field.path).add-list-filter
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
@@ -111,7 +118,7 @@ block intro
 			//- ------------------------------
 			.list-filters
 				each field in list.fields
-					if field.type != 'relationship'
+					if !field.nofilter
 						.filter(data-path=field.path, data-type=field.type, class=filters[field.path] ? 'active' : '')
 							.filter-label
 								a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='left', data-container='body').btn-companion-xs.clear-filter &times;
@@ -120,7 +127,7 @@ block intro
 							.filter-options
 								- var ops = filters[field.path] || {}
 								//- Text Fields
-								if field.type == 'text' || field.type == 'textarea' || field.type == 'html' || field.type == 'email' || field.type == 'url'
+								if field.type == 'text' || field.type == 'textarea' || field.type == 'html' || field.type == 'email' || field.type == 'url' || field.type == 'key'
 									.btn-group.btn-group-xs(data-toggle='buttons')
 										button(type='button', class=!ops.exact ? 'active' : '').btn.btn-default
 											input(type='radio', name='options')
@@ -220,8 +227,8 @@ block content
 		.create-item
 			form(method='post', action='/keystone/' + list.path)
 				input(type='hidden', name='action', value='create')
-				
 				.form
+					h4 New #{list.singular}
 					if list.nameIsInitial
 						if list.nameField.type == 'name'
 							.field.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' name').form-control.input-lg

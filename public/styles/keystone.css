@@ -5080,7 +5080,7 @@ td.visible-print {
   border-top-color: #005580;
 }
 .list-filters {
-  margin-top: -20px;
+  margin: -20px 0 20px;
   /*
 	.filter {
 		display: none;
@@ -5161,6 +5161,9 @@ td.visible-print {
 }
 .fieldicon.fieldicon-url {
   background-image: url("/keystone/images/icons/16/field-url.png");
+}
+.fieldicon.fieldicon-key {
+  background-image: url("/keystone/images/icons/16/field-key.png");
 }
 .fieldicon.fieldicon-email {
   background-image: url("/keystone/images/icons/16/field-email.png");
@@ -6104,6 +6107,11 @@ h2.form-heading + h3.form-heading {
 }
 h3.relationship-heading {
   margin-top: 50px;
+}
+h4 {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
 }
 .form-control {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
