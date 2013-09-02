@@ -30,7 +30,10 @@ block intro
 		.col-sm-6: .item-id id: #{item.id}
 			if list.autokey
 				|  / #{item.get(list.autokey.path)}
-			a.btn.btn-default.btn-xs(style='margin-left:20px', href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
+			.btn-group(style='margin-left:20px')
+				a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
+				a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
+			
 	
 
 block content

@@ -2756,16 +2756,16 @@ input[type="button"].btn-block {
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   text-decoration: none;
-  color: #ffffff;
-  background-color: #004a80;
+  color: #333333;
+  background-color: #d7edfb;
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
 .dropdown-menu > .active > a:focus {
-  color: #ffffff;
+  color: #333333;
   text-decoration: none;
   outline: 0;
-  background-color: #004a80;
+  background-color: #d7edfb;
 }
 .dropdown-menu > .disabled > a,
 .dropdown-menu > .disabled > a:hover,
@@ -4115,6 +4115,104 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .alert-danger .alert-link {
   color: #953b39;
 }
+.tooltip {
+  position: absolute;
+  z-index: 1030;
+  display: block;
+  visibility: visible;
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.tooltip.in {
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+.tooltip.top {
+  margin-top: -3px;
+  padding: 5px 0;
+}
+.tooltip.right {
+  margin-left: 3px;
+  padding: 0 5px;
+}
+.tooltip.bottom {
+  margin-top: 3px;
+  padding: 5px 0;
+}
+.tooltip.left {
+  margin-left: -3px;
+  padding: 0 5px;
+}
+.tooltip-inner {
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  background-color: #000000;
+  border-radius: 4px;
+}
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.tooltip.top .tooltip-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000000;
+}
+.tooltip.top-left .tooltip-arrow {
+  bottom: 0;
+  left: 5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000000;
+}
+.tooltip.top-right .tooltip-arrow {
+  bottom: 0;
+  right: 5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000000;
+}
+.tooltip.right .tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-width: 5px 5px 5px 0;
+  border-right-color: #000000;
+}
+.tooltip.left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #000000;
+}
+.tooltip.bottom .tooltip-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000000;
+}
+.tooltip.bottom-left .tooltip-arrow {
+  top: 0;
+  left: 5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000000;
+}
+.tooltip.bottom-right .tooltip-arrow {
+  top: 0;
+  right: 5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000000;
+}
 .clearfix:before,
 .clearfix:after {
   content: " ";
@@ -4981,9 +5079,34 @@ td.visible-print {
 .list-sort-dropdown .dropdown-toggle:hover .caret {
   border-top-color: #005580;
 }
-.list-filters .filter,
+.list-filters {
+  margin-top: -20px;
+  /*
+	.filter {
+		display: none;
+		margin-bottom: 12px;
+		padding-top: 8px;
+		border-top: 1px dashed #ddd;
+	}
+	
+	.list-filters-action {
+		margin: 15px 0;
+		border-top: 1px dashed #ddd;
+		padding-top: 15px;
+		display: none;
+	}
+	*/
+
+}
+.list-filters .filter {
+  display: none;
+  padding-top: 8px;
+}
+.list-filters .filter.active {
+  display: block;
+}
 .list-filters .list-filters-action {
-  margin-bottom: 15px;
+  margin: 20px 0;
 }
 .list-filters .filter-options {
   padding: 5px 0 0 24px;
@@ -5479,6 +5602,9 @@ textarea.field.type-html textarea {
 .btn + .btn.btn-block {
   margin-left: 0;
 }
+.btn-group .btn + .btn {
+  margin-left: -1px;
+}
 .btn-link.text-muted {
   color: #999999;
 }
@@ -5761,6 +5887,11 @@ textarea.field.type-html textarea {
   height: 34px;
   visibility: hidden;
 }
+abbr,
+.disabled,
+.disabled a {
+  cursor: default !important;
+}
 #header {
   background-color: #154b7e;
   -webkit-box-shadow: inset 0 -1px 2px #0e3152;
@@ -5950,9 +6081,7 @@ h2.form-heading {
   /**
 		Diagonal Stripes
 		==============================
-		
-		Courtesy of:
-		http://svgeneration.com/generate/Diagonal-Stripes
+		Courtesy of http://svgeneration.com/generate/Diagonal-Stripes
 	**/
 
 }

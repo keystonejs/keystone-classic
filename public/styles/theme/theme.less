@@ -32,6 +32,18 @@
 @navbar-keystone-toggle-icon-bar-bg:         #fff;
 @navbar-keystone-toggle-border-color:        mix(white, @navbar-keystone-bg, 25%);
 
+
+
+
+//
+// Resets
+// -------------------------------------------------- 
+
+abbr, .disabled, .disabled a {
+	cursor: default !important;
+}
+
+
 //
 // Header
 // -------------------------------------------------- 
@@ -107,8 +119,7 @@
 	.navbar-form {
 		border-color: darken(@navbar-keystone-bg, 7%);
 	}
-
-	// Dropdowns
+	
 	.navbar-nav {
 		> .open > a {
 			&,
@@ -295,9 +306,7 @@ h2.form-heading {
 	/**
 		Diagonal Stripes
 		==============================
-		
-		Courtesy of:
-		http://svgeneration.com/generate/Diagonal-Stripes
+		Courtesy of http://svgeneration.com/generate/Diagonal-Stripes
 	**/
 	&.relationship-heading {
 		padding-top: 40px;
@@ -383,10 +392,6 @@ h3.relationship-heading {
 .checkbox {
 	max-width: @screen-xs;
 }
-
-
-
-
 
 
 // Buttons

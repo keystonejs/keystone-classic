@@ -12,7 +12,8 @@ exports = module.exports = function(req, res) {
 	};
 	
 	var sort = { by: req.query.sort || req.list.defaultSort },
-		filters = (req.query.search) ? req.list.getSearchFilters(req.query.search) : {};
+		filters = (req.query.q) ? req.list.processFilters(req.query.q) : {};
+		// filters = (req.query.search) ? req.list.getSearchFilters(req.query.search) : {};
 	
 	if (sort.by) {
 		
@@ -32,22 +33,21 @@ exports = module.exports = function(req, res) {
 	
 	var renderView = function() {
 		
-		var q = req.list.paginate({ filters: filters, page: req.params.page }).sort(sort.by);
+		var query = req.list.paginate({ /*filters: filters,*/ page: req.params.page }).sort(sort.by);
 		
 		var columns = req.list.defaultColumns;
-		req.list.selectColumns(q, columns);
+		req.list.selectColumns(query, columns);
 		
 		var link_to = function(x) {
 			return '/keystone/' + req.list.path + '?' + querystring.stringify(x);
 		}
 		
-		q.exec(function(err, items) {
+		query.exec(function(err, items) {
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: req.list.key,
 				title: 'Keystone: ' + req.list.plural,
 				link_to: link_to,
 				list: req.list,
-				fields: req.list.fields,
 				sort: sort,
 				filters: filters,
 				search: req.query.search,

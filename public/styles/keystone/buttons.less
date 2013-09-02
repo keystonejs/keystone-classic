@@ -9,6 +9,14 @@
   &.btn-block { margin-left: 0; }
 }
 
+// ... except in .btn-groups
+.btn-group {
+  .btn + .btn {
+    margin-left: -1px;
+  }
+}
+
+
 // Contextual emphasis
 .btn-link {
 	&.text-muted          { color: @text-muted; }

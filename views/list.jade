@@ -3,36 +3,6 @@ extends layout/base
 include mixins/initialFields
 include mixins/columns
 
-mixin sortui
-	if sort.by
-		span.text-muted  ordered by 
-	else
-		span.text-muted &mdash;
-	span.dropdown.list-sort-dropdown
-		a(href=js, data-toggle='dropdown').dropdown-toggle
-			if sort.label
-				= sort.label.toLowerCase() + ' '
-				if sort.inv
-					|  (descending) 
-			else
-				| sort by 
-			b.caret
-		ul.dropdown-menu: each field, i in fields
-			if field.type != 'relationship' && !field.nosort
-				if sort.field && sort.field.path == field.path
-					if sort.inv
-						li: a(href=link_to({ sort: field.path }))
-							span(class='fieldicon fieldicon-' + field.type)
-							span= field.label + ' (ascending)'
-					else
-						li: a(href=link_to({ sort: '-' + field.path }))
-							span(class='fieldicon fieldicon-' + field.type)
-							span= field.label + ' (descending)'
-				else
-					li: a(href=link_to({ sort: field.path }))
-						span(class='fieldicon fieldicon-' + field.type)
-						span= field.label
-
 block page-js
 	script(src='/keystone/js/views/list.js')
 	script.
@@ -43,6 +13,10 @@ block page-js
 block intro
 	- var basePath = '/keystone/' + list.path
 	.page-header.list-header
+		
+		//-
+		//- Header
+		//- ------------------------------
 		h1
 			if items.results.length
 				span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
@@ -52,144 +26,196 @@ block intro
 			if search
 				span.text-muted  matching  
 				span=search
+			
+			//- Sort
 			if items.results.length
-				+sortui
-		if items.totalPages > 1
-			.list-pagination
-				.count Showing #{items.first} to #{items.last}
-				ul.pagination: each p, i in items.pages
-					li(class=items.currentPage == p ? 'active' : null)
-						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
+				if sort.by
+					span.text-muted  ordered by 
+				else
+					span.text-muted &mdash;
+				span.dropdown.list-sort-dropdown
+					a(href=js, data-toggle='dropdown').dropdown-toggle
+						if sort.label
+							= sort.label.toLowerCase() + ' '
+							if sort.inv
+								|  (descending) 
+						else
+							| sort by 
+						b.caret
+					ul.dropdown-menu: each el in list.uiElements
+						if el.type == 'heading'
+							li.dropdown-header= el.heading
+						else if el.type == 'field'
+							if el.field.type != 'relationship' && !el.field.nosort
+								if sort.field && sort.field.path == el.field.path
+									if sort.inv
+										li: a(href=link_to({ sort: el.field.path }))
+											span(class='fieldicon fieldicon-' + el.field.type)
+											span= el.field.label + ' (ascending)'
+									else
+										li: a(href=link_to({ sort: '-' + el.field.path }))
+											span(class='fieldicon fieldicon-' + el.field.type)
+											span= el.field.label + ' (descending)'
+								else
+									li: a(href=link_to({ sort: el.field.path }))
+										span(class='fieldicon fieldicon-' + el.field.type)
+										span= el.field.label
 		
 		//-
-		//- Searching
+		//- Filters
 		//- ------------------------------
-		if items.results.length || search
-			.list-toolbar.form-row
-				.col-sm-6: .search-list
-					form(action='/keystone/' + list.path).form-row
-						.col-xs-10.col-sm-9.col-md-10.search-field
-							input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search).form-control
-							if search
-								a(href='/keystone/#{list.path}').search-list-clear &times;
-						.col-xs-2.col-sm-3.col-md-2.search-button: button(type='submit').btn.btn-default.btn-search.btn-block
-							span.visible-xs Go
-							span.hidden-xs Search
-				.col-xs-4.col-sm-2
-					.dropdown.list-filter-dropdown
-						a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-							| More filters 
-							b.caret
-						ul.dropdown-menu: each field, i in list.fields
-							if field.type != 'relationship'
-								li: a(href=js)
-									span(class='fieldicon fieldicon-' + field.type)
-									span= field.label
-				.col-xs-8.col-sm-4.text-right
-					button.btn.btn-default Columns
-					button.btn.btn-default Export
-		
-		
-		//-
-		//- Filtering
-		//- ------------------------------
-		form(method='post').list-filters
-			each field, i in list.fields
-				//- pre=JSON.stringify(field)
-				.filter
-					.filter-label
-						a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='left').btn-companion-xs.clear-filter &times;
-						span(class='fieldicon fieldicon-' + field.type)
-						.btn-companion-xs=field.label
-							span.text-muted  (#{field.type})
-					.filter-options
-						//- Text Fields
-						if field.type == 'text' || field.type == 'textarea' || field.type == 'html' || field.type == 'email' || field.type == 'url'
-							.btn-group.btn-group-xs(data-toggle='buttons')
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  contains
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  exact match
-							.filter-input.filter-input-md: input(type='text').form-control.input-xs
-							button(type='button', data-toggle='button').btn.btn-xs.btn-default invert
-						
-						//- Numeric Fields
-						if field.type == 'number' || field.type == 'money'
-							.btn-group.btn-group-xs(data-toggle='buttons')
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  greater than
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  less than
-							.filter-input.filter-input-md: input(type='number').form-control.input-xs
-						
-						//- Date
-						if field.type == 'date' || field.type == 'datetime'
-							.btn-group.btn-group-xs(data-toggle='buttons')
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  before
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  after
-							.filter-input.filter-input-md: input(type=field.type).form-control.input-xs
-						
-						//- Location
-						if field.type == 'location'
-							.btn-group.btn-group-xs(data-toggle='buttons')
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  contains
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  exact match
-							.filter-input.filter-input-md: input(type='text', placeholder='Address').form-control.input-xs
-							.filter-input.filter-input-sm: input(type='text', placeholder='Suburb').form-control.input-xs
-							.filter-input.filter-input-sm: input(type='text', placeholder='State').form-control.input-xs
-							.filter-input.filter-input-sm: input(type='text', placeholder='Postcode').form-control.input-xs
-							.filter-input.filter-input-sm: input(type='text', placeholder='Country').form-control.input-xs
-							button(type='button', data-toggle='button').btn.btn-xs.btn-default invert
-						
-						//- Select
-						if field.type == 'select'
-							.btn-group.btn-group-xs(data-toggle='buttons')
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  is
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  is not
-							.filter-input.filter-input-md: select()
-								option(value='')
-								each op in field.ops
-									option(value=op.value)= op.label
-						
-						//- Boolean
-						if field.type == 'boolean'
-							.btn-group.btn-group-xs(data-toggle='buttons')
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  checked
-								button(type='button').btn.btn-default
-									input(type='radio', name='options')
-									|  not checked
-						
-						//- Cloudinary Image
-						if field.type == 'cloudinaryimage'
-							.btn-group.btn-group-xs(data-toggle='buttons')
-								button(type='button').btn.btn-default has
-									input(type="radio", name="options")
-									|  image
-								button(type='button').btn.btn-default
-									input(type="radio", name="options")
-									|  has no image
-			.list-filters-action
-				button(type='submit').btn.btn-sm.btn-default.btn-filter Update filters
+		form(action='/keystone/' + list.path)#list-filters
+			
+			//-
+			//- Search Bar
+			//- ------------------------------
+			if items.results.length || search
+				.list-toolbar.form-row
+					.col-sm-6: .search-list
+						.form-row
+							.col-xs-10.col-sm-9.col-md-10.search-field
+								input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search).form-control
+								if search
+									a(href='/keystone/#{list.path}').search-list-clear &times;
+							.col-xs-2.col-sm-3.col-md-2.search-button: button(type='submit').btn.btn-default.btn-search.btn-block
+								span.visible-xs Go
+								span.hidden-xs Search
+					.col-xs-4.col-sm-2
+						.dropdown.list-filter-dropdown
+							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								| Add Filter... 
+								b.caret
+							ul.dropdown-menu: each el in list.uiElements
+								if el.type == 'heading'
+									li.dropdown-header= el.heading
+								else if el.type == 'field' && el.field.type != 'relationship' && !el.field.nofilter
+									li: a(href=js, data-path=el.field.path).add-list-filter
+										span(class='fieldicon fieldicon-' + el.field.type)
+										span= el.field.label
+					.col-xs-8.col-sm-4
+						.dropdown.list-columns-dropdown.pull-right
+							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								| Select Columns 
+								b.caret
+							ul.dropdown-menu: each el in list.uiElements
+								if el.type == 'heading'
+									li.dropdown-header= el.heading
+								else if el.type == 'field' && !el.field.nocol
+									li: a(href=js)
+										span= el.field.label
+						//- button.btn.btn-default Export
+			
+			
+			//-
+			//- List Filters
+			//- ------------------------------
+			.list-filters
+				each field in list.fields
+					if field.type != 'relationship'
+						.filter(data-path=field.path, data-type=field.type, class=filters[field.path] ? 'active' : '')
+							.filter-label
+								a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='left', data-container='body').btn-companion-xs.clear-filter &times;
+								span(class='fieldicon fieldicon-' + field.type)
+								.btn-companion-xs=field.label
+							.filter-options
+								- var ops = filters[field.path] || {}
+								//- Text Fields
+								if field.type == 'text' || field.type == 'textarea' || field.type == 'html' || field.type == 'email' || field.type == 'url'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=!ops.exact ? 'active' : '').btn.btn-default
+											input(type='radio', name='options')
+											| contains
+										button(type='button', class=ops.exact ? 'active' : '', data-opt='exact', data-value='true').btn.btn-default
+											input(type='radio', name='options')
+											| exact match
+									.filter-input.filter-input-md: input(type='text', name='value', value=ops.value).form-control.input-xs
+									button(type='button', data-toggle='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-xs.btn-default invert
+								
+								//- Numeric Fields
+								if field.type == 'number' || field.type == 'money'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=!ops.operator ? 'active' : '').btn.btn-default
+											input(type='radio', name='options')
+											| exactly
+										button(type='button', class=ops.operator == 'gt' ? 'active' : '', data-opt='operator', data-value='gt').btn.btn-default
+											input(type='radio', name='options')
+											| greater than
+										button(type='button', class=ops.operator == 'lt' ? 'active' : '', data-opt='operator', data-value='lt').btn.btn-default
+											input(type='radio', name='options')
+											| less than
+									.filter-input.filter-input-md: input(type='number', name='value', value=ops.value).form-control.input-xs
+								
+								//- Date
+								if field.type == 'date' || field.type == 'datetime'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=(!ops.operator) ? 'active' : '').btn.btn-default
+											input(type='radio', name='options')
+											| on
+										button(type='button', class=ops.operator == 'gt' ? 'active' : '', data-opt='operator', data-value='gt').btn.btn-default
+											input(type='radio', name='options')
+											| after
+										button(type='button', class=ops.operator == 'lt' ? 'active' : '', data-opt='operator', data-value='lt').btn.btn-default
+											input(type='radio', name='options')
+											| before
+									.filter-input.filter-input-md: input(type='text', name='value', value=ops.value).form-control.input-xs.ui-datepicker
+								
+								//- Location
+								if field.type == 'location'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=!ops.exact ? 'active' : '').btn.btn-default
+											input(type='radio', name='options')
+											| contains
+										button(type='button', class=ops.exact ? 'active' : '', data-opt='exact', data-value='true').btn.btn-default
+											input(type='radio', name='options')
+											| exact match
+									.filter-input.filter-input-md: input(type='text', name='address', value=ops.address, placeholder='Address').form-control.input-xs
+									.filter-input.filter-input-sm: input(type='text', name='suburb', value=ops.suburb, placeholder='Suburb').form-control.input-xs
+									.filter-input.filter-input-sm: input(type='text', name='state', value=ops.state, placeholder='State').form-control.input-xs
+									.filter-input.filter-input-sm: input(type='text', name='postcode', value=ops.postcode, placeholder='Postcode').form-control.input-xs
+									.filter-input.filter-input-sm: input(type='text', name='country', value=ops.country, placeholder='Country').form-control.input-xs
+									button(type='button', data-toggle='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-xs.btn-default invert
+								
+								//- Select
+								if field.type == 'select'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=!ops.inv ? 'active' : '').btn.btn-default
+											input(type='radio', name='options')
+											| is
+										button(type='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
+											input(type='radio', name='options')
+											| is not
+									.filter-input.filter-input-md: select()
+										option(value='')
+										each op in field.ops
+											option(value=op.value, selected=ops.value == op.value)= op.label
+								
+								//- Boolean
+								if field.type == 'boolean'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=ops.value !== false ? 'active' : '', data-opt='value', data-value='true').btn.btn-default
+											input(type="radio", name="options")
+											| checked
+										button(type='button', class=ops.value === false ? 'active' : '', data-opt='value', data-value='false').btn.btn-default
+											input(type="radio", name="options")
+											| not checked
+								
+								//- Cloudinary Image
+								if field.type == 'cloudinaryimage'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=ops.value !== false ? 'active' : '', data-opt='value', data-value='true').btn.btn-default
+											input(type="radio", name="options")
+											| has image
+										button(type='button', class=ops.value === false ? 'active' : '', data-opt='value', data-value='false').btn.btn-default
+											input(type="radio", name="options")
+											| has no image
+				.list-filters-action
+					button(type='submit').btn.btn-default.btn-filter Search
+					a(href='/keystone/#{list.path}').btn.btn-link.btn-cancel clear filters
 				
 block content
+	//-
+	//- Create Item
+	//- ------------------------------
 	if (!list.get('nocreate'))
 		.create-item
 			form(method='post', action='/keystone/' + list.path)
@@ -213,8 +239,27 @@ block content
 						a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
 					.toolbar-default
 						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
+		
+		if items.results.length
+			hr
 			
 	if items.results.length
+		
+		//-
+		//- Pagination
+		//- ------------------------------
+		
+		.list-pagination
+			if items.totalPages > 1
+				.count Showing #{items.first} to #{items.last}
+				ul.pagination: each p, i in items.pages
+					li(class=items.currentPage == p ? 'active' : null)
+						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
+			else
+				.count Showing #{items.total} #{list.plural}
+		
+		
+		
 		- var sortable = list.get('sortable') && !list.get('sortContext')
 		- var firstColspan = 1;
 		table(cellpadding=0, cellspacing=0, class=sortable ? 'sortable' : false, data-list-path=list.path).table.table-striped.items-list

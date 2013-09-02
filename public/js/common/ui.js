@@ -1,11 +1,9 @@
 jQuery(function($) {
 	
-	//- @JM header back to brand arrow
 	$('.navbar-backtobrand').mouseenter(function(e) {
 		$('.navbar-headernav-collapse').addClass('navbar-headernav-hide');
 		$('.navbar-brand').text('Back to the FindYoga website');
-	});
-	$('.navbar-backtobrand').mouseleave(function() {
+	}).mouseleave(function() {
 		$('.navbar-headernav-collapse').removeClass('navbar-headernav-hide');
 		$('.navbar-brand').text('FindYoga');
 	});
@@ -16,6 +14,8 @@ jQuery(function($) {
 			return false;
 		}
 	});
+	
+	$('a[data-toggle=tooltip]').tooltip();
 	
 	$('.ui-datepicker').pikaday({ firstDay: 1 });
 	
