@@ -18,7 +18,7 @@ mixin sortui
 				| sort by 
 			b.caret
 		ul.dropdown-menu: each field, i in fields
-			if field.type != 'relationship'
+			if field.type != 'relationship' && !field.nosort
 				if sort.field && sort.field.path == field.path
 					if sort.inv
 						li: a(href=link_to({ sort: field.path }))
