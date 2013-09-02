@@ -3,6 +3,33 @@ extends layout/base
 include mixins/initialFields
 include mixins/columns
 
+mixin sortui
+	if sort.by
+		span.text-muted  ordered by 
+	else
+		span.text-muted &mdash;
+	span.dropdown.list-sort-dropdown
+		a(href=js, data-toggle='dropdown').dropdown-toggle
+			if sort.label
+				= sort.label.toLowerCase() + ' '
+				if sort.inv
+					|  (descending) 
+			else
+				| sort by 
+			b.caret
+		ul.dropdown-menu: each field, i in fields
+			if field.type != 'relationship'
+				if sort.field && sort.field.path == field.path
+					if sort.inv
+						li: a(href=link_to({ sort: field.path }))
+							span= field.label + ' (ascending)'
+					else
+						li: a(href=link_to({ sort: '-' + field.path }))
+							span= field.label + ' (descending)'
+				else
+					li: a(href=link_to({ sort: field.path }))
+						span= field.label
+
 block page-js
 	script(src='/keystone/js/views/list.js')
 	script.
@@ -21,16 +48,7 @@ block intro
 				span.text-muted  matching  
 				span=search
 			if items.results.length
-				span.text-muted  ordered by  
-				span.dropdown.list-sort-dropdown
-					a(href=js, data-toggle='dropdown').dropdown-toggle
-						| name&nbsp;(asc)&nbsp;
-						b.caret
-					ul.dropdown-menu: each col, i in columns
-						li.selected: a(href=js) 
-							unless i
-								span.glyphicon.glyphicon-ok.pull-right
-							span=col.label
+				+sortui
 		if items.totalPages > 1
 			.list-pagination
 				.count Showing #{items.first} to #{items.last}
