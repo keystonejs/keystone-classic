@@ -43,12 +43,12 @@
 			'<span class="ui-wysiwyg-dialog">' +
 				//'<label>' +
 					//'Link:' +
-					'<input data-wysihtml5-dialog-field="href" value="" placeholder="Add a link to a website, e.g http://www.team9.com.au">' +
+					'<input data-wysihtml5-dialog-field="href" value="" placeholder="Add a link to a website, e.g http://www.keystonejs.com">' +
 				//'</label>' +
 				'<a class="ok-btn" data-wysihtml5-dialog-action="save"><i class="icon-ok"></i></a>' +
 				'<a class="remove-btn" data-wysihtml5-dialog-action="cancel"><i class="icon-remove"></i></a>' +
 			'</span>' +
-			//'<span class="ui-wysiwyg-hint">Add a link to a website. Use the entire link including the <em>http://</em>, for example: <em>http://www.team9.com.au</em></span>' +
+			//'<span class="ui-wysiwyg-hint">Add a link to a website. Use the entire link including the <em>http://</em>, for example: <em>http://www.keystonejs.com</em></span>' +
 		'</li>' +
 		
 		'<li data-wysihtml5-dialog="insertImage" style="display: none;">' +
@@ -203,6 +203,10 @@ jQuery(function($) {
 			$field.prop('id', 'ui-wysiwyg-' + new Date().getTime());
 		
 		$field.wysihtml5();
+		
+		setTimeout(function() {
+			$field.addClass('code');
+		}, 1000);
 	
 	});
 	

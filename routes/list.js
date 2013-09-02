@@ -7,7 +7,7 @@ exports = module.exports = function(req, res) {
 	
 	var viewLocals = {
 		validationErrors: {},
-		showCreateForm: false
+		showCreateForm: _.has(req.query, 'new')
 	};
 	
 	var filters = (req.query.search) ? req.list.getSearchFilters(req.query.search) : {};

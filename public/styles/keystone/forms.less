@@ -30,6 +30,11 @@
 	margin-top: 50px;
 }
 
+// Indentation
+.form-indent {
+	margin-left: 20px;
+}
+
 // Alerts
 .alert {
 	border: 0 none;
@@ -74,19 +79,31 @@
 
 // Field value. Used for non-editable fields
 .field-value {
+	background-color: mix(white, @input-bg-disabled, 80%);
+	border: 1px solid mix(white, @input-border, 40%);
 	border-radius: @input-border-radius;
-	background: @input-bg-disabled;
-	border: 1px solid darken(@input-bg-disabled, 10%);
+	color: @input-color;
+	display: block;
+	font-size: @font-size-base;
+	line-height: @line-height-base;
 	height: auto;
+	min-height: @input-height-base;
 	padding: @padding-base-vertical @padding-base-horizontal;
+	vertical-align: middle;
+	width: 100%;
 	
 	& + & {
 		margin-top: @input-vspacing;
 	}
 	
-	&:empty {
-		display: none;
+	&.no-value {
+		color: @gray-light;
+		cursor: default;
 	}
+}
+
+.field .help-block {
+	margin-bottom: 0px;
 }
 
 // align label copy with field text
@@ -118,6 +135,12 @@ textarea {
 	
 	&.tall {
 		min-height: 200px;
+	}
+}
+
+input, textarea {
+	&.code {
+		font-size: @font-size-small !important;
 	}
 }
 
@@ -174,39 +197,43 @@ label.checkbox {
 	}
 }
 
-// ============================================================
-// * * *
-// ============ OLD =============
-// * * *
-// ============================================================
-
-
-// cloudinary
+// Cloudinary Images
 .field.type-cloudinaryimage {
-	
-	.clearfix;
-	margin-bottom: 10px;
 	
 	.image-preview {
 		float: left;
 		margin-right: 10px;
 	}
-	
+	.image-details {
+		margin-left: 120px;
+		overflow: hidden;
+	}
+	.field-value {
+		width: auto;
+		float: left;
+		margin-right: 10px;
+	}
 	.has-image {
-		.image-details, .image-toolbar {
+		.image-toolbar {
 			margin-left: 110px;
 		}
 	}
-	
+	.alert {
+		float: left;
+	}
 	.upload-queued {
-		border-radius: 3px;
 		display: none;
-		background: #e5fbe5;
-		border: 1px solid #c5ddc5;
-		margin-right: 10px;
-		padding: @padding-base-vertical @padding-base-horizontal;
 	}
 }
+
+.field-upload {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0.01;
+}
+
+// Related Items
 .ui-related-item {
 	.field-value;
 	background: #white;
@@ -222,12 +249,7 @@ label.checkbox {
 	};
 }
 
-.field-upload {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	opacity: 0.01;
-}
+// Messages
 
 .field-message {
 	

@@ -31,16 +31,21 @@ jQuery(function($) {
 	
 	var getFieldValue = function($field) {
 		
+		if (!$field || !$field.length) {
+			return undefined;
+		}
+		
 		if ($field.data('field-noedit')) {
 			
 			switch ($field.data('field-type')) {
 				case 'boolean':
 				case 'select':
 				case 'relationship':
+				case 'cloudinaryimage':
 					return $field.data('field-value');
 			}
 			
-			return $field.find('field-value').text();
+			return $field.find('.field-value').text();
 			
 		} else {
 			
@@ -52,6 +57,8 @@ jQuery(function($) {
 				case 'html':
 				case 'textarea':
 					return $field.find('textarea').val();
+				case 'cloudinaryimage':
+					return $field.data('field-value');
 			}
 			
 			return _.reduce($field.find('input:not([type="checkbox"])'), function(memo, input) {
@@ -69,6 +76,10 @@ jQuery(function($) {
 			value = getFieldValue($field);
 		
 		if (!value) {
+			
+			if ($field.data('field-noedit')) {
+				return $field.remove();
+			}
 			
 			$field.wrapInner('<div class="field-hidden">');
 			
@@ -124,6 +135,7 @@ jQuery(function($) {
 		
 		$field.find('.autoimprove').on('change', function() {
 			$field.find('.overwrite')[$field.find('.autoimprove input').prop('checked') ? 'show' : 'hide']();
+			$(window).trigger('redraw');
 		});
 		
 	});
@@ -280,6 +292,8 @@ jQuery(function($) {
 		
 		$field.find('input')[0].focus();
 		
+		$(window).trigger('redraw');
+		
 	});
 	
 	$('.btn-leave-password').click(function(e) {
@@ -289,6 +303,8 @@ jQuery(function($) {
 		$field.find('input').val('');
 		$field.find('.leave-password').show();
 		$field.find('.change-password').hide();
+		
+		$(window).trigger('redraw');
 		
 	});
 	
