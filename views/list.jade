@@ -7,6 +7,8 @@ block page-js
 	script(src='/keystone/js/views/list.js')
 	script.
 		Keystone.list = { path: "#{list.path}" };
+	script(src='/js/lib/bootstrap/tooltip.js')
+	script(src='/js/lib/bootstrap/button.js')
 
 block intro
 	- var basePath = '/keystone/' + list.path
@@ -21,22 +23,30 @@ block intro
 				span.text-muted  matching  
 				span=search
 			if items.results.length
-				span.text-muted  ordered by  
+				span.text-muted  sorted by  
 				span.dropdown.list-sort-dropdown
 					a(href=js, data-toggle='dropdown').dropdown-toggle
 						| name&nbsp;(asc)&nbsp;
 						b.caret
-					ul.dropdown-menu: each col, i in columns
+					ul.dropdown-menu: each filter, i in list.fields
 						li.selected: a(href=js) 
 							unless i
 								span.glyphicon.glyphicon-ok.pull-right
-							span=col.label
+							span=filter.label
+		
+		//-
+		//- Pagination
+		//- ------------------------------
 		if items.totalPages > 1
 			.list-pagination
 				.count Showing #{items.first} to #{items.last}
 				ul.pagination: each p, i in items.pages
 					li(class=items.currentPage == p ? 'active' : null)
 						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
+		
+		//-
+		//- Searching
+		//- ------------------------------
 		if items.results.length || search
 			.list-toolbar.form-row
 				.col-sm-6: .search-list
@@ -50,14 +60,112 @@ block intro
 							span.hidden-xs Search
 				.col-xs-4.col-sm-2
 					.dropdown.list-filter-dropdown
-						a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle More filters
-						ul.dropdown-menu
-							li: a(href=js) Name
-							li: a(href=js) Is Style
-							li: a(href=js) Style is Featured
+						a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+							| More filters 
+							b.caret
+						ul.dropdown-menu: each filter, i in list.fields
+							li.selected: a(href=js)=filter.label
 				.col-xs-8.col-sm-4.text-right
 					button.btn.btn-default Columns
 					button.btn.btn-default Export
+		
+		
+		//-
+		//- Filtering
+		//- ------------------------------
+		form(method='post').list-filters
+			each field, i in list.fields
+				//- pre=JSON.stringify(field)
+				.filter
+					.filter-label
+						a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='left').btn-companion-xs.clear-filter &times;
+						span(class='listicon listicon-' + field.type)
+						.btn-companion-xs=field.label
+							span.text-muted  (#{field.type})
+					.filter-options
+						//- Text Fields
+						if field.type == 'text' || field.type == 'textarea' || field.type == 'html' || field.type == 'email' || field.type == 'url'
+							.btn-group.btn-group-xs(data-toggle='buttons')
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  contains
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  exact match
+							button(type='button', data-toggle='button').btn.btn-xs.btn-default invert
+							.filter-input.filter-input-md: input(type='text').form-control.input-xs
+						
+						//- Numeric Fields
+						if field.type == 'number' || field.type == 'money'
+							.btn-group.btn-group-xs(data-toggle='buttons')
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  greater than
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  less than
+							.filter-input.filter-input-md: input(type='number').form-control.input-xs
+						
+						//- Date
+						if field.type == 'date' || field.type == 'datetime'
+							.btn-group.btn-group-xs(data-toggle='buttons')
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  before
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  after
+							.filter-input.filter-input-md: input(type=field.type).form-control.input-xs
+						
+						//- Location
+						if field.type == 'location'
+							.btn-group.btn-group-xs(data-toggle='buttons')
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  contains
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  exact match
+							button(type='button', data-toggle='button').btn.btn-xs.btn-default invert
+							.filter-input.filter-input-md: input(type='text', placeholder='Address').form-control.input-xs
+							.filter-input.filter-input-sm: input(type='text', placeholder='Suburb').form-control.input-xs
+							.filter-input.filter-input-sm: input(type='text', placeholder='State').form-control.input-xs
+							.filter-input.filter-input-sm: input(type='text', placeholder='Postcode').form-control.input-xs
+							.filter-input.filter-input-sm: input(type='text', placeholder='Country').form-control.input-xs
+						
+						//- Select
+						if field.type == 'select'
+							.btn-group.btn-group-xs(data-toggle='buttons')
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  is
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  is not
+							.filter-input.filter-input-md: select()
+								option() this
+						
+						//- Boolean
+						if field.type == 'boolean'
+							.btn-group.btn-group-xs(data-toggle='buttons')
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  checked
+								button(type='button').btn.btn-default
+									input(type='radio', name='options')
+									|  not checked
+						
+						//- Cloudinary Image
+						if field.type == 'cloudinaryimage'
+							.btn-group.btn-group-xs(data-toggle='buttons')
+								button(type='button').btn.btn-default has
+									input(type="radio", name="options")
+									|  image
+								button(type='button').btn.btn-default
+									input(type="radio", name="options")
+									|  has no image
+			.list-filters-action
+				button(type='submit').btn.btn-sm.btn-default.btn-filter Update filters
 				
 block content
 	if (!list.get('nocreate'))

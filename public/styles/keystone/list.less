@@ -72,12 +72,12 @@
 		
 		&:hover,
 		&:focus {
-			color: @gray;
+			color: @brand-danger;
 			outline: 0 none;
 			text-decoration: none;
 		}
 		&:active {
-			color: @brand-danger;
+			color: darken(@brand-danger, 20%);
 		}
 	}
 	
@@ -112,6 +112,80 @@
 		}
 	}
 	
+}
+
+
+//
+// Filtering
+// --------------------------------------------------
+.list-filters {
+	
+	.filter,
+	.list-filters-action {
+		margin-bottom: 15px;
+	}
+	.filter-options {
+		padding: 5px 0 0 24px;
+	}
+	.filter-input {
+		.inline-align();
+		
+		&.filter-input-lg {
+			width: 300px;
+		}
+		&.filter-input-md {
+			width: 200px;
+		}
+		&.filter-input-sm {
+			width: 100px;
+		}
+		
+		select {
+			font-size: @font-size-small;
+			height: 22px;
+			width: 100%;
+		}
+	}
+	
+	// clearing
+	.clear-filter {
+		color: @gray-light;
+		font-weight: bold;
+		margin-right: 7px;
+		
+		&:hover,
+		&:focus {
+			color: @brand-danger;
+			outline: 0 none;
+			text-decoration: none;
+		}
+		&:active {
+			color: darken(@brand-danger, 20%);
+		}
+	}
+	
+}
+
+// icons that represent field types
+.listicon {
+	.inline-align();
+	.square( 16px );
+	background-repeat: no-repeat;
+	
+	&.listicon-text 						{ background-image: url( "/keystone/images/icons/16/field-text.png" ); }
+	&.listicon-textarea 				{ background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }
+	&.listicon-html							{ background-image: url( "/keystone/images/icons/16/field-html.png" ); }
+	&.listicon-url 							{ background-image: url( "/keystone/images/icons/16/field-url.png" ); }
+	&.listicon-email 						{ background-image: url( "/keystone/images/icons/16/field-email.png" ); }
+	&.listicon-select 					{ background-image: url( "/keystone/images/icons/16/field-select.png" ); }
+	&.listicon-location					{ background-image: url( "/keystone/images/icons/16/field-location.png" ); }
+	&.listicon-boolean 					{ background-image: url( "/keystone/images/icons/16/field-boolean.png" ); }
+	&.listicon-cloudinaryimage 	{ background-image: url( "/keystone/images/icons/16/field-image.png" ); }
+	&.listicon-relationship 		{ background-image: url( "/keystone/images/icons/16/field-numericSelect.png" ); }
+	&.listicon-date 						{ background-image: url( "/keystone/images/icons/16/field-date.png" ); }
+	&.listicon-datetime					{ background-image: url( "/keystone/images/icons/16/field-datetime.png" ); }
+	&.listicon-money						{ background-image: url( "/keystone/images/icons/16/field-money.png" ); }
+	&.listicon-number						{ background-image: url( "/keystone/images/icons/16/field-number.png" ); }
 }
 
 
