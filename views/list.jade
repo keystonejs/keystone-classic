@@ -112,8 +112,8 @@ block intro
 								button(type='button').btn.btn-default
 									input(type='radio', name='options')
 									|  exact match
-							button(type='button', data-toggle='button').btn.btn-xs.btn-default invert
 							.filter-input.filter-input-md: input(type='text').form-control.input-xs
+							button(type='button', data-toggle='button').btn.btn-xs.btn-default invert
 						
 						//- Numeric Fields
 						if field.type == 'number' || field.type == 'money'
@@ -146,12 +146,12 @@ block intro
 								button(type='button').btn.btn-default
 									input(type='radio', name='options')
 									|  exact match
-							button(type='button', data-toggle='button').btn.btn-xs.btn-default invert
 							.filter-input.filter-input-md: input(type='text', placeholder='Address').form-control.input-xs
 							.filter-input.filter-input-sm: input(type='text', placeholder='Suburb').form-control.input-xs
 							.filter-input.filter-input-sm: input(type='text', placeholder='State').form-control.input-xs
 							.filter-input.filter-input-sm: input(type='text', placeholder='Postcode').form-control.input-xs
 							.filter-input.filter-input-sm: input(type='text', placeholder='Country').form-control.input-xs
+							button(type='button', data-toggle='button').btn.btn-xs.btn-default invert
 						
 						//- Select
 						if field.type == 'select'
@@ -163,7 +163,9 @@ block intro
 									input(type='radio', name='options')
 									|  is not
 							.filter-input.filter-input-md: select()
-								option() this
+								option(value='')
+								each op in field.ops
+									option(value=op.value)= op.label
 						
 						//- Boolean
 						if field.type == 'boolean'
