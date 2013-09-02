@@ -5020,54 +5020,57 @@ td.visible-print {
 .list-filters .clear-filter:active {
   color: #a02622;
 }
-.listicon {
+.fieldicon {
   display: inline-block;
   vertical-align: middle;
   width: 16px;
   height: 16px;
   background-repeat: no-repeat;
 }
-.listicon.listicon-text {
+.fieldicon.fieldicon-text {
   background-image: url("/keystone/images/icons/16/field-text.png");
 }
-.listicon.listicon-textarea {
+.fieldicon.fieldicon-textarea {
   background-image: url("/keystone/images/icons/16/field-textarea.png");
 }
-.listicon.listicon-html {
+.fieldicon.fieldicon-html {
   background-image: url("/keystone/images/icons/16/field-html.png");
 }
-.listicon.listicon-url {
+.fieldicon.fieldicon-url {
   background-image: url("/keystone/images/icons/16/field-url.png");
 }
-.listicon.listicon-email {
+.fieldicon.fieldicon-email {
   background-image: url("/keystone/images/icons/16/field-email.png");
 }
-.listicon.listicon-select {
+.fieldicon.fieldicon-select {
   background-image: url("/keystone/images/icons/16/field-select.png");
 }
-.listicon.listicon-location {
+.fieldicon.fieldicon-location {
   background-image: url("/keystone/images/icons/16/field-location.png");
 }
-.listicon.listicon-boolean {
+.fieldicon.fieldicon-boolean {
   background-image: url("/keystone/images/icons/16/field-boolean.png");
 }
-.listicon.listicon-cloudinaryimage {
+.fieldicon.fieldicon-cloudinaryimage {
   background-image: url("/keystone/images/icons/16/field-image.png");
 }
-.listicon.listicon-relationship {
+.fieldicon.fieldicon-relationship {
   background-image: url("/keystone/images/icons/16/field-numericSelect.png");
 }
-.listicon.listicon-date {
+.fieldicon.fieldicon-date {
   background-image: url("/keystone/images/icons/16/field-date.png");
 }
-.listicon.listicon-datetime {
+.fieldicon.fieldicon-datetime {
   background-image: url("/keystone/images/icons/16/field-datetime.png");
 }
-.listicon.listicon-money {
+.fieldicon.fieldicon-money {
   background-image: url("/keystone/images/icons/16/field-money.png");
 }
-.listicon.listicon-number {
+.fieldicon.fieldicon-number {
   background-image: url("/keystone/images/icons/16/field-number.png");
+}
+.dropdown-menu .fieldicon {
+  margin-right: 10px;
 }
 table.items-list {
   table-layout: fixed;
@@ -5336,6 +5339,9 @@ textarea.input-xs {
 }
 .field.type-cloudinaryimage .image-details + .image-toolbar {
   margin-top: 12px;
+}
+.field.type-cloudinaryimage .field-value + .field-value {
+  margin-top: 0;
 }
 .field.type-html textarea {
   display: block;

@@ -22,12 +22,15 @@ mixin sortui
 				if sort.field && sort.field.path == field.path
 					if sort.inv
 						li: a(href=link_to({ sort: field.path }))
+							span(class='fieldicon fieldicon-' + field.type)
 							span= field.label + ' (ascending)'
 					else
 						li: a(href=link_to({ sort: '-' + field.path }))
+							span(class='fieldicon fieldicon-' + field.type)
 							span= field.label + ' (descending)'
 				else
 					li: a(href=link_to({ sort: field.path }))
+						span(class='fieldicon fieldicon-' + field.type)
 						span= field.label
 
 block page-js
@@ -77,8 +80,11 @@ block intro
 						a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 							| More filters 
 							b.caret
-						ul.dropdown-menu: each filter, i in list.fields
-							li.selected: a(href=js)=filter.label
+						ul.dropdown-menu: each field, i in list.fields
+							if field.type != 'relationship'
+								li: a(href=js)
+									span(class='fieldicon fieldicon-' + field.type)
+									span= field.label
 				.col-xs-8.col-sm-4.text-right
 					button.btn.btn-default Columns
 					button.btn.btn-default Export
@@ -93,7 +99,7 @@ block intro
 				.filter
 					.filter-label
 						a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='left').btn-companion-xs.clear-filter &times;
-						span(class='listicon listicon-' + field.type)
+						span(class='fieldicon fieldicon-' + field.type)
 						.btn-companion-xs=field.label
 							span.text-muted  (#{field.type})
 					.filter-options
