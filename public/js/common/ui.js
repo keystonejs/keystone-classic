@@ -1,11 +1,13 @@
 jQuery(function($) {
 	
+	var brand = $('.navbar-brand').text();
+	
 	$('.navbar-backtobrand').mouseenter(function(e) {
 		$('.navbar-headernav-collapse').addClass('navbar-headernav-hide');
-		$('.navbar-brand').text('Back to the FindYoga website');
+		$('.navbar-brand').text('Back to the ' + brand + ' website');
 	}).mouseleave(function() {
 		$('.navbar-headernav-collapse').removeClass('navbar-headernav-hide');
-		$('.navbar-brand').text('FindYoga');
+		$('.navbar-brand').text(brand);
 	});
 	
 	$('a[data-confirm]').click(function(e) {

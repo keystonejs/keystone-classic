@@ -21,7 +21,7 @@ exports = module.exports = function(req, res) {
 		sort.path = (sort.inv) ? sort.by.substr(1) : sort.by;
 		sort.field = req.list.fields[sort.path];
 		
-		if (!sort.field) {
+		if (!sort.field && req.query.sort) {
 			delete req.query.sort;
 			var qs = querystring.stringify(req.query);
 			return res.redirect(req.path + ((qs) ? '?' + ps : ''));
