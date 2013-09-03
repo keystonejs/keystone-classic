@@ -7,8 +7,6 @@ block page-js
 	script(src='/keystone/js/views/list.js')
 	script.
 		Keystone.list = { path: "#{list.path}" };
-	script(src='/js/lib/bootstrap/tooltip.js')
-	script(src='/js/lib/bootstrap/button.js')
 
 block intro
 	- var basePath = '/keystone/' + list.path
@@ -49,24 +47,38 @@ block intro
 						else
 							| sort by 
 						b.caret
-					ul.dropdown-menu: each el in list.uiElements
-						if el.type == 'heading'
-							li.dropdown-header= el.heading
-						else if el.type == 'field'
-							if el.field.type != 'relationship' && !el.field.nosort
-								if sort.field && sort.field.path == el.field.path
-									if sort.inv
+					ul.dropdown-menu
+						if list.get('sortable')
+							if sort.by == 'sortOrder'
+								li: a(href=link_to({sort: '-sortOrder'}))
+									span(class='fieldicon fieldicon-sort')
+									span Display Order (inverted)
+							else if sort.by == '-sortOrder'
+								li: a(href=link_to({sort: 'sortOrder'}))
+									span(class='fieldicon fieldicon-sort')
+									span Display Order (normal)
+							else
+								li: a(href=link_to({sort: 'sortOrder'}))
+									span(class='fieldicon fieldicon-sort')
+									span Display Order
+						each el in list.uiElements
+							if el.type == 'heading'
+								li.dropdown-header= el.heading
+							else if el.type == 'field'
+								if el.field.type != 'relationship' && !el.field.nosort
+									if sort.field && sort.field.path == el.field.path
+										if sort.inv
+											li: a(href=link_to({ sort: el.field.path }))
+												span(class='fieldicon fieldicon-' + el.field.type)
+												span= el.field.label + ' (ascending)'
+										else
+											li: a(href=link_to({ sort: '-' + el.field.path }))
+												span(class='fieldicon fieldicon-' + el.field.type)
+												span= el.field.label + ' (descending)'
+									else
 										li: a(href=link_to({ sort: el.field.path }))
 											span(class='fieldicon fieldicon-' + el.field.type)
-											span= el.field.label + ' (ascending)'
-									else
-										li: a(href=link_to({ sort: '-' + el.field.path }))
-											span(class='fieldicon fieldicon-' + el.field.type)
-											span= el.field.label + ' (descending)'
-								else
-									li: a(href=link_to({ sort: el.field.path }))
-										span(class='fieldicon fieldicon-' + el.field.type)
-										span= el.field.label
+											span= el.field.label
 		
 		//-
 		//- Filters
@@ -267,7 +279,7 @@ block content
 		
 		
 		
-		- var sortable = list.get('sortable') && !list.get('sortContext')
+		- var sortable = list.get('sortable') && !list.get('sortContext') && sort.by == 'sortOrder'
 		- var firstColspan = 1;
 		table(cellpadding=0, cellspacing=0, class=sortable ? 'sortable' : false, data-list-path=list.path).table.table-striped.items-list
 			if !list.get('nodelete')

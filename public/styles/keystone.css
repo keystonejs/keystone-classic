@@ -5156,6 +5156,9 @@ td.visible-print {
 .fieldicon.fieldicon-textarea {
   background-image: url("/keystone/images/icons/16/field-textarea.png");
 }
+.fieldicon.fieldicon-name {
+  background-image: url("/keystone/images/icons/16/field-name.png");
+}
 .fieldicon.fieldicon-html {
   background-image: url("/keystone/images/icons/16/field-html.png");
 }
@@ -5194,6 +5197,9 @@ td.visible-print {
 }
 .fieldicon.fieldicon-number {
   background-image: url("/keystone/images/icons/16/field-number.png");
+}
+.fieldicon.fieldicon-sort {
+  background-image: url("/keystone/images/icons/16/field-sort.png");
 }
 .dropdown-menu .fieldicon {
   margin-right: 10px;

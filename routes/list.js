@@ -21,13 +21,21 @@ exports = module.exports = function(req, res) {
 		sort.path = (sort.inv) ? sort.by.substr(1) : sort.by;
 		sort.field = req.list.fields[sort.path];
 		
-		if (!sort.field && req.query.sort) {
+		var clearSort = function() {
 			delete req.query.sort;
 			var qs = querystring.stringify(req.query);
 			return res.redirect(req.path + ((qs) ? '?' + ps : ''));
 		}
 		
-		sort.label = sort.field.label;
+		if (req.query.sort == req.list.defaultSort) {
+			return clearSort();
+		} if (sort.field) {
+			sort.label = sort.field.label;
+		} else if (req.list.get('sortable') && sort.by == 'sortOrder' || sort.by == '-sortOrder') {
+			sort.label = 'display order';
+		} else if (req.query.sort) {
+			return clearSort();
+		}
 		
 	}
 	
