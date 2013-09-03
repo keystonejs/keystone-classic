@@ -75,7 +75,7 @@ mixin formField_textarea(field, item)
 		.col-sm-8.col-md-6
 			.field-ui
 				if field.noedit
-					.field-value(class='width-' + field.width)!= textToHTML(item.get(field.path))
+					.field-value(class='width-' + field.width)!= utils.textToHTML(item.get(field.path))
 				else
 					textarea(name=field.path, class='width-' + field.width).form-control= item.get(field.path)
 			if field.note
