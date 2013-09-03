@@ -52,7 +52,7 @@ exports = module.exports = function(req, res) {
 		
 		query.exec(function(err, items) {
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
-				section: req.list.key,
+				section: keystone.nav.by.list[req.list.key],
 				title: 'Keystone: ' + req.list.plural,
 				link_to: link_to,
 				list: req.list,

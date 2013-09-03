@@ -74,6 +74,9 @@ var Keystone = function() {
 			if (value === true && !this.get('session'))
 				this.set('session', true);
 		break;
+		case 'nav':
+			this.nav = this.initNav(value);
+		break;
 	}
 	
 	this._options[key] = value;
@@ -218,6 +221,7 @@ keystone.Email = require('./lib/email');
  * @param {Object} options
  * @api public
  */
+
 Keystone.prototype.init = function(options) {
 	
 	this.options(options);
@@ -229,6 +233,55 @@ Keystone.prototype.init = function(options) {
 		this.connect(require('mongoose'));
 	
 	return this;
+}
+
+/**
+ * Initialises Keystone's nav
+ *
+ * @param {Object} nav
+ * @api private
+ */
+
+Keystone.prototype.initNav = function(sections) {
+	
+	var nav = {
+		sections: [],
+		by: {
+			list: {},
+			section: {}
+		}
+	};
+	
+	if (!sections) {
+		sections = {};
+		_.each(this.lists, function(list) {
+			sections[list.path] = [list.path];
+		});
+	}
+	
+	_.each(sections, function(section, key) {
+		if (Array.isArray(section)) {
+			section = {
+				lists: section,
+				label: utils.keyToLabel(key)
+			};
+		}
+		section.key = key;
+		section.lists = _.map(section.lists, function(i) {
+			var list = keystone.list(i);
+			if (!list) {
+				throw new Error('Keystone Nav Error: list ' + i + ' has not been defined.');
+			}
+			nav.by.list[list.key] = section;
+			return list;
+		});
+		if (section.lists.length) {
+			nav.sections.push(section);
+			nav.by.section[section.key] = section;
+		}
+	});
+	
+	return nav;
 }
 
 /**
@@ -261,6 +314,7 @@ Keystone.prototype.init = function(options) {
  *
  * @api public
  */
+
 Keystone.prototype.start = function(onStart) {
 	
 	if (!this.app)
@@ -419,6 +473,11 @@ Keystone.prototype.routes = function(app) {
 	this.app = app;
 	var keystone = this;
 	
+	// ensure keystone nav has been initialised
+	if (!this.nav) {
+		this.nav = this.initNav();
+	}
+	
 	this.set('view cache', this.get('env') == 'production');
 	
 	var auth = this.get('auth');
@@ -552,6 +611,20 @@ Keystone.prototype.list = function(list) {
 
 
 /**
+ * Retrieves orphaned lists (those not in a nav section)
+ */
+
+Keystone.prototype.getOrphanedLists = function() {
+	if (!this.nav) {
+		return [];
+	}
+	return _.filter(this.lists, function(list, key) {
+		return (!keystone.nav.by.list[key]) ? list : false;
+	});
+};
+
+
+/**
  * Applies Application updates
  */
 
@@ -595,14 +668,15 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		numeral: numeral,
 		env: this.get('env'),
 		brand: keystone.get('brand'),
-		textToHTML: utils.textToHTML,
+		nav: keystone.nav,
 		messages: _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false,
 		lists: keystone.lists,
 		js: 'javascript:;',
 		utils: utils,
 		user: req.user,
 		title: 'Keystone',
-		signout: this.get('signout')
+		signout: this.get('signout'),
+		section: {}
 	};
 	
 	var html = template(_.extend(locals, ext));

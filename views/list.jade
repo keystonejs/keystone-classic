@@ -21,7 +21,7 @@ block intro
 				span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
 			else
 				span No #{list.plural.toLowerCase()} found
-					= search ? '' : '.'
+					= search || xFilters ? '' : '.'
 			if search
 				span.text-muted  matching  
 				span=search
@@ -275,7 +275,7 @@ block content
 					li(class=items.currentPage == p ? 'active' : null)
 						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
 			else
-				.count Showing #{items.total} #{list.plural}
+				.count Showing #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)}
 		
 		
 		

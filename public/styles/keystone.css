@@ -4973,6 +4973,12 @@ td.visible-print {
 .code {
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
+.nav-section {
+  margin-bottom: 30px;
+}
+.nav-section h3 {
+  font-weight: normal;
+}
 #footer {
   font-size: 12px;
   padding-top: 40px;
@@ -5901,6 +5907,14 @@ abbr,
 .disabled a {
   cursor: default !important;
 }
+h3 {
+  font-weight: normal;
+}
+h4 {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+}
 #header {
   background-color: #154b7e;
   -webkit-box-shadow: inset 0 -1px 2px #0e3152;
@@ -6113,11 +6127,6 @@ h2.form-heading + h3.form-heading {
 }
 h3.relationship-heading {
   margin-top: 50px;
-}
-h4 {
-  text-transform: uppercase;
-  font-size: 14px;
-  color: #999999;
 }
 .form-control {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
