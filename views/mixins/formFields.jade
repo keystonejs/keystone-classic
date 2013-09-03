@@ -40,12 +40,12 @@ mixin formField(field, item)
 mixin formField_text_common(type, field, value, cls)
 	.row.field(class='type-' + type, data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		.col-sm-3.col-md-2: label.field-label= field.label
-		.col-sm-8.col-md-6
-			.field-ui
+		.col-sm-9.col-md-10
+			.field-ui(class='width-' + field.width)
 				if field.noedit
 					div(class='width-' + field.width).field-value= value
 				else
-					input(type='text', name=field.path, value=value, class=[cls,'width-' + field.width], autocomplete='off').form-control
+					input(type='text', name=field.path, value=value, class=cls, autocomplete='off').form-control
 			if field.note
 				.field-note= field.note
 
@@ -72,12 +72,12 @@ mixin formField_url(field, item)
 mixin formField_textarea(field, item)
 	div(class='field type-textarea', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false').row
 		.col-sm-3.col-md-2: label.field-label= field.label
-		.col-sm-8.col-md-6
-			.field-ui
+		.col-sm-9.col-md-10
+			.field-ui(class='width-' + field.width)
 				if field.noedit
-					.field-value(class='width-' + field.width)!= utils.textToHTML(item.get(field.path))
+					.field-value!= utils.textToHTML(item.get(field.path))
 				else
-					textarea(name=field.path, class='width-' + field.width).form-control= item.get(field.path)
+					textarea(name=field.path).form-control= item.get(field.path)
 			if field.note
 				.field-note= field.note
 
@@ -88,7 +88,7 @@ mixin formField_textarea(field, item)
 mixin formField_name(field, item)
 	div(class='field type-name', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false').row
 		.col-sm-3.col-md-2: label.field-label= field.label
-		.col-sm-8.col-md-6
+		.col-sm-9.col-md-10
 			.field-ui
 				if field.noedit
 					- var value = field.format(item)
@@ -99,8 +99,8 @@ mixin formField_name(field, item)
 						.field-value.width-short
 				else
 					.form-row
-						.col-sm-6: input(type='text', name=field.paths.first, class='width-short', autocomplete='off', placeholder='first name', value=item.get(field.paths.first)).form-control
-						.col-sm-6: input(type='text', name=field.paths.last, class='width-short', autocomplete='off', placeholder='last name', value=item.get(field.paths.last)).form-control
+						.col-sm-6: input(type='text', name=field.paths.first, autocomplete='off', placeholder='first name', value=item.get(field.paths.first)).form-control
+						.col-sm-6: input(type='text', name=field.paths.last, autocomplete='off', placeholder='last name', value=item.get(field.paths.last)).form-control
 			if field.note
 				.field-note= field.note
 
@@ -110,7 +110,7 @@ mixin formField_name(field, item)
 mixin formField_password(field, item)
 	.field.type-password.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? "true" : "false")
 		.col-sm-3.col-md-2: label.field-label= field.label
-		.col-sm-8.col-md-6
+		.col-sm-9.col-md-10
 			.field-ui
 				if field.noedit
 					.field-value= (item.get(field.path)) ? "password set" : "password not set"
@@ -119,8 +119,8 @@ mixin formField_password(field, item)
 						a(href=js).btn.btn-default.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
 					.change-password
 						.form-row
-							.col-sm-6: input(type='password', name=field.path, class='width-short', autocomplete='off', placeholder='new password').form-control
-							.col-sm-6: input(type='password', name=field.paths.confirm, class='width-short', autocomplete='off', placeholder='confirm').form-control
+							.col-sm-6: input(type='password', name=field.path, autocomplete='off', placeholder='new password').form-control
+							.col-sm-6: input(type='password', name=field.paths.confirm, autocomplete='off', placeholder='confirm').form-control
 						.form-control-wrapper: a(href=js).btn.btn-default.btn-cancel.btn-leave-password Cancel
 			if field.note
 				.field-note= field.note
@@ -132,11 +132,11 @@ mixin formField_html(field, item)
 	.field.type-html.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		.col-sm-3.col-md-2: label.field-label= field.label
 		.col-sm-9.col-md-10
-			.field-ui
+			.field-ui(class='width-' + field.width)
 				if field.noedit
-					div(class='field-value width-' + field.width)= item.get(field.path)
+					.field-value= item.get(field.path)
 				else
-					textarea(name=field.path, data-wysiwyg=field.wysiwyg ? 'true' : false, class='width-' + field.width).tall= item.get(field.path)
+					textarea(name=field.path, data-wysiwyg=field.wysiwyg ? 'true' : false).tall= item.get(field.path)
 			if field.note
 				.field-note= field.note
 
@@ -157,7 +157,7 @@ mixin formField_money(field, item)
 //- ------------------------------
 mixin formField_boolean(field, item)
 	.field.type-boolean(class=field.indent?'row':'', data-field-type=field.type, data-field-path=field.path, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? 'true' : 'false')
-		div(class=field.indent ? '.col-sm-8 col-md-6 col-sm-offset-3 col-md-offset-2' : '')
+		div(class=field.indent ? '.col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2' : '')
 			if field.noedit
 				if item.get(field.path)
 					img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16).checked
@@ -177,7 +177,7 @@ mixin formField_boolean(field, item)
 mixin formField_select(field, item)
 	.field.type-select.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
 		.col-sm-3.col-md-2: label.field-label= field.label
-		.col-sm-8.col-md-6
+		.col-sm-9.col-md-10
 			.field-ui
 				if field.noedit
 					if item.get(field.path)
@@ -238,7 +238,7 @@ mixin formField_location(field, item)
 		if field.noedit
 			.row
 				.col-sm-3.col-md-2: label.field-label= field.label
-				.col-sm-8.col-md-6: .field-value.width-long= field.format(item)
+				.col-sm-9.col-md-10: .field-value.width-long= field.format(item)
 		else
 			label.field-label= field.label
 				a(href=js).field-label-companion.btn-show-extras (show more fields)
@@ -248,16 +248,16 @@ mixin formField_location(field, item)
 					.col-sm-3.col-md-2: input(type='text', name=field.paths.number, value=item.get(field.paths.number)).form-control
 				.row.extras
 					.col-sm-3.col-md-2: label.text-muted Building Name
-					.col-sm-8.col-md-6: input(type='text', name=field.paths.name, value=item.get(field.paths.name)).form-control
+					.col-sm-9.col-md-10: input(type='text', name=field.paths.name, value=item.get(field.paths.name)).form-control
 				.row
 					.col-sm-3.col-md-2: label.text-muted Street Address
-					.col-sm-8.col-md-6: input(type='text', name=field.paths.street1, value=item.get(field.paths.street1)).form-control
+					.col-sm-9.col-md-10: input(type='text', name=field.paths.street1, value=item.get(field.paths.street1)).form-control
 				.row.extras
 					.col-sm-3.col-md-2: label.text-muted Street Address 2
-					.col-sm-8.col-md-6: input(type='text', name=field.paths.street2, value=item.get(field.paths.street2)).form-control
+					.col-sm-9.col-md-10: input(type='text', name=field.paths.street2, value=item.get(field.paths.street2)).form-control
 				.row
 					.col-sm-3.col-md-2: label.text-muted Suburb
-					.col-sm-8.col-md-6: input(type='text', name=field.paths.suburb, value=item.get(field.paths.suburb)).form-control
+					.col-sm-9.col-md-10: input(type='text', name=field.paths.suburb, value=item.get(field.paths.suburb)).form-control
 				.row
 					.col-sm-3.col-md-2: label.text-muted State
 					.col-sm-3.col-md-2: input(type='text', name=field.paths.state, value=item.get(field.paths.state)).form-control
@@ -265,16 +265,16 @@ mixin formField_location(field, item)
 					.col-sm-3.col-md-2: input(type='text', name=field.paths.postcode, value=item.get(field.paths.postcode)).form-control
 				.row
 					.col-sm-3.col-md-2: label.text-muted Country
-					.col-sm-8.col-md-6: input(type='text', name=field.paths.country, value=item.get(field.paths.country)).form-control
+					.col-sm-9.col-md-10: input(type='text', name=field.paths.country, value=item.get(field.paths.country)).form-control
 				.row.extras
 					.col-sm-3.col-md-2: label.text-muted Lat/Long
-					.col-sm-8.col-md-6: .form-row
+					.col-sm-9.col-md-10: .form-row
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '', placeholder='Latitude').form-control
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Longitude').form-control
 
 			if field.enableMapsAPI
 				.row
-					.col-sm-8.col-md-6.col-sm-offset-3.col-md-offset-2
+					.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
 						label(for=field.paths.improve, title='When checked, this will attempt to fill missing fields. It will also get the lat/long').checkbox.autoimprove
 							input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
 							|  Autodetect and improve location on save
@@ -292,7 +292,7 @@ mixin formField_relationship(field, item)
 	- var refList = field.refList
 	.field.type-relationship.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
 		.col-sm-3.col-md-2: label.field-label= field.label
-		.col-sm-8.col-md-6
+		.col-sm-9.col-md-10
 			.field-message
 			.field-ui
 				if field.noedit
