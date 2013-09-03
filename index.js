@@ -264,7 +264,7 @@ Keystone.prototype.initNav = function(sections) {
 		if (Array.isArray(section)) {
 			section = {
 				lists: section,
-				label: utils.keyToLabel(key)
+				label: nav.flat ? keystone.list(section[0]).label : utils.keyToLabel(key)
 			};
 		}
 		section.key = key;

@@ -195,7 +195,7 @@
 
 jQuery(function($) {
 	
-	$('textarea[data-wysiwyg]').each(function() {
+	$('textarea.wysiwyg').each(function() {
 	
 		var $field = $(this);
 		

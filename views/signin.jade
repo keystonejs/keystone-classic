@@ -18,8 +18,8 @@ block content
 				.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: input(type="submit", value="Sign in").btn.btn-default
 			
 	else
-		h3= 'Hi ' + user.name.first
-		p It appears you are already signed in...
+		p.lead Hi #{user.name.first},
+		p.lead You're already signed in.
 		a(href='/keystone').btn.btn-default Open Keystone
 		a(href='/keystone/signout').btn.btn-cancel Sign out
 

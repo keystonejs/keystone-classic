@@ -7,15 +7,42 @@ block page-js
 	script(src='/keystone/js/views/list.js')
 	script.
 		Keystone.list = { path: "#{list.path}" };
-
-block intro
+			
+block content
+	//-
+	//- Create Item
+	//- ------------------------------
+	if (!list.get('nocreate'))
+		.create-item
+			form(method='post', action='/keystone/' + list.path)
+				input(type='hidden', name='action', value='create')
+				.form
+					h4 New #{list.singular}
+					if list.nameIsInitial
+						if list.nameField.type == 'name'
+							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' name').form-control.input-lg
+						else if list.nameField.type == 'text'
+							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' name').form-control.input-lg
+						else
+							.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
+					
+					each field in list.initialFields
+						+initialField(field, submitted)
+				
+				.toolbar
+					.toolbar-create
+						button(type='submit').btn.btn-default.btn-create Create
+						a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
+					.toolbar-default
+						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
+		hr
+	
+	//-
+	//- List
+	//- ------------------------------
 	- var basePath = '/keystone/' + list.path
 	- var xFilters = _.size(filters);
 	.page-header.list-header
-		
-		//-
-		//- Header
-		//- ------------------------------
 		h1
 			if items.results.length
 				span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
@@ -111,18 +138,18 @@ block intro
 									li: a(href=js, data-path=el.field.path).add-list-filter
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
-					.col-xs-8.col-sm-4
-						.dropdown.list-columns-dropdown.pull-right
-							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Select Columns 
-								b.caret
-							ul.dropdown-menu: each el in list.uiElements
-								if el.type == 'heading'
-									li.dropdown-header= el.heading
-								else if el.type == 'field' && !el.field.nocol
-									li: a(href=js)
-										span= el.field.label
-						//- button.btn.btn-default Export
+					//- .col-xs-8.col-sm-4
+					//- 	.dropdown.list-columns-dropdown.pull-right
+					//- 		a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+					//- 			| Select Columns 
+					//- 			b.caret
+					//- 		ul.dropdown-menu: each el in list.uiElements
+					//- 			if el.type == 'heading'
+					//- 				li.dropdown-header= el.heading
+					//- 			else if el.type == 'field' && !el.field.nocol
+					//- 				li: a(href=js)
+					//- 					span= el.field.label
+					//- 	button.btn.btn-default Export
 			
 			
 			//-
@@ -133,7 +160,7 @@ block intro
 					if !field.nofilter
 						.filter(data-path=field.path, data-type=field.type, class=filters[field.path] ? 'active' : '')
 							.filter-label
-								a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='left', data-container='body').btn-companion-xs.clear-filter &times;
+								a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='right', data-container='body').btn-companion-xs.clear-filter &times;
 								span(class='fieldicon fieldicon-' + field.type)
 								.btn-companion-xs=field.label
 							.filter-options
@@ -230,37 +257,6 @@ block intro
 				.list-filters-action
 					button(type='submit').btn.btn-default.btn-filter Search
 					a(href='/keystone/#{list.path}').btn.btn-link.btn-cancel clear filters
-				
-block content
-	//-
-	//- Create Item
-	//- ------------------------------
-	if (!list.get('nocreate'))
-		.create-item
-			form(method='post', action='/keystone/' + list.path)
-				input(type='hidden', name='action', value='create')
-				.form
-					h4 New #{list.singular}
-					if list.nameIsInitial
-						if list.nameField.type == 'name'
-							.field.item-name: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' name').form-control.input-lg
-						else if list.nameField.type == 'text'
-							.field.item-name: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' name').form-control.input-lg
-						else
-							.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
-					
-					each field in list.initialFields
-						+initialField(field, submitted)
-				
-				.toolbar
-					.toolbar-create
-						button(type='submit').btn.btn-default.btn-create Create
-						a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
-					.toolbar-default
-						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
-		
-		if items.results.length
-			hr
 			
 	if items.results.length
 		

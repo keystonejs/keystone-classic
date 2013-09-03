@@ -27,7 +27,7 @@
 
 // Form headings
 .form-heading {
-	margin-top: 50px;
+	margin-top: 30px;
 }
 
 // Indentation
@@ -37,7 +37,6 @@
 
 // Alerts
 .alert {
-	border: 0 none;
 	padding: @padding-large-vertical @padding-large-horizontal;
 }
 
@@ -80,14 +79,15 @@
 	border: 1px solid mix(white, @input-border, 40%);
 	border-radius: @input-border-radius;
 	color: @input-color;
-	display: block;
+	display: inline-block;
 	font-size: @font-size-base;
 	line-height: @line-height-base;
 	height: auto;
 	min-height: @input-height-base;
 	padding: @padding-base-vertical @padding-base-horizontal;
 	vertical-align: middle;
-	width: 100%;
+	width: auto;
+	min-width: 180px;
 	
 	& + & {
 		margin-top: @input-vspacing;
@@ -211,7 +211,8 @@ label.checkbox {
 	}
 }
 
-.field.type-name {
+.field.type-name,
+.field.type-password {
 	.field-ui {
 		.make-sm-column(7);
 		.make-md-column(5);
@@ -252,6 +253,10 @@ label.checkbox {
 	.field-ui {
 		.make-sm-column(12);
 		.make-md-column(12);
+	}
+	.noedit {
+		.make-sm-column(9);
+		.make-md-column(10);
 	}
 	.row label {
 		padding: @padding-base-vertical 0;

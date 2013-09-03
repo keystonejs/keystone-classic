@@ -42,11 +42,11 @@ mixin formField_text_common(type, field, value, cls)
 		label.field-label= field.label
 		.field-ui(class='width-' + field.width)
 			if field.noedit
-				div(class='width-' + field.width).field-value= value
+				.field-value= value
 			else
 				input(type='text', name=field.path, value=value, class=cls, autocomplete='off').form-control
-		if field.note
-			.field-note= field.note
+			if field.note
+				.field-note= field.note
 
 
 //-
@@ -84,10 +84,10 @@ mixin formField_textarea(field, item)
 	.field.type-textarea(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		label.field-label= field.label
 		.field-ui(class='width-' + field.width)
-				if field.noedit
-					.field-value!= utils.textToHTML(item.get(field.path))
-				else
-					textarea(name=field.path).form-control= item.get(field.path)
+			if field.noedit
+				.field-value!= utils.textToHTML(item.get(field.path))
+			else
+				textarea(name=field.path).form-control= item.get(field.path)
 			if field.note
 				.field-note= field.note
 
@@ -105,7 +105,7 @@ mixin formField_name(field, item)
 					.field-value= item.get(field.paths.first)
 					.field-value= item.get(field.paths.last)
 				else
-					.field-value.width-short
+					.field-value
 			else
 				.form-row
 					.col-sm-6: input(type='text', name=field.paths.first, autocomplete='off', placeholder='first name', value=item.get(field.paths.first)).form-control
@@ -127,8 +127,8 @@ mixin formField_password(field, item)
 					a(href=js).btn.btn-default.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
 				.change-password
 					.form-row
-						.col-sm-6: input(type='password', name=field.path, autocomplete='off', placeholder='new password').form-control
-						.col-sm-6: input(type='password', name=field.paths.confirm, autocomplete='off', placeholder='confirm').form-control
+						.col-sm-6: input(type='password', name=field.path, autocomplete='off', placeholder='New password').form-control
+						.col-sm-6: input(type='password', name=field.paths.confirm, autocomplete='off', placeholder='Confirm new password').form-control
 					.form-control-wrapper: a(href=js).btn.btn-default.btn-cancel.btn-leave-password Cancel
 			if field.note
 				.field-note= field.note
@@ -137,13 +137,13 @@ mixin formField_password(field, item)
 //- HTML
 //- ------------------------------
 mixin formField_html(field, item)
-	.field.type-html.row(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	.field.type-html(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		label.field-label= field.label
 		.field-ui(class='width-' + field.width)
 			if field.noedit
 				.field-value= item.get(field.path)
 			else
-				textarea(name=field.path, data-wysiwyg=field.wysiwyg ? 'true' : false, style='height: #{field.height}px')= item.get(field.path)
+				textarea(name=field.path, class=field.wysiwyg ? 'wysiwyg' : 'code', style='height: #{field.height}px')= item.get(field.path)
 			if field.note
 				.field-note= field.note
 
@@ -151,7 +151,7 @@ mixin formField_html(field, item)
 //- BOOLEAN
 //- ------------------------------
 mixin formField_boolean(field, item)
-	.field.type-boolean(class=field.indent?'row':'', data-field-type=field.type, data-field-path=field.path, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? 'true' : 'false')
+	.field.type-boolean(data-field-type=field.type, data-field-path=field.path, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? 'true' : 'false')
 		.field-ui(class=field.indent ? 'field-indented' : false)
 			if field.noedit
 				if item.get(field.path)
@@ -229,7 +229,7 @@ mixin formField_location(field, item)
 	.field.type-location(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		if field.noedit
 			label.field-label= field.label
-			.field-ui: .field-value= field.format(item)
+			.field-ui.noedit: .field-value= field.format(item)
 		else
 			.field-ui
 				label= field.label
@@ -298,12 +298,11 @@ mixin formField_relationship(field, item)
 					name=field.path,
 					id='field_' + field.path,
 					value=field.many ? item.get(field.path).join(',') : item.get(field.path),
-					class='ui-select2-ref width-' + (field.many ? 'full' : 'medium'),
 					data-ref-many=field.many ? 'true' : null,
 					data-ref-filters=field.filters,
 					data-ref-path=refList.path,
 					data-ref-singular=refList.singular,
-					data-ref-plural=refList.plural)
+					data-ref-plural=refList.plural).ui-select2-ref
 			if field.note
 				.field-note= field.note
 

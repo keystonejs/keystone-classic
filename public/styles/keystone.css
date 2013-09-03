@@ -292,7 +292,7 @@ cite {
   color: #c09853;
 }
 .text-danger {
-  color: #b94a48;
+  color: #bf2525;
 }
 .text-success {
   color: #468847;
@@ -1333,14 +1333,14 @@ table th[class*="col-"] {
 .table > thead > tr.danger > th,
 .table > tbody > tr.danger > th,
 .table > tfoot > tr.danger > th {
-  background-color: #f2dede;
-  border-color: #eed3d7;
+  background-color: #fdf4f4;
+  border-color: #f2b8b8;
 }
 .table-hover > tbody > tr > td.danger:hover,
 .table-hover > tbody > tr > th.danger:hover,
 .table-hover > tbody > tr.danger:hover > td {
-  background-color: #ebcccc;
-  border-color: #e6c1c7;
+  background-color: #f9dede;
+  border-color: #eea2a2;
 }
 .table > thead > tr > td.warning,
 .table > tbody > tr > td.warning,
@@ -1619,22 +1619,22 @@ textarea.input-lg {
 }
 .has-error .help-block,
 .has-error .control-label {
-  color: #b94a48;
+  color: #bf2525;
 }
 .has-error .form-control {
-  border-color: #b94a48;
+  border-color: #bf2525;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .has-error .form-control:focus {
-  border-color: #953b39;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+  border-color: #941d1d;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #e26868;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #e26868;
 }
 .has-error .input-group-addon {
-  color: #b94a48;
-  border-color: #b94a48;
-  background-color: #f2dede;
+  color: #bf2525;
+  border-color: #bf2525;
+  background-color: #fdf4f4;
 }
 .has-success .help-block,
 .has-success .control-label {
@@ -4105,15 +4105,15 @@ textarea.input-group-sm > .input-group-btn > .btn {
   color: #a47e3c;
 }
 .alert-danger {
-  background-color: #f2dede;
-  border-color: #eed3d7;
-  color: #b94a48;
+  background-color: #fdf4f4;
+  border-color: #f2b8b8;
+  color: #bf2525;
 }
 .alert-danger hr {
-  border-top-color: #e6c1c7;
+  border-top-color: #eea2a2;
 }
 .alert-danger .alert-link {
-  color: #953b39;
+  color: #941d1d;
 }
 .tooltip {
   position: absolute;
@@ -4993,11 +4993,15 @@ td.visible-print {
   color: #555555;
 }
 .create-item {
+  margin-top: -20px;
   margin-bottom: 20px;
 }
 .create-item .form,
 .create-item .toolbar-create {
   display: none;
+}
+.create-item .form {
+  padding-top: 10px;
 }
 .create-item .toolbar {
   border-top: none;
@@ -5148,6 +5152,9 @@ td.visible-print {
 }
 .list-filters .clear-filter:active {
   color: #a02622;
+}
+.list-filters-action {
+  display: none;
 }
 .fieldicon {
   display: inline-block;
@@ -5324,13 +5331,12 @@ table.items-list img {
   margin-top: 12px;
 }
 .form-heading {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .form-indent {
   margin-left: 20px;
 }
 .alert {
-  border: 0 none;
   padding: 8px 12px;
 }
 .overwrite,
@@ -5363,14 +5369,15 @@ table.items-list img {
   border: 1px solid #e0e0e0;
   border-radius: 3px;
   color: #333333;
-  display: block;
+  display: inline-block;
   font-size: 14px;
   line-height: 1.428571429;
   height: auto;
   min-height: 34px;
   padding: 6px 10px;
   vertical-align: middle;
-  width: 100%;
+  width: auto;
+  min-width: 180px;
 }
 .field-value + .field-value {
   margin-top: 12px;
@@ -5610,20 +5617,23 @@ textarea.input-xs {
     width: 16.666666666666664%;
   }
 }
-.field.type-name .field-ui {
+.field.type-name .field-ui,
+.field.type-password .field-ui {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
 }
 @media (min-width: 768px) {
-  .field.type-name .field-ui {
+  .field.type-name .field-ui,
+  .field.type-password .field-ui {
     float: left;
     width: 58.333333333333336%;
   }
 }
 @media (min-width: 992px) {
-  .field.type-name .field-ui {
+  .field.type-name .field-ui,
+  .field.type-password .field-ui {
     float: left;
     width: 41.66666666666667%;
   }
@@ -5702,6 +5712,24 @@ textarea.input-xs {
   .field.type-location .field-ui {
     float: left;
     width: 100%;
+  }
+}
+.field.type-location .noedit {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .field.type-location .noedit {
+    float: left;
+    width: 75%;
+  }
+}
+@media (min-width: 992px) {
+  .field.type-location .noedit {
+    float: left;
+    width: 83.33333333333334%;
   }
 }
 .field.type-location .row label {
@@ -5806,14 +5834,15 @@ textarea.field.type-html textarea {
   border: 1px solid #e0e0e0;
   border-radius: 3px;
   color: #333333;
-  display: block;
+  display: inline-block;
   font-size: 14px;
   line-height: 1.428571429;
   height: auto;
   min-height: 34px;
   padding: 6px 10px;
   vertical-align: middle;
-  width: 100%;
+  width: auto;
+  min-width: 180px;
   background: #white;
   color: #0089cb;
   margin-right: 5px;
@@ -5863,7 +5892,7 @@ textarea.field.type-html textarea {
   color: #c09853;
 }
 .btn-link.text-danger {
-  color: #b94a48;
+  color: #bf2525;
 }
 .btn-link.text-success {
   color: #468847;
@@ -6151,7 +6180,7 @@ h4 {
   color: #999999;
 }
 .create-item h4 {
-  color: #449d44;
+  color: #999999;
 }
 #header {
   background-color: #154b7e;
@@ -6363,6 +6392,10 @@ h3.form-heading {
   padding-top: 30px;
   position: relative;
 }
+.item-name + h3.form-heading {
+  margin-top: 10px;
+  padding-top: 20px;
+}
 h2.form-heading {
   color: #004a80;
   font-weight: 200;
@@ -6498,7 +6531,7 @@ textarea.item-name .form-control {
   color: #555555;
 }
 .btn-link.btn-cancel:hover {
-  color: #b94a48;
+  color: #bf2525;
 }
 .btn.btn-create,
 .btn.btn-search,
@@ -6507,25 +6540,25 @@ textarea.item-name .form-control {
   padding-left: 12px;
   padding-right: 12px;
 }
+/*
 .btn.btn-create {
-  background-image: -webkit-gradient(linear, left 30%, left 100%, from(#ffffff), to(#f4faf4));
-  background-image: -webkit-linear-gradient(top, #ffffff, 30%, #f4faf4, 100%);
-  background-image: -moz-linear-gradient(top, #ffffff 30%, #f4faf4 100%);
-  background-image: linear-gradient(to bottom, #ffffff 30%, #f4faf4 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff4faf4', GradientType=0);
-  color: #3d8b3d;
-  border-color: #80c780;
+	#gradient .vertical( #fff, mix(white, @brand-success, 93%), 30%, 100% );
+	color: darken(@brand-success, 15%);
+	border-color: lighten(@brand-success, 10%);
+	
+	&:hover {
+		// color: darken(@brand-success, 5%);
+		border-color: darken(@brand-success, 10%);
+	}
+
+	.open &,
+	&:active,
+	&.active {
+		color: darken(@brand-success, 15%);
+		background: mix(white, @brand-success, 93%);
+	}
 }
-.btn.btn-create:hover {
-  border-color: #449d44;
-}
-.open .btn.btn-create,
-.btn.btn-create:active,
-.btn.btn-create.active {
-  color: #3d8b3d;
-  background: #f4faf4;
-}
+*/
 .btn.btn-filter,
 .btn.btn-save {
   background-image: -webkit-gradient(linear, left 30%, left 100%, from(#ffffff), to(#edf7fb));

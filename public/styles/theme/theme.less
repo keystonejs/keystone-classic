@@ -59,7 +59,7 @@ h4 {
 
 // Create form header
 .create-item h4 {
-	color: darken(@brand-success, 10%);
+	color: @gray-light; //darken(@brand-success, 10%);
 }
 
 
@@ -351,6 +351,10 @@ h3.form-heading {
 	padding-top: 30px;
 	position: relative;
 }
+.item-name+h3.form-heading {
+	margin-top: 10px;
+	padding-top: 20px;
+}
 
 // Heading 2
 h2.form-heading {
@@ -507,6 +511,7 @@ h3.relationship-heading {
 }
 
 // Create buttons
+/*
 .btn.btn-create {
 	#gradient .vertical( #fff, mix(white, @brand-success, 93%), 30%, 100% );
 	color: darken(@brand-success, 15%);
@@ -524,6 +529,7 @@ h3.relationship-heading {
 		background: mix(white, @brand-success, 93%);
 	}
 }
+*/
 
 // Save buttons
 .btn.btn-filter,

@@ -30,6 +30,13 @@ jQuery(function($) {
 		});
 	});
 	
+	// clean up empty list sections
+	$('.dropdown-menu .dropdown-header').each(function() {
+		if ($(this).next('.dropdown-header').length) {
+			$(this).hide();
+		}
+	});
+	
 	$('.items-list.sortable').on('ui.sorted', function() {
 		var $this = $(this),
 			listPath = $this.data('listPath'),
