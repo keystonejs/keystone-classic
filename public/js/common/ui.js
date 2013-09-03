@@ -125,7 +125,10 @@ jQuery(function($) {
 	});
 	
 	$('.field-upload').change(function() {
-		$(this).closest('.field').find('.upload-queued')[($(this).val()) ? 'show' : 'hide']();
+		var imageSelected = $(this).val() ? true : false,
+			$field = $(this).closest('.field');
+		$field.find('.upload-queued')[imageSelected ? 'show' : 'hide']();
+		$field.find('.btn-upload').text(imageSelected ? 'Upload a different image' : 'Upload image');
 		$(window).trigger('redraw');
 	});
 	

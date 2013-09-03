@@ -18,24 +18,24 @@ block intro
 			if drilldown
 				each d in drilldown.items
 					if d.items
-						each di, i in d.items
-							li: a(href=di.href)= di.label
-							if i < d.items.length - 1
-								| , 
+						li
+							each di, i in d.items
+								a(href=di.href, title=d.list.singular, data-toggle='tooltip', data-placement='top')= di.label
+								if i < d.items.length - 1
+									span , 
 						if d.more
 							li: span  ... 
 					else
-						li: a(href=d.href) #{d.label}
-			li: a(href='/keystone/' + list.path)= list.label
+						li: a(href=d.href, title=d.list.singular, data-toggle='tooltip', data-placement='top') #{d.label}
+			li
+				a(href='/keystone/' + list.path, title='Back to ' + list.plural, data-toggle='tooltip', data-placement='top') #{list.label}
 		.col-sm-6: .item-id id: #{item.id}
 			if list.autokey
 				|  / #{item.get(list.autokey.path)}
-			.btn-group(style='margin-left:20px')
+			.btn-group.visible-md(style='margin-left:20px')
 				a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
-				//a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
+				//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
 			
-	
-
 block content
 	form(method='post', enctype='multipart/form-data')
 		
@@ -43,7 +43,7 @@ block content
 		
 		- var nameField = list.nameField, nameIsEditable = list.nameIsEditable;
 		
-		.field.item-name
+		.field.item-name: .col-sm-12
 			if nameIsEditable
 				input(type='text', name=list.nameField.path, value=item.get(list.nameField.path)).form-control.input-lg
 			else if nameField

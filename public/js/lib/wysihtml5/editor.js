@@ -115,11 +115,11 @@
 			parserRules: parserRules
 		});
 		var self = this;
-		this.editor.observe( "change_view", function( currentView ) {
-			if ( currentView == 'textarea' )
-				self.toolbar.find( "a[data-wysihtml5-action='change_view']" ).addClass( 'active' );
+		this.editor.observe("change_view", function(currentView) {
+			if (currentView == 'textarea')
+				self.toolbar.find("a[data-wysihtml5-action='change_view']").addClass('active');
 			else
-				self.toolbar.find( "a[data-wysihtml5-action='change_view']" ).removeClass( 'active' );
+				self.toolbar.find("a[data-wysihtml5-action='change_view']").removeClass('active');
 		});
 		/*
 		Need something to handle clicks from the style dropdown to the editor, this ain't quite it...
@@ -137,21 +137,21 @@
 		
 		constructor: Wysihtml5,
 		
-		createToolbar: function( el, options ) {
+		createToolbar: function(el, options) {
 			
-			var toolbar = $( "<ul/>", {
+			var toolbar = $("<ul/>", {
 					id : el.attr('id') + "-wysihtml5-toolbar",
 					"class" : "wysihtml5-toolbar",
 					style: "display:none"
-				} );
+				});
 
-			for( var key in defaultOptions )
+			for(var key in defaultOptions)
 			{
 				var value;
 				
-				if( options[key] != undefined )
+				if(options[key] != undefined)
 				{
-					if( options[key] == true )
+					if(options[key] == true)
 						value = true;
 				}
 				else
@@ -159,23 +159,23 @@
 					value = defaultOptions[key];
 				}
 				
-				if( value == true )
-					toolbar.append( templates[key] );
+				if(value == true)
+					toolbar.append(templates[key]);
 			}
 			
 			var self = this;
 			
 			/*
 			Could select the current format in the style dropdown, not like this though...
-			toolbar.find( "a[data-wysihtml5-command='formatBlock']" ).click(function(e) {
+			toolbar.find("a[data-wysihtml5-command='formatBlock']").click(function(e) {
 				var el = $(e.srcElement);
-				self.toolbar.find( '.current-font' ).text( el.html() )
+				self.toolbar.find('.current-font').text(el.html() )
 			});
 			*/
 			
-			this.el.before( toolbar );
+			this.el.before(toolbar);
 			
-			$( dialogsHTML ).appendTo( toolbar );
+			$(dialogsHTML).appendTo(toolbar);
 			
 			return toolbar;
 		}
@@ -195,7 +195,7 @@
 
 jQuery(function($) {
 	
-	$('textarea[data-wysiwyg]').each( function() {
+	$('textarea[data-wysiwyg]').each(function() {
 	
 		var $field = $(this);
 		

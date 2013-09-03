@@ -712,7 +712,7 @@
             if (opts.bound) {
                 var pEl  = opts.field,
                     left = pEl.offsetLeft,
-                    top  = pEl.offsetTop + pEl.offsetHeight;
+                    top  = pEl.offsetTop + pEl.offsetHeight + 1;
                 while((pEl = pEl.offsetParent)) {
                     left += pEl.offsetLeft;
                     top  += pEl.offsetTop;

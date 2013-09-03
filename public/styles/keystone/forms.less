@@ -132,7 +132,8 @@ textarea {
 	}
 }
 
-input, textarea {
+input,
+textarea {
 	&.code {
 		font-size: @font-size-small !important;
 	}
@@ -176,19 +177,85 @@ label.checkbox {
 
 // FIELD TYPES
 // =======================================
-
-// Cloudinary
-.field.type-cloudinaryimage {
-	.image-details + .image-toolbar {
-		margin-top: @input-vspacing;
+.field {
+	.make-row();
+}
+.field-label {
+	.make-sm-column(3);
+	.make-md-column(2);
+}
+.field-ui {
+	.make-sm-column(9);
+	.make-md-column(10);
+	
+	&.width-long {
+		.make-sm-column(8);
+		.make-md-column(6);
 	}
-	.field-value + .field-value {
-		margin-top: 0;
+	&.width-medium {
+		.make-sm-column(5);
+		.make-md-column(4);
+	}
+	&.width-short {
+		.make-sm-column(3);
+		.make-md-column(2);
 	}
 }
 
-// Boolean
+// Dates
+.field.type-date, 
+.field.type-datetime {
+	.field-ui {
+		.make-sm-column(3);
+		.make-md-column(2);
+	}
+}
+
+.field.type-name {
+	.field-ui {
+		.make-sm-column(7);
+		.make-md-column(5);
+	}
+}
+
+// Short Strings
+.field.type-url, 
+.field.type-email,
+.field.type-key {
+	.field-ui {
+		.make-sm-column(7);
+		.make-md-column(5);
+	}
+}
+
+// Booleans
 .field.type-boolean {
+	.field-ui {
+		.make-sm-column(9);
+		.make-md-column(10);
+		
+		&.field-indented {
+			.make-sm-column-offset(3);
+			.make-md-column-offset(2);
+		}
+	}
+}
+
+// Locations
+.field.type-location {
+	label {
+		margin: 0;
+	}
+	label+.row {
+		margin-top: 12px;
+	}
+	.field-ui {
+		.make-sm-column(12);
+		.make-md-column(12);
+	}
+	.row label {
+		padding: @padding-base-vertical 0;
+	}
 }
 
 // HTML
@@ -200,7 +267,6 @@ label.checkbox {
 
 // Cloudinary Images
 .field.type-cloudinaryimage {
-	
 	.image-preview {
 		float: left;
 		margin-right: 10px;
@@ -209,17 +275,22 @@ label.checkbox {
 		margin-left: 120px;
 		overflow: hidden;
 	}
+	.image-details + .image-toolbar {
+		margin-top: @input-vspacing;
+	}
 	.field-value {
 		width: auto;
 		float: left;
 		margin-right: 10px;
 	}
-	.has-image {
-		.image-toolbar {
-			margin-left: 110px;
-		}
+	.field-value + .field-value {
+		margin-top: 0;
+	}
+	.has-image .image-toolbar {
+		margin-left: 120px;
 	}
 	.alert {
+		margin-bottom: 10px;
 		float: left;
 	}
 	.upload-queued {
