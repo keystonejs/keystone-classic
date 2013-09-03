@@ -12,8 +12,7 @@
 @navbar-keystone-link-hover-color:           #fff;
 @navbar-keystone-link-hover-bg:              transparent;
 @navbar-keystone-link-active-color:          @navbar-keystone-link-hover-color;
-@navbar-keystone-link-active-bg:             darken(@navbar-keystone-bg, 10%);
-@navbar-keystone-link-active-gradient:       darken(@navbar-keystone-bg, 10%);
+@navbar-keystone-link-active-bg:             @link-color;
 @navbar-keystone-link-disabled-color:        #444;
 @navbar-keystone-link-disabled-bg:           transparent;
 
@@ -32,6 +31,18 @@
 @navbar-keystone-toggle-hover-bg:            mix(white, @navbar-keystone-bg, 25%);
 @navbar-keystone-toggle-icon-bar-bg:         #fff;
 @navbar-keystone-toggle-border-color:        mix(white, @navbar-keystone-bg, 25%);
+
+
+
+
+//
+// Resets
+// -------------------------------------------------- 
+
+abbr, .disabled, .disabled a {
+	cursor: default !important;
+}
+
 
 //
 // Header
@@ -75,8 +86,8 @@
 			&,
 			&:hover,
 			&:focus {
-				#gradient .vertical( #247dc3, #3da2db, 0%, 100% );
-				.box-shadow( inset 0 0 3px #154b7e );
+				#gradient .vertical( spin(@navbar-keystone-link-active-bg,6%), spin(@navbar-keystone-link-active-bg,-6%), 0%, 100% );
+				.box-shadow( inset 0 1px 3px rgba(0,0,0,0.25) );
 				//
 				color: @navbar-keystone-link-active-color;
 				background-color: @navbar-keystone-link-active-bg;
@@ -108,8 +119,7 @@
 	.navbar-form {
 		border-color: darken(@navbar-keystone-bg, 7%);
 	}
-
-	// Dropdowns
+	
 	.navbar-nav {
 		> .open > a {
 			&,
@@ -200,23 +210,68 @@
 	h1 {
 		font-weight: 200;
 		margin-bottom: 15px;
-		
-		small {
-		 display: block;
-		 font-weight: 200;
-		}
 	}
 	@media (min-width: @screen-sm) {
-		
 		h1 {
-			span, small {
-				.inline-align();
-			}
-			small {
-			 margin-left: 1em;
+			> * {
+				display: inline;
 			}
 		}
 		
+	}
+}
+
+
+//
+// Pagination
+// --------------------------------------------------
+.pagination {
+	> li {
+		display: inline; // Remove list-style and block-level defaults
+		> a,
+		> span {
+			border: 1px solid transparent;
+			border-radius: @border-radius-small;
+			color: @gray;
+			float: left; // Collapse white-space
+			line-height: 1.3;
+			padding: @padding-small-vertical @padding-small-horizontal;
+			position: relative;
+			text-decoration: none;
+		}
+	}
+
+	> li > a,
+	> li > span {
+		&:hover,
+		&:focus {
+			background-color: @pagination-hover-bg;
+		}
+	}
+
+	> .active > a,
+	> .active > span {
+		&,
+		&:hover,
+		&:focus {
+			z-index: 2;
+			color: @pagination-active-color;
+			background-color: @pagination-active-bg;
+			border: 1px solid @pagination-border;
+			cursor: default;
+		}
+	}
+
+	> .disabled {
+		> span,
+		> a,
+		> a:hover,
+		> a:focus {
+			color: @pagination-disabled-color;
+			background-color: @pagination-bg;
+			border-color: @pagination-bg;
+			cursor: default;
+		}
 	}
 }
 
@@ -251,9 +306,7 @@ h2.form-heading {
 	/**
 		Diagonal Stripes
 		==============================
-		
-		Courtesy of:
-		http://svgeneration.com/generate/Diagonal-Stripes
+		Courtesy of http://svgeneration.com/generate/Diagonal-Stripes
 	**/
 	&.relationship-heading {
 		padding-top: 40px;
@@ -274,6 +327,12 @@ h2.form-heading + h3.form-heading {
 }
 h3.relationship-heading {
 	margin-top: 50px;
+}
+
+h4 {
+	text-transform: uppercase;
+	font-size: @font-size-base;
+	color: @gray-light;
 }
 
 // Common fields
@@ -341,10 +400,6 @@ h3.relationship-heading {
 }
 
 
-
-
-
-
 // Buttons
 // -------------------------------------------------- 
 
@@ -353,6 +408,7 @@ h3.relationship-heading {
 	.box-shadow( ~"inset 0 0 0 1px white, 0 1px 0 rgba(0,0,0,0.04)" );
 	#gradient .vertical( #fff, #fafafa, 30%, 100% );
 
+	.open &,
 	&:active,
 	&.active {
 		.box-shadow(inset 0 1px 2px rgba(0,0,0,.175));
@@ -368,19 +424,27 @@ h3.relationship-heading {
 	}
 }
 
+// wider buttons
+.btn.btn-create,
+.btn.btn-search,
+.btn.btn-save,
+.btn.btn-filter {
+	padding-left: @padding-large-horizontal;
+	padding-right: @padding-large-horizontal;
+}
+
 // Create buttons
 .btn.btn-create {
 	#gradient .vertical( #fff, mix(white, @brand-success, 93%), 30%, 100% );
 	color: darken(@brand-success, 15%);
 	border-color: lighten(@brand-success, 10%);
-	padding-left: @padding-large-horizontal;
-	padding-right: @padding-large-horizontal;
 	
 	&:hover {
 		// color: darken(@brand-success, 5%);
 		border-color: darken(@brand-success, 10%);
 	}
 
+	.open &,
 	&:active,
 	&.active {
 		color: darken(@brand-success, 15%);
@@ -389,22 +453,23 @@ h3.relationship-heading {
 }
 
 // Save buttons
+.btn.btn-filter,
 .btn.btn-save {
 	#gradient .vertical( #fff, mix(white, @link-color, 93%), 30%, 100% );
 	color: darken(@link-color, 10%);
 	border-color: @link-color;
-	padding-left: @padding-large-horizontal;
-	padding-right: @padding-large-horizontal;
 	
 	&:hover {
 		// color: darken(@link-color, 5%);
 		border-color: darken(@link-color, 10%);
 	}
 
+	.open &,
 	&:active,
 	&.active {
-		color: darken(@link-color, 15%);
 		background: mix(white, @link-color, 93%);
+		border-color: darken(@link-color, 10%);
+		color: darken(@link-color, 15%);
 	}
 }
 
@@ -439,8 +504,6 @@ h3.relationship-heading {
 // Items List
 // --------------------------------------------------
 table.items-list {
-	table-layout: fixed;
-	width: 100%;
 	
 	thead > tr > th,
 	tbody > tr > th,

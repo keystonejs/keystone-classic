@@ -12,7 +12,7 @@
 
 @input-vspacing: 12px;
 
-// Adding v-spacing between form elements
+// Adding vertical spacing between form elements
 .field,
 .form-control-wrapper,
 .form-horizontal,
@@ -55,7 +55,7 @@
 	position: absolute;
 	width: 1px;
 	height: 1px;
-	overflow: hiddden;
+	overflow: hidden;
 	opacity: 0;
 }
 
@@ -76,17 +76,22 @@
 
 // Field value. Used for non-editable fields
 .field-value {
-	display: block;
-	width: 100%;
-	min-height: @input-height-base;
-	padding: @padding-base-vertical @padding-base-horizontal;
-	font-size: @font-size-base;
-	line-height: @line-height-base;
-	color: @input-color;
-	vertical-align: middle;
-	background-color: mix(white, @input-bg-disabled, 80%);
+	background-color: mix(white, @input-bg-disabled, 10%);
 	border: 1px solid mix(white, @input-border, 40%);
 	border-radius: @input-border-radius;
+	color: @input-color;
+	display: block;
+	font-size: @font-size-base;
+	line-height: @line-height-base;
+	height: auto;
+	min-height: @input-height-base;
+	padding: @padding-base-vertical @padding-base-horizontal;
+	vertical-align: middle;
+	width: 100%;
+	
+	& + & {
+		margin-top: @input-vspacing;
+	}
 	
 	&.no-value {
 		color: @gray-light;
@@ -167,6 +172,10 @@ label.checkbox {
 	}
 }
 
+.input-xs {
+  .input-size(22px; 1px; 5px; 12px; @line-height-small; @border-radius-small);
+}
+
 
 // FIELD TYPES
 // =======================================
@@ -175,6 +184,9 @@ label.checkbox {
 .field.type-cloudinaryimage {
 	.image-details + .image-toolbar {
 		margin-top: @input-vspacing;
+	}
+	.field-value + .field-value {
+		margin-top: 0;
 	}
 }
 
@@ -242,9 +254,7 @@ label.checkbox {
 }
 
 // Messages
-
 .field-message {
-	
 	display: none;
 	min-height: 30px;
 	

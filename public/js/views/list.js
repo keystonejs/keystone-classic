@@ -1,5 +1,7 @@
 jQuery(function($) {
-
+	
+	/** Create Item */
+	
 	$('.btn-create-item').click(function(e) {
 		
 		var $form = $(this).closest('form');
@@ -31,6 +33,142 @@ jQuery(function($) {
 		$form.find('.toolbar-create').hide();
 		
 	});
+	
+	/** Filtering */
+	
+	var checkFiltersStatus = function() {
+		var enabledFilters = $('.filter.active'),
+			enabledPaths = _.map(enabledFilters, function(i) { return $(i).data('path') });
+		$('.list-filters-action')[enabledFilters.length ? 'show' : 'hide']();
+		$('.add-list-filter').each(function() {
+			var path = $(this).data('path');
+			$(this).parent()[_.contains(enabledPaths, path) ? 'addClass' : 'removeClass']('disabled');
+		});
+	}
+	
+	checkFiltersStatus();
+	
+	$('.add-list-filter').click(function(e) {
+		var path = $(this).data('path');
+		var $filter = $('.filter[data-path=' + path + ']').addClass('active');
+		checkFiltersStatus();
+		var $input = $filter.find('input[type=text]');
+		if ($input.length) {
+			try { $input[0].focus(); }
+			catch(e) {}
+		}
+	});
+	
+	$('.clear-filter').click(function(e) {
+		var $filter = $(this).closest('.filter').removeClass('active');
+		checkFiltersStatus();
+	});
+	
+	$('#list-filters').submit(function(e) {
+		
+		e.preventDefault();
+		
+		var filters = [],
+			search = $(this).find('#list-search').val();
+		
+		$(this).find('.filter.active').each(function() {
+			
+			var $filter = $(this),
+				$ops = $filter.find('.btn.active[data-opt]'), // active options
+				data = {
+					type: $filter.data('type'),
+					path: $filter.data('path')
+				},
+				str = data.path + ':';
+			
+			$ops.each(function() {
+				console.log(data.type + ': ' + data.path + ': ' + $(this).data('opt') + ': ' + $(this).data('value'));
+				data[$(this).data('opt')] = $(this).data('value');
+			});
+			
+			if (data.inv) {
+				str += '!:';
+			}
+			
+			if (data.exact) {
+				str += '=:';
+			}
+			
+			if (data.operator) {
+				str += data.operator + ':';
+			}
+			
+			switch (data.type) {
+				
+				case 'text':
+				case 'textarea':
+				case 'html':
+				case 'email':
+				case 'url':
+				case 'key':
+					str += $filter.find('input[name=value]').val();
+				break;
+				
+				case 'number':
+				case 'money':
+					var num = Number($filter.find('input[name=value]').val());
+					if (num || num === 0) {
+						str += num;
+					}
+				break;
+				
+				case 'date':
+				case 'datetime':
+					var date = moment($filter.find('input[name=value]').val());
+					if (date && date.isValid()) {
+						str += date.format('YYYY-MM-DD');
+					}
+				break;
+				
+				case 'select':
+					str += $filter.find('select').val();
+				break;
+				
+				case 'location':
+					var loc = [];
+					$filter.find('input[type=text]').each(function() {
+						loc.push($(this).val());
+					});
+					str += loc.join(':');
+				break;
+				
+				case 'boolean':
+				case 'cloudinaryimage':
+					str += data.value;
+				break;
+				
+			}
+			
+			filters.push(str);
+			
+		});
+
+		var query = {};
+		
+		if (search.length) {
+			query.search = search;
+		}
+		
+		if (filters.length) {
+			query.q = filters.join(';');
+		}
+		
+		query = $.param(query);
+		
+		if (query.length) {
+			query = '?' + query;
+		}
+		
+		top.location.href = window.location.pathname + query;
+	
+	});
+	
+	/** List Controls */
 	
 	$('a.control-delete').hover(function(e) {
 		$(this).closest('tr').addClass('delete-hover');

@@ -42,3 +42,53 @@
 	display: inline-block;
 	vertical-align: @alignment;
 }
+
+
+// Responsively hide content
+// Get around Bootstrap's "display: block" issues
+.hidden-xs-discreet {
+	@media (max-width: @screen-xs) {
+		display: none !important;
+	}
+}
+.hidden-sm-discreet {
+	@media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
+		display: none;
+	}
+}
+.hidden-md-discreet {
+	@media (min-width: @screen-md) and (max-width: @screen-md-max) {
+		display: none;
+	}
+}
+.hidden-lg-discreet {
+	@media (min-width: @screen-desktop) {
+		display: none;
+	}
+}
+.visible-xs-discreet {
+	@media (min-width: @screen-xs) {
+		display: none;
+	}
+}
+.visible-sm-discreet {
+	@media (max-width: @screen-xs-max) {
+		display: none;
+	}
+	@media (min-width: @screen-md) {
+		display: none;
+	}
+}
+.visible-md-discreet {
+	@media (max-width: @screen-sm-max) {
+		display: none;
+	}
+	@media (min-width: @screen-lg) {
+		display: none;
+	}
+}
+.visible-lg-discreet {
+	@media (max-width: @screen-md-max) {
+		display: none;
+	}
+}

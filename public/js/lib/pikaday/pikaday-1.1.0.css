@@ -50,6 +50,9 @@
 	font-weight: bold;
 	background-color: #fff;
 }
+.pika-label:hover {
+	text-decoration: underline;
+}
 .pika-title select {
 	cursor: pointer;
 	position: absolute;

@@ -1,5 +1,6 @@
 var _ = require('underscore'),
 	moment = require('moment'),
+	querystring = require('querystring'),
 	keystone = require('../'),
 	utils = require('../lib/utils');
 
@@ -10,20 +11,44 @@ exports = module.exports = function(req, res) {
 		showCreateForm: _.has(req.query, 'new')
 	};
 	
-	var filters = (req.query.search) ? req.list.getSearchFilters(req.query.search) : {};
+	var sort = { by: req.query.sort || req.list.defaultSort },
+		filters = (req.query.q) ? req.list.processFilters(req.query.q) : {},
+		queryFilters = req.list.getSearchFilters(req.query.search, filters);
+	
+	if (sort.by) {
+		
+		sort.inv = sort.by.charAt(0) == '-';
+		sort.path = (sort.inv) ? sort.by.substr(1) : sort.by;
+		sort.field = req.list.fields[sort.path];
+		
+		if (!sort.field && req.query.sort) {
+			delete req.query.sort;
+			var qs = querystring.stringify(req.query);
+			return res.redirect(req.path + ((qs) ? '?' + ps : ''));
+		}
+		
+		sort.label = sort.field.label;
+		
+	}
 	
 	var renderView = function() {
 		
-		var q = req.list.paginate({ filters: filters, page: req.params.page }).sort(req.list.defaultSort);
+		var query = req.list.paginate({ filters: queryFilters, page: req.params.page }).sort(sort.by);
 		
 		var columns = req.list.defaultColumns;
-		req.list.selectColumns(q, columns);
+		req.list.selectColumns(query, columns);
 		
-		q.exec(function(err, items) {
+		var link_to = function(x) {
+			return '/keystone/' + req.list.path + '?' + querystring.stringify(x);
+		}
+		
+		query.exec(function(err, items) {
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: req.list.key,
 				title: 'Keystone: ' + req.list.plural,
+				link_to: link_to,
 				list: req.list,
+				sort: sort,
 				filters: filters,
 				search: req.query.search,
 				columns: columns,
