@@ -224,59 +224,22 @@ All route files are expected to export a single function like this:
 	}
 
 
+## Thanks
 
-### Users Model
+A massive thanks to the people & projects that have been the foundation of 
+Keystone or helped during its development, including
 
-	var keystone = require('keystone'),
-		Types = keystone.Field.Types;
-
-	var User = new keystone.List('User');
-
-	User.add({
-		name: { type: Types.Name, required: true, index: true },
-		email: { type: Types.Email, initial: true, required: true, index: true },
-		password: { type: Types.Password, initial: true, required: true },
-		isAdmin: { type: Boolean, initial: true }
-	});
-
-	User.schema.virtual('canAccessKeystone').get(function() {
-		return this.isAdmin;
-	});
-
-	User.addPattern('standard meta');
-	User.defaultColumns = 'name, email, isAdmin';
-	User.register();
-
-
-### Subscribers Model
-
-	var keystone = require('keystone'),
-		Types = keystone.Field.Types;
-
-	var Subscriber = new keystone.List('Subscriber');
-
-	Subscriber.add({
-		name: { type: Types.Name },
-		email: { type: Types.Email, initial: true },
-		isSubscribed: { type: Boolean, default: true, label: 'Currently Subscribed?', initial: true },
-		subscribedDate: { type: Date, default: Date.now },
-		unsubscribedDate: { type: Date }
-	});
-
-	Subscriber.addPattern('standard meta');
-
-	Subscriber.schema.pre('save', function(next) {
-		if (this.isModified('subscribed')) {
-			if (this.subscribed)
-				this.subscribedDate = date.now();
-			else
-				this.unsubscribedDate = date.now();
-		}	
-		next();
-	});
-
-	Subscriber.defaultColumns = 'name, email, isSubscribed';
-	Subscriber.register();
+* Node.js, obviously :)
+* ExpressJS (*the* webserver for node.js)
+* MongoDB (for the great database)
+* Mongoose (for the ODB that makes this easier)
+* Bootstrap (for the great css framework, you guys make clean, responsive UI easy)
+* Cloudinary (for the amazing image service)
+* Google (for the maps)
+* Heroku (for the servers)
+* jQuery (of course)
+* Underscore.js (for making javascript better)
+* [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/) (for some of the icons)
 
 
 ## License
