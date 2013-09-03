@@ -5393,10 +5393,6 @@ label {
   padding-top: 7px;
 }
 .field-label-companion {
-  display: inline-block;
-  vertical-align: middle;
-  padding-bottom: 5px;
-  padding-top: 7px;
   padding-left: 10px;
 }
 textarea {
@@ -5805,42 +5801,21 @@ textarea.field.type-html textarea {
   vertical-align: middle;
   min-width: 220px;
 }
-.select2-container .select2-choice {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  border: 1px solid #ccc;
-  height: 34px;
-  line-height: 34px;
-  background-image: none;
-  filter: none;
+.select2-container-multi {
+  width: 100%;
 }
-.select2-container .select2-choice div {
-  border-left: none;
-  background: none;
-  background-image: none;
-  filter: none;
-}
-.select2-container .select2-choice div b {
-  height: 20px;
-  margin-top: 2px;
-}
+.select2-container .select2-choice,
 .select2-container-multi .select2-choices {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   border: 1px solid #ccc;
   border-radius: 3px;
+  line-height: 34px;
   background-image: none;
   filter: none;
 }
-.control-group.error .select2-container-multi .select2-choices {
-  border-color: #B94A48;
-}
-.control-group.error .select2-container .select2-choice {
-  border-color: #B94A48;
-}
-.select2-container-multi .select2-choices .select2-search-field {
+.select2-container .select2-choice {
   height: 34px;
-  line-height: 27px;
 }
 .select2-container-active .select2-choice,
 .select2-container-active .select2-choices,
@@ -5850,32 +5825,59 @@ textarea.field.type-html textarea {
   border-color: rgba(82, 168, 236, 0.8);
   outline: none;
 }
-.input-append .select2-container,
-.input-prepend .select2-container {
-  font-size: 14px;
+.select2-container .select2-choice span {
+  margin-right: 50px;
 }
-.input-prepend .select2-container > a.select2-choice,
-.input-prepend .select2-container-multi .select2-choices {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+.select2-container .select2-choice .select2-search-field input {
+  height: 32px;
+  line-height: 20px;
 }
-.input-append .select2-container > a,
-.input-append .select2-container-multi .select2-choices {
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
+.select2-container-multi .select2-choices .select2-search-field {
+  height: 32px;
+  line-height: 20px;
 }
-.input-prepend .select2-container > a.select2-choice > div,
-.input-append .select2-container > a.select2-choice > div {
-  display: none;
+.select2-container-multi .select2-choices .select2-search-field input {
+  height: 34px;
 }
-.select2-search {
-  padding-top: 5px;
+.select2-container-multi .select2-choices .select2-search-choice {
+  background: white;
 }
-.select2-search input {
-  padding: 2px 20px 2px 5px;
+.select2-container-multi .select2-choices .select2-search-choice-focus {
+  border-color: #0088cc;
+}
+.select2-container .select2-choice div {
+  border-left: none;
+  background: none;
+  background-image: none;
+  filter: none;
+  width: 22px;
+}
+.select2-container .select2-choice div b {
+  height: 20px;
+  margin-top: 2px;
+}
+.select2-drop .select2-search input.select2-active,
+.select2-container-multi .select2-choices .select2-search-field input.select2-active {
+  background-position: 99% center !important;
+}
+.select2-container .select2-choice .select2-search-choice-close {
+  top: 10px;
+  right: 24px;
+}
+.select2-container-multi .select2-choices .select2-search-choice {
+  padding: 5px 6px 6px 21px;
+}
+.select2-container-multi .select2-choices .select2-search-choice .select2-search-choice-close {
+  top: 5px;
+  left: 6px;
+}
+.select2-dropdown-open .select2-choice,
+.select2-dropdown-open .select2-choices {
+  background: none white;
+  border-radius: 3px 3px 0 0;
 }
 .select2-dropdown-open .select2-choice {
-  background: #f9f9f9;
+  background: none white;
 }
 .select2-results .select2-no-results,
 .select2-results .select2-more-results,
@@ -5883,7 +5885,7 @@ textarea.field.type-html textarea {
 .select2-results .select2-selection-limit {
   background-color: white;
   padding: 4px;
-  font-size: 12px;
+  color: #999999;
 }
 .select2-results .select2-result-label {
   min-height: 27px;
@@ -5891,13 +5893,9 @@ textarea.field.type-html textarea {
 .select2-results .select2-highlighted {
   border-radius: 2px;
 }
-.select2-dropdown-open .select2-choice {
-  background: none white;
-}
 /**
  * This stops the quick flash when a native selectbox is shown and 
- * then replaced by a select2 input when javascript kicks in. This can be 
- * removed if javascript is not present 
+ * then replaced by a select2 input when javascript kicks in.
  */select.ui-select2 {
   height: 34px;
   visibility: hidden;
@@ -5914,6 +5912,9 @@ h4 {
   text-transform: uppercase;
   font-size: 14px;
   color: #999999;
+}
+.create-item h4 {
+  color: #449d44;
 }
 #header {
   background-color: #154b7e;
@@ -6030,6 +6031,29 @@ h4 {
 #header .navbar-link:hover {
   color: #ffffff;
 }
+#section-nav {
+  margin-top: -20px;
+  margin-bottom: 10px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+#section-nav li > a {
+  color: #999999;
+  margin-right: 20px;
+  padding-left: 0;
+  padding-right: 0;
+}
+#section-nav li > a:hover,
+#section-nav li > a:focus {
+  text-decoration: underline;
+}
+#section-nav .active > a,
+#section-nav .active > a:hover,
+#section-nav .active > a:focus {
+  background: transparent;
+  color: black;
+}
 .page-header {
   margin-top: 10px;
 }
@@ -6138,6 +6162,13 @@ h3.relationship-heading {
   border-color: #999 #bbb #ccc;
 }
 .form-control:focus {
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
+  border-color: #0088cc #0099e6 #0099e6;
+}
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices,
+.select2-container-multi.select2-container-active .select2-choices {
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
   border-color: #0088cc #0099e6 #0099e6;
