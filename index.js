@@ -254,6 +254,7 @@ Keystone.prototype.initNav = function(sections) {
 	
 	if (!sections) {
 		sections = {};
+		nav.flat = true;
 		_.each(this.lists, function(list) {
 			sections[list.path] = [list.path];
 		});
