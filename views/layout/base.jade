@@ -32,7 +32,7 @@ html
 							li.divider
 							li: a(href=signout).signout Sign Out
 			if section.lists && section.lists.length > 1
-				nav(role='navigation').navbar.navbar-default: .container
+				nav(role='navigation')#section-nav.navbar.navbar-default: .container
 					ul.nav.navbar-nav: each navList in section.lists
 						li(class=navList.key == list.key ? 'active' : false): a(href='/keystone/' + navList.path)= navList.label
 			#body: .container
@@ -50,7 +50,7 @@ html
 		script(src="/keystone/js/lib/moment/moment-1.7.2.min.js")
 		script(src="/keystone/js/lib/move/move-0.1.1.min.js")
 		
-		script(src="/keystone/js/lib/select2/select2-3.3.2.js")
+		script(src="/keystone/js/lib/select2/select2-3.3.2.min.js")
 		
 		link(rel="stylesheet", href="/keystone/js/lib/pikaday/pikaday-1.1.0.css")
 		script(src="/keystone/js/lib/pikaday/pikaday-1.1.0.js")
