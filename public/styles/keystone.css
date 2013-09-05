@@ -4992,20 +4992,18 @@ td.visible-print {
 #footer ul a {
   color: #555555;
 }
-.create-item {
-  margin-top: -20px;
-  margin-bottom: 20px;
-}
 .create-item .form,
 .create-item .toolbar-create {
   display: none;
 }
 .create-item .form {
   padding-top: 10px;
+  margin-bottom: 10px;
 }
 .create-item .toolbar {
   border-top: none;
   padding: 0;
+  margin: 0;
 }
 .list-pagination {
   color: #999999;
@@ -5260,7 +5258,7 @@ table.items-list img {
     text-align: right;
   }
 }
-.toolbar {
+.item-details .toolbar {
   -webkit-box-shadow: 0 -15px 5px 5px rgba(255, 255, 255, 0.95);
   box-shadow: 0 -15px 5px 5px rgba(255, 255, 255, 0.95);
   background-color: white;
@@ -5269,7 +5267,7 @@ table.items-list img {
   padding: 20px 0 25px;
   z-index: 1;
 }
-.drilldown {
+.item-header .drilldown {
   margin-top: 0;
 }
 /*
