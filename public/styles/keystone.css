@@ -5596,6 +5596,7 @@ textarea.input-xs {
     width: 16.666666666666664%;
   }
 }
+.field.type-number .field-ui,
 .field.type-date .field-ui,
 .field.type-datetime .field-ui {
   position: relative;
@@ -5604,6 +5605,7 @@ textarea.input-xs {
   padding-right: 15px;
 }
 @media (min-width: 768px) {
+  .field.type-number .field-ui,
   .field.type-date .field-ui,
   .field.type-datetime .field-ui {
     float: left;
@@ -5611,6 +5613,7 @@ textarea.input-xs {
   }
 }
 @media (min-width: 992px) {
+  .field.type-number .field-ui,
   .field.type-date .field-ui,
   .field.type-datetime .field-ui {
     float: left;

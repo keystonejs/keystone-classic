@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
 		var clearSort = function() {
 			delete req.query.sort;
 			var qs = querystring.stringify(req.query);
-			return res.redirect(req.path + ((qs) ? '?' + ps : ''));
+			return res.redirect(req.path + ((qs) ? '?' + qs : ''));
 		}
 		
 		if (req.query.sort == req.list.defaultSort) {
@@ -46,11 +46,30 @@ exports = module.exports = function(req, res) {
 		var columns = req.list.defaultColumns;
 		req.list.selectColumns(query, columns);
 		
+		var params = _.clone(req.query);
+		
 		var link_to = function(x) {
-			return '/keystone/' + req.list.path + '?' + querystring.stringify(x);
+			var p = x.page || '';
+			delete x.page;
+			return '/keystone/' + req.list.path + ((p) ? '/' + p : '') + '?' + querystring.stringify(_.defaults(x, req.query));
 		}
 		
 		query.exec(function(err, items) {
+			
+			if (err) {
+				return res.status(500).send(JSON.stringify(err));
+			}
+			
+			// if there were results but not on this page, reset the page
+			if (req.params.page && items.total && !items.results.length) {
+				return res.redirect('/keystone/' + req.list.path + req._parsedUrl.search);
+			}
+			
+			// go straight to the result if there was a search, and only one result
+			if (req.query.search && items.total == 1 && items.results.length == 1) {
+				return res.redirect('/keystone/' + req.list.path + '/' + items.results[0].id);
+			}
+			
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: keystone.nav.by.list[req.list.key] || {},
 				title: 'Keystone: ' + req.list.plural,
@@ -63,6 +82,7 @@ exports = module.exports = function(req, res) {
 				items: items,
 				submitted: req.body || {}
 			}));
+			
 		});
 		
 	}

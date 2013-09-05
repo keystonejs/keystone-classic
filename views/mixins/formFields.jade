@@ -59,10 +59,10 @@ mixin formField_key(field, item)
 	+formField_text_common('key', field, item.get(field.path), 'code')
 
 mixin formField_email(field, item)
-	+formField_text_common('email', field, item.get(field.path), 'code')
+	+formField_text_common('email', field, item.get(field.path))
 
 mixin formField_url(field, item)
-	+formField_text_common('url', field, item.get(field.path), 'code')
+	+formField_text_common('url', field, item.get(field.path))
 
 mixin formField_date(field, item)
 	+formField_text_common('date', field, field.format(item, 'YYYY-MM-DD'), 'ui-datepicker')

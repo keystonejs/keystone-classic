@@ -40,11 +40,10 @@ block content
 	//-
 	//- List
 	//- ------------------------------
-	- var basePath = '/keystone/' + list.path
 	- var xFilters = _.size(filters);
 	.page-header.list-header
 		h1
-			if items.results.length
+			if items.total
 				span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
 			else
 				span No #{list.plural.toLowerCase()} found
@@ -271,7 +270,7 @@ block content
 				.count Showing #{items.first} to #{items.last}
 				ul.pagination: each p, i in items.pages
 					li(class=items.currentPage == p ? 'active' : null)
-						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
+						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
 			else
 				.count Showing #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)}
 		
@@ -308,5 +307,5 @@ block content
 				.count Showing #{items.first} to #{items.last}
 				ul.pagination: each p, i in items.pages
 					li(class=items.currentPage == p ? 'active' : null)
-						a(href=(p == '...' ? basePath + '/' + (i ? items.totalPages : 1) : basePath + '/' + p))= p
+						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
 	

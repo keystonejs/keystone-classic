@@ -164,7 +164,7 @@ jQuery(function($) {
 			query = '?' + query;
 		}
 		
-		top.location.href = window.location.pathname + query;
+		top.location.href = '/keystone/' + Keystone.list.path + query;
 	
 	});
 	
