@@ -126,18 +126,20 @@ block content
 							.col-xs-2.col-sm-3.col-md-2.search-button: button(type='submit').btn.btn-default.btn-search.btn-block
 								span.visible-xs Go
 								span.hidden-xs Search
-					.col-xs-4.col-sm-2
-						.dropdown.list-filter-dropdown
-							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Add Filter... 
-								b.caret
-							ul.dropdown-menu: each el in list.uiElements
-								if el.type == 'heading'
-									li.dropdown-header= el.heading
-								else if el.type == 'field' && !el.field.nofilter
-									li: a(href=js, data-path=el.field.path).add-list-filter
-										span(class='fieldicon fieldicon-' + el.field.type)
-										span= el.field.label
+					
+					//- .col-xs-4.col-sm-2
+					//- 	.dropdown.list-filter-dropdown
+					//- 		a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+					//- 			| Add Filter... 
+					//- 			b.caret
+					//- 		ul.dropdown-menu: each el in list.uiElements
+					//- 			if el.type == 'heading'
+					//- 				li.dropdown-header= el.heading
+					//- 			else if el.type == 'field' && !el.field.nofilter
+					//- 				li: a(href=js, data-path=el.field.path).add-list-filter
+					//- 					span(class='fieldicon fieldicon-' + el.field.type)
+					//- 					span= el.field.label
+					
 					//- .col-xs-8.col-sm-4
 					//- 	.dropdown.list-columns-dropdown.pull-right
 					//- 		a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
