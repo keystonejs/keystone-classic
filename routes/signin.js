@@ -18,7 +18,15 @@ exports = module.exports = function(req, res) {
 		}
 		
 		var onSuccess = function(user) {
-			res.redirect('/keystone');
+			
+			if ('string' == typeof keystone.get('signin success')) {
+				res.redirect(keystone.get('signin success'));
+			} else if ('function' == typeof keystone.get('signin success')) {
+				keystone.get('signin success')(user, req, res);
+			} else {
+				res.redirect('/keystone');
+			}
+			
 		}
 		
 		var onFail = function() {
