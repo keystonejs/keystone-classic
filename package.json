@@ -10,7 +10,7 @@
   "dependencies": {
     "underscore": "~1.5.1",
     "express": "~3.3.4",
-    "mongoose": "~3.6.15",
+    "mongoose": "~3.6.19",
     "less-middleware": "~0.1.12",
     "connect-flash": "~0.1.1",
     "jade": "~0.34.1",
