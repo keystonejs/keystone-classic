@@ -20,9 +20,9 @@ block content
 					h4 New #{list.singular}
 					if list.nameIsInitial
 						if list.nameField.type == 'name'
-							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' name').form-control.input-lg
+							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
 						else if list.nameField.type == 'text'
-							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' name').form-control.input-lg
+							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
 						else
 							.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 					
@@ -41,7 +41,7 @@ block content
 	//- List
 	//- ------------------------------
 	- var xFilters = _.size(filters);
-	.page-header.list-header
+	.page-header.list-header(class=!items.total && !search && !xFilters ? 'empty-list' : '')
 		h1
 			if items.total
 				span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
