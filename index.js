@@ -261,16 +261,19 @@ Keystone.prototype.initNav = function(sections) {
 	}
 	
 	_.each(sections, function(section, key) {
-		if (Array.isArray(section)) {
-			section = {
-				lists: section,
-				label: nav.flat ? keystone.list(section[0]).label : utils.keyToLabel(key)
-			};
+		if ('string' == typeof section) {
+			section = [section];
 		}
+		section = {
+			lists: section,
+			label: nav.flat ? keystone.list(section[0]).label : utils.keyToLabel(key)
+		};
 		section.key = key;
 		section.lists = _.map(section.lists, function(i) {
 			var list = keystone.list(i);
 			if (!list) {
+				console.log('Defined lists:');
+				console.log(_.pluck(keystone.lists, 'path'));
 				throw new Error('Keystone Nav Error: list ' + i + ' has not been defined.');
 			}
 			nav.by.list[list.key] = section;
