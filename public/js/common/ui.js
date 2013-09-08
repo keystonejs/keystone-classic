@@ -1,6 +1,6 @@
 jQuery(function($) {
 	
-	var brand = $('.navbar-brand').text();
+	var brand = $('#header .navbar-brand').text();
 	
 	$('.navbar-backtobrand').mouseenter(function(e) {
 		$('.navbar-headernav-collapse').addClass('navbar-headernav-hide');
