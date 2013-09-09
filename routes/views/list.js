@@ -1,8 +1,8 @@
-var _ = require('underscore'),
+var keystone = require('../../'),
+	_ = require('underscore'),
 	moment = require('moment'),
 	querystring = require('querystring'),
-	keystone = require('../'),
-	utils = require('../lib/utils');
+	utils = require('../../lib/utils');
 
 exports = module.exports = function(req, res) {
 	

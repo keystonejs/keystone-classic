@@ -1,9 +1,9 @@
-var keystone = require('../'),
+var keystone = require('../../'),
 	_ = require('underscore'),
 	async = require('async'),
 	cloudinary = require('cloudinary'),
 	moment = require('moment'),
-	utils = require('../lib/utils');
+	utils = require('../../lib/utils');
 
 exports = module.exports = function(req, res) {
 	

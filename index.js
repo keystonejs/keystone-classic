@@ -493,8 +493,8 @@ Keystone.prototype.routes = function(app) {
 		if (!this.nativeApp || !this.get('session'))
 			app.all('/keystone*', this.session.persist);
 		
-		app.all('/keystone/signin', require('./routes/signin'));
-		app.all('/keystone/signout', require('./routes/signout'));
+		app.all('/keystone/signin', require('./routes/views/signin'));
+		app.all('/keystone/signout', require('./routes/views/signout'));
 		app.all('/keystone*', this.session.keystoneAuth);
 		
 	} else if ('function' == typeof auth) {
@@ -510,9 +510,9 @@ Keystone.prototype.routes = function(app) {
 		next();
 	}
 	
-	app.all('/keystone', require('./routes/home'));
-	app.all('/keystone/:list/:page([0-9]{1,5})?', initList, require('./routes/list'));
-	app.all('/keystone/:list/:item', initList, require('./routes/item'));
+	app.all('/keystone', require('./routes/views/home'));
+	app.all('/keystone/:list/:page([0-9]{1,5})?', initList, require('./routes/views/list'));
+	app.all('/keystone/:list/:item', initList, require('./routes/views/item'));
 	
 	app.all('/keystone/api/:list/:action', initList, require('./routes/api/list') );
 	
@@ -648,7 +648,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 	var keystone = this,
 		template = templateCache[view];
 	
-	var templatePath = __dirname + '/views/' + view + '.jade';
+	var templatePath = __dirname + '/templates/views/' + view + '.jade';
 	
 	var compileTemplate = function() {
 		return jade.compile(fs.readFileSync(templatePath, 'utf8'), { filename: templatePath, pretty: keystone.app.get('env') != 'production' });
