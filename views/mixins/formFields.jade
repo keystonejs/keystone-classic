@@ -37,14 +37,14 @@ mixin formField(field, item)
 //-
 //- COMMON
 //- ------------------------------
-mixin formField_text_common(type, field, value, cls)
+mixin formField_text_common(type, field, value, cls, placeholder)
 	.field(class='type-' + type, data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		label.field-label= field.label
 		.field-ui(class='width-' + field.width)
 			if field.noedit
 				.field-value= value
 			else
-				input(type='text', name=field.path, value=value, class=cls, autocomplete='off').form-control
+				input(type='text', name=field.path, value=value, class=cls, placeholder=placeholder, autocomplete='off').form-control
 			if field.note
 				.field-note= field.note
 
@@ -53,28 +53,25 @@ mixin formField_text_common(type, field, value, cls)
 //- COMMON (text-style fields)
 //- ------------------------------
 mixin formField_text(field, item)
-	+formField_text_common('text', field, item.get(field.path))
+	+formField_text_common('text', field, field.format(item))
 
 mixin formField_key(field, item)
-	+formField_text_common('key', field, item.get(field.path), 'code')
+	+formField_text_common('key', field, field.format(item), 'code')
 
 mixin formField_email(field, item)
-	+formField_text_common('email', field, item.get(field.path))
+	+formField_text_common('email', field, field.format(item))
 
 mixin formField_url(field, item)
-	+formField_text_common('url', field, item.get(field.path))
+	+formField_text_common('url', field, field.format(item))
 
 mixin formField_date(field, item)
-	+formField_text_common('date', field, field.format(item, 'YYYY-MM-DD'), 'ui-datepicker')
-
-mixin formField_datetime(field, item)
-	+formField_text_common('datetime', field, field.format(item, 'YYYY-MM-DD HH:mm:ss'))
+	+formField_text_common('date', field, field.format(item, 'YYYY-MM-DD'), 'ui-datepicker', 'YYYY-MM-DD')
 
 mixin formField_number(field, item)
-	+formField_text_common('number', field, item.get(field.path))
+	+formField_text_common('number', field, field.format(item))
 
 mixin formField_money(field, item)
-	+formField_text_common('money', field, item.get(field.path))
+	+formField_text_common('money', field, field.format(item))
 
 
 //-
@@ -91,6 +88,22 @@ mixin formField_textarea(field, item)
 			if field.note
 				.field-note= field.note
 
+
+//-
+//- DATETIME
+//- ------------------------------
+mixin formField_datetime(field, item)
+	.field(class='type-datetime', data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+		label.field-label= field.label
+		.field-ui(class='width-' + field.width)
+			if field.noedit
+				.field-value= field.format(item, 'YYYY-MM-DD HH:mm:ss')
+			else
+				.form-row
+					.col-sm-6: input(type='text', name=field.paths.date, value=field.format(item, 'YYYY-MM-DD'), placeholder='YYYY-MM-DD', autocomplete='off').form-control.ui-datepicker
+					.col-sm-6: input(type='text', name=field.paths.time, value=field.format(item, 'hh:mm:ss a'), placeholder='HH:MM:SS am/pm', autocomplete='off').form-control
+			if field.note
+				.field-note= field.note
 
 //-
 //- NAME (split)

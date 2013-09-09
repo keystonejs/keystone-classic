@@ -5600,8 +5600,7 @@ textarea.input-xs {
   }
 }
 .field.type-number .field-ui,
-.field.type-date .field-ui,
-.field.type-datetime .field-ui {
+.field.type-date .field-ui {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -5609,18 +5608,34 @@ textarea.input-xs {
 }
 @media (min-width: 768px) {
   .field.type-number .field-ui,
-  .field.type-date .field-ui,
-  .field.type-datetime .field-ui {
+  .field.type-date .field-ui {
     float: left;
     width: 25%;
   }
 }
 @media (min-width: 992px) {
   .field.type-number .field-ui,
-  .field.type-date .field-ui,
-  .field.type-datetime .field-ui {
+  .field.type-date .field-ui {
     float: left;
     width: 16.666666666666664%;
+  }
+}
+.field.type-datetime .field-ui {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .field.type-datetime .field-ui {
+    float: left;
+    width: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .field.type-datetime .field-ui {
+    float: left;
+    width: 33.33333333333333%;
   }
 }
 .field.type-name .field-ui,
@@ -6171,6 +6186,129 @@ textarea.field.type-html textarea {
  */select.ui-select2 {
   height: 34px;
   visibility: hidden;
+}
+/*!
+ * Timepicker Component for Twitter Bootstrap
+ *
+ * Copyright 2013 Joris de Wit
+ *
+ * Contributors https://github.com/jdewit/bootstrap-timepicker/graphs/contributors
+ * 
+ * This file is based on version 0.2.3 and has been customised for Keystone.js
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file at /js/lib/timepicker/LICENSE
+ */
+.timepicker {
+  position: relative;
+}
+.timepicker.pull-right .timepicker-widget.dropdown-menu {
+  left: auto;
+  right: 0;
+}
+.timepicker.pull-right .timepicker-widget.dropdown-menu:before {
+  left: auto;
+  right: 12px;
+}
+.timepicker.pull-right .timepicker-widget.dropdown-menu:after {
+  left: auto;
+  right: 13px;
+}
+.timepicker .add-on {
+  cursor: pointer;
+}
+.timepicker .add-on i {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+.timepicker-widget.dropdown-menu {
+  padding: 2px 3px 2px 2px;
+}
+.timepicker-widget.dropdown-menu.open {
+  display: inline-block;
+}
+.timepicker-widget.dropdown-menu:before {
+  border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  content: "";
+  display: inline-block;
+  left: 9px;
+  position: absolute;
+  top: -7px;
+}
+.timepicker-widget.dropdown-menu:after {
+  border-bottom: 6px solid #FFFFFF;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  content: "";
+  display: inline-block;
+  left: 10px;
+  position: absolute;
+  top: -6px;
+}
+.timepicker-widget a.btn,
+.timepicker-widget input {
+  border-radius: 4px;
+}
+.timepicker-widget table {
+  width: 100%;
+  margin: 0;
+}
+.timepicker-widget table td {
+  text-align: center;
+  height: 30px;
+  margin: 0;
+  padding: 2px;
+}
+.timepicker-widget table td:not(.separator) {
+  min-width: 30px;
+}
+.timepicker-widget table td span {
+  width: 100%;
+}
+.timepicker-widget table td a {
+  border: 1px transparent solid;
+  width: 100%;
+  display: inline-block;
+  margin: 0;
+  padding: 8px 0;
+  outline: 0;
+  color: #333;
+}
+.timepicker-widget table td a:hover {
+  text-decoration: none;
+  background-color: #eee;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-color: #ddd;
+}
+.timepicker-widget table td a i {
+  margin-top: 2px;
+}
+.timepicker-widget table td input {
+  width: 25px;
+  margin: 0;
+  text-align: center;
+}
+.timepicker-widget .modal-content {
+  padding: 4px;
+}
+@media (min-width: 767px) {
+  .timepicker-widget.modal {
+    width: 200px;
+    margin-left: -100px;
+  }
+}
+@media (max-width: 767px) {
+  .timepicker {
+    width: 100%;
+  }
+  .timepicker .dropdown-menu {
+    width: 100%;
+  }
 }
 abbr,
 .disabled,
