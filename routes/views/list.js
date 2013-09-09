@@ -100,70 +100,28 @@ exports = module.exports = function(req, res) {
 	
 	if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
 		
-		var validationErrors = [];
-		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
+		var item = new req.list.model(),
+			updateHandler = item.getUpdateHandler(req);
 		
-		var item = new req.list.model();
+		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 		
 		if (req.list.nameIsInitial) {
 			if (req.list.nameField.validateInput(req.body))
 				req.list.nameField.updateItem(item, req.body);
 			else
-				validationErrors.push('Name is required.');
+				updateHandler.addValidationError(req.list.nameField.path, 'Name is required.');
 		}
 		
-		_.each(req.list.initialFields, function(field) {
-			
-			// Some field types have custom behaviours
-			switch (field.type) {
-				
-				case 'password':
-					// validate matching password fields
-					if (req.body[field.path] != req.body[field.paths.confirm])
-						return validationErrors.push('Passwords must match.');
-				break;
-				
-				case 'email':
-					if (req.body[field.path] && !utils.isEmail(req.body[field.path]))
-						return validationErrors.push('Please enter a valid email address in the ' + field.label + ' field.');
-				break;
-			}
-			
-			// validate required fields
-			if (field.required && !field.validateInput(req.body))
-				return validationErrors.push(field.label + ' is required.');
-			
-			field.updateItem(item, req.body);
-			
-		});
-		
-		if (validationErrors.length) {
-			_.each(validationErrors, function(i) { req.flash('error', i); });
-			return renderView();
-		}
-		
-		item.save(function(err, item) {
+		updateHandler.process(req.body, { flashErrors: true, fields: req.list.initialFields }, function(err) {
 			if (err) {
-				if (err.name == 'ValidationError') {
-					viewLocals.validationErrors = err.errors;
-					_.each(err.errors, function(e, path) {
-						if (e.type == 'required') {
-							req.flash('error', 'Field ' + path + ' is required.');
-						}
-					});
-				} else {
-					console.error('Error creating new ' + req.list.singular + ':');
-					console.error(err);
-					req.flash('error', 'There was an error creating the new ' + req.list.singular + '. Please check the console.');
-				}
 				return renderView();
-			} else {
-				req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
-				res.redirect('/keystone/' + req.list.path + '/' + item.id);
 			}
+			req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
+			return res.redirect('/keystone/' + req.list.path + '/' + item.id);
 		});
 		
 		return;
+		
 	}
 	
 	renderView();
