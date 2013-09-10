@@ -289,16 +289,16 @@ cite {
   color: #004a80;
 }
 .text-warning {
-  color: #c09853;
+  color: #ab775b;
 }
 .text-danger {
   color: #bf2525;
 }
 .text-success {
-  color: #468847;
+  color: #0b851a;
 }
 .text-info {
-  color: #3a87ad;
+  color: #11709e;
 }
 .text-left {
   text-align: left;
@@ -1312,14 +1312,14 @@ table th[class*="col-"] {
 .table > thead > tr.success > th,
 .table > tbody > tr.success > th,
 .table > tfoot > tr.success > th {
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
+  background-color: #effdf0;
+  border-color: #c8eecd;
 }
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
 .table-hover > tbody > tr.success:hover > td {
-  background-color: #d0e9c6;
-  border-color: #c9e2b3;
+  background-color: #d8fadb;
+  border-color: #b5e8bb;
 }
 .table > thead > tr > td.danger,
 .table > tbody > tr > td.danger,
@@ -1354,14 +1354,14 @@ table th[class*="col-"] {
 .table > thead > tr.warning > th,
 .table > tbody > tr.warning > th,
 .table > tfoot > tr.warning > th {
-  background-color: #fcf8e3;
-  border-color: #fbeed5;
+  background-color: #fffff4;
+  border-color: #f1d9b3;
 }
 .table-hover > tbody > tr > td.warning:hover,
 .table-hover > tbody > tr > th.warning:hover,
 .table-hover > tbody > tr.warning:hover > td {
-  background-color: #faf2cc;
-  border-color: #f8e5be;
+  background-color: #ffffdb;
+  border-color: #edce9d;
 }
 @media (max-width: 768px) {
   .table-responsive {
@@ -1600,22 +1600,22 @@ textarea.input-lg {
 }
 .has-warning .help-block,
 .has-warning .control-label {
-  color: #c09853;
+  color: #ab775b;
 }
 .has-warning .form-control {
-  border-color: #c09853;
+  border-color: #ab775b;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .has-warning .form-control:focus {
-  border-color: #a47e3c;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
+  border-color: #8c5f47;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ceaf9e;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ceaf9e;
 }
 .has-warning .input-group-addon {
-  color: #c09853;
-  border-color: #c09853;
-  background-color: #fcf8e3;
+  color: #ab775b;
+  border-color: #ab775b;
+  background-color: #fffff4;
 }
 .has-error .help-block,
 .has-error .control-label {
@@ -1638,22 +1638,22 @@ textarea.input-lg {
 }
 .has-success .help-block,
 .has-success .control-label {
-  color: #468847;
+  color: #0b851a;
 }
 .has-success .form-control {
-  border-color: #468847;
+  border-color: #0b851a;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .has-success .form-control:focus {
-  border-color: #356635;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+  border-color: #075611;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #13e32c;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #13e32c;
 }
 .has-success .input-group-addon {
-  color: #468847;
-  border-color: #468847;
-  background-color: #dff0d8;
+  color: #0b851a;
+  border-color: #0b851a;
+  background-color: #effdf0;
 }
 .form-control-static {
   margin-bottom: 0;
@@ -4072,37 +4072,37 @@ textarea.input-group-sm > .input-group-btn > .btn {
   color: inherit;
 }
 .alert-success {
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  color: #468847;
+  background-color: #effdf0;
+  border-color: #c8eecd;
+  color: #0b851a;
 }
 .alert-success hr {
-  border-top-color: #c9e2b3;
+  border-top-color: #b5e8bb;
 }
 .alert-success .alert-link {
-  color: #356635;
+  color: #075611;
 }
 .alert-info {
-  background-color: #d9edf7;
-  border-color: #bce8f1;
-  color: #3a87ad;
+  background-color: #eef7fb;
+  border-color: #a4c9dc;
+  color: #11709e;
 }
 .alert-info hr {
-  border-top-color: #a6e1ec;
+  border-top-color: #92bed5;
 }
 .alert-info .alert-link {
-  color: #2d6987;
+  color: #0c4f70;
 }
 .alert-warning {
-  background-color: #fcf8e3;
-  border-color: #fbeed5;
-  color: #c09853;
+  background-color: #fffff4;
+  border-color: #f1d9b3;
+  color: #ab775b;
 }
 .alert-warning hr {
-  border-top-color: #f8e5be;
+  border-top-color: #edce9d;
 }
 .alert-warning .alert-link {
-  color: #a47e3c;
+  color: #8c5f47;
 }
 .alert-danger {
   background-color: #fdf4f4;
@@ -5600,6 +5600,7 @@ textarea.input-xs {
   }
 }
 .field.type-number .field-ui,
+.field.type-money .field-ui,
 .field.type-date .field-ui {
   position: relative;
   min-height: 1px;
@@ -5608,6 +5609,7 @@ textarea.input-xs {
 }
 @media (min-width: 768px) {
   .field.type-number .field-ui,
+  .field.type-money .field-ui,
   .field.type-date .field-ui {
     float: left;
     width: 25%;
@@ -5615,6 +5617,7 @@ textarea.input-xs {
 }
 @media (min-width: 992px) {
   .field.type-number .field-ui,
+  .field.type-money .field-ui,
   .field.type-date .field-ui {
     float: left;
     width: 16.666666666666664%;
@@ -5910,16 +5913,16 @@ textarea.field.type-html textarea {
   color: #004a80;
 }
 .btn-link.text-warning {
-  color: #c09853;
+  color: #ab775b;
 }
 .btn-link.text-danger {
   color: #bf2525;
 }
 .btn-link.text-success {
-  color: #468847;
+  color: #0b851a;
 }
 .btn-link.text-info {
-  color: #3a87ad;
+  color: #11709e;
 }
 /*
 	Button companion
@@ -6187,129 +6190,6 @@ textarea.field.type-html textarea {
   height: 34px;
   visibility: hidden;
 }
-/*!
- * Timepicker Component for Twitter Bootstrap
- *
- * Copyright 2013 Joris de Wit
- *
- * Contributors https://github.com/jdewit/bootstrap-timepicker/graphs/contributors
- * 
- * This file is based on version 0.2.3 and has been customised for Keystone.js
- *
- * For the full copyright and license information, please view the LICENSE
- * file at /js/lib/timepicker/LICENSE
- */
-.timepicker {
-  position: relative;
-}
-.timepicker.pull-right .timepicker-widget.dropdown-menu {
-  left: auto;
-  right: 0;
-}
-.timepicker.pull-right .timepicker-widget.dropdown-menu:before {
-  left: auto;
-  right: 12px;
-}
-.timepicker.pull-right .timepicker-widget.dropdown-menu:after {
-  left: auto;
-  right: 13px;
-}
-.timepicker .add-on {
-  cursor: pointer;
-}
-.timepicker .add-on i {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-}
-.timepicker-widget.dropdown-menu {
-  padding: 2px 3px 2px 2px;
-}
-.timepicker-widget.dropdown-menu.open {
-  display: inline-block;
-}
-.timepicker-widget.dropdown-menu:before {
-  border-bottom: 7px solid rgba(0, 0, 0, 0.2);
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  content: "";
-  display: inline-block;
-  left: 9px;
-  position: absolute;
-  top: -7px;
-}
-.timepicker-widget.dropdown-menu:after {
-  border-bottom: 6px solid #FFFFFF;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  content: "";
-  display: inline-block;
-  left: 10px;
-  position: absolute;
-  top: -6px;
-}
-.timepicker-widget a.btn,
-.timepicker-widget input {
-  border-radius: 4px;
-}
-.timepicker-widget table {
-  width: 100%;
-  margin: 0;
-}
-.timepicker-widget table td {
-  text-align: center;
-  height: 30px;
-  margin: 0;
-  padding: 2px;
-}
-.timepicker-widget table td:not(.separator) {
-  min-width: 30px;
-}
-.timepicker-widget table td span {
-  width: 100%;
-}
-.timepicker-widget table td a {
-  border: 1px transparent solid;
-  width: 100%;
-  display: inline-block;
-  margin: 0;
-  padding: 8px 0;
-  outline: 0;
-  color: #333;
-}
-.timepicker-widget table td a:hover {
-  text-decoration: none;
-  background-color: #eee;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  border-color: #ddd;
-}
-.timepicker-widget table td a i {
-  margin-top: 2px;
-}
-.timepicker-widget table td input {
-  width: 25px;
-  margin: 0;
-  text-align: center;
-}
-.timepicker-widget .modal-content {
-  padding: 4px;
-}
-@media (min-width: 767px) {
-  .timepicker-widget.modal {
-    width: 200px;
-    margin-left: -100px;
-  }
-}
-@media (max-width: 767px) {
-  .timepicker {
-    width: 100%;
-  }
-  .timepicker .dropdown-menu {
-    width: 100%;
-  }
-}
 abbr,
 .disabled,
 .disabled a {
@@ -6325,6 +6205,9 @@ h4 {
 }
 .create-item h4 {
   color: #999999;
+}
+.alert h4 {
+  text-transform: none;
 }
 #header {
   background-color: #154b7e;
