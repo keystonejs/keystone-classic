@@ -15,63 +15,32 @@ Keystone provides:
 *	Integration with Coudinary for image uploading, storage and resizing
 *	Integration with Mandrill for sending emails easily
 
-Keystone is *not* designed to execute as a standalone application.
+To see a working demo of Keystone, visit [demo.keystonejs.com](http://demo.keystonejs.com/)
+
+View the [example project](https://github.com/JedWatson/keystone-demo) to see how to set up
+a simple Keystone app.
 
 
-## Installation & Requirements
+## Usage
 
-Specific congurations are required in your main application script for Keystone to work,
-and assumptions are made in the code that this has been done correctly.
+`npm install keystone`
 
-1.	Express ~3.2.6 and Mongoose ~3.6.13 must be included by your application, and must
-	be `require`d *before* Keystone
-	
-2.	Keystone assumes that you have correctly configured, and successfully connected to,
-	a Mongo database with Mongoose's default connection
+Then:
 
-3.	Connect-Flash ~0.1.1 must be included and configured in your Express app instance
-	*before* you call `keystone.routes(app)`. This also requires the configuration of
-	`express.session()` in your Express app.
+*	`require` it in your web.js (or app.js, etc)
+*	initialise it with configuration variables
+*	define your lists (similar to mongoose models)
+*	set up your routes
+*	start it
 
+Keystone will automatically set up Express and Mongoose, although you can provide your own versions
+and have explicit control over your application configuration (see the advanced example, below).
 
-### Usage
-
-When you first `require` Keystone, it creates a single instance of itself. Do this somewhere
-near the top of your app.js (or web.js, etc) file. Any subsequent `require('keystone')`
-statements will return the same instance of Keystone.
-
-You must provide a `mongoose` instance to Keystone's `connect` function before defining
-any lists. `connect` returns `this` so you can do this in the `require` call.
-
-Configuration variables can be set at any time, and include:
-
-*	auth (callback function to authenticate a request, or 'native' to use native session management)
-*	user model (list key for users if using native session management)
-*	brand (label displayed in the top left of the UI)
-*	cloudinary config `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
-*	cloudinary prefix (prefix for all native tags added to uploaded images)
-*	signout (href for the signout link in the top right of the UI)
-
-Keystone can be locked down with the auth config. This must be a function matching the
-express middleware pattern `fn(req,res,next)`. It will be called before any Keystone
-routes are matched. If the user fails the validation check they should be redirected to
-a signin or access-denied page implemented in the application.
-
-`keystone.static(app)` adds Keystone's static route-handling middleware to the Express
-app. It's a good idea to do this after your application's other static assets, before
-any dynamic logic (e.g. cookie parsing, session authentication, body parsing, etc)
-
-`keystone.routes(app);` adds Keystone's dynamic routes to the Express app router. This
-can be done before or after your application's routes are defined, although if they come
-after, you can explicitly lock down or replace Keystone routes with your own.
-
-The `NODE_ENV` environment variable is used to control template caching and html formatting,
-and should be set to `production` for production environments.
+Keystone has only been tested with Jade and LESS as the html and css template engines for your
+application, others that Express supports should work as well.
 
 
-## Examples
-
-### Application script (web.js) - basic
+### Example application script (web.js)
 
 If you want, Keystone can take care of everything required to set up your express app and
 then start it for you.
@@ -87,19 +56,19 @@ then start it for you.
 		'less': 'public',
 		'static': 'public',
 		
-		'views': 'views',
+		'views': 'templates/views',
 		'view engine': 'jade',
 		
 		'auto update': true,
-		'mongo': process.env.MONGOLAB_URI || ['localhost', 'my-project'],
+		'mongo': process.env.MONGOLAB_URI || 'mongodb://localhost/my-project',
 		
 		'auth': true,
 		'user model': 'User',
 		'cookie secret': '--- your secret ---',
 		
-		'emails': 'emails',
+		'emails': 'templates/emails',
 		'mandrill api key': '--- your api key ---',
-		'email rules': { find: '/images/', replace: (keystone.get('env') != 'production') ? 'http://localhost:3000/images/' : 'http://www.team9.com.au/images/' },
+		'email rules': { find: '/images/', replace: (keystone.get('env') != 'production') ? 'http://localhost:3000/images/' : 'http://www.keystonejs.com/images/email/' },
 		
 		'cloudinary config': { cloud_name: '--- your cloud name ---', api_key: '--- your api key ---', api_secret: '--- your api secret ---' }
 		
@@ -111,8 +80,79 @@ then start it for you.
 		
 	keystone.start();
 
+### Notes
 
-### Application script (web.js) - advanced
+When you first `require` Keystone, it creates a single instance of itself. Do this somewhere
+near the top of your app.js (or web.js, etc) file. Any subsequent `require('keystone')`
+statements will return the same instance of Keystone.
+
+Config variables can be passed in an object to the `keystone.init` method, or can be set any time before `keystone.start` is
+called using `keystone.set(key, value)`. This allows for a more flexible order of execution (e.g. if you refer to Lists in your
+routes, you can set the routes after configuring your Lists, as in the example above).
+
+Config variables include:
+
+*	`name` - the name of your application (optional)
+*	`brand` - the label displayed in the top left of the UI (optional)
+*	`port` - the port to serve your application on, passed to `express.set('port')`, defaults to `env.PORT || 3000`
+*	`favicon` - the path to your application's favicon, passed to `express.favico`, exclude if you don't have a favicon
+*	`less` - the path to your .less templates, passed to `less-middleware`, exclude if you don't use LESS
+*	`static` - the path to your application's static resources (public files), exclude if you don't want static resources
+*	`compress` - (boolean) whether to include the `Express.compress` middleware
+*	`views` - the folder containing your view templates, passed to `express.set('views')` and used by the `keystone.View` Class
+*	`404` - path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
+*	`view engine` - the template engine to use for your views, passed to `express.set('view engine')`
+*	`locals` - (object) default locals to pass to your view templates
+*	`auto update` - (boolean) automatically apply updates in your application's `/updates` folder using Keystone's Updates framework
+*	`mongo` - the connection URL for your application's mongo database, passed to `mongoose.connect`
+*	`auth` - callback function to authenticate a request, or `true` to use Keystone's native session management
+*	`user model` - the key of the Keystone List for users, required if you're using native session management
+*	`cookie secret` - the cookie secret to use for Express's cookie parser
+*	`emails` - the path of your email templates, for use with the `keystone.Email` Class
+*	`mandrill api key` - your mandrill API key to use with the `keystone.Email` Class
+*	`email rules` - find & replace rules for pre-parsing email templates, useful to help with local vs. production absolute paths for images
+*	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
+*	`cloudinary prefix` - prefix for all native tags added to uploaded images
+*	`logger` - when set, Keystone includes the `express.logger` middleware and passes it the value
+*	`signout` - href for the signout link in the top right of the UI, automatically set if you use native session management
+
+See `Keystone.prototype.start` in `/index.js` to understand how these settings are used, and how the Express application
+is initialised.
+
+Keystone can be locked down with the auth config. This must be a function matching the
+express middleware pattern `fn(req,res,next)`. It will be called before any Keystone
+routes are matched. If the user fails the validation check they should be redirected to
+a signin or access-denied page implemented in the application.
+
+The `NODE_ENV` environment variable is used to control template caching and html formatting,
+and should be set to `production` for production environments.
+
+### Headless Mode
+
+You can start Keystone in 'headless' mode if you don't want it to bind routes or initialise the Express app.
+This means you can still use Lists and other Keystone Classes without a web app (e.g. for unit testing).
+
+Simply set the `headless` config variable to `true`.
+
+
+## Advanced Usage
+
+It is also possible to integrate keystone into an existing express app, without using the `start`
+method. This assumes less about your app and provides a lot of flexibility.
+
+You can provide a `mongoose` or `express` instance to Keystone's `connect` function before defining
+any lists. `connect` returns `this` so you can do this in the `require` call.
+
+`keystone.static(app)` adds Keystone's static route-handling middleware to the Express
+app. It's a good idea to do this after your application's other static assets, before
+any dynamic logic (e.g. cookie parsing, session authentication, body parsing, etc)
+
+`keystone.routes(app);` adds Keystone's dynamic routes to the Express app router. This
+can be done before or after your application's routes are defined, although if they come
+after, you can explicitly lock down or replace Keystone routes with your own.
+
+
+### Example application script (web.js) - advanced
 
 For full control over the express application, you can bind keystone by calling its
 integration methods as part of the application configuration.
