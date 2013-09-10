@@ -80,11 +80,7 @@ then start it for you.
 		
 	keystone.start();
 
-### Notes
-
-When you first `require` Keystone, it creates a single instance of itself. Do this somewhere
-near the top of your app.js (or web.js, etc) file. Any subsequent `require('keystone')`
-statements will return the same instance of Keystone.
+### Configuration
 
 Config variables can be passed in an object to the `keystone.init` method, or can be set any time before `keystone.start` is
 called using `keystone.set(key, value)`. This allows for a more flexible order of execution (e.g. if you refer to Lists in your
@@ -119,6 +115,12 @@ Config variables include:
 See `Keystone.prototype.start` in `/index.js` to understand how these settings are used, and how the Express application
 is initialised.
 
+### Notes
+
+When you first `require` Keystone, it creates a single instance of itself. Do this somewhere
+near the top of your app.js (or web.js, etc) file. Any subsequent `require('keystone')`
+statements will return the same instance of Keystone.
+
 Keystone can be locked down with the auth config. This must be a function matching the
 express middleware pattern `fn(req,res,next)`. It will be called before any Keystone
 routes are matched. If the user fails the validation check they should be redirected to
@@ -149,7 +151,7 @@ any dynamic logic (e.g. cookie parsing, session authentication, body parsing, et
 
 `keystone.routes(app);` adds Keystone's dynamic routes to the Express app router. This
 can be done before or after your application's routes are defined, although if they come
-after, you can explicitly lock down or replace Keystone routes with your own.
+after, you can explicitly lock down or replace Keystone routes with your own (so be careful).
 
 
 ### Example application script (web.js) - advanced
@@ -269,16 +271,16 @@ All route files are expected to export a single function like this:
 A massive thanks to the people & projects that have been the foundation of 
 Keystone or helped during its development, including
 
-* Node.js, obviously :)
-* ExpressJS (*the* webserver for node.js)
-* MongoDB (for the great database)
-* Mongoose (for the ODB that makes this easier)
-* Bootstrap (for the great css framework, you guys make clean, responsive UI easy)
-* Cloudinary (for the amazing image service)
-* Google (for the maps)
-* Heroku (for the servers)
-* jQuery (of course)
-* Underscore.js (for making javascript better)
+* [Node.js](http://nodejs.org), obviously :)
+* [ExpressJS](http://expressjs.com) (*the* webserver for node.js)
+* [MongoDB](http://www.mongodb.org) (for the great database)
+* [Mongoose](http://mongoosejs.com) (for the ODM that makes this easier)
+* [Bootstrap](http://getbootstrap.com) (for the great css framework, you guys make clean, responsive UI easy)
+* [Cloudinary](https://cloudinary.com) (for the amazing image service)
+* [Google](https://developers.google.com) (for the maps)
+* [http://www.heroku.com](Heroku) (for the servers)
+* [jQuery](http://jquery.com) (of course)
+* [Underscore.js](http://underscorejs.org) (for making javascript better)
 * [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/) (for some of the icons)
 
 
