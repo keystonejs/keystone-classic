@@ -1,6 +1,8 @@
 Keystone
 ========
 
+node.js content management system and web app framework
+
 ## About
 
 Keystone is designed to be used in a web application built on Express and Mongoose.
@@ -11,7 +13,7 @@ Keystone provides:
 *	Enhanced `models` with additional field types and functionality, building on those
 	natively supported by Mongoose
 *	An updates framework for managing data updates or initialisation
-*	An auto-generated Admin UI based on the defined `models`
+*	An beautiful Admin UI based on the defined `models`
 *	Integration with Coudinary for image uploading, storage and resizing
 *	Integration with Mandrill for sending emails easily
 
