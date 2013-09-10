@@ -8,20 +8,20 @@
     "url": "https://github.com/JedWatson/keystone.git"
   },
   "dependencies": {
-    "underscore": "~1.5.1",
+    "underscore": "~1.5.2",
     "express": "~3.3.4",
     "mongoose": "~3.6.19",
     "less-middleware": "~0.1.12",
     "connect-flash": "~0.1.1",
     "jade": "~0.34.1",
     "async": "~0.2.9",
-    "bcrypt": "~0.7.6",
-    "cloudinary": "~1.0.4",
-    "mandrill-api": "~1.0.27",
+    "bcrypt": "~0.7.7",
+    "cloudinary": "~1.0.5",
+    "mandrill-api": "~1.0.33",
     "moment": "~2.1.0",
     "numeral": "~1.4.8",
-    "i": "~0.3.1",
-    "semver": "~2.0.10"
+    "i": "~0.3.2",
+    "semver": "~2.0.11"
   },
   "author": "Jed Watson",
   "license": "MIT",
