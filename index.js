@@ -680,7 +680,11 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		user: req.user,
 		title: 'Keystone',
 		signout: this.get('signout'),
-		section: {}
+		section: {},
+		ga: {
+			property: this.get('ga property'),
+			domain: this.get('ga domain')
+		}
 	};
 	
 	var html = template(_.extend(locals, ext));
