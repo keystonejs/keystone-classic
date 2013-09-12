@@ -90,7 +90,9 @@ jQuery(function($) {
 			if ($field.data('field-noedit'))
 				return;
 			
-			var $show = $('<div class="col-sm-12"><label class="field-label"><a href="javascript:;" class="btn-uncollapse">+ Add ' + $field.find('.field-label').first().text().replace('(show more fields)', '').toLowerCase() + '</a></label></div>');
+			var fieldLabel = ($field.data('field-type') == 'location') ? $field.find('label').first().text().replace('(show more fields)', '') : $field.find('.field-label').first().text();
+			
+			var $show = $('<div class="col-sm-12"><label class="uncollapse"><a href="javascript:;" class="btn-uncollapse">+ Add ' + fieldLabel.toLowerCase() + '</a></label></div>');
 			
 			$show.on('click', function(e) {
 				$show.remove();
