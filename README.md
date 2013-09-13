@@ -23,6 +23,94 @@ View the [example project](https://github.com/JedWatson/keystone-demo) to see ho
 a simple Keystone app.
 
 
+### Field Types
+
+Keystone builds on the basic data types provided by mongo and allows you to easily add rich,
+functional fields to your application's models.
+
+You get helper methods on your models for dealing with each field type easily (such as 
+formatting a date or number, resizing an image, getting an array of the available options
+for a select field, or using Google's Places API to improve addresses) as well as a beautiful,
+responsive admin UI to edit your data with.
+
+Keystone's basic field types include:
+
+*	boolean (checkbox)
+*	text (string)
+*	textarea (string)
+*	email (string)
+*	url (string)
+*	html (string, with an optional wysiwyg editor)
+*	date* (date)
+*	datetime* (date)
+*	key (string)
+*	number* (number)
+*	money* (number)
+
+*Fields marked with a * provide a `format` method - numbers use [numeraljs](http://numeraljs.com),
+dates use [moment](http://momentjs.com)*
+
+Keystone's advanced field types include:
+
+*	`select` (string or number) - renders as a select field
+	*	`options` must be provided as a list or array
+	*	Provides a `format` method for getting the label of the stored value, as set in the
+		`options` array.
+	*	Provides a `pluck` method for getting the label
+*	`name` (object)
+	*	`first` (string)
+	*	`last` (string)
+	*	Provides a `full` virtual getter and setter
+*	`password` (string)
+	*	Automatically encrypted with bcrypt
+	*	Provides a `compare` method for testing against the stored hash
+*	`location`
+	*	`name` (string) - building name
+	*	`number` (string) - unit or shop number
+	*	`street1` (string) - street address
+	*	`street2` (string) - second street address
+	*	`suburb` (string)
+	*	`state` (string)
+	*	`postcode` (string)
+	*	`country` (string)
+	*	`geo` (latitude, longitude) - 2dsphere indexed lat/png pair
+	*	Provides an `googleLookup` method that returns the best match for the stored value on
+		Google's Places API. Requires a Google Maps API Key to be provided, and should only be
+		used in accordance with Google's terms of service.
+	*	*Note: this field has been based on Australian address formats, and should be updated
+		to be more friendly for other international formats. I am looking for feedback on this!*
+*	`cloudinaryimage`
+	*	Automatically manages images stored in [cloudinary](http://cloudinary.com).
+	*	Provides an `exists` virtual for detecting whether the field stores an image
+	*	Has the built in ability to upload/delete images to/from cloudinary, as well as methods
+		for retrieving various versions of the image for display:
+		*	`src(options)` - returns the url of the image, accepts all options cloudinary supports
+		*	`tag(options)` - returns an `<img>` tag
+		*	`fit(width, height)` - scales the image to fit within the specified width and height,
+			retining aspect ratio
+		*	`limit(width, height)` - scales the image (down only) to fit within the specified width
+			and height, retaining aspect ratio
+		*	`fill(width, height)` - scales the image to fill the specified width and height
+		*	`crop(width, height)` - crops the image to fill the specified width and height
+		*	`thumbnail(width, height)` - crops the image to fill the specified width and height
+
+
+Fields support several options:
+
+*	`label` (string) the label of each field is guessed by the path, this can be set to override the
+	default.
+*	`required` (boolean) validates that the field is set
+*	`noedit` (boolean) renders the field as read-only in the admin UI
+*	`note` (string) is displayed with the field in the admin UI
+*	`collapse` (boolean) hides the field behind a '+ add ...' link in the admin UI when it has
+	no value (to simplify complex forms)
+*	`dependsOn` (object) hides the field in the admin UI unless the specified conditions (other
+	field values) are met
+
+All the standard mongoose options for schema paths are passed through, such as `required`,
+`index`, etc. meaning anything you can do in mongoose / mongo you can do with fields in Keystone.
+
+
 ## Usage
 
 `npm install keystone`
