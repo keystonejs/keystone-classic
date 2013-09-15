@@ -1,0 +1,37 @@
+doctype 5
+html
+	head
+		meta(charset="utf-8")
+		title Keystone.JS by Jed Watson &middot; node.js cms and web application platform built on express and mongo
+		link(href="/styles/site.min.css", rel="stylesheet")
+		block css
+		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+		block head
+	body
+		
+		#header: .container
+			h1: span.sr-only Keystone JS
+		
+		#hero: .container
+			p.lead Node.js content management system and web application platform built on express and mongoose.
+			.buttons
+				a(href='http://github.com/JedWatson/keystone').btn.btn-large.btn-primary View on GitHub
+				a(href='http://demo.keystonejs.com').btn.btn-large.btn-default Try the demo
+			p.version Current version is 0.1.12
+		#nav: .container
+			ul.list-unstyled
+				li.active: a(href='/') Home
+		
+		#body: .container
+			block content
+		
+		#footer: .container
+			.copyright Copyright &copy; Jed Watson 2013. All rights reserved.
+		
+		script(src="/js/lib/jquery/jquery-1.10.2.min.js")
+		
+		//- Page Scripts
+		block page-js
+		
+		//- Analytics
+		

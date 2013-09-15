@@ -23,6 +23,10 @@
     "i": "~0.3.2",
     "semver": "~2.0.11"
   },
+  "devDependencies": {
+    "marked": "~0.2.9",
+    "dox": "~0.4.4"
+  },
   "author": "Jed Watson",
   "license": "MIT",
   "readmeFilename": "README.md",

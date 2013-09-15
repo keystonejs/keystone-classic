@@ -1,0 +1,54 @@
+// bootstrap
+@import "bootstrap/bootstrap.less";
+
+#header h1 {
+	background: url('/images/logo.png') center left no-repeat;
+	height: 110px;
+	margin: 0;
+}
+
+#hero {
+	padding: 30px 0;
+	background: #fafafa;
+	border-top: 1px solid #ededed;
+	
+	.buttons .btn {
+		margin-right: 20px;
+	}
+	
+	.version {
+		margin-top: 20px;
+		color: @gray-light;
+	}
+}
+
+#nav {
+	.clearfix;
+	background: #fafafa;
+	border-top: 1px solid #ededed;
+	border-bottom: 1px solid #ededed;
+	
+	li {
+		float: left;
+	}
+	a {
+		display: inline-block;
+		padding: 12px 0;
+		margin-right: 20px;
+	}
+	a:hover, a:focus {
+		background: none;
+		text-decoration: underline;
+	}
+	.active a {
+		background: none;
+		color: black;
+	}
+	
+}
+
+#footer {
+	margin-top: 50px;
+	padding-top: 20px;
+	border-top: 1px solid @gray-lighter;
+}
