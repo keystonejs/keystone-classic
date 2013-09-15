@@ -13,7 +13,7 @@ Keystone provides:
 *	Enhanced `models` with additional field types and functionality, building on those
 	natively supported by Mongoose
 *	An updates framework for managing data updates or initialisation
-*	An beautiful Admin UI based on the defined `models`
+*	A beautiful Admin UI based on the defined `models`
 *	Integration with Coudinary for image uploading, storage and resizing
 *	Integration with Mandrill for sending emails easily
 
