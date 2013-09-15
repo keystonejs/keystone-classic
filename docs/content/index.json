@@ -1,6 +1,17 @@
 {
+	"nav": [
+		
+	],
 	"home": {
 		"path": "/",
-		"template": "home"
+		"template": "home",
+		"section": "home",
+		"title": "node.js cms and web application platform built on express and mongo"
+	},
+	"guide": {
+		"path": "/guide",
+		"template": "guide",
+		"section": "guide",
+		"title": "getting started with Keystone"
 	}
 }
