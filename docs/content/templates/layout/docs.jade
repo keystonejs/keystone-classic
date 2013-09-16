@@ -10,12 +10,14 @@ html
 		
 		include ../includes/primary-nav
 		
-		#body: .container
+		#docs-body: .container
 			block content
 		
 		include ../includes/footer
 		
-		//- script(src="/js/lib/jquery/jquery-1.10.2.min.js")
+		script(src="/js/lib/jquery/jquery-1.10.2.min.js")
+		script(src='/js/lib/bootstrap/collapse.js')
+		script(src='/js/lib/bootstrap/dropdown.js')
 		
 		//- Page Scripts
 		block page-js

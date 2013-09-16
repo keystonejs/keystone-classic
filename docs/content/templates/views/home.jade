@@ -1,19 +1,51 @@
 extends ../layout/home
 
 block content
-	h2 Introduction
+	section.intro-section.building-section: .container
+		h2.text-center Start building, right out of the box
+		.row
+			.col-sm-4
+				h4 Session management
+				p Keystone comes ready with out of the box session management and authentication
+			.col-sm-4
+				h4 Email sending
+				p Integrated with Mandrill so you can easily send single or batch emails
+			.col-sm-4
+				h4 Image management
+				p Coudinary integration for image uploading, storage and resizing
 	
-	p Keystone provides:
-	ul
-		li A simple way to create an Express web app with custom routes, templates and models		
-		li Out of the box session management and authentication		
-		li Enhanced models with additional field types and functionality, building on those natively supported by Mongoose		
-		li An updates framework for managing data updates or initialisation		
-		li A beautiful Admin UI based on the defined models
-		li Integration with Coudinary for image uploading, storage and resizing		
-		li Integration with Mandrill for sending emails easily		
-
-	p To see a working demo of Keystone, visit <a href='http://demo.keystonejs.com/'>demo.keystonejs.com</a>
-
-	p View the <a href='https://github.com/JedWatson/keystone-demo'>example project</a> to see how to set up a simple Keystone app.
 	
+	
+	
+	section.intro-section.admin-section: .container
+		h2.text-center A beautiful Admin UI based on the models you define
+		.text-center: img(src='/images/admin-interface.jpg').img-responsive
+	
+	
+	
+	
+	section.intro-section.tools-section: .container
+		h2.text-center The tools to get your app off the ground
+		for tool in [1,2]
+			.row
+				.col-sm-3
+					h4 Express plus more
+					p Create an Express web app with custom routes, templates and models 
+				.col-sm-3
+					h4 Enhanced models
+					p Enhanced models with additional field types and functionality, building on those natively supported by Mongoose
+				.col-sm-3
+					h4 Simpler updates
+					p An easy to use updates framework for managing data updates or initialisation
+				.col-sm-3
+					h4 Advanced usage
+					p It is also possible to integrate keystone into an existing express app, without using the start method.
+	
+	
+	
+	
+	section.intro-section.cta-section: .container: .row: .col-sm-6.col-sm-offset-3.text-center
+		h2 See what Keystone can do for you
+		p: a(href='https://github.com/JedWatson/keystone', target='_blank', title='View the project on GitHub').btn.btn-primary.btn-lg.btn-block View the project on GitHub
+		p or visit the 
+			a(href='http://demo.keystonejs.com', target='_blank', title='Demo website') demo website

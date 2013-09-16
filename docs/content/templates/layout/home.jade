@@ -9,20 +9,25 @@ html
 		include ../includes/header
 		
 		#hero: .container
-			p.lead Node.js content management system and web application platform built on express and mongoose.
-			.buttons
-				a(href='http://github.com/JedWatson/keystone').btn.btn-large.btn-primary View on GitHub
-				a(href='http://demo.keystonejs.com').btn.btn-large.btn-default Try the demo
-			p.version Current version is #{version}
+			h1 Node.js content management system and web application platform built on express and mongoose.
+			p.buttons
+				a(href='http://github.com/JedWatson/keystone', target='_blank', title='View on GitHub').btn.btn-lg.btn-primary View on GitHub
+				a(href='http://demo.keystonejs.com', target='_blank', title='Demo website').btn.btn-lg.btn-link Try the demo
+			p.notes
+				span.version Current version is #{version}
+				//- span.sep  -  
+				//- a(href=js).whatsnew What’s New
 		
 		include ../includes/primary-nav
 		
-		#body: .container
+		#docs-body
 			block content
 		
 		include ../includes/footer
 		
-		//- script(src="/js/lib/jquery/jquery-1.10.2.min.js")
+		script(src="/js/lib/jquery/jquery-1.10.2.min.js")
+		script(src='/js/lib/bootstrap/collapse.js')
+		script(src='/js/lib/bootstrap/dropdown.js')
 		
 		//- Page Scripts
 		block page-js
