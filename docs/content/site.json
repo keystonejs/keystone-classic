@@ -1,7 +1,10 @@
 {
-	"nav": [
-		
-	],
+	"locals": {
+		"nav": [
+			{ "section": "home", "path": "/", "label": "Home" },
+			{ "section": "guide", "path": "/guide", "label": "Guide" }
+		]
+	},
 	"home": {
 		"path": "/",
 		"template": "home",

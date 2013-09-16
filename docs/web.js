@@ -2,7 +2,7 @@ var http = require('http'),
 	_ = require('underscore'),
 	express = require('express'),
 	jade = require('jade'),
-	content = require('./content/index.json');
+	content = require('./content/site.json');
 
 function view(view, options) {
 	return function(req, res, next) {
@@ -24,10 +24,10 @@ app.use(express.static('public'));
 
 app.use(express.logger('dev'));
 
-// Configure app locals and routes
+// Set up locals and routes
 
-app.locals.nav = content.nav;
-delete content.nav;
+_.extend(app.locals, content.locals);
+delete content.locals;
 
 app.locals.version = require('../package.json').version;
 
