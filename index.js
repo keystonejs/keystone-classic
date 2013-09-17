@@ -31,7 +31,8 @@ var Keystone = function() {
 		'auto update': false
 	};
 	this._pre = {
-		routes: []
+		routes: [],
+		render: []
 	};
 	this.set('env', process.env.NODE_ENV || 'development');
 }
