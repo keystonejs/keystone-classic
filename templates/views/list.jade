@@ -139,6 +139,9 @@ block content
 					//- 					span(class='fieldicon fieldicon-' + el.field.type)
 					//- 					span= el.field.label
 					
+					.col-sm-6: .pull-right
+						a(href='/keystone/download/#{list.path}').btn.btn-default Download
+					
 					//- .col-xs-8.col-sm-4
 					//- 	.dropdown.list-columns-dropdown.pull-right
 					//- 		a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
@@ -150,7 +153,6 @@ block content
 					//- 			else if el.type == 'field' && !el.field.nocol
 					//- 				li: a(href=js)
 					//- 					span= el.field.label
-					//- 	button.btn.btn-default Export
 			
 			
 			//-

@@ -15,6 +15,7 @@
     "connect-flash": "~0.1.1",
     "jade": "~0.35.0",
     "async": "~0.2.9",
+    "csv": "~0.3.6",
     "bcrypt": "~0.7.7",
     "cloudinary": "~1.0.5",
     "mandrill-api": "~1.0.33",

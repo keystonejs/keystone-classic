@@ -512,10 +512,12 @@ Keystone.prototype.routes = function(app) {
 	}
 	
 	app.all('/keystone', require('./routes/views/home'));
+	
+	app.all('/keystone/download/:list', initList, require('./routes/download/list'));
+	app.all('/keystone/api/:list/:action', initList, require('./routes/api/list'));
+	
 	app.all('/keystone/:list/:page([0-9]{1,5})?', initList, require('./routes/views/list'));
 	app.all('/keystone/:list/:item', initList, require('./routes/views/item'));
-	
-	app.all('/keystone/api/:list/:action', initList, require('./routes/api/list') );
 	
 };
 

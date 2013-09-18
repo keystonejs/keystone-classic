@@ -5662,26 +5662,26 @@ textarea.input-xs {
     width: 41.66666666666667%;
   }
 }
-.field.type-url .field-ui,
-.field.type-email .field-ui,
-.field.type-key .field-ui {
+.field.type-url .field-ui.width-full,
+.field.type-email .field-ui.width-full,
+.field.type-key .field-ui.width-full {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
 }
 @media (min-width: 768px) {
-  .field.type-url .field-ui,
-  .field.type-email .field-ui,
-  .field.type-key .field-ui {
+  .field.type-url .field-ui.width-full,
+  .field.type-email .field-ui.width-full,
+  .field.type-key .field-ui.width-full {
     float: left;
     width: 58.333333333333336%;
   }
 }
 @media (min-width: 992px) {
-  .field.type-url .field-ui,
-  .field.type-email .field-ui,
-  .field.type-key .field-ui {
+  .field.type-url .field-ui.width-full,
+  .field.type-email .field-ui.width-full,
+  .field.type-key .field-ui.width-full {
     float: left;
     width: 41.66666666666667%;
   }
