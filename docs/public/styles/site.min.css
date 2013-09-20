@@ -702,6 +702,7 @@ th.visible-print,td.visible-print{display:none !important}
 #docs-header:after{clear:both}
 #docs-header .keystone-logo{float:left}
 #docs-header .social-buttons{float:right;text-align:right}
+#docs-header .twitter-follow-button{margin-right:10px;color:white;font-size:12px}
 #docs-header .navbar-toggle{background-color:#1a1a1a;margin:35px 0 0}#docs-header .navbar-toggle .icon-bar{background-color:white}
 #docs-header .navbar-toggle:hover,#docs-header .navbar-toggle:focus{background-color:#262626}
 #docs-header .navbar-toggle:active{background-color:#0d0d0d}

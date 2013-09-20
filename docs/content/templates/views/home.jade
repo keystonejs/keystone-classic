@@ -2,50 +2,79 @@ extends ../layout/home
 
 block content
 	section.intro-section.building-section: .container
-		h2.text-center Start building, right out of the box
+		h2.text-center Get a head-start on the features you need
+		p.lead Keystone is the easiest way to build a web application or content-managed website in node.js. It only takes a few lines of code to get up and running with:
 		.row
 			.col-sm-4
-				h4 Session management
-				p Keystone comes ready with out of the box session management and authentication
+				h4 Express.js and Mongo
+				p Keystone will configure express - the de facto web server for node.js - for you and connect to your mongo database using mongoose, the leading ODM package.
 			.col-sm-4
-				h4 Email sending
-				p Integrated with Mandrill so you can easily send single or batch emails
+				h4 Static Assets and Dynamic Routes
+				p Keystone starts with best practices for setting up your MV* application, and makes it easy to manage your templates, views and routes.
 			.col-sm-4
-				h4 Image management
-				p Coudinary integration for image uploading, storage and resizing
-	
-	
+				h4 Sophisticated Database Fields
+				p IDs, Strings, Booleans, Dates and Numbers are the building blocks of your database. Keystone builds on these with useful, real-world field types like 
+					| name, email, password, address, image and relationship fields (and more)
+		.row
+			.col-sm-4
+				h4 Auto-generated Admin UI
+				p Whether you use it while you're building out your application, or in production as a database content management system, Keystone's Admin UI will 
+					| save you time and make managing your data easy.
+			.col-sm-4
+				h4 Simpler Code
+				p Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
+			.col-sm-4
+				h4 Form Processing
+				p Want to validate a form, upload an image, and update your database with a single line? Keystone can do that, based on the data models you've already defined.
+		.row
+			.col-sm-4
+				h4 Session Management
+				p Keystone comes ready out of the box with session management and authentication features, including automatic encryption for password fields.
+			.col-sm-4
+				h4 Email Sending
+				p Keystone makes it easy to set up, preview and send template-based emails for your application. It also integrates with Mandrill (Mailchimp's excellent 
+					| transaction email sending service)
+			.col-sm-4
+				h4 Managed Updates
+				p Keystone includes an optional updates framework, that can take care of running update scripts for you, making it easy to transition from development 
+					| to production.
 	
 	
 	section.intro-section.admin-section: .container
-		h2.text-center A beautiful Admin UI based on the models you define
+		h2.text-center A beautiful, customisable Admin UI based on your models
 		.text-center: img(src='/images/admin-interface.jpg').img-responsive
 	
 	
-	
-	
 	section.intro-section.tools-section: .container
-		h2.text-center The tools to get your app off the ground
-		for tool in [1,2]
-			.row
-				.col-sm-3
-					h4 Express plus more
-					p Create an Express web app with custom routes, templates and models 
-				.col-sm-3
-					h4 Enhanced models
-					p Enhanced models with additional field types and functionality, building on those natively supported by Mongoose
-				.col-sm-3
-					h4 Simpler updates
-					p An easy to use updates framework for managing data updates or initialisation
-				.col-sm-3
-					h4 Advanced usage
-					p It is also possible to integrate keystone into an existing express app, without using the start method.
-	
-	
-	
+		h2.text-center What you build is up to you.
+		p.lead There are a lot of frameworks that make decisions for you, and many that take decisions away. Keystone doesn't do that. Use the features that suit you,
+			| and replace the ones that don't.
+		.row
+			.col-sm-3
+				h4 Built on Express
+				p Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware.
+				p You can also easily integrate it into an existing Express app.
+			.col-sm-3
+				h4 Built with Mongoose
+				p Mongoose, supported by MongoDB Inc, is the leading ODM for node.js and MongoDB. Keystone exposes mongoose to you when you need it, so anything you 
+					| can build with MongoDB, you can build with Keystone.
+			.col-sm-3
+				h4 Lightweight
+				p Keystone is designed to be as light as you want - you can pick and choose the features you want to include.
+				p Write your own routes, disable the Admin UI, whatever - it's up to you.
+			.col-sm-3
+				h4 Extendable
+				p One of the greatest things about node.js is the vast number of quality packages available.
+				p Keystone is designed to let you use any of them, without losing the benefits it provides.
 	
 	section.intro-section.cta-section: .container: .row: .col-sm-6.col-sm-offset-3.text-center
 		h2 See what Keystone can do for you
-		p: a(href='https://github.com/JedWatson/keystone', target='_blank', title='View the project on GitHub').btn.btn-primary.btn-lg.btn-block View the project on GitHub
-		p or visit the 
-			a(href='http://demo.keystonejs.com', target='_blank', title='Demo website') demo website
+		p: a(href='http://demo.keystonejs.com', target='_blank', title='Demo Website').btn.btn-primary.btn-lg.btn-block Try out the demo website
+		p or 
+			a(href='https://github.com/JedWatson/keystone', target='_blank', title='View the project on GitHub') View the project on GitHub
+	
+	
+	section.intro-section.cta-section: .container.text-center
+		h4 Looking for commercial support or developers? Please <a href="mailto:contact@keystonejs.com">get in touch</a>.
+	
+	
