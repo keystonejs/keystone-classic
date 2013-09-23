@@ -17,10 +17,14 @@ Keystone provides:
 *	Integration with Coudinary for image uploading, storage and resizing
 *	Integration with Mandrill for sending emails easily
 
+For more information, visit [keystonejs.com](http://keystonejs.com)
+
 To see a working demo of Keystone, visit [demo.keystonejs.com](http://demo.keystonejs.com/)
 
 View the [example project](https://github.com/JedWatson/keystone-demo) to see how to set up
 a simple Keystone app.
+
+Discuss on the [keystonejs Google Group](https://groups.google.com/d/forum/keystonejs?hl=en)
 
 
 ### Field Types
