@@ -1,7 +1,7 @@
 {
   "name": "keystone",
   "version": "0.1.19",
-  "description": "Keystone",
+  "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -30,6 +30,16 @@
   },
   "author": "Jed Watson",
   "license": "MIT",
+  "keywords": [
+    "express",
+    "web",
+    "app",
+    "admin",
+    "framework",
+    "mongoose",
+    "gui",
+    "forms"
+  ],
   "readmeFilename": "README.md",
   "gitHead": "ef3fd612285315ea8e12f68da4c8d6031e2c7fe7",
   "bugs": {
