@@ -26,12 +26,14 @@
 
 - what *is* keystone.js? what is it not?
 - webserver & config options
-	- 
+	- example app structure
 - session (and other defaults)
 - lists (models)
 	- field types
 - admin ui
 	- features
+	- customising nav
+	- customising forms
 	- theme
 - routes
 - views
