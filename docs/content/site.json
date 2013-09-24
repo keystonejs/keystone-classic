@@ -9,7 +9,7 @@
 		"path": "/",
 		"template": "home",
 		"section": "home",
-		"title": "node.js cms and web application platform built on express and mongo"
+		"title": "node.js cms and web application platform built on express and mongoose"
 	},
 	"guide": {
 		"path": "/guide",

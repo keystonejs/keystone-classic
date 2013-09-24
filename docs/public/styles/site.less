@@ -127,6 +127,13 @@
 		position: relative;
 		text-align: center;
 		top: -66px;
+		
+		.social-button {
+			display: inline-block;
+		}
+		.twitter-follow-button {
+			margin-right: 10px;
+		}
 	}
 	
 	@media (min-width: @screen-sm) {
@@ -301,7 +308,7 @@ pre {
 
 
 // ==============================
-// SALES PAGE
+// INTRODUCTION PAGE
 // ==============================
 
 // Keystone hero
@@ -319,6 +326,30 @@ pre {
 		margin: 30px 0 0;
 	}
 	
+	.mit-licence {
+		font-size: 13px;
+		margin-top: 20px;
+		
+		.licence-badge,
+		.licence-text {
+			display: inline-block;
+			padding: 4px 8px;
+		}
+		.licence-badge {
+			border-radius: 4px 0 0 4px;
+			border: 1px solid transparent;
+			background-color: #bbb;
+			color: white;
+			font-weight: bold;
+		}
+		.licence-text {
+			background-color: white;
+			border-radius: 0 4px 4px 0;
+			border: 1px solid #bbb;
+			border-left: 0 none;
+			color: #aaa;
+		}
+	}
 	.buttons {
 		.btn {
 			border-radius: @border-radius-base;
@@ -335,7 +366,6 @@ pre {
 			}
 		}
 	}
-	
 	.notes {
 		color: @gray-light;
 		
