@@ -1,7 +1,7 @@
 Keystone
 ========
 
-node.js content management system and web app framework
+Node.js content management system and web app framework, MIT Licensed.
 
 ## About
 
