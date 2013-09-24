@@ -36,9 +36,14 @@
 	- customising forms
 	- theme
 - routes
+	- using autoKeys for SEO-friendly URLs
 - views
 	- the View class
+	- View event hooks
+	- processing form submissions
 	- the UpdateHandler class
 - emails
+	- the Email class
+	
 - updates
 - advanced configuration
