@@ -42,6 +42,7 @@ jQuery(function($) {
 				case 'select':
 				case 'relationship':
 				case 'cloudinaryimage':
+				case 'cloudinaryimages':
 					return $field.data('field-value');
 			}
 			
@@ -58,6 +59,7 @@ jQuery(function($) {
 				case 'textarea':
 					return $field.find('textarea').val();
 				case 'cloudinaryimage':
+				case 'cloudinaryimages':
 					return $field.data('field-value');
 			}
 			

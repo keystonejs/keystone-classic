@@ -29,6 +29,8 @@ mixin formField(field, item)
 		+formField_select(field, item)
 	else if field.type == 'cloudinaryimage'
 		+formField_cloudinaryimage(field, item)
+	else if field.type == 'cloudinaryimages'
+		+formField_cloudinaryimages(field, item)
 	else if field.type == 'location'
 		+formField_location(field, item)
 	else if field.type == 'relationship'
@@ -200,7 +202,7 @@ mixin formField_select(field, item)
 				.field-note= field.note
 
 //-
-//- CLOUDINARY
+//- CLOUDINARY IMAGE
 //- ------------------------------
 mixin formField_cloudinaryimage(field, item)
 	- var hasImage = item.get(field.paths.exists)
@@ -232,6 +234,34 @@ mixin formField_cloudinaryimage(field, item)
 						a(href=js).btn.btn-default.btn-upload Upload Image
 						if hasImage
 							a(href=js, data-alt-text='Delete Image').btn.btn-link.btn-cancel.btn-delete-image Remove Image
+			if field.note
+				.field-note= field.note
+
+//-
+//- CLOUDINARY IMAGES
+//- TODO:
+//- * No edit support
+//- ------------------------------
+mixin formField_cloudinaryimages(field, item)
+	- var hasImage = item.get(field.paths.exists)
+	.field.type-cloudinaryimages(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
+		label.field-label= field.label
+		.field-ui(class=hasImage ? 'has-image' : false)
+			if hasImage
+				.image-preview
+					img(src=field.apply(item, 'limit', 100, 100)).img-thumbnail
+				.image-details
+					.field-value= item.get(field.paths.url)
+					.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
+			.image-toolbar
+				input(type='file', name=field.paths.upload).field-upload
+				input(type='hidden', name=field.paths.action, value='').field-action
+				.clearfix.upload-queued
+					.alert.alert-success Image selected - save to upload
+				div
+					a(href=js).btn.btn-default.btn-upload Upload Image
+					if hasImage
+						a(href=js, data-alt-text='Delete Image').btn.btn-link.btn-cancel.btn-delete-image Remove Image
 			if field.note
 				.field-note= field.note
 

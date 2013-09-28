@@ -278,7 +278,42 @@ label.checkbox {
 }
 
 // Cloudinary Images
+
+// - Singluar
 .field.type-cloudinaryimage {
+	.image-preview {
+		float: left;
+		margin-right: 10px;
+	}
+	.image-details {
+		margin-left: 120px;
+		overflow: hidden;
+	}
+	.image-details + .image-toolbar {
+		margin-top: @input-vspacing;
+	}
+	.field-value {
+		width: auto;
+		float: left;
+		margin-right: 10px;
+	}
+	.field-value + .field-value {
+		margin-top: 0;
+	}
+	.has-image .image-toolbar {
+		margin-left: 120px;
+	}
+	.alert {
+		margin-bottom: 10px;
+		float: left;
+	}
+	.upload-queued {
+		display: none;
+	}
+}
+
+// - Multiple
+.field.type-cloudinaryimages {
 	.image-preview {
 		float: left;
 		margin-right: 10px;

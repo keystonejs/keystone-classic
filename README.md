@@ -84,6 +84,7 @@ Keystone's advanced field types include:
 	*	*Note: this field has been based on Australian address formats, and should be updated
 		to be more friendly for other international formats. I am looking for feedback on this!*
 *	`cloudinaryimage`
+*	`cloudinaryimages`
 	*	Automatically manages images stored in [cloudinary](http://cloudinary.com).
 	*	Provides an `exists` virtual for detecting whether the field stores an image
 	*	Has the built in ability to upload/delete images to/from cloudinary, as well as methods
