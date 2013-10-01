@@ -269,7 +269,7 @@ block content
 		
 		.list-pagination
 			if items.totalPages > 1
-				.count Showing #{items.first} to #{items.last}
+				.count Showing #{items.first} to #{items.last} of #{numeral(items.total).format('1,1')}
 				ul.pagination: each p, i in items.pages
 					li(class=items.currentPage == p ? 'active' : null)
 						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
@@ -306,7 +306,7 @@ block content
 								
 		if items.totalPages > 1
 			.list-pagination
-				.count Showing #{items.first} to #{items.last}
+				.count Showing #{items.first} to #{items.last} of #{numeral(items.total).format('1,1')}
 				ul.pagination: each p, i in items.pages
 					li(class=items.currentPage == p ? 'active' : null)
 						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
