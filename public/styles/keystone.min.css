@@ -824,6 +824,7 @@ textarea.input-xs{height:auto}
 .field.type-location .field-ui{padding-right:15px;position:relative;min-height:1px;padding-left:15px;padding-right:15px}@media (min-width:768px){.field.type-location .field-ui{float:left;width:100%}}@media (min-width:992px){.field.type-location .field-ui{float:left;width:100%}}
 .field.type-location .noedit{padding-right:15px;position:relative;min-height:1px;padding-left:15px;padding-right:15px}@media (min-width:768px){.field.type-location .noedit{float:left;width:75%}}@media (min-width:992px){.field.type-location .noedit{float:left;width:83.33333333333334%}}
 .field.type-location .row label{padding:6px 0}
+.field.type-location .improve-options{margin-top:10px}.field.type-location .improve-options label{margin-left:30px}
 .field.type-html textarea{display:block;width:100%;height:34px;padding:6px 10px;font-size:14px;line-height:1.428571429;color:#333;vertical-align:middle;background-color:#fff;border:1px solid #ccc;border-radius:3px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);-webkit-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;-webkit-box-shadow:0 1px 1px rgba(0,0,0,0.075) inset;box-shadow:0 1px 1px rgba(0,0,0,0.075) inset;border-color:#bbb #ddd #eee;-webkit-appearance:none}.field.type-html textarea:-moz-placeholder{color:#999}
 .field.type-html textarea::-moz-placeholder{color:#999}
 .field.type-html textarea:-ms-input-placeholder{color:#999}

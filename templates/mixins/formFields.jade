@@ -104,8 +104,8 @@ mixin formField_datetime(field, item)
 				.form-row
 					.col-sm-6: input(type='text', name=field.paths.date, value=field.format(item, 'YYYY-MM-DD'), placeholder='YYYY-MM-DD', autocomplete='off').form-control.ui-datepicker
 					.col-sm-6: input(type='text', name=field.paths.time, value=field.format(item, 'hh:mm:ss a'), placeholder='HH:MM:SS am/pm', autocomplete='off').form-control
-			if field.note
-				.field-note= field.note
+		if field.note
+			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 
 //-
 //- NAME (split)
@@ -125,8 +125,8 @@ mixin formField_name(field, item)
 				.form-row
 					.col-sm-6: input(type='text', name=field.paths.first, autocomplete='off', placeholder='first name', value=item.get(field.paths.first)).form-control
 					.col-sm-6: input(type='text', name=field.paths.last, autocomplete='off', placeholder='last name', value=item.get(field.paths.last)).form-control
-			if field.note
-				.field-note= field.note
+		if field.note
+			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 
 //-
 //- PASSWORD
@@ -145,8 +145,8 @@ mixin formField_password(field, item)
 						.col-sm-6: input(type='password', name=field.path, autocomplete='off', placeholder='New password').form-control
 						.col-sm-6: input(type='password', name=field.paths.confirm, autocomplete='off', placeholder='Confirm new password').form-control
 					.form-control-wrapper: a(href=js).btn.btn-default.btn-cancel.btn-leave-password Cancel
-			if field.note
-				.field-note= field.note
+		if field.note
+			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 
 //-
 //- HTML
@@ -159,8 +159,8 @@ mixin formField_html(field, item)
 				.field-value= item.get(field.path)
 			else
 				textarea(name=field.path, class=field.wysiwyg ? 'wysiwyg' : 'code', style='height: #{field.height}px')= item.get(field.path)
-			if field.note
-				.field-note= field.note
+		if field.note
+			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 
 //-
 //- BOOLEAN
@@ -308,14 +308,13 @@ mixin formField_location(field, item)
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Longitude').form-control
 
 			if field.enableMapsAPI
-				.row
-					.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-						label(for=field.paths.improve, title='When checked, this will attempt to fill missing fields. It will also get the lat/long').checkbox.autoimprove
-							input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
-							|  Autodetect and improve location on save
-						label(for=field.paths.overwrite).checkbox.overwrite
-							input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
-							|  Replace existing data
+				.row: .col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2.improve-options
+					label(for=field.paths.improve, title='When checked, this will attempt to fill missing fields. It will also get the lat/long').checkbox.autoimprove
+						input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
+						|  Autodetect and improve location on save
+					label(for=field.paths.overwrite).checkbox.overwrite
+						input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
+						|  Replace existing data
 		
 		if field.note
 			.field-note= field.note
