@@ -1,0 +1,139 @@
+/* The gallery overlay */
+
+#galleryOverlay{
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	opacity:0;
+	z-index:100000;
+	background-color:#222;
+	background-color:rgba(0,0,0,0.8);
+	overflow:hidden;
+	display:none;
+	
+	-moz-transition:opacity 1s ease;
+	-webkit-transition:opacity 1s ease;
+	transition:opacity 1s ease;
+}
+
+/* This class will trigger the animation */
+
+#galleryOverlay.visible{
+	opacity:1;
+}
+
+#gallerySlider{
+	height:100%;
+	
+	left:0;
+	top:0;
+	
+	width:100%;
+	white-space: nowrap;
+	position:absolute;
+	
+	-moz-transition:left 0.4s ease;
+	-webkit-transition:left 0.4s ease;
+	transition:left 0.4s ease;
+}
+
+#gallerySlider .placeholder{
+	background: url("preloader.gif") no-repeat center center;
+	height: 100%;
+	line-height: 1px;
+	text-align: center;
+	width:100%;
+	display:inline-block;
+}
+
+/* The before element moves the
+ * image halfway from the top */
+
+#gallerySlider .placeholder:before{
+	content: "";
+	display: inline-block;
+	height: 50%;
+	width: 1px;
+	margin-right:-1px;
+}
+
+#gallerySlider .placeholder img{
+	display: inline-block;
+	max-height: 100%;
+	max-width: 100%;
+	vertical-align: middle;
+}
+
+#gallerySlider.rightSpring{
+	-moz-animation: rightSpring 0.3s;
+	-webkit-animation: rightSpring 0.3s;
+}
+
+#gallerySlider.leftSpring{
+	-moz-animation: leftSpring 0.3s;
+	-webkit-animation: leftSpring 0.3s;
+}
+
+/* Firefox Keyframe Animations */
+
+@-moz-keyframes rightSpring{
+	0%{		margin-left:0px;}
+	50%{	margin-left:-30px;}
+	100%{	margin-left:0px;}
+}
+
+@-moz-keyframes leftSpring{
+	0%{		margin-left:0px;}
+	50%{	margin-left:30px;}
+	100%{	margin-left:0px;}
+}
+
+/* Safari and Chrome Keyframe Animations */
+
+@-webkit-keyframes rightSpring{
+	0%{		margin-left:0px;}
+	50%{	margin-left:-30px;}
+	100%{	margin-left:0px;}
+}
+
+@-webkit-keyframes leftSpring{
+	0%{		margin-left:0px;}
+	50%{	margin-left:30px;}
+	100%{	margin-left:0px;}
+}
+
+/* Arrows */
+
+#prevArrow,#nextArrow{
+	border:none;
+	text-decoration:none;
+	background:url('arrows.png') no-repeat;
+	opacity:0.5;
+	cursor:pointer;
+	position:absolute;
+	width:43px;
+	height:58px;
+	
+	top:50%;
+	margin-top:-29px;
+	
+	-moz-transition:opacity 0.2s ease;
+	-webkit-transition:opacity 0.2s ease;
+	transition:opacity 0.2s ease;
+}
+
+#prevArrow:hover, #nextArrow:hover{
+	opacity:1;
+}
+
+#prevArrow{
+	background-position:left top;
+	left:40px;
+}
+
+#nextArrow{
+	background-position:right top;
+	right:40px;
+}

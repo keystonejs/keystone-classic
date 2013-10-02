@@ -5849,27 +5849,23 @@ textarea.field.type-html textarea {
 .field.type-cloudinaryimage .upload-queued {
   display: none;
 }
-.field.type-cloudinaryimages .image-preview {
+.field.type-cloudinaryimages .image-field {
+  width: 150px;
   float: left;
-  margin-right: 10px;
+  margin-top: 0px;
 }
-.field.type-cloudinaryimages .image-details {
-  margin-left: 120px;
-  overflow: hidden;
+.field.type-cloudinaryimages .image-preview {
+  line-height: 0px;
 }
-.field.type-cloudinaryimages .image-details + .image-toolbar {
-  margin-top: 12px;
+.field.type-cloudinaryimages .image-preview .img-thumbnail {
+  width: 100px;
+  height: 100px;
 }
 .field.type-cloudinaryimages .field-value {
   width: auto;
   float: left;
   margin-right: 10px;
-}
-.field.type-cloudinaryimages .field-value + .field-value {
-  margin-top: 0;
-}
-.field.type-cloudinaryimages .has-image .image-toolbar {
-  margin-left: 120px;
+  margin-bottom: 15px;
 }
 .field.type-cloudinaryimages .alert {
   margin-bottom: 10px;
@@ -5877,6 +5873,15 @@ textarea.field.type-html textarea {
 }
 .field.type-cloudinaryimages .upload-queued {
   display: none;
+  margin-left: 10px;
+}
+.field.type-cloudinaryimages .btn-cancel {
+  font-size: 12px;
+  width: 100px;
+  text-align: center;
+}
+.field.type-cloudinaryimages .image-toolbar {
+  margin-top: 10px;
 }
 .field-upload {
   position: absolute;

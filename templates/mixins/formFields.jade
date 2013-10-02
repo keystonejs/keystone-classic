@@ -240,31 +240,33 @@ mixin formField_cloudinaryimage(field, item)
 //-
 //- CLOUDINARY IMAGES
 //- TODO:
-//- * No edit support
+//- - No edit support
 //- ------------------------------
 mixin formField_cloudinaryimages(field, item)
-	//-
-		- var hasImage = item.get(field.paths.exists)
-		.field.type-cloudinaryimages(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
-			label.field-label= field.label
-			.field-ui(class=hasImage ? 'has-image' : false)
-				if hasImage
-					.image-preview
-						img(src=field.apply(item, 'limit', 100, 100)).img-thumbnail
-					.image-details
-						.field-value= item.get(field.paths.url)
-						.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
-				.image-toolbar
-					input(type='file', name=field.paths.upload).field-upload
-					input(type='hidden', name=field.paths.action, value='').field-action
-					.clearfix.upload-queued
-						.alert.alert-success Image selected - save to upload
-					div
-						a(href=js).btn.btn-default.btn-upload Upload Image
-						if hasImage
-							a(href=js, data-alt-text='Delete Image').btn.btn-link.btn-cancel.btn-delete-image Remove Image
-				if field.note
-					.field-note= field.note
+	- var hasImages = item.get(field.path).length
+	.field.type-cloudinaryimages(data-field-type=field.type, data-field-path=field.path, data-field-paths-upload=field.paths.upload, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImages ? 'true' : 'false')
+		label.field-label= field.label
+		input(type='hidden', name=field.paths.action, value='').field-action
+		input(type='hidden', name=field.paths.order, value='').field-order
+		.field-ui(class=hasImages ? 'has-image' : false)
+			.images-container.clearfix
+				each value in item.get(field.path)
+					.image-field.row.col-sm-3.col-md-12(data-id=value.public_id, title=value.width + ' x ' + value.height)
+						.image-preview
+							a(href=value.url)
+								img(src=value.fill(110, 110), width=110, height=110).img-thumbnail
+						.image-details
+							//- .field-value= value.url
+							//- .field-value= value.width + ' x ' + value.height
+							.pull-left: a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-cloudinaryimages-remove-image Remove
+							.pull-left: a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-cloudinaryimages-undo-remove Undo
+			.images-toolbar.row.col-sm-3.col-md-12
+					div.pull-left
+						a(href=js).btn.btn-default.btn-cloudinaryimages-upload Upload Image
+					.upload-queued.pull-left
+						.alert.alert-success
+			if field.note
+				.field-note= field.note
 
 //-
 //- LOCATION

@@ -268,12 +268,6 @@ label.checkbox {
 	.row label {
 		padding: @padding-base-vertical 0;
 	}
-	.improve-options {
-		margin-top: 10px;
-		label {
-			margin-left: 30px;
-		}
-	}
 }
 
 // HTML
@@ -320,34 +314,66 @@ label.checkbox {
 
 // - Multiple
 .field.type-cloudinaryimages {
-	.image-preview {
+	.image-field {
+		width: 150px;
 		float: left;
-		margin-right: 10px;
+		margin-top: 0px;
+		margin-bottom: 10px;
 	}
-	.image-details {
-		margin-left: 120px;
-		overflow: hidden;
-	}
-	.image-details + .image-toolbar {
-		margin-top: @input-vspacing;
+	.image-preview {
+		line-height: 0px;
+		.img-thumbnail {
+			width: 110px;
+			height: 110px;
+		}
+		.placeholder-wrap {
+			width: 110px;
+			height: 110px;
+			overflow: hidden;
+		}
+		.placeholder {
+			width: 100px;
+			height: 100px;
+			opacity: 0.25;
+			background-size: cover;
+			background-position: center;
+		}
+		.upload-pending {
+			color: #3D3D3D;
+			font-size: 23px;
+			left: 59px;
+			position: absolute;
+			top: 46px;
+			text-shadow: 0 0 50px #FFFFFF;
+		}
+		&.removed {
+			.img-thumbnail {
+				opacity: 0.5;
+			}
+		}
 	}
 	.field-value {
 		width: auto;
 		float: left;
 		margin-right: 10px;
-	}
-	.field-value + .field-value {
-		margin-top: 0;
-	}
-	.has-image .image-toolbar {
-		margin-left: 120px;
-	}
-	.alert {
-		margin-bottom: 10px;
-		float: left;
+		margin-bottom: 15px;
 	}
 	.upload-queued {
 		display: none;
+		margin-left: 10px;
+	}
+	.btn-cancel {
+		font-size: 12px;
+		width: 110px;
+		text-align: center;
+	}
+	.images-toolbar {
+		.alert.alert-success {
+			margin-bottom: 10px;
+			float: left;
+			padding: 6px 12px;
+			margin-bottom: 0px;
+		}
 	}
 }
 
