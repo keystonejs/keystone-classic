@@ -315,40 +315,38 @@ label.checkbox {
 // - Multiple
 .field.type-cloudinaryimages {
 	.image-field {
-		width: 150px;
+		width: auto;
 		float: left;
 		margin-top: 0px;
+		margin-right: 0px;
 		margin-bottom: 10px;
 	}
 	.image-preview {
 		line-height: 0px;
 		.img-thumbnail {
-			width: 110px;
 			height: 110px;
 		}
 		.placeholder-wrap {
-			width: 110px;
 			height: 110px;
 			overflow: hidden;
 		}
 		.placeholder {
-			width: 100px;
 			height: 100px;
 			opacity: 0.25;
-			background-size: cover;
-			background-position: center;
 		}
-		.upload-pending {
+		.upload-pending, .delete-pending {
 			color: #6A6A6A;
 			font-size: 23px;
-			left: 59px;
+			left: 50%;
+			top: 50%;
 			position: absolute;
-			top: 46px;
+			margin-left: -11px;
+			margin-top: -26px;
 			text-shadow: 0 0 50px #FFFFFF;
 		}
 		&.removed {
 			.img-thumbnail {
-				opacity: 0.5;
+				opacity: 0.25;
 			}
 		}
 	}
@@ -362,13 +360,19 @@ label.checkbox {
 		display: none;
 		margin-left: 10px;
 	}
+	.delete-queued {
+		display: none;
+		margin-left: 10px;
+	}
 	.btn-cancel {
+		margin-left: 0px;
 		font-size: 12px;
 		width: 110px;
 		text-align: center;
+		width: 100%;
 	}
 	.images-toolbar {
-		.alert.alert-success {
+		.alert {
 			margin-bottom: 10px;
 			float: left;
 			padding: 6px 12px;

@@ -142,7 +142,8 @@
 		
 		// If the browser does not have support 
 		// for touch, display the arrows
-		if ( !("ontouchstart" in window) ){
+		// TW: Adding check to make sure theres more than 1 images
+		if ( !("ontouchstart" in window) && items.length > 1 ){
 			overlay.append(prevArrow).append(nextArrow);
 			
 			prevArrow.click(function(e){

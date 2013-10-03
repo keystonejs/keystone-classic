@@ -239,8 +239,6 @@ mixin formField_cloudinaryimage(field, item)
 
 //-
 //- CLOUDINARY IMAGES
-//- TODO:
-//- - No edit support
 //- ------------------------------
 mixin formField_cloudinaryimages(field, item)
 	- var hasImages = item.get(field.path).length
@@ -254,17 +252,20 @@ mixin formField_cloudinaryimages(field, item)
 					.image-field.row.col-sm-3.col-md-12(data-id=value.public_id, title=value.width + ' x ' + value.height)
 						.image-preview
 							a(href=value.url)
-								img(src=value.fill(110, 110), width=110, height=110).img-thumbnail
+								img(src=value.fit(110, 110)).img-thumbnail
+							.glyphicon.delete-pending(style='display: none;')
 						.image-details
 							//- .field-value= value.url
 							//- .field-value= value.width + ' x ' + value.height
-							.pull-left: a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-cloudinaryimages-remove-image Remove
-							.pull-left: a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-cloudinaryimages-undo-remove Undo
+							a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-cloudinaryimages-remove-image Remove
+							a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-cloudinaryimages-undo-remove Undo
 			.images-toolbar.row.col-sm-3.col-md-12
 					div.pull-left
 						a(href=js).btn.btn-default.btn-cloudinaryimages-upload Upload Image
 					.upload-queued.pull-left
 						.alert.alert-success
+					.delete-queued.pull-left
+						.alert.alert-danger
 			if field.note
 				.field-note= field.note
 

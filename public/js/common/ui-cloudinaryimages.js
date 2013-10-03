@@ -13,7 +13,8 @@ jQuery(function($) {
 		
 		var $toolbar = $el.find('.images-toolbar'),
 			$upload = $toolbar.find('.btn-cloudinaryimages-upload'),
-			$queued = $toolbar.find('.upload-queued');
+			$uploadQueued = $toolbar.find('.upload-queued'),
+			$deleteQueued = $toolbar.find('.delete-queued');
 		
 		var actions = { delete: [], remove: [] };
 			// order = '';
@@ -21,16 +22,20 @@ jQuery(function($) {
 		var images = $el.find('.image-field');
 		
 		// Generates the action string that processes deletion and removal of images
-		var generateAction = function() {
-			$action.val((actions.delete.length ? 'delete,' + actions.delete.toString() : '') + '|' +
-				(actions.remove.length ? 'remove,' + actions.remove.toString() : ''));
+		var updateActions = function() {
+			$action.val((actions.delete.length ? 'delete:' + actions.delete.toString() : '') + '|' +
+				(actions.remove.length ? 'remove:' + actions.remove.toString() : ''));
 		};
 		
 		// Displays or hides the queue message if we have pending uploads
-		var checkQueued = function() {
+		var checkQueues = function() {
 			var uploads = $el.find('input[type=file]').length;
-			$queued[( uploads ? 'show' : 'hide' )]();
-			$queued.find('.alert.alert-success').html(uploads + ' image' + ( uploads > 1 ? 's' : '' ) + ' selected - save to upload');
+			$uploadQueued[( uploads ? 'show' : 'hide' )]();
+			$uploadQueued.find('.alert').html(uploads + ' image' + ( uploads > 1 ? 's' : '' ) + ' selected - save to upload');
+			
+			var deletes = actions.delete.length + actions.remove.length;
+			$deleteQueued[( deletes ? 'show' : 'hide' )]();
+			$deleteQueued.find('.alert').html(deletes + ' image' + ( deletes > 1 ? 's' : '' ) + ' removed - save to confirm');
 		}
 		
 		// Handle existing images
@@ -43,6 +48,8 @@ jQuery(function($) {
 			
 			var $remove = $image.find('.btn-cloudinaryimages-remove-image'),
 				$undo = $image.find('.btn-cloudinaryimages-undo-remove');
+			
+			var $deletePending = $image.find('.delete-pending');
 			
 			var action = false;
 			
@@ -59,11 +66,13 @@ jQuery(function($) {
 				}
 				
 				$preview.addClass('removed');
+				$deletePending.addClass(action == 'delete' ? 'glyphicon-trash' : 'glyphicon-remove').show();
 				
 				$remove.hide();
 				$undo.show();
 				
-				return generateAction();
+				checkQueues();
+				updateActions();
 				
 			});
 			
@@ -72,11 +81,13 @@ jQuery(function($) {
 				actions[action].splice(actions[action].indexOf(idata.id), 1);
 				
 				$preview.removeClass('removed');
+				$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
 				
 				$undo.hide();
 				$remove.show();
 				
-				return generateAction();
+				checkQueues();
+				updateActions();
 			
 			});
 			
@@ -86,8 +97,8 @@ jQuery(function($) {
 		
 		// Handle uploads
 		var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
-			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><div class="placeholder"></div><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
-			'<div class="image-details"><div class="pull-left"><a href="javascript:;" class="btn btn-link btn-cancel btn-cloudinaryimages-undo-upload">Remove</a></div></div>' +
+			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
+			'<div class="image-details"><a href="javascript:;" class="btn btn-link btn-cancel btn-cloudinaryimages-undo-upload">Cancel</a></div>' +
 		'</div>';
 		
 		$upload.click(function() {
@@ -99,13 +110,11 @@ jQuery(function($) {
 				var imageSelected = $(this).val() ? true : false;
 				
 				if (imageSelected) {
-					// Check for image file (treated as multiple) and render preview
-					// TODO: Check for file reader capability
 					var files = e.target.files;
 					for (var i = 0, f; f = files[i]; i++) {
 						if (!f.type.match('image.*')) {
 							$field.remove();
-							checkQueued();
+							checkQueues();
 							alert("Please select image files only.");
 							continue;
 						}
@@ -113,12 +122,12 @@ jQuery(function($) {
 						$placeholder.find('.btn-cloudinaryimages-undo-upload').click(function() {
 							$placeholder.remove();
 							$field.remove();
-							checkQueued();
+							checkQueues();
 						});
 						var fileReader = new FileReader();
 						fileReader.onload = (function(file) {
 							return function(e) {
-								$placeholder.find('.img-thumbnail .placeholder').css('background-image', 'url(' + e.target.result + ')').prop( 'title', escape(file.name) );
+								$placeholder.find('.img-thumbnail .placeholder').prop('src', e.target.result).prop( 'title', escape(file.name) );
 							};
 						})(f);
 						fileReader.readAsDataURL(f);
@@ -128,7 +137,7 @@ jQuery(function($) {
 					$field.remove();
 				}
 				
-				checkQueued();
+				checkQueues();
 				
 				$(window).trigger('redraw');
 				
