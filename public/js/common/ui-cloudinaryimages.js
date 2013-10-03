@@ -97,7 +97,7 @@ jQuery(function($) {
 		
 		// Handle uploads
 		var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
-			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
+			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
 			'<div class="image-details"><a href="javascript:;" class="btn btn-link btn-cancel btn-cloudinaryimages-undo-upload">Cancel</a></div>' +
 		'</div>';
 		
@@ -110,27 +110,36 @@ jQuery(function($) {
 				var imageSelected = $(this).val() ? true : false;
 				
 				if (imageSelected) {
-					var files = e.target.files;
-					for (var i = 0, f; f = files[i]; i++) {
-						if (!f.type.match('image.*')) {
-							$field.remove();
-							checkQueues();
-							alert("Please select image files only.");
-							continue;
+					if (window.FileReader) {
+						var files = e.target.files;
+						for (var i = 0, f; f = files[i]; i++) {
+							if (!f.type.match('image.*')) {
+								$field.remove();
+								checkQueues();
+								alert("Please select image files only.");
+								continue;
+							}
+							var $placeholder = $(imageFieldHTML).appendTo($images);
+							$placeholder.find('.btn-cloudinaryimages-undo-upload').click(function() {
+								$placeholder.remove();
+								$field.remove();
+								checkQueues();
+							});
+							var fileReader = new FileReader();
+							fileReader.onload = (function(file) {
+								return function(e) {
+									$placeholder.find('.img-thumbnail .placeholder').prop('src', e.target.result).prop( 'title', escape(file.name) );
+								};
+							})(f);
+							fileReader.readAsDataURL(f);
 						}
+					} else {
 						var $placeholder = $(imageFieldHTML).appendTo($images);
 						$placeholder.find('.btn-cloudinaryimages-undo-upload').click(function() {
 							$placeholder.remove();
 							$field.remove();
 							checkQueues();
 						});
-						var fileReader = new FileReader();
-						fileReader.onload = (function(file) {
-							return function(e) {
-								$placeholder.find('.img-thumbnail .placeholder').prop('src', e.target.result).prop( 'title', escape(file.name) );
-							};
-						})(f);
-						fileReader.readAsDataURL(f);
 					}
 				} else {
 					$placeholder.remove();

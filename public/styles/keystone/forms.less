@@ -329,10 +329,16 @@ label.checkbox {
 		.placeholder-wrap {
 			height: 110px;
 			overflow: hidden;
-		}
-		.placeholder {
-			height: 100px;
-			opacity: 0.25;
+			
+			.placeholder {
+				height: 100px;
+				opacity: 0.25;
+				
+				&.no-preview {
+					width: 100px;
+					display: block;
+				}
+			}
 		}
 		.upload-pending, .delete-pending {
 			color: #6A6A6A;
