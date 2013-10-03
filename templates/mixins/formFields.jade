@@ -247,27 +247,34 @@ mixin formField_cloudinaryimages(field, item)
 		input(type='hidden', name=field.paths.action, value='').field-action
 		input(type='hidden', name=field.paths.order, value='').field-order
 		.field-ui(class=hasImages ? 'has-image' : false)
-			.images-container.clearfix
+			if field.noedit
 				each value in item.get(field.path)
-					.image-field.row.col-sm-3.col-md-12(data-id=value.public_id, title=value.width + ' x ' + value.height)
+					.image-field.row.col-sm-3.col-md-12(title=value.width + ' x ' + value.height)
 						.image-preview
 							a(href=value.url)
 								img(src=value.fit(110, 110)).img-thumbnail
-							.glyphicon.delete-pending(style='display: none;')
-						.image-details
-							//- .field-value= value.url
-							//- .field-value= value.width + ' x ' + value.height
-							a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-cloudinaryimages-remove-image Remove
-							a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-cloudinaryimages-undo-remove Undo
-			.images-toolbar.row.col-sm-3.col-md-12
-					div.pull-left
-						a(href=js).btn.btn-default.btn-cloudinaryimages-upload Upload Image
-					.upload-queued.pull-left
-						.alert.alert-success
-					.delete-queued.pull-left
-						.alert.alert-danger
-			if field.note
-				.field-note= field.note
+			else
+				.images-container.clearfix
+					each value in item.get(field.path)
+						.image-field.row.col-sm-3.col-md-12(data-id=value.public_id, title=value.width + ' x ' + value.height)
+							.image-preview
+								a(href=value.url)
+									img(src=value.fit(110, 110)).img-thumbnail
+								.glyphicon.delete-pending(style='display: none;')
+							.image-details
+								//- .field-value= value.url
+								//- .field-value= value.width + ' x ' + value.height
+								a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-cloudinaryimages-remove-image Remove
+								a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-cloudinaryimages-undo-remove Undo
+				.images-toolbar.row.col-sm-3.col-md-12
+						div.pull-left
+							a(href=js).btn.btn-default.btn-cloudinaryimages-upload Upload Image
+						.upload-queued.pull-left
+							.alert.alert-success
+						.delete-queued.pull-left
+							.alert.alert-danger
+				if field.note
+					.field-note= field.note
 
 //-
 //- LOCATION
