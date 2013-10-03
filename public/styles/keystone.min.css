@@ -846,7 +846,7 @@ textarea.field.type-html textarea{height:auto}
 .field.type-cloudinaryimages .image-preview{line-height:0px}.field.type-cloudinaryimages .image-preview .img-thumbnail{width:110px;height:110px}
 .field.type-cloudinaryimages .image-preview .placeholder-wrap{width:110px;height:110px;overflow:hidden}
 .field.type-cloudinaryimages .image-preview .placeholder{width:100px;height:100px;opacity:0.25;background-size:cover;background-position:center}
-.field.type-cloudinaryimages .image-preview .upload-pending{color:#3D3D3D;font-size:23px;left:59px;position:absolute;top:46px;text-shadow:0 0 50px #FFFFFF}
+.field.type-cloudinaryimages .image-preview .upload-pending{color:#6A6A6A;font-size:23px;left:59px;position:absolute;top:46px;text-shadow:0 0 50px #FFFFFF}
 .field.type-cloudinaryimages .image-preview.removed .img-thumbnail{opacity:0.5}
 .field.type-cloudinaryimages .field-value{width:auto;float:left;margin-right:10px;margin-bottom:15px}
 .field.type-cloudinaryimages .upload-queued{display:none;margin-left:10px}

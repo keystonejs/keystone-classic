@@ -86,7 +86,7 @@ jQuery(function($) {
 		
 		// Handle uploads
 		var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
-			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><div class="placeholder"></div><div class="glyphicon glyphicon-time upload-pending"></div></div></div>' +
+			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><div class="placeholder"></div><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
 			'<div class="image-details"><div class="pull-left"><a href="javascript:;" class="btn btn-link btn-cancel btn-cloudinaryimages-undo-upload">Remove</a></div></div>' +
 		'</div>';
 		
