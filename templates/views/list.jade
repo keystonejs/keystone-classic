@@ -140,19 +140,20 @@ block content
 					//- 					span= el.field.label
 					
 					.col-sm-6: .pull-right
-						a(href='/keystone/download/#{list.path}').btn.btn-default Download
+						a(href='/keystone/download/#{list.path}').btn.btn-default.pull-right Download
+						//- div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
+							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								| Columns 
+								b.caret
+							ul.dropdown-menu: each el in list.uiElements
+								if el.type == 'heading'
+									li.dropdown-header= el.heading
+								else if el.type == 'field' && !el.field.nocol
+									li: a(href=js, data-col=el.field.path).btn-toggle-column
+										span= el.field.label
 					
-					//- .col-xs-8.col-sm-4
-					//- 	.dropdown.list-columns-dropdown.pull-right
-					//- 		a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-					//- 			| Select Columns 
-					//- 			b.caret
-					//- 		ul.dropdown-menu: each el in list.uiElements
-					//- 			if el.type == 'heading'
-					//- 				li.dropdown-header= el.heading
-					//- 			else if el.type == 'field' && !el.field.nocol
-					//- 				li: a(href=js)
-					//- 					span= el.field.label
+					.col-xs-8.col-sm-4
+						
 			
 			
 			//-
@@ -292,7 +293,18 @@ block content
 			thead
 				tr
 					each col, i in columns
-						th(colspan=i == 0 && firstColspan > 1 ? firstColspan : false)= col.label
+						th(colspan=i == 0 && firstColspan > 1 ? firstColspan : false)
+							if sort.field && sort.field.path == col.field.path
+								if sort.inv
+									a(href=link_to({ sort: col.field.path }))
+										= col.label
+									.glyphicon.glyphicon-chevron-up
+								else
+									a(href=link_to({ sort: '-' + col.field.path }))
+										= col.label
+									.glyphicon.glyphicon-chevron-down
+							else
+								a(href=link_to({ sort: col.field.path }))= col.label
 			tbody
 				each item in items.results
 					tr(id=item.id)
