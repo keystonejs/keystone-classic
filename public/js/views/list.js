@@ -34,6 +34,18 @@ jQuery(function($) {
 		
 	});
 	
+	/** Columns */
+	
+	$('.btn-toggle-column').click(function(e) {
+		var key = $(this).data('col');
+		if (_.contains(Keystone.list.cols, key)) {
+			$.addSearchParam({ cols: _.without(Keystone.list.cols, key).join(',') }, true);
+		} else {
+			Keystone.list.cols.push(key);
+			$.addSearchParam({ cols: Keystone.list.cols.join(',') }, true);
+		}
+	});
+	
 	/** Filtering */
 	
 	var checkFiltersStatus = function() {

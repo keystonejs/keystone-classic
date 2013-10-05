@@ -6,7 +6,7 @@ include ../mixins/columns
 block page-js
 	script(src='/keystone/js/views/list.js')
 	script.
-		Keystone.list = { path: "#{list.path}" };
+		Keystone.list = { path: "#{list.path}", cols: !{JSON.stringify(colPaths)} };
 			
 block content
 	//-
@@ -141,7 +141,7 @@ block content
 					
 					.col-sm-6: .pull-right
 						a(href='/keystone/download/#{list.path}').btn.btn-default.pull-right Download
-						//- div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
+						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 								| Columns 
 								b.caret
@@ -150,6 +150,7 @@ block content
 									li.dropdown-header= el.heading
 								else if el.type == 'field' && !el.field.nocol
 									li: a(href=js, data-col=el.field.path).btn-toggle-column
+										span(class=_.contains(colPaths, el.field.path) ? 'glyphicon glyphicon-ok' : '').icon
 										span= el.field.label
 					
 					.col-xs-8.col-sm-4

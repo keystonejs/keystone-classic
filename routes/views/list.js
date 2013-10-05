@@ -79,6 +79,7 @@ exports = module.exports = function(req, res) {
 				filters: filters,
 				search: req.query.search,
 				columns: columns,
+				colPaths: _.pluck(columns, 'path'),
 				items: items,
 				submitted: req.body || {}
 			}));
