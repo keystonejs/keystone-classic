@@ -13,7 +13,8 @@ exports = module.exports = function(req, res) {
 	
 	var sort = { by: req.query.sort || req.list.defaultSort },
 		filters = (req.query.q) ? req.list.processFilters(req.query.q) : {},
-		queryFilters = req.list.getSearchFilters(req.query.search, filters);
+		queryFilters = req.list.getSearchFilters(req.query.search, filters),
+		columns = (req.query.cols) ? req.list.expandColumns(req.query.cols) : req.list.defaultColumns;
 	
 	if (sort.by) {
 		
@@ -43,7 +44,6 @@ exports = module.exports = function(req, res) {
 		
 		var query = req.list.paginate({ filters: queryFilters, page: req.params.page }).sort(sort.by);
 		
-		var columns = req.list.defaultColumns;
 		req.list.selectColumns(query, columns);
 		
 		var params = _.clone(req.query);

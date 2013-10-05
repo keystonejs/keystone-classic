@@ -294,7 +294,7 @@ block content
 				tr
 					each col, i in columns
 						th(colspan=i == 0 && firstColspan > 1 ? firstColspan : false)
-							if sort.field && sort.field.path == col.field.path
+							if col.field && sort.field && sort.field.path == col.field.path
 								if sort.inv
 									a(href=link_to({ sort: col.field.path }))
 										= col.label
@@ -303,8 +303,10 @@ block content
 									a(href=link_to({ sort: '-' + col.field.path }))
 										= col.label
 									.glyphicon.glyphicon-chevron-down
-							else
+							else if col.field
 								a(href=link_to({ sort: col.field.path }))= col.label
+							else
+								= col.label
 			tbody
 				each item in items.results
 					tr(id=item.id)

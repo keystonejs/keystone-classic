@@ -27,7 +27,7 @@ mixin column(list, col, item)
 		else if col.type == 'boolean'
 			+column_boolean(value)
 		else
-			+column_basic(col.field.format(item))
+			+column_basic(value)
 
 mixin column_link(value, href)
 	if value
