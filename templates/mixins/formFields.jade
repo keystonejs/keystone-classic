@@ -208,6 +208,8 @@ mixin formField_cloudinaryimage(field, item)
 	- var hasImage = item.get(field.paths.exists)
 	.field.type-cloudinaryimage(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
 		label.field-label= field.label
+		input(type='file', name=field.paths.upload).field-upload
+		input(type='hidden', name=field.paths.action, value='').field-action
 		.field-ui(class=hasImage ? 'has-image' : false)
 			if field.noedit
 				if hasImage
@@ -222,20 +224,19 @@ mixin formField_cloudinaryimage(field, item)
 				.image-container
 					if hasImage
 						.image-preview.current
-							img(src=field.apply(item, 'fit', 110, 110)).img-thumbnail
+							a(href=item.get(field.paths.url))
+								img(src=field.apply(item, 'fit', 110, 110)).img-thumbnail
 							.glyphicon.delete-pending(style='display: none;')
 					.image-details
 						if hasImage
-							.field-value= item.get(field.paths.url)
-							.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
+							.image-values
+								.field-value= item.get(field.paths.url)
+								.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
 						.upload-queued.pull-left
 							.alert.alert-success Image selected - save to upload
 						.delete-queued.pull-left
 							.alert.alert-danger
-
 				.image-toolbar
-					input(type='file', name=field.paths.upload).field-upload
-					input(type='hidden', name=field.paths.action, value='').field-action
 					div.pull-left
 						a(href=js).btn.btn-default.btn-upload= ( hasImage ? 'Change' : 'Upload' ) + ' Image'
 						a(href=js, data-alt-text='Delete Image', style=( hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image

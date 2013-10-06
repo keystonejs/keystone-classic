@@ -6,42 +6,41 @@ jQuery(function($) {
 		var $el = $(this),
 			data = $el.data();
 		
-		var $action = $el.find('.field-action');
+		var $action = $el.find('.field-action'),
+			$upload = $el.find('.field-upload');
 		
 		var $uploadBtn = $el.find('.btn-upload'),
-			$uploadField = $el.find('.field-upload'),
-			$uploadQueued = $el.find('.upload-queued');
-		
-		var $deleteBtn = $el.find('.btn-delete-image'),
+			$deleteBtn = $el.find('.btn-delete-image'),
+			$cancelBtn = $el.find('.btn-cancel-image'),
+			$undoBtn = $el.find('.btn-undo-delete');
+			
+		var $uploadQueued = $el.find('.upload-queued'),
 			$deleteQueued = $el.find('.delete-queued');
-		
-		var $cancelBtn = $el.find('.btn-cancel-image');
 		
 		var $deletePending = $el.find('.delete-pending');
 		
-		var $undoBtn = $el.find('.btn-undo-delete');
-		
 		var $image = $el.find('.image-container'),
 			$imagePreview = $image.find('.image-preview.current'),
-			$imageDetails = $image.find('.image-details');
+			$imageDetails = $image.find('.image-details'),
+			$imageValues = $image.find('.image-values');
+		
+		var action = false;
 		
 		var imageFieldHTML = '<div class="image-preview new">' +
 				'<div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>'
-			'</div>' +
-			'<div class="image-details">' +
-				'<div class="field-value"></div>' +
-				'<div class="field-value"></div>' +
 			'</div>';
 		
-		$uploadField.change(function(e) {
+		var removeNewImage = function() {
+			$el.find('.image-preview.new').remove();
+		}
+		
+		$upload.change(function(e) {
 			
-			var imageSelected = $(this).val() ? true : false,
-				$field = $(this).closest('.field');
+			var imageSelected = $(this).val() ? true : false;
 			
 			// Image
-			$imagePreview.hide(); // Hide current image
-			$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
-			$el.find('.image-preview.new').remove(); // Remove any new images
+			$imagePreview.hide();
+			removeNewImage();
 			
 			// Preview
 			if (imageSelected) {
@@ -54,9 +53,11 @@ jQuery(function($) {
 							alert("Please select image files only.");
 							continue;
 						}
+						
+						$imageValues.hide();
+						
 						var $placeholder = $(imageFieldHTML).prependTo($image);
 						
-						$imageDetails.find('.field-value').hide();
 						var fileReader = new FileReader();
 						fileReader.onload = (function(file) {
 							return function(e) {
@@ -66,13 +67,9 @@ jQuery(function($) {
 						fileReader.readAsDataURL(f);
 					}
 				}
-				
-				// Action
-				$action.val('');
 			}
 			
 			// Messages
-			$deleteQueued.hide();
 			$uploadQueued[imageSelected ? 'show' : 'hide']();
 			
 			// Buttons
@@ -86,15 +83,14 @@ jQuery(function($) {
 		
 		});
 		
-		// Upload
+		// Upload Image
 		$uploadBtn.click(function() {
-			$uploadField.click();
+			$upload.click();
 		});
 		
-		// Delete/Remove
-		var action = false;
-		
+		// Delete/Remove Image
 		$deleteBtn.click(function(e) {
+			
 			e.preventDefault();
 			
 			// Action
@@ -107,7 +103,7 @@ jQuery(function($) {
 			}
 			
 			// Details
-			$imageDetails.find('.field-value').hide();
+			$imageValues.hide();
 			
 			// Image
 			$imagePreview.addClass('removed');
@@ -125,17 +121,20 @@ jQuery(function($) {
 			
 			// Redraw
 			$(window).trigger('redraw');
+			
 		});
 		
 		// Undo Delete/Remove
 		$undoBtn.click(function(e) {
+			
 			e.preventDefault();
 			
 			// Action
 			$action.val('');
+			action = false;
 			
 			// Details
-			$imageDetails.find('.field-value').show();
+			$imageValues.show();
 			
 			// Image
 			$imagePreview.removeClass('removed');
@@ -153,38 +152,80 @@ jQuery(function($) {
 			
 			// Redraw
 			$(window).trigger('redraw');
+			
 		});
 		
 		// Cancel Upload
 		$cancelBtn.click(function(e) {
+			
 			e.preventDefault();
 			
-			$uploadField.val('');
+			// Remove new image preview
+			removeNewImage();
 			
-			$el.find('.image-preview.new').remove();
+			// Erase selected image
+			$upload.val('');
 			
-			// Image
-			if ( $imagePreview.length ) {
-				$imagePreview.removeClass('removed').show();
-				$imageDetails.find('.field-value').show();
+			// If we have an image already
+			if (data.fieldValue) {
+				
+				// Show it
+				$imagePreview.show();
+				
+				// If we've got a pending remove/delete
+				if (action) {
+					
+					// Show the undo button
+					$undoBtn.show();
+					
+				} else {
+					
+					// Make sure the undo button is hidden
+					$undoBtn.hide();
+					
+					// Show delete button
+					$deleteBtn.show();
+					
+					// Show image values
+					$imageValues.show();
+					
+				}
+				
+			} else {
+				
+				// Otherwise if we aren't deleting anything yet
+				if (!action) {
+					
+					// Hide the delete button
+					$deleteBtn.hide();
+					
+				} else {
+					
+					// Or make sure it's visiboe
+					$deleteBtn.show();
+					
+				}
+				
+				// Make sure upload button references no current image
+				$uploadBtn.html('Upload Image');
+			
 			}
 			
-			// Buttons
+			// Hide the cancel upload button
 			$cancelBtn.hide();
 			
-			if ( $imagePreview.length ) {
-				$deleteBtn.show();
-			} else {
-				$deleteBtn.hide();
-				$uploadBtn.html('Upload Image');
-			}
-			
-			// Messages
+			// Hide queued upload message
 			$uploadQueued.hide();
 			
 			// Redraw
 			$(window).trigger('redraw');
+			
 		});
+		
+		// Image popup
+		if ( data.fieldValue ) {
+			$imagePreview.find('a').touchTouch();
+		}
 		
 	});
 	
