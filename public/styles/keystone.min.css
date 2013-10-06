@@ -768,7 +768,7 @@ th.visible-print,td.visible-print{display:none !important}
 .fieldicon.fieldicon-number{background-image:url("/keystone/images/icons/16/field-number.png")}
 .fieldicon.fieldicon-sort{background-image:url("/keystone/images/icons/16/field-sort.png")}
 .dropdown-menu .fieldicon{margin-right:10px}
-.btn-toggle-column .icon{display:inline-block;width:20px;font-size:80%;line-height:14px}
+.dropdown-menu .icon{display:inline-block;width:25px;margin-left:-5px}
 table.items-list{table-layout:fixed;width:100%}table.items-list .control{padding:8px;width:18px}table.items-list .control a{display:block;width:16px;height:18px;padding:0px;background:url('/keystone/images/icons/list-controls.png') top left no-repeat;opacity:0.5}
 table.items-list .control a:hover{opacity:1}
 table.items-list .control .control-delete{background-position:0 0}

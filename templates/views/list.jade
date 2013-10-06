@@ -126,32 +126,39 @@ block content
 								span.visible-xs Go
 								span.hidden-xs Search
 					
-					//- .col-xs-4.col-sm-2
-					//- 	.dropdown.list-filter-dropdown
-					//- 		a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-					//- 			| Add Filter... 
-					//- 			b.caret
-					//- 		ul.dropdown-menu: each el in list.uiElements
-					//- 			if el.type == 'heading'
-					//- 				li.dropdown-header= el.heading
-					//- 			else if el.type == 'field' && !el.field.nofilter
-					//- 				li: a(href=js, data-path=el.field.path).add-list-filter
-					//- 					span(class='fieldicon fieldicon-' + el.field.type)
-					//- 					span= el.field.label
+					.col-xs-4.col-sm-2
+						.dropdown.list-filter-dropdown
+							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								| Add Filter... 
+								b.caret
+							ul.dropdown-menu: each el in list.uiElements
+								if el.type == 'heading'
+									li.dropdown-header= el.heading
+								else if el.type == 'field' && !el.field.nofilter
+									li: a(href=js, data-path=el.field.path).add-list-filter
+										span(class='fieldicon fieldicon-' + el.field.type)
+										span= el.field.label
 					
-					.col-sm-6: .pull-right
+					.col-sm-4: .pull-right
 						a(href='/keystone/download/#{list.path}').btn.btn-default.pull-right Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 								| Columns 
 								b.caret
-							ul.dropdown-menu: each el in list.uiElements
-								if el.type == 'heading'
-									li.dropdown-header= el.heading
-								else if el.type == 'field' && !el.field.nocol
-									li: a(href=js, data-col=el.field.path).btn-toggle-column
-										span(class=_.contains(colPaths, el.field.path) ? 'glyphicon glyphicon-ok' : '').icon
-										span= el.field.label
+							ul.dropdown-menu
+								each el in list.uiElements
+									if el.type == 'heading'
+										li.dropdown-header= el.heading
+									else if el.type == 'field' && !el.field.nocol
+										li: a(href=js, data-col=el.field.path).btn-toggle-column
+											span(class=_.contains(colPaths, el.field.path) ? 'glyphicon glyphicon-ok-circle' : '').icon
+											span= el.field.label
+								if query.cols
+									li.divider
+									li: a(href=link_to({ cols: undefined }))
+										span.glyphicon.glyphicon-remove-circle.icon
+										span Reset to default
+							
 					
 					.col-xs-8.col-sm-4
 						

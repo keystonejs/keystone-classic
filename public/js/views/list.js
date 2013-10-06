@@ -159,24 +159,11 @@ jQuery(function($) {
 			filters.push(str);
 			
 		});
-
-		var query = {};
 		
-		if (search.length) {
-			query.search = search;
-		}
-		
-		if (filters.length) {
-			query.q = filters.join(';');
-		}
-		
-		query = $.param(query);
-		
-		if (query.length) {
-			query = '?' + query;
-		}
-		
-		top.location.href = '/keystone/' + Keystone.list.path + query;
+		$.addSearchParam({
+			search: search || undefined,
+			q: filters.join(';') || undefined
+		}, true);
 	
 	});
 	

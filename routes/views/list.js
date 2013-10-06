@@ -46,18 +46,25 @@ exports = module.exports = function(req, res) {
 		
 		req.list.selectColumns(query, columns);
 		
-		var params = _.clone(req.query);
-		
-		var link_to = function(x) {
-			var p = x.page || '';
-			delete x.page;
-			return '/keystone/' + req.list.path + ((p) ? '/' + p : '') + '?' + querystring.stringify(_.defaults(x, req.query));
+		var link_to = function(params) {
+			var p = params.page || '';
+			delete params.page;
+			var queryParams = _.clone(req.query);
+			for (var i in params) {
+				if (params[i] == undefined) {
+					delete params[i];
+					delete queryParams[i];
+				}
+			}
+			params = querystring.stringify(_.defaults(params, queryParams));
+			return '/keystone/' + req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
 		}
 		
 		query.exec(function(err, items) {
 			
 			if (err) {
-				return res.status(500).send(JSON.stringify(err));
+				console.log(err);
+				return res.status(500).send("Error querying items:<br><br>" + JSON.stringify(err));
 			}
 			
 			// if there were results but not on this page, reset the page
@@ -81,7 +88,8 @@ exports = module.exports = function(req, res) {
 				columns: columns,
 				colPaths: _.pluck(columns, 'path'),
 				items: items,
-				submitted: req.body || {}
+				submitted: req.body || {},
+				query: req.query
 			}));
 			
 		});
