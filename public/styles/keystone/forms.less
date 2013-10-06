@@ -286,8 +286,8 @@ label.checkbox {
 		margin-right: 10px;
 	}
 	.image-details {
-		margin-left: 120px;
 		overflow: hidden;
+		margin-bottom: 10px;
 	}
 	.image-details + .image-toolbar {
 		margin-top: @input-vspacing;
@@ -301,7 +301,6 @@ label.checkbox {
 		margin-top: 0;
 	}
 	.has-image .image-toolbar {
-		margin-left: 120px;
 	}
 	.alert {
 		margin-bottom: 10px;
@@ -309,6 +308,63 @@ label.checkbox {
 	}
 	.upload-queued {
 		display: none;
+	}
+	
+	
+	
+	
+	.image-preview {
+		line-height: 0px;
+		.img-thumbnail {
+			height: 110px;
+		}
+		.placeholder-wrap {
+			position: relative;
+			height: 110px;
+			overflow: hidden;
+			
+			.placeholder {
+				height: 100px;
+				opacity: 0.25;
+				
+				&.no-preview {
+					width: 100px;
+					display: block;
+				}
+			}
+		}
+		.upload-pending, .delete-pending {
+			color: #6A6A6A;
+			font-size: 23px;
+			left: 50%;
+			top: 50%;
+			position: absolute;
+			margin-left: -11px;
+			margin-top: -12px;
+			text-shadow: 0 0 50px #FFFFFF;
+		}
+		&.removed {
+			.img-thumbnail {
+				opacity: 0.25;
+			}
+		}
+	}
+	
+	.upload-queued {
+		display: none;
+		margin-left: 10px;
+	}
+	.delete-queued {
+		display: none;
+		margin-left: 10px;
+	}
+	.image-toolbar {
+		.alert {
+			margin-bottom: 10px;
+			float: left;
+			padding: 6px 12px;
+			margin-bottom: 0px;
+		}
 	}
 }
 

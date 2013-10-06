@@ -219,21 +219,24 @@ mixin formField_cloudinaryimage(field, item)
 				else
 					.help-block (no image)
 			else
-				if hasImage
-					.image-preview
-						img(src=field.apply(item, 'limit', 100, 100)).img-thumbnail
-					.image-details
-						.field-value= item.get(field.paths.url)
-						.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
+				.image-container
+					if hasImage
+						.image-preview
+							img(src=field.apply(item, 'fit', 110, 110)).img-thumbnail
+						.image-details
+							.field-value= item.get(field.paths.url)
+							.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
 				.image-toolbar
 					input(type='file', name=field.paths.upload).field-upload
 					input(type='hidden', name=field.paths.action, value='').field-action
-					.clearfix.upload-queued
-						.alert.alert-success Image selected - save to upload
-					div
-						a(href=js).btn.btn-default.btn-upload Upload Image
+					div.pull-left
+						a(href=js).btn.btn-default.btn-upload= ( hasImage ? 'Change' : 'Upload' ) + ' Image'
 						if hasImage
 							a(href=js, data-alt-text='Delete Image').btn.btn-link.btn-cancel.btn-delete-image Remove Image
+					.upload-queued.pull-left
+						.alert.alert-success Image selected - save to upload
+					.delete-queued.pull-left
+						.alert.alert-danger
 			if field.note
 				.field-note= field.note
 

@@ -835,13 +835,19 @@ textarea.field.type-html textarea{height:auto}
 .field.type-html textarea:hover{border-color:#999 #bbb #ccc}
 .field.type-html textarea:focus{-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.1),0 0 5px -1px rgba(0,136,204,0.5);box-shadow:inset 0 1px 2px rgba(0,0,0,0.1),0 0 5px -1px rgba(0,136,204,0.5);border-color:#08c #0099e6 #0099e6}
 .field.type-cloudinaryimage .image-preview{float:left;margin-right:10px}
-.field.type-cloudinaryimage .image-details{margin-left:120px;overflow:hidden}
+.field.type-cloudinaryimage .image-details{overflow:hidden;margin-bottom:10px}
 .field.type-cloudinaryimage .image-details+.image-toolbar{margin-top:12px}
 .field.type-cloudinaryimage .field-value{width:auto;float:left;margin-right:10px}
 .field.type-cloudinaryimage .field-value+.field-value{margin-top:0}
-.field.type-cloudinaryimage .has-image .image-toolbar{margin-left:120px}
 .field.type-cloudinaryimage .alert{margin-bottom:10px;float:left}
 .field.type-cloudinaryimage .upload-queued{display:none}
+.field.type-cloudinaryimage .image-preview{line-height:0px}.field.type-cloudinaryimage .image-preview .img-thumbnail{height:110px}
+.field.type-cloudinaryimage .image-preview .placeholder-wrap{position:relative;height:110px;overflow:hidden}.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder{height:100px;opacity:0.25}.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder.no-preview{width:100px;display:block}
+.field.type-cloudinaryimage .image-preview .upload-pending,.field.type-cloudinaryimage .image-preview .delete-pending{color:#6A6A6A;font-size:23px;left:50%;top:50%;position:absolute;margin-left:-11px;margin-top:-12px;text-shadow:0 0 50px #FFFFFF}
+.field.type-cloudinaryimage .image-preview.removed .img-thumbnail{opacity:0.25}
+.field.type-cloudinaryimage .upload-queued{display:none;margin-left:10px}
+.field.type-cloudinaryimage .delete-queued{display:none;margin-left:10px}
+.field.type-cloudinaryimage .image-toolbar .alert{margin-bottom:10px;float:left;padding:6px 12px;margin-bottom:0px}
 .field.type-cloudinaryimages .image-field{width:auto;float:left;margin-top:0px;margin-right:0px;margin-bottom:10px}
 .field.type-cloudinaryimages .image-preview{line-height:0px}.field.type-cloudinaryimages .image-preview .img-thumbnail{height:110px}
 .field.type-cloudinaryimages .image-preview .placeholder-wrap{height:110px;overflow:hidden}.field.type-cloudinaryimages .image-preview .placeholder-wrap .placeholder{height:100px;opacity:0.25}.field.type-cloudinaryimages .image-preview .placeholder-wrap .placeholder.no-preview{width:100px;display:block}

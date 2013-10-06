@@ -264,28 +264,6 @@ jQuery(function($) {
 		
 	});
 	
-	$('.btn-delete-image').click(function(e) {
-		
-		var $field = $(this).closest('.field');
-		
-		if (e.altKey) {
-			if (!confirm("Are you sure you want to delete the image?\n\n"))
-				return;
-			$field.find('.field-action').val('delete');
-		} else {
-			$field.find('.field-action').val('reset');
-		}
-		
-		$field.find('.has-image').removeClass('has-image');
-		$field.find('.image-preview').remove();
-		$field.find('.image-details').remove();
-		
-		$(this).remove();
-		
-		$(window).trigger('redraw');
-		
-	});
-	
 	$('.btn-change-password').click(function(e) {
 		
 		var $field = $(this).closest('.field');
