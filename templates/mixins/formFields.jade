@@ -221,22 +221,26 @@ mixin formField_cloudinaryimage(field, item)
 			else
 				.image-container
 					if hasImage
-						.image-preview
+						.image-preview.current
 							img(src=field.apply(item, 'fit', 110, 110)).img-thumbnail
-						.image-details
+							.glyphicon.delete-pending(style='display: none;')
+					.image-details
+						if hasImage
 							.field-value= item.get(field.paths.url)
 							.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
+						.upload-queued.pull-left
+							.alert.alert-success Image selected - save to upload
+						.delete-queued.pull-left
+							.alert.alert-danger
+
 				.image-toolbar
 					input(type='file', name=field.paths.upload).field-upload
 					input(type='hidden', name=field.paths.action, value='').field-action
 					div.pull-left
 						a(href=js).btn.btn-default.btn-upload= ( hasImage ? 'Change' : 'Upload' ) + ' Image'
-						if hasImage
-							a(href=js, data-alt-text='Delete Image').btn.btn-link.btn-cancel.btn-delete-image Remove Image
-					.upload-queued.pull-left
-						.alert.alert-success Image selected - save to upload
-					.delete-queued.pull-left
-						.alert.alert-danger
+						a(href=js, data-alt-text='Delete Image', style=( hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image
+						a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-image Cancel Upload
+						a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-delete Undo Remove
 			if field.note
 				.field-note= field.note
 
@@ -270,12 +274,12 @@ mixin formField_cloudinaryimages(field, item)
 								a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-cloudinaryimages-remove-image Remove
 								a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-cloudinaryimages-undo-remove Undo
 				.images-toolbar.row.col-sm-3.col-md-12
-						div.pull-left
-							a(href=js).btn.btn-default.btn-cloudinaryimages-upload Upload Image
-						.upload-queued.pull-left
-							.alert.alert-success
-						.delete-queued.pull-left
-							.alert.alert-danger
+					div.pull-left
+						a(href=js).btn.btn-default.btn-cloudinaryimages-upload Upload Image
+					.upload-queued.pull-left
+						.alert.alert-success
+					.delete-queued.pull-left
+						.alert.alert-danger
 				if field.note
 					.field-note= field.note
 

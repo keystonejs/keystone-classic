@@ -5826,6 +5826,7 @@ textarea.field.type-html textarea {
 }
 .field.type-cloudinaryimage .image-details {
   overflow: hidden;
+  margin-bottom: 10px;
 }
 .field.type-cloudinaryimage .image-details + .image-toolbar {
   margin-top: 12px;

@@ -287,7 +287,6 @@ label.checkbox {
 	}
 	.image-details {
 		overflow: hidden;
-		margin-bottom: 10px;
 	}
 	.image-details + .image-toolbar {
 		margin-top: @input-vspacing;
@@ -296,6 +295,7 @@ label.checkbox {
 		width: auto;
 		float: left;
 		margin-right: 10px;
+		margin-bottom: 10px;
 	}
 	.field-value + .field-value {
 		margin-top: 0;
@@ -314,6 +314,7 @@ label.checkbox {
 	
 	
 	.image-preview {
+		position: relative;
 		line-height: 0px;
 		.img-thumbnail {
 			height: 110px;
@@ -350,20 +351,12 @@ label.checkbox {
 		}
 	}
 	
-	.upload-queued {
+	.upload-queued, .delete-queued {
 		display: none;
-		margin-left: 10px;
-	}
-	.delete-queued {
-		display: none;
-		margin-left: 10px;
-	}
-	.image-toolbar {
 		.alert {
 			margin-bottom: 10px;
 			float: left;
 			padding: 6px 12px;
-			margin-bottom: 0px;
 		}
 	}
 }

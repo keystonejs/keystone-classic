@@ -56,8 +56,6 @@ jQuery(function($) {
 			$remove.click(function(e) {
 				e.preventDefault();
 				if (e.altKey) {
-					if (!confirm("Are you sure you want to delete the image?\n\n"))
-						return;
 					actions.delete.push(idata.id);
 					action = 'delete';
 				} else {
