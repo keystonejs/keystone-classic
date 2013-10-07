@@ -12,7 +12,7 @@ jQuery(function($) {
 		var $images = $el.find('.images-container');
 		
 		var $toolbar = $el.find('.images-toolbar'),
-			$upload = $toolbar.find('.btn-cloudinaryimages-upload'),
+			$upload = $toolbar.find('.btn-upload'),
 			$uploadQueued = $toolbar.find('.upload-queued'),
 			$deleteQueued = $toolbar.find('.delete-queued');
 		
@@ -45,8 +45,8 @@ jQuery(function($) {
 			
 			var $preview = $image.find('.image-preview');
 			
-			var $remove = $image.find('.btn-cloudinaryimages-remove-image'),
-				$undo = $image.find('.btn-cloudinaryimages-undo-remove');
+			var $remove = $image.find('.btn-remove-image'),
+				$undo = $image.find('.btn-undo-remove');
 			
 			var $deletePending = $image.find('.delete-pending');
 			
@@ -95,7 +95,7 @@ jQuery(function($) {
 		// Handle uploads
 		var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
 			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
-			'<div class="image-details"><a href="javascript:;" class="btn btn-link btn-cancel btn-cloudinaryimages-undo-upload">Cancel</a></div>' +
+			'<div class="image-details"><a href="javascript:;" class="btn btn-link btn-cancel btn-undo-upload">Cancel</a></div>' +
 		'</div>';
 		
 		$upload.click(function() {
@@ -104,7 +104,7 @@ jQuery(function($) {
 				var imageSelected = $(this).val() ? true : false;
 				var renderPlaceholder = function() {
 					var $placeholder = $(imageFieldHTML).appendTo($images);
-					$placeholder.find('.btn-cloudinaryimages-undo-upload').click(function() {
+					$placeholder.find('.btn-undo-upload').click(function() {
 						$placeholder.remove();
 						$field.remove();
 						checkQueues();
