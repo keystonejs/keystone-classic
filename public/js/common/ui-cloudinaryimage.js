@@ -58,8 +58,7 @@ jQuery(function($) {
 					var files = e.target.files;
 					for (var i = 0, f; f = files[i]; i++) {
 						if (!f.type.match('image.*')) {
-							$field.remove();
-							checkQueues();
+							$upload.val('');
 							alert("Please select image files only.");
 							continue;
 						}
