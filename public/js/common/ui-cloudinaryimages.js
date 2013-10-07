@@ -30,12 +30,11 @@ jQuery(function($) {
 		// Displays or hides the queue message if we have pending uploads
 		var checkQueues = function() {
 			var uploads = $el.find('input[type=file]').length;
-			$uploadQueued[( uploads ? 'show' : 'hide' )]();
-			$uploadQueued.find('.alert').html(uploads + ' image' + ( uploads > 1 ? 's' : '' ) + ' selected - save to upload');
-			
-			var deletes = actions.delete.length + actions.remove.length;
-			$deleteQueued[( deletes ? 'show' : 'hide' )]();
-			$deleteQueued.find('.alert').html(deletes + ' image' + ( deletes > 1 ? 's' : '' ) + ' removed - save to confirm');
+				$uploadQueued[( uploads ? 'show' : 'hide' )]();
+				$uploadQueued.find('.alert').html(uploads + ' image' + ( uploads > 1 ? 's' : '' ) + ' selected - save to upload');
+			var removals = actions.delete.length + actions.remove.length;
+				$deleteQueued[( removals ? 'show' : 'hide' )]();
+				$deleteQueued.find('.alert').html(removals + ' image' + ( removals > 1 ? 's' : '' ) + ' removed - save to confirm');
 		}
 		
 		// Handle existing images
@@ -92,7 +91,6 @@ jQuery(function($) {
 		
 		images.find('.image-preview a').touchTouch();
 		
-		// Handle uploads
 		var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
 			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
 			'<div class="image-details"><a href="javascript:;" class="btn btn-link btn-cancel btn-undo-upload">Cancel</a></div>' +
@@ -136,11 +134,8 @@ jQuery(function($) {
 				} else {
 					$field.remove();
 				}
-				
 				checkQueues();
-				
 				$(window).trigger('redraw');
-				
 			});
 			
 			$field.click();
