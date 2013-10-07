@@ -40,7 +40,6 @@ jQuery(function($) {
 		
 		// Handle existing images
 		images.each(function() {
-			
 			var $image = $(this),
 				idata = $image.data();
 			
@@ -62,31 +61,31 @@ jQuery(function($) {
 					actions.remove.push(idata.id);
 					action = 'remove';
 				}
-				
+				// Preview
 				$preview.addClass('removed');
 				$deletePending.addClass(action == 'delete' ? 'glyphicon-trash' : 'glyphicon-remove').show();
-				
+				// Remove/Undo
 				$remove.hide();
 				$undo.show();
-				
+				// Messages
 				checkQueues();
+				// Actions
 				updateActions();
-				
 			});
 			
 			$undo.click(function(e) {
 				e.preventDefault();
 				actions[action].splice(actions[action].indexOf(idata.id), 1);
-				
+				// Preview
 				$preview.removeClass('removed');
 				$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
-				
+				// Remove/Undo
 				$undo.hide();
 				$remove.show();
-				
+				// Messages
 				checkQueues();
+				// Actions
 				updateActions();
-			
 			});
 			
 		});
@@ -100,13 +99,18 @@ jQuery(function($) {
 		'</div>';
 		
 		$upload.click(function() {
-			
 			var $field = $('<input type="file" name="' + data.fieldPathsUpload + '" class="field-upload">').appendTo($toolbar);
-			
 			$field.change(function(e) {
-				
 				var imageSelected = $(this).val() ? true : false;
-				
+				var renderPlaceholder = function() {
+					var $placeholder = $(imageFieldHTML).appendTo($images);
+					$placeholder.find('.btn-cloudinaryimages-undo-upload').click(function() {
+						$placeholder.remove();
+						$field.remove();
+						checkQueues();
+					});
+					return $placeholder;
+				}
 				if (imageSelected) {
 					if (window.FileReader) {
 						var files = e.target.files;
@@ -117,30 +121,19 @@ jQuery(function($) {
 								alert("Please select image files only.");
 								continue;
 							}
-							var $placeholder = $(imageFieldHTML).appendTo($images);
-							$placeholder.find('.btn-cloudinaryimages-undo-upload').click(function() {
-								$placeholder.remove();
-								$field.remove();
-								checkQueues();
-							});
 							var fileReader = new FileReader();
 							fileReader.onload = (function(file) {
 								return function(e) {
-									$placeholder.find('.img-thumbnail .placeholder').prop('src', e.target.result).prop( 'title', escape(file.name) );
+									renderPlaceholder().find('.img-thumbnail .placeholder').prop('src', e.target.result).prop( 'title', escape(file.name) );
+									$(window).trigger('redraw');
 								};
 							})(f);
 							fileReader.readAsDataURL(f);
 						}
 					} else {
-						var $placeholder = $(imageFieldHTML).appendTo($images);
-						$placeholder.find('.btn-cloudinaryimages-undo-upload').click(function() {
-							$placeholder.remove();
-							$field.remove();
-							checkQueues();
-						});
+						renderPlaceholder();
 					}
 				} else {
-					$placeholder.remove();
 					$field.remove();
 				}
 				
