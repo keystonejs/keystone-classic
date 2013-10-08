@@ -107,7 +107,7 @@ jQuery(function($) {
 		'</div>';
 		
 		$upload.click(function() {
-			var $field = $('<input type="file" name="' + data.fieldPathsUpload + '" class="field-upload">').appendTo($toolbar);
+			var $field = $('<input id="' + new Date().getTime() + '" type="file" name="' + data.fieldPathsUpload + '" class="field-upload">').appendTo($toolbar);
 			$field.change(function(e) {
 				var imageSelected = $(this).val() ? true : false;
 				var renderPlaceholder = function() {
@@ -133,6 +133,7 @@ jQuery(function($) {
 							fileReader.onload = (function(file) {
 								return function(e) {
 									renderPlaceholder().find('.img-thumbnail .placeholder').prop('src', e.target.result).prop( 'title', escape(file.name) );
+									checkQueues();
 									$(window).trigger('redraw');
 								};
 							})(f);
@@ -140,16 +141,16 @@ jQuery(function($) {
 						}
 					} else {
 						renderPlaceholder();
+						checkQueues();
+						$(window).trigger('redraw');
 					}
 				} else {
 					$field.remove();
+					checkQueues();
+					$(window).trigger('redraw');
 				}
-				checkQueues();
-				$(window).trigger('redraw');
 			});
-			
 			$field.click();
-		
 		});
 		
 	});

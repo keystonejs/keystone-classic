@@ -19,9 +19,11 @@ jQuery(function($) {
 	
 	$('img.img-load').each(function() {
 		var $img = $(this);
+		$img.css('opacity', 0);
 		$img.load(function() {
 			$img[0].removeAttribute('width');
 			$img[0].removeAttribute('height');
+			$img.css('opacity', '');
 		});
 		$img.prop('src', $img.data().src);
 	})
