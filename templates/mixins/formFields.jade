@@ -215,7 +215,7 @@ mixin formField_cloudinaryimage(field, item)
 				if hasImage
 					.image-preview
 						a(href=item.get(field.paths.url), rel=field.path)
-							img(src=field.apply(item, 'fit', false, 100)).img-thumbnail
+							img(width=90, height=90, data-src=field.apply(item, 'fit', false, 90)).img-thumbnail.img-load
 					.image-details
 						.field-value= item.get(field.paths.url)
 						.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
@@ -226,7 +226,7 @@ mixin formField_cloudinaryimage(field, item)
 					if hasImage
 						.image-preview.current
 							a(href=item.get(field.paths.url), rel=field.path)
-								img(src=field.apply(item, 'fit', false, 100)).img-thumbnail
+								img(width=90, height=90, data-src=field.apply(item, 'fit', false, 90)).img-thumbnail.img-load
 							.glyphicon.delete-pending(style='display: none;')
 					.image-details
 						if hasImage
@@ -261,14 +261,14 @@ mixin formField_cloudinaryimages(field, item)
 					.image-field.row.col-sm-3.col-md-12(title=value.width + ' x ' + value.height)
 						.image-preview
 							a(href=value.url, rel=field.path)
-								img(src=value.fit(false, 100)).img-thumbnail
+								img(width=90, height=90, data-src=value.fit(false, 90)).img-thumbnail.img-load
 			else
 				.images-container.clearfix
 					each value in item.get(field.path)
 						.image-field.row.col-sm-3.col-md-12(data-id=value.public_id, title=value.width + ' x ' + value.height)
 							.image-preview
 								a(href=value.url, rel=field.path)
-									img(src=value.fit(false, 100)).img-thumbnail
+									img(width=90, height=90, data-src=value.fit(false, 90)).img-thumbnail.img-load
 								.glyphicon.delete-pending(style='display: none;')
 							.image-details
 								//- .field-value= value.url

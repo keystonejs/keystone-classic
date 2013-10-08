@@ -17,6 +17,15 @@ jQuery(function($) {
 		}
 	});
 	
+	$('img.img-load').each(function() {
+		var $img = $(this);
+		$img.load(function() {
+			$img[0].removeAttribute('width');
+			$img[0].removeAttribute('height');
+		});
+		$img.prop('src', $img.data().src);
+	})
+	
 	$('a[data-toggle=tooltip]').tooltip();
 	
 	$('.ui-datepicker').pikaday({ firstDay: 1 });
