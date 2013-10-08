@@ -177,7 +177,15 @@ jQuery(function($) {
 		
 		// Image popup
 		if ( data.fieldValue ) {
-			$imagePreview.find('a').touchTouch();
+			$imagePreview.find('a').fancybox({
+				prevEffect: 'none',
+				nextEffect: 'none',
+				closeBtn: false,
+				helpers: {
+					title: {},
+					buttons: {}
+				}
+			});
 		}
 		
 	});

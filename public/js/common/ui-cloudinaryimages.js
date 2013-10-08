@@ -91,7 +91,15 @@ jQuery(function($) {
 			
 		});
 		
-		images.find('.image-preview a').touchTouch();
+		images.find('.image-preview a').fancybox({
+			prevEffect: 'none',
+			nextEffect: 'none',
+			closeBtn: false,
+			helpers: {
+				titl: {},
+				buttons: {}
+			}
+		});
 		
 		var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
 			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
