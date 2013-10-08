@@ -29,6 +29,8 @@ mixin formField(field, item)
 		+formField_select(field, item)
 	else if field.type == 'cloudinaryimage'
 		+formField_cloudinaryimage(field, item)
+	else if field.type == 'cloudinaryimages'
+		+formField_cloudinaryimages(field, item)
 	else if field.type == 'location'
 		+formField_location(field, item)
 	else if field.type == 'relationship'
@@ -102,8 +104,8 @@ mixin formField_datetime(field, item)
 				.form-row
 					.col-sm-6: input(type='text', name=field.paths.date, value=field.format(item, 'YYYY-MM-DD'), placeholder='YYYY-MM-DD', autocomplete='off').form-control.ui-datepicker
 					.col-sm-6: input(type='text', name=field.paths.time, value=field.format(item, 'hh:mm:ss a'), placeholder='HH:MM:SS am/pm', autocomplete='off').form-control
-			if field.note
-				.field-note= field.note
+		if field.note
+			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 
 //-
 //- NAME (split)
@@ -123,8 +125,8 @@ mixin formField_name(field, item)
 				.form-row
 					.col-sm-6: input(type='text', name=field.paths.first, autocomplete='off', placeholder='first name', value=item.get(field.paths.first)).form-control
 					.col-sm-6: input(type='text', name=field.paths.last, autocomplete='off', placeholder='last name', value=item.get(field.paths.last)).form-control
-			if field.note
-				.field-note= field.note
+		if field.note
+			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 
 //-
 //- PASSWORD
@@ -143,8 +145,8 @@ mixin formField_password(field, item)
 						.col-sm-6: input(type='password', name=field.path, autocomplete='off', placeholder='New password').form-control
 						.col-sm-6: input(type='password', name=field.paths.confirm, autocomplete='off', placeholder='Confirm new password').form-control
 					.form-control-wrapper: a(href=js).btn.btn-default.btn-cancel.btn-leave-password Cancel
-			if field.note
-				.field-note= field.note
+		if field.note
+			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 
 //-
 //- HTML
@@ -157,8 +159,8 @@ mixin formField_html(field, item)
 				.field-value= item.get(field.path)
 			else
 				textarea(name=field.path, class=field.wysiwyg ? 'wysiwyg' : 'code', style='height: #{field.height}px')= item.get(field.path)
-			if field.note
-				.field-note= field.note
+		if field.note
+			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 
 //-
 //- BOOLEAN
@@ -200,12 +202,14 @@ mixin formField_select(field, item)
 				.field-note= field.note
 
 //-
-//- CLOUDINARY
+//- CLOUDINARY IMAGE
 //- ------------------------------
 mixin formField_cloudinaryimage(field, item)
 	- var hasImage = item.get(field.paths.exists)
 	.field.type-cloudinaryimage(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
 		label.field-label= field.label
+		input(type='file', name=field.paths.upload).field-upload
+		input(type='hidden', name=field.paths.action, value='').field-action
 		.field-ui(class=hasImage ? 'has-image' : false)
 			if field.noedit
 				if hasImage
@@ -217,23 +221,68 @@ mixin formField_cloudinaryimage(field, item)
 				else
 					.help-block (no image)
 			else
-				if hasImage
-					.image-preview
-						img(src=field.apply(item, 'limit', 100, 100)).img-thumbnail
+				.image-container
+					if hasImage
+						.image-preview.current
+							a(href=item.get(field.paths.url))
+								img(src=field.apply(item, 'fit', 100, 100)).img-thumbnail
+							.glyphicon.delete-pending(style='display: none;')
 					.image-details
-						.field-value= item.get(field.paths.url)
-						.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
-				.image-toolbar
-					input(type='file', name=field.paths.upload).field-upload
-					input(type='hidden', name=field.paths.action, value='').field-action
-					.clearfix.upload-queued
-						.alert.alert-success Image selected - save to upload
-					div
-						a(href=js).btn.btn-default.btn-upload Upload Image
 						if hasImage
-							a(href=js, data-alt-text='Delete Image').btn.btn-link.btn-cancel.btn-delete-image Remove Image
+							.image-values
+								.field-value= item.get(field.paths.url)
+								.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
+						.upload-queued.pull-left
+							.alert.alert-success Image selected - save to upload
+						.delete-queued.pull-left
+							.alert.alert-danger
+				.image-toolbar
+					div.pull-left
+						a(href=js).btn.btn-default.btn-upload-image= ( hasImage ? 'Change' : 'Upload' ) + ' Image'
+						a(href=js, data-alt-text='Delete Image', style=( hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image
+						a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-image Cancel Upload
+						a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-image Undo Remove
 			if field.note
 				.field-note= field.note
+
+//-
+//- CLOUDINARY IMAGES
+//- ------------------------------
+mixin formField_cloudinaryimages(field, item)
+	- var hasImages = item.get(field.path).length
+	.field.type-cloudinaryimages(data-field-type=field.type, data-field-path=field.path, data-field-paths-upload=field.paths.upload, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImages ? 'true' : 'false')
+		label.field-label= field.label
+		input(type='hidden', name=field.paths.action, value='').field-action
+		input(type='hidden', name=field.paths.order, value='').field-order
+		.field-ui(class=hasImages ? 'has-image' : false)
+			if field.noedit
+				each value in item.get(field.path)
+					.image-field.row.col-sm-3.col-md-12(title=value.width + ' x ' + value.height)
+						.image-preview
+							a(href=value.url)
+								img(src=value.fit(110, 110)).img-thumbnail
+			else
+				.images-container.clearfix
+					each value in item.get(field.path)
+						.image-field.row.col-sm-3.col-md-12(data-id=value.public_id, title=value.width + ' x ' + value.height)
+							.image-preview
+								a(href=value.url)
+									img(src=value.fit(110, 110)).img-thumbnail
+								.glyphicon.delete-pending(style='display: none;')
+							.image-details
+								//- .field-value= value.url
+								//- .field-value= value.width + ' x ' + value.height
+								a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-image Remove
+								a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
+				.images-toolbar.row.col-sm-3.col-md-12
+					div.pull-left
+						a(href=js).btn.btn-default.btn-upload Upload Image
+					.upload-queued.pull-left
+						.alert.alert-success
+					.delete-queued.pull-left
+						.alert.alert-danger
+				if field.note
+					.field-note= field.note
 
 //-
 //- LOCATION
@@ -277,14 +326,13 @@ mixin formField_location(field, item)
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Longitude').form-control
 
 			if field.enableMapsAPI
-				.row
-					.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-						label(for=field.paths.improve, title='When checked, this will attempt to fill missing fields. It will also get the lat/long').checkbox.autoimprove
-							input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
-							|  Autodetect and improve location on save
-						label(for=field.paths.overwrite).checkbox.overwrite
-							input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
-							|  Replace existing data
+				.row: .col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2.improve-options
+					label(for=field.paths.improve, title='When checked, this will attempt to fill missing fields. It will also get the lat/long').checkbox.autoimprove
+						input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
+						|  Autodetect and improve location on save
+					label(for=field.paths.overwrite).checkbox.overwrite
+						input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
+						|  Replace existing data
 		
 		if field.note
 			.field-note= field.note

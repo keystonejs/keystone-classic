@@ -278,35 +278,152 @@ label.checkbox {
 }
 
 // Cloudinary Images
+
+// - Singluar
 .field.type-cloudinaryimage {
 	.image-preview {
+		position: relative;
+		line-height: 0px;
 		float: left;
 		margin-right: 10px;
+		.img-thumbnail {
+			height: 100px;
+		}
+		.placeholder-wrap {
+			position: relative;
+			height: 100px;
+			overflow: hidden;
+			
+			.placeholder {
+				height: 90px;
+				opacity: 0.25;
+				
+				&.no-preview {
+					width: 90px;
+					display: block;
+				}
+			}
+		}
+		.upload-pending, .delete-pending {
+			color: #6A6A6A;
+			font-size: 23px;
+			left: 50%;
+			top: 50%;
+			position: absolute;
+			margin-left: -9px;
+			margin-top: -12px;
+			text-shadow: 0 0 50px #FFFFFF;
+		}
+		&.removed {
+			.img-thumbnail {
+				opacity: 0.25;
+			}
+		}
 	}
+	
 	.image-details {
-		margin-left: 120px;
 		overflow: hidden;
+		.image-values {
+			.field-value {
+				width: auto;
+				float: left;
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+			.field-value + .field-value {
+				margin-top: 0;
+				margin-right: 0;
+			}
+		}
 	}
+	
 	.image-details + .image-toolbar {
 		margin-top: @input-vspacing;
+	}
+	
+	.upload-queued, .delete-queued {
+		display: none;
+		.alert {
+			margin-right: 10px;
+			margin-bottom: 10px;
+			float: left;
+			padding: 6px 12px;
+		}
+	}
+}
+
+// - Multiple
+.field.type-cloudinaryimages {
+	.image-field {
+		width: auto;
+		float: left;
+		margin-top: 0px;
+		margin-right: 0px;
+		margin-bottom: 10px;
+	}
+	.image-preview {
+		line-height: 0px;
+		.img-thumbnail {
+			height: 100px;
+		}
+		.placeholder-wrap {
+			height: 100px;
+			overflow: hidden;
+			
+			.placeholder {
+				height: 90px;
+				opacity: 0.25;
+				
+				&.no-preview {
+					width: 90px;
+					display: block;
+				}
+			}
+		}
+		.upload-pending, .delete-pending {
+			color: #6A6A6A;
+			font-size: 23px;
+			left: 50%;
+			top: 50%;
+			position: absolute;
+			margin-left: -9px;
+			margin-top: -26px;
+			text-shadow: 0 0 50px #FFFFFF;
+		}
+		&.removed {
+			.img-thumbnail {
+				opacity: 0.25;
+			}
+		}
 	}
 	.field-value {
 		width: auto;
 		float: left;
 		margin-right: 10px;
-	}
-	.field-value + .field-value {
-		margin-top: 0;
-	}
-	.has-image .image-toolbar {
-		margin-left: 120px;
-	}
-	.alert {
-		margin-bottom: 10px;
-		float: left;
+		margin-bottom: 15px;
 	}
 	.upload-queued {
 		display: none;
+		margin-left: 10px;
+	}
+	.delete-queued {
+		display: none;
+		margin-left: 10px;
+	}
+	.btn-cancel {
+		margin-left: 0px;
+		font-size: 12px;
+		width: 110px;
+		text-align: center;
+		width: 100%;
+	}
+	.images-toolbar {
+		.alert {
+			margin-bottom: 10px;
+			float: left;
+			padding: 6px 12px;
+			margin-bottom: 0px;
+		}
 	}
 }
 

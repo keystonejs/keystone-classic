@@ -151,6 +151,7 @@ jQuery(function($) {
 				
 				case 'boolean':
 				case 'cloudinaryimage':
+				case 'cloudinaryimages':
 					str += data.value;
 				break;
 				

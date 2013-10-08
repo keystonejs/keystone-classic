@@ -1,11 +1,13 @@
 /*!
- * Bootstrap v3.0.0
+ * Keystone JS
  *
- * Copyright 2013 Twitter, Inc
+ * Copyright 2013 Jed Watson
+ * Licensed under the MIT License
+ * http://opensource.org/licenses/MIT
+ *
+ * Bootstrap v3.0.0 is Copyright 2013 Twitter, Inc
  * Licensed under the Apache License v2.0
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Designed and built with all the love in the world by @mdo and @fat.
  */
 /*! normalize.css v2.1.0 | MIT License | git.io/normalize */
 article,
@@ -5819,33 +5821,132 @@ textarea.field.type-html textarea {
   border-color: #0088cc #0099e6 #0099e6;
 }
 .field.type-cloudinaryimage .image-preview {
+  position: relative;
+  line-height: 0px;
   float: left;
   margin-right: 10px;
 }
-.field.type-cloudinaryimage .image-details {
-  margin-left: 120px;
+.field.type-cloudinaryimage .image-preview .img-thumbnail {
+  height: 110px;
+}
+.field.type-cloudinaryimage .image-preview .placeholder-wrap {
+  position: relative;
+  height: 110px;
   overflow: hidden;
+}
+.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder {
+  height: 100px;
+  opacity: 0.25;
+}
+.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder.no-preview {
+  width: 100px;
+  display: block;
+}
+.field.type-cloudinaryimage .image-preview .upload-pending,
+.field.type-cloudinaryimage .image-preview .delete-pending {
+  color: #6A6A6A;
+  font-size: 23px;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  margin-left: -11px;
+  margin-top: -12px;
+  text-shadow: 0 0 50px #FFFFFF;
+}
+.field.type-cloudinaryimage .image-preview.removed .img-thumbnail {
+  opacity: 0.25;
+}
+.field.type-cloudinaryimage .image-details {
+  overflow: hidden;
+}
+.field.type-cloudinaryimage .image-details .image-values .field-value {
+  width: auto;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.field.type-cloudinaryimage .image-details .image-values .field-value + .field-value {
+  margin-top: 0;
 }
 .field.type-cloudinaryimage .image-details + .image-toolbar {
   margin-top: 12px;
 }
-.field.type-cloudinaryimage .field-value {
+.field.type-cloudinaryimage .upload-queued,
+.field.type-cloudinaryimage .delete-queued {
+  display: none;
+}
+.field.type-cloudinaryimage .upload-queued .alert,
+.field.type-cloudinaryimage .delete-queued .alert {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  float: left;
+  padding: 6px 12px;
+}
+.field.type-cloudinaryimages .image-field {
+  width: auto;
+  float: left;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+}
+.field.type-cloudinaryimages .image-preview {
+  line-height: 0px;
+}
+.field.type-cloudinaryimages .image-preview .img-thumbnail {
+  height: 110px;
+}
+.field.type-cloudinaryimages .image-preview .placeholder-wrap {
+  height: 110px;
+  overflow: hidden;
+}
+.field.type-cloudinaryimages .image-preview .placeholder-wrap .placeholder {
+  height: 100px;
+  opacity: 0.25;
+}
+.field.type-cloudinaryimages .image-preview .placeholder-wrap .placeholder.no-preview {
+  width: 100px;
+  display: block;
+}
+.field.type-cloudinaryimages .image-preview .upload-pending,
+.field.type-cloudinaryimages .image-preview .delete-pending {
+  color: #6A6A6A;
+  font-size: 23px;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  margin-left: -11px;
+  margin-top: -26px;
+  text-shadow: 0 0 50px #FFFFFF;
+}
+.field.type-cloudinaryimages .image-preview.removed .img-thumbnail {
+  opacity: 0.25;
+}
+.field.type-cloudinaryimages .field-value {
   width: auto;
   float: left;
   margin-right: 10px;
+  margin-bottom: 15px;
 }
-.field.type-cloudinaryimage .field-value + .field-value {
-  margin-top: 0;
+.field.type-cloudinaryimages .upload-queued {
+  display: none;
+  margin-left: 10px;
 }
-.field.type-cloudinaryimage .has-image .image-toolbar {
-  margin-left: 120px;
+.field.type-cloudinaryimages .delete-queued {
+  display: none;
+  margin-left: 10px;
 }
-.field.type-cloudinaryimage .alert {
+.field.type-cloudinaryimages .btn-cancel {
+  margin-left: 0px;
+  font-size: 12px;
+  width: 110px;
+  text-align: center;
+  width: 100%;
+}
+.field.type-cloudinaryimages .images-toolbar .alert {
   margin-bottom: 10px;
   float: left;
-}
-.field.type-cloudinaryimage .upload-queued {
-  display: none;
+  padding: 6px 12px;
+  margin-bottom: 0px;
 }
 .field-upload {
   position: absolute;

@@ -835,14 +835,24 @@ textarea.field.type-html textarea{height:auto}
 .field.type-html textarea+.field.type-html textarea{margin-top:12px}
 .field.type-html textarea:hover{border-color:#999 #bbb #ccc}
 .field.type-html textarea:focus{-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.1),0 0 5px -1px rgba(0,136,204,0.5);box-shadow:inset 0 1px 2px rgba(0,0,0,0.1),0 0 5px -1px rgba(0,136,204,0.5);border-color:#08c #0099e6 #0099e6}
-.field.type-cloudinaryimage .image-preview{float:left;margin-right:10px}
-.field.type-cloudinaryimage .image-details{margin-left:120px;overflow:hidden}
+.field.type-cloudinaryimage .image-preview{position:relative;line-height:0px;float:left;margin-right:10px}.field.type-cloudinaryimage .image-preview .img-thumbnail{height:100px}
+.field.type-cloudinaryimage .image-preview .placeholder-wrap{position:relative;height:100px;overflow:hidden}.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder{height:90px;opacity:0.25}.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder.no-preview{width:90px;display:block}
+.field.type-cloudinaryimage .image-preview .upload-pending,.field.type-cloudinaryimage .image-preview .delete-pending{color:#6A6A6A;font-size:23px;left:50%;top:50%;position:absolute;margin-left:-9px;margin-top:-12px;text-shadow:0 0 50px #FFFFFF}
+.field.type-cloudinaryimage .image-preview.removed .img-thumbnail{opacity:0.25}
+.field.type-cloudinaryimage .image-details{overflow:hidden}.field.type-cloudinaryimage .image-details .image-values .field-value{width:auto;float:left;margin-right:10px;margin-bottom:10px}
+.field.type-cloudinaryimage .image-details .image-values .field-value+.field-value{margin-top:0;margin-right:0}
 .field.type-cloudinaryimage .image-details+.image-toolbar{margin-top:12px}
-.field.type-cloudinaryimage .field-value{width:auto;float:left;margin-right:10px}
-.field.type-cloudinaryimage .field-value+.field-value{margin-top:0}
-.field.type-cloudinaryimage .has-image .image-toolbar{margin-left:120px}
-.field.type-cloudinaryimage .alert{margin-bottom:10px;float:left}
-.field.type-cloudinaryimage .upload-queued{display:none}
+.field.type-cloudinaryimage .upload-queued,.field.type-cloudinaryimage .delete-queued{display:none}.field.type-cloudinaryimage .upload-queued .alert,.field.type-cloudinaryimage .delete-queued .alert{margin-right:10px;margin-bottom:10px;float:left;padding:6px 12px}
+.field.type-cloudinaryimages .image-field{width:auto;float:left;margin-top:0px;margin-right:0px;margin-bottom:10px}
+.field.type-cloudinaryimages .image-preview{line-height:0px}.field.type-cloudinaryimages .image-preview .img-thumbnail{height:100px}
+.field.type-cloudinaryimages .image-preview .placeholder-wrap{height:100px;overflow:hidden}.field.type-cloudinaryimages .image-preview .placeholder-wrap .placeholder{height:90px;opacity:0.25}.field.type-cloudinaryimages .image-preview .placeholder-wrap .placeholder.no-preview{width:90px;display:block}
+.field.type-cloudinaryimages .image-preview .upload-pending,.field.type-cloudinaryimages .image-preview .delete-pending{color:#6A6A6A;font-size:23px;left:50%;top:50%;position:absolute;margin-left:-9px;margin-top:-26px;text-shadow:0 0 50px #FFFFFF}
+.field.type-cloudinaryimages .image-preview.removed .img-thumbnail{opacity:0.25}
+.field.type-cloudinaryimages .field-value{width:auto;float:left;margin-right:10px;margin-bottom:15px}
+.field.type-cloudinaryimages .upload-queued{display:none;margin-left:10px}
+.field.type-cloudinaryimages .delete-queued{display:none;margin-left:10px}
+.field.type-cloudinaryimages .btn-cancel{margin-left:0px;font-size:12px;width:110px;text-align:center;width:100%}
+.field.type-cloudinaryimages .images-toolbar .alert{margin-bottom:10px;float:left;padding:6px 12px;margin-bottom:0px}
 .field-upload{position:absolute;width:1px;height:1px;opacity:0.01}
 .ui-related-item{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px;background:#white;color:#0089cb;margin-right:5px;text-decoration:none}.ui-related-item+.ui-related-item{margin-top:12px}
 .ui-related-item.no-value{color:#999;cursor:default}

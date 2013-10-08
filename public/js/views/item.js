@@ -42,6 +42,7 @@ jQuery(function($) {
 				case 'select':
 				case 'relationship':
 				case 'cloudinaryimage':
+				case 'cloudinaryimages':
 					return $field.data('field-value');
 			}
 			
@@ -58,6 +59,7 @@ jQuery(function($) {
 				case 'textarea':
 					return $field.find('textarea').val();
 				case 'cloudinaryimage':
+				case 'cloudinaryimages':
 					return $field.data('field-value');
 			}
 			
@@ -259,28 +261,6 @@ jQuery(function($) {
 			}
 			
 		});
-		
-	});
-	
-	$('.btn-delete-image').click(function(e) {
-		
-		var $field = $(this).closest('.field');
-		
-		if (e.altKey) {
-			if (!confirm("Are you sure you want to delete the image?\n\n"))
-				return;
-			$field.find('.field-action').val('delete');
-		} else {
-			$field.find('.field-action').val('reset');
-		}
-		
-		$field.find('.has-image').removeClass('has-image');
-		$field.find('.image-preview').remove();
-		$field.find('.image-details').remove();
-		
-		$(this).remove();
-		
-		$(window).trigger('redraw');
 		
 	});
 	

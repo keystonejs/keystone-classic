@@ -127,18 +127,6 @@ jQuery(function($) {
 		
 	});
 	
-	$('.btn-upload').click(function() {
-		$(this).closest('.field').find('.field-upload').click();
-	});
-	
-	$('.field-upload').change(function() {
-		var imageSelected = $(this).val() ? true : false,
-			$field = $(this).closest('.field');
-		$field.find('.upload-queued')[imageSelected ? 'show' : 'hide']();
-		$field.find('.btn-upload').text(imageSelected ? 'Upload a different image' : 'Upload image');
-		$(window).trigger('redraw');
-	});
-	
 	$('.btn.autoclick').each(function() {
 		var $btn = $(this);
 		setTimeout(function() {
