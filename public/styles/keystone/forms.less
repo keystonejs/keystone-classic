@@ -152,14 +152,11 @@ label.checkbox {
 // columns separated fields
 // need space when the form collapses
 .form-row {
+	.col-spacing(0,0 5px);
 	.make-row(10px);
 	
-	[class^="col-"] { padding-left: 5px; padding-right: 5px; }
-	
 	@media (max-width: @screen-sm) {
-		[class^="col-"] + [class^="col-"] {
-			margin-top: .8em;
-		}
+		.col-spacing(0 0 .8em,0 5px);
 	}
 }
 

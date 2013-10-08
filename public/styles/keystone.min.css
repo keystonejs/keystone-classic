@@ -798,12 +798,12 @@ textarea{resize:vertical;overflow:auto;min-height:100px}textarea.tall{min-height
 input.code,textarea.code{font-size:12px !important}
 .radio,.checkbox{margin-bottom:0;margin-top:0}
 label.checkbox{padding-top:0}
-.form-row{margin-left:-5px;margin-right:-5px}.form-row:before,.form-row:after{content:" ";display:table;}
+.form-row{margin-left:-5px;margin-right:-5px}.form-row .col-xs-1,.form-row .col-xs-2,.form-row .col-xs-3,.form-row .col-xs-4,.form-row .col-xs-5,.form-row .col-xs-6,.form-row .col-xs-7,.form-row .col-xs-8,.form-row .col-xs-9,.form-row .col-xs-10,.form-row .col-xs-11,.form-row .col-xs-12,.form-row .col-sm-1,.form-row .col-sm-2,.form-row .col-sm-3,.form-row .col-sm-4,.form-row .col-sm-5,.form-row .col-sm-6,.form-row .col-sm-7,.form-row .col-sm-8,.form-row .col-sm-9,.form-row .col-sm-10,.form-row .col-sm-11,.form-row .col-sm-12,.form-row .col-md-1,.form-row .col-md-2,.form-row .col-md-3,.form-row .col-md-4,.form-row .col-md-5,.form-row .col-md-6,.form-row .col-md-7,.form-row .col-md-8,.form-row .col-md-9,.form-row .col-md-10,.form-row .col-md-11,.form-row .col-md-12,.form-row .col-lg-1,.form-row .col-lg-2,.form-row .col-lg-3,.form-row .col-lg-4,.form-row .col-lg-5,.form-row .col-lg-6,.form-row .col-lg-7,.form-row .col-lg-8,.form-row .col-lg-9,.form-row .col-lg-10,.form-row .col-lg-11,.form-row .col-lg-12{margin:0;padding:0 5px}
+.form-row:before,.form-row:after{content:" ";display:table;}
 .form-row:after{clear:both}
 .form-row:before,.form-row:after{content:" ";display:table;}
 .form-row:after{clear:both}
-.form-row [class^="col-"]{padding-left:5px;padding-right:5px}
-@media (max-width:768px){.form-row [class^="col-"]+[class^="col-"]{margin-top:.8em}}
+@media (max-width:768px){.form-row .col-xs-1,.form-row .col-xs-2,.form-row .col-xs-3,.form-row .col-xs-4,.form-row .col-xs-5,.form-row .col-xs-6,.form-row .col-xs-7,.form-row .col-xs-8,.form-row .col-xs-9,.form-row .col-xs-10,.form-row .col-xs-11,.form-row .col-xs-12,.form-row .col-sm-1,.form-row .col-sm-2,.form-row .col-sm-3,.form-row .col-sm-4,.form-row .col-sm-5,.form-row .col-sm-6,.form-row .col-sm-7,.form-row .col-sm-8,.form-row .col-sm-9,.form-row .col-sm-10,.form-row .col-sm-11,.form-row .col-sm-12,.form-row .col-md-1,.form-row .col-md-2,.form-row .col-md-3,.form-row .col-md-4,.form-row .col-md-5,.form-row .col-md-6,.form-row .col-md-7,.form-row .col-md-8,.form-row .col-md-9,.form-row .col-md-10,.form-row .col-md-11,.form-row .col-md-12,.form-row .col-lg-1,.form-row .col-lg-2,.form-row .col-lg-3,.form-row .col-lg-4,.form-row .col-lg-5,.form-row .col-lg-6,.form-row .col-lg-7,.form-row .col-lg-8,.form-row .col-lg-9,.form-row .col-lg-10,.form-row .col-lg-11,.form-row .col-lg-12{margin:0 0 .8em;padding:0 5px}}
 @media (min-width:768px){.field-postcode{text-align:right}}
 .input-xs{height:22px;padding:1px 5px;font-size:12px;line-height:1.5;border-radius:3px}select.input-xs{height:22px;line-height:22px}
 textarea.input-xs{height:auto}
