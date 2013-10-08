@@ -29,7 +29,9 @@ jQuery(function($) {
 		
 		// Displays or hides the queue message if we have pending uploads
 		var checkQueues = function() {
-			var uploads = $el.find('input[type=file]').length;
+			var uploads = _.filter($el.find('input[type=file]'), function(f) {
+				if ($(f).val()) return f;
+			}).length;
 				$uploadQueued[( uploads ? 'show' : 'hide' )]();
 				$uploadQueued.find('.alert').html(uploads + ' image' + ( uploads > 1 ? 's' : '' ) + ' selected - save to upload');
 			var removals = actions.delete.length + actions.remove.length;
