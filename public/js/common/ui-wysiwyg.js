@@ -1,26 +1,14 @@
 jQuery(function($) {
 	
+	// TODO: This script file should really only be included on the item screen, discuss
+	if (!window.tinymce)
+		return;
+	
 	tinymce.init({
-		selector: 'textarea.wysiwyg'
+		selector: 'textarea.wysiwyg',
+		menubar: false,
+		plugins: [ 'code', 'link' ],
+		toolbar: 'code | bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link'
 	});
-	
-	/*
-	$('textarea.wysiwyg').each(function() {
-	
-		var $field = $(this);
-		
-		if (!$field.prop('id'))
-			$field.prop('id', 'ui-wysiwyg-' + new Date().getTime());
-		
-		tinymce.init({
-			selector: '#' + $field.prop('id')
-		});
-		
-		setTimeout(function() {
-			$field.addClass('code');
-		}, 1000);
-	
-	});
-	*/
 	
 });
