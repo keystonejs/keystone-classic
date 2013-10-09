@@ -29,9 +29,11 @@ jQuery(function($) {
 		
 		// Displays or hides the queue message if we have pending uploads
 		var checkQueues = function() {
-			var uploads = _.filter($el.find('input[type=file]'), function(f) {
-				if ($(f).val()) return f;
-			}).length;
+			// TODO: May want to check FileList ability here
+			var uploads = 0;
+				_.each($el.find('input[type=file]'), function(f) {
+					uploads+= f.files.length;
+				});
 				$uploadQueued[( uploads ? 'show' : 'hide' )]();
 				$uploadQueued.find('.alert').html(uploads + ' image' + ( uploads > 1 ? 's' : '' ) + ' selected - save to upload');
 			var removals = actions.delete.length + actions.remove.length;
@@ -107,7 +109,7 @@ jQuery(function($) {
 		'</div>';
 		
 		$upload.click(function() {
-			var $field = $('<input id="' + new Date().getTime() + '" type="file" name="' + data.fieldPathsUpload + '" class="field-upload">').appendTo($toolbar);
+			var $field = $('<input id="' + new Date().getTime() + '" type="file" multiple name="' + data.fieldPathsUpload + '[]" class="field-upload">').appendTo($toolbar);
 			$field.change(function(e) {
 				var imageSelected = $(this).val() ? true : false;
 				var renderPlaceholder = function() {
