@@ -83,8 +83,7 @@ Keystone's advanced field types include:
 		used in accordance with Google's terms of service.
 	*	*Note: this field has been based on Australian address formats, and should be updated
 		to be more friendly for other international formats. I am looking for feedback on this!*
-*	`cloudinaryimage`
-*	`cloudinaryimages`
+*	`cloudinaryimage` (object)
 	*	Automatically manages images stored in [cloudinary](http://cloudinary.com).
 	*	Provides an `exists` virtual for detecting whether the field stores an image
 	*	Has the built in ability to upload/delete images to/from cloudinary, as well as methods
@@ -98,6 +97,10 @@ Keystone's advanced field types include:
 		*	`fill(width, height)` - scales the image to fill the specified width and height
 		*	`crop(width, height)` - crops the image to fill the specified width and height
 		*	`thumbnail(width, height)` - crops the image to fill the specified width and height
+*	`cloudinaryimages` (array)
+	*	Stores multiple images in a array as a nested Schema, which exposes the same methods as
+		the `cloudinaryimage` field
+	*	Allows multiple images to be uploaded / removed / deleted in the Admin UI
 
 
 Fields support several options:
