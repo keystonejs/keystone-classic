@@ -22,7 +22,7 @@ html
 		
 	body
 		#wrap
-			nav(role='navigation')#header.navbar: .container
+			nav(role='navigation')#header.navbar.navbar-default.navbar-static-top: .container
 				a(href='/').navbar-backtobrand.hidden-xs: span.glyphicon.glyphicon-arrow-left
 				.navbar-header
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-headernav-collapse')
@@ -30,7 +30,8 @@ html
 						span.icon-bar
 						span.icon-bar
 						span.icon-bar
-					a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
+					a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand.hidden-xs= brand
+					.navbar-brand.visible-xs=section.label
 				.collapse.navbar-collapse.navbar-headernav-collapse
 					ul.nav.navbar-nav: each navSection in nav.sections
 						li(class=section.key == navSection.key ? 'active' : false): a(href='/keystone/' + navSection.lists[0].path)= navSection.label
@@ -39,14 +40,15 @@ html
 							li.divider
 							li: a(href=signout).signout Sign Out
 			if section.lists && section.lists.length > 1
-				nav(role='navigation')#section-nav.navbar.navbar-default: .container
+				nav(role='navigation')#section-nav.navbar.navbar-default.navbar-static-top: .container
 					.navbar-header
 						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-sectionnav-collapse')
 							span.sr-only Toggle list navigation
 							span.icon-bar
 							span.icon-bar
 							span.icon-bar
-						.navbar-brand.visible-xs= list.label
+						.navbar-brand.hidden-xs=section.label
+						.navbar-brand.visible-xs=list.label
 					.collapse.navbar-collapse.navbar-sectionnav-collapse
 						ul.nav.navbar-nav: each navList in section.lists
 							li(class=navList.key == list.key ? 'active' : false): a(href='/keystone/' + navList.path)= navList.label

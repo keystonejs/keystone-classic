@@ -326,14 +326,14 @@ mixin formField_location(field, item)
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '', placeholder='Latitude').form-control
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Longitude').form-control
 
-			if field.enableMapsAPI
-				.row: .col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2.improve-options
-					label(for=field.paths.improve, title='When checked, this will attempt to fill missing fields. It will also get the lat/long').checkbox.autoimprove
-						input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
-						|  Autodetect and improve location on save
-					label(for=field.paths.overwrite).checkbox.overwrite
-						input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
-						|  Replace existing data
+				if field.enableMapsAPI
+					.row: .col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2.improve-options
+						label(for=field.paths.improve, title='When checked, this will attempt to fill missing fields. It will also get the lat/long').checkbox.autoimprove
+							input(type='checkbox', name=field.paths.improve, id=field.paths.improve, value='true')
+							|  Autodetect and improve location on save
+						label(for=field.paths.overwrite).checkbox.overwrite
+							input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
+							|  Replace existing data
 		
 		if field.note
 			.field-note= field.note
