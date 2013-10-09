@@ -636,14 +636,24 @@ table.items-list {
 	}
 	
 	// links get a larger hit area
-	a {
+	tbody a {
 		display: inline-block;
 		padding: @padding-small-vertical @padding-small-horizontal;
-		text-decoration: none;
 		color: @text-color;
+		text-decoration: none;
 		
 		&:hover {
 			color: darken(@text-color, 10%);
+			text-decoration: underline;
+		}
+	}
+	
+	thead a {
+		color: @text-color;
+		text-decoration: none;
+		margin-right: 5px;
+		
+		&:hover {
 			text-decoration: underline;
 		}
 	}

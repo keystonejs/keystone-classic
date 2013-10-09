@@ -961,7 +961,8 @@ table.items-list thead>tr>td,table.items-list tbody>tr>td,table.items-list tfoot
 table.items-list tr.delete-hover td{color:#AD1212}table.items-list tr.delete-hover td a{color:#AD1212}
 table.items-list tr.sort-hover .control-sort,table.items-list tr.dragged .control-sort{opacity:1}
 table.items-list tr.sort-hover td,table.items-list tr.dragged td{color:#246818}table.items-list tr.sort-hover td a,table.items-list tr.dragged td a{color:#246818}
-table.items-list a{display:inline-block;padding:5px 10px;text-decoration:none;color:#333}table.items-list a:hover{color:#1a1a1a;text-decoration:underline}
+table.items-list tbody a{display:inline-block;padding:5px 10px;color:#333;text-decoration:none}table.items-list tbody a:hover{color:#1a1a1a;text-decoration:underline}
+table.items-list thead a{color:#333;text-decoration:none;margin-right:5px}table.items-list thead a:hover{text-decoration:underline}
 table.items-list .col-value{padding:5px 10px}
 table.items-list .col-boolean{text-align:left;padding:5px 10px 2px}
 table.relationships-list thead>tr>th,table.relationships-list tbody>tr>th,table.relationships-list tfoot>tr>th{color:#999;font-size:12px;text-transform:uppercase}
