@@ -216,6 +216,7 @@ mixin formField_cloudinaryimage(field, item)
 					.image-preview
 						a(href=item.get(field.paths.url), rel=field.path).img-thumbnail
 							img(width=90, height=90, data-src=field.apply(item, 'fit', false, 90)).img-load
+							.glyphicon.glyphicon-picture.img-loading
 					.image-details
 						.field-value= item.get(field.paths.url)
 						.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
@@ -227,7 +228,8 @@ mixin formField_cloudinaryimage(field, item)
 						.image-preview.current
 							a(href=item.get(field.paths.url), rel=field.path).img-thumbnail
 								img(width=90, height=90, data-src=field.apply(item, 'fit', false, 90)).img-load
-							.glyphicon.delete-pending(style='display: none;')
+								.glyphicon.glyphicon-picture.img-loading
+								.glyphicon.delete-pending(style='display: none;')
 					.image-details
 						if hasImage
 							.image-values
@@ -262,6 +264,7 @@ mixin formField_cloudinaryimages(field, item)
 						.image-preview
 							a(href=value.url, rel=field.path).img-thumbnail
 								img(width=90, height=90, data-src=value.fit(false, 90)).img-load
+								.glyphicon.glyphicon-picture.img-loading
 			else
 				.images-container.clearfix
 					each value in item.get(field.path)
@@ -269,10 +272,9 @@ mixin formField_cloudinaryimages(field, item)
 							.image-preview
 								a(href=value.url, rel=field.path).img-thumbnail
 									img(width=90, height=90, data-src=value.fit(false, 90)).img-load
-								.glyphicon.delete-pending(style='display: none;')
+									.glyphicon.glyphicon-picture.img-loading
+									.glyphicon.delete-pending(style='display: none;')
 							.image-details
-								//- .field-value= value.url
-								//- .field-value= value.width + ' x ' + value.height
 								a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-image Remove
 								a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
 				.images-toolbar.row.col-sm-3.col-md-12

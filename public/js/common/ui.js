@@ -24,6 +24,7 @@ jQuery(function($) {
 			$img[0].removeAttribute('width');
 			$img[0].removeAttribute('height');
 			$img.css('opacity', '');
+			$img.parent().find('.img-loading').remove();
 		});
 		$img.prop('src', $img.data().src);
 	})
