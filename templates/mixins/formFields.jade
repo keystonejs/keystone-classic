@@ -270,7 +270,7 @@ mixin formField_cloudinaryimages(field, item)
 					each value in item.get(field.path)
 						.image-field.row.col-sm-3.col-md-12(data-id=value.public_id, title=value.width + ' x ' + value.height)
 							.image-preview
-								a(href=value.url, rel=field.path, data-id=value.public_id).img-thumbnail
+								a(href=value.url, rel=field.path).img-thumbnail
 									img(width=90, height=90, data-src=value.fit(false, 90)).img-load
 									.glyphicon.glyphicon-picture.img-loading
 									.glyphicon.delete-pending(style='display: none;')
