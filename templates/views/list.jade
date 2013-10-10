@@ -3,7 +3,7 @@ extends ../layout/base
 include ../mixins/initialFields
 include ../mixins/columns
 
-block page-js
+block js
 	script(src='/keystone/js/views/list.js')
 	script.
 		Keystone.list = { path: "#{list.path}", cols: !{JSON.stringify(colPaths)} };
