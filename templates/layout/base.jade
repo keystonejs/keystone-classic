@@ -81,6 +81,11 @@ html
 		//- App
 		script.
 			Keystone = {};
+		if cloudinary
+			script(src='/keystone/js/lib/cloudinary/jquery.cloudinary.js')
+			script.
+				Keystone.cloudinary = { cloud_name: "#{cloudinary.cloud_name}", api_key: "#{cloudinary.api_key}" }
+				$.cloudinary.config({ cloud_name: "#{cloudinary.cloud_name}", api_key: "#{cloudinary.api_key}" });
 		
 		//- Keystone UI
 		script(src="/keystone/js/common/plugins.js")

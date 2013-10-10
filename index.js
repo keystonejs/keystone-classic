@@ -684,6 +684,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		title: 'Keystone',
 		signout: this.get('signout'),
 		section: {},
+		cloudinary: keystone.get('cloudinary config'),
 		ga: {
 			property: this.get('ga property'),
 			domain: this.get('ga domain')
