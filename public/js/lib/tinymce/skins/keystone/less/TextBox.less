@@ -6,7 +6,7 @@
 	.border-radius(3px);
 	.box-shadow(@textbox-box-shadow);
 	display: inline-block;
-	.transition(~"border linear .2s, box-shadow linear .2s");
+	.transition(border linear .2s);
 	height: 28px;
 	resize: none;
 	padding: 0 4px 0 4px;
@@ -17,7 +17,6 @@
 
 .mce-textbox:focus, .mce-textbox.mce-focus {
 	border-color: @textbox-border-focus;
-	.box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px fadeout(@textbox-border-focus, 15%));
 }
 
 .mce-placeholder .mce-textbox {

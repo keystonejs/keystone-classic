@@ -2,13 +2,16 @@
 
 .mce-path {
 	.inline-block();
-	padding: 8px;
+	padding-top: 5px;
 	white-space: normal;
 }
 
 .mce-path .mce-txt {
 	display: inline-block;
-	padding-right: 3px;
+	color: @path-text;
+	font-size: @path-font-size;
+	font-family: @path-font;
+	padding: 2px 6px 3px;
 }
 
 .mce-path .mce-path-body {
@@ -19,17 +22,29 @@
 	.inline-block();
 	cursor: pointer;
 	color: @path-text;
+	font-size: @path-font-size;
+	font-family: @path-font;
+	padding: 2px 6px 3px;
+	border: 1px solid @path-border;
+	.border-radius(3px);
 }
 
 .mce-path-item:hover {
-	text-decoration: underline;
+	color: @path-text-hover;
+	background-color: @path-bg-hover;
+	border-color: @path-border-hover;
 }
 
 .mce-path-item:focus {
-	background: @path-bg-focus;
 	color: @path-text-focus;
+	background-color: @path-bg-focus;
+	border-color: @path-border-focus;
 }
 
 .mce-path .mce-divider {
-	display: inline;
+	display: inline-block;
+	font-size: @path-font-size;
+	font-family: @path-font;
+	padding: 2px 4px 3px;
+	color: @path-text;
 }

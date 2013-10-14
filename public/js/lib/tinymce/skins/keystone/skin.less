@@ -35,3 +35,19 @@
 @import "less/TextBox.less";
 @import "less/Throbber.less";
 @import "less/Icons.less";
+
+/* Custom Styles */
+.mce-edit-area {
+	border: 1px solid @panel-border;
+	border-width: 1px !important;
+	.border-radius(3px);
+	
+	iframe {
+		.border-radius(3px);
+	}
+}
+
+.mce-window textarea {
+	font-size: 12px;
+	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
