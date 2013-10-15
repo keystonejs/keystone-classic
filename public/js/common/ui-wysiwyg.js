@@ -6,10 +6,9 @@ jQuery(function($) {
 	tinymce.init({
 		selector: 'textarea.wysiwyg',
 		menubar: false,
-		statusbar: false,
 		plugins: [ 'code', 'link' ],
-		toolbar: 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link image | code'
-		// skin: 'keystone'
+		toolbar: 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link | code',
+		skin: 'keystone'
 	});
 	
 	// Draggable Image Fields (WIP)
