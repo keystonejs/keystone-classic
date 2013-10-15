@@ -29,8 +29,11 @@ html
 						span.icon-bar
 						span.icon-bar
 						span.icon-bar
-					a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand.hidden-xs= brand
-					.navbar-brand.visible-xs=section.label
+					if section.lists && section.lists.length > 1
+						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
+						
+					else
+						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
 				.collapse.navbar-collapse.navbar-headernav-collapse
 					ul.nav.navbar-nav: each navSection in nav.sections
 						li(class=section.key == navSection.key ? 'active' : false): a(href='/keystone/' + navSection.lists[0].path)= navSection.label
@@ -46,8 +49,10 @@ html
 							span.icon-bar
 							span.icon-bar
 							span.icon-bar
-						.navbar-brand.hidden-xs=section.label
-						.navbar-brand.visible-xs=list.label
+						.navbar-brand.visible-xs
+							=section.label
+							if section.label != list.label
+								| : #{list.label}
 					.collapse.navbar-collapse.navbar-sectionnav-collapse
 						ul.nav.navbar-nav: each navList in section.lists
 							li(class=navList.key == list.key ? 'active' : false): a(href='/keystone/' + navList.path)= navList.label

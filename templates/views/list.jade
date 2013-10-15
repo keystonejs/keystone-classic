@@ -139,7 +139,9 @@ block content
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
 					
-					.col-sm-4: .pull-right
+					//- lg screens only
+					//- columns and download aren't relevant when using a mobile device
+					.col-sm-4.hidden-xs: .pull-right
 						a(href='/keystone/download/#{list.path}').btn.btn-default.pull-right Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
@@ -158,12 +160,11 @@ block content
 									li: a(href=link_to({ cols: undefined }))
 										span.glyphicon.glyphicon-remove-circle.icon
 										span Reset to default
-							
-					
-					.col-xs-8.col-sm-4
-						
-			
-			
+										
+										
+										
+										
+										
 			//-
 			//- List Filters
 			//- ------------------------------
