@@ -323,10 +323,10 @@ mixin formField_location(field, item)
 					.col-sm-3.col-md-2: label.text-muted Country
 					.col-sm-9.col-md-5: input(type='text', name=field.paths.country, value=item.get(field.paths.country)).form-control
 				.row.extras
-					.col-sm-3.col-md-2: label.text-muted Lat/Long
+					.col-sm-3.col-md-2: label.text-muted Lng/Lat
 					.col-sm-9.col-md-5: .form-row
-						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '', placeholder='Latitude').form-control
-						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Longitude').form-control
+						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '', placeholder='Longitude').form-control
+						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Latitude').form-control
 
 				if field.enableMapsAPI
 					.row: .col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2.improve-options
