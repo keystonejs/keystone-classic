@@ -5849,6 +5849,7 @@ textarea.field.type-html textarea {
   display: block;
 }
 .field.type-cloudinaryimage .image-preview .img-loading,
+.field.type-cloudinaryimage .image-preview .img-uploading,
 .field.type-cloudinaryimage .image-preview .upload-pending,
 .field.type-cloudinaryimage .image-preview .delete-pending {
   color: #6A6A6A;
@@ -5881,6 +5882,13 @@ textarea.field.type-html textarea {
   margin-top: 0;
   margin-right: 0;
 }
+.field.type-cloudinaryimage .image-details .image-message {
+  margin-left: 0px;
+  font-size: 12px;
+  width: 110px;
+  text-align: center;
+  width: 100%;
+}
 .field.type-cloudinaryimage .image-details + .image-toolbar {
   margin-top: 12px;
 }
@@ -5902,6 +5910,26 @@ textarea.field.type-html textarea {
   margin-right: 0px;
   margin-bottom: 10px;
 }
+.field.type-cloudinaryimages .image-field.image-upload {
+  cursor: pointer;
+}
+.field.type-cloudinaryimages .image-field.image-upload:hover .image-message {
+  text-decoration: underline;
+}
+.field.type-cloudinaryimages .image-field.image-upload .img-thumbnail {
+  border: 1px solid #A1D39E;
+  background: #EFFFEE;
+}
+.field.type-cloudinaryimages .image-field.image-upload .img-thumbnail .img-uploading {
+  color: #A1D39E;
+}
+.field.type-cloudinaryimages .image-field.image-upload .img-thumbnail .img-dropzone {
+  width: 90px;
+  height: 90px;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
 .field.type-cloudinaryimages .image-preview {
   line-height: 0px;
 }
@@ -5918,6 +5946,7 @@ textarea.field.type-html textarea {
   display: block;
 }
 .field.type-cloudinaryimages .image-preview .img-loading,
+.field.type-cloudinaryimages .image-preview .img-uploading,
 .field.type-cloudinaryimages .image-preview .upload-pending,
 .field.type-cloudinaryimages .image-preview .delete-pending {
   color: #6A6A6A;
@@ -5930,11 +5959,31 @@ textarea.field.type-html textarea {
   line-height: 23px;
   text-shadow: 0 0 50px #FFFFFF;
 }
+.field.type-cloudinaryimages .image-preview .image-message {
+  margin-left: 0px;
+  font-size: 12px;
+  width: 110px;
+  text-align: center;
+  width: 100%;
+}
 .field.type-cloudinaryimages .image-preview .img-thumbnail img {
   display: block;
 }
 .field.type-cloudinaryimages .image-preview.removed .img-thumbnail img {
   opacity: 0.25;
+}
+.field.type-cloudinaryimages .image-details .image-message {
+  display: inline-block;
+  padding: 6px 10px;
+  margin-bottom: 0;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  margin-left: 0px;
+  font-size: 12px;
+  width: 100%;
 }
 .field.type-cloudinaryimages .field-value {
   width: auto;
@@ -5962,6 +6011,18 @@ textarea.field.type-html textarea {
   float: left;
   padding: 6px 12px;
   margin-bottom: 0px;
+}
+.field.type-cloudinaryimages .sortable-placeholder {
+  border: 1px dashed #777;
+  background: none;
+  margin-top: 0px;
+  margin-left: 3px;
+  margin-right: 12px;
+  margin-bottom: 0px;
+  float: left;
+}
+.field.type-cloudinaryimages [draggable=true] {
+  -khtml-user-drag: element;
 }
 .field-upload {
   position: absolute;

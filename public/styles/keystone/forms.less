@@ -298,7 +298,7 @@ label.checkbox {
 				}
 			}
 		}
-		.img-loading, .upload-pending, .delete-pending {
+		.img-loading, .img-uploading, .upload-pending, .delete-pending {
 			color: #6A6A6A;
 			font-size: 23px;
 			left: 50%;
@@ -338,6 +338,13 @@ label.checkbox {
 				margin-right: 0;
 			}
 		}
+		.image-message {
+			margin-left: 0px;
+			font-size: 12px;
+			width: 110px;
+			text-align: center;
+			width: 100%;
+		}
 	}
 	
 	.image-details + .image-toolbar {
@@ -363,6 +370,29 @@ label.checkbox {
 		margin-top: 0px;
 		margin-right: 0px;
 		margin-bottom: 10px;
+		
+		&.image-upload {
+			cursor: pointer;
+			&:hover {
+				.image-message {
+					text-decoration: underline;
+				}
+			}
+			.img-thumbnail {
+				border: 1px solid #C8EECD;
+				background: #EFFDF0;
+				.img-uploading {
+					color: #0B851A;
+				}
+				.img-dropzone {
+					width: 90px;
+					height: 90px;
+					display: block;
+					position: relative;
+					z-index: 1;
+				}
+			}
+		}
 	}
 	.image-preview {
 		line-height: 0px;
@@ -380,7 +410,7 @@ label.checkbox {
 				}
 			}
 		}
-		.img-loading, .upload-pending, .delete-pending {
+		.img-loading, .img-uploading, .upload-pending, .delete-pending {
 			color: #6A6A6A;
 			font-size: 23px;
 			left: 50%;
@@ -390,6 +420,13 @@ label.checkbox {
 			margin-top: -27px;
 			line-height: 23px;
 			text-shadow: 0 0 50px #FFFFFF;
+		}
+		.image-message {
+			margin-left: 0px;
+			font-size: 12px;
+			width: 110px;
+			text-align: center;
+			width: 100%;
 		}
 		.img-thumbnail {
 			img {
@@ -402,6 +439,22 @@ label.checkbox {
 					opacity: 0.25;
 				}
 			}
+		}
+	}
+	.image-details {
+		.image-message {
+			display: inline-block;
+			padding: @padding-base-vertical @padding-base-horizontal;
+			margin-bottom: 0;
+			font-size: 12px;
+			font-weight: @btn-font-weight;
+			line-height: @line-height-base;
+			text-align: center;
+			vertical-align: middle;
+			white-space: nowrap;
+			margin-left: 0px;
+			font-size: 12px;
+			width: 100%;
 		}
 	}
 	.field-value {
@@ -432,6 +485,18 @@ label.checkbox {
 			padding: 6px 12px;
 			margin-bottom: 0px;
 		}
+	}
+	.sortable-placeholder {
+		border: 1px dashed #777;
+		background: none;
+		margin-top: 0px;
+		margin-left: 3px;
+		margin-right: 12px;
+		margin-bottom: 0px;
+		float: left;
+	}
+	[draggable=true] {
+		-khtml-user-drag: element;
 	}
 }
 
