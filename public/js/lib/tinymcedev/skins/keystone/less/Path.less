@@ -1,0 +1,50 @@
+// Path
+
+.mce-path {
+	.inline-block();
+	padding-top: 5px;
+	white-space: normal;
+}
+
+.mce-path .mce-txt {
+	display: inline-block;
+	color: @path-text;
+	font-size: @path-font-size;
+	font-family: @path-font;
+	padding: 2px 6px 3px;
+}
+
+.mce-path .mce-path-body {
+	display: inline-block;
+}
+
+.mce-path-item {
+	.inline-block();
+	cursor: pointer;
+	color: @path-text;
+	font-size: @path-font-size;
+	font-family: @path-font;
+	padding: 2px 6px 3px;
+	border: 1px solid @path-border;
+	.border-radius(3px);
+}
+
+.mce-path-item:hover {
+	color: @path-text-hover;
+	background-color: @path-bg-hover;
+	border-color: @path-border-hover;
+}
+
+.mce-path-item:focus {
+	color: @path-text-focus;
+	background-color: @path-bg-focus;
+	border-color: @path-border-focus;
+}
+
+.mce-path .mce-divider {
+	display: inline-block;
+	font-size: @path-font-size;
+	font-family: @path-font;
+	padding: 2px 4px 3px;
+	color: @path-text;
+}
