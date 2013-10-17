@@ -1,0 +1,27 @@
+// Label
+
+.mce-label {
+	.inline-block();
+	text-shadow: @text-shadow;
+	border: 0;
+	overflow: hidden;
+}
+
+.mce-label.mce-autoscroll {
+	overflow: auto;
+}
+
+.mce-label.mce-disabled {
+	color: @text-disabled;
+}
+
+.mce-label.mce-multiline {
+	white-space: pre-wrap;
+}
+
+// RTL
+
+.mce-rtl .mce-label {
+	text-align: right;
+	direction: rtl;
+}
