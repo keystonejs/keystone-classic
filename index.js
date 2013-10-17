@@ -726,6 +726,38 @@ Keystone.prototype.render = function(req, res, view, ext) {
 }
 
 /**
+ * Populates relationships on a document or array of documents
+ * 
+ * WARNING: This is currently highly inefficient and should only be used in development, or for
+ * small data sets. There are lots of things that can be done to improve performance... later.
+ *
+ * @api public
+ */
+
+Keystone.prototype.populateRelated = function(docs, relationships, callback) {
+	
+	/*
+	var start = new Date().getTime();
+	
+	var callback = function() {
+		console.log('done popoulateRelated in ' + (new Date().getTime() - start) + 'ms');
+		next.call(arguments);
+	}
+	*/
+	
+	if (Array.isArray(docs)) {
+		async.each(docs, function(doc, done) {
+			doc.populateRelated(relationships, done);
+		}, callback);
+	} else if (docs && docs.populateRelated) {
+		docs.populateRelated(relationships, callback);
+	} else {
+		callback();
+	}
+	
+}
+
+/**
  * Keystone version
  *
  * @api public
