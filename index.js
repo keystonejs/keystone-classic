@@ -3,6 +3,7 @@ var fs = require('fs'),
 	http = require('http'),
 	_ = require('underscore'),
 	express = require('express'),
+	async = require('async'),
 	jade = require('jade'),
 	moment = require('moment'),
 	numeral = require('numeral'),
@@ -312,6 +313,7 @@ Keystone.prototype.initNav = function(sections) {
  *   - cookie secret
  *   - session
  *   - 404
+ *   - 500
  *   - routes
  *   - locals
  *   - auto update
@@ -322,8 +324,9 @@ Keystone.prototype.initNav = function(sections) {
 
 Keystone.prototype.start = function(onStart) {
 	
-	if (!this.app)
+	if (!this.app) {
 		throw new Error("Keystone app must be initialised first.");
+	}
 		
 	this.nativeApp = true;
 	
@@ -338,28 +341,35 @@ Keystone.prototype.start = function(onStart) {
 	
 	// Apply locals
 	
-	if (utils.isObject(this.get('locals')))
+	if (utils.isObject(this.get('locals'))) {
 		_.extend(app.locals, this.get('locals'));
+	}
 	
-	if (this.get('env') != 'production')
+	if (this.get('env') != 'production') {
 		app.locals.pretty = true;
+	}
 	
 	// Serve static assets
 	
-	if (this.get('compress'))
+	if (this.get('compress')) {
 		app.use(express.compress());
+	}
 	
-	if (this.get('favico'))
+	if (this.get('favico')) {
 		app.use(express.favicon(this.getPath('favico')));
+	}
 	
-	if (this.get('less'))
+	if (this.get('less')) {
 		app.use(require('less-middleware')({ src: this.getPath('less') }));
+	}
 	
-	if (this.get('static'))
+	if (this.get('static')) {
 		app.use(express.static(this.getPath('static')));
+	}
 	
-	if (!this.get('headless'))
+	if (!this.get('headless')) {
 		keystone.static(app);
+	}
 	
 	// Handle dynamic requests
 	
@@ -373,20 +383,29 @@ Keystone.prototype.start = function(onStart) {
 	app.use(express.session());
 	app.use(require('connect-flash')());
 	
-	if (this.get('session') === true)
+	if (this.get('session') === true) {
 		app.use(this.session.persist);
-	else if ('function' == typeof this.get('session'))
+	} else if ('function' == typeof this.get('session')) {
 		app.use(this.get('session'));
+	}
 	
 	// Pre-route middleware
+	
 	this._pre.routes.forEach(function(fn) {
 		app.use(fn);
 	});
 	
 	// Route requests
+	
 	app.use(app.router);
 	
-	// Handle 404s
+	// Headless mode means don't bind the Keystone routes
+	
+	if (!this.get('headless')) {
+		this.routes(app);
+	}
+	
+	// Handle 404 (no route matched) errors
 	
 	var err404 = this.get('404');
 	
@@ -402,20 +421,30 @@ Keystone.prototype.start = function(onStart) {
 		});
 	}
 	
-	// Use Express error handler in dev
-	if (this.get('env') == 'development')
-		app.use(express.errorHandler());
+	// Handle other errors
 	
-	// Configure keystone routes
-	if (!this.get('headless'))
-		this.routes(app);
+	var err500 = this.get('500');
+	
+	if ('function' == typeof err500) {
+		app.use(err500);
+	} else if (this.get('env') == 'development') {
+		// Default to Express error handler in development environment
+		app.use(express.errorHandler());
+	} else {
+		app.use(function(err, req, res, next) {
+			res.status(500).send("Sorry, an error occurred loading the page (500)");
+		});
+	}
 	
 	// Configure application routes
-	if ('function' == typeof this.get('routes'))
+	if ('function' == typeof this.get('routes')) {
 		this.get('routes')(app);
+	}
 
 	// Connect to database
+	
 	var mongooseArgs = this.get('mongo');
+	
 	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
 	
 	this.mongoose.connection.on('error', function() {
@@ -432,10 +461,11 @@ Keystone.prototype.start = function(onStart) {
 		}
 		
 		// Apply updates?
-		if (keystone.get('auto update'))
+		if (keystone.get('auto update')) {
 			keystone.applyUpdates(listen);
-		else
+		} else {
 			listen();
+		}
 		
 	});
 	
