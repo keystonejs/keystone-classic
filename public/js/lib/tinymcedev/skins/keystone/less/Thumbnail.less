@@ -1,0 +1,83 @@
+// TODO: This is relevant to the container of the thumbnails, should be moved
+.mce-thumbnails {
+	min-width: 700px;
+}
+
+// Thumbnail
+.mce-thumbnail {
+
+	width: auto;
+	float: left;
+	margin-top: 0px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	
+	.image-preview {
+		position: relative;
+		line-height: 0px;
+		.img-selected {
+			color: #6A6A6A;
+			font-size: 23px;
+			left: 50%;
+			top: 50%;
+			position: absolute;
+			margin-left: -11px;
+			margin-top: -11px;
+			line-height: 23px;
+			text-shadow: 0 0 50px #FFFFFF;
+			
+			display: inline-block;
+			font-family: 'Glyphicons Halflings';
+			font-style: normal;
+			font-weight: normal;
+			-webkit-font-smoothing: antialiased;
+			
+			outline: none;
+			
+			@font-face {
+			font-family: 'Glyphicons Halflings';
+			  src: url('/fonts/glyphicons-halflings-regular.eot');
+			  src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), 
+			       url('/fonts/glyphicons-halflings-regular.woff') format('woff'), 
+			       url('/fonts/glyphicons-halflings-regular.ttf') format('truetype'), 
+			       url('/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+			}
+			
+			&.glyphicon-ok { &:before { content: "\e013"; } }
+		}
+		
+		.img-thumbnail {
+			img {
+				display: block;
+			}
+		}
+	}
+
+	.img-selected {
+		opacity: 0;
+	}
+	
+	&.mce-selected {
+		.img-thumbnail {
+			img {
+				opacity: 0.25;
+			}
+			.img-selected {
+				opacity: 1;
+			}
+		}
+	}
+	
+	.img-thumbnail {
+		position: relative;
+		padding: 4px;
+		line-height: 1.428571429;
+		background-color: #ffffff;
+		border: 1px solid #dddddd;
+		border-radius: 4px;
+		display: inline-block;
+		max-width: 100%;
+		height: auto;
+		outline: none;
+	}
+}
