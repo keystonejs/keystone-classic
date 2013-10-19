@@ -205,8 +205,7 @@
 	load('classes/ui/TabPanel.js');
 	load('classes/ui/TextBox.js');
 	load('classes/ui/Throbber.js');
-	load('classes/ui/ThumbnailPicker.js');
-	load('classes/ui/Thumbnail.js');
+	load('classes/ui/Thumbnail.js'); // *
 
 	writeScripts();
 })(this);
