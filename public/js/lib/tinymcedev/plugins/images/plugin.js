@@ -68,16 +68,17 @@ tinymce.PluginManager.add('images', function(editor) {
 		data = {};
 		
 		var win = editor.windowManager.open({
-			title: 'Insert image',
+			title: 'Insert images',
 			data: data,
 			body: {
 				type: 'container',
+				layout: 'flex',
+				align: 'center',
+				spacing: 10,
 				classes: 'thumbnails',
 				items: processThumbnails()
 			},
 			onSubmit: function(e) {
-				
-				// console.log('Submitted data:', data);
 				
 				_.each(data, function(d) {
 					
@@ -115,14 +116,14 @@ tinymce.PluginManager.add('images', function(editor) {
 	
 	editor.addButton('images', {
 		icon: 'image',
-		tooltip: 'Insert image',
+		tooltip: 'Insert images',
 		onclick: showDialog,
 		stateSelector: 'img:not([data-mce-object])'
 	});
 	
 	editor.addMenuItem('images', {
 		icon: 'image',
-		text: 'Insert image',
+		text: 'Insert images',
 		onclick: showDialog,
 		context: 'insert',
 		prependToContext: true

@@ -1,7 +1,4 @@
-// TODO: This is relevant to the container of the thumbnails, should be moved
-.mce-thumbnails {
-	min-width: 700px;
-}
+
 
 // Thumbnail
 .mce-thumbnail {
@@ -15,9 +12,26 @@
 	.image-preview {
 		position: relative;
 		line-height: 0px;
+		
+		.img-thumbnail {
+			position: relative;
+			padding: 4px;
+			line-height: 1.428571429;
+			background-color: #ffffff;
+			border: 1px solid #dddddd;
+			border-radius: 4px;
+			display: inline-block;
+			max-width: 100%;
+			height: auto;
+			outline: none;
+		}
+		
 		.img-selected {
 			color: #6A6A6A;
 			font-size: 23px;
+			font-family: 'Glyphicons Halflings';
+			font-style: normal;
+			font-weight: normal;
 			left: 50%;
 			top: 50%;
 			position: absolute;
@@ -25,14 +39,10 @@
 			margin-top: -11px;
 			line-height: 23px;
 			text-shadow: 0 0 50px #FFFFFF;
-			
 			display: inline-block;
-			font-family: 'Glyphicons Halflings';
-			font-style: normal;
-			font-weight: normal;
-			-webkit-font-smoothing: antialiased;
-			
 			outline: none;
+			opacity: 0;
+			-webkit-font-smoothing: antialiased;
 			
 			@font-face {
 			font-family: 'Glyphicons Halflings';
@@ -52,32 +62,15 @@
 			}
 		}
 	}
-
-	.img-selected {
-		opacity: 0;
-	}
 	
 	&.mce-selected {
-		.img-thumbnail {
-			img {
-				opacity: 0.25;
-			}
+		img {
+			opacity: 0.25;
+		}
+		.image-preview {
 			.img-selected {
 				opacity: 1;
 			}
 		}
-	}
-	
-	.img-thumbnail {
-		position: relative;
-		padding: 4px;
-		line-height: 1.428571429;
-		background-color: #ffffff;
-		border: 1px solid #dddddd;
-		border-radius: 4px;
-		display: inline-block;
-		max-width: 100%;
-		height: auto;
-		outline: none;
 	}
 }
