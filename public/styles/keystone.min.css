@@ -848,7 +848,6 @@ textarea.field.type-html textarea{height:auto}
 .field.type-cloudinaryimages .btn-cancel{margin-left:0px;font-size:12px;width:110px;text-align:center;width:100%}
 .field.type-cloudinaryimages .images-toolbar .alert{margin-bottom:10px;float:left;padding:6px 12px;margin-bottom:0px}
 .field.type-cloudinaryimages .sortable-placeholder{border:1px dashed #777;background:none;margin-top:0px;margin-left:3px;margin-right:12px;margin-bottom:0px;float:left}
-.field.type-cloudinaryimages [draggable=true]{-khtml-user-drag:element}
 .field-upload{position:absolute;left:-9999px}
 .ui-related-item{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px;background:#white;color:#0089cb;margin-right:5px;text-decoration:none}.ui-related-item+.ui-related-item{margin-top:12px}
 .ui-related-item.no-value{color:#999;cursor:default}

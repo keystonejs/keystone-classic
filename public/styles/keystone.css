@@ -5917,11 +5917,11 @@ textarea.field.type-html textarea {
   text-decoration: underline;
 }
 .field.type-cloudinaryimages .image-field.image-upload .img-thumbnail {
-  border: 1px solid #A1D39E;
-  background: #EFFFEE;
+  border: 1px solid #C8EECD;
+  background: #EFFDF0;
 }
 .field.type-cloudinaryimages .image-field.image-upload .img-thumbnail .img-uploading {
-  color: #A1D39E;
+  color: #0B851A;
 }
 .field.type-cloudinaryimages .image-field.image-upload .img-thumbnail .img-dropzone {
   width: 90px;
@@ -6020,9 +6020,6 @@ textarea.field.type-html textarea {
   margin-right: 12px;
   margin-bottom: 0px;
   float: left;
-}
-.field.type-cloudinaryimages [draggable=true] {
-  -khtml-user-drag: element;
 }
 .field-upload {
   position: absolute;
