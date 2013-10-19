@@ -251,12 +251,25 @@ jQuery(function($) {
 				$el.find('.img-uploading').removeClass( 'glyphicon-open glyphicon-ok glyphicon-ban-circle').addClass(icon);
 			}
 			
+			$imageUpload.on({
+				dragleave: function(e) {
+					$imageUpload.removeClass('hover');
+				},
+				mouseleave: function(e) {
+					$imageUpload.removeClass('hover');
+				}
+			})
+			
 			$cloudinary.on({
+				fileuploaddragover: function() {
+					$imageUpload.addClass('hover');
+				},
 				fileuploadsend: function(e, d) {
 					readFiles(d.files, function(file) {
 						d.$placeholder = $(file);
 						updateStatus(d.$placeholder, '0%', 'glyphicon-open');
 					});
+					$imageUpload.removeClass('hover');
 				},
 				fileuploadprogress: function(e, d) {
 					updateStatus(d.$placeholder, Math.round((d.loaded * 100.0) / d.total) + '%', 'glyphicon-open');

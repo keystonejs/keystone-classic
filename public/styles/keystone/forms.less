@@ -373,23 +373,25 @@ label.checkbox {
 		
 		&.image-upload {
 			cursor: pointer;
-			&:hover {
-				.image-message {
-					text-decoration: underline;
-				}
-			}
 			.img-thumbnail {
-				border: 1px solid #C8EECD;
-				background: #EFFDF0;
-				.img-uploading {
-					color: #0B851A;
-				}
 				.img-dropzone {
 					width: 90px;
 					height: 90px;
 					display: block;
 					position: relative;
 					z-index: 1;
+				}
+			}
+			&:hover, &.hover {
+				.img-thumbnail {
+					border: 1px solid #C8EECD;
+					background: #EFFDF0;
+					.img-uploading {
+						color: #0B851A;
+					}
+				}
+				.image-message {
+					text-decoration: underline;
 				}
 			}
 		}
