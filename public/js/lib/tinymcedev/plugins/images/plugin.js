@@ -9,6 +9,8 @@
 tinymce.PluginManager.add('images', function(editor) {
 	
 	var dom = editor.dom,
+		dialog = false,
+		$dialog = false,
 		data = {};
 	
 	var getImageSize = function(url, callback) {
@@ -40,34 +42,58 @@ tinymce.PluginManager.add('images', function(editor) {
 		return _.map(imagesList, function(img) {
 			
 			var $img = $(img),
-				d = $img .data();
+				imgData = $img.data();
 			
 			return {
 				type: 'thumbnail',
-				id: d.id,
-				src: d.src,
+				id: imgData.id,
+				src: imgData.src,
 				$el: img,
 				onselect: function(e) {
-					
-					var selected = e.control.selected();
-					
-					if (selected) {
-						data[d.id] = $img;
-					} else {
-						delete data[d.id];
-					}
-					
+					e.control.selected() ? data[imgData.id] = $img : delete data[imgData.id];
+					dialog.statusbar.find('.primary').disabled(!_.size(data));
 				}
 			};
 		});
 	
 	}
 	
+	var insertImages = function() {
+	
+		_.each(data, function(d) {
+			
+			var imgData = d.data();
+			
+			var imgUrl = $.cloudinary.url(imgData.id, {
+				format: imgData.wysiwygOptions.format || 'jpg',
+				crop: imgData.wysiwygOptions.crop,
+				width: imgData.wysiwygOptions.width,
+				height: imgData.wysiwygOptions.height
+			});
+			
+			getImageSize(imgUrl, function(dimensions) {
+			
+				editor.undoManager.transact(function() {
+					editor.selection.setContent(editor.dom.createHTML('img', {
+						'src': imgUrl,
+						'width': dimensions.width,
+						'height': dimensions.height,
+						'class': imgData.wysiwygOptions.class,
+						'data-original': imgData.wysiwygOriginal
+					}));
+				});
+			
+			});
+			
+		});
+	
+	}
+	
 	var showDialog = function() {
 	
-		data = {};
+		data = {}; // Reset data
 		
-		var win = editor.windowManager.open({
+		dialog = editor.windowManager.open({
 			title: 'Insert images',
 			data: data,
 			body: {
@@ -77,40 +103,10 @@ tinymce.PluginManager.add('images', function(editor) {
 				spacing: 10,
 				classes: 'thumbnails',
 				items: processThumbnails()
-			},
-			onSubmit: function(e) {
-				
-				_.each(data, function(d) {
-					
-					var imgData = d.data();
-					
-					console.log(imgData)
-					
-					var imgUrl = $.cloudinary.url(imgData.id, {
-						format: imgData.wysiwygOptions.format || 'jpg',
-						crop: imgData.wysiwygOptions.crop,
-						width: imgData.wysiwygOptions.width,
-						height: imgData.wysiwygOptions.height
-					});
-					
-					getImageSize(imgUrl, function(dimensions) {
-					
-						editor.undoManager.transact(function() {
-							editor.selection.setContent(editor.dom.createHTML('img', {
-								'src': imgUrl,
-								'width': dimensions.width,
-								'height': dimensions.height,
-								'class': imgData.wysiwygOptions.class,
-								'data-original': imgData.wysiwygOriginal
-							}));
-						});
-					
-					});
-					
-				});
-				
 			}
 		});
+		
+		dialog.statusbar.find('.primary').disabled(true);
 	
 	}
 	
