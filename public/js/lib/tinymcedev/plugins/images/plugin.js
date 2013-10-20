@@ -98,9 +98,7 @@ tinymce.PluginManager.add('images', function(editor) {
 			data: data,
 			body: {
 				type: 'container',
-				layout: 'flex',
-				align: 'center',
-				spacing: 10,
+				layout: 'stack',
 				classes: 'thumbnails',
 				items: processThumbnails()
 			}
