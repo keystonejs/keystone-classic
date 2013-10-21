@@ -35,8 +35,9 @@ html
 					else
 						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
 				.collapse.navbar-collapse.navbar-headernav-collapse
-					ul.nav.navbar-nav: each navSection in nav.sections
-						li(class=section.key == navSection.key ? 'active' : false): a(href='/keystone/' + navSection.lists[0].path)= navSection.label
+					ul.nav.navbar-nav
+						each navSection in nav.sections
+							li(class=section.key == navSection.key ? 'active' : false): a(href='/keystone/' + navSection.lists[0].path)= navSection.label
 					if signout
 						ul.nav.navbar-nav.navbar-right
 							li.divider
@@ -54,8 +55,9 @@ html
 							if section.label != list.label
 								| : #{list.label}
 					.collapse.navbar-collapse.navbar-sectionnav-collapse
-						ul.nav.navbar-nav: each navList in section.lists
-							li(class=navList.key == list.key ? 'active' : false): a(href='/keystone/' + navList.path)= navList.label
+						ul.nav.navbar-nav
+							each navList in section.lists
+								li(class=navList.key == list.key ? 'active' : false): a(href='/keystone/' + navList.path)= navList.label
 			#body: .container
 				block intro
 				+flash-messages(messages)
