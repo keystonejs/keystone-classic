@@ -77,33 +77,36 @@ exports = module.exports = function(req, res) {
 				page = req.query.page || 1,
 				skip = limit * (page - 1);
 			
-			var query = req.list.model.find(req.list.getSearchFilters(req.query.q));
+			var filters = req.list.getSearchFilters(req.query.q);
+			
+			var count = req.list.model.count(filters),
+				query = req.list.model.find(filters)
+					.limit(limit)
+					.skip(skip)
+					.sort(req.list.defaultSort);
 			
 			var doQuery = function() {
-				query.limit(limit)
-					.skip(skip)
-					.sort(req.list.defaultSort)
-					.exec(function(err, items) {
+				count.exec(function(err, total) {
+					
+					if (err) return sendError('database error', err);
+					
+					query.exec(function(err, items) {
 						
 						if (err) return sendError('database error', err);
 						
-						query.count(function(err, total) {
-							
-							if (err) return sendError('database error', err);
-							
-							sendResponse({
-								total: total,
-								items: items.map(function(i) {
-									return {
-										name: req.list.getDocumentName(i),
-										id: i.id
-									};
-								})
-							});
-							
+						sendResponse({
+							total: total,
+							items: items.map(function(i) {
+								return {
+									name: req.list.getDocumentName(i),
+									id: i.id
+								};
+							})
 						});
 						
 					});
+					
+				});
 			}
 			
 			if (req.query.context == 'relationship') {
