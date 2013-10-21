@@ -23,7 +23,14 @@ exports = module.exports = function(req, res) {
 		
 		var renderView = function() {
 			
-			var relationships = _.values(_.map(req.list.relationships, function(i) { return _.clone(i); }));
+			var relationships = _.values(_.compact(_.map(req.list.relationships, function(i) {
+				if (i.isValid) {
+					return _.clone(i);
+				} else {
+				    keystone.console.err('configuration error', 'Relationship: ' + i.path + ' on list: ' + req.list.key + ' links to an invalid list: ' + i.ref);
+					return null;
+				}
+			})));
 			
 			var drilldown = {
 				def: req.list.get('drilldown'),

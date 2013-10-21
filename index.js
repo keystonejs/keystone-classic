@@ -758,6 +758,22 @@ Keystone.prototype.populateRelated = function(docs, relationships, callback) {
 }
 
 /**
+ * Logs a configuration error to the console
+ *
+ * @api public
+ */
+
+Keystone.prototype.console = {};
+Keystone.prototype.console.err = function(type, msg) {
+	
+    console.log('-------------------------------------------------------------------');
+    console.log('KEYSTONE ' + type.toUpperCase());
+    console.log(msg);
+    console.log('-------------------------------------------------------------------');
+	
+}
+
+/**
  * Keystone version
  *
  * @api public
