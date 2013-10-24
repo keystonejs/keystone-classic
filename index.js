@@ -582,7 +582,8 @@ Keystone.prototype.importer = function(rel__dirname) {
 			} else {
 				// only import .js files
 				var parts = name.split('.');
-				if (parts.pop() == 'js') {
+				var ext = parts.pop();
+				if (ext == 'js' || ext == 'coffee') {
 					imported[parts.join('-')] = require(path.join(rel__dirname, from, name));
 				}
 			}
