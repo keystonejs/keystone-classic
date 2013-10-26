@@ -54,7 +54,6 @@ exports = module.exports = function(req, res) {
 			req.list.model.findById(req.query.id).exec(function(err, item) {
 				
 				if (err) return sendError('database error', err);
-				
 				if (!item) return sendError('not found');
 				
 				switch (req.query.dataset) {
@@ -138,6 +137,27 @@ exports = module.exports = function(req, res) {
 			
 			
 		break;
+		
+		case 'delete':
+		
+			if (req.list.get('nodelete') {
+				return sendError('nodelete');
+			}
+			
+			req.list.model.findById(req.query.id).remove(function(err, count) {
+				
+				if (err) return sendError('database error', err);
+				if (!count) return sendError('not found');
+				
+				return sendResponse({
+					success: true,
+					count: count
+				});
+				
+			});
+			
+		break;
+		
 	}
 	
 };
