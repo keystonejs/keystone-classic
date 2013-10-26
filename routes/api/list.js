@@ -140,7 +140,7 @@ exports = module.exports = function(req, res) {
 		
 		case 'delete':
 		
-			if (req.list.get('nodelete') {
+			if (req.list.get('nodelete')) {
 				return sendError('nodelete');
 			}
 			
