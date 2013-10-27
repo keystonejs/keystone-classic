@@ -16,7 +16,7 @@
     "jade": "~0.35.0",
     "async": "~0.2.9",
     "csv": "~0.3.6",
-    "bcrypt": "~0.7.7",
+    "bcrypt-nodejs": "~0.0.3",
     "cloudinary": "~1.0.5",
     "mandrill-api": "~1.0.37",
     "moment": "~2.2.1",
