@@ -960,6 +960,7 @@ textarea.item-name .form-control{height:auto}
 table.items-list thead>tr>th,table.items-list tbody>tr>th,table.items-list tfoot>tr>th{padding:8px;text-align:left;font-size:16px}
 table.items-list thead>tr>td,table.items-list tbody>tr>td,table.items-list tfoot>tr>td{padding:0;background-color:white;border-top:1px solid #e5e5e5}
 table.items-list tr.delete-hover td{color:#AD1212}table.items-list tr.delete-hover td a{color:#AD1212}
+table.items-list tr.delete-inprogress td{color:#ccc}table.items-list tr.delete-inprogress td a{color:#ccc}
 table.items-list tr.sort-hover .control-sort,table.items-list tr.dragged .control-sort{opacity:1}
 table.items-list tr.sort-hover td,table.items-list tr.dragged td{color:#246818}table.items-list tr.sort-hover td a,table.items-list tr.dragged td a{color:#246818}
 table.items-list tbody a{display:inline-block;padding:5px 10px;color:#333;text-decoration:none}table.items-list tbody a:hover{color:#1a1a1a;text-decoration:underline}

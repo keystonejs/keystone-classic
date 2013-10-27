@@ -175,6 +175,36 @@ jQuery(function($) {
 		$(this).closest('tr').addClass('delete-hover');
 	}, function(e) {
 		$(this).closest('tr').removeClass('delete-hover');
+	}).click(function(e) {
+		e.preventDefault();
+		if (!confirm('Are you sure you want to delete this ' + Keystone.list.singular.toLowerCase() + '?')) {
+			return false;
+		}
+		var $row = $(this).closest('tr');
+		$row.addClass('delete-inprogress');
+		var onError = function(err) {
+			if (err && err.responseJSON) {
+				err = err.responseJSON;
+			}
+			var errorMessage = 'There was an error deleting the ' + Keystone.list.singular.toLowerCase() + '.';
+			if (err && err.error) {
+				errorMessage += ' ( error: ' + err.error + ')';
+			}
+			alert(errorMessage);
+			$row.removeClass('delete-inprogress');
+		}
+		$.ajax('/keystone/api/' + Keystone.list.path + '/delete', {
+			data: {
+				id: $row.attr('id')
+			},
+			dataType: 'json'
+		}).done(function(rtn) {
+			if (rtn.success) {
+				$row.remove();
+			} else {
+				onError(rtn);
+			}
+		}).error(onError);
 	});
 	
 	$('a.control-sort').hover(function(e) {

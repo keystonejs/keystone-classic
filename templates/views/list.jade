@@ -6,7 +6,7 @@ include ../mixins/columns
 block js
 	script(src='/keystone/js/views/list.js')
 	script.
-		Keystone.list = { path: "#{list.path}", cols: !{JSON.stringify(colPaths)} };
+		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)} };
 			
 block content
 	//-
@@ -320,7 +320,7 @@ block content
 				each item in items.results
 					tr(id=item.id)
 						if !list.get('nodelete')
-							td.control: a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').control-delete
+							td.control: a(href='/keystone/' + list.path + '?delete=' + item.id).control-delete
 						if sortable
 							td.control: a(href=js).control-sort
 						each col, i in columns
