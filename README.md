@@ -24,7 +24,7 @@ To see a working demo of Keystone, visit [demo.keystonejs.com](http://demo.keyst
 View the [example project](https://github.com/JedWatson/keystone-demo) to see how to set up
 a simple Keystone app.
 
-Discuss on the [keystonejs Google Group](https://groups.google.com/d/forum/keystonejs?hl=en)
+Discuss on the [keystonejs Google Group](https://groups.google.com/d/forum/keystonejs)
 
 
 ### Field Types
