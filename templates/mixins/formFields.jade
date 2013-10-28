@@ -39,12 +39,12 @@ mixin formField(field, item)
 //-
 //- COMMON
 //- ------------------------------
-mixin formField_text_common(type, field, value, cls, placeholder)
+mixin formField_text_common(type, field, value, cls, placeholder, displayValue)
 	.field(class='type-' + type, data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
 		label.field-label= field.label
 		.field-ui(class='width-' + field.width)
 			if field.noedit
-				.field-value= value
+				.field-value= displayValue || value
 			else
 				input(type='text', name=field.path, value=value, class=cls, placeholder=placeholder, autocomplete='off').form-control
 			if field.note
@@ -67,7 +67,7 @@ mixin formField_url(field, item)
 	+formField_text_common('url', field, field.format(item))
 
 mixin formField_date(field, item)
-	+formField_text_common('date', field, field.format(item, 'YYYY-MM-DD'), 'ui-datepicker', 'YYYY-MM-DD')
+	+formField_text_common('date', field, field.format(item, 'YYYY-MM-DD'), 'ui-datepicker', 'YYYY-MM-DD', field.format(item, 'Do MMM YYYY'))
 
 mixin formField_number(field, item)
 	+formField_text_common('number', field, field.format(item))
@@ -99,11 +99,11 @@ mixin formField_datetime(field, item)
 		label.field-label= field.label
 		.field-ui(class='width-' + field.width)
 			if field.noedit
-				.field-value= field.format(item, 'YYYY-MM-DD HH:mm:ss')
+				.field-value= field.format(item, 'Do MMM YYYY, h:mm:ss a')
 			else
 				.form-row
 					.col-sm-6: input(type='text', name=field.paths.date, value=field.format(item, 'YYYY-MM-DD'), placeholder='YYYY-MM-DD', autocomplete='off').form-control.ui-datepicker
-					.col-sm-6: input(type='text', name=field.paths.time, value=field.format(item, 'hh:mm:ss a'), placeholder='HH:MM:SS am/pm', autocomplete='off').form-control
+					.col-sm-6: input(type='text', name=field.paths.time, value=field.format(item, 'h:mm:ss a'), placeholder='HH:MM:SS am/pm', autocomplete='off').form-control
 		if field.note
 			.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
 

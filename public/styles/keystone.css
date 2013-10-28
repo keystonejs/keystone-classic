@@ -6765,6 +6765,12 @@ table.items-list tr.delete-hover td {
 table.items-list tr.delete-hover td a {
   color: #AD1212;
 }
+table.items-list tr.delete-inprogress td {
+  color: #ccc;
+}
+table.items-list tr.delete-inprogress td a {
+  color: #ccc;
+}
 table.items-list tr.sort-hover .control-sort,
 table.items-list tr.dragged .control-sort {
   opacity: 1;
