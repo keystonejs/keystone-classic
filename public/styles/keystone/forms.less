@@ -89,9 +89,7 @@
 	width: auto;
 	min-width: 180px;
 	
-	& + & {
-		margin-top: @input-vspacing;
-	}
+	margin-bottom: @input-vspacing;
 	
 	&.no-value {
 		color: @gray-light;
@@ -332,10 +330,6 @@ label.checkbox {
 				float: left;
 				margin-right: 10px;
 				margin-bottom: 10px;
-			}
-			.field-value + .field-value {
-				margin-top: 0;
-				margin-right: 0;
 			}
 		}
 	}

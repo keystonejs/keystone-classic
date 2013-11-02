@@ -777,8 +777,7 @@ table.items-list img{margin:8px}
 .item-name .form-control{margin-bottom:20px}
 .form-control.disabled{background-color:#fafafa}
 .field-note{display:block;margin-top:5px;margin-bottom:10px;color:#737373}
-.field-value{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px}.field-value+.field-value{margin-top:12px}
-.field-value.no-value{color:#999;cursor:default}
+.field-value{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px;margin-bottom:12px}.field-value.no-value{color:#999;cursor:default}
 .field .help-block{margin-bottom:0px}
 label{display:inline-block;vertical-align:middle;font-weight:normal}
 .field-label{margin:0;padding-bottom:7px;padding-top:7px}
@@ -829,7 +828,6 @@ textarea.field.type-html textarea{height:auto}
 .field.type-cloudinaryimage .image-preview .img-thumbnail img{display:block}
 .field.type-cloudinaryimage .image-preview.removed .img-thumbnail img{opacity:0.25}
 .field.type-cloudinaryimage .image-details{overflow:hidden}.field.type-cloudinaryimage .image-details .image-values .field-value{width:auto;min-width:1px;float:left;margin-right:10px;margin-bottom:10px}
-.field.type-cloudinaryimage .image-details .image-values .field-value+.field-value{margin-top:0;margin-right:0}
 .field.type-cloudinaryimage .image-details+.image-toolbar{margin-top:12px}
 .field.type-cloudinaryimage .upload-queued,.field.type-cloudinaryimage .delete-queued{display:none}.field.type-cloudinaryimage .upload-queued .alert,.field.type-cloudinaryimage .delete-queued .alert{margin-right:10px;margin-bottom:10px;float:left;padding:6px 12px}
 .field.type-cloudinaryimages .image-field{width:auto;float:left;margin-top:0px;margin-right:0px;margin-bottom:10px}
@@ -843,8 +841,7 @@ textarea.field.type-html textarea{height:auto}
 .field.type-cloudinaryimages .btn-cancel{margin-left:0px;font-size:12px;width:110px;text-align:center;width:100%}
 .field.type-cloudinaryimages .images-toolbar .alert{margin-bottom:10px;float:left;padding:6px 12px;margin-bottom:0px}
 .field-upload{position:absolute;left:-9999px}
-.ui-related-item{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px;background:#white;color:#0089cb;margin-right:5px;text-decoration:none}.ui-related-item+.ui-related-item{margin-top:12px}
-.ui-related-item.no-value{color:#999;cursor:default}
+.ui-related-item{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px;margin-bottom:12px;background:#white;color:#0089cb;margin-right:5px;text-decoration:none}.ui-related-item.no-value{color:#999;cursor:default}
 .ui-related-item:hover{background-color:#f0f8fc;border-color:#80c4e5;color:#0c699e}
 .field-message{display:none;min-height:30px}.field-message span{display:inline-block;background:#f9f9f9;border:1px solid #ccc;color:#999;margin-right:10px;padding:5px 10px;cursor:default}
 .btn+.btn{margin-left:5px}.btn+.btn.btn-block{margin-left:0}
