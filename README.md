@@ -16,6 +16,7 @@ Keystone provides:
 *	A beautiful Admin UI based on the defined `models`
 *	Integration with Coudinary for image uploading, storage and resizing
 *	Integration with Mandrill for sending emails easily
+*	Integration with Embedly for powerful video and rich media embedding tools
 
 For more information, visit [keystonejs.com](http://keystonejs.com)
 
@@ -405,6 +406,7 @@ Keystone or helped during its development, including
 * [Mongoose](http://mongoosejs.com) (for the ODM that makes this easier)
 * [Bootstrap](http://getbootstrap.com) (for the great css framework, you guys make clean, responsive UI easy)
 * [Cloudinary](https://cloudinary.com) (for the amazing image service)
+* [Embedly](http://embed.ly) (for the great api)
 * [Google](https://developers.google.com) (for the maps)
 * [http://www.heroku.com](Heroku) (for the servers)
 * [jQuery](http://jquery.com) (of course)
