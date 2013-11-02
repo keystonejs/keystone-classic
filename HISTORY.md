@@ -1,5 +1,9 @@
 # Keystone 
 
+## v0.1.36 / 2013-11-03
+
+* added; new embedly field type
+
 ## v0.1.35 / 2013-10-31
 
 * added; client-side deleting of items in the list view
