@@ -101,9 +101,38 @@ Keystone's advanced field types include:
 	*	Stores multiple images in a array as a nested Schema, which exposes the same methods as
 		the `cloudinaryimage` field
 	*	Allows multiple images to be uploaded / removed / deleted in the Admin UI
+*	`embedly` (object)
+	*	Automatically passed the value stored in another field to the [embedly](http://embed.ly)
+		API to extract useful information like provider, type, full URL, HTML embed code, width,
+		height, thumbnail picture and more.
+	*	Requires the option `from` to be set to a valid field (or path) in the model. An API call
+		to embedly will be made when this value changes, and the result will be cached in the
+		`embedly` field.
+	*	Supports the option `options` (object) which will be passed as arguments to the embedly API
+		along with the `from` field value. See 
+		[Embedly's oEmbed API documentation](http://embed.ly/docs/embed/api/endpoints/1/oembed) for
+		details on supported arguments.
+	*	Fields:
+		*	`exists` (`Boolean`)
+		*	`type` (`String`)
+		*	`title` (`String`)
+		*	`url` (`String`)
+		*	`width` (`Number`)
+		*	`height` (`Number`)
+		*	`version` (`String`)
+		*	`description` (`String`)
+		*	`html` (`String`)
+		*	`authorName` (`String`)
+		*	`authorUrl` (`String`)
+		*	`providerName` (`String`)
+		*	`providerUrl` (`String`)
+		*	`thumbnailUrl` (`String`)
+		*	`thumbnailWidth` (`Number`)
+		*	`thumbnailHeight` (`Number`)
 
+#### Common field options
 
-Fields support several options:
+Fields support several common options:
 
 *	`label` (string) the label of each field is guessed by the path, this can be set to override the
 	default.
