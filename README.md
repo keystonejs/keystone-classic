@@ -39,51 +39,51 @@ responsive admin UI to edit your data with.
 
 Keystone's basic field types include:
 
-*	boolean (checkbox)
-*	text (string)
-*	textarea (string)
-*	email (string)
-*	url (string)
-*	html (string, with an optional wysiwyg editor)
-*	date* (date)
-*	datetime* (date)
-*	key (string)
-*	number* (number)
-*	money* (number)
+*	`boolean` (`checkbox`)
+*	`text` (`string`)
+*	`textarea` (`string`)
+*	`email` (`string`)
+*	`url` (`string`)
+*	`html` (`string`, with an optional wysiwyg editor)
+*	`date`* (`date`)
+*	`datetime`* (`date`)
+*	`key` (`string`)
+*	`number`* (`number`)
+*	`money`* (`number`)
 
 *Fields marked with a * provide a `format` method - numbers use [numeraljs](http://numeraljs.com),
 dates use [moment](http://momentjs.com)*
 
 Keystone's advanced field types include:
 
-*	`select` (string or number) - renders as a select field
+*	`select` (`String` or `Number`) - renders as a select field
 	*	`options` must be provided as a list or array
 	*	Provides a `format` method for getting the label of the stored value, as set in the
 		`options` array.
 	*	Provides a `pluck` method for getting the label
-*	`name` (object)
-	*	`first` (string)
-	*	`last` (string)
+*	`name` (`Object`)
+	*	`first` (`String`)
+	*	`last` (`String`)
 	*	Provides a `full` virtual getter and setter
-*	`password` (string)
+*	`password` (`String`)
 	*	Automatically encrypted with bcrypt
 	*	Provides a `compare` method for testing against the stored hash
 *	`location`
-	*	`name` (string) - building name
-	*	`number` (string) - unit or shop number
-	*	`street1` (string) - street address
-	*	`street2` (string) - second street address
-	*	`suburb` (string)
-	*	`state` (string)
-	*	`postcode` (string)
-	*	`country` (string)
-	*	`geo` (latitude, longitude) - 2dsphere indexed lat/png pair
+	*	`name` (`String`) - building name
+	*	`number` (`String`) - unit or shop number
+	*	`street1` (`String`) - street address
+	*	`street2` (`String`) - second street address
+	*	`suburb` (`String`)
+	*	`state` (`String`)
+	*	`postcode` (`String`)
+	*	`country` (`String`)
+	*	`geo` (`Latitude`, `longitude`) - 2dsphere indexed lat/png pair
 	*	Provides an `googleLookup` method that returns the best match for the stored value on
 		Google's Places API. Requires a Google Maps API Key to be provided, and should only be
 		used in accordance with Google's terms of service.
 	*	*Note: this field has been based on Australian address formats, and should be updated
 		to be more friendly for other international formats. I am looking for feedback on this!*
-*	`cloudinaryimage` (object)
+*	`cloudinaryimage` (`Object`)
 	*	Automatically manages images stored in [cloudinary](http://cloudinary.com).
 	*	Provides an `exists` virtual for detecting whether the field stores an image
 	*	Has the built in ability to upload/delete images to/from cloudinary, as well as methods
@@ -97,18 +97,18 @@ Keystone's advanced field types include:
 		*	`fill(width, height)` - scales the image to fill the specified width and height
 		*	`crop(width, height)` - crops the image to fill the specified width and height
 		*	`thumbnail(width, height)` - crops the image to fill the specified width and height
-*	`cloudinaryimages` (array)
+*	`cloudinaryimages` (`Array`)
 	*	Stores multiple images in a array as a nested Schema, which exposes the same methods as
 		the `cloudinaryimage` field
 	*	Allows multiple images to be uploaded / removed / deleted in the Admin UI
-*	`embedly` (object)
+*	`embedly` (`Object`)
 	*	Automatically passed the value stored in another field to the [embedly](http://embed.ly)
 		API to extract useful information like provider, type, full URL, HTML embed code, width,
 		height, thumbnail picture and more.
-	*	Requires the option `from` to be set to a valid field (or path) in the model. An API call
+	*	Requires the option `from` (`String`) to be set to a valid field (or path) in the model. An API call
 		to embedly will be made when this value changes, and the result will be cached in the
 		`embedly` field.
-	*	Supports the option `options` (object) which will be passed as arguments to the embedly API
+	*	Supports the option `options` (`Object`) which will be passed as arguments to the embedly API
 		along with the `from` field value. See 
 		[Embedly's oEmbed API documentation](http://embed.ly/docs/embed/api/endpoints/1/oembed) for
 		details on supported arguments.
@@ -134,14 +134,14 @@ Keystone's advanced field types include:
 
 Fields support several common options:
 
-*	`label` (string) the label of each field is guessed by the path, this can be set to override the
+*	`label` (`String`) the label of each field is guessed by the path, this can be set to override the
 	default.
-*	`required` (boolean) validates that the field is set
-*	`noedit` (boolean) renders the field as read-only in the admin UI
-*	`note` (string) is displayed with the field in the admin UI
-*	`collapse` (boolean) hides the field behind a '+ add ...' link in the admin UI when it has
+*	`required` (`Boolean`) validates that the field is set
+*	`noedit` (`Boolean`) renders the field as read-only in the admin UI
+*	`note` (`String`) is displayed with the field in the admin UI
+*	`collapse` (`Boolean`) hides the field behind a '+ add ...' link in the admin UI when it has
 	no value (to simplify complex forms)
-*	`dependsOn` (object) hides the field in the admin UI unless the specified conditions (other
+*	`dependsOn` (`Object`) hides the field in the admin UI unless the specified conditions (other
 	field values) are met
 
 All the standard mongoose options for schema paths are passed through, such as `required`,
@@ -221,12 +221,12 @@ Config variables include:
 *	`favicon` - the path to your application's favicon, passed to `express.favico`, exclude if you don't have a favicon
 *	`less` - the path to your .less templates, passed to `less-middleware`, exclude if you don't use LESS
 *	`static` - the path to your application's static resources (public files), exclude if you don't want static resources
-*	`compress` - (boolean) whether to include the `Express.compress` middleware
+*	`compress` - (`Boolean`) whether to include the `Express.compress` middleware
 *	`views` - the folder containing your view templates, passed to `express.set('views')` and used by the `keystone.View` Class
 *	`404` - path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
 *	`view engine` - the template engine to use for your views, passed to `express.set('view engine')`
-*	`locals` - (object) default locals to pass to your view templates
-*	`auto update` - (boolean) automatically apply updates in your application's `/updates` folder using Keystone's Updates framework
+*	`locals` - (`Object`) default locals to pass to your view templates
+*	`auto update` - (`Boolean`) automatically apply updates in your application's `/updates` folder using Keystone's Updates framework
 *	`mongo` - the connection URL for your application's mongo database, passed to `mongoose.connect`
 *	`auth` - callback function to authenticate a request, or `true` to use Keystone's native session management
 *	`user model` - the key of the Keystone List for users, required if you're using native session management
@@ -236,6 +236,7 @@ Config variables include:
 *	`email rules` - find & replace rules for pre-parsing email templates, useful to help with local vs. production absolute paths for images
 *	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
 *	`cloudinary prefix` - prefix for all native tags added to uploaded images
+*	`embedly api key` - API key to use for `embedly` fields
 *	`logger` - when set, Keystone includes the `express.logger` middleware and passes it the value
 *	`signout` - href for the signout link in the top right of the UI, automatically set if you use native session management
 
