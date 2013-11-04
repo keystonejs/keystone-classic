@@ -91,13 +91,15 @@ Keystone's advanced field types include:
 		for retrieving various versions of the image for display:
 		*	`src(options)` - returns the url of the image, accepts all options cloudinary supports
 		*	`tag(options)` - returns an `<img>` tag
-		*	`fit(width, height)` - scales the image to fit within the specified width and height,
+		*	`fit(width, height, options)` - scales the image to fit within the specified width and height,
 			retining aspect ratio
-		*	`limit(width, height)` - scales the image (down only) to fit within the specified width
+		*	`limit(width, height, options)` - scales the image (down only) to fit within the specified width
 			and height, retaining aspect ratio
-		*	`fill(width, height)` - scales the image to fill the specified width and height
-		*	`crop(width, height)` - crops the image to fill the specified width and height
-		*	`thumbnail(width, height)` - crops the image to fill the specified width and height
+		*	`fill(width, height, options)` - scales the image to fill the specified width and height
+		*	`crop(width, height, options)` - crops the image to fill the specified width and height
+		*	`thumbnail(width, height, options)` - crops the image to fill the specified width and height
+	*	See [Cloudinary's Transformation Documentation](http://cloudinary.com/documentation/image_transformations)
+		for more information on the supported options and transformations.
 *	`cloudinaryimages` (`Array`)
 	*	Stores multiple images in a array as a nested Schema, which exposes the same methods as
 		the `cloudinaryimage` field
