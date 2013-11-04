@@ -1,6 +1,6 @@
 # Keystone 
 
-## v0.1.37 / ...
+## v0.1.37 / 2013-11-04
 
 * improved; added webp and progressive jpeg options to `cloudinaryimage` field
 * improved; added ability to pass options to `cloudinaryimage` underscore shortcuts (`limit`, `fill`, etc.)
