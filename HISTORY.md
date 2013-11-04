@@ -1,5 +1,11 @@
 # Keystone 
 
+## v0.1.37 / ...
+
+* improved; added webp and progressive jpeg options to `cloudinaryimage` field
+* improved; added ability to pass options to `cloudinaryimage` underscore shortcuts (`limit`, `fill`, etc.)
+* added; `list` underscore methods for `location` fields
+
 ## v0.1.36 / 2013-11-03
 
 * added; new embedly field type
