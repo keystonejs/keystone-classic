@@ -4,8 +4,8 @@
 
 * improved; added webp and progressive jpeg options to `cloudinaryimage` field
 * improved; added ability to pass options to `cloudinaryimage` underscore shortcuts (`limit`, `fill`, etc.)
-* added; `list` underscore methods for `location` fields
 * fixed; underscoreMethods for fields that implement their own addToSchema method (were missing .format, etc)
+* improved; `format` function for `location` fields now supports a list of fields to include
 
 ## v0.1.36 / 2013-11-03
 
