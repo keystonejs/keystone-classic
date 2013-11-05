@@ -13,16 +13,8 @@
 @input-vspacing: 12px;
 
 // Adding vertical spacing between form elements
-.field,
-.form-control-wrapper,
-.form-horizontal,
-.form-control,
-.form-indent,
-.form-row,
-.row {
-	& + & {
-		margin-top: @input-vspacing;
-	}
+.field, .form-indent, .field-ui .row {
+	margin-top: @input-vspacing;
 }
 
 // Form headings
@@ -88,8 +80,6 @@
 	vertical-align: middle;
 	width: auto;
 	min-width: 180px;
-	
-	margin-bottom: @input-vspacing;
 	
 	&.no-value {
 		color: @gray-light;

@@ -769,7 +769,7 @@ table.items-list .col-value{overflow:hidden;text-overflow:ellipsis}
 .item-id{color:#999}@media (min-width:768px){.item-id{text-align:right}}
 .item-details .toolbar{-webkit-box-shadow:0 -15px 5px 5px rgba(255,255,255,0.95);box-shadow:0 -15px 5px 5px rgba(255,255,255,0.95);background-color:white;border-top:1px solid #eee;margin-top:20px;padding:20px 0 25px;z-index:1}
 .item-header .drilldown{margin-top:0}
-.field+.field,.field+.form-control-wrapper,.field+.form-horizontal,.field+.form-control,.field+.form-indent,.field+.form-row,.field+.row,.form-control-wrapper+.field,.form-control-wrapper+.form-control-wrapper,.form-control-wrapper+.form-horizontal,.form-control-wrapper+.form-control,.form-control-wrapper+.form-indent,.form-control-wrapper+.form-row,.form-control-wrapper+.row,.form-horizontal+.field,.form-horizontal+.form-control-wrapper,.form-horizontal+.form-horizontal,.form-horizontal+.form-control,.form-horizontal+.form-indent,.form-horizontal+.form-row,.form-horizontal+.row,.form-control+.field,.form-control+.form-control-wrapper,.form-control+.form-horizontal,.form-control+.form-control,.form-control+.form-indent,.form-control+.form-row,.form-control+.row,.form-indent+.field,.form-indent+.form-control-wrapper,.form-indent+.form-horizontal,.form-indent+.form-control,.form-indent+.form-indent,.form-indent+.form-row,.form-indent+.row,.form-row+.field,.form-row+.form-control-wrapper,.form-row+.form-horizontal,.form-row+.form-control,.form-row+.form-indent,.form-row+.form-row,.form-row+.row,.row+.field,.row+.form-control-wrapper,.row+.form-horizontal,.row+.form-control,.row+.form-indent,.row+.form-row,.row+.row{margin-top:12px}
+.field,.form-indent,.field-ui .row{margin-top:12px}
 .form-heading{margin-top:30px}
 .form-indent{margin-left:20px}
 .alert{padding:8px 12px}
@@ -778,7 +778,7 @@ table.items-list .col-value{overflow:hidden;text-overflow:ellipsis}
 .item-name .form-control{margin-bottom:20px}
 .form-control.disabled{background-color:#fafafa}
 .field-note{display:block;margin-top:5px;margin-bottom:10px;color:#737373}
-.field-value{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px;margin-bottom:12px}.field-value.no-value{color:#999;cursor:default}
+.field-value{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px}.field-value.no-value{color:#999;cursor:default}
 .field .help-block{margin-bottom:0px}
 label{display:inline-block;vertical-align:middle;font-weight:normal}
 .field-label{margin:0;padding-bottom:7px;padding-top:7px}
@@ -821,7 +821,6 @@ textarea.input-xs{height:auto}
 .field.type-html textarea:focus{border-color:#08c;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 136, 204, 0.6)}
 .field.type-html textarea[disabled],.field.type-html textarea[readonly],fieldset[disabled] .field.type-html textarea{cursor:not-allowed;background-color:#fafafa}
 textarea.field.type-html textarea{height:auto}
-.field.type-html textarea+.field.type-html textarea{margin-top:12px}
 .field.type-html textarea:hover{border-color:#999 #bbb #ccc}
 .field.type-html textarea:focus{-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.1),0 0 5px -1px rgba(0,136,204,0.5);box-shadow:inset 0 1px 2px rgba(0,0,0,0.1),0 0 5px -1px rgba(0,136,204,0.5);border-color:#08c #0099e6 #0099e6}
 .field.type-cloudinaryimage .image-preview{position:relative;line-height:0px;float:left;margin-right:10px}.field.type-cloudinaryimage .image-preview .placeholder-wrap{position:relative;height:100px;overflow:hidden}.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder{height:90px;opacity:0.25}.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder.no-preview{width:100px;display:block}
@@ -842,7 +841,7 @@ textarea.field.type-html textarea{height:auto}
 .field.type-cloudinaryimages .btn-cancel{margin-left:0px;font-size:12px;width:110px;text-align:center;width:100%}
 .field.type-cloudinaryimages .images-toolbar .alert{margin-bottom:10px;float:left;padding:6px 12px;margin-bottom:0px}
 .field-upload{position:absolute;left:-9999px}
-.ui-related-item{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px;margin-bottom:12px;background:#white;color:#0089cb;margin-right:5px;text-decoration:none}.ui-related-item.no-value{color:#999;cursor:default}
+.ui-related-item{background-color:#fbfbfb;border:1px solid #e0e0e0;border-radius:3px;color:#333;display:inline-block;font-size:14px;line-height:1.428571429;height:auto;min-height:34px;padding:6px 10px;vertical-align:middle;width:auto;min-width:180px;background:#white;color:#0089cb;margin-right:5px;text-decoration:none}.ui-related-item.no-value{color:#999;cursor:default}
 .ui-related-item:hover{background-color:#f0f8fc;border-color:#80c4e5;color:#0c699e}
 .field-message{display:none;min-height:30px}.field-message span{display:inline-block;background:#f9f9f9;border:1px solid #ccc;color:#999;margin-right:10px;padding:5px 10px;cursor:default}
 .btn+.btn{margin-left:5px}.btn+.btn.btn-block{margin-left:0}
