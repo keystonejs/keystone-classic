@@ -144,7 +144,7 @@ jQuery(function($) {
 		
 	});
 	
-	$('.field[data-field-depends-on]').each(function() {
+	$('.field, .form-heading').filter('[data-field-depends-on]').each(function() {
 		
 		var $field = $(this),
 			dependsOn = $field.data('field-depends-on'),

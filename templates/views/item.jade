@@ -65,7 +65,7 @@ block content
 				if (el.field.type != 'text' || el.field != nameField) && !el.field.hidden
 					+formField(el.field, item)
 			else if el.type == 'heading'
-				h3.form-heading= el.heading
+				h3.form-heading(data-field-depends-on=el.options.dependsOn)= el.heading
 			else if el.type == 'indent'
 				| <div class="form-indent">
 			else if el.type == 'outdent'
