@@ -1,5 +1,19 @@
 # Keystone 
 
+## v0.1.38 / 2013-11-06
+
+* added; ability to use dependsOn with headers [itzaks](https://github.com/itzaks)
+	* new syntax is `{ heading: 'Heading with dependency', dependsOn: { field: 'value'} }`
+* added; url parameter for the admin list view that updates all items in a list, optionally with data
+	* `/keystone/list?update`
+	* `/keystone/list?update={"field":"value"}`
+* added; ability to override `changedOn` value when using the `standard meta` fields
+* fixed; cell overflow is now hidden in the admin list view
+* added; support for additional cloudinary transformations
+* added; support for passing options to cloudinary transformation shortcut underscore methods
+* fixed; the default field validator now trims strings before testing for length when determining validity
+* changed; mongoose >3.6.20 is now required, allowing usage of 3.8 +
+
 ## v0.1.37 / 2013-11-04
 
 * improved; added webp and progressive jpeg options to `cloudinaryimage` field
