@@ -96,6 +96,33 @@ exports = module.exports = function(req, res) {
 		
 	}
 	
+	if ('update' in req.query) {
+		(function() {
+			var data = null;
+			if (req.query.update) {
+				try {
+					data = JSON.parse(req.query.update);
+					console.log(data);
+				} catch(e) {
+					req.flash('error', 'There was an error parsing the update data.');
+					return renderView();
+				}
+			}
+			req.list.updateAll(data, function(err) {
+				if (err) {
+					console.log('Error updating all ' + req.list.plural);
+					console.log(err);
+					req.flash('error', 'There was an error updating all ' + req.list.plural + ' (logged to console)');
+				} else {
+					req.flash('success', 'All ' + req.list.plural + ' updated successfully.');
+				}
+				res.redirect('/keystone/' + req.list.path);
+			});
+		})();
+		
+		return;
+	}
+	
 	if (!req.list.get('nodelete') && req.query['delete']) {
 		req.list.model.findById(req.query['delete']).remove(function(err, count) {
 			if (count) {
