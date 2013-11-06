@@ -1,5 +1,10 @@
 # Keystone 
 
+## v0.1.39 / ...
+
+* changed; default date format changed from `YYYY-MM-DD` to `Do MMM YYYY`, it's friendlier
+	* the `format` option for `Date` and `Datetime` fields can be used to override this setting on a per-field basis
+
 ## v0.1.38 / 2013-11-06
 
 * added; ability to use dependsOn with headers [itzaks](https://github.com/itzaks)
