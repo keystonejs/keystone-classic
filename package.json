@@ -23,7 +23,6 @@
     "embedly": "~1.0.1",
     "moment": "~2.2.1",
     "numeral": "~1.5.1",
-    "i": "~0.3.2",
     "semver": "~2.1.0"
   },
   "devDependencies": {
