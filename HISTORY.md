@@ -1,7 +1,8 @@
 # Keystone 
 
-## v0.1.39 / ...
+## v0.1.39 / 2013-11-07
 
+* improved; the `utils` library has been moved to its own npm package, `keystone-utils`
 * changed; default date format changed from `YYYY-MM-DD` to `Do MMM YYYY`, it's friendlier
 	* the `format` option for `Date` and `Datetime` fields can be used to override this setting on a per-field basis
 
