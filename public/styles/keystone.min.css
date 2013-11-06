@@ -769,7 +769,7 @@ table.items-list .col-value{overflow:hidden;text-overflow:ellipsis}
 .item-id{color:#999}@media (min-width:768px){.item-id{text-align:right}}
 .item-details .toolbar{-webkit-box-shadow:0 -15px 5px 5px rgba(255,255,255,0.95);box-shadow:0 -15px 5px 5px rgba(255,255,255,0.95);background-color:white;border-top:1px solid #eee;margin-top:20px;padding:20px 0 25px;z-index:1}
 .item-header .drilldown{margin-top:0}
-.field,.form-indent,.field-ui .row{margin-top:12px}
+.field,.form-indent,.field-ui .row,#signin-form .row{margin-top:12px}
 .form-heading{margin-top:30px}
 .form-indent{margin-left:20px}
 .alert{padding:8px 12px}
