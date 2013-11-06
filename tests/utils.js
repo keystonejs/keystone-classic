@@ -7,7 +7,7 @@
 	the api stabilises.
 */
 
-var utils = require('../lib/utils'),
+var utils = require('keystone-utils'),
 	_dashes_ = '------------------------------';
 
 console.log('\n==============================');

@@ -9,7 +9,7 @@ var fs = require('fs'),
 	numeral = require('numeral'),
 	cloudinary = require('cloudinary'),
 	mandrillapi = require('mandrill-api'),
-	utils = require('./lib/utils');
+	utils = require('keystone-utils');
 
 var templateCache = {};
 

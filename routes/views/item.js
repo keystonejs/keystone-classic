@@ -3,7 +3,7 @@ var keystone = require('../../'),
 	async = require('async'),
 	cloudinary = require('cloudinary'),
 	moment = require('moment'),
-	utils = require('../../lib/utils');
+	utils = require('keystone-utils');
 
 exports = module.exports = function(req, res) {
 	

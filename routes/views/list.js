@@ -2,7 +2,7 @@ var keystone = require('../../'),
 	_ = require('underscore'),
 	moment = require('moment'),
 	querystring = require('querystring'),
-	utils = require('../../lib/utils');
+	utils = require('keystone-utils');
 
 exports = module.exports = function(req, res) {
 	
