@@ -8,21 +8,20 @@ html
 		
 		include ../includes/header
 		
+		include ../includes/primary-nav
+		
 		#hero: .container
-			h1 Node.js content management system and web application platform built on express and mongoose.
+			h1 Node.js content management system and web application platform built on express and mongo.
 			p.buttons
 				a(href='http://github.com/JedWatson/keystone', target='_blank', title='View on GitHub').btn.btn-lg.btn-primary View on GitHub
 				a(href='http://demo.keystonejs.com', target='_blank', title='Demo website').btn.btn-lg.btn-link Try the demo
 			p.notes
 				span.version Current version is #{version}.
-				//- |  Please note that Keystone is under heavy development, and may not always be stable.
-				//- span.sep  -  
-				//- a(href=js).whatsnew What’s New
+				span.sep  &nbsp; 
+				a(href='https://github.com/JedWatson/keystone/blob/master/HISTORY.md', target='_blank', title='View Changelog on GitHub').whatsnew What’s New
 			.mit-licence
 				a(href='http://opensource.org/licenses/MIT', target='_blank').licence-badge MIT Licence
 				span.licence-text Keystone is free and open source.
-		
-		//- include ../includes/primary-nav
 		
 		#docs-body
 			block content

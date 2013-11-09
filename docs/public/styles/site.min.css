@@ -735,7 +735,7 @@ pre{background-color:#fafafa;border-color:#e1e1e1}
 #docs-sidebar .nav-label{color:#999;margin-bottom:5px;text-transform:uppercase}
 #docs-sidebar .active a{background-color:#fafafa;color:#555}
 @media (min-width:768px){#docs-sidebar{margin-right:-15px}#docs-sidebar .sidebar-nav a{border-radius:4px 0 0 4px} #docs-sidebar .sidebar-nav .active{position:relative;right:-1px;z-index:1} #docs-sidebar .sidebar-nav .active a{border-right:1px solid #348dd9}}
-#hero{background:url("/images/intro-bg.png") no-repeat center bottom #fafafa;border-bottom:1px solid #ededed;padding:20px 0}#hero h1{font-size:24px;line-height:1.2;margin:0}
+#hero{background:url("/images/intro-bg.png") no-repeat center bottom #fafafa;border-top:1px solid #ededed;border-bottom:1px solid #ededed;padding:20px 0;margin-top:20px}#hero h1{font-size:24px;line-height:1.2;margin:0}
 #hero p{margin:30px 0 0}
 #hero .mit-licence{font-size:13px;margin-top:20px}#hero .mit-licence:before,#hero .mit-licence:after{content:" ";display:table;}
 #hero .mit-licence:after{clear:both}
