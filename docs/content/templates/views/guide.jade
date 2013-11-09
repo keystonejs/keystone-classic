@@ -2,43 +2,41 @@ extends ../layout/docs
 
 block content
 	.row
+		
 		.col-sm-3: #docs-sidebar
 			ul.sidebar-nav
 				li.nav-label Getting Started
-				li.active: a(href='#') Installing
-				li: a(href='#') Lorem Ipsum long nav title
-				li: a(href='#') Dolor
-				li: a(href='#') Sit Amet
-			ul.sidebar-nav
-				li.nav-label Getting Started
-				li: a(href='#') Lorem Ipsum
-				li: a(href='#') Dolor
-				li: a(href='#') Sit Amet
+				li: a(href='#start') Introduction
+			//- li.nav-label Heading
+			//- li.active: a(href='#') Active
+			//- li: a(href='#') Inactive
+		
 		.col-sm-9: #docs-content
-			h1 Getting Started
-			h2 Basics H2
-			h3 Installing
-			p The first time I stole so that I wouldn't starve, yes. I lost many assumptions about the simple nature of right and wrong. And when I traveled I learned the fear before a crime and the thrill of success. But I never became one of them.
-			p You wanna know how I got them? So I had a wife. She was beautiful, like you, who tells me I worry too much, who tells me I ought to smile more, who gambles and gets in deep with the sharks. Hey. One day they carve her face. And we have no money for surgeries. She can't take it. I just wanna see her smile again. I just want her to know that I don't care about the scars. So, I do this to myself. And you know what? She can't stand the sight of me. She leaves. Now I see the funny side. Now I'm always smiling.
-			.code-header
-				h4 Optional heading
-				p Optional code block intro text.The first time I stole so that I wouldn't starve, yes. I lost many assumptions about the simple nature of right and wrong.
 			
-			//- TODO @jed colorize?
-			pre
-				| $('#myTab a').click( function (e) {
-				|   e.preventDefault()
-				|   $(this).tab('show')
-				| })
+			h1 KeystoneJS Guide
 			
-			h2 Other Stuff
-			h3 Heading element
-			p The first time I stole so that I wouldn't starve, yes. I lost many assumptions about the simple nature of right and wrong. And when I traveled I learned the fear before a crime and the thrill of success. But I never became one of them.
-			p You wanna know how I got them? So I had a wife. She was beautiful, like you, who tells me I worry too much, who tells me I ought to smile more, who gambles and gets in deep with the sharks. Hey. One day they carve her face. And we have no money for surgeries. She can't take it. I just wanna see her smile again. I just want her to know that I don't care about the scars. So, I do this to myself. And you know what? She can't stand the sight of me. She leaves. Now I see the funny side. Now I'm always smiling.
-			.contextual-note
-				h4 Contextual note
-				p Let me get this straight. You think that your client, one of the wealthiest, most powerful men in the world is secretly a vigilante who spends his nights beating criminals to a pulp with his bare hands and your plan is to blackmail this person? Good luck.
-			p I'm here to ensure the League of Shadow fulfills its duty to restore balance to civilization. You yourself fought the decadence of Gotham for years with all your strength, all your resources, all your moral authority. And the only victory you achieved was a lie. Now, you understand? Gotham is beyond saving and must be allowed to die.
-			p Do you wanna know why I use a knife? Guns are too quick. You can't savor all the... little emotions. You see, in their last moments, people show you who they really are. So in a way, I knew your friends better than you ever did. Would you like to know which of them were cowards?
-			p Let me get this straight. You think that your client, one of the wealthiest, most powerful men in the world is secretly a vigilante who spends his nights beating criminals to a pulp with his bare hands and your plan is to blackmail this person? Good luck.
-			p Ooh, you think darkness is your ally? You merely adopted the dark, I was born in it. Molded by it. I didn't see the light until I was already a man. By then there was nothing to be but blinded.
+			h2 Getting Started
+			
+			h3 Introduction
+			
+			p KeystoneJS makes it easy to build batabase-driven websites, applications and APIs in node.js.
+			p Under the hood, KeystoneJS uses the express.js web server framework, and a MongoDB database via the mongoose framework.
+			p It is designed to make complicated things simple, without limiting the power or flexibility of node.js or the frameworks it is built on.
+			p This guide will show you how to build a KeystoneJS website using the default options.
+			
+			//-	//- Examples...
+			//-	
+			//- .code-header
+			//- 	h4 Optional heading
+			//- 	p Optional code block intro text.The first time I stole so that I wouldn't starve, yes. I lost many assumptions about the simple nature of right and wrong.
+			//- 
+			//- //- TODO @jed colorize
+			//- pre
+			//- 	| $('#myTab a').click( function (e) {
+			//- 	|   e.preventDefault()
+			//- 	|   $(this).tab('show')
+			//- 	| })
+			//- 
+			//- .contextual-note
+			//- 	h4 Contextual note
+			//- 	p Note Contents
