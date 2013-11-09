@@ -6,7 +6,9 @@ block content
 		.col-sm-3: #docs-sidebar
 			ul.sidebar-nav
 				li.nav-label Getting Started
-				li: a(href='#start') Introduction
+				li: a(href='#start_intro') Introduction
+				li: a(href='#start_prereqs') Prerequisites
+				li: a(href='#start_newproj') Starting a new project
 			//- li.nav-label Heading
 			//- li.active: a(href='#') Active
 			//- li: a(href='#') Inactive
@@ -22,7 +24,89 @@ block content
 			p KeystoneJS makes it easy to build batabase-driven websites, applications and APIs in node.js.
 			p Under the hood, KeystoneJS uses the express.js web server framework, and a MongoDB database via the mongoose framework.
 			p It is designed to make complicated things simple, without limiting the power or flexibility of node.js or the frameworks it is built on.
-			p This guide will show you how to build a KeystoneJS website using the default options.
+			p This guide will show you how to build a KeystoneJS website using the default project structure and options.
+			
+			h3 Prerequisites
+			
+			p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
+			
+			.contextual-note
+				h4 Got a mac? install Xcode.
+				p If you've just installed node.js on your mac, you'll need to make sure you've got the Xcode command line tools installed, or you'll run into problems. Xcode is used to build modules that include native code in them.
+				p The simplest way is to install Xcode form the App Store, and run it (you'll need to agree to the licence agreement).
+				p If you're running a version of OS X earlier than Mavericks, you'll also need to open preferences, go to the downloads tab, and install the Xcode Command Line Tools.
+			
+			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familarity with basics such as database concepts, and using node / npm etc.
+			p In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates.
+			
+			h3 Starting a new project
+			
+			p Create a new directory for your project, then add the following files:
+			
+			.code-header
+				h4 package.json
+				p This file describes our project for npm, including the fact that it depends on <code>keystone</code>.
+			pre
+				| {
+				|   "name": "my-project",
+				|   "version": "0.0.1",
+				|   "private": true,
+				|   "dependencies": {
+				|     "keystone": "latest"
+				|   },
+				|   "engines": {
+				|     "node": "0.10.x",
+				|     "npm": "1.3.x"
+				|   },
+				|   "scripts": {
+				|     "start": "web.js"
+				|   }
+				| }
+			
+			.code-header
+				h4 web.js
+				p This is the script that will run our keystone website.
+			pre
+				| var keystone = require('keystone');
+				| keystone.init({
+				|   
+				|   'name': 'My Project',
+				|   
+				|   'favicon': 'public/favicon.ico',
+				|   'less': 'public',
+				|   'static': 'public',
+				|   
+				|   'views': 'templates/views',
+				|   'view engine': 'jade',
+				|   
+				|   'auto update': true,
+				|   'mongo': process.env.MONGODB_URI || 'mongodb://localhost/my-project',
+				|   
+				|   'session': true,
+				|   'auth': true,
+				|   'user model': 'User',
+				|   'cookie secret': '(your secret here)'
+				|   
+				| });
+				| 
+				| require('./models');
+				| 
+				| keystone.set('routes', require('./routes'));
+				| 
+				| keystone.set('nav', {
+				| 	'posts': ['posts', 'post-categories'],
+				| 	'galleries': 'galleries',
+				| 	'enquiries': 'enquiries',
+				| 	'users': 'users',
+				| 	'field-tests': 'things'
+				| });
+				| 
+				| keystone.start();
+			
+			p Now run <code>npm install</code> to install keystone.
+
+			
+
 			
 			//-	//- Examples...
 			//-	
@@ -37,6 +121,3 @@ block content
 			//- 	|   $(this).tab('show')
 			//- 	| })
 			//- 
-			//- .contextual-note
-			//- 	h4 Contextual note
-			//- 	p Note Contents
