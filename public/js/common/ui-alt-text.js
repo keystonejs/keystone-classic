@@ -36,12 +36,12 @@ jQuery(function($) {
 	
 	$(document).on('keydown.ui.altText', function(e) {
 		if (e.which != 18) return;
-		$('a[data-alt-text]').altText(true);
+		$('[data-alt-text]').altText(true);
 	});
 	
 	$(document).on('keyup.ui.altText', function(e) {
 		if (e.which != 18) return;
-		$('a[data-alt-text]').altText();
+		$('[data-alt-text]').altText();
 	});
 	
 });
