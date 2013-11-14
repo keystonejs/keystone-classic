@@ -38,9 +38,11 @@ block intro
 						li: a(href=d.href, title=d.list.singular, data-toggle='tooltip', data-placement='top') #{d.label}
 			li
 				a(href='/keystone/' + list.path, title='Back to ' + list.plural, data-toggle='tooltip', data-placement='top') #{list.label}
-		.col-sm-6: .item-id id: #{item.id}
-			if list.autokey
-				|  / #{item.get(list.autokey.path)}
+		.col-sm-6: .item-id
+			if list.autokey && item.get(list.autokey.path)
+				span(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
+			else
+				| id: #{item.id}
 			.btn-group.visible-md.visible-lg.pull-right(style='margin-left:20px')
 				a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
 				//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
