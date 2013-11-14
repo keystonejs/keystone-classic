@@ -1,5 +1,13 @@
 # Keystone 
 
+## v0.1.40 / 2013-11-14
+
+* added; autokey now supports a `unique` option
+	* set to `true` for unique keys within the whole collection, or a filters object for unique keys within a specific set of documents
+* improved; document id is now hidden in favour of the autokey (if there is one)
+	* press `alt` to see the document id
+* added; you can now navigate to the linked document in a relationship field (only updated on load, for now)
+
 ## v0.1.39 / 2013-11-07
 
 * improved; the `utils` library has been moved to its own npm package, `keystone-utils`
