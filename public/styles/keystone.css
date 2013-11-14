@@ -5171,7 +5171,9 @@ table.items-list .control-delete i {
 table.items-list img {
   margin: 8px;
 }
-table.items-list .col-value {
+table.items-list .col-value,
+table.items-list td a {
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
