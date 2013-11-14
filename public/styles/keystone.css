@@ -5171,6 +5171,10 @@ table.items-list .control-delete i {
 table.items-list img {
   margin: 8px;
 }
+table.items-list .col-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .item-id {
   color: #999;
 }
@@ -5198,55 +5202,10 @@ table.items-list img {
 	.form-control-wrapper should be exclusively used for attaching validation to
 	when no other ancestor is applicable. It has no ornamental styles of it's own.
 */
-.field + .field,
-.field + .form-control-wrapper,
-.field + .form-horizontal,
-.field + .form-control,
-.field + .form-indent,
-.field + .form-row,
-.field + .row,
-.form-control-wrapper + .field,
-.form-control-wrapper + .form-control-wrapper,
-.form-control-wrapper + .form-horizontal,
-.form-control-wrapper + .form-control,
-.form-control-wrapper + .form-indent,
-.form-control-wrapper + .form-row,
-.form-control-wrapper + .row,
-.form-horizontal + .field,
-.form-horizontal + .form-control-wrapper,
-.form-horizontal + .form-horizontal,
-.form-horizontal + .form-control,
-.form-horizontal + .form-indent,
-.form-horizontal + .form-row,
-.form-horizontal + .row,
-.form-control + .field,
-.form-control + .form-control-wrapper,
-.form-control + .form-horizontal,
-.form-control + .form-control,
-.form-control + .form-indent,
-.form-control + .form-row,
-.form-control + .row,
-.form-indent + .field,
-.form-indent + .form-control-wrapper,
-.form-indent + .form-horizontal,
-.form-indent + .form-control,
-.form-indent + .form-indent,
-.form-indent + .form-row,
-.form-indent + .row,
-.form-row + .field,
-.form-row + .form-control-wrapper,
-.form-row + .form-horizontal,
-.form-row + .form-control,
-.form-row + .form-indent,
-.form-row + .form-row,
-.form-row + .row,
-.row + .field,
-.row + .form-control-wrapper,
-.row + .form-horizontal,
-.row + .form-control,
-.row + .form-indent,
-.row + .form-row,
-.row + .row {
+.field,
+.form-indent,
+.field-ui .row,
+#signin-form .row {
   margin-top: 12px;
 }
 .form-heading {
@@ -5297,9 +5256,6 @@ table.items-list img {
   vertical-align: middle;
   width: auto;
   min-width: 180px;
-}
-.field-value + .field-value {
-  margin-top: 12px;
 }
 .field-value.no-value {
   color: #999999;
@@ -5818,9 +5774,6 @@ fieldset[disabled] .field.type-html textarea {
 textarea.field.type-html textarea {
   height: auto;
 }
-.field.type-html textarea + .field.type-html textarea {
-  margin-top: 12px;
-}
 .field.type-html textarea:hover {
   border-color: #999 #bbb #ccc;
 }
@@ -5876,10 +5829,6 @@ textarea.field.type-html textarea {
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
-}
-.field.type-cloudinaryimage .image-details .image-values .field-value + .field-value {
-  margin-top: 0;
-  margin-right: 0;
 }
 .field.type-cloudinaryimage .image-details + .image-toolbar {
   margin-top: 12px;
@@ -5985,9 +5934,6 @@ textarea.field.type-html textarea {
   color: #0089cb;
   margin-right: 5px;
   text-decoration: none;
-}
-.ui-related-item + .ui-related-item {
-  margin-top: 12px;
 }
 .ui-related-item.no-value {
   color: #999999;
