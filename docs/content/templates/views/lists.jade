@@ -1,0 +1,90 @@
+extends ../layout/docs
+
+block content
+	.row
+		
+		.col-sm-3: #docs-sidebar
+			ul.sidebar-nav
+				li.nav-label Lists
+				li: a(href='#lists_intro') Overview
+				li: a(href='#lists_usage') Usage
+				li: a(href='#lists_options') Options
+				li.nav-label Fields
+				li: a(href='#start_intro') Concepts
+				li: a(href='#start_intro') Common Options
+				li.nav-label Field Types
+		
+		.col-sm-9: #docs-content
+			
+			h1 Keystone Lists
+			
+			p A List in Keystone is similar to a Schema; it defines the Fields and options for a collection in the database, as well as providing an interface to access the Mongoose Schema and Model, through which you can execute queries.
+			
+			h3 Usage
+			
+			p The syntax for creating a Keystone List is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code>var MyList = new Keystone.List(key, options)</code>.
+			p Once you have created a new List, add fields to it using <code>MyList.add(fields)</code>, where fields is an object of keys (for field paths) and values (for field types, or options).
+			p Fields are defined by an object with a <code>type</code> property, which must be a valid Field Type or basic data type. Using the object syntax you can specify additional options for the field. Common field options and field-type-specific options are detailed in the fields documentation.
+			p When all the fields and options have been set on the list, call <code>MyList.register()</code> to register the list with Keystone and finalise its configuration
+			
+			p <strong>For example: </strong> a simple Post model for a blog might look like this:
+			
+			.code-header: h4 Post.js
+			pre
+				| var keystone = require('keystone'),
+				| 	Types = keystone.Field.Types;
+				| 
+				| var Post = new keystone.List('Post');
+				| 
+				| Post.add({
+				| 	title: { type: String, required: true },
+				| 	slug: { type: String, index: true },
+				| 	author: String,
+				| 	publishedDate: Date,
+				| 	image: { type: Types.CloudinaryImage },
+				| 	content: {
+				| 		brief: { type: Types.Html, wysiwyg: true, height: 150 },
+				| 		extended: { type: Types.Html, wysiwyg: true, height: 400 }
+				| 	}
+				| });
+				| 
+				| Post.register();
+			
+			h3 Options
+			
+			p Lists support the following options:
+			
+			table.table
+				col(width=120)
+				col
+				tr
+					td: code drilldown
+					td A space-delimited list of relationships to display as drilldown in the Admin UI
+				tr
+					td: code sortable
+					td Adds a hidden field <code>sortOrder</code> to the schema, and enables drag and drop sorting in the Admin UI
+				tr
+					td: code sortContext
+					td A <code>List:relationship</code> pair to control when drag and drop sorting is available in the Admin UI
+				tr
+					td: code searchFields
+					td A space-delimited list of paths to use for searching in Admin UI
+				tr
+					td: code defaultSort
+					td The default column or path to sort on in the Admin UI
+				tr
+					td: code defaultColumns
+					td 
+				tr
+					td: code autokey
+					td 
+				tr
+					td: code noedit
+					td Prevents editing of items in the list through the Keystone Admin UI
+				tr
+					td: code nocreate
+					td Prevents creation of new items in the list through the Keystone Admin UI
+				tr
+					td: code nodelete
+					td Prevents deletion of items from the list through the Keystone Admin UI
+					

@@ -2,8 +2,3 @@ nav#docs-nav: .container
 	ul.nav.navbar-nav
 		each item in nav
 			li(class=section == item.section ? 'active' : null): a(href=item.path)= item.label
-//- #nav: .container
-	ul.list-unstyled
-		each item in nav
-			li(class=section == item.section ? 'active' : false): a(href=item.path)= item.label
-

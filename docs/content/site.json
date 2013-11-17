@@ -2,7 +2,8 @@
 	"locals": {
 		"nav": [
 			{ "section": "home", "path": "/", "label": "Home" },
-			{ "section": "guide", "path": "/guide", "label": "Guide" }
+			{ "section": "guide", "path": "/guide", "label": "Guide" },
+			{ "section": "lists", "path": "/guide/lists", "label": "Lists & Fields" }
 		]
 	},
 	"home": {
@@ -16,5 +17,11 @@
 		"template": "guide",
 		"section": "guide",
 		"title": "getting started with Keystone"
+	},
+	"lists": {
+		"path": "/guide/lists",
+		"template": "lists",
+		"section": "lists",
+		"title": "lists & fields reference"
 	}
 }
