@@ -3,6 +3,9 @@
 ## v0.1.41
 
 * improved; support for detecting presence of `req.body` / `req.query` keys on `View.on('post' || 'get')`
+* added; support for callbacks in the `keystone.View` class. available callbacks are `err` (when the first argument returned by the query callback is not null, takes a single argument which is the error), `none` (when the results array is empty or the results argument is null), `then` (called unless `err` or `none` is present and called, takes three arguments: `err`, `results`, `next`)
+	* e.g. `view.query(as, query, { err: errorHandlerCallback, none: noResultsCallback })` or
+	* `view.query(as, query).none(noResultsCallback).then(defaultCallback)`
 
 ## v0.1.40 / 2013-11-14
 
