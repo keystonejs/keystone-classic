@@ -1,5 +1,9 @@
 # Keystone 
 
+## v0.1.41
+
+* improved; support for detecting presence of `req.body` / `req.query` keys on `View.on('post' || 'get')`
+
 ## v0.1.40 / 2013-11-14
 
 * added; autokey now supports a `unique` option
