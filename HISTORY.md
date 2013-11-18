@@ -1,6 +1,10 @@
 # Keystone 
 
-## v0.1.41
+## v0.1.42 / 2013-11-19
+
+* fixed; passing populateRelated string as 3rd argument of View.query
+
+## v0.1.41 / 2013-11-18
 
 * improved; support for detecting presence of `req.body` / `req.query` keys on `View.on('post' || 'get')`
 * added; support for callbacks in the `keystone.View` class. available callbacks are `err` (when the first argument returned by the query callback is not null, takes a single argument which is the error), `none` (when the results array is empty or the results argument is null), `then` (called unless `err` or `none` is present and called, takes three arguments: `err`, `results`, `next`)
