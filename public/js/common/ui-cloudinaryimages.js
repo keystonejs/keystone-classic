@@ -120,7 +120,6 @@ jQuery(function($) {
 		});
 		
 		// Sorting
-		/*
 		$images.html5sortable({
 			items: '.image-sortable',
 			placeholderClass: 'row col-sm-3 col-md-12',
@@ -129,7 +128,6 @@ jQuery(function($) {
 			var order = _.map($images.find('.image-sortable'), function(image) { return $(image).data().id; });
 			$order.val(order.toString());
 		});
-		*/
 		
 		// Placeholders
 		var renderPlaceholder = function() {
