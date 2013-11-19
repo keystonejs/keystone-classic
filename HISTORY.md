@@ -1,5 +1,9 @@
 # Keystone 
 
+## v0.1.44
+
+* added; new `markdown` field type
+
 ## v0.1.43 / 2013-11-20
 
 * added; `keystone.content` class and the start of a page-content management framework

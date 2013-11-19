@@ -62,6 +62,10 @@ Keystone's advanced field types include:
 	*	Provides a `format` method for getting the label of the stored value, as set in the
 		`options` array.
 	*	Provides a `pluck` method for getting the label
+*	`markdown` (`Object`)
+	*	`md` (`String`) - source markdown
+	*	`html` (`String`) - generated html
+	*	Converts markdown to html when `md` is set
 *	`name` (`Object`)
 	*	`first` (`String`)
 	*	`last` (`String`)
