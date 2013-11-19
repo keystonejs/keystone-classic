@@ -1,5 +1,11 @@
 # Keystone 
 
+## v0.1.43 / 2013-11-20
+
+* added; `keystone.content` class and the start of a page-content management framework
+* added; new functionality for integrating front-end editing
+* fixed; minor issues with the list controls in the admin UI
+
 ## v0.1.42 / 2013-11-19
 
 * fixed; passing populateRelated string as 3rd argument of View.query
