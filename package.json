@@ -21,12 +21,12 @@
     "cloudinary": "~1.0.6",
     "mandrill-api": "~1.0.37",
     "embedly": "~1.0.1",
+    "marked": "~0.2.10",
     "moment": "~2.2.1",
     "numeral": "~1.5.1",
     "semver": "~2.1.0"
   },
   "devDependencies": {
-    "marked": "~0.2.9",
     "dox": "~0.4.4"
   },
   "author": "Jed Watson",
