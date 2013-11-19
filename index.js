@@ -701,7 +701,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		hilight: res.req.flash('hilight')
 	};
 	
-	var cloudinaryUpload = cloudinary.uploader.direct_upload();
+	
 	
 	var locals = {
 		_: _,
@@ -718,17 +718,21 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		title: 'Keystone',
 		signout: this.get('signout'),
 		section: {},
-		cloudinary: {
-			cloud_name: keystone.get('cloudinary config').cloud_name,
-			api_key: keystone.get('cloudinary config').api_key,
-			timestamp: cloudinaryUpload.hidden_fields.timestamp,
-			signature: cloudinaryUpload.hidden_fields.signature
-		},
 		ga: {
 			property: this.get('ga property'),
 			domain: this.get('ga domain')
 		}
 	};
+	
+	if (keystone.get('cloudinary config')) {
+		var cloudinaryUpload = cloudinary.uploader.direct_upload();
+		locals.cloudinary = {
+			cloud_name: keystone.get('cloudinary config').cloud_name,
+			api_key: keystone.get('cloudinary config').api_key,
+			timestamp: cloudinaryUpload.hidden_fields.timestamp,
+			signature: cloudinaryUpload.hidden_fields.signature
+		};
+	}
 	
 	var html = template(_.extend(locals, ext));
 	
