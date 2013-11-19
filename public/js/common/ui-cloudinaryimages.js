@@ -6,20 +6,27 @@ jQuery(function($) {
 		var $el = $(this),
 			data = $el.data();
 		
-		var $action = $el.find('input.field-action');
-			// $order = $el.find('input.field-order');
+		var $action = $el.find('input.field-action'),
+			$order = $el.find('input.field-order'),
+			$uploads = $el.find('input.field-uploads'),
+			$cloudinary = $el.find('input[type=file].field-upload');
 		
 		var $images = $el.find('.images-container');
 		
+		var $imageUpload = $el.find('.image-upload');
+		
 		var $toolbar = $el.find('.images-toolbar'),
-			$upload = $toolbar.find('.btn-upload'),
+			$uploadBtn = $toolbar.find('.btn-upload'),
 			$uploadQueued = $toolbar.find('.upload-queued'),
 			$deleteQueued = $toolbar.find('.delete-queued');
 		
-		var actions = { delete: [], remove: [] };
-			// order = '';
+		var actions = { delete: [], remove: [] },
+			uploads = {};
 		
 		var images = $el.find('.image-field');
+		
+		var directUploading = $cloudinary.length,
+			imagePreviews = window.FileReader;
 		
 		// Generates the action string that processes deletion and removal of images
 		var updateActions = function() {
@@ -27,18 +34,26 @@ jQuery(function($) {
 				(actions.remove.length ? 'remove:' + actions.remove.toString() : ''));
 		};
 		
+		// Handles live uploads and sets returned data to save
+		var processUploads = function() {
+			var references = _.map(uploads, function(u) { return u; });
+			$uploads.val(JSON.stringify(references));
+			checkQueues();
+		}
+		
 		// Displays or hides the queue message if we have pending uploads
 		var checkQueues = function() {
-			// TODO: May want to check FileList ability here
-			var uploads = 0;
-				_.each($el.find('input[type=file]'), function(f) {
-					uploads+= f.files.length;
-				});
-				$uploadQueued[( uploads ? 'show' : 'hide' )]();
-				$uploadQueued.find('.alert').html(uploads + ' image' + ( uploads > 1 ? 's' : '' ) + ' selected - save to upload');
+			var references = 0;
+			_.each($el.find('input[type=file]'), function(f) {
+				references+= f.files.length;
+			});
+			references+= $uploads.val() ? JSON.parse($uploads.val()).length : 0;
+			$uploadQueued[( references ? 'show' : 'hide' )]();
+			$uploadQueued.find('.alert').html(references + ' image' + ( references > 1 ? 's' : '' ) +  ( directUploading ? ' uploaded - save to confirm' : ' selected - save to upload' ));
+			
 			var removals = actions.delete.length + actions.remove.length;
-				$deleteQueued[( removals ? 'show' : 'hide' )]();
-				$deleteQueued.find('.alert').html(removals + ' image' + ( removals > 1 ? 's' : '' ) + ' removed - save to confirm');
+			$deleteQueued[( removals ? 'show' : 'hide' )]();
+			$deleteQueued.find('.alert').html(removals + ' image' + ( removals > 1 ? 's' : '' ) + ' removed - save to confirm');
 		}
 		
 		// Handle existing images
@@ -48,14 +63,14 @@ jQuery(function($) {
 			
 			var $preview = $image.find('.image-preview');
 			
-			var $remove = $image.find('.btn-remove-image'),
-				$undo = $image.find('.btn-undo-remove');
+			var $removeBtn = $image.find('.btn-remove-image'),
+				$undoBtn = $image.find('.btn-undo-remove');
 			
 			var $deletePending = $image.find('.delete-pending');
 			
 			var action = false;
 			
-			$remove.click(function(e) {
+			$removeBtn.click(function(e) {
 				e.preventDefault();
 				if (e.altKey) {
 					actions.delete.push(idata.id);
@@ -68,23 +83,23 @@ jQuery(function($) {
 				$preview.addClass('removed');
 				$deletePending.addClass(action == 'delete' ? 'glyphicon-trash' : 'glyphicon-remove').show();
 				// Remove/Undo
-				$remove.hide();
-				$undo.show();
+				$removeBtn.hide();
+				$undoBtn.show();
 				// Messages
 				checkQueues();
 				// Actions
 				updateActions();
 			});
 			
-			$undo.click(function(e) {
+			$undoBtn.click(function(e) {
 				e.preventDefault();
 				actions[action].splice(actions[action].indexOf(idata.id), 1);
 				// Preview
 				$preview.removeClass('removed');
 				$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
 				// Remove/Undo
-				$undo.hide();
-				$remove.show();
+				$undoBtn.hide();
+				$removeBtn.show();
 				// Messages
 				checkQueues();
 				// Actions
@@ -93,6 +108,7 @@ jQuery(function($) {
 			
 		});
 		
+		// Popups
 		images.find('.image-preview a').fancybox({
 			prevEffect: 'none',
 			nextEffect: 'none',
@@ -103,58 +119,195 @@ jQuery(function($) {
 			}
 		});
 		
-		var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
-			'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>' +
-			'<div class="image-details"><a href="javascript:;" class="btn btn-link btn-cancel btn-undo-upload">Cancel</a></div>' +
-		'</div>';
+		// Sorting
+		$images.html5sortable({
+			items: '.image-sortable',
+			placeholderClass: 'row col-sm-3 col-md-12',
+			placeholderSizing: '.image-preview'
+		}).bind('sortupdate', function() {
+			var order = _.map($images.find('.image-sortable'), function(image) { return $(image).data().id; });
+			$order.val(order.toString());
+		});
 		
-		$upload.click(function() {
-			var $field = $('<input id="' + new Date().getTime() + '" type="file" multiple name="' + data.fieldPathsUpload + '[]" class="field-upload">').appendTo($toolbar);
-			$field.change(function(e) {
-				var imageSelected = $(this).val() ? true : false;
-				var renderPlaceholder = function() {
-					var $placeholder = $(imageFieldHTML).appendTo($images);
-					$placeholder.find('.btn-undo-upload').click(function() {
-						$placeholder.remove();
-						$field.remove();
-						checkQueues();
-					});
-					return $placeholder;
+		// Placeholders
+		var renderPlaceholder = function() {
+			
+			var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
+				'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !imagePreviews ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open img-uploading"></div></div></div>' +
+				'<div class="image-details"><a href="javascript:;" class="btn btn-link btn-cancel btn-undo-upload">Cancel</a></div>' +
+			'</div>';
+			
+			return $(imageFieldHTML).insertBefore($imageUpload); // appendTo($images);
+			
+		}
+		
+		// File Reader
+		var readFiles = function(files, callback) {
+			
+			var $files = [];
+			
+			var setupPlaceholder = function(file, e) {
+			
+				var $placeholder = renderPlaceholder();
+				
+				if (imagePreviews) {
+					$placeholder.find('.img-thumbnail .placeholder').prop('src', e.target.result).prop( 'title', escape(file.name) );
 				}
-				if (imageSelected) {
-					if (window.FileReader) {
-						var files = e.target.files;
-						for (var i = 0, f; f = files[i]; i++) {
-							if (!f.type.match('image.*')) {
-								$field.remove();
-								checkQueues();
-								alert("Please select image files only.");
-								continue;
-							}
-							var fileReader = new FileReader();
-							fileReader.onload = (function(file) {
-								return function(e) {
-									renderPlaceholder().find('.img-thumbnail .placeholder').prop('src', e.target.result).prop( 'title', escape(file.name) );
-									checkQueues();
-									$(window).trigger('redraw');
-								};
-							})(f);
-							fileReader.readAsDataURL(f);
+				
+				$placeholder.find('.btn-undo-upload').click(function() {
+					
+					if (directUploading) {
+						if ($placeholder.prop('data-id')) {
+							delete uploads[$placeholder.prop('data-id')];
+							processUploads();
 						}
 					} else {
-						renderPlaceholder();
+						$field.remove();
+					}
+					
+					$placeholder.remove();
+					
+					checkQueues();
+				});
+				
+				$files.push(_.first($placeholder));
+				
+				checkQueues();
+				$(window).trigger('redraw');
+				
+				return $placeholder;
+			
+			};
+			
+			if (imagePreviews) {
+				async.each(files, function(f, next) {
+					
+					if (!f.type.match('image.*')) {
+						$field.remove();
+						checkQueues();
+						alert("Please select image files only.");
+						return next();
+					}
+					
+					var fileReader = new FileReader();
+					fileReader.onload = (function(file) {
+						return function(e) {
+							setupPlaceholder(file, e);
+							return next();
+						};
+					})(f);
+					fileReader.readAsDataURL(f);
+					
+				}, function(err) {
+					if (callback)
+						return callback($files);
+				});
+			} else {
+				setupPlaceholder();
+				if (callback)
+					return callback($files);
+			}
+			
+		};
+		
+		// Upload button
+		$uploadBtn.click(function() {
+			
+			if (directUploading) {
+				$el.find('input[type=file].field-upload').click(); // Needs to be referenced every time
+			} else {
+				var $field = $('<input id="' + new Date().getTime() + '" type="file" multiple name="' + data.fieldPathsUpload + '[]" class="field-upload">').appendTo($toolbar);
+				$field.change(function(e) {
+					var imageSelected = $(this).val() ? true : false;
+					if (imageSelected) {
+						readFiles(e.target.files);
+					} else {
+						$field.remove();
 						checkQueues();
 						$(window).trigger('redraw');
 					}
-				} else {
-					$field.remove();
-					checkQueues();
-					$(window).trigger('redraw');
+				});
+				$field.click();
+			}
+			
+		});
+		
+		// Direct Uploading
+		if (directUploading) {
+			
+			$imageUpload.click(function() {
+				$el.find('input[type=file].field-upload').click(); // Needs to be referenced every time
+			});
+			
+			$cloudinary.cloudinary_fileupload({
+				dropZone: $imageUpload,
+				pasteZone: null
+			});
+			
+			var updateStatus = function($el, status, icon) {
+				$el.find('.btn-undo-upload').html(status);
+				$el.find('.img-uploading').removeClass( 'glyphicon-open glyphicon-ok glyphicon-ban-circle').addClass(icon);
+			}
+			
+			$imageUpload.on({
+				dragleave: function(e) {
+					$imageUpload.removeClass('hover');
+				},
+				mouseleave: function(e) {
+					$imageUpload.removeClass('hover');
+				}
+			})
+			
+			$cloudinary.on({
+				fileuploaddragover: function() {
+					$imageUpload.addClass('hover');
+				},
+				fileuploadsend: function(e, d) {
+					readFiles(d.files, function(file) {
+						d.$placeholder = $(file);
+						updateStatus(d.$placeholder, '0%', 'glyphicon-open');
+					});
+					$imageUpload.removeClass('hover');
+				},
+				fileuploadprogress: function(e, d) {
+					updateStatus(d.$placeholder, Math.round((d.loaded * 100.0) / d.total) + '%', 'glyphicon-open');
+				},
+				fileuploaddone: function(e, d) {
+					updateStatus(d.$placeholder, 'Remove', 'glyphicon-ok');
+				},
+				fileuploadfail: function(e, d) {
+					updateStatus(d.$placeholder, 'Failed', 'glyphicon-ban-circle');
+				},
+				cloudinarydone: function(e, d) {
+					if (!d.$placeholder.is(':visible')) {
+						return;
+					}
+					d.$placeholder.prop('data-id', d.result.public_id);
+					uploads[d.result.public_id] = d.result;
+					processUploads();
 				}
 			});
-			$field.click();
-		});
+		
+		} else {
+			$imageUpload.hide();
+		}
 		
 	});
 	
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -71,6 +71,7 @@ html
 		//- Common
 		script(src="/keystone/js/lib/underscore/underscore-1.5.1.min.js")
 		script(src="/keystone/js/lib/jquery/jquery-1.10.2.min.js")
+		script(src="/keystone/js/lib/async/async.js")
 		
 		//- Bootstrap Components
 		script(src='/keystone/js/lib/bootstrap/collapse.js')
@@ -88,6 +89,19 @@ html
 		//- App
 		script.
 			Keystone = {};
+		if cloudinary
+			script(src='/keystone/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js')
+			script(src='/keystone/js/lib/jqueryfileupload/jquery.iframe-transport.js')
+			script(src='/keystone/js/lib/jqueryfileupload/jquery.fileupload.js')
+			script(src='/keystone/js/lib/cloudinary/jquery.cloudinary.js')
+			script.
+				Keystone.cloudinary = {
+					cloud_name: "#{cloudinary.cloud_name}",
+					api_key: "#{cloudinary.api_key}",
+					timestamp: "#{cloudinary.timestamp}",
+					signature: "#{cloudinary.signature}"
+				}
+				$.cloudinary.config({ cloud_name: "#{cloudinary.cloud_name}", api_key: "#{cloudinary.api_key}" });
 		
 		//- Keystone UI
 		script(src="/keystone/js/common/plugins.js")
