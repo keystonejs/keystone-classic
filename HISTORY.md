@@ -1,8 +1,9 @@
 # Keystone 
 
-## v0.1.44
+## v0.1.44 / 2013-11-20
 
 * added; new `markdown` field type
+* improved; massive enhancements to the `cloudinaryimage(s)` fields [bladey](https://github.com/bladey)
 
 ## v0.1.43 / 2013-11-20
 
