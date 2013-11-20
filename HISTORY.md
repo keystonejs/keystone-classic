@@ -1,5 +1,9 @@
 # Keystone 
 
+## v0.1.45 / 2013-11-20
+
+* misc bug fixes
+
 ## v0.1.44 / 2013-11-20
 
 * added; new `markdown` field type
