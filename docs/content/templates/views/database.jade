@@ -1,24 +1,29 @@
-extends ../layout/docs
+extends ../layout/base
 
 block content
-	.row
+	.container: .row
 		
 		.col-sm-3: #docs-sidebar
 			ul.sidebar-nav
+				li.nav-label Database
+				li: a(href='#lists_intro') Concepts
 				li.nav-label Lists
 				li: a(href='#lists_intro') Overview
 				li: a(href='#lists_usage') Usage
 				li: a(href='#lists_options') Options
 				li.nav-label Fields
-				li: a(href='#start_intro') Concepts
+				li: a(href='#start_intro') Overview
 				li: a(href='#start_intro') Common Options
 				li.nav-label Field Types
 		
 		.col-sm-9: #docs-content
 			
-			h1 Keystone Lists
+			h1 Setting up &amp; Using Data Models in Keystone
 			
 			p A List in Keystone is similar to a Schema; it defines the Fields and options for a collection in the database, as well as providing an interface to access the Mongoose Schema and Model, through which you can execute queries.
+			
+			
+			h2 Lists
 			
 			h3 Usage
 			
@@ -87,4 +92,16 @@ block content
 				tr
 					td: code nodelete
 					td Prevents deletion of items from the list through the Keystone Admin UI
+			
+			h2 Fields
+			
+			p ...
+			
+			h3 Common Options
+			
+			p ...
+			
+			h2 Field Types
+			
+			p ...
 					

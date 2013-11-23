@@ -27,11 +27,10 @@ app.use(express.logger('dev'));
 // Set up locals and routes
 
 _.extend(app.locals, content.locals);
-delete content.locals;
 
 app.locals.version = require('../package.json').version;
 
-_.each(content, function(options, key) {
+_.each(content.routes, function(options) {
 	app.get(options.path, view(options.template, options));
 });
 

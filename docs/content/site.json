@@ -2,26 +2,42 @@
 	"locals": {
 		"nav": [
 			{ "section": "home", "path": "/", "label": "Home" },
-			{ "section": "guide", "path": "/guide", "label": "Guide" },
-			{ "section": "lists", "path": "/guide/lists", "label": "Lists & Fields" }
+			{ "section": "starting", "path": "/guide", "label": "Getting Started" },
+			{ "section": "routes", "path": "/guide/routes", "label": "Routes & Views" },
+			{ "section": "data", "path": "/guide/data", "label": "Database" },
+			{ "section": "examples", "path": "/examples", "label": "Examples" }
 		]
 	},
-	"home": {
-		"path": "/",
-		"template": "home",
-		"section": "home",
-		"title": "node.js cms and web application platform built on express and mongoose"
-	},
-	"guide": {
-		"path": "/guide",
-		"template": "guide",
-		"section": "guide",
-		"title": "getting started with Keystone"
-	},
-	"lists": {
-		"path": "/guide/lists",
-		"template": "lists",
-		"section": "lists",
-		"title": "lists & fields reference"
-	}
+	"routes": [
+		{
+			"path": "/",
+			"template": "home",
+			"section": "home",
+			"title": "Node.js cms and web application platform built on Express and MongoDB"
+		},
+		{
+			"path": "/guide",
+			"template": "starting",
+			"section": "starting",
+			"title": "Getting started"
+		},
+		{
+			"path": "/guide/routes",
+			"template": "routes",
+			"section": "routes",
+			"title": "Setting up Routes and Views"
+		},
+		{
+			"path": "/guide/data",
+			"template": "database",
+			"section": "data",
+			"title": "Setting up and using Data Models"
+		},
+		{
+			"path": "/examples",
+			"template": "examples",
+			"section": "examples",
+			"title": "Sample applications"
+		}
+	]
 }

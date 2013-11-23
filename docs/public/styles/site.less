@@ -170,11 +170,16 @@
 
 // content
 #docs-content {
-	
 	@media (min-width: @screen-sm) {
-		border-left: 1px solid @gray-lighter;
-		margin-left: @grid-gutter-width / -2;
-		padding: @grid-gutter-width 0 @grid-gutter-width @grid-gutter-width;
+		padding: @grid-gutter-width 0 @grid-gutter-width 0;
+	}
+	
+	&.bordered {
+		@media (min-width: @screen-sm) {
+			padding: @grid-gutter-width 0 @grid-gutter-width @grid-gutter-width;
+			border-left: 1px solid @gray-lighter;
+			margin-left: @grid-gutter-width / -2;
+		}
 	}
 }
 
@@ -197,7 +202,7 @@ h2 {
 	border-bottom: 1px solid @gray-lighter;
 	color: @brand-primary;
 	font-weight: bold;
-	margin: 100px 0 20px 0;
+	margin: 60px 0 20px 0;
 	padding-bottom: 20px;
 }
 h3 {
@@ -278,8 +283,8 @@ pre {
 		}
 	}
 	.nav-label {
+		margin: 10px 0 !important;
 		color: @gray-light;
-		margin-bottom: 5px;
 		text-transform: uppercase;
 	}
 	.active a {
@@ -314,10 +319,8 @@ pre {
 // Keystone hero
 #hero {
 	background: url( "/images/intro-bg.png" ) no-repeat center bottom @navbar-default-bg;
-	border-top: 1px solid #ededed;
 	border-bottom: 1px solid #ededed;
 	padding: 20px 0;
-	margin-top: 20px;
 	
 	h1 {
 		font-size: 24px;
@@ -353,22 +356,6 @@ pre {
 			color: #aaa;
 		}
 	}
-	.buttons {
-		.btn {
-			border-radius: @border-radius-base;
-		}
-		.btn + .btn {
-			margin-left: 10px;
-		}
-		.btn-link {
-			border-color: @link-color;
-			
-			&:hover {
-				background-color: white;
-				text-decoration: none;
-			}
-		}
-	}
 	.notes {
 		color: @gray-light;
 		
@@ -380,9 +367,6 @@ pre {
 				color: @gray;
 			}
 		}
-	}
-	.btn-lg {
-		font-size: 16px;
 	}
 	@media (min-width: @screen-sm) {
 		padding: 50px 0;
@@ -396,6 +380,27 @@ pre {
 	}
 }
 
+// Buttons
+.buttons {
+	.btn {
+		border-radius: @border-radius-base;
+	}
+	.btn + .btn {
+		margin-left: 10px;
+	}
+	.btn-link {
+		border-color: @link-color;
+		
+		&:hover {
+			background-color: white;
+			text-decoration: none;
+		}
+	}
+}
+.btn-lg {
+	font-size: 16px;
+}
+	
 // Intro sections
 .intro-section {
 	border-bottom: 1px solid #ededed;
