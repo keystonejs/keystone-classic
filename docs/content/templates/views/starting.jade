@@ -8,6 +8,7 @@ block content
 				li.nav-label KeystoneJS Guide
 				li: a(href='#start_intro') Introduction
 				li: a(href='#start_prereqs') Prerequisites
+				li: a(href='#start_prereqs') Production vs. Development
 				li.nav-label Getting Started
 				li: a(href='#start_newproj') Starting a new project
 				li: a(href='#start_more') More information
@@ -48,6 +49,11 @@ block content
 			
 			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familarity with basics such as database concepts, and using node / npm etc.
 			p In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates.
+			
+			h3 Production vs. Development
+			
+			p Keystone applies different settings in production and development modes. The environment will default to <code>development</code>, so you should set the <code>NODE_ENV</code> environment variable to <code>production</code> on your production servers for better performance.
+			p Your app can detect which environment it is running in by calling <code>keystone.get('env')</code>.
 			
 			h2 Getting Started
 			
@@ -192,8 +198,8 @@ block content
 				| User.add({
 				|     name: { type: Types.Name, required: true, index: true },
 				|     email: { type: Types.Email, initial: true, required: true, index: true },
-				|     password: { type: Types.Password, initial: true, required: false },
-				|     canAccessKeystone: { type: Boolean }
+				|     password: { type: Types.Password, initial: true },
+				|     canAccessKeystone: { type: Boolean, initial: true }
 				| });
 				| 
 				| User.register();
@@ -205,17 +211,29 @@ block content
 			p To recap:
 			ul.list
 				li The option <code>user model</code> must be the name of the Model that Keystone should look in to find your users. If you use a different model name, be sure to set the option correctly.
-				li If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. The Admin UI will always have session management, but it incurs a small overhead, so if your application doesn't neet it you can turn it off.
+				li If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. Loading sessions incurs a small overhead, so if your application doesn't neet it you can turn it off.
 				li Keystone has built-in views for signing in and out. To enable them, set the <code>auth</code> option to <strong>true</strong>. You can also implement custom signin and signout screens in your applications' views.
 				li Sessions are persisted using an encrypted cookie storing the user's ID. Make sure you set the <code>cookie secret</code> option to a long, random string.
 				li The user model must have a <code>canAccessKeystone</code> property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not.
 			
 			h3 More information
 			
-			p For more information on how to set up your application's models, and the options for lists and fields, see the <a href="/guide/data">Database guide</a>.
+			p For more information on how to set up your application's models, and the full documentation for lists and fields, see the <a href="/guide/data">database guide</a>.
 
 			
+			h2 Routes &amp; Views
 			
+			h3 Setting up your Routes
+			
+			p ...
+			
+			h3 Your first View
+			
+			p ...
+			
+			h3 More information
+			
+			p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/guide/data">routes &amp; views guide</a>.
 			
 			
 			

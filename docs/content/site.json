@@ -3,8 +3,8 @@
 		"nav": [
 			{ "section": "home", "path": "/", "label": "Home" },
 			{ "section": "starting", "path": "/guide", "label": "Getting Started" },
-			{ "section": "routes", "path": "/guide/routes", "label": "Routes & Views" },
 			{ "section": "data", "path": "/guide/data", "label": "Database" },
+			{ "section": "routes", "path": "/guide/routes", "label": "Routes & Views" },
 			{ "section": "examples", "path": "/examples", "label": "Examples" }
 		]
 	},
@@ -22,16 +22,16 @@
 			"title": "Getting started"
 		},
 		{
-			"path": "/guide/routes",
-			"template": "routes",
-			"section": "routes",
-			"title": "Setting up Routes and Views"
-		},
-		{
 			"path": "/guide/data",
 			"template": "database",
 			"section": "data",
 			"title": "Setting up and using Data Models"
+		},
+		{
+			"path": "/guide/routes",
+			"template": "routes",
+			"section": "routes",
+			"title": "Setting up Routes and Views"
 		},
 		{
 			"path": "/examples",
