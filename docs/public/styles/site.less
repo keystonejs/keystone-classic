@@ -208,11 +208,17 @@ h2 {
 h3 {
 	margin: 40px 0 20px;
 }
+ul.list li {
+	margin-top: 10px;
+}
 
 // notes
+.note {
+	font-style: italic;
+}
 .contextual-note {
-	background-color: mix(white,@brand-primary,95%);
-	border-left: 6px solid mix(white,@brand-primary,80%);
+	background-color: mix(white, @brand-primary,95%);
+	border-left: 6px solid mix(white, @brand-primary,80%);
 	margin: 20px 0;
 	padding: 15px;
 	
@@ -221,6 +227,11 @@ h3 {
 	}
 	p {
 		margin: 15px 0 0;
+	}
+	pre {
+		margin: 15px 0 0;
+		border-color: mix(white, @brand-primary,80%);
+		background: mix(white, @brand-primary,98%)
 	}
 }
 
@@ -235,11 +246,10 @@ h3 {
 	padding: 15px;
 	
 	h4 {
-		color: @gray-light;
+		color: mix(black, @brand-primary, 50%);
 		font-size: @font-size-small;
 		font-weight: bold;
 		margin: 0 0 15px;
-		text-transform: uppercase;
 	}
 	p {
 		font-size: @font-size-small;
@@ -251,10 +261,16 @@ h3 {
 		border-radius: 0 0 4px 4px;
 	}
 }
-// less dramatic colors
+
+// Preformatted text
 pre {
 	background-color: @navbar-default-bg;
 	border-color: darken(@navbar-default-bg, 10%);
+	font-size: 13px;
+	
+	span {
+		color: @gray-light;
+	}
 }
 
 
