@@ -27,6 +27,11 @@ a simple Keystone app.
 
 Discuss on the [keystonejs Google Group](https://groups.google.com/d/forum/keystonejs)
 
+### SydJS Sample Site
+
+For an example of how to set up a more sophisticated website with Keystone, check out the
+[SydJS Website](http://www.sydjs.com) and [source code](https://github.com/JedWatson/sydjs-site).
+
 
 ### Field Types
 
