@@ -294,7 +294,7 @@ This means you can still use Lists and other Keystone Classes without a web app 
 Simply set the `headless` config variable to `true`.
 
 
-## Advanced Usage
+### Advanced Usage
 
 It is also possible to integrate keystone into an existing express app, without using the `start`
 method. This assumes less about your app and provides a lot of flexibility.
