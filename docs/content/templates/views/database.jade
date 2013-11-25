@@ -6,7 +6,7 @@ block content
 		.col-sm-3: #docs-sidebar
 			ul.sidebar-nav
 				li.nav-label Database
-				li: a(href='#lists_intro') Concepts
+				li: a(href='#concepts') Concepts
 				li.nav-label Lists
 				li: a(href='#lists_intro') Overview
 				li: a(href='#lists_usage') Usage
@@ -18,42 +18,62 @@ block content
 		
 		.col-sm-9: #docs-content
 			
-			h1 Setting up &amp; Using Data Models in Keystone
+			a(name='concepts')
+			h1 Setting up &amp; Using Data Models
 			
-			p A List in Keystone is similar to a Schema; it defines the Fields and options for a collection in the database, as well as providing an interface to access the Mongoose Schema and Model, through which you can execute queries.
+			p In KeystoneJS, your data schema and models are controlled by <strong>Lists</strong>, and documents in your database are often called <strong>Items</strong>.
 			
+			p To define a data model, you create a <code>new keystone.List</code>, and pass it <a href="#lists_options">list options</a>. 
+			
+			p You then <code>add</code> fields to the list. Behind the scenes, a Keystone List will create a <a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, and add the appropriate paths to it for the fields you define.
+			
+			p The <code>schema</code> is accessible, allowing you to plug in other mongoose functionality like virtuals, methods and pre / post save hooks.
+			
+			p When you have finished setting up your List, call <code>list.register()</code> to initialise it and register it with Keystone.
+			
+			p To query your data, you use the <code>list.model</code> (which is a <a href="http://mongoosejs.com/docs/models.html" target="_blank">mongoose model</a>).
+			
+			p List Items are <a href="http://mongoosejs.com/docs/documents.html" target"_blank">mongoose documents</a>. To create new items, use <code>new list.model()</code> and when you're ready to save it (or to save changes to an existing Item), call <code>item.save()</code>.
 			
 			h2 Lists
 			
 			h3 Usage
 			
-			p The syntax for creating a Keystone List is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code>var MyList = new Keystone.List(key, options)</code>.
+			p The syntax for creating a <strong>Keystone List</strong> is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code>var MyList = new keystone.List(key, options)</code>.
 			p Once you have created a new List, add fields to it using <code>MyList.add(fields)</code>, where fields is an object of keys (for field paths) and values (for field types, or options).
 			p Fields are defined by an object with a <code>type</code> property, which must be a valid Field Type or basic data type. Using the object syntax you can specify additional options for the field. Common field options and field-type-specific options are detailed in the fields documentation.
-			p When all the fields and options have been set on the list, call <code>MyList.register()</code> to register the list with Keystone and finalise its configuration
+			p When all the fields and options have been set on the list, call <code>MyList.register()</code> to register the list with Keystone and finalise its configuration.
 			
 			p <strong>For example: </strong> a simple Post model for a blog might look like this:
 			
 			.code-header: h4 Post.js
 			pre
 				| var keystone = require('keystone'),
-				| 	Types = keystone.Field.Types;
-				| 
-				| var Post = new keystone.List('Post');
-				| 
-				| Post.add({
-				| 	title: { type: String, required: true },
-				| 	slug: { type: String, index: true },
-				| 	author: String,
-				| 	publishedDate: Date,
-				| 	image: { type: Types.CloudinaryImage },
-				| 	content: {
-				| 		brief: { type: Types.Html, wysiwyg: true, height: 150 },
-				| 		extended: { type: Types.Html, wysiwyg: true, height: 400 }
-				| 	}
+				|     Types = keystone.Field.Types;
+				| var Post = new keystone.List('Post', {
+				|     autokey: { path: 'slug', from: 'title', unique: true },
+				|     map: { name: 'title' },
+				|     defaultSort: '-createdAt'
 				| });
-				| 
+				| Post.add({
+				|     title: { type: String, required: true },
+				|     slug: { type: String, index: true },
+				|     state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' },
+				|     author: { type: Types.Relationship, ref: 'User' },
+				|     createdAt: { type: Date, default: Date.now },
+				|     publishedAt: Date,
+				|     image: { type: Types.CloudinaryImage },
+				|     content: {
+				|         brief: { type: Types.Html, wysiwyg: true, height: 150 },
+				|         extended: { type: Types.Html, wysiwyg: true, height: 400 }
+				|     }
+				| });
+				| Post.defaultColumns = 'title, state|20%, author, pubilshedAt|15%'
 				| Post.register();
+			
+			p.note This example implements the optional <code>map</code>, <code>autokey</code> and <code>defaultSort</code> options, described below.
+			p.note It also specifies <code>title</code>, <code>state</code>, <code>author</code> and <code>publishedAt</code> as the default columns to display in the Admin UI, with state and publishedAt being given column widths.
+			p.note The <code>author</code> field is a relationship with the <code>User</code> model, as described in the <a href="/guide#models_users">getting started guide</a>.
 			
 			h3 Options
 			
@@ -82,8 +102,18 @@ block content
 					td A comma-delimited list of default columns to display in the Admin UI List View.
 						|  You can specify width in either pixels or percent after a <code>|</code> pipe character.
 				tr
+					td: code map
+					td An object that maps fields to special <strong>list</strong> paths. Each path defaults to its key if a field with that key is added. Mappable paths include
+						ul.options
+							li <code>name</code> - the field that contains the name of the item, for display in the Admin UI
+				tr
 					td: code autokey
-					td Configures the <code>autokey</code> plugin, to automatically generate a key property on each document from a field (or path).
+					td Adds a plugin to the list that automatically generates a key for each document when it is saved, based on the value of another field or path. The value of the option should be an object with the following keys:
+						ul.options
+							li <code>from</code> <code class="data-type">string</code> - the field or path to generate the key from, can be a space-delimited list of fields
+							li <code>path</code> <code class="data-type">string</code> - the path to store the key at
+							li <code>unique</code> <code class="data-type">boolean</code> - whether the key should be unique or not
+						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
 				tr
 					td: code noedit
 					td Prevents editing of items in the list through the Keystone Admin UI
@@ -94,15 +124,133 @@ block content
 					td: code nodelete
 					td Prevents deletion of items from the list through the Keystone Admin UI
 			
+			h3 Querying Data
+			
+			p To query data, you can use any of the <a href="http://mongoosejs.com/docs/queries.html" target="_blank">mongoose query</a> methods on the <code>list.model</code>.
+			
+			p <strong>For example:</strong> to load the last 5 <code>posts</code> with the state <code>published</code>, populating the linked <code>author</code>, sorted by reverse published date:
+			
+			.code-header: h4 Loading Posts
+			pre
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				| Post.model.find()
+				|     .where('state', 'published')
+				|     .populate('author')
+				|     .sort('-publishedAt')
+				|     .limit(5)
+				|     .exec(function(err, posts) {
+				|         // do something with posts
+				|     });
+			
+			h3 Creating, updating and Removing Items
+			
+			p To create new items, again use the <a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose model</a>:
+			
+			.code-header: h4 Creating Posts
+			pre
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				| var newPost = new Post.model({
+				|     title: 'New Post'
+				| });
+				| 
+				| if (shouldBePublished) {
+				|     newPost.state = 'published';
+				| }
+				| 
+				| newPost.save(function(err) {
+				|     // post has been saved	
+				| });
+			
+			p To delete items, first load the data, then use the <code>remove</code> method:
+			
+			.code-header: h4 Deleting a Posts
+			pre
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				| Post.model.findById(postId)
+				|     .remove(function(err) {
+				|         // post has been deleted
+				|     });
+			
+			// TODO: Documentation for Schema features (virtuals, methods, statics and hooks)
+			
+			// TODO: Documentation for Update Handler
+			
 			h2 Fields
 			
-			p ...
+			p When adding <strong>fields</strong> to <strong>Lists</strong>, you can either specify basic data types or Keystine Field Types.
 			
-			h3 Common Options
+			p <strong>Keystone Fields</strong> allow you to easily add rich, functional fields to your application's models. They are designed to describe not just the <em>structure</em> of your data, but also the <em>intention</em> of your data. They provide:
+			ul
+				li Rich controls in Keystone's Admin UI
+				li Complex data types; e.g. the <code>location</code> field stores several strings and an GeoJSON lng/lat point
+				li Formatting and validation methods
+				li Additional virtual properties; e.g. the <code>name</code> field provides a <code>name.full</code> virtual which concatenates the stored <code>name.first</code> and <code>name.last</code>
+				li Underscore methods; e.g. the <code>password</code> field provides a <code>password.compare</code> method for testing against the encrypted hash
+				li Metadata about how fields relate to each other; e.g. which fields depend on certain values in other fields
 			
-			p ...
+			p Basic data types are mapped to their corresponding Keystone field types:
+			
+			table.table(style="width:200px")
+				col
+				col
+				thead
+					th Data type
+					th Field type
+				tr
+					td: code.data-type String
+					td: code.data-type Text
+				tr
+					td: code.data-type Number
+					td: code.data-type Number
+				tr
+					td: code.data-type Date
+					td: code.data-type DateTime
+				tr
+					td: code.data-type Boolean
+					td: code.data-type Boolean
+			
+			h3 Field Options
+			
+			p All field types support several common options, which can specify database settings (such as <code>index</code> and <code>default</code>), or can provide information for Keystone's Admin UI (such as <code>label</code>).
+			
+			p.note All <a href="http://mongoosejs.com/docs/schematypes.html" target="_blank">mongoose schema type options</a> are passed to the <a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, so you can also use any options mongoose supports.
+			
+			p The common options include:
+			
+			table.table
+				col(width="200")
+				col
+				tr
+					td <code>label</code> <code class="data-type">String</code>
+					td The label of each field is generated from the field path; set this option to override the default.
+				tr
+					td <code>required</code> <code class="data-type">Boolean</code>
+					td Validates that the field has a value before an item can be saved
+				tr
+					td <code>initial</code> <code class="data-type">Boolean</code>
+					td Causes the field to be 
+				tr
+					td <code>noedit</code> <code class="data-type">Boolean</code>
+					td Renders the field as read-only in the admin UI
+				tr
+					td <code>note</code> <code class="data-type">String</code>
+					td Is displayed with the field in the admin UI
+				tr
+					td <code>collapse</code> <code class="data-type">Boolean</code>
+					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value.
+				tr
+					td <code>dependsOn</code> <code class="data-type">Object</code>
+					td Hides the field in the admin UI unless the specified conditions (other field values) are met.
 			
 			h2 Field Types
 			
 			p ...
-					
+			
+			// TODO: Documentation for Relationships
+			
