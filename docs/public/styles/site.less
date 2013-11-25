@@ -214,6 +214,9 @@ h4 {
 ul.list li {
 	margin-top: 10px;
 }
+ul.options li {
+	margin-top: 5px;
+}
 
 // notes
 .note {
@@ -270,10 +273,17 @@ pre {
 	background-color: @navbar-default-bg;
 	border-color: darken(@navbar-default-bg, 10%);
 	font-size: 13px;
+	white-space: pre;
+	overflow: auto;
 	
 	span {
 		color: @gray-light;
 	}
+}
+
+code.data-type {
+	color: #0e487a;
+	background: #f9f9f9;
 }
 
 // Hilighted text
