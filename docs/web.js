@@ -24,6 +24,15 @@ app.use(express.static('public'));
 
 app.use(express.logger('dev'));
 
+// disable cache, safari workaround
+// see http://stackoverflow.com/questions/18811286/nodejs-express-cache-and-304-status-code
+app.use(function(req, res, next) {
+	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+	res.header("Pragma", "no-cache");
+	res.header("Expires", 0);
+	next();
+});
+
 // Set up locals and routes
 
 _.extend(app.locals, content.locals);
