@@ -1,11 +1,11 @@
-Keystone
-========
+[KeystoneJS](http://keystonejs.com)
+===================================
 
-Node.js content management system and web app framework, MIT Licensed.
+KeystoneJS is a powerful new Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com) that makes it easy to create sophisticated web sites and apps, and gives you a beautiful, auto-generated Admin UI.
+
+To get started, check out [keystonejs.com](http://keystonejs.com)!
 
 ## About
-
-Keystone is designed to be used in a web application built on Express and Mongoose.
 
 Keystone provides:
 *	A simple way to create an Express web app with custom routes, templates and models
@@ -17,8 +17,6 @@ Keystone provides:
 *	Integration with Coudinary for image uploading, storage and resizing
 *	Integration with Mandrill for sending emails easily
 *	Integration with Embedly for powerful video and rich media embedding tools
-
-For more information, visit [keystonejs.com](http://keystonejs.com)
 
 Getting Started guide &amp; documentation can be found at [keystonejs.com/guide](http://keystonejs.com/guide)
 
