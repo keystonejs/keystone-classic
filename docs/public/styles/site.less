@@ -1,5 +1,6 @@
 // bootstrap
 @import "bootstrap/bootstrap.less";
+@import "variables.less";
 
 // header
 #docs-header {
@@ -211,11 +212,13 @@ h3 {
 h4 {
 	margin: 30px 0 20px;
 }
-ul.list li {
-	margin-top: 10px;
+h5 {
+	margin: 20px 0;
 }
-ul.options li {
-	margin-top: 5px;
+
+// alerts
+.alerts {
+	margin: 20px 0 -20px;
 }
 
 // notes
@@ -241,6 +244,25 @@ ul.options li {
 	}
 }
 
+// hilighted text
+.hilight {
+	background-color: #fffac2;
+}
+
+// options
+div.options {
+	padding-left: 20px;
+	border-left: 3px solid #eee;
+}
+
+// lists
+ul.list li {
+	margin-top: 10px;
+}
+ul.options li {
+	margin-top: 5px;
+}
+
 
 // code header
 .code-header {
@@ -255,7 +277,6 @@ ul.options li {
 		color: mix(black, @brand-primary, 50%);
 		font-size: @font-size-small;
 		font-weight: bold;
-		margin: 0 0 15px;
 	}
 	p {
 		font-size: @font-size-small;
@@ -284,11 +305,6 @@ pre {
 code.data-type {
 	color: #0e487a;
 	background: #f9f9f9;
-}
-
-// Hilighted text
-.hilight {
-	background-color: #fffac2;
 }
 
 

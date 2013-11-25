@@ -1,6 +1,9 @@
 extends ../layout/base
 
 block content
+	.container: .alerts
+		.alert.alert-success The KeystoneJS docs are in beta. For updates, please follow @keystonejs on twitter!
+		
 	.container: .row
 		
 		.col-sm-3: #docs-sidebar
@@ -519,9 +522,9 @@ block content
 			p Keystone will serve any static assets you place in the <code>public</code> directory. This path is specified in <code>web.js</code> by the <code>static</code> option.
 			p It will also automatically generate <code>.css</code> or compressed <code>.min.css</code> files when a corresponding <code>.less</code> file is found in the <code>public</code> folder, as specified in <code>web.js</code> by the <code>less</code> option. For more information on LESS, see <a href="http://lesscss.org" target="_blank">lesscss.org</a>.
 			
-			h4 More on Routes &amp; Views
-			
-			p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/guide/data">routes &amp; views guide</a>.
+			//- h4 More on Routes &amp; Views
+			//- 
+			//- p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/guide/data">routes &amp; views guide</a>.
 			
 			a(name="running_updates")
 			h2 Running your app
@@ -580,7 +583,7 @@ block content
 			a(name="running_next")
 			h3 Next Steps
 			
-			p ... you're done! Well, not really. It's time to start building your app now. For more help and documentation, browse the <a href="/guide/data">database guide</a> and the <a href="/guide/data">routes &amp; views guide</a>.
+			p ... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/guide/data">database guide</a>.
 			
 			p You should also <a href="https://twitter.com/keystonejs" target="_blank">Follow @KeystoneJS on Twitter</a> for news and updates, <a href="https://github.com/JedWatson/keystone/" target="_blank">Star KeystoneJS on GitHub</a>, and discuss this guide (or anything KeystoneJS related) on the <a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS Google Group</a>.
 			

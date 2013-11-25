@@ -1,6 +1,9 @@
 extends ../layout/base
 
 block content
+	.container: .alerts
+		.alert.alert-success The KeystoneJS docs are in beta. For updates, please follow @keystonejs on twitter!
+	
 	.container: .row
 		
 		.col-sm-3: #docs-sidebar
@@ -8,13 +11,34 @@ block content
 				li.nav-label Database
 				li: a(href='#concepts') Concepts
 				li.nav-label Lists
-				li: a(href='#lists_intro') Overview
 				li: a(href='#lists_usage') Usage
-				li: a(href='#lists_options') Options
+				li: a(href='#lists_example') Example
+				li: a(href='#lists_options') List Options
+				li: a(href='#lists_querying') Querying Data
 				li.nav-label Fields
-				li: a(href='#start_intro') Overview
-				li: a(href='#start_intro') Common Options
+				li: a(href='#fields_overview') Overview
+				li: a(href='#fields_options') Field Options
+				li: a(href='#fields_underscoremethods') Underscore Methods
 				li.nav-label Field Types
+				li: a(href='#field_boolean') Boolean
+				li: a(href='#field_text') Text
+				li: a(href='#field_textarea') Textarea
+				li: a(href='#field_email') Email
+				li: a(href='#field_url') Url
+				li: a(href='#field_html') Html
+				li: a(href='#field_date') Date
+				li: a(href='#field_datetime') Datetime
+				li: a(href='#field_key') Key
+				li: a(href='#field_number') Number
+				li: a(href='#field_money') Money
+				li: a(href='#field_select') Select
+				li: a(href='#field_markdown') Markdown
+				li: a(href='#field_name') Name
+				li: a(href='#field_password') Password
+				li: a(href='#field_location') Location
+				li: a(href='#field_cloudinaryimage') CloudinaryImage
+				li: a(href='#field_cloudinaryimages') CloudinaryImages
+				li: a(href='#field_embedly') Embedly
 		
 		.col-sm-9: #docs-content
 			
@@ -35,6 +59,7 @@ block content
 			
 			p List Items are <a href="http://mongoosejs.com/docs/documents.html" target"_blank">mongoose documents</a>. To create new items, use <code>new list.model()</code> and when you're ready to save it (or to save changes to an existing Item), call <code>item.save()</code>.
 			
+			a(name='lists_usage')
 			h2 Lists
 			
 			h3 Usage
@@ -44,6 +69,7 @@ block content
 			p Fields are defined by an object with a <code>type</code> property, which must be a valid Field Type or basic data type. Using the object syntax you can specify additional options for the field. Common field options and field-type-specific options are detailed in the fields documentation.
 			p When all the fields and options have been set on the list, call <code>MyList.register()</code> to register the list with Keystone and finalise its configuration.
 			
+			a(name='lists_example')
 			p <strong>For example: </strong> a simple Post model for a blog might look like this:
 			
 			.code-header: h4 Post.js
@@ -75,55 +101,57 @@ block content
 			p.note It also specifies <code>title</code>, <code>state</code>, <code>author</code> and <code>publishedAt</code> as the default columns to display in the Admin UI, with state and publishedAt being given column widths.
 			p.note The <code>author</code> field is a relationship with the <code>User</code> model, as described in the <a href="/guide#models_users">getting started guide</a>.
 			
+			a(name='lists_options')
 			h3 Options
 			
 			p Lists support the following options:
 			
 			table.table
-				col(width=120)
+				col(width=200)
 				col
 				tr
-					td: code drilldown
+					td <code>drilldown</code> <code class="data-type">String</code>
 					td A space-delimited list of relationships to display as drilldown in the Admin UI
 				tr
-					td: code sortable
+					td <code>sortable</code> <code class="data-type">Boolean</code>
 					td Adds a hidden field <code>sortOrder</code> to the schema, and enables drag and drop sorting in the Admin UI
 				tr
-					td: code sortContext
+					td <code>sortContext</code> <code class="data-type">String</code>
 					td A <code>List:relationship</code> pair to control when drag and drop sorting is available in the Admin UI
 				tr
-					td: code searchFields
+					td <code>searchFields</code> <code class="data-type">String</code>
 					td A space-delimited list of paths to use for searching in Admin UI
 				tr
-					td: code defaultSort
+					td <code>defaultSort</code> <code class="data-type">String</code>
 					td The default column or path to sort on in the Admin UI
 				tr
-					td: code defaultColumns
+					td <code>defaultColumns</code> <code class="data-type">String</code>
 					td A comma-delimited list of default columns to display in the Admin UI List View.
 						|  You can specify width in either pixels or percent after a <code>|</code> pipe character.
 				tr
-					td: code map
+					td <code>map</code> <code class="data-type">Object</code>
 					td An object that maps fields to special <strong>list</strong> paths. Each path defaults to its key if a field with that key is added. Mappable paths include
 						ul.options
 							li <code>name</code> - the field that contains the name of the item, for display in the Admin UI
 				tr
-					td: code autokey
+					td <code>autokey</code> <code class="data-type">Object</code>
 					td Adds a plugin to the list that automatically generates a key for each document when it is saved, based on the value of another field or path. The value of the option should be an object with the following keys:
 						ul.options
-							li <code>from</code> <code class="data-type">string</code> - the field or path to generate the key from, can be a space-delimited list of fields
-							li <code>path</code> <code class="data-type">string</code> - the path to store the key at
-							li <code>unique</code> <code class="data-type">boolean</code> - whether the key should be unique or not
+							li <code>from</code> <code class="data-type">String</code> - the field or path to generate the key from, can be a space-delimited list of fields
+							li <code>path</code> <code class="data-type">String</code> - the path to store the key at
+							li <code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not
 						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
 				tr
-					td: code noedit
+					td <code>noedit</code> <code class="data-type">Boolean</code>
 					td Prevents editing of items in the list through the Keystone Admin UI
 				tr
-					td: code nocreate
+					td <code>nocreate</code> <code class="data-type">Boolean</code>
 					td Prevents creation of new items in the list through the Keystone Admin UI
 				tr
-					td: code nodelete
+					td <code>nodelete</code> <code class="data-type">Boolean</code>
 					td Prevents deletion of items from the list through the Keystone Admin UI
 			
+			a(name='lists_querying')
 			h3 Querying Data
 			
 			p To query data, you can use any of the <a href="http://mongoosejs.com/docs/queries.html" target="_blank">mongoose query</a> methods on the <code>list.model</code>.
@@ -181,6 +209,7 @@ block content
 			
 			// TODO: Documentation for Update Handler
 			
+			a(name='fields_overview')
 			h2 Fields
 			
 			p When adding <strong>fields</strong> to <strong>Lists</strong>, you can either specify basic data types or Keystine Field Types.
@@ -215,13 +244,16 @@ block content
 					td: code.data-type Boolean
 					td: code.data-type Boolean
 			
+			a(name='fields_options')
 			h3 Field Options
 			
 			p All field types support several common options, which can specify database settings (such as <code>index</code> and <code>default</code>), or can provide information for Keystone's Admin UI (such as <code>label</code>).
 			
+			p.note Fields can be nested inside objects, as in mongoose schemas.
+			
 			p.note All <a href="http://mongoosejs.com/docs/schematypes.html" target="_blank">mongoose schema type options</a> are passed to the <a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, so you can also use any options mongoose supports.
 			
-			p The common options include:
+			p Common field options include:
 			
 			table.table
 				col(width="200")
@@ -231,16 +263,16 @@ block content
 					td The label of each field is generated from the field path; set this option to override the default.
 				tr
 					td <code>required</code> <code class="data-type">Boolean</code>
-					td Validates that the field has a value before an item can be saved
+					td Validates that the field has a value before an item can be saved (<em>also passed to mongoose and enforced using a database index</em>).
 				tr
 					td <code>initial</code> <code class="data-type">Boolean</code>
-					td Causes the field to be 
+					td Causes the field to be displayed in the <strong>Create Item</strong> form, in the Admin UI.
 				tr
 					td <code>noedit</code> <code class="data-type">Boolean</code>
-					td Renders the field as read-only in the admin UI
+					td Renders the field as read-only in the admin UI.
 				tr
 					td <code>note</code> <code class="data-type">String</code>
-					td Is displayed with the field in the admin UI
+					td Is displayed with the field in the admin UI.
 				tr
 					td <code>collapse</code> <code class="data-type">Boolean</code>
 					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value.
@@ -248,9 +280,169 @@ block content
 					td <code>dependsOn</code> <code class="data-type">Object</code>
 					td Hides the field in the admin UI unless the specified conditions (other field values) are met.
 			
+			// TODO: Documentation for field methods
+			
+			a(name="fields_underscoremethods")
+			h3 Underscore Methods
+			
+			p Some field types include helpful <strong>underscore methods</strong>, which are available on the item at the field's path preceeded by an underscore.
+			p <strong>For example</strong>: use the <code>format</code> underscore method of the <code>createdAt</code> <code class="data-type">DateTime</code> field of the Posts List (above) like this
+			
+			pre
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				| Post.model.findById(postId).exec(function(err, post) {
+				|    console.log(post._.createdAt.format('Do MMMM YYYY')); // 25th August 2013
+				| });
+			
+			
+			a(name="field_types")
 			h2 Field Types
 			
-			p ...
+			
+			a(name="field_boolean")
+			h4 <code>Boolean</code> <code class="data-type">Boolean</code> &mdash; Displayed as a checkbox in the Admin UI
+			pre { type: Types.Boolean }
+			
+			
+			a(name="field_text")
+			h4 <code>Text</code> <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
+			pre { type: Types.Text }
+			
+			
+			a(name="field_textarea")
+			h4 <code>Textarea</code> <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
+			pre { type: Types.Textarea }
+			.options
+				h5 Options
+				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)
+			
+			
+			a(name="field_email")
+			h4 <code>Email</code> <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
+			p.note Input must look like a valid email address (can be blank unless field is required)
+			pre { type: Types.Email }
+			
+			
+			a(name="field_url")
+			h4 <code>Url</code> <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.
+			pre { type: Types.Text }
+			.options
+				h5 Underscore methods:
+				p <code>format()</code> - formats the stored value by stripping the leading protocol (if any)
+				pre
+					| item.url = "http://keystonejs.com";
+					| item._.url.format(); // "keystonejs.com"
+			
+			
+			a(name="field_html")
+			h4 <code>Html</code> <code class="data-type">String</code> &mdash; Displayed as a text field or WYSIWYG Editor in the Admin UI.
+			pre { type: Types.Html, wysiwyg: true }
+			.options
+				h5 Options
+				p <code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI
+				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)
+			
+			
+			a(name="field_date")
+			h4 <code>Date</code> <code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI
+			pre { type: Types.Date }
+			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
+			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
+			.options
+				h5 Underscore methods:
+				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>.
+				p Format string defaults to <strong>Do MMM YYYY</strong>
+			
+			
+			a(name="field_datetime")
+			h4 <code>Datetime</code> <code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI
+			pre { type: Types.Date }
+			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
+			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
+			.options
+				h5 Underscore methods:
+				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>.
+				p Format string defaults to <strong>Do MMM YYYY hh:mm:ss a</strong>
+			
+			
+			a(name="field_key")
+			h4 <code>Key</code> <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
+			pre { type: Types.Key }
+			p Automatically converts input to a valid key (no spaces or special characters). White space is replaced with a separator.
+			.options
+				h5 Options
+				p <code>separator</code> <code class="data-type">String</code> - the separator to use when replace white space in the input; defaults to <strong>-</strong>
+			
+			
+			a(name="field_number")
+			h4 <code>Number</code> <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
+			pre { type: Types.Number }
+			p.note Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (can be blank unless field is required)
+			.options
+				h5 Underscore methods:
+				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
+				p Format string defaults to <strong>0,0[.][000000000000]</strong>
+			
+			
+			a(name="field_money")
+			h4 <code>Money</code> <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
+			pre { type: Types.Money }
+			p.note Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (leading symbols are allowed; can be blank unless field is required). Money fields do not understand currency.
+			.options
+				h5 Underscore methods:
+				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
+				p Format string defaults to <strong>$0,0.00</strong>
+			
+			
+			a(name="field_select")
+			h4 <code>Select</code> <code class="data-type">String</code> or <code class="data-type">Number</code> &mdash; Displayed as a select field in the Admin UI
+			pre { type: Types.Select }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			
+			
+			a(name="field_markdown")
+			h4 <code>Markdown</code> <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
+			pre { type: Types.Markdown }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			
+			
+			a(name="field_name")
+			h4 <code>Name</code> <code class="data-type">Object</code> &mdash; Displayed as <strong>firstname</strong> <strong>lastname</strong> fields in the Admin UI
+			pre { type: Types.Name }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			
+			
+			a(name="field_password")
+			h4 <code>Password</code> <code class="data-type">String</code> &mdash; Displayed as a password field in the Admin UI
+			pre { type: Types.Password }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			
+			
+			a(name="field_location")
+			h4 <code>Location</code> <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
+			pre { type: Types.Location }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			
+			
+			a(name="field_cloudinaryimage")
+			h4 <code>CloudinaryImage</code> <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
+			pre { type: Types.CloudinaryImage }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			
+			
+			a(name="field_cloudinaryimages")
+			h4 <code>CloudinaryImages</code> <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
+			pre { type: Types.CloudinaryImages }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			
+			
+			a(name="field_embedly")
+			h4 <code>Embedly</code> <code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI
+			pre { type: Types.Embedly, from: 'path' }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			
 			
 			// TODO: Documentation for Relationships
 			

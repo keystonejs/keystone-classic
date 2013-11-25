@@ -4,7 +4,6 @@
 			{ "section": "home", "path": "/", "label": "Home" },
 			{ "section": "starting", "path": "/guide", "label": "Getting Started" },
 			{ "section": "data", "path": "/guide/data", "label": "Database" },
-			{ "section": "routes", "path": "/guide/routes", "label": "Routes & Views" },
 			{ "section": "examples", "path": "/examples", "label": "Examples" }
 		]
 	},
