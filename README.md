@@ -7,7 +7,7 @@ To get started, check out [keystonejs.com](http://keystonejs.com)!
 
 ## About
 
-Keystone provides:
+Keystone gives you:
 *	A simple way to create an Express web app with custom routes, templates and models
 *	Out of the box session management and authentication
 *	Enhanced `models` with additional field types and functionality, building on those
@@ -25,7 +25,7 @@ To see a working demo of Keystone, visit [demo.keystonejs.com](http://demo.keyst
 View the [example project](https://github.com/JedWatson/keystone-demo) to see how to set up
 a simple Keystone app.
 
-Discuss on the [keystonejs Google Group](https://groups.google.com/d/forum/keystonejs)
+Discuss on the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
 
 ### SydJS Sample Site
 
@@ -35,7 +35,7 @@ For an example of how to set up a more sophisticated website with Keystone, chec
 
 ## Usage
 
-**New documentation is up at [keystonejs.com/guide](http://keystonejs.com/guide) (but there's still a lot to add).**
+**New documentation is up at [keystonejs.com/guide](http://keystonejs.com/guide) (but there's still a lot to add!)**
 
 The documentation below will remain here until it has been fully migrated.
 
@@ -136,7 +136,7 @@ is initialised.
 
 ### Field Types
 
-**New field types guide is up at [keystonejs.com/guide](http://keystonejs.com/guide/data)**
+**New field types guide is up at [keystonejs.com/guide/data](http://keystonejs.com/guide/data)**
 
 Keystone builds on the basic data types provided by mongo and allows you to easily add rich,
 functional fields to your application's models.
