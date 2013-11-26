@@ -14,6 +14,7 @@ block content
 				li: a(href='#lists_usage') Usage
 				li: a(href='#lists_example') Example
 				li: a(href='#lists_options') List Options
+				li: a(href='#lists_plugins') Schema Plugins
 				li: a(href='#lists_querying') Querying Data
 				li.nav-label Fields
 				li: a(href='#fields_overview') Overview
@@ -51,7 +52,7 @@ block content
 			
 			p You then <code>add</code> fields to the list. Behind the scenes, a Keystone List will create a <a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, and add the appropriate paths to it for the fields you define.
 			
-			p The <code>schema</code> is accessible, allowing you to plug in other mongoose functionality like virtuals, methods and pre / post save hooks.
+			p The <code>schema</code> is accessible, allowing you to plug in other mongoose functionality like virtuals, methods and pre / post hooks.
 			
 			p When you have finished setting up your List, call <code>list.register()</code> to initialise it and register it with Keystone.
 			
@@ -83,7 +84,6 @@ block content
 				| });
 				| Post.add({
 				|     title: { type: String, required: true },
-				|     slug: { type: String, index: true },
 				|     state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' },
 				|     author: { type: Types.Relationship, ref: 'User' },
 				|     createdAt: { type: Date, default: Date.now },
@@ -151,6 +151,29 @@ block content
 					td <code>nodelete</code> <code class="data-type">Boolean</code>
 					td Prevents deletion of items from the list through the Keystone Admin UI
 			
+			a(name='lists_plugins')
+			h3 Schema Plugins
+			
+			p You can specify <a href="http://mongoosejs.com/docs/guide.html" target="_blank"><strong>virtuals</strong>, <strong>methods</strong>, <strong>statics</strong></a> as well as <a href="http://mongoosejs.com/docs/middleware.html" target="_blank"><strong>pre</strong> and <strong>post</strong> hooks</a> for your <strong>Lists</strong> using the <code>schema</code>. You can also use <a href="http://mongoosejs.com/docs/plugins.html" target="_blank">mongoose plugins</a> from the <a href="http://plugins.mongoosejs.com" target="_blank">plugins website</a>.
+			
+			p For example, in our <strong>Post</strong> list above, we might want to automatically set the <code>publishedAt</code> value when the <code>state</code> is changed to <code>pubilshed</code> (but only if it hasn't already been set).
+			
+			p We might also want to add a method to check whether the post is published, rather than checking the <code>state</code> field value directly.
+			
+			p Before calling <code>Post.register()</code>, we would add the following code:
+			
+			pre
+				| Post.schema.methods.isPublished = function() {
+				|     return (this.state == 'published') ? true : false;
+				| }
+				| 
+				| Post.schema.pre('save', function(next) {
+				|     if (this.isChanged('state') &amp;&amp; this.isPublished() &amp;&amp; !this.publishedAt) {
+				|         this.publishedAt = new Date();
+				|     }
+				| });
+			
+			
 			a(name='lists_querying')
 			h3 Querying Data
 			
@@ -172,7 +195,7 @@ block content
 				|         // do something with posts
 				|     });
 			
-			h3 Creating, updating and Removing Items
+			h3 Creating Items
 			
 			p To create new items, again use the <a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose model</a>:
 			
@@ -192,6 +215,14 @@ block content
 				| newPost.save(function(err) {
 				|     // post has been saved	
 				| });
+			
+			.contextual-note
+				h4 Automatic keys
+				p Because we set the <code>autokey</code> option on our <code>Post</code> list, it will have generated a unique key based on the <code>title</code> before it was saved to the database.
+				pre
+					| newPost.slug == 'new-post';
+			
+			h3 Deleting Items
 			
 			p To delete items, first load the data, then use the <code>remove</code> method:
 			
