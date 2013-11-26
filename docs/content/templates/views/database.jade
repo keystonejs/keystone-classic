@@ -302,17 +302,20 @@ block content
 			
 			
 			a(name="field_boolean")
-			h4 <code>Boolean</code> <code class="data-type">Boolean</code> &mdash; Displayed as a checkbox in the Admin UI
+			h3 <code>Boolean</code>
+			h4 <code class="data-type">Boolean</code> &mdash; Displayed as a checkbox in the Admin UI
 			pre { type: Types.Boolean }
 			
 			
 			a(name="field_text")
-			h4 <code>Text</code> <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
+			h3 <code>Text</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			pre { type: Types.Text }
 			
 			
 			a(name="field_textarea")
-			h4 <code>Textarea</code> <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
+			h3 <code>Textarea</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
 			pre { type: Types.Textarea }
 			.options
 				h5 Options
@@ -320,13 +323,15 @@ block content
 			
 			
 			a(name="field_email")
-			h4 <code>Email</code> <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
+			h3 <code>Email</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			p.note Input must look like a valid email address (can be blank unless field is required)
 			pre { type: Types.Email }
 			
 			
 			a(name="field_url")
-			h4 <code>Url</code> <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.
+			h3 <code>Url</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.
 			pre { type: Types.Text }
 			.options
 				h5 Underscore methods:
@@ -337,7 +342,8 @@ block content
 			
 			
 			a(name="field_html")
-			h4 <code>Html</code> <code class="data-type">String</code> &mdash; Displayed as a text field or WYSIWYG Editor in the Admin UI.
+			h3 <code>Html</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed as a text field or WYSIWYG Editor in the Admin UI.
 			pre { type: Types.Html, wysiwyg: true }
 			.options
 				h5 Options
@@ -346,7 +352,8 @@ block content
 			
 			
 			a(name="field_date")
-			h4 <code>Date</code> <code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI
+			h3 <code>Date</code>
+			h4 <code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI
 			pre { type: Types.Date }
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
 			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
@@ -357,7 +364,8 @@ block content
 			
 			
 			a(name="field_datetime")
-			h4 <code>Datetime</code> <code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI
+			h3 <code>Datetime</code>
+			h4 <code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI
 			pre { type: Types.Date }
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
 			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
@@ -368,7 +376,8 @@ block content
 			
 			
 			a(name="field_key")
-			h4 <code>Key</code> <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
+			h3 <code>Key</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			pre { type: Types.Key }
 			p Automatically converts input to a valid key (no spaces or special characters). White space is replaced with a separator.
 			.options
@@ -377,7 +386,8 @@ block content
 			
 			
 			a(name="field_number")
-			h4 <code>Number</code> <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
+			h3 <code>Number</code>
+			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
 			pre { type: Types.Number }
 			p.note Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (can be blank unless field is required)
 			.options
@@ -387,7 +397,8 @@ block content
 			
 			
 			a(name="field_money")
-			h4 <code>Money</code> <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
+			h3 <code>Money</code>
+			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
 			pre { type: Types.Money }
 			p.note Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (leading symbols are allowed; can be blank unless field is required). Money fields do not understand currency.
 			.options
@@ -397,49 +408,114 @@ block content
 			
 			
 			a(name="field_select")
-			h4 <code>Select</code> <code class="data-type">String</code> or <code class="data-type">Number</code> &mdash; Displayed as a select field in the Admin UI
-			pre { type: Types.Select }
-			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			h3 <code>Select</code>
+			h4 <code class="data-type">String</code> or <code class="data-type">Number</code> &mdash; Displayed as a select field in the Admin UI
+			pre { type: Types.Select, options: 'first, second, third' }
+			.options
+				
+				h5 Options:
+				p <code>numeric</code> <code class="data-type">Boolean</code> when <strong>true</strong>, causes the value of the field to be stored as a <code class="data-type">Number</code> instead of a <code class="data-type">String</code>
+				pre { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
+				p <code>options</code> <code class="data-type">String</code> or <code class="data-type">Array</code> - the options for the select field
+				p Option values can be provided as a comma-delimited list <code class="data-type">String</code> of values, in which the string is split into an <code class="data-type">Array</code>.
+				p For an <code class="data-type">Array</code> of options, each option should be either a
+				ul
+					li <code class="data-type">String</code> representing the <code>value</code> of the option; the <code>label</code> is automatically generated
+					li <code class="data-type">Object</code> with <code>value</code> and <code>label</code> <code class="data-type">String</code> properties
+				p You can mix <code class="data-type">String</code> and <code class="data-type">Object</code> items in the <code>options</code> <code class="data-type">Array</code>:
+				pre { type: Types.Select, options: ['first', 'second', { value: 'third', label: 'The third one' }] }
+				p <code class="data-type">Object</code> options can have additional properties which are accessible when the current option's data, or field's options are retrieved.
+				pre
+					| { type: Types.Select, options: [
+					|     { value: 'first', label: 'The first option', custom: 'value' },
+					|     { value: 'second', label: 'Second' }
+					| ]}
+				
+				h5 Properties:
+				p <code>ops</code> <code class="data-type">Array</code> - the field <strong>options</strong> array
+				p <code>values</code> <code class="data-type">Array</code> - all <code>option.value</code> properties
+				p <code>labels</code> <code class="data-type">Object</code> - app <code>option.label</code> properties, keyed by <code>option.value</code>
+				p <code>map</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code>
+				
+				h5 Schema:
+				p The value of the current option will be stored at <code>path</code>. In addition, these virtuals are provided:
+				p <code>pathLabel</code> <code class="data-type">String</code> - the label of the currently selected <strong>option</strong>
+				p <code>pathData</code> <code class="data-type">Object</code> - the currently selected <strong>option</strong>, including any custom properties
+				p <code>pathOptions</code> <code class="data-type">Array</code> - the field <strong>options</strong> array
+				p <code>pathOptionsMap</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code>
+				
+				h5 Underscore methods:
+				p <code>pluck(property, default)</code> - returns <code>property</code> value of the currently selected <strong>option</strong>, or <code>default</code>. Useful in addition to custom properties for options.
+				
+				pre
+					| MyList.add({ state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' });
+					| 
+					| MyList.fields.state.values == 'draft,published,archived';
+					| MyList.fields.state.labels == { draft: 'Draft', published: 'Pubilshed', archived: 'Archived' };
+					| MyList.fields.state.ops == [
+					|     { value: 'draft', label: 'Draft' },
+					|     { value: 'published', label: 'Published' },
+					|     { value: 'archived', label: 'Archived' }
+					| ];
+					| MyList.fields.state.map == {
+					|     draft: { value: 'draft', label: 'Draft' },
+					|     published: { value: 'published', label: 'Published' },
+					|     archived: { value: 'archived', label: 'Archived' }
+					| };
+					| 
+					| var item = new MyList.model();
+					| item.state == 'draft';
+					| item.stateLabel == 'Draft';
+					| item.stateData == { value: 'draft', label: 'Draft' };
+					| item.stateOptions == MyList.fields.state.ops;
+					| item.stateOptionsMap == MyList.fields.state.map;
 			
 			
 			a(name="field_markdown")
-			h4 <code>Markdown</code> <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
+			h3 <code>Markdown</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
 			pre { type: Types.Markdown }
 			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
 			
 			a(name="field_name")
-			h4 <code>Name</code> <code class="data-type">Object</code> &mdash; Displayed as <strong>firstname</strong> <strong>lastname</strong> fields in the Admin UI
+			h3 <code>Name</code>
+			h4 <code class="data-type">Object</code> &mdash; Displayed as <strong>firstname</strong> <strong>lastname</strong> fields in the Admin UI
 			pre { type: Types.Name }
 			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
 			
 			a(name="field_password")
-			h4 <code>Password</code> <code class="data-type">String</code> &mdash; Displayed as a password field in the Admin UI
+			h3 <code>Password</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed as a password field in the Admin UI
 			pre { type: Types.Password }
 			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
 			
 			a(name="field_location")
-			h4 <code>Location</code> <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
+			h3 <code>Location</code>
+			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
 			pre { type: Types.Location }
 			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
 			
 			a(name="field_cloudinaryimage")
-			h4 <code>CloudinaryImage</code> <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
+			h3 <code>CloudinaryImage</code>
+			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
 			pre { type: Types.CloudinaryImage }
 			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
 			
 			a(name="field_cloudinaryimages")
-			h4 <code>CloudinaryImages</code> <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
+			h3 <code>CloudinaryImages</code>
+			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
 			pre { type: Types.CloudinaryImages }
 			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
 			
 			a(name="field_embedly")
-			h4 <code>Embedly</code> <code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI
+			h3 <code>Embedly</code>
+			h4 <code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI
 			pre { type: Types.Embedly, from: 'path' }
 			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
