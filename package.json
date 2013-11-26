@@ -20,11 +20,11 @@
     "bcrypt-nodejs": "~0.0.3",
     "cloudinary": "~1.0.6",
     "mandrill-api": "~1.0.37",
-    "embedly": "~1.0.1",
+    "embedly": "~1.0.2",
     "marked": "~0.2.10",
     "moment": "~2.2.1",
-    "numeral": "~1.5.1",
-    "semver": "~2.1.0"
+    "numeral": "~1.5.2",
+    "semver": "~2.1.1"
   },
   "devDependencies": {
     "dox": "~0.4.4"
