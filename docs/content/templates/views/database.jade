@@ -387,23 +387,23 @@ block content
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI
 			pre { type: Types.Date }
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
-			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
+			p.note To default Date fields to the current time, set the <code>default</code> option to <code class="default-value">Date.now</code>
 			.options
 				h5 Underscore methods:
 				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>.
-				p Format string defaults to <strong>Do MMM YYYY</strong>
+				p Format string defaults to <code class="default-value">Do MMM YYYY</code>
 			
 			
 			a(name="field_datetime")
 			h3 <code>Datetime</code>
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI
 			pre { type: Types.Date }
-			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
+			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <code class="default-value">YYYY-MM-DD</code> (can be blank unless field is required)
 			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
 			.options
 				h5 Underscore methods:
 				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>.
-				p Format string defaults to <strong>Do MMM YYYY hh:mm:ss a</strong>
+				p Format string defaults to <code class="default-value">Do MMM YYYY hh:mm:ss a</code>
 			
 			
 			a(name="field_key")
@@ -413,7 +413,7 @@ block content
 			p Automatically converts input to a valid key (no spaces or special characters). White space is replaced with a separator.
 			.options
 				h5 Options
-				p <code>separator</code> <code class="data-type">String</code> - the separator to use when replace white space in the input; defaults to <strong>-</strong>
+				p <code>separator</code> <code class="data-type">String</code> - the separator to use when replace white space in the input; defaults to <code class="default-value">-</code>
 			
 			
 			a(name="field_number")
@@ -424,7 +424,7 @@ block content
 			.options
 				h5 Underscore methods:
 				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
-				p Format string defaults to <strong>0,0[.][000000000000]</strong>
+				p Format string defaults to <code class="default-value">0,0[.][000000000000]</code>
 			
 			
 			a(name="field_money")
@@ -435,7 +435,7 @@ block content
 			.options
 				h5 Underscore methods:
 				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
-				p Format string defaults to <strong>$0,0.00</strong>
+				p Format string defaults to <code class="default-value">$0,0.00</code>
 			
 			
 			a(name="field_select")
@@ -445,7 +445,7 @@ block content
 			.options
 				
 				h5 Options:
-				p <code>numeric</code> <code class="data-type">Boolean</code> when <strong>true</strong>, causes the value of the field to be stored as a <code class="data-type">Number</code> instead of a <code class="data-type">String</code>
+				p <code>numeric</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code>, causes the value of the field to be stored as a <code class="data-type">Number</code> instead of a <code class="data-type">String</code>
 				pre { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
 				p <code>options</code> <code class="data-type">String</code> or <code class="data-type">Array</code> - the options for the select field
 				p Option values can be provided as a comma-delimited list <code class="data-type">String</code> of values, in which the string is split into an <code class="data-type">Array</code>.
