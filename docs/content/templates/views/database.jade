@@ -195,7 +195,7 @@ block content
 			
 			p To delete items, first load the data, then use the <code>remove</code> method:
 			
-			.code-header: h4 Deleting a Posts
+			.code-header: h4 Deleting a Post
 			pre
 				| var keystone = require('keystone'),
 				|     Post = keystone.list('Post');
@@ -445,7 +445,7 @@ block content
 				p <code>pathOptionsMap</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code>
 				
 				h5 Underscore methods:
-				p <code>pluck(property, default)</code> - returns <code>property</code> value of the currently selected <strong>option</strong>, or <code>default</code>. Useful in addition to custom properties for options.
+				p <code>pluck(property, default)</code> - returns <code>property</code> value of the currently selected <strong>option</strong>, or <code>default</code>. Useful in conjunction with custom properties for options.
 				
 				pre
 					| MyList.add({ state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' });

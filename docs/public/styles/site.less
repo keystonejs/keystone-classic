@@ -273,14 +273,23 @@ ul.options li {
 	margin: 20px 0 0;
 	padding: 15px;
 	
+	p {
+		font-size: @font-size-small;
+		margin: 0;
+		& + p {
+			margin: 15px 0 0;
+		}
+	}
+	
 	h4 {
 		color: mix(black, @brand-primary, 50%);
 		font-size: @font-size-small;
 		font-weight: bold;
-	}
-	p {
-		font-size: @font-size-small;
-		margin: 15px 0 0;
+		margin: 0;
+		
+		& + p {
+			margin: 15px 0 0;
+		}
 	}
 	
 	// so you can use PRE on it's own
