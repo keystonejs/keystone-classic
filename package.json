@@ -24,7 +24,7 @@
     "marked": "~0.2.10",
     "moment": "~2.2.1",
     "numeral": "~1.5.2",
-    "semver": "~2.1.1"
+    "semver": "~2.2.1"
   },
   "devDependencies": {
     "dox": "~0.4.4"
