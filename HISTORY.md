@@ -1,5 +1,12 @@
 # Keystone 
 
+## v0.1.45
+
+* added; new `list.getUniqueValue(path, generator, limit, callback)` method
+* added; lots of new documentation in the website
+
+Note: To run the docs website locally, go to `/docs` and run `node web`. It will start up at http://localhost:8080
+
 ## v0.1.45 / 2013-11-20
 
 * misc bug fixes
