@@ -561,20 +561,21 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 	
 	var keystone = this;
 	
-	// TODO: Index of email tests, and email test 404's (currently bounces to list 404)
+	// TODO: Index of email tests, and custom email test 404's (currently bounces to list 404)
 	
 	_.each(emails, function(vars, key) {
 		
 		app.get('/keystone/test-email/' + key, function(req, res) {
-			new keystone.Email(key).render(vars, function(err, html) {
+			new keystone.Email(key).render(vars, function(err, email) {
 				if (err) {
 					if (res.err) {
 						res.err(err);
 					} else {
+						// TODO: Nicer default error handler?
 						res.status(500).send(JSON.stringify(err));
 					}
 				} else {
-					res.send(html);
+					res.send(email.html);
 				}
 			});
 		});
@@ -731,8 +732,6 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		error: res.req.flash('error'),
 		hilight: res.req.flash('hilight')
 	};
-	
-	
 	
 	var locals = {
 		_: _,
