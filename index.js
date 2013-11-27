@@ -542,6 +542,10 @@ Keystone.prototype.routes = function(app) {
 		next();
 	}
 	
+	if (this.get('email tests')) {
+		this.bindEmailTestRoutes(app, this.get('email tests'));
+	}
+	
 	app.all('/keystone', require('./routes/views/home'));
 	
 	app.all('/keystone/download/:list', initList, require('./routes/download/list'));
@@ -549,6 +553,33 @@ Keystone.prototype.routes = function(app) {
 	
 	app.all('/keystone/:list/:page([0-9]{1,5})?', initList, require('./routes/views/list'));
 	app.all('/keystone/:list/:item', initList, require('./routes/views/item'));
+	
+};
+
+
+Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
+	
+	var keystone = this;
+	
+	// TODO: Index of email tests, and email test 404's (currently bounces to list 404)
+	
+	_.each(emails, function(vars, key) {
+		
+		app.get('/keystone/test-email/' + key, function(req, res) {
+			new keystone.Email(key).render(vars, function(err, html) {
+				if (err) {
+					if (res.err) {
+						res.err(err);
+					} else {
+						res.status(500).send(JSON.stringify(err));
+					}
+				} else {
+					res.send(html);
+				}
+			});
+		});
+		
+	});
 	
 };
 
