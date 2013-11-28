@@ -504,10 +504,24 @@ block content
 			
 			a(name="field_markdown")
 			h3 <code>Markdown</code>
-			h4 <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
+			h4 <code class="data-type">Object</code> &mdash; Displayed as a textarea field in the Admin UI
 			pre { type: Types.Markdown }
-			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
-			
+			.options
+				h5 Schema:
+				p The markdown field will automatically convert markdown to html when the <code>md</code> property is changed, via a setter on the <code>md</code> path.
+				p <code>md</code> <code class="data-type">String</code> - source markdown text
+				p <code>html</code> <code class="data-type">String</code> - generated html code
+				pre
+					| Page.add({ content: Types.Markdown });
+					| 
+					| var page = new Page.model();
+					| page.content.md = "# Hello World";
+					| page.content.html == "&lt;h1&gt;Hello World&lt;/h1&gt;";
+					| 
+					| // or...
+					| 
+					| Page.fields.content.updateItem(page, "* list item");
+					| page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt;/li&gt;";
 			
 			a(name="field_name")
 			h3 <code>Name</code>
