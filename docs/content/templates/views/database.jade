@@ -527,7 +527,12 @@ block content
 			h3 <code>Name</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as <strong>firstname</strong> <strong>lastname</strong> fields in the Admin UI
 			pre { type: Types.Name }
-			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			.options
+				h5 Schema:
+				p The name field adds <code>first</code> and <code>last</code> <code class="data-type">String</code> paths to the schema, as well as a <code>full</code> virtual getter and setter.
+				p <code>first</code> <code class="data-type">String</code> - first name
+				p <code>last</code> <code class="data-type">String</code> - last name
+				p <code>full</code> <code class="data-type">virtual</code> <code class="data-type">String</code> - first and last name, concatenated with a space (if both have a value)
 			
 			
 			a(name="field_password")
