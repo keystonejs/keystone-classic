@@ -477,7 +477,7 @@ block content
 				p <code>map</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code>
 				
 				h5 Schema:
-				p The value of the current option will be stored at <code>path</code>. In addition, these virtuals are provided:
+				p The value of the current option will be stored at <code>{path}</code>. In addition, these virtuals are provided:
 				p <code>pathLabel</code> <code class="data-type">String</code> - the label of the currently selected <strong>option</strong>
 				p <code>pathData</code> <code class="data-type">Object</code> - the currently selected <strong>option</strong>, including any custom properties
 				p <code>pathOptions</code> <code class="data-type">Array</code> - the field <strong>options</strong> array
@@ -542,7 +542,9 @@ block content
 				p The name field adds <code>first</code> and <code>last</code> <code class="data-type">String</code> paths to the schema, as well as a <code>full</code> virtual getter and setter.
 				p <code>first</code> <code class="data-type">String</code> - first name
 				p <code>last</code> <code class="data-type">String</code> - last name
-				p <code>full</code> <code class="data-type">virtual</code> <code class="data-type">String</code> - first and last name, concatenated with a space (if both have a value)
+				
+				h5 Virtuals:
+				p <code>full</code> <code class="data-type">String</code> - first and last name, concatenated with a space (if both have a value)
 				p The <code>name.full</code> setter splits input at the first space.
 			
 			
@@ -550,16 +552,15 @@ block content
 			h3 <code>Password</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a password field in the Admin UI, with a 'change' button.
 			p Passwords are automatically encrypted with bcrypt, and expose a method to compare a string to the encrypted hash.
-			p.note The encryption happens with a <strong>pre-save hook</strong> added to the<strong>schema</strong>, so passwords set will not be encrypted until an item has been saved to the database.
+			p.note The encryption happens with a <strong>pre-save hook</strong> added to the <strong>schema</strong>, so passwords set will not be encrypted until an item has been saved to the database.
 			pre { type: Types.Password }
 			.options
 				
 				h5 Options:
-				p <code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfact to use when generating the hash, higher numbers are slower but more secure
-				p The workFactor defaults to <code class="default-value">10</code>
+				p <code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)
 				
 				h5 Underscore methods:
-				p <code>compare(string)</code> (returns <code class="data-type">Boolean</code>) - compares the string against the encrypted hash, returns <code class="default-value">true</code> if the match or <code class="default-value">false</code> if they don't
+				p <code>compare(input String)</code> <code class="data-type">Boolean</code> - compares the input against the encrypted hash, returns <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't
 				
 				h5 Special paths:
 				p <code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.
