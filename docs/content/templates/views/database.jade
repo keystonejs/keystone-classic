@@ -94,7 +94,7 @@ block content
 				|         extended: { type: Types.Html, wysiwyg: true, height: 400 }
 				|     }
 				| });
-				| Post.defaultColumns = 'title, state|20%, author, pubilshedAt|15%'
+				| Post.defaultColumns = 'title, state|20%, author, publishedAt|15%'
 				| Post.register();
 			
 			p.note This example implements the optional <code>map</code>, <code>autokey</code> and <code>defaultSort</code> options, described below.
@@ -156,7 +156,7 @@ block content
 			
 			p You can specify <a href="http://mongoosejs.com/docs/guide.html" target="_blank"><strong>virtuals</strong>, <strong>methods</strong>, <strong>statics</strong></a> as well as <a href="http://mongoosejs.com/docs/middleware.html" target="_blank"><strong>pre</strong> and <strong>post</strong> hooks</a> for your <strong>Lists</strong> using the <code>schema</code>. You can also use <a href="http://mongoosejs.com/docs/plugins.html" target="_blank">mongoose plugins</a> from the <a href="http://plugins.mongoosejs.com" target="_blank">plugins website</a>.
 			
-			p For example, in our <strong>Post</strong> list above, we might want to automatically set the <code>publishedAt</code> value when the <code>state</code> is changed to <code>pubilshed</code> (but only if it hasn't already been set).
+			p For example, in our <strong>Post</strong> list above, we might want to automatically set the <code>publishedAt</code> value when the <code>state</code> is changed to <code>published</code> (but only if it hasn't already been set).
 			
 			p We might also want to add a method to check whether the post is published, rather than checking the <code>state</code> field value directly.
 			
@@ -243,7 +243,7 @@ block content
 			a(name='fields_overview')
 			h2 Fields
 			
-			p When adding <strong>fields</strong> to <strong>Lists</strong>, you can either specify basic data types or Keystine Field Types.
+			p When adding <strong>fields</strong> to <strong>Lists</strong>, you can either specify basic data types or Keystone Field Types.
 			
 			p <strong>Keystone Fields</strong> allow you to easily add rich, functional fields to your application's models. They are designed to describe not just the <em>structure</em> of your data, but also the <em>intention</em> of your data. They provide:
 			ul
@@ -316,7 +316,7 @@ block content
 			a(name="fields_underscoremethods")
 			h3 Underscore Methods
 			
-			p Some field types include helpful <strong>underscore methods</strong>, which are available on the item at the field's path preceeded by an underscore.
+			p Some field types include helpful <strong>underscore methods</strong>, which are available on the item at the field's path preceded by an underscore.
 			p <strong>For example</strong>: use the <code>format</code> underscore method of the <code>createdAt</code> <code class="data-type">DateTime</code> field of the Posts List (above) like this
 			
 			pre
@@ -463,7 +463,7 @@ block content
 					li <code class="data-type">Object</code> with <code>value</code> and <code>label</code> <code class="data-type">String</code> properties
 				p You can mix <code class="data-type">String</code> and <code class="data-type">Object</code> items in the <code>options</code> <code class="data-type">Array</code>:
 				pre { type: Types.Select, options: ['first', 'second', { value: 'third', label: 'The third one' }] }
-				p <code class="data-type">Object</code> options can have additional properties which are accessible when the current option's data, or field's options are retrieved.
+				p <code class="data-type">Object</code> options can have additional properties which are accessible when the current options data, or fields options are retrieved.
 				pre
 					| { type: Types.Select, options: [
 					|     { value: 'first', label: 'The first option', custom: 'value' },
@@ -490,7 +490,7 @@ block content
 					| MyList.add({ state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' });
 					| 
 					| MyList.fields.state.values == 'draft,published,archived';
-					| MyList.fields.state.labels == { draft: 'Draft', published: 'Pubilshed', archived: 'Archived' };
+					| MyList.fields.state.labels == { draft: 'Draft', published: 'Published', archived: 'Archived' };
 					| MyList.fields.state.ops == [
 					|     { value: 'draft', label: 'Draft' },
 					|     { value: 'published', label: 'Published' },
