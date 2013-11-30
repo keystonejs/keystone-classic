@@ -127,6 +127,8 @@ Config variables include:
 *	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
 *	`cloudinary prefix` - prefix for all native tags added to uploaded images
 *	`embedly api key` - API key to use for `embedly` fields
+*	`google api key` - API key to use for `google maps` fields
+*	`default region` - This parameter takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) subtag.
 *	`logger` - when set, Keystone includes the `express.logger` middleware and passes it the value
 *	`signout` - href for the signout link in the top right of the UI, automatically set if you use native session management
 
