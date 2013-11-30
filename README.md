@@ -190,12 +190,12 @@ Keystone's advanced field types include:
 	*	`state` (`String`)
 	*	`postcode` (`String`)
 	*	`country` (`String`)
-	*	`geo` (`Latitude`, `longitude`) - 2dsphere indexed lat/png pair
+	*	`geo` (`Longitude`, `Latitude`) - 2dsphere indexed lat/png pair
 	*	Provides an `googleLookup` method that returns the best match for the stored value on
 		Google's Places API. Requires a Google Maps API Key to be provided, and should only be
 		used in accordance with Google's terms of service.
 	*	*Note: this field has been based on Australian address formats, and should be updated
-		to be more friendly for other international formats. I am looking for feedback on this!*
+		to be more friendly for other international formats.*
 *	`cloudinaryimage` (`Object`)
 	*	Automatically manages images stored in [cloudinary](http://cloudinary.com).
 	*	Provides an `exists` virtual for detecting whether the field stores an image
