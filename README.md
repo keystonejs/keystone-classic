@@ -108,7 +108,7 @@ Config variables include:
 *	`name` - the name of your application (optional)
 *	`brand` - the label displayed in the top left of the UI (optional)
 *	`port` - the port to serve your application on, passed to `express.set('port')`, defaults to `env.PORT || 3000`
-*	`favicon` - the path to your application's favicon, passed to `express.favico`, exclude if you don't have a favicon
+*	`favicon` - the path to your application's favicon, passed to `express.favicon`, exclude if you don't have a favicon
 *	`less` - the path to your .less templates, passed to `less-middleware`, exclude if you don't use LESS
 *	`static` - the path to your application's static resources (public files), exclude if you don't want static resources
 *	`compress` - (`Boolean`) whether to include the `Express.compress` middleware
@@ -204,11 +204,11 @@ Keystone's advanced field types include:
 		*	`src(options)` - returns the url of the image, accepts all options cloudinary supports
 		*	`tag(options)` - returns an `<img>` tag
 		*	`scale(width, height, options)` - scales the image to fit the exact width and height,
-			retining aspect ratio
+			retaining aspect ratio
 		*	`fit(width, height, options)` - scales the image to fit within the specified width and height,
-			retining aspect ratio
+			retaining aspect ratio
 		*	`lfit(width, height, options)` - scales the image to fit within the specified width and height,
-			retining aspect ratio (without exceeding the original dimensions)
+			retaining aspect ratio (without exceeding the original dimensions)
 		*	`limit(width, height, options)` - scales the image (down only) to fit within the specified width
 			and height, retaining aspect ratio
 		*	`fill(width, height, options)` - scales the image to fill the specified width and height

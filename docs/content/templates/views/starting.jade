@@ -50,7 +50,7 @@ block content
 			
 			p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
 			
-			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familarity with basics such as database concepts, and using node / npm etc.
+			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
 			p In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates.
 			
 			a(name="start_env")
@@ -126,7 +126,7 @@ block content
 			
 			.contextual-note
 				h4 BYO Express and Mongoose
-				p If you want to require Express or Mongoose in your application, insted of having Keystone provide and configure them completely, you can so do.
+				p If you want to require Express or Mongoose in your application, instead of having Keystone provide and configure them completely, you can so do.
 				p Include them in the dependencies list for your project, then provide them to Keystone using the <code>connect</code> method.
 				pre
 					| var express = require('express'),
@@ -224,7 +224,7 @@ block content
 			p To recap:
 			ul.list
 				li The option <code>user model</code> must be the name of the Model that Keystone should look in to find your users. If you use a different model name, be sure to set the option correctly.
-				li If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. Loading sessions incurs a small overhead, so if your application doesn't neet it you can turn it off.
+				li If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. Loading sessions incurs a small overhead, so if your application doesn't need it you can turn it off.
 				li Keystone has built-in views for signing in and out. To enable them, set the <code>auth</code> option to <strong>true</strong>. You can also implement custom signin and signout screens in your applications' views.
 				li Sessions are persisted using an encrypted cookie storing the user's ID. Make sure you set the <code>cookie secret</code> option to a long, random string.
 				li The user model must have a <code>canAccessKeystone</code> property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not.
@@ -307,7 +307,7 @@ block content
 			a(name="routes_middleware")
 			h4 Common Route Middleware
 			
-			p Putting your common middleware in a separate <code>routes/middleware.js</code> file keeps your route index nice and clean. If your middleware file gets too big, it's a good idea to restructure any significant functionality into custom modules in your project's <code>/lib</code> folder.
+			p Putting your common middleware in a separate <code>routes/middleware.js</code> file keeps your route index nice and clean. If your middleware file gets too big, it's a good idea to restructure any significant functionality into custom modules in your projects <code>/lib</code> folder.
 			p Now we'll add the basic middleware to get your app up and running with default behaviours:
 			
 			.code-header
