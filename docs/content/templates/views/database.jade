@@ -592,10 +592,9 @@ block content
 				ul
 					li <code>region</code> <code class="data-type">String</code> is passed to the Places API for regional biasing and filtering.
 					li <code>update</code> <code class="data-type">String</code> when <code class="default-value">overwrite</code>, will completely overwrite existing data with the result. Otherwise when <code class="default-value">true</code> will set blank properties on the field with the result.
-					li <code>callback(err, location, result)</code> <code class="data-type">Function</code> - is passed the parsed <strong>location</strong> object, and the raw <strong>result</strong> from Google.
-				p.note Internal status codes mimic the Google API status codes.
+					li <code>callback(err, location, result)</code> - is passed the parsed <strong>location</strong> object, and the raw <strong>result</strong> from Google.
 				
-				p See <a href="https://developers.google.com/maps/documentation/geocoding/" target="_blank">https://developers.google.com/maps/documentation/geocoding/</a> for more information.
+				p Internal status codes mimic the Google API status codes. See <a href="https://developers.google.com/maps/documentation/geocoding/" target="_blank">https://developers.google.com/maps/documentation/geocoding/</a> for more information.
 				p Use of the Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
 				p The Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 			
