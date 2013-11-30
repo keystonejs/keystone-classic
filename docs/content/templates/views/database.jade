@@ -570,8 +570,34 @@ block content
 			h3 <code>Location</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
 			pre { type: Types.Location }
-			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
-			
+			p Location fields contain a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
+			p They also provide a helper method to autocomplete addresses using Google's Places API. The Google integration requires a Google Maps API Key to be provided, and should only be used in accordance with Google's terms of service.
+			p.note Note: this field has been based on Australian address formats, and should be updated to be more friendly for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
+			.options
+				
+				h5 Schema
+				p <code>name</code> <code class="data-type">String</code> - building name
+				p <code>number</code> <code class="data-type">String</code> - unit or shop number
+				p <code>street1</code> <code class="data-type">String</code> - street address
+				p <code>street2</code> <code class="data-type">String</code> - street address line 2
+				p <code>suburb</code> <code class="data-type">String</code>
+				p <code>state</code> <code class="data-type">String</code>
+				p <code>postcode</code> <code class="data-type">String</code>
+				p <code>country</code> <code class="data-type">String</code>
+				p <code>geo</code> <code class="data-type">Array</code> <code class="default-value">longitude, latitude</code>
+				p.note <strong>Important</strong>: as per the MongoDB convention, the order for the <strong>geo</strong> array must be <code class="default-value">lng, lat</code> which is the opposite of the order used by Google's API.
+				
+				h5 Underscore methods:
+				p <code>googleLookup(region, update, callback)</code> - autodetect the full address and lng, lat from the stored value.
+				ul
+					li <code>region</code> <code class="data-type">String</code> is passed to the Places API for regional biasing and filtering.
+					li <code>update</code> <code class="data-type">String</code> when <code class="default-value">overwrite</code>, will completely overwrite existing data with the result. Otherwise when <code class="default-value">true</code> will set blank properties on the field with the result.
+					li <code>callback(err, location, result)</code> <code class="data-type">Function</code> - is passed the parsed <strong>location</strong> object, and the raw <strong>result</strong> from Google.
+				p.note Internal status codes mimic the Google API status codes.
+				
+				p See <a href="https://developers.google.com/maps/documentation/geocoding/" target="_blank">https://developers.google.com/maps/documentation/geocoding/</a> for more information.
+				p Use of the Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
+				p The Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 			
 			a(name="field_cloudinaryimage")
 			h3 <code>CloudinaryImage</code>
