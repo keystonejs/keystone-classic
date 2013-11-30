@@ -388,9 +388,9 @@ block content
 			a(name="field_date")
 			h3 <code>Date</code>
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI
-			pre { type: Types.Date }
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
 			p.note To default Date fields to the current time, set the <code>default</code> option to <code class="default-value">Date.now</code>
+			pre { type: Types.Date }
 			.options
 				
 				h5 Underscore methods:
@@ -401,9 +401,9 @@ block content
 			a(name="field_datetime")
 			h3 <code>Datetime</code>
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI
-			pre { type: Types.Date }
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <code class="default-value">YYYY-MM-DD</code> (can be blank unless field is required)
 			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
+			pre { type: Types.Date, default: Date.now }
 			.options
 				
 				h5 Underscore methods:
@@ -414,8 +414,8 @@ block content
 			a(name="field_key")
 			h3 <code>Key</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
-			pre { type: Types.Key }
 			p Automatically converts input to a valid key (no spaces or special characters). White space is replaced with a separator.
+			pre { type: Types.Key }
 			.options
 				
 				h5 Options
@@ -425,8 +425,8 @@ block content
 			a(name="field_number")
 			h3 <code>Number</code>
 			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
+			p Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (can be blank unless field is required)
 			pre { type: Types.Number }
-			p.note Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (can be blank unless field is required)
 			.options
 				
 				h5 Underscore methods:
@@ -437,8 +437,8 @@ block content
 			a(name="field_money")
 			h3 <code>Money</code>
 			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
+			p Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (leading symbols are allowed; can be blank unless field is required). Money fields do not understand currency.
 			pre { type: Types.Money }
-			p.note Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (leading symbols are allowed; can be blank unless field is required). Money fields do not understand currency.
 			.options
 				
 				h5 Underscore methods:
@@ -551,6 +551,7 @@ block content
 			a(name="field_password")
 			h3 <code>Password</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a password field in the Admin UI, with a 'change' button.
+			
 			p Passwords are automatically encrypted with bcrypt, and expose a method to compare a string to the encrypted hash.
 			p.note The encryption happens with a <strong>pre-save hook</strong> added to the <strong>schema</strong>, so passwords set will not be encrypted until an item has been saved to the database.
 			pre { type: Types.Password }
@@ -569,10 +570,10 @@ block content
 			a(name="field_location")
 			h3 <code>Location</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
+			p Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
+			p Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).
 			pre { type: Types.Location }
-			p Location fields contain a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
-			p They also provide a helper method to autocomplete addresses using Google's Places API. The Google integration requires a Google Maps API Key to be provided, and should only be used in accordance with Google's terms of service.
-			p.note Note: this field has been based on Australian address formats, and should be updated to be more friendly for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
+			p.note Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
 			.options
 				
 				h5 Schema
@@ -591,7 +592,7 @@ block content
 				p <code>googleLookup(region, update, callback)</code> - autodetect the full address and lng, lat from the stored value.
 				ul
 					li <code>region</code> <code class="data-type">String</code> is passed to the Places API for regional biasing and filtering.
-					li <code>update</code> <code class="data-type">String</code> when <code class="default-value">overwrite</code>, will completely overwrite existing data with the result. Otherwise when <code class="default-value">true</code> will set blank properties on the field with the result.
+					li <code>update</code> <code class="data-type">String</code> passing <code class="default-value">"overwrite"</code> will completely overwrite existing data with the result. <code class="default-value">true</code> will set blank properties on the field with the result.
 					li <code>callback(err, location, result)</code> - is passed the parsed <strong>location</strong> object, and the raw <strong>result</strong> from Google.
 				
 				p Internal status codes mimic the Google API status codes. See <a href="https://developers.google.com/maps/documentation/geocoding/" target="_blank">https://developers.google.com/maps/documentation/geocoding/</a> for more information.
@@ -601,23 +602,59 @@ block content
 			a(name="field_cloudinaryimage")
 			h3 <code>CloudinaryImage</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
+			p Automatically manages images stored in <a href="http://cloudinary.com" target="_blank">Cloudinary</a>, including uploading, resizing and deleting.
 			pre { type: Types.CloudinaryImage }
-			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
-			
+			.options
+				
+				h5 Schema
+				p <code>public_id</code> <code class="data-type">String</code>
+				p <code>version</code> <code class="data-type">Number</code>
+				p <code>signature</code> <code class="data-type">String</code>
+				p <code>format</code> <code class="data-type">String</code>
+				p <code>resource_type</code> <code class="data-type">String</code>
+				p <code>url</code> <code class="data-type">String</code>
+				p <code>width</code> <code class="data-type">Number</code>
+				p <code>height</code> <code class="data-type">Number</code>
+				p <code>secure_url</code> <code class="data-type">String</code>
+				
+				h5 Virtuals
+				<code>exists</code> <code class="data-type">Boolean</code> - whether there is a stored image
+				
+				h5 Special paths
+				p <code>{path}_upload</code> - when a <code class="data-type">file</code> is provided to the <strong>updateHandler</strong>, it will be uploaded to cloudinary and the details will be stored in the field.
+				//- TODO: Document {path}_action
+				
+				h5 Underscore methods
+				p <code>src(options)</code> <code class="data-type">String</code> - returns the url of the image, accepts all options cloudinary supports
+				p <code>tag(options)</code> <code class="data-type">String</code> - returns an `<img>` tag
+				p <code>scale(width, height, options)</code> <code class="data-type">String</code> - scales the image to fit the exact width and height, retaining aspect ratio
+				p <code>fit(width, height, options)</code> <code class="data-type">String</code> - scales the image to fit within the specified width and height, retaining aspect ratio
+				p <code>lfit(width, height, options)</code> <code class="data-type">String</code> - scales the image to fit within the specified width and height, retaining aspect ratio (without exceeding the original dimensions)
+				p <code>limit(width, height, options)</code> <code class="data-type">String</code> - scales the image (down only) to fit within the specified width and height, retaining aspect ratio
+				p <code>fill(width, height, options)</code> <code class="data-type">String</code> - scales the image to fill the specified width and height
+				p <code>crop(width, height, options)</code> <code class="data-type">String</code> - crops the image to fill the specified width and height
+				p <code>pad(width, height, options)</code> <code class="data-type">String</code> - pads the image to fill the specified width and height
+				p <code>lpad(width, height, options)</code> <code class="data-type">String</code> - pads the image to fill the specified width and height (without exceeding the original dimensions)
+				p <code>thumbnail(width, height, options)</code> <code class="data-type">String</code> - crops the image to fill the specified width and height
+				p In all methods, <code class="default-value">options</code> is an optional <code class="data-type">Object</code>. See <a href="http://cloudinary.com/documentation/image_transformations" target="_blank">Cloudinary's Transformation Documentation</a> for more information on the supported options and transformations.
+				//- TODO: Usage Examples
 			
 			a(name="field_cloudinaryimages")
 			h3 <code>CloudinaryImages</code>
-			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
+			h4 <code class="data-type">Array</code> &mdash; Displayed as a series of images, and an upload field in the Admin UI
+			p Stores multiple images in a array as a nested <code class="data-type">Schema</code>, each of which expose the same methods as the <code class="data-type">cloudinaryimage</code> field.
 			pre { type: Types.CloudinaryImages }
-			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			//- TODO: Usage Examples
 			
 			
 			a(name="field_embedly")
 			h3 <code>Embedly</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI
+			p Stores data retrieved from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field.
+			p Includes useful information like provider, type, full URL, HTML embed code, width, height, thumbnail picture and more.
 			pre { type: Types.Embedly, from: 'path' }
 			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
 			
-			// TODO: Documentation for Relationships
+			//- TODO: Documentation for Relationships
 			
