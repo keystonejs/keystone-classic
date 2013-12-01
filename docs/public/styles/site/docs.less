@@ -1,0 +1,210 @@
+// ==============================
+// DOCUMENTATION
+// ==============================
+
+// content
+#docs-content {
+	@media (min-width: @screen-sm) {
+		padding: @grid-gutter-width 0 @grid-gutter-width 0;
+	}
+	
+	&.bordered {
+		@media (min-width: @screen-sm) {
+			padding: @grid-gutter-width 0 @grid-gutter-width @grid-gutter-width;
+			border-left: 1px solid @gray-lighter;
+			margin-left: @grid-gutter-width / -2;
+		}
+	}
+}
+
+// type settings
+p {
+	line-height: 1.5;
+	margin: 0 0 20px;
+}
+h1 {
+	font-size: 48px;
+	font-weight: 200;
+	line-height: 48px;
+	margin: 0 0 40px;
+	
+	& + h2 {
+		margin-top: 50px;
+	}
+}
+h2 {
+	border-bottom: 1px solid @gray-lighter;
+	color: @brand-primary;
+	font-weight: bold;
+	margin: 60px 0 20px 0;
+	padding-bottom: 20px;
+}
+h3 {
+	margin: 40px 0 20px;
+}
+h4 {
+	margin: 30px 0 20px;
+}
+h5 {
+	margin: 20px 0;
+}
+
+// alerts
+.alerts {
+	margin: 20px 0 -20px;
+}
+
+// notes
+.note {
+	font-style: italic;
+}
+.contextual-note {
+	background-color: mix(white, @brand-primary,95%);
+	border-left: 6px solid mix(white, @brand-primary,80%);
+	margin: 20px 0;
+	padding: 15px;
+	
+	h4 {
+		margin: 0 0 15px;
+	}
+	p {
+		margin: 15px 0 0;
+	}
+	pre {
+		margin: 15px 0 0;
+		border-color: mix(white, @brand-primary,80%);
+		background: mix(white, @brand-primary,98%)
+	}
+}
+
+// hilighted text
+.hilight {
+	background-color: #fffac2;
+}
+
+// options
+div.options {
+	padding-left: 20px;
+	border-left: 3px solid #eee;
+}
+
+// lists
+ul.list li {
+	margin-top: 10px;
+}
+ul.options li, .options ul li {
+	margin-top: 5px;
+}
+
+
+// code header
+.code-header {
+	.border-top-radius( 4px );
+	border: 1px solid darken(@navbar-default-bg, 10%);
+	border-bottom: 0 none;
+	color: @gray;
+	margin: 20px 0 0;
+	padding: 15px;
+	
+	p {
+		font-size: @font-size-small;
+		margin: 0;
+		& + p {
+			margin: 15px 0 0;
+		}
+	}
+	
+	h4 {
+		color: mix(black, @brand-primary, 50%);
+		font-size: @font-size-small;
+		font-weight: bold;
+		margin: 0;
+		
+		& + p {
+			margin: 15px 0 0;
+		}
+	}
+	
+	// so you can use PRE on it's own
+	& + pre {
+		border-radius: 0 0 4px 4px;
+	}
+}
+
+// Preformatted text
+pre {
+	background-color: @navbar-default-bg;
+	border-color: darken(@navbar-default-bg, 10%);
+	font-size: 13px;
+	white-space: pre;
+	word-break: keep-all;
+	word-wrap: normal;
+	overflow: auto;
+	
+	span {
+		color: @gray-light;
+	}
+}
+
+code.data-type {
+	color: #0e487a;
+	background: #f9f9f9;
+}
+code.default-value {
+	color: #333;
+	background: #f9f9f9;
+}
+
+
+// sidebar navigation
+#docs-sidebar {
+	
+	.sidebar-nav {
+		list-style: none;
+		margin: 40px 0;
+		padding: 0;
+		
+		li {
+			margin: 1px 0;
+		}
+		a {
+			border-radius: 4px;
+			color: @text-color;
+			display: block;
+			padding: 5px 10px;
+			
+			&:focus,
+			&:hover {
+				background-color: @navbar-default-bg;
+				text-decoration: none;
+			}
+		}
+	}
+	.nav-label {
+		margin: 10px 0 !important;
+		color: @gray-light;
+		text-transform: uppercase;
+	}
+	.active a {
+		background-color: @navbar-default-bg;
+		color: @gray;
+	}
+	
+	@media (min-width: @screen-sm) {
+		margin-right: @grid-gutter-width / -2;
+		
+		.sidebar-nav {
+			a {
+				border-radius: 4px 0 0 4px;
+			}
+			.active {
+				position: relative;
+				right: -1px;
+				z-index: 1;
+			}
+			.active a {
+				border-right: 1px solid @link-color;
+			}
+		}
+	}
+}

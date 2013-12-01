@@ -1,0 +1,168 @@
+// ==============================
+// LAYOUT
+// ==============================
+
+
+// header
+#docs-header {
+	.clearfix();
+	border-bottom: 1px solid #ededed;
+	height: 110px;
+	line-height: 110px;
+	
+	.keystone-logo {
+		float: left;
+	}
+	.social-buttons {
+		float: right;
+		text-align: right;
+	}
+	.twitter-follow-button {
+		margin-right: 10px;
+		color: white;
+		font-size: 12px;
+	}
+	.navbar-toggle {
+		background-color: @text-color;
+		margin: 35px 0 0;
+		
+		.icon-bar {
+			background-color: white;
+		}
+		
+		&:hover,
+		&:focus {
+			background-color: lighten(@text-color, 5%)
+		}
+		
+		&:active {
+			background-color: darken(@text-color, 5%)
+		}
+	}
+}
+
+// navigation
+#docs-nav {
+	background-color: @navbar-default-bg;
+	border-bottom: 1px solid @navbar-default-border;
+	
+	.navbar-nav {
+		margin: 0 -@navbar-padding-horizontal;
+	}
+	li {
+		float: left;
+	}
+	
+	a {
+		color: @link-color;
+		
+		&:hover,
+		&:focus {
+			color: @link-hover-color;
+		}
+	}
+	
+	.active a {
+		background: none transparent;
+		color: @text-color;
+	}
+	
+	@media (min-width: @screen-sm) {
+		.blog-link a {
+			border: 1px solid mix(white,@gray-light,50%);
+			border-radius: 4px;
+			color: @gray-light;
+			margin-bottom: 8px;
+			margin-top: 8px;
+			padding-bottom: @navbar-padding-vertical - 8px;
+			padding-top: @navbar-padding-vertical - 8px;
+			
+			&:hover,
+			&:focus {
+				background-color: white;
+			}
+			&:active {
+				background-color: darken(@navbar-default-bg, 10%);
+			}
+		}
+	}
+	
+}
+
+// footer
+#docs-footer {
+	border-top: 1px solid @gray-lighter;
+	margin-top: 100px;
+	padding: 50px 0;
+	position: relative;
+	text-align: center;
+	
+	p {
+		color: @gray-light;
+		margin-bottom: 0;
+		text-align: left;
+	}
+	a {
+		color: @gray-light;
+	}
+	
+	.list-links {
+		margin: 0;
+		padding: 0;
+		text-align: left;
+		
+		li {
+			display: block;
+		}
+		li + li {
+			margin: 10px 0 0 0;
+		}
+	}
+	.copyright {
+		margin: 50px 0 0 0;
+	}
+	
+	.social-buttons {
+		background-color: white;
+		display: inline-block;
+		padding: 5px 20px;
+		position: relative;
+		text-align: center;
+		top: -66px;
+		
+		.social-button {
+			display: inline-block;
+		}
+		.twitter-follow-button {
+			margin-right: 10px;
+		}
+	}
+	
+	@media (min-width: @screen-sm) {
+		padding: 100px 0;
+		
+		.social-buttons {
+			top: -116px;
+		}
+		.list-links {
+			float: left;
+			
+			li {
+				display: inline-block;
+			}
+			li + li {
+				margin: 0 0 0 40px;
+			}
+		}
+		.copyright {
+			float: right;
+			margin: 0;
+		}
+		.footer-wrap {
+			.clearfix();
+		}
+	}
+	
+}
+
+

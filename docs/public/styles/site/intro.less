@@ -1,0 +1,168 @@
+// ==============================
+// INTRODUCTION PAGE
+// ==============================
+
+// Keystone hero
+#hero {
+	background: url( "/images/intro-bg.png" ) no-repeat center bottom @navbar-default-bg;
+	border-bottom: 1px solid #ededed;
+	padding: 20px 0;
+	
+	h1 {
+		font-size: 24px;
+		line-height: 1.2;
+		margin: 0;
+	}
+	p {
+		margin: 30px 0 0;
+	}
+	
+	.mit-licence {
+		.clearfix();
+		font-size: 13px;
+		margin-top: 20px;
+		
+		.licence-badge,
+		.licence-text {
+			float: left;
+			padding: 4px 8px;
+		}
+		.licence-badge {
+			border-radius: 4px 0 0 4px;
+			border: 1px solid transparent;
+			background-color: #bbb;
+			color: white;
+			font-weight: bold;
+		}
+		.licence-text {
+			background-color: white;
+			border-radius: 0 4px 4px 0;
+			border: 1px solid #bbb;
+			border-left: 0 none;
+			color: #aaa;
+		}
+	}
+	.notes {
+		color: @gray-light;
+		
+		a {
+			color: @gray-light;
+			text-decoration: underline;
+			
+			&:hover {
+				color: @gray;
+			}
+		}
+	}
+	@media (min-width: @screen-sm) {
+		padding: 50px 0;
+	
+		h1 {
+			font-size: 40px;
+		}
+		.btn-lg {
+			font-size: 20px;
+		}
+	}
+}
+
+// Buttons
+.buttons {
+	.btn {
+		border-radius: @border-radius-base;
+	}
+	.btn + .btn {
+		margin-left: 10px;
+	}
+	.btn-link {
+		border-color: @link-color;
+		
+		&:hover {
+			background-color: white;
+			text-decoration: none;
+		}
+	}
+}
+.btn-lg {
+	font-size: 16px;
+}
+	
+// Intro sections
+.intro-section {
+	border-bottom: 1px solid #ededed;
+	padding: 30px 0 30px;
+	
+	h2 {
+		border: 0 none;
+		color: @text-color;
+		font-size: 30px;
+		font-weight: normal;
+		margin: 0 0 30px;
+	}
+	
+	@media (min-width: @screen-sm) {
+		padding: 80px 0 100px;
+	
+		h2 {
+			font-size: 36px;
+			margin: 0 0 50px;
+		}
+	}
+	
+	@media (max-width: @screen-sm) {
+		[class^="col-"] {
+			margin-top: 20px;
+		}
+	}
+}
+
+// icons
+@icon-size:   60px;
+.feature-icon__icon {
+	.square( @icon-size );
+	#gradient .directional( spin(@link-color, 10), spin(@link-color, -10), 135deg);
+	background-color: @link-color;
+	border-radius: 3px;
+	color: white;
+	display: inline-block;
+	font-size: @icon-size;
+	line-height: @icon-size;
+	text-align: center;
+}
+
+
+// admin
+.admin-section {
+	border-bottom: 0 none;
+	padding-bottom: 0;
+	
+	h2 {
+		color: @link-color;
+	}
+}
+
+// tools
+.tools-section {
+	background: url( "/images/tools-bg.png" ) repeat @brand-primary;
+	color: white;
+	
+	h2 {
+		color: white;
+	}
+}
+
+// call to aciton
+.cta-section {
+	border: 0 none;
+	padding-bottom: 0; // offset footer margin
+}
+
+
+
+
+
+
+
+
+
+
