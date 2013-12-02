@@ -43,6 +43,7 @@ jQuery(function($) {
 				case 'relationship':
 				case 'cloudinaryimage':
 				case 'cloudinaryimages':
+				case 's3file':
 					return $field.data('field-value');
 			}
 			
@@ -60,6 +61,7 @@ jQuery(function($) {
 					return $field.find('textarea').val();
 				case 'cloudinaryimage':
 				case 'cloudinaryimages':
+				case 's3file':
 					return $field.data('field-value');
 			}
 			

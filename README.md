@@ -225,6 +225,16 @@ Keystone's advanced field types include:
 	*	Stores multiple images in a array as a nested Schema, which exposes the same methods as
 		the `cloudinaryimage` field
 	*	Allows multiple images to be uploaded / removed / deleted in the Admin UI
+*	`s3file` (`Object`)
+	*	Automatically manages files stored in [amazon s3](http://aws.amazon.com/s3).
+	*	Provides an `exists` virtual for detecting whether the field stores a file
+	*	Has the built in ability to upload/delete file to/from amazon s3
+	*	Fields:
+		*	`exists` (`Boolean`)
+		*	`filename` (`String`)
+		*	`type` (`String`)
+		*	`filesize` (`Number`)
+		*	`url` (`String`)
 *	`embedly` (`Object`)
 	*	Automatically passed the value stored in another field to the [embedly](http://embed.ly)
 		API to extract useful information like provider, type, full URL, HTML embed code, width,

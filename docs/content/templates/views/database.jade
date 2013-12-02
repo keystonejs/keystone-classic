@@ -39,6 +39,7 @@ block content
 				li: a(href='#field_location') Location
 				li: a(href='#field_cloudinaryimage') CloudinaryImage
 				li: a(href='#field_cloudinaryimages') CloudinaryImages
+				li: a(href='#field_s3file') S3 File
 				li: a(href='#field_embedly') Embedly
 		
 		.col-sm-9: #docs-content
@@ -645,6 +646,13 @@ block content
 			p Stores multiple images in a array as a nested <code class="data-type">Schema</code>, each of which expose the same methods as the <code class="data-type">cloudinaryimage</code> field.
 			pre { type: Types.CloudinaryImages }
 			//- TODO: Usage Examples
+			
+			
+			a(name="field_s3file")
+			h3 <code>S3 File</code>
+			h4 <code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI
+			pre { type: Types.S3File }
+			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
 			
 			
 			a(name="field_embedly")

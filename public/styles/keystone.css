@@ -5058,6 +5058,9 @@ td.visible-print {
 .fieldicon.fieldicon-cloudinaryimage {
   background-image: url("/keystone/images/icons/16/field-image.png");
 }
+.fieldicon.fieldicon-amazons3 {
+  background-image: url("/keystone/images/icons/16/field-file.png");
+}
 .fieldicon.fieldicon-relationship {
   background-image: url("/keystone/images/icons/16/field-numericSelect.png");
 }
@@ -5918,6 +5921,43 @@ textarea.field.type-html textarea {
 .field-upload {
   position: absolute;
   left: -9999px;
+}
+.field.type-s3file .file-preview {
+  position: relative;
+  line-height: 0px;
+  float: left;
+  margin-right: 10px;
+}
+.field.type-s3file .file-details {
+  overflow: hidden;
+}
+.field.type-s3file .file-details .file-values .field-value {
+  width: auto;
+  min-width: 1px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.field.type-s3file .file-details .file-message {
+  margin-left: 0px;
+  font-size: 12px;
+  width: 110px;
+  text-align: center;
+  width: 100%;
+}
+.field.type-s3file .file-details + .file-toolbar {
+  margin-top: 12px;
+}
+.field.type-s3file .upload-queued,
+.field.type-s3file .delete-queued {
+  display: none;
+}
+.field.type-s3file .upload-queued .alert,
+.field.type-s3file .delete-queued .alert {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  float: left;
+  padding: 6px 12px;
 }
 .ui-related-item {
   background-color: #fbfbfb;

@@ -153,6 +153,7 @@ jQuery(function($) {
 				case 'boolean':
 				case 'cloudinaryimage':
 				case 'cloudinaryimages':
+				case 's3file':
 					str += data.value;
 				break;
 				
