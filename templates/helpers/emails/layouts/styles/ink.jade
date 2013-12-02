@@ -1,3 +1,5 @@
+- var padding_base = '15px';
+
 style(type="text/css").
   /**********************************************
   * Ink v1.0.4 - Copyright 2013 ZURB Inc        *
@@ -111,7 +113,7 @@ style(type="text/css").
   }
 
   td.wrapper {
-    padding: 10px 20px 0px 0px;
+    padding: #{padding_base} 20px 0px 0px;
     position: relative;
   }
 
@@ -122,14 +124,14 @@ style(type="text/css").
 
   table.columns td,
   table.column td {
-    padding: 0px 0px 10px; 
+    padding: 0px 0px #{padding_base}; 
   }
 
   table.columns td.sub-columns,
   table.column td.sub-columns,
   table.columns td.sub-column,
   table.column td.sub-column {
-    padding-right: 10px;
+    padding-right: #{padding_base};
   }
 
   td.sub-column, td.sub-columns {
@@ -224,22 +226,22 @@ style(type="text/css").
 
   table.columns .text-pad,
   table.column .text-pad {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: #{padding_base};
+    padding-right: #{padding_base};
   }
 
   table.columns .left-text-pad,
   table.columns .text-pad-left,
   table.column .left-text-pad,
   table.column .text-pad-left {
-    padding-left: 10px;
+    padding-left: #{padding_base};
   }
 
   table.columns .right-text-pad,
   table.columns .text-pad-right,
   table.column .right-text-pad,
   table.column .text-pad-right {
-    padding-right: 10px;
+    padding-right: #{padding_base};
   }
 
   /* Block Grid */
@@ -337,30 +339,32 @@ style(type="text/css").
   h6 {font-size: 20px;}
   body, table.body, p {font-size: 14px;line-height:19px;}
 
-  p { 
-    padding-bottom: 10px;
+  p {
+    padding-bottom: #{padding_base};
   }
 
   small {
     font-size: 10px;
   }
 
+  /*
   a {
     color: #2ba6cb; 
     text-decoration: none;
   }
 
   a:hover { 
-    color: #2795b6 !important;
+    color: #2795b6;
   }
 
   a:active { 
-    color: #2795b6 !important;
+    color: #2795b6;
   }
 
   a:visited { 
-    color: #2ba6cb !important;
+    color: #2ba6cb;
   }
+  */
 
   h1 a, 
   h2 a, 
@@ -629,12 +633,12 @@ style(type="text/css").
 
     table[class="body"] .right-text-pad,
     table[class="body"] .text-pad-right {
-      padding-left: 10px !important;
+      padding-left: #{padding_base} !important;
     }
 
     table[class="body"] .left-text-pad,
     table[class="body"] .text-pad-left {
-      padding-right: 10px !important;
+      padding-right: #{padding_base} !important;
     }
 
     table[class="body"] .hide-for-small,

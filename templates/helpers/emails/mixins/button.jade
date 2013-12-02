@@ -1,0 +1,28 @@
+//- 
+//- Based on "Bulletproof email buttons" http://buttons.cm/ by @stigm
+//- 
+//- Options
+//- 	- url
+//- 	- label
+//- 	- background_color
+//- 	- background_image
+//- 	- border_color
+//- 	- border_width
+//- 	- border_radius
+//- 		- must be an integer
+//- 	- color
+//- 	- font_family
+//- 	- font_size
+//- 	- font_weight
+//- 	- height
+//- 		- must be an integer
+//- 	- width
+mixin button(args)
+	div
+		//[if mso]
+			v:roundrect(xmlns:v='urn:schemas-microsoft-com:vml', xmlns:w='urn:schemas-microsoft-com:office:word', href=args.url, style='height: #{args.height}px; v-text-anchor: middle; width: #{args.width};', arcsize=Math.ceil((args.border_radius / args.height) * 100) + '%', strokecolor=args.border_color, fillcolor=args.background_color)
+				v:fill(type="tile", src=args.background_image, color=args.background_color)
+				w:anchorlock
+				center(style='color: #{args.color}; font-family: #{args.font_family || "inherit"}; font-size: #{args.font_size || "inherit"}; font-weight: #{args.font_weight || "bold"};')= args.label
+			| <![endif]
+		| <![if !mso]><a href='#{args.url}' style='background-color: #{args.background_color}; background-image: url(#{args.background_image}); border: #{args.border_width} solid #{args.border_color}; border-radius: #{args.border_radius}px; color: #{args.color}; display: inline-block; font-family: #{args.font_family || "inherit"}; font-size: #{args.font_size || "inherit"}; font-weight: #{args.font_weight || "bold"}; line-height: #{args.height}px; text-align: center; text-decoration: none; width: #{args.width}; -webkit-text-size-adjust: none;'>#{args.label}</a><![endif]>

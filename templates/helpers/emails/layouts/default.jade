@@ -1,25 +1,41 @@
+include ../mixins/button
+
 doctype strict
 head
 	meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
 	meta(name="viewport" content="width=device-width")
 	include styles/ink
+	include styles/default
 body: table.body: tr: td(class="center", align="center", valign="top"): center
-	table.row.header: tr: td(align="center").center: center
+	
+	//- HEADER
+	table.row.row-header: tr: td(align="center").center: center
 		table.container: tr: td.wrapper.last
 			block header
 				if logo
 					table.twelve.columns: tr
-						td.six.sub-columns
-							img(src=logo)
-						td(style="text-align:right; vertical-align:middle;").six.sub-columns.last
-							span= brand
+						td(align="center").center: center
+							img(src=logo, width=logo_width, height=logo_height).header__logo
 						td.expander
 				else
 					span= brand
-	table.container: tr: td
-		block body
-			table.row: tr: td.wrapper.last
-				table.twelve.columns: tr
-					td
-						block contents
-					td.expander
+	
+	//- BODY
+	table.row.row-body: tr: td(align="center").center: center
+		table.container: tr: td
+			block body
+				table.row: tr: td.wrapper.last
+					table.twelve.columns: tr
+						td.text-pad
+							block body-contents
+						td.expander
+	
+	//- FOOTER
+	table.row.row-footer: tr: td(align="center").center: center
+		table.container: tr: td
+			block footer
+				table.row: tr: td.wrapper.last
+					table.twelve.columns: tr
+						td.text-pad
+							block footer-contents
+						td.expander
