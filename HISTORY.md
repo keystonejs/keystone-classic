@@ -1,5 +1,10 @@
 # Keystone 
 
+## v0.1.48
+
+* added; you can now provide a `paths` option to the `UpdateHander` to map alternate field names to item field paths for processing
+* added; new email templates
+
 ## v0.1.47 / 2013-12-02
 
 * added; new `s3file` field [bladey](https://github.com/bladey)
