@@ -1,6 +1,6 @@
 # Keystone 
 
-## v0.1.45 / 2013-11-27
+## v0.1.46 / 2013-11-27
 
 * added; new `list.getUniqueValue(path, generator, limit, callback)` method
 * added; lots of new documentation in the website
