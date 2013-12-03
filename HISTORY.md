@@ -1,13 +1,15 @@
 # Keystone 
 
-## v0.1.48
+## v0.1.48 / 2013-12-03
 
-* added; you can now provide a `paths` option to the `UpdateHander` to map alternate field names to item field paths for processing
-* improved; default email templates have been redesigned, with new options added
+* added; you can now provide a `paths` option to the `UpdateHander` to map custom field names to item field paths for processing
+* improved; default email templates have been redesigned, with new theme options and defaults, thanks [jossmackison](https://github.com/JossMackison)
+* improved; s3file fields expose a direct `uploadFile` underscore method, for use outside of an `updateHandler`, thanks [bladey](https://github.com/bladey)
+* fixed; support for extended characters in utils.pathToLabel (via `keystone-utils`), thanks [itzaks](https://github.com/itzaks)
 
 ## v0.1.47 / 2013-12-02
 
-* added; new `s3file` field [bladey](https://github.com/bladey)
+* added; new `s3file` field, thanks [bladey](https://github.com/bladey)
 
 ## v0.1.46 / 2013-11-27
 
@@ -28,7 +30,7 @@ Note: To run the docs website locally, go to `/docs` and run `node web`. It will
 ## v0.1.44 / 2013-11-20
 
 * added; new `markdown` field type
-* improved; massive enhancements to the `cloudinaryimage(s)` fields [bladey](https://github.com/bladey)
+* improved; massive enhancements to the `cloudinaryimage(s)` fields, thanks [bladey](https://github.com/bladey)
 
 ## v0.1.43 / 2013-11-20
 
@@ -63,7 +65,7 @@ Note: To run the docs website locally, go to `/docs` and run `node web`. It will
 
 ## v0.1.38 / 2013-11-06
 
-* added; ability to use dependsOn with headers [itzaks](https://github.com/itzaks)
+* added; ability to use dependsOn with headers, thanks [itzaks](https://github.com/itzaks)
 	* new syntax is `{ heading: 'Heading with dependency', dependsOn: { field: 'value'} }`
 * added; url parameter for the admin list view that updates all items in a list, optionally with data
 	* `/keystone/list?update`
@@ -95,10 +97,10 @@ Note: To run the docs website locally, go to `/docs` and run `node web`. It will
 * improved; default format settings for uneditable date fields
 * fixed; incorrect path in public underscore.map file
 * site; minor updates
-* changed; switched to bcrypt-nodejs module becase of build issues on windows [sullivanpt](https://github.com/sullivanpt)
-* improved; added intelliJ project files to .gitignore [sullivanpt](https://github.com/sullivanpt)
+* changed; switched to bcrypt-nodejs module becase of build issues on windows, thanks [sullivanpt](https://github.com/sullivanpt)
+* improved; added intelliJ project files to .gitignore, thanks [sullivanpt](https://github.com/sullivanpt)
 
 ## v0.1.34 / 2013-10-24
 
 * fixed; utils.htmlToText was removing &nbsp; without adding a space
-* added; coffeescript file support in the importer [itzaks](https://github.com/itzaks)
+* added; coffeescript file support in the importer, thanks [itzaks](https://github.com/itzaks)
