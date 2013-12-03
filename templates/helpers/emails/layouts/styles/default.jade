@@ -1,50 +1,55 @@
 //- Variables
 //- ------------------------------
-- var email_bg = '#f6f4f8'; // default to '#fafafa'
-- var body_bg = '#fff'; // default to '#fff'
-- var body_border_color = css.shadeColor(email_bg, -10);
-- var link_color = '#663090'; // default to '#08c'
-- var link_hover_color = css.shadeColor(link_color, 20);
-- var text_color = '#333'; // default to '#333'
-- var text_muted = '#999'; // default to '#999'
 
-
+- if (!theme.email_bg) theme.email_bg                     = '#fafafa';
+- if (!theme.body_bg) theme.body_bg                       = '#fff';
+- if (!theme.body_border_color) theme.body_border_color   = css.shadeColor(theme.email_bg, -10);
+- if (!theme.link_color) theme.link_color                 = '#08c';
+- if (!theme.link_hover_color) theme.link_hover_color     = css.shadeColor(theme.link_color, 20);
+- if (!theme.text_color) theme.text_color                 = '#333';
+- if (!theme.text_muted) theme.text_muted                 = '#999';
 
 
 
 style(type="text/css").
 	
-	/* main */
+	/* resets */
 	* {
 		box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 	}
+	
+	
+	
+	
+	
+	/* main */
 	body {
-		background-color: #{email_bg};
+		background-color: #{theme.email_bg};
 	}
 	body, table.body, h1, h2, h3, h4, h5, h6, p {
-		color: #{text_color};
+		color: #{theme.text_color};
 	}
 	a {
-		color: #{link_color};
+		color: #{theme.link_color};
 	}
 	a:hover,
 	a:focus { 
-		color: #{link_hover_color};
+		color: #{theme.link_hover_color};
 	}
 	a:active { 
-		color: #{link_color};
+		color: #{theme.link_color};
 	}
 	a:visited { 
-		color: #{link_color};
+		color: #{theme.link_color};
 	}
 	
 	
 	
 	
 	/* helpers */
-	.text-muted { color: #{text_muted}; }
+	.text-muted { color: #{theme.text_muted}; }
 	.text-left { text-align: left; }
 	.text-center { text-align: center; }
 	.text-right { text-align: right; }
@@ -65,10 +70,10 @@ style(type="text/css").
 	
 	/* body */
 	.row-body .container {
-		background-color: #{body_bg};
+		background-color: #{theme.body_bg};
 		border-width: 3px 1px 1px;
 		border-style: solid;
-		border-color: #{link_color} #{body_border_color} #{body_border_color};
+		border-color: #{theme.link_color} #{theme.body_border_color} #{theme.body_border_color};
 	}
 	
 	
@@ -76,25 +81,18 @@ style(type="text/css").
 	
 	/* footer */
 	.row-footer {}
-	
-	
-	
-	
-	/* buttons */
-	table.button.primary td {
-		background: #{link_color} !important;
-		border-color: #{css.shadeColor(link_color, -10)};
-	}
-	table.button.primary:hover td {
-		background: #{css.shadeColor(link_color, 10)} !important;
-		border-color: #{link_color};
-	}
 		
 	
 	
 	
 	
-	/* tables for displaying simple data */
+	/*
+		COMPONENTS
+		------------------------------
+	*/
+	
+	
+	/* info table */
 	@media only screen and (min-width: 600px) {
 		.info-table td:first-child {
 			width: 100px;
@@ -104,7 +102,12 @@ style(type="text/css").
 	
 	
 	
-	/* MEDIA QUERIES */
+	
+	/*
+		MEDIA QUERIES
+		------------------------------
+	*/
+	
 	@media only screen and (max-width: 600px) {
 	
 		/* ink seems to have missed this */

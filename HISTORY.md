@@ -15,6 +15,9 @@
 * added; lots of new documentation in the website
 * fixed; updating relationship fields from arrays
 * improved; updates to the Email class, adding default email templates (based on VIRB Ink, currently very basic)
+* removed; br() method from Email template locals (vendor prefixes not necessary in modern browsers anymore)
+
+If you are currently using the `br` method in your email templates, make sure it is removed or your templates will break.
 
 Note: To run the docs website locally, go to `/docs` and run `node web`. It will start up at http://localhost:8080
 

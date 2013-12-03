@@ -5058,7 +5058,7 @@ td.visible-print {
 .fieldicon.fieldicon-cloudinaryimage {
   background-image: url("/keystone/images/icons/16/field-image.png");
 }
-.fieldicon.fieldicon-amazons3 {
+.fieldicon.fieldicon-s3file {
   background-image: url("/keystone/images/icons/16/field-file.png");
 }
 .fieldicon.fieldicon-relationship {
