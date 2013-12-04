@@ -28,13 +28,23 @@ exports = module.exports = function(req, res) {
 			return res.redirect(req.path + ((qs) ? '?' + qs : ''));
 		}
 		
+		// clear the sort query value if it is the default sort value for the list
 		if (req.query.sort == req.list.defaultSort) {
 			return clearSort();
-		} if (sort.field) {
+		}
+		
+		if (sort.field) {
+			// the sort is set to a field, use its label
 			sort.label = sort.field.label;
-		} else if (req.list.get('sortable') && sort.by == 'sortOrder' || sort.by == '-sortOrder') {
+			// some fields have custom sort paths
+			if (sort.field.type == 'name') {
+				sort.by = sort.by + '.first ' + sort.by + '.last';
+			}
+		} else if (req.list.get('sortable') && (sort.by == 'sortOrder' || sort.by == '-sortOrder')) {
+			// the sort is set to the built-in sort order, set the label correctly
 			sort.label = 'display order';
 		} else if (req.query.sort) {
+			// it looks like an invalid path has been specified (no matching field), so clear the sort
 			return clearSort();
 		}
 		
