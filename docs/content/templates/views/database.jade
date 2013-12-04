@@ -578,7 +578,7 @@ block content
 				p <code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)
 				
 				h5 Underscore methods:
-				p <code>compare(input String)</code> <code class="data-type">Boolean</code> - compares the input against the encrypted hash, returns <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't
+				p <code>compare(input)</code> <code class="data-type">Boolean</code> - compares the input against the encrypted hash, returns <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't
 				
 				h5 Special paths:
 				p <code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.
@@ -667,9 +667,30 @@ block content
 			a(name="field_s3file")
 			h3 <code>S3 File</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI
+			p Automatically manages files stored in <a href="http://aws.amazon.com/s3" target="_blank">Amazon S3</a>, including uploading and deleting.
 			pre { type: Types.S3File }
-			p.note Documentation coming soon (see <a href="https://github.com/JedWatson/keystone/#field-types" target="_blank">readme</a> for current docs)
+			.options
+				
+				h5 Schema
+				p <code>filename</code> <code class="data-type">String</code>
+				p <code>type</code> <code class="data-type">String</code>
+				p <code>filesize</code> <code class="data-type">Number</code>
+				p <code>url</code> <code class="data-type">String</code>
+				
+				h5 Virtuals
+				<code>exists</code> <code class="data-type">Boolean</code> - whether there is a stored file
+				
+				h5 Special paths
+				p <code>{path}_upload</code> - when a <code class="data-type">file</code> is provided to the <strong>updateHandler</strong>, it will be uploaded to s3 and the details will be stored in the field.
+				//- TODO: Document {path}_action
 			
+				h5 Underscore methods
+				p <code>uploadFile(file, update, callback)</code> - uploads a file to the s3 bucket, stores the details in the field and provides the file data to the callback.
+				ul
+					li <code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code>
+					li <code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes
+					li <code>callback(err, fileData)</code> - is passed the raw object that will be stored in the field (see schema above)
+						
 			
 			a(name="field_embedly")
 			h3 <code>Embedly</code>
