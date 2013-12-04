@@ -1,4 +1,10 @@
-# Keystone 
+# Keystone
+
+## v0.1.49 / 2013-12-04
+
+* added; `moment` and `parse` underscore methods for the `date` and `datetime` fields
+* fixed; bugs searching lists with name fields in the admin ui
+* fixed; sorting by name fields in the admin ui was not working correctly
 
 ## v0.1.48 / 2013-12-03
 
