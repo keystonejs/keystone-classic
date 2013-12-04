@@ -569,8 +569,9 @@ block content
 			a(name="field_location")
 			h3 <code>Location</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
-			pre { type: Types.Location }
+			pre { type: Types.Location, map:true }
 			p Location fields contain a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
+			p They also provide a Google Maps view UI to help the selection of Lat/Lng field. This can be enabled using 'map:true'.
 			p They also provide a helper method to autocomplete addresses using Google's Places API. The Google integration requires a Google Maps API Key to be provided, and should only be used in accordance with Google's terms of service.
 			p.note Note: this field has been based on Australian address formats, and should be updated to be more friendly for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
 			.options
