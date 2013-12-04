@@ -1,72 +1,88 @@
 jQuery(function($) {
   // Google Maps for Location Field.
-  (function() {
-    $(document).ready(function() {
-        maps_canvas = $("div[id$='geo_map_canvas']");
-        map_array = [];
+  // Main Object
+  var maps_in_a_page = {
+    maps:[]
+  };
 
-        maps_canvas.each(function(index, canvas) {
+  function openMap(gmapObject) {
+    //Get current value or use default value
+    lat = 3.08737
+    if (gmapObject.$getLat.val())
+      lat = gmapObject.$getLat.val()
 
-          map_id = canvas.id.replace('_map_canvas', '')
-          getLat = $("input[name='" + map_id + "'][placeholder='Latitude']")
-          getLng = $("input[name='" + map_id + "'][placeholder='Longitude']")
+    lng = 101.59871
+    if (gmapObject.$getLng.val())
+      lng = gmapObject.$getLng.val()
 
-          //Get current value or use default value
-          lat = 3.08737
-          if (getLat.val())
-            lat = getLat.val()
-
-          lng = 101.59871
-          if (getLng.val())
-            lng = getLng.val()
-
-          //Create GMaps object based on the canvas id
-          map_array.push(new GMaps({
-            div: canvas.id,
-            lat: lat,
-            lng: lng,
-            zoom: 5,
-            zoomControl: true,
-            zoomControlOpt: {
-              style: 'SMALL',
-              position: 'TOP_LEFT'
-            }
-          }));
-          current_map = _.last(map_array);
-         
-
-          // Add markers when first init the map.
-          current_map.addMarker({
-            lat: lat,
-            lng: lng,
-          })
-
-          // Marker_added event being attached to a single/particular GMaps object
-          GMaps.on('marker_added', current_map, function(marker) {
-            getDiv = this.getDiv().id;
-            id = getDiv.replace('_map_canvas', '')
-            getLat = $("input[name='" + id + "'][placeholder='Latitude']")
-            getLat.val(marker.getPosition().lat())
-            getLng = $("input[name='" + id + "'][placeholder='Longitude']")
-            getLng.val(marker.getPosition().lng())
-          });
-
-          // on click event being attached to a single/particular GMaps object
-          GMaps.on('click', current_map.map, function(event) {
-            gmap = _.findWhere(map_array, {
-              el: this.b
-            })
-            gmap.removeMarkers();
-            var index = gmap.markers.length;
-            var lat = event.latLng.lat();
-            var lng = event.latLng.lng();
-            gmap.addMarker({
-              lat: lat,
-              lng: lng
-            });
-          });
-          console.log(maps_canvas)
-        });
+    //Create GMaps object based on the canvas id
+    gmapObject.gmap = new GMaps({
+      div: gmapObject.canvas,
+      lat: lat,
+      lng: lng,
+      zoom: 5,
+      zoomControl: true,
+      zoomControlOpt: {
+        style: 'SMALL',
+        position: 'TOP_LEFT'
+      }
     });
-  })();
+
+    var current_map = gmapObject.gmap;
+
+    // Add markers when first init the map.
+    current_map.addMarker({
+      lat: lat,
+      lng: lng,
+    })
+
+    // Marker_added event being attached to a single/particular GMaps object
+    GMaps.on('marker_added', current_map, function(marker) {
+      getLat = gmapObject.$getLat
+      getLat.val(marker.getPosition().lat())
+      getLng = gmapObject.$getLng
+      getLng.val(marker.getPosition().lng())
+    });
+
+    // on click event being attached to a single/particular GMaps object
+    GMaps.on('click', current_map.map, function(event) {
+      current_map.removeMarkers();
+      var lat = event.latLng.lat();
+      var lng = event.latLng.lng();
+      current_map.addMarker({
+        lat: lat,
+        lng: lng
+      });
+      current_map.setCenter(lat, lng);
+    });
+  }
+
+  $('.field.type-location').each(function(i,v) {
+    var $field = $(this),
+      $extras = $field.find('.extras'),
+      visible = 0;
+
+    gmaps = {};
+    gmaps.canvas = 'mapArea_'+i; //name the canvas based on index
+    gmaps.$f = $field;
+    gmaps.$getLat = $field.find("input[placeholder='Latitude']");
+    gmaps.$getLng = $field.find("input[placeholder='Longitude']");
+    maps_in_a_page.maps.push(gmaps); //add to the main object
+
+    
+    if (visible >= $extras.length) {
+      $field.find('.btn-show-map').remove();
+    } else {
+      $field.find('.btn-show-map').on('click', function() {
+        $(this).remove();
+        current_map =  _.findWhere(maps_in_a_page.maps, {
+          $f:$field
+        });
+        $field.find('.map').append('<div id="'+current_map.canvas+'" class="map_canvas"><div>');
+        openMap(current_map);
+        $(window).trigger('redraw');
+      })
+    }
+  });
+
 });

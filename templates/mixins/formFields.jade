@@ -366,14 +366,14 @@ mixin formField_location(field, item)
 				.row
 					.col-sm-3.col-md-2: label.text-muted Country
 					.col-sm-9.col-md-5: input(type='text', name=field.paths.country, value=item.get(field.paths.country)).form-control
-				.row
-					.col-sm-3.col-md-2: label.text-muted Map
-					.col-sm-9.col-md-5: div(id=field.paths.geo+"_map_canvas" class="map_canvas")
 				.row.extras
 					.col-sm-3.col-md-2: label.text-muted Lng/Lat
-					.col-sm-9.col-md-5: .form-row
+					.col-sm-9.col-md-5.map: .form-row
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[0] : '', placeholder='Longitude').form-control
 						.col-sm-6: input(type='text', name=field.paths.geo, value=item.get(field.path + '.geo') ? item.get(field.path + '.geo')[1] : '', placeholder='Latitude').form-control
+					if field.enableMaps
+						.row: .col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2.improve-options
+							a(href=js).field-label-companion.btn-show-map (select point on map)
 
 				if field.enableMapsAPI
 					.row: .col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2.improve-options
