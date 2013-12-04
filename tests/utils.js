@@ -5,6 +5,9 @@
 	Currently in this format for expermientation with what the expected output
 	of each util *should* be, will be implemented as proper unit tests when
 	the api stabilises.
+	
+	NOTE: Now using the keystone-utils package, tests should be moved to that
+	codebase.
 */
 
 var utils = require('keystone-utils'),
