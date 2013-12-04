@@ -394,10 +394,20 @@ block content
 			pre { type: Types.Date }
 			.options
 				
+				h5 Options:
+				p <code>format</code> <code class="data-type">string</code> - the default format pattern to use, defaults to <code class="default-value">Do MMM YYYY</code>
+				p See the <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs format docs</a> for information on the supported formats and options.
+				
 				h5 Underscore methods:
-				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>.
-				p Format string defaults to <code class="default-value">Do MMM YYYY</code>
-			
+				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>
+				p <code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field
+				p <code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object
+				p See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.
+				pre
+					| item.cretedDate = Date.now();
+					| item._.createdDate.format(); // returns today's date using the default format string
+					| item._.createdDate.parse('2013-12-04'); // returns a moment object with the parsed date
+					| item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'
 			
 			a(name="field_datetime")
 			h3 <code>Datetime</code>
@@ -407,9 +417,15 @@ block content
 			pre { type: Types.Date, default: Date.now }
 			.options
 				
+				h5 Options:
+				p <code>format</code> <code class="data-type">string</code> - the default format pattern to use, defaults to <code class="default-value">Do MMM YYYY hh:mm:ss a</code>
+				p See the <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs format docs</a> for information on the supported formats and options.
+				
 				h5 Underscore methods:
-				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>.
-				p Format string defaults to <code class="default-value">Do MMM YYYY hh:mm:ss a</code>
+				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>
+				p <code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field
+				p <code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object
+				p See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.
 			
 			
 			a(name="field_key")
