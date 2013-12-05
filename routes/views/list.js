@@ -158,7 +158,11 @@ exports = module.exports = function(req, res) {
 				updateHandler.addValidationError(req.list.nameField.path, 'Name is required.');
 		}
 		
-		updateHandler.process(req.body, { flashErrors: true, fields: req.list.initialFields }, function(err) {
+		updateHandler.process(req.body, {
+			flashErrors: true,
+			logErrors: true,
+			fields: req.list.initialFields
+		}, function(err) {
 			if (err) {
 				return renderView();
 			}

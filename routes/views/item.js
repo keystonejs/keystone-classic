@@ -155,7 +155,7 @@ exports = module.exports = function(req, res) {
 		
 		if (req.method == 'POST' && req.body.action == 'updateItem' && !req.list.get('noedit')) {
 			
-			item.getUpdateHandler(req).process(req.body, { flashErrors: true }, function(err) {
+			item.getUpdateHandler(req).process(req.body, { flashErrors: true, logErrors: true }, function(err) {
 				if (err) {
 					return renderView();
 				}
