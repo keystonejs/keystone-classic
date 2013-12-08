@@ -3,6 +3,7 @@
 		"nav": [
 			{ "section": "home", "path": "/", "label": "Home" },
 			{ "section": "starting", "path": "/guide", "label": "Getting Started" },
+			{ "section": "config", "path": "/guide/config", "label": "Configuration" },
 			{ "section": "data", "path": "/guide/data", "label": "Database" },
 			{ "section": "examples", "path": "/examples", "label": "Examples" }
 		]
@@ -19,6 +20,12 @@
 			"template": "starting",
 			"section": "starting",
 			"title": "Getting started"
+		},
+		{
+			"path": "/guide/config",
+			"template": "configuration",
+			"section": "config",
+			"title": "KeystoneJS Configuration Options"
 		},
 		{
 			"path": "/guide/data",
