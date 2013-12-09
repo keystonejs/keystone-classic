@@ -1,5 +1,9 @@
 # Keystone
 
+## v0.1.50 / 2013-12-09
+
+* updated; keystone-utils to 0.1.3
+
 ## v0.1.49 / 2013-12-04
 
 * added; `moment` and `parse` underscore methods for the `date` and `datetime` fields
