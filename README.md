@@ -33,6 +33,17 @@ For an example of how to set up a more sophisticated website with Keystone, chec
 [SydJS Website](http://www.sydjs.com) and [source code](https://github.com/JedWatson/sydjs-site).
 
 
+### Contributing
+
+KeystoneJS is a big vision, and we'd love all the help we can get realising it.
+
+Please feel free to contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
+
+We're also interested in hearing feedback about projects you're using Keystone for, and while we're working on better guides and documentation, are happy to give advice if you get stuck.
+
+If you're going to contribute code, please try and mimic the existing code standards - we follow [AirBNB's Javascript Style Guide](https://github.com/airbnb/javascript) fairly closely, with the exception of using tab indentation.
+
+
 ## Usage
 
 **New documentation is up at [keystonejs.com/guide](http://keystonejs.com/guide) (but there's still a lot to add!)**
