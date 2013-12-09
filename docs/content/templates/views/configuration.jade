@@ -62,7 +62,7 @@ block content
 			.code-header
 				h4 Custom Navigation Example
 				p If you had User, Post and PostCategory models, you could group the posts and post categories into a 'Content' navigation item like this:
-			pre
+			pre: code.language-javascript
 				| keystone.set('nav', {
 				|     'users': 'users',
 				|     'content': ['posts', 'post-categories']
@@ -223,7 +223,7 @@ block content
 			.code-header
 				h4 Update Script Example
 				p Creates a new admin User
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     User = keystone.list('User');
 				| 

@@ -72,6 +72,8 @@ h5 {
 	}
 	pre {
 		margin: 15px 0 0;
+	}
+	pre, code {
 		border-color: mix(white, @brand-primary,80%);
 		background: mix(white, @brand-primary,98%)
 	}
@@ -116,7 +118,7 @@ ul.options li, .options ul li {
 	
 	h4 {
 		color: mix(black, @brand-primary, 50%);
-		font-size: @font-size-small;
+		font-size: @font-size-small + 2;
 		font-weight: bold;
 		margin: 0;
 		
@@ -135,15 +137,15 @@ ul.options li, .options ul li {
 pre {
 	background-color: @navbar-default-bg;
 	border-color: darken(@navbar-default-bg, 10%);
-	font-size: 13px;
+	font-size: 14px !important;
 	white-space: pre;
 	word-break: keep-all;
 	word-wrap: normal;
 	overflow: auto;
-	
-	span {
-		color: @gray-light;
-	}
+	padding: 15px;
+}
+code {
+	font-size: 14px !important;
 }
 
 code.data-type {

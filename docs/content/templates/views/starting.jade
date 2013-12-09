@@ -69,7 +69,7 @@ block content
 			.code-header
 				h4 package.json
 				p This file describes our project for npm, including the fact that it depends on <code>keystone</code>.
-			pre
+			pre: code.language-javascript
 				| {
 				|   "name": "my-project",
 				|   "version": "0.0.1",
@@ -92,7 +92,7 @@ block content
 			.code-header
 				h4 web.js
 				p This is the script that will run our keystone website.
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone');
 				| keystone.init({
 				|   
@@ -195,13 +195,13 @@ block content
 			.code-header
 				h4 models/index.js
 				p This is the script that includes your models. It doesn't need to export anything.
-			pre
+			pre: code.language-javascript
 				| require('./users.js');
 			
 			.code-header
 				h4 models/users.js
 				p This script initialises the <code>User</code> model. It doesn't need to export anything, but the model <em>must</em> be registered with Keystone.
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     Types = keystone.Field.Types;
 				| 
@@ -250,7 +250,7 @@ block content
 			.code-header
 				h4 routes/index.js
 				p This script imports your route controllers and binds them to URLs.
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     middleware = require('./middleware'),
 				|     importRoutes = keystone.importer(__dirname);
@@ -314,7 +314,7 @@ block content
 			.code-header
 				h4 routes/middleware.js
 				p This script includes common middleware for your application routes
-			pre
+			pre: code.language-javascript
 				| var _ = require('underscore'),
 				|     keystone = require('keystone');
 				| 
@@ -379,7 +379,7 @@ block content
 			h4 Middleware functions
 			
 			p Keystone expects middleware functions to accept the following arguments:
-			ul
+			ul.options
 				li <code>req</code> - an express request object
 				li <code>res</code> - an express response object
 				li <code>next</code> - the method to call when the middleware has finished running (including any internal callbacks)
@@ -387,7 +387,7 @@ block content
 			h4 Flash message support (no, not that flash)
 			
 			p Keystone includes support for 'flashing' messages to your visitors via session. The default setup above supports four categories, all of which can be styled differently:
-			ul
+			ul.options
 				li <code>info</code>
 				li <code>success</code>
 				li <code>warning</code>
@@ -405,7 +405,7 @@ block content
 			p Now we're going to set up your first route controller (for the index page), and the template it will render.
 			
 			p The importer (above) expects the directory you ask it for to include <code>.js</code> or <code>.coffee</code> files that export a single method accepting the following arguments:
-			ul
+			ul.options
 				li <code>req</code> - an express request object
 				li <code>res</code> - an express response object
 			
@@ -414,7 +414,7 @@ block content
 			.code-header
 				h4 routes/views/index.js
 				p The route controller for our home page view
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone');
 				| 
 				| exports = module.exports = function(req, res) {
@@ -450,7 +450,7 @@ block content
 			.code-header
 				h4 templates/layouts/base.jade
 				p The base layout for our view templates
-			pre
+			pre: code
 				| include ../mixins/flash-messages
 				| 
 				| doctype 5
@@ -488,7 +488,7 @@ block content
 			.code-header
 				h4 templates/mixins/flash-messages.jade
 				p Our flash-messages mixin
-			pre
+			pre: code
 				| mixin flash-messages(messages)
 				|     if messages
 				|         #flash-messages.container
@@ -551,7 +551,7 @@ block content
 			.code-header
 				h4 updates/0.0.1-admin.js
 				p Update script to add the first admin (change to your own name, email and password)
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     User = keystone.list('User');
 				| 

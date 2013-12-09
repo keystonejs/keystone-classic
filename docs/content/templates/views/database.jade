@@ -75,7 +75,7 @@ block content
 			p <strong>For example: </strong> a simple Post model for a blog might look like this:
 			
 			.code-header: h4 Post.js
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     Types = keystone.Field.Types;
 				| var Post = new keystone.List('Post', {
@@ -163,7 +163,7 @@ block content
 			
 			p Before calling <code>Post.register()</code>, we would add the following code:
 			
-			pre
+			pre: code.language-javascript
 				| Post.schema.methods.isPublished = function() {
 				|     return (this.state == 'published') ? true : false;
 				| }
@@ -183,7 +183,7 @@ block content
 			p <strong>For example:</strong> to load the last 5 <code>posts</code> with the state <code>published</code>, populating the linked <code>author</code>, sorted by reverse published date:
 			
 			.code-header: h4 Loading Posts
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     Post = keystone.list('Post');
 				| 
@@ -201,7 +201,7 @@ block content
 			p To create new items, again use the <a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose model</a>:
 			
 			.code-header: h4 Creating Posts
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     Post = keystone.list('Post');
 				| 
@@ -228,7 +228,7 @@ block content
 			p To delete items, first load the data, then use the <code>remove</code> method:
 			
 			.code-header: h4 Deleting a Post
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     Post = keystone.list('Post');
 				| 
@@ -320,7 +320,7 @@ block content
 			p Some field types include helpful <strong>underscore methods</strong>, which are available on the item at the field's path preceded by an underscore.
 			p <strong>For example</strong>: use the <code>format</code> underscore method of the <code>createdAt</code> <code class="data-type">DateTime</code> field of the Posts List (above) like this
 			
-			pre
+			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     Post = keystone.list('Post');
 				| 
@@ -336,19 +336,19 @@ block content
 			a(name="field_boolean")
 			h3 <code>Boolean</code>
 			h4 <code class="data-type">Boolean</code> &mdash; Displayed as a checkbox in the Admin UI
-			pre { type: Types.Boolean }
+			pre: code.language-javascript { type: Types.Boolean }
 			
 			
 			a(name="field_text")
 			h3 <code>Text</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
-			pre { type: Types.Text }
+			pre: code.language-javascript { type: Types.Text }
 			
 			
 			a(name="field_textarea")
 			h3 <code>Textarea</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
-			pre { type: Types.Textarea }
+			pre: code.language-javascript { type: Types.Textarea }
 			.options
 				
 				h5 Options
@@ -359,18 +359,18 @@ block content
 			h3 <code>Email</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			p.note Input must look like a valid email address (can be blank unless field is required)
-			pre { type: Types.Email }
+			pre: code.language-javascript { type: Types.Email }
 			
 			
 			a(name="field_url")
 			h3 <code>Url</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.
-			pre { type: Types.Text }
+			pre: code.language-javascript { type: Types.Text }
 			.options
 				
 				h5 Underscore methods:
 				p <code>format()</code> - formats the stored value by stripping the leading protocol (if any)
-				pre
+				pre: code.language-javascript
 					| item.url = "http://keystonejs.com";
 					| item._.url.format(); // "keystonejs.com"
 			
@@ -378,7 +378,7 @@ block content
 			a(name="field_html")
 			h3 <code>Html</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field or WYSIWYG Editor in the Admin UI.
-			pre { type: Types.Html, wysiwyg: true }
+			pre: code.language-javascript { type: Types.Html, wysiwyg: true }
 			.options
 				
 				h5 Options
@@ -391,7 +391,7 @@ block content
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
 			p.note To default Date fields to the current time, set the <code>default</code> option to <code class="default-value">Date.now</code>
-			pre { type: Types.Date }
+			pre: code.language-javascript { type: Types.Date }
 			.options
 				
 				h5 Options:
@@ -403,7 +403,7 @@ block content
 				p <code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field
 				p <code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object
 				p See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.
-				pre
+				pre: code.language-javascript
 					| item.cretedDate = Date.now();
 					| item._.createdDate.format(); // returns today's date using the default format string
 					| item._.createdDate.parse('2013-12-04'); // returns a moment object with the parsed date
@@ -414,7 +414,7 @@ block content
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <code class="default-value">YYYY-MM-DD</code> (can be blank unless field is required)
 			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
-			pre { type: Types.Date, default: Date.now }
+			pre: code.language-javascript { type: Types.Date, default: Date.now }
 			.options
 				
 				h5 Options:
@@ -432,7 +432,7 @@ block content
 			h3 <code>Key</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			p Automatically converts input to a valid key (no spaces or special characters). White space is replaced with a separator.
-			pre { type: Types.Key }
+			pre: code.language-javascript { type: Types.Key }
 			.options
 				
 				h5 Options
@@ -443,7 +443,7 @@ block content
 			h3 <code>Number</code>
 			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
 			p Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (can be blank unless field is required)
-			pre { type: Types.Number }
+			pre: code.language-javascript { type: Types.Number }
 			.options
 				
 				h5 Underscore methods:
@@ -455,7 +455,7 @@ block content
 			h3 <code>Money</code>
 			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
 			p Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (leading symbols are allowed; can be blank unless field is required). Money fields do not understand currency.
-			pre { type: Types.Money }
+			pre: code.language-javascript { type: Types.Money }
 			.options
 				
 				h5 Underscore methods:
@@ -466,12 +466,12 @@ block content
 			a(name="field_select")
 			h3 <code>Select</code>
 			h4 <code class="data-type">String</code> or <code class="data-type">Number</code> &mdash; Displayed as a select field in the Admin UI
-			pre { type: Types.Select, options: 'first, second, third' }
+			pre: code.language-javascript { type: Types.Select, options: 'first, second, third' }
 			.options
 				
 				h5 Options:
 				p <code>numeric</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code>, causes the value of the field to be stored as a <code class="data-type">Number</code> instead of a <code class="data-type">String</code>
-				pre { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
+				pre: code.language-javascript { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
 				p <code>options</code> <code class="data-type">String</code> or <code class="data-type">Array</code> - the options for the select field
 				p Option values can be provided as a comma-delimited list <code class="data-type">String</code> of values, in which the string is split into an <code class="data-type">Array</code>.
 				p For an <code class="data-type">Array</code> of options, each option should be either a
@@ -479,9 +479,9 @@ block content
 					li <code class="data-type">String</code> representing the <code>value</code> of the option; the <code>label</code> is automatically generated
 					li <code class="data-type">Object</code> with <code>value</code> and <code>label</code> <code class="data-type">String</code> properties
 				p You can mix <code class="data-type">String</code> and <code class="data-type">Object</code> items in the <code>options</code> <code class="data-type">Array</code>:
-				pre { type: Types.Select, options: ['first', 'second', { value: 'third', label: 'The third one' }] }
+				pre: code.language-javascript { type: Types.Select, options: ['first', 'second', { value: 'third', label: 'The third one' }] }
 				p <code class="data-type">Object</code> options can have additional properties which are accessible when the current options data, or fields options are retrieved.
-				pre
+				pre: code.language-javascript
 					| { type: Types.Select, options: [
 					|     { value: 'first', label: 'The first option', custom: 'value' },
 					|     { value: 'second', label: 'Second' }
@@ -503,7 +503,7 @@ block content
 				h5 Underscore methods:
 				p <code>pluck(property, default)</code> - returns <code>property</code> value of the currently selected <strong>option</strong>, or <code>default</code>. Useful in conjunction with custom properties for options.
 				
-				pre
+				pre: code.language-javascript
 					| MyList.add({ state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' });
 					| 
 					| MyList.fields.state.values == 'draft,published,archived';
@@ -530,14 +530,14 @@ block content
 			a(name="field_markdown")
 			h3 <code>Markdown</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a textarea field in the Admin UI
-			pre { type: Types.Markdown }
+			pre: code.language-javascript { type: Types.Markdown }
 			.options
 				
 				h5 Schema:
 				p The markdown field will automatically convert markdown to html when the <code>md</code> property is changed, via a setter on the <code>md</code> path.
 				p <code>md</code> <code class="data-type">String</code> - source markdown text
 				p <code>html</code> <code class="data-type">String</code> - generated html code
-				pre
+				pre: code.language-javascript
 					| Page.add({ content: Types.Markdown });
 					| 
 					| var page = new Page.model();
@@ -552,7 +552,7 @@ block content
 			a(name="field_name")
 			h3 <code>Name</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as <strong>firstname</strong> <strong>lastname</strong> fields in the Admin UI
-			pre { type: Types.Name }
+			pre: code.language-javascript { type: Types.Name }
 			.options
 				
 				h5 Schema:
@@ -571,7 +571,7 @@ block content
 			
 			p Passwords are automatically encrypted with bcrypt, and expose a method to compare a string to the encrypted hash.
 			p.note The encryption happens with a <strong>pre-save hook</strong> added to the <strong>schema</strong>, so passwords set will not be encrypted until an item has been saved to the database.
-			pre { type: Types.Password }
+			pre: code.language-javascript { type: Types.Password }
 			.options
 				
 				h5 Options:
@@ -589,7 +589,7 @@ block content
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
 			p Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
 			p Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).
-			pre { type: Types.Location }
+			pre: code.language-javascript { type: Types.Location }
 			p.note Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
 			.options
 				
@@ -620,7 +620,7 @@ block content
 			h3 <code>CloudinaryImage</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
 			p Automatically manages images stored in <a href="http://cloudinary.com" target="_blank">Cloudinary</a>, including uploading, resizing and deleting.
-			pre { type: Types.CloudinaryImage }
+			pre: code.language-javascript { type: Types.CloudinaryImage }
 			.options
 				
 				h5 Schema
@@ -660,7 +660,7 @@ block content
 			h3 <code>CloudinaryImages</code>
 			h4 <code class="data-type">Array</code> &mdash; Displayed as a series of images, and an upload field in the Admin UI
 			p Stores multiple images in a array as a nested <code class="data-type">Schema</code>, each of which expose the same methods as the <code class="data-type">cloudinaryimage</code> field.
-			pre { type: Types.CloudinaryImages }
+			pre: code.language-javascript { type: Types.CloudinaryImages }
 			//- TODO: Usage Examples
 			
 			
@@ -668,7 +668,7 @@ block content
 			h3 <code>S3 File</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI
 			p Automatically manages files stored in <a href="http://aws.amazon.com/s3" target="_blank">Amazon S3</a>, including uploading and deleting.
-			pre { type: Types.S3File }
+			pre: code.language-javascript { type: Types.S3File }
 			.options
 				
 				h5 Schema
@@ -698,7 +698,7 @@ block content
 			p Stores data retrieved from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).
 			p Includes useful information like provider, type, full URL, HTML embed code, width, height, thumbnail picture and more.
 			p The api call is implemented as a pre-save hook, and only triggered if the <strong>from path</strong> value has changed.
-			pre { type: Types.Embedly, from: 'path' }
+			pre: code.language-javascript { type: Types.Embedly, from: 'path' }
 			.options
 				
 				h5 Options
