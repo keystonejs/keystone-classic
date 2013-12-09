@@ -42,15 +42,6 @@ var Keystone = function() {
 /**
  * Sets keystone options
  * 
- * ####Options:
- * 
- *   - auth (callback function to authenticate a request, or true to use native session management)
- *   - user model (list key for users if using native session management)
- *   - brand (label displayed in the top left of the UI)
- *   - cloudinary config `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
- *   - cloudinary prefix (prefix for all native tags added to uploaded images)
- *   - signout (href for the signout link in the top right of the UI)
- * 
  * ####Example:
  * 
  *     keystone.set('user model', 'User') // sets the 'user model' option to `User`
@@ -520,10 +511,13 @@ Keystone.prototype.routes = function(app) {
 	
 	if (auth === true) {
 		
-		this.set('signout', '/keystone/signout');
+		if (!this.get('signout')) {
+			this.set('signout', '/keystone/signout');
+		}
 		
-		if (!this.nativeApp || !this.get('session'))
+		if (!this.nativeApp || !this.get('session')) {
 			app.all('/keystone*', this.session.persist);
+		}
 		
 		app.all('/keystone/signin', require('./routes/views/signin'));
 		app.all('/keystone/signout', require('./routes/views/signout'));
