@@ -12,6 +12,7 @@ block content
 				li: a(href='#concepts') Setting Options
 				li: a(href='#project') Project Options
 				li: a(href='#server') Web Server Options
+				li: a(href='#database') Database and User Auth Options
 		
 		.col-sm-9: #docs-content
 			
@@ -63,70 +64,89 @@ block content
 			p The following options control the configuration of your web server and the express app:
 			
 			table.table
-					col(width=200)
-					col
-					tr
-						td <code>env</code> <code class="data-type">String</code>
-						td
-							p The environment setting to use. The keys <strong>development</strong> and <strong>production</strong> are supported, and this will have an impact on things like caching compiled templates. Defaults to <code class="default-value">process.env.NODE_ENV || "development"</code>.
-							p It's strongly recommended you set this to 'production' for your production servers using the <code>NODE_ENV</code> environment variable, as several other modules also expect this convention.
-					tr
-						td <code>port</code> <code class="data-type">Number</code>
-						td
-							p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>.
-							p This option is set on the express app.
-					tr
-						td <code>views</code> <code class="data-type">String</code>
-						td
-							p The path to your application's <strong>view templates</strong>. This is required for using the <code>keystone.View</code> Class, and will also be set on the express app.
-							p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/templates/views"</code>.
-					tr
-						td <code>view engine</code> <code class="data-type">String</code>
-						td
-							p The template engine to use by default. Any engine with express support should work. <strong>Jade</strong> is included with Keystone, but you will have to add any alternate engine to your project's dependencies in your <code>package.json</code>.
-							p This option is set on the express app (<a href="http://expressjs.com/api.html#app.engine" target="_blank">see docs here</a>).
-					tr
-						td <code>static</code> <code class="data-type">String</code>
-						td
-							p The path to your application's static files. Setting this will include the <code>express.static</code> middleware.
-							p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/public"</code>.
-					tr
-						td <code>less</code> <code class="data-type">String</code>
-						td
-							p If you want Keystone to automatically compile <strong>.less</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
-							p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.less</strong> file with the same name, and if one is found, the css file will be regenerated.
-					tr
-						td <code>favicon</code> <code class="data-type">String</code>
-						td
-							p The path to your application's <strong>favicon</strong>. Setting this will include the <code>express.favicon</code> middleware. Should be relative to your project's root.
-							p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/public/favicon.ico"</code>.
-					tr
-						td <code>compress</code> <code class="data-type">Boolean</code>
-						td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>express.compress</code> middleware (<a href="http://expressjs.com/api.html#compress" target="_blank">see docs here</a>).
-					tr
-						td <code>logger</code> <code class="data-type">String</code>
-						td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware	initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).
+				col(width=200)
+				col
+				tr
+					td <code>env</code> <code class="data-type">String</code>
+					td
+						p The environment setting to use. The keys <strong>development</strong> and <strong>production</strong> are supported, and this will have an impact on things like caching compiled templates. Defaults to <code class="default-value">process.env.NODE_ENV || "development"</code>.
+						p It's strongly recommended you set this to 'production' for your production servers using the <code>NODE_ENV</code> environment variable, as several other modules also expect this convention.
+				tr
+					td <code>port</code> <code class="data-type">Number</code>
+					td
+						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>.
+						p This option is set on the express app.
+				tr
+					td <code>views</code> <code class="data-type">String</code>
+					td
+						p The path to your application's <strong>view templates</strong>. This is required for using the <code>keystone.View</code> Class, and will also be set on the express app.
+						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/templates/views"</code>.
+				tr
+					td <code>view engine</code> <code class="data-type">String</code>
+					td
+						p The template engine to use by default. Any engine with express support should work. <strong>Jade</strong> is included with Keystone, but you will have to add any alternate engine to your project's dependencies in your <code>package.json</code>.
+						p This option is set on the express app (<a href="http://expressjs.com/api.html#app.engine" target="_blank">see docs here</a>).
+				tr
+					td <code>static</code> <code class="data-type">String</code>
+					td
+						p The path to your application's static files. Setting this will include the <code>express.static</code> middleware.
+						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/public"</code>.
+				tr
+					td <code>less</code> <code class="data-type">String</code>
+					td
+						p If you want Keystone to automatically compile <strong>.less</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
+						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.less</strong> file with the same name, and if one is found, the css file will be regenerated.
+				tr
+					td <code>favicon</code> <code class="data-type">String</code>
+					td
+						p The path to your application's <strong>favicon</strong>. Setting this will include the <code>express.favicon</code> middleware. Should be relative to your project's root.
+						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/public/favicon.ico"</code>.
+				tr
+					td <code>compress</code> <code class="data-type">Boolean</code>
+					td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>express.compress</code> middleware (<a href="http://expressjs.com/api.html#compress" target="_blank">see docs here</a>).
+				tr
+					td <code>logger</code> <code class="data-type">String</code>
+					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).
 			
 			
+			a(name='database')
+			h2 Database and User Auth Options
+			
+			p The following options control your database configuration and user models / authentication:
+			
+			table.table
+				col(width=200)
+				col
+				tr
+					td <code>mongo</code> <code class="data-type">String</code>
+					td
+						p The url for your MongoDB connection.
+						p You should typically default this to 
+				tr
+					td <code>port</code> <code class="data-type">Number</code>
+					td
+						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>.
+						p This option is set on the express app.
 //- TODO:
 
-//- *	`compress` - (`Boolean`) whether to include the `Express.compress` middleware
-//- *	`views` - the folder containing your view templates, passed to `express.set('views')` and used by the `keystone.View` Class
 //- *	`404` - path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
-//- *	`view engine` - the template engine to use for your views, passed to `express.set('view engine')`
+
 //- *	`locals` - (`Object`) default locals to pass to your view templates
+
 //- *	`auto update` - (`Boolean`) automatically apply updates in your application's `/updates` folder using Keystone's Updates framework
+
 //- *	`mongo` - the connection URL for your application's mongo database, passed to `mongoose.connect`
 //- *	`auth` - callback function to authenticate a request, or `true` to use Keystone's native session management
 //- *	`user model` - the key of the Keystone List for users, required if you're using native session management
 //- *	`cookie secret` - the cookie secret to use for Express's cookie parser
+//- *	`signout` - href for the signout link in the top right of the UI, automatically set if you use native session management
+
 //- *	`emails` - the path of your email templates, for use with the `keystone.Email` Class
 //- *	`mandrill api key` - your mandrill API key to use with the `keystone.Email` Class
 //- *	`email rules` - find & replace rules for pre-parsing email templates, useful to help with local vs. production absolute paths for images
+
 //- *	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
 //- *	`cloudinary prefix` - prefix for all native tags added to uploaded images
 //- *	`embedly api key` - API key to use for `embedly` fields
 //- *	`google api key` - API key to use for `google maps` fields
 //- *	`default region` - This parameter takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-//- subtag-registry) subtag.
-//- *	`logger` - when set, Keystone includes the `express.logger` middleware and passes it the value
-//- *	`signout` - href for the signout link in the top right of the UI, automatically set if you use native session management
