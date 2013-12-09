@@ -13,6 +13,15 @@ block content
 				li: a(href='#project') Project Options
 				li: a(href='#server') Web Server Options
 				li: a(href='#database') Database and User Auth Options
+				li.nav-label Emails
+				li: a(href='#emails')
+				li.nav-label Services
+				li: a(href='#cloudinary') Cloudinary
+				li: a(href='#google') Google Maps
+				li: a(href='#embedly') Embed.ly
+				li.nav-label More
+				li: a(href='#updates') Application Updates
+				li: a(href='#headless') Disabling the Admin UI
 		
 		.col-sm-9: #docs-content
 			
@@ -36,7 +45,7 @@ block content
 			p The following options control the branding and navigation of the KeystoneJS application in the Admin UI:
 			
 			table.table
-				col(width=200)
+				col(width=210)
 				col
 				tr
 					td <code>name</code> <code class="data-type">String</code>
@@ -65,7 +74,7 @@ block content
 			p The following options control the configuration of your web server and the express app:
 			
 			table.table
-				col(width=200)
+				col(width=210)
 				col
 				tr
 					td <code>env</code> <code class="data-type">String</code>
@@ -75,8 +84,7 @@ block content
 				tr
 					td <code>port</code> <code class="data-type">Number</code>
 					td
-						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>.
-						p This option is set on the express app.
+						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>
 				tr
 					td <code>views</code> <code class="data-type">String</code>
 					td
@@ -87,6 +95,11 @@ block content
 					td
 						p The template engine to use by default. Any engine with express support should work. <strong>Jade</strong> is included with Keystone, but you will have to add any alternate engine to your project's dependencies in your <code>package.json</code>.
 						p This option is set on the express app (<a href="http://expressjs.com/api.html#app.engine" target="_blank">see docs here</a>).
+				tr
+					td <code>locals</code> <code class="data-type">Object</code>
+					td
+						p The default local variables to pass to your view templates.
+						p Routes can extend or change local variables by modifying <code>res.locals</code>.
 				tr
 					td <code>static</code> <code class="data-type">String</code>
 					td
@@ -116,43 +129,122 @@ block content
 			p The following options control your database configuration and user models / authentication:
 			
 			table.table
-				col(width=200)
+				col(width=210)
 				col
 				tr
 					td <code>mongo</code> <code class="data-type">String</code>
 					td
 						p The url for your MongoDB connection.
-						p You should typically set this to <code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code>.
-				tr
-					td <code>port</code> <code class="data-type">Number</code>
-					td
-						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>.
-						p This option is set on the express app.
+						p You should typically set this to <code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code>
 				tr
 					td <code>auth</code> <code class="data-type">Mixed</code>
 					td
 						p Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
 						p When this is set to <code class="default-value">false</code> (or not defined), Keystone's Admin UI will be open to the public (so set it!)
+						p If using a custom function, it should follow the standard for express middleware of <code>function(req, res, next)</code>. If a user is not logged in or should not access Keystone's Admin UI, use <code>res.redirect()</code> to redirect them - otherwise call the <code>next</code> calback to enable access.
 				tr
 					td <code>user model</code> <code class="data-type">String</code>
 					td
-						p The key of the Keystone List for users, required if you're using native session management
+						p The key of the Keystone List for users, <strong>required</strong> if <code>auth</code> is set to <code class="default-value">true</code>
 						p Typically this would be set to <code class="default-value">User</code>.
 				tr
 					td <code>cookie secret</code> <code class="data-type">String</code>
 					td
 						p The encryption key to use for your cookies. Passed to Express's cookie parser.
+						p It's a really good idea to set this to a long, random string.
 				tr
 					td <code>signout</code> <code class="data-type">String</code>
 					td
-						p <code>href</code> for the signout link in the top right of the UI, defaults to <code class="default-value">/keystone/signout</code> if you're using Keystone's native session managemement (<code>auth: true</code>)
+						p <code>href</code> for the signout link in the top right of the UI
+						p Defaults to <code class="default-value">/keystone/signout</code> if <code>auth</code> is set to <code class="default-value">true</code>
+			
+			p For a walk-through of how to set these options up, see the <a href="/guide#models_auth">getting started guide</a>/
+			
+			p For more information about setting up and using database models with Keystone, see the <a href="/guide/data">database guide</a>.
+			
+			
+			a(name='emails')
+			h2 Emails
+			
+			p ...
+			
+			
+			h2 Services
+			
+			a(name='cloudinary')
+			h3 Cloudinary
+			
+			p ...
+			
+			
+			a(name='google')
+			h3 Google Maps
+			
+			p ...
+			
+			
+			a(name='embedly')
+			h3 Embed.ly
+			
+			p ...
+			
+			
+			h2 Error Handling
+			
+			a(name='404s')
+			h3 <code>404</code> (not found) errors
+			
+			//-  path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
+			
+			a(name='500s')
+			h3 <code>500</code> (server error) errors
+			
+			
+			
+			a(name='updates')
+			h2 Application Updates
+			
+			p Keystone includes an updates framework, which you can enable by setting the <code>auto update</code> option to <code class="default-value">true</code>.
+			
+			p Updates provide an easy way to seed your database, transition data when your models change, or run transformation scripts against your database.
+			
+			p Update files should be named using a semantic version followed by an optional key, like <code>0.0.1-init.js</code>. The version numbers are used to order the update scripts correctly, while the keys are a nice way to identify what each update does.
+			
+			p Each update file should export a single function, which should accept a single argument - the <code>next(err)</code> callback, to be called when the update is complete.
+			
+			p All the update files will be executed (each one waits for the previous update to complete) befor ethe web server is started.
+			
+			p If the <code>next</code> callback is receives an error it will be reported to the console, and application initialisation will halt.
+			
+			p You can temporarily disable updates from running in development by setting a <code>__defer__</code> property on the exported function to <code>true</code>. Any subsequent updates will be skipped, but the application will be started.
+			
+			p Updates are only run once, and each completed update is logged in an <code>app_updates</code> collection in your database.
+			
+			.code-header
+				h4 Update Script Example
+				p Creates a new admin User
+			pre
+				| var keystone = require('keystone'),
+				|     User = keystone.list('User');
+				| 
+				| exports = module.exports = function(done) {
+				|     new User.model({
+				|         name: { first: 'Admin', last: 'User' },
+				|         password: 'admin',
+				|         isAdmin: true
+				|     }).save(done);
+				| };
+			
+			
+			a(name='headless')
+			h2 Disabling the Admin UI
+			
+			p You can disable the Admin UI by setting the <code>headless</code> option to <code class="default-value">false</code>.
+			
+			p This will allow you to use <code>keystone.start()</code> or <code>keystone.routes(app)</code> without Keystone creating route bindings for the Admin UI routes under <code class="default-value">/keystone</code>.
+			
+
 //- TODO:
-
-//- *	`404` - path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
-
-//- *	`locals` - (`Object`) default locals to pass to your view templates
-
-//- *	`auto update` - (`Boolean`) automatically apply updates in your application's `/updates` folder using Keystone's Updates framework
 
 //- *	`emails` - the path of your email templates, for use with the `keystone.Email` Class
 //- *	`email locals` - 
