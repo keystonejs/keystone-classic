@@ -49,6 +49,7 @@ block content
 					td 
 						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
 						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not including in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
+			
 			.code-header
 				h4 Custom Navigation Example
 				p If you had User, Post and PostCategory models, you could group the posts and post categories into a 'Content' navigation item like this:
@@ -121,12 +122,30 @@ block content
 					td <code>mongo</code> <code class="data-type">String</code>
 					td
 						p The url for your MongoDB connection.
-						p You should typically default this to 
+						p You should typically set this to <code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code>.
 				tr
 					td <code>port</code> <code class="data-type">Number</code>
 					td
 						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>.
 						p This option is set on the express app.
+				tr
+					td <code>auth</code> <code class="data-type">Mixed</code>
+					td
+						p Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
+						p When this is set to <code class="default-value">false</code> (or not defined), Keystone's Admin UI will be open to the public (so set it!)
+				tr
+					td <code>user model</code> <code class="data-type">String</code>
+					td
+						p The key of the Keystone List for users, required if you're using native session management
+						p Typically this would be set to <code class="default-value">User</code>.
+				tr
+					td <code>cookie secret</code> <code class="data-type">String</code>
+					td
+						p The encryption key to use for your cookies. Passed to Express's cookie parser.
+				tr
+					td <code>signout</code> <code class="data-type">String</code>
+					td
+						p <code>href</code> for the signout link in the top right of the UI, defaults to <code class="default-value">/keystone/signout</code> if you're using Keystone's native session managemement (<code>auth: true</code>)
 //- TODO:
 
 //- *	`404` - path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
@@ -135,13 +154,9 @@ block content
 
 //- *	`auto update` - (`Boolean`) automatically apply updates in your application's `/updates` folder using Keystone's Updates framework
 
-//- *	`mongo` - the connection URL for your application's mongo database, passed to `mongoose.connect`
-//- *	`auth` - callback function to authenticate a request, or `true` to use Keystone's native session management
-//- *	`user model` - the key of the Keystone List for users, required if you're using native session management
-//- *	`cookie secret` - the cookie secret to use for Express's cookie parser
-//- *	`signout` - href for the signout link in the top right of the UI, automatically set if you use native session management
-
 //- *	`emails` - the path of your email templates, for use with the `keystone.Email` Class
+//- *	`email locals` - 
+//- *	`email tests` - 
 //- *	`mandrill api key` - your mandrill API key to use with the `keystone.Email` Class
 //- *	`email rules` - find & replace rules for pre-parsing email templates, useful to help with local vs. production absolute paths for images
 
