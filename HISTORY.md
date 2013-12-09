@@ -1,5 +1,7 @@
 # Keystone
 
+* fixed; minor tweaks to the Email class and default template
+
 ## v0.1.50 / 2013-12-09
 
 * updated; keystone-utils to 0.1.3
