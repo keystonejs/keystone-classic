@@ -654,7 +654,7 @@ Keystone.prototype.initAPI = function(req, res, next) {
 			console.log(err);
 		}
 		res.status(500);
-		sendResponse({ error: key || 'error', detail: err });
+		res.apiResponse({ error: key || 'error', detail: err });
 	};
 	
 	next();
