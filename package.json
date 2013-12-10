@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.1.50",
+  "version": "0.1.51",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
@@ -26,9 +26,6 @@
     "numeral": "~1.5.2",
     "semver": "~2.2.1",
     "knox": "~0.8.8"
-  },
-  "devDependencies": {
-    "dox": "~0.4.4"
   },
   "author": "Jed Watson",
   "license": "MIT",
