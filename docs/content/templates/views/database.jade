@@ -169,7 +169,7 @@ block content
 				| }
 				| 
 				| Post.schema.pre('save', function(next) {
-				|     if (this.isChanged('state') &amp;&amp; this.isPublished() &amp;&amp; !this.publishedAt) {
+				|     if (this.isModified('state') &amp;&amp; this.isPublished() &amp;&amp; !this.publishedAt) {
 				|         this.publishedAt = new Date();
 				|     }
 				| });
