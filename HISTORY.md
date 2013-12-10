@@ -1,5 +1,8 @@
 # Keystone
 
+## v0.1.51 / 2013-12-11
+
+* fixed; res.apiError was broken (when using `keystone.initAPI`)
 * fixed; minor tweaks to the Email class and default template
 
 ## v0.1.50 / 2013-12-09
