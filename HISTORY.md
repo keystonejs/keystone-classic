@@ -1,5 +1,11 @@
 # Keystone
 
+## v0.1.51 / 2013-12-12
+
+* improved; the updateHandler will now allow required fields to be omitted from input data when an item already has a value for the field
+* improved; relationship fields now support custom labels and notes, thanks [mbayfield](https://github.com/mbayfield)
+* fixed; support for `heading` as a field path, thanks [mbayfield](https://github.com/mbayfield)
+
 ## v0.1.51 / 2013-12-11
 
 * fixed; res.apiError was broken (when using `keystone.initAPI`)
