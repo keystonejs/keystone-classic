@@ -326,7 +326,11 @@ Keystone.prototype.start = function(onStart) {
 		app = this.app;
 	
 	// Setup
-	
+
+  var custom_engine = this.get('custom engine');
+  if (custom_engine){
+   app.engine(this.get('view engine'), custom_engine);
+  }
 	app.set('port', this.get('port') || process.env.PORT || 3000);
 	app.set('views', this.getPath('views') || '/views');
 	app.set('view engine', this.get('view engine'));
