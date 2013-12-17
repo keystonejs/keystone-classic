@@ -101,7 +101,7 @@ html
 					timestamp: "#{cloudinary.timestamp}",
 					signature: "#{cloudinary.signature}"
 				}
-				$.cloudinary.config({ cloud_name: "#{cloudinary.cloud_name}", api_key: "#{cloudinary.api_key}" });
+			!{cloudinary_js_config}
 		
 		//- Keystone UI
 		script(src="/keystone/js/common/plugins.js")

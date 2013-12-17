@@ -779,6 +779,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			timestamp: cloudinaryUpload.hidden_fields.timestamp,
 			signature: cloudinaryUpload.hidden_fields.signature
 		};
+		locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 	}
 	
 	var html = template(_.extend(locals, ext));
