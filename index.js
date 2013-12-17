@@ -35,7 +35,18 @@ var Keystone = function() {
 		routes: [],
 		render: []
 	};
+	// init environment defaults
 	this.set('env', process.env.NODE_ENV || 'development');
+	this.set('cloudinary config', true); // will parse process.env.CLOUDINARY_URL
+	this.set('embedly api key', process.env.EMBEDLY_APIKEY);
+	this.set('mandrill api key', process.env.MANDRILL_APIKEY);
+	this.set('mandrill username', process.env.MANDRILL_USERNAME);
+	this.set('google api key', process.env.GOOGLE_BROWSER_KEY);
+	this.set('google server api key', process.env.GOOGLE_SERVER_KEY);
+	this.set('ga property', process.env.GA_PROPERTY);
+	this.set('ga domain', process.env.GA_DOMAIN);
+	this.set('chartbeat property', process.env.CHARTBEAT_PROPERTY);
+	this.set('chartbeat domain', process.env.CHARTBEAT_DOMAIN);
 }
 
 
@@ -58,14 +69,20 @@ var Keystone = function() {
 	// handle special settings
 	switch (key) {
 		case 'cloudinary config':
-			cloudinary.config(value);
+			if (_.isObject(value)) {
+				cloudinary.config(value);
+			}
+			value = cloudinary.config();
 		break;
 		case 'mandrill api key':
-			this.mandrillAPI = new mandrillapi.Mandrill(value);
+			if (value) {
+				this.mandrillAPI = new mandrillapi.Mandrill(value);
+			}
 		break;
 		case 'auth':
-			if (value === true && !this.get('session'))
+			if (value === true && !this.get('session')) {
 				this.set('session', true);
+			}
 		break;
 		case 'nav':
 			this.nav = this.initNav(value);
@@ -290,7 +307,7 @@ Keystone.prototype.initNav = function(sections) {
  * 
  * ####Options:
  * 
- * Keystone supports additional options when running in encapsulated mode:
+ * Keystone supports the following options specifically for running in encapsulated mode:
  * 
  *   - name
  *   - port
@@ -375,7 +392,9 @@ Keystone.prototype.start = function(onStart) {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	
-	app.use(express.cookieParser(this.get('cookie secret')));
+	if (this.get('cookie secret')) {
+		app.use(express.cookieParser(this.get('cookie secret')));
+	}
 	app.use(express.session());
 	app.use(require('connect-flash')());
 	
