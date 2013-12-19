@@ -53,7 +53,7 @@ The documentation below will remain here until it has been fully migrated.
 
 ### Installation
 
-install imagemagick 
+install imagemagick
 
 `npm install keystone`
 
