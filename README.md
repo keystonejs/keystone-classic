@@ -53,6 +53,8 @@ The documentation below will remain here until it has been fully migrated.
 
 ### Installation
 
+install imagemagick 
+
 `npm install keystone`
 
 Then:
@@ -98,7 +100,27 @@ then start it for you.
 		'email rules': { find: '/images/', replace: (keystone.get('env') != 'production') ? 'http://localhost:3000/images/' : 'http://www.keystonejs.com/images/email/' },
 		
 		'cloudinary config': { cloud_name: '--- your cloud name ---', api_key: '--- your api key ---', api_secret: '--- your api secret ---' }
-		
+
+		'fsimage config' : {
+                        "variants": {
+                            default: {
+                                "resize": {
+                                    "admin" : "300x200"
+                                }
+                            },
+                            post : {
+                                "resize": {
+                                    "admin" : "300x200",
+                                    "profile" : "300x200"
+                                },
+                                "crop": {
+                                    "thumbnail" : "150x150"
+                                }
+                            }
+                        },
+                        // path must be provided and directory created
+                        "path" : "public/images/upload/"
+                }
 	});
 
 	require('./models');
