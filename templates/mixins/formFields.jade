@@ -33,6 +33,8 @@ mixin formField(field, item)
 		+formField_cloudinaryimage(field, item)
 	else if field.type == 'cloudinaryimages'
 		+formField_cloudinaryimages(field, item)
+	else if field.type == 'fsimage'
+		+formField_fsimage(field, item)
 	else if field.type == 's3file'
 		+formField_s3file(field, item)
 	else if field.type == 'embedly'
@@ -307,7 +309,7 @@ mixin formField_cloudinaryimages(field, item)
 								.glyphicon.glyphicon-picture.img-uploading
 						.image-details
 							span.image-message Drag to upload
-				
+
 				.images-toolbar.row.col-sm-3.col-md-12
 					div.pull-left
 						a(href=js).btn.btn-default.btn-upload Upload Images
@@ -317,6 +319,53 @@ mixin formField_cloudinaryimages(field, item)
 						.alert.alert-danger
 				if field.note
 					.field-note= field.note
+
+//-
+//- FS IMAGE
+//- ------------------------------
+mixin formField_fsimage(field, item)
+	- var hasImage = item.get(field.paths.exists)
+	.field.type-fsimage(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImage ? 'true' : 'false')
+		label.field-label= field.label
+		input(type='file', name=field.paths.upload).field-upload
+		input(type='hidden', name=field.paths.action, value='').field-action
+		.field-ui(class=hasImage ? 'has-image' : false)
+			if field.noedit
+				if hasImage
+					.image-preview
+						a(href=item.get(field.paths.url), rel=field.path).img-thumbnail
+							img(width=90, height=90, data-src=item.get(field.paths.url), data-id=item.get(field.paths.url), data-wysiwyg= false, data-wysiwyg-options= false, data-wysiwyg-original= false, data-wysiwyg-src= false).img-load
+							.glyphicon.glyphicon-picture.img-loading
+					.image-details
+						.field-value= item.get(field.paths.url)
+						.field-value= field.scope
+				else
+					.help-block (no image)
+			else
+				.image-container
+					if hasImage
+						.image-preview.current
+							a(href='../../images/upload/admin_'+item.get(field.paths.url), rel=field.path).img-thumbnail
+								img(width=90, height=90, data-src='../../images/upload/admin_'+item.get(field.paths.url), data-id=item.get(field.paths.url), data-wysiwyg= false, data-wysiwyg-options= false, data-wysiwyg-original= false, data-wysiwyg-src= false).img-load
+								.glyphicon.glyphicon-picture.img-loading
+								.glyphicon.delete-pending(style='display: none;')
+					.image-details
+						.image-values
+							if hasImage
+								.field-value= item.get(field.paths.url)
+							.field-value= field.scope
+						.upload-queued.pull-left
+							.alert.alert-success Image selected - save to upload
+						.delete-queued.pull-left
+							.alert.alert-danger
+				.image-toolbar
+					div.pull-left
+						a(href=js).btn.btn-default.btn-upload-image= ( hasImage ? 'Change' : 'Upload' ) + ' Image'
+						a(href=js, data-alt-text='Delete Image', style=( hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image
+						a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-image Cancel Upload
+						a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-image Undo Remove
+			if field.note
+				.field-note= field.note
 
 //-
 //- S3 FILE
@@ -408,7 +457,7 @@ mixin formField_location(field, item)
 						label(for=field.paths.overwrite).checkbox.overwrite
 							input(type='checkbox', name=field.paths.overwrite, id=field.paths.overwrite, value='true')
 							|  Replace existing data
-		
+
 		if field.note
 			.field-note= field.note
 

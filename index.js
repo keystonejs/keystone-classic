@@ -9,6 +9,7 @@ var fs = require('fs'),
 	numeral = require('numeral'),
 	cloudinary = require('cloudinary'),
 	mandrillapi = require('mandrill-api'),
+    uploader = require('./lib/uploader'),
 	utils = require('keystone-utils');
 
 var templateCache = {};
@@ -218,6 +219,7 @@ keystone.Field = require('./lib/field');
 keystone.Field.Types = require('./lib/fieldTypes');
 keystone.View = require('./lib/view');
 keystone.Email = require('./lib/email');
+keystone.Uploader = new (require('./lib/uploader'));
 
 
 /**
@@ -781,7 +783,33 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		};
 		locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 	}
-	
+
+    // configurate uploader module with fsimage config option set in web.js
+    if (keystone.get('fsimage config')) {
+        keystone.Uploader.init(keystone.get('fsimage config'));
+    }
+    // or initialize it with default config
+    else {
+        var defaultConfig = {
+            "variants": {
+                // default scope if no scope set in fsimage fields options
+                default: {
+                    "resize": {
+                        // admin has to be present in resize or crop
+                        "admin" : "300x200"
+                    },
+                    "crop": {
+                        // ...
+                    }
+                }
+            },
+            // directory must be created for the moment
+            "path" : "public/images/upload/"
+        }
+        keystone.Uploader.init(defaultConfig);
+    }
+
+
 	var html = template(_.extend(locals, ext));
 	
 	res.send(html);
