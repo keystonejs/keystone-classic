@@ -22,54 +22,6 @@ exports = module.exports = function(req, res) {
 	
 	switch (req.params.action) {
 		
-		case 'order':
-			
-			var order = req.query.order || req.body.order,
-				queue = [];
-			
-			if ('string' == typeof order) {
-				order = order.split(',');
-			}
-			
-			_.each(order, function(id, i) {
-				queue.push(function(done) {
-					req.list.model.update({ _id: id }, { $set: { sortOrder: i }}, done);
-				});
-			});
-			
-			async.parallel(queue, function(err) {
-				
-				if (err) return sendError('database error', err);
-				
-				return sendResponse({
-					success: true
-				});
-				
-			});
-			
-		break;
-		
-		case 'get':
-			
-			req.list.model.findById(req.query.id).exec(function(err, item) {
-				
-				if (err) return sendError('database error', err);
-				if (!item) return sendError('not found');
-				
-				switch (req.query.dataset) {
-					case 'simple':
-						return sendResponse({
-							name: req.list.getDocumentName(item),
-							id: item.id
-						});
-					break;
-					default:
-						return sendResponse(item);
-				}
-			});
-			
-		break;
-		
 		case 'autocomplete':
 			
 			var limit = req.query.limit || 10,
@@ -135,6 +87,89 @@ exports = module.exports = function(req, res) {
 				return doQuery();
 			}
 			
+			
+		break;
+		
+		case 'get':
+			
+			req.list.model.findById(req.query.id).exec(function(err, item) {
+				
+				if (err) return sendError('database error', err);
+				if (!item) return sendError('not found');
+				
+				switch (req.query.dataset) {
+					case 'simple':
+						return sendResponse({
+							name: req.list.getDocumentName(item),
+							id: item.id
+						});
+					break;
+					default:
+						return sendResponse(item);
+				}
+			});
+			
+		break;
+		
+		case 'order':
+			
+			var order = req.query.order || req.body.order,
+				queue = [];
+			
+			if ('string' == typeof order) {
+				order = order.split(',');
+			}
+			
+			_.each(order, function(id, i) {
+				queue.push(function(done) {
+					req.list.model.update({ _id: id }, { $set: { sortOrder: i }}, done);
+				});
+			});
+			
+			async.parallel(queue, function(err) {
+				
+				if (err) return sendError('database error', err);
+				
+				return sendResponse({
+					success: true
+				});
+				
+			});
+			
+		break;
+		
+		case 'create':
+			
+			var item = new req.list.model(),
+				updateHandler = item.getUpdateHandler(req),
+				data = (req.method == 'POST') ? req.body : req.query;
+			
+			if (req.list.nameIsInitial) {
+				if (req.list.nameField.validateInput(data)) {
+					req.list.nameField.updateItem(item, data);
+				} else {
+					updateHandler.addValidationError(req.list.nameField.path, 'Name is required.');
+				}
+			}
+			
+			updateHandler.process(data, {
+				flashErrors: true,
+				logErrors: true,
+				fields: req.list.initialFields
+			}, function(err) {
+				if (err) {
+					return sendResponse({
+						success: false,
+						err: err
+					});
+				} else {
+					return sendResponse({
+						success: true,
+						name: req.list.getDocumentName(item),
+						id: item.id
+					});
+				}
+			});
 			
 		break;
 		
