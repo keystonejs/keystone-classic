@@ -67,6 +67,19 @@ Keystone will automatically set up Express and Mongoose, although you can provid
 and have explicit control over your application configuration (see **advanced usage**, below).
 
 
+### Linking Keystone for Development and Testing
+
+If you want to test or develop against the `master` branch of KeystoneJS (or against your own branch), rather than a published version on **npm**, you just need to check it out then use `npm link` to link it to your project. On Mac OS, this is done like this:
+
+*	Checkout KeystoneJS locally, e.g. to `~/Development/KeystoneJS`
+*	From the KeystoneJS directory, run `sudo npm link` (you will need to enter your system password)
+*	From your project directory, e.g. `~/Development/MySite` (the one with your `package.json` file in it) run `npm link keystone`. This will create a link between `~/Development/MySite/node_modules/keystone` and `~/Development/KeystoneJS`.
+
+Then `require('keystone')` normally in your app - the development copy will be used. Note that running `npm update` will ignore new versions of keystone that have been published.
+
+To go back to using a published version of KeystoneJS from npm, from your project directory, run `npm unlink keystone` then `npm install`.
+
+
 ### Example application script (web.js)
 
 If you want, Keystone can take care of everything required to set up your express app and
