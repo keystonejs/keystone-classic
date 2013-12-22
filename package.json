@@ -33,6 +33,7 @@
     "express",
     "web",
     "app",
+    "cms",
     "admin",
     "framework",
     "mongoose",
