@@ -49,7 +49,7 @@ exports = module.exports = function(req, res) {
 							total: total,
 							items: items.map(function(i) {
 								return {
-									name: req.list.getDocumentName(i),
+									name: req.list.getDocumentName(i, true),
 									id: i.id
 								};
 							})
@@ -100,7 +100,7 @@ exports = module.exports = function(req, res) {
 				switch (req.query.dataset) {
 					case 'simple':
 						return sendResponse({
-							name: req.list.getDocumentName(item),
+							name: req.list.getDocumentName(item, true),
 							id: item.id
 						});
 					break;
@@ -165,7 +165,7 @@ exports = module.exports = function(req, res) {
 				} else {
 					return sendResponse({
 						success: true,
-						name: req.list.getDocumentName(item),
+						name: req.list.getDocumentName(item, true),
 						id: item.id
 					});
 				}
