@@ -1,6 +1,14 @@
 # Keystone
 
-## v0.1.51 / 2013-12-12
+## v0.1.53 / 2013-12-23
+
+* fixed; correctly escaping HTML entities in names through the API
+* updated; keystone-utils to 0.1.4
+* fixed; better implementation of cloudinary config, fixes #69
+* improved; more robust / consistent initialisation of options with process.env variables
+* added; new `custom engine` option for using view engines not natively supported by `express`, thanks [JeremyFouriaux](https://github.com/JeremyFouriaux)
+
+## v0.1.52 / 2013-12-12
 
 * improved; the updateHandler will now allow required fields to be omitted from input data when an item already has a value for the field
 * improved; relationship fields now support custom labels and notes, thanks [mbayfield](https://github.com/mbayfield)
