@@ -37,7 +37,10 @@ var Keystone = function() {
 	};
 	// init environment defaults
 	this.set('env', process.env.NODE_ENV || 'development');
-	this.set('cloudinary config', true); // will parse process.env.CLOUDINARY_URL
+	if (process.env.CLOUDINARY_URL) {
+		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
+		this.set('cloudinary config', true);
+	}
 	this.set('embedly api key', process.env.EMBEDLY_APIKEY);
 	this.set('mandrill api key', process.env.MANDRILL_APIKEY);
 	this.set('mandrill username', process.env.MANDRILL_USERNAME);
