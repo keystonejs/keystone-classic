@@ -1,5 +1,9 @@
 # Keystone
 
+## v0.1.54 / 2013-12-23
+
+* fixed; problem with the new options implementation when cloudinary is not used
+
 ## v0.1.53 / 2013-12-23
 
 * fixed; correctly escaping HTML entities in names through the API
