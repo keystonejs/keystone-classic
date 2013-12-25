@@ -41,8 +41,8 @@ var Keystone = function() {
 		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
 		this.set('cloudinary config', true);
 	}
-	this.set('embedly api key', process.env.EMBEDLY_APIKEY);
-	this.set('mandrill api key', process.env.MANDRILL_APIKEY);
+	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
+	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
 	this.set('mandrill username', process.env.MANDRILL_USERNAME);
 	this.set('google api key', process.env.GOOGLE_BROWSER_KEY);
 	this.set('google server api key', process.env.GOOGLE_SERVER_KEY);
