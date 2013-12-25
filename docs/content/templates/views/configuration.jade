@@ -186,7 +186,16 @@ block content
 			a(name='embedly')
 			h3 Embed.ly
 			
-			p ...
+			p <a href="http://embed.ly" target="_blank">Embed.ly</a> is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.
+			
+			p The <a href="/guide/data#field_embedly">Embedly field type</a> is an easy way to integrate their API with your KeystoneJS app.
+			
+			p To configure KeystoneJS to support the Embed.ly API, simply <a href="https://app.embed.ly/signup">sign up for an account</a>, get your api key, and set the <code>embedly api key</code> option.
+			
+			p This option will default to the <code class="default-value">EMBEDLY_API_KEY</code> environment variable if it is set.
+			
+			pre: code.language-javascript
+				| keystone.set('embedly api key', 'your-key');
 			
 			
 			h2 Error Handling
@@ -254,6 +263,5 @@ block content
 
 //- *	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
 //- *	`cloudinary prefix` - prefix for all native tags added to uploaded images
-//- *	`embedly api key` - API key to use for `embedly` fields
 //- *	`google api key` - API key to use for `google maps` fields
 //- *	`default region` - This parameter takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-//- subtag-registry) subtag.
