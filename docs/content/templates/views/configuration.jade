@@ -180,7 +180,37 @@ block content
 			a(name='google')
 			h3 Google Maps
 			
-			p ...
+			p Keystone's <a href="/guide/data#field_location">Location field type</a> supports integration with the <a href="http://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.
+			
+			p To enable these features, <a href="https://code.google.com/apis/console/" target"_blank">obtain an API Key from Google</a> and enable the Google Maps v3 and Google Places APIs for it, then set the following options:
+			
+			table.table
+				col(width=270)
+				col
+				tr
+					td <code>google api key</code> <code class="data-type">String</code>
+					td
+						p Your Google API browser key, used to authenticate the Javascript Maps API in the Admin UI.
+						p Will default to <code class="default-value">process.env.GOOGLE_BROWSER_KEY</code>
+				tr
+					td <code>google server api key</code> <code class="data-type">String</code>
+					td
+						p Your Google API server key, used to authenticate requests to the Maps API from the server.
+						p Will default to <code class="default-value">process.env.GOOGLE_SERVER_KEY</code>
+				tr
+					td <code>default region</code> <code class="data-type">String</code> 
+					td
+						p <strong>Optional</strong> setting to limit autocomplete results to a specific region.
+						p This option takes a region code, specified as a <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA language region</a> subtag.
+						p Can be specified on a per-field basis by setting the <code>region</code> option on any <code>Location</code> field.
+			
+			pre: code.language-javascript
+				| keystone.set('google api key', 'your-browser-key');
+				| keystone.set('google server api key', 'your-server-key');
+				| keystone.set('default region', 'au'); // optional, will limit autocomplete results to Australia
+			
+			p.note Note that the use of the Places Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
+			p.note The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 			
 			
 			a(name='embedly')
@@ -263,5 +293,3 @@ block content
 
 //- *	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
 //- *	`cloudinary prefix` - prefix for all native tags added to uploaded images
-//- *	`google api key` - API key to use for `google maps` fields
-//- *	`default region` - This parameter takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-//- subtag-registry) subtag.
