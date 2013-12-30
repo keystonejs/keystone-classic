@@ -94,6 +94,7 @@ html
 			script(src='/keystone/js/lib/jqueryfileupload/jquery.iframe-transport.js')
 			script(src='/keystone/js/lib/jqueryfileupload/jquery.fileupload.js')
 			script(src='/keystone/js/lib/cloudinary/jquery.cloudinary.js')
+			| !{cloudinary_js_config}
 			script.
 				Keystone.cloudinary = {
 					cloud_name: "#{cloudinary.cloud_name}",
@@ -101,7 +102,6 @@ html
 					timestamp: "#{cloudinary.timestamp}",
 					signature: "#{cloudinary.signature}"
 				}
-			!{cloudinary_js_config}
 		
 		//- Keystone UI
 		script(src="/keystone/js/common/plugins.js")
