@@ -737,8 +737,18 @@ Keystone.prototype.render = function(req, res, view, ext) {
 	
 	var templatePath = __dirname + '/templates/views/' + view + '.jade';
 	
+	var jadeOptions = {
+		filename: templatePath,
+		pretty: keystone.get('env') != 'production'
+	};
+	
+	// TODO: Allow custom basePath for extensions... like this or similar
+	// if (keystone.get('extensions')) {
+	// 	jadeOptions.basedir = keystone.getPath('extensions') + '/templates';
+	// }
+	
 	var compileTemplate = function() {
-		return jade.compile(fs.readFileSync(templatePath, 'utf8'), { filename: templatePath, pretty: keystone.app.get('env') != 'production' });
+		return jade.compile(fs.readFileSync(templatePath, 'utf8'), jadeOptions);
 	}
 	
 	var template = this.get('viewCache')
