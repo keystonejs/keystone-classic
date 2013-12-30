@@ -1,5 +1,11 @@
 # Keystone
 
+## v0.1.55 / 2013-12-30
+
+* fixed; incompatibility with mongoose 3.8.2+ for location fields has been resolved, thanks [jbalde](https://github.com/jbalde)
+* fixed; compatibibility issues with Jade 1.0.0, preparing for update
+* improved; nicer default .env keys for mandrill and embedly api key config, falls back to legacy / heroku default key names
+
 ## v0.1.54 / 2013-12-23
 
 * fixed; problem with the new options implementation when cloudinary is not used
