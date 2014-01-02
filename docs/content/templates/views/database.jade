@@ -165,7 +165,7 @@ block content
 			
 			pre: code.language-javascript
 				| Post.schema.methods.isPublished = function() {
-				|     return (this.state == 'published') ? true : false;
+				|     return this.state == 'published';
 				| }
 				| 
 				| Post.schema.pre('save', function(next) {
