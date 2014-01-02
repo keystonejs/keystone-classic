@@ -13,8 +13,8 @@ block content
 				li: a(href='#project') Project Options
 				li: a(href='#server') Web Server Options
 				li: a(href='#database') Database and User Auth Options
-				li.nav-label Emails
-				li: a(href='#emails')
+				//- li.nav-label Emails
+				//- li: a(href='#emails')
 				li.nav-label Services
 				li: a(href='#cloudinary') Cloudinary
 				li: a(href='#google') Google Maps
@@ -35,7 +35,7 @@ block content
 			ul.options
 				li Passing a <code>{ key: 'value' }</code> configuration <code class="data-type">Object</code> to the <code>keystone.init(options)</code> method
 				li Calling <code>keystone.set('key', 'value')</code>
-				li Setting environment variables which are picked up in `process.env`. Only some options support this (noted below).
+				li Setting environment variables in <code>process.env</code>. Only some options support this (noted below).
 			
 			p If you want to keep secret keys and configuration out of your codebase (especially important for open source projects, or projects where not all developers should have access to production config settings) the <a href="https://npmjs.org/package/dotenv" target="_blank">dotenv</a> module makes this very easy to manage.
 			
@@ -57,7 +57,7 @@ block content
 					td <code>nav</code> <code class="data-type">Object</code>
 					td 
 						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
-						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not including in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
+						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
 			
 			.code-header
 				h4 Custom Navigation Example
@@ -163,18 +163,13 @@ block content
 			p For more information about setting up and using database models with Keystone, see the <a href="/guide/data">database guide</a>.
 			
 			
-			a(name='emails')
-			h2 Emails
-			
-			p ...
+			//- a(name='emails')
+			//- h2 Emails
+			//- 
+			//- p ...
 			
 			
 			h2 Services
-			
-			a(name='cloudinary')
-			h3 Cloudinary
-			
-			p ...
 			
 			
 			a(name='google')
@@ -213,6 +208,38 @@ block content
 			p.note The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 			
 			
+			a(name='cloudinary')
+			h3 Cloudinary
+			
+			p <a href="http://cloudinary.com" target="_blank">Cloudinary</a> is an image upload / resizing / hosting service that makes it easy to implement image management in your KeystoneJS app using the <a href="/guide/data#field_cloudinaryimage">CloudinaryImage</a> and <a href="/guide/data#field_cloudinaryimages">CloudinaryImages</a> field types.
+			
+			p To use the Cloudinary Image fields in your app, <a href="https://cloudinary.com/users/register/free" target="_blank">sign up for an account</a> (Cloudinary offers a free tier with up to 500MB storage, 50,000 images and 1GB data transfer) and get your <strong>cloud name</strong>, <strong>api key</strong> and <strong>api secret</strong>.
+			
+			p Then set the <code>cloudinary config</code> option to
+				ul
+					li an object containing your configuration (see example below), or
+					li the environment variable string Cloudinary gives you (e.g. <code class="default-value">cloudinary://api_key:api_secret@cloud_name</code>)
+			
+			p This option will default to the <code class="default-value">CLOUDINARY_URL</code> environment variable if it is set.
+			
+			p When images are uploaded to Cloudinary via the Admin UI or field methods, they will have some tags automatically set on them. To prefix these tags with a custom string, set the <code>cloudinary prefix</code> option.
+			
+			p The built-in tags that are automatically set include:
+				ul
+					li <code class="default-value">{list.path}_{field.path}</code>
+					li <code class="default-value">{list.path}_{field.path}_{item.id}</code>
+					li <code class="default-value">{prefix}</code> (if set)
+					li <code class="default-value">dev</code> (if the <code>env</code> option is not set to <code class="default-value">production</code>)
+			
+			pre: code.language-javascript
+				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
+				| // or 
+				| keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' );
+				| 
+				| // optional, will prefix all built-in tags with 'keystone_'
+				| keystone.set('cloudinary prefix', 'keystone');
+			
+			
 			a(name='embedly')
 			h3 Embed.ly
 			
@@ -228,15 +255,15 @@ block content
 				| keystone.set('embedly api key', 'your-key');
 			
 			
-			h2 Error Handling
-			
-			a(name='404s')
-			h3 <code>404</code> (not found) errors
-			
-			//-  path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
-			
-			a(name='500s')
-			h3 <code>500</code> (server error) errors
+			//- h2 Error Handling
+			//- 
+			//- a(name='404s')
+			//- h3 <code>404</code> (not found) errors
+			//- 
+			//- //-  path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
+			//- 
+			//- a(name='500s')
+			//- h3 <code>500</code> (server error) errors
 			
 			
 			
@@ -290,6 +317,3 @@ block content
 //- *	`email tests` - 
 //- *	`mandrill api key` - your mandrill API key to use with the `keystone.Email` Class
 //- *	`email rules` - find & replace rules for pre-parsing email templates, useful to help with local vs. production absolute paths for images
-
-//- *	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
-//- *	`cloudinary prefix` - prefix for all native tags added to uploaded images
