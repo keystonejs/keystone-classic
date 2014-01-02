@@ -172,6 +172,7 @@ block content
 				|     if (this.isModified('state') &amp;&amp; this.isPublished() &amp;&amp; !this.publishedAt) {
 				|         this.publishedAt = new Date();
 				|     }
+				|     next();
 				| });
 			
 			
