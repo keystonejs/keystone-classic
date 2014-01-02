@@ -30,6 +30,7 @@ Post.schema.pre('save', function(next) {
     if (this.isModified('state') &amp;&amp; this.isPublished() &amp;&amp; !this.publishedAt) {
         this.publishedAt = new Date();
     }
+    next();
 });</code></pre><a name="lists_querying"></a><h3>Querying Data</h3><p>To query data, you can use any of the <a href="http://mongoosejs.com/docs/queries.html" target="_blank">mongoose query</a> methods on the <code>list.model</code>.</p><p><strong>For example:</strong> to load the last 5 <code>posts</code> with the state <code>published</code>, populating the linked <code>author</code>, sorted by reverse published date:</p><div class="code-header"><h4>Loading Posts</h4></div><pre><code class="language-javascript">var keystone = require('keystone'),
     Post = keystone.list('Post');
  
