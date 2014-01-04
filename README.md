@@ -253,7 +253,9 @@ Keystone's advanced field types include:
 	*	Automatically manages files stored in [amazon s3](http://aws.amazon.com/s3).
 	*	Provides an `exists` virtual for detecting whether the field stores a file
 	*	Has the built in ability to upload/delete file to/from amazon s3
-	*	Supports the option `options` (`Object`) which supports:
+	*	Supports the following options:
+		*	`s3path` (`String`)
+		*	`datePrefix` (`String`). See [moment.js](http://momentjs.com) for format options. 
 		*	`allowedTypes` (`Array` of `String`)
 	*	Fields:
 		*	`exists` (`Boolean`)
