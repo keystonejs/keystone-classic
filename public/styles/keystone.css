@@ -5727,29 +5727,37 @@ textarea.field.type-html textarea {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
   border-color: #0088cc #0099e6 #0099e6;
 }
-.field.type-cloudinaryimage .image-preview {
+.field.type-cloudinaryimage .image-preview,
+.field.type-fsimage .image-preview {
   position: relative;
   line-height: 0px;
   float: left;
   margin-right: 10px;
 }
-.field.type-cloudinaryimage .image-preview .placeholder-wrap {
+.field.type-cloudinaryimage .image-preview .placeholder-wrap,
+.field.type-fsimage .image-preview .placeholder-wrap {
   position: relative;
   height: 100px;
   overflow: hidden;
 }
-.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder {
+.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder,
+.field.type-fsimage .image-preview .placeholder-wrap .placeholder {
   height: 90px;
   opacity: 0.25;
 }
-.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder.no-preview {
+.field.type-cloudinaryimage .image-preview .placeholder-wrap .placeholder.no-preview,
+.field.type-fsimage .image-preview .placeholder-wrap .placeholder.no-preview {
   width: 100px;
   display: block;
 }
 .field.type-cloudinaryimage .image-preview .img-loading,
+.field.type-fsimage .image-preview .img-loading,
 .field.type-cloudinaryimage .image-preview .img-uploading,
+.field.type-fsimage .image-preview .img-uploading,
 .field.type-cloudinaryimage .image-preview .upload-pending,
-.field.type-cloudinaryimage .image-preview .delete-pending {
+.field.type-fsimage .image-preview .upload-pending,
+.field.type-cloudinaryimage .image-preview .delete-pending,
+.field.type-fsimage .image-preview .delete-pending {
   color: #6A6A6A;
   font-size: 23px;
   left: 50%;
@@ -5760,38 +5768,48 @@ textarea.field.type-html textarea {
   line-height: 23px;
   text-shadow: 0 0 50px #FFFFFF;
 }
-.field.type-cloudinaryimage .image-preview .img-thumbnail img {
+.field.type-cloudinaryimage .image-preview .img-thumbnail img,
+.field.type-fsimage .image-preview .img-thumbnail img {
   display: block;
 }
-.field.type-cloudinaryimage .image-preview.removed .img-thumbnail img {
+.field.type-cloudinaryimage .image-preview.removed .img-thumbnail img,
+.field.type-fsimage .image-preview.removed .img-thumbnail img {
   opacity: 0.25;
 }
-.field.type-cloudinaryimage .image-details {
+.field.type-cloudinaryimage .image-details,
+.field.type-fsimage .image-details {
   overflow: hidden;
 }
-.field.type-cloudinaryimage .image-details .image-values .field-value {
+.field.type-cloudinaryimage .image-details .image-values .field-value,
+.field.type-fsimage .image-details .image-values .field-value {
   width: auto;
   min-width: 1px;
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
 }
-.field.type-cloudinaryimage .image-details .image-message {
+.field.type-cloudinaryimage .image-details .image-message,
+.field.type-fsimage .image-details .image-message {
   margin-left: 0px;
   font-size: 12px;
   width: 110px;
   text-align: center;
   width: 100%;
 }
-.field.type-cloudinaryimage .image-details + .image-toolbar {
+.field.type-cloudinaryimage .image-details + .image-toolbar,
+.field.type-fsimage .image-details + .image-toolbar {
   margin-top: 12px;
 }
 .field.type-cloudinaryimage .upload-queued,
-.field.type-cloudinaryimage .delete-queued {
+.field.type-fsimage .upload-queued,
+.field.type-cloudinaryimage .delete-queued,
+.field.type-fsimage .delete-queued {
   display: none;
 }
 .field.type-cloudinaryimage .upload-queued .alert,
-.field.type-cloudinaryimage .delete-queued .alert {
+.field.type-fsimage .upload-queued .alert,
+.field.type-cloudinaryimage .delete-queued .alert,
+.field.type-fsimage .delete-queued .alert {
   margin-right: 10px;
   margin-bottom: 10px;
   float: left;

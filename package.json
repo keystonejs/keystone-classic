@@ -28,6 +28,9 @@
     "knox": "~0.8.8",
     "imagemagick": "~0.1.2"
   },
+  "devDependencies": {
+    "dox": "~0.4.4"
+  },
   "author": "Jed Watson",
   "license": "MIT",
   "keywords": [

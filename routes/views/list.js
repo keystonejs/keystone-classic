@@ -148,7 +148,7 @@ exports = module.exports = function(req, res) {
 		
 		var item = new req.list.model(),
 			updateHandler = item.getUpdateHandler(req);
-		
+
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 		
 		if (req.list.nameIsInitial) {
