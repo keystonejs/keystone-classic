@@ -1,6 +1,5 @@
 extends ../layout/base
 
-include ../mixins/initialFields
 include ../mixins/columns
 
 block js
@@ -27,7 +26,7 @@ block content
 							.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 					
 					each field in list.initialFields
-						+initialField(field, submitted)
+						|!{field.render('initial',submitted) }
 				
 				.toolbar
 					.toolbar-create
