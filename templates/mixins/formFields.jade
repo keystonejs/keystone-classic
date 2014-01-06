@@ -61,7 +61,7 @@ mixin formField_text_common(type, field, value, cls, placeholder, displayValue)
 //- COMMON (text-style fields)
 //- ------------------------------
 mixin formField_text(field, item)
-	+formField_text_common('text', field, field.format(item))
+	|!{ field.render('form',item) }
 
 mixin formField_key(field, item)
 	+formField_text_common('key', field, field.format(item), 'code')
