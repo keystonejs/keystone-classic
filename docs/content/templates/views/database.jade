@@ -399,11 +399,11 @@ block content
 			pre: code.language-javascript { type: Types.Date }
 			.options
 				
-				h5 Options:
+				h5 Options
 				p <code>format</code> <code class="data-type">string</code> - the default format pattern to use, defaults to <code class="default-value">Do MMM YYYY</code>
 				p See the <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs format docs</a> for information on the supported formats and options.
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>
 				p <code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field
 				p <code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object
@@ -451,7 +451,7 @@ block content
 			pre: code.language-javascript { type: Types.Number }
 			.options
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
 				p Format string defaults to <code class="default-value">0,0[.][000000000000]</code>
 			
@@ -463,7 +463,7 @@ block content
 			pre: code.language-javascript { type: Types.Money }
 			.options
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
 				p Format string defaults to <code class="default-value">$0,0.00</code>
 			
@@ -474,7 +474,7 @@ block content
 			pre: code.language-javascript { type: Types.Select, options: 'first, second, third' }
 			.options
 				
-				h5 Options:
+				h5 Options
 				p <code>numeric</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code>, causes the value of the field to be stored as a <code class="data-type">Number</code> instead of a <code class="data-type">String</code>
 				pre: code.language-javascript { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
 				p <code>options</code> <code class="data-type">String</code> or <code class="data-type">Array</code> - the options for the select field
@@ -492,13 +492,13 @@ block content
 					|     { value: 'second', label: 'Second' }
 					| ]}
 				
-				h5 Properties:
+				h5 Properties
 				p <code>ops</code> <code class="data-type">Array</code> - the field <strong>options</strong> array
 				p <code>values</code> <code class="data-type">Array</code> - all <code>option.value</code> properties
 				p <code>labels</code> <code class="data-type">Object</code> - app <code>option.label</code> properties, keyed by <code>option.value</code>
 				p <code>map</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code>
 				
-				h5 Schema:
+				h5 Schema
 				p The value of the current option will be stored at <code>{path}</code>. In addition, these virtuals are provided:
 				p <code>pathLabel</code> <code class="data-type">String</code> - the label of the currently selected <strong>option</strong>
 				p <code>pathData</code> <code class="data-type">Object</code> - the currently selected <strong>option</strong>, including any custom properties
@@ -538,7 +538,7 @@ block content
 			pre: code.language-javascript { type: Types.Markdown }
 			.options
 				
-				h5 Schema:
+				h5 Schema
 				p The markdown field will automatically convert markdown to html when the <code>md</code> property is changed, via a setter on the <code>md</code> path.
 				p <code>md</code> <code class="data-type">String</code> - source markdown text
 				p <code>html</code> <code class="data-type">String</code> - generated html code
@@ -560,12 +560,12 @@ block content
 			pre: code.language-javascript { type: Types.Name }
 			.options
 				
-				h5 Schema:
+				h5 Schema
 				p The name field adds <code>first</code> and <code>last</code> <code class="data-type">String</code> paths to the schema, as well as a <code>full</code> virtual getter and setter.
 				p <code>first</code> <code class="data-type">String</code> - first name
 				p <code>last</code> <code class="data-type">String</code> - last name
 				
-				h5 Virtuals:
+				h5 Virtuals
 				p <code>full</code> <code class="data-type">String</code> - first and last name, concatenated with a space (if both have a value)
 				p The <code>name.full</code> setter splits input at the first space.
 			
@@ -579,13 +579,13 @@ block content
 			pre: code.language-javascript { type: Types.Password }
 			.options
 				
-				h5 Options:
+				h5 Options
 				p <code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>compare(input)</code> <code class="data-type">Boolean</code> - compares the input against the encrypted hash, returns <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't
 				
-				h5 Special paths:
+				h5 Special paths
 				p <code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.
 			
 			
@@ -610,7 +610,7 @@ block content
 				p <code>geo</code> <code class="data-type">Array</code> <code class="default-value">longitude, latitude</code>
 				p.note <strong>Important</strong>: as per the MongoDB convention, the order for the <strong>geo</strong> array must be <code class="default-value">lng, lat</code> which is the opposite of the order used by Google's API.
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>googleLookup(region, update, callback)</code> - autodetect the full address and lng, lat from the stored value.
 				ul
 					li <code>region</code> <code class="data-type">String</code> is passed to the Places API for regional biasing and filtering.
@@ -675,6 +675,11 @@ block content
 			p Automatically manages files stored in <a href="http://aws.amazon.com/s3" target="_blank">Amazon S3</a>, including uploading and deleting.
 			pre: code.language-javascript { type: Types.S3File }
 			.options
+				
+				h5 Options
+				p <code>s3path</code> <code class="data-type">String</code> - the path to store uploaded files under in the S3 bucket
+				p <code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)
+				p <code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded files
 				
 				h5 Schema
 				p <code>filename</code> <code class="data-type">String</code>
