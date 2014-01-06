@@ -127,12 +127,24 @@ exports = module.exports = function(req, res) {
 					
 				}, cb);
 			}
-			
+			loadFormFieldTemplates = function(cb){
+				iterator = function(item,callback){
+					if(item.type == 'field'){
+						item.field.compile('form',callback);
+					}else{
+						callback();
+					}
+				}
+				async.each(req.list.uiElements,iterator,function(){
+					cb();
+				})
+			}
 			/** Render View */
 			
 			async.parallel([
 				loadDrilldown,
-				loadRelationships
+				loadRelationships,
+				loadFormFieldTemplates
 			], function(err) {
 				
 				var showRelationships = _.some(relationships, function(rel) {
