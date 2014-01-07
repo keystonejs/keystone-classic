@@ -705,9 +705,9 @@ block content
 			a(name="field_embedly")
 			h3 <code>Embedly</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI
-			p Stores data retrieved from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).
-			p Includes useful information like provider, type, full URL, HTML embed code, width, height, thumbnail picture and more.
-			p The api call is implemented as a pre-save hook, and only triggered if the <strong>from path</strong> value has changed.
+			p Automatically retrieves data from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).
+			p It stores the retrieved data (which includes the provider, media type, full URL, HTML embed code, width, height, thumbnail picture and more).
+			p The api call to retrieve the data is implemented as a pre-save hook, and is only triggered if the <strong>from path</strong> value has changed.
 			pre: code.language-javascript { type: Types.Embedly, from: 'path' }
 			.options
 				

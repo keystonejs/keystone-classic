@@ -27,6 +27,7 @@ a simple Keystone app.
 
 Discuss on the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
 
+
 ### SydJS Sample Site
 
 For an example of how to set up a more sophisticated website with Keystone, check out the
@@ -127,42 +128,14 @@ Config variables can be passed in an object to the `keystone.init` method, or ca
 called using `keystone.set(key, value)`. This allows for a more flexible order of execution (e.g. if you refer to Lists in your
 routes, you can set the routes after configuring your Lists, as in the example above).
 
-Config variables include:
+See the [KeystoneJS configuration documentation](http://keystonejs.com/guide/config) for details and examples of the available
+configuration options.
 
-*	`name` - the name of your application (optional)
-*	`brand` - the label displayed in the top left of the UI (optional)
-*	`port` - the port to serve your application on, passed to `express.set('port')`, defaults to `env.PORT || 3000`
-*	`favicon` - the path to your application's favicon, passed to `express.favicon`, exclude if you don't have a favicon
-*	`less` - the path to your .less templates, passed to `less-middleware`, exclude if you don't use LESS
-*	`static` - the path to your application's static resources (public files), exclude if you don't want static resources
-*	`compress` - (`Boolean`) whether to include the `Express.compress` middleware
-*	`views` - the folder containing your view templates, passed to `express.set('views')` and used by the `keystone.View` Class
-*	`404` - path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
-*	`view engine` - the template engine to use for your views, passed to `express.set('view engine')`
-*	`locals` - (`Object`) default locals to pass to your view templates
-*	`auto update` - (`Boolean`) automatically apply updates in your application's `/updates` folder using Keystone's Updates framework
-*	`mongo` - the connection URL for your application's mongo database, passed to `mongoose.connect`
-*	`auth` - callback function to authenticate a request, or `true` to use Keystone's native session management
-*	`user model` - the key of the Keystone List for users, required if you're using native session management
-*	`cookie secret` - the cookie secret to use for Express's cookie parser
-*	`emails` - the path of your email templates, for use with the `keystone.Email` Class
-*	`mandrill api key` - your mandrill API key to use with the `keystone.Email` Class
-*	`email rules` - find & replace rules for pre-parsing email templates, useful to help with local vs. production absolute paths for images
-*	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
-*	`cloudinary prefix` - prefix for all native tags added to uploaded images
-*	`embedly api key` - API key to use for `embedly` fields
-*	`google api key` - API key to use for `google maps` fields
-*	`default region` - This parameter takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) subtag.
-*	`logger` - when set, Keystone includes the `express.logger` middleware and passes it the value
-*	`signout` - href for the signout link in the top right of the UI, automatically set if you use native session management
-
-See `Keystone.prototype.start` in `/index.js` to understand how these settings are used, and how the Express application
-is initialised.
+To understand how these settings are used, and how the Express application initialised, see `Keystone.prototype.start` in
+`/index.js`.
 
 
-### Field Types
-
-**New field types guide is up at [keystonejs.com/guide/data](http://keystonejs.com/guide/data)**
+### Database field types
 
 Keystone builds on the basic data types provided by mongo and allows you to easily add rich,
 functional fields to your application's models.
@@ -172,143 +145,34 @@ formatting a date or number, resizing an image, getting an array of the availabl
 for a select field, or using Google's Places API to improve addresses) as well as a beautiful,
 responsive admin UI to edit your data with.
 
-Keystone's basic field types include:
+See the [KeystoneJS database documentation](http://keystonejs.com/guide/data) for details and examples of the various field types,
+as well as how to set up and use database models in your application.
 
-*	`boolean` (`checkbox`)
-*	`text` (`string`)
-*	`textarea` (`string`)
-*	`email` (`string`)
-*	`url` (`string`)
-*	`html` (`string`, with an optional wysiwyg editor)
-*	`date`* (`date`)
-*	`datetime`* (`date`)
-*	`key` (`string`)
-*	`number`* (`number`)
-*	`money`* (`number`)
+Keystone's field types include:
 
-*Fields marked with a * provide a `format` method - numbers use [numeraljs](http://numeraljs.com),
-dates use [moment](http://momentjs.com)*
+*	[Boolean](http://keystonejs.com/guide/data#field_boolean)
+*	[Text](http://keystonejs.com/guide/data#field_text)
+*	[Textarea](http://keystonejs.com/guide/data#field_textarea)
+*	[Email](http://keystonejs.com/guide/data#field_email)
+*	[Url](http://keystonejs.com/guide/data#field_url)
+*	[Html](http://keystonejs.com/guide/data#field_html)
+*	[Date](http://keystonejs.com/guide/data#field_date)
+*	[Datetime](http://keystonejs.com/guide/data#field_datetime)
+*	[Key](http://keystonejs.com/guide/data#field_key)
+*	[Number](http://keystonejs.com/guide/data#field_number)
+*	[Money](http://keystonejs.com/guide/data#field_money)
+*	[Select](http://keystonejs.com/guide/data#field_select)
+*	[Markdown](http://keystonejs.com/guide/data#field_markdown)
+*	[Name](http://keystonejs.com/guide/data#field_name)
+*	[Password](http://keystonejs.com/guide/data#field_password)
+*	[Location](http://keystonejs.com/guide/data#field_location)
+*	[CloudinaryImage](http://keystonejs.com/guide/data#field_cloudinaryimage)
+*	[CloudinaryImages](http://keystonejs.com/guide/data#field_cloudinaryimages)
+*	[S3 File](http://keystonejs.com/guide/data#field_s3file)
+*	[Embedly](http://keystonejs.com/guide/data#field_embedly)
 
-Keystone's advanced field types include:
-
-*	`select` (`String` or `Number`) - renders as a select field
-	*	`options` must be provided as a list or array
-	*	Provides a `format` method for getting the label of the stored value, as set in the
-		`options` array.
-	*	Provides a `pluck` method for getting the label
-*	`markdown` (`Object`)
-	*	`md` (`String`) - source markdown
-	*	`html` (`String`) - generated html
-	*	Converts markdown to html when `md` is set
-*	`name` (`Object`)
-	*	`first` (`String`)
-	*	`last` (`String`)
-	*	Provides a `full` virtual getter and setter
-*	`password` (`String`)
-	*	Automatically encrypted with bcrypt
-	*	Provides a `compare` method for testing against the stored hash
-*	`location`
-	*	`name` (`String`) - building name
-	*	`number` (`String`) - unit or shop number
-	*	`street1` (`String`) - street address
-	*	`street2` (`String`) - second street address
-	*	`suburb` (`String`)
-	*	`state` (`String`)
-	*	`postcode` (`String`)
-	*	`country` (`String`)
-	*	`geo` (`Longitude`, `Latitude`) - 2dsphere indexed lat/png pair
-	*	Provides an `googleLookup` method that returns the best match for the stored value on
-		Google's Places API. Requires a Google Maps API Key to be provided, and should only be
-		used in accordance with Google's terms of service.
-	*	*Note: this field has been based on Australian address formats, and should be updated
-		to be more friendly for other international formats.*
-*	`cloudinaryimage` (`Object`)
-	*	Automatically manages images stored in [cloudinary](http://cloudinary.com).
-	*	Provides an `exists` virtual for detecting whether the field stores an image
-	*	Has the built in ability to upload/delete images to/from cloudinary, as well as methods
-		for retrieving various versions of the image for display:
-		*	`src(options)` - returns the url of the image, accepts all options cloudinary supports
-		*	`tag(options)` - returns an `<img>` tag
-		*	`scale(width, height, options)` - scales the image to fit the exact width and height,
-			retaining aspect ratio
-		*	`fit(width, height, options)` - scales the image to fit within the specified width and height,
-			retaining aspect ratio
-		*	`lfit(width, height, options)` - scales the image to fit within the specified width and height,
-			retaining aspect ratio (without exceeding the original dimensions)
-		*	`limit(width, height, options)` - scales the image (down only) to fit within the specified width
-			and height, retaining aspect ratio
-		*	`fill(width, height, options)` - scales the image to fill the specified width and height
-		*	`crop(width, height, options)` - crops the image to fill the specified width and height
-		*	`pad(width, height, options)` - pads the image to fill the specified width and height
-		*	`lpad(width, height, options)` - pads the image to fill the specified width and height (without
-			exceeding the original dimensions)
-		*	`thumbnail(width, height, options)` - crops the image to fill the specified width and height
-	*	See [Cloudinary's Transformation Documentation](http://cloudinary.com/documentation/image_transformations)
-		for more information on the supported options and transformations.
-*	`cloudinaryimages` (`Array`)
-	*	Stores multiple images in a array as a nested Schema, which exposes the same methods as
-		the `cloudinaryimage` field
-	*	Allows multiple images to be uploaded / removed / deleted in the Admin UI
-*	`s3file` (`Object`)
-	*	Automatically manages files stored in [amazon s3](http://aws.amazon.com/s3).
-	*	Provides an `exists` virtual for detecting whether the field stores a file
-	*	Has the built in ability to upload/delete file to/from amazon s3
-	*	Supports the following options:
-		*	`s3path` (`String`)
-		*	`datePrefix` (`String`). See [moment.js](http://momentjs.com) for format options. 
-		*	`allowedTypes` (`Array` of `String`)
-	*	Fields:
-		*	`exists` (`Boolean`)
-		*	`filename` (`String`)
-		*	`type` (`String`)
-		*	`filesize` (`Number`)
-		*	`url` (`String`)
-*	`embedly` (`Object`)
-	*	Automatically passed the value stored in another field to the [embedly](http://embed.ly)
-		API to extract useful information like provider, type, full URL, HTML embed code, width,
-		height, thumbnail picture and more.
-	*	Requires the option `from` (`String`) to be set to a valid field (or path) in the model. An API call
-		to embedly will be made when this value changes, and the result will be cached in the
-		`embedly` field.
-	*	Supports the option `options` (`Object`) which will be passed as arguments to the embedly API
-		along with the `from` field value. See 
-		[Embedly's oEmbed API documentation](http://embed.ly/docs/embed/api/endpoints/1/oembed) for
-		details on supported arguments.
-	*	Fields:
-		*	`exists` (`Boolean`)
-		*	`type` (`String`)
-		*	`title` (`String`)
-		*	`url` (`String`)
-		*	`width` (`Number`)
-		*	`height` (`Number`)
-		*	`version` (`String`)
-		*	`description` (`String`)
-		*	`html` (`String`)
-		*	`authorName` (`String`)
-		*	`authorUrl` (`String`)
-		*	`providerName` (`String`)
-		*	`providerUrl` (`String`)
-		*	`thumbnailUrl` (`String`)
-		*	`thumbnailWidth` (`Number`)
-		*	`thumbnailHeight` (`Number`)
-
-
-#### Common field options
-
-Fields support several common options:
-
-*	`label` (`String`) the label of each field is guessed by the path, this can be set to override the
-	default.
-*	`required` (`Boolean`) validates that the field is set
-*	`noedit` (`Boolean`) renders the field as read-only in the admin UI
-*	`note` (`String`) is displayed with the field in the admin UI
-*	`collapse` (`Boolean`) hides the field behind a '+ add ...' link in the admin UI when it has
-	no value (to simplify complex forms)
-*	`dependsOn` (`Object`) hides the field in the admin UI unless the specified conditions (other
-	field values) are met
-
-All the standard mongoose options for schema paths are passed through, such as `required`,
-`index`, etc. meaning anything you can do in mongoose / mongo you can do with fields in Keystone.
+Keystone also has [Relationship fields](http://keystonejs.com/guide/data#relationships) for managing one-to-many and many-to-many
+relationships between different models.
 
 
 ### Notes
@@ -324,14 +188,6 @@ a signin or access-denied page implemented in the application.
 
 The `NODE_ENV` environment variable is used to control template caching and html formatting,
 and should be set to `production` for production environments.
-
-
-### Headless Mode
-
-You can start Keystone in 'headless' mode if you don't want it to bind routes or initialise the Express app.
-This means you can still use Lists and other Keystone Classes without a web app (e.g. for unit testing).
-
-Simply set the `headless` config variable to `true`.
 
 
 ### Advanced Usage
