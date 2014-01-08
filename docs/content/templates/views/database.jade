@@ -666,6 +666,7 @@ block content
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
 			p Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
 			p Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).
+			p See the <a href="/guide/config#google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.
 			pre: code.language-javascript { type: Types.Location }
 			p.note Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
 			.options
@@ -697,6 +698,7 @@ block content
 			h3 <code>CloudinaryImage</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
 			p Automatically manages images stored in <a href="http://cloudinary.com" target="_blank">Cloudinary</a>, including uploading, resizing and deleting.
+			p See the <a href="/guide/config#cloudinary">Cloudinary configuration documentation</a> for details on how to set up Cloudinary in KeystoneJS.
 			pre: code.language-javascript { type: Types.CloudinaryImage }
 			.options
 				
@@ -780,6 +782,7 @@ block content
 			p Automatically retrieves data from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).
 			p It stores the retrieved data (which includes the provider, media type, full URL, HTML embed code, width, height, thumbnail picture and more).
 			p The api call to retrieve the data is implemented as a pre-save hook, and is only triggered if the <strong>from path</strong> value has changed.
+			p See the <a href="/guide/config#embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.
 			pre: code.language-javascript { type: Types.Embedly, from: 'path' }
 			.options
 				
