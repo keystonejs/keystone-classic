@@ -47,9 +47,13 @@ If you're going to contribute code, please try and mimic the existing code stand
 
 ## Usage
 
-**New documentation is up at [keystonejs.com/guide](http://keystonejs.com/guide) (but there's still a lot to add!)**
+**Check out the [KeystoneJS getting started guide](http://keystonejs.com/guide) for a walk-through on how to use KeystoneJS.**
 
-The documentation below will remain here until it has been fully migrated.
+The documentation is a work in progress, so it's also worth checking out the [example projects](http://keystonejs.com/examples/).
+
+[Follow @keystonejs on twitter](http://twitter.com/keystonejs) for updates.
+
+Feel free to clone the [demo site](https://github.com/JedWatson/keystone-demo) and use it as the basis for your own project.
 
 
 ### Installation
