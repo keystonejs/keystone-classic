@@ -352,6 +352,7 @@ Keystone.prototype.start = function(onStart) {
    app.engine(this.get('view engine'), custom_engine);
   }
 	app.set('port', this.get('port') || process.env.PORT || 3000);
+	app.set('host', this.get('host') || process.env.IP || '127.0.0.1');
 	app.set('views', this.getPath('views') || '/views');
 	app.set('view engine', this.get('view engine'));
 	
@@ -471,7 +472,7 @@ Keystone.prototype.start = function(onStart) {
 		
 		// Create the http server
 		var listen = function() {
-			http.createServer(app).listen(app.get('port'), function() {
+			http.createServer(app).listen(app.get('port'), app.get('host'), function() {
 				console.log(keystone.get('name') + ' is ready on port ' + app.get('port'));
 				if ('function' == typeof onStart)
 					onStart();
