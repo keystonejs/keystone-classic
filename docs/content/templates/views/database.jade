@@ -20,6 +20,10 @@ block content
 				li: a(href='#fields_overview') Overview
 				li: a(href='#fields_options') Field Options
 				li: a(href='#fields_underscoremethods') Underscore Methods
+				li.nav-label Relationships
+				li: a(href='#relationships') Fields
+				li: a(href='#relationship_definitions') Definitions
+				li: a(href='#relationship_queries') Queries
 				li.nav-label Field Types
 				li: a(href='#field_boolean') Boolean
 				li: a(href='#field_text') Text
@@ -41,10 +45,6 @@ block content
 				li: a(href='#field_cloudinaryimages') CloudinaryImages
 				li: a(href='#field_s3file') S3 File
 				li: a(href='#field_embedly') Embedly
-				li.nav-label Relationships
-				li: a(href='#relationships') Fields
-				li: a(href='#relationship_definitions') Definitions
-				li: a(href='#relationship_queries') Queries
 		
 		.col-sm-9: #docs-content
 			
@@ -331,6 +331,78 @@ block content
 				| 
 				| Post.model.findById(postId).exec(function(err, post) {
 				|    console.log(post._.createdAt.format('Do MMMM YYYY')); // 25th August 2013
+				| });
+			
+			
+			a(name="relationships")
+			h2 Relationships
+			
+			p Keystone enhances MongoDB's ability to store the ObjectIDs of related documents in a field (or many related ObjectIDs in an Array) with support for Relationship fields and Definitions in Models.
+			
+			h3 <code>Relationship</code> Fields
+			
+			h4 <code class="data-type">ObjectId</code> or <code class="data-type">Array</code> &mdash; Displayed as an auto-suggest field in the Admin UI
+			
+			p Stores references to ObjectIDs from another Model in an ObjectID field or array to create one-many or many-many relationships.
+			
+			p Specify the related Model using the <code>ref</code> option. For a many-many relationship, set the <code>many</code> option to <code class="default-value">true</code>.
+			
+			p For example, if you wanted to link a <strong>Post</strong> model to a single <strong>Author</strong> and many <strong>PostCategories</strong>, you would do it like this:
+			
+			pre: code.language-javascript
+				| Post.add({
+				|     author: { type: Types.Relationship, ref: 'User' },
+				|     categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
+				| });
+			
+			h5 Populating related data in queries
+			
+			p You can populate related data for relationship fields thanks to <a href="http://mongoosejs.com/docs/populate.html" target="_blank">Mongoose's populate functionality</a>. To populate the author and category documents when loading a Post from the example above, you would do this:
+			
+			pre: code.language-javascript
+				| Post.model.findOne().populate('author categories').exec(function(err, post) {
+				|     // the author is a fully populated User document
+				|     console.log(post.author.name);
+				| });
+			
+			p.note Note that if no ObjectId is stored, or an invalid ObjectId is stored (e.g. a document has been deleted), <code>author</code> will be <code class="data-type">undefined</code> in the example above.
+			
+			a(name="relationship_definitions")
+			h3 Relationship Definitions
+			
+			p What if, in the example above, you wanted to see a list of the Posts by each Author? Because the relationship field is on the Post, you need to tell the Author (and the PostCategory) Model that it is being referred to. Doing so allows the Admin UI to represent the relationship from both sides.
+			
+			p You do this by calling the <code>relationship</code> method on the <code>Model</code> like this:
+			
+			pre: code.language-javascript
+				| User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
+			
+			.options
+				
+				h5 Options
+				p <code>path</code> <code class="data-type">String</code> - the path of the relationship reference on the Model
+				p <code>ref</code> <code class="data-type">String</code> - the key of the referred Model (the one that has the relationship field)
+				p <code>refPath</code> <code class="data-type">String</code> - the path of the relationship being referred to in the referred Model
+			
+			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it referrs to.
+			
+			p.note Relationship definitions are optional; if you leave them out, the relationships simply won't be displayed in the Admin UI from the other side of the relationship. The relationship field will still work as expected.
+			
+			a(name="relationship_queries")
+			h3 Loading related items
+			
+			p Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
+			
+			pre: code.language-javascript
+				| Post.model.find().where('author', author.id).exec(function(err, posts) {
+				|     // ...
+				| });
+				
+			p To filter many-to-many related items, use an <code>in</code> condition and specify one (or more) ids as an array:
+			
+			pre: code.language-javascript
+				| Post.model.find().where('categories').in([category.id]).exec(function(err, posts) {
+				|     // ...
 				| });
 			
 			
@@ -733,78 +805,6 @@ block content
 				p <code>thumbnailUrl</code> <code class="data-type">String</code>
 				p <code>thumbnailWidth</code> <code class="data-type">Number</code>
 				p <code>thumbnailHeight</code> <code class="data-type">Number</code>
-			
-			
-			a(name="relationships")
-			h2 Relationships
-			
-			p Keystone enhances MongoDB's ability to store the ObjectIDs of related documents in a field (or many related ObjectIDs in an Array) with support for Relationship fields and Definitions in Models.
-			
-			h3 <code>Relationship</code> Fields
-			
-			h4 <code class="data-type">ObjectId</code> or <code class="data-type">Array</code> &mdash; Displayed as an auto-suggest field in the Admin UI
-			
-			p Stores references to ObjectIDs from another Model in an ObjectID field or array to create one-many or many-many relationships.
-			
-			p Specify the related Model using the <code>ref</code> option. For a many-many relationship, set the <code>many</code> option to <code class="default-value">true</code>.
-			
-			p For example, if you wanted to link a <strong>Post</strong> model to a single <strong>Author</strong> and many <strong>PostCategories</strong>, you would do it like this:
-			
-			pre: code.language-javascript
-				| Post.add({
-				|     author: { type: Types.Relationship, ref: 'User' },
-				|     categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
-				| });
-			
-			h5 Populating related data in queries
-			
-			p You can populate related data for relationship fields thanks to <a href="http://mongoosejs.com/docs/populate.html" target="_blank">Mongoose's populate functionality</a>. To populate the author and category documents when loading a Post from the example above, you would do this:
-			
-			pre: code.language-javascript
-				| Post.model.findOne().populate('author categories').exec(function(err, post) {
-				|     // the author is a fully populated User document
-				|     console.log(post.author.name);
-				| });
-			
-			p.note Note that if no ObjectId is stored, or an invalid ObjectId is stored (e.g. a document has been deleted), <code>author</code> will be <code class="data-type">undefined</code> in the example above.
-			
-			a(name="relationship_definitions")
-			h3 Relationship Definitions
-			
-			p What if, in the example above, you wanted to see a list of the Posts by each Author? Because the relationship field is on the Post, you need to tell the Author (and the PostCategory) Model that it is being referred to. Doing so allows the Admin UI to represent the relationship from both sides.
-			
-			p You do this by calling the <code>relationship</code> method on the <code>Model</code> like this:
-			
-			pre: code.language-javascript
-				| User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
-			
-			.options
-				
-				h5 Options
-				p <code>path</code> <code class="data-type">String</code> - the path of the relationship reference on the Model
-				p <code>ref</code> <code class="data-type">String</code> - the key of the referred Model (the one that has the relationship field)
-				p <code>refPath</code> <code class="data-type">String</code> - the path of the relationship being referred to in the referred Model
-			
-			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it referrs to.
-			
-			p.note Relationship definitions are optional; if you leave them out, the relationships simply won't be displayed in the Admin UI from the other side of the relationship. The relationship field will still work as expected.
-			
-			a(name="relationship_queries")
-			h3 Loading related items
-			
-			p Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
-			
-			pre: code.language-javascript
-				| Post.model.find().where('author', author.id).exec(function(err, posts) {
-				|     // ...
-				| });
-				
-			p To filter many-to-many related items, use an <code>in</code> condition and specify one (or more) ids as an array:
-			
-			pre: code.language-javascript
-				| Post.model.find().where('categories').in([category.id]).exec(function(err, posts) {
-				|     // ...
-				| });
 			
 			h2 More examples
 			p See the <a href="/examples">Examples</a> page for projects that demonstrate real-world usage of the various list options and field types.
