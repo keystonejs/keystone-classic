@@ -80,7 +80,11 @@ block content
 					td <code>env</code> <code class="data-type">String</code>
 					td
 						p The environment setting to use. The keys <strong>development</strong> and <strong>production</strong> are supported, and this will have an impact on things like caching compiled templates. Defaults to <code class="default-value">process.env.NODE_ENV || "development"</code>.
-						p It's strongly recommended you set this to 'production' for your production servers using the <code>NODE_ENV</code> environment variable, as several other modules also expect this convention.
+						p You should really <strong>set this to <code class="default-value">production</code> for your production servers</strong> using the <code>NODE_ENV</code> environment variable. Several other modules expect this convention also.
+				tr
+					td <code>host</code> <code class="data-type">String</code>
+					td
+						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.IP || '127.0.0.1'</code>
 				tr
 					td <code>port</code> <code class="data-type">Number</code>
 					td
