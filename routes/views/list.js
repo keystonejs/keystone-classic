@@ -87,10 +87,8 @@ exports = module.exports = function(req, res) {
 			if (req.query.search && items.total == 1 && items.results.length == 1) {
 				return res.redirect('/keystone/' + req.list.path + '/' + items.results[0].id);
 			}
-			iterator = function(item,callback){
-				item.compile('initial',callback);
-			}
-			async.each(req.list.initialFields,iterator,function(){
+			var iterator = function(item, callback){ item.compile('initial',callback); }
+			async.eachSeries(req.list.initialFields, iterator , function() {
 				keystone.render(req, res, 'list', _.extend(viewLocals, {
 					section: keystone.nav.by.list[req.list.key] || {},
 					title: 'Keystone: ' + req.list.plural,
