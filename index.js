@@ -426,34 +426,70 @@ Keystone.prototype.start = function(onStart) {
 	
 	// Handle 404 (no route matched) errors
 	
-	var err404 = this.get('404');
-	
-	if ('function' == typeof err404) {
-		app.use(err404);
-	} else if ('string' == typeof err404) {
-		app.use(function(req, res, next) {
-			res.status(404).render(err404);
-		});
-	} else {
-		app.use(function(req, res, next) {
-			res.status(404).send("Sorry, no page could be found at this address (404)");
-		});
+	var default404Handler = function() {
+		res.status(404).send("Sorry, no page could be found at this address (404)");
 	}
+	
+	app.use(function(req, res, next) {
+		
+		var err404 = this.get('404');
+		
+		if (err404) {
+			try {
+				if ('function' == typeof err404) {
+					app.use(err404);
+				} else if ('string' == typeof err404) {
+					app.use(function(req, res, next) {
+						res.status(404).render(err404);
+					});
+				} else {
+					console.log('Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.');
+					default404Handler();
+				}
+			} catch(e) {
+				console.log('Error handling 404 (not found):');
+				console.log(e);
+				default404Handler();
+			}
+		} else {
+			default404Handler();
+		}
+		
+	});
 	
 	// Handle other errors
 	
-	var err500 = this.get('500');
-	
-	if ('function' == typeof err500) {
-		app.use(err500);
-	} else if (this.get('env') == 'development') {
-		// Default to Express error handler in development environment
-		app.use(express.errorHandler());
-	} else {
-		app.use(function(err, req, res, next) {
-			res.status(500).send("Sorry, an error occurred loading the page (500)");
-		});
+	var default500Handler = (this.get('env') == 'development') ? express.errorHandler() : function(err, req, res, next) {
+		console.log('Error thrown for request: ' + req.url);
+		console.log(err);
+		res.status(500).send("Sorry, an error occurred loading the page (500)");
 	}
+	
+	app.use(function(err, req, res, next) {
+		
+		var err500 = this.get('500');
+		
+		if (err500) {
+			try {
+				if ('function' == typeof err500) {
+					err500(err, req, res, next);
+				} else if ('string' == typeof err500) {
+					res.locals.err = err;
+					res.status(500).render(err500);
+				} else {
+					console.log('Error handling 500 (error): Invalid type (' + (typeof err500) + ') for 500 setting.');
+					default500Handler();
+				}
+			} catch(e) {
+				console.log('Error handling 500 (error):');
+				console.log(e);
+				default500Handler();
+			}
+		} else {
+			default500Handler();
+		}
+		
+	});
 	
 	// Configure application routes
 	if ('function' == typeof this.get('routes')) {
@@ -467,7 +503,7 @@ Keystone.prototype.start = function(onStart) {
 	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
 	
 	this.mongoose.connection.on('error', function() {
-		console.error(keystone.get('name') + ' failed to launch: mongo connection error', arguments);
+		console.error(keystone.get('name') + ' fail: mongo connection error', arguments);
 	}).on('open', function() {
 		
 		// Create the http server
