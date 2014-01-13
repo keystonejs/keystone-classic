@@ -478,15 +478,15 @@ Keystone.prototype.start = function(onStart) {
 					res.status(500).render(err500);
 				} else {
 					console.log('Error handling 500 (error): Invalid type (' + (typeof err500) + ') for 500 setting.');
-					default500Handler();
+					default500Handler(err, req, res, next);
 				}
 			} catch(e) {
 				console.log('Error handling 500 (error):');
 				console.log(e);
-				default500Handler();
+				default500Handler(err, req, res, next);
 			}
 		} else {
-			default500Handler();
+			default500Handler(err, req, res, next);
 		}
 		
 	});
