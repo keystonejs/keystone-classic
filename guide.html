@@ -194,7 +194,7 @@ keystone.init({
   'custom engine': engine,
   'view engine': 'ejs',
   ...
-});</code></pre><div class="code-header"><h4>templates/views/index.jade</h4><p>The template for our home page view</p></div><pre>extends ../layouts/layout.base
+});</code></pre><div class="code-header"><h4>templates/views/index.jade</h4><p>The template for our home page view</p></div><pre>extends ../layouts/base
  
 block content
     h1 Hello World</pre><p>Jade comes with some great features to simplify templates - including using layouts that define regions. We're going to use a layout called <code>templates/layout/base.jade</code>, which is included on the first line of the file above:</p><div class="code-header"><h4>templates/layouts/base.jade</h4><p>The base layout for our view templates</p></div><pre><code>include ../mixins/flash-messages
