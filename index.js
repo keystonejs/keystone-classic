@@ -432,7 +432,7 @@ Keystone.prototype.start = function(onStart) {
 	
 	app.use(function(req, res, next) {
 		
-		var err404 = this.get('404');
+		var err404 = keystone.get('404');
 		
 		if (err404) {
 			try {
@@ -467,7 +467,7 @@ Keystone.prototype.start = function(onStart) {
 	
 	app.use(function(err, req, res, next) {
 		
-		var err500 = this.get('500');
+		var err500 = keystone.get('500');
 		
 		if (err500) {
 			try {
