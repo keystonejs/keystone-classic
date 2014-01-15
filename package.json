@@ -11,7 +11,7 @@
     "underscore": "~1.5.2",
     "keystone-utils": "~0.1.4",
     "express": "~3.3.8",
-    "mongoose": ">3.6.20",
+    "mongoose": "~3.8.4",
     "less-middleware": "~0.1.14",
     "connect-flash": "~0.1.1",
     "jade": "~0.35.0",
