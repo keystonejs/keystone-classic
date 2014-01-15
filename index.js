@@ -37,9 +37,12 @@ var Keystone = function() {
 	};
 	// init environment defaults
 	this.set('env', process.env.NODE_ENV || 'development');
-	this.set('cloudinary config', true); // will parse process.env.CLOUDINARY_URL
-	this.set('embedly api key', process.env.EMBEDLY_APIKEY);
-	this.set('mandrill api key', process.env.MANDRILL_APIKEY);
+	if (process.env.CLOUDINARY_URL) {
+		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
+		this.set('cloudinary config', true);
+	}
+	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
+	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
 	this.set('mandrill username', process.env.MANDRILL_USERNAME);
 	this.set('google api key', process.env.GOOGLE_BROWSER_KEY);
 	this.set('google server api key', process.env.GOOGLE_SERVER_KEY);
@@ -351,6 +354,7 @@ Keystone.prototype.start = function(onStart) {
    app.engine(this.get('view engine'), custom_engine);
   }
 	app.set('port', this.get('port') || process.env.PORT || 3000);
+	app.set('host', this.get('host') || process.env.IP || '127.0.0.1');
 	app.set('views', this.getPath('views') || '/views');
 	app.set('view engine', this.get('view engine'));
 	
@@ -424,34 +428,70 @@ Keystone.prototype.start = function(onStart) {
 	
 	// Handle 404 (no route matched) errors
 	
-	var err404 = this.get('404');
-	
-	if ('function' == typeof err404) {
-		app.use(err404);
-	} else if ('string' == typeof err404) {
-		app.use(function(req, res, next) {
-			res.status(404).render(err404);
-		});
-	} else {
-		app.use(function(req, res, next) {
-			res.status(404).send("Sorry, no page could be found at this address (404)");
-		});
+	var default404Handler = function() {
+		res.status(404).send("Sorry, no page could be found at this address (404)");
 	}
+	
+	app.use(function(req, res, next) {
+		
+		var err404 = keystone.get('404');
+		
+		if (err404) {
+			try {
+				if ('function' == typeof err404) {
+					app.use(err404);
+				} else if ('string' == typeof err404) {
+					app.use(function(req, res, next) {
+						res.status(404).render(err404);
+					});
+				} else {
+					console.log('Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.');
+					default404Handler();
+				}
+			} catch(e) {
+				console.log('Error handling 404 (not found):');
+				console.log(e);
+				default404Handler();
+			}
+		} else {
+			default404Handler();
+		}
+		
+	});
 	
 	// Handle other errors
 	
-	var err500 = this.get('500');
-	
-	if ('function' == typeof err500) {
-		app.use(err500);
-	} else if (this.get('env') == 'development') {
-		// Default to Express error handler in development environment
-		app.use(express.errorHandler());
-	} else {
-		app.use(function(err, req, res, next) {
-			res.status(500).send("Sorry, an error occurred loading the page (500)");
-		});
+	var default500Handler = (this.get('env') == 'development') ? express.errorHandler() : function(err, req, res, next) {
+		console.log('Error thrown for request: ' + req.url);
+		console.log(err);
+		res.status(500).send("Sorry, an error occurred loading the page (500)");
 	}
+	
+	app.use(function(err, req, res, next) {
+		
+		var err500 = keystone.get('500');
+		
+		if (err500) {
+			try {
+				if ('function' == typeof err500) {
+					err500(err, req, res, next);
+				} else if ('string' == typeof err500) {
+					res.locals.err = err;
+					res.status(500).render(err500);
+				} else {
+					console.log('Error handling 500 (error): Invalid type (' + (typeof err500) + ') for 500 setting.');
+					default500Handler(err, req, res, next);
+				}
+			} catch(e) {
+				console.log('Error handling 500 (error):');
+				console.log(e);
+				default500Handler(err, req, res, next);
+			}
+		} else {
+			default500Handler(err, req, res, next);
+		}
+		
+	});
 	
 	// Configure application routes
 	if ('function' == typeof this.get('routes')) {
@@ -465,12 +505,12 @@ Keystone.prototype.start = function(onStart) {
 	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
 	
 	this.mongoose.connection.on('error', function() {
-		console.error(keystone.get('name') + ' failed to launch: mongo connection error', arguments);
+		console.error(keystone.get('name') + ' fail: mongo connection error', arguments);
 	}).on('open', function() {
 		
 		// Create the http server
 		var listen = function() {
-			http.createServer(app).listen(app.get('port'), function() {
+			http.createServer(app).listen(app.get('port'), app.get('host'), function() {
 				console.log(keystone.get('name') + ' is ready on port ' + app.get('port'));
 				if ('function' == typeof onStart)
 					onStart();
@@ -736,8 +776,18 @@ Keystone.prototype.render = function(req, res, view, ext) {
 	
 	var templatePath = __dirname + '/templates/views/' + view + '.jade';
 	
+	var jadeOptions = {
+		filename: templatePath,
+		pretty: keystone.get('env') != 'production'
+	};
+	
+	// TODO: Allow custom basePath for extensions... like this or similar
+	// if (keystone.get('extensions')) {
+	// 	jadeOptions.basedir = keystone.getPath('extensions') + '/templates';
+	// }
+	
 	var compileTemplate = function() {
-		return jade.compile(fs.readFileSync(templatePath, 'utf8'), { filename: templatePath, pretty: keystone.app.get('env') != 'production' });
+		return jade.compile(fs.readFileSync(templatePath, 'utf8'), jadeOptions);
 	}
 	
 	var template = this.get('viewCache')

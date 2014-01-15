@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.1.52",
+  "version": "0.1.55",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
@@ -9,12 +9,12 @@
   },
   "dependencies": {
     "underscore": "~1.5.2",
-    "keystone-utils": "~0.1.3",
+    "keystone-utils": "~0.1.4",
     "express": "~3.3.8",
-    "mongoose": ">3.6.20",
+    "mongoose": "~3.8.4",
     "less-middleware": "~0.1.14",
     "connect-flash": "~0.1.1",
-    "jade": "~0.35.0",
+    "jade": ">0.35.0",
     "async": "~0.2.9",
     "csv": "~0.3.6",
     "bcrypt-nodejs": "~0.0.3",
@@ -37,6 +37,7 @@
     "express",
     "web",
     "app",
+    "cms",
     "admin",
     "framework",
     "mongoose",

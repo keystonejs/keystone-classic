@@ -1,6 +1,24 @@
 # Keystone
 
-## v0.1.51 / 2013-12-12
+## v0.1.55 / 2013-12-30
+
+* fixed; incompatibility with mongoose 3.8.2+ for location fields has been resolved, thanks [jbalde](https://github.com/jbalde)
+* fixed; compatibibility issues with Jade 1.0.0, preparing for update
+* improved; nicer default .env keys for mandrill and embedly api key config, falls back to legacy / heroku default key names
+
+## v0.1.54 / 2013-12-23
+
+* fixed; problem with the new options implementation when cloudinary is not used
+
+## v0.1.53 / 2013-12-23
+
+* fixed; correctly escaping HTML entities in names through the API
+* updated; keystone-utils to 0.1.4
+* fixed; better implementation of cloudinary config, fixes #69
+* improved; more robust / consistent initialisation of options with process.env variables
+* added; new `custom engine` option for using view engines not natively supported by `express`, thanks [JeremyFouriaux](https://github.com/JeremyFouriaux)
+
+## v0.1.52 / 2013-12-12
 
 * improved; the updateHandler will now allow required fields to be omitted from input data when an item already has a value for the field
 * improved; relationship fields now support custom labels and notes, thanks [mbayfield](https://github.com/mbayfield)

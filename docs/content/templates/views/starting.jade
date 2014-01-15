@@ -454,12 +454,12 @@ block content
 				h4 templates/views/index.jade
 				p The template for our home page view
 			pre
-				| extends ../layouts/layout.base
+				| extends ../layouts/base
 				| 
 				| block content
 				|     h1 Hello World
 			
-			p Jade comes with some great features to simplify templates - including using layouts that define regions. We're going to use a layout called <code>templates/layout.base.jade</code>, which is included on the first line of the file above:
+			p Jade comes with some great features to simplify templates - including using layouts that define regions. We're going to use a layout called <code>templates/layout/base.jade</code>, which is included on the first line of the file above:
 			
 			.code-header
 				h4 templates/layouts/base.jade
@@ -467,7 +467,7 @@ block content
 			pre: code
 				| include ../mixins/flash-messages
 				| 
-				| doctype 5
+				| doctype html
 				| html
 				|     head
 				|         meta(charset="utf-8")

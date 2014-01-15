@@ -20,6 +20,10 @@ block content
 				li: a(href='#fields_overview') Overview
 				li: a(href='#fields_options') Field Options
 				li: a(href='#fields_underscoremethods') Underscore Methods
+				li.nav-label Relationships
+				li: a(href='#relationships') Fields
+				li: a(href='#relationship_definitions') Definitions
+				li: a(href='#relationship_queries') Queries
 				li.nav-label Field Types
 				li: a(href='#field_boolean') Boolean
 				li: a(href='#field_text') Text
@@ -165,13 +169,14 @@ block content
 			
 			pre: code.language-javascript
 				| Post.schema.methods.isPublished = function() {
-				|     return (this.state == 'published') ? true : false;
+				|     return this.state == 'published';
 				| }
 				| 
 				| Post.schema.pre('save', function(next) {
 				|     if (this.isModified('state') &amp;&amp; this.isPublished() &amp;&amp; !this.publishedAt) {
 				|         this.publishedAt = new Date();
 				|     }
+				|     next();
 				| });
 			
 			
@@ -329,6 +334,78 @@ block content
 				| });
 			
 			
+			a(name="relationships")
+			h2 Relationships
+			
+			p Keystone enhances MongoDB's ability to store the ObjectIDs of related documents in a field (or many related ObjectIDs in an Array) with support for Relationship fields and Definitions in Models.
+			
+			h3 <code>Relationship</code> Fields
+			
+			h4 <code class="data-type">ObjectId</code> or <code class="data-type">Array</code> &mdash; Displayed as an auto-suggest field in the Admin UI
+			
+			p Stores references to ObjectIDs from another Model in an ObjectID field or array to create one-many or many-many relationships.
+			
+			p Specify the related Model using the <code>ref</code> option. For a many-many relationship, set the <code>many</code> option to <code class="default-value">true</code>.
+			
+			p For example, if you wanted to link a <strong>Post</strong> model to a single <strong>Author</strong> and many <strong>PostCategories</strong>, you would do it like this:
+			
+			pre: code.language-javascript
+				| Post.add({
+				|     author: { type: Types.Relationship, ref: 'User' },
+				|     categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
+				| });
+			
+			h5 Populating related data in queries
+			
+			p You can populate related data for relationship fields thanks to <a href="http://mongoosejs.com/docs/populate.html" target="_blank">Mongoose's populate functionality</a>. To populate the author and category documents when loading a Post from the example above, you would do this:
+			
+			pre: code.language-javascript
+				| Post.model.findOne().populate('author categories').exec(function(err, post) {
+				|     // the author is a fully populated User document
+				|     console.log(post.author.name);
+				| });
+			
+			p.note Note that if no ObjectId is stored, or an invalid ObjectId is stored (e.g. a document has been deleted), <code>author</code> will be <code class="data-type">undefined</code> in the example above.
+			
+			a(name="relationship_definitions")
+			h3 Relationship Definitions
+			
+			p What if, in the example above, you wanted to see a list of the Posts by each Author? Because the relationship field is on the Post, you need to tell the Author (and the PostCategory) Model that it is being referred to. Doing so allows the Admin UI to represent the relationship from both sides.
+			
+			p You do this by calling the <code>relationship</code> method on the <code>Model</code> like this:
+			
+			pre: code.language-javascript
+				| User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
+			
+			.options
+				
+				h5 Options
+				p <code>path</code> <code class="data-type">String</code> - the path of the relationship reference on the Model
+				p <code>ref</code> <code class="data-type">String</code> - the key of the referred Model (the one that has the relationship field)
+				p <code>refPath</code> <code class="data-type">String</code> - the path of the relationship being referred to in the referred Model
+			
+			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it referrs to.
+			
+			p.note Relationship definitions are optional; if you leave them out, the relationships simply won't be displayed in the Admin UI from the other side of the relationship. The relationship field will still work as expected.
+			
+			a(name="relationship_queries")
+			h3 Loading related items
+			
+			p Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
+			
+			pre: code.language-javascript
+				| Post.model.find().where('author', author.id).exec(function(err, posts) {
+				|     // ...
+				| });
+				
+			p To filter many-to-many related items, use an <code>in</code> condition and specify one (or more) ids as an array:
+			
+			pre: code.language-javascript
+				| Post.model.find().where('categories').in([category.id]).exec(function(err, posts) {
+				|     // ...
+				| });
+			
+			
 			a(name="field_types")
 			h2 Field Types
 			
@@ -394,11 +471,11 @@ block content
 			pre: code.language-javascript { type: Types.Date }
 			.options
 				
-				h5 Options:
+				h5 Options
 				p <code>format</code> <code class="data-type">string</code> - the default format pattern to use, defaults to <code class="default-value">Do MMM YYYY</code>
 				p See the <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs format docs</a> for information on the supported formats and options.
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a>
 				p <code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field
 				p <code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object
@@ -446,7 +523,7 @@ block content
 			pre: code.language-javascript { type: Types.Number }
 			.options
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
 				p Format string defaults to <code class="default-value">0,0[.][000000000000]</code>
 			
@@ -458,7 +535,7 @@ block content
 			pre: code.language-javascript { type: Types.Money }
 			.options
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
 				p Format string defaults to <code class="default-value">$0,0.00</code>
 			
@@ -469,7 +546,7 @@ block content
 			pre: code.language-javascript { type: Types.Select, options: 'first, second, third' }
 			.options
 				
-				h5 Options:
+				h5 Options
 				p <code>numeric</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code>, causes the value of the field to be stored as a <code class="data-type">Number</code> instead of a <code class="data-type">String</code>
 				pre: code.language-javascript { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
 				p <code>options</code> <code class="data-type">String</code> or <code class="data-type">Array</code> - the options for the select field
@@ -487,13 +564,13 @@ block content
 					|     { value: 'second', label: 'Second' }
 					| ]}
 				
-				h5 Properties:
+				h5 Properties
 				p <code>ops</code> <code class="data-type">Array</code> - the field <strong>options</strong> array
 				p <code>values</code> <code class="data-type">Array</code> - all <code>option.value</code> properties
 				p <code>labels</code> <code class="data-type">Object</code> - app <code>option.label</code> properties, keyed by <code>option.value</code>
 				p <code>map</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code>
 				
-				h5 Schema:
+				h5 Schema
 				p The value of the current option will be stored at <code>{path}</code>. In addition, these virtuals are provided:
 				p <code>pathLabel</code> <code class="data-type">String</code> - the label of the currently selected <strong>option</strong>
 				p <code>pathData</code> <code class="data-type">Object</code> - the currently selected <strong>option</strong>, including any custom properties
@@ -533,7 +610,7 @@ block content
 			pre: code.language-javascript { type: Types.Markdown }
 			.options
 				
-				h5 Schema:
+				h5 Schema
 				p The markdown field will automatically convert markdown to html when the <code>md</code> property is changed, via a setter on the <code>md</code> path.
 				p <code>md</code> <code class="data-type">String</code> - source markdown text
 				p <code>html</code> <code class="data-type">String</code> - generated html code
@@ -555,12 +632,12 @@ block content
 			pre: code.language-javascript { type: Types.Name }
 			.options
 				
-				h5 Schema:
+				h5 Schema
 				p The name field adds <code>first</code> and <code>last</code> <code class="data-type">String</code> paths to the schema, as well as a <code>full</code> virtual getter and setter.
 				p <code>first</code> <code class="data-type">String</code> - first name
 				p <code>last</code> <code class="data-type">String</code> - last name
 				
-				h5 Virtuals:
+				h5 Virtuals
 				p <code>full</code> <code class="data-type">String</code> - first and last name, concatenated with a space (if both have a value)
 				p The <code>name.full</code> setter splits input at the first space.
 			
@@ -574,13 +651,13 @@ block content
 			pre: code.language-javascript { type: Types.Password }
 			.options
 				
-				h5 Options:
+				h5 Options
 				p <code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>compare(input)</code> <code class="data-type">Boolean</code> - compares the input against the encrypted hash, returns <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't
 				
-				h5 Special paths:
+				h5 Special paths
 				p <code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.
 			
 			
@@ -589,6 +666,7 @@ block content
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
 			p Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
 			p Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).
+			p See the <a href="/guide/config#google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.
 			pre: code.language-javascript { type: Types.Location }
 			p.note Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
 			.options
@@ -605,7 +683,7 @@ block content
 				p <code>geo</code> <code class="data-type">Array</code> <code class="default-value">longitude, latitude</code>
 				p.note <strong>Important</strong>: as per the MongoDB convention, the order for the <strong>geo</strong> array must be <code class="default-value">lng, lat</code> which is the opposite of the order used by Google's API.
 				
-				h5 Underscore methods:
+				h5 Underscore methods
 				p <code>googleLookup(region, update, callback)</code> - autodetect the full address and lng, lat from the stored value.
 				ul
 					li <code>region</code> <code class="data-type">String</code> is passed to the Places API for regional biasing and filtering.
@@ -620,6 +698,7 @@ block content
 			h3 <code>CloudinaryImage</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
 			p Automatically manages images stored in <a href="http://cloudinary.com" target="_blank">Cloudinary</a>, including uploading, resizing and deleting.
+			p See the <a href="/guide/config#cloudinary">Cloudinary configuration documentation</a> for details on how to set up Cloudinary in KeystoneJS.
 			pre: code.language-javascript { type: Types.CloudinaryImage }
 			.options
 				
@@ -671,6 +750,11 @@ block content
 			pre: code.language-javascript { type: Types.S3File }
 			.options
 				
+				h5 Options
+				p <code>s3path</code> <code class="data-type">String</code> - the path to store uploaded files under in the S3 bucket
+				p <code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)
+				p <code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded files
+				
 				h5 Schema
 				p <code>filename</code> <code class="data-type">String</code>
 				p <code>type</code> <code class="data-type">String</code>
@@ -695,9 +779,10 @@ block content
 			a(name="field_embedly")
 			h3 <code>Embedly</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI
-			p Stores data retrieved from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).
-			p Includes useful information like provider, type, full URL, HTML embed code, width, height, thumbnail picture and more.
-			p The api call is implemented as a pre-save hook, and only triggered if the <strong>from path</strong> value has changed.
+			p Automatically retrieves data from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).
+			p It stores the retrieved data (which includes the provider, media type, full URL, HTML embed code, width, height, thumbnail picture and more).
+			p The api call to retrieve the data is implemented as a pre-save hook, and is only triggered if the <strong>from path</strong> value has changed.
+			p See the <a href="/guide/config#embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.
 			pre: code.language-javascript { type: Types.Embedly, from: 'path' }
 			.options
 				
@@ -726,6 +811,3 @@ block content
 			
 			h2 More examples
 			p See the <a href="/examples">Examples</a> page for projects that demonstrate real-world usage of the various list options and field types.
-			
-			//- TODO: Documentation for Relationships
-			

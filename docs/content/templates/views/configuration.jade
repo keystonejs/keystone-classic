@@ -13,8 +13,8 @@ block content
 				li: a(href='#project') Project Options
 				li: a(href='#server') Web Server Options
 				li: a(href='#database') Database and User Auth Options
-				li.nav-label Emails
-				li: a(href='#emails')
+				//- li.nav-label Emails
+				//- li: a(href='#emails')
 				li.nav-label Services
 				li: a(href='#cloudinary') Cloudinary
 				li: a(href='#google') Google Maps
@@ -35,7 +35,7 @@ block content
 			ul.options
 				li Passing a <code>{ key: 'value' }</code> configuration <code class="data-type">Object</code> to the <code>keystone.init(options)</code> method
 				li Calling <code>keystone.set('key', 'value')</code>
-				li Setting environment variables which are picked up in `process.env`. Only some options support this (noted below).
+				li Setting environment variables in <code>process.env</code>. Only some options support this (noted below).
 			
 			p If you want to keep secret keys and configuration out of your codebase (especially important for open source projects, or projects where not all developers should have access to production config settings) the <a href="https://npmjs.org/package/dotenv" target="_blank">dotenv</a> module makes this very easy to manage.
 			
@@ -55,13 +55,13 @@ block content
 					td Displayed in the top left hand corner of the Admin UI
 				tr
 					td <code>nav</code> <code class="data-type">Object</code>
-					td 
+					td
 						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
-						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not including in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
+						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
 			
 			.code-header
 				h4 Custom Navigation Example
-				p If you had User, Post and PostCategory models, you could group the posts and post categories into a 'Content' navigation item like this:
+				p If you had <code>User</code>, <code>Post</code> and <code>PostCategory</code> models, you could group the posts and post categories into a <strong>Content</strong> navigation item like this:
 			pre: code.language-javascript
 				| keystone.set('nav', {
 				|     'users': 'users',
@@ -80,7 +80,11 @@ block content
 					td <code>env</code> <code class="data-type">String</code>
 					td
 						p The environment setting to use. The keys <strong>development</strong> and <strong>production</strong> are supported, and this will have an impact on things like caching compiled templates. Defaults to <code class="default-value">process.env.NODE_ENV || "development"</code>.
-						p It's strongly recommended you set this to 'production' for your production servers using the <code>NODE_ENV</code> environment variable, as several other modules also expect this convention.
+						p You should really <strong>set this to <code class="default-value">production</code> for your production servers</strong> using the <code>NODE_ENV</code> environment variable. Several other modules expect this convention also.
+				tr
+					td <code>host</code> <code class="data-type">String</code>
+					td
+						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.IP || '127.0.0.1'</code>
 				tr
 					td <code>port</code> <code class="data-type">Number</code>
 					td
@@ -158,46 +162,112 @@ block content
 						p <code>href</code> for the signout link in the top right of the UI
 						p Defaults to <code class="default-value">/keystone/signout</code> if <code>auth</code> is set to <code class="default-value">true</code>
 			
-			p For a walk-through of how to set these options up, see the <a href="/guide#models_auth">getting started guide</a>/
+			p For a walk-through of how to set these options up, see the <a href="/guide#models_auth">getting started guide</a>.
 			
 			p For more information about setting up and using database models with Keystone, see the <a href="/guide/data">database guide</a>.
 			
 			
-			a(name='emails')
-			h2 Emails
-			
-			p ...
+			//- a(name='emails')
+			//- h2 Emails
+			//- 
+			//- p ...
 			
 			
 			h2 Services
-			
-			a(name='cloudinary')
-			h3 Cloudinary
-			
-			p ...
 			
 			
 			a(name='google')
 			h3 Google Maps
 			
-			p ...
+			p Keystone's <a href="/guide/data#field_location">Location field type</a> supports integration with the <a href="http://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.
+			
+			p To enable these features, <a href="https://code.google.com/apis/console/" target"_blank">obtain an API Key from Google</a> and enable the Google Maps v3 and Google Places APIs for it, then set the following options:
+			
+			table.table
+				col(width=270)
+				col
+				tr
+					td <code>google api key</code> <code class="data-type">String</code>
+					td
+						p Your Google API browser key, used to authenticate the Javascript Maps API in the Admin UI.
+						p Will default to <code class="default-value">process.env.GOOGLE_BROWSER_KEY</code>
+				tr
+					td <code>google server api key</code> <code class="data-type">String</code>
+					td
+						p Your Google API server key, used to authenticate requests to the Maps API from the server.
+						p Will default to <code class="default-value">process.env.GOOGLE_SERVER_KEY</code>
+				tr
+					td <code>default region</code> <code class="data-type">String</code> 
+					td
+						p <strong>Optional</strong> setting to limit autocomplete results to a specific region.
+						p This option takes a region code, specified as a <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA language region</a> subtag.
+						p Can be specified on a per-field basis by setting the <code>region</code> option on any <code>Location</code> field.
+			
+			pre: code.language-javascript
+				| keystone.set('google api key', 'your-browser-key');
+				| keystone.set('google server api key', 'your-server-key');
+				| keystone.set('default region', 'au'); // optional, will limit autocomplete results to Australia
+			
+			p.note Note that the use of the Places Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
+			p.note The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
+			
+			
+			a(name='cloudinary')
+			h3 Cloudinary
+			
+			p <a href="http://cloudinary.com" target="_blank">Cloudinary</a> is an image upload / resizing / hosting service that makes it easy to implement image management in your KeystoneJS app using the <a href="/guide/data#field_cloudinaryimage">CloudinaryImage</a> and <a href="/guide/data#field_cloudinaryimages">CloudinaryImages</a> field types.
+			
+			p To use the Cloudinary Image fields in your app, <a href="https://cloudinary.com/users/register/free" target="_blank">sign up for an account</a> (Cloudinary offers a free tier with up to 500MB storage, 50,000 images and 1GB data transfer) and get your <strong>cloud name</strong>, <strong>api key</strong> and <strong>api secret</strong>.
+			
+			p Then set the <code>cloudinary config</code> option to
+				ul
+					li an object containing your configuration (see example below), or
+					li the environment variable string Cloudinary gives you (e.g. <code class="default-value">cloudinary://api_key:api_secret@cloud_name</code>)
+			
+			p This option will default to the <code class="default-value">CLOUDINARY_URL</code> environment variable if it is set.
+			
+			p When images are uploaded to Cloudinary via the Admin UI or field methods, they will have some tags automatically set on them. To prefix these tags with a custom string, set the <code>cloudinary prefix</code> option.
+			
+			p The built-in tags that are automatically set include:
+				ul
+					li <code class="default-value">{list.path}_{field.path}</code>
+					li <code class="default-value">{list.path}_{field.path}_{item.id}</code>
+					li <code class="default-value">{prefix}</code> (if set)
+					li <code class="default-value">dev</code> (if the <code>env</code> option is not set to <code class="default-value">production</code>)
+			
+			pre: code.language-javascript
+				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
+				| // or 
+				| keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' );
+				| 
+				| // optional, will prefix all built-in tags with 'keystone_'
+				| keystone.set('cloudinary prefix', 'keystone');
 			
 			
 			a(name='embedly')
 			h3 Embed.ly
 			
-			p ...
+			p <a href="http://embed.ly" target="_blank">Embed.ly</a> is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.
+			
+			p The <a href="/guide/data#field_embedly">Embedly field type</a> is an easy way to integrate their API with your KeystoneJS app.
+			
+			p To configure KeystoneJS to support the Embed.ly API, simply <a href="https://app.embed.ly/signup">sign up for an account</a>, get your api key, and set the <code>embedly api key</code> option.
+			
+			p This option will default to the <code class="default-value">EMBEDLY_API_KEY</code> environment variable if it is set.
+			
+			pre: code.language-javascript
+				| keystone.set('embedly api key', 'your-key');
 			
 			
-			h2 Error Handling
-			
-			a(name='404s')
-			h3 <code>404</code> (not found) errors
-			
-			//-  path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
-			
-			a(name='500s')
-			h3 <code>500</code> (server error) errors
+			//- h2 Error Handling
+			//- 
+			//- a(name='404s')
+			//- h3 <code>404</code> (not found) errors
+			//- 
+			//- //-  path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
+			//- 
+			//- a(name='500s')
+			//- h3 <code>500</code> (server error) errors
 			
 			
 			
@@ -251,9 +321,3 @@ block content
 //- *	`email tests` - 
 //- *	`mandrill api key` - your mandrill API key to use with the `keystone.Email` Class
 //- *	`email rules` - find & replace rules for pre-parsing email templates, useful to help with local vs. production absolute paths for images
-
-//- *	`cloudinary config` `{cloud_name: '', api_key: '', api_secret: ''}` - alternatively set `process.env.CLOUDINARY_URL`
-//- *	`cloudinary prefix` - prefix for all native tags added to uploaded images
-//- *	`embedly api key` - API key to use for `embedly` fields
-//- *	`google api key` - API key to use for `google maps` fields
-//- *	`default region` - This parameter takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-//- subtag-registry) subtag.
