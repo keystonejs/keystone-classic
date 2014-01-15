@@ -1,6 +1,6 @@
 jQuery(function($) {
 
-    // Cloudinary Image
+    // FS Image
     $('.field.type-fsimage').each(function() {
 
         var $el = $(this),

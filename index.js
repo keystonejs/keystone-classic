@@ -784,6 +784,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 	}
 
+    /*
     // configurate uploader module with fsimage config option set in web.js
     if (keystone.get('fsimageConfig')) {
         keystone.Uploader.init(keystone.get('fsimageConfig'));
@@ -813,7 +814,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
             "path" : "public/images/upload/"
         }
         keystone.Uploader.init(defaultConfig);
-    }
+    }*/
 
 	var html = template(_.extend(locals, ext));
 	
