@@ -498,13 +498,27 @@ Keystone.prototype.start = function(onStart) {
 
 	// Connect to database
 	
-	var mongooseArgs = this.get('mongo');
+	var mongooseArgs = this.get('mongo'),
+		mongoConnectionOpen = false;
+	
+	if (!mongooseArgs) {
+		mongooseArgs = process.env.MONGO_URL || process.env.MONGOLAB_URL || ['localhost', utils.slug(this.get('name'))];
+	}
 	
 	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
 	
 	this.mongoose.connection.on('error', function() {
-		console.error(keystone.get('name') + ' fail: mongo connection error', arguments);
+		
+		if (mongoConnectionOpen) {
+			console.error(keystone.get('name') + ': mongo connection error', arguments);
+			// TODO: should probably implement something here to serve an error page, as the next attempt to use the database will fail and (probably) crash the server
+		} else {
+			console.error(keystone.get('name') + ' failed to start: mongo connection error', arguments);
+		}
+		
 	}).on('open', function() {
+		
+		mongoConnectionOpen = true;
 		
 		// Create the http server
 		var listen = function() {
