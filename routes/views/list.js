@@ -2,6 +2,7 @@ var keystone = require('../../'),
 	_ = require('underscore'),
 	moment = require('moment'),
 	querystring = require('querystring'),
+	async = require('async'),
 	utils = require('keystone-utils');
 
 exports = module.exports = function(req, res) {
@@ -86,22 +87,23 @@ exports = module.exports = function(req, res) {
 			if (req.query.search && items.total == 1 && items.results.length == 1) {
 				return res.redirect('/keystone/' + req.list.path + '/' + items.results[0].id);
 			}
-			
-			keystone.render(req, res, 'list', _.extend(viewLocals, {
-				section: keystone.nav.by.list[req.list.key] || {},
-				title: 'Keystone: ' + req.list.plural,
-				link_to: link_to,
-				list: req.list,
-				sort: sort,
-				filters: filters,
-				search: req.query.search,
-				columns: columns,
-				colPaths: _.pluck(columns, 'path'),
-				items: items,
-				submitted: req.body || {},
-				query: req.query
-			}));
-			
+			var iterator = function(item, callback){ item.compile('initial',callback); }
+			async.eachSeries(req.list.initialFields, iterator , function() {
+				keystone.render(req, res, 'list', _.extend(viewLocals, {
+					section: keystone.nav.by.list[req.list.key] || {},
+					title: 'Keystone: ' + req.list.plural,
+					link_to: link_to,
+					list: req.list,
+					sort: sort,
+					filters: filters,
+					search: req.query.search,
+					columns: columns,
+					colPaths: _.pluck(columns, 'path'),
+					items: items,
+					submitted: req.body || {},
+					query: req.query
+				}));
+			});
 		});
 		
 	}
