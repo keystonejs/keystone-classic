@@ -1,7 +1,6 @@
 extends ../layout/base
 
 include ../mixins/columns
-include ../mixins/formFields
 
 block css
 	link(rel="stylesheet", href="/keystone/js/lib/fancybox/jquery.fancybox.css")
@@ -70,7 +69,7 @@ block content
 		each el in list.uiElements
 			if el.type == 'field'
 				if (el.field.type != 'text' || el.field != nameField) && !el.field.hidden
-					+formField(el.field, item)
+					|!{el.field.render('form',item) }
 			else if el.type == 'heading'
 				h3.form-heading(data-field-depends-on=el.options.dependsOn)= el.heading
 			else if el.type == 'indent'
