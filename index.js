@@ -848,38 +848,6 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 	}
 
-    /*
-    // configurate uploader module with fsimage config option set in web.js
-    if (keystone.get('fsimageConfig')) {
-        keystone.Uploader.init(keystone.get('fsimageConfig'));
-    }
-    // or initialize it with default config
-    else {
-        var defaultConfig = {
-            "variants": {
-                // default scope if no scope set in fsimage fields options
-                // note that we have to set an admin variant, either in resize or in crop ,
-                // in order to get a feedback on the admin interface
-                // ( we use the generated url with prefix "admin" to feedback the upload on the page refresh)
-
-                // note also that using the same variant name in resize and crop is not supported yet
-                default: {
-                    "resize": {
-                        // admin has to be present in resize or crop
-                        "admin" : "300x200"
-                    },
-                    "crop": {
-                        // ...
-                    }
-                }
-            },
-            // directory must be notified and "physically" created for the moment
-            // we'll add later the autocreation of folders, and multiple paths following the variants names
-            "path" : "public/images/upload/"
-        }
-        keystone.Uploader.init(defaultConfig);
-    }*/
-
 	var html = template(_.extend(locals, ext));
 	
 	res.send(html);
