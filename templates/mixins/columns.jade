@@ -23,7 +23,9 @@ mixin column(list, col, item)
 		if col.isName
 			+column_link(value || '(no name)', '/keystone/' + list.path + '/' + item.id)
 		else if col.type == 'email'
-			+column_email(value, 'mailto:' + value, col.field.options.gravatar || false)
+			if value && col.field.options.displayGravatar
+				+column_gravatar(col.field.gravatarUrl(item,35))
+			+column_link(value, 'mailto:' + value)
 		else if col.type == 'boolean'
 			+column_boolean(value)
 		else
@@ -33,12 +35,8 @@ mixin column_link(value, href)
 	if value
 		a(href=href)= value
 
-mixin column_email(value, href, gravatar)
-	if value
-		if gravatar
-			- var md5 = crypto.createHash('md5').update(value).digest('hex')
-			img(src="//www.gravatar.com/avatar/#{md5}?d=mm&s=35").img-thumbnail
-		a(href=href)= value
+mixin column_gravatar(src)
+	img(src=src).img-thumbnail
 
 mixin column_boolean(value)
 	if (value)
