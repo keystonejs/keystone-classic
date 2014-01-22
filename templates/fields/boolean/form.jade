@@ -1,14 +1,14 @@
 .field.type-boolean(data-field-type=field.type, data-field-path=field.path, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path) ? 'true' : 'false')
-		.field-ui(class=field.indent ? 'field-indented' : false)
-			if field.noedit
-				if item.get(field.path)
-					img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16).checked
-				else
-					img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16).unchecked
-				span= field.label
+	.field-ui(class=field.indent ? 'field-indented' : false)
+		if field.noedit
+			if item.get(field.path)
+				img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16).checked
 			else
-				label(for=field.path).checkbox
-					input(type='checkbox', name=field.path, id=field.path, value='true', checked=item.get(field.path))
-					=' ' + field.label
-			if field.note
-				.field-note &mdash; #{field.note}
+				img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16).unchecked
+			span= field.label
+		else
+			label(for=field.path).checkbox
+				input(type='checkbox', name=field.path, id=field.path, value='true', checked=item.get(field.path))
+				=' ' + field.label
+		if field.note
+			.field-note &mdash; #{field.note}

@@ -1,14 +1,14 @@
 if !field.many
-		- var refList = field.refList
-		.field.type-relationship
-			label.field-label= field.label
-			.field-ui
-				input(type='hidden',
-					name=field.path,
-					id='field_' + field.path,
-					value=item[field.path],
-					data-ref-path=refList.path,
-					data-ref-singular=refList.singular,
-					data-ref-plural=refList.plural).ui-select2-ref
-				if field.note
-					.field-note= field.note
+	- var refList = field.refList
+	.field.type-relationship
+		label.field-label= field.label
+		.field-ui
+			input(type='hidden',
+				name=field.path,
+				id='field_' + field.path,
+				value=item[field.path],
+				data-ref-path=refList.path,
+				data-ref-singular=refList.singular,
+				data-ref-plural=refList.plural).ui-select2-ref
+			if field.note
+				.field-note= field.note
