@@ -9,7 +9,8 @@ var fs = require('fs'),
 	numeral = require('numeral'),
 	cloudinary = require('cloudinary'),
 	mandrillapi = require('mandrill-api'),
-	utils = require('keystone-utils');
+	utils = require('keystone-utils'),
+	crypto = require('crypto');
 
 var templateCache = {};
 
@@ -832,7 +833,8 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		ga: {
 			property: this.get('ga property'),
 			domain: this.get('ga domain')
-		}
+		},
+		crypto: crypto
 	};
 	
 	if (keystone.get('cloudinary config')) {
