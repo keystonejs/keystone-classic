@@ -79,6 +79,7 @@ jQuery(function($) {
 
         // Upload Image
         $uploadBtn.click(function() {
+            console.log('upload');
             $upload.click();
         });
 
