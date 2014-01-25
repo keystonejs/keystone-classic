@@ -292,4 +292,22 @@ jQuery(function($) {
 		
 	});
 	
+	$('.type-email[data-gravatar=true] input').on('change', function(e){
+		
+		var $field = $(this),
+			$image = $field.siblings('img.img-gravatar'),
+			src = $image.attr('src'),
+			val = $field.val().toLowerCase().trim();
+		
+		if (val === '') {
+			$image.hide();
+			return;
+		}
+		else {
+			$image.show();
+		}
+		
+		$image.attr('src', src.replace(/^(\/\/www\.gravatar\.com\/avatar\/)[^\?]+(\?.*$)/i,'$1' + md5(val) + '$2'));
+	});
+	
 });
