@@ -1,5 +1,41 @@
 # Keystone
 
+## v0.2.0 / 2014-01-26
+
+A bumper release for the new year! We've moved to v0.2.x because some packages have been updated to new minor versions that may cause compatibility issues, specifically:
+
+KeystoneJS now requires mongoose 3.8.5+. Please test compatibility with your application before deploying this update to production.
+
+This version also requires Jade 1.x, which includes some breaking changes from the 0.x branch, particularly to doctype definition. Updating your app should be simple, but again, be sure to test before deploying to production.
+
+One of the other big changes in this release is the work done by [Iulian Meghea](https://github.com/iulian-meghea) breaking up all the field templates into individual files, in preparation for introducing field type plugins in the future.
+
+* lots of website, readme and documentation improvements
+* fixed; potential issue with flash errors erroring with TypeError: Cannot read property 'flash' of undefined, thanks [James Allen](https://github.com/jamlen)
+* improved; Add options to s3file field type to support allowedTypes, thanks [James Allen](https://github.com/jamlen)
+* added; host option to specify the ip address to listen on, thanks [Jose Carvajal](https://github.com/Sgitario)
+* improved; better error handling, see #144
+* fixed; placeholder for items without a name when creating a relationship in the admin UI, see #117
+* fixed; keystone error on blank date / date time fields, thanks [Mark Bayfield](https://github.com/mbayfield)
+* fixed; columns filter button position in development env, thanks [Mike Causer](https://github.com/mcauser)
+* added; mongo connection defaults, see #124
+* improved; sign-out page text
+* fixed; hard-to-debug errors in schemaPlugins when callbacks are omitted
+* fixed; compatibility for location auto-improve w/ mongoose 3.8.2+
+* added; gravatar functionality for email fields, including gravatar display in the Admin UI's list and edit views, and a `gravatarUrl` underscore method, thanks [Mike Causer](https://github.com/mcauser)
+* fixed; try/catch for missing Pre-route middleware, thanks [Mark Bayfield](https://github.com/mbayfield)
+* fixed; .env defaults for s3 config, see #143
+* fixed; check for cloudinary config when `CloudinaryImage` fields are initialised, see #28
+* added; current KeystoneJS version displayed in footer of Admin UI, see #130
+* updated; marked v0.3.0
+* updated; mongoose v0.8.5
+* updated; keystone-utils v0.1.5
+* updated; jade v1.1.5
+* updated; async v0.2.10
+* updated; moment v2.5.1
+* updated; less-middleware v0.1.15
+
+
 ## v0.1.55 / 2013-12-30
 
 * fixed; incompatibility with mongoose 3.8.2+ for location fields has been resolved, thanks [jbalde](https://github.com/jbalde)
