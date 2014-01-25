@@ -14,7 +14,7 @@
     "mongoose": "~3.8.5",
     "less-middleware": "~0.1.15",
     "connect-flash": "~0.1.1",
-    "jade": ">0.35.0",
+    "jade": "~1.1.5",
     "async": "~0.2.10",
     "csv": "~0.3.6",
     "bcrypt-nodejs": "~0.0.3",
@@ -22,7 +22,7 @@
     "mandrill-api": "~1.0.37",
     "embedly": "~1.0.2",
     "marked": "~0.3.0",
-    "moment": "~2.2.1",
+    "moment": "~2.5.1",
     "numeral": "~1.5.3",
     "semver": "~2.2.1",
     "knox": "~0.8.8"
