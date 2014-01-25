@@ -411,7 +411,13 @@ Keystone.prototype.start = function(onStart) {
 	// Pre-route middleware
 	
 	this._pre.routes.forEach(function(fn) {
-		app.use(fn);
+		try {
+			app.use(fn);	
+		}
+		catch(e) {
+			console.log('Pre-route middleware (not found):');
+			console.log(e);
+		}
 	});
 	
 	// Route requests
