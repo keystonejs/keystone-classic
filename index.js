@@ -844,6 +844,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		title: 'Keystone',
 		signout: this.get('signout'),
 		section: {},
+		version: this.version,
 		ga: {
 			property: this.get('ga property'),
 			domain: this.get('ga domain')
