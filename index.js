@@ -517,7 +517,7 @@ Keystone.prototype.start = function(onStart) {
 		mongoConnectionOpen = false;
 	
 	if (!mongooseArgs) {
-		mongooseArgs = process.env.MONGO_URL || process.env.MONGOLAB_URL || ['localhost', utils.slug(this.get('name'))];
+		mongooseArgs = process.env.MONGO_URI || process.env.MONGO_URL || process.env.MONGOLAB_URI || process.env.MONGOLAB_URL || ['localhost', utils.slug(this.get('name'))];
 	}
 	
 	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
