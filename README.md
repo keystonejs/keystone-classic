@@ -14,7 +14,7 @@ Keystone gives you:
 	natively supported by Mongoose
 *	An updates framework for managing data updates or initialisation
 *	A beautiful Admin UI based on the defined `models`
-*	Integration with Coudinary for image uploading, storage and resizing
+*	Integration with Cloudinary for image uploading, storage and resizing
 *	Integration with Mandrill for sending emails easily
 *	Integration with Embedly for powerful video and rich media embedding tools
 
