@@ -537,7 +537,8 @@ Keystone.prototype.start = function(onStart) {
 		
 		// Create the http server
 		var listen = function() {
-			http.createServer(app).listen(app.get('port'), app.get('host'), function() {
+			keystone.httpServer = http.createServer(app);
+			keystone.httpServer.listen(app.get('port'), app.get('host'), function() {
 				console.log(keystone.get('name') + ' is ready on port ' + app.get('port'));
 				if ('function' == typeof onStart)
 					onStart();
