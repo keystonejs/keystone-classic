@@ -213,6 +213,21 @@ block content
 			p.note The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 			
 			
+			a(name='amazons3')
+			h3 Amazon S3
+			
+			p KeystoneJS supports <a href="http://aws.amazon.com/s3/" target="_blank">Amazon S3</a> for file upload and hosting, with the <a href="/guide/data#field_s3file">S3File</a> field type.
+			
+			p To use the S3File field in your app, <a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">sign up for an account</a>, create an <strong>S3 bucket</strong>, and get your <strong>key</strong> and <strong>secret</strong>.
+			
+			p Then set the <code>s3 config</code> option to an object containing your configuration (see example below).
+			
+			p Alternatively, set the <code class="default-value">S3_BUCKET</code>, <code class="default-value">S3_KEY</code> and <code class="default-value">S3_SECRET</code> environment variables.
+			
+			pre: code.language-javascript
+				| keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });
+			
+			
 			a(name='cloudinary')
 			h3 Cloudinary
 			
