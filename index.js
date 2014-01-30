@@ -180,7 +180,7 @@ Keystone.prototype.getPath = function(key) {
  
 Keystone.prototype.pre = function(event, fn) {
 	if (!this._pre[event]) {
-		throw new Error('keystone.pre() Error: event ' + event + 'does not exist.');
+		throw new Error('keystone.pre() Error: event ' + event + ' does not exist.');
 	}
 	this._pre[event].push(fn);
 }
