@@ -121,7 +121,7 @@ block content
 				| 
 				| keystone.start();
 			
-			p Now run <code>npm install</code> to install Keystone.
+			p Now, in your console, run <code>npm install</code> from the root folder of your project (where package.json is) to install Keystone.
 			p.note For more information about the options Keystone supports, see the <a href="/guide/config">configuration guide</a>.
 			p.note Note: your web script won't run yet, because it is including models and routes that have not been set up yet. It assumes you follow the conventions in this guide.
 			
@@ -134,10 +134,6 @@ block content
 					|     mongoose = require('mongoose'),
 					|     app = express(),
 					|     keystone = require('keystone').connect(mongoose, app);
-			
-			//- h4 More information
-			//- 
-			//- p Full documentation on the options supported by Keystone can be found below.
 			
 			a(name="start_structure")
 			h3 Project Structure
@@ -429,26 +425,8 @@ block content
 			h4 Templates
 			
 			p Now, for the template our route will render. The <code>render</code> method looks in the <code>views</code> directory specified in our <code>web.js</code>, which we set to <code>/templates/views</code>.
-			p It will look for templates and render them based on the <code>view engine</code> - in this case we're using <code>jade</code>, so now we need to add <code>templates/views/index.jade</code>.
-			
-			.contextual-note
-				h4 Jade &amp; other template languages
-				p To learn more about Jade, visit <a href="http://jade-lang.com" target="_blank">jade-lang.org</a>, or check out the great <a href="http://naltatis.github.io/jade-syntax-docs/" target="_blank">live syntax documentation</a> to learn by example.
-				p Alternatively, you can use <a href='http://expressjs.com/api.html#app.engine'>any template language supported by express</a>. The <code>view engine</code> option is passed through to express's <code>app.engine</code> method.
-				p If you want to use a custom template engine, set the <code>custom engine</code> option as in the example below. For instance, <a href="http://embeddedjs.com/">ejs</a> is supported by express by default, but you might want to use <a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> as a template engine in order to benefit from get extensions.
-
-			.code-header
-				h4 web.js
-				p Modified web.js to use a ejs-locals custom template engine.
-			pre: code.language-javascript
-				| var keystone = require('keystone');
-				| var engine   = require('ejs-locals');
-				| keystone.init({
-				|   ...
-				|   'custom engine': engine,
-				|   'view engine': 'ejs',
-				|   ...
-				| });
+			p In this guide, we're going to use <strong>Jade</strong> for our templates. To learn more about Jade, visit <a href="http://jade-lang.com" target="_blank">jade-lang.org</a>, or check out the great <a href="http://naltatis.github.io/jade-syntax-docs/" target="_blank">live syntax documentation</a> to learn by example.
+			p First up, create <code>templates/views/index.jade</code>:
 
 			.code-header
 				h4 templates/views/index.jade
@@ -528,6 +506,23 @@ block content
 				|                         li= item
 				|         else
 				|             = message
+			
+			.contextual-note
+				h4 Using other template languages
+				p KeystoneJS supports <a href='http://expressjs.com/api.html#app.engine'>any template language supported by express</a>.
+				p Use the <code>view engine</code> option to specify the template language you want to use (it will default to <code class="data-type">jade</code>).
+				p If you want to use a custom template engine, set the <code>custom engine</code> option as well. For instance, <a href="http://embeddedjs.com/">ejs</a> is supported by express by default, but you might want to use <a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> as a template engine in order to benefit from get extensions.
+
+				pre: code.language-javascript
+					| // Modified web.js to use the ejs-locals custom template engine.
+					| var keystone = require('keystone');
+					| var engine   = require('ejs-locals');
+					| keystone.init({
+					|   ...
+					|   'custom engine': engine,
+					|   'view engine': 'ejs',
+					|   ...
+					| });
 			
 			
 			a(name="routes_public")
