@@ -441,7 +441,7 @@ Keystone.prototype.start = function(onStart) {
 	
 	// Handle 404 (no route matched) errors
 	
-	var default404Handler = function() {
+	var default404Handler = function(req, res, next) {
 		res.status(404).send("Sorry, no page could be found at this address (404)");
 	}
 	
@@ -452,22 +452,20 @@ Keystone.prototype.start = function(onStart) {
 		if (err404) {
 			try {
 				if ('function' == typeof err404) {
-					app.use(err404);
+                    err404(req, res, next);
 				} else if ('string' == typeof err404) {
-					app.use(function(req, res, next) {
-						res.status(404).render(err404);
-					});
+                    res.status(404).render(err404);
 				} else {
 					console.log('Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.');
-					default404Handler();
+					default404Handler(req, res, next);
 				}
 			} catch(e) {
 				console.log('Error handling 404 (not found):');
 				console.log(e);
-				default404Handler();
+				default404Handler(req, res, next);
 			}
 		} else {
-			default404Handler();
+			default404Handler(req, res, next);
 		}
 		
 	});
