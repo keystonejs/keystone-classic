@@ -354,14 +354,21 @@ Keystone.prototype.start = function(onStart) {
 	var keystone = this,
 		app = this.app;
 	
-	// Setup
-
-  var custom_engine = this.get('custom engine');
-  if (custom_engine){
-   app.engine(this.get('view engine'), custom_engine);
-  }
+	/* Express App Setup */
+	
+	// host and port to listen on
+	
 	app.set('port', this.get('port') || process.env.PORT || 3000);
-	app.set('host', this.get('host') || process.env.IP || '127.0.0.1');
+	app.set('host', this.get('host') || process.env.IP || '0.0.0.0');
+	
+	// Allow usage of custom view engines
+	
+	if (this.get('custom engine')) {
+		app.engine(this.get('view engine'), this.get('custom engine'));
+	}
+	
+	// Set location of view templates and view engine
+	
 	app.set('views', this.getPath('views') || '/views');
 	app.set('view engine', this.get('view engine'));
 	
