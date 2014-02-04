@@ -346,7 +346,13 @@ Keystone.prototype.initNav = function(sections) {
 Keystone.prototype.start = function(onStart) {
 	
 	if (!this.app) {
-		throw new Error("Keystone app must be initialised first.");
+		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
+	}
+	
+	onStart = onStart || function() {};
+	
+	if (!utils.isFunction(onStart)) {
+		throw new Error("KeystoneJS Initialisaton Error:\n\nThe onStart argument must be a function or undefined.\n\n");
 	}
 		
 	this.nativeApp = true;
@@ -355,11 +361,6 @@ Keystone.prototype.start = function(onStart) {
 		app = this.app;
 	
 	/* Express App Setup */
-	
-	// host and port to listen on
-	
-	app.set('port', this.get('port') || process.env.PORT || 3000);
-	app.set('host', this.get('host') || process.env.IP || '0.0.0.0');
 	
 	// Allow usage of custom view engines
 	
@@ -532,31 +533,66 @@ Keystone.prototype.start = function(onStart) {
 	this.mongoose.connection.on('error', function() {
 		
 		if (mongoConnectionOpen) {
-			console.error(keystone.get('name') + ': mongo connection error', arguments);
-			// TODO: should probably implement something here to serve an error page, as the next attempt to use the database will fail and (probably) crash the server
+			throw new Error("KeystoneJS Error (" + keystone.get('name') + "):\n\nMongo connection error", arguments);
 		} else {
-			console.error(keystone.get('name') + ' failed to start: mongo connection error', arguments);
+			throw new Error("KeystoneJS (" + keystone.get('name') + ") failed to start:\n\nMongo connection error", arguments);
 		}
 		
 	}).on('open', function() {
 		
 		mongoConnectionOpen = true;
 		
-		// Create the http server
-		var listen = function() {
+		// Returns a callback to log the startup info and call the onStart method
+		var started = function(info) {
+			return function() {
+				var dashes = '\n------------------------------------------------\n';
+				console.log(dashes + 'KeystoneJS Started:\n' + info + dashes);
+				onStart();
+			}
+		}
+		
+		// Creates the http server and listens to the specified port and host or listen option.
+		// 
+		// For more information on how these options work, see
+		// http://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback
+		// and for history, see https://github.com/JedWatson/keystone/issues/154
+		
+		var createServer = function() {
+			
 			keystone.httpServer = http.createServer(app);
-			keystone.httpServer.listen(app.get('port'), app.get('host'), function() {
-				console.log(keystone.get('name') + ' is ready on port ' + app.get('port'));
-				if ('function' == typeof onStart)
-					onStart();
-			});
+			
+			var port = keystone.get('port') || process.env.PORT;
+			
+			if (port) {
+				
+				app.set('port', port);
+				
+				var host = keystone.get('host') || process.env.HOST || process.env.IP;
+				
+				if (host) {
+					keystone.httpServer.listen(port, host, started(keystone.get('name') + ' is ready on ' + host + ':' + port));
+				} else {
+					keystone.httpServer.listen(port, started(keystone.get('name') + ' is ready on port ' + port));
+				}
+				
+			} else {
+				
+				var listen = keystone.get('listen') || process.env.LISTEN;
+				
+				if (listen) {
+					keystone.httpServer.listen(listen, started(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
+				} else {
+					keystone.httpServer.listen(3000, started(keystone.get('name') + ' is ready on default port 3000'));
+				}
+				
+			}
 		}
 		
 		// Apply updates?
 		if (keystone.get('auto update')) {
-			keystone.applyUpdates(listen);
+			keystone.applyUpdates(createServer);
 		} else {
-			listen();
+			createServer();
 		}
 		
 	});
