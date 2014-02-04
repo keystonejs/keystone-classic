@@ -80,6 +80,7 @@ var Keystone = function() {
 	
 	// handle special settings
 	switch (key) {
+        case 'fsimage config':
 		case 'cloudinary config':
 			if (_.isObject(value)) {
 				cloudinary.config(value);
@@ -537,7 +538,7 @@ Keystone.prototype.start = function(onStart) {
 		} else {
 			throw new Error("KeystoneJS (" + keystone.get('name') + ") failed to start:\n\nMongo connection error", arguments);
 		}
-		
+
 	}).on('open', function() {
 		
 		mongoConnectionOpen = true;
@@ -905,7 +906,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		};
 		locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 	}
-	
+
 	var html = template(_.extend(locals, ext));
 	
 	res.send(html);
