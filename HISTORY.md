@@ -1,5 +1,15 @@
 # Keystone
 
+## v0.2.1 / 2014-02-04
+
+* added; more flexible environment variable defaults for mongo connection strings. It supports `env.MONGO_URI`, `env.MONGO_URL`, `env.MONGOLAB_URI` and `env.MONGOLAB_URL`, so whatever default you're using, it should be there.
+* added; the http server is now accessible as `keystone.httpServer`, thanks [B. August](https://github.com/TheBenji)
+* added; pre upload queue for s3file field type (set the `pre.upload` option, or call `{list}.fields.{s3filefield}.pre('upload', ...)`)
+* added; initial (create form) support for location fields
+* added; initial (create form) support for markdown fields, thanks [Jimmy Hillis](https://github.com/jimmyhillis)
+* improved; much more flexible support for http server startup options, see [#154](https://github.com/JedWatson/keystone/issues/154)
+
+
 ## v0.2.0 / 2014-01-26
 
 A bumper release for the new year! We've moved to v0.2.x because some packages have been updated to new minor versions that may cause compatibility issues, specifically:
