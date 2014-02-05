@@ -1,5 +1,17 @@
 # Keystone
 
+## v0.2.2 / 2014-02-05
+
+* fixed; "moment not defined" error in S3File field type, thanks [Olivier Vaillancourt](https://github.com/ovaillancourt)
+* added; ability to define attachments to emails via Mandrill, thanks [Tom Walker](https://github.com/bladey)
+* improved; log formatting and error output
+* fixed; default 404 handling, thanks [Lepi](https://github.com/lepilepi)
+* added; new `keystone.import(path)` method for recusrively requiring all `.js` / `.coffee` files in a path relative to the project root, e.g. `keystone.import('models')`. Similar to but simpler than `keystone.importer()`.
+* improved; the default 404 and 500 error handlers have been cleaned up, and have a simple HTML template
+* added; filtering now implemented for location fields
+* improved; the list download > csv feature in the Admin UI now respects the current filters
+
+
 ## v0.2.1 / 2014-02-04
 
 * added; more flexible environment variable defaults for mongo connection strings. It supports `env.MONGO_URI`, `env.MONGO_URL`, `env.MONGOLAB_URI` and `env.MONGOLAB_URL`, so whatever default you're using, it should be there.
