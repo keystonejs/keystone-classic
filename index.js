@@ -21,6 +21,7 @@ var templateCache = {};
  */
 
 var Keystone = function() {
+	
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -460,9 +461,9 @@ Keystone.prototype.start = function(onStart) {
 		if (err404) {
 			try {
 				if ('function' == typeof err404) {
-                    err404(req, res, next);
+					err404(req, res, next);
 				} else if ('string' == typeof err404) {
-                    res.status(404).render(err404);
+					res.status(404).render(err404);
 				} else {
 					console.log('Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.');
 					default404Handler(req, res, next);
@@ -942,7 +943,7 @@ Keystone.prototype.console = {};
 Keystone.prototype.console.err = function(type, msg) {
 	
 	var dashes = '\n------------------------------------------------\n';
-    console.log(dashes + 'KEYSTONE ' + type.toUpperCase() + '\n' + msg + dashes);
+	console.log(dashes + 'KEYSTONE ' + type.toUpperCase() + '\n' + msg + dashes);
 	
 }
 
