@@ -220,19 +220,11 @@ block content
 								
 								//- Location
 								if field.type == 'location'
-									.btn-group.btn-group-xs(data-toggle='buttons')
-										button(type='button', class=!ops.exact ? 'active' : '').btn.btn-default
-											input(type='radio', name='options')
-											| contains
-										button(type='button', class=ops.exact ? 'active' : '', data-opt='exact', data-value='true').btn.btn-default
-											input(type='radio', name='options')
-											| exact match
 									.filter-input.filter-input-md: input(type='text', name='address', value=ops.address, placeholder='Address').form-control.input-xs
 									.filter-input.filter-input-sm: input(type='text', name='suburb', value=ops.suburb, placeholder='Suburb').form-control.input-xs
 									.filter-input.filter-input-sm: input(type='text', name='state', value=ops.state, placeholder='State').form-control.input-xs
 									.filter-input.filter-input-sm: input(type='text', name='postcode', value=ops.postcode, placeholder='Postcode').form-control.input-xs
 									.filter-input.filter-input-sm: input(type='text', name='country', value=ops.country, placeholder='Country').form-control.input-xs
-									button(type='button', data-toggle='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-xs.btn-default invert
 								
 								//- Select
 								if field.type == 'select'
