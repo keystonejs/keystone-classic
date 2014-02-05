@@ -359,7 +359,8 @@ Keystone.prototype.start = function(onStart) {
 	this.nativeApp = true;
 	
 	var keystone = this,
-		app = this.app;
+		app = this.app,
+		dashes = '\n------------------------------------------------\n';
 	
 	/* Express App Setup */
 	
@@ -448,10 +449,18 @@ Keystone.prototype.start = function(onStart) {
 		this.routes(app);
 	}
 	
+ 	// Wraps a message in the default HTML error template
+ 	// TODO: Put the template somewhere better!
+	var wrapHTMLError = function(title, err) {
+		return "<html><head><meta charset='utf-8'><title>Error</title>" +
+		"<link rel='stylesheet' href='/keystone/styles/error.css'>" +
+		"</head><body><div id='body'><h1>" + title + '</h1>' + (err || '') + "</div></body></html>";
+	}
+	
 	// Handle 404 (no route matched) errors
 	
 	var default404Handler = function(req, res, next) {
-		res.status(404).send("Sorry, no page could be found at this address (404)");
+		res.status(404).send(wrapHTMLError("Sorry, no page could be found at this address (404)"));
 	}
 	
 	app.use(function(req, res, next) {
@@ -465,12 +474,13 @@ Keystone.prototype.start = function(onStart) {
 				} else if ('string' == typeof err404) {
 					res.status(404).render(err404);
 				} else {
-					console.log('Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.');
+					console.log(dashes + 'Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.' + dashes);
 					default404Handler(req, res, next);
 				}
 			} catch(e) {
-				console.log('Error handling 404 (not found):');
+				console.log(dashes + 'Error handling 404 (not found):');
 				console.log(e);
+				console.log(dashes);
 				default404Handler(req, res, next);
 			}
 		} else {
@@ -481,10 +491,33 @@ Keystone.prototype.start = function(onStart) {
 	
 	// Handle other errors
 	
-	var default500Handler = (this.get('env') == 'development') ? express.errorHandler() : function(err, req, res, next) {
-		console.log('Error thrown for request: ' + req.url);
-		console.log(err);
-		res.status(500).send("Sorry, an error occurred loading the page (500)");
+	var default500Handler = function(err, req, res, next) {
+		
+		if (err instanceof Error) {
+			console.log((err.type ? err.type + ' ' : '') + 'Error thrown for request: ' + req.url);
+			console.log(err.message);
+		} else {
+			console.log('Error thrown for request: ' + req.url);
+			console.log(err);
+		}
+		
+		var msg = '';
+		
+		if (keystone.get('env') == 'development') {
+			
+			if (err instanceof Error) {
+				if (err.type) {
+					msg += '<h2>' + err.type + '</h2>';
+				}
+				msg += utils.textToHTML(err.message);
+			} else if ('object' == typeof err) {
+				msg += '<code>' + JSON.stringify(err) + '</code>';
+			} else if (err) {
+				msg += err;
+			}
+		}
+		
+		res.status(500).send(wrapHTMLError("Sorry, an error occurred loading the page (500)", msg));
 	}
 	
 	app.use(function(err, req, res, next) {
@@ -499,12 +532,13 @@ Keystone.prototype.start = function(onStart) {
 					res.locals.err = err;
 					res.status(500).render(err500);
 				} else {
-					console.log('Error handling 500 (error): Invalid type (' + (typeof err500) + ') for 500 setting.');
+					console.log(dashes + 'Error handling 500 (error): Invalid type (' + (typeof err500) + ') for 500 setting.' + dashes);
 					default500Handler(err, req, res, next);
 				}
 			} catch(e) {
-				console.log('Error handling 500 (error):');
+				console.log(dashes + 'Error handling 500 (error):');
 				console.log(e);
+				console.log(dashes);
 				default500Handler(err, req, res, next);
 			}
 		} else {
@@ -544,7 +578,6 @@ Keystone.prototype.start = function(onStart) {
 		// Returns a callback to log the startup info and call the onStart method
 		var started = function(info) {
 			return function() {
-				var dashes = '\n------------------------------------------------\n';
 				console.log(dashes + 'KeystoneJS Started:\n' + info + dashes);
 				onStart();
 			}
@@ -700,7 +733,7 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 					if (res.err) {
 						res.err(err);
 					} else {
-						// TODO: Nicer default error handler?
+						// TODO: Nicer default error handler
 						res.status(500).send(JSON.stringify(err));
 					}
 				} else {
@@ -946,14 +979,23 @@ Keystone.prototype.render = function(req, res, view, ext) {
 	};
 	
 	if (keystone.get('cloudinary config')) {
-		var cloudinaryUpload = cloudinary.uploader.direct_upload();
-		locals.cloudinary = {
-			cloud_name: keystone.get('cloudinary config').cloud_name,
-			api_key: keystone.get('cloudinary config').api_key,
-			timestamp: cloudinaryUpload.hidden_fields.timestamp,
-			signature: cloudinaryUpload.hidden_fields.signature
-		};
-		locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
+		try {
+			var cloudinaryUpload = cloudinary.uploader.direct_upload();
+			locals.cloudinary = {
+				cloud_name: keystone.get('cloudinary config').cloud_name,
+				api_key: keystone.get('cloudinary config').api_key,
+				timestamp: cloudinaryUpload.hidden_fields.timestamp,
+				signature: cloudinaryUpload.hidden_fields.signature
+			};
+			locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
+		} catch(e) {
+			if (e == 'Must supply api_key') {
+				throw new Error('Invalid Cloudinary Config Provided\n\n' +
+					'See http://keystonejs.com/guide/config/#cloudinary for more information.');
+			} else {
+				throw e;
+			}
+		}
 	}
 	
 	var html = template(_.extend(locals, ext));
@@ -994,7 +1036,7 @@ Keystone.prototype.console = {};
 Keystone.prototype.console.err = function(type, msg) {
 	
 	var dashes = '\n------------------------------------------------\n';
-	console.log(dashes + 'KEYSTONE ' + type.toUpperCase() + '\n' + msg + dashes);
+	console.log(dashes + 'KeystoneJS: ' + type + ':\n\n' + msg + dashes);
 	
 }
 

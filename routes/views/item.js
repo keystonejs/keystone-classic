@@ -27,7 +27,7 @@ exports = module.exports = function(req, res) {
 				if (i.isValid) {
 					return _.clone(i);
 				} else {
-				    keystone.console.err('configuration error', 'Relationship: ' + i.path + ' on list: ' + req.list.key + ' links to an invalid list: ' + i.ref);
+				    keystone.console.err('Relationship Configuration Error', 'Relationship: ' + i.path + ' on list: ' + req.list.key + ' links to an invalid list: ' + i.ref);
 					return null;
 				}
 			})));
