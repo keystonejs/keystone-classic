@@ -716,10 +716,12 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 
 /**
  * Returns a function that looks in a specified path relative to the current
- * directory, and returns all .js modules it.
+ * directory, and returns all .js modules it (recursively).
  *
  * ####Example:
- *		
+ *     
+ *     var importRoutes = keystone.importer(__dirname);
+ *     
  *     var routes = {
  *         site: importRoutes('./site'),
  *         api: importRoutes('./api')
@@ -730,6 +732,7 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
  */
 
 Keystone.prototype.importer = function(rel__dirname) {
+	
 	var importer = function(from) {
 		var imported = {};
 		var joinPath = function() {
@@ -737,10 +740,10 @@ Keystone.prototype.importer = function(rel__dirname) {
 		}
 		var fsPath = joinPath(path.relative(process.cwd(), rel__dirname), from);
 		fs.readdirSync(fsPath).forEach(function(name) {
-			var info = fs.statSync(path.join(fsPath,name));
+			var info = fs.statSync(path.join(fsPath, name));
 			// recur
 			if (info.isDirectory()) {
-				imported[name] = importer(joinPath(from,name));
+				imported[name] = importer(joinPath(from, name));
 			} else {
 				// only import .js files
 				var parts = name.split('.');
@@ -754,7 +757,55 @@ Keystone.prototype.importer = function(rel__dirname) {
 		return imported;
 	}
 	return importer;
+	
 }
+
+
+/**
+ * returns all .js modules (recursively) in the path specified, relative
+ * to the project root (where the node process is run from).
+ *
+ * ####Example:
+ *		
+ *     var models = keystone.import('models');
+ *
+ * @param {String} dirname
+ * @api public
+ */
+
+Keystone.prototype.import = function(dirname) {
+	
+	var doImport = function(fromPath) {
+		
+		var imported = {};
+		
+		fs.readdirSync(fromPath).forEach(function(name) {
+			
+			var fsPath = path.join(fromPath, name)
+				info = fs.statSync(fsPath);
+			
+			// recur
+			if (info.isDirectory()) {
+				imported[name] = doImport(fsPath);
+			} else {
+				// only import .js files
+				var parts = name.split('.');
+				var ext = parts.pop();
+				if (ext == 'js' || ext == 'coffee') {
+					imported[parts.join('-')] = require(path.join(process.cwd() + path.sep + fsPath));
+				}
+			}
+			
+		});
+		
+		return imported;
+		
+	}
+	
+	return doImport('./' + dirname);
+	
+}
+
 
 /**
  * Middleware to initialise a standard API response.
