@@ -943,10 +943,8 @@ Keystone.prototype.populateRelated = function(docs, relationships, callback) {
 Keystone.prototype.console = {};
 Keystone.prototype.console.err = function(type, msg) {
 	
-    console.log('-------------------------------------------------------------------');
-    console.log('KEYSTONE ' + type.toUpperCase());
-    console.log(msg);
-    console.log('-------------------------------------------------------------------');
+	var dashes = '\n------------------------------------------------\n';
+    console.log(dashes + 'KEYSTONE ' + type.toUpperCase() + '\n' + msg + dashes);
 	
 }
 
