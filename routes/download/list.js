@@ -4,7 +4,10 @@ var keystone = require('../../'),
 
 exports = module.exports = function(req, res) {
 	
-	req.list.model.find().exec(function(err, results) {
+	var filters = (req.query.q) ? req.list.processFilters(req.query.q) : {},
+		queryFilters = req.list.getSearchFilters(req.query.search, filters);
+	
+	req.list.model.find(queryFilters).exec(function(err, results) {
 		
 		var columns = ['id'],
 			data = [];

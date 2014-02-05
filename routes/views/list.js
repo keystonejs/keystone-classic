@@ -87,12 +87,37 @@ exports = module.exports = function(req, res) {
 			if (req.query.search && items.total == 1 && items.results.length == 1) {
 				return res.redirect('/keystone/' + req.list.path + '/' + items.results[0].id);
 			}
-			var iterator = function(item, callback){ item.compile('initial',callback); }
-			async.eachSeries(req.list.initialFields, iterator , function() {
+			
+			var download_link = '/keystone/download/' + req.list.path,
+				downloadParams = {};
+			
+			if (req.query.q) {
+				downloadParams.q = req.query.q;
+			}
+			if (req.query.search) {
+				downloadParams.search = req.query.search;
+			}
+			if (req.query.cols) {
+				downloadParams.cols = req.query.cols;
+			}
+			
+			downloadParams = querystring.stringify(downloadParams);
+			
+			if (downloadParams) {
+				download_link += '?' + downloadParams;
+			}
+			
+			console.log(download_link);
+			
+			var compileFields = function(item, callback) { item.compile('initial', callback); }
+			
+			async.eachSeries(req.list.initialFields, compileFields , function() {
+				
 				keystone.render(req, res, 'list', _.extend(viewLocals, {
 					section: keystone.nav.by.list[req.list.key] || {},
 					title: 'Keystone: ' + req.list.plural,
 					link_to: link_to,
+					download_link: download_link,
 					list: req.list,
 					sort: sort,
 					filters: filters,
@@ -103,6 +128,7 @@ exports = module.exports = function(req, res) {
 					submitted: req.body || {},
 					query: req.query
 				}));
+				
 			});
 		});
 		

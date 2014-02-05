@@ -39,7 +39,9 @@ block content
 	//-
 	//- List
 	//- ------------------------------
+	
 	- var xFilters = _.size(filters);
+	
 	.page-header.list-header(class=!items.total && !search && !xFilters ? 'empty-list' : '')
 		h1
 			if items.total
@@ -105,6 +107,7 @@ block content
 											span(class='fieldicon fieldicon-' + el.field.type)
 											span= el.field.label
 		
+		
 		//-
 		//- Filters
 		//- ------------------------------
@@ -142,7 +145,7 @@ block content
 					//- columns and download aren't relevant when using a mobile device
 					.col-sm-4.hidden-xs: .pull-right
 						.pull-right
-							a(href='/keystone/download/#{list.path}').btn.btn-default Download
+							a(href=download_link).btn.btn-default Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 								| Columns 
@@ -160,11 +163,8 @@ block content
 									li: a(href=link_to({ cols: undefined }))
 										span.glyphicon.glyphicon-remove-circle.icon
 										span Reset to default
-										
-										
-										
-										
-										
+			
+			
 			//-
 			//- List Filters
 			//- ------------------------------
