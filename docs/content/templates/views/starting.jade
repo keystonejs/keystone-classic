@@ -1,12 +1,41 @@
 extends ../layout/base
 
 block content
-	.container: .alerts
-		.alert.alert-success The KeystoneJS docs are in beta. For updates, please follow @keystonejs on twitter!
-		
+	.page-header
+		.container
+			h1 Getting Started
+			p.lead KeystoneJS makes it easy to build database-driven websites, applications and APIs in Node.js.
+	.page-subheader
+		.container
+			p If you have a question check out the 
+				a(href="https://groups.google.com/forum/#!forum/keystonejs", target="_blank") Google Group
+				|  and get an answer from the community 
+				//- |  or log an issue on 
+				//- a(href="https://github.com/JedWatson/keystone/issues", target="_blank") GitHub
+	
 	.container: .row
-		
-		.col-sm-3: #docs-sidebar
+		.col-sm-4.col-md-3: .docs-sidebar-info
+			//- h3 Prerequisites
+			p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
+			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
+		.col-sm-8.col-md-9: .docs-content
+			h2 Starting a new project
+			
+			h3 Install Yeoman
+			p Create a new directory for your project, then run the following command
+			pre $ npm install -g yo
+			
+			h3 Install KeystoneJS
+			p Explain what this command does
+			pre $ npm install -g generator-keystone
+			
+			h3 Start your new application
+			p Explain what this command does
+			pre $ yo keystone
+	
+	//- OLD GETTING STARTED DOCS
+	//- .container: .row
+		.col-sm-3: nav.docs-sidebar
 			ul.sidebar-nav
 				li.nav-label KeystoneJS Guide
 				li: a(href='#start_intro') Introduction
@@ -29,26 +58,22 @@ block content
 				li: a(href='#running_go') Starting Keystone
 				li: a(href='#running_next') Next Steps
 		
-		.col-sm-9: #docs-content
-			
-			a(name="start_intro")
-			h1 KeystoneJS Guide
-			
+		.col-sm-9: .docs-content
 			h2 Introduction
 			
-			p KeystoneJS makes it easy to build database-driven websites, applications and APIs in node.js.
+			p KeystoneJS makes it easy to build database-driven websites, applications and APIs in Node.js.
 			p Under the hood, KeystoneJS uses the <a href="http://expressjs.com" target="_blank">express.js</a> web server framework, and a <a href="http://mongodb.com" target="_blank">MongoDB</a> database via the <a href="mongoosejs.com" target="_blank">mongoose</a> object modelling framework.
 			
 			.contextual-note
 				h4 Simple vs. Flexible
-				p Keystone is designed to make complicated things simple, without limiting the power or flexibility of node.js or the frameworks it is built on.
+				p Keystone is designed to make complicated things simple, without limiting the power or flexibility of Node.js or the frameworks it is built on.
 				p This guide will show you how to build a KeystoneJS website using the default project structure and options.
 				p To learn more about how things work under the hood, and how you can extend or replace features, we strongly recommend reading the <a href="https://github.com/JedWatson/keystone" target="_blank">source code</a>.
 			
 			a(name="start_prereqs")
 			h3 Prerequisites
 			
-			p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
+			p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
 			
 			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
 			p In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates.

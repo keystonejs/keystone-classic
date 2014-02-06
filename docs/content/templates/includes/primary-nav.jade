@@ -1,4 +1,5 @@
-nav#docs-nav: .container
-	ul.nav.navbar-nav
-		each item in nav
-			li(class=section == item.section ? 'active' : null): a(href=item.path)= item.label
+nav.docs-nav
+	.docs-nav__collapse.collapse
+		ul.docs-nav__nav
+			each item in nav
+				li(class=section == item.section ? 'active' : null): a(href=item.path)= item.label

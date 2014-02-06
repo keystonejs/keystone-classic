@@ -1,12 +1,21 @@
 extends ../layout/base
 
 block content
-	.container: .alerts
-		.alert.alert-success The KeystoneJS docs are in beta. For updates, please follow @keystonejs on twitter!
+	.page-header
+		.container
+			h1 Configuration
+			p.lead The options for KeystoneJS cover a range of behaviours, from how the express app is configured, to enabling features and authentication options for integrated services.
+	.page-subheader
+		.container
+			p If you have a question check out the 
+				a(href="https://groups.google.com/forum/#!forum/keystonejs", target="_blank") Google Group
+				|  and get an answer from the community 
+				//- |  or log an issue on 
+				//- a(href="https://github.com/JedWatson/keystone/issues", target="_blank") GitHub
 	
 	.container: .row
 		
-		.col-sm-3: #docs-sidebar
+		.col-sm-3: nav.docs-sidebar
 			ul.sidebar-nav
 				li.nav-label Keystone Options
 				li: a(href='#concepts') Setting Options
@@ -24,10 +33,8 @@ block content
 				li: a(href='#updates') Application Updates
 				li: a(href='#headless') Disabling the Admin UI
 		
-		.col-sm-9: #docs-content
-			
-			a(name='concepts')
-			h1 Keystone Options
+		.col-sm-9: .docs-content
+			h2 Setting Options
 			
 			p The options for KeystoneJS cover a range of behaviours, from how the express app is configured, to enabling features and authentication options for integrated services.
 			

@@ -5,23 +5,23 @@ html
 		block css
 		block head
 	body
-		
 		include ../includes/header
-		
-		block nav
-			include ../includes/primary-nav
 		
 		block intro
 		
-		#docs-body
+		.docs-body
 			block content
 		
 		include ../includes/footer
 		
 		script(src="/js/lib/jquery/jquery-1.10.2.min.js")
 		script(src='/js/lib/bootstrap/collapse.js')
-		script(src='/js/lib/bootstrap/dropdown.js')
+		//- script(src='/js/lib/bootstrap/dropdown.js')
 		script(src='/js/lib/prism/prism.min.js')
+			
+		//- Twitter
+		script.
+			!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 		
 		//- Page Scripts
 		block page-js

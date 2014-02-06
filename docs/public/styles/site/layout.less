@@ -3,15 +3,30 @@
 // ==============================
 
 
+
+
+
+// Container smaller
+.container-sm {
+	.container-fixed();
+
+	@media (min-width: @screen-sm) {
+		width: @screen-sm - @grid-gutter-width;
+	}
+}
+
 // header
-#docs-header {
+.docs-header {
 	.clearfix();
 	border-bottom: 1px solid #ededed;
-	height: 110px;
-	line-height: 110px;
+	height: @navbar-height;
+	line-height: @navbar-height;
 	
+	.container {
+		position: relative;
+	}
 	.keystone-logo {
-		float: left;
+		display: inline-block;
 	}
 	.social-buttons {
 		float: right;
@@ -23,113 +38,105 @@
 		font-size: 12px;
 	}
 	.navbar-toggle {
-		background-color: @text-color;
-		margin: 35px 0 0;
+		.navbar-vertical-align(28);
+		background-color: transparent;
+		position: absolute;
+		right: 0;
+		z-index: 2;
 		
 		.icon-bar {
-			background-color: white;
-		}
-		
-		&:hover,
-		&:focus {
-			background-color: lighten(@text-color, 5%)
-		}
-		
-		&:active {
-			background-color: darken(@text-color, 5%)
+			background-color: @link-color;
 		}
 	}
 }
 
 // navigation
-#docs-nav {
-	background-color: @navbar-default-bg;
-	border-bottom: 1px solid @navbar-default-border;
-	
-	.navbar-nav {
-		margin: 0 -@navbar-padding-horizontal;
-	}
-	li {
-		float: left;
-	}
+.docs-nav__nav {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	
 	a {
-		color: @link-color;
+		color: @gray;
+		display: block;
+		padding: 0 15px;
+		text-decoration: none;
 		
 		&:hover,
 		&:focus {
-			color: @link-hover-color;
+			background-color: transparent;
+			color: @gray-darker;
 		}
 	}
 	
+	// active
 	.active a {
+		.box-shadow( 0 -3px @link-color inset );
 		background: none transparent;
-		color: @text-color;
+		// color: @gray-light;
 	}
-	
-	@media (min-width: @screen-sm) {
-		.blog-link a {
-			border: 1px solid mix(white,@gray-light,50%);
-			border-radius: 4px;
-			color: @gray-light;
-			margin-bottom: 8px;
-			margin-top: 8px;
-			padding-bottom: @navbar-padding-vertical - 8px;
-			padding-top: @navbar-padding-vertical - 8px;
-			
-			&:hover,
-			&:focus {
-				background-color: white;
-			}
-			&:active {
-				background-color: darken(@navbar-default-bg, 10%);
-			}
+}
+@media (max-width: @screen-xs-max) {
+	.keystone-logo > img {
+		height: 50px;
+		width: 148px;
+	}
+	.docs-nav {
+		.box-shadow( ~"0 1px 4px rgba(0,0,0,0.1), 0 1px 0 rgba(0,0,0,0.1)" );
+		background-color: white;
+		line-height: 4;
+		margin-left: @grid-gutter-width / -2;
+		margin-right: @grid-gutter-width / -2;
+		.active a {
+			.box-shadow( 3px 0 @link-color inset );
+			background-color: #fafafa;
+		}
+		a:active {
+			background-color: #fafafa;
 		}
 	}
-	
+}
+@media (min-width: @screen-sm-min) {
+	.docs-nav {
+		float: right;
+		
+		.collapse {
+			display: block;
+		}
+		li {
+			float: left;
+		}
+	}
 }
 
 // footer
-#docs-footer {
+.docs-footer {
+	background-color: #fafafa;
 	border-top: 1px solid @gray-lighter;
-	margin-top: 70px;
-	padding: 50px 0;
+	color: @gray-light;
+	font-size: @font-size-small;
+	font-weight: 300;
+	padding-bottom: 30px;
+	padding-top: 30px;
 	position: relative;
 	text-align: center;
 	
-	p {
-		color: @gray-light;
-		margin-bottom: 0;
-		padding: 10px 0 0 0;
-		text-align: left;
+	h4 {
+		color: @gray;
 	}
 	a {
-		color: @gray-light;
-	}
-	
-	.list-links {
-		margin: 0;
-		padding: 10px 0 0 0;
-		text-align: left;
+		color: @gray;
 		
-		li {
-			display: block;
+		&:hover {
+			color: @gray-dark;
+			text-decoration: none;
 		}
-		li + li {
-			margin: 10px 0 0 0;
-		}
-	}
-	.copyright {
-		margin: 50px 0 0 0;
 	}
 	
 	.social-buttons {
-		background-color: white;
 		display: inline-block;
-		padding: 5px 20px;
-		position: relative;
+		margin-top: 20px;
 		text-align: center;
-		top: -66px;
 		
 		.social-button {
 			display: inline-block;
@@ -140,27 +147,17 @@
 	}
 	
 	@media (min-width: @screen-sm) {
-		padding: 100px 0;
+		padding-bottom: 60px;
+		padding-top: 60px;
 		
-		.social-buttons {
-			top: -116px;
+		li {
+			padding-left: 0;
+			padding-right: 0;
 		}
-		.list-links {
-			float: left;
-			
-			li {
-				display: inline-block;
-			}
-			li + li {
-				margin: 0 30px 0 0;
-			}
-		}
-		.copyright {
-			float: right;
-			margin: 0;
-		}
-		.footer-wrap {
-			.clearfix();
+		li + li:before {
+			content: " \00B7 ";
+			display: inline-block;
+			padding: 0 15px;
 		}
 	}
 	

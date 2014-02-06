@@ -1,12 +1,21 @@
 extends ../layout/base
 
 block content
-	.container: .alerts
-		.alert.alert-success The KeystoneJS docs are in beta. For updates, please follow @keystonejs on twitter!
+	.page-header
+		.container
+			h1 Database
+			p.lead In KeystoneJS, your data schema and models are controlled by Lists, and documents in your database are often called Items.
+	.page-subheader
+		.container
+			p If you have a question check out the 
+				a(href="https://groups.google.com/forum/#!forum/keystonejs", target="_blank") Google Group
+				|  and get an answer from the community 
+				//- |  or log an issue on 
+				//- a(href="https://github.com/JedWatson/keystone/issues", target="_blank") GitHub
 	
 	.container: .row
 		
-		.col-sm-3: #docs-sidebar
+		.col-sm-3: nav.docs-sidebar
 			ul.sidebar-nav
 				li.nav-label Database
 				li: a(href='#concepts') Concepts
@@ -46,10 +55,10 @@ block content
 				li: a(href='#field_s3file') S3 File
 				li: a(href='#field_embedly') Embedly
 		
-		.col-sm-9: #docs-content
+		.col-sm-9: .docs-content
 			
+			h2 Concepts
 			a(name='concepts')
-			h1 Setting up &amp; Using Data Models
 			
 			p In KeystoneJS, your data schema and models are controlled by <strong>Lists</strong>, and documents in your database are often called <strong>Items</strong>.
 			

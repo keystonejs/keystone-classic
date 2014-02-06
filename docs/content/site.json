@@ -1,11 +1,10 @@
 {
 	"locals": {
 		"nav": [
-			{ "section": "home", "path": "/", "label": "Home" },
-			{ "section": "starting", "path": "/guide", "label": "Getting Started" },
-			{ "section": "config", "path": "/guide/config", "label": "Configuration" },
-			{ "section": "data", "path": "/guide/data", "label": "Database" },
-			{ "section": "examples", "path": "/examples", "label": "Examples" }
+			{ "section": "starting",    "path": "/guide",           "label": "Getting Started" },
+			{ "section": "config",      "path": "/guide/config",    "label": "Configuration" },
+			{ "section": "data",        "path": "/guide/data",      "label": "Database" },
+			{ "section": "examples",    "path": "/examples",        "label": "Examples" }
 		]
 	},
 	"routes": [
