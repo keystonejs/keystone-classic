@@ -9,16 +9,18 @@ block intro
 			a(href='http://github.com/JedWatson/keystone', target='_blank').btn.btn-lg.btn-primary
 				span.hidden-xs View on GitHub
 				span.visible-xs GitHub
-			a(href='/getting-started', title='KeystoneJS getting started guide').btn.btn-lg.btn-link Getting Started
+			a(href='/getting-started', title='KeystoneJS getting started guide').btn.btn-lg.btn-link
+				span.hidden-xs Getting Started
+				span.visible-xs Start
 			a(href='http://demo.keystonejs.com', target='_blank', title='Demo Website (new window)').btn.btn-lg.btn-link.hidden-xs Try the demo
 			
 			//- Clutter?
 			//- a(href='/examples', title='Sample Applications').btn.btn-lg.btn-link Examples
 			
 		ul.list-inline.list-links
-			li Current version is #{version}
+			li Current version #{version}
 			li: a(href='https://github.com/JedWatson/keystone/blob/master/HISTORY.md', target='_blank', title='View Changelog on GitHub') What’s New
-			li: a(href='/examples', title='Sample Applications') Examples
+			li: a(href='/examples', title='Sample Applications').hidden-xs Examples
 			
 		//- MIT Licence metioned in the footer
 		//- .mit-licence
