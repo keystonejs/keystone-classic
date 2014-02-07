@@ -61,25 +61,22 @@ body {
 	margin: 0;
 	padding: 0;
 	
+	li {
+		margin-left: 2px;
+	}
 	a {
 		color: @gray;
 		display: block;
 		padding: 0 15px;
 		text-decoration: none;
-		
-		&:hover,
-		&:focus {
-			background-color: transparent;
-			color: @gray-darker;
-		}
 	}
 	
 	// active
 	.active a {
-		@shadow: 0 -1px white inset, 0 -4px @link-color inset;
+		@shadow: 0 -2px white inset, 0 -5px @link-color inset;
 		.box-shadow( @shadow );
 		background: none transparent;
-		// color: @gray-light;
+		color: @gray-darker;
 	}
 }
 .docs-nav__collapse.in {
@@ -114,6 +111,14 @@ body {
 		}
 		li {
 			float: left;
+		}
+		a {
+			&:hover,
+			&:focus {
+				@shadow: 0 -2px white inset, 0 -5px mix(@link-color, white, 50%) inset;
+				.box-shadow( @shadow );
+				background-color: transparent;
+			}
 		}
 	}
 }
