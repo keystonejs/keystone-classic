@@ -1,5 +1,7 @@
 extends ../layout/base
 
+include ../mixins/docsnav
+
 block content
 	.page-header
 		.container
@@ -56,6 +58,8 @@ block content
 				li: a(href='#field_embedly') Embedly
 		
 		.col-sm-9: .docs-content
+			
+			+docsnav(section)
 			
 			h2 Concepts
 			a(name='concepts')

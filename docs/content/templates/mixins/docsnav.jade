@@ -1,0 +1,5 @@
+mixin docsnav(section)
+	nav.section-nav
+		ul.section-nav-toggle
+			for doc in docsnav
+				li(class=docsection == doc.docsection ? 'active' : null): a(href=doc.path)= doc.label

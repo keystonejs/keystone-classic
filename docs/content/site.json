@@ -1,10 +1,13 @@
 {
 	"locals": {
-		"nav": [
+		"primarynav": [
 			{ "section": "starting",    "path": "/guide",           "label": "Getting Started" },
-			{ "section": "config",      "path": "/guide/config",    "label": "Configuration" },
-			{ "section": "data",        "path": "/guide/data",      "label": "Database" },
+			{ "section": "docs",        "path": "/guide/config",    "label": "Docs" },
 			{ "section": "examples",    "path": "/examples",        "label": "Examples" }
+		],
+		"docsnav": [
+			{ "docsection": "config",      "path": "/guide/config",    "label": "Configuration" },
+			{ "docsection": "data",        "path": "/guide/data",      "label": "Database" }
 		]
 	},
 	"routes": [
@@ -23,20 +26,16 @@
 		{
 			"path": "/guide/config",
 			"template": "configuration",
-			"section": "config",
+			"section": "docs",
+			"docsection": "config",
 			"title": "KeystoneJS Configuration Options"
 		},
 		{
 			"path": "/guide/data",
 			"template": "database",
-			"section": "data",
+			"section": "docs",
+			"docsection": "data",
 			"title": "Setting up and using Data Models"
-		},
-		{
-			"path": "/guide/routes",
-			"template": "routes",
-			"section": "routes",
-			"title": "Setting up Routes and Views"
 		},
 		{
 			"path": "/examples",

@@ -259,8 +259,8 @@ code.default-value {
 		border-radius: 4px;
 		// color: @gray;
 		display: block;
-		height: 30px;
-		line-height: 30px;
+		height: 2em;
+		line-height: 2em;
 		
 		&:hover {
 			// background-color: @gray-lighter;
@@ -271,6 +271,9 @@ code.default-value {
 	.active a {
 		background-color: @gray-lighter;
 		color: @gray;
+	}
+	@media (min-width: @screen-sm-min) {
+		font-size: 1.4em;
 	}
 }
 .section-nav + h2 {

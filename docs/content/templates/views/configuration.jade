@@ -1,5 +1,7 @@
 extends ../layout/base
 
+include ../mixins/docsnav
+
 block content
 	.page-header
 		.container
@@ -35,15 +37,9 @@ block content
 				li: a(href='#headless') Disabling the Admin UI
 		
 		.col-sm-9: .docs-content
-			//- nav.section-nav
-				ul.section-nav-toggle
-					li.active: a(href='/config')
-						span.hidden-sm Configuration
-						span.visible-sm Config
-					li: a(href='/guide/data')
-						span.hidden-sm Database
-						span.visible-sm Data
-					li: a(href='/guide/examples') Examples
+			
+			+docsnav(section)
+			
 			h2 Keystone Options
 			
 			a(name='concepts')
