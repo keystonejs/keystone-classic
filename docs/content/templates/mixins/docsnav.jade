@@ -1,5 +1,10 @@
 mixin docsnav(docsection)
-	nav.docs-sidebar
+	.visible-xs: ul.nav-toggle
+		each section in docsnav
+			li(class=docsection == section.value ? 'active' : null)
+				a(href=section.path).nav-heading= section.labelsm
+		
+	nav.docs-sidebar.hidden-xs
 		ul.sidebar-nav
 			each section in docsnav
 				li(class=docsection == section.value ? 'active' : null)

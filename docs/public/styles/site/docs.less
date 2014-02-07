@@ -284,9 +284,9 @@ code.default-value {
 // sidebar toggle
 .nav-toggle {
 	border-radius: 4px;
-	border: 1px solid @gray-lighter;
+	border: 1px solid darken(@gray-lighter, 5%);
 	list-style: none;
-	margin-top: 0;
+	margin-top: 2em;
 	margin-right: @grid-gutter-width;
 	padding: 0;
 	
@@ -300,11 +300,13 @@ code.default-value {
 		// width: 50%;
 	}
 	a {
-		border-radius: 4px;
+		border-radius: 3px;
 		// color: @gray;
 		display: block;
 		height: 2em;
 		line-height: 2em;
+		padding-left: .5em;
+		padding-right: .5em;
 		
 		&:hover {
 			// background-color: @gray-lighter;

@@ -7,9 +7,9 @@
 			{ "section": "examples",            "path": "/examples",              "label": "Examples" }
 		],
 		"docsnav": [
-			{ "value": "guides",           "path": "/docs/guides",           "label": "Guides" },
-			{ "value": "configuration",    "path": "/docs/configuration",    "label": "Configuration" },
-			{ "value": "database",         "path": "/docs/database",         "label": "Database" }
+			{ "value": "guides",           "path": "/docs/guides",           "label": "Guides",           "labelsm": "Guides" },
+			{ "value": "configuration",    "path": "/docs/configuration",    "label": "Configuration",    "labelsm": "Config" },
+			{ "value": "database",         "path": "/docs/database",         "label": "Database",         "labelsm": "Data" }
 		]
 	},
 	"routes": [
