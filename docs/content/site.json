@@ -1,13 +1,15 @@
 {
 	"locals": {
 		"primarynav": [
-			{ "section": "starting",    "path": "/guide",           "label": "Getting Started" },
-			{ "section": "docs",        "path": "/guide/config",    "label": "Docs" },
-			{ "section": "examples",    "path": "/examples",        "label": "Examples" }
+			{ "section": "home",                "path": "/",                      "label": "Home" },
+			{ "section": "starting",            "path": "/getting-started",       "label": "Getting Started" },
+			{ "section": "docs",                "path": "/docs",                  "label": "Docs" },
+			{ "section": "examples",            "path": "/examples",              "label": "Examples" }
 		],
 		"docsnav": [
-			{ "docsection": "config",      "path": "/guide/config",    "label": "Configuration" },
-			{ "docsection": "data",        "path": "/guide/data",      "label": "Database" }
+			{ "value": "guides",           "path": "/docs/guides",           "label": "Guides" },
+			{ "value": "configuration",    "path": "/docs/configuration",    "label": "Configuration" },
+			{ "value": "database",         "path": "/docs/database",         "label": "Database" }
 		]
 	},
 	"routes": [
@@ -18,30 +20,83 @@
 			"title": "Node.js cms and web application platform built on Express and MongoDB"
 		},
 		{
-			"path": "/guide",
+			"path": "/getting-started",
 			"template": "starting",
 			"section": "starting",
 			"title": "Getting started"
-		},
-		{
-			"path": "/guide/config",
-			"template": "configuration",
-			"section": "docs",
-			"docsection": "config",
-			"title": "KeystoneJS Configuration Options"
-		},
-		{
-			"path": "/guide/data",
-			"template": "database",
-			"section": "docs",
-			"docsection": "data",
-			"title": "Setting up and using Data Models"
 		},
 		{
 			"path": "/examples",
 			"template": "examples",
 			"section": "examples",
 			"title": "Sample applications"
+		},
+		
+		
+		
+		
+		{
+			"path": "/docs/guides",
+			"template": "docs/guides/index",
+			"section": "docs",
+			"docsection": "guides",
+			"title": "KeystoneJS Guides"
+		},
+		
+		
+		{
+			"path": "/docs/guides/getting-started",
+			"template": "docs/guides/getting-started/index",
+			"section": "docs",
+			"docsection": "guides",
+			"title": "Getting started"
+		},
+		{
+			"path": "/docs/guides/getting-started/models",
+			"template": "docs/guides/getting-started/models",
+			"section": "docs",
+			"docsection": "guides",
+			"title": "Getting Started: Models"
+		},
+		{
+			"path": "/docs/guides/getting-started/routes-views",
+			"template": "docs/guides/getting-started/routes-views",
+			"section": "docs",
+			"docsection": "guides",
+			"title": "Getting Started: Routes &amp; Views"
+		},
+		{
+			"path": "/docs/guides/getting-started/running-your-app",
+			"template": "docs/guides/getting-started/running-your-app",
+			"section": "docs",
+			"docsection": "guides",
+			"title": "Getting Started: Running your App"
+		},
+		
+		
+		
+		
+		
+		{
+			"path": "/docs",
+			"template": "docs/index",
+			"section": "docs",
+			"docsection": "index",
+			"title": "KeystoneJS Documentation"
+		},
+		{
+			"path": "/docs/configuration",
+			"template": "docs/configuration",
+			"section": "docs",
+			"docsection": "configuration",
+			"title": "KeystoneJS Configuration Options"
+		},
+		{
+			"path": "/docs/database",
+			"template": "docs/database",
+			"section": "docs",
+			"docsection": "database",
+			"title": "Setting up and using Data Models"
 		}
 	]
 }

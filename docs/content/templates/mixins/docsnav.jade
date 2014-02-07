@@ -1,5 +1,68 @@
-mixin docsnav(section)
-	nav.section-nav
-		ul.section-nav-toggle
-			for doc in docsnav
-				li(class=docsection == doc.docsection ? 'active' : null): a(href=doc.path)= doc.label
+mixin docsnav(docsection)
+	nav.docs-sidebar
+		ul.sidebar-nav
+			each section in docsnav
+				li(class=docsection == section.value ? 'active' : null)
+					a(href=section.path).nav-heading= section.label
+					if section.value == docsection && section.value == 'guides'
+						ul
+							li.nav-label Getting Started
+							li: a(href='/docs/guides/getting-started') Starting a new project
+							li: a(href='/docs/guides/getting-started/models') Models
+							li: a(href='/docs/guides/getting-started/routes-views') Routes &amp; Views
+							li: a(href='/docs/guides/getting-started/running-your-app') Running your App
+					else if section.value == docsection && section.value == 'configuration'
+						ul
+							li.nav-label Keystone Options
+							li: a(href='#concepts') Setting Options
+							li: a(href='#project') Project Options
+							li: a(href='#server') Web Server Options
+							li: a(href='#database') Database and User Auth Options
+							li.nav-label Services
+							li: a(href='#google') Google Maps
+							li: a(href='#amazons3') Amazon S3
+							li: a(href='#cloudinary') Cloudinary
+							li: a(href='#embedly') Embed.ly
+							li: a(href='#mandrill') Mandrill
+							li.nav-label More
+							li: a(href='#updates') Application Updates
+							li: a(href='#headless') Disabling the Admin UI
+					else if section.value == docsection && section.value == 'database'
+						ul
+							li.nav-label Database
+							li: a(href='#concepts') Concepts
+							li.nav-label Lists
+							li: a(href='#lists_usage') Usage
+							li: a(href='#lists_example') Example
+							li: a(href='#lists_options') List Options
+							li: a(href='#lists_plugins') Schema Plugins
+							li: a(href='#lists_querying') Querying Data
+							li.nav-label Fields
+							li: a(href='#fields_overview') Overview
+							li: a(href='#fields_options') Field Options
+							li: a(href='#fields_underscoremethods') Underscore Methods
+							li.nav-label Relationships
+							li: a(href='#relationship_fields') Fields
+							li: a(href='#relationship_definitions') Definitions
+							li: a(href='#relationship_queries') Queries
+							li.nav-label Field Types
+							li: a(href='#field_boolean') Boolean
+							li: a(href='#field_text') Text
+							li: a(href='#field_textarea') Textarea
+							li: a(href='#field_email') Email
+							li: a(href='#field_url') Url
+							li: a(href='#field_html') Html
+							li: a(href='#field_date') Date
+							li: a(href='#field_datetime') Datetime
+							li: a(href='#field_key') Key
+							li: a(href='#field_number') Number
+							li: a(href='#field_money') Money
+							li: a(href='#field_select') Select
+							li: a(href='#field_markdown') Markdown
+							li: a(href='#field_name') Name
+							li: a(href='#field_password') Password
+							li: a(href='#field_location') Location
+							li: a(href='#field_cloudinaryimage') CloudinaryImage
+							li: a(href='#field_cloudinaryimages') CloudinaryImages
+							li: a(href='#field_s3file') S3 File
+							li: a(href='#field_embedly') Embedly

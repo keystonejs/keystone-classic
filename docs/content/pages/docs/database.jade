@@ -1,65 +1,22 @@
-extends ../layout/base
+extends ../../templates/layout/base
 
-include ../mixins/docsnav
+include ../../templates/mixins/docsnav
 
 block content
 	.page-header
 		.container
 			h1 Database
 			p.lead In KeystoneJS, your data schema and models are controlled by Lists, and documents in your database are often called Items.
-	.page-subheader
-		.container
-			p If you have a question check out the 
-				a(href="https://groups.google.com/forum/#!forum/keystonejs", target="_blank") Google Group
-				|  and get an answer from the community 
-				//- |  or log an issue on 
-				//- a(href="https://github.com/JedWatson/keystone/issues", target="_blank") GitHub
+	include ../../templates/includes/page-subheader
+	
 	
 	.container: .row
 		
-		.col-sm-3.hidden-xs: nav.docs-sidebar
-			ul.sidebar-nav
-				li.nav-label Database
-				li: a(href='#concepts') Concepts
-				li.nav-label Lists
-				li: a(href='#lists_usage') Usage
-				li: a(href='#lists_example') Example
-				li: a(href='#lists_options') List Options
-				li: a(href='#lists_plugins') Schema Plugins
-				li: a(href='#lists_querying') Querying Data
-				li.nav-label Fields
-				li: a(href='#fields_overview') Overview
-				li: a(href='#fields_options') Field Options
-				li: a(href='#fields_underscoremethods') Underscore Methods
-				li.nav-label Relationships
-				li: a(href='#relationship_fields') Fields
-				li: a(href='#relationship_definitions') Definitions
-				li: a(href='#relationship_queries') Queries
-				li.nav-label Field Types
-				li: a(href='#field_boolean') Boolean
-				li: a(href='#field_text') Text
-				li: a(href='#field_textarea') Textarea
-				li: a(href='#field_email') Email
-				li: a(href='#field_url') Url
-				li: a(href='#field_html') Html
-				li: a(href='#field_date') Date
-				li: a(href='#field_datetime') Datetime
-				li: a(href='#field_key') Key
-				li: a(href='#field_number') Number
-				li: a(href='#field_money') Money
-				li: a(href='#field_select') Select
-				li: a(href='#field_markdown') Markdown
-				li: a(href='#field_name') Name
-				li: a(href='#field_password') Password
-				li: a(href='#field_location') Location
-				li: a(href='#field_cloudinaryimage') CloudinaryImage
-				li: a(href='#field_cloudinaryimages') CloudinaryImages
-				li: a(href='#field_s3file') S3 File
-				li: a(href='#field_embedly') Embedly
+		.col-sm-3.hidden-xs
+			+docsnav(docsection)
 		
 		.col-sm-9: .docs-content
 			
-			+docsnav(section)
 			
 			h2 Concepts
 			a(name='concepts')
@@ -400,6 +357,8 @@ block content
 				p <code>refPath</code> <code class="data-type">String</code> - the path of the relationship being referred to in the referred Model
 			
 			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it referrs to.
+			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it refers to.
+
 			
 			p.note Relationship definitions are optional; if you leave them out, the relationships simply won't be displayed in the Admin UI from the other side of the relationship. The relationship field will still work as expected.
 			
@@ -468,7 +427,7 @@ block content
 			a(name="field_url")
 			h3 <code>Url</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.
-			pre: code.language-javascript { type: Types.Text }
+			pre: code.language-javascript { type: Types.Url }
 			.options
 				
 				h5 Underscore methods:
@@ -692,7 +651,7 @@ block content
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
 			p Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
 			p Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).
-			p See the <a href="/guide/config#google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.
+			p See the <a href="/docs/configuration#google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.
 			pre: code.language-javascript { type: Types.Location }
 			p.note Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
 			.options
@@ -724,7 +683,7 @@ block content
 			h3 <code>CloudinaryImage</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
 			p Automatically manages images stored in <a href="http://cloudinary.com" target="_blank">Cloudinary</a>, including uploading, resizing and deleting.
-			p See the <a href="/guide/config#cloudinary">Cloudinary configuration documentation</a> for details on how to set up Cloudinary in KeystoneJS.
+			p See the <a href="/docs/configuration#cloudinary">Cloudinary configuration documentation</a> for details on how to set up Cloudinary in KeystoneJS.
 			pre: code.language-javascript { type: Types.CloudinaryImage }
 			.options
 				
@@ -808,7 +767,7 @@ block content
 			p Automatically retrieves data from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).
 			p It stores the retrieved data (which includes the provider, media type, full URL, HTML embed code, width, height, thumbnail picture and more).
 			p The api call to retrieve the data is implemented as a pre-save hook, and is only triggered if the <strong>from path</strong> value has changed.
-			p See the <a href="/guide/config#embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.
+			p See the <a href="/docs/configuration#embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.
 			pre: code.language-javascript { type: Types.Embedly, from: 'path' }
 			.options
 				

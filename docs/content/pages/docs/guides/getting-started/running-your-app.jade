@@ -1,0 +1,83 @@
+extends ../../../../templates/layout/base
+
+include ../../../../templates/mixins/docsnav
+
+block content
+	.page-header
+		.container
+			h1 Your New Project
+			p.lead You've just created a new project. What actually happened?
+	include ../../../../templates/includes/page-subheader
+	
+	.container: .row
+		
+		.col-sm-3.hidden-xs
+			+docsnav(docsection)
+		
+		.col-sm-9: .docs-content
+			h2 Running your app
+			
+			p You're now (almost) ready to run your app! Before we do, though, we should add a <strong>User</strong> so you can sign in to Keystone's Admin UI.
+			
+			h3 Writing Updates
+			
+			p To do this, we're going to create an update script, which Keystone will automatically run before starting the web server.
+			
+			p Keystone's automatic update functionality is enabled in <code>web.js</code> by the <code>auto update</code> option.
+			
+			p When the option is set to <code>true</code>, Keystone will scan the <code>updates</code> directory for <code>.js</code> files, each of which should export a method accepting a single argument:
+			ul
+				li <code>next</code> - the method to call when the update has finished running (including any internal callbacks)
+			
+			p Updates are ordered using <a href="http://semver.org" target="_blank">Semantic Versioning</a>, and Keystone will only run them once (successfully executed updates are stored in your database, in a collection called <code>app_updates</code>).
+			
+			p Update file names should match the pattern <code>x.x.x-description.js</code> - anything after the first hyphen is ignored, so you can describe the update in the filename.
+			
+			p So to automatically add a new Admin User when your app first launches, create a <code>updates/0.0.1-admin.js</code> file:
+			
+			.code-header
+				h4 updates/0.0.1-admin.js
+				p Update script to add the first admin (change to your own name, email and password)
+			pre: code.language-javascript
+				| var keystone = require('keystone'),
+				|     User = keystone.list('User');
+				| 
+				| exports = module.exports = function(done) {
+				|     
+				|     new User.model({
+				|         name: { first: 'Admin', last: 'User' },
+				|         email: 'admin@keystonejs.com',
+				|         password: 'admin',
+				|         canAccessKeystone: true
+				|     }).save(done);
+				|     
+				| };
+			
+			p.note You probably don't want to store your real password in the code, so it's a good idea to set the default password to something simple, then sign in and change it using Keystone's Admin UI after you start your app for the first time.
+			
+			a(name="running_go")
+			h3 Starting Keystone
+			
+			p Now you're ready to run your application, so execute the following in your project's main folder:
+			p: code node web
+			
+			p Keystone will automatically apply the update, and then start a web server on the default port, 3000.
+			
+			p To see your home page, point your browser at <a href="http://localhost:3000" target="_blank">localhost:3000</a>. You should see our <strong>Hello World!</strong> message.
+			
+			p To sign in to Keystone's Admin UI, go to <a href="http://localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>. Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.
+			
+			
+			a(name="running_next")
+			h3 Next Steps
+			
+			p ... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/docs/data">database guide</a>.
+			
+			p You should also <a href="https://twitter.com/keystonejs" target="_blank">Follow @KeystoneJS on Twitter</a> for news and updates, <a href="https://github.com/JedWatson/keystone/" target="_blank">Star KeystoneJS on GitHub</a>, and discuss this guide (or anything KeystoneJS related) on the <a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS Google Group</a>.
+			
+			p We've also got more <a href="/examples">Examples and Sample Code</a> for you on the examples page.
+			
+			p Enjoy using KeystoneJS!
+			
+			.simple-pager
+				a(href='/docs/guides/getting-started/routes-views').btn.btn-default.prev &larr; Routes &amp; Views

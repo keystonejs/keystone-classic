@@ -1,8 +1,5 @@
-.docs-footer: .container
-	//- .social-buttons
-		.social-button: a(href="https://twitter.com/keystonejs", class="twitter-follow-button", data-show-count="false") Follow @keystonejs
-		.social-button: iframe(src="http://ghbtns.com/github-btn.html?user=JedWatson&repo=keystone&type=watch&count=true", allowtransparency="true", frameborder=0, scrolling=0, width=80, height=20)
-	.footer-wrap
+.docs-footer
+	.container
 		p
 			| Created by 
 			a(href='http://twitter.com/jedwatson', target='_blank') @jedwatson
@@ -13,11 +10,12 @@
 		ul.list-inline
 			li: a(href='https://github.com/JedWatson/keystone', target='_blank', title='Github Project') Github Project
 			li: a(href='http://demo.keystonejs.com', target='_blank', title='Demo Website') Demo Website
-			li: a(href='/guide', title='KeystoneJS Getting Started') Getting Started
-			li: a(href='/guide/config', title='KeystoneJS Configuration') Configuration
-			li: a(href='/guide/data', title='KeystoneJS Database') Database
+			li: a(href='/getting-started', title='KeystoneJS Getting Started') Getting Started
+			li: a(href='/docs/configuration', title='KeystoneJS Configuration') Configuration
+			li: a(href='/docs/database', title='KeystoneJS Database') Database
 			li: a(href='/examples', title='KeystoneJS Database') Examples
-		//- h4 Help us spread the word
+.docs-footer-floor
+	.container
 		.social-buttons
-			a(href="https://twitter.com/keystonejs", class="twitter-follow-button", data-show-count="true") Follow @keystonejs
-			iframe(src="http://ghbtns.com/github-btn.html?user=JedWatson&repo=keystone&type=watch&count=true", allowtransparency="true", frameborder=0, scrolling=0, width=80, height=20)
+			.social-button.social-button__twitter: a(href="https://twitter.com/keystonejs", class="twitter-follow-button", data-show-count="true") Follow @keystonejs
+			.social-button.social-button__github: iframe(src="http://ghbtns.com/github-btn.html?user=JedWatson&repo=keystone&type=watch&count=true", allowtransparency="true", frameborder=0, scrolling=0, width=86, height=20)

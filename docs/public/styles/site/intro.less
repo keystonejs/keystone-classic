@@ -3,16 +3,20 @@
 // ==============================
 
 // Keystone hero
-#hero {
+.home-hero {
 	background: url( "/images/intro-bg-inverse.png" ) no-repeat right bottom @link-color;
 	color: white;
-	padding: 20px 0;
-	position: relative;
-	top: -1px;
+	
+	.container {
+		padding-bottom: 20px;
+		padding-top: 20px;
+		position: relative;
+	}
 	
 	h1 {
 		color: white;
 		font-size: 24px;
+		font-weight: 300;
 		line-height: 1.2;
 		margin: 0;
 	}
@@ -23,6 +27,7 @@
 	
 	.btn {
 		border: 2px solid transparent;
+		margin-right: 10px;
 		padding-left: 2em;
 		padding-right: 2em;
 	}
@@ -39,8 +44,10 @@
 		}
 	}
 	
+	// current version + what's new
 	.list-links {
 		color: rgba(255,255,255,0.8);
+		margin-bottom: 20px;
 		margin-top: 20px;
 		
 		li {
@@ -57,6 +64,17 @@
 			}
 		}
 	}
+	
+	
+	// twitter + github buttons
+	.social-button {
+		display: inline-block;
+		line-height: 0;
+		height: 20px;
+	}
+	
+	
+	// mit licence
 	.mit-licence {
 		.clearfix();
 		font-size: 13px;
@@ -95,44 +113,37 @@
 		}
 	}
 	@media (min-width: @screen-sm) {
-		padding: 50px 0;
-	
+		
 		h1 {
 			font-size: 40px;
 			font-weight: 100;
 			margin-right: 18%;
 		}
+		.container {
+			padding-bottom: 50px;
+			padding-top: 50px;
+		}
 		.btn-lg {
 			font-size: 20px;
 		}
-	}
-}
-
-// Buttons
-.buttons {
-	.btn {
-		border-radius: @border-radius-base;
-	}
-	.btn + .btn {
-		margin-left: 10px;
-	}
-	.btn-link {
-		border-color: @link-color;
-		
-		&:hover {
+		.social-buttons {
+			background-color: rgba(0, 0, 0, 0.2);
 			background-color: white;
-			text-decoration: none;
+			border-radius: 6px 6px 0 0;
+			bottom: 0;
+			left: @grid-gutter-width / 2;
+			padding: 19px 21px 9px;
+			position: absolute;
+		}
+		.social-button__twitter iframe {
+			width: 220px !important;
 		}
 	}
-}
-.btn-lg {
-	font-size: 16px;
 }
 	
 // Intro sections
 .intro-section {
-	border-bottom: 1px solid #ededed;
-	padding: 30px 0 30px;
+	padding: 30px 0;
 	
 	.section-header {
 		margin: 0 auto 40px;
@@ -209,22 +220,97 @@
 
 // admin
 .admin-section {
-	border-bottom: 0 none;
-	padding-bottom: 0;
+	background-color: mix(@link-color, white, 10%);
+	padding-bottom: 12em;
 	
-	h2 {
-		color: @link-color;
+	.row {
+		margin: 2em 0;
+	}
+	.admin-image-full {
+		margin-bottom: 2em;
+		position: relative;
+		
+		
+		&:before {
+			.size(100%,1px);
+			background-color: rgba(0, 0, 0, 0.1);
+			bottom: 0;
+			content: "";
+			left: 0;
+			position: absolute;
+		}
+		img {
+			margin: 0 auto;
+		}
+	}
+	.admin-image {
+		img {
+			@shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0 rgba(0, 0, 0, 0.05);
+			.box-shadow( @shadow );
+			margin: 0 auto;
+		}
 	}
 }
 
 // tools
 .tools-section {
-	background: url( "/images/tools-bg.png" ) repeat @brand-primary;
+	background-color: @brand-primary;
+	// background: url( "/images/tools-bg.png" ) repeat @brand-primary;
+	position: relative;
+	
+	.container {
+		position: relative;
+		z-index: 1;
+	}
 	
 	&,
 	h2,
 	.lead {
 		color: white;
+	}
+	.big-icon {
+		display: none;
+		position: relative;
+		text-align: center;
+		
+		&:before {
+			.size(100%,2px);
+			.translate(0, -50%);
+			background-color: rgba(255, 255, 255, 0.2);
+			content: "";
+			left: 0;
+			position: absolute;
+			top: 50%;
+		}
+		
+		.entypo {
+			background-color: @link-color;
+			display: inline-block;
+			font-size: 160px;
+			padding: 20px;
+			position: relative;
+			z-index: 1;
+		}
+	}
+	.tool-icon {
+		position: absolute;
+	}
+	.tool-icon__cloud {
+		color: @link-color;
+		font-size: 340px;
+		top: -100px;
+		right: 8%;
+	}
+	.tool-icon__rocket {
+		color: @link-color;
+		font-size: 200px;
+		top: -120px;
+		left: 8%;
+	}
+	@media (min-width: @screen-sm) {
+		.big-icon {
+			display: block;
+		}
 	}
 }
 

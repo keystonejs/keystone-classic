@@ -1,44 +1,20 @@
-extends ../layout/base
+extends ../../templates/layout/base
 
-include ../mixins/docsnav
+include ../../templates/mixins/docsnav
 
 block content
 	.page-header
 		.container
 			h1 Configuration
 			p.lead The options for KeystoneJS cover a range of behaviours, from how the express app is configured, to enabling features and authentication options for integrated services.
-	.page-subheader
-		.container
-			p If you have a question check out the 
-				a(href="https://groups.google.com/forum/#!forum/keystonejs", target="_blank") Google Group
-				|  and get an answer from the community 
-				//- |  or log an issue on 
-				//- a(href="https://github.com/JedWatson/keystone/issues", target="_blank") GitHub
+	include ../../templates/includes/page-subheader
 	
 	.container: .row
 		
-		.col-sm-3.hidden-xs: nav.docs-sidebar
-			ul.sidebar-nav
-				li.nav-label Keystone Options
-				li: a(href='#concepts') Setting Options
-				li: a(href='#project') Project Options
-				li: a(href='#server') Web Server Options
-				li: a(href='#database') Database and User Auth Options
-				//- li.nav-label Emails
-				//- li: a(href='#emails')
-				li.nav-label Services
-				li: a(href='#google') Google Maps
-				li: a(href='#amazons3') Amazon s3
-				li: a(href='#cloudinary') Cloudinary
-				li: a(href='#embedly') Embed.ly
-				li: a(href='#mandrill') Mandrill
-				li.nav-label More
-				li: a(href='#updates') Application Updates
-				li: a(href='#headless') Disabling the Admin UI
+		.col-sm-3.hidden-xs
+			+docsnav(docsection)
 		
 		.col-sm-9: .docs-content
-			
-			+docsnav(section)
 			
 			h2 Keystone Options
 			
@@ -181,7 +157,7 @@ block content
 			
 			p For a walk-through of how to set these options up, see the <a href="/guide#models_auth">getting started guide</a>.
 			
-			p For more information about setting up and using database models with Keystone, see the <a href="/guide/data">database guide</a>.
+			p For more information about setting up and using database models with Keystone, see the <a href="/docs/data">database guide</a>.
 			
 			
 			//- a(name='emails')
@@ -196,7 +172,7 @@ block content
 			a(name='google')
 			h3 Google Maps
 			
-			p Keystone's <a href="/guide/data#field_location">Location field type</a> supports integration with the <a href="http://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.
+			p Keystone's <a href="/docs/database#field_location">Location field type</a> supports integration with the <a href="http://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.
 			
 			p To enable these features, <a href="https://code.google.com/apis/console/" target"_blank">obtain an API Key from Google</a> and enable the Google Maps v3 and Google Places APIs for it, then set the following options:
 			
@@ -232,7 +208,7 @@ block content
 			a(name='amazons3')
 			h3 Amazon S3
 			
-			p KeystoneJS supports <a href="http://aws.amazon.com/s3/" target="_blank">Amazon S3</a> for file upload and hosting, with the <a href="/guide/data#field_s3file">S3File</a> field type.
+			p KeystoneJS supports <a href="http://aws.amazon.com/s3/" target="_blank">Amazon S3</a> for file upload and hosting, with the <a href="/docs/database#field_s3file">S3File</a> field type.
 			
 			p To use the S3File field in your app, <a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">sign up for an account</a>, create an <strong>S3 bucket</strong>, and get your <strong>key</strong> and <strong>secret</strong>.
 			
@@ -247,7 +223,7 @@ block content
 			a(name='cloudinary')
 			h3 Cloudinary
 			
-			p <a href="http://cloudinary.com" target="_blank">Cloudinary</a> is an image upload / resizing / hosting service that makes it easy to implement image management in your KeystoneJS app using the <a href="/guide/data#field_cloudinaryimage">CloudinaryImage</a> and <a href="/guide/data#field_cloudinaryimages">CloudinaryImages</a> field types.
+			p <a href="http://cloudinary.com" target="_blank">Cloudinary</a> is an image upload / resizing / hosting service that makes it easy to implement image management in your KeystoneJS app using the <a href="/docs/database#field_cloudinaryimage">CloudinaryImage</a> and <a href="/docs/database#field_cloudinaryimages">CloudinaryImages</a> field types.
 			
 			p To use the Cloudinary Image fields in your app, <a href="https://cloudinary.com/users/register/free" target="_blank">sign up for an account</a> (Cloudinary offers a free tier with up to 500MB storage, 50,000 images and 1GB data transfer) and get your <strong>cloud name</strong>, <strong>api key</strong> and <strong>api secret</strong>.
 			
@@ -281,7 +257,7 @@ block content
 			
 			p <a href="http://embed.ly" target="_blank">Embed.ly</a> is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.
 			
-			p The <a href="/guide/data#field_embedly">Embedly field type</a> is an easy way to integrate their API with your KeystoneJS app.
+			p The <a href="/docs/database#field_embedly">Embedly field type</a> is an easy way to integrate their API with your KeystoneJS app.
 			
 			p To configure KeystoneJS to support the Embed.ly API, simply <a href="https://app.embed.ly/signup">sign up for an account</a>, get your api key, and set the <code>embedly api key</code> option.
 			

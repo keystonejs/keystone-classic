@@ -1,0 +1,27 @@
+extends ../../../templates/layout/base
+
+include ../../../templates/mixins/docsnav
+
+block content
+	.page-header
+		.container
+			h1 KeystoneJS Guides
+			p.lead Get yourself learned, son!
+	include ../../../templates/includes/page-subheader
+	
+	.container: .row
+		
+		.col-sm-3.hidden-xs
+			+docsnav(docsection)
+		
+		.col-sm-9: .docs-content
+			h2 Introduction
+			
+			p KeystoneJS makes it easy to build database-driven websites, applications and APIs in Node.js.
+			p Under the hood, KeystoneJS uses the <a href="http://expressjs.com" target="_blank">express.js</a> web server framework, and a <a href="http://mongodb.com" target="_blank">MongoDB</a> database via the <a href="mongoosejs.com" target="_blank">mongoose</a> object modelling framework.
+			
+			h2 Guides
+			
+			h3: a(href=section.path).nav-heading Getting Started
+			p.lead A short blurb about each guide
+			.contextual-note Perhaps some more stuff

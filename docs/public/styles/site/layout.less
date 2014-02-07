@@ -24,7 +24,6 @@ body {
 // header
 .docs-header {
 	.clearfix();
-	border-bottom: 1px solid #ededed;
 	height: @navbar-height;
 	line-height: @navbar-height;
 	position: relative;
@@ -34,16 +33,13 @@ body {
 		position: relative;
 	}
 	.keystone-logo {
-		display: inline-block;
+		float: left;
 	}
 	.social-buttons {
-		float: right;
-		text-align: right;
+		float: left;
 	}
-	.twitter-follow-button {
-		margin-right: 10px;
-		color: white;
-		font-size: 12px;
+	.social-button {
+		display: inline-block;
 	}
 	.navbar-toggle {
 		.navbar-vertical-align(28);
@@ -143,19 +139,6 @@ body {
 		}
 	}
 	
-	.social-buttons {
-		display: inline-block;
-		margin-top: 20px;
-		text-align: center;
-		
-		.social-button {
-			display: inline-block;
-		}
-		.twitter-follow-button {
-			margin-right: 10px;
-		}
-	}
-	
 	@media (min-width: @screen-sm) {
 		padding-bottom: 60px;
 		padding-top: 60px;
@@ -168,6 +151,26 @@ body {
 			content: " \00B7 ";
 			display: inline-block;
 			padding: 0 15px;
+		}
+	}
+	
+}
+.docs-footer-floor {
+	background-color: @gray-lighter;
+	line-height: 1;
+	position: relative;
+	text-align: center;
+	
+	.social-buttons {
+		display: inline-block;
+		margin: 20px 0;
+		text-align: center;
+		
+		.social-button {
+			display: inline-block;
+		}
+		.twitter-follow-button {
+			margin-right: 10px;
 		}
 	}
 	

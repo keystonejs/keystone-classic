@@ -1,30 +1,37 @@
-extends ../layout/base
+extends ../templates/layout/base
 
 block nav
 
 block intro
-	#hero: .container
+	.home-hero: .container
 		h1 Node.js content management system and web application platform built on express and mongo.
 		p.buttons
 			a(href='http://github.com/JedWatson/keystone', target='_blank').btn.btn-lg.btn-primary
 				span.hidden-xs View on GitHub
 				span.visible-xs GitHub
-			a(href='/guide', title='KeystoneJS Documentation').btn.btn-lg.btn-link Get Started
+			a(href='/getting-started', title='KeystoneJS getting started guide').btn.btn-lg.btn-link Getting Started
+			a(href='http://demo.keystonejs.com', target='_blank', title='Demo Website (new window)').btn.btn-lg.btn-link.hidden-xs Try the demo
 			
 			//- Clutter?
-			//- a(href='http://demo.keystonejs.com', target='_blank', title='Demo website').btn.btn-lg.btn-link Try the demo
 			//- a(href='/examples', title='Sample Applications').btn.btn-lg.btn-link Examples
 			
 		ul.list-inline.list-links
-			li Current version is #{version}.
+			li Current version is #{version}
 			li: a(href='https://github.com/JedWatson/keystone/blob/master/HISTORY.md', target='_blank', title='View Changelog on GitHub') What’s New
-		
+			li: a(href='/examples', title='Sample Applications') Examples
+			
 		//- MIT Licence metioned in the footer
 		//- .mit-licence
 			a(href='http://opensource.org/licenses/MIT', target='_blank').licence-badge MIT Licence
 			span.licence-text Keystone is free and open source.
+	
+	include ../templates/includes/page-subheader
 
 block content
+	//- section.intro-section.whatis-section: .container
+		.section-header
+			h2 What is KeystoneJS
+			p.lead Keystone is the easiest way to build a web application or content-managed website in Node.js
 	section.intro-section.building-section: .container
 		.section-header
 			h2 Get a head-start on the features you need
@@ -86,34 +93,65 @@ block content
 						p Keystone includes an optional updates framework, that can take care of running update scripts for you, making it easy to transition from development to production.
 	
 	
-	section.intro-section.admin-section: .container
-		.section-header
+	section.intro-section.admin-section
+		.container: .section-header
 			h2 Admin Interface
 			p.lead A beautiful, customisable Admin UI based on your models
-		.text-center: img(src='/images/admin-interface.jpg').img-responsive
+		.container.admin-image-full
+			img(src='/images/home/admin-interface.png').img-responsive
+		.container-sm
+			.row
+				.col-sm-6
+					h3 Sophisticated Filtering
+					p TODO @jedwatson Write content... Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
+				.col-sm-6
+					.admin-image: img(src='/images/home/sophisticated-filtering.png').img-responsive.img-circle
+			.row
+				.col-sm-6.col-sm-push-6
+					h3 Responsive Design
+					p TODO @jedwatson Write content... Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
+				.col-sm-6.col-sm-pull-6
+					.admin-image: img(src='/images/home/responsive-design.png').img-responsive.img-circle
+			.row
+				.col-sm-6
+					h3 Inline Item Creation
+					p TODO @jedwatson Write content... Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
+				.col-sm-6
+					.admin-image: img(src='/images/home/inline-item-creation.png').img-responsive.img-circle
+			.row
+				.col-sm-6.col-sm-push-6
+					h3 Custom Fields
+					p TODO @jedwatson Write content... Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
+				.col-sm-6.col-sm-pull-6
+					.admin-image: img(src='/images/home/sophisticated-fields.png').img-responsive.img-circle
 	
 	
-	section.intro-section.tools-section: .container
-		.section-header
-			h2.text-center What you build is up to you.
-			p.lead There are a lot of frameworks that make decisions for you, and many that take decisions away. Keystone doesn't do that. Use the features that suit you, and replace the ones that don't.
-		.row
-			.col-sm-3
-				h4 Built on Express
-				p Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware.
-				p You can also easily integrate it into an existing Express app.
-			.col-sm-3
-				h4 Built with Mongoose
-				p Mongoose, supported by MongoDB Inc, is the leading ODM for node.js and MongoDB. Keystone exposes mongoose to you when you need it, so anything you 
-					| can build with MongoDB, you can build with Keystone.
-			.col-sm-3
-				h4 Lightweight
-				p Keystone is designed to be as light as you want - you can pick and choose the features you want to include.
-				p Write your own routes, disable the Admin UI, whatever - it's up to you.
-			.col-sm-3
-				h4 Extendable
-				p One of the greatest things about node.js is the vast number of quality packages available.
-				p Keystone is designed to let you use any of them, without losing the benefits it provides.
+	section.intro-section.tools-section
+		span.tool-icon.tool-icon__cloud.entypo.entypo-cloud
+		span.tool-icon.tool-icon__rocket.entypo.entypo-rocket
+		.container
+			.section-header
+				h2.text-center What you build is up to you.
+				p.lead There are a lot of frameworks that make decisions for you, and many that take decisions away. Keystone doesn't do that. Use the features that suit you, and replace the ones that don't.
+			.big-icon
+				span.entypo.entypo-tools
+			.row
+				.col-sm-6.col-md-3
+					h4 Built on Express
+					p Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware.
+					p You can also easily integrate it into an existing Express app.
+				.col-sm-6.col-md-3
+					h4 Lightweight
+					p Keystone is designed to be as light as you want - you can pick and choose the features you want to include.
+					p Write your own routes, disable the Admin UI, whatever - it's up to you.
+				.col-sm-6.col-md-3
+					h4 Built with Mongoose
+					p Mongoose, supported by MongoDB Inc, is the leading ODM for node.js and MongoDB. Keystone exposes mongoose to you when you need it, so anything you 
+						| can build with MongoDB, you can build with Keystone.
+				.col-sm-6.col-md-3
+					h4 Extendable
+					p One of the greatest things about node.js is the vast number of quality packages available.
+					p Keystone is designed to let you use any of them, without losing the benefits it provides.
 	
 	//- section.intro-section.cta-section: .container: .row: .col-sm-6.col-sm-offset-3.text-center
 		h2 See what Keystone can do for you

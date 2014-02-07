@@ -91,14 +91,25 @@ h2:first-child {
 	padding-bottom: 30px;
 	padding-top: 30px;
 	
-	h1 {
+	h1,
+	p,
+	a {
 		color: white;
+	}
+	h1 {
 		margin-bottom: 10px;
 	}
 	p {
-		color: mix(@link-color, white, 33%);
 		font-weight: 300;
 		margin-bottom: 0;
+	}
+	a {
+		border-bottom: 1px dotted white;
+		
+		&:hover {
+			border-bottom-style: solid;
+			text-decoration: none;
+		}
 	}
 	@media (min-width: @screen-sm-min) {
 		padding-bottom: 60px;
@@ -114,10 +125,17 @@ h2:first-child {
 .page-subheader {
 	background-color: #fafafa;
 	border-bottom: 1px solid @gray-lighter;
-	padding: 10px 0;
+	line-height: 1;
+	padding: 1em 0;
 	
 	p {
 		margin: 0;
+	}
+	.social-buttons {
+		float: right;
+	}
+	.social-button {
+		display: inline-block;
 	}
 }
 
@@ -144,6 +162,32 @@ h2:first-child {
 		border-color: mix(white, @brand-primary,80%);
 		background: mix(white, @brand-primary,98%)
 	}
+}
+
+
+
+// Pager
+.simple-pager {
+	.clearfix();
+	border-top: 1px solid @gray-lighter;
+	margin-left: -@grid-gutter-width;
+	padding-left: -@grid-gutter-width;
+	margin-top: 80px;
+	padding: 15px;
+	text-align: center;
+	
+	.next {
+		float: right;
+	}
+	.prev {
+		float: left;
+	}
+}
+
+
+
+.list-unstyled.lead {
+	line-height: 2em;
 }
 
 // hilighted text
@@ -238,7 +282,7 @@ code.default-value {
 
 
 // sidebar toggle
-.section-nav-toggle {
+.nav-toggle {
 	border-radius: 4px;
 	border: 1px solid @gray-lighter;
 	list-style: none;
@@ -276,9 +320,6 @@ code.default-value {
 		font-size: 1.4em;
 	}
 }
-.section-nav + h2 {
-	margin-top: 50px;
-}
 
 
 // sidebar navigation
@@ -290,32 +331,42 @@ code.default-value {
 	position: relative;
 	z-index: 2;
 	
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
 	li {
-		margin: 1px -1px 1px 0;
+		margin: ;
 	}
 	a {
-		border-right: 1px solid transparent;
+		// border-right: 1px solid transparent;
 		color: @text-color;
 		display: block;
 		padding: 5px 0;
 		
 		&:hover,
 		&:active,
-		&:focus,
-		.active > & {
-			border-right-color: @link-color;
+		&:focus {
+			// border-right-color: @link-color;
+			color: @link-color;
 			outline: none;
 			text-decoration: none;
 		}
 	}
-	.nav-label {
-		color: @gray-light;
-		font-size: .85em;
+	.active > .nav-heading {
+	}
+	.nav-heading {
+		border-bottom: 1px solid @gray-lighter;
+		color: @gray-darker;
+		font-size: 1.25em;
 		margin-top: @grid-gutter-width;
 		text-transform: uppercase;
 	}
-	.active a {
-		background-color: @navbar-default-bg;
-		color: @gray;
+	.nav-label {
+		color: @gray-light;
+		// font-size: .85em;
+		margin-top: 20px;
+		text-transform: uppercase;
 	}
 }

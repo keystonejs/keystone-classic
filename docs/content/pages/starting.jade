@@ -1,17 +1,11 @@
-extends ../layout/base
+extends ../templates/layout/base
 
 block content
 	.page-header
 		.container
 			h1 Getting Started
 			p.lead KeystoneJS makes it easy to build database-driven websites, applications and APIs in Node.js.
-	.page-subheader
-		.container
-			p If you have a question check out the 
-				a(href="https://groups.google.com/forum/#!forum/keystonejs", target="_blank") Google Group
-				|  and get an answer from the community 
-				//- |  or log an issue on 
-				//- a(href="https://github.com/JedWatson/keystone/issues", target="_blank") GitHub
+	include ../templates/includes/page-subheader
 	
 	.container: .row
 		.col-sm-3: .docs-sidebar-info
@@ -32,6 +26,10 @@ block content
 			h3 Start your new application
 			p Explain what this command does
 			pre $ yo keystone
+			
+			h2 All done?
+			p So you just created your first KeystoneJS project, congrats! Want to see what actually went down?
+			p: a(href='/docs/guides').btn.btn-default Check it out
 	
 	//- OLD GETTING STARTED DOCS
 	//- .container: .row
@@ -147,7 +145,7 @@ block content
 				| keystone.start();
 			
 			p Now, in your console, run <code>npm install</code> from the root folder of your project (where package.json is) to install Keystone.
-			p.note For more information about the options Keystone supports, see the <a href="/guide/config">configuration guide</a>.
+			p.note For more information about the options Keystone supports, see the <a href="/docs/config">configuration guide</a>.
 			p.note Note: your web script won't run yet, because it is including models and routes that have not been set up yet. It assumes you follow the conventions in this guide.
 			
 			.contextual-note
@@ -253,7 +251,7 @@ block content
 			
 			h4 More on Data Models
 			
-			p For more information on how to set up your application's models, and the full documentation for lists and fields, see the <a href="/guide/data">database guide</a>.
+			p For more information on how to set up your application's models, and the full documentation for lists and fields, see the <a href="/docs/data">database guide</a>.
 
 			a(name="routes_setup")
 			h2 Routes &amp; Views
@@ -559,7 +557,7 @@ block content
 			
 			//- h4 More on Routes &amp; Views
 			//- 
-			//- p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/guide/data">routes &amp; views guide</a>.
+			//- p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/docs/data">routes &amp; views guide</a>.
 			
 			a(name="running_updates")
 			h2 Running your app
@@ -618,7 +616,7 @@ block content
 			a(name="running_next")
 			h3 Next Steps
 			
-			p ... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/guide/data">database guide</a>.
+			p ... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/docs/data">database guide</a>.
 			
 			p You should also <a href="https://twitter.com/keystonejs" target="_blank">Follow @KeystoneJS on Twitter</a> for news and updates, <a href="https://github.com/JedWatson/keystone/" target="_blank">Star KeystoneJS on GitHub</a>, and discuss this guide (or anything KeystoneJS related) on the <a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS Google Group</a>.
 			

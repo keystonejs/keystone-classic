@@ -1,17 +1,11 @@
-extends ../layout/base
+extends ../templates/layout/base
 
 block content
 	.page-header
 		.container
 			h1 Examples
 			p.lead The following are a great way to see what Keystone can do, and how to use its various features.
-	.page-subheader
-		.container
-			p If you have a question check out the 
-				a(href="https://groups.google.com/forum/#!forum/keystonejs", target="_blank") Google Group
-				|  and get an answer from the community 
-				//- |  or log an issue on 
-				//- a(href="https://github.com/JedWatson/keystone/issues", target="_blank") GitHub
+	include ../templates/includes/page-subheader
 	
 	.container: .row
 		.col-sm-3.hidden-xs: nav.docs-sidebar

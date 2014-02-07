@@ -1,0 +1,138 @@
+extends ../../../../templates/layout/base
+
+include ../../../../templates/mixins/docsnav
+
+block content
+	.page-header
+		.container
+			h1 Your New Project
+			p.lead You've just created a new project. What actually happened?
+	include ../../../../templates/includes/page-subheader
+	
+	.container: .row
+		
+		.col-sm-3.hidden-xs
+			+docsnav(docsection)
+		
+		.col-sm-9: .docs-content
+			h2 Getting Started
+			
+			h3 Starting a new project
+			
+			p Create a new directory for your project, then add the following two files, which are responsible for setting up your project and starting your webserver.
+			
+			.code-header
+				h4 package.json
+				p This file describes our project for npm, including the fact that it depends on <code>keystone</code>.
+			pre: code.language-javascript
+				| {
+				|   "name": "my-project",
+				|   "version": "0.0.1",
+				|   "private": true,
+				|   "dependencies": {
+				|     "keystone": "latest",
+				|     "underscore": "latest"
+				|   },
+				|   "engines": {
+				|     "node": "0.10.x",
+				|     "npm": "1.3.x"
+				|   },
+				|   "scripts": {
+				|     "start": "web.js"
+				|   }
+				| }
+			
+			p.note Note we're also requiring the <a href="http://underscorejs.org">underscore library</a>, because we'll use some of its functionality later. You can use any other packages you like from <a href="https://npmjs.org">npm</a> in your Keystone application by adding them to your <code>package.json</code>.
+			
+			.code-header
+				h4 web.js
+				p This is the script that will run our keystone website.
+			pre: code.language-javascript
+				| var keystone = require('keystone');
+				| keystone.init({
+				|   
+				|   'name': 'My Project',
+				|   
+				|   'favicon': 'public/favicon.ico',
+				|   'less': 'public',
+				|   'static': 'public',
+				|   
+				|   'views': 'templates/views',
+				|   'view engine': 'jade',
+				|   
+				|   'auto update': true,
+				|   'mongo': 'mongodb://localhost/my-project',
+				|   
+				|   'session': true,
+				|   'auth': true,
+				|   'user model': 'User',
+				|   'cookie secret': '(your secret here)'
+				|   
+				| });
+				| 
+				| require('./models');
+				| 
+				| keystone.set('routes', require('./routes'));
+				| 
+				| keystone.start();
+			
+			p Now, in your console, run <code>npm install</code> from the root folder of your project (where package.json is) to install Keystone.
+			p.note For more information about the options Keystone supports, see the <a href="/docs/config">configuration guide</a>.
+			p.note Note: your web script won't run yet, because it is including models and routes that have not been set up yet. It assumes you follow the conventions in this guide.
+			
+			.contextual-note
+				h4 BYO Express and Mongoose
+				p If you want to require Express or Mongoose in your application, instead of having Keystone provide and configure them completely, you can so do.
+				p Include them in the dependencies list for your project, then provide them to Keystone using the <code>connect</code> method.
+				pre
+					| var express = require('express'),
+					|     mongoose = require('mongoose'),
+					|     app = express(),
+					|     keystone = require('keystone').connect(mongoose, app);
+			
+			a(name="start_structure")
+			h3 Project Structure
+			
+			p With your package and web scripts in place, it's time to scaffold out containers for the rest of your app. Create the following directory structure:
+
+			pre
+				| |--lib
+				| |  <span>Custom libraries and other code</span>
+				| |--models
+				| |  <span>Your application's database models</span>
+				| |--public
+				| |  <span>Static files (css, js, images, etc.) that are publicly available</span>
+				| |--routes
+				| |  |--api
+				| |  |  <span>Your application's api controllers</span>
+				| |  |--views
+				| |  |  <span>Your application's view controllers</span>
+				| |  |--index.js
+				| |  |  <span>Initialises your application's routes and views</span>
+				| |  |--middleware.js
+				| |  |  <span>Custom middleware for your routes</span>
+				| |--templates
+				| |  |--includes
+				| |  |  <span>Common .jade includes go in here</span>
+				| |  |--layouts
+				| |  |  <span>Base .jade layouts go in here</span>
+				| |  |--mixins
+				| |  |  <span>Common .jade mixins go in here</span>
+				| |  |--views
+				| |  |  <span>Your application's view templates</span>
+				| |--updates
+				| |  <span>Data population and migration scripts</span>
+				| |--package.json
+				| |  <span>Project configuration for npm</span>
+				| |--web.js
+				| |  <span>Main script that starts your application</span>
+			
+			p We also recommend that your application will be simpler to build and maintain if you mirror the internal structure of your <code>routes/views</code> and <code>templates/views</code> directories as much as possible.
+			
+			.contextual-note
+				h4 Structure
+				p.note This guide assumes you follow the recommendations above, however Keystone doesn't actually enforce any structure, so you're free to make changes to suit your application better.
+			
+			.simple-pager
+				a(href='/docs/guides/getting-started/models').btn.btn-default.next Models &rarr;
+				//- a(href='/docs/guides/getting-started/models').btn.btn-default.prev &larr; Models
