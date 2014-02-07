@@ -16,7 +16,7 @@ p {
 h1 {
 	color: @gray-darker;
 	font-size: 36px;
-	font-weight: 200;
+	// font-weight: 200;
 	line-height: 36px;
 	margin: 0 0 40px;
 	
@@ -82,25 +82,38 @@ h2:first-child {
 	}
 }
 .page-header {
+	// #gradient .directional(spin(@link-color, 6%), spin(@link-color, -6%), 120deg);
 	background-color: #fafafa;
+	background-color: @link-color;
+	background: url( "/images/intro-bg-inverse.png" ) no-repeat right bottom @link-color;
 	margin-bottom: 0;
 	margin-top: 0;
 	padding-bottom: 30px;
 	padding-top: 30px;
 	
 	h1 {
+		color: white;
 		margin-bottom: 10px;
 	}
 	p {
+		color: mix(@link-color, white, 33%);
+		font-weight: 300;
 		margin-bottom: 0;
 	}
 	@media (min-width: @screen-sm-min) {
 		padding-bottom: 60px;
 		padding-top: 60px;
+	
+		p {
+			font-weight: 100;
+			letter-spacing: 0.02em;
+			margin-right: 18%;
+		}
 	}
 }
 .page-subheader {
-	background-color: @gray-lighter;
+	background-color: #fafafa;
+	border-bottom: 1px solid @gray-lighter;
 	padding: 10px 0;
 	
 	p {
@@ -215,13 +228,57 @@ code.default-value {
 }
 
 
-// sidebar navigation
+// sidebar
 .docs-sidebar {}
 .docs-sidebar-info {
 	color: @gray-light;
 	padding-top: @grid-gutter-width;
 	padding-right: @grid-gutter-width;
 }
+
+
+// sidebar toggle
+.section-nav-toggle {
+	border-radius: 4px;
+	border: 1px solid @gray-lighter;
+	list-style: none;
+	margin-top: 0;
+	margin-right: @grid-gutter-width;
+	padding: 0;
+	
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	
+	li {
+		display: table-cell;
+		text-align: center;
+		// width: 50%;
+	}
+	a {
+		border-radius: 4px;
+		// color: @gray;
+		display: block;
+		height: 30px;
+		line-height: 30px;
+		
+		&:hover {
+			// background-color: @gray-lighter;
+			color: @text-color;
+			text-decoration: none;
+		}
+	}
+	.active a {
+		background-color: @gray-lighter;
+		color: @gray;
+	}
+}
+.section-nav + h2 {
+	margin-top: 50px;
+}
+
+
+// sidebar navigation
 .sidebar-nav {
 	font-size: @font-size-small;
 	list-style: none;
@@ -239,9 +296,12 @@ code.default-value {
 		display: block;
 		padding: 5px 0;
 		
+		&:hover,
+		&:active,
 		&:focus,
-		&:hover {
+		.active > & {
 			border-right-color: @link-color;
+			outline: none;
 			text-decoration: none;
 		}
 	}
@@ -254,22 +314,5 @@ code.default-value {
 	.active a {
 		background-color: @navbar-default-bg;
 		color: @gray;
-	}
-
-	@media (min-width: @screen-sm) {
-		
-		.sidebar-nav {
-			a {
-				border-radius: 4px 0 0 4px;
-			}
-			.active {
-				position: relative;
-				right: -1px;
-				z-index: 1;
-			}
-			.active a {
-				border-right: 1px solid @link-color;
-			}
-		}
 	}
 }

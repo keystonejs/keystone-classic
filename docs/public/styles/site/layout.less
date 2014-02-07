@@ -5,6 +5,12 @@
 
 
 
+body {
+	font-weight: 300;
+}
+
+
+
 
 // Container smaller
 .container-sm {
@@ -21,6 +27,8 @@
 	border-bottom: 1px solid #ededed;
 	height: @navbar-height;
 	line-height: @navbar-height;
+	position: relative;
+	z-index: 1;
 	
 	.container {
 		position: relative;
@@ -52,6 +60,7 @@
 
 // navigation
 .docs-nav__nav {
+	// font-weight: 400;
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -71,7 +80,8 @@
 	
 	// active
 	.active a {
-		.box-shadow( 0 -3px @link-color inset );
+		@shadow: 0 -1px white inset, 0 -4px @link-color inset;
+		.box-shadow( @shadow );
 		background: none transparent;
 		// color: @gray-light;
 	}

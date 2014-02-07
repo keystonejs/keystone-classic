@@ -15,7 +15,7 @@ block content
 	
 	.container: .row
 		
-		.col-sm-3: nav.docs-sidebar
+		.col-sm-3.hidden-xs: nav.docs-sidebar
 			ul.sidebar-nav
 				li.nav-label Database
 				li: a(href='#concepts') Concepts
@@ -30,7 +30,7 @@ block content
 				li: a(href='#fields_options') Field Options
 				li: a(href='#fields_underscoremethods') Underscore Methods
 				li.nav-label Relationships
-				li: a(href='#relationships') Fields
+				li: a(href='#relationship_fields') Fields
 				li: a(href='#relationship_definitions') Definitions
 				li: a(href='#relationship_queries') Queries
 				li.nav-label Field Types
@@ -74,9 +74,9 @@ block content
 			
 			p List Items are <a href="http://mongoosejs.com/docs/documents.html" target"_blank">mongoose documents</a>. To create new items, use <code>new list.model()</code> and when you're ready to save it (or to save changes to an existing Item), call <code>item.save()</code>.
 			
-			a(name='lists_usage')
 			h2 Lists
 			
+			a(name='lists_usage')
 			h3 Usage
 			
 			p The syntax for creating a <strong>Keystone List</strong> is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code>var MyList = new keystone.List(key, options)</code>.
@@ -255,8 +255,10 @@ block content
 			
 			// TODO: Documentation for Update Handler
 			
-			a(name='fields_overview')
 			h2 Fields
+			
+			a(name='fields_overview')
+			h3 Overview
 			
 			p When adding <strong>fields</strong> to <strong>Lists</strong>, you can either specify basic data types or Keystone Field Types.
 			
@@ -343,12 +345,12 @@ block content
 				| });
 			
 			
-			a(name="relationships")
 			h2 Relationships
 			
 			p Keystone enhances MongoDB's ability to store the ObjectIDs of related documents in a field (or many related ObjectIDs in an Array) with support for Relationship fields and Definitions in Models.
 			
-			h3 <code>Relationship</code> Fields
+			a(name="relationship_fields")
+			h3 Fields
 			
 			h4 <code class="data-type">ObjectId</code> or <code class="data-type">Array</code> &mdash; Displayed as an auto-suggest field in the Admin UI
 			
@@ -356,7 +358,7 @@ block content
 			
 			p Specify the related Model using the <code>ref</code> option. For a many-many relationship, set the <code>many</code> option to <code class="default-value">true</code>.
 			
-			p For example, if you wanted to link a <strong>Post</strong> model to a single <strong>Author</strong> and many <strong>PostCategories</strong>, you would do it like this:
+			p.code-header For example, if you wanted to link a <strong>Post</strong> model to a single <strong>Author</strong> and many <strong>PostCategories</strong>, you would do it like this:
 			
 			pre: code.language-javascript
 				| Post.add({
@@ -381,7 +383,7 @@ block content
 			
 			p What if, in the example above, you wanted to see a list of the Posts by each Author? Because the relationship field is on the Post, you need to tell the Author (and the PostCategory) Model that it is being referred to. Doing so allows the Admin UI to represent the relationship from both sides.
 			
-			p You do this by calling the <code>relationship</code> method on the <code>Model</code> like this:
+			p.code-header You do this by calling the <code>relationship</code> method on the <code>Model</code> like this:
 			
 			pre: code.language-javascript
 				| User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
@@ -400,14 +402,14 @@ block content
 			a(name="relationship_queries")
 			h3 Loading related items
 			
-			p Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
+			p.code-header Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
 			
 			pre: code.language-javascript
 				| Post.model.find().where('author', author.id).exec(function(err, posts) {
 				|     // ...
 				| });
 				
-			p To filter many-to-many related items, use an <code>in</code> condition and specify one (or more) ids as an array:
+			p.code-header To filter many-to-many related items, use an <code>in</code> condition and specify one (or more) ids as an array:
 			
 			pre: code.language-javascript
 				| Post.model.find().where('categories').in([category.id]).exec(function(err, posts) {

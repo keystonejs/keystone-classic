@@ -7,6 +7,8 @@
 	background: url( "/images/intro-bg-inverse.png" ) no-repeat right bottom @link-color;
 	color: white;
 	padding: 20px 0;
+	position: relative;
+	top: -1px;
 	
 	h1 {
 		color: white;
@@ -134,13 +136,12 @@
 	
 	.section-header {
 		margin: 0 auto 40px;
-		text-align: center;
 	}
 	h2 {
 		border: 0 none;
 		color: @text-color;
 		font-size: 30px;
-		font-weight: 500;
+		font-weight: 300;
 		margin-bottom: 10px;
 		margin-top: 0;
 		padding-bottom: 0;
@@ -151,6 +152,7 @@
 	
 	@media (min-width: @screen-sm-min) {
 		.section-header {
+			text-align: center;
 			width: @screen-sm-min;
 		}
 		padding: 80px 0 100px;
@@ -165,7 +167,7 @@
 // features
 .feature-panel {
 	h4 {
-		color: @link-color;
+		margin-top: 1em;
 	}
 	p {
 		color: @gray;
@@ -177,7 +179,8 @@
 .feature-icon {
 	color: @link-color;
 	display: none;
-	font-size: 48px;
+	font-size: 64px;
+	// margin-bottom: 20px;
 	line-height: 24px;
 	text-align: center;
 }
@@ -187,8 +190,19 @@
 	}
 	.feature-icon {
 		display: inline-block;
+		// margin-right: 10px;
+	}
+}
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+	.feature-icon {
 		float: left;
-		margin-right: 10px;
+		margin-right: 15px;
+	}
+	.feature-content {
+		display: table;
+		h4 {
+			margin-top: 0;
+		}
 	}
 }
 
