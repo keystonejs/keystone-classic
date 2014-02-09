@@ -1,4 +1,5 @@
 jQuery(function($) {
+	var supportedTypes = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
 	
 	// Cloudinary Image
 	$('.field.type-cloudinaryimage').each(function() {
@@ -57,9 +58,9 @@ jQuery(function($) {
 				if (window.FileReader) {
 					var files = e.target.files;
 					for (var i = 0, f; f = files[i]; i++) {
-						if (!f.type.match('image.*')) {
+						if (jQuery.inArray(f.type, supportedTypes) < 0) {
 							$upload.val('');
-							alert("Please select image files only.");
+							alert("Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD");
 							continue;
 						}
 						var fileReader = new FileReader();
