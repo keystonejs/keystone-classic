@@ -980,6 +980,10 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		}
 	};
 	
+	// optional extensions to the local scope
+	_.extend(locals, ext);
+	
+	// add cloudinary locals if configured
 	if (keystone.get('cloudinary config')) {
 		try {
 			var cloudinaryUpload = cloudinary.uploader.direct_upload();
@@ -999,6 +1003,9 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			}
 		}
 	}
+	
+	// fieldLocals defines locals that are provided to each field's `render` method
+	locals.fieldLocals = _.pick(locals, '_', 'moment', 'numeral', 'env', 'js', 'utils', 'user', 'cloudinary');
 	
 	var html = template(_.extend(locals, ext));
 	
