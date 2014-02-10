@@ -280,6 +280,7 @@ Keystone.prototype.initNav = function(sections) {
 		sections = {};
 		nav.flat = true;
 		_.each(this.lists, function(list) {
+			if (list.get('hidden')) return;
 			sections[list.path] = [list.path];
 		});
 	}
@@ -697,7 +698,7 @@ Keystone.prototype.routes = function(app) {
 	
 	var initList = function(req, res, next) {
 		req.list = keystone.list(req.params.list);
-		if (!req.list) {
+		if (!req.list || req.list.get('hidden')) {
 			req.flash('error', 'List ' + req.params.list + ' could not be found.');
 			return res.redirect('/keystone');
 		}
@@ -903,6 +904,7 @@ Keystone.prototype.getOrphanedLists = function() {
 		return [];
 	}
 	return _.filter(this.lists, function(list, key) {
+		if (list.get('hidden')) return false;
 		return (!keystone.nav.by.list[key]) ? list : false;
 	});
 };
