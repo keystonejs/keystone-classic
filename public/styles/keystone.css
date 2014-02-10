@@ -5959,6 +5959,43 @@ textarea.field.type-html textarea {
   float: left;
   padding: 6px 12px;
 }
+.field.type-localfile .file-preview {
+  position: relative;
+  line-height: 0px;
+  float: left;
+  margin-right: 10px;
+}
+.field.type-localfile .file-details {
+  overflow: hidden;
+}
+.field.type-localfile .file-details .file-values .field-value {
+  width: auto;
+  min-width: 1px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.field.type-localfile .file-details .file-message {
+  margin-left: 0px;
+  font-size: 12px;
+  width: 110px;
+  text-align: center;
+  width: 100%;
+}
+.field.type-localfile .file-details + .file-toolbar {
+  margin-top: 12px;
+}
+.field.type-localfile .upload-queued,
+.field.type-localfile .delete-queued {
+  display: none;
+}
+.field.type-localfile .upload-queued .alert,
+.field.type-localfile .delete-queued .alert {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  float: left;
+  padding: 6px 12px;
+}
 .ui-related-item {
   background-color: #fbfbfb;
   border: 1px solid #e0e0e0;

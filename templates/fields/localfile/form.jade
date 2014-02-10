@@ -1,0 +1,21 @@
+- var hasFile = item.get(field.paths.exists)
+.field.type-localfile(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasFile ? 'true' : 'false')
+	label.field-label= field.label
+	input(type='file', name=field.paths.upload).field-upload
+	input(type='hidden', name=field.paths.action, value='').field-action
+	.field-ui(class=hasFile ? 'has-file' : false)
+		.file-container
+			.file-details
+				if hasFile
+					.file-values
+						a(href=field.format(item), target='_blank').field-value=field.format(item)
+				.upload-queued.pull-left
+					.alert.alert-success File <span class="file-name"></span>selected - save to upload
+				.delete-queued.pull-left
+					.alert.alert-danger
+		.file-toolbar
+			div.pull-left
+				a(href=js).btn.btn-default.btn-upload-file=(hasFile ? 'Change' : 'Upload' ) + ' File'
+				a(href=js, data-alt-text='Delete File', style=(hasFile ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-file Remove File
+				a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-file Cancel Upload
+				a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-file Undo Remove

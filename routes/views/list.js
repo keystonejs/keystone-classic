@@ -107,8 +107,6 @@ exports = module.exports = function(req, res) {
 				download_link += '?' + downloadParams;
 			}
 			
-			console.log(download_link);
-			
 			var compileFields = function(item, callback) { item.compile('initial', callback); }
 			
 			async.eachSeries(req.list.initialFields, compileFields , function() {
