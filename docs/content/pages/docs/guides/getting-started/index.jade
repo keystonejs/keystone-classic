@@ -1,23 +1,15 @@
 extends ../../../../templates/layout/base
 
 include ../../../../templates/mixins/docsnav
-
-block content
-	.page-header
-		.container
-			h1 Your New Project
-			p.lead You've just created a new project. What actually happened?
-	include ../../../../templates/includes/page-subheader
 	
+block content
 	.container: .row
 		
 		.col-sm-3
-			+docsnav(docsection)
+			+docsnav(docssection)
 		
 		.col-sm-9: .docs-content
-			h2 Getting Started
-			
-			h3 Starting a new project
+			h2 Starting a new project
 			
 			p Create a new directory for your project, then add the following two files, which are responsible for setting up your project and starting your webserver.
 			

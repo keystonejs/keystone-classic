@@ -1,0 +1,192 @@
+extends ../../../templates/layout/base
+
+include ../../../templates/mixins/docsnav
+	
+block content
+	.container: .row
+		
+		.col-sm-3
+			+docsnav(docssection)
+		
+		.col-sm-9: .docs-content
+			h2 Lists
+			
+			a(name='lists_usage')
+			h3 Usage
+			
+			p The syntax for creating a <strong>Keystone List</strong> is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code>var MyList = new keystone.List(key, options)</code>.
+			p Once you have created a new List, add fields to it using <code>MyList.add(fields)</code>, where fields is an object of keys (for field paths) and values (for field types, or options).
+			p Fields are defined by an object with a <code>type</code> property, which must be a valid Field Type or basic data type. Using the object syntax you can specify additional options for the field. Common field options and field-type-specific options are detailed in the fields documentation.
+			p When all the fields and options have been set on the list, call <code>MyList.register()</code> to register the list with Keystone and finalise its configuration.
+			
+			a(name='lists_example')
+			p <strong>For example: </strong> a simple Post model for a blog might look like this:
+			
+			.code-header: h4 Post.js
+			pre: code.language-javascript
+				| var keystone = require('keystone'),
+				|     Types = keystone.Field.Types;
+				| var Post = new keystone.List('Post', {
+				|     autokey: { path: 'slug', from: 'title', unique: true },
+				|     map: { name: 'title' },
+				|     defaultSort: '-createdAt'
+				| });
+				| Post.add({
+				|     title: { type: String, required: true },
+				|     state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' },
+				|     author: { type: Types.Relationship, ref: 'User' },
+				|     createdAt: { type: Date, default: Date.now },
+				|     publishedAt: Date,
+				|     image: { type: Types.CloudinaryImage },
+				|     content: {
+				|         brief: { type: Types.Html, wysiwyg: true, height: 150 },
+				|         extended: { type: Types.Html, wysiwyg: true, height: 400 }
+				|     }
+				| });
+				| Post.defaultColumns = 'title, state|20%, author, publishedAt|15%'
+				| Post.register();
+			
+			p.note This example implements the optional <code>map</code>, <code>autokey</code> and <code>defaultSort</code> options, described below.
+			p.note It also specifies <code>title</code>, <code>state</code>, <code>author</code> and <code>publishedAt</code> as the default columns to display in the Admin UI, with state and publishedAt being given column widths.
+			p.note The <code>author</code> field is a relationship with the <code>User</code> model, as described in the <a href="/guide#models_users">getting started guide</a>.
+			
+			a(name='lists_options')
+			h3 Options
+			
+			p Lists support the following options:
+			
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>drilldown</code> <code class="data-type">String</code>
+					td A space-delimited list of relationships to display as drilldown in the Admin UI
+				tr
+					td <code>sortable</code> <code class="data-type">Boolean</code>
+					td Adds a hidden field <code>sortOrder</code> to the schema, and enables drag and drop sorting in the Admin UI
+				tr
+					td <code>sortContext</code> <code class="data-type">String</code>
+					td A <code>List:relationship</code> pair to control when drag and drop sorting is available in the Admin UI
+				tr
+					td <code>searchFields</code> <code class="data-type">String</code>
+					td A space-delimited list of paths to use for searching in Admin UI
+				tr
+					td <code>defaultSort</code> <code class="data-type">String</code>
+					td The default column or path to sort on in the Admin UI
+				tr
+					td <code>defaultColumns</code> <code class="data-type">String</code>
+					td A comma-delimited list of default columns to display in the Admin UI List View.
+						|  You can specify width in either pixels or percent after a <code>|</code> pipe character.
+				tr
+					td <code>map</code> <code class="data-type">Object</code>
+					td An object that maps fields to special <strong>list</strong> paths. Each path defaults to its key if a field with that key is added. Mappable paths include
+						ul.options
+							li <code>name</code> - the field that contains the name of the item, for display in the Admin UI
+				tr
+					td <code>autokey</code> <code class="data-type">Object</code>
+					td Adds a plugin to the list that automatically generates a key for each document when it is saved, based on the value of another field or path. The value of the option should be an object with the following keys:
+						ul.options
+							li <code>from</code> <code class="data-type">String</code> - the field or path to generate the key from, can be a space-delimited list of fields
+							li <code>path</code> <code class="data-type">String</code> - the path to store the key at
+							li <code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not
+						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
+				tr
+					td <code>noedit</code> <code class="data-type">Boolean</code>
+					td Prevents editing of items in the list through the Keystone Admin UI
+				tr
+					td <code>nocreate</code> <code class="data-type">Boolean</code>
+					td Prevents creation of new items in the list through the Keystone Admin UI
+				tr
+					td <code>nodelete</code> <code class="data-type">Boolean</code>
+					td Prevents deletion of items from the list through the Keystone Admin UI
+			
+			a(name='lists_plugins')
+			h3 Schema Plugins
+			
+			p You can specify <a href="http://mongoosejs.com/docs/guide.html" target="_blank"><strong>virtuals</strong>, <strong>methods</strong>, <strong>statics</strong></a> as well as <a href="http://mongoosejs.com/docs/middleware.html" target="_blank"><strong>pre</strong> and <strong>post</strong> hooks</a> for your <strong>Lists</strong> using the <code>schema</code>. You can also use <a href="http://mongoosejs.com/docs/plugins.html" target="_blank">mongoose plugins</a> from the <a href="http://plugins.mongoosejs.com" target="_blank">plugins website</a>.
+			
+			p For example, in our <strong>Post</strong> list above, we might want to automatically set the <code>publishedAt</code> value when the <code>state</code> is changed to <code>published</code> (but only if it hasn't already been set).
+			
+			p We might also want to add a method to check whether the post is published, rather than checking the <code>state</code> field value directly.
+			
+			p Before calling <code>Post.register()</code>, we would add the following code:
+			
+			pre: code.language-javascript
+				| Post.schema.methods.isPublished = function() {
+				|     return this.state == 'published';
+				| }
+				| 
+				| Post.schema.pre('save', function(next) {
+				|     if (this.isModified('state') &amp;&amp; this.isPublished() &amp;&amp; !this.publishedAt) {
+				|         this.publishedAt = new Date();
+				|     }
+				|     next();
+				| });
+			
+			
+			a(name='lists_querying')
+			h3 Querying Data
+			
+			p To query data, you can use any of the <a href="http://mongoosejs.com/docs/queries.html" target="_blank">mongoose query</a> methods on the <code>list.model</code>.
+			
+			p <strong>For example:</strong> to load the last 5 <code>posts</code> with the state <code>published</code>, populating the linked <code>author</code>, sorted by reverse published date:
+			
+			.code-header: h4 Loading Posts
+			pre: code.language-javascript
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				| Post.model.find()
+				|     .where('state', 'published')
+				|     .populate('author')
+				|     .sort('-publishedAt')
+				|     .limit(5)
+				|     .exec(function(err, posts) {
+				|         // do something with posts
+				|     });
+			
+			h3 Creating Items
+			
+			p To create new items, again use the <a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose model</a>:
+			
+			.code-header: h4 Creating Posts
+			pre: code.language-javascript
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				| var newPost = new Post.model({
+				|     title: 'New Post'
+				| });
+				| 
+				| if (shouldBePublished) {
+				|     newPost.state = 'published';
+				| }
+				| 
+				| newPost.save(function(err) {
+				|     // post has been saved	
+				| });
+			
+			.contextual-note
+				h4 Automatic keys
+				p Because we set the <code>autokey</code> option on our <code>Post</code> list, it will have generated a unique key based on the <code>title</code> before it was saved to the database.
+				pre
+					| newPost.slug == 'new-post';
+			
+			h3 Deleting Items
+			
+			p To delete items, first load the data, then use the <code>remove</code> method:
+			
+			.code-header: h4 Deleting a Post
+			pre: code.language-javascript
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				| Post.model.findById(postId)
+				|     .remove(function(err) {
+				|         // post has been deleted
+				|     });
+			
+			// TODO: Documentation for Schema features (virtuals, methods, statics and hooks)
+			
+			// TODO: Documentation for Update Handler
+			

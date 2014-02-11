@@ -36,10 +36,21 @@
 		
 		
 		{
+			"path": "/docs",
+			"template": "docs/index",
+			"section": "docs",
+			"docssection": { "value": "introduction", "path": "/docs", "label": "Introduction" },
+			"title": "KeystoneJS Documentation"
+		},
+		
+		
+		
+		
+		{
 			"path": "/docs/guides",
 			"template": "docs/guides/index",
 			"section": "docs",
-			"docsection": "guides",
+			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
 			"title": "KeystoneJS Guides"
 		},
 		
@@ -48,55 +59,112 @@
 			"path": "/docs/guides/getting-started",
 			"template": "docs/guides/getting-started/index",
 			"section": "docs",
-			"docsection": "guides",
-			"title": "Getting started"
+			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
+			"docssubsection": { "value": "getting-started", "path": "/docs/guides/getting-started", "label": "Getting Started" },
+			"title": "Getting Started"
 		},
 		{
 			"path": "/docs/guides/getting-started/models",
 			"template": "docs/guides/getting-started/models",
 			"section": "docs",
-			"docsection": "guides",
-			"title": "Getting Started: Models"
+			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
+			"docssubsection": { "value": "getting-started", "path": "/docs/guides/getting-started", "label": "Getting Started" },
+			"title": "Models"
 		},
 		{
 			"path": "/docs/guides/getting-started/routes-views",
 			"template": "docs/guides/getting-started/routes-views",
 			"section": "docs",
-			"docsection": "guides",
-			"title": "Getting Started: Routes &amp; Views"
+			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
+			"docssubsection": { "value": "getting-started", "path": "/docs/guides/getting-started", "label": "Getting Started" },
+			"title": "Routes & Views"
 		},
 		{
 			"path": "/docs/guides/getting-started/running-your-app",
 			"template": "docs/guides/getting-started/running-your-app",
 			"section": "docs",
-			"docsection": "guides",
-			"title": "Getting Started: Running your App"
+			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
+			"docssubsection": { "value": "getting-started", "path": "/docs/guides/getting-started", "label": "Getting Started" },
+			"title": "Running your App"
 		},
 		
 		
 		
 		
 		
-		{
-			"path": "/docs",
-			"template": "docs/index",
-			"section": "docs",
-			"docsection": "index",
-			"title": "KeystoneJS Documentation"
-		},
 		{
 			"path": "/docs/configuration",
-			"template": "docs/configuration",
+			"template": "docs/configuration/index",
 			"section": "docs",
-			"docsection": "configuration",
-			"title": "KeystoneJS Configuration Options"
+			"docssection": { "value": "configuration", "path": "/docs/configuration", "label": "Configuration" },
+			"title": "Configuration"
 		},
 		{
-			"path": "/docs/database",
-			"template": "docs/database",
+			"path": "/docs/configuration/options",
+			"template": "docs/configuration/options",
 			"section": "docs",
-			"docsection": "database",
+			"docssection": { "value": "configuration", "path": "/docs/configuration", "label": "Configuration" },
+			"docssubsection": { "value": "options", "label": "Options" },
+			"title": "Configuration: Options"
+		},
+		{
+			"path": "/docs/configuration/services",
+			"template": "docs/configuration/services",
+			"section": "docs",
+			"docssection": { "value": "configuration", "path": "/docs/configuration", "label": "Configuration" },
+			"docssubsection": { "value": "services", "label": "Services" },
+			"title": "Configuration: Services"
+		},
+		{
+			"path": "/docs/configuration/advanced",
+			"template": "docs/configuration/advanced",
+			"section": "docs",
+			"docssection": { "value": "configuration", "path": "/docs/configuration", "label": "Configuration" },
+			"docssubsection": { "value": "advanced", "label": "Advanced" },
+			"title": "Configuration: Advanced"
+		},
+		
+		
+		
+		
+		{
+			"path": "/docs/database",
+			"template": "docs/database/index",
+			"section": "docs",
+			"docssection": { "value": "database", "path": "/docs/database", "label": "Database" },
 			"title": "Setting up and using Data Models"
+		},
+		{
+			"path": "/docs/database/lists",
+			"template": "docs/database/lists",
+			"section": "docs",
+			"docssection": { "value": "database", "path": "/docs/database", "label": "Database" },
+			"docssubsection": { "value": "lists", "label": "Lists" },
+			"title": "Database: Lists"
+		},
+		{
+			"path": "/docs/database/fields",
+			"template": "docs/database/fields",
+			"section": "docs",
+			"docssection": { "value": "database", "path": "/docs/database", "label": "Database" },
+			"docssubsection": { "value": "fields", "label": "Fields" },
+			"title": "Database: Fields"
+		},
+		{
+			"path": "/docs/database/relationships",
+			"template": "docs/database/relationships",
+			"section": "docs",
+			"docssection": { "value": "database", "path": "/docs/database", "label": "Database" },
+			"docssubsection": { "value": "relationships", "label": "Relationships" },
+			"title": "Database: Relationships"
+		},
+		{
+			"path": "/docs/database/field-types",
+			"template": "docs/database/field-types",
+			"section": "docs",
+			"docssection": { "value": "database", "path": "/docs/database", "label": "Database" },
+			"docssubsection": { "value": "field-types", "label": "Field Types" },
+			"title": "Database: Field Types"
 		}
 	]
 }

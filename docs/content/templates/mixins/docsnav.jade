@@ -1,73 +1,71 @@
-mixin docsnav(docsection)
+mixin docsnav(docssection)
 	.visible-xs: ul.nav-toggle
-		each section in docsnav
-			li(class=docsection == section.value ? 'active' : null)
-				a(href=section.path).nav-heading= section.labelsm
+		each item in docsnav
+			li(class=docssection.value == item.value ? 'active' : null)
+				a(href=item.path).nav-heading= item.labelsm
 		
 	nav.docs-sidebar.hidden-xs
 		ul.sidebar-nav
-			each section in docsnav
-				li(class=docsection == section.value ? 'active' : null)
-					a(href=section.path).nav-heading= section.label
-					if section.value == docsection && section.value == 'guides'
+			each item in docsnav
+				li(class=docssection.value == item.value ? 'active' : null)
+					a(href=item.path).nav-heading= item.label
+					if item.value == docssection.value && item.value == 'guides'
 						ul
 							li.nav-label Getting Started
 							li: a(href='/docs/guides/getting-started') Starting a new project
 							li: a(href='/docs/guides/getting-started/models') Models
 							li: a(href='/docs/guides/getting-started/routes-views') Routes &amp; Views
 							li: a(href='/docs/guides/getting-started/running-your-app') Running your App
-					else if section.value == docsection && section.value == 'configuration'
+					else if item.value == docssection.value && item.value == 'configuration'
 						ul
-							li.nav-label Keystone Options
-							li: a(href='#concepts') Setting Options
-							li: a(href='#project') Project Options
-							li: a(href='#server') Web Server Options
-							li: a(href='#database') Database and User Auth Options
-							li.nav-label Services
-							li: a(href='#google') Google Maps
-							li: a(href='#amazons3') Amazon S3
-							li: a(href='#cloudinary') Cloudinary
-							li: a(href='#embedly') Embed.ly
-							li: a(href='#mandrill') Mandrill
-							li.nav-label More
-							li: a(href='#updates') Application Updates
-							li: a(href='#headless') Disabling the Admin UI
-					else if section.value == docsection && section.value == 'database'
+							li.nav-label: a(href='/docs/configuration/options') Keystone Options
+							li: a(href='/docs/configuration/options#concepts') Setting Options
+							li: a(href='/docs/configuration/options#project') Project Options
+							li: a(href='/docs/configuration/options#server') Web Server Options
+							li: a(href='/docs/configuration/options#database') Database and User Auth Options
+							li.nav-label: a(href='/docs/configuration/services') Services
+							li: a(href='/docs/configuration/services#google') Google Maps
+							li: a(href='/docs/configuration/services#amazons3') Amazon S3
+							li: a(href='/docs/configuration/services#cloudinary') Cloudinary
+							li: a(href='/docs/configuration/services#embedly') Embed.ly
+							li: a(href='/docs/configuration/services#mandrill') Mandrill
+							li.nav-label: a(href='/docs/configuration/advanced') Advanced
+							li: a(href='/docs/configuration/advanced#updates') Application Updates
+							li: a(href='/docs/configuration/advanced#headless') Disabling the Admin UI
+					else if item.value == docssection.value && item.value == 'database'
 						ul
-							li.nav-label Database
-							li: a(href='#concepts') Concepts
-							li.nav-label Lists
-							li: a(href='#lists_usage') Usage
-							li: a(href='#lists_example') Example
-							li: a(href='#lists_options') List Options
-							li: a(href='#lists_plugins') Schema Plugins
-							li: a(href='#lists_querying') Querying Data
-							li.nav-label Fields
-							li: a(href='#fields_overview') Overview
-							li: a(href='#fields_options') Field Options
-							li: a(href='#fields_underscoremethods') Underscore Methods
-							li.nav-label Relationships
-							li: a(href='#relationship_fields') Fields
-							li: a(href='#relationship_definitions') Definitions
-							li: a(href='#relationship_queries') Queries
-							li.nav-label Field Types
-							li: a(href='#field_boolean') Boolean
-							li: a(href='#field_text') Text
-							li: a(href='#field_textarea') Textarea
-							li: a(href='#field_email') Email
-							li: a(href='#field_url') Url
-							li: a(href='#field_html') Html
-							li: a(href='#field_date') Date
-							li: a(href='#field_datetime') Datetime
-							li: a(href='#field_key') Key
-							li: a(href='#field_number') Number
-							li: a(href='#field_money') Money
-							li: a(href='#field_select') Select
-							li: a(href='#field_markdown') Markdown
-							li: a(href='#field_name') Name
-							li: a(href='#field_password') Password
-							li: a(href='#field_location') Location
-							li: a(href='#field_cloudinaryimage') CloudinaryImage
-							li: a(href='#field_cloudinaryimages') CloudinaryImages
-							li: a(href='#field_s3file') S3 File
-							li: a(href='#field_embedly') Embedly
+							li.nav-label: a(href='/docs/database/lists') Lists
+							li: a(href='/docs/database/lists#lists_usage') Usage
+							li: a(href='/docs/database/lists#lists_example') Example
+							li: a(href='/docs/database/lists#lists_options') List Options
+							li: a(href='/docs/database/lists#lists_plugins') Schema Plugins
+							li: a(href='/docs/database/lists#lists_querying') Querying Data
+							li.nav-label: a(href='/docs/database/fields') Fields
+							li: a(href='/docs/database/fields#fields_overview') Overview
+							li: a(href='/docs/database/fields#fields_options') Field Options
+							li: a(href='/docs/database/fields#fields_underscoremethods') Underscore Methods
+							li.nav-label: a(href='/docs/database/relationships') Relationships
+							li: a(href='/docs/database/relationships#relationship_fields') Fields
+							li: a(href='/docs/database/relationships#relationship_definitions') Definitions
+							li: a(href='/docs/database/relationships#relationship_queries') Queries
+							li.nav-label: a(href='/docs/database/field-types') Field Types
+							li: a(href='/docs/database/field-types#field_boolean') Boolean
+							li: a(href='/docs/database/field-types#field_text') Text
+							li: a(href='/docs/database/field-types#field_textarea') Textarea
+							li: a(href='/docs/database/field-types#field_email') Email
+							li: a(href='/docs/database/field-types#field_url') Url
+							li: a(href='/docs/database/field-types#field_html') Html
+							li: a(href='/docs/database/field-types#field_date') Date
+							li: a(href='/docs/database/field-types#field_datetime') Datetime
+							li: a(href='/docs/database/field-types#field_key') Key
+							li: a(href='/docs/database/field-types#field_number') Number
+							li: a(href='/docs/database/field-types#field_money') Money
+							li: a(href='/docs/database/field-types#field_select') Select
+							li: a(href='/docs/database/field-types#field_markdown') Markdown
+							li: a(href='/docs/database/field-types#field_name') Name
+							li: a(href='/docs/database/field-types#field_password') Password
+							li: a(href='/docs/database/field-types#field_location') Location
+							li: a(href='/docs/database/field-types#field_cloudinaryimage') CloudinaryImage
+							li: a(href='/docs/database/field-types#field_cloudinaryimages') CloudinaryImages
+							li: a(href='/docs/database/field-types#field_s3file') S3 File
+							li: a(href='/docs/database/field-types#field_embedly') Embedly

@@ -2,17 +2,17 @@ extends ../../templates/layout/base
 
 include ../../templates/mixins/docsnav
 
-block content
+block intro
 	.page-header
 		.container
 			h1 Configuration
-			p.lead The options for KeystoneJS cover a range of behaviours, from how the express app is configured, to enabling features and authentication options for integrated services.
-	include ../../templates/includes/page-subheader
-	
+			p.lead TODO @jedwatson write the intro //  ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis eu odio in placerat. Proin at rhoncus sapien, sed luctus sem.
+
+block content
 	.container: .row
 		
 		.col-sm-3
-			+docsnav(docsection)
+			+docsnav(docssection)
 		
 		.col-sm-9: .docs-content
 			
@@ -295,7 +295,7 @@ block content
 			
 			
 			
-			h2 More
+			h2 Advanced
 			
 			a(name='updates')
 			h3 Application Updates

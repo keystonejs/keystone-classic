@@ -1,0 +1,153 @@
+extends ../../../templates/layout/base
+
+include ../../../templates/mixins/docsnav
+
+block content
+	.container: .row
+		
+		.col-sm-3
+			+docsnav(docssection)
+		
+		.col-sm-9: .docs-content
+			h2 Keystone Options
+			
+			a(name='concepts')
+			h3 Setting Options
+			
+			p The options for KeystoneJS cover a range of behaviours, from how the express app is configured, to enabling features and authentication options for integrated services.
+			
+			p There are three ways to set options:
+			
+			ul.options
+				li Passing a <code>{ key: 'value' }</code> configuration <code class="data-type">Object</code> to the <code>keystone.init(options)</code> method
+				li Calling <code>keystone.set('key', 'value')</code>
+				li Setting environment variables in <code>process.env</code>. Only some options support this (noted below).
+			
+			p If you want to keep secret keys and configuration out of your codebase (especially important for open source projects, or projects where not all developers should have access to production config settings) the <a href="https://npmjs.org/package/dotenv" target="_blank">dotenv</a> module makes this very easy to manage.
+			
+			a(name='project')
+			h3 Project Options
+			
+			p The following options control the branding and navigation of the KeystoneJS application in the Admin UI:
+			
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>name</code> <code class="data-type">String</code>
+					td The name of the KeystoneJS application
+				tr
+					td <code>brand</code> <code class="data-type">String</code>
+					td Displayed in the top left hand corner of the Admin UI
+				tr
+					td <code>nav</code> <code class="data-type">Object</code>
+					td
+						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
+						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
+			
+			.code-header
+				h4 Custom Navigation Example
+				p If you had <code>User</code>, <code>Post</code> and <code>PostCategory</code> models, you could group the posts and post categories into a <strong>Content</strong> navigation item like this:
+			pre: code.language-javascript
+				| keystone.set('nav', {
+				|     'users': 'users',
+				|     'content': ['posts', 'post-categories']
+				| });
+		
+			a(name='server')
+			h3 Web Server Options
+			
+			p The following options control the configuration of your web server and the express app:
+			
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>env</code> <code class="data-type">String</code>
+					td
+						p The environment setting to use. The keys <strong>development</strong> and <strong>production</strong> are supported, and this will have an impact on things like caching compiled templates. Defaults to <code class="default-value">process.env.NODE_ENV || "development"</code>.
+						p You should really <strong>set this to <code class="default-value">production</code> for your production servers</strong> using the <code>NODE_ENV</code> environment variable. Several other modules expect this convention also.
+				tr
+					td <code>host</code> <code class="data-type">String</code>
+					td
+						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.IP || '127.0.0.1'</code>
+				tr
+					td <code>port</code> <code class="data-type">Number</code>
+					td
+						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>
+				tr
+					td <code>views</code> <code class="data-type">String</code>
+					td
+						p The path to your application's <strong>view templates</strong>. This is required for using the <code>keystone.View</code> Class, and will also be set on the express app.
+						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/templates/views"</code>.
+				tr
+					td <code>view engine</code> <code class="data-type">String</code>
+					td
+						p The template engine to use by default. Any engine with express support should work. <strong>Jade</strong> is included with Keystone, but you will have to add any alternate engine to your project's dependencies in your <code>package.json</code>.
+						p This option is set on the express app (<a href="http://expressjs.com/api.html#app.engine" target="_blank">see docs here</a>).
+				tr
+					td <code>locals</code> <code class="data-type">Object</code>
+					td
+						p The default local variables to pass to your view templates.
+						p Routes can extend or change local variables by modifying <code>res.locals</code>.
+				tr
+					td <code>static</code> <code class="data-type">String</code>
+					td
+						p The path to your application's static files. Setting this will include the <code>express.static</code> middleware.
+						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/public"</code>.
+				tr
+					td <code>less</code> <code class="data-type">String</code>
+					td
+						p If you want Keystone to automatically compile <strong>.less</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
+						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.less</strong> file with the same name, and if one is found, the css file will be regenerated.
+				tr
+					td <code>favicon</code> <code class="data-type">String</code>
+					td
+						p The path to your application's <strong>favicon</strong>. Setting this will include the <code>express.favicon</code> middleware. Should be relative to your project's root.
+						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/public/favicon.ico"</code>.
+				tr
+					td <code>compress</code> <code class="data-type">Boolean</code>
+					td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>express.compress</code> middleware (<a href="http://expressjs.com/api.html#compress" target="_blank">see docs here</a>).
+				tr
+					td <code>logger</code> <code class="data-type">String</code>
+					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).
+			
+			
+			a(name='database')
+			h3 Database and User Auth Options
+			
+			p The following options control your database configuration and user models / authentication:
+			
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>mongo</code> <code class="data-type">String</code>
+					td
+						p The url for your MongoDB connection.
+						p You should typically set this to <code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code>
+				tr
+					td <code>auth</code> <code class="data-type">Mixed</code>
+					td
+						p Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
+						p When this is set to <code class="default-value">false</code> (or not defined), Keystone's Admin UI will be open to the public (so set it!)
+						p If using a custom function, it should follow the standard for express middleware of <code>function(req, res, next)</code>. If a user is not logged in or should not access Keystone's Admin UI, use <code>res.redirect()</code> to redirect them - otherwise call the <code>next</code> callback to enable access.
+				tr
+					td <code>user model</code> <code class="data-type">String</code>
+					td
+						p The key of the Keystone List for users, <strong>required</strong> if <code>auth</code> is set to <code class="default-value">true</code>
+						p Typically this would be set to <code class="default-value">User</code>.
+				tr
+					td <code>cookie secret</code> <code class="data-type">String</code>
+					td
+						p The encryption key to use for your cookies. Passed to Express's cookie parser.
+						p It's a really good idea to set this to a long, random string.
+				tr
+					td <code>signout</code> <code class="data-type">String</code>
+					td
+						p <code>href</code> for the signout link in the top right of the UI
+						p Defaults to <code class="default-value">/keystone/signout</code> if <code>auth</code> is set to <code class="default-value">true</code>
+			
+			p For a walk-through of how to set these options up, see the <a href="/guide#models_auth">getting started guide</a>.
+			
+			p For more information about setting up and using database models with Keystone, see the <a href="/docs/data">database guide</a>.

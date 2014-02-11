@@ -3,16 +3,10 @@ extends ../../../../templates/layout/base
 include ../../../../templates/mixins/docsnav
 
 block content
-	.page-header
-		.container
-			h1 Your New Project
-			p.lead You've just created a new project. What actually happened?
-	include ../../../../templates/includes/page-subheader
-	
 	.container: .row
 		
 		.col-sm-3
-			+docsnav(docsection)
+			+docsnav(docssection)
 		
 		.col-sm-9: .docs-content
 			h2 Models

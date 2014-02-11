@@ -1,14 +1,21 @@
+//- common mixins
+include ../mixins/breadcrumbs
+
 doctype html
 html
 	head
 		include ../includes/htmlhead
 		block css
-		block head
+
 	body
 		include ../includes/header
 		
-		block intro
-		
+		if section == 'docs' && docssubsection
+			+breadcrumbs(docssection, docssubsection)
+		else
+			block intro
+		include ../includes/page-subheader
+			
 		.docs-body
 			block content
 		

@@ -14,6 +14,9 @@ p {
 	margin-bottom: 1em;
 	margin-top: 0;
 }
+strong {
+	font-weight: 500;
+}
 h1 {
 	color: @gray-darker;
 	font-size: 36px;
@@ -141,6 +144,7 @@ h2:first-child {
 	> li:before {
 		.box-shadow( 0 0 0 1px #ddd );
 		.square( @list-icon-width );
+		background-color: @body-bg;
 		border-radius: 50%;
 		color: @gray-light;
 		content: counter(list);
@@ -224,6 +228,29 @@ h2:first-child {
 		}
 	}
 }
+
+// breadcrumbs
+// show the user the section and page
+.page-breadcrumbs {
+	padding-bottom: 10px;
+	padding-top: 10px;
+	
+	h1 {
+		font-size: 24px;
+		margin: 0;
+	}
+}
+.page-breadcrumbs__section {
+	font-weight: 100;
+}
+.page-breadcrumbs__subsection {
+	// border-left: 1px solid rgba(255, 255, 255, 0.2);
+	margin-left: 1em;
+	// padding-left: 1em;
+}
+
+// subheader
+// contains a message to view the forum
 .page-subheader {
 	background-color: #fafafa;
 	border-bottom: 1px solid @gray-lighter;
@@ -470,19 +497,27 @@ code.default-value {
 			text-decoration: none;
 		}
 	}
-	.active > .nav-heading {
-	}
 	.nav-heading {
-		border-bottom: 1px solid @gray-lighter;
+		// border-bottom: 1px solid @gray-lighter;
 		color: @gray-darker;
 		font-size: 1.25em;
 		margin-top: @grid-gutter-width;
 		text-transform: uppercase;
 	}
+	.active > .nav-heading {
+		color: @link-color;
+	}
 	.nav-label {
 		color: @gray-light;
-		// font-size: .85em;
 		margin-top: 20px;
 		text-transform: uppercase;
+		
+		a {
+			color: @gray-light;
+			
+			&:hover {
+				color: @link-color;
+			}
+		}
 	}
 }
