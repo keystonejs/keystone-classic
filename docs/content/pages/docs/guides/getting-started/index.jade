@@ -77,8 +77,9 @@ block content
 				| keystone.start();
 			
 			p Now, in your console, run <code>npm install</code> from the root folder of your project (where package.json is) to install Keystone.
-			p.note For more information about the options Keystone supports, see the <a href="/docs/config">configuration guide</a>.
-			p.note Note: your web script won't run yet, because it is including models and routes that have not been set up yet. It assumes you follow the conventions in this guide.
+			.note
+				p Your web script won't run yet, because it is including models and routes that have not been set up yet. It assumes you follow the conventions in this guide.
+				p For more information about the options Keystone supports, see the <a href="/docs/config">configuration guide</a>.
 			
 			.contextual-note
 				h4 BYO Express and Mongoose
@@ -129,9 +130,7 @@ block content
 			
 			p We also recommend that your application will be simpler to build and maintain if you mirror the internal structure of your <code>routes/views</code> and <code>templates/views</code> directories as much as possible.
 			
-			.contextual-note
-				h4 Structure
-				p.note This guide assumes you follow the recommendations above, however Keystone doesn't actually enforce any structure, so you're free to make changes to suit your application better.
+			p.note This guide assumes you follow the recommendations above, however Keystone doesn't actually enforce any structure, so you're free to make changes to suit your application better.
 			
 			.simple-pager
 				a(href='/docs/guides/getting-started/models').btn.btn-default.next Models &rarr;

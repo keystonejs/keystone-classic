@@ -11,7 +11,8 @@
 
 p {
 	line-height: 1.5;
-	margin: 0 0 20px;
+	margin-bottom: 1em;
+	margin-top: 0;
 }
 h1 {
 	color: @gray-darker;
@@ -125,16 +126,17 @@ h2:first-child {
 // Fancy list
 // a light gray circular counter against list items
 
-@list-icon-width: 1.75em;
+@list-icon-width: @font-size-base + 7;
 
 .docs-content ol.fancy-list,
 .docs-content ul.fancy-list {
+	padding-left: 0;
 	
 	> li {
 		counter-increment: list;
 		list-style: none;
 		margin-bottom: 1em;
-		padding-left: @list-icon-width + 1;
+		padding-left: @list-icon-width + 10;
 	}
 	> li:before {
 		.box-shadow( 0 0 0 1px #ddd );
@@ -146,7 +148,7 @@ h2:first-child {
 		font-size: .75em;
 		font-weight: 500;
 		line-height: @list-icon-width;
-		margin-left: -(@list-icon-width + 1);
+		margin-left: -(@list-icon-width + 10);
 		margin-right: 10px;
 		text-align: center;
 	}
@@ -241,12 +243,30 @@ h2:first-child {
 
 // notes
 .note {
-	font-style: italic;
+	border-left: 3px solid @gray-lighter;
+	color: #777;
+	margin-bottom: 2em;
+	margin-top: 2em;
+	padding-left: 1em;
+	padding-top: 20px;
+	position: relative;
+	
+	&:before {
+		content: "Note";
+		color: #ccc;
+		font-size: @font-size-small;
+		font-weight: 500;
+		line-height: 1;
+		position: absolute;
+		top: 0;
+		text-transform: uppercase;
+	}
 }
 .contextual-note {
 	background-color: mix(white, @brand-primary,95%);
 	border-left: 6px solid mix(white, @brand-primary,80%);
-	margin: 20px 0;
+	margin-bottom: 2em;
+	margin-top: 2em;
 	padding: 15px;
 	
 	h4 {
@@ -343,19 +363,14 @@ ul.list li {
 	// so you can use PRE on it's own
 	& + pre {
 		border-radius: 0 0 4px 4px;
+		margin-top: 0;
 	}
 }
 
 // Preformatted text
 pre {
-	background-color: @navbar-default-bg;
-	border-color: darken(@navbar-default-bg, 10%);
-	font-size: 14px !important;
-	white-space: pre;
-	word-break: keep-all;
-	word-wrap: normal;
-	overflow: auto;
-	padding: 15px;
+	margin-bottom: 2em;
+	margin-top: 2em;
 }
 h1 pre, h1 code, h2 pre, h2 code, h3 pre, h3 code, h4 pre, h4 code {
 	font-size: 0.9em !important;
