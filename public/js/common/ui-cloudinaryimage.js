@@ -58,7 +58,7 @@ jQuery(function($) {
 				if (window.FileReader) {
 					var files = e.target.files;
 					for (var i = 0, f; f = files[i]; i++) {
-						if (jQuery.inArray(f.type, supportedTypes) < 0) {
+						if (!_.contains(supportedTypes, f.type)) {
 							$upload.val('');
 							alert("Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD");
 							continue;
