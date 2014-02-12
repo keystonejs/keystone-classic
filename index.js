@@ -455,7 +455,7 @@ Keystone.prototype.start = function(onStart) {
 	var wrapHTMLError = function(title, err) {
 		return "<html><head><meta charset='utf-8'><title>Error</title>" +
 		"<link rel='stylesheet' href='/keystone/styles/error.css'>" +
-		"</head><body><div id='body'><h1>" + title + '</h1>' + (err || '') + "</div></body></html>";
+		"</head><body><div class='error'><h1 class='error-title'>" + title + "</h1>" + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
 	}
 	
 	// Handle 404 (no route matched) errors
