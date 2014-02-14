@@ -51,12 +51,13 @@ body {
 .auth-wrapper {
 	margin: 0 auto;
 	max-width: 600px;
-	padding-top: @gutter-width;
-	position: relative;
+	padding-top: 20px;
 	width: 90%;
 	
 	@media (min-width: @screen-sm) {
-		.translate(0,-50%);
+		margin: -160px 0 0 -300px;
+		position: absolute;
+		left: 50%;
 		top: 44%;
 	}
 	@media (max-width: @screen-xs-max) {
