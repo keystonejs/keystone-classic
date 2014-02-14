@@ -71,7 +71,7 @@ block content
 		each el in list.uiElements
 			if el.type == 'field'
 				if (el.field.type != 'text' || el.field != nameField) && !el.field.hidden
-					|!{el.field.render('form',item) }
+					!= el.field.render('form', item, fieldLocals)
 			else if el.type == 'heading'
 				h3.form-heading(data-field-depends-on=el.options.dependsOn)= el.heading
 			else if el.type == 'indent'

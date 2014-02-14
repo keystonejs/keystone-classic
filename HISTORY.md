@@ -1,5 +1,12 @@
 # Keystone
 
+## v0.2.3 / 2014-02-11
+
+* added; new `localFile` field type, thanks [Alan Shaw](https://github.com/alanshaw)
+* added; `hidden: true` option for lists
+* fixed; uploading works again for `cloudinaryImages` fields
+
+
 ## v0.2.2 / 2014-02-05
 
 * fixed; "moment not defined" error in S3File field type, thanks [Olivier Vaillancourt](https://github.com/ovaillancourt)
