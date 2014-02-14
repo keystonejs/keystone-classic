@@ -22,10 +22,16 @@ block intro
 			li: a(href='https://github.com/JedWatson/keystone/blob/master/HISTORY.md', target='_blank', title='View Changelog on GitHub') What’s New
 			li: a(href='/examples', title='Sample Applications').hidden-xs Examples
 			
-		//- MIT Licence metioned in the footer
+		//- MIT Licence metioned in the subheader and footer
 		//- .mit-licence
 			a(href='http://opensource.org/licenses/MIT', target='_blank').licence-badge MIT Licence
 			span.licence-text Keystone is free and open source.
+
+block subheader
+	p Keystone is free and open source under the 
+		a(href='http://opensource.org/licenses/MIT', target='_blank') MIT License
+		| .
+	//- p The fastest way to create a node.js website: <strong>yo keystone</strong>. <a href='/getting-started'>learn more</a>.
 
 block content
 	//- section.intro-section.whatis-section: .container
@@ -35,7 +41,7 @@ block content
 	section.intro-section.building-section: .container
 		.section-header
 			h2 Get a head-start on the features you need
-			p.lead Keystone is the easiest way to build a web application or content-managed website in Node.js
+			p.lead Keystone is the easiest way to build database-driven websites, applications and APIs in Node.js.
 		.row
 			.col-sm-6.col-md-4.col-lg-3
 				.feature-panel
@@ -102,26 +108,32 @@ block content
 		.container-sm
 			.row
 				.col-sm-6
-					h3 Sophisticated Filtering
-					p TODO @jedwatson Write content... Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
-				.col-sm-6
-					.admin-image: img(src='/images/home/sophisticated-filtering.png').img-responsive.img-circle
-			.row
-				.col-sm-6.col-sm-push-6
-					h3 Responsive Design
-					p TODO @jedwatson Write content... Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
-				.col-sm-6.col-sm-pull-6
-					.admin-image: img(src='/images/home/responsive-design.png').img-responsive.img-circle
-			.row
-				.col-sm-6
-					h3 Inline Item Creation
-					p TODO @jedwatson Write content... Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
+					h3 Everything you need
+					p Create, manage, edit, delete. Keystone's Admin UI takes care of the basics so you don't have to.
+					p Configure which fields are editable, which models are creatable, and customise everything to your heart's content.
 				.col-sm-6
 					.admin-image: img(src='/images/home/inline-item-creation.png').img-responsive.img-circle
 			.row
 				.col-sm-6.col-sm-push-6
-					h3 Custom Fields
-					p TODO @jedwatson Write content... Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.
+					h3 Responsive &amp; Themeable
+					p Want to use your CMS on the go? with Keystone you can.
+					p Keystone's Admin UI is built on Bootstrap 3, and works with all screen sizes and devices.
+					p You can also change the theme (or remove ours) using one of the most popular css frameworks on the internet.
+				.col-sm-6.col-sm-pull-6
+					.admin-image: img(src='/images/home/responsive-design.png').img-responsive.img-circle
+			.row
+				.col-sm-6
+					h3 Sophisticated Filtering
+					p Keystone's Admin UI goes beyond just searching and lets you visually create your own queries, based on any field in your database.
+					p Each field type has its own rules and UI - so you can filter by dates, locations and more.
+				.col-sm-6
+					.admin-image: img(src='/images/home/sophisticated-filtering.png').img-responsive.img-circle
+			.row
+				.col-sm-6.col-sm-push-6
+					h3 Beautiful forms
+					p Keystone doesn't just understand the structure of your data - it understands the intention of your data.
+					p So date fields become date pickers, HTML fields become WYSIWYG editors, and relationships become search boxes.
+					p Fields can also depend on conditions, so complex forms become simple.
 				.col-sm-6.col-sm-pull-6
 					.admin-image: img(src='/images/home/sophisticated-fields.png').img-responsive.img-circle
 	
@@ -141,26 +153,32 @@ block content
 					p Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware.
 					p You can also easily integrate it into an existing Express app.
 				.col-sm-6.col-md-3
-					h4 Lightweight
+					h4 Lightweight and flexible
 					p Keystone is designed to be as light as you want - you can pick and choose the features you want to include.
-					p Write your own routes, disable the Admin UI, whatever - it's up to you.
+					p Create your own routes, your own database schema, and use any template language you like.
 				.col-sm-6.col-md-3
-					h4 Built with Mongoose
-					p Mongoose, supported by MongoDB Inc, is the leading ODM for node.js and MongoDB. Keystone exposes mongoose to you when you need it, so anything you 
-						| can build with MongoDB, you can build with Keystone.
+					h4 Powered by MongoDB
+					p Keystone uses Mongoose, the leading ODM for node.js and MongoDB, and gives you a single place for your schema, 
+						| validation rules and logic.
+					p So anything you can build with MongoDB, you can build with Keystone.
 				.col-sm-6.col-md-3
 					h4 Extendable
 					p One of the greatest things about node.js is the vast number of quality packages available.
 					p Keystone is designed to let you use any of them, without losing the benefits it provides.
 	
-	//- section.intro-section.cta-section: .container: .row: .col-sm-6.col-sm-offset-3.text-center
-		h2 See what Keystone can do for you
-		p: a(href='http://demo.keystonejs.com', target='_blank', title='Demo Website').btn.btn-primary.btn-lg.btn-block Try out the demo website
-		p or 
-			a(href='https://github.com/JedWatson/keystone', target='_blank', title='View the project on GitHub') View the project on GitHub
+	section.intro-section.cta-section: .container: .section-header
+		h2 Sound like what you've been looking for?
+		p: a(href='/getting-started', title='KeystoneJS Getting Started').btn.btn-primary.btn-lg.btn-block Check out the getting started guide
+		p and lean how to get up and running in less than a minute.
+		p You can also 
+			a(href='http://demo.keystonejs.com', target='_blank', title='KeystoneJS Demo Website') Try the live demo
+			|  and 
+			a(href='/examples', title='KeystoneJS Example Projects') see some examples
+			| .
+		p.lead If you are using Keystone for a project, interested in contributing, or looking for commercial support, we'd love to hear about it. Please <a href="mailto:contact@keystonejs.com">get in touch</a>.
 	
 	
-	//- section.intro-section.cta-section: .container: .row: .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3.text-center
+	//- section.intro-section.cta-section: .container: .section-header
 		h3 Vision
 		p Keystone has been built based on patterns and tools that have evolved in the real world,
 			| and the core team has used it in several production applications.

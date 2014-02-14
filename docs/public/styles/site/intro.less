@@ -34,6 +34,9 @@
 	.btn-primary {
 		background-color: white;
 		color: @link-color;
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 	.btn-link {
 		border-color: white;
@@ -88,16 +91,16 @@
 		.licence-badge {
 			border-radius: 4px 0 0 4px;
 			border: 1px solid transparent;
-			background-color: #bbb;
+			background-color: #3d7dcb;
 			color: white;
 			font-weight: bold;
 		}
 		.licence-text {
 			background-color: white;
 			border-radius: 0 4px 4px 0;
-			border: 1px solid #bbb;
+			border: 1px solid #3d7dcb;
 			border-left: 0 none;
-			color: #aaa;
+			color: #3d7dcb;
 		}
 	}
 	.notes {
@@ -223,6 +226,9 @@
 	background-color: mix(@link-color, white, 10%);
 	padding-bottom: 12em;
 	
+	.lead {
+		color: darken(@link-color, 30%);
+	}
 	.row {
 		margin: 2em 0;
 	}
@@ -230,10 +236,9 @@
 		margin-bottom: 2em;
 		position: relative;
 		
-		
 		&:before {
 			.size(100%,1px);
-			background-color: rgba(0, 0, 0, 0.1);
+			background-color: mix(@link-color, white, 20%);
 			bottom: 0;
 			content: "";
 			left: 0;
@@ -318,6 +323,10 @@
 .cta-section {
 	border: 0 none;
 	padding-bottom: 0; // offset footer margin
+	
+	.lead {
+		margin: 50px 0;
+	}
 }
 
 
