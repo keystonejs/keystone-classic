@@ -24,6 +24,7 @@
 @import "bootstrap/mixins.less";
 @import "bootstrap/normalize.less";
 @import "bootstrap/scaffolding.less";
+@import "bootstrap/alerts.less";
 @import "bootstrap/forms.less";
 @import "bootstrap/buttons.less";
 
@@ -76,6 +77,12 @@ body {
 	border-bottom-color: darken(@body-bg, 11.5%);
 	margin-bottom: 2em;
 	padding: @gutter-width;
+}
+
+// shake when there's errors
+.auth-body.has-errors {
+	animation: shake 0.85s;
+	-webkit-animation: shake 0.85s;
 }
 
 
@@ -142,9 +149,13 @@ body {
 		padding-bottom: @gutter-width;
 	}
 }
+.auth-box-logo {
+	display: inline;
+}
 
 // fields
 .form-control {
+	border-top-color: darken(@input-border, 13.5%);
 	-webkit-appearance: none;
 	
 	&:focus {
@@ -155,6 +166,25 @@ body {
 	}
 }
 
+// alerts
+.alert {
+	padding: 10px;
+	text-align: center;
+}
+
+
+
+
+// Animations
+// ------------------------------
+
+// courtesy of https://github.com/daneden/animate.css
+
+@keyframes shake {
+	0%, 100% {transform: translateX(0);}
+	10%, 30%, 50%, 70%, 90% {transform: translateX(-8px);}
+	20%, 40%, 60%, 80% {transform: translateX(8px);}
+}
 
 
 
