@@ -49,9 +49,10 @@ block intro
 				span(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
 			else
 				| id: #{item.id}
-			.btn-group.visible-md.visible-lg.pull-right(style='margin-left:20px')
-				a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
-				//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
+			if (!list.get('nocreate'))
+				.btn-group.visible-md.visible-lg.pull-right(style='margin-left:20px')
+					a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
+					//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
 			
 block content
 	form(method='post', enctype='multipart/form-data').item-details

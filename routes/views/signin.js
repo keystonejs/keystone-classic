@@ -5,7 +5,8 @@ exports = module.exports = function(req, res) {
 	
 	var renderView = function() {
 		keystone.render(req, res, 'signin', {
-			submitted: req.body
+			submitted: req.body,
+			logo: keystone.get('signin logo')
 		});
 	}
 
