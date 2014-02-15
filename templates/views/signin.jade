@@ -28,6 +28,8 @@ block content
 			a(href='/keystone/signout').btn.btn-cancel Sign out
 				
 block js
-	script.
-		try { document.getElementById('email').focus(); }
-		catch(e) {};
+	//- Only focus the field after the shake animation is complete
+	if messages.error.length
+		script setTimeout(function() { try { document.getElementById('email').focus(); } catch(e) {}; }, 600);
+	else
+		script try { document.getElementById('email').focus(); } catch(e) {};

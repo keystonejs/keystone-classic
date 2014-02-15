@@ -13,7 +13,7 @@ html
 	body: .auth-wrapper
 		
 		+flash-messages(messages)
-		.auth-body(class=messages && messages.error.length ? 'has-errors' : null)
+		.auth-body(class=messages.error.length ? 'has-errors' : null)
 			block content
 		
 		block footer
