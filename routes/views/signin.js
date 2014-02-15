@@ -14,7 +14,7 @@ exports = module.exports = function(req, res) {
 	if (req.method == "POST") {
 		
 		if (!req.body.email || !req.body.password) {
-			req.flash('error', 'Email and password required.');
+			req.flash('error', 'Please enter your email address and password.');
 			return renderView();
 		}
 		
@@ -31,7 +31,7 @@ exports = module.exports = function(req, res) {
 		}
 		
 		var onFail = function() {
-			req.flash('error', 'Email and password don\'t match.');
+			req.flash('error', 'Sorry, that email and password combo are not valid.');
 			renderView();
 		}
 		
