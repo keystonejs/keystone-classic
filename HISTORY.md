@@ -5,7 +5,7 @@
 * improved; new sign in/out screen design, thanks [jossmackison](https://github.com/JossMackison)
 * * improved; the default error screen is now responsive, thanks [jossmackison](https://github.com/JossMackison)
 * improved; additional supported file types for CloudinaryImage fields, thanks [James Allen](https://github.com/jamlen)
-    -  Support types are [`image/gif`, `image/png`, `image/jpeg`, `image/bmp`, `image/x-icon`, `application/pdf`, `image/x-tiff`, `image/x-tiff`, `application/postscript`, `image/vnd.adobe.photoshop`]
+    -  Supported types are [`image/gif`, `image/png`, `image/jpeg`, `image/bmp`, `image/x-icon`, `application/pdf`, `image/x-tiff`, `image/x-tiff`, `application/postscript`, `image/vnd.adobe.photoshop`]
 * improved; you can now use Relationship fields with `multi: true` as `initial` fields
 * added; Relationship fields can now be used as filters in the Admin UI
 * fixed; scope issue in Relationship field type, thanks [Tom Walker](https://github.com/bladey)
