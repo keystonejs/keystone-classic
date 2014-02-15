@@ -51,7 +51,8 @@ block content
 			p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
 			
 			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
-			p In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates.
+			p In the guide we'll be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates.
+			p In your own project you can use any template language you like; see <a href="#templates_other">using other template languages</a> (below) for more information.
 			
 			a(name="start_env")
 			h3 Production vs. Development
@@ -61,6 +62,12 @@ block content
 			
 			a(name="start_newproj")
 			h2 Getting Started
+			
+			h3 Using the Yeoman Generator
+			
+			p The easiest way to get started with KeystoneJS is to use our new Yeoman Generator.
+			p We're still updating our getting started guide to reflect this; in the meantime head over to the <a href="https://github.com/JedWatson/generator-keystone" target="_blank">KeystoneJS Yeoman Genrator</a> page and follow the instructions there.
+			p Running <code>yo keystone</code> will take all the work out of following the guide below, so once you've got your new project, continue reading to follow along with what it did.
 			
 			h3 Starting a new project
 			
@@ -507,6 +514,7 @@ block content
 				|         else
 				|             = message
 			
+			a(name="templates_other")
 			.contextual-note
 				h4 Using other template languages
 				p KeystoneJS supports <a href='http://expressjs.com/api.html#app.engine'>any template language supported by express</a>.
