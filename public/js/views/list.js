@@ -95,7 +95,7 @@ jQuery(function($) {
 				str = data.path + ':';
 			
 			$ops.each(function() {
-				console.log(data.type + ': ' + data.path + ': ' + $(this).data('opt') + ': ' + $(this).data('value'));
+				// console.log(data.type + ': ' + data.path + ': ' + $(this).data('opt') + ': ' + $(this).data('value'));
 				data[$(this).data('opt')] = $(this).data('value');
 			});
 			
@@ -155,6 +155,10 @@ jQuery(function($) {
 				case 'cloudinaryimages':
 				case 's3file':
 					str += data.value;
+				break;
+				
+				case 'relationship':
+					str += $filter.find('input[type=hidden]').val();
 				break;
 				
 			}

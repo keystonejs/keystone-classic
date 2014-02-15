@@ -279,6 +279,24 @@ block content
 										button(type='button', class=ops.value === false ? 'active' : '', data-opt='value', data-value='false').btn.btn-default
 											input(type="radio", name="options")
 											| has no file
+								
+								//- Relationships
+								if field.type == 'relationship'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=ops.inv ? '' : 'active', data-opt='inv', data-value='false').btn.btn-default
+											input(type="radio", name="options")
+											| linked to
+										button(type='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
+											input(type="radio", name="options")
+											| not linked to
+									input(type='hidden',
+										name=field.path,
+										id='field_' + field.path,
+										value=ops.value,
+										data-ref-path=field.refList.path,
+										data-ref-singular=field.refList.singular,
+										data-ref-plural=field.refList.plural).ui-select2-ref
+								
 				.list-filters-action
 					button(type='submit').btn.btn-default.btn-filter Search
 					a(href='/keystone/#{list.path}').btn.btn-link.btn-cancel clear filters
