@@ -114,6 +114,7 @@ exports = module.exports = function(req, res) {
 				keystone.render(req, res, 'list', _.extend(viewLocals, {
 					section: keystone.nav.by.list[req.list.key] || {},
 					title: 'Keystone: ' + req.list.plural,
+					page: 'list',
 					link_to: link_to,
 					download_link: download_link,
 					list: req.list,
