@@ -82,8 +82,8 @@ body {
 
 // shake when there's errors
 .auth-body.has-errors {
-	animation: shake 0.85s;
-	-webkit-animation: shake 0.85s;
+	animation: shake 0.5s;
+	-webkit-animation: shake 0.5s;
 }
 
 
@@ -182,9 +182,14 @@ body {
 // courtesy of https://github.com/daneden/animate.css
 
 @keyframes shake {
-	0%, 100% {transform: translateX(0);}
-	10%, 30%, 50%, 70%, 90% {transform: translateX(-8px);}
-	20%, 40%, 60%, 80% {transform: translateX(8px);}
+	0%, 100% { transform: translateX(0); }
+	20%, 60% { transform: translateX(-8px); }
+	40%, 80% { transform: translateX(8px); }
+}
+@-webkit-keyframes shake {
+	0%, 100% { -webkit-transform: translateX(0); }
+	20%, 60% { -webkit-transform: translateX(-8px); }
+	40%, 80% { -webkit-transform: translateX(8px); }
 }
 
 
