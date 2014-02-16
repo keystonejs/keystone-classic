@@ -43,6 +43,11 @@
 	line-height: 24px;
 }
 
+// multi-select fields have a min-height to match the Bootstrap fields
+.select2-container-multi .select2-choices {
+	min-height: 34px;
+}
+
 // reset the focused style of the field to match the other fields
 .select2-container-active .select2-choice,
 .select2-container-active .select2-choices,
@@ -76,17 +81,7 @@
 	height: @input-height-base - 2;
 	line-height: @line-height-computed;
 	input {
-		height: @input-height-base;
-	}
-}
-#page-list .select2-container-multi .select2-choices .select2-search-field {
-	min-height: @input-height-small - 2;
-	height: @input-height-small - 2;
-	
-	input {
-		min-height: @input-height-small;
-		height: @input-height-small;
-		font-size: @font-size-small;
+		height: @input-height-base - 2;
 	}
 }
 
@@ -159,6 +154,9 @@
 
 .select2-drop {
 	.box-shadow( ~"0 4px 5px rgba(0, 0, 0, 0.15), 0 -5px 5px #FFFFFF" );
+}
+.select2-drop-above {
+	.box-shadow( ~"0 -1px 4px rgba(0, 0, 0, 0.15), 0 -5px 5px #FFFFFF !important" );	
 }
 
 // Fix the style of the loading / results indicator
