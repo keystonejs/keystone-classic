@@ -15,10 +15,7 @@
 }
 
 // Small fields for List filtering UI
-// We have to use #page-list as the selector, because dropdowns are injected
-// directly into the body. May become a problem if fields are used for more than
-// the filters UI on the List screen.
-#page-list .select2-container {
+.filter .select2-container {
 	font-size: @font-size-small;
 }
 
@@ -32,8 +29,8 @@
 	background-image: none;
 	filter: none;
 }
-#page-list .select2-container .select2-choice,
-#page-list .select2-container-multi .select2-choices {
+.filter .select2-container .select2-choice,
+.filter .select2-container-multi .select2-choices {
 	border-radius: @border-radius-small;
 }
 
@@ -41,7 +38,7 @@
 .select2-container .select2-choice {
 	height: @input-height-base;
 }
-#page-list .select2-container .select2-choice {
+.filter .select2-container .select2-choice {
 	height: 24px;
 	line-height: 24px;
 }
@@ -60,12 +57,15 @@
 	margin-right: 50px;
 }
 
-// Clean up the height and line-height of inputs
-.select2-container .select2-choice .select2-search input {
+// Clean up the height, line-height and style of inputs
+.select2-search .select2-input {
 	height: @input-height-base - 2;
 	line-height: @line-height-computed;
+	border-color: #ccc;
+	border-radius: @border-radius-base;
+	padding: 2px 20px 2px 5px;
 }
-#page-list .select2-input {
+.filter .select2-input, #page-list .select2-search .select2-input {
 	height: @input-height-small - 2;
 	font-size: @font-size-small;
 }
@@ -75,7 +75,6 @@
 	
 	height: @input-height-base - 2;
 	line-height: @line-height-computed;
-	
 	input {
 		height: @input-height-base;
 	}
@@ -113,7 +112,7 @@
 		margin-top: 2px;
 	}
 }
-#page-list .select2-container .select2-choice div {
+.filter .select2-container .select2-choice div {
 	font-size: @font-size-small;
 	b {
 		margin-top: -2px;
@@ -131,7 +130,7 @@
 	top: 10px;
 	right: 24px;
 }
-#page-list .select2-container .select2-choice .select2-search-choice-close {
+.filter .select2-container .select2-choice .select2-search-choice-close {
 	top: 5px;
 }
 
@@ -156,6 +155,10 @@
 // Fix the grey background on the 'loading' item
 .select2-dropdown-open .select2-choice {
 	background: none white;
+}
+
+.select2-drop {
+	.box-shadow( ~"0 4px 5px rgba(0, 0, 0, 0.15), 0 -5px 5px #FFFFFF" );
 }
 
 // Fix the style of the loading / results indicator
