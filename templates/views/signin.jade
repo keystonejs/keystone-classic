@@ -30,6 +30,6 @@ block content
 block js
 	//- Only focus the field after the shake animation is complete
 	if messages && messages.error.length
-		script setTimeout(function() { try { document.getElementById('email').focus(); } catch(e) {}; }, 600);
+		script setTimeout(function() { try { document.getElementById('email').focus(); } catch(e) {}; }, 800);
 	else
 		script try { document.getElementById('email').focus(); } catch(e) {};
