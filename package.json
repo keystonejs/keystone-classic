@@ -26,8 +26,6 @@
     "numeral": "~1.5.3",
     "semver": "~2.2.1",
     "knox": "~0.8.9"
-    "knox": "~0.8.8",
-    "imagemagick": "~0.1.2"
   },
   "author": "Jed Watson",
   "license": "MIT",

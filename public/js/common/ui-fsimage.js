@@ -91,7 +91,7 @@ jQuery(function($) {
                 $action.val('delete');
                 action = 'delete';
             } else {
-                $action.val('reset');
+                $action.val('delete');
                 action = 'remove';
             }
             // Details

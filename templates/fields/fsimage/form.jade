@@ -6,9 +6,10 @@
 	.field-ui(class=hasImage ? 'has-image' : false)
 		if field.noedit
 			if hasImage
+				-var urls = JSON.parse(item.get(field.paths.publicUrls))
 				.image-preview
-					a(href=item.get(field.paths.url), rel=field.path).img-thumbnail
-						img(width=90, height=90, data-src=item.get(field.paths.url), data-id=item.get(field.paths.url), data-wysiwyg= false, data-wysiwyg-options= false, data-wysiwyg-original= false, data-wysiwyg-src= false).img-load
+					a(href='../..' + urls.admin, rel=field.path).img-thumbnail
+						img(width=90, height=90, data-src='../..' + urls.admin, data-id=item.get(field.paths.generatedFileName), data-wysiwyg= false, data-wysiwyg-options= false, data-wysiwyg-original= false, data-wysiwyg-src= false).img-load
 						.glyphicon.glyphicon-picture.img-loading
 				.image-details
 					.field-value= item.get(field.paths.url)
@@ -18,16 +19,18 @@
 		else
 			.image-container
 				if hasImage
+					-var urls = JSON.parse(item.get(field.paths.publicUrls))
 					.image-preview.current
-						a(href='../../images/upload/admin_'+item.get(field.paths.url), rel=field.path).img-thumbnail
-							img(width=90, height=90, data-src='../../images/upload/admin_'+item.get(field.paths.url), data-id=item.get(field.paths.url), data-wysiwyg= false, data-wysiwyg-options= false, data-wysiwyg-original= false, data-wysiwyg-src= false).img-load
+						a(href='../..' + urls.admin, rel=field.path).img-thumbnail
+							img(width=90, height=90, data-src='../..' + urls.admin, data-id=item.get(field.paths.generatedFileName), data-wysiwyg= false, data-wysiwyg-options= false, data-wysiwyg-original= false, data-wysiwyg-src= false).img-load
 							.glyphicon.glyphicon-picture.img-loading
 							.glyphicon.delete-pending(style='display: none;')
-				.image-details
-					.image-values
-						if hasImage
-							.field-value= item.get(field.paths.url)
-						.field-value= field.scope
+					.image-details
+						.images-Url
+							h4 Generated Urls
+							each url in urls
+								.field-value= url
+
 					.upload-queued.pull-left
 						.alert.alert-success Image selected - save to upload
 					.delete-queued.pull-left
