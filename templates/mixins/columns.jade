@@ -18,6 +18,10 @@ mixin column(list, col, item)
 					+column_link(value, '/keystone/' + col.refList.path + '/' + refData.id)
 				else
 					+column_basic(value)
+	else if col.type == 'markdown'
+		+column_html(utils.textToHTML(utils.cropString(item.get(col.field.paths.md), 200, '...', true)))
+	else if col.type == 'html'
+		+column_html(utils.cropHTMLString(item.get(col.field.path), 200, '...', true))
 	else
 		- var value = col.field ? col.field.format(item) : item.get(col.path)
 		if col.isName
@@ -43,6 +47,9 @@ mixin column_boolean(value)
 		img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16)
 	else
 		img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16)
+
+mixin column_html(value)
+	div.col-value!= value
 
 mixin column_basic(value)
 	div.col-value= value
