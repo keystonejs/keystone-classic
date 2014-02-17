@@ -696,13 +696,15 @@ Keystone.prototype.routes = function(app) {
 		app.all('/keystone*', auth);
 	}
 	
-	var initList = function(req, res, next) {
-		req.list = keystone.list(req.params.list);
-		if (!req.list || req.list.get('hidden')) {
-			req.flash('error', 'List ' + req.params.list + ' could not be found.');
-			return res.redirect('/keystone');
+	var initList = function(protect) {
+		return function(req, res, next) {
+			req.list = keystone.list(req.params.list);
+			if (!req.list || (protect && req.list.get('hidden'))) {
+				req.flash('error', 'List ' + req.params.list + ' could not be found.');
+				return res.redirect('/keystone');
+			}
+			next();
 		}
-		next();
 	}
 	
 	if (this.get('email tests')) {
@@ -711,11 +713,11 @@ Keystone.prototype.routes = function(app) {
 	
 	app.all('/keystone', require('./routes/views/home'));
 	
-	app.all('/keystone/download/:list', initList, require('./routes/download/list'));
-	app.all('/keystone/api/:list/:action', initList, require('./routes/api/list'));
+	app.all('/keystone/download/:list', initList(), require('./routes/download/list'));
+	app.all('/keystone/api/:list/:action', initList(), require('./routes/api/list'));
 	
-	app.all('/keystone/:list/:page([0-9]{1,5})?', initList, require('./routes/views/list'));
-	app.all('/keystone/:list/:item', initList, require('./routes/views/item'));
+	app.all('/keystone/:list/:page([0-9]{1,5})?', initList(true), require('./routes/views/list'));
+	app.all('/keystone/:list/:item', initList(true), require('./routes/views/item'));
 	
 };
 
