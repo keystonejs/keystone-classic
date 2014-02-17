@@ -297,9 +297,12 @@ Keystone.prototype.initNav = function(sections) {
 		section.lists = _.map(section.lists, function(i) {
 			var list = keystone.list(i);
 			if (!list) {
-				console.log('Defined lists:');
-				console.log(_.pluck(keystone.lists, 'path'));
-				throw new Error('Keystone Nav Error: list ' + i + ' has not been defined.');
+				var msg = 'Invalid Keystone Option (nav): list ' + i + ' has not been defined.\n';
+				throw new Error(msg);
+			}
+			if (list.get('hidden')) {
+				var msg = 'Invalid Keystone Option (nav): list ' + i + ' is hidden.\n';
+				throw new Error(msg);
 			}
 			nav.by.list[list.key] = section;
 			return list;
