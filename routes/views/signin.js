@@ -5,7 +5,8 @@ exports = module.exports = function(req, res) {
 	
 	var renderView = function() {
 		keystone.render(req, res, 'signin', {
-			submitted: req.body
+			submitted: req.body,
+			logo: keystone.get('signin logo')
 		});
 	}
 
@@ -13,7 +14,7 @@ exports = module.exports = function(req, res) {
 	if (req.method == "POST") {
 		
 		if (!req.body.email || !req.body.password) {
-			req.flash('error', 'Please enter your username and password.');
+			req.flash('error', 'Please enter your email address and password.');
 			return renderView();
 		}
 		
@@ -30,7 +31,7 @@ exports = module.exports = function(req, res) {
 		}
 		
 		var onFail = function() {
-			req.flash('error', 'Signin error. Please try again.');
+			req.flash('error', 'Sorry, that email and password combo are not valid.');
 			renderView();
 		}
 		

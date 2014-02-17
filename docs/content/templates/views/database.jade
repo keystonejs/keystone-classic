@@ -384,7 +384,7 @@ block content
 				p <code>ref</code> <code class="data-type">String</code> - the key of the referred Model (the one that has the relationship field)
 				p <code>refPath</code> <code class="data-type">String</code> - the path of the relationship being referred to in the referred Model
 			
-			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it referrs to.
+			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it refers to.
 			
 			p.note Relationship definitions are optional; if you leave them out, the relationships simply won't be displayed in the Admin UI from the other side of the relationship. The relationship field will still work as expected.
 			
@@ -436,13 +436,24 @@ block content
 			h3 <code>Email</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			p.note Input must look like a valid email address (can be blank unless field is required)
-			pre: code.language-javascript { type: Types.Email }
+			pre: code.language-javascript { type: Types.Email, displayGravatar: true }
+			.options
+				
+				h5 Options
+				p <code>displayGravatar</code> <code class="data-type">Boolean</code> - whether to display a gravatar image in the Admin UI
+				
+				h5 Underscore methods:
+				p <code>gravatarUrl(input, size, defaultImage, rating)</code> - generates a gravatar image request url
+				pre: code.language-javascript
+					| item.email = "demo@keystonejs.com";
+					| item._.email.gravatarUrl(); // "//www.gravatar.com/avatar/74a0071e5f3a7107b570b7d4a1a7619d?s=80&d=identicon&r=g"
+					| item._.email.gravatarUrl(200,'mm','r'); // "//www.gravatar.com/avatar/74a0071e5f3a7107b570b7d4a1a7619d?s=200&d=mm&r=r"
 			
 			
 			a(name="field_url")
 			h3 <code>Url</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.
-			pre: code.language-javascript { type: Types.Text }
+			pre: code.language-javascript { type: Types.Url }
 			.options
 				
 				h5 Underscore methods:

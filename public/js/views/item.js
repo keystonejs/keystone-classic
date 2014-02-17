@@ -115,37 +115,6 @@ jQuery(function($) {
 		
 	});
 	
-	$('.field.type-location').each(function() {
-		
-		var $field = $(this),
-			$extras = $field.find('.extras'),
-			visible = 0;
-		
-		$extras.each(function() {
-			var $this = $(this);
-			if (_.any($(this).find('input'), function(i) { return $(i).val() })) {
-				visible++;
-				$this.show();
-			}
-		});
-		
-		if (visible >= $extras.length) {
-			$field.find('.btn-show-extras').remove();
-		} else {
-			$field.find('.btn-show-extras').on('click', function() {
-				$(this).remove();
-				$field.find('.extras').show();
-				$(window).trigger('redraw');
-			})
-		}
-		
-		$field.find('.autoimprove').on('change', function() {
-			$field.find('.overwrite')[$field.find('.autoimprove input').prop('checked') ? 'show' : 'hide']();
-			$(window).trigger('redraw');
-		});
-		
-	});
-	
 	$('.field, .form-heading').filter('[data-field-depends-on]').each(function() {
 		
 		var $field = $(this),
@@ -290,6 +259,24 @@ jQuery(function($) {
 		
 		$(window).trigger('redraw');
 		
+	});
+	
+	$('.type-email[data-gravatar=true] input').on('change', function(e){
+		
+		var $field = $(this),
+			$image = $field.siblings('img.img-gravatar'),
+			src = $image.attr('src'),
+			val = $field.val().toLowerCase().trim();
+		
+		if (val === '') {
+			$image.hide();
+			return;
+		}
+		else {
+			$image.show();
+		}
+		
+		$image.attr('src', src.replace(/^(\/\/www\.gravatar\.com\/avatar\/)[^\?]+(\?.*$)/i,'$1' + md5(val) + '$2'));
 	});
 	
 });

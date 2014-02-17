@@ -1,9 +1,12 @@
-extends ../layout/session
+extends ../layout/auth
 
-block intro
-	.page-header.hidden-xs
-		h1 Sign Out
-		p.lead You have been signed out
 block content
-	a(href='/keystone/signin').btn.btn-default Sign in again
-	a(href='/').btn.btn-link Back to the #{brand} website
+	h1.sr-only Sign Out
+	.auth-box
+		.auth-box-col
+			include ../includes/auth-brand
+			
+		.auth-box-col
+			p.lead You have been signed out
+			a(href='/').btn.btn-primary Home
+			a(href='/keystone/signin').btn.btn-link Sign in again

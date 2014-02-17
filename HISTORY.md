@@ -1,5 +1,80 @@
 # Keystone
 
+## v0.2.4 / 2014-02-15
+
+* improved; new sign in/out screen design, thanks [jossmackison](https://github.com/JossMackison)
+* * improved; the default error screen is now responsive, thanks [jossmackison](https://github.com/JossMackison)
+* improved; additional supported file types for CloudinaryImage fields, thanks [James Allen](https://github.com/jamlen)
+    -  Supported types are [`image/gif`, `image/png`, `image/jpeg`, `image/bmp`, `image/x-icon`, `application/pdf`, `image/x-tiff`, `image/x-tiff`, `application/postscript`, `image/vnd.adobe.photoshop`]
+* improved; you can now use Relationship fields with `multi: true` as `initial` fields
+* added; Relationship fields can now be used as filters in the Admin UI
+* fixed; scope issue in Relationship field type, thanks [Tom Walker](https://github.com/bladey)
+
+## v0.2.3 / 2014-02-11
+
+* added; new `localFile` field type, thanks [Alan Shaw](https://github.com/alanshaw)
+* added; `hidden: true` option for lists
+* fixed; uploading works again for `cloudinaryImages` fields
+
+
+## v0.2.2 / 2014-02-05
+
+* fixed; "moment not defined" error in S3File field type, thanks [Olivier Vaillancourt](https://github.com/ovaillancourt)
+* added; ability to define attachments to emails via Mandrill, thanks [Tom Walker](https://github.com/bladey)
+* improved; log formatting and error output
+* fixed; default 404 handling, thanks [Lepi](https://github.com/lepilepi)
+* added; new `keystone.import(path)` method for recusrively requiring all `.js` / `.coffee` files in a path relative to the project root, e.g. `keystone.import('models')`. Similar to but simpler than `keystone.importer()`.
+* improved; the default 404 and 500 error handlers have been cleaned up, and have a simple HTML template
+* added; filtering now implemented for location fields
+* improved; the list download > csv feature in the Admin UI now respects the current filters
+
+
+## v0.2.1 / 2014-02-04
+
+* added; more flexible environment variable defaults for mongo connection strings. It supports `env.MONGO_URI`, `env.MONGO_URL`, `env.MONGOLAB_URI` and `env.MONGOLAB_URL`, so whatever default you're using, it should be there.
+* added; the http server is now accessible as `keystone.httpServer`, thanks [B. August](https://github.com/TheBenji)
+* added; pre upload queue for s3file field type (set the `pre.upload` option, or call `{list}.fields.{s3filefield}.pre('upload', ...)`)
+* added; initial (create form) support for location fields
+* added; initial (create form) support for markdown fields, thanks [Jimmy Hillis](https://github.com/jimmyhillis)
+* improved; much more flexible support for http server startup options, see [#154](https://github.com/JedWatson/keystone/issues/154)
+
+
+## v0.2.0 / 2014-01-26
+
+A bumper release for the new year! We've moved to v0.2.x because some packages have been updated to new minor versions that may cause compatibility issues, specifically:
+
+KeystoneJS now requires mongoose 3.8.5+. Please test compatibility with your application before deploying this update to production.
+
+This version also requires Jade 1.x, which includes some breaking changes from the 0.x branch, particularly to doctype definition. Updating your app should be simple, but again, be sure to test before deploying to production.
+
+One of the other big changes in this release is the work done by [Iulian Meghea](https://github.com/iulian-meghea) breaking up all the field templates into individual files, in preparation for introducing field type plugins in the future.
+
+* lots of website, readme and documentation improvements
+* fixed; potential issue with flash errors erroring with TypeError: Cannot read property 'flash' of undefined, thanks [James Allen](https://github.com/jamlen)
+* improved; Add options to s3file field type to support allowedTypes, thanks [James Allen](https://github.com/jamlen)
+* added; host option to specify the ip address to listen on, thanks [Jose Carvajal](https://github.com/Sgitario)
+* improved; better error handling, see #144
+* fixed; placeholder for items without a name when creating a relationship in the admin UI, see #117
+* fixed; keystone error on blank date / date time fields, thanks [Mark Bayfield](https://github.com/mbayfield)
+* fixed; columns filter button position in development env, thanks [Mike Causer](https://github.com/mcauser)
+* added; mongo connection defaults, see #124
+* improved; sign-out page text
+* fixed; hard-to-debug errors in schemaPlugins when callbacks are omitted
+* fixed; compatibility for location auto-improve w/ mongoose 3.8.2+
+* added; gravatar functionality for email fields, including gravatar display in the Admin UI's list and edit views, and a `gravatarUrl` underscore method, thanks [Mike Causer](https://github.com/mcauser)
+* fixed; try/catch for missing Pre-route middleware, thanks [Mark Bayfield](https://github.com/mbayfield)
+* fixed; .env defaults for s3 config, see #143
+* fixed; check for cloudinary config when `CloudinaryImage` fields are initialised, see #28
+* added; current KeystoneJS version displayed in footer of Admin UI, see #130
+* updated; marked v0.3.0
+* updated; mongoose v0.8.5
+* updated; keystone-utils v0.1.5
+* updated; jade v1.1.5
+* updated; async v0.2.10
+* updated; moment v2.5.1
+* updated; less-middleware v0.1.15
+
+
 ## v0.1.55 / 2013-12-30
 
 * fixed; incompatibility with mongoose 3.8.2+ for location fields has been resolved, thanks [jbalde](https://github.com/jbalde)
