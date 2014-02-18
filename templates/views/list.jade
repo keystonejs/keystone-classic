@@ -92,7 +92,7 @@ block content
 							if el.type == 'heading'
 								li.dropdown-header= el.heading
 							else if el.type == 'field'
-								if el.field.type != 'relationship' && !el.field.nosort
+								if el.field.type != 'relationship' && !el.field.nosort && !el.field.hidden
 									if sort.field && sort.field.path == el.field.path
 										if sort.inv
 											li: a(href=link_to({ sort: el.field.path }))
@@ -136,7 +136,7 @@ block content
 							ul.dropdown-menu: each el in list.uiElements
 								if el.type == 'heading'
 									li.dropdown-header= el.heading
-								else if el.type == 'field' && !el.field.nofilter
+								else if el.type == 'field' && !el.field.nofilter && !el.field.hidden
 									li: a(href=js, data-path=el.field.path).add-list-filter
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
@@ -154,7 +154,7 @@ block content
 								each el in list.uiElements
 									if el.type == 'heading'
 										li.dropdown-header= el.heading
-									else if el.type == 'field' && !el.field.nocol
+									else if el.type == 'field' && !el.field.nocol && !el.field.hidden
 										li: a(href=js, data-col=el.field.path).btn-toggle-column
 											span(class=_.contains(colPaths, el.field.path) ? 'glyphicon glyphicon-ok-circle' : '').icon
 											span= el.field.label
@@ -170,7 +170,7 @@ block content
 			//- ------------------------------
 			.list-filters
 				each field in list.fields
-					if !field.nofilter
+					if !field.nofilter && !field.hidden
 						.filter(data-path=field.path, data-type=field.type, class=filters[field.path] ? 'active' : '')
 							.filter-label
 								a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='right', data-container='body').btn-companion-xs.clear-filter &times;
