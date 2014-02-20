@@ -183,8 +183,8 @@ h2:first-child {
 	}
 	
 	@media (min-width: @screen-lg-min) {
-		padding-left: 10%;
-		padding-right: 10%;
+		padding-left: 5%;
+		padding-right: 5%;
 	}
 }
 .page-header {
@@ -192,6 +192,7 @@ h2:first-child {
 	background-color: #fafafa;
 	background-color: @link-color;
 	background: url( "/images/intro-bg-inverse.png" ) no-repeat right bottom @link-color;
+	border-bottom: 0 none; // override twbs styles
 	margin-bottom: 0;
 	margin-top: 0;
 	padding-bottom: 30px;
@@ -272,6 +273,9 @@ h2:first-child {
 	}
 }
 
+
+
+
 // notes
 .note {
 	border-left: 3px solid @gray-lighter;
@@ -313,6 +317,13 @@ h2:first-child {
 		border-color: mix(white, @brand-primary,80%);
 		background: mix(white, @brand-primary,98%)
 	}
+}
+
+
+
+// command line
+pre.command-line:before {
+		content: "\0024\0020"; // "$ "
 }
 
 

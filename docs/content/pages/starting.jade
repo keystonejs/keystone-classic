@@ -4,33 +4,87 @@ block intro
 	.page-header
 		.container
 			h1 Getting Started
-			p.lead KeystoneJS makes it easy to build database-driven websites, applications and APIs in Node.js.
+			p.lead The fastest way to create a Node.js website
 	
 block content
-	.container: .row
-		.col-sm-3: .docs-sidebar-info
-			//- h3 Prerequisites
-			p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
-			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
-		.col-sm-9: .docs-content
-			h2 Starting a new project
-			
-			h3 Install Yeoman
-			p Create a new directory for your project, then run the following command
-			pre $ npm install -g yo
-			
-			h3 Install KeystoneJS
-			p Explain what this command does
-			pre $ npm install -g generator-keystone
-			
-			h3 Start your new application
-			p Explain what this command does
-			pre $ yo keystone
-			
-			h2 All done?
-			p So you just created your first KeystoneJS project, congrats! Want to see what actually went down?
-			p: a(href='/docs/guides').btn.btn-default Check it out
-	
+	//- h2.text-center The fastest way to create a Node.js website
+	.gs-guide
+		.gs-guide-section
+			.container-sm
+				.gs-guide__header
+					h2.gs-guide__title
+						span.gs-guide__title-count 1
+						.gs-guide__title-label Prerequisites
+					.gs-guide__subtitle
+						p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
+						p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
+						p: a(href='javascript:;').js-show-devsetup Huh?
+					.devsetup(style='display: none;')
+						| Tools and commands to get users' running Node + Mongo.
+		
+		.gs-guide-figure.gs-guide-figure--prerequisites.hidden-xs
+			.text Installed?
+			.column.nodejs
+				img(src='/images/getting-started/nodejs-logo.png', alt='Node.js logo', width=245, height=66)
+			.column.mongodb
+				img(src='/images/getting-started/mongodb-logo.png', alt='MongoDB logo', width=294, height=84)
+				
+		.gs-guide-section
+			.container-sm
+				.gs-guide__header
+					h2.gs-guide__title
+						span.gs-guide__title-count 2
+						.gs-guide__title-label Commands
+				h3 Install the generator
+				p You'll be using the <a href='https://github.com/JedWatson/generator-keystone', target='_blank'>KeystoneJS generator</a> made with <a href='http://yeoman.io/', target='_blank'>Yeoman</a>. In your root directory run:
+				pre.command-line npm install -g generator-keystone
+				
+				p Create your project wherever you want:
+				pre.command-line mkdir my-test-project
+				
+				p Make sure you're in your new project:
+				pre.command-line cd my-test-project
+				
+				h3 Run the generator
+				p This will ask you a few questions about what you need and create all the directories and assets for a KeystoneJS website.
+				pre.command-line yo keystone
+		
+		.gs-guide-figure.gs-guide-figure--commands.hidden-xs
+			.window.safari
+				img(src='/images/getting-started/commands-safari.png', alt='Safari window', width=942, height=616)
+			.window.terminal
+				.terminal-cursor
+				img(src='/images/getting-started/commands-terminal.png', alt='Terminal window', width=650, height=437)
+			.figure-shadow
+				
+		.gs-guide-section
+			.container-sm
+				.gs-guide__header
+					h2.gs-guide__title
+						span.gs-guide__title-count 3
+						.gs-guide__title-label Finished
+					p.gs-guide__subtitle So you just created your first KeystoneJS project, congrats!
+					p.gs-guide__subtitle If you want to see what the generator actually did take a look at our getting started guide, it'll walk you through the manual setup process. This is particularly helpful if you're new to Node.js.
+					p.gs-guide__subtitle: a(href='/docs/guides/getting-started') View the getting started guide &rarr;
+				
+		.gs-guide-section
+			.container-sm
+				.gs-guide__header
+					h2.gs-guide__title
+						span.gs-guide__title-count 4
+						.gs-guide__title-label Problems
+					p.gs-guide__subtitle Something went wrong? That's cool, here's how to fix it.
+					p.gs-guide__subtitle: a(href='/docs/guides/getting-started').btn.btn-default View the getting started guide
+block js
+	script.
+		jQuery( function() {
+			$('.js-show-devsetup').click( function() {
+				
+				$(this).hide();
+				$('.devsetup').show();
+				
+			});
+		});
 	//- OLD GETTING STARTED DOCS
 	//- .container: .row
 		.col-sm-3: nav.docs-sidebar
