@@ -151,6 +151,7 @@ jQuery(function($) {
 				break;
 				
 				case 'boolean':
+                case 'fsimage':
 				case 'cloudinaryimage':
 				case 'cloudinaryimages':
 				case 's3file':
