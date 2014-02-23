@@ -13,10 +13,10 @@ body: table.body: tr: td(class="center", align="center", valign="top"): center
 	table.row.row-header: tr: td(align="center").center: center
 		table.container: tr: td.wrapper.last
 			block header
-				if logo
+				if logo_src || logo
 					table.twelve.columns: tr
 						td(align="center").center: center
-							img(src=logo, width=logo_width, height=logo_height).header__logo
+							img(src=logo_src || logo, width=logo_width, height=logo_height).header__logo
 						td.expander
 				else
 					span= brand
