@@ -4,25 +4,28 @@
 //- Options
 //- 	- url
 //- 	- label
+//- Styles
 //- 	- background_color
 //- 	- background_image
 //- 	- border_color
 //- 	- border_width
-//- 	- border_radius
-//- 		- must be an integer
+//- 	- border_radius (must be an integer)
 //- 	- color
 //- 	- font_family
 //- 	- font_size
 //- 	- font_weight
-//- 	- height
-//- 		- must be an integer
+//- 	- height (must be an integer)
 //- 	- width
-mixin button(args)
+mixin button(args, styles)
+	- if (!styles) { styles = {};
+	-	_.defaults(_.pick(args, ['background_color','background_image','border_color','border_width','border_radius','color','font_family','font_size','font_weight','height']));
+	- 	_.defaults(styles, theme.buttons);
+	- 	_.defaults(styles, { background_color: '#2697de', border_color: '#1a7cb7', border_width: '1px', border_radius: 4, color: '#fff', font_family: 'inherit', font_size: 'inherit', font_weight: 'bold', height: 40, width: '100%' }); }
 	div
 		//[if mso]
-			v:roundrect(xmlns:v='urn:schemas-microsoft-com:vml', xmlns:w='urn:schemas-microsoft-com:office:word', href=args.url, style='height: #{args.height}px; v-text-anchor: middle; width: #{args.width};', arcsize=Math.ceil((args.border_radius / args.height) * 100) + '%', strokecolor=args.border_color, fillcolor=args.background_color)
-				v:fill(type="tile", src=args.background_image, color=args.background_color)
+			v:roundrect(xmlns:v='urn:schemas-microsoft-com:vml', xmlns:w='urn:schemas-microsoft-com:office:word', href=args.url, style='height: #{styles.height}px; v-text-anchor: middle; width: #{styles.width};', arcsize=Math.ceil((styles.border_radius / styles.height) * 100) + '%', strokecolor=styles.border_color, fillcolor=styles.background_color)
+				v:fill(type="tile", src=styles.background_image, color=styles.background_color)
 				w:anchorlock
-				center(style='color: #{args.color}; font-family: #{args.font_family || "inherit"}; font-size: #{args.font_size || "inherit"}; font-weight: #{args.font_weight || "bold"};')= args.label
+				center(style='color: #{styles.color}; font-family: #{styles.font_family}; font-size: #{styles.font_size}; font-weight: #{styles.font_weight};')= args.label
 			| <![endif]
-		| <![if !mso]><a href='#{args.url}' style='background-color: #{args.background_color}; background-image: url(#{args.background_image}); border: #{args.border_width} solid #{args.border_color}; border-radius: #{args.border_radius}px; color: #{args.color}; display: inline-block; font-family: #{args.font_family || "inherit"}; font-size: #{args.font_size || "inherit"}; font-weight: #{args.font_weight || "bold"}; line-height: #{args.height}px; text-align: center; text-decoration: none; width: #{args.width}; -webkit-text-size-adjust: none;'>#{args.label}</a><![endif]>
+		| <![if !mso]><a href='#{args.url}' style='background-color: #{styles.background_color}; background-image: url(#{styles.background_image}); border: #{styles.border_width} solid #{styles.border_color}; border-radius: #{styles.border_radius}px; color: #{styles.color}; display: inline-block; font-family: #{styles.font_family}; font-size: #{styles.font_size}; font-weight: #{styles.font_weight}; line-height: #{styles.height}px; text-align: center; text-decoration: none; width: #{styles.width}; -webkit-text-size-adjust: none;'>#{args.label}</a><![endif]>
