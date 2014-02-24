@@ -66,12 +66,12 @@ block content
 			h3 Using the Yeoman Generator
 			
 			p The easiest way to get started with KeystoneJS is to use our new Yeoman Generator.
-			p We're still updating our getting started guide to reflect this; in the meantime head over to the <a href="https://github.com/JedWatson/generator-keystone" target="_blank">KeystoneJS Yeoman Genrator</a> page and follow the instructions there.
+			p We're still updating our getting started guide to reflect this; in the meantime head over to the <a href="https://github.com/JedWatson/generator-keystone" target="_blank">KeystoneJS Yeoman Generator</a> page and follow the instructions there.
 			p Running <code>yo keystone</code> will take all the work out of following the guide below, so once you've got your new project, continue reading to follow along with what it did.
 			
 			h3 Starting a new project
 			
-			p Create a new directory for your project, then add the following two files, which are responsible for setting up your project and starting your webserver.
+			p Create a new directory for your project, then add the following two files which are responsible for setting up your project and starting your webserver.
 			
 			.code-header
 				h4 package.json
@@ -223,12 +223,12 @@ block content
 			a(name="models_auth")
 			h3 Authentication and Session Management
 			
-			p For Keystone to provide authentication and session management to your application, it needs to know a few things, which we've now told it.
+			p For Keystone to provide authentication and session management to your application, it needs to know a few things (which we've now configured).
 			
 			p To recap:
 			ul.list
 				li The option <code>user model</code> must be the name of the Model that Keystone should look in to find your users. If you use a different model name, be sure to set the option correctly.
-				li If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. Loading sessions incurs a small overhead, so if your application doesn't need it you can turn it off.
+				li If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. Loading sessions incurs a small overhead, so if your application doesn't need sessions you can turn this off.
 				li Keystone has built-in views for signing in and out. To enable them, set the <code>auth</code> option to <strong>true</strong>. You can also implement custom signin and signout screens in your applications' views.
 				li Sessions are persisted using an encrypted cookie storing the user's ID. Make sure you set the <code>cookie secret</code> option to a long, random string.
 				li The user model must have a <code>canAccessKeystone</code> property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not.
