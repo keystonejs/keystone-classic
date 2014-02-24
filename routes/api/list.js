@@ -95,7 +95,7 @@ exports = module.exports = function(req, res) {
 			req.list.model.findById(req.query.id).exec(function(err, item) {
 				
 				if (err) return sendError('database error', err);
-				if (!item) return sendError('not found');
+				if (!item) return sendResponse({ name: req.query.id, id: req.query.id });
 				
 				switch (req.query.dataset) {
 					case 'simple':
