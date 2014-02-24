@@ -11,29 +11,33 @@ block content
 	//-
 	//- Create Item
 	//- ------------------------------
-	if (!list.get('nocreate'))
+	if !list.get('nocreate')
 		.create-item
-			form(method='post', action='/keystone/' + list.path)
-				input(type='hidden', name='action', value='create')
-				.form
-					h4 New #{list.singular}
-					if list.nameIsInitial
-						if list.nameField.type == 'name'
-							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
-						else if list.nameField.type == 'text'
-							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
-						else
-							.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
-					
-					each field in list.initialFields
-						|!{field.render('initial',submitted) }
-				
+			if list.get('autocreate')
 				.toolbar
-					.toolbar-create
-						button(type='submit').btn.btn-default.btn-create Create
-						a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
-					.toolbar-default
-						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
+					a(href='?new').btn.btn-default.btn-create.btn-create-item Create #{list.singular}
+			else
+				form(method='post', action='/keystone/' + list.path)
+					input(type='hidden', name='action', value='create')
+					.form
+						h4 New #{list.singular}
+						if list.nameIsInitial
+							if list.nameField.type == 'name'
+								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+							else if list.nameField.type == 'text'
+								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+							else
+								.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
+						
+						each field in list.initialFields
+							|!{field.render('initial',submitted) }
+					
+					.toolbar
+						.toolbar-create
+							button(type='submit').btn.btn-default.btn-create Create
+							a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
+						.toolbar-default
+							a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
 		hr
 	
 	//-

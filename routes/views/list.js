@@ -171,7 +171,24 @@ exports = module.exports = function(req, res) {
 		return;
 	}
 	
-	if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
+	if (!req.list.get('nocreate') && _.has(req.query, 'new')) {
+		
+		var item = new req.list.model();
+		item.save(function(err) {
+			
+			if (err) {
+				console.log('Error saving changes to ' + req.list.singular + ' ' + this.item.id + ':');
+				console.log(err);
+				req.flash('error', 'There was an error creating the new ' + req.list.singular + '.');
+				renderView();
+			} else {
+				req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
+				return res.redirect('/keystone/' + req.list.path + '/' + item.id);
+			}
+			
+		});
+		
+	} else if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
 		
 		var item = new req.list.model(),
 			updateHandler = item.getUpdateHandler(req);
