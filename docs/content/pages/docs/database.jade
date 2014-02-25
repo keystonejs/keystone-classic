@@ -6,7 +6,7 @@ block intro
 	.page-header
 		.container
 			h1 Database
-			p.lead TODO @jedwatson write the intro //  ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis eu odio in placerat. Proin at rhoncus sapien, sed luctus sem.
+			p.lead Setting up and using Data Models
 	
 block content
 	.container: .row
@@ -16,13 +16,12 @@ block content
 		
 		.col-sm-9: .docs-content
 			
-			
-			h2 Concepts
-			a(name='concepts')
-			
+			h2
+				a(name='concepts')
+				| Concepts
 			p In KeystoneJS, your data schema and models are controlled by <strong>Lists</strong>, and documents in your database are often called <strong>Items</strong>.
 			
-			p To define a data model, you create a <code>new keystone.List</code>, and pass it <a href="#lists_options">list options</a>. 
+			p To define a data model, you create a <code>new keystone.List</code>, and pass it <a href="#lists-options">list options</a>. 
 			
 			p You then <code>add</code> fields to the list. Behind the scenes, a Keystone List will create a <a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, and add the appropriate paths to it for the fields you define.
 			
@@ -34,9 +33,10 @@ block content
 			
 			p List Items are <a href="http://mongoosejs.com/docs/documents.html" target"_blank">mongoose documents</a>. To create new items, use <code>new list.model()</code> and when you're ready to save it (or to save changes to an existing Item), call <code>item.save()</code>.
 			
+			a(name='lists')
 			h2 Lists
 			
-			a(name='lists_usage')
+			a(name='lists-usage')
 			h3 Usage
 			
 			p The syntax for creating a <strong>Keystone List</strong> is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code>var MyList = new keystone.List(key, options)</code>.
@@ -44,8 +44,9 @@ block content
 			p Fields are defined by an object with a <code>type</code> property, which must be a valid Field Type or basic data type. Using the object syntax you can specify additional options for the field. Common field options and field-type-specific options are detailed in the fields documentation.
 			p When all the fields and options have been set on the list, call <code>MyList.register()</code> to register the list with Keystone and finalise its configuration.
 			
-			a(name='lists_example')
-			p <strong>For example: </strong> a simple Post model for a blog might look like this:
+			a(name='lists-example')
+			h3 Example
+			p A simple Post model for a blog might look like this:
 			
 			.code-header: h4 Post.js
 			pre: code.language-javascript
@@ -75,7 +76,7 @@ block content
 			p.note It also specifies <code>title</code>, <code>state</code>, <code>author</code> and <code>publishedAt</code> as the default columns to display in the Admin UI, with state and publishedAt being given column widths.
 			p.note The <code>author</code> field is a relationship with the <code>User</code> model, as described in the <a href="/guide#models_users">getting started guide</a>.
 			
-			a(name='lists_options')
+			a(name='lists-options')
 			h3 Options
 			
 			p Lists support the following options:
@@ -125,7 +126,7 @@ block content
 					td <code>nodelete</code> <code class="data-type">Boolean</code>
 					td Prevents deletion of items from the list through the Keystone Admin UI
 			
-			a(name='lists_plugins')
+			a(name='lists-plugins')
 			h3 Schema Plugins
 			
 			p You can specify <a href="http://mongoosejs.com/docs/guide.html" target="_blank"><strong>virtuals</strong>, <strong>methods</strong>, <strong>statics</strong></a> as well as <a href="http://mongoosejs.com/docs/middleware.html" target="_blank"><strong>pre</strong> and <strong>post</strong> hooks</a> for your <strong>Lists</strong> using the <code>schema</code>. You can also use <a href="http://mongoosejs.com/docs/plugins.html" target="_blank">mongoose plugins</a> from the <a href="http://plugins.mongoosejs.com" target="_blank">plugins website</a>.
@@ -149,7 +150,7 @@ block content
 				| });
 			
 			
-			a(name='lists_querying')
+			a(name='lists-querying')
 			h3 Querying Data
 			
 			p To query data, you can use any of the <a href="http://mongoosejs.com/docs/queries.html" target="_blank">mongoose query</a> methods on the <code>list.model</code>.
@@ -170,6 +171,7 @@ block content
 				|         // do something with posts
 				|     });
 			
+			a(name='lists-creating')
 			h3 Creating Items
 			
 			p To create new items, again use the <a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose model</a>:
@@ -197,6 +199,7 @@ block content
 				pre
 					| newPost.slug == 'new-post';
 			
+			a(name='lists-deleting')
 			h3 Deleting Items
 			
 			p To delete items, first load the data, then use the <code>remove</code> method:
@@ -215,12 +218,13 @@ block content
 			
 			// TODO: Documentation for Update Handler
 			
+			a(name='fields')
 			h2 Fields
 			
-			a(name='fields_overview')
-			h3 Overview
-			
 			p When adding <strong>fields</strong> to <strong>Lists</strong>, you can either specify basic data types or Keystone Field Types.
+			
+			a(name='fields-overview')
+			h3 Overview
 			
 			p <strong>Keystone Fields</strong> allow you to easily add rich, functional fields to your application's models. They are designed to describe not just the <em>structure</em> of your data, but also the <em>intention</em> of your data. They provide:
 			ul
@@ -252,7 +256,7 @@ block content
 					td: code.data-type Boolean
 					td: code.data-type Boolean
 			
-			a(name='fields_options')
+			a(name='fields-options')
 			h3 Field Options
 			
 			p All field types support several common options, which can specify database settings (such as <code>index</code> and <code>default</code>), or can provide information for Keystone's Admin UI (such as <code>label</code>).
@@ -290,7 +294,7 @@ block content
 			
 			//- TODO: Documentation for field methods
 			
-			a(name="fields_underscoremethods")
+			a(name="fields-underscoremethods")
 			h3 Underscore Methods
 			
 			p Some field types include helpful <strong>underscore methods</strong>, which are available on the item at the field's path preceded by an underscore.
@@ -305,12 +309,13 @@ block content
 				| });
 			
 			
+			a(name="relationships")
 			h2 Relationships
 			
 			p Keystone enhances MongoDB's ability to store the ObjectIDs of related documents in a field (or many related ObjectIDs in an Array) with support for Relationship fields and Definitions in Models.
 			
-			a(name="relationship_fields")
-			h3 Fields
+			a(name="relationship-fields")
+			h3 Relationship Fields
 			
 			h4 <code class="data-type">ObjectId</code> or <code class="data-type">Array</code> &mdash; Displayed as an auto-suggest field in the Admin UI
 			
@@ -318,7 +323,7 @@ block content
 			
 			p Specify the related Model using the <code>ref</code> option. For a many-many relationship, set the <code>many</code> option to <code class="default-value">true</code>.
 			
-			p.code-header For example, if you wanted to link a <strong>Post</strong> model to a single <strong>Author</strong> and many <strong>PostCategories</strong>, you would do it like this:
+			p For example, if you wanted to link a <strong>Post</strong> model to a single <strong>Author</strong> and many <strong>PostCategories</strong>, you would do it like this:
 			
 			pre: code.language-javascript
 				| Post.add({
@@ -338,12 +343,12 @@ block content
 			
 			p.note Note that if no ObjectId is stored, or an invalid ObjectId is stored (e.g. a document has been deleted), <code>author</code> will be <code class="data-type">undefined</code> in the example above.
 			
-			a(name="relationship_definitions")
+			a(name="relationship-definitions")
 			h3 Relationship Definitions
 			
 			p What if, in the example above, you wanted to see a list of the Posts by each Author? Because the relationship field is on the Post, you need to tell the Author (and the PostCategory) Model that it is being referred to. Doing so allows the Admin UI to represent the relationship from both sides.
 			
-			p.code-header You do this by calling the <code>relationship</code> method on the <code>Model</code> like this:
+			p You do this by calling the <code>relationship</code> method on the <code>Model</code> like this:
 			
 			pre: code.language-javascript
 				| User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
@@ -355,22 +360,21 @@ block content
 				p <code>ref</code> <code class="data-type">String</code> - the key of the referred Model (the one that has the relationship field)
 				p <code>refPath</code> <code class="data-type">String</code> - the path of the relationship being referred to in the referred Model
 			
-			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it referrs to.
-
+			p As you can see, the options provided to the <code>relationship</code> method mirror those of the relationship field it refers to.
 			
 			p.note Relationship definitions are optional; if you leave them out, the relationships simply won't be displayed in the Admin UI from the other side of the relationship. The relationship field will still work as expected.
 			
-			a(name="relationship_queries")
+			a(name="relationship-queries")
 			h3 Loading related items
 			
-			p.code-header Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
+			p Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
 			
 			pre: code.language-javascript
 				| Post.model.find().where('author', author.id).exec(function(err, posts) {
 				|     // ...
 				| });
 				
-			p.code-header To filter many-to-many related items, use an <code>in</code> condition and specify one (or more) ids as an array:
+			p To filter many-to-many related items, use an <code>in</code> condition and specify one (or more) ids as an array:
 			
 			pre: code.language-javascript
 				| Post.model.find().where('categories').in([category.id]).exec(function(err, posts) {
@@ -378,23 +382,23 @@ block content
 				| });
 			
 			
-			a(name="field_types")
+			a(name="fieldtypes")
 			h2 Field Types
 			
 			
-			a(name="field_boolean")
+			a(name="fieldtypes-boolean")
 			h3 <code>Boolean</code>
 			h4 <code class="data-type">Boolean</code> &mdash; Displayed as a checkbox in the Admin UI
 			pre: code.language-javascript { type: Types.Boolean }
 			
 			
-			a(name="field_text")
+			a(name="fieldtypes-text")
 			h3 <code>Text</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			pre: code.language-javascript { type: Types.Text }
 			
 			
-			a(name="field_textarea")
+			a(name="fieldtypes-textarea")
 			h3 <code>Textarea</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI
 			pre: code.language-javascript { type: Types.Textarea }
@@ -404,7 +408,7 @@ block content
 				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)
 			
 			
-			a(name="field_email")
+			a(name="fieldtypes-email")
 			h3 <code>Email</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			p.note Input must look like a valid email address (can be blank unless field is required)
@@ -422,7 +426,7 @@ block content
 					| item._.email.gravatarUrl(200,'mm','r'); // "//www.gravatar.com/avatar/74a0071e5f3a7107b570b7d4a1a7619d?s=200&d=mm&r=r"
 			
 			
-			a(name="field_url")
+			a(name="fieldtypes-url")
 			h3 <code>Url</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.
 			pre: code.language-javascript { type: Types.Url }
@@ -435,7 +439,7 @@ block content
 					| item._.url.format(); // "keystonejs.com"
 			
 			
-			a(name="field_html")
+			a(name="fieldtypes-html")
 			h3 <code>Html</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field or WYSIWYG Editor in the Admin UI.
 			pre: code.language-javascript { type: Types.Html, wysiwyg: true }
@@ -446,7 +450,7 @@ block content
 				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)
 			
 			
-			a(name="field_date")
+			a(name="fieldtypes-date")
 			h3 <code>Date</code>
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)
@@ -469,7 +473,7 @@ block content
 					| item._.createdDate.parse('2013-12-04'); // returns a moment object with the parsed date
 					| item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'
 			
-			a(name="field_datetime")
+			a(name="fieldtypes-datetime")
 			h3 <code>Datetime</code>
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <code class="default-value">YYYY-MM-DD</code> (can be blank unless field is required)
@@ -488,7 +492,7 @@ block content
 				p See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.
 			
 			
-			a(name="field_key")
+			a(name="fieldtypes-key")
 			h3 <code>Key</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI
 			p Automatically converts input to a valid key (no spaces or special characters). White space is replaced with a separator.
@@ -499,7 +503,7 @@ block content
 				p <code>separator</code> <code class="data-type">String</code> - the separator to use when replace white space in the input; defaults to <code class="default-value">-</code>
 			
 			
-			a(name="field_number")
+			a(name="fieldtypes-number")
 			h3 <code>Number</code>
 			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
 			p Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (can be blank unless field is required)
@@ -511,7 +515,7 @@ block content
 				p Format string defaults to <code class="default-value">0,0[.][000000000000]</code>
 			
 			
-			a(name="field_money")
+			a(name="fieldtypes-money")
 			h3 <code>Money</code>
 			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
 			p Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (leading symbols are allowed; can be blank unless field is required). Money fields do not understand currency.
@@ -523,7 +527,7 @@ block content
 				p Format string defaults to <code class="default-value">$0,0.00</code>
 			
 			
-			a(name="field_select")
+			a(name="fieldtypes-select")
 			h3 <code>Select</code>
 			h4 <code class="data-type">String</code> or <code class="data-type">Number</code> &mdash; Displayed as a select field in the Admin UI
 			pre: code.language-javascript { type: Types.Select, options: 'first, second, third' }
@@ -587,7 +591,7 @@ block content
 					| item.stateOptionsMap == MyList.fields.state.map;
 			
 			
-			a(name="field_markdown")
+			a(name="fieldtypes-markdown")
 			h3 <code>Markdown</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a textarea field in the Admin UI
 			pre: code.language-javascript { type: Types.Markdown }
@@ -609,7 +613,7 @@ block content
 					| Page.fields.content.updateItem(page, "* list item");
 					| page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt;/li&gt;";
 			
-			a(name="field_name")
+			a(name="fieldtypes-name")
 			h3 <code>Name</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as <strong>firstname</strong> <strong>lastname</strong> fields in the Admin UI
 			pre: code.language-javascript { type: Types.Name }
@@ -625,7 +629,7 @@ block content
 				p The <code>name.full</code> setter splits input at the first space.
 			
 			
-			a(name="field_password")
+			a(name="fieldtypes-password")
 			h3 <code>Password</code>
 			h4 <code class="data-type">String</code> &mdash; Displayed as a password field in the Admin UI, with a 'change' button.
 			
@@ -644,12 +648,12 @@ block content
 				p <code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.
 			
 			
-			a(name="field_location")
+			a(name="fieldtypes-location")
 			h3 <code>Location</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
 			p Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
 			p Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).
-			p See the <a href="/docs/configuration#google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.
+			p See the <a href="/docs/configuration#services-google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.
 			pre: code.language-javascript { type: Types.Location }
 			p.note Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
 			.options
@@ -677,11 +681,11 @@ block content
 				p Use of the Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
 				p The Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 			
-			a(name="field_cloudinaryimage")
+			a(name="fieldtypes-cloudinaryimage")
 			h3 <code>CloudinaryImage</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI
 			p Automatically manages images stored in <a href="http://cloudinary.com" target="_blank">Cloudinary</a>, including uploading, resizing and deleting.
-			p See the <a href="/docs/configuration#cloudinary">Cloudinary configuration documentation</a> for details on how to set up Cloudinary in KeystoneJS.
+			p See the <a href="/docs/configuration#services-cloudinary">Cloudinary configuration documentation</a> for details on how to set up Cloudinary in KeystoneJS.
 			pre: code.language-javascript { type: Types.CloudinaryImage }
 			.options
 				
@@ -718,7 +722,7 @@ block content
 				p In all methods, <code class="default-value">options</code> is an optional <code class="data-type">Object</code>. See <a href="http://cloudinary.com/documentation/image_transformations" target="_blank">Cloudinary's Transformation Documentation</a> for more information on the supported options and transformations.
 				//- TODO: Usage Examples
 			
-			a(name="field_cloudinaryimages")
+			a(name="fieldtypes-cloudinaryimages")
 			h3 <code>CloudinaryImages</code>
 			h4 <code class="data-type">Array</code> &mdash; Displayed as a series of images, and an upload field in the Admin UI
 			p Stores multiple images in a array as a nested <code class="data-type">Schema</code>, each of which expose the same methods as the <code class="data-type">cloudinaryimage</code> field.
@@ -726,7 +730,7 @@ block content
 			//- TODO: Usage Examples
 			
 			
-			a(name="field_s3file")
+			a(name="fieldtypes-s3file")
 			h3 <code>S3 File</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI
 			p Automatically manages files stored in <a href="http://aws.amazon.com/s3" target="_blank">Amazon S3</a>, including uploading and deleting.
@@ -759,13 +763,13 @@ block content
 					li <code>callback(err, fileData)</code> - is passed the raw object that will be stored in the field (see schema above)
 						
 			
-			a(name="field_embedly")
+			a(name="fieldtypes-embedly")
 			h3 <code>Embedly</code>
 			h4 <code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI
 			p Automatically retrieves data from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).
 			p It stores the retrieved data (which includes the provider, media type, full URL, HTML embed code, width, height, thumbnail picture and more).
 			p The api call to retrieve the data is implemented as a pre-save hook, and is only triggered if the <strong>from path</strong> value has changed.
-			p See the <a href="/docs/configuration#embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.
+			p See the <a href="/docs/configuration#services-embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.
 			pre: code.language-javascript { type: Types.Embedly, from: 'path' }
 			.options
 				

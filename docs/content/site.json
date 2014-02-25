@@ -7,7 +7,7 @@
 			{ "section": "examples",            "path": "/examples",              "label": "Examples" }
 		],
 		"docsnav": [
-			{ "value": "guides",           "path": "/docs/guides",           "label": "Guides",           "labelsm": "Guides" },
+			{ "value": "getting-started",  "path": "/docs/getting-started",  "label": "Getting Started",  "labelsm": "Starting" },
 			{ "value": "configuration",    "path": "/docs/configuration",    "label": "Configuration",    "labelsm": "Config" },
 			{ "value": "database",         "path": "/docs/database",         "label": "Database",         "labelsm": "Data" }
 		]
@@ -50,41 +50,40 @@
 			"path": "/docs/guides",
 			"template": "docs/guides/index",
 			"section": "docs",
-			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
+			"docssection": { "value": "getting-started", "path": "/docs/guides", "label": "Guides" },
 			"title": "KeystoneJS Guides"
 		},
 		
 		
 		{
-			"path": "/docs/guides/getting-started",
-			"template": "docs/guides/getting-started/index",
+			"path": "/docs/getting-started",
+			"template": "docs/getting-started",
 			"section": "docs",
-			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
-			"docssubsection": { "value": "getting-started", "path": "/docs/guides/getting-started", "label": "Getting Started" },
+			"docssection": { "value": "getting-started", "path": "/docs/guides", "label": "Guides" },
 			"title": "Getting Started"
 		},
 		{
-			"path": "/docs/guides/getting-started/models",
-			"template": "docs/guides/getting-started/models",
+			"path": "/docs/getting-started/models",
+			"template": "docs/getting-started/models",
 			"section": "docs",
-			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
-			"docssubsection": { "value": "getting-started", "path": "/docs/guides/getting-started", "label": "Getting Started" },
+			"docssection": { "value": "getting-started", "path": "/docs/guides", "label": "Guides" },
+			"docssubsection": { "value": "getting-started", "path": "/docs/getting-started", "label": "Getting Started" },
 			"title": "Models"
 		},
 		{
-			"path": "/docs/guides/getting-started/routes-views",
-			"template": "docs/guides/getting-started/routes-views",
+			"path": "/docs/getting-started/routes-views",
+			"template": "docs/getting-started/routes-views",
 			"section": "docs",
-			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
-			"docssubsection": { "value": "getting-started", "path": "/docs/guides/getting-started", "label": "Getting Started" },
+			"docssection": { "value": "getting-started", "path": "/docs/guides", "label": "Guides" },
+			"docssubsection": { "value": "getting-started", "path": "/docs/getting-started", "label": "Getting Started" },
 			"title": "Routes & Views"
 		},
 		{
-			"path": "/docs/guides/getting-started/running-your-app",
-			"template": "docs/guides/getting-started/running-your-app",
+			"path": "/docs/getting-started/running-your-app",
+			"template": "docs/getting-started/running-your-app",
 			"section": "docs",
-			"docssection": { "value": "guides", "path": "/docs/guides", "label": "Guides" },
-			"docssubsection": { "value": "getting-started", "path": "/docs/guides/getting-started", "label": "Getting Started" },
+			"docssection": { "value": "getting-started", "path": "/docs/guides", "label": "Guides" },
+			"docssubsection": { "value": "getting-started", "path": "/docs/getting-started", "label": "Getting Started" },
 			"title": "Running your App"
 		},
 		
@@ -94,7 +93,7 @@
 		
 		{
 			"path": "/docs/configuration",
-			"template": "docs/configuration/index",
+			"template": "docs/configuration",
 			"section": "docs",
 			"docssection": { "value": "configuration", "path": "/docs/configuration", "label": "Configuration" },
 			"title": "Configuration"
@@ -129,7 +128,7 @@
 		
 		{
 			"path": "/docs/database",
-			"template": "docs/database/index",
+			"template": "docs/database",
 			"section": "docs",
 			"docssection": { "value": "database", "path": "/docs/database", "label": "Database" },
 			"title": "Setting up and using Data Models"

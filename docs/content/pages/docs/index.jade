@@ -5,8 +5,8 @@ include ../../templates/mixins/docsnav
 block intro
 	.page-header
 		.container
-			h1 KeystoneJS Documentation
-			p.lead TODO @jedwatson write the intro //  ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis eu odio in placerat. Proin at rhoncus sapien, sed luctus sem.
+			h1 Documentation
+			p.lead Learn how to build database-driven websites, applications and APIs in Node.js.
 	
 block content
 	.container: .row
@@ -15,34 +15,24 @@ block content
 			+docsnav(docssection)
 		
 		.col-sm-9: .docs-content
-			h2 Introduction
+			h2 Welcome
 			
-			p KeystoneJS makes it easy to build database-driven websites, applications and APIs in Node.js.
-			p Under the hood, KeystoneJS uses the <a href="http://expressjs.com" target="_blank">express.js</a> web server framework, and a <a href="http://mongodb.com" target="_blank">MongoDB</a> database via the <a href="http://mongoosejs.com" target="_blank">mongoose</a> object modelling framework.
-			
-			.contextual-note
-				h4 Simple vs. Flexible
-				p Keystone is designed to make complicated things simple, without limiting the power or flexibility of Node.js or the frameworks it is built on.
-				p This guide will show you how to build a KeystoneJS website using the default project structure and options.
-				p To learn more about how things work under the hood, and how you can extend or replace features, we strongly recommend reading the <a href="https://github.com/JedWatson/keystone" target="_blank">source code</a>.
-			
-			a(name="start_prereqs")
-			h3 Prerequisites
-			
-			ol.fancy-list
-				li Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
-				li You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
-				li In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates.
-			
-			a(name="start_env")
-			h3 Production vs. Development
-			
-			p Keystone applies different settings in production and development modes. The environment will default to <code>development</code>, so you should set the <code>NODE_ENV</code> environment variable to <code>production</code> on your production servers for better performance.
-			p Your app can detect which environment it is running in by calling <code>keystone.get('env')</code>.
-			
-			h2 Table of contents
-			
-			each section in docsnav
-				h3: a(href=section.path).nav-heading= section.label
-				p.lead A short blurb about each section
-				.contextual-note Perhaps some more stuff
+			h3 Let's jump in
+			p.lead.text-muted Use the sidebar on the left to navigate between the three main sections of the docs; Getting Started, Configuration, and Database.
+			.row
+				.col-sm-12.col-md-4
+					.feature-panel
+						.feature-content
+							h4 Getting Started
+							p The getting started guide walks you through how to manually setup a KeystoneJS website. it's a great place to begin.
+				.col-sm-12.col-md-4
+					.feature-panel
+						.feature-content
+							h4 Configuration
+							p Once you're comfortable with KeystoneJS it's time to configure. There are many possible settings and services to let you build your app or website.
+				.col-sm-12.col-md-4
+					.feature-panel
+						.feature-content
+							h4 Database
+							p KeystoneJS builds on top of Mongoose schema's to create "Lists", which contain items. Lists are available in the Admin UI.
+		
