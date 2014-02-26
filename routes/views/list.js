@@ -177,7 +177,7 @@ exports = module.exports = function(req, res) {
 		item.save(function(err) {
 			
 			if (err) {
-				console.log('Error saving changes to ' + req.list.singular + ' ' + this.item.id + ':');
+				console.log('There was an error creating the new ' + req.list.singular + ':');
 				console.log(err);
 				req.flash('error', 'There was an error creating the new ' + req.list.singular + '.');
 				renderView();
