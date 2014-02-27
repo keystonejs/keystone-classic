@@ -139,7 +139,6 @@ exports = module.exports = function(req, res) {
 			if (req.query.update) {
 				try {
 					data = JSON.parse(req.query.update);
-					console.log(data);
 				} catch(e) {
 					req.flash('error', 'There was an error parsing the update data.');
 					return renderView();
