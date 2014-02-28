@@ -184,6 +184,7 @@ Keystone.prototype.pre = function(event, fn) {
 		throw new Error('keystone.pre() Error: event ' + event + ' does not exist.');
 	}
 	this._pre[event].push(fn);
+	return this;
 }
 
 
@@ -241,6 +242,8 @@ keystone.Email = require('./lib/email');
  * Also connects to the default mongoose instance if none has been connected.
  * 
  * Accepts an options argument.
+ * 
+ * Returns `this` to allow chaining.
  *
  * @param {Object} options
  * @api public
@@ -257,6 +260,7 @@ Keystone.prototype.init = function(options) {
 		this.connect(require('mongoose'));
 	
 	return this;
+	
 }
 
 /**
@@ -633,6 +637,8 @@ Keystone.prototype.start = function(onStart) {
 		
 	});
 	
+	return this;
+	
 }
 
 
@@ -649,6 +655,8 @@ Keystone.prototype.static = function(app) {
 	
 	app.use('/keystone', require('less-middleware')({ src: __dirname + '/public' }));
 	app.use('/keystone', express.static(__dirname + '/public'));
+	
+	return this;
 	
 };
 
@@ -722,6 +730,8 @@ Keystone.prototype.routes = function(app) {
 	app.all('/keystone/:list/:page([0-9]{1,5})?', initList(true), require('./routes/views/list'));
 	app.all('/keystone/:list/:item', initList(true), require('./routes/views/item'));
 	
+	return this;
+	
 };
 
 
@@ -763,6 +773,8 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 		});
 		
 	});
+	
+	return this;
 	
 };
 
@@ -809,6 +821,7 @@ Keystone.prototype.importer = function(rel__dirname) {
 		});
 		return imported;
 	}
+	
 	return importer;
 	
 }
