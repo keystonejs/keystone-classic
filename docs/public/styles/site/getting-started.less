@@ -37,16 +37,19 @@
 	margin-top: 3em;
 }
 
-// figures - prerequisites
-@prerequisites-text-width: 120px;
-@prerequisites-text-height: 40px;
-@prerequisites-arrow-height: @prerequisites-text-height / 2;
-
 .gs-guide-figure--finished {
 	background: url('/images/getting-started/finished.jpg') no-repeat center center #bdcacd;
 	background-size: cover;
 	height: 400px
 }
+.wow-much-find {
+	display: none;
+}
+
+// figures - prerequisites
+@prerequisites-text-width: 120px;
+@prerequisites-text-height: 40px;
+@prerequisites-arrow-height: @prerequisites-text-height / 2;
 
 .gs-guide-figure--prerequisites {
 	&:extend( .clearfix all );
@@ -54,10 +57,24 @@
 	
 	.column {
 		float: left;
-		height: 400px;
-		line-height: 400px;
 		width: 50%;
 		text-align: center;
+		
+		a {
+			color: rgba(255, 255, 255, 0.6);
+			display: block;
+			padding: 40px;
+			
+			&:hover {
+				color: white;
+				text-decoration: none;
+				
+				.prerequisite {
+					background-color: rgba(255, 255, 255, 0.15);
+					border-color: rgba(255, 255, 255, 0.15);
+				}
+			}
+		}
 	}
 	.column.nodejs {
 		background-color: #46483e;
@@ -66,6 +83,18 @@
 	.column.mongodb {
 		background-color: #402817;
 		border-left: 2px solid white;
+	}
+	.logo {
+		height: 90px;
+		line-height: 90px;
+	}
+	.prerequisite {
+		background-color: rgba(255, 255, 255, 0.1);
+		border-radius: 4px;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		display: block;
+		margin-top: 2em;
+		padding: 40px;
 	}
 	.text {
 		.size( @prerequisites-text-width, @prerequisites-text-height );

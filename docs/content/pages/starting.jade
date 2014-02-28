@@ -18,17 +18,17 @@ block content
 					.gs-guide__subtitle
 						p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
 						p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
-						p: a(href='javascript:;').js-show-devsetup Huh?
-					.devsetup(style='display: none;')
-						p Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.
-						p MongoDB (from "humongous") is an open-source document database, and the leading NoSQL database. Written in C++.
 		
 		.gs-guide-figure.gs-guide-figure--prerequisites.hidden-xs
 			//- .text Installed?
 			.column.nodejs
-				img(src='/images/getting-started/nodejs-logo.png', alt='Node.js logo', width=245, height=66)
+				a(href='http://nodejs.org/download/', target='_blank')
+					.logo: img(src='/images/getting-started/nodejs-logo.png', alt='Node.js logo', width=245, height=66)
+					span.prerequisite Download and install the Node.js binaries for your platform from the Node.js download page.
 			.column.mongodb
-				img(src='/images/getting-started/mongodb-logo.png', alt='MongoDB logo', width=294, height=84)
+				a(href='http://docs.mongodb.org/manual/installation/', target='_blank')
+					.logo: img(src='/images/getting-started/mongodb-logo.png', alt='MongoDB logo', width=294, height=84)
+					span.prerequisite See the MongoDB installation guide for how to install MongoDB on your operating system.
 				
 		.gs-guide-section
 			.container-sm
@@ -68,7 +68,7 @@ block content
 					p.gs-guide__subtitle If you want to see what the generator actually did take a look at our getting started guide, it'll walk you through the manual setup process. This is particularly helpful if you're new to Node.js.
 					p.gs-guide__subtitle: a(href='/docs/getting-started') View the getting started guide &rarr;
 		
-		.gs-guide-figure.gs-guide-figure--finished.hidden-xs
+		.gs-guide-figure.gs-guide-figure--finished.wow-much-find.hidden-xs
 			img(src='/images/getting-started/commands-safari.png', alt='Safari window', width=1680, height=600).sr-only
 			
 		.gs-guide-section
@@ -98,14 +98,3 @@ block content
 					p If you haven't installed MongoDB yet, follow the instructions below.
 					p To connect to a server other than localhost, add a MONGO_URI setting to the .env file in your Keystone project directory:
 					pre MONGO_URI=mongodb://your-server/database-name
-
-block js
-	script.
-		jQuery( function() {
-			$('.js-show-devsetup').click( function() {
-				
-				$(this).hide();
-				$('.devsetup').show();
-				
-			});
-		});

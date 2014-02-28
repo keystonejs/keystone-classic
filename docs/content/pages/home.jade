@@ -4,14 +4,11 @@ block nav
 
 block intro
 	.home-hero: .container
-		h1 Node.js content management system and web application platform built on express and mongo.
+		h1 Node.js CMS and web application platform built on express and mongo.
 		p.buttons
 			a(href='/getting-started', title='KeystoneJS getting started guide').btn.btn-lg.btn-primary
-				span.hidden-xs Getting Started
+				span.hidden-xs Get Started
 				span.visible-xs Start
-			a(href='http://github.com/JedWatson/keystone', target='_blank').btn.btn-lg.btn-link
-				span.hidden-xs View on GitHub
-				span.visible-xs GitHub
 			a(href='http://demo.keystonejs.com', target='_blank', title='Demo Website (new window)').btn.btn-lg.btn-link.hidden-xs Try the demo
 			
 			//- Clutter?
@@ -21,6 +18,7 @@ block intro
 			li Current version #{version}
 			li: a(href='https://github.com/JedWatson/keystone/blob/master/HISTORY.md', target='_blank', title='View Changelog on GitHub') What’s New
 			li: a(href='/examples', title='Sample Applications').hidden-xs Examples
+			li: a(href='http://github.com/JedWatson/keystone', target='_blank') GitHub Project
 			
 		//- MIT Licence metioned in the subheader and footer
 		//- .mit-licence
@@ -95,13 +93,81 @@ block content
 						p Keystone includes an optional updates framework, that can take care of running update scripts for you, making it easy to transition from development to production.
 	
 	
+	section.intro-section.feedback-section
+		.container: .section-header
+			h2 Community Feedback
+			p.lead What people have been saying about KeystoneJS
+			.row
+				.col-md-6
+					blockquote.twitter-tweet(lang='en')
+						p
+							| Wow&excl;
+							a(href='https://twitter.com/KeystoneJS') &commat;KeystoneJS
+							| is saving me days of work right now&excl;
+							a(href='https://twitter.com/search?q=%23api&src=hash') &num;api
+							a(href='https://twitter.com/search?q=%23backend&src=hash') &num;backend
+							a(href='https://twitter.com/search?q=%23dev&src=hash') &num;dev
+							a(href='https://twitter.com/search?q=%23webdev&src=hash') &num;webdev
+							a(href='https://twitter.com/search?q=%23admin&src=hash') &num;admin
+							a(href='https://twitter.com/search?q=%23cms&src=hash') &num;cms
+						| &mdash; Fille &lpar;&commat;bobmoff&rpar;
+						a(href='https://twitter.com/bobmoff/statuses/437940871200526336') February 24&comma; 2014
+						| &bullet;&bullet;&bullet;
+					blockquote.twitter-tweet(lang='en')
+						p
+							a(href='https://twitter.com/KeystoneJS') &commat;KeystoneJS
+							| wants to be your best
+							a(href='https://twitter.com/search?q=%23NodeJS&src=hash') &num;NodeJS
+							| framework and must have a place in your project&period;
+						| &mdash; V&iacute;ctor Guti&eacute;rrez &lpar;&commat;buguibuguibuda&rpar;
+						a(href='https://twitter.com/buguibuguibuda/statuses/438008795461988352') February 24&comma; 2014
+						| &bullet;&bullet;&bullet;
+					blockquote.twitter-tweet(lang='en')
+						p
+							a(href='https://twitter.com/KeystoneJS') &commat;Keystonejs
+							a(href='https://twitter.com/sydjs') &commat;sydjs
+							| A big thank you for making such a great CMS based on express and mongo&excl; It has got us up and running quickly&excl;
+							a(href='https://twitter.com/corkdev') &commat;corkdev
+						| &mdash; corkdev&period;io &lpar;&commat;corkdev&rpar;
+						a(href='https://twitter.com/corkdev/statuses/430649427703771136') February 4&comma; 2014
+						| &bullet;&bullet;&bullet;
+				.col-md-6
+					blockquote.twitter-tweet(lang='en')
+						p
+							a(href='https://twitter.com/KeystoneJS') &commat;KeystoneJS
+							| the more I play with KeystoneJS the more I love it&period;
+							a(href='https://twitter.com/search?q=%23JavaScript&src=hash') &num;JavaScript
+						| &mdash; EvLSnoopY &lpar;&commat;EvLSnoopY&rpar;
+						a(href='https://twitter.com/EvLSnoopY/statuses/423932889613340672') January 16&comma; 2014
+						| &bullet;&bullet;&bullet;
+					blockquote.twitter-tweet(lang='en')
+						p
+							| I&apos;m starting to like
+							a(href='https://twitter.com/KeystoneJS') &commat;KeystoneJS
+							| &period; Its an extremly simple but flexible Framework for creating a
+							a(href='https://twitter.com/search?q=%23NodeJS&src=hash') &num;NodeJS
+							| based CMS&period; &VerticalLine;
+							a(href='https://twitter.com/search?q=%23webdev&src=hash') &num;webdev
+							a(href='https://twitter.com/search?q=%23javascript&src=hash') &num;javascript
+						| &mdash; Robert K&period; Pauls &lpar;&commat;rob&UnderBar;k&UnderBar;p&rpar;
+						a(href='https://twitter.com/rob_k_p/statuses/434760545351528448') February 15&comma; 2014
+					blockquote.twitter-tweet(lang='en')
+						p
+							a(href='https://twitter.com/KeystoneJS') &commat;KeystoneJS
+							| haha&comma; you just made my day&excl;
+						| &mdash; Fille &lpar;&commat;bobmoff&rpar;
+						a(href='https://twitter.com/bobmoff/statuses/437973561547186177') February 24&comma; 2014
+						| &bullet;&bullet;&bullet;
+			hr
+			a(href="https://twitter.com/keystonejs", class="twitter-follow-button", data-show-count="true", data-size="large") Follow @keystonejs
+			
 	section.intro-section.admin-section
 		.container: .section-header
 			h2 Admin Interface
 			p.lead A beautiful, customisable Admin UI based on your models
 		.container.admin-image-full
 			img(src='/images/home/admin-interface.png').img-responsive
-		.container-sm
+		//- .container-sm
 			.row
 				.col-sm-6
 					h3 Everything you need
@@ -149,29 +215,31 @@ block content
 					p Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware.
 					p You can also easily integrate it into an existing Express app.
 				.col-sm-6.col-md-3
-					h4 Lightweight and flexible
-					p Keystone is designed to be as light as you want - you can pick and choose the features you want to include.
-					p Create your own routes, your own database schema, and use any template language you like.
-				.col-sm-6.col-md-3
 					h4 Powered by MongoDB
 					p Keystone uses Mongoose, the leading ODM for node.js and MongoDB, and gives you a single place for your schema, 
 						| validation rules and logic.
 					p So anything you can build with MongoDB, you can build with Keystone.
 				.col-sm-6.col-md-3
+					h4 Lightweight and flexible
+					p Keystone is designed to be as light as you want - you can pick and choose the features you want to include.
+					p Create your own routes, your own database schema, and use any template language you like.
+				.col-sm-6.col-md-3
 					h4 Extendable
 					p One of the greatest things about node.js is the vast number of quality packages available.
 					p Keystone is designed to let you use any of them, without losing the benefits it provides.
 	
-	section.intro-section.cta-section: .container: .section-header
-		h2 Sound like what you've been looking for?
-		p: a(href='/getting-started', title='KeystoneJS Getting Started').btn.btn-primary.btn-lg.btn-block Check out the getting started guide
-		p and lean how to get up and running in less than a minute.
-		p You can also 
-			a(href='http://demo.keystonejs.com', target='_blank', title='KeystoneJS Demo Website') Try the live demo
-			|  and 
-			a(href='/examples', title='KeystoneJS Example Projects') see some examples
-			| .
-		p.lead If you are using Keystone for a project, interested in contributing, or looking for commercial support, we'd love to hear about it. Please <a href="mailto:contact@keystonejs.com">get in touch</a>.
+	section.intro-section.cta-section: .container
+		.row
+			.col-sm-6: .left-col
+				h3: a(href='/getting-started', title='KeystoneJS Getting Started') Get Started &rarr;
+				p.lead Sound like what you've been looking for? Check out the getting started guide and learn how to get up and running in less than a minute.
+			.col-sm-6: .right-col
+				h3: a(href="mailto:contact@keystonejs.com") Get in Touch &rarr;
+				p.lead If you are using Keystone for a project, interested in contributing, or looking for commercial support, we'd love to hear about it. Please contact us.
+				
+		
+		
+		
 	
 	
 	//- section.intro-section.cta-section: .container: .section-header
@@ -185,3 +253,5 @@ block content
 		p.lead If you are interested in using Keystone for a project, contributing, or looking for commercial support, we'd love to hear about it. Please <a href="mailto:contact@keystonejs.com">get in touch</a>.
 	
 	
+block js
+	script(async='', src='//platform.twitter.com/widgets.js', charset='utf-8')
