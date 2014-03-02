@@ -1,40 +1,25 @@
-extends ../layout/base
+extends ../../templates/layout/base
 
+include ../../templates/mixins/docsnav
+
+block intro
+	.page-header
+		.container
+			h1 Getting Started Guide
+			p.lead This guide shows you how to manually create a KeystoneJS site. 
+				a(href='/getting-started') There's also a generator.
+	
 block content
-	.container: .alerts
-		.alert.alert-success The KeystoneJS docs are in beta. For updates, please follow @keystonejs on twitter!
-		
 	.container: .row
 		
-		.col-sm-3: #docs-sidebar
-			ul.sidebar-nav
-				li.nav-label KeystoneJS Guide
-				li: a(href='#start_intro') Introduction
-				li: a(href='#start_prereqs') Prerequisites
-				li: a(href='#start_env') Production vs. Development
-				li.nav-label Getting Started
-				li: a(href='#start_newproj') Starting a new project
-				li: a(href='#start_structure') Project Structure
-				li.nav-label Models
-				li: a(href='#models_users') Users Model
-				li: a(href='#models_auth') Authentication and Session Management
-				li.nav-label Routes &amp; Views
-				li: a(href='#routes_setup') Setting up your Routes
-				li: a(href='#routes_middleware') Route Middleware
-				li: a(href='#routes_view') Your first View
-				li: a(href='#routes_templates') Templates
-				li: a(href='#routes_public') Public Assets
-				li.nav-label Running your app
-				li: a(href='#running_updates') Adding a User
-				li: a(href='#running_go') Starting Keystone
-				li: a(href='#running_next') Next Steps
+		.col-sm-3
+			+docsnav(docssection)
 		
-		.col-sm-9: #docs-content
+		.col-sm-9: .docs-content
 			
-			a(name="start_intro")
-			h1 KeystoneJS Guide
-			
-			h2 Introduction
+			h2
+				a(name="introduction")
+				| Introduction
 			
 			p KeystoneJS makes it easy to build database-driven websites, applications and APIs in node.js.
 			p Under the hood, KeystoneJS uses the <a href="http://expressjs.com" target="_blank">express.js</a> web server framework, and a <a href="http://mongodb.com" target="_blank">MongoDB</a> database via the <a href="mongoosejs.com" target="_blank">mongoose</a> object modelling framework.
@@ -45,30 +30,31 @@ block content
 				p This guide will show you how to build a KeystoneJS website using the default project structure and options.
 				p To learn more about how things work under the hood, and how you can extend or replace features, we strongly recommend reading the <a href="https://github.com/JedWatson/keystone" target="_blank">source code</a>.
 			
-			a(name="start_prereqs")
+			a(name="introduction-prerequisites")
 			h3 Prerequisites
 			
-			p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
+			ol.fancy-list
+				li Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
+				li You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
+				li In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates. In your own project you can use any template language you like; see <a href="#templates_other">using other template languages</a> (below) for more information.
 			
-			p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
-			p In the guide we'll be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates.
-			p In your own project you can use any template language you like; see <a href="#templates_other">using other template languages</a> (below) for more information.
-			
-			a(name="start_env")
+			a(name="introduction-productionvsdevelopment")
 			h3 Production vs. Development
 			
 			p Keystone applies different settings in production and development modes. The environment will default to <code>development</code>, so you should set the <code>NODE_ENV</code> environment variable to <code>production</code> on your production servers for better performance.
 			p Your app can detect which environment it is running in by calling <code>keystone.get('env')</code>.
 			
-			a(name="start_newproj")
+			a(name="gettingstarted")
 			h2 Getting Started
 			
+			a(name="gettingstarted-usingyeoman")
 			h3 Using the Yeoman Generator
 			
 			p The easiest way to get started with KeystoneJS is to use our new Yeoman Generator.
 			p We're still updating our getting started guide to reflect this; in the meantime head over to the <a href="https://github.com/JedWatson/generator-keystone" target="_blank">KeystoneJS Yeoman Generator</a> page and follow the instructions there.
 			p Running <code>yo keystone</code> will take all the work out of following the guide below, so once you've got your new project, continue reading to follow along with what it did.
 			
+			a(name="gettingstarted-startinganewproject")
 			h3 Starting a new project
 			
 			p Create a new directory for your project, then add the following two files which are responsible for setting up your project and starting your webserver.
@@ -129,7 +115,7 @@ block content
 				| keystone.start();
 			
 			p Now, in your console, run <code>npm install</code> from the root folder of your project (where package.json is) to install Keystone.
-			p.note For more information about the options Keystone supports, see the <a href="/guide/config">configuration guide</a>.
+			p.note For more information about the options Keystone supports, see the <a href="/docs/configuration">configuration guide</a>.
 			p.note Note: your web script won't run yet, because it is including models and routes that have not been set up yet. It assumes you follow the conventions in this guide.
 			
 			.contextual-note
@@ -142,7 +128,8 @@ block content
 					|     app = express(),
 					|     keystone = require('keystone').connect(mongoose, app);
 			
-			a(name="start_structure")
+			
+			a(name="gettingstarted-projectstructure")
 			h3 Project Structure
 			
 			p With your package and web scripts in place, it's time to scaffold out containers for the rest of your app. Create the following directory structure:
@@ -183,10 +170,10 @@ block content
 			
 			.contextual-note
 				h4 Structure
-				p.note This guide assumes you follow the recommendations above, however Keystone doesn't actually enforce any structure, so you're free to make changes to suit your application better.
+				p This guide assumes you follow the recommendations above, however Keystone doesn't actually enforce any structure, so you're free to make changes to suit your application better.
 			
 			
-			a(name="models_users")
+			a(name="models")
 			h2 Models
 			
 			p Before you can start your Keystone app, you'll need some data models.
@@ -220,7 +207,7 @@ block content
 				| User.register();
 			
 			
-			a(name="models_auth")
+			a(name="models-authentication")
 			h3 Authentication and Session Management
 			
 			p For Keystone to provide authentication and session management to your application, it needs to know a few things (which we've now configured).
@@ -235,15 +222,16 @@ block content
 			
 			h4 More on Data Models
 			
-			p For more information on how to set up your application's models, and the full documentation for lists and fields, see the <a href="/guide/data">database guide</a>.
+			p For more information on how to set up your application's models, and the full documentation for lists and fields, see the <a href="/docs/database">database guide</a>.
 
-			a(name="routes_setup")
+			a(name="routesviews")
 			h2 Routes &amp; Views
 			
 			p Usually, the easiest and clearest way to configure the logic for different routes (or views) in your application is to set up all the bindings single file, then put any common logic (or middleware) in another file.
 			p Then, the controller for each route you bind goes in its own file, organised similarly to the template that renders the view.
 			p Keystone's <code>importer</code> and Express's middleware support makes this easy to set up.
 			
+			a(name="routesviews-settingup")
 			h3 Setting up your Routes and Middleware
 			
 			h4 Route index controller
@@ -308,8 +296,8 @@ block content
 			p Additional route controllers that you add to your app should be added using <code>app.get</code>, <code>app.post</code> or <code>app.all</code> under your root controller.
 			
 			
-			a(name="routes_middleware")
-			h4 Common Route Middleware
+			a(name="routesviews-middleware")
+			h3 Common Route Middleware
 			
 			p Putting your common middleware in a separate <code>routes/middleware.js</code> file keeps your route index nice and clean. If your middleware file gets too big, it's a good idea to restructure any significant functionality into custom modules in your projects <code>/lib</code> folder.
 			p Now we'll add the basic middleware to get your app up and running with default behaviours:
@@ -402,7 +390,7 @@ block content
 			p Some Keystone features (such as the Update Handler) can automatically generate flash messages for you, and expect the categories above to be available.
 			
 			
-			a(name="routes_view")
+			a(name="routesviews-firstview")
 			h3 Your first View
 			
 			p Now we're going to set up your first route controller (for the index page), and the template it will render.
@@ -428,8 +416,8 @@ block content
 				|     
 				| }
 			
-			a(name="routes_templates")
-			h4 Templates
+			a(name="routesviews-templates")
+			h3 Templates
 			
 			p Now, for the template our route will render. The <code>render</code> method looks in the <code>views</code> directory specified in our <code>web.js</code>, which we set to <code>/templates/views</code>.
 			p In this guide, we're going to use <strong>Jade</strong> for our templates. To learn more about Jade, visit <a href="http://jade-lang.com" target="_blank">jade-lang.org</a>, or check out the great <a href="http://naltatis.github.io/jade-syntax-docs/" target="_blank">live syntax documentation</a> to learn by example.
@@ -517,7 +505,7 @@ block content
 			a(name="templates_other")
 			.contextual-note
 				h4 Using other template languages
-				p KeystoneJS supports <a href='http://expressjs.com/api.html#app.engine'>any template language supported by express</a>.
+				p KeystoneJS supports <a href='http://expressjs.com/api.html#app.engine', target='_blank'>any template language supported by express</a>.
 				p Use the <code>view engine</code> option to specify the template language you want to use (it will default to <code class="data-type">jade</code>).
 				p If you want to use a custom template engine, set the <code>custom engine</code> option as well. For instance, <a href="http://embeddedjs.com/">ejs</a> is supported by express by default, but you might want to use <a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> as a template engine in order to benefit from get extensions.
 
@@ -533,8 +521,8 @@ block content
 					| });
 			
 			
-			a(name="routes_public")
-			h4 Public Assets
+			a(name="routesviews-publicassets")
+			h3 Public Assets
 			
 			p You'll want to add your own css, javascript, images and other files to your project. In the examples above, we're including <code>/styles/site.min.css</code> and <code>/js/lib/jquery-1.10.2.min.js</code>.
 			p Keystone will serve any static assets you place in the <code>public</code> directory. This path is specified in <code>web.js</code> by the <code>static</code> option.
@@ -542,13 +530,14 @@ block content
 			
 			//- h4 More on Routes &amp; Views
 			//- 
-			//- p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/guide/data">routes &amp; views guide</a>.
+			//- p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/docs/database">routes &amp; views guide</a>.
 			
-			a(name="running_updates")
+			a(name="runningyourapp")
 			h2 Running your app
 			
 			p You're now (almost) ready to run your app! Before we do, though, we should add a <strong>User</strong> so you can sign in to Keystone's Admin UI.
 			
+			a(name="runningyourapp-writingupdates")
 			h3 Writing Updates
 			
 			p To do this, we're going to create an update script, which Keystone will automatically run before starting the web server.
@@ -585,7 +574,7 @@ block content
 			
 			p.note You probably don't want to store your real password in the code, so it's a good idea to set the default password to something simple, then sign in and change it using Keystone's Admin UI after you start your app for the first time.
 			
-			a(name="running_go")
+			a(name="runningyourapp-startingkeystone")
 			h3 Starting Keystone
 			
 			p Now you're ready to run your application, so execute the following in your project's main folder:
@@ -598,14 +587,13 @@ block content
 			p To sign in to Keystone's Admin UI, go to <a href="http://localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>. Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.
 			
 			
-			a(name="running_next")
+			a(name="runningyourapp-nextstep")
 			h3 Next Steps
 			
-			p ... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/guide/data">database guide</a>.
+			p ... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/docs/database">database guide</a>.
 			
 			p You should also <a href="https://twitter.com/keystonejs" target="_blank">Follow @KeystoneJS on Twitter</a> for news and updates, <a href="https://github.com/JedWatson/keystone/" target="_blank">Star KeystoneJS on GitHub</a>, and discuss this guide (or anything KeystoneJS related) on the <a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS Google Group</a>.
 			
 			p We've also got more <a href="/examples">Examples and Sample Code</a> for you on the examples page.
 			
 			p Enjoy using KeystoneJS!
-

@@ -1,0 +1,50 @@
+extends ../templates/layout/base
+
+block intro
+	.page-header
+		.container
+			h1 Examples
+			p.lead The following are a great way to see what Keystone can do, and how to use its various features.
+	
+block content
+	.container-sm(style='margin-bottom: 3em;')
+		a(name='app')
+		h2 Applications
+		a(name='app-demo')
+		h3 Demo App
+		
+		p The demo app is a simple implementation showing how to create a blog, photo gallery and contact form, as well as how to set up session management, error handling and csv downloads.
+		p You can also log into the Keystone Admin UI and see how it works using the demo account.
+		ul.list-inline
+			li: a(href='http://demo.keystonejs.com', target='_blank', title='Demo website').btn.btn-primary Launch the site
+			li: a(href='http://github.com/JedWatson/keystone-demo', target='_blank', title='View on GitHub').btn.btn-default View the GitHub Project
+		
+		a(name='app-sydjs')
+		h3 SydJS Website
+		
+		p The team at <a href='http://www.thinkmill.com.au/' target='_blank'>Thinkmill</a> created a new website for SydJS, Sydney's Javascript Meetup, using Keystone.
+		p It features a database of meetups, members, links, blog, organisations and mentors, as well as support for account creation and login using Facebook, Twitter and GitHub accounts.
+		p It also includes the new client-side content management features, and a page where members can manage their profiles, rsvp to meetups and submit posts and links.
+		ul.list-inline
+			li: a(href='http://www.sydjs.com', target='_blank', title='Demo website').btn.btn-primary Launch the site
+			li: a(href='http://github.com/JedWatson/sydjs-site', target='_blank', title='View on GitHub').btn.btn-default View the GitHub Project
+		
+		a(name='community')
+		h2 Community Examples
+		
+		p These projects are contributed by community members, and are examples of KeystoneJS in the wild.
+		p Have you made a website with KeystoneJS? Let us know!
+		
+		h3 Kansas City Soap Box Derby
+		p Known as the greatest amateur racing event, Soap Box Derby is a youth racing program that began in 1934 and has been an organized sport in Kansas City since 1947.
+		ul.list-inline
+			li: a(href='http://www.kcsbd.org', target='_blank', title='Kansas City Soap Box Derby').btn.btn-primary Launch the site
+			li: a(href='https://github.com/jdarling/kcsbd-keystone', target='_blank', title='View on GitHub').btn.btn-default View the GitHub Project
+
+		
+		h3 Hood (Social Network)
+		p The idea behind this site is to connect positive people of cheerful spirit and a good heart in every possible way
+		ul.list-inline
+			li: a(href='http://hood.rs/', target='_blank', title='Hood.rs').btn.btn-primary Launch the site
+		
+				
