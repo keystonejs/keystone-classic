@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.2.3",
+  "version": "0.2.6",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
@@ -8,10 +8,10 @@
     "url": "https://github.com/JedWatson/keystone.git"
   },
   "dependencies": {
-    "underscore": "~1.5.2",
-    "keystone-utils": "~0.1.5",
+    "underscore": "~1.6.0",
+    "keystone-utils": "~0.1.6",
     "express": "~3.3.8",
-    "mongoose": "~3.8.6",
+    "mongoose": "~3.8.7",
     "less-middleware": "~0.1.15",
     "connect-flash": "~0.1.1",
     "jade": "~1.1.5",
@@ -25,7 +25,7 @@
     "moment": "~2.5.1",
     "numeral": "~1.5.3",
     "semver": "~2.2.1",
-    "knox": "~0.8.8"
+    "knox": "~0.8.9"
   },
   "author": "Jed Watson",
   "license": "MIT",

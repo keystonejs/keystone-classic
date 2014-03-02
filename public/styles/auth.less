@@ -24,6 +24,7 @@
 @import "bootstrap/mixins.less";
 @import "bootstrap/normalize.less";
 @import "bootstrap/scaffolding.less";
+@import "bootstrap/alerts.less";
 @import "bootstrap/forms.less";
 @import "bootstrap/buttons.less";
 
@@ -34,6 +35,10 @@
 // ------------------------------
 h1,h2,h3 {
 	margin-top: 0;
+}
+
+.lead {
+	font-size: 120%;
 }
 
 
@@ -50,12 +55,13 @@ body {
 .auth-wrapper {
 	margin: 0 auto;
 	max-width: 600px;
-	padding-top: @gutter-width;
-	position: relative;
+	padding-top: 20px;
 	width: 90%;
 	
 	@media (min-width: @screen-sm) {
-		.translate(0,-50%);
+		margin: -160px 0 0 -300px;
+		position: absolute;
+		left: 50%;
 		top: 44%;
 	}
 	@media (max-width: @screen-xs-max) {
@@ -76,6 +82,12 @@ body {
 	border-bottom-color: darken(@body-bg, 11.5%);
 	margin-bottom: 2em;
 	padding: @gutter-width;
+}
+
+// shake when there's errors
+.auth-body.has-errors {
+	animation: shake 0.5s 0.25s 1;
+	-webkit-animation: shake 0.5s 0.25s 1;
 }
 
 
@@ -142,9 +154,13 @@ body {
 		padding-bottom: @gutter-width;
 	}
 }
+.auth-box-logo {
+	display: inline;
+}
 
 // fields
 .form-control {
+	border-top-color: darken(@input-border, 13.5%);
 	-webkit-appearance: none;
 	
 	&:focus {
@@ -155,6 +171,35 @@ body {
 	}
 }
 
+// toolbar
+.toolbar {
+	margin-top: 20px;
+}
+
+// alerts
+.alert {
+	padding: 10px;
+	text-align: center;
+}
+
+
+
+
+// Animations
+// ------------------------------
+
+// courtesy of https://github.com/daneden/animate.css
+
+@keyframes shake {
+	0%, 100% { transform: translateX(0); }
+	20%, 60% { transform: translateX(-10px); }
+	40%, 80% { transform: translateX(10px); }
+}
+@-webkit-keyframes shake {
+	0%, 100% { -webkit-transform: translateX(0); }
+	20%, 60% { -webkit-transform: translateX(-10px); }
+	40%, 80% { -webkit-transform: translateX(10px); }
+}
 
 
 

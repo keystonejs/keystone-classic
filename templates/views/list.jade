@@ -11,29 +11,33 @@ block content
 	//-
 	//- Create Item
 	//- ------------------------------
-	if (!list.get('nocreate'))
+	if !list.get('nocreate')
 		.create-item
-			form(method='post', action='/keystone/' + list.path)
-				input(type='hidden', name='action', value='create')
-				.form
-					h4 New #{list.singular}
-					if list.nameIsInitial
-						if list.nameField.type == 'name'
-							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
-						else if list.nameField.type == 'text'
-							.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
-						else
-							.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
-					
-					each field in list.initialFields
-						|!{field.render('initial',submitted) }
-				
+			if list.get('autocreate')
 				.toolbar
-					.toolbar-create
-						button(type='submit').btn.btn-default.btn-create Create
-						a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
-					.toolbar-default
-						a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
+					a(href='?new').btn.btn-default.btn-create.btn-create-item Create #{list.singular}
+			else
+				form(method='post', action='/keystone/' + list.path)
+					input(type='hidden', name='action', value='create')
+					.form
+						h4 New #{list.singular}
+						if list.nameIsInitial
+							if list.nameField.type == 'name'
+								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+							else if list.nameField.type == 'text'
+								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+							else
+								.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
+						
+						each field in list.initialFields
+							|!{field.render('initial',submitted) }
+					
+					.toolbar
+						.toolbar-create
+							button(type='submit').btn.btn-default.btn-create Create
+							a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
+						.toolbar-default
+							a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
 		hr
 	
 	//-
@@ -92,7 +96,7 @@ block content
 							if el.type == 'heading'
 								li.dropdown-header= el.heading
 							else if el.type == 'field'
-								if el.field.type != 'relationship' && !el.field.nosort
+								if el.field.type != 'relationship' && !el.field.nosort && !el.field.hidden
 									if sort.field && sort.field.path == el.field.path
 										if sort.inv
 											li: a(href=link_to({ sort: el.field.path }))
@@ -136,7 +140,7 @@ block content
 							ul.dropdown-menu: each el in list.uiElements
 								if el.type == 'heading'
 									li.dropdown-header= el.heading
-								else if el.type == 'field' && !el.field.nofilter
+								else if el.type == 'field' && !el.field.nofilter && !el.field.hidden
 									li: a(href=js, data-path=el.field.path).add-list-filter
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
@@ -154,7 +158,7 @@ block content
 								each el in list.uiElements
 									if el.type == 'heading'
 										li.dropdown-header= el.heading
-									else if el.type == 'field' && !el.field.nocol
+									else if el.type == 'field' && !el.field.nocol && !el.field.hidden
 										li: a(href=js, data-col=el.field.path).btn-toggle-column
 											span(class=_.contains(colPaths, el.field.path) ? 'glyphicon glyphicon-ok-circle' : '').icon
 											span= el.field.label
@@ -170,7 +174,7 @@ block content
 			//- ------------------------------
 			.list-filters
 				each field in list.fields
-					if !field.nofilter
+					if !field.nofilter && !field.hidden
 						.filter(data-path=field.path, data-type=field.type, class=filters[field.path] ? 'active' : '')
 							.filter-label
 								a(href=js, title='Remove filter', data-toggle='tooltip', data-placement='right', data-container='body').btn-companion-xs.clear-filter &times;
@@ -279,6 +283,24 @@ block content
 										button(type='button', class=ops.value === false ? 'active' : '', data-opt='value', data-value='false').btn.btn-default
 											input(type="radio", name="options")
 											| has no file
+								
+								//- Relationships
+								if field.type == 'relationship'
+									.btn-group.btn-group-xs(data-toggle='buttons')
+										button(type='button', class=ops.inv ? '' : 'active', data-opt='inv', data-value='false').btn.btn-default
+											input(type="radio", name="options")
+											| linked to
+										button(type='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
+											input(type="radio", name="options")
+											| not linked to
+									input(type='hidden',
+										name=field.path,
+										id='field_' + field.path,
+										value=ops.value,
+										data-ref-path=field.refList.path,
+										data-ref-singular=field.refList.singular,
+										data-ref-plural=field.refList.plural).ui-select2-ref
+								
 				.list-filters-action
 					button(type='submit').btn.btn-default.btn-filter Search
 					a(href='/keystone/#{list.path}').btn.btn-link.btn-cancel clear filters

@@ -184,6 +184,7 @@ Keystone.prototype.pre = function(event, fn) {
 		throw new Error('keystone.pre() Error: event ' + event + ' does not exist.');
 	}
 	this._pre[event].push(fn);
+	return this;
 }
 
 
@@ -241,6 +242,8 @@ keystone.Email = require('./lib/email');
  * Also connects to the default mongoose instance if none has been connected.
  * 
  * Accepts an options argument.
+ * 
+ * Returns `this` to allow chaining.
  *
  * @param {Object} options
  * @api public
@@ -257,6 +260,7 @@ Keystone.prototype.init = function(options) {
 		this.connect(require('mongoose'));
 	
 	return this;
+	
 }
 
 /**
@@ -297,9 +301,12 @@ Keystone.prototype.initNav = function(sections) {
 		section.lists = _.map(section.lists, function(i) {
 			var list = keystone.list(i);
 			if (!list) {
-				console.log('Defined lists:');
-				console.log(_.pluck(keystone.lists, 'path'));
-				throw new Error('Keystone Nav Error: list ' + i + ' has not been defined.');
+				var msg = 'Invalid Keystone Option (nav): list ' + i + ' has not been defined.\n';
+				throw new Error(msg);
+			}
+			if (list.get('hidden')) {
+				var msg = 'Invalid Keystone Option (nav): list ' + i + ' is hidden.\n';
+				throw new Error(msg);
 			}
 			nav.by.list[list.key] = section;
 			return list;
@@ -630,6 +637,8 @@ Keystone.prototype.start = function(onStart) {
 		
 	});
 	
+	return this;
+	
 }
 
 
@@ -646,6 +655,8 @@ Keystone.prototype.static = function(app) {
 	
 	app.use('/keystone', require('less-middleware')({ src: __dirname + '/public' }));
 	app.use('/keystone', express.static(__dirname + '/public'));
+	
+	return this;
 	
 };
 
@@ -696,13 +707,15 @@ Keystone.prototype.routes = function(app) {
 		app.all('/keystone*', auth);
 	}
 	
-	var initList = function(req, res, next) {
-		req.list = keystone.list(req.params.list);
-		if (!req.list || req.list.get('hidden')) {
-			req.flash('error', 'List ' + req.params.list + ' could not be found.');
-			return res.redirect('/keystone');
+	var initList = function(protect) {
+		return function(req, res, next) {
+			req.list = keystone.list(req.params.list);
+			if (!req.list || (protect && req.list.get('hidden'))) {
+				req.flash('error', 'List ' + req.params.list + ' could not be found.');
+				return res.redirect('/keystone');
+			}
+			next();
 		}
-		next();
 	}
 	
 	if (this.get('email tests')) {
@@ -711,11 +724,13 @@ Keystone.prototype.routes = function(app) {
 	
 	app.all('/keystone', require('./routes/views/home'));
 	
-	app.all('/keystone/download/:list', initList, require('./routes/download/list'));
-	app.all('/keystone/api/:list/:action', initList, require('./routes/api/list'));
+	app.all('/keystone/download/:list', initList(), require('./routes/download/list'));
+	app.all('/keystone/api/:list/:action', initList(), require('./routes/api/list'));
 	
-	app.all('/keystone/:list/:page([0-9]{1,5})?', initList, require('./routes/views/list'));
-	app.all('/keystone/:list/:item', initList, require('./routes/views/item'));
+	app.all('/keystone/:list/:page([0-9]{1,5})?', initList(true), require('./routes/views/list'));
+	app.all('/keystone/:list/:item', initList(true), require('./routes/views/item'));
+	
+	return this;
 	
 };
 
@@ -724,26 +739,42 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 	
 	var keystone = this;
 	
+	var handleError = function(req, res, err) {
+		if (res.err) {
+			res.err(err);
+		} else {
+			// TODO: Nicer default error handler
+			res.status(500).send(JSON.stringify(err));
+		}
+	}
+	
 	// TODO: Index of email tests, and custom email test 404's (currently bounces to list 404)
 	
 	_.each(emails, function(vars, key) {
 		
-		app.get('/keystone/test-email/' + key, function(req, res) {
-			new keystone.Email(key).render(vars, function(err, email) {
+		var render = function(err, req, res, locals) {
+			new keystone.Email(key).render(locals, function(err, email) {
 				if (err) {
-					if (res.err) {
-						res.err(err);
-					} else {
-						// TODO: Nicer default error handler
-						res.status(500).send(JSON.stringify(err));
-					}
+					handleError(req, res, err);
 				} else {
 					res.send(email.html);
 				}
 			});
+		}
+		
+		app.get('/keystone/test-email/' + key, function(req, res) {
+			if ('function' == typeof vars) {
+				vars(req, res, function(err, locals) {
+					render(err, req, res, locals);
+				});
+			} else {
+				render(null, req, res, vars);
+			}
 		});
 		
 	});
+	
+	return this;
 	
 };
 
@@ -790,6 +821,7 @@ Keystone.prototype.importer = function(rel__dirname) {
 		});
 		return imported;
 	}
+	
 	return importer;
 	
 }

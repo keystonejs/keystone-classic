@@ -114,6 +114,7 @@ exports = module.exports = function(req, res) {
 				keystone.render(req, res, 'list', _.extend(viewLocals, {
 					section: keystone.nav.by.list[req.list.key] || {},
 					title: 'Keystone: ' + req.list.plural,
+					page: 'list',
 					link_to: link_to,
 					download_link: download_link,
 					list: req.list,
@@ -138,7 +139,6 @@ exports = module.exports = function(req, res) {
 			if (req.query.update) {
 				try {
 					data = JSON.parse(req.query.update);
-					console.log(data);
 				} catch(e) {
 					req.flash('error', 'There was an error parsing the update data.');
 					return renderView();
@@ -170,7 +170,24 @@ exports = module.exports = function(req, res) {
 		return;
 	}
 	
-	if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
+	if (!req.list.get('nocreate') && _.has(req.query, 'new')) {
+		
+		var item = new req.list.model();
+		item.save(function(err) {
+			
+			if (err) {
+				console.log('There was an error creating the new ' + req.list.singular + ':');
+				console.log(err);
+				req.flash('error', 'There was an error creating the new ' + req.list.singular + '.');
+				renderView();
+			} else {
+				req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
+				return res.redirect('/keystone/' + req.list.path + '/' + item.id);
+			}
+			
+		});
+		
+	} else if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
 		
 		var item = new req.list.model(),
 			updateHandler = item.getUpdateHandler(req);

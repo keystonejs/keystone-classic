@@ -2,32 +2,35 @@ extends ../layout/auth
 
 block content
 	h1.sr-only Sign In
-	if !user
-		.auth-box
-			.auth-box-col
-				include ../includes/auth-brand
-				
-			.auth-box-col
-				form(method="post", action="/keystone/signin").auth-form
+	.auth-box
+		.auth-box-col
+			include ../includes/auth-brand
+			
+		.auth-box-col
+			if user
+				p.lead Hi #{user.name.first},
+				p.lead You're already signed in.
+				.toolbar
+					a(href='/keystone').btn.btn-primary Open Keystone
+					a(href='/keystone/signout').btn.btn-cancel Sign out
+			
+			else
+				form(method="post", action="/keystone/signin", novalidate).auth-form
 					.form-group
 						label(for='email') Email
 						input(type='email', name='email', id='email', value=submitted.email).form-control
 					.form-group
 						label(for='password') Password
 						input(type='password', name='password', id='password').form-control
-					button(type='submit').btn.btn-primary Sign In
 					
-					//- TODO generic forgotten password functionality
-					//- a(href=js).btn.btn-link Forgot Password?
-			
-	else
-		.text-center
-			p.lead Hi #{user.name.first},
-			p.lead You're already signed in.
-			a(href='/keystone').btn.btn-primary Open Keystone
-			a(href='/keystone/signout').btn.btn-cancel Sign out
+					button(type='submit').btn.btn-primary Sign In
+				
+				//- TODO generic forgotten password functionality
+				//- a(href=js).btn.btn-link Forgot Password?
 				
 block js
-	script.
-		try { document.getElementById('email').focus(); }
-		catch(e) {};
+	//- Only focus the field after the shake animation is complete
+	if messages && messages.error.length
+		script setTimeout(function() { try { document.getElementById('email').focus(); } catch(e) {}; }, 800);
+	else
+		script try { document.getElementById('email').focus(); } catch(e) {};

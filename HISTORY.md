@@ -1,5 +1,25 @@
 # Keystone
 
+## v0.2.5 / 2014-02-17
+
+* improved; dropdown styles are nicer
+* improved; default signin ui tweaks
+* improved; hidden lists warn when included in `nav` config option
+* fixed; hidden lists are accessible through the API
+* improved; warnings are thrown when autokey option config is invalid
+* improved; autokey values are now included in CSV exports
+* improved; markdown and html fields render nicely in the Admin UI list view
+
+## v0.2.4 / 2014-02-15
+
+* improved; new sign in/out screen design, thanks [jossmackison](https://github.com/JossMackison)
+  * improved; the default error screen is now responsive, thanks [jossmackison](https://github.com/JossMackison)
+* improved; additional supported file types for CloudinaryImage fields, thanks [James Allen](https://github.com/jamlen)
+    -  Supported types are [`image/gif`, `image/png`, `image/jpeg`, `image/bmp`, `image/x-icon`, `application/pdf`, `image/x-tiff`, `image/x-tiff`, `application/postscript`, `image/vnd.adobe.photoshop`]
+* improved; you can now use Relationship fields with `multi: true` as `initial` fields
+* added; Relationship fields can now be used as filters in the Admin UI
+* fixed; scope issue in Relationship field type, thanks [Tom Walker](https://github.com/bladey)
+
 ## v0.2.3 / 2014-02-11
 
 * added; new `localFile` field type, thanks [Alan Shaw](https://github.com/alanshaw)
