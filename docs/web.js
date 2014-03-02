@@ -15,7 +15,7 @@ function view(view, options) {
 var app = express();
 
 app.set('port', 8080);
-app.set('views', 'content/templates/views');
+app.set('views', 'content/pages');
 app.set('view engine', 'jade');
 
 app.use(express.favicon('public/favicon.ico'));
@@ -44,7 +44,8 @@ _.each(content.routes, function(options) {
 });
 
 app.use(function(req, res, next) {
-	res.status(404).send("Sorry, no page could be found at this address (404)");
+	// res.status(404).send("Sorry, no page could be found at this address (404)");
+	res.status(404).render('404');
 });
 
 app.use(express.errorHandler());

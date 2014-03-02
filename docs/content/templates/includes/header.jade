@@ -1,7 +1,8 @@
-header(role='banner')#docs-header: .container
+header(role='banner').docs-header: .container
+	button.navbar-toggle.navbar-toggle-menu(type='button', data-toggle='collapse', data-target='.docs-nav__collapse')
+		span.sr-only Toggle navigation
+		//- span.entypo.entypo-list
+		!='<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>'
 	a(href='/', title='KeystoneJS').keystone-logo: img(src='/images/logo.svg', alt='KeystoneJS', width=207, height=70)
-	.social-buttons.hidden-xs
-		a(href="https://twitter.com/keystonejs", class="twitter-follow-button", data-show-count="false") Follow @keystonejs
-		script.
-			!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-		iframe(src="http://ghbtns.com/github-btn.html?user=JedWatson&repo=keystone&type=watch&count=true", allowtransparency="true", frameborder=0, scrolling=0, width=80, height=20)
+	
+	include ../includes/primary-nav
