@@ -571,12 +571,16 @@ Keystone.prototype.start = function(onStart) {
 	
 	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
 	
-	this.mongoose.connection.on('error', function() {
+	this.mongoose.connection.on('error', function(err) {
+		
+		console.log('------------------------------------------------');
+		console.log('Mongo Error:\n');
+		console.log(err);
 		
 		if (mongoConnectionOpen) {
-			throw new Error("KeystoneJS Error (" + keystone.get('name') + "):\n\nMongo connection error", arguments);
+			throw new Error("Mongo Error");
 		} else {
-			throw new Error("KeystoneJS (" + keystone.get('name') + ") failed to start:\n\nMongo connection error", arguments);
+			throw new Error("KeystoneJS (" + keystone.get('name') + ") failed to start");
 		}
 		
 	}).on('open', function() {
