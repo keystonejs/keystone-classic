@@ -6,10 +6,16 @@ mixin docsnav(docssection)
 		
 	nav.docs-sidebar.hidden-xs
 		ul.sidebar-nav
+			li(class=docssection.value == 'introduction' ? 'active' : null)
+				a(href='/docs').nav-heading Welcome
 			each item in docsnav
 				li(class=docssection.value == item.value ? 'active' : null)
 					a(href=item.path).nav-heading= item.label
-					if (item.value == docssection.value || docssection.value == 'introduction') && item.value == 'getting-started'
+		if docssection.value != 'introduction'
+			hr
+			ul.sidebar-nav
+				each item in docsnav
+					if (item.value == docssection.value ) && item.value == 'getting-started'
 						ul
 							li.nav-label: a(href='/docs/getting-started#introduction') Introduction
 							li: a(href='/docs/getting-started#introduction-prerequisites') Prerequisites
@@ -35,7 +41,7 @@ mixin docsnav(docssection)
 							li: a(href='/docs/getting-started#runningyourapp-startingkeystone') Starting Keystone
 							li: a(href='/docs/getting-started#runningyourapp-nextstep') Next Steps
 							
-					if (item.value == docssection.value || docssection.value == 'introduction') && item.value == 'configuration'
+					if (item.value == docssection.value ) && item.value == 'configuration'
 						ul
 							li.nav-label: a(href='/docs/configuration#options') Keystone Options
 							li: a(href='/docs/configuration#options-concepts') Setting Options
@@ -50,7 +56,7 @@ mixin docsnav(docssection)
 							li: a(href='/docs/configuration#services-mandrill') Mandrill
 							li.nav-label: a(href='/docs/configuration#updates') Application Updates
 							li.nav-label: a(href='/docs/configuration#headless') Disabling the Admin UI
-					if (item.value == docssection.value || docssection.value == 'introduction') && item.value == 'database'
+					if (item.value == docssection.value ) && item.value == 'database'
 						ul
 							li.nav-label: a(href='/docs/database#concepts') Concepts
 							li.nav-label: a(href='/docs/database#lists') Lists
