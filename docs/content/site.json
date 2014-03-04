@@ -3,7 +3,7 @@
 		"primarynav": [
 			{ "section": "home",                "path": "/",                      "label": "Home" },
 			{ "section": "starting",            "path": "/getting-started",       "label": "Getting Started" },
-			{ "section": "docs",                "path": "/docs",                  "label": "Docs" },
+			{ "section": "docs",                "path": "/docs",                  "label": "Documentation" },
 			{ "section": "examples",            "path": "/examples",              "label": "Examples" }
 		],
 		"docsnav": [
