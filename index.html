@@ -1,36 +1,305 @@
-<!DOCTYPE html><html><head><script>var _sf_startpt=(new Date()).getTime()</script><meta charset="utf-8"><meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"><title>KeystoneJS &middot; Node.js cms and web application platform built on Express and MongoDB</title><link href="/styles/site.min.css" rel="stylesheet"><link href="/styles/prism.css" rel="stylesheet"><link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"></head><body><header role="banner" id="docs-header"><div class="container"><a href="/" title="KeystoneJS" class="keystone-logo"><img src="/images/logo.svg" alt="KeystoneJS" width="207" height="70"></a><div class="social-buttons hidden-xs"><a href="https://twitter.com/keystonejs" data-show-count="false" class="twitter-follow-button">Follow @keystonejs</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><iframe src="http://ghbtns.com/github-btn.html?user=JedWatson&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></div></div></header><div id="hero"><div class="container"><h1>Node.js content management system and web application platform built on express and mongo.</h1><p class="buttons"><a href="http://github.com/JedWatson/keystone" target="_blank" title="View on GitHub" class="btn btn-lg btn-primary">View on GitHub</a><a href="/guide" title="KeystoneJS Documentation" class="btn btn-lg btn-link">Read the docs</a><a href="http://demo.keystonejs.com" target="_blank" title="Demo website" class="btn btn-lg btn-link">Try the demo</a><a href="/examples" title="Sample Applications" class="btn btn-lg btn-link">Examples</a></p><p class="notes"><span class="version">Current version is 0.2.4.</span><span class="sep"> &nbsp; </span><a href="https://github.com/JedWatson/keystone/blob/master/HISTORY.md" target="_blank" title="View Changelog on GitHub" class="whatsnew">What’s New</a></p><div class="mit-licence"><a href="http://opensource.org/licenses/MIT" target="_blank" class="licence-badge">MIT Licence</a><span class="licence-text">Keystone is free and open source.</span></div></div></div><div id="docs-body"><section class="intro-section building-section"><div class="container"><h2 class="text-center">Get a head-start on the features you need</h2><p class="lead">Keystone is the easiest way to build a web application or content-managed website in node.js, getting you up and running with:</p><div class="row"><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-leaf"></span></div><h4>Express.js and Mongo</h4><p>Keystone will configure express - the de facto web server for node.js - for you and connect to your mongo database using mongoose, the leading ODM package.</p></div><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-shuffle"></span></div><h4>Static Assets and Dynamic Routes</h4><p>Keystone starts with best practices for setting up your MV* application, and makes it easy to manage your templates, views and routes.</p></div><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-picture"></span></div><h4>Sophisticated Database Fields</h4><p>IDs, Strings, Booleans, Dates and Numbers are the building blocks of your database. Keystone builds on these with useful, real-world field types like 
-name, email, password, address, image and relationship fields (and more)</p></div></div><div class="row"><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-light-bulb"></span></div><h4>Auto-generated Admin UI</h4><p>Whether you use it while you're building out your application, or in production as a database content management system, Keystone's Admin UI will 
-save you time and make managing your data easy.</p></div><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-pencil"></span></div><h4>Simpler Code</h4><p>Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.</p></div><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-docs"></span></div><h4>Form Processing</h4><p>Want to validate a form, upload an image, and update your database with a single line? Keystone can do that, based on the data models you've already defined.</p></div></div><div class="row"><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-users"></span></div><h4>Session Management</h4><p>Keystone comes ready out of the box with session management and authentication features, including automatic encryption for password fields.</p></div><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-paper-plane"></span></div><h4>Email Sending</h4><p>Keystone makes it easy to set up, preview and send template-based emails for your application. It also integrates with Mandrill (Mailchimp's excellent 
-transaction email sending service)</p></div><div class="col-sm-4"><div class="feature-icon"><span class="feature-icon__icon entypo entypo-publish"></span></div><h4>Managed Updates</h4><p>Keystone includes an optional updates framework, that can take care of running update scripts for you, making it easy to transition from development 
-to production.</p></div></div></div></section><section class="intro-section admin-section"><div class="container"><h2 class="text-center">A beautiful, customisable Admin UI based on your models</h2><div class="text-center"><img src="/images/admin-interface.jpg" class="img-responsive"></div></div></section><section class="intro-section tools-section"><div class="container"><h2 class="text-center">What you build is up to you.</h2><p class="lead">There are a lot of frameworks that make decisions for you, and many that take decisions away. Keystone doesn't do that. Use the features that suit you,
-and replace the ones that don't.</p><div class="row"><div class="col-sm-3"><h4>Built on Express</h4><p>Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware.</p><p>You can also easily integrate it into an existing Express app.</p></div><div class="col-sm-3"><h4>Built with Mongoose</h4><p>Mongoose, supported by MongoDB Inc, is the leading ODM for node.js and MongoDB. Keystone exposes mongoose to you when you need it, so anything you 
-can build with MongoDB, you can build with Keystone.</p></div><div class="col-sm-3"><h4>Lightweight</h4><p>Keystone is designed to be as light as you want - you can pick and choose the features you want to include.</p><p>Write your own routes, disable the Admin UI, whatever - it's up to you.</p></div><div class="col-sm-3"><h4>Extendable</h4><p>One of the greatest things about node.js is the vast number of quality packages available.</p><p>Keystone is designed to let you use any of them, without losing the benefits it provides.</p></div></div></div></section><section class="intro-section cta-section"><div class="container"><div class="row"><div class="col-sm-6 col-sm-offset-3 text-center"><h2>See what Keystone can do for you</h2><p><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website" class="btn btn-primary btn-lg btn-block">Try out the demo website</a></p><p>or <a href="https://github.com/JedWatson/keystone" target="_blank" title="View the project on GitHub">View the project on GitHub</a></p></div></div></div></section><section class="intro-section cta-section"><div class="container"><div class="row"><div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center"><h3>Vision</h3><p>Keystone has been built based on patterns and tools that have evolved in the real world,
-and the core team has used it in several production applications.</p><p>We have released Keystone under the MIT License to help other developers, and so the project can grow beyond what we're using it for.</p><p>Feedback and contributions are very welcome. We are currently working on documentation and examples, and have a lot of exciting features to add.</p></div></div></div></section><section class="intro-section cta-section"><div class="container"><div class="row"><div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center"><p class="lead">If you are interested in using Keystone for a project, contributing, or looking for commercial support, we'd love to hear about it. Please <a href="mailto:contact@keystonejs.com">get in touch</a>.</p></div></div></div></section></div><div id="docs-footer"><div class="container"><div class="social-buttons"><div class="social-button"><a href="https://twitter.com/keystonejs" data-show-count="false" class="twitter-follow-button">Follow @keystonejs</a></div><div class="social-button"><iframe src="http://ghbtns.com/github-btn.html?user=JedWatson&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></div></div><div class="footer-wrap"><ul class="list-links"><li><a href="https://github.com/JedWatson/keystone" target="_blank" title="Github Project">Github Project</a></li><li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website">Demo Website</a></li><li><a href="/guide" title="KeystoneJS Getting Started">Getting Started Guide</a></li><li><a href="/guide/config" title="KeystoneJS Configuration">Configuration Guide</a></li><li><a href="/guide/data" title="KeystoneJS Database">Database Guide</a></li><li><a href="/examples" title="KeystoneJS Database">Example Applications</a></li></ul><p class="copyright">&copy; 2013 Jed Watson</p></div></div></div><script src="/js/lib/jquery/jquery-1.10.2.min.js"></script><script src="/js/lib/bootstrap/collapse.js"></script><script src="/js/lib/bootstrap/dropdown.js"></script><script src="/js/lib/prism/prism.min.js"></script><script>if (window.location.hostname.match(/keystonejs\.com/)) {
- (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
- (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
- m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
- })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
- 
- ga('create', 'UA-43970386-1', 'keystonejs.com');
- ga('send', 'pageview');
-}</script><script>if (window.location.hostname.match(/keystonejs\.com/)) {
- var _sf_async_config = { uid: 46610, domain: 'keystonejs.com', useCanonical: true };
- (function() {
-  function loadChartbeat() {
-   window._sf_endpt = (new Date()).getTime();
-   var e = document.createElement('script');
-   e.setAttribute('language', 'javascript');
-   e.setAttribute('type', 'text/javascript');
-   e.setAttribute('src','//static.chartbeat.com/js/chartbeat.js');
-   document.body.appendChild(e);
-  };
-  var oldonload = window.onload;
-  window.onload = (typeof window.onload != 'function') ?
-  loadChartbeat : function() { oldonload(); loadChartbeat(); };
- })();
-}</script><script>if (window.location.hostname.match(/keystonejs\.com/)) {
- setTimeout(function(){var a=document.createElement("script");
- var b=document.getElementsByTagName("script")[0];
- a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/3329.js?"+Math.floor(new Date().getTime()/3600000);
- a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
-}</script></body></html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>var _sf_startpt=(new Date()).getTime()</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+    <title>KeystoneJS &middot; Node.js cms and web application platform built on Express and MongoDB
+    </title>
+    <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
+    <link href="/styles/site.min.css" rel="stylesheet">
+    <link href="/styles/prism.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <header role="banner" class="docs-header">
+      <div class="container">
+        <button type="button" data-toggle="collapse" data-target=".docs-nav__collapse" class="navbar-toggle navbar-toggle-menu"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+        </button><a href="/" title="KeystoneJS" class="keystone-logo"><img src="/images/logo.svg" alt="KeystoneJS" width="207" height="70"></a>
+        <nav class="docs-nav">
+          <div class="docs-nav__collapse collapse">
+            <ul class="docs-nav__nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/getting-started">Getting Started</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/examples">Examples</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div class="home-hero">
+      <div class="container">
+        <h1>Node.js CMS and web application platform built on express and mongo.</h1>
+        <p class="buttons"><a href="/getting-started" title="KeystoneJS getting started guide" class="btn btn-lg btn-primary"><span class="hidden-xs">Get Started</span><span class="visible-xs">Start</span></a><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)" class="btn btn-lg btn-link hidden-xs">Try the demo</a>
+        </p>
+        <ul class="list-inline list-links">
+          <li>Current version 0.2.6</li>
+          <li><a href="https://github.com/JedWatson/keystone/blob/master/HISTORY.md" target="_blank" title="View Changelog on GitHub">What’s New</a></li>
+          <li><a href="/examples" title="Sample Applications" class="hidden-xs">Examples</a></li>
+          <li><a href="http://github.com/JedWatson/keystone" target="_blank">GitHub Project</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="page-subheader">
+      <div class="container">
+        <div class="social-buttons hidden-xs hidden-sm">
+          <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
+          <div class="social-button social-button__github">
+            <iframe src="http://ghbtns.com/github-btn.html?user=JedWatson&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+          </div>
+        </div>
+        <p>Keystone is free and open source under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a>.</p>
+      </div>
+    </div>
+    <div class="docs-body">
+      <section class="intro-section building-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Get a head-start on the features you need</h2>
+            <p class="lead">Keystone is the easiest way to build database-driven websites, applications and APIs in Node.js.</p>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-leaf"></span>
+                <div class="feature-content">
+                  <h4>Express.js and Mongo</h4>
+                  <p>Keystone will configure express - the de facto web server for node.js - for you and connect to your mongo database using mongoose, the leading ODM package.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-shuffle"></span>
+                <div class="feature-content">
+                  <h4>Dynamic Routes</h4>
+                  <p>Keystone starts with best practices for setting up your MV* application, and makes it easy to manage your templates, views and routes.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-picture"></span>
+                <div class="feature-content">
+                  <h4>Database Fields</h4>
+                  <p>IDs, Strings, Booleans, Dates and Numbers are the building blocks of your database. Keystone builds on these with useful, real-world field types like name, email, password, address, image and relationship fields (and more)</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-light-bulb"></span>
+                <div class="feature-content">
+                  <h4>Auto-generated Admin UI</h4>
+                  <p>Whether you use it while you're building out your application, or in production as a database content management system, Keystone's Admin UI will save you time and make managing your data easy.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-pencil"></span>
+                <div class="feature-content">
+                  <h4>Simpler Code</h4>
+                  <p>Sometimes, async code can get complicated to do simple things. Keystone helps keep simple things - like loading data before displaying it in a view - simple.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-docs"></span>
+                <div class="feature-content">
+                  <h4>Form Processing</h4>
+                  <p>Want to validate a form, upload an image, and update your database with a single line? Keystone can do that, based on the data models you've already defined.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-users"></span>
+                <div class="feature-content">
+                  <h4>Session Management</h4>
+                  <p>Keystone comes ready out of the box with session management and authentication features, including automatic encryption for password fields.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-paper-plane"></span>
+                <div class="feature-content">
+                  <h4>Email Sending</h4>
+                  <p>Keystone makes it easy to set up, preview and send template-based emails for your application. It also integrates with Mandrill (Mailchimp's excellent transaction email sending service)</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 hidden-sm hidden-lg">
+              <div class="feature-panel"><span class="feature-icon entypo entypo-publish"></span>
+                <div class="feature-content">
+                  <h4>Managed Updates</h4>
+                  <p>Keystone includes an optional updates framework, that can take care of running update scripts for you, making it easy to transition from development to production.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="intro-section feedback-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Community Feedback</h2>
+            <p class="lead">What people have been saying about KeystoneJS</p>
+            <div class="row">
+              <div class="col-md-6">
+                <blockquote lang="en" class="twitter-tweet">
+                  <p>I just checked out<a href="https://twitter.com/KeystoneJS">@KeystoneJS</a>(node CMS) from<a href="https://twitter.com/JedWatson">@JedWatson</a>. Pretty cool stuff. :)</p>— getify (@getify)<a href="https://twitter.com/getify/statuses/423866181603172352">January 16, 2014</a>
+                </blockquote>
+                <blockquote lang="en" class="twitter-tweet">
+                  <p>Very cool CMS platform built on Express & Mongo<a href="http://t.co/K9TGzgGzLk">http://t.co/K9TGzgGzLk</a><a href="https://twitter.com/search?q=%23nodejs&amp;src=hash">#nodejs</a><a href="https://twitter.com/search?q=%23mongodb&amp;src=hash">#mongodb</a><a href="https://twitter.com/search?q=%23javascript&amp;src=hash">#javascript</a><a href="https://twitter.com/KeystoneJS">@KeystoneJS</a></p>— Nader Dabit (@dabit3)<a href="https://twitter.com/dabit3/statuses/429348159215529985">January 31, 2014</a>
+                </blockquote>
+                <blockquote lang="en" class="twitter-tweet">
+                  <p>Wow&excl;<a href="https://twitter.com/KeystoneJS">&commat;KeystoneJS</a>is saving me days of work right now&excl;<a href="https://twitter.com/search?q=%23api&amp;src=hash">&num;api</a><a href="https://twitter.com/search?q=%23backend&amp;src=hash">&num;backend</a><a href="https://twitter.com/search?q=%23dev&amp;src=hash">&num;dev</a><a href="https://twitter.com/search?q=%23webdev&amp;src=hash">&num;webdev</a><a href="https://twitter.com/search?q=%23admin&amp;src=hash">&num;admin</a><a href="https://twitter.com/search?q=%23cms&amp;src=hash">&num;cms</a></p>&mdash; Fille &lpar;&commat;bobmoff&rpar;<a href="https://twitter.com/bobmoff/statuses/437940871200526336">February 24&comma; 2014</a>&bullet;&bullet;&bullet;
+                </blockquote>
+                <blockquote lang="en" class="twitter-tweet">
+                  <p><a href="https://twitter.com/KeystoneJS">&commat;Keystonejs</a><a href="https://twitter.com/sydjs">&commat;sydjs</a>A big thank you for making such a great CMS based on express and mongo&excl; It has got us up and running quickly&excl;<a href="https://twitter.com/corkdev">&commat;corkdev</a></p>&mdash; corkdev&period;io &lpar;&commat;corkdev&rpar;<a href="https://twitter.com/corkdev/statuses/430649427703771136">February 4&comma; 2014</a>&bullet;&bullet;&bullet;
+                </blockquote>
+              </div>
+              <div class="col-md-6">
+                <blockquote lang="en" class="twitter-tweet">
+                  <p><a href="https://twitter.com/KeystoneJS">&commat;KeystoneJS</a>the more I play with KeystoneJS the more I love it&period;<a href="https://twitter.com/search?q=%23JavaScript&amp;src=hash">&num;JavaScript</a></p>&mdash; EvLSnoopY &lpar;&commat;EvLSnoopY&rpar;<a href="https://twitter.com/EvLSnoopY/statuses/423932889613340672">January 16&comma; 2014</a>&bullet;&bullet;&bullet;
+                </blockquote>
+                <blockquote lang="en" class="twitter-tweet">
+                  <p>I&apos;m starting to like<a href="https://twitter.com/KeystoneJS">&commat;KeystoneJS</a>&period; Its an extremly simple but flexible Framework for creating a<a href="https://twitter.com/search?q=%23NodeJS&amp;src=hash">&num;NodeJS</a>based CMS&period; &VerticalLine;<a href="https://twitter.com/search?q=%23webdev&amp;src=hash">&num;webdev</a><a href="https://twitter.com/search?q=%23javascript&amp;src=hash">&num;javascript</a></p>&mdash; Robert K&period; Pauls &lpar;&commat;rob&UnderBar;k&UnderBar;p&rpar;<a href="https://twitter.com/rob_k_p/statuses/434760545351528448">February 15&comma; 2014</a>
+                </blockquote>
+                <blockquote lang="en" class="twitter-tweet">
+                  <p><a href="https://twitter.com/JedWatson">@JedWatson</a>great demo keystone. Cool to see the future of CMS before it was cool :)<a href="https://twitter.com/search?q=%23keystonejs&amp;src=hash">#keystonejs</a><a href="https://twitter.com/search?q=%23cms&amp;src=hash">#cms</a><a href="https://twitter.com/search?q=%23nodejs&amp;src=hash">#nodejs</a><a href="https://twitter.com/search?q=%23mongodb&amp;src=hash">#mongodb</a></p>— JP (@hawmps)<a href="https://twitter.com/hawmps/statuses/438243937535275008">February 25, 2014</a>
+                </blockquote>
+                <blockquote lang="en" class="twitter-tweet">
+                  <p><a href="https://twitter.com/KeystoneJS">&commat;KeystoneJS</a>wants to be your best<a href="https://twitter.com/search?q=%23NodeJS&amp;src=hash">&num;NodeJS</a>framework and must have a place in your project&period;</p>&mdash; V&iacute;ctor Guti&eacute;rrez &lpar;&commat;buguibuguibuda&rpar;<a href="https://twitter.com/buguibuguibuda/statuses/438008795461988352">February 24&comma; 2014</a>&bullet;&bullet;&bullet;
+                </blockquote>
+              </div>
+            </div>
+            <hr><a href="https://twitter.com/keystonejs" data-show-count="true" data-size="large" class="twitter-follow-button">Follow @keystonejs</a>
+          </div>
+        </div>
+      </section>
+      <section class="intro-section admin-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Admin Interface</h2>
+            <p class="lead">Keystone gives you a beautiful, customisable Admin UI based on your models</p>
+          </div>
+        </div>
+        <div class="container admin-image-full"><img src="/images/home/admin-interface.png" class="img-responsive"></div>
+      </section>
+      <section class="intro-section tools-section"><span class="tool-icon tool-icon__cloud entypo entypo-cloud"></span><span class="tool-icon tool-icon__rocket entypo entypo-rocket"></span>
+        <div class="container">
+          <div class="section-header">
+            <h2 class="text-center">What you build is up to you.</h2>
+            <p class="lead">There are a lot of frameworks that make decisions for you, and many that take decisions away. Keystone doesn't do that. Use the features that suit you, and replace the ones that don't.</p>
+          </div>
+          <div class="big-icon"><span class="entypo entypo-tools"></span></div>
+          <div class="row">
+            <div class="col-sm-6 col-md-3">
+              <h4>Built on Express</h4>
+              <p>Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware.</p>
+              <p>You can also easily integrate it into an existing Express app.</p>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <h4>Powered by MongoDB</h4>
+              <p>
+                Keystone uses Mongoose, the leading ODM for node.js and MongoDB, and gives you a single place for your schema, 
+                validation rules and logic.
+              </p>
+              <p>So anything you can build with MongoDB, you can build with Keystone.</p>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <h4>Lightweight and flexible</h4>
+              <p>Keystone is designed to be as light as you want - you can pick and choose the features you want to include.</p>
+              <p>Create your own routes, your own database schema, and use any template language you like.</p>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <h4>Extendable</h4>
+              <p>One of the greatest things about node.js is the vast number of quality packages available.</p>
+              <p>Keystone is designed to let you use any of them, without losing the benefits it provides.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="intro-section cta-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="left-col">
+                <h3><a href="/getting-started" title="KeystoneJS Getting Started">Get Started &rarr;</a></h3>
+                <p class="lead">Sound like what you've been looking for? Check out the getting started guide and learn how to get up and running in less than a minute.</p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="right-col">
+                <h3><a href="mailto:contact@keystonejs.com">Get in Touch &rarr;</a></h3>
+                <p class="lead">If you are using Keystone for a project, interested in contributing, or looking for commercial support, we'd love to hear about it. Please contact us.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="docs-footer">
+      <div class="container">
+        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a>, <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> and other <a href="https://github.com/JedWatson/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <ul class="list-inline">
+          <li><a href="/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
+          <li><a href="/docs" title="KeystoneJS Documentation">Documentation</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
+          <li><a href="https://github.com/JedWatson/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
+          <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
+          <li><a href="/examples" title="KeystoneJS Database">Examples</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="docs-footer-floor">
+      <div class="container">
+        <div class="social-buttons">
+          <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
+          <div class="social-button social-button__github">
+            <iframe src="http://ghbtns.com/github-btn.html?user=JedWatson&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script src="/js/lib/bootstrap/collapse.js"></script>
+    <script src="/js/lib/prism/prism.min.js"></script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script>
+      if (window.location.hostname.match(/keystonejs\.com/)) {
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       
+       ga('create', 'UA-43970386-1', 'keystonejs.com');
+       ga('send', 'pageview');
+      }
+    </script>
+    <script>
+      if (window.location.hostname.match(/keystonejs\.com/)) {
+       var _sf_async_config = { uid: 46610, domain: 'keystonejs.com', useCanonical: true };
+       (function() {
+        function loadChartbeat() {
+         window._sf_endpt = (new Date()).getTime();
+         var e = document.createElement('script');
+         e.setAttribute('language', 'javascript');
+         e.setAttribute('type', 'text/javascript');
+         e.setAttribute('src','//static.chartbeat.com/js/chartbeat.js');
+         document.body.appendChild(e);
+        };
+        var oldonload = window.onload;
+        window.onload = (typeof window.onload != 'function') ?
+        loadChartbeat : function() { oldonload(); loadChartbeat(); };
+       })();
+      }
+    </script>
+    <script>
+      if (window.location.hostname.match(/keystonejs\.com/)) {
+       setTimeout(function(){var a=document.createElement("script");
+       var b=document.getElementsByTagName("script")[0];
+       a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/3329.js?"+Math.floor(new Date().getTime()/3600000);
+       a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+      }
+    </script>
+  </body>
+</html>
