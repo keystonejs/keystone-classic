@@ -6,6 +6,7 @@ var http = require('http'),
 
 function view(view, options) {
 	return function(req, res, next) {
+		options.pretty = true;
 		res.render(view, options);
 	}
 }
