@@ -732,8 +732,29 @@ block content
 			
 			a(name="fieldtypes-localfile")
 			h3 <code>LocalFile</code>
+			.alert.alert-warning This field type is not compatible with PAAS Hosts like Heroku because it relies on the local file system
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a file upload field in the Admin UI
 			p Stores files on the local file system.
+			pre: code.language-javascript { type: Types.LocalFile }
+			.options
+				
+				h5 Schema
+				p <code>filename</code> <code class="data-type">String</code>
+				p <code>path</code> <code class="data-type">String</code>
+				p <code>size</code> <code class="data-type">Number</code>
+				p <code>filetype</code> <code class="data-type">String</code>
+				
+				h5 Virtuals
+				<code>exists</code> <code class="data-type">Boolean</code> - whether there is a file path stored
+			
+				h5 Underscore methods
+				p <code>uploadFile(file, update, callback)</code> - uploads a file to the local storage, stores the details in the field and provides the file data to the callback.
+				ul
+					li <code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code>
+					li <code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes
+					li <code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)
+			
+			//- TODO: document pre/post move hooks for LocalFile
 			
 			
 			a(name="fieldtypes-s3file")
@@ -766,7 +787,7 @@ block content
 				ul
 					li <code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code>
 					li <code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes
-					li <code>callback(err, fileData)</code> - is passed the raw object that will be stored in the field (see schema above)
+					li <code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)
 						
 			
 			a(name="fieldtypes-embedly")
