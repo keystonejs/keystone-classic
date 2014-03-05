@@ -27,4 +27,4 @@ else
 				if !field.many && item.get(field.path)
 					a(href='/keystone/' + refList.path + '/' + item.get(field.path), style='margin-left: 10px;').btn.btn-link.btn-goto-linked-item view #{refList.singular.toLowerCase()}
 			if field.note
-				.field-note= field.note
+				.field-note!= field.note

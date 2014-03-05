@@ -6,4 +6,4 @@
 		else
 			textarea(name=field.path, class=field.wysiwyg ? 'wysiwyg' : 'code', style='height: #{field.height}px')= item.get(field.path)
 	if field.note
-		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
+		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note!= field.note

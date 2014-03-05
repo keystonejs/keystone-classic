@@ -12,4 +12,4 @@
 					.col-sm-6: input(type='password', name=field.paths.confirm, autocomplete='off', placeholder='Confirm new password').form-control
 				.form-control-wrapper: a(href=js).btn.btn-default.btn-cancel.btn-leave-password Cancel
 	if field.note
-		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
+		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note!= field.note
