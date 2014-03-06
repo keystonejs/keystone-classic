@@ -20,7 +20,7 @@ Keystone gives you:
 
 ... plus a lot of other tools and utilities to make creating complex web apps easier.
 
-Use our [Yeoman Generator](https://github.com/JedWatson/generator-keystone) to get up and running with KeystoneJS quickly, then check out our getting started guide &amp; docs at [keystonejs.com/guide](http://keystonejs.com/guide).
+Use our [Yeoman Generator](https://github.com/JedWatson/generator-keystone) to get up and running with KeystoneJS quickly, then check out our getting started guide &amp; docs at [keystonejs.com/docs/getting-started](http://keystonejs.com/docs/getting-started).
 
 We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/JedWatson/keystone-demo) to see how it was built.
 
@@ -49,7 +49,7 @@ If you're going to contribute code, please try and mimic the existing code stand
 
 ## Usage
 
-**Check out the [KeystoneJS getting started guide](http://keystonejs.com/guide) for a walk-through on how to use KeystoneJS.**
+**Check out the [KeystoneJS Documentation](http://keystonejs.com/docs) for a walk-through on how to use KeystoneJS.**
 
 ### Installation
 
@@ -72,7 +72,7 @@ After the intallation is complete, run this command to start Keystone:
 
 Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "0.2.x"` in the `dependencies` array in your `package.json` file, and run `npm install` from your terminal.
 
-Then read through the [Documentation](http://keystonejs.com/guide) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
+Then read through the [Documentation](http://keystonejs.com/docs) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
 
 
 ### Example application script (keystone.js)
@@ -122,7 +122,7 @@ Config variables can be passed in an object to the `keystone.init` method, or ca
 called using `keystone.set(key, value)`. This allows for a more flexible order of execution (e.g. if you refer to Lists in your
 routes, you can set the routes after configuring your Lists, as in the example above).
 
-See the [KeystoneJS configuration documentation](http://keystonejs.com/guide/config) for details and examples of the available
+See the [KeystoneJS configuration documentation](http://keystonejs.com/docs/configuration) for details and examples of the available
 configuration options.
 
 To understand how these settings are used, and how the Express application initialised, see `Keystone.prototype.start` in
@@ -139,33 +139,33 @@ formatting a date or number, resizing an image, getting an array of the availabl
 for a select field, or using Google's Places API to improve addresses) as well as a beautiful,
 responsive admin UI to edit your data with.
 
-See the [KeystoneJS database documentation](http://keystonejs.com/guide/data) for details and examples of the various field types,
+See the [KeystoneJS database documentation](http://keystonejs.com/docs/database) for details and examples of the various field types,
 as well as how to set up and use database models in your application.
 
 Keystone's field types include:
 
-*	[Boolean](http://keystonejs.com/guide/data#field_boolean)
-*	[Text](http://keystonejs.com/guide/data#field_text)
-*	[Textarea](http://keystonejs.com/guide/data#field_textarea)
-*	[Email](http://keystonejs.com/guide/data#field_email)
-*	[Url](http://keystonejs.com/guide/data#field_url)
-*	[Html](http://keystonejs.com/guide/data#field_html)
-*	[Date](http://keystonejs.com/guide/data#field_date)
-*	[Datetime](http://keystonejs.com/guide/data#field_datetime)
-*	[Key](http://keystonejs.com/guide/data#field_key)
-*	[Number](http://keystonejs.com/guide/data#field_number)
-*	[Money](http://keystonejs.com/guide/data#field_money)
-*	[Select](http://keystonejs.com/guide/data#field_select)
-*	[Markdown](http://keystonejs.com/guide/data#field_markdown)
-*	[Name](http://keystonejs.com/guide/data#field_name)
-*	[Password](http://keystonejs.com/guide/data#field_password)
-*	[Location](http://keystonejs.com/guide/data#field_location)
-*	[CloudinaryImage](http://keystonejs.com/guide/data#field_cloudinaryimage)
-*	[CloudinaryImages](http://keystonejs.com/guide/data#field_cloudinaryimages)
-*	[S3 File](http://keystonejs.com/guide/data#field_s3file)
-*	[Embedly](http://keystonejs.com/guide/data#field_embedly)
+*	[Boolean](http://keystonejs.com/docs/database#field_boolean)
+*	[Text](http://keystonejs.com/docs/database#field_text)
+*	[Textarea](http://keystonejs.com/docs/database#field_textarea)
+*	[Email](http://keystonejs.com/docs/database#field_email)
+*	[Url](http://keystonejs.com/docs/database#field_url)
+*	[Html](http://keystonejs.com/docs/database#field_html)
+*	[Date](http://keystonejs.com/docs/database#field_date)
+*	[Datetime](http://keystonejs.com/docs/database#field_datetime)
+*	[Key](http://keystonejs.com/docs/database#field_key)
+*	[Number](http://keystonejs.com/docs/database#field_number)
+*	[Money](http://keystonejs.com/docs/database#field_money)
+*	[Select](http://keystonejs.com/docs/database#field_select)
+*	[Markdown](http://keystonejs.com/docs/database#field_markdown)
+*	[Name](http://keystonejs.com/docs/database#field_name)
+*	[Password](http://keystonejs.com/docs/database#field_password)
+*	[Location](http://keystonejs.com/docs/database#field_location)
+*	[CloudinaryImage](http://keystonejs.com/docs/database#field_cloudinaryimage)
+*	[CloudinaryImages](http://keystonejs.com/docs/database#field_cloudinaryimages)
+*	[S3 File](http://keystonejs.com/docs/database#field_s3file)
+*	[Embedly](http://keystonejs.com/docs/database#field_embedly)
 
-Keystone also has [Relationship fields](http://keystonejs.com/guide/data#relationships) for managing one-to-many and many-to-many
+Keystone also has [Relationship fields](http://keystonejs.com/docs/database#relationships) for managing one-to-many and many-to-many
 relationships between different models.
 
 
