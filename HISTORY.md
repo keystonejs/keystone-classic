@@ -126,7 +126,7 @@ One of the other big changes in this release is the work done by [Iulian Meghea]
 
 ## v0.1.48 / 2013-12-03
 
-* added; you can now provide a `paths` option to the `UpdateHander` to map custom field names to item field paths for processing
+* added; you can now provide a `paths` option to the `UpdateHandler` to map custom field names to item field paths for processing
 * improved; default email templates have been redesigned, with new theme options and defaults, thanks [jossmackison](https://github.com/JossMackison)
 * improved; s3file fields expose a direct `uploadFile` underscore method, for use outside of an `updateHandler`, thanks [bladey](https://github.com/bladey)
 * fixed; support for extended characters in utils.pathToLabel (via `keystone-utils`), thanks [itzaks](https://github.com/itzaks)
