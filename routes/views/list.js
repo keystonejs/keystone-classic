@@ -80,7 +80,7 @@ exports = module.exports = function(req, res) {
 			
 			// if there were results but not on this page, reset the page
 			if (req.params.page && items.total && !items.results.length) {
-				return res.redirect('/keystone/' + req.list.path + req._parsedUrl.search);
+				return res.redirect('/keystone/' + req.list.path);
 			}
 			
 			// go straight to the result if there was a search, and only one result
