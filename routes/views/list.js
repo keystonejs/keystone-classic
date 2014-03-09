@@ -160,12 +160,16 @@ exports = module.exports = function(req, res) {
 	}
 	
 	if (!req.list.get('nodelete') && req.query['delete']) {
-		req.list.model.findById(req.query['delete']).remove(function(err, count) {
-			if (count) {
-				req.flash('success', req.list.singular + ' deleted successfully.');
-			}
-			res.redirect('/keystone/' + req.list.path);
-		});
+    req.list.model.findById(req.query['delete']).exec(function (err, item) {
+      if (err || !item) return res.redirect('/keystone/' + req.list.path);
+
+      item.remove(function (err) {
+        if (!err) {
+          req.flash('success', req.list.singular + ' deleted successfully.');
+        }
+        res.redirect('/keystone/' + req.list.path);
+      });
+    });
 		
 		return;
 	}
