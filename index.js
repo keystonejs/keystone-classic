@@ -161,8 +161,8 @@ Keystone.prototype.get = Keystone.prototype.set;
  * @api public
  */
 
-Keystone.prototype.getPath = function(key) {
-	var path = keystone.get(key);
+Keystone.prototype.getPath = function(key, defaultValue) {
+	var path = keystone.get(key) || defaultValue;
 	path = ('string' == typeof path && path.substr(0,1) != '/') ? process.cwd() + '/' + path : path;
 	return path;
 }
