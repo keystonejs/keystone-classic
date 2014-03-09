@@ -181,21 +181,21 @@ exports = module.exports = function(req, res) {
 			
 			var id = req.body.id || req.query.id;
 			
-      req.list.model.findById(id).exec(function (err, item) {
+			req.list.model.findById(id).exec(function (err, item) {
 
-        if (err) return sendError('database error', err);
-        if (!item) return sendError('not found');
+				if (err) return sendError('database error', err);
+				if (!item) return sendError('not found');
 
-        item.remove(function (err) {
-          if (err) return sendError('database error', err);
+				item.remove(function (err) {
+					if (err) return sendError('database error', err);
 
-          return sendResponse({
-            success: true,
-            count: 1
-          });
-        });
-        
-      });
+					return sendResponse({
+						success: true,
+						count: 1
+					});
+				});
+
+			});
 			
 		break;
 		
