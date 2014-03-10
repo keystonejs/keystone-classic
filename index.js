@@ -64,6 +64,11 @@ var Keystone = function() {
 
 
 /**
+ * Deprecated options that have been mapped to new keys
+ */
+var remappedOptions = {};
+
+/**
  * Sets keystone options
  * 
  * ####Example:
@@ -76,8 +81,15 @@ var Keystone = function() {
  */
  Keystone.prototype.set = function(key, value) {
 	
-	if (arguments.length == 1)
+	if (arguments.length == 1) {
 		return this._options[key];
+	}
+	
+	if (remappedOptions[key]) {
+		console.log('Warning: the `' + key + '` option has been deprecated. Please use `' + remappedOptions[key] + '` instead.\n\n' +
+			'Support for `' + key + '` will be removed in a future version.');
+		key = remappedOptions[key];
+	}
 	
 	// handle special settings
 	switch (key) {
