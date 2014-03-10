@@ -1025,7 +1025,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		utils: utils,
 		user: req.user,
 		title: 'Keystone',
-		signout: this.get('signout'),
+		signout: this.get('signout url'),
 		section: {},
 		version: this.version,
 		ga: {
