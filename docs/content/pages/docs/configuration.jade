@@ -150,12 +150,25 @@ block content
 						p The encryption key to use for your cookies. Passed to Express's cookie parser.
 						p It's a really good idea to set this to a long, random string.
 				tr
-					td <code>signout</code> <code class="data-type">String</code>
+					td <code>signin url</code> <code class="data-type">String</code>
+					td
+						p <code>href</code> to bounce visitors to when they fail the default auth check (e.g. not signed in)
+						p Defaults to <code class="default-value">/keystone/signin</code>, only used when <code>auth</code> is set to <code class="default-value">true</code>
+				tr
+					td <code>signin redirect</code> <code class="data-type">String</code>
+					td
+						p <code>href</code> to bounce visitors to after they successfully sign in via the built-in signin route
+						p Defaults to <code class="default-value">/keystone</code>
+				tr
+					td <code>signout url</code> <code class="data-type">String</code>
 					td
 						p <code>href</code> for the signout link in the top right of the UI
 						p Defaults to <code class="default-value">/keystone/signout</code> if <code>auth</code> is set to <code class="default-value">true</code>
-			
-			p For a walk-through of how to set these options up, see the <a href="/guide#models_auth">getting started guide</a>.
+				tr
+					td <code>signout redirect</code> <code class="data-type">String</code>
+					td
+						p <code>href</code> to bounce visitors to after they successfully sign out via the built-in signin route
+						p Defaults to <code class="default-value">/keystone</code>
 			
 			p For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.
 			
