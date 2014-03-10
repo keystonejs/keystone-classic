@@ -7,15 +7,15 @@
 * improved; email test route binding, including ability to use a function to provide template locals to tests
 * added; custom template support in the Email class
 * added; email button mixin supports default styling and style overrides
+* improved; email locals and options can be combined in a single object argument
 * fixed; location field auto-improve error
 * fixed; relationship fields display old ID when related item is missing, thanks [Mark Bayfield](https://github.com/mbayfield)
 * added; `autocreate` option for Lists (see issue #21)
 * improved; signin page looks better when you're alredy signed in
-* improved; email locals and options can be combined in a single object argument
 * improved; `location.requiredPaths` field option supports comma-delimited values
-* added; ability to provide custom lists of required fields to the `UpdateHandler` (issue #196)
-* added; ability to specify custom validation / required messages in the UpdateHandler (issue #195)
 * improved; `UpdateHandler` now updates `noedit` fields when they are explicitly provided (issue #194)
+* added; ability to specify custom validation / required messages in the UpdateHandler (issue #195)
+* added; ability to provide custom lists of required fields to the `UpdateHandler` (issue #196)
 
 ## v0.2.5 / 2014-02-17
 
