@@ -66,7 +66,9 @@ var Keystone = function() {
 /**
  * Deprecated options that have been mapped to new keys
  */
-var remappedOptions = {};
+var remappedOptions = {
+	'signin success': 'signin redirect'
+};
 
 /**
  * Sets keystone options

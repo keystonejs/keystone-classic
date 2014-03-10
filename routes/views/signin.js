@@ -20,10 +20,10 @@ exports = module.exports = function(req, res) {
 		
 		var onSuccess = function(user) {
 			
-			if ('string' == typeof keystone.get('signin success')) {
-				res.redirect(keystone.get('signin success'));
-			} else if ('function' == typeof keystone.get('signin success')) {
-				keystone.get('signin success')(user, req, res);
+			if ('string' == typeof keystone.get('signin redirect')) {
+				res.redirect(keystone.get('signin redirect'));
+			} else if ('function' == typeof keystone.get('signin redirect')) {
+				keystone.get('signin redirect')(user, req, res);
 			} else {
 				res.redirect('/keystone');
 			}
