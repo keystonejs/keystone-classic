@@ -9,8 +9,9 @@ exports = module.exports = function(req, res) {
 	
 	req.list.model.findById(req.params.item).exec(function(err, item) {
 		
-		if (Array.isArray(item))
+		if (Array.isArray(item)) {
 			item = item[0]; // WTF??? I thought findById was only meant to return a single document.
+		}
 		
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');
@@ -127,11 +128,14 @@ exports = module.exports = function(req, res) {
 					
 				}, cb);
 			}
+			
 			var	loadFormFieldTemplates = function(cb){
 				var onlyFields = function(item) { return item.type == 'field'; }
 				var compile = function(item, callback) { item.field.compile('form',callback); }
 				async.eachSeries(req.list.uiElements.filter(onlyFields), compile , cb);
 			}
+			
+			
 			/** Render View */
 			
 			async.parallel([
