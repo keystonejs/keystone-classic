@@ -6,6 +6,7 @@ exports = module.exports = function(req, res) {
 	var renderView = function() {
 		keystone.render(req, res, 'signin', {
 			submitted: req.body,
+			from: req.query.from,
 			logo: keystone.get('signin logo')
 		});
 	}
@@ -20,7 +21,9 @@ exports = module.exports = function(req, res) {
 		
 		var onSuccess = function(user) {
 			
-			if ('string' == typeof keystone.get('signin redirect')) {
+			if (req.query.from) {
+				res.redirect(req.query.from);
+			} else if ('string' == typeof keystone.get('signin redirect')) {
 				res.redirect(keystone.get('signin redirect'));
 			} else if ('function' == typeof keystone.get('signin redirect')) {
 				keystone.get('signin redirect')(user, req, res);

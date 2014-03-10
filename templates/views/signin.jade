@@ -15,7 +15,7 @@ block content
 					a(href='/keystone/signout').btn.btn-cancel Sign out
 			
 			else
-				form(method="post", action="/keystone/signin", novalidate).auth-form
+				form(method="post", novalidate).auth-form
 					.form-group
 						label(for='email') Email
 						input(type='email', name='email', id='email', value=submitted.email).form-control
