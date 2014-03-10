@@ -1026,7 +1026,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		user: req.user,
 		title: 'Keystone',
 		signout: this.get('signout url'),
-		backHref: this.get('back url') || '/',
+		backUrl: this.get('back url') || '/',
 		section: {},
 		version: this.version,
 		ga: {
