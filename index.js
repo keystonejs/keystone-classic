@@ -67,7 +67,8 @@ var Keystone = function() {
  * Deprecated options that have been mapped to new keys
  */
 var remappedOptions = {
-	'signin success': 'signin redirect'
+	'signin success': 'signin redirect',
+	'signout': 'signout url'
 };
 
 /**
@@ -709,8 +710,11 @@ Keystone.prototype.routes = function(app) {
 	
 	if (auth === true) {
 		
-		if (!this.get('signout')) {
-			this.set('signout', '/keystone/signout');
+		if (!this.get('signout url')) {
+			this.set('signout url', '/keystone/signout');
+		}
+		if (!this.get('signin url')) {
+			this.set('signin url', '/keystone/signin');
 		}
 		
 		if (!this.nativeApp || !this.get('session')) {
