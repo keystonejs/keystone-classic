@@ -75,13 +75,14 @@ block content
 						p The environment setting to use. The keys <strong>development</strong> and <strong>production</strong> are supported, and this will have an impact on things like caching compiled templates. Defaults to <code class="default-value">process.env.NODE_ENV || "development"</code>.
 						p You should really <strong>set this to <code class="default-value">production</code> for your production servers</strong> using the <code>NODE_ENV</code> environment variable. Several other modules expect this convention also.
 				tr
-					td <code>host</code> <code class="data-type">String</code>
-					td
-						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.IP || '127.0.0.1'</code>
-				tr
 					td <code>port</code> <code class="data-type">Number</code>
 					td
 						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>
+				tr
+					td <code>host</code> <code class="data-type">String</code>
+					td
+						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.IP || '127.0.0.1'</code>
+						p <code>port</code> must be set (either by option or env variable) or the <code>host</code> option will be ignored.
 				tr
 					td <code>views</code> <code class="data-type">String</code>
 					td
@@ -118,6 +119,37 @@ block content
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
 					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).
+		
+			a(name='options-ssl')
+			h3 HTTPS Web Server Options
+			
+			p There are two ways to implement HTTPS for your KeystoneJS application: either use a web server (e.g. <a href="http://nginx.com" target="_blank">NGINX</a>) or PAAS (e.g. <a href="https://www.heroku.com" target="_blank">Heroku</a>) that handles it for you, or set the following options to use the <a href="http://nodejs.org/api/https.html" target="_blank">https server provided by node.js</a>.
+			
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>ssl</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code>
+					td
+						p Whether to start the SSL Server. Defaults to <code class="default-value">false</code>.
+						p When set to <code class="default-value">true</code>, both https and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.
+						p When set to <code class="default-value">"only"</code>, only the https server will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, KeystoneJS will not start.
+				tr
+					td <code>ssl key</code> <code class="data-type">Path</code>
+					td
+						p The path to your SSL Key. Should be either absolute or relative to <code class="default-value">process.cwd()</code> (which is usually your project root).
+				tr
+					td <code>ssl cert</code> <code class="data-type">Path</code>
+					td
+						p The path to your SSL Certificate. Should be either absolute or relative to <code class="default-value">process.cwd()</code> (which is usually your project root).
+				tr
+					td <code>ssl port</code> <code class="data-type">Number</code>
+					td
+						p The port to start the SSL Server on. Defaults to <code class="default-value">3001</code>.
+				tr
+					td <code>ssl host</code> <code class="data-type">String</code>
+					td
+						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.SSL_IP</code> or the value of the <code>host</code> option.
 			
 			
 			a(name='options-database')
