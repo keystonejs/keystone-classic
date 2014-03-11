@@ -184,8 +184,10 @@ body {
 .alert {
 	padding: 10px;
 	text-align: center;
+	
+	animation: apparate .4s;
+	-webkit-animation: apparate .4s;
 }
-
 
 
 
@@ -203,6 +205,15 @@ body {
 	0%, 100% { -webkit-transform: translateX(0); }
 	20%, 60% { -webkit-transform: translateX(-10px); }
 	40%, 80% { -webkit-transform: translateX(10px); }
+}
+
+@keyframes apparate {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@-webkit-keyframes apparate {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
 }
 
 
