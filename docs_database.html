@@ -94,6 +94,7 @@ permalink: /docs/database/
                   <li><a href="#fieldtypes-location">Location</a></li>
                   <li><a href="#fieldtypes-cloudinaryimage">CloudinaryImage</a></li>
                   <li><a href="#fieldtypes-cloudinaryimages">CloudinaryImages</a></li>
+                  <li><a href="#fieldtypes-localfile">LocalFile</a></li>
                   <li><a href="#fieldtypes-s3file">S3 File</a></li>
                   <li><a href="#fieldtypes-embedly">Embedly</a></li>
                 </ul>
@@ -257,7 +258,7 @@ if (shouldBePublished) {
 }
  
 newPost.save(function(err) {
-    // post has been saved	
+    // post has been saved  
 });</code></pre>
               <div class="contextual-note">
                 <h4>Automatic keys</h4>
@@ -655,7 +656,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <p><code>{path}_upload</code> - when a <code class="data-type">file</code> is provided to the <strong>updateHandler</strong>, it will be uploaded to cloudinary and the details will be stored in the field.</p>
                 <h5>Underscore methods</h5>
                 <p><code>src(options)</code> <code class="data-type">String</code> - returns the url of the image, accepts all options cloudinary supports</p>
-                <p><code>tag(options)</code> <code class="data-type">String</code> - returns an `<img>` tag</p>
+                <p><code>tag(options)</code> <code class="data-type">String</code> - returns an <code class="default-value">&lt;img&gt;</code> tag</p>
                 <p><code>scale(width, height, options)</code> <code class="data-type">String</code> - scales the image to fit the exact width and height, retaining aspect ratio</p>
                 <p><code>fit(width, height, options)</code> <code class="data-type">String</code> - scales the image to fit within the specified width and height, retaining aspect ratio</p>
                 <p><code>lfit(width, height, options)</code> <code class="data-type">String</code> - scales the image to fit within the specified width and height, retaining aspect ratio (without exceeding the original dimensions)</p>
@@ -670,7 +671,27 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               <h3><code>CloudinaryImages</code></h3>
               <h4><code class="data-type">Array</code> &mdash; Displayed as a series of images, and an upload field in the Admin UI</h4>
               <p>Stores multiple images in a array as a nested <code class="data-type">Schema</code>, each of which expose the same methods as the <code class="data-type">cloudinaryimage</code> field.</p>
-              <pre><code class="language-javascript">{ type: Types.CloudinaryImages }</code></pre><a name="fieldtypes-s3file"></a>
+              <pre><code class="language-javascript">{ type: Types.CloudinaryImages }</code></pre><a name="fieldtypes-localfile"></a>
+              <h3><code>LocalFile</code></h3>
+              <div class="alert alert-warning">This field type is not compatible with PAAS Hosts like Heroku because it relies on the local file system</div>
+              <h4><code class="data-type">Object</code> &mdash; Displayed as a file upload field in the Admin UI</h4>
+              <p>Stores files on the local file system.</p>
+              <pre><code class="language-javascript">{ type: Types.LocalFile }</code></pre>
+              <div class="options">
+                <h5>Schema</h5>
+                <p><code>filename</code> <code class="data-type">String</code></p>
+                <p><code>path</code> <code class="data-type">String</code></p>
+                <p><code>size</code> <code class="data-type">Number</code></p>
+                <p><code>filetype</code> <code class="data-type">String</code></p>
+                <h5>Virtuals</h5><code>exists</code> <code class="data-type">Boolean</code> - whether there is a file path stored
+                <h5>Underscore methods</h5>
+                <p><code>uploadFile(file, update, callback)</code> - uploads a file to the local storage, stores the details in the field and provides the file data to the callback.</p>
+                <ul>
+                  <li><code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code></li>
+                  <li><code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes</li>
+                  <li><code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)</li>
+                </ul>
+              </div><a name="fieldtypes-s3file"></a>
               <h3><code>S3 File</code></h3>
               <h4><code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI</h4>
               <p>Automatically manages files stored in <a href="http://aws.amazon.com/s3" target="_blank">Amazon S3</a>, including uploading and deleting.</p>
@@ -693,7 +714,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <ul>
                   <li><code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code></li>
                   <li><code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes</li>
-                  <li><code>callback(err, fileData)</code> - is passed the raw object that will be stored in the field (see schema above)</li>
+                  <li><code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)</li>
                 </ul>
               </div><a name="fieldtypes-embedly"></a>
               <h3><code>Embedly</code></h3>
