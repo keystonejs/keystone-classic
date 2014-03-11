@@ -13,6 +13,8 @@ html
 	body: .auth-wrapper
 		
 		+flash-messages(messages)
+		if !messages
+			.alert.alert-placeholder &nbsp;
 		.auth-body(class=messages && messages.error.length ? 'has-errors' : null)
 			block content
 		
