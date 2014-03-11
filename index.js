@@ -628,7 +628,7 @@ Keystone.prototype.start = function(onStart) {
 			var port = keystone.get('port') || process.env.PORT;
 			var ssl = keystone.get('ssl') || process.env.SSL || false;
 			
-			if(ssl!=2) {
+			if(ssl!='only') {
 				if (port) {
 					
 					app.set('port', port);
@@ -653,14 +653,14 @@ Keystone.prototype.start = function(onStart) {
 					
 				}
 			}
-			if (ssl>0) {
+			if (ssl==true) {
 				var	sslcert = false,sslkey = false;
-				var sslport = keystone.get('sslport') || process.env.SSLPORT || 3001;
-				if (fs.existsSync(keystone.get('sslcert') || process.env.SSLCERT || '')) {
-					sslcert = fs.readFileSync(keystone.get('sslcert') || process.env.SSLKEY || '');
+				var sslport = keystone.get('ssl port') || process.env.SSLPORT || 3001;
+				if (fs.existsSync(keystone.get('ssl cert') || process.env.SSLCERT || '')) {
+					sslcert = fs.readFileSync(keystone.get('ssl cert') || process.env.SSLKEY || '');
 				}
-				if (fs.existsSync(keystone.get('sslkey') || process.env.SSLKEY || '')) {
-					sslkey = fs.readFileSync(keystone.get('sslkey') || process.env.SSLKEY || '');;
+				if (fs.existsSync(keystone.get('ssl key') || process.env.SSLKEY || '')) {
+					sslkey = fs.readFileSync(keystone.get('ssl key') || process.env.SSLKEY || '');;
 				}
 				if(sslkey && sslcert) {
 							
@@ -671,9 +671,9 @@ Keystone.prototype.start = function(onStart) {
 					var host = keystone.get('host') || process.env.HOST || process.env.IP;
 			
 					if (host) {
-						keystone.httpsServer.listen(sslport, host, started(keystone.get('name') + ' is ready on ' + host + ':' + sslport));
+						keystone.httpsServer.listen(sslport, host, started(keystone.get('name') + ' secure server is ready on ' + host + ':' + sslport));
 					} else {
-						keystone.httpsServer.listen(sslport, started(keystone.get('name') + ' is ready on port: ' + sslport));
+						keystone.httpsServer.listen(sslport, started(keystone.get('name') + ' secure server is ready on port: ' + sslport));
 					}
 							
 				}
