@@ -1,5 +1,24 @@
 # Keystone
 
+## v0.2.7 / 2014-03-11
+
+* fixed; minor issues to improve auto-creation of items
+* improved; ability to chain `keystone.pre`, `keystone.init`, `keystone.start`, `keystone.static`, `keystone.routes` and `keystone.bindEmailTestRoutes`
+* improved; callbacks / error handling in View class
+* improved; handling of MongoDB errors before app starts (now much more debuggable)
+* added; field notes are now parsed using `marked` so you can use markdown syntax if desired
+* added; new field type `Code`, uses the CodeMirror editor in the Admin UI, thanks [Juan Benavides Romero](https://github.com/jbalde)
+* fixed; error thrown when requesting an invalid page in the Admin UI list view
+* fixed; correctly trigger mongoose middleware when removing items, thanks [Chris Dion](https://github.com/cdion)
+* added; ability to use custom paths for updates (issue #205)
+* added; optional callback to View.render (issue #215)
+* improved; tweaked some option keys, added a warning for deprecated options
+* added; ability to specify signin and signout redirect paths or functions
+* added; https server and ssl configuration now supported by keystone.start(), thanks [snowkeeper](https://github.com/snowkeeper)
+* improved; tweaks to native signin UI, thanks [jossmackison](https://github.com/JossMackison)
+
+This version also contains the new docs and website developed by @jossmackison and @jedwatson. To view the docs locally, open `keystone/docs` and run `node docs`.
+
 ## v0.2.6 / 2014-02-25
 
 * improved; implementation of `hidden` option for fields
