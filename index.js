@@ -653,14 +653,14 @@ Keystone.prototype.start = function(onStart) {
 					
 				}
 			}
-			if (ssl==true) {
+			if (ssl) {
 				var	sslcert = false,sslkey = false;
-				var sslport = keystone.get('ssl port') || process.env.SSLPORT || 3001;
-				if (fs.existsSync(keystone.get('ssl cert') || process.env.SSLCERT || '')) {
-					sslcert = fs.readFileSync(keystone.get('ssl cert') || process.env.SSLKEY || '');
+				var sslport = keystone.get('ssl port') || process.env.SSL_PORT || 3001;
+				if (fs.existsSync(keystone.get('ssl cert') || process.env.SSL_CERT || '')) {
+					sslcert = fs.readFileSync(keystone.get('ssl cert') || process.env.SSL_KEY || '');
 				}
-				if (fs.existsSync(keystone.get('ssl key') || process.env.SSLKEY || '')) {
-					sslkey = fs.readFileSync(keystone.get('ssl key') || process.env.SSLKEY || '');;
+				if (fs.existsSync(keystone.get('ssl key') || process.env.SSL_KEY || '')) {
+					sslkey = fs.readFileSync(keystone.get('ssl key') || process.env.SSL_KEY || '');;
 				}
 				if(sslkey && sslcert) {
 							
