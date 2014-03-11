@@ -656,54 +656,30 @@ Keystone.prototype.start = function(onStart) {
 			if (ssl>0) {
 				var	sslcert = false,sslkey = false;
 				var sslport = keystone.get('sslport') || process.env.SSLPORT || 3001;
-				async.series([
-					function(next) {
-						fs.readFile(keystone.get('sslcert') || process.env.SSLKEY || '',function(err,data){
-							if(err) {
-								console.log('sslcert file not found');
-							}
-							else {
-								sslcert = data;
-							}
-							return next();
-						});
-					},
-					function(next) {
-						fs.readFile(keystone.get('sslkey') || process.env.SSLCERT || '',function(err,data){
-							if(err) {
-								console.log('sslkey file not found');
-							}
-							else {
-								sslkey = data;
-							}
-							return next();
-						});
-						
-					}],
-					function(err) {		
-						if(err) {
-								console.log('Error starting ssl server',err);
-						} 
-						else if(sslkey && sslcert) {
+				if (fs.existsSync(keystone.get('sslcert') || process.env.SSLCERT || '')) {
+					sslcert = fs.readFileSync(keystone.get('sslcert') || process.env.SSLKEY || '');
+				}
+				if (fs.existsSync(keystone.get('sslkey') || process.env.SSLKEY || '')) {
+					sslkey = fs.readFileSync(keystone.get('sslkey') || process.env.SSLKEY || '');;
+				}
+				if(sslkey && sslcert) {
 							
-							var	sslopts = {key:sslkey,cert:sslcert};
-							
-							keystone.httpsServer = https.createServer(sslopts,app);
-							
-							var host = keystone.get('host') || process.env.HOST || process.env.IP;
+					var	sslopts = {key:sslkey,cert:sslcert};
 					
-							if (host) {
-								keystone.httpsServer.listen(sslport, host, started(keystone.get('name') + ' is ready on ' + host + ':' + sslport));
-							} else {
-								keystone.httpsServer.listen(sslport, started(keystone.get('name') + ' is ready on port: ' + sslport));
-							}
-							
-						}
-						else {
-							console.log('Error starting ssl server');
-						}
+					keystone.httpsServer = https.createServer(sslopts,app);
+					
+					var host = keystone.get('host') || process.env.HOST || process.env.IP;
+			
+					if (host) {
+						keystone.httpsServer.listen(sslport, host, started(keystone.get('name') + ' is ready on ' + host + ':' + sslport));
+					} else {
+						keystone.httpsServer.listen(sslport, started(keystone.get('name') + ' is ready on port: ' + sslport));
 					}
-				);/*end async*/
+							
+				}
+				else {
+					console.log('Error starting ssl server');
+				}
 			}
 			
 		}
