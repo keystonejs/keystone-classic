@@ -42,10 +42,15 @@ var Keystone = function() {
 	
 	this.set('env', process.env.NODE_ENV || 'development');
 	
-	if (process.env.CLOUDINARY_URL) {
-		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
-		this.set('cloudinary config', true);
-	}
+	this.set('port', process.env.PORT);
+	this.set('host', process.env.HOST || process.env.IP);
+	this.set('listen', process.env.LISTEN);
+	
+	this.set('ssl', process.env.SSL);
+	this.set('ssl port', process.env.SSL_PORT);
+	this.set('ssl host', process.env.SSL_HOST || process.env.SSL_IP);
+	this.set('ssl key', process.env.SSL_KEY);
+	this.set('ssl cert', process.env.SSL_CERT);
 	
 	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
 	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
@@ -59,6 +64,11 @@ var Keystone = function() {
 	
 	if (process.env.S3_BUCKET && process.env.S3_KEY && process.env.S3_SECRET) {
 		this.set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET });
+	}
+	
+	if (process.env.CLOUDINARY_URL) {
+		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
+		this.set('cloudinary config', true);
 	}
 	
 }
@@ -607,12 +617,15 @@ Keystone.prototype.start = function(onStart) {
 		
 		mongoConnectionOpen = true;
 		
-		// Returns a callback to log the startup info and call the onStart method
-		var started = function(info) {
-			return function() {
-				console.log(dashes + 'KeystoneJS Started:\n' + info + dashes);
-				onStart();
-			}
+		var startupMessages = ['KeystoneJS Started:'],
+			waitForServers = 2;
+		
+		// Logs the startup messages and calls the onStart method
+		var serverStarted = function() {
+			waitForServers--;
+			if (waitForServers) return;
+			console.log(dashes + startupMessages.join('\n') + dashes);
+			onStart();
 		}
 		
 		// Creates the http server and listens to the specified port and host or listen option.
@@ -625,20 +638,27 @@ Keystone.prototype.start = function(onStart) {
 			
 			keystone.httpServer = http.createServer(app);
 			
-			var port = keystone.get('port') || process.env.PORT;
-			var ssl = keystone.get('ssl') || process.env.SSL || false;
+			var port = keystone.get('port');
+			var ssl = keystone.get('ssl');
 			
-			if(ssl!=2) {
+			// start the http server unless we're in ssl-only mode
+			if (ssl != 'only') {
+				
+				var httpStarted = function(msg) {
+					return function() {
+						startupMessages.push(msg);
+						serverStarted();
+					}
+				}
+				
 				if (port) {
 					
 					app.set('port', port);
 					
-					var host = keystone.get('host') || process.env.HOST || process.env.IP;
-					
-					if (host) {
-						keystone.httpServer.listen(port, host, started(keystone.get('name') + ' is ready on ' + host + ':' + port));
+					if (keystone.get('host')) {
+						keystone.httpServer.listen(port, keystone.get('host'), httpStarted(keystone.get('name') + ' is ready on ' + host + ':' + port));
 					} else {
-						keystone.httpServer.listen(port, started(keystone.get('name') + ' is ready on port ' + port));
+						keystone.httpServer.listen(port, httpStarted(keystone.get('name') + ' is ready on port ' + port));
 					}
 					
 				} else {
@@ -646,40 +666,66 @@ Keystone.prototype.start = function(onStart) {
 					var listen = keystone.get('listen') || process.env.LISTEN;
 					
 					if (listen) {
-						keystone.httpServer.listen(listen, started(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
+						keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
 					} else {
-						keystone.httpServer.listen(3000, started(keystone.get('name') + ' is ready on default port 3000'));
+						keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
 					}
 					
 				}
+				
+			} else {
+				waitForServers--;
 			}
-			if (ssl>0) {
-				var	sslcert = false,sslkey = false;
-				var sslport = keystone.get('sslport') || process.env.SSLPORT || 3001;
-				if (fs.existsSync(keystone.get('sslcert') || process.env.SSLCERT || '')) {
-					sslcert = fs.readFileSync(keystone.get('sslcert') || process.env.SSLKEY || '');
-				}
-				if (fs.existsSync(keystone.get('sslkey') || process.env.SSLKEY || '')) {
-					sslkey = fs.readFileSync(keystone.get('sslkey') || process.env.SSLKEY || '');;
-				}
-				if(sslkey && sslcert) {
-							
-					var	sslopts = {key:sslkey,cert:sslcert};
-					
-					keystone.httpsServer = https.createServer(sslopts,app);
-					
-					var host = keystone.get('host') || process.env.HOST || process.env.IP;
 			
-					if (host) {
-						keystone.httpsServer.listen(sslport, host, started(keystone.get('name') + ' is ready on ' + host + ':' + sslport));
+			// start the ssl server if configured
+			if (ssl) {
+				
+				var	sslOpts = {};
+				
+				if (keystone.get('ssl cert') && fs.existsSync(keystone.getPath('ssl cert'))) {
+					sslOpts.cert = fs.readFileSync(keystone.getPath('ssl cert'));
+				}
+				if (keystone.get('ssl key') && fs.existsSync(keystone.getPath('ssl key'))) {
+					sslOpts.key = fs.readFileSync(keystone.getPath('ssl key'));
+				}
+				
+				if (!sslOpts.key || !sslOpts.cert) {
+					
+					if (ssl == 'only') {
+						console.log(keystone.get('name') + ' failed to start: invalid ssl configuration');
+						process.exit();
 					} else {
-						keystone.httpsServer.listen(sslport, started(keystone.get('name') + ' is ready on port: ' + sslport));
+						startupMessages.push('Warning: Invalid SSL Configuration');
+						serverStarted();
 					}
-							
+					
+				} else {
+					
+					var httpsStarted = function(msg) {
+						return function() {
+							startupMessages.push(msg);
+							serverStarted();
+						}
+					}
+					
+					keystone.httpsServer = https.createServer(sslOpts, app);
+					
+					var sslHost = keystone.get('ssl host') || keystone.get('host'),
+						sslPort = keystone.get('ssl port') || 3001;
+					
+					var httpsReadyMsg = (ssl == 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
+					
+					if (sslHost) {
+						keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + sslHost + ':' + sslPort));
+					} else {
+						var httpsPortMsg = (keystone.get('ssl port')) ? 'port: ' + keystone.get('ssl port') : 'default port 3001';
+						keystone.httpsServer.listen(sslPort, httpsStarted(httpsReadyMsg + httpsPortMsg));
+					}
+					
 				}
-				else {
-					console.log('Error starting ssl server');
-				}
+
+			} else {
+				waitForServers--;
 			}
 			
 		}
