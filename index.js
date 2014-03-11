@@ -1046,7 +1046,9 @@ Keystone.prototype.render = function(req, res, view, ext) {
 				cloud_name: keystone.get('cloudinary config').cloud_name,
 				api_key: keystone.get('cloudinary config').api_key,
 				timestamp: cloudinaryUpload.hidden_fields.timestamp,
-				signature: cloudinaryUpload.hidden_fields.signature
+				signature: cloudinaryUpload.hidden_fields.signature,
+				prefix: keystone.get('cloudinary prefix') || '',
+				uploader: cloudinary.uploader
 			};
 			locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 		} catch(e) {

@@ -1,10 +1,20 @@
 - var hasImages = item.get(field.path).length
+- var p = cloudinary.prefix;
+- if (p.length)
+	- p += '_';
+- var tags = [p + field.list.path + '_' + field.path, p + field.list.path + '_' + field.path + '_' + item.id];
+- if (cloudinary.prefix)
+	- tags.push(cloudinary.prefix);
+- if (env != 'production')
+	- tags.push(p + 'dev');
+- var directUpload = cloudinary.uploader.direct_upload(undefined,{tags:tags})
+- var formData = {cloud_name: cloudinary.cloud_name, api_key: cloudinary.api_key, timestamp: directUpload.hidden_fields.timestamp, signature: directUpload.hidden_fields.signature, tags: tags}
 .field.type-cloudinaryimages(data-field-type=field.type, data-field-path=field.path, data-field-paths-upload=field.paths.upload, data-field-paths-uploads=field.paths.uploads, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImages ? 'true' : 'false')
 	label.field-label= field.label
 	input(type='hidden', name=field.paths.action, value='').field-action
 	input(type='hidden', name=field.paths.order, value='').field-order
 	input(type='hidden', name=field.paths.uploads, value='').field-uploads
-	input(type='file', name='file', multiple, data-form-data='#{JSON.stringify(cloudinary)}').field-upload
+	input(type='file', name='file', multiple, data-form-data='#{JSON.stringify(formData)}').field-upload
 	.field-ui(class=hasImages ? 'has-image' : false)
 		if field.noedit
 			each value in item.get(field.path)
