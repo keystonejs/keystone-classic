@@ -1,5 +1,4 @@
 jQuery(function($) {
-	console.log("!!!!loooog");
 	if (!window.CodeMirror)
 		return;
 
@@ -46,7 +45,6 @@ jQuery(function($) {
 
 
 		if(lang == "js" || lang == "json") {
-			console.log("dsaf");
 			editor.setOption("gutters", ["CodeMirror-lint-markers"]);
 			editor.setOption("lintWith", CodeMirror.javascriptValidator);
 		}
