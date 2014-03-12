@@ -189,7 +189,7 @@ Keystone.prototype.get = Keystone.prototype.set;
 
 Keystone.prototype.getPath = function(key, defaultValue) {
 	var path = keystone.get(key) || defaultValue;
-	path = ('string' == typeof path && path.substr(0,1) != '/') ? process.cwd() + '/' + path : path;
+	path = ('string' == typeof path && path.substr(0,1) != path.sep) ? process.cwd() + path.sep + path : path;
 	return path;
 }
 
@@ -410,7 +410,7 @@ Keystone.prototype.start = function(onStart) {
 	
 	// Set location of view templates and view engine
 	
-	app.set('views', this.getPath('views') || '/views');
+	app.set('views', this.getPath('views') || path.sep + 'views');
 	app.set('view engine', this.get('view engine'));
 	
 	// Apply locals
@@ -755,8 +755,8 @@ Keystone.prototype.start = function(onStart) {
 
 Keystone.prototype.static = function(app) {
 	
-	app.use('/keystone', require('less-middleware')({ src: __dirname + '/public' }));
-	app.use('/keystone', express.static(__dirname + '/public'));
+	app.use('/keystone', require('less-middleware')({ src: __dirname + path.sep + 'public' }));
+	app.use('/keystone', express.static(__dirname + path.sep + 'public'));
 	
 	return this;
 	
