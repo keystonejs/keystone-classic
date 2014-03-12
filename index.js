@@ -189,7 +189,7 @@ Keystone.prototype.get = Keystone.prototype.set;
 
 Keystone.prototype.getPath = function(key, defaultValue) {
 	var pathValue = keystone.get(key) || defaultValue;
-	pathValue = ('string' == typeof pathValue && pathValue.substr(0,1) != path.sep) ? process.cwd() + path.sep + pathValue : pathValue;
+	pathValue = ('string' == typeof pathValue && pathValue.substr(0,1) != path.sep && pathValue.substr(1,2) != ':\\') ? process.cwd() + path.sep + pathValue : pathValue;
 	return pathValue;
 }
 
