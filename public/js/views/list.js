@@ -124,9 +124,12 @@ jQuery(function($) {
 				
 				case 'number':
 				case 'money':
-					var num = Number($filter.find('input[name=value]').val());
-					if (num || num === 0) {
-						str += num;
+					var val = $filter.find('input[name=value]').val();
+					if (val) {
+						var num = Number(val);
+						if (num || num === 0) {
+							str += num;
+						}
 					}
 				break;
 				
