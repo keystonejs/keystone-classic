@@ -1,5 +1,13 @@
 # Keystone
 
+## v0.2.8 / 2014-03-12
+
+* fixed; issues getting path options correctly on Windows (was causing update issues)
+* fixed; support for tagging images uploaded to Cloudinary client-side in the Admin UI for `CloudinaryImages` fields, thanks [Mike Causer](https://github.com/mcauser)
+* improved; filtering on `Number` fields can now find null values
+* fixed; height option now supported on `Markdown` and `Textarea` field types
+* added; support for `PUT` and `DELETE` http methods in `View.on`
+
 ## v0.2.7 / 2014-03-11
 
 * fixed; minor issues to improve auto-creation of items
