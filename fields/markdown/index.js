@@ -16,6 +16,7 @@ module.exports = function(FieldBase, keystone) {
 		constructor: function(list, path, options) {
 			// TODO: implement filtering, usage disabled for now
 			options.nofilter = true;
+      this.height = options.height || 90;
 
 			FieldBase.apply(this, arguments);
 		},

@@ -4,8 +4,12 @@
 
 var utils = require('keystone-utils');
 
-function switchLangs(lang) {
-	var mime = null;
+/**
+  * Gets the mime type for the specified language
+  * @api private
+  */
+function getMime(lang) {
+	var mime;
 
 	switch (lang) {
 		case "c":
@@ -100,8 +104,8 @@ module.exports = function(FieldBase, keystone) {
 		constructor: function(list, path, options) {
 			this._nativeType = String;
 			this.height = options.height || 180;
-			this.lang = (options.lang) ? options.lang : null;
-			this.mime = switchLangs(this.lang);
+			this.lang = options.lang;
+			this.mime = getMime(this.lang);
 
 			FieldBase.apply(this, arguments);
 		}

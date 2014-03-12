@@ -14,6 +14,7 @@ module.exports = function(FieldBase, keystone) {
 		constructor: function(list, path, options) {
 			this._nativeType = String;
 			this._underscoreMethods = ['format', 'crop'];
+      this.height = options.height || 90;
 			FieldBase.apply(this, arguments);
 		},
 
