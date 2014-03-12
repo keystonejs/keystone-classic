@@ -25,7 +25,8 @@
     "moment": "~2.5.1",
     "numeral": "~1.5.3",
     "semver": "~2.2.1",
-    "knox": "~0.8.9"
+    "knox": "~0.8.9",
+    "azure": "~0.8.1"
   },
   "author": "Jed Watson",
   "license": "MIT",

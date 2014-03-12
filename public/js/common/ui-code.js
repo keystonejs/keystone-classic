@@ -1,5 +1,4 @@
 jQuery(function($) {
-	console.log("!!!!loooog");
 	if (!window.CodeMirror)
 		return;
 
