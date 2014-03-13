@@ -1,0 +1,41 @@
+.md-editor {
+  display:block;
+  border:1px solid #ddd;
+}
+
+.md-editor>.md-header,.md-editor .md-footer {
+  display:block;
+  background:#fff;
+  padding:6px 4px;
+}
+
+.md-editor>.md-header {
+  margin:0;
+}
+
+.md-editor>.md-preview {
+  background:#fff;
+  border-top:1px dashed #ddd;
+  border-bottom:1px dashed #ddd;
+  min-height:10px;
+  overflow:auto;
+  padding: 8px;
+}
+
+.md-editor>textarea {
+  outline:thin dotted \9;
+  display:block;
+  width:100%;
+  border:0;
+  border-top:1px dashed #ddd;
+  border-bottom:1px dashed #ddd;
+  border-radius:0;
+  box-shadow:none;
+}
+
+.md-editor.active {
+  outline:0;
+  -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
+  box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
+  border-color:#66afe9;
+}
