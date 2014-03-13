@@ -271,6 +271,23 @@ block content
 				| keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });
 			
 			
+			a(name='services-azure')
+			h3 Windows Azure
+			
+			p KeystoneJS supports <a href="http://www.windowsazure.com/" target="_blank">Windows Azure</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.
+			
+			p To use the AzureFile field in your app, <a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">sign up for an account</a>, @TODO Next Steps
+			
+			p Then set the <code>azurefile config</code> option to an object containing your configuration (see example below).
+			
+			p Alternatively, set the <code class="default-value">AZURE_STORAGE_ACCOUNT</code> and <code class="default-value">AZURE_STORAGE_ACCESS_KEY</code> environment variables.
+			
+			p Note that the <strong>account</strong> property should be set to your <strong>storage account</strong>, <em>not your user account</em>.
+			
+			pre: code.language-javascript
+				| keystone.set('azurefile config', { account: 'my storage account', key: 'secret api key' });
+			
+			
 			a(name='services-cloudinary')
 			h3 Cloudinary
 			
