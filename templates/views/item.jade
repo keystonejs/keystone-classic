@@ -5,13 +5,16 @@ include ../mixins/columns
 block css
 	link(rel="stylesheet", href="/keystone/js/lib/fancybox/jquery.fancybox.css")
 	link(rel="stylesheet", href="/keystone/js/lib/codemirror/codemirror.css")
+	link(rel="stylesheet", href="/keystone/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
 
 block js
 	script(src='/keystone/js/lib/tinymce/tinymce.min.js')
 	script(src='/keystone/js/lib/tinymce/jquery.tinymce.min.js')
 	script(src='/keystone/js/lib/codemirror/codemirror-compressed.js')
+	script(src='/keystone/js/lib/marked/marked.js')
+	script(src='/keystone/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
 	//- script(src='/keystone/js/lib/tinymcedev/tinymce.jquery.dev.js')
-	
+
 	script(src="/keystone/js/lib/fancybox/jquery.fancybox.pack.js")
 	script(src="/keystone/js/common/ui-fixed-toolbar.js")
 	script(src="/keystone/js/common/ui-cloudinaryimage.js")
@@ -21,6 +24,7 @@ block js
 	script(src="/keystone/js/common/ui-azurefile.js")
 	script(src="/keystone/js/common/ui-localfile.js")
 	script(src="/keystone/js/common/ui-wysiwyg.js")
+	script(src="/keystone/js/common/ui-markdown.js")
 	script(src="/keystone/js/common/ui-code.js")
 	//- script(src="/keystone/js/common/ui-wysiwyg-dev.js")
 	script(src='/keystone/js/views/item.js')
