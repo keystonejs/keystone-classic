@@ -170,7 +170,7 @@ exports = module.exports = function(req, res) {
 		});
 
 		return;
-	} else if (!req.list.get('nocreate') && _.has(req.query, 'new')) {
+	} else if (!req.list.get('nocreate') && req.list.get('autocreate') && _.has(req.query, 'new')) {
 
 		var item = new req.list.model();
 		item.save(function(err) {
