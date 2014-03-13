@@ -2,7 +2,9 @@
  * Module dependencies.
  */
 
-var utils = require('keystone-utils');
+var utils = require('keystone-utils'),
+  keystone = require('../../'),
+  Field = keystone.Field;
 
 /**
   * Gets the mime type for the specified language
@@ -93,21 +95,19 @@ function getMime(lang) {
 	return mime;
 }
 
-module.exports = function(FieldBase, keystone) {
-	return FieldBase.extend({
+module.exports = Field.extend({
 
-		/**
-		 * Code FieldType Constructor
-		 * @extends Field
-		 * @api public
-		 */
-		constructor: function(list, path, options) {
-			this._nativeType = String;
-			this.height = options.height || 180;
-			this.lang = options.lang;
-			this.mime = getMime(this.lang);
+	/**
+	 * Code FieldType Constructor
+	 * @extends Field
+	 * @api public
+	 */
+	constructor: function(list, path, options) {
+		this._nativeType = String;
+		this.height = options.height || 180;
+		this.lang = options.lang;
+		this.mime = getMime(this.lang);
 
-			FieldBase.apply(this, arguments);
-		}
-	});
-};
+		Field.apply(this, arguments);
+	}
+});

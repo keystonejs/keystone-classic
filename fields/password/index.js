@@ -4,96 +4,95 @@
 
 var _ = require('underscore'),
 	bcrypt = require('bcrypt-nodejs'),
-	utils = require('keystone-utils');
+	utils = require('keystone-utils'),
+  keystone = require('../../'),
+  Field = keystone.Field;
 
+module.exports = Field.extend({
+	/**
+	 * password FieldType Constructor
+	 * @extends Field
+	 * @api public
+	 */
+	constructor: function(list, path, options) {
+		this.workFactor = options.workFactor || 10;
+		this._nativeType = String;
+		options.nosort = true; // You can't sort on password fields
+		// TODO: implement filtering, hard-coded as disabled for now
+		options.nofilter = true;
 
-module.exports = function(FieldBase, keystone) {
-	return FieldBase.extend({
-		/**
-		 * password FieldType Constructor
-		 * @extends Field
-		 * @api public
-		 */
-		constructor: function(list, path, options) {
-			this.workFactor = options.workFactor || 10;
-			this._nativeType = String;
-			options.nosort = true; // You can't sort on password fields
-			// TODO: implement filtering, hard-coded as disabled for now
-			options.nofilter = true;
+		Field.apply(this, arguments);
+	},
 
-			FieldBase.apply(this, arguments);
-		},
+	/**
+	 * Registers the field on the List's Mongoose Schema.
+	 *
+	 * Adds ...
+	 *
+	 * @api public
+	 */
+	addToSchema: function() {
 
-		/**
-		 * Registers the field on the List's Mongoose Schema.
-		 *
-		 * Adds ...
-		 *
-		 * @api public
-		 */
-		addToSchema: function() {
+		var field = this,
+			schema = this.list.schema;
 
-			var field = this,
-				schema = this.list.schema;
+		this.paths = {
+			confirm: this.options.confirmPath || this._path.append('_confirm')
+		};
 
-			this.paths = {
-				confirm: this.options.confirmPath || this._path.append('_confirm')
-			};
+		schema.path(this.path, _.defaults({
+			type: String
+		}, this.options));
 
-			schema.path(this.path, _.defaults({
-				type: String
-			}, this.options));
+		schema.pre('save', function(next) {
 
-			schema.pre('save', function(next) {
+			if (!this.isModified(field.path))
+				return next();
 
-				if (!this.isModified(field.path))
-					return next();
+			var item = this;
 
-				var item = this;
+			bcrypt.genSalt(field.workFactor, function(err, salt) {
+				if (err)
+					return next(err);
 
-				bcrypt.genSalt(field.workFactor, function(err, salt) {
+				bcrypt.hash(item.get(field.path), salt, function() {}, function(err, hash) {
 					if (err)
 						return next(err);
 
-					bcrypt.hash(item.get(field.path), salt, function() {}, function(err, hash) {
-						if (err)
-							return next(err);
-
-						// override the cleartext password with the hashed one
-						item.set(field.path, hash);
-						next();
-					});
+					// override the cleartext password with the hashed one
+					item.set(field.path, hash);
+					next();
 				});
-
 			});
 
-			this.underscoreMethod('compare', function(candidate, callback) {
-				bcrypt.compare(candidate, this.get(field.path), callback);
-			});
+		});
 
-			this.bindUnderscoreMethods();
-		},
+		this.underscoreMethod('compare', function(candidate, callback) {
+			bcrypt.compare(candidate, this.get(field.path), callback);
+		});
 
-		/**
-		 * If password fields are required, check that either a value has been
-		 * provided or already exists in the field.
-		 *
-		 * Otherwise, input is always considered valid, as providing an empty
-		 * value will not change the password.
-		 *
-		 * @api public
-		 */
-		validateInput: function(data, required, item) {
+		this.bindUnderscoreMethods();
+	},
 
-			if (!this.required) {
-				return true;
-			}
+	/**
+	 * If password fields are required, check that either a value has been
+	 * provided or already exists in the field.
+	 *
+	 * Otherwise, input is always considered valid, as providing an empty
+	 * value will not change the password.
+	 *
+	 * @api public
+	 */
+	validateInput: function(data, required, item) {
 
-			if (item) {
-				return (data[this.path] || item.get(this.path)) ? true : false;
-			} else {
-				return data[this.path] ? true : false;
-			}
+		if (!this.required) {
+			return true;
 		}
-	});
-};
+
+		if (item) {
+			return (data[this.path] || item.get(this.path)) ? true : false;
+		} else {
+			return data[this.path] ? true : false;
+		}
+	}
+});
