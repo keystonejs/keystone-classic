@@ -2,7 +2,7 @@ var keystone = require('../../'),
 	session = require('../../lib/session');
 
 exports = module.exports = function(req, res) {
-
+	
 	var renderView = function() {
 		keystone.render(req, res, 'signin', {
 			submitted: req.body,
@@ -13,15 +13,15 @@ exports = module.exports = function(req, res) {
 
 	// If a form was submitted, process the login attempt
 	if (req.method == "POST") {
-
+		
 		if (!req.body.email || !req.body.password) {
 			req.flash('error', 'Please enter your email address and password.');
 			return renderView();
 		}
-
+		
 		var onSuccess = function(user) {
-
-			if (req.query.from && req.query.from.match(/^(?!http|\/\/|javascript).+/)) {
+			
+			if (req.query.from) {
 				res.redirect(req.query.from);
 			} else if ('string' == typeof keystone.get('signin redirect')) {
 				res.redirect(keystone.get('signin redirect'));
@@ -30,19 +30,19 @@ exports = module.exports = function(req, res) {
 			} else {
 				res.redirect('/keystone');
 			}
-
+			
 		}
-
+		
 		var onFail = function() {
 			req.flash('error', 'Sorry, that email and password combo are not valid.');
 			renderView();
 		}
-
+		
 		session.signin(req.body, req, res, onSuccess, onFail);
-
+		
 	}
 	else {
 		renderView();
 	}
-
+	
 }
