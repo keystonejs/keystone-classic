@@ -67,6 +67,7 @@ permalink: /docs/configuration/
                   <li class="nav-label"><a href="#services">Services</a></li>
                   <li><a href="#services-google">Google Maps</a></li>
                   <li><a href="#services-amazons3">Amazon S3</a></li>
+                  <li><a href="#services-azure">Windows Azure Storage</a></li>
                   <li><a href="#services-cloudinary">Cloudinary</a></li>
                   <li><a href="#services-embedly">Embed.ly</a></li>
                   <li><a href="#services-mandrill">Mandrill</a></li>
@@ -342,7 +343,14 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
               <p>To use the S3File field in your app, <a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">sign up for an account</a>, create an <strong>S3 bucket</strong>, and get your <strong>key</strong> and <strong>secret</strong>.</p>
               <p>Then set the <code>s3 config</code> option to an object containing your configuration (see example below).</p>
               <p>Alternatively, set the <code class="default-value">S3_BUCKET</code>, <code class="default-value">S3_KEY</code> and <code class="default-value">S3_SECRET</code> environment variables.</p>
-              <pre><code class="language-javascript">keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });</code></pre><a name="services-cloudinary"></a>
+              <pre><code class="language-javascript">keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });</code></pre><a name="services-azure"></a>
+              <h3>Windows Azure Storage</h3>
+              <p>KeystoneJS supports <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.</p>
+              <p>To use the AzureFile field in your app, <a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">sign up for an account</a>, enter into <a href="https://manage.windowsazure.com/">Azure Management Portal</a>. Create a storage account with new(button), data services, storage. In storage account page get the access (account name, key (valid primary or secondary key)) with the button "manage access key".</p>
+              <p>Then set the <code>azurefile config</code> option to an object containing your configuration (see example below).</p>
+              <p>Alternatively, set the <code class="default-value">AZURE_STORAGE_ACCOUNT</code> and <code class="default-value">AZURE_STORAGE_ACCESS_KEY</code> environment variables.</p>
+              <p>Note that the <strong>account</strong> property should be set to your <strong>storage account</strong>, <em>not your user account</em>.</p>
+              <pre><code class="language-javascript">keystone.set('azurefile config', { account: 'my storage account', key: 'secret api key' });</code></pre><a name="services-cloudinary"></a>
               <h3>Cloudinary</h3>
               <p><a href="http://cloudinary.com" target="_blank">Cloudinary</a> is an image upload / resizing / hosting service that makes it easy to implement image management in your KeystoneJS app using the <a href="/docs/database#field_cloudinaryimage">CloudinaryImage</a> and <a href="/docs/database#field_cloudinaryimages">CloudinaryImages</a> field types.</p>
               <p>To use the Cloudinary Image fields in your app, <a href="https://cloudinary.com/users/register/free" target="_blank">sign up for an account</a> (Cloudinary offers a free tier with up to 500MB storage, 50,000 images and 1GB data transfer) and get your <strong>cloud name</strong>, <strong>api key</strong> and <strong>api secret</strong>.</p>

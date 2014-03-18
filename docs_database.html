@@ -96,6 +96,7 @@ permalink: /docs/database/
                   <li><a href="#fieldtypes-cloudinaryimages">CloudinaryImages</a></li>
                   <li><a href="#fieldtypes-localfile">LocalFile</a></li>
                   <li><a href="#fieldtypes-s3file">S3 File</a></li>
+                  <li><a href="#fieldtypes-azurefile">AzureFile</a></li>
                   <li><a href="#fieldtypes-embedly">Embedly</a></li>
                 </ul>
               </ul>
@@ -465,10 +466,10 @@ item._.createdDate.parse('2013-12-04'); // returns a moment object with the pars
 item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'</code></pre>
               </div><a name="fieldtypes-datetime"></a>
               <h3><code>Datetime</code></h3>
-              <h4><code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI</h4>
+              <h4><code class="data-type">Datetime</code> &mdash; Displayed as a date and time picker in the Admin UI</h4>
               <p class="note">Input should either be a valid <strong>Date</strong>, or a string in the format <code class="default-value">YYYY-MM-DD</code> (can be blank unless field is required)</p>
               <p class="note">To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code></p>
-              <pre><code class="language-javascript">{ type: Types.Date, default: Date.now }</code></pre>
+              <pre><code class="language-javascript">{ type: Types.Datetime, default: Date.now }</code></pre>
               <div class="options">
                 <h5>Options:</h5>
                 <p><code>format</code> <code class="data-type">string</code> - the default format pattern to use, defaults to <code class="default-value">Do MMM YYYY hh:mm:ss a</code></p>
@@ -716,6 +717,35 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                   <li><code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes</li>
                   <li><code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)</li>
                 </ul>
+              </div><a name="fieldtypes-azurefile"></a>
+              <h3><code>AzureFile</code></h3>
+              <h4><code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI</h4>
+              <p>Automatically manages files stored in <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a>, including uploading and deleting.</p>
+              <pre><code class="language-javascript">{ type: Types.AzureFile }</code></pre>
+              <div class="options">
+                <h5>Options</h5>
+                <p><code>filenameFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new filename to upload.</p>
+                <pre><code class="language-javascript">{ type: Types.AzureFile, filenameFormatter: function(item, filename) {
+  return item._id + require('path').extname(filename);
+} }</code></pre>
+                <p><code>containerFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new container name (container are a root folder in Azure Storage Account).</p>
+                <pre><code class="language-javascript">{ type: Types.AzureFile, containerFormatter: containerFormatter: function(item, filename) {
+  return item.modelProperty;
+} }</code></pre>
+                <h5>Schema</h5>
+                <p><code>filename</code> <code class="data-type">String</code></p>
+                <p><code>type</code> <code class="data-type">String</code></p>
+                <p><code>filesize</code> <code class="data-type">Number</code></p>
+                <p><code>url</code> <code class="data-type">String</code></p>
+                <p><code>etag</code> <code class="data-type">String</code></p>
+                <h5>Virtuals</h5><code>exists</code> <code class="data-type">Boolean</code> - whether there is a stored file
+                <h5>Underscore methods</h5>
+                <p><code>uploadFile(file, update, callback)</code> - uploads a file to the Azure Storage Account, stores the details in the field and provides the file data to the callback.</p>
+                <ul>
+                  <li><code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code></li>
+                  <li><code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes</li>
+                  <li><code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)</li>
+                </ul>
               </div><a name="fieldtypes-embedly"></a>
               <h3><code>Embedly</code></h3>
               <h4><code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI</h4>
@@ -726,7 +756,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               <pre><code class="language-javascript">{ type: Types.Embedly, from: 'path' }</code></pre>
               <div class="options">
                 <h5>Options</h5>
-                <p><code>from</code> <code class="data-type">String</code> - another path in the Schema (must contin a <code class="data-type">String</code> value) that will be passed to the Embedly API.</p>
+                <p><code>from</code> <code class="data-type">String</code> - the path of another field in the Schema that will be passed to the Embedly API. The other field must contain a <code class="data-type">String</code> value.</p>
                 <p><code>options</code> <code class="data-type">Object</code> (optional) - passed as arguments to the embedly API along with the <code>from</code> field value</p>
                 <p>See <a href="http://embed.ly/docs/embed/api/endpoints/1/oembed" target="_blank">Embedly's oEmbed API documentation</a> for more information on options and returned data.</p>
                 <h5>Schema</h5>
