@@ -1,5 +1,13 @@
 # Keystone
 
+## v0.2.9 / 2014-03-18
+
+* added; new `AzureFile` field type, thanks [Juan Benavides Romero](https://github.com/jbalde)
+* added; new toolbar and preview mode for `Markdown` fields, thanks [Thomas Pedersen](https://github.com/thedersen)
+* fixed; issue with the 'new item' button on the item details page in the Admin UI triggering autocreate functionality incorrectly, thanks [Thomas Pedersen](https://github.com/thedersen)
+* fixed; redirect parameter for signin page now protects against open redirect attacks, thanks [Oliver Jenkins](https://github.com/oliverjenkins)
+* fixed; 'host is undefined' issue with certain configurations, see #241
+
 ## v0.2.8 / 2014-03-12
 
 * fixed; issues getting path options correctly on Windows (was causing update issues)
