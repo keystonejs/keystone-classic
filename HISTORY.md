@@ -1,6 +1,6 @@
 # Keystone
 
-## v0.2.9 / 2014-03-18
+## v0.2.10 / 2014-03-18
 
 * added; new `AzureFile` field type, thanks [Juan Benavides Romero](https://github.com/jbalde)
 * added; new toolbar and preview mode for `Markdown` fields, thanks [Thomas Pedersen](https://github.com/thedersen)
@@ -8,6 +8,8 @@
 * fixed; redirect parameter for signin page now protects against open redirect attacks, thanks [Oliver Jenkins](https://github.com/oliverjenkins)
 * fixed; 'host is undefined' issue with certain configurations, see #241
 * fixed; accented characters are converted correctly when generating slugs, thanks to [keystone-utils](https://github.com/JedWatson/keystone-utils) 0.1.7
+
+(emergency version bump from 0.2.9 because of white-space issue with new Jade version)
 
 ## v0.2.8 / 2014-03-12
 
