@@ -487,5 +487,23 @@ module.exports = Field.extend({
     ops.state = filter[2];
     ops.postcode = filter[3];
     ops.country = filter[4];
+  },
+
+  getSearchFilters: function (filter, filters) {
+    if (filter.address) {
+      filters[filter.field.paths.street1] = new RegExp(utils.escapeRegExp(filter.address), 'i');
+    }
+    if (filter.suburb) {
+      filters[filter.field.paths.suburb] = new RegExp(utils.escapeRegExp(filter.suburb), 'i');
+    }
+    if (filter.state) {
+      filters[filter.field.paths.state] = new RegExp(utils.escapeRegExp(filter.state), 'i');
+    }
+    if (filter.postcode) {
+      filters[filter.field.paths.postcode] = new RegExp(utils.escapeRegExp(filter.postcode), 'i');
+    }
+    if (filter.country) {
+      filters[filter.field.paths.country] = new RegExp(utils.escapeRegExp(filter.country), 'i');
+    }
   }
 });

@@ -119,5 +119,9 @@ module.exports = Field.extend({
 
   processFilters: function (ops, filter) {
     // TODO
+  },
+
+  getSearchFilters: function (filter, filters) {
+    // TODO
   }
 });

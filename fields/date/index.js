@@ -114,5 +114,20 @@ module.exports = Field.extend({
       filter.shift();
     }
     ops.value = filter[0];
+  },
+
+  getSearchFilters: function (filter, filters) {
+    var val = moment(filter.value);
+    if (val && val.isValid()) {
+      var start = moment(filter.value).startOf('day');
+      var end = moment(filter.value).endOf('day');
+      if (filter.operator == 'gt') {
+        filters[filter.field.path] = { $gt: end.toDate() };
+      } else if (filter.operator == 'lt') {
+        filters[filter.field.path] = { $lt: start.toDate() };
+      } else {
+        filters[filter.field.path] = { $lte: end.toDate(), $gte: start.toDate() };
+      }
+    }
   }
 });

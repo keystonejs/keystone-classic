@@ -343,6 +343,10 @@ module.exports = AzureFile = Field.extend({
 
   processFilters: function (ops, filter) {
     ops.value = (filter[0] == 'true') ? true : false;
+  },
+
+  getSearchFilters: function (filter, filters) {
+    // TODO
   }
 });
 

@@ -60,5 +60,13 @@ module.exports = Field.extend({
 
   processFilters: function (ops, filter) {
     ops.value = (filter[0] == 'true') ? true : false;
+  },
+
+  getSearchFilters: function (filter, filters) {
+    if (filter.value) {
+      filters[filter.field.path] = true;
+    } else {
+      filters[filter.field.path] = { $ne: true };
+    }
   }
 });

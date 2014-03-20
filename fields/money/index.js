@@ -88,5 +88,20 @@ module.exports = Field.extend({
       filter.shift();
     }
     ops.value = filter[0];
+  },
+
+  getSearchFilters: function (filter, filters) {
+    var val = utils.number(filter.value);
+    if (!isNaN(val)) {
+      if (filter.operator == 'gt') {
+        filters[filter.field.path] = { $gt: val };
+      } else if (filter.operator == 'lt') {
+        filters[filter.field.path] = { $lt: val };
+      } else {
+        filters[filter.field.path] = val;
+      }
+    } else {
+      filters[filter.field.path] = null;
+    }
   }
 });

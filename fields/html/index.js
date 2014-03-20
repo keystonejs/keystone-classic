@@ -22,5 +22,23 @@ module.exports = Field.extend({
 		this.height = options.height || 180;
 
 		Field.apply(this, arguments);
-	}
+	},
+
+  getSearchFilters: function (filter, filters) {
+    if (filter.exact) {
+      if (filter.value) {
+        var cond = new RegExp('^' + utils.escapeRegExp(filter.value) + '$', 'i');
+        filters[filter.field.path] = filter.inv ? { $not: cond } : cond;
+      } else {
+        if (filter.inv) {
+          filters[filter.field.path] = { $nin: ['', null] };
+        } else {
+          filters[filter.field.path] = { $in: ['', null] };
+        }
+      }
+    } else if (filter.value) {
+      var cond = new RegExp(utils.escapeRegExp(filter.value), 'i');
+      filters[filter.field.path] = filter.inv ? { $not: cond } : cond;
+    }
+  }
 });
