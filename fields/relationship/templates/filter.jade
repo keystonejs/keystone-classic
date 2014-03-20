@@ -1,0 +1,14 @@
+.btn-group.btn-group-xs(data-toggle='buttons')
+	button(type='button', class=ops.inv ? '' : 'active', data-opt='inv', data-value='false').btn.btn-default
+		input(type="radio", name="options")
+		| linked to
+	button(type='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
+		input(type="radio", name="options")
+		| not linked to
+input(type='hidden',
+	name=field.path,
+	id='field_' + field.path,
+	value=ops.value,
+	data-ref-path=field.refList.path,
+	data-ref-singular=field.refList.singular,
+	data-ref-plural=field.refList.plural).ui-select2-ref
