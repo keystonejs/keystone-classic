@@ -48,5 +48,17 @@ module.exports = Field.extend({
 		} else if (item.get(this.path)) {
 			item.set(this.path, false);
 		}
-	}
+	},
+
+  /**
+   * Processes a filter array into a filters object
+   *
+   * @param {Object} ops
+   * @param {Array} filter
+   * @api private
+   */
+
+  processFilters: function (ops, filter) {
+    ops.value = (filter[0] == 'true') ? true : false;
+  }
 });

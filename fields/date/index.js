@@ -98,5 +98,21 @@ module.exports = Field.extend({
 		} else if (item.get(this.path)) {
 			item.set(this.path, null);
 		}
-	}
+	},
+
+  /**
+   * Processes a filter array into a filters object
+   *
+   * @param {Object} ops
+   * @param {Array} filter
+   * @api private
+   */
+
+  processFilters: function (ops, filter) {
+    if (filter[0] == 'gt' || filter[0] == 'lt') {
+      ops.operator = filter[0];
+      filter.shift();
+    }
+    ops.value = filter[0];
+  }
 });

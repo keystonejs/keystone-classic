@@ -471,5 +471,21 @@ module.exports = Field.extend({
 	 */
 	milesFrom: function(item, point) {
 		return calculateDistance(this.get(this.paths.geo), point) * RADIUS_MILES;
-	}
+	},
+
+  /**
+   * Processes a filter array into a filters object
+   *
+   * @param {Object} ops
+   * @param {Array} filter
+   * @api private
+   */
+
+  processFilters: function (ops, filter) {
+    ops.address = filter[0];
+    ops.suburb = filter[1];
+    ops.state = filter[2];
+    ops.postcode = filter[3];
+    ops.country = filter[4];
+  }
 });

@@ -331,6 +331,18 @@ module.exports = AzureFile = Field.extend({
 
   handleRequest: function(item, req, paths, callback) {
     this.getRequestHandler(item, req, paths, callback)();
+  },
+
+  /**
+   * Processes a filter array into a filters object
+   *
+   * @param {Object} ops
+   * @param {Array} filter
+   * @api private
+   */
+
+  processFilters: function (ops, filter) {
+    ops.value = (filter[0] == 'true') ? true : false;
   }
 });
 

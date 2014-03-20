@@ -94,5 +94,17 @@ module.exports = Field.extend({
 		} else {
 			return data[this.path] ? true : false;
 		}
-	}
+	},
+
+  /**
+   * Processes a filter array into a filters object
+   *
+   * @param {Object} ops
+   * @param {Array} filter
+   * @api private
+   */
+
+  processFilters: function (ops, filter) {
+    // TODO
+  }
 });

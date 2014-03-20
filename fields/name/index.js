@@ -107,5 +107,17 @@ module.exports = Field.extend({
 		};
 
 		_.each(['full', 'first', 'last'], setValue);
-	}
+	},
+
+  /**
+   * Processes a filter array into a filters object
+   *
+   * @param {Object} ops
+   * @param {Array} filter
+   * @api private
+   */
+
+  processFilters: function (ops, filter) {
+    // TODO
+  }
 });
