@@ -475,10 +475,10 @@ block content
 			
 			a(name="fieldtypes-datetime")
 			h3 <code>Datetime</code>
-			h4 <code class="data-type">Date</code> &mdash; Displayed as a date and time picker in the Admin UI
+			h4 <code class="data-type">Datetime</code> &mdash; Displayed as a date and time picker in the Admin UI
 			p.note Input should either be a valid <strong>Date</strong>, or a string in the format <code class="default-value">YYYY-MM-DD</code> (can be blank unless field is required)
 			p.note To default Date fields to the current time, set the <code>default</code> option to <code>Date.now</code>
-			pre: code.language-javascript { type: Types.Date, default: Date.now }
+			pre: code.language-javascript { type: Types.Datetime, default: Date.now }
 			.options
 				
 				h5 Options:
@@ -784,6 +784,41 @@ block content
 			
 				h5 Underscore methods
 				p <code>uploadFile(file, update, callback)</code> - uploads a file to the s3 bucket, stores the details in the field and provides the file data to the callback.
+				ul
+					li <code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code>
+					li <code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes
+					li <code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)
+
+
+			a(name="fieldtypes-azurefile")
+			h3 <code>AzureFile</code>
+			h4 <code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI
+			p Automatically manages files stored in <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a>, including uploading and deleting.
+			pre: code.language-javascript { type: Types.AzureFile }
+			.options
+				
+				h5 Options
+				p <code>filenameFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new filename to upload.
+				pre: code.language-javascript { type: Types.AzureFile, filenameFormatter: function(item, filename) {
+					|	return item._id + require('path').extname(filename);
+					|} }
+				p <code>containerFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new container name (container are a root folder in Azure Storage Account).
+				pre: code.language-javascript { type: Types.AzureFile, containerFormatter: containerFormatter: function(item, filename) {
+					|	return item.modelProperty;
+					|} }
+				
+				h5 Schema
+				p <code>filename</code> <code class="data-type">String</code>
+				p <code>type</code> <code class="data-type">String</code>
+				p <code>filesize</code> <code class="data-type">Number</code>
+				p <code>url</code> <code class="data-type">String</code>
+				p <code>etag</code> <code class="data-type">String</code>
+				
+				h5 Virtuals
+				<code>exists</code> <code class="data-type">Boolean</code> - whether there is a stored file
+				
+				h5 Underscore methods
+				p <code>uploadFile(file, update, callback)</code> - uploads a file to the Azure Storage Account, stores the details in the field and provides the file data to the callback.
 				ul
 					li <code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code>
 					li <code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes

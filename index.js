@@ -660,7 +660,7 @@ Keystone.prototype.start = function(onStart) {
 					app.set('port', port);
 					
 					if (keystone.get('host')) {
-						keystone.httpServer.listen(port, keystone.get('host'), httpStarted(keystone.get('name') + ' is ready on ' + host + ':' + port));
+						keystone.httpServer.listen(port, keystone.get('host'), httpStarted(keystone.get('name') + ' is ready on ' + keystone.get('host') + ':' + port));
 					} else {
 						keystone.httpServer.listen(port, httpStarted(keystone.get('name') + ' is ready on port ' + port));
 					}

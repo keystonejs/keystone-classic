@@ -306,7 +306,6 @@ block content
 					a(href='/keystone/#{list.path}').btn.btn-link.btn-cancel clear filters
 			
 	if items.results.length
-		
 		//-
 		//- Pagination
 		//- ------------------------------
@@ -319,7 +318,6 @@ block content
 						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
 			else
 				.count Showing #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)}
-		
 		
 		
 		- var sortable = list.get('sortable') && !list.get('sortContext') && sort.by == 'sortOrder'
