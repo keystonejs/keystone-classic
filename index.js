@@ -491,18 +491,10 @@ Keystone.prototype.start = function(onStart) {
 		this.routes(app);
 	}
 	
- 	// Wraps a message in the default HTML error template
- 	// TODO: Put the template somewhere better!
-	var wrapHTMLError = function(title, err) {
-		return "<html><head><meta charset='utf-8'><title>Error</title>" +
-		"<link rel='stylesheet' href='/keystone/styles/error.css'>" +
-		"</head><body><div class='error'><h1 class='error-title'>" + title + "</h1>" + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
-	}
-	
 	// Handle 404 (no route matched) errors
 	
 	var default404Handler = function(req, res, next) {
-		res.status(404).send(wrapHTMLError("Sorry, no page could be found at this address (404)"));
+		res.status(404).send(keystone.wrapHTMLError("Sorry, no page could be found at this address (404)"));
 	}
 	
 	app.use(function(req, res, next) {
@@ -559,7 +551,7 @@ Keystone.prototype.start = function(onStart) {
 			}
 		}
 		
-		res.status(500).send(wrapHTMLError("Sorry, an error occurred loading the page (500)", msg));
+		res.status(500).send(keystone.wrapHTMLError("Sorry, an error occurred loading the page (500)", msg));
 	}
 	
 	app.use(function(err, req, res, next) {
@@ -1177,6 +1169,18 @@ Keystone.prototype.populateRelated = function(docs, relationships, callback) {
 		callback();
 	}
 	
+}
+
+/**
+ * Wraps an error in simple HTML to be sent as a response to the browser
+ * 
+ * @api public
+ */
+
+Keystone.prototype.wrapHTMLError = function(title, err) {
+	return "<html><head><meta charset='utf-8'><title>Error</title>" +
+	"<link rel='stylesheet' href='/keystone/styles/error.css'>" +
+	"</head><body><div class='error'><h1 class='error-title'>" + title + "</h1>" + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
 }
 
 /**
