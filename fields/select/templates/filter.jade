@@ -1,0 +1,11 @@
+.btn-group.btn-group-xs(data-toggle='buttons')
+	button(type='button', class=!ops.inv ? 'active' : '').btn.btn-default
+		input(type='radio', name='options')
+		| is
+	button(type='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
+		input(type='radio', name='options')
+		| is not
+.filter-input.filter-input-md: select(name=field.path).ui-select2
+	option(value='')
+	each op in field.ops
+		option(value=op.value, selected=ops.value == op.value)= op.label

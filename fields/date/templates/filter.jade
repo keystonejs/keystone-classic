@@ -1,0 +1,11 @@
+.btn-group.btn-group-xs(data-toggle='buttons')
+	button(type='button', class=(!ops.operator) ? 'active' : '').btn.btn-default
+		input(type='radio', name='options')
+		| on
+	button(type='button', class=ops.operator == 'gt' ? 'active' : '', data-opt='operator', data-value='gt').btn.btn-default
+		input(type='radio', name='options')
+		| after
+	button(type='button', class=ops.operator == 'lt' ? 'active' : '', data-opt='operator', data-value='lt').btn.btn-default
+		input(type='radio', name='options')
+		| before
+.filter-input.filter-input-md: input(type='text', name='value', value=ops.value).form-control.input-xs.ui-datepicker

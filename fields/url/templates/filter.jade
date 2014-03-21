@@ -1,0 +1,9 @@
+.btn-group.btn-group-xs(data-toggle='buttons')
+	button(type='button', class=!ops.exact ? 'active' : '').btn.btn-default
+		input(type='radio', name='options')
+		| contains
+	button(type='button', class=ops.exact ? 'active' : '', data-opt='exact', data-value='true').btn.btn-default
+		input(type='radio', name='options')
+		| exact match
+.filter-input.filter-input-md: input(type='text', name='value', value=ops.value).form-control.input-xs
+button(type='button', data-toggle='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-xs.btn-default invert
