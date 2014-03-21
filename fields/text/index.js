@@ -28,21 +28,21 @@ module.exports = Field.extend({
 		return utils.cropString(item.get(this.path), length, append, preserveWords);
 	},
 
-  getSearchFilters: function (filter, filters) {
-    if (filter.exact) {
-      if (filter.value) {
-        var cond = new RegExp('^' + utils.escapeRegExp(filter.value) + '$', 'i');
-        filters[filter.field.path] = filter.inv ? { $not: cond } : cond;
-      } else {
-        if (filter.inv) {
-          filters[filter.field.path] = { $nin: ['', null] };
-        } else {
-          filters[filter.field.path] = { $in: ['', null] };
-        }
-      }
-    } else if (filter.value) {
-      var cond = new RegExp(utils.escapeRegExp(filter.value), 'i');
-      filters[filter.field.path] = filter.inv ? { $not: cond } : cond;
-    }
-  }
+	getSearchFilters: function (filter, filters) {
+		if (filter.exact) {
+			if (filter.value) {
+				var cond = new RegExp('^' + utils.escapeRegExp(filter.value) + '$', 'i');
+				filters[filter.field.path] = filter.inv ? { $not: cond } : cond;
+			} else {
+				if (filter.inv) {
+					filters[filter.field.path] = { $nin: ['', null] };
+				} else {
+					filters[filter.field.path] = { $in: ['', null] };
+				}
+			}
+		} else if (filter.value) {
+			var cond = new RegExp(utils.escapeRegExp(filter.value), 'i');
+			filters[filter.field.path] = filter.inv ? { $not: cond } : cond;
+		}
+	}
 });

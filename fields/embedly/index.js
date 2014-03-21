@@ -5,8 +5,8 @@
 var _ = require('underscore'),
 	EmbedlyAPI = require('embedly'),
 	utils = require('keystone-utils'),
-  keystone = require('../../'),
-  Field = keystone.Field;
+	keystone = require('../../'),
+	Field = keystone.Field;
 
 module.exports = Field.extend({
 	/**

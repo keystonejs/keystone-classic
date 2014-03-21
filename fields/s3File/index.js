@@ -8,8 +8,8 @@ var _ = require('underscore'),
 	knox = require('knox'),
 	// s3 = require('s3'),
 	utils = require('keystone-utils'),
-  keystone = require('../../'),
-  Field = keystone.Field;
+	keystone = require('../../'),
+	Field = keystone.Field;
 
 module.exports = S3File = Field.extend({
 	/**
@@ -327,21 +327,21 @@ module.exports = S3File = Field.extend({
 		this.getRequestHandler(item, req, paths, callback)();
 	},
 
-  /**
-   * Processes a filter array into a filters object
-   *
-   * @param {Object} ops
-   * @param {Array} filter
-   * @api private
-   */
+	/**
+	 * Processes a filter array into a filters object
+	 *
+	 * @param {Object} ops
+	 * @param {Array} filter
+	 * @api private
+	 */
 
-  processFilters: function (ops, filter) {
-    ops.value = (filter[0] == 'true') ? true : false;
-  },
+	processFilters: function (ops, filter) {
+		ops.value = (filter[0] == 'true') ? true : false;
+	},
 
-  getSearchFilters: function (filter, filters) {
-    // TODO
-  }
+	getSearchFilters: function (filter, filters) {
+		// TODO
+	}
 });
 
 

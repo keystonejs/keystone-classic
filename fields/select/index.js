@@ -4,8 +4,8 @@
 
 var _ = require('underscore'),
 	utils = require('keystone-utils'),
-  keystone = require('../../'),
-  Field = keystone.Field;
+	keystone = require('../../'),
+	Field = keystone.Field;
 
 module.exports = Field.extend({
 	/**
@@ -141,11 +141,11 @@ module.exports = Field.extend({
 		return this.labels[item.get(this.path)];
 	},
 
-  getSearchFilters: function (filter, filters) {
-    if (filter.value) {
-      filters[filter.field.path] = (filter.inv) ? { $ne: filter.value } : filter.value;
-    } else {
-      filters[filter.field.path] = (filter.inv) ? { $nin: ['', null] } : { $in: ['', null] };
-    }
-  }
+	getSearchFilters: function (filter, filters) {
+		if (filter.value) {
+			filters[filter.field.path] = (filter.inv) ? { $ne: filter.value } : filter.value;
+		} else {
+			filters[filter.field.path] = (filter.inv) ? { $nin: ['', null] } : { $in: ['', null] };
+		}
+	}
 });

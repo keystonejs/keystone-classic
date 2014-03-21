@@ -3,13 +3,13 @@
  */
 
 var utils = require('keystone-utils'),
-  keystone = require('../../'),
-  Field = keystone.Field;
+	keystone = require('../../'),
+	Field = keystone.Field;
 
 /**
-  * Gets the mime type for the specified language
-  * @api private
-  */
+	* Gets the mime type for the specified language
+	* @api private
+	*/
 function getMime(lang) {
 	var mime;
 

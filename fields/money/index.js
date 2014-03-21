@@ -4,8 +4,8 @@
 
 var numeral = require('numeral'),
 	utils = require('keystone-utils'),
-  keystone = require('../../'),
-  Field = keystone.Field;
+	keystone = require('../../'),
+	Field = keystone.Field;
 
 module.exports = Field.extend({
 	/**
@@ -74,34 +74,34 @@ module.exports = Field.extend({
 		}
 	},
 
-  /**
-   * Processes a filter array into a filters object
-   *
-   * @param {Object} ops
-   * @param {Array} filter
-   * @api private
-   */
+	/**
+	 * Processes a filter array into a filters object
+	 *
+	 * @param {Object} ops
+	 * @param {Array} filter
+	 * @api private
+	 */
 
-  processFilters: function (ops, filter) {
-    if (filter[0] == 'gt' || filter[0] == 'lt') {
-      ops.operator = filter[0];
-      filter.shift();
-    }
-    ops.value = filter[0];
-  },
+	processFilters: function (ops, filter) {
+		if (filter[0] == 'gt' || filter[0] == 'lt') {
+			ops.operator = filter[0];
+			filter.shift();
+		}
+		ops.value = filter[0];
+	},
 
-  getSearchFilters: function (filter, filters) {
-    var val = utils.number(filter.value);
-    if (!isNaN(val)) {
-      if (filter.operator == 'gt') {
-        filters[filter.field.path] = { $gt: val };
-      } else if (filter.operator == 'lt') {
-        filters[filter.field.path] = { $lt: val };
-      } else {
-        filters[filter.field.path] = val;
-      }
-    } else {
-      filters[filter.field.path] = null;
-    }
-  }
+	getSearchFilters: function (filter, filters) {
+		var val = utils.number(filter.value);
+		if (!isNaN(val)) {
+			if (filter.operator == 'gt') {
+				filters[filter.field.path] = { $gt: val };
+			} else if (filter.operator == 'lt') {
+				filters[filter.field.path] = { $lt: val };
+			} else {
+				filters[filter.field.path] = val;
+			}
+		} else {
+			filters[filter.field.path] = null;
+		}
+	}
 });

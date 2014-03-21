@@ -6,7 +6,7 @@ block js
 	script(src='/keystone/js/views/list.js')
 	script.
 		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)} };
-
+			
 block content
 	//-
 	//- Create Item
@@ -28,10 +28,10 @@ block content
 								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
 							else
 								.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
-
+						
 						each field in list.initialFields
 							|!{field.render('initial',submitted) }
-
+					
 					.toolbar
 						.toolbar-create
 							button(type='submit').btn.btn-default.btn-create Create
@@ -39,13 +39,13 @@ block content
 						.toolbar-default
 							a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
 		hr
-
+	
 	//-
 	//- List
 	//- ------------------------------
-
+	
 	- var xFilters = _.size(filters);
-
+	
 	.page-header.list-header(class=!items.total && !search && !xFilters ? 'empty-list' : '')
 		h1
 			if items.total
@@ -54,19 +54,19 @@ block content
 				span No #{list.plural.toLowerCase()} found
 					= search || xFilters ? '' : '.'
 			if search
-				span.text-muted  matching
+				span.text-muted  matching  
 				span=search
 				if xFilters
-					span.text-muted  and
+					span.text-muted  and 
 					span= utils.plural(xFilters, '* other filter')
 			else if xFilters
-				span.text-muted  matching
+				span.text-muted  matching 
 				span= utils.plural(xFilters, '* filter')
-
+			
 			//- Sort
 			if items.results.length
 				if sort.by
-					span.text-muted  ordered by
+					span.text-muted  ordered by 
 				else
 					span.text-muted &mdash;
 				span.dropdown.list-sort-dropdown
@@ -74,9 +74,9 @@ block content
 						if sort.label
 							= sort.label.toLowerCase() + ' '
 							if sort.inv
-								|  (descending)
+								|  (descending) 
 						else
-							| sort by
+							| sort by 
 						b.caret
 					ul.dropdown-menu
 						if list.get('sortable')
@@ -110,13 +110,13 @@ block content
 										li: a(href=link_to({ sort: el.field.path }))
 											span(class='fieldicon fieldicon-' + el.field.type)
 											span= el.field.label
-
-
+		
+		
 		//-
 		//- Filters
 		//- ------------------------------
 		form#list-filters
-
+			
 			//-
 			//- Search Bar
 			//- ------------------------------
@@ -131,11 +131,11 @@ block content
 							.col-xs-2.col-sm-3.col-md-2.search-button: button(type='submit').btn.btn-default.btn-search.btn-block
 								span.visible-xs Go
 								span.hidden-xs Search
-
+					
 					.col-xs-4.col-sm-2
 						.dropdown.list-filter-dropdown
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Add Filter...
+								| Add Filter... 
 								b.caret
 							ul.dropdown-menu: each el in list.uiElements
 								if el.type == 'heading'
@@ -144,7 +144,7 @@ block content
 									li: a(href=js, data-path=el.field.path).add-list-filter
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
-
+					
 					//- lg screens only
 					//- columns and download aren't relevant when using a mobile device
 					.col-sm-4.hidden-xs: .pull-right
@@ -152,7 +152,7 @@ block content
 							a(href=download_link).btn.btn-default Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Columns
+								| Columns 
 								b.caret
 							ul.dropdown-menu
 								each el in list.uiElements
@@ -167,8 +167,8 @@ block content
 									li: a(href=link_to({ cols: undefined }))
 										span.glyphicon.glyphicon-remove-circle.icon
 										span Reset to default
-
-
+			
+			
 			//-
 			//- List Filters
 			//- ------------------------------
@@ -182,16 +182,16 @@ block content
 								.btn-companion-xs=field.label
 							.filter-options
 								|!{field.render('filter', {}, {ops: filters[field.path] || {}})}
-
+								
 				.list-filters-action
 					button(type='submit').btn.btn-default.btn-filter Search
 					a(href='/keystone/#{list.path}').btn.btn-link.btn-cancel clear filters
-
+			
 	if items.results.length
 		//-
 		//- Pagination
 		//- ------------------------------
-
+		
 		.list-pagination
 			if items.totalPages > 1
 				.count Showing #{items.first} to #{items.last} of #{numeral(items.total).format('1,1')}
@@ -200,8 +200,8 @@ block content
 						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
 			else
 				.count Showing #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)}
-
-
+		
+		
 		- var sortable = list.get('sortable') && !list.get('sortContext') && sort.by == 'sortOrder'
 		- var firstColspan = 1;
 		table(cellpadding=0, cellspacing=0, class=sortable ? 'sortable' : false, data-list-path=list.path).table.table-striped.items-list
@@ -240,10 +240,11 @@ block content
 						each col, i in columns
 							td
 								+column(list, col, item)
-
+								
 		if items.totalPages > 1
 			.list-pagination
 				.count Showing #{items.first} to #{items.last} of #{numeral(items.total).format('1,1')}
 				ul.pagination: each p, i in items.pages
 					li(class=items.currentPage == p ? 'active' : null)
 						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
+	

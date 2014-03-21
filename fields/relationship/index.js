@@ -4,8 +4,8 @@
 
 var _ = require('underscore'),
 	utils = require('keystone-utils'),
-  keystone = require('../../'),
-  Field = keystone.Field;
+	keystone = require('../../'),
+	Field = keystone.Field;
 
 module.exports = Relationship = Field.extend({
 	/**
@@ -165,24 +165,24 @@ module.exports = Relationship = Field.extend({
 		});
 	},
 
-  getSearchFilters: function (filter, filters) {
-    if (filter.value) {
-      if (filter.field.many) {
-        filters[filter.field.path] = (filter.inv) ? { $nin: [filter.value] } : { $in: [filter.value] };
-      } else {
-        filters[filter.field.path] = (filter.inv) ? { $ne: filter.value } : filter.value;
-      }
-    } else {
-      if (filter.field.many) {
-        filters[filter.field.path] = (filter.inv) ? { $not: { $size: 0 } } : { $size: 0 };
-      } else {
-        filters[filter.field.path] = (filter.inv) ? { $ne: null } : null;
-      }
-    }
-    // TODO: Searching on "not linked to" (null) values seems to return all results.
-    // console.log(filter.field.path + ':');
-    // console.log(filters[filter.field.path]);
-  }
+	getSearchFilters: function (filter, filters) {
+		if (filter.value) {
+			if (filter.field.many) {
+				filters[filter.field.path] = (filter.inv) ? { $nin: [filter.value] } : { $in: [filter.value] };
+			} else {
+				filters[filter.field.path] = (filter.inv) ? { $ne: filter.value } : filter.value;
+			}
+		} else {
+			if (filter.field.many) {
+				filters[filter.field.path] = (filter.inv) ? { $not: { $size: 0 } } : { $size: 0 };
+			} else {
+				filters[filter.field.path] = (filter.inv) ? { $ne: null } : null;
+			}
+		}
+		// TODO: Searching on "not linked to" (null) values seems to return all results.
+		// console.log(filter.field.path + ':');
+		// console.log(filters[filter.field.path]);
+	}
 });
 
 /**

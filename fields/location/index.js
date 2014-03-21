@@ -6,8 +6,8 @@ var _ = require('underscore'),
 	querystring = require('querystring'),
 	https = require('https'),
 	utils = require('keystone-utils'),
-  keystone = require('../../'),
-  Field = keystone.Field;
+	keystone = require('../../'),
+	Field = keystone.Field;
 
 var RADIUS_KM = 6371,
 	RADIUS_MILES = 3959;
@@ -473,37 +473,37 @@ module.exports = Field.extend({
 		return calculateDistance(this.get(this.paths.geo), point) * RADIUS_MILES;
 	},
 
-  /**
-   * Processes a filter array into a filters object
-   *
-   * @param {Object} ops
-   * @param {Array} filter
-   * @api private
-   */
+	/**
+	 * Processes a filter array into a filters object
+	 *
+	 * @param {Object} ops
+	 * @param {Array} filter
+	 * @api private
+	 */
 
-  processFilters: function (ops, filter) {
-    ops.address = filter[0];
-    ops.suburb = filter[1];
-    ops.state = filter[2];
-    ops.postcode = filter[3];
-    ops.country = filter[4];
-  },
+	processFilters: function (ops, filter) {
+		ops.address = filter[0];
+		ops.suburb = filter[1];
+		ops.state = filter[2];
+		ops.postcode = filter[3];
+		ops.country = filter[4];
+	},
 
-  getSearchFilters: function (filter, filters) {
-    if (filter.address) {
-      filters[filter.field.paths.street1] = new RegExp(utils.escapeRegExp(filter.address), 'i');
-    }
-    if (filter.suburb) {
-      filters[filter.field.paths.suburb] = new RegExp(utils.escapeRegExp(filter.suburb), 'i');
-    }
-    if (filter.state) {
-      filters[filter.field.paths.state] = new RegExp(utils.escapeRegExp(filter.state), 'i');
-    }
-    if (filter.postcode) {
-      filters[filter.field.paths.postcode] = new RegExp(utils.escapeRegExp(filter.postcode), 'i');
-    }
-    if (filter.country) {
-      filters[filter.field.paths.country] = new RegExp(utils.escapeRegExp(filter.country), 'i');
-    }
-  }
+	getSearchFilters: function (filter, filters) {
+		if (filter.address) {
+			filters[filter.field.paths.street1] = new RegExp(utils.escapeRegExp(filter.address), 'i');
+		}
+		if (filter.suburb) {
+			filters[filter.field.paths.suburb] = new RegExp(utils.escapeRegExp(filter.suburb), 'i');
+		}
+		if (filter.state) {
+			filters[filter.field.paths.state] = new RegExp(utils.escapeRegExp(filter.state), 'i');
+		}
+		if (filter.postcode) {
+			filters[filter.field.paths.postcode] = new RegExp(utils.escapeRegExp(filter.postcode), 'i');
+		}
+		if (filter.country) {
+			filters[filter.field.paths.country] = new RegExp(utils.escapeRegExp(filter.country), 'i');
+		}
+	}
 });

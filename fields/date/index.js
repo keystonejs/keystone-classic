@@ -4,8 +4,8 @@
 
 var moment = require('moment'),
 	utils = require('keystone-utils'),
-  keystone = require('../../'),
-  Field = keystone.Field;
+	keystone = require('../../'),
+	Field = keystone.Field;
 
 
 module.exports = Field.extend({
@@ -100,34 +100,34 @@ module.exports = Field.extend({
 		}
 	},
 
-  /**
-   * Processes a filter array into a filters object
-   *
-   * @param {Object} ops
-   * @param {Array} filter
-   * @api private
-   */
+	/**
+	 * Processes a filter array into a filters object
+	 *
+	 * @param {Object} ops
+	 * @param {Array} filter
+	 * @api private
+	 */
 
-  processFilters: function (ops, filter) {
-    if (filter[0] == 'gt' || filter[0] == 'lt') {
-      ops.operator = filter[0];
-      filter.shift();
-    }
-    ops.value = filter[0];
-  },
+	processFilters: function (ops, filter) {
+		if (filter[0] == 'gt' || filter[0] == 'lt') {
+			ops.operator = filter[0];
+			filter.shift();
+		}
+		ops.value = filter[0];
+	},
 
-  getSearchFilters: function (filter, filters) {
-    var val = moment(filter.value);
-    if (val && val.isValid()) {
-      var start = moment(filter.value).startOf('day');
-      var end = moment(filter.value).endOf('day');
-      if (filter.operator == 'gt') {
-        filters[filter.field.path] = { $gt: end.toDate() };
-      } else if (filter.operator == 'lt') {
-        filters[filter.field.path] = { $lt: start.toDate() };
-      } else {
-        filters[filter.field.path] = { $lte: end.toDate(), $gte: start.toDate() };
-      }
-    }
-  }
+	getSearchFilters: function (filter, filters) {
+		var val = moment(filter.value);
+		if (val && val.isValid()) {
+			var start = moment(filter.value).startOf('day');
+			var end = moment(filter.value).endOf('day');
+			if (filter.operator == 'gt') {
+				filters[filter.field.path] = { $gt: end.toDate() };
+			} else if (filter.operator == 'lt') {
+				filters[filter.field.path] = { $lt: start.toDate() };
+			} else {
+				filters[filter.field.path] = { $lte: end.toDate(), $gte: start.toDate() };
+			}
+		}
+	}
 });
