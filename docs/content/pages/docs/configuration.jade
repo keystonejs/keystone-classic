@@ -119,6 +119,10 @@ block content
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
 					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).
+
+				tr
+					td <code>trust proxy</code> <code class="data-type">Boolean</code>
+					td Set this to enable processing of the HTTP request <code>X-Forwarded-For</code> header. Extracted IP addresses will be available as the array <code>req.ips</code> (<a href="http://expressjs.com/api.html#req.ips">see docs here</a>).
 		
 			a(name='options-ssl')
 			h3 HTTPS Web Server Options

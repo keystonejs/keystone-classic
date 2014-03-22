@@ -468,6 +468,14 @@ Keystone.prototype.start = function(onStart) {
 	} else if ('function' == typeof this.get('session')) {
 		app.use(this.get('session'));
 	}
+
+	// Process 'X-Forwarded-For' request header
+
+	if (this.get('trust proxy') === true) {
+		app.enable('trust proxy');
+	} else {
+		app.disable('trust proxy');
+	}
 	
 	// Pre-route middleware
 	
