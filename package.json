@@ -26,7 +26,8 @@
     "numeral": "~1.5.3",
     "semver": "~2.2.1",
     "knox": "~0.8.9",
-    "azure": "~0.8.1"
+    "azure": "~0.8.1",
+    "range_check": "~0.0.4"
   },
   "author": "Jed Watson",
   "license": "MIT",
