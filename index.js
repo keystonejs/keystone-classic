@@ -61,6 +61,7 @@ var Keystone = function() {
 	this.set('ga domain', process.env.GA_DOMAIN);
 	this.set('chartbeat property', process.env.CHARTBEAT_PROPERTY);
 	this.set('chartbeat domain', process.env.CHARTBEAT_DOMAIN);
+	this.set('allowed ip ranges', process.env.ALLOWED_IP_RANGES);
 	
 	if (process.env.S3_BUCKET && process.env.S3_KEY && process.env.S3_SECRET) {
 		this.set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET });
@@ -477,6 +478,19 @@ Keystone.prototype.start = function(onStart) {
 		app.disable('trust proxy');
 	}
 	
+	// Check for IP range restrictions
+
+	if (this.get('allowed ip ranges')) {
+		if (!app.get('trust proxy')) {
+			throw new Error("KeystoneJS Initialisaton Error:\n\nto set IP range restrictions the 'trust proxy' setting must be enabled.\n\n");
+		}
+		var ipRangeMiddleware = require('./lib/security').ipRangeRestrict(
+			this.get('allowed ip ranges'),
+			keystone.wrapHTMLError
+		);
+		this.pre('routes', ipRangeMiddleware);
+	}
+
 	// Pre-route middleware
 	
 	this._pre.routes.forEach(function(fn) {
