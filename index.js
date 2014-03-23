@@ -478,6 +478,19 @@ Keystone.prototype.start = function(onStart) {
 		app.disable('trust proxy');
 	}
 	
+	// Check for IP range restrictions
+
+	if (this.get('allowed ip ranges')) {
+		if (!app.get('trust proxy')) {
+			throw new Error("KeystoneJS Initialisaton Error:\n\nto set IP range restrictions the 'trust proxy' setting must be enabled.\n\n");
+		}
+		var ipRangeMiddleware = require('./lib/security').ipRangeRestrict(
+			this.get('allowed ip ranges'),
+			keystone.wrapHTMLError
+		);
+		this.pre('routes', ipRangeMiddleware);
+	}
+
 	// Pre-route middleware
 	
 	this._pre.routes.forEach(function(fn) {
