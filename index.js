@@ -38,6 +38,11 @@ var Keystone = function() {
 		render: []
 	};
 	
+	// expose express
+	
+	this.express = express;
+	
+	
 	// init environment defaults
 	
 	this.set('env', process.env.NODE_ENV || 'development');
@@ -284,11 +289,13 @@ Keystone.prototype.init = function(options) {
 	
 	this.options(options);
 	
-	if (!this.app)
-		this.app = require('express')();
+	if (!this.app) {
+		this.app = express();
+	}
 	
-	if (!this.mongoose)
+	if (!this.mongoose) {
 		this.connect(require('mongoose'));
+	}
 	
 	return this;
 	
