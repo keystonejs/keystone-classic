@@ -119,6 +119,10 @@ block content
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
 					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).
+
+				tr
+					td <code>trust proxy</code> <code class="data-type">Boolean</code>
+					td Set this to enable processing of the HTTP request <code>X-Forwarded-For</code> header. Extracted IP addresses will be available as the array <code>req.ips</code> (<a href="http://expressjs.com/api.html#req.ips">see docs here</a>).
 		
 			a(name='options-ssl')
 			h3 HTTPS Web Server Options
@@ -272,11 +276,11 @@ block content
 			
 			
 			a(name='services-azure')
-			h3 Windows Azure
+			h3 Windows Azure Storage
 			
-			p KeystoneJS supports <a href="http://www.windowsazure.com/" target="_blank">Windows Azure</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.
+			p KeystoneJS supports <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.
 			
-			p To use the AzureFile field in your app, <a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">sign up for an account</a>, @TODO Next Steps
+			p To use the AzureFile field in your app, <a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">sign up for an account</a>, enter into <a href="https://manage.windowsazure.com/">Azure Management Portal</a>. Create a storage account with new(button), data services, storage. In storage account page get the access (account name, key (valid primary or secondary key)) with the button "manage access key".
 			
 			p Then set the <code>azurefile config</code> option to an object containing your configuration (see example below).
 			

@@ -1,3 +1,5 @@
+if (module.parent) return;
+
 /**
 	These tests are currently designed to be run from the command line like
 	`/keystone/tests node dates`

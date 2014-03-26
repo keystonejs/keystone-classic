@@ -61,6 +61,7 @@ var Keystone = function() {
 	this.set('ga domain', process.env.GA_DOMAIN);
 	this.set('chartbeat property', process.env.CHARTBEAT_PROPERTY);
 	this.set('chartbeat domain', process.env.CHARTBEAT_DOMAIN);
+	this.set('allowed ip ranges', process.env.ALLOWED_IP_RANGES);
 	
 	if (process.env.S3_BUCKET && process.env.S3_KEY && process.env.S3_SECRET) {
 		this.set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET });
@@ -468,7 +469,28 @@ Keystone.prototype.start = function(onStart) {
 	} else if ('function' == typeof this.get('session')) {
 		app.use(this.get('session'));
 	}
+
+	// Process 'X-Forwarded-For' request header
+
+	if (this.get('trust proxy') === true) {
+		app.enable('trust proxy');
+	} else {
+		app.disable('trust proxy');
+	}
 	
+	// Check for IP range restrictions
+
+	if (this.get('allowed ip ranges')) {
+		if (!app.get('trust proxy')) {
+			throw new Error("KeystoneJS Initialisaton Error:\n\nto set IP range restrictions the 'trust proxy' setting must be enabled.\n\n");
+		}
+		var ipRangeMiddleware = require('./lib/security').ipRangeRestrict(
+			this.get('allowed ip ranges'),
+			keystone.wrapHTMLError
+		);
+		this.pre('routes', ipRangeMiddleware);
+	}
+
 	// Pre-route middleware
 	
 	this._pre.routes.forEach(function(fn) {
@@ -491,18 +513,10 @@ Keystone.prototype.start = function(onStart) {
 		this.routes(app);
 	}
 	
- 	// Wraps a message in the default HTML error template
- 	// TODO: Put the template somewhere better!
-	var wrapHTMLError = function(title, err) {
-		return "<html><head><meta charset='utf-8'><title>Error</title>" +
-		"<link rel='stylesheet' href='/keystone/styles/error.css'>" +
-		"</head><body><div class='error'><h1 class='error-title'>" + title + "</h1>" + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
-	}
-	
 	// Handle 404 (no route matched) errors
 	
 	var default404Handler = function(req, res, next) {
-		res.status(404).send(wrapHTMLError("Sorry, no page could be found at this address (404)"));
+		res.status(404).send(keystone.wrapHTMLError("Sorry, no page could be found at this address (404)"));
 	}
 	
 	app.use(function(req, res, next) {
@@ -559,7 +573,7 @@ Keystone.prototype.start = function(onStart) {
 			}
 		}
 		
-		res.status(500).send(wrapHTMLError("Sorry, an error occurred loading the page (500)", msg));
+		res.status(500).send(keystone.wrapHTMLError("Sorry, an error occurred loading the page (500)", msg));
 	}
 	
 	app.use(function(err, req, res, next) {
@@ -660,7 +674,7 @@ Keystone.prototype.start = function(onStart) {
 					app.set('port', port);
 					
 					if (keystone.get('host')) {
-						keystone.httpServer.listen(port, keystone.get('host'), httpStarted(keystone.get('name') + ' is ready on ' + host + ':' + port));
+						keystone.httpServer.listen(port, keystone.get('host'), httpStarted(keystone.get('name') + ' is ready on ' + keystone.get('host') + ':' + port));
 					} else {
 						keystone.httpServer.listen(port, httpStarted(keystone.get('name') + ' is ready on port ' + port));
 					}
@@ -1177,6 +1191,18 @@ Keystone.prototype.populateRelated = function(docs, relationships, callback) {
 		callback();
 	}
 	
+}
+
+/**
+ * Wraps an error in simple HTML to be sent as a response to the browser
+ * 
+ * @api public
+ */
+
+Keystone.prototype.wrapHTMLError = function(title, err) {
+	return "<html><head><meta charset='utf-8'><title>Error</title>" +
+	"<link rel='stylesheet' href='/keystone/styles/error.css'>" +
+	"</head><body><div class='error'><h1 class='error-title'>" + title + "</h1>" + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
 }
 
 /**
