@@ -19,10 +19,10 @@ html
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 		block head
 		
-	body
+	body(id='page-' + page)
 		#wrap
 			nav(role='navigation')#header.navbar.navbar-default.navbar-static-top: .container
-				a(href='/').navbar-backtobrand.hidden-xs: span.glyphicon.glyphicon-arrow-left
+				a(href=backUrl).navbar-backtobrand.hidden-xs: span.glyphicon.glyphicon-arrow-left
 				.navbar-header
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-headernav-collapse')
 						span.sr-only Toggle section navigation
@@ -83,6 +83,7 @@ html
 		script(src="/keystone/js/lib/select2/select2-3.3.2.min.js")
 		script(src="/keystone/js/lib/pikaday/pikaday-1.1.0.js")
 		script(src="/keystone/js/lib/pikaday/pikaday.jquery-1.1.0.js")
+		script(src="/keystone/js/lib/jquery-placeholder-shim/jquery-placeholder-shim.js")
 		
 		//- App
 		script.

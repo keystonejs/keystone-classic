@@ -262,6 +262,23 @@ label.checkbox {
 	}
 }
 
+
+
+// Code
+.field.type-code {
+	.CodeMirror {
+		.form-control;
+		height: 300px;
+		padding: 0px;
+	}
+
+	.CodeMirror-gutters {
+		background-color: transparent;
+	}
+}
+
+
+
 // Cloudinary Images
 
 // - Singluar
@@ -532,10 +549,100 @@ label.checkbox {
 	}
 }
 
+
+// Azure File
+.field.type-azurefile	 {
+	.file-preview {
+		position: relative;
+		line-height: 0px;
+		float: left;
+		margin-right: 10px;
+	}
+	
+	.file-details {
+		overflow: hidden;
+		.file-values {
+			.field-value {
+				width: auto;
+				min-width: 1px;
+				float: left;
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+		}
+		.file-message {
+			margin-left: 0px;
+			font-size: 12px;
+			width: 110px;
+			text-align: center;
+			width: 100%;
+		}
+	}
+	
+	.file-details + .file-toolbar {
+		margin-top: @input-vspacing;
+	}
+	
+	.upload-queued, .delete-queued {
+		display: none;
+		.alert {
+			margin-right: 10px;
+			margin-bottom: 10px;
+			float: left;
+			padding: 6px 12px;
+		}
+	}
+}
+
+
+// Local File
+.field.type-localfile {
+  .file-preview {
+    position: relative;
+    line-height: 0px;
+    float: left;
+    margin-right: 10px;
+  }
+
+  .file-details {
+    overflow: hidden;
+    .file-values {
+      .field-value {
+        width: auto;
+        min-width: 1px;
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+    }
+    .file-message {
+      margin-left: 0px;
+      font-size: 12px;
+      width: 110px;
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  .file-details + .file-toolbar {
+    margin-top: @input-vspacing;
+  }
+
+  .upload-queued, .delete-queued {
+    display: none;
+    .alert {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      float: left;
+      padding: 6px 12px;
+    }
+  }
+}
+
 // Related Items
 .ui-related-item {
 	.field-value;
-	background: #white;
+	background: white;
 	//border: 1px solid #72b3d8;
 	color: #0089cb;
 	margin-right: 5px;

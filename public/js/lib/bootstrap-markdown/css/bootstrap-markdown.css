@@ -1,0 +1,45 @@
+.md-editor {
+  display:block;
+  border:1px solid #ddd;
+  border-radius: 3px;
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.md-editor>.md-header,.md-editor .md-footer {
+  display:block;
+  border-radius: 3px;
+  background:#fff;
+  padding:6px 4px;
+}
+
+.md-editor>.md-header {
+  margin:0;
+}
+
+.md-editor>.md-preview {
+  background:#fff;
+  border-top:1px dashed #ddd;
+  min-height:10px;
+  overflow:auto;
+  padding: 8px;
+  border-radius: 3px;
+}
+
+.md-editor>textarea {
+  outline:thin dotted \9;
+  display:block;
+  width:100%;
+  border:0;
+  border-top:1px dashed #ddd !important;
+  border-radius:0;
+  box-shadow:none !important;
+  border-radius: 3px;
+}
+
+.md-editor.active {
+  outline:0;
+  -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 5px rgba(102,175,233,0.6);
+  box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 5px rgba(102,175,233,0.6);
+  border-color:#66afe9;
+}

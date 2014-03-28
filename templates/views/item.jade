@@ -4,24 +4,28 @@ include ../mixins/columns
 
 block css
 	link(rel="stylesheet", href="/keystone/js/lib/fancybox/jquery.fancybox.css")
+	link(rel="stylesheet", href="/keystone/js/lib/codemirror/codemirror.css")
+	link(rel="stylesheet", href="/keystone/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
 
 block js
 	script(src='/keystone/js/lib/tinymce/tinymce.min.js')
 	script(src='/keystone/js/lib/tinymce/jquery.tinymce.min.js')
-	//- script(src='/keystone/js/lib/tinymcedev/tinymce.jquery.dev.js')
-	
+	script(src='/keystone/js/lib/codemirror/codemirror-compressed.js')
+	script(src='/keystone/js/lib/marked/marked.js')
+	script(src='/keystone/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
 	script(src="/keystone/js/lib/fancybox/jquery.fancybox.pack.js")
+	script(src="/keystone/js/lib/html5sortable/jquery.sortable.js")
+	script(src="/keystone/js/lib/joseph-myers/md5.js")
 	script(src="/keystone/js/common/ui-fixed-toolbar.js")
 	script(src="/keystone/js/common/ui-cloudinaryimage.js")
 	script(src="/keystone/js/common/ui-cloudinaryimages.js")
-	script(src="/keystone/js/lib/html5sortable/jquery.sortable.js")
 	script(src="/keystone/js/common/ui-s3file.js")
+	script(src="/keystone/js/common/ui-azurefile.js")
+	script(src="/keystone/js/common/ui-localfile.js")
 	script(src="/keystone/js/common/ui-wysiwyg.js")
-	//- script(src="/keystone/js/common/ui-wysiwyg-dev.js")
+	script(src="/keystone/js/common/ui-markdown.js")
+	script(src="/keystone/js/common/ui-code.js")
 	script(src='/keystone/js/views/item.js')
-	//- script(src='/keystone/js/lib/wysihtml5/wysihtml5-0.4.0pre.min.js')
-	//- script(src='/keystone/js/lib/wysihtml5/editor.js')
-	script(src="/keystone/js/lib/joseph-myers/md5.js")
 	script.
 		Keystone.list = { path: "#{list.path}" };
 		Keystone.item = { id: "#{item.id}" };
@@ -48,14 +52,17 @@ block intro
 				span(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
 			else
 				| id: #{item.id}
-			.btn-group.visible-md.visible-lg.pull-right(style='margin-left:20px')
-				a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
-				//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
+			if (!list.get('nocreate'))
+				.btn-group.visible-md.visible-lg.pull-right(style='margin-left:20px')
+					a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
+					//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
 			
 block content
 	form(method='post', enctype='multipart/form-data').item-details
 		
 		input(type='hidden', name='action', value='updateItem')
+		if _csrf
+			input(type='hidden', name='_csrf', value=_csrf)
 		
 		- var nameField = list.nameField, nameIsEditable = list.nameIsEditable;
 		
@@ -70,7 +77,7 @@ block content
 		each el in list.uiElements
 			if el.type == 'field'
 				if (el.field.type != 'text' || el.field != nameField) && !el.field.hidden
-					|!{el.field.render('form',item) }
+					!= el.field.render('form', item, fieldLocals)
 			else if el.type == 'heading'
 				h3.form-heading(data-field-depends-on=el.options.dependsOn)= el.heading
 			else if el.type == 'indent'

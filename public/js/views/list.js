@@ -95,7 +95,7 @@ jQuery(function($) {
 				str = data.path + ':';
 			
 			$ops.each(function() {
-				console.log(data.type + ': ' + data.path + ': ' + $(this).data('opt') + ': ' + $(this).data('value'));
+				// console.log(data.type + ': ' + data.path + ': ' + $(this).data('opt') + ': ' + $(this).data('value'));
 				data[$(this).data('opt')] = $(this).data('value');
 			});
 			
@@ -124,9 +124,12 @@ jQuery(function($) {
 				
 				case 'number':
 				case 'money':
-					var num = Number($filter.find('input[name=value]').val());
-					if (num || num === 0) {
-						str += num;
+					var val = $filter.find('input[name=value]').val();
+					if (val) {
+						var num = Number(val);
+						if (num || num === 0) {
+							str += num;
+						}
 					}
 				break;
 				
@@ -155,6 +158,10 @@ jQuery(function($) {
 				case 'cloudinaryimages':
 				case 's3file':
 					str += data.value;
+				break;
+				
+				case 'relationship':
+					str += $filter.find('input[type=hidden]').val();
 				break;
 				
 			}

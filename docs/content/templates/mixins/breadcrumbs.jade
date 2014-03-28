@@ -1,0 +1,6 @@
+mixin breadcrumbs(docssection, docssubsection)
+	.page-header.page-breadcrumbs
+		.container
+			h1
+				a(href=docssection.path).page-breadcrumbs__section= docssection.label
+				span.page-breadcrumbs__subsection= docssubsection.label

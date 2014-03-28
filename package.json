@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.2.1",
+  "version": "0.2.10",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
@@ -8,24 +8,30 @@
     "url": "https://github.com/JedWatson/keystone.git"
   },
   "dependencies": {
-    "underscore": "~1.5.2",
-    "keystone-utils": "~0.1.5",
+    "underscore": "~1.6.0",
+    "keystone-utils": "~0.1.7",
     "express": "~3.3.8",
-    "mongoose": "~3.8.5",
+    "mongoose": "~3.8.8",
     "less-middleware": "~0.1.15",
     "connect-flash": "~0.1.1",
-    "jade": "~1.1.5",
+    "jade": "~1.3.0",
     "async": "~0.2.10",
-    "csv": "~0.3.6",
+    "csv": "~0.3.7",
     "bcrypt-nodejs": "~0.0.3",
-    "cloudinary": "~1.0.7",
-    "mandrill-api": "~1.0.37",
+    "cloudinary": "~1.0.8",
+    "mandrill-api": "~1.0.39",
     "embedly": "~1.0.2",
-    "marked": "~0.3.0",
+    "marked": "~0.3.2",
     "moment": "~2.5.1",
     "numeral": "~1.5.3",
     "semver": "~2.2.1",
-    "knox": "~0.8.8"
+    "knox": "~0.8.9",
+    "azure": "~0.8.1",
+    "range_check": "~0.0.4"
+  },
+  "devDependencies": {
+    "mocha": ">= 1.12 < 2",
+    "must": ">= 0.11 < 1"
   },
   "author": "Jed Watson",
   "license": "MIT",
@@ -44,6 +50,9 @@
   "gitHead": "ef3fd612285315ea8e12f68da4c8d6031e2c7fe7",
   "bugs": {
     "url": "https://github.com/JedWatson/keystone/issues"
+  },
+  "scripts": {
+    "test": "make test"
   },
   "engines": {
     "node": "0.10.x",

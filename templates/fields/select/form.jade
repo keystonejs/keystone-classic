@@ -12,4 +12,4 @@
 				each opt in field.ops
 					option(value=opt.value, selected=(opt.value == item.get(field.path)))= opt.label
 		if field.note
-			.field-note= field.note
+			.field-note!= field.note

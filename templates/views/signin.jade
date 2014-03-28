@@ -1,30 +1,38 @@
-extends ../layout/session
-
-block intro
-	.page-header.hidden-xs
-		h1 Sign In
+extends ../layout/auth
 
 block content
-	if !user
-		//- h1 Sign In
-		form(method="post", action="/keystone/signin")#signin-form
-			.row
-				.col-sm-3.col-md-2: label Email
-				.col-sm-9.col-md-10: input(type="email", name="email", value=submitted.email).form-control
-			.row
-				.col-sm-3.col-md-2: label Password
-				.col-sm-9.col-md-10: input(type="password", name="password").form-control
-			.row
-				.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: input(type="submit", value="Sign in").btn.btn-default
+	h1.sr-only Sign In
+	.auth-box
+		.auth-box-col
+			include ../includes/auth-brand
 			
-	else
-		p.lead Hi #{user.name.first},
-		p.lead You're already signed in.
-		a(href='/keystone').btn.btn-default Open Keystone
-		a(href='/keystone/signout').btn.btn-cancel Sign out
-
+		.auth-box-col
+			if user
+				p.lead Hi #{user.name.first},
+				p.lead You're already signed in.
+				.toolbar
+					a(href='/keystone').btn.btn-primary Open Keystone
+					a(href='/keystone/signout').btn.btn-cancel Sign out
+			
+			else
+				form(method="post", novalidate).auth-form
+					if _csrf
+						input(type='hidden', name='_csrf', value=_csrf)
+					.form-group
+						label(for='email') Email
+						input(type='email', name='email', id='email', value=submitted.email).form-control
+					.form-group
+						label(for='password') Password
+						input(type='password', name='password', id='password').form-control
+					
+					button(type='submit').btn.btn-primary Sign In
+				
+				//- TODO generic forgotten password functionality
+				//- a(href=js).btn.btn-link Forgot Password?
+				
 block js
-	script.
-		jQuery(function($) {
-			$('input[name=email]').focus();
-		});
+	//- Only focus the field after the shake animation is complete
+	if messages && messages.error.length
+		script setTimeout(function() { try { document.getElementById('email').focus(); } catch(e) {}; }, 800);
+	else
+		script try { document.getElementById('email').focus(); } catch(e) {};

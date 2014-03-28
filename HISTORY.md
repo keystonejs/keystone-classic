@@ -1,5 +1,99 @@
 # Keystone
 
+## v0.2.10 / 2014-03-18
+
+* added; new `AzureFile` field type, thanks [Juan Benavides Romero](https://github.com/jbalde)
+* added; new toolbar and preview mode for `Markdown` fields, thanks [Thomas Pedersen](https://github.com/thedersen)
+* fixed; issue with the 'new item' button on the item details page in the Admin UI triggering autocreate functionality incorrectly, thanks [Thomas Pedersen](https://github.com/thedersen)
+* fixed; redirect parameter for signin page now protects against open redirect attacks, thanks [Oliver Jenkins](https://github.com/oliverjenkins)
+* fixed; 'host is undefined' issue with certain configurations, see #241
+* fixed; accented characters are converted correctly when generating slugs, thanks to [keystone-utils](https://github.com/JedWatson/keystone-utils) 0.1.7
+
+(emergency version bump from 0.2.9 because of white-space issue with new Jade version)
+
+## v0.2.8 / 2014-03-12
+
+* fixed; issues getting path options correctly on Windows (was causing update issues)
+* fixed; support for tagging images uploaded to Cloudinary client-side in the Admin UI for `CloudinaryImages` fields, thanks [Mike Causer](https://github.com/mcauser)
+* improved; filtering on `Number` fields can now find null values
+* fixed; height option now supported on `Markdown` and `Textarea` field types
+* added; support for `PUT` and `DELETE` http methods in `View.on`
+
+## v0.2.7 / 2014-03-11
+
+* fixed; minor issues to improve auto-creation of items
+* improved; ability to chain `keystone.pre`, `keystone.init`, `keystone.start`, `keystone.static`, `keystone.routes` and `keystone.bindEmailTestRoutes`
+* improved; callbacks / error handling in View class
+* improved; handling of MongoDB errors before app starts (now much more debuggable)
+* added; field notes are now parsed using `marked` so you can use markdown syntax if desired
+* added; new field type `Code`, uses the CodeMirror editor in the Admin UI, thanks [Juan Benavides Romero](https://github.com/jbalde)
+* fixed; error thrown when requesting an invalid page in the Admin UI list view
+* fixed; correctly trigger mongoose middleware when removing items, thanks [Chris Dion](https://github.com/cdion)
+* added; ability to use custom paths for updates (issue #205)
+* added; optional callback to View.render (issue #215)
+* improved; tweaked some option keys, added a warning for deprecated options
+* added; ability to specify signin and signout redirect paths or functions
+* added; https server and ssl configuration now supported by keystone.start(), thanks [snowkeeper](https://github.com/snowkeeper)
+* improved; tweaks to native signin UI, thanks [jossmackison](https://github.com/JossMackison)
+
+This version also contains the new docs and website developed by @jossmackison and @jedwatson. To view the docs locally, open `keystone/docs` and run `node docs`.
+
+## v0.2.6 / 2014-02-25
+
+* improved; implementation of `hidden` option for fields
+* improved; refactored the Email class and implemented friendlier errors
+* improved; email test route binding, including ability to use a function to provide template locals to tests
+* added; custom template support in the Email class
+* added; email button mixin supports default styling and style overrides
+* improved; email locals and options can be combined in a single object argument
+* fixed; location field auto-improve error
+* fixed; relationship fields display old ID when related item is missing, thanks [Mark Bayfield](https://github.com/mbayfield)
+* added; `autocreate` option for Lists (see issue #21)
+* improved; signin page looks better when you're alredy signed in
+* improved; `location.requiredPaths` field option supports comma-delimited values
+* improved; `UpdateHandler` now updates `noedit` fields when they are explicitly provided (issue #194)
+* added; ability to specify custom validation / required messages in the UpdateHandler (issue #195)
+* added; ability to provide custom lists of required fields to the `UpdateHandler` (issue #196)
+
+## v0.2.5 / 2014-02-17
+
+* improved; dropdown styles are nicer
+* improved; default signin ui tweaks
+* improved; hidden lists warn when included in `nav` config option
+* fixed; hidden lists are accessible through the API
+* improved; warnings are thrown when autokey option config is invalid
+* improved; autokey values are now included in CSV exports
+* improved; markdown and html fields render nicely in the Admin UI list view
+
+## v0.2.4 / 2014-02-15
+
+* improved; new sign in/out screen design, thanks [jossmackison](https://github.com/JossMackison)
+  * improved; the default error screen is now responsive, thanks [jossmackison](https://github.com/JossMackison)
+* improved; additional supported file types for CloudinaryImage fields, thanks [James Allen](https://github.com/jamlen)
+    -  Supported types are [`image/gif`, `image/png`, `image/jpeg`, `image/bmp`, `image/x-icon`, `application/pdf`, `image/x-tiff`, `image/x-tiff`, `application/postscript`, `image/vnd.adobe.photoshop`]
+* improved; you can now use Relationship fields with `multi: true` as `initial` fields
+* added; Relationship fields can now be used as filters in the Admin UI
+* fixed; scope issue in Relationship field type, thanks [Tom Walker](https://github.com/bladey)
+
+## v0.2.3 / 2014-02-11
+
+* added; new `localFile` field type, thanks [Alan Shaw](https://github.com/alanshaw)
+* added; `hidden: true` option for lists
+* fixed; uploading works again for `cloudinaryImages` fields
+
+
+## v0.2.2 / 2014-02-05
+
+* fixed; "moment not defined" error in S3File field type, thanks [Olivier Vaillancourt](https://github.com/ovaillancourt)
+* added; ability to define attachments to emails via Mandrill, thanks [Tom Walker](https://github.com/bladey)
+* improved; log formatting and error output
+* fixed; default 404 handling, thanks [Lepi](https://github.com/lepilepi)
+* added; new `keystone.import(path)` method for recusrively requiring all `.js` / `.coffee` files in a path relative to the project root, e.g. `keystone.import('models')`. Similar to but simpler than `keystone.importer()`.
+* improved; the default 404 and 500 error handlers have been cleaned up, and have a simple HTML template
+* added; filtering now implemented for location fields
+* improved; the list download > csv feature in the Admin UI now respects the current filters
+
+
 ## v0.2.1 / 2014-02-04
 
 * added; more flexible environment variable defaults for mongo connection strings. It supports `env.MONGO_URI`, `env.MONGO_URL`, `env.MONGOLAB_URI` and `env.MONGOLAB_URL`, so whatever default you're using, it should be there.
@@ -87,7 +181,7 @@ One of the other big changes in this release is the work done by [Iulian Meghea]
 
 ## v0.1.48 / 2013-12-03
 
-* added; you can now provide a `paths` option to the `UpdateHander` to map custom field names to item field paths for processing
+* added; you can now provide a `paths` option to the `UpdateHandler` to map custom field names to item field paths for processing
 * improved; default email templates have been redesigned, with new theme options and defaults, thanks [jossmackison](https://github.com/JossMackison)
 * improved; s3file fields expose a direct `uploadFile` underscore method, for use outside of an `updateHandler`, thanks [bladey](https://github.com/bladey)
 * fixed; support for extended characters in utils.pathToLabel (via `keystone-utils`), thanks [itzaks](https://github.com/itzaks)

@@ -13,4 +13,4 @@
 				.col-sm-6: input(type='text', name=field.paths.first, autocomplete='off', placeholder='first name', value=item.get(field.paths.first)).form-control
 				.col-sm-6: input(type='text', name=field.paths.last, autocomplete='off', placeholder='last name', value=item.get(field.paths.last)).form-control
 	if field.note
-		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note= field.note
+		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note!= field.note

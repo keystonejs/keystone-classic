@@ -1,0 +1,9 @@
+.field.type-code(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	label.field-label= field.label
+	.field-ui(class='width-' + field.width)
+		if field.noedit
+			.field-value= item.get(field.path)
+		else
+			textarea(name=field.path, class='dev-code' data-dev-lang=(field.lang ? field.lang : null) data-dev-mime=(field.mime ? field.mime : null) style='height: #{field.height}px')= item.get(field.path)
+	if field.note
+		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note!= field.note

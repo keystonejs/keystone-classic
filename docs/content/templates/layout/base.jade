@@ -1,30 +1,36 @@
+//- common mixins
+include ../mixins/breadcrumbs
+
 doctype html
 html
 	head
 		include ../includes/htmlhead
 		block css
-		block head
+
 	body
-		
 		include ../includes/header
 		
-		block nav
-			include ../includes/primary-nav
-		
-		block intro
-		
-		#docs-body
+		if section == 'docs' && docssubsection
+			+breadcrumbs(docssection, docssubsection)
+		else
+			block intro
+			
+		.docs-body
 			block content
 		
 		include ../includes/footer
 		
 		script(src="/js/lib/jquery/jquery-1.10.2.min.js")
 		script(src='/js/lib/bootstrap/collapse.js')
-		script(src='/js/lib/bootstrap/dropdown.js')
+		//- script(src='/js/lib/bootstrap/dropdown.js')
 		script(src='/js/lib/prism/prism.min.js')
+			
+		//- Twitter
+		script.
+			!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 		
 		//- Page Scripts
-		block page-js
+		block js
 		
 		//- Analytics
 		script.
@@ -55,4 +61,11 @@ html
 					loadChartbeat : function() { oldonload(); loadChartbeat(); };
 				})();
 			}
-
+		
+		script.
+			if (window.location.hostname.match(/keystonejs\.com/)) {
+				setTimeout(function(){var a=document.createElement("script");
+				var b=document.getElementsByTagName("script")[0];
+				a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/3329.js?"+Math.floor(new Date().getTime()/3600000);
+				a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+			}
