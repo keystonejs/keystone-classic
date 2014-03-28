@@ -18,6 +18,7 @@ block content
 					a(href='?new').btn.btn-default.btn-create.btn-create-item Create #{list.singular}
 			else
 				form(method='post', action='/keystone/' + list.path)
+					input(type='hidden', name='_csrf', value=_csrf)
 					input(type='hidden', name='action', value='create')
 					.form
 						h4 New #{list.singular}
