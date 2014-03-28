@@ -860,6 +860,9 @@ Keystone.prototype.routes = function(app) {
 	app.all('/keystone/:list/:page([0-9]{1,5})?', initList(true), require('./routes/views/list'));
 	app.all('/keystone/:list/:item', initList(true), require('./routes/views/item'));
 	
+	// image upload
+	app.all('/keustone/cloudinary/upload', require('./routes/api/cloudinary').upload);
+
 	return this;
 	
 };
