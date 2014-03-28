@@ -126,7 +126,7 @@ exports = module.exports = function(req, res) {
 					items: items,
 					submitted: req.body || {},
 					query: req.query,
-                                        _csrf: req.csrfToken() || "NOT_ENABLED"
+					_csrf: req.csrfToken ? req.csrfToken() : false
 				}));
 
 			});

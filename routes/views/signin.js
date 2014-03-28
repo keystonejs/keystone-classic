@@ -8,7 +8,7 @@ exports = module.exports = function(req, res) {
 			submitted: req.body,
 			from: req.query.from,
 			logo: keystone.get('signin logo'),
-                        _csrf: req.csrfToken() || "NOT_ENABLED"
+			_csrf: req.csrfToken ? req.csrfToken() : false
 		});
 	}
 

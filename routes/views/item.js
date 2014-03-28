@@ -157,7 +157,7 @@ exports = module.exports = function(req, res) {
 					relationships: relationships,
 					showRelationships: showRelationships,
 					drilldown: drilldown,
-					_csrf: req.csrfToken() || "NOT_ENABLED"
+					_csrf: req.csrfToken ? req.csrfToken() : false
 				}));
 				
 			});
