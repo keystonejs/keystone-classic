@@ -6,9 +6,10 @@ jQuery(function($) {
 	tinymce.init({
 		selector: 'textarea.wysiwyg',
 		menubar: false,
-		plugins: [ 'code', 'link' ],
-		toolbar: 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link | code',
-		skin: 'keystone'
+		plugins: [ 'code', 'link', 'uploadimage' ],
+		toolbar: 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link | code | uploadimage',
+		skin: 'keystone',
+		uploadimage_form_url: '/keustone/cloudinary/upload'
 	});
 	
 });
