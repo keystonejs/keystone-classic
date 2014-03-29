@@ -21,4 +21,4 @@ exports = module.exports = {
             res.send('{"error":{"message":"No image selected"}}');
         }
     }
-});
+};
