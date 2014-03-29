@@ -9,7 +9,7 @@ jQuery(function($) {
 		plugins: [ 'code', 'link', 'uploadimage' ],
 		toolbar: 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link | code | uploadimage',
 		skin: 'keystone',
-		uploadimage_form_url: '/keustone/cloudinary/upload'
+		uploadimage_form_url: '/keystone/cloudinary/upload'
 	});
 	
 });

@@ -861,7 +861,7 @@ Keystone.prototype.routes = function(app) {
 	app.all('/keystone/:list/:item', initList(true), require('./routes/views/item'));
 	
 	// image upload
-	app.all('/keustone/cloudinary/upload', require('./routes/api/cloudinary').upload);
+	app.all('/keystone/cloudinary/upload', require('./routes/api/cloudinary').upload);
 
 	return this;
 	
