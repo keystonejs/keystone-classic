@@ -1,6 +1,6 @@
 jQuery(function($) {
 	
-	// SORTABLE CLASS
+	// ALT-TEXT CLASS
 	// ==============
 	
 	var AltText = function(el) {
@@ -15,7 +15,7 @@ jQuery(function($) {
 		
 	}
 	
-	// SORTABLE PLUGIN
+	// ALT-TEXT PLUGIN
 	// ===============
 	
 	$.fn.altText = function(state) {
