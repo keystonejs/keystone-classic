@@ -1,4 +1,5 @@
 (function ($) {
+	
 	$.deserialize = function(str, options) {
 		if (!str.length) return {};
 		var pairs = str.split(/&amp;|&/i),
