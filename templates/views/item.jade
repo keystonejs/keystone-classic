@@ -29,6 +29,7 @@ block js
 	script.
 		Keystone.list = { path: "#{list.path}" };
 		Keystone.item = { id: "#{item.id}" };
+		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 
 block intro
 	.page-header.item-header: .row

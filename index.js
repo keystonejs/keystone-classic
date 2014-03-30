@@ -859,9 +859,9 @@ Keystone.prototype.routes = function(app) {
 	}
 	
 	// Cloudinary API for image uploading (only if Cloudinary is configured)
-	if (keystone.get('cloudinary wysiwyg upload')) {
+	if (keystone.get('wysiwyg cloudinary images')) {
 		if (!keystone.get('cloudinary config')) {
-			throw new Error("KeystoneJS Initialisaton Error:\n\nTo use cloudinary wysiwyg upload, the 'cloudinary config' setting must be configured.\n\n");
+			throw new Error("KeystoneJS Initialisaton Error:\n\nTo use wysiwyg cloudinary images, the 'cloudinary config' setting must be configured.\n\n");
 		}
 		app.post('/keystone/api/cloudinary/upload', require('./routes/api/cloudinary').upload);
 	}
@@ -1156,6 +1156,10 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		ga: {
 			property: this.get('ga property'),
 			domain: this.get('ga domain')
+		},
+		wysiwygOptions: {
+			enableImages: keystone.get('wysiwyg images') ? true : false,
+			enableCloudinaryUploads: keystone.get('wysiwyg cloudinary images') ? true : false
 		}
 	};
 	
