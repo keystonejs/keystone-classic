@@ -13,6 +13,7 @@
     "express": "~3.3.8",
     "mongoose": "~3.8.8",
     "less-middleware": "~0.1.15",
+    "node-compass": "~0.2.3",
     "connect-flash": "~0.1.1",
     "jade": "~1.3.0",
     "async": "~0.2.10",

@@ -375,6 +375,7 @@ Keystone.prototype.initNav = function(sections) {
  *   - compress
  *   - favico
  *   - less
+ *   - compass
  *   - static
  *   - headless
  *   - logger
@@ -447,6 +448,15 @@ Keystone.prototype.start = function(onStart) {
 	
 	if (this.get('less')) {
 		app.use(require('less-middleware')({ src: this.getPath('less') }));
+	}
+	
+	if (this.get('compass')) {
+		app.use(require('node-compass')({
+			project: this.getPath('compass'),
+			css:     'styles',
+			sass:    'styles',
+			img:     'images'
+		}));
 	}
 	
 	if (this.get('static')) {
