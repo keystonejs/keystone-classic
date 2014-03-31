@@ -22,6 +22,11 @@ exports = module.exports = function(req, res) {
 		
 		_.each(results, function(i) {
 			
+			if ('function' == typeof i.toCSV) {
+				data.push(i.toCSV());
+				return;
+			}
+			
 			var row = { id: i.id };
 			
 			if (req.list.get('autokey')) {
