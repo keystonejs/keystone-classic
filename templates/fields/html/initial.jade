@@ -1,0 +1,6 @@
+.field.type-html
+	label.field-label= field.label
+	.field-ui(class='width-' + field.width)
+		textarea(name=field.path, class=field.wysiwyg ? 'wysiwyg' : 'code', style='height: #{field.height}px')= item[field.path]
+		if field.note
+			.field-note!= field.note
