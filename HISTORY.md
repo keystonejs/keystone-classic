@@ -8,8 +8,8 @@
 * added; csrf middleware support, thanks [Lasana Murray](https://github.com/metasansana)
 * added; `express` is now available as a property of `keystone`
 * added; optional support for a the `S3_REGION` environment variable, thanks [DrMoriarty](https://github.com/DrMoriarty)
-* added; IP address range restrictions, thanks [DrMoriarty](https://github.com/DrMoriarty)
-* added; support for express `trust proxy` setting, thanks [DrMoriarty](https://github.com/DrMoriarty)
+* added; IP address range restrictions, thanks [Robert Medeiros](https://github.com/crimeminister)
+* added; support for express `trust proxy` setting, thanks [Robert Medeiros](https://github.com/crimeminister)
 * fixed; incorrectly escaping Boolean field notes for
 
 ## v0.2.10 / 2014-03-18
