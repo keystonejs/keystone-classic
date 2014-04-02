@@ -1,5 +1,10 @@
 # Keystone
 
+## v0.2.12 / 2014-04-03
+
+* added; initial field support for HTML and Markdown fields
+* improved; some client-side scripts (e.g. TinyMCE) are no longer included when they're not going to be used
+
 ## v0.2.11 / 2014-04-02
 
 * added; `.toCSV()` method now supported on schemas to transform data when exported in the Admin UI
