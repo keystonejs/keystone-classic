@@ -2,10 +2,25 @@ extends ../layout/base
 
 include ../mixins/columns
 
+block css
+	if list.fieldTypes.markdown
+		link(rel="stylesheet", href="/keystone/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
+
 block js
+	if list.fieldTypes.location
+		script(src="/keystone/js/common/ui-location.js")
+	if list.fieldTypes.markdown
+		script(src='/keystone/js/lib/marked/marked.js')
+		script(src='/keystone/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
+		script(src="/keystone/js/common/ui-markdown.js")
+	if list.fieldTypes.wysiwyg
+		script(src='/keystone/js/lib/tinymce/tinymce.min.js')
+		script(src='/keystone/js/lib/tinymce/jquery.tinymce.min.js')
+		script(src="/keystone/js/common/ui-wysiwyg.js")
 	script(src='/keystone/js/views/list.js')
 	script.
 		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)} };
+		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 			
 block content
 	//-
