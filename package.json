@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "underscore": "~1.6.0",
-    "keystone-utils": "~0.1.7",
+    "keystone-utils": "~0.1.9",
     "express": "~3.3.8",
     "mongoose": "~3.8.8",
     "less-middleware": "~0.1.15",
