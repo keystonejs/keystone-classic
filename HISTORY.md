@@ -15,7 +15,7 @@
 * added; optional support for a the `S3_REGION` environment variable, thanks [DrMoriarty](https://github.com/DrMoriarty)
 * added; IP address range restrictions, thanks [Robert Medeiros](https://github.com/crimeminister)
 * added; support for express `trust proxy` setting, thanks [Robert Medeiros](https://github.com/crimeminister)
-* fixed; incorrectly escaping Boolean field notes for
+* fixed; Boolean field notes were being escaped incorrectly
 
 ## v0.2.10 / 2014-03-18
 
