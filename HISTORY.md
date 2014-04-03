@@ -1,5 +1,9 @@
 # Keystone
 
+## v0.2.13 / 2014-04-04
+
+* added; `onHttpServerCreated` and `onHttpsServerCreated` events now fired during `keystone.start()`, allows for integration of things like socket.io
+
 ## v0.2.12 / 2014-04-03
 
 * added; initial field support for HTML and Markdown fields
