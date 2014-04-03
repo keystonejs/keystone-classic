@@ -363,6 +363,14 @@ Keystone.prototype.initNav = function(sections) {
  * 
  * Connects to the database, runs updates and listens for incoming requests.
  * 
+ * Events are fired during initialisation to allow customisation, including:
+ * 
+ *   - onStart
+ *   - onHttpServerCreated
+ *   - onHttpsServerCreated
+ * 
+ * If the events argument is a function, it is assumed to be the started event.
+ * 
  * 
  * ####Options:
  * 
@@ -394,16 +402,16 @@ Keystone.prototype.initNav = function(sections) {
  * @api public
  */
 
-Keystone.prototype.start = function(onStart) {
+Keystone.prototype.start = function(events) {
+	
+	if ('function' == typeof events) {
+		events = { onStart: events };
+	}
+	
+	if (!events) events = {};
 	
 	if (!this.app) {
 		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
-	}
-	
-	onStart = onStart || function() {};
-	
-	if (!utils.isFunction(onStart)) {
-		throw new Error("KeystoneJS Initialisaton Error:\n\nThe onStart argument must be a function or undefined.\n\n");
 	}
 		
 	this.nativeApp = true;
@@ -650,7 +658,7 @@ Keystone.prototype.start = function(onStart) {
 			waitForServers--;
 			if (waitForServers) return;
 			console.log(dashes + startupMessages.join('\n') + dashes);
-			onStart();
+			events.onStart && events.onStart();
 		}
 		
 		// Creates the http server and listens to the specified port and host or listen option.
@@ -662,6 +670,7 @@ Keystone.prototype.start = function(onStart) {
 		var createServer = function() {
 			
 			keystone.httpServer = http.createServer(app);
+			events.onHttpServerCreated && events.onHttpServerCreated();
 			
 			var port = keystone.get('port');
 			var ssl = keystone.get('ssl');
@@ -734,6 +743,7 @@ Keystone.prototype.start = function(onStart) {
 					}
 					
 					keystone.httpsServer = https.createServer(sslOpts, app);
+					events.onHttpsServerCreated && events.onHttpsServerCreated();
 					
 					var sslHost = keystone.get('ssl host') || keystone.get('host'),
 						sslPort = keystone.get('ssl port') || 3001;
