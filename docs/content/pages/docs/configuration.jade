@@ -94,6 +94,11 @@ block content
 						p The template engine to use by default. Any engine with express support should work. <strong>Jade</strong> is included with Keystone, but you will have to add any alternate engine to your project's dependencies in your <code>package.json</code>.
 						p This option is set on the express app (<a href="http://expressjs.com/api.html#app.engine" target="_blank">see docs here</a>).
 				tr
+					td <code>custom engine</code> <code class="data-type">Function</code>
+					td
+						p If you want to use a custom template engine, set this option to the function that should be used to process your templates.
+						p See below for an example of how to use the <a href="http://paularmstrong.github.io/swig/" target="_blank">Swig</a> template engine.
+				tr
 					td <code>locals</code> <code class="data-type">Object</code>
 					td
 						p The default local variables to pass to your view templates.
@@ -123,6 +128,15 @@ block content
 				tr
 					td <code>trust proxy</code> <code class="data-type">Boolean</code>
 					td Set this to enable processing of the HTTP request <code>X-Forwarded-For</code> header. Extracted IP addresses will be available as the array <code>req.ips</code> (<a href="http://expressjs.com/api.html#req.ips">see docs here</a>).
+			
+			
+			.code-header
+				h4 Alternate View Engines
+				p By default, Keystone uses the <strong>Jade</strong> template engine for your views. Here's how you would set up a different engine, e.g. <strong>Swig</strong>.
+			pre: code.language-javascript
+				| var swig = require('swig');
+				| keystone.set('view engine', 'swig');
+				| keystone.set('custom engine', swig.renderFile);
 		
 			a(name='options-ssl')
 			h3 HTTPS Web Server Options
