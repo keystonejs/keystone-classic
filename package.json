@@ -12,7 +12,7 @@
     "keystone-utils": "~0.1.7",
     "express": "~3.3.8",
     "mongoose": "~3.8.8",
-    "mongoose-history": "git+https://github.com/britztopher/mongoose-history.git#minus-id-false",
+    "mongoose-history": "latest",
     "less-middleware": "~0.1.15",
     "connect-flash": "~0.1.1",
     "jade": "~1.3.0",
