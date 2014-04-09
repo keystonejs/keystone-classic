@@ -1,6 +1,8 @@
 [KeystoneJS](http://keystonejs.com)
 ===================================
 
+[![Code Climate](https://codeclimate.com/github/JedWatson/keystone.png)](https://codeclimate.com/github/JedWatson/keystone)
+
 KeystoneJS is a powerful new Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com) that makes it easy to create sophisticated web sites and apps, and gives you a beautiful, auto-generated Admin UI.
 
 To get started, check out [keystonejs.com](http://keystonejs.com)!
