@@ -41,7 +41,8 @@ var gulp = require('gulp'),
     // gulp for running the mocha tests with spec reporter
     gulp.task('spec', function(){
         gulp.src(paths.tests)
-            .pipe(mocha({reporter: 'spec'}));
+            .pipe(mocha({reporter: 'spec'}))
+            .on('error', handleError);
 
     });
 
