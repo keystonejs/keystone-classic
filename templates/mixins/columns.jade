@@ -32,6 +32,8 @@ mixin column(list, col, item)
 			+column_link(value, 'mailto:' + value)
 		else if col.type == 'boolean'
 			+column_boolean(value)
+		else if col.type == 'url'
+			a(target='_blank', href=value)= value
 		else
 			+column_basic(value)
 
