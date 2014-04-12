@@ -31,7 +31,13 @@
   },
   "devDependencies": {
     "mocha": ">= 1.12 < 2",
-    "must": ">= 0.11 < 1"
+    "must": ">= 0.11 < 1",
+    "gulp": "^3.6.0",
+    "gulp-watch": "^0.5.4",
+    "gulp-mocha": "^0.4.1",
+    "jshint": "^2.5.0",
+    "gulp-jshint": "^1.5.3",
+    "colors": "^0.6.2"
   },
   "author": "Jed Watson",
   "license": "MIT",

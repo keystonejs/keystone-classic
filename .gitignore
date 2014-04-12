@@ -8,6 +8,10 @@ lib-cov
 *.gz
 *.DS_Store
 
+# vim tmp/swp files
+*.swp
+*.un~
+
 pids
 logs
 results

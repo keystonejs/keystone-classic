@@ -1,9 +1,11 @@
-var Path = require("../../lib/path")
+var Path = require("../../lib/path");
+// when using gulp must has to be required manually for scope
+var must = require('must');
 
 describe("Path", function() {
 	describe("new", function() {
 		it("must be an instance of Path", function() {
-			new Path("").must.be.an.instanceof(Path)
+			new Path("").must.be.an.instanceof(Path);
 		})
 	})
 
