@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	watch = require('gulp-watch'),
-	changed = require('gulp-changed'),
+	// changed = require('gulp-changed'),
 	mocha = require('gulp-mocha'),
 	colors = require('colors');
 
