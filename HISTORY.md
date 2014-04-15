@@ -10,7 +10,7 @@
 * added; gulp, and more tests! thanks [Morgan Craft](https://github.com/mgan59)
 * improved; link fields are now anchors in the Admin UI list view, thanks [DrMoriarty](https://github.com/DrMoriarty)
 * fixed; height of admin header and signout link placement with a lot of lists in the navigation, thanks [Ötvös Richárd](https://github.com/RichardOtvos)
-* added; support for adding additional toolbar buttons to tinymce
+* added; support for adding additional toolbar buttons to tinymce, thanks [Eric](https://github.com/theskabeater)
 
 ## v0.2.13 / 2014-04-04
 
