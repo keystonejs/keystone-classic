@@ -1,5 +1,17 @@
 # Keystone
 
+## v0.2.14 / 2014/04-16
+
+* added; new `createItems()` method to quickly populate data, see [this gist](https://gist.github.com/JedWatson/10739959) for usage instructions and examples
+* improved; `.toCSV()` method for lists now uses dependency injection and can be asynchronous (just pass `callback` as the last argument)
+* added; basic implementation of field watching
+* fixed; issue with dateTime fields not updating correctly
+* added; `perPage` option for lists that controls the number of items displayed per page in the Admin UI, thanks [Galaczi Endre Elek](https://github.com/chiller)
+* added; gulp, and more tests! thanks [Morgan Craft](https://github.com/mgan59)
+* improved; link fields are now anchors in the Admin UI list view, thanks [DrMoriarty](https://github.com/DrMoriarty)
+* fixed; height of admin header and signout link placement with a lot of lists in the navigation, thanks [Ötvös Richárd](https://github.com/RichardOtvos)
+* added; support for adding additional toolbar buttons to tinymce
+
 ## v0.2.13 / 2014-04-04
 
 * added; `onHttpServerCreated` and `onHttpsServerCreated` events now fired during `keystone.start()`, allows for integration of things like socket.io
