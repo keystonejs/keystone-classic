@@ -4730,7 +4730,7 @@ td.visible-print {
   ===================
 
   Remove the necessity for [class^='col-'] selector due to its poor performance
-  
+
 */
 /*
 	Inline align
@@ -4811,7 +4811,7 @@ td.visible-print {
   position: relative;
 }
 #header .navbar-headernav-hide {
-  display: none !important;
+  visibility: hidden !important;
 }
 #header .navbar-backtobrand {
   opacity: 0;
@@ -4961,7 +4961,7 @@ td.visible-print {
 		padding-top: 8px;
 		border-top: 1px dashed #ddd;
 	}
-	
+
 	.list-filters-action {
 		margin: 15px 0;
 		border-top: 1px dashed #ddd;
@@ -5151,7 +5151,7 @@ table.items-list td a {
 /*
 	Form control wrapper
 	==============================
-	
+
 	.form-control-wrapper should be exclusively used for attaching validation to
 	when no other ancestor is applicable. It has no ornamental styles of it's own.
 */
@@ -6067,7 +6067,7 @@ textarea.field.type-html textarea {
 /*
 	Button companion
 	==============================
-	
+
 	For a vertically aligned & horizontally spaced label/note beside your button
 */
 .btn-companion,
@@ -6200,7 +6200,7 @@ textarea.field.type-html textarea {
 		display: inline-block;
 		padding: 3px 3px;
 	}
-	
+
 	.remove-btn {
 		display: inline-block;
 		padding: 6px 3px;
@@ -6218,7 +6218,7 @@ textarea.field.type-html textarea {
   display: inline-block;
   padding: 3px 3px;
 }
-/* 
+/*
  * Custom theme for select2
  * Based on github.com/t0m/select2-bootstrap-css/
 */
@@ -6319,7 +6319,7 @@ textarea.field.type-html textarea {
   border-radius: 2px;
 }
 /**
- * This stops the quick flash when a native selectbox is shown and 
+ * This stops the quick flash when a native selectbox is shown and
  * then replaced by a select2 input when javascript kicks in.
  */
 select.ui-select2 {
@@ -6715,7 +6715,7 @@ textarea.item-name .form-control {
 	#gradient .vertical( #fff, mix(white, @brand-success, 93%), 30%, 100% );
 	color: darken(@brand-success, 15%);
 	border-color: lighten(@brand-success, 10%);
-	
+
 	&:hover {
 		// color: darken(@brand-success, 5%);
 		border-color: darken(@brand-success, 10%);
