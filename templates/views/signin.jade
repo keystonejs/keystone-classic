@@ -11,7 +11,8 @@ block content
 				p.lead Hi #{user.name.first},
 				p.lead You're already signed in.
 				.toolbar
-					a(href='/keystone').btn.btn-primary Open Keystone
+					if user.isAdmin
+						a(href='/keystone').btn.btn-primary Open Keystone
 					a(href='/keystone/signout').btn.btn-cancel Sign out
 			
 			else
