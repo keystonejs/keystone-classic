@@ -774,6 +774,8 @@ Keystone.prototype.start = function(events) {
 
 	});
 
+	console.log("KEYSTONE STARTED, SUBHOG BRANCH ACTIVE");
+
 	return this;
 
 }
