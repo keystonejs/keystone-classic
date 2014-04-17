@@ -37,7 +37,7 @@
 
 //
 // Resets
-// -------------------------------------------------- 
+// --------------------------------------------------
 
 abbr, .disabled, .disabled a {
 	cursor: default !important;
@@ -69,14 +69,14 @@ h4 {
 
 //
 // Header
-// -------------------------------------------------- 
+// --------------------------------------------------
 #header {
 	background-color: @navbar-keystone-bg;
 	// .box-shadow( inset 0 -1px 2px @navbar-keystone-border );
-	
+
 	.navbar-backtobrand {
 		color: @navbar-keystone-link-color;
-		
+
 		&:hover {
 			color: @navbar-keystone-link-hover-color;
 		}
@@ -136,12 +136,12 @@ h4 {
 			background-color: @navbar-keystone-toggle-icon-bar-bg;
 		}
 	}
-	
+
 	.navbar-collapse,
 	.navbar-form {
 		border-color: darken(@navbar-keystone-bg, 7%);
 	}
-	
+
 	.navbar-nav {
 		> .open > a {
 			&,
@@ -227,27 +227,27 @@ h4 {
 
 //
 // Section Nav
-// -------------------------------------------------- 
+// --------------------------------------------------
 #section-nav {
 	margin-bottom: 20px;
 	border-top: none;
 	border-left: none;
 	border-right: none;
-	
+
 	.navbar-collapse {
 		padding-left: 0px;
 		padding-right: 0px;
 	}
-	
+
 	li > a {
 		color: @gray-light;
-		
+
 		&:hover,
 		&:focus {
 			color: black;
 		}
 	}
-	
+
 	@media (min-width: @screen-sm) {
 		li > a {
 			margin-right: 20px;
@@ -255,7 +255,7 @@ h4 {
 			padding-right: 0;
 		}
 	}
-	
+
 	.active > a,
 	.active > a:hover,
 	.active > a:focus {
@@ -271,15 +271,15 @@ h4 {
 
 //
 // Page Header
-// -------------------------------------------------- 
+// --------------------------------------------------
 .page-header {
 	margin-top: 10px;
-	
+
 	&.list-header {
 		//border-bottom: 0 none;
 		padding-bottom: 0;
 	}
-	
+
 	h1 {
 		font-weight: 200;
 		margin-bottom: 15px;
@@ -297,10 +297,10 @@ h4 {
 // No Items
 // --------------------------------------------------
 .empty-list {
-	
+
 	margin: 50px 0 30px;
 	color: @gray-light;
-	
+
 }
 
 
@@ -363,7 +363,7 @@ h4 {
 
 //
 // Forms
-// -------------------------------------------------- 
+// --------------------------------------------------
 
 // Heading 3
 h3.form-heading {
@@ -387,8 +387,8 @@ h2.form-heading {
 	margin-bottom: 20px;
 	margin-top: 20px;
 	position: relative;
-	
-	
+
+
 	/**
 		Diagonal Stripes
 		==============================
@@ -420,11 +420,11 @@ h3.relationship-heading {
 	.box-shadow( 0 1px 1px rgba(0, 0, 0, 0.075) inset );
 	border-color: #bbb #ddd #eee;
 	-webkit-appearance: none;
-	
+
 	&:hover {
 		border-color: #999 #bbb #ccc;
 	}
-	
+
 	&:focus {
 		@shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@link-color,50%);
 		.box-shadow( @shadow );
@@ -476,7 +476,6 @@ h3.relationship-heading {
 	background-color: @note-background; // lighten(@note-color, 42%); // mix(white,@note-color,90%);
 	border-left: 1px solid @note-color;
 	color: @note-color;
-	height: 25px;
 	line-height: 25px;
 	display: inline-block;
 	padding: 0 10px;
@@ -502,7 +501,7 @@ h3.relationship-heading {
 
 
 // Buttons
-// -------------------------------------------------- 
+// --------------------------------------------------
 
 // add little depth to the default button
 .btn-default {
@@ -519,7 +518,7 @@ h3.relationship-heading {
 // Cancel buttons
 .btn-link.btn-cancel {
 	color: @gray;
-	
+
 	&:hover {
 		color: @state-danger-text;
 	}
@@ -540,7 +539,7 @@ h3.relationship-heading {
 	#gradient .vertical( #fff, mix(white, @brand-success, 93%), 30%, 100% );
 	color: darken(@brand-success, 15%);
 	border-color: lighten(@brand-success, 10%);
-	
+
 	&:hover {
 		// color: darken(@brand-success, 5%);
 		border-color: darken(@brand-success, 10%);
@@ -561,7 +560,7 @@ h3.relationship-heading {
 	#gradient .vertical( #fff, mix(white, @link-color, 93%), 30%, 100% );
 	color: darken(@link-color, 10%);
 	border-color: @link-color;
-	
+
 	&:hover {
 		// color: darken(@link-color, 5%);
 		border-color: darken(@link-color, 10%);
@@ -588,10 +587,10 @@ h3.relationship-heading {
 	padding: 0;
 	font-size: @font-size-large;
 	background-color: transparent;
-	
+
 	> li {
 		display: inline-block;
-		
+
 		span {
 			color: @breadcrumb-color;
 		}
@@ -606,7 +605,7 @@ h3.relationship-heading {
 // Items List
 // --------------------------------------------------
 table.items-list {
-	
+
 	thead > tr > th,
 	tbody > tr > th,
 	tfoot > tr > th {
@@ -614,7 +613,7 @@ table.items-list {
 		text-align: left;
 		font-size: @font-size-large;
 	}
-	
+
 	thead > tr > td,
 	tbody > tr > td,
 	tfoot > tr > td {
@@ -622,21 +621,21 @@ table.items-list {
 		background-color: white;
 		border-top: 1px solid #e5e5e5;
 	}
-	
+
 	tr.delete-hover {
 		td {
 			color: #AD1212;
 			a { color: #AD1212; }
 		}
 	}
-	
+
 	tr.delete-inprogress {
 		td {
 			color: #ccc;
 			a { color: #ccc; }
 		}
 	}
-	
+
 	tr.sort-hover, tr.dragged {
 		.control-sort {
 			opacity: 1;
@@ -646,34 +645,34 @@ table.items-list {
 			a { color: #246818; }
 		}
 	}
-	
+
 	// links get a larger hit area
 	tbody a {
 		display: inline-block;
 		padding: @padding-small-vertical @padding-small-horizontal;
 		color: @text-color;
 		text-decoration: none;
-		
+
 		&:hover {
 			color: darken(@text-color, 10%);
 			text-decoration: underline;
 		}
 	}
-	
+
 	thead a {
 		color: @text-color;
 		text-decoration: none;
 		margin-right: 5px;
-		
+
 		&:hover {
 			text-decoration: underline;
 		}
 	}
-	
+
 	.col-value {
 		padding: @padding-small-vertical @padding-small-horizontal;
 	}
-	
+
 	.col-boolean {
 		text-align: left;
 		padding: @padding-small-vertical @padding-small-horizontal 2px;
@@ -688,7 +687,7 @@ table.items-list {
 // Relationships List
 // --------------------------------------------------
 table.relationships-list {
-	
+
 	thead > tr > th,
 	tbody > tr > th,
 	tfoot > tr > th {
@@ -705,7 +704,7 @@ table.relationships-list {
 
 //
 // Pagination
-// -------------------------------------------------- 
+// --------------------------------------------------
 .pagination {
 	> .disabled {
 		> span,
