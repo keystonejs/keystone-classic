@@ -8,7 +8,9 @@
 				.help-block (not set)
 		else
 			select(name=field.path).ui-select2
-				option(value='')
+				if !field.required
+					option(value='')
+
 				each opt in field.ops
 					option(value=opt.value, selected=(opt.value == item.get(field.path)))= opt.label
 		if field.note
