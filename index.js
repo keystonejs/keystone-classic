@@ -1132,9 +1132,16 @@ Keystone.prototype.createItems = function(data, callback) {
 					singular: list.singular,
 					plural: list.plural,
 					created: 0
-				}
+				};
 				
 				async.each(data[key], function(data, doneItem) {
+					
+					// Evaluate function properties to allow generated values
+					_.keys(data).forEach(function(i) {
+						if (_.isFunction(data[i])) {
+							data[i] = data[i]();
+						}
+					});
 					
 					var doc = data.__doc = new list.model();
 					
