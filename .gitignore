@@ -25,4 +25,4 @@ node_modules/
 *.iws
 .idea/
 
-_site/
+docs/_dist
