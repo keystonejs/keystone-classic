@@ -308,11 +308,48 @@ block content
 					td <code>note</code> <code class="data-type">String</code>
 					td Is displayed with the field in the admin UI.
 				tr
+					td <code>hidden</code> <code class="data-type">Boolean</code>
+					td The field will always be hidden in the Admin UI if this is set to <code class="default-value">true</code>
+			
+			h3 Conditional Fields
+			
+			p To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
+			
+			table.table
+				col(width=210)
+				col
+				tr
 					td <code>collapse</code> <code class="data-type">Boolean</code>
-					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value.
+					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value
 				tr
 					td <code>dependsOn</code> <code class="data-type">Object</code>
-					td Hides the field in the admin UI unless the specified conditions (other field values) are met.
+					td The field will only be displayed when the paths specified in the object match the current data for the item
+			
+			h3 Generated values and watching fields
+			
+			p Keystone's fields support a simple syntax for configuring dynamically updated fields. You can set a field to update its value whenever:
+			
+			ul
+				li The item is saved
+				li The value of any other field (or fields) changes
+				li The value of any other field (or fields) changes to a specific value
+			
+			p To use the watching functionaliy, set the following two options:
+				
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code>
+					td
+						p When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved.
+						p Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.
+						p Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.
+				tr
+					td <code>value</code> <code class="data-type">Function</code>
+					td
+						p The function to generate the field value when a watched path is changed. Must return the new value.
+						p The <code>this</code> context of the function will be the item being saved.
 			
 			//- TODO: Documentation for field methods
 			
