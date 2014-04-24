@@ -114,7 +114,8 @@ permalink: /docs/database/
               <p>List Items are <a href="http://mongoosejs.com/docs/documents.html" target"_blank">mongoose documents</a>. To create new items, use <code>new list.model()</code> and when you're ready to save it (or to save changes to an existing Item), call <code>item.save()</code>.</p><a name="lists"></a>
               <h2>Lists</h2><a name="lists-usage"></a>
               <h3>Usage</h3>
-              <p>The syntax for creating a <strong>Keystone List</strong> is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code>var MyList = new keystone.List(key, options)</code>.</p>
+              <h4><code>new keystone.List(key[, options]);</code></h4>
+              <p>The syntax for creating a <strong>Keystone List</strong> is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code class='default-value'>var MyList = new keystone.List(key, options)</code>.</p>
               <p>Once you have created a new List, add fields to it using <code>MyList.add(fields)</code>, where fields is an object of keys (for field paths) and values (for field types, or options).</p>
               <p>Fields are defined by an object with a <code>type</code> property, which must be a valid Field Type or basic data type. Using the object syntax you can specify additional options for the field. Common field options and field-type-specific options are detailed in the fields documentation.</p>
               <p>When all the fields and options have been set on the list, call <code>MyList.register()</code> to register the list with Keystone and finalise its configuration.</p><a name="lists-example"></a>
@@ -125,11 +126,13 @@ permalink: /docs/database/
               </div>
               <pre><code class="language-javascript">var keystone = require('keystone'),
     Types = keystone.Field.Types;
+ 
 var Post = new keystone.List('Post', {
     autokey: { path: 'slug', from: 'title', unique: true },
     map: { name: 'title' },
     defaultSort: '-createdAt'
 });
+ 
 Post.add({
     title: { type: String, required: true },
     state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' },
@@ -142,6 +145,7 @@ Post.add({
         extended: { type: Types.Html, wysiwyg: true, height: 400 }
     }
 });
+ 
 Post.defaultColumns = 'title, state|20%, author, publishedAt|15%'
 Post.register();</code></pre>
               <p class="note">This example implements the optional <code>map</code>, <code>autokey</code> and <code>defaultSort</code> options, described below.</p>
@@ -152,6 +156,29 @@ Post.register();</code></pre>
               <table class="table">
                 <col width="210">
                 <col>
+                <tr>
+                  <td><code>label</code> <code class="data-type">String</code></td>
+                  <td>The label used for the list in the Admin UI. Defaults to a friendly form of <code class="default-value">key</code></td>
+                </tr>
+                <tr>
+                  <td><code>path</code> <code class="data-type">String</code></td>
+                  <td>The path used for the list in the Admin UI. Defaults to a slugified form of <code class="default-value">key</code>.</td>
+                </tr>
+                <t>
+                  <td><code>singular</code> <code class="data-type">String</code></td>
+                  <td>The singular label for the items in the list. Used in the Admin UI, defaults to a singular form of <code class="default-value">label</code></td>
+                </t>
+                <tr>
+                  <td><code>plural</code> <code class="data-type">String</code></td>
+                  <td>The plural label for the items in the list. Used in the Admin UI, defaults to a plural form of <code class="default-value">singular</code></td>
+                </tr>
+                <tr>
+                  <td><code>schema</code> <code class="data-type">String</code></td>
+                  <td>
+                    <p>Options for the Mongoose Schema for the List. Among other things, this option lets you specify a custom name for the <strong>collection</strong>. See the <a href="http://mongoosejs.com/docs/guide.html#options" target="_blank">mongoose schema docs</a> for a list of available options.</p>
+                    <p><em>Warning: do not modify the <code>id</code> or <code>_id</code> schema options; the default behaviour is required by Keystone</em></p>
+                  </td>
+                </tr>
                 <tr>
                   <td><code>drilldown</code> <code class="data-type">String</code></td>
                   <td>A space-delimited list of relationships to display as drilldown in the Admin UI</td>
@@ -259,7 +286,7 @@ if (shouldBePublished) {
 }
  
 newPost.save(function(err) {
-    // post has been saved  
+    // post has been saved	
 });</code></pre>
               <div class="contextual-note">
                 <h4>Automatic keys</h4>
@@ -726,11 +753,11 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <h5>Options</h5>
                 <p><code>filenameFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new filename to upload.</p>
                 <pre><code class="language-javascript">{ type: Types.AzureFile, filenameFormatter: function(item, filename) {
-  return item._id + require('path').extname(filename);
+	return item._id + require('path').extname(filename);
 } }</code></pre>
                 <p><code>containerFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new container name (container are a root folder in Azure Storage Account).</p>
                 <pre><code class="language-javascript">{ type: Types.AzureFile, containerFormatter: containerFormatter: function(item, filename) {
-  return item.modelProperty;
+	return item.modelProperty;
 } }</code></pre>
                 <h5>Schema</h5>
                 <p><code>filename</code> <code class="data-type">String</code></p>
