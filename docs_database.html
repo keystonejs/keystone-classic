@@ -373,12 +373,49 @@ Post.model.findById(postId)
                   <td>Is displayed with the field in the admin UI.</td>
                 </tr>
                 <tr>
+                  <td><code>hidden</code> <code class="data-type">Boolean</code></td>
+                  <td>The field will always be hidden in the Admin UI if this is set to <code class="default-value">true</code></td>
+                </tr>
+              </table>
+              <h3>Conditional Fields</h3>
+              <p>To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.</p>
+              <table class="table">
+                <col width="210">
+                <col>
+                <tr>
                   <td><code>collapse</code> <code class="data-type">Boolean</code></td>
-                  <td>Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value.</td>
+                  <td>Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value</td>
                 </tr>
                 <tr>
                   <td><code>dependsOn</code> <code class="data-type">Object</code></td>
-                  <td>Hides the field in the admin UI unless the specified conditions (other field values) are met.</td>
+                  <td>The field will only be displayed when the paths specified in the object match the current data for the item</td>
+                </tr>
+              </table>
+              <h3>Generated values and watching fields</h3>
+              <p>Keystone's fields support a simple syntax for configuring dynamically updated fields. You can set a field to update its value whenever:</p>
+              <ul>
+                <li>The item is saved</li>
+                <li>The value of any other field (or fields) changes</li>
+                <li>The value of any other field (or fields) changes to a specific value</li>
+              </ul>
+              <p>To use the watching functionaliy, set the following two options:</p>
+              <table class="table">
+                <col width="210">
+                <col>
+                <tr>
+                  <td><code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code></td>
+                  <td>
+                    <p>When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved.</p>
+                    <p>Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.</p>
+                    <p>Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>value</code> <code class="data-type">Function</code></td>
+                  <td>
+                    <p>The function to generate the field value when a watched path is changed. Must return the new value.</p>
+                    <p>The <code>this</code> context of the function will be the item being saved.</p>
+                  </td>
                 </tr>
               </table><a name="fields-underscoremethods"></a>
               <h3>Underscore Methods</h3>
@@ -629,7 +666,11 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <h5>Options</h5>
                 <p><code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)</p>
                 <h5>Underscore methods</h5>
-                <p><code>compare(input)</code> <code class="data-type">Boolean</code> - compares the input against the encrypted hash, returns <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't</p>
+                <p><code>compare(input, callback)</code> - encrypts the input and compares it against the encrypted hash</p>
+                <ul>
+                  <li><code>input</code> <code class="data-type">String</code> to compare</li>
+                  <li><code>callback(err, result)</code> - <strong>result</strong> is <code class="default-value">true</code> if the input matches the stored password, or <code class="default-value">false</code> if it doesn't</li>
+                </ul>
                 <h5>Special paths</h5>
                 <p><code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.</p>
               </div><a name="fieldtypes-location"></a>
