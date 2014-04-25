@@ -701,7 +701,7 @@ block content
 				p <code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)
 				
 				h5 Underscore methods
-				p <code>compare(input)</code> <code class="data-type">Boolean</code> - compares the input against the encrypted hash, returns <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't
+				p <code>compare(input, callback)</code> <code class="data-type">function(err, result)</code> - compares the input against the encrypted hash, passes the callback the result <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't
 				
 				h5 Special paths
 				p <code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.
