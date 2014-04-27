@@ -666,10 +666,10 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <h5>Options</h5>
                 <p><code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)</p>
                 <h5>Underscore methods</h5>
-                <p><code>compare(input, callback)</code> - encrypts the input and compares it against the encrypted hash</p>
+                <p><code>compare(candidate, callback)</code> - encrypts the candidate and compares it against the encrypted hash</p>
                 <ul>
-                  <li><code>input</code> <code class="data-type">String</code> to compare</li>
-                  <li><code>callback(err, result)</code> - <strong>result</strong> is <code class="default-value">true</code> if the input matches the stored password, or <code class="default-value">false</code> if it doesn't</li>
+                  <li><code>candidate</code> <code class="data-type">String</code> to compare</li>
+                  <li><code>callback(err, result)</code> - <strong>result</strong> is <code class="default-value">true</code> if the candidate matches the stored password, or <code class="default-value">false</code> if it doesn't</li>
                 </ul>
                 <h5>Special paths</h5>
                 <p><code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.</p>
