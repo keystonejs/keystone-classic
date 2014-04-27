@@ -37,6 +37,7 @@ var Keystone = function() {
 		routes: [],
 		render: []
 	};
+	this._redirects = {};
 
 	// expose express
 
@@ -527,6 +528,18 @@ Keystone.prototype.start = function(events) {
 	if (!this.get('headless')) {
 		this.routes(app);
 	}
+	
+	// Handle redirects before 404s
+	
+	if (Object.keys(this._redirects).length) {
+		app.use(function(req, res, next) {
+			if (keystone._redirects[req.path]) {
+				res.redirect(keystone._redirects[req.path]);
+			} else {
+				next();
+			}
+		});
+	}
 
 	// Handle 404 (no route matched) errors
 
@@ -933,6 +946,33 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 	return this;
 
 };
+
+
+/**
+ * Adds one or more redirections (urls that are redirected when no matching
+ * routes are found, before treating the request as a 404)
+ * 
+ * #### Example:
+ * 		keystone.redirect('/old-route', 'new-route');
+ * 		
+ * 		// or
+ * 		
+ * 		keystone.redirect({
+ * 			'old-route': 'new-route'
+ * 		});
+ */
+
+Keystone.prototype.redirect = function() {
+	
+	if (arguments.length == 1 && utils.isObject(arguments[0])) {
+		_.extend(this._redirects, arguments[0]);
+	} else if (arguments.length == 2 && 'string' == typeof arguments[0] && 'string' == typeof arguments[1]) {
+		this._redirects[arguments[0]] = arguments[1];
+	}
+	
+	return this;
+	
+}
 
 
 /**
