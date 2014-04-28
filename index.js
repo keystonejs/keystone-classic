@@ -447,6 +447,8 @@ Keystone.prototype.start = function(events) {
 		app.locals.pretty = true;
 	}
 
+	app.locals.pathFor = this.namedRoutes.pathFor;
+
 	// Serve static assets
 
 	if (this.get('compress')) {
