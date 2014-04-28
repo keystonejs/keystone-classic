@@ -37,6 +37,7 @@ var Keystone = function() {
 		routes: [],
 		render: []
 	};
+	this.namedRoutes = new (require('./lib/pathFor').NamedRoutes);
 
 	// expose express
 
@@ -135,6 +136,9 @@ var remappedOptions = {
 		break;
 		case 'nav':
 			this.nav = this.initNav(value);
+		break;
+		case 'routes':
+			this.namedRoutes.map(value);
 		break;
 	}
 
@@ -620,7 +624,7 @@ Keystone.prototype.start = function(events) {
 
 	// Configure application routes
 	if ('function' == typeof this.get('routes')) {
-		this.get('routes')(app);
+		this.get('routes')(app, function(){});
 	}
 
 	// Connect to database
