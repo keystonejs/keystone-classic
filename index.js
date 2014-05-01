@@ -685,8 +685,10 @@ Keystone.prototype.start = function(events) {
 			keystone.httpServer = http.createServer(app);
 			events.onHttpServerCreated && events.onHttpServerCreated();
 
-			var port = keystone.get('port');
-			var ssl = keystone.get('ssl');
+			var host = keystone.get('host'),
+				port = keystone.get('port'),
+				listen = keystone.get('listen'),
+				ssl = keystone.get('ssl');
 
 			// start the http server unless we're in ssl-only mode
 			if (ssl != 'only') {
@@ -698,26 +700,39 @@ Keystone.prototype.start = function(events) {
 					}
 				}
 
-				if (port) {
-
+				if (port || port === 0) {
+					
 					app.set('port', port);
-
-					if (keystone.get('host')) {
-						keystone.httpServer.listen(port, keystone.get('host'), httpStarted(keystone.get('name') + ' is ready on ' + keystone.get('host') + ':' + port));
+					
+					var httpReadyMsg = keystone.get('name') + ' is ready';
+					
+					if (host) {
+						httpReadyMsg += ' on http://' + host;
+						if (port) {
+							httpReadyMsg += ':' + port;
+						}
+						// start listening on the specified host and port
+						keystone.httpServer.listen(port, host, httpStarted(httpReadyMsg));
 					} else {
-						keystone.httpServer.listen(port, httpStarted(keystone.get('name') + ' is ready on port ' + port));
+						if (port) {
+							httpReadyMsg += ' on port ' + port;
+						}
+						// start listening on any IPv4 address (INADDR_ANY) and the specified port
+						keystone.httpServer.listen(port, httpStarted(httpReadyMsg));
 					}
-
+					
+				} else if (host) {
+					// start listening on a specific host address and default port 3000
+					app.set('port', 3000);
+					keystone.httpServer.listen(3000, host, httpStarted(keystone.get('name') + ' is ready on ' + host + ':3000'));
+				} else if (listen) {
+					// start listening to a unix socket
+					keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
 				} else {
-
-					var listen = keystone.get('listen') || process.env.LISTEN;
-
-					if (listen) {
-						keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
-					} else {
-						keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
-					}
-
+					// default: start listening on any IPv4 address (INADDR_ANY) and default port 3000
+					app.set('port', 3000);
+					keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
+					
 				}
 
 			} else {
@@ -758,13 +773,13 @@ Keystone.prototype.start = function(events) {
 					keystone.httpsServer = https.createServer(sslOpts, app);
 					events.onHttpsServerCreated && events.onHttpsServerCreated();
 
-					var sslHost = keystone.get('ssl host') || keystone.get('host'),
+					var sslHost = keystone.get('ssl host') || host,
 						sslPort = keystone.get('ssl port') || 3001;
 
 					var httpsReadyMsg = (ssl == 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
 
 					if (sslHost) {
-						keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + sslHost + ':' + sslPort));
+						keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + 'https://' + sslHost + ':' + sslPort));
 					} else {
 						var httpsPortMsg = (keystone.get('ssl port')) ? 'port: ' + keystone.get('ssl port') : 'default port 3001';
 						keystone.httpsServer.listen(sslPort, httpsStarted(httpsReadyMsg + httpsPortMsg));
