@@ -37,7 +37,9 @@ var Keystone = function() {
 		routes: [],
 		render: []
 	};
+	
 	this.namedRoutes = new (require('./lib/pathFor').NamedRoutes);
+	this._redirects = {};
 
 	// expose express
 
@@ -533,6 +535,18 @@ Keystone.prototype.start = function(events) {
 	if (!this.get('headless')) {
 		this.routes(app);
 	}
+	
+	// Handle redirects before 404s
+	
+	if (Object.keys(this._redirects).length) {
+		app.use(function(req, res, next) {
+			if (keystone._redirects[req.path]) {
+				res.redirect(keystone._redirects[req.path]);
+			} else {
+				next();
+			}
+		});
+	}
 
 	// Handle 404 (no route matched) errors
 
@@ -678,8 +692,10 @@ Keystone.prototype.start = function(events) {
 			keystone.httpServer = http.createServer(app);
 			events.onHttpServerCreated && events.onHttpServerCreated();
 
-			var port = keystone.get('port');
-			var ssl = keystone.get('ssl');
+			var host = keystone.get('host'),
+				port = keystone.get('port'),
+				listen = keystone.get('listen'),
+				ssl = keystone.get('ssl');
 
 			// start the http server unless we're in ssl-only mode
 			if (ssl != 'only') {
@@ -691,26 +707,39 @@ Keystone.prototype.start = function(events) {
 					}
 				}
 
-				if (port) {
-
+				if (port || port === 0) {
+					
 					app.set('port', port);
-
-					if (keystone.get('host')) {
-						keystone.httpServer.listen(port, keystone.get('host'), httpStarted(keystone.get('name') + ' is ready on ' + keystone.get('host') + ':' + port));
+					
+					var httpReadyMsg = keystone.get('name') + ' is ready';
+					
+					if (host) {
+						httpReadyMsg += ' on http://' + host;
+						if (port) {
+							httpReadyMsg += ':' + port;
+						}
+						// start listening on the specified host and port
+						keystone.httpServer.listen(port, host, httpStarted(httpReadyMsg));
 					} else {
-						keystone.httpServer.listen(port, httpStarted(keystone.get('name') + ' is ready on port ' + port));
+						if (port) {
+							httpReadyMsg += ' on port ' + port;
+						}
+						// start listening on any IPv4 address (INADDR_ANY) and the specified port
+						keystone.httpServer.listen(port, httpStarted(httpReadyMsg));
 					}
-
+					
+				} else if (host) {
+					// start listening on a specific host address and default port 3000
+					app.set('port', 3000);
+					keystone.httpServer.listen(3000, host, httpStarted(keystone.get('name') + ' is ready on ' + host + ':3000'));
+				} else if (listen) {
+					// start listening to a unix socket
+					keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
 				} else {
-
-					var listen = keystone.get('listen') || process.env.LISTEN;
-
-					if (listen) {
-						keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
-					} else {
-						keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
-					}
-
+					// default: start listening on any IPv4 address (INADDR_ANY) and default port 3000
+					app.set('port', 3000);
+					keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
+					
 				}
 
 			} else {
@@ -751,13 +780,13 @@ Keystone.prototype.start = function(events) {
 					keystone.httpsServer = https.createServer(sslOpts, app);
 					events.onHttpsServerCreated && events.onHttpsServerCreated();
 
-					var sslHost = keystone.get('ssl host') || keystone.get('host'),
+					var sslHost = keystone.get('ssl host') || host,
 						sslPort = keystone.get('ssl port') || 3001;
 
 					var httpsReadyMsg = (ssl == 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
 
 					if (sslHost) {
-						keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + sslHost + ':' + sslPort));
+						keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + 'https://' + sslHost + ':' + sslPort));
 					} else {
 						var httpsPortMsg = (keystone.get('ssl port')) ? 'port: ' + keystone.get('ssl port') : 'default port 3001';
 						keystone.httpsServer.listen(sslPort, httpsStarted(httpsReadyMsg + httpsPortMsg));
@@ -770,6 +799,16 @@ Keystone.prototype.start = function(events) {
 			}
 
 		}
+		
+		process.on('uncaughtException', function(e) {
+			if (e.code == 'EADDRINUSE') {
+				console.log('------------------------------------------------\n' +
+					keystone.get('name') + ' failed to start: address already in use\n' +
+					'Please check you are not already running a server on the specified port.');
+				process.exit();
+			}
+			throw (e);
+		});
 
 		// Apply updates?
 		if (keystone.get('auto update')) {
@@ -939,6 +978,33 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 	return this;
 
 };
+
+
+/**
+ * Adds one or more redirections (urls that are redirected when no matching
+ * routes are found, before treating the request as a 404)
+ * 
+ * #### Example:
+ * 		keystone.redirect('/old-route', 'new-route');
+ * 		
+ * 		// or
+ * 		
+ * 		keystone.redirect({
+ * 			'old-route': 'new-route'
+ * 		});
+ */
+
+Keystone.prototype.redirect = function() {
+	
+	if (arguments.length == 1 && utils.isObject(arguments[0])) {
+		_.extend(this._redirects, arguments[0]);
+	} else if (arguments.length == 2 && 'string' == typeof arguments[0] && 'string' == typeof arguments[1]) {
+		this._redirects[arguments[0]] = arguments[1];
+	}
+	
+	return this;
+	
+}
 
 
 /**
@@ -1138,9 +1204,16 @@ Keystone.prototype.createItems = function(data, callback) {
 					singular: list.singular,
 					plural: list.plural,
 					created: 0
-				}
+				};
 				
 				async.each(data[key], function(data, doneItem) {
+					
+					// Evaluate function properties to allow generated values
+					_.keys(data).forEach(function(i) {
+						if (_.isFunction(data[i])) {
+							data[i] = data[i]();
+						}
+					});
 					
 					var doc = data.__doc = new list.model();
 					

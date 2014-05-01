@@ -39,7 +39,9 @@ block content
 			a(name='lists-usage')
 			h3 Usage
 			
-			p The syntax for creating a <strong>Keystone List</strong> is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code>var MyList = new keystone.List(key, options)</code>.
+			h4: code new keystone.List(key[, options]);
+			
+			p The syntax for creating a <strong>Keystone List</strong> is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is <code class='default-value'>var MyList = new keystone.List(key, options)</code>.
 			p Once you have created a new List, add fields to it using <code>MyList.add(fields)</code>, where fields is an object of keys (for field paths) and values (for field types, or options).
 			p Fields are defined by an object with a <code>type</code> property, which must be a valid Field Type or basic data type. Using the object syntax you can specify additional options for the field. Common field options and field-type-specific options are detailed in the fields documentation.
 			p When all the fields and options have been set on the list, call <code>MyList.register()</code> to register the list with Keystone and finalise its configuration.
@@ -52,11 +54,13 @@ block content
 			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     Types = keystone.Field.Types;
+				| 
 				| var Post = new keystone.List('Post', {
 				|     autokey: { path: 'slug', from: 'title', unique: true },
 				|     map: { name: 'title' },
 				|     defaultSort: '-createdAt'
 				| });
+				| 
 				| Post.add({
 				|     title: { type: String, required: true },
 				|     state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' },
@@ -69,6 +73,7 @@ block content
 				|         extended: { type: Types.Html, wysiwyg: true, height: 400 }
 				|     }
 				| });
+				| 
 				| Post.defaultColumns = 'title, state|20%, author, publishedAt|15%'
 				| Post.register();
 			
@@ -84,6 +89,23 @@ block content
 			table.table
 				col(width=210)
 				col
+				tr
+					td <code>label</code> <code class="data-type">String</code>
+					td The label used for the list in the Admin UI. Defaults to a friendly form of <code class="default-value">key</code>
+				tr
+					td <code>path</code> <code class="data-type">String</code>
+					td The path used for the list in the Admin UI. Defaults to a slugified form of <code class="default-value">key</code>.
+				t
+					td <code>singular</code> <code class="data-type">String</code>
+					td The singular label for the items in the list. Used in the Admin UI, defaults to a singular form of <code class="default-value">label</code>
+				tr
+					td <code>plural</code> <code class="data-type">String</code>
+					td The plural label for the items in the list. Used in the Admin UI, defaults to a plural form of <code class="default-value">singular</code>
+				tr
+					td <code>schema</code> <code class="data-type">String</code>
+					td
+						p Options for the Mongoose Schema for the List. Among other things, this option lets you specify a custom name for the <strong>collection</strong>. See the <a href="http://mongoosejs.com/docs/guide.html#options" target="_blank">mongoose schema docs</a> for a list of available options.
+						p: em Warning: do not modify the <code>id</code> or <code>_id</code> schema options; the default behaviour is required by Keystone
 				tr
 					td <code>drilldown</code> <code class="data-type">String</code>
 					td A space-delimited list of relationships to display as drilldown in the Admin UI
@@ -286,11 +308,48 @@ block content
 					td <code>note</code> <code class="data-type">String</code>
 					td Is displayed with the field in the admin UI.
 				tr
+					td <code>hidden</code> <code class="data-type">Boolean</code>
+					td The field will always be hidden in the Admin UI if this is set to <code class="default-value">true</code>
+			
+			h3 Conditional Fields
+			
+			p To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
+			
+			table.table
+				col(width=210)
+				col
+				tr
 					td <code>collapse</code> <code class="data-type">Boolean</code>
-					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value.
+					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value
 				tr
 					td <code>dependsOn</code> <code class="data-type">Object</code>
-					td Hides the field in the admin UI unless the specified conditions (other field values) are met.
+					td The field will only be displayed when the paths specified in the object match the current data for the item
+			
+			h3 Generated values and watching fields
+			
+			p Keystone's fields support a simple syntax for configuring dynamically updated fields. You can set a field to update its value whenever:
+			
+			ul
+				li The item is saved
+				li The value of any other field (or fields) changes
+				li The value of any other field (or fields) changes to a specific value
+			
+			p To use the watching functionaliy, set the following two options:
+				
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code>
+					td
+						p When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved.
+						p Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.
+						p Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.
+				tr
+					td <code>value</code> <code class="data-type">Function</code>
+					td
+						p The function to generate the field value when a watched path is changed. Must return the new value.
+						p The <code>this</code> context of the function will be the item being saved.
 			
 			//- TODO: Documentation for field methods
 			
@@ -642,7 +701,10 @@ block content
 				p <code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)
 				
 				h5 Underscore methods
-				p <code>compare(input)</code> <code class="data-type">Boolean</code> - compares the input against the encrypted hash, returns <code class="default-value">true</code> if they match or <code class="default-value">false</code> if they don't
+				p <code>compare(candidate, callback)</code> - encrypts the candidate and compares it against the encrypted hash
+				ul
+					li <code>candidate</code> <code class="data-type">String</code> to compare
+					li <code>callback(err, result)</code> - <strong>result</strong> is <code class="default-value">true</code> if the candidate matches the stored password, or <code class="default-value">false</code> if it doesn't
 				
 				h5 Special paths
 				p <code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.
