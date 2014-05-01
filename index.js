@@ -3,7 +3,7 @@ var fs = require('fs'),
 	http = require('http'),
 	https = require('https'),
 	_ = require('underscore'),
-	express = require('express'),
+	express = require('express.io'),
 	async = require('async'),
 	jade = require('jade'),
 	moment = require('moment'),
@@ -682,7 +682,7 @@ Keystone.prototype.start = function(events) {
 
 		var createServer = function() {
 
-			keystone.httpServer = http.createServer(app);
+			keystone.httpServer = app.http().io().server;
 			events.onHttpServerCreated && events.onHttpServerCreated();
 
 			var host = keystone.get('host'),
@@ -770,7 +770,7 @@ Keystone.prototype.start = function(events) {
 						}
 					}
 
-					keystone.httpsServer = https.createServer(sslOpts, app);
+					keystone.httpsServer = app.https(sslOpts).io().server;
 					events.onHttpsServerCreated && events.onHttpsServerCreated();
 
 					var sslHost = keystone.get('ssl host') || host,
