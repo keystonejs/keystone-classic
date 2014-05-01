@@ -139,9 +139,6 @@ var remappedOptions = {
 		case 'nav':
 			this.nav = this.initNav(value);
 		break;
-		// case 'routes':
-			// this.namedRoutes.map(value);
-		// break;
 	}
 
 	this._options[key] = value;
