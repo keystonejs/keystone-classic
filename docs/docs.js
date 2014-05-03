@@ -1,5 +1,5 @@
 var http = require('http'),
-	_ = require('underscore'),
+	_ = require('lodash'),
 	express = require('express'),
 	jade = require('jade'),
 	content = require('./content/site.json');

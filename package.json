@@ -8,7 +8,6 @@
     "url": "https://github.com/JedWatson/keystone.git"
   },
   "dependencies": {
-    "underscore": "~1.6.0",
     "keystone-utils": "~0.1.9",
     "express": "~3.3.8",
     "mongoose": "~3.8.8",
@@ -27,7 +26,8 @@
     "semver": "~2.2.1",
     "knox": "~0.8.9",
     "azure": "~0.8.1",
-    "range_check": "~0.0.4"
+    "range_check": "~0.0.4",
+    "lodash": "^2.4.1"
   },
   "devDependencies": {
     "mocha": ">= 1.12 < 2",
