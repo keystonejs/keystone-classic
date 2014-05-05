@@ -1,0 +1,14 @@
+.field(class='type-' + field.type, data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+  label.field-label= field.label
+  .field-ui(class='width-' + field.width)
+    //- TODO: put some actual UI here
+    each value in item.get(field.path)
+      //- TODO: add a proper class and style to this div
+      div.field-value
+        each subfield in field.fields
+          .field
+            label.field-label= subfield.label
+            .field-ui
+              .field-value= value[subfield._path.last]
+    if field.note
+      .field-note!= field.note
