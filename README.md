@@ -350,8 +350,9 @@ The next step for all this to work is to use `keystone.mount` in the server app.
 
 ```
 var express = require('express'),
-	app = express(),
-	app.keystone = require('your-app-content');
+	app = express();
+	
+app.keystone = require('your-app-content');
 
 //...do your normal express setup stuff, add middleware and routes (but not static content or error handling middleware yet)
 
