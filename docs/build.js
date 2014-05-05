@@ -17,7 +17,7 @@
 
 var fs = require('fs-extra'),
 	path = require('path'),
-	_ = require('underscore'),
+	_ = require('lodash'),
 	jade = require('jade'),
 	content = require('./content/site.json');
 

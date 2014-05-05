@@ -1,5 +1,5 @@
 var keystone = require('../../'),
-	_ = require('underscore'),
+	_ = require('lodash'),
 	moment = require('moment'),
 	querystring = require('querystring'),
 	async = require('async'),
