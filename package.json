@@ -59,7 +59,7 @@
     "url": "https://github.com/JedWatson/keystone/issues"
   },
   "scripts": {
-    "test": "make test"
+    "test": "./node_modules/.bin/mocha ./test"
   },
   "engines": {
     "node": "0.10.x",
