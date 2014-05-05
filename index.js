@@ -779,7 +779,7 @@ Keystone.prototype.start = function(events) {
 		mongoConnectionOpen = true;
 
 		var startupMessages = ['KeystoneJS Started:'],
-		waitForServers = 2;
+			waitForServers = 2;
 
 		// Logs the startup messages and calls the onStart method
 		var serverStarted = function() {
@@ -799,9 +799,9 @@ Keystone.prototype.start = function(events) {
 		events.onHttpServerCreated && events.onHttpServerCreated();
 
 		var host = keystone.get('host'),
-		port = keystone.get('port'),
-		listen = keystone.get('listen'),
-		ssl = keystone.get('ssl');
+			port = keystone.get('port'),
+			listen = keystone.get('listen'),
+			ssl = keystone.get('ssl');
 
 		// start the http server unless we're in ssl-only mode
 		if (ssl != 'only') {
@@ -887,7 +887,7 @@ Keystone.prototype.start = function(events) {
 				events.onHttpsServerCreated && events.onHttpsServerCreated();
 
 				var sslHost = keystone.get('ssl host') || host,
-				sslPort = keystone.get('ssl port') || 3001;
+					sslPort = keystone.get('ssl port') || 3001;
 
 				var httpsReadyMsg = (ssl == 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
 
@@ -907,8 +907,8 @@ Keystone.prototype.start = function(events) {
 		process.on('uncaughtException', function(e) {
 			if (e.code == 'EADDRINUSE') {
 				console.log('------------------------------------------------\n' +
-				keystone.get('name') + ' failed to start: address already in use\n' +
-				'Please check you are not already running a server on the specified port.');
+					keystone.get('name') + ' failed to start: address already in use\n' +
+					'Please check you are not already running a server on the specified port.');
 				process.exit();
 			}
 			throw (e);
@@ -1178,7 +1178,7 @@ Keystone.prototype.import = function(dirname) {
 
 		// recur
 		if (info.isDirectory()) {
-		infomported[name] = doImport(fsPath);
+			infomported[name] = doImport(fsPath);
 		} else {
 			// only import .js or .coffee files
 			var parts = name.split('.');
