@@ -1,12 +1,4 @@
-if (module.parent) return;
-
-/**
-	These tests are currently designed to be run from the command line like
-	`/keystone/tests node fields`
-	
-	Currently in this format for expermientation, will be implemented as proper
-	unit tests soon!
-*/
+var demand = require('must');
 
 var keystone = require('../').init(),
 	Types = keystone.Field.Types;
@@ -28,8 +20,21 @@ var item = new Test.model();
 
 /** FieldType: Date */
 
-item._.date.parse('20131204', 'YYYYMMDD');
-console.log('Should be 4th Dec 2013: ' + item._.date.format());
-console.log('Should be 20131204: ' + item._.date.format('YYYYMMDD'));
-console.log('Should be a moment object:');
-console.log(item._.date.moment());
+describe("Fields", function() {
+	describe("Date", function() {
+
+		it('should parse without error via underscore date', function() {
+			item._.date.parse('20131204', 'YYYYMMDD');
+		});
+
+		it('should be the date we expect', function() {
+			demand(item._.date.format()).to.equal('4th Dec 2013');
+			demand(item._.date.format('YYYYMMDD')).to.equal('20131204');
+		});
+
+		it('should be a moment object', function() {
+			demand(item._.date.moment()._isAMomentObject);
+		});
+
+	});
+});

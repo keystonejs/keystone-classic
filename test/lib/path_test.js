@@ -1,6 +1,5 @@
 var Path = require("../../lib/path");
 // when using gulp must has to be required manually for scope
-var must = require('must');
 
 describe("Path", function() {
 	describe("new", function() {
