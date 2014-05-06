@@ -62,7 +62,7 @@ jQuery(function($) {
 	
 	$('.add-list-filter').click(function(e) {
 		var path = $(this).data('path');
-		var $filter = $('.filter[data-path=' + path + ']').addClass('active');
+		var $filter = $('.filter[data-path="' + path + '"]').addClass('active');
 		$(window).scrollTop(0);
 		checkFiltersStatus();
 		var $input = $filter.find('input[type=text]');
