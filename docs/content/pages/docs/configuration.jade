@@ -237,8 +237,29 @@ block content
 			a(name='services')
 			h2 Services
 			
+			a(name='services-google-analytics')
+			h3 Google Analytics
 			
-			a(name='services-google')
+			p Keystone has support for Google Analytics tracking in the Admin UI. To enable tracking, set the following configuration options:
+			
+			table.table
+				col(width=270)
+				col
+				tr
+					td <code>ga property</code> <code class="data-type">String</code>
+					td
+						p Your Google Analytics Property
+						p Will default to <code class="default-value">process.env.GA_PROPERTY</code>
+				tr
+					td <code>ga domain</code> <code class="data-type">String</code>
+					td
+						p Your Google Analytics Domain
+						p Will default to <code class="default-value">process.env.GA_DOMAIN</code>
+			
+			p.note Note if you only want to include Google Analytics tracking in the front-end of your project, you should use different variable names from those above.
+			
+			
+			a(name='services-google-maps')
 			h3 Google Maps
 			
 			p Keystone's <a href="/docs/database#field_location">Location field type</a> supports integration with the <a href="http://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.
