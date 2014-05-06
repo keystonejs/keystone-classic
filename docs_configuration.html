@@ -65,7 +65,8 @@ permalink: /docs/configuration/
                   <li><a href="#options-ssl">SSL Options</a></li>
                   <li><a href="#options-database">Database and User Auth Options</a></li>
                   <li class="nav-label"><a href="#services">Services</a></li>
-                  <li><a href="#services-google">Google Maps</a></li>
+                  <li><a href="#services-google-analytics">Google Analytics</a></li>
+                  <li><a href="#services-google-maps">Google Maps</a></li>
                   <li><a href="#services-amazons3">Amazon S3</a></li>
                   <li><a href="#services-azure">Windows Azure Storage</a></li>
                   <li><a href="#services-cloudinary">Cloudinary</a></li>
@@ -321,7 +322,28 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                 </tr>
               </table>
               <p>For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.</p><a name="services"></a>
-              <h2>Services</h2><a name="services-google"></a>
+              <h2>Services</h2><a name="services-google-analytics"></a>
+              <h3>Google Analytics</h3>
+              <p>Keystone has support for Google Analytics tracking in the Admin UI. To enable tracking, set the following configuration options:</p>
+              <table class="table">
+                <col width="270">
+                <col>
+                <tr>
+                  <td><code>ga property</code> <code class="data-type">String</code></td>
+                  <td>
+                    <p>Your Google Analytics Property</p>
+                    <p>Will default to <code class="default-value">process.env.GA_PROPERTY</code></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>ga domain</code> <code class="data-type">String</code></td>
+                  <td>
+                    <p>Your Google Analytics Domain</p>
+                    <p>Will default to <code class="default-value">process.env.GA_DOMAIN</code></p>
+                  </td>
+                </tr>
+              </table>
+              <p class="note">Note if you only want to include Google Analytics tracking in the front-end of your project, you should use different variable names from those above.</p><a name="services-google-maps"></a>
               <h3>Google Maps</h3>
               <p>Keystone's <a href="/docs/database#field_location">Location field type</a> supports integration with the <a href="http://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.</p>
               <p>To enable these features, <a href="https://code.google.com/apis/console/" target"_blank">obtain an API Key from Google</a> and enable the Google Maps v3 and Google Places APIs for it, then set the following options:</p>
