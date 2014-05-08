@@ -163,7 +163,11 @@ exports = module.exports = function(req, res) {
 			if (err || !item) return res.redirect('/keystone/' + req.list.path);
 
 			item.remove(function (err) {
-				if (!err) {
+				if (err) {
+					console.log('Error deleting ' + req.list.singular);
+					console.log(err);
+					req.flash('error', 'There was an error deleting ' + req.list.singular + ' (logged to console)');
+				} else {
 					req.flash('success', req.list.singular + ' deleted successfully.');
 				}
 				res.redirect('/keystone/' + req.list.path);
