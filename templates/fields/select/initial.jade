@@ -2,9 +2,8 @@
 	label.field-label= field.label
 	.field-ui
 		select(name=field.path).ui-select2
-			if !field.required
+			if field.emptyOption
 				option(value='')
-
 			each opt in field.ops
 				option(value=opt.value, selected=(item[field.path] == opt.value))= opt.label
 		if field.note
