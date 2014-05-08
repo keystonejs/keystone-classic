@@ -595,6 +595,8 @@ block content
 				h5 Options
 				p <code>numeric</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code>, causes the value of the field to be stored as a <code class="data-type">Number</code> instead of a <code class="data-type">String</code>
 				pre: code.language-javascript { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
+				p <code>emptyOption</code> <code class="data-type">Boolean</code> when <code class="default-value">undefined || true</code>, includes a blank value as the first option in the <code>&lt;select&gt;</code> field.
+				pre: code.language-javascript { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
 				p <code>options</code> <code class="data-type">String</code> or <code class="data-type">Array</code> - the options for the select field
 				p Option values can be provided as a comma-delimited list <code class="data-type">String</code> of values, in which the string is split into an <code class="data-type">Array</code>.
 				p For an <code class="data-type">Array</code> of options, each option should be either a
