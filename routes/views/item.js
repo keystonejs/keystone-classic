@@ -9,10 +9,6 @@ exports = module.exports = function(req, res) {
 	
 	req.list.model.findById(req.params.item).exec(function(err, item) {
 		
-		if (Array.isArray(item)) {
-			item = item[0]; // WTF??? I thought findById was only meant to return a single document.
-		}
-		
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');
 			return res.redirect('/keystone/' + req.list.path);
