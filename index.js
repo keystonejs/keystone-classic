@@ -448,13 +448,13 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	/* Express sub-app mounting to external app at a mount point (if specified) */
 
 	if (mountPath) {
-		parentApp.use(mountPath, app);
-
 		//fix root-relative keystone urls for assets (gets around having to re-write all the keystone templates)
 		parentApp.all(/^\/keystone($|\/*)/, function(req, res, next) {
 			req.url = mountPath + req.url;
 			next();
 		});
+
+		parentApp.use(mountPath, app);
 	}
 
 	/* Keystone's encapsulated Express App Setup */
@@ -499,7 +499,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	}
 
 	if (!this.get('headless')) {
-		keystone.static(app);
+			keystone.static(app);
 	}
 
 	// Handle dynamic requests
@@ -676,7 +676,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	// Connect to database
 
 	var mongooseArgs = this.get('mongo'),
-	mongoConnectionOpen = false;
+		mongoConnectionOpen = false;
 
 	if (!mongooseArgs) {
 		mongooseArgs = process.env.MONGO_URI || process.env.MONGO_URL || process.env.MONGOLAB_URI || process.env.MONGOLAB_URL || ['localhost', utils.slug(this.get('name'))];
