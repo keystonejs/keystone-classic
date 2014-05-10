@@ -1,7 +1,7 @@
-[KeystoneJS](http://keystonejs.com)
+![KeystoneJS](http://keystonejs.com/images/logo.svg)
 ===================================
 
-KeystoneJS is a powerful new Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com) that makes it easy to create sophisticated web sites and apps, and gives you a beautiful, auto-generated Admin UI.
+[KeystoneJS](http://keystonejs.com) is a powerful new Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com) that makes it easy to create sophisticated web sites and apps, and gives you a beautiful, auto-generated Admin UI.
 
 To get started, check out [keystonejs.com](http://keystonejs.com)!
 
