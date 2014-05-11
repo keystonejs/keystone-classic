@@ -1,3 +1,7 @@
+extends ../../templates/layout/base
+
+include ../../templates/mixins/docsnav
+
 block intro
 	.page-header
 		.container
@@ -6,7 +10,10 @@ block intro
 	
 block content
 	.container: .row
-		
+
+		.col-sm-3
+			+docsnav(docssection)
+
 		.col-sm-9: .docs-content
 			
 			h2
