@@ -83,7 +83,7 @@ var Keystone = function() {
 		this.set('cloudinary config', true);
 	}
 
-}
+};
 
 
 /**
@@ -203,7 +203,7 @@ Keystone.prototype.getPath = function(key, defaultValue) {
 	var pathValue = keystone.get(key) || defaultValue;
 	pathValue = ('string' == typeof pathValue && pathValue.substr(0,1) != path.sep && pathValue.substr(1,2) != ':\\') ? process.cwd() + path.sep + pathValue : pathValue;
 	return pathValue;
-}
+};
 
 
 /**
@@ -223,7 +223,7 @@ Keystone.prototype.pre = function(event, fn) {
 	}
 	this._pre[event].push(fn);
 	return this;
-}
+};
 
 
 /**
@@ -251,7 +251,7 @@ Keystone.prototype.connect = function() {
 		}
 	}
 	return this;
-}
+};
 
 
 /**
@@ -260,7 +260,7 @@ Keystone.prototype.connect = function() {
  * @api public
  */
 
-var keystone = module.exports = exports = new Keystone;
+var keystone = module.exports = exports = new Keystone();
 
 // Expose modules and Classes
 keystone.utils = utils;
@@ -301,7 +301,7 @@ Keystone.prototype.init = function(options) {
 
 	return this;
 
-}
+};
 
 /**
  * Initialises Keystone's nav
@@ -339,13 +339,13 @@ Keystone.prototype.initNav = function(sections) {
 		};
 		section.key = key;
 		section.lists = _.map(section.lists, function(i) {
-			var list = keystone.list(i);
+			var msg, list = keystone.list(i);
 			if (!list) {
-				var msg = 'Invalid Keystone Option (nav): list ' + i + ' has not been defined.\n';
+				msg = 'Invalid Keystone Option (nav): list ' + i + ' has not been defined.\n';
 				throw new Error(msg);
 			}
 			if (list.get('hidden')) {
-				var msg = 'Invalid Keystone Option (nav): list ' + i + ' is hidden.\n';
+				msg = 'Invalid Keystone Option (nav): list ' + i + ' is hidden.\n';
 				throw new Error(msg);
 			}
 			nav.by.list[list.key] = section;
@@ -358,7 +358,7 @@ Keystone.prototype.initNav = function(sections) {
 	});
 
 	return nav;
-}
+};
 
 /**
  * Configures and starts a Keystone app in encapsulated mode.
@@ -529,9 +529,9 @@ Keystone.prototype.start = function(events) {
 	if (!this.get('headless')) {
 		this.routes(app);
 	}
-	
+
 	// Handle redirects before 404s
-	
+
 	if (Object.keys(this._redirects).length) {
 		app.use(function(req, res, next) {
 			if (keystone._redirects[req.path]) {
@@ -546,7 +546,7 @@ Keystone.prototype.start = function(events) {
 
 	var default404Handler = function(req, res, next) {
 		res.status(404).send(keystone.wrapHTMLError("Sorry, no page could be found at this address (404)"));
-	}
+	};
 
 	app.use(function(req, res, next) {
 
@@ -603,7 +603,7 @@ Keystone.prototype.start = function(events) {
 		}
 
 		res.status(500).send(keystone.wrapHTMLError("Sorry, an error occurred loading the page (500)", msg));
-	}
+	};
 
 	app.use(function(err, req, res, next) {
 
@@ -673,7 +673,7 @@ Keystone.prototype.start = function(events) {
 			if (waitForServers) return;
 			console.log(dashes + startupMessages.join('\n') + dashes);
 			events.onStart && events.onStart();
-		}
+		};
 
 		// Creates the http server and listens to the specified port and host or listen option.
 		//
@@ -698,15 +698,15 @@ Keystone.prototype.start = function(events) {
 					return function() {
 						startupMessages.push(msg);
 						serverStarted();
-					}
-				}
+					};
+				};
 
 				if (port || port === 0) {
-					
+
 					app.set('port', port);
-					
+
 					var httpReadyMsg = keystone.get('name') + ' is ready';
-					
+
 					if (host) {
 						httpReadyMsg += ' on http://' + host;
 						if (port) {
@@ -721,7 +721,7 @@ Keystone.prototype.start = function(events) {
 						// start listening on any IPv4 address (INADDR_ANY) and the specified port
 						keystone.httpServer.listen(port, httpStarted(httpReadyMsg));
 					}
-					
+
 				} else if (host) {
 					// start listening on a specific host address and default port 3000
 					app.set('port', 3000);
@@ -733,7 +733,7 @@ Keystone.prototype.start = function(events) {
 					// default: start listening on any IPv4 address (INADDR_ANY) and default port 3000
 					app.set('port', 3000);
 					keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
-					
+
 				}
 
 			} else {
@@ -768,8 +768,8 @@ Keystone.prototype.start = function(events) {
 						return function() {
 							startupMessages.push(msg);
 							serverStarted();
-						}
-					}
+						};
+					};
 
 					keystone.httpsServer = https.createServer(sslOpts, app);
 					events.onHttpsServerCreated && events.onHttpsServerCreated();
@@ -792,8 +792,8 @@ Keystone.prototype.start = function(events) {
 				waitForServers--;
 			}
 
-		}
-		
+		};
+
 		process.on('uncaughtException', function(e) {
 			if (e.code == 'EADDRINUSE') {
 				console.log('------------------------------------------------\n' +
@@ -815,7 +815,7 @@ Keystone.prototype.start = function(events) {
 
 	return this;
 
-}
+};
 
 
 /**
@@ -896,8 +896,8 @@ Keystone.prototype.routes = function(app) {
 				return res.redirect('/keystone');
 			}
 			next();
-		}
-	}
+		};
+	};
 
 	// Keystone Admin Route
 	app.all('/keystone', require('./routes/views/home'));
@@ -941,7 +941,7 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 			// TODO: Nicer default error handler
 			res.status(500).send(JSON.stringify(err));
 		}
-	}
+	};
 
 	// TODO: Index of email tests, and custom email test 404's (currently bounces to list 404)
 
@@ -955,7 +955,7 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 					res.send(email.html);
 				}
 			});
-		}
+		};
 
 		app.get('/keystone/test-email/' + key, function(req, res) {
 			if ('function' == typeof vars) {
@@ -977,28 +977,28 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 /**
  * Adds one or more redirections (urls that are redirected when no matching
  * routes are found, before treating the request as a 404)
- * 
+ *
  * #### Example:
  * 		keystone.redirect('/old-route', 'new-route');
- * 		
+ *
  * 		// or
- * 		
+ *
  * 		keystone.redirect({
  * 			'old-route': 'new-route'
  * 		});
  */
 
 Keystone.prototype.redirect = function() {
-	
+
 	if (arguments.length == 1 && utils.isObject(arguments[0])) {
 		_.extend(this._redirects, arguments[0]);
 	} else if (arguments.length == 2 && 'string' == typeof arguments[0] && 'string' == typeof arguments[1]) {
 		this._redirects[arguments[0]] = arguments[1];
 	}
-	
+
 	return this;
-	
-}
+
+};
 
 
 /**
@@ -1024,7 +1024,7 @@ Keystone.prototype.importer = function(rel__dirname) {
 		var imported = {};
 		var joinPath = function() {
 			return '.' + path.sep + path.join.apply(path, arguments);
-		}
+		};
 		var fsPath = joinPath(path.relative(process.cwd(), rel__dirname), from);
 		fs.readdirSync(fsPath).forEach(function(name) {
 			var info = fs.statSync(path.join(fsPath, name));
@@ -1042,11 +1042,11 @@ Keystone.prototype.importer = function(rel__dirname) {
 			return imported;
 		});
 		return imported;
-	}
+	};
 
 	return importer;
 
-}
+};
 
 
 /**
@@ -1069,7 +1069,7 @@ Keystone.prototype.import = function(dirname) {
 
 		fs.readdirSync(fromPath).forEach(function(name) {
 
-			var fsPath = path.join(fromPath, name)
+			var fsPath = path.join(fromPath, name),
 				info = fs.statSync(fsPath);
 
 			// recur
@@ -1088,11 +1088,11 @@ Keystone.prototype.import = function(dirname) {
 
 		return imported;
 
-	}
+	};
 
 	return doImport('./' + dirname);
 
-}
+};
 
 
 /**
@@ -1132,7 +1132,7 @@ Keystone.prototype.initAPI = function(req, res, next) {
 	};
 
 	next();
-}
+};
 
 
 /**
@@ -1178,69 +1178,69 @@ Keystone.prototype.applyUpdates = function(callback) {
  */
 
 Keystone.prototype.createItems = function(data, callback) {
-	
+
 	var lists = _.keys(data),
 		refs = {},
 		stats = {};
-	
+
 	async.waterfall([
-		
+
 		// create items
 		function(next) {
 			async.each(lists, function(key, doneList) {
-		
+
 				var list = keystone.list(key);
-				
+
 				if (!list) return doneList();
-				
+
 				refs[list.key] = {};
 				stats[list.key] = {
 					singular: list.singular,
 					plural: list.plural,
 					created: 0
 				};
-				
+
 				async.each(data[key], function(data, doneItem) {
-					
+
 					// Evaluate function properties to allow generated values
 					_.keys(data).forEach(function(i) {
 						if (_.isFunction(data[i])) {
 							data[i] = data[i]();
 						}
 					});
-					
+
 					var doc = data.__doc = new list.model();
-					
+
 					if (data.__ref) {
 						refs[list.key][data.__ref] = doc;
 					}
-					
+
 					_.each(list.fields, function(field) {
 						// skip relationship fields on the first pass.
 						field.type != 'relationship' && field.updateItem(doc, data);
 					});
-					
+
 					doc.save(doneItem);
 					stats[list.key].created++;
-					
+
 				}, doneList);
-				
+
 			}, next);
 		},
-		
+
 		// link items
 		function(next) {
-			
+
 			async.each(lists, function(key, doneList) {
-		
+
 				var list = keystone.list(key);
-				
+
 				if (!list) return doneList();
-				
+
 				async.each(data[key], function(srcData, doneItem) {
-					
+
 					var doc = srcData.__doc;
-					
+
 					_.each(list.fields, function(field) {
 						// populate relationships from saved refs
 						if (field.type != 'relationship') return;
@@ -1259,26 +1259,26 @@ Keystone.prototype.createItems = function(data, callback) {
 							}
 						}
 					});
-					
+
 					doc.save(doneItem);
-					
+
 				}, doneList);
-				
+
 			}, next);
 		}
-		
+
 	], function(err) {
 		if (err) return callback && callback(err);
-		
+
 		var msg = '\nSuccessfully created:\n';
 		_.each(stats, function(list, key) {
 			msg += '\n*   ' + keystone.utils.plural(list.created, '* ' + list.singular, '* ' + list.plural);
 		});
 		stats.message = msg + '\n';
-		
+
 		callback(null, stats);
 	});
-	
+
 };
 
 
@@ -1307,7 +1307,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 
 	var compileTemplate = function() {
 		return jade.compile(fs.readFileSync(templatePath, 'utf8'), jadeOptions);
-	}
+	};
 
 	var template = this.get('viewCache')
 		? templateCache[view] || (templateCache[view] = compileTemplate())
@@ -1328,7 +1328,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		env: this.get('env'),
 		brand: keystone.get('brand'),
 		nav: keystone.nav,
-		messages: _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false,
+		messages: _.any(flashMessages, function(msgs) { return msgs.length; }) ? flashMessages : false,
 		lists: keystone.lists,
 		js: 'javascript:;',
 		utils: utils,
@@ -1381,7 +1381,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 	var html = template(_.extend(locals, ext));
 
 	res.send(html);
-}
+};
 
 /**
  * Populates relationships on a document or array of documents
@@ -1404,7 +1404,7 @@ Keystone.prototype.populateRelated = function(docs, relationships, callback) {
 		callback();
 	}
 
-}
+};
 
 /**
  * Wraps an error in simple HTML to be sent as a response to the browser
@@ -1416,7 +1416,7 @@ Keystone.prototype.wrapHTMLError = function(title, err) {
 	return "<html><head><meta charset='utf-8'><title>Error</title>" +
 	"<link rel='stylesheet' href='/keystone/styles/error.css'>" +
 	"</head><body><div class='error'><h1 class='error-title'>" + title + "</h1>" + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
-}
+};
 
 /**
  * Logs a configuration error to the console
@@ -1430,7 +1430,7 @@ Keystone.prototype.console.err = function(type, msg) {
 	var dashes = '\n------------------------------------------------\n';
 	console.log(dashes + 'KeystoneJS: ' + type + ':\n\n' + msg + dashes);
 
-}
+};
 
 /**
  * Keystone version

@@ -9,8 +9,8 @@ var gulp = require('gulp'),
  * Create variables for our project paths so we can change in one place
  */
 var paths = {
-	'src':['./lib/**/*.js','./routes/**/*.js'],
-	'tests':['./test/*.js', './test/**/*.js']
+	'src':['./index.js', './lib/**/*.js','./routes/**/*.js'],
+	'tests':['./test/**/*.js']
 };
 
 // An error handler for the tests during gulp-watch
