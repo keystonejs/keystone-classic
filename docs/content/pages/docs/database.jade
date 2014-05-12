@@ -192,7 +192,33 @@ block content
 				|     .exec(function(err, posts) {
 				|         // do something with posts
 				|     });
+
+			p <strong>Promises</strong>
+
+			p There exist another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="http://www.html5rocks.com/fr/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.
+
+			p <strong>For example:</strong> load 100 <code>posts</code>, then do something asynchronous, then do something with result:
 			
+			.code-header: h4 Loading Posts, doing something asynchronous, doing something
+			pre: code.language-javascript
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				| Post.model.find()
+				|     .limit(100)
+				|     .exec()
+				|     .then(function (posts) { //first promise fulfilled
+				|         //return another async promise
+				|     }, function (err) { //first promise rejected
+				|         throw err;
+				|     }).then(function (result) { //second promise fulfilled
+				|         //do something with final results
+				|     }, function (err) { //something happened
+				|         //catch the error, it can be thrown by any promise in the chain
+				|         console.log(err);
+				|     });
+				
+                
 			a(name='lists-creating')
 			h3 Creating Items
 			
