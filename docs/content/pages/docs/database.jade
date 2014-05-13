@@ -147,8 +147,28 @@ block content
 				tr
 					td <code>nodelete</code> <code class="data-type">Boolean</code>
 					td Prevents deletion of items from the list through the Keystone Admin UI
-					
+			
 			p.note If you're wondering how to control which navigation area Lists are categorised under in the Admin UI, check out the <code>nav</code> option in the <a href="http://keystonejs.com/docs/configuration/#options-project">KeystoneJS Configuration</a> docs.
+			
+			h4 Drilldown example
+			
+			p The drilldown option is a nice way to improve the usability of the Admin UI by providing context to the item a user is currently editing.
+			
+			p By default, the drilldown will just show the list that the item belongs to.
+			
+			p You can, however, set it to a <code>Relationship</code> field in the schema, and it will display the item currently stored in that relationship field.
+			
+			p If there would be several relationships that may be relevant to display in the drilldown list, you can separate their paths with spaces.
+			
+			.code-header: h4 Example: Including the author in the drilldown for Posts
+			pre: code.language-javascript
+				| var Post = new keystone.List('Post', {
+				|     autokey: { path: 'slug', from: 'title', unique: true },
+				|     map: { name: 'title' },
+				|     defaultSort: '-createdAt',
+				|     drilldown: 'author' // author is defined as a Relationship field in the example above
+				| });
+			
 			
 			a(name='lists-plugins')
 			h3 Schema Plugins
