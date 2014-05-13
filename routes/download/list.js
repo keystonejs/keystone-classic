@@ -1,6 +1,7 @@
 var keystone = require('../../'),
 	_ = require('underscore'),
 	async = require('async'),
+	moment = require('moment'),
 	csv = require('csv');
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -32,21 +33,15 @@ exports = module.exports = function(req, res) {
 	
 	req.list.model.find(queryFilters).exec(function(err, results) {
 		
-		var columns = ['id'];
-		
-		if (req.list.get('autokey')) {
-			columns.push(req.list.get('autokey').path);
-		}
-		
-		_.each(req.list.fields, function(field) {
-			columns.push(field.path);
-		});
-		
 		var sendCSV = function(data) {
-			csv().from(data).to(res.attachment(req.list.path + '.csv'), {
+			
+			var columns = data.length ? Object.keys(data[0]) : [];
+			
+			csv().from(data).to(res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv'), {
 				header: true,
 				columns: columns
 			});
+			
 		}
 		
 		if (!results.length) {
