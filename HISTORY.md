@@ -22,7 +22,9 @@
 * fixed; Issues where `Email.send()` wasn't consistently async
 * added; Support for the argument `row` in custom `List.schema.methods.toCSV` implementations, provides the original `toCSV` data for simpler customisation
 
-...as well as several other improvements and miscellaneous fixes, thanks to all our contributors who keep making Keystone better!
+...as well as several other miscellaneous fixes and improvements, thanks to all our contributors who keep making Keystone better!
+
+Also; all dependencies are up to date with their latest published versions, except for `express` and `less-middleware` which require further testing to ensure compatibility.
 
 ## v0.2.14 / 2014/04-16
 
