@@ -577,6 +577,8 @@ item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'</code></pre>
                 <h5>Options</h5>
                 <p><code>numeric</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code>, causes the value of the field to be stored as a <code class="data-type">Number</code> instead of a <code class="data-type">String</code></p>
                 <pre><code class="language-javascript">{ type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }</code></pre>
+                <p><code>emptyOption</code> <code class="data-type">Boolean</code> when <code class="default-value">undefined || true</code>, includes a blank value as the first option in the <code>&lt;select&gt;</code> field.</p>
+                <pre><code class="language-javascript">{ type: Types.Select, required: true, options: 'first, second', emptyOption: false }</code></pre>
                 <p><code>options</code> <code class="data-type">String</code> or <code class="data-type">Array</code> - the options for the select field</p>
                 <p>Option values can be provided as a comma-delimited list <code class="data-type">String</code> of values, in which the string is split into an <code class="data-type">Array</code>.</p>
                 <p>For an <code class="data-type">Array</code> of options, each option should be either a</p>
