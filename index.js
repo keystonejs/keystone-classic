@@ -121,7 +121,7 @@ var remappedOptions = {
  */
  Keystone.prototype.set = function(key, value) {
 
-	if (arguments.length == 1) {
+	if (arguments.length === 1) {
 		return this._options[key];
 	}
 
@@ -214,7 +214,7 @@ Keystone.prototype.get = Keystone.prototype.set;
 
 Keystone.prototype.getPath = function(key, defaultValue) {
 	var pathValue = keystone.get(key) || defaultValue;
-	pathValue = ('string' == typeof pathValue && pathValue.substr(0,1) != path.sep && pathValue.substr(1,2) != ':\\') 
+	pathValue = ('string' === typeof pathValue && pathValue.substr(0,1) !== path.sep && pathValue.substr(1,2) !== ':\\') 
 		? path.join(moduleRoot, pathValue) 
 		: pathValue;
 	return pathValue;
@@ -257,10 +257,10 @@ Keystone.prototype.pre = function(event, fn) {
 Keystone.prototype.connect = function() {
 	// detect type of each argument
 	for (var i = 0; i < arguments.length; i++) {
-		if (arguments[i].constructor.name == 'Mongoose') {
+		if (arguments[i].constructor.name === 'Mongoose') {
 			// detected Mongoose
 			this.mongoose = arguments[i];
-		} else if (arguments[i].name == 'app') {
+		} else if (arguments[i].name === 'app') {
 			// detected Express app
 			this.app = arguments[i];
 		}
@@ -345,7 +345,7 @@ Keystone.prototype.initNav = function(sections) {
 	}
 
 	_.each(sections, function(section, key) {
-		if ('string' == typeof section) {
+		if ('string' === typeof section) {
 			section = [section];
 		}
 		section = {
@@ -429,12 +429,12 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
 	}
 
-	if (arguments.length == 1) {
+	if (arguments.length === 1) {
 		events = arguments[0];
 		mountPath = null;
 	}
 
-	if ('function' == typeof events) {
+	if ('function' === typeof events) {
 		events = { onMount: events };
 	}
 
@@ -476,7 +476,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		_.extend(app.locals, this.get('locals'));
 	}
 
-	if (this.get('env') != 'production') {
+	if (this.get('env') !== 'production') {
 		app.locals.pretty = true;
 	}
 
@@ -499,7 +499,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	}
 
 	if (!this.get('headless')) {
-			keystone.static(app);
+		keystone.static(app);
 	}
 
 	// Handle dynamic requests
@@ -519,7 +519,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 	if (this.get('session') === true) {
 		app.use(this.session.persist);
-	} else if ('function' == typeof this.get('session')) {
+	} else if ('function' === typeof this.get('session')) {
 		app.use(this.get('session'));
 	}
 
@@ -590,9 +590,9 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 		if (err404) {
 			try {
-				if ('function' == typeof err404) {
+				if ('function' === typeof err404) {
 					err404(req, res, next);
-				} else if ('string' == typeof err404) {
+				} else if ('string' === typeof err404) {
 					res.status(404).render(err404);
 				} else {
 					console.log(dashes + 'Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.' + dashes);
@@ -624,14 +624,14 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 		var msg = '';
 
-		if (keystone.get('env') == 'development') {
+		if (keystone.get('env') === 'development') {
 
 			if (err instanceof Error) {
 				if (err.type) {
 					msg += '<h2>' + err.type + '</h2>';
 				}
 				msg += utils.textToHTML(err.message);
-			} else if ('object' == typeof err) {
+			} else if ('object' === typeof err) {
 				msg += '<code>' + JSON.stringify(err) + '</code>';
 			} else if (err) {
 				msg += err;
@@ -647,9 +647,9 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 		if (err500) {
 			try {
-				if ('function' == typeof err500) {
+				if ('function' === typeof err500) {
 					err500(err, req, res, next);
-				} else if ('string' == typeof err500) {
+				} else if ('string' === typeof err500) {
 					res.locals.err = err;
 					res.status(500).render(err500);
 				} else {
@@ -669,7 +669,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	});
 
 	// Configure application routes
-	if ('function' == typeof this.get('routes')) {
+	if ('function' === typeof this.get('routes')) {
 		this.get('routes')(app);
 	}
 
@@ -757,7 +757,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 Keystone.prototype.start = function(events) {
 
-	if ('function' == typeof events) {
+	if ('function' === typeof events) {
 		events = { onStart: events };
 	}
 
@@ -840,7 +840,7 @@ Keystone.prototype.start = function(events) {
 				keystone.httpServer.listen(3000, host, httpStarted(keystone.get('name') + ' is ready on ' + host + ':3000'));
 			} else if (listen) {
 				// start listening to a unix socket
-				keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
+				keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' === typeof listen) ? ' on ' + listen : '')));
 			} else {
 				// default: start listening on any IPv4 address (INADDR_ANY) and default port 3000
 				app.set('port', 3000);
@@ -866,7 +866,7 @@ Keystone.prototype.start = function(events) {
 
 			if (!sslOpts.key || !sslOpts.cert) {
 
-				if (ssl == 'only') {
+				if (ssl === 'only') {
 					console.log(keystone.get('name') + ' failed to start: invalid ssl configuration');
 					process.exit();
 				} else {
@@ -889,7 +889,7 @@ Keystone.prototype.start = function(events) {
 				var sslHost = keystone.get('ssl host') || host,
 					sslPort = keystone.get('ssl port') || 3001;
 
-				var httpsReadyMsg = (ssl == 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
+				var httpsReadyMsg = (ssl === 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
 
 				if (sslHost) {
 					keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + 'https://' + sslHost + ':' + sslPort));
@@ -905,7 +905,7 @@ Keystone.prototype.start = function(events) {
 		}
 
 		process.on('uncaughtException', function(e) {
-			if (e.code == 'EADDRINUSE') {
+			if (e.code === 'EADDRINUSE') {
 				console.log('------------------------------------------------\n' +
 					keystone.get('name') + ' failed to start: address already in use\n' +
 					'Please check you are not already running a server on the specified port.');
@@ -967,7 +967,7 @@ Keystone.prototype.routes = function(app) {
 	}
 
 	// Cache compiled view templates if we are in Production mode
-	this.set('view cache', this.get('env') == 'production');
+	this.set('view cache', this.get('env') === 'production');
 
 	// Bind auth middleware (generic or custom) to /keystone* routes, allowing
 	// access to the generic signin page if generic auth is used
@@ -989,7 +989,7 @@ Keystone.prototype.routes = function(app) {
 		app.all('/keystone/signout', require('./routes/views/signout'));
 		app.all('/keystone*', this.session.keystoneAuth);
 
-	} else if ('function' == typeof this.get('auth')) {
+	} else if ('function' === typeof this.get('auth')) {
 		app.all('/keystone*', this.get('auth'));
 	}
 
@@ -1063,7 +1063,7 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 		}
 
 		app.get('/keystone/test-email/' + key, function(req, res) {
-			if ('function' == typeof vars) {
+			if ('function' === typeof vars) {
 				vars(req, res, function(err, locals) {
 					render(err, req, res, locals);
 				});
@@ -1095,9 +1095,9 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 
 Keystone.prototype.redirect = function() {
 	
-	if (arguments.length == 1 && utils.isObject(arguments[0])) {
+	if (arguments.length === 1 && utils.isObject(arguments[0])) {
 		_.extend(this._redirects, arguments[0]);
-	} else if (arguments.length == 2 && 'string' == typeof arguments[0] && 'string' == typeof arguments[1]) {
+	} else if (arguments.length === 2 && 'string' === typeof arguments[0] && 'string' === typeof arguments[1]) {
 		this._redirects[arguments[0]] = arguments[1];
 	}
 	
@@ -1183,7 +1183,7 @@ Keystone.prototype.import = function(dirname) {
 			// only import .js or .coffee files
 			var parts = name.split('.');
 			var ext = parts.pop();
-			if (ext == 'js' || ext == 'coffee') {
+			if (ext === 'js' || ext === 'coffee') {
 				imported[parts.join('-')] = require(fsPath);
 			}
 		}
@@ -1240,7 +1240,7 @@ Keystone.prototype.initAPI = function(req, res, next) {
  */
 
 Keystone.prototype.list = function(list) {
-	if (list && list.constructor == keystone.List) {
+	if (list && list.constructor === keystone.List) {
 		this.lists[list.key] = list;
 		this.paths[list.path] = list.key;
 		return list;
@@ -1317,7 +1317,7 @@ Keystone.prototype.createItems = function(data, callback) {
 					
 					_.each(list.fields, function(field) {
 						// skip relationship fields on the first pass.
-						field.type != 'relationship' && field.updateItem(doc, data);
+						field.type !== 'relationship' && field.updateItem(doc, data);
 					});
 					
 					doc.save(doneItem);
@@ -1343,7 +1343,7 @@ Keystone.prototype.createItems = function(data, callback) {
 					
 					_.each(list.fields, function(field) {
 						// populate relationships from saved refs
-						if (field.type != 'relationship') return;
+						if (field.type !== 'relationship') return;
 						var fieldRefs = refs[field.refList.key];
 						if (field.many) {
 							var refsArr = _.isString(srcData[field.path]) ? [srcData[field.path]] : srcData[field.path];
@@ -1397,7 +1397,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 
 	var jadeOptions = {
 		filename: templatePath,
-		pretty: keystone.get('env') != 'production'
+		pretty: keystone.get('env') !== 'production'
 	};
 
 	// TODO: Allow custom basePath for extensions... like this or similar
@@ -1466,7 +1466,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			};
 			locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 		} catch(e) {
-			if (e == 'Must supply api_key') {
+			if (e === 'Must supply api_key') {
 				throw new Error('Invalid Cloudinary Config Provided\n\n' +
 					'See http://keystonejs.com/docs/configuration/#cloudinary for more information.');
 			} else {
