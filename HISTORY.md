@@ -1,5 +1,29 @@
 # Keystone
 
+## v0.2.15 / 2014-05-13
+
+* fixed; Added note to fields that didnt have one, thanks [Ötvös Richárd](https://github.com/RichardOtvos)
+* fixed; Only show "Open Keystone" link to admins, thanks [John Beppu](https://github.com/beppu)
+* fixed; Password fields are formatted correctly on the list screen of the Admin UI
+* added; Support for custom MongoDB collection names (and other Schema options, see [#292](https://github.com/JedWatson/keystone/issues/292))
+* added; Support for clearing password fields (if not required)
+* added; Password.compare is now available on the Field object
+* added; Support for loading fixture data with `keystone.createItems()` and in update scripts, see [this gist](https://gist.github.com/JedWatson/10739959) for an example
+* added; Basic support for redirects, see [#303](https://github.com/JedWatson/keystone/issues/303) for details
+* added; Support for excluding the blank option in Select fields with the `emptyOption` option
+* improved; Nicer exception on EADDRINUSE error
+* added; Warning when required fields aren't initial, see [#300](https://github.com/JedWatson/keystone/issues/300)
+* fixed; Truthy check for port breaks listening on any open port
+* fixed; Changed how updates are discovered and included, fixes previous issues with .DS_Store files
+* added; test script to package.json, spec reporter for Mocha tests and other test improvements, thanks [David Banham](https://github.com/davidbanham)
+* added; cookie secret to environment defaults init, thanks [Tom Walker](https://github.com/bladey)
+* added; separated Express setup from http server setup to enable easier Express sub-app mounting, thanks [ryedin](https://github.com/ryedin)
+* fixed; Errors are caught on item deletion, thanks [fbeaudet](https://github.com/fbeaudet)
+* fixed; Issues where `Email.send()` wasn't consistently async
+* added; Support for the argument `row` in custom `List.schema.methods.toCSV` implementations, provides the original `toCSV` data for simpler customisation
+
+...as well as several other improvements and miscellaneous fixes, thanks to all our contributors who keep making Keystone better!
+
 ## v0.2.14 / 2014/04-16
 
 * added; new `createItems()` method to quickly populate data, see [this gist](https://gist.github.com/JedWatson/10739959) for usage instructions and examples
