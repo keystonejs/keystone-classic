@@ -236,7 +236,22 @@ Post.register();</code></pre>
                   <td><code>nodelete</code> <code class="data-type">Boolean</code></td>
                   <td>Prevents deletion of items from the list through the Keystone Admin UI</td>
                 </tr>
-              </table><a name="lists-plugins"></a>
+              </table>
+              <p class="note">If you're wondering how to control which navigation area Lists are categorised under in the Admin UI, check out the <code>nav</code> option in the <a href="http://keystonejs.com/docs/configuration/#options-project">KeystoneJS Configuration</a> docs.</p>
+              <h4>Drilldown example</h4>
+              <p>The drilldown option is a nice way to improve the usability of the Admin UI by providing context to the item a user is currently editing.</p>
+              <p>By default, the drilldown will just show the list that the item belongs to.</p>
+              <p>You can, however, set it to a <code>Relationship</code> field in the schema, and it will display the item currently stored in that relationship field.</p>
+              <p>If there would be several relationships that may be relevant to display in the drilldown list, you can separate their paths with spaces.</p>
+              <div class="code-header">
+                <h4>Example: Including the author in the drilldown for Posts</h4>
+              </div>
+              <pre><code class="language-javascript">var Post = new keystone.List('Post', {
+    autokey: { path: 'slug', from: 'title', unique: true },
+    map: { name: 'title' },
+    defaultSort: '-createdAt',
+    drilldown: 'author' // author is defined as a Relationship field in the example above
+});</code></pre><a name="lists-plugins"></a>
               <h3>Schema Plugins</h3>
               <p>You can specify <a href="http://mongoosejs.com/docs/guide.html" target="_blank"><strong>virtuals</strong>, <strong>methods</strong>, <strong>statics</strong></a> as well as <a href="http://mongoosejs.com/docs/middleware.html" target="_blank"><strong>pre</strong> and <strong>post</strong> hooks</a> for your <strong>Lists</strong> using the <code>schema</code>. You can also use <a href="http://mongoosejs.com/docs/plugins.html" target="_blank">mongoose plugins</a> from the <a href="http://plugins.mongoosejs.com" target="_blank">plugins website</a>.</p>
               <p>For example, in our <strong>Post</strong> list above, we might want to automatically set the <code>publishedAt</code> value when the <code>state</code> is changed to <code>published</code> (but only if it hasn't already been set).</p>
