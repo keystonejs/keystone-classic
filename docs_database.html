@@ -786,6 +786,10 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               <p>Stores files on the local file system.</p>
               <pre><code class="language-javascript">{ type: Types.LocalFile }</code></pre>
               <div class="options">
+                <h5>Options</h5>
+                <p><code>dest<code> <code class="data-type">String</code> - required, the path to store uploaded file</p>
+                <p><code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)</p>
+                <p><code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded file</p>
                 <h5>Schema</h5>
                 <p><code>filename</code> <code class="data-type">String</code></p>
                 <p><code>path</code> <code class="data-type">String</code></p>
