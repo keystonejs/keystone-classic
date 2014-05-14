@@ -910,11 +910,12 @@ Keystone.prototype.start = function(events) {
 					keystone.get('name') + ' failed to start: address already in use\n' +
 					'Please check you are not already running a server on the specified port.');
 				process.exit();
-			} else if (e.code === 'ECONNRESET') {
+			}/* else if (e.code === 'ECONNRESET') {
 				// Connection reset by peer, ignore it instead of exiting server with a throw.
+				// Disabled for release 0.2.16 while further research is being done.
 				console.log('Connection reset by peer');
 				console.log(e);
-			} else {
+			} */else {
 				throw (e);
 			}
 		});
