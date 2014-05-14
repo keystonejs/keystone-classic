@@ -121,7 +121,7 @@ var remappedOptions = {
  */
  Keystone.prototype.set = function(key, value) {
 
-	if (arguments.length == 1) {
+	if (arguments.length === 1) {
 		return this._options[key];
 	}
 
@@ -214,8 +214,8 @@ Keystone.prototype.get = Keystone.prototype.set;
 
 Keystone.prototype.getPath = function(key, defaultValue) {
 	var pathValue = keystone.get(key) || defaultValue;
-	pathValue = ('string' == typeof pathValue && pathValue.substr(0,1) != path.sep && pathValue.substr(1,2) != ':\\')
-		? path.join(moduleRoot, pathValue)
+	pathValue = ('string' === typeof pathValue && pathValue.substr(0,1) !== path.sep && pathValue.substr(1,2) !== ':\\') 
+		? path.join(moduleRoot, pathValue) 
 		: pathValue;
 	return pathValue;
 };
@@ -257,10 +257,10 @@ Keystone.prototype.pre = function(event, fn) {
 Keystone.prototype.connect = function() {
 	// detect type of each argument
 	for (var i = 0; i < arguments.length; i++) {
-		if (arguments[i].constructor.name == 'Mongoose') {
+		if (arguments[i].constructor.name === 'Mongoose') {
 			// detected Mongoose
 			this.mongoose = arguments[i];
-		} else if (arguments[i].name == 'app') {
+		} else if (arguments[i].name === 'app') {
 			// detected Express app
 			this.app = arguments[i];
 		}
@@ -345,7 +345,7 @@ Keystone.prototype.initNav = function(sections) {
 	}
 
 	_.each(sections, function(section, key) {
-		if ('string' == typeof section) {
+		if ('string' === typeof section) {
 			section = [section];
 		}
 		section = {
@@ -429,12 +429,12 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
 	}
 
-	if (arguments.length == 1) {
+	if (arguments.length === 1) {
 		events = arguments[0];
 		mountPath = null;
 	}
 
-	if ('function' == typeof events) {
+	if ('function' === typeof events) {
 		events = { onMount: events };
 	}
 
@@ -476,7 +476,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		_.extend(app.locals, this.get('locals'));
 	}
 
-	if (this.get('env') != 'production') {
+	if (this.get('env') !== 'production') {
 		app.locals.pretty = true;
 	}
 
@@ -499,7 +499,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	}
 
 	if (!this.get('headless')) {
-		keystone.static(app);
+			keystone.static(app);
 	}
 
 	// Handle dynamic requests
@@ -519,7 +519,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 	if (this.get('session') === true) {
 		app.use(this.session.persist);
-	} else if ('function' == typeof this.get('session')) {
+	} else if ('function' === typeof this.get('session')) {
 		app.use(this.get('session'));
 	}
 
@@ -590,9 +590,9 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 		if (err404) {
 			try {
-				if ('function' == typeof err404) {
+				if ('function' === typeof err404) {
 					err404(req, res, next);
-				} else if ('string' == typeof err404) {
+				} else if ('string' === typeof err404) {
 					res.status(404).render(err404);
 				} else {
 					console.log(dashes + 'Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.' + dashes);
@@ -624,14 +624,14 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 		var msg = '';
 
-		if (keystone.get('env') == 'development') {
+		if (keystone.get('env') === 'development') {
 
 			if (err instanceof Error) {
 				if (err.type) {
 					msg += '<h2>' + err.type + '</h2>';
 				}
 				msg += utils.textToHTML(err.message);
-			} else if ('object' == typeof err) {
+			} else if ('object' === typeof err) {
 				msg += '<code>' + JSON.stringify(err) + '</code>';
 			} else if (err) {
 				msg += err;
@@ -647,9 +647,9 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 		if (err500) {
 			try {
-				if ('function' == typeof err500) {
+				if ('function' === typeof err500) {
 					err500(err, req, res, next);
-				} else if ('string' == typeof err500) {
+				} else if ('string' === typeof err500) {
 					res.locals.err = err;
 					res.status(500).render(err500);
 				} else {
@@ -669,7 +669,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	});
 
 	// Configure application routes
-	if ('function' == typeof this.get('routes')) {
+	if ('function' === typeof this.get('routes')) {
 		this.get('routes')(app);
 	}
 
@@ -757,7 +757,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 Keystone.prototype.start = function(events) {
 
-	if ('function' == typeof events) {
+	if ('function' === typeof events) {
 		events = { onStart: events };
 	}
 
@@ -795,124 +795,131 @@ Keystone.prototype.start = function(events) {
 		// http://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback
 		// and for history, see https://github.com/JedWatson/keystone/issues/154
 
-			keystone.httpServer = http.createServer(app);
-			events.onHttpServerCreated && events.onHttpServerCreated();
+		keystone.httpServer = http.createServer(app);
+		events.onHttpServerCreated && events.onHttpServerCreated();
 
-			var host = keystone.get('host'),
-				port = keystone.get('port'),
-				listen = keystone.get('listen'),
-				ssl = keystone.get('ssl');
+		var host = keystone.get('host'),
+			port = keystone.get('port'),
+			listen = keystone.get('listen'),
+			ssl = keystone.get('ssl');
 
-			// start the http server unless we're in ssl-only mode
-			if (ssl != 'only') {
+		// start the http server unless we're in ssl-only mode
+		if (ssl != 'only') {
 
-				var httpStarted = function(msg) {
-					return function() {
-						startupMessages.push(msg);
-						serverStarted();
+			var httpStarted = function(msg) {
+				return function() {
+					startupMessages.push(msg);
+					serverStarted();
 					};
 				};
 
-				if (port || port === 0) {
+			if (port || port === 0) {
 
-					app.set('port', port);
+				app.set('port', port);
 
-					var httpReadyMsg = keystone.get('name') + ' is ready';
+				var httpReadyMsg = keystone.get('name') + ' is ready';
 
-					if (host) {
-						httpReadyMsg += ' on http://' + host;
-						if (port) {
-							httpReadyMsg += ':' + port;
-						}
-						// start listening on the specified host and port
-						keystone.httpServer.listen(port, host, httpStarted(httpReadyMsg));
-					} else {
-						if (port) {
-							httpReadyMsg += ' on port ' + port;
-						}
-						// start listening on any IPv4 address (INADDR_ANY) and the specified port
-						keystone.httpServer.listen(port, httpStarted(httpReadyMsg));
+				if (host) {
+					httpReadyMsg += ' on http://' + host;
+					if (port) {
+						httpReadyMsg += ':' + port;
 					}
-
-				} else if (host) {
-					// start listening on a specific host address and default port 3000
-					app.set('port', 3000);
-					keystone.httpServer.listen(3000, host, httpStarted(keystone.get('name') + ' is ready on ' + host + ':3000'));
-				} else if (listen) {
-					// start listening to a unix socket
-					keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' == typeof listen) ? ' on ' + listen : '')));
+					// start listening on the specified host and port
+					keystone.httpServer.listen(port, host, httpStarted(httpReadyMsg));
 				} else {
-					// default: start listening on any IPv4 address (INADDR_ANY) and default port 3000
-					app.set('port', 3000);
-					keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
+					if (port) {
+						httpReadyMsg += ' on port ' + port;
+					}
+					// start listening on any IPv4 address (INADDR_ANY) and the specified port
+					keystone.httpServer.listen(port, httpStarted(httpReadyMsg));
+				}
 
+			} else if (host) {
+				// start listening on a specific host address and default port 3000
+				app.set('port', 3000);
+				keystone.httpServer.listen(3000, host, httpStarted(keystone.get('name') + ' is ready on ' + host + ':3000'));
+			} else if (listen) {
+				// start listening to a unix socket
+				keystone.httpServer.listen(listen, httpStarted(keystone.get('name') + ' is ready' + (('string' === typeof listen) ? ' on ' + listen : '')));
+			} else {
+				// default: start listening on any IPv4 address (INADDR_ANY) and default port 3000
+				app.set('port', 3000);
+				keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
+
+			}
+
+		} else {
+			waitForServers--;
+		}
+
+		// start the ssl server if configured
+		if (ssl) {
+
+			var sslOpts = {};
+
+			if (keystone.get('ssl cert') && fs.existsSync(keystone.getPath('ssl cert'))) {
+				sslOpts.cert = fs.readFileSync(keystone.getPath('ssl cert'));
+			}
+			if (keystone.get('ssl key') && fs.existsSync(keystone.getPath('ssl key'))) {
+				sslOpts.key = fs.readFileSync(keystone.getPath('ssl key'));
+			}
+
+			if (!sslOpts.key || !sslOpts.cert) {
+
+				if (ssl === 'only') {
+					console.log(keystone.get('name') + ' failed to start: invalid ssl configuration');
+					process.exit();
+				} else {
+					startupMessages.push('Warning: Invalid SSL Configuration');
+					serverStarted();
 				}
 
 			} else {
-				waitForServers--;
-			}
 
-			// start the ssl server if configured
-			if (ssl) {
-
-				var	sslOpts = {};
-
-				if (keystone.get('ssl cert') && fs.existsSync(keystone.getPath('ssl cert'))) {
-					sslOpts.cert = fs.readFileSync(keystone.getPath('ssl cert'));
-				}
-				if (keystone.get('ssl key') && fs.existsSync(keystone.getPath('ssl key'))) {
-					sslOpts.key = fs.readFileSync(keystone.getPath('ssl key'));
-				}
-
-				if (!sslOpts.key || !sslOpts.cert) {
-
-					if (ssl == 'only') {
-						console.log(keystone.get('name') + ' failed to start: invalid ssl configuration');
-						process.exit();
-					} else {
-						startupMessages.push('Warning: Invalid SSL Configuration');
+				var httpsStarted = function(msg) {
+					return function() {
+						startupMessages.push(msg);
 						serverStarted();
-					}
-
-				} else {
-
-					var httpsStarted = function(msg) {
-						return function() {
-							startupMessages.push(msg);
-							serverStarted();
 						};
 					};
 
-					keystone.httpsServer = https.createServer(sslOpts, app);
-					events.onHttpsServerCreated && events.onHttpsServerCreated();
+				keystone.httpsServer = https.createServer(sslOpts, app);
+				events.onHttpsServerCreated && events.onHttpsServerCreated();
 
-					var sslHost = keystone.get('ssl host') || host,
-						sslPort = keystone.get('ssl port') || 3001;
+				var sslHost = keystone.get('ssl host') || host,
+					sslPort = keystone.get('ssl port') || 3001;
 
-					var httpsReadyMsg = (ssl == 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
+				var httpsReadyMsg = (ssl === 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
 
-					if (sslHost) {
-						keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + 'https://' + sslHost + ':' + sslPort));
-					} else {
-						var httpsPortMsg = (keystone.get('ssl port')) ? 'port: ' + keystone.get('ssl port') : 'default port 3001';
-						keystone.httpsServer.listen(sslPort, httpsStarted(httpsReadyMsg + httpsPortMsg));
-					}
-
+				if (sslHost) {
+					keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + 'https://' + sslHost + ':' + sslPort));
+				} else {
+					var httpsPortMsg = (keystone.get('ssl port')) ? 'port: ' + keystone.get('ssl port') : 'default port 3001';
+					keystone.httpsServer.listen(sslPort, httpsStarted(httpsReadyMsg + httpsPortMsg));
 				}
 
-			} else {
-				waitForServers--;
 			}
 
+		} else {
+			waitForServers--;
+		}
+
 		process.on('uncaughtException', function(e) {
-			if (e.code == 'EADDRINUSE') {
+			if (e.code === 'EADDRINUSE') {
 				console.log('------------------------------------------------\n' +
 					keystone.get('name') + ' failed to start: address already in use\n' +
 					'Please check you are not already running a server on the specified port.');
 				process.exit();
+			}/* else if (e.code === 'ECONNRESET') {
+				// Connection reset by peer, ignore it instead of exiting server with a throw.
+				// Disabled for release 0.2.16 while further research is being done.
+				console.log('Connection reset by peer');
+				console.log(e);
+			} */else {
+				throw (e);
 			}
-			throw (e);
 		});
+		
 	};
 
 	//mount the express app
@@ -967,7 +974,7 @@ Keystone.prototype.routes = function(app) {
 	}
 
 	// Cache compiled view templates if we are in Production mode
-	this.set('view cache', this.get('env') == 'production');
+	this.set('view cache', this.get('env') === 'production');
 
 	// Bind auth middleware (generic or custom) to /keystone* routes, allowing
 	// access to the generic signin page if generic auth is used
@@ -989,7 +996,7 @@ Keystone.prototype.routes = function(app) {
 		app.all('/keystone/signout', require('./routes/views/signout'));
 		app.all('/keystone*', this.session.keystoneAuth);
 
-	} else if ('function' == typeof this.get('auth')) {
+	} else if ('function' === typeof this.get('auth')) {
 		app.all('/keystone*', this.get('auth'));
 	}
 
@@ -1063,7 +1070,7 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 		};
 
 		app.get('/keystone/test-email/' + key, function(req, res) {
-			if ('function' == typeof vars) {
+			if ('function' === typeof vars) {
 				vars(req, res, function(err, locals) {
 					render(err, req, res, locals);
 				});
@@ -1082,27 +1089,27 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 /**
  * Adds one or more redirections (urls that are redirected when no matching
  * routes are found, before treating the request as a 404)
- *
+ * 
  * #### Example:
  * 		keystone.redirect('/old-route', 'new-route');
- *
+ * 		
  * 		// or
- *
+ * 		
  * 		keystone.redirect({
  * 			'old-route': 'new-route'
  * 		});
  */
 
 Keystone.prototype.redirect = function() {
-
-	if (arguments.length == 1 && utils.isObject(arguments[0])) {
+	
+	if (arguments.length === 1 && utils.isObject(arguments[0])) {
 		_.extend(this._redirects, arguments[0]);
-	} else if (arguments.length == 2 && 'string' == typeof arguments[0] && 'string' == typeof arguments[1]) {
+	} else if (arguments.length === 2 && 'string' === typeof arguments[0] && 'string' === typeof arguments[1]) {
 		this._redirects[arguments[0]] = arguments[1];
 	}
-
+	
 	return this;
-
+	
 };
 
 
@@ -1168,30 +1175,35 @@ Keystone.prototype.importer = function(rel__dirname) {
 
 Keystone.prototype.import = function(dirname) {
 
-	var fromPath = path.join(moduleRoot, dirname);
-		var imported = {};
+    var initialPath = path.join(moduleRoot, dirname);
 
-		fs.readdirSync(fromPath).forEach(function(name) {
+    var doImport = function(fromPath) {
 
-			var fsPath = path.join(fromPath, name),
-				info = fs.statSync(fsPath);
+	var imported = {};
 
-			// recur
-			if (info.isDirectory()) {
-			infomported[name] = doImport(fsPath);
-			} else {
+	fs.readdirSync(fromPath).forEach(function(name) {
+
+            var fsPath = path.join(fromPath, name),
+		info = fs.statSync(fsPath);
+
+		// recur
+		if (info.isDirectory()) {
+                imported[name] = doImport(fsPath);
+		} else {
 			// only import .js or .coffee files
-				var parts = name.split('.');
-				var ext = parts.pop();
-				if (ext == 'js' || ext == 'coffee') {
+			var parts = name.split('.');
+			var ext = parts.pop();
+                if (ext === 'js' || ext === 'coffee') {
 				imported[parts.join('-')] = require(fsPath);
-				}
 			}
+		}
 
-		});
+	});
 
-		return imported;
+	return imported;
+    }
 
+    return doImport(initialPath);
 };
 
 
@@ -1240,7 +1252,7 @@ Keystone.prototype.initAPI = function(req, res, next) {
  */
 
 Keystone.prototype.list = function(list) {
-	if (list && list.constructor == keystone.List) {
+	if (list && list.constructor === keystone.List) {
 		this.lists[list.key] = list;
 		this.paths[list.path] = list.key;
 		return list;
@@ -1278,72 +1290,72 @@ Keystone.prototype.applyUpdates = function(callback) {
  */
 
 Keystone.prototype.createItems = function(data, callback) {
-
+	
 	var lists = _.keys(data),
 		refs = {},
 		stats = {};
-
+	
 	async.waterfall([
-
+		
 		// create items
 		function(next) {
 			async.each(lists, function(key, doneList) {
-
+		
 				var list = keystone.list(key);
-
+				
 				if (!list) return doneList();
-
+				
 				refs[list.key] = {};
 				stats[list.key] = {
 					singular: list.singular,
 					plural: list.plural,
 					created: 0
 				};
-
+				
 				async.each(data[key], function(data, doneItem) {
-
+					
 					// Evaluate function properties to allow generated values
 					_.keys(data).forEach(function(i) {
 						if (_.isFunction(data[i])) {
 							data[i] = data[i]();
 						}
 					});
-
+					
 					var doc = data.__doc = new list.model();
-
+					
 					if (data.__ref) {
 						refs[list.key][data.__ref] = doc;
 					}
-
+					
 					_.each(list.fields, function(field) {
 						// skip relationship fields on the first pass.
-						field.type != 'relationship' && field.updateItem(doc, data);
+						field.type !== 'relationship' && field.updateItem(doc, data);
 					});
-
+					
 					doc.save(doneItem);
 					stats[list.key].created++;
-
+					
 				}, doneList);
-
+				
 			}, next);
 		},
-
+		
 		// link items
 		function(next) {
-
+			
 			async.each(lists, function(key, doneList) {
-
+		
 				var list = keystone.list(key);
-
+				
 				if (!list) return doneList();
-
+				
 				async.each(data[key], function(srcData, doneItem) {
-
+					
 					var doc = srcData.__doc;
-
+					
 					_.each(list.fields, function(field) {
 						// populate relationships from saved refs
-						if (field.type != 'relationship') return;
+						if (field.type !== 'relationship') return;
 						var fieldRefs = refs[field.refList.key];
 						if (field.many) {
 							var refsArr = _.isString(srcData[field.path]) ? [srcData[field.path]] : srcData[field.path];
@@ -1359,26 +1371,26 @@ Keystone.prototype.createItems = function(data, callback) {
 							}
 						}
 					});
-
+					
 					doc.save(doneItem);
-
+					
 				}, doneList);
-
+				
 			}, next);
 		}
-
+		
 	], function(err) {
 		if (err) return callback && callback(err);
-
+		
 		var msg = '\nSuccessfully created:\n';
 		_.each(stats, function(list, key) {
 			msg += '\n*   ' + keystone.utils.plural(list.created, '* ' + list.singular, '* ' + list.plural);
 		});
 		stats.message = msg + '\n';
-
+		
 		callback(null, stats);
 	});
-
+	
 };
 
 
@@ -1397,7 +1409,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 
 	var jadeOptions = {
 		filename: templatePath,
-		pretty: keystone.get('env') != 'production'
+		pretty: keystone.get('env') !== 'production'
 	};
 
 	// TODO: Allow custom basePath for extensions... like this or similar
@@ -1466,7 +1478,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			};
 			locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 		} catch(e) {
-			if (e == 'Must supply api_key') {
+			if (e === 'Must supply api_key') {
 				throw new Error('Invalid Cloudinary Config Provided\n\n' +
 					'See http://keystonejs.com/docs/configuration/#cloudinary for more information.');
 			} else {
