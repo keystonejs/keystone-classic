@@ -134,6 +134,7 @@ exports = module.exports = function(req, res) {
 
 	};
 
+	var item;
 	if ('update' in req.query) {
 		(function() {
 			var data = null;
@@ -177,7 +178,7 @@ exports = module.exports = function(req, res) {
 		return;
 	} else if (!req.list.get('nocreate') && req.list.get('autocreate') && _.has(req.query, 'new')) {
 
-		var item = new req.list.model();
+		item = new req.list.model();
 		item.save(function(err) {
 
 			if (err) {
@@ -194,8 +195,8 @@ exports = module.exports = function(req, res) {
 
 	} else if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
 
-		var item = new req.list.model(),
-			updateHandler = item.getUpdateHandler(req);
+		item = new req.list.model();
+		var updateHandler = item.getUpdateHandler(req);
 
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 

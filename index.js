@@ -214,8 +214,8 @@ Keystone.prototype.get = Keystone.prototype.set;
 
 Keystone.prototype.getPath = function(key, defaultValue) {
 	var pathValue = keystone.get(key) || defaultValue;
-	pathValue = ('string' === typeof pathValue && pathValue.substr(0,1) !== path.sep && pathValue.substr(1,2) !== ':\\') 
-		? path.join(moduleRoot, pathValue) 
+	pathValue = ('string' === typeof pathValue && pathValue.substr(0,1) !== path.sep && pathValue.substr(1,2) !== ':\\')
+		? path.join(moduleRoot, pathValue)
 		: pathValue;
 	return pathValue;
 };
@@ -919,7 +919,7 @@ Keystone.prototype.start = function(events) {
 				throw (e);
 			}
 		});
-		
+
 	};
 
 	//mount the express app
@@ -1089,27 +1089,27 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 /**
  * Adds one or more redirections (urls that are redirected when no matching
  * routes are found, before treating the request as a 404)
- * 
+ *
  * #### Example:
  * 		keystone.redirect('/old-route', 'new-route');
- * 		
+ *
  * 		// or
- * 		
+ *
  * 		keystone.redirect({
  * 			'old-route': 'new-route'
  * 		});
  */
 
 Keystone.prototype.redirect = function() {
-	
+
 	if (arguments.length === 1 && utils.isObject(arguments[0])) {
 		_.extend(this._redirects, arguments[0]);
 	} else if (arguments.length === 2 && 'string' === typeof arguments[0] && 'string' === typeof arguments[1]) {
 		this._redirects[arguments[0]] = arguments[1];
 	}
-	
+
 	return this;
-	
+
 };
 
 
@@ -1175,35 +1175,35 @@ Keystone.prototype.importer = function(rel__dirname) {
 
 Keystone.prototype.import = function(dirname) {
 
-    var initialPath = path.join(moduleRoot, dirname);
+	var initialPath = path.join(moduleRoot, dirname);
 
-    var doImport = function(fromPath) {
+	var doImport = function(fromPath) {
 
-	var imported = {};
+		var imported = {};
 
-	fs.readdirSync(fromPath).forEach(function(name) {
+		fs.readdirSync(fromPath).forEach(function(name) {
 
-            var fsPath = path.join(fromPath, name),
-		info = fs.statSync(fsPath);
-
-		// recur
-		if (info.isDirectory()) {
-                imported[name] = doImport(fsPath);
-		} else {
-			// only import .js or .coffee files
-			var parts = name.split('.');
-			var ext = parts.pop();
-                if (ext === 'js' || ext === 'coffee') {
-				imported[parts.join('-')] = require(fsPath);
+			var fsPath = path.join(fromPath, name),
+			info = fs.statSync(fsPath);
+			
+			// recur
+			if (info.isDirectory()) {
+				imported[name] = doImport(fsPath);
+			} else {
+				// only import .js or .coffee files
+				var parts = name.split('.');
+				var ext = parts.pop();
+				if (ext === 'js' || ext === 'coffee') {
+					imported[parts.join('-')] = require(fsPath);
+				}
 			}
-		}
 
-	});
+		});
 
-	return imported;
-    }
+		return imported;
+	};
 
-    return doImport(initialPath);
+	return doImport(initialPath);
 };
 
 
@@ -1290,69 +1290,69 @@ Keystone.prototype.applyUpdates = function(callback) {
  */
 
 Keystone.prototype.createItems = function(data, callback) {
-	
+
 	var lists = _.keys(data),
 		refs = {},
 		stats = {};
-	
+
 	async.waterfall([
-		
+
 		// create items
 		function(next) {
 			async.each(lists, function(key, doneList) {
-		
+
 				var list = keystone.list(key);
-				
+
 				if (!list) return doneList();
-				
+
 				refs[list.key] = {};
 				stats[list.key] = {
 					singular: list.singular,
 					plural: list.plural,
 					created: 0
 				};
-				
+
 				async.each(data[key], function(data, doneItem) {
-					
+
 					// Evaluate function properties to allow generated values
 					_.keys(data).forEach(function(i) {
 						if (_.isFunction(data[i])) {
 							data[i] = data[i]();
 						}
 					});
-					
+
 					var doc = data.__doc = new list.model();
-					
+
 					if (data.__ref) {
 						refs[list.key][data.__ref] = doc;
 					}
-					
+
 					_.each(list.fields, function(field) {
 						// skip relationship fields on the first pass.
 						field.type !== 'relationship' && field.updateItem(doc, data);
 					});
-					
+
 					doc.save(doneItem);
 					stats[list.key].created++;
-					
+
 				}, doneList);
-				
+
 			}, next);
 		},
-		
+
 		// link items
 		function(next) {
-			
+
 			async.each(lists, function(key, doneList) {
-		
+
 				var list = keystone.list(key);
-				
+
 				if (!list) return doneList();
-				
+
 				async.each(data[key], function(srcData, doneItem) {
-					
+
 					var doc = srcData.__doc;
-					
+
 					_.each(list.fields, function(field) {
 						// populate relationships from saved refs
 						if (field.type !== 'relationship') return;
@@ -1371,26 +1371,26 @@ Keystone.prototype.createItems = function(data, callback) {
 							}
 						}
 					});
-					
+
 					doc.save(doneItem);
-					
+
 				}, doneList);
-				
+
 			}, next);
 		}
-		
+
 	], function(err) {
 		if (err) return callback && callback(err);
-		
+
 		var msg = '\nSuccessfully created:\n';
 		_.each(stats, function(list, key) {
 			msg += '\n*   ' + keystone.utils.plural(list.created, '* ' + list.singular, '* ' + list.plural);
 		});
 		stats.message = msg + '\n';
-		
+
 		callback(null, stats);
 	});
-	
+
 };
 
 
