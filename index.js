@@ -1175,15 +1175,16 @@ Keystone.prototype.importer = function(rel__dirname) {
 
 Keystone.prototype.import = function(dirname) {
 
-    var fromPath = path.join(moduleRoot, dirname);
-    var imported = {};
+    var initialPath = path.join(moduleRoot, dirname);
 
     var doImport = function(fromPath) {
 
+    	var imported = {};
+    	
         fs.readdirSync(fromPath).forEach(function(name) {
 
-            var fsPath = path.join(fromPath, name)
-            info = fs.statSync(fsPath);
+            var fsPath = path.join(fromPath, name),
+            	info = fs.statSync(fsPath);
 
             // recur
             if (info.isDirectory()) {
@@ -1193,7 +1194,7 @@ Keystone.prototype.import = function(dirname) {
                 var parts = name.split('.');
                 var ext = parts.pop();
                 if (ext === 'js' || ext === 'coffee') {
-                    imported[parts.join('-')] = require(path.join(process.cwd() + path.sep + fsPath));
+                    imported[parts.join('-')] = require(fsPath);
                 }
             }
 
@@ -1202,7 +1203,7 @@ Keystone.prototype.import = function(dirname) {
         return imported;
     }
 
-    return doImport('./' + dirname);
+    return doImport(initialPath);
 }
 
 
