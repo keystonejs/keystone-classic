@@ -1178,30 +1178,34 @@ Keystone.prototype.importer = function(rel__dirname) {
 
 Keystone.prototype.import = function(dirname) {
 
-	var fromPath = path.join(moduleRoot, dirname);
-	var imported = {};
+    var fromPath = path.join(moduleRoot, dirname);
+    var imported = {};
 
-	fs.readdirSync(fromPath).forEach(function(name) {
+    var doImport = function(fromPath) {
 
-		var fsPath = path.join(fromPath, name)
-		info = fs.statSync(fsPath);
+        fs.readdirSync(fromPath).forEach(function(name) {
 
-		// recur
-		if (info.isDirectory()) {
-			infomported[name] = doImport(fsPath);
-		} else {
-			// only import .js or .coffee files
-			var parts = name.split('.');
-			var ext = parts.pop();
-			if (ext === 'js' || ext === 'coffee') {
-				imported[parts.join('-')] = require(fsPath);
-			}
-		}
+            var fsPath = path.join(fromPath, name)
+            info = fs.statSync(fsPath);
 
-	});
+            // recur
+            if (info.isDirectory()) {
+                imported[name] = doImport(fsPath);
+            } else {
+                // only import .js or .coffee files
+                var parts = name.split('.');
+                var ext = parts.pop();
+                if (ext === 'js' || ext === 'coffee') {
+                    imported[parts.join('-')] = require(path.join(process.cwd() + path.sep + fsPath));
+                }
+            }
 
-	return imported;
+        });
 
+        return imported;
+    }
+
+    return doImport('./' + dirname);
 }
 
 
