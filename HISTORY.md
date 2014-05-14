@@ -1,5 +1,11 @@
 # Keystone
 
+## v0.2.16 / 2014-05-14
+
+* fixed; issues with Keystone.prototype.import, see [#348](https://github.com/JedWatson/keystone/issues/348), thanks [ashleycorker](https://github.com/ashleycoker)
+* fixed; issues with geo handling in Location fields, see [#344](https://github.com/JedWatson/keystone/issues/344), thanks [mandb](https://github.com/mandb)
+* changed; uncaught `ECONNRESET` errors are caught on `process` and logged so as to not crash the server, thanks [fbeaudet](https://github.com/fbeaudet)
+
 ## v0.2.15 / 2014-05-13
 
 * fixed; Added note to fields that didnt have one, thanks [Ötvös Richárd](https://github.com/RichardOtvos)
