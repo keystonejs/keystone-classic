@@ -14,6 +14,20 @@ var fs = require('fs'),
 
 var templateCache = {};
 
+var dashes = '\n------------------------------------------------\n';
+
+/**
+ * Don't use process.cwd() as it breaks module encapsulation
+ * Instead, let's use module.parent if it's present, or the module itself if there is no parent (probably testing keystone directly if that's the case)
+ * This way, the consuming app/module can be an embedded node_module and path resolutions will still work
+ * (process.cwd() breaks module encapsulation if the consuming app/module is itself a node_module)
+ */
+var moduleRoot = (function(_rootPath) {
+	var parts = _rootPath.split(path.sep);
+	parts.pop(); //get rid of /node_modules from the end of the path
+	return parts.join(path.sep);
+})(module.parent ? module.parent.paths[0] : module.paths[0]);
+
 
 /**
  * Keystone Class
@@ -186,9 +200,8 @@ Keystone.prototype.options = function(options) {
 
 Keystone.prototype.get = Keystone.prototype.set;
 
-
 /**
- * Gets a path option, expanded to include process.cwd() if it is relative
+ * Gets a path option, expanded to include moduleRoot if it is relative
  *
  * ####Example:
  *
@@ -201,7 +214,9 @@ Keystone.prototype.get = Keystone.prototype.set;
 
 Keystone.prototype.getPath = function(key, defaultValue) {
 	var pathValue = keystone.get(key) || defaultValue;
-	pathValue = ('string' == typeof pathValue && pathValue.substr(0,1) != path.sep && pathValue.substr(1,2) != ':\\') ? process.cwd() + path.sep + pathValue : pathValue;
+	pathValue = ('string' == typeof pathValue && pathValue.substr(0,1) != path.sep && pathValue.substr(1,2) != ':\\')
+		? path.join(moduleRoot, pathValue)
+		: pathValue;
 	return pathValue;
 };
 
@@ -361,22 +376,30 @@ Keystone.prototype.initNav = function(sections) {
 };
 
 /**
- * Configures and starts a Keystone app in encapsulated mode.
+ * Configures a Keystone app in encapsulated mode, but does not start it.
  *
- * Connects to the database, runs updates and listens for incoming requests.
+ * Connects to the database and runs updates and then calls back.
+ *
+ * This is the code-path to use if you'd like to mount the keystone app as a sub-app in another express application.
+ *
+ *   var app = express();
+ *
+ *   //...do your normal express setup stuff, add middleware and routes (but not static content or error handling middleware yet)
+ *
+ *   keystone.mount('/content', app, function() {
+ *     //put your app's static content and error handling middleware here and start your server
+ *   });
  *
  * Events are fired during initialisation to allow customisation, including:
  *
- *   - onStart
- *   - onHttpServerCreated
- *   - onHttpsServerCreated
+ *   - onMount
  *
- * If the events argument is a function, it is assumed to be the started event.
+ * If the events argument is a function, it is assumed to be the mounted event.
  *
  *
  * ####Options:
  *
- * Keystone supports the following options specifically for running in encapsulated mode:
+ * Keystone supports the following options specifically for running in encapsulated mode (with no embedded server):
  *
  *   - name
  *   - port
@@ -395,34 +418,46 @@ Keystone.prototype.initNav = function(sections) {
  *   - routes
  *   - locals
  *   - auto update
- *   - ssl
- *   - sslport
- *   - sslkey
- *   - sslcert
  *
  *
  * @api public
  */
 
-Keystone.prototype.start = function(events) {
-
-	if ('function' == typeof events) {
-		events = { onStart: events };
-	}
-
-	if (!events) events = {};
+Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 	if (!this.app) {
 		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
 	}
 
+	if (arguments.length == 1) {
+		events = arguments[0];
+		mountPath = null;
+	}
+
+	if ('function' == typeof events) {
+		events = { onMount: events };
+	}
+
+	if (!events) events = {};
+
 	this.nativeApp = true;
 
 	var keystone = this,
-		app = this.app,
-		dashes = '\n------------------------------------------------\n';
+		app = this.app;
 
-	/* Express App Setup */
+	/* Express sub-app mounting to external app at a mount point (if specified) */
+
+	if (mountPath) {
+		//fix root-relative keystone urls for assets (gets around having to re-write all the keystone templates)
+		parentApp.all(/^\/keystone($|\/*)/, function(req, res, next) {
+			req.url = mountPath + req.url;
+			next();
+		});
+
+		parentApp.use(mountPath, app);
+	}
+
+	/* Keystone's encapsulated Express App Setup */
 
 	// Allow usage of custom view engines
 
@@ -469,8 +504,9 @@ Keystone.prototype.start = function(events) {
 
 	// Handle dynamic requests
 
-	if (this.get('logger'))
+	if (this.get('logger')) {
 		app.use(express.logger(this.get('logger')));
+	}
 
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
@@ -662,6 +698,84 @@ Keystone.prototype.start = function(events) {
 
 	}).on('open', function() {
 
+		//app is mounted and db connection acquired, time to update and then call back
+
+		// Apply updates?
+		if (keystone.get('auto update')) {
+			keystone.applyUpdates(events.onMount);
+		} else {
+			events.onMount && events.onMount();
+		}
+
+	});
+};
+
+/**
+ * Configures and starts a Keystone app in encapsulated mode.
+ *
+ * Connects to the database, runs updates and listens for incoming requests.
+ *
+ * Events are fired during initialisation to allow customisation, including:
+ *
+ *   - onMount
+ *   - onStart
+ *   - onHttpServerCreated
+ *   - onHttpsServerCreated
+ *
+ * If the events argument is a function, it is assumed to be the started event.
+ *
+ *
+ * ####Options:
+ *
+ * Keystone supports the following options specifically for running in encapsulated mode:
+ *
+ *   - name
+ *   - port
+ *   - views
+ *   - view engine
+ *   - compress
+ *   - favico
+ *   - less
+ *   - static
+ *   - headless
+ *   - logger
+ *   - cookie secret
+ *   - session
+ *   - 404
+ *   - 500
+ *   - routes
+ *   - locals
+ *   - auto update
+ *   - ssl
+ *   - sslport
+ *   - sslkey
+ *   - sslcert
+ *
+ *
+ * @api public
+ */
+
+Keystone.prototype.start = function(events) {
+
+	if ('function' == typeof events) {
+		events = { onStart: events };
+	}
+
+	if (!events) events = {};
+
+	if (!this.app) {
+		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
+	}
+
+	var keystone = this,
+		app = this.app;
+
+	//maintain passed in onMount binding but override to start http servers
+	//(call user-defined onMount first if present)
+	var onMount = events.onMount;
+	events.onMount = function() {
+		onMount && onMount();
+
 		mongoConnectionOpen = true;
 
 		var startupMessages = ['KeystoneJS Started:'],
@@ -680,8 +794,6 @@ Keystone.prototype.start = function(events) {
 		// For more information on how these options work, see
 		// http://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback
 		// and for history, see https://github.com/JedWatson/keystone/issues/154
-
-		var createServer = function() {
 
 			keystone.httpServer = http.createServer(app);
 			events.onHttpServerCreated && events.onHttpServerCreated();
@@ -792,8 +904,6 @@ Keystone.prototype.start = function(events) {
 				waitForServers--;
 			}
 
-		};
-
 		process.on('uncaughtException', function(e) {
 			if (e.code == 'EADDRINUSE') {
 				console.log('------------------------------------------------\n' +
@@ -803,15 +913,10 @@ Keystone.prototype.start = function(events) {
 			}
 			throw (e);
 		});
+	};
 
-		// Apply updates?
-		if (keystone.get('auto update')) {
-			keystone.applyUpdates(createServer);
-		} else {
-			createServer();
-		}
-
-	});
+	//mount the express app
+	this.mount(events);
 
 	return this;
 
@@ -1051,7 +1156,7 @@ Keystone.prototype.importer = function(rel__dirname) {
 
 /**
  * returns all .js modules (recursively) in the path specified, relative
- * to the project root (where the node process is run from).
+ * to the module root (where the keystone project is being consumed from).
  *
  * ####Example:
  *
@@ -1063,8 +1168,7 @@ Keystone.prototype.importer = function(rel__dirname) {
 
 Keystone.prototype.import = function(dirname) {
 
-	var doImport = function(fromPath) {
-
+	var fromPath = path.join(moduleRoot, dirname);
 		var imported = {};
 
 		fs.readdirSync(fromPath).forEach(function(name) {
@@ -1074,23 +1178,19 @@ Keystone.prototype.import = function(dirname) {
 
 			// recur
 			if (info.isDirectory()) {
-				imported[name] = doImport(fsPath);
+			infomported[name] = doImport(fsPath);
 			} else {
-				// only import .js files
+			// only import .js or .coffee files
 				var parts = name.split('.');
 				var ext = parts.pop();
 				if (ext == 'js' || ext == 'coffee') {
-					imported[parts.join('-')] = require(path.join(process.cwd() + path.sep + fsPath));
+				imported[parts.join('-')] = require(fsPath);
 				}
 			}
 
 		});
 
 		return imported;
-
-	};
-
-	return doImport('./' + dirname);
 
 };
 
