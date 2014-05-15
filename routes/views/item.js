@@ -69,7 +69,7 @@ exports = module.exports = function(req, res) {
 									items: _.map(results, function(i) { return {
 										label: refList.getDocumentName(i),
 										href: '/keystone/' + refList.path + '/' + i.id
-									}}),
+									};}),
 									more: (more) ? true : false
 								});
 							}
@@ -98,7 +98,7 @@ exports = module.exports = function(req, res) {
 					drilldown.items.reverse();
 					cb(err);
 				});
-			}
+			};
 			
 			var loadRelationships = function(cb) {
 				
@@ -114,7 +114,7 @@ exports = module.exports = function(req, res) {
 						.sort(rel.list.defaultSort);
 						
 					// rel.columns = _.reject(rel.list.defaultColumns, function(col) { return (col.type == 'relationship' && col.refList == req.list) });
-					rel.columns = rel.list.defaultColumns
+					rel.columns = rel.list.defaultColumns;
 					rel.list.selectColumns(q, rel.columns);
 					
 					q.exec(function(err, results) {
@@ -123,13 +123,13 @@ exports = module.exports = function(req, res) {
 					});
 					
 				}, cb);
-			}
+			};
 			
 			var	loadFormFieldTemplates = function(cb){
-				var onlyFields = function(item) { return item.type == 'field'; }
-				var compile = function(item, callback) { item.field.compile('form',callback); }
+				var onlyFields = function(item) { return item.type == 'field'; };
+				var compile = function(item, callback) { item.field.compile('form',callback); };
 				async.eachSeries(req.list.uiElements.filter(onlyFields), compile , cb);
-			}
+			};
 			
 			
 			/** Render View */
@@ -158,7 +158,7 @@ exports = module.exports = function(req, res) {
 				
 			});
 			
-		}
+		};
 		
 		if (req.method == 'POST' && req.body.action == 'updateItem' && !req.list.get('noedit')) {
 			
@@ -177,4 +177,4 @@ exports = module.exports = function(req, res) {
 		
 	});
 	
-}
+};

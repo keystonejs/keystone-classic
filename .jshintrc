@@ -1,0 +1,8 @@
+{
+  // TODO Enable these once jshint is passing
+  //"strict": true,
+  //"undef": true,
+  //"unused": true,
+  "node": true,
+  "mocha": true
+}

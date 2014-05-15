@@ -27,7 +27,7 @@ exports = module.exports = function(req, res) {
 			delete req.query.sort;
 			var qs = querystring.stringify(req.query);
 			return res.redirect(req.path + ((qs) ? '?' + qs : ''));
-		}
+		};
 
 		// clear the sort query value if it is the default sort value for the list
 		if (req.query.sort == req.list.defaultSort) {
@@ -62,14 +62,14 @@ exports = module.exports = function(req, res) {
 			delete params.page;
 			var queryParams = _.clone(req.query);
 			for (var i in params) {
-				if (params[i] == undefined) {
+				if (params[i] === undefined) {
 					delete params[i];
 					delete queryParams[i];
 				}
 			}
 			params = querystring.stringify(_.defaults(params, queryParams));
 			return '/keystone/' + req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
-		}
+		};
 
 		query.exec(function(err, items) {
 
@@ -107,7 +107,7 @@ exports = module.exports = function(req, res) {
 				download_link += '?' + downloadParams;
 			}
 
-			var compileFields = function(item, callback) { item.compile('initial', callback); }
+			var compileFields = function(item, callback) { item.compile('initial', callback); };
 
 			async.eachSeries(req.list.initialFields, compileFields , function() {
 
@@ -132,8 +132,9 @@ exports = module.exports = function(req, res) {
 			});
 		});
 
-	}
+	};
 
+	var item;
 	if ('update' in req.query) {
 		(function() {
 			var data = null;
@@ -177,7 +178,7 @@ exports = module.exports = function(req, res) {
 		return;
 	} else if (!req.list.get('nocreate') && req.list.get('autocreate') && _.has(req.query, 'new')) {
 
-		var item = new req.list.model();
+		item = new req.list.model();
 		item.save(function(err) {
 
 			if (err) {
@@ -194,8 +195,8 @@ exports = module.exports = function(req, res) {
 
 	} else if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
 
-		var item = new req.list.model(),
-			updateHandler = item.getUpdateHandler(req);
+		item = new req.list.model();
+		var updateHandler = item.getUpdateHandler(req);
 
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 
@@ -223,4 +224,4 @@ exports = module.exports = function(req, res) {
 	} else {
 		renderView();
 	}
-}
+};
