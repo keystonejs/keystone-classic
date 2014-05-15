@@ -3,6 +3,7 @@ var gulp = require('gulp'),
 	watch = require('gulp-watch'),
 	// changed = require('gulp-changed'),
 	mocha = require('gulp-mocha'),
+	cover = require('gulp-coverage'),
 	colors = require('colors');
 
 /*
@@ -40,7 +41,14 @@ gulp.task('test', function(){
 // gulp for running the mocha tests with spec reporter
 gulp.task('spec', function(){
 	gulp.src(paths.tests)
+        .pipe(cover.instrument({
+            pattern: paths.src,
+            debugDirectory: '.coverdebug'
+        }))
 		.pipe(mocha({reporter: 'spec'}))
+        .pipe(cover.report({
+            outFile: 'coverage.html'
+        }))
 		.on('error', handleError);
 
 });
@@ -56,3 +64,5 @@ gulp.task('autotest', function(){
 gulp.task('autospec', function(){
 	gulp.watch(paths.src.concat(paths.tests), ['spec']);
 });
+
+gulp.task('default', ['lint', 'spec']);
