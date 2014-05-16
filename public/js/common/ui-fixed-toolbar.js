@@ -51,7 +51,7 @@ jQuery(function($) {
 				});
 			}
 			
-		}
+		};
 		
 		$window.scroll(onScroll);
 		$window.resize(onScroll);

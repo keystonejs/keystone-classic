@@ -40,7 +40,7 @@ jQuery(function($) {
 			var references = _.map(uploads, function(u) { return u; });
 			$uploads.val(JSON.stringify(references));
 			checkQueues();
-		}
+		};
 		
 		// Displays or hides the queue message if we have pending uploads
 		var checkQueues = function() {
@@ -55,7 +55,7 @@ jQuery(function($) {
 			var removals = actions.delete.length + actions.remove.length;
 			$deleteQueued[( removals ? 'show' : 'hide' )]();
 			$deleteQueued.find('.alert').html(removals + ' image' + ( removals > 1 ? 's' : '' ) + ' removed - save to confirm');
-		}
+		};
 		
 		// Handle existing images
 		images.each(function() {
@@ -140,7 +140,7 @@ jQuery(function($) {
 			
 			return $(imageFieldHTML).insertBefore($imageUpload); // appendTo($images);
 			
-		}
+		};
 		
 		// File Reader
 		var readFiles = function(files, callback) {
@@ -248,7 +248,7 @@ jQuery(function($) {
 			var updateStatus = function($el, status, icon) {
 				$el.find('.btn-undo-upload').html(status);
 				$el.find('.img-uploading').removeClass( 'glyphicon-open glyphicon-ok glyphicon-ban-circle').addClass(icon);
-			}
+			};
 			
 			$imageUpload.on({
 				dragleave: function(e) {
@@ -257,7 +257,7 @@ jQuery(function($) {
 				mouseleave: function(e) {
 					$imageUpload.removeClass('hover');
 				}
-			})
+			});
 			
 			$cloudinary.on({
 				fileuploaddragover: function() {

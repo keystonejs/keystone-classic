@@ -27,7 +27,7 @@ jQuery(function($) {
 			$img.parent().find('.img-loading').remove();
 		});
 		$img.prop('src', $img.data().src);
-	})
+	});
 	
 	$('a[data-toggle=tooltip]').tooltip();
 	
@@ -118,7 +118,7 @@ jQuery(function($) {
 						data.push(rtn);
 						if (data.length == ids.length)
 							callback(multi ? data : data[0]);
-					}
+					};
 					
 					$.each(ids, function() {
 						$.ajax('/keystone/api/' + refPath + '/get', {

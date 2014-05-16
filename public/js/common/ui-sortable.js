@@ -41,7 +41,7 @@ jQuery(function($) {
 			
 			rowWasMoved = true;
 			
-		}
+		};
 		
 		var finish = function(e) {
 			
@@ -61,13 +61,13 @@ jQuery(function($) {
 				});
 			}
 			
-		}
+		};
 		
 		$(document).on('mousemove.ui.sortable', mousemove).on('mouseup.ui.sortable', finish);
 		
 		mousemove(startEvent);
 		
-	}
+	};
 	
 	Sortable.prototype.getRowHit = function(e) {
 		
@@ -82,7 +82,7 @@ jQuery(function($) {
 		
 		return rowHit;
 		
-	}
+	};
 	
 	Sortable.prototype.getRowPositions = function() {
 		return _.map(this.$table.find('tbody tr'), function(tr) {
@@ -90,7 +90,7 @@ jQuery(function($) {
 				offset = $tr.offset();
 			return { top: offset.top, bottom: offset.top + $tr.height() };
 		});
-	}
+	};
 	
 	// SORTABLE PLUGIN
 	// ===============
@@ -104,7 +104,7 @@ jQuery(function($) {
 			
 			sortable.start($row, e);
 		});
-	}
+	};
 	
 	$.fn.sortable.Constructor = Sortable;
 	
