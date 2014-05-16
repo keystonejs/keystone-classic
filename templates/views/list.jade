@@ -71,29 +71,29 @@ block content
 				span No #{list.plural.toLowerCase()} found
 					= search || xFilters ? '' : '.'
 			if search
-				span.text-muted  matching  
+				span.text-muted  matching
 				span=search
 				if xFilters
-					span.text-muted  and 
-					span= utils.plural(xFilters, '* other filter')
+					span.text-muted  and
+					span= utils.plural(xFilters, ' * other filter')
 			else if xFilters
-				span.text-muted  matching 
-				span= utils.plural(xFilters, '* filter')
+				span.text-muted  matching
+				span= utils.plural(xFilters, ' * filter')
 			
 			//- Sort
 			if items.results.length
 				if sort.by
-					span.text-muted  ordered by 
+					span.text-muted  ordered by&nbsp;
 				else
 					span.text-muted &mdash;
 				span.dropdown.list-sort-dropdown
 					a(href=js, data-toggle='dropdown').dropdown-toggle
 						if sort.label
-							= sort.label.toLowerCase() + ' '
+							=  sort.label.toLowerCase() + ' '
 							if sort.inv
-								|  (descending) 
+								|  (descending)
 						else
-							| sort by 
+							| sort by
 						b.caret
 					ul.dropdown-menu
 						if list.get('sortable')
@@ -152,7 +152,7 @@ block content
 					.col-xs-4.col-sm-2
 						.dropdown.list-filter-dropdown
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Add Filter... 
+								| Add Filter...
 								b.caret
 							ul.dropdown-menu: each el in list.uiElements
 								if el.type == 'heading'
@@ -169,7 +169,7 @@ block content
 							a(href=download_link).btn.btn-default Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Columns 
+								| Columns
 								b.caret
 							ul.dropdown-menu
 								each el in list.uiElements
@@ -213,7 +213,7 @@ block content
 								
 								//- Numeric Fields
 								if field.type == 'number' || field.type == 'money'
-									.btn-group.btn-group-xs(data-toggle='buttons')
+									.btn-group.btn-group-operator.btn-group-xs(data-toggle='buttons')
 										button(type='button', class=!ops.operator ? 'active' : '').btn.btn-default
 											input(type='radio', name='options')
 											| exactly
@@ -223,11 +223,22 @@ block content
 										button(type='button', class=ops.operator == 'lt' ? 'active' : '', data-opt='operator', data-value='lt').btn.btn-default
 											input(type='radio', name='options')
 											| less than
-									.filter-input.filter-input-md: input(type='number', name='value', value=ops.value).form-control.input-xs
+										button(type='button', class=ops.operator == 'bt' ? 'active' : '', data-opt='operator', data-value='bt').btn.btn-default
+											input(type='radio', name='options')
+											| between
 								
+									.filter-input
+										.filter-input-range.form-inline.text-sm(style='display:none')
+											input(type='number', value=(ops.operator === 'bt' && ops.value[0])).form-control.input-xs.field-inline--xs.filter-input-range1
+											span.mh-1 and
+											input(type='number', value=(ops.operator === 'bt' && ops.value[1])).form-control.input-xs.field-inline--xs.filter-input-range2
+											span.mh-1 (inclusive)
+										.filter-input-standard(style='display:none')
+											input(type='number', name='value', value=(ops.operator !== 'bt' && ops.value)).form-control.input-xs
+							
 								//- Date
 								if field.type == 'date' || field.type == 'datetime'
-									.btn-group.btn-group-xs(data-toggle='buttons')
+									.btn-group.btn-group-operator.btn-group-xs(data-toggle='buttons')
 										button(type='button', class=(!ops.operator) ? 'active' : '').btn.btn-default
 											input(type='radio', name='options')
 											| on
@@ -237,7 +248,18 @@ block content
 										button(type='button', class=ops.operator == 'lt' ? 'active' : '', data-opt='operator', data-value='lt').btn.btn-default
 											input(type='radio', name='options')
 											| before
-									.filter-input.filter-input-md: input(type='text', name='value', value=ops.value).form-control.input-xs.ui-datepicker
+										button(type='button', class=ops.operator == 'bt' ? 'active' : '', data-opt='operator', data-value='bt').btn.btn-default
+											input(type='radio', name='options')
+											| between
+								
+									.filter-input
+										.filter-input-range.form-inline.text-sm(style='display:none')
+											input(type='text', value=(ops.operator === 'bt' && ops.value[0])).form-control.input-xs.field-inline--sm.ui-datepicker.filter-input-range1
+											span.mh-1 and
+											input(type='text', value=(ops.operator === 'bt' && ops.value[1])).form-control.input-xs.field-inline--sm.ui-datepicker.filter-input-range2
+											span.mh-1 (inclusive)
+										.filter-input-standard(style='display:none')
+											input(type='text', name='value', value=(ops.operator !== 'bt' && ops.value)).form-control.input-xs.ui-datepicker
 								
 								//- Location
 								if field.type == 'location'
@@ -256,7 +278,7 @@ block content
 										button(type='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
 											input(type='radio', name='options')
 											| is not
-									.filter-input.filter-input-md: select()
+									.filter-input.filter-input-md: select(name='value')
 										option(value='')
 										each op in field.ops
 											option(value=op.value, selected=ops.value == op.value)= op.label
