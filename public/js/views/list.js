@@ -191,7 +191,7 @@ jQuery(function($) {
 						$filter.find('input[type=text]').each(function() {
 							locationParts.push($(this).val());
 						});
-						queryParts.push.call(queryParts, locationParts);
+						queryParts.push.apply(queryParts, locationParts);
 						break;
 					
 					case 'boolean':

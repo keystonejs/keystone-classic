@@ -75,21 +75,21 @@ block content
 				span=search
 				if xFilters
 					span.text-muted  and
-					span= utils.plural(xFilters, '* other filter')
+					span= utils.plural(xFilters, ' * other filter')
 			else if xFilters
 				span.text-muted  matching
-				span= utils.plural(xFilters, '* filter')
+				span= utils.plural(xFilters, ' * filter')
 			
 			//- Sort
 			if items.results.length
 				if sort.by
-					span.text-muted  ordered by
+					span.text-muted  ordered by&nbsp;
 				else
 					span.text-muted &mdash;
 				span.dropdown.list-sort-dropdown
 					a(href=js, data-toggle='dropdown').dropdown-toggle
 						if sort.label
-							= sort.label.toLowerCase() + ' '
+							=  sort.label.toLowerCase() + ' '
 							if sort.inv
 								|  (descending)
 						else
