@@ -557,6 +557,12 @@ block content
 				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)
 			
 			
+			a(name="fieldtypes-color")
+			h3 <code>Color</code>
+			h4 <code class="data-type">Color</code> &mdash; Displayed as a text field with a color picker
+			pre: code.language-javascript { type: Types.Color }
+
+			
 			a(name="fieldtypes-date")
 			h3 <code>Date</code>
 			h4 <code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI
@@ -579,6 +585,7 @@ block content
 					| item._.createdDate.format(); // returns today's date using the default format string
 					| item._.createdDate.parse('2013-12-04'); // returns a moment object with the parsed date
 					| item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'
+
 			
 			a(name="fieldtypes-datetime")
 			h3 <code>Datetime</code>
