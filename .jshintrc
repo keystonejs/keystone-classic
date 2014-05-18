@@ -1,8 +1,65 @@
 {
-  // TODO Enable these once jshint is passing
-  //"strict": true,
-  //"undef": true,
-  //"unused": true,
-  "node": true,
-  "mocha": true
+  "bitwise": true,
+  "camelcase": true,
+  "curly": false,  /* custom */
+  "eqeqeq": true,
+  "es3": true,
+  "forin": true,
+  "freeze": true,
+  "immed": true,
+  "indent": 1,  /* custom */
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonbsp": true,
+  "nonew": true,
+  "plusplus": false,  /* custom */
+  "quotmark": true,
+  "undef": true,
+  "unused": true,
+  "strict": false, /* enable later */
+  "trailing": true,
+  "maxparams": false,
+  "maxdepth": false,
+  "maxstatements": false,
+  "maxcomplexity": false,
+  "maxlen": false,
+  "asi": false,
+  "boss": true,  /* custom */
+  "debug": false,
+  "eqnull": false,
+  "esnext": false,
+  "evil": false,
+  "expr": false,
+  "funcscope": false,
+  "gcl": false,
+  "globalstrict": false,
+  "iterator": false,
+  "lastsemic": false,
+  "laxbreak": false,
+  "laxcomma": false,
+  "loopfunc": false,
+  "moz": false,
+  "multistr": false,
+  "notypeof": false,
+  "proto": false,
+  "scripturl": false,
+  "smarttabs": false,
+  "shadow": false,
+  "sub": false,
+  "supernew": false,
+  "noyield": false,
+  "browser": true,  /* custom */
+  "node": true,  /* custom */
+  "onevar": true,  /* custom */
+  "globals": {  /* custom */
+    /* MOCHA: http://stackoverflow.com/a/19572515/130638 */
+    "describe"   : false,
+    "it"         : false,
+    "before"     : false,
+    "beforeEach" : false,
+    "after"      : false,
+    "afterEach"  : false
+  }
 }
