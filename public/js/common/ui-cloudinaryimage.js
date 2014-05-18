@@ -33,7 +33,7 @@ jQuery(function($) {
 		
 		var removeNewImage = function() {
 			$el.find('.image-preview.new').remove();
-		}
+		};
 		
 		$upload.change(function(e) {
 			var imageSelected = $(this).val() ? true : false;
@@ -52,7 +52,7 @@ jQuery(function($) {
 				removeNewImage();
 				// Render HTML
 				return $(imageFieldHTML).prependTo($image);
-			}
+			};
 			// Preview
 			if (imageSelected) {
 				if (window.FileReader) {

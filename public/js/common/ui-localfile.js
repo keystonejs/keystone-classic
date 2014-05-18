@@ -45,7 +45,7 @@ jQuery(function($) {
 				$uploadBtn.text(fileSelected ? 'Change File' : 'Upload File');
 				// Preview
 				removeNewFile();
-			}
+			};
 			// Preview
 			if (fileSelected) {
 				if (window.FileReader) {

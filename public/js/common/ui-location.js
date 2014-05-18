@@ -21,7 +21,7 @@ jQuery(function($) {
 				$(this).remove();
 				$field.find('.extras').show();
 				$(window).trigger('redraw');
-			})
+			});
 		}
 		
 		$field.find('.autoimprove').on('change', function() {

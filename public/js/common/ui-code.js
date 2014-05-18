@@ -48,5 +48,5 @@ jQuery(function($) {
 			editor.setOption("gutters", ["CodeMirror-lint-markers"]);
 			editor.setOption("lintWith", CodeMirror.javascriptValidator);
 		}
-	})
+	});
 });

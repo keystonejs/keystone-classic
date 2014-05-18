@@ -28,7 +28,7 @@ jQuery(function($) {
 		
 		var removeNewFile = function() {
 			$el.find('.file-preview.new').remove();
-		}
+		};
 		
 		$upload.change(function(e) {
 			var fileSelected = $(this).val() ? true : false;
@@ -45,7 +45,7 @@ jQuery(function($) {
 				$uploadBtn.text(fileSelected ? 'Change File' : 'Upload File');
 				// Preview
 				removeNewFile();
-			}
+			};
 			// Preview
 			if (fileSelected) {
 				if (window.FileReader) {
