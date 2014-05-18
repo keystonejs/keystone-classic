@@ -7,6 +7,8 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = false
 insert_final_newline = true
+indent_style = tab
+indent_size = 4
 
 [*.jade]
 indent_style = tab
@@ -14,4 +16,8 @@ indent_size = 4
 
 [*.less]
 indent_style = tab
+indent_size = 2
+
+[*.json]
+indent_style = space
 indent_size = 2
