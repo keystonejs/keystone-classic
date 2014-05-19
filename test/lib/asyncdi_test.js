@@ -3,6 +3,7 @@ var demand = require('must'),
 
 var fn_basic = function() { return true; };
 var fn_async = function(callback) { callback(null, true) };
+var fn_one = function(one) { return true; };
 
 describe('asyncdi', function() {
 	describe('new', function() {
@@ -46,6 +47,16 @@ describe('asyncdi', function() {
 				demand(val).be.true();
 				done();
 			});
+		});
+	});
+	describe('fn_one.requires', function() {
+		it('must require `one`', function() {
+			demand(di(fn_one).requires.one).be.true();
+		});
+	});
+	describe('fn_one.requires', function() {
+		it('must not require `two`', function() {
+			demand(di(fn_one).requires.two).be.undefined();
 		});
 	});
 })
