@@ -40,6 +40,24 @@ describe('Keystone.View', function() {
 		});
 	});
 	
+	describe('.render(callback)', function() {
+		it('must pass (err, req, res) to the callback', function(done) {
+			var app = getApp();
+			app.get('/', function(req, res) {
+				var view = new keystone.View(req, res);
+				view.render(function(err, req2, res2) {
+					demand(err).be.undefined();
+					req2.must.equal(req);
+					res2.must.equal(res);
+					res.send('OK');
+				});
+			});
+			request(app)
+				.get('/')
+				.expect('OK', done);
+		});
+	});
+	
 	describe('.on(event, [match,] fn)', function() {
 		
 		it('must call init methods first', function(done) {
