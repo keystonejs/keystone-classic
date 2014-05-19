@@ -5,8 +5,8 @@ var fn_basic = function() { return true; };
 var fn_async = function(callback) { callback(null, true) };
 var fn_one = function(one) { return true; };
 
-describe('asyncdi', function() {
-	describe('new', function() {
+describe('AsyncDI', function() {
+	describe('new Wrapper', function() {
 		it('must be an instance of Wrapper', function() {
 			new di.Wrapper(fn_basic).must.be.an.instanceof(di.Wrapper);
 		});
