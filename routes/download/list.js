@@ -20,7 +20,7 @@ exports = module.exports = function(req, res) {
 		}
 
 		_.each(req.list.fields, function(field) {
-			if (field.type == 'boolean') {
+			if (field.type === 'boolean') {
 				rowData[field.path] = i.get(field.path) ? 'true' : 'false';
 			} else {
 				rowData[field.path] = field.format(i);
@@ -80,7 +80,7 @@ exports = module.exports = function(req, res) {
 				return fn.apply(_this, args);
 			};
 
-			if (_.last(deps) == 'callback') {
+			if (_.last(deps) === 'callback') {
 				// Allow async toCSV by detecting the last argument is callback
 				return async.map(results, function(i, callback) {
 					var _map = _.clone(map);

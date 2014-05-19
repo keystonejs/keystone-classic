@@ -60,7 +60,7 @@ exports = module.exports = function(req, res) {
 				});
 			};
 
-			if (req.query.context == 'relationship') {
+			if (req.query.context === 'relationship') {
 
 				var srcList = keystone.list(req.query.list);
 
@@ -68,7 +68,7 @@ exports = module.exports = function(req, res) {
 
 				var field = srcList.fields[req.query.field];
 
-				if (!field || field.type != 'relationship') return sendError('invalid field provided');
+				if (!field || field.type !== 'relationship') return sendError('invalid field provided');
 
 				if (!field.hasFilters) {
 					return doQuery();
@@ -115,7 +115,7 @@ exports = module.exports = function(req, res) {
 			var order = req.query.order || req.body.order,
 				queue = [];
 
-			if ('string' == typeof order) {
+			if ('string' === typeof order) {
 				order = order.split(',');
 			}
 
@@ -141,7 +141,7 @@ exports = module.exports = function(req, res) {
 
 			var item = new req.list.model(),
 				updateHandler = item.getUpdateHandler(req),
-				data = (req.method == 'POST') ? req.body : req.query;
+				data = (req.method === 'POST') ? req.body : req.query;
 
 			if (req.list.nameIsInitial) {
 				if (req.list.nameField.validateInput(data)) {

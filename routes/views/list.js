@@ -1,9 +1,7 @@
 var keystone = require('../../'),
 	_ = require('underscore'),
-	moment = require('moment'),
 	querystring = require('querystring'),
-	async = require('async'),
-	utils = require('keystone-utils');
+	async = require('async');
 
 exports = module.exports = function(req, res) {
 
@@ -19,7 +17,7 @@ exports = module.exports = function(req, res) {
 
 	if (sort.by) {
 
-		sort.inv = sort.by.charAt(0) == '-';
+		sort.inv = sort.by.charAt(0) === '-';
 		sort.path = (sort.inv) ? sort.by.substr(1) : sort.by;
 		sort.field = req.list.fields[sort.path];
 
@@ -30,7 +28,7 @@ exports = module.exports = function(req, res) {
 		};
 
 		// clear the sort query value if it is the default sort value for the list
-		if (req.query.sort == req.list.defaultSort) {
+		if (req.query.sort === req.list.defaultSort) {
 			return clearSort();
 		}
 
@@ -38,10 +36,10 @@ exports = module.exports = function(req, res) {
 			// the sort is set to a field, use its label
 			sort.label = sort.field.label;
 			// some fields have custom sort paths
-			if (sort.field.type == 'name') {
+			if (sort.field.type === 'name') {
 				sort.by = sort.by + '.first ' + sort.by + '.last';
 			}
-		} else if (req.list.get('sortable') && (sort.by == 'sortOrder' || sort.by == '-sortOrder')) {
+		} else if (req.list.get('sortable') && (sort.by === 'sortOrder' || sort.by === '-sortOrder')) {
 			// the sort is set to the built-in sort order, set the label correctly
 			sort.label = 'display order';
 		} else if (req.query.sort) {
@@ -75,7 +73,7 @@ exports = module.exports = function(req, res) {
 
 			if (err) {
 				console.log(err);
-				return res.status(500).send("Error querying items:<br><br>" + JSON.stringify(err));
+				return res.status(500).send('Error querying items:<br><br>' + JSON.stringify(err));
 			}
 
 			// if there were results but not on this page, reset the page
@@ -84,7 +82,7 @@ exports = module.exports = function(req, res) {
 			}
 
 			// go straight to the result if there was a search, and only one result
-			if (req.query.search && items.total == 1 && items.results.length == 1) {
+			if (req.query.search && items.total === 1 && items.results.length === 1) {
 				return res.redirect('/keystone/' + req.list.path + '/' + items.results[0].id);
 			}
 
@@ -193,7 +191,7 @@ exports = module.exports = function(req, res) {
 
 		});
 
-	} else if (!req.list.get('nocreate') && req.method == 'POST' && req.body.action == 'create') {
+	} else if (!req.list.get('nocreate') && req.method === 'POST' && req.body.action === 'create') {
 
 		item = new req.list.model();
 		var updateHandler = item.getUpdateHandler(req);
