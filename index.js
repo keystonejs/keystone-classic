@@ -126,8 +126,10 @@ var remappedOptions = {
 	}
 
 	if (remappedOptions[key]) {
-		console.log('Warning: the `' + key + '` option has been deprecated. Please use `' + remappedOptions[key] + '` instead.\n\n' +
-			'Support for `' + key + '` will be removed in a future version.');
+		if (this.get('logger')) {
+			console.log('Warning: the `' + key + '` option has been deprecated. Please use `' + remappedOptions[key] + '` instead.\n\n' +
+				'Support for `' + key + '` will be removed in a future version.');
+		}
 		key = remappedOptions[key];
 	}
 
@@ -303,7 +305,7 @@ keystone.Email = require('./lib/email');
  */
 
 Keystone.prototype.init = function(options) {
-
+	
 	this.options(options);
 
 	if (!this.app) {
@@ -499,7 +501,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	}
 
 	if (!this.get('headless')) {
-			keystone.static(app);
+		keystone.static(app);
 	}
 
 	// Handle dynamic requests
@@ -551,8 +553,10 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			app.use(fn);
 		}
 		catch(e) {
-			console.log('Pre-route middleware (not found):');
-			console.log(e);
+			if (keystone.get('logger')) {
+				console.log('Invalid pre-route middleware provided');
+			}
+			throw e;
 		}
 	});
 
@@ -595,13 +599,17 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 				} else if ('string' === typeof err404) {
 					res.status(404).render(err404);
 				} else {
-					console.log(dashes + 'Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.' + dashes);
+					if (keystone.get('logger')) {
+						console.log(dashes + 'Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.' + dashes);
+					}
 					default404Handler(req, res, next);
 				}
 			} catch(e) {
-				console.log(dashes + 'Error handling 404 (not found):');
-				console.log(e);
-				console.log(dashes);
+				if (keystone.get('logger')) {
+					console.log(dashes + 'Error handling 404 (not found):');
+					console.log(e);
+					console.log(dashes);
+				}
 				default404Handler(req, res, next);
 			}
 		} else {
@@ -613,13 +621,15 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	// Handle other errors
 
 	var default500Handler = function(err, req, res, next) {
-
-		if (err instanceof Error) {
-			console.log((err.type ? err.type + ' ' : '') + 'Error thrown for request: ' + req.url);
-			console.log(err.message);
-		} else {
-			console.log('Error thrown for request: ' + req.url);
-			console.log(err);
+		
+		if (keystone.get('logger')) {
+			if (err instanceof Error) {
+				console.log((err.type ? err.type + ' ' : '') + 'Error thrown for request: ' + req.url);
+				console.log(err.message);
+			} else {
+				console.log('Error thrown for request: ' + req.url);
+				console.log(err);
+			}
 		}
 
 		var msg = '';
@@ -653,13 +663,17 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 					res.locals.err = err;
 					res.status(500).render(err500);
 				} else {
-					console.log(dashes + 'Error handling 500 (error): Invalid type (' + (typeof err500) + ') for 500 setting.' + dashes);
+					if (keystone.get('logger')) {
+						console.log(dashes + 'Error handling 500 (error): Invalid type (' + (typeof err500) + ') for 500 setting.' + dashes);
+					}
 					default500Handler(err, req, res, next);
 				}
 			} catch(e) {
-				console.log(dashes + 'Error handling 500 (error):');
-				console.log(e);
-				console.log(dashes);
+				if (keystone.get('logger')) {
+					console.log(dashes + 'Error handling 500 (error):');
+					console.log(e);
+					console.log(dashes);
+				}
 				default500Handler(err, req, res, next);
 			}
 		} else {
@@ -685,10 +699,12 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
 
 	this.mongoose.connection.on('error', function(err) {
-
-		console.log('------------------------------------------------');
-		console.log('Mongo Error:\n');
-		console.log(err);
+		
+		if (keystone.get('logger')) {
+			console.log('------------------------------------------------');
+			console.log('Mongo Error:\n');
+			console.log(err);
+		}
 
 		if (mongoConnectionOpen) {
 			throw new Error("Mongo Error");
@@ -785,7 +801,9 @@ Keystone.prototype.start = function(events) {
 		var serverStarted = function() {
 			waitForServers--;
 			if (waitForServers) return;
-			console.log(dashes + startupMessages.join('\n') + dashes);
+			if (keystone.get('logger')) {
+				console.log(dashes + startupMessages.join('\n') + dashes);
+			}
 			events.onStart && events.onStart();
 		};
 
@@ -1223,7 +1241,9 @@ Keystone.prototype.import = function(dirname) {
  */
 
 Keystone.prototype.initAPI = function(req, res, next) {
-
+	
+	var keystone = this;
+	
 	res.apiResponse = function(status) {
 		if (req.query.callback)
 			res.jsonp(status);
@@ -1235,9 +1255,11 @@ Keystone.prototype.initAPI = function(req, res, next) {
 		msg = msg || 'Error';
 		key = key || 'unknown error';
 		msg += ' (' + key + ')';
-		console.log(msg + (err ? ':' : ''));
-		if (err) {
-			console.log(err);
+		if (keystone.get('logger')) {
+			console.log(msg + (err ? ':' : ''));
+			if (err) {
+				console.log(err);
+			}
 		}
 		res.status(500);
 		res.apiResponse({ error: key || 'error', detail: err });
@@ -1538,9 +1560,11 @@ Keystone.prototype.wrapHTMLError = function(title, err) {
 
 Keystone.prototype.console = {};
 Keystone.prototype.console.err = function(type, msg) {
-
-	var dashes = '\n------------------------------------------------\n';
-	console.log(dashes + 'KeystoneJS: ' + type + ':\n\n' + msg + dashes);
+	
+	if (keystone.get('logger')) {
+		var dashes = '\n------------------------------------------------\n';
+		console.log(dashes + 'KeystoneJS: ' + type + ':\n\n' + msg + dashes);
+	}
 
 };
 
