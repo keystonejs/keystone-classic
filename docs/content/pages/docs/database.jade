@@ -840,6 +840,8 @@ block content
 				p <code>thumbnail(width, height, options)</code> <code class="data-type">String</code> - crops the image to fill the specified width and height
 				p In all methods, <code class="default-value">options</code> is an optional <code class="data-type">Object</code>. See <a href="http://cloudinary.com/documentation/image_transformations" target="_blank">Cloudinary's Transformation Documentation</a> for more information on the supported options and transformations.
 				//- TODO: Usage Examples
+				
+			p.note Remember that if you are uploading images to a <code>CloudinaryImage</code> field using an HTML form, you need to specify <code>enctype="multipart/form-data"</code> in your <code>form</code> tag.
 			
 			a(name="fieldtypes-cloudinaryimages")
 			h3 <code>CloudinaryImages</code>
