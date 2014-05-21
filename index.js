@@ -516,7 +516,11 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	if (this.get('cookie secret')) {
 		app.use(express.cookieParser(this.get('cookie secret')));
 	}
-	app.use(express.session());
+	
+	app.use(express.session({
+		key: 'keystone.sid'
+	}));
+	
 	app.use(require('connect-flash')());
 
 	if (this.get('session') === true) {
