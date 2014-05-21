@@ -1,5 +1,13 @@
 # Keystone
 
+## v0.2.18 / 2014-05-22
+
+* added; callbacks passed to `View.render()` are now passed `err, req, res`
+* fixed; console logging is suppressed when the option `logger` is `false`
+* fixed; issues relating to session cookies
+* fixed; a lot of minor code issues and cleanup
+* improved; test coverage
+
 ## v0.2.17 / 2014-05-19
 
 * added; between filtering to date, datetime, money, and number field
