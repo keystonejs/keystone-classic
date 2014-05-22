@@ -36,7 +36,7 @@ var moduleRoot = (function(_rootPath) {
  */
 
 var Keystone = function() {
-
+	
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -52,26 +52,26 @@ var Keystone = function() {
 		render: []
 	};
 	this._redirects = {};
-
+	
 	// expose express
-
+	
 	this.express = express;
-
-
+	
+	
 	// init environment defaults
-
+	
 	this.set('env', process.env.NODE_ENV || 'development');
-
+	
 	this.set('port', process.env.PORT);
 	this.set('host', process.env.HOST || process.env.IP);
 	this.set('listen', process.env.LISTEN);
-
+	
 	this.set('ssl', process.env.SSL);
 	this.set('ssl port', process.env.SSL_PORT);
 	this.set('ssl host', process.env.SSL_HOST || process.env.SSL_IP);
 	this.set('ssl key', process.env.SSL_KEY);
 	this.set('ssl cert', process.env.SSL_CERT);
-
+	
 	this.set('cookie secret', process.env.COOKIE_SECRET);
 	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
 	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
@@ -83,20 +83,22 @@ var Keystone = function() {
 	this.set('chartbeat property', process.env.CHARTBEAT_PROPERTY);
 	this.set('chartbeat domain', process.env.CHARTBEAT_DOMAIN);
 	this.set('allowed ip ranges', process.env.ALLOWED_IP_RANGES);
-
+	
 	if (process.env.S3_BUCKET && process.env.S3_KEY && process.env.S3_SECRET) {
 		this.set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET, region: process.env.S3_REGION });
 	}
-
+	
 	if (process.env.AZURE_STORAGE_ACCOUNT && process.env.AZURE_STORAGE_ACCESS_KEY) {
 		this.set('azurefile config', { account: process.env.AZURE_STORAGE_ACCOUNT, key: process.env.AZURE_STORAGE_ACCESS_KEY });
 	}
-
+	
 	if (process.env.CLOUDINARY_URL) {
 		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
 		this.set('cloudinary config', true);
 	}
-
+	
+	this.initAPI = require('./lib/middleware/initAPI')(this);
+	
 };
 
 
@@ -1226,50 +1228,6 @@ Keystone.prototype.import = function(dirname) {
 	};
 
 	return doImport(initialPath);
-};
-
-
-/**
- * Middleware to initialise a standard API response.
- *
- * Adds `res.apiResonse` and `res.apiError` methods.
- *
- * ####Example:
- *
- *     app.all('/api*', initAPI);
- *
- * @param {app.request} req
- * @param {app.response} res
- * @param {function} next
- * @api public
- */
-
-Keystone.prototype.initAPI = function(req, res, next) {
-	
-	var keystone = this;
-	
-	res.apiResponse = function(status) {
-		if (req.query.callback)
-			res.jsonp(status);
-		else
-			res.json(status);
-	};
-
-	res.apiError = function(key, err, msg) {
-		msg = msg || 'Error';
-		key = key || 'unknown error';
-		msg += ' (' + key + ')';
-		if (keystone.get('logger')) {
-			console.log(msg + (err ? ':' : ''));
-			if (err) {
-				console.log(err);
-			}
-		}
-		res.status(500);
-		res.apiResponse({ error: key || 'error', detail: err });
-	};
-
-	next();
 };
 
 
