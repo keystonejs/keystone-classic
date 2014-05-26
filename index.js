@@ -46,7 +46,7 @@ var Keystone = function() {
 		'headless': false,
 		'logger': 'dev',
 		'auto update': false,
-		'modelPrefix': null
+		'model prefix': null
 	};
 	this._pre = {
 		routes: [],
@@ -274,8 +274,10 @@ Keystone.prototype.connect = function() {
 };
 
 Keystone.prototype.prefixModel = function (key) {
-	if (this._options.modelPrefix)
-		key = this._options.modelPrefix + '_' + key;
+	var modelPrefix = this.get('model prefix');
+
+	if (modelPrefix)
+		key = modelPrefix + '_' + key;
 
 	return require('mongoose/lib/utils').toCollectionName(key);
 }
