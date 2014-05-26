@@ -25,6 +25,7 @@ jQuery(function($) {
 
 	toolbar += ' | code';
 
+	//init editable wysiwygs
 	tinymce.init({
 		selector: 'textarea.wysiwyg',
 		menubar: false,
@@ -33,5 +34,18 @@ jQuery(function($) {
 		skin: 'keystone',
 		uploadimage_form_url: '/keystone/api/cloudinary/upload'
 	});
+
+	//init non-editable wysiwygs
+	tinymce.init({
+		selector: 'textarea.wysiwyg-noedit',
+		mode: 'textareas',
+		readonly: true,
+		menubar: false,
+		plugins: plugins,
+		toolbar: false,
+		statusbar: false,
+		skin: 'keystone'
+	});
+
 
 });
