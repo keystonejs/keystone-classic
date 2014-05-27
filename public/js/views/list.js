@@ -1,7 +1,8 @@
 /*global jQuery, moment, _, Keystone, alert, confirm, require */
 jQuery(function($) {
 	// Import
-	var queryfilterlib = require('queryfilter');
+	var queryfilterUtil = require('queryfilter'),
+		querystringUtil = require('querystring');
 	
 	// Cache items
 	var $filters = $('#list-filters');
@@ -93,6 +94,47 @@ jQuery(function($) {
 		$(this).closest('.filter').removeClass('active');
 		checkFiltersStatus();
 	});
+
+
+	// --------------------------------
+	// Recent Searches
+
+	var querystring = querystringUtil.parse(document.location.href);
+	var recentSearches;
+	var $searches = $('.dropdown-recent ul');
+
+	// Prase the recent searches
+	try {
+		recentSearches = JSON.parse(window.localStorage.getItem('keystone-recentsearches') || 'false');
+	} catch (err) {}
+	if ( Array.isArray(recentSearches) === false ) {
+		recentSearches = [];
+	}
+
+	// Add the new search
+	// If it exists, remove it where it was, and add it to the start
+	// If it doesn't exist, just add it to the start
+	if ( querystring.q ) {
+		var existingIndex = recentSearches.indexOf(querystring.q);
+		if ( existingIndex !== -1 ) {
+			recentSearches = recentSearches.slice(0, existingIndex).concat(existingIndex.slice(existingIndex+1))
+		}
+		recentSearches.unshift(querystring.q);
+		recentSearches = recentSearches.slice(0, 20); // only keep the 20 most recent
+		window.localStorage.set(JSON.stringify(recentSearches));
+	}
+	
+	// Add the recent searches to the dom
+	recentSearches.forEach(function(recentSearch){
+		var $search = $('<li>', {
+			text: recentSearch
+		});
+		$searches.append($search);
+	});
+
+
+	// --------------------------------
+	// Filters
 	
 	var parseValueWithType = function(type, value){
 		var result = null;
@@ -139,7 +181,7 @@ jQuery(function($) {
 					type: $filter.data('type'),
 					path: $filter.data('path')
 				},
-				queryFilter = queryfilterlib.QueryFilter.create(),
+				queryFilter = queryfilterUtil.QueryFilter.create(),
 				value;
 			
 			$ops.each(function() {
