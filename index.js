@@ -640,11 +640,10 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		if (keystone.get('logger')) {
 			if (err instanceof Error) {
 				console.log((err.type ? err.type + ' ' : '') + 'Error thrown for request: ' + req.url);
-				console.log(err.message);
 			} else {
 				console.log('Error thrown for request: ' + req.url);
-				console.log(err);
 			}
+			console.log(err.stack || err);
 		}
 
 		var msg = '';
@@ -949,7 +948,8 @@ Keystone.prototype.start = function(events) {
 				console.log('Connection reset by peer');
 				console.log(e);
 			} */else {
-				throw (e);
+				console.log(e.stack || e);
+				process.exit(1);
 			}
 		});
 
