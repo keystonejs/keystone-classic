@@ -184,6 +184,10 @@ block content
 						p The url for your MongoDB connection.
 						p You should typically set this to <code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code>
 				tr
+					td <code>model prefix</code> <code class="data-type">String</code>
+					td
+						p A prefix to apply to all the mongodb collections used by the models.
+				tr
 					td <code>auth</code> <code class="data-type">Mixed</code>
 					td
 						p Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
