@@ -42,7 +42,7 @@ jQuery(function($) {
 		readonly: true,
 		menubar: false,
 		plugins: plugins,
-		toolbar: false,
+		toolbar: 'code',
 		statusbar: false,
 		skin: 'keystone'
 	});
