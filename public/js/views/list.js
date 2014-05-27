@@ -1,5 +1,7 @@
-/*global jQuery, moment, _, Keystone, alert, confirm */
+/*global jQuery, moment, _, Keystone, alert, confirm, require */
 jQuery(function($) {
+	// Import
+	var queryfilterlib = require('queryfilter');
 	
 	// Cache items
 	var $filters = $('#list-filters');
@@ -120,6 +122,7 @@ jQuery(function($) {
 		return result;
 	};
 	
+	
 	$filters.submit(function(e) {
 		
 		e.preventDefault();
@@ -136,25 +139,18 @@ jQuery(function($) {
 					type: $filter.data('type'),
 					path: $filter.data('path')
 				},
-				queryParts = [data.path],
+				queryFilter = queryfilterlib.QueryFilter.create(),
 				value;
 			
 			$ops.each(function() {
-				// console.log(data.type + ': ' + data.path + ': ' + $(this).data('opt') + ': ' + $(this).data('value'));
 				data[$(this).data('opt')] = $(this).data('value');
 			});
 			
-			if (data.inv) {
-				queryParts.push('!');
-			}
-			
-			if (data.exact) {
-				queryParts.push('=');
-			}
-			
-			if (data.operator) {
-				queryParts.push(data.operator);
-			}
+			queryFilter.type = data.type;
+			queryFilter.key = data.path;
+			queryFilter.inverse = data.inv;
+			queryFilter.exact = data.exact;
+			queryFilter.operator = data.operator;
 			
 			if ( data.operator === 'bt' ) {
 				value = [
@@ -166,7 +162,7 @@ jQuery(function($) {
 					cancelled = true;
 					return false;
 				}
-				queryParts.push(value[0], value[1]);
+				queryFilter.value = value;
 			}
 			else {
 				switch (data.type) {
@@ -182,16 +178,16 @@ jQuery(function($) {
 					case 'datetime':
 					case 'select':
 						if ( value = parseValueWithType(data.type, $filter.find('input[name=value]').val()) ) {
-							queryParts.push(value);
+							queryFilter.value = value;
 						}
 						break;
 					
 					case 'location':
-						var locationParts = [];
+						value = [];
 						$filter.find('input[type=text]').each(function() {
-							locationParts.push($(this).val());
+							value.push($(this).val());
 						});
-						queryParts.push.apply(queryParts, locationParts);
+						queryFilter.value = value;
 						break;
 					
 					case 'boolean':
@@ -199,19 +195,21 @@ jQuery(function($) {
 					case 'cloudinaryimages':
 					case 's3file':
 						if ( data.value ) { // where is this defined???
-							queryParts.push(value);
+							queryFilter.value = value;
 						}
 						break;
 					
 					case 'relationship':
 						if ( value = parseValueWithType(data.type, $filter.find('input[type=hidden]').val()) ) {
-							queryParts.push(value);
+							queryFilter.value = value;
 						}
 						break;
 				}
 			}
 			
-			filterQueryString.push(queryParts.join(':'));
+			if ( queryFilter.value != null ) {
+				filterQueryString.push(queryFilter.toString());
+			}
 		});
 		
 		if ( cancelled === false ) {
