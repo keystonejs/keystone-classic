@@ -1,5 +1,20 @@
 # Keystone
 
+## v0.2.19 / 2014-05-28
+
+* added; ability to change the filename in Types.LocalFile by specifying the `filename: function() {}` option, thanks [Stefan Aebischer](https://github.com/pAlpha627)
+* improved; read-only tinyMCE editor is used for htmlFields when noedit is true, thanks [Frederic Beaudet](https://github.com/fbeaudet)
+* fixed; Extracting and scoping `keystone.initAPI` to work correctly when used directly as middleware
+* improved; Added better MongoDB indexes for schemaPlugins
+* improved; invalid config handling for fields
+* fixed; relationship filters now work correctly
+* added; ability to prefix all MongoDB Collection names, thanks [David Björklund](https://github.com/kesla)
+* improved; output stack traces with error logs, thanks [Benjamin Lupton](https://github.com/balupton)
+* fixed; issues signing in users by UserID directly (introduced in 0.2.18)
+* fixed; users without passwords (auth via facebook / github / etc) will not have their sessions persisted outside of the memory store.
+* added; support for using MongoDB as the session store. set `'session store': 'mongo'` to enable this feature.
+* deprecated; support for providing the `mongo` option as an array. Use a MongoDB connection string instead, e.g. `'mongodb://localhost/db_name`
+
 ## v0.2.18 / 2014-05-22
 
 * added; callbacks passed to `View.render()` are now passed `err, req, res`
