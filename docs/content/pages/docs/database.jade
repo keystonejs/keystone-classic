@@ -863,6 +863,7 @@ block content
 				p <code>dest</code> <code class="data-type">String</code> - required, the path to store uploaded file
 				p <code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)
 				p <code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded file
+				p <code>filename</code> <code class="data-type">Function</code> - function with arguments current model and client file name to return the new filename to upload.
 				
 				h5 Schema
 				p <code>filename</code> <code class="data-type">String</code>
