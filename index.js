@@ -63,8 +63,8 @@ var Keystone = function() {
 	
 	this.set('env', process.env.NODE_ENV || 'development');
 	
-	this.set('port', process.env.PORT);
-	this.set('host', process.env.HOST || process.env.IP);
+	this.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
+	this.set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP);
 	this.set('listen', process.env.LISTEN);
 	
 	this.set('ssl', process.env.SSL);
@@ -130,7 +130,7 @@ var remappedOptions = {
 
 	if (remappedOptions[key]) {
 		if (this.get('logger')) {
-			console.log('Warning: the `' + key + '` option has been deprecated. Please use `' + remappedOptions[key] + '` instead.\n\n' +
+			console.log('\nWarning: the `' + key + '` option has been deprecated. Please use `' + remappedOptions[key] + '` instead.\n\n' +
 				'Support for `' + key + '` will be removed in a future version.');
 		}
 		key = remappedOptions[key];
@@ -156,6 +156,18 @@ var remappedOptions = {
 		break;
 		case 'nav':
 			this.nav = this.initNav(value);
+		break;
+		case 'mongo':
+			if ('string' !== typeof value) {
+				if (Array.isArray(value) && (value.length === 2 || value.length === 3)) {
+					console.log('\nWarning: using an array for the `mongo` option has been deprecated.\nPlease use a mongodb connection string, e.g. mongodb://localhost/db_name instead.\n\n' +
+						'Support for arrays as the `mongo` setting will be removed in a future version.');
+					value = (value.length === 2) ? 'mongodb://' + value[0] + '/' + value[1] : 'mongodb://' + value[0] + ':' + value[2] + '/' + value[1];
+				} else {
+					console.error('\nInvalid Configuration:\nThe `mongo` option must be a mongodb connection string, e.g. mongodb://localhost/db_name\n');
+					process.exit(1);
+				}
+			}
 		break;
 	}
 
@@ -437,119 +449,137 @@ Keystone.prototype.initNav = function(sections) {
  */
 
 Keystone.prototype.mount = function(mountPath, parentApp, events) {
-
+	
 	if (!this.app) {
 		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
 	}
-
+	
 	if (arguments.length === 1) {
 		events = arguments[0];
 		mountPath = null;
 	}
-
+	
 	if ('function' === typeof events) {
 		events = { onMount: events };
 	}
-
+	
 	if (!events) events = {};
-
+	
 	this.nativeApp = true;
-
+	
 	var keystone = this,
 		app = this.app;
-
+	
+	// default the mongo connection url
+	
+	if (!this.get('mongo')) {
+		var dbName = this.get('db name') || utils.slug(this.get('name'));
+		var dbUrl = process.env.MONGO_URI || process.env.MONGO_URL || process.env.MONGOLAB_URI || process.env.MONGOLAB_URL || (process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://localhost/') + dbName;
+		this.set('mongo', dbUrl);
+	}
+	
 	/* Express sub-app mounting to external app at a mount point (if specified) */
-
+	
 	if (mountPath) {
 		//fix root-relative keystone urls for assets (gets around having to re-write all the keystone templates)
 		parentApp.all(/^\/keystone($|\/*)/, function(req, res, next) {
 			req.url = mountPath + req.url;
 			next();
 		});
-
+		
 		parentApp.use(mountPath, app);
 	}
-
+	
 	/* Keystone's encapsulated Express App Setup */
-
+	
 	// Allow usage of custom view engines
-
+	
 	if (this.get('custom engine')) {
 		app.engine(this.get('view engine'), this.get('custom engine'));
 	}
-
+	
 	// Set location of view templates and view engine
-
+	
 	app.set('views', this.getPath('views') || path.sep + 'views');
 	app.set('view engine', this.get('view engine'));
-
+	
 	// Apply locals
-
+	
 	if (utils.isObject(this.get('locals'))) {
 		_.extend(app.locals, this.get('locals'));
 	}
-
+	
 	if (this.get('env') !== 'production') {
 		app.locals.pretty = true;
 	}
-
+	
 	// Serve static assets
-
+	
 	if (this.get('compress')) {
 		app.use(express.compress());
 	}
-
+	
 	if (this.get('favico')) {
 		app.use(express.favicon(this.getPath('favico')));
 	}
-
+	
 	if (this.get('less')) {
 		app.use(require('less-middleware')({ src: this.getPath('less') }));
 	}
-
+	
 	if (this.get('static')) {
 		app.use(express.static(this.getPath('static')));
 	}
-
+	
 	if (!this.get('headless')) {
 		keystone.static(app);
 	}
-
+	
 	// Handle dynamic requests
 
 	if (this.get('logger')) {
 		app.use(express.logger(this.get('logger')));
 	}
-
+	
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
-
+	
 	if (this.get('cookie secret')) {
 		app.use(express.cookieParser(this.get('cookie secret')));
 	}
 	
-	app.use(express.session({
+	var sessionOpts = {
 		key: 'keystone.sid'
-	}));
+	};
+	
+	if (this.get('session store') == 'mongo') {
+		var MongoStore = require('connect-mongo')(express);
+		sessionOpts.store = new MongoStore({
+			url: this.get('mongo'),
+			collection: 'app_sessions'
+		});
+	}
+	
+	app.use(express.session(sessionOpts));
 	
 	app.use(require('connect-flash')());
-
+	
 	if (this.get('session') === true) {
 		app.use(this.session.persist);
 	} else if ('function' === typeof this.get('session')) {
 		app.use(this.get('session'));
 	}
-
+	
 	// Process 'X-Forwarded-For' request header
-
+	
 	if (this.get('trust proxy') === true) {
 		app.enable('trust proxy');
 	} else {
 		app.disable('trust proxy');
 	}
-
+	
 	// Check for IP range restrictions
-
+	
 	if (this.get('allowed ip ranges')) {
 		if (!app.get('trust proxy')) {
 			throw new Error("KeystoneJS Initialisaton Error:\n\nto set IP range restrictions the 'trust proxy' setting must be enabled.\n\n");
@@ -560,9 +590,9 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		);
 		this.pre('routes', ipRangeMiddleware);
 	}
-
+	
 	// Pre-route middleware
-
+	
 	this._pre.routes.forEach(function(fn) {
 		try {
 			app.use(fn);
@@ -574,19 +604,19 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			throw e;
 		}
 	});
-
+	
 	// Route requests
-
+	
 	app.use(app.router);
 
 	// Headless mode means don't bind the Keystone routes
-
+	
 	if (!this.get('headless')) {
 		this.routes(app);
 	}
-
+	
 	// Handle redirects before 404s
-
+	
 	if (Object.keys(this._redirects).length) {
 		app.use(function(req, res, next) {
 			if (keystone._redirects[req.path]) {
@@ -596,17 +626,17 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			}
 		});
 	}
-
+	
 	// Handle 404 (no route matched) errors
-
+	
 	var default404Handler = function(req, res, next) {
 		res.status(404).send(keystone.wrapHTMLError("Sorry, no page could be found at this address (404)"));
 	};
-
+	
 	app.use(function(req, res, next) {
-
+		
 		var err404 = keystone.get('404');
-
+		
 		if (err404) {
 			try {
 				if ('function' === typeof err404) {
@@ -630,11 +660,11 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		} else {
 			default404Handler(req, res, next);
 		}
-
+		
 	});
-
+	
 	// Handle other errors
-
+	
 	var default500Handler = function(err, req, res, next) {
 		
 		if (keystone.get('logger')) {
@@ -645,11 +675,11 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			}
 			console.log(err.stack || err);
 		}
-
+		
 		var msg = '';
-
+		
 		if (keystone.get('env') === 'development') {
-
+			
 			if (err instanceof Error) {
 				if (err.type) {
 					msg += '<h2>' + err.type + '</h2>';
@@ -661,14 +691,14 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 				msg += err;
 			}
 		}
-
+		
 		res.status(500).send(keystone.wrapHTMLError("Sorry, an error occurred loading the page (500)", msg));
 	};
-
+	
 	app.use(function(err, req, res, next) {
-
+		
 		var err500 = keystone.get('500');
-
+		
 		if (err500) {
 			try {
 				if ('function' === typeof err500) {
@@ -693,25 +723,19 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		} else {
 			default500Handler(err, req, res, next);
 		}
-
+		
 	});
-
+	
 	// Configure application routes
 	if ('function' === typeof this.get('routes')) {
 		this.get('routes')(app);
 	}
-
+	
 	// Connect to database
-
-	var mongooseArgs = this.get('mongo'),
-		mongoConnectionOpen = false;
-
-	if (!mongooseArgs) {
-		mongooseArgs = process.env.MONGO_URI || process.env.MONGO_URL || process.env.MONGOLAB_URI || process.env.MONGOLAB_URL || ['localhost', utils.slug(this.get('name'))];
-	}
-
-	this.mongoose.connect.apply(this.mongoose, Array.isArray(mongooseArgs) ? mongooseArgs : [mongooseArgs]);
-
+	
+	var mongoConnectionOpen = false;
+	
+	this.mongoose.connect(this.get('mongo'));
 	this.mongoose.connection.on('error', function(err) {
 		
 		if (keystone.get('logger')) {
@@ -719,24 +743,24 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			console.log('Mongo Error:\n');
 			console.log(err);
 		}
-
+		
 		if (mongoConnectionOpen) {
 			throw new Error("Mongo Error");
 		} else {
 			throw new Error("KeystoneJS (" + keystone.get('name') + ") failed to start");
 		}
-
+		
 	}).on('open', function() {
-
-		//app is mounted and db connection acquired, time to update and then call back
-
+		
+		// app is mounted and db connection acquired, time to update and then call back
+		
 		// Apply updates?
 		if (keystone.get('auto update')) {
 			keystone.applyUpdates(events.onMount);
 		} else {
 			events.onMount && events.onMount();
 		}
-
+		
 	});
 };
 
