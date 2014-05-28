@@ -2,7 +2,7 @@
 	label.field-label= field.label
 	.field-ui(class='width-' + field.width)
 		if field.noedit
-			.field-value= item.get(field.path)
+			textarea(name=field.path, class=field.wysiwyg ? 'wysiwyg-noedit' : 'code', style='height: #{field.height}px')= item.get(field.path)
 		else
 			textarea(name=field.path, class=field.wysiwyg ? 'wysiwyg' : 'code', style='height: #{field.height}px')= item.get(field.path)
 	if field.note
