@@ -546,7 +546,10 @@ item._.url.format(); // "keystonejs.com"</code></pre>
                 <h5>Options</h5>
                 <p><code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI</p>
                 <p><code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)</p>
-              </div><a name="fieldtypes-date"></a>
+              </div><a name="fieldtypes-color"></a>
+              <h3><code>Color</code></h3>
+              <h4><code class="data-type">Color</code> &mdash; Displayed as a text field with a color picker</h4>
+              <pre><code class="language-javascript">{ type: Types.Color }</code></pre><a name="fieldtypes-date"></a>
               <h3><code>Date</code></h3>
               <h4><code class="data-type">Date</code> &mdash; Displayed as a date picker in the Admin UI</h4>
               <p class="note">Input should either be a valid <strong>Date</strong>, or a string in the format <strong>YYYY-MM-DD</strong> (can be blank unless field is required)</p>
@@ -775,7 +778,8 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <p><code>lpad(width, height, options)</code> <code class="data-type">String</code> - pads the image to fill the specified width and height (without exceeding the original dimensions)</p>
                 <p><code>thumbnail(width, height, options)</code> <code class="data-type">String</code> - crops the image to fill the specified width and height</p>
                 <p>In all methods, <code class="default-value">options</code> is an optional <code class="data-type">Object</code>. See <a href="http://cloudinary.com/documentation/image_transformations" target="_blank">Cloudinary's Transformation Documentation</a> for more information on the supported options and transformations.</p>
-              </div><a name="fieldtypes-cloudinaryimages"></a>
+              </div>
+              <p class="note">Remember that if you are uploading images to a <code>CloudinaryImage</code> field using an HTML form, you need to specify <code>enctype="multipart/form-data"</code> in your <code>form</code> tag.</p><a name="fieldtypes-cloudinaryimages"></a>
               <h3><code>CloudinaryImages</code></h3>
               <h4><code class="data-type">Array</code> &mdash; Displayed as a series of images, and an upload field in the Admin UI</h4>
               <p>Stores multiple images in a array as a nested <code class="data-type">Schema</code>, each of which expose the same methods as the <code class="data-type">cloudinaryimage</code> field.</p>
@@ -787,9 +791,10 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               <pre><code class="language-javascript">{ type: Types.LocalFile }</code></pre>
               <div class="options">
                 <h5>Options</h5>
-                <p><code>dest<code> <code class="data-type">String</code> - required, the path to store uploaded file</p>
+                <p><code>dest</code> <code class="data-type">String</code> - required, the path to store uploaded file</p>
                 <p><code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)</p>
                 <p><code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded file</p>
+                <p><code>filename</code> <code class="data-type">Function</code> - function with arguments current model and client file name to return the new filename to upload.</p>
                 <h5>Schema</h5>
                 <p><code>filename</code> <code class="data-type">String</code></p>
                 <p><code>path</code> <code class="data-type">String</code></p>
