@@ -425,17 +425,17 @@ Keystone.prototype.routes = function(app) {
 	}
 	
 	// Generic Lists API
-	app.post('/keystone/api/:list', initList(), function(req, res) {
+	app.post('/keystone/restish_api/:list', initList(), function(req, res) {
 		req.params.action = 'create';
 		require('./routes/api/list')(req, res);
 	});
 
-	app.get('/keystone/api/:list', initList(), function(req, res) {
+	app.get('/keystone/restish_api/:list', initList(), function(req, res) {
 		req.params.action = 'get';
 		require('./routes/api/list')(req, res);
 	});
 
-	app.delete('/keystone/api/:list', initList(), function(req, res) {
+	app.delete('/keystone/restish_api/:list', initList(), function(req, res) {
 		req.params.action = 'delete';
 		require('./routes/api/list')(req, res);
 	});
