@@ -18,6 +18,8 @@ block js
 		script(src='/keystone/js/lib/tinymce/jquery.tinymce.min.js')
 		script(src="/keystone/js/common/ui-wysiwyg.js")
 	script(src='/keystone/js/views/list.js')
+	script(src='/keystone/js/lib/browserified/querystring.js')
+	script(src='/keystone/js/lib/browserified/queryfilter.js')
 	script.
 		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)} };
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
@@ -149,8 +151,8 @@ block content
 								span.visible-xs Go
 								span.hidden-xs Search
 					
-					.col-xs-4.col-sm-2
-						.dropdown.list-filter-dropdown
+					.col-xs-4.col-sm-4
+						.dropdown.list-filter-dropdown(style='display:inline-block')
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 								| Add Filter...
 								b.caret
@@ -162,8 +164,7 @@ block content
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
 					
-					.col-xs-4.col-sm-2
-						.dropdown.list-filter-dropdown.dropdown-recent
+						.dropdown.list-filter-dropdown.dropdown-recent.hidden(style='display:inline-block')
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 								| Recent Searches...
 								b.caret
@@ -171,7 +172,7 @@ block content
 					
 					//- lg screens only
 					//- columns and download aren't relevant when using a mobile device
-					.col-sm-4.hidden-xs: .pull-right
+					.col-sm-2.hidden-xs: .pull-right
 						.pull-right
 							a(href=download_link).btn.btn-default Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right

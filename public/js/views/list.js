@@ -99,13 +99,15 @@ jQuery(function($) {
 	// --------------------------------
 	// Recent Searches
 
-	var querystring = querystringUtil.parse(document.location.href);
+	var querystring = querystringUtil.parse(document.location.search.replace('?', ''));
 	var recentSearches;
-	var $searches = $('.dropdown-recent ul');
+	var $searchDropdown = $('.dropdown-recent');
+	var $searches = $searchDropdown.find('ul');
+	var key = 'keystone-recentsearches';
 
 	// Prase the recent searches
 	try {
-		recentSearches = JSON.parse(window.localStorage.getItem('keystone-recentsearches') || 'false');
+		recentSearches = JSON.parse(window.localStorage.getItem(key) || 'false');
 	} catch (err) {}
 	if ( Array.isArray(recentSearches) === false ) {
 		recentSearches = [];
@@ -117,20 +119,27 @@ jQuery(function($) {
 	if ( querystring.q ) {
 		var existingIndex = recentSearches.indexOf(querystring.q);
 		if ( existingIndex !== -1 ) {
-			recentSearches = recentSearches.slice(0, existingIndex).concat(existingIndex.slice(existingIndex+1))
+			recentSearches = recentSearches.slice(0, existingIndex).concat(recentSearches.slice(existingIndex+1));
 		}
 		recentSearches.unshift(querystring.q);
 		recentSearches = recentSearches.slice(0, 20); // only keep the 20 most recent
-		window.localStorage.set(JSON.stringify(recentSearches));
+		window.localStorage.setItem(key, JSON.stringify(recentSearches));
 	}
 	
 	// Add the recent searches to the dom
-	recentSearches.forEach(function(recentSearch){
-		var $search = $('<li>', {
-			text: recentSearch
+	if ( recentSearches.length !== 0 ) {
+		recentSearches.forEach(function(recentSearch){
+			var filter = queryfilterUtil.QueryFilters.create(recentSearch);
+			var querystring = querystringUtil.parse(document.location.search.replace('?', ''));
+			querystring.q = recentSearch;
+			querystring = querystringUtil.stringify(querystring);
+			$('<a>', {
+				href: '?'+querystring,
+				text: filter.toHumanString()
+			}).appendTo($('<li>').appendTo($searches));
 		});
-		$searches.append($search);
-	});
+		$searchDropdown.removeClass('hidden');
+	}
 
 
 	// --------------------------------
