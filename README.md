@@ -152,6 +152,7 @@ Keystone's field types include:
 *	[Email](http://keystonejs.com/docs/database/#fieldtypes-email)
 *	[Url](http://keystonejs.com/docs/database/#fieldtypes-url)
 *	[Html](http://keystonejs.com/docs/database/#fieldtypes-html)
+*	[Color](http://keystonejs.com/docs/database/#fieldtypes-color)
 *	[Date](http://keystonejs.com/docs/database/#fieldtypes-date)
 *	[Datetime](http://keystonejs.com/docs/database/#fieldtypes-datetime)
 *	[Key](http://keystonejs.com/docs/database/#fieldtypes-key)
