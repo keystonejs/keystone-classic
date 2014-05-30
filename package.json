@@ -28,6 +28,7 @@
     "knox": "~0.8.10",
     "azure": "~0.9.7",
     "range_check": "~0.0.4",
+    "queryfilter": "~0.0.4",
     "connect-mongo": "~0.4.1"
   },
   "devDependencies": {
