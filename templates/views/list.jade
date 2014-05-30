@@ -18,6 +18,8 @@ block js
 		script(src='/keystone/js/lib/tinymce/jquery.tinymce.min.js')
 		script(src="/keystone/js/common/ui-wysiwyg.js")
 	script(src='/keystone/js/views/list.js')
+	script(src='/keystone/js/lib/browserified/querystring.js')
+	script(src='/keystone/js/lib/browserified/queryfilter.js')
 	script.
 		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)} };
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
@@ -149,8 +151,8 @@ block content
 								span.visible-xs Go
 								span.hidden-xs Search
 					
-					.col-xs-4.col-sm-2
-						.dropdown.list-filter-dropdown
+					.col-xs-4.col-sm-4
+						.dropdown.list-filter-dropdown(style='display:inline-block')
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 								| Add Filter...
 								b.caret
@@ -162,9 +164,15 @@ block content
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
 					
+						.dropdown.list-filter-dropdown.dropdown-recent.hidden(style='display:inline-block')
+							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								| Recent Searches...
+								b.caret
+							ul.dropdown-menu
+					
 					//- lg screens only
 					//- columns and download aren't relevant when using a mobile device
-					.col-sm-4.hidden-xs: .pull-right
+					.col-sm-2.hidden-xs: .pull-right
 						.pull-right
 							a(href=download_link).btn.btn-default Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
@@ -263,11 +271,12 @@ block content
 								
 								//- Location
 								if field.type == 'location'
-									.filter-input.filter-input-md: input(type='text', name='address', value=ops.address, placeholder='Address').form-control.input-xs
-									.filter-input.filter-input-sm: input(type='text', name='suburb', value=ops.suburb, placeholder='Suburb').form-control.input-xs
-									.filter-input.filter-input-sm: input(type='text', name='state', value=ops.state, placeholder='State').form-control.input-xs
-									.filter-input.filter-input-sm: input(type='text', name='postcode', value=ops.postcode, placeholder='Postcode').form-control.input-xs
-									.filter-input.filter-input-sm: input(type='text', name='country', value=ops.country, placeholder='Country').form-control.input-xs
+									- ops.value = ops.value || []
+									.filter-input.filter-input-md: input(type='text', name='address', value=ops.value[0], placeholder='Address').form-control.input-xs
+									.filter-input.filter-input-sm: input(type='text', name='suburb', value=ops.value[1], placeholder='Suburb').form-control.input-xs
+									.filter-input.filter-input-sm: input(type='text', name='state', value=ops.value[2], placeholder='State').form-control.input-xs
+									.filter-input.filter-input-sm: input(type='text', name='postcode', value=ops.value[3], placeholder='Postcode').form-control.input-xs
+									.filter-input.filter-input-sm: input(type='text', name='country', value=ops.value[4], placeholder='Country').form-control.input-xs
 								
 								//- Select
 								if field.type == 'select'

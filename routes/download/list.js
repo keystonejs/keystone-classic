@@ -8,7 +8,7 @@ var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 
 exports = module.exports = function(req, res) {
 
-	var filters = (req.query.q) ? req.list.processFilters(req.query.q) : {},
+	var filters = req.list.processFilters(req.query.q),
 		queryFilters = req.list.getSearchFilters(req.query.search, filters);
 
 	var getRowData = function getRowData(i) {

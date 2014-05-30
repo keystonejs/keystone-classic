@@ -1,5 +1,8 @@
-/*global jQuery, moment, _, Keystone, alert, confirm */
+/*global jQuery, moment, _, Keystone, alert, confirm, require */
 jQuery(function($) {
+	// Import
+	var queryfilterUtil = require('queryfilter'),
+		querystringUtil = require('querystring');
 	
 	// Cache items
 	var $filters = $('#list-filters');
@@ -91,6 +94,58 @@ jQuery(function($) {
 		$(this).closest('.filter').removeClass('active');
 		checkFiltersStatus();
 	});
+
+
+	// --------------------------------
+	// Recent Searches
+
+	if ( window.localStorage ) {
+		var querystring = querystringUtil.parse(document.location.search.replace('?', ''));
+		var recentSearches;
+		var $searchDropdown = $('.dropdown-recent');
+		var $searches = $searchDropdown.find('ul');
+		var key = 'keystone-recentsearches';
+
+		// Prase the recent searches
+		try {
+			recentSearches = JSON.parse(window.localStorage.getItem(key) || 'false');
+		} catch (err) {}
+		if ( Array.isArray(recentSearches) === false ) {
+			recentSearches = [];
+		}
+
+		// Add the new search
+		// If it exists, remove it where it was, and add it to the start
+		// If it doesn't exist, just add it to the start
+		if ( querystring.q ) {
+			var existingIndex = recentSearches.indexOf(querystring.q);
+			if ( existingIndex !== -1 ) {
+				recentSearches = recentSearches.slice(0, existingIndex).concat(recentSearches.slice(existingIndex+1));
+			}
+			recentSearches.unshift(querystring.q);
+			recentSearches = recentSearches.slice(0, 20); // only keep the 20 most recent
+			window.localStorage.setItem(key, JSON.stringify(recentSearches));
+		}
+		
+		// Add the recent searches to the dom
+		if ( recentSearches.length !== 0 ) {
+			recentSearches.forEach(function(recentSearch){
+				var filter = queryfilterUtil.QueryFilters.create(recentSearch);
+				var querystring = querystringUtil.parse(document.location.search.replace('?', ''));
+				querystring.q = recentSearch;
+				querystring = querystringUtil.stringify(querystring);
+				$('<a>', {
+					href: '?'+querystring,
+					text: filter.toHumanString()
+				}).appendTo($('<li>').appendTo($searches));
+			});
+			$searchDropdown.removeClass('hidden');
+		}
+	}
+
+
+	// --------------------------------
+	// Filters
 	
 	var parseValueWithType = function(type, value){
 		var result = null;
@@ -120,6 +175,7 @@ jQuery(function($) {
 		return result;
 	};
 	
+	
 	$filters.submit(function(e) {
 		
 		e.preventDefault();
@@ -136,25 +192,18 @@ jQuery(function($) {
 					type: $filter.data('type'),
 					path: $filter.data('path')
 				},
-				queryParts = [data.path],
+				queryFilter = queryfilterUtil.QueryFilter.create(),
 				value;
 			
 			$ops.each(function() {
-				// console.log(data.type + ': ' + data.path + ': ' + $(this).data('opt') + ': ' + $(this).data('value'));
 				data[$(this).data('opt')] = $(this).data('value');
 			});
 			
-			if (data.inv) {
-				queryParts.push('!');
-			}
-			
-			if (data.exact) {
-				queryParts.push('=');
-			}
-			
-			if (data.operator) {
-				queryParts.push(data.operator);
-			}
+			queryFilter.type = data.type;
+			queryFilter.key = data.path;
+			queryFilter.inverse = data.inv;
+			queryFilter.exact = data.exact;
+			queryFilter.operator = data.operator;
 			
 			if ( data.operator === 'bt' ) {
 				value = [
@@ -166,7 +215,7 @@ jQuery(function($) {
 					cancelled = true;
 					return false;
 				}
-				queryParts.push(value[0], value[1]);
+				queryFilter.value = value;
 			}
 			else {
 				switch (data.type) {
@@ -182,16 +231,16 @@ jQuery(function($) {
 					case 'datetime':
 					case 'select':
 						if ( value = parseValueWithType(data.type, $filter.find('input[name=value]').val()) ) {
-							queryParts.push(value);
+							queryFilter.value = value;
 						}
 						break;
 					
 					case 'location':
-						var locationParts = [];
+						value = [];
 						$filter.find('input[type=text]').each(function() {
-							locationParts.push($(this).val());
+							value.push($(this).val());
 						});
-						queryParts.push.apply(queryParts, locationParts);
+						queryFilter.value = value;
 						break;
 					
 					case 'boolean':
@@ -199,19 +248,21 @@ jQuery(function($) {
 					case 'cloudinaryimages':
 					case 's3file':
 						if ( data.value ) { // where is this defined???
-							queryParts.push(value);
+							queryFilter.value = value;
 						}
 						break;
 					
 					case 'relationship':
 						if ( value = parseValueWithType(data.type, $filter.find('input[type=hidden]').val()) ) {
-							queryParts.push(value);
+							queryFilter.value = value;
 						}
 						break;
 				}
 			}
 			
-			filterQueryString.push(queryParts.join(':'));
+			if ( queryFilter.value != null ) {
+				filterQueryString.push(queryFilter.toString());
+			}
 		});
 		
 		if ( cancelled === false ) {

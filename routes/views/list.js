@@ -11,7 +11,7 @@ exports = module.exports = function(req, res) {
 	};
 
 	var sort = { by: req.query.sort || req.list.defaultSort },
-		filters = (req.query.q) ? req.list.processFilters(req.query.q) : {},
+		filters = req.list.processFilters(req.query.q),
 		queryFilters = req.list.getSearchFilters(req.query.search, filters),
 		columns = (req.query.cols) ? req.list.expandColumns(req.query.cols) : req.list.defaultColumns;
 
