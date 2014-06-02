@@ -526,6 +526,14 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	if (this.get('less')) {
 		app.use(require('less-middleware')({ src: this.getPath('less') }));
 	}
+
+	if (this.get('sass')) {
+		var sass = require('node-sass');
+		app.use(sass.middleware({src: 'public', dest: 'public',
+			outputStyle: 'compressed'
+		}));
+	}
+    
 	
 	if (this.get('static')) {
 		app.use(express.static(this.getPath('static')));
