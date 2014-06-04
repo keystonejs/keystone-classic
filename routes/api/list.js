@@ -89,6 +89,27 @@ exports = module.exports = function(req, res) {
 
 
 		break;
+		
+		case 'getAll':
+
+			req.list.model.find().exec(function(err, item) {
+
+				if (err) return sendError('database error', err);
+				if (!item) return sendResponse({ name: req.query.id, id: req.query.id });
+
+				switch (req.query.dataset) {
+					case 'simple':
+						return sendResponse({
+							name: req.list.getDocumentName(item, true),
+							id: item.id
+						});
+					break;
+					default:
+						return sendResponse(item);
+				}
+			});
+
+		break;
 
 		case 'get':
 
