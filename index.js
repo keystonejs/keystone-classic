@@ -431,12 +431,19 @@ Keystone.prototype.routes = function(app) {
 	});
 
 	app.get('/keystone/restish_api/:list', initList(), function(req, res) {
-		req.params.action = 'get';
+		req.params.action = 'getAll';
 		require('./routes/api/list')(req, res);
 	});
 
-	app.delete('/keystone/restish_api/:list', initList(), function(req, res) {
+	app.get('/keystone/restish_api/:list/:id', initList(), function(req, res) {
+		req.params.action = 'get';
+		req.query.id = req.params.id;
+		require('./routes/api/list')(req, res);
+	});
+
+	app.delete('/keystone/restish_api/:list/:id', initList(), function(req, res) {
 		req.params.action = 'delete';
+		req.query.id = req.params.id;
 		require('./routes/api/list')(req, res);
 	});
 
