@@ -550,6 +550,14 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			outputStyle: (this.get('env') == 'production') ? 'compressed' : 'nested'
 		}));
 	}
+
+	if (this.get('sass')) {
+		var sass = require('node-sass');
+		app.use(sass.middleware({src: 'public', dest: 'public',
+			outputStyle: 'compressed'
+		}));
+	}
+    
 	
 	if (this.get('static')) {
 		app.use(express.static(this.getPath('static')));
