@@ -1331,104 +1331,136 @@ Keystone.prototype.applyUpdates = function(callback) {
  */
 
 Keystone.prototype.createItems = function(data, callback) {
-
+	
 	var lists = _.keys(data),
 		refs = {},
 		stats = {};
-
+		
 	async.waterfall([
-
+		
 		// create items
 		function(next) {
 			async.each(lists, function(key, doneList) {
-
-				var list = keystone.list(key);
-
-				if (!list) return doneList();
-
+				
+				var list = keystone.list(key),
+					relationshipPaths = _.where(list.fields, { type: 'relationship' }).map(function(i) { return i.path; });
+				
+				if (!list) {
+					return doneList();
+				}
+				
 				refs[list.key] = {};
 				stats[list.key] = {
 					singular: list.singular,
 					plural: list.plural,
 					created: 0
 				};
-
+				
 				async.eachSeries(data[key], function(data, doneItem) {
-
-					// Evaluate function properties to allow generated values
+					
+					// Evaluate function properties to allow generated values (excluding relationships)
 					_.keys(data).forEach(function(i) {
-						if (_.isFunction(data[i])) {
+						if (_.isFunction(data[i]) && relationshipPaths.indexOf(i) === -1) {
 							data[i] = data[i]();
 						}
 					});
-
+					
 					var doc = data.__doc = new list.model();
-
+					
 					if (data.__ref) {
 						refs[list.key][data.__ref] = doc;
 					}
-
+					
 					_.each(list.fields, function(field) {
 						// skip relationship fields on the first pass.
 						field.type !== 'relationship' && field.updateItem(doc, data);
 					});
-
+					
 					doc.save(doneItem);
 					stats[list.key].created++;
-
+					
 				}, doneList);
-
+				
 			}, next);
 		},
-
+		
 		// link items
 		function(next) {
-
+			
 			async.each(lists, function(key, doneList) {
-
-				var list = keystone.list(key);
-
-				if (!list) return doneList();
-
+				
+				var list = keystone.list(key),
+					relationships = _.where(list.fields, { type: 'relationship' });
+				
+				if (!list) {
+					return doneList();
+				}
+				
 				async.each(data[key], function(srcData, doneItem) {
-
+					
 					var doc = srcData.__doc;
-
-					_.each(list.fields, function(field) {
+					
+					async.each(relationships, function(field, doneField) {
+						
 						// populate relationships from saved refs
-						if (field.type !== 'relationship') return;
-						var fieldRefs = refs[field.refList.key];
-						if (field.many) {
-							var refsArr = _.isString(srcData[field.path]) ? [srcData[field.path]] : srcData[field.path];
-							if (!_.isArray(refsArr)) return;
-							refsArr = _.compact(refsArr.map(function(ref) {
-								return fieldRefs[ref] ? fieldRefs[ref].id : undefined;
-							}));
-							doc.set(field.path, refsArr);
+						if ('function' === typeof srcData[field.path]) {
+							
+							var fn = srcData[field.path],
+								argsRegExp = /^function\s*[^\(]*\(\s*([^\)]*)\)/m,
+								lists = fn.toString().match(argsRegExp)[1].split(',').map(function(i) { return i.trim(); }),
+								args = lists.map(function(i) {
+									return keystone.list(i);
+								}),
+								query = fn.apply(keystone, args);
+							
+							query.exec(function(err, results) {
+								if (field.many) {
+									doc.set(field.path, results || []);
+								} else {
+									doc.set(field.path, (results && results.length) ? results[0] : undefined);
+								}
+								doneField(err);
+							});
+							
 						} else {
-							var ref = srcData[field.path];
-							if (ref && fieldRefs[ref]) {
-								doc.set(field.path, fieldRefs[ref].id);
+							
+							var fieldRefs = refs[field.refList.key];
+							
+							if (field.many) {
+								var refsArr = ('string' === typeof srcData[field.path]) ? [srcData[field.path]] : srcData[field.path];
+								if (!_.isArray(refsArr)) return;
+								refsArr = _.compact(refsArr.map(function(ref) {
+									return fieldRefs[ref] ? fieldRefs[ref].id : undefined;
+								}));
+								doc.set(field.path, refsArr);
+							} else {
+								var ref = srcData[field.path];
+								if (ref && fieldRefs[ref]) {
+									doc.set(field.path, fieldRefs[ref].id);
+								}
 							}
+							
+							doneField();
+							
 						}
+					}, function(err) {
+						doc.save(doneItem);
 					});
-
-					doc.save(doneItem);
-
+					
 				}, doneList);
-
+				
 			}, next);
 		}
-
+		
 	], function(err) {
 		if (err) return callback && callback(err);
-
+		
 		var msg = '\nSuccessfully created:\n';
 		_.each(stats, function(list, key) {
 			msg += '\n*   ' + keystone.utils.plural(list.created, '* ' + list.singular, '* ' + list.plural);
 		});
 		stats.message = msg + '\n';
-
+		
 		callback(null, stats);
 	});
 
