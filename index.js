@@ -1353,7 +1353,7 @@ Keystone.prototype.createItems = function(data, callback) {
 					created: 0
 				};
 
-				async.each(data[key], function(data, doneItem) {
+				async.eachSeries(data[key], function(data, doneItem) {
 
 					// Evaluate function properties to allow generated values
 					_.keys(data).forEach(function(i) {
