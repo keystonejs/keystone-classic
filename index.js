@@ -524,7 +524,31 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	}
 	
 	if (this.get('less')) {
-		app.use(require('less-middleware')({ src: this.getPath('less') }));
+		app.use(require('less-middleware')({
+			src: this.getPath('less')
+		}));
+	}
+	
+	if (this.get('sass')) {
+		try {
+			var sass = require('node-sass');
+		} catch(e) {
+			if (e.code == 'MODULE_NOT_FOUND') {
+				console.error(
+					'\nERROR: node-sass not found.\n' +
+					'\nPlease install the node-sass from npm to use the `sass` option.' +
+					'\nYou can do this by running "npm install node-sass --save".\n'
+				);
+				process.exit(1);
+			} else {
+				throw e;
+			}
+		}
+		app.use(sass.middleware({
+			src: this.getPath('sass'),
+			dest: this.getPath('sass'),
+			outputStyle: (this.get('env') == 'production') ? 'compressed' : 'nested'
+		}));
 	}
 	
 	if (this.get('static')) {
