@@ -1,5 +1,17 @@
 # Keystone
 
+## v0.2.20 / 2014-06-06
+
+* added; recent searches UI and functionality in the Admin UI, thanks [Benjamin Lupton](https://github.com/balupton)
+* fixed; strict type checking for field.options.required, see #393
+* added; `CloudinaryImage.updateItem()`` allows updates from data, thanks [webteckie](https://github.com/webteckie)
+* added; native support for node-sass via the `sass` option, make sure you include `node-sass` in your project dependencies to use it
+* fixed; field validation methods for location & password fields
+* fixed; `keystone.createItems()` now creates items in series, not parallel
+* added; support for dynamic queries for relationship values in `keystone.createItems()`
+* added; verbose logging and strict ref checking options for `keystone.createItems()`
+* improved; performance when using the `id` property as part of a field's autokey
+
 ## v0.2.19 / 2014-05-28
 
 * added; ability to change the filename in Types.LocalFile by specifying the `filename: function() {}` option, thanks [Stefan Aebischer](https://github.com/pAlpha627)
