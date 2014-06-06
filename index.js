@@ -1330,7 +1330,26 @@ Keystone.prototype.applyUpdates = function(callback) {
  * Creates multiple items in one or more Lists
  */
 
-Keystone.prototype.createItems = function(data, callback) {
+Keystone.prototype.createItems = function(data, ops, callback) {
+	
+	var options = {
+		verbose: true,
+		strict: true
+	};
+	
+	var dashes = '------------------------------------------------';
+	
+	if (!_.isObject(data)) {
+		throw new Error('keystone.createItems() requires a data object as the first argument.');
+	}
+	
+	if (_.isObject(ops)) {
+		_.extend(options, ops);
+	}
+	
+	if (_.isFunction(ops)) {
+		callback = ops;
+	}
 	
 	var lists = _.keys(data),
 		refs = {},
@@ -1340,12 +1359,21 @@ Keystone.prototype.createItems = function(data, callback) {
 		
 		// create items
 		function(next) {
-			async.each(lists, function(key, doneList) {
+			async.eachSeries(lists, function(key, doneList) {
 				
 				var list = keystone.list(key),
 					relationshipPaths = _.where(list.fields, { type: 'relationship' }).map(function(i) { return i.path; });
 				
 				if (!list) {
+					if (strict) {
+						return doneList({
+							type: 'invalid list',
+							message: 'List key ' + key + ' is invalid.'
+						});
+					}
+					if (options.verbose) {
+						console.log('Skipping invalid list: ' + key);
+					}
 					return doneList();
 				}
 				
@@ -1356,12 +1384,31 @@ Keystone.prototype.createItems = function(data, callback) {
 					created: 0
 				};
 				
+				var itemsProcessed = 0,
+					totalItems = data[key].length;
+				
+				if (options.verbose) {
+					console.log(dashes);
+					console.log('Processing list: ' + key);
+					console.log('Items to create: ' + totalItems);
+					console.log(dashes);
+				}
+				
 				async.eachSeries(data[key], function(data, doneItem) {
+					
+					itemsProcessed++;
+					
+					if (options.verbose) {
+						console.log('Creating item [' + itemsProcessed + ' of ' + totalItems + ']');
+					}
 					
 					// Evaluate function properties to allow generated values (excluding relationships)
 					_.keys(data).forEach(function(i) {
 						if (_.isFunction(data[i]) && relationshipPaths.indexOf(i) === -1) {
 							data[i] = data[i]();
+							if (options.verbose) {
+								console.log('Generated dynamic value for [' + i + ']: ' + data[i]);
+							}
 						}
 					});
 					
@@ -1392,20 +1439,46 @@ Keystone.prototype.createItems = function(data, callback) {
 				var list = keystone.list(key),
 					relationships = _.where(list.fields, { type: 'relationship' });
 				
-				if (!list) {
+				if (!list || !relationships.length) {
 					return doneList();
+				}
+				
+				var itemsProcessed = 0,
+					totalItems = data[key].length;
+				
+				if (options.verbose) {
+					console.log(dashes);
+					console.log('Processing relationships for: ' + key);
+					console.log('Items to process: ' + totalItems);
+					console.log(dashes);
 				}
 				
 				async.each(data[key], function(srcData, doneItem) {
 					
-					var doc = srcData.__doc;
+					var doc = srcData.__doc,
+						relationshipsUpdated = 0;
+					
+					itemsProcessed++;
+					
+					if (options.verbose) {
+						console.log('Processing item [' + itemsProcessed + ' of ' + totalItems + ']');
+					}
 					
 					async.each(relationships, function(field, doneField) {
 						
+						var fieldValue = srcData[field.path],
+							refsLookup = refs[field.refList.key];
+						
+						if (!fieldValue) {
+							return doneField();
+						}
+						
 						// populate relationships from saved refs
-						if ('function' === typeof srcData[field.path]) {
+						if (_.isFunction(fieldValue)) {
 							
-							var fn = srcData[field.path],
+							relationshipsUpdated++;
+							
+							var fn = fieldValue,
 								argsRegExp = /^function\s*[^\(]*\(\s*([^\)]*)\)/m,
 								lists = fn.toString().match(argsRegExp)[1].split(',').map(function(i) { return i.trim(); }),
 								args = lists.map(function(i) {
@@ -1421,30 +1494,73 @@ Keystone.prototype.createItems = function(data, callback) {
 								}
 								doneField(err);
 							});
-							
-						} else {
-							
-							var fieldRefs = refs[field.refList.key];
+						
+						} else if (_.isArray(fieldValue)) {
 							
 							if (field.many) {
-								var refsArr = ('string' === typeof srcData[field.path]) ? [srcData[field.path]] : srcData[field.path];
-								if (!_.isArray(refsArr)) return;
-								refsArr = _.compact(refsArr.map(function(ref) {
-									return fieldRefs[ref] ? fieldRefs[ref].id : undefined;
+								
+								var refsArr = _.compact(fieldValue.map(function(ref) {
+									return refsLookup[ref] ? refsLookup[ref].id : undefined;
 								}));
-								doc.set(field.path, refsArr);
-							} else {
-								var ref = srcData[field.path];
-								if (ref && fieldRefs[ref]) {
-									doc.set(field.path, fieldRefs[ref].id);
+								
+								if (options.strict && refsArr.length !== fieldValue.length) {
+									return doneField({
+										type: 'invalid ref',
+										srcData: srcData,
+										message: 'Relationship ' + list.key + '.' + field.path + ' contains an invalid reference.'
+									});
 								}
+								
+								relationshipsUpdated++;
+								doc.set(field.path, refsArr);
+								doneField();
+								
+							} else {
+								return doneField({
+									type: 'invalid data',
+									srcData: srcData,
+									message: 'Single-value relationship ' + list.key + '.' + field.path + ' provided as an array.'
+								});
 							}
+							
+						} else if (_.isString(fieldValue)) {
+							
+							var refItem = refsLookup[fieldValue];
+							
+							if (!refItem) {
+								return options.strict ? doneField({
+									type: 'invalid ref',
+									srcData: srcData,
+									message: 'Relationship ' + list.key + '.' + field.path + ' contains an invalid reference: "' +  + '".'
+								}) : doneField();
+							}
+							
+							relationshipsUpdated++;
+							
+							doc.set(field.path, field.many ? [refItem.id] : refItem.id);
 							
 							doneField();
 							
+						} else {
+							return doneField({
+								type: 'invalid data',
+								srcData: srcData,
+								message: 'Relationship ' + list.key + '.' + field.path + ' contains an invalid data type.'
+							});
 						}
+						
 					}, function(err) {
-						doc.save(doneItem);
+						if (err) {
+							return doneItem(err);
+						}
+						if (options.verbose) {
+							console.log('Populated ' + relationshipsUpdated + ' relationship' + (relationshipsUpdated === 1 ? '' : 's') + '.');
+						}
+						if (relationshipsUpdated) {
+							doc.save(doneItem);
+						} else {
+							doneItem();
+						}
 					});
 					
 				}, doneList);
