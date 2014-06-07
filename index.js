@@ -568,23 +568,22 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	
-	if (this.get('cookie secret')) {
-		app.use(express.cookieParser(this.get('cookie secret')));
-	}
-	
-	var sessionOpts = {
-		key: 'keystone.sid'
+	app.sessionOpts = {
+		key: 'keystone.sid',
+		cookieParser: express.cookieParser(keystone.get('cookie secret') === undefined ? 'keystone':keystone.get('cookie secret'))
 	};
+	
+	app.use(app.sessionOpts.cookieParser);
 	
 	if (this.get('session store') == 'mongo') {
 		var MongoStore = require('connect-mongo')(express);
-		sessionOpts.store = new MongoStore({
+		app.sessionOpts.store = new MongoStore({
 			url: this.get('mongo'),
 			collection: 'app_sessions'
 		});
 	}
 	
-	app.use(express.session(sessionOpts));
+	app.use(express.session(app.sessionOpts));
 	
 	app.use(require('connect-flash')());
 	
