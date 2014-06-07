@@ -510,6 +510,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	}
 	
 	if (this.get('env') !== 'production') {
+		app.set('view cache', this.get('view caching off') === undefined ? true : this.get('view caching off'));
 		app.locals.pretty = true;
 	}
 	
@@ -568,23 +569,22 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	
-	if (this.get('cookie secret')) {
-		app.use(express.cookieParser(this.get('cookie secret')));
-	}
-	
-	var sessionOpts = {
-		key: 'keystone.sid'
+	app.sessionOpts = {
+		key: 'keystone.sid',
+		cookieParser: express.cookieParser(this.get('cookie secret') === undefined ? 'keystone':this.get('cookie secret'))
 	};
+	
+	app.use(app.sessionOpts.cookieParser);
 	
 	if (this.get('session store') == 'mongo') {
 		var MongoStore = require('connect-mongo')(express);
-		sessionOpts.store = new MongoStore({
+		app.sessionOpts.store = new MongoStore({
 			url: this.get('mongo'),
 			collection: 'app_sessions'
 		});
 	}
 	
-	app.use(express.session(sessionOpts));
+	app.use(express.session(app.sessionOpts));
 	
 	app.use(require('connect-flash')());
 	
