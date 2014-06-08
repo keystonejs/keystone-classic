@@ -1743,9 +1743,7 @@ Keystone.prototype.console.err = function(type, msg) {
  * @api public
  */
 
-keystone.version = JSON.parse(
-	require('fs').readFileSync(__dirname + '/package.json', 'utf8')
-).version;
+keystone.version = require('./package.json').version;
 
 
 // Expose Modules
