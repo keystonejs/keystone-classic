@@ -510,7 +510,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	}
 	
 	if (this.get('env') !== 'production') {
-		app.set('view cache', this.get('view caching off') === undefined ? true : this.get('view caching off'));
+		app.set('view cache', this.get('view cache') === undefined ? true : this.get('view cache'));
 		app.locals.pretty = true;
 	}
 	
