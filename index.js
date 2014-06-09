@@ -451,7 +451,8 @@ Keystone.prototype.initNav = function(sections) {
 Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	
 	if (!this.app) {
-		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
+		console.error('KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n');
+		process.exit(1);
 	}
 	
 	if (arguments.length === 1) {
