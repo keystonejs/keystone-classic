@@ -451,7 +451,12 @@ Keystone.prototype.initNav = function(sections) {
 Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	
 	if (!this.app) {
-		console.error('KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n');
+		console.error('\nKeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n');
+		process.exit(1);
+	}
+	
+	if (!this.get('cookie secret')) {
+		console.error('\nKeystoneJS Configuration Error:\n\nPlease provide a `cookie secret` value for session encryption.\n\n');
 		process.exit(1);
 	}
 	
@@ -572,7 +577,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	
 	app.sessionOpts = {
 		key: 'keystone.sid',
-		cookieParser: express.cookieParser(this.get('cookie secret') === undefined ? 'keystone':this.get('cookie secret'))
+		cookieParser: express.cookieParser(this.get('cookie secret'))
 	};
 	
 	app.use(app.sessionOpts.cookieParser);
