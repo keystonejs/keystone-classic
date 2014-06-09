@@ -1333,7 +1333,7 @@ Keystone.prototype.applyUpdates = function(callback) {
 Keystone.prototype.createItems = function(data, ops, callback) {
 	
 	var options = {
-		verbose: true,
+		verbose: false,
 		strict: true
 	};
 	
