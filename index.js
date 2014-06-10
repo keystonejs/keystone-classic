@@ -451,12 +451,12 @@ Keystone.prototype.initNav = function(sections) {
 Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	
 	if (!this.app) {
-		console.error('\nKeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n');
+		console.error('\nKeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n');
 		process.exit(1);
 	}
 	
 	if (!this.get('cookie secret')) {
-		console.error('\nKeystoneJS Configuration Error:\n\nPlease provide a `cookie secret` value for session encryption.\n\n');
+		console.error('\nKeystoneJS Configuration Error:\n\nPlease provide a `cookie secret` value for session encryption.\n');
 		process.exit(1);
 	}
 	
