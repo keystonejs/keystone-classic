@@ -292,6 +292,13 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                   </td>
                 </tr>
                 <tr>
+                  <td><code>session store</code> <code class="data-type">String</code></td>
+                  <td>
+                    <p>Set this to <code class="default-value">mongo</code> to use your database to persist session data.</p>
+                    <p>By default, Keystone will use the in-memory session store provided by Express, which should only be used in development because it does not scale past a single process, and leaks memory over time.</p>
+                  </td>
+                </tr>
+                <tr>
                   <td><code>back url</code> <code class="data-type">String</code></td>
                   <td>
                     <p><code>href</code> to use for the 'back to (site name)' link in the header of the Admin UI</p>
@@ -371,7 +378,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                   </td>
                 </tr>
                 <tr>
-                  <td><code>default region</code> <code class="data-type">String</code> </td>
+                  <td><code>default region</code> <code class="data-type">String</code></td>
                   <td>
                     <p><strong>Optional</strong> setting to limit autocomplete results to a specific region.</p>
                     <p>This option takes a region code, specified as a <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA language region</a> subtag.</p>
@@ -417,7 +424,7 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
                 </ul>
               </p>
               <pre><code class="language-javascript">keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
-// or 
+// or
 keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' );
  
 // optional, will prefix all built-in tags with 'keystone_'
