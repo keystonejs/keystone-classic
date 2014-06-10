@@ -239,7 +239,7 @@ block content
 			
 			//- a(name='emails')
 			//- h2 Emails
-			//-
+			//- 
 			//- p ...
 			
 			
@@ -363,7 +363,7 @@ block content
 				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
 				| // or
 				| keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' );
-				|
+				| 
 				| // optional, will prefix all built-in tags with 'keystone_'
 				| keystone.set('cloudinary prefix', 'keystone');
 			
@@ -400,12 +400,12 @@ block content
 			
 			
 			//- h2 Error Handling
-			//-
+			//- 
 			//- a(name='404s')
 			//- h3 <code>404</code> (not found) errors
-			//-
+			//- 
 			//- //-  path to your 404 view template, or a function to handle 404s (standard Express signature of `function(req, res)`)
-			//-
+			//- 
 			//- a(name='500s')
 			//- h3 <code>500</code> (server error) errors
 			
@@ -436,7 +436,7 @@ block content
 			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     User = keystone.list('User');
-				|
+				| 
 				| exports = module.exports = function(done) {
 				|     new User.model({
 				|         name: { first: 'Admin', last: 'User' },
