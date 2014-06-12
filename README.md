@@ -165,6 +165,7 @@ Keystone's field types include:
 *	[Location](http://keystonejs.com/docs/database/#fieldtypes-location)
 *	[CloudinaryImage](http://keystonejs.com/docs/database/#fieldtypes-cloudinaryimage)
 *	[CloudinaryImages](http://keystonejs.com/docs/database/#fieldtypes-cloudinaryimages)
+*	[LocalFile](http://keystonejs.com/docs/database/#fieldtypes-localfile)
 *	[S3 File](http://keystonejs.com/docs/database/#fieldtypes-s3file)
 *	[Embedly](http://keystonejs.com/docs/database/#fieldtypes-embedly)
 
