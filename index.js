@@ -632,7 +632,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		if (!app.get('trust proxy')) {
 			throw new Error("KeystoneJS Initialisaton Error:\n\nto set IP range restrictions the 'trust proxy' setting must be enabled.\n\n");
 		}
-		var ipRangeMiddleware = require('./lib/security').ipRangeRestrict(
+		var ipRangeMiddleware = require('./lib/security/ipRangeRestrict')(
 			this.get('allowed ip ranges'),
 			keystone.wrapHTMLError
 		);
