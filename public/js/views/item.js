@@ -278,5 +278,18 @@ jQuery(function($) {
 		
 		$image.attr('src', src.replace(/^(\/\/www\.gravatar\.com\/avatar\/)[^\?]+(\?.*$)/i,'$1' + md5(val) + '$2'));
 	});
+
+	
+	$('.search-form').hide();
+	$('.search-open').click(function() {
+		$(this).hide();
+		$('.breadcrumb-wrapper').hide();
+		$('.search-form').show().find('input[type!=hidden]')[0].focus();
+	});
+	$('.search-close').click(function() {
+		$('.search-form').hide();
+		$('.search-open').show();
+		$('.breadcrumb-wrapper').show();
+	});
 	
 });

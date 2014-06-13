@@ -46,22 +46,31 @@ block js
 
 block intro
 	.page-header.item-header: .row
-		.col-sm-6: ul.breadcrumb
-			if drilldown
-				each d in drilldown.items
-					if d.items
-						li
-							each di, i in d.items
-								a(href=di.href, title=d.list.singular, data-toggle='tooltip', data-placement='top')= di.label
-								if i < d.items.length - 1
-									span , 
-						if d.more
-							li: span  ... 
-					else
-						li: a(href=d.href, title=d.list.singular, data-toggle='tooltip', data-placement='top') #{d.label}
-			li
-				a(href='/keystone/' + list.path, title='Back to ' + list.plural, data-toggle='tooltip', data-placement='top') #{list.label}
-		.col-sm-6: .item-id
+		.col-sm-6
+			a(href=js, title='Search #{list.plural}').btn.btn-default.pull-left.search-open
+				span.sr-only Search #{list.plural}
+				span.ion-search
+			form(method='get', action='/keystone/' + list.path).form-inline.search-form
+				.field-inline--lg
+					input(name='search', placeholder='Search #{list.plural}').form-control
+				button(type='submit').btn.btn-default Search
+				button(type='button').btn.btn-link.btn-cancel.search-close cancel
+			.btn-companion.breadcrumb-wrapper: ul.breadcrumb
+				if drilldown
+					each d in drilldown.items
+						if d.items
+							li
+								each di, i in d.items
+									a(href=di.href, title=d.list.singular, data-toggle='tooltip', data-placement='top')= di.label
+									if i < d.items.length - 1
+										span , 
+							if d.more
+								li: span  ... 
+						else
+							li: a(href=d.href, title=d.list.singular, data-toggle='tooltip', data-placement='top') #{d.label}
+				li
+					a(href='/keystone/' + list.path, title='Back to ' + list.plural, data-toggle='tooltip', data-placement='top') #{list.label}
+		.col-sm-6: .item-id: .btn-companion.pr-0
 			if list.autokey && item.get(list.autokey.path)
 				span(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
 			else
