@@ -3,16 +3,16 @@
 // --------------------------------------------------
 
 // Reset keystone navbar basics
-@navbar-keystone-bg:                         #154b7e;// #004a80;
+@navbar-keystone-bg:                         @link-color;// #004a80;
 @navbar-keystone-color:                      mix(white,@navbar-keystone-bg,50%);
 @navbar-keystone-border:                     darken(@navbar-keystone-bg, 10%);
 
 // Keystone navbar links
-@navbar-keystone-link-color:                 mix(white,@navbar-keystone-bg,50%);
+@navbar-keystone-link-color:                 mix(white,@navbar-keystone-bg,60%);
 @navbar-keystone-link-hover-color:           #fff;
-@navbar-keystone-link-hover-bg:              transparent;
+@navbar-keystone-link-hover-bg:              lighten(@navbar-keystone-bg, 3.5%);
 @navbar-keystone-link-active-color:          @navbar-keystone-link-hover-color;
-@navbar-keystone-link-active-bg:             @link-color;
+@navbar-keystone-link-active-bg:             darken(@navbar-keystone-bg, 3.5%);
 @navbar-keystone-link-disabled-color:        #444;
 @navbar-keystone-link-disabled-bg:           transparent;
 
@@ -30,7 +30,7 @@
 // Keystone navbar toggle
 @navbar-keystone-toggle-hover-bg:            mix(white, @navbar-keystone-bg, 25%);
 @navbar-keystone-toggle-icon-bar-bg:         #fff;
-@navbar-keystone-toggle-border-color:        mix(white, @navbar-keystone-bg, 25%);
+@navbar-keystone-toggle-border-color:        transparent;
 
 
 
@@ -72,7 +72,7 @@ h4 {
 // --------------------------------------------------
 #header {
 	background-color: @navbar-keystone-bg;
-	// .box-shadow( inset 0 -1px 2px @navbar-keystone-border );
+	border: 0 none;
 
 	.navbar-backtobrand {
 		color: @navbar-keystone-link-color;
@@ -101,18 +101,19 @@ h4 {
 
 			&:hover,
 			&:focus {
+				#gradient .vertical(rgba(255,255,255,0),rgba(255,255,255,0.1));
+				// background-color: @navbar-keystone-link-hover-bg;
 				color: @navbar-keystone-link-hover-color;
-				background-color: @navbar-keystone-link-hover-bg;
 			}
 		}
 		> .active > a {
 			&,
 			&:hover,
 			&:focus {
-				// #gradient .vertical( spin(@navbar-keystone-link-active-bg,5%), spin(@navbar-keystone-link-active-bg,-5%), 0%, 100% );
-				// .box-shadow( inset 0 1px 3px rgba(0,0,0,0.25) );
-				color: @navbar-keystone-link-active-color;
+				#gradient .vertical( rgba(0,0,0,0.1), rgba(0,0,0,0), 0%, 100% );
+				.box-shadow( inset 0 1px 3px rgba(0,0,0,0.2) );
 				background-color: @navbar-keystone-link-active-bg;
+				color: @navbar-keystone-link-active-color;
 			}
 		}
 		> .disabled > a {
@@ -137,6 +138,9 @@ h4 {
 		}
 	}
 
+	.navbar-collapse {
+		.transition( all 200ms linear );
+	}
 	.navbar-collapse,
 	.navbar-form {
 		border-color: darken(@navbar-keystone-bg, 7%);
@@ -175,8 +179,7 @@ h4 {
 				&,
 				&:hover,
 				&:focus {
-					#gradient .vertical( spin(@navbar-keystone-link-active-bg,5%), spin(@navbar-keystone-link-active-bg,-5%), 0%, 100% );
-					.box-shadow( inset 0 1px 3px rgba(0,0,0,0.25) );
+					background-color: @navbar-keystone-link-active-bg;
 				}
 			}
 		}
@@ -228,11 +231,12 @@ h4 {
 //
 // Section Nav
 // --------------------------------------------------
+
+@sectionnav-arrow-size: 8px;
+
 #section-nav {
+	min-height: 40px;
 	margin-bottom: 20px;
-	border-top: none;
-	border-left: none;
-	border-right: none;
 
 	.navbar-collapse {
 		padding-left: 0px;
@@ -241,6 +245,8 @@ h4 {
 
 	li > a {
 		color: @gray-light;
+		padding-bottom: 10px;
+		padding-top: 10px;
 
 		&:hover,
 		&:focus {
@@ -261,6 +267,25 @@ h4 {
 	.active > a:focus {
 		background: transparent;
 		color: black;
+
+		&:before,
+		&:after {
+			.square(0);
+			border: @sectionnav-arrow-size solid transparent;
+			border-bottom-width: 0;
+			content: "";
+			margin-left: -@sectionnav-arrow-size;
+			position: absolute;
+			left: 50%;
+		}
+		&:before {
+			border-top-color: @navbar-default-border;
+			bottom: -(@sectionnav-arrow-size + 1);
+		}
+		&:after {
+			border-top-color: @navbar-default-bg;
+			bottom: -@sectionnav-arrow-size;
+		}
 	}
 }
 
@@ -451,7 +476,7 @@ h3.relationship-heading {
 // Name field
 .item-name .form-control {
 	.input-size(@input-height-large + 10; @padding-base-vertical; @padding-base-horizontal; ceil(@font-size-base * 1.70); @line-height-large; @input-border-radius);
-	color: @brand-primary;
+	// color: @brand-primary;
 	font-weight: 200;
 	margin-bottom: 10px;
 }
@@ -604,7 +629,13 @@ h3.relationship-heading {
 //
 // Items List
 // --------------------------------------------------
-table.items-list {
+
+.items-list {
+	tr:nth-child(odd) {
+		> td {
+			background-color: @table-bg-accent;
+		}
+    }
 
 	thead > tr > th,
 	tbody > tr > th,
@@ -617,9 +648,9 @@ table.items-list {
 	thead > tr > td,
 	tbody > tr > td,
 	tfoot > tr > td {
-		padding: 0;
 		background-color: white;
 		border-top: 1px solid #e5e5e5;
+		line-height: 1;
 	}
 
 	tr.delete-hover {
@@ -655,16 +686,6 @@ table.items-list {
 
 		&:hover {
 			color: darken(@text-color, 10%);
-			text-decoration: underline;
-		}
-	}
-
-	thead a {
-		color: @text-color;
-		text-decoration: none;
-		margin-right: 5px;
-
-		&:hover {
 			text-decoration: underline;
 		}
 	}

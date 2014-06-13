@@ -32,7 +32,9 @@ block content
 		.create-item
 			if list.get('autocreate')
 				.toolbar
-					a(href='?new').btn.btn-default.btn-create.btn-create-item Create #{list.singular}
+					a(href='?new').btn.btn-default.btn-create.btn-create-item
+						span.ion-plus-round
+						|  Create #{list.singular}
 			else
 				form(method='post', action='/keystone/' + list.path)
 					input(type='hidden', name='action', value='create')
@@ -56,7 +58,9 @@ block content
 							button(type='submit').btn.btn-default.btn-create Create
 							a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
 						.toolbar-default
-							a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item Create #{list.singular}
+							a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item
+								span.ion-plus-round
+								|  Create #{list.singular}
 		hr
 	
 	//-
@@ -73,13 +77,13 @@ block content
 				span No #{list.plural.toLowerCase()} found
 					= search || xFilters ? '' : '.'
 			if search
-				span.text-muted  matching
+				span.text-muted  matching 
 				span=search
 				if xFilters
 					span.text-muted  and
 					span= utils.plural(xFilters, ' * other filter')
 			else if xFilters
-				span.text-muted  matching
+				span.text-muted  matching 
 				span= utils.plural(xFilters, ' * filter')
 			
 			//- Sort
@@ -143,18 +147,24 @@ block content
 				.list-toolbar.form-row
 					.col-sm-6: .search-list
 						.form-row
-							.col-xs-10.col-sm-9.col-md-10.search-field
+							.col-xs-2.col-sm-1
+								.dropdown.list-filter-dropdown.dropdown-recent.hidden
+									a(href=js, data-toggle='dropdown', title='Recent Searches').btn.btn-block.btn-default.dropdown-toggle
+										span.sr-only Recent Searches
+										span.ion-clock
+									ul.dropdown-menu
+							.col-xs-8.col-sm-9.search-field
 								input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search)#list-search.form-control
 								if search
 									a(href='/keystone/#{list.path}').search-list-clear &times;
-							.col-xs-2.col-sm-3.col-md-2.search-button: button(type='submit').btn.btn-default.btn-search.btn-block
+							.col-xs-2.search-button: button(type='submit').btn.btn-default.btn-search.btn-block
 								span.visible-xs Go
 								span.hidden-xs Search
 					
-					.col-md-3.col-sm-6
+					.col-sm-3
 						.dropdown.list-filter-dropdown(style='display:inline-block')
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Add Filter...
+								| Add Filter 
 								b.caret
 							ul.dropdown-menu: each el in list.uiElements
 								if el.type == 'heading'
@@ -164,20 +174,14 @@ block content
 										span(class='fieldicon fieldicon-' + el.field.type)
 										span= el.field.label
 					
-						.dropdown.list-filter-dropdown.dropdown-recent.hidden(style='display:inline-block')
-							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Recent Searches...
-								b.caret
-							ul.dropdown-menu
-					
 					//- lg screens only
 					//- columns and download aren't relevant when using a mobile device
-					.col-md-3.col-sm-12.hidden-xs: .pull-right
+					.pull-right.hidden-xs
 						.pull-right
 							a(href=download_link).btn.btn-default Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Columns
+								| Columns 
 								b.caret
 							ul.dropdown-menu
 								each el in list.uiElements
@@ -185,12 +189,12 @@ block content
 										li.dropdown-header= el.heading
 									else if el.type == 'field' && !el.field.nocol && !el.field.hidden
 										li: a(href=js, data-col=el.field.path).btn-toggle-column
-											span(class=_.contains(colPaths, el.field.path) ? 'glyphicon glyphicon-ok-circle' : '').icon
+											span(class=_.contains(colPaths, el.field.path) ? 'ion-checkmark' : '').icon
 											span= el.field.label
 								if query.cols
 									li.divider
 									li: a(href=link_to({ cols: undefined }))
-										span.glyphicon.glyphicon-remove-circle.icon
+										span.ion-close.icon
 										span Reset to default
 			
 			
@@ -370,7 +374,7 @@ block content
 		
 		- var sortable = list.get('sortable') && !list.get('sortContext') && sort.by == 'sortOrder'
 		- var firstColspan = 1;
-		table(cellpadding=0, cellspacing=0, class=sortable ? 'sortable' : false, data-list-path=list.path).table.table-striped.items-list
+		.items-list-wrapper: table(cellpadding=0, cellspacing=0, class=sortable ? 'sortable' : false, data-list-path=list.path).table.items-list
 			if !list.get('nodelete')
 				- firstColspan++;
 				col(width=26)
@@ -385,15 +389,16 @@ block content
 						th(colspan=i == 0 && firstColspan > 1 ? firstColspan : false)
 							if col.field && sort.field && sort.field.path == col.field.path
 								if sort.inv
-									a(href=link_to({ sort: col.field.path }), title='sort by ' + col.label, data-toggle='tooltip', data-placement='top')
+									a(href=link_to({ sort: col.field.path }), title='Sort by ' + col.label + ' (asc)', class='th-sort--desc').th-sort
 										= col.label
-									.glyphicon.glyphicon-chevron-up
+										span.th-sort__icon
 								else
-									a(href=link_to({ sort: '-' + col.field.path }), title='sort by ' + col.label + ' (descending)', data-toggle='tooltip', data-placement='top')
+									a(href=link_to({ sort: '-' + col.field.path }), title='Sort by ' + col.label + ' (desc)', class='th-sort--asc').th-sort
 										= col.label
-									.glyphicon.glyphicon-chevron-down
+										span.th-sort__icon
 							else if col.field
-								a(href=link_to({ sort: col.field.path }), title='sort by ' + col.label, data-toggle='tooltip', data-placement='top')= col.label
+								a(href=link_to({ sort: col.field.path }), title='Sort by ' + col.label).th-sort= col.label
+									span.th-sort__icon
 							else
 								= col.label
 			tbody
