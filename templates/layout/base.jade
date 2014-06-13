@@ -22,7 +22,7 @@ html
 	body(id='page-' + page)
 		#wrap
 			nav(role='navigation')#header.navbar.navbar-default.navbar-static-top: .container
-				a(href=backUrl).navbar-backtobrand.hidden-xs: span.glyphicon.glyphicon-arrow-left
+				a(href=backUrl).navbar-backtobrand.hidden-xs: span.ion-arrow-left-c
 				.navbar-header
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-headernav-collapse')
 						span.sr-only Toggle section navigation
@@ -41,7 +41,7 @@ html
 							li: a(href=signout).signout Sign Out
 					ul.nav.navbar-nav
 						each navSection in nav.sections
-							li(class=section.key == navSection.key ? 'active' : false): a(href='/keystone/' + navSection.lists[0].path)= navSection.label
+							li(class=section.key == navSection.key ? 'active' : null): a(href='/keystone/' + navSection.lists[0].path)= navSection.label
 			if section.lists && section.lists.length > 1
 				nav(role='navigation')#section-nav.navbar.navbar-default.navbar-static-top: .container
 					.navbar-header
@@ -57,7 +57,7 @@ html
 					.collapse.navbar-collapse.navbar-sectionnav-collapse
 						ul.nav.navbar-nav
 							each navList in section.lists
-								li(class=navList.key == list.key ? 'active' : false): a(href='/keystone/' + navList.path)= navList.label
+								li(class=navList.key == list.key ? 'active' : null): a(href='/keystone/' + navList.path)= navList.label
 			#body: .container
 				block intro
 				+flash-messages(messages)

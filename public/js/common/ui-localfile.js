@@ -87,7 +87,7 @@ jQuery(function($) {
 			$fileValues.hide();
 			// File
 			$filePreview.addClass('removed');
-			$deletePending.addClass(action == 'delete' ? 'glyphicon-trash' : 'glyphicon-remove').show();
+			$deletePending.addClass(action == 'delete' ? 'ion-trash-a' : 'ion-close').show();
 			// Buttons
 			$deleteBtn.hide();
 			$undoBtn.html('Undo ' + ( action == 'delete' ? 'Delete' : 'Remove')).show();
@@ -110,7 +110,7 @@ jQuery(function($) {
 			$fileValues.show();
 			// File
 			$filePreview.removeClass('removed');
-			$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
+			$deletePending.removeClass('ion-close ion-trash-a').hide();
 			// Buttons
 			$undoBtn.hide();
 			$cancelBtn.hide();

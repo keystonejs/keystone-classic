@@ -52,6 +52,7 @@
 
 // Big ass fields (name fields)
 .item-name .form-control {
+	color: @brand-primary;
 	margin-bottom: 20px;
 }
 
@@ -304,15 +305,14 @@ label.checkbox {
 			}
 		}
 		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			color: #6A6A6A;
-			font-size: 23px;
+			.square(40px);
+			color: rgba(0,0,0,0.66);
+			font-size: 40px;
 			left: 50%;
-			top: 50%;
+			margin: -20px 0 0 -20px;
 			position: absolute;
-			margin-left: -11px;
-			margin-top: -13px;
-			line-height: 23px;
-			text-shadow: 0 0 50px #FFFFFF;
+			text-align: center;
+			top: 50%;
 		}
 		.img-thumbnail {
 			img {

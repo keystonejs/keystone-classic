@@ -82,7 +82,7 @@ jQuery(function($) {
 				}
 				// Preview
 				$preview.addClass('removed');
-				$deletePending.addClass(action == 'delete' ? 'glyphicon-trash' : 'glyphicon-remove').show();
+				$deletePending.addClass(action == 'delete' ? 'ion-trash-a' : 'ion-close').show();
 				// Remove/Undo
 				$removeBtn.hide();
 				$undoBtn.show();
@@ -97,7 +97,7 @@ jQuery(function($) {
 				actions[action].splice(actions[action].indexOf(idata.id), 1);
 				// Preview
 				$preview.removeClass('removed');
-				$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
+				$deletePending.removeClass('ion-close ion-trash-a').hide();
 				// Remove/Undo
 				$undoBtn.hide();
 				$removeBtn.show();
@@ -134,7 +134,7 @@ jQuery(function($) {
 		var renderPlaceholder = function() {
 			
 			var imageFieldHTML = '<div class="image-field row col-sm-3 col-md-12">' +
-				'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !imagePreviews ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open img-uploading"></div></div></div>' +
+				'<div class="image-preview"><div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !imagePreviews ? ' no-preview' : '' ) + '" /><div class="glyphicon ion-upload img-uploading"></div></div></div>' +
 				'<div class="image-details"><a href="javascript:;" class="btn btn-link btn-cancel btn-undo-upload">Cancel</a></div>' +
 			'</div>';
 			
@@ -247,7 +247,7 @@ jQuery(function($) {
 			
 			var updateStatus = function($el, status, icon) {
 				$el.find('.btn-undo-upload').html(status);
-				$el.find('.img-uploading').removeClass( 'glyphicon-open glyphicon-ok glyphicon-ban-circle').addClass(icon);
+				$el.find('.img-uploading').removeClass( 'ion-upload ion-checkmark ion-alert-circled').addClass(icon);
 			};
 			
 			$imageUpload.on({
@@ -266,18 +266,18 @@ jQuery(function($) {
 				fileuploadsend: function(e, d) {
 					readFiles(d.files, function(file) {
 						d.$placeholder = $(file);
-						updateStatus(d.$placeholder, '0%', 'glyphicon-open');
+						updateStatus(d.$placeholder, '0%', 'ion-upload');
 					});
 					$imageUpload.removeClass('hover');
 				},
 				fileuploadprogress: function(e, d) {
-					updateStatus(d.$placeholder, Math.round((d.loaded * 100.0) / d.total) + '%', 'glyphicon-open');
+					updateStatus(d.$placeholder, Math.round((d.loaded * 100.0) / d.total) + '%', 'ion-upload');
 				},
 				fileuploaddone: function(e, d) {
-					updateStatus(d.$placeholder, 'Remove', 'glyphicon-ok');
+					updateStatus(d.$placeholder, 'Remove', 'ion-checkmark');
 				},
 				fileuploadfail: function(e, d) {
-					updateStatus(d.$placeholder, 'Failed', 'glyphicon-ban-circle');
+					updateStatus(d.$placeholder, 'Failed', 'ion-alert-circled');
 				},
 				cloudinarydone: function(e, d) {
 					if (!d.$placeholder.is(':visible')) {

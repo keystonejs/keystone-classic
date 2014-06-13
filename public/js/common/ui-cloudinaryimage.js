@@ -28,7 +28,7 @@ jQuery(function($) {
 		var action = false;
 		
 		var imageFieldHTML = '<div class="image-preview new">' +
-				'<div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="glyphicon glyphicon-open upload-pending"></div></div></div>'
+				'<div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="ion-upload upload-pending"></div></div></div>'
 			'</div>';
 		
 		var removeNewImage = function() {
@@ -98,7 +98,7 @@ jQuery(function($) {
 			$imageValues.hide();
 			// Image
 			$imagePreview.addClass('removed');
-			$deletePending.addClass(action == 'delete' ? 'glyphicon-trash' : 'glyphicon-remove').show();
+			$deletePending.addClass(action == 'delete' ? 'ion-trash-a' : 'ion-close').show();
 			// Buttons
 			$deleteBtn.hide();
 			$undoBtn.html('Undo ' + ( action == 'delete' ? 'Delete' : 'Remove')).show();
@@ -121,7 +121,7 @@ jQuery(function($) {
 			$imageValues.show();
 			// Image
 			$imagePreview.removeClass('removed');
-			$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
+			$deletePending.removeClass('ion-close ion-trash-a').hide();
 			// Buttons
 			$undoBtn.hide();
 			$cancelBtn.hide();
