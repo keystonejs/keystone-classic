@@ -104,7 +104,7 @@ jQuery(function($) {
 		var recentSearches;
 		var $searchDropdown = $('.dropdown-recent');
 		var $searches = $searchDropdown.find('ul');
-		var key = 'keystone-recentsearches';
+		var key = 'keystone-recentsearches-' + Keystone.list.path;
 
 		// Prase the recent searches
 		try {
