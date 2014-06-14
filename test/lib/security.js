@@ -7,7 +7,7 @@ var REQ = function(method) {
 		query: {},
 		method: method || 'GET'
 	};
-	if method == 'POST' {
+	if (method == 'POST') {
 		rtn.body = {};
 	}
 	return rtn;
