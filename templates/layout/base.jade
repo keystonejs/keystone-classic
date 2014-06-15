@@ -88,7 +88,12 @@ html
 
 		//- App
 		script.
-			Keystone = {};
+			Keystone = {
+				csrf: {
+					key: "#{csrf_token_key",
+					value: "#{csrf_token_value}"
+				}
+			};
 		if cloudinary
 			script(src='/keystone/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js')
 			script(src='/keystone/js/lib/jqueryfileupload/jquery.iframe-transport.js')
