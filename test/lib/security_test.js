@@ -72,4 +72,41 @@ describe('CSRF', function() {
 			valid.must.be.true();
 		});
 	});
+	describe('middleware()', function() {
+		it('must add a token to res.locals', function(next) {
+			var mw = csrf.middleware();
+			var req = REQ(), res = RES();
+			mw(req, res, function(err) {
+				var token = res.locals[csrf.TOKEN_KEY];
+				token.substr(token.length - 1, 1).must.equal('=');
+				next();
+			});
+		});
+		it('must validate tokens in the request body', function(next) {
+			var mw = csrf.middleware();
+			var req = REQ('POST'), res = RES();
+			req.body[csrf.TOKEN_KEY] = csrf.createToken(req);
+			mw(req, res, function(err) {
+				demand(err).be.undefined();
+				next();
+			});
+		});
+		it('must pass an error and set statusCode to 403 with no valid token in the request body', function(next) {
+			var mw = csrf.middleware();
+			var req = REQ('POST'), res = RES();
+			mw(req, res, function(err) {
+				res.statusCode.must.equal(403);
+				err.must.be.an.instanceof(Error);
+				next();
+			});
+		});
+		it('must ignore GET requests', function(next) {
+			var mw = csrf.middleware();
+			var req = REQ(), res = RES();
+			mw(req, res, function(err) {
+				demand(err).be.undefined();
+				next();
+			});
+		});
+	});
 });
