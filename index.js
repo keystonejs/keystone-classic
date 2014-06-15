@@ -36,7 +36,7 @@ var moduleRoot = (function(_rootPath) {
  */
 
 var Keystone = function() {
-	
+
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -53,29 +53,29 @@ var Keystone = function() {
 		render: []
 	};
 	this._redirects = {};
-	
+
 	// expose express
-	
+
 	this.express = express;
-	
-	
+
+
 	// init environment defaults
-	
+
 	this.set('env', process.env.NODE_ENV || 'development');
-	
+
 	this.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
 	this.set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP);
 	this.set('listen', process.env.LISTEN);
-	
+
 	this.set('ssl', process.env.SSL);
 	this.set('ssl port', process.env.SSL_PORT);
 	this.set('ssl host', process.env.SSL_HOST || process.env.SSL_IP);
 	this.set('ssl key', process.env.SSL_KEY);
 	this.set('ssl cert', process.env.SSL_CERT);
-	
+
 	this.set('cookie secret', process.env.COOKIE_SECRET);
 	this.set('cookie signin', (this.get('env') == 'development') ? true : false);
-	
+
 	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
 	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
 	this.set('mandrill username', process.env.MANDRILL_USERNAME);
@@ -86,22 +86,22 @@ var Keystone = function() {
 	this.set('chartbeat property', process.env.CHARTBEAT_PROPERTY);
 	this.set('chartbeat domain', process.env.CHARTBEAT_DOMAIN);
 	this.set('allowed ip ranges', process.env.ALLOWED_IP_RANGES);
-	
+
 	if (process.env.S3_BUCKET && process.env.S3_KEY && process.env.S3_SECRET) {
 		this.set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET, region: process.env.S3_REGION });
 	}
-	
+
 	if (process.env.AZURE_STORAGE_ACCOUNT && process.env.AZURE_STORAGE_ACCESS_KEY) {
 		this.set('azurefile config', { account: process.env.AZURE_STORAGE_ACCOUNT, key: process.env.AZURE_STORAGE_ACCESS_KEY });
 	}
-	
+
 	if (process.env.CLOUDINARY_URL) {
 		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
 		this.set('cloudinary config', true);
 	}
-	
+
 	this.initAPI = require('./lib/middleware/initAPI')(this);
-	
+
 };
 
 
@@ -125,11 +125,11 @@ var remappedOptions = {
  * @api public
  */
 Keystone.prototype.set = function(key, value) {
- 	
+
 	if (arguments.length === 1) {
 		return this._options[key];
 	}
-	
+
 	if (remappedOptions[key]) {
 		if (this.get('logger')) {
 			console.log('\nWarning: the `' + key + '` option has been deprecated. Please use `' + remappedOptions[key] + '` instead.\n\n' +
@@ -137,7 +137,7 @@ Keystone.prototype.set = function(key, value) {
 		}
 		key = remappedOptions[key];
 	}
-	
+
 	// handle special settings
 	switch (key) {
 		case 'cloudinary config':
@@ -172,7 +172,7 @@ Keystone.prototype.set = function(key, value) {
 			}
 		break;
 	}
-	
+
 	this._options[key] = value;
 	return this;
 };
@@ -289,10 +289,10 @@ Keystone.prototype.connect = function() {
 
 Keystone.prototype.prefixModel = function (key) {
 	var modelPrefix = this.get('model prefix');
-	
+
 	if (modelPrefix)
 		key = modelPrefix + '_' + key;
-	
+
 	return require('mongoose/lib/utils').toCollectionName(key);
 }
 
@@ -334,19 +334,19 @@ var security = keystone.security = {
  */
 
 Keystone.prototype.init = function(options) {
-	
+
 	this.options(options);
-	
+
 	if (!this.app) {
 		this.app = express();
 	}
-	
+
 	if (!this.mongoose) {
 		this.connect(require('mongoose'));
 	}
-	
+
 	return this;
-	
+
 };
 
 /**
@@ -357,7 +357,7 @@ Keystone.prototype.init = function(options) {
  */
 
 Keystone.prototype.initNav = function(sections) {
-	
+
 	var nav = {
 		sections: [],
 		by: {
@@ -365,7 +365,7 @@ Keystone.prototype.initNav = function(sections) {
 			section: {}
 		}
 	};
-	
+
 	if (!sections) {
 		sections = {};
 		nav.flat = true;
@@ -374,7 +374,7 @@ Keystone.prototype.initNav = function(sections) {
 			sections[list.path] = [list.path];
 		});
 	}
-	
+
 	_.each(sections, function(section, key) {
 		if ('string' === typeof section) {
 			section = [section];
@@ -402,7 +402,7 @@ Keystone.prototype.initNav = function(sections) {
 			nav.by.section[section.key] = section;
 		}
 	});
-	
+
 	return nav;
 };
 
@@ -455,48 +455,48 @@ Keystone.prototype.initNav = function(sections) {
  */
 
 Keystone.prototype.mount = function(mountPath, parentApp, events) {
-	
+
 	// Validate the express app instance
-	
+
 	if (!this.app) {
 		console.error('\nKeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n');
 		process.exit(1);
 	}
-	
+
 	var keystone = this,
 		app = this.app;
-	
+
 	// this.nativeApp indicates keystone has been mounted natively
 	// (not as part of a custom middleware stack)
 	this.nativeApp = true;
-	
+
 	// Initialise the mongo connection url
-	
+
 	if (!this.get('mongo')) {
 		var dbName = this.get('db name') || utils.slug(this.get('name'));
 		var dbUrl = process.env.MONGO_URI || process.env.MONGO_URL || process.env.MONGOLAB_URI || process.env.MONGOLAB_URL || (process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://localhost/') + dbName;
 		this.set('mongo', dbUrl);
 	}
-	
+
 	// Initialise and validate session options
-	
+
 	if (!this.get('cookie secret')) {
 		console.error('\nKeystoneJS Configuration Error:\n\nPlease provide a `cookie secret` value for session encryption.\n');
 		process.exit(1);
 	}
-	
+
 	var sessionOptions = keystone.get('session options');
-	
+
 	if (!_.isObject(sessionOptions)) {
 		sessionOptions = {};
 	}
-	
+
 	if (!sessionOptions.key) {
 		sessionOptions.key = 'keystone.sid';
 	}
-	
+
 	sessionOptions.cookieParser = express.cookieParser(this.get('cookie secret'));
-	
+
 	if (this.get('session store') == 'mongo') {
 		var MongoStore = require('connect-mongo')(express);
 		sessionOptions.store = new MongoStore({
@@ -504,76 +504,76 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			collection: 'app_sessions'
 		});
 	}
-	
+
 	// expose initialised session options
-	
+
 	this.set('session options', sessionOptions);
-	
+
 	// wrangle arguments
-	
+
 	if (arguments.length === 1) {
 		events = arguments[0];
 		mountPath = null;
 	}
-	
+
 	if ('function' === typeof events) {
 		events = { onMount: events };
 	}
-	
+
 	if (!events) events = {};
-	
+
 	/* Express sub-app mounting to external app at a mount point (if specified) */
-	
+
 	if (mountPath) {
 		//fix root-relative keystone urls for assets (gets around having to re-write all the keystone templates)
 		parentApp.all(/^\/keystone($|\/*)/, function(req, res, next) {
 			req.url = mountPath + req.url;
 			next();
 		});
-		
+
 		parentApp.use(mountPath, app);
 	}
-	
+
 	/* Keystone's encapsulated Express App Setup */
-	
+
 	// Allow usage of custom view engines
-	
+
 	if (this.get('custom engine')) {
 		app.engine(this.get('view engine'), this.get('custom engine'));
 	}
-	
+
 	// Set location of view templates and view engine
-	
+
 	app.set('views', this.getPath('views') || path.sep + 'views');
 	app.set('view engine', this.get('view engine'));
-	
+
 	// Apply locals
-	
+
 	if (utils.isObject(this.get('locals'))) {
 		_.extend(app.locals, this.get('locals'));
 	}
-	
+
 	if (this.get('env') !== 'production') {
 		app.set('view cache', this.get('view cache') === undefined ? true : this.get('view cache'));
 		app.locals.pretty = true;
 	}
-	
+
 	// Serve static assets
-	
+
 	if (this.get('compress')) {
 		app.use(express.compress());
 	}
-	
+
 	if (this.get('favico')) {
 		app.use(express.favicon(this.getPath('favico')));
 	}
-	
+
 	if (this.get('less')) {
 		app.use(require('less-middleware')({
 			src: this.getPath('less')
 		}));
 	}
-	
+
 	if (this.get('sass')) {
 		try {
 			var sass = require('node-sass');
@@ -595,43 +595,47 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			outputStyle: (this.get('env') == 'production') ? 'compressed' : 'nested'
 		}));
 	}
-	
+
 	if (this.get('static')) {
 		app.use(express.static(this.getPath('static')));
 	}
-	
+
 	if (!this.get('headless')) {
 		keystone.static(app);
 	}
-	
+
 	// Handle dynamic requests
-	
+
 	if (this.get('logger')) {
 		app.use(express.logger(this.get('logger')));
 	}
-	
+
+	if (this.get('file limit')) {
+		app.use(express.limit(this.get('file limit')));
+	}
+
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(sessionOptions.cookieParser);
 	app.use(express.session(sessionOptions));
 	app.use(require('connect-flash')());
-	
+
 	if (this.get('session') === true) {
 		app.use(this.session.persist);
 	} else if ('function' === typeof this.get('session')) {
 		app.use(this.get('session'));
 	}
-	
+
 	// Process 'X-Forwarded-For' request header
-	
+
 	if (this.get('trust proxy') === true) {
 		app.enable('trust proxy');
 	} else {
 		app.disable('trust proxy');
 	}
-	
+
 	// Check for IP range restrictions
-	
+
 	if (this.get('allowed ip ranges')) {
 		if (!app.get('trust proxy')) {
 			throw new Error("KeystoneJS Initialisaton Error:\n\nto set IP range restrictions the 'trust proxy' setting must be enabled.\n\n");
@@ -642,9 +646,9 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		);
 		this.pre('routes', ipRangeMiddleware);
 	}
-	
+
 	// Pre-route middleware
-	
+
 	this._pre.routes.forEach(function(fn) {
 		try {
 			app.use(fn);
@@ -656,19 +660,19 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			throw e;
 		}
 	});
-	
+
 	// Route requests
-	
+
 	app.use(app.router);
-	
+
 	// Headless mode means don't bind the Keystone routes
-	
+
 	if (!this.get('headless')) {
 		this.routes(app);
 	}
-	
+
 	// Handle redirects before 404s
-	
+
 	if (Object.keys(this._redirects).length) {
 		app.use(function(req, res, next) {
 			if (keystone._redirects[req.path]) {
@@ -678,17 +682,17 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			}
 		});
 	}
-	
+
 	// Handle 404 (no route matched) errors
-	
+
 	var default404Handler = function(req, res, next) {
 		res.status(404).send(keystone.wrapHTMLError("Sorry, no page could be found at this address (404)"));
 	};
-	
+
 	app.use(function(req, res, next) {
-		
+
 		var err404 = keystone.get('404');
-		
+
 		if (err404) {
 			try {
 				if ('function' === typeof err404) {
@@ -712,13 +716,13 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		} else {
 			default404Handler(req, res, next);
 		}
-		
+
 	});
-	
+
 	// Handle other errors
-	
+
 	var default500Handler = function(err, req, res, next) {
-		
+
 		if (keystone.get('logger')) {
 			if (err instanceof Error) {
 				console.log((err.type ? err.type + ' ' : '') + 'Error thrown for request: ' + req.url);
@@ -727,11 +731,11 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			}
 			console.log(err.stack || err);
 		}
-		
+
 		var msg = '';
-		
+
 		if (keystone.get('env') === 'development') {
-			
+
 			if (err instanceof Error) {
 				if (err.type) {
 					msg += '<h2>' + err.type + '</h2>';
@@ -743,14 +747,14 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 				msg += err;
 			}
 		}
-		
+
 		res.status(500).send(keystone.wrapHTMLError("Sorry, an error occurred loading the page (500)", msg));
 	};
-	
+
 	app.use(function(err, req, res, next) {
-		
+
 		var err500 = keystone.get('500');
-		
+
 		if (err500) {
 			try {
 				if ('function' === typeof err500) {
@@ -775,44 +779,44 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		} else {
 			default500Handler(err, req, res, next);
 		}
-		
+
 	});
-	
+
 	// Configure application routes
 	if ('function' === typeof this.get('routes')) {
 		this.get('routes')(app);
 	}
-	
+
 	// Connect to database
-	
+
 	var mongoConnectionOpen = false;
-	
+
 	this.mongoose.connect(this.get('mongo'));
 	this.mongoose.connection.on('error', function(err) {
-		
+
 		if (keystone.get('logger')) {
 			console.log('------------------------------------------------');
 			console.log('Mongo Error:\n');
 			console.log(err);
 		}
-		
+
 		if (mongoConnectionOpen) {
 			throw new Error("Mongo Error");
 		} else {
 			throw new Error("KeystoneJS (" + keystone.get('name') + ") failed to start");
 		}
-		
+
 	}).on('open', function() {
-		
+
 		// app is mounted and db connection acquired, time to update and then call back
-		
+
 		// Apply updates?
 		if (keystone.get('auto update')) {
 			keystone.applyUpdates(events.onMount);
 		} else {
 			events.onMount && events.onMount();
 		}
-		
+
 	});
 };
 
@@ -862,31 +866,31 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
  */
 
 Keystone.prototype.start = function(events) {
-	
+
 	if ('function' === typeof events) {
 		events = { onStart: events };
 	}
-	
+
 	if (!events) events = {};
-	
+
 	if (!this.app) {
 		throw new Error("KeystoneJS Initialisaton Error:\n\napp must be initialised. Call keystone.init() or keystone.connect(new Express()) first.\n\n");
 	}
-	
+
 	var keystone = this,
 		app = this.app;
-		
+
 	//maintain passed in onMount binding but override to start http servers
 	//(call user-defined onMount first if present)
 	var onMount = events.onMount;
 	events.onMount = function() {
 		onMount && onMount();
-		
+
 		mongoConnectionOpen = true;
-		
+
 		var startupMessages = ['KeystoneJS Started:'],
 			waitForServers = 2;
-			
+
 		// Logs the startup messages and calls the onStart method
 		var serverStarted = function() {
 			waitForServers--;
@@ -896,37 +900,37 @@ Keystone.prototype.start = function(events) {
 			}
 			events.onStart && events.onStart();
 		};
-		
+
 		// Creates the http server and listens to the specified port and host or listen option.
 		//
 		// For more information on how these options work, see
 		// http://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback
 		// and for history, see https://github.com/JedWatson/keystone/issues/154
-		
+
 		keystone.httpServer = http.createServer(app);
 		events.onHttpServerCreated && events.onHttpServerCreated();
-		
+
 		var host = keystone.get('host'),
 			port = keystone.get('port'),
 			listen = keystone.get('listen'),
 			ssl = keystone.get('ssl');
-			
+
 		// start the http server unless we're in ssl-only mode
 		if (ssl != 'only') {
-			
+
 			var httpStarted = function(msg) {
 				return function() {
 					startupMessages.push(msg);
 					serverStarted();
 					};
 				};
-				
+
 			if (port || port === 0) {
-				
+
 				app.set('port', port);
-				
+
 				var httpReadyMsg = keystone.get('name') + ' is ready';
-				
+
 				if (host) {
 					httpReadyMsg += ' on http://' + host;
 					if (port) {
@@ -941,7 +945,7 @@ Keystone.prototype.start = function(events) {
 					// start listening on any IPv4 address (INADDR_ANY) and the specified port
 					keystone.httpServer.listen(port, httpStarted(httpReadyMsg));
 				}
-				
+
 			} else if (host) {
 				// start listening on a specific host address and default port 3000
 				app.set('port', 3000);
@@ -953,27 +957,27 @@ Keystone.prototype.start = function(events) {
 				// default: start listening on any IPv4 address (INADDR_ANY) and default port 3000
 				app.set('port', 3000);
 				keystone.httpServer.listen(3000, httpStarted(keystone.get('name') + ' is ready on default port 3000'));
-				
+
 			}
-			
+
 		} else {
 			waitForServers--;
 		}
-		
+
 		// start the ssl server if configured
 		if (ssl) {
-			
+
 			var sslOpts = {};
-			
+
 			if (keystone.get('ssl cert') && fs.existsSync(keystone.getPath('ssl cert'))) {
 				sslOpts.cert = fs.readFileSync(keystone.getPath('ssl cert'));
 			}
 			if (keystone.get('ssl key') && fs.existsSync(keystone.getPath('ssl key'))) {
 				sslOpts.key = fs.readFileSync(keystone.getPath('ssl key'));
 			}
-			
+
 			if (!sslOpts.key || !sslOpts.cert) {
-				
+
 				if (ssl === 'only') {
 					console.log(keystone.get('name') + ' failed to start: invalid ssl configuration');
 					process.exit();
@@ -981,37 +985,37 @@ Keystone.prototype.start = function(events) {
 					startupMessages.push('Warning: Invalid SSL Configuration');
 					serverStarted();
 				}
-				
+
 			} else {
-				
+
 				var httpsStarted = function(msg) {
 					return function() {
 						startupMessages.push(msg);
 						serverStarted();
 						};
 					};
-					
+
 				keystone.httpsServer = https.createServer(sslOpts, app);
 				events.onHttpsServerCreated && events.onHttpsServerCreated();
-				
+
 				var sslHost = keystone.get('ssl host') || host,
 					sslPort = keystone.get('ssl port') || 3001;
-					
+
 				var httpsReadyMsg = (ssl === 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
-				
+
 				if (sslHost) {
 					keystone.httpsServer.listen(sslPort, sslHost, httpsStarted(httpsReadyMsg + 'https://' + sslHost + ':' + sslPort));
 				} else {
 					var httpsPortMsg = (keystone.get('ssl port')) ? 'port: ' + keystone.get('ssl port') : 'default port 3001';
 					keystone.httpsServer.listen(sslPort, httpsStarted(httpsReadyMsg + httpsPortMsg));
 				}
-				
+
 			}
-			
+
 		} else {
 			waitForServers--;
 		}
-		
+
 		process.on('uncaughtException', function(e) {
 			if (e.code === 'EADDRINUSE') {
 				console.log('------------------------------------------------\n' +
@@ -1028,14 +1032,14 @@ Keystone.prototype.start = function(events) {
 				process.exit(1);
 			}
 		});
-		
+
 	};
-	
+
 	//mount the express app
 	this.mount(events);
-	
+
 	return this;
-	
+
 };
 
 
@@ -1049,12 +1053,12 @@ Keystone.prototype.start = function(events) {
  */
 
 Keystone.prototype.static = function(app) {
-	
+
 	app.use('/keystone', require('less-middleware')({ src: __dirname + path.sep + 'public' }));
 	app.use('/keystone', express.static(__dirname + path.sep + 'public'));
-	
+
 	return this;
-	
+
 };
 
 
@@ -1073,42 +1077,42 @@ Keystone.prototype.static = function(app) {
  */
 
 Keystone.prototype.routes = function(app) {
-	
+
 	this.app = app;
 	var keystone = this;
-	
+
 	// ensure keystone nav has been initialised
 	if (!this.nav) {
 		this.nav = this.initNav();
 	}
-	
+
 	// Cache compiled view templates if we are in Production mode
 	this.set('view cache', this.get('env') === 'production');
-	
+
 	// Bind auth middleware (generic or custom) to /keystone* routes, allowing
 	// access to the generic signin page if generic auth is used
-	
+
 	if (this.get('auth') === true) {
-		
+
 		if (!this.get('signout url')) {
 			this.set('signout url', '/keystone/signout');
 		}
 		if (!this.get('signin url')) {
 			this.set('signin url', '/keystone/signin');
 		}
-		
+
 		if (!this.nativeApp || !this.get('session')) {
 			app.all('/keystone*', this.session.persist);
 		}
-		
+
 		app.all('/keystone/signin', require('./routes/views/signin'));
 		app.all('/keystone/signout', require('./routes/views/signout'));
 		app.all('/keystone*', this.session.keystoneAuth);
-		
+
 	} else if ('function' === typeof this.get('auth')) {
 		app.all('/keystone*', this.get('auth'));
 	}
-	
+
 	var initList = function(protect) {
 		return function(req, res, next) {
 			req.list = keystone.list(req.params.list);
@@ -1119,15 +1123,15 @@ Keystone.prototype.routes = function(app) {
 			next();
 		};
 	};
-	
+
 	// Keystone Admin Route
 	app.all('/keystone', require('./routes/views/home'));
-	
+
 	// Email test routes
 	if (this.get('email tests')) {
 		this.bindEmailTestRoutes(app, this.get('email tests'));
 	}
-	
+
 	// Cloudinary API for image uploading (only if Cloudinary is configured)
 	if (keystone.get('wysiwyg cloudinary images')) {
 		if (!keystone.get('cloudinary config')) {
@@ -1135,26 +1139,26 @@ Keystone.prototype.routes = function(app) {
 		}
 		app.post('/keystone/api/cloudinary/upload', require('./routes/api/cloudinary').upload);
 	}
-	
+
 	// Generic Lists API
 	app.all('/keystone/api/:list/:action', initList(), require('./routes/api/list'));
-	
+
 	// Generic Lists Download Route
 	app.all('/keystone/download/:list', initList(), require('./routes/download/list'));
-	
+
 	// List and Item Details Admin Routes
 	app.all('/keystone/:list/:page([0-9]{1,5})?', initList(true), require('./routes/views/list'));
 	app.all('/keystone/:list/:item', initList(true), require('./routes/views/item'));
-	
+
 	return this;
-	
+
 };
 
 
 Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
-	
+
 	var keystone = this;
-	
+
 	var handleError = function(req, res, err) {
 		if (res.err) {
 			res.err(err);
@@ -1163,11 +1167,11 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 			res.status(500).send(JSON.stringify(err));
 		}
 	};
-	
+
 	// TODO: Index of email tests, and custom email test 404's (currently bounces to list 404)
-	
+
 	_.each(emails, function(vars, key) {
-		
+
 		var render = function(err, req, res, locals) {
 			new keystone.Email(key).render(locals, function(err, email) {
 				if (err) {
@@ -1177,7 +1181,7 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 				}
 			});
 		};
-		
+
 		app.get('/keystone/test-email/' + key, function(req, res) {
 			if ('function' === typeof vars) {
 				vars(req, res, function(err, locals) {
@@ -1187,11 +1191,11 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
 				render(null, req, res, vars);
 			}
 		});
-		
+
 	});
-	
+
 	return this;
-	
+
 };
 
 
@@ -1210,15 +1214,15 @@ Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
  */
 
 Keystone.prototype.redirect = function() {
-	
+
 	if (arguments.length === 1 && utils.isObject(arguments[0])) {
 		_.extend(this._redirects, arguments[0]);
 	} else if (arguments.length === 2 && 'string' === typeof arguments[0] && 'string' === typeof arguments[1]) {
 		this._redirects[arguments[0]] = arguments[1];
 	}
-	
+
 	return this;
-	
+
 };
 
 
@@ -1240,7 +1244,7 @@ Keystone.prototype.redirect = function() {
  */
 
 Keystone.prototype.importer = function(rel__dirname) {
-	
+
 	var importer = function(from) {
 		var imported = {};
 		var joinPath = function() {
@@ -1264,9 +1268,9 @@ Keystone.prototype.importer = function(rel__dirname) {
 		});
 		return imported;
 	};
-	
+
 	return importer;
-	
+
 };
 
 
@@ -1283,18 +1287,18 @@ Keystone.prototype.importer = function(rel__dirname) {
  */
 
 Keystone.prototype.import = function(dirname) {
-	
+
 	var initialPath = path.join(moduleRoot, dirname);
-	
+
 	var doImport = function(fromPath) {
-		
+
 		var imported = {};
-		
+
 		fs.readdirSync(fromPath).forEach(function(name) {
-			
+
 			var fsPath = path.join(fromPath, name),
 			info = fs.statSync(fsPath);
-			
+
 			// recur
 			if (info.isDirectory()) {
 				imported[name] = doImport(fsPath);
@@ -1306,12 +1310,12 @@ Keystone.prototype.import = function(dirname) {
 					imported[parts.join('-')] = require(fsPath);
 				}
 			}
-			
+
 		});
-		
+
 		return imported;
 	};
-	
+
 	return doImport(initialPath);
 };
 
@@ -1359,39 +1363,39 @@ Keystone.prototype.applyUpdates = function(callback) {
  */
 
 Keystone.prototype.createItems = function(data, ops, callback) {
-	
+
 	var options = {
 		verbose: false,
 		strict: true
 	};
-	
+
 	var dashes = '------------------------------------------------';
-	
+
 	if (!_.isObject(data)) {
 		throw new Error('keystone.createItems() requires a data object as the first argument.');
 	}
-	
+
 	if (_.isObject(ops)) {
 		_.extend(options, ops);
 	}
-	
+
 	if (_.isFunction(ops)) {
 		callback = ops;
 	}
-	
+
 	var lists = _.keys(data),
 		refs = {},
 		stats = {};
-	
+
 	async.waterfall([
-		
+
 		// create items
 		function(next) {
 			async.eachSeries(lists, function(key, doneList) {
-				
+
 				var list = keystone.list(key),
 					relationshipPaths = _.where(list.fields, { type: 'relationship' }).map(function(i) { return i.path; });
-				
+
 				if (!list) {
 					if (strict) {
 						return doneList({
@@ -1404,28 +1408,28 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 					}
 					return doneList();
 				}
-				
+
 				refs[list.key] = {};
 				stats[list.key] = {
 					singular: list.singular,
 					plural: list.plural,
 					created: 0
 				};
-				
+
 				var itemsProcessed = 0,
 					totalItems = data[key].length;
-				
+
 				if (options.verbose) {
 					console.log(dashes);
 					console.log('Processing list: ' + key);
 					console.log('Items to create: ' + totalItems);
 					console.log(dashes);
 				}
-				
+
 				async.eachSeries(data[key], function(data, doneItem) {
-					
+
 					itemsProcessed++;
-					
+
 					// Evaluate function properties to allow generated values (excluding relationships)
 					_.keys(data).forEach(function(i) {
 						if (_.isFunction(data[i]) && relationshipPaths.indexOf(i) === -1) {
@@ -1435,79 +1439,79 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 							}
 						}
 					});
-					
+
 					var doc = data.__doc = new list.model();
-					
+
 					if (data.__ref) {
 						refs[list.key][data.__ref] = doc;
 					}
-					
+
 					_.each(list.fields, function(field) {
 						// skip relationship fields on the first pass.
 						field.type !== 'relationship' && field.updateItem(doc, data);
 					});
-					
+
 					if (options.verbose) {
 						var documentName = list.getDocumentName(doc);
 						console.log('Creating item [' + itemsProcessed + ' of ' + totalItems + '] - ' + documentName);
 					}
-					
+
 					doc.save(doneItem);
 					stats[list.key].created++;
-					
+
 				}, doneList);
-				
+
 			}, next);
 		},
-		
+
 		// link items
 		function(next) {
-			
+
 			async.each(lists, function(key, doneList) {
-				
+
 				var list = keystone.list(key),
 					relationships = _.where(list.fields, { type: 'relationship' });
-				
+
 				if (!list || !relationships.length) {
 					return doneList();
 				}
-				
+
 				var itemsProcessed = 0,
 					totalItems = data[key].length;
-				
+
 				if (options.verbose) {
 					console.log(dashes);
 					console.log('Processing relationships for: ' + key);
 					console.log('Items to process: ' + totalItems);
 					console.log(dashes);
 				}
-				
+
 				async.each(data[key], function(srcData, doneItem) {
-					
+
 					var doc = srcData.__doc,
 						relationshipsUpdated = 0;
-					
+
 					itemsProcessed++;
-					
+
 					if (options.verbose) {
 						var documentName = list.getDocumentName(doc);
 						console.log('Processing item [' + itemsProcessed + ' of ' + totalItems + '] - ' + documentName);
 					}
-					
+
 					async.each(relationships, function(field, doneField) {
-						
+
 						var fieldValue = srcData[field.path],
 							refsLookup = refs[field.refList.key];
-						
+
 						if (!fieldValue) {
 							return doneField();
 						}
-						
+
 						// populate relationships from saved refs
 						if (_.isFunction(fieldValue)) {
-							
+
 							relationshipsUpdated++;
-							
+
 							var fn = fieldValue,
 								argsRegExp = /^function\s*[^\(]*\(\s*([^\)]*)\)/m,
 								lists = fn.toString().match(argsRegExp)[1].split(',').map(function(i) { return i.trim(); }),
@@ -1515,7 +1519,7 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 									return keystone.list(i);
 								}),
 								query = fn.apply(keystone, args);
-							
+
 							query.exec(function(err, results) {
 								if (field.many) {
 									doc.set(field.path, results || []);
@@ -1524,15 +1528,15 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 								}
 								doneField(err);
 							});
-							
+
 						} else if (_.isArray(fieldValue)) {
-							
+
 							if (field.many) {
-								
+
 								var refsArr = _.compact(fieldValue.map(function(ref) {
 									return refsLookup[ref] ? refsLookup[ref].id : undefined;
 								}));
-								
+
 								if (options.strict && refsArr.length !== fieldValue.length) {
 									return doneField({
 										type: 'invalid ref',
@@ -1540,11 +1544,11 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 										message: 'Relationship ' + list.key + '.' + field.path + ' contains an invalid reference.'
 									});
 								}
-								
+
 								relationshipsUpdated++;
 								doc.set(field.path, refsArr);
 								doneField();
-								
+
 							} else {
 								return doneField({
 									type: 'invalid data',
@@ -1552,11 +1556,11 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 									message: 'Single-value relationship ' + list.key + '.' + field.path + ' provided as an array.'
 								});
 							}
-							
+
 						} else if (_.isString(fieldValue)) {
-							
+
 							var refItem = refsLookup[fieldValue];
-							
+
 							if (!refItem) {
 								return options.strict ? doneField({
 									type: 'invalid ref',
@@ -1564,13 +1568,13 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 									message: 'Relationship ' + list.key + '.' + field.path + ' contains an invalid reference: "' + fieldValue + '".'
 								}) : doneField();
 							}
-							
+
 							relationshipsUpdated++;
-							
+
 							doc.set(field.path, field.many ? [refItem.id] : refItem.id);
-							
+
 							doneField();
-							
+
 						} else {
 							return doneField({
 								type: 'invalid data',
@@ -1578,7 +1582,7 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 								message: 'Relationship ' + list.key + '.' + field.path + ' contains an invalid data type.'
 							});
 						}
-						
+
 					}, function(err) {
 						if (err) {
 							return doneItem(err);
@@ -1592,24 +1596,24 @@ Keystone.prototype.createItems = function(data, ops, callback) {
 							doneItem();
 						}
 					});
-					
+
 				}, doneList);
-				
+
 			}, next);
 		}
-		
+
 	], function(err) {
 		if (err) return callback && callback(err);
-		
+
 		var msg = '\nSuccessfully created:\n';
 		_.each(stats, function(list, key) {
 			msg += '\n*   ' + keystone.utils.plural(list.created, '* ' + list.singular, '* ' + list.plural);
 		});
 		stats.message = msg + '\n';
-		
+
 		callback(null, stats);
 	});
-	
+
 };
 
 
@@ -1620,30 +1624,30 @@ Keystone.prototype.createItems = function(data, ops, callback) {
  */
 
 Keystone.prototype.render = function(req, res, view, ext) {
-	
+
 	var keystone = this,
 		template = templateCache[view];
-		
+
 	var templatePath = __dirname + '/templates/views/' + view + '.jade';
-	
+
 	var jadeOptions = {
 		filename: templatePath,
 		pretty: keystone.get('env') !== 'production'
 	};
-	
+
 	// TODO: Allow custom basePath for extensions... like this or similar
 	// if (keystone.get('extensions')) {
 	// 	jadeOptions.basedir = keystone.getPath('extensions') + '/templates';
 	// }
-	
+
 	var compileTemplate = function() {
 		return jade.compile(fs.readFileSync(templatePath, 'utf8'), jadeOptions);
 	};
-	
+
 	var template = this.get('viewCache')
 		? templateCache[view] || (templateCache[view] = compileTemplate())
 		: compileTemplate();
-		
+
 	var flashMessages = {
 		info: res.req.flash('info'),
 		success: res.req.flash('success'),
@@ -1651,7 +1655,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		error: res.req.flash('error'),
 		hilight: res.req.flash('hilight')
 	};
-	
+
 	var locals = {
 		_: _,
 		moment: moment,
@@ -1679,10 +1683,10 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			additionalButtons: keystone.get('wysiwyg additional buttons') || ''
 		}
 	};
-	
+
 	// optional extensions to the local scope
 	_.extend(locals, ext);
-	
+
 	// add cloudinary locals if configured
 	if (keystone.get('cloudinary config')) {
 		try {
@@ -1705,12 +1709,12 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			}
 		}
 	}
-	
+
 	// fieldLocals defines locals that are provided to each field's `render` method
 	locals.fieldLocals = _.pick(locals, '_', 'moment', 'numeral', 'env', 'js', 'utils', 'user', 'cloudinary');
-	
+
 	var html = template(_.extend(locals, ext));
-	
+
 	res.send(html);
 };
 
@@ -1724,7 +1728,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
  */
 
 Keystone.prototype.populateRelated = function(docs, relationships, callback) {
-	
+
 	if (Array.isArray(docs)) {
 		async.each(docs, function(doc, done) {
 			doc.populateRelated(relationships, done);
@@ -1757,12 +1761,12 @@ Keystone.prototype.wrapHTMLError = function(title, err) {
 
 Keystone.prototype.console = {};
 Keystone.prototype.console.err = function(type, msg) {
-	
+
 	if (keystone.get('logger')) {
 		var dashes = '\n------------------------------------------------\n';
 		console.log(dashes + 'KeystoneJS: ' + type + ':\n\n' + msg + dashes);
 	}
-	
+
 };
 
 /**
