@@ -26,35 +26,47 @@ var memory = {
 };
 
 describe('CSRF', function() {
-	describe('getReqSecret()', function() {
+	describe('createSecret()', function() {
+		it('must create a new secret', function() {
+			var secret = csrf.createSecret();
+			secret.substr(secret.length - 2, 2).must.equal('==');
+		});
+	});
+	describe('getSecret(req)', function() {
 		it('must return a new secret', function() {
-			var secret = memory.firstSecret = csrf.getReqSecret(memory.req);
+			var secret = memory.firstSecret = csrf.getSecret(memory.req);
 			secret.substr(secret.length - 2, 2).must.equal('==');
 		});
 		it('must return the same secret', function() {
-			var secret = csrf.getReqSecret(memory.req);
+			var secret = csrf.getSecret(memory.req);
 			secret.must.equal(memory.firstSecret);
 		});
 	});
-	describe('getReqToken()', function() {
+	describe('createToken(req)', function() {
+		it('must create a new token', function() {
+			memory.token = csrf.createToken(memory.req);
+			memory.token.substr(memory.token.length - 1, 1).must.equal('=');
+		});
+	});
+	describe('getToken(req, res)', function() {
+		it('must create a new token in res.locals and return it', function() {
+			var token = csrf.getToken(memory.req, memory.res);
+			token.must.equal(memory.res.locals[csrf.TOKEN_KEY]);
+		});
+	});
+	describe('requestToken()', function() {
 		it('must find a token in req.body', function() {
 			var req = { body: {} };
 			req.body[csrf.TOKEN_KEY] = 'token';
-			csrf.getReqToken(req).must.equal('token');
+			csrf.requestToken(req).must.equal('token');
 		});
 		it('must find a token in req.query', function() {
 			var req = { query: {} };
 			req.query[csrf.TOKEN_KEY] = 'token';
-			csrf.getReqToken(req).must.equal('token');
+			csrf.requestToken(req).must.equal('token');
 		});
 		it('must default to an empty string', function() {
-			csrf.getReqToken({}).must.equal('');
-		});
-	});
-	describe('createToken()', function() {
-		it('must create a new token', function() {
-			memory.token = csrf.createToken(memory.req);
-			memory.token.substr(memory.token.length - 1, 1).must.equal('=');
+			csrf.requestToken({}).must.equal('');
 		});
 	});
 	describe('validate()', function() {
@@ -72,38 +84,36 @@ describe('CSRF', function() {
 			valid.must.be.true();
 		});
 	});
-	describe('middleware()', function() {
+	describe('middleware.init(req, res, next)', function() {
 		it('must add a token to res.locals', function(next) {
-			var mw = csrf.middleware();
 			var req = REQ(), res = RES();
-			mw(req, res, function(err) {
+			csrf.middleware.init(req, res, function(err) {
 				var token = res.locals[csrf.TOKEN_KEY];
 				token.substr(token.length - 1, 1).must.equal('=');
 				next();
 			});
 		});
+	});
+	describe('middleware.validate(req, res, next)', function() {
 		it('must validate tokens in the request body', function(next) {
-			var mw = csrf.middleware();
 			var req = REQ('POST'), res = RES();
 			req.body[csrf.TOKEN_KEY] = csrf.createToken(req);
-			mw(req, res, function(err) {
+			csrf.middleware.validate(req, res, function(err) {
 				demand(err).be.undefined();
 				next();
 			});
 		});
 		it('must pass an error and set statusCode to 403 with no valid token in the request body', function(next) {
-			var mw = csrf.middleware();
 			var req = REQ('POST'), res = RES();
-			mw(req, res, function(err) {
+			csrf.middleware.validate(req, res, function(err) {
 				res.statusCode.must.equal(403);
 				err.must.be.an.instanceof(Error);
 				next();
 			});
 		});
 		it('must ignore GET requests', function(next) {
-			var mw = csrf.middleware();
 			var req = REQ(), res = RES();
-			mw(req, res, function(err) {
+			csrf.middleware.validate(req, res, function(err) {
 				demand(err).be.undefined();
 				next();
 			});
