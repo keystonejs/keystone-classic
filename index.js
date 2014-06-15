@@ -1669,6 +1669,8 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		backUrl: this.get('back url') || '/',
 		section: {},
 		version: this.version,
+		csrf_token_key: keystone.security.csrf.TOKEN_KEY,
+		csrf_token_value: keystone.security.csrf.getToken(req, res),
 		ga: {
 			property: this.get('ga property'),
 			domain: this.get('ga domain')
