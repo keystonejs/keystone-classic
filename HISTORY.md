@@ -5,7 +5,7 @@
 * added; recent searches UI and functionality in the Admin UI, thanks [Benjamin Lupton](https://github.com/balupton)
 * fixed; strict type checking for field.options.required, see #393
 * added; `CloudinaryImage.updateItem()`` allows updates from data, thanks [webteckie](https://github.com/webteckie)
-* added; native support for node-sass via the `sass` option, make sure you include `node-sass` in your project dependencies to use it
+* added; native support for node-sass via the `sass` option, make sure you include `node-sass` in your project dependencies to use it. thanks [Fabrizio Fortunato](https://github.com/izifortune)
 * fixed; field validation methods for location & password fields
 * fixed; `keystone.createItems()` now creates items in series, not parallel
 * added; support for dynamic queries for relationship values in `keystone.createItems()`
