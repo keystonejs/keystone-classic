@@ -14,6 +14,11 @@ exports = module.exports = function(req, res) {
 	// If a form was submitted, process the login attempt
 	if (req.method === 'POST') {
 
+		if (!keystone.security.csrf.validate(req)) {
+			req.flash('error', 'There was an error with your request, please try again.');
+			return renderView();
+		}
+		
 		if (!req.body.email || !req.body.password) {
 			req.flash('error', 'Please enter your email address and password.');
 			return renderView();
