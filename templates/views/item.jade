@@ -84,8 +84,7 @@ block content
 	form(method='post', enctype='multipart/form-data').item-details
 		
 		input(type='hidden', name='action', value='updateItem')
-		if _csrf
-			input(type='hidden', name='_csrf', value=_csrf)
+		input(type='hidden', name=csrf_token_key, value=csrf_token_value)
 		
 		- var nameField = list.nameField, nameIsEditable = list.nameIsEditable;
 		
