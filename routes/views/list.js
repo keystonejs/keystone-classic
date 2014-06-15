@@ -123,8 +123,7 @@ exports = module.exports = function(req, res) {
 					colPaths: _.pluck(columns, 'path'),
 					items: items,
 					submitted: req.body || {},
-					query: req.query,
-					_csrf: req.csrfToken ? req.csrfToken() : false
+					query: req.query
 				}));
 
 			});

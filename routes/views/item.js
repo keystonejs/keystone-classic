@@ -151,8 +151,7 @@ exports = module.exports = function(req, res) {
 					item: item,
 					relationships: relationships,
 					showRelationships: showRelationships,
-					drilldown: drilldown,
-					_csrf: req.csrfToken ? req.csrfToken() : false
+					drilldown: drilldown
 				}));
 				
 			});
