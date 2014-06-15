@@ -32,14 +32,13 @@ block content
 		.create-item
 			if list.get('autocreate')
 				.toolbar
-					a(href='?new').btn.btn-default.btn-create.btn-create-item
+					a(href='?new' + csrf_query).btn.btn-default.btn-create.btn-create-item
 						span.ion-plus-round
 						|  Create #{list.singular}
 			else
 				form(method='post', action='/keystone/' + list.path)
 					input(type='hidden', name='action', value='create')
-					if _csrf
-						input(type='hidden', name='_csrf', value=_csrf)
+					input(type='hidden', name=csrf_token_key, value=csrf_token_value)
 					.form
 						h4 New #{list.singular}
 						if list.nameIsInitial
@@ -403,7 +402,7 @@ block content
 				each item in items.results
 					tr(id=item.id)
 						if !list.get('nodelete')
-							td.control: a(href='/keystone/' + list.path + '?delete=' + item.id).control-delete
+							td.control: a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query).control-delete
 						if sortable
 							td.control: a(href=js).control-sort
 						each col, i in columns

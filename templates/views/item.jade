@@ -77,7 +77,7 @@ block intro
 				| id: #{item.id}
 			if (!list.get('nocreate'))
 				.btn-group.visible-md.visible-lg.pull-right(style='margin-left:20px')
-					a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
+					a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new' + csrf_query) new #{list.singular.toLowerCase()}
 					//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
 			
 block content
@@ -112,7 +112,7 @@ block content
 				button(type='submit').btn.btn-default.btn-save Save
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
 			if !list.get('nodelete')
-				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
+				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
 	
 	if showRelationships
 		h2.relationship-heading.form-heading Relationships
