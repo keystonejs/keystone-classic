@@ -1,5 +1,15 @@
 # Keystone
 
+## v0.2.21 / 2014-06-16
+
+* updated; Admin UI visual tweaks by [jossmackison](https://github.com/JossMackison)
+* added; new CSRF implementation for more granular control
+* fixed; several UI and functionality issues with the new list recent-searches feature
+* added; S3 file - ability to specify a protocol for the file url, thanks [Cosmina](https://github.com/cosmina)
+* added; `cookie signin` option to control session persistence
+* added; `session options` option for better control over keys and stores, also exposes the final configuration after `start()` is called, thanks [killerbobjr](https://github.com/killerbobjr)
+* improved; Keystone now throws an error when no cookie secret is provided
+
 ## v0.2.20 / 2014-06-06
 
 * added; recent searches UI and functionality in the Admin UI, thanks [Benjamin Lupton](https://github.com/balupton)
