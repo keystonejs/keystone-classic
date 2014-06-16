@@ -99,7 +99,8 @@ jQuery(function($) {
 	// --------------------------------
 	// Recent Searches
 
-	if ( window.localStorage ) {
+	if (window.localStorage) {
+		
 		var querystring = querystringUtil.parse(document.location.search.replace('?', ''));
 		var recentSearches;
 		var $searchDropdown = $('.dropdown-recent');
@@ -110,16 +111,16 @@ jQuery(function($) {
 		try {
 			recentSearches = JSON.parse(window.localStorage.getItem(key) || 'false');
 		} catch (err) {}
-		if ( Array.isArray(recentSearches) === false ) {
+		if (Array.isArray(recentSearches) === false) {
 			recentSearches = [];
 		}
 
 		// Add the new search
 		// If it exists, remove it where it was, and add it to the start
 		// If it doesn't exist, just add it to the start
-		if ( querystring.q ) {
+		if (querystring.q) {
 			var existingIndex = recentSearches.indexOf(querystring.q);
-			if ( existingIndex !== -1 ) {
+			if (existingIndex !== -1) {
 				recentSearches = recentSearches.slice(0, existingIndex).concat(recentSearches.slice(existingIndex+1));
 			}
 			recentSearches.unshift(querystring.q);
@@ -128,14 +129,14 @@ jQuery(function($) {
 		}
 		
 		// Add the recent searches to the dom
-		if ( recentSearches.length !== 0 ) {
+		if (recentSearches.length !== 0) {
 			recentSearches.forEach(function(recentSearch){
 				var filter = queryfilterUtil.QueryFilters.create(recentSearch);
 				var querystring = querystringUtil.parse(document.location.search.replace('?', ''));
 				querystring.q = recentSearch;
 				querystring = querystringUtil.stringify(querystring);
 				$('<a>', {
-					href: '?'+querystring,
+					href: '?' + querystring,
 					text: filter.toHumanString()
 				}).appendTo($('<li>').appendTo($searches));
 			});
@@ -230,7 +231,7 @@ jQuery(function($) {
 					case 'date':
 					case 'datetime':
 					case 'select':
-						if ( value = parseValueWithType(data.type, $filter.find('input[name=value]').val()) ) {
+						if (value = parseValueWithType(data.type, $filter.find('input[name=value]').val())) {
 							queryFilter.value = value;
 						}
 						break;
@@ -247,25 +248,25 @@ jQuery(function($) {
 					case 'cloudinaryimage':
 					case 'cloudinaryimages':
 					case 's3file':
-						if ( data.value ) { // where is this defined???
+						if (data.value) { // where is this defined???
 							queryFilter.value = value;
 						}
 						break;
 					
 					case 'relationship':
-						if ( value = parseValueWithType(data.type, $filter.find('input[type=hidden]').val()) ) {
+						if (value = parseValueWithType(data.type, $filter.find('input[type=hidden]').val())) {
 							queryFilter.value = value;
 						}
 						break;
 				}
 			}
 			
-			if ( queryFilter.value != null ) {
+			if (queryFilter.value != null) {
 				filterQueryString.push(queryFilter.toString());
 			}
 		});
 		
-		if ( cancelled === false ) {
+		if (cancelled === false) {
 			$.addSearchParam({
 				search: search || undefined,
 				q: filterQueryString.join(';') || undefined
@@ -299,9 +300,9 @@ jQuery(function($) {
 			$row.removeClass('delete-inprogress');
 		};
 		$.ajax('/keystone/api/' + Keystone.list.path + '/delete', {
-			data: {
+			data: Keystone.csrf({
 				id: $row.attr('id')
-			},
+			}),
 			dataType: 'json'
 		}).done(function(rtn) {
 			if (rtn.success) {
