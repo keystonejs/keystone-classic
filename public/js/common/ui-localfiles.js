@@ -10,7 +10,7 @@ jQuery(function($) {
 		$order = $el.find('input.field-order')
 		$upload = $el.find('.field-upload');
 
-		var $uploadBtn = $el.find('.btn-upload-file'),
+		var $uploadBtn = $el.find('.btn-upload'),
 		$deleteBtn = $el.find('.btn-delete-file'),
 		$cancelBtn = $el.find('.btn-cancel-file'),
 		$undoBtn = $el.find('.btn-undo-file');
@@ -18,7 +18,6 @@ jQuery(function($) {
 		var $uploadQueued = $el.find('.upload-queued'),
 		$deleteQueued = $el.find('.delete-queued');
 
-		var $deletePending = $el.find('.delete-pending');
 
 		var $files = $el.find('.files-container'),
 		$filePreview = $files.find('.file-preview.current'),
@@ -29,9 +28,11 @@ jQuery(function($) {
 		var actions = { delete: [], remove: [] }, uploads = {};
 		var files = $el.find('.file-field');
 
-		var removeNewFile = function() {
-			$el.find('.file-preview.new').remove();
-		}
+		// Generates the action string that processes deletion and removal of images
+		var updateActions = function() {
+			$action.val((actions.delete.length ? 'delete:' + actions.delete.toString() : '') + '|' +
+				(actions.remove.length ? 'remove:' + actions.remove.toString() : ''));
+		};
 
 		// Handle existing files
 		files.each(function() {
@@ -44,23 +45,19 @@ jQuery(function($) {
 
 			var action = false;
 
+			var $preview = $file.find('.file-preview');
+			var $deletePending = $file.find('.delete-pending');
+
 			$removeBtn.click(function(e) {
 				e.preventDefault();
-				if (e.altKey) {
-					actions.delete.push(idata.id);
-					action = 'delete';
-				} else {
-					actions.remove.push(idata.id);
-					action = 'remove';
-				}
+				actions.delete.push(idata.id);
+				action = 'delete';
 				// Preview
-				$preview.addClass('removed');
-				$deletePending.addClass(action == 'delete' ? 'glyphicon-trash' : 'glyphicon-remove').show();
+				$preview.addClass('remove');
+				$deletePending.show();
 				// Remove/Undo
 				$removeBtn.hide();
 				$undoBtn.show();
-				// Messages
-				checkQueues();
 				// Actions
 				updateActions();
 			});
@@ -69,13 +66,11 @@ jQuery(function($) {
 				e.preventDefault();
 				actions[action].splice(actions[action].indexOf(idata.id), 1);
 				// Preview
-				$preview.removeClass('removed');
-				$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
+				$preview.removeClass('remove');
+				$deletePending.hide();
 				// Remove/Undo
 				$undoBtn.hide();
 				$removeBtn.show();
-				// Messages
-				checkQueues();
 				// Actions
 				updateActions();
 			});
@@ -87,9 +82,6 @@ jQuery(function($) {
 			placeholderClass: 'row col-sm-3 col-md-12',
 			placeholderSizing: '.file-preview'
 		}).bind('sortupdate', function(){
-			//$(this).children().each(function(){
-				//console.log($(this).attr('data-id'));
-			//});
 			var order = _.map($files.find('.file-sortable'), function(file) { return $(file).data().id; });
 			$order.val(order.toString());
 		});
@@ -97,29 +89,27 @@ jQuery(function($) {
 		$upload.change(function(e) {
 			var fileSelected = $(this).val() ? true : false;
 			var renderPlaceholder = function() {
-				// File
-				$filePreview.hide();
-				$fileValues.hide();
 				// Messages
 				$uploadQueued[fileSelected ? 'show' : 'hide']();
 				// Buttons
-				$undoBtn.hide();
-				$deleteBtn.hide();
 				$cancelBtn.show();
-				$uploadBtn.text('Upload Files');
-				// Preview
-				removeNewFile();
+				$uploadBtn.text('Change Files');
 			};
 			// Preview
 			if (fileSelected) {
 				if (window.FileReader) {
 					var files = e.target.files;
+					$uploadQueued.find('.files-list').html('');
+					if(files.length > 0)
+						$uploadQueued.find('.number-of-files').html(files.length+' files');
+					else
+						$uploadQueued.find('.number-of-files').html('One file');
 					for (var i = 0, f; f = files[i]; i++) {
 						var fileReader = new FileReader();
 						fileReader.onload = (function(file) {
 							return function(e) {
 								renderPlaceholder();
-								$uploadQueued.find('.file-name').html("'" + file.name + "' ");
+								$uploadQueued.find('.files-list').append( $('<p>' + file.name + '</p>') );
 								$(window).trigger('redraw');
 							};
 						})(f);
@@ -137,95 +127,20 @@ jQuery(function($) {
 			$upload.click();
 		});
 
-		// Delete/Remove File
-		$deleteBtn.click(function(e) {
-			e.preventDefault();
-			// Action
-			if (e.altKey) {
-				$action.val('delete');
-				action = 'delete';
-			} else {
-				$action.val('reset');
-				action = 'remove';
-			}
-			// Details
-			$fileValues.hide();
-			// File
-			$filePreview.addClass('removed');
-			$deletePending.addClass(action == 'delete' ? 'glyphicon-trash' : 'glyphicon-remove').show();
-			// Buttons
-			$deleteBtn.hide();
-			$undoBtn.html('Undo ' + ( action == 'delete' ? 'Delete' : 'Remove')).show();
-			$cancelBtn.hide();
-			$uploadBtn.html('Upload File');
-			// Messages
-			$deleteQueued.show();
-			$deleteQueued.find('.alert').html('File '+ ( action == 'delete' ? 'deleted' : 'removed') + ' - save to confirm');
-			// Redraw
-			$(window).trigger('redraw');
-		});
-
-		// Undo Delete/Remove
-		$undoBtn.click(function(e) {
-			e.preventDefault();
-			// Action
-			$action.val('');
-			action = false;
-			// Details
-			$fileValues.show();
-			// File
-			$filePreview.removeClass('removed');
-			$deletePending.removeClass('glyphicon-remove glyphicon-trash').hide();
-			// Buttons
-			$undoBtn.hide();
-			$cancelBtn.hide();
-			$deleteBtn.show();
-			$uploadBtn.html('Change Files');
-			// Messages
-			$deleteQueued.hide();
-			// Redraw
-			$(window).trigger('redraw');
-		});
 
 		// Cancel Upload
 		$cancelBtn.click(function(e) {
 			e.preventDefault();
-			// Remove new file preview
-			removeNewFile();
 			// Erase selected file
 			$upload.val('');
-			// If we have an file already
-			if (data.fieldValue) {
-				// Show it
-				$filePreview.show();
-				// If we've got a pending remove/delete
-				if (action) {
-					// Show the undo button
-					$undoBtn.show();
-				} else {
-					// Make sure the undo button is hidden
-					$undoBtn.hide();
-					// Show delete button
-					$deleteBtn.show();
-					// Show file values
-					$fileValues.show();
-				}
-			} else {
-				// Otherwise if we aren't deleting anything yet
-				if (!action) {
-					// Hide the delete button
-					$deleteBtn.hide();
-				} else {
-					// Or make sure it's visiboe
-					$deleteBtn.show();
-				}
-				// Make sure upload button references no current file
-				$uploadBtn.html('Upload Files');
-			}
+			$uploadBtn.html('Upload Files');
 			// Hide the cancel upload button
+			$upload.wrap('<form>').closest('form').get(0).reset();
+			$upload.unwrap();
 			$cancelBtn.hide();
 			// Hide queued upload message
 			$uploadQueued.hide();
+			$uploadQueued.find('.files-list').html('');
 			// Redraw
 			$(window).trigger('redraw');
 		});
