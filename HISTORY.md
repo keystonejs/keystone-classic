@@ -1,11 +1,21 @@
 # Keystone
 
+## v0.2.21 / 2014-06-16
+
+* updated; Admin UI visual tweaks by [jossmackison](https://github.com/JossMackison)
+* added; new CSRF implementation for more granular control
+* fixed; several UI and functionality issues with the new list recent-searches feature
+* added; S3 file - ability to specify a protocol for the file url, thanks [Cosmina](https://github.com/cosmina)
+* added; `cookie signin` option to control session persistence
+* added; `session options` option for better control over keys and stores, also exposes the final configuration after `start()` is called, thanks [killerbobjr](https://github.com/killerbobjr)
+* improved; Keystone now throws an error when no cookie secret is provided
+
 ## v0.2.20 / 2014-06-06
 
 * added; recent searches UI and functionality in the Admin UI, thanks [Benjamin Lupton](https://github.com/balupton)
 * fixed; strict type checking for field.options.required, see #393
 * added; `CloudinaryImage.updateItem()`` allows updates from data, thanks [webteckie](https://github.com/webteckie)
-* added; native support for node-sass via the `sass` option, make sure you include `node-sass` in your project dependencies to use it
+* added; native support for node-sass via the `sass` option, make sure you include `node-sass` in your project dependencies to use it. thanks [Fabrizio Fortunato](https://github.com/izifortune)
 * fixed; field validation methods for location & password fields
 * fixed; `keystone.createItems()` now creates items in series, not parallel
 * added; support for dynamic queries for relationship values in `keystone.createItems()`

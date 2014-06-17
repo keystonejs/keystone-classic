@@ -204,6 +204,11 @@ block content
 						p The encryption key to use for your cookies. Passed to Express's cookie parser.
 						p It's a really good idea to set this to a long, random string.
 				tr
+					td <code>session store</code> <code class="data-type">String</code>
+					td
+						p Set this to <code class="default-value">mongo</code> to use your database to persist session data.
+						p By default, Keystone will use the in-memory session store provided by Express, which should only be used in development because it does not scale past a single process, and leaks memory over time.
+				tr
 					td <code>back url</code> <code class="data-type">String</code>
 					td
 						p <code>href</code> to use for the 'back to (site name)' link in the header of the Admin UI
@@ -284,7 +289,7 @@ block content
 						p Your Google API server key, used to authenticate requests to the Maps API from the server.
 						p Will default to <code class="default-value">process.env.GOOGLE_SERVER_KEY</code>
 				tr
-					td <code>default region</code> <code class="data-type">String</code> 
+					td <code>default region</code> <code class="data-type">String</code>
 					td
 						p <strong>Optional</strong> setting to limit autocomplete results to a specific region.
 						p This option takes a region code, specified as a <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA language region</a> subtag.
@@ -356,7 +361,7 @@ block content
 			
 			pre: code.language-javascript
 				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
-				| // or 
+				| // or
 				| keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' );
 				| 
 				| // optional, will prefix all built-in tags with 'keystone_'

@@ -2,8 +2,66 @@
 // --------------------------------------------------
 
 
-.text-sm { font-size: .85em }
-.text-lg { font-size: 1.25em }
+
+
+// Type
+// ------------------------------
+
+.caps {
+	text-transform: uppercase;
+}
+
+// display
+.inline {
+	display: inline;
+}
+.inline-block {
+	display: inline-block;
+}
+.block {
+	display: block;
+}
+
+// hide
+.visually-hidden {
+	clip: rect(0 0 0 0); 
+	height: 1px; width: 1px; 
+	margin: -1px; padding: 0; border: 0;
+	overflow: hidden; 
+	position: absolute; 
+}
+
+// overflow
+.overflow-hidden {
+	overflow: hidden;
+}
+.overflow-auto {
+	overflow: auto;
+}
+
+// clearing
+.clear-left {
+	clear: left;
+}
+.clear-right {
+	clear: right;
+}
+.clear {
+	clear: both;
+}
+
+// text
+.text-dimmed {
+	color: lighten(@text-color, 20%);
+}
+
+.text-sm { font-size: @font-size-small; }
+.text-md { font-size: @font-size-base; }
+.text-lg { font-size: @font-size-large; }
+
+.text-thin   { font-weight: lighter; }
+.text-normal { font-weight: normal; }
+.text-thick  { font-weight: bold; }
 
 
 

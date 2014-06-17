@@ -7,14 +7,18 @@ exports = module.exports = function(req, res) {
 		keystone.render(req, res, 'signin', {
 			submitted: req.body,
 			from: req.query.from,
-			logo: keystone.get('signin logo'),
-			_csrf: req.csrfToken ? req.csrfToken() : false
+			logo: keystone.get('signin logo')
 		});
 	};
 
 	// If a form was submitted, process the login attempt
 	if (req.method === 'POST') {
 
+		if (!keystone.security.csrf.validate(req)) {
+			req.flash('error', 'There was an error with your request, please try again.');
+			return renderView();
+		}
+		
 		if (!req.body.email || !req.body.password) {
 			req.flash('error', 'Please enter your email address and password.');
 			return renderView();
@@ -22,7 +26,7 @@ exports = module.exports = function(req, res) {
 
 		var onSuccess = function(user) {
 
-			if (req.query.from  && req.query.from.match(/^(?!http|\/\/|javascript).+/)) {
+			if (req.query.from && req.query.from.match(/^(?!http|\/\/|javascript).+/)) {
 				res.redirect(req.query.from);
 			} else if ('string' === typeof keystone.get('signin redirect')) {
 				res.redirect(keystone.get('signin redirect'));

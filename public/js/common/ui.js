@@ -56,9 +56,9 @@ jQuery(function($) {
 		$.ajax({
 			type: 'POST',
 			url: '/keystone/api/' + listPath + '/order',
-			data: {
+			data: Keystone.csrf({
 				order: order.join(',')
-			},
+			}),
 			error: function() {
 				alert("There was a problem saving your changes. Please refresh to see the current data.");
 			}

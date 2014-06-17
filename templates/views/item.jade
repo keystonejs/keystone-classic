@@ -48,37 +48,45 @@ block js
 
 block intro
 	.page-header.item-header: .row
-		.col-sm-6: ul.breadcrumb
-			if drilldown
-				each d in drilldown.items
-					if d.items
-						li
-							each di, i in d.items
-								a(href=di.href, title=d.list.singular, data-toggle='tooltip', data-placement='top')= di.label
-								if i < d.items.length - 1
-									span , 
-						if d.more
-							li: span  ... 
-					else
-						li: a(href=d.href, title=d.list.singular, data-toggle='tooltip', data-placement='top') #{d.label}
-			li
-				a(href='/keystone/' + list.path, title='Back to ' + list.plural, data-toggle='tooltip', data-placement='top') #{list.label}
-		.col-sm-6: .item-id
+		.col-sm-6
+			a(href=js, title='Search #{list.plural}').btn.btn-default.pull-left.search-open
+				span.sr-only Search #{list.plural}
+				span.ion-search
+			form(method='get', action='/keystone/' + list.path).form-inline.search-form
+				.field-inline--lg
+					input(name='search', placeholder='Search #{list.plural}').form-control
+				button(type='submit').btn.btn-default Search
+				button(type='button').btn.btn-link.btn-cancel.search-close cancel
+			.btn-companion.breadcrumb-wrapper: ul.breadcrumb
+				if drilldown
+					each d in drilldown.items
+						if d.items
+							li
+								each di, i in d.items
+									a(href=di.href, title=d.list.singular, data-toggle='tooltip', data-placement='top')= di.label
+									if i < d.items.length - 1
+										span , 
+							if d.more
+								li: span  ... 
+						else
+							li: a(href=d.href, title=d.list.singular, data-toggle='tooltip', data-placement='top') #{d.label}
+				li
+					a(href='/keystone/' + list.path, title='Back to ' + list.plural, data-toggle='tooltip', data-placement='top') #{list.label}
+		.col-sm-6: .item-id: .btn-companion.pr-0
 			if list.autokey && item.get(list.autokey.path)
 				span(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
 			else
 				| id: #{item.id}
 			if (!list.get('nocreate'))
 				.btn-group.visible-md.visible-lg.pull-right(style='margin-left:20px')
-					a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new') new #{list.singular.toLowerCase()}
+					a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new' + csrf_query) new #{list.singular.toLowerCase()}
 					//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
 			
 block content
 	form(method='post', enctype='multipart/form-data').item-details
 		
 		input(type='hidden', name='action', value='updateItem')
-		if _csrf
-			input(type='hidden', name='_csrf', value=_csrf)
+		input(type='hidden', name=csrf_token_key, value=csrf_token_value)
 		
 		- var nameField = list.nameField, nameIsEditable = list.nameIsEditable;
 		
@@ -106,7 +114,7 @@ block content
 				button(type='submit').btn.btn-default.btn-save Save
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
 			if !list.get('nodelete')
-				a(href='/keystone/' + list.path + '?delete=' + item.id, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
+				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
 	
 	if showRelationships
 		h2.relationship-heading.form-heading Relationships

@@ -111,6 +111,10 @@ exports = module.exports = function(req, res) {
 		break;
 
 		case 'order':
+			
+			if (!keystone.security.csrf.validate(req)) {
+				return sendError('invalid csrf');
+			}
 
 			var order = req.query.order || req.body.order,
 				queue = [];
@@ -138,6 +142,10 @@ exports = module.exports = function(req, res) {
 		break;
 
 		case 'create':
+			
+			if (!keystone.security.csrf.validate(req)) {
+				return sendError('invalid csrf');
+			}
 
 			var item = new req.list.model(),
 				updateHandler = item.getUpdateHandler(req),
@@ -173,6 +181,10 @@ exports = module.exports = function(req, res) {
 		break;
 
 		case 'delete':
+			
+			if (!keystone.security.csrf.validate(req)) {
+				return sendError('invalid csrf');
+			}
 
 			if (req.list.get('nodelete')) {
 				return sendError('nodelete');

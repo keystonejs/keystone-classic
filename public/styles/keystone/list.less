@@ -58,6 +58,7 @@
 .list-toolbar {
 	// margin-top: 15px;
 	padding-bottom: 20px;
+	.clearfix();
 }
 .search-list {
 	
@@ -68,7 +69,11 @@
 			margin-top: 0 !important;
 		}
 	}
-	
+	.search-field {
+		display: inline-block;
+		vertical-align: middle;
+		width: 200px;
+	}
 	.search-list-field {
 		position: relative;
 	}
@@ -88,6 +93,12 @@
 		}
 		&:active {
 			color: darken(@brand-danger, 20%);
+		}
+	}
+
+	@media (min-width: @screen-sm) {
+		.search-field {
+			width: 300px;
 		}
 	}
 	
@@ -214,29 +225,30 @@
 	.square( 16px );
 	background-repeat: no-repeat;
 	
-	&.fieldicon-text 						{ background-image: url( "/keystone/images/icons/16/field-text.png" ); }
-	&.fieldicon-textarea 					{ background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }
-	&.fieldicon-name						{ background-image: url( "/keystone/images/icons/16/field-name.png" ); }
-	&.fieldicon-html						{ background-image: url( "/keystone/images/icons/16/field-html.png" ); }
-	&.fieldicon-url 						{ background-image: url( "/keystone/images/icons/16/field-url.png" ); }
-	&.fieldicon-key 						{ background-image: url( "/keystone/images/icons/16/field-key.png" ); }
-	&.fieldicon-email 						{ background-image: url( "/keystone/images/icons/16/field-email.png" ); }
-	&.fieldicon-select 						{ background-image: url( "/keystone/images/icons/16/field-select.png" ); }
-	&.fieldicon-location					{ background-image: url( "/keystone/images/icons/16/field-location.png" ); }
-	&.fieldicon-boolean 					{ background-image: url( "/keystone/images/icons/16/field-boolean.png" ); }
-	&.fieldicon-cloudinaryimage 			{ background-image: url( "/keystone/images/icons/16/field-image.png" ); }
-	&.fieldicon-s3file 					{ background-image: url( "/keystone/images/icons/16/field-file.png" ); }
-	&.fieldicon-relationship 				{ background-image: url( "/keystone/images/icons/16/field-numericSelect.png" ); }
-	&.fieldicon-date 						{ background-image: url( "/keystone/images/icons/16/field-date.png" ); }
-	&.fieldicon-datetime					{ background-image: url( "/keystone/images/icons/16/field-datetime.png" ); }
-	&.fieldicon-money						{ background-image: url( "/keystone/images/icons/16/field-money.png" ); }
-	&.fieldicon-number						{ background-image: url( "/keystone/images/icons/16/field-number.png" ); }
-	&.fieldicon-sort						{ background-image: url( "/keystone/images/icons/16/field-sort.png" ); }
+	&.fieldicon-text            { background-image: url( "/keystone/images/icons/16/field-text.png" ); }
+	&.fieldicon-textarea          { background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }
+	&.fieldicon-name            { background-image: url( "/keystone/images/icons/16/field-name.png" ); }
+	&.fieldicon-html            { background-image: url( "/keystone/images/icons/16/field-html.png" ); }
+	&.fieldicon-url             { background-image: url( "/keystone/images/icons/16/field-url.png" ); }
+	&.fieldicon-key             { background-image: url( "/keystone/images/icons/16/field-key.png" ); }
+	&.fieldicon-email             { background-image: url( "/keystone/images/icons/16/field-email.png" ); }
+	&.fieldicon-select            { background-image: url( "/keystone/images/icons/16/field-select.png" ); }
+	&.fieldicon-location          { background-image: url( "/keystone/images/icons/16/field-location.png" ); }
+	&.fieldicon-boolean           { background-image: url( "/keystone/images/icons/16/field-boolean.png" ); }
+	&.fieldicon-cloudinaryimage       { background-image: url( "/keystone/images/icons/16/field-image.png" ); }
+	&.fieldicon-s3file          { background-image: url( "/keystone/images/icons/16/field-file.png" ); }
+	&.fieldicon-relationship        { background-image: url( "/keystone/images/icons/16/field-numericSelect.png" ); }
+	&.fieldicon-date            { background-image: url( "/keystone/images/icons/16/field-date.png" ); }
+	&.fieldicon-datetime          { background-image: url( "/keystone/images/icons/16/field-datetime.png" ); }
+	&.fieldicon-money           { background-image: url( "/keystone/images/icons/16/field-money.png" ); }
+	&.fieldicon-number            { background-image: url( "/keystone/images/icons/16/field-number.png" ); }
+	&.fieldicon-sort            { background-image: url( "/keystone/images/icons/16/field-sort.png" ); }
 }
 .dropdown-menu .fieldicon {
 	margin-right: 10px;
 }
 .dropdown-menu .icon {
+	color: @gray-light;
 	display: inline-block;
 	width: 25px;
 	margin-left: -5px;
@@ -245,12 +257,14 @@
 //
 // Items List
 // --------------------------------------------------
-table.items-list {
+.items-list {
+	margin-bottom: 1.5em;
 	table-layout: fixed;
 	width: 100%;
 	
 	.control {
 		padding: @table-cell-padding - 1;
+		text-align: center;
 		width: 18px;
 		
 		a {
@@ -290,4 +304,41 @@ table.items-list {
 		text-overflow: ellipsis;
 	}
 	
+}
+
+
+// Responsive tables
+//
+// Wrap your tables in `.table-scrollable` and we'll make them mobile friendly
+// by enabling horizontal scrolling. Only applies <768px. Everything above that
+// will display normally.
+
+@media (max-width: @screen-sm) {
+	.items-list-wrapper {
+		// border: 1px solid @table-border-color;
+		margin-bottom: (@line-height-computed * 0.75);
+		overflow-y: hidden;
+		overflow-x: scroll;
+		-ms-overflow-style: -ms-autohiding-scrollbar;
+		-webkit-overflow-scrolling: touch;
+		width: 100%;
+
+		// Tighten up spacing
+		> .items-list {
+			table-layout: auto;
+			margin-bottom: 0;
+
+			// Ensure the content doesn't wrap
+			> thead,
+			> tbody,
+			> tfoot {
+				> tr {
+					> th,
+					> td {
+						white-space: nowrap;
+					}
+				}
+			}
+		}
+	}
 }

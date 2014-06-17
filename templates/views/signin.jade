@@ -17,8 +17,7 @@ block content
 			
 			else
 				form(method="post", novalidate).auth-form
-					if _csrf
-						input(type='hidden', name='_csrf', value=_csrf)
+					input(type='hidden', name=csrf_token_key, value=csrf_token_value)
 					.form-group
 						label(for='email') Email
 						input(type='email', name='email', id='email', value=submitted.email).form-control
