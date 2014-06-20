@@ -1,0 +1,41 @@
+- var hasFiles = item.get(field.paths.exists).length
+.field.type-localfiles(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasFiles ? 'true' : 'false')
+	label.field-label= field.label
+	input(type='file', name=field.paths.upload, multiple).field-upload
+	input(type='hidden', name=field.paths.action, value='').field-action
+	input(type='hidden', name=field.paths.order, value='').field-order
+	.field-ui(class=hasFiles ? 'has-file' : false)
+		.files-container.clearfix
+			each value in item.get(field.path)
+				.file-field.file-sortable(data-id=value._id.toString())
+					.file-preview
+						a(href=value.url, rel=field.path).img-thumbnail
+							//img(width=90, height=90, data-src=value.fit(false, 90), data-id=value.public_id, data-wysiwyg=(field.options.wysiwyg ? 'true' : false), data-wysiwyg-options=(field.options.wysiwyg ? '#{JSON.stringify(field.options.wysiwyg)}' : false), data-wysiwyg-original=(field.options.wysiwyg ? value.url : false), data-wysiwyg-src=(field.options.wysiwyg ? ( 'object' == typeof field.options.wysiwyg ? value[field.options.wysiwyg.crop](field.options.wysiwyg.width, field.options.wysiwyg.height) : value.src() ) : false)).img-load
+							if value.filetype = 'image/jpeg'
+								img(data-id=value._id.toString(), src='/'+value.path+'/'+value.filename+'?dim=160x160').file-load
+							else
+								.glyphicon.glyphicon-file.img-loading
+							.glyphicon.glyphicon-trash.delete-pending(style='display:none;')
+						p.file-name(style='max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;')
+							=value.filename
+					.file-details
+						a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-file Remove
+						a(href=js, data-alt-text='Undo', style='display:none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
+
+
+		.file-container
+			.file-details.clearfix
+				.upload-queued.pull-left(style='display:none')
+					.alert.alert-success
+						.files-list
+						span.number-of-files
+						selected - save to upload
+		.file-toolbar
+			div.pull-left
+				a(href=js).btn.btn-default.btn-upload Upload Files
+				//a(href=js).btn.btn-default.btn-upload-file=(hasFiles ? 'Change' : 'Upload' ) + ' File'
+				//a(href=js, data-alt-text='Delete File', style=(hasFiles ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-file Remove File
+				a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-file Cancel Upload
+				//a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-file Undo Remove
+		if field.note
+			.field-note!= field.note
