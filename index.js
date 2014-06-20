@@ -439,6 +439,7 @@ Keystone.prototype.initNav = function(sections) {
  *   - compress
  *   - favico
  *   - less
+ *   - compass
  *   - static
  *   - headless
  *   - logger
@@ -593,6 +594,15 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 			src: this.getPath('sass'),
 			dest: this.getPath('sass'),
 			outputStyle: (this.get('env') == 'production') ? 'compressed' : 'nested'
+		}));
+	}
+	
+	if (this.get('compass')) {
+		app.use(require('node-compass')({
+			project: this.getPath('compass'),
+			css:     'styles',
+			sass:    'styles',
+			img:     'images'
 		}));
 	}
 	
