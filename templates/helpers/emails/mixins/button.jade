@@ -22,10 +22,10 @@ mixin button(args, styles)
 	- 	_.defaults(styles, theme.buttons);
 	- 	_.defaults(styles, { background_color: '#2697de', border_color: '#1a7cb7', border_width: '1px', border_radius: 4, color: '#fff', font_family: 'inherit', font_size: 'inherit', font_weight: 'bold', height: 40, width: '100%' }); }
 	div
-		//[if mso]
-			v:roundrect(xmlns:v='urn:schemas-microsoft-com:vml', xmlns:w='urn:schemas-microsoft-com:office:word', href=args.url, style='height: #{styles.height}px; v-text-anchor: middle; width: #{styles.width};', arcsize=Math.ceil((styles.border_radius / styles.height) * 100) + '%', strokecolor=styles.border_color, fillcolor=styles.background_color)
-				v:fill(type="tile", src=styles.background_image, color=styles.background_color)
-				w:anchorlock
-				center(style='color: #{styles.color}; font-family: #{styles.font_family}; font-size: #{styles.font_size}; font-weight: #{styles.font_weight};')#{args.label}
-			| <![endif]
+		<!--[if mso]>
+		v:roundrect(xmlns:v='urn:schemas-microsoft-com:vml', xmlns:w='urn:schemas-microsoft-com:office:word', href=args.url, style='height: #{styles.height}px; v-text-anchor: middle; width: #{styles.width};', arcsize=Math.ceil((styles.border_radius / styles.height) * 100) + '%', strokecolor=styles.border_color, fillcolor=styles.background_color)
+			v:fill(type="tile", src=styles.background_image, color=styles.background_color)
+			w:anchorlock
+			center(style='color: #{styles.color}; font-family: #{styles.font_family}; font-size: #{styles.font_size}; font-weight: #{styles.font_weight};') #{args.label}
+		<![endif]-->
 		| <![if !mso]><a href='#{args.url}' style='background-color: #{styles.background_color}; background-image: url(#{styles.background_image}); border: #{styles.border_width} solid #{styles.border_color}; border-radius: #{styles.border_radius}px; color: #{styles.color}; display: inline-block; font-family: #{styles.font_family}; font-size: #{styles.font_size}; font-weight: #{styles.font_weight}; line-height: #{styles.height}px; text-align: center; text-decoration: none; width: #{styles.width}; -webkit-text-size-adjust: none;'>#{args.label}</a><![endif]>
