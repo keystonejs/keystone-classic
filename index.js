@@ -553,13 +553,24 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		_.extend(app.locals, this.get('locals'));
 	}
 	
+	// Indent HTML everywhere, except production
+
 	if (this.get('env') !== 'production') {
-		app.set('view cache', this.get('view cache') === undefined ? true : this.get('view cache'));
 		app.locals.pretty = true;
 	}
 	
-	// Serve static assets
+	// Default view caching logic
+
+	app.set('view cache', this.get('env') === 'production' ? true : false);
 	
+	// Setup view caching from app settings
+
+	if(this.get('view cache') !== undefined) {
+		app.set('view cache', this.get('view cache'));
+	}
+
+	// Serve static assets
+
 	if (this.get('compress')) {
 		app.use(express.compress());
 	}
