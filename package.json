@@ -29,7 +29,8 @@
     "azure": "~0.9.8",
     "range_check": "~0.0.4",
     "queryfilter": "~0.0.4",
-    "connect-mongo": "~0.4.1"
+    "connect-mongo": "~0.4.1",
+    "connect-mongostore": "~0.1.0"
   },
   "devDependencies": {
     "mocha": ">= 1.20 < 2",

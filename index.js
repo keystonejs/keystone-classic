@@ -496,13 +496,18 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	}
 	
 	sessionOptions.cookieParser = express.cookieParser(this.get('cookie secret'));
-	
-	if (this.get('session store') == 'mongo') {
+
+	var sessionStore = this.get('session store');
+
+	if (sessionStore === 'mongo') {
 		var MongoStore = require('connect-mongo')(express);
 		sessionOptions.store = new MongoStore({
 			url: this.get('mongo'),
 			collection: 'app_sessions'
 		});
+	} else if (typeof sessionStore === 'object') {
+		var MongoStore = require('connect-mongostore')(express);
+		sessionOptions.store = new MongoStore(sessionStore);
 	}
 	
 	// expose initialised session options
