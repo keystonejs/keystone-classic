@@ -499,17 +499,51 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 
 	var sessionStore = this.get('session store');
 
-	if (sessionStore === 'mongo') {
-		var MongoStore = require('connect-mongo')(express);
-		sessionOptions.store = new MongoStore({
-			url: this.get('mongo'),
-			collection: 'app_sessions'
-		});
-	} else if (typeof sessionStore === 'object') {
-		var MongoStore = require('connect-mongostore')(express);
-		sessionOptions.store = new MongoStore(sessionStore);
+	if (sessionStore) {
+		var sessionStoreOptions = this.get('session store options');
+
+		// Perform any session store specific configuration or exit on an unsupported session store
+		switch (sessionStore) {
+			case 'connect-mongo':
+				if (!sessionStoreOptions) {
+					sessionStoreOptions = {
+						url: this.get('mongo'),
+						collection: 'app_sessions'
+					};
+				}
+				break;
+
+			case 'connect-mongostore':
+				if (!sessionStoreOptions) {
+					console.error('\nERROR: ' + sessionStore + ' requires `session store options`.\n');
+					process.exit(1);
+				}
+				break;
+
+			default:
+				console.error('\nERROR: unsupported session store ' + sessionStore + '.\n');
+				process.exit(1);
+				break;
+		}
+
+		// Initialize the session store
+		try {
+			var MongoStore = require(sessionStore)(express);
+			sessionOptions.store = new MongoStore(sessionStoreOptions);
+		} catch(e) {
+			if (e.code == 'MODULE_NOT_FOUND') {
+				console.error(
+					'\nERROR: ' + sessionStore + ' not found.\n' +
+					'\nPlease install ' + sessionStore + ' from npm to use it as a `session store` option.' +
+					'\nYou can do this by running "npm install ' + sessionStore + ' --save".\n'
+				);
+				process.exit(1);
+			} else {
+				throw e;
+			}
+		}
 	}
-	
+
 	// expose initialised session options
 	
 	this.set('session options', sessionOptions);
