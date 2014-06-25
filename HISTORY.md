@@ -1,5 +1,14 @@
 # Keystone
 
+## v0.2.22 / TBC
+
+* fixed; autokey being added with a unique index when not specified as unique, thanks [trentmillar](https://github.com/trentmillar)
+* fixed; "bullet-proof" buttons in the email template were breaking because of a b/c in Jade 1.x, thanks [Heracles Kasimis](https://github.com/heracleskasimis)
+* fixed; view cache issue (see #430), thanks [Aleksej Kamynin](https://github.com/Bubujka)
+* added; new localfiles field type, thanks [Tom Kremer](https://github.com/TomKremer)
+* added; new `file limit` option, passed to `express.limit` middleware, thanks [Fabrizio Fortunato](izifortune)
+* added; errorMessage option for `UpdateHandler.process()`, thanks [Heracles Kasimis](https://github.com/heracleskasimis)
+
 ## v0.2.21 / 2014-06-16
 
 * updated; Admin UI visual tweaks by [jossmackison](https://github.com/JossMackison)
@@ -14,7 +23,7 @@
 
 * added; recent searches UI and functionality in the Admin UI, thanks [Benjamin Lupton](https://github.com/balupton)
 * fixed; strict type checking for field.options.required, see #393
-* added; `CloudinaryImage.updateItem()`` allows updates from data, thanks [webteckie](https://github.com/webteckie)
+* added; `CloudinaryImage.updateItem()` allows updates from data, thanks [webteckie](https://github.com/webteckie)
 * added; native support for node-sass via the `sass` option, make sure you include `node-sass` in your project dependencies to use it. thanks [Fabrizio Fortunato](https://github.com/izifortune)
 * fixed; field validation methods for location & password fields
 * fixed; `keystone.createItems()` now creates items in series, not parallel
