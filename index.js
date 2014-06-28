@@ -74,7 +74,7 @@ var Keystone = function() {
 	this.set('ssl cert', process.env.SSL_CERT);
 	
 	this.set('cookie secret', process.env.COOKIE_SECRET);
-	this.set('cookie signin', (this.get('env') == 'development') ? true : false);
+	this.set('cookie signin', (this.get('env') === 'development') ? true : false);
 	
 	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
 	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
@@ -604,7 +604,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	
 	// Setup view caching from app settings
 
-	if(this.get('view cache') !== undefined) {
+	if (this.get('view cache') !== undefined) {
 		app.set('view cache', this.get('view cache'));
 	}
 
@@ -642,7 +642,7 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 		app.use(sass.middleware({
 			src: this.getPath('sass'),
 			dest: this.getPath('sass'),
-			outputStyle: (this.get('env') == 'production') ? 'compressed' : 'nested'
+			outputStyle: this.get('env') === 'production' ? 'compressed' : 'nested'
 		}));
 	}
 	
@@ -688,7 +688,11 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	
 	if (this.get('allowed ip ranges')) {
 		if (!app.get('trust proxy')) {
-			throw new Error("KeystoneJS Initialisaton Error:\n\nto set IP range restrictions the 'trust proxy' setting must be enabled.\n\n");
+			console.log(
+				'KeystoneJS Initialisaton Error:\n\n' +
+				'to set IP range restrictions the "trust proxy" setting must be enabled.\n\n'
+			);
+			process.exit(1);
 		}
 		var ipRangeMiddleware = require('./lib/security/ipRangeRestrict')(
 			this.get('allowed ip ranges'),
