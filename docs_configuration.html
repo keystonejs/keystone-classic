@@ -294,8 +294,47 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                 <tr>
                   <td><code>session store</code> <code class="data-type">String</code></td>
                   <td>
-                    <p>Set this to <code class="default-value">mongo</code> to use your database to persist session data.</p>
+                    <p>Set this to <code class="default-value">mongo</code> to use your MongoDB database to persist session data.</p>
                     <p>By default, Keystone will use the in-memory session store provided by Express, which should only be used in development because it does not scale past a single process, and leaks memory over time.</p>
+                    <p>Valid options are:</p>
+                    <ul>
+                      <li><code class="default-value">mongo</code> (or <code class="default-value">connect-mongo</code>)</li>
+                      <li><code class="default-value">connect-mongostore</code> (supports replica sets, but requires explicit configuration - see below)</li>
+                      <li><code class="default-value">connect-redis</code></li>
+                    </ul>
+                    <p class="note">Session store packages are not bundled with Keystone, so make sure you explicitly add the selected session store to your project's <code>package.json</code>.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>session store options</code> <code class="data-type">Object</code></td>
+                  <td>
+                    <p>This option allows you to override the default session store configuration, and is passed to the session store package.</p>
+                    <p>It is required when using the <code class="default-value">connect-mongostore</code> store.</p>
+                    <div class="code-header">
+                      <h4>Example for connect-mongostore</h4>
+                    </div>
+                    <pre><code class="language-javascript">"sessionStore": {
+  "db": {
+    "name": "myDb",
+    "servers": [
+      { "host": "192.168.1.100", "port": 28001 },
+      { "host": "192.168.1.100", "port": 28002 },
+      { "host": "192.168.1.101", "port": 27017 }
+    ]
+  }
+}</code></pre>
+                    <div class="code-header">
+                      <h4>Example for connect-redis</h4>
+                    </div>
+                    <pre><code class="language-javascript">"sessionStore": {
+  "host": "", // Redis server hostname
+  "port": "", // Redis server port
+  "ttl": "", // Redis session TTL in seconds
+  "db": "", // Database index to use
+  "pass": "", // Password for Redis authentication
+  "prefix": "", // Key prefix defaulting to "sess:"
+  "url": "", // e.g. redis://user:pass@host:port/db
+}</code></pre>
                   </td>
                 </tr>
                 <tr>
