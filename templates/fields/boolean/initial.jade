@@ -1,7 +1,7 @@
 .field.type-boolean
 	.field-ui(class=field.indent ? 'field-indented' : false)
 		label(for=field.path).checkbox
-			input(type='checkbox', name=field.path, id=field.path, value='true', checked=(item[field.path] == 'true'))
+			input(type='checkbox', name=field.path, id=field.path, value='true', checked=(item[field.path] === 'true' || field.options.default === true))
 			=' ' + field.label
 		if field.note
 			.field-note !{field.note}
