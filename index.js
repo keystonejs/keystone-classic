@@ -500,43 +500,58 @@ Keystone.prototype.mount = function(mountPath, parentApp, events) {
 	var sessionStore = this.get('session store');
 
 	if (sessionStore) {
-		var sessionStoreOptions = this.get('session store options');
+		
+		var sessionStoreOptions = this.get('session store options') || {};
+		
+		_.defaults(sessionStoreOptions, {
+			collection: 'app_sessions'
+		});
 
 		// Perform any session store specific configuration or exit on an unsupported session store
+		
 		switch (sessionStore) {
+			case 'mongo':
+				// default session store for using MongoDB
+				sessionStore = 'connect-mongo';
+				
 			case 'connect-mongo':
-				if (!sessionStoreOptions) {
-					sessionStoreOptions = {
-						url: this.get('mongo'),
-						collection: 'app_sessions'
-					};
-				}
+				_.defaults(sessionStoreOptions, {
+					url: this.get('mongo')
+				});
 				break;
 
 			case 'connect-mongostore':
-				if (!sessionStoreOptions) {
-					console.error('\nERROR: ' + sessionStore + ' requires `session store options`.\n');
+				if (!sessionStoreOptions.db) {
+					console.error(
+						'\nERROR: ' + sessionStore + ' requires `session store options` to be set.' +
+						'\n' +
+						'\nSee http://localhost:8080/docs/configuration#options-database for details.' +
+					'\n');
 					process.exit(1);
 				}
 				break;
 
 			default:
-				console.error('\nERROR: unsupported session store ' + sessionStore + '.\n');
+				console.error(
+						'\nERROR: unsupported session store ' + sessionStore + '.' +
+						'\n' +
+						'\nSee http://localhost:8080/docs/configuration#options-database for details.' +
+					'\n');
 				process.exit(1);
 				break;
 		}
 
 		// Initialize the session store
 		try {
-			var MongoStore = require(sessionStore)(express);
-			sessionOptions.store = new MongoStore(sessionStoreOptions);
+			var _SessionStore = require(sessionStore)(express);
+			sessionOptions.store = new _SessionStore(sessionStoreOptions);
 		} catch(e) {
 			if (e.code == 'MODULE_NOT_FOUND') {
 				console.error(
 					'\nERROR: ' + sessionStore + ' not found.\n' +
 					'\nPlease install ' + sessionStore + ' from npm to use it as a `session store` option.' +
-					'\nYou can do this by running "npm install ' + sessionStore + ' --save".\n'
-				);
+					'\nYou can do this by running "npm install ' + sessionStore + ' --save".' +
+				'\n');
 				process.exit(1);
 			} else {
 				throw e;
