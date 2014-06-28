@@ -1,6 +1,6 @@
 # Keystone
 
-## v0.2.22 / TBC
+## v0.2.22 / 2014-06-29
 
 * fixed; autokey being added with a unique index when not specified as unique, thanks [trentmillar](https://github.com/trentmillar)
 * fixed; "bullet-proof" buttons in the email template were breaking because of a b/c in Jade 1.x, thanks [Heracles Kasimis](https://github.com/heracleskasimis)
@@ -8,6 +8,14 @@
 * added; new localfiles field type, thanks [Tom Kremer](https://github.com/TomKremer)
 * added; new `file limit` option, passed to `express.limit` middleware, thanks [Fabrizio Fortunato](izifortune)
 * added; errorMessage option for `UpdateHandler.process()`, thanks [Heracles Kasimis](https://github.com/heracleskasimis)
+* added; support for `connect-mongostore` to support MongoDB replica sets as the session store database, thanks [Abe](https://github.com/coldfire22x)
+* added; support for Redis as a session store via `connect-redis`
+* fixed; boolean fields with `default: true` are now checked when creating new items, thanks [Aleksandr](https://github.com/amurchick)
+* updated; `less-middleware` is now updated to version `1.0.3` (new API)
+
+With this release, `connect-mongo` has been removed from Keystone's `package.json` and all three supported session store packages are optional. If you specify one, be sure to include it as a dependency in your project's `package.json` (Keystone will warn you on startup if you haven't).
+
+Because of the way **npm** resolved paths, if you are using Keystone in development mode (via `npm link`) *and* using a session store, you have to `npm install <session-store>` in your local Keystone folder as well or it won't find the package.
 
 ## v0.2.21 / 2014-06-16
 
