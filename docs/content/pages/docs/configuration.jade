@@ -212,16 +212,18 @@ block content
 						ul
 							li <code class="default-value">mongo</code> (or <code class="default-value">connect-mongo</code>)
 							li <code class="default-value">connect-mongostore</code> (supports replica sets, but requires explicit configuration - see below)
+							li <code class="default-value">connect-redis</code>
 						p.note Session store packages are not bundled with Keystone, so make sure you explicitly add the selected session store to your project's <code>package.json</code>.
 				tr
 					td <code>session store options</code> <code class="data-type">Object</code>
 					td
 						p This option allows you to override the default session store configuration, and is passed to the session store package.
 						p It is required when using the <code class="default-value">connect-mongostore</code> store.
+						
+						.code-header
+							h4 Example for connect-mongostore
 						pre: code.language-javascript
-							| // Example for connect-mongostore
 							| "sessionStore": {
-							|   "collection": "app_sessions",
 							|   "db": {
 							|     "name": "myDb",
 							|     "servers": [
@@ -230,6 +232,19 @@ block content
 							|       { "host": "192.168.1.101", "port": 27017 }
 							|     ]
 							|   }
+							| }
+							
+						.code-header
+							h4 Example for connect-redis
+						pre: code.language-javascript
+							| "sessionStore": {
+							|   "host": "", // Redis server hostname
+							|   "port": "", // Redis server port
+							|   "ttl": "", // Redis session TTL in seconds
+							|   "db": "", // Database index to use
+							|   "pass": "", // Password for Redis authentication
+							|   "prefix": "", // Key prefix defaulting to "sess:"
+							|   "url": "", // e.g. redis://user:pass@host:port/db
 							| }
 				tr
 					td <code>back url</code> <code class="data-type">String</code>
