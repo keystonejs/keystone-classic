@@ -20,7 +20,7 @@ app.set('views', 'content/pages');
 app.set('view engine', 'jade');
 
 app.use(express.favicon('public/favicon.ico'));
-app.use(require('less-middleware')({ src: 'public' }));
+app.use(require('less-middleware')('public'));
 app.use(express.static('public'));
 
 app.use(express.logger('dev'));
