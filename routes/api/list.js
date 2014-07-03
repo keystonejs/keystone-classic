@@ -102,7 +102,15 @@ exports = module.exports = function(req, res) {
 				}
 			}
 
-			req.list.model.find(null, null, opts).exec(function(err, item) {
+			if (req.query.filter) {
+				var filter = {};
+				req.query.filter.split(',').map(function(param) {
+					var elems = param.split(':');
+					filter[elems[0]] = elems[1];
+				});
+			};
+
+			req.list.model.find(filter || null, null, opts).exec(function(err, item) {
 
 				if(err) return sendError('database error', err);
 				if (!item) return sendResponse({ name: req.query.id, id: req.query.id });
