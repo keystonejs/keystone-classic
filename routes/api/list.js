@@ -99,7 +99,7 @@ exports = module.exports = function(req, res) {
 				opts = {
 					skip: per_page * (page - 1),
 					limit: per_page * (page - 1)
-				}
+				};
 			}
 
 			if (req.query.filter) {
@@ -108,7 +108,7 @@ exports = module.exports = function(req, res) {
 					var elems = param.split(':');
 					filter[elems[0]] = elems[1];
 				});
-			};
+			}
 
 			req.list.model.find(filter || null, null, opts).exec(function(err, item) {
 
