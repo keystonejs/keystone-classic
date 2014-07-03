@@ -92,9 +92,19 @@ exports = module.exports = function(req, res) {
 		
 		case 'getAll':
 
-			req.list.model.find().exec(function(err, item) {
+			var opts = {};
+			if(req.query.page || req.query.per_page) {
+				var page = parseInt(req.query.page) || 1;
+				var per_page = parseInt(req.query.per_page) || 10;
+				opts = {
+					skip: per_page * (page - 1),
+					limit: per_page * (page - 1)
+				}
+			}
 
-				if (err) return sendError('database error', err);
+			req.list.model.find(null, null, opts).exec(function(err, item) {
+
+				if(err) return sendError('database error', err);
 				if (!item) return sendResponse({ name: req.query.id, id: req.query.id });
 
 				switch (req.query.dataset) {
