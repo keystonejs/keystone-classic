@@ -233,7 +233,7 @@ Keystone.prototype.get = Keystone.prototype.set;
  */
 
 Keystone.prototype.getPath = function(key, defaultValue) {
-	var pathValue = keystone.get(key) || defaultValue;
+	var pathValue = this.get(key) || defaultValue;
 	pathValue = ('string' === typeof pathValue && pathValue.substr(0,1) !== path.sep && pathValue.substr(1,2) !== ':\\')
 		? path.join(moduleRoot, pathValue)
 		: pathValue;
@@ -295,7 +295,7 @@ Keystone.prototype.prefixModel = function (key) {
 		key = modelPrefix + '_' + key;
 	
 	return require('mongoose/lib/utils').toCollectionName(key);
-}
+};
 
 /* Attach core functionality to Keystone.prototype */
 Keystone.prototype.init = require('./lib/core/init');
@@ -419,7 +419,7 @@ Keystone.prototype.routes = function(app) {
 	// Cloudinary API for image uploading (only if Cloudinary is configured)
 	if (keystone.get('wysiwyg cloudinary images')) {
 		if (!keystone.get('cloudinary config')) {
-			throw new Error("KeystoneJS Initialisaton Error:\n\nTo use wysiwyg cloudinary images, the 'cloudinary config' setting must be configured.\n\n");
+			throw new Error('KeystoneJS Initialisaton Error:\n\nTo use wysiwyg cloudinary images, the \'cloudinary config\' setting must be configured.\n\n');
 		}
 		app.post('/keystone/api/cloudinary/upload', require('./routes/api/cloudinary').upload);
 	}
@@ -544,7 +544,7 @@ Keystone.prototype.importer = function(rel__dirname) {
 				// only import .js files
 				var parts = name.split('.');
 				var ext = parts.pop();
-				if (ext == 'js' || ext == 'coffee') {
+				if (ext === 'js' || ext === 'coffee') {
 					imported[parts.join('-')] = require(path.join(rel__dirname, from, name));
 				}
 			}
@@ -650,8 +650,7 @@ Keystone.prototype.applyUpdates = function(callback) {
 
 Keystone.prototype.render = function(req, res, view, ext) {
 	
-	var keystone = this,
-		template = templateCache[view];
+	var keystone = this;
 		
 	var templatePath = __dirname + '/templates/views/' + view + '.jade';
 	
@@ -776,9 +775,9 @@ Keystone.prototype.populateRelated = function(docs, relationships, callback) {
  */
 
 Keystone.prototype.wrapHTMLError = function(title, err) {
-	return "<html><head><meta charset='utf-8'><title>Error</title>" +
-	"<link rel='stylesheet' href='/keystone/styles/error.css'>" +
-	"</head><body><div class='error'><h1 class='error-title'>" + title + "</h1>" + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
+	return '<html><head><meta charset=\'utf-8\'><title>Error</title>' +
+	'<link rel=\'stylesheet\' href=\'/keystone/styles/error.css\'>' +
+	'</head><body><div class=\'error\'><h1 class=\'error-title\'>' + title + '</h1>' + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
 };
 
 /**
