@@ -137,7 +137,7 @@ exports = module.exports = function(req, res) {
 			req.flash('error', 'There was a problem with your request, please try again.');
 		}
 		return pass;
-	}
+	};
 	
 	var item;
 	if ('update' in req.query) {
