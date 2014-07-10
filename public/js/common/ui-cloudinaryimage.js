@@ -87,7 +87,7 @@ jQuery(function($) {
 		$deleteBtn.click(function(e) {
 			e.preventDefault();
 			// Action
-			if (e.altKey) {
+			if (e.altKey && $deleteBtn.data('default-action') === 'remove') {
 				$action.val('delete');
 				action = 'delete';
 			} else {
