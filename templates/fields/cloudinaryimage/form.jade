@@ -34,9 +34,9 @@
 						.alert.alert-danger
 			.image-toolbar
 				div.pull-left
-					a(href=js).btn.btn-default.btn-upload-image= ( hasImage ? 'Change' : 'Upload' ) + ' Image'
-					a(href=js, data-alt-text='Delete Image', style=( hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image
-					a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-image Cancel Upload
+					a(href=js).btn.btn-default.btn-upload-image= (hasImage ? 'Change' : 'Upload') + ' Image'
+					a(href=js, data-alt-text='Delete Image', style=(hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image
+					a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-cancel-image Cancel Upload
 					a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-image Undo Remove
 		if field.note
 			.field-note!= field.note
