@@ -291,7 +291,7 @@ block content
 									.filter-input.filter-input-md: select(name='value')
 										option(value='')
 										each op in field.ops
-											option(value=op.value, selected=ops.value == op.value)= op.label
+											option(value=op.value, selected=field.options.default == op.value)= op.label
 								
 								//- Boolean
 								if field.type == 'boolean'

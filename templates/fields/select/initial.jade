@@ -5,6 +5,6 @@
 			if field.emptyOption
 				option(value='')
 			each opt in field.ops
-				option(value=opt.value, selected=(item[field.path] == opt.value))= opt.label
+				option(value=opt.value, selected=(field.options.default == opt.value))= opt.label
 		if field.note
 			.field-note!= field.note
