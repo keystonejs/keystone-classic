@@ -6,17 +6,21 @@ var keystone = require('../').init(),
 /** Test List and Fields */
 
 var Test = keystone.List('Test');
+var item;
+
+before(function() {
 
 Test.add({
 	date: Types.Date,
-	datetime: Types.Datetime
+	datetime: Types.Datetime,
+	bool: Types.Boolean
 });
 
 Test.register();
-
 /** Test Item */
 
-var item = new Test.model();
+item = new Test.model();
+});
 
 /** FieldType: Date */
 
@@ -35,6 +39,28 @@ describe("Fields", function() {
 		it('should be a moment object', function() {
 			demand(item._.date.moment()._isAMomentObject);
 		});
+
+	});
+	describe("Boolean", function() {
+
+		it('should update it\'s model if data passed is boolean true', function() {
+			Test.fields.bool.updateItem(item, {
+				'bool': true
+			});
+			demand(item.bool).to.be.true();
+
+		});
+
+       		it('should update it\'s  model if data passed is string \'true\'', function() {
+			Test.fields.bool.updateItem(item, {
+				'bool': 'true'
+			});
+			demand(item.bool).to.be.true();
+
+		});
+
+
+
 
 	});
 });
