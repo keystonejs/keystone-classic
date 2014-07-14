@@ -104,10 +104,10 @@ block content
 						p The default local variables to pass to your view templates.
 						p Routes can extend or change local variables by modifying <code>res.locals</code>.
 				tr
-					td <code>static</code> <code class="data-type">Array</code>
+					td <code>static</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
 					td
-						p The array of paths to your application's static files. Setting this will include the <code>express.static</code> middleware.
-						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">['/public']</code>.
+						p One or more paths to your application's static files. Setting this will include the <code>express.static</code> middleware.
+						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">'public'</code>.
 				tr
 					td <code>less</code> <code class="data-type">String</code>
 					td
