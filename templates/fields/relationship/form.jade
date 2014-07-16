@@ -24,7 +24,7 @@ else
 					data-ref-path=refList.path,
 					data-ref-singular=refList.singular,
 					data-ref-plural=refList.plural).ui-select2-ref
-				if !field.many && item.get(field.path)
-					a(href='/keystone/' + refList.path + '/' + item.get(field.path), style='margin-left: 10px;').btn.btn-link.btn-goto-linked-item view #{refList.singular.toLowerCase()}
+				if !field.many
+					a(href='/keystone/' + refList.path + '/' + item.get(field.path), style='margin-left: 10px;' + (!item.get(field.path) ? 'display: none' : '')).btn.btn-link.btn-goto-linked-item view #{refList.singular.toLowerCase()}
 			if field.note
 				.field-note!= field.note

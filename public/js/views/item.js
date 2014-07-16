@@ -198,43 +198,6 @@ jQuery(function($) {
 		
 	});
 	
-	$('.field.type-relationship input[data-ref-filters]').each(function() {
-		
-		var $input = $(this),
-			$field = $input.closest('.field'),
-			data = $input.data(),
-			depChanged = false;
-		
-		_.each(data.refFilters, function(value, key) {
-			
-			if (value.substr(0,1) != ':') {
-				return;
-			}
-			
-			var $related = $('#field_' + value.substr(1)),
-				relatedData = $related.data();
-			
-			var trigger = function(msg) {
-				depChanged = true;
-				$field.find('.field-ui').hide();
-				$field.find('.field-message').append('<span>' + msg + '</span>').show();
-				$input.val('');
-			}
-			
-			if (!$related.val() && !depChanged) {
-				trigger('Please select a ' + relatedData.refSingular + ' and save before selecting a ' + data.refSingular + '.');
-			} else {
-				$related.on('change.dependency.' + $input.attr('id'), function(e) {
-					if (!depChanged) {
-						trigger(relatedData.refSingular + ' has changed. Please save to select a ' + data.refSingular + '.');
-					}
-				});
-			}
-			
-		});
-		
-	});
-	
 	$('.btn-change-password').click(function(e) {
 		
 		var $field = $(this).closest('.field');

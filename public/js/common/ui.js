@@ -71,6 +71,7 @@ jQuery(function($) {
 		
 		var multi = el.data('refMany'),
 			refPath = el.data('refPath'),
+			refFilters = el.data('refFilters'),
 			label = {
 				singular: el.data('refSingular'),
 				plural: el.data('refPlural')
@@ -96,10 +97,21 @@ jQuery(function($) {
 				dataType: 'json',
 				quietMillis: 500,
 				data: function(term, page) {
+					var filters, $related;
+					if (refFilters) {
+						filters = {};
+						_.each(refFilters, function(value, key) {
+							if(value.substr(0,1) == ':') {
+								$related = $('input#field_' + value.substr(1));
+								filters[key] = $related.val();
+							}
+						});
+					}
 					return _.extend({
 						q: term, //search term
 						limit: perPage, // page size
-						page: page // page number, tracked by select2, one-based
+						page: page, // page number, tracked by select2, one-based
+						filters: filters // reference filters
 					}, args);
 				},
 				results: function(data, page) {
@@ -135,10 +147,66 @@ jQuery(function($) {
 			formatSelection: function(i) { return i.name },
 			escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
 		});
-		
+
+		if (!multi) {
+			el.on('change', function(e) {
+				var $this = $(this),
+					$gotoLink = $this.next('a.btn-goto-linked-item'),
+					val = $this.select2('val');
+
+				if (val == '') {
+					$gotoLink.hide();
+				} else {
+					$gotoLink.attr('href','/keystone/' + refPath + '/' + val);
+					$gotoLink.show();
+				}
+			});
+		}
 		
 	});
 	
+	$('.field.type-relationship input[data-ref-filters]').each(function() {
+
+		var $input = $(this),
+			data = $input.data(),
+			$inputs2 = $input.siblings('#s2id_' + $input.attr('id'));
+
+		_.each(data.refFilters, function(value, key) {
+
+			if (value.substr(0,1) != ':') {
+				return;
+			}
+
+			var $related = $('#field_' + value.substr(1)),
+				relatedData = $related.data();
+
+			var checkRelated = function(msg) {
+				var $message = $input.siblings('.field-message');
+				if ($related.val() == '') {
+					$inputs2.hide();
+					$message.html('<span>Please select a ' + relatedData.refSingular + ' before selecting a ' + data.refSingular + '.</span>').show();
+				} else {
+					$inputs2.show();
+					$message.hide();
+				}
+			}
+
+			checkRelated();
+
+			$related.on('change.dependency.' + $input.attr('id'), function(e) {
+				var $gotoLink = $input.next('a.btn-goto-linked-item');
+
+				checkRelated();
+
+				$inputs2.select2('val', '');
+				$input.val('');
+				$gotoLink.hide();
+			});
+
+		});
+
+	});
+
 	$('.btn.autoclick').each(function() {
 		var $btn = $(this);
 		setTimeout(function() {

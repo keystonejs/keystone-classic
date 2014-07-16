@@ -74,14 +74,11 @@ exports = module.exports = function(req, res) {
 					return doQuery();
 				}
 
-				srcList.model.findById(req.query.item, function(err, item) {
-
-					if (err) return sendError('database error', err);
-
-					field.addFilters(query, item);
-					return doQuery();
-
+				_.each(req.query.filters, function(value, key) {
+					query.where(key).equals(value ? value : null);
+					count.where(key).equals(value ? value : null);
 				});
+				return doQuery();
 
 			} else {
 				return doQuery();
