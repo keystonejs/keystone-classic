@@ -174,8 +174,9 @@ block content
 					//- lg screens only
 					//- columns and download aren't relevant when using a mobile device
 					.pull-right.hidden-xs
-						.pull-right
-							a(href=download_link).btn.btn-default Download
+						if items.total
+							.pull-right
+								a(href=download_link, data-confirm="Download a .csv of #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural).toLowerCase()}?").btn.btn-default Download
 						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
 							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 								| Columns 
