@@ -302,7 +302,7 @@ h4 {
 	margin-top: 10px;
 
 	&.list-header {
-		//border-bottom: 0 none;
+		border-bottom: 0 none;
 		padding-bottom: 0;
 	}
 
@@ -651,18 +651,10 @@ h3.relationship-heading {
 // --------------------------------------------------
 
 .items-list {
-	tr:nth-child(odd) {
-		> td {
-			background-color: @table-bg-accent;
-		}
-    }
-
-	thead > tr > th,
-	tbody > tr > th,
-	tfoot > tr > th {
+	thead > tr > th {
+		border-bottom: 2px solid @table-border-color;
 		padding: @table-cell-padding;
 		text-align: left;
-		// font-size: @font-size-large;
 	}
 
 	thead > tr > td,
@@ -671,6 +663,7 @@ h3.relationship-heading {
 		background-color: white;
 		border-top: 1px solid #e5e5e5;
 		line-height: 1;
+		height: 2.5em; // behaves like min-height on table cells
 	}
 
 	tr.delete-hover {
