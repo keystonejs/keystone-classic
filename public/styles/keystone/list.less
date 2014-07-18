@@ -56,11 +56,14 @@
 // Searching
 // --------------------------------------------------
 .list-toolbar {
-	// margin-top: 15px;
-	padding-bottom: 20px;
 	.clearfix();
+	padding-bottom: 20px;
+
+	// force align with input fields
+	.btn { height: @input-height-base; }
 }
 .search-list {
+	float: left;
 	
 	form {
 		margin-bottom: 0;
@@ -71,6 +74,7 @@
 	}
 	.search-field {
 		display: inline-block;
+		position: relative;
 		vertical-align: middle;
 		width: 200px;
 	}
@@ -80,6 +84,7 @@
 	.search-list-clear {
 		color: @gray-light;
 		font-weight: bold;
+		line-height: 1.3;
 		position: absolute;
 		padding: @padding-base-vertical @padding-base-horizontal;
 		top: 0;
@@ -102,6 +107,9 @@
 		}
 	}
 	
+}
+.searchbox-form {
+	.inline-align();
 }
 
 
@@ -169,6 +177,8 @@
 	}
 	
 	.list-filters-action {
+		border-bottom: 1px solid @gray-lighter;
+		padding-bottom: 20px;
 		margin: 20px 0;
 	}
 	

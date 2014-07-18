@@ -22,7 +22,8 @@ html
 	body(id='page-' + page)
 		#wrap
 			nav(role='navigation')#header.navbar.navbar-default.navbar-static-top: .container
-				a(href=backUrl).navbar-backtobrand.hidden-xs: span.ion-arrow-left-c
+				a(href=backUrl).navbar-backtobrand-trigger.hidden-xs: span.ion-arrow-left-c
+				.navbar-backtobrand-message Back to the #{brand} website
 				.navbar-header
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-headernav-collapse')
 						span.sr-only Toggle section navigation
@@ -31,7 +32,6 @@ html
 						span.icon-bar
 					if section.lists && section.lists.length > 1
 						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
-
 					else
 						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
 				.collapse.navbar-collapse.navbar-headernav-collapse

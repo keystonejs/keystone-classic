@@ -75,12 +75,16 @@ h4 {
 	background-color: @navbar-keystone-bg;
 	border: 0 none;
 
-	.navbar-backtobrand {
+	.navbar-backtobrand-trigger {
 		color: @navbar-keystone-link-color;
 
 		&:hover {
 			color: @navbar-keystone-link-hover-color;
 		}
+	}
+	.navbar-backtobrand-message {
+		background-color: @navbar-keystone-bg;
+		color: @navbar-keystone-brand-color;
 	}
 
 	.navbar-brand {
@@ -302,7 +306,7 @@ h4 {
 	margin-top: 10px;
 
 	&.list-header {
-		//border-bottom: 0 none;
+		border-bottom: 0 none;
 		padding-bottom: 0;
 	}
 
@@ -319,20 +323,43 @@ h4 {
 	}
 }
 
-//
-// No Items
-// --------------------------------------------------
-.empty-list {
 
+
+// No Items
+// ------------------------------
+
+.empty-list {
 	margin: 50px 0 30px;
 	color: @gray-light;
-
 }
 
 
-//
+
+// Dropdowns
+// ------------------------------
+
+.dropdown-inline {
+	display: inline-block;
+	position: relative;
+}
+.dropdown-menu {
+	max-height: 400px;
+	overflow-y: auto;
+
+	// return spacing to the bottom after max-height crops the padding
+	> li:last-child {
+		margin-bottom: 5px;
+	}
+}
+.dropdown-header:not(:first-child) {
+	margin-top: 1em;
+}
+
+
+
 // Pagination
-// --------------------------------------------------
+// ------------------------------
+
 .pagination {
 	> li {
 		display: inline; // Remove list-style and block-level defaults
@@ -531,13 +558,22 @@ h3.relationship-heading {
 
 // add little depth to the default button
 .btn-default {
-	.box-shadow( ~"inset 0 0 0 1px white, 0 1px 0 rgba(0,0,0,0.04)" );
-	#gradient .vertical( #fff, #fafafa, 30%, 100% );
+	#gradient .vertical(#fefefe, #f3f3f3);
+	border-color: #ddd #ccc #bbb;
 
-	.open &,
+	&:hover,
+	&:focus {
+		#gradient .vertical(#fff, #f9f9f9);
+		border-color: #ccc #bbb #aaa;
+		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	}
+
 	&:active,
+	.open &,
 	&.active {
-		.box-shadow(inset 0 1px 2px rgba(0,0,0,.175));
+		background: #eee;
+		border-color: #bbb #ccc #ddd;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,.125);
 	}
 }
 
@@ -632,18 +668,10 @@ h3.relationship-heading {
 // --------------------------------------------------
 
 .items-list {
-	tr:nth-child(odd) {
-		> td {
-			background-color: @table-bg-accent;
-		}
-    }
-
-	thead > tr > th,
-	tbody > tr > th,
-	tfoot > tr > th {
+	thead > tr > th {
+		border-bottom: 2px solid @table-border-color;
 		padding: @table-cell-padding;
 		text-align: left;
-		font-size: @font-size-large;
 	}
 
 	thead > tr > td,
@@ -652,6 +680,7 @@ h3.relationship-heading {
 		background-color: white;
 		border-top: 1px solid #e5e5e5;
 		line-height: 1;
+		height: 2.5em; // behaves like min-height on table cells
 	}
 
 	tr.delete-hover {

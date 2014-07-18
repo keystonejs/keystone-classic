@@ -14,10 +14,10 @@ block content
 			each navSection in nav.sections
 				.nav-section
 					h4= navSection.label
-					each list in navSection.lists
-						h3: a(href='/keystone/' + list.path)= list.label
+					ul: each list in navSection.lists
+						li: a(href='/keystone/' + list.path)= list.label
 			if orphanedLists.length
 				.nav-section
 					h4 Other
-					each list in orphanedLists
-						h3: a(href='/keystone/' + list.path)= list.label
+					ul: each list in orphanedLists
+						li: a(href='/keystone/' + list.path)= list.label

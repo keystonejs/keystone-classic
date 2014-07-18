@@ -2,14 +2,32 @@
 // BUTTONS
 // --------------------------------------------------
 
+
+// Alternate button styles
+.btn-primary {
+	.button-version(@btn-primary-color; @btn-primary-bg; @btn-primary-bg);
+}
+.btn-success {
+	.button-version(@btn-success-color; @btn-success-bg; @btn-success-bg);
+}
+.btn-warning {
+	.button-version(@btn-warning-color; @btn-warning-bg; @btn-warning-bg);
+}
+.btn-danger {
+	.button-version(@btn-danger-color; @btn-danger-bg; @btn-danger-bg);
+}
+
 // Add some horizontal spacing between inline buttons
+
 .btn + .btn {
   margin-left: 5px;
   
   &.btn-block { margin-left: 0; }
 }
 
+
 // ... except in .btn-groups
+
 .btn-group {
   .btn + .btn {
     margin-left: -1px;
@@ -18,6 +36,7 @@
 
 
 // Contextual emphasis
+
 .btn-link {
 	&.text-muted          { color: @text-muted; }
 	&.text-primary        { color: @brand-primary; }
