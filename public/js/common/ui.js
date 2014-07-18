@@ -1,14 +1,15 @@
 jQuery(function($) {
 	
-	var brand = $('#header .navbar-brand').text();
+	// show hide the "back to website" message in the navbar
 	
-	$('.navbar-backtobrand').mouseenter(function(e) {
-		$('.navbar-headernav-collapse').addClass('navbar-headernav-hide');
-		$('.navbar-brand').text('Back to the ' + brand + ' website');
+	$('.navbar-backtobrand-trigger').mouseenter(function(e) {
+		$('.navbar-backtobrand-message').addClass('active');
 	}).mouseleave(function() {
-		$('.navbar-headernav-collapse').removeClass('navbar-headernav-hide');
-		$('.navbar-brand').text(brand);
+		$('.navbar-backtobrand-message').removeClass('active');
 	});
+
+
+	// generic confirm
 	
 	$('a[data-confirm]').click(function(e) {
 		if (!confirm($(this).data().confirm)) {
