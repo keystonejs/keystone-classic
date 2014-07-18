@@ -146,12 +146,14 @@ block content
 				.list-toolbar
 					.search-list.pull-left
 						.form-inline
-							.dropdown.list-filter-dropdown.dropdown-recent.hidden.inline-block
-								a(href=js, data-toggle='dropdown', title='Recent Searches').btn.btn-default.dropdown-toggle
-									span.sr-only Recent Searches
+							.dropdown.list-filter-dropdown.js-recent-searches.hidden.inline-block
+								a(href=js, data-toggle='dropdown', title='Recent Filters').btn.btn-default.dropdown-toggle
+									span.sr-only Recent Filters
 									span.ion-clock
+									|  
+									span.caret
 								ul.dropdown-menu
-									li Searches go here
+									li.dropdown-header Recent Filters
 							.search-field
 								input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search)#list-search.form-control
 								if search
@@ -173,27 +175,27 @@ block content
 					
 					//- lg screens only
 					//- columns and download aren't relevant when using a mobile device
-					.pull-right.hidden-xs
-						if items.total
+					if items.total
+						.pull-right.hidden-xs
 							.pull-right
 								a(href=download_link, data-confirm="Download a .csv of #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural).toLowerCase()}?").btn.btn-default Download
-						div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
-							a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
-								| Columns 
-								b.caret
-							ul.dropdown-menu
-								each el in list.uiElements
-									if el.type == 'heading'
-										li.dropdown-header= el.heading
-									else if el.type == 'field' && !el.field.nocol && !el.field.hidden
-										li: a(href=js, data-col=el.field.path).btn-toggle-column
-											span(class=_.contains(colPaths, el.field.path) ? 'ion-checkmark' : '').icon
-											span= el.field.label
-								if query.cols
-									li.divider
-									li: a(href=link_to({ cols: undefined }))
-										span.ion-close.icon
-										span Reset to default
+							div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
+								a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+									| Columns 
+									b.caret
+								ul.dropdown-menu
+									each el in list.uiElements
+										if el.type == 'heading'
+											li.dropdown-header= el.heading
+										else if el.type == 'field' && !el.field.nocol && !el.field.hidden
+											li: a(href=js, data-col=el.field.path).btn-toggle-column
+												span(class=_.contains(colPaths, el.field.path) ? 'ion-checkmark' : '').icon
+												span= el.field.label
+									if query.cols
+										li.divider
+										li: a(href=link_to({ cols: undefined }))
+											span.ion-close.icon
+											span Reset to default
 			
 			
 			//-

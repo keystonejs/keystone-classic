@@ -103,7 +103,7 @@ jQuery(function($) {
 		
 		var querystring = querystringUtil.parse(document.location.search.replace('?', ''));
 		var recentSearches;
-		var $searchDropdown = $('.dropdown-recent');
+		var $searchDropdown = $('.js-recent-searches');
 		var $searches = $searchDropdown.find('ul');
 		var key = 'keystone-recentsearches-' + Keystone.list.path;
 
@@ -132,12 +132,13 @@ jQuery(function($) {
 		if (recentSearches.length !== 0) {
 			recentSearches.forEach(function(recentSearch){
 				var filter = queryfilterUtil.QueryFilters.create(recentSearch);
+				var readablefilter = filter.toHumanString().replace(/([A-Z])/g, ' $1').toLowerCase(); // separate camel cased words
 				var querystring = querystringUtil.parse(document.location.search.replace('?', ''));
 				querystring.q = recentSearch;
 				querystring = querystringUtil.stringify(querystring);
 				$('<a>', {
 					href: '?' + querystring,
-					text: filter.toHumanString()
+					text: readablefilter.charAt(0).toUpperCase() + readablefilter.slice(1)
 				}).appendTo($('<li>').appendTo($searches));
 			});
 			$searchDropdown.removeClass('hidden');
