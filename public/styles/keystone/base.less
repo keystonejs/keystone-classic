@@ -21,9 +21,13 @@
 	.container {
 		position: relative;
 	}
-	.navbar-headernav-hide {
-		display: none !important;
-		visbility: hidden !important;
+	.back-helper {
+		display: none;
+		color: @navbar-keystone-brand-color;
+		padding: 15px 15px;
+		font-size: 16px;
+		margin-left: -15px;
+		line-height: 20px;
 	}
 
 	// back arrow
@@ -44,6 +48,19 @@
 	&:hover .navbar-backtobrand {
 		.opacity(100);
 		// display: block;
+	}
+	
+	.navbar-backtobrand {
+		&:hover ~ .navbar-collapse {
+			visibility: hidden !important;
+			display: none !important;
+		}
+		&:hover ~ .navbar-header {
+			display: none !important;
+		}
+		&:hover ~ .back-helper {
+			display: inline-block;
+		}
 	}
 }
 

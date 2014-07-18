@@ -2,14 +2,6 @@ jQuery(function($) {
 	
 	var brand = $('#header .navbar-brand').text();
 	
-	$('.navbar-backtobrand').mouseenter(function(e) {
-		$('.navbar-headernav-collapse').addClass('navbar-headernav-hide');
-		$('.navbar-brand').text('Back to the ' + brand + ' website');
-	}).mouseleave(function() {
-		$('.navbar-headernav-collapse').removeClass('navbar-headernav-hide');
-		$('.navbar-brand').text(brand);
-	});
-	
 	$('a[data-confirm]').click(function(e) {
 		if (!confirm($(this).data().confirm)) {
 			e.preventDefault();
