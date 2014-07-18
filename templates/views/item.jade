@@ -47,40 +47,40 @@ block js
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 
 block intro
-	.page-header.item-header: .row
-		.col-sm-6
-			a(href=js, title='Search #{list.plural}').btn.btn-default.pull-left.search-open
-				span.sr-only Search #{list.plural}
-				span.ion-search
-			form(method='get', action='/keystone/' + list.path).form-inline.search-form
-				.field-inline--lg
-					input(name='search', placeholder='Search #{list.plural}').form-control
-				button(type='submit').btn.btn-default Search
-				button(type='button').btn.btn-link.btn-cancel.search-close cancel
-			.btn-companion.breadcrumb-wrapper: ul.breadcrumb
-				if drilldown
-					each d in drilldown.items
-						if d.items
-							li
-								each di, i in d.items
-									a(href=di.href, title=d.list.singular, data-toggle='tooltip', data-placement='top')= di.label
-									if i < d.items.length - 1
-										span , 
-							if d.more
-								li: span  ... 
-						else
-							li: a(href=d.href, title=d.list.singular, data-toggle='tooltip', data-placement='top') #{d.label}
+	.item-toolbar.item-toolbar--header
+		ul.item-breadcrumbs
+			li: a(href=js, title='Search #{list.plural}').js-itemsearch-open: span.ion-search
+			if drilldown && drilldown.items.length
+				each d in drilldown.items
+					if d.items
+						li
+							each di, i in d.items
+								a(href=di.href, title=d.list.singular)= di.label
+								if i < d.items.length - 1
+									span , 
+						if d.more
+							li: span  ... 
+					else
+						li: a(href=d.href, title=d.list.singular) #{d.label}
 				li
-					a(href='/keystone/' + list.path, title='Back to ' + list.plural, data-toggle='tooltip', data-placement='top') #{list.label}
-		.col-sm-6: .item-id: .btn-companion.pr-0
-			if list.autokey && item.get(list.autokey.path)
-				span(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
+					a(href='/keystone/' + list.path, title='Back to ' + list.plural) #{list.label}
 			else
-				| id: #{item.id}
-			if (!list.get('nocreate'))
-				.btn-group.visible-md.visible-lg.pull-right(style='margin-left:20px')
-					a.btn.btn-default.btn-xs(href='/keystone/#{list.path}?new' + csrf_query) new #{list.singular.toLowerCase()}
-					//- a.btn.btn-default.btn-xs(href='/keystone/#{list.path}/#{item.id}?duplicate') duplicate
+				li: a(href='/keystone/' + list.path, title='Back to ' + list.plural)
+					span.mr-5.ion-arrow-left-c
+					= list.plural
+		.searchbox
+			form(method='get', action='/keystone/' + list.path).form-inline.searchbox-form
+				.searchbox-field: input(type='search', name='search', placeholder='Search #{list.plural}').form-control.searchbox-input
+				.searchbox-button: button(type='submit').btn.btn-default.searchbox-submit Search
+				button(type='button').btn.btn-link.btn-cancel.js-itemsearch-close Cancel
+		ul.item-toolbar-info
+			if list.autokey && item.get(list.autokey.path)
+				li(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
+			else
+				li id: #{item.id}
+			li: a(href='/keystone/#{list.path}?new' + csrf_query)
+				span.mr-5.ion-plus
+				| New #{list.singular}
 			
 block content
 	form(method='post', enctype='multipart/form-data').item-details

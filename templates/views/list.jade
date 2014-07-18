@@ -144,9 +144,9 @@ block content
 			//- ------------------------------
 			if items.results.length || search || xFilters
 				.list-toolbar
-					.search-list.pull-left
+					.search-list
 						.form-inline
-							.dropdown.list-filter-dropdown.js-recent-searches.hidden.inline-block
+							.dropdown-inline.list-filter-dropdown.js-recent-searches.hidden.mr-5
 								a(href=js, data-toggle='dropdown', title='Recent Filters').btn.btn-default.dropdown-toggle
 									span.sr-only Recent Filters
 									span.ion-clock
@@ -154,14 +154,20 @@ block content
 									span.caret
 								ul.dropdown-menu
 									li.dropdown-header Recent Filters
-							.search-field
-								input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search)#list-search.form-control
-								if search
-									a(href='/keystone/#{list.path}').search-list-clear &times;
-							span.search-button: button(type='submit').btn.btn-default.btn-search
+							.form-inline.searchbox-form.mr-5
+								.searchbox-field
+									input(type='search', name='search', placeholder='Search #{list.plural.toLowerCase()}', value=search).form-control.js-search-list.searchbox-input
+									if search
+										a(href='/keystone/#{list.path}', title='Clear search').search-list-clear &times;
+								.searchbox-button: button(type='submit').btn.btn-default.btn-search.searchbox-submit
+									span.visible-xs Go
+									span.hidden-xs Search
+							//- .search-field
+								input(type='text', name='search', placeholder='Search ' + list.plural.toLowerCase(), value=search).form-control
+							//- span.search-button: button(type='submit').btn.btn-default.btn-search
 								span.visible-xs Go
 								span.hidden-xs Search
-							.dropdown.list-filter-dropdown(style='display:inline-block')
+							.dropdown-inline.list-filter-dropdown
 								a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
 									| Add Filter 
 									b.caret

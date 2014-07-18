@@ -1,0 +1,110 @@
+
+
+
+
+
+// Toolbar
+// ------------------------------
+
+.item-toolbar {
+	.clearfix();
+	color: @gray-light;
+}
+
+
+// Toolbar lists
+
+.item-breadcrumbs,
+.item-toolbar-info {
+	.list-unstyled();
+
+	> li {
+		.inline-align();
+		padding: 0 9px;
+		
+		&+li:before {
+			content: "\00B7";
+			display: inline-block;
+			left: -10px;
+			position: relative;
+		}
+	}
+
+	a {
+		display: inline-block;
+		padding-bottom: @padding-base-vertical;
+		padding-top: @padding-base-vertical;
+
+		// enlarge hit area
+		margin-left: -9px;
+		margin-right: -9px;
+		padding-left: 9px;
+		padding-right: 9px;
+	}
+}
+
+
+// Breadcrumbs
+
+.item-breadcrumbs {
+	float: left;
+
+}
+
+
+// Info
+
+.item-toolbar-info {
+	clear: left;
+}
+
+
+// Search form
+
+.searchbox {
+	display: none;
+	float: left;
+}
+.searchbox-form {
+	.clearfix();
+}
+.searchbox-field {
+	float: left;
+	position: relative;
+	width: 20em;
+
+	> input {
+		.border-right-radius(0);
+	}
+}
+.searchbox-button {
+	float: left;
+
+	> button {
+		.border-left-radius(0);
+		height: @input-height-base;
+		margin-left: -1px;
+	}
+}
+.searchbox-submit {
+	.transition( background 200ms linear );
+}
+
+
+
+
+// Responsive
+// ------------------------------
+
+
+// tablets, desktops and laptops
+
+@media (min-width: @screen-sm) {
+	.item-toolbar {
+		height: @input-height-base; // stop any jumping around when the form is revealed
+	}
+	.item-toolbar-info {
+		clear: none;
+		float: right;
+	}
+}

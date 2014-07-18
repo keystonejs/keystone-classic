@@ -163,3 +163,46 @@
 		display: none;
 	}
 }
+
+
+
+
+
+// Button versions
+// -------------------------
+
+// alternative to bootstrap's "button-variant"
+
+.button-version(@color; @background; @border) {
+	#gradient .vertical( lighten(@background, 5%), darken(@background, 5%) );
+	background-color: @background;
+	border-color: lighten(@background, 5%) @border darken(@background, 10%);
+	border-radius: @border-radius-base;
+	color: @color;
+
+	&:hover,
+	&:focus,
+	&:active,
+	&.active,
+	.open .dropdown-toggle& {
+		background-color: darken(@background, 8%);
+		border-color: darken(@border, 8%);
+		color: @color;
+	}
+	&:active,
+	&.active,
+	.open .dropdown-toggle& {
+		background-image: none;
+	}
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		&,
+		&:hover,
+		&:focus,
+		&:active,
+		&.active {
+			background-color: @background;
+		}
+	}
+}

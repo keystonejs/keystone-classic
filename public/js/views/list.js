@@ -183,7 +183,7 @@ jQuery(function($) {
 		e.preventDefault();
 		
 		var filterQueryString = [],
-			search = $(this).find('#list-search').val(),
+			search = $(this).find('.js-search-list').val(),
 			cancelled = false;
 		
 		$(this).find('.filter.active').each(function() {
