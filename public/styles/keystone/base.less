@@ -55,14 +55,32 @@
 }
 
 //
-// Typography
+// Dashboard lists
 // --------------------------------------------------
+
+.keystone-lists {
+	display: flex;
+	flex-wrap: wrap;
+}
 .nav-section {
-	margin-bottom: 30px;
+	flex-basis: 100%;
+	margin-bottom: 2em;
 
 	h3 {
 		font-weight: normal;
 	}
+	ul {
+		.list-unstyled();
+		line-height: 2em;
+	}
+	li {
+		font-size: 1.8em;
+		margin-bottom: .66em;
+	}
+
+	@media (min-width: @screen-sm) { flex-basis: 50%; }
+	@media (min-width: @screen-md) { flex-basis: 33%; }
+	@media (min-width: @screen-lg) { flex-basis: 25%; }
 }
 
 //
