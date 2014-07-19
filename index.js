@@ -171,8 +171,9 @@ Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.mount = require('./lib/core/mount');
 Keystone.prototype.routes = require('./lib/core/routes');
 Keystone.prototype.static = require('./lib/core/static');
-Keystone.prototype.bindEmailTestRoutes = require('./lib/core/bindEmailTestRoutes');
 Keystone.prototype.createItems = require('./lib/core/createItems');
+Keystone.prototype.redirect = require('./lib/core/redirect');
+Keystone.prototype.bindEmailTestRoutes = require('./lib/core/bindEmailTestRoutes');
 
 
 /**
@@ -194,33 +195,6 @@ keystone.Email = require('./lib/email');
 
 var security = keystone.security = {
 	csrf: require('./lib/security/csrf')
-};
-
-
-/**
- * Adds one or more redirections (urls that are redirected when no matching
- * routes are found, before treating the request as a 404)
- *
- * #### Example:
- * 		keystone.redirect('/old-route', 'new-route');
- *
- * 		// or
- *
- * 		keystone.redirect({
- * 			'old-route': 'new-route'
- * 		});
- */
-
-Keystone.prototype.redirect = function() {
-	
-	if (arguments.length === 1 && utils.isObject(arguments[0])) {
-		_.extend(this._redirects, arguments[0]);
-	} else if (arguments.length === 2 && 'string' === typeof arguments[0] && 'string' === typeof arguments[1]) {
-		this._redirects[arguments[0]] = arguments[1];
-	}
-	
-	return this;
-	
 };
 
 
