@@ -170,6 +170,7 @@ Keystone.prototype.initNav = require('./lib/core/initNav');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.mount = require('./lib/core/mount');
 Keystone.prototype.routes = require('./lib/core/routes');
+Keystone.prototype.static = require('./lib/core/static');
 Keystone.prototype.createItems = require('./lib/core/createItems');
 
 
@@ -192,25 +193,6 @@ keystone.Email = require('./lib/email');
 
 var security = keystone.security = {
 	csrf: require('./lib/security/csrf')
-};
-
-
-/**
- * Adds bindings for keystone static resources
- * Can be included before other middleware (e.g. session management, logging, etc) for
- * reduced overhead
- *
- * @param {Express()} app
- * @api public
- */
-
-Keystone.prototype.static = function(app) {
-	
-	app.use('/keystone', require('less-middleware')(__dirname + path.sep + 'public'));
-	app.use('/keystone', express.static(__dirname + path.sep + 'public'));
-	
-	return this;
-	
 };
 
 
