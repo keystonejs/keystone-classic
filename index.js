@@ -100,7 +100,7 @@ var Keystone = function() {
 		this.set('cloudinary config', true);
 	}
 	
-	// Attach middleware modules
+	// Attach middleware packages, bound to this instance
 	this.initAPI = require('./lib/middleware/initAPI')(this);
 	
 };
