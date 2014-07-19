@@ -171,6 +171,7 @@ Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.mount = require('./lib/core/mount');
 Keystone.prototype.routes = require('./lib/core/routes');
 Keystone.prototype.static = require('./lib/core/static');
+Keystone.prototype.bindEmailTestRoutes = require('./lib/core/bindEmailTestRoutes');
 Keystone.prototype.createItems = require('./lib/core/createItems');
 
 
@@ -193,50 +194,6 @@ keystone.Email = require('./lib/email');
 
 var security = keystone.security = {
 	csrf: require('./lib/security/csrf')
-};
-
-
-Keystone.prototype.bindEmailTestRoutes = function(app, emails) {
-	
-	var keystone = this;
-	
-	var handleError = function(req, res, err) {
-		if (res.err) {
-			res.err(err);
-		} else {
-			// TODO: Nicer default error handler
-			res.status(500).send(JSON.stringify(err));
-		}
-	};
-	
-	// TODO: Index of email tests, and custom email test 404's (currently bounces to list 404)
-	
-	_.each(emails, function(vars, key) {
-		
-		var render = function(err, req, res, locals) {
-			new keystone.Email(key).render(locals, function(err, email) {
-				if (err) {
-					handleError(req, res, err);
-				} else {
-					res.send(email.html);
-				}
-			});
-		};
-		
-		app.get('/keystone/test-email/' + key, function(req, res) {
-			if ('function' === typeof vars) {
-				vars(req, res, function(err, locals) {
-					render(err, req, res, locals);
-				});
-			} else {
-				render(null, req, res, vars);
-			}
-		});
-		
-	});
-	
-	return this;
-	
 };
 
 
