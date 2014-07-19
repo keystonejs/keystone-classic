@@ -1,6 +1,7 @@
 extends ../layout/base
 
-include ../mixins/columns
+include ../mixins/rows
+include ../mixins/pagination
 
 block css
 	if list.fieldTypes.markdown
@@ -21,8 +22,14 @@ block js
 	script(src='/keystone/js/lib/browserified/querystring.js')
 	script(src='/keystone/js/lib/browserified/queryfilter.js')
 	script.
-		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)} };
+		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)}, perPage: !{ Number(list.perPage) || 50 } };
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
+		Keystone.items = !{ JSON.stringify(items) };
+		Keystone.search = "#{search}";
+		Keystone.filters = !{ JSON.stringify(filters) };
+		Keystone.sort = "#{sort.by}";
+		Keystone.query = "#{query}";
+		Keystone.csrf_query = "!{csrf_query}";
 			
 block content
 	//-
@@ -71,67 +78,69 @@ block content
 	.page-header.list-header(class=!items.total && !search && !xFilters ? 'empty-list' : '')
 		h1
 			if items.total
-				span= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
+				span.items-total= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
 			else
-				span No #{list.plural.toLowerCase()} found
+				span.items-total No #{list.plural.toLowerCase()} found
 					= search || xFilters ? '' : '.'
-			if search
-				span.text-muted  matching 
-				span=search
-				if xFilters
-					span.text-muted  and
-					span= utils.plural(xFilters, ' * other filter')
-			else if xFilters
-				span.text-muted  matching 
-				span= utils.plural(xFilters, ' * filter')
+
+			.search-sort(style='display:inline-block')
+				if search
+					span.text-muted  matching 
+					span=search
+					if xFilters
+						span.text-muted  and
+						span= utils.plural(xFilters, ' * other filter')
+				else if xFilters
+					span.text-muted  matching 
+					span= utils.plural(xFilters, ' * filter')
 			
-			//- Sort
-			if items.results.length
-				if sort.by
-					span.text-muted  ordered by&nbsp;
-				else
-					span.text-muted &mdash;
-				span.dropdown.list-sort-dropdown
-					a(href=js, data-toggle='dropdown').dropdown-toggle
-						if sort.label
-							=  sort.label.toLowerCase() + ' '
-							if sort.inv
-								|  (descending)
-						else
-							| sort by
-						b.caret
-					ul.dropdown-menu
-						if list.get('sortable')
-							if sort.by == 'sortOrder'
-								li: a(href=link_to({sort: '-sortOrder'}))
-									span(class='fieldicon fieldicon-sort')
-									span Display Order (inverted)
-							else if sort.by == '-sortOrder'
-								li: a(href=link_to({sort: 'sortOrder'}))
-									span(class='fieldicon fieldicon-sort')
-									span Display Order (normal)
+				//- Sort
+				if items.results.length
+					if sort.by
+						span.text-muted  ordered by&nbsp;
+					else
+						span.text-muted &mdash;
+					span.dropdown.list-sort-dropdown
+						a(href=js, data-toggle='dropdown').dropdown-toggle
+							if sort.label
+								=  sort.label.toLowerCase() + ' '
+								if sort.inv
+									|  (descending)
 							else
-								li: a(href=link_to({sort: 'sortOrder'}))
-									span(class='fieldicon fieldicon-sort')
-									span Display Order
-						each el in list.uiElements
-							if el.type == 'heading'
-								li.dropdown-header= el.heading
-							else if el.type == 'field'
-								if el.field.type != 'relationship' && !el.field.nosort && !el.field.hidden
-									if sort.field && sort.field.path == el.field.path
-										if sort.inv
+								| sort by
+							b.caret
+						ul.dropdown-menu
+							if list.get('sortable')
+								if sort.by == 'sortOrder'
+									li: a(href=link_to({sort: '-sortOrder'}))
+										span(class='fieldicon fieldicon-sort')
+										span Display Order (inverted)
+								else if sort.by == '-sortOrder'
+									li: a(href=link_to({sort: 'sortOrder'}))
+										span(class='fieldicon fieldicon-sort')
+										span Display Order (normal)
+								else
+									li: a(href=link_to({sort: 'sortOrder'}))
+										span(class='fieldicon fieldicon-sort')
+										span Display Order
+							each el in list.uiElements
+								if el.type == 'heading'
+									li.dropdown-header= el.heading
+								else if el.type == 'field'
+									if el.field.type != 'relationship' && !el.field.nosort && !el.field.hidden
+										if sort.field && sort.field.path == el.field.path
+											if sort.inv
+												li: a(href=link_to({ sort: el.field.path }))
+													span(class='fieldicon fieldicon-' + el.field.type)
+													span= el.field.label + ' (ascending)'
+											else
+												li: a(href=link_to({ sort: '-' + el.field.path }))
+													span(class='fieldicon fieldicon-' + el.field.type)
+													span= el.field.label + ' (descending)'
+										else
 											li: a(href=link_to({ sort: el.field.path }))
 												span(class='fieldicon fieldicon-' + el.field.type)
-												span= el.field.label + ' (ascending)'
-										else
-											li: a(href=link_to({ sort: '-' + el.field.path }))
-												span(class='fieldicon fieldicon-' + el.field.type)
-												span= el.field.label + ' (descending)'
-									else
-										li: a(href=link_to({ sort: el.field.path }))
-											span(class='fieldicon fieldicon-' + el.field.type)
-											span= el.field.label
+												span= el.field.label
 		
 		
 		//-
@@ -370,10 +379,7 @@ block content
 		
 		.list-pagination
 			if items.totalPages > 1
-				.count Showing #{items.first} to #{items.last} of #{numeral(items.total).format('1,1')}
-				ul.pagination: each p, i in items.pages
-					li(class=items.currentPage == p ? 'active' : null)
-						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
+				+pagination(items)
 			else
 				.count Showing #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)}
 		
@@ -409,19 +415,9 @@ block content
 								= col.label
 			tbody
 				each item in items.results
-					tr(id=item.id)
-						if !list.get('nodelete')
-							td.control: a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query).control-delete
-						if sortable
-							td.control: a(href=js).control-sort
-						each col, i in columns
-							td
-								+column(list, col, item)
+					+row(list, colums, item)
 								
 		if items.totalPages > 1
 			.list-pagination
-				.count Showing #{items.first} to #{items.last} of #{numeral(items.total).format('1,1')}
-				ul.pagination: each p, i in items.pages
-					li(class=items.currentPage == p ? 'active' : null)
-						a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
+				+pagination(items)
 	

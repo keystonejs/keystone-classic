@@ -1,0 +1,5 @@
+mixin pagination(items)
+  .count Showing #{items.first} to #{items.last} of #{items.total}
+  ul.pagination: each p, i in items.pages
+    li(class=items.currentPage == p ? 'active' : null)
+      a(href=(p == '...' ? link_to({page: (i ? items.totalPages : 1)}) : link_to({page: p})))= p
