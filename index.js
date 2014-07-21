@@ -148,6 +148,7 @@ Keystone.prototype.static = require('./lib/core/static');
 Keystone.prototype.importer = require('./lib/core/importer');
 Keystone.prototype.createItems = require('./lib/core/createItems');
 Keystone.prototype.redirect = require('./lib/core/redirect');
+Keystone.prototype.list = require('./lib/core/list');
 Keystone.prototype.bindEmailTestRoutes = require('./lib/core/bindEmailTestRoutes');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
@@ -217,20 +218,6 @@ Keystone.prototype.import = function(dirname) {
 	};
 	
 	return doImport(initialPath);
-};
-
-
-/**
- * Registers or retrieves a list
- */
-
-Keystone.prototype.list = function(list) {
-	if (list && list.constructor === keystone.List) {
-		this.lists[list.key] = list;
-		this.paths[list.path] = list.key;
-		return list;
-	}
-	return this.lists[list] || this.lists[this.paths[list]];
 };
 
 
