@@ -149,6 +149,7 @@ Keystone.prototype.importer = require('./lib/core/importer');
 Keystone.prototype.createItems = require('./lib/core/createItems');
 Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.list = require('./lib/core/list');
+Keystone.prototype.getOrphanedLists = require('./lib/core/getOrphanedLists');
 Keystone.prototype.bindEmailTestRoutes = require('./lib/core/bindEmailTestRoutes');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
@@ -218,21 +219,6 @@ Keystone.prototype.import = function(dirname) {
 	};
 	
 	return doImport(initialPath);
-};
-
-
-/**
- * Retrieves orphaned lists (those not in a nav section)
- */
-
-Keystone.prototype.getOrphanedLists = function() {
-	if (!this.nav) {
-		return [];
-	}
-	return _.filter(this.lists, function(list, key) {
-		if (list.get('hidden')) return false;
-		return (!keystone.nav.by.list[key]) ? list : false;
-	});
 };
 
 
