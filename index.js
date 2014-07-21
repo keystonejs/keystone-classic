@@ -128,33 +128,6 @@ Keystone.prototype.pre = function(event, fn) {
 };
 
 
-/**
- * Connects keystone to the application's mongoose instance.
- *
- * ####Example:
- *
- *     var mongoose = require('mongoose');
- *
- *     keystone.connect(mongoose);
- *
- * @param {Object} connections
- * @api public
- */
-
-Keystone.prototype.connect = function() {
-	// detect type of each argument
-	for (var i = 0; i < arguments.length; i++) {
-		if (arguments[i].constructor.name === 'Mongoose') {
-			// detected Mongoose
-			this.mongoose = arguments[i];
-		} else if (arguments[i].name === 'app') {
-			// detected Express app
-			this.app = arguments[i];
-		}
-	}
-	return this;
-};
-
 Keystone.prototype.prefixModel = function (key) {
 	var modelPrefix = this.get('model prefix');
 	
@@ -167,6 +140,7 @@ Keystone.prototype.prefixModel = function (key) {
 /* Attach core functionality to Keystone.prototype */
 Keystone.prototype.init = require('./lib/core/init');
 Keystone.prototype.initNav = require('./lib/core/initNav');
+Keystone.prototype.connect = require('./lib/core/connect');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.mount = require('./lib/core/mount');
 Keystone.prototype.routes = require('./lib/core/routes');
