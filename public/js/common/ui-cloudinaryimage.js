@@ -87,12 +87,12 @@ jQuery(function($) {
 		$deleteBtn.click(function(e) {
 			e.preventDefault();
 			// Action
-			if (e.altKey && $deleteBtn.data('default-action') === 'remove') {
-				$action.val('delete');
-				action = 'delete';
+			if (e.altKey) {
+				$action.val($deleteBtn.data('alt-action'));
+				action = $deleteBtn.data('alt-action') === 'delete' ? 'delete' : 'remove';
 			} else {
-				$action.val('reset');
-				action = 'remove';
+				$action.val($deleteBtn.data('default-action'));
+				action = $deleteBtn.data('default-action') === 'delete' ? 'delete' : 'remove';
 			}
 			// Details
 			$imageValues.hide();
