@@ -149,6 +149,7 @@ Keystone.prototype.importer = require('./lib/core/importer');
 Keystone.prototype.createItems = require('./lib/core/createItems');
 Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.bindEmailTestRoutes = require('./lib/core/bindEmailTestRoutes');
+Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
 
 /**
@@ -381,18 +382,6 @@ Keystone.prototype.populateRelated = function(docs, relationships, callback) {
 		callback();
 	}
 
-};
-
-/**
- * Wraps an error in simple HTML to be sent as a response to the browser
- *
- * @api public
- */
-
-Keystone.prototype.wrapHTMLError = function(title, err) {
-	return '<html><head><meta charset=\'utf-8\'><title>Error</title>' +
-	'<link rel=\'stylesheet\' href=\'/keystone/styles/error.css\'>' +
-	'</head><body><div class=\'error\'><h1 class=\'error-title\'>' + title + '</h1>' + "<div class='error-message'>" + (err || '') + "</div></div></body></html>";
 };
 
 /**
