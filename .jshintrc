@@ -1,9 +1,8 @@
 {
   "bitwise": true,
-  "camelcase": true,
+  "camelcase": false,
   "curly": false,  /* custom */
   "eqeqeq": true,
-  "es3": true,
   "forin": true,
   "freeze": true,
   "immed": true,
