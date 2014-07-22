@@ -277,17 +277,19 @@ jQuery(function($) {
 	});
 	
 	/** List Controls */
-	
-	$('a.control-delete').hover(function() {
-		$(this).closest('tr').addClass('delete-hover');
-	}, function() {
-		$(this).closest('tr').removeClass('delete-hover');
-	}).click(function(e) {
+	$('table.items-list tbody').on('mouseenter mouseleave', 'tr a.control-delete', function(e) {
+		if (e.type == 'mouseenter') {
+			$(this).closest('tr').addClass('delete-hover');
+		} else {
+			$(this).closest('tr').removeClass('delete-hover');
+		}
+	}).on('click', 'tr a.control-delete', function(e) {
 		e.preventDefault();
 		if (!confirm('Are you sure you want to delete this ' + Keystone.list.singular.toLowerCase() + '?')) {
 			return false;
 		}
-		var $row = $(this).closest('tr');
+		var $row = $(this).closest('tr'), 
+			$table = $(this).closest('table');
 		$row.addClass('delete-inprogress');
 		var onError = function(err) {
 			if (err && err.responseJSON) {
@@ -307,7 +309,66 @@ jQuery(function($) {
 			dataType: 'json'
 		}).done(function(rtn) {
 			if (rtn.success) {
+				// decrement total
+				Keystone.items.total--;
+				Keystone.items.totalPages = Math.ceil(Keystone.items.total / Keystone.list.perPage);
+
+				// update .list-header
+				if (!Keystone.items.total) {
+					$('.page-header.list-header').addClass('empty-list');
+					$('.items-total').text('No ' + Keystone.list.plural.toLowerCase() + ' found.');
+					$('.search-sort').remove();
+					$('form#list-filters').remove();
+					$('.list-pagination').remove();
+					$('.items-list-wrapper').remove();
+					return;
+				}
+
+				if (Keystone.items.currentPage > Keystone.items.totalPages) {
+					window.location.href = '/keystone/' + Keystone.list.path + '/' + Keystone.items.previous;
+					return;
+				}
+
 				$row.remove();
+
+				$('.items-total').text(Keystone.items.total + ' ' + (Keystone.items.total == 1 ? Keystone.list.singular : Keystone.list.plural));
+
+				// update .list-pagination
+				if (Keystone.items.totalPages == 1) {
+					$('.list-pagination .count').text('Showing ' + Keystone.items.total + ' ' + (Keystone.items.total == 1 ? Keystone.list.singular : Keystone.list.plural));
+				}
+				if (Keystone.items.totalPages > 1) {
+					if(Keystone.items.last > Keystone.items.total) {
+						Keystone.items.last = Keystone.items.total;
+						$('.list-pagination .count').text('Showing ' + Keystone.items.first + ' to ' + Keystone.items.last + ' of ' + Keystone.items.total);
+					} else {
+						$.ajax('/keystone/api/' + Keystone.list.path + '/fetch', {
+							data: Keystone.csrf({
+								items: { 
+									first: Keystone.items.first,
+									last: Keystone.items.last,
+									total: Keystone.items.total,
+									currentPage: Keystone.items.currentPage,
+									totalPages: Keystone.items.totalPages
+								},
+								search: Keystone.search,
+								filters: Keystone.filters,
+								cols: Keystone.list.cols,
+								sort: Keystone.sort,
+								csrf_query: Keystone.csrf_query,
+								q: Keystone.query
+							}),
+							dataType: 'json'
+						}).done(function(rtn) {
+							if (rtn.success) {
+								$table.append(rtn.row);
+								$('.list-pagination').html(rtn.pagination);
+							} else {
+								onError(rtn);
+							}
+						}).error(onError);
+					}
+				}
 			} else {
 				onError(rtn);
 			}
