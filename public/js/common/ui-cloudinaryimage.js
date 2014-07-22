@@ -16,7 +16,8 @@ jQuery(function($) {
 			$undoBtn = $el.find('.btn-undo-image');
 			
 		var $uploadQueued = $el.find('.upload-queued'),
-			$deleteQueued = $el.find('.delete-queued');
+			$deleteQueued = $el.find('.delete-queued'),
+			$selectQueued = $el.find('.select-queued');
 		
 		var $deletePending = $el.find('.delete-pending');
 		
@@ -24,6 +25,8 @@ jQuery(function($) {
 			$imagePreview = $image.find('.image-preview.current'),
 			$imageDetails = $image.find('.image-details'),
 			$imageValues = $image.find('.image-values');
+
+		var $select2Input = $el.find('.ui-select2-cloudinary');
 		
 		var action = false;
 		
@@ -34,10 +37,53 @@ jQuery(function($) {
 		var removeNewImage = function() {
 			$el.find('.image-preview.new').remove();
 		};
+
+		var removeSelectImage = function() {
+			$el.find('.image-preview.select').remove();
+		};
+
+		var clearSelect = function() {
+			$select2Input.siblings('.select2-container').select2('val', '', true);
+			// $select2Input.val('');
+		};
+
+		var checkExistingImage = function() {
+			if (data.fieldValue) {
+				// Show it
+				$imagePreview.show();
+				// If we've got a pending remove/delete
+				if (action) {
+					// Show the undo button
+					$undoBtn.show();
+					// Messages
+					$deleteQueued.show();
+				} else {
+					// Make sure the undo button is hidden
+					$undoBtn.hide();
+					// Show delete button
+					$deleteBtn.show();
+					// Show image values
+					$imageValues.show();
+				}
+			} else {
+				// Otherwise if we aren't deleting anything yet
+				if (!action) {
+					// Hide the delete button
+					$deleteBtn.hide();
+				} else {
+					// Or make sure it's visiboe
+					$deleteBtn.show();
+				}
+				// Make sure upload button references no current image
+				$uploadBtn.html('Upload Image');
+			}			
+		};
 		
 		$upload.change(function(e) {
 			var imageSelected = $(this).val() ? true : false;
 			var renderPlaceholder = function() {
+				// Cloud selection
+				clearSelect();
 				// Image
 				$imagePreview.hide();
 				$imageValues.hide();
@@ -141,33 +187,7 @@ jQuery(function($) {
 			// Erase selected image
 			$upload.val('');
 			// If we have an image already
-			if (data.fieldValue) {
-				// Show it
-				$imagePreview.show();
-				// If we've got a pending remove/delete
-				if (action) {
-					// Show the undo button
-					$undoBtn.show();
-				} else {
-					// Make sure the undo button is hidden
-					$undoBtn.hide();
-					// Show delete button
-					$deleteBtn.show();
-					// Show image values
-					$imageValues.show();
-				}
-			} else {
-				// Otherwise if we aren't deleting anything yet
-				if (!action) {
-					// Hide the delete button
-					$deleteBtn.hide();
-				} else {
-					// Or make sure it's visiboe
-					$deleteBtn.show();
-				}
-				// Make sure upload button references no current image
-				$uploadBtn.html('Upload Image');
-			}
+			checkExistingImage();
 			// Hide the cancel upload button
 			$cancelBtn.hide();
 			// Hide queued upload message
@@ -188,6 +208,133 @@ jQuery(function($) {
 				}
 			});
 		}
+
+		$select2Input.each(function(i, el) {
+			
+			el = $(el), query = '';
+
+			var perPage = 10,
+				args = {
+					context: 'cloudinary',
+					list: Keystone.list.path,
+					field: el.attr('name'),
+					prefix: el.data('prefix'),
+				},
+				cursors;
+			
+			if (Keystone.item) {
+				args.item = Keystone.item.id;
+			}
+			
+			el.select2({
+				placeholder: 'Search for an image from Cloudinary ...',
+				allowClear: true,
+				multiple: false,
+				width: "60%",
+				loadMorePadding: 100,
+				ajax: { 
+					url: '/keystone/api/cloudinary/autocomplete',
+					dataType: 'json',
+					quietMillis: 500,
+					data: function(term, page) {
+						query = term;
+
+						if (page == 1) {
+							cursors = [ null ]
+						};
+
+						return _.extend({
+							q: term, //search term
+							max: perPage, // page size
+							page: page, // page number, tracked by select2, one-based
+							next: cursors[page - 1]
+						}, args);
+					},
+					results: function(data, page) {
+						var more = !!data.next, items = [];
+						if (more) {
+							cursors.push(data.next);
+						}
+
+						$.each(data.items, function(){
+							if(query.length == 0 || this.public_id.toLowerCase().indexOf(query.toLowerCase()) >= 0 ){
+								items.push(this);
+							}
+						});
+	 
+						return { results: items, more: more };
+					}
+				},
+				id: function(item){ return item.public_id; },
+				initSelection: function(element, callback) {
+					var id = $(element).val();
+					if (id !== '') {
+						$.ajax('/keystone/api/cloudinary/get', {
+							data: { id: id },
+							dataType: 'json'
+						}).done(function(result) {
+							callback({
+								id: result.id,
+								text: result.id
+							});							
+						});
+					}
+				},
+				formatResult: function(item) { return item.public_id; },
+				formatSelection: function(item) { return item.public_id; },
+				escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+			});
+
+			el.on('change', function(e) {
+				var select2data, imageWrapper, $newImage;
+
+				if (e.val === '') {
+					removeSelectImage();
+					$selectQueued.hide();
+					checkExistingImage();
+					return;
+				}
+
+				if ($el.find('.image-preview.current').length) {
+					// Image
+					$imagePreview.hide();
+					$imageValues.hide();
+					// Messages
+					$uploadQueued.hide();
+					// Buttons
+					$undoBtn.hide();
+					$deleteBtn.hide();
+					$cancelBtn.hide();
+				}
+
+				if ($el.find('.image-preview.new').length) {
+					// Image
+					removeNewImage();
+					// Data
+					$upload.val('');
+					// Messages
+					$uploadQueued.hide();
+					$cancelBtn.hide();
+				}
+
+				if ($el.find('.image-preview.select').length) {
+					removeSelectImage();
+				}
+
+				select2data = el.select2('data');
+				imageWrapper = '<div class="image-preview select">' +
+					'<div class="img-thumbnail placeholder-wrap"></div><div class="ion-cloud upload-pending"></div>' +
+					'</div>';
+				$newImage = $('<img class="placeholder" />').attr('src', select2data.url);
+
+				$newImage.on('load', function() {
+					$(imageWrapper).prependTo($image).find('.img-thumbnail').append($(this));
+					$selectQueued.show();
+				});
+
+			});
+
+		});
 		
 	});
 	

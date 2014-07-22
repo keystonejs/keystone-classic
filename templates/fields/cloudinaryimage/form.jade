@@ -30,6 +30,8 @@
 							.field-value= item.get(field.paths.width) + ' x ' + item.get(field.paths.height)
 					.upload-queued.pull-left
 						.alert.alert-success Image selected - save to upload
+					.select-queued.pull-left
+						.alert.alert-success Image selected from Cloudinary
 					.delete-queued.pull-left
 						.alert.alert-danger
 			.image-toolbar
@@ -41,5 +43,13 @@
 						a(href=js, data-alt-text='Delete Image', data-default-action='reset', data-alt-action='delete', style=(hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image
 					a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-cancel-image Cancel Upload
 					a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-image Undo Remove
+				if field.options.select
+					.image-select
+						input(type='hidden',
+							name=field.path + '_select',
+							id='field_' + field.path + '_select',
+							data-prefix=(field.options.selectPrefix ? field.options.selectPrefix : item.get(field.paths.folder)),
+							data-ref-filters=field.filters).ui-select2-cloudinary
+
 		if field.note
 			.field-note!= field.note
