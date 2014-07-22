@@ -211,7 +211,7 @@ jQuery(function($) {
 
 		$select2Input.each(function(i, el) {
 			
-			el = $(el);
+			el = $(el), query = '';
 
 			var perPage = 10,
 				args = {
@@ -237,6 +237,8 @@ jQuery(function($) {
 					dataType: 'json',
 					quietMillis: 500,
 					data: function(term, page) {
+						query = term;
+
 						if (page == 1) {
 							cursors = [ null ]
 						};
@@ -249,17 +251,24 @@ jQuery(function($) {
 						}, args);
 					},
 					results: function(data, page) {
-						var more = !!data.next;
+						var more = !!data.next, items = [];
 						if (more) {
 							cursors.push(data.next);
 						}
-						return { results: data.items, more: more };
+
+						$.each(data.items, function(){
+							if(query.length == 0 || this.public_id.toLowerCase().indexOf(query.toLowerCase()) >= 0 ){
+								items.push(this);
+							}
+						});
+	 
+						return { results: items, more: more };
 					}
 				},
 				id: function(item){ return item.public_id; },
 				initSelection: function(element, callback) {
 					var id = $(element).val();
-        	if (id !== '') {
+					if (id !== '') {
 						$.ajax('/keystone/api/cloudinary/get', {
 							data: { id: id },
 							dataType: 'json'
