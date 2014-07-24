@@ -12,9 +12,14 @@ exports = module.exports = function(req, res) {
 	
 	var sort = { by: req.query.sort || req.list.defaultSort },
 		filters = req.list.processFilters(req.query.q),
+		cleanFilters = {},
 		queryFilters = req.list.getSearchFilters(req.query.search, filters),
 		columns = (req.query.cols) ? req.list.expandColumns(req.query.cols) : req.list.defaultColumns;
-		
+	
+	_.each(filters, function(filter, path) {
+		cleanFilters[path] = _.omit(filter, 'field');
+	});
+	
 	if (sort.by) {
 		
 		sort.inv = sort.by.charAt(0) === '-';
@@ -117,7 +122,7 @@ exports = module.exports = function(req, res) {
 					download_link: download_link,
 					list: req.list,
 					sort: sort,
-					filters: filters,
+					filters: cleanFilters,
 					search: req.query.search,
 					columns: columns,
 					colPaths: _.pluck(columns, 'path'),

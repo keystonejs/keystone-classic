@@ -231,8 +231,13 @@ jQuery(function($) {
 					case 'money':
 					case 'date':
 					case 'datetime':
-					case 'select':
 						if (value = parseValueWithType(data.type, $filter.find('input[name=value]').val())) {
+							queryFilter.value = value;
+						}
+						break;
+					
+					case 'select':
+						if (value = parseValueWithType(data.type, $filter.find('select[name=value]').val())) {
 							queryFilter.value = value;
 						}
 						break;
@@ -265,6 +270,7 @@ jQuery(function($) {
 			if (queryFilter.value != null) {
 				filterQueryString.push(queryFilter.toString());
 			}
+			
 		});
 		
 		if (cancelled === false) {
