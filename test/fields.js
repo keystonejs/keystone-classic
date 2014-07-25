@@ -5,62 +5,63 @@ var keystone = require('../').init(),
 
 /** Test List and Fields */
 
-var Test = keystone.List('Test');
-var item;
+var Test = keystone.List('Test'),
+	testItem;
 
 before(function() {
-
-Test.add({
-	date: Types.Date,
-	datetime: Types.Datetime,
-	bool: Types.Boolean
+	
+	// Create a Test List with all the field types that will be tested
+	
+	Test.add({
+		date: Types.Date,
+		datetime: Types.Datetime,
+		bool: Types.Boolean
+	});
+	
+	Test.register();
+	
+	// Create a new Test Item to run tests against
+	
+	testItem = new Test.model();
+	
 });
-
-Test.register();
-/** Test Item */
-
-item = new Test.model();
-});
-
-/** FieldType: Date */
 
 describe("Fields", function() {
+	
+	/** FieldType: Date */
 	describe("Date", function() {
-
+		
 		it('should parse without error via underscore date', function() {
-			item._.date.parse('20131204', 'YYYYMMDD');
+			testItem._.date.parse('20131204', 'YYYYMMDD');
 		});
-
+		
 		it('should be the date we expect', function() {
-			demand(item._.date.format()).to.equal('4th Dec 2013');
-			demand(item._.date.format('YYYYMMDD')).to.equal('20131204');
+			demand(testItem._.date.format()).to.equal('4th Dec 2013');
+			demand(testItem._.date.format('YYYYMMDD')).to.equal('20131204');
 		});
-
+		
 		it('should be a moment object', function() {
-			demand(item._.date.moment()._isAMomentObject);
+			demand(testItem._.date.moment()._isAMomentObject);
 		});
-
+		
 	});
+	
+	/** FieldType: Boolean */
 	describe("Boolean", function() {
-
+		
 		it('should update it\'s model if data passed is boolean true', function() {
-			Test.fields.bool.updateItem(item, {
+			Test.fields.bool.updateItem(testItem, {
 				'bool': true
 			});
-			demand(item.bool).to.be.true();
-
+			demand(testItem.bool).to.be.true();
 		});
-
-       		it('should update it\'s  model if data passed is string \'true\'', function() {
-			Test.fields.bool.updateItem(item, {
+		
+	   	it('should update it\'s  model if data passed is string \'true\'', function() {
+			Test.fields.bool.updateItem(testItem, {
 				'bool': 'true'
 			});
-			demand(item.bool).to.be.true();
-
+			demand(testItem.bool).to.be.true();
 		});
-
-
-
-
+	   	
 	});
 });
