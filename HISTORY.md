@@ -1,5 +1,15 @@
 # Keystone
 
+## v0.2.24 / 2014-07-25
+
+* fixed; issues saving location field values
+* fixed; filtering on select fields was broken in the Admin UI
+* added; list totals are recalculated after items are deleted, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* added; feature to select images from cloudinary, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; issues with field required / initial validation, thanks [Oleg Shparber](https://github.com/trollixx)
+* fixed; better handling of default / alt behaviour for remove / delete functionality with cloudinary fields
+
+
 ## v0.2.23 / 2014-07-20
 
 * improved; more Admin UI visual tweaks, thanks [Joss Mackison](https://github.com/JossMac)
