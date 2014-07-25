@@ -11,18 +11,15 @@ var Test = keystone.List('Test'),
 before(function() {
 	
 	// Create a Test List with all the field types that will be tested
-	
 	Test.add({
 		date: Types.Date,
 		datetime: Types.Datetime,
 		bool: Types.Boolean,
 		location: Types.Location
 	});
-	
 	Test.register();
 	
 	// Create a new Test Item to run tests against
-	
 	testItem = new Test.model();
 	
 });
@@ -69,7 +66,20 @@ describe("Fields", function() {
 	/** FieldType: Boolean */
 	describe("Location", function() {
 		
+		var emptyLocationValues = {
+			number: '',
+			name: '',
+			street1: '',
+			street2: '',
+			suburb: '',
+			state: '',
+			postcode: '',
+			country: '',
+			geo: []
+		};
+		
 		it('should update its value from flat paths', function() {
+			testItem.set('location', emptyLocationValues);
 			Test.fields.location.updateItem(testItem, {
 				'location.number': 'number',
 				'location.name': 'name',
@@ -96,6 +106,7 @@ describe("Fields", function() {
 		});
 		
 		it('should update its value from nested paths', function() {
+			testItem.set('location', emptyLocationValues);
 			Test.fields.location.updateItem(testItem, {
 				location: {
 					number: 'number',
@@ -120,6 +131,20 @@ describe("Fields", function() {
 			demand(Array.isArray(testItem.location.geo)).to.be.true();
 			demand(testItem.location.geo[0]).to.be(151.2099);
 			demand(testItem.location.geo[1]).to.be(-33.865143);
+		});
+		
+		it('should remove the location.geo path without valid values', function() {
+			testItem.set('location', emptyLocationValues);
+			Test.fields.location.updateItem(testItem, {
+				'location.geo': ['151.2099', '-33.865143']
+			});
+			demand(testItem.location.geo[0]).to.be(151.2099);
+			demand(testItem.location.geo[1]).to.be(-33.865143);
+			Test.fields.location.updateItem(testItem, {
+				'location.geo_lat': '',
+				'location.geo_lng': ''
+			});
+			demand(testItem.location.geo).to.be.undefined();
 		});
 		
 	});
