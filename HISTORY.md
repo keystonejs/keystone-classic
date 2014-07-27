@@ -1,5 +1,11 @@
 # Keystone
 
+## v0.2.25 / 2014-07-27
+
+* fixed; issue #492 - errors uploading to cloudinary fields, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; issues starting with SSL
+
+
 ## v0.2.24 / 2014-07-25
 
 * fixed; issues saving location field values
