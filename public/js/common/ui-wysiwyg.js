@@ -22,30 +22,49 @@ jQuery(function($) {
 	        toolbar += (' | ' + additionalButtons[i]);
 	    }
 	}
-
+    if (Keystone.wysiwyg.options.additionalPlugins) {
+        var additionalPlugins = Keystone.wysiwyg.options.additionalPlugins.split(',');
+        for (var i=0; i<additionalPlugins.length; i++) {
+            plugins.push(additionalPlugins[i]);
+        }
+    }
 	toolbar += ' | code';
 
-	//init editable wysiwygs
-	tinymce.init({
-		selector: 'textarea.wysiwyg',
-		menubar: false,
-		plugins: plugins,
-		toolbar: toolbar,
-		skin: 'keystone',
-		uploadimage_form_url: '/keystone/api/cloudinary/upload'
-	});
+    //init editable wysiwygs
+    var tinymceOptions = {
+        selector: 'textarea.wysiwyg',
+        menubar: false,
+        plugins: plugins,
+        toolbar: toolbar,
+        skin: 'keystone',
+        uploadimage_form_url: '/keystone/api/cloudinary/upload'
+    };
 
-	//init non-editable wysiwygs
-	tinymce.init({
-		selector: 'textarea.wysiwyg-noedit',
-		mode: 'textareas',
-		readonly: true,
-		menubar: false,
-		plugins: plugins,
-		toolbar: 'code',
-		statusbar: false,
-		skin: 'keystone'
-	});
+    if(Keystone.wysiwyg.options.additionalOptions){
+        $.extend(tinymceOptions,Keystone.wysiwyg.options.additionalOptions);
+    }
+
+    tinymce.init(tinymceOptions);
+
+    //init non-editable wysiwygs
+    var tinymceOptionsNonEditable = {
+        selector: 'textarea.wysiwyg-noedit',
+        mode: 'textareas',
+        readonly: true,
+        menubar: false,
+        plugins: plugins,
+        toolbar: 'code',
+        statusbar: false,
+        skin: 'keystone'
+    };
+
+    if(Keystone.wysiwyg.options.additionalOptions){
+        $.extend(tinymceOptionsNonEditable,Keystone.wysiwyg.options.additionalOptions);
+    }
+
+
+    tinymce.init(tinymceOptionsNonEditable);
+
 
 
 });
