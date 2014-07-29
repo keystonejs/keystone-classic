@@ -26,6 +26,7 @@ describe('auditMeta schemaPlugin', function() {
 	describe('testing when "audit meta" pattern is added', function() {
 		before(function() {
 			Test.addPattern('audit meta');
+			Test.register();
 		});
 
 		it('should have an auditMetaUpdate() method', function() {
@@ -48,32 +49,33 @@ describe('auditMeta schemaPlugin', function() {
 			demand(Test.mappings.modifiedBy).be('updatedBy');
 		});
 
-		describe('testing an item created from model', function() {
-			before(function() {
-				Test.register();
-				item = new Test.model({ name: 'test' });
+	});
+
+	describe('testing an item created from model', function() {
+		before(function() {
+			item = new Test.model({ name: 'test' });
+		});
+
+		it('should have an auditMetaUpdate() method', function() {
+			demand(item.auditMetaUpdate).be.a.function();
+		});
+		
+		describe('calling auditMetaUpdate(item, isNew, userId)', function() {
+
+			it('should update both createdBy and updatedBy when isNew = true', function() {
+				item.auditMetaUpdate(item, true, createdByUserId);
+				demand(item.get('createdBy')).be(createdByUserId);
+				demand(item.get('updatedBy')).be(createdByUserId);
 			});
 
-			it('should have an auditMetaUpdate() method', function() {
-				demand(item.auditMetaUpdate).be.a.function();
+			it('should update only the updatedBy when isNew = false', function() {
+				item.auditMetaUpdate(item, false, updatedByUserId);
+				demand(item.get('createdBy')).be(createdByUserId);
+				demand(item.get('updatedBy')).be(updatedByUserId);
 			});
 			
-			describe('calling auditMetaUpdate(item, isNew, userId)', function() {
-
-				it('should update both createdBy and updatedBy when isNew = true', function() {
-					item.auditMetaUpdate(item, true, createdByUserId);
-					demand(item.get('createdBy')).be(createdByUserId);
-					demand(item.get('updatedBy')).be(createdByUserId);
-				});
-
-				it('should update only the updatedBy when isNew = false', function() {
-					item.auditMetaUpdate(item, false, updatedByUserId);
-					demand(item.get('createdBy')).be(createdByUserId);
-					demand(item.get('updatedBy')).be(updatedByUserId);
-				});
-			});
-
 		});
 
 	});
+
 });
