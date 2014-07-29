@@ -11,6 +11,13 @@ exports = module.exports = function(req, res) {
 	var filters = req.list.processFilters(req.query.q),
 		queryFilters = req.list.getSearchFilters(req.query.search, filters);
 
+	var relFields = '';
+	_.each(req.list.fields, function(field) {
+		if (field.type === 'relationship') {
+			relFields += field.path + ' ';
+		}
+	});
+
 	var getRowData = function getRowData(i) {
 
 		var rowData = { id: i.id };
@@ -22,6 +29,8 @@ exports = module.exports = function(req, res) {
 		_.each(req.list.fields, function(field) {
 			if (field.type === 'boolean') {
 				rowData[field.path] = i.get(field.path) ? 'true' : 'false';
+			} else if(field.type === 'relationship') {
+				rowData[field.path] = i.get(field.path)?i.get(field.path).name:null;
 			} else {
 				rowData[field.path] = field.format(i);
 			}
@@ -31,7 +40,7 @@ exports = module.exports = function(req, res) {
 
 	};
 
-	req.list.model.find(queryFilters).exec(function(err, results) {
+	req.list.model.find(queryFilters).populate(relFields).exec(function(err, results) {
 
 		var sendCSV = function(data) {
 
