@@ -49,33 +49,31 @@ describe('auditMeta schemaPlugin', function() {
 			demand(Test.mappings.modifiedBy).be('updatedBy');
 		});
 
-	});
-
-	describe('testing an item created from model', function() {
-		before(function() {
-			item = new Test.model({ name: 'test' });
-		});
-
-		it('should have an auditMetaUpdate() method', function() {
-			demand(item.auditMetaUpdate).be.a.function();
-		});
-		
-		describe('calling auditMetaUpdate(item, isNew, userId)', function() {
-
-			it('should update both createdBy and updatedBy when isNew = true', function() {
-				item.auditMetaUpdate(item, true, createdByUserId);
-				demand(item.get('createdBy')).be(createdByUserId);
-				demand(item.get('updatedBy')).be(createdByUserId);
+		describe('testing an item created from model', function() {
+			before(function() {
+				item = new Test.model();
 			});
 
-			it('should update only the updatedBy when isNew = false', function() {
-				item.auditMetaUpdate(item, false, updatedByUserId);
-				demand(item.get('createdBy')).be(createdByUserId);
-				demand(item.get('updatedBy')).be(updatedByUserId);
+			it('should have an auditMetaUpdate() method', function() {
+				demand(item.auditMetaUpdate).be.a.function();
 			});
 			
+			describe('calling auditMetaUpdate(item, isNew, userId)', function() {
+
+				it('should update both createdBy and updatedBy when isNew = true', function() {
+					item.auditMetaUpdate(item, true, createdByUserId);
+					demand(item.get('createdBy')).be(createdByUserId);
+					demand(item.get('updatedBy')).be(createdByUserId);
+				});
+
+				it('should update only the updatedBy when isNew = false', function() {
+					item.auditMetaUpdate(item, false, updatedByUserId);
+					demand(item.get('createdBy')).be(createdByUserId);
+					demand(item.get('updatedBy')).be(updatedByUserId);
+				});
+			});
+
 		});
 
 	});
-
 });
