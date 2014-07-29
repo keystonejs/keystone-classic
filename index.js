@@ -297,8 +297,8 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			enableImages: keystone.get('wysiwyg images') ? true : false,
 			enableCloudinaryUploads: keystone.get('wysiwyg cloudinary images') ? true : false,
 			additionalButtons: keystone.get('wysiwyg additional buttons') || '',
-            additionalPlugins: keystone.get('wysiwyg additional plugins') || '',
-            additionalOptions: keystone.get('wysiwyg additional options') || {}
+	                additionalPlugins: keystone.get('wysiwyg additional plugins') || '',
+	                additionalOptions: keystone.get('wysiwyg additional options') || {}
 		}
 	};
 	
