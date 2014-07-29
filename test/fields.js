@@ -67,9 +67,16 @@ describe("Fields", function() {
 			demand(testItem.bool).to.be.true();
 		});
 		
+		it('should be false when passed the string "false"', function() {
+			Test.fields.bool.updateItem(testItem, {
+				bool: 'false'
+			});
+			demand(testItem.bool).to.be.false();
+		});
+		
 	});
 	
-	/** FieldType: Boolean */
+	/** FieldType: Location */
 	describe("Location", function() {
 		
 		var emptyLocationValues = {
