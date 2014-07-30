@@ -36,7 +36,7 @@ var moduleRoot = (function(_rootPath) {
  */
 
 var Keystone = function() {
-
+	
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -53,29 +53,29 @@ var Keystone = function() {
 		render: []
 	};
 	this._redirects = {};
-
+	
 	// expose express
-
+	
 	this.express = express;
-
-
+	
+	
 	// init environment defaults
-
+	
 	this.set('env', process.env.NODE_ENV || 'development');
-
+	
 	this.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
 	this.set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP);
 	this.set('listen', process.env.LISTEN);
-
+	
 	this.set('ssl', process.env.SSL);
 	this.set('ssl port', process.env.SSL_PORT);
 	this.set('ssl host', process.env.SSL_HOST || process.env.SSL_IP);
 	this.set('ssl key', process.env.SSL_KEY);
 	this.set('ssl cert', process.env.SSL_CERT);
-
+	
 	this.set('cookie secret', process.env.COOKIE_SECRET);
 	this.set('cookie signin', (this.get('env') === 'development') ? true : false);
-
+	
 	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
 	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
 	this.set('mandrill username', process.env.MANDRILL_USERNAME);
@@ -86,23 +86,23 @@ var Keystone = function() {
 	this.set('chartbeat property', process.env.CHARTBEAT_PROPERTY);
 	this.set('chartbeat domain', process.env.CHARTBEAT_DOMAIN);
 	this.set('allowed ip ranges', process.env.ALLOWED_IP_RANGES);
-
+	
 	if (process.env.S3_BUCKET && process.env.S3_KEY && process.env.S3_SECRET) {
 		this.set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET, region: process.env.S3_REGION });
 	}
-
+	
 	if (process.env.AZURE_STORAGE_ACCOUNT && process.env.AZURE_STORAGE_ACCESS_KEY) {
 		this.set('azurefile config', { account: process.env.AZURE_STORAGE_ACCOUNT, key: process.env.AZURE_STORAGE_ACCESS_KEY });
 	}
-
+	
 	if (process.env.CLOUDINARY_URL) {
 		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
 		this.set('cloudinary config', true);
 	}
-
+	
 	// Attach middleware packages, bound to this instance
 	this.initAPI = require('./lib/middleware/initAPI')(this);
-
+	
 };
 
 _.extend(Keystone.prototype, require('./lib/core/options')(moduleRoot));
@@ -130,10 +130,10 @@ Keystone.prototype.pre = function(event, fn) {
 
 Keystone.prototype.prefixModel = function (key) {
 	var modelPrefix = this.get('model prefix');
-
+	
 	if (modelPrefix)
 		key = modelPrefix + '_' + key;
-
+	
 	return require('mongoose/lib/utils').toCollectionName(key);
 };
 
@@ -189,18 +189,18 @@ var security = keystone.security = {
  */
 
 Keystone.prototype.import = function(dirname) {
-
+	
 	var initialPath = path.join(moduleRoot, dirname);
-
+	
 	var doImport = function(fromPath) {
-
+		
 		var imported = {};
-
+		
 		fs.readdirSync(fromPath).forEach(function(name) {
-
+			
 			var fsPath = path.join(fromPath, name),
-				info = fs.statSync(fsPath);
-
+			info = fs.statSync(fsPath);
+			
 			// recur
 			if (info.isDirectory()) {
 				imported[name] = doImport(fsPath);
@@ -212,12 +212,12 @@ Keystone.prototype.import = function(dirname) {
 					imported[parts.join('-')] = require(fsPath);
 				}
 			}
-
+			
 		});
-
+		
 		return imported;
 	};
-
+	
 	return doImport(initialPath);
 };
 
@@ -238,29 +238,29 @@ Keystone.prototype.applyUpdates = function(callback) {
  */
 
 Keystone.prototype.render = function(req, res, view, ext) {
-
+	
 	var keystone = this;
-
+		
 	var templatePath = __dirname + '/templates/views/' + view + '.jade';
-
+	
 	var jadeOptions = {
 		filename: templatePath,
 		pretty: keystone.get('env') !== 'production'
 	};
-
+	
 	// TODO: Allow custom basePath for extensions... like this or similar
 	// if (keystone.get('extensions')) {
 	// 	jadeOptions.basedir = keystone.getPath('extensions') + '/templates';
 	// }
-
+	
 	var compileTemplate = function() {
 		return jade.compile(fs.readFileSync(templatePath, 'utf8'), jadeOptions);
 	};
-
+	
 	var template = this.get('viewCache')
 		? templateCache[view] || (templateCache[view] = compileTemplate())
 		: compileTemplate();
-
+		
 	var flashMessages = {
 		info: res.req.flash('info'),
 		success: res.req.flash('success'),
@@ -268,7 +268,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		error: res.req.flash('error'),
 		hilight: res.req.flash('hilight')
 	};
-
+	
 	var locals = {
 		_: _,
 		moment: moment,
@@ -294,17 +294,17 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			domain: this.get('ga domain')
 		},
 		wysiwygOptions: {
-			enableImages: keystone.get('wysiwyg images') ? true : false,
-			enableCloudinaryUploads: keystone.get('wysiwyg cloudinary images') ? true : false,
-			additionalButtons: keystone.get('wysiwyg additional buttons') || '',
-			additionalPlugins: keystone.get('wysiwyg additional plugins') || '',
-			additionalOptions: keystone.get('wysiwyg additional options') || {}
+                        enableImages: keystone.get('wysiwyg images') ? true : false,
+                        enableCloudinaryUploads: keystone.get('wysiwyg cloudinary images') ? true : false,
+                        additionalButtons: keystone.get('wysiwyg additional buttons') || '',
+                        additionalPlugins: keystone.get('wysiwyg additional plugins') || '',
+                        additionalOptions: keystone.get('wysiwyg additional options') || {}
 		}
 	};
-
+	
 	// optional extensions to the local scope
 	_.extend(locals, ext);
-
+	
 	// add cloudinary locals if configured
 	if (keystone.get('cloudinary config')) {
 		try {
@@ -327,12 +327,12 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			}
 		}
 	}
-
+	
 	// fieldLocals defines locals that are provided to each field's `render` method
 	locals.fieldLocals = _.pick(locals, '_', 'moment', 'numeral', 'env', 'js', 'utils', 'user', 'cloudinary');
-
+	
 	var html = template(_.extend(locals, ext));
-
+	
 	res.send(html);
 };
 
@@ -346,7 +346,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
  */
 
 Keystone.prototype.populateRelated = function(docs, relationships, callback) {
-
+	
 	if (Array.isArray(docs)) {
 		async.each(docs, function(doc, done) {
 			doc.populateRelated(relationships, done);
@@ -367,12 +367,12 @@ Keystone.prototype.populateRelated = function(docs, relationships, callback) {
 
 Keystone.prototype.console = {};
 Keystone.prototype.console.err = function(type, msg) {
-
+	
 	if (keystone.get('logger')) {
 		var dashes = '\n------------------------------------------------\n';
 		console.log(dashes + 'KeystoneJS: ' + type + ':\n\n' + msg + dashes);
 	}
-
+	
 };
 
 /**
