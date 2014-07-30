@@ -11,10 +11,10 @@ exports = module.exports = function(req, res) {
 	var filters = req.list.processFilters(req.query.q),
 		queryFilters = req.list.getSearchFilters(req.query.search, filters);
 
-	var relFields = '';
+	var relFields = [];
 	_.each(req.list.fields, function(field) {
 		if (field.type === 'relationship') {
-			relFields += field.path + ' ';
+			relFields.push(field.path);
 		}
 	});
 
@@ -40,7 +40,7 @@ exports = module.exports = function(req, res) {
 
 	};
 
-	req.list.model.find(queryFilters).populate(relFields).exec(function(err, results) {
+	req.list.model.find(queryFilters).populate(relFields.join(' ')).exec(function(err, results) {
 
 		var sendCSV = function(data) {
 
