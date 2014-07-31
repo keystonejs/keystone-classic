@@ -34,6 +34,8 @@ mixin column(list, col, item)
 			+column_boolean(value)
 		else if col.type == 'url'
 			+column_link(value, value, true)
+		else if col.type == 'cloudinaryimage'
+			+column_image(value)
 		else
 			+column_basic(value)
 
@@ -42,6 +44,9 @@ mixin column_link(value, href, newWindow)
 		a(href=href, target=newWindow ? '_blank' : undefined)= value
 
 mixin column_gravatar(src)
+	img(src=src).img-thumbnail
+
+mixin column_image(src)
 	img(src=src).img-thumbnail
 
 mixin column_boolean(value)
