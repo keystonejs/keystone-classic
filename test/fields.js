@@ -39,6 +39,7 @@ describe('Fields', function() {
 	
 	/** FieldType: Text (String) */
 	describe('Text', function() {
+		
 		it('should update top level fields', function() {
 			Test.fields.text.updateItem(testItem, {
 				text: 'value'
@@ -46,6 +47,7 @@ describe('Fields', function() {
 			demand(testItem.text).be('value');
 			testItem.text = undefined;
 		});
+		
 		it('should update nested fields', function() {
 			Test.fields['nested.text'].updateItem(testItem, {
 				nested: {
@@ -55,6 +57,7 @@ describe('Fields', function() {
 			demand(testItem.nested.text).be('value');
 			testItem.nested.text = undefined;
 		});
+		
 		it('should update nested fields with flat paths', function() {
 			Test.fields['nested.text'].updateItem(testItem, {
 				'nested.text': 'value'
@@ -62,6 +65,54 @@ describe('Fields', function() {
 			demand(testItem.nested.text).be('value');
 			testItem.nested.text = undefined;
 		});
+		
+	});
+	
+	/** FieldType: Boolean */
+	describe('Boolean', function() {
+		
+		it('should be true when passed the boolean true', function() {
+			Test.fields.bool.updateItem(testItem, {
+				bool: true
+			});
+			demand(testItem.bool).be.true();
+			testItem.bool = undefined;
+		});
+		
+		it('should be true when passed the string "true"', function() {
+			Test.fields.bool.updateItem(testItem, {
+				bool: 'true'
+			});
+			demand(testItem.bool).be.true();
+			testItem.bool = undefined;
+		});
+		
+		it('should be false when passed the string "false"', function() {
+			Test.fields.bool.updateItem(testItem, {
+				bool: 'false'
+			});
+			demand(testItem.bool).be.false();
+			testItem.bool = undefined;
+		});
+		
+		it('should update nested fields', function() {
+			Test.fields['nested.bool'].updateItem(testItem, {
+				nested: {
+					bool: true
+				}
+			});
+			demand(testItem.nested.bool).be.true();
+			testItem.nested.bool = undefined;
+		});
+		
+		it('should update nested fields with flat paths', function() {
+			Test.fields['nested.bool'].updateItem(testItem, {
+				'nested.bool': true
+			});
+			demand(testItem.nested.bool).be.true();
+			testItem.nested.bool = undefined;
+		});
+		
 	});
 	
 	/** FieldType: Date */
@@ -80,32 +131,6 @@ describe('Fields', function() {
 		it('should be a moment object', function() {
 			testItem.date = new Date(2013, 11, 4);
 			demand(testItem._.date.moment()._isAMomentObject);
-		});
-		
-	});
-	
-	/** FieldType: Boolean */
-	describe('Boolean', function() {
-		
-		it('should be true when passed the boolean true', function() {
-			Test.fields.bool.updateItem(testItem, {
-				bool: true
-			});
-			demand(testItem.bool).be.true();
-		});
-		
-		it('should be true when passed the string "true"', function() {
-			Test.fields.bool.updateItem(testItem, {
-				bool: 'true'
-			});
-			demand(testItem.bool).be.true();
-		});
-		
-		it('should be false when passed the string "false"', function() {
-			Test.fields.bool.updateItem(testItem, {
-				bool: 'false'
-			});
-			demand(testItem.bool).be.false();
 		});
 		
 	});
