@@ -13,6 +13,7 @@ before(function() {
 	
 	// Create a Test List with all the field types that will be tested
 	Test.add({
+		text: Types.Text,
 		date: Types.Date,
 		datetime: Types.Datetime,
 		bool: Types.Boolean,
@@ -30,10 +31,10 @@ before(function() {
 
 /** Tests */
 
-describe("Fields", function() {
+describe('Fields', function() {
 	
 	/** FieldType: Date */
-	describe("Date", function() {
+	describe('Date', function() {
 		
 		it('should parse without error via underscore date', function() {
 			testItem._.date.parse('20131204', 'YYYYMMDD');
@@ -51,7 +52,7 @@ describe("Fields", function() {
 	});
 	
 	/** FieldType: Boolean */
-	describe("Boolean", function() {
+	describe('Boolean', function() {
 		
 		it('should be true when passed the boolean true', function() {
 			Test.fields.bool.updateItem(testItem, {
@@ -77,7 +78,7 @@ describe("Fields", function() {
 	});
 	
 	/** FieldType: Location */
-	describe("Location", function() {
+	describe('Location', function() {
 		
 		var emptyLocationValues = {
 			number: '',
