@@ -14,12 +14,13 @@ before(function() {
 	// Create a Test List with all the field types that will be tested
 	Test.add({
 		text: Types.Text,
-		string_nested: {
-			string: String
+		bool: Types.Boolean,
+		nested: {
+			text: String,
+			bool: Boolean,
 		},
 		date: Types.Date,
 		datetime: Types.Datetime,
-		bool: Types.Boolean,
 		location: {
 			basic: Types.Location,
 			customRequired: { type: Types.Location, required: ['state', 'country'] }
@@ -35,6 +36,33 @@ before(function() {
 /** Tests */
 
 describe('Fields', function() {
+	
+	/** FieldType: Text (String) */
+	describe('Text', function() {
+		it('should update top level fields', function() {
+			Test.fields.text.updateItem(testItem, {
+				text: 'value'
+			});
+			demand(testItem.text).be('value');
+			testItem.text = undefined;
+		});
+		it('should update nested fields', function() {
+			Test.fields['nested.text'].updateItem(testItem, {
+				nested: {
+					text: 'value'
+				}
+			});
+			demand(testItem.nested.text).be('value');
+			testItem.nested.text = undefined;
+		});
+		it('should update nested fields with flat paths', function() {
+			Test.fields['nested.text'].updateItem(testItem, {
+				'nested.text': 'value'
+			});
+			demand(testItem.nested.text).be('value');
+			testItem.nested.text = undefined;
+		});
+	});
 	
 	/** FieldType: Date */
 	describe('Date', function() {
