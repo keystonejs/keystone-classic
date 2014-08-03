@@ -30,7 +30,18 @@ exports = module.exports = function(req, res) {
 			if (field.type === 'boolean') {
 				rowData[field.path] = i.get(field.path) ? 'true' : 'false';
 			} else if(field.type === 'relationship') {
-                rowData[field.path] = field.refList.getDocumentName(i);
+                if(field.many){
+                    var refData = i.get(field.path);
+                    var values = [];
+                    if (Array.isArray(refData) && refData.length) {
+                        _.forEach(refData, function(i) {
+                            values.push(field.refList.getDocumentName(i));
+                        });
+                    }
+                    rowData[field.path] = values.join(', ');
+                }else {
+                    rowData[field.path] = field.refList.getDocumentName(i);
+                }
 			} else {
 				rowData[field.path] = field.format(i);
 			}
