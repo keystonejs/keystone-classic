@@ -35,12 +35,21 @@ exports = module.exports = function(req, res) {
                     var values = [];
                     if (Array.isArray(refData) && refData.length) {
                         _.forEach(refData, function(i) {
-                            values.push(field.refList.getDocumentName(i));
+                            var name = field.refList.getDocumentName(i);
+                            if(keystone.get('csv expanded')){
+                                name = '['+ i.id +',' + name + ']';
+                            }
+                            values.push(name);
                         });
                     }
                     rowData[field.path] = values.join(', ');
                 }else {
-                    rowData[field.path] = refData ? field.refList.getDocumentName(refData) : field.format(i);
+                    if (keystone.get('csv expanded')) {
+                        rowData[field.path + '_id'] = refData ? refData.id : '';
+                        rowData[field.path + '_name'] = refData ? field.refList.getDocumentName(refData) : field.format(i);
+                    } else {
+                        rowData[field.path] = refData ? field.refList.getDocumentName(refData) : field.format(i);
+                    }
                 }
 			} else {
 				rowData[field.path] = field.format(i);
