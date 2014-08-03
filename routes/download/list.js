@@ -40,7 +40,7 @@ exports = module.exports = function(req, res) {
                     }
                     rowData[field.path] = values.join(', ');
                 }else {
-                    rowData[field.path] = field.refList.getDocumentName(refData);
+                    rowData[field.path] = refData ? field.refList.getDocumentName(refData) : field.format(i);
                 }
 			} else {
 				rowData[field.path] = field.format(i);
