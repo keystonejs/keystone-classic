@@ -35,7 +35,9 @@ The primary contributors to Keystone are based in Sydney, Australia and Keystone
 
 The [SydJS Website](http://www.sydjs.com) is a great example of a more sophisticated project than the Keystone Demo, and you can [view the source code](https://github.com/JedWatson/sydjs-site) to see how it was built.
 
-If you run a community group, please feel free to copy our site and make it your own! And if you do, we'd love to hear from you.
+We have also written a [SydJS Mobile App](https://github.com/bladey/sydjs-app) with Cordova, Backbone, Velocity.js and jQuery to demonstrate how Javascript can be used to create a native experience for mobile apps, running against a KeystoneJS back-end. For more, including our design resources, check out the [SydJS Showbag](http://www.sydjs.com/showbag).
+
+If you run a community group, please feel free to copy our site and app and make them your own! And if you do, we'd love to hear from you.
 
 
 ### Contributing
