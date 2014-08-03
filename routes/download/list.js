@@ -30,7 +30,7 @@ exports = module.exports = function(req, res) {
 			if (field.type === 'boolean') {
 				rowData[field.path] = i.get(field.path) ? 'true' : 'false';
 			} else if(field.type === 'relationship') {
-				rowData[field.path] = i.get(field.path)?i.get(field.path).name:null;
+                rowData[field.path] = field.refList.getDocumentName(i);
 			} else {
 				rowData[field.path] = field.format(i);
 			}
@@ -40,7 +40,11 @@ exports = module.exports = function(req, res) {
 
 	};
 
-	req.list.model.find(queryFilters).populate(relFields.join(' ')).exec(function(err, results) {
+	var query = req.list.model.find(queryFilters);
+    if(relFields) {
+        query.populate(relFields.join(' '))
+    }
+    query.exec(function(err, results) {
 
 		var sendCSV = function(data) {
 
