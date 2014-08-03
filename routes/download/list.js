@@ -29,28 +29,28 @@ exports = module.exports = function(req, res) {
 		_.each(req.list.fields, function(field) {
 			if (field.type === 'boolean') {
 				rowData[field.path] = i.get(field.path) ? 'true' : 'false';
-			} else if(field.type === 'relationship') {
-                var refData = i.get(field.path);
-                if(field.many){
-                    var values = [];
-                    if (Array.isArray(refData) && refData.length) {
-                        _.forEach(refData, function(i) {
-                            var name = field.refList.getDocumentName(i);
-                            if(keystone.get('csv expanded')){
-                                name = '['+ i.id +',' + name + ']';
-                            }
-                            values.push(name);
-                        });
-                    }
-                    rowData[field.path] = values.join(', ');
-                }else {
-                    if (keystone.get('csv expanded')) {
-                        rowData[field.path + '_id'] = refData ? refData.id : '';
-                        rowData[field.path + '_name'] = refData ? field.refList.getDocumentName(refData) : field.format(i);
-                    } else {
-                        rowData[field.path] = refData ? field.refList.getDocumentName(refData) : field.format(i);
-                    }
-                }
+			} else if (field.type === 'relationship') {
+				var refData = i.get(field.path);
+				if (field.many) {
+					var values = [];
+					if (Array.isArray(refData) && refData.length) {
+						_.forEach(refData, function(i) {
+							var name = field.refList.getDocumentName(i);
+							if(keystone.get('csv expanded')){
+								name = '['+ i.id +',' + name + ']';
+							}
+							values.push(name);
+						});
+					}
+					rowData[field.path] = values.join(', ');
+				} else {
+					if (keystone.get('csv expanded')) {
+						rowData[field.path + '_id'] = refData ? refData.id : '';
+						rowData[field.path + '_name'] = refData ? field.refList.getDocumentName(refData) : field.format(i);
+					} else {
+						rowData[field.path] = refData ? field.refList.getDocumentName(refData) : field.format(i);
+					}
+				}
 			} else {
 				rowData[field.path] = field.format(i);
 			}
@@ -61,10 +61,10 @@ exports = module.exports = function(req, res) {
 	};
 
 	var query = req.list.model.find(queryFilters);
-    if(relFields) {
-        query.populate(relFields.join(' '))
-    }
-    query.exec(function(err, results) {
+	if(relFields) {
+		query.populate(relFields.join(' '))
+	}
+	query.exec(function(err, results) {
 
 		var sendCSV = function(data) {
 
