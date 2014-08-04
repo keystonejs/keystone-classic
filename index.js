@@ -1,7 +1,5 @@
 var fs = require('fs'),
 	path = require('path'),
-	http = require('http'),
-	https = require('https'),
 	_ = require('underscore'),
 	express = require('express'),
 	async = require('async'),
@@ -9,12 +7,9 @@ var fs = require('fs'),
 	moment = require('moment'),
 	numeral = require('numeral'),
 	cloudinary = require('cloudinary'),
-	mandrillapi = require('mandrill-api'),
 	utils = require('keystone-utils');
 
 var templateCache = {};
-
-var dashes = '\n------------------------------------------------\n';
 
 /**
  * Don't use process.cwd() as it breaks module encapsulation
@@ -171,7 +166,7 @@ keystone.Field.Types = require('./lib/fieldTypes');
 keystone.View = require('./lib/view');
 keystone.Email = require('./lib/email');
 
-var security = keystone.security = {
+keystone.security = {
 	csrf: require('./lib/security/csrf')
 };
 
