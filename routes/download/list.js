@@ -61,8 +61,8 @@ exports = module.exports = function(req, res) {
 	};
 
 	var query = req.list.model.find(queryFilters);
-	if(relFields) {
-		query.populate(relFields.join(' '))
+	if (relFields) {
+		query.populate(relFields.join(' '));
 	}
 	query.exec(function(err, results) {
 
