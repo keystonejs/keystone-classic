@@ -1,14 +1,12 @@
 var gulp = require('gulp'),
-	jshint = require('gulp-jshint'),
-	watch = require('gulp-watch'),
-	// changed = require('gulp-changed'),
-	mocha = require('gulp-mocha'),
 	cover = require('gulp-coverage'),
-	colors = require('colors');
+	jshint = require('gulp-jshint'),
+	rimraf = require('gulp-rimraf'),
+	mocha = require('gulp-mocha'),
+	watch = require('gulp-watch'),
+	chalk = require('chalk');
 
-/*
- * Create variables for our project paths so we can change in one place
- */
+// Common project paths
 var paths = {
 	'src':['./index.js', './lib/**/*.js','./routes/**/*.js'],
 	'tests':['./test/**/*.js']
@@ -17,52 +15,69 @@ var paths = {
 // An error handler for the tests during gulp-watch
 // Otherwise the gulp-watch will terminate
 var handleError = function(err){
-	console.log((err.name+': '+err.plugin+' - '+err.message).red);
-	// propogate
+	console.log(chalk.red(err.name + ': ' + err.plugin + ' - ' + err.message));
 	return;
 };
 
-// gulp lint
+/**
+ * Gulp Tasks
+ */
+
+// lint source with jshint
 gulp.task('lint', function(){
-	gulp.src(paths.src)
+	return gulp.src(paths.src)
 		.pipe(jshint())
 		.pipe(jshint.reporter('default'));
 
 });
 
-// gulp for running the mocha tests with default dot reporter
+// run the mocha tests with the default dot reporter
 gulp.task('test', function(){
-	gulp.src(paths.tests)
-		.pipe(mocha({reporter: 'dot'}))
+	return gulp.src(paths.tests)
+		.pipe(mocha({
+			reporter: 'dot'
+		}))
 		.on('error', handleError);
 
 });
 
-// gulp for running the mocha tests with spec reporter
+// run the mocha tests with the spec reporter
 gulp.task('spec', function(){
-	gulp.src(paths.tests)
-        .pipe(cover.instrument({
-            pattern: paths.src,
-            debugDirectory: '.coverdebug'
-        }))
-		.pipe(mocha({reporter: 'spec'}))
-        .pipe(cover.report({
-            outFile: 'coverage.html'
-        }))
+	return gulp.src(paths.tests)
+		.pipe(mocha({
+			reporter: 'spec'
+		}))
 		.on('error', handleError);
-
 });
+
+// generate a coverage report
+gulp.task('coverage', function(){
+	return gulp.src(paths.tests)
+		.pipe(cover.instrument({
+			pattern: paths.src,
+			debugDirectory: '.coverdebug'
+		}))
+		.pipe(mocha({
+			reporter: 'spec'
+		}))
+		.pipe(cover.report({
+			outFile: 'coverage.html'
+		}))
+		.on('error', handleError);
+});
+
+// delete the coverage report
+gulp.task('clean-coverage', function(){
+	return gulp.src(['.coverdebug', '.coverdata', '.coverrun', 'coverage.html'], { read: false })
+		.pipe(rimraf())
+});
+
 
 /*
  * auto/watch gulp tasks that will trigger the tests on
  * file changes
  */
+
 gulp.task('autotest', function(){
 	gulp.watch(paths.src.concat(paths.tests), ['test']);
 });
-
-gulp.task('autospec', function(){
-	gulp.watch(paths.src.concat(paths.tests), ['spec']);
-});
-
-gulp.task('default', ['lint', 'spec']);

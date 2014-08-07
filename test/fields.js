@@ -13,9 +13,14 @@ before(function() {
 	
 	// Create a Test List with all the field types that will be tested
 	Test.add({
+		text: Types.Text,
+		bool: Types.Boolean,
+		nested: {
+			text: String,
+			bool: Boolean,
+		},
 		date: Types.Date,
 		datetime: Types.Datetime,
-		bool: Types.Boolean,
 		location: {
 			basic: Types.Location,
 			customRequired: { type: Types.Location, required: ['state', 'country'] }
@@ -30,54 +35,108 @@ before(function() {
 
 /** Tests */
 
-describe("Fields", function() {
+describe('Fields', function() {
 	
-	/** FieldType: Date */
-	describe("Date", function() {
+	/** FieldType: Text (String) */
+	describe('Text', function() {
 		
-		it('should parse without error via underscore date', function() {
-			testItem._.date.parse('20131204', 'YYYYMMDD');
+		it('should update top level fields', function() {
+			Test.fields.text.updateItem(testItem, {
+				text: 'value'
+			});
+			demand(testItem.text).be('value');
+			testItem.text = undefined;
 		});
 		
-		it('should be the date we expect', function() {
-			demand(testItem._.date.format()).to.equal('4th Dec 2013');
-			demand(testItem._.date.format('YYYYMMDD')).to.equal('20131204');
+		it('should update nested fields', function() {
+			Test.fields['nested.text'].updateItem(testItem, {
+				nested: {
+					text: 'value'
+				}
+			});
+			demand(testItem.nested.text).be('value');
+			testItem.nested.text = undefined;
 		});
 		
-		it('should be a moment object', function() {
-			demand(testItem._.date.moment()._isAMomentObject);
+		it('should update nested fields with flat paths', function() {
+			Test.fields['nested.text'].updateItem(testItem, {
+				'nested.text': 'value'
+			});
+			demand(testItem.nested.text).be('value');
+			testItem.nested.text = undefined;
 		});
 		
 	});
 	
 	/** FieldType: Boolean */
-	describe("Boolean", function() {
+	describe('Boolean', function() {
 		
 		it('should be true when passed the boolean true', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: true
 			});
-			demand(testItem.bool).to.be.true();
+			demand(testItem.bool).be.true();
+			testItem.bool = undefined;
 		});
 		
 		it('should be true when passed the string "true"', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: 'true'
 			});
-			demand(testItem.bool).to.be.true();
+			demand(testItem.bool).be.true();
+			testItem.bool = undefined;
 		});
 		
 		it('should be false when passed the string "false"', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: 'false'
 			});
-			demand(testItem.bool).to.be.false();
+			demand(testItem.bool).be.false();
+			testItem.bool = undefined;
+		});
+		
+		it('should update nested fields', function() {
+			Test.fields['nested.bool'].updateItem(testItem, {
+				nested: {
+					bool: true
+				}
+			});
+			demand(testItem.nested.bool).be.true();
+			testItem.nested.bool = undefined;
+		});
+		
+		it('should update nested fields with flat paths', function() {
+			Test.fields['nested.bool'].updateItem(testItem, {
+				'nested.bool': true
+			});
+			demand(testItem.nested.bool).be.true();
+			testItem.nested.bool = undefined;
+		});
+		
+	});
+	
+	/** FieldType: Date */
+	describe('Date', function() {
+		
+		it('should parse without error via underscore date', function() {
+			testItem._.date.parse('20131204', 'YYYYMMDD');
+		});
+		
+		it('should be the date we expect', function() {
+			testItem.date = new Date(2013, 11, 4);
+			demand(testItem._.date.format()).to.equal('4th Dec 2013');
+			demand(testItem._.date.format('YYYYMMDD')).to.equal('20131204');
+		});
+		
+		it('should be a moment object', function() {
+			testItem.date = new Date(2013, 11, 4);
+			demand(testItem._.date.moment()._isAMomentObject);
 		});
 		
 	});
 	
 	/** FieldType: Location */
-	describe("Location", function() {
+	describe('Location', function() {
 		
 		var emptyLocationValues = {
 			number: '',
@@ -111,17 +170,17 @@ describe("Fields", function() {
 				'location.basic.geo_lat': '-33.865143',
 				'location.basic.geo_lng': '151.2099'
 			});
-			demand(testItem.location.basic.number).to.be('number');
-			demand(testItem.location.basic.name).to.be('name');
-			demand(testItem.location.basic.street1).to.be('street 1');
-			demand(testItem.location.basic.street2).to.be('street 2');
-			demand(testItem.location.basic.suburb).to.be('suburb');
-			demand(testItem.location.basic.state).to.be('state');
-			demand(testItem.location.basic.postcode).to.be('postcode');
-			demand(testItem.location.basic.country).to.be('country');
-			demand(Array.isArray(testItem.location.basic.geo)).to.be.true();
-			demand(testItem.location.basic.geo[0]).to.be(151.2099);
-			demand(testItem.location.basic.geo[1]).to.be(-33.865143);
+			demand(testItem.location.basic.number).be('number');
+			demand(testItem.location.basic.name).be('name');
+			demand(testItem.location.basic.street1).be('street 1');
+			demand(testItem.location.basic.street2).be('street 2');
+			demand(testItem.location.basic.suburb).be('suburb');
+			demand(testItem.location.basic.state).be('state');
+			demand(testItem.location.basic.postcode).be('postcode');
+			demand(testItem.location.basic.country).be('country');
+			demand(Array.isArray(testItem.location.basic.geo)).be.true();
+			demand(testItem.location.basic.geo[0]).be(151.2099);
+			demand(testItem.location.basic.geo[1]).be(-33.865143);
 		});
 		
 		it('should update its value from nested paths', function() {
@@ -141,17 +200,17 @@ describe("Fields", function() {
 					}
 				}
 			});
-			demand(testItem.location.basic.number).to.be('number');
-			demand(testItem.location.basic.name).to.be('name');
-			demand(testItem.location.basic.street1).to.be('street 1');
-			demand(testItem.location.basic.street2).to.be('street 2');
-			demand(testItem.location.basic.suburb).to.be('suburb');
-			demand(testItem.location.basic.state).to.be('state');
-			demand(testItem.location.basic.postcode).to.be('postcode');
-			demand(testItem.location.basic.country).to.be('country');
-			demand(Array.isArray(testItem.location.basic.geo)).to.be.true();
-			demand(testItem.location.basic.geo[0]).to.be(151.2099);
-			demand(testItem.location.basic.geo[1]).to.be(-33.865143);
+			demand(testItem.location.basic.number).be('number');
+			demand(testItem.location.basic.name).be('name');
+			demand(testItem.location.basic.street1).be('street 1');
+			demand(testItem.location.basic.street2).be('street 2');
+			demand(testItem.location.basic.suburb).be('suburb');
+			demand(testItem.location.basic.state).be('state');
+			demand(testItem.location.basic.postcode).be('postcode');
+			demand(testItem.location.basic.country).be('country');
+			demand(Array.isArray(testItem.location.basic.geo)).be.true();
+			demand(testItem.location.basic.geo[0]).be(151.2099);
+			demand(testItem.location.basic.geo[1]).be(-33.865143);
 		});
 		
 		it('should remove the location.geo path without valid values', function() {
@@ -159,13 +218,13 @@ describe("Fields", function() {
 			Test.fields['location.basic'].updateItem(testItem, {
 				'location.basic.geo': ['151.2099', '-33.865143']
 			});
-			demand(testItem.location.basic.geo[0]).to.be(151.2099);
-			demand(testItem.location.basic.geo[1]).to.be(-33.865143);
+			demand(testItem.location.basic.geo[0]).be(151.2099);
+			demand(testItem.location.basic.geo[1]).be(-33.865143);
 			Test.fields['location.basic'].updateItem(testItem, {
 				'location.basic.geo_lat': '',
 				'location.basic.geo_lng': ''
 			});
-			demand(testItem.location.basic.geo).to.be.undefined();
+			demand(testItem.location.basic.geo).be.undefined();
 		});
 		
 		it('should validate required fields', function() {

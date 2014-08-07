@@ -11,6 +11,13 @@ exports = module.exports = function(req, res) {
 	var filters = req.list.processFilters(req.query.q),
 		queryFilters = req.list.getSearchFilters(req.query.search, filters);
 
+	var relFields = [];
+	_.each(req.list.fields, function(field) {
+		if (field.type === 'relationship') {
+			relFields.push(field.path);
+		}
+	});
+
 	var getRowData = function getRowData(i) {
 
 		var rowData = { id: i.id };
@@ -22,6 +29,28 @@ exports = module.exports = function(req, res) {
 		_.each(req.list.fields, function(field) {
 			if (field.type === 'boolean') {
 				rowData[field.path] = i.get(field.path) ? 'true' : 'false';
+			} else if (field.type === 'relationship') {
+				var refData = i.get(field.path);
+				if (field.many) {
+					var values = [];
+					if (Array.isArray(refData) && refData.length) {
+						_.forEach(refData, function(i) {
+							var name = field.refList.getDocumentName(i);
+							if(keystone.get('csv expanded')){
+								name = '['+ i.id +',' + name + ']';
+							}
+							values.push(name);
+						});
+					}
+					rowData[field.path] = values.join(', ');
+				} else {
+					if (keystone.get('csv expanded')) {
+						rowData[field.path + '_id'] = refData ? refData.id : '';
+						rowData[field.path + '_name'] = refData ? field.refList.getDocumentName(refData) : field.format(i);
+					} else {
+						rowData[field.path] = refData ? field.refList.getDocumentName(refData) : field.format(i);
+					}
+				}
 			} else {
 				rowData[field.path] = field.format(i);
 			}
@@ -31,7 +60,11 @@ exports = module.exports = function(req, res) {
 
 	};
 
-	req.list.model.find(queryFilters).exec(function(err, results) {
+	var query = req.list.model.find(queryFilters);
+	if (relFields) {
+		query.populate(relFields.join(' '));
+	}
+	query.exec(function(err, results) {
 
 		var sendCSV = function(data) {
 
