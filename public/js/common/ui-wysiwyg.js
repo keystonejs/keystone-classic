@@ -4,7 +4,7 @@ jQuery(function($) {
 		return;
 
 	var plugins = [ 'code', 'link' ],
-		toolbar = 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
+		toolbar = Keystone.wysiwyg.options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
 
 	if (Keystone.wysiwyg.options.enableImages) {
 		plugins.push('image');
