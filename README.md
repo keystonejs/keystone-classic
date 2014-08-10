@@ -178,7 +178,7 @@ relationships between different models.
 ### Running KeystoneJS in Production
 
 When you deploy your KeystoneJS app to production, be sure to set your `ENV` environment variable to `production`.
-You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](http://https://github.com/scottmotte/dotenv).
+You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](https://github.com/scottmotte/dotenv).
 
 Setting your environment enables certain features, including template caching, simpler error reporting and html minification, that are important in production but annoying in development.
 
