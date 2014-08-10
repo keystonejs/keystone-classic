@@ -236,7 +236,7 @@ block content
 											input(type='radio', name='options')
 											| exact match
 									.filter-input.filter-input-md: input(type='text', name='value', value=ops.value).form-control.input-xs
-									button(type='button', data-toggle='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-xs.btn-default invert
+									button(type='button', data-toggle='button', class=ops.inverse ? 'active' : '', data-opt='inv', data-value='true').btn.btn-xs.btn-default invert
 								
 								//- Numeric Fields
 								if field.type == 'number' || field.type == 'money'
@@ -300,10 +300,10 @@ block content
 								//- Select
 								if field.type == 'select'
 									.btn-group.btn-group-xs(data-toggle='buttons')
-										button(type='button', class=!ops.inv ? 'active' : '').btn.btn-default
+										button(type='button', class=!ops.inverse ? 'active' : '').btn.btn-default
 											input(type='radio', name='options')
 											| is
-										button(type='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
+										button(type='button', class=ops.inverse ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
 											input(type='radio', name='options')
 											| is not
 									.filter-input.filter-input-md: select(name='value')
@@ -354,10 +354,10 @@ block content
 								//- Relationships
 								if field.type == 'relationship'
 									.btn-group.btn-group-xs(data-toggle='buttons')
-										button(type='button', class=ops.inv ? '' : 'active', data-opt='inv', data-value='false').btn.btn-default
+										button(type='button', class=ops.inverse ? '' : 'active', data-opt='inv', data-value='false').btn.btn-default
 											input(type="radio", name="options")
 											| linked to
-										button(type='button', class=ops.inv ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
+										button(type='button', class=ops.inverse ? 'active' : '', data-opt='inv', data-value='true').btn.btn-default
 											input(type="radio", name="options")
 											| not linked to
 									input(type='hidden',
