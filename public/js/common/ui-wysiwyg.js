@@ -4,7 +4,8 @@ jQuery(function($) {
 		return;
 
 	var plugins = [ 'code', 'link' ],
-		toolbar = Keystone.wysiwyg.options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
+		toolbar = Keystone.wysiwyg.options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
+        skin = Keystone.wysiwyg.options.skin
 
 	if (Keystone.wysiwyg.options.enableImages) {
 		plugins.push('image');
@@ -36,7 +37,7 @@ jQuery(function($) {
 		menubar: false,
 		plugins: plugins,
 		toolbar: toolbar,
-		skin: 'keystone',
+		skin: skin,
 		uploadimage_form_url: '/keystone/api/cloudinary/upload'
 	};
 
