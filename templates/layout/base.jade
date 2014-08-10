@@ -85,14 +85,16 @@ html
 		script(src="/keystone/js/lib/pikaday/pikaday-1.1.0.js")
 		script(src="/keystone/js/lib/pikaday/pikaday.jquery-1.1.0.js")
 		script(src="/keystone/js/lib/jquery-placeholder-shim/jquery-placeholder-shim.js")
+		
+		//- New React App and Components
+		script(src="/keystone/build/js/app.js")
 
 		//- App
 		script.
-			Keystone = {
-				csrf: function(obj) {
-					obj['#{csrf_token_key}'] = "#{csrf_token_value}";
-					return obj;
-				}
+			var Keystone = {};
+			Keystone.csrf = function(obj) {
+				obj['#{csrf_token_key}'] = "#{csrf_token_value}";
+				return obj;
 			};
 			Keystone.csrf.key = "#{csrf_token_key}";
 			Keystone.csrf.value = "#{csrf_token_value}";
