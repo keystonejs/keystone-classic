@@ -149,13 +149,13 @@ block content
 							li <code>createdBy</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking which user created the item (using the default field name <em>createdBy</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.
 							li <code>updatedAt</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking when the item was last updated (using the default field name <em>updatedAt</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.
 							li <code>updatedBy</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking which user last updated the item (using the default field name <em>updatedBy</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.
-						p <strong>NOTE:</strong> The <code>createdBy</code> and <code>updatedBy</code> fields are only automatically updated when adding/modifying items via the Keystone Admin UI. However, if you intend to add/modify items from within your own app, you must manually set the <code>._req_user</code> property of the item to the currently logged on user (<code>req.user</code>) prior to saving the item, as shown in the example below.
+						p.note The <code>createdBy</code> and <code>updatedBy</code> fields are only automatically updated when adding/modifying items via the Keystone Admin UI. However, if you intend to add/modify items from within your own app, you must manually set the <code>._req_user</code> property of the item to the currently logged on user (<code>req.user</code>) prior to saving the item, as shown in the example below.
 						pre: code.language-javascript
 							| var item = new List.model();
 							| item.set({ field1: 'value1', field2: 'value2' });
 							| item._req_user = req.user;
 							| item.save();
-						p <em>This replaces the use of</em> <code>List.addPattern('standard meta')</code><em>, which will be deprecated in future versions of Keystone.</em>
+						p.note <code>track</code> replaces the use of <code>List.addPattern('standard meta')</code>, which is now deprecated and will be removed future versions of Keystone.
 				tr
 					td <code>noedit</code> <code class="data-type">Boolean</code>
 					td Prevents editing of items in the list through the Keystone Admin UI
