@@ -1,28 +1,21 @@
 var keystone = require('../index.js'),
 	request = require('supertest'),
 	demand = require('must'),
-	mongoose = require('mongoose');
-
-var getExpressApp = function() {
-	var expressApp;
-
-	mongoose.connect('mongodb://localhost/test');
-
-	keystone.init();
-	expressApp = keystone.express();
-
-	expressApp.use(keystone.express.bodyParser());
-	expressApp.use(keystone.express.methodOverride());
-	return expressApp;
-};
+	getExpressApp = require('./helpers/getExpressApp'),
+	removeModel = require('./helpers/removeModel');
 
 describe('List schema pre/post save hooks', function() {
 	var app = getExpressApp(),
-		Test = keystone.List('TestReqUser'),
 		dummyUser = { _id: 'USERID' },
+		Test,
 		pre, post;
 
 	before(function() {
+		// in case other modules didn't cleanup
+		removeModel('Test');
+
+		// create test model
+		Test = keystone.List('Test'),
 		Test.add({ name: { type: String } });
 		Test.schema.pre('save', function(next, done) {
 			pre = this._req_user;
@@ -35,6 +28,11 @@ describe('List schema pre/post save hooks', function() {
 
 		Test.register();
 	});
+
+	// cleanup
+	after(function() {
+		removeModel('Test');
+	})
 
 	describe('when using UpdateHandler()', function() {
 
