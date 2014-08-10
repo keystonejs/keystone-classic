@@ -5,7 +5,8 @@ jQuery(function($) {
 
 	var plugins = [ 'code', 'link' ],
 		toolbar = Keystone.wysiwyg.options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
-        skin = Keystone.wysiwyg.options.skin
+        skin = Keystone.wysiwyg.options.skin,
+        menubar = Keystone.wysiwyg.options.menubar;
 
 	if (Keystone.wysiwyg.options.enableImages) {
 		plugins.push('image');
@@ -34,7 +35,7 @@ jQuery(function($) {
 	//init editable wysiwygs
 	var tinymceOptions = {
 		selector: 'textarea.wysiwyg',
-		menubar: false,
+		menubar: menubar,
 		plugins: plugins,
 		toolbar: toolbar,
 		skin: skin,
