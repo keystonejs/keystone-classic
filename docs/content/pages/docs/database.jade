@@ -139,6 +139,24 @@ block content
 							li <code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not
 						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
 				tr
+					td <code>track</code> <code class="data-type">Boolean or Object</code>
+					td 
+						p Adds a plugin to the list that automatically keeps track of when and who (i.e. which Keystone user) created and last updated an item.
+						p When set to <code class="data-type">true</code> all tracking fields are enabled using their default names.
+						p You may also selectively enable each field and optionally specify a custom field name by setting <code>track</code> to an <code class="data-type">object</code> with any or all the following fields:
+						ul.options
+							li <code>createdAt</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking when the item was created (using the default field name <em>createdAt</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.
+							li <code>createdBy</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking which user created the item (using the default field name <em>createdBy</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.
+							li <code>updatedAt</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking when the item was last updated (using the default field name <em>updatedAt</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.
+							li <code>updatedBy</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking which user last updated the item (using the default field name <em>updatedBy</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.
+						p.note The <code>createdBy</code> and <code>updatedBy</code> fields are only automatically updated when adding/modifying items via the Keystone Admin UI. However, if you intend to add/modify items from within your own app, you must manually set the <code>._req_user</code> property of the item to the currently logged on user (<code>req.user</code>) prior to saving the item, as shown in the example below.
+						pre: code.language-javascript
+							| var item = new List.model();
+							| item.set({ field1: 'value1', field2: 'value2' });
+							| item._req_user = req.user;
+							| item.save();
+						p.note <code>track</code> replaces the use of <code>List.addPattern('standard meta')</code>, which is now deprecated and will be removed future versions of Keystone.
+				tr
 					td <code>noedit</code> <code class="data-type">Boolean</code>
 					td Prevents editing of items in the list through the Keystone Admin UI
 				tr
