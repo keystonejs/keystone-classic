@@ -43,20 +43,24 @@ jQuery(function($) {
 		});
 		$img.prop('src', $img.data().src);
 	});
-	
+
 	$('a[data-toggle=tooltip]').tooltip();
-	
-	$('.ui-datepicker').pikaday({ firstDay: 1 });
-	
+
+	var datepickers = $('.ui-datepicker').pikaday({ firstDay: 1 });
+
+	$('.btn-set-today').click(function() {
+		$(this).prevAll('.ui-datepicker:first').pikaday('setDate', new Date());
+	});
+
 	$('.ui-select2').select2({ allowClear: true });
-	
+
 	$('.ui-select2-tags').each(function(i, el) {
 		el = $(el);
 		el.select2({
 			tags: el.val().split(",")
 		});
 	});
-	
+
 	// clean up empty list sections
 	$('.dropdown-menu .dropdown-header').each(function() {
 		if ($(this).next('.dropdown-header').length) {
@@ -119,8 +123,6 @@ jQuery(function($) {
 							if(value.substr(0,1) == ':') {
 								$related = $('input#field_' + value.substr(1));
 								filters[key] = $related.val();
-							} else {
-								filters[key] = value;
 							}
 						});
 					}
