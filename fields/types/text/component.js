@@ -7,7 +7,7 @@ module.exports = React.createClass({
 	
 	render: function() {
 		
-		var width = 'field-ui width-' + this.props.width;
+		var fieldClassName = 'field-ui width-' + this.props.width;
 		
 		var input = this.props.noedit ?
 			<div className="field-value">{this.props.value}</div> :
@@ -16,7 +16,7 @@ module.exports = React.createClass({
 		return (
 			<div className="field type-text">
 				<label className="field-label">{this.props.label}</label>
-				<div className={width}>
+				<div className={fieldClassName}>
 					{input}
 					<Note note={this.props.note} />
 				</div>
