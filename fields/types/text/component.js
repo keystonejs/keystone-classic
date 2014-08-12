@@ -5,13 +5,26 @@ var React = require('react'),
 
 module.exports = React.createClass({
 	
+	/*
+		TODO (common)
+		- dependsOn
+		- collapse
+	 */
+	
+	valueChanged: function(event) {
+		this.props.onChange({
+			path: this.props.path,
+			value: event.target.value
+		});
+	},
+	
 	render: function() {
 		
 		var fieldClassName = 'field-ui width-' + this.props.width;
 		
 		var input = this.props.noedit ?
 			<div className="field-value">{this.props.value}</div> :
-			<input type="text" name={this.props.path} defaultValue={this.props.value} autoComplete="off" className="form-control" />;
+			<input type="text" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
 		
 		return (
 			<div className="field type-text">

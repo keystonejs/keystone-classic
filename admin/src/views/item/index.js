@@ -8,11 +8,26 @@ var _ = require('underscore'),
 
 var Form = React.createClass({
 	
+	getInitialState: function() {
+		return {
+			values: _.clone(this.props.data.fields)
+		};
+	},
+	
+	handleChange: function(event) {
+		var values = this.state.values;
+		values[event.path] = event.value;
+		console.log(event);
+		console.log(values);
+		this.setState({
+			values: values
+		});
+	},
+	
 	render: function() {
 		
 		var elements = {},
-			headings = 0,
-			values = this.props.data.fields;
+			headings = 0;
 		
 		_.each(this.props.list.elements, function(el) {
 			
@@ -29,12 +44,13 @@ var Form = React.createClass({
 				}
 				
 				var ops = _.clone(el.field);
-				ops.value = values[el.field.path];
+				ops.value = this.state.values[el.field.path];
+				ops.onChange = this.handleChange;
 				elements[el.field.path] = Fields[el.field.type](ops);
 				
 			}
 			
-		});
+		}.bind(this));
 		
 		return <div>
 			{elements}

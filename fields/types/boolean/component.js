@@ -5,6 +5,13 @@ var React = require('react'),
 
 module.exports = React.createClass({
 	
+	valueChanged: function(event) {
+		this.props.onChange({
+			path: this.props.path,
+			value: event.target.checked
+		});
+	},
+	
 	render: function() {
 		
 		var fieldClassName = 'field-ui';
@@ -27,7 +34,7 @@ module.exports = React.createClass({
 			input = (
 				<div className={fieldClassName}>
 					<label htmlFor={this.props.path} className="checkbox">
-						<input type='checkbox' name={this.props.path} id={this.props.path} value='true' defaultChecked={this.props.value} />
+						<input type='checkbox' name={this.props.path} id={this.props.path} value='true' checked={this.props.value} onChange={this.valueChanged} />
 						{this.props.label}
 					</label>
 				</div>
