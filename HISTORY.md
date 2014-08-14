@@ -1,5 +1,20 @@
 # Keystone
 
+## v0.2.26 / 2014-08-14
+
+* added; 'today' button in the datepicker for quick selection of the current day, thanks [Markus Padourek](Globegitter)
+* fixed; linked to/not linked to toggle not respecting currently applied filter
+* added; new `track` option for `List` that enables tracking of standard metadata on documents, including `createdAt`, `createdBy`, `modifiedAt`, `modifiedBy`, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* added; `_req_user` property is available on documents in `pre('save')` middleware when the `UpdateHandler` is used (which includes updates in the Admin UI), thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; edge-case errors in `lib/core/mount`, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; AzureFile upload error, thanks [Emmanuel Nelson](https://github.com/manuelnelson)
+* added; more details, including document name, included for relationship fields in CSV download, thanks [Michael Abadilla](https://github.com/mjmaix)
+* improved; general UI and code clean up
+* fixed; regression of ipRangeRestrict option
+* fixed; path nesting for `Boolean` fields works correctly
+* added; `additionalPlugins` and `additionalOptions` options for `wysiwyg` fields
+* fixed; static value support for `Relationship` field `filters` option, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+
 ## v0.2.25 / 2014-07-27
 
 * fixed; issue #492 - errors uploading to cloudinary fields, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
