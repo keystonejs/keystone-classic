@@ -226,6 +226,26 @@ Post.register();</code></pre>
                   </td>
                 </tr>
                 <tr>
+                  <td><code>track</code> <code class="data-type">Boolean or Object</code></td>
+                  <td> 
+                    <p>Adds a plugin to the list that automatically keeps track of when and who (i.e. which Keystone user) created and last updated an item.</p>
+                    <p>When set to <code class="data-type">true</code> all tracking fields are enabled using their default names.</p>
+                    <p>You may also selectively enable each field and optionally specify a custom field name by setting <code>track</code> to an <code class="data-type">object</code> with any or all the following fields:</p>
+                    <ul class="options">
+                      <li><code>createdAt</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking when the item was created (using the default field name <em>createdAt</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.</li>
+                      <li><code>createdBy</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking which user created the item (using the default field name <em>createdBy</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.</li>
+                      <li><code>updatedAt</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking when the item was last updated (using the default field name <em>updatedAt</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.</li>
+                      <li><code>updatedBy</code> <code class="data-type">Boolean/String</code> - when set to <code class="data-type">true</code>, enables tracking which user last updated the item (using the default field name <em>updatedBy</em>). To use a custom field name set to a <code class="data-type">String</code> with the desired name. Defaults to <code class="data-type">false</code>.</li>
+                    </ul>
+                    <p class="note">The <code>createdBy</code> and <code>updatedBy</code> fields are only automatically updated when adding/modifying items via the Keystone Admin UI. However, if you intend to add/modify items from within your own app, you must manually set the <code>._req_user</code> property of the item to the currently logged on user (<code>req.user</code>) prior to saving the item, as shown in the example below.</p>
+                    <pre><code class="language-javascript">var item = new List.model();
+item.set({ field1: 'value1', field2: 'value2' });
+item._req_user = req.user;
+item.save();</code></pre>
+                    <p class="note"><code>track</code> replaces the use of <code>List.addPattern('standard meta')</code>, which is now deprecated and will be removed future versions of Keystone.</p>
+                  </td>
+                </tr>
+                <tr>
                   <td><code>noedit</code> <code class="data-type">Boolean</code></td>
                   <td>Prevents editing of items in the list through the Keystone Admin UI</td>
                 </tr>
@@ -803,13 +823,14 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <p><code>filename</code> <code class="data-type">Function</code> - function with arguments current model and client file name to return the new filename to upload.</p>
                 <p><code>format</code> <code class="data-type">Function</code> - function with two arguments: current model and file object to return representation of this file in Admin UI.
                   <pre><code class="language-javascript">{
- type: Types.LocalFile,
- dest: '/data/files',
- prefix: '/files/',
- format: function(item, file){
-  return '&lt;img src="/files/'+file.filename+'" style="max-width: 300px"&gt;'
- }
-}</code></pre>
+	type: Types.LocalFile,
+	dest: '/data/files',
+	prefix: '/files/',
+	format: function(item, file){
+		return '&lt;img src="/files/'+file.filename+'" style="max-width: 300px"&gt;'
+	}
+}
+</code></pre>
                 </p>
                 <h5>Schema</h5>
                 <p><code>filename</code> <code class="data-type">String</code></p>
@@ -942,42 +963,47 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
     <script src="/js/lib/jquery/jquery-1.10.2.min.js"></script>
     <script src="/js/lib/bootstrap/collapse.js"></script>
     <script src="/js/lib/prism/prism.min.js"></script>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     <script>
-      if (window.location.hostname.match(/keystonejs\.com/)) {
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-       
-       ga('create', 'UA-43970386-1', 'keystonejs.com');
-       ga('send', 'pageview');
-      }
+      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+      
     </script>
     <script>
       if (window.location.hostname.match(/keystonejs\.com/)) {
-       var _sf_async_config = { uid: 46610, domain: 'keystonejs.com', useCanonical: true };
-       (function() {
-        function loadChartbeat() {
-         window._sf_endpt = (new Date()).getTime();
-         var e = document.createElement('script');
-         e.setAttribute('language', 'javascript');
-         e.setAttribute('type', 'text/javascript');
-         e.setAttribute('src','//static.chartbeat.com/js/chartbeat.js');
-         document.body.appendChild(e);
-        };
-        var oldonload = window.onload;
-        window.onload = (typeof window.onload != 'function') ?
-        loadChartbeat : function() { oldonload(); loadChartbeat(); };
-       })();
+      	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      	ga('create', 'UA-43970386-1', 'keystonejs.com');
+      	ga('send', 'pageview');
       }
+      
     </script>
     <script>
       if (window.location.hostname.match(/keystonejs\.com/)) {
-       setTimeout(function(){var a=document.createElement("script");
-       var b=document.getElementsByTagName("script")[0];
-       a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/3329.js?"+Math.floor(new Date().getTime()/3600000);
-       a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+      	var _sf_async_config = { uid: 46610, domain: 'keystonejs.com', useCanonical: true };
+      	(function() {
+      		function loadChartbeat() {
+      			window._sf_endpt = (new Date()).getTime();
+      			var e = document.createElement('script');
+      			e.setAttribute('language', 'javascript');
+      			e.setAttribute('type', 'text/javascript');
+      			e.setAttribute('src','//static.chartbeat.com/js/chartbeat.js');
+      			document.body.appendChild(e);
+      		};
+      		var oldonload = window.onload;
+      		window.onload = (typeof window.onload != 'function') ?
+      		loadChartbeat : function() { oldonload(); loadChartbeat(); };
+      	})();
+      }
+      
+    </script>
+    <script>
+      if (window.location.hostname.match(/keystonejs\.com/)) {
+      	setTimeout(function(){var a=document.createElement("script");
+      	var b=document.getElementsByTagName("script")[0];
+      	a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/3329.js?"+Math.floor(new Date().getTime()/3600000);
+      	a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
       }
     </script>
   </body>
