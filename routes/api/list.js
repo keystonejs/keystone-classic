@@ -109,7 +109,7 @@ exports = module.exports = function(req, res) {
 		break;
 
 		case 'order':
-			
+
 			if (!keystone.security.csrf.validate(req)) {
 				return sendError('invalid csrf');
 			}
@@ -140,7 +140,7 @@ exports = module.exports = function(req, res) {
 		break;
 
 		case 'create':
-			
+
 			if (!keystone.security.csrf.validate(req)) {
 				return sendError('invalid csrf');
 			}
@@ -179,7 +179,7 @@ exports = module.exports = function(req, res) {
 		break;
 
 		case 'delete':
-			
+
 			if (!keystone.security.csrf.validate(req)) {
 				return sendError('invalid csrf');
 			}
@@ -230,16 +230,20 @@ exports = module.exports = function(req, res) {
 					return '/keystone/' + req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
 				};
 
-			req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1).exec(function(err, items) {
+			var query = req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1),
+				columns = req.list.expandColumns(req.query.cols);
+
+			req.list.selectColumns(query, columns);
+
+			query.exec(function(err, items) {
 				if (err) return sendError('database error', err);
 				if (!items) return sendError('not found');
-				
+
 				var locals, row, pagination;
 
-				req.list.expandColumns(req.query.cols);
 				req.list.getPages(req.query.items, req.list.pagination.maxPages);
 
-				locals = { list: req.list, columns: req.list.expandColumns(req.query.cols), item: items[0], csrf_query: req.query.csrf_query };
+				locals = { list: req.list, columns: columns, item: items[0], csrf_query: req.query.csrf_query, _:_ };
 				row = jade.renderFile(__dirname + '/../../templates/partials/row.jade', locals);
 				pagination = jade.renderFile(__dirname + '/../../templates/partials/pagination.jade', {items: req.query.items, link_to: link_to });
 
@@ -249,7 +253,7 @@ exports = module.exports = function(req, res) {
 					pagination: pagination,
 					success: true,
 					count: 1
-				});			
+				});
 			});
 
 		break;
