@@ -123,6 +123,8 @@ jQuery(function($) {
 							if(value.substr(0,1) == ':') {
 								$related = $('input#field_' + value.substr(1));
 								filters[key] = $related.val();
+							} else {
+								filters[key] = value;
 							}
 						});
 					}
