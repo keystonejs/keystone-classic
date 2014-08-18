@@ -189,18 +189,10 @@ label.checkbox {
 }
 
 .field.type-number,
-.field.type-money,
-.field.type-date {
+.field.type-money {
 	.field-ui {
 		.make-sm-column(3);
 		.make-md-column(2);
-	}
-}
-
-.field.type-datetime {
-	.field-ui {
-		.make-sm-column(6);
-		.make-md-column(4);
 	}
 }
 
@@ -351,13 +343,8 @@ label.checkbox {
 	.image-details + .image-toolbar {
 		margin-top: @input-vspacing;
 	}
-
-	.image-select {
-		clear: both; 
-		padding-top: 10px;
-	}
 	
-	.upload-queued, .delete-queued, .select-queued {
+	.upload-queued, .delete-queued {
 		display: none;
 		.alert {
 			margin-right: 10px;
@@ -664,7 +651,7 @@ label.checkbox {
 .field-message {
 	display: none;
 	min-height: 30px;
-	
+
 	span {
 		display: inline-block;
 		background: #f9f9f9;
@@ -686,11 +673,22 @@ label.checkbox {
     display: inline-block;
     position: relative;
     vertical-align: middle;
-    
+
     > .form-control {
         width: 100%;
     }
 }
+
+.field.type-date .field-ui .form-control, .field.type-datetime .field-ui .form-control{
+	display: inline-block;
+	width: auto;
+}
+
+.field.type-date .btn-set-today, .field.type-datetime .btn-set-now {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .form-inline .field-inline--xs { width: 60px; }
 .form-inline .field-inline--sm { width: 136px; }
 .form-inline .field-inline--md { width: 200px; }

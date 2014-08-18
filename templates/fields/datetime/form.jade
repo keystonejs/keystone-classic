@@ -4,8 +4,8 @@
 		if field.noedit
 			.field-value= field.format(item, 'Do MMM YYYY, h:mm:ss a')
 		else
-			.form-row
-				.col-sm-6: input(type='text', name=field.paths.date, value=field.format(item, 'YYYY-MM-DD'), placeholder='YYYY-MM-DD', autocomplete='off').form-control.ui-datepicker
-				.col-sm-6: input(type='text', name=field.paths.time, value=field.format(item, 'h:mm:ss a'), placeholder='HH:MM:SS am/pm', autocomplete='off').form-control
+			input(type='text', name=field.paths.date, value=field.format(item, 'YYYY-MM-DD'), placeholder='YYYY-MM-DD', autocomplete='off').form-control.ui-datepicker
+			input(type='text', name=field.paths.time, value=field.format(item, 'h:mm:ss a'), placeholder='HH:MM:SS am/pm', autocomplete='off').form-control.time
+			a(href=js).btn.btn-default.btn-set-now Now
 	if field.note
 		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note!= field.note
