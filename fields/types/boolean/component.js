@@ -1,12 +1,11 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
-	FieldMixin = require('../../mixins/field'),
-	Note = require('../../components/note');
+	Field = require('../field');
 
-module.exports = React.createClass({
+module.exports = Field.create({
 	
-	mixins: [FieldMixin],
+	type: 'email',
 	
 	valueChanged: function(event) {
 		this.props.onChange({
@@ -15,20 +14,16 @@ module.exports = React.createClass({
 		});
 	},
 	
-	render: function() {
+	renderUI: function() {
 		
-		var fieldClassName = 'field-ui';
+		var input, state, fieldClassName = 'field-ui';
 		
 		if (this.props.indent) {
 			fieldClassName += ' field-indented';
 		}
 		
-		console.log(this.props);
-		
-		var input;
-		
 		if (this.props.noedit) {
-			var state = this.props.value ? 'checked' : 'unchecked';
+			state = this.props.value ? 'checked' : 'unchecked';
 			input = (
 				<div className={fieldClassName}>
 					<img src='/keystone/images/icons/16/checkbox-checked.png' width='16' height='16' className={state} />
