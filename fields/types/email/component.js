@@ -17,10 +17,10 @@ module.exports = Field.create({
 		width: true
 	},
 	
-	renderField: function() {		
-		return this.props.noedit ?
-			<div className="field-value">{this.props.value}</div> :
-			<input type="text" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+	renderValue: function() {
+		return this.props.value
+			? <a className="ui-related-item" href={"mailto:" + this.props.value}>{this.props.value}</a>
+			: <div className="help-block">(not set)</div>;
 	}
 	
 });

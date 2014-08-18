@@ -47,10 +47,12 @@ var Base = module.exports.Base = {
 			fieldClassName += ' width-' + this.props.width;
 		}
 		
+		var inner = this.props.noedit ? this.renderValue() : this.renderField();
+		
 		return <div className={"field type-" + spec.type}>
 			<label className="field-label">{this.props.label}</label>
 			<div className={fieldClassName}>
-				{this.renderField()}
+				{inner}
 				<Note note={this.props.note} />
 			</div>
 		</div>;
@@ -58,9 +60,11 @@ var Base = module.exports.Base = {
 	},
 	
 	renderField: function() {
-		return this.props.noedit
-			? <div className="field-value">{this.props.value}</div>
-			: <input type="text" name={this.props.path} ref="focusTarget" value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+		return <input type="text" name={this.props.path} ref="focusTarget" value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+	},
+	
+	renderValue: function() {
+		return <div className="field-value">{this.props.value}</div>;
 	}
 	
 }
