@@ -1,21 +1,18 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
+	FieldMixin = require('../../mixins/field'),
+	TextFieldMixin = require('../../mixins/textField'),
 	Note = require('../../components/note');
 
 module.exports = React.createClass({
+	
+	mixins: [FieldMixin, TextFieldMixin],
 	
 	/*
 		TODO:
 		- gravatar
 	 */
-	
-	valueChanged: function(event) {
-		this.props.onChange({
-			path: this.props.path,
-			value: event.target.value
-		});
-	},
 	
 	render: function() {
 		

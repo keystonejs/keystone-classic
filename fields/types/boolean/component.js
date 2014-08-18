@@ -1,9 +1,12 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
+	FieldMixin = require('../../mixins/field'),
 	Note = require('../../components/note');
 
 module.exports = React.createClass({
+	
+	mixins: [FieldMixin],
 	
 	valueChanged: function(event) {
 		this.props.onChange({
@@ -19,6 +22,8 @@ module.exports = React.createClass({
 		if (this.props.indent) {
 			fieldClassName += ' field-indented';
 		}
+		
+		console.log(this.props);
 		
 		var input;
 		

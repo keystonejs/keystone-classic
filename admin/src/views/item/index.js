@@ -45,6 +45,7 @@ var Form = React.createClass({
 				
 				var ops = _.clone(el.field);
 				ops.value = this.state.values[el.field.path];
+				ops.values = this.state.values;
 				ops.onChange = this.handleChange;
 				elements[el.field.path] = Fields[el.field.type](ops);
 				
