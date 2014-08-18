@@ -65,16 +65,66 @@ var Base = module.exports.Base = {
 	
 }
 
+var Mixins = module.exports.Mixins = {
+	
+	Collapse: {
+		
+		componentWillMount: function() {
+			this.setState({
+				isCollapsed: this.shouldCollapse()
+			});
+		},
+		
+		componentDidUpdate: function(prevProps, prevState) {
+			if (prevState.isCollapsed && !this.state.isCollapsed && this.refs.focusTarget) {
+				this.refs.focusTarget.getDOMNode().focus();
+			}
+		},
+		
+		shouldCollapse: function() {
+			return this.props.collapse && !this.props.value;
+		},
+		
+		uncollapse: function() {
+			this.setState({
+				isCollapsed: false
+			});
+		},
+		
+		renderCollapse: function() {
+			
+			if (this.props.noedit) {
+				return null;
+			}
+			
+			return <div className="col-sm-12">
+				<label className="uncollapse">
+					<a href="javascript:;" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</a>
+				</label>
+			</div>;
+			
+		}
+		
+	}
+	
+}
+
 module.exports.create = function(spec) {
 	
 	spec = validateSpec(spec);
 	
 	var field = {
 		
+		mixins: [Mixins.Collapse],
+		
 		render: function() {
 			
 			if (!evalDependsOn(this.props.dependsOn, this.props.values)) {
 				return null;
+			}
+			
+			if (this.state.isCollapsed) {
+				return this.renderCollapse();
 			}
 			
 			return this.renderUI(spec);
