@@ -17,6 +17,10 @@
   margin:0;
 }
 
+.md-editor>.md-header .btn-primary {
+  color: inherit;
+}
+
 .md-editor>.md-preview {
   background:#fff;
   border-top:1px dashed #ddd;
