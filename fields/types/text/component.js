@@ -5,8 +5,6 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
-	type: 'text',
-	
 	supports: {
 		width: true
 	}

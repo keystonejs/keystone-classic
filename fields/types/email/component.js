@@ -11,8 +11,6 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
-	type: 'email',
-	
 	supports: {
 		width: true
 	},

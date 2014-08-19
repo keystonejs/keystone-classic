@@ -5,8 +5,6 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
-	type: 'email',
-	
 	valueChanged: function(event) {
 		this.props.onChange({
 			path: this.props.path,
