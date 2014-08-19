@@ -15,6 +15,9 @@ function validateSpec(spec) {
 	if (!_.isObject(spec.supports)) {
 		spec.supports = {};
 	}
+	if (!spec.focusTargetRef) {
+		spec.focusTargetRef = 'focusTarget';
+	}
 	return spec;
 }
 
@@ -38,11 +41,15 @@ var Base = module.exports.Base = {
 			value: event.target.value
 		});
 	},
+		
+	shouldCollapse: function() {
+		return this.props.collapse && !this.props.value;
+	},
 	
 	renderUI: function(spec) {
 		
 		var fieldClassName = 'field-ui';
-			
+		
 		if (spec.supports.width) {
 			fieldClassName += ' width-' + this.props.width;
 		}
@@ -80,13 +87,9 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		componentDidUpdate: function(prevProps, prevState) {
-			if (prevState.isCollapsed && !this.state.isCollapsed && this.refs.focusTarget) {
-				this.refs.focusTarget.getDOMNode().focus();
+			if (prevState.isCollapsed && !this.state.isCollapsed && this.refs[this.spec.focusTargetRef]) {
+				this.refs[this.spec.focusTargetRef].getDOMNode().focus();
 			}
-		},
-		
-		shouldCollapse: function() {
-			return this.props.collapse && !this.props.value;
 		},
 		
 		uncollapse: function() {
@@ -120,6 +123,8 @@ module.exports.create = function(spec) {
 	spec = validateSpec(spec);
 	
 	var field = {
+		
+		spec: spec,
 		
 		mixins: [Mixins.Collapse],
 		
