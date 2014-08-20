@@ -1,0 +1,169 @@
+// 
+// Select
+// ==============================
+
+
+// variables
+
+@select-text-color:            @text-color;
+@select-input-border-color:    @input-border;
+@select-input-border-radius:   @input-border-radius;
+
+@select-padding-vertical:      @padding-base-vertical;
+@select-padding-horizontal:    @padding-base-horizontal;
+
+@select-arrow-color:           @gray-light;
+
+@select-menu-zindex:           @zindex-dropdown;
+
+@select-option-color:          @select-text-color;
+@select-option-hover-color:    #1f526b; // dark blue
+@select-option-hover-bg:       #f2f9fc; // pale blue
+
+
+// wrapper
+
+.Select {
+	position: relative;
+}
+
+
+
+
+// Control
+// ------------------------------
+
+
+// base
+
+.Select-control {
+	#gradient .vertical( #fefefe, #f9f9f9 );
+	border: 1px solid @select-input-border-color;
+	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
+	border-radius: @select-input-border-radius;
+	color: @input-color;
+	cursor: pointer;
+	padding: @select-padding-vertical @select-padding-horizontal;
+
+	&:hover {
+		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+	}
+}
+
+
+// indicator arrow
+
+.Select-control:after {
+	border-color: @select-arrow-color transparent transparent;
+	border-style: solid;
+	border-width: 5px 5px 0;
+	content: " ";
+	display: block;
+	height: 0;
+	margin-top: -3px;
+	position: absolute;
+	right: @select-padding-horizontal;
+	top: 50%;
+	width: 0;
+
+	// flip the arrow so its pointing up when the menu is open
+
+	.Select-control.is-open & {
+		border-color: transparent transparent @select-arrow-color;
+		border-width: 0 5px 5px;
+	}
+}
+
+
+// open state
+
+.is-open > .Select-control {
+	.border-bottom-radius( 0 );
+	background: white;
+	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
+	cursor: auto;
+}
+
+
+// the actual <input> element users type in
+
+.Select-input {
+	border: 0 none;
+	background: none transparent;
+}
+
+
+// the little cross that clears the field
+
+.Select-clear {
+	.transition( opacity 200ms linear 150ms ); // introduce the element with a quick fade-in
+	color: @gray-light;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 1.1em; // make a bit more visible and fix line-height issue
+	opacity: 0;
+	padding: @select-padding-vertical @select-padding-horizontal;
+	position: absolute;
+	right: (@select-padding-horizontal * 2);
+	visibility: hidden;
+	top: 0;
+
+	.is-open & {
+		opacity: 1;
+		visibility: visible;
+
+		&:hover {
+			color: red;
+		}
+	}
+}
+
+
+
+
+// Menu
+// ------------------------------
+
+
+// wrapper
+
+.Select-menu {
+	.border-bottom-radius( @select-input-border-radius );
+	background-color: white;
+	border: 1px solid @select-input-border-color;
+	border-top-color: mix(white, @select-input-border-color, 50%);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+	margin-top: -1px;
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	z-index: @select-menu-zindex;
+}
+
+
+// options
+
+.Select-option {
+	color: @select-option-color;
+	cursor: pointer;
+	display: block;
+	padding: @select-padding-vertical @select-padding-horizontal;
+
+	&:last-child {
+		.border-bottom-radius( @select-input-border-radius );
+	}
+
+	&:hover {
+		background-color: @select-option-hover-bg;
+		color: @select-option-hover-color;
+	}
+}
+
+
+
+
+
+
+
+
+

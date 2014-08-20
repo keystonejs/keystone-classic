@@ -12,7 +12,7 @@ var Option = React.createClass({
 	},
 	
 	render: function() {
-		return <div className="react-select-input" onClick={this.select}>{this.props.label}</div>;
+		return <div className="Select-option" onClick={this.select}>{this.props.label}</div>;
 	}
 	
 });
@@ -85,10 +85,14 @@ var Select = React.createClass({
 	
 	render: function() {
 		
-		var menu = this.state.isOpen ? <div className="react-select-menu">{this.getOptions()}</div> : null;
+		var menu = this.state.isOpen ? <div className="Select-menu">{this.getOptions()}</div> : null;
+		var selectState = this.state.isOpen ? 'Select is-open' : 'Select';
 		
-		return <div className="react-select">
-			<input className="react-select-input" ref="input" value={this.state.inputText} onFocus={this.open} onBlur={this.blur} onChange={this.updateInputText} />
+		return <div className={selectState}>
+			<div className="Select-control" onClick={this.open}>
+				<input className="Select-input" ref="input" value={this.state.inputText} onFocus={this.open} onBlur={this.blur} onChange={this.updateInputText} />
+				<span className="Select-clear">&times;</span>
+			</div>
 			{menu}
 		</div>;
 	}
