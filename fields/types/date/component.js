@@ -56,7 +56,7 @@ module.exports = Field.create({
 	},
 
 	setDate: function(dateValue) {
-		this.setState({	value: dateValue	});
+		this.setState({ value: dateValue });
 		this.props.onChange({
 			path: this.props.path,
 			value: this.isValid(dateValue) ? moment(dateValue, this.inputFormat).toISOString() : null
