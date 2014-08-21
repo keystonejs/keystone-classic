@@ -25,8 +25,6 @@ module.exports = Field.create({
 	},
 
 	componentDidMount: function() {
-		var _this = this;
-
 		// just return if noedit is enabled
 		if (this.props.noedit) {
 			return;
@@ -37,8 +35,8 @@ module.exports = Field.create({
 			field: this.refs.dateInput.getDOMNode(),
 			onSelect: function(date) {
 				format: this.inputFormat,
-				_this.setDate(_this.picker.toString());
-			}
+				this.setDate(this.picker.toString());
+			}.bind(this)
 		});			
 
 	},
