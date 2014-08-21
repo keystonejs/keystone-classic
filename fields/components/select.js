@@ -90,7 +90,7 @@ var Select = React.createClass({
 		
 		return <div className={selectState}>
 			<div className="Select-control" onClick={this.open}>
-				<input className="Select-input" ref="input" value={this.state.inputText} onFocus={this.open} onBlur={this.blur} onChange={this.updateInputText} />
+				<input className="Select-input" placeholder="Select..." ref="input" value={this.state.inputText} onFocus={this.open} onBlur={this.blur} onChange={this.updateInputText} />
 				<span className="Select-clear">&times;</span>
 			</div>
 			{menu}

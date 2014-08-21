@@ -1,35 +1,4 @@
 // 
-// Select
-// ==============================
-
-
-// variables
-
-@select-text-color:            @text-color;
-@select-input-border-color:    @input-border;
-@select-input-border-radius:   @input-border-radius;
-
-@select-padding-vertical:      @padding-base-vertical;
-@select-padding-horizontal:    @padding-base-horizontal;
-
-@select-arrow-color:           @gray-light;
-
-@select-menu-zindex:           @zindex-dropdown;
-
-@select-option-color:          @select-text-color;
-@select-option-hover-color:    #1f526b; // dark blue
-@select-option-hover-bg:       #f2f9fc; // pale blue
-
-
-// wrapper
-
-.Select {
-	position: relative;
-}
-
-
-
-
 // Control
 // ------------------------------
 
@@ -37,11 +6,11 @@
 // base
 
 .Select-control {
-	#gradient .vertical( #fefefe, #f9f9f9 );
+	background-color: white;
 	border: 1px solid @select-input-border-color;
 	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
 	border-radius: @select-input-border-radius;
-	color: @input-color;
+	color: @select-text-color;
 	cursor: pointer;
 	padding: @select-padding-vertical @select-padding-horizontal;
 
@@ -68,14 +37,14 @@
 
 	// flip the arrow so its pointing up when the menu is open
 
-	.Select-control.is-open & {
+	.is-open > & {
 		border-color: transparent transparent @select-arrow-color;
 		border-width: 0 5px 5px;
 	}
 }
 
 
-// open state
+// open state applied to the .Select wrapper
 
 .is-open > .Select-control {
 	.border-bottom-radius( 0 );
@@ -88,8 +57,11 @@
 // the actual <input> element users type in
 
 .Select-input {
+	.placeholder(@select-input-placeholder);
 	border: 0 none;
 	background: none transparent;
+	outline: none;
+	-webkit-appearance: none;
 }
 
 
@@ -97,7 +69,7 @@
 
 .Select-clear {
 	.transition( opacity 200ms linear 150ms ); // introduce the element with a quick fade-in
-	color: @gray-light;
+	color: @select-clear-color;
 	cursor: pointer;
 	display: inline-block;
 	font-size: 1.1em; // make a bit more visible and fix line-height issue
@@ -113,57 +85,7 @@
 		visibility: visible;
 
 		&:hover {
-			color: red;
+			color: @select-clear-hover-color;
 		}
 	}
 }
-
-
-
-
-// Menu
-// ------------------------------
-
-
-// wrapper
-
-.Select-menu {
-	.border-bottom-radius( @select-input-border-radius );
-	background-color: white;
-	border: 1px solid @select-input-border-color;
-	border-top-color: mix(white, @select-input-border-color, 50%);
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-	margin-top: -1px;
-	position: absolute;
-	top: 100%;
-	width: 100%;
-	z-index: @select-menu-zindex;
-}
-
-
-// options
-
-.Select-option {
-	color: @select-option-color;
-	cursor: pointer;
-	display: block;
-	padding: @select-padding-vertical @select-padding-horizontal;
-
-	&:last-child {
-		.border-bottom-radius( @select-input-border-radius );
-	}
-
-	&:hover {
-		background-color: @select-option-hover-bg;
-		color: @select-option-hover-color;
-	}
-}
-
-
-
-
-
-
-
-
-

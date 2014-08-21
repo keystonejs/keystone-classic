@@ -1,0 +1,38 @@
+// 
+// Select Menu
+// ------------------------------
+
+
+// wrapper
+
+.Select-menu {
+	.border-bottom-radius( @select-input-border-radius );
+	background-color: white;
+	border: 1px solid @select-input-border-color;
+	border-top-color: mix(white, @select-input-border-color, 50%);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+	margin-top: -1px;
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	z-index: @select-menu-zindex;
+}
+
+
+// options
+
+.Select-option {
+	color: @select-option-color;
+	cursor: pointer;
+	display: block;
+	padding: @select-padding-vertical @select-padding-horizontal;
+
+	&:last-child {
+		.border-bottom-radius( @select-input-border-radius );
+	}
+
+	&:hover {
+		background-color: @select-option-hover-bg;
+		color: @select-option-hover-color;
+	}
+}
