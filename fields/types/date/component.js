@@ -13,12 +13,15 @@ module.exports = Field.create({
 
 	// default formats
 	inputFormat: 'YYYY-MM-DD',
-	noEditFormat: 'Do MMM YYYY',
 
 	getInitialState: function() {
 		return { 
 			value: this.props.value ? moment(this.props.value).format(this.inputFormat) : ''
 		};
+	},
+
+	getDefaultProps: function() {
+		formatString: 'Do MMM YYYY'
 	},
 
 	componentDidMount: function() {
@@ -78,7 +81,7 @@ module.exports = Field.create({
 		if (this.props.noedit) {
 			input = (
 				<div className={fieldClassName}>
-					<div className="field-value">{this.format(this.props.value, this.props.formatString || this.noEditFormat)}</div>
+					<div className="field-value">{this.format(this.props.value, this.props.formatString)}</div>
 				</div>
 			);
 		} else {
