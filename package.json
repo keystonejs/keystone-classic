@@ -25,6 +25,7 @@
     "moment": "~2.8.1",
     "mongoose": "~3.8.12",
     "numeral": "~1.5.3",
+    "pikaday": "^1.2.0",
     "queryfilter": "~0.0.4",
     "range_check": "~0.0.4",
     "react": "~0.11.1",
