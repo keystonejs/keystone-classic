@@ -16,10 +16,10 @@ module.exports = Field.create({
 	noEditFormat: 'Do MMM YYYY',
 
 	getInitialState: function() {
-    return { 
-    	value: this.props.value ? moment(this.props.value).format(this.inputFormat) : ''
-    };
-  },
+		return { 
+			value: this.props.value ? moment(this.props.value).format(this.inputFormat) : ''
+		};
+	},
 
 	componentDidMount: function() {
 		var _this = this;
