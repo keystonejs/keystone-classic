@@ -36,3 +36,17 @@
 		color: @select-option-hover-color;
 	}
 }
+
+
+// no results
+
+.Select-noresults {
+	color: @select-noresults-color;
+	cursor: default;
+	display: block;
+	padding: @select-padding-vertical @select-padding-horizontal;
+
+	&:last-child {
+		.border-bottom-radius( @select-input-border-radius );
+	}
+}

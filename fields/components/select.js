@@ -8,8 +8,8 @@ var logEvent = function(msg) {
 	console.log(msg);
 };
 
-// uncomment this line to debug the control state
-logEvent = noop;
+// comment out this line to debug the control state
+// logEvent = noop;
 
 var classes = function() {
 	var rtn = [];
@@ -73,12 +73,6 @@ var Select = React.createClass({
 		};
 	},
 	
-	componentDidUpdate: function(prevProps, prevState) {
-		// if (prevState.isFocused && !this.state.isFocused && this.state.isOpen) {
-		// 	this.close();
-		// }
-	},
-	
 	handleMouseDown: function() {
 		logEvent('click: control');
 		if (this.state.isOpen) {
@@ -109,6 +103,9 @@ var Select = React.createClass({
 				this.refs.input.getDOMNode().focus();
 			}
 		}.bind(this), 0);
+		this.setState({
+			isFocused: true
+		});
 	},
 	
 	handleBlur: function(event) {
@@ -126,6 +123,7 @@ var Select = React.createClass({
 	
 	handleKeyPress: function(event) {
 		logEvent('------');
+		console.log(event);
 	},
 	
 	handleInputMouseDown: function(event) {
@@ -153,17 +151,22 @@ var Select = React.createClass({
 		});
 	},
 	
-	selectOption: function(option) {
+	close: function() {
 		this.setState({
-			value: option.value,
-			inputValue: option.label,
-			placeholder: option.label,
 			isOpen: false
 		});
 	},
 	
-	close: function() {
+	selectOption: function(option) {
+		this.setValue(option);
+		this.refs.control.getDOMNode().focus();
+	},
+	
+	setValue: function(option) {
 		this.setState({
+			value: option.value,
+			inputValue: option.label,
+			placeholder: option.label,
 			isOpen: false
 		});
 	},
@@ -182,13 +185,13 @@ var Select = React.createClass({
 				|| op.value.toLowerCase().indexOf(this.state.inputValue.toLowerCase()) >= 0
 				|| op.label.toLowerCase().indexOf(this.state.inputValue.toLowerCase()) >= 0
 			) {
-				ops[op.value] = Option({
-					label: op.label,
-					value: op.value,
-					onSelect: this.selectOption
-				});
+				ops[op.value] = <div className="Select-option" onMouseDown={this.selectOption.bind(this, op)}>{op.label}</div>;
 			}
 		}, this);
+		
+		if (_.isEmpty(ops)) {
+			ops._no_ops = <div className="Select-noresults">No results found</div>;
+		}
 		
 		return ops;
 		
