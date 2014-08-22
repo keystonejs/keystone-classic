@@ -81,9 +81,10 @@ block intro
 				li(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
 			else
 				li id: #{item.id}
-			li: a(href='/keystone/#{list.path}?new' + csrf_query)
-				span.mr-5.ion-plus
-				| New #{list.singular}
+			if !list.options.nocreate
+				li: a(href='/keystone/#{list.path}?new' + csrf_query)
+					span.mr-5.ion-plus
+					| New #{list.singular}
 			
 block content
 	form(method='post', enctype='multipart/form-data').item-details
