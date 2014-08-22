@@ -12,6 +12,7 @@
 	border-radius: @select-input-border-radius;
 	color: @select-text-color;
 	cursor: pointer;
+	outline: none;
 	padding: @select-padding-vertical @select-padding-horizontal;
 
 	&:hover {
@@ -50,6 +51,12 @@
 	.border-bottom-radius( 0 );
 	background: white;
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
+}
+
+
+// focus state applied to the .Select wrapper
+
+.is-focused > .Select-control {
 	cursor: text;
 }
 
@@ -64,7 +71,7 @@
 	outline: none;
 	-webkit-appearance: none;
 	
-	.is-open & {
+	.is-focused & {
 		cursor: text;
 	}
 }
