@@ -50,7 +50,7 @@
 	.border-bottom-radius( 0 );
 	background: white;
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
-	cursor: auto;
+	cursor: text;
 }
 
 
@@ -58,34 +58,32 @@
 
 .Select-input {
 	.placeholder(@select-input-placeholder);
+	cursor: pointer;
 	border: 0 none;
 	background: none transparent;
 	outline: none;
 	-webkit-appearance: none;
+	
+	.is-open & {
+		cursor: text;
+	}
 }
 
 
 // the little cross that clears the field
 
 .Select-clear {
-	.transition( opacity 200ms linear 150ms ); // introduce the element with a quick fade-in
+	// todo: animate transition in
 	color: @select-clear-color;
 	cursor: pointer;
 	display: inline-block;
 	font-size: 1.1em; // make a bit more visible and fix line-height issue
-	opacity: 0;
 	padding: @select-padding-vertical @select-padding-horizontal;
 	position: absolute;
 	right: (@select-padding-horizontal * 2);
-	visibility: hidden;
 	top: 0;
 
-	.is-open & {
-		opacity: 1;
-		visibility: visible;
-
-		&:hover {
-			color: @select-clear-hover-color;
-		}
+	&:hover {
+		color: @select-clear-hover-color;
 	}
 }

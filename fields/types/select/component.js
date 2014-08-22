@@ -17,6 +17,7 @@ module.exports = Field.create({
 		
 		// return <input type="text" name={this.props.path} ref="focusTarget" value={this.props.value} onChange={this.valueChanged} />;
 		return Select({
+			name: this.props.path,
 			value: this.props.value,
 			options: this.props.ops
 		});
