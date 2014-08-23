@@ -34,8 +34,8 @@ module.exports = Field.create({
 		// add date picker
 		this.picker = new Pikaday({ 
 			field: this.refs.dateInput.getDOMNode(),
+			format: this.inputFormat,
 			onSelect: function(date) {
-				format: this.inputFormat,
 				this.setDate(this.picker.toString());
 			}.bind(this)
 		});			
