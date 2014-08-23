@@ -4,5 +4,6 @@ module.exports = {
 	email: require('../../fields/types/email/component'),
 	select: require('../../fields/types/select/component'),
 	location: require('../../fields/types/location/component'),
-	date: require('../../fields/types/date/component')
+	date: require('../../fields/types/date/component'),
+	datetime: require('../../fields/types/datetime/component')
 };
