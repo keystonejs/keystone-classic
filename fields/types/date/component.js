@@ -3,7 +3,7 @@
 var React = require('react'),
 	Field = require('../field'),
 	Note = require('../../components/note'),
-	pikaday = require('pikaday'),
+	InputDate = require('../../components/inputDate'),
 	moment = require('moment');
 
 module.exports = Field.create({
@@ -23,27 +23,6 @@ module.exports = Field.create({
 
 	getDefaultProps: function() {
 		formatString: 'Do MMM YYYY'
-	},
-
-	componentDidMount: function() {
-		// just return if noedit is enabled
-		if (this.props.noedit) {
-			return;
-		}
-
-		// add date picker
-		this.picker = new Pikaday({ 
-			field: this.refs.dateInput.getDOMNode(),
-			format: this.inputFormat,
-			onSelect: function(date) {
-				this.setDate(this.picker.toString());
-			}.bind(this)
-		});			
-
-	},
-	componentWillUnmount: function() {
-		// clean up
-		this.picker.destroy();
 	},
 
 	// TODO: Move isValid() so we can share with server-side code
@@ -69,8 +48,8 @@ module.exports = Field.create({
 		this.setDate(moment().format(this.inputFormat));
 	},
 
-	valueChanged: function(event) {
-		this.setDate(event.target.value);
+	valueChanged: function(value) {
+		this.setDate(value);
 	},
 
 	renderUI: function() {
@@ -86,7 +65,7 @@ module.exports = Field.create({
 		} else {
 			input = (
 				<div className={fieldClassName}>
-					<input type="text" name={this.props.path} ref="dateInput" value={this.state.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />
+					<InputDate ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} />
 					<a className="btn btn-default btn-set-today" onClick={this.setToday}>Today</a>
 				</div>
 			);
@@ -94,7 +73,7 @@ module.exports = Field.create({
 		
 		return (
 			<div className="field type-date">
-				<label className="field-label">{this.props.label}</label>
+				<label htmlFor={this.props.path} className="field-label">{this.props.label}</label>
 				{input}
 				<div className="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2">
 					<Note note={this.props.note} />
