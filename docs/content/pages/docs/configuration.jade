@@ -273,6 +273,37 @@ block content
 						p Defaults to <code class="default-value">/keystone</code>
 			
 			p For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.
+
+
+			a(name='options-ui')
+			h3 Admin UI Options
+			
+			p The following options control some ui options for the Admin backend:
+
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>wysiwyg images</code> <code class="data-type">Boolean</code>
+					td
+						p Adds an image button which enables including images from other URLS in your WYSIWYG Editor.
+				tr
+					td <code>wysiwyg cloudinary images</code> <code class="data-type">Boolean</code>
+					td
+						p Adds an image upload button and enables cloudinary image uploads directly in your WYSIWYG Editor.
+				tr
+					td <code>wysiwyg additional buttons</code> <code class="data-type">String</code>
+					td
+						p Allows to add additional extra functionality buttons such as <code>blockquote</code>.
+						p A complete list of available buttons can be found at: <a href="http://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a>
+				tr
+					td <code>wysiwyg additional plugins</code> <code class="data-type">String</code>
+					td
+						p Allows for additional plugins to be activated which can be found at: <a href="http://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a>
+				tr
+					td <code>wysiwyg additional options</code> <code class="data-type">Object</code>
+					td
+						p Allows for additional TinyMCE options, such as <code>{ menubar: true }</code> to be modified.
 			
 			
 			//- a(name='emails')

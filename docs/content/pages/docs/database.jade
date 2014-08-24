@@ -409,16 +409,22 @@ block content
 				col(width=210)
 				col
 				tr
-					td <code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code>
+					td <code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code> or <code class="data-type">Function</code>
 					td
-						p When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved.
-						p Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.
-						p Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.
+						p When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved. <br>
+						p Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes. <br><strong>For example:</strong> <code class="default-value">'author title state'</code>
+						p Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified. <br><strong>For example:</strong> <code class="default-value">{'state': 'published', 'mainPost': true}</code>
+						p Provide a function that returns true/false whenever you want. <br><strong>For example:</strong> <code class="default-value">function() { return this.author === this.editor; }</code>
 				tr
 					td <code>value</code> <code class="data-type">Function</code>
 					td
 						p The function to generate the field value when a watched path is changed. Must return the new value.
 						p The <code>this</code> context of the function will be the item being saved.
+						p <strong>For example:</strong>
+						pre: code.language-javascript
+							| function () {
+							|     return this.total<=this.totalreceived ? true:false;
+							| }
 			
 			//- TODO: Documentation for field methods
 			
@@ -574,7 +580,7 @@ block content
 			.options
 				
 				h5 Options
-				p <code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI
+				p <code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI  - for customizations of the editor see the <a href="/docs/configuration/#options-ui">Admin UI Options</a>.
 				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)
 			
 			
