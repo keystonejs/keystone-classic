@@ -5,8 +5,8 @@ jQuery(function($) {
 
 	var plugins = [ 'code', 'link' ],
 		toolbar = Keystone.wysiwyg.options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
-        skin = Keystone.wysiwyg.options.skin,
-        menubar = Keystone.wysiwyg.options.menubar;
+		skin = Keystone.wysiwyg.options.skin,
+		menubar = Keystone.wysiwyg.options.menubar;
 
 	if (Keystone.wysiwyg.options.enableImages) {
 		plugins.push('image');
