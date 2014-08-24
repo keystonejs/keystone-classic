@@ -50,10 +50,10 @@ If you can, please contribute by reporting issues, discussing ideas, or submitti
 
 If you're going to contribute code, please try and mimic the existing code standards - we follow [AirBNB's Javascript Style Guide](https://github.com/airbnb/javascript) fairly closely, with the exception of using tab indentation.
 
+
 ### Documentation
 
-If yo want to contribute to the documentation, just run them locally within the `docs` folder.  
-Run `npm install` followed by `node docs`, which will compile all the templates and serve up the site on port 8080.
+The Keystone docs are hosted online at [keystonejs.com](http://keystonejs.com). If you are offline, or would like to contribute to the docs and preview your changes, you can serve them locally by running `node docs` within the `./docs` folder (you will also have to run `npm install` first. This will start the docs site on port 8080.
 
 
 ## Usage
