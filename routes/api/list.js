@@ -190,7 +190,7 @@ exports = module.exports = function(req, res) {
 
 			var id = req.body.id || req.query.id;
 			
-			if (id === String(req.user._id)) {
+			if (id === req.user.id) {
 				return sendError('You can not delete yourself');
 			}
 			
