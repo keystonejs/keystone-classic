@@ -9,7 +9,7 @@ var logEvent = function(msg) {
 };
 
 // comment out this line to debug the control state
-// logEvent = noop;
+logEvent = noop;
 
 var classes = function() {
 	var rtn = [];
@@ -263,9 +263,7 @@ var Select = React.createClass({
 	},
 	
 	filterOptions: function() {
-		var o = _.filter(this.props.options, this.filterOption, this);
-		console.log(o);
-		return o;
+		return _.filter(this.props.options, this.filterOption, this);
 	},
 	
 	filterOption: function(op) {
