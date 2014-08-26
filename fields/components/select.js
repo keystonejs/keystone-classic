@@ -38,7 +38,14 @@ var Option = React.createClass({
 	},
 	
 	render: function() {
-		return <div className="Select-option" onMouseDown={this.select}>{this.props.label}</div>;
+		
+		var optionClass = classes({
+			'Select-option': true,
+			'focused': this.props.focused
+		});
+		
+		return <div className={optionClass} onMouseDown={this.select}>{this.props.label}</div>;
+		
 	}
 	
 });
@@ -50,7 +57,7 @@ var Select = React.createClass({
 			value: this.props.value,
 			inputValue: '',
 			placeholder: '',
-			matchedOption: null,
+			focusedOption: null,
 			isFocused: false,
 			isOpen: false
 		};
@@ -61,16 +68,36 @@ var Select = React.createClass({
 	},
 	
 	getStateFromValue: function(value) {
-		var selectedOption = _.findWhere(this.props.options, { value: value });
+		var selectedOption = ('string' === typeof value) ? _.findWhere(this.props.options, { value: value }) : value;
 		return selectedOption ? {
 			value: value,
 			inputValue: selectedOption.label,
-			placeholder: selectedOption.label
+			placeholder: selectedOption.label,
+			focusedOption: selectedOption
 		} : {
 			value: '',
 			inputValue: '',
-			placeholder: this.props.placeholder || 'Select...'
+			placeholder: this.props.placeholder || 'Select...',
+			focusedOption: null
 		};
+	},
+	
+	keyboardActions: {
+		13: 'selectFocusedOption',
+		27: 'closeOnEscape',
+		38: 'focusPreviousOption',
+		40: 'focusNextOption'
+	},
+	
+	handleKeyDown: function(event) {
+		logEvent('------');
+		logEvent(event);
+		var action = this.keyboardActions[event.keyCode];
+		if (!action) {
+			return;
+		}
+		event.preventDefault();
+		this[action].call(this);
 	},
 	
 	handleMouseDown: function() {
@@ -121,11 +148,6 @@ var Select = React.createClass({
 		}.bind(this), 100);
 	},
 	
-	handleKeyPress: function(event) {
-		logEvent('------');
-		console.log(event);
-	},
-	
 	handleInputMouseDown: function(event) {
 		if (this._inputIsFocused) {
 			logEvent('click: input');
@@ -151,42 +173,126 @@ var Select = React.createClass({
 		});
 	},
 	
-	close: function() {
-		this.setState({
-			isOpen: false
-		});
-	},
-	
 	selectOption: function(option) {
 		this.setValue(option);
 		this.refs.control.getDOMNode().focus();
 	},
 	
 	setValue: function(option) {
-		this.setState({
-			value: option.value,
-			inputValue: option.label,
-			placeholder: option.label,
-			isOpen: false
-		});
+		var newState = this.getStateFromValue(option);
+		newState.isOpen = false;
+		this.setState(newState);
+	},
+	
+	selectFocusedOption: function() {
+		return this.setValue(this.state.focusedOption);
 	},
 	
 	clearValue: function(event) {
 		logEvent('clear value');
-		this.setState(this.getStateFromValue(null));
+		this.setValue(null);
+	},
+	
+	closeOnEscape: function() {
+		this.setValue(this.state.value);
+	},
+	
+	focusOption: function(op) {
+		this.setState({
+			focusedOption: op
+		});
+	},
+	
+	unfocusOption: function(op) {
+		if (this.state.focusedOption === op) {
+			this.setState({
+				focusedOption: null
+			});
+		}
+	},
+	
+	focusNextOption: function() {
+		this.focusAdjacentOption('next');
+	},
+	
+	focusPreviousOption: function() {
+		this.focusAdjacentOption('previous');
+	},
+	
+	focusAdjacentOption: function(dir) {
+		
+		if (!this.state.isOpen) {
+			this.setState({
+				isOpen: true,
+				inputValue: ''
+			});
+			return;
+		}
+		
+		var ops = this.filterOptions();
+		
+		if (!ops.length) {
+			return;
+		}
+		
+		var focusedIndex = -1;
+		
+		for (var i = 0; i < ops.length; i++) {
+			if (this.state.focusedOption === ops[i]) {
+				focusedIndex = i;
+				break;
+			}
+		}
+		
+		var focusedOption = ops[0];
+		
+		if (dir === 'next' && focusedIndex > -1 && focusedIndex < ops.length - 1) {
+			focusedOption = ops[focusedIndex + 1];
+		} else if (dir === 'previous') {
+			if (focusedIndex > 0) {
+				focusedOption = ops[focusedIndex - 1];
+			} else {
+				focusedOption = ops[ops.length - 1];
+			}
+		}
+		
+		this.setState({
+			focusedOption: focusedOption
+		});
+		
+	},
+	
+	filterOptions: function() {
+		var o = _.filter(this.props.options, this.filterOption, this);
+		console.log(o);
+		return o;
+	},
+	
+	filterOption: function(op) {
+		return (
+			!this.state.inputValue
+			|| op.value.toLowerCase().indexOf(this.state.inputValue.toLowerCase()) >= 0
+			|| op.label.toLowerCase().indexOf(this.state.inputValue.toLowerCase()) >= 0
+		);
 	},
 	
 	getOptions: function() {
 		
 		var ops = {};
 		
-		_.each(this.props.options, function(op) {
-			if (!this.state.inputValue
-				|| op.value.toLowerCase().indexOf(this.state.inputValue.toLowerCase()) >= 0
-				|| op.label.toLowerCase().indexOf(this.state.inputValue.toLowerCase()) >= 0
-			) {
-				ops[op.value] = <div className="Select-option" onMouseDown={this.selectOption.bind(this, op)}>{op.label}</div>;
-			}
+		_.each(this.filterOptions(), function(op) {
+			
+			var optionClass = classes({
+				'Select-option': true,
+				'is-focused': this.state.focusedOption === op
+			});
+			
+			var mouseEnter = this.focusOption.bind(this, op),
+				mouseLeave = this.unfocusOption.bind(this, op),
+				mouseDown = this.selectOption.bind(this, op);
+			
+			ops[op.value] = <div className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown}>{op.label}</div>;
+			
 		}, this);
 		
 		if (_.isEmpty(ops)) {
@@ -200,6 +306,7 @@ var Select = React.createClass({
 	render: function() {
 		
 		logEvent('render');
+		// console.log(this.state);
 		
 		var menu = this.state.isOpen ? <div className="Select-menu">{this.getOptions()}</div> : null;
 		var clear = this.state.value ? <span className="Select-clear" onClick={this.clearValue}>&times;</span> : null;
@@ -209,9 +316,9 @@ var Select = React.createClass({
 			'is-focused': this.state.isFocused
 		});
 		
-		return <div className={selectClass} onKeyPress={this.handleKeyPress}>
+		return <div className={selectClass}>
 			<input type="hidden" ref="value" name={this.props.name} value={this.state.value} />
-			<div className="Select-control" tabIndex="-1" ref="control" onMouseDown={this.handleMouseDown} onFocus={this.handleFocus} onBlur={this.handleBlur}>
+			<div className="Select-control" tabIndex="-1" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onFocus={this.handleFocus} onBlur={this.handleBlur}>
 				<input className="Select-input" placeholder={this.state.placeholder} ref="input" onMouseDown={this.handleInputMouseDown} value={this.state.inputValue} onFocus={this.handleInputFocus} onBlur={this.handleInputBlur} onChange={this.handleInputChange} />
 				{clear}
 			</div>
