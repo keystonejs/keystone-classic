@@ -35,7 +35,7 @@ block content
 			a(name='options-project')
 			h3 Project Options
 			
-			p The following options control the branding and navigation of the KeystoneJS application in the Admin UI:
+			p The following options control the branding, navigation and default export settings of the KeystoneJS application in the Admin UI:
 			
 			table.table
 				col(width=210)
@@ -51,6 +51,9 @@ block content
 					td
 						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
 						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
+				tr
+					td <code>csv field delimiter</code> <code class="data-type">String</code>
+					td Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
 			
 			.code-header
 				h4 Custom Navigation Example

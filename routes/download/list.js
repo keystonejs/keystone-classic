@@ -72,7 +72,8 @@ exports = module.exports = function(req, res) {
 
 			csv().from(data).to(res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv'), {
 				header: true,
-				columns: columns
+				columns: columns,
+				delimiter: keystone.get('csv field delimiter') || ','
 			});
 
 		};
