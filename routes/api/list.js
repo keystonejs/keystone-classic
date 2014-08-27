@@ -189,7 +189,11 @@ exports = module.exports = function(req, res) {
 			}
 
 			var id = req.body.id || req.query.id;
-
+			
+			if (id === req.user.id) {
+				return sendError('You can not delete yourself');
+			}
+			
 			req.list.model.findById(id).exec(function (err, item) {
 
 				if (err) return sendError('database error', err);
