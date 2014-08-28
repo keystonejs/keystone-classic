@@ -1,11 +1,13 @@
 var demand = require('must'),
 	request = require('supertest'),
+	methodOverride = require('method-override'),
+	bodyParser = require('body-parser'),
 	keystone = require('../../index.js');
 
 var getApp = function() {
 	var app = keystone.express();
-	app.use(keystone.express.bodyParser());
-	app.use(keystone.express.methodOverride());
+	app.use(bodyParser());
+	app.use(methodOverride());
 	return app;
 }
 
