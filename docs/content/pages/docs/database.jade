@@ -582,8 +582,25 @@ block content
 				h5 Options
 				p <code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI  - for customizations of the editor see the <a href="/docs/configuration/#options-ui">Admin UI Options</a>.
 				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)
-			
-			
+				p <code>wysiwyg override toolbar</code> <code class="data-type">Booelan</code> - this will remove the default set of buttons for wysiwyg mode. Good for rearangging buttons, use with <code>wysiwyg additional buttons</code> and <code>wysiwyg additional plugins</code>. Defaults to <code class="data-type">false</code>.
+				p <code>wysiwyg menubar</code> <code class="data-type">Boolean</code> - show the <a href="http://www.tinymce.com/wiki.php/Configuration:menubar">menubar</a> for wysiwyg editor. Defaults to <code class="data-type">false</code>.
+				p <code>wysiwyg additional buttons</code> <code class="data-type">String</code> - add additional <a href="http://www.tinymce.com/wiki.php/Controls">buttons</a> to wysiwyg.
+				p <code>wysiwyg additional plugins</code> <code class="data-type">String</code> - add additional plugins to wysiwyg. see <a href="http://www.tinymce.com/wiki.php/Configuration:plugins">usage</a>. see <a href="http://www.tinymce.com/wiki.php/Plugins">available plugins</a>.
+				p <code>wysiwyg skin</code> <code class="data-type">String</code> - allow to change <a href="http://www.tinymce.com/wiki.php/Configuration:skin">skin</a>. Defaults to <code class="data-type">keystone</code>.
+
+			a(name='html-example')
+			h3 Example using wysiwyg options
+
+			.code-header: h4 keystone.js
+			pre: code.language-javascript
+				|keystone.init({
+				| 'wysiwyg override toolbar': false,
+				| 'wysiwyg menubar': true,
+				| 'wysiwyg skin': 'lightgray',
+				| 'wysiwyg additional buttons': 'searchreplace visualchars, charmap ltr rtl pagebreak paste, forecolor backcolor, emoticons media, preview print ',
+				| 'wysiwyg additional plugins': 'example, table, advlist, anchor, autolink, autosave, bbcode, charmap, contextmenu, directionality, emoticons, fullpage, hr, media, pagebreak, paste, preview, print, searchreplace, textcolor, visualblocks, visualchars, wordcount',
+				| });
+
 			a(name="fieldtypes-color")
 			h3 <code>Color</code>
 			h4 <code class="data-type">Color</code> &mdash; Displayed as a text field with a color picker
