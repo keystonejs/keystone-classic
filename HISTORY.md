@@ -4,7 +4,7 @@
 
 * fixed; exception when deleting item that has many-many relation from list view, thanks [Thomas Pedersen](https://github.com/thedersen)
 * fixed; issues related to sortOrder calculation, thanks [Alberto Gasparin](https://github.com/albertogasparin)
-* updated; bootstrap-markdown.js (v2.5.0) and underscore (1.7.0)
+* updated; Markdown visual editor (bootstrap-markdown.js) to (v2.5.0), thanks [Alberto Gasparin](https://github.com/albertogasparin)
 * improved; createItems is more robust when linking new items, thanks [Carlos Colon](https://github.com/webteckie)
 * fixed; remaining link to create new items when a list is set to `nocreate`
 * fixed; Field `watch` option issues, thanks [Markus Padourek](https://github.com/Globegitter)
