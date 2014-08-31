@@ -64,6 +64,7 @@ permalink: /docs/configuration/
                   <li><a href="#options-server">Web Server Options</a></li>
                   <li><a href="#options-ssl">SSL Options</a></li>
                   <li><a href="#options-database">Database and User Auth Options</a></li>
+                  <li><a href="#options-ui">Admin UI Options</a></li>
                   <li class="nav-label"><a href="#services">Services</a></li>
                   <li><a href="#services-google-analytics">Google Analytics</a></li>
                   <li><a href="#services-google-maps">Google Maps</a></li>
@@ -91,7 +92,7 @@ permalink: /docs/configuration/
               </ul>
               <p>If you want to keep secret keys and configuration out of your codebase (especially important for open source projects, or projects where not all developers should have access to production config settings) the <a href="https://npmjs.org/package/dotenv" target="_blank">dotenv</a> module makes this very easy to manage.</p><a name="options-project"></a>
               <h3>Project Options</h3>
-              <p>The following options control the branding and navigation of the KeystoneJS application in the Admin UI:</p>
+              <p>The following options control the branding, navigation and default export settings of the KeystoneJS application in the Admin UI:</p>
               <table class="table">
                 <col width="210">
                 <col>
@@ -109,6 +110,10 @@ permalink: /docs/configuration/
                     <p>An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.</p>
                     <p>The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.</p>
                   </td>
+                </tr>
+                <tr>
+                  <td><code>csv field delimiter</code> <code class="data-type">String</code></td>
+                  <td>Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.</td>
                 </tr>
               </table>
               <div class="code-header">
@@ -373,7 +378,81 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                   </td>
                 </tr>
               </table>
-              <p>For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.</p><a name="services"></a>
+              <p>For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.</p><a name="options-ui"></a>
+              <h3>Admin UI Options</h3>
+              <p>The following options control some ui options for the Admin backend:</p>
+              <table class="table">
+                <col width="210">
+                <col>
+                <tr>
+                  <td><code>wysiwyg images</code> <code class="data-type">Boolean</code></td>
+                  <td>
+                    <p>Adds an image button which enables including images from other URLS in your WYSIWYG Editor.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>wysiwyg cloudinary images</code> <code class="data-type">Boolean</code></td>
+                  <td>
+                    <p>Adds an image upload button and enables cloudinary image uploads directly in your WYSIWYG Editor.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>wysiwyg additional buttons</code> <code class="data-type">String</code></td>
+                  <td>
+                    <p>Allows to add additional extra functionality buttons such as <code>blockquote</code>.</p>
+                    <p>A complete list of available buttons can be found at: <a href="http://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>wysiwyg additional plugins</code> <code class="data-type">String</code></td>
+                  <td>
+                    <p>Allows for additional plugins to be activated which can be found at: <a href="http://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>wysiwyg additional options</code> <code class="data-type">Object</code></td>
+                  <td>
+                    <p>Allows for additional TinyMCE options, such as <code>{ menubar: true }</code> to be modified.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>wysiwyg override toolbar</code> <code class="data-type">Booelan</code></td>
+                  <td>
+                    <p>This will remove the default set of buttons for wysiwyg mode. Use this with <code>wysiwyg additional buttons</code> and <code>wysiwyg additional plugins</code>. Defaults to <code class="data-type">false</code>.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>wysiwyg menubar</code> <code class="data-type">Boolean</code></td>
+                  <td>
+                    <p>Show the menubar for wysiwyg editor. Defaults to <code class="data-type">false</code>.</p>
+                    <p>See <a href="http://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a> for more details</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>wysiwyg skin</code> <code class="data-type">String</code></td>
+                  <td>
+                    <p>Allow to change skin. Defaults to <code class="data-type">keystone</code>.</p>
+                    <p>See <a href="http://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a> for more details
+                      <div class="code-header">
+                        <h4>Example using wysiwyg options</h4>
+                      </div>
+                      <pre><code class="language-javascript">keystone.init({
+'wysiwyg override toolbar': false,
+'wysiwyg menubar': true,
+'wysiwyg skin': 'lightgray',
+'wysiwyg additional buttons': 'searchreplace visualchars,'
+ + ' charmap ltr rtl pagebreak paste, forecolor backcolor,'
+ +' emoticons media, preview print ',
+'wysiwyg additional plugins': 'example, table, advlist, anchor,'
+ + ' autolink, autosave, bbcode, charmap, contextmenu, '
+ + ' directionality, emoticons, fullpage, hr, media, pagebreak,'
+ + ' paste, preview, print, searchreplace, textcolor,'
+ + ' visualblocks, visualchars, wordcount',
+});</code></pre>
+                    </p>
+                  </td>
+                </tr>
+              </table><a name="services"></a>
               <h2>Services</h2><a name="services-google-analytics"></a>
               <h3>Google Analytics</h3>
               <p>Keystone has support for Google Analytics tracking in the Admin UI. To enable tracking, set the following configuration options:</p>

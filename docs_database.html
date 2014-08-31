@@ -465,11 +465,12 @@ Post.model.findById(postId)
                 <col width="210">
                 <col>
                 <tr>
-                  <td><code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code></td>
+                  <td><code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code> or <code class="data-type">Function</code></td>
                   <td>
-                    <p>When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved.</p>
-                    <p>Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.</p>
-                    <p>Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.</p>
+                    <p>When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved. <br></p>
+                    <p>Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes. <br><strong>For example:</strong> <code class="default-value">'author title state'</code></p>
+                    <p>Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified. <br><strong>For example:</strong> <code class="default-value">{'state': 'published', 'mainPost': true}</code></p>
+                    <p>Provide a function that returns true/false whenever you want. <br><strong>For example:</strong> <code class="default-value">function() { return this.author === this.editor; }</code></p>
                   </td>
                 </tr>
                 <tr>
@@ -477,6 +478,10 @@ Post.model.findById(postId)
                   <td>
                     <p>The function to generate the field value when a watched path is changed. Must return the new value.</p>
                     <p>The <code>this</code> context of the function will be the item being saved.</p>
+                    <p><strong>For example:</strong></p>
+                    <pre><code class="language-javascript">function () {
+    return this.total<=this.totalreceived ? true:false;
+}</code></pre>
                   </td>
                 </tr>
               </table><a name="fields-underscoremethods"></a>
@@ -569,9 +574,10 @@ item._.url.format(); // "keystonejs.com"</code></pre>
               <pre><code class="language-javascript">{ type: Types.Html, wysiwyg: true }</code></pre>
               <div class="options">
                 <h5>Options</h5>
-                <p><code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI</p>
+                <p><code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI  - for customizations of the editor see the <a href="/docs/configuration/#options-ui">Admin UI Options</a>.</p>
                 <p><code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)</p>
-              </div><a name="fieldtypes-color"></a>
+              </div>
+              <p>See the <a href="/docs/configuration#options-ui">Admin UI Options</a> for global configuration options that can be used to customise the WYSIWYG editor.</p><a name="fieldtypes-color"></a>
               <h3><code>Color</code></h3>
               <h4><code class="data-type">Color</code> &mdash; Displayed as a text field with a color picker</h4>
               <pre><code class="language-javascript">{ type: Types.Color }</code></pre><a name="fieldtypes-date"></a>
