@@ -468,6 +468,9 @@ block content
 				| 
 				| // optional, will prefix all built-in tags with 'keystone_'
 				| keystone.set('cloudinary prefix', 'keystone');
+				| 
+				| // optional, will prefix image IDs with [{prefix}]/{list.path}/{field.path}/
+				| keystone.set('cloudinary folders', true);
 			
 			
 			a(name='services-embedly')
