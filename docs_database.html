@@ -783,6 +783,17 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               <p>See the <a href="/docs/configuration#services-cloudinary">Cloudinary configuration documentation</a> for details on how to set up Cloudinary in KeystoneJS.</p>
               <pre><code class="language-javascript">{ type: Types.CloudinaryImage }</code></pre>
               <div class="options">
+                <h5>Options</h5>
+                <p><code>publicID</code> <code class="data-type">String</code> name of the field to be used as the Cloudinary image <code class="data-type">public_id</code>.</p>
+                <pre><code class="language-javascript">{ type: Types.CloudinaryImage, publicID: 'slug' }</code></pre>
+                <p><code>folder</code> <code class="data-type">String</code> specifies the folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.</p>
+                <pre><code class="language-javascript">{ type: Types.CloudinaryImage, folder: 'path/to/image' }</code></pre>
+                <p><code>autoCleanup</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code> changes Keystone's default behavior from <code class="default-value">remove</code> (which only removes the Cloudinary image from the database) to <code class="default-value">delete</code> (which removes the image from both the database and Cloudinary storage). Additionally, this option replaces an existing image (if one already exists) during upload.</p>
+                <pre><code class="language-javascript">{ type: Types.CloudinaryImage, autoCleanup : true }</code></pre>
+                <p><code>select</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code> a select field is displayed with a list of images currently available in Cloudinary storage. Only images with IDs that begin with the <code>selectPrefix</code> will be displayed when the <code>selectPrefix</code> is specified. Otherwise, images with IDs that begin with the <code>folder</code> will be displayed. If neither <code>selectPrefix</code> nor <code>folder</code> are configured, then only images with IDs that begin with <code class="data-type">[{prefix}]/{list.path}/{field.path}/</code> will be displayed.</p>
+                <pre><code class="language-javascript">{ type: Types.CloudinaryImage, select : true }</code></pre>
+                <p><code>selectPrefix</code> <code class="data-type">String</code> specifies the the prefix of the images that will be available for selection when <code>select</code> option is <code class="default-value">true</code>.</p>
+                <pre><code class="language-javascript">{ type: Types.CloudinaryImage, select: true, selectPrefix: 'path/to/images' }</code></pre>
                 <h5>Schema</h5>
                 <p><code>public_id</code> <code class="data-type">String</code></p>
                 <p><code>version</code> <code class="data-type">Number</code></p>
