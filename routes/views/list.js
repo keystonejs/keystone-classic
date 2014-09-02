@@ -175,6 +175,11 @@ exports = module.exports = function(req, res) {
 		
 		if (!checkCSRF()) return renderView();
 		
+		if (req.query['delete'] === req.user.id) {
+			req.flash('error', 'You can\'t delete your own ' + req.list.singular + '.');
+			return renderView();
+		}
+		
 		req.list.model.findById(req.query['delete']).exec(function (err, item) {
 			if (err || !item) return res.redirect('/keystone/' + req.list.path);
 			

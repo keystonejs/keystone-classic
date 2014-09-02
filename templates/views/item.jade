@@ -120,7 +120,7 @@ block content
 			if !list.get('noedit')
 				button(type='submit').btn.btn-default.btn-save Save
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
-			if !list.get('nodelete')
+			if !list.get('nodelete')  && item.id !== user.id
 				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
 	
 	if showRelationships
