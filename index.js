@@ -313,7 +313,10 @@ Keystone.prototype.render = function(req, res, view, ext) {
 				timestamp: cloudinaryUpload.hidden_fields.timestamp,
 				signature: cloudinaryUpload.hidden_fields.signature,
 				prefix: keystone.get('cloudinary prefix') || '',
-				uploader: cloudinary.uploader
+				uploader: cloudinary.uploader,
+        foldername: keystone.get('cloudinary foldername'),
+        use_filename: keystone.get('cloudinary use_filename'),
+        unique_filename: keystone.get('cloudinary unique_filename')
 			};
 			locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
 		} catch(e) {
