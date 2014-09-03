@@ -29,6 +29,7 @@
     "queryfilter": "~0.0.4",
     "range_check": "~0.0.4",
     "react": "~0.11.1",
+    "react-select": "~0.0.2",
     "semver": "~3.0.1",
     "underscore": "~1.7.0"
   },
