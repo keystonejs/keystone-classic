@@ -293,7 +293,10 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			enableCloudinaryUploads: keystone.get('wysiwyg cloudinary images') ? true : false,
 			additionalButtons: keystone.get('wysiwyg additional buttons') || '',
 			additionalPlugins: keystone.get('wysiwyg additional plugins') || '',
-			additionalOptions: keystone.get('wysiwyg additional options') || {}
+			additionalOptions: keystone.get('wysiwyg additional options') || {},
+			overrideToolbar: keystone.get('wysiwyg override toolbar'),
+			skin: keystone.get('wysiwyg skin') || 'keystone',
+			menubar: keystone.get('wysiwyg menubar')
 		}
 	};
 	

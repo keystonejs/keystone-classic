@@ -1,5 +1,20 @@
 # Keystone
 
+## v0.2.27 / 2014-08-30
+
+* fixed; exception when deleting item that has many-many relation from list view, thanks [Thomas Pedersen](https://github.com/thedersen)
+* fixed; issues related to sortOrder calculation, thanks [Alberto Gasparin](https://github.com/albertogasparin)
+* updated; Markdown visual editor (bootstrap-markdown.js) to (v2.5.0), thanks [Alberto Gasparin](https://github.com/albertogasparin)
+* improved; createItems is more robust when linking new items, thanks [Carlos Colon](https://github.com/webteckie)
+* fixed; remaining link to create new items when a list is set to `nocreate`
+* fixed; Field `watch` option issues, thanks [Markus Padourek](https://github.com/Globegitter)
+* added; more options to customise the WYSIWYG editor toolbar, thanks [Michael Abadilla](https://github.com/mjmaix)
+* improved; users can no longer delete themselves, thanks [Brett Newman](snowkeeper)
+* added; new option `mongo replica set` for using a MongoDB Replica Set, thanks [Ivan Fuyivara](https://github.com/ifuyivara)
+* added; `csv field delimiter` option to specify a custom CSV field delimiter, thanks [Louis-Michel Couture](https://github.com/louim)
+* improved; redirects and error handlers are now the last items set up in `keystone.mount()`, thanks [Brett Newman](snowkeeper)
+
+
 ## v0.2.26 / 2014-08-14
 
 * added; 'today' button in the datepicker for quick selection of the current day, thanks [Markus Padourek](Globegitter)
@@ -14,6 +29,7 @@
 * fixed; path nesting for `Boolean` fields works correctly
 * added; `additionalPlugins` and `additionalOptions` options for `wysiwyg` fields
 * fixed; static value support for `Relationship` field `filters` option, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+
 
 ## v0.2.25 / 2014-07-27
 
