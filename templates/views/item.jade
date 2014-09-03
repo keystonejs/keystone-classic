@@ -78,9 +78,10 @@ block intro
 				li(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
 			else
 				li id: #{item.id}
-			li: a(href='/keystone/#{list.path}?new' + csrf_query)
-				span.mr-5.ion-plus
-				| New #{list.singular}
+			if !list.options.nocreate
+				li: a(href='/keystone/#{list.path}?new' + csrf_query)
+					span.mr-5.ion-plus
+					| New #{list.singular}
 			
 block content
 	form(method='post', enctype='multipart/form-data').item-details
@@ -113,7 +114,7 @@ block content
 			if !list.get('noedit')
 				button(type='submit').btn.btn-default.btn-save Save
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
-			if !list.get('nodelete')
+			if !list.get('nodelete')  && item.id !== user.id
 				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
 	
 	if showRelationships

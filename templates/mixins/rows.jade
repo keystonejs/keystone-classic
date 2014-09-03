@@ -2,8 +2,10 @@ include columns
 
 mixin row(list, colums, item)
   tr(id=item.id)
-    if !list.get('nodelete')
+    if !list.get('nodelete') && item.id !== user.id
       td.control: a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query).control-delete
+    else if !list.get('nodelete')
+      td.control
     if sortable
       td.control: a(href=js).control-sort
     each col, i in columns

@@ -4,6 +4,10 @@
 		if item.get(field.paths.exists)
 			.field-value= item.get(field.paths.providerName) + ' ' + utils.upcase(item.get(field.paths.type))
 			.field-value= item.get(field.paths.url)
+			if item.get(field.paths.thumbnailUrl)
+				.image-preview
+					a(href=item.get(field.paths.url), rel=field.path).img-thumbnail
+						img(width=item.get(field.paths.thumbnailWidth), height=item.get(field.paths.thumbnailHeight), src=item.get(field.paths.thumbnailUrl))
 		else
 			.field-value (not set)
 	if field.note

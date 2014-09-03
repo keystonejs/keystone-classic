@@ -1,7 +1,7 @@
 ![KeystoneJS](http://keystonejs.com/images/logo.svg)
 ===================================
 
-![Build Status](https://travis-ci.org/JedWatson/keystone.svg)
+![Build Status](https://travis-ci.org/keystonejs/keystone.svg)
 
 [KeystoneJS](http://keystonejs.com) is a powerful new Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com) that makes it easy to create sophisticated web sites and apps, and gives you a beautiful, auto-generated Admin UI.
 
@@ -49,6 +49,11 @@ We love to hear feedback about Keystone and the projects you're using it for, an
 If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
 
 If you're going to contribute code, please try and mimic the existing code standards - we follow [AirBNB's Javascript Style Guide](https://github.com/airbnb/javascript) fairly closely, with the exception of using tab indentation.
+
+
+### Documentation
+
+The Keystone docs are hosted online at [keystonejs.com](http://keystonejs.com). If you are offline, or would like to contribute to the docs and preview your changes, you can serve them locally by running `node docs` within the `./docs` folder (you will also have to run `npm install` first. This will start the docs site on port 8080.
 
 
 ## Usage

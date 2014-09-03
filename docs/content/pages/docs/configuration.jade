@@ -35,7 +35,7 @@ block content
 			a(name='options-project')
 			h3 Project Options
 			
-			p The following options control the branding and navigation of the KeystoneJS application in the Admin UI:
+			p The following options control the branding, navigation and default export settings of the KeystoneJS application in the Admin UI:
 			
 			table.table
 				col(width=210)
@@ -51,6 +51,9 @@ block content
 					td
 						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
 						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
+				tr
+					td <code>csv field delimiter</code> <code class="data-type">String</code>
+					td Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
 			
 			.code-header
 				h4 Custom Navigation Example
@@ -273,8 +276,69 @@ block content
 						p Defaults to <code class="default-value">/keystone</code>
 			
 			p For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.
+
+
+			a(name='options-ui')
+			h3 Admin UI Options
 			
-			
+			p The following options control some ui options for the Admin backend:
+
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>wysiwyg images</code> <code class="data-type">Boolean</code>
+					td
+						p Adds an image button which enables including images from other URLS in your WYSIWYG Editor.
+				tr
+					td <code>wysiwyg cloudinary images</code> <code class="data-type">Boolean</code>
+					td
+						p Adds an image upload button and enables cloudinary image uploads directly in your WYSIWYG Editor.
+				tr
+					td <code>wysiwyg additional buttons</code> <code class="data-type">String</code>
+					td
+						p Allows to add additional extra functionality buttons such as <code>blockquote</code>.
+						p A complete list of available buttons can be found at: <a href="http://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a>
+				tr
+					td <code>wysiwyg additional plugins</code> <code class="data-type">String</code>
+					td
+						p Allows for additional plugins to be activated which can be found at: <a href="http://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a>
+				tr
+					td <code>wysiwyg additional options</code> <code class="data-type">Object</code>
+					td
+						p Allows for additional TinyMCE options, such as <code>{ menubar: true }</code> to be modified.
+				tr
+					td <code>wysiwyg override toolbar</code> <code class="data-type">Booelan</code>
+					td
+						p This will remove the default set of buttons for wysiwyg mode. Use this with <code>wysiwyg additional buttons</code> and <code>wysiwyg additional plugins</code>. Defaults to <code class="data-type">false</code>.
+				tr
+					td <code>wysiwyg menubar</code> <code class="data-type">Boolean</code>
+					td
+						p Show the menubar for wysiwyg editor. Defaults to <code class="data-type">false</code>.
+						p See <a href="http://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a> for more details
+				tr
+					td <code>wysiwyg skin</code> <code class="data-type">String</code>
+					td
+						p Allow to change skin. Defaults to <code class="data-type">keystone</code>.
+						p See <a href="http://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a> for more details
+
+							.code-header
+								h4 Example using wysiwyg options
+							pre: code.language-javascript
+								| keystone.init({
+								| 'wysiwyg override toolbar': false,
+								| 'wysiwyg menubar': true,
+								| 'wysiwyg skin': 'lightgray',
+								| 'wysiwyg additional buttons': 'searchreplace visualchars,'
+								|  + ' charmap ltr rtl pagebreak paste, forecolor backcolor,'
+								|  +' emoticons media, preview print ',
+								| 'wysiwyg additional plugins': 'example, table, advlist, anchor,'
+								|  + ' autolink, autosave, bbcode, charmap, contextmenu, '
+								|  + ' directionality, emoticons, fullpage, hr, media, pagebreak,'
+								|  + ' paste, preview, print, searchreplace, textcolor,'
+								|  + ' visualblocks, visualchars, wordcount',
+								| });
+
 			//- a(name='emails')
 			//- h2 Emails
 			//- 
@@ -404,6 +468,9 @@ block content
 				| 
 				| // optional, will prefix all built-in tags with 'keystone_'
 				| keystone.set('cloudinary prefix', 'keystone');
+				| 
+				| // optional, will prefix image IDs with [{prefix}]/{list.path}/{field.path}/
+				| keystone.set('cloudinary folders', true);
 			
 			
 			a(name='services-embedly')
