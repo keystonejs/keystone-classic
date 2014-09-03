@@ -57,7 +57,10 @@ jQuery(function($) {
   };
 
   $('textarea.markdown').each(function () {
-    var hiddenButtons = ['Heading'];
+    var hiddenButtons = ['Heading'],
+        buttonsToHide = $(this).attr('data-toolbar-hidden-buttons');
+    if(buttonsToHide) { hiddenButtons = hiddenButtons.concat( buttonsToHide.split(',') ); }
+    
     $(this).markdown( $.extend({ hiddenButtons: hiddenButtons }, markdownOptions) );
   });
 
