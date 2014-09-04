@@ -116,13 +116,29 @@ jQuery(function($) {
 				dataType: 'json',
 				quietMillis: 500,
 				data: function(term, page) {
-					var filters, $related;
+					var filters, $related, fieldName;
 					if (refFilters) {
 						filters = {};
 						_.each(refFilters, function(value, key) {
-							if(value.substr(0,1) == ':') {
-								$related = $('input#field_' + value.substr(1));
-								filters[key] = $related.val();
+							if($.type(value) === 'string' && value.substr(0,1) == ':') {
+								fieldName = value.substr(1);
+								// check for an existing input field
+								$related = $('input[name="' + fieldName + '"]');
+								if ($related.length) {
+									filters[key] = $related.val();
+									return;
+								}
+								// check for an existing select field
+								$related = $('input#field_' + fieldName);
+								if ($related.length) {
+									filters[key] = $related.val();
+									return;
+								}
+								// check if filtering by id and item was already saved
+								if (fieldName === '_id' && Keystone.item) {
+									filters[key] = Keystone.item.id;
+									return;
+								}
 							} else {
 								filters[key] = value;
 							}

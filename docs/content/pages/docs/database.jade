@@ -465,6 +465,45 @@ block content
 				|     categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
 				| });
 			
+			h5 Relationship Filters
+			
+			p You can filter a relationship field using the <code>filters</code> option.
+
+			p The <code>filters</code> option is an object of key/pair values, in which the keys correspond to the fields of the related model to be filtered, and the values will either be literals or field names in the current model, the value of which will be used to filter the relationship.
+
+			p In the example below, the <code>author</code> field will only allow selection of a <code>User</code> whose <code>group</code> field is equal to 'admin'.
+			
+			pre: code.language-javascript
+				| Post.add({
+				|     title: { type: String, required: true },
+				|     category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+				|     author: { type: Types.Relationship, ref: 'User', filters: { group: 'admin' } }
+				| });
+			
+			p You can also filter by the value of another field on the model. You do this setting the value of the filter to the name of the field, prefixed by a colon (:). 
+
+			p In the example below, the <code>author</code> field will only allow selection of a <code>User</code> whose <code>group</code> field is equal to the value of the <code>category</code> field of the <code>Post</code> model.
+
+			pre: code.language-javascript
+				| Post.add({
+				|     title: { type: String, required: true },
+				|     category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+				|     author: { type: Types.Relationship, ref: 'User', filters: { group: ':category' } }
+				| });
+
+			p Finally, you can also filter by the current model's <code>_id</code> field.
+			
+			p In the example below, the <code>bestPost</code> field will only allow selection of a <code>Post</code> whose <code>author</code> field is equal to the <code>_id</code> of the current document.
+
+			pre: code.language-javascript
+				| User.add({
+				|     name: { type: String, required: true },
+				|     group: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+				|     bestPost: { type: Types.Relationship, ref: 'Post', filters: { author: ':_id' } }
+				| });
+
+			p.note You can only set filters on one-many relationships (i.e. when the <code>many</code> option is NOT set to <code class="default-value">true</code>).
+			
 			h5 Populating related data in queries
 			
 			p You can populate related data for relationship fields thanks to <a href="http://mongoosejs.com/docs/populate.html" target="_blank">Mongoose's populate functionality</a>. To populate the author and category documents when loading a Post from the example above, you would do this:
