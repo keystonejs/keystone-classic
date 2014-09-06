@@ -51,8 +51,12 @@ block content
 						if list.nameIsInitial
 							if list.nameField.type == 'name'
 								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+								if list.nameField.note
+									.field-note !{list.nameField.note}
 							else if list.nameField.type == 'text'
 								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+								if list.nameField.note
+									.field-note !{list.nameField.note}
 							else
 								.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 						

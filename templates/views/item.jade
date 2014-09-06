@@ -94,6 +94,8 @@ block content
 		.field.item-name: .col-sm-12
 			if nameIsEditable
 				input(type='text', name=list.nameField.path, value=item.get(list.nameField.path)).form-control.input-lg
+				if list.nameField.note
+					.field-note !{list.nameField.note}
 			else if nameField
 				h2.form-heading.name-value= list.nameField.format(item) || '(no name)'
 			else
