@@ -137,6 +137,7 @@ block content
 							li <code>from</code> <code class="data-type">String</code> - the field or path to generate the key from, can be a space-delimited list of fields
 							li <code>path</code> <code class="data-type">String</code> - the path to store the key at
 							li <code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not
+							li <code>fixed</code> <code class="data-type">Boolean</code> - the key should be kept if it exists and it's non-empty. Defaults to <code class="data-type">false</code>.
 						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
 				tr
 					td <code>track</code> <code class="data-type">Boolean or Object</code>
