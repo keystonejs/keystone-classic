@@ -1,19 +1,19 @@
 {
   "bitwise": true,
   "camelcase": false,
-  "curly": false,  /* custom */
+  "curly": false, /* custom */
   "eqeqeq": true,
   "forin": true,
   "freeze": true,
   "immed": true,
-  "indent": 1,  /* custom */
+  "indent": 1, /* custom */
   "latedef": true,
   "newcap": true,
   "noarg": true,
   "noempty": true,
   "nonbsp": true,
   "nonew": true,
-  "plusplus": false,  /* custom */
+  "plusplus": false, /* custom */
   "quotmark": true,
   "undef": true,
   "unused": true,
@@ -25,9 +25,9 @@
   "maxcomplexity": false,
   "maxlen": false,
   "asi": false,
-  "boss": true,  /* custom */
+  "boss": true, /* custom */
   "debug": false,
-  "eqnull": true,  /* custom */
+  "eqnull": true, /* custom */
   "esnext": false,
   "evil": false,
   "expr": false,
@@ -49,10 +49,10 @@
   "sub": false,
   "supernew": false,
   "noyield": false,
-  "browser": true,  /* custom */
-  "node": true,  /* custom */
-  "onevar": true,  /* custom */
-  "globals": {  /* custom */
+  "browser": true, /* custom */
+  "node": true, /* custom */
+  "onevar": true, /* custom */
+  "globals": { /* custom */
     /* MOCHA: http://stackoverflow.com/a/19572515/130638 */
     "describe"   : false,
     "it"         : false,
