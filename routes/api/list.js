@@ -213,52 +213,57 @@ exports = module.exports = function(req, res) {
 		break;
 
 		case 'fetch':
+		
 			if (!keystone.security.csrf.validate(req)) {
 				return sendError('invalid csrf');
 			}
+			
+			(function() {
 
-			var queryFilters = req.list.getSearchFilters(req.query.search, req.query.filters),
-				skip = parseInt(req.query.items.last) - 1,
-				querystring = require('querystring'),
-				link_to = function(params) {
-					var p = params.page || '';
-					delete params.page;
-					var queryParams = _.clone(req.query.q);
-					for (var i in params) {
-						if (params[i] === undefined) {
-							delete params[i];
-							delete queryParams[i];
+				var queryFilters = req.list.getSearchFilters(req.query.search, req.query.filters),
+					skip = parseInt(req.query.items.last) - 1,
+					querystring = require('querystring'),
+					link_to = function(params) {
+						var p = params.page || '';
+						delete params.page;
+						var queryParams = _.clone(req.query.q);
+						for (var i in params) {
+							if (params[i] === undefined) {
+								delete params[i];
+								delete queryParams[i];
+							}
 						}
-					}
-					params = querystring.stringify(_.defaults(params, queryParams));
-					return '/keystone/' + req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
-				};
+						params = querystring.stringify(_.defaults(params, queryParams));
+						return '/keystone/' + req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
+					};
 
-			var query = req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1),
-				columns = req.list.expandColumns(req.query.cols);
+				var query = req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1),
+					columns = req.list.expandColumns(req.query.cols);
 
-			req.list.selectColumns(query, columns);
+				req.list.selectColumns(query, columns);
 
-			query.exec(function(err, items) {
-				if (err) return sendError('database error', err);
-				if (!items) return sendError('not found');
+				query.exec(function(err, items) {
+					if (err) return sendError('database error', err);
+					if (!items) return sendError('not found');
 
-				var locals, row, pagination;
+					var locals, row, pagination;
 
-				req.list.getPages(req.query.items, req.list.pagination.maxPages);
+					req.list.getPages(req.query.items, req.list.pagination.maxPages);
 
-				locals = { list: req.list, columns: columns, item: items[0], csrf_query: req.query.csrf_query, _:_ };
-				row = jade.renderFile(__dirname + '/../../templates/partials/row.jade', locals);
-				pagination = jade.renderFile(__dirname + '/../../templates/partials/pagination.jade', {items: req.query.items, link_to: link_to });
+					locals = { list: req.list, columns: columns, item: items[0], csrf_query: req.query.csrf_query, _:_ };
+					row = jade.renderFile(__dirname + '/../../templates/partials/row.jade', locals);
+					pagination = jade.renderFile(__dirname + '/../../templates/partials/pagination.jade', {items: req.query.items, link_to: link_to });
 
-				return sendResponse({
-					item: items[0],
-					row: row,
-					pagination: pagination,
-					success: true,
-					count: 1
+					return sendResponse({
+						item: items[0],
+						row: row,
+						pagination: pagination,
+						success: true,
+						count: 1
+					});
 				});
-			});
+			
+			})();
 
 		break;
 
