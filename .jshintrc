@@ -1,22 +1,22 @@
 {
   "bitwise": true,
   "camelcase": false,
-  "curly": false,  /* custom */
+  "curly": false, /* custom */
   "eqeqeq": true,
   "forin": true,
   "freeze": true,
   "immed": true,
-  "indent": 1,  /* custom */
-  "latedef": true,
+  "indent": 1, /* custom */
+  "latedef": false, /* custom - using methods before they are defined leads to cleaner code in some modules */
   "newcap": true,
   "noarg": true,
   "noempty": true,
   "nonbsp": true,
   "nonew": true,
-  "plusplus": false,  /* custom */
+  "plusplus": false, /* custom */
   "quotmark": true,
   "undef": true,
-  "unused": true,
+  "unused": false, /* enable for checking unused varaibles, disabled by default because it's noisy */
   "strict": false, /* enable later */
   "trailing": true,
   "maxparams": false,
@@ -25,34 +25,34 @@
   "maxcomplexity": false,
   "maxlen": false,
   "asi": false,
-  "boss": true,  /* custom */
+  "boss": true, /* custom */
   "debug": false,
-  "eqnull": true,  /* custom */
+  "eqnull": true, /* custom */
   "esnext": false,
   "evil": false,
-  "expr": false,
+  "expr": true, /* custom - suppresses warnings about shorthand `callback && callback()` statements */
   "funcscope": false,
   "gcl": false,
   "globalstrict": false,
   "iterator": false,
   "lastsemic": false,
-  "laxbreak": false,
+  "laxbreak": true, /* custom - suppresses warnings about line break techniques we use for clearer code formatting */
   "laxcomma": false,
   "loopfunc": false,
   "moz": false,
   "multistr": false,
   "notypeof": false,
-  "proto": false,
+  "proto": true, /* custom - we use __proto__ validly at the moment */
   "scripturl": false,
   "smarttabs": false,
   "shadow": false,
   "sub": false,
   "supernew": false,
   "noyield": false,
-  "browser": true,  /* custom */
-  "node": true,  /* custom */
-  "onevar": true,  /* custom */
-  "globals": {  /* custom */
+  "browser": true, /* custom */
+  "node": true, /* custom */
+  "onevar": true, /* custom */
+  "globals": { /* custom */
     /* MOCHA: http://stackoverflow.com/a/19572515/130638 */
     "describe"   : false,
     "it"         : false,
