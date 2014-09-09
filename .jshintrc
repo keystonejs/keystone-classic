@@ -53,8 +53,6 @@
   "node": true, /* custom */
   "onevar": true, /* custom */
   "globals": { /* custom */
-  	/* Allow Promise */
-    "Promise"    : true,
     /* MOCHA: http://stackoverflow.com/a/19572515/130638 */
     "describe"   : false,
     "it"         : false,
