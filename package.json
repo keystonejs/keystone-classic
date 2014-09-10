@@ -38,9 +38,9 @@
     "gulp": "~3.8.5",
     "gulp-coverage": "~0.1.24",
     "gulp-jshint": "~1.8.0",
+    "gulp-mocha": "~0.5.2",
     "gulp-rename": "~1.2.0",
     "gulp-rimraf": "~0.1.0",
-    "gulp-mocha": "~0.5.2",
     "gulp-uglify": "~0.3.1",
     "gulp-util": "~3.0.0",
     "gulp-watch": "~0.6.5",
@@ -49,6 +49,7 @@
     "mocha": ">= 1.20 < 2",
     "must": ">= 0.12 < 1",
     "reactify": "~0.14.0",
+    "sinon": "^1.10.3",
     "supertest": "~0.13.0",
     "vinyl-source-stream": "~0.1.1",
     "watchify": "~1.0.1"
