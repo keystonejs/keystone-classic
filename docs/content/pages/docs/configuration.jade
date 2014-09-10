@@ -460,7 +460,14 @@ block content
 					li <code class="default-value">{list.path}_{field.path}_{item.id}</code>
 					li <code class="default-value">{prefix}</code> (if set)
 					li <code class="default-value">dev</code> (if the <code>env</code> option is not set to <code class="default-value">production</code>)
-			
+
+			p You may optionally enabled the Cloudinary upload folder option by setting the Keystone <code>cloudinary folders</code> option to <code class="default-value">true</code>. The default Cloudinary folder will be set based on the following rules:
+				ul
+					li <code class="default-value">{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is not set)
+					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is set)
+	
+			p.note You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).
+
 			pre: code.language-javascript
 				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
 				| // or
@@ -469,7 +476,7 @@ block content
 				| // optional, will prefix all built-in tags with 'keystone_'
 				| keystone.set('cloudinary prefix', 'keystone');
 				| 
-				| // optional, will prefix image IDs with [{prefix}]/{list.path}/{field.path}/
+				| // optional, will prefix each image public_id with [{prefix}]/{list.path}/{field.path}/
 				| keystone.set('cloudinary folders', true);
 			
 			

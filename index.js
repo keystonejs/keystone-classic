@@ -313,6 +313,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 				timestamp: cloudinaryUpload.hidden_fields.timestamp,
 				signature: cloudinaryUpload.hidden_fields.signature,
 				prefix: keystone.get('cloudinary prefix') || '',
+				folders: keystone.get('cloudinary folders'),
 				uploader: cloudinary.uploader
 			};
 			locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
