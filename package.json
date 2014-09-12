@@ -25,6 +25,7 @@
     "moment": "~2.8.1",
     "mongoose": "~3.8.12",
     "mpromise": "~0.5.1",
+    "mv": "^2.0.3",
     "numeral": "~1.5.3",
     "queryfilter": "~0.0.4",
     "range_check": "~0.0.4",
