@@ -22,13 +22,16 @@ mixin column(list, col, item)
 		+column_html(utils.textToHTML(utils.cropString(item.get(col.field.paths.md), 200, '...', true)))
 	else if col.type == 'html'
 		+column_html(utils.cropHTMLString(item.get(col.field.path), 200, '...', true))
+	else if col.type == 'cloudinaryimage'
+		if item.get(col.field.path + '.url')
+			+column_image(item.get(col.field.path + '.url'))
 	else
 		- var value = col.field ? col.field.format(item) : item.get(col.path)
 		if col.isName
 			+column_link(value || '(no name)', '/keystone/' + list.path + '/' + item.id)
 		else if col.type == 'email'
 			if value && col.field.options.displayGravatar
-				+column_gravatar(col.field.gravatarUrl(item,35))
+				+column_image(col.field.gravatarUrl(item,35))
 			+column_link(value, 'mailto:' + value)
 		else if col.type == 'boolean'
 			+column_boolean(value)
@@ -41,7 +44,7 @@ mixin column_link(value, href, newWindow)
 	if value
 		a(href=href, target=newWindow ? '_blank' : undefined)= value
 
-mixin column_gravatar(src)
+mixin column_image(src)
 	img(src=src).img-thumbnail
 
 mixin column_boolean(value)
