@@ -541,6 +541,13 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
                   <li><code class="default-value">dev</code> (if the <code>env</code> option is not set to <code class="default-value">production</code>)</li>
                 </ul>
               </p>
+              <p>You may optionally enabled the Cloudinary upload folder option by setting the Keystone <code>cloudinary folders</code> option to <code class="default-value">true</code>. The default Cloudinary folder will be set based on the following rules:
+                <ul>
+                  <li><code class="default-value">{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is not set)</li>
+                  <li><code class="default-value">{prefix}/{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is set)</li>
+                </ul>
+              </p>
+              <p class="note">You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).</p>
               <pre><code class="language-javascript">keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
 // or
 keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' );
@@ -548,7 +555,7 @@ keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' )
 // optional, will prefix all built-in tags with 'keystone_'
 keystone.set('cloudinary prefix', 'keystone');
  
-// optional, will prefix image IDs with [{prefix}]/{list.path}/{field.path}/
+// optional, will prefix each image public_id with [{prefix}]/{list.path}/{field.path}/
 keystone.set('cloudinary folders', true);</code></pre><a name="services-embedly"></a>
               <h3>Embed.ly</h3>
               <p><a href="http://embed.ly" target="_blank">Embed.ly</a> is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.</p>
