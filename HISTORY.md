@@ -1,5 +1,18 @@
 # Keystone
 
+## v0.2.28 / 2014-09-12
+
+* added; thumbnail for embedly fields, thanks [Pavel Vlasov](https://github.com/freakycue)
+* fixed; various cloudinary issues, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* added; `cloudinary folders` option, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* added; ability to filter relationship by any input field or _id, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; notes are now displayed for name fields, thanks [Ignacio Lago](https://github.com/ignlg)
+* added; support for csrf headers, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; consistency issues with `noedit` and `initial` options for fields
+* fixed; issues retaining entered values in the Admin UI's create form after validation failures
+* fixed; all remaining jshint warnings :)
+
+
 ## v0.2.27 / 2014-08-30
 
 * fixed; exception when deleting item that has many-many relation from list view, thanks [Thomas Pedersen](https://github.com/thedersen)
