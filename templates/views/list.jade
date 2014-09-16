@@ -61,7 +61,7 @@ block content
 								.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 						
 						each field in list.initialFields
-							|!{field.render('initial',submitted) }
+							!= field.render('initial', submitted)
 					
 					.toolbar
 						.toolbar-create

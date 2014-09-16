@@ -43,7 +43,7 @@
   "multistr": false,
   "notypeof": false,
   "proto": true, /* custom - we use __proto__ validly at the moment */
-  "scripturl": false,
+  "scripturl": true, /* custom - otherwise it warns on the default "javascript:;" template local */
   "smarttabs": false,
   "shadow": false,
   "sub": false,
