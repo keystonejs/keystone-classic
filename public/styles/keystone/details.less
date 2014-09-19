@@ -20,3 +20,34 @@
 .item-header .drilldown {
 	margin-top: 0;
 }
+
+
+// Item Meta (tracking)
+
+.item-details-meta {
+	&:extend(.clearfix all);
+	background-color: #fafafa;
+	border-left: 4px solid #eaeaea;
+	color: #aaa;
+	padding: @padding-base-vertical @padding-base-horizontal;
+}
+.item-details-meta-item {
+	display: inline-block;
+	margin-right: @padding-base-horizontal;
+	
+	&:last-child {
+		margin-right: 0;
+	}
+}
+.item-details-meta-label,
+.item-details-meta-info {
+	display: inline-block;
+
+	> a {
+		color: inherit;
+	}
+}
+.item-details-meta-label {
+	color: #ccc;
+	padding-right: @padding-base-horizontal;
+}

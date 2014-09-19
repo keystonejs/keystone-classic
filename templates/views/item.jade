@@ -100,6 +100,23 @@ block content
 				h2.form-heading.name-value= list.nameField.format(item) || '(no name)'
 			else
 				h2.form-heading.name-value= item.get(list.namePath) || '(no name)'
+
+		//- TODO @jedwatson populate this UI
+		//- .item-details-meta
+			.item-details-meta-item
+				span.item-details-meta-label Created At:
+				span.item-details-meta-info 5:10am on 19 Sep 2014
+			.item-details-meta-item
+				span.item-details-meta-label Created By:
+				span.item-details-meta-info: a(href='javascript:;') Joss Mackison
+			.item-details-meta-item
+				span.item-details-meta-label Updated At:
+				span.item-details-meta-info 5:10am on 19 Sep 2014
+			.item-details-meta-item
+				span.item-details-meta-label Updated By:
+				span.item-details-meta-info: a(href='javascript:;') Joss Mackison
+
+		
 		
 		each el in list.uiElements
 			if el.type == 'field'
@@ -112,12 +129,14 @@ block content
 			else if el.type == 'outdent'
 				| </div>
 		
+		
 		.toolbar.toolbar-fixed
 			if !list.get('noedit')
 				button(type='submit').btn.btn-default.btn-save Save
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
 			if !list.get('nodelete')  && item.id !== user.id
 				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
+	
 	
 	if showRelationships
 		h2.relationship-heading.form-heading Relationships
