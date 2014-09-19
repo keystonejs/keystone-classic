@@ -19,9 +19,9 @@
 					.alert.alert-danger
 		.file-toolbar
 			div.pull-left
-				a(href=js).btn.btn-default.btn-upload-file=(hasFile ? 'Change' : 'Upload' ) + ' File'
-				a(href=js, data-alt-text='Delete File', style=(hasFile ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-file Remove File
-				a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-file Cancel Upload
-				a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-file Undo Remove
+				button(type='button').btn.btn-default.btn-upload-file=(hasFile ? 'Change' : 'Upload' ) + ' File'
+				button(type='button', data-alt-text='Delete File', style=(hasFile ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-file Remove File
+				button(type='button', data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-file Cancel Upload
+				button(type='button', style='display: none;').btn.btn-link.btn-cancel.btn-undo-file Undo Remove
 		if field.note
 			.field-note!= field.note

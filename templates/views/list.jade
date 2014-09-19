@@ -66,9 +66,9 @@ block content
 					.toolbar
 						.toolbar-create
 							button(type='submit').btn.btn-default.btn-create Create
-							a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
+							button(type='button').btn.btn-link.btn-cancel.btn-cancel-create-item cancel
 						.toolbar-default
-							a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item
+							button(type='button', class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item
 								span.ion-plus-round
 								|  Create #{list.singular}
 		hr
@@ -160,7 +160,7 @@ block content
 					.search-list
 						.form-inline
 							.dropdown-inline.list-filter-dropdown.js-recent-searches.hidden.mr-5
-								a(href=js, data-toggle='dropdown', title='Recent Filters').btn.btn-default.dropdown-toggle
+								button(type='button', data-toggle='dropdown', title='Recent Filters').btn.btn-default.dropdown-toggle
 									span.sr-only Recent Filters
 									span.ion-clock
 									|  
@@ -181,7 +181,7 @@ block content
 								span.visible-xs Go
 								span.hidden-xs Search
 							.dropdown-inline.list-filter-dropdown
-								a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								button(type='button', data-toggle='dropdown').btn.btn-default.dropdown-toggle
 									| Add Filter 
 									b.caret
 								ul.dropdown-menu: each el in list.uiElements
@@ -199,7 +199,7 @@ block content
 							.pull-right
 								a(href=download_link, data-confirm="Download a .csv of #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural).toLowerCase()}?").btn.btn-default Download
 							div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
-								a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								button(type='button', data-toggle='dropdown').btn.btn-default.dropdown-toggle
 									| Columns 
 									b.caret
 								ul.dropdown-menu
