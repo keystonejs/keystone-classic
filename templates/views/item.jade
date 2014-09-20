@@ -100,22 +100,36 @@ block content
 				h2.form-heading.name-value= list.nameField.format(item) || '(no name)'
 			else
 				h2.form-heading.name-value= item.get(list.namePath) || '(no name)'
-
-		//- TODO @jedwatson populate this UI
-		//- .item-details-meta
-			.item-details-meta-item
-				span.item-details-meta-label Created At:
-				span.item-details-meta-info 5:10am on 19 Sep 2014
-			.item-details-meta-item
-				span.item-details-meta-label Created By:
-				span.item-details-meta-info: a(href='javascript:;') Joss Mackison
-			.item-details-meta-item
-				span.item-details-meta-label Updated At:
-				span.item-details-meta-info 5:10am on 19 Sep 2014
-			.item-details-meta-item
-				span.item-details-meta-label Updated By:
-				span.item-details-meta-info: a(href='javascript:;') Joss Mackison
-
+		
+		if list.tracking
+			- var meta_createdAt, meta_createdBy, meta_updatedAt, meta_updatedBy
+			.item-details-meta
+				if list.tracking.createdAt
+					- meta_createdAt = item.get(list.tracking.createdAt)
+					if (meta_createdAt)
+						.item-details-meta-item
+							span.item-details-meta-label Created
+							span.item-details-meta-info= moment(meta_createdAt).format('Do MMM YY h:MM:SSa')
+				if list.tracking.createdBy
+					- meta_createdBy = item.get(list.tracking.createdBy)
+					if meta_createdBy
+						.item-details-meta-item
+							span.item-details-meta-label= meta_createdAt ? 'by' : 'Created by'
+							span.item-details-meta-info: a(href='/keystone/' + User.path + '/' + meta_createdBy.id)= User.getDocumentName(meta_createdBy)
+				if list.tracking.updatedAt
+					- meta_updatedAt = item.get(list.tracking.updatedAt)
+					if meta_updatedAt && (!meta_createdAt || meta_createdAt.getTime() !== meta_updatedAt.getTime())
+						.item-details-meta-item
+							span.item-details-meta-label Updated
+							span.item-details-meta-info= moment(meta_updatedAt).format('Do MMM YY h:MM:SSa')
+					else
+						- meta_updatedAt = false
+				if list.tracking.updatedBy
+					- meta_updatedBy = item.get(list.tracking.updatedBy)
+					if meta_updatedBy && (!meta_createdBy || meta_createdBy.id !== meta_updatedBy.id || meta_updatedAt)
+						.item-details-meta-item
+							span.item-details-meta-label= meta_updatedAt ? 'by' : 'Updated by'
+							span.item-details-meta-info: a(href='/keystone/' + User.path + '/' + meta_updatedBy.id)= User.getDocumentName(meta_updatedBy)
 		
 		
 		each el in list.uiElements
