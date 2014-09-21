@@ -245,9 +245,11 @@ You then want to integrate the `/content` app as a linked module inside of `/ser
 ```js
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
+
 require('dotenv')().load();
 
 // Require keystone
+
 var keystone = require('keystone');
 
 // Initialise Keystone with your project's configuration.
@@ -328,11 +330,11 @@ You may also want to make an `app.js` file at the same level as `keystone.js` th
 
 **`app.js`:**
 
-```
+```js
 var keystone = require('./keystone');
-
 keystone.start();
 ```
+
 The last piece of the setup for your embeddable Keystone project is to slightly modify the `package.json` file to include a `main` value. This is needed for the next step to work.
 
 **`package.json`:**
