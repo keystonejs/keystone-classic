@@ -240,7 +240,7 @@ In this example, all three projects are their own node apps with their own `pack
 
 You then want to integrate the `/content` app as a linked module inside of `/server` and mount it as a sub-app at the path `/content`.
 
-**Your `/content/keystone.js` file would look something like this: **
+**Your `/content/keystone.js` file would look something like this:**
 
 ```js
 // Simulate config options from your production environment by
