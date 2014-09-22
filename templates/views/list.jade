@@ -148,13 +148,33 @@ block content
 							if list.tracking
 								li.divider
 									if list.tracking.createdAt
-										li: a(href=link_to({ sort: list.tracking.createdAt }))
-											span(class='fieldicon fieldicon-date')
-											span Date Created
+										if sort.path == 'createdAt'
+											if sort.inv
+												li: a(href=link_to({ sort: list.tracking.createdAt }))
+													span(class='fieldicon fieldicon-date')
+													span Date Created (ascending)
+											else
+												li: a(href=link_to({ sort: '-' + list.tracking.createdAt }))
+													span(class='fieldicon fieldicon-date')
+													span Date Created (descending)
+										else
+											li: a(href=link_to({ sort: list.tracking.createdAt }))
+												span(class='fieldicon fieldicon-date')
+												span Date Created
 									if list.tracking.updatedAt
-										li: a(href=link_to({ sort: list.tracking.updatedAt }))
-											span(class='fieldicon fieldicon-date')
-											span Date Modified
+										if sort.path == 'updatedAt'
+											if sort.inv
+												li: a(href=link_to({ sort: list.tracking.updatedAt }))
+													span(class='fieldicon fieldicon-date')
+													span Date Modified (ascending)
+											else
+												li: a(href=link_to({ sort: '-' + list.tracking.updatedAt }))
+													span(class='fieldicon fieldicon-date')
+													span Date Modified (descending)
+										else
+											li: a(href=link_to({ sort: list.tracking.updatedAt }))
+												span(class='fieldicon fieldicon-date')
+												span Date Modified
 		
 		
 		//-
