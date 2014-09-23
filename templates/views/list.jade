@@ -82,10 +82,10 @@ block content
 	.page-header.list-header(class=!items.total && !search && !xFilters ? 'empty-list' : '')
 		h1
 			if items.total
-				span.items-total= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
+				span.items-total= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural) + ' '
 			else
 				span.items-total No #{list.plural.toLowerCase()} found
-					= search || xFilters ? '' : '.'
+					= search || xFilters ? ' ' : '.'
 
 			.search-sort(style='display:inline-block')
 				if search
@@ -107,7 +107,7 @@ block content
 					span.dropdown.list-sort-dropdown
 						a(href=js, data-toggle='dropdown').dropdown-toggle
 							if sort.label
-								=  sort.label.toLowerCase() + ' '
+								= sort.label.toLowerCase() + ' '
 								if sort.inv
 									|  (descending)
 							else
