@@ -1,10 +1,12 @@
 var demand = require('must'),
+	sinon = require('sinon'),
 	csrf = require('../../lib/security/csrf');
 
 var REQ = function(method) {
 	var rtn = {
 		session: {},
 		query: {},
+		headers: [],
 		method: method || 'GET'
 	};
 	if (method == 'POST') {
@@ -15,9 +17,10 @@ var REQ = function(method) {
 
 var RES = function() {
 	return {
-		locals: {}
+		locals: {},
+		cookie: sinon.stub()
 	};
-}
+};
 
 var memory = {
 	req: REQ(),
@@ -52,6 +55,7 @@ describe('CSRF', function() {
 		it('must create a new token in res.locals and return it', function() {
 			var token = csrf.getToken(memory.req, memory.res);
 			token.must.equal(memory.res.locals[csrf.LOCAL_VALUE]);
+			sinon.assert.calledOnce(memory.res.cookie);
 		});
 	});
 	describe('requestToken()', function() {

@@ -879,7 +879,7 @@ block content
 				h5 Options
 				p <code>publicID</code> <code class="data-type">String</code> name of the field to be used as the Cloudinary image <code class="data-type">public_id</code>.
 				pre: code.language-javascript { type: Types.CloudinaryImage, publicID: 'slug' }
-				p <code>folder</code> <code class="data-type">String</code> specifies the folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.
+				p <code>folder</code> <code class="data-type">String</code> specifies a custom folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.
 				pre: code.language-javascript { type: Types.CloudinaryImage, folder: 'path/to/image' }
 				p <code>autoCleanup</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code> changes Keystone's default behavior from <code class="default-value">remove</code> (which only removes the Cloudinary image from the database) to <code class="default-value">delete</code> (which removes the image from both the database and Cloudinary storage). Additionally, this option replaces an existing image (if one already exists) during upload.
 				pre: code.language-javascript { type: Types.CloudinaryImage, autoCleanup : true }
@@ -928,6 +928,11 @@ block content
 			h4 <code class="data-type">Array</code> &mdash; Displayed as a series of images, and an upload field in the Admin UI
 			p Stores multiple images in a array as a nested <code class="data-type">Schema</code>, each of which expose the same methods as the <code class="data-type">cloudinaryimage</code> field.
 			pre: code.language-javascript { type: Types.CloudinaryImages }
+			.options
+				
+				h5 Options
+				p <code>folder</code> <code class="data-type">String</code> specifies a custom folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.
+				pre: code.language-javascript { type: Types.CloudinaryImages, folder: 'path/to/image' }
 			//- TODO: Usage Examples
 			
 			

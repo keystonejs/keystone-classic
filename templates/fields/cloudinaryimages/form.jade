@@ -7,8 +7,11 @@
 	- tags.push(cloudinary.prefix);
 - if (env != 'production')
 	- tags.push(p + 'dev');
-- var directUpload = cloudinary.uploader.direct_upload(undefined,{tags:tags})
-- var formData = {cloud_name: cloudinary.cloud_name, api_key: cloudinary.api_key, timestamp: directUpload.hidden_fields.timestamp, signature: directUpload.hidden_fields.signature, tags: tags}
+- var uploadOptions = {tags: tags};
+- if (cloudinary.folders)
+	- uploadOptions.folder = item.get(field.paths.folder);
+- var directUpload = cloudinary.uploader.direct_upload(undefined, uploadOptions);
+- var formData = _.extend({cloud_name: cloudinary.cloud_name, api_key: cloudinary.api_key, timestamp: directUpload.hidden_fields.timestamp, signature: directUpload.hidden_fields.signature}, uploadOptions);
 .field.type-cloudinaryimages(data-field-type=field.type, data-field-path=field.path, data-field-paths-upload=field.paths.upload, data-field-paths-uploads=field.paths.uploads, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=hasImages ? 'true' : 'false')
 	label.field-label= field.label
 	input(type='hidden', name=field.paths.action, value='').field-action
@@ -33,8 +36,8 @@
 								.ion-picture.img-loading
 								.delete-pending(style='display: none;')
 						.image-details
-							a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-image Remove
-							a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
+							button(type='button', data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-image Remove
+							button(type='button', data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
 				.image-field.image-upload.row.col-sm-3.col-md-12
 					.image-preview
 						span.img-thumbnail
@@ -45,7 +48,7 @@
 			
 			.images-toolbar.row.col-sm-3.col-md-12
 				div.pull-left
-					a(href=js).btn.btn-default.btn-upload Upload Images
+					button(type='button').btn.btn-default.btn-upload Upload Images
 				.upload-queued.pull-left
 					.alert.alert-success
 				.delete-queued.pull-left

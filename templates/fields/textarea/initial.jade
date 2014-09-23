@@ -1,6 +1,6 @@
 .field.type-textarea
 	label.field-label= field.label
 	.field-ui(class='width-' + field.width)
-		textarea(name=field.path).form-control= item[field.path]
+		textarea(name=field.path).form-control= item[field.path] || field.options.default
 		if field.note
 			.field-note!= field.note
