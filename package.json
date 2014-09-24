@@ -30,7 +30,6 @@
     "queryfilter": "~0.0.4",
     "range_check": "~0.0.4",
     "semver": "~3.0.1",
-    "storage": "git://github.com/keystonejs/storage.js",
     "underscore": "~1.7.0"
   },
   "devDependencies": {
