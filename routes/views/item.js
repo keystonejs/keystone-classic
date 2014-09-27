@@ -4,7 +4,17 @@ var keystone = require('../../'),
 
 exports = module.exports = function(req, res) {
 	
-	req.list.model.findById(req.params.item).exec(function(err, item) {
+	var itemQuery = req.list.model.findById(req.params.item);
+	
+	if (req.list.tracking && req.list.tracking.createdBy) {
+		itemQuery.populate(req.list.tracking.createdBy);
+	}
+	
+	if (req.list.tracking && req.list.tracking.updatedBy) {
+		itemQuery.populate(req.list.tracking.updatedBy);
+	}
+	
+	itemQuery.exec(function(err, item) {
 		
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');

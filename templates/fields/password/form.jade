@@ -5,11 +5,11 @@
 			.field-value= (item.get(field.path)) ? "password set" : "password not set"
 		else
 			.leave-password
-				a(href=js).btn.btn-default.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
+				button(type='button').btn.btn-default.btn-change-password= (item.get(field.path)) ? "Change Password" : "Set Password"
 			.change-password
 				.form-row
 					.col-sm-6: input(type='password', name=field.path, autocomplete='off', placeholder='New password').form-control
 					.col-sm-6: input(type='password', name=field.paths.confirm, autocomplete='off', placeholder='Confirm new password').form-control
-				.form-control-wrapper: a(href=js).btn.btn-default.btn-cancel.btn-leave-password Cancel
+				.form-control-wrapper: button(type='button').btn.btn-default.btn-cancel.btn-leave-password Cancel
 	if field.note
 		.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2: .field-note!= field.note
