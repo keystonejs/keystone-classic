@@ -51,6 +51,10 @@ jQuery(function($) {
 	$('.btn-set-today').click(function() {
 		$(this).prevAll('.ui-datepicker:first').pikaday('setDate', new Date());
 	});
+	$('.btn-set-now').click(function() {
+		$(this).prevAll('.ui-datepicker:first').pikaday('setDate', new Date());
+		$(this).prevAll('.time').val(moment().format('HH:mm:ss'));
+	});
 
 	$('.ui-select2').select2({ allowClear: true });
 
