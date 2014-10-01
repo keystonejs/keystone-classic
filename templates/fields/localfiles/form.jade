@@ -19,8 +19,8 @@
 						p.file-name(style='max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;')
 							=value.filename
 					.file-details
-						a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-file Remove
-						a(href=js, data-alt-text='Undo', style='display:none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
+						button(type='button', data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-file Remove
+						button(type='button', data-alt-text='Undo', style='display:none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
 
 
 		.file-container
@@ -32,8 +32,8 @@
 						selected - save to upload
 		.file-toolbar
 			div.pull-left
-				a(href=js).btn.btn-default.btn-upload Upload Files
-				//a(href=js).btn.btn-default.btn-upload-file=(hasFiles ? 'Change' : 'Upload' ) + ' File'
+				button(type='button').btn.btn-default.btn-upload Upload Files
+				//button(type='button').btn.btn-default.btn-upload-file=(hasFiles ? 'Change' : 'Upload' ) + ' File'
 				//a(href=js, data-alt-text='Delete File', style=(hasFiles ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-file Remove File
 				a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-file Cancel Upload
 				//a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-file Undo Remove

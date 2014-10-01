@@ -36,13 +36,13 @@
 						.alert.alert-danger
 			.image-toolbar
 				div.pull-left
-					a(href=js).btn.btn-default.btn-upload-image= (hasImage ? 'Change' : 'Upload') + ' Image'
+					button(type='button').btn.btn-default.btn-upload-image= (hasImage ? 'Change' : 'Upload') + ' Image'
 					if field.options.autoCleanup
-						a(href=js, data-alt-text='Remove Image', data-default-action='delete', data-alt-action='reset', style=(hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Delete Image
+						button(type='button', data-alt-text='Remove Image', data-default-action='delete', data-alt-action='reset', style=(hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Delete Image
 					else
-						a(href=js, data-alt-text='Delete Image', data-default-action='reset', data-alt-action='delete', style=(hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image
-					a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-cancel-image Cancel Upload
-					a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-image Undo Remove
+						button(type='button', data-alt-text='Delete Image', data-default-action='reset', data-alt-action='delete', style=(hasImage ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-image Remove Image
+					button(type='button', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-image Cancel Upload
+					button(type='button', style='display: none;').btn.btn-link.btn-cancel.btn-undo-image Undo Remove
 				if field.options.select
 					.image-select
 						input(type='hidden',

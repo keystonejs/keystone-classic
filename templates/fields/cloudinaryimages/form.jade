@@ -36,8 +36,8 @@
 								.ion-picture.img-loading
 								.delete-pending(style='display: none;')
 						.image-details
-							a(href=js, data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-image Remove
-							a(href=js, data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
+							button(type='button', data-alt-text='Delete').btn.btn-link.btn-cancel.btn-remove-image Remove
+							button(type='button', data-alt-text='Undo', style='display: none;').btn.btn-link.btn-cancel.btn-undo-remove Undo
 				.image-field.image-upload.row.col-sm-3.col-md-12
 					.image-preview
 						span.img-thumbnail
@@ -48,7 +48,7 @@
 			
 			.images-toolbar.row.col-sm-3.col-md-12
 				div.pull-left
-					a(href=js).btn.btn-default.btn-upload Upload Images
+					button(type='button').btn.btn-default.btn-upload Upload Images
 				.upload-queued.pull-left
 					.alert.alert-success
 				.delete-queued.pull-left
