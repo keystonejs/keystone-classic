@@ -1,5 +1,9 @@
 # Keystone
 
+## v0.2.30 / 2014-10-02
+
+* fixed; Do not crash process for schema validation errors, thanks [David Banham](https://github.com/davidbanham)
+
 ## v0.2.29 / 2014-09-30
 
 * fixed; localfiles implementation, thanks [Darkin8](https://github.com/Darkin8)
