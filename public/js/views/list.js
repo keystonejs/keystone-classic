@@ -302,8 +302,9 @@ jQuery(function($) {
 				err = err.responseJSON;
 			}
 			var errorMessage = 'There was an error deleting the ' + Keystone.list.singular.toLowerCase() + '.';
-			if (err && err.error) {
-				errorMessage += ' ( error: ' + err.error + ')';
+			var errorDetail = err ? err.detail || err.error : '';
+			if (errorDetail) {
+				errorMessage += ' ( error: ' + errorDetail + ')';
 			}
 			alert(errorMessage);
 			$row.removeClass('delete-inprogress');

@@ -187,7 +187,7 @@ exports = module.exports = function(req, res) {
 				if (err) {
 					console.log('Error deleting ' + req.list.singular);
 					console.log(err);
-					req.flash('error', 'There was an error deleting ' + req.list.singular + ' (logged to console)');
+					req.flash('error', 'Error deleting the ' + req.list.singular + ': ' + err.message);
 				} else {
 					req.flash('success', req.list.singular + ' deleted successfully.');
 				}
