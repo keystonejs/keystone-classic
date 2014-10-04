@@ -18,7 +18,7 @@ exports = module.exports = function(req, res) {
 			console.log(err);
 		}
 		res.status(500);
-		sendResponse({ error: key || 'error', detail: err });
+		sendResponse({ error: key || 'error', detail: err ? err.message : '' });
 	};
 
 	switch (req.params.action) {
