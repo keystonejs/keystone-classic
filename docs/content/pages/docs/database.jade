@@ -781,6 +781,12 @@ block content
 			pre: code.language-javascript { type: Types.Markdown }
 			.options
 				
+				h5 Options
+				p <code>toolbarOptions</code> <code class="data-type">Object</code> - allow customizations of the toolbar.
+				p <code>toolbarOptions.hiddenButtons</code> <code class="data-type">String</code> - Comma separated list of buttons to hide.
+				pre: code.language-javascript
+					| { type: Types.Markdown, toolbarOptions: { hiddenButtons: 'H1,H6,Code' } }
+
 				h5 Schema
 				p The markdown field will automatically convert markdown to html when the <code>md</code> property is changed, via a setter on the <code>md</code> path.
 				p <code>md</code> <code class="data-type">String</code> - source markdown text
