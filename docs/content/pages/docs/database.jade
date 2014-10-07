@@ -997,6 +997,24 @@ block content
 				p <code>s3path</code> <code class="data-type">String</code> - the path to store uploaded files under in the S3 bucket
 				p <code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)
 				p <code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded files
+				p <code>filename</code> <code class="data-type">Function</code> - function with arguments current model and client file name to return the new filename to upload.
+					pre: code.language-javascript.
+						{
+							type: Types.S3File,
+							filename: function(item, filename){
+								// prefix file name with object id
+								return item._id + '-' + filename;
+							}
+						}
+				p <code>format</code> <code class="data-type">Function</code> - function with two arguments: current model and file object to return representation of this file in Admin UI.
+					pre: code.language-javascript.
+						{
+							type: Types.S3File,
+							format: function(item, file){
+								return '&lt;pre&gt;'+JSON.stringify(file, false, 2)+'&lt;/pre&gt;'+
+											'&lt;img src="'+file.url+'" style="max-width: 300px"&gt;'
+							}
+						}
 				
 				h5 Schema
 				p <code>filename</code> <code class="data-type">String</code>
