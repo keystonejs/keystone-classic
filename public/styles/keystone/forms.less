@@ -189,6 +189,7 @@ label.checkbox {
 }
 
 .field.type-number,
+.field.type-numberarray,
 .field.type-money {
 	.field-ui {
 		.make-sm-column(3);
@@ -696,3 +697,16 @@ label.checkbox {
 .form-inline .field-inline--md { width: 200px; }
 .form-inline .field-inline--lg { width: 300px; }
 .form-inline .field-inline--xl { width: 400px; }
+
+
+//Multi-value number/text fields
+.form-control.multi {
+	width: ~"calc(100% - 35px)";
+	display: inline-block;
+}
+
+.field.type-textarray, .field.type-numberarray {
+	.field-item {
+		margin-bottom: 12px;
+	}
+}
