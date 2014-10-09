@@ -6,7 +6,7 @@ jQuery(function($) {
 	var plugins = [ 'code', 'link' ],
 		toolbar = Keystone.wysiwyg.options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
 		skin = Keystone.wysiwyg.options.skin,
-		menubar = Keystone.wysiwyg.options.menubar;
+		menubar = Keystone.wysiwyg.options.menubar || false;
 
 	if (Keystone.wysiwyg.options.enableImages) {
 		plugins.push('image');
@@ -42,11 +42,13 @@ jQuery(function($) {
 		uploadimage_form_url: '/keystone/api/cloudinary/upload'
 	};
 
-	if(Keystone.wysiwyg.options.additionalOptions){
+	if (Keystone.wysiwyg.options.additionalOptions){
 		$.extend(tinymceOptions,Keystone.wysiwyg.options.additionalOptions);
 	}
 
 	tinymce.init(tinymceOptions);
+	
+	console.log(tinymceOptions);
 
 	//init non-editable wysiwygs
 	var tinymceOptionsNonEditable = {
@@ -60,7 +62,7 @@ jQuery(function($) {
 		skin: 'keystone'
 	};
 
-	if(Keystone.wysiwyg.options.additionalOptions){
+	if (Keystone.wysiwyg.options.additionalOptions){
 		$.extend(tinymceOptionsNonEditable,Keystone.wysiwyg.options.additionalOptions);
 	}
 
