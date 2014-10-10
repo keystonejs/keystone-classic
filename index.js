@@ -321,7 +321,7 @@ Keystone.prototype.render = function(req, res, view, ext) {
 		} catch(e) {
 			if (e === 'Must supply api_key') {
 				throw new Error('Invalid Cloudinary Config Provided\n\n' +
-					'See http://keystonejs.com/docs/configuration/#cloudinary for more information.');
+					'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.');
 			} else {
 				throw e;
 			}
