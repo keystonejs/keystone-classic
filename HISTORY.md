@@ -1,5 +1,16 @@
 # Keystone
 
+## v0.2.31 / 2014-10-14
+
+* added; `TextArray` and `NumberArray` field types, thanks [bardzusny](https://github.com/bardzusny)
+* added; Markdown editor headers buttons and customisation, thanks [Alberto Gasparin](https://github.com/albertogasparin)
+* added; `filename` and `format` optionss for the s3file field, thanks [Aleksej Kamynin](https://github.com/Bubujka)
+* added; Support for array values for `less` and `sass` options (allows multiple paths to be specified)
+* fixed; Invalid field types throw errors on init, making debugging easier
+* fixed; Keystone throws a warning when you add fields to a List that are implemented by the `track` option
+* fixed; Errors returned by schema.pre('remove') middleware don't display in the Admin UI, thanks [Ian Dilling](https://github.com/ianbjorndilling)
+* fixed; Minor issued with the WYSIWYG editor in the Admin UI
+
 ## v0.2.30 / 2014-10-02
 
 * fixed; Do not crash process for schema validation errors, thanks [David Banham](https://github.com/davidbanham)
