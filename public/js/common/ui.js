@@ -214,6 +214,10 @@ jQuery(function($) {
 
 		_.each(data.refFilters, function(value, key) {
 
+			if ('string' !== typeof value) {
+				return;
+			}
+
 			if (value.substr(0,1) != ':') {
 				return;
 			}
