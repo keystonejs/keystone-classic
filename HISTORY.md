@@ -1,5 +1,10 @@
 # Keystone
 
+## v0.2.32 / 2014-10-16
+
+* fixed; Issues with less middleware options when using multiple paths
+* fixed; Error in Admin UI when filters are applied to a Relationship field, thanks [Ignacio Lago](https://github.com/ignlg)
+
 ## v0.2.31 / 2014-10-14
 
 * added; `TextArray` and `NumberArray` field types, thanks [bardzusny](https://github.com/bardzusny)
