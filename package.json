@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "0.2.28",
+  "version": "0.2.32",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {

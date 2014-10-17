@@ -51,6 +51,10 @@ jQuery(function($) {
 	$('.btn-set-today').click(function() {
 		$(this).prevAll('.ui-datepicker:first').pikaday('setDate', new Date());
 	});
+	$('.btn-set-now').click(function() {
+		$(this).prevAll('.ui-datepicker:first').pikaday('setDate', new Date());
+		$(this).prevAll('.time').val(moment().format('HH:mm:ss'));
+	});
 
 	$('.ui-select2').select2({ allowClear: true });
 
@@ -209,6 +213,10 @@ jQuery(function($) {
 			$inputs2 = $input.siblings('#s2id_' + $input.attr('id'));
 
 		_.each(data.refFilters, function(value, key) {
+
+			if ('string' !== typeof value) {
+				return;
+			}
 
 			if (value.substr(0,1) != ':') {
 				return;

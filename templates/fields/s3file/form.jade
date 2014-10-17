@@ -8,7 +8,11 @@
 			.file-details
 				if hasFile
 					.file-values
-						a(href=item.get(field.paths.url), target='_blank').field-value= item.get(field.paths.url)
+						a(href=item.get(field.paths.url), target='_blank').field-value
+							if field.hasFormatter()
+								!=field.format(item)
+							else
+								=field.format(item)
 				.upload-queued.pull-left
 					.alert.alert-success File <span class="file-name"></span>selected - save to upload
 				.delete-queued.pull-left

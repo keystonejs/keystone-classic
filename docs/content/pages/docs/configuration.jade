@@ -112,10 +112,24 @@ block content
 						p One or more paths to your application's static files. Setting this will include the <code>express.static</code> middleware.
 						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">'public'</code>.
 				tr
-					td <code>less</code> <code class="data-type">String</code>
+					td <code>less</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
 					td
 						p If you want Keystone to automatically compile <strong>.less</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
-						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.less</strong> file with the same name, and if one is found, the css file will be regenerated.
+						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.less</strong> file with the same name, and if one is found, the css file will be generated.
+				tr
+					td <code>less options</code> <code class="data-type">Object</code>
+					td
+						p Optional config options that will be passed to the <code>less</code> middleware; see <a href="https://github.com/emberfeather/less.js-middleware" target="_blank">github.com/emberfeather/less.js-middleware</a> for more information.
+				tr
+					td <code>sass</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
+					td
+						p If you want Keystone to automatically compile <strong>.sass</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
+						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.sass</strong> file with the same name, and if one is found, the css file will be generated.
+						p.note Note that enabling this option requires you to have specified the <a href="https://github.com/sass/node-sass" target="_blank"><code>node-sass</code></a> package as a dependency in your project's <code>package.json</code> file; it is not automatically included with Keystone.
+				tr
+					td <code>sass options</code> <code class="data-type">Object</code>
+					td
+						p Optional config options that will be passed to the <code>sass</code> middleware; see <a href="https://github.com/sass/node-sass#options" target="_blank">github.com/sass/node-sass</a> for more information.
 				tr
 					td <code>favicon</code> <code class="data-type">String</code>
 					td

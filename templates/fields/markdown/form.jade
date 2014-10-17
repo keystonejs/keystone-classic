@@ -4,6 +4,6 @@
 		if field.noedit
 			.field-value!= item.get(field.paths.html)
 		else
-			textarea(name=field.path, style='height: #{field.height}px').form-control.markdown= item.get(field.paths.md)
+			textarea(name=field.path, style='height: #{field.height}px', data-toolbar-hidden-buttons=field.toolbarOptions.hiddenButtons).form-control.markdown.code= item.get(field.paths.md)
 		if field.note
 			.field-note!= field.note

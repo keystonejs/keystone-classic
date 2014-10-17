@@ -1,5 +1,38 @@
 # Keystone
 
+## v0.2.32 / 2014-10-16
+
+* fixed; Issues with less middleware options when using multiple paths
+* fixed; Error in Admin UI when filters are applied to a Relationship field, thanks [Ignacio Lago](https://github.com/ignlg)
+
+## v0.2.31 / 2014-10-14
+
+* added; `TextArray` and `NumberArray` field types, thanks [bardzusny](https://github.com/bardzusny)
+* added; Markdown editor headers buttons and customisation, thanks [Alberto Gasparin](https://github.com/albertogasparin)
+* added; `filename` and `format` optionss for the s3file field, thanks [Aleksej Kamynin](https://github.com/Bubujka)
+* added; Support for array values for `less` and `sass` options (allows multiple paths to be specified)
+* fixed; Invalid field types throw errors on init, making debugging easier
+* fixed; Keystone throws a warning when you add fields to a List that are implemented by the `track` option
+* fixed; Errors returned by schema.pre('remove') middleware don't display in the Admin UI, thanks [Ian Dilling](https://github.com/ianbjorndilling)
+* fixed; Minor issued with the WYSIWYG editor in the Admin UI
+
+## v0.2.30 / 2014-10-02
+
+* fixed; Do not crash process for schema validation errors, thanks [David Banham](https://github.com/davidbanham)
+
+## v0.2.29 / 2014-09-30
+
+* fixed; localfiles implementation, thanks [Darkin8](https://github.com/Darkin8)
+* fixed; whitespace issues in the Admin UI when in production mode
+* added; proper ascending / descending UI for tracking sort
+* added; sorting UI for tracking date fields
+* added; can toggle display of created / updated dates in list view
+* added; displaying tracked metadata in the Admin UI
+* added; displaying current user in the footer
+* fixed; cross-platform issues moving files into place, thanks [Alan Shaw](https://github.com/alanshaw)
+* fixed; sortOrder type detection, thanks [Darkin8](https://github.com/Darkin8)
+* fixed; use buttons where possible for accessibility
+
 ## v0.2.28 / 2014-09-12
 
 * added; thumbnail for embedly fields, thanks [Pavel Vlasov](https://github.com/freakycue)
