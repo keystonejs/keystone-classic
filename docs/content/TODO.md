@@ -47,3 +47,5 @@
 	
 - updates
 - advanced configuration
+- pre/post hooks example fleshed out
+        - how do I trigger a save failure from the pre-hook?
