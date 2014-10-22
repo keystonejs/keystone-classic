@@ -6,8 +6,8 @@ html
 		meta(charset="utf-8")
 		meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
 		title Sign into #{brand ? brand : 'Keystone'}
-		link(rel="stylesheet", href="/keystone/styles/auth.min.css")
-		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+		link(rel="stylesheet", href="#{cmsroot}/styles/auth.min.css")
+		link(rel="shortcut icon", href="#{webroot}favicon.ico", type="image/x-icon")
 		block css
 			
 	body: .auth-wrapper

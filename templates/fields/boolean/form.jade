@@ -2,9 +2,9 @@
 	.field-ui(class=field.indent ? 'field-indented' : false)
 		if field.noedit
 			if item.get(field.path)
-				img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16).checked
+				img(src='#{cmsroot}/images/icons/16/checkbox-checked.png', width=16, height=16).checked
 			else
-				img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16).unchecked
+				img(src='#{cmsroot}/images/icons/16/checkbox-unchecked.png', width=16, height=16).unchecked
 			span= field.label
 		else
 			label(for=field.path).checkbox
