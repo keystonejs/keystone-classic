@@ -41,7 +41,9 @@ var Keystone = function() {
 		'headless': false,
 		'logger': 'dev',
 		'auto update': false,
-		'model prefix': null
+		'model prefix': null,
+		'webroot': '/',
+		'cmsdir': 'keystone',
 	};
 	this._pre = {
 		routes: [],
@@ -298,7 +300,10 @@ Keystone.prototype.render = function(req, res, view, ext) {
 			overrideToolbar: keystone.get('wysiwyg override toolbar'),
 			skin: keystone.get('wysiwyg skin') || 'keystone',
 			menubar: keystone.get('wysiwyg menubar')
-		}
+		},
+		webroot: keystone.get('webroot'),
+		cmsdir: keystone.get('cmsdir'),
+		cmsroot: keystone.get('webroot') + keystone.get('cmsdir'),
 	};
 	
 	// optional extensions to the local scope

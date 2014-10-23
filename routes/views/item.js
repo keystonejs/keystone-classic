@@ -4,6 +4,8 @@ var keystone = require('../../'),
 
 exports = module.exports = function(req, res) {
 	
+	var cmsroot = keystone.get('webroot') + keystone.get("cmsdir");
+	
 	var itemQuery = req.list.model.findById(req.params.item);
 	
 	if (req.list.tracking && req.list.tracking.createdBy) {
@@ -18,7 +20,7 @@ exports = module.exports = function(req, res) {
 		
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');
-			return res.redirect('/keystone/' + req.list.path);
+			return res.redirect(cmsroot + '/' + req.list.path);
 		}
 		
 		var viewLocals = {
@@ -75,7 +77,7 @@ exports = module.exports = function(req, res) {
 									list: refList,
 									items: _.map(results, function(i) { return {
 										label: refList.getDocumentName(i),
-										href: '/keystone/' + refList.path + '/' + i.id
+										href: cmsroot + '/' + refList.path + '/' + i.id
 									};}),
 									more: (more) ? true : false
 								});
@@ -92,7 +94,7 @@ exports = module.exports = function(req, res) {
 								drilldown.items.push({
 									list: refList,
 									label: refList.getDocumentName(result),
-									href: '/keystone/' + refList.path + '/' + result.id
+									href: cmsroot + '/' + refList.path + '/' + result.id
 								});
 							}
 							done();
@@ -180,7 +182,7 @@ exports = module.exports = function(req, res) {
 					return renderView();
 				}
 				req.flash('success', 'Your changes have been saved.');
-				return res.redirect('/keystone/' + req.list.path + '/' + item.id);
+				return res.redirect(cmsroot + '/' + req.list.path + '/' + item.id);
 			});
 			
 			
