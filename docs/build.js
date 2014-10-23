@@ -12,7 +12,7 @@
  * to build directly into the gh-pages branch (if specified).
  * 
  * e.g.
- * 		node build /Users/Jed/Development/Projects/Keystone-Docs
+ * 		node build /Users/Jed/Development/packages/keystone-docs
  */
 
 var fs = require('fs-extra'),
