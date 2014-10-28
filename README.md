@@ -7,6 +7,10 @@
 
 To get started, check out [keystonejs.com](http://keystonejs.com)!
 
+You can also deploy a starter project to [Heroku](https://heroku.com) for free to try it out:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
+
 ## About
 
 Keystone gives you:
