@@ -171,6 +171,13 @@ permalink: /docs/configuration/
                   </td>
                 </tr>
                 <tr>
+                  <td><code>view cache</code> <code class="data-type">Boolean</code></td>
+                  <td>
+                    <p>This option is passed through to Express, and controls whether compiled view templates are cached between requests.</p>
+                    <p>It defaults to <code class="default-value">true</code> in production, or <code class="default-value">false</code> otherwise so there is rarely any reason to set it explicitly.</p>
+                  </td>
+                </tr>
+                <tr>
                   <td><code>locals</code> <code class="data-type">Object</code></td>
                   <td>
                     <p>The default local variables to pass to your view templates.</p>
@@ -224,7 +231,7 @@ permalink: /docs/configuration/
                 </tr>
                 <tr>
                   <td><code>logger</code> <code class="data-type">String</code></td>
-                  <td>Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).</td>
+                  <td>Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether.</td>
                 </tr>
                 <tr>
                   <td><code>trust proxy</code> <code class="data-type">Boolean</code></td>
@@ -622,12 +629,12 @@ exports = module.exports = function(done) {
     </div>
     <div class="docs-footer">
       <div class="container">
-        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/JedWatson/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
         <ul class="list-inline">
           <li><a href="/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
           <li><a href="/docs" title="KeystoneJS Documentation">Documentation</a></li>
           <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
-          <li><a href="https://github.com/JedWatson/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
+          <li><a href="https://github.com/keystonejs/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
           <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
           <li><a href="/examples" title="KeystoneJS Database">Examples</a></li>
         </ul>
@@ -638,7 +645,7 @@ exports = module.exports = function(done) {
         <div class="social-buttons">
           <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
           <div class="social-button social-button__github">
-            <iframe src="http://ghbtns.com/github-btn.html?user=JedWatson&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+            <iframe src="http://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
           </div>
         </div>
       </div>
