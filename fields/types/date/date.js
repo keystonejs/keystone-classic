@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
 	Field = require('../field'),
 	Note = require('../../components/note'),

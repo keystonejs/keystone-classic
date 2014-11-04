@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var _ = require('underscore'),
 	React = require('react'),
 	Fields = require('../../fields'),
@@ -34,12 +32,12 @@ var Form = React.createClass({
 			if (el.type === 'heading') {
 				
 				headings++;
-				elements['h-' + headings] = FormHeading(el);
+				elements['h-' + headings] = React.createElement(FormHeading, el);
 				
 			} else if (el.type === 'field') {
 				
 				if ('function' !== typeof Fields[el.field.type]) {
-					elements[el.field.path] = InvalidFieldType({ type: el.field.type, path: el.field.path });
+					elements[el.field.path] = React.createElement(InvalidFieldType, { type: el.field.type, path: el.field.path });
 					return;
 				}
 				
@@ -47,21 +45,21 @@ var Form = React.createClass({
 				ops.value = this.state.values[el.field.path];
 				ops.values = this.state.values;
 				ops.onChange = this.handleChange;
-				elements[el.field.path] = Fields[el.field.type](ops);
+				elements[el.field.path] = React.createElement(Fields[el.field.type], ops);
 				
 			}
 			
 		}.bind(this));
 		
-		return <div>
-			{elements}
-		</div>;
+		return (
+			<div>{elements}</div>
+		);
 	}
 	
 });
 
 module.exports = {
 	renderForm: function(el, list, data) {
-		React.renderComponent(<Form list={list} data={data} />, el);
+		React.render(<Form list={list} data={data} />, el);
 	}
 };

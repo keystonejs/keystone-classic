@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 /**
  * TODO:
  * - collapse
