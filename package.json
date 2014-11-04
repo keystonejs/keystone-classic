@@ -31,8 +31,8 @@
     "pikaday": "^1.2.0",
     "queryfilter": "~0.0.4",
     "range_check": "~0.0.4",
-    "react": "~0.11.2",
-    "react-select": "~0.0.2",
+    "react": "~0.12.0",
+    "react-select": "~0.1.1",
     "semver": "~4.1.0",
     "underscore": "~1.7.0"
   },
