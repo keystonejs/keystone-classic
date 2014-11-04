@@ -74,8 +74,9 @@ module.exports = Field.create({
 
 	renderUI: function() {
 		
-		var input, fieldClassName = 'field-ui';
-
+		var input,
+			fieldClassName = 'field-ui';
+		
 		if (this.props.noedit) {
 			input = (
 				<div className={fieldClassName}>

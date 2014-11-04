@@ -1,9 +1,9 @@
 module.exports = {
-	text: require('../../fields/types/text/component'),
-	boolean: require('../../fields/types/boolean/component'),
-	email: require('../../fields/types/email/component'),
-	select: require('../../fields/types/select/component'),
-	location: require('../../fields/types/location/component'),
-	date: require('../../fields/types/date/component'),
-	datetime: require('../../fields/types/datetime/component')
+	text: require('../../fields/types/text/text'),
+	boolean: require('../../fields/types/boolean/boolean'),
+	email: require('../../fields/types/email/email'),
+	select: require('../../fields/types/select/select'),
+	location: require('../../fields/types/location/location'),
+	date: require('../../fields/types/date/date'),
+	datetime: require('../../fields/types/datetime/datetime')
 };

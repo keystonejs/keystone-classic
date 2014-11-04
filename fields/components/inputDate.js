@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
-		pikaday = require('pikaday');
+	pikaday = require('pikaday');
 
 module.exports = React.createClass({
 
