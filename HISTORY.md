@@ -1,5 +1,11 @@
 # Keystone
 
+## v0.2.33 / 2014-11-04
+
+* fixed; Issues where the session store would not always wait for a database connection before initialising the web server
+* fixed; Compatibility issues with changes made to the azure-storage blobservice.js, thanks [Pete Amundson](https://github.com/peteamundson)
+* added; Mandrill templates and render support, thanks [Ignacio Lago](https://github.com/ignlg)
+
 ## v0.2.32 / 2014-10-16
 
 * fixed; Issues with less middleware options when using multiple paths
