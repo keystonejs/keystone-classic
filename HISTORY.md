@@ -1,5 +1,11 @@
 # Keystone
 
+## v0.2.33 / 2014-11-04
+
+* fixed; Issues where the session store would not always wait for a database connection before initialising the web server
+* fixed; Compatibility issues with changes made to the azure-storage blobservice.js, thanks [Pete Amundson](https://github.com/peteamundson)
+* added; Mandrill templates and render support, thanks [Ignacio Lago](https://github.com/ignlg)
+
 ## v0.2.32 / 2014-10-16
 
 * fixed; Issues with less middleware options when using multiple paths
@@ -179,22 +185,22 @@ types, thanks [Benjamin Lupton](https://github.com/balupton)
 
 ## v0.2.16 / 2014-05-14
 
-* fixed; issues with Keystone.prototype.import, see [#348](https://github.com/JedWatson/keystone/issues/348), thanks [ashleycorker](https://github.com/ashleycoker)
-* fixed; issues with geo handling in Location fields, see [#344](https://github.com/JedWatson/keystone/issues/344), thanks [mandb](https://github.com/mandb)
+* fixed; issues with Keystone.prototype.import, see [#348](https://github.com/keystonejs/keystone/issues/348), thanks [ashleycorker](https://github.com/ashleycoker)
+* fixed; issues with geo handling in Location fields, see [#344](https://github.com/keystonejs/keystone/issues/344), thanks [mandb](https://github.com/mandb)
 
 ## v0.2.15 / 2014-05-13
 
 * fixed; Added note to fields that didnt have one, thanks [Ötvös Richárd](https://github.com/RichardOtvos)
 * fixed; Only show "Open Keystone" link to admins, thanks [John Beppu](https://github.com/beppu)
 * fixed; Password fields are formatted correctly on the list screen of the Admin UI
-* added; Support for custom MongoDB collection names (and other Schema options, see [#292](https://github.com/JedWatson/keystone/issues/292))
+* added; Support for custom MongoDB collection names (and other Schema options, see [#292](https://github.com/keystonejs/keystone/issues/292))
 * added; Support for clearing password fields (if not required)
 * added; Password.compare is now available on the Field object
 * added; Support for loading fixture data with `keystone.createItems()` and in update scripts, see [this gist](https://gist.github.com/JedWatson/10739959) for an example
-* added; Basic support for redirects, see [#303](https://github.com/JedWatson/keystone/issues/303) for details
+* added; Basic support for redirects, see [#303](https://github.com/keystonejs/keystone/issues/303) for details
 * added; Support for excluding the blank option in Select fields with the `emptyOption` option
 * improved; Nicer exception on EADDRINUSE error
-* added; Warning when required fields aren't initial, see [#300](https://github.com/JedWatson/keystone/issues/300)
+* added; Warning when required fields aren't initial, see [#300](https://github.com/keystonejs/keystone/issues/300)
 * fixed; Truthy check for port breaks listening on any open port
 * fixed; Changed how updates are discovered and included, fixes previous issues with .DS_Store files
 * added; test script to package.json, spec reporter for Mocha tests and other test improvements, thanks [David Banham](https://github.com/davidbanham)
@@ -248,7 +254,7 @@ Also; all dependencies are up to date with their latest published versions, exce
 * fixed; issue with the 'new item' button on the item details page in the Admin UI triggering autocreate functionality incorrectly, thanks [Thomas Pedersen](https://github.com/thedersen)
 * fixed; redirect parameter for signin page now protects against open redirect attacks, thanks [Oliver Jenkins](https://github.com/oliverjenkins)
 * fixed; 'host is undefined' issue with certain configurations, see #241
-* fixed; accented characters are converted correctly when generating slugs, thanks to [keystone-utils](https://github.com/JedWatson/keystone-utils) 0.1.7
+* fixed; accented characters are converted correctly when generating slugs, thanks to [keystone-utils](https://github.com/keystonejs/keystone-utils) 0.1.7
 
 (emergency version bump from 0.2.9 because of white-space issue with new Jade version)
 
@@ -342,7 +348,7 @@ This version also contains the new docs and website developed by @jossmackison a
 * added; pre upload queue for s3file field type (set the `pre.upload` option, or call `{list}.fields.{s3filefield}.pre('upload', ...)`)
 * added; initial (create form) support for location fields
 * added; initial (create form) support for markdown fields, thanks [Jimmy Hillis](https://github.com/jimmyhillis)
-* improved; much more flexible support for http server startup options, see [#154](https://github.com/JedWatson/keystone/issues/154)
+* improved; much more flexible support for http server startup options, see [#154](https://github.com/keystonejs/keystone/issues/154)
 
 
 ## v0.2.0 / 2014-01-26

@@ -102,6 +102,11 @@ block content
 						p If you want to use a custom template engine, set this option to the function that should be used to process your templates.
 						p See below for an example of how to use the <a href="http://paularmstrong.github.io/swig/" target="_blank">Swig</a> template engine.
 				tr
+					td <code>view cache</code> <code class="data-type">Boolean</code>
+					td
+						p This option is passed through to Express, and controls whether compiled view templates are cached between requests.
+						p It defaults to <code class="default-value">true</code> in production, or <code class="default-value">false</code> otherwise so there is rarely any reason to set it explicitly.
+				tr
 					td <code>locals</code> <code class="data-type">Object</code>
 					td
 						p The default local variables to pass to your view templates.
@@ -140,7 +145,7 @@ block content
 					td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>express.compress</code> middleware (<a href="http://expressjs.com/api.html#compress" target="_blank">see docs here</a>).
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
-					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).
+					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether.
 
 				tr
 					td <code>trust proxy</code> <code class="data-type">Boolean</code>
