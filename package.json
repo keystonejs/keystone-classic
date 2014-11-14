@@ -54,6 +54,7 @@
     "jshint-stylish": "~1.0.0",
     "mocha": "~2.0.1",
     "must": ">= 0.12 < 1",
+    "reactify": "~0.16.0",
     "sinon": "~1.11.1",
     "supertest": "~0.15.0",
     "vinyl-source-stream": "~1.0.0",
