@@ -83,7 +83,7 @@ $ yo keystone
 
 This will create a new project based on the options you select, and install the required packages from **npm**.
 
-After the intallation is complete, run this command to start Keystone:
+After the installation is complete, run this command to start Keystone:
 
 ```bash
 $ node keystone
