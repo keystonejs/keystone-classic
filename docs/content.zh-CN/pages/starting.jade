@@ -3,9 +3,9 @@ extends ../templates/layout/base
 block intro
 	.page-header
 		.container
-			h1 Get Started
-			p.lead The fastest way to create a Node.js website. For a deep dive, 
-					a(href='/docs/getting-started') check out the docs.
+			h1 入门
+			p.lead 创建Node.js网站最快的方式。要深入其中，
+					a(href='/docs/getting-started') 请查阅文档。
 	
 block content
 	//- h2.text-center The fastest way to create a Node.js website
@@ -15,43 +15,43 @@ block content
 				.gs-guide__header
 					h2.gs-guide__title
 						span.gs-guide__title-count 1
-						.gs-guide__title-label Prerequisites
+						.gs-guide__title-label 前提条件
 					.gs-guide__subtitle
-						p Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
-						p You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
+						p 开始之前先确保你已经安装了<a href="http://nodejs.org/download" target="_blank">Node.js</a>和<a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a>。
+						p 要使用KeystoneJS，你需要掌握合理的Javascript知识，并熟悉数据库概念之类的基础知识，会用 node / npm 等。
 		
 		.gs-guide-figure.gs-guide-figure--prerequisites.hidden-xs
 			//- .text Installed?
 			.column.nodejs
 				a(href='http://nodejs.org/download/', target='_blank')
 					.logo: img(src='/images/getting-started/nodejs-logo.png', alt='Node.js logo', width=245, height=66)
-					span.prerequisite Download and install the Node.js binaries for your platform from the Node.js download page.
+					span.prerequisite 从Node.js下载页面下载并安装用于你的平台的Node.js。
 			.column.mongodb
 				a(href='http://docs.mongodb.org/manual/installation/', target='_blank')
 					.logo: img(src='/images/getting-started/mongodb-logo.png', alt='MongoDB logo', width=294, height=84)
-					span.prerequisite See the MongoDB installation guide for how to install MongoDB on your operating system.
+					span.prerequisite 查阅MongoDB安装指南了解如何在你的操作系统上安装MongoDB。
 				
 		.gs-guide-section
 			.container-sm
 				.gs-guide__header
 					h2.gs-guide__title
 						span.gs-guide__title-count 2
-						.gs-guide__title-label Commands
-				h3 Install the generator
-				p You'll be using the <a href='https://github.com/keystonejs/generator-keystone', target='_blank'>KeystoneJS generator</a> made with <a href='http://yeoman.io/', target='_blank'>Yeoman</a>. In your root directory run:
+						.gs-guide__title-label 命令
+				h3 安装生成器
+				p 你将要使用由<a href='http://yeoman.io/', target='_blank'>Yeoman</a>制作的<a href='https://github.com/keystonejs/generator-keystone', target='_blank'>KeystoneJS 生成器</a>。在根目录运行：
 				pre.command-line npm install -g generator-keystone
 				
-				h3 Create a folder for your project
-				p Create your project wherever you want:
+				h3 给项目创建一个文件夹
+				p 你可以在任何地方创建项目：
 				pre.command-line mkdir my-test-project
 				
-				p Than make sure you're in your new project:
+				p 然后进入新项目目录：
 				pre.command-line cd my-test-project
 				
-				h3 Run the generator
+				h3 运行生成器
 				pre.command-line yo keystone
-				p The generator will ask you a few questions about what features you'd like to include, then configure and copy all the files you'll need into your project.
-				p It will also install dependencies from npm so you're ready to go.
+				p 生成器会问你几个问题，主要是你想要什么功能，然后进行配置，并把你需要的所有文件复制到你的项目目录中。
+				p 它还会从npm中安装依赖项，帮你做好准备。
 		
 		.gs-guide-figure.gs-guide-figure--commands.hidden-xs
 			.window.safari
@@ -66,13 +66,13 @@ block content
 				.gs-guide__header
 					h2.gs-guide__title
 						span.gs-guide__title-count 3
-						.gs-guide__title-label You're Done!
-					p.gs-guide__subtitle So you just created your first KeystoneJS project, congrats!
-					p.gs-guide__subtitle Run it in your command line like this:
+						.gs-guide__title-label 搞定了！
+					p.gs-guide__subtitle 你刚刚创建了自己的第一个KeystoneJS项目，恭喜你！
+					p.gs-guide__subtitle 像这样在命令行中运行它：
 					pre.command-line node keystone
-					p.gs-guide__subtitle Then open <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> to view it in your browser.
-					p.gs-guide__subtitle If you want to see what the generator actually did take a look at our getting started guide, it'll walk you through the manual setup process. This is particularly helpful if you're new to Node.js.
-					p.gs-guide__subtitle: a(href='/docs/getting-started') View the getting started guide &rarr;
+					p.gs-guide__subtitle 然后打开<a href="http://localhost:3000" target="_blank">http://localhost:3000</a> 在浏览器中看看。
+					p.gs-guide__subtitle 如果你想知道生成器究竟做了什么，可以看一下我们的入门指南，它介绍了手动搭建过程。如果你刚接触Node.js，看一下对你非常有帮助。
+					p.gs-guide__subtitle: a(href='/docs/getting-started') 查阅入门指南 &rarr;
 		
 		.gs-guide-figure.gs-guide-figure--finished.wow-much-find.hidden-xs
 			img(src='/images/getting-started/commands-safari.png', alt='Safari window', width=1680, height=600).sr-only
@@ -82,28 +82,28 @@ block content
 				.gs-guide__header
 					h2.gs-guide__title
 						span.gs-guide__title-count ?
-						.gs-guide__title-label Problems
-					p.gs-guide__subtitle Something went wrong? Hopefully these tips will help.
+						.gs-guide__title-label 问题
+					p.gs-guide__subtitle 出错了？希望下面这些提示会有帮助。
 					
-					h3 ERR! Please try running this command again as root/Administrator.
-					p When running npm install -g generator-keystone, you may get an EACCES error asking you to run the command again as root/Administrator. This indicates that there is a permissions issue.
-					p On your development system you can change directory ownership to the current $USER so you do not have to run sudo while installing untrusted code:
+					h3 错误！请试着以root/管理员身份重新运行该命令。
+					p 在运行npm install -g generator-keystone时，你可能会遇到EACCES错误，让你以root/管理员身份重新运行这个命令。这表明有许可权限问题。
+					p 你可以在开发系统中将目录的所有权改成当前$USER，这样在安装非受信代码时就不必运行sudo了：
 					pre
 						| sudo chown -R $USER /usr/local
 						| 
-						| # Other directories may be required depending on your O/S
+						| # 某些O/S可能还要改其它目录
 						| sudo chown -R $USER /usr/lib/node_modules/
 					
-					p For a production/shared environment you may wish to re-run the npm command with the sudo prefix:
+					p 在生产/共享环境中，你可能希望带着sudo前缀重新运行npm命令：
 
 					pre sudo npm install -g generator-keystone
-					p For more information, see the <a href='http://foohack.com/2010/08/intro-to-npm/#what_no_sudo', target='_blank'>"What, no sudo?"</a> of the Intro to npm by Isaac Schulueter.
+					p 要了解更多信息，请参阅Isaac Schulueter写的Intro to npm中的<a href='http://foohack.com/2010/08/intro-to-npm/#what_no_sudo', target='_blank'>"什么, 没sudo?"</a>章节。
 
-					h3 What do you mean it couldn't find my Database?
-					p By default, KeystoneJS will look for a MongoDB server running on localhost on the default port, and connect to it. If you're getting errors related to the MongoDB connection, make sure your MongoDB server is running.
-					p If you haven't installed MongoDB yet, follow the instructions below.
-					p To connect to a server other than localhost, add a MONGO_URI setting to the .env file in your Keystone project directory:
+					h3 你说找不到我的数据库是什么意思？
+					p 默认情况下，KeystoneJS会在localhost的默认端口下连接运行中的MongoDB服务器。如果你遇到跟MongoDB连接相关的错误，请确保MongoDB服务器运行着。
+					p 如果你还没装MongoDB，请按照下面的指示操作。
+					p 要连接除localhost之外的其它服务器，找到Keystone项目目录下的.env文件，添加MONGO_URI配置：
 					pre MONGO_URI=mongodb://your-server/database-name
 					
-					h3 Something else?
-					p.gs-guide__subtitle If your issue still isn't resolved, reach out to us on the <a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS Google Group</a>.
+					h3 其它问题？
+					p.gs-guide__subtitle 如果你的问题还没解决，可以到<a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS谷歌群组</a>上找我们。

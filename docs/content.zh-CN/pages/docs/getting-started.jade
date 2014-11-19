@@ -5,9 +5,9 @@ include ../../templates/mixins/docsnav
 block intro
 	.page-header
 		.container
-			h1 Getting Started Guide
-			p.lead This guide steps you through how to create a KeystoneJS site. 
-				a(href='/getting-started') There's also a generator.
+			h1 入门指南
+			p.lead 这个指南会逐步指导你如何构建KeystoneJS网站。
+				a(href='/getting-started') 这里还有个生成器。
 	
 block content
 	.container: .row
@@ -19,51 +19,51 @@ block content
 			
 			h2
 				a(name="introduction")
-				| Introduction
+				| 简介
 				
-			.alert.alert-warning This guide is currently being updated to match the new Yeoman Generator.
+			.alert.alert-warning 这个指南目前正在更新中，以体现新的Yeoman生成器。
 			
-			p KeystoneJS makes it easy to build database-driven websites, applications and APIs in node.js.
-			p Under the hood, KeystoneJS uses the <a href="http://expressjs.com" target="_blank">express.js</a> web server framework, and a <a href="http://mongodb.com" target="_blank">MongoDB</a> database via the <a href="mongoosejs.com" target="_blank">mongoose</a> object modelling framework.
+			p KeystoneJS使得在node.js中搭建数据库驱动的网站、应用程序和API变得容易了。
+			p KeystoneJS在底层使用了<a href="http://expressjs.com" target="_blank">express.js</a>web服务器框架，并通过对象建模框架<a href="mongoosejs.com" target="_blank">mongoose</a>使用<a href="http://mongodb.com" target="_blank">MongoDB</a>数据库。
 			
 			.contextual-note
-				h4 Simple vs. Flexible
-				p Keystone is designed to make complicated things simple, without limiting the power or flexibility of node.js or the frameworks it is built on.
-				p This guide will show you how to build a KeystoneJS website using the default project structure and options.
-				p To learn more about how things work under the hood, and how you can extend or replace features, we strongly recommend reading the <a href="https://github.com/keystonejs/keystone" target="_blank">source code</a>.
+				h4 简单 vs. 灵活
+				p 设计Keystone的目的是要把复杂的事情变简单，不会限制node.js或以其为基础的框架的能量或灵活性。
+				p 这个指南会告诉你如何用默认的项目结构及选项搭建一个KeystoneJS网站。 
+				p 要想深入了解底层的运行机制，以及如何扩展或替换某些功能，我们强烈建议你读一读<a href="https://github.com/keystonejs/keystone" target="_blank">源码</a>。
 			
 			a(name="introduction-prerequisites")
-			h3 Prerequisites
+			h3 前提条件
 			
 			ol.fancy-list
-				li Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.
-				li You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
-				li In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates. In your own project you can use any template language you like; see <a href="#templates_other">using other template languages</a> (below) for more information.
+				li 开始之前，先确保你装了<a href="http://nodejs.org/download" target="_blank">Node.js</a>和<a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a>。
+				li 要使用KeystoneJS，你需要掌握合理的Javascript知识，并熟悉数据库概念之类的基础知识，会用 node / npm 等。
+				li 这个指南中还会用<a href="http://jade-lang.com" target="_blank">Jade</a>作为视图模板，<a href="http://lesscss.org" target="_blank">LESS</a>作CSS模板。你可以在自己的项目中使用任何模板语言；参阅<a href="#templates_other">使用其它模板语言</a> (下面)了解详情。
 			
 			a(name="introduction-productionvsdevelopment")
-			h3 Production vs. Development
+			h3 生产 vs. 开发
 			
-			p Keystone applies different settings in production and development modes. The environment will default to <code>development</code>, so you should set the <code>NODE_ENV</code> environment variable to <code>production</code> on your production servers for better performance.
-			p Your app can detect which environment it is running in by calling <code>keystone.get('env')</code>.
+			p Keystone在生产和开发模式下会使用不同的设定。默认环境为<code>development</code>，为了提升性能，你应该在生产服务器上将环境变量<code>NODE_ENV</code>设为<code>production</code>。
+			p 调用<code>keystone.get('env')</code>可以检测出程序运行在哪种环境下。
 			
 			a(name="gettingstarted")
-			h2 Getting Started
+			h2 入门
 			
 			a(name="gettingstarted-usingyeoman")
-			h3 Using the Yeoman Generator
+			h3 使用Yeoman生成器
 			
-			p The easiest way to get started with KeystoneJS is to use our new Yeoman Generator.
-			p We're still updating our getting started guide to reflect this; in the meantime head over to the <a href="https://github.com/keystonejs/generator-keystone" target="_blank">KeystoneJS Yeoman Generator</a> page and follow the instructions there.
-			p Running <code>yo keystone</code> will take all the work out of following the guide below, so once you've got your new project, continue reading to follow along with what it did.
+			p 开始KeystoneJS之旅最容易的方式是使用我们新的Yeoman生成器。
+			p 我们仍在更新这个入门指南，以体现这个生成器的用法；现在请到<a href="https://github.com/keystonejs/generator-keystone" target="_blank">KeystoneJS Yeoman生成器</a>页面遵照那里的指示行事。
+			p 运行<code>yo keystone</code>会做好下面所讲的全部工作，所以你一旦得到自己的新项目，请继续读下去以便了解它做了什么。
 			
 			a(name="gettingstarted-startinganewproject")
-			h3 Starting a new project
+			h3 开始一个新项目
 			
-			p Create a new directory for your project, then add the following two files which are responsible for setting up your project and starting your webserver.
+			p 给你的项目创建一个新目录，然后添加下面两个文件，它们要负责项目的设置和启动你的web服务器。
 			
 			.code-header
 				h4 package.json
-				p This file describes our project for npm, including the fact that it depends on <code>keystone</code>.
+				p 这是给npm的项目描述文件，包括它基于<code>keystone</code>这个事实。
 			pre: code.language-javascript
 				| {
 				|   "name": "my-project",
@@ -82,11 +82,11 @@ block content
 				|   }
 				| }
 			
-			p.note Note we're also requiring the <a href="http://underscorejs.org">underscore library</a>, because we'll use some of its functionality later. You can use any other packages you like from <a href="https://npmjs.org">npm</a> in your Keystone application by adding them to your <code>package.json</code>.
+			p.note 注意，我们还引入了<a href="http://underscorejs.org">underscore库</a>，因为稍后会用到它的一些功能。你可以将<a href="https://npmjs.org">npm</a>中的任何包添加到<code>package.json</code>中使用它们。
 			
 			.code-header
 				h4 web.js
-				p This is the script that will run our keystone website.
+				p 这是运行我们的keystone网站的脚本。
 			pre: code.language-javascript
 				| var keystone = require('keystone');
 				| keystone.init({
@@ -116,14 +116,14 @@ block content
 				| 
 				| keystone.start();
 			
-			p Now, in your console, run <code>npm install</code> from the root folder of your project (where package.json is) to install Keystone.
-			p.note For more information about the options Keystone supports, see the <a href="/docs/configuration">configuration guide</a>.
-			p.note Note: your web script won't run yet, because it is including models and routes that have not been set up yet. It assumes you follow the conventions in this guide.
+			p 现在在你的控制台中进入项目根目录（package.json所在的位置），运行<code>npm install</code>来安装Keystone。
+			p.note 要了解Keystone支持的更多选项，请参见<a href="/docs/configuration">配置指南</a>。
+			p.note 注意：你的web脚本还不能运行，因为其中包含的模型和路由都还没做好。它假定你会遵照这个指南中的指示。
 			
 			.contextual-note
-				h4 BYO Express and Mongoose
-				p If you want to require Express or Mongoose in your application, instead of having Keystone provide and configure them completely, you can so do.
-				p Include them in the dependencies list for your project, then provide them to Keystone using the <code>connect</code> method.
+				h4 自带Express和Mongoose
+				p 如果你想在项目中引入Express或Mongoose，不用完全由Keystone提供和配置的，也可以。
+				p 把它们放在项目的dependencies列表中，然后用<code>connect</code>方法提供给keystone。
 				pre
 					| var express = require('express'),
 					|     mongoose = require('mongoose'),
@@ -132,67 +132,67 @@ block content
 			
 			
 			a(name="gettingstarted-projectstructure")
-			h3 Project Structure
+			h3 项目结构
 			
-			p With your package and web scripts in place, it's time to scaffold out containers for the rest of your app. Create the following directory structure:
+			p 在包和web脚本到位后，可以开始架构程序剩余部分的容器。创建下面这个目录结构：
 
 			pre
 				| |--lib
-				| |  <span>Custom libraries and other code</span>
+				| |  <span>定制的库和代码</span>
 				| |--models
-				| |  <span>Your application's database models</span>
+				| |  <span>程序的数据库模型</span>
 				| |--public
-				| |  <span>Static files (css, js, images, etc.) that are publicly available</span>
+				| |  <span>公开的静态文件 (css、js、images等)</span>
 				| |--routes
 				| |  |--api
-				| |  |  <span>Your application's api controllers</span>
+				| |  |  <span>程序的api控制器</span>
 				| |  |--views
-				| |  |  <span>Your application's view controllers</span>
+				| |  |  <span>程序的视图控制器</span>
 				| |  |--index.js
-				| |  |  <span>Initialises your application's routes and views</span>
+				| |  |  <span>初始化程序的路由和视图</span>
 				| |  |--middleware.js
-				| |  |  <span>Custom middleware for your routes</span>
+				| |  |  <span>为路由定制的中间件</span>
 				| |--templates
 				| |  |--includes
-				| |  |  <span>Common .jade includes go in here</span>
+				| |  |  <span>通用的 .jade 组件放这里</span>
 				| |  |--layouts
-				| |  |  <span>Base .jade layouts go in here</span>
+				| |  |  <span>基础 .jade 布局放这里</span>
 				| |  |--mixins
-				| |  |  <span>Common .jade mixins go in here</span>
+				| |  |  <span>通用的 .jade mixins放这里</span>
 				| |  |--views
-				| |  |  <span>Your application's view templates</span>
+				| |  |  <span>程序的视图模板</span>
 				| |--updates
-				| |  <span>Data population and migration scripts</span>
+				| |  <span>数据组装和迁移脚本</span>
 				| |--package.json
-				| |  <span>Project configuration for npm</span>
+				| |  <span>给npm的项目配置</span>
 				| |--web.js
-				| |  <span>Main script that starts your application</span>
+				| |  <span>启动程序的主脚本</span>
 			
-			p We also recommend that your application will be simpler to build and maintain if you mirror the internal structure of your <code>routes/views</code> and <code>templates/views</code> directories as much as possible.
+			p 我们建议尽可能地将<code>routes/views</code>和<code>templates/views</code>目录的内部结构做镜像式的对应，这样程序的搭建和维护会更简单。
 			
 			.contextual-note
-				h4 Structure
-				p This guide assumes you follow the recommendations above, however Keystone doesn't actually enforce any structure, so you're free to make changes to suit your application better.
+				h4 结构
+				p 该指南假定你会遵守上面的建议，然而Keystone实际上对结构没有任何强制性的要求，所以你可以随意修改，使其更加适合你的项目。
 			
 			
 			a(name="models")
-			h2 Models
+			h2 模型
 			
-			p Before you can start your Keystone app, you'll need some data models.
+			p 在可以启动Keystone程序之前，你需要一些数据模型。
 			
-			p We're going to start with the <code>User</code> model, which is special - we need it so that Keystone can do authentication and session management.
+			p 我们准备从<code>User</code>模型开始，它很特别 - 有了它Keystone才能做认证和会话管理。
 			
-			p Create the following two files in the <code>/models</code> folder:
+			p 在<code>/models</code>文件夹下创建下面这两个文件：
 			
 			.code-header
 				h4 models/index.js
-				p This is the script that includes your models. It doesn't need to export anything.
+				p 在这个脚本里包含你的模型。它不需要输出任何东西。
 			pre: code.language-javascript
 				| require('./users.js');
 			
 			.code-header
 				h4 models/users.js
-				p This script initialises the <code>User</code> model. It doesn't need to export anything, but the model <em>must</em> be registered with Keystone.
+				p 这个脚本初始化<code>User</code>模型。它不需要输出任何东西，但模型<em>必须</em>用Keystone注册。
 			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     Types = keystone.Field.Types;
@@ -210,55 +210,55 @@ block content
 			
 			
 			a(name="models-authentication")
-			h3 Authentication and Session Management
+			h3 认证和会话管理
 			
-			p For Keystone to provide authentication and session management to your application, it needs to know a few things (which we've now configured).
+			p 要让Keystone为程序提供认证和会话管理，它需要知道几件事情（我们现在要配置的）
 			
-			p To recap:
+			p 概括一下：
 			ul.list
-				li The option <code>user model</code> must be the name of the Model that Keystone should look in to find your users. If you use a different model name, be sure to set the option correctly.
-				li If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. Loading sessions incurs a small overhead, so if your application doesn't need sessions you can turn this off.
-				li Keystone has built-in views for signing in and out. To enable them, set the <code>auth</code> option to <strong>true</strong>. You can also implement custom signin and signout screens in your applications' views.
-				li Sessions are persisted using an encrypted cookie storing the user's ID. Make sure you set the <code>cookie secret</code> option to a long, random string.
-				li The user model must have a <code>canAccessKeystone</code> property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not.
+				li 参数<code>user model</code>必须是Keystone在其中查找用户的模型名称。如果你的模型用了其它名称，一定确保正确设定这个参数。
+				li 如果你的程序要支持会话管理，将参数<code>session</code>设为<strong>true</strong>。加载会话会有点小开销，所以如果你的程序不需要会话，可以把这个关了。
+				li Keystone有内置的登录和退出视图。可以将参数<code>auth</code>设为<strong>true</strong>启用它们。你也可以在程序视图中定制登录和退出界面。
+				li 会话是用存有用户ID的加密cookie持久化的。一定要将参数<code>cookie secret</code>设成一个长长的随机字符串。
+				li 用户模型必须有个<code>canAccessKeystone</code>属性（可以是虚拟方法或存储的boolean型域）指出用户是否可以访问Keystone的管理界面。
 			
-			h4 More on Data Models
+			h4 再谈数据模型
 			
-			p For more information on how to set up your application's models, and the full documentation for lists and fields, see the <a href="/docs/database">database guide</a>.
+			p 要学习如何设置程序的模型，以及列表和域的完整文档，请参见<a href="/docs/database">数据库指南</a>。
 
 			a(name="routesviews")
-			h2 Routes &amp; Views
+			h2 路由 &amp; 视图
 			
-			p Usually, the easiest and clearest way to configure the logic for different routes (or views) in your application is to set up all the bindings single file, then put any common logic (or middleware) in another file.
-			p Then, the controller for each route you bind goes in its own file, organised similarly to the template that renders the view.
-			p Keystone's <code>importer</code> and Express's middleware support makes this easy to set up.
+			p 一般来说，在配置程序中的不同路由（或视图）时，应该把所有绑定放在一个文件中，然后通用逻辑（或中间件）放在另一个文件中，这是最容易也是最清爽的方式。
+			p 然后，给每个路由绑定的控制器在各自的文件中，跟组织渲染视图的模板的方式类似。
+			p Keystone的<code>importer</code>和Express中间件的支持使得这很容易设置。
 			
 			a(name="routesviews-settingup")
-			h3 Setting up your Routes and Middleware
+			h3 设置路由和中间件
 			
-			h4 Route index controller
+			h4 index路由控制器
 			
-			p First, create a <code>routes/index.js</code> file. This is where we bind your application's URL patterns to the controllers that load and process data, and render the appropriate template.
+			p 首先创建一个<code>routes/index.js</code>文件。我们在这里将程序的URL模式绑定到控制器上，从而在收到请求后让控制器加载和处理数据，并渲染相应的模板。
 			
 			.code-header
 				h4 routes/index.js
-				p This script imports your route controllers and binds them to URLs.
+				p 这段脚本引入路由控制器，并将它们绑定到URL上。
 			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     middleware = require('./middleware'),
 				|     importRoutes = keystone.importer(__dirname);
 				| 
-				| // Common Middleware
+				| // 常用中间件
 				| keystone.pre('routes', middleware.initErrorHandlers);
 				| keystone.pre('routes', middleware.initLocals);
 				| keystone.pre('render', middleware.flashMessages);
 				| 
-				| // Handle 404 errors
+				| // 处理404错误
 				| keystone.set('404', function(req, res, next) {
 				|     res.notfound();
 				| });
 				| 
-				| // Handle other errors
+				| // 处理其它错误
 				| keystone.set('500', function(err, req, res, next) {
 				|     var title, message;
 				|     if (err instanceof Error) {
@@ -268,52 +268,52 @@ block content
 				|     res.err(err, title, message);
 				| });
 				| 
-				| // Load Routes
+				| // 加载路由
 				| var routes = {
 				|     views: importRoutes('./views')
 				| };
 				| 
-				| // Bind Routes
+				| // 绑定路由
 				| exports = module.exports = function(app) {
 				|     
 				|     app.get('/', routes.views.index);
 				|     
 				| }
 
-			h4 Stepping through the route controller index
+			h4 逐步解释index路由控制器
 			
 			ul
-				li Load <code>keystone</code>, the <code>middleware.js</code> file (below), and create an <code>importer</code> for the current directory
-				li Bind middleware (below) that
+				li 加载<code>keystone</code>、<code>middleware.js</code> 文件 (见下方)，并为当前目录创建一个<code>importer</code>
+				li 绑定中间件 (见下方) 
 					ul
-						li Initialises our basic error handlers
-						li Initialises common local variables for our view templates
-						li Retrieves flash messages from session before the view template is rendered
-				li Tell Keystone how to handle <code>404</code> and <code>500</code> errors
-				li Use the importer to load all the route controllers in the <code>/routes/views</code> directory
-				li Export a method that binds the index route controller to <code>GET</code> requests on the root url <code>/</code>
+						li 初始化基本的错误处理器
+						li 为视图模板初始化通用的local变量
+						li 在视图目标渲染之前从会话中获取提示消息
+				li 告诉Keystone如何处理<code>404</code>和<code>500</code>错误
+				li 用importer加载<code>/routes/views</code>目录中的所有路由控制器
+				li 输出一个方法，将index路由控制器绑定到根url‘<code>/</code>’的<code>GET</code>请求上
 					ul
-						li The <code>app</code> argument to this method our express app, so anything you can do binding routes in express, you can do here.
+						li 这个方法中的参数<code>app</code>就是express的app，所以在express中绑定路由能做的事情，在这里都可以做。
 			
-			p Additional route controllers that you add to your app should be added using <code>app.get</code>, <code>app.post</code> or <code>app.all</code> under your root controller.
+			p 应该在根控制器下面用<code>app.get</code>、<code>app.post</code> 或 <code>app.all</code> 将其它路由控制器添加到程序中。
 			
 			
 			a(name="routesviews-middleware")
-			h3 Common Route Middleware
+			h3 通用路由中间件
 			
-			p Putting your common middleware in a separate <code>routes/middleware.js</code> file keeps your route index nice and clean. If your middleware file gets too big, it's a good idea to restructure any significant functionality into custom modules in your projects <code>/lib</code> folder.
-			p Now we'll add the basic middleware to get your app up and running with default behaviours:
+			p 把你的通用路由中间件放在单独的<code>routes/middleware.js</code>文件中，以保持路由index的干净整洁。 如果中间件文件太大，最好把所有重大功能重构到定制的模块中，放在项目的<code>/lib</code>文件夹下。
+			p 现在我们要添加基本的中间件，在程序启动后运行默认的行为：
 			
 			.code-header
 				h4 routes/middleware.js
-				p This script includes common middleware for your application routes
+				p 这个脚本应该包含程序路由的通用中间件
 			pre: code.language-javascript
 				| var _ = require('underscore'),
 				|     keystone = require('keystone');
 				| 
 				| /**
-				|     Initialises the standard view locals.
-				|     Include anything that should be initialised before route controllers are executed.
+				|     初始化标准的视图locals。
+				|     包含应该在路由控制器执行之前初始化的所有东西。
 				| */
 				| exports.initLocals = function(req, res, next) {
 				|     
@@ -321,14 +321,14 @@ block content
 				|     
 				|     locals.user = req.user;
 				|     
-				|     // Add your own local variables here
+				|     // 在这里添加你自己的local变量
 				|     
 				|     next();
 				|     
 				| };
 				| 
 				| /**
-				|     Inits the error handler functions into `req`
+				|     初始化错误处理函数到`res`中
 				| */
 				| exports.initErrorHandlers = function(req, res, next) {
 				|     
@@ -352,7 +352,7 @@ block content
 				| };
 				| 
 				| /**
-				|     Fetches and clears the flashMessages before a view is rendered
+				|     在视图渲染之前获取并清理flashMessages
 				| */
 				| exports.flashMessages = function(req, res, next) {
 				|     
@@ -369,44 +369,44 @@ block content
 				|     
 				| };
 			
-			h4 Middleware functions
+			h4 中间件函数
 			
-			p Keystone expects middleware functions to accept the following arguments:
+			p Keystone希望中间件函数接受下面这些参数：
 			ul.options
-				li <code>req</code> - an express request object
-				li <code>res</code> - an express response object
-				li <code>next</code> - the method to call when the middleware has finished running (including any internal callbacks)
+				li <code>req</code> - express请求对象
+				li <code>res</code> - express响应对象
+				li <code>next</code> - 中间件结束运行时调用的方法 (包括任何内部回调)
 			
-			h4 Flash message support (no, not that flash)
+			h4 支持提示消息（Flash Messages） (不, 不是那个flash)
 			
-			p Keystone includes support for 'flashing' messages to your visitors via session. The default setup above supports four categories, all of which can be styled differently:
+			p Keystone通过会话支持给访问者的'flashing'消息。上面的默认设置支持4种消息，全都可以做成不同的样式：
 			ul.options
 				li <code>info</code>
 				li <code>success</code>
 				li <code>warning</code>
 				li <code>error</code>
-			p You can easily support other types of messages by updating your middleware and the .jade template that renders them (which we'll get to below).
-			p To use flash messages in your route controllers, do this:
+			p 你可以通过更新中间件和渲染它们的.jade模板轻松支持其它类型的消息。(下面会讲到)。
+			p 要在路由控制器中使用提示消息，可以这样做：
 			p: code req.flash('info', 'Some information!');
-			p Messages use session so they survive redirects, and will only be displayed to the user once, making them perfect for status messages (e.g. "Your changes have been saved") or form validation (e.g. "Please enter a valid email address").
-			p Some Keystone features (such as the Update Handler) can automatically generate flash messages for you, and expect the categories above to be available.
+			p 消息使用会话，所以在转发后它们也能留存下来，并且只会显示给用户一次，特别适合用来做状态消息 (比如 "您的修改已经保存") 或表单校验 (比如 "请输入有效的email地址")。
+			p 一些Keystone功能(比如更新处理器)可以自动生成提示消息， 并期望有上面的那些类别。
 			
 			
 			a(name="routesviews-firstview")
-			h3 Your first View
+			h3 你的第一个视图
 			
-			p Now we're going to set up your first route controller (for the index page), and the template it will render.
+			p 现在我们准备设置你的第一个路由控制器 (给index页面)，以及它要渲染的模板。
 			
-			p The importer (above) expects the directory you ask it for to include <code>.js</code> or <code>.coffee</code> files that export a single method accepting the following arguments:
+			p importer (上面那个) 期望你提供给它的目录中包含的 <code>.js</code> 或 <code>.coffee</code> 文件输出的单个方法接受下面这些参数：
 			ul.options
-				li <code>req</code> - an express request object
-				li <code>res</code> - an express response object
+				li <code>req</code> - express请求对象
+				li <code>res</code> - express响应对象
 			
-			p Our first view controller is going to be very simple - just rendering a template. Create an <code>routes/views/index.js</code> file like this:
+			p 我们的第一个视图控制器非常简单 - 只是渲染一个模板。创建像下面这样的<code>routes/views/index.js</code>文件：
 			
 			.code-header
 				h4 routes/views/index.js
-				p The route controller for our home page view
+				p home页面视图的路由控制器
 			pre: code.language-javascript
 				| var keystone = require('keystone');
 				| 
@@ -419,26 +419,26 @@ block content
 				| }
 			
 			a(name="routesviews-templates")
-			h3 Templates
+			h3 模板
 			
-			p Now, for the template our route will render. The <code>render</code> method looks in the <code>views</code> directory specified in our <code>web.js</code>, which we set to <code>/templates/views</code>.
-			p In this guide, we're going to use <strong>Jade</strong> for our templates. To learn more about Jade, visit <a href="http://jade-lang.com" target="_blank">jade-lang.org</a>, or check out the great <a href="http://naltatis.github.io/jade-syntax-docs/" target="_blank">live syntax documentation</a> to learn by example.
-			p First up, create <code>templates/views/index.jade</code>:
+			p 现在做路由要渲染的模板。<code>render</code>方法会在<code>web.js</code>中指定的<code>views</code>目录下找寻模板，我们将其设为了<code>/templates/views</code>。
+			p 在这个指南中，我们准备用<strong>Jade</strong> 作为模板引擎。要了解Jade，请访问<a href="http://jade-lang.com" target="_blank">jade-lang.org</a>，或者检出优秀的<a href="http://naltatis.github.io/jade-syntax-docs/" target="_blank">活的语法文档</a>通过例子学习。
+			p 先来创建<code>templates/views/index.jade</code>：
 
 			.code-header
 				h4 templates/views/index.jade
-				p The template for our home page view
+				p home页面视图的模板
 			pre
 				| extends ../layouts/base
 				| 
 				| block content
 				|     h1 Hello World
 			
-			p Jade comes with some great features to simplify templates - including using layouts that define regions. We're going to use a layout called <code>templates/layout/base.jade</code>, which is included on the first line of the file above:
+			p Jade有些很棒的功能可以简化模板 - 包括用布局定义区域。我们准备用一个<code>templates/layout/base.jade</code>布局，在上面那个文件中的第一行里：
 			
 			.code-header
 				h4 templates/layouts/base.jade
-				p The base layout for our view templates
+				p 视图模板的基本布局
 			pre: code
 				| include ../mixins/flash-messages
 				| 
@@ -472,11 +472,11 @@ block content
 				|     
 				|     block js
 			
-			p We're also going to create a <code>templates/mixins/flash-messages.jade</code> template to include the <code>flash-messages</code> mixin. Including mixins in your layout or view templates is a great way to keep your layout and view files clean, and re-use mixins across multiple views.
+			p 我们还要创建一个包含mixin <code>flash-messages</code>的模板<code>templates/mixins/flash-messages.jade</code>。在布局或视图模板中包含mixins可以保持布局和视图文件的整洁，并且mixin可以在多个视图中重用。
 			
 			.code-header
 				h4 templates/mixins/flash-messages.jade
-				p Our flash-messages mixin
+				p 我们的flash-messages mixin
 			pre: code
 				| mixin flash-messages(messages)
 				|     if messages
@@ -506,13 +506,13 @@ block content
 			
 			a(name="templates_other")
 			.contextual-note
-				h4 Using other template languages
-				p KeystoneJS supports <a href='http://expressjs.com/api.html#app.engine', target='_blank'>any template language supported by express</a>.
-				p Use the <code>view engine</code> option to specify the template language you want to use (it will default to <code class="data-type">jade</code>).
-				p If you want to use a custom template engine, set the <code>custom engine</code> option as well. For instance, <a href="http://embeddedjs.com/">ejs</a> is supported by express by default, but you might want to use <a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> as a template engine in order to benefit from get extensions.
+				h4 使用其它模板语言
+				p KeystoneJS支持<a href='http://expressjs.com/api.html#app.engine', target='_blank'>express支持的所有模板语言</a>。
+				p 用参数<code>view engine</code>指明你要用的模板语言(默认为 <code class="data-type">jade</code>)。
+				p 如果你想用定制的模板引擎，也要设定<code>custom engine</code> 参数。比如说，express是支持<a href="http://embeddedjs.com/">ejs</a>的， 但你可能想用<a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> 作为模板引擎，以利用其扩展的功能。
 
 				pre: code.language-javascript
-					| // Modified web.js to use the ejs-locals custom template engine.
+					| // 修改 web.js 使用定制的模板引擎ejs-locals。
 					| var keystone = require('keystone');
 					| var engine   = require('ejs-locals');
 					| keystone.init({
@@ -524,41 +524,41 @@ block content
 			
 			
 			a(name="routesviews-publicassets")
-			h3 Public Assets
+			h3 公开资产
 			
-			p You'll want to add your own css, javascript, images and other files to your project. In the examples above, we're including <code>/styles/site.min.css</code> and <code>/js/lib/jquery-1.10.2.min.js</code>.
-			p Keystone will serve any static assets you place in the <code>public</code> directory. This path is specified in <code>web.js</code> by the <code>static</code> option.
-			p It will also automatically generate <code>.css</code> or compressed <code>.min.css</code> files when a corresponding <code>.less</code> file is found in the <code>public</code> folder, as specified in <code>web.js</code> by the <code>less</code> option. For more information on LESS, see <a href="http://lesscss.org" target="_blank">lesscss.org</a>.
+			p 你想添加自己的css、javascript、图片和其它文件到项目中。在上面的例子中，我们引入了<code>/styles/site.min.css</code>和<code>/js/lib/jquery-1.10.2.min.js</code>。
+			p Keystone可以对外提供所有放在<code>public</code>目录下的公开资产。这个路径是在<code>web.js</code>中由<code>static</code>参数指定的。
+			p 如果在<code>public</code>文件夹下有<code>.less</code>文件，它还会自动生成相应的<code>.css</code>或缩小化的<code>.min.css</code>文件， 这个在<code>web.js</code>中由<code>less</code>参数指定。要深入了解LESS，请参见<a href="http://lesscss.org" target="_blank">lesscss.org</a>。
 			
 			//- h4 More on Routes &amp; Views
 			//- 
 			//- p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/docs/database">routes &amp; views guide</a>.
 			
 			a(name="runningyourapp")
-			h2 Running your app
+			h2 运行程序
 			
-			p You're now (almost) ready to run your app! Before we do, though, we should add a <strong>User</strong> so you can sign in to Keystone's Admin UI.
+			p 现在(几乎)已经准备好运行你的程序了！然而在运行之前，我们应该添加一个<strong>User</strong>，以便可以登录到Keystone的管理界面中。
 			
 			a(name="runningyourapp-writingupdates")
-			h3 Writing Updates
+			h3 编写更新
 			
-			p To do this, we're going to create an update script, which Keystone will automatically run before starting the web server.
+			p 为此我们将要创建一个更新脚本，Keystone会在启动web服务器之前自动运行它。
 			
-			p Keystone's automatic update functionality is enabled in <code>web.js</code> by the <code>auto update</code> option.
+			p 在<code>web.js</code>中设定参数<code>auto update</code>就可以启用Keystone的自动更新功能。
 			
-			p When the option is set to <code>true</code>, Keystone will scan the <code>updates</code> directory for <code>.js</code> files, each of which should export a method accepting a single argument:
+			p 当这个参数被设为<code>true</code>时，Keystone会扫描<code>updates</code>目录寻找<code>.js</code>文件，每个文件都应该输出一个单参方法：
 			ul
-				li <code>next</code> - the method to call when the update has finished running (including any internal callbacks)
+				li <code>next</code> - 更新结束后调用的方法 (包括所有内部调用)
 			
-			p Updates are ordered using <a href="http://semver.org" target="_blank">Semantic Versioning</a>, and Keystone will only run them once (successfully executed updates are stored in your database, in a collection called <code>app_updates</code>).
+			p 更新是用<a href="http://semver.org" target="_blank">语义版本</a>排序的，并且Keystone只会运行它们一次 (成功执行的更新会存在你的数据库里，一个名为<code>app_updates</code>的集合中)。
 			
-			p Update file names should match the pattern <code>x.x.x-description.js</code> - anything after the first hyphen is ignored, so you can describe the update in the filename.
+			p 更新文件名应该符合<code>x.x.x-description.js</code>的模式 - 所有跟在第一个连字符之后的字符串都会被忽略，所以你可以在那里描述这个更新。
 			
-			p So to automatically add a new Admin User when your app first launches, create a <code>updates/0.0.1-admin.js</code> file:
+			p 所以，为了在程序第一次启用时自动添加一个新的管理员用户，我们要创建一个<code>updates/0.0.1-admin.js</code>文件：
 			
 			.code-header
 				h4 updates/0.0.1-admin.js
-				p Update script to add the first admin (change to your own name, email and password)
+				p 添加第一个管理员的更新脚本 (改成你自己的用户名、email和密码)
 			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     User = keystone.list('User');
@@ -574,28 +574,28 @@ block content
 				|     
 				| };
 			
-			p.note You probably don't want to store your real password in the code, so it's a good idea to set the default password to something simple, then sign in and change it using Keystone's Admin UI after you start your app for the first time.
+			p.note 你可能不想把真实密码放在代码中，所以最好将默认密码设的简单点，然后在启动程序后登录到Keystone的管理界面中去修改密码。
 			
 			a(name="runningyourapp-startingkeystone")
-			h3 Starting Keystone
+			h3 启动Keystone
 			
-			p Now you're ready to run your application, so execute the following in your project's main folder:
+			p 现在已经准备好了，在项目主文件夹下执行这个命令运行你的程序吧：
 			p: code node web
 			
-			p Keystone will automatically apply the update, and then start a web server on the default port, 3000.
+			p Keystone会自动应用这些更新，然后在默认端口3000上启动web服务器。
 			
-			p To see your home page, point your browser at <a href="http://localhost:3000" target="_blank">localhost:3000</a>. You should see our <strong>Hello World!</strong> message.
+			p 打开浏览器访问你的首页<a href="http://localhost:3000" target="_blank">localhost:3000</a>。你应该能看到我们的<strong>Hello World!</strong>消息。
 			
-			p To sign in to Keystone's Admin UI, go to <a href="http://localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>. Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.
+			p 要登录Keystone的管理界面，请访问<a href="http://localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>。用你放在上面的更新脚本里的email和密码登录，你就能进入Keystone管理界面的首页了。
 			
 			
 			a(name="runningyourapp-nextstep")
-			h3 Next Steps
+			h3 下一步
 			
-			p ... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/docs/database">database guide</a>.
+			p ... 搞定了！好吧，实际上还没有。现在该开始搭建你的程序了。要了解Keystone支持的列表参数和域类型，请访问<a href="/docs/database">数据库指南</a>。
 			
-			p You should also <a href="https://twitter.com/keystonejs" target="_blank">Follow @KeystoneJS on Twitter</a> for news and updates, <a href="https://github.com/keystonejs/keystone/" target="_blank">Star KeystoneJS on GitHub</a>, and discuss this guide (or anything KeystoneJS related) on the <a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS Google Group</a>.
+			p 你还应该<a href="https://twitter.com/keystonejs" target="_blank">在Twitter上关注@KeystoneJS</a>，以便及时了解相关新闻和更新，<a href="https://github.com/keystonejs/keystone/" target="_blank">在GitHub标记 KeystoneJS</a>，并在<a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS谷歌群组</a>讨论这个指南(或者与KeystoneJS有关的一切)。
 			
-			p We've also got more <a href="/examples">Examples and Sample Code</a> for you on the examples page.
+			p 在范例页面上还有更多的<a href="/examples">范例和样本代码</a>。
 			
-			p Enjoy using KeystoneJS!
+			p 享受使用KeystoneJS的过程吧！
