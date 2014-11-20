@@ -6,6 +6,7 @@ module.exports = {
 	location:	require('../../fields/types/location/location'),
 	markdown:	require('../../fields/types/markdown/markdown'),
 	name:		require('../../fields/types/name/name'),
+	password:	require('../../fields/types/password/password'),
 	select:		require('../../fields/types/select/select'),
 	text:		require('../../fields/types/text/text')
 };
