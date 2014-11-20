@@ -9,7 +9,6 @@
 		"docsnav": [
 			{ "value": "getting-started",  "path": "/docs/getting-started",  "label": "Getting Started",  "labelsm": "Starting" },
 			{ "value": "configuration",    "path": "/docs/configuration",    "label": "Configuration",    "labelsm": "Config" },
-			{ "value": "views",    "path": "/docs/views",    "label": "Views",    "labelsm": "Views" },
 			{ "value": "database",         "path": "/docs/database",         "label": "Database",         "labelsm": "Data" }
 		]
 	},
@@ -61,13 +60,7 @@
 			"section": "docs",
 			"docssection": { "value": "database", "path": "/docs/database", "label": "Database" },
 			"title": "Setting up and using Data Models"
-		},
-		{
-			"path": "/docs/views",
-			"template": "docs/views",
-			"section": "docs",
-			"docssection": { "value": "views", "path": "/docs/views", "label": "Views" },
-			"title": "Using Views in your application"
 		}
+		
 	]
 }
