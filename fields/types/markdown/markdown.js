@@ -1,9 +1,9 @@
 var React = require('react'),
-	Field = require('../field'),
-	// need jquery so we can get the markdown plugin to mount
-	jQuery = require('jquery'),
-	// scope our bootstrap-markdown plugin onto jquery
-	Markdown = require('../../../public/js/lib/bootstrap-markdown/js/bootstrap-markdown.js');
+	Field = require('../field');
+
+// Scope jQuery and the bootstrap-markdown editor so it will mount
+var $ = require('jquery');
+require('./lib/bootstrap-markdown');
 	
 module.exports = Field.create({
 	
@@ -23,7 +23,7 @@ module.exports = Field.create({
 		$(this.refs.markdownTextarea.getDOMNode()).markdown(markdownOptions);
 	},
 	
-	// Add all H1 to H6 buttons
+	// Add Heading buttons
 	buttonsToAdd: function() {
 		// Append/remove ### surround the selection 
 		// Source: https://github.com/toopay/bootstrap-markdown/blob/master/js/bootstrap-markdown.js#L909
@@ -86,28 +86,15 @@ module.exports = Field.create({
 				callback: function(e){
 					headingCallback(e, '####');
 				}
-			},{
-				name: 'cmdH5',
-				title: 'Heading 5',
-				btnText: 'H5',
-				callback: function(e){
-					headingCallback(e, '##');
-				}
-			},{
-				name: 'cmdH6',
-				title: 'Heading 6',
-				btnText: 'H6',
-				callback: function(e){
-					headingCallback(e, '##');
-				}
 			}]
 		}];
 	},
 	
 	renderField: function() {
+		console.log(this.props.value);
 		return (
 			<div className="md-editor">
-				<textarea defaultValue={this.props.value.md} ref="markdownTextarea" className="form-control markdown code md-input"></textarea>
+				<textarea name={this.props.paths.md} defaultValue={this.props.value.md} ref="markdownTextarea" className="form-control markdown code md-input"></textarea>
 			</div>
 		);
 	}
