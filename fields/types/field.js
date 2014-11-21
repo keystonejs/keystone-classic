@@ -146,7 +146,7 @@ module.exports.create = function(spec) {
 	_.extend(field, spec);
 	
 	if (_.isArray(spec.mixins)) {
-		field.mixins.concat(spec.mixins);
+		field.mixins = field.mixins.concat(spec.mixins);
 	}
 	
 	return React.createClass(field);
