@@ -202,11 +202,11 @@ Keystone.prototype.import = function(dirname) {
 			if (info.isDirectory()) {
 				imported[name] = doImport(fsPath);
 			} else {
-				// only import .js or .coffee files
-				var parts = name.split('.');
-				var ext = parts.pop();
-				if (ext === 'js' || ext === 'coffee') {
-					imported[parts.join('-')] = require(fsPath);
+				// only import files that we can `require`
+				var ext  = path.extname(name);
+				var base = path.basename(name, ext);
+				if (require.extensions[ext]) {
+					imported[base] = require(fsPath);
 				}
 			}
 			
