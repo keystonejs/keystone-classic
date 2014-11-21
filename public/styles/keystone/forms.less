@@ -413,12 +413,13 @@ label.checkbox {
 		.img-loading, .img-uploading, .upload-pending, .delete-pending {
 			color: #6A6A6A;
 			font-size: 23px;
-			left: 50%;
-			top: 50%;
 			position: absolute;
-			margin-left: -11px;
-			margin-top: -27px;
-			line-height: 23px;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			line-height: 100px;
+			text-align: center;
 			text-shadow: 0 0 50px #FFFFFF;
 		}
 		.image-message {
@@ -433,7 +434,7 @@ label.checkbox {
 				display: block;
 			}
 		}
-		&.removed {
+		&.action {
 			.img-thumbnail {
 				img {
 					opacity: 0.25;
@@ -463,12 +464,8 @@ label.checkbox {
 		margin-right: 10px;
 		margin-bottom: 15px;
 	}
-	.upload-queued {
-		display: none;
-		margin-left: 10px;
-	}
+	.upload-queued,
 	.delete-queued {
-		display: none;
 		margin-left: 10px;
 	}
 	.btn-cancel {
