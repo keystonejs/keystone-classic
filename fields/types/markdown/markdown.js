@@ -16,6 +16,7 @@ module.exports = Field.create({
 			autofocus: false,
 			savable: false,
 			additionalButtons: this.buttonsToAdd(),
+			resize: 'vertical',
 			reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil']
 		};
 
@@ -91,10 +92,12 @@ module.exports = Field.create({
 	},
 	
 	renderField: function() {
-		console.log(this.props.value);
+		var styles = {
+			padding: 8
+		};
 		return (
 			<div className="md-editor">
-				<textarea name={this.props.paths.md} defaultValue={this.props.value.md} ref="markdownTextarea" className="form-control markdown code md-input"></textarea>
+				<textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="form-control markdown code"></textarea>
 			</div>
 		);
 	}
