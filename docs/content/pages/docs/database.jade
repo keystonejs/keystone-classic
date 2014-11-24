@@ -397,7 +397,7 @@ block content
 						p You can target multiple values per path using an Array.
 						p <strong>For example:</strong>
 						pre: code.language-javascript
-							| sortBy: {String},
+							| sortBy: {type: String},
 							| // Will show if sortBy value == "value1","1" or "2"
 							| field-dependson-multiple: { dependsOn: { sortBy:['value1','1',2] },type: String },
 							| // Will show if sortBy value == "value1"'
