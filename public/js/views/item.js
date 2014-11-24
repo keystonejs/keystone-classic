@@ -150,7 +150,7 @@ jQuery(function($) {
 				var value = getFieldValue(cond.$field);
 				
 				// if cond.value is an array loop through 
-				if(Object.prototype.toString.call(cond.value) === '[object Array]') {
+				if(_.isArray(cond.value)) {
 					
 					var findme = _.find(cond.value,function(v) {
 						// console.log('evaluating condition ' + path + ' == (' + v + ') with (' + value + ')',v==value)
