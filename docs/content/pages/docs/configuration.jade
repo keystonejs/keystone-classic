@@ -5,7 +5,7 @@ include ../../templates/mixins/docsnav
 block intro
 	.page-header
 		.container
-			h1 Configuration
+			h1 配置
 			p.lead How to roll KeystoneJS the way you want it.
 
 block content
@@ -172,7 +172,7 @@ block content
 					td <code>ssl</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code>
 					td
 						p Whether to start the SSL Server. Defaults to <code class="default-value">false</code>.
-						p When set to <code class="default-value">true</code>, both https and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.
+						p When set to <code class="default-value">true</code>, both http and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.
 						p When set to <code class="default-value">"only"</code>, only the https server will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, KeystoneJS will not start.
 				tr
 					td <code>ssl key</code> <code class="data-type">Path</code>
@@ -291,7 +291,7 @@ block content
 				tr
 					td <code>signout redirect</code> <code class="data-type">String</code>
 					td
-						p <code>href</code> to bounce visitors to after they successfully sign out via the built-in signin route
+						p <code>href</code> to bounce visitors to after they successfully sign out via the built-in sign out route
 						p Defaults to <code class="default-value">/keystone</code>
 			
 			p For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.

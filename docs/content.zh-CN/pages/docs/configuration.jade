@@ -5,8 +5,8 @@ include ../../templates/mixins/docsnav
 block intro
 	.page-header
 		.container
-			h1 Configuration
-			p.lead How to roll KeystoneJS the way you want it.
+			h1 配置
+			p.lead 如何让KeystoneJS按你想要的方式工作
 
 block content
 	.container: .row
@@ -16,48 +16,48 @@ block content
 		
 		.col-sm-9: .docs-content
 			
-			h2 Keystone Options
+			h2 Keystone参数
 			
 			a(name='options-concepts')
-			h3 Setting Options
+			h3 设定参数
 			
-			p The options for KeystoneJS cover a range of behaviours, from how the express app is configured to enabling features and authentication options for integrated services.
+			p KeystoneJS的参数可以设定它的很多行为，从如何配置express程序到启用某些功能和集成服务的认证参数。
 			
-			p There are three ways to set options:
+			p 参数有3种设定办法：
 			
 			ul.options
-				li Passing a <code>{ key: 'value' }</code> configuration <code class="data-type">Object</code> to the <code>keystone.init(options)</code> method
-				li Calling <code>keystone.set('key', 'value')</code>
-				li Setting environment variables in <code>process.env</code>. Only some options support this (noted below).
-			
-			p If you want to keep secret keys and configuration out of your codebase (especially important for open source projects, or projects where not all developers should have access to production config settings) the <a href="https://npmjs.org/package/dotenv" target="_blank">dotenv</a> module makes this very easy to manage.
+				li 给<code>keystone.init(options)</code>方法传一个<code>{ key: 'value' }</code> 配置 <code class="data-type">Object</code>
+				li 调用<code>keystone.set('key', 'value')</code>
+				li 在<code>process.env</code>中设置环境变量。仅有部分参数支持这种方式（注意下文的提示）。
+	
+			p 如果你不想把秘钥和配置放在代码库中(这对于开源项目，或者不是所有开发人员都可以访问生产配置设定的项目来说非常重要) ，用<a href="https://npmjs.org/package/dotenv" target="_blank">dotenv</a>模块很容易实现。
 			
 			a(name='options-project')
-			h3 Project Options
+			h3 项目参数
 			
-			p The following options control the branding, navigation and default export settings of the KeystoneJS application in the Admin UI:
+			p 下面这些参数控制着品牌塑造、导航和KeystoneJS程序在管理界面中的默认输出设定：
 			
 			table.table
 				col(width=210)
 				col
 				tr
 					td <code>name</code> <code class="data-type">String</code>
-					td The name of the KeystoneJS application
+					td KeystoneJS程序的名称
 				tr
 					td <code>brand</code> <code class="data-type">String</code>
-					td Displayed in the top left hand corner of the Admin UI
+					td 在管理界面的左上角显示
 				tr
 					td <code>nav</code> <code class="data-type">Object</code>
 					td
-						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
-						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
+						p 指定管理界面导航结构的对象。给每个应该在主导航中可见的部分创建一个键。每个键的值都可以是单个列表路径（查看列表时在URL中见到的部分）或一个列表路径数组。使用数组时，会在管理界面中渲染二级导航。
+						p nav还用来生成管理界面首页上的链接；所有已注册但不包含在<code>nav</code>中的列表都会出现在屏幕底部的'Other'分组下。
 				tr
 					td <code>csv field delimiter</code> <code class="data-type">String</code>
-					td Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
+					td 允许你选一个定制的域分隔符用在导出的CSV中，代替默认的逗号。
 			
 			.code-header
-				h4 Custom Navigation Example
-				p If you had <code>User</code>, <code>Post</code> and <code>PostCategory</code> models, you could group the posts and post categories into a <strong>Content</strong> navigation item like this:
+				h4 定制导航的例子
+				p 如果你有<code>User</code>、<code>Post</code>和<code>PostCategory</code>三个模型，可以像下面这样将posts和post-categories分组到<strong>Content</strong>导航条目中：
 			pre: code.language-javascript
 				| keystone.set('nav', {
 				|     'users': 'users',
@@ -65,9 +65,9 @@ block content
 				| });
 		
 			a(name='options-server')
-			h3 Web Server Options
+			h3 Web服务器参数
 			
-			p The following options control the configuration of your web server and the express app:
+			p 下面这些参数控制着web服务器和express程序的配置：
 			
 			table.table
 				col(width=210)
@@ -75,127 +75,127 @@ block content
 				tr
 					td <code>env</code> <code class="data-type">String</code>
 					td
-						p The environment setting to use. The keys <strong>development</strong> and <strong>production</strong> are supported, and this will have an impact on things like caching compiled templates. Defaults to <code class="default-value">process.env.NODE_ENV || "development"</code>.
-						p You should really <strong>set this to <code class="default-value">production</code> for your production servers</strong> using the <code>NODE_ENV</code> environment variable. Several other modules expect this convention also.
+						p 要用的环境设定。支持<strong>development</strong>和<strong>production</strong>，这个参数会影响缓存已编译模板之类的事情。默认为<code class="default-value">process.env.NODE_ENV || "development"</code>。
+						p 你真的应该用环境变量<code>NODE_ENV</code><strong>在生产服务器上将这个设为<code class="default-value">production</code></strong>。还有几个模块也遵循这个约定。
 				tr
 					td <code>port</code> <code class="data-type">Number</code>
 					td
-						p The port to listen for request on. Defaults to <code class="default-value">process.env.PORT || 3000</code>
+						p 监听请求的端口。默认为<code class="default-value">process.env.PORT || 3000</code>
 				tr
 					td <code>host</code> <code class="data-type">String</code>
 					td
-						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.IP || '127.0.0.1'</code>
-						p <code>port</code> must be set (either by option or env variable) or the <code>host</code> option will be ignored.
+						p 监听请求的ip地址。默认为<code class="default-value">process.env.IP || '127.0.0.1'</code>
+						p 必须设定了<code>port</code>(通过参数或环境变量) <code>host</code>参数才能生效。
 				tr
 					td <code>views</code> <code class="data-type">String</code>
 					td
-						p The path to your application's <strong>view templates</strong>. This is required for using the <code>keystone.View</code> Class, and will also be set on the express app.
-						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/templates/views"</code>.
+						p 放程序<strong>视图模板</strong>的路径。使用<code>keystone.View</code>类需要这个，并且也会在express app上设定。
+						p 如果你遵循<a href="/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">"/templates/views"</code>。
 				tr
 					td <code>view engine</code> <code class="data-type">String</code>
 					td
-						p The template engine to use by default. Any engine with express support should work. <strong>Jade</strong> is included with Keystone, but you will have to add any alternate engine to your project's dependencies in your <code>package.json</code>.
-						p This option is set on the express app (<a href="http://expressjs.com/api.html#app.engine" target="_blank">see docs here</a>).
+						p 默认使用的模板引擎。express支持的任何引擎应该都可以。Keystone中包含<strong>Jade</strong>，但用其它引擎都必须添加到<code>package.json</code>里的项目依赖项部分。
+						p 这个参数是设定在express app 上的(<a href="http://expressjs.com/api.html#app.engine" target="_blank">参见相关文档</a>)。
 				tr
 					td <code>custom engine</code> <code class="data-type">Function</code>
 					td
-						p If you want to use a custom template engine, set this option to the function that should be used to process your templates.
-						p See below for an example of how to use the <a href="http://paularmstrong.github.io/swig/" target="_blank">Swig</a> template engine.
+						p 如果你要用定制的模板引擎，要将这个参数设为用来处理模板的函数。
+						p 参见下面的例子，了解如何使用<a href="http://paularmstrong.github.io/swig/" target="_blank">Swig</a> 模板引擎。
 				tr
 					td <code>view cache</code> <code class="data-type">Boolean</code>
 					td
-						p This option is passed through to Express, and controls whether compiled view templates are cached between requests.
-						p It defaults to <code class="default-value">true</code> in production, or <code class="default-value">false</code> otherwise so there is rarely any reason to set it explicitly.
+						p 这个参数是传给Express的，用来控制是否在请求间缓存编译的视图模板。
+						p 在生产环境中默认是<code class="default-value">true</code>，否则是<code class="default-value">false</code>，所以几乎不用特意设定它。
 				tr
 					td <code>locals</code> <code class="data-type">Object</code>
 					td
-						p The default local variables to pass to your view templates.
-						p Routes can extend or change local variables by modifying <code>res.locals</code>.
+						p 传给视图模板的默认local变量。
+						p 路由可以通过修改<code>res.locals</code>扩展或修改local变量。
 				tr
-					td <code>static</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
+					td <code>static</code> <code class="data-type">String</code> 或 <code class="data-type">Array</code>
 					td
-						p One or more paths to your application's static files. Setting this will include the <code>express.static</code> middleware.
-						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">'public'</code>.
+						p 指向程序静态文件的一或多个路径。设定这个会引入<code>express.static</code> 中间件。
+						p 如果你遵循<a href="/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">'public'</code>。
 				tr
-					td <code>less</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
+					td <code>less</code> <code class="data-type">String</code> 或 <code class="data-type">Array</code>
 					td
-						p If you want Keystone to automatically compile <strong>.less</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
-						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.less</strong> file with the same name, and if one is found, the css file will be generated.
+						p 如果你想让Keystone将<strong>.less</strong>文件自动编译成<strong>.css</strong>文件，把它的值也设成<code>static</code>参数指定的路径。
+						p 设了这个参数之后，所有对<strong>.css</strong>或<strong>.min.css</strong>文件的请求处理都会先检查有没有同名的<strong>.less</strong>文件，如果有，则生成css文件。
 				tr
 					td <code>less options</code> <code class="data-type">Object</code>
 					td
-						p Optional config options that will be passed to the <code>less</code> middleware; see <a href="https://github.com/emberfeather/less.js-middleware" target="_blank">github.com/emberfeather/less.js-middleware</a> for more information.
+						p 可选的配置参数，会传给<code>less</code> 中间件；参见<a href="https://github.com/emberfeather/less.js-middleware" target="_blank">github.com/emberfeather/less.js-middleware</a>了解详情。
 				tr
-					td <code>sass</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
+					td <code>sass</code> <code class="data-type">String</code> 或 <code class="data-type">Array</code>
 					td
-						p If you want Keystone to automatically compile <strong>.sass</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
-						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.sass</strong> file with the same name, and if one is found, the css file will be generated.
-						p.note Note that enabling this option requires you to have specified the <a href="https://github.com/sass/node-sass" target="_blank"><code>node-sass</code></a> package as a dependency in your project's <code>package.json</code> file; it is not automatically included with Keystone.
+						p 如果你想让Keystone将<strong>.sass</strong>文件自动编译成<strong>.css</strong>文件，把它的值也设成<code>static</code>参数指定的路径。
+						p 设了这个参数之后，所有对<strong>.css</strong>或<strong>.min.css</strong>文件的请求处理都会先检查有没有同名的<strong>.sass</strong>文件，如果有，则生成css文件。
+						p.note 注意，启用这个参数需要在<code>package.json</code>文件中添加<a href="https://github.com/sass/node-sass" target="_blank"><code>node-sass</code></a>包作为依赖项；Keystone不会自动引入它。
 				tr
 					td <code>sass options</code> <code class="data-type">Object</code>
 					td
-						p Optional config options that will be passed to the <code>sass</code> middleware; see <a href="https://github.com/sass/node-sass#options" target="_blank">github.com/sass/node-sass</a> for more information.
+						p 可选的配置参数，会传给<code>sass</code> 中间件；参见<a href="https://github.com/sass/node-sass#options" target="_blank">github.com/sass/node-sass</a>了解详情。
 				tr
 					td <code>favicon</code> <code class="data-type">String</code>
 					td
-						p The path to your application's <strong>favicon</strong>. Setting this will include the <code>express.favicon</code> middleware. Should be relative to your project's root.
-						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/public/favicon.ico"</code>.
+						p 程序的<strong>favicon</strong>的路径。设定这个会引入<code>express.favicon</code>中间件。应该是相对项目根路径的路径。
+						p 如果你遵循<a href="/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">"/public/favicon.ico"</code>。
 				tr
 					td <code>compress</code> <code class="data-type">Boolean</code>
-					td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>express.compress</code> middleware (<a href="http://expressjs.com/api.html#compress" target="_blank">see docs here</a>).
+					td 将这个参数设为<code class="default-value">true</code>以启用HTTP压缩。这会引入<code>express.compress</code>中间件(<a href="http://expressjs.com/api.html#compress" target="_blank">相关文档</a>).
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
-					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether.
+					td 设定这个会引入<code>express.logger</code>中间件。它的值会传给中间件去做初始化(<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">相关文档</a>)。 设为<code class="default-value">false</code>可以一并禁用日志。
 
 				tr
 					td <code>trust proxy</code> <code class="data-type">Boolean</code>
-					td Set this to enable processing of the HTTP request <code>X-Forwarded-For</code> header. Extracted IP addresses will be available as the array <code>req.ips</code> (<a href="http://expressjs.com/api.html#req.ips">see docs here</a>).
+					td 设定这个启用HTTP请求头<code>X-Forwarded-For</code>。提取出来的IP地址会放在数组<code>req.ips</code> (<a href="http://expressjs.com/api.html#req.ips">相关文档</a>)。
 			
 			
 			.code-header
-				h4 Alternate View Engines
-				p By default, Keystone uses the <strong>Jade</strong> template engine for your views. Here's how you would set up a different engine, e.g. <strong>Swig</strong>.
+				h4 备选的视图引擎
+				p Keystone默认使用<strong>Jade</strong>模板引擎处理视图。这里有个设置其它引擎<strong>Swig</strong>的例子。
 			pre: code.language-javascript
 				| var swig = require('swig');
 				| keystone.set('view engine', 'swig');
 				| keystone.set('custom engine', swig.renderFile);
 		
 			a(name='options-ssl')
-			h3 HTTPS Web Server Options
+			h3 HTTPS Web服务器参数
 			
-			p There are two ways to implement HTTPS for your KeystoneJS application: either use a web server (e.g. <a href="http://nginx.com" target="_blank">NGINX</a>) or PAAS (e.g. <a href="https://www.heroku.com" target="_blank">Heroku</a>) that handles it for you, or set the following options to use the <a href="http://nodejs.org/api/https.html" target="_blank">https server provided by node.js</a>.
+			p KeystoneJS程序实现HTTPS主要有两种方式：或者使用一个web服务器 (比如 <a href="http://nginx.com" target="_blank">NGINX</a>)或PAAS (e.g. <a href="https://www.heroku.com" target="_blank">Heroku</a>)实现，或者用<a href="http://nodejs.org/api/https.html" target="_blank">node.js提供的https服务器</a>设定下面的参数。
 			
 			table.table
 				col(width=210)
 				col
 				tr
-					td <code>ssl</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code>
+					td <code>ssl</code> <code class="data-type">Boolean</code> 或 <code class="data-type">String</code>
 					td
-						p Whether to start the SSL Server. Defaults to <code class="default-value">false</code>.
-						p When set to <code class="default-value">true</code>, both https and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.
-						p When set to <code class="default-value">"only"</code>, only the https server will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, KeystoneJS will not start.
+						p 是否启动SSL服务器。默认为<code class="default-value">false</code>。
+						p 设为<code class="default-value">true</code>时，会启动http和https服务器。如果<code>ssl key</code> 或<code>ssl cert</code>无效，只启动http服务器。
+						p 设为<code class="default-value">"only"</code>时，只启动https服务器。如果<code>ssl key</code> 或 <code>ssl cert</code>无效，则KeystoneJS不会启动。
 				tr
 					td <code>ssl key</code> <code class="data-type">Path</code>
 					td
-						p The path to your SSL Key. Should be either absolute or relative to <code class="default-value">process.cwd()</code> (which is usually your project root).
+						p 指向SSL秘钥的路径。应该为绝对或相对于<code class="default-value">process.cwd()</code>的路径 (通常是项目的根路径)。
 				tr
 					td <code>ssl cert</code> <code class="data-type">Path</code>
 					td
-						p The path to your SSL Certificate. Should be either absolute or relative to <code class="default-value">process.cwd()</code> (which is usually your project root).
+						p 指向SSL证书的路径。应该为绝对或相对于<code class="default-value">process.cwd()</code>的路径 (通常是项目的根路径)。
 				tr
 					td <code>ssl port</code> <code class="data-type">Number</code>
 					td
-						p The port to start the SSL Server on. Defaults to <code class="default-value">3001</code>.
+						p 启动SSL服务器的端口。默认为<code class="default-value">3001</code>。
 				tr
 					td <code>ssl host</code> <code class="data-type">String</code>
 					td
-						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.SSL_IP</code> or the value of the <code>host</code> option.
+						p 监听请求的ip地址。默认为<code class="default-value">process.env.SSL_IP</code>或<code>host</code> 参数的值。
 			
 			
 			a(name='options-database')
-			h3 Database and User Auth Options
+			h3 数据库和用户认证参数
 			
-			p The following options control your database configuration and user models / authentication:
+			p 下面这些参数控制着数据库配置和用户模型 / 认证：
 			
 			table.table
 				col(width=210)
@@ -203,47 +203,47 @@ block content
 				tr
 					td <code>mongo</code> <code class="data-type">String</code>
 					td
-						p The url for your MongoDB connection.
-						p You should typically set this to <code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code>
+						p MongoDB连接的url。
+						p 一般应该设为<code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code>
 				tr
 					td <code>model prefix</code> <code class="data-type">String</code>
 					td
-						p A prefix to apply to all the mongodb collections used by the models.
+						p 应用到模型所用的所有mongodb集合的前缀。
 				tr
 					td <code>auth</code> <code class="data-type">Mixed</code>
 					td
-						p Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
-						p When this is set to <code class="default-value">false</code> (or not defined), Keystone's Admin UI will be open to the public (so set it!)
-						p If using a custom function, it should follow the standard for express middleware of <code>function(req, res, next)</code>. If a user is not logged in or should not access Keystone's Admin UI, use <code>res.redirect()</code> to redirect them - otherwise call the <code>next</code> callback to enable access.
+						p 是否为Keyston的管理界面启用内置的认证，或者用定制的函数认证用户。
+						p 当这个设为<code class="default-value">false</code> (或未定义)时，Keystone的管理界面会向公众开放(所以一定要设定它！)
+						p 如果使用定制函数，应该遵循express中间件<code>function(req, res, next)</code>的标准。如果用户没有登录或不应该访问Keystone的管理界面，使用<code>res.redirect()</code>转发 - 否则调用 <code>next</code>回调启用访问。
 				tr
 					td <code>user model</code> <code class="data-type">String</code>
 					td
-						p The key of the Keystone List for users, <strong>required</strong> if <code>auth</code> is set to <code class="default-value">true</code>
-						p Typically this would be set to <code class="default-value">User</code>.
+						p 用户的Keystone列表的键，如果<code>auth</code>设为<code class="default-value">true</code>，则是<strong>必需的</strong>。
+						p 一般这个会设为<code class="default-value">User</code>。
 				tr
 					td <code>cookie secret</code> <code class="data-type">String</code>
 					td
-						p The encryption key to use for your cookies. Passed to Express's cookie parser.
-						p It's a really good idea to set this to a long, random string.
+						p cookies的加密密钥。传给Express的cookie解析器。
+						p 最好将这个设为一个长长的随机字符串。
 				tr
 					td <code>session store</code> <code class="data-type">String</code>
 					td
-						p Set this to <code class="default-value">mongo</code> to use your MongoDB database to persist session data.
-						p By default, Keystone will use the in-memory session store provided by Express, which should only be used in development because it does not scale past a single process, and leaks memory over time.
-						p Valid options are:
+						p 将这个设为<code class="default-value">mongo</code>用MongoDB数据库存储会话数据。
+						p 默认情况下，Keystone会用Express提供的内存会话存储，这个只应该在开发时用，因为它不能扩展，只能支持单进程，时间长了还会出现内存泄露。
+						p 有效的参数是：
 						ul
-							li <code class="default-value">mongo</code> (or <code class="default-value">connect-mongo</code>)
-							li <code class="default-value">connect-mongostore</code> (supports replica sets, but requires explicit configuration - see below)
+							li <code class="default-value">mongo</code> (或<code class="default-value">connect-mongo</code>)
+							li <code class="default-value">connect-mongostore</code> (支持复制集，但需要显式地配置 - 见下文)
 							li <code class="default-value">connect-redis</code>
-						p.note Session store packages are not bundled with Keystone, so make sure you explicitly add the selected session store to your project's <code>package.json</code>.
+						p.note Keystone没有捆绑会话存储包，所以一定要将选定的会话存储添加到项目的<code>package.json</code>中。
 				tr
 					td <code>session store options</code> <code class="data-type">Object</code>
 					td
-						p This option allows you to override the default session store configuration, and is passed to the session store package.
-						p It is required when using the <code class="default-value">connect-mongostore</code> store.
+						p 用这个参数可以覆盖默认的会话存储配置，并且会传给会话存储包。
+						p 使用<code class="default-value">connect-mongostore</code>存储时需要设定这个。
 						
 						.code-header
-							h4 Example for connect-mongostore
+							h4 connect-mongostore的例子
 						pre: code.language-javascript
 							| "sessionStore": {
 							|   "db": {
@@ -257,50 +257,50 @@ block content
 							| }
 							
 						.code-header
-							h4 Example for connect-redis
+							h4 connect-redis的例子
 						pre: code.language-javascript
 							| "sessionStore": {
-							|   "host": "", // Redis server hostname
-							|   "port": "", // Redis server port
-							|   "ttl": "", // Redis session TTL in seconds
-							|   "db": "", // Database index to use
-							|   "pass": "", // Password for Redis authentication
-							|   "prefix": "", // Key prefix defaulting to "sess:"
-							|   "url": "", // e.g. redis://user:pass@host:port/db
+							|   "host": "", // Redis服务器主机名
+							|   "port": "", // Redis服务器端口
+							|   "ttl": "", // 以秒为单位的Redis会话TTL
+							|   "db": "", // 所用的数据库索引
+							|   "pass": "", // 用于Redis认证的密码
+							|   "prefix": "", // Key前缀默认为"sess:"
+							|   "url": "", // 比如 redis://user:pass@host:port/db
 							| }
 				tr
 					td <code>back url</code> <code class="data-type">String</code>
 					td
-						p <code>href</code> to use for the 'back to (site name)' link in the header of the Admin UI
-						p Defaults to <code class="default-value">/</code>
+						p 管理界面中用在'回到(网站名)'链接中的<code>href</code>
+						p 默认为<code class="default-value">/</code>
 				tr
 					td <code>signin url</code> <code class="data-type">String</code>
 					td
-						p <code>href</code> to bounce visitors to when they fail the default auth check (e.g. not signed in)
-						p Defaults to <code class="default-value">/keystone/signin</code>, only used when <code>auth</code> is set to <code class="default-value">true</code>
+						p 当访问者没能通过默认的认证检查（比如没能登录）时弹出的<code>href</code>
+						p 默认为<code class="default-value">/keystone/signin</code>，只有<code>auth</code>被设为<code class="default-value">true</code>时才用。
 				tr
 					td <code>signin redirect</code> <code class="data-type">String</code>
 					td
-						p <code>href</code> to bounce visitors to after they successfully sign in via the built-in signin route
-						p Defaults to <code class="default-value">/keystone</code>
+						p 访问者通过内置的登录路由成功登录后弹出的<code>href</code>
+						p 默认为<code class="default-value">/keystone</code>
 				tr
 					td <code>signout url</code> <code class="data-type">String</code>
 					td
-						p <code>href</code> for the signout link in the top right of the UI
-						p Defaults to <code class="default-value">/keystone/signout</code> if <code>auth</code> is set to <code class="default-value">true</code>
+						p 界面右上角退出链接中的<code>href</code>
+						p 如果<code>auth</code>设为<code class="default-value">true</code>，默认为<code class="default-value">/keystone/signout</code>。
 				tr
 					td <code>signout redirect</code> <code class="data-type">String</code>
 					td
-						p <code>href</code> to bounce visitors to after they successfully sign out via the built-in signin route
-						p Defaults to <code class="default-value">/keystone</code>
+						p 访问者通过内置的退出路由成功退出后弹出的<code>href</code>
+						p 默认为<code class="default-value">/keystone</code>
 			
-			p For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.
+			p 关于Keystone数据库模型设置和使用的更多信息，请参见<a href="/docs/database">数据库指南</a>。
 
 
 			a(name='options-ui')
-			h3 Admin UI Options
+			h3 管理界面参数
 			
-			p The following options control some ui options for the Admin backend:
+			p 下面这些参数控制管理后台的一些界面选项：
 
 			table.table
 				col(width=210)
@@ -308,41 +308,41 @@ block content
 				tr
 					td <code>wysiwyg images</code> <code class="data-type">Boolean</code>
 					td
-						p Adds an image button which enables including images from other URLS in your WYSIWYG Editor.
+						p 添加一个图片按钮，从而使你可以在WYSIWYG编辑器中引入来自其它URL的图片。
 				tr
 					td <code>wysiwyg cloudinary images</code> <code class="data-type">Boolean</code>
 					td
-						p Adds an image upload button and enables cloudinary image uploads directly in your WYSIWYG Editor.
+						p 添加一个图片上传按钮，在你的WYSIWYG编辑器中直接启用cloudinary图片上传。
 				tr
 					td <code>wysiwyg additional buttons</code> <code class="data-type">String</code>
 					td
-						p Allows to add additional extra functionality buttons such as <code>blockquote</code>.
-						p A complete list of available buttons can be found at: <a href="http://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a>
+						p 允许添加额外功能按钮，比如<code>blockquote</code>。
+						p 可以添加的按钮完整清单请见： <a href="http://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a>
 				tr
 					td <code>wysiwyg additional plugins</code> <code class="data-type">String</code>
 					td
-						p Allows for additional plugins to be activated which can be found at: <a href="http://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a>
+						p 可以激活额外插件，插件清单请见： <a href="http://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a>
 				tr
 					td <code>wysiwyg additional options</code> <code class="data-type">Object</code>
 					td
-						p Allows for additional TinyMCE options, such as <code>{ menubar: true }</code> to be modified.
+						p 可以修改额外TinyMCE参数，比如 <code>{ menubar: true }</code>。
 				tr
 					td <code>wysiwyg override toolbar</code> <code class="data-type">Booelan</code>
 					td
-						p This will remove the default set of buttons for wysiwyg mode. Use this with <code>wysiwyg additional buttons</code> and <code>wysiwyg additional plugins</code>. Defaults to <code class="data-type">false</code>.
+						p 这会去掉wysiwyg模式下的默认按钮组。这个参数应该跟<code>wysiwyg additional buttons</code>和<code>wysiwyg additional plugins</code>一起使用。默认为<code class="data-type">false</code>。
 				tr
 					td <code>wysiwyg menubar</code> <code class="data-type">Boolean</code>
 					td
-						p Show the menubar for wysiwyg editor. Defaults to <code class="data-type">false</code>.
-						p See <a href="http://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a> for more details
+						p 显示wysiwyg编辑器的菜单栏。默认为<code class="data-type">false</code>.
+						p 参见<a href="http://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a>了解详情。
 				tr
 					td <code>wysiwyg skin</code> <code class="data-type">String</code>
 					td
-						p Allow to change skin. Defaults to <code class="data-type">keystone</code>.
-						p See <a href="http://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a> for more details
+						p 可以修改皮肤。默认为<code class="data-type">keystone</code>。
+						p 参见<a href="http://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a>了解详情。
 
 							.code-header
-								h4 Example using wysiwyg options
+								h4 wysiwyg参数范例
 							pre: code.language-javascript
 								| keystone.init({
 								| 'wysiwyg override toolbar': false,
@@ -365,12 +365,12 @@ block content
 			
 			
 			a(name='services')
-			h2 Services
+			h2 服务
 			
 			a(name='services-google-analytics')
-			h3 Google Analytics
+			h3 谷歌分析
 			
-			p Keystone has support for Google Analytics tracking in the Admin UI. To enable tracking, set the following configuration options:
+			p Keystone的管理界面中支持谷歌分析追踪。要启用追踪，设定下面这些配置参数：
 			
 			table.table
 				col(width=270)
@@ -378,23 +378,23 @@ block content
 				tr
 					td <code>ga property</code> <code class="data-type">String</code>
 					td
-						p Your Google Analytics Property
-						p Will default to <code class="default-value">process.env.GA_PROPERTY</code>
+						p 你的谷歌分析属性
+						p 默认为<code class="default-value">process.env.GA_PROPERTY</code>
 				tr
 					td <code>ga domain</code> <code class="data-type">String</code>
 					td
-						p Your Google Analytics Domain
-						p Will default to <code class="default-value">process.env.GA_DOMAIN</code>
+						p 你的谷歌分析域
+						p 默认为<code class="default-value">process.env.GA_DOMAIN</code>
 			
-			p.note Note if you only want to include Google Analytics tracking in the front-end of your project, you should use different variable names from those above.
+			p.note 注意，如果你只想在项目前端引入谷歌分析追踪，应该使用跟上面那些参数名称不同的名称。
 			
 			
 			a(name='services-google-maps')
-			h3 Google Maps
+			h3 谷歌地图
 			
-			p Keystone's <a href="/docs/database#field_location">Location field type</a> supports integration with the <a href="http://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.
+			p Keystone的<a href="/docs/database#field_location">Location域类型</a>可以集成<a href="http://www.morethanamap.com" target="_blank">谷歌地图API</a>，通过<a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>自动改进取值(包括发现经纬度)。
 			
-			p To enable these features, <a href="https://code.google.com/apis/console/" target"_blank">obtain an API Key from Google</a> and enable the Google Maps v3 and Google Places APIs for it, then set the following options:
+			p 要启用这些功能，需要<a href="https://code.google.com/apis/console/" target"_blank">从谷歌获取一个API秘钥</a> ，并为它启用Google Maps v3和Google Places API，然后设置下面这些参数：
 			
 			table.table
 				col(width=270)
@@ -402,56 +402,56 @@ block content
 				tr
 					td <code>google api key</code> <code class="data-type">String</code>
 					td
-						p Your Google API browser key, used to authenticate the Javascript Maps API in the Admin UI.
-						p Will default to <code class="default-value">process.env.GOOGLE_BROWSER_KEY</code>
+						p 你的谷歌API浏览器键，用于认证管理界面中的Javascript Maps API。
+						p 默认为<code class="default-value">process.env.GOOGLE_BROWSER_KEY</code>
 				tr
 					td <code>google server api key</code> <code class="data-type">String</code>
 					td
-						p Your Google API server key, used to authenticate requests to the Maps API from the server.
-						p Will default to <code class="default-value">process.env.GOOGLE_SERVER_KEY</code>
+						p 你的谷歌API服务器键，用于认证从服务器端发送的Maps API请求。
+						p 默认为<code class="default-value">process.env.GOOGLE_SERVER_KEY</code>
 				tr
 					td <code>default region</code> <code class="data-type">String</code>
 					td
-						p <strong>Optional</strong> setting to limit autocomplete results to a specific region.
-						p This option takes a region code, specified as a <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA language region</a> subtag.
-						p Can be specified on a per-field basis by setting the <code>region</code> option on any <code>Location</code> field.
+						p 为了将自动完成结果限制在指定区域的<strong>可选</strong>设置。
+						p 这个参数是一个区域码，指定为<a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA语言区域</a>子标签。
+						p 每个<code>Location</code>输入域都可以在设定不同的<code>region</code>参数。 
 			
 			pre: code.language-javascript
 				| keystone.set('google api key', 'your-browser-key');
 				| keystone.set('google server api key', 'your-server-key');
-				| keystone.set('default region', 'au'); // optional, will limit autocomplete results to Australia
+				| keystone.set('default region', 'au'); // 可选，会将自动完成的结果限制在澳大利亚
 			
-			p.note Note that the use of the Places Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
-			p.note The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
+			p.note 注意，Places Geocoding API的使用有每天2,500次geolocation请求的查询限制，除非你有企业版许可。
+			p.note Places Geocoding API只能跟谷歌地图一起用；禁止不在地图上显示的地理编码结果。请确保你的Keystone程序符合谷歌地图API的许可。
 			
 			
 			a(name='services-amazons3')
-			h3 Amazon S3
+			h3 亚马逊S3
 			
-			p KeystoneJS supports <a href="http://aws.amazon.com/s3/" target="_blank">Amazon S3</a> for file upload and hosting, with the <a href="/docs/database#field_s3file">S3File</a> field type.
+			p KeystoneJS的域类型<a href="/docs/database#field_s3file">S3File</a>支持<a href="http://aws.amazon.com/s3/" target="_blank">亚马逊S3</a>的文件上传和托管。
 			
-			p To use the S3File field in your app, <a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">sign up for an account</a>, create an <strong>S3 bucket</strong>, and get your <strong>key</strong> and <strong>secret</strong>.
+			p 要在你的程序中使用S3File域，需要<a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">注册一个账号</a>，创建一个<strong>S3桶</strong>，获取你的<strong>键</strong>和<strong>密码</strong>。
 			
-			p Then set the <code>s3 config</code> option to an object containing your configuration (see example below).
+			p 然后设定<code>s3 config</code>参数为包含你的配置的对象(见下文示例)。
 			
-			p Alternatively, set the <code class="default-value">S3_BUCKET</code>, <code class="default-value">S3_KEY</code> and <code class="default-value">S3_SECRET</code> environment variables.
+			p 另外还要设置环境变量<code class="default-value">S3_BUCKET</code>、<code class="default-value">S3_KEY</code>和<code class="default-value">S3_SECRET</code>
 			
 			pre: code.language-javascript
 				| keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });
 			
 			
 			a(name='services-azure')
-			h3 Windows Azure Storage
+			h3 Windows Azure存储
 			
-			p KeystoneJS supports <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.
+			p KeystoneJS的<a href="/docs/database#field_azurefile">AzureFile</a>域类型支持<a href="http://www.windowsazure.com/" target="_blank">Windows Azure存储</a>的文件上传和托管。
 			
-			p To use the AzureFile field in your app, <a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">sign up for an account</a>, enter into <a href="https://manage.windowsazure.com/">Azure Management Portal</a>. Create a storage account with new(button), data services, storage. In storage account page get the access (account name, key (valid primary or secondary key)) with the button "manage access key".
+			p 要在程序中使用AzureFile域，需要<a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">注册一个账号</a>，进入<a href="https://manage.windowsazure.com/">Azure管理门户</a>。用新建(按钮)创建一个存储账号，数据服务，存储。在存储账号页面中用按钮“管理访问键”获取访问信息（账号名、键（有效的主键或二级键））。
 			
-			p Then set the <code>azurefile config</code> option to an object containing your configuration (see example below).
+			p 然后将<code>azurefile config</code>参数设为包含你的配置的对象(见下文示例)。
 			
-			p Alternatively, set the <code class="default-value">AZURE_STORAGE_ACCOUNT</code> and <code class="default-value">AZURE_STORAGE_ACCESS_KEY</code> environment variables.
+			p 另外还要设置环境变量<code class="default-value">AZURE_STORAGE_ACCOUNT</code>和<code class="default-value">AZURE_STORAGE_ACCESS_KEY</code>。
 			
-			p Note that the <strong>account</strong> property should be set to your <strong>storage account</strong>, <em>not your user account</em>.
+			p 注意，<strong>account</strong>属性应该设成你的<strong>存储账号</strong>，<em>不是用户账号</em>。
 			
 			pre: code.language-javascript
 				| keystone.set('azurefile config', { account: 'my storage account', key: 'secret api key' });
@@ -460,55 +460,55 @@ block content
 			a(name='services-cloudinary')
 			h3 Cloudinary
 			
-			p <a href="http://cloudinary.com" target="_blank">Cloudinary</a> is an image upload / resizing / hosting service that makes it easy to implement image management in your KeystoneJS app using the <a href="/docs/database#field_cloudinaryimage">CloudinaryImage</a> and <a href="/docs/database#field_cloudinaryimages">CloudinaryImages</a> field types.
+			p <a href="http://cloudinary.com" target="_blank">Cloudinary</a>是一个图片上传/缩放/托管服务，让你在KeystoneJS程序中用<a href="/docs/database#field_cloudinaryimage">CloudinaryImage</a>和<a href="/docs/database#field_cloudinaryimages">CloudinaryImages</a>域类型轻松实现图片管理。
 			
-			p To use the Cloudinary Image fields in your app, <a href="https://cloudinary.com/users/register/free" target="_blank">sign up for an account</a> (Cloudinary offers a free tier with up to 500MB storage, 50,000 images and 1GB data transfer) and get your <strong>cloud name</strong>, <strong>api key</strong> and <strong>api secret</strong>.
+			p 要在程序中使用Cloudinary Image域，需要<a href="https://cloudinary.com/users/register/free" target="_blank">注册一个账号</a> (Cloudinary提供的免费服务中包括500MB存储、50,000张图片和1GB数据传输)并获取你的<strong>云名称</strong>、<strong>api键</strong>和<strong>api密码</strong>。
 			
-			p Then set the <code>cloudinary config</code> option to
+			p 然后将<code>cloudinary config</code>参数设为
 				ul
-					li an object containing your configuration (see example below), or
-					li the environment variable string Cloudinary gives you (e.g. <code class="default-value">cloudinary://api_key:api_secret@cloud_name</code>)
+					li 包含你的配置的对象(见下文示例)，或
+					li Cloudinary给你的环境变量字符串(比如<code class="default-value">cloudinary://api_key:api_secret@cloud_name</code>)
 			
-			p This option will default to the <code class="default-value">CLOUDINARY_URL</code> environment variable if it is set.
+			p 这个参数默认为环境变量<code class="default-value">CLOUDINARY_URL</code>，如果设了的话。
 			
-			p When images are uploaded to Cloudinary via the Admin UI or field methods, they will have some tags automatically set on them. To prefix these tags with a custom string, set the <code>cloudinary prefix</code> option.
+			p 当通过管理界面或域方法把图片上传到Cloudinary中时，会自动给它们设一些标签。要用定制字符串作为这些标签的前缀，可以设置<code>cloudinary prefix</code>参数。
 			
-			p The built-in tags that are automatically set include:
+			p 自动设定的内置标签包括：
 				ul
 					li <code class="default-value">{list.path}_{field.path}</code>
 					li <code class="default-value">{list.path}_{field.path}_{item.id}</code>
-					li <code class="default-value">{prefix}</code> (if set)
-					li <code class="default-value">dev</code> (if the <code>env</code> option is not set to <code class="default-value">production</code>)
+					li <code class="default-value">{prefix}</code> (如果设了)
+					li <code class="default-value">dev</code> (如果参数<code>env</code>没有设成<code class="default-value">production</code>)
 
-			p You may optionally enabled the Cloudinary upload folder option by setting the Keystone <code>cloudinary folders</code> option to <code class="default-value">true</code>. The default Cloudinary folder will be set based on the following rules:
+			p 将Keystone <code>cloudinary folders</code>参数设为<code class="default-value">true</code>还可以启用Cloudinary的上传文件夹选项。默认的Cloudinary文件夹会基于以下规则设置：
 				ul
-					li <code class="default-value">{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is not set)
-					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is set)
+					li <code class="default-value">{list.path}/{field.path}/</code> (当未设置<code>cloudinary prefix</code>时)
+					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (设置了<code>cloudinary prefix</code>时)
 	
-			p.note You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).
+			p.note 你可以直接在<code>CloudinaryImage</code>域(参见<a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> 参数) 或 <code>CloudinaryImages</code>域(参见 <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> 参数)上设置<code class="default-value">folder</code>参数覆盖默认的Cloudinary文件夹。
 
 			pre: code.language-javascript
 				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
-				| // or
+				| // 或
 				| keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' );
 				| 
-				| // optional, will prefix all built-in tags with 'keystone_'
+				| // 可选，会用'keystone_'作为所有内置标签的前缀
 				| keystone.set('cloudinary prefix', 'keystone');
 				| 
-				| // optional, will prefix each image public_id with [{prefix}]/{list.path}/{field.path}/
+				| // 可选，会用[{prefix}]/{list.path}/{field.path}/ 作为每个图片的public_id的前缀
 				| keystone.set('cloudinary folders', true);
 			
 			
 			a(name='services-embedly')
 			h3 Embed.ly
 			
-			p <a href="http://embed.ly" target="_blank">Embed.ly</a> is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.
+			p <a href="http://embed.ly" target="_blank">Embed.ly</a>是一个解析url (比如Youtube的嵌入链接)的服务，并且会返回很多有价值的信息，比如提供者名称，汇总元数据，视频的高度和宽度，以及可以潜在你的视图中的清爽链接。他们提供了每月不超过5,000个url的免费方案。
 			
-			p The <a href="/docs/database#field_embedly">Embedly field type</a> is an easy way to integrate their API with your KeystoneJS app.
+			p <a href="/docs/database#field_embedly">Embedly域类型</a>在你的KeystoneJS程序中集成它们的API的便利方式。
 			
-			p To configure KeystoneJS to support the Embed.ly API, simply <a href="https://app.embed.ly/signup">sign up for an account</a>, get your api key, and set the <code>embedly api key</code> option.
+			p 配置KeystoneJS支持Embed.ly API，只需要<a href="https://app.embed.ly/signup">注册一个账号</a>，获取你的API键，并设置<code>embedly api key</code>参数。
 			
-			p This option will default to the <code class="default-value">EMBEDLY_API_KEY</code> environment variable if it is set.
+			p 这个参数默认为环境变量<code class="default-value">EMBEDLY_API_KEY</code>，如果设了的话。
 			
 			pre: code.language-javascript
 				| keystone.set('embedly api key', 'your-key');
@@ -516,11 +516,11 @@ block content
 
 			a(name='services-mandrill')
 			h3 Mandrill
-			p <a href="http://mandrill.com" target="_blank">Mandrill</a> is a scalable and affordable email infrastructure service that allows you to send emails easily. They offer a free plan for up to 12,000 emails per month.
+			p <a href="http://mandrill.com" target="_blank">Mandrill</a>是一个可扩展又实惠的email基础设施服务，让你可以轻松地发送邮件。他们提供了每月不超过12,000封email的免费方案。
 
-			p To configure KeystoneJS to support the Mandrill API, simply <a href="https://mandrill.com/signup/">sign up for an account</a>, get your api key, and set both the <code>mandrill api key</code> and <code>mandrill username</code> options.
+			p 配置KeystoneJS支持Mandrill API，只需<a href="https://mandrill.com/signup/">注册一个账号</a>，获取你的API键，并设置<code>mandrill api key</code>和<code>mandrill username</code>两个参数。
 			
-			p These options will default to the <code class="default-value">MANDRILL_API_KEY &amp; MANDRILL_USERNAME</code> environment variable's if set.
+			p 这些参数默认为环境变量<code class="default-value">MANDRILL_API_KEY &amp; MANDRILL_USERNAME</code>，如果设了的话。
 
 			pre: code.language-javascript
 				| keystone.set('mandrill api key', 'your-key');
@@ -542,27 +542,27 @@ block content
 			
 			
 			a(name='updates')
-			h2 Application Updates
+			h2 应用程序更新
 			
-			p Keystone includes an updates framework, which you can enable by setting the <code>auto update</code> option to <code class="default-value">true</code>.
+			p Keystone中有一个更新框架，将<code>auto update</code>参数设为<code class="default-value">true</code>就可以启用。
 			
-			p Updates provide an easy way to seed your database, transition data when your models change, or run transformation scripts against your database.
+			p 使用更新框架可以轻松向数据库中植入数据，模型修改时转换数据，或者对数据库运行转换脚本。
 			
-			p Update files should be named using a semantic version followed by an optional key, like <code>0.0.1-init.js</code>. The version numbers are used to order the update scripts correctly, while the keys are a nice way to identify what each update does.
+			p 更新文件应该按照语义版本命名，后面可以跟一个关键字，也可以不跟，比如<code>0.0.1-init.js</code>。版本号用来对更新脚本排序，关键字可以标示更新什么。
 			
-			p Each update file should export a single function, which should accept a single argument - the <code>next(err)</code> callback, to be called when the update is complete.
+			p 每个更新文件都应该输出单个函数，这个函数应该接受单个参数 - <code>next(err)</code> 回调，在更新完成时调用。
 			
-			p All the update files will be executed (each one waits for the previous update to complete) before the web server is started.
+			p 所有的更新文件都会在web服务器启动前执行(每个都等前一个更新完成后开始)。
 			
-			p If the <code>next</code> callback is receives an error it will be reported to the console, and application initialisation will halt.
+			p 如果<code>next</code>回调收到一个错误，它会报告给控制台，并且程序初始化会终止。
 			
-			p You can temporarily disable updates from running in development by setting a <code>__defer__</code> property on the exported function to <code>true</code>. Any subsequent updates will be skipped, but the application will be started.
+			p 在开发时，你可以在输出的函数中将<code>__defer__</code>属性设为<code>true</code>来临时禁用更新。所有后续更新都会跳过，但程序会启动。
 			
-			p Updates are only run once, and each completed update is logged in an <code>app_updates</code> collection in your database.
+			p 更新只会运行一次，并且每个已完成的更新都会记录在数据库里的<code>app_updates</code>集合中。
 			
 			.code-header
-				h4 Update Script Example
-				p Creates a new admin User
+				h4 更新脚本示例
+				p 创建一个新的管理员用户
 			pre: code.language-javascript
 				| var keystone = require('keystone'),
 				|     User = keystone.list('User');
@@ -577,8 +577,8 @@ block content
 			
 			
 			a(name='headless')
-			h2 Disabling the Admin UI
+			h2 禁用管理界面
 			
-			p You can disable the Admin UI by setting the <code>headless</code> option to <code class="default-value">true</code>.
+			p 你可以将<code>headless</code>参数设为<code class="default-value">true</code>来禁用管理界面。
 			
-			p This will allow you to use <code>keystone.start()</code> or <code>keystone.routes(app)</code> without Keystone creating route bindings for the Admin UI routes under <code class="default-value">/keystone</code>.
+			p 这样不用Keystone在<code class="default-value">/keystone</code>下给管理界面创建路由绑定，你可以使用<code>keystone.start()</code>或<code>keystone.routes(app)</code>。
