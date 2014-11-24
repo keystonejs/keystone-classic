@@ -393,7 +393,12 @@ block content
 					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value
 				tr
 					td <code>dependsOn</code> <code class="data-type">Object</code>
-					td The field will only be displayed when the paths specified in the object match the current data for the item
+					td The field will only be displayed when the paths specified in the object match the current data for the item.  You can target multiple values per path using an Array. 
+						p <strong>For example:</strong>
+						pre: code.language-javascript
+							| sortBy: {String},
+							| field-dependson-multiple: { dependsOn: { sortBy:['value1','1',2] },type: String, note: 'Will show if sortBy value == "value1","1" or "2"'},
+							| field-dependson-single: { dependsOn: { sortBy:'value1' },type: String, note: 'Will show if sortBy value == "value1"'},
 			
 			h3 Generated values and watching fields
 			

@@ -156,7 +156,7 @@ jQuery(function($) {
 						// console.log('evaluating condition ' + path + ' == (' + v + ') with (' + value + ')',v==value)
 						return (v === true && value || v == value);
 					});
-					return findme ? true:false;
+					return findme ? true : false;
 					
 				} else {
 					// console.log('evaluating condition ' + path + ' == (' + cond.value + ') with (' + value + ')')
