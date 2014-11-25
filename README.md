@@ -30,7 +30,7 @@ Use our [Yeoman Generator](https://github.com/keystonejs/generator-keystone) to 
 
 We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/JedWatson/keystone-demo) to see how it was built.
 
-If you have ideas or questions, get in touch on the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs) or tweet at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
+If you have ideas or questions get in touch on the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs), the `#keystonejs` channel on freenode irc, the [StackOverflow keystone tag](http://stackoverflow.com/questions/tagged/keystone.js) or tweet at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
 
 
 ### SydJS Website

@@ -393,7 +393,15 @@ block content
 					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value
 				tr
 					td <code>dependsOn</code> <code class="data-type">Object</code>
-					td The field will only be displayed when the paths specified in the object match the current data for the item
+					td: p The field will only be displayed when the paths specified in the object match the current data for the item.
+						p You can target multiple values per path using an Array.
+						.code-header: h4 Example
+						pre: code.language-javascript
+							| first: { type: String },
+							| // Will show if first === "value1", "1" or "2"
+							| second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
+							| // Will show if first == "value1"
+							| third: { type: String, dependsOn: { sortBy: 'value1' } }
 			
 			h3 Generated values and watching fields
 			
@@ -421,7 +429,7 @@ block content
 					td
 						p The function to generate the field value when a watched path is changed. Must return the new value.
 						p The <code>this</code> context of the function will be the item being saved.
-						p <strong>For example:</strong>
+						.code-header: h4 Example
 						pre: code.language-javascript
 							| function () {
 							|     return this.total<=this.totalreceived ? true:false;
