@@ -397,11 +397,11 @@ block content
 						p You can target multiple values per path using an Array.
 						.code-header: h4 Example
 						pre: code.language-javascript
-							| sortBy: {type: String},
-							| // Will show if sortBy value == "value1","1" or "2"
-							| field-dependson-multiple: { dependsOn: { sortBy:['value1','1',2] },type: String },
-							| // Will show if sortBy value == "value1"
-							| field-dependson-single: { dependsOn: { sortBy:'value1' },type: String},
+							| first: { type: String },
+							| // Will show if first === "value1", "1" or "2"
+							| second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
+							| // Will show if first == "value1"
+							| third: { type: String, dependsOn: { sortBy: 'value1' } }
 			
 			h3 Generated values and watching fields
 			
