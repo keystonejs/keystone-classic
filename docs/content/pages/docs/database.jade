@@ -395,7 +395,7 @@ block content
 					td <code>dependsOn</code> <code class="data-type">Object</code>
 					td: p The field will only be displayed when the paths specified in the object match the current data for the item.
 						p You can target multiple values per path using an Array.
-						p <strong>For example:</strong>
+						.code-header: h4 Example
 						pre: code.language-javascript
 							| sortBy: {type: String},
 							| // Will show if sortBy value == "value1","1" or "2"
@@ -429,7 +429,7 @@ block content
 					td
 						p The function to generate the field value when a watched path is changed. Must return the new value.
 						p The <code>this</code> context of the function will be the item being saved.
-						p <strong>For example:</strong>
+						.code-header: h4 Example
 						pre: code.language-javascript
 							| function () {
 							|     return this.total<=this.totalreceived ? true:false;
