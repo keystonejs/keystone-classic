@@ -393,8 +393,16 @@ block content
 					td 该域没有值时在管理界面中显示一个<strong>+ <u>添加</u></strong>链接。当<code>noedit</code>也被设为<code class="default-value">true</code>时，该域没值时则完全隐藏。
 				tr
 					td <code>dependsOn</code> <code class="data-type">Object</code>
-					td 只有对象中指定的路径跟条目的当前数据匹配时才会显示
-			
+					td: p 只有对象中指定的路径跟条目的当前数据匹配时才会显示
+						p 你可以在每个路径上用数组对准多个值。
+						.code-header: h4 示例
+						pre: code.language-javascript
+							| first: { type: String },
+							| // 如果first === "value1", "1" 或 "2" 时将会显示
+							| second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
+							| // 如果 first == "value1" 时会显示
+							| third: { type: String, dependsOn: { sortBy: 'value1' } }
+
 			h3 生成的值及观测域
 			
 			p Keystone的域可以用简单的语法配置动态更新的域。你可以将一个域设置为在下面这些情况下更新它的值：
