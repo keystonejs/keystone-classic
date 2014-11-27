@@ -402,6 +402,7 @@ block content
 							| second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
 							| // Will show if first == "value1"
 							| third: { type: String, dependsOn: { sortBy: 'value1' } }
+
 			
 			h3 Generated values and watching fields
 			
@@ -478,7 +479,7 @@ block content
 			
 			p You can filter a relationship field using the <code>filters</code> option.
 
-			p The <code>filters</code> option is an object of key/pair values, in which the keys correspond to the fields of the related model to be filtered, and the values will either be literals or field names in the current model, the value of which will be used to filter the relationship.
+			p The <code>filters</code> option is an object of key/value pairs, in which the keys correspond to the fields of the related model to be filtered, and the values will either be literals or field names in the current model, the value of which will be used to filter the relationship.
 
 			p In the example below, the <code>author</code> field will only allow selection of a <code>User</code> whose <code>group</code> field is equal to 'admin'.
 			
@@ -746,7 +747,7 @@ block content
 				h5 Properties
 				p <code>ops</code> <code class="data-type">Array</code> - the field <strong>options</strong> array
 				p <code>values</code> <code class="data-type">Array</code> - all <code>option.value</code> properties
-				p <code>labels</code> <code class="data-type">Object</code> - app <code>option.label</code> properties, keyed by <code>option.value</code>
+				p <code>labels</code> <code class="data-type">Object</code> - all <code>option.label</code> properties, keyed by <code>option.value</code>
 				p <code>map</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code>
 				
 				h5 Schema
