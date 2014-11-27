@@ -402,7 +402,8 @@ block content
 							| second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
 							| // Will show if first == "value1"
 							| third: { type: String, dependsOn: { sortBy: 'value1' } }
-							
+
+			
 			h3 Generated values and watching fields
 			
 			p Keystone's fields support a simple syntax for configuring dynamically updated fields. You can set a field to update its value whenever:
@@ -429,7 +430,7 @@ block content
 					td
 						p The function to generate the field value when a watched path is changed. Must return the new value.
 						p The <code>this</code> context of the function will be the item being saved.
-						p <strong>For example:</strong>
+						.code-header: h4 Example
 						pre: code.language-javascript
 							| function () {
 							|     return this.total<=this.totalreceived ? true:false;

@@ -109,7 +109,7 @@ block content
 					if (meta_createdAt)
 						.item-details-meta-item
 							span.item-details-meta-label Created
-							span.item-details-meta-info= moment(meta_createdAt).format('Do MMM YY h:MM:SSa')
+							span.item-details-meta-info= moment(meta_createdAt).format('Do MMM YY h:mm:ssa')
 				if list.tracking.createdBy
 					- meta_createdBy = item.get(list.tracking.createdBy)
 					if meta_createdBy
@@ -121,7 +121,7 @@ block content
 					if meta_updatedAt && (!meta_createdAt || meta_createdAt.getTime() !== meta_updatedAt.getTime())
 						.item-details-meta-item
 							span.item-details-meta-label Updated
-							span.item-details-meta-info= moment(meta_updatedAt).format('Do MMM YY h:MM:SSa')
+							span.item-details-meta-info= moment(meta_updatedAt).format('Do MMM YY h:mm:ssa')
 					else
 						- meta_updatedAt = false
 				if list.tracking.updatedBy
