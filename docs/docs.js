@@ -7,7 +7,12 @@ var http = require('http'),
 function view(view, options) {
 	return function(req, res, next) {
 		options.pretty = true;
-		res.render(view, options);
+		console.log(req.session.currentLanguage);
+		var docsBase = __dirname + '/content/pages/';
+		if(req.session.currentLanguage != null && req.session.currentLanguage != 'default') {
+			docsBase = __dirname + '/content.' + req.session.currentLanguage + '/pages/';
+		}
+		res.render(docsBase + view, options);
 	}
 }
 
@@ -16,10 +21,15 @@ function view(view, options) {
 var app = express();
 
 app.set('port', 8080);
-app.set('views', 'content/pages');
 app.set('view engine', 'jade');
 
 app.use(express.favicon('public/favicon.ico'));
+app.use(express.cookieParser());
+app.use(express.bodyParser());
+app.use(express.cookieSession({
+	secret: 'secret'
+}));
+
 app.use(require('less-middleware')('public'));
 app.use(express.static('public'));
 
@@ -39,9 +49,30 @@ app.use(function(req, res, next) {
 _.extend(app.locals, content.locals);
 
 app.locals.version = require('../package.json').version;
+app.locals.languages = require('./languages.json').languages;
+
+app.use(function(req,res,next){
+    res.locals.session = req.session;
+    next();
+});
 
 _.each(content.routes, function(options) {
 	app.get(options.path, view(options.template, options));
+});
+
+app.post('/language',function(req,res,next) {
+  var language = req.body.language;
+  if(req.session.currentLanguage != language) {
+	req.session.currentLanguage = language;
+	if(language != 'default') {
+		var currentContent = require('./content.'+ language +'/site.json');
+		_.extend(app.locals, currentContent.locals);
+	} else {
+		_.extend(app.locals, content.locals);
+	}
+	
+  }
+  res.redirect('/');
 });
 
 app.use(function(req, res, next) {
