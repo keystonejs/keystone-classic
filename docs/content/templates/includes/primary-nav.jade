@@ -1,0 +1,14 @@
+nav.docs-nav
+    .docs-nav__collapse.collapse
+        ul.docs-nav__nav
+            each item in primarynav
+                li(class=section == item.section ? 'active' : null): a(href=item.path)= item.label
+            if languages
+                li
+                    form(action='/language',method='POST')
+                        select(name='language',onchange="this.form.submit()")
+                            each language in languages
+                                if(language.code === session.currentLanguage) 
+                                    option(value=language.code,selected="selected") #{language.label}
+                                else
+                                    option(value=language.code) #{language.label}
