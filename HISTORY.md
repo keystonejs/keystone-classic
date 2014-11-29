@@ -1,5 +1,19 @@
 # Keystone
 
+## v0.2.34 / 2014-11-29
+
+* added; ability to specify custom navigation items in the header menu, thanks [Camille Reynders](https://github.com/creynders)
+* added; ability to specify multiple values for a dependsOn field with an Array, thanks [Brett Newman](https://github.com/snowkeeper)
+* improved; more dynamic import extensions, thanks [Sebastian McKenzie](https://github.com/sebmck)
+* fixed; several issues relating to validation in the UpdateHandler
+* fixed; issues deleting users, thanks [Ignacio Lago](https://github.com/ignlg)
+* fixed; potential issues comparing csrf and password tokens, thanks [Mickael van der Beek](https://github.com/Mickael-van-der-Beek)
+* fixed; incorrect whitespace in UI when ordering lists, thanks [Tiago Martins](https://github.com/Gank)
+* fixed; callback in Email class is now correctly optional, thanks [Ignacio Lago](https://github.com/ignlg)
+* fixed; UI inconsistencies when deleting items, thanks [Ignacio Lago](https://github.com/ignlg)
+* fixed; date formatting issues with tracking meta, thanks [Jacques Lareau](https://github.com/jacqueslareau)
+
+
 ## v0.2.33 / 2014-11-04
 
 * fixed; Issues where the session store would not always wait for a database connection before initialising the web server
