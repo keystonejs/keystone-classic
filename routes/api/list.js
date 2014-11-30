@@ -234,7 +234,7 @@ exports = module.exports = function(req, res) {
 							}
 						}
 						params = querystring.stringify(_.defaults(params, queryParams));
-						return '/keystone/' + req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
+						return req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
 					};
 
 				var query = req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1),

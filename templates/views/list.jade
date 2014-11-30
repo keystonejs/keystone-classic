@@ -201,7 +201,7 @@ block content
 								.searchbox-field
 									input(type='search', name='search', placeholder='Search #{list.plural.toLowerCase()}', value=search).form-control.js-search-list.searchbox-input
 									if search
-										a(href=list.path, title='Clear search').search-list-clear &times;
+										a(href='#{list.path}', title='Clear search').search-list-clear &times;
 								.searchbox-button: button(type='submit').btn.btn-default.btn-search.searchbox-submit
 									span.visible-xs Go
 									span.hidden-xs Search
@@ -414,7 +414,7 @@ block content
 								
 				.list-filters-action
 					button(type='submit').btn.btn-default.btn-filter Search
-					a(href=list.path).btn.btn-link.btn-cancel clear filters
+					a(href='#{list.path}').btn.btn-link.btn-cancel clear filters
 			
 	if items.results.length
 		//-
