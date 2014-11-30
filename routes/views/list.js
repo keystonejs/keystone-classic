@@ -128,7 +128,8 @@ exports = module.exports = function(req, res) {
 					colPaths: _.pluck(columns, 'path'),
 					items: items,
 					submitted: req.body || {},
-					query: req.query
+					query: req.query,
+					root: '/keystone'
 				}));
 				
 			});
@@ -241,6 +242,7 @@ exports = module.exports = function(req, res) {
 				return renderView();
 			}
 			req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
+			
 			return res.redirect(req.list.path + '/' + item.id);
 		});
 		

@@ -5,22 +5,22 @@ include ../mixins/pagination
 
 block css
 	if list.fieldTypes.markdown
-		link(rel="stylesheet", href="/keystone/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
+		link(rel="stylesheet", href="#{root}/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
 
 block js
 	if list.fieldTypes.location
-		script(src="/keystone/js/common/ui-location.js")
+		script(src="#{root}/js/common/ui-location.js")
 	if list.fieldTypes.markdown
-		script(src='/keystone/js/lib/marked/marked.js')
-		script(src='/keystone/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
-		script(src="/keystone/js/common/ui-markdown.js")
+		script(src='#{root}/js/lib/marked/marked.js')
+		script(src='#{root}/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
+		script(src="#{root}/js/common/ui-markdown.js")
 	if list.fieldTypes.wysiwyg
-		script(src='/keystone/js/lib/tinymce/tinymce.min.js')
-		script(src='/keystone/js/lib/tinymce/jquery.tinymce.min.js')
-		script(src="/keystone/js/common/ui-wysiwyg.js")
-	script(src='/keystone/js/views/list.js')
-	script(src='/keystone/js/lib/browserified/querystring.js')
-	script(src='/keystone/js/lib/browserified/queryfilter.js')
+		script(src='#{root}/js/lib/tinymce/tinymce.min.js')
+		script(src='#{root}/js/lib/tinymce/jquery.tinymce.min.js')
+		script(src="#{root}/js/common/ui-wysiwyg.js")
+	script(src='#{root}/js/views/list.js')
+	script(src='#{root}/js/lib/browserified/querystring.js')
+	script(src='#{root}/js/lib/browserified/queryfilter.js')
 	script.
 		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)}, perPage: !{ Number(list.perPage) || 50 } };
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
@@ -30,6 +30,7 @@ block js
 		Keystone.sort = "#{sort.by}";
 		Keystone.query = "#{query}";
 		Keystone.csrf_query = "!{csrf_query}";
+		Keystone.root = "#{root}";
 			
 block content
 	//-

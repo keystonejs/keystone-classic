@@ -309,7 +309,7 @@ jQuery(function($) {
 			alert(errorMessage);
 			$row.removeClass('delete-inprogress');
 		};
-		$.ajax('/keystone/api' + Keystone.list.path.replace('/keystone','') + '/delete', {
+		$.ajax('/keystone/api' + Keystone.list.path.replace(Keystone.root,'') + '/delete', {
 			data: Keystone.csrf({
 				id: $row.attr('id')
 			}),
@@ -349,7 +349,7 @@ jQuery(function($) {
 						Keystone.items.last = Keystone.items.total;
 						$('.list-pagination .count').text('Showing ' + Keystone.items.first + ' to ' + Keystone.items.last + ' of ' + Keystone.items.total);
 					} else {
-						$.ajax('/keystone/api' + Keystone.list.path.replace('/keystone','') + '/fetch', {
+						$.ajax('/keystone/api' + Keystone.list.path.replace(Keystone.root,'') + '/fetch', {
 							data: Keystone.csrf({
 								items: { 
 									first: Keystone.items.first,

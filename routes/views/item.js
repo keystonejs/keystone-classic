@@ -161,7 +161,8 @@ exports = module.exports = function(req, res) {
 					item: item,
 					relationships: relationships,
 					showRelationships: showRelationships,
-					drilldown: drilldown
+					drilldown: drilldown,
+					root: '/keystone'
 				}));
 				
 			});
