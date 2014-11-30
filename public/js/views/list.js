@@ -363,7 +363,8 @@ jQuery(function($) {
 								cols: Keystone.list.cols,
 								sort: Keystone.sort,
 								csrf_query: Keystone.csrf_query,
-								q: Keystone.query
+								q: Keystone.query,
+								root: Keystone.root
 							}),
 							dataType: 'json'
 						}).done(function(rtn) {
