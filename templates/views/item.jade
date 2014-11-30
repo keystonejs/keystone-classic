@@ -63,13 +63,13 @@ block intro
 					else
 						li: a(href=d.href, title=d.list.singular) #{d.label}
 				li
-					a(href='/keystone/' + list.path, title='Back to ' + list.plural) #{list.label}
+					a(href=list.path, title='Back to ' + list.plural) #{list.label}
 			else
-				li: a(href='/keystone/' + list.path, title='Back to ' + list.plural)
+				li: a(href=list.path, title='Back to ' + list.plural)
 					span.mr-5.ion-arrow-left-c
 					= list.plural
 		.searchbox
-			form(method='get', action='/keystone/' + list.path).form-inline.searchbox-form
+			form(method='get', action=list.path).form-inline.searchbox-form
 				.searchbox-field: input(type='search', name='search', placeholder='Search #{list.plural}').form-control.searchbox-input
 				.searchbox-button: button(type='submit').btn.btn-default.searchbox-submit Search
 				button(type='button').btn.btn-link.btn-cancel.js-itemsearch-close Cancel
@@ -79,7 +79,7 @@ block intro
 			else
 				li id: #{item.id}
 			if !list.options.nocreate
-				li: a(href='/keystone/#{list.path}?new' + csrf_query)
+				li: a(href='#{list.path}?new' + csrf_query)
 					span.mr-5.ion-plus
 					| New #{list.singular}
 			
@@ -147,16 +147,16 @@ block content
 		.toolbar.toolbar-fixed
 			if !list.get('noedit')
 				button(type='submit').btn.btn-default.btn-save Save
-				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
+				a(href=list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
 			if !list.get('nodelete')  && item.id !== user.id
-				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
+				a(href=list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
 	
 	
 	if showRelationships
 		h2.relationship-heading.form-heading Relationships
 			each rel in relationships
 				if rel.items.results.length
-					h3.form-heading.relationship-heading: a(href='/keystone/' + rel.list.path)= (rel.label) ? rel.label : rel.list.label
+					h3.form-heading.relationship-heading: a(href=rel.list.path)= (rel.label) ? rel.label : rel.list.label
 					if rel.note
 						.field-note= rel.note
 					- var firstColspan = 1
