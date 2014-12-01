@@ -12,7 +12,7 @@ else
 				value=item[field.path],
 				data-ref-many=field.many ? 'true' : null,
 				data-ref-filters=field.filters,
-				data-ref-path=refList.path,
+				data-ref-path=refList.path.replace(appRoot,''),
 				data-ref-singular=refList.singular,
 				data-ref-plural=refList.plural).ui-select2-ref
 			if field.note

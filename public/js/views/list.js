@@ -309,7 +309,7 @@ jQuery(function($) {
 			alert(errorMessage);
 			$row.removeClass('delete-inprogress');
 		};
-		$.ajax('/keystone/api' + Keystone.list.path.replace(Keystone.root,'') + '/delete', {
+		$.ajax(Keystone.root + '/api' + Keystone.list.path + '/delete', {
 			data: Keystone.csrf({
 				id: $row.attr('id')
 			}),
@@ -349,7 +349,7 @@ jQuery(function($) {
 						Keystone.items.last = Keystone.items.total;
 						$('.list-pagination .count').text('Showing ' + Keystone.items.first + ' to ' + Keystone.items.last + ' of ' + Keystone.items.total);
 					} else {
-						$.ajax('/keystone/api' + Keystone.list.path.replace(Keystone.root,'') + '/fetch', {
+						$.ajax('/keystone/api' + Keystone.list.path + '/fetch', {
 							data: Keystone.csrf({
 								items: { 
 									first: Keystone.items.first,
@@ -364,7 +364,7 @@ jQuery(function($) {
 								sort: Keystone.sort,
 								csrf_query: Keystone.csrf_query,
 								q: Keystone.query,
-								root: Keystone.root
+								appRoot: Keystone.root
 							}),
 							dataType: 'json'
 						}).done(function(rtn) {

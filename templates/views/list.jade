@@ -5,24 +5,24 @@ include ../mixins/pagination
 
 block css
 	if list.fieldTypes.markdown
-		link(rel="stylesheet", href="#{root}/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
+		link(rel="stylesheet", href="#{appRoot}/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
 
 block js
 	if list.fieldTypes.location
-		script(src="#{root}/js/common/ui-location.js")
+		script(src="#{appRoot}/js/common/ui-location.js")
 	if list.fieldTypes.markdown
-		script(src='#{root}/js/lib/marked/marked.js')
-		script(src='#{root}/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
-		script(src="#{root}/js/common/ui-markdown.js")
+		script(src='#{appRoot}/js/lib/marked/marked.js')
+		script(src='#{appRoot}/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
+		script(src="#{appRoot}/js/common/ui-markdown.js")
 	if list.fieldTypes.wysiwyg
-		script(src='#{root}/js/lib/tinymce/tinymce.min.js')
-		script(src='#{root}/js/lib/tinymce/jquery.tinymce.min.js')
-		script(src="#{root}/js/common/ui-wysiwyg.js")
-	script(src='#{root}/js/views/list.js')
-	script(src='#{root}/js/lib/browserified/querystring.js')
-	script(src='#{root}/js/lib/browserified/queryfilter.js')
+		script(src='#{appRoot}/js/lib/tinymce/tinymce.min.js')
+		script(src='#{appRoot}/js/lib/tinymce/jquery.tinymce.min.js')
+		script(src="#{appRoot}/js/common/ui-wysiwyg.js")
+	script(src='#{appRoot}/js/views/list.js')
+	script(src='#{appRoot}/js/lib/browserified/querystring.js')
+	script(src='#{appRoot}/js/lib/browserified/queryfilter.js')
 	script.
-		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)}, perPage: !{ Number(list.perPage) || 50 } };
+		Keystone.list = { path: "#{list.path.replace(appRoot,'')}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)}, perPage: !{ Number(list.perPage) || 50 } };
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 		Keystone.items = !{ JSON.stringify(items) };
 		Keystone.search = "#{search}";
@@ -30,7 +30,7 @@ block js
 		Keystone.sort = "#{sort.by}";
 		Keystone.query = "#{query}";
 		Keystone.csrf_query = "!{csrf_query}";
-		Keystone.root = "#{root}";
+		Keystone.root = "#{appRoot}";
 			
 block content
 	//-

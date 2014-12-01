@@ -46,9 +46,9 @@ mixin column_gravatar(src)
 
 mixin column_boolean(value)
 	if (value)
-		img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16)
+		img(src='#{root}/images/icons/16/checkbox-checked.png', width=16, height=16)
 	else
-		img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16)
+		img(src='#{root}/images/icons/16/checkbox-unchecked.png', width=16, height=16)
 
 mixin column_html(value)
 	div.col-value!= value

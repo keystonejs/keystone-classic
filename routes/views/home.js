@@ -5,7 +5,8 @@ exports = module.exports = function(req, res) {
 	keystone.render(req, res, 'home', {
 		section: 'home',
 		page: 'home',
-		orphanedLists: keystone.getOrphanedLists()
+		orphanedLists: keystone.getOrphanedLists(),
+		appRoot: '/keystone'
 	});
 
 };

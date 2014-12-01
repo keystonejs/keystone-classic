@@ -3,48 +3,48 @@ extends ../layout/base
 include ../mixins/columns
 
 block css
-	link(rel="stylesheet", href="#{root}/js/lib/fancybox/jquery.fancybox.css")
+	link(rel="stylesheet", href="#{appRoot}/js/lib/fancybox/jquery.fancybox.css")
 	if list.fieldTypes.markdown
-		link(rel="stylesheet", href="#{root}/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
+		link(rel="stylesheet", href="#{appRoot}/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
 	if list.fieldTypes.code
-		link(rel="stylesheet", href="#{root}/js/lib/codemirror/codemirror.css")
+		link(rel="stylesheet", href="#{appRoot}/js/lib/codemirror/codemirror.css")
 
 block js
-	script(src="#{root}/js/common/ui-fixed-toolbar.js")
-	script(src="#{root}/js/lib/joseph-myers/md5.js")
-	script(src="#{root}/js/lib/fancybox/jquery.fancybox.pack.js")
-	script(src="#{root}/js/lib/html5sortable/jquery.sortable.js")
+	script(src="#{appRoot}/js/common/ui-fixed-toolbar.js")
+	script(src="#{appRoot}/js/lib/joseph-myers/md5.js")
+	script(src="#{appRoot}/js/lib/fancybox/jquery.fancybox.pack.js")
+	script(src="#{appRoot}/js/lib/html5sortable/jquery.sortable.js")
 	if list.fieldTypes.location
-		script(src="#{root}/js/common/ui-location.js")
+		script(src="#{appRoot}/js/common/ui-location.js")
 	if list.fieldTypes.cloudinaryimage
-		script(src="#{root}/js/common/ui-cloudinaryimage.js")
+		script(src="#{appRoot}/js/common/ui-cloudinaryimage.js")
 	if list.fieldTypes.cloudinaryimages
-		script(src="#{root}/js/common/ui-cloudinaryimages.js")
+		script(src="#{appRoot}/js/common/ui-cloudinaryimages.js")
 	if list.fieldTypes.s3file
-		script(src="#{root}/js/common/ui-s3file.js")
+		script(src="#{appRoot}/js/common/ui-s3file.js")
 	if list.fieldTypes.azurefile
-		script(src="#{root}/js/common/ui-azurefile.js")
+		script(src="#{appRoot}/js/common/ui-azurefile.js")
 	if list.fieldTypes.localfile
-		script(src="#{root}/js/common/ui-localfile.js")
+		script(src="#{appRoot}/js/common/ui-localfile.js")
 	if list.fieldTypes.localfiles
-		script(src="#{root}/js/common/ui-localfiles.js")
+		script(src="#{appRoot}/js/common/ui-localfiles.js")
 	if list.fieldTypes.markdown
-		script(src='#{root}/js/lib/marked/marked.js')
-		script(src='#{root}/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
-		script(src="#{root}/js/common/ui-markdown.js")
+		script(src='#{appRoot}/js/lib/marked/marked.js')
+		script(src='#{appRoot}/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
+		script(src="#{appRoot}/js/common/ui-markdown.js")
 	if list.fieldTypes.code
-		script(src="#{root}/js/common/ui-code.js")
-		script(src='#{root}/js/lib/codemirror/codemirror-compressed.js')
+		script(src="#{appRoot}/js/common/ui-code.js")
+		script(src='#{appRoot}/js/lib/codemirror/codemirror-compressed.js')
 	if list.fieldTypes.wysiwyg
-		script(src='#{root}/js/lib/tinymce/tinymce.min.js')
-		script(src='#{root}/js/lib/tinymce/jquery.tinymce.min.js')
-		script(src="#{root}/js/common/ui-wysiwyg.js")
+		script(src='#{appRoot}/js/lib/tinymce/tinymce.min.js')
+		script(src='#{appRoot}/js/lib/tinymce/jquery.tinymce.min.js')
+		script(src="#{appRoot}/js/common/ui-wysiwyg.js")
 	
-	script(src='#{root}/js/views/item.js')
+	script(src='#{appRoot}/js/views/item.js')
 	script.
-		Keystone.list = { path: "#{list.path}" };
+		Keystone.list = { path: "#{list.path.replace(appRoot,'')}" };
 		Keystone.item = { id: "#{item.id}" };
-		Keystone.root = "#{root}";
+		Keystone.root = "#{appRoot}";
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 
 block intro
@@ -116,7 +116,7 @@ block content
 					if meta_createdBy
 						.item-details-meta-item
 							span.item-details-meta-label= meta_createdAt ? 'by' : 'Created by'
-							span.item-details-meta-info: a(href='#{root}/' + User.path + '/' + meta_createdBy.id)= User.getDocumentName(meta_createdBy)
+							span.item-details-meta-info: a(href='#{appRoot}/' + User.path + '/' + meta_createdBy.id)= User.getDocumentName(meta_createdBy)
 				if list.tracking.updatedAt
 					- meta_updatedAt = item.get(list.tracking.updatedAt)
 					if meta_updatedAt && (!meta_createdAt || meta_createdAt.getTime() !== meta_updatedAt.getTime())
@@ -130,7 +130,7 @@ block content
 					if meta_updatedBy && (!meta_createdBy || meta_createdBy.id !== meta_updatedBy.id || meta_updatedAt)
 						.item-details-meta-item
 							span.item-details-meta-label= meta_updatedAt ? 'by' : 'Updated by'
-							span.item-details-meta-info: a(href='#{root}/' + User.path + '/' + meta_updatedBy.id)= User.getDocumentName(meta_updatedBy)
+							span.item-details-meta-info: a(href='#{appRoot}/' + User.path + '/' + meta_updatedBy.id)= User.getDocumentName(meta_updatedBy)
 		
 		
 		each el in list.uiElements

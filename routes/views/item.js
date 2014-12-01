@@ -162,7 +162,7 @@ exports = module.exports = function(req, res) {
 					relationships: relationships,
 					showRelationships: showRelationships,
 					drilldown: drilldown,
-					root: '/keystone'
+					appRoot: '/keystone'
 				}));
 				
 			});

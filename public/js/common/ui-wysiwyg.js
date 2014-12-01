@@ -39,7 +39,7 @@ jQuery(function($) {
 		plugins: plugins,
 		toolbar: toolbar,
 		skin: skin,
-		uploadimage_form_url: '/keystone/api/cloudinary/upload'
+		uploadimage_form_url: Keystone.root + '/api/cloudinary/upload'
 	};
 
 	if (Keystone.wysiwyg.options.additionalOptions){

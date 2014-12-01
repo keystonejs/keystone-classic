@@ -201,7 +201,7 @@ jQuery(function($) {
 			$el.html(data.name);
 		};
 		
-		$.ajax('/keystone/api/' + data.refPath + '/get', {
+		$.ajax(Keystone.root + '/api' + data.refPath + '/get', {
 			data: {
 				id: itemId,
 				dataset: 'simple'

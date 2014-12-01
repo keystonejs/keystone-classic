@@ -129,7 +129,7 @@ exports = module.exports = function(req, res) {
 					items: items,
 					submitted: req.body || {},
 					query: req.query,
-					root: '/keystone'
+					appRoot: '/keystone'
 				}));
 				
 			});
