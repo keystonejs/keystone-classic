@@ -7,7 +7,6 @@ var http = require('http'),
 function view(view, options) {
 	return function(req, res, next) {
 		options.pretty = true;
-		console.log(req.session.currentLanguage);
 		var docsBase = __dirname + '/content/pages/';
 		if(req.session.currentLanguage != null && req.session.currentLanguage != 'default') {
 			docsBase = __dirname + '/content.' + req.session.currentLanguage + '/pages/';
