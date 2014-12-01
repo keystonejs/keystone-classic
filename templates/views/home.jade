@@ -9,7 +9,7 @@ block content
 		if nav.flat
 			each list in lists
 				if (!list.get('hidden'))
-					h3: a(href=list.path)= list.label
+					h3: a(href="#{appRoot + '/' + list.path}")= list.label
 		else
 			each navSection in nav.sections
 				.nav-section
