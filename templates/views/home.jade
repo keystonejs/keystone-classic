@@ -20,4 +20,4 @@ block content
 				.nav-section
 					h4 Other
 					ul: each list in orphanedLists
-						li: a(href=list.path)= list.label
+						li: a(href="#{appRoot + '/' + list.path}")= list.label
