@@ -309,7 +309,7 @@ jQuery(function($) {
 			alert(errorMessage);
 			$row.removeClass('delete-inprogress');
 		};
-		$.ajax('/keystone/api/' + Keystone.list.path + '/delete', {
+		$.ajax(Keystone.root + '/api' + Keystone.list.path + '/delete', {
 			data: Keystone.csrf({
 				id: $row.attr('id')
 			}),
@@ -332,7 +332,7 @@ jQuery(function($) {
 				}
 
 				if (Keystone.items.currentPage > Keystone.items.totalPages) {
-					window.location.href = '/keystone/' + Keystone.list.path + '/' + Keystone.items.previous;
+					window.location.href = Keystone.list.path + '/' + Keystone.items.previous;
 					return;
 				}
 
@@ -349,7 +349,7 @@ jQuery(function($) {
 						Keystone.items.last = Keystone.items.total;
 						$('.list-pagination .count').text('Showing ' + Keystone.items.first + ' to ' + Keystone.items.last + ' of ' + Keystone.items.total);
 					} else {
-						$.ajax('/keystone/api/' + Keystone.list.path + '/fetch', {
+						$.ajax('/keystone/api' + Keystone.list.path + '/fetch', {
 							data: Keystone.csrf({
 								items: { 
 									first: Keystone.items.first,
@@ -363,7 +363,8 @@ jQuery(function($) {
 								cols: Keystone.list.cols,
 								sort: Keystone.sort,
 								csrf_query: Keystone.csrf_query,
-								q: Keystone.query
+								q: Keystone.query,
+								appRoot: Keystone.root
 							}),
 							dataType: 'json'
 						}).done(function(rtn) {

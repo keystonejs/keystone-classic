@@ -78,7 +78,7 @@ jQuery(function($) {
 			order = _.pluck($this.find('tbody tr'), 'id');
 		$.ajax({
 			type: 'POST',
-			url: '/keystone/api/' + listPath + '/order',
+			url: Keystone.root + '/api' + listPath.replace(Keystone.root,'') + '/order',
 			data: Keystone.csrf({
 				order: order.join(',')
 			}),
@@ -103,20 +103,20 @@ jQuery(function($) {
 		
 		var args = {
 			context: 'relationship',
-			list: Keystone.list.path,
+			list: Keystone.list.path.replace('/',''),
 			field: el.attr('name')
 		};
 		
 		if (Keystone.item) {
 			args.item = Keystone.item.id;
 		}
-		
+		console.log(refPath)
 		el.select2({
 			placeholder: 'Search for ' + (multi ? label.plural : ' a ' + label.singular) + '...',
 			allowClear: true,
 			multiple: multi,
 			ajax: {
-				url: '/keystone/api/' + refPath + '/autocomplete',
+				url: Keystone.root + '/api' + refPath + '/autocomplete',
 				dataType: 'json',
 				quietMillis: 500,
 				data: function(term, page) {
@@ -174,7 +174,7 @@ jQuery(function($) {
 					};
 					
 					$.each(ids, function() {
-						$.ajax('/keystone/api/' + refPath + '/get', {
+						$.ajax(Keystone.root + '/api' + refPath.replace(Keystone.root,'') + '/get', {
 							data: {
 								id: this,
 								dataset: 'simple'
@@ -198,7 +198,7 @@ jQuery(function($) {
 				if (val == '') {
 					$gotoLink.hide();
 				} else {
-					$gotoLink.attr('href','/keystone/' + refPath + '/' + val);
+					$gotoLink.attr('href',Keystone.root + '/' + refPath.replace(Keystone.root,'') + '/' + val);
 					$gotoLink.show();
 				}
 			});

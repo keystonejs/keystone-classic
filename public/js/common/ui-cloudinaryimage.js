@@ -216,7 +216,7 @@ jQuery(function($) {
 			var perPage = 10,
 				args = {
 					context: 'cloudinary',
-					list: Keystone.list.path,
+					list: Keystone.list.path.replace(Keystone.root,''),
 					field: el.attr('name'),
 					prefix: el.data('prefix'),
 				},
@@ -233,7 +233,7 @@ jQuery(function($) {
 				width: "60%",
 				loadMorePadding: 100,
 				ajax: { 
-					url: '/keystone/api/cloudinary/autocomplete',
+					url: Keystone.root + '/api/cloudinary/autocomplete',
 					dataType: 'json',
 					quietMillis: 500,
 					data: function(term, page) {
@@ -269,7 +269,7 @@ jQuery(function($) {
 				initSelection: function(element, callback) {
 					var id = $(element).val();
 					if (id !== '') {
-						$.ajax('/keystone/api/cloudinary/get', {
+						$.ajax(Keystone.root + '/api/cloudinary/get', {
 							data: { id: id },
 							dataType: 'json'
 						}).done(function(result) {

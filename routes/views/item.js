@@ -18,7 +18,7 @@ exports = module.exports = function(req, res) {
 		
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');
-			return res.redirect('/keystone/' + req.list.path);
+			return res.redirect(req.list.path);
 		}
 		
 		var viewLocals = {
@@ -75,7 +75,7 @@ exports = module.exports = function(req, res) {
 									list: refList,
 									items: _.map(results, function(i) { return {
 										label: refList.getDocumentName(i),
-										href: '/keystone/' + refList.path + '/' + i.id
+										href: refList.path + '/' + i.id
 									};}),
 									more: (more) ? true : false
 								});
@@ -92,7 +92,7 @@ exports = module.exports = function(req, res) {
 								drilldown.items.push({
 									list: refList,
 									label: refList.getDocumentName(result),
-									href: '/keystone/' + refList.path + '/' + result.id
+									href:  refList.path + '/' + result.id
 								});
 							}
 							done();
@@ -161,7 +161,8 @@ exports = module.exports = function(req, res) {
 					item: item,
 					relationships: relationships,
 					showRelationships: showRelationships,
-					drilldown: drilldown
+					drilldown: drilldown,
+					appRoot: '/keystone'
 				}));
 				
 			});
@@ -180,7 +181,7 @@ exports = module.exports = function(req, res) {
 					return renderView();
 				}
 				req.flash('success', 'Your changes have been saved.');
-				return res.redirect('/keystone/' + req.list.path + '/' + item.id);
+				return res.redirect( req.list.path + '/' + item.id);
 			});
 			
 			
