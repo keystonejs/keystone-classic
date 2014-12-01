@@ -35,7 +35,7 @@ jQuery(function($) {
 		switch (data.type) {
 			
 			case 'list':
-				var href = Keystone.root + '/' + data.path.replace(Keystone.root,''),
+				var href = data.path,
 					label = 'Manage ' + data.plural;
 				
 				if (data.id) {
