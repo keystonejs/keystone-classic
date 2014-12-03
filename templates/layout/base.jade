@@ -41,7 +41,12 @@ html
 							li: a(href=signout).signout Sign Out
 					ul.nav.navbar-nav
 						each navSection in nav.sections
-							li(class=section.key == navSection.key ? 'active' : null): a(href=navSection.lists[0].path)= navSection.label
+							if navSection.lists[0].external
+								- path = navSection.lists[0].path
+							else
+								- path = '/keystone/' + navSection.lists[0].path
+
+							li(class=section.key == navSection.key ? 'active' : null): a(href=path)= navSection.label
 			if section.lists && section.lists.length > 1
 				nav(role='navigation')#section-nav.navbar.navbar-default.navbar-static-top: .container
 					.navbar-header
@@ -57,7 +62,12 @@ html
 					.collapse.navbar-collapse.navbar-sectionnav-collapse
 						ul.nav.navbar-nav
 							each navList in section.lists
-								li(class=navList.key == list.key ? 'active' : null): a(href=navList.path)= navList.label
+								if navList.external
+									- path = navList.path
+								else
+									- path = '/keystone/' + navList.path
+									
+								li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
 			#body: .container
 				block intro
 				+flash-messages(messages)
