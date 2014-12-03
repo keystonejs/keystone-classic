@@ -1,5 +1,11 @@
 # Keystone
 
+## v0.2.35 / 2014-12-02
+
+*This release fixes an issue in the Admin UI introduced in 0.2.34, our sincere apologies to anyone who was affected by this!*
+
+* fixed; an issue to do with admin links introduced by the new custom nav functionality, thanks [Camille Reynders](https://github.com/creynders)
+
 ## v0.2.34 / 2014-11-29
 
 * added; ability to specify custom navigation items in the header menu, thanks [Camille Reynders](https://github.com/creynders)
