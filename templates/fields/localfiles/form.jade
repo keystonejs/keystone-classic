@@ -12,7 +12,11 @@
 						a(href=value.url, rel=field.path).img-thumbnail
 							//img(width=90, height=90, data-src=value.fit(false, 90), data-id=value.public_id, data-wysiwyg=(field.options.wysiwyg ? 'true' : false), data-wysiwyg-options=(field.options.wysiwyg ? '#{JSON.stringify(field.options.wysiwyg)}' : false), data-wysiwyg-original=(field.options.wysiwyg ? value.url : false), data-wysiwyg-src=(field.options.wysiwyg ? ( 'object' == typeof field.options.wysiwyg ? value[field.options.wysiwyg.crop](field.options.wysiwyg.width, field.options.wysiwyg.height) : value.src() ) : false)).img-load
 							if value.filetype = 'image/jpeg'
-								img(data-id=value._id.toString(), src='/'+value.path+'/'+value.filename+'?dim=160x160').file-load
+								if field.hasFormatter()
+									!=field.format(value)
+								else
+									=field.format(value)
+								//img(data-id=value._id.toString(), src='/'+value.path+'/'+value.filename+'?dim=160x160').file-load
 							else
 								.glyphicon.glyphicon-file.img-loading
 							.glyphicon.glyphicon-trash.delete-pending(style='display:none;')
