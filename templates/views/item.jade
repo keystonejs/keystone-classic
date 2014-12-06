@@ -150,6 +150,8 @@ block content
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
 			if !list.get('nodelete')  && item.id !== user.id
 				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
+			if list.options.preview
+				a(href=list.getPreviewPath(item) target='_blank').btn.btn-default.pull-right View #{list.singular}
 	
 	
 	if showRelationships

@@ -169,6 +169,19 @@ block content
 				tr
 					td <code>hidden</code> <code class="data-type">Boolean</code>
 					td Hides the list in the Keystone Admin UI
+				tr
+					td <code>preview</code> <code class="data-type">String or Function</code>
+					td 
+						p Enables a "View Item" button in the item editing Admin page. 
+						p Use a <code class="data-type">string</code> for a simple replacement of the <code>autokey</code> value.
+						pre: code.language-javascript
+							| preview: '/blog/post/:key'
+						p Or you could use a function for a more advanced path logic.
+						pre: code.language-javascript
+							| preview: function (item, list) {
+							|    return '/blog/' + item._.publishedDate.format('YYYY') + '/' + item.slug;
+							| }
+
 			
 			p.note If you're wondering how to control which navigation area Lists are categorised under in the Admin UI, check out the <code>nav</code> option in the <a href="http://keystonejs.com/docs/configuration/#options-project">KeystoneJS Configuration</a> docs.
 			
