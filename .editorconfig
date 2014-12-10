@@ -9,6 +9,9 @@ trim_trailing_whitespace = false
 insert_final_newline = true
 indent_style = tab
 
+[*.js]
+indent_size = 4
+
 [*.json]
 indent_style = space
 indent_size = 2

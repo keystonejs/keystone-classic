@@ -1,0 +1,15 @@
+.field(class='type-' + field.type, data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
+	label.field-label= field.label
+	.field-ui(class='width-' + field.width)
+		if field.noedit
+			each value in item.get(field.path)
+				.field-value= value
+		else
+			each value in item.get(field.path)
+				div.field-item
+					input(type='text', name=field.path, value=value, autocomplete='off').form-control.multi
+					a.btn.btn-link.btn-cancel.btn-remove-item(href=js): span.ion-close-round
+			a.btn.btn-xs.btn-default.btn-add-item(href=js)
+				| Add item
+		if field.note
+			.field-note!= field.note

@@ -137,6 +137,7 @@ block content
 							li <code>from</code> <code class="data-type">String</code> - the field or path to generate the key from, can be a space-delimited list of fields
 							li <code>path</code> <code class="data-type">String</code> - the path to store the key at
 							li <code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not
+							li <code>fixed</code> <code class="data-type">Boolean</code> - the key should be kept if it exists and it's non-empty. Defaults to <code class="data-type">false</code>.
 						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
 				tr
 					td <code>track</code> <code class="data-type">Boolean or Object</code>
@@ -392,7 +393,16 @@ block content
 					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value
 				tr
 					td <code>dependsOn</code> <code class="data-type">Object</code>
-					td The field will only be displayed when the paths specified in the object match the current data for the item
+					td: p The field will only be displayed when the paths specified in the object match the current data for the item.
+						p You can target multiple values per path using an Array.
+						.code-header: h4 Example
+						pre: code.language-javascript
+							| first: { type: String },
+							| // Will show if first === "value1", "1" or "2"
+							| second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
+							| // Will show if first == "value1"
+							| third: { type: String, dependsOn: { sortBy: 'value1' } }
+
 			
 			h3 Generated values and watching fields
 			
@@ -409,16 +419,22 @@ block content
 				col(width=210)
 				col
 				tr
-					td <code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code>
+					td <code>watch</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code> or <code class="data-type">Object</code> or <code class="data-type">Function</code>
 					td
-						p When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved.
-						p Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.
-						p Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.
+						p When <code class="default-value">true</code>, the field value will be recalculated every time an item is saved. <br>
+						p Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes. <br><strong>For example:</strong> <code class="default-value">'author title state'</code>
+						p Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified. <br><strong>For example:</strong> <code class="default-value">{'state': 'published', 'mainPost': true}</code>
+						p Provide a function that returns true/false whenever you want. <br><strong>For example:</strong> <code class="default-value">function() { return this.author === this.editor; }</code>
 				tr
 					td <code>value</code> <code class="data-type">Function</code>
 					td
 						p The function to generate the field value when a watched path is changed. Must return the new value.
 						p The <code>this</code> context of the function will be the item being saved.
+						.code-header: h4 Example
+						pre: code.language-javascript
+							| function () {
+							|     return this.total<=this.totalreceived ? true:false;
+							| }
 			
 			//- TODO: Documentation for field methods
 			
@@ -458,6 +474,45 @@ block content
 				|     author: { type: Types.Relationship, ref: 'User' },
 				|     categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
 				| });
+			
+			h5 Relationship Filters
+			
+			p You can filter a relationship field using the <code>filters</code> option.
+
+			p The <code>filters</code> option is an object of key/value pairs, in which the keys correspond to the fields of the related model to be filtered, and the values will either be literals or field names in the current model, the value of which will be used to filter the relationship.
+
+			p In the example below, the <code>author</code> field will only allow selection of a <code>User</code> whose <code>group</code> field is equal to 'admin'.
+			
+			pre: code.language-javascript
+				| Post.add({
+				|     title: { type: String, required: true },
+				|     category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+				|     author: { type: Types.Relationship, ref: 'User', filters: { group: 'admin' } }
+				| });
+			
+			p You can also filter by the value of another field on the model. You do this setting the value of the filter to the name of the field, prefixed by a colon (:). 
+
+			p In the example below, the <code>author</code> field will only allow selection of a <code>User</code> whose <code>group</code> field is equal to the value of the <code>category</code> field of the <code>Post</code> model.
+
+			pre: code.language-javascript
+				| Post.add({
+				|     title: { type: String, required: true },
+				|     category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+				|     author: { type: Types.Relationship, ref: 'User', filters: { group: ':category' } }
+				| });
+
+			p Finally, you can also filter by the current model's <code>_id</code> field.
+			
+			p In the example below, the <code>bestPost</code> field will only allow selection of a <code>Post</code> whose <code>author</code> field is equal to the <code>_id</code> of the current document.
+
+			pre: code.language-javascript
+				| User.add({
+				|     name: { type: String, required: true },
+				|     group: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+				|     bestPost: { type: Types.Relationship, ref: 'Post', filters: { author: ':_id' } }
+				| });
+
+			p.note You can only set filters on one-many relationships (i.e. when the <code>many</code> option is NOT set to <code class="default-value">true</code>).
 			
 			h5 Populating related data in queries
 			
@@ -574,9 +629,10 @@ block content
 			.options
 				
 				h5 Options
-				p <code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI
+				p <code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI  - for customizations of the editor see the <a href="/docs/configuration/#options-ui">Admin UI Options</a>.
 				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)
 			
+			p See the <a href="/docs/configuration#options-ui">Admin UI Options</a> for global configuration options that can be used to customise the WYSIWYG editor.
 			
 			a(name="fieldtypes-color")
 			h3 <code>Color</code>
@@ -646,7 +702,7 @@ block content
 			.options
 				
 				h5 Underscore methods
-				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
+				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.
 				p Format string defaults to <code class="default-value">0,0[.][000000000000]</code>
 			
 			
@@ -658,7 +714,7 @@ block content
 			.options
 				
 				h5 Underscore methods
-				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
+				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.
 				p Format string defaults to <code class="default-value">$0,0.00</code>
 			
 			
@@ -691,7 +747,7 @@ block content
 				h5 Properties
 				p <code>ops</code> <code class="data-type">Array</code> - the field <strong>options</strong> array
 				p <code>values</code> <code class="data-type">Array</code> - all <code>option.value</code> properties
-				p <code>labels</code> <code class="data-type">Object</code> - app <code>option.label</code> properties, keyed by <code>option.value</code>
+				p <code>labels</code> <code class="data-type">Object</code> - all <code>option.label</code> properties, keyed by <code>option.value</code>
 				p <code>map</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code>
 				
 				h5 Schema
@@ -734,6 +790,12 @@ block content
 			pre: code.language-javascript { type: Types.Markdown }
 			.options
 				
+				h5 Options
+				p <code>toolbarOptions</code> <code class="data-type">Object</code> - allow customizations of the toolbar.
+				p <code>toolbarOptions.hiddenButtons</code> <code class="data-type">String</code> - Comma separated list of buttons to hide.
+				pre: code.language-javascript
+					| { type: Types.Markdown, toolbarOptions: { hiddenButtons: 'H1,H6,Code' } }
+
 				h5 Schema
 				p The markdown field will automatically convert markdown to html when the <code>md</code> property is changed, via a setter on the <code>md</code> path.
 				p <code>md</code> <code class="data-type">String</code> - source markdown text
@@ -829,6 +891,18 @@ block content
 			pre: code.language-javascript { type: Types.CloudinaryImage }
 			.options
 				
+				h5 Options
+				p <code>publicID</code> <code class="data-type">String</code> name of the field to be used as the Cloudinary image <code class="data-type">public_id</code>.
+				pre: code.language-javascript { type: Types.CloudinaryImage, publicID: 'slug' }
+				p <code>folder</code> <code class="data-type">String</code> specifies a custom folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.
+				pre: code.language-javascript { type: Types.CloudinaryImage, folder: 'path/to/image' }
+				p <code>autoCleanup</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code> changes Keystone's default behavior from <code class="default-value">remove</code> (which only removes the Cloudinary image from the database) to <code class="default-value">delete</code> (which removes the image from both the database and Cloudinary storage). Additionally, this option replaces an existing image (if one already exists) during upload.
+				pre: code.language-javascript { type: Types.CloudinaryImage, autoCleanup : true }
+				p <code>select</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code> a select field is displayed with a list of images currently available in Cloudinary storage. Only images with IDs that begin with the <code>selectPrefix</code> will be displayed when the <code>selectPrefix</code> is specified. Otherwise, images with IDs that begin with the <code>folder</code> will be displayed. If neither <code>selectPrefix</code> nor <code>folder</code> are configured, then only images with IDs that begin with <code class="data-type">[{prefix}]/{list.path}/{field.path}/</code> will be displayed.
+				pre: code.language-javascript { type: Types.CloudinaryImage, select : true }
+				p <code>selectPrefix</code> <code class="data-type">String</code> specifies the the prefix of the images that will be available for selection when <code>select</code> option is <code class="default-value">true</code>.
+				pre: code.language-javascript { type: Types.CloudinaryImage, select: true, selectPrefix: 'path/to/images' }
+
 				h5 Schema
 				p <code>public_id</code> <code class="data-type">String</code>
 				p <code>version</code> <code class="data-type">Number</code>
@@ -869,6 +943,11 @@ block content
 			h4 <code class="data-type">Array</code> &mdash; Displayed as a series of images, and an upload field in the Admin UI
 			p Stores multiple images in a array as a nested <code class="data-type">Schema</code>, each of which expose the same methods as the <code class="data-type">cloudinaryimage</code> field.
 			pre: code.language-javascript { type: Types.CloudinaryImages }
+			.options
+				
+				h5 Options
+				p <code>folder</code> <code class="data-type">String</code> specifies a custom folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.
+				pre: code.language-javascript { type: Types.CloudinaryImages, folder: 'path/to/image' }
 			//- TODO: Usage Examples
 			
 			
@@ -927,6 +1006,24 @@ block content
 				p <code>s3path</code> <code class="data-type">String</code> - the path to store uploaded files under in the S3 bucket
 				p <code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)
 				p <code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded files
+				p <code>filename</code> <code class="data-type">Function</code> - function with arguments current model and client file name to return the new filename to upload.
+					pre: code.language-javascript.
+						{
+							type: Types.S3File,
+							filename: function(item, filename){
+								// prefix file name with object id
+								return item._id + '-' + filename;
+							}
+						}
+				p <code>format</code> <code class="data-type">Function</code> - function with two arguments: current model and file object to return representation of this file in Admin UI.
+					pre: code.language-javascript.
+						{
+							type: Types.S3File,
+							format: function(item, file){
+								return '&lt;pre&gt;'+JSON.stringify(file, false, 2)+'&lt;/pre&gt;'+
+											'&lt;img src="'+file.url+'" style="max-width: 300px"&gt;'
+							}
+						}
 				
 				h5 Schema
 				p <code>filename</code> <code class="data-type">String</code>

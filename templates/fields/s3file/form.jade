@@ -8,16 +8,20 @@
 			.file-details
 				if hasFile
 					.file-values
-						a(href=item.get(field.paths.url), target='_blank').field-value= item.get(field.paths.url)
+						a(href=item.get(field.paths.url), target='_blank').field-value
+							if field.hasFormatter()
+								!=field.format(item)
+							else
+								=field.format(item)
 				.upload-queued.pull-left
 					.alert.alert-success File <span class="file-name"></span>selected - save to upload
 				.delete-queued.pull-left
 					.alert.alert-danger
 		.file-toolbar
 			div.pull-left
-				a(href=js).btn.btn-default.btn-upload-file=(hasFile ? 'Change' : 'Upload' ) + ' File'
-				a(href=js, data-alt-text='Delete File', style=(hasFile ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-file Remove File
-				a(href=js, data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-file Cancel Upload
-				a(href=js, style='display: none;').btn.btn-link.btn-cancel.btn-undo-file Undo Remove
+				button(type='button').btn.btn-default.btn-upload-file=(hasFile ? 'Change' : 'Upload' ) + ' File'
+				button(type='button', data-alt-text='Delete File', style=(hasFile ? '' : 'display: none;')).btn.btn-link.btn-cancel.btn-delete-file Remove File
+				button(type='button', data-alt-text='Cancel Upload', style='display: none;').btn.btn-link.btn-cancel.btn-cancel-file Cancel Upload
+				button(type='button', style='display: none;').btn.btn-link.btn-cancel.btn-undo-file Undo Remove
 		if field.note
 			.col-md-10: .field-note!= field.note

@@ -5,7 +5,7 @@ include ../../templates/mixins/docsnav
 block intro
 	.page-header
 		.container
-			h1 Configuration
+			h1 配置
 			p.lead How to roll KeystoneJS the way you want it.
 
 block content
@@ -35,7 +35,7 @@ block content
 			a(name='options-project')
 			h3 Project Options
 			
-			p The following options control the branding and navigation of the KeystoneJS application in the Admin UI:
+			p The following options control the branding, navigation and default export settings of the KeystoneJS application in the Admin UI:
 			
 			table.table
 				col(width=210)
@@ -51,6 +51,9 @@ block content
 					td
 						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
 						p The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the <code>nav</code> will be grouped at the bottom of the screen under the 'Other' heading.
+				tr
+					td <code>csv field delimiter</code> <code class="data-type">String</code>
+					td Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
 			
 			.code-header
 				h4 Custom Navigation Example
@@ -99,6 +102,11 @@ block content
 						p If you want to use a custom template engine, set this option to the function that should be used to process your templates.
 						p See below for an example of how to use the <a href="http://paularmstrong.github.io/swig/" target="_blank">Swig</a> template engine.
 				tr
+					td <code>view cache</code> <code class="data-type">Boolean</code>
+					td
+						p This option is passed through to Express, and controls whether compiled view templates are cached between requests.
+						p It defaults to <code class="default-value">true</code> in production, or <code class="default-value">false</code> otherwise so there is rarely any reason to set it explicitly.
+				tr
 					td <code>locals</code> <code class="data-type">Object</code>
 					td
 						p The default local variables to pass to your view templates.
@@ -109,10 +117,24 @@ block content
 						p One or more paths to your application's static files. Setting this will include the <code>express.static</code> middleware.
 						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">'public'</code>.
 				tr
-					td <code>less</code> <code class="data-type">String</code>
+					td <code>less</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
 					td
 						p If you want Keystone to automatically compile <strong>.less</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
-						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.less</strong> file with the same name, and if one is found, the css file will be regenerated.
+						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.less</strong> file with the same name, and if one is found, the css file will be generated.
+				tr
+					td <code>less options</code> <code class="data-type">Object</code>
+					td
+						p Optional config options that will be passed to the <code>less</code> middleware; see <a href="https://github.com/emberfeather/less.js-middleware" target="_blank">github.com/emberfeather/less.js-middleware</a> for more information.
+				tr
+					td <code>sass</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
+					td
+						p If you want Keystone to automatically compile <strong>.sass</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
+						p When this option is set, any requests to a <strong>.css</strong> or <strong>.min.css</strong> file will first check for a <strong>.sass</strong> file with the same name, and if one is found, the css file will be generated.
+						p.note Note that enabling this option requires you to have specified the <a href="https://github.com/sass/node-sass" target="_blank"><code>node-sass</code></a> package as a dependency in your project's <code>package.json</code> file; it is not automatically included with Keystone.
+				tr
+					td <code>sass options</code> <code class="data-type">Object</code>
+					td
+						p Optional config options that will be passed to the <code>sass</code> middleware; see <a href="https://github.com/sass/node-sass#options" target="_blank">github.com/sass/node-sass</a> for more information.
 				tr
 					td <code>favicon</code> <code class="data-type">String</code>
 					td
@@ -123,7 +145,7 @@ block content
 					td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>express.compress</code> middleware (<a href="http://expressjs.com/api.html#compress" target="_blank">see docs here</a>).
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
-					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>).
+					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether.
 
 				tr
 					td <code>trust proxy</code> <code class="data-type">Boolean</code>
@@ -150,7 +172,7 @@ block content
 					td <code>ssl</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code>
 					td
 						p Whether to start the SSL Server. Defaults to <code class="default-value">false</code>.
-						p When set to <code class="default-value">true</code>, both https and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.
+						p When set to <code class="default-value">true</code>, both http and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.
 						p When set to <code class="default-value">"only"</code>, only the https server will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, KeystoneJS will not start.
 				tr
 					td <code>ssl key</code> <code class="data-type">Path</code>
@@ -269,12 +291,73 @@ block content
 				tr
 					td <code>signout redirect</code> <code class="data-type">String</code>
 					td
-						p <code>href</code> to bounce visitors to after they successfully sign out via the built-in signin route
+						p <code>href</code> to bounce visitors to after they successfully sign out via the built-in sign out route
 						p Defaults to <code class="default-value">/keystone</code>
 			
 			p For more information about setting up and using database models with Keystone, see the <a href="/docs/database">database guide</a>.
+
+
+			a(name='options-ui')
+			h3 Admin UI Options
 			
-			
+			p The following options control some ui options for the Admin backend:
+
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>wysiwyg images</code> <code class="data-type">Boolean</code>
+					td
+						p Adds an image button which enables including images from other URLS in your WYSIWYG Editor.
+				tr
+					td <code>wysiwyg cloudinary images</code> <code class="data-type">Boolean</code>
+					td
+						p Adds an image upload button and enables cloudinary image uploads directly in your WYSIWYG Editor.
+				tr
+					td <code>wysiwyg additional buttons</code> <code class="data-type">String</code>
+					td
+						p Allows to add additional extra functionality buttons such as <code>blockquote</code>.
+						p A complete list of available buttons can be found at: <a href="http://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a>
+				tr
+					td <code>wysiwyg additional plugins</code> <code class="data-type">String</code>
+					td
+						p Allows for additional plugins to be activated which can be found at: <a href="http://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a>
+				tr
+					td <code>wysiwyg additional options</code> <code class="data-type">Object</code>
+					td
+						p Allows for additional TinyMCE options, such as <code>{ menubar: true }</code> to be modified.
+				tr
+					td <code>wysiwyg override toolbar</code> <code class="data-type">Booelan</code>
+					td
+						p This will remove the default set of buttons for wysiwyg mode. Use this with <code>wysiwyg additional buttons</code> and <code>wysiwyg additional plugins</code>. Defaults to <code class="data-type">false</code>.
+				tr
+					td <code>wysiwyg menubar</code> <code class="data-type">Boolean</code>
+					td
+						p Show the menubar for wysiwyg editor. Defaults to <code class="data-type">false</code>.
+						p See <a href="http://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a> for more details
+				tr
+					td <code>wysiwyg skin</code> <code class="data-type">String</code>
+					td
+						p Allow to change skin. Defaults to <code class="data-type">keystone</code>.
+						p See <a href="http://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a> for more details
+
+							.code-header
+								h4 Example using wysiwyg options
+							pre: code.language-javascript
+								| keystone.init({
+								| 'wysiwyg override toolbar': false,
+								| 'wysiwyg menubar': true,
+								| 'wysiwyg skin': 'lightgray',
+								| 'wysiwyg additional buttons': 'searchreplace visualchars,'
+								|  + ' charmap ltr rtl pagebreak paste, forecolor backcolor,'
+								|  +' emoticons media, preview print ',
+								| 'wysiwyg additional plugins': 'example, table, advlist, anchor,'
+								|  + ' autolink, autosave, bbcode, charmap, contextmenu, '
+								|  + ' directionality, emoticons, fullpage, hr, media, pagebreak,'
+								|  + ' paste, preview, print, searchreplace, textcolor,'
+								|  + ' visualblocks, visualchars, wordcount',
+								| });
+
 			//- a(name='emails')
 			//- h2 Emails
 			//- 
@@ -396,7 +479,14 @@ block content
 					li <code class="default-value">{list.path}_{field.path}_{item.id}</code>
 					li <code class="default-value">{prefix}</code> (if set)
 					li <code class="default-value">dev</code> (if the <code>env</code> option is not set to <code class="default-value">production</code>)
-			
+
+			p You may optionally enabled the Cloudinary upload folder option by setting the Keystone <code>cloudinary folders</code> option to <code class="default-value">true</code>. The default Cloudinary folder will be set based on the following rules:
+				ul
+					li <code class="default-value">{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is not set)
+					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is set)
+	
+			p.note You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).
+
 			pre: code.language-javascript
 				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
 				| // or
@@ -404,6 +494,9 @@ block content
 				| 
 				| // optional, will prefix all built-in tags with 'keystone_'
 				| keystone.set('cloudinary prefix', 'keystone');
+				| 
+				| // optional, will prefix each image public_id with [{prefix}]/{list.path}/{field.path}/
+				| keystone.set('cloudinary folders', true);
 			
 			
 			a(name='services-embedly')

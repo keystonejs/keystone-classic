@@ -1,10 +1,10 @@
 var gulp = require('gulp'),
 	cover = require('gulp-coverage'),
 	jshint = require('gulp-jshint'),
-	rimraf = require('gulp-rimraf'),
 	mocha = require('gulp-mocha'),
 	watch = require('gulp-watch'),
-	chalk = require('chalk');
+	chalk = require('chalk'),
+	del = require('del');
 
 // Common project paths
 var paths = {
@@ -67,9 +67,8 @@ gulp.task('coverage', function(){
 });
 
 // delete the coverage report
-gulp.task('clean-coverage', function(){
-	return gulp.src(['.coverdebug', '.coverdata', '.coverrun', 'coverage.html'], { read: false })
-		.pipe(rimraf())
+gulp.task('clean-coverage', function(done){
+	del(['.coverdebug', '.coverdata', '.coverrun', 'coverage.html'], done);
 });
 
 

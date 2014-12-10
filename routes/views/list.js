@@ -175,6 +175,11 @@ exports = module.exports = function(req, res) {
 		
 		if (!checkCSRF()) return renderView();
 		
+		if (req.query['delete'] === req.user.id) {
+			req.flash('error', 'You can\'t delete your own ' + req.list.singular + '.');
+			return renderView();
+		}
+		
 		req.list.model.findById(req.query['delete']).exec(function (err, item) {
 			if (err || !item) return res.redirect('/keystone/' + req.list.path);
 			
@@ -182,7 +187,7 @@ exports = module.exports = function(req, res) {
 				if (err) {
 					console.log('Error deleting ' + req.list.singular);
 					console.log(err);
-					req.flash('error', 'There was an error deleting ' + req.list.singular + ' (logged to console)');
+					req.flash('error', 'Error deleting the ' + req.list.singular + ': ' + err.message);
 				} else {
 					req.flash('success', req.list.singular + ' deleted successfully.');
 				}
@@ -221,10 +226,10 @@ exports = module.exports = function(req, res) {
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 		
 		if (req.list.nameIsInitial) {
-			if (req.list.nameField.validateInput(req.body))
-				req.list.nameField.updateItem(item, req.body);
-			else
-				updateHandler.addValidationError(req.list.nameField.path, 'Name is required.');
+			if (!req.list.nameField.validateInput(req.body, true, item)) {
+				updateHandler.addValidationError(req.list.nameField.path, req.list.nameField.label + ' is required.');
+			}
+			req.list.nameField.updateItem(item, req.body);
 		}
 		
 		updateHandler.process(req.body, {

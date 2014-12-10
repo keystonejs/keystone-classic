@@ -51,20 +51,24 @@ block content
 						if list.nameIsInitial
 							if list.nameField.type == 'name'
 								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+								if list.nameField.note
+									.field-note !{list.nameField.note}
 							else if list.nameField.type == 'text'
 								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+								if list.nameField.note
+									.field-note !{list.nameField.note}
 							else
 								.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
 						
 						each field in list.initialFields
-							|!{field.render('initial',submitted) }
+							!= field.render('initial', submitted)
 					
 					.toolbar
 						.toolbar-create
 							button(type='submit').btn.btn-default.btn-create Create
-							a(href=js).btn.btn-link.btn-cancel.btn-cancel-create-item cancel
+							button(type='button').btn.btn-link.btn-cancel.btn-cancel-create-item cancel
 						.toolbar-default
-							a(href=js, class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item
+							button(type='button', class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item
 								span.ion-plus-round
 								|  Create #{list.singular}
 		hr
@@ -78,10 +82,10 @@ block content
 	.page-header.list-header(class=!items.total && !search && !xFilters ? 'empty-list' : '')
 		h1
 			if items.total
-				span.items-total= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural)
+				span.items-total= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural) + ' '
 			else
 				span.items-total No #{list.plural.toLowerCase()} found
-					= search || xFilters ? '' : '.'
+					= search || xFilters ? ' ' : '.'
 
 			.search-sort(style='display:inline-block')
 				if search
@@ -97,13 +101,13 @@ block content
 				//- Sort
 				if items.results.length
 					if sort.by
-						span.text-muted ordered by&nbsp;
+						span.text-muted &nbsp;ordered by&nbsp;
 					else
 						span.text-muted &mdash;
 					span.dropdown.list-sort-dropdown
 						a(href=js, data-toggle='dropdown').dropdown-toggle
 							if sort.label
-								=  sort.label.toLowerCase() + ' '
+								= sort.label.toLowerCase() + ' '
 								if sort.inv
 									|  (descending)
 							else
@@ -141,6 +145,36 @@ block content
 											li: a(href=link_to({ sort: el.field.path }))
 												span(class='fieldicon fieldicon-' + el.field.type)
 												span= el.field.label
+							if list.tracking
+								li.divider
+									if list.tracking.createdAt
+										if sort.path == 'createdAt'
+											if sort.inv
+												li: a(href=link_to({ sort: list.tracking.createdAt }))
+													span(class='fieldicon fieldicon-date')
+													span Date Created (ascending)
+											else
+												li: a(href=link_to({ sort: '-' + list.tracking.createdAt }))
+													span(class='fieldicon fieldicon-date')
+													span Date Created (descending)
+										else
+											li: a(href=link_to({ sort: list.tracking.createdAt }))
+												span(class='fieldicon fieldicon-date')
+												span Date Created
+									if list.tracking.updatedAt
+										if sort.path == 'updatedAt'
+											if sort.inv
+												li: a(href=link_to({ sort: list.tracking.updatedAt }))
+													span(class='fieldicon fieldicon-date')
+													span Date Modified (ascending)
+											else
+												li: a(href=link_to({ sort: '-' + list.tracking.updatedAt }))
+													span(class='fieldicon fieldicon-date')
+													span Date Modified (descending)
+										else
+											li: a(href=link_to({ sort: list.tracking.updatedAt }))
+												span(class='fieldicon fieldicon-date')
+												span Date Modified
 		
 		
 		//-
@@ -156,7 +190,7 @@ block content
 					.search-list
 						.form-inline
 							.dropdown-inline.list-filter-dropdown.js-recent-searches.hidden.mr-5
-								a(href=js, data-toggle='dropdown', title='Recent Filters').btn.btn-default.dropdown-toggle
+								button(type='button', data-toggle='dropdown', title='Recent Filters').btn.btn-default.dropdown-toggle
 									span.sr-only Recent Filters
 									span.ion-clock
 									|  
@@ -177,7 +211,7 @@ block content
 								span.visible-xs Go
 								span.hidden-xs Search
 							.dropdown-inline.list-filter-dropdown
-								a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								button(type='button', data-toggle='dropdown').btn.btn-default.dropdown-toggle
 									| Add Filter 
 									b.caret
 								ul.dropdown-menu: each el in list.uiElements
@@ -195,7 +229,7 @@ block content
 							.pull-right
 								a(href=download_link, data-confirm="Download a .csv of #{utils.plural(items.total, '* ' + list.singular, '* ' + list.plural).toLowerCase()}?").btn.btn-default Download
 							div(style='margin-right: 10px;').dropdown.list-columns-dropdown.pull-right
-								a(href=js, data-toggle='dropdown').btn.btn-default.dropdown-toggle
+								button(type='button', data-toggle='dropdown').btn.btn-default.dropdown-toggle
 									| Columns 
 									b.caret
 								ul.dropdown-menu
@@ -206,6 +240,16 @@ block content
 											li: a(href=js, data-col=el.field.path).btn-toggle-column
 												span(class=_.contains(colPaths, el.field.path) ? 'ion-checkmark' : '').icon
 												span= el.field.label
+									if list.tracking
+										li.divider
+											if list.tracking.createdAt
+												li: a(href=js, data-col=list.tracking.createdAt).btn-toggle-column
+													span(class=_.contains(colPaths, list.tracking.createdAt) ? 'ion-checkmark' : '').icon
+													span Date Created
+											if list.tracking.updatedAt
+												li: a(href=js, data-col=list.tracking.updatedAt).btn-toggle-column
+													span(class=_.contains(colPaths, list.tracking.updatedAt) ? 'ion-checkmark' : '').icon
+													span Date Modified
 									if query.cols
 										li.divider
 										li: a(href=link_to({ cols: undefined }))

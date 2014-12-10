@@ -1,11 +1,15 @@
 ![KeystoneJS](http://keystonejs.com/images/logo.svg)
 ===================================
 
-![Build Status](https://travis-ci.org/JedWatson/keystone.svg)
+![Build Status](https://travis-ci.org/keystonejs/keystone.svg)
 
 [KeystoneJS](http://keystonejs.com) is a powerful new Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com) that makes it easy to create sophisticated web sites and apps, and gives you a beautiful, auto-generated Admin UI.
 
 To get started, check out [keystonejs.com](http://keystonejs.com)!
+
+You can also deploy a starter project to [Heroku](https://heroku.com) for free to try it out:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
 
 ## About
 
@@ -22,11 +26,11 @@ Keystone gives you:
 
 ... plus a lot of other tools and utilities to make creating complex web apps easier.
 
-Use our [Yeoman Generator](https://github.com/JedWatson/generator-keystone) to get up and running with KeystoneJS quickly, then check out our getting started guide &amp; docs at [keystonejs.com/docs/getting-started](http://keystonejs.com/docs/getting-started).
+Use our [Yeoman Generator](https://github.com/keystonejs/generator-keystone) to get up and running with KeystoneJS quickly, then check out our getting started guide &amp; docs at [keystonejs.com/docs/getting-started](http://keystonejs.com/docs/getting-started).
 
 We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/JedWatson/keystone-demo) to see how it was built.
 
-If you have ideas or questions, get in touch on the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs) or tweet at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
+If you have ideas or questions get in touch on the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs), the `#keystonejs` channel on freenode irc, the [StackOverflow keystone tag](http://stackoverflow.com/questions/tagged/keystone.js) or tweet at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
 
 
 ### SydJS Website
@@ -51,6 +55,11 @@ If you can, please contribute by reporting issues, discussing ideas, or submitti
 If you're going to contribute code, please try and mimic the existing code standards - we follow [AirBNB's Javascript Style Guide](https://github.com/airbnb/javascript) fairly closely, with the exception of using tab indentation.
 
 
+### Documentation
+
+The Keystone docs are hosted online at [keystonejs.com](http://keystonejs.com). If you are offline, or would like to contribute to the docs and preview your changes, you can serve them locally by running `node docs` within the `./docs` folder (you will also have to run `npm install` first. This will start the docs site on port 8080.
+
+
 ## Usage
 
 **Check out the [KeystoneJS Documentation](http://keystonejs.com/docs) for a walk-through on how to use KeystoneJS.**
@@ -61,18 +70,24 @@ The easiest way to get started with Keystone is to use the Yeoman generator.
 
 To install it, type the following in your terminal:
 
-    npm install -g yo
-    npm install -g generator-keystone
+```bash
+$ npm install -g yo
+$ npm install -g generator-keystone
+```
 
 Then, create a new folder for your project and from it, type the following in your terminal:
 
-    yo keystone
+```bash
+$ yo keystone
+```
 
 This will create a new project based on the options you select, and install the required packages from **npm**.
 
-After the intallation is complete, run this command to start Keystone:
+After the installation is complete, run this command to start Keystone:
 
-    node keystone
+```bash
+$ node keystone
+```
 
 Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "0.2.x"` in the `dependencies` array in your `package.json` file, and run `npm install` from your terminal.
 
@@ -85,40 +100,41 @@ Running in default mode, Keystone takes care of everything required to configure
 
 Here is an example of what your `keystone.js` (or `app.js`, etc) file may look like:
 
-	var keystone = require('keystone');
-    
-	keystone.init({
-		
-		'name': 'My Project',
-		'brand': 'Project',
-		
-		'favicon': 'public/favicon.ico',
-		'less': 'public',
-		'static': 'public',
-		
-		'views': 'templates/views',
-		'view engine': 'jade',
-		
-		'auth': true,
-		'user model': 'User',
-		'cookie secret': '--- your secret ---',
-		
-		'auto update': true,
-		
-		'emails': 'templates/emails',
-		'mandrill api key': '--- your api key ---',
-		'email rules': { find: '/images/', replace: (keystone.get('env') != 'production') ? 'http://localhost:3000/images/' : 'http://www.keystonejs.com/images/email/' },
-		
-		'cloudinary config': { cloud_name: '--- your cloud name ---', api_key: '--- your api key ---', api_secret: '--- your api secret ---' }
-		
-	});
-    
-	keystone.import('models');
-    
-	keystone.set('routes', require('./routes'));
-		
-	keystone.start();
+```js
+var keystone = require('keystone');
 
+keystone.init({
+
+	'name': 'My Project',
+	'brand': 'Project',
+
+	'favicon': 'public/favicon.ico',
+	'less': 'public',
+	'static': 'public',
+
+	'views': 'templates/views',
+	'view engine': 'jade',
+
+	'auth': true,
+	'user model': 'User',
+	'cookie secret': '--- your secret ---',
+
+	'auto update': true,
+
+	'emails': 'templates/emails',
+	'mandrill api key': '--- your api key ---',
+	'email rules': { find: '/images/', replace: (keystone.get('env') != 'production') ? 'http://localhost:3000/images/' : 'http://www.keystonejs.com/images/email/' },
+
+	'cloudinary config': { cloud_name: '--- your cloud name ---', api_key: '--- your api key ---', api_secret: '--- your api secret ---' }
+
+});
+
+keystone.import('models');
+
+keystone.set('routes', require('./routes'));
+
+keystone.start();
+```
 
 ### Configuration
 
@@ -217,25 +233,27 @@ The following detailed example will cover both creating a node module as well as
 Let's say you have a solution broken out into a structure like so…
 
 ```
-	/client
-	/content
-	/server
+/client
+/content
+/server
 ```
 
 ...where `/client` is some super awesome large scale single page client app written in [AngularJS](https://angularjs.org/) or [Polymer](http://www.polymer-project.org/), `/server` is a whiz-bang back end powered by [StrongLoop](http://strongloop.com/mobile-application-development/loopback/) or something else based on Express that serves up the data and maybe the built version of `/client`, and finally `/content` is a Keystone app that you want to use just for the awesome CMS modeling, querying, and automatic admin interface. In other words, you think Keystone is great at the content related data management and email stuff but don't really love its front end stuff (other than the admin app).
 
-In this example, all three projects are their own node apps with their own `package.json` files. The `/content` app in this example might be the result of you using [Keystone's yeoman generator](https://github.com/JedWatson/generator-keystone) and then ripping out most of the stuff from `/routes` and `/templates` and just using `/models` and `/updates` and the email stuff.
+In this example, all three projects are their own node apps with their own `package.json` files. The `/content` app in this example might be the result of you using [Keystone's yeoman generator](https://github.com/keystonejs/generator-keystone) and then ripping out most of the stuff from `/routes` and `/templates` and just using `/models` and `/updates` and the email stuff.
 
 You then want to integrate the `/content` app as a linked module inside of `/server` and mount it as a sub-app at the path `/content`.
 
-**Your `/content/keystone.js` file would look something like this: **
+**Your `/content/keystone.js` file would look something like this:**
 
-```
+```js
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
+
 require('dotenv')().load();
 
 // Require keystone
+
 var keystone = require('keystone');
 
 // Initialise Keystone with your project's configuration.
@@ -308,7 +326,6 @@ keystone.set('nav', {
 });
 
 module.exports = keystone;
-
 ```
 
 Notice the last line. Instead of starting the keystone server via `keystone.start()` you simply export the keystone object. This will allow you to easily embed this module in another application. 
@@ -317,16 +334,16 @@ You may also want to make an `app.js` file at the same level as `keystone.js` th
 
 **`app.js`:**
 
-```
+```js
 var keystone = require('./keystone');
-
 keystone.start();
 ```
+
 The last piece of the setup for your embeddable Keystone project is to slightly modify the `package.json` file to include a `main` value. This is needed for the next step to work.
 
 **`package.json`:**
 
-```
+```json
 {
   "name": "your-app-content",
   "version": "0.0.0",
@@ -346,7 +363,6 @@ The last piece of the setup for your embeddable Keystone project is to slightly 
     "start": "app.js"
   }
 }
-
 ```
 
 Now to embed the Keystone project into your `/server` app as a node_module during development, just run `npm link` from within the `/content` project's root folder, followed by `npm link your-app-content` in the `/server` app's root folder (note: when doing the second `npm link`, replace `your-app-content` with the actual name of your `/content` app within its `package.json` file).
@@ -355,7 +371,7 @@ The next step for all this to work is to use `keystone.mount` in the server app.
 
 **Example `app.js` in `/server`:**
 
-```
+```js
 var express = require('express'),
 	app = express();
 	
@@ -379,7 +395,7 @@ Now you have a fully functioning embeddable KeystoneJS module and you can achiev
 
 ## Thanks
 
-KeystoneJS is a free and open source community-driven project. Thanks to our many [contributors](https://github.com/JedWatson/keystone/graphs/contributors) and [users](https://github.com/JedWatson/keystone/stargazers) for making it great.
+KeystoneJS is a free and open source community-driven project. Thanks to our many [contributors](https://github.com/keystonejs/keystone/graphs/contributors) and [users](https://github.com/keystonejs/keystone/stargazers) for making it great.
 
 Thanks to the following companies and projects whose work we have used or taken inspiration from in the making of KeystoneJS:
 
