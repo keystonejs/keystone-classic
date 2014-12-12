@@ -2,7 +2,7 @@
 permalink: /docs/getting-started/
 ---
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <script>var _sf_startpt=(new Date()).getTime()</script>
     <meta charset="utf-8">
@@ -10,7 +10,7 @@ permalink: /docs/getting-started/
     <title>KeystoneJS &middot; Getting Started
     </title>
     <meta name="keywords" content="node.js,nodejs,cms,publishing,platform,web,development,framework,express,mongo,mongodb,bootstrap,react,jquery">
-    <meta name="description" content="Get a head-start on the features you need. KeystoneJS is the easiest way to build dynamic websites, applications and APIs in Node.js.">
+    <meta name="description" content="Get a head-start on the features you need. KeystoneJS is the easiest way to build dynamic websites, applications and APIs with Node.js and MongoDB.">
     <meta property="og:locale" content="en-us">
     <meta property="og:title" content="KeystoneJS">
     <meta property="og:description" content="KeystoneJS is an open source Node.js CMS and web application platform built on Express and MongoDB.">
@@ -23,6 +23,9 @@ permalink: /docs/getting-started/
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   </head>
   <body>
+    <div class="language-switcher">
+      <div class="container"><a href="/zh/docs" class="language-switcher-option">中文 (Chinese)</a><a href="/docs" class="active language-switcher-option">English</a></div>
+    </div>
     <header role="banner" class="docs-header">
       <div class="container">
         <button type="button" data-toggle="collapse" data-target=".docs-nav__collapse" class="navbar-toggle navbar-toggle-menu"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -348,7 +351,7 @@ exports.initLocals = function(req, res, next) {
 };
  
 /**
-    Inits the error handler functions into `req`
+    Inits the error handler functions into `res`
 */
 exports.initErrorHandlers = function(req, res, next) {
     
@@ -441,7 +444,7 @@ exports = module.exports = function(req, res) {
  
 block content
     h1 Hello World</pre>
-              <p>Jade comes with some great features to simplify templates - including using layouts that define regions. We're going to use a layout called <code>templates/layout/base.jade</code>, which is included on the first line of the file above:</p>
+              <p>Jade comes with some great features to simplify templates - including using layouts that define regions. We're going to use a layout called <code>../common/templates/layout/base.jade</code>, which is included on the first line of the file above:</p>
               <div class="code-header">
                 <h4>templates/layouts/base.jade</h4>
                 <p>The base layout for our view templates</p>

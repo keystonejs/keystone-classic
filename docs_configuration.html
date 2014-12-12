@@ -2,7 +2,7 @@
 permalink: /docs/configuration/
 ---
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <script>var _sf_startpt=(new Date()).getTime()</script>
     <meta charset="utf-8">
@@ -10,7 +10,7 @@ permalink: /docs/configuration/
     <title>KeystoneJS &middot; Configuration
     </title>
     <meta name="keywords" content="node.js,nodejs,cms,publishing,platform,web,development,framework,express,mongo,mongodb,bootstrap,react,jquery">
-    <meta name="description" content="Get a head-start on the features you need. KeystoneJS is the easiest way to build dynamic websites, applications and APIs in Node.js.">
+    <meta name="description" content="Get a head-start on the features you need. KeystoneJS is the easiest way to build dynamic websites, applications and APIs with Node.js and MongoDB.">
     <meta property="og:locale" content="en-us">
     <meta property="og:title" content="KeystoneJS">
     <meta property="og:description" content="KeystoneJS is an open source Node.js CMS and web application platform built on Express and MongoDB.">
@@ -23,6 +23,9 @@ permalink: /docs/configuration/
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   </head>
   <body>
+    <div class="language-switcher">
+      <div class="container"><a href="/zh/docs" class="language-switcher-option">中文 (Chinese)</a><a href="/docs" class="active language-switcher-option">English</a></div>
+    </div>
     <header role="banner" class="docs-header">
       <div class="container">
         <button type="button" data-toggle="collapse" data-target=".docs-nav__collapse" class="navbar-toggle navbar-toggle-menu"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -262,7 +265,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                   <td><code>ssl</code> <code class="data-type">Boolean</code> or <code class="data-type">String</code></td>
                   <td>
                     <p>Whether to start the SSL Server. Defaults to <code class="default-value">false</code>.</p>
-                    <p>When set to <code class="default-value">true</code>, both https and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.</p>
+                    <p>When set to <code class="default-value">true</code>, both http and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.</p>
                     <p>When set to <code class="default-value">"only"</code>, only the https server will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, KeystoneJS will not start.</p>
                   </td>
                 </tr>
@@ -408,7 +411,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                 <tr>
                   <td><code>signout redirect</code> <code class="data-type">String</code></td>
                   <td>
-                    <p><code>href</code> to bounce visitors to after they successfully sign out via the built-in signin route</p>
+                    <p><code>href</code> to bounce visitors to after they successfully sign out via the built-in sign out route</p>
                     <p>Defaults to <code class="default-value">/keystone</code></p>
                   </td>
                 </tr>

@@ -2,7 +2,7 @@
 permalink: /docs/database/
 ---
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <script>var _sf_startpt=(new Date()).getTime()</script>
     <meta charset="utf-8">
@@ -10,7 +10,7 @@ permalink: /docs/database/
     <title>KeystoneJS &middot; Setting up and using Data Models
     </title>
     <meta name="keywords" content="node.js,nodejs,cms,publishing,platform,web,development,framework,express,mongo,mongodb,bootstrap,react,jquery">
-    <meta name="description" content="Get a head-start on the features you need. KeystoneJS is the easiest way to build dynamic websites, applications and APIs in Node.js.">
+    <meta name="description" content="Get a head-start on the features you need. KeystoneJS is the easiest way to build dynamic websites, applications and APIs with Node.js and MongoDB.">
     <meta property="og:locale" content="en-us">
     <meta property="og:title" content="KeystoneJS">
     <meta property="og:description" content="KeystoneJS is an open source Node.js CMS and web application platform built on Express and MongoDB.">
@@ -23,6 +23,9 @@ permalink: /docs/database/
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   </head>
   <body>
+    <div class="language-switcher">
+      <div class="container"><a href="/zh/docs" class="language-switcher-option">中文 (Chinese)</a><a href="/docs" class="active language-switcher-option">English</a></div>
+    </div>
     <header role="banner" class="docs-header">
       <div class="container">
         <button type="button" data-toggle="collapse" data-target=".docs-nav__collapse" class="navbar-toggle navbar-toggle-menu"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -459,7 +462,19 @@ Post.model.findById(postId)
                 </tr>
                 <tr>
                   <td><code>dependsOn</code> <code class="data-type">Object</code></td>
-                  <td>The field will only be displayed when the paths specified in the object match the current data for the item</td>
+                  <td>
+                    <p>The field will only be displayed when the paths specified in the object match the current data for the item.
+                      <p>You can target multiple values per path using an Array.</p>
+                      <div class="code-header">
+                        <h4>Example</h4>
+                      </div>
+                      <pre><code class="language-javascript">first: { type: String },
+// Will show if first === "value1", "1" or "2"
+second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
+// Will show if first == "value1"
+third: { type: String, dependsOn: { sortBy: 'value1' } }</code></pre>
+                    </p>
+                  </td>
                 </tr>
               </table>
               <h3>Generated values and watching fields</h3>
@@ -487,7 +502,9 @@ Post.model.findById(postId)
                   <td>
                     <p>The function to generate the field value when a watched path is changed. Must return the new value.</p>
                     <p>The <code>this</code> context of the function will be the item being saved.</p>
-                    <p><strong>For example:</strong></p>
+                    <div class="code-header">
+                      <h4>Example</h4>
+                    </div>
                     <pre><code class="language-javascript">function () {
     return this.total<=this.totalreceived ? true:false;
 }</code></pre>
@@ -516,7 +533,7 @@ Post.model.findById(postId).exec(function(err, post) {
 });</code></pre>
               <h5>Relationship Filters</h5>
               <p>You can filter a relationship field using the <code>filters</code> option.</p>
-              <p>The <code>filters</code> option is an object of key/pair values, in which the keys correspond to the fields of the related model to be filtered, and the values will either be literals or field names in the current model, the value of which will be used to filter the relationship.</p>
+              <p>The <code>filters</code> option is an object of key/value pairs, in which the keys correspond to the fields of the related model to be filtered, and the values will either be literals or field names in the current model, the value of which will be used to filter the relationship.</p>
               <p>In the example below, the <code>author</code> field will only allow selection of a <code>User</code> whose <code>group</code> field is equal to 'admin'.</p>
               <pre><code class="language-javascript">Post.add({
     title: { type: String, required: true },
@@ -700,7 +717,7 @@ item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'</code></pre>
                 <h5>Properties</h5>
                 <p><code>ops</code> <code class="data-type">Array</code> - the field <strong>options</strong> array</p>
                 <p><code>values</code> <code class="data-type">Array</code> - all <code>option.value</code> properties</p>
-                <p><code>labels</code> <code class="data-type">Object</code> - app <code>option.label</code> properties, keyed by <code>option.value</code></p>
+                <p><code>labels</code> <code class="data-type">Object</code> - all <code>option.label</code> properties, keyed by <code>option.value</code></p>
                 <p><code>map</code> <code class="data-type">Object</code> - map of options, keyed by <code>option.value</code></p>
                 <h5>Schema</h5>
                 <p>The value of the current option will be stored at <code>{path}</code>. In addition, these virtuals are provided:</p>
