@@ -12,14 +12,17 @@ block homepage-header
 			a(href='http://demo.keystonejs.com', target='_blank', title='Demo Website (new window)').btn.btn-lg.btn-link.hidden-xs Try the demo
 			
 		ul.home-header-list-links
-			li: a(href='/docs', title='KeystoneJS Documentation') Docs
-			li.hidden-xs: a(href='/examples', title='Sample Applications') Examples
+			li: a(href='/docs', title='KeystoneJS Documentation') Read the Documentation
 			li Current version #{version}
+			li: a(href='https://github.com/keystonejs/keystone/blob/master/HISTORY.md', target='_blank', title='View Changelog on GitHub') What's new
 			li Free and open source (MIT)
 		ul.home-header-list-social
+			li.hidden-xs: a(href='/examples', title='Sample Applications')
+				i.entypo.entypo-network
+				span.home-header-social-item See examples
 			li: a(href='https://twitter.com/keystonejs', target='_blank')
 				i.entypo-social.entypo-twitter
-				span.home-header-social-item Follow on Twitter
+				span.home-header-social-item Follow @KeystoneJS on Twitter
 			li: a(href='http://github.com/keystonejs/keystone', target='_blank')
 				i.entypo-social.entypo-github
 				span.home-header-social-item Star on Github
@@ -151,12 +154,12 @@ block content
 						| &mdash; Nick Loyal (@craftbynick) 
 						a(href='https://twitter.com/craftbynick/status/504604182935240704') August 27, 2014
 					
-					blockquote.twitter-tweet(lang='en')
-						p
-							| So KeystoneJS looks kinda pretty awesome. Node.js CMS built on Express and MongoDB: 
-							a(href='http://t.co/i982HS5Fe9') http://t.co/i982HS5Fe9
-						| &mdash; Olivia Cheng (@heyits0livia) 
-						a(href='https://twitter.com/heyits0livia/status/515177274564677632') September 25, 2014
+					//- blockquote.twitter-tweet(lang='en')
+					//- 	p
+					//- 		| So KeystoneJS looks kinda pretty awesome. Node.js CMS built on Express and MongoDB: 
+					//- 		a(href='http://t.co/i982HS5Fe9') http://t.co/i982HS5Fe9
+					//- 	| &mdash; Olivia Cheng (@heyits0livia) 
+					//- 	a(href='https://twitter.com/heyits0livia/status/515177274564677632') September 25, 2014
 					
 					blockquote.twitter-tweet(lang='en')
 						p
@@ -165,17 +168,6 @@ block content
 							|  , it is momentous &amp; beauteous, kudos to the team behind this awe-inspiring masterpiece.
 						| &mdash; Shreyansh Jaiswal (@shreyanshsum) 
 						a(href='https://twitter.com/shreyanshsum/status/478845070527832064') June 17, 2014
-					
-					blockquote.twitter-tweet(lang='en')
-						p
-							| Node.js CMS, built on Express and MongoDB. I think WordPress and co are on the way out 
-							a(href='http://t.co/9p5szAZroD') http://t.co/9p5szAZroD
-							|  
-							a(href='https://twitter.com/hashtag/JavaScript?src=hash') #JavaScript
-							|  
-							a(href='https://twitter.com/hashtag/DigitalMarketing?src=hash') #DigitalMarketing
-						| &mdash; Eric Zumot (@zumot) 
-						a(href='https://twitter.com/zumot/status/474916844735062016') June 6, 2014
 				
 				//- SECOND COLUMN
 				//---------------
@@ -217,39 +209,32 @@ block content
 						| &mdash; Harry Moreno (@morenoh149) 
 						a(href='https://twitter.com/morenoh149/status/520331591944376320') October 9, 2014
 					
-					blockquote.twitter-tweet(data-cards='hidden', lang='en')
-						p
-							| Building Web Fish Daily (with 
-							a(href='https://twitter.com/KeystoneJS') @KeystoneJS
-							|  and 
-							a(href='https://twitter.com/openshift') @openshift
-							| ) -- 
-							a(href='http://t.co/feyMzgNk6x') http://t.co/feyMzgNk6x
-						| &mdash; Web Fish Daily (@WebFishDaily) 
-						a(href='https://twitter.com/WebFishDaily/status/520197042547589122') October 9, 2014
+					//- blockquote.twitter-tweet(data-cards='hidden', lang='en')
+					//- 	p
+					//- 		| Building Web Fish Daily (with 
+					//- 		a(href='https://twitter.com/KeystoneJS') @KeystoneJS
+					//- 		|  and 
+					//- 		a(href='https://twitter.com/openshift') @openshift
+					//- 		| ) -- 
+					//- 		a(href='http://t.co/feyMzgNk6x') http://t.co/feyMzgNk6x
+					//- 	| &mdash; Web Fish Daily (@WebFishDaily) 
+					//- 	a(href='https://twitter.com/WebFishDaily/status/520197042547589122') October 9, 2014
 					
-					
-					blockquote.twitter-tweet(lang='en')
-						p
-							| First project built with 
-							a(href='https://twitter.com/KeystoneJS') @KeystoneJS
-							| : 
-							a(href='http://t.co/BuSX1DOAnH') http://t.co/BuSX1DOAnH
-							|  I couldn&apos;t have done it without you 
-							a(href='https://twitter.com/hashtag/backend?src=hash') #backend
-							| . Thanks and keep up the good work!
-						| &mdash; Cos (@coselys) 
-						a(href='https://twitter.com/coselys/status/497711426392580097') August 8, 2014
+					//- blockquote.twitter-tweet(lang='en')
+					//- 	p
+					//- 		| Proud to launch my first 
+					//- 		a(href='https://twitter.com/KeystoneJS') @KeystoneJS
+					//- 		|  production site --&gt; 
+					//- 		a(href='http://t.co/V3bdK01ePk') http://t.co/V3bdK01ePk
+					//- 		| . Keystone is a delight to work with.
+					//- 	| &mdash; Chris Sperandio (@sperand_io) 
+					//- 	a(href='https://twitter.com/sperand_io/status/476381562905190400') June 10, 2014
 					
 					blockquote.twitter-tweet(lang='en')
 						p
-							| Proud to launch my first 
-							a(href='https://twitter.com/KeystoneJS') @KeystoneJS
-							|  production site --&gt; 
-							a(href='http://t.co/V3bdK01ePk') http://t.co/V3bdK01ePk
-							| . Keystone is a delight to work with.
-						| &mdash; Chris Sperandio (@sperand_io) 
-						a(href='https://twitter.com/sperand_io/status/476381562905190400') June 10, 2014
+							| <a href="https://twitter.com/JedWatson">@JedWatson</a> <a href="https://twitter.com/KeystoneJS">@KeystoneJS</a> Thanks for the immense effort. You are enabling a lot of productivity for a lot of developers. <a href="https://twitter.com/search?q=%23LoveKeystoneJS&amp;src=hash">#LoveKeystoneJS</a>
+						| - Jason Welch (@JChristopherW)
+						a(href="https://twitter.com/JChristopherW/statuses/451872595512922112") April 4, 2014
 					
 					blockquote.twitter-tweet(lang='en')
 						p
@@ -307,26 +292,45 @@ block content
 						| &mdash; Vishnu Nair (@VishnuRNairr) 
 						a(href='https://twitter.com/VishnuRNairr/status/494084485378355203') July 29, 2014
 					
-					blockquote.twitter-tweet(lang='en')
-						p
-							| Finished migrating my tiny homepage 
-							a(href='http://t.co/7HGUZRMww6') http://t.co/7HGUZRMww6
-							|  to 
-							a(href='https://twitter.com/KeystoneJS') @KeystoneJS
-							| . It means that all my side projects are currently powered by Node.
-						| &mdash; &Lstrok;ukasz W&oacute;jcik (@LukaszWojcik) 
-						a(href='https://twitter.com/LukaszWojcik/status/492417958552276992') July 24, 2014
-					
-					blockquote.twitter-tweet(lang='en')
-						p
-							| <a href="https://twitter.com/JedWatson">@JedWatson</a> <a href="https://twitter.com/KeystoneJS">@KeystoneJS</a> Thanks for the immense effort. You are enabling a lot of productivity for a lot of developers. <a href="https://twitter.com/search?q=%23LoveKeystoneJS&amp;src=hash">#LoveKeystoneJS</a>
-						| - Jason Welch (@JChristopherW)
-						a(href="https://twitter.com/JChristopherW/statuses/451872595512922112") April 4, 2014
-					
 					
 					//- ARCHIVED TWEETS
 					//-----------------
 					
+
+					
+					//- blockquote.twitter-tweet(lang='en')
+					//- 	p
+					//- 		| Node.js CMS, built on Express and MongoDB. I think WordPress and co are on the way out 
+					//- 		a(href='http://t.co/9p5szAZroD') http://t.co/9p5szAZroD
+					//- 		|  
+					//- 		a(href='https://twitter.com/hashtag/JavaScript?src=hash') #JavaScript
+					//- 		|  
+					//- 		a(href='https://twitter.com/hashtag/DigitalMarketing?src=hash') #DigitalMarketing
+					//- 	| &mdash; Eric Zumot (@zumot) 
+					//- 	a(href='https://twitter.com/zumot/status/474916844735062016') June 6, 2014
+					//- 
+					//- blockquote.twitter-tweet(lang='en')
+					//- 	p
+					//- 		| First project built with 
+					//- 		a(href='https://twitter.com/KeystoneJS') @KeystoneJS
+					//- 		| : 
+					//- 		a(href='http://t.co/BuSX1DOAnH') http://t.co/BuSX1DOAnH
+					//- 		|  I couldn&apos;t have done it without you 
+					//- 		a(href='https://twitter.com/hashtag/backend?src=hash') #backend
+					//- 		| . Thanks and keep up the good work!
+					//- 	| &mdash; Cos (@coselys) 
+					//- 	a(href='https://twitter.com/coselys/status/497711426392580097') August 8, 2014
+					//- 
+					//- blockquote.twitter-tweet(lang='en')
+					//- 	p
+					//- 		| Finished migrating my tiny homepage 
+					//- 		a(href='http://t.co/7HGUZRMww6') http://t.co/7HGUZRMww6
+					//- 		|  to 
+					//- 		a(href='https://twitter.com/KeystoneJS') @KeystoneJS
+					//- 		| . It means that all my side projects are currently powered by Node.
+					//- 	| &mdash; &Lstrok;ukasz W&oacute;jcik (@LukaszWojcik) 
+					//- 	a(href='https://twitter.com/LukaszWojcik/status/492417958552276992') July 24, 2014
+					//- 
 					//- blockquote.twitter-tweet(lang='en')
 					//- 	p
 					//- 		a(href='https://twitter.com/KeystoneJS') @KeystoneJS
@@ -389,7 +393,7 @@ block content
 					//- 		| . Pretty cool stuff. :)
 					//- 	| — getify (@getify)
 					//- 	a(href='https://twitter.com/getify/statuses/423866181603172352') January 16, 2014
-						
+					//- 
 					//- blockquote.twitter-tweet(lang='en')
 					//- 	p
 					//- 		| Had a look <a href="https://twitter.com/KeystoneJS">@KeystoneJS</a> and it looks really impressive! <a href="https://twitter.com/search?q=%23nodejs&amp;src=hash">#nodejs</a> <a href="https://twitter.com/search?q=%23cms&amp;src=hash">#cms</a> <a href="https://twitter.com/search?q=%23mongodb&amp;src=hash">#mongodb</a>
