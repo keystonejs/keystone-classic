@@ -181,3 +181,35 @@ body {
 }
 
 
+
+
+// Language Switcher
+// ------------------------------
+
+.language-switcher {
+	background-color: #444;
+	overflow: hidden;
+}
+.language-switcher-option {
+	color: rgba(255, 255, 255, 0.5);
+	float: right;
+	padding: 5px 10px;
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		color: white;
+		text-decoration: none;
+	}
+	&.active {
+		color: white;
+
+		&:before {
+			.entypo();
+			content: "\2713";
+			margin-right: 5px;
+		}
+	}
+}
+
+
