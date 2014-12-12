@@ -8,7 +8,8 @@ html
 		block css
 
 	body
-		include ../includes/header
+		block nav
+			include ../includes/header
 		
 		if section == 'docs' && docssubsection
 			+breadcrumbs(docssection, docssubsection)

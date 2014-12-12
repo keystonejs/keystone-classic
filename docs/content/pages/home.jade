@@ -3,29 +3,37 @@ extends ../templates/layout/base
 block nav
 
 block intro
-	.home-hero: .container
-		h1 Node.js CMS and web application platform built on Express and MongoDB.
-		p.buttons
+	.home-header: .container
+		img(src='/images/logo-inverted.svg', alt='KeystoneJS', width=80, height=81)
+		h1 Node.js CMS &amp; Web Application Platform
+		h2 The open source framework for developing database-driven websites, applications and APIs in Node.js. Built on Express and MongoDB.
+		.home-header-buttons
 			a(href='/getting-started', title='KeystoneJS getting started guide').btn.btn-lg.btn-primary
 				span.hidden-xs Get Started
 				span.visible-xs Start
 			a(href='http://demo.keystonejs.com', target='_blank', title='Demo Website (new window)').btn.btn-lg.btn-link.hidden-xs Try the demo
 			
-			//- Clutter?
-			//- a(href='/examples', title='Sample Applications').btn.btn-lg.btn-link Examples
-			
-		ul.list-inline.list-links
+		ul.home-header-list-links
+			li: a(href='/docs', title='KeystoneJS Documentation') Docs
+			li.hidden-xs: a(href='/examples', title='Sample Applications') Examples
 			li Current version #{version}
-			li: a(href='https://github.com/keystonejs/keystone/blob/master/HISTORY.md', target='_blank', title='View Changelog on GitHub') What’s New
-			li: a(href='/examples', title='Sample Applications').hidden-xs Examples
-			li: a(href='http://github.com/keystonejs/keystone', target='_blank') GitHub Project
-			
-		//- MIT Licence metioned in the subheader and footer
-		//- .mit-licence
-			a(href='http://opensource.org/licenses/MIT', target='_blank').licence-badge MIT Licence
-			span.licence-text Keystone is free and open source.
+			li Free and open source (MIT)
+		ul.home-header-list-social
+			li: a(href='https://twitter.com/keystonejs', target='_blank')
+				i.entypo-social.entypo-twitter
+				span.home-header-social-item Follow on Twitter
+			li: a(href='http://github.com/keystonejs/keystone', target='_blank')
+				i.entypo-social.entypo-github
+				span.home-header-social-item Star on Github
 
-	include ../templates/includes/page-subheader
+		.home-header-brands-title Keystone powers websites, apps and APIs for:
+		.home-header-brands
+			.home-header-brand: img(src='/images/brand-continental.png')
+			.home-header-brand: img(src='/images/brand-westpac.png')
+			.home-header-brand: img(src='/images/brand-sony.png')
+			.home-header-brand: img(src='/images/brand-event_cinemas.png')
+			.home-header-brand: img(src='/images/brand-vodafone.png')
+			.home-header-brand: img(src='/images/brand-macmillan.png')
 
 block content
 	//- section.intro-section.whatis-section: .container
