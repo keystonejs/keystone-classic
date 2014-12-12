@@ -7,8 +7,9 @@ var http = require('http'),
 function view(view, options) {
 	return function(req, res, next) {
 		options.pretty = true;
+		options.prefix = (options.language === 'en') ? '/' : '/' + options.language + '/';
 		_.extend(options, content.languages[options.language]);
-		res.render(view, options);
+		res.render(options.language + '/pages/' + view, options);
 	}
 }
 
@@ -36,9 +37,7 @@ app.use(function(req, res, next) {
 });
 
 // Set up locals and routes
-
-_.extend(app.locals, content.locals);
-
+app.locals.languages = content.languages;
 app.locals.version = require('../package.json').version;
 
 _.each(content.routes, function(options) {

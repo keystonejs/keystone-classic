@@ -1,4 +1,4 @@
-extends ../../templates/layout/base
+extends ../../../common/templates/layout/base
 
 include ../../templates/mixins/docsnav
 
@@ -90,7 +90,7 @@ block content
 					td <code>views</code> <code class="data-type">String</code>
 					td
 						p 放程序<strong>视图模板</strong>的路径。使用<code>keystone.View</code>类需要这个，并且也会在express app上设定。
-						p 如果你遵循<a href="/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">"/templates/views"</code>。
+						p 如果你遵循<a href="/zh/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">"/templates/views"</code>。
 				tr
 					td <code>view engine</code> <code class="data-type">String</code>
 					td
@@ -115,7 +115,7 @@ block content
 					td <code>static</code> <code class="data-type">String</code> 或 <code class="data-type">Array</code>
 					td
 						p 指向程序静态文件的一或多个路径。设定这个会引入<code>express.static</code> 中间件。
-						p 如果你遵循<a href="/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">'public'</code>。
+						p 如果你遵循<a href="/zh/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">'public'</code>。
 				tr
 					td <code>less</code> <code class="data-type">String</code> 或 <code class="data-type">Array</code>
 					td
@@ -139,7 +139,7 @@ block content
 					td <code>favicon</code> <code class="data-type">String</code>
 					td
 						p 程序的<strong>favicon</strong>的路径。设定这个会引入<code>express.favicon</code>中间件。应该是相对项目根路径的路径。
-						p 如果你遵循<a href="/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">"/public/favicon.ico"</code>。
+						p 如果你遵循<a href="/zh/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">"/public/favicon.ico"</code>。
 				tr
 					td <code>compress</code> <code class="data-type">Boolean</code>
 					td 将这个参数设为<code class="default-value">true</code>以启用HTTP压缩。这会引入<code>express.compress</code>中间件(<a href="http://expressjs.com/api.html#compress" target="_blank">相关文档</a>).
@@ -294,7 +294,7 @@ block content
 						p 访问者通过内置的退出路由成功退出后弹出的<code>href</code>
 						p 默认为<code class="default-value">/keystone</code>
 			
-			p 关于Keystone数据库模型设置和使用的更多信息，请参见<a href="/docs/database">数据库指南</a>。
+			p 关于Keystone数据库模型设置和使用的更多信息，请参见<a href="/zh/docs/database">数据库指南</a>。
 
 
 			a(name='options-ui')
@@ -392,7 +392,7 @@ block content
 			a(name='services-google-maps')
 			h3 谷歌地图
 			
-			p Keystone的<a href="/docs/database#field_location">Location域类型</a>可以集成<a href="http://www.morethanamap.com" target="_blank">谷歌地图API</a>，通过<a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>自动改进取值(包括发现经纬度)。
+			p Keystone的<a href="/zh/docs/database#field_location">Location域类型</a>可以集成<a href="http://www.morethanamap.com" target="_blank">谷歌地图API</a>，通过<a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>自动改进取值(包括发现经纬度)。
 			
 			p 要启用这些功能，需要<a href="https://code.google.com/apis/console/" target"_blank">从谷歌获取一个API秘钥</a> ，并为它启用Google Maps v3和Google Places API，然后设置下面这些参数：
 			
@@ -428,7 +428,7 @@ block content
 			a(name='services-amazons3')
 			h3 亚马逊S3
 			
-			p KeystoneJS的域类型<a href="/docs/database#field_s3file">S3File</a>支持<a href="http://aws.amazon.com/s3/" target="_blank">亚马逊S3</a>的文件上传和托管。
+			p KeystoneJS的域类型<a href="/zh/docs/database#field_s3file">S3File</a>支持<a href="http://aws.amazon.com/s3/" target="_blank">亚马逊S3</a>的文件上传和托管。
 			
 			p 要在你的程序中使用S3File域，需要<a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">注册一个账号</a>，创建一个<strong>S3桶</strong>，获取你的<strong>键</strong>和<strong>密码</strong>。
 			
@@ -443,7 +443,7 @@ block content
 			a(name='services-azure')
 			h3 Windows Azure存储
 			
-			p KeystoneJS的<a href="/docs/database#field_azurefile">AzureFile</a>域类型支持<a href="http://www.windowsazure.com/" target="_blank">Windows Azure存储</a>的文件上传和托管。
+			p KeystoneJS的<a href="/zh/docs/database#field_azurefile">AzureFile</a>域类型支持<a href="http://www.windowsazure.com/" target="_blank">Windows Azure存储</a>的文件上传和托管。
 			
 			p 要在程序中使用AzureFile域，需要<a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">注册一个账号</a>，进入<a href="https://manage.windowsazure.com/">Azure管理门户</a>。用新建(按钮)创建一个存储账号，数据服务，存储。在存储账号页面中用按钮“管理访问键”获取访问信息（账号名、键（有效的主键或二级键））。
 			
@@ -460,7 +460,7 @@ block content
 			a(name='services-cloudinary')
 			h3 Cloudinary
 			
-			p <a href="http://cloudinary.com" target="_blank">Cloudinary</a>是一个图片上传/缩放/托管服务，让你在KeystoneJS程序中用<a href="/docs/database#field_cloudinaryimage">CloudinaryImage</a>和<a href="/docs/database#field_cloudinaryimages">CloudinaryImages</a>域类型轻松实现图片管理。
+			p <a href="http://cloudinary.com" target="_blank">Cloudinary</a>是一个图片上传/缩放/托管服务，让你在KeystoneJS程序中用<a href="/zh/docs/database#field_cloudinaryimage">CloudinaryImage</a>和<a href="/zh/docs/database#field_cloudinaryimages">CloudinaryImages</a>域类型轻松实现图片管理。
 			
 			p 要在程序中使用Cloudinary Image域，需要<a href="https://cloudinary.com/users/register/free" target="_blank">注册一个账号</a> (Cloudinary提供的免费服务中包括500MB存储、50,000张图片和1GB数据传输)并获取你的<strong>云名称</strong>、<strong>api键</strong>和<strong>api密码</strong>。
 			
@@ -485,7 +485,7 @@ block content
 					li <code class="default-value">{list.path}/{field.path}/</code> (当未设置<code>cloudinary prefix</code>时)
 					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (设置了<code>cloudinary prefix</code>时)
 	
-			p.note 你可以直接在<code>CloudinaryImage</code>域(参见<a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> 参数) 或 <code>CloudinaryImages</code>域(参见 <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> 参数)上设置<code class="default-value">folder</code>参数覆盖默认的Cloudinary文件夹。
+			p.note 你可以直接在<code>CloudinaryImage</code>域(参见<a href="/zh/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> 参数) 或 <code>CloudinaryImages</code>域(参见 <a href="/zh/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> 参数)上设置<code class="default-value">folder</code>参数覆盖默认的Cloudinary文件夹。
 
 			pre: code.language-javascript
 				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
@@ -504,7 +504,7 @@ block content
 			
 			p <a href="http://embed.ly" target="_blank">Embed.ly</a>是一个解析url (比如Youtube的嵌入链接)的服务，并且会返回很多有价值的信息，比如提供者名称，汇总元数据，视频的高度和宽度，以及可以潜在你的视图中的清爽链接。他们提供了每月不超过5,000个url的免费方案。
 			
-			p <a href="/docs/database#field_embedly">Embedly域类型</a>在你的KeystoneJS程序中集成它们的API的便利方式。
+			p <a href="/zh/docs/database#field_embedly">Embedly域类型</a>在你的KeystoneJS程序中集成它们的API的便利方式。
 			
 			p 配置KeystoneJS支持Embed.ly API，只需要<a href="https://app.embed.ly/signup">注册一个账号</a>，获取你的API键，并设置<code>embedly api key</code>参数。
 			

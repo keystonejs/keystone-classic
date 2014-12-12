@@ -1,9 +1,16 @@
 module.exports = {
 	
-	"locals": {},
-	
 	"languages": {
 		"en": {
+			"content": {
+				"toggle_navigation": "Toggle navigation"
+			},
+			"links": {
+				"home": "/",
+				"starting": "/getting-started",
+				"docs": "/docs",
+				"examples": "/examples"
+			},
 			"primarynav": [
 				{ "section": "home",                "path": "/",                      "label": "Home" },
 				{ "section": "starting",            "path": "/getting-started",       "label": "Getting Started" },
@@ -17,6 +24,15 @@ module.exports = {
 			]
 		},
 		"zh": {
+			"content": {
+				"toggle_navigation": "锁定导航栏"
+			},
+			"links": {
+				"home": "/zh",
+				"starting": "/zh/getting-started",
+				"docs": "/zh/docs",
+				"examples": "/zh/examples"
+			},
 			"primarynav": [
 				{ "section": "home",                "path": "/zh",                       "label": "首页" },
 				{ "section": "starting",            "path": "/zh/getting-started",       "label": "入门指南" },
@@ -37,28 +53,28 @@ module.exports = {
 		{
 			"path": "/",
 			"language": "en",
-			"template": "pages/home",
+			"template": "home",
 			"section": "home",
 			"title": "Node.js cms and web application platform built on Express and MongoDB"
 		},
 		{
 			"path": "/getting-started",
 			"language": "en",
-			"template": "pages/starting",
+			"template": "starting",
 			"section": "starting",
 			"title": "Getting started"
 		},
 		{
 			"path": "/examples",
 			"language": "en",
-			"template": "pages/examples",
+			"template": "examples",
 			"section": "examples",
 			"title": "Sample applications"
 		},
 		{
 			"path": "/docs",
 			"language": "en",
-			"template": "pages/docs/index",
+			"template": "docs/index",
 			"section": "docs",
 			"docssection": { "value": "introduction", "path": "/docs", "label": "Introduction" },
 			"title": "KeystoneJS Documentation"
@@ -66,7 +82,7 @@ module.exports = {
 		{
 			"path": "/docs/getting-started",
 			"language": "en",
-			"template": "pages/docs/getting-started",
+			"template": "docs/getting-started",
 			"section": "docs",
 			"docssection": { "value": "getting-started", "path": "/docs/guides", "label": "Guides" },
 			"title": "Getting Started"
@@ -74,7 +90,7 @@ module.exports = {
 		{
 			"path": "/docs/configuration",
 			"language": "en",
-			"template": "pages/docs/configuration",
+			"template": "docs/configuration",
 			"section": "docs",
 			"docssection": { "value": "configuration", "path": "/docs/configuration", "label": "Configuration" },
 			"title": "Configuration"
@@ -82,7 +98,7 @@ module.exports = {
 		{
 			"path": "/docs/database",
 			"language": "en",
-			"template": "pages/docs/database",
+			"template": "docs/database",
 			"section": "docs",
 			"docssection": { "value": "database", "path": "/docs/database", "label": "Database" },
 			"title": "Setting up and using Data Models"
@@ -99,28 +115,28 @@ module.exports = {
 		{
 			"path": "/zh",
 			"language": "zh",
-			"template": "zh/pages/home",
+			"template": "home",
 			"section": "home",
 			"title": "基于Express和MongoDB搭建的Node.js cms和web应用程序平台"
 		},
 		{
 			"path": "/zh/getting-started",
 			"language": "zh",
-			"template": "zh/pages/starting",
+			"template": "starting",
 			"section": "starting",
 			"title": "入门"
 		},
 		{
 			"path": "/zh/examples",
 			"language": "zh",
-			"template": "zh/pages/examples",
+			"template": "examples",
 			"section": "examples",
 			"title": "范例程序"
 		},
 		{
 			"path": "/zh/docs",
 			"language": "zh",
-			"template": "zh/pages/docs/index",
+			"template": "docs/index",
 			"section": "docs",
 			"docssection": { "value": "introduction", "path": "/zh/docs", "label": "Introduction" },
 			"title": "KeystoneJS文档"
@@ -128,7 +144,7 @@ module.exports = {
 		{
 			"path": "/zh/docs/getting-started",
 			"language": "zh",
-			"template": "zh/pages/docs/getting-started",
+			"template": "docs/getting-started",
 			"section": "docs",
 			"docssection": { "value": "getting-started", "path": "/zh/docs/guides", "label": "Guides" },
 			"title": "入门"
@@ -136,7 +152,7 @@ module.exports = {
 		{
 			"path": "/zh/docs/configuration",
 			"language": "zh",
-			"template": "zh/pages/docs/configuration",
+			"template": "docs/configuration",
 			"section": "docs",
 			"docssection": { "value": "configuration", "path": "/zh/docs/configuration", "label": "Configuration" },
 			"title": "配置"
@@ -144,7 +160,7 @@ module.exports = {
 		{
 			"path": "/zh/docs/database",
 			"language": "zh",
-			"template": "zh/pages/docs/database",
+			"template": "docs/database",
 			"section": "docs",
 			"docssection": { "value": "database", "path": "/zh/docs/database", "label": "Database" },
 			"title": "设置和使用数据模型"

@@ -7,7 +7,7 @@ mixin docsnav(docssection)
 	nav.docs-sidebar.hidden-xs
 		ul.sidebar-nav
 			li(class=docssection.value == 'introduction' ? 'active' : null)
-				a(href='/docs').nav-heading 欢迎
+				a(href='/zh/docs').nav-heading 欢迎
 			each item in docsnav
 				li(class=docssection.value == item.value ? 'active' : null)
 					a(href=item.path).nav-heading= item.label

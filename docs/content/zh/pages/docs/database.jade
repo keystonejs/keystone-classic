@@ -1,4 +1,4 @@
-extends ../../templates/layout/base
+extends ../../../common/templates/layout/base
 
 include ../../templates/mixins/docsnav
 
@@ -79,7 +79,7 @@ block content
 			
 			p.note 这个例子使用了可选的<code>map</code>、<code>autokey</code>和<code>defaultSort</code>参数，描述见下文。
 			p.note 它还指定<code>title</code>、<code>state</code>、<code>author</code>和<code>publishedAt</code>作为管理界面中默认显示的列，state和publishedAt还给定了列宽度。
-			p.note <code>author</code>域是<code>Post</code>跟<code>User</code>模型的关系，在<a href="/guide#models_users">入门指南</a>中介绍过。
+			p.note <code>author</code>域是<code>Post</code>跟<code>User</code>模型的关系，在<a href="/zh/guide#models_users">入门指南</a>中介绍过。
 			
 			a(name='lists-options')
 			h3 参数
@@ -170,7 +170,7 @@ block content
 					td <code>hidden</code> <code class="data-type">Boolean</code>
 					td 在Keystone管理界面中隐藏这个列表。
 			
-			p.note 如果你想知道如何控制被分类列表在管理界面中的导航区域，请查看<a href="http://keystonejs.com/docs/configuration/#options-project">KeystoneJS配置</a>文档中的<code>nav</code>参数。
+			p.note 如果你想知道如何控制被分类列表在管理界面中的导航区域，请查看<a href="/zh/docs/configuration/#options-project">KeystoneJS配置</a>文档中的<code>nav</code>参数。
 			
 			h4 下钻示例
 			
@@ -627,10 +627,10 @@ block content
 			.options
 				
 				h5 参数
-				p <code>wysiwyg</code> <code class="data-type">Boolean</code> - 在管理界面中是否显示WYSIWYG编辑器 - 要定制编辑器请参见<a href="/docs/configuration/#options-ui">管理界面参数</a>。
+				p <code>wysiwyg</code> <code class="data-type">Boolean</code> - 在管理界面中是否显示WYSIWYG编辑器 - 要定制编辑器请参见<a href="/zh/docs/configuration/#options-ui">管理界面参数</a>。
 				p <code>height</code> <code class="data-type">Number</code> - 输入域的高度(以像素为单位)
 			
-			p 参见<a href="/docs/configuration#options-ui">管理界面参数</a>了解用于定制WYSIWYG编辑器的全局配置参数。
+			p 参见<a href="/zh/docs/configuration#options-ui">管理界面参数</a>了解用于定制WYSIWYG编辑器的全局配置参数。
 			
 			a(name="fieldtypes-color")
 			h3 <code>Color</code>
@@ -853,7 +853,7 @@ block content
 			h4 <code class="data-type">Object</code> &mdash; 在管理界面中显示为一组输入控件的组合
 			p 包含一组标准的字符串，用于存储地址，带有<code class="data-type">2dsphere</code>索引的经纬度。
 			p 还用谷歌的Places API提供输入自动补充功能 (需要提供谷歌地图API键，并且只能用于相应的谷歌服务条款)。
-			p 参见<a href="/docs/configuration#services-google">谷歌配置文档</a>了解如何在KeystoneJS中设置谷歌地图的详细介绍。
+			p 参见<a href="/zh/docs/configuration#services-google">谷歌配置文档</a>了解如何在KeystoneJS中设置谷歌地图的详细介绍。
 			pre: code.language-javascript { type: Types.Location }
 			p.note 注意：模式的路径是基于澳大利亚的地址格式，并且应该更新为其它更加国际化的格式。如果你有如何进行国际化结构的反馈，请开一个工单。
 			.options
@@ -885,7 +885,7 @@ block content
 			h3 <code>CloudinaryImage</code>
 			h4 <code class="data-type">Object</code> &mdash; 在管理界面中显示为一个图片上传控件。
 			p 自动管理存在<a href="http://cloudinary.com" target="_blank">Cloudinary</a>中的图片，包括上传、缩放和删除。
-			p 参见<a href="/docs/configuration#services-cloudinary">Cloudinary配置文档</a>了解如何在KeystoneJS中设置Cloudinary的细节。
+			p 参见<a href="/zh/docs/configuration#services-cloudinary">Cloudinary配置文档</a>了解如何在KeystoneJS中设置Cloudinary的细节。
 			pre: code.language-javascript { type: Types.CloudinaryImage }
 			.options
 				
@@ -1085,7 +1085,7 @@ block content
 			p 自动从<a href="http://embed.ly" target="_blank">Embedly</a> API获取跟另一个域的值相关的信息(由<code>from</code> 参数指定)。
 			p 它存储获取的数据(包括提供者、媒体类型、完整的URL、HTML嵌入代码、宽度、高度、缩略图及更多信息)。
 			p 获取数据的api调用是作为保存前置钩子实现的，并且只在<strong>from路径</strong>的值发生变化时才会触发。
-			p 参见<a href="/docs/configuration#services-embedly">Embed.ly配置文档</a>了解如何在KeystoneJS中设置Embed.ly的详细介绍。 
+			p 参见<a href="/zh/docs/configuration#services-embedly">Embed.ly配置文档</a>了解如何在KeystoneJS中设置Embed.ly的详细介绍。 
 			pre: code.language-javascript { type: Types.Embedly, from: 'path' }
 			.options
 				
@@ -1113,4 +1113,4 @@ block content
 				p <code>thumbnailHeight</code> <code class="data-type">Number</code>
 			
 			h2 更多范例
-			p 参见项目的<a href="/examples">范例</a>页面，了解各种列表参数和域类型的真实用法。
+			p 参见项目的<a href="/zh/examples">范例</a>页面，了解各种列表参数和域类型的真实用法。

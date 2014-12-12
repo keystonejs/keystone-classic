@@ -1,4 +1,4 @@
-extends ../../templates/layout/base
+extends ../../../common/templates/layout/base
 
 include ../../templates/mixins/docsnav
 
@@ -7,7 +7,7 @@ block intro
 		.container
 			h1 入门指南
 			p.lead 这个指南会逐步指导你如何构建KeystoneJS网站。
-				a(href='/getting-started') 这里还有个生成器。
+				a(href='/zh/getting-started') 这里还有个生成器。
 	
 block content
 	.container: .row
@@ -117,7 +117,7 @@ block content
 				| keystone.start();
 			
 			p 现在在你的控制台中进入项目根目录（package.json所在的位置），运行<code>npm install</code>来安装Keystone。
-			p.note 要了解Keystone支持的更多选项，请参见<a href="/docs/configuration">配置指南</a>。
+			p.note 要了解Keystone支持的更多选项，请参见<a href="/zh/docs/configuration">配置指南</a>。
 			p.note 注意：你的web脚本还不能运行，因为其中包含的模型和路由都还没做好。它假定你会遵照这个指南中的指示。
 			
 			.contextual-note
@@ -224,7 +224,7 @@ block content
 			
 			h4 再谈数据模型
 			
-			p 要学习如何设置程序的模型，以及列表和域的完整文档，请参见<a href="/docs/database">数据库指南</a>。
+			p 要学习如何设置程序的模型，以及列表和域的完整文档，请参见<a href="/zh/docs/database">数据库指南</a>。
 
 			a(name="routesviews")
 			h2 路由 &amp; 视图
@@ -434,7 +434,7 @@ block content
 				| block content
 				|     h1 Hello World
 			
-			p Jade有些很棒的功能可以简化模板 - 包括用布局定义区域。我们准备用一个<code>templates/layout/base.jade</code>布局，在上面那个文件中的第一行里：
+			p Jade有些很棒的功能可以简化模板 - 包括用布局定义区域。我们准备用一个<code>../common/templates/layout/base.jade</code>布局，在上面那个文件中的第一行里：
 			
 			.code-header
 				h4 templates/layouts/base.jade
@@ -532,7 +532,7 @@ block content
 			
 			//- h4 More on Routes &amp; Views
 			//- 
-			//- p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/docs/database">routes &amp; views guide</a>.
+			//- p For more information on how to set up your application's routes and views, and the full documentation for the View class, see the <a href="/zh/docs/database">routes &amp; views guide</a>.
 			
 			a(name="runningyourapp")
 			h2 运行程序
@@ -592,10 +592,10 @@ block content
 			a(name="runningyourapp-nextstep")
 			h3 下一步
 			
-			p ... 搞定了！好吧，实际上还没有。现在该开始搭建你的程序了。要了解Keystone支持的列表参数和域类型，请访问<a href="/docs/database">数据库指南</a>。
+			p ... 搞定了！好吧，实际上还没有。现在该开始搭建你的程序了。要了解Keystone支持的列表参数和域类型，请访问<a href="/zh/docs/database">数据库指南</a>。
 			
 			p 你还应该<a href="https://twitter.com/keystonejs" target="_blank">在Twitter上关注@KeystoneJS</a>，以便及时了解相关新闻和更新，<a href="https://github.com/keystonejs/keystone/" target="_blank">在GitHub标记 KeystoneJS</a>，并在<a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS谷歌群组</a>讨论这个指南(或者与KeystoneJS有关的一切)。
 			
-			p 在范例页面上还有更多的<a href="/examples">范例和样本代码</a>。
+			p 在范例页面上还有更多的<a href="/zh/examples">范例和样本代码</a>。
 			
 			p 享受使用KeystoneJS的过程吧！

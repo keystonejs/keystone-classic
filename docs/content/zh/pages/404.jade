@@ -1,11 +1,10 @@
-extends ../templates/layout/base
+extends ../../common/templates/layout/base
 
 block content
 	.page-header.page-header
 		.container
 			h1 404
 			p.lead Oh snap! That page doesn't exist
-	//- include ../templates/includes/page-subheader
 	
 	.container: .row
 		.col-sm-3: .docs-sidebar-info
@@ -20,10 +19,10 @@ block content
 				.col-sm-6
 					h3 On this site
 					ul.list-unstyled.lead
-						li: a(href='/getting-started', title='KeystoneJS Getting Started') Getting Started
-						li: a(href='/docs/configuration', title='KeystoneJS Configuration') KeystoneJS Configuration
-						li: a(href='/docs/database', title='KeystoneJS Database') Database Setup
-						li: a(href='/examples', title='KeystoneJS Application') Examples Applications
+						li: a(href='/zh/getting-started', title='KeystoneJS Getting Started') Getting Started
+						li: a(href='/zh/docs/configuration', title='KeystoneJS Configuration') KeystoneJS Configuration
+						li: a(href='/zh/docs/database', title='KeystoneJS Database') Database Setup
+						li: a(href='/zh/examples', title='KeystoneJS Application') Examples Applications
 				.col-sm-6
 					h3 Other resources
 					ul.list-unstyled.lead
