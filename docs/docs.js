@@ -5,12 +5,14 @@ var http = require('http'),
 	favicon = require('serve-favicon'),
 	logger = require('morgan'),
 	errorHandler = require('errorhandler'),
-	content = require('./content/site.json');
+	content = require('./content');
 
 function view(view, options) {
 	return function(req, res, next) {
 		options.pretty = true;
-		res.render(view, options);
+		options.prefix = (options.language === 'en') ? '/' : '/' + options.language + '/';
+		_.extend(options, content.languages[options.language]);
+		res.render(options.language + '/pages/' + view, options);
 	}
 }
 
@@ -38,9 +40,7 @@ app.use(function(req, res, next) {
 });
 
 // Set up locals and routes
-
-_.extend(app.locals, content.locals);
-
+app.locals.languages = content.languages;
 app.locals.version = require('../package.json').version;
 
 _.each(content.routes, function(options) {
