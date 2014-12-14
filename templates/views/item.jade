@@ -98,8 +98,6 @@ block content
 					.field-note !{list.nameField.note}
 			else if nameField
 				h2.form-heading.name-value= list.nameField.format(item) || '(no name)'
-			else
-				h2.form-heading.name-value= item.get(list.namePath) || '(no name)'
 		
 		if list.tracking
 			- var meta_createdAt, meta_createdBy, meta_updatedAt, meta_updatedBy
@@ -178,5 +176,3 @@ block content
 									each col, i in rel.columns
 										td
 											+column(rel.list, col, item)
-
-
