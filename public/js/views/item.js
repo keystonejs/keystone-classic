@@ -148,8 +148,21 @@ jQuery(function($) {
 			
 			var met = _.all(conditions, function(cond, path) {
 				var value = getFieldValue(cond.$field);
-				// console.log('evaluating condition ' + path + ' == (' + cond.value + ') with (' + value + ')')
-				return (cond.value === true && value || cond.value == value);
+				
+				// if cond.value is an array loop through 
+				if(_.isArray(cond.value)) {
+					
+					var findme = _.find(cond.value,function(v) {
+						// console.log('evaluating condition ' + path + ' == (' + v + ') with (' + value + ')',v==value)
+						return (v === true && value || v == value);
+					});
+					return findme ? true : false;
+					
+				} else {
+					// console.log('evaluating condition ' + path + ' == (' + cond.value + ') with (' + value + ')')
+					return (cond.value === true && value || cond.value == value);
+				}
+				
 			});
 			
 			// console.log(met ? '(met)' : '(not met)');

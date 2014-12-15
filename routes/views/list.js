@@ -226,10 +226,10 @@ exports = module.exports = function(req, res) {
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 		
 		if (req.list.nameIsInitial) {
-			if (req.list.nameField.validateInput(req.body))
-				req.list.nameField.updateItem(item, req.body);
-			else
-				updateHandler.addValidationError(req.list.nameField.path, 'Name is required.');
+			if (!req.list.nameField.validateInput(req.body, true, item)) {
+				updateHandler.addValidationError(req.list.nameField.path, req.list.nameField.label + ' is required.');
+			}
+			req.list.nameField.updateItem(item, req.body);
 		}
 		
 		updateHandler.process(req.body, {
