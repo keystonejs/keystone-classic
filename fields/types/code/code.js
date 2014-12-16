@@ -3,29 +3,47 @@ var React      = require('react'),
 	Note       = require('../../components/note'),
 	CodeMirror = require('codemirror');
 
+// See CodeMirror docs for API:
+// http://codemirror.net/doc/manual.html
+
+// TODO:
+// Bring forward mime-type language support and features (needs review)
+
 module.exports = Field.create({
+	
 	componentDidMount: function() {
-		if (this.refs.textField) {
-			CodeMirror.fromTextArea(this.refs.textField.getDOMNode(), {
+		if (this.refs.codemirror) {
+			var options = {
 				lineNumbers: true
-			});
+			};
+			this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror.getDOMNode(), options);
+			this.codeMirror.on('change', this.codemirrorValueChanged);
+			this._currentCodemirrorValue = this.props.value;
 		}
 	},
-
-	renderUI: function() {
-		var value = this.props.value;
-
-		var field;
-		if (this.props.noedit) {
-			field = <div className="field-value">{this.props.value}</div>;
-		} else {
-			field = <textarea ref="textField" name={this.props.path}>{this.props.value}</textarea>;
+	
+	componentWillUnmount: function() {
+		// todo: is there a lighter-weight way to remove the cm instance?
+		this.codeMirror.toTextArea();
+	},
+	
+	componentWillReceiveProps: function(nextProps) {
+		if (this.codeMirror && this._currentCodemirrorValue !== nextProps.value) {
+			this.codeMirror.setValue(nextProps.value);
 		}
-
-		return <div className='field type-code'>
-			<label className='field-label'>{this.props.label}</label>
-			<div className='field-ui'>{field}</div>
-			<Note note={this.props.note} />
-		</div>;
+	},
+	
+	codemirrorValueChanged: function(doc, change) {
+		var newValue = doc.getValue();
+		this._currentCodemirrorValue = newValue;
+		this.props.onChange({
+			path: this.props.path,
+			value: newValue
+		});
+	},
+	
+	renderField: function() {
+		return <textarea ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
 	}
+	
 });
