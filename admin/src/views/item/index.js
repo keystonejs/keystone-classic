@@ -41,11 +41,12 @@ var Form = React.createClass({
 					return;
 				}
 				
-				var ops = _.clone(el.field);
-				ops.value = this.state.values[el.field.path];
-				ops.values = this.state.values;
-				ops.onChange = this.handleChange;
-				elements[el.field.path] = React.createElement(Fields[el.field.type], ops);
+				var fieldProps = _.clone(el.field);
+				fieldProps.value = this.state.values[el.field.path];
+				fieldProps.values = this.state.values;
+				fieldProps.onChange = this.handleChange;
+				fieldProps.mode = 'edit';
+				elements[el.field.path] = React.createElement(Fields[el.field.type], fieldProps);
 				
 			}
 			

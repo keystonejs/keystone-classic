@@ -10,7 +10,11 @@ module.exports = {
 	select:           require('../../fields/types/select/select'),
 	text:             require('../../fields/types/text/text'),
 	key:              require('../../fields/types/text/text'),
+	textarea:         require('../../fields/types/textarea/textarea'),
+	url:              require('../../fields/types/url/url'),
+	embedly:          require('../../fields/types/embedly/embedly'),
 	color:            require('../../fields/types/color/color'),
+	code:             require('../../fields/types/code/code'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/cloudinaryimage'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/cloudinaryimages')
 };
