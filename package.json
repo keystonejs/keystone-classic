@@ -13,6 +13,7 @@
     "bcrypt-nodejs": "~0.0.3",
     "bluebird": "~2.3.11",
     "cloudinary": "~1.0.13",
+    "codemirror": "^4.8.0",
     "connect-flash": "~0.1.1",
     "csv": "~0.3.7",
     "embedly": "~1.0.2",
