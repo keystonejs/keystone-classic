@@ -9,6 +9,7 @@ module.exports = {
 	password:         require('../../fields/types/password/password'),
 	select:           require('../../fields/types/select/select'),
 	text:             require('../../fields/types/text/text'),
+	key:              require('../../fields/types/text/text'),
 	color:            require('../../fields/types/color/color'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/cloudinaryimage'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/cloudinaryimages')
