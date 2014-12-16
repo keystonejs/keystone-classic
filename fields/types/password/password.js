@@ -1,4 +1,5 @@
-var React = require('react'),
+var _ = require('underscore'),
+	React = require('react'),
 	Field = require('../field'),
 	Note = require('../../components/note');
 
@@ -8,11 +9,36 @@ module.exports = Field.create({
 		focusTarget: 'password'
 	},
 	
+	getInitialState: function() {
+		return {
+			passwordIsSet: this.props.value ? true : false,
+			showChangeUI: this.props.mode === 'initial' ? true : false,
+			password: '',
+			confirm: ''
+		};
+	},
+	
+	componentDidUpdate: function() {
+		if (this._focusAfterUpdate) {
+			this._focusAfterUpdate = false;
+			this.refs.password.getDOMNode().focus();
+		}
+	},
+	
 	valueChanged: function(which, event) {
-		this.props.value[which] = event.target.value;
-		this.props.onChange({
-			path: this.props.path,
-			value: this.props.value
+		this.setState(_.object([which, event.target.value]));
+		if (which === 'password') {
+			this.props.onChange({
+				path: this.props.path,
+				value: event.target.value
+			});
+		}
+	},
+	
+	showChangeUI: function() {
+		this._focusAfterUpdate = true;
+		this.setState({
+			showChangeUI: true
 		});
 	},
 	
@@ -21,6 +47,10 @@ module.exports = Field.create({
 	},
 	
 	renderField: function() {
+		return this.state.showChangeUI ? this.renderFields() : this.renderChangeButton();
+	},
+	
+	renderFields: function() {
 		return (
 			<div className="form-row">
 				<div className="col-sm-6">
@@ -30,6 +60,13 @@ module.exports = Field.create({
 					<input type="password" name={this.props.paths.confirm} placeholder='Confirm new password' ref="confirm" value={this.props.value.last} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" className="form-control" />
 				</div>
 			</div>
+		);
+	},
+	
+	renderChangeButton: function() {
+		var label = this.state.passwordIsSet ? "Change Password" : "Set Password";
+		return (
+			<button type="button" className="btn btn-default" onClick={this.showChangeUI}>{label}</button>
 		);
 	}
 	

@@ -157,7 +157,7 @@ label.checkbox {
 }
 
 .input-xs {
-  .input-size(22px; 1px; 5px; 12px; @line-height-small; @border-radius-small);
+	.input-size(22px; 1px; 5px; 12px; @line-height-small; @border-radius-small);
 }
 
 
@@ -260,14 +260,8 @@ label.checkbox {
 
 // Code
 .field.type-code {
-	.CodeMirror {
-		.form-control;
-		height: 300px;
-		padding: 0px;
-	}
-
-	.CodeMirror-gutters {
-		background-color: transparent;
+	.CodeMirror-linenumber {
+		margin-left: -40px;
 	}
 }
 
@@ -591,46 +585,82 @@ label.checkbox {
 
 // Local File
 .field.type-localfile {
-  .file-preview {
-    position: relative;
-    line-height: 0px;
-    float: left;
-    margin-right: 10px;
-  }
+	.file-preview {
+		position: relative;
+		line-height: 0px;
+		float: left;
+		margin-right: 10px;
+	}
 
-  .file-details {
-    overflow: hidden;
-    .file-values {
-      .field-value {
-        width: auto;
-        min-width: 1px;
-        float: left;
-        margin-right: 10px;
-        margin-bottom: 10px;
-      }
-    }
-    .file-message {
-      margin-left: 0px;
-      font-size: 12px;
-      width: 110px;
-      text-align: center;
-      width: 100%;
-    }
-  }
+	.file-details {
+		overflow: hidden;
+		.file-values {
+			.field-value {
+				width: auto;
+				min-width: 1px;
+				float: left;
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+		}
+		.file-message {
+			margin-left: 0px;
+			font-size: 12px;
+			width: 110px;
+			text-align: center;
+			width: 100%;
+		}
+	}
 
-  .file-details + .file-toolbar {
-    margin-top: @input-vspacing;
-  }
+	.file-details + .file-toolbar {
+		margin-top: @input-vspacing;
+	}
 
-  .upload-queued, .delete-queued {
-    .alert {
-      margin-right: 10px;
-      margin-bottom: 10px;
-      float: left;
-      padding: 6px 12px;
-    }
-  }
+	.upload-queued, .delete-queued {
+		.alert {
+			margin-right: 10px;
+			margin-bottom: 10px;
+			float: left;
+			padding: 6px 12px;
+		}
+	}
 }
+
+// Local Files
+.field.type-localfiles {
+	.sortable-placeholder {
+		border: 1px dashed #777;
+		background: none;
+		margin-top: 0px;
+		margin-left: 0px;
+		margin-right: 10px;
+		margin-bottom: 0px;
+		float: left;
+	}
+	.file-sortable {
+		position: relative;
+		float:left;
+		cursor:pointer;
+		min-width: 80px;
+		min-height: 80px;
+		margin-left: 0px;
+		margin-right: 10px;
+	}
+	.file-preview.remove {
+		img {
+			.opacity(.3);
+		}
+	}
+	.delete-pending {
+		position: absolute;
+		font-size: 1.7em;
+		left:50%;
+		top:50%;
+		margin-left:-13px;
+		margin-top:-44px;
+	}
+}
+
 
 // Related Items
 .ui-related-item {
@@ -671,13 +701,13 @@ label.checkbox {
 .form-inline .field-inline--md,
 .form-inline .field-inline--lg,
 .form-inline .field-inline--xl {
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
+		display: inline-block;
+		position: relative;
+		vertical-align: middle;
 
-    > .form-control {
-        width: 100%;
-    }
+		> .form-control {
+				width: 100%;
+		}
 }
 
 .field.type-date .form-control,
