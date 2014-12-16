@@ -24,7 +24,9 @@ module.exports = Field.create({
 	
 	componentWillUnmount: function() {
 		// todo: is there a lighter-weight way to remove the cm instance?
-		this.codeMirror.toTextArea();
+		if (this.codeMirror) {
+			this.codeMirror.toTextArea();
+		}
 	},
 	
 	componentWillReceiveProps: function(nextProps) {
