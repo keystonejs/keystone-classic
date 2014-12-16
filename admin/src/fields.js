@@ -9,7 +9,7 @@ module.exports = {
 	password:         require('../../fields/types/password/password'),
 	select:           require('../../fields/types/select/select'),
 	text:             require('../../fields/types/text/text'),
-	key:              require('../../fields/types/text/key'),
+	key:              require('../../fields/types/key/key'),
 	textarea:         require('../../fields/types/textarea/textarea'),
 	url:              require('../../fields/types/url/url'),
 	embedly:          require('../../fields/types/embedly/embedly'),
