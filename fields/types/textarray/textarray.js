@@ -16,16 +16,28 @@ module.exports = Field.create({
 		};
 	},
 	
+	componentWillReceiveProps: function(nextProps) {
+		if (nextProps.value.join('|') !== _.pluck(this.state.values, 'value').join('|')) {
+			this.setState({
+				values: nextProps.value.map(newItem)
+			});
+		}
+	},
+	
 	addItem: function() {
+		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
-			values: this.state.values.concat(newItem(''))
+			values: newValues
 		});
+		this.valueChanged(_.pluck(newValues, 'value'));
 	},
 	
 	removeItem: function(i) {
+		var newValues = _.without(this.state.values, i);
 		this.setState({
-			values: _.without(this.state.values, i)
+			values: newValues
 		});
+		this.valueChanged(_.pluck(newValues, 'value'));
 	},
 	
 	updateItem: function(i, event) {
@@ -34,6 +46,14 @@ module.exports = Field.create({
 		updatedValues[updateIndex].value = event.target.value;
 		this.setState({
 			values: updatedValues
+		});
+		this.valueChanged(_.pluck(updatedValues, 'value'));
+	},
+	
+	valueChanged: function(values) {
+		this.props.onChange({
+			path: this.props.path,
+			value: values
 		});
 	},
 	
