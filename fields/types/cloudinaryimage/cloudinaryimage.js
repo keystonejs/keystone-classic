@@ -62,6 +62,7 @@ module.exports = Field.create({
 
 				var fileReader = new FileReader;
 				fileReader.onload = function (e) {
+					if (!self.isMounted()) return;
 					self.setState({
 						localSource: e.target.result,
 						origin: "local"
