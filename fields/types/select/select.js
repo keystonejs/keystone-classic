@@ -11,8 +11,15 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 	
+	valueChanged: function(newValue) {
+		this.props.onChange({
+			path: this.props.path,
+			value: newValue
+		});
+	},
+	
 	renderField: function() {
-		return <Select name={this.props.path} value={this.props.value} options={this.props.ops} />;	
+		return <Select name={this.props.path} value={this.props.value} options={this.props.ops} onChange={this.valueChanged} />;	
 	}
 	
 });

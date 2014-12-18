@@ -3,9 +3,11 @@
 // ==============================
 
 // Keystone hero
-.home-hero {
-	background: url( "/images/intro-bg-inverse.png" ) no-repeat right bottom @link-color;
+.home-header {
+	#gradient .directional( spin(@link-color,-15%), spin(@link-color,15%), 160deg );
+	background-color: @link-color;
 	color: white;
+	text-align: center;
 	
 	.container {
 		padding-bottom: 20px;
@@ -18,7 +20,17 @@
 		font-size: 24px;
 		font-weight: 300;
 		line-height: 1.2;
-		margin: 0;
+		margin: 1em auto .66em;
+		max-width: 800px;
+	}
+	h2 {
+		border: none;
+		color: rgba(255, 255, 255, 0.66);
+		font-size: 16px;
+		font-weight: 300;
+		line-height: 1.2;
+		margin: 1em auto .66em;
+		max-width: 800px;
 	}
 	p {
 		color: white;
@@ -30,13 +42,25 @@
 		margin-right: 10px;
 		padding-left: 2em;
 		padding-right: 2em;
+		position: relative;
+
+		&:hover {
+			text-decoration: none;
+		}
+		&:active {
+			box-shadow: none;
+			text-decoration: none;
+			top: 1px;
+		}
+		&:focus {
+			outline: none;
+			text-decoration: none;
+		}
 	}
 	.btn-primary {
 		background-color: white;
 		color: @link-color;
-		&:hover {
-			text-decoration: underline;
-		}
+		text-transform: uppercase;
 	}
 	.btn-link {
 		border-color: white;
@@ -47,27 +71,6 @@
 		}
 	}
 	
-	// current version + what's new
-	.list-links {
-		color: rgba(255,255,255,0.8);
-		margin-bottom: 20px;
-		margin-top: 20px;
-		
-		li {
-			vertical-align: middle;
-		}
-		a {
-			color: rgba(255,255,255,0.8);
-			border-bottom: 1px dotted rgba(255,255,255,0.8);
-			
-			&:hover {
-				border-bottom-style: solid;
-				color: white;
-				text-decoration: none;
-			}
-		}
-	}
-	
 	
 	// twitter + github buttons
 	.social-button {
@@ -75,52 +78,17 @@
 		line-height: 0;
 		height: 20px;
 	}
-	
-	
-	// mit licence
-	.mit-licence {
-		.clearfix();
-		font-size: 13px;
-		margin-top: 20px;
-		
-		.licence-badge,
-		.licence-text {
-			float: left;
-			padding: 4px 8px;
-		}
-		.licence-badge {
-			border-radius: 4px 0 0 4px;
-			border: 1px solid transparent;
-			background-color: #3d7dcb;
-			color: white;
-			font-weight: bold;
-		}
-		.licence-text {
-			background-color: white;
-			border-radius: 0 4px 4px 0;
-			border: 1px solid #3d7dcb;
-			border-left: 0 none;
-			color: #3d7dcb;
-		}
-	}
-	.notes {
-		color: rgba(255,255,255,0.8);
-		
-		a {
-			color: rgba(255,255,255,0.8);
-			text-decoration: underline;
-			
-			&:hover {
-				color: white;
-			}
-		}
-	}
+
+	// larger screens
 	@media (min-width: @screen-sm) {
 		
 		h1 {
 			font-size: 40px;
 			font-weight: 100;
-			margin-right: 10%;
+		}
+		h2 {
+			font-size: 24px;
+			font-weight: 100;
 		}
 		.container {
 			padding-bottom: 50px;
@@ -142,6 +110,78 @@
 			width: 220px !important;
 		}
 	}
+}
+
+.home-header-buttons {
+	margin-top: 80px;
+}
+.home-header-brands-title {
+	color: rgba(255,255,255,0.66);
+	// margin-bottom: 20px;
+	margin-top: 80px;
+}
+
+// header links
+.home-header-list-links {
+	.list-inline();
+	color: rgba(255,255,255,0.66);
+	margin-bottom: 20px;
+	margin-top: 20px;
+	
+	li {
+		vertical-align: middle;
+	}
+	a {
+		color: white;
+		border-bottom: 1px solid rgba(255,255,255,0.5);
+		
+		&:hover {
+			border-bottom-color: white;
+			color: white;
+			text-decoration: none;
+		}
+	}
+}
+.home-header-list-social {
+	.list-inline();
+	margin-bottom: 20px;
+	margin-top: 20px;
+	
+	li {
+		vertical-align: middle;
+	}
+	a {
+		color: white;
+		
+		&:hover {
+			color: white;
+			text-decoration: none;
+
+			.home-header-social-item {
+				border-bottom-color: white;
+			}
+		}
+	}
+	.home-header-social-item {
+		border-bottom: 1px solid rgba(255,255,255,0.5);
+	}
+	.entypo, .entypo-social {
+		font-size: 48px;
+		margin-right: 6px;
+		vertical-align: middle;
+	}
+}
+
+// header brands
+.home-header-brands {
+	.display-flex();
+	.align-items(center);
+	.justify-content(center);
+	.flex-flow(row wrap);
+	width: 100%;
+}
+.home-header-brand {
+	padding: 20px;
 }
 
 
