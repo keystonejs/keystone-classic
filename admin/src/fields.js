@@ -14,6 +14,8 @@ module.exports = {
 	url:              require('../../fields/types/url/url'),
 	embedly:          require('../../fields/types/embedly/embedly'),
 	color:            require('../../fields/types/color/color'),
+	s3file:           require('../../fields/types/s3file/s3file'),
+	azurefile:        require('../../fields/types/azurefile/azurefile'),
 	localfile:  	  require('../../fields/types/localfile/localfile'),
 	textarray:        require('../../fields/types/textarray/textarray'),
 	numberarray:      require('../../fields/types/textarray/textarray'),
