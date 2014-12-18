@@ -21,6 +21,7 @@ module.exports = {
 	numberarray:      require('../../fields/types/textarray/textarray'),
 	code:             require('../../fields/types/code/code'),
 	number:           require('../../fields/types/number/number'),
+	html:             require('../../fields/types/html/html'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/cloudinaryimage'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/cloudinaryimages')
 };
