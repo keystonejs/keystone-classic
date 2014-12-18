@@ -10,6 +10,7 @@ module.exports = {
 	select:           require('../../fields/types/select/select'),
 	text:             require('../../fields/types/text/text'),
 	color:            require('../../fields/types/color/color'),
+	localfile:  	  require('../../fields/types/localfile/localfile'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/cloudinaryimage'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/cloudinaryimages')
 };
