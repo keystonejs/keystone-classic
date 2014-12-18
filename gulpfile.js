@@ -6,6 +6,7 @@ var _ = require('underscore'),
 	gutil = require('gulp-util'),
 	watch = require('gulp-watch'),
 	browserify = require('browserify'),
+	literalify = require('literalify'),
 	watchify = require('watchify'),
 	reactify = require('reactify'),
 	source = require('vinyl-source-stream'),
@@ -36,6 +37,9 @@ gulp.task('build-scripts', function() {
 		})
 		.add('./admin/src/app.js')
 		.transform(reactify)
+		.transform(literalify.configure({
+			tinymce: "window.tinymce"
+		}))
 		.bundle()
 		.on('error', function(e) {
 			gutil.log('Browserify Error', e);
@@ -51,7 +55,10 @@ gulp.task('watch-scripts', function() {
 			standalone: 'App'
 		}, watchify.args))
 		.add('./admin/src/app.js')
-		.transform(reactify);
+		.transform(reactify)
+		.transform(literalify.configure({
+			tinymce: "window.tinymce"
+		}));
 	
 	var w = watchify(b)
 		.on('update', function (scriptIds) {
