@@ -41,7 +41,12 @@ html
 							li: a(href=signout).signout Sign Out
 					ul.nav.navbar-nav
 						each navSection in nav.sections
-							li(class=section.key == navSection.key ? 'active' : null): a(href='/keystone/' + navSection.lists[0].path)= navSection.label
+							if navSection.lists[0].external
+								- path = navSection.lists[0].path
+							else
+								- path = '/keystone/' + navSection.lists[0].path
+
+							li(class=section.key == navSection.key ? 'active' : null): a(href=path)= navSection.label
 			if section.lists && section.lists.length > 1
 				nav(role='navigation')#section-nav.navbar.navbar-default.navbar-static-top: .container
 					.navbar-header
@@ -57,14 +62,20 @@ html
 					.collapse.navbar-collapse.navbar-sectionnav-collapse
 						ul.nav.navbar-nav
 							each navList in section.lists
-								li(class=navList.key == list.key ? 'active' : null): a(href='/keystone/' + navList.path)= navList.label
+								if navList.external
+									- path = navList.path
+								else
+									- path = '/keystone/' + navList.path
+									
+								li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
 			#body: .container
 				block intro
 				+flash-messages(messages)
 				block content
 
 		#footer: .container
-			p Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
+			p 	#{brand} #{appversion} 
+				| Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
 				if User && user
 					|  Signed in as 
 					a(href='/keystone/' + User.path + '/' + user.id)= User.getDocumentName(user)
@@ -122,7 +133,6 @@ html
 		script(src="/keystone/js/common/ui-alt-text.js")
 		script(src="/keystone/js/common/ui-color.js")
 		script(src="/keystone/js/common/ui-sortable.js")
-		script(src="/keystone/js/common/ui-multivalue.js")
 		
 		//- Page Scripts
 		block js

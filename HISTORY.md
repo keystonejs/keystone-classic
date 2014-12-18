@@ -1,5 +1,37 @@
 # Keystone
 
+## v0.2.36 / 2014-12-07
+
+* fixed; several issues with the `localfile` field type
+* improved; `localfile.options.format` is called with the `field` context
+* improved; `localfile.href` is now available as a virtual
+* improved; switched to `fs-extra` so missing paths for `localfile` uploads will be created automatically
+* improved; `localfiles` field type has been completely overhauled, now in line with `localfile` and supports `prefix` and `format` options
+* removed; the autodetection of image file types in the `localfiles` field has been removed, use the `format` option instead (like `localfile`)
+* fixed; admin UI template caching bug, may help improve Admin UI performance
+* fixed; `callback` is now correctly optional in `keystone.Email.send()`, thanks [Brett Newman](https://github.com/snowkeeper)
+* improved; a `ReferenceError` is now thrown when an invalid list is requested with `keystone.list`, thanks [Sebastian McKenzie](https://github.com/sebmck)
+
+## v0.2.35 / 2014-12-02
+
+*This release fixes an issue in the Admin UI introduced in 0.2.34, our sincere apologies to anyone who was affected by this!*
+
+* fixed; an issue to do with admin links introduced by the new custom nav functionality, thanks [Camille Reynders](https://github.com/creynders)
+
+## v0.2.34 / 2014-11-29
+
+* added; ability to specify custom navigation items in the header menu, thanks [Camille Reynders](https://github.com/creynders)
+* added; ability to specify multiple values for a dependsOn field with an Array, thanks [Brett Newman](https://github.com/snowkeeper)
+* improved; more dynamic import extensions, thanks [Sebastian McKenzie](https://github.com/sebmck)
+* fixed; several issues relating to validation in the UpdateHandler
+* fixed; issues deleting users, thanks [Ignacio Lago](https://github.com/ignlg)
+* fixed; potential issues comparing csrf and password tokens, thanks [Mickael van der Beek](https://github.com/Mickael-van-der-Beek)
+* fixed; incorrect whitespace in UI when ordering lists, thanks [Tiago Martins](https://github.com/Gank)
+* fixed; callback in Email class is now correctly optional, thanks [Ignacio Lago](https://github.com/ignlg)
+* fixed; UI inconsistencies when deleting items, thanks [Ignacio Lago](https://github.com/ignlg)
+* fixed; date formatting issues with tracking meta, thanks [Jacques Lareau](https://github.com/jacqueslareau)
+
+
 ## v0.2.33 / 2014-11-04
 
 * fixed; Issues where the session store would not always wait for a database connection before initialising the web server
