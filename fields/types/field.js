@@ -120,6 +120,8 @@ module.exports.create = function(spec) {
 	
 	spec = validateSpec(spec);
 	
+	var excludeBaseMethods = [];
+	
 	var field = {
 		
 		spec: spec,
@@ -142,8 +144,16 @@ module.exports.create = function(spec) {
 		
 	};
 	
-	_.extend(field, Base);
-	_.extend(field, spec);
+	if (spec.mixins) {
+		_.each(spec.mixins, function(mixin) {
+			_.each(mixin, function(method, name) {
+				if (Base[name]) excludeBaseMethods.push(name);
+			});
+		});
+	}
+	
+	_.extend(field, _.omit(Base, excludeBaseMethods));
+	_.extend(field, _.omit(spec, 'mixins'));
 	
 	if (_.isArray(spec.mixins)) {
 		field.mixins = field.mixins.concat(spec.mixins);
