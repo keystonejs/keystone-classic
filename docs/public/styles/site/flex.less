@@ -1,0 +1,71 @@
+// 
+// Flexbox Mixins
+// --------------------------------------------------
+// http://philipwalton.github.io/solved-by-flexbox/
+// https://github.com/philipwalton/solved-by-flexbox
+
+
+// container
+
+.display-flex {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.display-inline-flex {
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+}
+.flex-flow(@values: 'row nowrap') {
+	-webkit-flex-flow: @values;
+	-ms-flex-flow: @values;
+	flex-flow: @values;
+}
+.flex-direction(@value: row) {
+	-webkit-flex-direction: @value;
+	-ms-flex-direction: @value;
+	flex-direction: @value;
+}
+.flex-wrap(@value: nowrap) {
+	// No Webkit Box fallback.
+	-webkit-flex-wrap: @value;
+	-ms-flex-wrap: @value;
+	flex-wrap: @value;
+}
+.align-items(@value: stretch) {
+	-webkit-align-items: @value;
+	align-items: @value;
+}
+.align-content(@value: stretch) {
+	-webkit-align-content: @value;
+	align-content: @value;
+}
+.justify-content(@value: stretch) {
+	-webkit-justify-content: @value;
+	justify-content: @value;
+}
+
+
+// children
+
+.flex(@fg: 1, @fs: '', @fb: '') {
+	-webkit-flex: @fg @fs @fb;
+	-ms-flex: @fg @fs @fb;
+	flex: @fg @fs @fb;
+}
+.flex-basis(@fb) {
+	-webkit-flex-basis: @fb;
+	-ms-flex-basis: @fb;
+	flex-basis: @fb;
+}
+.flex-grow(@grow: 1) {
+	-webkit-flex: @grow;
+	-ms-flex: @grow;
+	flex: @grow;
+}
+.align-self(@value: auto) {
+	-webkit-align-self: @value;
+	align-self: @value;
+}
+

@@ -2,16 +2,14 @@ var http = require('http'),
 	_ = require('underscore'),
 	express = require('express'),
 	jade = require('jade'),
-	content = require('./content/site.json');
+	content = require('./content');
 
 function view(view, options) {
 	return function(req, res, next) {
 		options.pretty = true;
-		var docsBase = __dirname + '/content/pages/';
-		if(req.session.currentLanguage != null && req.session.currentLanguage != 'default') {
-			docsBase = __dirname + '/content.' + req.session.currentLanguage + '/pages/';
-		}
-		res.render(docsBase + view, options);
+		options.prefix = (options.language === 'en') ? '/' : '/' + options.language + '/';
+		_.extend(options, content.languages[options.language]);
+		res.render(options.language + '/pages/' + view, options);
 	}
 }
 
@@ -20,6 +18,7 @@ function view(view, options) {
 var app = express();
 
 app.set('port', 8080);
+app.set('views', 'content');
 app.set('view engine', 'jade');
 
 app.use(express.favicon('public/favicon.ico'));
@@ -44,9 +43,7 @@ app.use(function(req, res, next) {
 });
 
 // Set up locals and routes
-
-_.extend(app.locals, content.locals);
-
+app.locals.languages = content.languages;
 app.locals.version = require('../package.json').version;
 app.locals.languages = require('./languages.json').languages;
 
