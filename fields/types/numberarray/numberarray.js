@@ -3,5 +3,11 @@ var _ = require('underscore'),
 	ArrayFieldMixin = require('../../mixins/arrayfield');
 
 module.exports = Field.create({
-	mixins: [ArrayFieldMixin]
+	
+	mixins: [ArrayFieldMixin],
+	
+	cleanInput: function(input) {
+		return input.replace(/[^\d]/g, '');
+	}
+	
 });

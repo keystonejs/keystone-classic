@@ -18,7 +18,7 @@ module.exports = {
 	azurefile:        require('../../fields/types/azurefile/azurefile'),
 	localfile:  	  require('../../fields/types/localfile/localfile'),
 	textarray:        require('../../fields/types/textarray/textarray'),
-	numberarray:      require('../../fields/types/textarray/textarray'),
+	numberarray:      require('../../fields/types/numberarray/numberarray'),
 	code:             require('../../fields/types/code/code'),
 	number:           require('../../fields/types/number/number'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/cloudinaryimage'),
