@@ -18,7 +18,7 @@ module.exports = Field.create({
 
 	componentDidMount: function() {
 		if (!this.props.wysiwyg) return;
-
+		
 		var self = this;
 		var opts = this.getOptions();
 
@@ -40,9 +40,9 @@ module.exports = Field.create({
 	valueChanged: function () {
 		var content;
 		if (this.editor) {
-			var content = this._currentValue = this.editor.getContent();
-		} else if (this.refs.textarea) {
-			content = this.refs.textarea.getDOMNode().value;
+			content = this.editor.getContent();
+		} else if (this.refs.editor) {
+			content = this.refs.editor.getDOMNode().value;
 		} else {
 			return;
 		}
@@ -80,7 +80,9 @@ module.exports = Field.create({
 				plugins.push(additionalPlugins[i]);
 			}
 		}
-		toolbar += ' | code';
+		if (!Keystone.wysiwyg.options.overrideToolbar) {
+			toolbar += ' | code';
+		}
 
 		var opts = {
 			selector: '#' + this.state.id,
@@ -112,12 +114,23 @@ module.exports = Field.create({
 	getFieldClassName: function() {
 		return this.props.wysiwyg ? 'wysiwyg' : 'code';
 	},
+	
+	renderEditor: function(readOnly) {
+		var style = {
+			height: this.props.height
+		};
+		return (
+			<textarea ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} readOnly={readOnly}>
+				{this.props.value}
+			</textarea>
+		);
+	},
 
 	renderField: function() {
-		return <textarea ref='textarea' onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path}>{this.props.value}</textarea>;
+		return this.renderEditor();
 	},
 	
 	renderValue: function() {
-		return <textarea ref='textarea' onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} readOnly>{this.props.value}</textarea>;
+		return this.renderEditor(true);
 	}
 });
