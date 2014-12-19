@@ -2,6 +2,7 @@ var _ = require('underscore'),
 	React = require('react'),
 	Fields = require('../../fields'),
 	FormHeading = require('../../components/formHeading'),
+	Toolbar = require('../../components/toolbar'),
 	InvalidFieldType = require('../../components/invalidFieldType');
 
 var Form = React.createClass({
@@ -41,18 +42,38 @@ var Form = React.createClass({
 					return;
 				}
 				
-				var ops = _.clone(el.field);
-				ops.value = this.state.values[el.field.path];
-				ops.values = this.state.values;
-				ops.onChange = this.handleChange;
-				elements[el.field.path] = React.createElement(Fields[el.field.type], ops);
+				var fieldProps = _.clone(el.field);
+				fieldProps.value = this.state.values[el.field.path];
+				fieldProps.values = this.state.values;
+				fieldProps.onChange = this.handleChange;
+				fieldProps.mode = 'edit';
+				elements[el.field.path] = React.createElement(Fields[el.field.type], fieldProps);
 				
 			}
 			
 		}.bind(this));
 		
+		var toolbar = {};
+		
+		if (!this.props.list.noedit) {
+			toolbar['save'] = <button type="submit" className="btn btn-save">Save</button>;
+			// TODO: Confirm: 'Are you sure you want to reset your changes?'
+			toolbar['reset'] = <a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className="btn btn-link btn-cancel">reset changes</a>;
+		}
+		
+		if (!this.props.list.noedit) {
+			// TODO: Confirm: 'Are you sure you want to delete this ' + list.singular.toLowerCase() + '?'
+			console.log('/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query);
+			toolbar['del'] = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete">delete {this.props.list.singular.toLowerCase()}</a>
+		}
+		
 		return (
-			<div>{elements}</div>
+			<div>
+				{elements}
+				<Toolbar>
+					{toolbar}
+				</Toolbar>
+			</div>
 		);
 	}
 	

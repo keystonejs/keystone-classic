@@ -104,7 +104,7 @@ block content
 			else
 				h2.form-heading.name-value= item.get(list.namePath) || '(no name)'
 
-		if list.tracking
+		//- if list.tracking
 			- var meta_createdAt, meta_createdBy, meta_updatedAt, meta_updatedBy
 			.item-details-meta
 				if list.tracking.createdAt
@@ -135,26 +135,8 @@ block content
 							span.item-details-meta-info: a(href='/keystone/' + User.path + '/' + meta_updatedBy.id)= User.getDocumentName(meta_updatedBy)
 		
 		// Attach point for new React Form
-		div#item-form
+		div#item-form.keystone-item-form
 		
-		//-  each el in list.uiElements
-		//-  	if el.type == 'field'
-		//-  		if (el.field.type != 'text' || el.field != nameField) && !el.field.hidden
-		//-  			!= el.field.render('form', item, fieldLocals)
-		//-  	else if el.type == 'heading'
-		//-  		h3.form-heading(data-field-depends-on=el.options.dependsOn)= el.heading
-		//-  	else if el.type == 'indent'
-		//-  		| <div class="form-indent">
-		//-  	else if el.type == 'outdent'
-		//-  		| </div>
-		
-		.toolbar.toolbar-fixed
-			if !list.get('noedit')
-				button(type='submit').btn.btn-default.btn-save Save
-				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
-			if !list.get('nodelete')  && item.id !== user.id
-				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
-	
 	
 	if showRelationships
 		h2.relationship-heading.form-heading Relationships

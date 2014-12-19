@@ -64,13 +64,13 @@ module.exports = Field.create({
 			input = (
 				<div className={fieldClassName}>
 					<InputDate ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} />
-					<a className="btn btn-default btn-set-today" onClick={this.setToday}>Today</a>
+					<button className="btn btn-default btn-set-today" onClick={this.setToday}>Today</button>
 				</div>
 			);
 		}
 		
 		return (
-			<div className="field type-date">
+			<div className="field field-type-date">
 				<label htmlFor={this.props.path} className="field-label">{this.props.label}</label>
 				{input}
 				<div className="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2">

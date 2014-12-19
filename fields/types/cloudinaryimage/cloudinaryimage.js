@@ -5,8 +5,9 @@ var _      = require('underscore'),
 	Note   = require('../../components/note'),
 	Select = require('react-select');
 
+var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
+
 module.exports = Field.create({
-	SUPPORTED_TYPES: ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'],
 
 	fileFieldNode: function () {
 		return this.refs.fileField.getDOMNode();
@@ -54,7 +55,7 @@ module.exports = Field.create({
 		if (window.FileReader) {
 			var files = event.target.files;
 			_.each(files, function (f) {
-				if (!_.contains(self.SUPPORTED_TYPES, f.type)) {
+				if (!_.contains(SUPPORTED_TYPES, f.type)) {
 					self.removeImage();
 					alert("Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD");
 					return false;
@@ -62,6 +63,7 @@ module.exports = Field.create({
 
 				var fileReader = new FileReader;
 				fileReader.onload = function (e) {
+					if (!self.isMounted()) return;
 					self.setState({
 						localSource: e.target.result,
 						origin: "local"
@@ -316,7 +318,7 @@ module.exports = Field.create({
 			body.push(this.renderImageToolbar());
 		}
 
-		return <div className='field type-cloudinaryimage'>
+		return <div className='field field-type-cloudinaryimage'>
 			<label className='field-label'>{this.props.label}</label>
 
 			{this.renderFileField()}

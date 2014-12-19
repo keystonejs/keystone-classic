@@ -30,10 +30,7 @@ html
 						span.icon-bar
 						span.icon-bar
 						span.icon-bar
-					if section.lists && section.lists.length > 1
-						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
-					else
-						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
+					a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
 				.collapse.navbar-collapse.navbar-headernav-collapse
 					if signout
 						ul.nav.navbar-nav.navbar-right
@@ -41,7 +38,12 @@ html
 							li: a(href=signout).signout Sign Out
 					ul.nav.navbar-nav
 						each navSection in nav.sections
-							li(class=section.key == navSection.key ? 'active' : null): a(href='/keystone/' + navSection.lists[0].path)= navSection.label
+							if navSection.lists[0].external
+								- path = navSection.lists[0].path
+							else
+								- path = '/keystone/' + navSection.lists[0].path
+
+							li(class=section.key == navSection.key ? 'active' : null): a(href=path)= navSection.label
 			if section.lists && section.lists.length > 1
 				nav(role='navigation')#section-nav.navbar.navbar-default.navbar-static-top: .container
 					.navbar-header
@@ -57,14 +59,20 @@ html
 					.collapse.navbar-collapse.navbar-sectionnav-collapse
 						ul.nav.navbar-nav
 							each navList in section.lists
-								li(class=navList.key == list.key ? 'active' : null): a(href='/keystone/' + navList.path)= navList.label
+								if navList.external
+									- path = navList.path
+								else
+									- path = '/keystone/' + navList.path
+									
+								li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
 			#body: .container
 				block intro
 				+flash-messages(messages)
 				block content
 
 		#footer: .container
-			p Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
+			p 	#{brand} #{appversion} 
+				| Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
 				if User && user
 					|  Signed in as 
 					a(href='/keystone/' + User.path + '/' + user.id)= User.getDocumentName(user)
@@ -89,6 +97,7 @@ html
 		script(src="/keystone/js/lib/pikaday/pikaday-1.1.0.js")
 		script(src="/keystone/js/lib/pikaday/pikaday.jquery-1.1.0.js")
 		script(src="/keystone/js/lib/jquery-placeholder-shim/jquery-placeholder-shim.js")
+		script(src="/keystone/js/lib/tinymce/tinymce.min.js")
 		
 		//- New React App and Components
 		script(src="/keystone/build/js/app.js")
@@ -102,6 +111,7 @@ html
 			};
 			Keystone.csrf.key = "#{csrf_token_key}";
 			Keystone.csrf.value = "#{csrf_token_value}";
+			Keystone.csrf.query = "!{csrf_query}";
 		if cloudinary
 			script(src='/keystone/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js')
 			script(src='/keystone/js/lib/jqueryfileupload/jquery.iframe-transport.js')
@@ -122,7 +132,6 @@ html
 		script(src="/keystone/js/common/ui-alt-text.js")
 		script(src="/keystone/js/common/ui-color.js")
 		script(src="/keystone/js/common/ui-sortable.js")
-		script(src="/keystone/js/common/ui-multivalue.js")
 		
 		//- Page Scripts
 		block js

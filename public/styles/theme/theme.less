@@ -557,8 +557,9 @@ h3.relationship-heading {
 // --------------------------------------------------
 
 // Cancel buttons
+.btn-cancel,
 .btn-link.btn-cancel {
-	color: @gray;
+	color: @gray-light;
 
 	&:hover {
 		color: @state-danger-text;
@@ -595,9 +596,13 @@ h3.relationship-heading {
 }
 */
 
-// Save buttons
-.btn.btn-filter,
-.btn.btn-save {
+
+
+
+// Toolbar Buttons
+// ------------------------------
+
+.btn.btn-filter {
 	#gradient .vertical( #fff, mix(white, @link-color, 93%), 30%, 100% );
 	color: darken(@link-color, 10%);
 	border-color: @link-color;
@@ -613,6 +618,37 @@ h3.relationship-heading {
 		background: mix(white, @link-color, 93%);
 		border-color: darken(@link-color, 10%);
 		color: darken(@link-color, 15%);
+	}
+}
+.btn.btn-save {
+	#gradient .vertical( lighten(@link-color, 4%), darken(@link-color, 4%), 0%, 100% );
+	border-color: lighten(@link-color, 4%) @link-color darken(@link-color, 4%);
+	box-shadow: none;
+	color: white;
+
+	&:hover,
+	&:focus {
+		#gradient .vertical( lighten(@link-color, 8%), @link-color, 0%, 100% );
+		border-color: lighten(@link-color, 8%) lighten(@link-color, 4%) @link-color;
+		box-shadow: none;
+	}
+
+	&:active,
+	&.active {
+		background: @link-color;
+		border-color: darken(@link-color, 8%) darken(@link-color, 4%) @link-color;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+	}
+}
+.toolbar > .delete {
+	border-radius: @border-radius-base;
+	float: right;
+
+	&:hover,
+	&:focus {
+		#gradient .vertical( lighten(@brand-danger, 4%), darken(@brand-danger, 4%), 0%, 100% );
+		color: white;
+		text-decoration: none;
 	}
 }
 

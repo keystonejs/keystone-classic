@@ -19,7 +19,7 @@ var fs = require('fs-extra'),
 	path = require('path'),
 	_ = require('underscore'),
 	jade = require('jade'),
-	content = require('./content/site.json');
+	content = require('./content');
 
 // Command line arguments
 
@@ -31,14 +31,19 @@ var args = {
 
 var locals = _.extend({
 	pretty: true,
+	languages: content.languages,
 	version: require('../package.json').version
-}, content.locals);
+});
 
 console.log('\nBuilding KeystoneJS docs...\n');
 
 content.routes.forEach(function(route) {
 	
-	var html = jade.renderFile('./content/pages/' + route.template + '.jade', _.extend(route, locals));
+	var options = _.extend(route, locals);
+	options.prefix = (options.language === 'en') ? '/' : '/' + options.language + '/';
+	_.extend(options, content.languages[options.language]);
+	
+	var html = jade.renderFile('./content/' + options.language + '/pages/' + route.template + '.jade', options);
 	var filename = route.path.substr(1).replace(/\//g, '_') || 'index';
 	var filepath = args.dest + '/' + filename + '.html';
 	

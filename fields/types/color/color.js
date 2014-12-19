@@ -5,11 +5,6 @@ var React = require('react'),
 require('./lib/bootstrap-colorpicker');
 
 module.exports = Field.create({
-	componentDidMount: function() {
-		if (!this.refs.field) return;
-
-	},
-
 	renderField: function() {
 		return [
 			<input ref='field' type='text' className='form-control' onChange={this.valueChanged} name={this.props.path} value={this.props.value} autoComplete='off' />,

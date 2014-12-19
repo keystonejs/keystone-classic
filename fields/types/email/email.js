@@ -9,10 +9,6 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
-	supports: {
-		width: true
-	},
-	
 	renderValue: function() {
 		return this.props.value
 			? <a className="ui-related-item" href={"mailto:" + this.props.value}>{this.props.value}</a>
