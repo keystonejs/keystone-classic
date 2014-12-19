@@ -104,7 +104,7 @@ block content
 			else
 				h2.form-heading.name-value= item.get(list.namePath) || '(no name)'
 
-		if list.tracking
+		//- if list.tracking
 			- var meta_createdAt, meta_createdBy, meta_updatedAt, meta_updatedBy
 			.item-details-meta
 				if list.tracking.createdAt
