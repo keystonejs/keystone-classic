@@ -1,5 +1,10 @@
 # Keystone
 
+## v0.2.38 / 2014-12-19
+
+* fixed; a bug where location field filters were not being applied in the Admin UI
+* fixed; a bug where boolean field filters were not being applied in the Admin UI
+
 ## v0.2.37 / 2014-12-19
 
 * added; check for refsLookup existence to core/createItem, thanks [Sebastian McKenzie](https://github.com/sebmck)
