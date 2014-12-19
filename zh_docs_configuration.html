@@ -203,6 +203,12 @@ permalink: /zh/docs/configuration/
                   </td>
                 </tr>
                 <tr>
+                  <td><code>static options</code> <code class="data-type">Object</code></td>
+                  <td>
+                    <p>可选的配置参数，将会传给<code>express.static</code>中间件。</p>
+                  </td>
+                </tr>
+                <tr>
                   <td><code>less</code> <code class="data-type">String</code> 或 <code class="data-type">Array</code></td>
                   <td>
                     <p>如果你想让Keystone将<strong>.less</strong>文件自动编译成<strong>.css</strong>文件，把它的值也设成<code>static</code>参数指定的路径。</p>
@@ -279,6 +285,12 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                   <td><code>ssl cert</code> <code class="data-type">Path</code></td>
                   <td>
                     <p>指向SSL证书的路径。应该为绝对或相对于<code class="default-value">process.cwd()</code>的路径 (通常是项目的根路径)。</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>ssl ca</code> <code class="data-type">Path</code></td>
+                  <td>
+                    <p>应该为绝对或相对于<code class="default-value">process.cwd()</code>的路径 (通常是项目的根路径)。</p>
                   </td>
                 </tr>
                 <tr>

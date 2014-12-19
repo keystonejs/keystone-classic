@@ -203,6 +203,12 @@ permalink: /docs/configuration/
                   </td>
                 </tr>
                 <tr>
+                  <td><code>static options</code> <code class="data-type">Object</code></td>
+                  <td>
+                    <p>Optional config options that will be passed to the <code>express.static</code> middleware.</p>
+                  </td>
+                </tr>
+                <tr>
                   <td><code>less</code> <code class="data-type">String</code> or <code class="data-type">Array</code></td>
                   <td>
                     <p>If you want Keystone to automatically compile <strong>.less</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.</p>
@@ -279,6 +285,12 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                   <td><code>ssl cert</code> <code class="data-type">Path</code></td>
                   <td>
                     <p>The path to your SSL Certificate. Should be either absolute or relative to <code class="default-value">process.cwd()</code> (which is usually your project root).</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>ssl ca</code> <code class="data-type">Path</code></td>
+                  <td>
+                    <p>The path to your SSL CA Bundle. Should be either absolute or relative to <code class="default-value">process.cwd()</code> (which is usually your project root).</p>
                   </td>
                 </tr>
                 <tr>
