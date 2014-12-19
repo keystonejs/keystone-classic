@@ -22,12 +22,6 @@ app.set('views', 'content');
 app.set('view engine', 'jade');
 
 app.use(express.favicon('public/favicon.ico'));
-app.use(express.cookieParser());
-app.use(express.bodyParser());
-app.use(express.cookieSession({
-	secret: 'secret'
-}));
-
 app.use(require('less-middleware')('public'));
 app.use(express.static('public'));
 
@@ -45,30 +39,9 @@ app.use(function(req, res, next) {
 // Set up locals and routes
 app.locals.languages = content.languages;
 app.locals.version = require('../package.json').version;
-app.locals.languages = require('./languages.json').languages;
-
-app.use(function(req,res,next){
-    res.locals.session = req.session;
-    next();
-});
 
 _.each(content.routes, function(options) {
 	app.get(options.path, view(options.template, options));
-});
-
-app.post('/language',function(req,res,next) {
-  var language = req.body.language;
-  if(req.session.currentLanguage != language) {
-	req.session.currentLanguage = language;
-	if(language != 'default') {
-		var currentContent = require('./content.'+ language +'/site.json');
-		_.extend(app.locals, currentContent.locals);
-	} else {
-		_.extend(app.locals, content.locals);
-	}
-	
-  }
-  res.redirect('/');
 });
 
 app.use(function(req, res, next) {
