@@ -139,7 +139,7 @@ module.exports = Field.create({
 	renderUI: function() {
 		
 		if (this.props.noedit) {
-			return <div className="field type-location">
+			return <div className="field field-type-location">
 				<label className="field-label">{this.props.label}</label>
 				<div className="field-ui noedit">
 					{this.renderValue()}
@@ -151,7 +151,7 @@ module.exports = Field.create({
 			? <a href="javascript:;" className="field-label-companion" onClick={this.uncollapseFields}>(show more fields)</a>
 			: null;
 		
-		return <div className="field type-location">
+		return <div className="field field-type-location">
 			<div className="field-ui">
 				<label>{this.props.label}</label>
 				{showMore}

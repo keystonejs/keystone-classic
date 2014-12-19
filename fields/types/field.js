@@ -54,7 +54,7 @@ var Base = module.exports.Base = {
 		
 		var inner = this.props.noedit ? this.renderValue() : this.renderField();
 		
-		return <div className={"field type-" + this.props.type}>
+		return <div className={"field field-type-" + this.props.type}>
 			<label className="field-label">{this.props.label}</label>
 			<div className={fieldClassName}>
 				{inner}
@@ -102,7 +102,7 @@ var Mixins = module.exports.Mixins = {
 				return null;
 			}
 			
-			return <div className={"field type-" + this.props.type}>
+			return <div className={"field field-type-" + this.props.type}>
 				<div className="col-sm-12">
 					<label className="uncollapse">
 						<a href="javascript:;" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</a>

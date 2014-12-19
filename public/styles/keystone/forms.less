@@ -188,17 +188,17 @@ label.checkbox {
 	}
 }
 
-.field.type-number,
-.field.type-numberarray,
-.field.type-money {
+.field-type-number,
+.field-type-numberarray,
+.field-type-money {
 	.field-ui {
 		.make-sm-column(3);
 		.make-md-column(2);
 	}
 }
 
-.field.type-name,
-.field.type-password {
+.field-type-name,
+.field-type-password {
 	.field-ui {
 		.make-sm-column(7);
 		.make-md-column(5);
@@ -206,9 +206,9 @@ label.checkbox {
 }
 
 // Short Strings
-.field.type-url,
-.field.type-email,
-.field.type-key {
+.field-type-url,
+.field-type-email,
+.field-type-key {
 	.field-ui.width-full {
 		.make-sm-column(7);
 		.make-md-column(5);
@@ -216,7 +216,7 @@ label.checkbox {
 }
 
 // Booleans
-.field.type-boolean {
+.field-type-boolean {
 	.field-ui {
 		.make-sm-column(9);
 		.make-md-column(10);
@@ -229,7 +229,7 @@ label.checkbox {
 }
 
 // Locations
-.field.type-location {
+.field-type-location {
 	label {
 		margin: 0;
 	}
@@ -250,7 +250,7 @@ label.checkbox {
 }
 
 // HTML
-.field.type-html {
+.field-type-html {
 	textarea {
 		.form-control;
 	}
@@ -259,7 +259,7 @@ label.checkbox {
 
 
 // Code
-.field.type-code {
+.field-type-code {
 	.CodeMirror-linenumber {
 		margin-left: -40px;
 	}
@@ -270,7 +270,7 @@ label.checkbox {
 // Cloudinary Images
 
 // - Singluar
-.field.type-cloudinaryimage {
+.field-type-cloudinaryimage {
 	.image-preview {
 		position: relative;
 		line-height: 0px;
@@ -355,7 +355,7 @@ label.checkbox {
 }
 
 // - Multiple
-.field.type-cloudinaryimages {
+.field-type-cloudinaryimages {
 	.image-field {
 		width: auto;
 		float: left;
@@ -494,7 +494,7 @@ label.checkbox {
 }
 
 // S3 File
-.field.type-s3file {
+.field-type-s3file {
 	.file-preview {
 		position: relative;
 		line-height: 0px;
@@ -539,7 +539,7 @@ label.checkbox {
 
 
 // Azure File
-.field.type-azurefile	 {
+.field-type-azurefile	 {
 	.file-preview {
 		position: relative;
 		line-height: 0px;
@@ -584,7 +584,7 @@ label.checkbox {
 
 
 // Local File
-.field.type-localfile {
+.field-type-localfile {
 	.file-preview {
 		position: relative;
 		line-height: 0px;
@@ -627,7 +627,7 @@ label.checkbox {
 }
 
 // Local Files
-.field.type-localfiles {
+.field-type-localfiles {
 	.sortable-placeholder {
 		border: 1px dashed #777;
 		background: none;
@@ -710,8 +710,8 @@ label.checkbox {
 		}
 }
 
-.field.type-date .form-control,
-.field.type-datetime .form-control{
+.field-type-date .form-control,
+.field-type-datetime .form-control{
 	display: inline-block;
 	margin-right: 5px;
 	width: auto;
@@ -730,7 +730,7 @@ label.checkbox {
 	display: inline-block;
 }
 
-.field.type-textarray {
+.field-type-textarray {
 	.field-item {
 		margin-bottom: 6px;
 	}
