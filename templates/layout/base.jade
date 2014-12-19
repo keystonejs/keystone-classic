@@ -111,6 +111,7 @@ html
 			};
 			Keystone.csrf.key = "#{csrf_token_key}";
 			Keystone.csrf.value = "#{csrf_token_value}";
+			Keystone.csrf.query = "!{csrf_query}";
 		if cloudinary
 			script(src='/keystone/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js')
 			script(src='/keystone/js/lib/jqueryfileupload/jquery.iframe-transport.js')
