@@ -59,9 +59,7 @@ module.exports = {
 	renderItem: function(i) {
 		return (
 			<div key={i.key} className='field-item'>
-				<a href="javascript:;" className='field-item-button btn-cancel' onClick={this.removeItem.bind(this, i)}>
-					<span className='ion-close-round' />
-				</a>
+				<a href="javascript:;" className='field-item-button btn-cancel' onClick={this.removeItem.bind(this, i)}>&times;</a>
 				<input className='form-control multi' type='text' name={this.props.path} value={i.value} onChange={this.updateItem.bind(this, i)} autoComplete='off' />
 			</div>
 		);
