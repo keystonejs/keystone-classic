@@ -24,7 +24,8 @@ module.exports = {
 	},
 	
 	addItem: function() {
-		var newValues = this.state.values.concat(newItem(''));
+		var newItem = newItem('');
+		var newValues = this.state.values.concat();
 		this.setState({
 			values: newValues
 		});
@@ -60,7 +61,7 @@ module.exports = {
 		return (
 			<div key={i.key} className='field-item'>
 				<a href="javascript:;" className='field-item-button btn-cancel' onClick={this.removeItem.bind(this, i)}>&times;</a>
-				<input className='form-control multi' type='text' name={this.props.path} value={i.value} onChange={this.updateItem.bind(this, i)} autoComplete='off' />
+				<input ref={'input_' + i.key} className='form-control multi' type='text' name={this.props.path} value={i.value} onChange={this.updateItem.bind(this, i)} autoComplete='off' />
 			</div>
 		);
 	},
@@ -69,7 +70,7 @@ module.exports = {
 		return (
 			<div>
 				{this.state.values.map(this.renderItem)}
-				<button className='btn btn-xs btn-default' onClick={this.addItem}>Add item</button>
+				<button type="button" className='btn btn-xs btn-default' onClick={this.addItem}>Add item</button>
 			</div>
 		);
 	}
