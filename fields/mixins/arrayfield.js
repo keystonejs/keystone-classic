@@ -59,10 +59,10 @@ module.exports = {
 	renderItem: function(i) {
 		return (
 			<div key={i.key} className='field-item'>
-				<input className='form-control multi' type='text' name={this.props.path} value={i.value} onChange={this.updateItem.bind(this, i)} autoComplete='off' />
-				<a className='btn btn-link btn-cancel' onClick={this.removeItem.bind(this, i)}>
+				<a href="javascript:;" className='field-item-button btn-cancel' onClick={this.removeItem.bind(this, i)}>
 					<span className='ion-close-round' />
 				</a>
+				<input className='form-control multi' type='text' name={this.props.path} value={i.value} onChange={this.updateItem.bind(this, i)} autoComplete='off' />
 			</div>
 		);
 	},
@@ -71,7 +71,7 @@ module.exports = {
 		return (
 			<div>
 				{this.state.values.map(this.renderItem)}
-				<a className='btn btn-xs btn-default' onClick={this.addItem}>Add item</a>
+				<a href="javascript:;" className='btn btn-xs btn-default' onClick={this.addItem}>Add item</a>
 			</div>
 		);
 	}
