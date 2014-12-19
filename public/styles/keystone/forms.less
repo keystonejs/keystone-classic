@@ -1,5 +1,7 @@
 //
 // FORM ELEMENTS
+// Some field types are imported at the bottom 
+// of this file so they inherit styles
 // --------------------------------------------------
 
 /*
@@ -161,8 +163,11 @@ label.checkbox {
 }
 
 
-// FIELD TYPES
-// =======================================
+
+
+// Field Sizes
+// ------------------------------
+
 .field {
 	.make-row();
 }
@@ -187,6 +192,12 @@ label.checkbox {
 		.make-md-column(2);
 	}
 }
+
+
+
+
+// Field Types
+// ------------------------------
 
 .field-type-number,
 .field-type-numberarray,
@@ -265,403 +276,6 @@ label.checkbox {
 	}
 }
 
-
-
-// Cloudinary Images
-
-// - Singluar
-.field-type-cloudinaryimage {
-	.image-preview {
-		position: relative;
-		line-height: 0px;
-		float: left;
-		margin-right: 10px;
-		.placeholder-wrap {
-			position: relative;
-			height: 100px;
-			overflow: hidden;
-			
-			.placeholder {
-				height: 90px;
-				opacity: 0.25;
-				
-				&.no-preview {
-					width: 100px;
-					display: block;
-				}
-			}
-		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			.square(40px);
-			color: rgba(0,0,0,0.66);
-			font-size: 40px;
-			left: 50%;
-			margin: -20px 0 0 -20px;
-			position: absolute;
-			text-align: center;
-			top: 50%;
-		}
-		.img-thumbnail {
-			img {
-				display: block;
-			}
-		}
-		&.removed {
-			.img-thumbnail {
-				img {
-					opacity: 0.25;
-				}
-			}
-		}
-	}
-	
-	.image-details {
-		overflow: hidden;
-		.image-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
-		.image-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-	}
-	
-	.image-details + .image-toolbar {
-		margin-top: @input-vspacing;
-	}
-
-	.image-select {
-		clear: both; 
-		padding-top: 10px;
-	}
-	
-	.upload-queued, .delete-queued, .select-queued {
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
-	}
-}
-
-// - Multiple
-.field-type-cloudinaryimages {
-	.image-field {
-		width: auto;
-		float: left;
-		margin-top: 0px;
-		margin-right: 0px;
-		margin-bottom: 10px;
-		
-		&.image-upload {
-			cursor: pointer;
-			.img-thumbnail {
-				.img-dropzone {
-					width: 90px;
-					height: 90px;
-					display: block;
-					position: relative;
-					z-index: 1;
-				}
-			}
-			&:hover, &.hover {
-				.img-thumbnail {
-					border: 1px solid #C8EECD;
-					background: #EFFDF0;
-					.img-uploading {
-						color: #0B851A;
-					}
-				}
-				.image-message {
-					text-decoration: underline;
-				}
-			}
-		}
-	}
-	.image-preview {
-		line-height: 0px;
-		.placeholder-wrap {
-			height: 100px;
-			overflow: hidden;
-			
-			.placeholder {
-				height: 90px;
-				opacity: 0.25;
-				
-				&.no-preview {
-					width: 100px;
-					display: block;
-				}
-			}
-		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			color: #6A6A6A;
-			font-size: 23px;
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			line-height: 100px;
-			text-align: center;
-			text-shadow: 0 0 50px #FFFFFF;
-		}
-		.image-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-		.img-thumbnail {
-			img {
-				display: block;
-			}
-		}
-		&.action {
-			.img-thumbnail {
-				img {
-					opacity: 0.25;
-				}
-			}
-		}
-	}
-	.image-details {
-		.image-message {
-			display: inline-block;
-			padding: @padding-base-vertical @padding-base-horizontal;
-			margin-bottom: 0;
-			font-size: 12px;
-			font-weight: @btn-font-weight;
-			line-height: @line-height-base;
-			text-align: center;
-			vertical-align: middle;
-			white-space: nowrap;
-			margin-left: 0px;
-			font-size: 12px;
-			width: 100%;
-		}
-	}
-	.field-value {
-		width: auto;
-		float: left;
-		margin-right: 10px;
-		margin-bottom: 15px;
-	}
-	.upload-queued,
-	.delete-queued {
-		margin-left: 10px;
-	}
-	.btn-cancel {
-		margin-left: 0px;
-		font-size: 12px;
-		width: 110px;
-		text-align: center;
-		width: 100%;
-	}
-	.images-toolbar {
-		.alert {
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-			margin-bottom: 0px;
-		}
-	}
-	.sortable-placeholder {
-		border: 1px dashed #777;
-		background: none;
-		margin-top: 0px;
-		margin-left: 3px;
-		margin-right: 12px;
-		margin-bottom: 0px;
-		float: left;
-	}
-}
-
-.field-upload {
-	position: absolute;
-	left: -9999px;
-}
-
-// S3 File
-.field-type-s3file {
-	.file-preview {
-		position: relative;
-		line-height: 0px;
-		float: left;
-		margin-right: 10px;
-	}
-	
-	.file-details {
-		overflow: hidden;
-		.file-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
-		.file-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-	}
-	
-	.file-details + .file-toolbar {
-		margin-top: @input-vspacing;
-	}
-	
-	.upload-queued, .delete-queued {
-		display: none;
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
-	}
-}
-
-
-// Azure File
-.field-type-azurefile	 {
-	.file-preview {
-		position: relative;
-		line-height: 0px;
-		float: left;
-		margin-right: 10px;
-	}
-	
-	.file-details {
-		overflow: hidden;
-		.file-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
-		.file-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-	}
-	
-	.file-details + .file-toolbar {
-		margin-top: @input-vspacing;
-	}
-	
-	.upload-queued, .delete-queued {
-		display: none;
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
-	}
-}
-
-
-// Local File
-.field-type-localfile {
-	.file-preview {
-		position: relative;
-		line-height: 0px;
-		float: left;
-		margin-right: 10px;
-	}
-
-	.file-details {
-		overflow: hidden;
-		.file-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
-		.file-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-	}
-
-	.file-details + .file-toolbar {
-		margin-top: @input-vspacing;
-	}
-
-	.upload-queued, .delete-queued {
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
-	}
-}
-
-// Local Files
-.field-type-localfiles {
-	.sortable-placeholder {
-		border: 1px dashed #777;
-		background: none;
-		margin-top: 0px;
-		margin-left: 0px;
-		margin-right: 10px;
-		margin-bottom: 0px;
-		float: left;
-	}
-	.file-sortable {
-		position: relative;
-		float:left;
-		cursor:pointer;
-		min-width: 80px;
-		min-height: 80px;
-		margin-left: 0px;
-		margin-right: 10px;
-	}
-	.file-preview.remove {
-		img {
-			.opacity(.3);
-		}
-	}
-	.delete-pending {
-		position: absolute;
-		font-size: 1.7em;
-		left:50%;
-		top:50%;
-		margin-left:-13px;
-		margin-top:-44px;
-	}
-}
-
-
 // Related Items
 .ui-related-item {
 	.field-value;
@@ -695,6 +309,22 @@ label.checkbox {
 	}
 }
 
+
+// Date
+
+.field-type-date .form-control,
+.field-type-datetime .form-control{
+	display: inline-block;
+	margin-right: 5px;
+	width: auto;
+}
+
+
+
+
+// Inline Fields
+// ------------------------------
+
 // widths for fields inside '.form-inline'
 .form-inline .field-inline--xs,
 .form-inline .field-inline--sm,
@@ -708,13 +338,6 @@ label.checkbox {
 		> .form-control {
 				width: 100%;
 		}
-}
-
-.field-type-date .form-control,
-.field-type-datetime .form-control{
-	display: inline-block;
-	margin-right: 5px;
-	width: auto;
 }
 
 .form-inline .field-inline--xs { width: 60px; }
@@ -735,3 +358,17 @@ label.checkbox {
 		margin-bottom: 6px;
 	}
 }
+
+
+
+
+// Field Imports
+// ------------------------------
+
+@import "./field-azurefile";
+@import "./field-cloudinaryimage";
+@import "./field-localfile";
+@import "./field-s3file";
+
+
+
