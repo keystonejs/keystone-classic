@@ -1,32 +1,19 @@
 var React = require('react'),
 	Field = require('../field'),
-	Note  = require('../../components/note'),
 	$     = require('jquery');
 
 require('./lib/bootstrap-colorpicker');
 
 module.exports = Field.create({
 	componentDidMount: function() {
-		$(this.refs.field.getDOMNode()).colorpicker();
+		if (!this.refs.field) return;
+
 	},
 
-	renderUI: function() {
-		var value = this.props.value;
-
-		var field;
-		if (this.props.noedit) {
-			field = <div className='field-value'>{value}</div>;
-		} else {
-			field = <div className='input-group field-type-color'>
-				<input ref='field' type='text' className='form-control' name={this.props.path} value={value} autocomplete='off' />
-				<span className='input-group-addon' />
-			</div>;
-		}
-
-		return <div className='field type-color'>
-			<label className='field-label'>{this.props.label}</label>
-			<div className='field-ui'>{field}</div>
-			<Note note={this.props.note} />
-		</div>;
+	renderField: function() {
+		return [
+			<input ref='field' type='text' className='form-control' onChange={this.valueChanged} name={this.props.path} value={this.props.value} autoComplete='off' />,
+			<div className='color-preview' style={ { color: this.props.value } } />
+		];
 	}
 });
