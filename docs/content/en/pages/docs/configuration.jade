@@ -117,6 +117,10 @@ block content
 						p One or more paths to your application's static files. Setting this will include the <code>express.static</code> middleware.
 						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">'public'</code>.
 				tr
+					td <code>static options</code> <code class="data-type">Object</code>
+					td
+						p Optional config options that will be passed to the <code>express.static</code> middleware.
+				tr
 					td <code>less</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
 					td
 						p If you want Keystone to automatically compile <strong>.less</strong> files into <strong>.css</strong> files, set this value to the same path as the <code>static</code> option.
