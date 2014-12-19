@@ -110,7 +110,7 @@ var Mixins = module.exports.Mixins = {
 
 module.exports.create = function(spec) {
 	
-	spec = validateSpec(spec);
+	spec = validateSpec(spec || {});
 	
 	var excludeBaseMethods = [];
 	
