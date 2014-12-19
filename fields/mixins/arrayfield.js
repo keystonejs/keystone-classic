@@ -71,7 +71,7 @@ module.exports = {
 		return (
 			<div>
 				{this.state.values.map(this.renderItem)}
-				<a href="javascript:;" className='btn btn-xs btn-default' onClick={this.addItem}>Add item</a>
+				<button className='btn btn-xs btn-default' onClick={this.addItem}>Add item</button>
 			</div>
 		);
 	}
