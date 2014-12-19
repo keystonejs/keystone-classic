@@ -37,7 +37,7 @@ module.exports = Field.create({
 			);
 		}
 		
-		return <div className="field type-boolean">{input}</div>;
+		return <div className="field field-type-boolean">{input}</div>;
 	}
 	
 });

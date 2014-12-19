@@ -45,22 +45,17 @@ var Base = module.exports.Base = {
 	},
 	
 	renderUI: function(spec) {
-		
-		var fieldClassName = 'field-ui';
-		
-		if (spec.supports.width) {
-			fieldClassName += ' width-' + this.props.width;
-		}
-		
+		var fieldClassName = 'field-ui field-size-' + this.props.size;
 		var inner = this.props.noedit ? this.renderValue() : this.renderField();
-		
-		return <div className={"field type-" + this.props.type}>
-			<label className="field-label">{this.props.label}</label>
-			<div className={fieldClassName}>
-				{inner}
-				<Note note={this.props.note} />
+		return (
+			<div className={"field field-type-" + this.props.type}>
+				<label className="field-label">{this.props.label}</label>
+				<div className={fieldClassName}>
+					{inner}
+					<Note note={this.props.note} />
+				</div>
 			</div>
-		</div>;
+		);
 		
 	},
 	
@@ -97,28 +92,27 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		renderCollapse: function() {
-			
 			if (this.props.noedit) {
 				return null;
 			}
-			
-			return <div className={"field type-" + this.props.type}>
-				<div className="col-sm-12">
-					<label className="uncollapse">
-						<a href="javascript:;" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</a>
-					</label>
+			return (
+				<div className={"field field-type-" + this.props.type}>
+					<div className="col-sm-12">
+						<label className="uncollapse">
+							<a href="javascript:;" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</a>
+						</label>
+					</div>
 				</div>
-			</div>;
-			
+			);
 		}
-		
 	}
-	
 }
 
 module.exports.create = function(spec) {
 	
-	spec = validateSpec(spec);
+	spec = validateSpec(spec || {});
+	
+	var excludeBaseMethods = [];
 	
 	var field = {
 		
@@ -127,23 +121,26 @@ module.exports.create = function(spec) {
 		mixins: [Mixins.Collapse],
 		
 		render: function() {
-			
 			if (!evalDependsOn(this.props.dependsOn, this.props.values)) {
 				return null;
 			}
-			
 			if (this.state.isCollapsed) {
 				return this.renderCollapse();
 			}
-			
 			return this.renderUI(spec);
-			
 		}
-		
 	};
 	
-	_.extend(field, Base);
-	_.extend(field, spec);
+	if (spec.mixins) {
+		_.each(spec.mixins, function(mixin) {
+			_.each(mixin, function(method, name) {
+				if (Base[name]) excludeBaseMethods.push(name);
+			});
+		});
+	}
+	
+	_.extend(field, _.omit(Base, excludeBaseMethods));
+	_.extend(field, _.omit(spec, 'mixins'));
 	
 	if (_.isArray(spec.mixins)) {
 		field.mixins = field.mixins.concat(spec.mixins);
