@@ -19,6 +19,7 @@
 
 // Field Item
 // I usually house controls like buttons aswell as the input
+
 .field-item {
 	margin-bottom: floor(@input-vspacing / 2);
 	position: relative;
@@ -192,25 +193,26 @@ label.checkbox {
 	.make-row();
 }
 .field-label {
+	.make-sm-column(2);
+}
+// default + large
+.field-ui,
+.field-size-large {
+	.make-sm-column(10);
+	.make-md-column(7);
+	.make-lg-column(6);
+}
+.field-ui-medium {
+	.make-sm-column(5);
+	.make-md-column(4);
+}
+.field-size-small {
 	.make-sm-column(3);
 	.make-md-column(2);
 }
-.field-ui {
+.field-size-full {
 	.make-sm-column(9);
 	.make-md-column(10);
-	
-	&.width-long {
-		.make-sm-column(8);
-		.make-md-column(6);
-	}
-	&.width-medium {
-		.make-sm-column(5);
-		.make-md-column(4);
-	}
-	&.width-short {
-		.make-sm-column(3);
-		.make-md-column(2);
-	}
 }
 
 
@@ -218,40 +220,6 @@ label.checkbox {
 
 // Field Types
 // ------------------------------
-
-.field-type-number,
-.field-type-numberarray,
-.field-type-money {
-	.field-ui {
-		.make-sm-column(3);
-		.make-md-column(2);
-	}
-}
-
-.field-type-name,
-.field-type-password {
-	.field-ui {
-		.make-sm-column(9);
-		.make-md-column(6);
-		.make-lg-column(5);
-	}
-}
-
-// Short Strings
-.field-type-url,
-.field-type-datetime,
-.field-type-date,
-.field-type-email,
-.field-type-text,
-.field-type-select,
-.field-type-textarray,
-.field-type-key {
-	.field-ui {
-		.make-sm-column(9);
-		.make-md-column(6);
-		.make-lg-column(5);
-	}
-}
 
 // Booleans
 .field-type-boolean {
