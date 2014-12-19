@@ -3,7 +3,10 @@ var _     = require('underscore'),
 	React = require('react'),
 	Field = require('../field');
 
+var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
+
 var Thumbnail = React.createClass({
+	
 	render: function () {
 		var iconClassName, imageDetails;
 
@@ -44,10 +47,10 @@ var Thumbnail = React.createClass({
 			</div>
 		);
 	}
+	
 });
 
 module.exports = Field.create({
-	SUPPORTED_TYPES: ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'],
 
 	getInitialState: function () {
 		var thumbnails = [];
@@ -113,7 +116,7 @@ module.exports = Field.create({
 
 		var files = event.target.files;
 		_.each(files, function (f) {
-			if (!_.contains(self.SUPPORTED_TYPES, f.type)) {
+			if (!_.contains(SUPPORTED_TYPES, f.type)) {
 				alert("Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD");
 				return;
 			}

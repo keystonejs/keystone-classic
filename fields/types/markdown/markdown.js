@@ -7,10 +7,6 @@ require('./lib/bootstrap-markdown');
 	
 module.exports = Field.create({
 	
-	supports: {
-		width: true
-	},
-	
 	componentDidMount: function() {
 		var markdownOptions = {
 			autofocus: false,
@@ -101,4 +97,5 @@ module.exports = Field.create({
 			</div>
 		);
 	}
+	
 });

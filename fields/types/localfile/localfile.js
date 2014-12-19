@@ -6,6 +6,7 @@ var _      = require('underscore'),
 	Select = require('react-select');
 
 module.exports = Field.create({
+	
 	fileFieldNode: function () {
 		return this.refs.fileField.getDOMNode();
 	},
@@ -202,4 +203,5 @@ module.exports = Field.create({
 			</div>
 		</div>;
 	}
+	
 });

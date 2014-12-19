@@ -10,6 +10,7 @@ function getId() {
 }
 
 module.exports = Field.create({
+	
 	getInitialState: function() {
 		return {
 			id: getId()
@@ -133,4 +134,5 @@ module.exports = Field.create({
 	renderValue: function() {
 		return this.renderEditor(true);
 	}
+	
 });

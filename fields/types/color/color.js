@@ -6,6 +6,7 @@ var React = require('react'),
 require('./lib/bootstrap-colorpicker');
 
 module.exports = Field.create({
+	
 	componentDidMount: function() {
 		$(this.refs.field.getDOMNode()).colorpicker();
 	},
@@ -29,4 +30,5 @@ module.exports = Field.create({
 			<Note note={this.props.note} />
 		</div>;
 	}
+	
 });
