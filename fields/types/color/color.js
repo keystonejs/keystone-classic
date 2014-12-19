@@ -23,7 +23,7 @@ module.exports = Field.create({
 			</div>;
 		}
 
-		return <div className='field type-color'>
+		return <div className='field field-type-color'>
 			<label className='field-label'>{this.props.label}</label>
 			<div className='field-ui'>{field}</div>
 			<Note note={this.props.note} />

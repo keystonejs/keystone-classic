@@ -92,7 +92,7 @@ module.exports = Field.create({
 		}
 		
 		return (
-			<div className="field type-datetime">
+			<div className="field field-type-datetime">
 				<label className="field-label">{this.props.label}</label>
 				{input}
 				<div className="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2">

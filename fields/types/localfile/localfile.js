@@ -189,7 +189,7 @@ module.exports = Field.create({
 			body.push(this.renderFileToolbar());
 		}
 
-		return <div className='field type-localfile'>
+		return <div className='field field-type-localfile'>
 			<label className='field-label'>{this.props.label}</label>
 
 			{this.renderFileField()}

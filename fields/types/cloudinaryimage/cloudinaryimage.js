@@ -317,7 +317,7 @@ module.exports = Field.create({
 			body.push(this.renderImageToolbar());
 		}
 
-		return <div className='field type-cloudinaryimage'>
+		return <div className='field field-type-cloudinaryimage'>
 			<label className='field-label'>{this.props.label}</label>
 
 			{this.renderFileField()}

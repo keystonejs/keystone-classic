@@ -1,0 +1,46 @@
+// 
+// S3 File
+// ==============================
+
+.field-type-s3file {
+	.file-preview {
+		position: relative;
+		line-height: 0px;
+		float: left;
+		margin-right: 10px;
+	}
+	
+	.file-details {
+		overflow: hidden;
+		.file-values {
+			.field-value {
+				width: auto;
+				min-width: 1px;
+				float: left;
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+		}
+		.file-message {
+			margin-left: 0px;
+			font-size: 12px;
+			width: 110px;
+			text-align: center;
+			width: 100%;
+		}
+	}
+	
+	.file-details + .file-toolbar {
+		margin-top: @input-vspacing;
+	}
+	
+	.upload-queued, .delete-queued {
+		display: none;
+		.alert {
+			margin-right: 10px;
+			margin-bottom: 10px;
+			float: left;
+			padding: 6px 12px;
+		}
+	}
+}

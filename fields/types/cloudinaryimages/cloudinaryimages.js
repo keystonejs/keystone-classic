@@ -213,7 +213,7 @@ module.exports = Field.create({
 
 	renderUI: function () {
 		return (
-			<div className='field type-cloudinaryimages'>
+			<div className='field field-type-cloudinaryimages'>
 				<label className='field-label'>{this.props.label}</label>
 
 				{this.renderFieldAction()}
