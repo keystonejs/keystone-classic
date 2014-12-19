@@ -36,6 +36,7 @@
     "react-select": "~0.2.0",
     "scmp": "~1.0.0",
     "semver": "~4.1.0",
+    "superagent": "^0.21.0",
     "underscore": "~1.7.0"
   },
   "devDependencies": {
