@@ -470,9 +470,9 @@ Post.model.findById(postId)
                       </div>
                       <pre><code class="language-javascript">first: { type: String },
 // Will show if first === "value1", "1" or "2"
-second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
+second: { type: String, dependsOn: { first: ['value1', '1', 2] } },
 // Will show if first == "value1"
-third: { type: String, dependsOn: { sortBy: 'value1' } }</code></pre>
+third: { type: String, dependsOn: { first: 'value1' } }</code></pre>
                     </p>
                   </td>
                 </tr>
