@@ -84,9 +84,28 @@
 	background-color: @input-bg-disabled;
 }
 
+
 // The note that sits beneath a field
 .field-note {
-	.help-block;
+	display: inline-block;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding: @padding-base-vertical @padding-base-horizontal;
+
+	// FIXME: dangerouslySetInnerHTML is injecting a P tag?
+	> p {
+		line-height: 1;
+		margin: 0;
+	}
+
+	// stop notes from wrapping on the shorter fields
+	// TODO: this is a bit hacky, we may need more control over notes
+	@media (min-width: @screen-sm) {
+		.field-size-small > &,
+		.field-size-medium > & {
+			white-space: nowrap;
+		}
+	}
 }
 
 // Field value. Used for non-editable fields
