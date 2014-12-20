@@ -130,7 +130,7 @@ module.exports = Field.create({
 
 		if (!this.props.many && this.props.value) {
 			body.push(
-				<a href={'/keystone/' + this.props.refList.path + '/' + this.props.value} style={ { marginLeft: '10px' } } className='btn btn-link btn-goto-linked-item'>
+				<a href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='btn btn-link btn-goto-linked-item'>
 					view {this.props.refList.singular.toLowerCase()}
 				</a>
 			);
