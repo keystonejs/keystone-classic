@@ -117,6 +117,10 @@ block content
 						p 指向程序静态文件的一或多个路径。设定这个会引入<code>express.static</code> 中间件。
 						p 如果你遵循<a href="/zh/guide#start_structure">推荐的项目结构</a>，这个应该设为<code class="default-value">'public'</code>。
 				tr
+					td <code>static options</code> <code class="data-type">Object</code>
+					td
+						p 可选的配置参数，将会传给<code>express.static</code>中间件。
+				tr
 					td <code>less</code> <code class="data-type">String</code> 或 <code class="data-type">Array</code>
 					td
 						p 如果你想让Keystone将<strong>.less</strong>文件自动编译成<strong>.css</strong>文件，把它的值也设成<code>static</code>参数指定的路径。

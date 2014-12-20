@@ -79,7 +79,6 @@ jQuery(function($) {
 		// Fetch the field this is for
 		var $field = $radio.parents('.filter-options:first');
 		// As the value isn't stored on the radio, fetch the value from the parent button's data type
-		// @BEN: this seems silly
 		var numericFilter = $radio.parent().data('value');
 		// Whether or not the range inputs should be shown or not
 		var showRange = numericFilter === 'bt';
@@ -207,12 +206,12 @@ jQuery(function($) {
 			queryFilter.exact = data.exact;
 			queryFilter.operator = data.operator;
 			
-			if ( data.operator === 'bt' ) {
+			if (data.operator === 'bt') {
 				value = [
 					parseValueWithType(data.type, $filter.find('input.filter-input-range1').val()),
 					parseValueWithType(data.type, $filter.find('input.filter-input-range2').val())
 				];
-				if ( value[0] == null || value[1] == null ) {
+				if (value[0] == null || value[1] == null) {
 					alert('Both fields are required when specifying a range');
 					cancelled = true;
 					return false;
@@ -251,11 +250,14 @@ jQuery(function($) {
 						break;
 					
 					case 'boolean':
+						queryFilter.value = data.value;
+						break;
+						
 					case 'cloudinaryimage':
 					case 'cloudinaryimages':
 					case 's3file':
-						if (data.value) { // where is this defined???
-							queryFilter.value = value;
+						if (data.value) {
+							queryFilter.value = data.value;
 						}
 						break;
 					
