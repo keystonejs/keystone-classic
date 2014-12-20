@@ -399,9 +399,9 @@ block content
 						pre: code.language-javascript
 							| first: { type: String },
 							| // Will show if first === "value1", "1" or "2"
-							| second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
+							| second: { type: String, dependsOn: { first: ['value1', '1', 2] } },
 							| // Will show if first == "value1"
-							| third: { type: String, dependsOn: { sortBy: 'value1' } }
+							| third: { type: String, dependsOn: { first: 'value1' } }
 
 			
 			h3 Generated values and watching fields
