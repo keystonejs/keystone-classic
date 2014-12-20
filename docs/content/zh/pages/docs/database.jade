@@ -399,9 +399,9 @@ block content
 						pre: code.language-javascript
 							| first: { type: String },
 							| // 如果first === "value1", "1" 或 "2" 时将会显示
-							| second: { type: String, dependsOn: { sortBy: ['value1', '1', 2] } },
+							| second: { type: String, dependsOn: { first: ['value1', '1', 2] } },
 							| // 如果 first == "value1" 时会显示
-							| third: { type: String, dependsOn: { sortBy: 'value1' } }
+							| third: { type: String, dependsOn: { first: 'value1' } }
 
 			h3 生成的值及观测域
 			
