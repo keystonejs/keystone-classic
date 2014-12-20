@@ -23,7 +23,11 @@ function evalDependsOn(dependsOn, values) {
 	if (!_.isObject(dependsOn)) return true;
 	var keys = _.keys(dependsOn);
 	return (keys.length) ? _.every(keys, function(key) {
-		return (values[key] == dependsOn[key]);
+		var depends = _.isArray(dependsOn[key]) ? dependsOn[key] : [dependsOn[key]];
+		var findValue = _.find(depends,function(dependsValue) {
+			return (dependsValue == values[key]);
+		});
+		return findValue ? true : false;
 	}, this) : true;
 }
 
