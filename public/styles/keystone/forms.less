@@ -5,7 +5,19 @@
 // --------------------------------------------------
 
 
-@input-vspacing: 12px;
+
+// TEMP FIXES
+// ==============================
+
+.Select {
+	position: relative;
+}
+
+// ==============================
+// END TEMP FIXES
+
+
+
 
 // Adding vertical spacing between form elements
 .field,
@@ -378,6 +390,13 @@ label.checkbox {
 		position: absolute;
 		right: 0;
 		top: 0;
+
+		// don't absolutely position if full width
+		.field-size-full > & {
+			.translate(0,0);
+			display: inline-block;
+			position: relative;
+		}
 	}
 }
 
