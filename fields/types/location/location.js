@@ -87,10 +87,10 @@ module.exports = Field.create({
 		}
 		
 		return <div className="row">
-			<div className="col-sm-3 col-md-2">
+			<div className="col-sm-2">
 				<label className="text-muted">{label}</label>
 			</div>
-			<div className="col-sm-9 col-md-5">
+			<div className="col-sm-10 col-md-7 col-lg-6">
 				<input type="text" name={this.props.path + '.' + path} ref={path} value={this.props.value[path]} onChange={this.fieldChanged.bind(this, path)} className="form-control" />
 			</div>
 		</div>;
@@ -99,18 +99,17 @@ module.exports = Field.create({
 	
 	renderStateAndPostcode: function() {
 		return <div className="row">
-			<div className="col-sm-3 col-md-2">
-				<label className="text-muted">State</label>
+			<div className="col-sm-2">
+				<label className="text-muted">State/Postcode</label>
 			</div>
-			<div className="col-sm-3 col-md-2">
-				<input type="text" name={this.props.path + '.state'} ref="state" value={this.props.value.state} onChange={this.fieldChanged.bind(this, 'state')} className="form-control" />
-			</div>
-			<div className="col-sm-2 col-md-1 field-postcode">
-				<label className="text-muted">Postcode</label>
-			</div>
-			<div className="col-sm-3 col-md-2">
-				<input type="text" name={this.props.path + '.postcode'} ref="postcode" value={this.props.value.postcode} onChange={this.fieldChanged.bind(this, 'postcode')} className="form-control" />
-			</div>
+			<div className="col-sm-10 col-md-7 col-lg-6"><div className="form-row">
+				<div className="col-xs-6">
+					<input type="text" name={this.props.path + '.state'} ref="state" value={this.props.value.state} onChange={this.fieldChanged.bind(this, 'state')} className="form-control" placeholder="State" />
+				</div>
+				<div className="col-xs-6">
+					<input type="text" name={this.props.path + '.postcode'} ref="postcode" value={this.props.value.postcode} onChange={this.fieldChanged.bind(this, 'postcode')} className="form-control" placeholder="Postcode" />
+				</div>
+			</div></div>
 		</div>
 	},
 	
@@ -121,14 +120,14 @@ module.exports = Field.create({
 		}
 		
 		return <div className="row">
-			<div className="col-sm-3 col-md-2">
+			<div className="col-sm-2">
 				<label className="text-muted">Lng / Lat</label>
 			</div>
-			<div className="col-sm-9 col-md-5"><div className="form-row">
-				<div className="col-sm-6">
+			<div className="col-sm-10 col-md-7 col-lg-6"><div className="form-row">
+				<div className="col-xs-6">
 					<input type="text" name={this.props.paths.geo} ref="geo0" value={this.props.value.geo ? this.props.value.geo[0] : ''} onChange={this.geoChanged.bind(this, 0)} placeholder="Longitude" className="form-control" />
 				</div>
-				<div className="col-sm-6">
+				<div className="col-xs-6">
 					<input type="text" name={this.props.paths.geo} ref="geo1" value={this.props.value.geo ? this.props.value.geo[1] : ''} onChange={this.geoChanged.bind(this, 1)} placeholder="Latitude" className="form-control" />
 				</div>
 			</div></div>
