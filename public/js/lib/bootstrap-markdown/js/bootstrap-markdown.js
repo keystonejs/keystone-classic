@@ -17,6 +17,9 @@
  * limitations under the License.
  * ========================================================== */
 
+// import marked into module so browserify can scope
+var marked = require('marked');
+
 !function ($) {
 
   "use strict"; // jshint ;_;

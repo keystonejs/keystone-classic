@@ -29,4 +29,6 @@ docs/_dist
 coverage.html
 .cover*
 
+public/build/*
+
 *.sublime-*
