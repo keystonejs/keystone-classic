@@ -358,10 +358,10 @@ block content
 								//- Boolean
 								if field.type == 'boolean'
 									.btn-group.btn-group-xs(data-toggle='buttons')
-										button(type='button', class=ops.value !== false ? 'active' : '', data-opt='value', data-value='true').btn.btn-default
+										button(type='button', class=ops.value !== false && ops.value !== 'false' ? 'active' : '', data-opt='value', data-value='true').btn.btn-default
 											input(type="radio", name="options")
 											| checked
-										button(type='button', class=ops.value === false ? 'active' : '', data-opt='value', data-value='false').btn.btn-default
+										button(type='button', class=ops.value === false || ops.value === 'false' ? 'active' : '', data-opt='value', data-value='false').btn.btn-default
 											input(type="radio", name="options")
 											| not checked
 								
