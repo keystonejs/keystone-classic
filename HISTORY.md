@@ -1,5 +1,30 @@
 # Keystone
 
+## v0.2.38 / 2014-12-20
+
+* fixed; regression in the Admin UI introduced in 0.2.37, sorry!
+
+## v0.2.38 / 2014-12-19
+
+* fixed; a bug where location field filters were not being applied in the Admin UI
+* fixed; a bug where boolean field filters were not being applied in the Admin UI
+
+## v0.2.37 / 2014-12-19
+
+* added; check for refsLookup existence to core/createItem, thanks [Sebastian McKenzie](https://github.com/sebmck)
+* added; dump current list key and data onto createItems error, thanks [Sebastian McKenzie](https://github.com/sebmck)
+* added; ability to bypass bcrypt hashing for password fields when required
+* added; SSL CA configuration option, thanks [Brett Newman](https://github.com/snowkeeper)
+* added; `static options` option to control static middleware configuration, thanks [Sebastian McKenzie](https://github.com/sebmck)
+* fixed; error thrown in the Admin UI when no user model is available
+* fixed; handle undefined boolean update values, thanks [webteckie](https://github.com/webteckie)
+* fixed; logging error for misconfigured Embedly fields
+* fixed; mimetype bug in S3 file field, thanks [Harry Moreno](https://github.com/morenoh149)
+* updated; multilanguage docs and new site architecture
+* improved; password field validation now in UpdateHandler
+
+Huge thanks to [@wuhaixing](https://github.com/wuhaixing) for the Chinese translation in this release.
+
 ## v0.2.36 / 2014-12-07
 
 * fixed; several issues with the `localfile` field type

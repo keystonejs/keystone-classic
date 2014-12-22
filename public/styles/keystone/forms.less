@@ -1,21 +1,56 @@
 //
 // FORM ELEMENTS
+// Some field types are imported at the bottom 
+// of this file so they inherit styles
 // --------------------------------------------------
 
-/*
-	Form control wrapper
-	==============================
-	
-	.form-control-wrapper should be exclusively used for attaching validation to
-	when no other ancestor is applicable. It has no ornamental styles of it's own.
-*/
 
-@input-vspacing: 12px;
+
+// TEMP FIXES
+// ==============================
+
+.Select {
+	position: relative;
+}
+
+// ==============================
+// END TEMP FIXES
+
+
+
 
 // Adding vertical spacing between form elements
-.field, .form-indent, .field-ui .row, #signin-form .row {
+.field,
+.field,
+.form-indent,
+.field-ui .row,
+#signin-form .row {
 	margin-top: @input-vspacing;
 }
+
+
+// Field Item
+// I usually house controls like buttons aswell as the input
+
+.field-item {
+	margin-bottom: floor(@input-vspacing / 2);
+	position: relative;
+}
+.field-item-button {
+	display: inline-block;
+	font-size: 16px;
+	height: 100%;
+	line-height: @input-height-base;
+	padding: 0 @font-size-small;
+	position: absolute;
+	right: 0;
+
+	a&:focus,
+	a&:hover {
+		text-decoration: none;
+	}
+}
+
 
 // Form headings
 .form-heading {
@@ -61,9 +96,28 @@
 	background-color: @input-bg-disabled;
 }
 
+
 // The note that sits beneath a field
 .field-note {
-	.help-block;
+	display: inline-block;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding: @padding-base-vertical @padding-base-horizontal;
+
+	// FIXME: dangerouslySetInnerHTML is injecting a P tag?
+	> p {
+		line-height: 1;
+		margin: 0;
+	}
+
+	// stop notes from wrapping on the shorter fields
+	// TODO: this is a bit hacky, we may need more control over notes
+	@media (min-width: @screen-sm) {
+		.field-size-small > &,
+		.field-size-medium > & {
+			white-space: nowrap;
+		}
+	}
 }
 
 // Field value. Used for non-editable fields
@@ -149,87 +203,62 @@ label.checkbox {
 	}
 }
 
-// location specific
-.field-postcode {
-	@media (min-width: @screen-sm) {
-		text-align: right;
-	}
-}
-
 .input-xs {
 	.input-size(22px; 1px; 5px; 12px; @line-height-small; @border-radius-small);
 }
 
 
-// FIELD TYPES
-// =======================================
+
+
+// Field Sizes
+// ------------------------------
+
 .field {
 	.make-row();
 }
 .field-label {
+	.make-sm-column(2);
+}
+// default + large
+.field-ui,
+.field-size-large {
+	.make-sm-column(10);
+	.make-md-column(7);
+	.make-lg-column(6);
+}
+.field-size-medium {
+	.make-sm-column(5);
+	.make-md-column(4);
+}
+.field-size-small {
 	.make-sm-column(3);
 	.make-md-column(2);
 }
-.field-ui {
+.field-size-full {
 	.make-sm-column(9);
 	.make-md-column(10);
-	
-	&.width-long {
-		.make-sm-column(8);
-		.make-md-column(6);
-	}
-	&.width-medium {
-		.make-sm-column(5);
-		.make-md-column(4);
-	}
-	&.width-short {
-		.make-sm-column(3);
-		.make-md-column(2);
-	}
 }
 
-.field.type-number,
-.field.type-numberarray,
-.field.type-money {
-	.field-ui {
-		.make-sm-column(3);
-		.make-md-column(2);
-	}
-}
 
-.field.type-name,
-.field.type-password {
-	.field-ui {
-		.make-sm-column(7);
-		.make-md-column(5);
-	}
-}
 
-// Short Strings
-.field.type-url,
-.field.type-email,
-.field.type-key {
-	.field-ui.width-full {
-		.make-sm-column(7);
-		.make-md-column(5);
-	}
-}
+
+// Field Types
+// ------------------------------
 
 // Booleans
-.field.type-boolean {
+.field-type-boolean {
 	.field-ui {
 		.make-sm-column(9);
 		.make-md-column(10);
 		
 		&.field-indented {
-			.make-sm-column-offset(3);
-			.make-md-column-offset(2);
+			.make-sm-column-offset(2);
 		}
 	}
 }
 
 // Locations
-.field.type-location {
+.field-type-location {
 	label {
 		margin: 0;
 	}
@@ -250,7 +279,7 @@ label.checkbox {
 }
 
 // HTML
-.field.type-html {
+.field-type-html {
 	textarea {
 		.form-control;
 	}
@@ -259,419 +288,11 @@ label.checkbox {
 
 
 // Code
-.field.type-code {
-	.CodeMirror {
-		.form-control;
-		height: 300px;
-		padding: 0px;
-	}
-
-	.CodeMirror-gutters {
-		background-color: transparent;
+.field-type-code {
+	.CodeMirror-linenumber {
+		margin-left: -40px;
 	}
 }
-
-
-
-// Cloudinary Images
-
-// - Singluar
-.field.type-cloudinaryimage {
-	.image-preview {
-		position: relative;
-		line-height: 0px;
-		float: left;
-		margin-right: 10px;
-		.placeholder-wrap {
-			position: relative;
-			height: 100px;
-			overflow: hidden;
-			
-			.placeholder {
-				height: 90px;
-				opacity: 0.25;
-				
-				&.no-preview {
-					width: 100px;
-					display: block;
-				}
-			}
-		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			.square(40px);
-			color: rgba(0,0,0,0.66);
-			font-size: 40px;
-			left: 50%;
-			margin: -20px 0 0 -20px;
-			position: absolute;
-			text-align: center;
-			top: 50%;
-		}
-		.img-thumbnail {
-			img {
-				display: block;
-			}
-		}
-		&.removed {
-			.img-thumbnail {
-				img {
-					opacity: 0.25;
-				}
-			}
-		}
-	}
-	
-	.image-details {
-		overflow: hidden;
-		.image-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
-		.image-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-	}
-	
-	.image-details + .image-toolbar {
-		margin-top: @input-vspacing;
-	}
-
-	.image-select {
-		clear: both; 
-		padding-top: 10px;
-	}
-	
-	.upload-queued, .delete-queued, .select-queued {
-		display: none;
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
-	}
-}
-
-// - Multiple
-.field.type-cloudinaryimages {
-	.image-field {
-		width: auto;
-		float: left;
-		margin-top: 0px;
-		margin-right: 0px;
-		margin-bottom: 10px;
-		
-		&.image-upload {
-			cursor: pointer;
-			.img-thumbnail {
-				.img-dropzone {
-					width: 90px;
-					height: 90px;
-					display: block;
-					position: relative;
-					z-index: 1;
-				}
-			}
-			&:hover, &.hover {
-				.img-thumbnail {
-					border: 1px solid #C8EECD;
-					background: #EFFDF0;
-					.img-uploading {
-						color: #0B851A;
-					}
-				}
-				.image-message {
-					text-decoration: underline;
-				}
-			}
-		}
-	}
-	.image-preview {
-		line-height: 0px;
-		.placeholder-wrap {
-			height: 100px;
-			overflow: hidden;
-			
-			.placeholder {
-				height: 90px;
-				opacity: 0.25;
-				
-				&.no-preview {
-					width: 100px;
-					display: block;
-				}
-			}
-		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			color: #6A6A6A;
-			font-size: 23px;
-			left: 50%;
-			top: 50%;
-			position: absolute;
-			margin-left: -11px;
-			margin-top: -27px;
-			line-height: 23px;
-			text-shadow: 0 0 50px #FFFFFF;
-		}
-		.image-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-		.img-thumbnail {
-			img {
-				display: block;
-			}
-		}
-		&.removed {
-			.img-thumbnail {
-				img {
-					opacity: 0.25;
-				}
-			}
-		}
-	}
-	.image-details {
-		.image-message {
-			display: inline-block;
-			padding: @padding-base-vertical @padding-base-horizontal;
-			margin-bottom: 0;
-			font-size: 12px;
-			font-weight: @btn-font-weight;
-			line-height: @line-height-base;
-			text-align: center;
-			vertical-align: middle;
-			white-space: nowrap;
-			margin-left: 0px;
-			font-size: 12px;
-			width: 100%;
-		}
-	}
-	.field-value {
-		width: auto;
-		float: left;
-		margin-right: 10px;
-		margin-bottom: 15px;
-	}
-	.upload-queued {
-		display: none;
-		margin-left: 10px;
-	}
-	.delete-queued {
-		display: none;
-		margin-left: 10px;
-	}
-	.btn-cancel {
-		margin-left: 0px;
-		font-size: 12px;
-		width: 110px;
-		text-align: center;
-		width: 100%;
-	}
-	.images-toolbar {
-		.alert {
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-			margin-bottom: 0px;
-		}
-	}
-	.sortable-placeholder {
-		border: 1px dashed #777;
-		background: none;
-		margin-top: 0px;
-		margin-left: 3px;
-		margin-right: 12px;
-		margin-bottom: 0px;
-		float: left;
-	}
-}
-
-.field-upload {
-	position: absolute;
-	left: -9999px;
-}
-
-// S3 File
-.field.type-s3file {
-	.file-preview {
-		position: relative;
-		line-height: 0px;
-		float: left;
-		margin-right: 10px;
-	}
-	
-	.file-details {
-		overflow: hidden;
-		.file-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
-		.file-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-	}
-	
-	.file-details + .file-toolbar {
-		margin-top: @input-vspacing;
-	}
-	
-	.upload-queued, .delete-queued {
-		display: none;
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
-	}
-}
-
-
-// Azure File
-.field.type-azurefile	 {
-	.file-preview {
-		position: relative;
-		line-height: 0px;
-		float: left;
-		margin-right: 10px;
-	}
-	
-	.file-details {
-		overflow: hidden;
-		.file-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
-		.file-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-	}
-	
-	.file-details + .file-toolbar {
-		margin-top: @input-vspacing;
-	}
-	
-	.upload-queued, .delete-queued {
-		display: none;
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
-	}
-}
-
-
-// Local File
-.field.type-localfile {
-	.file-preview {
-		position: relative;
-		line-height: 0px;
-		float: left;
-		margin-right: 10px;
-	}
-
-	.file-details {
-		overflow: hidden;
-		.file-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
-		.file-message {
-			margin-left: 0px;
-			font-size: 12px;
-			width: 110px;
-			text-align: center;
-			width: 100%;
-		}
-	}
-
-	.file-details + .file-toolbar {
-		margin-top: @input-vspacing;
-	}
-
-	.upload-queued, .delete-queued {
-		display: none;
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
-	}
-}
-
-// Local Files
-.field.type-localfiles {
-	.sortable-placeholder {
-		border: 1px dashed #777;
-		background: none;
-		margin-top: 0px;
-		margin-left: 0px;
-		margin-right: 10px;
-		margin-bottom: 0px;
-		float: left;
-	}
-	.file-sortable {
-		position: relative;
-		float:left;
-		cursor:pointer;
-		min-width: 80px;
-		min-height: 80px;
-		margin-left: 0px;
-		margin-right: 10px;
-	}
-	.file-preview.remove {
-		img {
-			.opacity(.3);
-		}
-	}
-	.delete-pending {
-		position: absolute;
-		font-size: 1.7em;
-		left:50%;
-		top:50%;
-		margin-left:-13px;
-		margin-top:-44px;
-	}
-}
-
 
 // Related Items
 .ui-related-item {
@@ -706,6 +327,22 @@ label.checkbox {
 	}
 }
 
+
+// Date
+
+.field-type-date .form-control,
+.field-type-datetime .form-control{
+	display: inline-block;
+	margin-right: 5px;
+	width: auto;
+}
+
+
+
+
+// Inline Fields
+// ------------------------------
+
 // widths for fields inside '.form-inline'
 .form-inline .field-inline--xs,
 .form-inline .field-inline--sm,
@@ -721,13 +358,6 @@ label.checkbox {
 		}
 }
 
-.field.type-date .form-control,
-.field.type-datetime .form-control{
-	display: inline-block;
-	margin-right: 5px;
-	width: auto;
-}
-
 .form-inline .field-inline--xs { width: 60px; }
 .form-inline .field-inline--sm { width: 136px; }
 .form-inline .field-inline--md { width: 200px; }
@@ -735,14 +365,44 @@ label.checkbox {
 .form-inline .field-inline--xl { width: 400px; }
 
 
-//Multi-value number/text fields
-.form-control.multi {
-	width: ~"calc(100% - 35px)";
-	display: inline-block;
-}
 
-.field.type-textarray, .field.type-numberarray {
-	.field-item {
-		margin-bottom: 6px;
+
+// Hacky improvements for desktop
+// ------------------------------
+
+@media (min-width: @screen-md) {
+	.field-type-date .form-control,
+	.field-type-datetime .form-control {
+		width: 165px;
+	}
+	.btn-goto-linked-item {
+		.translate(100%, 0);
+		display: block;
+		margin-left: 0;
+		padding: 6px 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		// don't absolutely position if full width
+		.field-size-full > & {
+			.translate(0,0);
+			display: inline-block;
+			position: relative;
+		}
 	}
 }
+
+
+
+
+// Field Imports
+// ------------------------------
+
+@import "./field-azurefile";
+@import "./field-cloudinaryimage";
+@import "./field-localfile";
+@import "./field-s3file";
+
+
+
