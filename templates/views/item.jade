@@ -48,6 +48,22 @@ block js
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 		
 		App.Views.Item.renderForm(document.getElementById('item-form'), Keystone.list, Keystone.item);
+		
+		// show/hide the search form in the toolbar
+		// TODO: Move this to React
+		jQuery(function($) {
+			var item_breadcrumbs = $('.item-breadcrumbs'),
+				item_searchform  = $('.searchbox');
+
+			$('.js-itemsearch-open').click(function() {
+				item_breadcrumbs.hide();
+				item_searchform.show().find('input[type!=hidden]')[0].focus();
+			});
+			$('.js-itemsearch-close').click(function() {
+				item_searchform.hide();
+				item_breadcrumbs.show();
+			});
+		});
 
 block intro
 	.item-toolbar.item-toolbar--header

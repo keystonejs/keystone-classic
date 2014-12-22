@@ -256,21 +256,6 @@ jQuery(function($) {
 	});
 
 
-	// show/hide the search form in the toolbar
-
-	var item_breadcrumbs = $('.item-breadcrumbs'),
-		item_searchform  = $('.searchbox');
-
-	$('.js-itemsearch-open').click(function() {
-		item_breadcrumbs.hide();
-		item_searchform.show().find('input[type!=hidden]')[0].focus();
-	});
-	$('.js-itemsearch-close').click(function() {
-		item_searchform.hide();
-		item_breadcrumbs.show();
-	});
-
-
 
 
 
