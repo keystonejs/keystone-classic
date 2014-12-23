@@ -24,8 +24,7 @@ module.exports = {
 	},
 	
 	addItem: function() {
-		var newItem = newItem('');
-		var newValues = this.state.values.concat();
+		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
 			values: newValues
 		});
