@@ -1,5 +1,6 @@
 var React = require('react');
-var tablesaw = require('tablesaw/dist/tablesaw.js');
+var $ = require('jquery'); //Scope jquery for tablesaw.
+var tablesaw = require('./lib/tablesaw.stackonly');
 var Field = require('../field');
 
 /**
@@ -15,26 +16,50 @@ var Field = require('../field');
  */
 module.exports = Field.create({
 
+  getRow : function(row) {
+
+    return function(column) {
+
+      return (<td>{row[column.name]}</td>);
+
+    };
+
+  },
+
   /**
    *
    * renderTableHeading renders the table headings.
    *
    */
-  renderTableHeading: function(heading) {
+  renderTableHeading: function(column) {
     return (
-      <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">{heading.name}</th>
+      <th data-tablesaw-sortable-col data-tablesaw-priority="persist">{column.name}</th>
     );
 
   },
 
+  /**
+   *
+   * renderTableRow renders the data as a row in a table.
+   *
+   */
+  renderTableRow: function(row) {
+    return (
+      <tr>{this.props.columns.map(this.getRow(row))}</tr>
+    );
+
+  },
   renderField: function () {
     return (
-      <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
+      <table className="table tablesaw tablesaw-stack" data-tablesaw-mode="stack">
         <thead>
           <tr>
             {this.props.columns.map(this.renderTableHeading)}
           </tr>
         </thead>
+        <tbody>
+          {this.props.value.map(this.renderTableRow)}
+        </tbody>
       </table>
     );
   }
