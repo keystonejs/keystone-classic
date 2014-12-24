@@ -16,8 +16,8 @@ var Form = React.createClass({
 	handleChange: function(event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
-		console.log(event);
-		console.log(values);
+		// console.log(event);
+		// console.log(values);
 		this.setState({
 			values: values
 		});
@@ -63,7 +63,6 @@ var Form = React.createClass({
 		
 		if (!this.props.list.noedit) {
 			// TODO: Confirm: 'Are you sure you want to delete this ' + list.singular.toLowerCase() + '?'
-			console.log('/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query);
 			toolbar['del'] = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete">delete {this.props.list.singular.toLowerCase()}</a>
 		}
 		
