@@ -161,6 +161,7 @@ var keystone = module.exports = exports = new Keystone();
 
 // Expose modules and Classes
 keystone.utils = utils;
+keystone.Keystone = Keystone;
 keystone.content = require('./lib/content');
 keystone.List = require('./lib/list');
 keystone.Field = require('./lib/field');
