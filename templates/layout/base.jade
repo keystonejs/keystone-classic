@@ -44,6 +44,9 @@ html
 								- path = '/keystone/' + navSection.lists[0].path
 
 							li(class=section.key == navSection.key ? 'active' : null): a(href=path)= navSection.label
+						li.right-col(class=section.key == 'settings' ? 'active' : null): a(href='#') Settings
+						li.right-col(class=section.key == 'tools' ? 'active' : null): a(href='#') Tools
+
 			if section.lists && section.lists.length > 1
 				nav(role='navigation')#section-nav.navbar.navbar-default.navbar-static-top: .container
 					.navbar-header
@@ -63,7 +66,7 @@ html
 									- path = navList.path
 								else
 									- path = '/keystone/' + navList.path
-									
+
 								li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
 			#body: .container
 				block intro
