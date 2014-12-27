@@ -11,7 +11,7 @@ module.exports = Field.create({
 		return {
 			ready: this.props.value ? false : true,
 			simpleValue: this.props.value,
-			expandedValue: null
+			expandedValues: null
 		}
 	},
 
@@ -24,7 +24,7 @@ module.exports = Field.create({
 			this.setState({
 				ready: false,
 				simpleValue: newProps.value,
-				expandedValue: null
+				expandedValues: null
 			});
 			this.loadValues(newProps.value);
 		}
