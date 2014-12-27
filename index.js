@@ -96,8 +96,10 @@ var Keystone = function() {
 	}
 	
 	// Attach middleware packages, bound to this instance
-	this.initAPI = require('./lib/middleware/initAPI')(this);
-	this.cors = require('./lib/middleware/cors')(this);
+	this.middleware = {
+		api: require('./lib/middleware/api')(this),
+		cors: require('./lib/middleware/cors')(this)
+	};
 	
 };
 
