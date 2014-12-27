@@ -11,6 +11,12 @@ var React      = require('react'),
 
 module.exports = Field.create({
 	
+	getInitialState: function() {
+		return {
+			isFocused: false
+		};
+	},
+	
 	componentDidMount: function() {
 		if (this.refs.codemirror) {
 			var options = {
@@ -18,6 +24,8 @@ module.exports = Field.create({
 			};
 			this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror.getDOMNode(), options);
 			this.codeMirror.on('change', this.codemirrorValueChanged);
+			this.codeMirror.on('focus', this.focusChanged.bind(this, true));
+			this.codeMirror.on('blur', this.focusChanged.bind(this, false));
 			this._currentCodemirrorValue = this.props.value;
 		}
 	},
@@ -35,6 +43,12 @@ module.exports = Field.create({
 		}
 	},
 	
+	focusChanged: function(focused) {
+		this.setState({
+			isFocused: focused
+		});
+	},
+	
 	codemirrorValueChanged: function(doc, change) {
 		var newValue = doc.getValue();
 		this._currentCodemirrorValue = newValue;
@@ -45,7 +59,15 @@ module.exports = Field.create({
 	},
 	
 	renderField: function() {
-		return <textarea ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+		var className = 'CodeMirror-container';
+		if (this.state.isFocused) {
+			className += ' is-focused';
+		}
+		return (
+			<div className={className}>
+				<textarea ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />
+			</div>
+		);
 	}
 	
 });
