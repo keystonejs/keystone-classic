@@ -58,7 +58,7 @@ Here are some ways:
 
 We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
 
-#### Related Project
+#### Related Projects
 If you are using KeystoneJS in any projects we encourage you to add it to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
 
 
