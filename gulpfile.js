@@ -1,8 +1,5 @@
 var _ = require('underscore'),
 	gulp = require('gulp'),
-	cover = require('gulp-coverage'),
-	jshint = require('gulp-jshint'),
-	mocha = require('gulp-mocha'),
 	gutil = require('gulp-util'),
 	watch = require('gulp-watch'),
 	browserify = require('browserify'),
