@@ -7,7 +7,7 @@ export NODE_ENV = test
 .PHONY: lint test test-cov test-spec test-travis
 
 lint:
-	$(JSHINT_CMD) --reporter node_modules/jshint-stylish/stylish.js .
+	$(JSHINT_CMD) --reporter node_modules/jshint-stylish/stylish.js .; true
 
 test:
 	make lint
