@@ -658,7 +658,7 @@ block content
 				p <code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object
 				p See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.
 				pre: code.language-javascript
-					| item.cretedDate = Date.now();
+					| item.createdDate = Date.now();
 					| item._.createdDate.format(); // returns today's date using the default format string
 					| item._.createdDate.parse('2013-12-04'); // returns a moment object with the parsed date
 					| item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'
