@@ -4,22 +4,25 @@ MOCHA_CMD = node_modules/mocha/bin/_mocha
 
 export NODE_ENV = test
 
-.PHONY: lint test test-cov test-spec test-travis
+.PHONY: default lint test test-cov test-spec test-travis clean
+
+# make executes the first task in the makefile when run without arguments
+default: test
 
 lint:
 	$(JSHINT_CMD) --reporter node_modules/jshint-stylish/stylish.js .; true
 
-test:
-	make lint
+test: lint
 	$(MOCHA_CMD)
 
-test-cov:
-	rm -rf coverage
+test-cov: clean
 	node $(ISTANBUL_CMD) $(MOCHA_CMD) --
 
 test-spec:
 	node $(ISTANBUL_CMD) $(MOCHA_CMD) -- --reporter spec
 
-test-travis:
-	make test-spec
+test-travis: test-spec
 	if test -n "$$CODECLIMATE_REPO_TOKEN"; then codeclimate < coverage/lcov.info; fi
+
+clean:
+	rm -rf coverage
