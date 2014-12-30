@@ -6,10 +6,13 @@ var demand = require('must'),
 
 var getApp = function() {
 	var app = keystone.express();
-	app.use(bodyParser());
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({
+		extended: true
+	}));
 	app.use(methodOverride());
 	return app;
-}
+};
 
 describe('Keystone.View', function() {
 	
