@@ -63,7 +63,7 @@
     "jshint": "~2.5.11",
     "jshint-stylish": "~1.0.0",
     "istanbul": "^0.3.5",
-    "mocha": "1.21.4",
+    "mocha": "2.1.0",
     "must": ">= 0.12 < 1",
     "reactify": "~0.17.1",
     "sinon": "~1.12.2",
