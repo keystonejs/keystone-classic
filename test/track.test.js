@@ -48,7 +48,7 @@ describe('List "track" option', function () {
 			} else {
 				item = new Test.model();
 				done(item);
-			}		
+			}
 
 		}
 
@@ -125,7 +125,7 @@ describe('List "track" option', function () {
 				throw new err;
 			}
 			done();
-		})		
+		});
 	});
 
 	describe('when "track" option is not valid', function () {
@@ -138,7 +138,7 @@ describe('List "track" option', function () {
 			function badList() {
 				Test = keystone.List(testModelName, { track: 'bad setting' });
 				Test.add({ name: { type: String } });
-				Test.register();				
+				Test.register();
 			}
 			badList.must.throw(/"track" must be a boolean or an object/);
 		});
@@ -147,7 +147,7 @@ describe('List "track" option', function () {
 			function badList() {
 				Test = keystone.List(testModelName, { track: { createdBy: 5 } });
 				Test.add({ name: { type: String } });
-				Test.register();				
+				Test.register();
 			}
 			badList.must.throw(/must be a boolean or a string/);
 		});
@@ -156,7 +156,7 @@ describe('List "track" option', function () {
 			function badList() {
 				Test = keystone.List(testModelName, { track: { createdAt: true, badfield: true } });
 				Test.add({ name: { type: String } });
-				Test.register();				
+				Test.register();
 			}
 			badList.must.throw(/valid field options are/);
 		});
@@ -686,14 +686,13 @@ describe('List "track" option', function () {
 		describe('using updateHandler()', function () {
 
 			before(function() {
-				Test = keystone.List(testModelName);
+				Test = keystone.List(testModelName, { track: true });
 				Test.add({ name: { type: String } });
 
 				Test.schema.post('save', function() {
 					post = this;
 				});
 
-				Test.addPattern("standard meta");
 				Test.register();
 			});
 
@@ -721,6 +720,7 @@ describe('List "track" option', function () {
 			});
 			
 			it('should have mappings for createdOn/UpdatedOn', function () {
+                          console.log('Test object', Test.map('createdOn'));
 				demand(Test.map('createdOn')).be('createdAt');
 				demand(Test.map('updatedOn')).be('updatedAt');
 			});
@@ -782,14 +782,13 @@ describe('List "track" option', function () {
 		describe('using .save()', function () {
 
 			before(function() {
-				Test = keystone.List(testModelName);
+				Test = keystone.List(testModelName, { track: true });
 				Test.add({ name: { type: String } });
 
 				Test.schema.post('save', function() {
 					post = this;
 				});
 
-				Test.addPattern("standard meta");
 				Test.register();
 			});
 
@@ -873,8 +872,6 @@ describe('List "track" option', function () {
 
 			});
 
-		});			
-			
+		});
 	});
-	
 });
