@@ -1,6 +1,6 @@
 # Keystone
 
-## v0.2.38 / 2014-12-20
+## v0.2.39 / 2014-12-20
 
 * fixed; regression in the Admin UI introduced in 0.2.37, sorry!
 
