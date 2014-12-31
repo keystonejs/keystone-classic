@@ -156,7 +156,6 @@ block content
 							| item.set({ field1: 'value1', field2: 'value2' });
 							| item._req_user = req.user;
 							| item.save();
-						p.note <code>track</code>取代了<code>List.addPattern('standard meta')</code>，它现在已经被废除了，并会从以后的Keystone版本中去掉。
 				tr
 					td <code>noedit</code> <code class="data-type">Boolean</code>
 					td 禁止在Keystone管理界面中编辑列表中的条目。
@@ -656,7 +655,7 @@ block content
 				p <code>parse(input, format, ...)</code> - 用<a href="http://momentjs.com" target="_blank">momentjs</a>解析input，将该域的值设为返回的moment对象
 				p 参见<a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs解析文档</a>了解所支持的格式和<code>parse</code>方法的参数。
 				pre: code.language-javascript
-					| item.cretedDate = Date.now();
+					| item.createdDate = Date.now();
 					| item._.createdDate.format(); // 用默认的格式字符串返回当天的date
 					| item._.createdDate.parse('2013-12-04'); // 用被解析的日期返回一个moment对象
 					| item._.createdDate.format('YYYY-MM-DD'); // 返回'2013-12-04'

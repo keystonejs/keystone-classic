@@ -16,8 +16,8 @@ var Form = React.createClass({
 	handleChange: function(event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
-		console.log(event);
-		console.log(values);
+		// console.log(event);
+		// console.log(values);
 		this.setState({
 			values: values
 		});
@@ -28,7 +28,7 @@ var Form = React.createClass({
 		var elements = {},
 			headings = 0;
 		
-		_.each(this.props.list.elements, function(el) {
+		_.each(this.props.list.uiElements, function(el) {
 			
 			if (el.type === 'heading') {
 				
@@ -37,21 +37,23 @@ var Form = React.createClass({
 				
 			} else if (el.type === 'field') {
 				
-				if ('function' !== typeof Fields[el.field.type]) {
-					elements[el.field.path] = React.createElement(InvalidFieldType, { type: el.field.type, path: el.field.path });
+				var field = this.props.list.fields[el.field];
+				
+				if ('function' !== typeof Fields[field.type]) {
+					elements[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
 					return;
 				}
 				
-				var fieldProps = _.clone(el.field);
-				fieldProps.value = this.state.values[el.field.path];
+				var fieldProps = _.clone(field);
+				fieldProps.value = this.state.values[field.path];
 				fieldProps.values = this.state.values;
 				fieldProps.onChange = this.handleChange;
 				fieldProps.mode = 'edit';
-				elements[el.field.path] = React.createElement(Fields[el.field.type], fieldProps);
+				elements[field.path] = React.createElement(Fields[field.type], fieldProps);
 				
 			}
 			
-		}.bind(this));
+		}, this);
 		
 		var toolbar = {};
 		
@@ -63,7 +65,6 @@ var Form = React.createClass({
 		
 		if (!this.props.list.noedit) {
 			// TODO: Confirm: 'Are you sure you want to delete this ' + list.singular.toLowerCase() + '?'
-			console.log('/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query);
 			toolbar['del'] = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete">delete {this.props.list.singular.toLowerCase()}</a>
 		}
 		

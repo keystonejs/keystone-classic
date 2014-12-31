@@ -18,6 +18,8 @@ The current stable version is `0.2.38`. See our [changelog](https://github.com/k
 
 We are nearly ready to release version `0.3.0` with Express 4 and our new React-powered Admin UI. In preparation for this, we have merged these two features into our `master` branch. If you have the opportunity, please test the new version with your project and let us know any issues you encounter.
 
+To work on the React features in master, link keystone to your project (described in a separate section below) and run `gulp watch-scripts`. Please revert any changes to the `/public/build/js/app.js` file before submitting a PR so as to avoid conflicts; this process will be cleaned up in a future release.
+
 For the stable development version, or to submit a PR targeted at `0.2.x`, please check out the `0.2.x` branch.
 
 
@@ -56,6 +58,9 @@ Here are some ways:
 
 We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
 
+#### Related Projects
+If you are using KeystoneJS in any projects we encourage you to add it to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
+
 
 ### Contributing
 
@@ -79,7 +84,7 @@ $ yo keystone
 
 Answer the questions, and the generator will create a new project based on the options you select, and install the required packages from **npm**.
 
-Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "^0.3.0"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
+Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "^0.2.0"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
 
 Then read through the [Documentation](http://keystonejs.com/docs) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
 
