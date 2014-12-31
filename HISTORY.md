@@ -1,6 +1,14 @@
 # Keystone
 
-## v0.2.38 / 2014-12-20
+## v0.2.40 / 2014-12-31
+
+* fixed; issue setting `Boolean` fields to `false` in the Admin UI
+* added; `cors` middleware is now available as `Keystone.cors`
+* fixed; redis session middleware doesn't support callbacks, should now initialise correctly
+* fixed; issues parsing options in keystone.Email, thanks [Brett Newman](https://github.com/snowkeeper)
+
+
+## v0.2.39 / 2014-12-20
 
 * fixed; regression in the Admin UI introduced in 0.2.37, sorry!
 
