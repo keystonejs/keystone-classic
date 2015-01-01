@@ -22,6 +22,9 @@ test-cov: clean
 test-travis: test-spec
 	if test -n "$$CODECLIMATE_REPO_TOKEN"; then codeclimate < coverage/lcov.info; fi
 
+# TODO explore generating documentation from a makefile task
+# TODO explore using jscoverage over istanbul for coverage reports
+
 clean:
 	rm -rf coverage
 
