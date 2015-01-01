@@ -2,6 +2,7 @@ REPORTER = progress
 ISTANBUL_CMD = node_modules/istanbul/lib/cli.js cover
 JSHINT_CMD = node_modules/jshint/bin/jshint
 MOCHA_CMD = node_modules/mocha/bin/_mocha
+JSHINT_REPORTER = node_modules/jshint-stylish/stylish.js
 TESTS = test/*.js
 
 default: test
@@ -13,7 +14,7 @@ test: lint
 		--reporter $(REPORTER)
 
 lint:
-	@$(JSHINT_CMD) --reporter node_modules/jshint-stylish/stylish.js .; true
+	@$(JSHINT_CMD) --reporter $(JSHINT_REPORTER) .; true
 
 test-cov: clean
 	@$(ISTANBUL_CMD) $(MOCHA_CMD) -- --reporter $(REPORTER)
