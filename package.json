@@ -69,7 +69,8 @@
     "sinon": "~1.12.2",
     "supertest": "~0.15.0",
     "vinyl-source-stream": "~1.0.0",
-    "watchify": "~2.2.1"
+    "watchify": "~2.2.1",
+    "should": "^4.4.2"
   },
   "author": "Jed Watson",
   "license": "MIT",
