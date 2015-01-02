@@ -198,6 +198,9 @@ Then `require('keystone')` normally in your app - the development copy will be u
 
 To go back to using a published version of KeystoneJS from npm, from your project directory, run `npm unlink keystone` then `npm install`.
 
+#### Testing
+To run the test suite run `npm test`.
+
 
 ## Thanks
 
