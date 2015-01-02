@@ -60,7 +60,7 @@
     "gulp-uglify": "~1.0.2",
     "gulp-util": "~3.0.1",
     "gulp-watch": "~1.2.0",
-    "jshint": "~2.5.11",
+    "jsxhint": "^0.9.0",
     "jshint-stylish": "~1.0.0",
     "istanbul": "^0.3.5",
     "mocha": "2.1.0",
