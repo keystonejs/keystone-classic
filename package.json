@@ -43,7 +43,7 @@
     "queryfilter": "~0.0.4",
     "range_check": "~0.0.5",
     "react": "~0.12.2",
-    "react-select": "~0.2.9",
+    "react-select": "~0.2.10",
     "scmp": "~1.0.0",
     "semver": "~4.1.1",
     "serve-favicon": "~2.2.0",
@@ -83,6 +83,8 @@
     "framework",
     "mongoose",
     "gui",
+    "site",
+    "website",
     "forms"
   ],
   "readmeFilename": "README.md",
