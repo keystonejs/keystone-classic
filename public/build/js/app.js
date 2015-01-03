@@ -49,9 +49,73 @@ var React = require('react');
  */
 
 var Toolbar = React.createClass({displayName: "Toolbar",
+	componentDidMount: function() {
+		(function() {
+		
+			var $window = $(window),
+				$body = $('#body'),
+				$toolbar = $('.toolbar');
+			
+			if (!$toolbar.length)
+				return;
+			
+			$toolbar.wrap("<div class='toolbar-wrapper' style='position: relative'>");
+			
+			var toolbarHeight = $toolbar.outerHeight() + 15, // add 15px for margin
+				$wrap = $toolbar.parent().css("height", toolbarHeight);
+			
+			$toolbar.css({
+				width: $toolbar.outerWidth(),
+				position: 'absolute'
+			});
+			
+			var mode = 'inline',
+				windowSize = {
+					x: $window.width(),
+					y: $window.height()
+				};
+			
+			var onScroll = function() {
+				
+				var maxY = $wrap.offset().top + toolbarHeight,
+					viewY = $window.scrollTop() + $window.height(),
+					newSize = {
+						x: $window.width(),
+						y: $window.height()
+					},
+					sizeChanged = (newSize.x != windowSize.x || newSize.y != windowSize.y);
+				
+				if (viewY > maxY && (sizeChanged || mode != 'inline')) {
+					mode = 'inline';
+					windowSize = newSize;
+					$toolbar.css({
+						top: 0,
+						position: 'absolute'
+					});
+				} else if (viewY <= maxY && (sizeChanged || mode == 'inline')) {
+					mode = 'fixed';
+					windowSize = newSize;
+					$toolbar.css({
+						top: $window.height() - toolbarHeight,
+						position: 'fixed'
+					});
+				}
+				
+			};
+			
+			$window.scroll(onScroll);
+			$window.resize(onScroll);
+			$window.on('redraw', onScroll);
+			onScroll();
+			
+			// do it again in a few hundred ms to correct for other UI initialisation
+			setTimeout(onScroll, 200);
+			
+		})();
+	},
 	render: function() {
 		return (
-			React.createElement("div", {className: "toolbar"}, this.props.children)
+			React.createElement("div", {className: "toolbar "}, this.props.children)
 		);
 	}
 });
@@ -91,6 +155,7 @@ module.exports = {
 
 },{"../../fields/types/azurefile/azurefile":10,"../../fields/types/boolean/boolean":11,"../../fields/types/cloudinaryimage/cloudinaryimage":12,"../../fields/types/cloudinaryimages/cloudinaryimages":13,"../../fields/types/code/code":14,"../../fields/types/color/color":15,"../../fields/types/date/date":16,"../../fields/types/datetime/datetime":17,"../../fields/types/email/email":18,"../../fields/types/embedly/embedly":19,"../../fields/types/html/html":21,"../../fields/types/key/key":22,"../../fields/types/localfile/localfile":23,"../../fields/types/location/location":24,"../../fields/types/markdown/markdown":26,"../../fields/types/money/money":27,"../../fields/types/name/name":28,"../../fields/types/number/number":29,"../../fields/types/numberarray/numberarray":30,"../../fields/types/password/password":31,"../../fields/types/relationship/relationship":32,"../../fields/types/s3file/s3file":33,"../../fields/types/select/select":34,"../../fields/types/text/text":35,"../../fields/types/textarea/textarea":36,"../../fields/types/textarray/textarray":37,"../../fields/types/url/url":38}],6:[function(require,module,exports){
 var _ = require('underscore'),
+	moment = require('moment'),
 	React = require('react'),
 	Fields = require('../../fields'),
 	FormHeading = require('../../components/formHeading'),
@@ -113,6 +178,69 @@ var Form = React.createClass({displayName: "Form",
 		this.setState({
 			values: values
 		});
+	},
+	
+	renderTrackingMeta: function() {
+		
+		if (!this.props.list.tracking) return null;
+		
+		var elements = {},
+			data = {},
+			label;
+		
+		if (this.props.list.tracking.createdAt) {
+			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
+			if (data.createdAt) {
+				elements.createdAt = (
+					React.createElement("div", {className: "item-details-meta-item"}, 
+						React.createElement("span", {className: "item-details-meta-label"}, "Created"), 
+						React.createElement("span", {className: "item-details-meta-info"}, moment(data.createdAt).format('Do MMM YY h:mm:ssa'))
+					)
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.createdBy) {
+			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
+			if (data.createdBy) {
+				label = data.createdAt ? 'by' : 'Created by';
+				// todo: harden logic around user name
+				elements.createdBy = (
+					React.createElement("div", {className: "item-details-meta-item"}, 
+						React.createElement("span", {className: "item-details-meta-label"}, label), 
+						React.createElement("span", {className: "item-details-meta-info"}, data.createdBy.name.first, " ", data.createdBy.name.last)
+					)
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.updatedAt) {
+			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
+			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
+				elements.updatedAt = (
+					React.createElement("div", {className: "item-details-meta-item"}, 
+						React.createElement("span", {className: "item-details-meta-label"}, "Updated"), 
+						React.createElement("span", {className: "item-details-meta-info"}, moment(data.updatedAt).format('Do MMM YY h:mm:ssa'))
+					)
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.updatedBy) {
+			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
+			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
+				label = data.updatedAt ? 'by' : 'Created by';
+				elements.updatedBy = (
+					React.createElement("div", {className: "item-details-meta-item"}, 
+						React.createElement("span", {className: "item-details-meta-label"}, label), 
+						React.createElement("span", {className: "item-details-meta-info"}, data.updatedBy.name.first, " ", data.updatedBy.name.last)
+					)
+				);
+			}
+		}
+		
+		return React.createElement("div", {className: "item-details-meta"}, elements);
+		
 	},
 	
 	render: function() {
@@ -160,8 +288,11 @@ var Form = React.createClass({displayName: "Form",
 			toolbar['del'] = React.createElement("a", {href: '/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query, className: "btn btn-link btn-cancel delete"}, "delete ", this.props.list.singular.toLowerCase())
 		}
 		
+		var tracking = this.renderTrackingMeta();
+		
 		return (
 			React.createElement("div", null, 
+				tracking, 
 				elements, 
 				React.createElement(Toolbar, null, 
 					toolbar
@@ -177,8 +308,9 @@ module.exports = {
 		React.render(React.createElement(Form, {list: list, data: data}), el);
 	}
 };
+;
 
-},{"../../components/formHeading":2,"../../components/invalidFieldType":3,"../../components/toolbar":4,"../../fields":5,"react":194,"underscore":198}],7:[function(require,module,exports){
+},{"../../components/formHeading":2,"../../components/invalidFieldType":3,"../../components/toolbar":4,"../../fields":5,"moment":43,"react":194,"underscore":198}],7:[function(require,module,exports){
 var React = require('react'),
 	pikaday = require('pikaday');
 
@@ -26439,6 +26571,7 @@ var Select = React.createClass({
 		asyncOptions: React.PropTypes.func,     // function to call to get options
 		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
 		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
+		noResultsText: React.PropTypes.string,  // placeholder displayed when there are no matching search results
 		name: React.PropTypes.string,           // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
 		className: React.PropTypes.string,      // className for the outer element
@@ -26456,6 +26589,7 @@ var Select = React.createClass({
 			asyncOptions: undefined,
 			autoload: true,
 			placeholder: '',
+			noResultsText: 'No results found',
 			name: undefined,
 			onChange: undefined,
 			className: undefined,
@@ -26499,7 +26633,7 @@ var Select = React.createClass({
 	
 	componentWillReceiveProps: function(newProps) {
 		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value));
+			this.setState(this.getStateFromValue(newProps.value, newProps.options));
 		}
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			this.setState({
@@ -26519,38 +26653,42 @@ var Select = React.createClass({
 		}
 	},
 	
-	initValuesArray: function(values) {
+	getStateFromValue: function(value, options) {
 		
-		if (!Array.isArray(values)) {
-			if ('string' === typeof values) {
-				values = values.split(this.props.delimiter);
-			} else {
-				values = values ? [values] : []
-			}
-		};
-		
-		return values.map(function(val) {
-			return ('string' === typeof val) ? val = _.findWhere(this.state.options, { value: val }) || { value: val, label: val } : val;
-		}.bind(this));
-		
-	},
-	
-	getStateFromValue: function(value) {
+		if (!options) {
+			options = this.state.options;
+		}
 		
 		// reset internal filter string
 		this._optionsFilterString = '';
 		
-		var values = this.initValuesArray(value),
-			filteredOptions = this.filterOptions(this.state.options, values);
+		var values = this.initValuesArray(value, options),
+			filteredOptions = this.filterOptions(options, values);
 		
 		return {
-			value: values.map(function(v) { return v.value }).join(this.props.delimiter),
+			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
+		
+	},
+	
+	initValuesArray: function(values, options) {
+		
+		if (!Array.isArray(values)) {
+			if ('string' === typeof values) {
+				values = values.split(this.props.delimiter);
+			} else {
+				values = values ? [values] : [];
+			}
+		}
+		
+		return values.map(function(val) {
+			return ('string' === typeof val) ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
+		}.bind(this));
 		
 	},
 	
@@ -26760,7 +26898,7 @@ var Select = React.createClass({
 					(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
 					(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 				);
-			}
+			};
 			return _.filter(options, filterOption, this);
 		}
 	},
@@ -26854,7 +26992,7 @@ var Select = React.createClass({
 			
 		}, this);
 		
-		return ops.length ? ops : React.createElement("div", {className: "Select-noresults"}, "No results found");
+		return ops.length ? ops : React.createElement("div", {className: "Select-noresults"}, this.props.noResultsText);
 		
 	},
 	
