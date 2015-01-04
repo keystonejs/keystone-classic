@@ -253,7 +253,8 @@ block content
 						.code-header
 							h4 Example for connect-mongostore
 						pre: code.language-javascript
-							| "sessionStore": {
+							| keystone.set('session store','connect-mongostore');
+							| keystone.set('session store options', {
 							|   "db": {
 							|     "name": "myDb",
 							|     "servers": [
@@ -262,12 +263,13 @@ block content
 							|       { "host": "192.168.1.101", "port": 27017 }
 							|     ]
 							|   }
-							| }
+							| });
 							
 						.code-header
 							h4 Example for connect-redis
 						pre: code.language-javascript
-							| "sessionStore": {
+							| keystone.set('session store','connect-redis');
+							| keystone.set('session store options', {
 							|   "host": "", // Redis server hostname
 							|   "port": "", // Redis server port
 							|   "ttl": "", // Redis session TTL in seconds
@@ -275,7 +277,7 @@ block content
 							|   "pass": "", // Password for Redis authentication
 							|   "prefix": "", // Key prefix defaulting to "sess:"
 							|   "url": "", // e.g. redis://user:pass@host:port/db
-							| }
+							| });
 				tr
 					td <code>back url</code> <code class="data-type">String</code>
 					td
