@@ -598,6 +598,7 @@ keystone.set('default region', 'au'); // 可选，会将自动完成的结果限
                 </ul>
               </p>
               <p class="note">你可以直接在<code>CloudinaryImage</code>域(参见<a href="/zh/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> 参数) 或 <code>CloudinaryImages</code>域(参见 <a href="/zh/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> 参数)上设置<code class="default-value">folder</code>参数覆盖默认的Cloudinary文件夹。</p>
+              <p>如果你在使用HTTPS服务，并且确保cloudinary images也通过HTTPS传输, 设置<code>cloudinary secure</code>选项为<code class="default-value">true</code>.</p>
               <pre><code class="language-javascript">keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
 // 或
 keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' );
@@ -606,7 +607,10 @@ keystone.set('cloudinary config', 'cloudinary://api_key:api_secret@cloud_name' )
 keystone.set('cloudinary prefix', 'keystone');
  
 // 可选，会用[{prefix}]/{list.path}/{field.path}/ 作为每个图片的public_id的前缀
-keystone.set('cloudinary folders', true);</code></pre><a name="services-embedly"></a>
+keystone.set('cloudinary folders', true);
+ 
+// 可选, 将强制cloudinary服务通过HTTPS传输
+keystone.set('cloudinary secure', true);</code></pre><a name="services-embedly"></a>
               <h3>Embed.ly</h3>
               <p><a href="http://embed.ly" target="_blank">Embed.ly</a>是一个解析url (比如Youtube的嵌入链接)的服务，并且会返回很多有价值的信息，比如提供者名称，汇总元数据，视频的高度和宽度，以及可以潜在你的视图中的清爽链接。他们提供了每月不超过5,000个url的免费方案。</p>
               <p><a href="/zh/docs/database#field_embedly">Embedly域类型</a>在你的KeystoneJS程序中集成它们的API的便利方式。</p>
