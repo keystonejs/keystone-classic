@@ -30,10 +30,7 @@ html
 						span.icon-bar
 						span.icon-bar
 						span.icon-bar
-					if section.lists && section.lists.length > 1
-						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
-					else
-						a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
+					a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
 				.collapse.navbar-collapse.navbar-headernav-collapse
 					if signout
 						ul.nav.navbar-nav.navbar-right
@@ -100,17 +97,21 @@ html
 		script(src="/keystone/js/lib/pikaday/pikaday-1.1.0.js")
 		script(src="/keystone/js/lib/pikaday/pikaday.jquery-1.1.0.js")
 		script(src="/keystone/js/lib/jquery-placeholder-shim/jquery-placeholder-shim.js")
+		script(src="/keystone/js/lib/tinymce/tinymce.min.js")
+		
+		//- New React App and Components
+		script(src="/keystone/build/js/app.js")
 
 		//- App
 		script.
-			Keystone = {
-				csrf: function(obj) {
-					obj['#{csrf_token_key}'] = "#{csrf_token_value}";
-					return obj;
-				}
+			var Keystone = {};
+			Keystone.csrf = function(obj) {
+				obj['#{csrf_token_key}'] = "#{csrf_token_value}";
+				return obj;
 			};
 			Keystone.csrf.key = "#{csrf_token_key}";
 			Keystone.csrf.value = "#{csrf_token_value}";
+			Keystone.csrf.query = "!{csrf_query}";
 		if cloudinary
 			script(src='/keystone/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js')
 			script(src='/keystone/js/lib/jqueryfileupload/jquery.iframe-transport.js')
@@ -131,7 +132,6 @@ html
 		script(src="/keystone/js/common/ui-alt-text.js")
 		script(src="/keystone/js/common/ui-color.js")
 		script(src="/keystone/js/common/ui-sortable.js")
-		script(src="/keystone/js/common/ui-multivalue.js")
 		
 		//- Page Scripts
 		block js

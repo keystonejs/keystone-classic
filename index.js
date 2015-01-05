@@ -96,8 +96,10 @@ var Keystone = function() {
 	}
 	
 	// Attach middleware packages, bound to this instance
-	this.initAPI = require('./lib/middleware/initAPI')(this);
-	this.cors = require('./lib/middleware/cors')(this);
+	this.middleware = {
+		api: require('./lib/middleware/api')(this),
+		cors: require('./lib/middleware/cors')(this)
+	};
 	
 };
 
@@ -162,6 +164,7 @@ var keystone = module.exports = exports = new Keystone();
 
 // Expose modules and Classes
 keystone.utils = utils;
+keystone.Keystone = Keystone;
 keystone.content = require('./lib/content');
 keystone.List = require('./lib/list');
 keystone.Field = require('./lib/field');
