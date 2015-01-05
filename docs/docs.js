@@ -2,9 +2,6 @@ var http = require('http'),
 	_ = require('underscore'),
 	express = require('express'),
 	jade = require('jade'),
-	favicon = require('serve-favicon'),
-	logger = require('morgan'),
-	errorHandler = require('errorhandler'),
 	content = require('./content');
 
 function view(view, options) {
@@ -20,15 +17,15 @@ function view(view, options) {
 
 var app = express();
 
-app.set('port', process.env.PORT || 8080);
+app.set('port', 8080);
 app.set('views', 'content');
 app.set('view engine', 'jade');
 
-app.use(favicon('public/favicon.ico'));
+app.use(express.favicon('public/favicon.ico'));
 app.use(require('less-middleware')('public'));
 app.use(express.static('public'));
- 
-app.use(logger('dev'));
+
+app.use(express.logger('dev'));
 
 // disable cache, safari workaround
 // see http://stackoverflow.com/questions/18811286/nodejs-express-cache-and-304-status-code
@@ -52,10 +49,10 @@ app.use(function(req, res, next) {
 	res.status(404).render('404');
 });
 
-app.use(errorHandler());
+app.use(express.errorHandler());
 
 // Start server
 
-app.listen(app.get('port'), function() {
-  console.log('Keystone docs are available on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function() {
+	console.log('Keystone docs are available on port ' + app.get('port'));
 });
