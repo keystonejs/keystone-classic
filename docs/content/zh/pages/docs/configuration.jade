@@ -254,7 +254,8 @@ block content
 						.code-header
 							h4 connect-mongostore的例子
 						pre: code.language-javascript
-							| "sessionStore": {
+							| keystone.set('session store','connect-mongostore');
+							| keystone.set('session store options', {
 							|   "db": {
 							|     "name": "myDb",
 							|     "servers": [
@@ -263,12 +264,13 @@ block content
 							|       { "host": "192.168.1.101", "port": 27017 }
 							|     ]
 							|   }
-							| }
+							| });
 							
 						.code-header
 							h4 connect-redis的例子
 						pre: code.language-javascript
-							| "sessionStore": {
+							| keystone.set('session store','connect-redis');
+							| keystone.set('session store options', {
 							|   "host": "", // Redis服务器主机名
 							|   "port": "", // Redis服务器端口
 							|   "ttl": "", // 以秒为单位的Redis会话TTL
@@ -276,7 +278,7 @@ block content
 							|   "pass": "", // 用于Redis认证的密码
 							|   "prefix": "", // Key前缀默认为"sess:"
 							|   "url": "", // 比如 redis://user:pass@host:port/db
-							| }
+							| });
 				tr
 					td <code>back url</code> <code class="data-type">String</code>
 					td

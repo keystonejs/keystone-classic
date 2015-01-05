@@ -253,7 +253,8 @@ block content
 						.code-header
 							h4 Example for connect-mongostore
 						pre: code.language-javascript
-							| "sessionStore": {
+							| keystone.set('session store','connect-mongostore');
+							| keystone.set('session store options', {
 							|   "db": {
 							|     "name": "myDb",
 							|     "servers": [
@@ -262,12 +263,13 @@ block content
 							|       { "host": "192.168.1.101", "port": 27017 }
 							|     ]
 							|   }
-							| }
+							| });
 							
 						.code-header
 							h4 Example for connect-redis
 						pre: code.language-javascript
-							| "sessionStore": {
+							| keystone.set('session store','connect-redis');
+							| keystone.set('session store options', {
 							|   "host": "", // Redis server hostname
 							|   "port": "", // Redis server port
 							|   "ttl": "", // Redis session TTL in seconds
@@ -275,7 +277,7 @@ block content
 							|   "pass": "", // Password for Redis authentication
 							|   "prefix": "", // Key prefix defaulting to "sess:"
 							|   "url": "", // e.g. redis://user:pass@host:port/db
-							| }
+							| });
 				tr
 					td <code>back url</code> <code class="data-type">String</code>
 					td
@@ -494,6 +496,8 @@ block content
 					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is set)
 	
 			p.note You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).
+			
+			p If you are serving over HTTPS and want to ensure that cloudinary images are also serverd over HTTPS, set the <code>cloudinary secure</code> option to <code class="default-value">true</code>.
 
 			pre: code.language-javascript
 				| keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
@@ -505,6 +509,9 @@ block content
 				| 
 				| // optional, will prefix each image public_id with [{prefix}]/{list.path}/{field.path}/
 				| keystone.set('cloudinary folders', true);
+				| 
+				| // optional, will force cloudinary to serve images over https
+				| keystone.set('cloudinary secure', true);
 			
 			
 			a(name='services-embedly')
