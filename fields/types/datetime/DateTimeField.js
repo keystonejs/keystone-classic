@@ -1,7 +1,7 @@
 var React = require('react'),
 	Field = require('../field'),
-	Note = require('../../components/note'),
-	InputDate = require('../../components/inputDate'),
+	Note = require('../../components/Note'),
+	DateInput = require('../../components/DateInput'),
 	moment = require('moment');
 
 module.exports = Field.create({
@@ -84,7 +84,7 @@ module.exports = Field.create({
 		} else {
 			input = (
 				<div className={fieldClassName}>
-					<InputDate ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
+					<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
 					<input type="text" name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" className="form-control time" />
 					<button type="button" className="btn btn-default btn-set-now" onClick={this.setNow}>Now</button>
 				</div>

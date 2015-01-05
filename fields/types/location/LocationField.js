@@ -5,8 +5,8 @@
 
 var _ = require('underscore'),
 	React = require('react'),
-	Field = require('../field'),
-	Note = require('../../components/note');
+	Field = require('../Field'),
+	Note = require('../../components/Note');
 
 module.exports = Field.create({
 	

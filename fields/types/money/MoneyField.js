@@ -1,10 +1,10 @@
 var React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 module.exports = Field.create({
 	
 	valueChanged: function(event) {
-		var newValue = event.target.value.replace(/[^\d]/g, '');
+		var newValue = event.target.value.replace(/[^\d\s\,\.\$€£¥]/g, '');
 		if (newValue === this.props.value) return;
 		this.props.onChange({
 			path: this.props.path,

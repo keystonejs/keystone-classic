@@ -1,7 +1,7 @@
 var tinymce = require('tinymce'),
-	React   = require('react'),
-	Field   = require('../field'),
-	_       = require('underscore');
+	React = require('react'),
+	Field = require('../Field'),
+	_ = require('underscore');
 
 var lastId = 0;
 

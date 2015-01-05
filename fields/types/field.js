@@ -1,9 +1,3 @@
-/**
- * TODO:
- * - collapse
- * - noedit
- */
-
 var _ = require('underscore'),
 	React = require('react'),
 	Note = require('../components/note');

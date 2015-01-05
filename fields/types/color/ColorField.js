@@ -1,5 +1,5 @@
 var React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 // require('./lib/bootstrap-colorpicker');
 

@@ -1,7 +1,7 @@
 var Select = require('react-select'),
 	React = require('react'),
-	Field = require('../field'),
-	Note = require('../../components/note'),
+	Field = require('../Field'),
+	Note = require('../../components/Note'),
 	superagent = require('superagent'),
 	_ = require('underscore');
 
