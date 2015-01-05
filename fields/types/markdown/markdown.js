@@ -27,7 +27,7 @@ module.exports = Field.create({
 		var headingCallback = function (e, hType) {
 			var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
 
-			if (selected.length == 0) {
+			if (selected.length === 0) {
 				// Give extra word
 				chunk = e.__localize('heading text');
 			} else {
@@ -35,12 +35,12 @@ module.exports = Field.create({
 			}
 
 			// transform selection and set the cursor into chunked text
-			if ((pointer = hType.length+1, content.substr(selected.start-pointer,pointer) == hType+' ')
-				|| (pointer = hType.length, content.substr(selected.start-pointer,pointer) == hType)) {
+			if ((pointer = hType.length+1, content.substr(selected.start-pointer,pointer) === hType+' ')
+				|| (pointer = hType.length, content.substr(selected.start-pointer,pointer) === hType)) {
 				e.setSelection(selected.start-pointer,selected.end);
 				e.replaceSelection(chunk);
 				cursor = selected.start-pointer;
-			} else if (selected.start > 0 && (prevChar = content.substr(selected.start-1,1), !!prevChar && prevChar != '\n')) {
+			} else if (selected.start > 0 && (prevChar = content.substr(selected.start-1,1), !!prevChar && prevChar !== '\n')) {
 				e.replaceSelection('\n\n'+hType+' '+chunk);
 				cursor = selected.start+hType.length+3;
 			} else {
