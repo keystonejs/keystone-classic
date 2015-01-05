@@ -119,8 +119,15 @@ block content
 				h2.form-heading.name-value= list.nameField.format(item) || '(no name)'
 			else
 				h2.form-heading.name-value= item.get(list.namePath) || '(no name)'
+<<<<<<< HEAD
+		
+		if list.tracking
+=======
+			else
+				h2.form-heading.name-value= item.get(list.namePath) || '(no name)'
 
 		//- if list.tracking
+>>>>>>> upstream/master
 			- var meta_createdAt, meta_createdBy, meta_updatedAt, meta_updatedBy
 			.item-details-meta
 				if list.tracking.createdAt
@@ -180,5 +187,3 @@ block content
 									each col, i in rel.columns
 										td
 											+column(rel.list, col, item)
-
-
