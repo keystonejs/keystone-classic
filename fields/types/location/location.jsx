@@ -110,7 +110,7 @@ module.exports = Field.create({
 					<input type="text" name={this.props.path + '.postcode'} ref="postcode" value={this.props.value.postcode} onChange={this.fieldChanged.bind(this, 'postcode')} className="form-control" placeholder="Postcode" />
 				</div>
 			</div></div>
-		</div>
+		</div>;
 	},
 	
 	renderGeo: function() {

@@ -3,3 +3,5 @@ public
 node_modules
 test
 coverage
+fields/types/markdown/lib/bootstrap-markdown.js
+fields/types/color/lib/bootstrap-colorpicker.js

@@ -66,7 +66,7 @@ module.exports = Field.create({
 		this.setState({
 			dateValue: dateValue,
 			timeValue: timeValue
-		})
+		});
 		this.handleChange(dateValue, timeValue);
 	},
 

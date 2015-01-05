@@ -122,7 +122,7 @@ module.exports = Field.create({
 			}
 
 			if (window.FileReader) {
-				var fileReader = new FileReader;
+				var fileReader = new FileReader();
 				fileReader.onload = function (e) {
 					self.pushThumbnail({ isQueued: true, url: e.target.result });
 					self.forceUpdate();

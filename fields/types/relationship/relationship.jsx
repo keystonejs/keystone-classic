@@ -12,7 +12,7 @@ module.exports = Field.create({
 			ready: this.props.value ? false : true,
 			simpleValue: this.props.value,
 			expandedValues: null
-		}
+		};
 	},
 	
 	componentDidMount: function() {
@@ -105,6 +105,7 @@ module.exports = Field.create({
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
 		}
+                // TODO what goes here?
 		if (field.many) {
 			//a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
 		} else if (field.many && this.props.value.length) {

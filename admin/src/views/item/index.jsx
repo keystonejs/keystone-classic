@@ -58,14 +58,14 @@ var Form = React.createClass({
 		var toolbar = {};
 		
 		if (!this.props.list.noedit) {
-			toolbar['save'] = <button type="submit" className="btn btn-save">Save</button>;
+			toolbar.save = <button type="submit" className="btn btn-save">Save</button>;
 			// TODO: Confirm: 'Are you sure you want to reset your changes?'
-			toolbar['reset'] = <a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className="btn btn-link btn-cancel">reset changes</a>;
+			toolbar.reset = <a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className="btn btn-link btn-cancel">reset changes</a>;
 		}
 		
 		if (!this.props.list.noedit) {
 			// TODO: Confirm: 'Are you sure you want to delete this ' + list.singular.toLowerCase() + '?'
-			toolbar['del'] = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete">delete {this.props.list.singular.toLowerCase()}</a>
+			toolbar.del = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete">delete {this.props.list.singular.toLowerCase()}</a>;
 		}
 		
 		return (

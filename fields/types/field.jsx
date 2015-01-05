@@ -68,7 +68,7 @@ var Base = module.exports.Base = {
 		return <div className="field-value">{this.props.value}</div>;
 	}
 	
-}
+};
 
 var Mixins = module.exports.Mixins = {
 	
@@ -107,7 +107,7 @@ var Mixins = module.exports.Mixins = {
 			);
 		}
 	}
-}
+};
 
 module.exports.create = function(spec) {
 	
@@ -149,4 +149,4 @@ module.exports.create = function(spec) {
 	
 	return React.createClass(field);
 	
-}
+};
