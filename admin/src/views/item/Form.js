@@ -147,9 +147,4 @@ var Form = React.createClass({
 	
 });
 
-module.exports = {
-	renderForm: function(el, list, data) {
-		React.render(<Form list={list} data={data} />, el);
-	}
-};
-;
+module.exports = Form;
