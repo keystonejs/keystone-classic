@@ -1,0 +1,133 @@
+//
+// Modals
+// --------------------------------------------------
+
+// .modal-open      - body class for killing the scroll
+// .modal           - container to scroll within
+// .modal-dialog    - positioning shell for the actual modal
+// .modal-content   - actual modal w/ bg and corners and shit
+
+
+// Container that the modal scrolls within
+.modal {
+	.fill-fixed();
+	overflow: auto;
+	overflow-y: scroll;
+	z-index: @zindex-modal-background;
+
+	// When fading in the modal, animate it to slide down
+	&.fade .modal-dialog {
+	  .translate(0, -25%);
+	  .transition-transform(~"0.3s ease-out");
+	}
+	&.in .modal-dialog { .translate(0, 0)}
+}
+
+// Shell div to position the modal with bottom padding
+.modal-dialog {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+	width: auto;
+	z-index: (@zindex-modal-background + 10);
+
+	// sizes
+	.modal-sm > & { width: 480px; }
+	.modal-md > & { width: 640px; }
+	.modal-lg > & { width: 960px; }
+}
+
+// Actual modal
+.modal-content {
+	background-color: @modal-content-bg;
+	border-radius: 2px;
+	box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 1px 0 rgba(0,0,0,.1), 0 3px 15px -1px rgba(0,0,0,.15);
+	outline: none; // remove focus outline from opened modal
+	position: relative;
+}
+
+// Modal background
+.modal-backdrop {
+	.fill-fixed();
+	background-color: white;
+	opacity: .75;
+	z-index: (@zindex-modal-background - 10);
+}
+
+
+
+
+// Inner
+// ------------------------------
+
+// common
+.modal-header,
+.modal-body,
+.modal-footer {
+	padding: (@grid-gutter-width / 2);
+	position: relative;
+}
+
+// header
+.modal-header {
+	box-shadow: 0 1px 0 rgba(0,0,0,.1);
+}
+.modal-title {
+	color: @gray-light;
+	font-weight: 500;
+	// line-height: 1;
+	margin: 0;
+	text-transform: uppercase;
+}
+
+// close button
+.modal-close {
+	.transition(opacity 200ms);
+	// dechrome
+	background: none;
+	border: none;
+	line-height: 1;
+	margin: 0;
+	padding: 0;
+	
+	// style and position
+	opacity: .4;
+	font-size: 1.25em;
+	padding: 15px;
+	position: absolute;
+	right: 0;
+	top: 0;
+
+	// add the x
+	&::after {
+		content: "\00d7";
+	}
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+	}
+}
+
+// body
+.modal-body {
+	> .field {
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}
+
+// footer
+.modal-footer {
+	box-shadow: 0 -1px 0 rgba(0,0,0,.1);
+}
+
+
+
+
+
+
+
+
+
