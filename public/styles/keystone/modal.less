@@ -30,11 +30,13 @@
 	padding: 10px;
 	width: auto;
 	z-index: (@zindex-modal-background + 10);
+}
 
-	// sizes
-	.modal-sm > & { width: 480px; }
-	.modal-md > & { width: 640px; }
-	.modal-lg > & { width: 960px; }
+// Sizes
+@media (min-width: @screen-sm) {
+	.modal-sm > .modal-dialog { width: 480px; }
+	.modal-md > .modal-dialog { width: 640px; }
+	.modal-lg > .modal-dialog { width: 960px; }
 }
 
 // Actual modal
