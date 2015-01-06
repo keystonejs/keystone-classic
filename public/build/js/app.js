@@ -316,7 +316,7 @@ var Toolbar = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			searchIsVisible: true,
+			searchIsVisible: false,
 			searchString: ''
 		};
 	},
@@ -403,13 +403,30 @@ var Toolbar = React.createClass({
 	
 	renderInfo: function() {
 		return (
-			null
+			React.createElement("ul", {className: "item-toolbar-info"}, 
+				this.renderKeyOrId(), 
+				this.renderCreateButton()
+			)
 		);
 	},
 	
+	renderKeyOrId: function() {
+		var list = this.props.list;
+		if (list.autokey && this.props.data[list.autokey.path]) {
+			return React.createElement("li", null, list.autokey.path, ": ", this.props.data[list.autokey.path])
+		}
+		return React.createElement("li", null, "id: ", this.props.data.id);
+	},
+	
 	renderCreateButton: function() {
+		if (this.props.list.nocreate) return null;
 		return (
-			null
+			React.createElement("li", null, 
+				React.createElement("a", {href: '/keystone/' + this.props.list.path + '?new' + Keystone.csrf.query}, 
+					React.createElement("span", {className: "mr-5 ion-plus"}), 
+					"New ", this.props.list.singular
+				)
+			)
 		);
 	},
 	
@@ -418,8 +435,7 @@ var Toolbar = React.createClass({
 			React.createElement("div", null, 
 				this.renderDrilldown(), 
 				this.renderSearch(), 
-				this.renderInfo(), 
-				this.renderCreateButton()
+				this.renderInfo()
 			)
 		);
 	}
@@ -435,7 +451,7 @@ var React = require('react'),
 
 module.exports = {
 	render: function(view) {
-		React.render(React.createElement(Toolbar, {list: view.list, drilldown: view.drilldown}), document.getElementById('item-toolbar'));
+		React.render(React.createElement(Toolbar, {list: view.list, data: view.item, drilldown: view.drilldown}), document.getElementById('item-toolbar'));
 		React.render(React.createElement(Form, {list: view.list, data: view.item}), document.getElementById('item-form'));
 	}
 };
