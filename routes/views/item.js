@@ -38,7 +38,7 @@ exports = module.exports = function(req, res) {
 			
 			var drilldown = {
 				def: req.list.get('drilldown'),
-				data: {},
+				// data: {},
 				items: []
 			};
 			
@@ -70,9 +70,9 @@ exports = module.exports = function(req, res) {
 							}
 							var more = (results.length === 4) ? results.pop() : false;
 							if (results.length) {
-								drilldown.data[path] = results;
+								// drilldown.data[path] = results;
 								drilldown.items.push({
-									list: refList,
+									list: refList.getOptions(),
 									items: _.map(results, function(i) { return {
 										label: refList.getDocumentName(i),
 										href: '/keystone/' + refList.path + '/' + i.id
@@ -91,8 +91,10 @@ exports = module.exports = function(req, res) {
 								drilldown.data[path] = result;
 								drilldown.items.push({
 									list: refList,
-									label: refList.getDocumentName(result),
-									href: '/keystone/' + refList.path + '/' + result.id
+									items: [{
+										label: refList.getDocumentName(result),
+										href: '/keystone/' + refList.path + '/' + result.id
+									}]
 								});
 							}
 							done();
@@ -151,9 +153,9 @@ exports = module.exports = function(req, res) {
 					page: 'item',
 					list: req.list,
 					item: item,
+					drilldown: drilldown,
 					relationships: relationships,
-					showRelationships: showRelationships,
-					drilldown: drilldown
+					showRelationships: showRelationships
 				}));
 				
 			});
