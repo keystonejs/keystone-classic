@@ -8,7 +8,7 @@ var Toolbar = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			searchIsVisible: true,
+			searchIsVisible: false,
 			searchString: ''
 		};
 	},
@@ -95,13 +95,30 @@ var Toolbar = React.createClass({
 	
 	renderInfo: function() {
 		return (
-			null
+			<ul className="item-toolbar-info">
+				{this.renderKeyOrId()}
+				{this.renderCreateButton()}
+			</ul>
 		);
 	},
 	
+	renderKeyOrId: function() {
+		var list = this.props.list;
+		if (list.autokey && this.props.data[list.autokey.path]) {
+			return <li>{list.autokey.path}: {this.props.data[list.autokey.path]}</li>
+		}
+		return <li>id: {this.props.data.id}</li>;
+	},
+	
 	renderCreateButton: function() {
+		if (this.props.list.nocreate) return null;
 		return (
-			null
+			<li>
+				<a href={'/keystone/' + this.props.list.path + '?new' + Keystone.csrf.query}>
+					<span className="mr-5 ion-plus"></span>
+					New {this.props.list.singular}
+				</a>
+			</li>
 		);
 	},
 	
@@ -111,7 +128,6 @@ var Toolbar = React.createClass({
 				{this.renderDrilldown()}
 				{this.renderSearch()}
 				{this.renderInfo()}
-				{this.renderCreateButton()}
 			</div>
 		);
 	}

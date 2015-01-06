@@ -4,7 +4,7 @@ var React = require('react'),
 
 module.exports = {
 	render: function(view) {
-		React.render(<Toolbar list={view.list} drilldown={view.drilldown} />, document.getElementById('item-toolbar'));
+		React.render(<Toolbar list={view.list} data={view.item} drilldown={view.drilldown} />, document.getElementById('item-toolbar'));
 		React.render(<Form list={view.list} data={view.item} />, document.getElementById('item-form'));
 	}
 };
