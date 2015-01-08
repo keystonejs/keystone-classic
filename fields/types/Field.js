@@ -1,6 +1,6 @@
 var _ = require('underscore'),
 	React = require('react'),
-	Note = require('../components/note');
+	Note = require('../components/Note');
 
 
 function validateSpec(spec) {

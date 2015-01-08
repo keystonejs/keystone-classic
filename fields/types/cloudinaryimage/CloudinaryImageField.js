@@ -1,7 +1,7 @@
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
-	Field = require('../field'),
+	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	Select = require('react-select');
 
