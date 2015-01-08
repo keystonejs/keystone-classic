@@ -1,6 +1,5 @@
-var _ = require('underscore'),
-	React = require('react'),
-	Fields = require('../../fields');
+var React = require('react'),
+	CreateForm = require('./CreateForm');
 
 var Toolbar = React.createClass({
 	
@@ -8,6 +7,7 @@ var Toolbar = React.createClass({
 	
 	getInitialState: function() {
 		return {
+			createIsVisible: false,
 			searchIsVisible: false,
 			searchIsFocused: false,
 			searchString: ''
@@ -20,10 +20,16 @@ var Toolbar = React.createClass({
 		}
 	},
 	
-	toggleSearch: function(on) {
+	toggleCreate: function(visible) {
 		this.setState({
-			searchIsVisible: on,
-			searchIsFocused: on,
+			createIsVisible: visible
+		});
+	},
+	
+	toggleSearch: function(visible) {
+		this.setState({
+			searchIsVisible: visible,
+			searchIsFocused: visible,
 			searchString: ''
 		});
 	},
@@ -146,7 +152,7 @@ var Toolbar = React.createClass({
 		if (this.props.list.nocreate) return null;
 		return (
 			<li>
-				<a href={'/keystone/' + this.props.list.path + '?new' + Keystone.csrf.query}>
+				<a href="javascript:;" onClick={this.toggleCreate.bind(this, true)}>
 					<span className="mr-5 ion-plus"></span>
 					New {this.props.list.singular}
 				</a>
@@ -154,9 +160,15 @@ var Toolbar = React.createClass({
 		);
 	},
 	
+	renderCreateForm: function() {
+		if (!this.state.createIsVisible) return null;
+		return <CreateForm list={this.props.list} onCancel={this.toggleCreate.bind(this, false)} />
+	},
+	
 	render: function() {
 		return (
 			<div>
+				{this.renderCreateForm()}
 				{this.renderDrilldown()}
 				{this.renderSearch()}
 				{this.renderInfo()}
