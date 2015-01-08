@@ -20,6 +20,15 @@ var Form = React.createClass({
 			values: values
 		});
 	},
+
+	componentWillMount: function() {
+		this._bodyStyleOverflow = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+	},
+
+	componentWillUnmount: function() {
+		document.body.style.overflow = this._bodyStyleOverflow;
+	},
 	
 	render: function() {
 		
@@ -52,24 +61,24 @@ var Form = React.createClass({
 		
 		return (
 			<div>
-				<div class="modal modal-md">
-					<div class="modal-dialog">
-						<form class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="modal-close"></button>
-								<div class="modal-title">Create Listing</div>
+				<div className="modal modal-md">
+					<div className="modal-dialog">
+						<form className="modal-content">
+							<div className="modal-header">
+								<button type="button" className="modal-close" onClick={this.props.onCancel}></button>
+								<div className="modal-title">Create Listing</div>
 							</div>
-							<div class="modal-body">
+							<div className="modal-body">
 								{form}
 							</div>
-							<div class="modal-footer">
+							<div className="modal-footer">
 								<button type="submit" className="btn btn-save">Create</button>
 								<button type="button" className="btn btn-link btn-cancel" onClick={this.props.onCancel}>cancel</button>
 							</div>
 						</form>
 					</div>
 				</div>
-				<div class="modal-backdrop"></div>
+				<div className="modal-backdrop"></div>
 			</div>
 		);
 	}
