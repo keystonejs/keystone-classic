@@ -9,13 +9,34 @@ var Toolbar = React.createClass({
 	getInitialState: function() {
 		return {
 			searchIsVisible: false,
+			searchIsFocused: false,
 			searchString: ''
 		};
 	},
 	
+	componentDidUpdate: function(prevProps, prevState) {
+		if (this.state.searchIsVisible && !prevState.searchIsVisible) {
+			this.refs.searchField.getDOMNode().focus();
+		}
+	},
+	
 	toggleSearch: function(on) {
 		this.setState({
-			searchIsVisible: on
+			searchIsVisible: on,
+			searchIsFocused: on,
+			searchString: ''
+		});
+	},
+	
+	searchFocusChanged: function(focused) {
+		this.setState({
+			searchIsFocused: focused
+		});
+	},
+	
+	searchStringChanged: function(event) {
+		this.setState({
+			searchString: event.target.value
 		});
 	},
 	
@@ -78,14 +99,25 @@ var Toolbar = React.createClass({
 	renderSearch: function() {
 		if (!this.state.searchIsVisible) return null;
 		var list = this.props.list;
+		var submitButtonClass = 'btn ' + (this.state.searchIsFocused ? 'btn-primary' : 'btn-default');
 		return (
 			<div className="searchbox">
 				<form action={'/keystone/' + list.path} className="form-inline searchbox-form">
 					<div className="searchbox-field">
-						<input type="search" name="search" placeholder={'Search ' + list.plural} className="form-control searchbox-input" />
+						<input
+							ref="searchField"
+							type="search"
+							name="search"
+							value={this.state.searchString}
+							onChange={this.searchStringChanged}
+							onFocus={this.searchFocusChanged.bind(this, true)}
+							onBlur={this.searchFocusChanged.bind(this, false)}
+							placeholder={'Search ' + list.plural}
+							className="form-control searchbox-input"
+						/>
 					</div>
 					<div className="searchbox-button">
-						<button type="submit" className="btn btn-default searchbox-submit">Search</button>
+						<button type="submit" className={submitButtonClass}>Search</button>
 					</div>
 					<button type="button" className="btn btn-link btn-cancel" onClick={this.toggleSearch.bind(this, false)}>Cancel</button>
 				</form>
