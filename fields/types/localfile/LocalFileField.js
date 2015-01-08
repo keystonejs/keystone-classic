@@ -1,8 +1,8 @@
-var _      = require('underscore'),
-	$      = require('jquery'),
-	React  = require('react'),
-	Field  = require('../field'),
-	Note   = require('../../components/note'),
+var _ = require('underscore'),
+	$ = require('jquery'),
+	React = require('react'),
+	Field = require('../Field'),
+	Note = require('../../components/Note'),
 	Select = require('react-select');
 
 module.exports = Field.create({
@@ -148,7 +148,7 @@ module.exports = Field.create({
 	},
 
 	renderFileField: function () {
-		return <input ref='fileField' type='file' name={this.props.paths.upload} className='field-upload' onChange={this.fileChanged} />
+		return <input ref='fileField' type='file' name={this.props.paths.upload} className='field-upload' onChange={this.fileChanged} />;
 	},
 
 	renderFileAction: function () {

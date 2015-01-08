@@ -1,6 +1,6 @@
 var _ = require('underscore'),
-	Field = require('../field'),
-	ArrayFieldMixin = require('../../mixins/arrayfield');
+	Field = require('../Field'),
+	ArrayFieldMixin = require('../../mixins/ArrayField');
 
 module.exports = Field.create({
 	mixins: [ArrayFieldMixin]

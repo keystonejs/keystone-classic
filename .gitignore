@@ -26,6 +26,7 @@ node_modules/
 .idea/
 
 docs/_dist
+coverage
 coverage.html
 .cover*
 

@@ -87,9 +87,31 @@ describe('Fields', function() {
 			testItem.bool = undefined;
 		});
 		
+		it('should be false when passed the boolean false', function() {
+			Test.fields.bool.updateItem(testItem, {
+				bool: false
+			});
+			demand(testItem.bool).be.false();
+			testItem.bool = undefined;
+		});
+		
 		it('should be false when passed the string "false"', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: 'false'
+			});
+			demand(testItem.bool).be.false();
+			testItem.bool = undefined;
+		});
+		
+		it('should be false when passed undefined', function() {
+			Test.fields.bool.updateItem(testItem, {});
+			demand(testItem.bool).be.false();
+			testItem.bool = undefined;
+		});
+		
+		it('should be false when passed an empty string', function() {
+			Test.fields.bool.updateItem(testItem, {
+				bool: ''
 			});
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;

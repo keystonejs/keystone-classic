@@ -3,7 +3,7 @@ var keystone = require('../../'),
 
 exports = module.exports = function(req, res) {
 
-	var renderView = function() {
+	function renderView() {
 		keystone.render(req, res, 'signin', {
 			submitted: req.body,
 			from: req.query.from,
@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
 			return renderView();
 		}
 
-		var onSuccess = function(user) {
+		function onSuccess(user) {
 
 			if (req.query.from && req.query.from.match(/^(?!http|\/\/|javascript).+/)) {
 				res.redirect(req.query.from);
@@ -36,9 +36,9 @@ exports = module.exports = function(req, res) {
 				res.redirect('/keystone');
 			}
 
-		};
+		}
 
-		var onFail = function() {
+		function onFail() {
 			req.flash('error', 'Sorry, that email and password combo are not valid.');
 			renderView();
 		};

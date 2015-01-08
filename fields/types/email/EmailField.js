@@ -5,7 +5,7 @@
  */
 
 var React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 module.exports = Field.create({
 	

@@ -58,6 +58,9 @@ Here are some ways:
 
 We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
 
+#### Related Projects
+If you are using KeystoneJS in any projects we encourage you to add it to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
+
 
 ### Contributing
 
@@ -194,6 +197,9 @@ If you want to test or develop against the `master` branch of KeystoneJS (or aga
 Then `require('keystone')` normally in your app - the development copy will be used. Note that running `npm update` will ignore new versions of keystone that have been published.
 
 To go back to using a published version of KeystoneJS from npm, from your project directory, run `npm unlink keystone` then `npm install`.
+
+#### Testing
+To run the test suite run `npm test`.
 
 
 ## Thanks

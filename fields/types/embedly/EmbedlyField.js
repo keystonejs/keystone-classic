@@ -1,5 +1,5 @@
 var React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 module.exports = Field.create({
 	
@@ -22,6 +22,7 @@ module.exports = Field.create({
 				</div>
 			) : null;
 		
+		// TODO review this return statement
 		return (
 			<div>
 				<div className="field-value">{this.props.value.providerName} {this.props.value.type}</div>

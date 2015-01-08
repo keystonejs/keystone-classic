@@ -1,8 +1,8 @@
-var _      = require('underscore'),
-	$      = require('jquery'),
-	React  = require('react'),
-	Field  = require('../field'),
-	Note   = require('../../components/note'),
+var _ = require('underscore'),
+	$ = require('jquery'),
+	React = require('react'),
+	Field = require('../field'),
+	Note = require('../../components/Note'),
 	Select = require('react-select');
 
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
@@ -61,7 +61,7 @@ module.exports = Field.create({
 					return false;
 				}
 
-				var fileReader = new FileReader;
+				var fileReader = new FileReader();
 				fileReader.onload = function (e) {
 					if (!self.isMounted()) return;
 					self.setState({
@@ -238,7 +238,7 @@ module.exports = Field.create({
 	},
 
 	renderFileField: function () {
-		return <input ref='fileField' type='file' name={this.props.paths.upload} className='field-upload' onChange={this.fileChanged} />
+		return <input ref='fileField' type='file' name={this.props.paths.upload} className='field-upload' onChange={this.fileChanged} />;
 	},
 
 	renderFileAction: function () {
@@ -278,7 +278,7 @@ module.exports = Field.create({
 					options: options,
 					complete: true
 				});
-			})
+			});
 		};
 
 		return <div className='image-select'>

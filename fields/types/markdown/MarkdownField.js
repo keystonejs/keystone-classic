@@ -1,5 +1,5 @@
 var React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 // Scope jQuery and the bootstrap-markdown editor so it will mount
 var $ = require('jquery');
