@@ -17,19 +17,6 @@ jQuery(function($) {
 			return false;
 		}
 	});
-
-
-	// search box highlighting
-
-	$('.searchbox-input').focus(function() {
-		$('.searchbox-form').addClass('active');
-		$('.searchbox-submit').removeClass('btn-default').addClass('btn-primary');
-	}).blur(function() {
-		if (!$('.searchbox-input').val().length) {
-			$('.searchbox-form').removeClass('active');
-			$('.searchbox-submit').removeClass('btn-primary').addClass('btn-default');
-		}
-	});
 	
 	
 	$('img.img-load').each(function() {
