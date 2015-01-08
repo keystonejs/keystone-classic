@@ -1,6 +1,9 @@
 REPORTER = progress
 ISTANBUL_CMD = node_modules/istanbul/lib/cli.js cover
 JSXHINT_CMD = node_modules/jsxhint/cli.js
+JSCS_CMD = node_modules/.bin/jscs
+JSCS_REPORTER = console
+JSCS_FILES = ./**/*.js
 MOCHA_CMD = node_modules/mocha/bin/_mocha
 JSHINT_REPORTER = node_modules/jshint-stylish/stylish.js
 TESTS = test/*.js
@@ -15,6 +18,7 @@ test: lint
 
 lint:
 	@$(JSXHINT_CMD) --reporter $(JSHINT_REPORTER) .; true
+	@$(JSCS_CMD) $(JSCS_FILES) --reporter=$(JSCS_REPORTER); true
 
 test-cov: clean
 	@$(ISTANBUL_CMD) $(MOCHA_CMD) -- --reporter $(REPORTER)
