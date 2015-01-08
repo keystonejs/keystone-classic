@@ -1,7 +1,7 @@
 var React = require('react');
 var $ = require('jquery'); //Scope jquery for tablesaw.
 var tablesaw = require('./lib/tablesaw.stackonly');
-var Field = require('../field');
+var Field = require('../Field');
 
 /**
  *
