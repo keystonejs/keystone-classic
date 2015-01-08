@@ -45,7 +45,7 @@ var Toolbar = React.createClass({
 			dd.items.forEach(function(el, i) {
 				links.push(<a href={el.href} title={dd.list.singular}>{el.label}</a>);
 				if (i < dd.items.length - 1) {
-					links.push(<span>,</span>);
+					links.push(<span className="separator">,</span>);
 				}
 			});
 			
