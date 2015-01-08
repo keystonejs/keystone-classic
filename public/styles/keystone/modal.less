@@ -131,8 +131,27 @@
 // Fields
 // ------------------------------
 
-.modal .field-label { width: 25%; }
-.modal .field-size-large { width: 75%; }
+.modal {
+	// aligning elements
+	.field-label { width: 25%; }
+	.field-ui    { width: 75%; }
+
+	// location fields need some extra wrangling
+	.field-type-location > .field-ui { width: 100%; }
+	.location-field-label    { width: 25%; }
+	.location-field-controls { width: 75%; }
+
+	// hide the linked item link as it overflows outside the modal
+	.btn-goto-linked-item {
+		display: none;
+	}
+
+	// offset some notes
+	.field-note-wrapper {
+		margin: 0 0 0 25%;
+		width: auto;
+	}
+}
 
 
 
