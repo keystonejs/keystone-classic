@@ -55,7 +55,7 @@ var Form = React.createClass({
 				{form}
 				<div>
 					<button type="submit" className="btn btn-save">Save</button>
-					<button type="button" className="btn btn-cancel">cancel</button>
+					<button type="button" className="btn btn-link btn-cancel" onClick={this.props.onCancel}>cancel</button>
 				</div>
 			</div>
 		);
