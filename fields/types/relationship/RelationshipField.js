@@ -105,19 +105,21 @@ module.exports = Field.create({
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
 		}
-                // TODO what goes here?
-		if (field.many) {
-			//a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
-		} else if (field.many && this.props.value.length) {
-			var body = [];
-			
-			_.each(this.props.value, function (value) {
-				body.push(<a href={'/keystone/' + this.props.refList.path + '/' + value} className='ui-related-item'>{value}</a>);
-			}, this);
-			
-			return value;
+		// TODO expand IDs
+		if (this.props.many) {
+			// a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
+			return <div className='field-value'>{this.props.value}</div>;
+		} else if (this.props.many && this.props.value.length) {
+			// var body = [];
+			// 
+			// _.each(this.props.value, function (value) {
+			// 	body.push(<a href={'/keystone/' + this.props.refList.path + '/' + value} className='ui-related-item'>{value}</a>);
+			// }, this);
+			// 
+			// return value;
+			return <div className='field-value'>{this.props.value}</div>;
 		} else {
-			return <div className='help-block'>(not set)</div>;
+			return <div className='field-value'>(not set)</div>;
 		}
 	},
 	
