@@ -169,9 +169,11 @@ var Toolbar = React.createClass({
 		return (
 			<div>
 				{this.renderCreateForm()}
-				{this.renderDrilldown()}
-				{this.renderSearch()}
-				{this.renderInfo()}
+				<div className="item-toolbar item-toolbar--header">
+					{this.renderDrilldown()}
+					{this.renderSearch()}
+					{this.renderInfo()}
+				</div>
 			</div>
 		);
 	}
