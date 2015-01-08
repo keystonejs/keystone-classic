@@ -52,11 +52,24 @@ var Form = React.createClass({
 		
 		return (
 			<div>
-				{form}
-				<div>
-					<button type="submit" className="btn btn-save">Save</button>
-					<button type="button" className="btn btn-link btn-cancel" onClick={this.props.onCancel}>cancel</button>
+				<div class="modal modal-md">
+					<div class="modal-dialog">
+						<form class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="modal-close"></button>
+								<div class="modal-title">Create Listing</div>
+							</div>
+							<div class="modal-body">
+								{form}
+							</div>
+							<div class="modal-footer">
+								<button type="submit" className="btn btn-save">Create</button>
+								<button type="button" className="btn btn-link btn-cancel" onClick={this.props.onCancel}>cancel</button>
+							</div>
+						</form>
+					</div>
 				</div>
+				<div class="modal-backdrop"></div>
 			</div>
 		);
 	}
