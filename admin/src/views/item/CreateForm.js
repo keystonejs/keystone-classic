@@ -72,7 +72,7 @@ var Form = React.createClass({
 								{form}
 							</div>
 							<div className="modal-footer">
-								<button type="submit" className="btn btn-save">Create</button>
+								<button type="submit" className="btn btn-create">Create</button>
 								<button type="button" className="btn btn-link btn-cancel" onClick={this.props.onCancel}>cancel</button>
 							</div>
 						</form>
