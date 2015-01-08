@@ -1,5 +1,5 @@
 var React = require('react'),
-	Field = require('../field'),
+	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	DateInput = require('../../components/DateInput'),
 	moment = require('moment');

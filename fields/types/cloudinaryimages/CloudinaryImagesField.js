@@ -1,7 +1,7 @@
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
 
