@@ -66,7 +66,7 @@ var Form = React.createClass({
 						<form className="modal-content">
 							<div className="modal-header">
 								<button type="button" className="modal-close" onClick={this.props.onCancel}></button>
-								<div className="modal-title">Create Listing</div>
+								<div className="modal-title">Create a new {this.props.list.singular}</div>
 							</div>
 							<div className="modal-body">
 								{form}
