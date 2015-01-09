@@ -152,7 +152,7 @@ var Toolbar = React.createClass({
 		if (this.props.list.nocreate) return null;
 		return (
 			<li>
-				<a href="javascript:;" onClick={this.toggleCreate.bind(this, true)}>
+				<a className="item-toolbar-create-button" href="javascript:;" onClick={this.toggleCreate.bind(this, true)}>
 					<span className="mr-5 ion-plus"></span>
 					New {this.props.list.singular}
 				</a>
