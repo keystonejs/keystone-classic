@@ -90,7 +90,7 @@ describe('List "track" option', function() {
 		tasks.push(function(done) {
 			User.model.remove({}, function(err) {
 				if (err) {
-					throw new err;
+					throw err;
 				}
 				done();
 			});
@@ -101,7 +101,7 @@ describe('List "track" option', function() {
 				name: 'John Doe'
 			}).save(function(err, data) {
 				if (err) {
-					throw new err;
+					throw err;
 				}
 				dummyUser1 = data;
 				done();
@@ -113,7 +113,7 @@ describe('List "track" option', function() {
 				name: 'Jane Doe'
 			}).save(function(err, data) {
 				if (err) {
-					throw new err;
+					throw err;
 				}
 				dummyUser2 = data;
 				done();
@@ -122,7 +122,7 @@ describe('List "track" option', function() {
 
 		async.series(tasks, function(err) {
 			if (err) {
-				throw new err;
+				throw err;
 			}
 			done();
 		});
@@ -194,7 +194,7 @@ describe('List "track" option', function() {
 				// post test cleanup
 				Test.model.remove({}, function(err) {
 					if (err) {
-						throw new err;
+						throw err;
 					}
 					removeModel(testModelName);
 					done();
@@ -272,7 +272,7 @@ describe('List "track" option', function() {
 				// post test cleanup
 				Test.model.remove({}, function(err) {
 					if (err) {
-						throw new err;
+						throw err;
 					}
 					removeModel(testModelName);
 					done();
@@ -362,7 +362,7 @@ describe('List "track" option', function() {
 				// post test cleanup
 				Test.model.remove({}, function(err) {
 					if (err) {
-						throw new err;
+						throw err;
 					}
 					removeModel(testModelName);
 					done();
@@ -435,7 +435,7 @@ describe('List "track" option', function() {
 				// post test cleanup
 				Test.model.remove({}, function(err) {
 					if (err) {
-						throw new err;
+						throw err;
 					}
 					removeModel(testModelName);
 					done();
@@ -517,7 +517,7 @@ describe('List "track" option', function() {
 				// post test cleanup
 				Test.model.remove({}, function(err) {
 					if (err) {
-						throw new err;
+						throw err;
 					}
 					removeModel(testModelName);
 					done();
@@ -608,7 +608,7 @@ describe('List "track" option', function() {
 				// post test cleanup
 				Test.model.remove({}, function(err) {
 					if (err) {
-						throw new err;
+						throw err;
 					}
 					removeModel(testModelName);
 					done();
