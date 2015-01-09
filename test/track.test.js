@@ -6,7 +6,7 @@ var keystone = require('../index.js'),
 	getExpressApp = require('./helpers/getExpressApp'),
 	removeModel = require('./helpers/removeModel');
 
-describe('List "track" option', function () {
+describe('List "track" option', function() {
 	var app = getExpressApp(),
 		userModelName = 'User',
 		testModelName = 'Test',
@@ -97,8 +97,8 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			dummyUser1 = new User.model({ 
-				'name': 'John Doe'
+			dummyUser1 = new User.model({
+				name: 'John Doe'
 			}).save(function(err, data) {
 				if (err) {
 					throw new err;
@@ -109,8 +109,8 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			dummyUser2 = new User.model({ 
-				'name': 'Jane Doe'
+			dummyUser2 = new User.model({
+				name: 'Jane Doe'
 			}).save(function(err, data) {
 				if (err) {
 					throw new err;
@@ -128,13 +128,12 @@ describe('List "track" option', function () {
 		});
 	});
 
-	describe('when "track" option is not valid', function () {
-		
+	describe('when "track" option is not valid', function() {
 		afterEach(function() {
 			removeModel(testModelName);
 		});
 
-		it('should throw an error if "track" is not a boolean or an object', function () {
+		it('should throw an error if "track" is not a boolean or an object', function() {
 			function badList() {
 				Test = keystone.List(testModelName, { track: 'bad setting' });
 				Test.add({ name: { type: String } });
@@ -143,7 +142,7 @@ describe('List "track" option', function () {
 			badList.must.throw(/"track" must be a boolean or an object/);
 		});
 
-		it('should throw an error if "track" fields are not booleans or strings', function () {
+		it('should throw an error if "track" fields are not booleans or strings', function() {
 			function badList() {
 				Test = keystone.List(testModelName, { track: { createdBy: 5 } });
 				Test.add({ name: { type: String } });
@@ -152,7 +151,7 @@ describe('List "track" option', function () {
 			badList.must.throw(/must be a boolean or a string/);
 		});
 
-		it('should throw an error if "track" has an invalid field name', function () {
+		it('should throw an error if "track" has an invalid field name', function() {
 			function badList() {
 				Test = keystone.List(testModelName, { track: { createdAt: true, badfield: true } });
 				Test.add({ name: { type: String } });
@@ -162,7 +161,7 @@ describe('List "track" option', function () {
 		});
 
 		it('should not register the plugin if all fields are false', function() {
-			Test = keystone.List(testModelName, { 
+			Test = keystone.List(testModelName, {
 				track: { createdAt: false, createdBy: false, updatedAt: false, updatedBy: false }
 			});
 			Test.add({ name: { type: String } });
@@ -178,7 +177,7 @@ describe('List "track" option', function () {
 
 	describe('when "track" option is set to true', function() {
 
-		describe('using updateHandler()', function () {
+		describe('using updateHandler()', function() {
 
 			before(function() {
 				Test = keystone.List(testModelName, { track: true });
@@ -202,7 +201,7 @@ describe('List "track" option', function () {
 				});
 			});
 
-			it('should have all the default fields', function () {
+			it('should have all the default fields', function() {
 				demand(Test.field('createdAt')).be.an.object();
 				demand(Test.field('createdBy')).be.an.object();
 				demand(Test.field('updatedAt')).be.an.object();
@@ -218,7 +217,7 @@ describe('List "track" option', function () {
 					.post('/using-update-handler')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -239,7 +238,7 @@ describe('List "track" option', function () {
 					.post('/using-update-handler/' + post.get('id'))
 					.send({ name: 'test2' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -254,10 +253,9 @@ describe('List "track" option', function () {
 						done();
 					});
 			});
-			
 		});
 
-		describe('using .save()', function () {
+		describe('using .save()', function() {
 
 			before(function() {
 				Test = keystone.List(testModelName, { track: true });
@@ -281,7 +279,7 @@ describe('List "track" option', function () {
 				});
 			});
 
-			it('should have all the default fields', function () {
+			it('should have all the default fields', function() {
 				demand(Test.field('createdAt')).be.an.object();
 				demand(Test.field('createdBy')).be.an.object();
 				demand(Test.field('updatedAt')).be.an.object();
@@ -299,7 +297,7 @@ describe('List "track" option', function () {
 					.post('/using-save')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -322,7 +320,7 @@ describe('List "track" option', function () {
 					.post('/using-save/' + post._id)
 					.send({ name: 'test2' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -338,7 +336,6 @@ describe('List "track" option', function () {
 					});
 
 			});
-			
 		});
 
 	});
@@ -349,7 +346,7 @@ describe('List "track" option', function () {
 		describe('using updateHandler()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
+				Test = keystone.List(testModelName, {
 					track: { updatedAt: true, updatedBy: true }
 				});
 				Test.add({ name: { type: String } });
@@ -372,7 +369,7 @@ describe('List "track" option', function () {
 				});
 			});
 
-			it('should have all the default fields', function () {
+			it('should have all the default fields', function() {
 				demand(Test.field('createdAt')).be.undefined();
 				demand(Test.field('createdBy')).be.undefined();
 				demand(Test.field('updatedAt')).be.an.object();
@@ -387,7 +384,7 @@ describe('List "track" option', function () {
 					.post('/using-update-handler')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -404,7 +401,7 @@ describe('List "track" option', function () {
 					.post('/using-update-handler/' + post._id)
 					.send({ name: 'test2' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -422,7 +419,7 @@ describe('List "track" option', function () {
 		describe('using .save()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
+				Test = keystone.List(testModelName, {
 					track: { updatedAt: true, updatedBy: true }
 				});
 				Test.add({ name: { type: String } });
@@ -445,7 +442,7 @@ describe('List "track" option', function () {
 				});
 			});
 
-			it('should have all the default fields', function () {
+			it('should have all the default fields', function() {
 				demand(Test.field('createdAt')).be.undefined();
 				demand(Test.field('createdBy')).be.undefined();
 				demand(Test.field('updatedAt')).be.an.object();
@@ -460,7 +457,7 @@ describe('List "track" option', function () {
 					.post('/using-save')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -477,7 +474,7 @@ describe('List "track" option', function () {
 					.post('/using-save/' + post._id)
 					.send({ name: 'test2' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -489,22 +486,21 @@ describe('List "track" option', function () {
 						done();
 					});
 			});
-			
 		});
 
 	});
 
-	describe('when "track" option has custom field names', function () {
+	describe('when "track" option has custom field names', function() {
 		var previousUpdatedAt;
 
 		describe('using updateHandler()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
-					track: { 
+				Test = keystone.List(testModelName, {
+					track: {
 						createdAt: 'customCreatedAt',
 						createdBy: 'customCreatedBy',
-						updatedAt: 'customUpdatedAt', 
+						updatedAt: 'customUpdatedAt',
 						updatedBy: 'customUpdatedBy'
 					}
 				});
@@ -528,14 +524,14 @@ describe('List "track" option', function () {
 				});
 			});
 
-			it('should no have any of the default fields', function () {
+			it('should no have any of the default fields', function() {
 				demand(Test.field('createdAt')).be.undefined();
 				demand(Test.field('createdBy')).be.undefined();
 				demand(Test.field('updatedAt')).be.undefined();
 				demand(Test.field('updatedBy')).be.undefined();
 			});
 
-			it('should have all the custom fields', function () {
+			it('should have all the custom fields', function() {
 				demand(Test.field('customCreatedAt')).be.an.object();
 				demand(Test.field('customCreatedBy')).be.an.object();
 				demand(Test.field('customUpdatedAt')).be.an.object();
@@ -552,18 +548,18 @@ describe('List "track" option', function () {
 					.post('/using-update-handler')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
 						demand(post.get('name')).be('test1');
-						demand(post['customCreatedBy'].toString()).be(dummyUser1.get('id'));
-						demand(post['customUpdatedBy'].toString()).be(dummyUser1.get('id'));
+						demand(post.customCreatedBy.toString()).be(dummyUser1.get('id'));
+						demand(post.customUpdatedBy.toString()).be(dummyUser1.get('id'));
 
-						post['customCreatedAt'].must.be.a.date();
-						post['customUpdatedAt'].must.be.a.date();
+						post.customCreatedAt.must.be.a.date();
+						post.customUpdatedAt.must.be.a.date();
 
-						demand(post['customCreatedAt']).equal(post['customUpdatedAt']);
+						demand(post.customCreatedAt).equal(post.customUpdatedAt);
 						done();
 					});
 			});
@@ -573,29 +569,29 @@ describe('List "track" option', function () {
 					.post('/using-update-handler/' + post._id)
 					.send({ name: 'test2' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
 						demand(post.get('name')).be('test2');
-						demand(post['customUpdatedBy'].toString()).be(dummyUser2.get('id'));
-						post['customUpdatedAt'].must.be.a.date();
+						demand(post.customUpdatedBy.toString()).be(dummyUser2.get('id'));
+						post.customUpdatedAt.must.be.a.date();
 
-						demand(post['customUpdatedAt']).be.after(post['customCreatedAt']);
+						demand(post.customUpdatedAt).be.after(post.customCreatedAt);
 						done();
 					});
 			});
 
 		});
-		
+
 		describe('using save()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
-					track: { 
+				Test = keystone.List(testModelName, {
+					track: {
 						createdAt: 'customCreatedAt',
 						createdBy: 'customCreatedBy',
-						updatedAt: 'customUpdatedAt', 
+						updatedAt: 'customUpdatedAt',
 						updatedBy: 'customUpdatedBy'
 					}
 				});
@@ -619,14 +615,14 @@ describe('List "track" option', function () {
 				});
 			});
 
-			it('should no have any of the default fields', function () {
+			it('should no have any of the default fields', function() {
 				demand(Test.field('createdAt')).be.undefined();
 				demand(Test.field('createdBy')).be.undefined();
 				demand(Test.field('updatedAt')).be.undefined();
 				demand(Test.field('updatedBy')).be.undefined();
 			});
 
-			it('should have all the custom fields', function () {
+			it('should have all the custom fields', function() {
 				demand(Test.field('customCreatedAt')).be.an.object();
 				demand(Test.field('customCreatedBy')).be.an.object();
 				demand(Test.field('customUpdatedAt')).be.an.object();
@@ -643,18 +639,18 @@ describe('List "track" option', function () {
 					.post('/using-save')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
 						demand(post.get('name')).be('test1');
-						demand(post['customCreatedBy'].toString()).be(dummyUser1.get('id'));
-						demand(post['customUpdatedBy'].toString()).be(dummyUser1.get('id'));
+						demand(post.customCreatedBy.toString()).be(dummyUser1.get('id'));
+						demand(post.customUpdatedBy.toString()).be(dummyUser1.get('id'));
 
-						post['customCreatedAt'].must.be.a.date();
-						post['customUpdatedAt'].must.be.a.date();
+						post.customCreatedAt.must.be.a.date();
+						post.customUpdatedAt.must.be.a.date();
 
-						demand(post['customCreatedAt']).equal(post['customUpdatedAt']);
+						demand(post.customCreatedAt).equal(post.customUpdatedAt);
 						done();
 					});
 			});
@@ -664,21 +660,19 @@ describe('List "track" option', function () {
 					.post('/using-save/' + post._id)
 					.send({ name: 'test2' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function(err, res) {
 						if (err) {
 							return done(err);
 						}
 						demand(post.get('name')).be('test2');
-						demand(post['customUpdatedBy'].toString()).be(dummyUser2.get('id'));
-						post['customUpdatedAt'].must.be.a.date();
+						demand(post.customUpdatedBy.toString()).be(dummyUser2.get('id'));
+						post.customUpdatedAt.must.be.a.date();
 
-						demand(post['customUpdatedAt']).be.after(post['customCreatedAt']);
+						demand(post.customUpdatedAt).be.after(post.customCreatedAt);
 						done();
 					});
 			});
 
 		});
-		
 	});
-	
 });
