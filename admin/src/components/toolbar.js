@@ -1,11 +1,11 @@
 var React = require('react');
 
 /**
- * TODO
- * - Stick at the bottom of the viewport
+ * TODO: Refactor this to use React, not jQuery
  */
 
 var Toolbar = React.createClass({
+	
 	componentDidMount: function() {
 		(function() {
 		
@@ -72,7 +72,7 @@ var Toolbar = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className="toolbar " >{this.props.children}</div>
+			<div className="toolbar">{this.props.children}</div>
 		);
 	}
 });
