@@ -3,7 +3,10 @@ ISTANBUL_CMD = node_modules/istanbul/lib/cli.js cover
 JSXHINT_CMD = node_modules/jsxhint/cli.js
 JSCS_CMD = node_modules/.bin/jscs
 JSCS_REPORTER = console
-JSCS_FILES = ./**/*.js
+JSCS_FILES = `find . -path "*.js" ! -path "./node_modules/*" \
+		! -path "./public/js/lib/*" \
+		! -path "./docs/*" \
+		! -path "./coverage/*"`
 MOCHA_CMD = node_modules/mocha/bin/_mocha
 JSHINT_REPORTER = node_modules/jshint-stylish/stylish.js
 TESTS = test/*.js
