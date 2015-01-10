@@ -14,8 +14,6 @@ var Form = React.createClass({
 			values[field.path] = field.defaultValue;
 		});
 		
-		console.log(values);
-		
 		return {
 			values: values
 		};
@@ -38,10 +36,24 @@ var Form = React.createClass({
 		document.body.style.overflow = this._bodyStyleOverflow;
 	},
 	
+	getFieldProps: function(field) {
+		var props = _.clone(field);
+		props.value = this.state.values[field.path];
+		props.values = this.state.values;
+		props.onChange = this.handleChange;
+		props.mode = 'create';
+		return props;
+	},
+	
 	render: function() {
 		
 		var form = {},
-			headings = 0;
+			nameField = this.props.list.nameField;
+		
+		if (nameField) {
+			var nameFieldProps = this.getFieldProps(nameField);
+			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
+		}
 		
 		_.each(this.props.list.uiElements, function(el) {
 			
@@ -54,11 +66,8 @@ var Form = React.createClass({
 					return;
 				}
 				
-				var fieldProps = _.clone(field);
-				fieldProps.value = this.state.values[field.path];
-				fieldProps.values = this.state.values;
-				fieldProps.onChange = this.handleChange;
-				fieldProps.mode = 'create';
+				var fieldProps = this.getFieldProps(field);
+				
 				form[field.path] = React.createElement(Fields[field.type], fieldProps);
 				
 			}
