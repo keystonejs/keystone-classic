@@ -1,23 +1,19 @@
-var demand = require('must');
-
-var keystone = require('../').init(),
-	Types = keystone.Field.Types;
-
-/** Test List and Fields */
-
+var demand = require('must'),
+	keystone = require('../').init(),
+	Types = keystone.Field.Types,
 // use nocreate to allow required fields without tripping `initial` validation
-var Test = keystone.List('Test', { nocreate: true }),
+	Test = keystone.List('Test', { nocreate: true }),
 	testItem;
 
 before(function() {
-	
+
 	// Create a Test List with all the field types that will be tested
 	Test.add({
 		text: Types.Text,
 		bool: Types.Boolean,
 		nested: {
 			text: String,
-			bool: Boolean,
+			bool: Boolean
 		},
 		date: Types.Date,
 		datetime: Types.Datetime,
@@ -27,19 +23,19 @@ before(function() {
 		}
 	});
 	Test.register();
-	
+
 	// Create a new Test Item to run tests against
 	testItem = new Test.model();
-	
+
 });
 
 /** Tests */
 
 describe('Fields', function() {
-	
+
 	/** FieldType: Text (String) */
 	describe('Text', function() {
-		
+
 		it('should update top level fields', function() {
 			Test.fields.text.updateItem(testItem, {
 				text: 'value'
@@ -47,7 +43,7 @@ describe('Fields', function() {
 			demand(testItem.text).be('value');
 			testItem.text = undefined;
 		});
-		
+
 		it('should update nested fields', function() {
 			Test.fields['nested.text'].updateItem(testItem, {
 				nested: {
@@ -57,7 +53,7 @@ describe('Fields', function() {
 			demand(testItem.nested.text).be('value');
 			testItem.nested.text = undefined;
 		});
-		
+
 		it('should update nested fields with flat paths', function() {
 			Test.fields['nested.text'].updateItem(testItem, {
 				'nested.text': 'value'
@@ -65,12 +61,12 @@ describe('Fields', function() {
 			demand(testItem.nested.text).be('value');
 			testItem.nested.text = undefined;
 		});
-		
+
 	});
-	
+
 	/** FieldType: Boolean */
 	describe('Boolean', function() {
-		
+
 		it('should be true when passed the boolean true', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: true
@@ -78,7 +74,7 @@ describe('Fields', function() {
 			demand(testItem.bool).be.true();
 			testItem.bool = undefined;
 		});
-		
+
 		it('should be true when passed the string "true"', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: 'true'
@@ -86,7 +82,7 @@ describe('Fields', function() {
 			demand(testItem.bool).be.true();
 			testItem.bool = undefined;
 		});
-		
+
 		it('should be false when passed the boolean false', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: false
@@ -94,7 +90,7 @@ describe('Fields', function() {
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;
 		});
-		
+
 		it('should be false when passed the string "false"', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: 'false'
@@ -102,13 +98,13 @@ describe('Fields', function() {
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;
 		});
-		
+
 		it('should be false when passed undefined', function() {
 			Test.fields.bool.updateItem(testItem, {});
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;
 		});
-		
+
 		it('should be false when passed an empty string', function() {
 			Test.fields.bool.updateItem(testItem, {
 				bool: ''
@@ -116,7 +112,7 @@ describe('Fields', function() {
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;
 		});
-		
+
 		it('should update nested fields', function() {
 			Test.fields['nested.bool'].updateItem(testItem, {
 				nested: {
@@ -126,7 +122,7 @@ describe('Fields', function() {
 			demand(testItem.nested.bool).be.true();
 			testItem.nested.bool = undefined;
 		});
-		
+
 		it('should update nested fields with flat paths', function() {
 			Test.fields['nested.bool'].updateItem(testItem, {
 				'nested.bool': true
@@ -134,32 +130,30 @@ describe('Fields', function() {
 			demand(testItem.nested.bool).be.true();
 			testItem.nested.bool = undefined;
 		});
-		
+
 	});
-	
+
 	/** FieldType: Date */
 	describe('Date', function() {
-		
+
 		it('should parse without error via underscore date', function() {
 			testItem._.date.parse('20131204', 'YYYYMMDD');
 		});
-		
+
 		it('should be the date we expect', function() {
 			testItem.date = new Date(2013, 11, 4);
 			demand(testItem._.date.format()).to.equal('4th Dec 2013');
 			demand(testItem._.date.format('YYYYMMDD')).to.equal('20131204');
 		});
-		
+
 		it('should be a moment object', function() {
 			testItem.date = new Date(2013, 11, 4);
 			demand(testItem._.date.moment()._isAMomentObject);
 		});
-		
 	});
-	
+
 	/** FieldType: Location */
 	describe('Location', function() {
-		
 		var emptyLocationValues = {
 			number: '',
 			name: '',
@@ -170,14 +164,13 @@ describe('Fields', function() {
 			postcode: '',
 			country: '',
 			geo: []
-		};
-		
-		var resetLocationValues = function() {
+		},
+                resetLocationValues = function() {
 			testItem.set('location.basic', emptyLocationValues);
 			testItem.set('location.required', emptyLocationValues);
 			testItem.set('location.customRequired', emptyLocationValues);
-		}
-		
+		};
+
 		it('should update its value from flat paths', function() {
 			resetLocationValues();
 			Test.fields['location.basic'].updateItem(testItem, {
@@ -204,7 +197,7 @@ describe('Fields', function() {
 			demand(testItem.location.basic.geo[0]).be(151.2099);
 			demand(testItem.location.basic.geo[1]).be(-33.865143);
 		});
-		
+
 		it('should update its value from nested paths', function() {
 			resetLocationValues();
 			Test.fields['location.basic'].updateItem(testItem, {
@@ -234,7 +227,7 @@ describe('Fields', function() {
 			demand(testItem.location.basic.geo[0]).be(151.2099);
 			demand(testItem.location.basic.geo[1]).be(-33.865143);
 		});
-		
+
 		it('should remove the location.geo path without valid values', function() {
 			resetLocationValues();
 			Test.fields['location.basic'].updateItem(testItem, {
@@ -248,7 +241,7 @@ describe('Fields', function() {
 			});
 			demand(testItem.location.basic.geo).be.undefined();
 		});
-		
+
 		it('should validate required fields', function() {
 			Test.fields['location.basic'].validateInput({}, true, testItem).must.be.false();
 			Test.fields['location.basic'].validateInput({
@@ -274,6 +267,5 @@ describe('Fields', function() {
 				'location.customRequired.country': 'country'
 			}, true, testItem).must.be.true();
 		});
-		
 	});
 });

@@ -36,7 +36,7 @@ describe('List schema pre/post save hooks', function() {
 
 	describe('when using UpdateHandler()', function() {
 
-		it('should receive ._req_user', function (done) {
+		it('should receive ._req_user', function(done) {
 			pre = undefined;
 			post = undefined;
 
@@ -57,7 +57,7 @@ describe('List schema pre/post save hooks', function() {
 				.post('/using-update-handler')
 				.send({ name: 'test' })
 				.expect('GOOD')
-				.end(function(err, res){
+				.end(function(err, res) {
 					if (err) return done(err);
 					demand(pre).be(dummyUser);
 					demand(post).be(dummyUser);
@@ -70,7 +70,7 @@ describe('List schema pre/post save hooks', function() {
 
 	describe('when using .save()', function() {
 
-		it('should not receive ._req_user', function (done) {
+		it('should not receive ._req_user', function(done) {
 			pre = undefined;
 			post = undefined;
 
@@ -90,7 +90,7 @@ describe('List schema pre/post save hooks', function() {
 				.post('/using-save')
 				.send({ name: 'test' })
 				.expect('GOOD')
-				.end(function(err, res){
+				.end(function(err, res) {
 					if (err) return done(err);
 					demand(pre).be.undefined();
 					demand(post).be.undefined();
