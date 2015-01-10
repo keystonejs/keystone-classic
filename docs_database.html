@@ -76,6 +76,7 @@ permalink: /docs/database/
                   <li><a href="#lists-options">List Options</a></li>
                   <li><a href="#lists-plugins">Schema Plugins</a></li>
                   <li><a href="#lists-querying">Querying Data</a></li>
+                  <li><a href="#lists-paginate">Pagination Querying</a></li>
                   <li><a href="#lists-creating">Creating Items</a></li>
                   <li><a href="#lists-deleting">Deleting Items</a></li>
                   <li class="nav-label"><a href="#fields">Fields</a></li>
@@ -254,7 +255,6 @@ Post.register();</code></pre>
 item.set({ field1: 'value1', field2: 'value2' });
 item._req_user = req.user;
 item.save();</code></pre>
-                    <p class="note"><code>track</code> replaces the use of <code>List.addPattern('standard meta')</code>, which is now deprecated and will be removed future versions of Keystone.</p>
                   </td>
                 </tr>
                 <tr>
@@ -342,7 +342,45 @@ Post.model.find()
     }, function (err) { //something happened
         //catch the error, it can be thrown by any promise in the chain
         console.log(err);
-    });</code></pre><a name="lists-creating"></a>
+    });</code></pre><a name="lists-paginate"></a>
+              <h3>Pagination Querying</h3>
+              <p>To query data with pagination, you can use <code>List.paginate()</code>,it returns a query object, just as <code>List.model.find()</code> would. It supports the options</p>
+              <ul>
+                <li><code>page</code> - page to start at</li>
+                <li><code>perPage</code> - number of results to return per page</li>
+                <li><code>maxPages</code> - optional, causes the page calculation to omit pages from the beginning/middle/end(useful if you have lots of pages, and do not want them to wrap over several lines).</li>
+              </ul>
+              <p><strong>For example:</strong> to load the <code>posts</code> with the <code>maxPages</code> 10 and <code>perPage</code> 10,which state is <code>published</code>, populating the linked <code>author</code> and <code>categories</code>, sorted by reverse published date:</p>
+              <div class="code-header">
+                <h4>Loading Posts with paginate</h4>
+              </div>
+              <pre><code class="language-javascript">var keystone = require('keystone'),
+    Post = keystone.list('Post');
+ 
+ Post.paginate({
+		page: req.query.page || 1,
+		perPage: 10,
+		maxPages: 10
+	})
+	.where('state', 'published')
+	.sort('-publishedDate')
+	.populate('author categories')
+	.exec(function(err, results) {
+		locals.data.posts = results;
+		next(err);
+	});</code></pre>
+              <p>When you call <code>exec</code> on a paginated query, it will return a lot of metadata along with the results:</p>
+              <ul>
+                <li><code>total</code>: all matching results (not just on this page)</li>
+                <li><code>results</code>: array of results for this page</li>
+                <li><code>currentPage</code>: the index of the current page</li>
+                <li><code>totalPages</code>: the total number of pages</li>
+                <li><code>pages</code>: array of pages to display</li>
+                <li><code>previous</code>: index of the previous page, false if at the first page</li>
+                <li><code>next</code>: index of the next page, false if at the last page</li>
+                <li><code>first</code>: the index of the first result included</li>
+                <li><code>last</code>: index of the last result included</li>
+              </ul><a name="lists-creating"></a>
               <h3>Creating Items</h3>
               <p>To create new items, again use the <a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose model</a>:</p>
               <div class="code-header">
@@ -645,7 +683,7 @@ item._.url.format(); // "keystonejs.com"</code></pre>
                 <p><code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field</p>
                 <p><code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object</p>
                 <p>See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.</p>
-                <pre><code class="language-javascript">item.cretedDate = Date.now();
+                <pre><code class="language-javascript">item.createdDate = Date.now();
 item._.createdDate.format(); // returns today's date using the default format string
 item._.createdDate.parse('2013-12-04'); // returns a moment object with the parsed date
 item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'</code></pre>

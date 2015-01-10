@@ -76,6 +76,7 @@ permalink: /zh/docs/database/
                   <li><a href="#lists-options">List参数</a></li>
                   <li><a href="#lists-plugins">Schema插件</a></li>
                   <li><a href="#lists-querying">查询数据</a></li>
+                  <li><a href="#lists-paginate">分页查询</a></li>
                   <li><a href="#lists-creating">创建条目</a></li>
                   <li><a href="#lists-deleting">删除条目</a></li>
                   <li class="nav-label"><a href="#fields">域</a></li>
@@ -254,7 +255,6 @@ Post.register();</code></pre>
 item.set({ field1: 'value1', field2: 'value2' });
 item._req_user = req.user;
 item.save();</code></pre>
-                    <p class="note"><code>track</code>取代了<code>List.addPattern('standard meta')</code>，它现在已经被废除了，并会从以后的Keystone版本中去掉。</p>
                   </td>
                 </tr>
                 <tr>
@@ -342,7 +342,45 @@ Post.model.find()
     }, function (err) { //除了某些问题
         //捕获错误，它可能是链中的任何promise抛出的
         console.log(err);
-    });</code></pre><a name="lists-creating"></a>
+    });</code></pre><a name="lists-paginate"></a>
+              <h3>分页查询</h3>
+              <p>你可以用<code>List.paginate()</code>进行分页查询，它会像<code>List.model.find()</code>一样返回一个查询对象，该方法支持下面这些参数：</p>
+              <ul>
+                <li><code>page</code> - 从哪一页开始</li>
+                <li><code>perPage</code> - 每页的记录条数</li>
+                <li><code>maxPages</code> - 可选参数，在计算页面时从开始/中间/末尾处省略页数（如果你有很多页，并且不想让它们显示时占好几行，就可以用这个参数）。</li>
+              </ul>
+              <p><strong>比如说：</strong> 要以<code>maxPages</code> 10 和<code>perPage</code> 10加载<code>posts</code>，并且要求其状态为<code>published</code>，同时组装出关联的<code>author</code>和<code>categories</code>，按发布时间的逆序排列：</p>
+              <div class="code-header">
+                <h4>分页加载Post</h4>
+              </div>
+              <pre><code class="language-javascript">var keystone = require('keystone'),
+    Post = keystone.list('Post');
+ 
+ Post.paginate({
+		page: req.query.page || 1,
+		perPage: 10,
+		maxPages: 10
+	})
+	.where('state', 'published')
+	.sort('-publishedDate')
+	.populate('author categories')
+	.exec(function(err, results) {
+		locals.data.posts = results;
+		next(err);
+	});</code></pre>
+              <p>当你在分页查询上调用<code>exec</code>时，除了查询结果，它还会返回很多元数据：</p>
+              <ul>
+                <li><code>total</code>: 匹配结果的总数(不仅仅是这一页的)</li>
+                <li><code>results</code>: 这一页的结果集数组</li>
+                <li><code>currentPage</code>: 当前页的页码</li>
+                <li><code>totalPages</code>: 总页数</li>
+                <li><code>pages</code>: 要显示的页码的数组</li>
+                <li><code>previous</code>: 前一页的页码，如果当前页是第一页则为false</li>
+                <li><code>next</code>: 下一页的页码，如果当前页是最后一页则为false</li>
+                <li><code>first</code>: 包含第一条结果的页码</li>
+                <li><code>last</code>: 包含最后一条结果的页码</li>
+              </ul><a name="lists-creating"></a>
               <h3>创建条目</h3>
               <p>要创建新条目，还是用<a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose模型</a>：</p>
               <div class="code-header">
@@ -643,7 +681,7 @@ item._.url.format(); // "keystonejs.com"</code></pre>
                 <p><code>moment()</code> - 返回一个用该域的值初始化的<a href="http://momentjs.com" target="_blank">momentjs</a>对象</p>
                 <p><code>parse(input, format, ...)</code> - 用<a href="http://momentjs.com" target="_blank">momentjs</a>解析input，将该域的值设为返回的moment对象</p>
                 <p>参见<a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs解析文档</a>了解所支持的格式和<code>parse</code>方法的参数。</p>
-                <pre><code class="language-javascript">item.cretedDate = Date.now();
+                <pre><code class="language-javascript">item.createdDate = Date.now();
 item._.createdDate.format(); // 用默认的格式字符串返回当天的date
 item._.createdDate.parse('2013-12-04'); // 用被解析的日期返回一个moment对象
 item._.createdDate.format('YYYY-MM-DD'); // 返回'2013-12-04'</code></pre>
