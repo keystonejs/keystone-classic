@@ -21,7 +21,7 @@ function view(view, options) {
 var app = express();
 
 app.set('port', process.env.PORT || 8080);
-app.set('views', 'content/pages');
+app.set('views', 'content');
 app.set('view engine', 'jade');
 
 app.use(favicon('public/favicon.ico'));

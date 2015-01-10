@@ -20,7 +20,8 @@ module.exports = {
 			"docsnav": [
 				{ "value": "getting-started",       "path": "/docs/getting-started",  "label": "Getting Started",  "labelsm": "Starting" },
 				{ "value": "configuration",         "path": "/docs/configuration",    "label": "Configuration",    "labelsm": "Config" },
-				{ "value": "database",              "path": "/docs/database",         "label": "Database",         "labelsm": "Data" }
+				{ "value": "database",              "path": "/docs/database",         "label": "Database",         "labelsm": "Data" },
+				/*{ "value": "views",                 "path": "/docs/views",            "label": "Views",            "labelsm": "Views" }*/
 			]
 		},
 		"zh": {
@@ -42,7 +43,8 @@ module.exports = {
 			"docsnav": [
 				{ "value": "getting-started",       "path": "/zh/docs/getting-started",  "label": "入门指南",         "labelsm": "入门" },
 				{ "value": "configuration",         "path": "/zh/docs/configuration",    "label": "配置",             "labelsm": "配置" },
-				{ "value": "database",              "path": "/zh/docs/database",         "label": "数据库",           "labelsm": "数据库" }
+				{ "value": "database",              "path": "/zh/docs/database",         "label": "数据库",           "labelsm": "数据库" },
+				/*{ "value": "views",                 "path": "/zh/docs/views",            "label": "视图",             "labelsm": "视图" }*/
 			]
 		}
 	},
@@ -164,6 +166,14 @@ module.exports = {
 			"section": "docs",
 			"docssection": { "value": "database", "path": "/zh/docs/database", "label": "Database" },
 			"title": "设置和使用数据模型"
-		}
+		},
+		/* {
+			"path": "/zh/docs/views",
+			"language": "zh",
+			"template": "docs/views",
+			"section": "docs",
+			"docssection": { "value": "views", "path": "//zhdocs/views", "label": "Views" },
+			"title": "在你的应用程序中使用Views"
+		},*/
 	]
 }
