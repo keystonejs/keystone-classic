@@ -7,9 +7,17 @@ var _ = require('underscore'),
 var Form = React.createClass({
 	
 	getInitialState: function() {
+		
+		var values = {};
+		
+		_.each(this.props.list.fields, function(field) {
+			values[field.path] = field.defaultValue;
+		});
+		
+		console.log(values);
+		
 		return {
-			// todo: implement default values
-			values: {}
+			values: values
 		};
 	},
 	
@@ -39,8 +47,6 @@ var Form = React.createClass({
 			
 			if (el.type === 'field') {
 				
-				console.log(el);
-				
 				var field = this.props.list.fields[el.field];
 				
 				if ('function' !== typeof Fields[field.type]) {
@@ -49,7 +55,7 @@ var Form = React.createClass({
 				}
 				
 				var fieldProps = _.clone(field);
-				fieldProps.value = this.state.values[field.path] || {};
+				fieldProps.value = this.state.values[field.path];
 				fieldProps.values = this.state.values;
 				fieldProps.onChange = this.handleChange;
 				fieldProps.mode = 'create';
