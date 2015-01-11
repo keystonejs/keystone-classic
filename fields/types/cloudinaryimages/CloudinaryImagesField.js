@@ -7,7 +7,7 @@ var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'ima
 
 var Thumbnail = React.createClass({
 	
-	render: function () {
+	render: function() {
 		var iconClassName, imageDetails;
 
 		if (this.props.deleted) {
@@ -52,7 +52,7 @@ var Thumbnail = React.createClass({
 
 module.exports = Field.create({
 
-	getInitialState: function () {
+	getInitialState: function() {
 		var thumbnails = [];
 		var self = this;
 
@@ -83,7 +83,7 @@ module.exports = Field.create({
 		thumbs.push(<Thumbnail key={i} {...args} />);
 	},
 
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
@@ -97,11 +97,11 @@ module.exports = Field.create({
 		return count;
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return <input ref='fileField' type='file' name={this.props.paths.upload} multiple className='field-upload' onChange={this.uploadFile} />;
 	},
 
-	clearFiles: function () {
+	clearFiles: function() {
 		this.fileFieldNode().value = "";
 
 		this.setState({
@@ -135,15 +135,15 @@ module.exports = Field.create({
 		});
 	},
 
-	changeImage: function () {
+	changeImage: function() {
 		this.fileFieldNode().click();
 	},
 
-	hasFiles: function () {
+	hasFiles: function() {
 		return this.refs.fileField && this.fileFieldNode().value;
 	},
 
-	renderToolbar: function () {
+	renderToolbar: function() {
 		var body = [];
 		var self = this;
 
@@ -176,7 +176,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderPlaceholder: function () {
+	renderPlaceholder: function() {
 		return (
 			<div className='image-field image-upload row col-sm-3 col-md-12' onClick={this.changeImage}>
 				<div className='image-preview'>
@@ -193,13 +193,13 @@ module.exports = Field.create({
 		);
 	},
 
-	renderContainer: function () {
+	renderContainer: function() {
 		return <div className='images-container clearfix'>
 			{this.state.thumbnails}
 		</div>;
 	},
 
-	renderFieldAction: function () {
+	renderFieldAction: function() {
 		var value = '';
 		var remove = [];
 		_.each(this.state.thumbnails, function (thumb) {
@@ -210,11 +210,11 @@ module.exports = Field.create({
 		return <input ref='action' className='field-action' type='hidden' value={value} name={this.props.paths.action} /> ;
 	},
 
-	renderUploadsField: function () {
+	renderUploadsField: function() {
 		return <input ref='uploads' className='field-uploads' type='hidden' name={this.props.paths.uploads} /> ;
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		return (
 			<div className='field field-type-cloudinaryimages'>
 				<label className='field-label'>{this.props.label}</label>

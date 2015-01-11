@@ -6,7 +6,7 @@ var _ = require('underscore'),
 	Toolbar = require('../../components/toolbar'),
 	InvalidFieldType = require('../../components/invalidFieldType');
 
-var Form = React.createClass({
+var EditForm = React.createClass({
 	
 	getInitialState: function() {
 		return {
@@ -17,8 +17,6 @@ var Form = React.createClass({
 	handleChange: function(event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
-		// console.log(event);
-		// console.log(values);
 		this.setState({
 			values: values
 		});
@@ -147,4 +145,4 @@ var Form = React.createClass({
 	
 });
 
-module.exports = Form;
+module.exports = EditForm;

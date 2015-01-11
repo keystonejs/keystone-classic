@@ -7,15 +7,15 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 	
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	changeFile: function () {
+	changeFile: function() {
 		this.refs.fileField.getDOMNode().click();
 	},
 
-	getFileSource: function () {
+	getFileSource: function() {
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
@@ -25,13 +25,13 @@ module.exports = Field.create({
 		}
 	},
 
-	getFileURL: function () {
+	getFileURL: function() {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
 	},
 
-	undoRemove: function () {
+	undoRemove: function() {
 		this.fileFieldNode().value = "";
 		this.setState({
 			removeExisting: false,
@@ -76,19 +76,19 @@ module.exports = Field.create({
 		this.setState(state);
 	},
 
-	hasLocal: function () {
+	hasLocal: function() {
 		return this.state.origin === "local";
 	},
 
-	hasFile: function () {
+	hasFile: function() {
 		return this.hasExisting() || this.hasLocal();
 	},
 
-	hasExisting: function () {
+	hasExisting: function() {
 		return !!this.props.value.filename;
 	},
 
-	getFilename: function () {
+	getFilename: function() {
 		if (this.hasLocal()) {
 			return this.fileFieldNode().value.split("\\").pop();
 		} else {
@@ -111,7 +111,7 @@ module.exports = Field.create({
 		</div>;
 	},
 
-	renderAlert: function () {
+	renderAlert: function() {
 		if (this.hasLocal()) {
 			return <div className='upload-queued pull-left'>
 				<div className='alert alert-success'>File selected - save to upload</div>
@@ -129,7 +129,7 @@ module.exports = Field.create({
 		}
 	},
 
-	renderClearButton: function () {
+	renderClearButton: function() {
 		if (this.state.removeExisting) {
 			return <button type='button' className='btn btn-link btn-cancel btn-undo-file' onClick={this.undoRemove}>
 				Undo Remove
@@ -147,15 +147,15 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return <input ref='fileField' type='file' name={this.props.paths.upload} className='field-upload' onChange={this.fileChanged} />;
 	},
 
-	renderFileAction: function () {
+	renderFileAction: function() {
 		return <input type='hidden' name={this.props.paths.action} className='field-action' value={this.state.action} />;
 	},
 
-	renderFileToolbar: function () {
+	renderFileToolbar: function() {
 		return <div key={this.props.path + '_toolbar'} className='file-toolbar'>
 			<div className='pull-left'>
 				<button type='button' onClick={this.changeFile} className='btn btn-default btn-upload-file'>
@@ -166,7 +166,7 @@ module.exports = Field.create({
 		</div>;
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		var container = [],
 			body = [],
 			hasFile = this.hasFile(),
