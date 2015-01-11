@@ -44,11 +44,11 @@ module.exports = React.createClass({displayName: "exports",
 var React = require('react');
 
 /**
- * TODO
- * - Stick at the bottom of the viewport
+ * TODO: Refactor this to use React, not jQuery
  */
 
 var Toolbar = React.createClass({displayName: "Toolbar",
+	
 	componentDidMount: function() {
 		(function() {
 		
@@ -115,7 +115,7 @@ var Toolbar = React.createClass({displayName: "Toolbar",
 	},
 	render: function() {
 		return (
-			React.createElement("div", {className: "toolbar "}, this.props.children)
+			React.createElement("div", {className: "toolbar"}, this.props.children)
 		);
 	}
 });
@@ -163,9 +163,15 @@ var _ = require('underscore'),
 var Form = React.createClass({displayName: "Form",
 	
 	getInitialState: function() {
+		
+		var values = {};
+		
+		_.each(this.props.list.fields, function(field) {
+			values[field.path] = field.defaultValue;
+		});
+		
 		return {
-			// todo: implement default values
-			values: {}
+			values: values
 		};
 	},
 	
@@ -186,32 +192,38 @@ var Form = React.createClass({displayName: "Form",
 		document.body.style.overflow = this._bodyStyleOverflow;
 	},
 	
+	getFieldProps: function(field) {
+		var props = _.clone(field);
+		props.value = this.state.values[field.path];
+		props.values = this.state.values;
+		props.onChange = this.handleChange;
+		props.mode = 'create';
+		return props;
+	},
+	
 	render: function() {
 		
 		var form = {},
-			headings = 0;
+			list = this.props.list,
+			formAction = '/keystone/' + list.path,
+			nameField = this.props.list.nameField;
 		
-		_.each(this.props.list.uiElements, function(el) {
+		if (nameField) {
+			var nameFieldProps = this.getFieldProps(nameField);
+			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
+		}
+		
+		_.each(list.initialFields, function(path) {
+				
+			var field = list.fields[path];
 			
-			if (el.type === 'field') {
-				
-				console.log(el);
-				
-				var field = this.props.list.fields[el.field];
-				
-				if ('function' !== typeof Fields[field.type]) {
-					form[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
-					return;
-				}
-				
-				var fieldProps = _.clone(field);
-				fieldProps.value = this.state.values[field.path] || {};
-				fieldProps.values = this.state.values;
-				fieldProps.onChange = this.handleChange;
-				fieldProps.mode = 'create';
-				form[field.path] = React.createElement(Fields[field.type], fieldProps);
-				
+			if ('function' !== typeof Fields[field.type]) {
+				form[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
+				return;
 			}
+			
+			var fieldProps = this.getFieldProps(field);
+			form[field.path] = React.createElement(Fields[field.type], fieldProps);
 			
 		}, this);
 		
@@ -219,10 +231,12 @@ var Form = React.createClass({displayName: "Form",
 			React.createElement("div", null, 
 				React.createElement("div", {className: "modal modal-md"}, 
 					React.createElement("div", {className: "modal-dialog"}, 
-						React.createElement("form", {className: "modal-content"}, 
+						React.createElement("form", {className: "modal-content", method: "post", action: formAction}, 
+							React.createElement("input", {type: "hidden", name: "action", value: "create"}), 
+							React.createElement("input", {type: "hidden", name: Keystone.csrf.key, value: Keystone.csrf.value}), 
 							React.createElement("div", {className: "modal-header"}, 
 								React.createElement("button", {type: "button", className: "modal-close", onClick: this.props.onCancel}), 
-								React.createElement("div", {className: "modal-title"}, "Create a new ", this.props.list.singular)
+								React.createElement("div", {className: "modal-title"}, "Create a new ", list.singular)
 							), 
 							React.createElement("div", {className: "modal-body"}, 
 								form
@@ -5120,8 +5134,10 @@ process.chdir = function (dir) {
   }
 
   function setDocumentHeight(cm, measure) {
-    cm.display.sizer.style.minHeight = cm.display.heightForcer.style.top = measure.docHeight + "px";
-    cm.display.gutters.style.height = Math.max(measure.docHeight + scrollGap(cm), measure.clientHeight) + "px";
+    cm.display.sizer.style.minHeight = measure.docHeight + "px";
+    var plusGap = measure.docHeight + scrollGap(cm);
+    cm.display.heightForcer.style.top = plusGap + "px";
+    cm.display.gutters.style.height = Math.max(plusGap, measure.clientHeight) + "px";
   }
 
   // Read the actual heights of the rendered lines, and update their
@@ -12365,7 +12381,7 @@ process.chdir = function (dir) {
 
   // THE END
 
-  CodeMirror.version = "4.9.0";
+  CodeMirror.version = "4.10.0";
 
   return CodeMirror;
 });
@@ -26847,6 +26863,7 @@ var Select = React.createClass({
 		asyncOptions: React.PropTypes.func,     // function to call to get options
 		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
 		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
+		noResultsText: React.PropTypes.string,  // placeholder displayed when there are no matching search results
 		name: React.PropTypes.string,           // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
 		className: React.PropTypes.string,      // className for the outer element
@@ -26864,6 +26881,7 @@ var Select = React.createClass({
 			asyncOptions: undefined,
 			autoload: true,
 			placeholder: '',
+			noResultsText: 'No results found',
 			name: undefined,
 			onChange: undefined,
 			className: undefined,
@@ -26907,7 +26925,7 @@ var Select = React.createClass({
 	
 	componentWillReceiveProps: function(newProps) {
 		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value));
+			this.setState(this.getStateFromValue(newProps.value, newProps.options));
 		}
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			this.setState({
@@ -26927,38 +26945,42 @@ var Select = React.createClass({
 		}
 	},
 	
-	initValuesArray: function(values) {
+	getStateFromValue: function(value, options) {
 		
-		if (!Array.isArray(values)) {
-			if ('string' === typeof values) {
-				values = values.split(this.props.delimiter);
-			} else {
-				values = values ? [values] : []
-			}
-		};
-		
-		return values.map(function(val) {
-			return ('string' === typeof val) ? val = _.findWhere(this.state.options, { value: val }) || { value: val, label: val } : val;
-		}.bind(this));
-		
-	},
-	
-	getStateFromValue: function(value) {
+		if (!options) {
+			options = this.state.options;
+		}
 		
 		// reset internal filter string
 		this._optionsFilterString = '';
 		
-		var values = this.initValuesArray(value),
-			filteredOptions = this.filterOptions(this.state.options, values);
+		var values = this.initValuesArray(value, options),
+			filteredOptions = this.filterOptions(options, values);
 		
 		return {
-			value: values.map(function(v) { return v.value }).join(this.props.delimiter),
+			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
+		
+	},
+	
+	initValuesArray: function(values, options) {
+		
+		if (!Array.isArray(values)) {
+			if ('string' === typeof values) {
+				values = values.split(this.props.delimiter);
+			} else {
+				values = values ? [values] : [];
+			}
+		}
+		
+		return values.map(function(val) {
+			return ('string' === typeof val) ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
+		}.bind(this));
 		
 	},
 	
@@ -27168,7 +27190,7 @@ var Select = React.createClass({
 					(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
 					(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 				);
-			}
+			};
 			return _.filter(options, filterOption, this);
 		}
 	},
@@ -27262,7 +27284,7 @@ var Select = React.createClass({
 			
 		}, this);
 		
-		return ops.length ? ops : React.createElement("div", {className: "Select-noresults"}, "No results found");
+		return ops.length ? ops : React.createElement("div", {className: "Select-noresults"}, this.props.noResultsText);
 		
 	},
 	
