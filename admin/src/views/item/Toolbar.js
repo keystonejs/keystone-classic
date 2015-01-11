@@ -1,4 +1,5 @@
 var React = require('react'),
+	AltText = require('../../components/AltText'),
 	CreateForm = require('./CreateForm');
 
 var Toolbar = React.createClass({
@@ -143,7 +144,14 @@ var Toolbar = React.createClass({
 	renderKeyOrId: function() {
 		var list = this.props.list;
 		if (list.autokey && this.props.data[list.autokey.path]) {
-			return <li>{list.autokey.path}: {this.props.data[list.autokey.path]}</li>
+			return (
+				<li>
+					<AltText
+						normal={list.autokey.path + ': ' + this.props.data[list.autokey.path]}
+						modified={'id: ' + this.props.data.id}
+					/>
+				</li>	
+			);
 		}
 		return <li>id: {this.props.data.id}</li>;
 	},
