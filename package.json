@@ -49,7 +49,8 @@
     "semver": "~4.1.1",
     "serve-favicon": "~2.2.0",
     "superagent": "^0.21.0",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "vkey": "^1.0.0"
   },
   "devDependencies": {
     "browserify": "~6.3.3",
