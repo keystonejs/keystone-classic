@@ -48,6 +48,8 @@ var Form = React.createClass({
 	render: function() {
 		
 		var form = {},
+			list = this.props.list,
+			formAction = '/keystone/' + list.path,
 			nameField = this.props.list.nameField;
 		
 		if (nameField) {
@@ -55,11 +57,11 @@ var Form = React.createClass({
 			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
 		}
 		
-		_.each(this.props.list.uiElements, function(el) {
+		_.each(list.uiElements, function(el) {
 			
 			if (el.type === 'field') {
 				
-				var field = this.props.list.fields[el.field];
+				var field = list.fields[el.field];
 				
 				if ('function' !== typeof Fields[field.type]) {
 					form[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
@@ -78,10 +80,12 @@ var Form = React.createClass({
 			<div>
 				<div className="modal modal-md">
 					<div className="modal-dialog">
-						<form className="modal-content">
+						<form className="modal-content" method="post" action={formAction}>
+							<input type="hidden" name="action" value="create" />
+							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 							<div className="modal-header">
 								<button type="button" className="modal-close" onClick={this.props.onCancel}></button>
-								<div className="modal-title">Create a new {this.props.list.singular}</div>
+								<div className="modal-title">Create a new {list.singular}</div>
 							</div>
 							<div className="modal-body">
 								{form}
