@@ -57,22 +57,17 @@ var Form = React.createClass({
 			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
 		}
 		
-		_.each(list.uiElements, function(el) {
+		_.each(list.initialFields, function(path) {
+				
+			var field = list.fields[path];
 			
-			if (el.type === 'field') {
-				
-				var field = list.fields[el.field];
-				
-				if ('function' !== typeof Fields[field.type]) {
-					form[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
-					return;
-				}
-				
-				var fieldProps = this.getFieldProps(field);
-				
-				form[field.path] = React.createElement(Fields[field.type], fieldProps);
-				
+			if ('function' !== typeof Fields[field.type]) {
+				form[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
+				return;
 			}
+			
+			var fieldProps = this.getFieldProps(field);
+			form[field.path] = React.createElement(Fields[field.type], fieldProps);
 			
 		}, this);
 		
