@@ -242,6 +242,12 @@ var Form = React.createClass({displayName: "Form",
 		this._bodyStyleOverflow = document.body.style.overflow;
 		document.body.style.overflow = 'hidden';
 	},
+	
+	componentDidMount: function() {
+		if (this.refs.focusTarget) {
+			this.refs.focusTarget.focus();
+		}
+	},
 
 	componentWillUnmount: function() {
 		document.body.style.overflow = this._bodyStyleOverflow;
@@ -261,10 +267,12 @@ var Form = React.createClass({displayName: "Form",
 		var form = {},
 			list = this.props.list,
 			formAction = '/keystone/' + list.path,
-			nameField = this.props.list.nameField;
+			nameField = this.props.list.nameField,
+			focusRef;
 		
 		if (nameField) {
 			var nameFieldProps = this.getFieldProps(nameField);
+			focusRef = nameFieldProps.ref = 'focusTarget';
 			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
 		}
 		
@@ -278,6 +286,11 @@ var Form = React.createClass({displayName: "Form",
 			}
 			
 			var fieldProps = this.getFieldProps(field);
+			
+			if (!focusRef) {
+				focusRef = fieldProps.ref = 'focusTarget';
+			}
+			
 			form[field.path] = React.createElement(Fields[field.type], fieldProps);
 			
 		}, this);
@@ -844,6 +857,11 @@ var Base = module.exports.Base = {
 		return this.props.collapse && !this.props.value;
 	},
 	
+	focus: function() {
+		if (!this.refs[this.spec.focusTargetRef]) return;
+		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+	},
+	
 	renderUI: function(spec) {
 		var fieldClassName = 'field-ui field-size-' + this.props.size;
 		var inner = this.props.noedit ? this.renderValue() : this.renderField();
@@ -880,8 +898,8 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		componentDidUpdate: function(prevProps, prevState) {
-			if (prevState.isCollapsed && !this.state.isCollapsed && this.refs[this.spec.focusTargetRef]) {
-				this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+			if (prevState.isCollapsed && !this.state.isCollapsed) {
+				this.focus();
 			}
 		},
 		
@@ -1615,6 +1633,12 @@ module.exports = Field.create({
 		}
 	},
 	
+	focus: function() {
+		if (this.codeMirror) {
+			this.codeMirror.focus();
+		}
+	},
+	
 	focusChanged: function(focused) {
 		this.setState({
 			isFocused: focused
@@ -1700,9 +1724,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'dateInput'
-	},
+	focusTargetRef: 'dateInput',
 
 	// default formats
 	inputFormat: 'YYYY-MM-DD',
@@ -1785,9 +1807,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'dateInput'
-	},
+	focusTargetRef: 'dateInput',
 
 	// default input formats
 	dateInputFormat: 'YYYY-MM-DD',
@@ -3977,9 +3997,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'first'
-	},
+	focusTargetRef: 'first',
 	
 	valueChanged: function(which, event) {
 		this.props.value[which] = event.target.value;
@@ -4062,14 +4080,12 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'password'
-	},
+	focusTarget: 'password',
 	
 	getInitialState: function() {
 		return {
 			passwordIsSet: this.props.value ? true : false,
-			showChangeUI: this.props.mode === 'initial' ? true : false,
+			showChangeUI: this.props.mode === 'create' ? true : false,
 			password: '',
 			confirm: ''
 		};
@@ -4078,7 +4094,7 @@ module.exports = Field.create({
 	componentDidUpdate: function() {
 		if (this._focusAfterUpdate) {
 			this._focusAfterUpdate = false;
-			this.refs.password.getDOMNode().focus();
+			this.focus();
 		}
 	},
 	
@@ -5197,10 +5213,8 @@ process.chdir = function (dir) {
   }
 
   function setDocumentHeight(cm, measure) {
-    cm.display.sizer.style.minHeight = measure.docHeight + "px";
-    var plusGap = measure.docHeight + scrollGap(cm);
-    cm.display.heightForcer.style.top = plusGap + "px";
-    cm.display.gutters.style.height = Math.max(plusGap, measure.clientHeight) + "px";
+    cm.display.sizer.style.minHeight = cm.display.heightForcer.style.top = measure.docHeight + "px";
+    cm.display.gutters.style.height = Math.max(measure.docHeight + scrollGap(cm), measure.clientHeight) + "px";
   }
 
   // Read the actual heights of the rendered lines, and update their
@@ -12444,7 +12458,7 @@ process.chdir = function (dir) {
 
   // THE END
 
-  CodeMirror.version = "4.10.0";
+  CodeMirror.version = "4.9.0";
 
   return CodeMirror;
 });
@@ -26919,21 +26933,25 @@ var Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		value: React.PropTypes.any,             // initial field value
-		multi: React.PropTypes.bool,            // multi-value input
-		options: React.PropTypes.array,         // array of options
-		delimiter: React.PropTypes.string,      // delimiter to use to join multiple values
-		asyncOptions: React.PropTypes.func,     // function to call to get options
-		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
-		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
-		noResultsText: React.PropTypes.string,  // placeholder displayed when there are no matching search results
-		name: React.PropTypes.string,           // field name, for hidden <input /> tag
-		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
-		className: React.PropTypes.string,      // className for the outer element
-		filterOption: React.PropTypes.func,     // method to filter a single option: function(option, filterString)
-		filterOptions: React.PropTypes.func,    // method to filter the options array: function([options], filterString, [values])
-		matchPos: React.PropTypes.string,       // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string       // (any|label|value) which option property to filter on
+		value: React.PropTypes.any,                // initial field value
+		multi: React.PropTypes.bool,               // multi-value input
+		options: React.PropTypes.array,            // array of options
+		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
+		asyncOptions: React.PropTypes.func,        // function to call to get options
+		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
+		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
+		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
+		clearable: React.PropTypes.bool,           // should it be possible to reset value
+		clearValueText: React.PropTypes.string,    // title for the "clear" control
+		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
+		searchPromptText: React.PropTypes.string,  // label to prompt for search input
+		name: React.PropTypes.string,              // field name, for hidden <input /> tag
+		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
+		className: React.PropTypes.string,         // className for the outer element
+		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
+		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
+		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
+		matchProp: React.PropTypes.string          // (any|label|value) which option property to filter on
 	},
 	
 	getDefaultProps: function() {
@@ -26943,8 +26961,12 @@ var Select = React.createClass({
 			delimiter: ',',
 			asyncOptions: undefined,
 			autoload: true,
-			placeholder: '',
+			placeholder: 'Select...',
 			noResultsText: 'No results found',
+			clearable: true,
+			clearValueText: 'Clear value',
+			clearAllText: 'Clear all',
+			searchPromptText: 'Type to search',
 			name: undefined,
 			onChange: undefined,
 			className: undefined,
@@ -27006,6 +27028,22 @@ var Select = React.createClass({
 				this._focusAfterUpdate = false;
 			}.bind(this), 50);
 		}
+
+		if (this._focusedOptionReveal) {
+			if (this.refs.focused && this.refs.menu) {
+				var focusedDOM = this.refs.focused.getDOMNode();
+				var menuDOM = this.refs.menu.getDOMNode();
+				var focusedRect = focusedDOM.getBoundingClientRect();
+				var menuRect = menuDOM.getBoundingClientRect();
+
+				if (focusedRect.bottom > menuRect.bottom ||
+					focusedRect.top < menuRect.top) {
+					menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
+				}
+			}
+
+			this._focusedOptionReveal = false;
+		}
 	},
 	
 	getStateFromValue: function(value, options) {
@@ -27025,7 +27063,7 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
+			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
 		
@@ -27277,6 +27315,7 @@ var Select = React.createClass({
 	},
 	
 	focusAdjacentOption: function(dir) {
+		this._focusedOptionReveal = true;
 		
 		var ops = this.state.filteredOptions;
 		
@@ -27333,21 +27372,28 @@ var Select = React.createClass({
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 		
 		var ops = _.map(this.state.filteredOptions, function(op) {
+			var isFocused = focusedValue === op.value;
 			
 			var optionClass = classes({
 				'Select-option': true,
-				'is-focused': focusedValue === op.value
+				'is-focused': isFocused
 			});
+
+			var ref = isFocused ? 'focused' : null;
 			
 			var mouseEnter = this.focusOption.bind(this, op),
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectValue.bind(this, op);
 			
-			return React.createElement("div", {key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown}, op.label);
+			return React.createElement("div", {ref: ref, key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown}, op.label);
 			
 		}, this);
 		
-		return ops.length ? ops : React.createElement("div", {className: "Select-noresults"}, this.props.noResultsText);
+		return ops.length ? ops : (
+			React.createElement("div", {className: "Select-noresults"}, 
+				this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText
+			)
+		);
 		
 	},
 	
@@ -27378,13 +27424,13 @@ var Select = React.createClass({
 		}
 		
 		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", "aria-hidden": "true"}) : null;
-		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", "aria-label": "Clear value", onMouseDown: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
-		var menu = this.state.isOpen ? React.createElement("div", {className: "Select-menu"}, this.buildMenu()) : null;
+		var clear = this.props.clearable && this.state.value ? React.createElement("span", {className: "Select-clear", title: this.props.multi ? this.props.clearAllText : this.props.clearValueText, "aria-label": this.props.multi ? this.props.clearAllText : this.props.clearValueText, onMouseDown: this.clearValue, onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
+		var menu = this.state.isOpen ? React.createElement("div", {ref: "menu", className: "Select-menu"}, this.buildMenu()) : null;
 		
 		return (
 			React.createElement("div", {ref: "wrapper", className: selectClass}, 
 				React.createElement("input", {type: "hidden", ref: "value", name: this.props.name, value: this.state.value}), 
-				React.createElement("div", {className: "Select-control", ref: "control", onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown}, 
+				React.createElement("div", {className: "Select-control", ref: "control", onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown}, 
 					value, 
 					React.createElement(Input, {className: "Select-input", tabIndex: this.props.tabIndex, ref: "input", value: this.state.inputValue, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur, onChange: this.handleInputChange, minWidth: "5"}), 
 					React.createElement("span", {className: "Select-arrow"}), 
@@ -27421,7 +27467,7 @@ var Option = React.createClass({
 	render: function() {
 		return (
 			React.createElement("div", {className: "Select-item"}, 
-				React.createElement("span", {className: "Select-item-icon", onMouseDown: this.blockEvent, onClick: this.props.onRemove}, "×"), 
+				React.createElement("span", {className: "Select-item-icon", onMouseDown: this.blockEvent, onClick: this.props.onRemove, onTouchEnd: this.props.onRemove}, "×"), 
 				React.createElement("span", {className: "Select-item-label"}, this.props.label)
 			)
 		);
