@@ -161,6 +161,9 @@ exports = module.exports = function(req, res) {
 			});
 			
 		};
+		if (req.method === 'POST' && req.body === undefined) {
+			console.warn('\nKeystoneJS Runtime Warning:\n\napp must have multipart form middleware installed. Try adding "multer" to your express instance.\n');
+		}
 		
 		if (req.method === 'POST' && req.body.action === 'updateItem' && !req.list.get('noedit')) {
 			
