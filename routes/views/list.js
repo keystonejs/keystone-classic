@@ -139,6 +139,7 @@ exports = module.exports = function(req, res) {
 	var checkCSRF = function() {
 		var pass = keystone.security.csrf.validate(req);
 		if (!pass) {
+			console.error('CSRF failure');
 			req.flash('error', 'There was a problem with your request, please try again.');
 		}
 		return pass;
