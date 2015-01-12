@@ -31,6 +31,12 @@ var Form = React.createClass({
 		this._bodyStyleOverflow = document.body.style.overflow;
 		document.body.style.overflow = 'hidden';
 	},
+	
+	componentDidMount: function() {
+		if (this.refs.focusTarget) {
+			this.refs.focusTarget.focus();
+		}
+	},
 
 	componentWillUnmount: function() {
 		document.body.style.overflow = this._bodyStyleOverflow;
@@ -50,10 +56,12 @@ var Form = React.createClass({
 		var form = {},
 			list = this.props.list,
 			formAction = '/keystone/' + list.path,
-			nameField = this.props.list.nameField;
+			nameField = this.props.list.nameField,
+			focusRef;
 		
 		if (nameField) {
 			var nameFieldProps = this.getFieldProps(nameField);
+			focusRef = nameFieldProps.ref = 'focusTarget';
 			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
 		}
 		
@@ -67,6 +75,11 @@ var Form = React.createClass({
 			}
 			
 			var fieldProps = this.getFieldProps(field);
+			
+			if (!focusRef) {
+				focusRef = fieldProps.ref = 'focusTarget';
+			}
+			
 			form[field.path] = React.createElement(Fields[field.type], fieldProps);
 			
 		}, this);
