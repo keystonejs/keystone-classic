@@ -39,6 +39,11 @@ var Base = module.exports.Base = {
 		return this.props.collapse && !this.props.value;
 	},
 	
+	focus: function() {
+		if (!this.refs[this.spec.focusTargetRef]) return;
+		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+	},
+	
 	renderUI: function(spec) {
 		var fieldClassName = 'field-ui field-size-' + this.props.size;
 		var inner = this.props.noedit ? this.renderValue() : this.renderField();
@@ -75,8 +80,8 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		componentDidUpdate: function(prevProps, prevState) {
-			if (prevState.isCollapsed && !this.state.isCollapsed && this.refs[this.spec.focusTargetRef]) {
-				this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+			if (prevState.isCollapsed && !this.state.isCollapsed) {
+				this.focus();
 			}
 		},
 		

@@ -6,9 +6,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'dateInput'
-	},
+	focusTargetRef: 'dateInput',
 
 	// default formats
 	inputFormat: 'YYYY-MM-DD',
