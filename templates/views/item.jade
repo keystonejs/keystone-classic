@@ -10,97 +10,17 @@ block css
 		link(rel="stylesheet", href="/keystone/js/lib/codemirror/codemirror.css")
 
 block js
-	//  script(src="/keystone/js/common/ui-fixed-toolbar.js")
-	//  script(src="/keystone/js/lib/joseph-myers/md5.js")
-	//  script(src="/keystone/js/lib/fancybox/jquery.fancybox.pack.js")
-	//  script(src="/keystone/js/lib/html5sortable/jquery.sortable.js")
-	//  if list.fieldTypes.location
-	//  	script(src="/keystone/js/common/ui-location.js")
-	//  if list.fieldTypes.cloudinaryimage
-	//  	script(src="/keystone/js/common/ui-cloudinaryimage.js")
-	//  if list.fieldTypes.cloudinaryimages
-	//  	script(src="/keystone/js/common/ui-cloudinaryimages.js")
-	//  if list.fieldTypes.s3file
-	//  	script(src="/keystone/js/common/ui-s3file.js")
-	//  if list.fieldTypes.azurefile
-	//  	script(src="/keystone/js/common/ui-azurefile.js")
-	//  if list.fieldTypes.localfile
-	//  	script(src="/keystone/js/common/ui-localfile.js")
-	//  if list.fieldTypes.localfiles
-	//  	script(src="/keystone/js/common/ui-localfiles.js")
-	//  if list.fieldTypes.markdown
-	//  	script(src='/keystone/js/lib/marked/marked.js')
-	//  	script(src='/keystone/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
-	//  	script(src="/keystone/js/common/ui-markdown.js")
-	//  if list.fieldTypes.code
-	//  	script(src="/keystone/js/common/ui-code.js")
-	//  	script(src='/keystone/js/lib/codemirror/codemirror-compressed.js')
-	//  if list.fieldTypes.wysiwyg
-	//  	script(src='/keystone/js/lib/tinymce/tinymce.min.js')
-	//  	script(src='/keystone/js/lib/tinymce/jquery.tinymce.min.js')
-	//  	script(src="/keystone/js/common/ui-wysiwyg.js")
-	//  
-	//  script(src='/keystone/js/views/item.js')
-	
 	script.
 		Keystone.list = !{JSON.stringify(list.getOptions())};
 		Keystone.item = !{JSON.stringify(list.getData(item))};
+		Keystone.drilldown = !{JSON.stringify(drilldown)};
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 		
-		App.Views.Item.renderForm(document.getElementById('item-form'), Keystone.list, Keystone.item);
-		
-		// show/hide the search form in the toolbar
-		// TODO: Move this to React
-		jQuery(function($) {
-			var item_breadcrumbs = $('.item-breadcrumbs'),
-				item_searchform  = $('.searchbox');
-
-			$('.js-itemsearch-open').click(function() {
-				item_breadcrumbs.hide();
-				item_searchform.show().find('input[type!=hidden]')[0].focus();
-			});
-			$('.js-itemsearch-close').click(function() {
-				item_searchform.hide();
-				item_breadcrumbs.show();
-			});
-		});
+		App.Views.Item.render(Keystone);
 
 block intro
-	.item-toolbar.item-toolbar--header
-		ul.item-breadcrumbs
-			li: a(href=js, title='Search #{list.plural}').js-itemsearch-open: span.ion-search
-			if drilldown && drilldown.items.length
-				each d in drilldown.items
-					if d.items
-						li
-							each di, i in d.items
-								a(href=di.href, title=d.list.singular)= di.label
-								if i < d.items.length - 1
-									span , 
-						if d.more
-							li: span  ... 
-					else
-						li: a(href=d.href, title=d.list.singular) #{d.label}
-				li
-					a(href='/keystone/' + list.path, title='Back to ' + list.plural) #{list.label}
-			else
-				li: a(href='/keystone/' + list.path, title='Back to ' + list.plural)
-					span.mr-5.ion-arrow-left-c
-					= list.plural
-		.searchbox
-			form(method='get', action='/keystone/' + list.path).form-inline.searchbox-form
-				.searchbox-field: input(type='search', name='search', placeholder='Search #{list.plural}').form-control.searchbox-input
-				.searchbox-button: button(type='submit').btn.btn-default.searchbox-submit Search
-				button(type='button').btn.btn-link.btn-cancel.js-itemsearch-close Cancel
-		ul.item-toolbar-info
-			if list.autokey && item.get(list.autokey.path)
-				li(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
-			else
-				li id: #{item.id}
-			if !list.options.nocreate
-				li: a(href='/keystone/#{list.path}?new' + csrf_query)
-					span.mr-5.ion-plus
-					| New #{list.singular}
+	// Attach point for new React Toolbar
+	div#item-toolbar
 			
 block content
 	form(method='post', enctype='multipart/form-data').item-details
@@ -119,36 +39,6 @@ block content
 				h2.form-heading.name-value= list.nameField.format(item) || '(no name)'
 			else
 				h2.form-heading.name-value= item.get(list.namePath) || '(no name)'
-
-		//- if list.tracking
-			- var meta_createdAt, meta_createdBy, meta_updatedAt, meta_updatedBy
-			.item-details-meta
-				if list.tracking.createdAt
-					- meta_createdAt = item.get(list.tracking.createdAt)
-					if (meta_createdAt)
-						.item-details-meta-item
-							span.item-details-meta-label Created
-							span.item-details-meta-info= moment(meta_createdAt).format('Do MMM YY h:mm:ssa')
-				if list.tracking.createdBy
-					- meta_createdBy = item.get(list.tracking.createdBy)
-					if meta_createdBy
-						.item-details-meta-item
-							span.item-details-meta-label= meta_createdAt ? 'by' : 'Created by'
-							span.item-details-meta-info: a(href='/keystone/' + User.path + '/' + meta_createdBy.id)= User.getDocumentName(meta_createdBy)
-				if list.tracking.updatedAt
-					- meta_updatedAt = item.get(list.tracking.updatedAt)
-					if meta_updatedAt && (!meta_createdAt || meta_createdAt.getTime() !== meta_updatedAt.getTime())
-						.item-details-meta-item
-							span.item-details-meta-label Updated
-							span.item-details-meta-info= moment(meta_updatedAt).format('Do MMM YY h:mm:ssa')
-					else
-						- meta_updatedAt = false
-				if list.tracking.updatedBy
-					- meta_updatedBy = item.get(list.tracking.updatedBy)
-					if meta_updatedBy && (!meta_createdBy || meta_createdBy.id !== meta_updatedBy.id || meta_updatedAt)
-						.item-details-meta-item
-							span.item-details-meta-label= meta_updatedAt ? 'by' : 'Updated by'
-							span.item-details-meta-info: a(href='/keystone/' + User.path + '/' + meta_updatedBy.id)= User.getDocumentName(meta_updatedBy)
 		
 		// Attach point for new React Form
 		div#item-form.keystone-item-form

@@ -1,8 +1,3 @@
-
-
-
-
-
 // Toolbar
 // ------------------------------
 
@@ -48,7 +43,10 @@
 
 .item-breadcrumbs {
 	float: left;
-
+	
+	.separator {
+		margin-right: 5px;
+	}
 }
 
 
@@ -57,16 +55,30 @@
 .item-toolbar-info {
 	clear: left;
 }
+.item-toolbar-create-button {
+	color: @brand-success;
+
+	&:hover,
+	&:focus {
+		color: lighten(@brand-success, 10%);
+	}
+	&:active {
+		color: @brand-success;
+	}
+}
 
 
 // Search form
 
 .searchbox {
-	display: none;
 	float: left;
 }
 .searchbox-form {
 	.clearfix();
+	
+	> button {
+		float: left;
+	}
 }
 .searchbox-field {
 	float: left;

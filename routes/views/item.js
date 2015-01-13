@@ -38,7 +38,7 @@ exports = module.exports = function(req, res) {
 			
 			var drilldown = {
 				def: req.list.get('drilldown'),
-				data: {},
+				// data: {},
 				items: []
 			};
 			
@@ -70,9 +70,9 @@ exports = module.exports = function(req, res) {
 							}
 							var more = (results.length === 4) ? results.pop() : false;
 							if (results.length) {
-								drilldown.data[path] = results;
+								// drilldown.data[path] = results;
 								drilldown.items.push({
-									list: refList,
+									list: refList.getOptions(),
 									items: _.map(results, function(i) { return {
 										label: refList.getDocumentName(i),
 										href: '/keystone/' + refList.path + '/' + i.id
@@ -91,8 +91,10 @@ exports = module.exports = function(req, res) {
 								drilldown.data[path] = result;
 								drilldown.items.push({
 									list: refList,
-									label: refList.getDocumentName(result),
-									href: '/keystone/' + refList.path + '/' + result.id
+									items: [{
+										label: refList.getDocumentName(result),
+										href: '/keystone/' + refList.path + '/' + result.id
+									}]
 								});
 							}
 							done();
@@ -132,19 +134,11 @@ exports = module.exports = function(req, res) {
 				}, cb);
 			};
 			
-			var	loadFormFieldTemplates = function(cb){
-				var onlyFields = function(item) { return item.type === 'field'; };
-				var compile = function(item, callback) { item.field.compile('form',callback); };
-				async.eachSeries(req.list.uiElements.filter(onlyFields), compile , cb);
-			};
-			
-			
 			/** Render View */
 			
 			async.parallel([
 				loadDrilldown,
-				loadRelationships,
-				loadFormFieldTemplates
+				loadRelationships
 			], function(err) {
 				
 				// TODO: Handle err
@@ -159,9 +153,9 @@ exports = module.exports = function(req, res) {
 					page: 'item',
 					list: req.list,
 					item: item,
+					drilldown: drilldown,
 					relationships: relationships,
-					showRelationships: showRelationships,
-					drilldown: drilldown
+					showRelationships: showRelationships
 				}));
 				
 			});
@@ -171,6 +165,7 @@ exports = module.exports = function(req, res) {
 		if (req.method === 'POST' && req.body.action === 'updateItem' && !req.list.get('noedit')) {
 			
 			if (!keystone.security.csrf.validate(req)) {
+				console.error('CSRF failure', req.method, req.body);
 				req.flash('error', 'There was a problem with your request, please try again.');
 				return renderView();
 			}

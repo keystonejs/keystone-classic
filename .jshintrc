@@ -14,7 +14,6 @@
   "nonbsp": true,
   "nonew": true,
   "plusplus": false, /* custom */
-  "quotmark": true,
   "undef": true,
   "unused": false, /* enable for checking unused varaibles, disabled by default because it's noisy */
   "strict": false, /* enable later */
@@ -59,6 +58,7 @@
     "before"     : false,
     "beforeEach" : false,
     "after"      : false,
-    "afterEach"  : false
+    "afterEach"  : false,
+    "Keystone"   : true
   }
 }

@@ -47,8 +47,8 @@ gulp.task('watch-scripts', function() {
 	var w = watchify(b)
 		.on('update', function (scriptIds) {
 			scriptIds = scriptIds
-				.filter(function(i) { return i.substr(0,2) !== './' })
-				.map(function(i) { return chalk.blue(i.replace(__dirname, '')) });
+				.filter(function(i) { return i.substr(0,2) !== './'; })
+				.map(function(i) { return chalk.blue(i.replace(__dirname, '')); });
 			if (scriptIds.length > 1) {
 				gutil.log(scriptIds.length + ' Scripts updated:\n* ' + scriptIds.join('\n* ') + '\nrebuilding...');
 			} else {
