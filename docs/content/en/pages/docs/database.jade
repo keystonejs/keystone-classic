@@ -261,7 +261,46 @@ block content
 				|         console.log(err);
 				|     });
 				
-                
+			a(name='lists-paginate')
+			h3 Pagination Querying
+			
+			p To query data with pagination, you can use <code>List.paginate()</code>,it returns a query object, just as <code>List.model.find()</code> would. It supports the options
+			ul
+				li <code>page</code> - page to start at
+				li <code>perPage</code> - number of results to return per page
+				li <code>maxPages</code> - optional, causes the page calculation to omit pages from the beginning/middle/end(useful if you have lots of pages, and do not want them to wrap over several lines).
+			
+			p <strong>For example:</strong> to load the <code>posts</code> with the <code>maxPages</code> 10 and <code>perPage</code> 10,which state is <code>published</code>, populating the linked <code>author</code> and <code>categories</code>, sorted by reverse published date:
+			
+			.code-header: h4 Loading Posts with paginate
+			pre: code.language-javascript
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				|  Post.paginate({
+				|		page: req.query.page || 1,
+				|		perPage: 10,
+				|		maxPages: 10
+				|	})
+				|	.where('state', 'published')
+				|	.sort('-publishedDate')
+				|	.populate('author categories')
+				|	.exec(function(err, results) {
+				|		locals.data.posts = results;
+				|		next(err);
+				|	});
+			p When you call <code>exec</code> on a paginated query, it will return a lot of metadata along with the results:
+			ul
+				li <code>total</code>: all matching results (not just on this page)
+				li <code>results</code>: array of results for this page
+				li <code>currentPage</code>: the index of the current page
+				li <code>totalPages</code>: the total number of pages
+				li <code>pages</code>: array of pages to display
+				li <code>previous</code>: index of the previous page, false if at the first page
+				li <code>next</code>: index of the next page, false if at the last page
+				li <code>first</code>: the index of the first result included
+				li <code>last</code>: index of the last result included
+
 			a(name='lists-creating')
 			h3 Creating Items
 			

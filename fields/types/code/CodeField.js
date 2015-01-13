@@ -43,6 +43,12 @@ module.exports = Field.create({
 		}
 	},
 	
+	focus: function() {
+		if (this.codeMirror) {
+			this.codeMirror.focus();
+		}
+	},
+	
 	focusChanged: function(focused) {
 		this.setState({
 			isFocused: focused

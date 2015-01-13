@@ -19,6 +19,7 @@ module.exports = {
 	s3file:           require('../../fields/types/s3file/S3FileField'),
 	azurefile:        require('../../fields/types/azurefile/AzureFileField'),
 	localfile:  	  require('../../fields/types/localfile/LocalFileField'),
+	localfiles:       require('../../fields/types/localfiles/LocalFilesField'),
 	textarray:        require('../../fields/types/textarray/TextArrayField'),
 	numberarray:      require('../../fields/types/numberarray/NumberArrayField'),
 	code:             require('../../fields/types/code/CodeField'),

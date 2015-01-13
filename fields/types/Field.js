@@ -1,4 +1,5 @@
 var _ = require('underscore'),
+	cx = require('classnames'),
 	React = require('react'),
 	Note = require('../components/Note');
 
@@ -39,27 +40,42 @@ var Base = module.exports.Base = {
 		return this.props.collapse && !this.props.value;
 	},
 	
-	renderUI: function(spec) {
-		var fieldClassName = 'field-ui field-size-' + this.props.size;
-		var inner = this.props.noedit ? this.renderValue() : this.renderField();
-		return (
-			<div className={"field field-type-" + this.props.type}>
-				<label className="field-label">{this.props.label}</label>
-				<div className={fieldClassName}>
-					{inner}
-					<Note note={this.props.note} />
-				</div>
-			</div>
-		);
-		
+	focus: function() {
+		if (!this.refs[this.spec.focusTargetRef]) return;
+		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+	},
+	
+	renderLabel: function() {
+		if (!this.props.label) return null;
+		return <label className="field-label">{this.props.label}</label>;
+	},
+	
+	renderNote: function() {
+		if (!this.props.note) return null;
+		return <Note note={this.props.note} />;
 	},
 	
 	renderField: function() {
-		return <input type="text" name={this.props.path} ref="focusTarget" value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+		return <input type="text" ref="focusTarget" name={this.props.path} placeholder={this.props.placeholder} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
 	},
 	
 	renderValue: function() {
 		return <div className="field-value">{this.props.value}</div>;
+	},
+	
+	renderUI: function(spec) {
+		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label });
+		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
+		return (
+			<div className={wrapperClassName}>
+				{this.renderLabel()}
+				<div className={fieldClassName}>
+					{this.props.noedit ? this.renderValue() : this.renderField()}
+					{this.renderNote()}
+				</div>
+			</div>
+		);
+		
 	}
 	
 };
@@ -75,8 +91,8 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		componentDidUpdate: function(prevProps, prevState) {
-			if (prevState.isCollapsed && !this.state.isCollapsed && this.refs[this.spec.focusTargetRef]) {
-				this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+			if (prevState.isCollapsed && !this.state.isCollapsed) {
+				this.focus();
 			}
 		},
 		

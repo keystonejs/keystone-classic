@@ -261,7 +261,46 @@ block content
 				|         console.log(err);
 				|     });
 				
-                
+			a(name='lists-paginate')
+			h3 分页查询
+			
+			p 你可以用<code>List.paginate()</code>进行分页查询，它会像<code>List.model.find()</code>一样返回一个查询对象，该方法支持下面这些参数：
+			ul
+				li <code>page</code> - 从哪一页开始
+				li <code>perPage</code> - 每页的记录条数
+				li <code>maxPages</code> - 可选参数，在计算页面时从开始/中间/末尾处省略页数（如果你有很多页，并且不想让它们显示时占好几行，就可以用这个参数）。
+			
+			p <strong>比如说：</strong> 要以<code>maxPages</code> 10 和<code>perPage</code> 10加载<code>posts</code>，并且要求其状态为<code>published</code>，同时组装出关联的<code>author</code>和<code>categories</code>，按发布时间的逆序排列：
+			
+			.code-header: h4 分页加载Post
+			pre: code.language-javascript
+				| var keystone = require('keystone'),
+				|     Post = keystone.list('Post');
+				| 
+				|  Post.paginate({
+				|		page: req.query.page || 1,
+				|		perPage: 10,
+				|		maxPages: 10
+				|	})
+				|	.where('state', 'published')
+				|	.sort('-publishedDate')
+				|	.populate('author categories')
+				|	.exec(function(err, results) {
+				|		locals.data.posts = results;
+				|		next(err);
+				|	});
+			p 当你在分页查询上调用<code>exec</code>时，除了查询结果，它还会返回很多元数据：
+			ul
+				li <code>total</code>: 匹配结果的总数(不仅仅是这一页的)
+				li <code>results</code>: 这一页的结果集数组
+				li <code>currentPage</code>: 当前页的页码
+				li <code>totalPages</code>: 总页数
+				li <code>pages</code>: 要显示的页码的数组
+				li <code>previous</code>: 前一页的页码，如果当前页是第一页则为false
+				li <code>next</code>: 下一页的页码，如果当前页是最后一页则为false
+				li <code>first</code>: 包含第一条结果的页码
+				li <code>last</code>: 包含最后一条结果的页码
+
 			a(name='lists-creating')
 			h3 创建条目
 			

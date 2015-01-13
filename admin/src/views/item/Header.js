@@ -1,10 +1,9 @@
-var _ = require('underscore'),
-	React = require('react'),
-	Fields = require('../../fields');
+var React = require('react'),
+	AltText = require('../../components/AltText');
 
-var Toolbar = React.createClass({
+var Header = React.createClass({
 	
-	displayName: 'Toolbar',
+	displayName: 'Header',
 	
 	getInitialState: function() {
 		return {
@@ -20,10 +19,14 @@ var Toolbar = React.createClass({
 		}
 	},
 	
-	toggleSearch: function(on) {
+	toggleCreate: function(visible) {
+		this.props.toggleCreate(visible);
+	},
+	
+	toggleSearch: function(visible) {
 		this.setState({
-			searchIsVisible: on,
-			searchIsFocused: on,
+			searchIsVisible: visible,
+			searchIsFocused: visible,
 			searchString: ''
 		});
 	},
@@ -137,7 +140,14 @@ var Toolbar = React.createClass({
 	renderKeyOrId: function() {
 		var list = this.props.list;
 		if (list.autokey && this.props.data[list.autokey.path]) {
-			return <li>{list.autokey.path}: {this.props.data[list.autokey.path]}</li>
+			return (
+				<li>
+					<AltText
+						normal={list.autokey.path + ': ' + this.props.data[list.autokey.path]}
+						modified={'id: ' + this.props.data.id}
+					/>
+				</li>	
+			);
 		}
 		return <li>id: {this.props.data.id}</li>;
 	},
@@ -146,7 +156,7 @@ var Toolbar = React.createClass({
 		if (this.props.list.nocreate) return null;
 		return (
 			<li>
-				<a href={'/keystone/' + this.props.list.path + '?new' + Keystone.csrf.query}>
+				<a className="item-toolbar-create-button" href="javascript:;" onClick={this.toggleCreate.bind(this, true)}>
 					<span className="mr-5 ion-plus"></span>
 					New {this.props.list.singular}
 				</a>
@@ -157,13 +167,15 @@ var Toolbar = React.createClass({
 	render: function() {
 		return (
 			<div>
-				{this.renderDrilldown()}
-				{this.renderSearch()}
-				{this.renderInfo()}
+				<div className="item-toolbar item-toolbar--header">
+					{this.renderDrilldown()}
+					{this.renderSearch()}
+					{this.renderInfo()}
+				</div>
 			</div>
 		);
 	}
 	
 });
 
-module.exports = Toolbar;
+module.exports = Header;

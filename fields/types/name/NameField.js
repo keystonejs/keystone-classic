@@ -4,9 +4,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'first'
-	},
+	focusTargetRef: 'first',
 	
 	valueChanged: function(which, event) {
 		this.props.value[which] = event.target.value;

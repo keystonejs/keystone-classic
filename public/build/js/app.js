@@ -1,4 +1,4 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.App=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./admin/src/app.js":[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.App=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * This file exposes the top-level application components for Keystone.
  * 
@@ -13,7 +13,60 @@ module.exports = {
 	}
 };
 
-},{"./views/item":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/views/item/index.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/components/formHeading.js":[function(require,module,exports){
+},{"./views/item":11}],2:[function(require,module,exports){
+var React = require('react'),
+	vkey = require('vkey');
+
+var AltText = React.createClass({displayName: "AltText",
+	
+	getDefaultProps: function() {
+		return {
+			component: 'span',
+			modifier: '<alt>',
+			normal: '',
+			modified: ''
+		};
+	},
+	
+	getInitialState: function() {
+		return {
+			modified: false
+		};
+	},
+	
+	componentDidMount: function() {
+		document.body.addEventListener('keydown', this.handleKeyDown, false);
+		document.body.addEventListener('keyup', this.handleKeyUp, false);
+	},
+	
+	handleKeyDown: function(e) {
+		if (vkey[e.keyCode] !== this.props.modifier) return;
+		this.setState({
+			modified: true
+		});
+	},
+	
+	handleKeyUp: function(e) {
+		if (vkey[e.keyCode] !== this.props.modifier) return;
+		this.setState({
+			modified: false
+		});
+	},
+	
+	componentWillUnmount: function() {
+		document.body.removeEventListener('keydown', this.handleKeyDown);
+		document.body.removeEventListener('keyup', this.handleKeyUp);
+	},
+	
+	render: function() {
+		return React.createElement(this.props.component, null, this.state.modified ? this.props.modified : this.props.normal);
+	}
+	
+});
+
+module.exports = AltText;
+
+},{"react":203,"vkey":208}],3:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({displayName: "exports",
@@ -29,7 +82,7 @@ module.exports = React.createClass({displayName: "exports",
 	
 });
 
-},{"react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/components/invalidFieldType.js":[function(require,module,exports){
+},{"react":203}],4:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({displayName: "exports",
@@ -40,15 +93,15 @@ module.exports = React.createClass({displayName: "exports",
 	
 });
 
-},{"react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/components/toolbar.js":[function(require,module,exports){
+},{"react":203}],5:[function(require,module,exports){
 var React = require('react');
 
 /**
- * TODO
- * - Stick at the bottom of the viewport
+ * TODO: Refactor this to use React, not jQuery
  */
 
 var Toolbar = React.createClass({displayName: "Toolbar",
+	
 	componentDidMount: function() {
 		(function() {
 		
@@ -115,14 +168,16 @@ var Toolbar = React.createClass({displayName: "Toolbar",
 	},
 	render: function() {
 		return (
-			React.createElement("div", {className: "toolbar "}, this.props.children)
+			React.createElement("div", {className: "toolbar"}, this.props.children)
 		);
 	}
 });
 
 module.exports = Toolbar;
 
-},{"react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/fields.js":[function(require,module,exports){
+},{"react":203}],6:[function(require,module,exports){
+module.exports=require(4)
+},{"/Users/Jed/Development/packages/keystone/admin/src/components/InvalidFieldType.js":4,"react":203}],7:[function(require,module,exports){
 module.exports = {
 	boolean:          require('../../fields/types/boolean/BooleanField'),
 	date:             require('../../fields/types/date/DateField'),
@@ -144,26 +199,146 @@ module.exports = {
 	s3file:           require('../../fields/types/s3file/S3FileField'),
 	azurefile:        require('../../fields/types/azurefile/AzureFileField'),
 	localfile:  	  require('../../fields/types/localfile/LocalFileField'),
+	localfiles:       require('../../fields/types/localfiles/LocalFilesField'),
 	textarray:        require('../../fields/types/textarray/TextArrayField'),
 	numberarray:      require('../../fields/types/numberarray/NumberArrayField'),
 	code:             require('../../fields/types/code/CodeField'),
 	number:           require('../../fields/types/number/NumberField'),
 	html:             require('../../fields/types/html/HtmlField'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/CloudinaryImageField'),
-	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesField'),
-	table:            require('../../fields/types/table/Table'),
+	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesField')
 };
 
-},{"../../fields/types/azurefile/AzureFileField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/azurefile/AzureFileField.js","../../fields/types/boolean/BooleanField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/boolean/BooleanField.js","../../fields/types/cloudinaryimage/CloudinaryImageField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/cloudinaryimage/CloudinaryImageField.js","../../fields/types/cloudinaryimages/CloudinaryImagesField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/cloudinaryimages/CloudinaryImagesField.js","../../fields/types/code/CodeField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/code/CodeField.js","../../fields/types/color/ColorField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/color/ColorField.js","../../fields/types/date/DateField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/date/DateField.js","../../fields/types/datetime/DateTimeField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/datetime/DateTimeField.js","../../fields/types/email/EmailField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/email/EmailField.js","../../fields/types/embedly/EmbedlyField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/embedly/EmbedlyField.js","../../fields/types/html/HtmlField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/html/HtmlField.js","../../fields/types/key/KeyField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/key/KeyField.js","../../fields/types/localfile/LocalFileField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/localfile/LocalFileField.js","../../fields/types/location/LocationField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/location/LocationField.js","../../fields/types/markdown/MarkdownField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/markdown/MarkdownField.js","../../fields/types/money/MoneyField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/money/MoneyField.js","../../fields/types/name/NameField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/name/NameField.js","../../fields/types/number/NumberField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/number/NumberField.js","../../fields/types/numberarray/NumberArrayField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/numberarray/NumberArrayField.js","../../fields/types/password/PasswordField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/password/PasswordField.js","../../fields/types/relationship/RelationshipField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/relationship/RelationshipField.js","../../fields/types/s3file/S3FileField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/s3file/S3FileField.js","../../fields/types/select/SelectField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/select/SelectField.js","../../fields/types/table/Table":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/table/Table.js","../../fields/types/text/TextField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/text/TextField.js","../../fields/types/textarea/TextareaField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/textarea/TextareaField.js","../../fields/types/textarray/TextArrayField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/textarray/TextArrayField.js","../../fields/types/url/UrlField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/url/UrlField.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/views/item/Form.js":[function(require,module,exports){
+},{"../../fields/types/azurefile/AzureFileField":16,"../../fields/types/boolean/BooleanField":17,"../../fields/types/cloudinaryimage/CloudinaryImageField":18,"../../fields/types/cloudinaryimages/CloudinaryImagesField":19,"../../fields/types/code/CodeField":20,"../../fields/types/color/ColorField":21,"../../fields/types/date/DateField":22,"../../fields/types/datetime/DateTimeField":23,"../../fields/types/email/EmailField":24,"../../fields/types/embedly/EmbedlyField":25,"../../fields/types/html/HtmlField":27,"../../fields/types/key/KeyField":28,"../../fields/types/localfile/LocalFileField":29,"../../fields/types/localfiles/LocalFilesField":30,"../../fields/types/location/LocationField":31,"../../fields/types/markdown/MarkdownField":32,"../../fields/types/money/MoneyField":34,"../../fields/types/name/NameField":35,"../../fields/types/number/NumberField":36,"../../fields/types/numberarray/NumberArrayField":37,"../../fields/types/password/PasswordField":38,"../../fields/types/relationship/RelationshipField":39,"../../fields/types/s3file/S3FileField":40,"../../fields/types/select/SelectField":41,"../../fields/types/text/TextField":42,"../../fields/types/textarea/TextareaField":43,"../../fields/types/textarray/TextArrayField":44,"../../fields/types/url/UrlField":45}],8:[function(require,module,exports){
 var _ = require('underscore'),
 	moment = require('moment'),
 	React = require('react'),
 	Fields = require('../../fields'),
-	FormHeading = require('../../components/formHeading'),
-	Toolbar = require('../../components/toolbar'),
 	InvalidFieldType = require('../../components/invalidFieldType');
 
 var Form = React.createClass({displayName: "Form",
+	
+	getInitialState: function() {
+		
+		var values = {};
+		
+		_.each(this.props.list.fields, function(field) {
+			values[field.path] = field.defaultValue;
+		});
+		
+		return {
+			values: values
+		};
+	},
+	
+	handleChange: function(event) {
+		var values = this.state.values;
+		values[event.path] = event.value;
+		this.setState({
+			values: values
+		});
+	},
+
+	componentWillMount: function() {
+		this._bodyStyleOverflow = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+	},
+	
+	componentDidMount: function() {
+		if (this.refs.focusTarget) {
+			this.refs.focusTarget.focus();
+		}
+	},
+
+	componentWillUnmount: function() {
+		document.body.style.overflow = this._bodyStyleOverflow;
+	},
+	
+	getFieldProps: function(field) {
+		var props = _.clone(field);
+		props.value = this.state.values[field.path];
+		props.values = this.state.values;
+		props.onChange = this.handleChange;
+		props.mode = 'create';
+		return props;
+	},
+	
+	render: function() {
+		
+		var form = {},
+			list = this.props.list,
+			formAction = '/keystone/' + list.path,
+			nameField = this.props.list.nameField,
+			focusRef;
+		
+		if (list.nameIsInitial) {
+			var nameFieldProps = this.getFieldProps(nameField);
+			nameFieldProps.ref = focusRef = 'focusTarget';
+			nameFieldProps.className = 'item-name-field';
+			nameFieldProps.placeholder = nameField.label;
+			nameFieldProps.label = false;
+			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
+		}
+		
+		_.each(list.initialFields, function(path) {
+				
+			var field = list.fields[path];
+			
+			if ('function' !== typeof Fields[field.type]) {
+				form[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
+				return;
+			}
+			
+			var fieldProps = this.getFieldProps(field);
+			
+			if (!focusRef) {
+				fieldProps.ref = focusRef = 'focusTarget';
+			}
+			
+			form[field.path] = React.createElement(Fields[field.type], fieldProps);
+			
+		}, this);
+		
+		return (
+			React.createElement("div", null, 
+				React.createElement("div", {className: "modal modal-md"}, 
+					React.createElement("div", {className: "modal-dialog"}, 
+						React.createElement("form", {className: "modal-content", method: "post", action: formAction}, 
+							React.createElement("input", {type: "hidden", name: "action", value: "create"}), 
+							React.createElement("input", {type: "hidden", name: Keystone.csrf.key, value: Keystone.csrf.value}), 
+							React.createElement("div", {className: "modal-header"}, 
+								React.createElement("button", {type: "button", className: "modal-close", onClick: this.props.onCancel}), 
+								React.createElement("div", {className: "modal-title"}, "Create a new ", list.singular)
+							), 
+							React.createElement("div", {className: "modal-body"}, 
+								form
+							), 
+							React.createElement("div", {className: "modal-footer"}, 
+								React.createElement("button", {type: "submit", className: "btn btn-create"}, "Create"), 
+								React.createElement("button", {type: "button", className: "btn btn-link btn-cancel", onClick: this.props.onCancel}, "cancel")
+							)
+						)
+					)
+				), 
+				React.createElement("div", {className: "modal-backdrop"})
+			)
+		);
+	}
+	
+});
+
+module.exports = Form;
+
+},{"../../components/invalidFieldType":6,"../../fields":7,"moment":52,"react":203,"underscore":207}],9:[function(require,module,exports){
+var _ = require('underscore'),
+	moment = require('moment'),
+	React = require('react'),
+	Fields = require('../../fields'),
+	FormHeading = require('../../components/FormHeading'),
+	Toolbar = require('../../components/Toolbar'),
+	InvalidFieldType = require('../../components/InvalidFieldType');
+
+var EditForm = React.createClass({displayName: "EditForm",
 	
 	getInitialState: function() {
 		return {
@@ -171,14 +346,61 @@ var Form = React.createClass({displayName: "Form",
 		};
 	},
 	
+	getFieldProps: function(field) {
+		var props = _.clone(field);
+		props.value = this.state.values[field.path];
+		props.values = this.state.values;
+		props.onChange = this.handleChange;
+		props.mode = 'edit';
+		return props;
+	},
+	
 	handleChange: function(event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
-		// console.log(event);
-		// console.log(values);
 		this.setState({
 			values: values
 		});
+	},
+	
+	renderNameField: function() {
+		
+		var namePath = this.props.list.namePath,
+			nameField = this.props.list.nameField,
+			nameIsEditable = this.props.list.nameIsEditable;
+		
+		function wrapNameField(field) {
+			return (
+				React.createElement("div", {className: "field item-name"}, 
+					React.createElement("div", {className: "col-sm-12"}, 
+						field
+					)
+				)
+			);
+		}
+		
+		if (nameIsEditable) {
+			
+			var nameFieldProps = this.getFieldProps(nameField);
+			nameFieldProps.className = 'item-name-field';
+			nameFieldProps.placeholder = nameField.label;
+			nameFieldProps.label = false;
+			
+			return wrapNameField(
+				React.createElement(Fields[nameField.type], nameFieldProps)
+			);
+			
+		} else if (nameField && nameField.type == 'name') {
+			var nameValue = this.props.data.fields[nameField.path] || {};
+			nameValue = _.compact([nameValue.first, nameValue.last]).join(' ');
+			return wrapNameField(
+				React.createElement("h2", {className: "form-heading name-value"}, nameValue || '(no name)')
+			);
+		} else {
+			return wrapNameField(
+				React.createElement("h2", {className: "form-heading name-value"}, this.props.data.fields[namePath] || '(no name)')
+			);
+		}
 	},
 	
 	renderTrackingMeta: function() {
@@ -244,7 +466,7 @@ var Form = React.createClass({displayName: "Form",
 		
 	},
 	
-	render: function() {
+	renderFormElements: function() {
 		
 		var elements = {},
 			headings = 0;
@@ -265,16 +487,17 @@ var Form = React.createClass({displayName: "Form",
 					return;
 				}
 				
-				var fieldProps = _.clone(field);
-				fieldProps.value = this.state.values[field.path];
-				fieldProps.values = this.state.values;
-				fieldProps.onChange = this.handleChange;
-				fieldProps.mode = 'edit';
-				elements[field.path] = React.createElement(Fields[field.type], fieldProps);
+				elements[field.path] = React.createElement(Fields[field.type], this.getFieldProps(field));
 				
 			}
 			
 		}, this);
+		
+		return elements;
+		
+	},
+	
+	renderToolbar: function() {
 		
 		var toolbar = {};
 		
@@ -289,31 +512,39 @@ var Form = React.createClass({displayName: "Form",
 			toolbar.del = React.createElement("a", {href: '/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query, className: "btn btn-link btn-cancel delete"}, "delete ", this.props.list.singular.toLowerCase());
 		}
 		
-		var tracking = this.renderTrackingMeta();
+		return (
+			React.createElement(Toolbar, null, 
+				toolbar
+			)
+		);
+		
+	},
+	
+	render: function() {
 		
 		return (
-			React.createElement("div", null, 
-				tracking, 
-				elements, 
-				React.createElement(Toolbar, null, 
-					toolbar
-				)
+			React.createElement("form", {method: "post", enctype: "multipart/form-data", className: "item-details"}, 
+				React.createElement("input", {type: "hidden", name: "action", value: "updateItem"}), 
+				React.createElement("input", {type: "hidden", name: Keystone.csrf.key, value: Keystone.csrf.value}), 
+				this.renderNameField(), 
+				this.renderTrackingMeta(), 
+				this.renderFormElements(), 
+				this.renderToolbar()
 			)
 		);
 	}
 	
 });
 
-module.exports = Form;
+module.exports = EditForm;
 
-},{"../../components/formHeading":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/components/formHeading.js","../../components/invalidFieldType":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/components/invalidFieldType.js","../../components/toolbar":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/components/toolbar.js","../../fields":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/fields.js","moment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/moment/moment.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/views/item/Toolbar.js":[function(require,module,exports){
-var _ = require('underscore'),
-	React = require('react'),
-	Fields = require('../../fields');
+},{"../../components/FormHeading":3,"../../components/InvalidFieldType":4,"../../components/Toolbar":5,"../../fields":7,"moment":52,"react":203,"underscore":207}],10:[function(require,module,exports){
+var React = require('react'),
+	AltText = require('../../components/AltText');
 
-var Toolbar = React.createClass({
+var Header = React.createClass({
 	
-	displayName: 'Toolbar',
+	displayName: 'Header',
 	
 	getInitialState: function() {
 		return {
@@ -329,10 +560,14 @@ var Toolbar = React.createClass({
 		}
 	},
 	
-	toggleSearch: function(on) {
+	toggleCreate: function(visible) {
+		this.props.toggleCreate(visible);
+	},
+	
+	toggleSearch: function(visible) {
 		this.setState({
-			searchIsVisible: on,
-			searchIsFocused: on,
+			searchIsVisible: visible,
+			searchIsFocused: visible,
 			searchString: ''
 		});
 	},
@@ -446,7 +681,14 @@ var Toolbar = React.createClass({
 	renderKeyOrId: function() {
 		var list = this.props.list;
 		if (list.autokey && this.props.data[list.autokey.path]) {
-			return React.createElement("li", null, list.autokey.path, ": ", this.props.data[list.autokey.path])
+			return (
+				React.createElement("li", null, 
+					React.createElement(AltText, {
+						normal: list.autokey.path + ': ' + this.props.data[list.autokey.path], 
+						modified: 'id: ' + this.props.data.id}
+					)
+				)	
+			);
 		}
 		return React.createElement("li", null, "id: ", this.props.data.id);
 	},
@@ -455,7 +697,7 @@ var Toolbar = React.createClass({
 		if (this.props.list.nocreate) return null;
 		return (
 			React.createElement("li", null, 
-				React.createElement("a", {href: '/keystone/' + this.props.list.path + '?new' + Keystone.csrf.query}, 
+				React.createElement("a", {className: "item-toolbar-create-button", href: "javascript:;", onClick: this.toggleCreate.bind(this, true)}, 
 					React.createElement("span", {className: "mr-5 ion-plus"}), 
 					"New ", this.props.list.singular
 				)
@@ -466,30 +708,61 @@ var Toolbar = React.createClass({
 	render: function() {
 		return (
 			React.createElement("div", null, 
-				this.renderDrilldown(), 
-				this.renderSearch(), 
-				this.renderInfo()
+				React.createElement("div", {className: "item-toolbar item-toolbar--header"}, 
+					this.renderDrilldown(), 
+					this.renderSearch(), 
+					this.renderInfo()
+				)
 			)
 		);
 	}
 	
 });
 
-module.exports = Toolbar;
+module.exports = Header;
 
-},{"../../fields":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/fields.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/views/item/index.js":[function(require,module,exports){
+},{"../../components/AltText":2,"react":203}],11:[function(require,module,exports){
 var React = require('react'),
-	Form = require('./Form'),
-	Toolbar = require('./Toolbar');
+	CreateForm = require('./CreateForm'),
+	EditForm = require('./EditForm'),
+	Header = require('./Header');
 
-module.exports = {
-	render: function(view) {
-		React.render(React.createElement(Toolbar, {list: view.list, data: view.item, drilldown: view.drilldown}), document.getElementById('item-toolbar'));
-		React.render(React.createElement(Form, {list: view.list, data: view.item}), document.getElementById('item-form'));
+var View = React.createClass({displayName: "View",
+	
+	getInitialState: function() {
+		return {
+			createIsVisible: false
+		};
+	},
+	
+	toggleCreate: function(visible) {
+		this.setState({
+			createIsVisible: visible
+		});
+	},
+	
+	renderCreateForm: function() {
+		if (!this.state.createIsVisible) return null;
+		return React.createElement(CreateForm, {list: Keystone.list, onCancel: this.toggleCreate.bind(this, false)})
+	},
+	
+	render: function() {
+		return (
+			React.createElement("div", null, 
+				this.renderCreateForm(), 
+				React.createElement(Header, {list: Keystone.list, data: Keystone.item, drilldown: Keystone.drilldown, toggleCreate: this.toggleCreate}), 
+				React.createElement(EditForm, {list: Keystone.list, data: Keystone.item})
+			)
+		);
 	}
+	
+});
+
+exports.render = function(view) {
+	React.render(React.createElement(View, null), document.getElementById('item-view'));
 };
 
-},{"./Form":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/views/item/Form.js","./Toolbar":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/admin/src/views/item/Toolbar.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/DateInput.js":[function(require,module,exports){
+},{"./CreateForm":8,"./EditForm":9,"./Header":10,"react":203}],12:[function(require,module,exports){
 var React = require('react'),
 	pikaday = require('pikaday');
 
@@ -533,7 +806,7 @@ module.exports = React.createClass({displayName: "exports",
 	
 });
 
-},{"pikaday":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/pikaday/pikaday.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js":[function(require,module,exports){
+},{"pikaday":53,"react":203}],13:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({displayName: "exports",
@@ -546,7 +819,7 @@ module.exports = React.createClass({displayName: "exports",
 	
 });
 
-},{"react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/mixins/ArrayField.js":[function(require,module,exports){
+},{"react":203}],14:[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react');
 
@@ -624,8 +897,9 @@ module.exports = {
 	}
 };
 
-},{"react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js":[function(require,module,exports){
+},{"react":203,"underscore":207}],15:[function(require,module,exports){
 var _ = require('underscore'),
+	cx = require('classnames'),
 	React = require('react'),
 	Note = require('../components/Note');
 
@@ -666,27 +940,42 @@ var Base = module.exports.Base = {
 		return this.props.collapse && !this.props.value;
 	},
 	
-	renderUI: function(spec) {
-		var fieldClassName = 'field-ui field-size-' + this.props.size;
-		var inner = this.props.noedit ? this.renderValue() : this.renderField();
-		return (
-			React.createElement("div", {className: "field field-type-" + this.props.type}, 
-				React.createElement("label", {className: "field-label"}, this.props.label), 
-				React.createElement("div", {className: fieldClassName}, 
-					inner, 
-					React.createElement(Note, {note: this.props.note})
-				)
-			)
-		);
-		
+	focus: function() {
+		if (!this.refs[this.spec.focusTargetRef]) return;
+		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+	},
+	
+	renderLabel: function() {
+		if (!this.props.label) return null;
+		return React.createElement("label", {className: "field-label"}, this.props.label);
+	},
+	
+	renderNote: function() {
+		if (!this.props.note) return null;
+		return React.createElement(Note, {note: this.props.note});
 	},
 	
 	renderField: function() {
-		return React.createElement("input", {type: "text", name: this.props.path, ref: "focusTarget", value: this.props.value, onChange: this.valueChanged, autoComplete: "off", className: "form-control"});
+		return React.createElement("input", {type: "text", ref: "focusTarget", name: this.props.path, placeholder: this.props.placeholder, value: this.props.value, onChange: this.valueChanged, autoComplete: "off", className: "form-control"});
 	},
 	
 	renderValue: function() {
 		return React.createElement("div", {className: "field-value"}, this.props.value);
+	},
+	
+	renderUI: function(spec) {
+		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label });
+		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
+		return (
+			React.createElement("div", {className: wrapperClassName}, 
+				this.renderLabel(), 
+				React.createElement("div", {className: fieldClassName}, 
+					this.props.noedit ? this.renderValue() : this.renderField(), 
+					this.renderNote()
+				)
+			)
+		);
+		
 	}
 	
 };
@@ -702,8 +991,8 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		componentDidUpdate: function(prevProps, prevState) {
-			if (prevState.isCollapsed && !this.state.isCollapsed && this.refs[this.spec.focusTargetRef]) {
-				this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+			if (prevState.isCollapsed && !this.state.isCollapsed) {
+				this.focus();
 			}
 		},
 		
@@ -772,10 +1061,10 @@ module.exports.create = function(spec) {
 	
 };
 
-},{"../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/azurefile/AzureFileField.js":[function(require,module,exports){
+},{"../components/Note":13,"classnames":48,"react":203,"underscore":207}],16:[function(require,module,exports){
 module.exports = require('../localfile/LocalFileField');
 
-},{"../localfile/LocalFileField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/localfile/LocalFileField.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/boolean/BooleanField.js":[function(require,module,exports){
+},{"../localfile/LocalFileField":29}],17:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -820,7 +1109,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/cloudinaryimage/CloudinaryImageField.js":[function(require,module,exports){
+},{"../Field":15,"react":203}],18:[function(require,module,exports){
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
@@ -832,15 +1121,15 @@ var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'ima
 
 module.exports = Field.create({
 
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	changeImage: function () {
+	changeImage: function() {
 		this.refs.fileField.getDOMNode().click();
 	},
 
-	getImageSource: function () {
+	getImageSource: function() {
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
@@ -850,7 +1139,7 @@ module.exports = Field.create({
 		}
 	},
 
-	getImageURL: function () {
+	getImageURL: function() {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
@@ -859,7 +1148,7 @@ module.exports = Field.create({
 	/**
 	 * Reset origin and removal.
 	 */
-	undoRemove: function () {
+	undoRemove: function() {
 		this.fileFieldNode().value = "";
 		this.setState({
 			removeExisting: false,
@@ -936,28 +1225,28 @@ module.exports = Field.create({
 	/**
 	 * Is the currently active image uploaded in this session?
 	 */
-	hasLocal: function () {
+	hasLocal: function() {
 		return this.state.origin === "local";
 	},
 
 	/**
 	 * Do we have an image preview to display?
 	 */
-	hasImage: function () {
+	hasImage: function() {
 		return this.hasExisting() || this.hasLocal();
 	},
 
 	/**
 	 * Do we have an existing file?
 	 */
-	hasExisting: function () {
+	hasExisting: function() {
 		return !!this.props.value.url;
 	},
 
 	/**
 	 * Render an image preview
 	 */
-	renderImagePreview: function () {
+	renderImagePreview: function() {
 		var iconClassName;
 		var className = 'image-preview';
 
@@ -983,7 +1272,7 @@ module.exports = Field.create({
 		return React.createElement("div", {key: this.props.path + '_preview', className: className}, body);
 	},
 
-	renderImagePreviewThumbnail: function () {
+	renderImagePreviewThumbnail: function() {
 		return React.createElement("img", {key: this.props.path + '_preview_thumbnail', className: "img-load", style:  { height: '90'}, src: this.getImageSource()});
 	},
 
@@ -1007,7 +1296,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderImageDimensions: function () {
+	renderImageDimensions: function() {
 		return React.createElement("div", {className: "field-value"}, this.props.value.width, " x ", this.props.value.height);
 	},
 
@@ -1018,7 +1307,7 @@ module.exports = Field.create({
 	 *  - On a cloudinary file, output a "from cloudinary" message.
 	 *  - On removal of existing file, output a "save to remove" message.
 	 */
-	renderAlert: function () {
+	renderAlert: function() {
 		if (this.hasLocal()) {
 			return React.createElement("div", {className: "upload-queued pull-left"}, 
 				React.createElement("div", {className: "alert alert-success"}, "Image selected - save to upload")
@@ -1042,7 +1331,7 @@ module.exports = Field.create({
 	 *  - On removal of existing image, output "undo remove" button.
 	 *  - Otherwise output Cancel/Delete image button.
 	 */
-	renderClearButton: function () {
+	renderClearButton: function() {
 		if (this.state.removeExisting) {
 			return React.createElement("button", {type: "button", className: "btn btn-link btn-cancel btn-undo-image", onClick: this.undoRemove}, 
 				"Undo Remove"
@@ -1060,15 +1349,15 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return React.createElement("input", {ref: "fileField", type: "file", name: this.props.paths.upload, className: "field-upload", onChange: this.fileChanged});
 	},
 
-	renderFileAction: function () {
+	renderFileAction: function() {
 		return React.createElement("input", {type: "hidden", name: this.props.paths.action, className: "field-action", value: this.state.action});
 	},
 
-	renderImageToolbar: function () {
+	renderImageToolbar: function() {
 		return React.createElement("div", {key: this.props.path + '_toolbar', className: "image-toolbar"}, 
 			React.createElement("div", {className: "pull-left"}, 
 				React.createElement("button", {type: "button", onClick: this.changeImage, className: "btn btn-default btn-upload-image"}, 
@@ -1080,7 +1369,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderImageSelect: function () {
+	renderImageSelect: function() {
 		var getOptions = function(input, callback) {
 			$.get('/keystone/api/cloudinary/autocomplete', {
 				dataType: 'json',
@@ -1115,7 +1404,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		var container = [],
 			body = [],
 			hasImage = this.hasImage(),
@@ -1156,7 +1445,7 @@ module.exports = Field.create({
 	}
 });
 
-},{"../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","jquery":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/jquery/dist/jquery.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","react-select":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/src/Select.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/cloudinaryimages/CloudinaryImagesField.js":[function(require,module,exports){
+},{"../../components/Note":13,"../Field":15,"jquery":50,"react":203,"react-select":56,"underscore":207}],19:[function(require,module,exports){
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
@@ -1166,7 +1455,7 @@ var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'ima
 
 var Thumbnail = React.createClass({displayName: "Thumbnail",
 	
-	render: function () {
+	render: function() {
 		var iconClassName, imageDetails;
 
 		if (this.props.deleted) {
@@ -1211,7 +1500,7 @@ var Thumbnail = React.createClass({displayName: "Thumbnail",
 
 module.exports = Field.create({
 
-	getInitialState: function () {
+	getInitialState: function() {
 		var thumbnails = [];
 		var self = this;
 
@@ -1242,7 +1531,7 @@ module.exports = Field.create({
 		thumbs.push(React.createElement(Thumbnail, React.__spread({key: i},  args)));
 	},
 
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
@@ -1256,11 +1545,11 @@ module.exports = Field.create({
 		return count;
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return React.createElement("input", {ref: "fileField", type: "file", name: this.props.paths.upload, multiple: true, className: "field-upload", onChange: this.uploadFile});
 	},
 
-	clearFiles: function () {
+	clearFiles: function() {
 		this.fileFieldNode().value = "";
 
 		this.setState({
@@ -1294,15 +1583,15 @@ module.exports = Field.create({
 		});
 	},
 
-	changeImage: function () {
+	changeImage: function() {
 		this.fileFieldNode().click();
 	},
 
-	hasFiles: function () {
+	hasFiles: function() {
 		return this.refs.fileField && this.fileFieldNode().value;
 	},
 
-	renderToolbar: function () {
+	renderToolbar: function() {
 		var body = [];
 		var self = this;
 
@@ -1335,7 +1624,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderPlaceholder: function () {
+	renderPlaceholder: function() {
 		return (
 			React.createElement("div", {className: "image-field image-upload row col-sm-3 col-md-12", onClick: this.changeImage}, 
 				React.createElement("div", {className: "image-preview"}, 
@@ -1352,13 +1641,13 @@ module.exports = Field.create({
 		);
 	},
 
-	renderContainer: function () {
+	renderContainer: function() {
 		return React.createElement("div", {className: "images-container clearfix"}, 
 			this.state.thumbnails
 		);
 	},
 
-	renderFieldAction: function () {
+	renderFieldAction: function() {
 		var value = '';
 		var remove = [];
 		_.each(this.state.thumbnails, function (thumb) {
@@ -1369,11 +1658,11 @@ module.exports = Field.create({
 		return React.createElement("input", {ref: "action", className: "field-action", type: "hidden", value: value, name: this.props.paths.action}) ;
 	},
 
-	renderUploadsField: function () {
+	renderUploadsField: function() {
 		return React.createElement("input", {ref: "uploads", className: "field-uploads", type: "hidden", name: this.props.paths.uploads}) ;
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		return (
 			React.createElement("div", {className: "field field-type-cloudinaryimages"}, 
 				React.createElement("label", {className: "field-label"}, this.props.label), 
@@ -1391,7 +1680,7 @@ module.exports = Field.create({
 	}
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","jquery":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/jquery/dist/jquery.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/code/CodeField.js":[function(require,module,exports){
+},{"../Field":15,"jquery":50,"react":203,"underscore":207}],20:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
@@ -1437,6 +1726,12 @@ module.exports = Field.create({
 		}
 	},
 	
+	focus: function() {
+		if (this.codeMirror) {
+			this.codeMirror.focus();
+		}
+	},
+	
 	focusChanged: function(focused) {
 		this.setState({
 			isFocused: focused
@@ -1466,7 +1761,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","codemirror":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/codemirror/lib/codemirror.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/color/ColorField.js":[function(require,module,exports){
+},{"../../components/Note":13,"../Field":15,"codemirror":49,"react":203}],21:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -1513,7 +1808,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/date/DateField.js":[function(require,module,exports){
+},{"../Field":15,"react":203}],22:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
@@ -1522,9 +1817,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'dateInput'
-	},
+	focusTargetRef: 'dateInput',
 
 	// default formats
 	inputFormat: 'YYYY-MM-DD',
@@ -1589,7 +1882,7 @@ module.exports = Field.create({
 			React.createElement("div", {className: "field field-type-date"}, 
 				React.createElement("label", {htmlFor: this.props.path, className: "field-label"}, this.props.label), 
 				input, 
-				React.createElement("div", {className: "col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2"}, 
+				React.createElement("div", {className: "col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2 field-note-wrapper"}, 
 					React.createElement(Note, {note: this.props.note})
 				)
 			)
@@ -1598,7 +1891,7 @@ module.exports = Field.create({
 
 });
 
-},{"../../components/DateInput":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/DateInput.js","../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","moment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/moment/moment.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/datetime/DateTimeField.js":[function(require,module,exports){
+},{"../../components/DateInput":12,"../../components/Note":13,"../Field":15,"moment":52,"react":203}],23:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
@@ -1607,9 +1900,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'dateInput'
-	},
+	focusTargetRef: 'dateInput',
 
 	// default input formats
 	dateInputFormat: 'YYYY-MM-DD',
@@ -1696,7 +1987,7 @@ module.exports = Field.create({
 			React.createElement("div", {className: "field field-type-datetime"}, 
 				React.createElement("label", {className: "field-label"}, this.props.label), 
 				input, 
-				React.createElement("div", {className: "col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2"}, 
+				React.createElement("div", {className: "col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2 field-note-wrapper"}, 
 					React.createElement(Note, {note: this.props.note})
 				)
 			)
@@ -1705,7 +1996,7 @@ module.exports = Field.create({
 
 });
 
-},{"../../components/DateInput":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/DateInput.js","../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","moment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/moment/moment.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/email/EmailField.js":[function(require,module,exports){
+},{"../../components/DateInput":12,"../../components/Note":13,"../Field":15,"moment":52,"react":203}],24:[function(require,module,exports){
 /*
 	TODO:
 	- gravatar
@@ -1725,7 +2016,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/embedly/EmbedlyField.js":[function(require,module,exports){
+},{"../Field":15,"react":203}],25:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -1773,7 +2064,9 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/html/HtmlField.js":[function(require,module,exports){
+},{"../Field":15,"react":203}],26:[function(require,module,exports){
+module.exports=require(15)
+},{"../components/Note":13,"/Users/Jed/Development/packages/keystone/fields/types/Field.js":15,"classnames":48,"react":203,"underscore":207}],27:[function(require,module,exports){
 var tinymce = window.tinymce,
 	React = require('react'),
 	Field = require('../Field'),
@@ -1913,13 +2206,13 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/key/KeyField.js":[function(require,module,exports){
+},{"../Field":15,"react":203,"underscore":207}],28:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
 module.exports = Field.create();
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/localfile/LocalFileField.js":[function(require,module,exports){
+},{"../Field":15,"react":203}],29:[function(require,module,exports){
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
@@ -1929,15 +2222,15 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 	
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	changeFile: function () {
+	changeFile: function() {
 		this.refs.fileField.getDOMNode().click();
 	},
 
-	getFileSource: function () {
+	getFileSource: function() {
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
@@ -1947,13 +2240,13 @@ module.exports = Field.create({
 		}
 	},
 
-	getFileURL: function () {
+	getFileURL: function() {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
 	},
 
-	undoRemove: function () {
+	undoRemove: function() {
 		this.fileFieldNode().value = "";
 		this.setState({
 			removeExisting: false,
@@ -1998,19 +2291,19 @@ module.exports = Field.create({
 		this.setState(state);
 	},
 
-	hasLocal: function () {
+	hasLocal: function() {
 		return this.state.origin === "local";
 	},
 
-	hasFile: function () {
+	hasFile: function() {
 		return this.hasExisting() || this.hasLocal();
 	},
 
-	hasExisting: function () {
+	hasExisting: function() {
 		return !!this.props.value.filename;
 	},
 
-	getFilename: function () {
+	getFilename: function() {
 		if (this.hasLocal()) {
 			return this.fileFieldNode().value.split("\\").pop();
 		} else {
@@ -2033,7 +2326,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderAlert: function () {
+	renderAlert: function() {
 		if (this.hasLocal()) {
 			return React.createElement("div", {className: "upload-queued pull-left"}, 
 				React.createElement("div", {className: "alert alert-success"}, "File selected - save to upload")
@@ -2051,7 +2344,7 @@ module.exports = Field.create({
 		}
 	},
 
-	renderClearButton: function () {
+	renderClearButton: function() {
 		if (this.state.removeExisting) {
 			return React.createElement("button", {type: "button", className: "btn btn-link btn-cancel btn-undo-file", onClick: this.undoRemove}, 
 				"Undo Remove"
@@ -2069,15 +2362,15 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return React.createElement("input", {ref: "fileField", type: "file", name: this.props.paths.upload, className: "field-upload", onChange: this.fileChanged});
 	},
 
-	renderFileAction: function () {
+	renderFileAction: function() {
 		return React.createElement("input", {type: "hidden", name: this.props.paths.action, className: "field-action", value: this.state.action});
 	},
 
-	renderFileToolbar: function () {
+	renderFileToolbar: function() {
 		return React.createElement("div", {key: this.props.path + '_toolbar', className: "file-toolbar"}, 
 			React.createElement("div", {className: "pull-left"}, 
 				React.createElement("button", {type: "button", onClick: this.changeFile, className: "btn btn-default btn-upload-file"}, 
@@ -2088,7 +2381,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		var container = [],
 			body = [],
 			hasFile = this.hasFile(),
@@ -2128,7 +2421,199 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","jquery":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/jquery/dist/jquery.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","react-select":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/src/Select.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/location/LocationField.js":[function(require,module,exports){
+},{"../../components/Note":13,"../Field":15,"jquery":50,"react":203,"react-select":56,"underscore":207}],30:[function(require,module,exports){
+var _     = require('underscore'),
+	$     = require('jquery'),
+	bytes = require('bytes'),
+	React = require('react'),
+	Field = require('../field');
+
+var ICON_EXTS = [
+	'aac', 'ai', 'aiff', 'avi', 'bmp', 'c', 'cpp', 'css', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h',
+	'hpp', 'html', 'ics', 'iso', 'java', 'jpg', 'js', 'key', 'less', 'mid', 'mp3', 'mp4', 'mpg', 'odf', 'ods', 'odt', 'otp', 'ots',
+	'ott', 'pdf', 'php', 'png', 'ppt', 'psd', 'py', 'qt', 'rar', 'rb', 'rtf', 'sass', 'scss', 'sql', 'tga', 'tgz', 'tiff', 'txt',
+	'wav', 'xls', 'xlsx', 'xml', 'yml', 'zip'
+];
+
+var Item = React.createClass({displayName: "Item",
+	
+	render: function () {
+		var filename = this.props.filename;
+		var ext = filename.split('.').pop();
+
+		var iconName = '_blank';
+		if (_.contains(ICON_EXTS, ext)) iconName = ext;
+
+		var body = [];
+
+		body.push(React.createElement("img", {className: "file-icon", src: '/keystone/images/icons/32/' + iconName + '.png'}));
+		body.push(React.createElement("span", {className: "file-filename"}, filename));
+
+		if (this.props.size) {
+			body.push(React.createElement("span", {className: "file-size"}, bytes(this.props.size)));
+		}
+
+		if (this.props.deleted) {
+			body.push(React.createElement("span", {className: "file-note-delete"}, "save to delete"));
+		} else if (this.props.isQueued) {
+			body.push(React.createElement("span", {className: "file-note-upload"}, "save to upload"));
+		}
+
+		if (!this.props.isQueued) {
+			var actionLabel = this.props.deleted ? 'undo' : 'remove';
+			body.push(React.createElement("span", {className: "file-action", onClick: this.props.toggleDelete}, actionLabel));
+		}
+
+		var itemClassName = 'file-item';
+		if (this.props.deleted) itemClassName += ' file-item-deleted';
+
+		return React.createElement("div", {className: itemClassName, key: this.props.key}, body);
+	}
+	
+});
+
+module.exports = Field.create({
+
+	getInitialState: function () {
+		var items = [];
+		var self = this;
+
+		_.each(this.props.value, function (item) {
+			self.pushItem(item, items);
+		});
+
+		return { items: items };
+	},
+
+	removeItem: function (i) {
+		var thumbs = this.state.items;
+		var thumb  = thumbs[i];
+
+		if (thumb.props.isQueued) {
+			thumbs[i] = null;
+		} else {
+			thumb.props.deleted = !thumb.props.deleted;
+		}
+
+		this.setState({ items: thumbs });
+	},
+
+	pushItem: function (args, thumbs) {
+		thumbs = thumbs || this.state.items;
+		var i = thumbs.length;
+		args.toggleDelete = this.removeItem.bind(this, i);
+		thumbs.push(React.createElement(Item, React.__spread({key: i},  args)));
+	},
+
+	fileFieldNode: function () {
+		return this.refs.fileField.getDOMNode();
+	},
+
+	renderFileField: function () {
+		return React.createElement("input", {ref: "fileField", type: "file", name: this.props.paths.upload, multiple: true, className: "field-upload", onChange: this.uploadFile});
+	},
+
+	clearFiles: function () {
+		this.fileFieldNode().value = '';
+
+		this.setState({
+			items: this.state.items.filter(function (thumb) {
+				return !thumb.props.isQueued;
+			})
+		});
+	},
+
+	uploadFile: function (event) {
+		var self = this;
+
+		var files = event.target.files;
+		_.each(files, function (f) {
+			self.pushItem({ isQueued: true, filename: f.name });
+			self.forceUpdate();
+		});
+	},
+
+	changeFiles: function () {
+		this.fileFieldNode().click();
+	},
+
+	hasFiles: function () {
+		return this.refs.fileField && this.fileFieldNode().value;
+	},
+
+	renderToolbar: function () {
+		var clearFilesButton;
+		if (this.hasFiles()) {
+			clearFilesButton = React.createElement("button", {type: "button", className: "btn btn-default btn-upload", onClick: this.clearFiles}, "Clear uploads");
+		}
+
+		return (
+			React.createElement("div", {className: "files-toolbar row col-sm-3 col-md-12"}, 
+				React.createElement("div", {className: "pull-left"}, 
+					React.createElement("button", {type: "button", className: "btn btn-default btn-upload", onClick: this.changeFiles}, "Upload"), 
+					clearFilesButton
+				)
+			)
+		);
+	},
+
+	renderPlaceholder: function () {
+		return (
+			React.createElement("div", {className: "file-field file-upload row col-sm-3 col-md-12", onClick: this.changeFiles}, 
+				React.createElement("div", {className: "file-preview"}, 
+					React.createElement("span", {className: "file-thumbnail"}, 
+						React.createElement("span", {className: "file-dropzone"}), 
+						React.createElement("div", {className: "ion-picture file-uploading"})
+					)
+				), 
+
+				React.createElement("div", {className: "file-details"}, 
+					React.createElement("span", {className: "file-message"}, "Click to upload")
+				)
+			)
+		);
+	},
+
+	renderContainer: function () {
+		return React.createElement("div", {className: "files-container clearfix"}, 
+			this.state.items
+		);
+	},
+
+	renderFieldAction: function () {
+		var value = '';
+		var remove = [];
+		_.each(this.state.items, function (thumb) {
+			if (thumb && thumb.props.deleted) remove.push(thumb.props.public_id);
+		});
+		if (remove.length) value = 'remove:' + remove.join(',');
+
+		return React.createElement("input", {ref: "action", className: "field-action", type: "hidden", value: value, name: this.props.paths.action}) ;
+	},
+
+	renderUploadsField: function () {
+		return React.createElement("input", {ref: "uploads", className: "field-uploads", type: "hidden", name: this.props.paths.uploads}) ;
+	},
+
+	renderUI: function () {
+		return (
+			React.createElement("div", {className: "field field-type-files"}, 
+				React.createElement("label", {className: "field-label"}, this.props.label), 
+
+				this.renderFieldAction(), 
+				this.renderUploadsField(), 
+				this.renderFileField(), 
+
+				React.createElement("div", {className: "field-ui"}, 
+					this.renderContainer(), 
+					this.renderToolbar()
+				)
+			)
+		);
+	}
+});
+
+},{"../field":26,"bytes":47,"jquery":50,"react":203,"underscore":207}],31:[function(require,module,exports){
 /**
  * TODO:
  * - Custom path support
@@ -2218,10 +2703,10 @@ module.exports = Field.create({
 		}
 		
 		return React.createElement("div", {className: "row"}, 
-			React.createElement("div", {className: "col-sm-2"}, 
+			React.createElement("div", {className: "col-sm-2 location-field-label"}, 
 				React.createElement("label", {className: "text-muted"}, label)
 			), 
-			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6"}, 
+			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6 location-field-controls"}, 
 				React.createElement("input", {type: "text", name: this.props.path + '.' + path, ref: path, value: this.props.value[path], onChange: this.fieldChanged.bind(this, path), className: "form-control"})
 			)
 		);
@@ -2230,10 +2715,10 @@ module.exports = Field.create({
 	
 	renderStateAndPostcode: function() {
 		return React.createElement("div", {className: "row"}, 
-			React.createElement("div", {className: "col-sm-2"}, 
+			React.createElement("div", {className: "col-sm-2 location-field-label"}, 
 				React.createElement("label", {className: "text-muted"}, "State/Postcode")
 			), 
-			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6"}, React.createElement("div", {className: "form-row"}, 
+			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6 location-field-controls"}, React.createElement("div", {className: "form-row"}, 
 				React.createElement("div", {className: "col-xs-6"}, 
 					React.createElement("input", {type: "text", name: this.props.path + '.state', ref: "state", value: this.props.value.state, onChange: this.fieldChanged.bind(this, 'state'), className: "form-control", placeholder: "State"})
 				), 
@@ -2251,10 +2736,10 @@ module.exports = Field.create({
 		}
 		
 		return React.createElement("div", {className: "row"}, 
-			React.createElement("div", {className: "col-sm-2"}, 
+			React.createElement("div", {className: "col-sm-2 location-field-label"}, 
 				React.createElement("label", {className: "text-muted"}, "Lng / Lat")
 			), 
-			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6"}, React.createElement("div", {className: "form-row"}, 
+			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6 location-field-controls"}, React.createElement("div", {className: "form-row"}, 
 				React.createElement("div", {className: "col-xs-6"}, 
 					React.createElement("input", {type: "text", name: this.props.paths.geo, ref: "geo0", value: this.props.value.geo ? this.props.value.geo[0] : '', onChange: this.geoChanged.bind(this, 0), placeholder: "Longitude", className: "form-control"})
 				), 
@@ -2301,7 +2786,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/markdown/MarkdownField.js":[function(require,module,exports){
+},{"../../components/Note":13,"../Field":15,"react":203,"underscore":207}],32:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -2404,7 +2889,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","./lib/bootstrap-markdown":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/markdown/lib/bootstrap-markdown.js","jquery":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/jquery/dist/jquery.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/markdown/lib/bootstrap-markdown.js":[function(require,module,exports){
+},{"../Field":15,"./lib/bootstrap-markdown":33,"jquery":50,"react":203}],33:[function(require,module,exports){
 /* ===================================================
 * bootstrap-markdown.js v2.7.0
 * http://github.com/toopay/bootstrap-markdown
@@ -3771,7 +4256,7 @@ $(document)
 		})
 	});
 
-},{"jquery":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/jquery/dist/jquery.js","marked":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/marked/lib/marked.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/money/MoneyField.js":[function(require,module,exports){
+},{"jquery":50,"marked":51}],34:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -3792,16 +4277,14 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/name/NameField.js":[function(require,module,exports){
+},{"../Field":15,"react":203}],35:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note');
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'first'
-	},
+	focusTargetRef: 'first',
 	
 	valueChanged: function(which, event) {
 		this.props.value[which] = event.target.value;
@@ -3840,7 +4323,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/number/NumberField.js":[function(require,module,exports){
+},{"../../components/Note":13,"../Field":15,"react":203}],36:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -3861,7 +4344,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/numberarray/NumberArrayField.js":[function(require,module,exports){
+},{"../Field":15,"react":203}],37:[function(require,module,exports){
 var _ = require('underscore'),
 	Field = require('../Field'),
 	ArrayFieldMixin = require('../../mixins/ArrayField');
@@ -3876,7 +4359,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../mixins/ArrayField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/mixins/ArrayField.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/password/PasswordField.js":[function(require,module,exports){
+},{"../../mixins/ArrayField":14,"../Field":15,"underscore":207}],38:[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react'),
 	Field = require('../Field'),
@@ -3884,14 +4367,12 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'password'
-	},
+	focusTarget: 'password',
 	
 	getInitialState: function() {
 		return {
 			passwordIsSet: this.props.value ? true : false,
-			showChangeUI: this.props.mode === 'initial' ? true : false,
+			showChangeUI: this.props.mode === 'create' ? true : false,
 			password: '',
 			confirm: ''
 		};
@@ -3900,7 +4381,7 @@ module.exports = Field.create({
 	componentDidUpdate: function() {
 		if (this._focusAfterUpdate) {
 			this._focusAfterUpdate = false;
-			this.refs.password.getDOMNode().focus();
+			this.focus();
 		}
 	},
 	
@@ -3951,7 +4432,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/relationship/RelationshipField.js":[function(require,module,exports){
+},{"../../components/Note":13,"../Field":15,"react":203,"underscore":207}],39:[function(require,module,exports){
 var Select = require('react-select'),
 	React = require('react'),
 	Field = require('../Field'),
@@ -4059,19 +4540,21 @@ module.exports = Field.create({
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
 		}
-                // TODO what goes here?
-		if (field.many) {
-			//a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
-		} else if (field.many && this.props.value.length) {
-			var body = [];
-			
-			_.each(this.props.value, function (value) {
-				body.push(React.createElement("a", {href: '/keystone/' + this.props.refList.path + '/' + value, className: "ui-related-item"}, value));
-			}, this);
-			
-			return value;
+		// TODO expand IDs
+		if (this.props.many) {
+			// a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
+			return React.createElement("div", {className: "field-value"}, this.props.value);
+		} else if (this.props.many && this.props.value.length) {
+			// var body = [];
+			// 
+			// _.each(this.props.value, function (value) {
+			// 	body.push(<a href={'/keystone/' + this.props.refList.path + '/' + value} className='ui-related-item'>{value}</a>);
+			// }, this);
+			// 
+			// return value;
+			return React.createElement("div", {className: "field-value"}, this.props.value);
 		} else {
-			return React.createElement("div", {className: "help-block"}, "(not set)");
+			return React.createElement("div", {className: "field-value"}, "(not set)");
 		}
 	},
 	
@@ -4096,9 +4579,9 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","react-select":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/src/Select.js","superagent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/superagent/lib/client.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/s3file/S3FileField.js":[function(require,module,exports){
-module.exports=require("/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/azurefile/AzureFileField.js")
-},{"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/azurefile/AzureFileField.js":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/azurefile/AzureFileField.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/select/SelectField.js":[function(require,module,exports){
+},{"../../components/Note":13,"../Field":15,"react":203,"react-select":56,"superagent":204,"underscore":207}],40:[function(require,module,exports){
+module.exports=require(16)
+},{"../localfile/LocalFileField":29,"/Users/Jed/Development/packages/keystone/fields/types/azurefile/AzureFileField.js":16}],41:[function(require,module,exports){
 /**
  * TODO:
  * - Custom path support
@@ -4125,347 +4608,9 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/components/Note.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","react-select":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/src/Select.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/table/Table.js":[function(require,module,exports){
-var React = require('react');
-var $ = require('jquery'); //Scope jquery for tablesaw.
-var tablesaw = require('./lib/tablesaw.stackonly');
-var Field = require('../Field');
-
-/**
- *
- * TableField provides a read-only table for array subdocuments.
- *
- * Each field is expected to be a primitive and there is no 
- * support for nesting or complex objects.
- *
- * @extends {Field}
- *
- *
- */
-module.exports = Field.create({
-
-  getRow : function(row) {
-
-    return function(column) {
-
-      return (React.createElement("td", null, row[column.name]));
-
-    };
-
-  },
-
-  /**
-   *
-   * renderTableHeading renders the table headings.
-   *
-   */
-  renderTableHeading: function(column) {
-    return (
-      React.createElement("th", {"data-tablesaw-sortable-col": true, "data-tablesaw-priority": "persist"}, column.name)
-    );
-
-  },
-
-  /**
-   *
-   * renderTableRow renders the data as a row in a table.
-   *
-   */
-  renderTableRow: function(row) {
-    return (
-      React.createElement("tr", null, this.props.columns.map(this.getRow(row)))
-    );
-
-  },
-  renderField: function () {
-    return (
-      React.createElement("table", {className: "table tablesaw tablesaw-stack", "data-tablesaw-mode": "stack"}, 
-        React.createElement("thead", null, 
-          React.createElement("tr", null, 
-            this.props.columns.map(this.renderTableHeading)
-          )
-        ), 
-        React.createElement("tbody", null, 
-          this.props.value.map(this.renderTableRow)
-        )
-      )
-    );
-  }
-});
-
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","./lib/tablesaw.stackonly":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/table/lib/tablesaw.stackonly.js","jquery":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/jquery/dist/jquery.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/table/lib/tablesaw.stackonly.js":[function(require,module,exports){
-/*! Tablesaw - v1.0.2 - 2014-12-15
-* https://github.com/filamentgroup/tablesaw
-* Copyright (c) 2014 Filament Group; Licensed MIT */
-;(function( $ ) {
-	var div = document.createElement('div'),
-		all = div.getElementsByTagName('i'),
-		$doc = $( document.documentElement );
-
-	div.innerHTML = '<!--[if lte IE 8]><i></i><![endif]-->';
-	if( all[ 0 ] ) {
-		$doc.addClass( 'ie-lte8' );
-	}
-
-	// Cut the mustard
-	if( !( 'querySelector' in document ) ||
-			( window.blackberry && !window.WebKitPoint ) ||
-			window.operamini ) {
-		return;
-	} else {
-		$doc.addClass( 'tablesaw-enhanced' );
-
-		// DOM-ready auto-init of plugins.
-		// Many plugins bind to an "enhance" event to init themselves on dom ready, or when new markup is inserted into the DOM
-		$( function(){
-			$( document ).trigger( "enhance.tablesaw" );
-		});
-	}
-
-})( jQuery );
-/*
-* tablesaw: A set of plugins for responsive tables
-* Stack and Column Toggle tables
-* Copyright (c) 2013 Filament Group, Inc.
-* MIT License
-*/
-
-if( typeof Tablesaw === "undefined" ) {
-	Tablesaw = {};
-}
-if( !Tablesaw.config ) {
-	Tablesaw.config = {};
-}
-
-;(function( $ ) {
-	var pluginName = "table",
-		classes = {
-			toolbar: "tablesaw-bar"
-		},
-		events = {
-			create: "tablesawcreate",
-			destroy: "tablesawdestroy",
-			refresh: "tablesawrefresh"
-		},
-		defaultMode = "stack",
-		initSelector = "table[data-tablesaw-mode],table[data-tablesaw-sortable]";
-
-	var Table = function( element ) {
-		if( !element ) {
-			throw new Error( "Tablesaw requires an element." );
-		}
-
-		this.table = element;
-		this.$table = $( element );
-
-		this.mode = this.$table.attr( "data-tablesaw-mode" ) || defaultMode;
-
-		this.init();
-	};
-
-	Table.prototype.init = function() {
-		// assign an id if there is none
-		if ( !this.$table.attr( "id" ) ) {
-			this.$table.attr( "id", pluginName + "-" + Math.round( Math.random() * 10000 ) );
-		}
-
-		this.createToolbar();
-
-		var colstart = this._initCells();
-
-		this.$table.trigger( events.create, [ this, colstart ] );
-	};
-
-	Table.prototype._initCells = function() {
-		var colstart,
-			thrs = this.table.querySelectorAll( "thead tr" ),
-			self = this;
-
-		$( thrs ).each( function(){
-			var coltally = 0;
-
-			$( this ).children().each( function(){
-				var span = parseInt( this.getAttribute( "colspan" ), 10 ),
-					sel = ":nth-child(" + ( coltally + 1 ) + ")";
-
-				colstart = coltally + 1;
-
-				if( span ){
-					for( var k = 0; k < span - 1; k++ ){
-						coltally++;
-						sel += ", :nth-child(" + ( coltally + 1 ) + ")";
-					}
-				}
-
-				// Store "cells" data on header as a reference to all cells in the same column as this TH
-				this.cells = self.$table.find("tr").not( $( thrs ).eq( 0 ) ).not( this ).children( sel );
-				coltally++;
-			});
-		});
-
-		return colstart;
-	};
-
-	Table.prototype.refresh = function() {
-		this._initCells();
-
-		this.$table.trigger( events.refresh );
-	};
-
-	Table.prototype.createToolbar = function() {
-		// Insert the toolbar
-		// TODO move this into a separate component
-		var $toolbar = this.$table.prev( '.' + classes.toolbar );
-		if( !$toolbar.length ) {
-			$toolbar = $( '<div>' )
-				.addClass( classes.toolbar )
-				.insertBefore( this.$table );
-		}
-		this.$toolbar = $toolbar;
-
-		if( this.mode ) {
-			this.$toolbar.addClass( 'mode-' + this.mode );
-		}
-	};
-
-	Table.prototype.destroy = function() {
-		// Don’t remove the toolbar. Some of the table features are not yet destroy-friendly.
-		this.$table.prev( '.' + classes.toolbar ).each(function() {
-			this.className = this.className.replace( /\bmode\-\w*\b/gi, '' );
-		});
-
-		var tableId = this.$table.attr( 'id' );
-		$( document ).unbind( "." + tableId );
-		$( window ).unbind( "." + tableId );
-
-		// other plugins
-		this.$table.trigger( events.destroy, [ this ] );
-
-		this.$table.removeAttr( 'data-tablesaw-mode' );
-
-		this.$table.removeData( pluginName );
-	};
-
-	// Collection method.
-	$.fn[ pluginName ] = function() {
-		return this.each( function() {
-			var $t = $( this );
-
-			if( $t.data( pluginName ) ){
-				return;
-			}
-
-			var table = new Table( this );
-			$t.data( pluginName, table );
-		});
-	};
-
-	$( document ).on( "enhance.tablesaw", function( e ) {
-		$( e.target ).find( initSelector )[ pluginName ]();
-	});
-
-}( jQuery ));
-
-;(function( win, $, undefined ){
-
-	var classes = {
-		stackTable: 'tablesaw-stack',
-		cellLabels: 'tablesaw-cell-label',
-		cellContentLabels: 'tablesaw-cell-content'
-	};
-
-	var data = {
-		obj: 'tablesaw-stack'
-	};
-
-	var attrs = {
-		labelless: 'data-tablesaw-no-labels',
-		hideempty: 'data-tablesaw-hide-empty'
-	};
-
-	var Stack = function( element ) {
-
-		this.$table = $( element );
-
-		this.labelless = this.$table.is( '[' + attrs.labelless + ']' );
-		this.hideempty = this.$table.is( '[' + attrs.hideempty + ']' );
-
-		if( !this.labelless ) {
-			// allHeaders references headers, plus all THs in the thead, which may include several rows, or not
-			this.allHeaders = this.$table.find( "th" );
-		}
-
-		this.$table.data( data.obj, this );
-	};
-
-	Stack.prototype.init = function( colstart ) {
-		this.$table.addClass( classes.stackTable );
-
-		if( this.labelless ) {
-			return;
-		}
-
-		// get headers in reverse order so that top-level headers are appended last
-		var reverseHeaders = $( this.allHeaders );
-		var hideempty = this.hideempty;
-		
-		// create the hide/show toggles
-		reverseHeaders.each(function(){
-			var $t = $( this ),
-				$cells = $( this.cells ).filter(function() {
-					return !$( this ).parent().is( "[" + attrs.labelless + "]" ) && ( !hideempty || !$( this ).is( ":empty" ) );
-				}),
-				hierarchyClass = $cells.not( this ).filter( "thead th" ).length && " tablesaw-cell-label-top",
-				// TODO reduce coupling with sortable
-				$sortableButton = $t.find( ".tablesaw-sortable-btn" ),
-				html = $sortableButton.length ? $sortableButton.html() : $t.html();
-
-			if( html !== "" ){
-				if( hierarchyClass ){
-					var iteration = parseInt( $( this ).attr( "colspan" ), 10 ),
-						filter = "";
-
-					if( iteration ){
-						filter = "td:nth-child("+ iteration +"n + " + ( colstart ) +")";
-					}
-					$cells.filter( filter ).prepend( "<b class='" + classes.cellLabels + hierarchyClass + "'>" + html + "</b>"  );
-				} else {
-					$cells.wrapInner( "<span class='" + classes.cellContentLabels + "'></span>" );
-					$cells.prepend( "<b class='" + classes.cellLabels + "'>" + html + "</b>"  );
-				}
-			}
-		});
-	};
-
-	Stack.prototype.destroy = function() {
-		this.$table.removeClass( classes.stackTable );
-		this.$table.find( '.' + classes.cellLabels ).remove();
-		this.$table.find( '.' + classes.cellContentLabels ).each(function() {
-			$( this ).replaceWith( this.childNodes );
-		});
-	};
-
-	// on tablecreate, init
-	$( document ).on( "tablesawcreate", function( e, Tablesaw, colstart ){
-		if( Tablesaw.mode === 'stack' ){
-			var table = new Stack( Tablesaw.table );
-			table.init( colstart );
-		}
-
-	} );
-
-	$( document ).on( "tablesawdestroy", function( e, Tablesaw ){
-
-		if( Tablesaw.mode === 'stack' ){
-			$( Tablesaw.table ).data( data.obj ).destroy();
-		}
-
-	} );
-
-}( this, jQuery ));
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/text/TextField.js":[function(require,module,exports){
-module.exports=require("/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/key/KeyField.js")
-},{"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/key/KeyField.js":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/key/KeyField.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/textarea/TextareaField.js":[function(require,module,exports){
+},{"../../components/Note":13,"../Field":15,"react":203,"react-select":56,"underscore":207}],42:[function(require,module,exports){
+module.exports=require(28)
+},{"../Field":15,"/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js":28,"react":203}],43:[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -4477,7 +4622,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/textarray/TextArrayField.js":[function(require,module,exports){
+},{"../Field":15,"react":203}],44:[function(require,module,exports){
 var _ = require('underscore'),
 	Field = require('../Field'),
 	ArrayFieldMixin = require('../../mixins/ArrayField');
@@ -4486,9 +4631,9 @@ module.exports = Field.create({
 	mixins: [ArrayFieldMixin]
 });
 
-},{"../../mixins/ArrayField":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/mixins/ArrayField.js","../Field":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/Field.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/url/UrlField.js":[function(require,module,exports){
-module.exports=require("/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/key/KeyField.js")
-},{"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/key/KeyField.js":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/fields/types/key/KeyField.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
+},{"../../mixins/ArrayField":14,"../Field":15,"underscore":207}],45:[function(require,module,exports){
+module.exports=require(28)
+},{"../Field":15,"/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js":28,"react":203}],46:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4576,7 +4721,67 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/codemirror/lib/codemirror.js":[function(require,module,exports){
+},{}],47:[function(require,module,exports){
+
+/**
+ * Parse byte `size` string.
+ *
+ * @param {String} size
+ * @return {Number}
+ * @api public
+ */
+
+module.exports = function(size) {
+  if ('number' == typeof size) return convert(size);
+  var parts = size.match(/^(\d+(?:\.\d+)?) *(kb|mb|gb|tb)$/)
+    , n = parseFloat(parts[1])
+    , type = parts[2];
+
+  var map = {
+      kb: 1 << 10
+    , mb: 1 << 20
+    , gb: 1 << 30
+    , tb: ((1 << 30) * 1024)
+  };
+
+  return map[type] * n;
+};
+
+/**
+ * convert bytes into string.
+ *
+ * @param {Number} b - bytes to convert
+ * @return {String}
+ * @api public
+ */
+
+function convert (b) {
+  var tb = ((1 << 30) * 1024), gb = 1 << 30, mb = 1 << 20, kb = 1 << 10, abs = Math.abs(b);
+  if (abs >= tb) return (Math.round(b / tb * 100) / 100) + 'tb';
+  if (abs >= gb) return (Math.round(b / gb * 100) / 100) + 'gb';
+  if (abs >= mb) return (Math.round(b / mb * 100) / 100) + 'mb';
+  if (abs >= kb) return (Math.round(b / kb * 100) / 100) + 'kb';
+  return b + 'b';
+}
+
+},{}],48:[function(require,module,exports){
+function classnames() {
+	var args = arguments, classes = [];
+	for (var i = 0; i < args.length; i++) {
+		if (args[i] && 'string' === typeof args[i]) {
+			classes.push(args[i]);
+		} else if ('object' === typeof args[i]) {
+			classes = classes.concat(Object.keys(args[i]).filter(function(cls) {
+				return args[i][cls];
+			}));
+		}
+	}
+	return classes.join(' ') || undefined;
+}
+
+module.exports = classnames;
+
+},{}],49:[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -5355,10 +5560,8 @@ process.chdir = function (dir) {
   }
 
   function setDocumentHeight(cm, measure) {
-    cm.display.sizer.style.minHeight = measure.docHeight + "px";
-    var plusGap = measure.docHeight + scrollGap(cm);
-    cm.display.heightForcer.style.top = plusGap + "px";
-    cm.display.gutters.style.height = Math.max(plusGap, measure.clientHeight) + "px";
+    cm.display.sizer.style.minHeight = cm.display.heightForcer.style.top = measure.docHeight + "px";
+    cm.display.gutters.style.height = Math.max(measure.docHeight + scrollGap(cm), measure.clientHeight) + "px";
   }
 
   // Read the actual heights of the rendered lines, and update their
@@ -12602,12 +12805,12 @@ process.chdir = function (dir) {
 
   // THE END
 
-  CodeMirror.version = "4.10.0";
+  CodeMirror.version = "4.9.0";
 
   return CodeMirror;
 });
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/jquery/dist/jquery.js":[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -21814,7 +22017,7 @@ return jQuery;
 
 }));
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/marked/lib/marked.js":[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (global){
 /**
  * marked - a markdown parser
@@ -23084,7 +23287,7 @@ if (typeof exports === 'object') {
 }());
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/moment/moment.js":[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (global){
 //! moment.js
 //! version : 2.8.4
@@ -26024,7 +26227,7 @@ if (typeof exports === 'object') {
 }).call(this);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/pikaday/pikaday.js":[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 /*!
  * Pikaday
  *
@@ -26946,24 +27149,9 @@ if (typeof exports === 'object') {
 
 }));
 
-},{"moment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/moment/moment.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/node_modules/classnames/index.js":[function(require,module,exports){
-function classnames() {
-	var args = arguments, classes = [];
-	for (var i = 0; i < args.length; i++) {
-		if (args[i] && 'string' === typeof args[i]) {
-			classes.push(args[i]);
-		} else if ('object' === typeof args[i]) {
-			classes = classes.concat(Object.keys(args[i]).filter(function(cls) {
-				return args[i][cls];
-			}));
-		}
-	}
-	return classes.join(' ') || undefined;
-}
-
-module.exports = classnames;
-
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/node_modules/react-input-autosize/src/AutosizeInput.js":[function(require,module,exports){
+},{"moment":52}],54:[function(require,module,exports){
+module.exports=require(48)
+},{"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js":48}],55:[function(require,module,exports){
 var React = require('react');
 
 var sizerStyle = { position: 'absolute', visibility: 'hidden', height: 0, width: 0, overflow: 'scroll', whiteSpace: 'nowrap' };
@@ -27063,7 +27251,7 @@ var AutosizeInput = React.createClass({
 
 module.exports = AutosizeInput;
 
-},{"react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/src/Select.js":[function(require,module,exports){
+},{"react":203}],56:[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react'),
 	Input = require('react-input-autosize'),
@@ -27591,7 +27779,7 @@ var Select = React.createClass({
 
 module.exports = Select;
 
-},{"./Value":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/src/Value.js","classnames":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/node_modules/classnames/index.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","react-input-autosize":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/node_modules/react-input-autosize/src/AutosizeInput.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/src/Value.js":[function(require,module,exports){
+},{"./Value":57,"classnames":54,"react":203,"react-input-autosize":55,"underscore":207}],57:[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react'),
 	classes = require('classnames');
@@ -27621,7 +27809,7 @@ var Option = React.createClass({
 
 module.exports = Option;
 
-},{"classnames":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react-select/node_modules/classnames/index.js","react":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js","underscore":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){
+},{"classnames":54,"react":203,"underscore":207}],58:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -27648,7 +27836,7 @@ var AutoFocusMixin = {
 
 module.exports = AutoFocusMixin;
 
-},{"./focusNode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/focusNode.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/BeforeInputEventPlugin.js":[function(require,module,exports){
+},{"./focusNode":168}],59:[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -27870,7 +28058,7 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./EventPropagators":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./SyntheticInputEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticInputEvent.js","./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CSSProperty.js":[function(require,module,exports){
+},{"./EventConstants":72,"./EventPropagators":77,"./ExecutionEnvironment":78,"./SyntheticInputEvent":146,"./keyOf":190}],60:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -27989,7 +28177,7 @@ var CSSProperty = {
 
 module.exports = CSSProperty;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CSSPropertyOperations.js":[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -28124,7 +28312,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./CSSProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CSSProperty.js","./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./camelizeStyleName":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/camelizeStyleName.js","./dangerousStyleValue":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/dangerousStyleValue.js","./hyphenateStyleName":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/hyphenateStyleName.js","./memoizeStringOnly":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/memoizeStringOnly.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CallbackQueue.js":[function(require,module,exports){
+},{"./CSSProperty":60,"./ExecutionEnvironment":78,"./camelizeStyleName":157,"./dangerousStyleValue":162,"./hyphenateStyleName":181,"./memoizeStringOnly":192,"./warning":202,"_process":46}],62:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -28224,7 +28412,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./PooledClass":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ChangeEventPlugin.js":[function(require,module,exports){
+},{"./Object.assign":83,"./PooledClass":84,"./invariant":183,"_process":46}],63:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -28606,7 +28794,7 @@ var ChangeEventPlugin = {
 
 module.exports = ChangeEventPlugin;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginHub.js","./EventPropagators":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js","./SyntheticEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticEvent.js","./isEventSupported":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isEventSupported.js","./isTextInputElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isTextInputElement.js","./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ClientReactRootIndex.js":[function(require,module,exports){
+},{"./EventConstants":72,"./EventPluginHub":74,"./EventPropagators":77,"./ExecutionEnvironment":78,"./ReactUpdates":136,"./SyntheticEvent":144,"./isEventSupported":184,"./isTextInputElement":186,"./keyOf":190}],64:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -28631,7 +28819,7 @@ var ClientReactRootIndex = {
 
 module.exports = ClientReactRootIndex;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CompositionEventPlugin.js":[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -28890,7 +29078,7 @@ var CompositionEventPlugin = {
 
 module.exports = CompositionEventPlugin;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./EventPropagators":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./ReactInputSelection":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInputSelection.js","./SyntheticCompositionEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticCompositionEvent.js","./getTextContentAccessor":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getTextContentAccessor.js","./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMChildrenOperations.js":[function(require,module,exports){
+},{"./EventConstants":72,"./EventPropagators":77,"./ExecutionEnvironment":78,"./ReactInputSelection":116,"./SyntheticCompositionEvent":142,"./getTextContentAccessor":178,"./keyOf":190}],66:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -29065,7 +29253,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
-},{"./Danger":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Danger.js","./ReactMultiChildUpdateTypes":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./getTextContentAccessor":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getTextContentAccessor.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMProperty.js":[function(require,module,exports){
+},{"./Danger":69,"./ReactMultiChildUpdateTypes":122,"./getTextContentAccessor":178,"./invariant":183,"_process":46}],67:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -29364,7 +29552,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
-},{"./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMPropertyOperations.js":[function(require,module,exports){
+},{"./invariant":183,"_process":46}],68:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -29561,7 +29749,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMProperty.js","./escapeTextForBrowser":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/escapeTextForBrowser.js","./memoizeStringOnly":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/memoizeStringOnly.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Danger.js":[function(require,module,exports){
+},{"./DOMProperty":67,"./escapeTextForBrowser":166,"./memoizeStringOnly":192,"./warning":202,"_process":46}],69:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -29747,7 +29935,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./createNodesFromMarkup":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/createNodesFromMarkup.js","./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js","./getMarkupWrap":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getMarkupWrap.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DefaultEventPluginOrder.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":78,"./createNodesFromMarkup":161,"./emptyFunction":164,"./getMarkupWrap":175,"./invariant":183,"_process":46}],70:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -29787,7 +29975,7 @@ var DefaultEventPluginOrder = [
 
 module.exports = DefaultEventPluginOrder;
 
-},{"./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EnterLeaveEventPlugin.js":[function(require,module,exports){
+},{"./keyOf":190}],71:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -29927,7 +30115,7 @@ var EnterLeaveEventPlugin = {
 
 module.exports = EnterLeaveEventPlugin;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./EventPropagators":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPropagators.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./SyntheticMouseEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticMouseEvent.js","./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js":[function(require,module,exports){
+},{"./EventConstants":72,"./EventPropagators":77,"./ReactMount":120,"./SyntheticMouseEvent":148,"./keyOf":190}],72:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -29999,7 +30187,7 @@ var EventConstants = {
 
 module.exports = EventConstants;
 
-},{"./keyMirror":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyMirror.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventListener.js":[function(require,module,exports){
+},{"./keyMirror":189}],73:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014 Facebook, Inc.
@@ -30089,7 +30277,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginHub.js":[function(require,module,exports){
+},{"./emptyFunction":164,"_process":46}],74:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -30365,7 +30553,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginRegistry.js","./EventPluginUtils":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginUtils.js","./accumulateInto":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/forEachAccumulated.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginRegistry.js":[function(require,module,exports){
+},{"./EventPluginRegistry":75,"./EventPluginUtils":76,"./accumulateInto":154,"./forEachAccumulated":169,"./invariant":183,"_process":46}],75:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -30645,7 +30833,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
-},{"./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginUtils.js":[function(require,module,exports){
+},{"./invariant":183,"_process":46}],76:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -30866,7 +31054,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPropagators.js":[function(require,module,exports){
+},{"./EventConstants":72,"./invariant":183,"_process":46}],77:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -31008,7 +31196,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginHub.js","./accumulateInto":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/forEachAccumulated.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js":[function(require,module,exports){
+},{"./EventConstants":72,"./EventPluginHub":74,"./accumulateInto":154,"./forEachAccumulated":169,"_process":46}],78:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -31053,7 +31241,7 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/HTMLDOMPropertyConfig.js":[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -31245,7 +31433,7 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMProperty.js","./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/LinkedValueUtils.js":[function(require,module,exports){
+},{"./DOMProperty":67,"./ExecutionEnvironment":78}],80:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -31401,7 +31589,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
-},{"./ReactPropTypes":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypes.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/LocalEventTrapMixin.js":[function(require,module,exports){
+},{"./ReactPropTypes":129,"./invariant":183,"_process":46}],81:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -31451,7 +31639,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserEventEmitter":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserEventEmitter.js","./accumulateInto":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/forEachAccumulated.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/MobileSafariClickEventPlugin.js":[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":87,"./accumulateInto":154,"./forEachAccumulated":169,"./invariant":183,"_process":46}],82:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -31509,7 +31697,7 @@ var MobileSafariClickEventPlugin = {
 
 module.exports = MobileSafariClickEventPlugin;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js":[function(require,module,exports){
+},{"./EventConstants":72,"./emptyFunction":164}],83:[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -31556,7 +31744,7 @@ function assign(target, sources) {
 
 module.exports = assign;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js":[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -31672,7 +31860,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
-},{"./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/React.js":[function(require,module,exports){
+},{"./invariant":183,"_process":46}],85:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -31860,7 +32048,7 @@ React.version = '0.12.2';
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./DOMPropertyOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMPropertyOperations.js","./EventPluginUtils":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginUtils.js","./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactChildren":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactChildren.js","./ReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponent.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactContext":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCurrentOwner.js","./ReactDOM":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js","./ReactDOMComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMComponent.js","./ReactDefaultInjection":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDefaultInjection.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElementValidator.js","./ReactInstanceHandles":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInstanceHandles.js","./ReactLegacyElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactLegacyElement.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./ReactPropTypes":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypes.js","./ReactServerRendering":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactServerRendering.js","./ReactTextComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactTextComponent.js","./deprecated":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/deprecated.js","./onlyChild":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/onlyChild.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js":[function(require,module,exports){
+},{"./DOMPropertyOperations":68,"./EventPluginUtils":76,"./ExecutionEnvironment":78,"./Object.assign":83,"./ReactChildren":88,"./ReactComponent":89,"./ReactCompositeComponent":91,"./ReactContext":92,"./ReactCurrentOwner":93,"./ReactDOM":94,"./ReactDOMComponent":96,"./ReactDefaultInjection":106,"./ReactElement":109,"./ReactElementValidator":110,"./ReactInstanceHandles":117,"./ReactLegacyElement":118,"./ReactMount":120,"./ReactMultiChild":121,"./ReactPerf":125,"./ReactPropTypes":129,"./ReactServerRendering":133,"./ReactTextComponent":135,"./deprecated":163,"./onlyChild":194,"_process":46}],86:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -31903,7 +32091,7 @@ var ReactBrowserComponentMixin = {
 module.exports = ReactBrowserComponentMixin;
 
 }).call(this,require('_process'))
-},{"./ReactEmptyComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEmptyComponent.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserEventEmitter.js":[function(require,module,exports){
+},{"./ReactEmptyComponent":111,"./ReactMount":120,"./invariant":183,"_process":46}],87:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -32258,7 +32446,7 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginHub.js","./EventPluginRegistry":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginRegistry.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactEventEmitterMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEventEmitterMixin.js","./ViewportMetrics":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ViewportMetrics.js","./isEventSupported":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isEventSupported.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactChildren.js":[function(require,module,exports){
+},{"./EventConstants":72,"./EventPluginHub":74,"./EventPluginRegistry":75,"./Object.assign":83,"./ReactEventEmitterMixin":113,"./ViewportMetrics":153,"./isEventSupported":184}],88:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -32408,7 +32596,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
-},{"./PooledClass":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js","./traverseAllChildren":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/traverseAllChildren.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponent.js":[function(require,module,exports){
+},{"./PooledClass":84,"./traverseAllChildren":201,"./warning":202,"_process":46}],89:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -32851,7 +33039,7 @@ var ReactComponent = {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactOwner.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./keyMirror":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyMirror.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponentBrowserEnvironment.js":[function(require,module,exports){
+},{"./Object.assign":83,"./ReactElement":109,"./ReactOwner":124,"./ReactUpdates":136,"./invariant":183,"./keyMirror":189,"_process":46}],90:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -32973,7 +33161,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 }).call(this,require('_process'))
-},{"./ReactDOMIDOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMIDOperations.js","./ReactMarkupChecksum":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMarkupChecksum.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./ReactReconcileTransaction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactReconcileTransaction.js","./getReactRootElementInContainer":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getReactRootElementInContainer.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./setInnerHTML":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/setInnerHTML.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js":[function(require,module,exports){
+},{"./ReactDOMIDOperations":98,"./ReactMarkupChecksum":119,"./ReactMount":120,"./ReactPerf":125,"./ReactReconcileTransaction":131,"./getReactRootElementInContainer":177,"./invariant":183,"./setInnerHTML":197,"_process":46}],91:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -34413,7 +34601,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponent.js","./ReactContext":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElementValidator.js","./ReactEmptyComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEmptyComponent.js","./ReactErrorUtils":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactErrorUtils.js","./ReactLegacyElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactLegacyElement.js","./ReactOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactOwner.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./ReactPropTransferer":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTransferer.js","./ReactPropTypeLocationNames":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypeLocationNames.js","./ReactPropTypeLocations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypeLocations.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js","./instantiateReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./keyMirror":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyMirror.js","./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js","./mapObject":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/mapObject.js","./monitorCodeUse":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/monitorCodeUse.js","./shouldUpdateReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/shouldUpdateReactComponent.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactContext.js":[function(require,module,exports){
+},{"./Object.assign":83,"./ReactComponent":89,"./ReactContext":92,"./ReactCurrentOwner":93,"./ReactElement":109,"./ReactElementValidator":110,"./ReactEmptyComponent":111,"./ReactErrorUtils":112,"./ReactLegacyElement":118,"./ReactOwner":124,"./ReactPerf":125,"./ReactPropTransferer":126,"./ReactPropTypeLocationNames":127,"./ReactPropTypeLocations":128,"./ReactUpdates":136,"./instantiateReactComponent":182,"./invariant":183,"./keyMirror":189,"./keyOf":190,"./mapObject":191,"./monitorCodeUse":193,"./shouldUpdateReactComponent":199,"./warning":202,"_process":46}],92:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -34475,7 +34663,7 @@ var ReactContext = {
 
 module.exports = ReactContext;
 
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCurrentOwner.js":[function(require,module,exports){
+},{"./Object.assign":83}],93:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -34509,7 +34697,7 @@ var ReactCurrentOwner = {
 
 module.exports = ReactCurrentOwner;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js":[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -34692,7 +34880,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElementValidator.js","./ReactLegacyElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactLegacyElement.js","./mapObject":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/mapObject.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMButton.js":[function(require,module,exports){
+},{"./ReactElement":109,"./ReactElementValidator":110,"./ReactLegacyElement":118,"./mapObject":191,"_process":46}],95:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -34757,7 +34945,7 @@ var ReactDOMButton = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMButton;
 
-},{"./AutoFocusMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/AutoFocusMixin.js","./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./keyMirror":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyMirror.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMComponent.js":[function(require,module,exports){
+},{"./AutoFocusMixin":58,"./ReactBrowserComponentMixin":86,"./ReactCompositeComponent":91,"./ReactDOM":94,"./ReactElement":109,"./keyMirror":189}],96:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -35244,7 +35432,7 @@ assign(
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CSSPropertyOperations.js","./DOMProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMProperty.js","./DOMPropertyOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactBrowserEventEmitter":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponent.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./escapeTextForBrowser":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/escapeTextForBrowser.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./isEventSupported":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isEventSupported.js","./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js","./monitorCodeUse":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/monitorCodeUse.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMForm.js":[function(require,module,exports){
+},{"./CSSPropertyOperations":61,"./DOMProperty":67,"./DOMPropertyOperations":68,"./Object.assign":83,"./ReactBrowserComponentMixin":86,"./ReactBrowserEventEmitter":87,"./ReactComponent":89,"./ReactMount":120,"./ReactMultiChild":121,"./ReactPerf":125,"./escapeTextForBrowser":166,"./invariant":183,"./isEventSupported":184,"./keyOf":190,"./monitorCodeUse":193,"_process":46}],97:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -35294,7 +35482,7 @@ var ReactDOMForm = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMForm;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./LocalEventTrapMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/LocalEventTrapMixin.js","./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMIDOperations.js":[function(require,module,exports){
+},{"./EventConstants":72,"./LocalEventTrapMixin":81,"./ReactBrowserComponentMixin":86,"./ReactCompositeComponent":91,"./ReactDOM":94,"./ReactElement":109}],98:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -35480,7 +35668,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CSSPropertyOperations.js","./DOMChildrenOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMChildrenOperations.js","./DOMPropertyOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMPropertyOperations.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./setInnerHTML":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/setInnerHTML.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMImg.js":[function(require,module,exports){
+},{"./CSSPropertyOperations":61,"./DOMChildrenOperations":66,"./DOMPropertyOperations":68,"./ReactMount":120,"./ReactPerf":125,"./invariant":183,"./setInnerHTML":197,"_process":46}],99:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -35528,7 +35716,7 @@ var ReactDOMImg = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMImg;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./LocalEventTrapMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/LocalEventTrapMixin.js","./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMInput.js":[function(require,module,exports){
+},{"./EventConstants":72,"./LocalEventTrapMixin":81,"./ReactBrowserComponentMixin":86,"./ReactCompositeComponent":91,"./ReactDOM":94,"./ReactElement":109}],100:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -35706,7 +35894,7 @@ var ReactDOMInput = ReactCompositeComponent.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/AutoFocusMixin.js","./DOMPropertyOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMPropertyOperations.js","./LinkedValueUtils":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMOption.js":[function(require,module,exports){
+},{"./AutoFocusMixin":58,"./DOMPropertyOperations":68,"./LinkedValueUtils":80,"./Object.assign":83,"./ReactBrowserComponentMixin":86,"./ReactCompositeComponent":91,"./ReactDOM":94,"./ReactElement":109,"./ReactMount":120,"./ReactUpdates":136,"./invariant":183,"_process":46}],101:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -35759,7 +35947,7 @@ var ReactDOMOption = ReactCompositeComponent.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMSelect.js":[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":86,"./ReactCompositeComponent":91,"./ReactDOM":94,"./ReactElement":109,"./warning":202,"_process":46}],102:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -35943,7 +36131,7 @@ var ReactDOMSelect = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMSelect;
 
-},{"./AutoFocusMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/AutoFocusMixin.js","./LinkedValueUtils":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMSelection.js":[function(require,module,exports){
+},{"./AutoFocusMixin":58,"./LinkedValueUtils":80,"./Object.assign":83,"./ReactBrowserComponentMixin":86,"./ReactCompositeComponent":91,"./ReactDOM":94,"./ReactElement":109,"./ReactUpdates":136}],103:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -36152,7 +36340,7 @@ var ReactDOMSelection = {
 
 module.exports = ReactDOMSelection;
 
-},{"./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./getNodeForCharacterOffset":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getNodeForCharacterOffset.js","./getTextContentAccessor":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getTextContentAccessor.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMTextarea.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":78,"./getNodeForCharacterOffset":176,"./getTextContentAccessor":178}],104:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -36293,7 +36481,7 @@ var ReactDOMTextarea = ReactCompositeComponent.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/AutoFocusMixin.js","./DOMPropertyOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMPropertyOperations.js","./LinkedValueUtils":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOM.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDefaultBatchingStrategy.js":[function(require,module,exports){
+},{"./AutoFocusMixin":58,"./DOMPropertyOperations":68,"./LinkedValueUtils":80,"./Object.assign":83,"./ReactBrowserComponentMixin":86,"./ReactCompositeComponent":91,"./ReactDOM":94,"./ReactElement":109,"./ReactUpdates":136,"./invariant":183,"./warning":202,"_process":46}],105:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -36366,7 +36554,7 @@ var ReactDefaultBatchingStrategy = {
 
 module.exports = ReactDefaultBatchingStrategy;
 
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js","./Transaction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Transaction.js","./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDefaultInjection.js":[function(require,module,exports){
+},{"./Object.assign":83,"./ReactUpdates":136,"./Transaction":152,"./emptyFunction":164}],106:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -36495,7 +36683,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/BeforeInputEventPlugin.js","./ChangeEventPlugin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ChangeEventPlugin.js","./ClientReactRootIndex":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ClientReactRootIndex.js","./CompositionEventPlugin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CompositionEventPlugin.js","./DefaultEventPluginOrder":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DefaultEventPluginOrder.js","./EnterLeaveEventPlugin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EnterLeaveEventPlugin.js","./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./HTMLDOMPropertyConfig":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/HTMLDOMPropertyConfig.js","./MobileSafariClickEventPlugin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/MobileSafariClickEventPlugin.js","./ReactBrowserComponentMixin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactComponentBrowserEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponentBrowserEnvironment.js","./ReactDOMButton":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMButton.js","./ReactDOMComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMComponent.js","./ReactDOMForm":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMForm.js","./ReactDOMImg":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMImg.js","./ReactDOMInput":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMInput.js","./ReactDOMOption":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMOption.js","./ReactDOMSelect":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMSelect.js","./ReactDOMTextarea":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMTextarea.js","./ReactDefaultBatchingStrategy":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDefaultBatchingStrategy.js","./ReactDefaultPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDefaultPerf.js","./ReactEventListener":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEventListener.js","./ReactInjection":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInjection.js","./ReactInstanceHandles":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./SVGDOMPropertyConfig":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SVGDOMPropertyConfig.js","./SelectEventPlugin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SelectEventPlugin.js","./ServerReactRootIndex":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ServerReactRootIndex.js","./SimpleEventPlugin":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SimpleEventPlugin.js","./createFullPageComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/createFullPageComponent.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDefaultPerf.js":[function(require,module,exports){
+},{"./BeforeInputEventPlugin":59,"./ChangeEventPlugin":63,"./ClientReactRootIndex":64,"./CompositionEventPlugin":65,"./DefaultEventPluginOrder":70,"./EnterLeaveEventPlugin":71,"./ExecutionEnvironment":78,"./HTMLDOMPropertyConfig":79,"./MobileSafariClickEventPlugin":82,"./ReactBrowserComponentMixin":86,"./ReactComponentBrowserEnvironment":90,"./ReactDOMButton":95,"./ReactDOMComponent":96,"./ReactDOMForm":97,"./ReactDOMImg":99,"./ReactDOMInput":100,"./ReactDOMOption":101,"./ReactDOMSelect":102,"./ReactDOMTextarea":104,"./ReactDefaultBatchingStrategy":105,"./ReactDefaultPerf":107,"./ReactEventListener":114,"./ReactInjection":115,"./ReactInstanceHandles":117,"./ReactMount":120,"./SVGDOMPropertyConfig":137,"./SelectEventPlugin":138,"./ServerReactRootIndex":139,"./SimpleEventPlugin":140,"./createFullPageComponent":160,"_process":46}],107:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -36755,7 +36943,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 
-},{"./DOMProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMProperty.js","./ReactDefaultPerfAnalysis":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDefaultPerfAnalysis.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./performanceNow":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/performanceNow.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDefaultPerfAnalysis.js":[function(require,module,exports){
+},{"./DOMProperty":67,"./ReactDefaultPerfAnalysis":108,"./ReactMount":120,"./ReactPerf":125,"./performanceNow":196}],108:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -36961,7 +37149,7 @@ var ReactDefaultPerfAnalysis = {
 
 module.exports = ReactDefaultPerfAnalysis;
 
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js":[function(require,module,exports){
+},{"./Object.assign":83}],109:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -37207,7 +37395,7 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
-},{"./ReactContext":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCurrentOwner.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElementValidator.js":[function(require,module,exports){
+},{"./ReactContext":92,"./ReactCurrentOwner":93,"./warning":202,"_process":46}],110:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -37489,7 +37677,7 @@ var ReactElementValidator = {
 module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypeLocations.js","./monitorCodeUse":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/monitorCodeUse.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEmptyComponent.js":[function(require,module,exports){
+},{"./ReactCurrentOwner":93,"./ReactElement":109,"./ReactPropTypeLocations":128,"./monitorCodeUse":193,"./warning":202,"_process":46}],111:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -37566,7 +37754,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactErrorUtils.js":[function(require,module,exports){
+},{"./ReactElement":109,"./invariant":183,"_process":46}],112:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37598,7 +37786,7 @@ var ReactErrorUtils = {
 
 module.exports = ReactErrorUtils;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEventEmitterMixin.js":[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37648,7 +37836,7 @@ var ReactEventEmitterMixin = {
 
 module.exports = ReactEventEmitterMixin;
 
-},{"./EventPluginHub":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginHub.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEventListener.js":[function(require,module,exports){
+},{"./EventPluginHub":74}],114:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37832,7 +38020,7 @@ var ReactEventListener = {
 
 module.exports = ReactEventListener;
 
-},{"./EventListener":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventListener.js","./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./PooledClass":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js","./ReactInstanceHandles":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js","./getEventTarget":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventTarget.js","./getUnboundedScrollPosition":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getUnboundedScrollPosition.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInjection.js":[function(require,module,exports){
+},{"./EventListener":73,"./ExecutionEnvironment":78,"./Object.assign":83,"./PooledClass":84,"./ReactInstanceHandles":117,"./ReactMount":120,"./ReactUpdates":136,"./getEventTarget":174,"./getUnboundedScrollPosition":179}],115:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37872,7 +38060,7 @@ var ReactInjection = {
 
 module.exports = ReactInjection;
 
-},{"./DOMProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMProperty.js","./EventPluginHub":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginHub.js","./ReactBrowserEventEmitter":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponent.js","./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactEmptyComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEmptyComponent.js","./ReactNativeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactNativeComponent.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./ReactRootIndex":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactRootIndex.js","./ReactUpdates":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInputSelection.js":[function(require,module,exports){
+},{"./DOMProperty":67,"./EventPluginHub":74,"./ReactBrowserEventEmitter":87,"./ReactComponent":89,"./ReactCompositeComponent":91,"./ReactEmptyComponent":111,"./ReactNativeComponent":123,"./ReactPerf":125,"./ReactRootIndex":132,"./ReactUpdates":136}],116:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -38008,7 +38196,7 @@ var ReactInputSelection = {
 
 module.exports = ReactInputSelection;
 
-},{"./ReactDOMSelection":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactDOMSelection.js","./containsNode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/containsNode.js","./focusNode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/focusNode.js","./getActiveElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getActiveElement.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInstanceHandles.js":[function(require,module,exports){
+},{"./ReactDOMSelection":103,"./containsNode":158,"./focusNode":168,"./getActiveElement":170}],117:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -38343,7 +38531,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
-},{"./ReactRootIndex":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactRootIndex.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactLegacyElement.js":[function(require,module,exports){
+},{"./ReactRootIndex":132,"./invariant":183,"_process":46}],118:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -38590,7 +38778,7 @@ ReactLegacyElementFactory._isLegacyCallWarningEnabled = true;
 module.exports = ReactLegacyElementFactory;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCurrentOwner.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./monitorCodeUse":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/monitorCodeUse.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMarkupChecksum.js":[function(require,module,exports){
+},{"./ReactCurrentOwner":93,"./invariant":183,"./monitorCodeUse":193,"./warning":202,"_process":46}],119:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -38638,7 +38826,7 @@ var ReactMarkupChecksum = {
 
 module.exports = ReactMarkupChecksum;
 
-},{"./adler32":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/adler32.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMount.js":[function(require,module,exports){
+},{"./adler32":155}],120:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -39336,7 +39524,7 @@ ReactMount.renderComponent = deprecated(
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMProperty.js","./ReactBrowserEventEmitter":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactCurrentOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInstanceHandles.js","./ReactLegacyElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactLegacyElement.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./containsNode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/containsNode.js","./deprecated":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/deprecated.js","./getReactRootElementInContainer":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getReactRootElementInContainer.js","./instantiateReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./shouldUpdateReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/shouldUpdateReactComponent.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMultiChild.js":[function(require,module,exports){
+},{"./DOMProperty":67,"./ReactBrowserEventEmitter":87,"./ReactCurrentOwner":93,"./ReactElement":109,"./ReactInstanceHandles":117,"./ReactLegacyElement":118,"./ReactPerf":125,"./containsNode":158,"./deprecated":163,"./getReactRootElementInContainer":177,"./instantiateReactComponent":182,"./invariant":183,"./shouldUpdateReactComponent":199,"./warning":202,"_process":46}],121:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -39764,7 +39952,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 
-},{"./ReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponent.js","./ReactMultiChildUpdateTypes":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./flattenChildren":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/flattenChildren.js","./instantiateReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/instantiateReactComponent.js","./shouldUpdateReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/shouldUpdateReactComponent.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMultiChildUpdateTypes.js":[function(require,module,exports){
+},{"./ReactComponent":89,"./ReactMultiChildUpdateTypes":122,"./flattenChildren":167,"./instantiateReactComponent":182,"./shouldUpdateReactComponent":199}],122:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -39797,7 +39985,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 
 module.exports = ReactMultiChildUpdateTypes;
 
-},{"./keyMirror":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyMirror.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactNativeComponent.js":[function(require,module,exports){
+},{"./keyMirror":189}],123:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -39870,7 +40058,7 @@ var ReactNativeComponent = {
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactOwner.js":[function(require,module,exports){
+},{"./Object.assign":83,"./invariant":183,"_process":46}],124:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -40026,7 +40214,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
-},{"./emptyObject":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyObject.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js":[function(require,module,exports){
+},{"./emptyObject":165,"./invariant":183,"_process":46}],125:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -40110,7 +40298,7 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
-},{"_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTransferer.js":[function(require,module,exports){
+},{"_process":46}],126:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -40277,7 +40465,7 @@ var ReactPropTransferer = {
 module.exports = ReactPropTransferer;
 
 }).call(this,require('_process'))
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./joinClasses":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/joinClasses.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypeLocationNames.js":[function(require,module,exports){
+},{"./Object.assign":83,"./emptyFunction":164,"./invariant":183,"./joinClasses":188,"./warning":202,"_process":46}],127:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -40305,7 +40493,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
-},{"_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypeLocations.js":[function(require,module,exports){
+},{"_process":46}],128:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40329,7 +40517,7 @@ var ReactPropTypeLocations = keyMirror({
 
 module.exports = ReactPropTypeLocations;
 
-},{"./keyMirror":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyMirror.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypes.js":[function(require,module,exports){
+},{"./keyMirror":189}],129:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40683,7 +40871,7 @@ function getPreciseType(propValue) {
 
 module.exports = ReactPropTypes;
 
-},{"./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocationNames":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPropTypeLocationNames.js","./deprecated":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/deprecated.js","./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPutListenerQueue.js":[function(require,module,exports){
+},{"./ReactElement":109,"./ReactPropTypeLocationNames":127,"./deprecated":163,"./emptyFunction":164}],130:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40739,7 +40927,7 @@ PooledClass.addPoolingTo(ReactPutListenerQueue);
 
 module.exports = ReactPutListenerQueue;
 
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./PooledClass":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js","./ReactBrowserEventEmitter":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserEventEmitter.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactReconcileTransaction.js":[function(require,module,exports){
+},{"./Object.assign":83,"./PooledClass":84,"./ReactBrowserEventEmitter":87}],131:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40915,7 +41103,7 @@ PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
 
-},{"./CallbackQueue":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./PooledClass":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js","./ReactBrowserEventEmitter":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactInputSelection":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInputSelection.js","./ReactPutListenerQueue":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPutListenerQueue.js","./Transaction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Transaction.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactRootIndex.js":[function(require,module,exports){
+},{"./CallbackQueue":62,"./Object.assign":83,"./PooledClass":84,"./ReactBrowserEventEmitter":87,"./ReactInputSelection":116,"./ReactPutListenerQueue":130,"./Transaction":152}],132:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40946,7 +41134,7 @@ var ReactRootIndex = {
 
 module.exports = ReactRootIndex;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactServerRendering.js":[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -41026,7 +41214,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInstanceHandles.js","./ReactMarkupChecksum":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactMarkupChecksum.js","./ReactServerRenderingTransaction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactServerRenderingTransaction.js","./instantiateReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactServerRenderingTransaction.js":[function(require,module,exports){
+},{"./ReactElement":109,"./ReactInstanceHandles":117,"./ReactMarkupChecksum":119,"./ReactServerRenderingTransaction":134,"./instantiateReactComponent":182,"./invariant":183,"_process":46}],134:[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -41139,7 +41327,7 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./PooledClass":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js","./ReactPutListenerQueue":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPutListenerQueue.js","./Transaction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Transaction.js","./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactTextComponent.js":[function(require,module,exports){
+},{"./CallbackQueue":62,"./Object.assign":83,"./PooledClass":84,"./ReactPutListenerQueue":130,"./Transaction":152,"./emptyFunction":164}],135:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41245,7 +41433,7 @@ ReactTextComponentFactory.type = ReactTextComponent;
 
 module.exports = ReactTextComponentFactory;
 
-},{"./DOMPropertyOperations":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./ReactComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactComponent.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./escapeTextForBrowser":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/escapeTextForBrowser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactUpdates.js":[function(require,module,exports){
+},{"./DOMPropertyOperations":68,"./Object.assign":83,"./ReactComponent":89,"./ReactElement":109,"./escapeTextForBrowser":166}],136:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -41535,7 +41723,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./PooledClass":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js","./ReactCurrentOwner":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCurrentOwner.js","./ReactPerf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactPerf.js","./Transaction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Transaction.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SVGDOMPropertyConfig.js":[function(require,module,exports){
+},{"./CallbackQueue":62,"./Object.assign":83,"./PooledClass":84,"./ReactCurrentOwner":93,"./ReactPerf":125,"./Transaction":152,"./invariant":183,"./warning":202,"_process":46}],137:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41627,7 +41815,7 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/DOMProperty.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SelectEventPlugin.js":[function(require,module,exports){
+},{"./DOMProperty":67}],138:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41822,7 +42010,7 @@ var SelectEventPlugin = {
 
 module.exports = SelectEventPlugin;
 
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./EventPropagators":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPropagators.js","./ReactInputSelection":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInputSelection.js","./SyntheticEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticEvent.js","./getActiveElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getActiveElement.js","./isTextInputElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isTextInputElement.js","./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js","./shallowEqual":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/shallowEqual.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ServerReactRootIndex.js":[function(require,module,exports){
+},{"./EventConstants":72,"./EventPropagators":77,"./ReactInputSelection":116,"./SyntheticEvent":144,"./getActiveElement":170,"./isTextInputElement":186,"./keyOf":190,"./shallowEqual":198}],139:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41853,7 +42041,7 @@ var ServerReactRootIndex = {
 
 module.exports = ServerReactRootIndex;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SimpleEventPlugin.js":[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -42281,7 +42469,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
-},{"./EventConstants":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventConstants.js","./EventPluginUtils":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPluginUtils.js","./EventPropagators":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/EventPropagators.js","./SyntheticClipboardEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticClipboardEvent.js","./SyntheticDragEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticDragEvent.js","./SyntheticEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticEvent.js","./SyntheticFocusEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticFocusEvent.js","./SyntheticKeyboardEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticKeyboardEvent.js","./SyntheticMouseEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticMouseEvent.js","./SyntheticTouchEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticTouchEvent.js","./SyntheticUIEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticUIEvent.js","./SyntheticWheelEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticWheelEvent.js","./getEventCharCode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventCharCode.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","./keyOf":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticClipboardEvent.js":[function(require,module,exports){
+},{"./EventConstants":72,"./EventPluginUtils":76,"./EventPropagators":77,"./SyntheticClipboardEvent":141,"./SyntheticDragEvent":143,"./SyntheticEvent":144,"./SyntheticFocusEvent":145,"./SyntheticKeyboardEvent":147,"./SyntheticMouseEvent":148,"./SyntheticTouchEvent":149,"./SyntheticUIEvent":150,"./SyntheticWheelEvent":151,"./getEventCharCode":171,"./invariant":183,"./keyOf":190,"./warning":202,"_process":46}],141:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42327,7 +42515,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 module.exports = SyntheticClipboardEvent;
 
 
-},{"./SyntheticEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticEvent.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticCompositionEvent.js":[function(require,module,exports){
+},{"./SyntheticEvent":144}],142:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42373,7 +42561,7 @@ SyntheticEvent.augmentClass(
 module.exports = SyntheticCompositionEvent;
 
 
-},{"./SyntheticEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticEvent.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticDragEvent.js":[function(require,module,exports){
+},{"./SyntheticEvent":144}],143:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42412,7 +42600,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
 
-},{"./SyntheticMouseEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticMouseEvent.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticEvent.js":[function(require,module,exports){
+},{"./SyntheticMouseEvent":148}],144:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42570,7 +42758,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.threeArgumentPooler);
 
 module.exports = SyntheticEvent;
 
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./PooledClass":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/PooledClass.js","./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js","./getEventTarget":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventTarget.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticFocusEvent.js":[function(require,module,exports){
+},{"./Object.assign":83,"./PooledClass":84,"./emptyFunction":164,"./getEventTarget":174}],145:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42609,7 +42797,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
 
-},{"./SyntheticUIEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticUIEvent.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticInputEvent.js":[function(require,module,exports){
+},{"./SyntheticUIEvent":150}],146:[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -42656,7 +42844,7 @@ SyntheticEvent.augmentClass(
 module.exports = SyntheticInputEvent;
 
 
-},{"./SyntheticEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticEvent.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticKeyboardEvent.js":[function(require,module,exports){
+},{"./SyntheticEvent":144}],147:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42743,7 +42931,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
 
-},{"./SyntheticUIEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticUIEvent.js","./getEventCharCode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventCharCode.js","./getEventKey":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventKey.js","./getEventModifierState":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventModifierState.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticMouseEvent.js":[function(require,module,exports){
+},{"./SyntheticUIEvent":150,"./getEventCharCode":171,"./getEventKey":172,"./getEventModifierState":173}],148:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42826,7 +43014,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
 
-},{"./SyntheticUIEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticUIEvent.js","./ViewportMetrics":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ViewportMetrics.js","./getEventModifierState":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventModifierState.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticTouchEvent.js":[function(require,module,exports){
+},{"./SyntheticUIEvent":150,"./ViewportMetrics":153,"./getEventModifierState":173}],149:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42874,7 +43062,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
 
-},{"./SyntheticUIEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticUIEvent.js","./getEventModifierState":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventModifierState.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticUIEvent.js":[function(require,module,exports){
+},{"./SyntheticUIEvent":150,"./getEventModifierState":173}],150:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42936,7 +43124,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
 
-},{"./SyntheticEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticEvent.js","./getEventTarget":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventTarget.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticWheelEvent.js":[function(require,module,exports){
+},{"./SyntheticEvent":144,"./getEventTarget":174}],151:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42997,7 +43185,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
 
-},{"./SyntheticMouseEvent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/SyntheticMouseEvent.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Transaction.js":[function(require,module,exports){
+},{"./SyntheticMouseEvent":148}],152:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43238,7 +43426,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
-},{"./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ViewportMetrics.js":[function(require,module,exports){
+},{"./invariant":183,"_process":46}],153:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43270,7 +43458,7 @@ var ViewportMetrics = {
 
 module.exports = ViewportMetrics;
 
-},{"./getUnboundedScrollPosition":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getUnboundedScrollPosition.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/accumulateInto.js":[function(require,module,exports){
+},{"./getUnboundedScrollPosition":179}],154:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -43336,7 +43524,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
-},{"./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/adler32.js":[function(require,module,exports){
+},{"./invariant":183,"_process":46}],155:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43370,7 +43558,7 @@ function adler32(data) {
 
 module.exports = adler32;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/camelize.js":[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43402,7 +43590,7 @@ function camelize(string) {
 
 module.exports = camelize;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/camelizeStyleName.js":[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -43444,7 +43632,7 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/camelize.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/containsNode.js":[function(require,module,exports){
+},{"./camelize":156}],158:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43488,7 +43676,7 @@ function containsNode(outerNode, innerNode) {
 
 module.exports = containsNode;
 
-},{"./isTextNode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isTextNode.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/createArrayFrom.js":[function(require,module,exports){
+},{"./isTextNode":187}],159:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43574,7 +43762,7 @@ function createArrayFrom(obj) {
 
 module.exports = createArrayFrom;
 
-},{"./toArray":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/toArray.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/createFullPageComponent.js":[function(require,module,exports){
+},{"./toArray":200}],160:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43635,7 +43823,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
-},{"./ReactCompositeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactCompositeComponent.js","./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/createNodesFromMarkup.js":[function(require,module,exports){
+},{"./ReactCompositeComponent":91,"./ReactElement":109,"./invariant":183,"_process":46}],161:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43725,7 +43913,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./createArrayFrom":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/createArrayFrom.js","./getMarkupWrap":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getMarkupWrap.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/dangerousStyleValue.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":78,"./createArrayFrom":159,"./getMarkupWrap":175,"./invariant":183,"_process":46}],162:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43783,7 +43971,7 @@ function dangerousStyleValue(name, value) {
 
 module.exports = dangerousStyleValue;
 
-},{"./CSSProperty":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/CSSProperty.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/deprecated.js":[function(require,module,exports){
+},{"./CSSProperty":60}],163:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43834,7 +44022,7 @@ function deprecated(namespace, oldName, newName, ctx, fn) {
 module.exports = deprecated;
 
 }).call(this,require('_process'))
-},{"./Object.assign":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/Object.assign.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js":[function(require,module,exports){
+},{"./Object.assign":83,"./warning":202,"_process":46}],164:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43868,7 +44056,7 @@ emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyObject.js":[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43892,7 +44080,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
-},{"_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/escapeTextForBrowser.js":[function(require,module,exports){
+},{"_process":46}],166:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43933,7 +44121,7 @@ function escapeTextForBrowser(text) {
 
 module.exports = escapeTextForBrowser;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/flattenChildren.js":[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44002,7 +44190,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
-},{"./ReactTextComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactTextComponent.js","./traverseAllChildren":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/traverseAllChildren.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/focusNode.js":[function(require,module,exports){
+},{"./ReactTextComponent":135,"./traverseAllChildren":201,"./warning":202,"_process":46}],168:[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -44031,7 +44219,7 @@ function focusNode(node) {
 
 module.exports = focusNode;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/forEachAccumulated.js":[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44062,7 +44250,7 @@ var forEachAccumulated = function(arr, cb, scope) {
 
 module.exports = forEachAccumulated;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getActiveElement.js":[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44091,7 +44279,7 @@ function getActiveElement() /*?DOMElement*/ {
 
 module.exports = getActiveElement;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventCharCode.js":[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44143,7 +44331,7 @@ function getEventCharCode(nativeEvent) {
 
 module.exports = getEventCharCode;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventKey.js":[function(require,module,exports){
+},{}],172:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44248,7 +44436,7 @@ function getEventKey(nativeEvent) {
 
 module.exports = getEventKey;
 
-},{"./getEventCharCode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventCharCode.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventModifierState.js":[function(require,module,exports){
+},{"./getEventCharCode":171}],173:[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -44295,7 +44483,7 @@ function getEventModifierState(nativeEvent) {
 
 module.exports = getEventModifierState;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getEventTarget.js":[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44326,7 +44514,7 @@ function getEventTarget(nativeEvent) {
 
 module.exports = getEventTarget;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getMarkupWrap.js":[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44443,7 +44631,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getNodeForCharacterOffset.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":78,"./invariant":183,"_process":46}],176:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44518,7 +44706,7 @@ function getNodeForCharacterOffset(root, offset) {
 
 module.exports = getNodeForCharacterOffset;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getReactRootElementInContainer.js":[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44553,7 +44741,7 @@ function getReactRootElementInContainer(container) {
 
 module.exports = getReactRootElementInContainer;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getTextContentAccessor.js":[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44590,7 +44778,7 @@ function getTextContentAccessor() {
 
 module.exports = getTextContentAccessor;
 
-},{"./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/getUnboundedScrollPosition.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":78}],179:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44630,7 +44818,7 @@ function getUnboundedScrollPosition(scrollable) {
 
 module.exports = getUnboundedScrollPosition;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/hyphenate.js":[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44663,7 +44851,7 @@ function hyphenate(string) {
 
 module.exports = hyphenate;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/hyphenateStyleName.js":[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44704,7 +44892,7 @@ function hyphenateStyleName(string) {
 
 module.exports = hyphenateStyleName;
 
-},{"./hyphenate":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/hyphenate.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/instantiateReactComponent.js":[function(require,module,exports){
+},{"./hyphenate":180}],182:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44818,7 +45006,7 @@ function instantiateReactComponent(element, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactEmptyComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactEmptyComponent.js","./ReactLegacyElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactLegacyElement.js","./ReactNativeComponent":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactNativeComponent.js","./warning":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js":[function(require,module,exports){
+},{"./ReactElement":109,"./ReactEmptyComponent":111,"./ReactLegacyElement":118,"./ReactNativeComponent":123,"./warning":202,"_process":46}],183:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44875,7 +45063,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isEventSupported.js":[function(require,module,exports){
+},{"_process":46}],184:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44940,7 +45128,7 @@ function isEventSupported(eventNameSuffix, capture) {
 
 module.exports = isEventSupported;
 
-},{"./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isNode.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":78}],185:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44968,7 +45156,7 @@ function isNode(object) {
 
 module.exports = isNode;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isTextInputElement.js":[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45012,7 +45200,7 @@ function isTextInputElement(elem) {
 
 module.exports = isTextInputElement;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isTextNode.js":[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45037,7 +45225,7 @@ function isTextNode(object) {
 
 module.exports = isTextNode;
 
-},{"./isNode":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/isNode.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/joinClasses.js":[function(require,module,exports){
+},{"./isNode":185}],188:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45078,7 +45266,7 @@ function joinClasses(className/*, ... */) {
 
 module.exports = joinClasses;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyMirror.js":[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -45133,7 +45321,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
-},{"./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/keyOf.js":[function(require,module,exports){
+},{"./invariant":183,"_process":46}],190:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45169,7 +45357,7 @@ var keyOf = function(oneKeyObj) {
 
 module.exports = keyOf;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/mapObject.js":[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45222,7 +45410,7 @@ function mapObject(object, callback, context) {
 
 module.exports = mapObject;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/memoizeStringOnly.js":[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45256,7 +45444,7 @@ function memoizeStringOnly(callback) {
 
 module.exports = memoizeStringOnly;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/monitorCodeUse.js":[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -45290,7 +45478,7 @@ function monitorCodeUse(eventName, data) {
 module.exports = monitorCodeUse;
 
 }).call(this,require('_process'))
-},{"./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/onlyChild.js":[function(require,module,exports){
+},{"./invariant":183,"_process":46}],194:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -45330,7 +45518,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
-},{"./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/performance.js":[function(require,module,exports){
+},{"./ReactElement":109,"./invariant":183,"_process":46}],195:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45358,7 +45546,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = performance || {};
 
-},{"./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/performanceNow.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":78}],196:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45386,7 +45574,7 @@ var performanceNow = performance.now.bind(performance);
 
 module.exports = performanceNow;
 
-},{"./performance":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/performance.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/setInnerHTML.js":[function(require,module,exports){
+},{"./performance":195}],197:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45464,7 +45652,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setInnerHTML;
 
-},{"./ExecutionEnvironment":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ExecutionEnvironment.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/shallowEqual.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":78}],198:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45508,7 +45696,7 @@ function shallowEqual(objA, objB) {
 
 module.exports = shallowEqual;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/shouldUpdateReactComponent.js":[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45546,7 +45734,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 
 module.exports = shouldUpdateReactComponent;
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/toArray.js":[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -45618,7 +45806,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
-},{"./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/traverseAllChildren.js":[function(require,module,exports){
+},{"./invariant":183,"_process":46}],201:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -45801,7 +45989,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/ReactInstanceHandles.js","./invariant":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/invariant.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/warning.js":[function(require,module,exports){
+},{"./ReactElement":109,"./ReactInstanceHandles":117,"./invariant":183,"_process":46}],202:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -45846,10 +46034,10 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/emptyFunction.js","_process":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/browserify/node_modules/process/browser.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/react.js":[function(require,module,exports){
+},{"./emptyFunction":164,"_process":46}],203:[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/react/lib/React.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/superagent/lib/client.js":[function(require,module,exports){
+},{"./lib/React":85}],204:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -46932,7 +47120,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/superagent/node_modules/component-emitter/index.js","reduce":"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/superagent/node_modules/reduce-component/index.js"}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/superagent/node_modules/component-emitter/index.js":[function(require,module,exports){
+},{"emitter":205,"reduce":206}],205:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -47098,7 +47286,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/superagent/node_modules/reduce-component/index.js":[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -47123,7 +47311,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],"/home/master/Documents/code/vendorlize/node/keystone-metasansana/node_modules/underscore/underscore.js":[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -48540,5 +48728,143 @@ module.exports = function(arr, fn, initial){
   }
 }.call(this));
 
-},{}]},{},["./admin/src/app.js"])("./admin/src/app.js")
+},{}],208:[function(require,module,exports){
+var ua = typeof window !== 'undefined' ? window.navigator.userAgent : ''
+  , isOSX = /OS X/.test(ua)
+  , isOpera = /Opera/.test(ua)
+  , maybeFirefox = !/like Gecko/.test(ua) && !isOpera
+
+var i, output = module.exports = {
+  0:  isOSX ? '<menu>' : '<UNK>'
+, 1:  '<mouse 1>'
+, 2:  '<mouse 2>'
+, 3:  '<break>'
+, 4:  '<mouse 3>'
+, 5:  '<mouse 4>'
+, 6:  '<mouse 5>'
+, 8:  '<backspace>'
+, 9:  '<tab>'
+, 12: '<clear>'
+, 13: '<enter>'
+, 16: '<shift>'
+, 17: '<control>'
+, 18: '<alt>'
+, 19: '<pause>'
+, 20: '<caps-lock>'
+, 21: '<ime-hangul>'
+, 23: '<ime-junja>'
+, 24: '<ime-final>'
+, 25: '<ime-kanji>'
+, 27: '<escape>'
+, 28: '<ime-convert>'
+, 29: '<ime-nonconvert>'
+, 30: '<ime-accept>'
+, 31: '<ime-mode-change>'
+, 27: '<escape>'
+, 32: '<space>'
+, 33: '<page-up>'
+, 34: '<page-down>'
+, 35: '<end>'
+, 36: '<home>'
+, 37: '<left>'
+, 38: '<up>'
+, 39: '<right>'
+, 40: '<down>'
+, 41: '<select>'
+, 42: '<print>'
+, 43: '<execute>'
+, 44: '<snapshot>'
+, 45: '<insert>'
+, 46: '<delete>'
+, 47: '<help>'
+, 91: '<meta>'  // meta-left -- no one handles left and right properly, so we coerce into one.
+, 92: '<meta>'  // meta-right
+, 93: isOSX ? '<meta>' : '<menu>'      // chrome,opera,safari all report this for meta-right (osx mbp).
+, 95: '<sleep>'
+, 106: '<num-*>'
+, 107: '<num-+>'
+, 108: '<num-enter>'
+, 109: '<num-->'
+, 110: '<num-.>'
+, 111: '<num-/>'
+, 144: '<num-lock>'
+, 145: '<scroll-lock>'
+, 160: '<shift-left>'
+, 161: '<shift-right>'
+, 162: '<control-left>'
+, 163: '<control-right>'
+, 164: '<alt-left>'
+, 165: '<alt-right>'
+, 166: '<browser-back>'
+, 167: '<browser-forward>'
+, 168: '<browser-refresh>'
+, 169: '<browser-stop>'
+, 170: '<browser-search>'
+, 171: '<browser-favorites>'
+, 172: '<browser-home>'
+
+  // ff/osx reports '<volume-mute>' for '-'
+, 173: isOSX && maybeFirefox ? '-' : '<volume-mute>'
+, 174: '<volume-down>'
+, 175: '<volume-up>'
+, 176: '<next-track>'
+, 177: '<prev-track>'
+, 178: '<stop>'
+, 179: '<play-pause>'
+, 180: '<launch-mail>'
+, 181: '<launch-media-select>'
+, 182: '<launch-app 1>'
+, 183: '<launch-app 2>'
+, 186: ';'
+, 187: '='
+, 188: ','
+, 189: '-'
+, 190: '.'
+, 191: '/'
+, 192: '`'
+, 219: '['
+, 220: '\\'
+, 221: ']'
+, 222: "'"
+, 223: '<meta>'
+, 224: '<meta>'       // firefox reports meta here.
+, 226: '<alt-gr>'
+, 229: '<ime-process>'
+, 231: isOpera ? '`' : '<unicode>'
+, 246: '<attention>'
+, 247: '<crsel>'
+, 248: '<exsel>'
+, 249: '<erase-eof>'
+, 250: '<play>'
+, 251: '<zoom>'
+, 252: '<no-name>'
+, 253: '<pa-1>'
+, 254: '<clear>'
+}
+
+for(i = 58; i < 65; ++i) {
+  output[i] = String.fromCharCode(i)
+}
+
+// 0-9
+for(i = 48; i < 58; ++i) {
+  output[i] = (i - 48)+''
+}
+
+// A-Z
+for(i = 65; i < 91; ++i) {
+  output[i] = String.fromCharCode(i)
+}
+
+// num0-9
+for(i = 96; i < 106; ++i) {
+  output[i] = '<num-'+(i - 96)+'>'
+}
+
+// F1-F24
+for(i = 112; i < 136; ++i) {
+  output[i] = 'F'+(i-111)
+}
+
+},{}]},{},[1])(1)
 });

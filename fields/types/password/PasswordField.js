@@ -5,14 +5,12 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'password'
-	},
+	focusTarget: 'password',
 	
 	getInitialState: function() {
 		return {
 			passwordIsSet: this.props.value ? true : false,
-			showChangeUI: this.props.mode === 'initial' ? true : false,
+			showChangeUI: this.props.mode === 'create' ? true : false,
 			password: '',
 			confirm: ''
 		};
@@ -21,7 +19,7 @@ module.exports = Field.create({
 	componentDidUpdate: function() {
 		if (this._focusAfterUpdate) {
 			this._focusAfterUpdate = false;
-			this.refs.password.getDOMNode().focus();
+			this.focus();
 		}
 	},
 	

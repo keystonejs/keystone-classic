@@ -2,11 +2,11 @@ var _ = require('underscore'),
 	moment = require('moment'),
 	React = require('react'),
 	Fields = require('../../fields'),
-	FormHeading = require('../../components/formHeading'),
-	Toolbar = require('../../components/toolbar'),
-	InvalidFieldType = require('../../components/invalidFieldType');
+	FormHeading = require('../../components/FormHeading'),
+	Toolbar = require('../../components/Toolbar'),
+	InvalidFieldType = require('../../components/InvalidFieldType');
 
-var Form = React.createClass({
+var EditForm = React.createClass({
 	
 	getInitialState: function() {
 		return {
@@ -14,14 +14,61 @@ var Form = React.createClass({
 		};
 	},
 	
+	getFieldProps: function(field) {
+		var props = _.clone(field);
+		props.value = this.state.values[field.path];
+		props.values = this.state.values;
+		props.onChange = this.handleChange;
+		props.mode = 'edit';
+		return props;
+	},
+	
 	handleChange: function(event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
-		// console.log(event);
-		// console.log(values);
 		this.setState({
 			values: values
 		});
+	},
+	
+	renderNameField: function() {
+		
+		var namePath = this.props.list.namePath,
+			nameField = this.props.list.nameField,
+			nameIsEditable = this.props.list.nameIsEditable;
+		
+		function wrapNameField(field) {
+			return (
+				<div className="field item-name">
+					<div className="col-sm-12">
+						{field}
+					</div>
+				</div>
+			);
+		}
+		
+		if (nameIsEditable) {
+			
+			var nameFieldProps = this.getFieldProps(nameField);
+			nameFieldProps.className = 'item-name-field';
+			nameFieldProps.placeholder = nameField.label;
+			nameFieldProps.label = false;
+			
+			return wrapNameField(
+				React.createElement(Fields[nameField.type], nameFieldProps)
+			);
+			
+		} else if (nameField && nameField.type == 'name') {
+			var nameValue = this.props.data.fields[nameField.path] || {};
+			nameValue = _.compact([nameValue.first, nameValue.last]).join(' ');
+			return wrapNameField(
+				<h2 className="form-heading name-value">{nameValue || '(no name)'}</h2>
+			);
+		} else {
+			return wrapNameField(
+				<h2 className="form-heading name-value">{this.props.data.fields[namePath] || '(no name)'}</h2>
+			);
+		}
 	},
 	
 	renderTrackingMeta: function() {
@@ -87,7 +134,7 @@ var Form = React.createClass({
 		
 	},
 	
-	render: function() {
+	renderFormElements: function() {
 		
 		var elements = {},
 			headings = 0;
@@ -108,16 +155,17 @@ var Form = React.createClass({
 					return;
 				}
 				
-				var fieldProps = _.clone(field);
-				fieldProps.value = this.state.values[field.path];
-				fieldProps.values = this.state.values;
-				fieldProps.onChange = this.handleChange;
-				fieldProps.mode = 'edit';
-				elements[field.path] = React.createElement(Fields[field.type], fieldProps);
+				elements[field.path] = React.createElement(Fields[field.type], this.getFieldProps(field));
 				
 			}
 			
 		}, this);
+		
+		return elements;
+		
+	},
+	
+	renderToolbar: function() {
 		
 		var toolbar = {};
 		
@@ -132,19 +180,28 @@ var Form = React.createClass({
 			toolbar.del = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete">delete {this.props.list.singular.toLowerCase()}</a>;
 		}
 		
-		var tracking = this.renderTrackingMeta();
+		return (
+			<Toolbar>
+				{toolbar}
+			</Toolbar>
+		);
+		
+	},
+	
+	render: function() {
 		
 		return (
-			<div>
-				{tracking}
-				{elements}
-				<Toolbar>
-					{toolbar}
-				</Toolbar>
-			</div>
+			<form method="post" enctype="multipart/form-data" className="item-details">
+				<input type="hidden" name="action" value="updateItem" />
+				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
+				{this.renderNameField()}
+				{this.renderTrackingMeta()}
+				{this.renderFormElements()}
+				{this.renderToolbar()}
+			</form>
 		);
 	}
 	
 });
 
-module.exports = Form;
+module.exports = EditForm;
