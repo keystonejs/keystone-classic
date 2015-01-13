@@ -85,7 +85,7 @@ var EditForm = React.createClass({
 		
 	},
 	
-	render: function() {
+	renderFormElements: function() {
 		
 		var elements = {},
 			headings = 0;
@@ -117,6 +117,12 @@ var EditForm = React.createClass({
 			
 		}, this);
 		
+		return elements;
+		
+	},
+	
+	renderToolbar: function() {
+		
 		var toolbar = {};
 		
 		if (!this.props.list.noedit) {
@@ -130,15 +136,21 @@ var EditForm = React.createClass({
 			toolbar.del = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete">delete {this.props.list.singular.toLowerCase()}</a>;
 		}
 		
-		var tracking = this.renderTrackingMeta();
+		return (
+			<Toolbar>
+				{toolbar}
+			</Toolbar>
+		);
+		
+	},
+	
+	render: function() {
 		
 		return (
 			<div>
-				{tracking}
-				{elements}
-				<Toolbar>
-					{toolbar}
-				</Toolbar>
+				{this.renderTrackingMeta()}
+				{this.renderFormElements()}
+				{this.renderToolbar()}
 			</div>
 		);
 	}
