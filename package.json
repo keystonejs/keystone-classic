@@ -13,6 +13,7 @@
     "bcrypt-nodejs": "~0.0.3",
     "bluebird": "~2.4.2",
     "body-parser": "~1.10.0",
+    "classnames": "^1.0.0",
     "cloudinary": "~1.1.0",
     "codemirror": "^4.8.0",
     "compression": "~1.2.2",

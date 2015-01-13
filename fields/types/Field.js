@@ -1,4 +1,5 @@
 var _ = require('underscore'),
+	cx = require('classnames'),
 	React = require('react'),
 	Note = require('../components/Note');
 
@@ -44,19 +45,14 @@ var Base = module.exports.Base = {
 		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
 	},
 	
-	renderUI: function(spec) {
-		var fieldClassName = 'field-ui field-size-' + this.props.size;
-		var inner = this.props.noedit ? this.renderValue() : this.renderField();
-		return (
-			<div className={"field field-type-" + this.props.type}>
-				<label className="field-label">{this.props.label}</label>
-				<div className={fieldClassName}>
-					{inner}
-					<Note note={this.props.note} />
-				</div>
-			</div>
-		);
-		
+	renderLabel: function() {
+		if (!this.props.label) return null;
+		return <label className="field-label">{this.props.label}</label>;
+	},
+	
+	renderNote: function() {
+		if (!this.props.note) return null;
+		return <Note note={this.props.note} />;
 	},
 	
 	renderField: function() {
@@ -65,6 +61,21 @@ var Base = module.exports.Base = {
 	
 	renderValue: function() {
 		return <div className="field-value">{this.props.value}</div>;
+	},
+	
+	renderUI: function(spec) {
+		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label });
+		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
+		return (
+			<div className={wrapperClassName}>
+				{this.renderLabel()}
+				<div className={fieldClassName}>
+					{this.props.noedit ? this.renderValue() : this.renderField()}
+					{this.renderNote()}
+				</div>
+			</div>
+		);
+		
 	}
 	
 };
