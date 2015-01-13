@@ -14,12 +14,60 @@ var EditForm = React.createClass({
 		};
 	},
 	
+	getFieldProps: function(field) {
+		var props = _.clone(field);
+		props.value = this.state.values[field.path];
+		props.values = this.state.values;
+		props.onChange = this.handleChange;
+		props.mode = 'edit';
+		return props;
+	},
+	
 	handleChange: function(event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
 		this.setState({
 			values: values
 		});
+	},
+	
+	renderNameField: function() {
+		
+		var namePath = this.props.list.namePath,
+			nameField = this.props.list.nameField,
+			nameIsEditable = this.props.list.nameIsEditable;
+		
+		function wrapNameField(field) {
+			return (
+				<div className="field item-name">
+					<div className="col-sm-12">
+						{field}
+					</div>
+				</div>
+			);
+		}
+		
+		if (nameIsEditable) {
+			
+			var nameFieldProps = this.getFieldProps(nameField);
+			nameFieldProps.className = 'item-name-field';
+			nameFieldProps.placeholder = nameField.label;
+			nameFieldProps.label = false;
+			
+			return wrapNameField(
+				React.createElement(Fields[nameField.type], nameFieldProps)
+			);
+			
+		} else if (nameField) {
+			// TODO: Support "name" field type
+			return wrapNameField(
+				<h2 className="form-heading name-value">{this.props.data.fields[nameField.path] || '(no name)'}</h2>
+			);
+		} else {
+			return wrapNameField(
+				<h2 className="form-heading name-value">{this.props.data.fields[namePath] || '(no name)'}</h2>
+			);
+		}
 	},
 	
 	renderTrackingMeta: function() {
@@ -106,12 +154,7 @@ var EditForm = React.createClass({
 					return;
 				}
 				
-				var fieldProps = _.clone(field);
-				fieldProps.value = this.state.values[field.path];
-				fieldProps.values = this.state.values;
-				fieldProps.onChange = this.handleChange;
-				fieldProps.mode = 'edit';
-				elements[field.path] = React.createElement(Fields[field.type], fieldProps);
+				elements[field.path] = React.createElement(Fields[field.type], this.getFieldProps(field));
 				
 			}
 			
@@ -148,6 +191,7 @@ var EditForm = React.createClass({
 		
 		return (
 			<div>
+				{this.renderNameField()}
 				{this.renderTrackingMeta()}
 				{this.renderFormElements()}
 				{this.renderToolbar()}
