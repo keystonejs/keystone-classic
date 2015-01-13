@@ -59,9 +59,12 @@ var Form = React.createClass({
 			nameField = this.props.list.nameField,
 			focusRef;
 		
-		if (nameField) {
+		if (list.nameIsInitial) {
 			var nameFieldProps = this.getFieldProps(nameField);
-			focusRef = nameFieldProps.ref = 'focusTarget';
+			nameFieldProps.ref = focusRef = 'focusTarget';
+			nameFieldProps.className = 'item-name-field';
+			nameFieldProps.placeholder = nameField.label;
+			nameFieldProps.label = false;
 			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
 		}
 		
@@ -77,7 +80,7 @@ var Form = React.createClass({
 			var fieldProps = this.getFieldProps(field);
 			
 			if (!focusRef) {
-				focusRef = fieldProps.ref = 'focusTarget';
+				fieldProps.ref = focusRef = 'focusTarget';
 			}
 			
 			form[field.path] = React.createElement(Fields[field.type], fieldProps);
