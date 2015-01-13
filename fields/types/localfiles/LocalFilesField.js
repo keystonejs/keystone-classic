@@ -2,7 +2,7 @@ var _     = require('underscore'),
 	$     = require('jquery'),
 	bytes = require('bytes'),
 	React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 var ICON_EXTS = [
 	'aac', 'ai', 'aiff', 'avi', 'bmp', 'c', 'cpp', 'css', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h',

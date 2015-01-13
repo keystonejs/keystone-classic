@@ -2,7 +2,7 @@ var _ = require('underscore'),
 	moment = require('moment'),
 	React = require('react'),
 	Fields = require('../../fields'),
-	InvalidFieldType = require('../../components/invalidFieldType');
+	InvalidFieldType = require('../../components/InvalidFieldType');
 
 var Form = React.createClass({
 	
