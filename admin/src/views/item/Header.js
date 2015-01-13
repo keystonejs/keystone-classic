@@ -1,14 +1,12 @@
 var React = require('react'),
-	AltText = require('../../components/AltText'),
-	CreateForm = require('./CreateForm');
+	AltText = require('../../components/AltText');
 
-var Toolbar = React.createClass({
+var Header = React.createClass({
 	
-	displayName: 'Toolbar',
+	displayName: 'Header',
 	
 	getInitialState: function() {
 		return {
-			createIsVisible: false,
 			searchIsVisible: false,
 			searchIsFocused: false,
 			searchString: ''
@@ -22,9 +20,7 @@ var Toolbar = React.createClass({
 	},
 	
 	toggleCreate: function(visible) {
-		this.setState({
-			createIsVisible: visible
-		});
+		this.props.toggleCreate(visible);
 	},
 	
 	toggleSearch: function(visible) {
@@ -168,15 +164,9 @@ var Toolbar = React.createClass({
 		);
 	},
 	
-	renderCreateForm: function() {
-		if (!this.state.createIsVisible) return null;
-		return <CreateForm list={this.props.list} onCancel={this.toggleCreate.bind(this, false)} />
-	},
-	
 	render: function() {
 		return (
 			<div>
-				{this.renderCreateForm()}
 				<div className="item-toolbar item-toolbar--header">
 					{this.renderDrilldown()}
 					{this.renderSearch()}
@@ -188,4 +178,4 @@ var Toolbar = React.createClass({
 	
 });
 
-module.exports = Toolbar;
+module.exports = Header;

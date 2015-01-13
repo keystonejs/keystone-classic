@@ -190,12 +190,14 @@ var EditForm = React.createClass({
 	render: function() {
 		
 		return (
-			<div>
+			<form method="post" enctype="multipart/form-data" className="item-details">
+				<input type="hidden" name="action" value="updateItem" />
+				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				{this.renderNameField()}
 				{this.renderTrackingMeta()}
 				{this.renderFormElements()}
 				{this.renderToolbar()}
-			</div>
+			</form>
 		);
 	}
 	

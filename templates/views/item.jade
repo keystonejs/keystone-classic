@@ -14,20 +14,10 @@ block js
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 		
 		App.Views.Item.render(Keystone);
-
-block intro
-	// Attach point for new React Toolbar
-	div#item-toolbar
-			
+		
 block content
-	form(method='post', enctype='multipart/form-data').item-details
-		
-		input(type='hidden', name='action', value='updateItem')
-		input(type='hidden', name=csrf_token_key, value=csrf_token_value)
-		
-		// Attach point for new React Form
-		div#item-form.keystone-item-form
-		
+	// Attach point for new React View
+	div#item-view
 	
 	if showRelationships
 		h2.relationship-heading.form-heading Relationships
