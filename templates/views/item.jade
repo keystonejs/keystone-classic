@@ -3,9 +3,6 @@ extends ../layout/base
 include ../mixins/columns
 
 block css
-	link(rel="stylesheet", href="/keystone/js/lib/fancybox/jquery.fancybox.css")
-	//  if list.fieldTypes.markdown
-	//  	link(rel="stylesheet", href="/keystone/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
 	if list.fieldTypes.code
 		link(rel="stylesheet", href="/keystone/js/lib/codemirror/codemirror.css")
 
