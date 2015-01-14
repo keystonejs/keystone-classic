@@ -56,8 +56,8 @@
 // Modal background
 .modal-backdrop {
 	.fill-fixed();
-	background-color: white;
-	opacity: .75;
+	background-color: @modal-backdrop-bg;
+	opacity: @modal-backdrop-opacity;
 	z-index: (@zindex-modal-background - 10);
 }
 
@@ -71,13 +71,16 @@
 .modal-header,
 .modal-body,
 .modal-footer {
-	padding: 20px 30px;
+	margin-left: @modal-padding-horizontal;
+	margin-right: @modal-padding-horizontal;
+	padding-bottom: @modal-padding-vertical;
+	padding-top: @modal-padding-vertical;
 	position: relative;
 }
 
 // header
 .modal-header {
-	// box-shadow: inset 0 -1px 0 rgba(0,0,0,.03), 0 1px 0 rgba(0,0,0,.03);
+	box-shadow: inset 0 -1px 0 rgba(0,0,0,.03), 0 1px 0 rgba(0,0,0,.03);
 }
 .modal-title {
 	color: inherit;
@@ -102,7 +105,7 @@
 	font-size: 24px;
 	padding: 15px 30px;
 	position: absolute;
-	right: 0;
+	right: -30px;
 	top: 0;
 
 	// add the x
@@ -122,6 +125,9 @@
 
 // body
 .modal-body {
+	padding-bottom: @modal-padding-horizontal;
+	padding-top: @modal-padding-horizontal;
+
 	> .field {
 		&:first-child {
 			margin-top: 0;
@@ -131,7 +137,7 @@
 
 // footer
 .modal-footer {
-	// box-shadow: inset 0 1px 0 rgba(0,0,0,.03), 0 -1px 0 rgba(0,0,0,.03);
+	box-shadow: inset 0 1px 0 rgba(0,0,0,.03), 0 -1px 0 rgba(0,0,0,.03);
 }
 
 
@@ -161,6 +167,13 @@
 		width: auto;
 	}
 }
+
+
+
+
+// Responsive
+// ------------------------------
+
 @media (min-width: @screen-sm) {
 	.modal {
 		// aligning elements
