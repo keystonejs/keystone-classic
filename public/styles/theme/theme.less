@@ -502,7 +502,11 @@ h3.relationship-heading {
 }
 
 // Name field
-.item-name .form-control {
+
+// legacy
+.item-name .form-control,
+// react
+.item-name-field .form-control {
 	.input-size(@input-height-large + 10; @padding-base-vertical; @padding-base-horizontal; ceil(@font-size-base * 1.70); @line-height-large; @input-border-radius);
 	// color: @brand-primary;
 	font-weight: 200;
