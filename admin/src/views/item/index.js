@@ -1,6 +1,6 @@
 var React = require('react'),
-	CreateForm = require('./CreateForm'),
-	EditForm = require('./EditForm'),
+	CreateForm = require('../../components/CreateForm'),
+	EditForm = require('../../components/EditForm'),
 	Header = require('./Header');
 
 var View = React.createClass({
