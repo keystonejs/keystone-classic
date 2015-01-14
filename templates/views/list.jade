@@ -22,55 +22,25 @@ block js
 	script(src='/keystone/js/lib/browserified/querystring.js')
 	script(src='/keystone/js/lib/browserified/queryfilter.js')
 	script.
-		Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)}, perPage: !{ Number(list.perPage) || 50 } };
+		Keystone.list = !{JSON.stringify(list.getOptions())};
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
+		
+		// Legacy data for List view
+		Keystone.list.cols = !{JSON.stringify(colPaths)};
+		Keystone.list.perPage = !{ Number(list.perPage) || 50 };
 		Keystone.items = !{ JSON.stringify(items) };
 		Keystone.search = "#{search}";
 		Keystone.filters = !{ JSON.stringify(filters) };
 		Keystone.sort = "#{sort.by}";
 		Keystone.query = "#{query}";
 		Keystone.csrf_query = "!{csrf_query}";
+		
+		App.Views.List.render();
 			
 block content
-	//- Create Item
+	//- New React View
 	//- ------------------------------
-	if !list.get('nocreate')
-		.create-item
-			if list.get('autocreate')
-				.toolbar
-					a(href='?new' + csrf_query).btn.btn-default.btn-create.btn-create-item
-						span.ion-plus-round
-						|  Create #{list.singular}
-			else
-				form(method='post', action='/keystone/' + list.path)
-					input(type='hidden', name='action', value='create')
-					input(type='hidden', name=csrf_token_key, value=csrf_token_value)
-					.form
-						h4 New #{list.singular}
-						if list.nameIsInitial
-							if list.nameField.type == 'name'
-								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
-								if list.nameField.note
-									.field-note !{list.nameField.note}
-							else if list.nameField.type == 'text'
-								.field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
-								if list.nameField.note
-									.field-note !{list.nameField.note}
-							else
-								.alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
-						
-						each field in list.initialFields
-							!= field.render('initial', submitted)
-					
-					.toolbar
-						.toolbar-create
-							button(type='submit').btn.btn-default.btn-create Create
-							button(type='button').btn.btn-link.btn-cancel.btn-cancel-create-item cancel
-						.toolbar-default
-							button(type='button', class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item
-								span.ion-plus-round
-								|  Create #{list.singular}
-		hr
+	div#list-view
 	
 	//-
 	//- List
