@@ -93,7 +93,7 @@ module.exports = Field.create({
 
 
 		row[column.name] = this.cleanInput ? this.cleanInput(event.target.value) : event.target.value;
-		console.log(row);
+
 		this.setState({
 			row: row
 		}, function () {
@@ -194,7 +194,7 @@ module.exports = Field.create({
 
 			if (isEditable)
 				html.push((
-					<td>
+					<td key={rowset.key+'delete-button'}>
 						<a href="javascript:;"
 							className='btn btn-default btn-cancel'
 							onClick={this.removeRow.bind(this, rowset)}>&times;</a>
@@ -202,7 +202,7 @@ module.exports = Field.create({
 				));
 			return (
 				<tr key={rowset.key}>
-					<td>{rowset.index +1}</td>
+					<td>{rowset.index + 1}</td>
 				    {html}
 
 				</tr>
