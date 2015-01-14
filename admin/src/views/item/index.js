@@ -34,6 +34,6 @@ var View = React.createClass({
 	
 });
 
-exports.render = function(view) {
+exports.render = function() {
 	React.render(<View />, document.getElementById('item-view'));
 };
