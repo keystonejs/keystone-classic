@@ -91,7 +91,7 @@ var Form = React.createClass({
 			<div>
 				<div className="modal modal-md">
 					<div className="modal-dialog">
-						<form className="modal-content" method="post" action={formAction}>
+						<form className="modal-content" encType="multipart/form-data" method="post" action={formAction}>
 							<input type="hidden" name="action" value="create" />
 							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 							<div className="modal-header">
