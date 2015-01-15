@@ -4,7 +4,7 @@
 
 var _ = require('underscore'),
 	util = require('util'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * Name FieldType Constructor

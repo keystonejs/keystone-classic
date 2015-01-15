@@ -9,7 +9,7 @@ var fs = require('fs-extra'),
 	async = require('async'),
 	util = require('util'),
 	utils = require('keystone-utils'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * localfile FieldType Constructor

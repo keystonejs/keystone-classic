@@ -3,10 +3,10 @@
  */
 
 var _ = require('underscore'),
-	keystone = require('../../'),
+	keystone = require('../../../'),
 	util = require('util'),
 	utils = require('keystone-utils'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * Relationship FieldType Constructor

@@ -3,12 +3,12 @@
  */
 
 var _ = require('underscore'),
-	keystone = require('../../'),
+	keystone = require('../../../'),
 	util = require('util'),
 	cloudinary = require('cloudinary'),
 	MPromise = require('mpromise'), // jshint ignore:line
 	utils = require('keystone-utils'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * CloudinaryImage FieldType Constructor

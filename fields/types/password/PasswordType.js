@@ -5,7 +5,7 @@
 var _ = require('underscore'),
 	util = require('util'),
 	bcrypt = require('bcrypt-nodejs'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * password FieldType Constructor

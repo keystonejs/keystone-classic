@@ -3,11 +3,11 @@
  */
 
 var _ = require('underscore'),
-	keystone = require('../../'),
+	keystone = require('../../../'),
 	util = require('util'),
 	cloudinary = require('cloudinary'),
 	utils = require('keystone-utils'),
-	super_ = require('../field'),
+	super_ = require('../Type'),
 	async = require('async');
 
 /**

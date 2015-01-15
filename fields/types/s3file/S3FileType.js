@@ -4,21 +4,21 @@
 
 var _ = require('underscore'),
 	moment = require('moment'),
-	keystone = require('../../'),
+	keystone = require('../../../'),
 	async = require('async'),
 	util = require('util'),
-	azure = require('azure'),
+	knox = require('knox'),
+	// s3 = require('s3'),
 	utils = require('keystone-utils'),
-	super_ = require('../field');
-
+	super_ = require('../Type');
 
 /**
- * AzureFile FieldType Constructor
+ * S3File FieldType Constructor
  * @extends Field
  * @api public
  */
 
-function azurefile(list, path, options) {
+function s3file(list, path, options) {
 
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
@@ -33,26 +33,18 @@ function azurefile(list, path, options) {
 
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\nAzureFile fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
-	}
-
-	azurefile.super_.call(this, list, path, options);
-
-	// validate azurefile config (has to happen after super_.call)
-	if (!this.azurefileconfig) {
 		throw new Error('Invalid Configuration\n\n' +
-			'AzureFile fields (' + list.key + '.' + path + ') require the "azurefile config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-azure for more information.\n');
+			'S3File fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
-	process.env.AZURE_STORAGE_ACCOUNT = this.azurefileconfig.account;
-	process.env.AZURE_STORAGE_ACCESS_KEY = this.azurefileconfig.key;
+	s3file.super_.call(this, list, path, options);
 
-	this.azurefileconfig.container = this.azurefileconfig.container || 'keystone';
-
-	var self = this;
-	options.filenameFormatter = options.filenameFormatter || function(item, filename) { return filename; };
-	options.containerFormatter = options.containerFormatter || function(item, filename) { return self.azurefileconfig.container; };
+	// validate s3 config (has to happen after super_.call)
+	if (!this.s3config) {
+		throw new Error('Invalid Configuration\n\n' +
+			'S3File fields (' + list.key + '.' + path + ') require the "s3 config" option to be set.\n\n' +
+			'See http://keystonejs.com/docs/configuration/#services-amazons3 for more information.\n');
+	}
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
@@ -65,14 +57,14 @@ function azurefile(list, path, options) {
  * Inherit from Field
  */
 
-util.inherits(azurefile, super_);
+util.inherits(s3file, super_);
 
 /**
  * Exposes the custom or keystone s3 config settings
  */
 
-Object.defineProperty(azurefile.prototype, 'azurefileconfig', { get: function() {
-	return this.options.azurefileconfig || keystone.get('azurefile config');
+Object.defineProperty(s3file.prototype, 's3config', { get: function() {
+	return this.options.s3config || keystone.get('s3 config');
 }});
 
 
@@ -82,9 +74,9 @@ Object.defineProperty(azurefile.prototype, 'azurefileconfig', { get: function() 
  * @api public
  */
 
-azurefile.prototype.pre = function(event, fn) {
+s3file.prototype.pre = function(event, fn) {
 	if (!this._pre[event]) {
-		throw new Error('AzureFile (' + this.list.key + '.' + this.path + ') error: azurefile.pre()\n\n' +
+		throw new Error('S3File (' + this.list.key + '.' + this.path + ') error: s3field.pre()\n\n' +
 			'Event ' + event + ' is not supported.\n');
 	}
 	this._pre[event].push(fn);
@@ -98,7 +90,7 @@ azurefile.prototype.pre = function(event, fn) {
  * @api public
  */
 
-azurefile.prototype.addToSchema = function() {
+s3file.prototype.addToSchema = function() {
 
 	var field = this,
 		schema = this.list.schema;
@@ -110,8 +102,6 @@ azurefile.prototype.addToSchema = function() {
 		size:			this._path.append('.size'),
 		filetype:		this._path.append('.filetype'),
 		url:			this._path.append('.url'),
-		etag:			this._path.append('.etag'),
-		container:		this._path.append('.container'),
 		// virtuals
 		exists:			this._path.append('.exists'),
 		upload:			this._path.append('_upload'),
@@ -123,9 +113,7 @@ azurefile.prototype.addToSchema = function() {
 		path:			String,
 		size:			Number,
 		filetype:		String,
-		url:			String,
-		etag: 			String,
-		container:		String
+		url:			String
 	});
 
 	schema.add(schemaPaths);
@@ -159,19 +147,17 @@ azurefile.prototype.addToSchema = function() {
 		 * @api public
 		 */
 		reset: function() {
-			try {
-				azure.createBlobService().deleteBlob(this.get(paths.container), this.get(paths.filename), function() {});
-			} catch(e) {}
 			reset(this);
 		},
 		/**
-		 * Deletes the file from AzureFile and resets the field
+		 * Deletes the file from S3File and resets the field
 		 *
 		 * @api public
 		 */
 		delete: function() {
 			try {
-				azure.createBlobService().blobService.deleteBlob(this.get(paths.container), this.get(paths.filename), function() {});
+				var client = knox.createClient(field.s3config);
+				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function(err, res){ return res ? res.resume() : false; });
 			} catch(e) {}
 			reset(this);
 		}
@@ -196,8 +182,22 @@ azurefile.prototype.addToSchema = function() {
  * @api public
  */
 
-azurefile.prototype.format = function(item) {
+s3file.prototype.format = function(item) {
+	if (this.hasFormatter()) {
+		return this.options.format(item, item[this.path]);
+	}
 	return item.get(this.paths.url);
+};
+
+
+/**
+ * Detects the field have formatter function
+ *
+ * @api public
+ */
+
+s3file.prototype.hasFormatter = function() {
+	return 'function' === typeof this.options.format;
 };
 
 
@@ -207,7 +207,7 @@ azurefile.prototype.format = function(item) {
  * @api public
  */
 
-azurefile.prototype.isModified = function(item) {
+s3file.prototype.isModified = function(item) {
 	return item.isModified(this.paths.url);
 };
 
@@ -218,7 +218,7 @@ azurefile.prototype.isModified = function(item) {
  * @api public
  */
 
-azurefile.prototype.validateInput = function(data) {
+s3file.prototype.validateInput = function(data) {
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -230,7 +230,7 @@ azurefile.prototype.validateInput = function(data) {
  * @api public
  */
 
-azurefile.prototype.updateItem = function(item, data) {
+s3file.prototype.updateItem = function(item, data) {
 	// TODO - direct updating of data (not via upload)
 };
 
@@ -241,14 +241,15 @@ azurefile.prototype.updateItem = function(item, data) {
  * @api public
  */
 
-azurefile.prototype.uploadFile = function(item, file, update, callback) {
+s3file.prototype.uploadFile = function(item, file, update, callback) {
 
 	var field = this,
+		path = field.options.s3path ? field.options.s3path + '/' : '',
 		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
 		name = prefix + file.name;
 
-	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, file.type)) {
-		return callback(new Error('Unsupported File Type: '+file.type));
+	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, file.mimetype)){
+		return callback(new Error('Unsupported File Type: '+file.mimetype));
 	}
 
 	if ('function' === typeof update) {
@@ -257,33 +258,36 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 	}
 
 	var doUpload = function() {
-		var blobService = azure.createBlobService();
-		var container = field.options.containerFormatter(item, file.name);
 
-		blobService.createContainerIfNotExists(container, {publicAccessLevel : 'blob'}, function(err) {
-			
+		if ('function' === typeof field.options.filename) {
+			name = field.options.filename(item, name);
+		}
+
+		knox.createClient(field.s3config).putFile(file.path, path + name, {
+			'Content-Type': file.mimetype,
+			'x-amz-acl': 'public-read'
+		}, function(err, res) {
+
+			if (res) res.resume();
 			if (err) return callback(err);
 
-			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function(err, blob, res) {
+			var protocol = (field.s3config.protocol && field.s3config.protocol + ':') || '',
+				url = res.req.url.replace(/^https?:/i, protocol);
 
-				if (err) return callback(err);
-			
-				var fileData = {
-					filename: blob.blob,
-					size: file.size,
-					filetype: file.type,
-					etag: blob.etag,
-					container: container,
-					url: 'http://' + field.azurefileconfig.account + '.blob.core.windows.net/' + container + '/' + blob.blob
-				};
+			var fileData = {
+				filename: name,
+				path: path,
+				size: file.size,
+				filetype: file.mimetype,
+				url: url
+			};
 
-				if (update) {
-					item.set(field.path, fileData);
-				}
+			if (update) {
+				item.set(field.path, fileData);
+			}
 
-				callback(null, fileData);
-					
-			});
+			callback(null, fileData);
+
 		});
 	};
 
@@ -293,6 +297,38 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 		if (err) return callback(err);
 		doUpload();
 	});
+
+	// Alternative method via S3 module, which provides helpful events for uploading files, leaving for future reference
+	/*
+	var client = s3.createClient(keystone.get('s3 config'));
+
+	var headers = {
+		'Content-Type': file.mimetype,
+		'x-amz-acl': 'public-read'
+	};
+
+	var uploader = client.upload(file.path, file.name, headers);
+
+	uploader.on('error', function(res) {
+		console.log('Error uploading Amazon S3 file:', res.stack);
+		callback(res.stack);
+	});
+
+	uploader.on('progress', function(amountDone, amountTotal) {
+		console.log('Amazon S3 file progress: ' + amountDone + ' of ' + amountTotal);
+	});
+
+	uploader.on('end', function(url) {
+		item.set(field.path, {
+			filename: file.name,
+			size: file.size,
+			filetype: file.mimetype,
+			url: url
+		});
+		callback();
+	});
+	*/
+
 };
 
 
@@ -306,7 +342,7 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
  * @api public
  */
 
-azurefile.prototype.getRequestHandler = function(item, req, paths, callback) {
+s3file.prototype.getRequestHandler = function(item, req, paths, callback) {
 
 	var field = this;
 
@@ -320,6 +356,7 @@ azurefile.prototype.getRequestHandler = function(item, req, paths, callback) {
 	callback = callback || function() {};
 
 	return function() {
+
 		if (req.body) {
 			var action = req.body[paths.action];
 
@@ -344,7 +381,7 @@ azurefile.prototype.getRequestHandler = function(item, req, paths, callback) {
  * @api public
  */
 
-azurefile.prototype.handleRequest = function(item, req, paths, callback) {
+s3file.prototype.handleRequest = function(item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
@@ -353,4 +390,4 @@ azurefile.prototype.handleRequest = function(item, req, paths, callback) {
  * Export class
  */
 
-exports = module.exports = azurefile;
+exports = module.exports = s3file;

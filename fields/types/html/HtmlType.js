@@ -3,7 +3,7 @@
  */
 
 var util = require('util'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * HTML FieldType Constructor

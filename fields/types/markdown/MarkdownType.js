@@ -4,7 +4,7 @@
 
 var util = require('util'),
 	marked = require('marked'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * Markdown FieldType Constructor

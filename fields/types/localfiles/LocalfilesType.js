@@ -6,10 +6,10 @@ var fs = require('fs-extra'),
 	path = require('path'),
 	_ = require('underscore'),
 	moment = require('moment'),
-	keystone = require('../../'),
+	keystone = require('../../../'),
 	util = require('util'),
 	utils = require('keystone-utils'),
-	super_ = require('../field'),
+	super_ = require('../Type'),
 	async = require('async');
 
 /**

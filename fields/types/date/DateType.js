@@ -4,44 +4,35 @@
 
 var util = require('util'),
 	moment = require('moment'),
-	super_ = require('../field');
-
-var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
+	super_ = require('../Type');
 
 /**
- * DateTime FieldType Constructor
+ * Date FieldType Constructor
  * @extends Field
  * @api public
  */
 
-function datetime(list, path, options) {
+function date(list, path, options) {
 	
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'large';
 	this._properties = ['formatString'];
 	
-	this.typeDescription = 'date and time';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
 	
 	if (this.formatString && 'string' !== typeof this.formatString) {
-		throw new Error('FieldType.DateTime: options.format must be a string.');
+		throw new Error('FieldType.Date: options.format must be a string.');
 	}
 	
-	datetime.super_.call(this, list, path, options);
-
-	this.paths = {
-		date: this._path.append('_date'),
-		time: this._path.append('_time')
-	};
-	
+	date.super_.call(this, list, path, options);
 }
 
 /*!
  * Inherit from Field
  */
 
-util.inherits(datetime, super_);
+util.inherits(date, super_);
 
 
 /**
@@ -49,7 +40,8 @@ util.inherits(datetime, super_);
  *
  * @api public
  */
-datetime.prototype.format = function(item, format) {
+
+date.prototype.format = function(item, format) {
 	if (format || this.formatString) {
 		return item.get(this.path) ? moment(item.get(this.path)).format(format || this.formatString) : '';
 	} else {
@@ -64,7 +56,7 @@ datetime.prototype.format = function(item, format) {
  * @api public
  */
 
-datetime.prototype.moment = function(item) {
+date.prototype.moment = function(item) {
 	return moment(item.get(this.path));
 };
 
@@ -75,27 +67,11 @@ datetime.prototype.moment = function(item) {
  * @api public
  */
 
-datetime.prototype.parse = function(item) {
+date.prototype.parse = function(item) {
 	var newValue = moment.apply(moment, Array.prototype.slice.call(arguments, 1));
 	item.set(this.path, (newValue && newValue.isValid()) ? newValue.toDate() : null);
 	return newValue;
 };
-
-
-/**
- * Get the value from a data object; may be simple or a pair of fields
- *
- * @api private
- */
-
-datetime.prototype.getInputFromData = function(data) {
-	if (this.paths.date in data && this.paths.time in data) {
-		return (data[this.paths.date] + ' ' + data[this.paths.time]).trim();
-	} else {
-		return data[this.path];
-	}
-};
-
 
 /**
  * Checks that a valid date has been provided in a data object
@@ -105,15 +81,15 @@ datetime.prototype.getInputFromData = function(data) {
  * @api public
  */
 
-datetime.prototype.validateInput = function(data, required, item) {
+date.prototype.validateInput = function(data, required, item) {
 
-	if (!(this.path in data && !(this.paths.date in data && this.paths.time in data)) && item && item.get(this.path)) return true;
+	if (!(this.path in data) && item && item.get(this.path)) return true;
 
-	var newValue = moment(this.getInputFromData(data), parseFormats);
+	var newValue = moment(data[this.path]);
 
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
-	} else if (this.getInputFromData(data) && newValue && !newValue.isValid()) {
+	} else if (data[this.path] && newValue && !newValue.isValid()) {
 		return false;
 	} else {
 		return true;
@@ -128,12 +104,12 @@ datetime.prototype.validateInput = function(data, required, item) {
  * @api public
  */
 
-datetime.prototype.updateItem = function(item, data) {
+date.prototype.updateItem = function(item, data) {
 
-	if (!(this.path in data || (this.paths.date in data && this.paths.time in data)))
+	if (!(this.path in data))
 		return;
 
-	var newValue = moment(this.getInputFromData(data), parseFormats);
+	var newValue = moment(data[this.path]);
 
 	if (newValue && newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
@@ -150,4 +126,4 @@ datetime.prototype.updateItem = function(item, data) {
  * Export class
  */
 
-exports = module.exports = datetime;
+exports = module.exports = date;

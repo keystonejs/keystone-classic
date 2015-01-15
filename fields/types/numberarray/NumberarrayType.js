@@ -5,7 +5,7 @@
 var util = require('util'),
 	numeral = require('numeral'),
 	utils = require('keystone-utils'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * Number FieldType Constructor

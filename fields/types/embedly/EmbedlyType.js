@@ -3,10 +3,10 @@
  */
 
 var _ = require('underscore'),
-	keystone = require('../../'),
+	keystone = require('../../../'),
 	util = require('util'),
 	EmbedlyAPI = require('embedly'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * Embedly FieldType Constructor

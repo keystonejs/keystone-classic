@@ -3,12 +3,12 @@
  */
 
 var _ = require('underscore'),
-	keystone = require('../../'),
+	keystone = require('../../../'),
 	querystring = require('querystring'),
 	https = require('https'),
 	util = require('util'),
 	utils = require('keystone-utils'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 var RADIUS_KM = 6371,
 	RADIUS_MILES = 3959;

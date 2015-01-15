@@ -5,7 +5,7 @@
 var _ = require('underscore'),
 	util = require('util'),
 	utils = require('keystone-utils'),
-	super_ = require('../field');
+	super_ = require('../Type');
 
 /**
  * Select FieldType Constructor

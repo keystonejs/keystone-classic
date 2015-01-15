@@ -4,11 +4,11 @@
 
 var _ = require('underscore'),
 	marked = require('marked'),
-	Path = require('./path'),
+	Path = require('../../lib/path'),
 	fspath = require('path'),
 	jade = require('jade'),
 	fs = require('fs'),
-	keystone = require('../'),
+	keystone = require('../../'),
 	utils = require('keystone-utils'),
 	compiledTemplates = {};
 
