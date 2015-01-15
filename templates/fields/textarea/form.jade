@@ -1,9 +1,0 @@
-.field.type-textarea(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
-	label.field-label= field.label
-	.field-ui(class='width-' + field.width)
-		if field.noedit
-			.field-value!= utils.textToHTML(item.get(field.path))
-		else
-			textarea(name=field.path, style='height: #{field.height}px').form-control= item.get(field.path)
-		if field.note
-			.field-note!= field.note
