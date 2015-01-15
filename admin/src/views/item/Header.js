@@ -1,4 +1,5 @@
-var React = require('react'),
+var React = require('react/addons'),
+	ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
 	AltText = require('../../components/AltText');
 
 var Header = React.createClass({
@@ -46,7 +47,7 @@ var Header = React.createClass({
 	renderDrilldown: function() {
 		if (this.state.searchIsVisible) return null;
 		return (
-			<ul className="item-breadcrumbs">
+			<ul className="item-breadcrumbs" key="drilldown">
 				<li>
 					<a href="javascript:;" title={'Search ' + this.props.list.plural} onClick={this.toggleSearch.bind(this, true)}>
 						<span className="ion-search"></span>
@@ -104,7 +105,7 @@ var Header = React.createClass({
 		var list = this.props.list;
 		var submitButtonClass = 'btn ' + (this.state.searchIsFocused ? 'btn-primary' : 'btn-default');
 		return (
-			<div className="searchbox">
+			<div className="searchbox" key="search">
 				<form action={'/keystone/' + list.path} className="form-inline searchbox-form">
 					<div className="searchbox-field">
 						<input
@@ -168,8 +169,10 @@ var Header = React.createClass({
 		return (
 			<div>
 				<div className="item-toolbar item-toolbar--header">
-					{this.renderDrilldown()}
-					{this.renderSearch()}
+					<ReactCSSTransitionGroup transitionName="ToolbarToggle" className="ToolbarToggle-wrapper" component="div">
+						{this.renderDrilldown()}
+						{this.renderSearch()}
+					</ReactCSSTransitionGroup>
 					{this.renderInfo()}
 				</div>
 			</div>
