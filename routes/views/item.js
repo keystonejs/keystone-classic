@@ -88,9 +88,9 @@ exports = module.exports = function(req, res) {
 						}
 						refList.model.findById(item.get(field.path)).exec(function(err, result) {
 							if (result) {
-								drilldown.data[path] = result;
+								// drilldown.data[path] = result;
 								drilldown.items.push({
-									list: refList,
+									list: refList.getOptions(),
 									items: [{
 										label: refList.getDocumentName(result),
 										href: '/keystone/' + refList.path + '/' + result.id
