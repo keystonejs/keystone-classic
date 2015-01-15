@@ -22,7 +22,7 @@ var View = React.createClass({
 			return (
 				<div className="toolbar">
 					<a href={'?new' + Keystone.csrf.query} className="btn btn-default btn-create btn-create-item">
-						<span className="ion-plus-round" />
+						<span className="ion-plus-round mr-5" />
 						Create {Keystone.list.singular}
 					</a>
 				</div>
@@ -31,7 +31,7 @@ var View = React.createClass({
 		return (
 			<div className="toolbar-default">
 				<button type="button" className="btn btn-default btn-create btn-create-item" onClick={this.toggleCreate.bind(this, true)}>
-					<span className="ion-plus-round" />
+					<span className="ion-plus-round mr-5" />
 					Create {Keystone.list.singular}
 				</button>
 			</div>
