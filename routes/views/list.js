@@ -234,11 +234,12 @@ exports = module.exports = function(req, res) {
 		}
 		
 		updateHandler.process(req.body, {
-			flashErrors: true,
+			// flashErrors: true,
 			logErrors: true,
 			fields: req.list.initialFields
 		}, function(err) {
 			if (err) {
+				viewLocals.createErrors = err;
 				return renderView();
 			}
 			req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');

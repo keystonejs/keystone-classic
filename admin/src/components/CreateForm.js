@@ -8,6 +8,7 @@ var Form = React.createClass({
 	
 	getDefaultProps: function() {
 		return {
+			err: null,
 			values: {}
 		};
 	},
@@ -25,6 +26,7 @@ var Form = React.createClass({
 		return {
 			values: values
 		};
+		
 	},
 	
 	handleChange: function(event) {
@@ -61,11 +63,25 @@ var Form = React.createClass({
 	
 	render: function() {
 		
-		var form = {},
+		var errors = null,
+			form = {},
 			list = this.props.list,
 			formAction = '/keystone/' + list.path,
 			nameField = this.props.list.nameField,
 			focusRef;
+		
+		if (this.props.err && this.props.err.errors) {
+			var msgs = {};
+			_.each(this.props.err.errors, function(err, path) {
+				msgs[path] = <li>{err.message}</li>;
+			});
+			errors = (
+				<div className="alert alert-danger">
+					<h4>There was an error creating the new {list.singular}:</h4>
+					<ul>{msgs}</ul>
+				</div>
+			);
+		}
 		
 		if (list.nameIsInitial) {
 			var nameFieldProps = this.getFieldProps(nameField);
@@ -109,6 +125,7 @@ var Form = React.createClass({
 								<div className="modal-title">Create a new {list.singular}</div>
 							</div>
 							<div className="modal-body">
+								{errors}
 								{form}
 							</div>
 							<div className="modal-footer">

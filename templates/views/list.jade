@@ -18,6 +18,7 @@ block js
 		// Support for the POST-based create process
 		Keystone.showCreateForm = !{JSON.stringify(showCreateForm)};
 		Keystone.createFormData = !{JSON.stringify(submitted)};
+		Keystone.createFormErrors = !{JSON.stringify(createErrors || null)};
 		
 		// Legacy data for List view
 		Keystone.list.cols = !{JSON.stringify(colPaths)};
