@@ -396,7 +396,7 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 			if (keystone.get('env') !== 'production') {
 				uploadOptions.tags.push(tp + 'dev');
 			}
-			console.log(field.options)
+
 			if (field.options.publicID) {
 				var publicIdValue = item.get(field.options.publicID);
 				if (publicIdValue) {
