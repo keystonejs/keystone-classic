@@ -3,11 +3,9 @@ var React = require('react'),
 
 var View = React.createClass({
 	
-	// TODO: Handle auto-display of create form when validation failed
-	
 	getInitialState: function() {
 		return {
-			createIsVisible: false
+			createIsVisible: Keystone.showCreateForm
 		};
 	},
 	
@@ -40,7 +38,7 @@ var View = React.createClass({
 	
 	renderCreateForm: function() {
 		if (!this.state.createIsVisible) return null;
-		return <CreateForm list={Keystone.list} onCancel={this.toggleCreate.bind(this, false)} />
+		return <CreateForm list={Keystone.list} onCancel={this.toggleCreate.bind(this, false)} values={Keystone.createFormData} />
 	},
 	
 	render: function() {

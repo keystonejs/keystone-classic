@@ -15,6 +15,10 @@ block js
 		Keystone.list = !{JSON.stringify(list.getOptions())};
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 		
+		// Support for the POST-based create process
+		Keystone.showCreateForm = !{JSON.stringify(showCreateForm)};
+		Keystone.createFormData = !{JSON.stringify(submitted)};
+		
 		// Legacy data for List view
 		Keystone.list.cols = !{JSON.stringify(colPaths)};
 		Keystone.list.perPage = !{ Number(list.perPage) || 50 };

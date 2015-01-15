@@ -6,12 +6,20 @@ var _ = require('underscore'),
 
 var Form = React.createClass({
 	
+	getDefaultProps: function() {
+		return {
+			values: {}
+		};
+	},
+	
 	getInitialState: function() {
 		
-		var values = {};
+		var values = this.props.values;
 		
 		_.each(this.props.list.fields, function(field) {
-			values[field.path] = field.defaultValue;
+			if (!values[field.path]) {
+				values[field.path] = field.defaultValue;
+			}
 		});
 		
 		return {
@@ -62,9 +70,11 @@ var Form = React.createClass({
 		if (list.nameIsInitial) {
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.ref = focusRef = 'focusTarget';
-			nameFieldProps.className = 'item-name-field';
-			nameFieldProps.placeholder = nameField.label;
-			nameFieldProps.label = false;
+			if (nameField.type === 'text') {
+				nameFieldProps.className = 'item-name-field';
+				nameFieldProps.placeholder = nameField.label;
+				nameFieldProps.label = false;
+			}
 			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
 		}
 		
