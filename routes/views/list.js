@@ -110,28 +110,23 @@ exports = module.exports = function(req, res) {
 				download_link += '?' + downloadParams;
 			}
 			
-			var compileFields = function(item, callback) { item.compile('initial', callback); };
+			keystone.render(req, res, 'list', _.extend(viewLocals, {
+				section: keystone.nav.by.list[req.list.key] || {},
+				title: 'Keystone: ' + req.list.plural,
+				page: 'list',
+				link_to: link_to,
+				download_link: download_link,
+				list: req.list,
+				sort: sort,
+				filters: cleanFilters,
+				search: req.query.search,
+				columns: columns,
+				colPaths: _.pluck(columns, 'path'),
+				items: items,
+				submitted: req.body || {},
+				query: req.query
+			}));
 			
-			async.eachSeries(req.list.initialFields, compileFields , function() {
-				
-				keystone.render(req, res, 'list', _.extend(viewLocals, {
-					section: keystone.nav.by.list[req.list.key] || {},
-					title: 'Keystone: ' + req.list.plural,
-					page: 'list',
-					link_to: link_to,
-					download_link: download_link,
-					list: req.list,
-					sort: sort,
-					filters: cleanFilters,
-					search: req.query.search,
-					columns: columns,
-					colPaths: _.pluck(columns, 'path'),
-					items: items,
-					submitted: req.body || {},
-					query: req.query
-				}));
-				
-			});
 		});
 	
 	};
