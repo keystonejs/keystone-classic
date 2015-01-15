@@ -81,7 +81,7 @@ module.exports = Field.create({
 							label: item.name
 						};
 					}),
-					complete: true
+					complete: data.total === data.items.length
 				});
 			});
 	},
