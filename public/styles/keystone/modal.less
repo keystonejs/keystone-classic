@@ -16,12 +16,10 @@
 	overflow-y: scroll;
 	z-index: @zindex-modal-background;
 
-	// When fading in the modal, animate it to slide down
-	&.fade .modal-dialog {
-	  .translate(0, -25%);
-	  .transition-transform(~"0.3s ease-out");
+	// Animate the modal
+	&.animate {
+		.animation( fadeInExpand 300ms cubic-bezier(0.680, -0.550, 0.265, 1.550) );
 	}
-	&.in .modal-dialog { .translate(0, 0)}
 }
 
 // Shell div to position the modal with bottom padding
