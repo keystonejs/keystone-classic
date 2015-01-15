@@ -9,7 +9,8 @@ var Form = React.createClass({
 	getDefaultProps: function() {
 		return {
 			err: null,
-			values: {}
+			values: {},
+			animate: false
 		};
 	},
 	
@@ -70,6 +71,8 @@ var Form = React.createClass({
 			nameField = this.props.list.nameField,
 			focusRef;
 		
+		var modalClass = 'modal modal-md' + (this.props.animate ? ' animate' : '');
+		
 		if (this.props.err && this.props.err.errors) {
 			var msgs = {};
 			_.each(this.props.err.errors, function(err, path) {
@@ -115,7 +118,7 @@ var Form = React.createClass({
 		
 		return (
 			<div>
-				<div className="modal modal-md">
+				<div className={modalClass}>
 					<div className="modal-dialog">
 						<form className="modal-content" encType="multipart/form-data" method="post" action={formAction}>
 							<input type="hidden" name="action" value="create" />
