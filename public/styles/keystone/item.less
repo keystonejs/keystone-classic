@@ -83,25 +83,83 @@
 .searchbox-field {
 	float: left;
 	position: relative;
-	width: 20em;
+	width: 15em;
 
 	> input {
 		.border-right-radius(0);
+
+		// transitioning the bg/text color of the button looks rubbish
+		// so we remove the transition on the input
+		.transition( none );
 	}
 }
 .searchbox-button {
 	float: left;
 
-	> button {
+	> .btn {
 		.border-left-radius(0);
 		height: @input-height-base;
 		margin-left: -1px;
 	}
 }
-.searchbox-submit {
-	.transition( background 200ms linear );
+// native focus looks weird when animating
+.btn-cancel:focus {
+	outline: none;
 }
 
+
+
+
+// Search Transition
+// ------------------------------
+
+// common
+.ToolbarToggle-wrapper {
+	position: relative;
+}
+.ToolbarToggle-enter,
+.ToolbarToggle-leave {
+	.transition( all 320ms cubic-bezier(0.645, 0.045, 0.355, 1) );
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+// animate searchbox
+.searchbox.ToolbarToggle-enter {
+	.translate3d(-25%, 0, 0);
+	opacity: .01;
+}
+.searchbox.ToolbarToggle-enter-active {
+	.translate3d(0, 0, 0);
+	opacity: 1;
+}
+.searchbox.ToolbarToggle-leave {
+	.translate3d(0, 0, 0);
+	opacity: 1;
+}
+.searchbox.ToolbarToggle-leave-active {
+	.translate3d(-25%, 0, 0);
+	opacity: .01;
+}
+
+// animate breadcrumbs
+.item-breadcrumbs.ToolbarToggle-enter {
+	.translate3d(50%, 0, 0);
+	opacity: .01;
+}
+.item-breadcrumbs.ToolbarToggle-enter-active {
+	.translate3d(0, 0, 0);
+	opacity: 1;
+}
+.item-breadcrumbs.ToolbarToggle-leave {
+	.translate3d(0, 0, 0);
+	opacity: 1;
+}
+.item-breadcrumbs.ToolbarToggle-leave-active {
+	.translate3d(50%, 0, 0);
+	opacity: .01;
+}
 
 
 

@@ -1,8 +1,0 @@
-.field.type-password
-	label.field-label= field.label
-	.field-ui
-		.row
-			.col-sm-6: input(type='password', name=field.path, autocomplete='off', value=item[field.path], placeholder='Set password').form-control
-			.col-sm-6: input(type='password', name=field.paths.confirm, autocomplete='off', value=item[field.paths.confirm], placeholder='Confirm password').form-control
-		if field.note
-			.field-note!= field.note

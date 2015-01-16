@@ -1,7 +1,7 @@
 module.exports = {
 	boolean:          require('../../fields/types/boolean/BooleanField'),
 	date:             require('../../fields/types/date/DateField'),
-	datetime:         require('../../fields/types/datetime/DateTimeField'),
+	datetime:         require('../../fields/types/datetime/DatetimeField'),
 	email:            require('../../fields/types/email/EmailField'),
 	location:         require('../../fields/types/location/LocationField'),
 	markdown:         require('../../fields/types/markdown/MarkdownField'),
@@ -27,5 +27,5 @@ module.exports = {
 	html:             require('../../fields/types/html/HtmlField'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/CloudinaryImageField'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesField'),
-	table:            require('../../fields/types/table/Table'),
+	table:            require('../../fields/types/table/TableField'),
 };

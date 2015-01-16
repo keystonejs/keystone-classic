@@ -1,6 +1,6 @@
 var React = require('react'),
-	CreateForm = require('./CreateForm'),
-	EditForm = require('./EditForm'),
+	CreateForm = require('../../components/CreateForm'),
+	EditForm = require('../../components/EditForm'),
 	Header = require('./Header');
 
 var View = React.createClass({
@@ -34,6 +34,6 @@ var View = React.createClass({
 	
 });
 
-exports.render = function(view) {
+exports.render = function() {
 	React.render(<View />, document.getElementById('item-view'));
 };

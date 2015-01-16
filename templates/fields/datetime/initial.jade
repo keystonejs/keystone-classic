@@ -1,8 +1,0 @@
-.field.type-datetime
-	label.field-label= field.label
-	.field-ui(class='width-' + field.width)
-		.form-row
-			.col-sm-6: input(type='text', name=field.paths.date, value=item[field.paths.date], placeholder='YYYY-MM-DD', autocomplete='off').form-control.ui-datepicker
-			.col-sm-6: input(type='text', name=field.paths.time, value=item[field.paths.time], placeholder='HH:MM:SS am/pm', autocomplete='off').form-control
-	if field.note
-		.field-note!= field.note

@@ -7,16 +7,6 @@ jQuery(function($) {
 	// Cache items
 	var $filters = $('#list-filters');
 	
-	/** Create Item */
-	
-	$('.btn-create-item').click(function(){
-		var $form = $(this).closest('form');
-		$form.find('.form').show();
-		$form.find('.toolbar-default').hide();
-		$form.find('.toolbar-create').show();
-		$form.find('input[type=text]').first().focus();
-	});
-	
 	// Autofocus the search field if there has been a search
 	
 	if ($('.search-list input').val()) {
@@ -24,13 +14,6 @@ jQuery(function($) {
 			$('.search-list input').focus();
 		},10);
 	}
-	
-	$('.btn-cancel-create-item').click(function() {
-		var $form = $(this).closest('form');
-		$form.find('.form').hide();
-		$form.find('.toolbar-default').show();
-		$form.find('.toolbar-create').hide();
-	});
 	
 	/** Columns */
 	
