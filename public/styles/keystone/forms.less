@@ -84,11 +84,25 @@
 	opacity: 0;
 }
 
-// Big ass fields (name fields)
+
+
+
+// Name fields
+// ------------------------------
+
+// old
 .item-name .form-control {
 	color: @brand-primary;
 	margin-bottom: 20px;
 }
+// new
+.item-name-field > .field-ui,
+.modal-body > .item-name-field > .field-ui {
+	width: 100%;
+}
+
+
+
 
 // Disabled fields
 .form-control.disabled {
@@ -417,6 +431,7 @@ label.checkbox {
 @import "./field-cloudinaryimage";
 @import "./field-localfile";
 @import "./field-s3file";
+@import "./field-localfiles";
 
 
 

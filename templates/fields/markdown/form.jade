@@ -1,9 +1,0 @@
-.field.type-markdown(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false')
-	label.field-label= field.label
-	.field-ui(class='width-' + field.width)
-		if field.noedit
-			.field-value!= item.get(field.paths.html)
-		else
-			textarea(name=field.path, style='height: #{field.height}px', data-toolbar-hidden-buttons=field.toolbarOptions.hiddenButtons).form-control.markdown.code= item.get(field.paths.md)
-		if field.note
-			.field-note!= field.note

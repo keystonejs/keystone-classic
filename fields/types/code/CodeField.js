@@ -1,5 +1,5 @@
 var React = require('react'),
-	Field = require('../field'),
+	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	CodeMirror = require('codemirror');
 
@@ -40,6 +40,12 @@ module.exports = Field.create({
 	componentWillReceiveProps: function(nextProps) {
 		if (this.codeMirror && this._currentCodemirrorValue !== nextProps.value) {
 			this.codeMirror.setValue(nextProps.value);
+		}
+	},
+	
+	focus: function() {
+		if (this.codeMirror) {
+			this.codeMirror.focus();
 		}
 	},
 	

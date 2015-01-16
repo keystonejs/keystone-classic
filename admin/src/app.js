@@ -8,6 +8,7 @@
 
 module.exports = {
 	Views: {
-		Item: require('./views/item')
+		Item: require('./views/item'),
+		List: require('./views/list')
 	}
 };

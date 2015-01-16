@@ -1,8 +1,0 @@
-.field.type-name
-	label.field-label= field.label
-	.field-ui
-		.row
-			.col-sm-6: input(type='text', name=field.paths.first, autocomplete='off', placeholder='first name', value=item[field.paths.first]).form-control
-			.col-sm-6: input(type='text', name=field.paths.last, autocomplete='off', placeholder='last name', value=item[field.paths.last]).form-control
-		if field.note
-			.field-note!= field.note

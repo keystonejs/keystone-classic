@@ -1,4 +1,4 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.App=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.App=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./admin/src/app.js":[function(require,module,exports){
 /**
  * This file exposes the top-level application components for Keystone.
  * 
@@ -9,11 +9,424 @@
 
 module.exports = {
 	Views: {
-		Item: require('./views/item')
+		Item: require('./views/item'),
+		List: require('./views/list')
 	}
 };
 
-},{"./views/item":8}],2:[function(require,module,exports){
+},{"./views/item":"/Users/Jed/Development/packages/keystone/admin/src/views/item/index.js","./views/list":"/Users/Jed/Development/packages/keystone/admin/src/views/list/index.js"}],"/Users/Jed/Development/packages/keystone/admin/src/components/AltText.js":[function(require,module,exports){
+var React = require('react'),
+	vkey = require('vkey');
+
+var AltText = React.createClass({displayName: "AltText",
+	
+	getDefaultProps: function() {
+		return {
+			component: 'span',
+			modifier: '<alt>',
+			normal: '',
+			modified: ''
+		};
+	},
+	
+	getInitialState: function() {
+		return {
+			modified: false
+		};
+	},
+	
+	componentDidMount: function() {
+		document.body.addEventListener('keydown', this.handleKeyDown, false);
+		document.body.addEventListener('keyup', this.handleKeyUp, false);
+	},
+	
+	handleKeyDown: function(e) {
+		if (vkey[e.keyCode] !== this.props.modifier) return;
+		this.setState({
+			modified: true
+		});
+	},
+	
+	handleKeyUp: function(e) {
+		if (vkey[e.keyCode] !== this.props.modifier) return;
+		this.setState({
+			modified: false
+		});
+	},
+	
+	componentWillUnmount: function() {
+		document.body.removeEventListener('keydown', this.handleKeyDown);
+		document.body.removeEventListener('keyup', this.handleKeyUp);
+	},
+	
+	render: function() {
+		return React.createElement(this.props.component, null, this.state.modified ? this.props.modified : this.props.normal);
+	}
+	
+});
+
+module.exports = AltText;
+
+},{"react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","vkey":"/Users/Jed/Development/packages/keystone/node_modules/vkey/index.js"}],"/Users/Jed/Development/packages/keystone/admin/src/components/CreateForm.js":[function(require,module,exports){
+var _ = require('underscore'),
+	moment = require('moment'),
+	React = require('react'),
+	Fields = require('../fields'),
+	InvalidFieldType = require('./InvalidFieldType');
+
+var Form = React.createClass({displayName: "Form",
+	
+	getDefaultProps: function() {
+		return {
+			err: null,
+			values: {},
+			animate: false
+		};
+	},
+	
+	getInitialState: function() {
+		
+		var values = this.props.values;
+		
+		_.each(this.props.list.fields, function(field) {
+			if (!values[field.path]) {
+				values[field.path] = field.defaultValue;
+			}
+		});
+		
+		return {
+			values: values
+		};
+		
+	},
+	
+	handleChange: function(event) {
+		var values = this.state.values;
+		values[event.path] = event.value;
+		this.setState({
+			values: values
+		});
+	},
+
+	componentWillMount: function() {
+		this._bodyStyleOverflow = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+	},
+	
+	componentDidMount: function() {
+		if (this.refs.focusTarget) {
+			this.refs.focusTarget.focus();
+		}
+	},
+
+	componentWillUnmount: function() {
+		document.body.style.overflow = this._bodyStyleOverflow;
+	},
+	
+	getFieldProps: function(field) {
+		var props = _.clone(field);
+		props.value = this.state.values[field.path];
+		props.values = this.state.values;
+		props.onChange = this.handleChange;
+		props.mode = 'create';
+		return props;
+	},
+	
+	render: function() {
+		
+		var errors = null,
+			form = {},
+			list = this.props.list,
+			formAction = '/keystone/' + list.path,
+			nameField = this.props.list.nameField,
+			focusRef;
+		
+		var modalClass = 'modal modal-md' + (this.props.animate ? ' animate' : '');
+		
+		if (this.props.err && this.props.err.errors) {
+			var msgs = {};
+			_.each(this.props.err.errors, function(err, path) {
+				msgs[path] = React.createElement("li", null, err.message);
+			});
+			errors = (
+				React.createElement("div", {className: "alert alert-danger"}, 
+					React.createElement("h4", null, "There was an error creating the new ", list.singular, ":"), 
+					React.createElement("ul", null, msgs)
+				)
+			);
+		}
+		
+		if (list.nameIsInitial) {
+			var nameFieldProps = this.getFieldProps(nameField);
+			nameFieldProps.ref = focusRef = 'focusTarget';
+			if (nameField.type === 'text') {
+				nameFieldProps.className = 'item-name-field';
+				nameFieldProps.placeholder = nameField.label;
+				nameFieldProps.label = false;
+			}
+			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
+		}
+		
+		_.each(list.initialFields, function(path) {
+				
+			var field = list.fields[path];
+			
+			if ('function' !== typeof Fields[field.type]) {
+				form[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
+				return;
+			}
+			
+			var fieldProps = this.getFieldProps(field);
+			
+			if (!focusRef) {
+				fieldProps.ref = focusRef = 'focusTarget';
+			}
+			
+			form[field.path] = React.createElement(Fields[field.type], fieldProps);
+			
+		}, this);
+		
+		return (
+			React.createElement("div", null, 
+				React.createElement("div", {className: modalClass}, 
+					React.createElement("div", {className: "modal-dialog"}, 
+						React.createElement("form", {className: "modal-content", encType: "multipart/form-data", method: "post", action: formAction}, 
+							React.createElement("input", {type: "hidden", name: "action", value: "create"}), 
+							React.createElement("input", {type: "hidden", name: Keystone.csrf.key, value: Keystone.csrf.value}), 
+							React.createElement("div", {className: "modal-header"}, 
+								React.createElement("button", {type: "button", className: "modal-close", onClick: this.props.onCancel}), 
+								React.createElement("div", {className: "modal-title"}, "Create a new ", list.singular)
+							), 
+							React.createElement("div", {className: "modal-body"}, 
+								errors, 
+								form
+							), 
+							React.createElement("div", {className: "modal-footer"}, 
+								React.createElement("button", {type: "submit", className: "btn btn-create"}, "Create"), 
+								React.createElement("button", {type: "button", className: "btn btn-link btn-cancel", onClick: this.props.onCancel}, "cancel")
+							)
+						)
+					)
+				), 
+				React.createElement("div", {className: "modal-backdrop"})
+			)
+		);
+	}
+	
+});
+
+module.exports = Form;
+
+},{"../fields":"/Users/Jed/Development/packages/keystone/admin/src/fields.js","./InvalidFieldType":"/Users/Jed/Development/packages/keystone/admin/src/components/InvalidFieldType.js","moment":"/Users/Jed/Development/packages/keystone/node_modules/moment/moment.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/admin/src/components/EditForm.js":[function(require,module,exports){
+var _ = require('underscore'),
+	moment = require('moment'),
+	React = require('react'),
+	Fields = require('../fields'),
+	FormHeading = require('./FormHeading'),
+	Toolbar = require('./Toolbar'),
+	InvalidFieldType = require('./InvalidFieldType');
+
+var EditForm = React.createClass({displayName: "EditForm",
+	
+	getInitialState: function() {
+		return {
+			values: _.clone(this.props.data.fields)
+		};
+	},
+	
+	getFieldProps: function(field) {
+		var props = _.clone(field);
+		props.value = this.state.values[field.path];
+		props.values = this.state.values;
+		props.onChange = this.handleChange;
+		props.mode = 'edit';
+		return props;
+	},
+	
+	handleChange: function(event) {
+		var values = this.state.values;
+		values[event.path] = event.value;
+		this.setState({
+			values: values
+		});
+	},
+	
+	renderNameField: function() {
+		
+		var namePath = this.props.list.namePath,
+			nameField = this.props.list.nameField,
+			nameIsEditable = this.props.list.nameIsEditable;
+		
+		function wrapNameField(field) {
+			return (
+				React.createElement("div", {className: "field item-name"}, 
+					React.createElement("div", {className: "col-sm-12"}, 
+						field
+					)
+				)
+			);
+		}
+		
+		if (nameIsEditable) {
+			
+			var nameFieldProps = this.getFieldProps(nameField);
+			nameFieldProps.className = 'item-name-field';
+			nameFieldProps.placeholder = nameField.label;
+			nameFieldProps.label = false;
+			
+			return wrapNameField(
+				React.createElement(Fields[nameField.type], nameFieldProps)
+			);
+			
+		} else if (nameField && nameField.type == 'name') {
+			var nameValue = this.props.data.fields[nameField.path] || {};
+			nameValue = _.compact([nameValue.first, nameValue.last]).join(' ');
+			return wrapNameField(
+				React.createElement("h2", {className: "form-heading name-value"}, nameValue || '(no name)')
+			);
+		} else {
+			return wrapNameField(
+				React.createElement("h2", {className: "form-heading name-value"}, this.props.data.fields[namePath] || '(no name)')
+			);
+		}
+	},
+	
+	renderTrackingMeta: function() {
+		
+		if (!this.props.list.tracking) return null;
+		
+		var elements = {},
+			data = {},
+			label;
+		
+		if (this.props.list.tracking.createdAt) {
+			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
+			if (data.createdAt) {
+				elements.createdAt = (
+					React.createElement("div", {className: "item-details-meta-item"}, 
+						React.createElement("span", {className: "item-details-meta-label"}, "Created"), 
+						React.createElement("span", {className: "item-details-meta-info"}, moment(data.createdAt).format('Do MMM YY h:mm:ssa'))
+					)
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.createdBy) {
+			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
+			if (data.createdBy) {
+				label = data.createdAt ? 'by' : 'Created by';
+				// todo: harden logic around user name
+				elements.createdBy = (
+					React.createElement("div", {className: "item-details-meta-item"}, 
+						React.createElement("span", {className: "item-details-meta-label"}, label), 
+						React.createElement("span", {className: "item-details-meta-info"}, data.createdBy.name.first, " ", data.createdBy.name.last)
+					)
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.updatedAt) {
+			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
+			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
+				elements.updatedAt = (
+					React.createElement("div", {className: "item-details-meta-item"}, 
+						React.createElement("span", {className: "item-details-meta-label"}, "Updated"), 
+						React.createElement("span", {className: "item-details-meta-info"}, moment(data.updatedAt).format('Do MMM YY h:mm:ssa'))
+					)
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.updatedBy) {
+			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
+			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
+				label = data.updatedAt ? 'by' : 'Created by';
+				elements.updatedBy = (
+					React.createElement("div", {className: "item-details-meta-item"}, 
+						React.createElement("span", {className: "item-details-meta-label"}, label), 
+						React.createElement("span", {className: "item-details-meta-info"}, data.updatedBy.name.first, " ", data.updatedBy.name.last)
+					)
+				);
+			}
+		}
+		
+		return React.createElement("div", {className: "item-details-meta"}, elements);
+		
+	},
+	
+	renderFormElements: function() {
+		
+		var elements = {},
+			headings = 0;
+		
+		_.each(this.props.list.uiElements, function(el) {
+			
+			if (el.type === 'heading') {
+				
+				headings++;
+				elements['h-' + headings] = React.createElement(FormHeading, el);
+				
+			} else if (el.type === 'field') {
+				
+				var field = this.props.list.fields[el.field];
+				
+				if ('function' !== typeof Fields[field.type]) {
+					elements[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
+					return;
+				}
+				
+				elements[field.path] = React.createElement(Fields[field.type], this.getFieldProps(field));
+				
+			}
+			
+		}, this);
+		
+		return elements;
+		
+	},
+	
+	renderToolbar: function() {
+		
+		var toolbar = {};
+		
+		if (!this.props.list.noedit) {
+			toolbar.save = React.createElement("button", {type: "submit", className: "btn btn-save"}, "Save");
+			// TODO: Confirm: 'Are you sure you want to reset your changes?'
+			toolbar.reset = React.createElement("a", {href: '/keystone/' + this.props.list.path + '/' + this.props.data.id, className: "btn btn-link btn-cancel"}, "reset changes");
+		}
+		
+		if (!this.props.list.noedit) {
+			// TODO: Confirm: 'Are you sure you want to delete this ' + list.singular.toLowerCase() + '?'
+			toolbar.del = React.createElement("a", {href: '/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query, className: "btn btn-link btn-cancel delete"}, "delete ", this.props.list.singular.toLowerCase());
+		}
+		
+		return (
+			React.createElement(Toolbar, null, 
+				toolbar
+			)
+		);
+		
+	},
+	
+	render: function() {
+		
+		return (
+			React.createElement("form", {method: "post", encType: "multipart/form-data", className: "item-details"}, 
+				React.createElement("input", {type: "hidden", name: "action", value: "updateItem"}), 
+				React.createElement("input", {type: "hidden", name: Keystone.csrf.key, value: Keystone.csrf.value}), 
+				this.renderNameField(), 
+				this.renderTrackingMeta(), 
+				this.renderFormElements(), 
+				this.renderToolbar()
+			)
+		);
+	}
+	
+});
+
+module.exports = EditForm;
+
+},{"../fields":"/Users/Jed/Development/packages/keystone/admin/src/fields.js","./FormHeading":"/Users/Jed/Development/packages/keystone/admin/src/components/FormHeading.js","./InvalidFieldType":"/Users/Jed/Development/packages/keystone/admin/src/components/InvalidFieldType.js","./Toolbar":"/Users/Jed/Development/packages/keystone/admin/src/components/Toolbar.js","moment":"/Users/Jed/Development/packages/keystone/node_modules/moment/moment.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/admin/src/components/FormHeading.js":[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({displayName: "exports",
@@ -29,7 +442,7 @@ module.exports = React.createClass({displayName: "exports",
 	
 });
 
-},{"react":198}],3:[function(require,module,exports){
+},{"react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/admin/src/components/InvalidFieldType.js":[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({displayName: "exports",
@@ -40,15 +453,15 @@ module.exports = React.createClass({displayName: "exports",
 	
 });
 
-},{"react":198}],4:[function(require,module,exports){
+},{"react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/admin/src/components/Toolbar.js":[function(require,module,exports){
 var React = require('react');
 
 /**
- * TODO
- * - Stick at the bottom of the viewport
+ * TODO: Refactor this to use React, not jQuery
  */
 
 var Toolbar = React.createClass({displayName: "Toolbar",
+	
 	componentDidMount: function() {
 		(function() {
 		
@@ -115,18 +528,18 @@ var Toolbar = React.createClass({displayName: "Toolbar",
 	},
 	render: function() {
 		return (
-			React.createElement("div", {className: "toolbar "}, this.props.children)
+			React.createElement("div", {className: "toolbar"}, this.props.children)
 		);
 	}
 });
 
 module.exports = Toolbar;
 
-},{"react":198}],5:[function(require,module,exports){
+},{"react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/admin/src/fields.js":[function(require,module,exports){
 module.exports = {
 	boolean:          require('../../fields/types/boolean/BooleanField'),
 	date:             require('../../fields/types/date/DateField'),
-	datetime:         require('../../fields/types/datetime/DateTimeField'),
+	datetime:         require('../../fields/types/datetime/DatetimeField'),
 	email:            require('../../fields/types/email/EmailField'),
 	location:         require('../../fields/types/location/LocationField'),
 	markdown:         require('../../fields/types/markdown/MarkdownField'),
@@ -144,6 +557,7 @@ module.exports = {
 	s3file:           require('../../fields/types/s3file/S3FileField'),
 	azurefile:        require('../../fields/types/azurefile/AzureFileField'),
 	localfile:  	  require('../../fields/types/localfile/LocalFileField'),
+	localfiles:       require('../../fields/types/localfiles/LocalFilesField'),
 	textarray:        require('../../fields/types/textarray/TextArrayField'),
 	numberarray:      require('../../fields/types/numberarray/NumberArrayField'),
 	code:             require('../../fields/types/code/CodeField'),
@@ -153,184 +567,57 @@ module.exports = {
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesField')
 };
 
-},{"../../fields/types/azurefile/AzureFileField":14,"../../fields/types/boolean/BooleanField":15,"../../fields/types/cloudinaryimage/CloudinaryImageField":16,"../../fields/types/cloudinaryimages/CloudinaryImagesField":17,"../../fields/types/code/CodeField":18,"../../fields/types/color/ColorField":19,"../../fields/types/date/DateField":20,"../../fields/types/datetime/DateTimeField":21,"../../fields/types/email/EmailField":22,"../../fields/types/embedly/EmbedlyField":23,"../../fields/types/html/HtmlField":25,"../../fields/types/key/KeyField":26,"../../fields/types/localfile/LocalFileField":27,"../../fields/types/location/LocationField":28,"../../fields/types/markdown/MarkdownField":29,"../../fields/types/money/MoneyField":31,"../../fields/types/name/NameField":32,"../../fields/types/number/NumberField":33,"../../fields/types/numberarray/NumberArrayField":34,"../../fields/types/password/PasswordField":35,"../../fields/types/relationship/RelationshipField":36,"../../fields/types/s3file/S3FileField":37,"../../fields/types/select/SelectField":38,"../../fields/types/text/TextField":39,"../../fields/types/textarea/TextareaField":40,"../../fields/types/textarray/TextArrayField":41,"../../fields/types/url/UrlField":42}],6:[function(require,module,exports){
-var _ = require('underscore'),
-	moment = require('moment'),
-	React = require('react'),
-	Fields = require('../../fields'),
-	FormHeading = require('../../components/formHeading'),
-	Toolbar = require('../../components/toolbar'),
-	InvalidFieldType = require('../../components/invalidFieldType');
+},{"../../fields/types/azurefile/AzureFileField":"/Users/Jed/Development/packages/keystone/fields/types/azurefile/AzureFileField.js","../../fields/types/boolean/BooleanField":"/Users/Jed/Development/packages/keystone/fields/types/boolean/BooleanField.js","../../fields/types/cloudinaryimage/CloudinaryImageField":"/Users/Jed/Development/packages/keystone/fields/types/cloudinaryimage/CloudinaryImageField.js","../../fields/types/cloudinaryimages/CloudinaryImagesField":"/Users/Jed/Development/packages/keystone/fields/types/cloudinaryimages/CloudinaryImagesField.js","../../fields/types/code/CodeField":"/Users/Jed/Development/packages/keystone/fields/types/code/CodeField.js","../../fields/types/color/ColorField":"/Users/Jed/Development/packages/keystone/fields/types/color/ColorField.js","../../fields/types/date/DateField":"/Users/Jed/Development/packages/keystone/fields/types/date/DateField.js","../../fields/types/datetime/DatetimeField":"/Users/Jed/Development/packages/keystone/fields/types/datetime/DatetimeField.js","../../fields/types/email/EmailField":"/Users/Jed/Development/packages/keystone/fields/types/email/EmailField.js","../../fields/types/embedly/EmbedlyField":"/Users/Jed/Development/packages/keystone/fields/types/embedly/EmbedlyField.js","../../fields/types/html/HtmlField":"/Users/Jed/Development/packages/keystone/fields/types/html/HtmlField.js","../../fields/types/key/KeyField":"/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js","../../fields/types/localfile/LocalFileField":"/Users/Jed/Development/packages/keystone/fields/types/localfile/LocalFileField.js","../../fields/types/localfiles/LocalFilesField":"/Users/Jed/Development/packages/keystone/fields/types/localfiles/LocalFilesField.js","../../fields/types/location/LocationField":"/Users/Jed/Development/packages/keystone/fields/types/location/LocationField.js","../../fields/types/markdown/MarkdownField":"/Users/Jed/Development/packages/keystone/fields/types/markdown/MarkdownField.js","../../fields/types/money/MoneyField":"/Users/Jed/Development/packages/keystone/fields/types/money/MoneyField.js","../../fields/types/name/NameField":"/Users/Jed/Development/packages/keystone/fields/types/name/NameField.js","../../fields/types/number/NumberField":"/Users/Jed/Development/packages/keystone/fields/types/number/NumberField.js","../../fields/types/numberarray/NumberArrayField":"/Users/Jed/Development/packages/keystone/fields/types/numberarray/NumberArrayField.js","../../fields/types/password/PasswordField":"/Users/Jed/Development/packages/keystone/fields/types/password/PasswordField.js","../../fields/types/relationship/RelationshipField":"/Users/Jed/Development/packages/keystone/fields/types/relationship/RelationshipField.js","../../fields/types/s3file/S3FileField":"/Users/Jed/Development/packages/keystone/fields/types/s3file/S3FileField.js","../../fields/types/select/SelectField":"/Users/Jed/Development/packages/keystone/fields/types/select/SelectField.js","../../fields/types/text/TextField":"/Users/Jed/Development/packages/keystone/fields/types/text/TextField.js","../../fields/types/textarea/TextareaField":"/Users/Jed/Development/packages/keystone/fields/types/textarea/TextareaField.js","../../fields/types/textarray/TextArrayField":"/Users/Jed/Development/packages/keystone/fields/types/textarray/TextArrayField.js","../../fields/types/url/UrlField":"/Users/Jed/Development/packages/keystone/fields/types/url/UrlField.js"}],"/Users/Jed/Development/packages/keystone/admin/src/views/item/Header.js":[function(require,module,exports){
+var React = require('react/addons'),
+	ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
+	AltText = require('../../components/AltText');
 
-var Form = React.createClass({displayName: "Form",
+var Header = React.createClass({
 	
-	getInitialState: function() {
-		return {
-			values: _.clone(this.props.data.fields)
-		};
-	},
-	
-	handleChange: function(event) {
-		var values = this.state.values;
-		values[event.path] = event.value;
-		// console.log(event);
-		// console.log(values);
-		this.setState({
-			values: values
-		});
-	},
-	
-	renderTrackingMeta: function() {
-		
-		if (!this.props.list.tracking) return null;
-		
-		var elements = {},
-			data = {},
-			label;
-		
-		if (this.props.list.tracking.createdAt) {
-			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
-			if (data.createdAt) {
-				elements.createdAt = (
-					React.createElement("div", {className: "item-details-meta-item"}, 
-						React.createElement("span", {className: "item-details-meta-label"}, "Created"), 
-						React.createElement("span", {className: "item-details-meta-info"}, moment(data.createdAt).format('Do MMM YY h:mm:ssa'))
-					)
-				);
-			}
-		}
-		
-		if (this.props.list.tracking.createdBy) {
-			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
-			if (data.createdBy) {
-				label = data.createdAt ? 'by' : 'Created by';
-				// todo: harden logic around user name
-				elements.createdBy = (
-					React.createElement("div", {className: "item-details-meta-item"}, 
-						React.createElement("span", {className: "item-details-meta-label"}, label), 
-						React.createElement("span", {className: "item-details-meta-info"}, data.createdBy.name.first, " ", data.createdBy.name.last)
-					)
-				);
-			}
-		}
-		
-		if (this.props.list.tracking.updatedAt) {
-			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
-			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
-				elements.updatedAt = (
-					React.createElement("div", {className: "item-details-meta-item"}, 
-						React.createElement("span", {className: "item-details-meta-label"}, "Updated"), 
-						React.createElement("span", {className: "item-details-meta-info"}, moment(data.updatedAt).format('Do MMM YY h:mm:ssa'))
-					)
-				);
-			}
-		}
-		
-		if (this.props.list.tracking.updatedBy) {
-			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
-			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
-				label = data.updatedAt ? 'by' : 'Created by';
-				elements.updatedBy = (
-					React.createElement("div", {className: "item-details-meta-item"}, 
-						React.createElement("span", {className: "item-details-meta-label"}, label), 
-						React.createElement("span", {className: "item-details-meta-info"}, data.updatedBy.name.first, " ", data.updatedBy.name.last)
-					)
-				);
-			}
-		}
-		
-		return React.createElement("div", {className: "item-details-meta"}, elements);
-		
-	},
-	
-	render: function() {
-		
-		var elements = {},
-			headings = 0;
-		
-		_.each(this.props.list.uiElements, function(el) {
-			
-			if (el.type === 'heading') {
-				
-				headings++;
-				elements['h-' + headings] = React.createElement(FormHeading, el);
-				
-			} else if (el.type === 'field') {
-				
-				var field = this.props.list.fields[el.field];
-				
-				if ('function' !== typeof Fields[field.type]) {
-					elements[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
-					return;
-				}
-				
-				var fieldProps = _.clone(field);
-				fieldProps.value = this.state.values[field.path];
-				fieldProps.values = this.state.values;
-				fieldProps.onChange = this.handleChange;
-				fieldProps.mode = 'edit';
-				elements[field.path] = React.createElement(Fields[field.type], fieldProps);
-				
-			}
-			
-		}, this);
-		
-		var toolbar = {};
-		
-		if (!this.props.list.noedit) {
-			toolbar.save = React.createElement("button", {type: "submit", className: "btn btn-save"}, "Save");
-			// TODO: Confirm: 'Are you sure you want to reset your changes?'
-			toolbar.reset = React.createElement("a", {href: '/keystone/' + this.props.list.path + '/' + this.props.data.id, className: "btn btn-link btn-cancel"}, "reset changes");
-		}
-		
-		if (!this.props.list.noedit) {
-			// TODO: Confirm: 'Are you sure you want to delete this ' + list.singular.toLowerCase() + '?'
-			toolbar.del = React.createElement("a", {href: '/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query, className: "btn btn-link btn-cancel delete"}, "delete ", this.props.list.singular.toLowerCase());
-		}
-		
-		var tracking = this.renderTrackingMeta();
-		
-		return (
-			React.createElement("div", null, 
-				tracking, 
-				elements, 
-				React.createElement(Toolbar, null, 
-					toolbar
-				)
-			)
-		);
-	}
-	
-});
-
-module.exports = Form;
-
-},{"../../components/formHeading":2,"../../components/invalidFieldType":3,"../../components/toolbar":4,"../../fields":5,"moment":47,"react":198,"underscore":202}],7:[function(require,module,exports){
-var _ = require('underscore'),
-	React = require('react'),
-	Fields = require('../../fields');
-
-var Toolbar = React.createClass({
-	
-	displayName: 'Toolbar',
+	displayName: 'Header',
 	
 	getInitialState: function() {
 		return {
 			searchIsVisible: false,
+			searchIsFocused: false,
 			searchString: ''
 		};
 	},
 	
-	toggleSearch: function(on) {
+	componentDidUpdate: function(prevProps, prevState) {
+		if (this.state.searchIsVisible && !prevState.searchIsVisible) {
+			this.refs.searchField.getDOMNode().focus();
+		}
+	},
+	
+	toggleCreate: function(visible) {
+		this.props.toggleCreate(visible);
+	},
+	
+	toggleSearch: function(visible) {
 		this.setState({
-			searchIsVisible: on
+			searchIsVisible: visible,
+			searchIsFocused: visible,
+			searchString: ''
+		});
+	},
+	
+	searchFocusChanged: function(focused) {
+		this.setState({
+			searchIsFocused: focused
+		});
+	},
+	
+	searchStringChanged: function(event) {
+		this.setState({
+			searchString: event.target.value
 		});
 	},
 	
 	renderDrilldown: function() {
 		if (this.state.searchIsVisible) return null;
 		return (
-			React.createElement("ul", {className: "item-breadcrumbs"}, 
+			React.createElement("ul", {className: "item-breadcrumbs", key: "drilldown"}, 
 				React.createElement("li", null, 
 					React.createElement("a", {href: "javascript:;", title: 'Search ' + this.props.list.plural, onClick: this.toggleSearch.bind(this, true)}, 
 						React.createElement("span", {className: "ion-search"})
@@ -353,7 +640,7 @@ var Toolbar = React.createClass({
 			dd.items.forEach(function(el, i) {
 				links.push(React.createElement("a", {href: el.href, title: dd.list.singular}, el.label));
 				if (i < dd.items.length - 1) {
-					links.push(React.createElement("span", null, ","));
+					links.push(React.createElement("span", {className: "separator"}, ","));
 				}
 			});
 			
@@ -386,14 +673,25 @@ var Toolbar = React.createClass({
 	renderSearch: function() {
 		if (!this.state.searchIsVisible) return null;
 		var list = this.props.list;
+		var submitButtonClass = 'btn ' + (this.state.searchIsFocused ? 'btn-primary' : 'btn-default');
 		return (
-			React.createElement("div", {className: "searchbox"}, 
+			React.createElement("div", {className: "searchbox", key: "search"}, 
 				React.createElement("form", {action: '/keystone/' + list.path, className: "form-inline searchbox-form"}, 
 					React.createElement("div", {className: "searchbox-field"}, 
-						React.createElement("input", {type: "search", name: "search", placeholder: 'Search ' + list.plural, className: "form-control searchbox-input"})
+						React.createElement("input", {
+							ref: "searchField", 
+							type: "search", 
+							name: "search", 
+							value: this.state.searchString, 
+							onChange: this.searchStringChanged, 
+							onFocus: this.searchFocusChanged.bind(this, true), 
+							onBlur: this.searchFocusChanged.bind(this, false), 
+							placeholder: 'Search ' + list.plural, 
+							className: "form-control searchbox-input"}
+						)
 					), 
 					React.createElement("div", {className: "searchbox-button"}, 
-						React.createElement("button", {type: "submit", className: "btn btn-default searchbox-submit"}, "Search")
+						React.createElement("button", {type: "submit", className: submitButtonClass}, "Search")
 					), 
 					React.createElement("button", {type: "button", className: "btn btn-link btn-cancel", onClick: this.toggleSearch.bind(this, false)}, "Cancel")
 				)
@@ -413,7 +711,14 @@ var Toolbar = React.createClass({
 	renderKeyOrId: function() {
 		var list = this.props.list;
 		if (list.autokey && this.props.data[list.autokey.path]) {
-			return React.createElement("li", null, list.autokey.path, ": ", this.props.data[list.autokey.path])
+			return (
+				React.createElement("li", null, 
+					React.createElement(AltText, {
+						normal: list.autokey.path + ': ' + this.props.data[list.autokey.path], 
+						modified: 'id: ' + this.props.data.id}
+					)
+				)	
+			);
 		}
 		return React.createElement("li", null, "id: ", this.props.data.id);
 	},
@@ -422,7 +727,7 @@ var Toolbar = React.createClass({
 		if (this.props.list.nocreate) return null;
 		return (
 			React.createElement("li", null, 
-				React.createElement("a", {href: '/keystone/' + this.props.list.path + '?new' + Keystone.csrf.query}, 
+				React.createElement("a", {className: "item-toolbar-create-button", href: "javascript:;", onClick: this.toggleCreate.bind(this, true)}, 
 					React.createElement("span", {className: "mr-5 ion-plus"}), 
 					"New ", this.props.list.singular
 				)
@@ -433,30 +738,126 @@ var Toolbar = React.createClass({
 	render: function() {
 		return (
 			React.createElement("div", null, 
-				this.renderDrilldown(), 
-				this.renderSearch(), 
-				this.renderInfo()
+				React.createElement("div", {className: "item-toolbar item-toolbar--header"}, 
+					React.createElement(ReactCSSTransitionGroup, {transitionName: "ToolbarToggle", className: "ToolbarToggle-wrapper", component: "div"}, 
+						this.renderDrilldown(), 
+						this.renderSearch()
+					), 
+					this.renderInfo()
+				)
 			)
 		);
 	}
 	
 });
 
-module.exports = Toolbar;
+module.exports = Header;
 
-},{"../../fields":5,"react":198,"underscore":202}],8:[function(require,module,exports){
+},{"../../components/AltText":"/Users/Jed/Development/packages/keystone/admin/src/components/AltText.js","react/addons":"/Users/Jed/Development/packages/keystone/node_modules/react/addons.js"}],"/Users/Jed/Development/packages/keystone/admin/src/views/item/index.js":[function(require,module,exports){
 var React = require('react'),
-	Form = require('./Form'),
-	Toolbar = require('./Toolbar');
+	CreateForm = require('../../components/CreateForm'),
+	EditForm = require('../../components/EditForm'),
+	Header = require('./Header');
 
-module.exports = {
-	render: function(view) {
-		React.render(React.createElement(Toolbar, {list: view.list, data: view.item, drilldown: view.drilldown}), document.getElementById('item-toolbar'));
-		React.render(React.createElement(Form, {list: view.list, data: view.item}), document.getElementById('item-form'));
+var View = React.createClass({displayName: "View",
+	
+	getInitialState: function() {
+		return {
+			createIsVisible: false
+		};
+	},
+	
+	toggleCreate: function(visible) {
+		this.setState({
+			createIsVisible: visible
+		});
+	},
+	
+	renderCreateForm: function() {
+		if (!this.state.createIsVisible) return null;
+		return React.createElement(CreateForm, {list: Keystone.list, onCancel: this.toggleCreate.bind(this, false)})
+	},
+	
+	render: function() {
+		return (
+			React.createElement("div", null, 
+				this.renderCreateForm(), 
+				React.createElement(Header, {list: Keystone.list, data: Keystone.item, drilldown: Keystone.drilldown, toggleCreate: this.toggleCreate}), 
+				React.createElement(EditForm, {list: Keystone.list, data: Keystone.item})
+			)
+		);
 	}
+	
+});
+
+exports.render = function() {
+	React.render(React.createElement(View, null), document.getElementById('item-view'));
 };
 
-},{"./Form":6,"./Toolbar":7,"react":198}],9:[function(require,module,exports){
+},{"../../components/CreateForm":"/Users/Jed/Development/packages/keystone/admin/src/components/CreateForm.js","../../components/EditForm":"/Users/Jed/Development/packages/keystone/admin/src/components/EditForm.js","./Header":"/Users/Jed/Development/packages/keystone/admin/src/views/item/Header.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/admin/src/views/list/index.js":[function(require,module,exports){
+var React = require('react'),
+	CreateForm = require('../../components/CreateForm');
+
+var View = React.createClass({displayName: "View",
+	
+	getInitialState: function() {
+		return {
+			createIsVisible: Keystone.showCreateForm,
+			animateCreateForm: false
+		};
+	},
+	
+	toggleCreate: function(visible) {
+		this.setState({
+			createIsVisible: visible,
+			animateCreateForm: true
+		});
+	},
+	
+	renderCreateButton: function() {
+		if (Keystone.list.autocreate) {
+			return (
+				React.createElement("div", {className: "toolbar"}, 
+					React.createElement("a", {href: '?new' + Keystone.csrf.query, className: "btn btn-default btn-create btn-create-item"}, 
+						React.createElement("span", {className: "ion-plus-round mr-5"}), 
+						"Create ", Keystone.list.singular
+					)
+				)
+			);
+		}
+		return (
+			React.createElement("div", {className: "toolbar-default"}, 
+				React.createElement("button", {type: "button", className: "btn btn-default btn-create btn-create-item", onClick: this.toggleCreate.bind(this, true)}, 
+					React.createElement("span", {className: "ion-plus-round mr-5"}), 
+					"Create ", Keystone.list.singular
+				)
+			)
+		);
+	},
+	
+	renderCreateForm: function() {
+		if (!this.state.createIsVisible) return null;
+		return React.createElement(CreateForm, {list: Keystone.list, animate: this.state.animateCreateForm, onCancel: this.toggleCreate.bind(this, false), values: Keystone.createFormData, err: Keystone.createFormErrors})
+	},
+	
+	render: function() {
+		if (Keystone.list.nocreate) return null;
+		return (
+			React.createElement("div", {className: "create-item"}, 
+				this.renderCreateButton(), 
+				this.renderCreateForm(), 
+				React.createElement("hr", null)
+			)
+		);
+	}
+	
+});
+
+exports.render = function() {
+	React.render(React.createElement(View, null), document.getElementById('list-view'));
+};
+
+},{"../../components/CreateForm":"/Users/Jed/Development/packages/keystone/admin/src/components/CreateForm.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/components/DateInput.js":[function(require,module,exports){
 var React = require('react'),
 	pikaday = require('pikaday');
 
@@ -500,7 +901,7 @@ module.exports = React.createClass({displayName: "exports",
 	
 });
 
-},{"pikaday":48,"react":198}],10:[function(require,module,exports){
+},{"pikaday":"/Users/Jed/Development/packages/keystone/node_modules/pikaday/pikaday.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/components/Note.js":[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({displayName: "exports",
@@ -513,9 +914,7 @@ module.exports = React.createClass({displayName: "exports",
 	
 });
 
-},{"react":198}],11:[function(require,module,exports){
-module.exports=require(10)
-},{"/Users/Jed/Development/packages/keystone/fields/components/Note.js":10,"react":198}],12:[function(require,module,exports){
+},{"react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/mixins/ArrayField.js":[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react');
 
@@ -593,10 +992,11 @@ module.exports = {
 	}
 };
 
-},{"react":198,"underscore":202}],13:[function(require,module,exports){
+},{"react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/Field.js":[function(require,module,exports){
 var _ = require('underscore'),
+	cx = require('classnames'),
 	React = require('react'),
-	Note = require('../components/note');
+	Note = require('../components/Note');
 
 
 function validateSpec(spec) {
@@ -635,27 +1035,42 @@ var Base = module.exports.Base = {
 		return this.props.collapse && !this.props.value;
 	},
 	
-	renderUI: function(spec) {
-		var fieldClassName = 'field-ui field-size-' + this.props.size;
-		var inner = this.props.noedit ? this.renderValue() : this.renderField();
-		return (
-			React.createElement("div", {className: "field field-type-" + this.props.type}, 
-				React.createElement("label", {className: "field-label"}, this.props.label), 
-				React.createElement("div", {className: fieldClassName}, 
-					inner, 
-					React.createElement(Note, {note: this.props.note})
-				)
-			)
-		);
-		
+	focus: function() {
+		if (!this.refs[this.spec.focusTargetRef]) return;
+		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+	},
+	
+	renderLabel: function() {
+		if (!this.props.label) return null;
+		return React.createElement("label", {className: "field-label"}, this.props.label);
+	},
+	
+	renderNote: function() {
+		if (!this.props.note) return null;
+		return React.createElement(Note, {note: this.props.note});
 	},
 	
 	renderField: function() {
-		return React.createElement("input", {type: "text", name: this.props.path, ref: "focusTarget", value: this.props.value, onChange: this.valueChanged, autoComplete: "off", className: "form-control"});
+		return React.createElement("input", {type: "text", ref: "focusTarget", name: this.props.path, placeholder: this.props.placeholder, value: this.props.value, onChange: this.valueChanged, autoComplete: "off", className: "form-control"});
 	},
 	
 	renderValue: function() {
 		return React.createElement("div", {className: "field-value"}, this.props.value);
+	},
+	
+	renderUI: function(spec) {
+		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label });
+		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
+		return (
+			React.createElement("div", {className: wrapperClassName}, 
+				this.renderLabel(), 
+				React.createElement("div", {className: fieldClassName}, 
+					this.props.noedit ? this.renderValue() : this.renderField(), 
+					this.renderNote()
+				)
+			)
+		);
+		
 	}
 	
 };
@@ -671,8 +1086,8 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		componentDidUpdate: function(prevProps, prevState) {
-			if (prevState.isCollapsed && !this.state.isCollapsed && this.refs[this.spec.focusTargetRef]) {
-				this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+			if (prevState.isCollapsed && !this.state.isCollapsed) {
+				this.focus();
 			}
 		},
 		
@@ -741,12 +1156,12 @@ module.exports.create = function(spec) {
 	
 };
 
-},{"../components/note":11,"react":198,"underscore":202}],14:[function(require,module,exports){
+},{"../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","classnames":"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/azurefile/AzureFileField.js":[function(require,module,exports){
 module.exports = require('../localfile/LocalFileField');
 
-},{"../localfile/LocalFileField":27}],15:[function(require,module,exports){
+},{"../localfile/LocalFileField":"/Users/Jed/Development/packages/keystone/fields/types/localfile/LocalFileField.js"}],"/Users/Jed/Development/packages/keystone/fields/types/boolean/BooleanField.js":[function(require,module,exports){
 var React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 module.exports = Field.create({
 	
@@ -789,11 +1204,11 @@ module.exports = Field.create({
 	
 });
 
-},{"../field":24,"react":198}],16:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/cloudinaryimage/CloudinaryImageField.js":[function(require,module,exports){
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
-	Field = require('../field'),
+	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	Select = require('react-select');
 
@@ -801,15 +1216,15 @@ var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'ima
 
 module.exports = Field.create({
 
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	changeImage: function () {
+	changeImage: function() {
 		this.refs.fileField.getDOMNode().click();
 	},
 
-	getImageSource: function () {
+	getImageSource: function() {
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
@@ -819,7 +1234,7 @@ module.exports = Field.create({
 		}
 	},
 
-	getImageURL: function () {
+	getImageURL: function() {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
@@ -828,7 +1243,7 @@ module.exports = Field.create({
 	/**
 	 * Reset origin and removal.
 	 */
-	undoRemove: function () {
+	undoRemove: function() {
 		this.fileFieldNode().value = "";
 		this.setState({
 			removeExisting: false,
@@ -905,28 +1320,28 @@ module.exports = Field.create({
 	/**
 	 * Is the currently active image uploaded in this session?
 	 */
-	hasLocal: function () {
+	hasLocal: function() {
 		return this.state.origin === "local";
 	},
 
 	/**
 	 * Do we have an image preview to display?
 	 */
-	hasImage: function () {
+	hasImage: function() {
 		return this.hasExisting() || this.hasLocal();
 	},
 
 	/**
 	 * Do we have an existing file?
 	 */
-	hasExisting: function () {
+	hasExisting: function() {
 		return !!this.props.value.url;
 	},
 
 	/**
 	 * Render an image preview
 	 */
-	renderImagePreview: function () {
+	renderImagePreview: function() {
 		var iconClassName;
 		var className = 'image-preview';
 
@@ -952,7 +1367,7 @@ module.exports = Field.create({
 		return React.createElement("div", {key: this.props.path + '_preview', className: className}, body);
 	},
 
-	renderImagePreviewThumbnail: function () {
+	renderImagePreviewThumbnail: function() {
 		return React.createElement("img", {key: this.props.path + '_preview_thumbnail', className: "img-load", style:  { height: '90'}, src: this.getImageSource()});
 	},
 
@@ -976,7 +1391,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderImageDimensions: function () {
+	renderImageDimensions: function() {
 		return React.createElement("div", {className: "field-value"}, this.props.value.width, " x ", this.props.value.height);
 	},
 
@@ -987,7 +1402,7 @@ module.exports = Field.create({
 	 *  - On a cloudinary file, output a "from cloudinary" message.
 	 *  - On removal of existing file, output a "save to remove" message.
 	 */
-	renderAlert: function () {
+	renderAlert: function() {
 		if (this.hasLocal()) {
 			return React.createElement("div", {className: "upload-queued pull-left"}, 
 				React.createElement("div", {className: "alert alert-success"}, "Image selected - save to upload")
@@ -1011,7 +1426,7 @@ module.exports = Field.create({
 	 *  - On removal of existing image, output "undo remove" button.
 	 *  - Otherwise output Cancel/Delete image button.
 	 */
-	renderClearButton: function () {
+	renderClearButton: function() {
 		if (this.state.removeExisting) {
 			return React.createElement("button", {type: "button", className: "btn btn-link btn-cancel btn-undo-image", onClick: this.undoRemove}, 
 				"Undo Remove"
@@ -1029,15 +1444,15 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return React.createElement("input", {ref: "fileField", type: "file", name: this.props.paths.upload, className: "field-upload", onChange: this.fileChanged});
 	},
 
-	renderFileAction: function () {
+	renderFileAction: function() {
 		return React.createElement("input", {type: "hidden", name: this.props.paths.action, className: "field-action", value: this.state.action});
 	},
 
-	renderImageToolbar: function () {
+	renderImageToolbar: function() {
 		return React.createElement("div", {key: this.props.path + '_toolbar', className: "image-toolbar"}, 
 			React.createElement("div", {className: "pull-left"}, 
 				React.createElement("button", {type: "button", onClick: this.changeImage, className: "btn btn-default btn-upload-image"}, 
@@ -1049,7 +1464,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderImageSelect: function () {
+	renderImageSelect: function() {
 		var getOptions = function(input, callback) {
 			$.get('/keystone/api/cloudinary/autocomplete', {
 				dataType: 'json',
@@ -1084,7 +1499,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		var container = [],
 			body = [],
 			hasImage = this.hasImage(),
@@ -1125,17 +1540,17 @@ module.exports = Field.create({
 	}
 });
 
-},{"../../components/Note":10,"../field":24,"jquery":45,"react":198,"react-select":51,"underscore":202}],17:[function(require,module,exports){
+},{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","jquery":"/Users/Jed/Development/packages/keystone/node_modules/jquery/dist/jquery.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","react-select":"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Select.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/cloudinaryimages/CloudinaryImagesField.js":[function(require,module,exports){
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
-	Field = require('../field');
+	Field = require('../Field');
 
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
 
 var Thumbnail = React.createClass({displayName: "Thumbnail",
 	
-	render: function () {
+	render: function() {
 		var iconClassName, imageDetails;
 
 		if (this.props.deleted) {
@@ -1180,7 +1595,7 @@ var Thumbnail = React.createClass({displayName: "Thumbnail",
 
 module.exports = Field.create({
 
-	getInitialState: function () {
+	getInitialState: function() {
 		var thumbnails = [];
 		var self = this;
 
@@ -1211,7 +1626,7 @@ module.exports = Field.create({
 		thumbs.push(React.createElement(Thumbnail, React.__spread({key: i},  args)));
 	},
 
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
@@ -1225,11 +1640,11 @@ module.exports = Field.create({
 		return count;
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return React.createElement("input", {ref: "fileField", type: "file", name: this.props.paths.upload, multiple: true, className: "field-upload", onChange: this.uploadFile});
 	},
 
-	clearFiles: function () {
+	clearFiles: function() {
 		this.fileFieldNode().value = "";
 
 		this.setState({
@@ -1263,15 +1678,15 @@ module.exports = Field.create({
 		});
 	},
 
-	changeImage: function () {
+	changeImage: function() {
 		this.fileFieldNode().click();
 	},
 
-	hasFiles: function () {
+	hasFiles: function() {
 		return this.refs.fileField && this.fileFieldNode().value;
 	},
 
-	renderToolbar: function () {
+	renderToolbar: function() {
 		var body = [];
 		var self = this;
 
@@ -1304,7 +1719,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderPlaceholder: function () {
+	renderPlaceholder: function() {
 		return (
 			React.createElement("div", {className: "image-field image-upload row col-sm-3 col-md-12", onClick: this.changeImage}, 
 				React.createElement("div", {className: "image-preview"}, 
@@ -1321,13 +1736,13 @@ module.exports = Field.create({
 		);
 	},
 
-	renderContainer: function () {
+	renderContainer: function() {
 		return React.createElement("div", {className: "images-container clearfix"}, 
 			this.state.thumbnails
 		);
 	},
 
-	renderFieldAction: function () {
+	renderFieldAction: function() {
 		var value = '';
 		var remove = [];
 		_.each(this.state.thumbnails, function (thumb) {
@@ -1338,11 +1753,11 @@ module.exports = Field.create({
 		return React.createElement("input", {ref: "action", className: "field-action", type: "hidden", value: value, name: this.props.paths.action}) ;
 	},
 
-	renderUploadsField: function () {
+	renderUploadsField: function() {
 		return React.createElement("input", {ref: "uploads", className: "field-uploads", type: "hidden", name: this.props.paths.uploads}) ;
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		return (
 			React.createElement("div", {className: "field field-type-cloudinaryimages"}, 
 				React.createElement("label", {className: "field-label"}, this.props.label), 
@@ -1360,9 +1775,9 @@ module.exports = Field.create({
 	}
 });
 
-},{"../field":24,"jquery":45,"react":198,"underscore":202}],18:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","jquery":"/Users/Jed/Development/packages/keystone/node_modules/jquery/dist/jquery.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/code/CodeField.js":[function(require,module,exports){
 var React = require('react'),
-	Field = require('../field'),
+	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	CodeMirror = require('codemirror');
 
@@ -1406,6 +1821,12 @@ module.exports = Field.create({
 		}
 	},
 	
+	focus: function() {
+		if (this.codeMirror) {
+			this.codeMirror.focus();
+		}
+	},
+	
 	focusChanged: function(focused) {
 		this.setState({
 			isFocused: focused
@@ -1435,7 +1856,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":10,"../field":24,"codemirror":44,"react":198}],19:[function(require,module,exports){
+},{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","codemirror":"/Users/Jed/Development/packages/keystone/node_modules/codemirror/lib/codemirror.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/color/ColorField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -1482,7 +1903,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":13,"react":198}],20:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/date/DateField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
@@ -1491,9 +1912,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'dateInput'
-	},
+	focusTargetRef: 'dateInput',
 
 	// default formats
 	inputFormat: 'YYYY-MM-DD',
@@ -1558,7 +1977,7 @@ module.exports = Field.create({
 			React.createElement("div", {className: "field field-type-date"}, 
 				React.createElement("label", {htmlFor: this.props.path, className: "field-label"}, this.props.label), 
 				input, 
-				React.createElement("div", {className: "col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2"}, 
+				React.createElement("div", {className: "col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2 field-note-wrapper"}, 
 					React.createElement(Note, {note: this.props.note})
 				)
 			)
@@ -1567,18 +1986,16 @@ module.exports = Field.create({
 
 });
 
-},{"../../components/DateInput":9,"../../components/Note":10,"../Field":13,"moment":47,"react":198}],21:[function(require,module,exports){
+},{"../../components/DateInput":"/Users/Jed/Development/packages/keystone/fields/components/DateInput.js","../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","moment":"/Users/Jed/Development/packages/keystone/node_modules/moment/moment.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/datetime/DatetimeField.js":[function(require,module,exports){
 var React = require('react'),
-	Field = require('../field'),
+	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	DateInput = require('../../components/DateInput'),
 	moment = require('moment');
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'dateInput'
-	},
+	focusTargetRef: 'dateInput',
 
 	// default input formats
 	dateInputFormat: 'YYYY-MM-DD',
@@ -1665,7 +2082,7 @@ module.exports = Field.create({
 			React.createElement("div", {className: "field field-type-datetime"}, 
 				React.createElement("label", {className: "field-label"}, this.props.label), 
 				input, 
-				React.createElement("div", {className: "col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2"}, 
+				React.createElement("div", {className: "col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2 field-note-wrapper"}, 
 					React.createElement(Note, {note: this.props.note})
 				)
 			)
@@ -1674,7 +2091,7 @@ module.exports = Field.create({
 
 });
 
-},{"../../components/DateInput":9,"../../components/Note":10,"../field":24,"moment":47,"react":198}],22:[function(require,module,exports){
+},{"../../components/DateInput":"/Users/Jed/Development/packages/keystone/fields/components/DateInput.js","../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","moment":"/Users/Jed/Development/packages/keystone/node_modules/moment/moment.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/email/EmailField.js":[function(require,module,exports){
 /*
 	TODO:
 	- gravatar
@@ -1694,7 +2111,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":13,"react":198}],23:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/embedly/EmbedlyField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -1742,9 +2159,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":13,"react":198}],24:[function(require,module,exports){
-module.exports=require(13)
-},{"../components/note":11,"/Users/Jed/Development/packages/keystone/fields/types/Field.js":13,"react":198,"underscore":202}],25:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/html/HtmlField.js":[function(require,module,exports){
 var tinymce = window.tinymce,
 	React = require('react'),
 	Field = require('../Field'),
@@ -1884,13 +2299,13 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":13,"react":198,"underscore":202}],26:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
 module.exports = Field.create();
 
-},{"../Field":13,"react":198}],27:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/localfile/LocalFileField.js":[function(require,module,exports){
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
@@ -1900,15 +2315,15 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 	
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	changeFile: function () {
+	changeFile: function() {
 		this.refs.fileField.getDOMNode().click();
 	},
 
-	getFileSource: function () {
+	getFileSource: function() {
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
@@ -1918,13 +2333,13 @@ module.exports = Field.create({
 		}
 	},
 
-	getFileURL: function () {
+	getFileURL: function() {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
 	},
 
-	undoRemove: function () {
+	undoRemove: function() {
 		this.fileFieldNode().value = "";
 		this.setState({
 			removeExisting: false,
@@ -1969,19 +2384,19 @@ module.exports = Field.create({
 		this.setState(state);
 	},
 
-	hasLocal: function () {
+	hasLocal: function() {
 		return this.state.origin === "local";
 	},
 
-	hasFile: function () {
+	hasFile: function() {
 		return this.hasExisting() || this.hasLocal();
 	},
 
-	hasExisting: function () {
+	hasExisting: function() {
 		return !!this.props.value.filename;
 	},
 
-	getFilename: function () {
+	getFilename: function() {
 		if (this.hasLocal()) {
 			return this.fileFieldNode().value.split("\\").pop();
 		} else {
@@ -2004,7 +2419,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderAlert: function () {
+	renderAlert: function() {
 		if (this.hasLocal()) {
 			return React.createElement("div", {className: "upload-queued pull-left"}, 
 				React.createElement("div", {className: "alert alert-success"}, "File selected - save to upload")
@@ -2022,7 +2437,7 @@ module.exports = Field.create({
 		}
 	},
 
-	renderClearButton: function () {
+	renderClearButton: function() {
 		if (this.state.removeExisting) {
 			return React.createElement("button", {type: "button", className: "btn btn-link btn-cancel btn-undo-file", onClick: this.undoRemove}, 
 				"Undo Remove"
@@ -2040,15 +2455,15 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return React.createElement("input", {ref: "fileField", type: "file", name: this.props.paths.upload, className: "field-upload", onChange: this.fileChanged});
 	},
 
-	renderFileAction: function () {
+	renderFileAction: function() {
 		return React.createElement("input", {type: "hidden", name: this.props.paths.action, className: "field-action", value: this.state.action});
 	},
 
-	renderFileToolbar: function () {
+	renderFileToolbar: function() {
 		return React.createElement("div", {key: this.props.path + '_toolbar', className: "file-toolbar"}, 
 			React.createElement("div", {className: "pull-left"}, 
 				React.createElement("button", {type: "button", onClick: this.changeFile, className: "btn btn-default btn-upload-file"}, 
@@ -2059,7 +2474,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		var container = [],
 			body = [],
 			hasFile = this.hasFile(),
@@ -2099,7 +2514,199 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":10,"../Field":13,"jquery":45,"react":198,"react-select":51,"underscore":202}],28:[function(require,module,exports){
+},{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","jquery":"/Users/Jed/Development/packages/keystone/node_modules/jquery/dist/jquery.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","react-select":"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Select.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/localfiles/LocalFilesField.js":[function(require,module,exports){
+var _     = require('underscore'),
+	$     = require('jquery'),
+	bytes = require('bytes'),
+	React = require('react'),
+	Field = require('../Field');
+
+var ICON_EXTS = [
+	'aac', 'ai', 'aiff', 'avi', 'bmp', 'c', 'cpp', 'css', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h',
+	'hpp', 'html', 'ics', 'iso', 'java', 'jpg', 'js', 'key', 'less', 'mid', 'mp3', 'mp4', 'mpg', 'odf', 'ods', 'odt', 'otp', 'ots',
+	'ott', 'pdf', 'php', 'png', 'ppt', 'psd', 'py', 'qt', 'rar', 'rb', 'rtf', 'sass', 'scss', 'sql', 'tga', 'tgz', 'tiff', 'txt',
+	'wav', 'xls', 'xlsx', 'xml', 'yml', 'zip'
+];
+
+var Item = React.createClass({displayName: "Item",
+	
+	render: function () {
+		var filename = this.props.filename;
+		var ext = filename.split('.').pop();
+
+		var iconName = '_blank';
+		if (_.contains(ICON_EXTS, ext)) iconName = ext;
+
+		var body = [];
+
+		body.push(React.createElement("img", {className: "file-icon", src: '/keystone/images/icons/32/' + iconName + '.png'}));
+		body.push(React.createElement("span", {className: "file-filename"}, filename));
+
+		if (this.props.size) {
+			body.push(React.createElement("span", {className: "file-size"}, bytes(this.props.size)));
+		}
+
+		if (this.props.deleted) {
+			body.push(React.createElement("span", {className: "file-note-delete"}, "save to delete"));
+		} else if (this.props.isQueued) {
+			body.push(React.createElement("span", {className: "file-note-upload"}, "save to upload"));
+		}
+
+		if (!this.props.isQueued) {
+			var actionLabel = this.props.deleted ? 'undo' : 'remove';
+			body.push(React.createElement("span", {className: "file-action", onClick: this.props.toggleDelete}, actionLabel));
+		}
+
+		var itemClassName = 'file-item';
+		if (this.props.deleted) itemClassName += ' file-item-deleted';
+
+		return React.createElement("div", {className: itemClassName, key: this.props.key}, body);
+	}
+	
+});
+
+module.exports = Field.create({
+
+	getInitialState: function () {
+		var items = [];
+		var self = this;
+
+		_.each(this.props.value, function (item) {
+			self.pushItem(item, items);
+		});
+
+		return { items: items };
+	},
+
+	removeItem: function (i) {
+		var thumbs = this.state.items;
+		var thumb  = thumbs[i];
+
+		if (thumb.props.isQueued) {
+			thumbs[i] = null;
+		} else {
+			thumb.props.deleted = !thumb.props.deleted;
+		}
+
+		this.setState({ items: thumbs });
+	},
+
+	pushItem: function (args, thumbs) {
+		thumbs = thumbs || this.state.items;
+		var i = thumbs.length;
+		args.toggleDelete = this.removeItem.bind(this, i);
+		thumbs.push(React.createElement(Item, React.__spread({key: i},  args)));
+	},
+
+	fileFieldNode: function () {
+		return this.refs.fileField.getDOMNode();
+	},
+
+	renderFileField: function () {
+		return React.createElement("input", {ref: "fileField", type: "file", name: this.props.paths.upload, multiple: true, className: "field-upload", onChange: this.uploadFile});
+	},
+
+	clearFiles: function () {
+		this.fileFieldNode().value = '';
+
+		this.setState({
+			items: this.state.items.filter(function (thumb) {
+				return !thumb.props.isQueued;
+			})
+		});
+	},
+
+	uploadFile: function (event) {
+		var self = this;
+
+		var files = event.target.files;
+		_.each(files, function (f) {
+			self.pushItem({ isQueued: true, filename: f.name });
+			self.forceUpdate();
+		});
+	},
+
+	changeFiles: function () {
+		this.fileFieldNode().click();
+	},
+
+	hasFiles: function () {
+		return this.refs.fileField && this.fileFieldNode().value;
+	},
+
+	renderToolbar: function () {
+		var clearFilesButton;
+		if (this.hasFiles()) {
+			clearFilesButton = React.createElement("button", {type: "button", className: "btn btn-default btn-upload", onClick: this.clearFiles}, "Clear uploads");
+		}
+
+		return (
+			React.createElement("div", {className: "files-toolbar row col-sm-3 col-md-12"}, 
+				React.createElement("div", {className: "pull-left"}, 
+					React.createElement("button", {type: "button", className: "btn btn-default btn-upload", onClick: this.changeFiles}, "Upload"), 
+					clearFilesButton
+				)
+			)
+		);
+	},
+
+	renderPlaceholder: function () {
+		return (
+			React.createElement("div", {className: "file-field file-upload row col-sm-3 col-md-12", onClick: this.changeFiles}, 
+				React.createElement("div", {className: "file-preview"}, 
+					React.createElement("span", {className: "file-thumbnail"}, 
+						React.createElement("span", {className: "file-dropzone"}), 
+						React.createElement("div", {className: "ion-picture file-uploading"})
+					)
+				), 
+
+				React.createElement("div", {className: "file-details"}, 
+					React.createElement("span", {className: "file-message"}, "Click to upload")
+				)
+			)
+		);
+	},
+
+	renderContainer: function () {
+		return React.createElement("div", {className: "files-container clearfix"}, 
+			this.state.items
+		);
+	},
+
+	renderFieldAction: function () {
+		var value = '';
+		var remove = [];
+		_.each(this.state.items, function (thumb) {
+			if (thumb && thumb.props.deleted) remove.push(thumb.props.public_id);
+		});
+		if (remove.length) value = 'remove:' + remove.join(',');
+
+		return React.createElement("input", {ref: "action", className: "field-action", type: "hidden", value: value, name: this.props.paths.action}) ;
+	},
+
+	renderUploadsField: function () {
+		return React.createElement("input", {ref: "uploads", className: "field-uploads", type: "hidden", name: this.props.paths.uploads}) ;
+	},
+
+	renderUI: function () {
+		return (
+			React.createElement("div", {className: "field field-type-files"}, 
+				React.createElement("label", {className: "field-label"}, this.props.label), 
+
+				this.renderFieldAction(), 
+				this.renderUploadsField(), 
+				this.renderFileField(), 
+
+				React.createElement("div", {className: "field-ui"}, 
+					this.renderContainer(), 
+					this.renderToolbar()
+				)
+			)
+		);
+	}
+});
+
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","bytes":"/Users/Jed/Development/packages/keystone/node_modules/bytes/index.js","jquery":"/Users/Jed/Development/packages/keystone/node_modules/jquery/dist/jquery.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/location/LocationField.js":[function(require,module,exports){
 /**
  * TODO:
  * - Custom path support
@@ -2189,10 +2796,10 @@ module.exports = Field.create({
 		}
 		
 		return React.createElement("div", {className: "row"}, 
-			React.createElement("div", {className: "col-sm-2"}, 
+			React.createElement("div", {className: "col-sm-2 location-field-label"}, 
 				React.createElement("label", {className: "text-muted"}, label)
 			), 
-			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6"}, 
+			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6 location-field-controls"}, 
 				React.createElement("input", {type: "text", name: this.props.path + '.' + path, ref: path, value: this.props.value[path], onChange: this.fieldChanged.bind(this, path), className: "form-control"})
 			)
 		);
@@ -2201,10 +2808,10 @@ module.exports = Field.create({
 	
 	renderStateAndPostcode: function() {
 		return React.createElement("div", {className: "row"}, 
-			React.createElement("div", {className: "col-sm-2"}, 
+			React.createElement("div", {className: "col-sm-2 location-field-label"}, 
 				React.createElement("label", {className: "text-muted"}, "State/Postcode")
 			), 
-			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6"}, React.createElement("div", {className: "form-row"}, 
+			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6 location-field-controls"}, React.createElement("div", {className: "form-row"}, 
 				React.createElement("div", {className: "col-xs-6"}, 
 					React.createElement("input", {type: "text", name: this.props.path + '.state', ref: "state", value: this.props.value.state, onChange: this.fieldChanged.bind(this, 'state'), className: "form-control", placeholder: "State"})
 				), 
@@ -2222,10 +2829,10 @@ module.exports = Field.create({
 		}
 		
 		return React.createElement("div", {className: "row"}, 
-			React.createElement("div", {className: "col-sm-2"}, 
+			React.createElement("div", {className: "col-sm-2 location-field-label"}, 
 				React.createElement("label", {className: "text-muted"}, "Lng / Lat")
 			), 
-			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6"}, React.createElement("div", {className: "form-row"}, 
+			React.createElement("div", {className: "col-sm-10 col-md-7 col-lg-6 location-field-controls"}, React.createElement("div", {className: "form-row"}, 
 				React.createElement("div", {className: "col-xs-6"}, 
 					React.createElement("input", {type: "text", name: this.props.paths.geo, ref: "geo0", value: this.props.value.geo ? this.props.value.geo[0] : '', onChange: this.geoChanged.bind(this, 0), placeholder: "Longitude", className: "form-control"})
 				), 
@@ -2272,7 +2879,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":10,"../Field":13,"react":198,"underscore":202}],29:[function(require,module,exports){
+},{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/markdown/MarkdownField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -2375,7 +2982,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":13,"./lib/bootstrap-markdown":30,"jquery":45,"react":198}],30:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","./lib/bootstrap-markdown":"/Users/Jed/Development/packages/keystone/fields/types/markdown/lib/bootstrap-markdown.js","jquery":"/Users/Jed/Development/packages/keystone/node_modules/jquery/dist/jquery.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/markdown/lib/bootstrap-markdown.js":[function(require,module,exports){
 /* ===================================================
 * bootstrap-markdown.js v2.7.0
 * http://github.com/toopay/bootstrap-markdown
@@ -3742,7 +4349,7 @@ $(document)
 		})
 	});
 
-},{"jquery":45,"marked":46}],31:[function(require,module,exports){
+},{"jquery":"/Users/Jed/Development/packages/keystone/node_modules/jquery/dist/jquery.js","marked":"/Users/Jed/Development/packages/keystone/node_modules/marked/lib/marked.js"}],"/Users/Jed/Development/packages/keystone/fields/types/money/MoneyField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -3763,16 +4370,14 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":13,"react":198}],32:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/name/NameField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note');
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'first'
-	},
+	focusTargetRef: 'first',
 	
 	valueChanged: function(which, event) {
 		this.props.value[which] = event.target.value;
@@ -3800,10 +4405,10 @@ module.exports = Field.create({
 		return (
 			React.createElement("div", {className: "form-row"}, 
 				React.createElement("div", {className: "col-sm-6"}, 
-					React.createElement("input", {type: "text", name: this.props.paths.first, ref: "first", value: this.props.value.first, onChange: this.valueChanged.bind(this, 'first'), autoComplete: "off", className: "form-control"})
+					React.createElement("input", {type: "text", name: this.props.paths.first, placeholder: "First name", ref: "first", value: this.props.value.first, onChange: this.valueChanged.bind(this, 'first'), autoComplete: "off", className: "form-control"})
 				), 
 				React.createElement("div", {className: "col-sm-6"}, 
-					React.createElement("input", {type: "text", name: this.props.paths.last, ref: "last", value: this.props.value.last, onChange: this.valueChanged.bind(this, 'last'), autoComplete: "off", className: "form-control"})
+					React.createElement("input", {type: "text", name: this.props.paths.last, placeholder: "Last name", ref: "last", value: this.props.value.last, onChange: this.valueChanged.bind(this, 'last'), autoComplete: "off", className: "form-control"})
 				)
 			)
 		);
@@ -3811,7 +4416,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":10,"../Field":13,"react":198}],33:[function(require,module,exports){
+},{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/number/NumberField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -3832,7 +4437,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":13,"react":198}],34:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/numberarray/NumberArrayField.js":[function(require,module,exports){
 var _ = require('underscore'),
 	Field = require('../Field'),
 	ArrayFieldMixin = require('../../mixins/ArrayField');
@@ -3847,7 +4452,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../mixins/ArrayField":12,"../Field":13,"underscore":202}],35:[function(require,module,exports){
+},{"../../mixins/ArrayField":"/Users/Jed/Development/packages/keystone/fields/mixins/ArrayField.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/password/PasswordField.js":[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react'),
 	Field = require('../Field'),
@@ -3855,14 +4460,12 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'password'
-	},
+	focusTarget: 'password',
 	
 	getInitialState: function() {
 		return {
 			passwordIsSet: this.props.value ? true : false,
-			showChangeUI: this.props.mode === 'initial' ? true : false,
+			showChangeUI: this.props.mode === 'create' ? true : false,
 			password: '',
 			confirm: ''
 		};
@@ -3871,7 +4474,7 @@ module.exports = Field.create({
 	componentDidUpdate: function() {
 		if (this._focusAfterUpdate) {
 			this._focusAfterUpdate = false;
-			this.refs.password.getDOMNode().focus();
+			this.focus();
 		}
 	},
 	
@@ -3922,7 +4525,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":10,"../Field":13,"react":198,"underscore":202}],36:[function(require,module,exports){
+},{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/relationship/RelationshipField.js":[function(require,module,exports){
 var Select = require('react-select'),
 	React = require('react'),
 	Field = require('../Field'),
@@ -4030,19 +4633,21 @@ module.exports = Field.create({
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
 		}
-                // TODO what goes here?
-		if (field.many) {
-			//a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
-		} else if (field.many && this.props.value.length) {
-			var body = [];
-			
-			_.each(this.props.value, function (value) {
-				body.push(React.createElement("a", {href: '/keystone/' + this.props.refList.path + '/' + value, className: "ui-related-item"}, value));
-			}, this);
-			
-			return value;
+		// TODO expand IDs
+		if (this.props.many) {
+			// a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
+			return React.createElement("div", {className: "field-value"}, this.props.value);
+		} else if (this.props.many && this.props.value.length) {
+			// var body = [];
+			// 
+			// _.each(this.props.value, function (value) {
+			// 	body.push(<a href={'/keystone/' + this.props.refList.path + '/' + value} className='ui-related-item'>{value}</a>);
+			// }, this);
+			// 
+			// return value;
+			return React.createElement("div", {className: "field-value"}, this.props.value);
 		} else {
-			return React.createElement("div", {className: "help-block"}, "(not set)");
+			return React.createElement("div", {className: "field-value"}, "(not set)");
 		}
 	},
 	
@@ -4067,9 +4672,9 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":10,"../Field":13,"react":198,"react-select":51,"superagent":199,"underscore":202}],37:[function(require,module,exports){
-module.exports=require(14)
-},{"../localfile/LocalFileField":27,"/Users/Jed/Development/packages/keystone/fields/types/azurefile/AzureFileField.js":14}],38:[function(require,module,exports){
+},{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","react-select":"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Select.js","superagent":"/Users/Jed/Development/packages/keystone/node_modules/superagent/lib/client.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/s3file/S3FileField.js":[function(require,module,exports){
+module.exports=require("/Users/Jed/Development/packages/keystone/fields/types/azurefile/AzureFileField.js")
+},{"/Users/Jed/Development/packages/keystone/fields/types/azurefile/AzureFileField.js":"/Users/Jed/Development/packages/keystone/fields/types/azurefile/AzureFileField.js"}],"/Users/Jed/Development/packages/keystone/fields/types/select/SelectField.js":[function(require,module,exports){
 /**
  * TODO:
  * - Custom path support
@@ -4096,9 +4701,9 @@ module.exports = Field.create({
 	
 });
 
-},{"../../components/Note":10,"../Field":13,"react":198,"react-select":51,"underscore":202}],39:[function(require,module,exports){
-module.exports=require(26)
-},{"../Field":13,"/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js":26,"react":198}],40:[function(require,module,exports){
+},{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","react-select":"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Select.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/text/TextField.js":[function(require,module,exports){
+module.exports=require("/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js")
+},{"/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js":"/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js"}],"/Users/Jed/Development/packages/keystone/fields/types/textarea/TextareaField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
 
@@ -4110,7 +4715,7 @@ module.exports = Field.create({
 	
 });
 
-},{"../Field":13,"react":198}],41:[function(require,module,exports){
+},{"../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/textarray/TextArrayField.js":[function(require,module,exports){
 var _ = require('underscore'),
 	Field = require('../Field'),
 	ArrayFieldMixin = require('../../mixins/ArrayField');
@@ -4119,9 +4724,9 @@ module.exports = Field.create({
 	mixins: [ArrayFieldMixin]
 });
 
-},{"../../mixins/ArrayField":12,"../Field":13,"underscore":202}],42:[function(require,module,exports){
-module.exports=require(26)
-},{"../Field":13,"/Users/Jed/Development/packages/keystone/fields/types/key/KeyField.js":26,"react":198}],43:[function(require,module,exports){
+},{"../../mixins/ArrayField":"/Users/Jed/Development/packages/keystone/fields/mixins/ArrayField.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/fields/types/url/UrlField.js":[function(require,module,exports){
+module.exports=require("/Users/Jed/Development/packages/keystone/fields/types/text/TextField.js")
+},{"/Users/Jed/Development/packages/keystone/fields/types/text/TextField.js":"/Users/Jed/Development/packages/keystone/fields/types/text/TextField.js"}],"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4209,7 +4814,67 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],44:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/bytes/index.js":[function(require,module,exports){
+
+/**
+ * Parse byte `size` string.
+ *
+ * @param {String} size
+ * @return {Number}
+ * @api public
+ */
+
+module.exports = function(size) {
+  if ('number' == typeof size) return convert(size);
+  var parts = size.match(/^(\d+(?:\.\d+)?) *(kb|mb|gb|tb)$/)
+    , n = parseFloat(parts[1])
+    , type = parts[2];
+
+  var map = {
+      kb: 1 << 10
+    , mb: 1 << 20
+    , gb: 1 << 30
+    , tb: ((1 << 30) * 1024)
+  };
+
+  return map[type] * n;
+};
+
+/**
+ * convert bytes into string.
+ *
+ * @param {Number} b - bytes to convert
+ * @return {String}
+ * @api public
+ */
+
+function convert (b) {
+  var tb = ((1 << 30) * 1024), gb = 1 << 30, mb = 1 << 20, kb = 1 << 10, abs = Math.abs(b);
+  if (abs >= tb) return (Math.round(b / tb * 100) / 100) + 'tb';
+  if (abs >= gb) return (Math.round(b / gb * 100) / 100) + 'gb';
+  if (abs >= mb) return (Math.round(b / mb * 100) / 100) + 'mb';
+  if (abs >= kb) return (Math.round(b / kb * 100) / 100) + 'kb';
+  return b + 'b';
+}
+
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js":[function(require,module,exports){
+function classnames() {
+	var args = arguments, classes = [];
+	for (var i = 0; i < args.length; i++) {
+		if (args[i] && 'string' === typeof args[i]) {
+			classes.push(args[i]);
+		} else if ('object' === typeof args[i]) {
+			classes = classes.concat(Object.keys(args[i]).filter(function(cls) {
+				return args[i][cls];
+			}));
+		}
+	}
+	return classes.join(' ') || undefined;
+}
+
+module.exports = classnames;
+
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/codemirror/lib/codemirror.js":[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -12238,7 +12903,7 @@ process.chdir = function (dir) {
   return CodeMirror;
 });
 
-},{}],45:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/jquery/dist/jquery.js":[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -21445,7 +22110,7 @@ return jQuery;
 
 }));
 
-},{}],46:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/marked/lib/marked.js":[function(require,module,exports){
 (function (global){
 /**
  * marked - a markdown parser
@@ -22715,7 +23380,7 @@ if (typeof exports === 'object') {
 }());
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],47:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/moment/moment.js":[function(require,module,exports){
 (function (global){
 //! moment.js
 //! version : 2.8.4
@@ -25655,7 +26320,7 @@ if (typeof exports === 'object') {
 }).call(this);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],48:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/pikaday/pikaday.js":[function(require,module,exports){
 /*!
  * Pikaday
  *
@@ -26577,24 +27242,9 @@ if (typeof exports === 'object') {
 
 }));
 
-},{"moment":47}],49:[function(require,module,exports){
-function classnames() {
-	var args = arguments, classes = [];
-	for (var i = 0; i < args.length; i++) {
-		if (args[i] && 'string' === typeof args[i]) {
-			classes.push(args[i]);
-		} else if ('object' === typeof args[i]) {
-			classes = classes.concat(Object.keys(args[i]).filter(function(cls) {
-				return args[i][cls];
-			}));
-		}
-	}
-	return classes.join(' ') || undefined;
-}
-
-module.exports = classnames;
-
-},{}],50:[function(require,module,exports){
+},{"moment":"/Users/Jed/Development/packages/keystone/node_modules/moment/moment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/classnames/index.js":[function(require,module,exports){
+module.exports=require("/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js")
+},{"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js":"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/react-input-autosize/src/AutosizeInput.js":[function(require,module,exports){
 var React = require('react');
 
 var sizerStyle = { position: 'absolute', visibility: 'hidden', height: 0, width: 0, overflow: 'scroll', whiteSpace: 'nowrap' };
@@ -26694,7 +27344,7 @@ var AutosizeInput = React.createClass({
 
 module.exports = AutosizeInput;
 
-},{"react":198}],51:[function(require,module,exports){
+},{"react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Select.js":[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react'),
 	Input = require('react-input-autosize'),
@@ -26708,20 +27358,25 @@ var Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		value: React.PropTypes.any,             // initial field value
-		multi: React.PropTypes.bool,            // multi-value input
-		options: React.PropTypes.array,         // array of options
-		delimiter: React.PropTypes.string,      // delimiter to use to join multiple values
-		asyncOptions: React.PropTypes.func,     // function to call to get options
-		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
-		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
-		name: React.PropTypes.string,           // field name, for hidden <input /> tag
-		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
-		className: React.PropTypes.string,      // className for the outer element
-		filterOption: React.PropTypes.func,     // method to filter a single option: function(option, filterString)
-		filterOptions: React.PropTypes.func,    // method to filter the options array: function([options], filterString, [values])
-		matchPos: React.PropTypes.string,       // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string       // (any|label|value) which option property to filter on
+		value: React.PropTypes.any,                // initial field value
+		multi: React.PropTypes.bool,               // multi-value input
+		options: React.PropTypes.array,            // array of options
+		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
+		asyncOptions: React.PropTypes.func,        // function to call to get options
+		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
+		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
+		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
+		clearable: React.PropTypes.bool,           // should it be possible to reset value
+		clearValueText: React.PropTypes.string,    // title for the "clear" control
+		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
+		searchPromptText: React.PropTypes.string,  // label to prompt for search input
+		name: React.PropTypes.string,              // field name, for hidden <input /> tag
+		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
+		className: React.PropTypes.string,         // className for the outer element
+		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
+		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
+		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
+		matchProp: React.PropTypes.string          // (any|label|value) which option property to filter on
 	},
 	
 	getDefaultProps: function() {
@@ -26731,7 +27386,12 @@ var Select = React.createClass({
 			delimiter: ',',
 			asyncOptions: undefined,
 			autoload: true,
-			placeholder: '',
+			placeholder: 'Select...',
+			noResultsText: 'No results found',
+			clearable: true,
+			clearValueText: 'Clear value',
+			clearAllText: 'Clear all',
+			searchPromptText: 'Type to search',
 			name: undefined,
 			onChange: undefined,
 			className: undefined,
@@ -26775,7 +27435,7 @@ var Select = React.createClass({
 	
 	componentWillReceiveProps: function(newProps) {
 		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value));
+			this.setState(this.getStateFromValue(newProps.value, newProps.options));
 		}
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			this.setState({
@@ -26793,40 +27453,60 @@ var Select = React.createClass({
 				this._focusAfterUpdate = false;
 			}.bind(this), 50);
 		}
+
+		if (this._focusedOptionReveal) {
+			if (this.refs.focused && this.refs.menu) {
+				var focusedDOM = this.refs.focused.getDOMNode();
+				var menuDOM = this.refs.menu.getDOMNode();
+				var focusedRect = focusedDOM.getBoundingClientRect();
+				var menuRect = menuDOM.getBoundingClientRect();
+
+				if (focusedRect.bottom > menuRect.bottom ||
+					focusedRect.top < menuRect.top) {
+					menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
+				}
+			}
+
+			this._focusedOptionReveal = false;
+		}
 	},
 	
-	initValuesArray: function(values) {
+	getStateFromValue: function(value, options) {
+		
+		if (!options) {
+			options = this.state.options;
+		}
+		
+		// reset internal filter string
+		this._optionsFilterString = '';
+		
+		var values = this.initValuesArray(value, options),
+			filteredOptions = this.filterOptions(options, values);
+		
+		return {
+			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
+			values: values,
+			inputValue: '',
+			filteredOptions: filteredOptions,
+			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
+			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
+		};
+		
+	},
+	
+	initValuesArray: function(values, options) {
 		
 		if (!Array.isArray(values)) {
 			if ('string' === typeof values) {
 				values = values.split(this.props.delimiter);
 			} else {
-				values = values ? [values] : []
+				values = values ? [values] : [];
 			}
-		};
+		}
 		
 		return values.map(function(val) {
-			return ('string' === typeof val) ? val = _.findWhere(this.state.options, { value: val }) || { value: val, label: val } : val;
+			return ('string' === typeof val) ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
 		}.bind(this));
-		
-	},
-	
-	getStateFromValue: function(value) {
-		
-		// reset internal filter string
-		this._optionsFilterString = '';
-		
-		var values = this.initValuesArray(value),
-			filteredOptions = this.filterOptions(this.state.options, values);
-		
-		return {
-			value: values.map(function(v) { return v.value }).join(this.props.delimiter),
-			values: values,
-			inputValue: '',
-			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
-			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
-		};
 		
 	},
 	
@@ -27036,7 +27716,7 @@ var Select = React.createClass({
 					(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
 					(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 				);
-			}
+			};
 			return _.filter(options, filterOption, this);
 		}
 	},
@@ -27060,6 +27740,7 @@ var Select = React.createClass({
 	},
 	
 	focusAdjacentOption: function(dir) {
+		this._focusedOptionReveal = true;
 		
 		var ops = this.state.filteredOptions;
 		
@@ -27116,21 +27797,28 @@ var Select = React.createClass({
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 		
 		var ops = _.map(this.state.filteredOptions, function(op) {
+			var isFocused = focusedValue === op.value;
 			
 			var optionClass = classes({
 				'Select-option': true,
-				'is-focused': focusedValue === op.value
+				'is-focused': isFocused
 			});
+
+			var ref = isFocused ? 'focused' : null;
 			
 			var mouseEnter = this.focusOption.bind(this, op),
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectValue.bind(this, op);
 			
-			return React.createElement("div", {key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown}, op.label);
+			return React.createElement("div", {ref: ref, key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown}, op.label);
 			
 		}, this);
 		
-		return ops.length ? ops : React.createElement("div", {className: "Select-noresults"}, "No results found");
+		return ops.length ? ops : (
+			React.createElement("div", {className: "Select-noresults"}, 
+				this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText
+			)
+		);
 		
 	},
 	
@@ -27161,13 +27849,13 @@ var Select = React.createClass({
 		}
 		
 		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", "aria-hidden": "true"}) : null;
-		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", "aria-label": "Clear value", onMouseDown: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
-		var menu = this.state.isOpen ? React.createElement("div", {className: "Select-menu"}, this.buildMenu()) : null;
+		var clear = this.props.clearable && this.state.value ? React.createElement("span", {className: "Select-clear", title: this.props.multi ? this.props.clearAllText : this.props.clearValueText, "aria-label": this.props.multi ? this.props.clearAllText : this.props.clearValueText, onMouseDown: this.clearValue, onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
+		var menu = this.state.isOpen ? React.createElement("div", {ref: "menu", className: "Select-menu"}, this.buildMenu()) : null;
 		
 		return (
 			React.createElement("div", {ref: "wrapper", className: selectClass}, 
 				React.createElement("input", {type: "hidden", ref: "value", name: this.props.name, value: this.state.value}), 
-				React.createElement("div", {className: "Select-control", ref: "control", onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown}, 
+				React.createElement("div", {className: "Select-control", ref: "control", onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown}, 
 					value, 
 					React.createElement(Input, {className: "Select-input", tabIndex: this.props.tabIndex, ref: "input", value: this.state.inputValue, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur, onChange: this.handleInputChange, minWidth: "5"}), 
 					React.createElement("span", {className: "Select-arrow"}), 
@@ -27184,7 +27872,7 @@ var Select = React.createClass({
 
 module.exports = Select;
 
-},{"./Value":52,"classnames":49,"react":198,"react-input-autosize":50,"underscore":202}],52:[function(require,module,exports){
+},{"./Value":"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Value.js","classnames":"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/classnames/index.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","react-input-autosize":"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/react-input-autosize/src/AutosizeInput.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Value.js":[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react'),
 	classes = require('classnames');
@@ -27204,7 +27892,7 @@ var Option = React.createClass({
 	render: function() {
 		return (
 			React.createElement("div", {className: "Select-item"}, 
-				React.createElement("span", {className: "Select-item-icon", onMouseDown: this.blockEvent, onClick: this.props.onRemove}, "×"), 
+				React.createElement("span", {className: "Select-item-icon", onMouseDown: this.blockEvent, onClick: this.props.onRemove, onTouchEnd: this.props.onRemove}, "×"), 
 				React.createElement("span", {className: "Select-item-label"}, this.props.label)
 			)
 		);
@@ -27214,7 +27902,10 @@ var Option = React.createClass({
 
 module.exports = Option;
 
-},{"classnames":49,"react":198,"underscore":202}],53:[function(require,module,exports){
+},{"classnames":"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/classnames/index.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/addons.js":[function(require,module,exports){
+module.exports = require('./lib/ReactWithAddons');
+
+},{"./lib/ReactWithAddons":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactWithAddons.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -27241,7 +27932,7 @@ var AutoFocusMixin = {
 
 module.exports = AutoFocusMixin;
 
-},{"./focusNode":163}],54:[function(require,module,exports){
+},{"./focusNode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/focusNode.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/BeforeInputEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -27463,7 +28154,119 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":67,"./EventPropagators":72,"./ExecutionEnvironment":73,"./SyntheticInputEvent":141,"./keyOf":185}],55:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./SyntheticInputEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticInputEvent.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CSSCore.js":[function(require,module,exports){
+(function (process){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule CSSCore
+ * @typechecks
+ */
+
+var invariant = require("./invariant");
+
+/**
+ * The CSSCore module specifies the API (and implements most of the methods)
+ * that should be used when dealing with the display of elements (via their
+ * CSS classes and visibility on screen. It is an API focused on mutating the
+ * display and not reading it as no logical state should be encoded in the
+ * display of elements.
+ */
+
+var CSSCore = {
+
+  /**
+   * Adds the class passed in to the element if it doesn't already have it.
+   *
+   * @param {DOMElement} element the element to set the class on
+   * @param {string} className the CSS className
+   * @return {DOMElement} the element passed in
+   */
+  addClass: function(element, className) {
+    ("production" !== process.env.NODE_ENV ? invariant(
+      !/\s/.test(className),
+      'CSSCore.addClass takes only a single class name. "%s" contains ' +
+      'multiple classes.', className
+    ) : invariant(!/\s/.test(className)));
+
+    if (className) {
+      if (element.classList) {
+        element.classList.add(className);
+      } else if (!CSSCore.hasClass(element, className)) {
+        element.className = element.className + ' ' + className;
+      }
+    }
+    return element;
+  },
+
+  /**
+   * Removes the class passed in from the element
+   *
+   * @param {DOMElement} element the element to set the class on
+   * @param {string} className the CSS className
+   * @return {DOMElement} the element passed in
+   */
+  removeClass: function(element, className) {
+    ("production" !== process.env.NODE_ENV ? invariant(
+      !/\s/.test(className),
+      'CSSCore.removeClass takes only a single class name. "%s" contains ' +
+      'multiple classes.', className
+    ) : invariant(!/\s/.test(className)));
+
+    if (className) {
+      if (element.classList) {
+        element.classList.remove(className);
+      } else if (CSSCore.hasClass(element, className)) {
+        element.className = element.className
+          .replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1')
+          .replace(/\s+/g, ' ') // multiple spaces to one
+          .replace(/^\s*|\s*$/g, ''); // trim the ends
+      }
+    }
+    return element;
+  },
+
+  /**
+   * Helper to add or remove a class from an element based on a condition.
+   *
+   * @param {DOMElement} element the element to set the class on
+   * @param {string} className the CSS className
+   * @param {*} bool condition to whether to add or remove the class
+   * @return {DOMElement} the element passed in
+   */
+  conditionClass: function(element, className, bool) {
+    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
+  },
+
+  /**
+   * Tests whether the element has the class specified.
+   *
+   * @param {DOMNode|DOMWindow} element the element to set the class on
+   * @param {string} className the CSS className
+   * @return {boolean} true if the element has the class, false if not
+   */
+  hasClass: function(element, className) {
+    ("production" !== process.env.NODE_ENV ? invariant(
+      !/\s/.test(className),
+      'CSS.hasClass takes only a single class name.'
+    ) : invariant(!/\s/.test(className)));
+    if (element.classList) {
+      return !!className && element.classList.contains(className);
+    }
+    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
+  }
+
+};
+
+module.exports = CSSCore;
+
+}).call(this,require('_process'))
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CSSProperty.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -27582,7 +28385,7 @@ var CSSProperty = {
 
 module.exports = CSSProperty;
 
-},{}],56:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CSSPropertyOperations.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -27717,7 +28520,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./CSSProperty":55,"./ExecutionEnvironment":73,"./camelizeStyleName":152,"./dangerousStyleValue":157,"./hyphenateStyleName":176,"./memoizeStringOnly":187,"./warning":197,"_process":43}],57:[function(require,module,exports){
+},{"./CSSProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CSSProperty.js","./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./camelizeStyleName":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/camelizeStyleName.js","./dangerousStyleValue":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/dangerousStyleValue.js","./hyphenateStyleName":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/hyphenateStyleName.js","./memoizeStringOnly":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/memoizeStringOnly.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CallbackQueue.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -27817,7 +28620,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":78,"./PooledClass":79,"./invariant":178,"_process":43}],58:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ChangeEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -28199,7 +29002,7 @@ var ChangeEventPlugin = {
 
 module.exports = ChangeEventPlugin;
 
-},{"./EventConstants":67,"./EventPluginHub":69,"./EventPropagators":72,"./ExecutionEnvironment":73,"./ReactUpdates":131,"./SyntheticEvent":139,"./isEventSupported":179,"./isTextInputElement":181,"./keyOf":185}],59:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginHub.js","./EventPropagators":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./SyntheticEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js","./isEventSupported":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isEventSupported.js","./isTextInputElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isTextInputElement.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ClientReactRootIndex.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -28224,7 +29027,7 @@ var ClientReactRootIndex = {
 
 module.exports = ClientReactRootIndex;
 
-},{}],60:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CompositionEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -28483,7 +29286,7 @@ var CompositionEventPlugin = {
 
 module.exports = CompositionEventPlugin;
 
-},{"./EventConstants":67,"./EventPropagators":72,"./ExecutionEnvironment":73,"./ReactInputSelection":111,"./SyntheticCompositionEvent":137,"./getTextContentAccessor":173,"./keyOf":185}],61:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./ReactInputSelection":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInputSelection.js","./SyntheticCompositionEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticCompositionEvent.js","./getTextContentAccessor":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getTextContentAccessor.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMChildrenOperations.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -28658,7 +29461,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
-},{"./Danger":64,"./ReactMultiChildUpdateTypes":117,"./getTextContentAccessor":173,"./invariant":178,"_process":43}],62:[function(require,module,exports){
+},{"./Danger":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Danger.js","./ReactMultiChildUpdateTypes":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./getTextContentAccessor":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getTextContentAccessor.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMProperty.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -28957,7 +29760,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
-},{"./invariant":178,"_process":43}],63:[function(require,module,exports){
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMPropertyOperations.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -29154,7 +29957,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":62,"./escapeTextForBrowser":161,"./memoizeStringOnly":187,"./warning":197,"_process":43}],64:[function(require,module,exports){
+},{"./DOMProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMProperty.js","./escapeTextForBrowser":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/escapeTextForBrowser.js","./memoizeStringOnly":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/memoizeStringOnly.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Danger.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -29340,7 +30143,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":73,"./createNodesFromMarkup":156,"./emptyFunction":159,"./getMarkupWrap":170,"./invariant":178,"_process":43}],65:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./createNodesFromMarkup":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/createNodesFromMarkup.js","./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js","./getMarkupWrap":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getMarkupWrap.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DefaultEventPluginOrder.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -29380,7 +30183,7 @@ var DefaultEventPluginOrder = [
 
 module.exports = DefaultEventPluginOrder;
 
-},{"./keyOf":185}],66:[function(require,module,exports){
+},{"./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EnterLeaveEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -29520,7 +30323,7 @@ var EnterLeaveEventPlugin = {
 
 module.exports = EnterLeaveEventPlugin;
 
-},{"./EventConstants":67,"./EventPropagators":72,"./ReactMount":115,"./SyntheticMouseEvent":143,"./keyOf":185}],67:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPropagators.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./SyntheticMouseEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticMouseEvent.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -29592,7 +30395,7 @@ var EventConstants = {
 
 module.exports = EventConstants;
 
-},{"./keyMirror":184}],68:[function(require,module,exports){
+},{"./keyMirror":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyMirror.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventListener.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014 Facebook, Inc.
@@ -29682,7 +30485,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":159,"_process":43}],69:[function(require,module,exports){
+},{"./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginHub.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -29958,7 +30761,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":70,"./EventPluginUtils":71,"./accumulateInto":149,"./forEachAccumulated":164,"./invariant":178,"_process":43}],70:[function(require,module,exports){
+},{"./EventPluginRegistry":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginRegistry.js","./EventPluginUtils":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginUtils.js","./accumulateInto":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/forEachAccumulated.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginRegistry.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -30238,7 +31041,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
-},{"./invariant":178,"_process":43}],71:[function(require,module,exports){
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginUtils.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -30459,7 +31262,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
-},{"./EventConstants":67,"./invariant":178,"_process":43}],72:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPropagators.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -30601,7 +31404,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
-},{"./EventConstants":67,"./EventPluginHub":69,"./accumulateInto":149,"./forEachAccumulated":164,"_process":43}],73:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginHub.js","./accumulateInto":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/forEachAccumulated.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -30646,7 +31449,7 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}],74:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/HTMLDOMPropertyConfig.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -30838,7 +31641,48 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":62,"./ExecutionEnvironment":73}],75:[function(require,module,exports){
+},{"./DOMProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMProperty.js","./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LinkedStateMixin.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule LinkedStateMixin
+ * @typechecks static-only
+ */
+
+"use strict";
+
+var ReactLink = require("./ReactLink");
+var ReactStateSetters = require("./ReactStateSetters");
+
+/**
+ * A simple mixin around ReactLink.forState().
+ */
+var LinkedStateMixin = {
+  /**
+   * Create a ReactLink that's linked to part of this component's state. The
+   * ReactLink will have the current value of this.state[key] and will call
+   * setState() when a change is requested.
+   *
+   * @param {string} key state key to update. Note: you may want to use keyOf()
+   * if you're using Google Closure Compiler advanced mode.
+   * @return {ReactLink} ReactLink instance linking to the state.
+   */
+  linkState: function(key) {
+    return new ReactLink(
+      this.state[key],
+      ReactStateSetters.createStateKeySetter(this, key)
+    );
+  }
+};
+
+module.exports = LinkedStateMixin;
+
+},{"./ReactLink":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactLink.js","./ReactStateSetters":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactStateSetters.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LinkedValueUtils.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -30994,7 +31838,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
-},{"./ReactPropTypes":124,"./invariant":178,"_process":43}],76:[function(require,module,exports){
+},{"./ReactPropTypes":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypes.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LocalEventTrapMixin.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -31044,7 +31888,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserEventEmitter":82,"./accumulateInto":149,"./forEachAccumulated":164,"./invariant":178,"_process":43}],77:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserEventEmitter.js","./accumulateInto":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/forEachAccumulated.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/MobileSafariClickEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -31102,7 +31946,7 @@ var MobileSafariClickEventPlugin = {
 
 module.exports = MobileSafariClickEventPlugin;
 
-},{"./EventConstants":67,"./emptyFunction":159}],78:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -31149,7 +31993,7 @@ function assign(target, sources) {
 
 module.exports = assign;
 
-},{}],79:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -31265,7 +32109,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
-},{"./invariant":178,"_process":43}],80:[function(require,module,exports){
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/React.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -31453,7 +32297,7 @@ React.version = '0.12.2';
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./DOMPropertyOperations":63,"./EventPluginUtils":71,"./ExecutionEnvironment":73,"./Object.assign":78,"./ReactChildren":83,"./ReactComponent":84,"./ReactCompositeComponent":86,"./ReactContext":87,"./ReactCurrentOwner":88,"./ReactDOM":89,"./ReactDOMComponent":91,"./ReactDefaultInjection":101,"./ReactElement":104,"./ReactElementValidator":105,"./ReactInstanceHandles":112,"./ReactLegacyElement":113,"./ReactMount":115,"./ReactMultiChild":116,"./ReactPerf":120,"./ReactPropTypes":124,"./ReactServerRendering":128,"./ReactTextComponent":130,"./deprecated":158,"./onlyChild":189,"_process":43}],81:[function(require,module,exports){
+},{"./DOMPropertyOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMPropertyOperations.js","./EventPluginUtils":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginUtils.js","./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactChildren":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactChildren.js","./ReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponent.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactContext":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCurrentOwner.js","./ReactDOM":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js","./ReactDOMComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMComponent.js","./ReactDefaultInjection":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultInjection.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElementValidator.js","./ReactInstanceHandles":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInstanceHandles.js","./ReactLegacyElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactLegacyElement.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./ReactPropTypes":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypes.js","./ReactServerRendering":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactServerRendering.js","./ReactTextComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTextComponent.js","./deprecated":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/deprecated.js","./onlyChild":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/onlyChild.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -31496,7 +32340,7 @@ var ReactBrowserComponentMixin = {
 module.exports = ReactBrowserComponentMixin;
 
 }).call(this,require('_process'))
-},{"./ReactEmptyComponent":106,"./ReactMount":115,"./invariant":178,"_process":43}],82:[function(require,module,exports){
+},{"./ReactEmptyComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEmptyComponent.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserEventEmitter.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -31851,7 +32695,209 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":67,"./EventPluginHub":69,"./EventPluginRegistry":70,"./Object.assign":78,"./ReactEventEmitterMixin":108,"./ViewportMetrics":148,"./isEventSupported":179}],83:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginHub.js","./EventPluginRegistry":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginRegistry.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactEventEmitterMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEventEmitterMixin.js","./ViewportMetrics":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ViewportMetrics.js","./isEventSupported":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isEventSupported.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCSSTransitionGroup.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @typechecks
+ * @providesModule ReactCSSTransitionGroup
+ */
+
+"use strict";
+
+var React = require("./React");
+
+var assign = require("./Object.assign");
+
+var ReactTransitionGroup = React.createFactory(
+  require("./ReactTransitionGroup")
+);
+var ReactCSSTransitionGroupChild = React.createFactory(
+  require("./ReactCSSTransitionGroupChild")
+);
+
+var ReactCSSTransitionGroup = React.createClass({
+  displayName: 'ReactCSSTransitionGroup',
+
+  propTypes: {
+    transitionName: React.PropTypes.string.isRequired,
+    transitionEnter: React.PropTypes.bool,
+    transitionLeave: React.PropTypes.bool
+  },
+
+  getDefaultProps: function() {
+    return {
+      transitionEnter: true,
+      transitionLeave: true
+    };
+  },
+
+  _wrapChild: function(child) {
+    // We need to provide this childFactory so that
+    // ReactCSSTransitionGroupChild can receive updates to name, enter, and
+    // leave while it is leaving.
+    return ReactCSSTransitionGroupChild(
+      {
+        name: this.props.transitionName,
+        enter: this.props.transitionEnter,
+        leave: this.props.transitionLeave
+      },
+      child
+    );
+  },
+
+  render: function() {
+    return (
+      ReactTransitionGroup(
+        assign({}, this.props, {childFactory: this._wrapChild})
+      )
+    );
+  }
+});
+
+module.exports = ReactCSSTransitionGroup;
+
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./React":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/React.js","./ReactCSSTransitionGroupChild":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCSSTransitionGroupChild.js","./ReactTransitionGroup":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTransitionGroup.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCSSTransitionGroupChild.js":[function(require,module,exports){
+(function (process){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @typechecks
+ * @providesModule ReactCSSTransitionGroupChild
+ */
+
+"use strict";
+
+var React = require("./React");
+
+var CSSCore = require("./CSSCore");
+var ReactTransitionEvents = require("./ReactTransitionEvents");
+
+var onlyChild = require("./onlyChild");
+
+// We don't remove the element from the DOM until we receive an animationend or
+// transitionend event. If the user screws up and forgets to add an animation
+// their node will be stuck in the DOM forever, so we detect if an animation
+// does not start and if it doesn't, we just call the end listener immediately.
+var TICK = 17;
+var NO_EVENT_TIMEOUT = 5000;
+
+var noEventListener = null;
+
+
+if ("production" !== process.env.NODE_ENV) {
+  noEventListener = function() {
+    console.warn(
+      'transition(): tried to perform an animation without ' +
+      'an animationend or transitionend event after timeout (' +
+      NO_EVENT_TIMEOUT + 'ms). You should either disable this ' +
+      'transition in JS or add a CSS animation/transition.'
+    );
+  };
+}
+
+var ReactCSSTransitionGroupChild = React.createClass({
+  displayName: 'ReactCSSTransitionGroupChild',
+
+  transition: function(animationType, finishCallback) {
+    var node = this.getDOMNode();
+    var className = this.props.name + '-' + animationType;
+    var activeClassName = className + '-active';
+    var noEventTimeout = null;
+
+    var endListener = function(e) {
+      if (e && e.target !== node) {
+        return;
+      }
+      if ("production" !== process.env.NODE_ENV) {
+        clearTimeout(noEventTimeout);
+      }
+
+      CSSCore.removeClass(node, className);
+      CSSCore.removeClass(node, activeClassName);
+
+      ReactTransitionEvents.removeEndEventListener(node, endListener);
+
+      // Usually this optional callback is used for informing an owner of
+      // a leave animation and telling it to remove the child.
+      finishCallback && finishCallback();
+    };
+
+    ReactTransitionEvents.addEndEventListener(node, endListener);
+
+    CSSCore.addClass(node, className);
+
+    // Need to do this to actually trigger a transition.
+    this.queueClass(activeClassName);
+
+    if ("production" !== process.env.NODE_ENV) {
+      noEventTimeout = setTimeout(noEventListener, NO_EVENT_TIMEOUT);
+    }
+  },
+
+  queueClass: function(className) {
+    this.classNameQueue.push(className);
+
+    if (!this.timeout) {
+      this.timeout = setTimeout(this.flushClassNameQueue, TICK);
+    }
+  },
+
+  flushClassNameQueue: function() {
+    if (this.isMounted()) {
+      this.classNameQueue.forEach(
+        CSSCore.addClass.bind(CSSCore, this.getDOMNode())
+      );
+    }
+    this.classNameQueue.length = 0;
+    this.timeout = null;
+  },
+
+  componentWillMount: function() {
+    this.classNameQueue = [];
+  },
+
+  componentWillUnmount: function() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+  },
+
+  componentWillEnter: function(done) {
+    if (this.props.enter) {
+      this.transition('enter', done);
+    } else {
+      done();
+    }
+  },
+
+  componentWillLeave: function(done) {
+    if (this.props.leave) {
+      this.transition('leave', done);
+    } else {
+      done();
+    }
+  },
+
+  render: function() {
+    return onlyChild(this.props.children);
+  }
+});
+
+module.exports = ReactCSSTransitionGroupChild;
+
+}).call(this,require('_process'))
+},{"./CSSCore":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CSSCore.js","./React":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/React.js","./ReactTransitionEvents":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTransitionEvents.js","./onlyChild":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/onlyChild.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactChildren.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -32001,7 +33047,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
-},{"./PooledClass":79,"./traverseAllChildren":196,"./warning":197,"_process":43}],84:[function(require,module,exports){
+},{"./PooledClass":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js","./traverseAllChildren":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/traverseAllChildren.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -32444,7 +33490,7 @@ var ReactComponent = {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":78,"./ReactElement":104,"./ReactOwner":119,"./ReactUpdates":131,"./invariant":178,"./keyMirror":184,"_process":43}],85:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactOwner.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./keyMirror":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyMirror.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponentBrowserEnvironment.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -32566,7 +33612,56 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 }).call(this,require('_process'))
-},{"./ReactDOMIDOperations":93,"./ReactMarkupChecksum":114,"./ReactMount":115,"./ReactPerf":120,"./ReactReconcileTransaction":126,"./getReactRootElementInContainer":172,"./invariant":178,"./setInnerHTML":192,"_process":43}],86:[function(require,module,exports){
+},{"./ReactDOMIDOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMIDOperations.js","./ReactMarkupChecksum":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMarkupChecksum.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./ReactReconcileTransaction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactReconcileTransaction.js","./getReactRootElementInContainer":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getReactRootElementInContainer.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./setInnerHTML":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/setInnerHTML.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponentWithPureRenderMixin.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+* @providesModule ReactComponentWithPureRenderMixin
+*/
+
+"use strict";
+
+var shallowEqual = require("./shallowEqual");
+
+/**
+ * If your React component's render function is "pure", e.g. it will render the
+ * same result given the same props and state, provide this Mixin for a
+ * considerable performance boost.
+ *
+ * Most React components have pure render functions.
+ *
+ * Example:
+ *
+ *   var ReactComponentWithPureRenderMixin =
+ *     require('ReactComponentWithPureRenderMixin');
+ *   React.createClass({
+ *     mixins: [ReactComponentWithPureRenderMixin],
+ *
+ *     render: function() {
+ *       return <div className={this.props.className}>foo</div>;
+ *     }
+ *   });
+ *
+ * Note: This only checks shallow equality for props and state. If these contain
+ * complex data structures this mixin may have false-negatives for deeper
+ * differences. Only mixin to components which have simple props and state, or
+ * use `forceUpdate()` when you know deep data structures have changed.
+ */
+var ReactComponentWithPureRenderMixin = {
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return !shallowEqual(this.props, nextProps) ||
+           !shallowEqual(this.state, nextState);
+  }
+};
+
+module.exports = ReactComponentWithPureRenderMixin;
+
+},{"./shallowEqual":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/shallowEqual.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -34006,7 +35101,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":78,"./ReactComponent":84,"./ReactContext":87,"./ReactCurrentOwner":88,"./ReactElement":104,"./ReactElementValidator":105,"./ReactEmptyComponent":106,"./ReactErrorUtils":107,"./ReactLegacyElement":113,"./ReactOwner":119,"./ReactPerf":120,"./ReactPropTransferer":121,"./ReactPropTypeLocationNames":122,"./ReactPropTypeLocations":123,"./ReactUpdates":131,"./instantiateReactComponent":177,"./invariant":178,"./keyMirror":184,"./keyOf":185,"./mapObject":186,"./monitorCodeUse":188,"./shouldUpdateReactComponent":194,"./warning":197,"_process":43}],87:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponent.js","./ReactContext":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElementValidator.js","./ReactEmptyComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEmptyComponent.js","./ReactErrorUtils":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactErrorUtils.js","./ReactLegacyElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactLegacyElement.js","./ReactOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactOwner.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./ReactPropTransferer":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTransferer.js","./ReactPropTypeLocationNames":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypeLocationNames.js","./ReactPropTypeLocations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypeLocations.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./instantiateReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./keyMirror":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyMirror.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js","./mapObject":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/mapObject.js","./monitorCodeUse":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/monitorCodeUse.js","./shouldUpdateReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/shouldUpdateReactComponent.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactContext.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -34068,7 +35163,7 @@ var ReactContext = {
 
 module.exports = ReactContext;
 
-},{"./Object.assign":78}],88:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCurrentOwner.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -34102,7 +35197,7 @@ var ReactCurrentOwner = {
 
 module.exports = ReactCurrentOwner;
 
-},{}],89:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -34285,7 +35380,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":104,"./ReactElementValidator":105,"./ReactLegacyElement":113,"./mapObject":186,"_process":43}],90:[function(require,module,exports){
+},{"./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElementValidator.js","./ReactLegacyElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactLegacyElement.js","./mapObject":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/mapObject.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMButton.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -34350,7 +35445,7 @@ var ReactDOMButton = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMButton;
 
-},{"./AutoFocusMixin":53,"./ReactBrowserComponentMixin":81,"./ReactCompositeComponent":86,"./ReactDOM":89,"./ReactElement":104,"./keyMirror":184}],91:[function(require,module,exports){
+},{"./AutoFocusMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/AutoFocusMixin.js","./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./keyMirror":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyMirror.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -34837,7 +35932,7 @@ assign(
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":56,"./DOMProperty":62,"./DOMPropertyOperations":63,"./Object.assign":78,"./ReactBrowserComponentMixin":81,"./ReactBrowserEventEmitter":82,"./ReactComponent":84,"./ReactMount":115,"./ReactMultiChild":116,"./ReactPerf":120,"./escapeTextForBrowser":161,"./invariant":178,"./isEventSupported":179,"./keyOf":185,"./monitorCodeUse":188,"_process":43}],92:[function(require,module,exports){
+},{"./CSSPropertyOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CSSPropertyOperations.js","./DOMProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMProperty.js","./DOMPropertyOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactBrowserEventEmitter":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponent.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./escapeTextForBrowser":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/escapeTextForBrowser.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./isEventSupported":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isEventSupported.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js","./monitorCodeUse":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/monitorCodeUse.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMForm.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -34887,7 +35982,7 @@ var ReactDOMForm = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMForm;
 
-},{"./EventConstants":67,"./LocalEventTrapMixin":76,"./ReactBrowserComponentMixin":81,"./ReactCompositeComponent":86,"./ReactDOM":89,"./ReactElement":104}],93:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./LocalEventTrapMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LocalEventTrapMixin.js","./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMIDOperations.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -35073,7 +36168,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":56,"./DOMChildrenOperations":61,"./DOMPropertyOperations":63,"./ReactMount":115,"./ReactPerf":120,"./invariant":178,"./setInnerHTML":192,"_process":43}],94:[function(require,module,exports){
+},{"./CSSPropertyOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CSSPropertyOperations.js","./DOMChildrenOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMChildrenOperations.js","./DOMPropertyOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMPropertyOperations.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./setInnerHTML":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/setInnerHTML.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMImg.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -35121,7 +36216,7 @@ var ReactDOMImg = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMImg;
 
-},{"./EventConstants":67,"./LocalEventTrapMixin":76,"./ReactBrowserComponentMixin":81,"./ReactCompositeComponent":86,"./ReactDOM":89,"./ReactElement":104}],95:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./LocalEventTrapMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LocalEventTrapMixin.js","./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMInput.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -35299,7 +36394,7 @@ var ReactDOMInput = ReactCompositeComponent.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":53,"./DOMPropertyOperations":63,"./LinkedValueUtils":75,"./Object.assign":78,"./ReactBrowserComponentMixin":81,"./ReactCompositeComponent":86,"./ReactDOM":89,"./ReactElement":104,"./ReactMount":115,"./ReactUpdates":131,"./invariant":178,"_process":43}],96:[function(require,module,exports){
+},{"./AutoFocusMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/AutoFocusMixin.js","./DOMPropertyOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMPropertyOperations.js","./LinkedValueUtils":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMOption.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -35352,7 +36447,7 @@ var ReactDOMOption = ReactCompositeComponent.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserComponentMixin":81,"./ReactCompositeComponent":86,"./ReactDOM":89,"./ReactElement":104,"./warning":197,"_process":43}],97:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMSelect.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -35536,7 +36631,7 @@ var ReactDOMSelect = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMSelect;
 
-},{"./AutoFocusMixin":53,"./LinkedValueUtils":75,"./Object.assign":78,"./ReactBrowserComponentMixin":81,"./ReactCompositeComponent":86,"./ReactDOM":89,"./ReactElement":104,"./ReactUpdates":131}],98:[function(require,module,exports){
+},{"./AutoFocusMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/AutoFocusMixin.js","./LinkedValueUtils":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMSelection.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -35745,7 +36840,7 @@ var ReactDOMSelection = {
 
 module.exports = ReactDOMSelection;
 
-},{"./ExecutionEnvironment":73,"./getNodeForCharacterOffset":171,"./getTextContentAccessor":173}],99:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./getNodeForCharacterOffset":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getNodeForCharacterOffset.js","./getTextContentAccessor":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getTextContentAccessor.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMTextarea.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -35886,7 +36981,7 @@ var ReactDOMTextarea = ReactCompositeComponent.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":53,"./DOMPropertyOperations":63,"./LinkedValueUtils":75,"./Object.assign":78,"./ReactBrowserComponentMixin":81,"./ReactCompositeComponent":86,"./ReactDOM":89,"./ReactElement":104,"./ReactUpdates":131,"./invariant":178,"./warning":197,"_process":43}],100:[function(require,module,exports){
+},{"./AutoFocusMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/AutoFocusMixin.js","./DOMPropertyOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMPropertyOperations.js","./LinkedValueUtils":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultBatchingStrategy.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -35959,7 +37054,7 @@ var ReactDefaultBatchingStrategy = {
 
 module.exports = ReactDefaultBatchingStrategy;
 
-},{"./Object.assign":78,"./ReactUpdates":131,"./Transaction":147,"./emptyFunction":159}],101:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./Transaction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Transaction.js","./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultInjection.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -36088,7 +37183,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":54,"./ChangeEventPlugin":58,"./ClientReactRootIndex":59,"./CompositionEventPlugin":60,"./DefaultEventPluginOrder":65,"./EnterLeaveEventPlugin":66,"./ExecutionEnvironment":73,"./HTMLDOMPropertyConfig":74,"./MobileSafariClickEventPlugin":77,"./ReactBrowserComponentMixin":81,"./ReactComponentBrowserEnvironment":85,"./ReactDOMButton":90,"./ReactDOMComponent":91,"./ReactDOMForm":92,"./ReactDOMImg":94,"./ReactDOMInput":95,"./ReactDOMOption":96,"./ReactDOMSelect":97,"./ReactDOMTextarea":99,"./ReactDefaultBatchingStrategy":100,"./ReactDefaultPerf":102,"./ReactEventListener":109,"./ReactInjection":110,"./ReactInstanceHandles":112,"./ReactMount":115,"./SVGDOMPropertyConfig":132,"./SelectEventPlugin":133,"./ServerReactRootIndex":134,"./SimpleEventPlugin":135,"./createFullPageComponent":155,"_process":43}],102:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/BeforeInputEventPlugin.js","./ChangeEventPlugin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ChangeEventPlugin.js","./ClientReactRootIndex":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ClientReactRootIndex.js","./CompositionEventPlugin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CompositionEventPlugin.js","./DefaultEventPluginOrder":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DefaultEventPluginOrder.js","./EnterLeaveEventPlugin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EnterLeaveEventPlugin.js","./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./HTMLDOMPropertyConfig":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/HTMLDOMPropertyConfig.js","./MobileSafariClickEventPlugin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/MobileSafariClickEventPlugin.js","./ReactBrowserComponentMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactComponentBrowserEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponentBrowserEnvironment.js","./ReactDOMButton":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMButton.js","./ReactDOMComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMComponent.js","./ReactDOMForm":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMForm.js","./ReactDOMImg":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMImg.js","./ReactDOMInput":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMInput.js","./ReactDOMOption":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMOption.js","./ReactDOMSelect":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMSelect.js","./ReactDOMTextarea":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMTextarea.js","./ReactDefaultBatchingStrategy":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultBatchingStrategy.js","./ReactDefaultPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultPerf.js","./ReactEventListener":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEventListener.js","./ReactInjection":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInjection.js","./ReactInstanceHandles":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./SVGDOMPropertyConfig":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SVGDOMPropertyConfig.js","./SelectEventPlugin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SelectEventPlugin.js","./ServerReactRootIndex":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ServerReactRootIndex.js","./SimpleEventPlugin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SimpleEventPlugin.js","./createFullPageComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/createFullPageComponent.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultPerf.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -36348,7 +37443,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 
-},{"./DOMProperty":62,"./ReactDefaultPerfAnalysis":103,"./ReactMount":115,"./ReactPerf":120,"./performanceNow":191}],103:[function(require,module,exports){
+},{"./DOMProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMProperty.js","./ReactDefaultPerfAnalysis":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultPerfAnalysis.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./performanceNow":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/performanceNow.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultPerfAnalysis.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -36554,7 +37649,7 @@ var ReactDefaultPerfAnalysis = {
 
 module.exports = ReactDefaultPerfAnalysis;
 
-},{"./Object.assign":78}],104:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -36800,7 +37895,7 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
-},{"./ReactContext":87,"./ReactCurrentOwner":88,"./warning":197,"_process":43}],105:[function(require,module,exports){
+},{"./ReactContext":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCurrentOwner.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElementValidator.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -37082,7 +38177,7 @@ var ReactElementValidator = {
 module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":88,"./ReactElement":104,"./ReactPropTypeLocations":123,"./monitorCodeUse":188,"./warning":197,"_process":43}],106:[function(require,module,exports){
+},{"./ReactCurrentOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypeLocations.js","./monitorCodeUse":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/monitorCodeUse.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEmptyComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -37159,7 +38254,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":104,"./invariant":178,"_process":43}],107:[function(require,module,exports){
+},{"./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactErrorUtils.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37191,7 +38286,7 @@ var ReactErrorUtils = {
 
 module.exports = ReactErrorUtils;
 
-},{}],108:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEventEmitterMixin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37241,7 +38336,7 @@ var ReactEventEmitterMixin = {
 
 module.exports = ReactEventEmitterMixin;
 
-},{"./EventPluginHub":69}],109:[function(require,module,exports){
+},{"./EventPluginHub":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginHub.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEventListener.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37425,7 +38520,7 @@ var ReactEventListener = {
 
 module.exports = ReactEventListener;
 
-},{"./EventListener":68,"./ExecutionEnvironment":73,"./Object.assign":78,"./PooledClass":79,"./ReactInstanceHandles":112,"./ReactMount":115,"./ReactUpdates":131,"./getEventTarget":169,"./getUnboundedScrollPosition":174}],110:[function(require,module,exports){
+},{"./EventListener":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventListener.js","./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js","./ReactInstanceHandles":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./getEventTarget":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventTarget.js","./getUnboundedScrollPosition":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getUnboundedScrollPosition.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInjection.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37465,7 +38560,7 @@ var ReactInjection = {
 
 module.exports = ReactInjection;
 
-},{"./DOMProperty":62,"./EventPluginHub":69,"./ReactBrowserEventEmitter":82,"./ReactComponent":84,"./ReactCompositeComponent":86,"./ReactEmptyComponent":106,"./ReactNativeComponent":118,"./ReactPerf":120,"./ReactRootIndex":127,"./ReactUpdates":131}],111:[function(require,module,exports){
+},{"./DOMProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMProperty.js","./EventPluginHub":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginHub.js","./ReactBrowserEventEmitter":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponent.js","./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactEmptyComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEmptyComponent.js","./ReactNativeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactNativeComponent.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./ReactRootIndex":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactRootIndex.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInputSelection.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -37601,7 +38696,7 @@ var ReactInputSelection = {
 
 module.exports = ReactInputSelection;
 
-},{"./ReactDOMSelection":98,"./containsNode":153,"./focusNode":163,"./getActiveElement":165}],112:[function(require,module,exports){
+},{"./ReactDOMSelection":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDOMSelection.js","./containsNode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/containsNode.js","./focusNode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/focusNode.js","./getActiveElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getActiveElement.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInstanceHandles.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -37936,7 +39031,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
-},{"./ReactRootIndex":127,"./invariant":178,"_process":43}],113:[function(require,module,exports){
+},{"./ReactRootIndex":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactRootIndex.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactLegacyElement.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -38183,7 +39278,80 @@ ReactLegacyElementFactory._isLegacyCallWarningEnabled = true;
 module.exports = ReactLegacyElementFactory;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":88,"./invariant":178,"./monitorCodeUse":188,"./warning":197,"_process":43}],114:[function(require,module,exports){
+},{"./ReactCurrentOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCurrentOwner.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./monitorCodeUse":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/monitorCodeUse.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactLink.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactLink
+ * @typechecks static-only
+ */
+
+"use strict";
+
+/**
+ * ReactLink encapsulates a common pattern in which a component wants to modify
+ * a prop received from its parent. ReactLink allows the parent to pass down a
+ * value coupled with a callback that, when invoked, expresses an intent to
+ * modify that value. For example:
+ *
+ * React.createClass({
+ *   getInitialState: function() {
+ *     return {value: ''};
+ *   },
+ *   render: function() {
+ *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
+ *     return <input valueLink={valueLink} />;
+ *   },
+ *   this._handleValueChange: function(newValue) {
+ *     this.setState({value: newValue});
+ *   }
+ * });
+ *
+ * We have provided some sugary mixins to make the creation and
+ * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
+ */
+
+var React = require("./React");
+
+/**
+ * @param {*} value current value of the link
+ * @param {function} requestChange callback to request a change
+ */
+function ReactLink(value, requestChange) {
+  this.value = value;
+  this.requestChange = requestChange;
+}
+
+/**
+ * Creates a PropType that enforces the ReactLink API and optionally checks the
+ * type of the value being passed inside the link. Example:
+ *
+ * MyComponent.propTypes = {
+ *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
+ * }
+ */
+function createLinkTypeChecker(linkType) {
+  var shapes = {
+    value: typeof linkType === 'undefined' ?
+      React.PropTypes.any.isRequired :
+      linkType.isRequired,
+    requestChange: React.PropTypes.func.isRequired
+  };
+  return React.PropTypes.shape(shapes);
+}
+
+ReactLink.PropTypes = {
+  link: createLinkTypeChecker
+};
+
+module.exports = ReactLink;
+
+},{"./React":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/React.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMarkupChecksum.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -38231,7 +39399,7 @@ var ReactMarkupChecksum = {
 
 module.exports = ReactMarkupChecksum;
 
-},{"./adler32":150}],115:[function(require,module,exports){
+},{"./adler32":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/adler32.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -38929,7 +40097,7 @@ ReactMount.renderComponent = deprecated(
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":62,"./ReactBrowserEventEmitter":82,"./ReactCurrentOwner":88,"./ReactElement":104,"./ReactInstanceHandles":112,"./ReactLegacyElement":113,"./ReactPerf":120,"./containsNode":153,"./deprecated":158,"./getReactRootElementInContainer":172,"./instantiateReactComponent":177,"./invariant":178,"./shouldUpdateReactComponent":194,"./warning":197,"_process":43}],116:[function(require,module,exports){
+},{"./DOMProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMProperty.js","./ReactBrowserEventEmitter":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactCurrentOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInstanceHandles.js","./ReactLegacyElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactLegacyElement.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./containsNode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/containsNode.js","./deprecated":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/deprecated.js","./getReactRootElementInContainer":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getReactRootElementInContainer.js","./instantiateReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./shouldUpdateReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/shouldUpdateReactComponent.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMultiChild.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -39357,7 +40525,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 
-},{"./ReactComponent":84,"./ReactMultiChildUpdateTypes":117,"./flattenChildren":162,"./instantiateReactComponent":177,"./shouldUpdateReactComponent":194}],117:[function(require,module,exports){
+},{"./ReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponent.js","./ReactMultiChildUpdateTypes":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./flattenChildren":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/flattenChildren.js","./instantiateReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/instantiateReactComponent.js","./shouldUpdateReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/shouldUpdateReactComponent.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMultiChildUpdateTypes.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -39390,7 +40558,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 
 module.exports = ReactMultiChildUpdateTypes;
 
-},{"./keyMirror":184}],118:[function(require,module,exports){
+},{"./keyMirror":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyMirror.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactNativeComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -39463,7 +40631,7 @@ var ReactNativeComponent = {
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":78,"./invariant":178,"_process":43}],119:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactOwner.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -39619,7 +40787,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
-},{"./emptyObject":160,"./invariant":178,"_process":43}],120:[function(require,module,exports){
+},{"./emptyObject":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyObject.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -39703,7 +40871,7 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
-},{"_process":43}],121:[function(require,module,exports){
+},{"_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTransferer.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -39870,7 +41038,7 @@ var ReactPropTransferer = {
 module.exports = ReactPropTransferer;
 
 }).call(this,require('_process'))
-},{"./Object.assign":78,"./emptyFunction":159,"./invariant":178,"./joinClasses":183,"./warning":197,"_process":43}],122:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./joinClasses":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/joinClasses.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypeLocationNames.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -39898,7 +41066,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
-},{"_process":43}],123:[function(require,module,exports){
+},{"_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypeLocations.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -39922,7 +41090,7 @@ var ReactPropTypeLocations = keyMirror({
 
 module.exports = ReactPropTypeLocations;
 
-},{"./keyMirror":184}],124:[function(require,module,exports){
+},{"./keyMirror":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyMirror.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypes.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40276,7 +41444,7 @@ function getPreciseType(propValue) {
 
 module.exports = ReactPropTypes;
 
-},{"./ReactElement":104,"./ReactPropTypeLocationNames":122,"./deprecated":158,"./emptyFunction":159}],125:[function(require,module,exports){
+},{"./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocationNames":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTypeLocationNames.js","./deprecated":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/deprecated.js","./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPutListenerQueue.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40332,7 +41500,7 @@ PooledClass.addPoolingTo(ReactPutListenerQueue);
 
 module.exports = ReactPutListenerQueue;
 
-},{"./Object.assign":78,"./PooledClass":79,"./ReactBrowserEventEmitter":82}],126:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js","./ReactBrowserEventEmitter":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserEventEmitter.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactReconcileTransaction.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40508,7 +41676,7 @@ PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
 
-},{"./CallbackQueue":57,"./Object.assign":78,"./PooledClass":79,"./ReactBrowserEventEmitter":82,"./ReactInputSelection":111,"./ReactPutListenerQueue":125,"./Transaction":147}],127:[function(require,module,exports){
+},{"./CallbackQueue":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js","./ReactBrowserEventEmitter":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactInputSelection":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInputSelection.js","./ReactPutListenerQueue":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPutListenerQueue.js","./Transaction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Transaction.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactRootIndex.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40539,7 +41707,7 @@ var ReactRootIndex = {
 
 module.exports = ReactRootIndex;
 
-},{}],128:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactServerRendering.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -40619,7 +41787,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./ReactElement":104,"./ReactInstanceHandles":112,"./ReactMarkupChecksum":114,"./ReactServerRenderingTransaction":129,"./instantiateReactComponent":177,"./invariant":178,"_process":43}],129:[function(require,module,exports){
+},{"./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInstanceHandles.js","./ReactMarkupChecksum":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMarkupChecksum.js","./ReactServerRenderingTransaction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactServerRenderingTransaction.js","./instantiateReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactServerRenderingTransaction.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -40732,7 +41900,525 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":57,"./Object.assign":78,"./PooledClass":79,"./ReactPutListenerQueue":125,"./Transaction":147,"./emptyFunction":159}],130:[function(require,module,exports){
+},{"./CallbackQueue":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js","./ReactPutListenerQueue":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPutListenerQueue.js","./Transaction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Transaction.js","./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactStateSetters.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactStateSetters
+ */
+
+"use strict";
+
+var ReactStateSetters = {
+  /**
+   * Returns a function that calls the provided function, and uses the result
+   * of that to set the component's state.
+   *
+   * @param {ReactCompositeComponent} component
+   * @param {function} funcReturningState Returned callback uses this to
+   *                                      determine how to update state.
+   * @return {function} callback that when invoked uses funcReturningState to
+   *                    determined the object literal to setState.
+   */
+  createStateSetter: function(component, funcReturningState) {
+    return function(a, b, c, d, e, f) {
+      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
+      if (partialState) {
+        component.setState(partialState);
+      }
+    };
+  },
+
+  /**
+   * Returns a single-argument callback that can be used to update a single
+   * key in the component's state.
+   *
+   * Note: this is memoized function, which makes it inexpensive to call.
+   *
+   * @param {ReactCompositeComponent} component
+   * @param {string} key The key in the state that you should update.
+   * @return {function} callback of 1 argument which calls setState() with
+   *                    the provided keyName and callback argument.
+   */
+  createStateKeySetter: function(component, key) {
+    // Memoize the setters.
+    var cache = component.__keySetters || (component.__keySetters = {});
+    return cache[key] || (cache[key] = createStateKeySetter(component, key));
+  }
+};
+
+function createStateKeySetter(component, key) {
+  // Partial state is allocated outside of the function closure so it can be
+  // reused with every call, avoiding memory allocation when this function
+  // is called.
+  var partialState = {};
+  return function stateKeySetter(value) {
+    partialState[key] = value;
+    component.setState(partialState);
+  };
+}
+
+ReactStateSetters.Mixin = {
+  /**
+   * Returns a function that calls the provided function, and uses the result
+   * of that to set the component's state.
+   *
+   * For example, these statements are equivalent:
+   *
+   *   this.setState({x: 1});
+   *   this.createStateSetter(function(xValue) {
+   *     return {x: xValue};
+   *   })(1);
+   *
+   * @param {function} funcReturningState Returned callback uses this to
+   *                                      determine how to update state.
+   * @return {function} callback that when invoked uses funcReturningState to
+   *                    determined the object literal to setState.
+   */
+  createStateSetter: function(funcReturningState) {
+    return ReactStateSetters.createStateSetter(this, funcReturningState);
+  },
+
+  /**
+   * Returns a single-argument callback that can be used to update a single
+   * key in the component's state.
+   *
+   * For example, these statements are equivalent:
+   *
+   *   this.setState({x: 1});
+   *   this.createStateKeySetter('x')(1);
+   *
+   * Note: this is memoized function, which makes it inexpensive to call.
+   *
+   * @param {string} key The key in the state that you should update.
+   * @return {function} callback of 1 argument which calls setState() with
+   *                    the provided keyName and callback argument.
+   */
+  createStateKeySetter: function(key) {
+    return ReactStateSetters.createStateKeySetter(this, key);
+  }
+};
+
+module.exports = ReactStateSetters;
+
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTestUtils.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactTestUtils
+ */
+
+"use strict";
+
+var EventConstants = require("./EventConstants");
+var EventPluginHub = require("./EventPluginHub");
+var EventPropagators = require("./EventPropagators");
+var React = require("./React");
+var ReactElement = require("./ReactElement");
+var ReactBrowserEventEmitter = require("./ReactBrowserEventEmitter");
+var ReactMount = require("./ReactMount");
+var ReactTextComponent = require("./ReactTextComponent");
+var ReactUpdates = require("./ReactUpdates");
+var SyntheticEvent = require("./SyntheticEvent");
+
+var assign = require("./Object.assign");
+
+var topLevelTypes = EventConstants.topLevelTypes;
+
+function Event(suffix) {}
+
+/**
+ * @class ReactTestUtils
+ */
+
+/**
+ * Todo: Support the entire DOM.scry query syntax. For now, these simple
+ * utilities will suffice for testing purposes.
+ * @lends ReactTestUtils
+ */
+var ReactTestUtils = {
+  renderIntoDocument: function(instance) {
+    var div = document.createElement('div');
+    // None of our tests actually require attaching the container to the
+    // DOM, and doing so creates a mess that we rely on test isolation to
+    // clean up, so we're going to stop honoring the name of this method
+    // (and probably rename it eventually) if no problems arise.
+    // document.documentElement.appendChild(div);
+    return React.render(instance, div);
+  },
+
+  isElement: function(element) {
+    return ReactElement.isValidElement(element);
+  },
+
+  isElementOfType: function(inst, convenienceConstructor) {
+    return (
+      ReactElement.isValidElement(inst) &&
+      inst.type === convenienceConstructor.type
+    );
+  },
+
+  isDOMComponent: function(inst) {
+    return !!(inst && inst.mountComponent && inst.tagName);
+  },
+
+  isDOMComponentElement: function(inst) {
+    return !!(inst &&
+              ReactElement.isValidElement(inst) &&
+              !!inst.tagName);
+  },
+
+  isCompositeComponent: function(inst) {
+    return typeof inst.render === 'function' &&
+           typeof inst.setState === 'function';
+  },
+
+  isCompositeComponentWithType: function(inst, type) {
+    return !!(ReactTestUtils.isCompositeComponent(inst) &&
+             (inst.constructor === type.type));
+  },
+
+  isCompositeComponentElement: function(inst) {
+    if (!ReactElement.isValidElement(inst)) {
+      return false;
+    }
+    // We check the prototype of the type that will get mounted, not the
+    // instance itself. This is a future proof way of duck typing.
+    var prototype = inst.type.prototype;
+    return (
+      typeof prototype.render === 'function' &&
+      typeof prototype.setState === 'function'
+    );
+  },
+
+  isCompositeComponentElementWithType: function(inst, type) {
+    return !!(ReactTestUtils.isCompositeComponentElement(inst) &&
+             (inst.constructor === type));
+  },
+
+  isTextComponent: function(inst) {
+    return inst instanceof ReactTextComponent.type;
+  },
+
+  findAllInRenderedTree: function(inst, test) {
+    if (!inst) {
+      return [];
+    }
+    var ret = test(inst) ? [inst] : [];
+    if (ReactTestUtils.isDOMComponent(inst)) {
+      var renderedChildren = inst._renderedChildren;
+      var key;
+      for (key in renderedChildren) {
+        if (!renderedChildren.hasOwnProperty(key)) {
+          continue;
+        }
+        ret = ret.concat(
+          ReactTestUtils.findAllInRenderedTree(renderedChildren[key], test)
+        );
+      }
+    } else if (ReactTestUtils.isCompositeComponent(inst)) {
+      ret = ret.concat(
+        ReactTestUtils.findAllInRenderedTree(inst._renderedComponent, test)
+      );
+    }
+    return ret;
+  },
+
+  /**
+   * Finds all instance of components in the rendered tree that are DOM
+   * components with the class name matching `className`.
+   * @return an array of all the matches.
+   */
+  scryRenderedDOMComponentsWithClass: function(root, className) {
+    return ReactTestUtils.findAllInRenderedTree(root, function(inst) {
+      var instClassName = inst.props.className;
+      return ReactTestUtils.isDOMComponent(inst) && (
+        instClassName &&
+        (' ' + instClassName + ' ').indexOf(' ' + className + ' ') !== -1
+      );
+    });
+  },
+
+  /**
+   * Like scryRenderedDOMComponentsWithClass but expects there to be one result,
+   * and returns that one result, or throws exception if there is any other
+   * number of matches besides one.
+   * @return {!ReactDOMComponent} The one match.
+   */
+  findRenderedDOMComponentWithClass: function(root, className) {
+    var all =
+      ReactTestUtils.scryRenderedDOMComponentsWithClass(root, className);
+    if (all.length !== 1) {
+      throw new Error('Did not find exactly one match for class:' + className);
+    }
+    return all[0];
+  },
+
+
+  /**
+   * Finds all instance of components in the rendered tree that are DOM
+   * components with the tag name matching `tagName`.
+   * @return an array of all the matches.
+   */
+  scryRenderedDOMComponentsWithTag: function(root, tagName) {
+    return ReactTestUtils.findAllInRenderedTree(root, function(inst) {
+      return ReactTestUtils.isDOMComponent(inst) &&
+            inst.tagName === tagName.toUpperCase();
+    });
+  },
+
+  /**
+   * Like scryRenderedDOMComponentsWithTag but expects there to be one result,
+   * and returns that one result, or throws exception if there is any other
+   * number of matches besides one.
+   * @return {!ReactDOMComponent} The one match.
+   */
+  findRenderedDOMComponentWithTag: function(root, tagName) {
+    var all = ReactTestUtils.scryRenderedDOMComponentsWithTag(root, tagName);
+    if (all.length !== 1) {
+      throw new Error('Did not find exactly one match for tag:' + tagName);
+    }
+    return all[0];
+  },
+
+
+  /**
+   * Finds all instances of components with type equal to `componentType`.
+   * @return an array of all the matches.
+   */
+  scryRenderedComponentsWithType: function(root, componentType) {
+    return ReactTestUtils.findAllInRenderedTree(root, function(inst) {
+      return ReactTestUtils.isCompositeComponentWithType(
+        inst,
+        componentType
+      );
+    });
+  },
+
+  /**
+   * Same as `scryRenderedComponentsWithType` but expects there to be one result
+   * and returns that one result, or throws exception if there is any other
+   * number of matches besides one.
+   * @return {!ReactComponent} The one match.
+   */
+  findRenderedComponentWithType: function(root, componentType) {
+    var all = ReactTestUtils.scryRenderedComponentsWithType(
+      root,
+      componentType
+    );
+    if (all.length !== 1) {
+      throw new Error(
+        'Did not find exactly one match for componentType:' + componentType
+      );
+    }
+    return all[0];
+  },
+
+  /**
+   * Pass a mocked component module to this method to augment it with
+   * useful methods that allow it to be used as a dummy React component.
+   * Instead of rendering as usual, the component will become a simple
+   * <div> containing any provided children.
+   *
+   * @param {object} module the mock function object exported from a
+   *                        module that defines the component to be mocked
+   * @param {?string} mockTagName optional dummy root tag name to return
+   *                              from render method (overrides
+   *                              module.mockTagName if provided)
+   * @return {object} the ReactTestUtils object (for chaining)
+   */
+  mockComponent: function(module, mockTagName) {
+    mockTagName = mockTagName || module.mockTagName || "div";
+
+    var ConvenienceConstructor = React.createClass({displayName: "ConvenienceConstructor",
+      render: function() {
+        return React.createElement(
+          mockTagName,
+          null,
+          this.props.children
+        );
+      }
+    });
+
+    module.mockImplementation(ConvenienceConstructor);
+
+    module.type = ConvenienceConstructor.type;
+    module.isReactLegacyFactory = true;
+
+    return this;
+  },
+
+  /**
+   * Simulates a top level event being dispatched from a raw event that occured
+   * on an `Element` node.
+   * @param topLevelType {Object} A type from `EventConstants.topLevelTypes`
+   * @param {!Element} node The dom to simulate an event occurring on.
+   * @param {?Event} fakeNativeEvent Fake native event to use in SyntheticEvent.
+   */
+  simulateNativeEventOnNode: function(topLevelType, node, fakeNativeEvent) {
+    fakeNativeEvent.target = node;
+    ReactBrowserEventEmitter.ReactEventListener.dispatchEvent(
+      topLevelType,
+      fakeNativeEvent
+    );
+  },
+
+  /**
+   * Simulates a top level event being dispatched from a raw event that occured
+   * on the `ReactDOMComponent` `comp`.
+   * @param topLevelType {Object} A type from `EventConstants.topLevelTypes`.
+   * @param comp {!ReactDOMComponent}
+   * @param {?Event} fakeNativeEvent Fake native event to use in SyntheticEvent.
+   */
+  simulateNativeEventOnDOMComponent: function(
+      topLevelType,
+      comp,
+      fakeNativeEvent) {
+    ReactTestUtils.simulateNativeEventOnNode(
+      topLevelType,
+      comp.getDOMNode(),
+      fakeNativeEvent
+    );
+  },
+
+  nativeTouchData: function(x, y) {
+    return {
+      touches: [
+        {pageX: x, pageY: y}
+      ]
+    };
+  },
+
+  Simulate: null,
+  SimulateNative: {}
+};
+
+/**
+ * Exports:
+ *
+ * - `ReactTestUtils.Simulate.click(Element/ReactDOMComponent)`
+ * - `ReactTestUtils.Simulate.mouseMove(Element/ReactDOMComponent)`
+ * - `ReactTestUtils.Simulate.change(Element/ReactDOMComponent)`
+ * - ... (All keys from event plugin `eventTypes` objects)
+ */
+function makeSimulator(eventType) {
+  return function(domComponentOrNode, eventData) {
+    var node;
+    if (ReactTestUtils.isDOMComponent(domComponentOrNode)) {
+      node = domComponentOrNode.getDOMNode();
+    } else if (domComponentOrNode.tagName) {
+      node = domComponentOrNode;
+    }
+
+    var fakeNativeEvent = new Event();
+    fakeNativeEvent.target = node;
+    // We don't use SyntheticEvent.getPooled in order to not have to worry about
+    // properly destroying any properties assigned from `eventData` upon release
+    var event = new SyntheticEvent(
+      ReactBrowserEventEmitter.eventNameDispatchConfigs[eventType],
+      ReactMount.getID(node),
+      fakeNativeEvent
+    );
+    assign(event, eventData);
+    EventPropagators.accumulateTwoPhaseDispatches(event);
+
+    ReactUpdates.batchedUpdates(function() {
+      EventPluginHub.enqueueEvents(event);
+      EventPluginHub.processEventQueue();
+    });
+  };
+}
+
+function buildSimulators() {
+  ReactTestUtils.Simulate = {};
+
+  var eventType;
+  for (eventType in ReactBrowserEventEmitter.eventNameDispatchConfigs) {
+    /**
+     * @param {!Element || ReactDOMComponent} domComponentOrNode
+     * @param {?object} eventData Fake event data to use in SyntheticEvent.
+     */
+    ReactTestUtils.Simulate[eventType] = makeSimulator(eventType);
+  }
+}
+
+// Rebuild ReactTestUtils.Simulate whenever event plugins are injected
+var oldInjectEventPluginOrder = EventPluginHub.injection.injectEventPluginOrder;
+EventPluginHub.injection.injectEventPluginOrder = function() {
+  oldInjectEventPluginOrder.apply(this, arguments);
+  buildSimulators();
+};
+var oldInjectEventPlugins = EventPluginHub.injection.injectEventPluginsByName;
+EventPluginHub.injection.injectEventPluginsByName = function() {
+  oldInjectEventPlugins.apply(this, arguments);
+  buildSimulators();
+};
+
+buildSimulators();
+
+/**
+ * Exports:
+ *
+ * - `ReactTestUtils.SimulateNative.click(Element/ReactDOMComponent)`
+ * - `ReactTestUtils.SimulateNative.mouseMove(Element/ReactDOMComponent)`
+ * - `ReactTestUtils.SimulateNative.mouseIn/ReactDOMComponent)`
+ * - `ReactTestUtils.SimulateNative.mouseOut(Element/ReactDOMComponent)`
+ * - ... (All keys from `EventConstants.topLevelTypes`)
+ *
+ * Note: Top level event types are a subset of the entire set of handler types
+ * (which include a broader set of "synthetic" events). For example, onDragDone
+ * is a synthetic event. Except when testing an event plugin or React's event
+ * handling code specifically, you probably want to use ReactTestUtils.Simulate
+ * to dispatch synthetic events.
+ */
+
+function makeNativeSimulator(eventType) {
+  return function(domComponentOrNode, nativeEventData) {
+    var fakeNativeEvent = new Event(eventType);
+    assign(fakeNativeEvent, nativeEventData);
+    if (ReactTestUtils.isDOMComponent(domComponentOrNode)) {
+      ReactTestUtils.simulateNativeEventOnDOMComponent(
+        eventType,
+        domComponentOrNode,
+        fakeNativeEvent
+      );
+    } else if (!!domComponentOrNode.tagName) {
+      // Will allow on actual dom nodes.
+      ReactTestUtils.simulateNativeEventOnNode(
+        eventType,
+        domComponentOrNode,
+        fakeNativeEvent
+      );
+    }
+  };
+}
+
+var eventType;
+for (eventType in topLevelTypes) {
+  // Event type is stored as 'topClick' - we transform that to 'click'
+  var convenienceName = eventType.indexOf('top') === 0 ?
+    eventType.charAt(3).toLowerCase() + eventType.substr(4) : eventType;
+  /**
+   * @param {!Element || ReactDOMComponent} domComponentOrNode
+   * @param {?Event} nativeEventData Fake native event to use in SyntheticEvent.
+   */
+  ReactTestUtils.SimulateNative[convenienceName] =
+    makeNativeSimulator(eventType);
+}
+
+module.exports = ReactTestUtils;
+
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginHub.js","./EventPropagators":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPropagators.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./React":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/React.js","./ReactBrowserEventEmitter":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactMount":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactMount.js","./ReactTextComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTextComponent.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./SyntheticEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTextComponent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -40838,7 +42524,408 @@ ReactTextComponentFactory.type = ReactTextComponent;
 
 module.exports = ReactTextComponentFactory;
 
-},{"./DOMPropertyOperations":63,"./Object.assign":78,"./ReactComponent":84,"./ReactElement":104,"./escapeTextForBrowser":161}],131:[function(require,module,exports){
+},{"./DOMPropertyOperations":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./ReactComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponent.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./escapeTextForBrowser":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/escapeTextForBrowser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTransitionChildMapping.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @typechecks static-only
+ * @providesModule ReactTransitionChildMapping
+ */
+
+"use strict";
+
+var ReactChildren = require("./ReactChildren");
+
+var ReactTransitionChildMapping = {
+  /**
+   * Given `this.props.children`, return an object mapping key to child. Just
+   * simple syntactic sugar around ReactChildren.map().
+   *
+   * @param {*} children `this.props.children`
+   * @return {object} Mapping of key to child
+   */
+  getChildMapping: function(children) {
+    return ReactChildren.map(children, function(child) {
+      return child;
+    });
+  },
+
+  /**
+   * When you're adding or removing children some may be added or removed in the
+   * same render pass. We want to show *both* since we want to simultaneously
+   * animate elements in and out. This function takes a previous set of keys
+   * and a new set of keys and merges them with its best guess of the correct
+   * ordering. In the future we may expose some of the utilities in
+   * ReactMultiChild to make this easy, but for now React itself does not
+   * directly have this concept of the union of prevChildren and nextChildren
+   * so we implement it here.
+   *
+   * @param {object} prev prev children as returned from
+   * `ReactTransitionChildMapping.getChildMapping()`.
+   * @param {object} next next children as returned from
+   * `ReactTransitionChildMapping.getChildMapping()`.
+   * @return {object} a key set that contains all keys in `prev` and all keys
+   * in `next` in a reasonable order.
+   */
+  mergeChildMappings: function(prev, next) {
+    prev = prev || {};
+    next = next || {};
+
+    function getValueForKey(key) {
+      if (next.hasOwnProperty(key)) {
+        return next[key];
+      } else {
+        return prev[key];
+      }
+    }
+
+    // For each key of `next`, the list of keys to insert before that key in
+    // the combined list
+    var nextKeysPending = {};
+
+    var pendingKeys = [];
+    for (var prevKey in prev) {
+      if (next.hasOwnProperty(prevKey)) {
+        if (pendingKeys.length) {
+          nextKeysPending[prevKey] = pendingKeys;
+          pendingKeys = [];
+        }
+      } else {
+        pendingKeys.push(prevKey);
+      }
+    }
+
+    var i;
+    var childMapping = {};
+    for (var nextKey in next) {
+      if (nextKeysPending.hasOwnProperty(nextKey)) {
+        for (i = 0; i < nextKeysPending[nextKey].length; i++) {
+          var pendingNextKey = nextKeysPending[nextKey][i];
+          childMapping[nextKeysPending[nextKey][i]] = getValueForKey(
+            pendingNextKey
+          );
+        }
+      }
+      childMapping[nextKey] = getValueForKey(nextKey);
+    }
+
+    // Finally, add the keys which didn't appear before any key in `next`
+    for (i = 0; i < pendingKeys.length; i++) {
+      childMapping[pendingKeys[i]] = getValueForKey(pendingKeys[i]);
+    }
+
+    return childMapping;
+  }
+};
+
+module.exports = ReactTransitionChildMapping;
+
+},{"./ReactChildren":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactChildren.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTransitionEvents.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactTransitionEvents
+ */
+
+"use strict";
+
+var ExecutionEnvironment = require("./ExecutionEnvironment");
+
+/**
+ * EVENT_NAME_MAP is used to determine which event fired when a
+ * transition/animation ends, based on the style property used to
+ * define that event.
+ */
+var EVENT_NAME_MAP = {
+  transitionend: {
+    'transition': 'transitionend',
+    'WebkitTransition': 'webkitTransitionEnd',
+    'MozTransition': 'mozTransitionEnd',
+    'OTransition': 'oTransitionEnd',
+    'msTransition': 'MSTransitionEnd'
+  },
+
+  animationend: {
+    'animation': 'animationend',
+    'WebkitAnimation': 'webkitAnimationEnd',
+    'MozAnimation': 'mozAnimationEnd',
+    'OAnimation': 'oAnimationEnd',
+    'msAnimation': 'MSAnimationEnd'
+  }
+};
+
+var endEvents = [];
+
+function detectEvents() {
+  var testEl = document.createElement('div');
+  var style = testEl.style;
+
+  // On some platforms, in particular some releases of Android 4.x,
+  // the un-prefixed "animation" and "transition" properties are defined on the
+  // style object but the events that fire will still be prefixed, so we need
+  // to check if the un-prefixed events are useable, and if not remove them
+  // from the map
+  if (!('AnimationEvent' in window)) {
+    delete EVENT_NAME_MAP.animationend.animation;
+  }
+
+  if (!('TransitionEvent' in window)) {
+    delete EVENT_NAME_MAP.transitionend.transition;
+  }
+
+  for (var baseEventName in EVENT_NAME_MAP) {
+    var baseEvents = EVENT_NAME_MAP[baseEventName];
+    for (var styleName in baseEvents) {
+      if (styleName in style) {
+        endEvents.push(baseEvents[styleName]);
+        break;
+      }
+    }
+  }
+}
+
+if (ExecutionEnvironment.canUseDOM) {
+  detectEvents();
+}
+
+// We use the raw {add|remove}EventListener() call because EventListener
+// does not know how to remove event listeners and we really should
+// clean up. Also, these events are not triggered in older browsers
+// so we should be A-OK here.
+
+function addEventListener(node, eventName, eventListener) {
+  node.addEventListener(eventName, eventListener, false);
+}
+
+function removeEventListener(node, eventName, eventListener) {
+  node.removeEventListener(eventName, eventListener, false);
+}
+
+var ReactTransitionEvents = {
+  addEndEventListener: function(node, eventListener) {
+    if (endEvents.length === 0) {
+      // If CSS transitions are not supported, trigger an "end animation"
+      // event immediately.
+      window.setTimeout(eventListener, 0);
+      return;
+    }
+    endEvents.forEach(function(endEvent) {
+      addEventListener(node, endEvent, eventListener);
+    });
+  },
+
+  removeEndEventListener: function(node, eventListener) {
+    if (endEvents.length === 0) {
+      return;
+    }
+    endEvents.forEach(function(endEvent) {
+      removeEventListener(node, endEvent, eventListener);
+    });
+  }
+};
+
+module.exports = ReactTransitionEvents;
+
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTransitionGroup.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactTransitionGroup
+ */
+
+"use strict";
+
+var React = require("./React");
+var ReactTransitionChildMapping = require("./ReactTransitionChildMapping");
+
+var assign = require("./Object.assign");
+var cloneWithProps = require("./cloneWithProps");
+var emptyFunction = require("./emptyFunction");
+
+var ReactTransitionGroup = React.createClass({
+  displayName: 'ReactTransitionGroup',
+
+  propTypes: {
+    component: React.PropTypes.any,
+    childFactory: React.PropTypes.func
+  },
+
+  getDefaultProps: function() {
+    return {
+      component: 'span',
+      childFactory: emptyFunction.thatReturnsArgument
+    };
+  },
+
+  getInitialState: function() {
+    return {
+      children: ReactTransitionChildMapping.getChildMapping(this.props.children)
+    };
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    var nextChildMapping = ReactTransitionChildMapping.getChildMapping(
+      nextProps.children
+    );
+    var prevChildMapping = this.state.children;
+
+    this.setState({
+      children: ReactTransitionChildMapping.mergeChildMappings(
+        prevChildMapping,
+        nextChildMapping
+      )
+    });
+
+    var key;
+
+    for (key in nextChildMapping) {
+      var hasPrev = prevChildMapping && prevChildMapping.hasOwnProperty(key);
+      if (nextChildMapping[key] && !hasPrev &&
+          !this.currentlyTransitioningKeys[key]) {
+        this.keysToEnter.push(key);
+      }
+    }
+
+    for (key in prevChildMapping) {
+      var hasNext = nextChildMapping && nextChildMapping.hasOwnProperty(key);
+      if (prevChildMapping[key] && !hasNext &&
+          !this.currentlyTransitioningKeys[key]) {
+        this.keysToLeave.push(key);
+      }
+    }
+
+    // If we want to someday check for reordering, we could do it here.
+  },
+
+  componentWillMount: function() {
+    this.currentlyTransitioningKeys = {};
+    this.keysToEnter = [];
+    this.keysToLeave = [];
+  },
+
+  componentDidUpdate: function() {
+    var keysToEnter = this.keysToEnter;
+    this.keysToEnter = [];
+    keysToEnter.forEach(this.performEnter);
+
+    var keysToLeave = this.keysToLeave;
+    this.keysToLeave = [];
+    keysToLeave.forEach(this.performLeave);
+  },
+
+  performEnter: function(key) {
+    this.currentlyTransitioningKeys[key] = true;
+
+    var component = this.refs[key];
+
+    if (component.componentWillEnter) {
+      component.componentWillEnter(
+        this._handleDoneEntering.bind(this, key)
+      );
+    } else {
+      this._handleDoneEntering(key);
+    }
+  },
+
+  _handleDoneEntering: function(key) {
+    var component = this.refs[key];
+    if (component.componentDidEnter) {
+      component.componentDidEnter();
+    }
+
+    delete this.currentlyTransitioningKeys[key];
+
+    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(
+      this.props.children
+    );
+
+    if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
+      // This was removed before it had fully entered. Remove it.
+      this.performLeave(key);
+    }
+  },
+
+  performLeave: function(key) {
+    this.currentlyTransitioningKeys[key] = true;
+
+    var component = this.refs[key];
+    if (component.componentWillLeave) {
+      component.componentWillLeave(this._handleDoneLeaving.bind(this, key));
+    } else {
+      // Note that this is somewhat dangerous b/c it calls setState()
+      // again, effectively mutating the component before all the work
+      // is done.
+      this._handleDoneLeaving(key);
+    }
+  },
+
+  _handleDoneLeaving: function(key) {
+    var component = this.refs[key];
+
+    if (component.componentDidLeave) {
+      component.componentDidLeave();
+    }
+
+    delete this.currentlyTransitioningKeys[key];
+
+    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(
+      this.props.children
+    );
+
+    if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
+      // This entered again before it fully left. Add it again.
+      this.performEnter(key);
+    } else {
+      var newChildren = assign({}, this.state.children);
+      delete newChildren[key];
+      this.setState({children: newChildren});
+    }
+  },
+
+  render: function() {
+    // TODO: we could get rid of the need for the wrapper node
+    // by cloning a single child
+    var childrenToRender = {};
+    for (var key in this.state.children) {
+      var child = this.state.children[key];
+      if (child) {
+        // You may need to apply reactive updates to a child as it is leaving.
+        // The normal React way to do it won't work since the child will have
+        // already been removed. In case you need this behavior you can provide
+        // a childFactory function to wrap every child, even the ones that are
+        // leaving.
+        childrenToRender[key] = cloneWithProps(
+          this.props.childFactory(child),
+          {ref: key}
+        );
+      }
+    }
+    return React.createElement(
+      this.props.component,
+      this.props,
+      childrenToRender
+    );
+  }
+});
+
+module.exports = ReactTransitionGroup;
+
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./React":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/React.js","./ReactTransitionChildMapping":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTransitionChildMapping.js","./cloneWithProps":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/cloneWithProps.js","./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -41128,7 +43215,61 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":57,"./Object.assign":78,"./PooledClass":79,"./ReactCurrentOwner":88,"./ReactPerf":120,"./Transaction":147,"./invariant":178,"./warning":197,"_process":43}],132:[function(require,module,exports){
+},{"./CallbackQueue":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js","./ReactCurrentOwner":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCurrentOwner.js","./ReactPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPerf.js","./Transaction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Transaction.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactWithAddons.js":[function(require,module,exports){
+(function (process){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactWithAddons
+ */
+
+/**
+ * This module exists purely in the open source project, and is meant as a way
+ * to create a separate standalone build of React. This build has "addons", or
+ * functionality we've built and think might be useful but doesn't have a good
+ * place to live inside React core.
+ */
+
+"use strict";
+
+var LinkedStateMixin = require("./LinkedStateMixin");
+var React = require("./React");
+var ReactComponentWithPureRenderMixin =
+  require("./ReactComponentWithPureRenderMixin");
+var ReactCSSTransitionGroup = require("./ReactCSSTransitionGroup");
+var ReactTransitionGroup = require("./ReactTransitionGroup");
+var ReactUpdates = require("./ReactUpdates");
+
+var cx = require("./cx");
+var cloneWithProps = require("./cloneWithProps");
+var update = require("./update");
+
+React.addons = {
+  CSSTransitionGroup: ReactCSSTransitionGroup,
+  LinkedStateMixin: LinkedStateMixin,
+  PureRenderMixin: ReactComponentWithPureRenderMixin,
+  TransitionGroup: ReactTransitionGroup,
+
+  batchedUpdates: ReactUpdates.batchedUpdates,
+  classSet: cx,
+  cloneWithProps: cloneWithProps,
+  update: update
+};
+
+if ("production" !== process.env.NODE_ENV) {
+  React.addons.Perf = require("./ReactDefaultPerf");
+  React.addons.TestUtils = require("./ReactTestUtils");
+}
+
+module.exports = React;
+
+}).call(this,require('_process'))
+},{"./LinkedStateMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/LinkedStateMixin.js","./React":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/React.js","./ReactCSSTransitionGroup":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCSSTransitionGroup.js","./ReactComponentWithPureRenderMixin":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactComponentWithPureRenderMixin.js","./ReactDefaultPerf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactDefaultPerf.js","./ReactTestUtils":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTestUtils.js","./ReactTransitionGroup":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTransitionGroup.js","./ReactUpdates":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactUpdates.js","./cloneWithProps":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/cloneWithProps.js","./cx":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/cx.js","./update":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/update.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SVGDOMPropertyConfig.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41220,7 +43361,7 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":62}],133:[function(require,module,exports){
+},{"./DOMProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/DOMProperty.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SelectEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41415,7 +43556,7 @@ var SelectEventPlugin = {
 
 module.exports = SelectEventPlugin;
 
-},{"./EventConstants":67,"./EventPropagators":72,"./ReactInputSelection":111,"./SyntheticEvent":139,"./getActiveElement":165,"./isTextInputElement":181,"./keyOf":185,"./shallowEqual":193}],134:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPropagators.js","./ReactInputSelection":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInputSelection.js","./SyntheticEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js","./getActiveElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getActiveElement.js","./isTextInputElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isTextInputElement.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js","./shallowEqual":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/shallowEqual.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ServerReactRootIndex.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41446,7 +43587,7 @@ var ServerReactRootIndex = {
 
 module.exports = ServerReactRootIndex;
 
-},{}],135:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SimpleEventPlugin.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -41874,7 +44015,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
-},{"./EventConstants":67,"./EventPluginUtils":71,"./EventPropagators":72,"./SyntheticClipboardEvent":136,"./SyntheticDragEvent":138,"./SyntheticEvent":139,"./SyntheticFocusEvent":140,"./SyntheticKeyboardEvent":142,"./SyntheticMouseEvent":143,"./SyntheticTouchEvent":144,"./SyntheticUIEvent":145,"./SyntheticWheelEvent":146,"./getEventCharCode":166,"./invariant":178,"./keyOf":185,"./warning":197,"_process":43}],136:[function(require,module,exports){
+},{"./EventConstants":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventConstants.js","./EventPluginUtils":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPluginUtils.js","./EventPropagators":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/EventPropagators.js","./SyntheticClipboardEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticClipboardEvent.js","./SyntheticDragEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticDragEvent.js","./SyntheticEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js","./SyntheticFocusEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticFocusEvent.js","./SyntheticKeyboardEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticKeyboardEvent.js","./SyntheticMouseEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticMouseEvent.js","./SyntheticTouchEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticTouchEvent.js","./SyntheticUIEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticUIEvent.js","./SyntheticWheelEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticWheelEvent.js","./getEventCharCode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventCharCode.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticClipboardEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41920,7 +44061,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 module.exports = SyntheticClipboardEvent;
 
 
-},{"./SyntheticEvent":139}],137:[function(require,module,exports){
+},{"./SyntheticEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticCompositionEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -41966,7 +44107,7 @@ SyntheticEvent.augmentClass(
 module.exports = SyntheticCompositionEvent;
 
 
-},{"./SyntheticEvent":139}],138:[function(require,module,exports){
+},{"./SyntheticEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticDragEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42005,7 +44146,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
 
-},{"./SyntheticMouseEvent":143}],139:[function(require,module,exports){
+},{"./SyntheticMouseEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticMouseEvent.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42163,7 +44304,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.threeArgumentPooler);
 
 module.exports = SyntheticEvent;
 
-},{"./Object.assign":78,"./PooledClass":79,"./emptyFunction":159,"./getEventTarget":169}],140:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/PooledClass.js","./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js","./getEventTarget":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventTarget.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticFocusEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42202,7 +44343,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
 
-},{"./SyntheticUIEvent":145}],141:[function(require,module,exports){
+},{"./SyntheticUIEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticUIEvent.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticInputEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -42249,7 +44390,7 @@ SyntheticEvent.augmentClass(
 module.exports = SyntheticInputEvent;
 
 
-},{"./SyntheticEvent":139}],142:[function(require,module,exports){
+},{"./SyntheticEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticKeyboardEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42336,7 +44477,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
 
-},{"./SyntheticUIEvent":145,"./getEventCharCode":166,"./getEventKey":167,"./getEventModifierState":168}],143:[function(require,module,exports){
+},{"./SyntheticUIEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticUIEvent.js","./getEventCharCode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventCharCode.js","./getEventKey":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventKey.js","./getEventModifierState":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventModifierState.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticMouseEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42419,7 +44560,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
 
-},{"./SyntheticUIEvent":145,"./ViewportMetrics":148,"./getEventModifierState":168}],144:[function(require,module,exports){
+},{"./SyntheticUIEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticUIEvent.js","./ViewportMetrics":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ViewportMetrics.js","./getEventModifierState":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventModifierState.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticTouchEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42467,7 +44608,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
 
-},{"./SyntheticUIEvent":145,"./getEventModifierState":168}],145:[function(require,module,exports){
+},{"./SyntheticUIEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticUIEvent.js","./getEventModifierState":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventModifierState.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticUIEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42529,7 +44670,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
 
-},{"./SyntheticEvent":139,"./getEventTarget":169}],146:[function(require,module,exports){
+},{"./SyntheticEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticEvent.js","./getEventTarget":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventTarget.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticWheelEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42590,7 +44731,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
 
-},{"./SyntheticMouseEvent":143}],147:[function(require,module,exports){
+},{"./SyntheticMouseEvent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/SyntheticMouseEvent.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Transaction.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -42831,7 +44972,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
-},{"./invariant":178,"_process":43}],148:[function(require,module,exports){
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ViewportMetrics.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42863,7 +45004,7 @@ var ViewportMetrics = {
 
 module.exports = ViewportMetrics;
 
-},{"./getUnboundedScrollPosition":174}],149:[function(require,module,exports){
+},{"./getUnboundedScrollPosition":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getUnboundedScrollPosition.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/accumulateInto.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -42929,7 +45070,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
-},{"./invariant":178,"_process":43}],150:[function(require,module,exports){
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/adler32.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42963,7 +45104,7 @@ function adler32(data) {
 
 module.exports = adler32;
 
-},{}],151:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/camelize.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -42995,7 +45136,7 @@ function camelize(string) {
 
 module.exports = camelize;
 
-},{}],152:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/camelizeStyleName.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -43037,7 +45178,66 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":151}],153:[function(require,module,exports){
+},{"./camelize":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/camelize.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/cloneWithProps.js":[function(require,module,exports){
+(function (process){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @typechecks
+ * @providesModule cloneWithProps
+ */
+
+"use strict";
+
+var ReactElement = require("./ReactElement");
+var ReactPropTransferer = require("./ReactPropTransferer");
+
+var keyOf = require("./keyOf");
+var warning = require("./warning");
+
+var CHILDREN_PROP = keyOf({children: null});
+
+/**
+ * Sometimes you want to change the props of a child passed to you. Usually
+ * this is to add a CSS class.
+ *
+ * @param {object} child child component you'd like to clone
+ * @param {object} props props you'd like to modify. They will be merged
+ * as if you used `transferPropsTo()`.
+ * @return {object} a clone of child with props merged in.
+ */
+function cloneWithProps(child, props) {
+  if ("production" !== process.env.NODE_ENV) {
+    ("production" !== process.env.NODE_ENV ? warning(
+      !child.ref,
+      'You are calling cloneWithProps() on a child with a ref. This is ' +
+      'dangerous because you\'re creating a new child which will not be ' +
+      'added as a ref to its parent.'
+    ) : null);
+  }
+
+  var newProps = ReactPropTransferer.mergeProps(props, child.props);
+
+  // Use `child.props.children` if it is provided.
+  if (!newProps.hasOwnProperty(CHILDREN_PROP) &&
+      child.props.hasOwnProperty(CHILDREN_PROP)) {
+    newProps.children = child.props.children;
+  }
+
+  // The current API doesn't retain _owner and _context, which is why this
+  // doesn't use ReactElement.cloneAndReplaceProps.
+  return ReactElement.createElement(child.type, newProps);
+}
+
+module.exports = cloneWithProps;
+
+}).call(this,require('_process'))
+},{"./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactPropTransferer":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactPropTransferer.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/containsNode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43081,7 +45281,7 @@ function containsNode(outerNode, innerNode) {
 
 module.exports = containsNode;
 
-},{"./isTextNode":182}],154:[function(require,module,exports){
+},{"./isTextNode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isTextNode.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/createArrayFrom.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43167,7 +45367,7 @@ function createArrayFrom(obj) {
 
 module.exports = createArrayFrom;
 
-},{"./toArray":195}],155:[function(require,module,exports){
+},{"./toArray":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/toArray.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/createFullPageComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43228,7 +45428,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
-},{"./ReactCompositeComponent":86,"./ReactElement":104,"./invariant":178,"_process":43}],156:[function(require,module,exports){
+},{"./ReactCompositeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactCompositeComponent.js","./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/createNodesFromMarkup.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43318,7 +45518,46 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":73,"./createArrayFrom":154,"./getMarkupWrap":170,"./invariant":178,"_process":43}],157:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./createArrayFrom":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/createArrayFrom.js","./getMarkupWrap":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getMarkupWrap.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/cx.js":[function(require,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule cx
+ */
+
+/**
+ * This function is used to mark string literals representing CSS class names
+ * so that they can be transformed statically. This allows for modularization
+ * and minification of CSS class names.
+ *
+ * In static_upstream, this function is actually implemented, but it should
+ * eventually be replaced with something more descriptive, and the transform
+ * that is used in the main stack should be ported for use elsewhere.
+ *
+ * @param string|object className to modularize, or an object of key/values.
+ *                      In the object case, the values are conditions that
+ *                      determine if the className keys should be included.
+ * @param [string ...]  Variable list of classNames in the string case.
+ * @return string       Renderable space-separated CSS className.
+ */
+function cx(classNames) {
+  if (typeof classNames == 'object') {
+    return Object.keys(classNames).filter(function(className) {
+      return classNames[className];
+    }).join(' ');
+  } else {
+    return Array.prototype.join.call(arguments, ' ');
+  }
+}
+
+module.exports = cx;
+
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/dangerousStyleValue.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43376,7 +45615,7 @@ function dangerousStyleValue(name, value) {
 
 module.exports = dangerousStyleValue;
 
-},{"./CSSProperty":55}],158:[function(require,module,exports){
+},{"./CSSProperty":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/CSSProperty.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/deprecated.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43427,7 +45666,7 @@ function deprecated(namespace, oldName, newName, ctx, fn) {
 module.exports = deprecated;
 
 }).call(this,require('_process'))
-},{"./Object.assign":78,"./warning":197,"_process":43}],159:[function(require,module,exports){
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43461,7 +45700,7 @@ emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{}],160:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyObject.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43485,7 +45724,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
-},{"_process":43}],161:[function(require,module,exports){
+},{"_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/escapeTextForBrowser.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43526,7 +45765,7 @@ function escapeTextForBrowser(text) {
 
 module.exports = escapeTextForBrowser;
 
-},{}],162:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/flattenChildren.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -43595,7 +45834,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
-},{"./ReactTextComponent":130,"./traverseAllChildren":196,"./warning":197,"_process":43}],163:[function(require,module,exports){
+},{"./ReactTextComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactTextComponent.js","./traverseAllChildren":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/traverseAllChildren.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/focusNode.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -43624,7 +45863,7 @@ function focusNode(node) {
 
 module.exports = focusNode;
 
-},{}],164:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/forEachAccumulated.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43655,7 +45894,7 @@ var forEachAccumulated = function(arr, cb, scope) {
 
 module.exports = forEachAccumulated;
 
-},{}],165:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getActiveElement.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43684,7 +45923,7 @@ function getActiveElement() /*?DOMElement*/ {
 
 module.exports = getActiveElement;
 
-},{}],166:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventCharCode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43736,7 +45975,7 @@ function getEventCharCode(nativeEvent) {
 
 module.exports = getEventCharCode;
 
-},{}],167:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventKey.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43841,7 +46080,7 @@ function getEventKey(nativeEvent) {
 
 module.exports = getEventKey;
 
-},{"./getEventCharCode":166}],168:[function(require,module,exports){
+},{"./getEventCharCode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventCharCode.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventModifierState.js":[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -43888,7 +46127,7 @@ function getEventModifierState(nativeEvent) {
 
 module.exports = getEventModifierState;
 
-},{}],169:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getEventTarget.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -43919,7 +46158,7 @@ function getEventTarget(nativeEvent) {
 
 module.exports = getEventTarget;
 
-},{}],170:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getMarkupWrap.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44036,7 +46275,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":73,"./invariant":178,"_process":43}],171:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getNodeForCharacterOffset.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44111,7 +46350,7 @@ function getNodeForCharacterOffset(root, offset) {
 
 module.exports = getNodeForCharacterOffset;
 
-},{}],172:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getReactRootElementInContainer.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44146,7 +46385,7 @@ function getReactRootElementInContainer(container) {
 
 module.exports = getReactRootElementInContainer;
 
-},{}],173:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getTextContentAccessor.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44183,7 +46422,7 @@ function getTextContentAccessor() {
 
 module.exports = getTextContentAccessor;
 
-},{"./ExecutionEnvironment":73}],174:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/getUnboundedScrollPosition.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44223,7 +46462,7 @@ function getUnboundedScrollPosition(scrollable) {
 
 module.exports = getUnboundedScrollPosition;
 
-},{}],175:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/hyphenate.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44256,7 +46495,7 @@ function hyphenate(string) {
 
 module.exports = hyphenate;
 
-},{}],176:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/hyphenateStyleName.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44297,7 +46536,7 @@ function hyphenateStyleName(string) {
 
 module.exports = hyphenateStyleName;
 
-},{"./hyphenate":175}],177:[function(require,module,exports){
+},{"./hyphenate":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/hyphenate.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/instantiateReactComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44411,7 +46650,7 @@ function instantiateReactComponent(element, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":104,"./ReactEmptyComponent":106,"./ReactLegacyElement":113,"./ReactNativeComponent":118,"./warning":197,"_process":43}],178:[function(require,module,exports){
+},{"./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactEmptyComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactEmptyComponent.js","./ReactLegacyElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactLegacyElement.js","./ReactNativeComponent":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactNativeComponent.js","./warning":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44468,7 +46707,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":43}],179:[function(require,module,exports){
+},{"_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isEventSupported.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44533,7 +46772,7 @@ function isEventSupported(eventNameSuffix, capture) {
 
 module.exports = isEventSupported;
 
-},{"./ExecutionEnvironment":73}],180:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isNode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44561,7 +46800,7 @@ function isNode(object) {
 
 module.exports = isNode;
 
-},{}],181:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isTextInputElement.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44605,7 +46844,7 @@ function isTextInputElement(elem) {
 
 module.exports = isTextInputElement;
 
-},{}],182:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isTextNode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44630,7 +46869,7 @@ function isTextNode(object) {
 
 module.exports = isTextNode;
 
-},{"./isNode":180}],183:[function(require,module,exports){
+},{"./isNode":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/isNode.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/joinClasses.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44671,7 +46910,7 @@ function joinClasses(className/*, ... */) {
 
 module.exports = joinClasses;
 
-},{}],184:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyMirror.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44726,7 +46965,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
-},{"./invariant":178,"_process":43}],185:[function(require,module,exports){
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44762,7 +47001,7 @@ var keyOf = function(oneKeyObj) {
 
 module.exports = keyOf;
 
-},{}],186:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/mapObject.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44815,7 +47054,7 @@ function mapObject(object, callback, context) {
 
 module.exports = mapObject;
 
-},{}],187:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/memoizeStringOnly.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44849,7 +47088,7 @@ function memoizeStringOnly(callback) {
 
 module.exports = memoizeStringOnly;
 
-},{}],188:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/monitorCodeUse.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -44883,7 +47122,7 @@ function monitorCodeUse(eventName, data) {
 module.exports = monitorCodeUse;
 
 }).call(this,require('_process'))
-},{"./invariant":178,"_process":43}],189:[function(require,module,exports){
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/onlyChild.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -44923,7 +47162,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
-},{"./ReactElement":104,"./invariant":178,"_process":43}],190:[function(require,module,exports){
+},{"./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/performance.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44951,7 +47190,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = performance || {};
 
-},{"./ExecutionEnvironment":73}],191:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/performanceNow.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -44979,7 +47218,7 @@ var performanceNow = performance.now.bind(performance);
 
 module.exports = performanceNow;
 
-},{"./performance":190}],192:[function(require,module,exports){
+},{"./performance":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/performance.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/setInnerHTML.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45057,7 +47296,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setInnerHTML;
 
-},{"./ExecutionEnvironment":73}],193:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/shallowEqual.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45101,7 +47340,7 @@ function shallowEqual(objA, objB) {
 
 module.exports = shallowEqual;
 
-},{}],194:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/shouldUpdateReactComponent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -45139,7 +47378,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 
 module.exports = shouldUpdateReactComponent;
 
-},{}],195:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/toArray.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -45211,7 +47450,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
-},{"./invariant":178,"_process":43}],196:[function(require,module,exports){
+},{"./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/traverseAllChildren.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -45394,7 +47633,175 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":104,"./ReactInstanceHandles":112,"./invariant":178,"_process":43}],197:[function(require,module,exports){
+},{"./ReactElement":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactInstanceHandles.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/update.js":[function(require,module,exports){
+(function (process){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule update
+ */
+
+"use strict";
+
+var assign = require("./Object.assign");
+var keyOf = require("./keyOf");
+var invariant = require("./invariant");
+
+function shallowCopy(x) {
+  if (Array.isArray(x)) {
+    return x.concat();
+  } else if (x && typeof x === 'object') {
+    return assign(new x.constructor(), x);
+  } else {
+    return x;
+  }
+}
+
+var COMMAND_PUSH = keyOf({$push: null});
+var COMMAND_UNSHIFT = keyOf({$unshift: null});
+var COMMAND_SPLICE = keyOf({$splice: null});
+var COMMAND_SET = keyOf({$set: null});
+var COMMAND_MERGE = keyOf({$merge: null});
+var COMMAND_APPLY = keyOf({$apply: null});
+
+var ALL_COMMANDS_LIST = [
+  COMMAND_PUSH,
+  COMMAND_UNSHIFT,
+  COMMAND_SPLICE,
+  COMMAND_SET,
+  COMMAND_MERGE,
+  COMMAND_APPLY
+];
+
+var ALL_COMMANDS_SET = {};
+
+ALL_COMMANDS_LIST.forEach(function(command) {
+  ALL_COMMANDS_SET[command] = true;
+});
+
+function invariantArrayCase(value, spec, command) {
+  ("production" !== process.env.NODE_ENV ? invariant(
+    Array.isArray(value),
+    'update(): expected target of %s to be an array; got %s.',
+    command,
+    value
+  ) : invariant(Array.isArray(value)));
+  var specValue = spec[command];
+  ("production" !== process.env.NODE_ENV ? invariant(
+    Array.isArray(specValue),
+    'update(): expected spec of %s to be an array; got %s. ' +
+    'Did you forget to wrap your parameter in an array?',
+    command,
+    specValue
+  ) : invariant(Array.isArray(specValue)));
+}
+
+function update(value, spec) {
+  ("production" !== process.env.NODE_ENV ? invariant(
+    typeof spec === 'object',
+    'update(): You provided a key path to update() that did not contain one ' +
+    'of %s. Did you forget to include {%s: ...}?',
+    ALL_COMMANDS_LIST.join(', '),
+    COMMAND_SET
+  ) : invariant(typeof spec === 'object'));
+
+  if (spec.hasOwnProperty(COMMAND_SET)) {
+    ("production" !== process.env.NODE_ENV ? invariant(
+      Object.keys(spec).length === 1,
+      'Cannot have more than one key in an object with %s',
+      COMMAND_SET
+    ) : invariant(Object.keys(spec).length === 1));
+
+    return spec[COMMAND_SET];
+  }
+
+  var nextValue = shallowCopy(value);
+
+  if (spec.hasOwnProperty(COMMAND_MERGE)) {
+    var mergeObj = spec[COMMAND_MERGE];
+    ("production" !== process.env.NODE_ENV ? invariant(
+      mergeObj && typeof mergeObj === 'object',
+      'update(): %s expects a spec of type \'object\'; got %s',
+      COMMAND_MERGE,
+      mergeObj
+    ) : invariant(mergeObj && typeof mergeObj === 'object'));
+    ("production" !== process.env.NODE_ENV ? invariant(
+      nextValue && typeof nextValue === 'object',
+      'update(): %s expects a target of type \'object\'; got %s',
+      COMMAND_MERGE,
+      nextValue
+    ) : invariant(nextValue && typeof nextValue === 'object'));
+    assign(nextValue, spec[COMMAND_MERGE]);
+  }
+
+  if (spec.hasOwnProperty(COMMAND_PUSH)) {
+    invariantArrayCase(value, spec, COMMAND_PUSH);
+    spec[COMMAND_PUSH].forEach(function(item) {
+      nextValue.push(item);
+    });
+  }
+
+  if (spec.hasOwnProperty(COMMAND_UNSHIFT)) {
+    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
+    spec[COMMAND_UNSHIFT].forEach(function(item) {
+      nextValue.unshift(item);
+    });
+  }
+
+  if (spec.hasOwnProperty(COMMAND_SPLICE)) {
+    ("production" !== process.env.NODE_ENV ? invariant(
+      Array.isArray(value),
+      'Expected %s target to be an array; got %s',
+      COMMAND_SPLICE,
+      value
+    ) : invariant(Array.isArray(value)));
+    ("production" !== process.env.NODE_ENV ? invariant(
+      Array.isArray(spec[COMMAND_SPLICE]),
+      'update(): expected spec of %s to be an array of arrays; got %s. ' +
+      'Did you forget to wrap your parameters in an array?',
+      COMMAND_SPLICE,
+      spec[COMMAND_SPLICE]
+    ) : invariant(Array.isArray(spec[COMMAND_SPLICE])));
+    spec[COMMAND_SPLICE].forEach(function(args) {
+      ("production" !== process.env.NODE_ENV ? invariant(
+        Array.isArray(args),
+        'update(): expected spec of %s to be an array of arrays; got %s. ' +
+        'Did you forget to wrap your parameters in an array?',
+        COMMAND_SPLICE,
+        spec[COMMAND_SPLICE]
+      ) : invariant(Array.isArray(args)));
+      nextValue.splice.apply(nextValue, args);
+    });
+  }
+
+  if (spec.hasOwnProperty(COMMAND_APPLY)) {
+    ("production" !== process.env.NODE_ENV ? invariant(
+      typeof spec[COMMAND_APPLY] === 'function',
+      'update(): expected spec of %s to be a function; got %s.',
+      COMMAND_APPLY,
+      spec[COMMAND_APPLY]
+    ) : invariant(typeof spec[COMMAND_APPLY] === 'function'));
+    nextValue = spec[COMMAND_APPLY](nextValue);
+  }
+
+  for (var k in spec) {
+    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
+      nextValue[k] = update(value[k], spec[k]);
+    }
+  }
+
+  return nextValue;
+}
+
+module.exports = update;
+
+}).call(this,require('_process'))
+},{"./Object.assign":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/Object.assign.js","./invariant":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/invariant.js","./keyOf":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/keyOf.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/warning.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -45439,10 +47846,10 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":159,"_process":43}],198:[function(require,module,exports){
+},{"./emptyFunction":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/emptyFunction.js","_process":"/Users/Jed/Development/packages/keystone/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/react.js":[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":80}],199:[function(require,module,exports){
+},{"./lib/React":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/React.js"}],"/Users/Jed/Development/packages/keystone/node_modules/superagent/lib/client.js":[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -46525,7 +48932,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":200,"reduce":201}],200:[function(require,module,exports){
+},{"emitter":"/Users/Jed/Development/packages/keystone/node_modules/superagent/node_modules/component-emitter/index.js","reduce":"/Users/Jed/Development/packages/keystone/node_modules/superagent/node_modules/reduce-component/index.js"}],"/Users/Jed/Development/packages/keystone/node_modules/superagent/node_modules/component-emitter/index.js":[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -46691,7 +49098,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],201:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/superagent/node_modules/reduce-component/index.js":[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -46716,7 +49123,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],202:[function(require,module,exports){
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js":[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -48133,5 +50540,143 @@ module.exports = function(arr, fn, initial){
   }
 }.call(this));
 
-},{}]},{},[1])(1)
+},{}],"/Users/Jed/Development/packages/keystone/node_modules/vkey/index.js":[function(require,module,exports){
+var ua = typeof window !== 'undefined' ? window.navigator.userAgent : ''
+  , isOSX = /OS X/.test(ua)
+  , isOpera = /Opera/.test(ua)
+  , maybeFirefox = !/like Gecko/.test(ua) && !isOpera
+
+var i, output = module.exports = {
+  0:  isOSX ? '<menu>' : '<UNK>'
+, 1:  '<mouse 1>'
+, 2:  '<mouse 2>'
+, 3:  '<break>'
+, 4:  '<mouse 3>'
+, 5:  '<mouse 4>'
+, 6:  '<mouse 5>'
+, 8:  '<backspace>'
+, 9:  '<tab>'
+, 12: '<clear>'
+, 13: '<enter>'
+, 16: '<shift>'
+, 17: '<control>'
+, 18: '<alt>'
+, 19: '<pause>'
+, 20: '<caps-lock>'
+, 21: '<ime-hangul>'
+, 23: '<ime-junja>'
+, 24: '<ime-final>'
+, 25: '<ime-kanji>'
+, 27: '<escape>'
+, 28: '<ime-convert>'
+, 29: '<ime-nonconvert>'
+, 30: '<ime-accept>'
+, 31: '<ime-mode-change>'
+, 27: '<escape>'
+, 32: '<space>'
+, 33: '<page-up>'
+, 34: '<page-down>'
+, 35: '<end>'
+, 36: '<home>'
+, 37: '<left>'
+, 38: '<up>'
+, 39: '<right>'
+, 40: '<down>'
+, 41: '<select>'
+, 42: '<print>'
+, 43: '<execute>'
+, 44: '<snapshot>'
+, 45: '<insert>'
+, 46: '<delete>'
+, 47: '<help>'
+, 91: '<meta>'  // meta-left -- no one handles left and right properly, so we coerce into one.
+, 92: '<meta>'  // meta-right
+, 93: isOSX ? '<meta>' : '<menu>'      // chrome,opera,safari all report this for meta-right (osx mbp).
+, 95: '<sleep>'
+, 106: '<num-*>'
+, 107: '<num-+>'
+, 108: '<num-enter>'
+, 109: '<num-->'
+, 110: '<num-.>'
+, 111: '<num-/>'
+, 144: '<num-lock>'
+, 145: '<scroll-lock>'
+, 160: '<shift-left>'
+, 161: '<shift-right>'
+, 162: '<control-left>'
+, 163: '<control-right>'
+, 164: '<alt-left>'
+, 165: '<alt-right>'
+, 166: '<browser-back>'
+, 167: '<browser-forward>'
+, 168: '<browser-refresh>'
+, 169: '<browser-stop>'
+, 170: '<browser-search>'
+, 171: '<browser-favorites>'
+, 172: '<browser-home>'
+
+  // ff/osx reports '<volume-mute>' for '-'
+, 173: isOSX && maybeFirefox ? '-' : '<volume-mute>'
+, 174: '<volume-down>'
+, 175: '<volume-up>'
+, 176: '<next-track>'
+, 177: '<prev-track>'
+, 178: '<stop>'
+, 179: '<play-pause>'
+, 180: '<launch-mail>'
+, 181: '<launch-media-select>'
+, 182: '<launch-app 1>'
+, 183: '<launch-app 2>'
+, 186: ';'
+, 187: '='
+, 188: ','
+, 189: '-'
+, 190: '.'
+, 191: '/'
+, 192: '`'
+, 219: '['
+, 220: '\\'
+, 221: ']'
+, 222: "'"
+, 223: '<meta>'
+, 224: '<meta>'       // firefox reports meta here.
+, 226: '<alt-gr>'
+, 229: '<ime-process>'
+, 231: isOpera ? '`' : '<unicode>'
+, 246: '<attention>'
+, 247: '<crsel>'
+, 248: '<exsel>'
+, 249: '<erase-eof>'
+, 250: '<play>'
+, 251: '<zoom>'
+, 252: '<no-name>'
+, 253: '<pa-1>'
+, 254: '<clear>'
+}
+
+for(i = 58; i < 65; ++i) {
+  output[i] = String.fromCharCode(i)
+}
+
+// 0-9
+for(i = 48; i < 58; ++i) {
+  output[i] = (i - 48)+''
+}
+
+// A-Z
+for(i = 65; i < 91; ++i) {
+  output[i] = String.fromCharCode(i)
+}
+
+// num0-9
+for(i = 96; i < 106; ++i) {
+  output[i] = '<num-'+(i - 96)+'>'
+}
+
+// F1-F24
+for(i = 112; i < 136; ++i) {
+  output[i] = 'F'+(i-111)
+}
+
+},{}]},{},["./admin/src/app.js"])("./admin/src/app.js")
 });

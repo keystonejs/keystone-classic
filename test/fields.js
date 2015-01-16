@@ -7,6 +7,7 @@ var keystone = require('../').init(),
 
 // use nocreate to allow required fields without tripping `initial` validation
 var Test = keystone.List('Test', { nocreate: true }),
+	Test2 = keystone.List('Test2', { nocreate: true }),
 	testItem;
 
 before(function() {
@@ -28,6 +29,13 @@ before(function() {
 	});
 	Test.register();
 	
+	// Create a second Test List for testing Relationships
+	Test2.add({
+		text: Types.Text,
+		testRelationship: { type: Types.Relationship, ref: 'Test', required: true, unique: true }
+	});
+	Test2.register();
+
 	// Create a new Test Item to run tests against
 	testItem = new Test.model();
 	
@@ -276,4 +284,41 @@ describe('Fields', function() {
 		});
 		
 	});
+
+	/** FieldType: Relationship */
+	describe('Relationship', function() {
+
+		it('should throw error if required field missing', function (done) {
+			new Test2.model({
+				text: 'value'
+			}).save(function(err, data) {
+				err.errors.testRelationship.message.must.equal('Path `testRelationship` is required.');
+				done();
+			});
+		});
+
+		it('should save without error if required field exists', function (done) {
+			new Test2.model({
+				text: 'value',
+				testRelationship: testItem._id
+			}).save(function(err, data) {
+				if (err)
+					throw new err;
+				demand(data.testRelationship).equal(testItem._id);
+				demand(data.text).equal('value');
+				done();
+			});
+		});
+
+		it('should throw error if unique field gets non-unique data', function (done) {
+			new Test2.model({
+				text: 'value',
+				testRelationship: testItem._id
+			}).save(function(err, data) {
+				err.err.must.match(/insertDocument :: caused by :: 11000 E11000 duplicate key error.*testRelationship_1/);
+				done();
+			});
+		});
+	});
+	
 });

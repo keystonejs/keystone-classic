@@ -1,10 +1,39 @@
 var React = require('react'),
-	Form = require('./Form'),
-	Toolbar = require('./Toolbar');
+	CreateForm = require('../../components/CreateForm'),
+	EditForm = require('../../components/EditForm'),
+	Header = require('./Header');
 
-module.exports = {
-	render: function(view) {
-		React.render(<Toolbar list={view.list} data={view.item} drilldown={view.drilldown} />, document.getElementById('item-toolbar'));
-		React.render(<Form list={view.list} data={view.item} />, document.getElementById('item-form'));
+var View = React.createClass({
+	
+	getInitialState: function() {
+		return {
+			createIsVisible: false
+		};
+	},
+	
+	toggleCreate: function(visible) {
+		this.setState({
+			createIsVisible: visible
+		});
+	},
+	
+	renderCreateForm: function() {
+		if (!this.state.createIsVisible) return null;
+		return <CreateForm list={Keystone.list} onCancel={this.toggleCreate.bind(this, false)} />
+	},
+	
+	render: function() {
+		return (
+			<div>
+				{this.renderCreateForm()}
+				<Header list={Keystone.list} data={Keystone.item} drilldown={Keystone.drilldown} toggleCreate={this.toggleCreate} />
+				<EditForm list={Keystone.list} data={Keystone.item} />
+			</div>
+		);
 	}
+	
+});
+
+exports.render = function() {
+	React.render(<View />, document.getElementById('item-view'));
 };

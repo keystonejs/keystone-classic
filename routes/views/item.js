@@ -88,9 +88,9 @@ exports = module.exports = function(req, res) {
 						}
 						refList.model.findById(item.get(field.path)).exec(function(err, result) {
 							if (result) {
-								drilldown.data[path] = result;
+								// drilldown.data[path] = result;
 								drilldown.items.push({
-									list: refList,
+									list: refList.getOptions(),
 									items: [{
 										label: refList.getDocumentName(result),
 										href: '/keystone/' + refList.path + '/' + result.id
@@ -165,6 +165,7 @@ exports = module.exports = function(req, res) {
 		if (req.method === 'POST' && req.body.action === 'updateItem' && !req.list.get('noedit')) {
 			
 			if (!keystone.security.csrf.validate(req)) {
+				console.error('CSRF failure', req.method, req.body);
 				req.flash('error', 'There was a problem with your request, please try again.');
 				return renderView();
 			}

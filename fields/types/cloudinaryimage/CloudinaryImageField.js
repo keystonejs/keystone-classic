@@ -1,7 +1,7 @@
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
-	Field = require('../field'),
+	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	Select = require('react-select');
 
@@ -9,15 +9,15 @@ var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'ima
 
 module.exports = Field.create({
 
-	fileFieldNode: function () {
+	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	changeImage: function () {
+	changeImage: function() {
 		this.refs.fileField.getDOMNode().click();
 	},
 
-	getImageSource: function () {
+	getImageSource: function() {
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
@@ -27,7 +27,7 @@ module.exports = Field.create({
 		}
 	},
 
-	getImageURL: function () {
+	getImageURL: function() {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
@@ -36,7 +36,7 @@ module.exports = Field.create({
 	/**
 	 * Reset origin and removal.
 	 */
-	undoRemove: function () {
+	undoRemove: function() {
 		this.fileFieldNode().value = "";
 		this.setState({
 			removeExisting: false,
@@ -113,28 +113,28 @@ module.exports = Field.create({
 	/**
 	 * Is the currently active image uploaded in this session?
 	 */
-	hasLocal: function () {
+	hasLocal: function() {
 		return this.state.origin === "local";
 	},
 
 	/**
 	 * Do we have an image preview to display?
 	 */
-	hasImage: function () {
+	hasImage: function() {
 		return this.hasExisting() || this.hasLocal();
 	},
 
 	/**
 	 * Do we have an existing file?
 	 */
-	hasExisting: function () {
+	hasExisting: function() {
 		return !!this.props.value.url;
 	},
 
 	/**
 	 * Render an image preview
 	 */
-	renderImagePreview: function () {
+	renderImagePreview: function() {
 		var iconClassName;
 		var className = 'image-preview';
 
@@ -160,7 +160,7 @@ module.exports = Field.create({
 		return <div key={this.props.path + '_preview'} className={className}>{body}</div>;
 	},
 
-	renderImagePreviewThumbnail: function () {
+	renderImagePreviewThumbnail: function() {
 		return <img key={this.props.path + '_preview_thumbnail'} className='img-load' style={ { height: '90' } } src={this.getImageSource()} />;
 	},
 
@@ -184,7 +184,7 @@ module.exports = Field.create({
 		</div>;
 	},
 
-	renderImageDimensions: function () {
+	renderImageDimensions: function() {
 		return <div className='field-value'>{this.props.value.width} x {this.props.value.height}</div>;
 	},
 
@@ -195,7 +195,7 @@ module.exports = Field.create({
 	 *  - On a cloudinary file, output a "from cloudinary" message.
 	 *  - On removal of existing file, output a "save to remove" message.
 	 */
-	renderAlert: function () {
+	renderAlert: function() {
 		if (this.hasLocal()) {
 			return <div className='upload-queued pull-left'>
 				<div className='alert alert-success'>Image selected - save to upload</div>
@@ -219,7 +219,7 @@ module.exports = Field.create({
 	 *  - On removal of existing image, output "undo remove" button.
 	 *  - Otherwise output Cancel/Delete image button.
 	 */
-	renderClearButton: function () {
+	renderClearButton: function() {
 		if (this.state.removeExisting) {
 			return <button type='button' className='btn btn-link btn-cancel btn-undo-image' onClick={this.undoRemove}>
 				Undo Remove
@@ -237,15 +237,15 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileField: function () {
+	renderFileField: function() {
 		return <input ref='fileField' type='file' name={this.props.paths.upload} className='field-upload' onChange={this.fileChanged} />;
 	},
 
-	renderFileAction: function () {
+	renderFileAction: function() {
 		return <input type='hidden' name={this.props.paths.action} className='field-action' value={this.state.action} />;
 	},
 
-	renderImageToolbar: function () {
+	renderImageToolbar: function() {
 		return <div key={this.props.path + '_toolbar'} className='image-toolbar'>
 			<div className='pull-left'>
 				<button type='button' onClick={this.changeImage} className='btn btn-default btn-upload-image'>
@@ -257,7 +257,7 @@ module.exports = Field.create({
 		</div>;
 	},
 
-	renderImageSelect: function () {
+	renderImageSelect: function() {
 		var getOptions = function(input, callback) {
 			$.get('/keystone/api/cloudinary/autocomplete', {
 				dataType: 'json',
@@ -292,7 +292,7 @@ module.exports = Field.create({
 		</div>;
 	},
 
-	renderUI: function () {
+	renderUI: function() {
 		var container = [],
 			body = [],
 			hasImage = this.hasImage(),

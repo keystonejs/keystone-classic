@@ -4,9 +4,7 @@ var React = require('react'),
 
 module.exports = Field.create({
 
-	supports: {
-		focusTarget: 'first'
-	},
+	focusTargetRef: 'first',
 	
 	valueChanged: function(which, event) {
 		this.props.value[which] = event.target.value;
@@ -34,10 +32,10 @@ module.exports = Field.create({
 		return (
 			<div className="form-row">
 				<div className="col-sm-6">
-					<input type="text" name={this.props.paths.first} ref="first" value={this.props.value.first} onChange={this.valueChanged.bind(this, 'first')} autoComplete="off" className="form-control" />
+					<input type="text" name={this.props.paths.first} placeholder="First name" ref="first" value={this.props.value.first} onChange={this.valueChanged.bind(this, 'first')} autoComplete="off" className="form-control" />
 				</div>
 				<div className="col-sm-6">
-					<input type="text" name={this.props.paths.last} ref="last" value={this.props.value.last} onChange={this.valueChanged.bind(this, 'last')} autoComplete="off" className="form-control" />
+					<input type="text" name={this.props.paths.last} placeholder="Last name" ref="last" value={this.props.value.last} onChange={this.valueChanged.bind(this, 'last')} autoComplete="off" className="form-control" />
 				</div>
 			</div>
 		);
