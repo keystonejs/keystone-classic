@@ -88,7 +88,7 @@ select.prototype.addToSchema = function() {
 		type: this._nativeType,
 		enum: this.values,
 		set: function(val) {
-			return (val === '') ? undefined : val;
+			return (val === '' || val === null || val === false) ? undefined : val;
 		}
 	}, this.options));
 	
