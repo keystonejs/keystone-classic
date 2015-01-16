@@ -72,6 +72,9 @@
     "watchify": "~2.2.1",
     "should": "^4.4.2"
   },
+  "browserify": {
+    "transform": ["reactify"]
+  },
   "author": "Jed Watson",
   "license": "MIT",
   "keywords": [
