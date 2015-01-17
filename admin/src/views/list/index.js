@@ -29,7 +29,7 @@ var View = React.createClass({
 			);
 		}
 		return (
-			<div className="toolbar-default">
+			<div className="toolbar">
 				<button type="button" className="btn btn-default btn-create btn-create-item" onClick={this.toggleCreate.bind(this, true)}>
 					<span className="ion-plus-round mr-5" />
 					Create {Keystone.list.singular}
