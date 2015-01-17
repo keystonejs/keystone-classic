@@ -3,10 +3,6 @@ extends ../layout/base
 include ../mixins/rows
 include ../mixins/pagination
 
-block css
-	if list.fieldTypes.markdown
-		link(rel="stylesheet", href="/keystone/js/lib/bootstrap-markdown/css/bootstrap-markdown.css")
-
 block js
 	script(src='/keystone/js/views/list.js')
 	script(src='/keystone/js/lib/browserified/querystring.js')
