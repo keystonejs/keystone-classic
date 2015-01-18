@@ -1,5 +1,11 @@
 # Keystone
 
+## v2.0.41 / 2015-01-18
+
+* fixed; issues relating to using mongo and redis as session stores
+* added; option to use the `importcss` plugin for TinyMCE; set `wysiwyg importcss`, thanks [aschwersenz](https://github.com/aschwersenz)
+* added; `MONGODB_URL` environment variable support, thanks [jdr0dn3y](https://github.com/jdr0dn3y)
+
 ## v0.2.40 / 2014-12-31
 
 * fixed; issue setting `Boolean` fields to `false` in the Admin UI
