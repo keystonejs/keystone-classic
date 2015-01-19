@@ -81,6 +81,15 @@ module.exports = Field.create({
 				plugins.push(additionalPlugins[i]);
 			}
 		}
+		if (Keystone.wysiwyg.options.importcss) {
+			plugins.push('importcss');
+			var importcssOptions = {
+				content_css: Keystone.wysiwyg.options.importcss,
+				importcss_append: true,
+				importcss_merge_classes: true
+			};
+			$.extend(Keystone.wysiwyg.options.additionalOptions,importcssOptions);
+		}
 		if (!Keystone.wysiwyg.options.overrideToolbar) {
 			toolbar += ' | code';
 		}
