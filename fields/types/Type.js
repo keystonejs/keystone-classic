@@ -336,7 +336,7 @@ Field.prototype.updateItem = function(item, data) {
 	var value = this.getValueFromData(data);
 	
 	// This is a deliberate type coercion so that numbers from forms play nice
-	if (value !== undefined && value != item.get(this.path)) { // jshint ignore:line
+	if (value != item.get(this.path)) { // jshint ignore:line
 		item.set(this.path, value);
 	}
 	
@@ -344,7 +344,7 @@ Field.prototype.updateItem = function(item, data) {
 
 /**
  * Retrieves the value from an object, whether the path is nested or flattened
- * 
+ *
  * @api public
  */
 
