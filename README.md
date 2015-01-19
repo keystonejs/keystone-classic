@@ -53,6 +53,7 @@ Here are some ways:
 * Join our [keystonejs/keystone gitter](https://gitter.im/keystonejs/keystone) room to chat with other Keystone users and developers
 * If you've got ideas, questions or need some advice, check out the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
 * Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs`
+* If you'd like to chat about Keystone do so on [IRC](https://webchat.freenode.net/) #keystonejs channel
 * Report bugs and issues on our [issue tracker](https://github.com/keystonejs/keystone/issues)
 * ... or preferably, submit pull request with patches and / or new features
 
