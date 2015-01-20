@@ -1,6 +1,11 @@
 # Keystone
 
-## v2.0.41 / 2015-01-18
+## v0.2.42 / 2015-01-20
+
+* fixed; backwards-compatibility issues with older versions of connect-mongo
+* fixed; file type / mimetype issues with S3File / AzureFile and LocalFile fields
+
+## v0.2.41 / 2015-01-18
 
 * fixed; issues relating to using mongo and redis as session stores
 * added; option to use the `importcss` plugin for TinyMCE; set `wysiwyg importcss`, thanks [aschwersenz](https://github.com/aschwersenz)
