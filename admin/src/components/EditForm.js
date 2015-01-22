@@ -130,7 +130,7 @@ var EditForm = React.createClass({
 			}
 		}
 		
-		return <div className="item-details-meta">{elements}</div>;
+		return Object.keys(elements).length ? <div className="item-details-meta">{elements}</div> : null;
 		
 	},
 	

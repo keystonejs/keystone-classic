@@ -826,7 +826,7 @@ var View = React.createClass({displayName: "View",
 			);
 		}
 		return (
-			React.createElement("div", {className: "toolbar-default"}, 
+			React.createElement("div", {className: "toolbar"}, 
 				React.createElement("button", {type: "button", className: "btn btn-default btn-create btn-create-item", onClick: this.toggleCreate.bind(this, true)}, 
 					React.createElement("span", {className: "ion-plus-round mr-5"}), 
 					"Create ", Keystone.list.singular
@@ -1859,8 +1859,6 @@ module.exports = Field.create({
 },{"../../components/Note":"/Users/Jed/Development/packages/keystone/fields/components/Note.js","../Field":"/Users/Jed/Development/packages/keystone/fields/types/Field.js","codemirror":"/Users/Jed/Development/packages/keystone/node_modules/codemirror/lib/codemirror.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js"}],"/Users/Jed/Development/packages/keystone/fields/types/color/ColorField.js":[function(require,module,exports){
 var React = require('react'),
 	Field = require('../Field');
-
-// require('./lib/bootstrap-colorpicker');
 
 module.exports = Field.create({
 	
@@ -4609,7 +4607,7 @@ module.exports = Field.create({
 							label: item.name
 						};
 					}),
-					complete: true
+					complete: data.total === data.items.length
 				});
 			});
 	},
@@ -5596,7 +5594,7 @@ module.exports = classnames;
     // width and height.
     removeChildren(display.cursorDiv);
     removeChildren(display.selectionDiv);
-    display.heightForcer.style.top = display.gutters.style.height = 0;
+    display.gutters.style.height = 0;
 
     if (different) {
       display.lastWrapHeight = update.wrapperHeight;
@@ -5653,8 +5651,10 @@ module.exports = classnames;
   }
 
   function setDocumentHeight(cm, measure) {
-    cm.display.sizer.style.minHeight = cm.display.heightForcer.style.top = measure.docHeight + "px";
-    cm.display.gutters.style.height = Math.max(measure.docHeight + scrollGap(cm), measure.clientHeight) + "px";
+    cm.display.sizer.style.minHeight = measure.docHeight + "px";
+    var total = measure.docHeight + cm.display.barHeight;
+    cm.display.heightForcer.style.top = total + "px";
+    cm.display.gutters.style.height = Math.max(total + scrollGap(cm), measure.clientHeight) + "px";
   }
 
   // Read the actual heights of the rendered lines, and update their
@@ -12898,7 +12898,7 @@ module.exports = classnames;
 
   // THE END
 
-  CodeMirror.version = "4.9.0";
+  CodeMirror.version = "4.11.0";
 
   return CodeMirror;
 });
@@ -26343,7 +26343,7 @@ if (typeof exports === 'object') {
         {
             // Load moment.js as an optional dependency
             var id = 'moment';
-            moment = req.defined && req.defined(id) ? req(id) : undefined;
+            try { moment = req(id); } catch (e) {}
             return factory(moment);
         });
     } else {
@@ -26457,7 +26457,7 @@ if (typeof exports === 'object') {
         var prop, hasProp;
         for (prop in from) {
             hasProp = to[prop] !== undefined;
-            if (hasProp && typeof from[prop] === 'object' && from[prop].nodeName === undefined) {
+            if (hasProp && typeof from[prop] === 'object' && from[prop] !== null && from[prop].nodeName === undefined) {
                 if (isDate(from[prop])) {
                     if (overwrite) {
                         to[prop] = new Date(from[prop].getTime());
@@ -26477,6 +26477,17 @@ if (typeof exports === 'object') {
         return to;
     },
 
+    adjustCalendar = function(calendar) {
+        if (calendar.month < 0) {
+            calendar.year -= Math.ceil(Math.abs(calendar.month)/12);
+            calendar.month += 12;
+        }
+        if (calendar.month > 11) {
+            calendar.year += Math.floor(Math.abs(calendar.month)/12);
+            calendar.month -= 12;
+        }
+        return calendar;
+    },
 
     /**
      * defaults and localisation
@@ -26492,6 +26503,9 @@ if (typeof exports === 'object') {
         // position of the datepicker, relative to the field (default to bottom & left)
         // ('bottom' & 'left' keywords are not used, 'top' & 'right' are modifier on the bottom/left position)
         position: 'bottom left',
+
+        // automatically fit in the viewport even if it means repositioning from the position option
+        reposition: true,
 
         // the default output format for `.toString()` and `field` value
         format: 'YYYY-MM-DD',
@@ -26513,6 +26527,9 @@ if (typeof exports === 'object') {
         // number of years either side, or array of upper/lower range
         yearRange: 10,
 
+        // show week numbers at head of row
+        showWeekNumber: false,
+
         // used internally (don't config outside)
         minYear: 0,
         maxYear: 9999,
@@ -26527,8 +26544,15 @@ if (typeof exports === 'object') {
         // Render the month after year in the calendar title
         showMonthAfterYear: false,
 
-        // how many months are visible (not implemented yet)
+        // how many months are visible
         numberOfMonths: 1,
+
+        // when numberOfMonths is used, this will help you to choose where the main calendar will be (default `left`, can be set to `right`)
+        // only used for the first display or when a selected date is not visible
+        mainCalendar: 'left',
+
+        // Specify a DOM element to render the calendar in
+        container: undefined,
 
         // internationalization
         i18n: {
@@ -26559,7 +26583,7 @@ if (typeof exports === 'object') {
         return abbr ? opts.i18n.weekdaysShort[day] : opts.i18n.weekdays[day];
     },
 
-    renderDay = function(i, isSelected, isToday, isDisabled, isEmpty)
+    renderDay = function(d, m, y, isSelected, isToday, isDisabled, isEmpty)
     {
         if (isEmpty) {
             return '<td class="is-empty"></td>';
@@ -26574,7 +26598,19 @@ if (typeof exports === 'object') {
         if (isSelected) {
             arr.push('is-selected');
         }
-        return '<td data-day="' + i + '" class="' + arr.join(' ') + '"><button class="pika-button" type="button">' + i + '</button>' + '</td>';
+        return '<td data-day="' + d + '" class="' + arr.join(' ') + '">' +
+                 '<button class="pika-button pika-day" type="button" ' +
+                    'data-pika-year="' + y + '" data-pika-month="' + m + '" data-pika-day="' + d + '">' +
+                        d +
+                 '</button>' +
+               '</td>';
+    },
+
+    renderWeek = function (d, m, y) {
+        // Lifted from http://javascript.about.com/library/blweekyear.htm, lightly modified.
+        var onejan = new Date(y, 0, 1),
+            weekNum = Math.ceil((((new Date(y, m, d) - onejan) / 86400000) + onejan.getDay()+1)/7);
+        return '<td class="pika-week">' + weekNum + '</td>';
     },
 
     renderRow = function(days, isRTL)
@@ -26590,18 +26626,19 @@ if (typeof exports === 'object') {
     renderHead = function(opts)
     {
         var i, arr = [];
+        if (opts.showWeekNumber) {
+            arr.push('<th></th>');
+        }
         for (i = 0; i < 7; i++) {
             arr.push('<th scope="col"><abbr title="' + renderDayName(opts, i) + '">' + renderDayName(opts, i, true) + '</abbr></th>');
         }
         return '<thead>' + (opts.isRTL ? arr.reverse() : arr).join('') + '</thead>';
     },
 
-    renderTitle = function(instance)
+    renderTitle = function(instance, c, year, month, refYear)
     {
         var i, j, arr,
             opts = instance._o,
-            month = instance._m,
-            year  = instance._y,
             isMinYear = year === opts.minYear,
             isMaxYear = year === opts.maxYear,
             html = '<div class="pika-title">',
@@ -26611,7 +26648,7 @@ if (typeof exports === 'object') {
             next = true;
 
         for (arr = [], i = 0; i < 12; i++) {
-            arr.push('<option value="' + i + '"' +
+            arr.push('<option value="' + (year === refYear ? i - c : 12 + i - c) + '"' +
                 (i === month ? ' selected': '') +
                 ((isMinYear && i < opts.minMonth) || (isMaxYear && i > opts.maxMonth) ? 'disabled' : '') + '>' +
                 opts.i18n.months[i] + '</option>');
@@ -26647,8 +26684,12 @@ if (typeof exports === 'object') {
             next = false;
         }
 
-        html += '<button class="pika-prev' + (prev ? '' : ' is-disabled') + '" type="button">' + opts.i18n.previousMonth + '</button>';
-        html += '<button class="pika-next' + (next ? '' : ' is-disabled') + '" type="button">' + opts.i18n.nextMonth + '</button>';
+        if (c === 0) {
+            html += '<button class="pika-prev' + (prev ? '' : ' is-disabled') + '" type="button">' + opts.i18n.previousMonth + '</button>';
+        }
+        if (c === (instance._o.numberOfMonths - 1) ) {
+            html += '<button class="pika-next' + (next ? '' : ' is-disabled') + '" type="button">' + opts.i18n.nextMonth + '</button>';
+        }
 
         return html += '</div>';
     },
@@ -26680,10 +26721,13 @@ if (typeof exports === 'object') {
 
             if (!hasClass(target, 'is-disabled')) {
                 if (hasClass(target, 'pika-button') && !hasClass(target, 'is-empty')) {
-                    self.setDate(new Date(self._y, self._m, parseInt(target.innerHTML, 10)));
+                    self.setDate(new Date(target.getAttribute('data-pika-year'), target.getAttribute('data-pika-month'), target.getAttribute('data-pika-day')));
                     if (opts.bound) {
                         sto(function() {
                             self.hide();
+                            if (opts.field) {
+                                opts.field.blur();
+                            }
                         }, 100);
                     }
                     return;
@@ -26777,12 +26821,12 @@ if (typeof exports === 'object') {
                 }
             }
             do {
-                if (hasClass(pEl, 'pika-single')) {
+                if (pEl === opts.trigger) {
                     return;
                 }
             }
             while ((pEl = pEl.parentNode));
-            if (self._v && target !== opts.trigger) {
+            if (self._v && pEl !== opts.trigger) {
                 self.hide();
             }
         };
@@ -26794,7 +26838,9 @@ if (typeof exports === 'object') {
         addEvent(self.el, 'change', self._onChange);
 
         if (opts.field) {
-            if (opts.bound) {
+            if (opts.container) {
+                opts.container.appendChild(self.el);
+            } else if (opts.bound) {
                 document.body.appendChild(self.el);
             } else {
                 opts.field.parentNode.insertBefore(self.el, opts.field.nextSibling);
@@ -26832,7 +26878,6 @@ if (typeof exports === 'object') {
         } else {
             this.show();
         }
-
     };
 
 
@@ -26939,6 +26984,12 @@ if (typeof exports === 'object') {
         {
             if (!date) {
                 this._d = null;
+
+                if (this._o.field) {
+                    this._o.field.value = '';
+                    fireEvent(this._o.field, 'change', { firedBy: this });
+                }
+
                 return this.draw();
             }
             if (typeof date === 'string') {
@@ -26975,11 +27026,43 @@ if (typeof exports === 'object') {
          */
         gotoDate: function(date)
         {
+            var newCalendar = true;
+
             if (!isDate(date)) {
                 return;
             }
-            this._y = date.getFullYear();
-            this._m = date.getMonth();
+
+            if (this.calendars) {
+                var firstVisibleDate = new Date(this.calendars[0].year, this.calendars[0].month, 1),
+                    lastVisibleDate = new Date(this.calendars[this.calendars.length-1].year, this.calendars[this.calendars.length-1].month, 1),
+                    visibleDate = date.getTime();
+                // get the end of the month
+                lastVisibleDate.setMonth(lastVisibleDate.getMonth()+1);
+                lastVisibleDate.setDate(lastVisibleDate.getDate()-1);
+                newCalendar = (visibleDate < firstVisibleDate.getTime() || lastVisibleDate.getTime() < visibleDate);
+            }
+
+            if (newCalendar) {
+                this.calendars = [{
+                    month: date.getMonth(),
+                    year: date.getFullYear()
+                }];
+                if (this._o.mainCalendar === 'right') {
+                    this.calendars[0].month += 1 - this._o.numberOfMonths;
+                }
+            }
+
+            this.adjustCalendars();
+        },
+
+        adjustCalendars: function() {
+            this.calendars[0] = adjustCalendar(this.calendars[0]);
+            for (var c = 1; c < this._o.numberOfMonths; c++) {
+                this.calendars[c] = adjustCalendar({
+                    month: this.calendars[0].month + c,
+                    year: this.calendars[0].year
+                });
+            }
             this.draw();
         },
 
@@ -26993,28 +27076,22 @@ if (typeof exports === 'object') {
          */
         gotoMonth: function(month)
         {
-            if (!isNaN( (month = parseInt(month, 10)) )) {
-                this._m = month < 0 ? 0 : month > 11 ? 11 : month;
-                this.draw();
+            if (!isNaN(month)) {
+                this.calendars[0].month = parseInt(month, 10);
+                this.adjustCalendars();
             }
         },
 
         nextMonth: function()
         {
-            if (++this._m > 11) {
-                this._m = 0;
-                this._y++;
-            }
-            this.draw();
+            this.calendars[0].month++;
+            this.adjustCalendars();
         },
 
         prevMonth: function()
         {
-            if (--this._m < 0) {
-                this._m = 11;
-                this._y--;
-            }
-            this.draw();
+            this.calendars[0].month--;
+            this.adjustCalendars();
         },
 
         /**
@@ -27023,8 +27100,8 @@ if (typeof exports === 'object') {
         gotoYear: function(year)
         {
             if (!isNaN(year)) {
-                this._y = parseInt(year, 10);
-                this.draw();
+                this.calendars[0].year = parseInt(year, 10);
+                this.adjustCalendars();
             }
         },
 
@@ -27056,7 +27133,8 @@ if (typeof exports === 'object') {
                 minYear = opts.minYear,
                 maxYear = opts.maxYear,
                 minMonth = opts.minMonth,
-                maxMonth = opts.maxMonth;
+                maxMonth = opts.maxMonth,
+                html = '';
 
             if (this._y <= minYear) {
                 this._y = minYear;
@@ -27071,10 +27149,13 @@ if (typeof exports === 'object') {
                 }
             }
 
-            this.el.innerHTML = renderTitle(this) + this.render(this._y, this._m);
+            for (var c = 0; c < opts.numberOfMonths; c++) {
+                html += '<div class="pika-lendar">' + renderTitle(this, c, this.calendars[c].year, this.calendars[c].month, this.calendars[0].year) + this.render(this.calendars[c].year, this.calendars[c].month) + '</div>';
+            }
+
+            this.el.innerHTML = html;
 
             if (opts.bound) {
-                this.adjustPosition();
                 if(opts.field.type !== 'hidden') {
                     sto(function() {
                         opts.trigger.focus();
@@ -27092,6 +27173,7 @@ if (typeof exports === 'object') {
 
         adjustPosition: function()
         {
+            if (this._o.container) return;
             var field = this._o.trigger, pEl = field,
             width = this.el.offsetWidth, height = this.el.offsetHeight,
             viewportWidth = window.innerWidth || document.documentElement.clientWidth,
@@ -27113,7 +27195,7 @@ if (typeof exports === 'object') {
             }
 
             // default position is bottom & left
-            if (left + width > viewportWidth ||
+            if ((this._o.reposition && left + width > viewportWidth) ||
                 (
                     this._o.position.indexOf('right') > -1 &&
                     left - width + field.offsetWidth > 0
@@ -27121,7 +27203,7 @@ if (typeof exports === 'object') {
             ) {
                 left = left - width + field.offsetWidth;
             }
-            if (top + height > viewportHeight + scrollTop ||
+            if ((this._o.reposition && top + height > viewportHeight + scrollTop) ||
                 (
                     this._o.position.indexOf('top') > -1 &&
                     top - height - field.offsetHeight > 0
@@ -27129,6 +27211,7 @@ if (typeof exports === 'object') {
             ) {
                 top = top - height - field.offsetHeight;
             }
+
             this.el.style.cssText = [
                 'position: absolute',
                 'left: ' + left + 'px',
@@ -27168,9 +27251,12 @@ if (typeof exports === 'object') {
                     isToday = compareDates(day, now),
                     isEmpty = i < before || i >= (days + before);
 
-                row.push(renderDay(1 + (i - before), isSelected, isToday, isDisabled, isEmpty));
+                row.push(renderDay(1 + (i - before), month, year, isSelected, isToday, isDisabled, isEmpty));
 
                 if (++r === 7) {
+                    if (opts.showWeekNumber) {
+                        row.unshift(renderWeek(i - before, month, year));
+                    }
                     data.push(renderRow(row, opts.isRTL));
                     row = [];
                     r = 0;
@@ -27187,12 +27273,13 @@ if (typeof exports === 'object') {
         show: function()
         {
             if (!this._v) {
-                if (this._o.bound) {
-                    addEvent(document, 'click', this._onClick);
-                }
                 removeClass(this.el, 'is-hidden');
                 this._v = true;
                 this.draw();
+                if (this._o.bound) {
+                    addEvent(document, 'click', this._onClick);
+                    this.adjustPosition();
+                }
                 if (typeof this._o.onOpen === 'function') {
                     this._o.onOpen.call(this);
                 }
@@ -27242,9 +27329,7 @@ if (typeof exports === 'object') {
 
 }));
 
-},{"moment":"/Users/Jed/Development/packages/keystone/node_modules/moment/moment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/classnames/index.js":[function(require,module,exports){
-module.exports=require("/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js")
-},{"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js":"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/react-input-autosize/src/AutosizeInput.js":[function(require,module,exports){
+},{"moment":"/Users/Jed/Development/packages/keystone/node_modules/moment/moment.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/react-input-autosize/src/AutosizeInput.js":[function(require,module,exports){
 var React = require('react');
 
 var sizerStyle = { position: 'absolute', visibility: 'hidden', height: 0, width: 0, overflow: 'scroll', whiteSpace: 'nowrap' };
@@ -27872,7 +27957,7 @@ var Select = React.createClass({
 
 module.exports = Select;
 
-},{"./Value":"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Value.js","classnames":"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/classnames/index.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","react-input-autosize":"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/react-input-autosize/src/AutosizeInput.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Value.js":[function(require,module,exports){
+},{"./Value":"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Value.js","classnames":"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","react-input-autosize":"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/react-input-autosize/src/AutosizeInput.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react-select/src/Value.js":[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react'),
 	classes = require('classnames');
@@ -27902,7 +27987,7 @@ var Option = React.createClass({
 
 module.exports = Option;
 
-},{"classnames":"/Users/Jed/Development/packages/keystone/node_modules/react-select/node_modules/classnames/index.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/addons.js":[function(require,module,exports){
+},{"classnames":"/Users/Jed/Development/packages/keystone/node_modules/classnames/index.js","react":"/Users/Jed/Development/packages/keystone/node_modules/react/react.js","underscore":"/Users/Jed/Development/packages/keystone/node_modules/underscore/underscore.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/addons.js":[function(require,module,exports){
 module.exports = require('./lib/ReactWithAddons');
 
 },{"./lib/ReactWithAddons":"/Users/Jed/Development/packages/keystone/node_modules/react/lib/ReactWithAddons.js"}],"/Users/Jed/Development/packages/keystone/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){

@@ -1,8 +1,6 @@
 var React = require('react'),
 	Field = require('../Field');
 
-// require('./lib/bootstrap-colorpicker');
-
 module.exports = Field.create({
 	
 	valueChanged: function(event) {
