@@ -1,6 +1,5 @@
 /*
  * Add visual anchor links to docs-content
- * Solution for issue #945 - https://github.com/keystonejs/keystone/issues/945
  */
 $(function() {
 	// for all anchor tags with name props
