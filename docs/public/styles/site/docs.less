@@ -61,8 +61,28 @@ h2:first-child {
 	margin-top: 0;
 }
 
+// ANCHOR LINKS
+// ------------------------------
 
-
+.docs-content {
+	.anchor {
+		display: inline-block;
+		vertical-align: text-top;
+		padding-right: 15px;
+		padding-left: 15px;
+		i {
+			display: none;
+			font-size: 1.5em;
+		}
+	}
+	h2, h3 {
+		&:hover {
+			.anchor i {
+				display: inline-block;
+			}
+		}	
+	}
+}
 
 // LISTS
 // ------------------------------
