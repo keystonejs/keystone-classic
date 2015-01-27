@@ -41,7 +41,8 @@ var Keystone = function() {
 		'headless': false,
 		'logger': 'dev',
 		'auto update': false,
-		'model prefix': null
+		'model prefix': null,
+		'module root': moduleRoot
 	};
 	this._pre = {
 		routes: [],
@@ -103,7 +104,7 @@ var Keystone = function() {
 	
 };
 
-_.extend(Keystone.prototype, require('./lib/core/options')(moduleRoot));
+_.extend(Keystone.prototype, require('./lib/core/options')());
 
 
 /**
@@ -191,7 +192,7 @@ keystone.security = {
 
 Keystone.prototype.import = function(dirname) {
 	
-	var initialPath = path.join(moduleRoot, dirname);
+	var initialPath = path.join(this.get('module root'), dirname);
 	
 	var doImport = function(fromPath) {
 		
