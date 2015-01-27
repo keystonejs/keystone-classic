@@ -302,20 +302,20 @@ module.exports = Field.create({
 			fieldClassName += ' has-image';
 		}
 
-		if (this.props.noedit) {
-			if (hasImage) {
-				container.push(this.renderImagePreview());
-				container.push(this.renderImageDetails());
-			} else {
-				container.push(<div className='help-block'>no image</div>);
-			}
-		} else {
+		if (this.shouldRenderField()) {
 			if (hasImage) {
 				container.push(this.renderImagePreview());
 				container.push(this.renderImageDetails(this.renderAlert()));
 			}
 
 			body.push(this.renderImageToolbar());
+		} else {
+			if (hasImage) {
+				container.push(this.renderImagePreview());
+				container.push(this.renderImageDetails());
+			} else {
+				container.push(<div className='help-block'>no image</div>);
+			}
 		}
 
 		return <div className='field field-type-cloudinaryimage'>

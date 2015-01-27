@@ -40,6 +40,12 @@ var Base = module.exports.Base = {
 		return this.props.collapse && !this.props.value;
 	},
 	
+	shouldRenderField: function() {
+		if (!this.props.noedit) return true;
+		if (this.props.mode === 'create' && this.props.initial) return true;
+		return false;
+	},
+	
 	focus: function() {
 		if (!this.refs[this.spec.focusTargetRef]) return;
 		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
@@ -70,7 +76,7 @@ var Base = module.exports.Base = {
 			<div className={wrapperClassName}>
 				{this.renderLabel()}
 				<div className={fieldClassName}>
-					{this.props.noedit ? this.renderValue() : this.renderField()}
+					{this.shouldRenderField() ? this.renderField() : this.renderValue()}
 					{this.renderNote()}
 				</div>
 			</div>
@@ -103,7 +109,7 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		renderCollapse: function() {
-			if (this.props.noedit) {
+			if (!this.shouldRenderField()) {
 				return null;
 			}
 			return (

@@ -102,7 +102,9 @@ module.exports = Field.create({
 			skin:     Keystone.wysiwyg.options.skin || 'keystone'
 		};
 
-		if (this.props.noedit) {
+		if (this.shouldRenderField()) {
+			opts.uploadimage_form_url = '/keystone/api/cloudinary/upload';
+		} else {
 			_.extend(opts, {
 				mode: 'textareas',
 				readonly: true,
@@ -110,8 +112,6 @@ module.exports = Field.create({
 				toolbar: 'code',
 				statusbar: false
 			});
-		} else {
-			opts.uploadimage_form_url = '/keystone/api/cloudinary/upload';
 		}
 
 		if (Keystone.wysiwyg.options.additionalOptions){

@@ -52,17 +52,17 @@ module.exports = Field.create({
 		
 		var input, fieldClassName = 'field-ui';
 
-		if (this.props.noedit) {
+		if (this.shouldRenderField()) {
 			input = (
 				<div className={fieldClassName}>
-					<div className="field-value">{this.format(this.props.value, this.props.formatString)}</div>
+					<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} />
+					<button type="button" className="btn btn-default btn-set-today" onClick={this.setToday}>Today</button>
 				</div>
 			);
 		} else {
 			input = (
 				<div className={fieldClassName}>
-					<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} />
-					<button type="button" className="btn btn-default btn-set-today" onClick={this.setToday}>Today</button>
+					<div className="field-value">{this.format(this.props.value, this.props.formatString)}</div>
 				</div>
 			);
 		}

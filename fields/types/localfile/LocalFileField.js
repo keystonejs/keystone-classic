@@ -176,18 +176,17 @@ module.exports = Field.create({
 			fieldClassName += ' has-file';
 		}
 
-		if (this.props.noedit) {
+		if (this.shouldRenderField()) {
+			if (hasFile) {
+				container.push(this.renderFileDetails(this.renderAlert()));
+			}
+			body.push(this.renderFileToolbar());
+		} else {
 			if (hasFile) {
 				container.push(this.renderFileDetails());
 			} else {
 				container.push(<div className='help-block'>no file</div>);
 			}
-		} else {
-			if (hasFile) {
-				container.push(this.renderFileDetails(this.renderAlert()));
-			}
-
-			body.push(this.renderFileToolbar());
 		}
 
 		return <div className='field field-type-localfile'>

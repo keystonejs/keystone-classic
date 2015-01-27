@@ -137,7 +137,7 @@ module.exports = Field.create({
 	
 	renderUI: function() {
 		
-		if (this.props.noedit) {
+		if (!this.shouldRenderField()) {
 			return <div className="field field-type-location">
 				<label className="field-label">{this.props.label}</label>
 				<div className="field-ui noedit">

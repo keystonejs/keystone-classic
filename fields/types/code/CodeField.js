@@ -21,7 +21,7 @@ module.exports = Field.create({
 		if (this.refs.codemirror) {
 			var options = {
 				lineNumbers: true,
-				readOnly: this.props.noedit
+				readOnly: this.shouldRenderField() ? false : true
 			};
 			this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror.getDOMNode(), options);
 			this.codeMirror.on('change', this.codemirrorValueChanged);
@@ -67,7 +67,7 @@ module.exports = Field.create({
 	
 	renderCodemirror: function() {
 		var className = 'CodeMirror-container';
-		if (this.state.isFocused && !this.props.noedit) {
+		if (this.state.isFocused && !this.shouldRenderField()) {
 			className += ' is-focused';
 		}
 		return (
