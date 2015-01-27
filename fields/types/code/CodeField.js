@@ -67,7 +67,7 @@ module.exports = Field.create({
 	
 	renderCodemirror: function() {
 		var className = 'CodeMirror-container';
-		if (this.state.isFocused) {
+		if (this.state.isFocused && !this.props.noedit) {
 			className += ' is-focused';
 		}
 		return (
