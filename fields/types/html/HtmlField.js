@@ -130,9 +130,7 @@ module.exports = Field.create({
 			height: this.props.height
 		};
 		return (
-			<textarea ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} readOnly={readOnly}>
-				{this.props.value}
-			</textarea>
+			<textarea ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} readOnly={readOnly} value={this.props.value}></textarea>
 		);
 	},
 
