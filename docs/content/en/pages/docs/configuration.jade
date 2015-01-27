@@ -47,6 +47,14 @@ block content
 					td <code>brand</code> <code class="data-type">String</code>
 					td Displayed in the top left hand corner of the Admin UI
 				tr
+					td <code>module root</code> <code class="data-type">String</code>
+					td
+						p This setting tells Keystone the root path of your app. By default, <code>module root</code> points to the path of the first script that required Keystone within your app. This default may be undesireable at times.
+						p Setting <code>module root</code> allows you to specify a custom root path for your app. Overriding the default <code>module root</code> may be useful, for example, when unit testing your app.
+						p <code>module root</code> is used by Keystone's <code>.getPath()</code> method to resolve/expand the paths of the <code>views</code>, <code>favicon</code>, <code>extensions</code>, <code>ssl cert</code>, <code>ssl key</code>, <code>ssl ca</code>, <code>emails</code>, and <code>updates</code> settings.
+						p When setting a custom <code>module root</code> you may use either an absolute or a relative path.
+						p.note If a relative path is used, it will be considered relative to the location of the script from which the setting was made.
+				tr
 					td <code>nav</code> <code class="data-type">Object</code>
 					td
 						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
