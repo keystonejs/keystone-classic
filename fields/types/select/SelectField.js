@@ -18,6 +18,11 @@ module.exports = Field.create({
 		});
 	},
 	
+	renderValue: function() {
+		var selected = _.findWhere(this.props.ops, { value: this.props.value });
+		return <div className="field-value">{selected ? selected.label : null}</div>;
+	},
+	
 	renderField: function() {
 		return <Select name={this.props.path} value={this.props.value} options={this.props.ops} onChange={this.valueChanged} />;	
 	}
