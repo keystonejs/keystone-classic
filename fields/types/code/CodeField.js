@@ -20,7 +20,8 @@ module.exports = Field.create({
 	componentDidMount: function() {
 		if (this.refs.codemirror) {
 			var options = {
-				lineNumbers: true
+				lineNumbers: true,
+				readOnly: this.props.noedit
 			};
 			this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror.getDOMNode(), options);
 			this.codeMirror.on('change', this.codemirrorValueChanged);
@@ -64,7 +65,7 @@ module.exports = Field.create({
 		});
 	},
 	
-	renderField: function() {
+	renderCodemirror: function() {
 		var className = 'CodeMirror-container';
 		if (this.state.isFocused) {
 			className += ' is-focused';
@@ -74,6 +75,14 @@ module.exports = Field.create({
 				<textarea ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />
 			</div>
 		);
+	},
+	
+	renderValue: function() {
+		return this.renderCodemirror();
+	},
+	
+	renderField: function() {
+		return this.renderCodemirror();
 	}
 	
 });
