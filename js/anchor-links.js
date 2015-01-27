@@ -11,7 +11,7 @@ $(function() {
 
 		// only append links to H2/H3 tags
 		if ($next.prop("tagName") === "H2" || $next.prop("tagName") === "H3") {
-			$next().append($link);
+			$next.append($link);
 		}
 	});
 });
