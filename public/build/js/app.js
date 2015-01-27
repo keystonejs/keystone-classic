@@ -1063,6 +1063,12 @@ var Base = module.exports.Base = {
 		return this.props.collapse && !this.props.value;
 	},
 	
+	shouldRenderField: function() {
+		if (!this.props.noedit) return true;
+		if (this.props.mode === 'create' && this.props.initial) return true;
+		return false;
+	},
+	
 	focus: function() {
 		if (!this.refs[this.spec.focusTargetRef]) return;
 		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
@@ -1093,7 +1099,7 @@ var Base = module.exports.Base = {
 			React.createElement("div", {className: wrapperClassName}, 
 				this.renderLabel(), 
 				React.createElement("div", {className: fieldClassName}, 
-					this.props.noedit ? this.renderValue() : this.renderField(), 
+					this.shouldRenderField() ? this.renderField() : this.renderValue(), 
 					this.renderNote()
 				)
 			)
@@ -1126,7 +1132,7 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		renderCollapse: function() {
-			if (this.props.noedit) {
+			if (!this.shouldRenderField()) {
 				return null;
 			}
 			return (
@@ -1212,21 +1218,21 @@ module.exports = Field.create({
 			fieldClassName += ' field-indented';
 		}
 		
-		if (this.props.noedit) {
-			state = this.props.value ? 'checked' : 'unchecked';
-			input = (
-				React.createElement("div", {className: fieldClassName}, 
-					React.createElement("img", {src: "/keystone/images/icons/16/checkbox-checked.png", width: "16", height: "16", className: state}), 
-					React.createElement("span", null, this.props.label)
-				)
-			);
-		} else {
+		if (this.shouldRenderField()) {
 			input = (
 				React.createElement("div", {className: fieldClassName}, 
 					React.createElement("label", {htmlFor: this.props.path, className: "checkbox"}, 
 						React.createElement("input", {type: "checkbox", name: this.props.path, id: this.props.path, value: "true", checked: this.props.value, onChange: this.valueChanged}), 
 						this.props.label
 					)
+				)
+			);
+		} else {
+			state = this.props.value ? 'checked' : 'unchecked';
+			input = (
+				React.createElement("div", {className: fieldClassName}, 
+					React.createElement("img", {src: "/keystone/images/icons/16/checkbox-checked.png", width: "16", height: "16", className: state}), 
+					React.createElement("span", null, this.props.label)
 				)
 			);
 		}
@@ -1543,20 +1549,20 @@ module.exports = Field.create({
 			fieldClassName += ' has-image';
 		}
 
-		if (this.props.noedit) {
-			if (hasImage) {
-				container.push(this.renderImagePreview());
-				container.push(this.renderImageDetails());
-			} else {
-				container.push(React.createElement("div", {className: "help-block"}, "no image"));
-			}
-		} else {
+		if (this.shouldRenderField()) {
 			if (hasImage) {
 				container.push(this.renderImagePreview());
 				container.push(this.renderImageDetails(this.renderAlert()));
 			}
 
 			body.push(this.renderImageToolbar());
+		} else {
+			if (hasImage) {
+				container.push(this.renderImagePreview());
+				container.push(this.renderImageDetails());
+			} else {
+				container.push(React.createElement("div", {className: "help-block"}, "no image"));
+			}
 		}
 
 		return React.createElement("div", {className: "field field-type-cloudinaryimage"}, 
@@ -1837,7 +1843,7 @@ module.exports = Field.create({
 		if (this.refs.codemirror) {
 			var options = {
 				lineNumbers: true,
-				readOnly: this.props.noedit
+				readOnly: this.shouldRenderField() ? false : true
 			};
 			this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror.getDOMNode(), options);
 			this.codeMirror.on('change', this.codemirrorValueChanged);
@@ -1883,7 +1889,7 @@ module.exports = Field.create({
 	
 	renderCodemirror: function() {
 		var className = 'CodeMirror-container';
-		if (this.state.isFocused && !this.props.noedit) {
+		if (this.state.isFocused && !this.shouldRenderField()) {
 			className += ' is-focused';
 		}
 		return (
@@ -2007,17 +2013,17 @@ module.exports = Field.create({
 		
 		var input, fieldClassName = 'field-ui';
 
-		if (this.props.noedit) {
+		if (this.shouldRenderField()) {
 			input = (
 				React.createElement("div", {className: fieldClassName}, 
-					React.createElement("div", {className: "field-value"}, this.format(this.props.value, this.props.formatString))
+					React.createElement(DateInput, {ref: "dateInput", name: this.props.path, format: this.inputFormat, value: this.state.value, onChange: this.valueChanged}), 
+					React.createElement("button", {type: "button", className: "btn btn-default btn-set-today", onClick: this.setToday}, "Today")
 				)
 			);
 		} else {
 			input = (
 				React.createElement("div", {className: fieldClassName}, 
-					React.createElement(DateInput, {ref: "dateInput", name: this.props.path, format: this.inputFormat, value: this.state.value, onChange: this.valueChanged}), 
-					React.createElement("button", {type: "button", className: "btn btn-default btn-set-today", onClick: this.setToday}, "Today")
+					React.createElement("div", {className: "field-value"}, this.format(this.props.value, this.props.formatString))
 				)
 			);
 		}
@@ -2113,18 +2119,18 @@ module.exports = Field.create({
 		var input,
 			fieldClassName = 'field-ui';
 		
-		if (this.props.noedit) {
-			input = (
-				React.createElement("div", {className: fieldClassName}, 
-					React.createElement("div", {className: "field-value"}, this.format(this.props.value, this.props.formatString))
-				)
-			);
-		} else {
+		if (this.shouldRenderField()) {
 			input = (
 				React.createElement("div", {className: fieldClassName}, 
 					React.createElement(DateInput, {ref: "dateInput", name: this.props.paths.date, value: this.state.dateValue, format: this.dateInputFormat, onChange: this.dateChanged}), 
 					React.createElement("input", {type: "text", name: this.props.paths.time, value: this.state.timeValue, placeholder: "HH:MM:SS am/pm", onChange: this.timeChanged, autoComplete: "off", className: "form-control time"}), 
 					React.createElement("button", {type: "button", className: "btn btn-default btn-set-now", onClick: this.setNow}, "Now")
+				)
+			);
+		} else {
+			input = (
+				React.createElement("div", {className: fieldClassName}, 
+					React.createElement("div", {className: "field-value"}, this.format(this.props.value, this.props.formatString))
 				)
 			);
 		}
@@ -2321,7 +2327,9 @@ module.exports = Field.create({
 			skin:     Keystone.wysiwyg.options.skin || 'keystone'
 		};
 
-		if (this.props.noedit) {
+		if (this.shouldRenderField()) {
+			opts.uploadimage_form_url = '/keystone/api/cloudinary/upload';
+		} else {
 			_.extend(opts, {
 				mode: 'textareas',
 				readonly: true,
@@ -2329,8 +2337,6 @@ module.exports = Field.create({
 				toolbar: 'code',
 				statusbar: false
 			});
-		} else {
-			opts.uploadimage_form_url = '/keystone/api/cloudinary/upload';
 		}
 
 		if (Keystone.wysiwyg.options.additionalOptions){
@@ -2552,18 +2558,17 @@ module.exports = Field.create({
 			fieldClassName += ' has-file';
 		}
 
-		if (this.props.noedit) {
+		if (this.shouldRenderField()) {
+			if (hasFile) {
+				container.push(this.renderFileDetails(this.renderAlert()));
+			}
+			body.push(this.renderFileToolbar());
+		} else {
 			if (hasFile) {
 				container.push(this.renderFileDetails());
 			} else {
 				container.push(React.createElement("div", {className: "help-block"}, "no file"));
 			}
-		} else {
-			if (hasFile) {
-				container.push(this.renderFileDetails(this.renderAlert()));
-			}
-
-			body.push(this.renderFileToolbar());
 		}
 
 		return React.createElement("div", {className: "field field-type-localfile"}, 
@@ -2918,7 +2923,7 @@ module.exports = Field.create({
 	
 	renderUI: function() {
 		
-		if (this.props.noedit) {
+		if (!this.shouldRenderField()) {
 			return React.createElement("div", {className: "field field-type-location"}, 
 				React.createElement("label", {className: "field-label"}, this.props.label), 
 				React.createElement("div", {className: "field-ui noedit"}, 
@@ -4786,6 +4791,11 @@ module.exports = Field.create({
 			path: this.props.path,
 			value: newValue
 		});
+	},
+	
+	renderValue: function() {
+		var selected = _.findWhere(this.props.ops, { value: this.props.value });
+		return React.createElement("div", {className: "field-value"}, selected ? selected.label : null);
 	},
 	
 	renderField: function() {
