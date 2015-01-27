@@ -1836,7 +1836,8 @@ module.exports = Field.create({
 	componentDidMount: function() {
 		if (this.refs.codemirror) {
 			var options = {
-				lineNumbers: true
+				lineNumbers: true,
+				readOnly: this.props.noedit
 			};
 			this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror.getDOMNode(), options);
 			this.codeMirror.on('change', this.codemirrorValueChanged);
@@ -1880,9 +1881,9 @@ module.exports = Field.create({
 		});
 	},
 	
-	renderField: function() {
+	renderCodemirror: function() {
 		var className = 'CodeMirror-container';
-		if (this.state.isFocused) {
+		if (this.state.isFocused && !this.props.noedit) {
 			className += ' is-focused';
 		}
 		return (
@@ -1890,6 +1891,14 @@ module.exports = Field.create({
 				React.createElement("textarea", {ref: "codemirror", name: this.props.path, value: this.props.value, onChange: this.valueChanged, autoComplete: "off", className: "form-control"})
 			)
 		);
+	},
+	
+	renderValue: function() {
+		return this.renderCodemirror();
+	},
+	
+	renderField: function() {
+		return this.renderCodemirror();
 	}
 	
 });
@@ -2340,9 +2349,7 @@ module.exports = Field.create({
 			height: this.props.height
 		};
 		return (
-			React.createElement("textarea", {ref: "editor", style: style, onChange: this.valueChanged, id: this.state.id, className: this.getFieldClassName(), name: this.props.path, readOnly: readOnly}, 
-				this.props.value
-			)
+			React.createElement("textarea", {ref: "editor", style: style, onChange: this.valueChanged, id: this.state.id, className: this.getFieldClassName(), name: this.props.path, readOnly: readOnly, value: this.props.value})
 		);
 	},
 
