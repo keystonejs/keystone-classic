@@ -15,11 +15,12 @@ var _ = require('underscore'),
 
 function select(list, path, options) {
 	
+	this.ui = options.ui || 'select';
+	this.numeric = options.numeric ? true : false;
+	
 	this._nativeType = (options.numeric) ? Number : String;
 	this._underscoreMethods = ['format'];
-	this._properties = ['ops'];
-	
-	this.ui = options.ui || 'select';
+	this._properties = ['ops', 'numeric'];
 	
 	if (typeof options.options === 'string') {
 		options.options = options.options.split(',');
