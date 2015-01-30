@@ -793,7 +793,7 @@ var View = React.createClass({displayName: "View",
 	
 	renderCreateForm: function() {
 		if (!this.state.createIsVisible) return null;
-		return React.createElement(CreateForm, {list: Keystone.list, onCancel: this.toggleCreate.bind(this, false)})
+		return React.createElement(CreateForm, {list: Keystone.list, animate: true, onCancel: this.toggleCreate.bind(this, false)})
 	},
 	
 	render: function() {
