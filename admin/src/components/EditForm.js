@@ -144,6 +144,7 @@ var EditForm = React.createClass({
 			if (el.type === 'heading') {
 				
 				headings++;
+				el.options.values = this.state.values;
 				elements['h-' + headings] = React.createElement(FormHeading, el);
 				
 			} else if (el.type === 'field') {
