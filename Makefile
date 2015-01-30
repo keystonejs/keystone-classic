@@ -13,8 +13,7 @@ TESTS = test/*.js
 
 default: test
 
-test: jshint jscs
-	@echo "\nRunning Test Suite ..."
+test:
 	@NODE_ENV=test $(MOCHA_CMD) \
 		--require should \
 		--growl \
