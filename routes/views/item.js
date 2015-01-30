@@ -147,9 +147,11 @@ exports = module.exports = function(req, res) {
 					return rel.items.results.length;
 				});
 				
+				var appName = keystone.get('name') || 'Keystone';
+				
 				keystone.render(req, res, 'item', _.extend(viewLocals, {
 					section: keystone.nav.by.list[req.list.key] || {},
-					title: 'Keystone: ' + req.list.singular + ': ' + req.list.getDocumentName(item),
+					title: appName + ': ' + req.list.singular + ': ' + req.list.getDocumentName(item),
 					page: 'item',
 					list: req.list,
 					item: item,

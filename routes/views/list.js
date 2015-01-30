@@ -110,9 +110,11 @@ exports = module.exports = function(req, res) {
 				download_link += '?' + downloadParams;
 			}
 			
+			var appName = keystone.get('name') || 'Keystone';
+			
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: keystone.nav.by.list[req.list.key] || {},
-				title: 'Keystone: ' + req.list.plural,
+				title: appName + ': ' + req.list.plural,
 				page: 'list',
 				link_to: link_to,
 				download_link: download_link,
