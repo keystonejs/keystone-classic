@@ -138,7 +138,7 @@ block content
 							li <code>path</code> <code class="data-type">String</code> - the path to store the key at
 							li <code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not
 							li <code>fixed</code> <code class="data-type">Boolean</code> - the key should be kept if it exists and it's non-empty. Defaults to <code class="data-type">false</code>.
-						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
+						| <em>Autokey paths are automatically indexed; you may also want to include them in compound indexes.</em>
 				tr
 					td <code>track</code> <code class="data-type">Boolean or Object</code>
 					td 
@@ -238,7 +238,7 @@ block content
 
 			p <strong>Promises</strong>
 
-			p There exist another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.
+			p There exists another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.
 
 			p <strong>For example:</strong> load 100 <code>posts</code>, then do something asynchronous, then do something with result:
 			
