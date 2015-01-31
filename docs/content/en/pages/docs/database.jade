@@ -350,7 +350,7 @@ block content
 			a(name='Headings')
 			h2 Headings
 			
-			p Define headings to display within the flow of your documents.  Headings can be defined as a <code>String</code> or <code>Object</code> and can <a href="#dependsOn">depend on</a> another fields value.
+			p Define headings to display within the flow of your documents.  Headings can be defined as a <code>String</code> or <code>Object</code> and can <a href="#dependsOn">depend on</a> another field value for display.
 			
 			pre: code.language-javascript
 				| Person.add(
@@ -370,7 +370,7 @@ block content
 				
 				h5 Options
 				p <code>heading</code> <code class="data-type">String</code> - the text to display
-				p <code>dependsOn</code> <code class="data-type">Object</code> - heading will only display when <a href="#dependsOn">dependsOn</a> matches
+				p <code>dependsOn</code> <code class="data-type">Object</code> - heading will only be displayed when the paths specified in the object match the current data for the item. <a href="#dependsOn">dependsOn</a>
 				
 				
 			a(name='fields')
