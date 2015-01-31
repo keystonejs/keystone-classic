@@ -138,7 +138,7 @@ block content
 							li <code>path</code> <code class="data-type">String</code> - the path to store the key at
 							li <code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not
 							li <code>fixed</code> <code class="data-type">Boolean</code> - the key should be kept if it exists and it's non-empty. Defaults to <code class="data-type">false</code>.
-						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
+						| <em>Autokey paths are automatically indexed; you may also want to include them in compound indexes.</em>
 				tr
 					td <code>track</code> <code class="data-type">Boolean or Object</code>
 					td 
@@ -238,7 +238,7 @@ block content
 
 			p <strong>Promises</strong>
 
-			p There exist another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.
+			p There exists another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.
 
 			p <strong>For example:</strong> load 100 <code>posts</code>, then do something asynchronous, then do something with result:
 			
@@ -347,7 +347,32 @@ block content
 			// TODO: Documentation for Schema features (virtuals, methods, statics and hooks)
 			
 			// TODO: Documentation for Update Handler
+			a(name='Headings')
+			h2 Headings
 			
+			p Define headings to display within the flow of your documents.  Headings can be defined as a <code>String</code> or <code>Object</code> and can <a href="#dependsOn">depend on</a> another field value for display.
+			
+			pre: code.language-javascript
+				| Person.add(
+				|	'User', 
+				| 	{ name: { type: Types.Name, required: true, index: true, initial: true } }, 
+				| 	'Permissions', 
+				| 	{ isAdmin: { type: Boolean, label: 'Can access Keystone', index: true } },
+				| 	// header object
+				| 	{ heading: 'Activities' }, 
+				|	{ place: { type: Types.Select, options: ['GT', 'UGA'] } },
+				| 	// header with dependsOn
+				| 	{ heading: "GT Activities", dependsOn: { place: 'GT' } },
+				| 	{ type: { type: Types.Select, options: ['ZC', 'MP'], dependsOn: { place: 'GT'} }
+				| );
+			
+			.options
+				
+				h5 Options
+				p <code>heading</code> <code class="data-type">String</code> - the text to display
+				p <code>dependsOn</code> <code class="data-type">Object</code> - heading will only be displayed when the paths specified in the object match the current data for the item. <a href="#dependsOn">dependsOn</a>
+				
+				
 			a(name='fields')
 			h2 Fields
 			
@@ -419,6 +444,7 @@ block content
 					td <code>hidden</code> <code class="data-type">Boolean</code>
 					td The field will always be hidden in the Admin UI if this is set to <code class="default-value">true</code>
 			
+			a(name="fields-conditional")
 			h3 Conditional Fields
 			
 			p To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
@@ -430,8 +456,8 @@ block content
 					td <code>collapse</code> <code class="data-type">Boolean</code>
 					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value
 				tr
-					td <code>dependsOn</code> <code class="data-type">Object</code>
-					td: p The field will only be displayed when the paths specified in the object match the current data for the item.
+					td: a(name='dependsOn') <code>dependsOn</code> <code class="data-type">Object</code>
+					td: p The field or header will only be displayed when the paths specified in the object match the current data for the item.
 						p You can target multiple values per path using an Array.
 						.code-header: h4 Example
 						pre: code.language-javascript
@@ -442,6 +468,7 @@ block content
 							| third: { type: String, dependsOn: { first: 'value1' } }
 
 			
+			a(name="fields-watching")
 			h3 Generated values and watching fields
 			
 			p Keystone's fields support a simple syntax for configuring dynamically updated fields. You can set a field to update its value whenever:
