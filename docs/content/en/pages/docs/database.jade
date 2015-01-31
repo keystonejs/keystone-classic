@@ -347,7 +347,32 @@ block content
 			// TODO: Documentation for Schema features (virtuals, methods, statics and hooks)
 			
 			// TODO: Documentation for Update Handler
+			a(name='Headings')
+			h2 Headings
 			
+			p Define headings to display within the flow of your documents.  Headings can be defined as a <code>String</code> or <code>Object</code> and can <a href="#dependsOn">depend on</a> another fields value.
+			
+			pre: code.language-javascript
+				| Person.add(
+				|	'User', 
+				| 	{ name: { type: Types.Name, required: true, index: true, initial: true } }, 
+				| 	'Permissions', 
+				| 	{ isAdmin: { type: Boolean, label: 'Can access Keystone', index: true } },
+				| 	// header object
+				| 	{ heading: 'Activities' }, 
+				|	{ place: { type: Types.Select, options: ['GT', 'UGA'] } },
+				| 	// header with dependsOn
+				| 	{ heading: "GT Activities", dependsOn: { place: 'GT' } },
+				| 	{ type: { type: Types.Select, options: ['ZC', 'MP'], dependsOn: { place: 'GT'} }
+				| );
+			
+			.options
+				
+				h5 Options
+				p <code>heading</code> <code class="data-type">String</code> - the text to display
+				p <code>dependsOn</code> <code class="data-type">Object</code> - heading will only display when <a href="#dependsOn">dependsOn</a> matches
+				
+				
 			a(name='fields')
 			h2 Fields
 			
@@ -419,6 +444,7 @@ block content
 					td <code>hidden</code> <code class="data-type">Boolean</code>
 					td The field will always be hidden in the Admin UI if this is set to <code class="default-value">true</code>
 			
+			a(name="fields-conditional")
 			h3 Conditional Fields
 			
 			p To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
@@ -430,8 +456,8 @@ block content
 					td <code>collapse</code> <code class="data-type">Boolean</code>
 					td Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value
 				tr
-					td <code>dependsOn</code> <code class="data-type">Object</code>
-					td: p The field will only be displayed when the paths specified in the object match the current data for the item.
+					td: a(name='dependsOn') <code>dependsOn</code> <code class="data-type">Object</code>
+					td: p The field or header will only be displayed when the paths specified in the object match the current data for the item.
 						p You can target multiple values per path using an Array.
 						.code-header: h4 Example
 						pre: code.language-javascript
@@ -442,6 +468,7 @@ block content
 							| third: { type: String, dependsOn: { first: 'value1' } }
 
 			
+			a(name="fields-watching")
 			h3 Generated values and watching fields
 			
 			p Keystone's fields support a simple syntax for configuring dynamically updated fields. You can set a field to update its value whenever:
