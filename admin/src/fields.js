@@ -26,5 +26,6 @@ module.exports = {
 	number:           require('../../fields/types/number/NumberField'),
 	html:             require('../../fields/types/html/HtmlField'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/CloudinaryImageField'),
-	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesField')
+	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesField'),
+	table:            require('../../fields/types/table/TableField'),
 };
