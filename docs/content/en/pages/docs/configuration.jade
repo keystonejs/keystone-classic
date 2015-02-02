@@ -163,7 +163,6 @@ block content
 					td <code>trust proxy</code> <code class="data-type">Boolean</code>
 					td Set this to enable processing of the HTTP request <code>X-Forwarded-For</code> header. Extracted IP addresses will be available as the array <code>req.ips</code> (<a href="http://expressjs.com/api.html#req.ips">see docs here</a>).
 			
-			
 			.code-header
 				h4 Alternate View Engines
 				p By default, Keystone uses the <strong>Jade</strong> template engine for your views. Here's how you would set up a different engine, e.g. <strong>Swig</strong>.
@@ -171,7 +170,16 @@ block content
 				| var swig = require('swig');
 				| keystone.set('view engine', 'swig');
 				| keystone.set('custom engine', swig.renderFile);
-		
+			
+			.code-header
+				h4 Exposes <code >onHttpServerCreated</code> event
+			pre: code.language-javascript
+				| keystone.start({
+				|     onHttpServerCreated: function() {
+				|       var server = keystone.httpServer;
+				|     }
+				| });
+			
 			a(name='options-ssl')
 			h3 HTTPS Web Server Options
 			
@@ -186,6 +194,7 @@ block content
 						p Whether to start the SSL Server. Defaults to <code class="default-value">false</code>.
 						p When set to <code class="default-value">true</code>, both http and https servers will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, just the http server will be started.
 						p When set to <code class="default-value">"only"</code>, only the https server will be started. If <code>ssl key</code> or <code>ssl cert</code> are invalid, KeystoneJS will not start.
+						
 				tr
 					td <code>ssl key</code> <code class="data-type">Path</code>
 					td
@@ -206,8 +215,26 @@ block content
 					td <code>ssl host</code> <code class="data-type">String</code>
 					td
 						p The ip address to listen for request on. Defaults to <code class="default-value">process.env.SSL_IP</code> or the value of the <code>host</code> option.
+				tr
+					td(colspan="2"): p Exposes <code class="">onHttpsServerCreated</code> event during <code class="language-javascript">keystone.start()</code>
+				
+			a(name='options-unix-socket')
+			h3 Unix Socket Web Server Option
 			
+			p Express will listen to a unix socket for connections.   
 			
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>unix socket</code> <code class="data-type">String</code>
+					td
+						p Path to a writable unix socket. Should be either absolute or relative to <code class="default-value">process.cwd()</code> (which is usually your project root). File will be removed first if present.
+						p When set http and https servers are ignored.
+						
+				tr
+					td(colspan="2"): p Exposes <code class="">onSocketServerCreated</code> event during <code class="language-javascript">keystone.start()</code>	
+						
 			a(name='options-database')
 			h3 Database and User Auth Options
 			
@@ -252,6 +279,7 @@ block content
 							li <code class="default-value">connect-mongostore</code> (supports replica sets, but requires explicit configuration - see below)
 							li <code class="default-value">connect-redis</code>
 						p.note Session store packages are not bundled with Keystone, so make sure you explicitly add the selected session store to your project's <code>package.json</code>.
+						p.note The session configuration passed to Express is available via <code class="language-javascript">keystone.get('express session')</code>
 				tr
 					td <code>session store options</code> <code class="data-type">Object</code>
 					td
@@ -284,6 +312,7 @@ block content
 							|   "prefix": "", // Key prefix defaulting to "sess:"
 							|   "url": "", // e.g. redis://user:pass@host:port/db
 							| }
+						p.note The session options are made available via <code class="language-javascript">keystone.get('session options')</code>
 				tr
 					td <code>back url</code> <code class="data-type">String</code>
 					td
