@@ -370,6 +370,7 @@ var EditForm = React.createClass({displayName: "EditForm",
 			if (el.type === 'heading') {
 				
 				headings++;
+				el.options.values = this.state.values;
 				elements['h-' + headings] = React.createElement(FormHeading, el);
 				
 			} else if (el.type === 'field') {
@@ -437,14 +438,22 @@ module.exports = EditForm;
 },{"../fields":8,"./FormHeading":5,"./InvalidFieldType":6,"./Toolbar":7,"moment":51,"react":217,"underscore":221}],5:[function(require,module,exports){
 var React = require('react');
 
+function evalDependsOn(dependsOn, values) {
+	if (!_.isObject(dependsOn)) return true;
+	var keys = _.keys(dependsOn);
+	return (keys.length) ? _.every(keys, function(key) {
+		var matches = _.isArray(dependsOn[key]) ? dependsOn[key] : [dependsOn[key]];
+		return _.contains(matches, values[key]);
+	}, this) : true;
+}
+
 module.exports = React.createClass({displayName: "exports",
 	
-	/**
-	 * TODO:
-	 * dependsOn
-	 */
-	
 	render: function() {
+		console.log(this.props);
+		if (!evalDependsOn(this.props.options.dependsOn, this.props.options.values)) {
+			return null;
+		}
 		return React.createElement("h3", {className: "form-heading"}, this.props.content);
 	}
 	
