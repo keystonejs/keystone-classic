@@ -68,9 +68,9 @@ var Header = React.createClass({
 			var links = [];
 			
 			dd.items.forEach(function(el, i) {
-				links.push(<a href={el.href} title={dd.list.singular}>{el.label}</a>);
+				links.push(<a key={'dd' + i} href={el.href} title={dd.list.singular}>{el.label}</a>);
 				if (i < dd.items.length - 1) {
-					links.push(<span className="separator">,</span>);
+					links.push(<span key={'ds' + i} className="separator">,</span>);
 				}
 			});
 			
@@ -88,7 +88,7 @@ var Header = React.createClass({
 		var backIcon = (!els.length) ? <span className="mr-5 ion-arrow-left-c"></span> : '';
 		
 		els.push(
-			<li>
+			<li key="back">
 				<a href={'/keystone/' + list.path} title={'Back to ' + list.plural}>
 					{backIcon}
 					{list.plural}
