@@ -11,6 +11,8 @@ function evalDependsOn(dependsOn, values) {
 
 module.exports = React.createClass({
 	
+	displayName: 'FormHeading',
+	
 	render: function() {
 		console.log(this.props);
 		if (!evalDependsOn(this.props.options.dependsOn, this.props.options.values)) {

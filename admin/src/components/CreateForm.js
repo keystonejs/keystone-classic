@@ -6,6 +6,8 @@ var _ = require('underscore'),
 
 var Form = React.createClass({
 	
+	displayName: 'CreateForm',
+	
 	getDefaultProps: function() {
 		return {
 			err: null,

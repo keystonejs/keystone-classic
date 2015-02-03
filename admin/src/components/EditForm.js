@@ -8,6 +8,8 @@ var _ = require('underscore'),
 
 var EditForm = React.createClass({
 	
+	displayName: 'EditForm',
+	
 	getInitialState: function() {
 		return {
 			values: _.clone(this.props.data.fields)

@@ -3,6 +3,8 @@ var React = require('react'),
 
 var View = React.createClass({
 	
+	displayName: 'ListView',
+	
 	getInitialState: function() {
 		return {
 			createIsVisible: Keystone.showCreateForm,

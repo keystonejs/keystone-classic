@@ -5,6 +5,8 @@ var React = require('react'),
 
 var View = React.createClass({
 	
+	displayName: 'ItemView',
+	
 	getInitialState: function() {
 		return {
 			createIsVisible: false

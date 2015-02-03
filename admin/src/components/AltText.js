@@ -3,6 +3,8 @@ var React = require('react'),
 
 var AltText = React.createClass({
 	
+	displayName: 'AltText',
+	
 	getDefaultProps: function() {
 		return {
 			component: 'span',

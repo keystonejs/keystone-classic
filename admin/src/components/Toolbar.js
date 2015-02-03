@@ -6,6 +6,8 @@ var React = require('react');
 
 var Toolbar = React.createClass({
 	
+	displayName: 'Toolbar',
+	
 	componentDidMount: function() {
 		(function() {
 		
