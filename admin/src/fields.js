@@ -9,7 +9,7 @@ module.exports = {
 	datetime:         require('../../fields/types/datetime/DatetimeField'),
 	email:            require('../../fields/types/email/EmailField'),
 	embedly:          require('../../fields/types/embedly/EmbedlyField'),
-	geo:              require('../../fields/types/geo/GeoField'),
+	geopoint:         require('../../fields/types/geopoint/GeoPointField'),
 	html:             require('../../fields/types/html/HtmlField'),
 	key:              require('../../fields/types/key/KeyField'),
 	localfile:  	  require('../../fields/types/localfile/LocalFileField'),

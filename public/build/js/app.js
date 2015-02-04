@@ -458,7 +458,6 @@ module.exports = React.createClass({
 	displayName: 'FormHeading',
 	
 	render: function() {
-		console.log(this.props);
 		if (!evalDependsOn(this.props.options.dependsOn, this.props.options.values)) {
 			return null;
 		}
@@ -582,7 +581,7 @@ module.exports = {
 	datetime:         require('../../fields/types/datetime/DatetimeField'),
 	email:            require('../../fields/types/email/EmailField'),
 	embedly:          require('../../fields/types/embedly/EmbedlyField'),
-	geo:              require('../../fields/types/geo/GeoField'),
+	geopoint:         require('../../fields/types/geopoint/GeoPointField'),
 	html:             require('../../fields/types/html/HtmlField'),
 	key:              require('../../fields/types/key/KeyField'),
 	localfile:  	  require('../../fields/types/localfile/LocalFileField'),
@@ -605,7 +604,7 @@ module.exports = {
 
 
 
-},{"../../fields/types/azurefile/AzureFileField":16,"../../fields/types/boolean/BooleanField":17,"../../fields/types/cloudinaryimage/CloudinaryImageField":18,"../../fields/types/cloudinaryimages/CloudinaryImagesField":19,"../../fields/types/code/CodeField":20,"../../fields/types/color/ColorField":21,"../../fields/types/date/DateField":22,"../../fields/types/datetime/DatetimeField":23,"../../fields/types/email/EmailField":24,"../../fields/types/embedly/EmbedlyField":25,"../../fields/types/geo/GeoField":26,"../../fields/types/html/HtmlField":27,"../../fields/types/key/KeyField":28,"../../fields/types/localfile/LocalFileField":29,"../../fields/types/localfiles/LocalFilesField":30,"../../fields/types/location/LocationField":31,"../../fields/types/markdown/MarkdownField":32,"../../fields/types/money/MoneyField":34,"../../fields/types/name/NameField":35,"../../fields/types/number/NumberField":36,"../../fields/types/numberarray/NumberArrayField":37,"../../fields/types/password/PasswordField":38,"../../fields/types/relationship/RelationshipField":39,"../../fields/types/s3file/S3FileField":40,"../../fields/types/select/SelectField":41,"../../fields/types/text/TextField":42,"../../fields/types/textarea/TextareaField":43,"../../fields/types/textarray/TextArrayField":44,"../../fields/types/url/UrlField":45}],9:[function(require,module,exports){
+},{"../../fields/types/azurefile/AzureFileField":16,"../../fields/types/boolean/BooleanField":17,"../../fields/types/cloudinaryimage/CloudinaryImageField":18,"../../fields/types/cloudinaryimages/CloudinaryImagesField":19,"../../fields/types/code/CodeField":20,"../../fields/types/color/ColorField":21,"../../fields/types/date/DateField":22,"../../fields/types/datetime/DatetimeField":23,"../../fields/types/email/EmailField":24,"../../fields/types/embedly/EmbedlyField":25,"../../fields/types/geopoint/GeoPointField":26,"../../fields/types/html/HtmlField":27,"../../fields/types/key/KeyField":28,"../../fields/types/localfile/LocalFileField":29,"../../fields/types/localfiles/LocalFilesField":30,"../../fields/types/location/LocationField":31,"../../fields/types/markdown/MarkdownField":32,"../../fields/types/money/MoneyField":34,"../../fields/types/name/NameField":35,"../../fields/types/number/NumberField":36,"../../fields/types/numberarray/NumberArrayField":37,"../../fields/types/password/PasswordField":38,"../../fields/types/relationship/RelationshipField":39,"../../fields/types/s3file/S3FileField":40,"../../fields/types/select/SelectField":41,"../../fields/types/text/TextField":42,"../../fields/types/textarea/TextareaField":43,"../../fields/types/textarray/TextArrayField":44,"../../fields/types/url/UrlField":45}],9:[function(require,module,exports){
 var React = require('react/addons'),
 	ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
 	AltText = require('../../components/AltText');
@@ -4856,7 +4855,7 @@ module.exports = Field.create({
 	valueChanged: function(newValue) {
 		this.props.onChange({
 			path: this.props.path,
-			value: newValue
+			value: (this.props.numeric) ? Number(newValue) : newValue
 		});
 	},
 	

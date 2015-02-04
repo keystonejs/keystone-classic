@@ -14,13 +14,13 @@ var REGEXP_LNGLAT = /^\s*(\d+(?:\.\d+)?)\s*\,\s*(\d+(?:\.\d+)?)\s*$/;
  * @api public
  */
 
-function geo(list, path, options) {
+function geopoint(list, path, options) {
 	
 	this._fixedSize = 'medium';
 	
 	// TODO: implement filtering, hard-coded as disabled for now
 	options.nofilter = true;
-	geo.super_.call(this, list, path, options);
+	geopoint.super_.call(this, list, path, options);
 	
 }
 
@@ -28,7 +28,7 @@ function geo(list, path, options) {
  * Inherit from Field
  */
 
-util.inherits(geo, super_);
+util.inherits(geopoint, super_);
 
 
 /**
@@ -39,7 +39,7 @@ util.inherits(geo, super_);
  * @api public
  */
 
-geo.prototype.addToSchema = function() {
+geopoint.prototype.addToSchema = function() {
 	this.list.schema.path(this.path, { type: [Number], index: '2dsphere' });
 	this.bindUnderscoreMethods();
 };
@@ -49,7 +49,7 @@ geo.prototype.addToSchema = function() {
  * Gets the field's data from an Item, as used by the React components
  */
 
-geo.prototype.getData = function(item) {
+geopoint.prototype.getData = function(item) {
 	var points = item.get(this.path);
 	return (points && points.length === 2) ? points : [];
 };
@@ -61,7 +61,7 @@ geo.prototype.getData = function(item) {
  * @api public
  */
 
-geo.prototype.format = function(item) {
+geopoint.prototype.format = function(item) {
 	return item.get(this.path).join(', ');
 };
 
@@ -72,7 +72,7 @@ geo.prototype.format = function(item) {
  * @api public
  */
 
-geo.prototype.validateInput = function(data, required, item) {
+geopoint.prototype.validateInput = function(data, required, item) {
 	
 	// Input is valid if the field is not required, and not present
 	if (!this.path in data && !required) return true;
@@ -96,7 +96,7 @@ geo.prototype.validateInput = function(data, required, item) {
  * @api public
  */
 
-geo.prototype.updateItem = function(item, data) {
+geopoint.prototype.updateItem = function(item, data) {
 	
 	if (!_.isObject(data)) return;
 	
@@ -130,4 +130,4 @@ geo.prototype.updateItem = function(item, data) {
  * Export class
  */
 
-exports = module.exports = geo;
+exports = module.exports = geopoint;
