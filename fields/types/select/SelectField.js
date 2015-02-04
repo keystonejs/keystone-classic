@@ -14,7 +14,7 @@ module.exports = Field.create({
 	valueChanged: function(newValue) {
 		this.props.onChange({
 			path: this.props.path,
-			value: newValue
+			value: (this.props.numeric) ? Number(newValue) : newValue
 		});
 	},
 	
