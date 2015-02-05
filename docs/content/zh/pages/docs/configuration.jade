@@ -163,7 +163,16 @@ block content
 				| var swig = require('swig');
 				| keystone.set('view engine', 'swig');
 				| keystone.set('custom engine', swig.renderFile);
-		
+			
+			.code-header
+				h4 输出 <code >onHttpServerCreated</code> 事件
+			pre: code.language-javascript
+				| keystone.start({
+				|     onHttpServerCreated: function() {
+				|       var server = keystone.httpServer;
+				|     }
+				| });
+					
 			a(name='options-ssl')
 			h3 HTTPS Web服务器参数
 			
@@ -200,6 +209,26 @@ block content
 					td
 						p 监听请求的ip地址。默认为<code class="default-value">process.env.SSL_IP</code>或<code>host</code> 参数的值。
 			
+				tr
+					td(colspan="2"): p 在<code class="language-javascript">keystone.start()</code>期间输出<code class="">onHttpsServerCreated</code>事件。
+				
+			a(name='options-unix-socket')
+			h3 Unix Socket Web 服务器参数
+			
+			p Express会监听一个unix socket的连接。   
+			
+			table.table
+				col(width=210)
+				col
+				tr
+					td <code>unix socket</code> <code class="data-type">String</code>
+					td
+						p 指向可写unix socket的路径。应该是绝对路径或相对于<code class="default-value">process.cwd()</code> （一般是项目的根路径）的路径. 如果文件之前已经存在了，会先被移除。
+						p 当设定 http 和 https 服务器时会被忽略。
+						
+				tr
+					td(colspan="2"): p 在<code class="language-javascript">keystone.start()</code>期间输出<code class="">onHttpsServerCreated</code>事件。
+						
 			
 			a(name='options-database')
 			h3 数据库和用户认证参数
@@ -245,6 +274,7 @@ block content
 							li <code class="default-value">connect-mongostore</code> (支持复制集，但需要显式地配置 - 见下文)
 							li <code class="default-value">connect-redis</code>
 						p.note Keystone没有捆绑会话存储包，所以一定要将选定的会话存储添加到项目的<code>package.json</code>中。
+						p.note 可以通过<code class="language-javascript">keystone.get('express session')</code>获取传给Express的会话配置。
 				tr
 					td <code>session store options</code> <code class="data-type">Object</code>
 					td
@@ -277,6 +307,7 @@ block content
 							|   "prefix": "", // Key前缀默认为"sess:"
 							|   "url": "", // 比如 redis://user:pass@host:port/db
 							| }
+						p.note 可以通过<code class="language-javascript">keystone.get('session options')</code>获取到会话参数。
 				tr
 					td <code>back url</code> <code class="data-type">String</code>
 					td
