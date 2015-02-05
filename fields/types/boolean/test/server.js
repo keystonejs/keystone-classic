@@ -1,14 +1,13 @@
 var assert = require('assert'),
 	demand = require('must'),
-	keystone = require('../../../..'),
 	UpdateHandler = require('../../../../lib/updateHandler');
 
 exports.initList = function(List) {
 	List.add({
-		boolean: { type: keystone.Field.Types.Boolean, note: 'This is a boolean field' },
+		boolean: { type: Boolean, note: 'This is a boolean field' },
 		indented: { type: Boolean, indent: true },
 		nested: {
-			boolean: Boolean
+			boolean: { type: Boolean }
 		},
 		defaultFalse: { type: Boolean, default: false },
 		defaultTrue: { type: Boolean, default: true },

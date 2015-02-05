@@ -1,5 +1,5 @@
 var React = require('react'),
-	pikaday = require('pikaday');
+	Pikaday = require('pikaday');
 
 module.exports = React.createClass({
 

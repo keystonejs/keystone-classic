@@ -3,12 +3,14 @@ var _ = require('underscore'),
 	gutil = require('gulp-util'),
 	watch = require('gulp-watch'),
 	browserify = require('browserify'),
-	literalify = require('literalify'),
+	shimify = require('browserify-shim'),
+	uglify = require('gulp-uglify'),
 	watchify = require('watchify'),
 	reactify = require('reactify'),
 	source = require('vinyl-source-stream'),
 	chalk = require('chalk'),
-	del = require('del');
+	del = require('del'),
+	streamify = require('gulp-streamify');
 
 /**
  * Build Tasks
@@ -21,14 +23,13 @@ gulp.task('build-scripts', function() {
 		})
 		.add('./admin/src/app.js')
 		.transform(reactify)
-		.transform(literalify.configure({
-			tinymce: "window.tinymce"
-		}))
+		.transform(shimify)
 		.bundle()
 		.on('error', function(e) {
 			gutil.log('Browserify Error', e);
 		})
 		.pipe(source('app.js'))
+		.pipe(streamify(uglify()))
 		.pipe(gulp.dest('./public/build/js'));
 });
 
@@ -40,9 +41,7 @@ gulp.task('watch-scripts', function() {
 		}, watchify.args))
 		.add('./admin/src/app.js')
 		.transform(reactify)
-		.transform(literalify.configure({
-			tinymce: "window.tinymce"
-		}));
+		.transform(shimify);
 	
 	var w = watchify(b)
 		.on('update', function (scriptIds) {
@@ -66,6 +65,7 @@ gulp.task('watch-scripts', function() {
  				gutil.log('Browserify Error', e);
  			})
  			.pipe(source('app.js'))
+			.pipe(streamify(uglify()))
  			.pipe(gulp.dest('./public/build/js'));
 	}
 	
