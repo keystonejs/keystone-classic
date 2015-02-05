@@ -12,6 +12,7 @@ var _ = require('underscore'),
 module.exports = Field.create({
 	
 	valueChanged: function(newValue) {
+		// TODO: This should be natively handled by the Select component
 		if (this.props.numeric && 'string' === typeof newValue) {
 			newValue = newValue ? Number(newValue) : undefined;
 		}
@@ -27,7 +28,7 @@ module.exports = Field.create({
 	},
 	
 	renderField: function() {
-		// TODO: This should be natively supported by the Select component
+		// TODO: This should be natively handled by the Select component
 		var ops = (this.props.numeric) ? this.props.ops.map(function(i) { return { label: i.label, value: String(i.value) }; }) : this.props.ops;
 		var value = ('number' === typeof this.props.value) ? String(this.props.value) : this.props.value;
 		return <Select name={this.props.path} value={value} options={ops} onChange={this.valueChanged} />;	
