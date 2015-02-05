@@ -82,6 +82,7 @@
     "transform": ["reactify"]
   },
   "author": "Jed Watson",
+  "homepage": "http://keystonejs.com/",
   "license": "MIT",
   "keywords": [
     "express",
