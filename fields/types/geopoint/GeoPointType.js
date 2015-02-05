@@ -6,7 +6,7 @@ var _ = require('underscore'),
 	util = require('util'),
 	super_ = require('../Type');
 	
-var REGEXP_LNGLAT = /^\s*(\d+(?:\.\d+)?)\s*\,\s*(\d+(?:\.\d+)?)\s*$/;
+var REGEXP_LNGLAT = /^\s*(\-?\d+(?:\.\d+)?)\s*\,\s*(\-?\d+(?:\.\d+)?)\s*$/;
 
 /**
  * Geo FieldType Constructor
