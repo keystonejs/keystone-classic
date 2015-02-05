@@ -39,7 +39,7 @@ var Keystone = function() {
 		'brand': 'Keystone',
 		'compress': true,
 		'headless': false,
-		'logger': 'dev',
+		'logger': ':method :url :status :response-time ms',
 		'auto update': false,
 		'model prefix': null,
 		'module root': moduleRoot
