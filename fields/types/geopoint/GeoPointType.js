@@ -40,7 +40,7 @@ util.inherits(geopoint, super_);
  */
 
 geopoint.prototype.addToSchema = function() {
-	this.list.schema.path(this.path, { type: [Number], index: '2dsphere' });
+	this.list.schema.path(this.path, _.defaults({ type: [Number], index: '2dsphere' }, this.options));
 	this.bindUnderscoreMethods();
 };
 
