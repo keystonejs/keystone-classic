@@ -65,9 +65,45 @@ module.exports = Field.create({
 		});
 	},
 	
+	buildFilters: function() {
+		var filters = {};
+
+		_.each(this.props.filter, function(value, key) {
+			if(_.isString(value) && value[0] == ':') {
+				fieldName = value.slice(1);
+
+				var val = self.props.values[fieldName];
+				if (val) {
+					filters[key] = val;
+					return;
+				}
+
+				// check if filtering by id and item was already saved
+				if (fieldName === ':_id' && Keystone.item) {
+					filters[key] = Keystone.item.id;
+					return;
+				}
+			} else {
+				filters[key] = value;
+			}
+		});
+
+		var parts = [];
+
+		_.each(filters, function (val, key) {
+			parts.push('filters[' + key + ']=' + encodeURIComponent(val));
+		})
+
+		return parts.join('&');
+	}.
+
+	buildOptionQuery: function () {
+		return 'context=relationship&q=' + input + '&list=' + Keystone.list.path + '&field=' + this.props.path + '&' + this.buildFilters()
+	},
+
 	getOptions: function(input, callback) {
 		superagent
-			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?q=' + input)
+			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery())
 			.set('Accept', 'application/json')
 			.end(function (err, res) {
 				if (err) throw err;
