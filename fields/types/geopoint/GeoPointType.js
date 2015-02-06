@@ -75,7 +75,7 @@ geopoint.prototype.format = function(item) {
 geopoint.prototype.validateInput = function(data, required, item) {
 	
 	// Input is valid if the field is not required, and not present
-	if (!this.path in data && !required) return true;
+	if (!(this.path in data) && !required) return true;
 	
 	var values = data[this.path];
 	
