@@ -1,11 +1,25 @@
 var React = require('react'),
-	Pikaday = require('pikaday');
+	Pikaday = require('pikaday'),
+	moment = require('moment');
 
 module.exports = React.createClass({
 
 	// set default properties
 	getDefaultProps: function() {
 		format: 'YYYY-MM-DD'
+	},
+	
+	getInitialState: function() {
+		return {
+			value: this.props.value
+		};
+	},
+	
+	componentWillReceiveProps: function(newProps) {
+		this.setState({
+			value: newProps.value
+		});
+		this.picker.setDate(newProps.value);
 	},
 
 	componentDidMount: function() {
@@ -14,8 +28,10 @@ module.exports = React.createClass({
 			field: this.getDOMNode(),
 			format: this.props.format,
 			onSelect: function(date) {
-				// trigger onChange if set
-				this.props.onChange && this.props.onChange(this.picker.toString());
+				console.log(date);
+				if (this.props.onChange && this.picker.toString() !== this.props.value) {
+					this.props.onChange(this.picker.toString());
+				}
 			}.bind(this)
 		});			
 	},
@@ -24,19 +40,19 @@ module.exports = React.createClass({
 		// clean up
 		this.picker.destroy();
 	},
-
-	shouldComponentUpdate: function(nextProps) {
-		// don't update if nothing has changed
-		return nextProps.value !== this.props.value;
+	
+	handleChange: function(e) {
+		this.setState({ value: e.target.value });
 	},
 	
-	valueChanged: function(e) {
-		// update picker with the new value
-		this.picker.setDate(e.target.value);
+	handleBlur: function(e) {
+		if (this.state.value !== this.props.value) {
+			this.picker.setDate(this.state.value);
+		}
 	},
 
 	render: function() {
-		return <input type="text" name={this.props.name} value={this.props.value} placeholder={this.props.format} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+		return <input type="text" name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" className="form-control" />;
 	}
 	
 });
