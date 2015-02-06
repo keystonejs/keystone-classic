@@ -19,6 +19,11 @@ block content
 			h2
 				a(name='concepts')
 				| 概念
+			
+			.alert.alert-warning
+				//- h4 Requirements
+				p KeystoneJS 需要 MongoDB v2.4 或更高版本。
+			
 			p 在KeystoneJS中，数据模式和模型是由<strong>列表</strong>控制的，并且数据库中的文档经常被称为<strong>条目</strong>。
 			
 			p 要定义数据模型，你要创建一个<code>new keystone.List</code>，然后传给它<a href="#lists-options">列表参数</a>。
