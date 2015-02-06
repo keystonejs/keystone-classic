@@ -4,7 +4,7 @@ var React = require('react'),
 module.exports = Field.create({
 	
 	valueChanged: function(event) {
-		var newValue = event.target.value.replace(/[^\d]/g, '');
+		var newValue = event.target.value.replace(/[^\d\.]/g, '');
 		if (newValue === this.props.value) return;
 		this.props.onChange({
 			path: this.props.path,
