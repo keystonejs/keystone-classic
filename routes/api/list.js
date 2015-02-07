@@ -24,11 +24,10 @@ exports = module.exports = function(req, res) {
 	switch (req.params.action) {
 
 		case 'autocomplete':
-
 			var limit = req.query.limit || 10,
 				page = req.query.page || 1,
 				skip = limit * (page - 1);
-
+				
 			var filters = req.list.getSearchFilters(req.query.q);
 
 			var count = req.list.model.count(filters),
@@ -37,53 +36,40 @@ exports = module.exports = function(req, res) {
 					.skip(skip)
 					.sort(req.list.defaultSort);
 
-			var doQuery = function() {
-				count.exec(function(err, total) {
-
-					if (err) return sendError('database error', err);
-
-					query.exec(function(err, items) {
-
-						if (err) return sendError('database error', err);
-
-						sendResponse({
-							total: total,
-							items: items.map(function(i) {
-								return {
-									name: req.list.getDocumentName(i, true) || '(' + i.id + ')',
-									id: i.id
-								};
-							})
-						});
-
-					});
-
-				});
-			};
-
 			if (req.query.context === 'relationship') {
-
 				var srcList = keystone.list(req.query.list);
-
 				if (!srcList) return sendError('invalid list provided');
 
 				var field = srcList.fields[req.query.field];
-
-				if (!field || field.type !== 'relationship') return sendError('invalid field provided');
-
-				if (!field.hasFilters) {
-					return doQuery();
-				}
+				if (!field) return sendError('invalid field provided');
 
 				_.each(req.query.filters, function(value, key) {
 					query.where(key).equals(value ? value : null);
 					count.where(key).equals(value ? value : null);
 				});
-				return doQuery();
-
-			} else {
-				return doQuery();
 			}
+			
+			count.exec(function(err, total) {
+
+				if (err) return sendError('database error', err);
+
+				query.exec(function(err, items) {
+
+					if (err) return sendError('database error', err);
+
+					sendResponse({
+						total: total,
+						items: items.map(function(i) {
+							return {
+								name: req.list.getDocumentName(i, true) || '(' + i.id + ')',
+								id: i.id
+							};
+						})
+					});
+
+				});
+
+			});
 
 
 		break;
