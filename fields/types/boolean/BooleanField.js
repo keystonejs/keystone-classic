@@ -12,7 +12,7 @@ module.exports = Field.create({
 	
 	renderUI: function() {
 		
-		var input, state, fieldClassName = 'field-ui';
+		var input, fieldClassName = 'field-ui';
 		
 		if (this.props.indent) {
 			fieldClassName += ' field-indented';
@@ -28,10 +28,11 @@ module.exports = Field.create({
 				</div>
 			);
 		} else {
-			state = this.props.value ? 'checked' : 'unchecked';
+			var state = this.props.value ? 'checked' : 'unchecked';
+			var imgSrc = '/keystone/images/icons/16/checkbox-' + state + '.png';
 			input = (
 				<div className={fieldClassName}>
-					<img src='/keystone/images/icons/16/checkbox-checked.png' width='16' height='16' className={state} />
+					<img src={imgSrc} width='16' height='16' className={state} style={{marginRight: 5}} />
 					<span>{this.props.label}</span>
 				</div>
 			);
