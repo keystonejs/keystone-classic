@@ -37,7 +37,8 @@ gulp.task('build-scripts', function() {
 gulp.task('watch-scripts', function() {
 	
 	var b = browserify(_.defaults({
-			standalone: 'App'
+			standalone: 'App',
+			debug: true
 		}, watchify.args))
 		.add('./admin/src/app.js')
 		.transform(reactify)
