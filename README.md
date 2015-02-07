@@ -14,7 +14,7 @@ You can also deploy a starter project to [Heroku](https://heroku.com) for free t
 
 ### Current Status
 
-The current stable version is `0.2.38`. See our [changelog](https://github.com/keystonejs/keystone/blob/master/HISTORY.md) for upgrade notes.
+The current stable version is `0.2.42`. See our [changelog](https://github.com/keystonejs/keystone/blob/master/HISTORY.md) for upgrade notes.
 
 We are nearly ready to release version `0.3.0` with Express 4 and our new React-powered Admin UI. In preparation for this, we have merged these two features into our `master` branch. If you have the opportunity, please test the new version with your project and let us know any issues you encounter.
 
@@ -133,7 +133,7 @@ routes, you can set the routes after configuring your Lists, as in the example a
 See the [KeystoneJS configuration documentation](http://keystonejs.com/docs/configuration) for details and examples of the available
 configuration options.
 
-To understand how these settings are used, and how the Express application is initialised, see `Keystone.prototype.start` in `/index.js`.
+To understand how these settings are used, and how the Express application is initialised, see `Keystone.prototype.start` in `lib/core/start.js`.
 
 
 ### Database field types
@@ -152,27 +152,28 @@ as well as how to set up and use database models in your application.
 Keystone's field types include:
 
 *	[Boolean](http://keystonejs.com/docs/database/#fieldtypes-boolean)
-*	[Text](http://keystonejs.com/docs/database/#fieldtypes-text)
-*	[Textarea](http://keystonejs.com/docs/database/#fieldtypes-textarea)
-*	[Email](http://keystonejs.com/docs/database/#fieldtypes-email)
-*	[Url](http://keystonejs.com/docs/database/#fieldtypes-url)
-*	[Html](http://keystonejs.com/docs/database/#fieldtypes-html)
 *	[Color](http://keystonejs.com/docs/database/#fieldtypes-color)
 *	[Date](http://keystonejs.com/docs/database/#fieldtypes-date)
 *	[Datetime](http://keystonejs.com/docs/database/#fieldtypes-datetime)
+*	[Email](http://keystonejs.com/docs/database/#fieldtypes-email)
+*	[Html](http://keystonejs.com/docs/database/#fieldtypes-html)
 *	[Key](http://keystonejs.com/docs/database/#fieldtypes-key)
-*	[Number](http://keystonejs.com/docs/database/#fieldtypes-number)
-*	[Money](http://keystonejs.com/docs/database/#fieldtypes-money)
-*	[Select](http://keystonejs.com/docs/database/#fieldtypes-select)
-*	[Markdown](http://keystonejs.com/docs/database/#fieldtypes-markdown)
-*	[Name](http://keystonejs.com/docs/database/#fieldtypes-name)
-*	[Password](http://keystonejs.com/docs/database/#fieldtypes-password)
 *	[Location](http://keystonejs.com/docs/database/#fieldtypes-location)
+*	[Markdown](http://keystonejs.com/docs/database/#fieldtypes-markdown)
+*	[Money](http://keystonejs.com/docs/database/#fieldtypes-money)
+*	[Name](http://keystonejs.com/docs/database/#fieldtypes-name)
+*	[Number](http://keystonejs.com/docs/database/#fieldtypes-number)
+*	[Password](http://keystonejs.com/docs/database/#fieldtypes-password)
+*	[Select](http://keystonejs.com/docs/database/#fieldtypes-select)
+*	[Text](http://keystonejs.com/docs/database/#fieldtypes-text)
+*	[Textarea](http://keystonejs.com/docs/database/#fieldtypes-textarea)
+*	[Url](http://keystonejs.com/docs/database/#fieldtypes-url)
+*	[Azure File](http://keystonejs.com/docs/database/#fieldtypes-azurefile)  
 *	[CloudinaryImage](http://keystonejs.com/docs/database/#fieldtypes-cloudinaryimage)
 *	[CloudinaryImages](http://keystonejs.com/docs/database/#fieldtypes-cloudinaryimages)
+*	[Embedly](http://keystonejs.com/docs/database/#fieldtypes-embedly)
 *	[LocalFile](http://keystonejs.com/docs/database/#fieldtypes-localfile)
 *	[S3 File](http://keystonejs.com/docs/database/#fieldtypes-s3file)
-*	[Embedly](http://keystonejs.com/docs/database/#fieldtypes-embedly)
 
 Keystone also has [Relationship fields](http://keystonejs.com/docs/database#relationships) for managing one-to-many and many-to-many
 relationships between different models.
