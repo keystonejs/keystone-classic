@@ -95,15 +95,15 @@ module.exports = Field.create({
 		})
 
 		return parts.join('&');
-	}.
+	},
 
-	buildOptionQuery: function () {
+	buildOptionQuery: function (input) {
 		return 'context=relationship&q=' + input + '&list=' + Keystone.list.path + '&field=' + this.props.path + '&' + this.buildFilters()
 	},
 
 	getOptions: function(input, callback) {
 		superagent
-			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery())
+			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery(input))
 			.set('Accept', 'application/json')
 			.end(function (err, res) {
 				if (err) throw err;
