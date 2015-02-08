@@ -67,12 +67,12 @@ module.exports = Field.create({
 	
 	buildFilters: function() {
 		var filters = {};
-
-		_.each(this.props.filter, function(value, key) {
+		
+		_.each(this.props.filters, function(value, key) {
 			if(_.isString(value) && value[0] == ':') {
 				fieldName = value.slice(1);
 
-				var val = self.props.values[fieldName];
+				var val = this.props.values[fieldName];
 				if (val) {
 					filters[key] = val;
 					return;
@@ -86,14 +86,14 @@ module.exports = Field.create({
 			} else {
 				filters[key] = value;
 			}
-		});
-
+		}, this);
+		
 		var parts = [];
-
+		
 		_.each(filters, function (val, key) {
 			parts.push('filters[' + key + ']=' + encodeURIComponent(val));
 		})
-
+		
 		return parts.join('&');
 	},
 
