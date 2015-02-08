@@ -28,7 +28,6 @@ module.exports = React.createClass({
 			field: this.getDOMNode(),
 			format: this.props.format,
 			onSelect: function(date) {
-				console.log(date);
 				if (this.props.onChange && this.picker.toString() !== this.props.value) {
 					this.props.onChange(this.picker.toString());
 				}
