@@ -4,10 +4,10 @@ var assert = require('assert'),
 
 exports.initList = function(List) {
 	List.add({
-		boolean: { type: Boolean, note: 'This is a boolean field' },
+		bool: { type: Boolean, note: 'This is a boolean field' },
 		indented: { type: Boolean, indent: true },
 		nested: {
-			boolean: { type: Boolean }
+			bool: { type: Boolean }
 		},
 		defaultFalse: { type: Boolean, default: false },
 		defaultTrue: { type: Boolean, default: true },
