@@ -33,7 +33,7 @@ util.inherits(url, super_);
  */
 
 url.prototype.format = function(item) {
-	return (item.get(this.path) || '').replace(/^[a-zA-Z]\:\/\//, '');
+	return (item.get(this.path) || '').replace(/^[a-zA-Z]+\:\/\//, '');
 };
 
 
