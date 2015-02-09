@@ -174,13 +174,13 @@ var EditForm = React.createClass({
 		
 		if (!this.props.list.noedit) {
 			toolbar.save = <button type="submit" className="btn btn-save">Save</button>;
-			// TODO: Confirm: 'Are you sure you want to reset your changes?'
-			toolbar.reset = <a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className="btn btn-link btn-cancel">reset changes</a>;
+			// TODO: Confirm: Use React & Modal
+			toolbar.reset = <a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className="btn btn-link btn-cancel"  data-confirm="Are you sure you want to reset your changes?">reset changes</a>;
 		}
 		
-		if (!this.props.list.noedit) {
-			// TODO: Confirm: 'Are you sure you want to delete this ' + list.singular.toLowerCase() + '?'
-			toolbar.del = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete">delete {this.props.list.singular.toLowerCase()}</a>;
+		if (!this.props.list.noedit && !this.props.list.nodelete) {
+			// TODO: Confirm: Use React & Modal
+			toolbar.del = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete" data-confirm={"Are you sure you want to delete this " + this.props.list.singular.toLowerCase()}>delete {this.props.list.singular.toLowerCase()}</a>;
 		}
 		
 		return (
