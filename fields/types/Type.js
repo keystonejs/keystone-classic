@@ -315,7 +315,8 @@ Field.prototype.isModified = function(item) {
 
 Field.prototype.validateInput = function(data, required, item) {
 	if (!required) return true;
-	if (!(this.path in data) && item && item.get(this.path)) return true;
+	var value = this.getValueFromData(data);
+	if (value === undefined && item && item.get(this.path)) return true;
 	if ('string' === typeof data[this.path]) {
 		return (data[this.path].trim()) ? true : false;
 	} else {
