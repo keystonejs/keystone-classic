@@ -59,10 +59,14 @@ number.prototype.format = function(item, format) {
  */
 
 number.prototype.validateInput = function(data, required, item) {
+	
+	var value = this.getValueFromData(data);
 
-	if (!(this.path in data) && item && (item.get(this.path) || item.get(this.path) === 0)) return true;
+	if (value !== undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
+		return true;
+	}
 
-	if (data[this.path]) {
+	if (value !== undefined) {
 		var newValue = utils.number(data[this.path]);
 		return (!isNaN(newValue));
 	} else {
@@ -79,11 +83,14 @@ number.prototype.validateInput = function(data, required, item) {
  */
 
 number.prototype.updateItem = function(item, data) {
-
-	if (!(this.path in data))
+	
+	var value = this.getValueFromData(data);
+	
+	if (value === undefined) {
 		return;
+	}
 
-	var newValue = utils.number(data[this.path]);
+	var newValue = utils.number(value);
 
 	if (!isNaN(newValue)) {
 		if (newValue !== item.get(this.path)) {
