@@ -1,4 +1,21 @@
-# Keystone
+# KeystoneJS Changelog
+
+## v0.3.0 / 2015-02-06
+
+This is a major new version of KeystoneJS. The changes are too many to simply enumerate here, however we've done our best to ensure compatibility and feature parity with 0.2.x. If you experience any unexpected issues or behaviours, please let us know by opening a [Github Issue](https://github.com/keystonejs/keystone/issues).
+
+Thanks to [all our contributors](https://github.com/keystonejs/keystone/graphs/contributors) for the huge amount of effort that went into this release, and the ongoing work designing, programming, testing and documenting KeystoneJS.
+
+### Updated Express to 4.0
+
+Express 4 included several breaking changes from Express 3. Keystone simplifies most of these changes, and if you're using `keystone.start()` to initialise your web server things will _probably just work_; however the more complicated your app, the more likely you will need to take these changes into account. Please review the [Moving to Express 4 Guide](http://expressjs.com/guide/migrating-4.html) for more information.
+
+### Admin UI forms rewritten in React.js
+
+The Admin UI forms have been rebuilt from the ground up with React.js. This is part of a larger, ongoing effort to move the Admin UI entirely towards a rich, customisable single page web app.
+
+The UI has been cleaned up and improved, and the field types should support the same features and behaviours as in 0.2.x. If any field types or features don't continue to work as expected, please open an [Issue](https://github.com/keystonejs/keystone/issues) so we can fix it!
+
 
 ## v0.2.42 / 2015-01-20
 
