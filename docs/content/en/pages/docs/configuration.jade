@@ -247,7 +247,7 @@ block content
 					td <code>mongo</code> <code class="data-type">String</code>
 					td
 						p The url for your MongoDB connection.
-						p You should typically set this to <code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code>
+						p You should typically set this to <code class="default-value">process.env.MONGO_URI || "mongodb://localhost/your-db"</code>
 				tr
 					td <code>model prefix</code> <code class="data-type">String</code>
 					td
