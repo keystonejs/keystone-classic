@@ -79,9 +79,12 @@ permalink: /zh/docs/database/
                   <li><a href="#lists-paginate">分页查询</a></li>
                   <li><a href="#lists-creating">创建条目</a></li>
                   <li><a href="#lists-deleting">删除条目</a></li>
+                  <li class="nav-label"><a href="#headings">标题</a></li>
                   <li class="nav-label"><a href="#fields">域</a></li>
                   <li><a href="#fields-overview">概览</a></li>
                   <li><a href="#fields-options">域参数</a></li>
+                  <li><a href="#fields-conditional">域条件</a></li>
+                  <li><a href="#fields-watching">域监听</a></li>
                   <li><a href="#fields-underscoremethods">Underscore方法</a></li>
                   <li class="nav-label"><a href="#relationships">关系</a></li>
                   <li><a href="#relationship-fields">关系域</a></li>
@@ -118,6 +121,9 @@ permalink: /zh/docs/database/
           <div class="col-sm-9">
             <div class="docs-content">
               <h2><a name="concepts"></a>概念</h2>
+              <div class="alert alert-warning">
+                <p>KeystoneJS 需要 MongoDB v2.4 或更高版本。</p>
+              </div>
               <p>在KeystoneJS中，数据模式和模型是由<strong>列表</strong>控制的，并且数据库中的文档经常被称为<strong>条目</strong>。</p>
               <p>要定义数据模型，你要创建一个<code>new keystone.List</code>，然后传给它<a href="#lists-options">列表参数</a>。</p>
               <p>然后向列表中<code>add</code>域。在底层，Keystone List会创建一个<a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose模式</a>，并为你添加的域给它定义恰当的路径。</p>
@@ -418,7 +424,27 @@ Post.model.findById(postId)
         // post已删除
     });</code></pre>
               <!-- TODO: Documentation for Schema features (virtuals, methods, statics and hooks)-->
-              <!-- TODO: Documentation for Update Handler--><a name="fields"></a>
+              <!-- TODO: Documentation for Update Handler--><a name="headings">
+                <h2>标题
+                  <p>定义标题以区分文档流程。标题可以定义为 <code>String</code> 或者 <code>Object</code> 以及 <a href="#dependsOn">依赖于</a> 其他域的值。</p>
+                  <pre><code class="language-javascript"></code></pre>
+                </h2>Person.add(
+                   'User', 
+                   { name: { type: Types.Name, required: true, index: true, initial: true } }, 
+                   'Permissions', 
+                   { isAdmin: { type: Boolean, label: 'Can access Keystone', index: true } },
+                   // header object
+                   { heading: 'Activities' }, 
+                   { place: { type: Types.Select, options: ['GT', 'UGA'] } },
+                   // header with dependsOn
+                   { heading: "GT Activities", dependsOn: { place: 'GT' } },
+                   { type: { type: Types.Select, options: ['ZC', 'MP'], dependsOn: { place: 'GT'} }
+                );
+                <div class="options">
+                  <h5>参数</h5>
+                </div>
+                <p><code>heading</code> <code class="data-type">String</code> -  标题显示的文字</p>
+                <p><code>dependsOn</code> <code class="data-type">Object</code> - 标题只会在当前对象指定路径和数据项匹配时候显示。 <a href="#dependsOn">dependsOn</a> </p></a><a name="fields"></a>
               <h2>域</h2>
               <p>在向<strong>列表</strong>中添加<strong>域</strong>时，你既可以指定基本数据类型，也可以用Keystone域类型。</p><a name="fields-overview"></a>
               <h3>概述</h3>

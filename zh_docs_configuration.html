@@ -75,6 +75,7 @@ permalink: /zh/docs/configuration/
                   <li><a href="#options-server">Web服务器参数</a></li>
                   <li><a href="#options-ssl">SSL参数</a></li>
                   <li><a href="#options-database">数据库与用户认证参数</a></li>
+                  <li><a href="#options-unix-socket">Unix Socket参数</a></li>
                   <li><a href="#options-ui">管理员界面参数</a></li>
                   <li class="nav-label"><a href="#services">服务</a></li>
                   <li><a href="#services-google-analytics">谷歌分析</a></li>
@@ -261,7 +262,15 @@ permalink: /zh/docs/configuration/
               </div>
               <pre><code class="language-javascript">var swig = require('swig');
 keystone.set('view engine', 'swig');
-keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl"></a>
+keystone.set('custom engine', swig.renderFile);</code></pre>
+              <div class="code-header">
+                <h4>输出 <code >onHttpServerCreated</code> 事件</h4>
+              </div>
+              <pre><code class="language-javascript">keystone.start({
+    onHttpServerCreated: function() {
+      var server = keystone.httpServer;
+    }
+});</code></pre><a name="options-ssl"></a>
               <h3>HTTPS Web服务器参数</h3>
               <p>KeystoneJS程序实现HTTPS主要有两种方式：或者使用一个web服务器 (比如 <a href="http://nginx.com" target="_blank">NGINX</a>)或PAAS (e.g. <a href="https://www.heroku.com" target="_blank">Heroku</a>)实现，或者用<a href="http://nodejs.org/api/https.html" target="_blank">node.js提供的https服务器</a>设定下面的参数。</p>
               <table class="table">
@@ -305,6 +314,29 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                     <p>监听请求的ip地址。默认为<code class="default-value">process.env.SSL_IP</code>或<code>host</code> 参数的值。</p>
                   </td>
                 </tr>
+                <tr>
+                  <td colspan="2">
+                    <p>在<code class="language-javascript">keystone.start()</code>期间输出<code class="">onHttpsServerCreated</code>事件。</p>
+                  </td>
+                </tr>
+              </table><a name="options-unix-socket"></a>
+              <h3>Unix Socket Web 服务器参数</h3>
+              <p>Express会监听一个unix socket的连接。   </p>
+              <table class="table">
+                <col width="210">
+                <col>
+                <tr>
+                  <td><code>unix socket</code> <code class="data-type">String</code></td>
+                  <td>
+                    <p>指向可写unix socket的路径。应该是绝对路径或相对于<code class="default-value">process.cwd()</code> （一般是项目的根路径）的路径. 如果文件之前已经存在了，会先被移除。</p>
+                    <p>当设定 http 和 https 服务器时会被忽略。</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <p>在<code class="language-javascript">keystone.start()</code>期间输出<code class="">onHttpsServerCreated</code>事件。</p>
+                  </td>
+                </tr>
               </table><a name="options-database"></a>
               <h3>数据库和用户认证参数</h3>
               <p>下面这些参数控制着数据库配置和用户模型 / 认证：</p>
@@ -315,7 +347,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                   <td><code>mongo</code> <code class="data-type">String</code></td>
                   <td>
                     <p>MongoDB连接的url。</p>
-                    <p>一般应该设为<code class="default-value">"mongodb://localhost/your-db" || process.env.MONGO_URI</code></p>
+                    <p>一般应该设为<code class="default-value">process.env.MONGO_URI || "mongodb://localhost/your-db"</code></p>
                   </td>
                 </tr>
                 <tr>
@@ -358,6 +390,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
                       <li><code class="default-value">connect-redis</code></li>
                     </ul>
                     <p class="note">Keystone没有捆绑会话存储包，所以一定要将选定的会话存储添加到项目的<code>package.json</code>中。</p>
+                    <p class="note">可以通过<code class="language-javascript">keystone.get('express session')</code>获取传给Express的会话配置。</p>
                   </td>
                 </tr>
                 <tr>
@@ -390,6 +423,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre><a name="options-ssl
   "prefix": "", // Key前缀默认为"sess:"
   "url": "", // 比如 redis://user:pass@host:port/db
 }</code></pre>
+                    <p class="note">可以通过<code class="language-javascript">keystone.get('session options')</code>获取到会话参数。</p>
                   </td>
                 </tr>
                 <tr>

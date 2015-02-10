@@ -79,9 +79,12 @@ permalink: /docs/database/
                   <li><a href="#lists-paginate">Pagination Querying</a></li>
                   <li><a href="#lists-creating">Creating Items</a></li>
                   <li><a href="#lists-deleting">Deleting Items</a></li>
+                  <li class="nav-label"><a href="#headings">Headings</a></li>
                   <li class="nav-label"><a href="#fields">Fields</a></li>
                   <li><a href="#fields-overview">Overview</a></li>
                   <li><a href="#fields-options">Field Options</a></li>
+                  <li><a href="#fields-conditional">Field Conditionals</a></li>
+                  <li><a href="#fields-watching">Field Watching</a></li>
                   <li><a href="#fields-underscoremethods">Underscore Methods</a></li>
                   <li class="nav-label"><a href="#relationships">Relationships</a></li>
                   <li><a href="#relationship-fields">Relationship Fields</a></li>
@@ -89,28 +92,28 @@ permalink: /docs/database/
                   <li><a href="#relationship-queries">Loading related items</a></li>
                   <li class="nav-label"><a href="#fieldtypes">Field Types</a></li>
                   <li><a href="#fieldtypes-boolean">Boolean</a></li>
-                  <li><a href="#fieldtypes-text">Text</a></li>
-                  <li><a href="#fieldtypes-textarea">Textarea</a></li>
-                  <li><a href="#fieldtypes-email">Email</a></li>
-                  <li><a href="#fieldtypes-url">Url</a></li>
-                  <li><a href="#fieldtypes-html">Html</a></li>
                   <li><a href="#fieldtypes-color">Color</a></li>
                   <li><a href="#fieldtypes-date">Date</a></li>
                   <li><a href="#fieldtypes-datetime">Datetime</a></li>
+                  <li><a href="#fieldtypes-email">Email</a></li>
+                  <li><a href="#fieldtypes-html">Html</a></li>
                   <li><a href="#fieldtypes-key">Key</a></li>
-                  <li><a href="#fieldtypes-number">Number</a></li>
-                  <li><a href="#fieldtypes-money">Money</a></li>
-                  <li><a href="#fieldtypes-select">Select</a></li>
-                  <li><a href="#fieldtypes-markdown">Markdown</a></li>
-                  <li><a href="#fieldtypes-name">Name</a></li>
-                  <li><a href="#fieldtypes-password">Password</a></li>
                   <li><a href="#fieldtypes-location">Location</a></li>
+                  <li><a href="#fieldtypes-markdown">Markdown</a></li>
+                  <li><a href="#fieldtypes-money">Money</a></li>
+                  <li><a href="#fieldtypes-name">Name</a></li>
+                  <li><a href="#fieldtypes-number">Number</a></li>
+                  <li><a href="#fieldtypes-password">Password</a></li>
+                  <li><a href="#fieldtypes-select">Select</a></li>
+                  <li><a href="#fieldtypes-text">Text</a></li>
+                  <li><a href="#fieldtypes-textarea">Textarea</a></li>
+                  <li><a href="#fieldtypes-url">Url</a></li>
+                  <li><a href="#fieldtypes-azurefile">AzureFile</a></li>
                   <li><a href="#fieldtypes-cloudinaryimage">CloudinaryImage</a></li>
                   <li><a href="#fieldtypes-cloudinaryimages">CloudinaryImages</a></li>
+                  <li><a href="#fieldtypes-embedly">Embedly</a></li>
                   <li><a href="#fieldtypes-localfile">LocalFile</a></li>
                   <li><a href="#fieldtypes-s3file">S3 File</a></li>
-                  <li><a href="#fieldtypes-azurefile">AzureFile</a></li>
-                  <li><a href="#fieldtypes-embedly">Embedly</a></li>
                 </ul>
               </ul>
             </nav>
@@ -118,6 +121,9 @@ permalink: /docs/database/
           <div class="col-sm-9">
             <div class="docs-content">
               <h2><a name="concepts"></a>Concepts</h2>
+              <div class="alert alert-warning">
+                <p>KeystoneJS requires MongoDB v2.4 or greater.</p>
+              </div>
               <p>In KeystoneJS, your data schema and models are controlled by <strong>Lists</strong>, and documents in your database are often called <strong>Items</strong>.</p>
               <p>To define a data model, you create a <code>new keystone.List</code>, and pass it <a href="#lists-options">list options</a>. </p>
               <p>You then <code>add</code> fields to the list. Behind the scenes, a Keystone List will create a <a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, and add the appropriate paths to it for the fields you define.</p>
@@ -235,7 +241,7 @@ Post.register();</code></pre>
                       <li><code>path</code> <code class="data-type">String</code> - the path to store the key at</li>
                       <li><code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not</li>
                       <li><code>fixed</code> <code class="data-type">Boolean</code> - the key should be kept if it exists and it's non-empty. Defaults to <code class="data-type">false</code>.</li>
-                    </ul><em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
+                    </ul><em>Autokey paths are automatically indexed; you may also want to include them in compound indexes.</em>
                   </td>
                 </tr>
                 <tr>
@@ -322,7 +328,7 @@ Post.model.find()
         // do something with posts
     });</code></pre>
               <p><strong>Promises</strong></p>
-              <p>There exist another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.</p>
+              <p>There exists another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.</p>
               <p><strong>For example:</strong> load 100 <code>posts</code>, then do something asynchronous, then do something with result:</p>
               <div class="code-header">
                 <h4>Loading Posts, doing something asynchronous, doing something</h4>
@@ -418,7 +424,26 @@ Post.model.findById(postId)
         // post has been deleted
     });</code></pre>
               <!-- TODO: Documentation for Schema features (virtuals, methods, statics and hooks)-->
-              <!-- TODO: Documentation for Update Handler--><a name="fields"></a>
+              <!-- TODO: Documentation for Update Handler--><a name="headings"></a>
+              <h2>Headings</h2>
+              <p>Define headings to display within the flow of your documents.  Headings can be defined as a <code>String</code> or <code>Object</code> and can <a href="#dependsOn">depend on</a> another field value for display.</p>
+              <pre><code class="language-javascript">Person.add(
+	'User', 
+	{ name: { type: Types.Name, required: true, index: true, initial: true } }, 
+	'Permissions', 
+	{ isAdmin: { type: Boolean, label: 'Can access Keystone', index: true } },
+	// header object
+	{ heading: 'Activities' }, 
+	{ place: { type: Types.Select, options: ['GT', 'UGA'] } },
+	// header with dependsOn
+	{ heading: "GT Activities", dependsOn: { place: 'GT' } },
+	{ type: { type: Types.Select, options: ['ZC', 'MP'], dependsOn: { place: 'GT'} }
+);</code></pre>
+              <div class="options">
+                <h5>Options</h5>
+                <p><code>heading</code> <code class="data-type">String</code> - the text to display</p>
+                <p><code>dependsOn</code> <code class="data-type">Object</code> - heading will only be displayed when the paths specified in the object match the current data for the item. <a href="#dependsOn">dependsOn</a></p>
+              </div><a name="fields"></a>
               <h2>Fields</h2>
               <p>When adding <strong>fields</strong> to <strong>Lists</strong>, you can either specify basic data types or Keystone Field Types.</p><a name="fields-overview"></a>
               <h3>Overview</h3>
@@ -488,7 +513,7 @@ Post.model.findById(postId)
                   <td><code>hidden</code> <code class="data-type">Boolean</code></td>
                   <td>The field will always be hidden in the Admin UI if this is set to <code class="default-value">true</code></td>
                 </tr>
-              </table>
+              </table><a name="fields-conditional"></a>
               <h3>Conditional Fields</h3>
               <p>To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.</p>
               <table class="table">
@@ -499,9 +524,9 @@ Post.model.findById(postId)
                   <td>Displays an <strong>+ <u>add</u></strong> link in the admin UI when the field has no value. Will completely hide field UI when <code>noedit</code> is also set to true, when the field has no value</td>
                 </tr>
                 <tr>
-                  <td><code>dependsOn</code> <code class="data-type">Object</code></td>
+                  <td><a name="dependsOn"><code>dependsOn</code> <code class="data-type">Object</code></a></td>
                   <td>
-                    <p>The field will only be displayed when the paths specified in the object match the current data for the item.
+                    <p>The field or header will only be displayed when the paths specified in the object match the current data for the item.
                       <p>You can target multiple values per path using an Array.</p>
                       <div class="code-header">
                         <h4>Example</h4>
@@ -514,7 +539,7 @@ third: { type: String, dependsOn: { first: 'value1' } }</code></pre>
                     </p>
                   </td>
                 </tr>
-              </table>
+              </table><a name="fields-watching"></a>
               <h3>Generated values and watching fields</h3>
               <p>Keystone's fields support a simple syntax for configuring dynamically updated fields. You can set a field to update its value whenever:</p>
               <ul>
@@ -624,48 +649,7 @@ Post.model.findById(postId).exec(function(err, post) {
               <h2>Field Types</h2><a name="fieldtypes-boolean"></a>
               <h3><code>Boolean</code></h3>
               <h4><code class="data-type">Boolean</code> &mdash; Displayed as a checkbox in the Admin UI</h4>
-              <pre><code class="language-javascript">{ type: Types.Boolean }</code></pre><a name="fieldtypes-text"></a>
-              <h3><code>Text</code></h3>
-              <h4><code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI</h4>
-              <pre><code class="language-javascript">{ type: Types.Text }</code></pre><a name="fieldtypes-textarea"></a>
-              <h3><code>Textarea</code></h3>
-              <h4><code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI</h4>
-              <pre><code class="language-javascript">{ type: Types.Textarea }</code></pre>
-              <div class="options">
-                <h5>Options</h5>
-                <p><code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)</p>
-              </div><a name="fieldtypes-email"></a>
-              <h3><code>Email</code></h3>
-              <h4><code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI</h4>
-              <p class="note">Input must look like a valid email address (can be blank unless field is required)</p>
-              <pre><code class="language-javascript">{ type: Types.Email, displayGravatar: true }</code></pre>
-              <div class="options">
-                <h5>Options</h5>
-                <p><code>displayGravatar</code> <code class="data-type">Boolean</code> - whether to display a gravatar image in the Admin UI</p>
-                <h5>Underscore methods:</h5>
-                <p><code>gravatarUrl(input, size, defaultImage, rating)</code> - generates a gravatar image request url</p>
-                <pre><code class="language-javascript">item.email = "demo@keystonejs.com";
-item._.email.gravatarUrl(); // "//www.gravatar.com/avatar/74a0071e5f3a7107b570b7d4a1a7619d?s=80&d=identicon&r=g"
-item._.email.gravatarUrl(200,'mm','r'); // "//www.gravatar.com/avatar/74a0071e5f3a7107b570b7d4a1a7619d?s=200&d=mm&r=r"</code></pre>
-              </div><a name="fieldtypes-url"></a>
-              <h3><code>Url</code></h3>
-              <h4><code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.</h4>
-              <pre><code class="language-javascript">{ type: Types.Url }</code></pre>
-              <div class="options">
-                <h5>Underscore methods:</h5>
-                <p><code>format()</code> - formats the stored value by stripping the leading protocol (if any)</p>
-                <pre><code class="language-javascript">item.url = "http://keystonejs.com";
-item._.url.format(); // "keystonejs.com"</code></pre>
-              </div><a name="fieldtypes-html"></a>
-              <h3><code>Html</code></h3>
-              <h4><code class="data-type">String</code> &mdash; Displayed as a text field or WYSIWYG Editor in the Admin UI.</h4>
-              <pre><code class="language-javascript">{ type: Types.Html, wysiwyg: true }</code></pre>
-              <div class="options">
-                <h5>Options</h5>
-                <p><code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI  - for customizations of the editor see the <a href="/docs/configuration/#options-ui">Admin UI Options</a>.</p>
-                <p><code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)</p>
-              </div>
-              <p>See the <a href="/docs/configuration#options-ui">Admin UI Options</a> for global configuration options that can be used to customise the WYSIWYG editor.</p><a name="fieldtypes-color"></a>
+              <pre><code class="language-javascript">{ type: Types.Boolean }</code></pre><a name="fieldtypes-color"></a>
               <h3><code>Color</code></h3>
               <h4><code class="data-type">Color</code> &mdash; Displayed as a text field with a color picker</h4>
               <pre><code class="language-javascript">{ type: Types.Color }</code></pre><a name="fieldtypes-date"></a>
@@ -702,7 +686,29 @@ item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'</code></pre>
                 <p><code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field</p>
                 <p><code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object</p>
                 <p>See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.</p>
-              </div><a name="fieldtypes-key"></a>
+              </div><a name="fieldtypes-email"></a>
+              <h3><code>Email</code></h3>
+              <h4><code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI</h4>
+              <p class="note">Input must look like a valid email address (can be blank unless field is required)</p>
+              <pre><code class="language-javascript">{ type: Types.Email, displayGravatar: true }</code></pre>
+              <div class="options">
+                <h5>Options</h5>
+                <p><code>displayGravatar</code> <code class="data-type">Boolean</code> - whether to display a gravatar image in the Admin UI</p>
+                <h5>Underscore methods:</h5>
+                <p><code>gravatarUrl(input, size, defaultImage, rating)</code> - generates a gravatar image request url</p>
+                <pre><code class="language-javascript">item.email = "demo@keystonejs.com";
+item._.email.gravatarUrl(); // "//www.gravatar.com/avatar/74a0071e5f3a7107b570b7d4a1a7619d?s=80&d=identicon&r=g"
+item._.email.gravatarUrl(200,'mm','r'); // "//www.gravatar.com/avatar/74a0071e5f3a7107b570b7d4a1a7619d?s=200&d=mm&r=r"</code></pre>
+              </div><a name="fieldtypes-html"></a>
+              <h3><code>Html</code></h3>
+              <h4><code class="data-type">String</code> &mdash; Displayed as a text field or WYSIWYG Editor in the Admin UI.</h4>
+              <pre><code class="language-javascript">{ type: Types.Html, wysiwyg: true }</code></pre>
+              <div class="options">
+                <h5>Options</h5>
+                <p><code>wysiwyg</code> <code class="data-type">Boolean</code> - whether to display a WYSIWYG editor in the Admin UI  - for customizations of the editor see the <a href="/docs/configuration/#options-ui">Admin UI Options</a>.</p>
+                <p><code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)</p>
+              </div>
+              <p>See the <a href="/docs/configuration#options-ui">Admin UI Options</a> for global configuration options that can be used to customise the WYSIWYG editor.</p><a name="fieldtypes-key"></a>
               <h3><code>Key</code></h3>
               <h4><code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI</h4>
               <p>Automatically converts input to a valid key (no spaces or special characters). White space is replaced with a separator.</p>
@@ -710,15 +716,59 @@ item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'</code></pre>
               <div class="options">
                 <h5>Options</h5>
                 <p><code>separator</code> <code class="data-type">String</code> - the separator to use when replace white space in the input; defaults to <code class="default-value">-</code></p>
-              </div><a name="fieldtypes-number"></a>
-              <h3><code>Number</code></h3>
-              <h4><code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI</h4>
-              <p>Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (can be blank unless field is required)</p>
-              <pre><code class="language-javascript">{ type: Types.Number }</code></pre>
+              </div><a name="fieldtypes-location"></a>
+              <h3><code>Location</code></h3>
+              <h4><code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI</h4>
+              <p>Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.</p>
+              <p>Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).</p>
+              <p>See the <a href="/docs/configuration#services-google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.</p>
+              <pre><code class="language-javascript">{ type: Types.Location }</code></pre>
+              <p class="note">Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.</p>
               <div class="options">
+                <h5>Schema</h5>
+                <p><code>name</code> <code class="data-type">String</code> - building name</p>
+                <p><code>number</code> <code class="data-type">String</code> - unit or shop number</p>
+                <p><code>street1</code> <code class="data-type">String</code> - street address</p>
+                <p><code>street2</code> <code class="data-type">String</code> - street address line 2</p>
+                <p><code>suburb</code> <code class="data-type">String</code></p>
+                <p><code>state</code> <code class="data-type">String</code></p>
+                <p><code>postcode</code> <code class="data-type">String</code></p>
+                <p><code>country</code> <code class="data-type">String</code></p>
+                <p><code>geo</code> <code class="data-type">Array</code> <code class="default-value">longitude, latitude</code></p>
+                <p class="note"><strong>Important</strong>: as per the MongoDB convention, the order for the <strong>geo</strong> array must be <code class="default-value">lng, lat</code> which is the opposite of the order used by Google's API.</p>
                 <h5>Underscore methods</h5>
-                <p><code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.</p>
-                <p>Format string defaults to <code class="default-value">0,0[.][000000000000]</code></p>
+                <p><code>googleLookup(region, update, callback)</code> - autodetect the full address and lng, lat from the stored value.</p>
+                <ul>
+                  <li><code>region</code> <code class="data-type">String</code> is passed to the Places API for regional biasing and filtering.</li>
+                  <li><code>update</code> <code class="data-type">String</code> passing <code class="default-value">"overwrite"</code> will completely overwrite existing data with the result. <code class="default-value">true</code> will set blank properties on the field with the result.</li>
+                  <li><code>callback(err, location, result)</code> - is passed the parsed <strong>location</strong> object, and the raw <strong>result</strong> from Google.</li>
+                </ul>
+                <p>Internal status codes mimic the Google API status codes. See <a href="https://developers.google.com/maps/documentation/geocoding/" target="_blank">https://developers.google.com/maps/documentation/geocoding/</a> for more information.</p>
+                <p>Use of the Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.</p>
+                <p>The Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.</p>
+              </div><a name="fieldtypes-markdown"></a>
+              <h3><code>Markdown</code></h3>
+              <h4><code class="data-type">Object</code> &mdash; Displayed as a textarea field in the Admin UI</h4>
+              <pre><code class="language-javascript">{ type: Types.Markdown }</code></pre>
+              <div class="options">
+                <h5>Options</h5>
+                <p><code>toolbarOptions</code> <code class="data-type">Object</code> - allow customizations of the toolbar.</p>
+                <p><code>toolbarOptions.hiddenButtons</code> <code class="data-type">String</code> - Comma separated list of buttons to hide.</p>
+                <pre><code class="language-javascript">{ type: Types.Markdown, toolbarOptions: { hiddenButtons: 'H1,H6,Code' } }</code></pre>
+                <h5>Schema</h5>
+                <p>The markdown field will automatically convert markdown to html when the <code>md</code> property is changed, via a setter on the <code>md</code> path.</p>
+                <p><code>md</code> <code class="data-type">String</code> - source markdown text</p>
+                <p><code>html</code> <code class="data-type">String</code> - generated html code</p>
+                <pre><code class="language-javascript">Page.add({ content: Types.Markdown });
+ 
+var page = new Page.model();
+page.content.md = "# Hello World";
+page.content.html == "&lt;h1&gt;Hello World&lt;/h1&gt;";
+ 
+// or...
+ 
+Page.fields.content.updateItem(page, "* list item");
+page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt;/li&gt;";</code></pre>
               </div><a name="fieldtypes-money"></a>
               <h3><code>Money</code></h3>
               <h4><code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI</h4>
@@ -728,6 +778,44 @@ item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'</code></pre>
                 <h5>Underscore methods</h5>
                 <p><code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.</p>
                 <p>Format string defaults to <code class="default-value">$0,0.00</code></p>
+              </div><a name="fieldtypes-name"></a>
+              <h3><code>Name</code></h3>
+              <h4><code class="data-type">Object</code> &mdash; Displayed as <strong>firstname</strong> <strong>lastname</strong> fields in the Admin UI</h4>
+              <pre><code class="language-javascript">{ type: Types.Name }</code></pre>
+              <div class="options">
+                <h5>Schema</h5>
+                <p>The name field adds <code>first</code> and <code>last</code> <code class="data-type">String</code> paths to the schema, as well as a <code>full</code> virtual getter and setter.</p>
+                <p><code>first</code> <code class="data-type">String</code> - first name</p>
+                <p><code>last</code> <code class="data-type">String</code> - last name</p>
+                <h5>Virtuals</h5>
+                <p><code>full</code> <code class="data-type">String</code> - first and last name, concatenated with a space (if both have a value)</p>
+                <p>The <code>name.full</code> setter splits input at the first space.</p>
+              </div><a name="fieldtypes-number"></a>
+              <h3><code>Number</code></h3>
+              <h4><code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI</h4>
+              <p>Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (can be blank unless field is required)</p>
+              <pre><code class="language-javascript">{ type: Types.Number }</code></pre>
+              <div class="options">
+                <h5>Underscore methods</h5>
+                <p><code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.</p>
+                <p>Format string defaults to <code class="default-value">0,0[.][000000000000]</code></p>
+              </div><a name="fieldtypes-password"></a>
+              <h3><code>Password</code></h3>
+              <h4><code class="data-type">String</code> &mdash; Displayed as a password field in the Admin UI, with a 'change' button.</h4>
+              <p>Passwords are automatically encrypted with bcrypt, and expose a method to compare a string to the encrypted hash.</p>
+              <p class="note">The encryption happens with a <strong>pre-save hook</strong> added to the <strong>schema</strong>, so passwords set will not be encrypted until an item has been saved to the database.</p>
+              <pre><code class="language-javascript">{ type: Types.Password }</code></pre>
+              <div class="options">
+                <h5>Options</h5>
+                <p><code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)</p>
+                <h5>Underscore methods</h5>
+                <p><code>compare(candidate, callback)</code> - encrypts the candidate and compares it against the encrypted hash</p>
+                <ul>
+                  <li><code>candidate</code> <code class="data-type">String</code> to compare</li>
+                  <li><code>callback(err, result)</code> - <strong>result</strong> is <code class="default-value">true</code> if the candidate matches the stored password, or <code class="default-value">false</code> if it doesn't</li>
+                </ul>
+                <h5>Special paths</h5>
+                <p><code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.</p>
               </div><a name="fieldtypes-select"></a>
               <h3><code>Select</code></h3>
               <h4><code class="data-type">String</code> or <code class="data-type">Number</code> &mdash; Displayed as a select field in the Admin UI</h4>
@@ -786,88 +874,55 @@ item.stateLabel == 'Draft';
 item.stateData == { value: 'draft', label: 'Draft' };
 item.stateOptions == MyList.fields.state.ops;
 item.stateOptionsMap == MyList.fields.state.map;</code></pre>
-              </div><a name="fieldtypes-markdown"></a>
-              <h3><code>Markdown</code></h3>
-              <h4><code class="data-type">Object</code> &mdash; Displayed as a textarea field in the Admin UI</h4>
-              <pre><code class="language-javascript">{ type: Types.Markdown }</code></pre>
+              </div><a name="fieldtypes-text"></a>
+              <h3><code>Text</code></h3>
+              <h4><code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI</h4>
+              <pre><code class="language-javascript">{ type: Types.Text }</code></pre><a name="fieldtypes-textarea"></a>
+              <h3><code>Textarea</code></h3>
+              <h4><code class="data-type">String</code> &mdash; Displayed as a textarea field in the Admin UI</h4>
+              <pre><code class="language-javascript">{ type: Types.Textarea }</code></pre>
               <div class="options">
                 <h5>Options</h5>
-                <p><code>toolbarOptions</code> <code class="data-type">Object</code> - allow customizations of the toolbar.</p>
-                <p><code>toolbarOptions.hiddenButtons</code> <code class="data-type">String</code> - Comma separated list of buttons to hide.</p>
-                <pre><code class="language-javascript">{ type: Types.Markdown, toolbarOptions: { hiddenButtons: 'H1,H6,Code' } }</code></pre>
-                <h5>Schema</h5>
-                <p>The markdown field will automatically convert markdown to html when the <code>md</code> property is changed, via a setter on the <code>md</code> path.</p>
-                <p><code>md</code> <code class="data-type">String</code> - source markdown text</p>
-                <p><code>html</code> <code class="data-type">String</code> - generated html code</p>
-                <pre><code class="language-javascript">Page.add({ content: Types.Markdown });
- 
-var page = new Page.model();
-page.content.md = "# Hello World";
-page.content.html == "&lt;h1&gt;Hello World&lt;/h1&gt;";
- 
-// or...
- 
-Page.fields.content.updateItem(page, "* list item");
-page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt;/li&gt;";</code></pre>
-              </div><a name="fieldtypes-name"></a>
-              <h3><code>Name</code></h3>
-              <h4><code class="data-type">Object</code> &mdash; Displayed as <strong>firstname</strong> <strong>lastname</strong> fields in the Admin UI</h4>
-              <pre><code class="language-javascript">{ type: Types.Name }</code></pre>
+                <p><code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels)</p>
+              </div><a name="fieldtypes-url"></a>
+              <h3><code>Url</code></h3>
+              <h4><code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI.</h4>
+              <pre><code class="language-javascript">{ type: Types.Url }</code></pre>
               <div class="options">
-                <h5>Schema</h5>
-                <p>The name field adds <code>first</code> and <code>last</code> <code class="data-type">String</code> paths to the schema, as well as a <code>full</code> virtual getter and setter.</p>
-                <p><code>first</code> <code class="data-type">String</code> - first name</p>
-                <p><code>last</code> <code class="data-type">String</code> - last name</p>
-                <h5>Virtuals</h5>
-                <p><code>full</code> <code class="data-type">String</code> - first and last name, concatenated with a space (if both have a value)</p>
-                <p>The <code>name.full</code> setter splits input at the first space.</p>
-              </div><a name="fieldtypes-password"></a>
-              <h3><code>Password</code></h3>
-              <h4><code class="data-type">String</code> &mdash; Displayed as a password field in the Admin UI, with a 'change' button.</h4>
-              <p>Passwords are automatically encrypted with bcrypt, and expose a method to compare a string to the encrypted hash.</p>
-              <p class="note">The encryption happens with a <strong>pre-save hook</strong> added to the <strong>schema</strong>, so passwords set will not be encrypted until an item has been saved to the database.</p>
-              <pre><code class="language-javascript">{ type: Types.Password }</code></pre>
+                <h5>Underscore methods:</h5>
+                <p><code>format()</code> - formats the stored value by stripping the leading protocol (if any)</p>
+                <pre><code class="language-javascript">item.url = "http://keystonejs.com";
+item._.url.format(); // "keystonejs.com"</code></pre>
+              </div>
+              <h3>Storage	</h3><a name="fieldtypes-azurefile"></a>
+              <h3><code>AzureFile</code></h3>
+              <h4><code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI</h4>
+              <p>Automatically manages files stored in <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a>, including uploading and deleting.</p>
+              <pre><code class="language-javascript">{ type: Types.AzureFile }</code></pre>
               <div class="options">
                 <h5>Options</h5>
-                <p><code>workFactor</code> <code class="data-type">Number</code> - the bcrypt workfactor to use when generating the hash, higher numbers are slower but more secure (defaults to <code class="default-value">10</code>)</p>
-                <h5>Underscore methods</h5>
-                <p><code>compare(candidate, callback)</code> - encrypts the candidate and compares it against the encrypted hash</p>
-                <ul>
-                  <li><code>candidate</code> <code class="data-type">String</code> to compare</li>
-                  <li><code>callback(err, result)</code> - <strong>result</strong> is <code class="default-value">true</code> if the candidate matches the stored password, or <code class="default-value">false</code> if it doesn't</li>
-                </ul>
-                <h5>Special paths</h5>
-                <p><code>{path}_compare</code> - when provided to the <strong>updateHandler</strong>, it will be checked against <code>{path}</code> and validation will fail if they don't match.</p>
-              </div><a name="fieldtypes-location"></a>
-              <h3><code>Location</code></h3>
-              <h4><code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI</h4>
-              <p>Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.</p>
-              <p>Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).</p>
-              <p>See the <a href="/docs/configuration#services-google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.</p>
-              <pre><code class="language-javascript">{ type: Types.Location }</code></pre>
-              <p class="note">Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.</p>
-              <div class="options">
+                <p><code>filenameFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new filename to upload.</p>
+                <pre><code class="language-javascript">{ type: Types.AzureFile, filenameFormatter: function(item, filename) {
+	return item._id + require('path').extname(filename);
+} }</code></pre>
+                <p><code>containerFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new container name (container are a root folder in Azure Storage Account).</p>
+                <pre><code class="language-javascript">{ type: Types.AzureFile, containerFormatter: containerFormatter: function(item, filename) {
+	return item.modelProperty;
+} }</code></pre>
                 <h5>Schema</h5>
-                <p><code>name</code> <code class="data-type">String</code> - building name</p>
-                <p><code>number</code> <code class="data-type">String</code> - unit or shop number</p>
-                <p><code>street1</code> <code class="data-type">String</code> - street address</p>
-                <p><code>street2</code> <code class="data-type">String</code> - street address line 2</p>
-                <p><code>suburb</code> <code class="data-type">String</code></p>
-                <p><code>state</code> <code class="data-type">String</code></p>
-                <p><code>postcode</code> <code class="data-type">String</code></p>
-                <p><code>country</code> <code class="data-type">String</code></p>
-                <p><code>geo</code> <code class="data-type">Array</code> <code class="default-value">longitude, latitude</code></p>
-                <p class="note"><strong>Important</strong>: as per the MongoDB convention, the order for the <strong>geo</strong> array must be <code class="default-value">lng, lat</code> which is the opposite of the order used by Google's API.</p>
+                <p><code>filename</code> <code class="data-type">String</code></p>
+                <p><code>type</code> <code class="data-type">String</code></p>
+                <p><code>filesize</code> <code class="data-type">Number</code></p>
+                <p><code>url</code> <code class="data-type">String</code></p>
+                <p><code>etag</code> <code class="data-type">String</code></p>
+                <h5>Virtuals</h5><code>exists</code> <code class="data-type">Boolean</code> - whether there is a stored file
                 <h5>Underscore methods</h5>
-                <p><code>googleLookup(region, update, callback)</code> - autodetect the full address and lng, lat from the stored value.</p>
+                <p><code>uploadFile(file, update, callback)</code> - uploads a file to the Azure Storage Account, stores the details in the field and provides the file data to the callback.</p>
                 <ul>
-                  <li><code>region</code> <code class="data-type">String</code> is passed to the Places API for regional biasing and filtering.</li>
-                  <li><code>update</code> <code class="data-type">String</code> passing <code class="default-value">"overwrite"</code> will completely overwrite existing data with the result. <code class="default-value">true</code> will set blank properties on the field with the result.</li>
-                  <li><code>callback(err, location, result)</code> - is passed the parsed <strong>location</strong> object, and the raw <strong>result</strong> from Google.</li>
+                  <li><code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code></li>
+                  <li><code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes</li>
+                  <li><code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)</li>
                 </ul>
-                <p>Internal status codes mimic the Google API status codes. See <a href="https://developers.google.com/maps/documentation/geocoding/" target="_blank">https://developers.google.com/maps/documentation/geocoding/</a> for more information.</p>
-                <p>Use of the Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.</p>
-                <p>The Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.</p>
               </div><a name="fieldtypes-cloudinaryimage"></a>
               <h3><code>CloudinaryImage</code></h3>
               <h4><code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI</h4>
@@ -922,6 +977,36 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <h5>Options</h5>
                 <p><code>folder</code> <code class="data-type">String</code> specifies a custom folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.</p>
                 <pre><code class="language-javascript">{ type: Types.CloudinaryImages, folder: 'path/to/image' }</code></pre>
+              </div><a name="fieldtypes-embedly"></a>
+              <h3><code>Embedly</code></h3>
+              <h4><code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI</h4>
+              <p>Automatically retrieves data from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).</p>
+              <p>It stores the retrieved data (which includes the provider, media type, full URL, HTML embed code, width, height, thumbnail picture and more).</p>
+              <p>The api call to retrieve the data is implemented as a pre-save hook, and is only triggered if the <strong>from path</strong> value has changed.</p>
+              <p>See the <a href="/docs/configuration#services-embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.</p>
+              <pre><code class="language-javascript">{ type: Types.Embedly, from: 'path' }</code></pre>
+              <div class="options">
+                <h5>Options</h5>
+                <p><code>from</code> <code class="data-type">String</code> - the path of another field in the Schema that will be passed to the Embedly API. The other field must contain a <code class="data-type">String</code> value.</p>
+                <p><code>options</code> <code class="data-type">Object</code> (optional) - passed as arguments to the embedly API along with the <code>from</code> field value</p>
+                <p>See <a href="http://embed.ly/docs/embed/api/endpoints/1/oembed" target="_blank">Embedly's oEmbed API documentation</a> for more information on options and returned data.</p>
+                <h5>Schema</h5>
+                <p><code>exists</code> <code class="data-type">Boolean</code></p>
+                <p><code>type</code> <code class="data-type">String</code></p>
+                <p><code>title</code> <code class="data-type">String</code></p>
+                <p><code>url</code> <code class="data-type">String</code></p>
+                <p><code>width</code> <code class="data-type">Number</code></p>
+                <p><code>height</code> <code class="data-type">Number</code></p>
+                <p><code>version</code> <code class="data-type">String</code></p>
+                <p><code>description</code> <code class="data-type">String</code></p>
+                <p><code>html</code> <code class="data-type">String</code></p>
+                <p><code>authorName</code> <code class="data-type">String</code></p>
+                <p><code>authorUrl</code> <code class="data-type">String</code></p>
+                <p><code>providerName</code> <code class="data-type">String</code></p>
+                <p><code>providerUrl</code> <code class="data-type">String</code></p>
+                <p><code>thumbnailUrl</code> <code class="data-type">String</code></p>
+                <p><code>thumbnailWidth</code> <code class="data-type">Number</code></p>
+                <p><code>thumbnailHeight</code> <code class="data-type">Number</code></p>
               </div><a name="fieldtypes-localfile"></a>
               <h3><code>LocalFile</code></h3>
               <div class="alert alert-warning">This field type is not compatible with PAAS Hosts like Heroku because it relies on the local file system</div>
@@ -1003,65 +1088,6 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                   <li><code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes</li>
                   <li><code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)</li>
                 </ul>
-              </div><a name="fieldtypes-azurefile"></a>
-              <h3><code>AzureFile</code></h3>
-              <h4><code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI</h4>
-              <p>Automatically manages files stored in <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a>, including uploading and deleting.</p>
-              <pre><code class="language-javascript">{ type: Types.AzureFile }</code></pre>
-              <div class="options">
-                <h5>Options</h5>
-                <p><code>filenameFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new filename to upload.</p>
-                <pre><code class="language-javascript">{ type: Types.AzureFile, filenameFormatter: function(item, filename) {
-	return item._id + require('path').extname(filename);
-} }</code></pre>
-                <p><code>containerFormatter</code> <code class="data-type">Callback</code> - function with arguments current model and client file name to return the new container name (container are a root folder in Azure Storage Account).</p>
-                <pre><code class="language-javascript">{ type: Types.AzureFile, containerFormatter: containerFormatter: function(item, filename) {
-	return item.modelProperty;
-} }</code></pre>
-                <h5>Schema</h5>
-                <p><code>filename</code> <code class="data-type">String</code></p>
-                <p><code>type</code> <code class="data-type">String</code></p>
-                <p><code>filesize</code> <code class="data-type">Number</code></p>
-                <p><code>url</code> <code class="data-type">String</code></p>
-                <p><code>etag</code> <code class="data-type">String</code></p>
-                <h5>Virtuals</h5><code>exists</code> <code class="data-type">Boolean</code> - whether there is a stored file
-                <h5>Underscore methods</h5>
-                <p><code>uploadFile(file, update, callback)</code> - uploads a file to the Azure Storage Account, stores the details in the field and provides the file data to the callback.</p>
-                <ul>
-                  <li><code>file</code> <code class="data-type">File</code> should be a file as provided by express when a file is uploaded, i.e. <code class="default-value">req.files.path</code></li>
-                  <li><code>update</code> <code class="data-type">Boolean</code> whether to update the field with the details of the file after upload completes</li>
-                  <li><code>callback(err, fileData)</code> - is passed the object that will be stored in the field (see schema above)</li>
-                </ul>
-              </div><a name="fieldtypes-embedly"></a>
-              <h3><code>Embedly</code></h3>
-              <h4><code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI</h4>
-              <p>Automatically retrieves data from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).</p>
-              <p>It stores the retrieved data (which includes the provider, media type, full URL, HTML embed code, width, height, thumbnail picture and more).</p>
-              <p>The api call to retrieve the data is implemented as a pre-save hook, and is only triggered if the <strong>from path</strong> value has changed.</p>
-              <p>See the <a href="/docs/configuration#services-embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.</p>
-              <pre><code class="language-javascript">{ type: Types.Embedly, from: 'path' }</code></pre>
-              <div class="options">
-                <h5>Options</h5>
-                <p><code>from</code> <code class="data-type">String</code> - the path of another field in the Schema that will be passed to the Embedly API. The other field must contain a <code class="data-type">String</code> value.</p>
-                <p><code>options</code> <code class="data-type">Object</code> (optional) - passed as arguments to the embedly API along with the <code>from</code> field value</p>
-                <p>See <a href="http://embed.ly/docs/embed/api/endpoints/1/oembed" target="_blank">Embedly's oEmbed API documentation</a> for more information on options and returned data.</p>
-                <h5>Schema</h5>
-                <p><code>exists</code> <code class="data-type">Boolean</code></p>
-                <p><code>type</code> <code class="data-type">String</code></p>
-                <p><code>title</code> <code class="data-type">String</code></p>
-                <p><code>url</code> <code class="data-type">String</code></p>
-                <p><code>width</code> <code class="data-type">Number</code></p>
-                <p><code>height</code> <code class="data-type">Number</code></p>
-                <p><code>version</code> <code class="data-type">String</code></p>
-                <p><code>description</code> <code class="data-type">String</code></p>
-                <p><code>html</code> <code class="data-type">String</code></p>
-                <p><code>authorName</code> <code class="data-type">String</code></p>
-                <p><code>authorUrl</code> <code class="data-type">String</code></p>
-                <p><code>providerName</code> <code class="data-type">String</code></p>
-                <p><code>providerUrl</code> <code class="data-type">String</code></p>
-                <p><code>thumbnailUrl</code> <code class="data-type">String</code></p>
-                <p><code>thumbnailWidth</code> <code class="data-type">Number</code></p>
-                <p><code>thumbnailHeight</code> <code class="data-type">Number</code></p>
               </div>
               <h2>More examples</h2>
               <p>See the <a href="/examples">Examples</a> page for projects that demonstrate real-world usage of the various list options and field types.</p>
