@@ -14,6 +14,7 @@ lint:
 	@echo "Running JSHint ..."
 	@$(JSXHINT_CMD) --reporter $(JSHINT_REPORTER) .
 
+style:
 	@echo "\nRunning JSCS ..."
 	@$(JSCS_CMD) .
 
