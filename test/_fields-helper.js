@@ -1,5 +1,5 @@
 var fs = require('fs'),
-	keystone = require('keystone');
+	keystone = require('../index');
 
 exports.init = function (shouldRunTests) {
 	keystone.init();
