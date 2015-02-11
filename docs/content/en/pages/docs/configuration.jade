@@ -62,7 +62,15 @@ block content
 				tr
 					td <code>csv field delimiter</code> <code class="data-type">String</code>
 					td Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
-			
+				tr
+					td <code>app</code> <code class="data-type">Object</code>
+					td Instance of Express to be used instead of the default instance.
+				tr
+					td <code>mongoose</code> <code class="data-type">Object</code>
+					td Instance of Mongoose to be used instead of the default instance.
+
+			p.note The <code>app</code> and <code>mongoose</code> options replace the functionality of the <code>keystone.connect()</code> method which is now deprecated.
+				
 			.code-header
 				h4 Custom Navigation Example
 				p If you had <code>User</code>, <code>Post</code> and <code>PostCategory</code> models, you could group the posts and post categories into a <strong>Content</strong> navigation item like this:
