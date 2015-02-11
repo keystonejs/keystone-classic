@@ -14,10 +14,7 @@ TESTS = test/*.js
 default: test
 
 test:
-	@NODE_ENV=test $(MOCHA_CMD) \
-		--require should \
-		--growl \
-		--reporter $(REPORTER)
+	$(MOCHA_CMD)
 
 jshint:
 	@echo "\nRunning JSHint ..."
@@ -33,7 +30,8 @@ test-cov: clean
 test-travis: test-spec
 	if test -n "$$CODECLIMATE_REPO_TOKEN"; then codeclimate < coverage/lcov.info; fi
 
-# TODO explore generating documentation from a makefile task
+test-spec:
+	node $(ISTANBUL_CMD) $(MOCHA_CMD) -- --reporter spec
 
 clean:
 	rm -rf coverage

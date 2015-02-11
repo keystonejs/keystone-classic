@@ -116,7 +116,7 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
-    "test": "make test"
+    "test": "mocha"
   },
   "engines": {
     "node": ">= 0.10.28",

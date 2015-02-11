@@ -1,2 +1,5 @@
 --recursive
 --require must
+--require should
+--growl
+--reporter progress
