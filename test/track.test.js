@@ -235,24 +235,27 @@ describe('List "track" option', function () {
 			});
 
 			it('should updated "updatedAt/updatedBy" when modifying a document', function(done) {
-				request(app)
-					.post('/using-update-handler/' + post.get('id'))
-					.send({ name: 'test2' })
-					.expect('GOOD')
-					.end(function(err, res){
-						if (err) {
-							return done(err);
-						}
-						demand(post.get('name')).be('test2');
-						demand(post.get('createdBy').toString()).be(dummyUser1.get('id'));
-						demand(post.get('updatedBy').toString()).be(dummyUser2.get('id'));
 
-						post.get('createdAt').must.be.a.date();
-						post.get('updatedAt').must.be.a.date();
+				setTimeout(function() {
+					request(app)
+						.post('/using-update-handler/' + post.get('id'))
+						.send({ name: 'test2' })
+						.expect('GOOD')
+						.end(function(err, res){
+							if (err) {
+								return done(err);
+							}
+							demand(post.get('name')).be('test2');
+							demand(post.get('createdBy').toString()).be(dummyUser1.get('id'));
+							demand(post.get('updatedBy').toString()).be(dummyUser2.get('id'));
 
-						demand(post.get('updatedAt')).be.after(post.get('createdAt'));
-						done();
-					});
+							post.get('createdAt').must.be.a.date();
+							post.get('updatedAt').must.be.a.date();
+
+							demand(post.get('updatedAt')).be.after(post.get('createdAt'));
+							done();
+						});
+				}, 250);
 			});
 			
 		});
@@ -318,24 +321,26 @@ describe('List "track" option', function () {
 
 			it('should updated "updatedAt/updatedBy" when modifying a document', function(done) {
 
-				request(app)
-					.post('/using-save/' + post._id)
-					.send({ name: 'test2' })
-					.expect('GOOD')
-					.end(function(err, res){
-						if (err) {
-							return done(err);
-						}
-						demand(post.get('name')).be('test2');
-						demand(post.get('createdBy').toString()).be(dummyUser1.get('id'));
-						demand(post.get('updatedBy').toString()).be(dummyUser2.get('id'));
+				setTimeout(function() {
+					request(app)
+						.post('/using-save/' + post._id)
+						.send({ name: 'test2' })
+						.expect('GOOD')
+						.end(function(err, res){
+							if (err) {
+								return done(err);
+							}
+							demand(post.get('name')).be('test2');
+							demand(post.get('createdBy').toString()).be(dummyUser1.get('id'));
+							demand(post.get('updatedBy').toString()).be(dummyUser2.get('id'));
 
-						post.get('createdAt').must.be.a.date();
-						post.get('updatedAt').must.be.a.date();
+							post.get('createdAt').must.be.a.date();
+							post.get('updatedAt').must.be.a.date();
 
-						demand(post.get('updatedAt')).be.after(post.get('createdAt'));
-						done();
-					});
+							demand(post.get('updatedAt')).be.after(post.get('createdAt'));
+							done();
+						});
+				}, 250);
 
 			});
 			
@@ -400,21 +405,25 @@ describe('List "track" option', function () {
 			});
 
 			it('should updated "updatedAt/updatedBy" when modifying a document', function(done) {
-				request(app)
-					.post('/using-update-handler/' + post._id)
-					.send({ name: 'test2' })
-					.expect('GOOD')
-					.end(function(err, res){
-						if (err) {
-							return done(err);
-						}
-						demand(post.get('name')).be('test2');
-						demand(post.get('updatedBy').toString()).be(dummyUser2.get('id'));
-						post.get('updatedAt').must.be.a.date();
 
-						demand(post.get('updatedAt')).be.after(previousUpdatedAt);
-						done();
-					});
+				setTimeout(function() {
+					request(app)
+						.post('/using-update-handler/' + post._id)
+						.send({ name: 'test2' })
+						.expect('GOOD')
+						.end(function(err, res){
+							if (err) {
+								return done(err);
+							}
+							demand(post.get('name')).be('test2');
+							demand(post.get('updatedBy').toString()).be(dummyUser2.get('id'));
+							post.get('updatedAt').must.be.a.date();
+
+							demand(post.get('updatedAt')).be.after(previousUpdatedAt);
+							done();
+						});
+				}, 250);
+
 			});
 
 		});
@@ -473,21 +482,25 @@ describe('List "track" option', function () {
 			});
 
 			it('should updated "updatedAt/updatedBy" when modifying a document', function(done) {
-				request(app)
-					.post('/using-save/' + post._id)
-					.send({ name: 'test2' })
-					.expect('GOOD')
-					.end(function(err, res){
-						if (err) {
-							return done(err);
-						}
-						demand(post.get('name')).be('test2');
-						demand(post.get('updatedBy').toString()).be(dummyUser2.get('id'));
-						post.get('updatedAt').must.be.a.date();
 
-						demand(post.get('updatedAt')).be.after(previousUpdatedAt);
-						done();
-					});
+				setTimeout(function() {
+					request(app)
+						.post('/using-save/' + post._id)
+						.send({ name: 'test2' })
+						.expect('GOOD')
+						.end(function(err, res){
+							if (err) {
+								return done(err);
+							}
+							demand(post.get('name')).be('test2');
+							demand(post.get('updatedBy').toString()).be(dummyUser2.get('id'));
+							post.get('updatedAt').must.be.a.date();
+
+							demand(post.get('updatedAt')).be.after(previousUpdatedAt);
+							done();
+						});
+				}, 250);
+
 			});
 			
 		});
@@ -569,21 +582,25 @@ describe('List "track" option', function () {
 			});
 
 			it('should updated "UpdatedAt/UpdatedBy" custom when modifying a document', function(done) {
-				request(app)
-					.post('/using-update-handler/' + post._id)
-					.send({ name: 'test2' })
-					.expect('GOOD')
-					.end(function(err, res){
-						if (err) {
-							return done(err);
-						}
-						demand(post.get('name')).be('test2');
-						demand(post['customUpdatedBy'].toString()).be(dummyUser2.get('id'));
-						post['customUpdatedAt'].must.be.a.date();
 
-						demand(post['customUpdatedAt']).be.after(post['customCreatedAt']);
-						done();
-					});
+				setTimeout(function() {
+					request(app)
+						.post('/using-update-handler/' + post._id)
+						.send({ name: 'test2' })
+						.expect('GOOD')
+						.end(function(err, res){
+							if (err) {
+								return done(err);
+							}
+							demand(post.get('name')).be('test2');
+							demand(post['customUpdatedBy'].toString()).be(dummyUser2.get('id'));
+							post['customUpdatedAt'].must.be.a.date();
+
+							demand(post['customUpdatedAt']).be.after(post['customCreatedAt']);
+							done();
+						});
+				}, 250);
+
 			});
 
 		});
@@ -660,21 +677,25 @@ describe('List "track" option', function () {
 			});
 
 			it('should updated "UpdatedAt/UpdatedBy" custom when modifying a document', function(done) {
-				request(app)
-					.post('/using-save/' + post._id)
-					.send({ name: 'test2' })
-					.expect('GOOD')
-					.end(function(err, res){
-						if (err) {
-							return done(err);
-						}
-						demand(post.get('name')).be('test2');
-						demand(post['customUpdatedBy'].toString()).be(dummyUser2.get('id'));
-						post['customUpdatedAt'].must.be.a.date();
 
-						demand(post['customUpdatedAt']).be.after(post['customCreatedAt']);
-						done();
-					});
+				setTimeout(function() {
+					request(app)
+						.post('/using-save/' + post._id)
+						.send({ name: 'test2' })
+						.expect('GOOD')
+						.end(function(err, res){
+							if (err) {
+								return done(err);
+							}
+							demand(post.get('name')).be('test2');
+							demand(post['customUpdatedBy'].toString()).be(dummyUser2.get('id'));
+							post['customUpdatedAt'].must.be.a.date();
+
+							demand(post['customUpdatedAt']).be.after(post['customCreatedAt']);
+							done();
+						});
+				}, 250);
+
 			});
 
 		});
