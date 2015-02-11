@@ -17,7 +17,7 @@ exports.initList = function(List) {
 		initialDefaultTrue: { type: Boolean, initial: true, default: true },
 		collapse: { type: Boolean, collapse: true }
 	});
-}
+};
 
 exports.createData = function(List) {
 

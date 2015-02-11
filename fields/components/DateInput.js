@@ -6,7 +6,9 @@ module.exports = React.createClass({
 
 	// set default properties
 	getDefaultProps: function() {
-		format: 'YYYY-MM-DD'
+		return {
+			format: 'YYYY-MM-DD'
+		};
 	},
 	
 	getInitialState: function() {

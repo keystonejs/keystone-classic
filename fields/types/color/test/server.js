@@ -10,7 +10,7 @@ exports.initList = function(List) {
 			color: { type: ColorType }
 		}
 	});
-}
+};
 
 exports.createData = function(List) {
 

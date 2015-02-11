@@ -9,7 +9,7 @@ exports = module.exports = function(req, res) {
 			from: req.query.from,
 			logo: keystone.get('signin logo')
 		});
-	};
+	}
 
 	// If a form was submitted, process the login attempt
 	if (req.method === 'POST') {
@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
 			return renderView();
 		}
 
-		function onSuccess(user) {
+		var onSuccess = function (user) {
 
 			if (req.query.from && req.query.from.match(/^(?!http|\/\/|javascript).+/)) {
 				res.redirect(req.query.from);
@@ -36,17 +36,16 @@ exports = module.exports = function(req, res) {
 				res.redirect('/keystone');
 			}
 
-		}
+		};
 
-		function onFail() {
+		var onFail = function () {
 			req.flash('error', 'Sorry, that email and password combo are not valid.');
 			renderView();
 		};
 
 		session.signin(req.body, req, res, onSuccess, onFail);
 
-	}
-	else {
+	} else {
 		renderView();
 	}
 

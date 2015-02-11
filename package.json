@@ -68,7 +68,7 @@
     "gulp-util": "~3.0.3",
     "gulp-watch": "~4.1.0",
     "istanbul": "^0.3.5",
-    "jscs": "^1.11.0",
+    "jscs": "^1.11.2",
     "jshint-stylish": "~1.0.0",
     "jsxhint": "^0.9.0",
     "mocha": "2.1.0",

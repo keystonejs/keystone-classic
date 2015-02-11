@@ -31,7 +31,7 @@ exports.testFieldType = function(List) {
 		testItem.set('location.basic', emptyLocationValues);
 		testItem.set('location.required', emptyLocationValues);
 		testItem.set('location.customRequired', emptyLocationValues);
-	}
+	};
 	
 	it('should update its value from flat paths', function() {
 		resetLocationValues();
