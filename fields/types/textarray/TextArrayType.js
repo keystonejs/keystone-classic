@@ -15,7 +15,6 @@ var util = require('util'),
 function textarray(list, path, options) {
 	this._nativeType = [String];
 
-	this._underscoreMethods = ['crop'];
 	textarray.super_.call(this, list, path, options);
 }
 
@@ -24,17 +23,6 @@ function textarray(list, path, options) {
  */
 
 util.inherits(textarray, super_);
-
-
-/**
- * Crops the string to the specifed length.
- *
- * @api public
- */
-
-textarray.prototype.crop = function(item, length, append, preserveWords) {
-	return utils.cropString(item.get(this.path), length, append, preserveWords);
-};
 
 /**
  * Updates the value for this field in the item from a data object
