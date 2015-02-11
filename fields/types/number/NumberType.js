@@ -61,18 +61,18 @@ number.prototype.format = function(item, format) {
 number.prototype.validateInput = function(data, required, item) {
 	
 	var value = this.getValueFromData(data);
-
-	if (value !== undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
+	
+	if (value === undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
 		return true;
 	}
-
+	
 	if (value !== undefined) {
 		var newValue = utils.number(value);
 		return (!isNaN(newValue));
 	} else {
 		return (required) ? false : true;
 	}
-
+	
 };
 
 
@@ -89,9 +89,9 @@ number.prototype.updateItem = function(item, data) {
 	if (value === undefined) {
 		return;
 	}
-
+	
 	var newValue = utils.number(value);
-
+	
 	if (!isNaN(newValue)) {
 		if (newValue !== item.get(this.path)) {
 			item.set(this.path, newValue);
