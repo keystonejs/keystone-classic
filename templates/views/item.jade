@@ -109,7 +109,7 @@ block content
 					if (meta_createdAt)
 						.item-details-meta-item
 							span.item-details-meta-label Created
-							span.item-details-meta-info= moment(meta_createdAt).format('Do MMM YY h:MM:SSa')
+							span.item-details-meta-info= moment(meta_createdAt).format('Do MMM YY h:mm:ssa')
 				if list.tracking.createdBy
 					- meta_createdBy = item.get(list.tracking.createdBy)
 					if meta_createdBy
@@ -121,7 +121,7 @@ block content
 					if meta_updatedAt && (!meta_createdAt || meta_createdAt.getTime() !== meta_updatedAt.getTime())
 						.item-details-meta-item
 							span.item-details-meta-label Updated
-							span.item-details-meta-info= moment(meta_updatedAt).format('Do MMM YY h:MM:SSa')
+							span.item-details-meta-info= moment(meta_updatedAt).format('Do MMM YY h:mm:ssa')
 					else
 						- meta_updatedAt = false
 				if list.tracking.updatedBy
@@ -148,7 +148,7 @@ block content
 			if !list.get('noedit')
 				button(type='submit').btn.btn-default.btn-save Save
 				a(href='/keystone/' + list.path + '/' + item.id, data-confirm='Are you sure you want to reset your changes?').btn.btn-link.btn-cancel reset changes
-			if !list.get('nodelete')  && item.id !== user.id
+			if !list.get('nodelete')  && ( !user || (user && item.id !== user.id ) )
 				a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query, data-confirm='Are you sure you want to delete this ' + list.singular.toLowerCase() + '?').btn.btn-link.btn-cancel delete #{list.singular.toLowerCase()}
 	
 	

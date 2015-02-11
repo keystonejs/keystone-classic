@@ -31,7 +31,7 @@ jQuery(function($) {
 		var action = false;
 		
 		var imageFieldHTML = '<div class="image-preview new">' +
-				'<div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="ion-upload upload-pending"></div></div></div>'
+				'<div class="img-thumbnail placeholder-wrap"><img class="placeholder' + ( !window.FileReader ? ' no-preview' : '' ) + '" /><div class="ion-upload upload-pending"></div></div></div>' +
 			'</div>';
 		
 		var removeNewImage = function() {
