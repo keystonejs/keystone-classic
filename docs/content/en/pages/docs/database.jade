@@ -173,6 +173,36 @@ block content
 				tr
 					td <code>hidden</code> <code class="data-type">Boolean</code>
 					td Hides the list in the Keystone Admin UI
+				tr
+					td <code>preview</code> <code class="data-type">String, Function or Object</code>
+					td 
+						p Adds a "View Item" button in the editing form. It is a quick link to the item in public site.
+						p When defined as a <code class="data-type">String</code>, it is the path of the item. The word <code>:key</code> will be replaced with the resulting <em>autokey</em>. 
+						pre: code.language-javascript
+							| preview: "/blog/posts/:key"
+						p When defined as a <code class="data-type">Function</code>, it allows complex paths calculations based on item's properties. The <em>context</em> of the function is the raw model.
+						pre: code.language-javascript
+							| preview: function () {
+							| 	var date = new Date(this.publishedDate);
+							| 	return '/blog/'+ date.getUTCFullYear() +"/"+ this.key
+							| }
+						p When defined as an <code class="data-type">Object</code>:
+						ul.options
+							li <code>label</code> <code class="data-type">String</code> - custom button label (the default is "View [item type]")
+							li <code>available</code> <code class="data-type">Function</code> - should return false if the needs to be hidden (the <em>context</em> is the item raw model)
+							li <code>path</code> <code class="data-type">String or Function</code> - the path of the item
+						pre: code.language-javascript
+							| preview: {
+							| 	label: 'Go to article',
+							| 	available: function () {
+							| 		return this.state == 'published'
+							| 	},
+							| 	path: function () {
+							| 		var date = new Date(this.publishedDate);
+							| 		return '/blog/'+ date.getUTCFullYear() +"/"+ this.key
+							| 	}
+							| }
+
 			
 			p.note If you're wondering how to control which navigation area Lists are categorised under in the Admin UI, check out the <code>nav</code> option in the <a href="http://keystonejs.com/docs/configuration/#options-project">KeystoneJS Configuration</a> docs.
 			
