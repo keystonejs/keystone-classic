@@ -40,13 +40,5 @@ exports.testFieldType = function(List) {
 		});
 		demand(testItem.nested.text).eql(['foo', 'bar']);
 		testItem.nested.text = undefined;
-	});	
-	
-	it('should crop and truncate', function() {
-		List.fields.text.updateItem(testItem, {
-			text: ['foo', 'bar']
-		});
-		demand(testItem._.text.crop(5)).eql(['foo', 'bar']);
-		testItem.nested.text = undefined;
-	});	
+	});
 };
