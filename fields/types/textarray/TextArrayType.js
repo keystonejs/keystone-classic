@@ -31,10 +31,12 @@ util.inherits(textarray, super_);
  */
 
 textarray.prototype.updateItem = function(item, data) {
-	if ( data[this.path] === undefined ) {
-		item.set(this.path, []);
+	var value = this.getValueFromData(data);
+	
+	if (value !== undefined && value != item.get(this.path)) { // jshint ignore:line
+		item.set(this.path, value);
 	} else {
-		item.set(this.path, data[this.path]);
+		item.set(this.path, []);
 	}
 };
 
