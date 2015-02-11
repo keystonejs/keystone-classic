@@ -34,7 +34,7 @@ textarray.prototype.validateInput = function(data, required, item) {
 	var value = this.getValueFromData(data);
 
 	if (required) {
-		if (value === undefined && item && item.get(this.path)) {
+		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
 		}
 		if (value === undefined || !Array.isArray(value) || ('string' !== typeof value) || ('number' !== typeof value)) {
