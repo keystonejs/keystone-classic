@@ -12,17 +12,6 @@ You can also deploy a starter project to [Heroku](https://heroku.com) for free t
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
 
 
-### Current Status
-
-The current stable version is `0.2.42`. See our [changelog](https://github.com/keystonejs/keystone/blob/master/HISTORY.md) for upgrade notes.
-
-We are nearly ready to release version `0.3.0` with Express 4 and our new React-powered Admin UI. In preparation for this, we have merged these two features into our `master` branch. If you have the opportunity, please test the new version with your project and let us know any issues you encounter.
-
-To work on the React features in master, link keystone to your project (described in a separate section below) and run `gulp watch-scripts`. Please revert any changes to the `/public/build/js/app.js` file before submitting a PR so as to avoid conflicts; this process will be cleaned up in a future release.
-
-For the stable development version, or to submit a PR targeted at `0.2.x`, please check out the `0.2.x` branch.
-
-
 ## About
 
 Keystone gives you:
