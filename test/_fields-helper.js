@@ -10,8 +10,6 @@ exports.init = function (shouldRunTests) {
 	types.forEach(function(name) {
 		var serverTestLoc = typesLoc + '/' + name + '/test/server.js';
 		if (!fs.existsSync(serverTestLoc)) return;
-		
-		console.log(keystone.mongoose);
 
 		var List = keystone.List(name + "Test", { nocreate: true });
 		var test = require(serverTestLoc);
