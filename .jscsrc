@@ -1,5 +1,8 @@
 {
-  "excludeFiles": ["coverage", "fields", "admin", "docs", "test", "node_modules", "public/build", "public/js/lib", "public/js/build"],
+	"excludeFiles": [
+		"coverage", "docs", "admin/src/components/", "admin/src/views/",
+		"node_modules", "public/build", "public/js/lib", "public/js/build", "fields"
+	],
 	"preset": "yandex",
 	"disallowMultipleVarDecl": null,
 	"disallowMultipleLineBreaks": null,
