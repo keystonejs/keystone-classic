@@ -4,6 +4,7 @@ JSCS_CMD = node_modules/.bin/jscs
 JSCS_REPORTER = console
 JSCS_FILES = `find . -path "*.js" ! -path "./node_modules/*" \
 		! -path "./public/js/lib/*" \
+		! -path "./public/build/*" \
 		! -path "./docs/*" \
 		! -path "./coverage/*"`
 MOCHA_CMD = node_modules/mocha/bin/_mocha
@@ -18,8 +19,9 @@ lint:
 	@echo "\nRunning JSHint ..."
 	@$(JSXHINT_CMD) --reporter $(JSHINT_REPORTER) .
 
+style:
 	@echo "\nRunning JSCS ..."
-	@$(JSCS_CMD) $(JSCS_FILES) --reporter=$(JSCS_REPORTER)
+	@$(JSCS_CMD) $(JSCS_FILES) --reporter=$(JSCS_REPORTER) --preset=jquery
 
 test-cov: clean
 	@$(ISTANBUL_CMD) $(MOCHA_CMD) --
