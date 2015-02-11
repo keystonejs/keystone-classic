@@ -123,14 +123,18 @@ block content
 			.contextual-note
 				h4 自带Express和Mongoose
 				p 如果你想在项目中引入Express或Mongoose，不用完全由Keystone提供和配置的，也可以。
-				p 把它们放在项目的dependencies列表中，然后用<code>connect</code>方法提供给keystone。
+				p 把它们放在项目的dependencies列表中，然后分别用 <code>app</code> 和 <code>mongoose</code> 参数提供给Keystone。
 				pre
 					| var express = require('express'),
 					|     mongoose = require('mongoose'),
 					|     app = express(),
-					|     keystone = require('keystone').connect(mongoose, app);
+					|     keystone = require('keystone');
+					|
+					|     keystone.set('app', app);
+					|     keystone.set('mongoose', mongoose);
 			
-			
+			p.note 之前用来设置自带Express和Mongoose的 <code>keystone.connect()</code> 方法，现已过期并且会在未来的Keystone版本中移除。由于升级至Express 4，`keystone.connect()` 不再如预期般工作。 请使用Keystone中的 <code>app</code> 和 <code>mongoose</code> 参数来替代。
+				
 			a(name="gettingstarted-projectstructure")
 			h3 项目结构
 			
