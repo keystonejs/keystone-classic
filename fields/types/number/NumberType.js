@@ -67,7 +67,7 @@ number.prototype.validateInput = function(data, required, item) {
 	}
 
 	if (value !== undefined) {
-		var newValue = utils.number(data[this.path]);
+		var newValue = utils.number(value);
 		return (!isNaN(newValue));
 	} else {
 		return (required) ? false : true;
