@@ -54,7 +54,14 @@ block content
 				tr
 					td <code>csv field delimiter</code> <code class="data-type">String</code>
 					td 允许你选一个定制的域分隔符用在导出的CSV中，代替默认的逗号。
-			
+				tr
+					td <code>app</code> <code class="data-type">Object</code>
+					td 用来代替默认的Express实例。
+				tr
+					td <code>mongoose</code> <code class="data-type">Object</code>
+					td 用来代替默认的mongoose实例。
+			p.note <code>app</code> 和 <code>mongoose</code> 参数用来替换已过期的 <code>keystone.connect()</code> 方法。由于升级至Express 4, `keystone.connect()` 不再按预期那样工作。
+
 			.code-header
 				h4 定制导航的例子
 				p 如果你有<code>User</code>、<code>Post</code>和<code>PostCategory</code>三个模型，可以像下面这样将posts和post-categories分组到<strong>Content</strong>导航条目中：
