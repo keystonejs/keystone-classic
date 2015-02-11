@@ -1,4 +1,3 @@
-REPORTER = progress
 ISTANBUL_CMD = node_modules/istanbul/lib/cli.js cover
 JSXHINT_CMD = node_modules/jsxhint/cli.js
 JSCS_CMD = node_modules/.bin/jscs
@@ -9,31 +8,26 @@ JSCS_FILES = `find . -path "*.js" ! -path "./node_modules/*" \
 		! -path "./coverage/*"`
 MOCHA_CMD = node_modules/mocha/bin/_mocha
 JSHINT_REPORTER = node_modules/jshint-stylish/stylish.js
-TESTS = test/*.js
 
 default: test
 
 test:
 	$(MOCHA_CMD)
 
-jshint:
+lint:
 	@echo "\nRunning JSHint ..."
-	@$(JSXHINT_CMD) --reporter $(JSHINT_REPORTER) .; true
+	@$(JSXHINT_CMD) --reporter $(JSHINT_REPORTER) .
 
-jscs:
 	@echo "\nRunning JSCS ..."
-	@$(JSCS_CMD) $(JSCS_FILES) --reporter=$(JSCS_REPORTER); true
+	@$(JSCS_CMD) $(JSCS_FILES) --reporter=$(JSCS_REPORTER)
 
 test-cov: clean
-	@$(ISTANBUL_CMD) $(MOCHA_CMD) -- --reporter $(REPORTER)
+	@$(ISTANBUL_CMD) $(MOCHA_CMD) --
 
-test-travis: test-spec
+test-travis: test-cov
 	if test -n "$$CODECLIMATE_REPO_TOKEN"; then codeclimate < coverage/lcov.info; fi
-
-test-spec:
-	node $(ISTANBUL_CMD) $(MOCHA_CMD) -- --reporter spec
 
 clean:
 	rm -rf coverage
 
-.PHONY: default lint test test-cov test-spec test-travis clean
+.PHONY: default lint test test-cov test-travis clean
