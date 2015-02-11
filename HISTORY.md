@@ -4,6 +4,8 @@
 
 This is a major new version of KeystoneJS. The changes are too many to simply enumerate here, however we've done our best to ensure compatibility and feature parity with 0.2.x. If you experience any unexpected issues or behaviours, please let us know by opening a [Github Issue](https://github.com/keystonejs/keystone/issues).
 
+For notes regarding breaking changes in the release, please see our [0.2.x to 0.3.x Changes wiki page](https://github.com/keystonejs/keystone/wiki/0.2.x-to-0.3.x-Changes).
+
 Thanks to [all our contributors](https://github.com/keystonejs/keystone/graphs/contributors) for the huge amount of effort that went into this release, and the ongoing work designing, programming, testing and documenting KeystoneJS.
 
 ### Updated Express to 4.0
