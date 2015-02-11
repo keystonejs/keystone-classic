@@ -39,7 +39,13 @@ exports.testFieldType = function(List) {
 			textarr: []
 		}, true)).be(false);
 	});
-
+	
+	it('should invalidate arrays with complex values', function() {
+		demand(List.fields.textarr.validateInput({
+			textarr: [[]]
+		}, true)).be(false);
+	});
+	
 	it('should update top level fields', function() {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: ['a', 'b']
@@ -71,13 +77,30 @@ exports.testFieldType = function(List) {
 			textarr: []
 		});
 		demand(testItem.textarr).eql([]);
+		testItem.textarr = undefined;
 	});
-
+	
+	it('should default on null', function() {
+		List.fields.textarr.updateItem(testItem, {
+			textarr: null
+		});
+		demand(testItem.textarr).eql([]);
+		testItem.textarr = undefined;
+	});
+	
 	it('should allow a single string value', function() {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: 'a'
 		});
 		demand(testItem.textarr).eql(['a']);
+		testItem.textarr = undefined;
+	});
+	
+	it('should convert numbers to strings', function() {
+		List.fields.textarr.updateItem(testItem, {
+			textarr: 1
+		});
+		demand(testItem.textarr).eql(['1']);
 		testItem.textarr = undefined;
 	});
 };
