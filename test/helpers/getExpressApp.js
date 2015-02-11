@@ -6,8 +6,9 @@ var keystone = require('../../index.js'),
 function getExpressApp() {
 	var app;
 
-	keystone.init();
-	keystone.connect(mongoose);
+	keystone.init({
+		'mongoose': mongoose
+	});
 	app = keystone.express();
 
 	app.use(bodyParser.json());

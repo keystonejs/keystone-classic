@@ -123,14 +123,18 @@ block content
 			.contextual-note
 				h4 BYO Express and Mongoose
 				p If you want to require Express or Mongoose in your application, instead of having Keystone provide and configure them completely, you can so do.
-				p Include them in the dependencies list for your project, then provide them to Keystone using the <code>connect</code> method.
+				p Include them in the dependencies list for your project, then provide them to Keystone using the <code>app</code> and <code>mongoose</code> options respectively.
 				pre
 					| var express = require('express'),
 					|     mongoose = require('mongoose'),
 					|     app = express(),
-					|     keystone = require('keystone').connect(mongoose, app);
+					|     keystone = require('keystone');
+					| 
+					|     keystone.set('app', app);
+					|     keystone.set('mongoose', mongoose);
 			
-			
+			p.note The <code>keystone.connect()</code> method, previously used to set your own Express/Mongoose instances, is now deprecated and will be removed in future versions of Keystone. Due to changes in Express 4, `keystone.connect()` no longer works as expected. Please use the Keystone <code>app</code> and <code>mongoose</code> options in its place.
+
 			a(name="gettingstarted-projectstructure")
 			h3 Project Structure
 			
