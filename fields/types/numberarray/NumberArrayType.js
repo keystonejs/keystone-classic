@@ -50,6 +50,15 @@ numberarray.prototype.format = function(item, format) {
 	}
 };
 
+/**
+ * Checks if a value is a valid number
+ *
+ * @api private
+ */
+
+function isValidNumber(value) {
+	return !isNaN(utils.number(value));
+}
 
 /**
  * Checks that a valid array of number has been provided in a data object
@@ -60,31 +69,36 @@ numberarray.prototype.format = function(item, format) {
  */
 
 numberarray.prototype.validateInput = function(data, required, item) {
+	var value = this.getValueFromData(data);
 
-	if (!(this.path in data) && item && (item.get(this.path) || item.get(this.path) === 0)) return true;
-	
-	var newValue;
-	
-	if (data[this.path]) {
-		if (!Array.isArray(data[this.path])) {
-			newValue = utils.number(data[this.path]);
-			return (!isNaN(newValue));
-		} else {
-			newValue = data[this.path];
-			for (var index = 0; index < newValue.length; index++) {
-				var newValueItem = utils.number(newValue[index]);
-				if (isNaN(newValueItem)) {
-					return false;
-				}
-			}
+	if (required) {
+		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
 		}
-	} else {
-		return (required) ? false : true;
+		if (value === undefined || !Array.isArray(value) || ('string' !== typeof value) || ('number' !== typeof value)) {
+			return false;
+		}
+		if (Array.isArray(value) && !value.length) {
+			return false
+		}
 	}
 
-};
+	if ('string' === typeof value) {
+		if (!isValidNumber(value)) {
+			return false;
+		}
+	}
 
+	if (Array.isArray(value)) {
+		for (var index = 0; index < value.length; index++) {
+			if (!isValidNumber(value[index])) {
+				return false;
+			}
+		}
+	}
+
+	return (value === undefined || Array.isArray(value) || ('string' === typeof value) || ('number' === typeof value));
+};
 
 /**
  * Updates the value for this field in the item from a data object
@@ -94,28 +108,33 @@ numberarray.prototype.validateInput = function(data, required, item) {
 
 
 numberarray.prototype.updateItem = function(item, data) {
-
-	if (!(this.path in data))
-		return;
-
-	var newValue = data[this.path],
-		result;
-
-	if (!Array.isArray(newValue)) {
-		if (newValue !== '') {
-			result = [utils.number(newValue)];
-		} else {
-			result = [];
+	var value = this.getValueFromData(data);
+	
+	if ('undefined' !== typeof value) {
+		if (Array.isArray(value)) {
+			var temp = value.filter(function(temp) {
+				if (isValidNumber(temp)) {
+					return utils.number(temp);
+				}
+			});
+			value = temp;
 		}
-	} else {
-		result = [];
-		newValue.forEach(function(item, index) {
-			if (item !== '') {
-				result.push(utils.number(item));
+		if (value === null) {
+			value = [];
+		}
+		if ('string' === typeof value) {
+			if (isValidNumber(value)) {
+				value = [utils.number(value)];
 			}
-		});
+		}
+		if ('number' === typeof value) {
+			value = [value];
+		}
+		if (Array.isArray(value)) {
+			item.set(this.path, value);
+		}
 	}
-	item.set(this.path, result);
+
 };
 
 
