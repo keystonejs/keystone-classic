@@ -18,7 +18,9 @@ module.exports = Field.create({
 	},
 
 	getDefaultProps: function() {
-		formatString: 'Do MMM YYYY'
+		return { 
+			formatString: 'Do MMM YYYY'
+		};
 	},
 
 	// TODO: Move isValid() so we can share with server-side code
