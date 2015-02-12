@@ -40,7 +40,7 @@ exports.testFieldType = function(List) {
 			text: 'value',
 			testRelationship: testItem._id
 		}).save(function(err, data) {
-			err.err.must.match(/insertDocument :: caused by :: 11000 E11000 duplicate key error.*testRelationship_1/);
+			demand(err.code).equal(11000);
 			done();
 		});
 	});
