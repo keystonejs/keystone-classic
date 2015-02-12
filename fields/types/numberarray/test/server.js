@@ -40,7 +40,7 @@ exports.testFieldType = function(List) {
 		}, true)).be(false);
 	});
 	
-	it('should validate arrays with string values', function() {
+	it('should validate arrays with numeric string values', function() {
 		demand(List.fields.numarr.validateInput({
 			numarr: ['1']
 		})).be(true);
