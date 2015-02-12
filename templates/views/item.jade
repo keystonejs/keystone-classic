@@ -75,7 +75,12 @@ block intro
 				button(type='button').btn.btn-link.btn-cancel.js-itemsearch-close Cancel
 		ul.item-toolbar-info
 			if list.autokey && item.get(list.autokey.path)
-				li(data-alt-text='id: ' + item.id) #{list.autokey.path}: #{item.get(list.autokey.path)}
+				li(data-alt-text='id: ' + item.id) #{list.autokey.path}: 
+					if list.autokey.link
+						- var link = (("function" === typeof list.autokey.link) ? list.autokey.link.call(item) : (list.autokey.link + item.get(list.autokey.path)))
+						a(target="_blank", href=link) #{item.get(list.autokey.path)}
+					else
+						| #{item.get(list.autokey.path)}
 			else
 				li id: #{item.id}
 			if !list.options.nocreate

@@ -138,6 +138,7 @@ block content
 							li <code>path</code> <code class="data-type">String</code> - the path to store the key at
 							li <code>unique</code> <code class="data-type">Boolean</code> - whether the key should be unique or not
 							li <code>fixed</code> <code class="data-type">Boolean</code> - the key should be kept if it exists and it's non-empty. Defaults to <code class="data-type">false</code>.
+							li <code>link</code> <code class="data-type">String/Function</code> - shows the key as a quick access link in the info toolbar of the item view (top right). If a <code class="data-type">String</code> is provided, the key is concatenated at the end. Otherwise the <code class="data-type">Function</code> receives the item as <code>this</code> context. Defaults to <code class="data-type">null</code> and the key is shown as plain text.
 						| <em>Autokey paths are automatically be indexed; you may also want to include them in compound indexes.</em>
 				tr
 					td <code>track</code> <code class="data-type">Boolean or Object</code>
