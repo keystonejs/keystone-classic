@@ -23,31 +23,11 @@ module.exports = Field.create({
 		};
 	},
 
-	// TODO: Move isValid() so we can share with server-side code
-	isValid: function(value) {
-		return moment(value, this.inputFormat).isValid();
-	},
-
-	// TODO: Move format() so we can share with server-side code
-	format: function(dateValue, format) {
-		format = format || this.inputFormat;
-		return dateValue ? moment(this.props.dateValue).format(format) : '';
-	},
-
-	setDate: function(dateValue) {
-		this.setState({ value: dateValue });
+	setToday: function() {
 		this.props.onChange({
 			path: this.props.path,
-			value: this.isValid(dateValue) ? moment(dateValue, this.inputFormat).toISOString() : null
+			value: moment().format(this.inputFormat)
 		});
-	},
-
-	setToday: function() {
-		this.setDate(moment().format(this.inputFormat));
-	},
-
-	valueChanged: function(value) {
-		this.setDate(value);
 	},
 
 	renderUI: function() {
@@ -57,7 +37,7 @@ module.exports = Field.create({
 		if (this.shouldRenderField()) {
 			input = (
 				<div className={fieldClassName}>
-					<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} />
+					<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.props.value} />
 					<button type="button" className="btn btn-default btn-set-today" onClick={this.setToday}>Today</button>
 				</div>
 			);
