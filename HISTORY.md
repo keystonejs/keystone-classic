@@ -1,5 +1,14 @@
 # KeystoneJS Changelog
 
+## v0.3.1 / 2015-02-13
+
+* fixed; validation and updating issues with Number, Money, TextArray and NumberArray Fields
+* fixed; slightly broken regex for resource redirection, thanks [Nicolas Dutil](https://github.com/nicdutil)
+* fixed; the S3File field now surfaces errors correctly, thanks [Harry Moreno](https://github.com/morenoh149)
+* changed; `keystone.connect` was broken in 0.3.0, it has been replaced by the `keystone.set('express', ...)` and `keystone.set('mongoose', ...)` options
+
+Also more tests and general cleanup. Thanks especially to [Sebastian McKenzie](https://github.com/sebmck) and [Johnny Estilles](https://github.com/JohnnyEstilles) for their work on this release.
+
 ## v0.3.0 / 2015-02-06
 
 This is a major new version of KeystoneJS. The changes are too many to simply enumerate here, however we've done our best to ensure compatibility and feature parity with 0.2.x. If you experience any unexpected issues or behaviours, please let us know by opening a [Github Issue](https://github.com/keystonejs/keystone/issues).
@@ -16,7 +25,7 @@ Express 4 included several breaking changes from Express 3. Keystone simplifies 
 
 The Admin UI forms have been rebuilt from the ground up with React.js. This is part of a larger, ongoing effort to move the Admin UI entirely towards a rich, customisable single page web app.
 
-The UI has been cleaned up and improved, and the field types should support the same features and behaviours as in 0.2.x. If any field types or features don't continue to work as expected, please open an [Issue](https://github.com/keystonejs/keystone/issues) so we can fix it!
+The UI has been cleaned up and improved, and the field types should support the same features and behaviours as in 0.2.x. If any field types or features don't continue to work as expected, please open a [GitHub Issue](https://github.com/keystonejs/keystone/issues) so we can fix it!
 
 
 ## v0.2.42 / 2015-01-20
