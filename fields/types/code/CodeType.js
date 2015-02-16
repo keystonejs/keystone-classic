@@ -50,7 +50,7 @@ function getMime(lang) {
 		case 'c':
 			mime = 'text/x-csrc'; break;
 		case 'c++':
-		case 'objetivec':
+		case 'objectivec':
 			mime = 'text/x-c++src'; break;
 		case 'css':
 			mime = 'text/css'; break;
