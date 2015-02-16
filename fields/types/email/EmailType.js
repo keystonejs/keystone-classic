@@ -39,11 +39,15 @@ util.inherits(email, super_);
  */
 
 email.prototype.validateInput = function(data, required, item) {
-	if (data[this.path]) {
-		return utils.isEmail(data[this.path]);
+
+	var value = this.getValueFromData(data);
+
+	if (value) {
+		return utils.isEmail(value);
 	} else {
-		return (!required || (!(this.path in data) && item && item.get(this.path))) ? true : false;
+		return (!required || (value !== undefined && item && item.get(this.path))) ? true : false;
 	}
+
 };
 
 
@@ -56,14 +60,14 @@ email.prototype.validateInput = function(data, required, item) {
 
 email.prototype.updateItem = function(item, data) {
 
-	var newValue = data[this.path];
+	var newValue = this.getValueFromData(data);
 
 	if ('string' === typeof newValue) {
 		newValue = newValue.toLowerCase();
 	}
 
-	if (this.path in data && data[this.path] !== item.get(this.path)) {
-		item.set(this.path, data[this.path]);
+	if (newValue !== undefined && newValue !== item.get(this.path)) {
+		item.set(this.path, newValue);
 	}
 
 };
