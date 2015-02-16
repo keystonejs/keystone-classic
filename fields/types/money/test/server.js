@@ -41,8 +41,80 @@ exports.testFieldType = function(List) {
 		demand(testItem.nested.money).be(42);
 		testItem.nested.money = undefined;
 	}); 
-	
-	it('should reject invalid numbers'); 
 
-	it('should convert invalid numbers'); 
+	it('should validate numeric input', function() {
+		demand(List.fields.money.validateInput({
+			money: 0
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: 1
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: -1
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: 1.1
+		})).be(true);
+	});
+	
+	it('should validate string input', function() {
+		demand(List.fields.money.validateInput({
+			money: '0'
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: '1'
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: '-1'
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: '1.1'
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: '$0'
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: '$1'
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: '$-1'
+		})).be(true);
+		demand(List.fields.money.validateInput({
+			money: '$1.1'
+		})).be(true);
+	});
+	
+	it('should validate no input', function() {
+		demand(List.fields.money.validateInput({})).be(true);
+		demand(List.fields.money.validateInput({}, true)).be(false);
+		testItem.money = 1;
+		demand(List.fields.money.validateInput({}, true, testItem)).be(true);
+		testItem.money = undefined;
+	});
+	
+	it('should invalidate invalid input', function() {
+		demand(List.fields.money.validateInput({
+			money: {}
+		})).be(false);
+		demand(List.fields.money.validateInput({
+			money: []
+		})).be(false);
+		demand(List.fields.money.validateInput({
+			money: 'a'
+		})).be(false);
+	});
+
+	it('should properly format', function () {
+		testItem.money = 1234;
+		demand(testItem._.money.format()).be("$1,234.00");
+		testItem.money = -244;
+		demand(testItem._.money.format()).be("-$244.00");
+	});
+
+	it('should ignore formatting if the format option is false', function () {
+		testItem.money = 1234;
+		demand(testItem._.money.format()).be("$1,234.00");
+		testItem.money = -244;
+		demand(testItem._.money.format()).be("-$244.00");
+	});
 };
