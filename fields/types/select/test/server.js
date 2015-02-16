@@ -1,6 +1,5 @@
-var assert = require('assert'),
-	keystone = require('../../../..'),
-	UpdateHandler = require('../../../../lib/updateHandler');
+var demand = require('must'),
+	SelectType = require('../SelectType');
 
 exports.testFieldType = function(List) {
 	

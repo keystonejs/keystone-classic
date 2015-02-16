@@ -1,7 +1,4 @@
-var assert = require('assert'),
-	keystone = require('../../../..'),
-	demand = require('must'),
-	UpdateHandler = require('../../../../lib/updateHandler'),
+var demand = require('must'),
 	UrlType = require('../UrlType');
 
 exports.initList = function(List) {
@@ -44,9 +41,9 @@ exports.testFieldType = function(List) {
 	
 	it('should strip the protocol when formatting', function() {
 		List.fields.url.updateItem(testItem, {
-			url: 'http://www.google.com'
+			url: 'http://www.keystonejs.com'
 		});
-		demand(testItem._.url.format()).be('www.google.com');
+		demand(testItem._.url.format()).be('www.keystonejs.com');
 		testItem.url = undefined;
 	}); 
 };

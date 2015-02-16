@@ -1,6 +1,4 @@
-var assert = require('assert'),
-	keystone = require('../../../..'),
-	demand = require('must'),
+var demand = require('must'),
 	NumberType = require('../NumberType');
 
 exports.initList = function(List) {

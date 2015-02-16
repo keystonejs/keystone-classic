@@ -1,6 +1,4 @@
-var assert = require('assert'),
-	demand = require('must'),
-	UpdateHandler = require('../../../../lib/updateHandler'),
+var demand = require('must'),
 	GeoPointType = require('../GeoPointType');
 
 exports.initList = function(List) {

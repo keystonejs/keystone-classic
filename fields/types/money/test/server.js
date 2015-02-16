@@ -1,7 +1,4 @@
-var assert = require('assert'),
-	keystone = require('../../../..'),
-	demand = require('must'),
-	UpdateHandler = require('../../../../lib/updateHandler'),
+var demand = require('must'),
 	MoneyType = require('../MoneyType');
 
 exports.initList = function(List) {

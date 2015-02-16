@@ -1,11 +1,9 @@
-var assert = require('assert'),
-	demand = require('must'),
-	keystone = require('../../../..'),
-	UpdateHandler = require('../../../../lib/updateHandler');
+var demand = require('must'),
+	DateType = require('../DateType');
 
 exports.initList = function(List) {
 	List.add({
-		date: keystone.Field.Types.Date
+		date: DateType
 	});
 };
 

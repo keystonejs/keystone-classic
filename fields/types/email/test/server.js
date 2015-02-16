@@ -1,6 +1,4 @@
-var assert = require('assert'),
-	demand = require('must'),
-	UpdateHandler = require('../../../../lib/updateHandler'),
+var demand = require('must'),
 	EmailType = require('../EmailType');
 
 exports.initList = function(List) {
