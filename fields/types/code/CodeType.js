@@ -20,12 +20,6 @@ function code(list, path, options) {
 	this.language = options.language || options.lang;
 	this.mime = getMime(this.language);
 
-	// TODO: implement initial form, usage disabled for now
-	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'code fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
-	}
-
 	code.super_.call(this, list, path, options);
 
 }
