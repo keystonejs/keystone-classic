@@ -17,8 +17,8 @@ function code(list, path, options) {
 	this._defaultSize = 'full';
 
 	this.height = options.height || 180;
-	this.lang = options.lang;
-	this.mime = getMime(this.lang);
+	this.language = options.language || options.lang;
+	this.mime = getMime(this.language);
 
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
