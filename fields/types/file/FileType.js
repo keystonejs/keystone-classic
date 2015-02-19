@@ -1,0 +1,319 @@
+/*!
+ * Module dependencies.
+ */
+
+var path = require('path'),
+	_ = require('underscore'),
+	async = require('async'),
+	util = require('util'),
+	utils = require('keystone-utils'),
+	super_ = require('../Type');
+
+/**
+ * File fieldtyppe
+ * 
+ * Options:
+ *   - store (String) name of the Keystone Store to use
+ *   - dest (String) the path for uploaded files, when supported by the storage provider
+ *   - overwrite (Boolean true) whether uploading a new file deletes the old one
+ *   - pre (Object { event: [Function(file)] }) adds pre-event hooks for `upload`, `download` and `remove`
+ *   - post (Object { event: [Function(file)] }) adds post-event hooks for `upload`, `download` and `remove`
+ *   - public (Boolean false) whether the file is publicly accessible
+ *   - href (Function(file, item) => String) formats the value into a publicly accessible string
+ *   - format (Function(file, item) => String) formats the value into a string for display, default to href()
+ *   - prefix (String) simple prefix for the default href method
+ *   - mimetype (String) allowed mime type, defaults mimetypes option
+ *   - mimetypes (Array [String]) allowed mime types, used for validation
+ *   - filename (String or Function(item, value) => String) changes the filename before upload
+ * 
+ *   When the filename option is a string, it is parsed for field paths from the item, e.g 'img-{id}'
+ * 
+ * Field methods:
+ *   - format()
+ *   - upload(file, progress, done)
+ *     upload(file, done)
+ *       - file (String | Stream) local path, remote path, file stream
+ *       - progress (Function(transferredBytes, totalBytes))
+ *       - done (Function(err, file))
+ *   - download(dest, progress, done)
+ *     download(progress, done)
+ *     download(dest, done)
+ *     download(done)
+ *       - dest (String) local path to save the downloaded file to
+ *       - progress (Function(transferredBytes, totalBytes))
+ *       - done (Function(err, file))
+ *   - remove(done)
+ *   
+ */
+
+function file(list, path, options) {
+	
+	this._underscoreMethods = ['format', 'uploadFile', 'removeFile'];
+	this._fixedSize = 'full';
+	
+	// TODO: implement filtering, usage disabled for now
+	options.nofilter = true;
+	
+	// overwrite defaults to true
+	if (options.overwrite !== false) {
+		options.overwrite = true;
+	}
+	
+	localfile.super_.call(this, list, path, options);
+	
+	/*
+	
+	- Create Storage 
+	
+	*/
+	
+}
+
+/*!
+ * Inherit from Field
+ */
+
+util.inherits(localfile, super_);
+
+
+/**
+ * Allows you to add pre middleware after the field has been initialised
+ *
+ * @api public
+ */
+
+localfile.prototype.pre = function(event, fn) {
+	if (!this._pre[event]) {
+		throw new Error('localfile (' + this.list.key + '.' + this.path + ') error: localfile.pre()\n\n' +
+			'Event ' + event + ' is not supported.\n');
+	}
+	this._pre[event].push(fn);
+	return this;
+};
+
+
+/**
+ * Allows you to add post middleware after the field has been initialised
+ *
+ * @api public
+ */
+
+localfile.prototype.post = function(event, fn) {
+	if (!this._post[event]) {
+		throw new Error('localfile (' + this.list.key + '.' + this.path + ') error: localfile.post()\n\n' +
+			'Event ' + event + ' is not supported.\n');
+	}
+	this._post[event].push(fn);
+	return this;
+};
+
+
+/**
+ * Registers the field on the List's Mongoose Schema.
+ *
+ * @api public
+ */
+
+localfile.prototype.addToSchema = function() {
+	
+	var field = this,
+		schema = this.list.schema;
+	
+	var paths = this.paths = {
+		// fields
+		filename:		this._path.append('.filename'),
+		path:			this._path.append('.path'),
+		size:			this._path.append('.size'),
+		filetype:		this._path.append('.filetype'),
+		// virtuals
+		exists:			this._path.append('.exists'),
+		href:			this._path.append('.href'),
+		upload:			this._path.append('_upload'),
+		action:			this._path.append('_action')
+	};
+	
+	var schemaPaths = this._path.addTo({}, {
+		filename:		String,
+		path:			String,
+		size:			Number,
+		filetype:		String
+	});
+	
+	schema.add(schemaPaths);
+	
+	// exists checks for a matching file at run-time
+	var exists = function(item) {
+		var filepath = item.get(paths.path),
+			filename = item.get(paths.filename);
+
+		if (!filepath || !filename) {
+			return false;
+		}
+
+		return fs.existsSync(path.join(filepath, filename));
+	};
+	
+	// The .exists virtual indicates whether a file is stored
+	schema.virtual(paths.exists).get(function() {
+		return schemaMethods.exists.apply(this);
+	});
+	
+	// The .href virtual returns the public path of the file
+	schema.virtual(paths.href).get(function() {
+		return field.href.call(field, this);
+	});
+	
+	// reset clears the value of the field
+	var reset = function(item) {
+		item.set(field.path, {
+			filename: '',
+			path: '',
+			size: 0,
+			filetype: ''
+		});
+	};
+
+	var schemaMethods = {
+		exists: function() {
+			return exists(this);
+		},
+		/**
+		 * Resets the value of the field
+		 *
+		 * @api public
+		 */
+		reset: function() {
+			reset(this);
+		},
+		/**
+		 * Deletes the file from localfile and resets the field
+		 *
+		 * @api public
+		 */
+		delete: function() {
+			if (exists(this)) {
+				fs.unlinkSync(path.join(this.get(paths.path), this.get(paths.filename)));
+			}
+			reset(this);
+		}
+	};
+
+	_.each(schemaMethods, function(fn, key) {
+		field.underscoreMethod(key, fn);
+	});
+
+	// expose a method on the field to call schema methods
+	this.apply = function(item, method) {
+		return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
+	};
+
+	this.bindUnderscoreMethods();
+};
+
+
+/**
+ * Formats the field value
+ *
+ * Delegates to the options.format function if it exists.
+ * @api public
+ */
+
+localfile.prototype.format = function(item) {
+	if (!item.get(this.paths.filename)) return '';
+	if (this.hasFormatter()) {
+		var file = item.get(this.path);
+		file.href = this.href(item);
+		return this.options.format.call(this, file, item);
+	}
+	return this.href(item);
+};
+
+
+/**
+ * Detects whether the field has formatter function
+ *
+ * @api public
+ */
+
+localfile.prototype.hasFormatter = function() {
+	return 'function' === typeof this.options.format;
+};
+
+
+/**
+ * Return the public href for the stored file
+ *
+ * @api public
+ */
+
+localfile.prototype.href = function(item) {
+	if (!item.get(this.paths.filename)) return '';
+	var prefix = this.options.prefix ? this.options.prefix : item.get(this.paths.path);
+	return path.join(prefix, item.get(this.paths.filename));
+};
+
+
+/**
+ * Validates that a value for this field has been provided in a data object
+ *
+ * @api public
+ */
+
+localfile.prototype.validateInput = function(data) {
+	
+};
+
+
+/**
+ * Updates the value for this field in the item from a data object
+ *
+ * @api public
+ */
+
+localfile.prototype.updateItem = function(item, data) {
+	
+};
+
+
+/**
+ * Uploads a file
+ *
+ * @api public
+ */
+
+localfile.prototype.uploadFile = function(item, file, update, callback) {
+	
+};
+
+
+/**
+ * Returns a callback that handles a standard form submission for the field
+ *
+ * Expected form parts are
+ * - `field.paths.action` in `req.body` (`clear` or `delete`)
+ * - `field.paths.upload` in `req.files` (uploads the file to localfile)
+ *
+ * @api public
+ */
+
+localfile.prototype.getRequestHandler = function(item, req, paths, callback) {
+	
+};
+
+
+/**
+ * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
+ *
+ * @api public
+ */
+
+localfile.prototype.handleRequest = function(item, req, paths, callback) {
+	
+};
+
+
+/*!
+ * Export class
+ */
+
+exports = module.exports = localfile;
