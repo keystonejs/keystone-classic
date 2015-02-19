@@ -116,7 +116,8 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "postinstall": "gulp build-scripts"
   },
   "engines": {
     "node": ">= 0.10.28",
