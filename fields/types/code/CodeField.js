@@ -1,8 +1,7 @@
 var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
-	CodeMirror = require('codemirror');
-
+	CodeMirror = require('CodeMirror');
 // See CodeMirror docs for API:
 // http://codemirror.net/doc/manual.html
 
