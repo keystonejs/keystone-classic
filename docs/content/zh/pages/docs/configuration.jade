@@ -47,6 +47,17 @@ block content
 					td <code>brand</code> <code class="data-type">String</code>
 					td 在管理界面的左上角显示
 				tr
+					td <code>frame guard</code> <code class="data-type">String/Boolean</code>
+					td
+						p 这个设置告诉 Keystone 如何处理 <code>iframe</code> 标签。 它通过设置响应报头 <code>X-Frame-Options</code> 完成。 这个请求报头用来防止 "ClickJacking" 攻击。
+						p 默认设置是 <code>sameorigin</code>。
+						p 以下是有效参数 options。
+						ul
+							li <code class="default-value">"sameorigin"</code> 允许来自同一服务器的 <code>iframe</code> 标签请求
+							li <code class="default-value">"deny"</code> 拒绝所有来自 <code>iframe</code> 标签的请求
+							li <code class="default-value">true</code> (与 <code class="default-value">"deny"</code> 相同)
+							li <code class="default-value">false</code> 禁用 <code>frame guard</code>
+				tr
 					td <code>nav</code> <code class="data-type">Object</code>
 					td
 						p 指定管理界面导航结构的对象。给每个应该在主导航中可见的部分创建一个键。每个键的值都可以是单个列表路径（查看列表时在URL中见到的部分）或一个列表路径数组。使用数组时，会在管理界面中渲染二级导航。
