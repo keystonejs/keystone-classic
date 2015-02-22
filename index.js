@@ -41,7 +41,8 @@ var Keystone = function() {
 		'headless': false,
 		'logger': 'dev',
 		'auto update': false,
-		'model prefix': null
+		'model prefix': null,
+		'frame guard': 'sameorigin'
 	};
 	this._pre = {
 		routes: [],
