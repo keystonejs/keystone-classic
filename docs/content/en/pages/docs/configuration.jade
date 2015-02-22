@@ -55,6 +55,17 @@ block content
 						p When setting a custom <code>module root</code> you may use either an absolute or a relative path.
 						p.note If a relative path is used, it will be considered relative to the location of the script from which the setting was made.
 				tr
+					td <code>frame guard</code> <code class="data-type">String/Boolean</code>
+					td
+						p This settings tells Keystone how to handle <code>iframe</code> tags. It does this by setting the response <code>X-Frame-Options</code> header. This header is used to protect against "ClickJacking" attacks.
+						p The default setting is <code>sameorigin</code>.
+						p Valid options are:
+						ul
+							li <code class="default-value">"sameorigin"</code> allows requests from <code>iframe</code> tags that originate from the same server
+							li <code class="default-value">"deny"</code> denies requests form all <code>iframe</code> tags, regardless of origin
+							li <code class="default-value">true</code> (same as <code class="default-value">"deny"</code> )
+							li <code class="default-value">false</code> disables <code>frame guard</code>
+				tr
 					td <code>nav</code> <code class="data-type">Object</code>
 					td
 						p An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
