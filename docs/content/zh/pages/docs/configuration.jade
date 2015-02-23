@@ -49,7 +49,7 @@ block content
 				tr
 					td <code>module root</code> <code class="data-type">String</code>
 					td
-						p 设置 Keystone 的应用的根路径。<code>module root</code> 默认指向应用内第一次引用 Keystone script 所在目录。默认设置有时候不满足需求。
+						p 设置 Keystone 应用所在根路径。<code>module root</code> 默认指向应用内第一次引用 Keystone script 所在目录。默认设置有时候不满足需求。
 						p <code>module root</code> 允许自定义指定应用内根路径。重写默认 <code>module root</code> 有时很有用，例如，对你的应用进行单元测试。
 						p <code>module root</code> 通过 Keystone 的 <code>.getPath()</code> 方法来解析和扩展 <code>views</code>， <code>favicon</code>， <code>extensions</code>， <code>ssl cert</code>， <code>ssl key</code>， <code>ssl ca</code>， <code>emails</code> 和 <code>updates</code> 的路径设置。
 						p <code>module root</code> 可以被设置为相对路径或者绝对路径。
