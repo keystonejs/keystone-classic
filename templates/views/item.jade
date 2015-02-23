@@ -4,7 +4,7 @@ include ../mixins/columns
 
 block css
 	if list.fieldTypes.code
-		link(rel="stylesheet", href="/keystone/js/lib/codemirror/codemirror.css")
+		style(type="text/css"): include ../../node_modules/codemirror/lib/codemirror.css
 
 block js
 	script.
@@ -45,5 +45,3 @@ block content
 									each col, i in rel.columns
 										td
 											+column(rel.list, col, item)
-
-
