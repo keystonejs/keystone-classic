@@ -237,6 +237,8 @@ block content
 				tr
 					td(colspan="2"): p Exposes <code class="">onHttpsServerCreated</code> event during <code class="language-javascript">keystone.start()</code>
 				
+			p.note <strong>WARNING:</strong> If you intend to enable SSL on your KeystoneJS app, make sure you're using Node.js <code class="default-value">0.10.33</code> or newer. Node versions prior to <code class="default-value">0.10.33</code> are susceptible to the POODLE (Padding Oracle On Downgraded Legacy Encryption) vulnerability, a man-in-the-middle attack that targets <code class="default-value">SSLv3</code> (see <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566">CVE-2014-3566</a>). As of Node version <code class="default-value">0.10.33</code>, the <code class="default-value">SSLv2</code>and <code class="default-value">SSLv3</code> protocols are disabled by default. For more information see the release notes for <a href="http://blog.nodejs.org/2014/10/23/node-v0-10-33-stable/">Node v0.10.33 (Stable)</a>.
+
 			a(name='options-unix-socket')
 			h3 Unix Socket Web Server Option
 			
