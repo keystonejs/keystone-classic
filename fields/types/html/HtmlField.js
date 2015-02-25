@@ -13,7 +13,8 @@ module.exports = Field.create({
 	
 	getInitialState: function() {
 		return {
-			id: getId()
+			id: getId(),
+			isFocused: false
 		};
 	},
 
@@ -26,6 +27,8 @@ module.exports = Field.create({
 		opts.setup = function (editor) {
 			self.editor = editor;
 			editor.on('change', self.valueChanged);
+			editor.on('focus', self.focusChanged.bind(self, true));
+			editor.on('blur', self.focusChanged.bind(self, false));
 		};
 
 		this._currentValue = this.props.value;
@@ -36,6 +39,12 @@ module.exports = Field.create({
 		if (this.editor && this._currentValue !== nextProps.value) {
 			this.editor.setContent(nextProps.value);
 		}
+	},
+	
+	focusChanged: function(focused) {
+		this.setState({
+			isFocused: focused
+		});
 	},
 
 	valueChanged: function () {
@@ -122,15 +131,19 @@ module.exports = Field.create({
 	},
 
 	getFieldClassName: function() {
-		return this.props.wysiwyg ? 'wysiwyg' : 'code';
+		var className = this.props.wysiwyg ? 'wysiwyg' : 'code';
+		return className;
 	},
 	
 	renderEditor: function(readOnly) {
+		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
 			height: this.props.height
 		};
 		return (
-			<textarea ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} readOnly={readOnly} value={this.props.value}></textarea>
+			<div className={className}>
+				<textarea ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} readOnly={readOnly} value={this.props.value}></textarea>
+			</div>
 		);
 	},
 
