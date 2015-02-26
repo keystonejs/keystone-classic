@@ -3,6 +3,8 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
+	displayName: 'EmbedlyField',
+	
 	// always defers to renderValue; there is no form UI for this field
 	renderField: function() {
 		return this.renderValue();

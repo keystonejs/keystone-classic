@@ -7,6 +7,8 @@ var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'ima
 
 var Thumbnail = React.createClass({
 	
+	displayName: 'CloudinaryImagesField',
+	
 	render: function() {
 		var iconClassName, imageDetails;
 

@@ -3,6 +3,8 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
+	displayName: 'NumberField',
+	
 	valueChanged: function(event) {
 		var newValue = event.target.value.replace(/[^\d\.]/g, '');
 		if (newValue === this.props.value) return;

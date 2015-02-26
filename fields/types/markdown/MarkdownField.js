@@ -7,6 +7,8 @@ require('./lib/bootstrap-markdown');
 	
 module.exports = Field.create({
 	
+	displayName: 'MarkdownField',
+	
 	componentDidMount: function() {
 		var markdownOptions = {
 			autofocus: false,

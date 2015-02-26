@@ -8,6 +8,8 @@ var _ = require('underscore'),
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
 
 module.exports = Field.create({
+	
+	displayName: 'CloudinaryImageField',
 
 	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();

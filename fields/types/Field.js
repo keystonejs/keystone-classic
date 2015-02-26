@@ -135,6 +135,8 @@ module.exports.create = function(spec) {
 		
 		spec: spec,
 		
+		displayName: spec.displayName,
+		
 		mixins: [Mixins.Collapse],
 		
 		render: function() {
@@ -146,6 +148,7 @@ module.exports.create = function(spec) {
 			}
 			return this.renderUI(spec);
 		}
+		
 	};
 	
 	if (spec.mixins) {

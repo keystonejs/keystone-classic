@@ -11,6 +11,8 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
+	displayName: 'CodeField',
+	
 	getInitialState: function() {
 		return {
 			isFocused: false

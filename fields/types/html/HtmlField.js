@@ -11,6 +11,8 @@ function getId() {
 
 module.exports = Field.create({
 	
+	displayName: 'HtmlField',
+	
 	getInitialState: function() {
 		return {
 			id: getId(),

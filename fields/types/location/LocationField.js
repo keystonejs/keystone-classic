@@ -10,6 +10,8 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 	
+	displayName: 'LocationField',
+	
 	getInitialState: function() {
 		return {
 			collapsedFields: {},

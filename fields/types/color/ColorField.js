@@ -3,6 +3,8 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
+	displayName: 'ColorField',
+	
 	valueChanged: function(event) {
 		var newValue = event.target.value;
 		if (/^([0-9A-F]{3}){1,2}$/.test(newValue)) {
