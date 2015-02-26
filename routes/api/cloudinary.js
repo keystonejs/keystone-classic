@@ -18,6 +18,8 @@ exports = module.exports = {
 				} else {
 					res.send('{"image":{"url":"' + result.url + '"}}');
 				}
+			}, {
+				public_id: req.files.file.name.substring(0, req.files.file.name.lastIndexOf('.'))
 			});
 		} else {
 			res.send('{"error":{"message":"No image selected"}}');
