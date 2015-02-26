@@ -3,6 +3,7 @@
  */
 
 var path = require('path'),
+	keystone = require('keystone'),
 	_ = require('underscore'),
 	async = require('async'),
 	util = require('util'),
@@ -48,7 +49,7 @@ var path = require('path'),
 
 function file(list, path, options) {
 	
-	this._underscoreMethods = ['format', 'uploadFile', 'removeFile'];
+	this._underscoreMethods = ['format', 'uploadFile', 'deleteFile'];
 	this._fixedSize = 'full';
 	
 	// TODO: implement filtering, usage disabled for now
@@ -58,22 +59,28 @@ function file(list, path, options) {
 	if (options.overwrite !== false) {
 		options.overwrite = true;
 	}
+
+	// event queues
+	this._pre = {
+		upload: []
+	};
 	
-	localfile.super_.call(this, list, path, options);
-	
-	/*
-	
-	- Create Storage 
-	
-	*/
-	
+	file.super_.call(this, list, path, options);
+
+	var store = options.store;
+	if (keystone.stores[store]) {
+		this.store = keystone.stores[store];
+	} else {
+		throw new ReferenceError('unknown store ' + store);
+	}
+
 }
 
 /*!
  * Inherit from Field
  */
 
-util.inherits(localfile, super_);
+util.inherits(file, super_);
 
 
 /**
@@ -82,9 +89,9 @@ util.inherits(localfile, super_);
  * @api public
  */
 
-localfile.prototype.pre = function(event, fn) {
+file.prototype.pre = function(event, fn) {
 	if (!this._pre[event]) {
-		throw new Error('localfile (' + this.list.key + '.' + this.path + ') error: localfile.pre()\n\n' +
+		throw new Error('file (' + this.list.key + '.' + this.path + ') error: file.pre()\n\n' +
 			'Event ' + event + ' is not supported.\n');
 	}
 	this._pre[event].push(fn);
@@ -98,9 +105,9 @@ localfile.prototype.pre = function(event, fn) {
  * @api public
  */
 
-localfile.prototype.post = function(event, fn) {
+file.prototype.post = function(event, fn) {
 	if (!this._post[event]) {
-		throw new Error('localfile (' + this.list.key + '.' + this.path + ') error: localfile.post()\n\n' +
+		throw new Error('file (' + this.list.key + '.' + this.path + ') error: file.post()\n\n' +
 			'Event ' + event + ' is not supported.\n');
 	}
 	this._post[event].push(fn);
@@ -114,7 +121,7 @@ localfile.prototype.post = function(event, fn) {
  * @api public
  */
 
-localfile.prototype.addToSchema = function() {
+file.prototype.addToSchema = function() {
 	
 	var field = this,
 		schema = this.list.schema;
@@ -186,13 +193,13 @@ localfile.prototype.addToSchema = function() {
 			reset(this);
 		},
 		/**
-		 * Deletes the file from localfile and resets the field
+		 * Deletes the file from file and resets the field
 		 *
 		 * @api public
 		 */
 		delete: function() {
 			if (exists(this)) {
-				fs.unlinkSync(path.join(this.get(paths.path), this.get(paths.filename)));
+				field.deleteFile(item.get(field.path), callback);
 			}
 			reset(this);
 		}
@@ -218,7 +225,7 @@ localfile.prototype.addToSchema = function() {
  * @api public
  */
 
-localfile.prototype.format = function(item) {
+file.prototype.format = function(item) {
 	if (!item.get(this.paths.filename)) return '';
 	if (this.hasFormatter()) {
 		var file = item.get(this.path);
@@ -235,7 +242,7 @@ localfile.prototype.format = function(item) {
  * @api public
  */
 
-localfile.prototype.hasFormatter = function() {
+file.prototype.hasFormatter = function() {
 	return 'function' === typeof this.options.format;
 };
 
@@ -246,7 +253,7 @@ localfile.prototype.hasFormatter = function() {
  * @api public
  */
 
-localfile.prototype.href = function(item) {
+file.prototype.href = function(item) {
 	if (!item.get(this.paths.filename)) return '';
 	var prefix = this.options.prefix ? this.options.prefix : item.get(this.paths.path);
 	return path.join(prefix, item.get(this.paths.filename));
@@ -259,8 +266,9 @@ localfile.prototype.href = function(item) {
  * @api public
  */
 
-localfile.prototype.validateInput = function(data) {
-	
+file.prototype.validateInput = function(data) {
+	// TODO - how should file field input be validated?
+	return true;
 };
 
 
@@ -270,8 +278,8 @@ localfile.prototype.validateInput = function(data) {
  * @api public
  */
 
-localfile.prototype.updateItem = function(item, data) {
-	
+file.prototype.updateItem = function(item, data) {
+	// TODO - direct updating of data (not via upload)
 };
 
 
@@ -281,8 +289,33 @@ localfile.prototype.updateItem = function(item, data) {
  * @api public
  */
 
-localfile.prototype.uploadFile = function(item, file, update, callback) {
-	
+file.prototype.uploadFile = function(item, file, update, callback) {
+	var self = this;
+
+	async.eachSeries(this._pre.upload, function(fn, next) {
+		fn(item, file, next);
+	}, function(err) {
+		if (err) return callback(err);
+		
+		self.store.uploadFile(file, function(err, data) {
+			if (!err && update) {
+				item.set(self.path, data);
+			}
+
+			callback(err, data);
+		});
+	});
+};
+
+
+/**
+ * Uploads a file
+ *
+ * @api public
+ */
+
+file.prototype.deleteFile = function() {
+	this.store.deleteFile(data);
 };
 
 
@@ -291,13 +324,41 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
  *
  * Expected form parts are
  * - `field.paths.action` in `req.body` (`clear` or `delete`)
- * - `field.paths.upload` in `req.files` (uploads the file to localfile)
+ * - `field.paths.upload` in `req.files` (uploads the file to file)
  *
  * @api public
  */
 
-localfile.prototype.getRequestHandler = function(item, req, paths, callback) {
+file.prototype.getRequestHandler = function(item, req, paths, callback) {
 	
+	var field = this;
+
+	if (utils.isFunction(paths)) {
+		callback = paths;
+		paths = field.paths;
+	} else if (!paths) {
+		paths = field.paths;
+	}
+
+	callback = callback || function() {};
+
+	return function() {
+
+		if (req.body) {
+			var action = req.body[paths.action];
+
+			if (/^(delete|reset)$/.test(action))
+				field.apply(item, action);
+		}
+
+		if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
+			return field.uploadFile(item, req.files[paths.upload], true, callback);
+		}
+
+		return callback();
+
+	};
+
 };
 
 
@@ -307,8 +368,8 @@ localfile.prototype.getRequestHandler = function(item, req, paths, callback) {
  * @api public
  */
 
-localfile.prototype.handleRequest = function(item, req, paths, callback) {
-	
+file.prototype.handleRequest = function(item, req, paths, callback) {
+	this.getRequestHandler(item, req, paths, callback)();
 };
 
 
@@ -316,4 +377,4 @@ localfile.prototype.handleRequest = function(item, req, paths, callback) {
  * Export class
  */
 
-exports = module.exports = localfile;
+exports = module.exports = file;
