@@ -312,7 +312,6 @@ files.prototype.uploadFiles = function(item, files, update, callback) {
 	}
 	
 	async.map(files, function(file, next) {
-		
 		field.store.uploadFile(file, function(err, data) {
 			if (!err && update) {
 				item.get(field.path).push(data);
