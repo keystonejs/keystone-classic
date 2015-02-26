@@ -11,30 +11,35 @@ function localfile(options) {
 }
 
 localfile.prototype.normaliseFilename = function (filename) {
-	var prefix = this.options.datePrefix ? moment().format(this.options.datePrefix) + '-' : '';
-	return prefix + filename;
+	if (this.options.datePrefix) {
+		return moment().format(this.options.datePrefix) + '-' + filename;
+	} else {
+		return filename;
+	}
 };
 
 localfile.prototype.uploadFile = function(data, callback) {
 	var self = this,
-		filename = this.normaliseFilename(data.name);
+		filename = this.normaliseFilename(data.name),
+		src = data.path,
+		dest = path.join(this.options.dest, filename);
 
-	fs.move(data.path, path.join(this.options.dest, filename), {
+	fs.move(src, dest, {
 		clobber: this.options.overwrite
 	}, function(err) {
 		if (err) return callback(err);
 
 		callback(null, {
 			filename: filename,
-			path: self.options.dest,
+			path: dest,
 			size: data.size,
 			filetype: data.mimetype || data.type
 		});
 	});
 };
 
-localfile.prototype.deleteFile = function (data) {
-	fs.unlinkSync(data.filename);
+localfile.prototype.deleteFile = function (data, callback) {
+	fs.unlink(data.filename);
 };
 
 module.exports = localfile;
