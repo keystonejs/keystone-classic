@@ -238,6 +238,8 @@ block content
 				tr
 					td(colspan="2"): p 在<code class="language-javascript">keystone.start()</code>期间输出<code class="">onHttpsServerCreated</code>事件。
 				
+			p.note <strong>警告：</strong> 如果你计划在 KeystoneJS 应用中启用 SSL，确保使用中的 Node.js 版本为 <code class="default-value">0.10.33</code> 或者更高。 低于<code class="default-value">0.10.33</code> 版本的 Node 容易引发 POODLE (Padding Oracle On Downgraded Legacy Encryption) 漏洞，一种“中间人”攻击目标 <code class="default-value">SSLv3</code> (see <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566">CVE-2014-3566</a>)。<code class="default-value">0.10.33</code>版本的 Node，<code class="default-value">SSLv2</code>和 <code class="default-value">SSLv3</code> 协议默认关闭。更多信息参见 <a href="http://blog.nodejs.org/2014/10/23/node-v0-10-33-stable/">Node v0.10.33 (Stable)</a> 的release notes。
+					
 			a(name='options-unix-socket')
 			h3 Unix Socket Web 服务器参数
 			
