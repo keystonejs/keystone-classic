@@ -42,7 +42,8 @@ var Keystone = function() {
 		'logger': ':method :url :status :response-time ms',
 		'auto update': false,
 		'model prefix': null,
-		'module root': moduleRoot
+		'module root': moduleRoot,
+		'frame guard': 'sameorigin'
 	};
 	this._pre = {
 		routes: [],

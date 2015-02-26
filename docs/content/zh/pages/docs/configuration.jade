@@ -47,6 +47,25 @@ block content
 					td <code>brand</code> <code class="data-type">String</code>
 					td 在管理界面的左上角显示
 				tr
+					td <code>module root</code> <code class="data-type">String</code>
+					td
+						p 设置 Keystone 应用所在根路径。<code>module root</code> 默认指向应用内第一次引用 Keystone script 所在目录。默认设置有时候不满足需求。
+						p <code>module root</code> 允许自定义指定应用内根路径。重写默认 <code>module root</code> 有时很有用，例如，对你的应用进行单元测试。
+						p <code>module root</code> 通过 Keystone 的 <code>.getPath()</code> 方法来解析和扩展 <code>views</code>， <code>favicon</code>， <code>extensions</code>， <code>ssl cert</code>， <code>ssl key</code>， <code>ssl ca</code>， <code>emails</code> 和 <code>updates</code> 的路径设置。
+						p <code>module root</code> 可以被设置为相对路径或者绝对路径。
+						p.note 如果使用相对路径，相对路径会根据设置 script 所在路径决定。
+				tr
+					td <code>frame guard</code> <code class="data-type">String/Boolean</code>
+					td
+						p 这个设置告诉 Keystone 如何处理 <code>iframe</code> 标签。 它通过设置响应报头 <code>X-Frame-Options</code> 完成。 这个请求报头用来防止 "ClickJacking" 攻击。
+						p 默认设置是 <code>sameorigin</code>。
+						p 以下是有效参数。
+						ul
+							li <code class="default-value">"sameorigin"</code> 允许来自同一服务器的 <code>iframe</code> 标签请求
+							li <code class="default-value">"deny"</code> 拒绝所有来自 <code>iframe</code> 标签的请求
+							li <code class="default-value">true</code> (与 <code class="default-value">"deny"</code> 相同)
+							li <code class="default-value">false</code> 禁用 <code>frame guard</code>
+				tr
 					td <code>nav</code> <code class="data-type">Object</code>
 					td
 						p 指定管理界面导航结构的对象。给每个应该在主导航中可见的部分创建一个键。每个键的值都可以是单个列表路径（查看列表时在URL中见到的部分）或一个列表路径数组。使用数组时，会在管理界面中渲染二级导航。
@@ -219,6 +238,8 @@ block content
 				tr
 					td(colspan="2"): p 在<code class="language-javascript">keystone.start()</code>期间输出<code class="">onHttpsServerCreated</code>事件。
 				
+			p.note <strong>警告：</strong> 如果你计划在 KeystoneJS 应用中启用 SSL，确保使用中的 Node.js 版本为 <code class="default-value">0.10.33</code> 或者更高。 低于<code class="default-value">0.10.33</code> 版本的 Node 容易引发 POODLE (Padding Oracle On Downgraded Legacy Encryption) 漏洞，一种“中间人”攻击目标 <code class="default-value">SSLv3</code> (see <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566">CVE-2014-3566</a>)。<code class="default-value">0.10.33</code>版本的 Node，<code class="default-value">SSLv2</code>和 <code class="default-value">SSLv3</code> 协议默认关闭。更多信息参见 <a href="http://blog.nodejs.org/2014/10/23/node-v0-10-33-stable/">Node v0.10.33 (Stable)</a> 的release notes。
+					
 			a(name='options-unix-socket')
 			h3 Unix Socket Web 服务器参数
 			

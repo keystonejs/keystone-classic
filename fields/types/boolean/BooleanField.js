@@ -3,6 +3,8 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
+	displayName: 'BooleanField',
+	
 	valueChanged: function(event) {
 		this.props.onChange({
 			path: this.props.path,

@@ -4,6 +4,8 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 	
+	displayName: 'NumberArrayField',
+	
 	mixins: [ArrayFieldMixin],
 	
 	cleanInput: function(input) {

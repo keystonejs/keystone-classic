@@ -3,7 +3,9 @@ var React = require('react'),
 	moment = require('moment');
 
 module.exports = React.createClass({
-
+	
+	displayName: 'DateInput',
+	
 	// set default properties
 	getDefaultProps: function() {
 		return {
@@ -18,6 +20,7 @@ module.exports = React.createClass({
 	},
 	
 	componentWillReceiveProps: function(newProps) {
+		if (newProps.value === this.state.value) return;
 		this.setState({
 			value: newProps.value
 		});

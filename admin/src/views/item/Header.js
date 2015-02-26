@@ -4,7 +4,7 @@ var React = require('react/addons'),
 
 var Header = React.createClass({
 	
-	displayName: 'FormHeader',
+	displayName: 'ItemViewHeader',
 	
 	getInitialState: function() {
 		return {

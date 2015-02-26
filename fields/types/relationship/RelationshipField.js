@@ -7,6 +7,8 @@ var Select = require('react-select'),
 
 module.exports = Field.create({
 	
+	displayName: 'RelationshipField',
+	
 	getInitialState: function() {
 		return {
 			ready: this.props.value ? false : true,

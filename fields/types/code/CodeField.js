@@ -11,6 +11,8 @@ var React = require('react'),
 
 module.exports = Field.create({
 	
+	displayName: 'CodeField',
+	
 	getInitialState: function() {
 		return {
 			isFocused: false
@@ -67,7 +69,7 @@ module.exports = Field.create({
 	
 	renderCodemirror: function() {
 		var className = 'CodeMirror-container';
-		if (this.state.isFocused && !this.shouldRenderField()) {
+		if (this.state.isFocused && this.shouldRenderField()) {
 			className += ' is-focused';
 		}
 		return (
