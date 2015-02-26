@@ -1,1 +1,1 @@
-module.exports = require('../localfile/LocalFileField');
+module.exports = require('../file/FileField');

@@ -54,11 +54,6 @@ function file(list, path, options) {
 	
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
-	
-	// overwrite defaults to true
-	if (options.overwrite !== false) {
-		options.overwrite = true;
-	}
 
 	// event queues
 	this._pre = {
