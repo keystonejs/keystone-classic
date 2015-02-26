@@ -3,18 +3,20 @@ var _ = require('underscore'),
 	keystone = require('../../../'),
 	async = require('async'),
 	util = require('util'),
+	path = require('path'),
 	knox = require('knox'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type');
+	utils = require('keystone-utils');
 
 function s3file(options) {
-	this.options = {};
+	_.extend(options, keystone.get('s3 config'));
+	this.options = options;
+	this.client = knox.createClient(this.options);
 }
 
 s3file.prototype.uploadFile = function(file, callback) {
 	var self = this;
 
-	knox.createClient(this.options).putFile(file.path, path + filename, {
+	this.client.putFile(file.path, path + filename, {
 		'Content-Type': filetype,
 		'x-amz-acl': 'public-read'
 	}, function(err, res) {
@@ -32,11 +34,11 @@ s3file.prototype.uploadFile = function(file, callback) {
 			filetype: filetype,
 			url: url
 		});
-
 	});
 };
 
 s3file.prototype.deleteFile = function () {
-	var client = knox.createClient(field.s3config);
-	client.deleteFile(this.get(paths.path) + this.get(paths.filename), function(err, res){ return res ? res.resume() : false; });
+	//this.client(this.get(paths.path) + this.get(paths.filename), function(err, res){ return res ? res.resume() : false; });
 };
+
+module.exports = s3file;
