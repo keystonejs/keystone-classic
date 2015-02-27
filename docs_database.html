@@ -752,6 +752,8 @@ item._.email.gravatarUrl(200,'mm','r'); // "//www.gravatar.com/avatar/74a0071e5f
               <pre><code class="language-javascript">{ type: Types.Markdown }</code></pre>
               <div class="options">
                 <h5>Options</h5>
+                <p><code>height</code> <code class="data-type">Number</code> - defines the height of the markdown editor; defaults to <code class="default-value">90</code>.</p>
+                <pre><code class="language-javascript">{ type: Types.Markdown, height: 200 }</code></pre>
                 <p><code>toolbarOptions</code> <code class="data-type">Object</code> - allow customizations of the toolbar.</p>
                 <p><code>toolbarOptions.hiddenButtons</code> <code class="data-type">String</code> - Comma separated list of buttons to hide.</p>
                 <pre><code class="language-javascript">{ type: Types.Markdown, toolbarOptions: { hiddenButtons: 'H1,H6,Code' } }</code></pre>
@@ -819,6 +821,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               </div><a name="fieldtypes-select"></a>
               <h3><code>Select</code></h3>
               <h4><code class="data-type">String</code> or <code class="data-type">Number</code> &mdash; Displayed as a select field in the Admin UI</h4>
+              <p class="note">Similar to <code>Enum</code> in other Frameworks.</p>
               <pre><code class="language-javascript">{ type: Types.Select, options: 'first, second, third' }</code></pre>
               <div class="options">
                 <h5>Options</h5>

@@ -755,6 +755,7 @@ item._.createdDate.format('YYYY-MM-DD'); // 返回'2013-12-04'</code></pre>
               </div><a name="fieldtypes-select"></a>
               <h3><code>Select</code></h3>
               <h4><code class="data-type">String</code>或<code class="data-type">Number</code> &mdash; 在管理界面中显示为选择输入控件</h4>
+              <p class="note">类似于其他框架中的 <code>Enum</code>.</p>
               <pre><code class="language-javascript">{ type: Types.Select, options: 'first, second, third' }</code></pre>
               <div class="options">
                 <h5>参数</h5>
@@ -816,6 +817,8 @@ item.stateOptionsMap == MyList.fields.state.map;</code></pre>
               <pre><code class="language-javascript">{ type: Types.Markdown }</code></pre>
               <div class="options">
                 <h5>参数</h5>
+                <p><code>height</code> <code class="data-type">Number</code> - 定义 markdown 编辑器高度；默认高度为 <code class="default-value">90</code>.</p>
+                <pre><code class="language-javascript">{ type: Types.Markdown, height: 200 }</code></pre>
                 <p><code>toolbarOptions</code> <code class="data-type">Object</code> - 可以定制工具栏。</p>
                 <p><code>toolbarOptions.hiddenButtons</code> <code class="data-type">String</code> - 要隐藏的按钮清单，用逗号分隔。</p>
                 <pre><code class="language-javascript">{ type: Types.Markdown, toolbarOptions: { hiddenButtons: 'H1,H6,Code' } }</code></pre>
