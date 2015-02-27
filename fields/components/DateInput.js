@@ -37,6 +37,7 @@ module.exports = React.createClass({
 			onSelect: function(date) {
 				console.log('DatePicker [' + this.state.id + '] selected. value ("' + this.picker.toString() + '" === "' + this.props.value + '") -- ' + (this.picker.toString() === this.props.value ? 'no change' : 'firing onChange event'));
 				if (this.props.onChange && this.picker.toString() !== this.props.value) {
+					console.log('DatePicker [' + this.state.id + '] updated date: ' + date + ', firing onChange("' + this.picker.toString() + '")');
 					this.props.onChange(this.picker.toString());
 				}
 			}.bind(this)
