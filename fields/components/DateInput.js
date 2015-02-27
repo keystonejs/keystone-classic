@@ -15,11 +15,13 @@ module.exports = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			value: this.props.value
+			value: this.props.value,
+			id: Math.round(Math.random()*100000)
 		};
 	},
 	
 	componentWillReceiveProps: function(newProps) {
+		console.log('DateInput [' + this.state.id + '] received props. value ("' + newProps.value + '" === "' + this.state.value + '") -- ' + (newProps.value === this.state.value ? 'no change' : 'updating state'));
 		if (newProps.value === this.state.value) return;
 		this.setState({
 			value: newProps.value
@@ -33,6 +35,7 @@ module.exports = React.createClass({
 			field: this.getDOMNode(),
 			format: this.props.format,
 			onSelect: function(date) {
+				console.log('DatePicker [' + this.state.id + '] selected. value ("' + this.picker.toString() + '" === "' + this.props.value + '") -- ' + (this.picker.toString() === this.props.value ? 'no change' : 'firing onChange event'));
 				if (this.props.onChange && this.picker.toString() !== this.props.value) {
 					this.props.onChange(this.picker.toString());
 				}
@@ -46,13 +49,15 @@ module.exports = React.createClass({
 	},
 	
 	handleChange: function(e) {
+		console.log('DateInput [' + this.state.id + '] changed. value ("' + e.target.value + '" === "' + this.state.value + '") -- ' + (e.target.value === this.state.value ? 'no change' : 'updating state'));
+		if (e.target.value === this.state.value) return;
 		this.setState({ value: e.target.value });
 	},
 	
 	handleBlur: function(e) {
-		if (this.state.value !== this.props.value) {
-			this.picker.setDate(this.state.value);
-		}
+		console.log('DateInput [' + this.state.id + '] blurred. value ("' + this.state.value + '" === "' + this.props.value + '") -- ' + (this.state.value === this.props.value ? 'no change' : 'updating datePicker'));
+		if (this.state.value === this.props.value) return;
+		this.picker.setDate(this.state.value);
 	},
 
 	render: function() {
