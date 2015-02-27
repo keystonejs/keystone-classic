@@ -1,1 +1,1 @@
-module.exports = require('../_build-file-alias')('s3');
+module.exports = require('../BuildFileAlias')('s3');

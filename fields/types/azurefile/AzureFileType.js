@@ -1,1 +1,1 @@
-module.exports = require('../_build-file-alias')('azure');
+module.exports = require('../BuildFileAlias')('azure');

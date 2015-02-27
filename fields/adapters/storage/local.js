@@ -1,22 +1,17 @@
-var moment = require('moment'),
+var StorageAdapter = require('../StorageAdapter'),
+	util = require('util'),
 	path = require('path'),
 	fs = require('fs-extra');
 
-function localfile(options) {
-	this.options = options;
+function localfile() {
+	StorageAdapter.apply(this, arguments);
 
 	if (!options.dest) {
 		throw new Error('Invalid Configuration\n\nlocalfile store requires the "dest" option to be set.');
 	}
 }
 
-localfile.prototype.normaliseFilename = function (filename) {
-	if (this.options.datePrefix) {
-		return moment().format(this.options.datePrefix) + '-' + filename;
-	} else {
-		return filename;
-	}
-};
+util.inherits(localfile, StorageAdapter);
 
 localfile.prototype.uploadFile = function(data, callback) {
 	var self = this,

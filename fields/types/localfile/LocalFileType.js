@@ -1,1 +1,1 @@
-module.exports = require('../_build-file-alias')('local');
+module.exports = require('../BuildFileAlias')('local');
