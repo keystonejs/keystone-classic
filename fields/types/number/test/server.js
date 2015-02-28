@@ -51,6 +51,20 @@ exports.testFieldType = function(List) {
 		testItem.number = undefined;
 	});
 	
+	it('should validate empty strings', function() {
+		demand(List.fields.number.validateInput({
+			number: ''
+		})).be(true);
+		demand(List.fields.number.validateInput({
+			number: ''
+		}, true)).be(false);
+		testItem.number = 1;
+		demand(List.fields.number.validateInput({
+			number: ''
+		}, true, testItem)).be(true);
+		testItem.number = undefined;
+	});
+	
 	it('should invalidate invalid input', function() {
 		demand(List.fields.number.validateInput({
 			number: {}
@@ -93,6 +107,15 @@ exports.testFieldType = function(List) {
 		testItem.number = 1;
 		List.fields.number.updateItem(testItem, {
 			number: ''
+		});
+		demand(testItem.number).be(null);
+		testItem.number = undefined;
+	});
+	
+	it('should null value when undefined', function() {
+		testItem.number = 1;
+		List.fields.number.updateItem(testItem, {
+			number: undefined
 		});
 		demand(testItem.number).be(null);
 		testItem.number = undefined;
