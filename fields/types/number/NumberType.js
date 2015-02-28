@@ -86,7 +86,8 @@ number.prototype.updateItem = function(item, data) {
 	
 	var value = this.getValueFromData(data);
 	
-	if (value === undefined) {
+	if ((value === undefined || value === '') && 'number' === typeof item.get(this.path)) {
+		item.set(this.path, null);
 		return;
 	}
 	
