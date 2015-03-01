@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
 	switch (req.params.action) {
 
 		case 'autocomplete':
-			var limit = req.query.limit || 10,
+			var limit = req.query.limit || 50,
 				page = req.query.page || 1,
 				skip = limit * (page - 1);
 				
