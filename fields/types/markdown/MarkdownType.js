@@ -21,6 +21,9 @@ function markdown(list, path, options) {
 
 	this.toolbarOptions = options.toolbarOptions || {};
 	this.height = options.height || 90;
+
+	this._properties = ['toolbarOptions', 'height'];
+
 	markdown.super_.call(this, list, path, options);
 
 }

@@ -15,13 +15,18 @@ module.exports = Field.create({
 			savable: false,
 			additionalButtons: this.buttonsToAdd(),
 			resize: 'vertical',
-			reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil']
+			reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil'],
+			hiddenButtons: ['Heading']
 		};
 
+		if(this.props.toolbarOptions.hiddenButtons) {
+			$.extend(markdownOptions.hiddenButtons, this.props.toolbarOptions.hiddenButtons.split(',') );
+		}
+		
 		// only have access to `refs` during componentDidMount
 		$(this.refs.markdownTextarea.getDOMNode()).markdown(markdownOptions);
 	},
-	
+
 	// Add Heading buttons
 	buttonsToAdd: function() {
 		// Append/remove ### surround the selection 
@@ -91,7 +96,8 @@ module.exports = Field.create({
 	
 	renderField: function() {
 		var styles = {
-			padding: 8
+			padding: 8,
+			height: this.props.height
 		};
 		return (
 			<div className="md-editor">
