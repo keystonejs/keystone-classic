@@ -1105,7 +1105,16 @@ block content
 				p <code>prefix</code> <code class="data-type">String</code> - the path prefix in browser, if it different with <code>dest</code>
 				p <code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)
 				p <code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded file
-				p <code>filename</code> <code class="data-type">Function</code> - function with arguments current model and client file name to return the new filename to upload.
+				p <code>filename</code> <code class="data-type">Function</code> - function with two arguments: current model and file object to return the new filename to upload.
+					pre: code.language-javascript.
+						{
+							type: Types.LocalFile,
+							dest: '/data/files',
+							prefix: '/files/',
+							filename: function(item, file){
+								return item.id + '.' + file.extension
+							}
+						}
 				p <code>format</code> <code class="data-type">Function</code> - function with two arguments: current model and file object to return representation of this file in Admin UI.
 					pre: code.language-javascript.
 						{
