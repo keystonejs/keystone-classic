@@ -34,7 +34,7 @@ util.inherits(datearray, super_);
 
 datearray.prototype.parse = function(item) {
 	var newValue = moment.apply(moment, Array.prototype.slice.call(arguments, 1));
-	item.set(this.path, (newValue && newValue.isValid()) ? newValue.toDate() : null);
+	item.set(this.path, (newValue && moment(newValue).isValid()) ? newValue.toDate() : null);
 	return newValue;
 };
 
@@ -69,6 +69,10 @@ datearray.prototype.validateInput = function(data, required, item) {
 	}
 
 	if (Array.isArray(value)) {
+		// Trim out empty fields
+		value = value.filter(function(date) {
+			return date.trim();
+		});
 		// If any date in the array is invalid, return false
 		if (value.some(function (dateValue) { return !moment(dateValue).isValid(); })) {
 			return false;
@@ -92,8 +96,9 @@ datearray.prototype.updateItem = function(item, data) {
 	
 	if (value !== undefined) {
 		if (Array.isArray(value)) {
+			// Only save valid dates
 			value = value.filter(function(date) {
-				return moment.isValid(date);
+				return moment(date).isValid();
 			});
 		}
 		if (value === null) {
@@ -107,7 +112,7 @@ datearray.prototype.updateItem = function(item, data) {
 		if (Array.isArray(value)) {
 			item.set(this.path, value);
 		}
-	}
+	} else item.set(this.path, []);
 };
 
 

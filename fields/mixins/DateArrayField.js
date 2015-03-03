@@ -32,22 +32,46 @@ module.exports = {
 		}
 	},
 
+	componentWillUpdate: function() {
+		this.props.value.forEach(function (val, i) {
+			// Destroy each of our datepickers
+			if (this.props.pickers[i]) {
+				this.props.pickers[i].destroy();
+			}
+		}, this);
+	},
+
 	componentDidUpdate: function() {
-		this.state.values.forEach(function (val, i) {
-			console.log(this.props.pickers)
-			var dateInput = this.getDOMNode().getElementsByClassName("datepicker_"+ val.key)[0];
-			// add date picker
+		this.props.value.forEach(function (val, i) {
+			var dateInput = this.getDOMNode().getElementsByClassName("datepicker_"+ this.state.values[i].key)[0];
+			// Add a date picker to each updated field
 			this.props.pickers[i] = new Pikaday({
 				field: dateInput,
 				format: this.props.format,
 				onSelect: function(date) {
 					if (this.props.onChange && this.props.pickers[i].toString() !== val.value) {
-						//dateInput.value = this.props.pickers[i].toString();
+						this.props.value[i] = this.props.pickers[i].toString();
 						this.props.onChange(this.props.pickers[i].toString());
 					}
 				}.bind(this)
 			});
-			this.props.pickers[i].setMoment(moment(moment(), this.props.format));
+		}, this);
+	},
+
+	componentDidMount: function() {
+		this.props.value.forEach(function (val, i) {
+			var dateInput = this.getDOMNode().getElementsByClassName("datepicker_"+ this.state.values[i].key)[0];
+			if (this.props.pickers[i]) this.props.pickers[i].destroy();
+			this.props.pickers[i] = new Pikaday({
+				field: dateInput,
+				format: this.props.format,
+				onSelect: function(date) {
+					if (this.props.onChange && this.props.pickers[i].toString() !== val.value) {
+						this.props.value[i] = this.props.pickers[i].toString();
+						this.props.onChange(this.props.pickers[i].toString());
+					}
+				}.bind(this)
+			});
 		}, this);
 	},
 	
@@ -74,7 +98,6 @@ module.exports = {
 		this.setState({
 			values: updatedValues
 		});
-		console.log(updatedValues)
 		this.valueChanged(_.pluck(updatedValues, 'value'));
 	},
 	
@@ -86,7 +109,6 @@ module.exports = {
 	},
 
 	handleBlur: function(e) {
-		console.log(e, this)
 		if (this.state.value === this.props.value) return;
 		this.picker.setMoment(moment(this.state.value, this.props.format));
 	},
