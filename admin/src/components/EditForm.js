@@ -60,15 +60,9 @@ var EditForm = React.createClass({
 				React.createElement(Fields[nameField.type], nameFieldProps)
 			);
 			
-		} else if (nameField && nameField.type == 'name') {
-			var nameValue = this.props.data.fields[nameField.path] || {};
-			nameValue = _.compact([nameValue.first, nameValue.last]).join(' ');
-			return wrapNameField(
-				<h2 className="form-heading name-value">{nameValue || '(no name)'}</h2>
-			);
 		} else {
 			return wrapNameField(
-				<h2 className="form-heading name-value">{this.props.data.fields[namePath] || '(no name)'}</h2>
+				<h2 className="form-heading name-value">{this.props.data.name || '(no name)'}</h2>
 			);
 		}
 	},
