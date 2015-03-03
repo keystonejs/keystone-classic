@@ -307,7 +307,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 	var doMove = function(callback) {
 		
 		if ('function' === typeof field.options.filename) {
-			filename = field.options.filename(item, filename);
+			filename = field.options.filename(item, file);
 		}
 
 		fs.move(file.path, path.join(field.options.dest, filename), { clobber: field.options.overwrite }, function(err) {
