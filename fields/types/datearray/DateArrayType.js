@@ -16,6 +16,14 @@ function datearray(list, path, options) {
 	
 	this._nativeType = [Date];
 	this._fixedSize = 'large';
+	this._underscoreMethods = ['format'];
+	this._properties = ['formatString'];
+
+	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
+	
+	if (this.formatString && 'string' !== typeof this.formatString) {
+		throw new Error('FieldType.Date: options.format must be a string.');
+	}
 	
 	datearray.super_.call(this, list, path, options);
 }
@@ -27,19 +35,21 @@ function datearray(list, path, options) {
 util.inherits(datearray, super_);
 
 /**
- * Parses input using moment, sets the value, and returns the moment object.
+ * Formats the field value
  *
  * @api public
  */
 
-datearray.prototype.parse = function(item) {
-	var newValue = moment.apply(moment, Array.prototype.slice.call(arguments, 1));
-	item.set(this.path, (newValue && moment(newValue).isValid()) ? newValue.toDate() : null);
-	return newValue;
+datearray.prototype.format = function(item, format) {
+	if (format || this.formatString) {
+		return item.get(this.path) ? moment(item.get(this.path)).format(format || this.formatString) : '';
+	} else {
+		return item.get(this.path) || '';
+	}
 };
 
 /**
- * Checks that a valid date has been provided in a data object
+ * Checks that a valid array of dates has been provided in a data object
  *
  * An empty value clears the stored value and is considered valid
  *
@@ -50,6 +60,13 @@ datearray.prototype.validateInput = function(data, required, item) {
 
 	var value = this.getValueFromData(data);
 
+	if ('string' === typeof value) {
+		if (!moment(value).isValid()) {
+			return false;
+		}
+		value = [value];
+	}
+	
 	if (required) {
 		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
@@ -61,26 +78,17 @@ datearray.prototype.validateInput = function(data, required, item) {
 			return false;
 		}
 	}
-
-	if ('string' === typeof value) {
-		if (!moment(value).isValid()) {
-			return false;
-		}
-	}
-
 	if (Array.isArray(value)) {
-		// Trim out empty fields
+		// Filter out empty fields
 		value = value.filter(function(date) {
-			return date.trim();
+			return date.trim() !== '';
 		});
 		// If any date in the array is invalid, return false
 		if (value.some(function (dateValue) { return !moment(dateValue).isValid(); })) {
 			return false;
 		}
 	}
-
-	return (value === undefined || Array.isArray(value) || ('string' === typeof value) || ('number' === typeof value));
-
+	return (value === undefined || Array.isArray(value));
 };
 
 
