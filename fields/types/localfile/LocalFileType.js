@@ -116,6 +116,7 @@ localfile.prototype.addToSchema = function() {
 	var paths = this.paths = {
 		// fields
 		filename:		this._path.append('.filename'),
+		originalname:		this._path.append('.originalname'),
 		path:			this._path.append('.path'),
 		size:			this._path.append('.size'),
 		filetype:		this._path.append('.filetype'),
@@ -128,6 +129,7 @@ localfile.prototype.addToSchema = function() {
 	
 	var schemaPaths = this._path.addTo({}, {
 		filename:		String,
+		originalname :		String,
 		path:			String,
 		size:			Number,
 		filetype:		String
@@ -288,7 +290,6 @@ localfile.prototype.updateItem = function(item, data) {
  */
 
 localfile.prototype.uploadFile = function(item, file, update, callback) {
-
 	var field = this,
 		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
 		filename = prefix + file.name,
@@ -315,6 +316,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 
 			var fileData = {
 				filename: filename,
+				originalname: file.originalname,
 				path: field.options.dest,
 				size: file.size,
 				filetype: filetype
