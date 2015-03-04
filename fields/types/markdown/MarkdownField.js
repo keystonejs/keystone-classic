@@ -46,6 +46,8 @@ var renderMarkdown = function (component) {
 		autofocus: false,
 		savable: false,
 		resize: 'vertical',
+		height: component.props.height,
+		hiddenButtons: component.props.toolbarOptions.hiddenButtons,
 
 		// Heading buttons
 		additionalButtons: [{
@@ -94,18 +96,24 @@ module.exports = Field.create({
 	
 	// only have access to `refs` once component is mounted
 	componentDidMount: function() {
-		renderMarkdown(this);
+		if(this.props.wysiwyg) {
+			renderMarkdown(this);
+		}
 	},
 
 	// only have access to `refs` once component is mounted
 	componentDidUpdate : function() {
-		renderMarkdown(this);
+		if(this.props.wysiwyg) {
+			renderMarkdown(this);
+		}
 	},
 	
 	renderField: function() {
 		var styles = {
-			padding: 8
+			padding: 8,
+			height: this.props.height
 		};
+		
 		return (
 			<div className="md-editor">
 				<textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="form-control markdown code"></textarea>
