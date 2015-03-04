@@ -9,6 +9,10 @@ module.exports = Field.create({
 	
 	displayName: 'MarkdownField',
 	
+	shouldCollapse : function() {
+		return this.props.collapse && !this.props.value.md;
+	},
+	
 	componentDidMount: function() {
 		var markdownOptions = {
 			autofocus: false,
