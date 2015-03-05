@@ -146,16 +146,16 @@ module.exports = Field.create({
 		// TODO expand IDs
 		if (this.props.many) {
 			// a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
-			return <div className='field-value'>{this.props.value}</div>;
-		} else if (this.props.many && this.props.value.length) {
-			// var body = [];
-			// 
-			// _.each(this.props.value, function (value) {
-			// 	body.push(<a href={'/keystone/' + this.props.refList.path + '/' + value} className='ui-related-item'>{value}</a>);
-			// }, this);
-			// 
-			// return value;
-			return <div className='field-value'>{this.props.value}</div>;
+			var body = []
+			this.state.expandedValues.forEach(function (val) {
+				body.push(
+					<div className='field-value'>
+						<span>{val.label}</span>
+						<a className='pull-right' href={'/keystone/' + this.props.refList.path + '/' + val.value}>View {this.props.refList.singular.toLowerCase()}</a>
+					</div>
+				);
+			}, this);
+			return <div className='field-value-list'>{ body }</div>;
 		} else {
 			return <div className='field-value'>(not set)</div>;
 		}
