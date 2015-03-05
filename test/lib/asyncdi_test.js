@@ -4,6 +4,8 @@ var demand = require('must'),
 var fn_basic = function() { return true; };
 var fn_async = function(callback) { callback(null, true) };
 var fn_one = function(one) { return true; };
+var fn_scope = function(){ return this; };
+var scope = {};
 
 describe('AsyncDI', function() {
 	describe('new Wrapper', function() {
@@ -59,4 +61,20 @@ describe('AsyncDI', function() {
 			demand(di(fn_one).requires.two).be.undefined();
 		});
 	});
-})
+	describe('(fn_scope).call(scope, callback)', function(){
+		it('must return scope', function(done){
+			di(fn_scope).call(scope, function(err, val){
+				demand(val).equal(scope);
+				done();
+			});
+		});
+	});
+	describe('(fn_scope, scope).call(callback)', function(){
+		it('must return scope', function(done){
+			di(fn_scope, scope).call(function(err, val){
+				demand(val).equal(scope);
+				done();
+			});
+		});
+	});
+});
