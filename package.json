@@ -74,6 +74,7 @@
     "mocha": "2.1.0",
     "must": ">= 0.12 < 1",
     "reactify": "~1.0.0",
+    "rimraf": "^2.3.1",
     "should": "^5.0.1",
     "sinon": "~1.12.2",
     "supertest": "~0.15.0",
@@ -116,7 +117,11 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "jsxhint --reporter=node_modules/jshint-stylish/stylish.js .",
+    "style": "jscs .",
+    "test-cov": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha",
+    "clean": "rimraf ./coverage"
   },
   "engines": {
     "node": ">= 0.10.28",
