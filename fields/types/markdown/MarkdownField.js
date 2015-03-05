@@ -7,10 +7,10 @@ require('./lib/bootstrap-markdown');
 
 // Append/remove ### surround the selection
 // Source: https://github.com/toopay/bootstrap-markdown/blob/master/js/bootstrap-markdown.js#L909
-var headingCallback = function (e, hType) {
+var toggleHeading = function(e, level) {
 	var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
 
-	if (selected.length == 0) {
+	if (selected.length === 0) {
 		// Give extra word
 		chunk = e.__localize('heading text');
 	} else {
@@ -18,27 +18,27 @@ var headingCallback = function (e, hType) {
 	}
 
 	// transform selection and set the cursor into chunked text
-	if ((pointer = hType.length+1, content.substr(selected.start-pointer,pointer) == hType+' ')
-		|| (pointer = hType.length, content.substr(selected.start-pointer,pointer) == hType)) {
-		e.setSelection(selected.start-pointer,selected.end);
+	if ((pointer = level.length + 1, content.substr(selected.start-pointer,pointer) === level + ' ')
+		|| (pointer = level.length, content.substr(selected.start-pointer,pointer) === level)) {
+		e.setSelection(selected.start-pointer, selected.end);
 		e.replaceSelection(chunk);
 		cursor = selected.start-pointer;
-	} else if (selected.start > 0 && (prevChar = content.substr(selected.start-1,1), !!prevChar && prevChar != '\n')) {
-		e.replaceSelection('\n\n'+hType+' '+chunk);
-		cursor = selected.start+hType.length+3;
+	} else if (selected.start > 0 && (prevChar = content.substr(selected.start-1, 1), !!prevChar && prevChar !== '\n')) {
+		e.replaceSelection('\n\n' + level + ' ' + chunk);
+		cursor = selected.start + level.length + 3;
 	} else {
 		// Empty string before element
-		e.replaceSelection(hType+' '+chunk);
-		cursor = selected.start+hType.length+1;
+		e.replaceSelection(level + ' ' + chunk);
+		cursor = selected.start + level.length + 1;
 	}
 
 	// Set the cursor
-	e.setSelection(cursor,cursor+chunk.length);
+	e.setSelection(cursor,cursor + chunk.length);
 };
 
-var renderMarkdown = function (component) {
+var renderMarkdown = function(component) {
 	// dependsOn means that sometimes the component is mounted as a null, so account for that & noop
-	if(!component.refs.markdownTextarea) {
+	if (!component.refs.markdownTextarea) {
 		return;
 	}
 
@@ -56,29 +56,29 @@ var renderMarkdown = function (component) {
 				name: 'cmdH1',
 				title: 'Heading 1',
 				btnText: 'H1',
-				callback: function(e){
-					headingCallback(e, '#');
+				callback: function(e) {
+					toggleHeading(e, '#');
 				}
-			},{
+			}, {
 				name: 'cmdH2',
 				title: 'Heading 2',
 				btnText: 'H2',
-				callback: function(e){
-					headingCallback(e, '##');
+				callback: function(e) {
+					toggleHeading(e, '##');
 				}
-			},{
+			}, {
 				name: 'cmdH3',
 				title: 'Heading 3',
 				btnText: 'H3',
-				callback: function(e){
-					headingCallback(e, '###');
+				callback: function(e) {
+					toggleHeading(e, '###');
 				}
-			},{
+			}, {
 				name: 'cmdH4',
 				title: 'Heading 4',
 				btnText: 'H4',
-				callback: function(e){
-					headingCallback(e, '####');
+				callback: function(e) {
+					toggleHeading(e, '####');
 				}
 			}]
 		}],
@@ -96,14 +96,14 @@ module.exports = Field.create({
 	
 	// only have access to `refs` once component is mounted
 	componentDidMount: function() {
-		if(this.props.wysiwyg) {
+		if (this.props.wysiwyg) {
 			renderMarkdown(this);
 		}
 	},
 
 	// only have access to `refs` once component is mounted
 	componentDidUpdate : function() {
-		if(this.props.wysiwyg) {
+		if (this.props.wysiwyg) {
 			renderMarkdown(this);
 		}
 	},
