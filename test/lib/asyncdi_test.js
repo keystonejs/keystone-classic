@@ -9,6 +9,7 @@ var fn_one = function(one) { return true; };
 var fn_scope = function(){ return this; };
 var fn_error = function() { throw thrownErr };
 var scope = {};
+var notAFunction = {};
 
 describe('AsyncDI', function() {
 	describe('new Wrapper', function() {
@@ -19,6 +20,13 @@ describe('AsyncDI', function() {
 	describe('()', function() {
 		it('must be an instance of Wrapper', function() {
 			di(fn_basic).must.be.an.instanceof(di.Wrapper);
+		});
+	});
+	describe('(notAFunction)', function(){
+		it('must throw an error', function(){
+			demand(function(){
+				di(notAFunction);
+			}).to.throw(/function/i);
 		});
 	});
 	describe('fn_basic.isAsync', function() {
