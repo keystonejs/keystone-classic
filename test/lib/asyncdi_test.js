@@ -1,10 +1,13 @@
 var demand = require('must'),
 	di = require('../../lib/asyncdi');
 
+var thrownErr = new Error("Should've been caught by asyncdi");
+
 var fn_basic = function() { return true; };
-var fn_async = function(callback) { callback(null, true) };
+var fn_async = function(callback) { setTimeout(callback, 500, null, true) };
 var fn_one = function(one) { return true; };
 var fn_scope = function(){ return this; };
+var fn_error = function() { throw thrownErr };
 var scope = {};
 
 describe('AsyncDI', function() {
@@ -73,6 +76,14 @@ describe('AsyncDI', function() {
 		it('must return scope', function(done){
 			di(fn_scope, scope).call(function(err, val){
 				demand(val).equal(scope);
+				done();
+			});
+		});
+	});
+	describe('(fn_error).call(callback)', function(){
+		it('must return thrownErr', function(done){
+			di(fn_error).call(function(err, val){
+				demand(err).equal(thrownErr);
 				done();
 			});
 		});
