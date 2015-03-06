@@ -498,15 +498,22 @@ block content
 				tr
 					td <code>value</code> <code class="data-type">Function</code>
 					td
-						p The function to generate the field value when a watched path is changed. Must return the new value.
+						p The function to generate the field value when a watched path is changed. Must return the new value, or accept a node-style <code>callback</code> argument, which can be called to set the field value asynchronously.
 						p The <code>this</code> context of the function will be the item being saved.
-						.code-header: h4 Example
+						.code-header: h4 Example (synchronous)
 						pre: code.language-javascript
 							| function () {
 							|     return this.total<=this.totalreceived ? true:false;
 							| }
-			
-			//- TODO: Documentation for field methods
+						.code-header: h4 Example (asynchronous)
+						pre: code.language-javascript
+							| function (callback) { // BEWARE: MUST be called "callback" to allow asynchronous execution
+							|	list.model.findById(this.createdBy).exec(function(err, user){
+							|		callback(err, user.name + "-" + Date.now());
+							|	});
+							| }
+
+	//- TODO: Documentation for field methods
 			
 			a(name="fields-underscoremethods")
 			h3 Underscore Methods
