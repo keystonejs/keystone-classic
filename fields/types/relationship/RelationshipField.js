@@ -148,7 +148,7 @@ module.exports = Field.create({
 			var body = [];
 			
 			_.each(this.state.expandedValues, function (item) {
-				body.push(<a href={'/keystone/' + this.props.refList.path + '/' + item.value} className='ui-related-item'>{item.label}</a>);
+				body.push(<a href={'/keystone/' + this.props.refList.path + '/' + item.value} className='related-item-link'>{item.label}</a>);
 			}, this);
 			
 			return body;
