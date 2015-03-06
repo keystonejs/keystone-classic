@@ -17,8 +17,10 @@ function code(list, path, options) {
 	this._defaultSize = 'full';
 
 	this.height = options.height || 180;
-	this.language = options.language || options.lang;
+	this.editor = options.editor || {};
 	this.mime = getMime(this.language);
+	
+	this._properties = [ 'editor' ];
 
 	code.super_.call(this, list, path, options);
 
