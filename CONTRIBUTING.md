@@ -12,9 +12,9 @@ the maintainers, especially if you are going to spend a lot of time on it.
 the scripts with your changes.
 * Make sure you do not add regressions by running `npm test`. There should not
 be more errors than you began with.
-* Make sure you do not add jshint violations. Run `make lint`. There should not
+* Make sure you do not add jshint violations. Run `npm run lint`. There should not
 be more violations than you began with.
-* Adhere to code style outlined in the .jscsrc file. Run `make style`. Ensure
+* Adhere to code style outlined in the .jscsrc file. Run `npm run style`. Ensure
 you did not add more style violations than you began with.
 * Submit a pull request through Github. _Please do not include build files in
 your PR_
