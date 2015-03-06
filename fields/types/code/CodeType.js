@@ -18,7 +18,7 @@ function code(list, path, options) {
 
 	this.height = options.height || 180;
 	this.editor = options.editor || {};
-	this.mime = getMime(this.language);
+	this.mime = getMime(this.editor.mode);
 	
 	this._properties = [ 'editor' ];
 
