@@ -1,6 +1,6 @@
 {
   "excludeFiles": ["coverage", "fields", "admin", "docs", "test", "node_modules", "public/build", "public/js/lib", "public/js/build"],
-	"preset": "yandex",
+	"preset": "airbnb",
 	"disallowMultipleVarDecl": null,
 	"disallowMultipleLineBreaks": null,
 	"disallowTrailingWhitespace": null,
