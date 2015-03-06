@@ -46,12 +46,16 @@ key.prototype.generateKey = function(str) {
  */
 
 key.prototype.validateInput = function(data, required, item) {
+	
+	var value = this.getValueFromData(data);
+	
+	if (value === undefined && item && item.get(this.path)) {
+		return true;
+	}
 
-	if (!(this.path in data) && item && item.get(this.path)) return true;
+	value = this.generateKey(value);
 
-	var newValue = this.generateKey(data[this.path]);
-
-	return (newValue || !required);
+	return (value || !required);
 
 };
 
@@ -64,14 +68,16 @@ key.prototype.validateInput = function(data, required, item) {
 
 key.prototype.updateItem = function(item, data) {
 
-	if (!(this.path in data)) {
+	var value = this.getValueFromData(data);
+	
+	if (value === undefined) {
 		return;
 	}
 
-	var newValue = this.generateKey(data[this.path]);
+	value = this.generateKey(value);
 
-	if (item.get(this.path) !== newValue) {
-		item.set(this.path, newValue);
+	if (item.get(this.path) !== value) {
+		item.set(this.path, value);
 	}
 
 };

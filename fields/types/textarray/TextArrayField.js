@@ -3,5 +3,9 @@ var _ = require('underscore'),
 	ArrayFieldMixin = require('../../mixins/ArrayField');
 
 module.exports = Field.create({
+	
+	displayName: 'TextArrayField',
+	
 	mixins: [ArrayFieldMixin]
+	
 });

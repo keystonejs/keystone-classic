@@ -3,6 +3,8 @@ var React = require('react'),
 	Note = require('../../components/Note');
 
 module.exports = Field.create({
+	
+	displayName: 'GeopointField',
 
 	focusTargetRef: 'lat',
 	

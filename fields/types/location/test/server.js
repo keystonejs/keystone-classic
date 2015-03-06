@@ -1,13 +1,11 @@
-var assert = require('assert'),
-	demand = require('must'),
-	keystone = require('../../../..'),
-	UpdateHandler = require('../../../../lib/updateHandler');
+var demand = require('must'),
+	LocationType = require('../LocationType');
 
 exports.initList = function(List) {
 	List.add({
 		location: {
-			basic: keystone.Field.Types.Location,
-			customRequired: { type: keystone.Field.Types.Location, required: ['state', 'country'] }
+			basic: LocationType,
+			customRequired: { type: LocationType, required: ['state', 'country'] }
 		}
 	});
 };

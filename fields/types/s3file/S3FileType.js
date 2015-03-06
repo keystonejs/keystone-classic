@@ -276,8 +276,14 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 			'x-amz-acl': 'public-read'
 		}, function(err, res) {
 
-			if (res) res.resume();
 			if (err) return callback(err);
+			if (res) {
+				if (res.statusCode !== 200) {
+					return callback(new Error('Amazon returned Http Code: ' + res.statusCode));
+				} else {
+					res.resume();
+				}
+			}
 
 			var protocol = (field.s3config.protocol && field.s3config.protocol + ':') || '',
 				url = res.req.url.replace(/^https?:/i, protocol);

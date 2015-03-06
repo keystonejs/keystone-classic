@@ -5,6 +5,8 @@ var React = require('react'),
 	moment = require('moment');
 
 module.exports = Field.create({
+	
+	displayName: 'DatetimeField',
 
 	focusTargetRef: 'dateInput',
 

@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
 	switch (req.params.action) {
 
 		case 'autocomplete':
-			var limit = req.query.limit || 10,
+			var limit = req.query.limit || 50,
 				page = req.query.page || 1,
 				skip = limit * (page - 1);
 				
@@ -176,7 +176,7 @@ exports = module.exports = function(req, res) {
 
 			var id = req.body.id || req.query.id;
 			
-			if (id === req.user.id) {
+			if (req.user && id === req.user.id) {
 				return sendError('You can not delete yourself');
 			}
 			

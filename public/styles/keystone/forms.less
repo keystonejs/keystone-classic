@@ -66,24 +66,6 @@
 	padding: @padding-large-vertical @padding-large-horizontal;
 }
 
-// Initially hidden fields
-.overwrite,
-.extras,
-.field-message,
-.change-password {
-	display: none;
-}
-
-// Initially "invisible" but not hidden, workaround for wysiwyg init issue
-// *actually* hidden after page has initialised by JS
-.field-hidden {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	opacity: 0;
-}
-
 
 
 
@@ -309,7 +291,7 @@ label.checkbox {
 		
 		&.is-focused {
 			@shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@link-color,50%);
-			.box-shadow( @shadow );
+			.box-shadow(@shadow);
 			border-color: @input-border-focus lighten(@input-border-focus, 5%) lighten(@input-border-focus, 5%);
 		}
 	}
@@ -323,10 +305,10 @@ label.checkbox {
 }
 
 // Related Items
-.ui-related-item {
+.related-item-link {
 	.field-value;
+	min-width: 0;
 	background: white;
-	//border: 1px solid #72b3d8;
 	color: #0089cb;
 	margin-right: 5px;
 	text-decoration: none;

@@ -25,6 +25,8 @@ function location(list, path, options) {
 	this._fixedSize = 'full';
 
 	this.enableMapsAPI = keystone.get('google api key') ? true : false;
+	
+	this._properties = ['enableMapsAPI'];
 
 	if (!options.defaults) {
 		options.defaults = {};

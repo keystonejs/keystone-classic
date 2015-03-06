@@ -1,11 +1,8 @@
-var assert = require('assert'),
-	keystone = require('../../../..'),
-	demand = require('must'),
-	UpdateHandler = require('../../../../lib/updateHandler');
+var demand = require('must');
 
 exports.initList = function(List) {
 	List.add({
-		text: keystone.Field.Types.Text,
+		text: String,
 		nested: {
 			text: String
 		}

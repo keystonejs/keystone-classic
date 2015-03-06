@@ -74,10 +74,10 @@ geopoint.prototype.format = function(item) {
 
 geopoint.prototype.validateInput = function(data, required, item) {
 	
+	var values = this.getValueFromData(data);
+
 	// Input is valid if the field is not required, and not present
-	if (!(this.path in data) && !required) return true;
-	
-	var values = data[this.path];
+	if (values === undefined && !required) return true;
 	
 	if (_.isArray(values)) {
 		values = _.compact(values).join(',');
@@ -100,10 +100,13 @@ geopoint.prototype.updateItem = function(item, data) {
 	
 	if (!_.isObject(data)) return;
 	
-	if (this.path in data && _.isString(data[this.path])) {
+	var value = this.getValueFromData(data);
+	if (value === undefined) return;
+
+	if (_.isString(value)) {
 		
 		// Value should be formatted lng,lat
-		var values = REGEXP_LNGLAT.exec(data[this.path]);
+		var values = REGEXP_LNGLAT.exec(value);
 		
 		if (values) {
 			item.set(this.path, [values[1], values[2]]);
@@ -111,12 +114,10 @@ geopoint.prototype.updateItem = function(item, data) {
 			item.set(this.path, undefined);
 		}
 		
-	} else if (this.path in data && _.isArray(data[this.path])) {
+	} else if (_.isArray(value)) {
 		
-		var values = data[this.path];
-		
-		if (values.length === 2 && REGEXP_LNGLAT.test(_.compact(values).join(','))) {
-			item.set(this.path, values);
+		if (value.length === 2 && REGEXP_LNGLAT.test(_.compact(value).join(','))) {
+			item.set(this.path, value);
 		} else {
 			item.set(this.path, undefined);
 		}

@@ -783,6 +783,7 @@ block content
 			a(name="fieldtypes-select")
 			h3 <code>Select</code>
 			h4 <code class="data-type">String</code>或<code class="data-type">Number</code> &mdash; 在管理界面中显示为选择输入控件
+			p.note 类似于其他框架中的 <code>Enum</code>.
 			pre: code.language-javascript { type: Types.Select, options: 'first, second, third' }
 			.options
 				
@@ -853,6 +854,9 @@ block content
 			.options
 				
 				h5 参数
+				p <code>height</code> <code class="data-type">Number</code> - 定义 markdown 编辑器高度；默认高度为 <code class="default-value">90</code>.
+				pre: code.language-javascript
+					| { type: Types.Markdown, height: 200 }
 				p <code>toolbarOptions</code> <code class="data-type">Object</code> - 可以定制工具栏。
 				p <code>toolbarOptions.hiddenButtons</code> <code class="data-type">String</code> - 要隐藏的按钮清单，用逗号分隔。
 				pre: code.language-javascript

@@ -11,6 +11,8 @@ var _ = require('underscore'),
 
 module.exports = Field.create({
 	
+	displayName: 'SelectField',
+	
 	valueChanged: function(newValue) {
 		// TODO: This should be natively handled by the Select component
 		if (this.props.numeric && 'string' === typeof newValue) {

@@ -1,12 +1,10 @@
-var assert = require('assert'),
-	keystone = require('../../../..'),
-	demand = require('must'),
-	UpdateHandler = require('../../../../lib/updateHandler');
+var demand = require('must'),
+	RelationshipType = require('../RelationshipType');
 
 exports.initList = function(List) {
 	List.add({
-		text: keystone.Field.Types.Text,
-		testRelationship: { type: keystone.Field.Types.Relationship, ref: 'Test', required: true, unique: true }
+		text: String,
+		testRelationship: { type: RelationshipType, ref: 'Test', required: true, unique: true }
 	});
 };
 

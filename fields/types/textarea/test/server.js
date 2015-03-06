@@ -1,7 +1,4 @@
-var assert = require('assert'),
-	keystone = require('../../../..'),
-	demand = require('must'),
-	UpdateHandler = require('../../../../lib/updateHandler'),
+var demand = require('must'),
 	TextareaType = require('../TextareaType');
 
 exports.initList = function(List) {

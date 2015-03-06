@@ -21,6 +21,12 @@ function markdown(list, path, options) {
 
 	this.toolbarOptions = options.toolbarOptions || {};
 	this.height = options.height || 90;
+
+	// since wysiwyg option can be falsey this needs to use `in` instead of ||
+	this.wysiwyg = ('wysiwyg' in options) ? options.wysiwyg : true;
+
+	this._properties = ['wysiwyg', 'height', 'toolbarOptions'];
+
 	markdown.super_.call(this, list, path, options);
 
 }
@@ -96,11 +102,10 @@ markdown.prototype.format = function(item) {
  */
 
 markdown.prototype.validateInput = function(data, required, item) {
-
-	if (!(this.path in data || this.paths.md in data) && item && item.get(this.paths.md)) return true;
-
+	if (!(this.path in data || this.paths.md in data) && item && item.get(this.paths.md)) {
+		return true;
+	}
 	return (!required || data[this.path] || data[this.paths.md]) ? true : false;
-
 };
 
 
@@ -124,13 +129,12 @@ markdown.prototype.isModified = function(item) {
  */
 
 markdown.prototype.updateItem = function(item, data) {
-
-	if (this.path in data) {
-		item.set(this.paths.md, data[this.path]);
+	var value = this.getValueFromData(data);
+	if (value !== undefined) {
+		item.set(this.paths.md, value);
 	} else if (this.paths.md in data) {
 		item.set(this.paths.md, data[this.paths.md]);
 	}
-
 };
 
 

@@ -4,6 +4,8 @@ var _ = require('underscore'),
 	Note = require('../../components/Note');
 
 module.exports = Field.create({
+	
+	displayName: 'PasswordField',
 
 	focusTarget: 'password',
 	

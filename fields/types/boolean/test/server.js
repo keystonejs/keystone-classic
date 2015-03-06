@@ -1,6 +1,4 @@
-var assert = require('assert'),
-	demand = require('must'),
-	UpdateHandler = require('../../../../lib/updateHandler');
+var demand = require('must');
 
 exports.initList = function(List) {
 	List.add({
@@ -92,5 +90,23 @@ exports.testFieldType = function(List) {
 		});
 		demand(testItem.nested.bool).be.true();
 		testItem.nested.bool = undefined;
+	});
+
+	it('should always validate when not required', function() {
+		demand(List.fields.bool.validateInput({ bool: 'true' }, false)).be(true);
+		demand(List.fields.bool.validateInput({ bool: true }, false)).be(true);
+		demand(List.fields.bool.validateInput({ bool: 'false' }, false)).be(true);
+		demand(List.fields.bool.validateInput({ bool: false }, false)).be(true);
+		demand(List.fields.bool.validateInput({ bool: '' }, false)).be(true);
+		demand(List.fields.bool.validateInput({ bool: undefined }, false)).be(true);
+	});
+
+	it('should validate input properly when required', function() {
+		demand(List.fields.bool.validateInput({ bool: 'true' }, true)).be(true);
+		demand(List.fields.bool.validateInput({ bool: true }, true)).be(true);
+		demand(List.fields.bool.validateInput({ bool: 'false' }, true)).be(false);
+		demand(List.fields.bool.validateInput({ bool: false }, true)).be(false);
+		demand(List.fields.bool.validateInput({ bool: '' }, true)).be(false);
+		demand(List.fields.bool.validateInput({ bool: undefined }, true)).be(false);
 	});
 };
