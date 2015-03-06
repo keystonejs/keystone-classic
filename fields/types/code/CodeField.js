@@ -7,9 +7,6 @@ var _ = require('underscore'),
 // See CodeMirror docs for API:
 // http://codemirror.net/doc/manual.html
 
-// TODO:
-// Bring forward mime-type language support and features (needs review)
-
 module.exports = Field.create({
 	
 	displayName: 'CodeField',
