@@ -9,6 +9,16 @@ module.exports = Field.create({
 	
 	displayName: 'RelationshipField',
 	
+	shouldCollapse: function() {
+		// many:true relationships have an Array for a value
+		// so need to check length instead
+		if(this.props.many) {
+			return this.props.collapse && !this.props.value.length;
+		}
+		
+		return this.props.collapse && !this.props.value;
+	},
+	
 	getInitialState: function() {
 		return {
 			ready: this.props.value ? false : true,
@@ -72,7 +82,7 @@ module.exports = Field.create({
 		
 		_.each(this.props.filters, function(value, key) {
 			if(_.isString(value) && value[0] == ':') {
-				fieldName = value.slice(1);
+				var fieldName = value.slice(1);
 
 				var val = this.props.values[fieldName];
 				if (val) {
@@ -94,13 +104,16 @@ module.exports = Field.create({
 		
 		_.each(filters, function (val, key) {
 			parts.push('filters[' + key + ']=' + encodeURIComponent(val));
-		})
+		});
 		
 		return parts.join('&');
 	},
 
 	buildOptionQuery: function (input) {
-		return 'context=relationship&q=' + input + '&list=' + Keystone.list.path + '&field=' + this.props.path + '&' + this.buildFilters()
+		return  'context=relationship&q=' + input +
+				'&list=' + Keystone.list.path +
+				'&field=' + this.props.path +
+				'&' + this.buildFilters();
 	},
 
 	getOptions: function(input, callback) {
