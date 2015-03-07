@@ -67,9 +67,10 @@ module.exports = Field.create({
 	},
 
 	getOptions: function() {
-  		var plugins = [ 'code', 'link' ],
+  		var plugins = ['code', 'link'],
   			options = _.defaults(
-             	_.isObject(this.props.wysiwyg) ? this.props.wysiwyg : {},
+  				{},
+             	this.props.wysiwyg,
              	Keystone.wysiwyg.options
          	),
   			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
@@ -104,7 +105,7 @@ module.exports = Field.create({
 				importcss_merge_classes: true
 			};
 			
-			$.extend(options.additionalOptions, importcssOptions);
+			_.extend(options.additionalOptions, importcssOptions);
 		}
 		
 		if (!options.overrideToolbar) {
