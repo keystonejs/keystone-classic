@@ -6,7 +6,7 @@ var util = require('util'),
 	moment = require('moment'),
 	super_ = require('../Type');
 
-var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
+var defaultParseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
 
 /**
  * DateTime FieldType Constructor
@@ -22,10 +22,23 @@ function datetime(list, path, options) {
 	this._properties = ['formatString'];
 	
 	this.typeDescription = 'date and time';
-	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
+	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY h:m a');
 	
 	if (this.formatString && 'string' !== typeof this.formatString) {
 		throw new Error('FieldType.DateTime: options.format must be a string.');
+	}
+	
+	if (!options.parseFormat) {
+		this.parseFormat = defaultParseFormats;
+	} else if ('string' === typeof options.parseFormat) {
+		this.parseFormat = options.parseFormat.split(',').map(function(i) { return i.trim(); });
+	} else {
+		this.parseFormat = options.parseFormat;
+	}
+	
+	// Don't use parseStrict if Admin UI is in use or otherwise validation will fail!
+	if (options.parseFormat && !options.parseStrict) {
+		Array.prototype.push.apply(this.parseFormat, defaultParseFormats);
 	}
 	
 	datetime.super_.call(this, list, path, options);
@@ -109,7 +122,7 @@ datetime.prototype.validateInput = function(data, required, item) {
 
 	if (!(this.path in data && !(this.paths.date in data && this.paths.time in data)) && item && item.get(this.path)) return true;
 
-	var newValue = moment(this.getInputFromData(data), parseFormats);
+	var newValue = moment(this.getInputFromData(data), this.parseFormat);
 
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
@@ -133,7 +146,7 @@ datetime.prototype.updateItem = function(item, data) {
 	if (!(this.path in data || (this.paths.date in data && this.paths.time in data)))
 		return;
 
-	var newValue = moment(this.getInputFromData(data), parseFormats);
+	var newValue = moment(this.getInputFromData(data), this.parseFormat);
 
 	if (newValue && newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {

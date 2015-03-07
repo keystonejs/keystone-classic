@@ -25,6 +25,15 @@ function date(list, path, options) {
 		throw new Error('FieldType.Date: options.format must be a string.');
 	}
 	
+	// Don't use parseStrict if Admin UI is in use or otherwise validation will fail!
+	if ('string' === typeof options.parseFormat) {
+		this.parseFormat = options.parseFormat.split(',').map(function(i) { return i.trim(); });
+		this.parseStrict = options.parseStrict || false;
+	} else if (options.parseFormat) {
+		this.parseFormat = options.parseFormat;
+		this.parseStrict = options.parseStrict || false;
+	}
+	
 	date.super_.call(this, list, path, options);
 }
 
@@ -85,7 +94,15 @@ date.prototype.validateInput = function(data, required, item) {
 
 	if (!(this.path in data) && item && item.get(this.path)) return true;
 
-	var newValue = moment(data[this.path]);
+	var newValue;
+	
+	if (this.parseFormat) {
+		newValue = moment(data[this.path], this.parseFormat);
+	}
+	
+	if (!this.parseFormat || (!this.parseStrict && !newValue.isValid())) {
+		newValue = moment(data[this.path]);
+	}
 
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
@@ -109,7 +126,14 @@ date.prototype.updateItem = function(item, data) {
 	if (!(this.path in data))
 		return;
 
-	var newValue = moment(data[this.path]);
+	var newValue;
+	if (this.parseFormat) {
+		newValue = moment(data[this.path], this.parseFormat);
+	}
+	
+	if (!this.parseFormat || (!this.parseStrict && !newValue.isValid())) {
+		newValue = moment(data[this.path]);
+	}
 
 	if (newValue && newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
