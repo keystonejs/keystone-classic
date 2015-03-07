@@ -323,24 +323,34 @@ s3file.prototype.generateHeaders = function (item, file, callback){
     },
     customHeaders = {},
     headersOption = {},
-    computedHeaders;
+    computedHeaders,
+    defaultHeaders;
 
 
   if (_.has(field.s3config, 'default headers')){
-    customHeaders =  _.extend(customHeaders, field.s3config['default headers']);
+    defaultHeaders = field.s3config['default headers'];
+    if (_.isArray(defaultHeaders)){
+      _.each(defaultHeaders, function (header){
+        var _header = {};
+        if (validateHeader(header, callback)){
+          _header[header.name] = header.value;
+          customHeaders = _.extend(customHeaders, _header); 
+        }
+      });
+    } else if (_.isObject(defaultHeaders)){
+      customHeaders =  _.extend(customHeaders, defaultHeaders);  
+    } else {
+      return callback(new Error('Unsupported Header option: defaults headers must be either an Object or Array ' + JSON.stringify(defaultHeaders)));
+    }
   }
 
   if (field.options.headers){
     headersOption = field.options.headers;
     
-    if (_.isObject(headersOption)){
-      customHeaders = _.extend(customHeaders, headersOption);
-    } else if (_.isFunction(headersOption)){
+    if (_.isFunction(headersOption)){
       computedHeaders = headersOption.call(field, item, file);
 
-      if (_.isObject(computedHeaders)){
-        customHeaders = _.extend(customHeaders, computedHeaders);
-      } else if (_.isArray(computedHeaders)){
+      if (_.isArray(computedHeaders)){
         _.each(computedHeaders, function (header){
           var _header = {};
           if (validateHeader(header, callback)){
@@ -348,11 +358,15 @@ s3file.prototype.generateHeaders = function (item, file, callback){
             customHeaders = _.extend(customHeaders, _header); 
           }
         });
+      } else if (_.isObject(computedHeaders)){
+        customHeaders = _.extend(customHeaders, computedHeaders);
       } else {
         return callback(new Error('Unsupported Header option: computed headers must be either an Object or Array ' + JSON.stringify(computedHeaders)));
       }
 
     } else if (_.isArray(headersOption)){
+      console.log('headersOptions [array]');
+      console.log(util.inspect(headersOption, { depth: 4 }));
       _.each(headersOption, function (header){
         var _header = {};
         if (validateHeader(header, callback)){
@@ -360,7 +374,11 @@ s3file.prototype.generateHeaders = function (item, file, callback){
           customHeaders = _.extend(customHeaders, _header); 
         }
       });
-    }
+    } else if (_.isObject(headersOption)){
+      console.log('headersOptions [object]');
+      console.log(util.inspect(headersOption, { depth: 4 }));
+      customHeaders = _.extend(customHeaders, headersOption);
+    } 
   }
 
   if (validateHeaders(customHeaders, callback)){
