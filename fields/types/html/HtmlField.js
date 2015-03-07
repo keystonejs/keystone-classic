@@ -68,40 +68,46 @@ module.exports = Field.create({
 
 	getOptions: function() {
   		var plugins = [ 'code', 'link' ],
-  			toolbar = Keystone.wysiwyg.options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
+  			options = _.defaults(
+             	_.isObject(this.props.wysiwyg) ? this.props.wysiwyg : {},
+             	Keystone.wysiwyg.options
+         	),
+  			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
 
-		if (Keystone.wysiwyg.options.enableImages) {
+		if (options.enableImages) {
 			plugins.push('image');
 			toolbar += ' | image';
 		}
 
-		if (Keystone.wysiwyg.options.enableCloudinaryUploads) {
+		if (options.enableCloudinaryUploads) {
 			plugins.push('uploadimage');
-			toolbar += Keystone.wysiwyg.options.enableImages ? ' uploadimage' : ' | uploadimage';
+			toolbar += options.enableImages ? ' uploadimage' : ' | uploadimage';
 		}
 
-		if (Keystone.wysiwyg.options.additionalButtons) {
-			var additionalButtons = Keystone.wysiwyg.options.additionalButtons.split(',');
+		if (options.additionalButtons) {
+			var additionalButtons = options.additionalButtons.split(',');
 			for (var i = 0; i < additionalButtons.length; i++) {
 				toolbar += (' | ' + additionalButtons[i]);
 			}
 		}
-		if (Keystone.wysiwyg.options.additionalPlugins) {
-			var additionalPlugins = Keystone.wysiwyg.options.additionalPlugins.split(',');
+		if (options.additionalPlugins) {
+			var additionalPlugins = options.additionalPlugins.split(',');
 			for (var i = 0; i < additionalPlugins.length; i++) {
 				plugins.push(additionalPlugins[i]);
 			}
 		}
-		if (Keystone.wysiwyg.options.importcss) {
+		if (options.importcss) {
 			plugins.push('importcss');
 			var importcssOptions = {
-				content_css: Keystone.wysiwyg.options.importcss,
+				content_css: options.importcss,
 				importcss_append: true,
 				importcss_merge_classes: true
 			};
-			$.extend(Keystone.wysiwyg.options.additionalOptions,importcssOptions);
+			
+			$.extend(options.additionalOptions, importcssOptions);
 		}
-		if (!Keystone.wysiwyg.options.overrideToolbar) {
+		
+		if (!options.overrideToolbar) {
 			toolbar += ' | code';
 		}
 
@@ -109,8 +115,8 @@ module.exports = Field.create({
 			selector: '#' + this.state.id,
 			toolbar:  toolbar,
 			plugins:  plugins,
-			menubar:  Keystone.wysiwyg.options.menubar || false,
-			skin:     Keystone.wysiwyg.options.skin || 'keystone'
+			menubar:  options.menubar || false,
+			skin:     options.skin || 'keystone'
 		};
 
 		if (this.shouldRenderField()) {
@@ -125,8 +131,8 @@ module.exports = Field.create({
 			});
 		}
 
-		if (Keystone.wysiwyg.options.additionalOptions){
-			_.extend(opts, Keystone.wysiwyg.options.additionalOptions);
+		if (options.additionalOptions){
+			_.extend(opts, options.additionalOptions);
 		}
 
 		return opts;
