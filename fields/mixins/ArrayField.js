@@ -72,5 +72,10 @@ module.exports = {
 				<button type="button" className='btn btn-xs btn-default' onClick={this.addItem}>Add item</button>
 			</div>
 		);
+	},
+	
+	// Override shouldCollapse to check for array length
+	shouldCollapse: function () {
+		return this.props.collapse && !this.props.value.length;
 	}
 };
