@@ -293,7 +293,7 @@ var validateHeaders = function(headers, callback) {
 		return callback(new Error('Unsupported Header option: headers must be an Object ' + JSON.stringify(headers)));
 	}
 
-	_.each(headers, function (key, value){
+	_.each(headers, function (value, key){
 		_headers.push({ name: key, value: value });
 	});
 
