@@ -365,8 +365,6 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 			}
 
 		} else if (_.isArray(headersOption)){
-			console.log('headersOptions [array]');
-			console.log(util.inspect(headersOption, { depth: 4 }));
 			_.each(headersOption, function (header){
 				var _header = {};
 				if (validateHeader(header, callback)){
@@ -375,8 +373,6 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 				}
 			});
 		} else if (_.isObject(headersOption)){
-			console.log('headersOptions [object]');
-			console.log(util.inspect(headersOption, { depth: 4 }));
 			customHeaders = _.extend(customHeaders, headersOption);
 		} 
 	}
