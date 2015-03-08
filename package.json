@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "async": "~0.9.0",
+    "asyncdi": "^1.0.0",
     "azure": "~0.10.4",
     "bcrypt-nodejs": "~0.0.3",
     "bluebird": "~2.9.12",

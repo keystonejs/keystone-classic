@@ -10,7 +10,7 @@ var _ = require('underscore'),
 	fs = require('fs'),
 	keystone = require('../../'),
 	utils = require('keystone-utils'),
-	di = require("../../lib/asyncdi"),
+	di = require('asyncdi'),
 	compiledTemplates = {};
 
 
