@@ -22,7 +22,7 @@ module.exports = Field.create({
 			return;
 		}
 		
-		var options = _.defaults(this.props.editor, {
+		var options = _.defaults({}, this.props.editor, {
 			lineNumbers: true,
 			readOnly: this.shouldRenderField() ? false : true
 		});
