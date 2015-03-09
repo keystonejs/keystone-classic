@@ -16,6 +16,8 @@ be more errors than you began with.
 be more violations than you began with.
 * Adhere to code style outlined in the .jscsrc file. Run `npm run style`. Ensure
 you did not add more style violations than you began with.
+* For translation contributions please refer to
+[Documentation Translation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines)
 * Submit a pull request through Github. _Please do not include build files in
 your PR_
 
