@@ -27,7 +27,7 @@
     "moment": "~2.8.3",
     "mongoose": "~3.8.19",
     "mpromise": "~0.5.5",
-    "numeral": "douglasf/Numeral-js",
+    "numeral": "~1.5.3",
     "queryfilter": "~0.0.4",
     "range_check": "~0.0.4",
     "semver": "~4.1.0",
