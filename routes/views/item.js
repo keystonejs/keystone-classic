@@ -1,6 +1,7 @@
 var keystone = require('../../'),
 	_ = require('underscore'),
-	async = require('async');
+	async = require('async'),
+	session = require('../../lib/session');
 
 exports = module.exports = function(req, res) {
 	
@@ -181,6 +182,17 @@ exports = module.exports = function(req, res) {
 			});
 			
 			
+		} else if (req.list.get('impersonation') && req.params.impersonate === 'impersonate') {
+			
+			session.signin(item.id, req, res, function () {
+				req.session.impersonated = item.id;
+				req.flash('success', 'You have successfully impersonated this user.');
+				return res.redirect('/keystone/' + req.list.path + '/' + item.id);
+			}, function (err) {
+				req.flash('error', 'There was a problem while impersonating this user.');
+				return res.redirect('/keystone/' + req.list.path + '/' + item.id);	
+			});
+
 		} else {
 			renderView();
 		}
