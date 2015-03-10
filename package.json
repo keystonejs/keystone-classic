@@ -65,7 +65,6 @@
     "del": "^1.1.1",
     "gulp": "~3.8.11",
     "gulp-rename": "~1.2.0",
-    "gulp-uglify": "~1.1.0",
     "gulp-util": "~3.0.4",
     "gulp-watch": "~4.1.1",
     "istanbul": "^0.3.6",
