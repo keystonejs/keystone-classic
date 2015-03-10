@@ -62,15 +62,15 @@ number.prototype.validateInput = function(data, required, item) {
 	
 	var value = this.getValueFromData(data);
 	
-	if (value === undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
+	if ((value === undefined || value === '') && item && (item.get(this.path) || item.get(this.path) === 0)) {
 		return true;
 	}
 	
-	if (value !== undefined) {
+	if (value === undefined || value === '') {
+		return (required) ? false : true;
+	} else {
 		var newValue = utils.number(value);
 		return (!isNaN(newValue));
-	} else {
-		return (required) ? false : true;
 	}
 	
 };
@@ -86,7 +86,8 @@ number.prototype.updateItem = function(item, data) {
 	
 	var value = this.getValueFromData(data);
 	
-	if (value === undefined) {
+	if ((value === undefined || value === '') && 'number' === typeof item.get(this.path)) {
+		item.set(this.path, null);
 		return;
 	}
 	

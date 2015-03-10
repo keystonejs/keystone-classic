@@ -1,5 +1,46 @@
 # KeystoneJS Changelog
 
+## v0.3.4 / 2015-03-10
+
+* fixed; missing less variable for react-select was breaking the less>css build, thanks everyone involved and [esparragito](https://github.com/esparragito) for the fix
+* fixed; the missing line numbers in CodeMirror are back again, thanks [Carlos Colon](https://github.com/webteckie)
+
+## v0.3.3 / 2015-03-08
+
+* added; new DateArray field type, thanks [Liam Wooding](https://github.com/liamwooding)
+* added; new `editor Object` config option for Code fields, thanks [Pat Cavit](https://github.com/tivac)
+* added; new `wysiwyg Object` config option for Html fields, thanks [Pat Cavit](https://github.com/tivac)
+* changed; limits lifted for relationship autocomplete results
+* changed; makefile deprecated in favor of npm scripts, thanks [Pat Cavit](https://github.com/tivac)
+* changed; asyncdi updated and moved into its own npm package, fixes thanks to [Camille Reynders](https://github.com/creynders)
+* fixed; collapse logic for relationship (many: true) and Array-type fields, thanks [Pat Cavit](https://github.com/tivac)
+* fixed; Rendering of uneditable relationship fields, thanks [Camille Reynders](https://github.com/creynders)
+* fixed; OpenShift deployment issues, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; item name rendering issues in Admin UI / Edit view, thanks [Camille Reynders](https://github.com/creynders)
+* fixed; LocalFile field issues, thanks [Camille Reynders](https://github.com/creynders)
+* fixed; Markdown field collapse logic and other UI issues, thanks [Pat Cavit](https://github.com/tivac)
+* fixed; validation override error in UndateHandler, thanks [douglasf](https://github.com/douglasf)
+* fixed; validation logic issues with Number fields
+
+## v0.3.2 / 2015-02-27
+
+* added; new Geopoint field type, thanks [Sebastian McKenzie](https://github.com/sebmck)
+* added; lots of server-side field type unit tests
+* added; `frame guard` option, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* added; objects with IDs like `{ id: ObjectId }` can now be provided as Relationship values in data to `keystone.createItems(data, options, callback)`
+* added; `options.refs` can be provided as an option to `keystone.createItems(data, options, callback)`
+* added; focus issues with the WYSIWIG Html and Code fields
+* changed; `lang` option because `language` for the `Code` field type as per the 0.3.x docs
+* changed; Code fields are now allowed to be initial fields
+* updated; TinyMCE to 4.1.7
+* updated; Many packages, see [e561fa6](https://github.com/keystonejs/keystone/commit/e561fa6c32a059f847283e98e2ecc95255829056)
+* fixed; issues with the `ipRangeRestrict` option, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; relationship reorder is persisted even when the linked IDs haven't changed, thanks [Robert Clark](https://github.com/lojack)
+* fixed; check for existence req.user on DELETE action, thanks [Josh Lasdin](https://github.com/joshlasdin)
+* fixed; `updatedAt`, `updatedBy`, `createdAt` and `createdBy` are no longer set on create w/ tracking if already set, thanks [Sebastian McKenzie](https://github.com/sebmck)
+* fixed; bug with the datepicker that caused an infinite loop in some timezones
+* fixed; bug in deprecation warning helper, thanks [Nicolas Dutil](https://github.com/nicdutil)
+
 ## v0.3.1 / 2015-02-13
 
 * fixed; validation and updating issues with Number, Money, TextArray and NumberArray Fields
@@ -64,7 +105,7 @@ The UI has been cleaned up and improved, and the field types should support the 
 * added; SSL CA configuration option, thanks [Brett Newman](https://github.com/snowkeeper)
 * added; `static options` option to control static middleware configuration, thanks [Sebastian McKenzie](https://github.com/sebmck)
 * fixed; error thrown in the Admin UI when no user model is available
-* fixed; handle undefined boolean update values, thanks [webteckie](https://github.com/webteckie)
+* fixed; handle undefined boolean update values, thanks [Carlos Colon](https://github.com/webteckie)
 * fixed; logging error for misconfigured Embedly fields
 * fixed; mimetype bug in S3 file field, thanks [Harry Moreno](https://github.com/morenoh149)
 * updated; multilanguage docs and new site architecture
@@ -246,7 +287,7 @@ Because of the way **npm** resolved paths, if you are using Keystone in developm
 
 * added; recent searches UI and functionality in the Admin UI, thanks [Benjamin Lupton](https://github.com/balupton)
 * fixed; strict type checking for field.options.required, see #393
-* added; `CloudinaryImage.updateItem()` allows updates from data, thanks [webteckie](https://github.com/webteckie)
+* added; `CloudinaryImage.updateItem()` allows updates from data, thanks [Carlos Colon](https://github.com/webteckie)
 * added; native support for node-sass via the `sass` option, make sure you include `node-sass` in your project dependencies to use it. thanks [Fabrizio Fortunato](https://github.com/izifortune)
 * fixed; field validation methods for location & password fields
 * fixed; `keystone.createItems()` now creates items in series, not parallel

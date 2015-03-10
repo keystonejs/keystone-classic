@@ -10,6 +10,7 @@ var _ = require('underscore'),
 	fs = require('fs'),
 	keystone = require('../../'),
 	utils = require('keystone-utils'),
+	di = require('asyncdi'),
 	compiledTemplates = {};
 
 
@@ -202,8 +203,15 @@ Field.prototype.getPreSaveWatcher = function() {
 		if (!applyValue(this)) {
 			return next();
 		}
-		this.set(field.path, field.options.value.call(this));
-		next();
+		di(field.options.value).call(this, function(err, val){
+			if(err){
+				console.error('\nError: ' +
+				'Watch set with value method for ' + field.list.key + '.' + field.path + ' (' + field.type + ') throws error:' + err);
+			}else{
+				this.set(field.path, val);
+			}
+			next();
+		}.bind(this));
 	};
 
 };

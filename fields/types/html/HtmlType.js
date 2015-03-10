@@ -18,13 +18,12 @@ function html(list, path, options) {
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
-	this.wysiwyg = (options.wysiwyg) ? true : false;
+	this.wysiwyg = options.wysiwyg || false;
 	this.height = options.height || 180;
 	
 	this._properties = ['wysiwyg', 'height'];
 
 	html.super_.call(this, list, path, options);
-
 }
 
 /*!

@@ -1,13 +1,11 @@
-var React = require('react'),
+var _ = require('underscore'),
+	React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	CodeMirror = require('codemirror');
 
 // See CodeMirror docs for API:
 // http://codemirror.net/doc/manual.html
-
-// TODO:
-// Bring forward mime-type language support and features (needs review)
 
 module.exports = Field.create({
 	
@@ -20,17 +18,20 @@ module.exports = Field.create({
 	},
 	
 	componentDidMount: function() {
-		if (this.refs.codemirror) {
-			var options = {
-				lineNumbers: true,
-				readOnly: this.shouldRenderField() ? false : true
-			};
-			this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror.getDOMNode(), options);
-			this.codeMirror.on('change', this.codemirrorValueChanged);
-			this.codeMirror.on('focus', this.focusChanged.bind(this, true));
-			this.codeMirror.on('blur', this.focusChanged.bind(this, false));
-			this._currentCodemirrorValue = this.props.value;
+		if (!this.refs.codemirror) {
+			return;
 		}
+		
+		var options = _.defaults({}, this.props.editor, {
+			lineNumbers: true,
+			readOnly: this.shouldRenderField() ? false : true
+		});
+		
+		this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror.getDOMNode(), options);
+		this.codeMirror.on('change', this.codemirrorValueChanged);
+		this.codeMirror.on('focus', this.focusChanged.bind(this, true));
+		this.codeMirror.on('blur', this.focusChanged.bind(this, false));
+		this._currentCodemirrorValue = this.props.value;
 	},
 	
 	componentWillUnmount: function() {
