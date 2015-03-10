@@ -402,6 +402,8 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 				if (publicIdValue) {
 					uploadOptions.public_id = publicIdValue;
 				}
+			} else if (field.options.filenameAsPublicID) {
+				uploadOptions.public_id = req.files[paths.upload].originalname.substring(0, req.files[paths.upload].originalname.lastIndexOf('.'));
 			}
 
 			if (field.options.autoCleanup && item.get(field.paths.exists)) {
