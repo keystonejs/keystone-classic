@@ -1,5 +1,10 @@
 # KeystoneJS Changelog
 
+## v0.3.4 / 2015-03-10
+
+* fixed; missing less variable for react-select was breaking the less>css build, thanks everyone involved and [esparragito](https://github.com/esparragito) for the fix
+* fixed; the missing line numbers in CodeMirror are back again, thanks [Carlos Colon](https://github.com/webteckie)
+
 ## v0.3.3 / 2015-03-08
 
 * added; new DateArray field type, thanks [Liam Wooding](https://github.com/liamwooding)
@@ -100,7 +105,7 @@ The UI has been cleaned up and improved, and the field types should support the 
 * added; SSL CA configuration option, thanks [Brett Newman](https://github.com/snowkeeper)
 * added; `static options` option to control static middleware configuration, thanks [Sebastian McKenzie](https://github.com/sebmck)
 * fixed; error thrown in the Admin UI when no user model is available
-* fixed; handle undefined boolean update values, thanks [webteckie](https://github.com/webteckie)
+* fixed; handle undefined boolean update values, thanks [Carlos Colon](https://github.com/webteckie)
 * fixed; logging error for misconfigured Embedly fields
 * fixed; mimetype bug in S3 file field, thanks [Harry Moreno](https://github.com/morenoh149)
 * updated; multilanguage docs and new site architecture
@@ -282,7 +287,7 @@ Because of the way **npm** resolved paths, if you are using Keystone in developm
 
 * added; recent searches UI and functionality in the Admin UI, thanks [Benjamin Lupton](https://github.com/balupton)
 * fixed; strict type checking for field.options.required, see #393
-* added; `CloudinaryImage.updateItem()` allows updates from data, thanks [webteckie](https://github.com/webteckie)
+* added; `CloudinaryImage.updateItem()` allows updates from data, thanks [Carlos Colon](https://github.com/webteckie)
 * added; native support for node-sass via the `sass` option, make sure you include `node-sass` in your project dependencies to use it. thanks [Fabrizio Fortunato](https://github.com/izifortune)
 * fixed; field validation methods for location & password fields
 * fixed; `keystone.createItems()` now creates items in series, not parallel
