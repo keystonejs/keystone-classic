@@ -102,7 +102,6 @@ s3file.prototype.addToSchema = function() {
 		size:     this._path.append('.size'),
 		filetype:   this._path.append('.filetype'),
 		url:      this._path.append('.url'),
-		headers:      this._path.append('.headers'),
 		// virtuals
 		exists:     this._path.append('.exists'),
 		upload:     this._path.append('_upload'),
@@ -114,8 +113,7 @@ s3file.prototype.addToSchema = function() {
 		path:     String,
 		size:     Number,
 		filetype:   String,
-		url:      String,
-		headers:      Object
+		url:      String
 	});
 
 	schema.add(schemaPaths);
@@ -135,8 +133,7 @@ s3file.prototype.addToSchema = function() {
 			path: '',
 			size: 0,
 			filetype: '',
-			url: '',
-			headers: {}
+			url: ''
 		});
 	};
 	
@@ -438,8 +435,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 				path: path,
 				size: file.size,
 				filetype: filetype,
-				url: url,
-				headers: headers
+				url: url
 			};
 
 			if (update) {
