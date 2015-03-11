@@ -38,7 +38,7 @@ module.exports = Field.create({
 	},
 
 	componentDidUpdate: function(prevProps, prevState) {
-		if(prevState.isCollapsed && !this.state.isCollapsed) {
+		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
 	},
