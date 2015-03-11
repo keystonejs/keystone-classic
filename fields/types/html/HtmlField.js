@@ -20,9 +20,9 @@ module.exports = Field.create({
 		};
 	},
 
-	componentDidMount: function() {
+	initWysiwyg: function() {
 		if (!this.props.wysiwyg) return;
-		
+
 		var self = this;
 		var opts = this.getOptions();
 
@@ -35,6 +35,16 @@ module.exports = Field.create({
 
 		this._currentValue = this.props.value;
 		tinymce.init(opts);
+	},
+
+	componentDidUpdate: function(prevProps, prevState) {
+		if (prevState.isCollapsed && !this.state.isCollapsed) {
+			this.initWysiwyg();
+		}
+	},
+
+	componentDidMount: function() {
+		this.initWysiwyg();
 	},
 	
 	componentWillReceiveProps: function(nextProps) {

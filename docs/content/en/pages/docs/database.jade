@@ -512,8 +512,8 @@ block content
 							|		callback(err, user.name + "-" + Date.now());
 							|	});
 							| }
-
-	//- TODO: Documentation for field methods
+			
+			//- TODO: Documentation for field methods
 			
 			a(name="fields-underscoremethods")
 			h3 Underscore Methods
@@ -806,9 +806,14 @@ block content
 			a(name="fieldtypes-money")
 			h3 <code>Money</code>
 			h4 <code class="data-type">Number</code> &mdash; Displayed as a number field in the Admin UI
-			p Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (leading symbols are allowed; can be blank unless field is required). Money fields do not understand currency.
+			p Input should either be a valid <strong>Number</strong>, or a string that can be converted to a number (leading symbols are allowed; can be blank unless field is required).
 			pre: code.language-javascript { type: Types.Money }
 			.options
+				h5 Options
+				p <code>format</code> <code class="data-type">String</code>, formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.
+				pre: code.language-javascript { type: Types.Money, format: '$0,0.00' }
+				p <code>currency</code> <code class="data-type">String</code>, loads a predefined object of settings for a specific language, the language must exist as a .js in numeral/languages folder.
+				pre: code.language-javascript { type: Types.Money, currency: 'en-gb' }
 				
 				h5 Underscore methods
 				p <code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.
