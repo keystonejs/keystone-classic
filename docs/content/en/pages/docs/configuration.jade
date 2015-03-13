@@ -556,7 +556,11 @@ block content
 					li <code class="default-value">{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is not set)
 					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is set)
 	
-			p.note You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).
+			p.note 
+				| You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).
+				br
+				br
+				| If you want Cloudinary to automatically create folders when the <code>cloudinary folders</code> option is set to <code class="default-value">true</code>, make sure you enable "Auto-create folders" in your Cloudinary account "Upload Settings".
 			
 			p If you are serving over HTTPS and want to ensure that cloudinary images are also serverd over HTTPS, set the <code>cloudinary secure</code> option to <code class="default-value">true</code>.
 
