@@ -4,8 +4,8 @@ var keystone = require('../..'),
 
 describe('Keystone.session', function() {
 
-	describe('keystone.session.doSignin()', function() {
-		// mock args for doSignin(user, req, res, onSuccess)
+	describe('keystone.session.signinWithUser()', function() {
+		// mock args for signinWithUser(user, req, res, onSuccess)
 		var res = {
 				cookie: sinon.stub()
 			},
@@ -49,7 +49,7 @@ describe('Keystone.session', function() {
 
 			it('should regenerate session, set user, session.userId, and res.cookie', function() {
 				keystone.set('cookie signin', true);
-				keystone.session.doSignin(user, req, res, onSuccess);
+				keystone.session.signinWithUser(user, req, res, onSuccess);
 
 				sinon.assert.calledOnce(req.session.regenerate);
 
@@ -69,7 +69,7 @@ describe('Keystone.session', function() {
 
 			it('should regenerate session, set user, session.userId', function() {
 				keystone.set('cookie signin', false);
-				keystone.session.doSignin(user, req, res, onSuccess);
+				keystone.session.signinWithUser(user, req, res, onSuccess);
 
 				sinon.assert.calledOnce(req.session.regenerate);
 
@@ -98,10 +98,10 @@ describe('Keystone.session', function() {
 			it('should error when called less then 4 args', function() {
 				try {
 					keystone.set('cookie signin', true);
-					keystone.session.doSignin();
+					keystone.session.signinWithUser();
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.doSignin requires user, req and res objects, and an onSuccess callback.\n');
+					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.\n');
 					sinon.assert.calledOnce(process.exit);
 					sinon.assert.calledWithExactly(process.exit, 1);
 				}
@@ -111,10 +111,10 @@ describe('Keystone.session', function() {
 
 				try {
 					keystone.set('cookie signin', true);
-					keystone.session.doSignin(user);
+					keystone.session.signinWithUser(user);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.doSignin requires user, req and res objects, and an onSuccess callback.\n');
+					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.\n');
 					sinon.assert.calledOnce(process.exit);
 					sinon.assert.calledWithExactly(process.exit, 1);
 				}
@@ -124,10 +124,10 @@ describe('Keystone.session', function() {
 
 				try {
 					keystone.set('cookie signin', true);
-					keystone.session.doSignin(user, req);
+					keystone.session.signinWithUser(user, req);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.doSignin requires user, req and res objects, and an onSuccess callback.\n');
+					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.\n');
 					sinon.assert.calledOnce(process.exit);
 					sinon.assert.calledWithExactly(process.exit, 1);
 				}
@@ -137,10 +137,10 @@ describe('Keystone.session', function() {
 
 				try {
 					keystone.set('cookie signin', true);
-					keystone.session.doSignin(user, req, onSuccess);
+					keystone.session.signinWithUser(user, req, onSuccess);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.doSignin requires user, req and res objects, and an onSuccess callback.\n');
+					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.\n');
 					sinon.assert.calledOnce(process.exit);
 					sinon.assert.calledWithExactly(process.exit, 1);
 				}
@@ -149,10 +149,10 @@ describe('Keystone.session', function() {
 			it('should error when user arg is not an object', function() {
 				try {
 					keystone.set('cookie signin', true);
-					keystone.session.doSignin('user', req, res, onSuccess);
+					keystone.session.signinWithUser('user', req, res, onSuccess);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.doSignin requires user to be an object.\n');
+					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user to be an object.\n');
 					sinon.assert.calledOnce(process.exit);
 					sinon.assert.calledWithExactly(process.exit, 1);
 				}
@@ -161,10 +161,10 @@ describe('Keystone.session', function() {
 			it('should error when req arg is not an object', function() {
 				try {
 					keystone.set('cookie signin', true);
-					keystone.session.doSignin(user, 'req', res, onSuccess);
+					keystone.session.signinWithUser(user, 'req', res, onSuccess);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.doSignin requires req to be an object.\n');
+					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires req to be an object.\n');
 					sinon.assert.calledOnce(process.exit);
 					sinon.assert.calledWithExactly(process.exit, 1);
 				}
@@ -173,10 +173,10 @@ describe('Keystone.session', function() {
 			it('should error when res arg is not an object', function() {
 				try {
 					keystone.set('cookie signin', true);
-					keystone.session.doSignin(user, req, 'res', onSuccess);
+					keystone.session.signinWithUser(user, req, 'res', onSuccess);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.doSignin requires res to be an object.\n');
+					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires res to be an object.\n');
 					sinon.assert.calledOnce(process.exit);
 					sinon.assert.calledWithExactly(process.exit, 1);
 				}
@@ -185,10 +185,10 @@ describe('Keystone.session', function() {
 			it('should error when onSuccess arg is not a function', function() {
 				try {
 					keystone.set('cookie signin', true);
-					keystone.session.doSignin(user, req, res, 'onSuccess');
+					keystone.session.signinWithUser(user, req, res, 'onSuccess');
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.doSignin requires onSuccess to be a function.\n');
+					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires onSuccess to be a function.\n');
 					sinon.assert.calledOnce(process.exit);
 					sinon.assert.calledWithExactly(process.exit, 1);
 				}
