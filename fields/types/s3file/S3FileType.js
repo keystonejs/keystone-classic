@@ -136,14 +136,6 @@ s3file.prototype.addToSchema = function() {
 			url: ''
 		});
 	};
-	
-	var del = function(item){
-		try {
-			var client = knox.createClient(field.s3config);
-			client.deleteFile(item.get(paths.path) + item.get(paths.filename), function(err, res){ return res ? res.resume() : false; });
-		} catch(e) {}
-		reset(item);
-	};
 
 	var schemaMethods = {
 		exists: function() {
@@ -155,9 +147,6 @@ s3file.prototype.addToSchema = function() {
 		 * @api public
 		 */
 		reset: function() {
-			if (exists(this)){
-				return del(this); 
-			} 
 			reset(this);
 		},
 		/**
@@ -166,7 +155,11 @@ s3file.prototype.addToSchema = function() {
 		 * @api public
 		 */
 		delete: function() {
-			del(this);
+			try {
+				var client = knox.createClient(field.s3config);
+				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function(err, res){ return res ? res.resume() : false; });
+			} catch(e) {}
+			reset(this);
 		}
 	};
 
@@ -439,7 +432,6 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 			};
 
 			if (update) {
-				field.apply(item, 'reset');
 				item.set(field.path, fileData);
 			}
 
