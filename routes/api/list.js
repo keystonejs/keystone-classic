@@ -84,7 +84,7 @@ exports = module.exports = function(req, res) {
 				switch (req.query.dataset) {
 					case 'simple':
 						return sendResponse({
-							name: req.list.getDocumentName(item, true),
+							name: req.list.getDocumentName(item, false),
 							id: item.id
 						});
 					default:
@@ -156,7 +156,7 @@ exports = module.exports = function(req, res) {
 				} else {
 					return sendResponse({
 						success: true,
-						name: req.list.getDocumentName(item, true),
+						name: req.list.getDocumentName(item, false),
 						id: item.id
 					});
 				}
