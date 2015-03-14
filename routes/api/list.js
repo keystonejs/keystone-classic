@@ -61,7 +61,7 @@ exports = module.exports = function(req, res) {
 						total: total,
 						items: items.map(function(i) {
 							return {
-								name: req.list.getDocumentName(i, true) || '(' + i.id + ')',
+								name: req.list.getDocumentName(i, false) || '(' + i.id + ')',
 								id: i.id
 							};
 						})
