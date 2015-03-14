@@ -96,7 +96,6 @@ describe('Keystone.session', function() {
 
 			it('should error when called less then 4 args', function() {
 				try {
-					keystone.set('cookie signin', true);
 					keystone.session.signinWithUser();
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
@@ -109,7 +108,6 @@ describe('Keystone.session', function() {
 				process.exit.reset();				
 
 				try {
-					keystone.set('cookie signin', true);
 					keystone.session.signinWithUser(user);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
@@ -122,7 +120,6 @@ describe('Keystone.session', function() {
 				process.exit.reset();				
 
 				try {
-					keystone.set('cookie signin', true);
 					keystone.session.signinWithUser(user, req);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
@@ -135,7 +132,6 @@ describe('Keystone.session', function() {
 				process.exit.reset();				
 
 				try {
-					keystone.set('cookie signin', true);
 					keystone.session.signinWithUser(user, req, onSuccess);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
@@ -147,7 +143,6 @@ describe('Keystone.session', function() {
 
 			it('should error when user arg is not an object', function() {
 				try {
-					keystone.set('cookie signin', true);
 					keystone.session.signinWithUser('user', req, res, onSuccess);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
@@ -159,7 +154,6 @@ describe('Keystone.session', function() {
 
 			it('should error when req arg is not an object', function() {
 				try {
-					keystone.set('cookie signin', true);
 					keystone.session.signinWithUser(user, 'req', res, onSuccess);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
@@ -171,7 +165,6 @@ describe('Keystone.session', function() {
 
 			it('should error when res arg is not an object', function() {
 				try {
-					keystone.set('cookie signin', true);
 					keystone.session.signinWithUser(user, req, 'res', onSuccess);
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
@@ -183,7 +176,6 @@ describe('Keystone.session', function() {
 
 			it('should error when onSuccess arg is not a function', function() {
 				try {
-					keystone.set('cookie signin', true);
 					keystone.session.signinWithUser(user, req, res, 'onSuccess');
 				} catch(e) {
 					sinon.assert.calledOnce(console.error);
