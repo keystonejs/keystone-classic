@@ -1,5 +1,4 @@
 var keystone = require('../..'),
-	demand = require('must'),
 	sinon = require('sinon');
 
 describe('Keystone.session', function() {
