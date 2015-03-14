@@ -84,105 +84,54 @@ describe('Keystone.session', function() {
 		});
 
 		describe('with invalid args', function() {
-			beforeEach(function() {
-				sinon.stub(console, 'error');
-				sinon.stub(process, 'exit').throws('ProcessExit');
-			});
-
-			afterEach(function() {
-				console.error.restore();
-				process.exit.restore();				
-			});
-
 			it('should error when called less then 4 args', function() {
-				try {
+				function callWithNoArgs() {
 					keystone.session.signinWithUser();
-				} catch(e) {
-					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.\n');
-					sinon.assert.calledOnce(process.exit);
-					sinon.assert.calledWithExactly(process.exit, 1);
 				}
+				callWithNoArgs.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
-				console.error.reset();
-				process.exit.reset();				
-
-				try {
+				function callWithOneArg() {
 					keystone.session.signinWithUser(user);
-				} catch(e) {
-					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.\n');
-					sinon.assert.calledOnce(process.exit);
-					sinon.assert.calledWithExactly(process.exit, 1);
 				}
+				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
-				console.error.reset();
-				process.exit.reset();				
-
-				try {
+				function callWithTwoArgs() {
 					keystone.session.signinWithUser(user, req);
-				} catch(e) {
-					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.\n');
-					sinon.assert.calledOnce(process.exit);
-					sinon.assert.calledWithExactly(process.exit, 1);
 				}
+				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
-				console.error.reset();
-				process.exit.reset();				
-
-				try {
-					keystone.session.signinWithUser(user, req, onSuccess);
-				} catch(e) {
-					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.\n');
-					sinon.assert.calledOnce(process.exit);
-					sinon.assert.calledWithExactly(process.exit, 1);
+				function callWithThreeArgs() {
+					keystone.session.signinWithUser(user, req, res);
 				}
+				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 			});
 
 			it('should error when user arg is not an object', function() {
-				try {
+				function callWithInvalidUser() {
 					keystone.session.signinWithUser('user', req, res, onSuccess);
-				} catch(e) {
-					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires user to be an object.\n');
-					sinon.assert.calledOnce(process.exit);
-					sinon.assert.calledWithExactly(process.exit, 1);
-				}
+				}				
+				callWithInvalidUser.must.throw('keystone.sesson.signinWithUser requires user to be an object.');
 			});
 
 			it('should error when req arg is not an object', function() {
-				try {
+				function callWithInvalidReq() {
 					keystone.session.signinWithUser(user, 'req', res, onSuccess);
-				} catch(e) {
-					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires req to be an object.\n');
-					sinon.assert.calledOnce(process.exit);
-					sinon.assert.calledWithExactly(process.exit, 1);
-				}
+				}				
+				callWithInvalidReq.must.throw('keystone.sesson.signinWithUser requires req to be an object.');
 			});
 
 			it('should error when res arg is not an object', function() {
-				try {
+				function callWithInvalidRes() {
 					keystone.session.signinWithUser(user, req, 'res', onSuccess);
-				} catch(e) {
-					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires res to be an object.\n');
-					sinon.assert.calledOnce(process.exit);
-					sinon.assert.calledWithExactly(process.exit, 1);
-				}
+				}				
+				callWithInvalidRes.must.throw('keystone.sesson.signinWithUser requires res to be an object.');
 			});
 
 			it('should error when onSuccess arg is not a function', function() {
-				try {
+				function callWithInvalidCallback() {
 					keystone.session.signinWithUser(user, req, res, 'onSuccess');
-				} catch(e) {
-					sinon.assert.calledOnce(console.error);
-					sinon.assert.calledWithExactly(console.error, '\nkeystone.sesson.signinWithUser requires onSuccess to be a function.\n');
-					sinon.assert.calledOnce(process.exit);
-					sinon.assert.calledWithExactly(process.exit, 1);
-				}
+				}				
+				callWithInvalidCallback.must.throw('keystone.sesson.signinWithUser requires onSuccess to be a function.');
 			});
 
 		});
