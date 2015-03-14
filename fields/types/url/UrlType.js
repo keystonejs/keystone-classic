@@ -14,6 +14,7 @@ var util = require('util'),
 function url(list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format'];
+	this.formatUrl = options.format;
 	url.super_.call(this, list, path, options);
 }
 
@@ -33,7 +34,9 @@ util.inherits(url, super_);
  */
 
 url.prototype.format = function(item) {
-	return (item.get(this.path) || '').replace(/^[a-zA-Z]+\:\/\//, '');
+	var url = (item.get(this.path) || '');
+
+	return this.formatUrl ? this.formatUrl(url) : url.replace(/^[a-zA-Z]+\:\/\//, '');
 };
 
 
