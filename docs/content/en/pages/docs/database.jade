@@ -957,6 +957,9 @@ block content
 			pre: code.language-javascript { type: Types.Url }
 			.options
 				
+				h5 Options
+				p <code>format</code> <code class="data-type">Function</code> - process URL before its printed in the href/text of Admin UI cell. Defaults to <code class="default-value">removeProtocolPrefix</code>
+
 				h5 Underscore methods:
 				p <code>format()</code> - formats the stored value by stripping the leading protocol (if any)
 				pre: code.language-javascript
