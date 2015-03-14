@@ -509,6 +509,18 @@ block content
 			
 			pre: code.language-javascript
 				| keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });
+
+			p The config object can also contain a 'default headers' property. This property should be either an <code class="data-type">Object</code> or an <code class="data-type">Array</code>.
+
+			pre: code.language-javascript.
+				keystone.set('s3 config', { 
+					bucket: 'my-bucket', 
+					key: 'my-key', 
+					secret: 'my-secret',
+					'default headers':  {
+				    'x-amz-meta-X-Default-Header': 'Custom Default Value'
+				  }
+				});
 			
 			
 			a(name='services-azure')
