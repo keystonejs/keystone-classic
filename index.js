@@ -7,7 +7,8 @@ var fs = require('fs'),
 	moment = require('moment'),
 	numeral = require('numeral'),
 	cloudinary = require('cloudinary'),
-	utils = require('keystone-utils');
+	utils = require('keystone-utils'),
+	prepost = require('./lib/prepost');
 
 var templateCache = {};
 
@@ -31,7 +32,8 @@ var moduleRoot = (function(_rootPath) {
  */
 
 var Keystone = function() {
-	
+	prepost.mixin(this)
+		.register("pre:routes", "pre:render");
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -44,10 +46,6 @@ var Keystone = function() {
 		'model prefix': null,
 		'module root': moduleRoot,
 		'frame guard': 'sameorigin'
-	};
-	this._pre = {
-		routes: [],
-		render: []
 	};
 	this._redirects = {};
 	
@@ -106,26 +104,6 @@ var Keystone = function() {
 };
 
 _.extend(Keystone.prototype, require('./lib/core/options')());
-
-
-/**
- * Registers a pre-event handler.
- *
- * Valid events include:
- * - `routes` - calls the function before any routes are matched, after all other middleware
- *
- * @param {String} event
- * @param {Function} function to call
- * @api public
- */
-
-Keystone.prototype.pre = function(event, fn) {
-	if (!this._pre[event]) {
-		throw new Error('keystone.pre() Error: event ' + event + ' does not exist.');
-	}
-	this._pre[event].push(fn);
-	return this;
-};
 
 
 Keystone.prototype.prefixModel = function (key) {
