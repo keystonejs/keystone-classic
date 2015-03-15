@@ -129,6 +129,46 @@ var EditForm = React.createClass({
 		return Object.keys(elements).length ? <div className="item-details-meta">{elements}</div> : null;
 		
 	},
+
+	renderPreviewButton: function() {
+
+		var prevOpt = this.props.list.preview,
+			autokeyPath = this.props.list.autokey.path,
+			keyValue = this.props.data[autokeyPath],
+			context = $.extend({ id: this.props.data.id, key: keyValue }, this.props.data.fields);
+			label = 'View ' + this.props.list.key,
+			path = '';
+		
+		function runInContext (fn) {
+			fn = new Function("return "+fn)();
+			return fn.call(context);
+		}
+
+		// handle complex config
+		if(typeof prevOpt == 'object') {
+			
+			if(prevOpt.available.indexOf('function') === 0 && runInContext(prevOpt.available) === false) {
+				return null;
+			}
+			if(prevOpt.label) {
+				label = prevOpt.label;
+			}
+			if(prevOpt.path) {
+				path = prevOpt.path;
+			}
+		} else {
+			// only path (string or fn)
+			path = prevOpt;
+		}
+
+		if(path.indexOf('function') === 0) {
+			path = runInContext(path);
+		} else {
+			path = path.replace(':key', keyValue);
+		}
+
+		return <a className="btn btn-preview" href={path} target="_blank">{label}</a>;
+	},
 	
 	renderFormElements: function() {
 		
@@ -168,15 +208,22 @@ var EditForm = React.createClass({
 		
 		if (!this.props.list.noedit) {
 			toolbar.save = <button type="submit" className="btn btn-save">Save</button>;
-			// TODO: Confirm: Use React & Modal
-			toolbar.reset = <a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className="btn btn-link btn-cancel"  data-confirm="Are you sure you want to reset your changes?">reset changes</a>;
+		}
+
+		if (this.props.list.preview) {
+			toolbar.preview = this.renderPreviewButton();
 		}
 		
 		if (!this.props.list.noedit && !this.props.list.nodelete) {
 			// TODO: Confirm: Use React & Modal
 			toolbar.del = <a href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} className="btn btn-link btn-cancel delete" data-confirm={"Are you sure you want to delete this " + this.props.list.singular.toLowerCase()}>delete {this.props.list.singular.toLowerCase()}</a>;
 		}
-		
+
+		if (!this.props.list.noedit) {
+			// TODO: Confirm: Use React & Modal
+			toolbar.reset = <a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className="btn btn-link btn-cancel"  data-confirm="Are you sure you want to reset your changes?">reset changes</a>;
+		}
+
 		return (
 			<Toolbar>
 				{toolbar}
