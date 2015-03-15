@@ -59,16 +59,17 @@
     "vkey": "^1.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^2.0.0",
     "browserify": "~9.0.3",
     "chalk": "~1.0.0",
     "codeclimate-test-reporter": "0.0.4",
     "del": "^1.1.1",
+    "eslint": "^0.16.2",
     "gulp": "~3.8.11",
     "gulp-rename": "~1.2.0",
     "gulp-util": "~3.0.4",
     "gulp-watch": "~4.1.1",
     "istanbul": "^0.3.7",
-    "jscs": "^1.11.3",
     "jshint-stylish": "~1.0.1",
     "jsxhint": "^0.12.1",
     "mocha": "^2.2.1",
@@ -119,7 +120,7 @@
   "scripts": {
     "test": "mocha",
     "lint": "jsxhint --reporter=node_modules/jshint-stylish/stylish.js .",
-    "style": "jscs .",
+    "style": "eslint ./; true",
     "test-cov": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha",
     "clean": "rimraf ./coverage"
   },
