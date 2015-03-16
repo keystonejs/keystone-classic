@@ -21,7 +21,7 @@ var View = React.createClass({
 	
 	renderCreateForm: function() {
 		if (!this.state.createIsVisible) return null;
-		return <CreateForm list={Keystone.list} animate onCancel={this.toggleCreate.bind(this, false)} />
+		return <CreateForm list={Keystone.list} animate onCancel={this.toggleCreate.bind(this, false)} />;
 	},
 	
 	render: function() {

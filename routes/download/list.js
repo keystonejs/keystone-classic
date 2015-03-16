@@ -77,7 +77,7 @@ exports = module.exports = function(req, res) {
 				columns: columns,
 				delimiter: keystone.get('csv field delimiter') || ','
 			}).to.string(function(data) {
-				res.end("\ufeff" + data, 'utf-8');
+				res.end('\ufeff' + data, 'utf-8');
 			});
 		};
 

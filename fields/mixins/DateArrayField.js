@@ -43,7 +43,7 @@ module.exports = {
 
 	componentDidUpdate: function() {
 		this.props.value.forEach(function (val, i) {
-			var dateInput = this.getDOMNode().getElementsByClassName("datepicker_"+ this.state.values[i].key)[0];
+			var dateInput = this.getDOMNode().getElementsByClassName('datepicker_'+ this.state.values[i].key)[0];
 			// Add a date picker to each updated field
 			this.props.pickers[i] = new Pikaday({
 				field: dateInput,
@@ -60,7 +60,7 @@ module.exports = {
 
 	componentDidMount: function() {
 		this.props.value.forEach(function (val, i) {
-			var dateInput = this.getDOMNode().getElementsByClassName("datepicker_"+ this.state.values[i].key)[0];
+			var dateInput = this.getDOMNode().getElementsByClassName('datepicker_'+ this.state.values[i].key)[0];
 			if (this.props.pickers[i]) this.props.pickers[i].destroy();
 			this.props.pickers[i] = new Pikaday({
 				field: dateInput,

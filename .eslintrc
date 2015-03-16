@@ -4,13 +4,13 @@
 		"browser": true,
 		"node": true
 	},
+	"plugins": [
+		"react"
+	],
 	"rules": {
 		"semi": 2,
 		"quotes": [2, "single", "avoid-escape"],
 		"curly": [2, "multi-line"],
-		"no-unused-vars": [2, {
-			ignore: ["React"]
-		}],
 		"no-alert": 0,
 		"yoda": 0,
 		"no-trailing-spaces": 0,
@@ -21,6 +21,9 @@
 		"no-proto": 0,
 		"new-cap": 0,
 		"key-spacing": 0,
+		"react/jsx-uses-react": 1,
+		"react/jsx-uses-vars": 1,
+		"react/react-in-jsx-scope": 1
 	},
 	"globals": {
 		"jQuery": true,

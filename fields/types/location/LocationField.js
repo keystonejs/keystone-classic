@@ -64,7 +64,7 @@ module.exports = Field.create({
 	geoChanged: function(i, event) {
 		var value = this.props.value;
 		if (!value.geo) {
-			value.geo = ['',''];
+			value.geo = ['', ''];
 		}
 		value.geo[i] = event.target.value;
 		this.props.onChange({
