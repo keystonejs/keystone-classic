@@ -19,7 +19,7 @@ var fs = require('fs-extra'),
 
 function localfile(list, path, options) {
 	prepost.mixin(this)
-		.register("pre:move", "post:move");
+		.register('pre:move', 'post:move');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
 
@@ -45,11 +45,11 @@ function localfile(list, path, options) {
 	}
 	// Allow hook into before and after
 	if (options.pre && options.pre.move) {
-		this.pre("move", options.pre.move);
+		this.pre('move', options.pre.move);
 	}
 	
 	if (options.post && options.post.move) {
-		this.post("move", options.post.move);
+		this.post('move', options.post.move);
 	}
 	
 }
@@ -89,7 +89,7 @@ localfile.prototype.addToSchema = function() {
 	
 	var schemaPaths = this._path.addTo({}, {
 		filename:		String,
-		originalname :		String,
+		originalname:	String,
 		path:			String,
 		size:			Number,
 		filetype:		String
@@ -291,7 +291,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	field.hooks("pre:move", function(fn, next) {
+	field.hooks('pre:move', function(fn, next) {
 		fn(item, file, next);
 	}, function(err) {
 		
@@ -300,7 +300,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		doMove(function(err, fileData) {
 			if (err) return callback(err);
 
-			field.hooks("post:move", function(fn, next) {
+			field.hooks('post:move', function(fn, next) {
 				fn(item, file, fileData, next);
 			}, function(err) {
 				if (err) return callback(err);

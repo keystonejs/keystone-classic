@@ -77,13 +77,13 @@ module.exports = Field.create({
 	},
 
 	getOptions: function() {
-  		var plugins = ['code', 'link'],
-  			options = _.defaults(
-  				{},
-             	this.props.wysiwyg,
-             	Keystone.wysiwyg.options
-         	),
-  			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
+		var plugins = ['code', 'link'],
+			options = _.defaults(
+				{},
+				this.props.wysiwyg,
+				Keystone.wysiwyg.options
+			),
+			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
 
 		if (options.enableImages) {
 			plugins.push('image');
