@@ -309,8 +309,9 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 
 			var tp = keystone.get('cloudinary prefix') || '';
 
-			if (tp.length)
+			if (tp.length) {
 				tp += '_';
+			}
 
 			var uploadOptions = {
 				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id]
@@ -320,11 +321,13 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 				uploadOptions.folder = item.get(paths.folder);
 			}
 
-			if (keystone.get('cloudinary prefix'))
+			if (keystone.get('cloudinary prefix')) {
 				uploadOptions.tags.push(keystone.get('cloudinary prefix'));
+			}
 
-			if (keystone.get('env') !== 'production')
+			if (keystone.get('env') !== 'production') {
 				uploadOptions.tags.push(tp + 'dev');
+			}
 
 			async.each(files, function(file, next) {
 
