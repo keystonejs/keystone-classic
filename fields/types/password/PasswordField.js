@@ -43,7 +43,7 @@ module.exports = Field.create({
 	},
 	
 	renderValue: function() {
-		return <div className='field-value'>{this.props.value ? 'password set' : 'password not set'}</div>;
+		return <div className="field-value">{this.props.value ? 'password set' : 'password not set'}</div>;
 	},
 	
 	renderField: function() {
@@ -52,12 +52,12 @@ module.exports = Field.create({
 	
 	renderFields: function() {
 		return (
-			<div className='form-row'>
-				<div className='col-sm-6'>
-					<input type='password' name={this.props.path} placeholder='New password' ref='password' value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete='off' className='form-control' />
+			<div className="form-row">
+				<div className="col-sm-6">
+					<input type="password" name={this.props.path} placeholder="New password" ref="password" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete="off" className="form-control" />
 				</div>
-				<div className='col-sm-6'>
-					<input type='password' name={this.props.paths.confirm} placeholder='Confirm new password' ref='confirm' value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete='off' className='form-control' />
+				<div className="col-sm-6">
+					<input type="password" name={this.props.paths.confirm} placeholder="Confirm new password" ref="confirm" value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" className="form-control" />
 				</div>
 			</div>
 		);
@@ -66,7 +66,7 @@ module.exports = Field.create({
 	renderChangeButton: function() {
 		var label = this.state.passwordIsSet ? 'Change Password' : 'Set Password';
 		return (
-			<button type='button' className='btn btn-default' onClick={this.showChangeUI}>{label}</button>
+			<button type="button" className="btn btn-default" onClick={this.showChangeUI}>{label}</button>
 		);
 	}
 	

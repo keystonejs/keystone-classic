@@ -164,23 +164,23 @@ module.exports = Field.create({
 		});
 		if (remove.length) value = 'remove:' + remove.join(',');
 
-		return <input ref='action' className='field-action' type='hidden' value={value} name={this.props.paths.action} />;
+		return <input ref="action" className="field-action" type="hidden" value={value} name={this.props.paths.action} />;
 	},
 
 	renderUploadsField: function () {
-		return <input ref='uploads' className='field-uploads' type='hidden' name={this.props.paths.uploads} />;
+		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
 
 	renderUI: function () {
 		return (
-			<div className='field field-type-files'>
-				<label className='field-label'>{this.props.label}</label>
+			<div className="field field-type-files">
+				<label className="field-label">{this.props.label}</label>
 
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}
 
-				<div className='field-ui'>
+				<div className="field-ui">
 					{this.renderContainer()}
 					{this.renderToolbar()}
 				</div>

@@ -89,7 +89,7 @@ localfile.prototype.addToSchema = function() {
 	
 	var schemaPaths = this._path.addTo({}, {
 		filename:		String,
-		originalname:	String,
+		originalname:   String,
 		path:			String,
 		size:			Number,
 		filetype:		String
