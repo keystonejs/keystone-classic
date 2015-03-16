@@ -33,7 +33,7 @@ var moduleRoot = (function(_rootPath) {
 
 var Keystone = function() {
 	prepost.mixin(this)
-		.register("pre:routes", "pre:render");
+		.register('pre:routes', 'pre:render');
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -109,8 +109,9 @@ _.extend(Keystone.prototype, require('./lib/core/options')());
 Keystone.prototype.prefixModel = function (key) {
 	var modelPrefix = this.get('model prefix');
 	
-	if (modelPrefix)
+	if (modelPrefix) {
 		key = modelPrefix + '_' + key;
+	}
 	
 	return require('mongoose/lib/utils').toCollectionName(key);
 };
@@ -187,7 +188,7 @@ Keystone.prototype.import = function(dirname) {
 				imported[name] = doImport(fsPath);
 			} else {
 				// only import files that we can `require`
-				var ext  = path.extname(name);
+				var ext = path.extname(name);
 				var base = path.basename(name, ext);
 				if (require.extensions[ext]) {
 					imported[base] = require(fsPath);

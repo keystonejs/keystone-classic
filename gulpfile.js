@@ -47,7 +47,7 @@ gulp.task('watch-scripts', function() {
 	var w = watchify(b)
 		.on('update', function (scriptIds) {
 			scriptIds = scriptIds
-				.filter(function(i) { return i.substr(0,2) !== './'; })
+				.filter(function(i) { return i.substr(0,2) !== './'; });
 				.map(function(i) { return chalk.blue(i.replace(__dirname, '')); });
 			if (scriptIds.length > 1) {
 				gutil.log(scriptIds.length + ' Scripts updated:\n* ' + scriptIds.join('\n* ') + '\nrebuilding...');
@@ -63,11 +63,11 @@ gulp.task('watch-scripts', function() {
 	function rebundle() {
 		w.bundle()
 			.on('error', function(e) {
- 				gutil.log('Browserify Error', e);
- 			})
- 			.pipe(source('app.js'))
+				gutil.log('Browserify Error', e);
+			})
+			.pipe(source('app.js'))
 			.pipe(streamify(uglify()))
- 			.pipe(gulp.dest('./public/build/js'));
+			.pipe(gulp.dest('./public/build/js'));
 	}
 	
 	return rebundle();
