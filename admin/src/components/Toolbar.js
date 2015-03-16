@@ -15,8 +15,9 @@ var Toolbar = React.createClass({
 				$body = $('#body'),
 				$toolbar = $('.toolbar');
 			
-			if (!$toolbar.length)
+			if (!$toolbar.length) {
 				return;
+			}
 			
 			$toolbar.wrap("<div class='toolbar-wrapper' style='position: relative'>");
 			
