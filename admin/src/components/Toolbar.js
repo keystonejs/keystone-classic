@@ -21,7 +21,7 @@ var Toolbar = React.createClass({
 			$toolbar.wrap("<div class='toolbar-wrapper' style='position: relative'>");
 			
 			var toolbarHeight = $toolbar.outerHeight() + 15, // add 15px for margin
-				$wrap = $toolbar.parent().css("height", toolbarHeight);
+				$wrap = $toolbar.parent().css('height', toolbarHeight);
 			
 			$toolbar.css({
 				width: $toolbar.outerWidth(),
