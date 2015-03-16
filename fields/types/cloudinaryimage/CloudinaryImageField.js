@@ -301,7 +301,7 @@ module.exports = Field.create({
 			fieldClassName = 'field-ui';
 
 		if (hasImage) {
-			fieldClassName += 'has-image';
+			fieldClassName += ' has-image';
 		}
 
 		if (this.shouldRenderField()) {
