@@ -553,8 +553,12 @@ block content
 					li <code class="default-value">{list.path}/{field.path}/</code> (当未设置<code>cloudinary prefix</code>时)
 					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (设置了<code>cloudinary prefix</code>时)
 	
-			p.note 你可以直接在<code>CloudinaryImage</code>域(参见<a href="/zh/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> 参数) 或 <code>CloudinaryImages</code>域(参见 <a href="/zh/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> 参数)上设置<code class="default-value">folder</code>参数覆盖默认的Cloudinary文件夹。
-
+			p.note
+				| 你可以直接在<code>CloudinaryImage</code>域(参见<a href="/zh/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> 参数) 或 <code>CloudinaryImages</code>域(参见 <a href="/zh/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> 参数)上设置<code class="default-value">folder</code>参数覆盖默认的 Cloudinary 文件夹。
+				br
+				br
+				| 如果你希望 Cloudinary 在 <code>cloudinary folders</code> 设置为 <code class="default-value">true</code>  的时候自动创建文件夹， 确认已经在你的 Cloudinary 账户中启用 "Auto-create folders"。
+				
 			p 如果你在使用HTTPS服务，并且确保cloudinary images也通过HTTPS传输, 设置<code>cloudinary secure</code>选项为<code class="default-value">true</code>.
 			
 			pre: code.language-javascript
