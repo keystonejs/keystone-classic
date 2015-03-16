@@ -33,7 +33,7 @@ var toggleHeading = function(e, level) {
 	}
 
 	// Set the cursor
-	e.setSelection(cursor,cursor + chunk.length);
+	e.setSelection(cursor, cursor + chunk.length);
 };
 
 var renderMarkdown = function(component) {
@@ -120,8 +120,8 @@ module.exports = Field.create({
 		};
 		
 		return (
-			<div className="md-editor">
-				<textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="form-control markdown code"></textarea>
+			<div className='md-editor'>
+				<textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref='markdownTextarea' className='form-control markdown code'></textarea>
 			</div>
 		);
 	}
