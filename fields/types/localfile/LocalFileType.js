@@ -6,7 +6,7 @@ var fs = require('fs-extra'),
 	path = require('path'),
 	_ = require('underscore'),
 	moment = require('moment'),
-	async = require('async'),
+	prepost = require('../../../lib/prepost'),
 	util = require('util'),
 	utils = require('keystone-utils'),
 	super_ = require('../Type');
@@ -18,19 +18,11 @@ var fs = require('fs-extra'),
  */
 
 function localfile(list, path, options) {
-	
+	prepost.mixin(this)
+		.register('pre:move', 'post:move');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
 
-	// event queues
-	this._pre = {
-		move: [] // Before file is moved into final destination
-	};
-
-	this._post = {
-		move: [] // After file is moved into final destination
-	};
-	
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
 	
@@ -51,14 +43,13 @@ function localfile(list, path, options) {
 		throw new Error('Invalid Configuration\n\n' +
 			'localfile fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
 	}
-	
 	// Allow hook into before and after
 	if (options.pre && options.pre.move) {
-		this._pre.move = this._pre.move.concat(options.pre.move);
+		this.pre('move', options.pre.move);
 	}
 	
 	if (options.post && options.post.move) {
-		this._post.move = this._post.move.concat(options.post.move);
+		this.post('move', options.post.move);
 	}
 	
 }
@@ -69,37 +60,6 @@ function localfile(list, path, options) {
 
 util.inherits(localfile, super_);
 
-
-/**
- * Allows you to add pre middleware after the field has been initialised
- *
- * @api public
- */
-
-localfile.prototype.pre = function(event, fn) {
-	if (!this._pre[event]) {
-		throw new Error('localfile (' + this.list.key + '.' + this.path + ') error: localfile.pre()\n\n' +
-			'Event ' + event + ' is not supported.\n');
-	}
-	this._pre[event].push(fn);
-	return this;
-};
-
-
-/**
- * Allows you to add post middleware after the field has been initialised
- *
- * @api public
- */
-
-localfile.prototype.post = function(event, fn) {
-	if (!this._post[event]) {
-		throw new Error('localfile (' + this.list.key + '.' + this.path + ') error: localfile.post()\n\n' +
-			'Event ' + event + ' is not supported.\n');
-	}
-	this._post[event].push(fn);
-	return this;
-};
 
 
 /**
@@ -129,7 +89,7 @@ localfile.prototype.addToSchema = function() {
 	
 	var schemaPaths = this._path.addTo({}, {
 		filename:		String,
-		originalname :		String,
+		originalname:   String,
 		path:			String,
 		size:			Number,
 		filetype:		String
@@ -331,7 +291,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	async.eachSeries(this._pre.move, function(fn, next) {
+	field.hooks('pre:move', function(fn, next) {
 		fn(item, file, next);
 	}, function(err) {
 		
@@ -340,7 +300,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		doMove(function(err, fileData) {
 			if (err) return callback(err);
 
-			async.eachSeries(field._post.move, function(fn, next) {
+			field.hooks('post:move', function(fn, next) {
 				fn(item, file, fileData, next);
 			}, function(err) {
 				if (err) return callback(err);

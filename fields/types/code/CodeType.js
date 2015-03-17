@@ -2,7 +2,8 @@
  * Module dependencies.
  */
 
-var util = require('util'),
+var _ = require('underscore'),
+	util = require('util'),
 	super_ = require('../Type');
 
 /**
@@ -17,8 +18,11 @@ function code(list, path, options) {
 	this._defaultSize = 'full';
 
 	this.height = options.height || 180;
-	this.language = options.language || options.lang;
-	this.mime = getMime(this.language);
+	this.lang = options.lang || options.language;
+	this.codemirror = options.codemirror || {};
+	this.editor = _.defaults(this.codemirror, { mode : this.lang });
+	
+	this._properties = [ 'editor' ];
 
 	code.super_.call(this, list, path, options);
 
@@ -29,75 +33,6 @@ function code(list, path, options) {
  */
 
 util.inherits(code, super_);
-
-
-/**
- * Gets the mime type for the specified language
- * @api private
- */
-
-function getMime(lang) {
-
-	var mime;
-
-	switch (lang) {
-		case 'c':
-			mime = 'text/x-csrc'; break;
-		case 'c++':
-		case 'objectivec':
-			mime = 'text/x-c++src'; break;
-		case 'css':
-			mime = 'text/css'; break;
-		case 'asp':
-			mime = 'application/x-aspx'; break;
-		case 'c#':
-			mime = 'text/x-csharp'; break;
-		case 'vb':
-			mime = 'text/x-vb'; break;
-		case 'xml':
-			mime = 'text/xml'; break;
-		case 'php':
-			mime = 'application/x-httpd-php'; break;
-		case 'html':
-			mime = 'text/html'; break;
-		case 'ini':
-			mime = 'text/x-properties'; break;
-		case 'js':
-			mime = 'text/javascript'; break;
-		case 'java':
-			mime = 'text/x-java'; break;
-		case 'coffee':
-			mime = 'text/x-coffeescript'; break;
-		case 'lisp':
-			mime = 'text/x-common-lisp'; break;
-		case 'perl':
-			mime = 'text/x-perl'; break;
-		case 'python':
-			mime = 'text/x-python'; break;
-		case 'sql':
-			mime = 'text/x-sql'; break;
-		case 'json':
-			mime = 'application/json'; break;
-		case 'less':
-			mime = 'text/x-less'; break;
-		case 'sass':
-			mime = 'text/x-sass'; break;
-		case 'sh':
-			mime = 'text/x-sh'; break;
-		case 'ruby':
-			mime = 'text/x-ruby'; break;
-		case 'jsp':
-			mime = 'application/x-jsp'; break;
-		case 'tpl':
-			mime = 'text/x-smarty'; break;
-		case 'jade':
-			mime = 'text/x-jade'; break;
-	}
-
-	return mime;
-
-}
-
 
 /*!
  * Export class

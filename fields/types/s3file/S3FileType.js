@@ -5,11 +5,11 @@
 var _ = require('underscore'),
 	moment = require('moment'),
 	keystone = require('../../../'),
-	async = require('async'),
 	util = require('util'),
 	knox = require('knox'),
 	// s3 = require('s3'),
 	utils = require('keystone-utils'),
+	prepost = require('../../../lib/prepost'),
 	super_ = require('../Type');
 
 /**
@@ -19,14 +19,10 @@ var _ = require('underscore'),
  */
 
 function s3file(list, path, options) {
-
+	prepost.mixin(this)
+		.register('pre:upload');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
-
-	// event queues
-	this._pre = {
-		upload: []
-	};
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
@@ -48,7 +44,7 @@ function s3file(list, path, options) {
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
-		this._pre.upload = this._pre.upload.concat(options.pre.upload);
+		this.pre('upload', options.pre.upload);
 	}
 
 }
@@ -69,22 +65,6 @@ Object.defineProperty(s3file.prototype, 's3config', { get: function() {
 
 
 /**
- * Allows you to add pre middleware after the field has been initialised
- *
- * @api public
- */
-
-s3file.prototype.pre = function(event, fn) {
-	if (!this._pre[event]) {
-		throw new Error('S3File (' + this.list.key + '.' + this.path + ') error: s3field.pre()\n\n' +
-			'Event ' + event + ' is not supported.\n');
-	}
-	this._pre[event].push(fn);
-	return this;
-};
-
-
-/**
  * Registers the field on the List's Mongoose Schema.
  *
  * @api public
@@ -97,23 +77,23 @@ s3file.prototype.addToSchema = function() {
 
 	var paths = this.paths = {
 		// fields
-		filename:		this._path.append('.filename'),
-		path:			this._path.append('.path'),
-		size:			this._path.append('.size'),
-		filetype:		this._path.append('.filetype'),
-		url:			this._path.append('.url'),
+		filename:   this._path.append('.filename'),
+		path:     this._path.append('.path'),
+		size:     this._path.append('.size'),
+		filetype:   this._path.append('.filetype'),
+		url:      this._path.append('.url'),
 		// virtuals
-		exists:			this._path.append('.exists'),
-		upload:			this._path.append('_upload'),
-		action:			this._path.append('_action')
+		exists:     this._path.append('.exists'),
+		upload:     this._path.append('_upload'),
+		action:     this._path.append('_action')
 	};
 
 	var schemaPaths = this._path.addTo({}, {
-		filename:		String,
-		path:			String,
-		size:			Number,
-		filetype:		String,
-		url:			String
+		filename:   String,
+		path:     String,
+		size:     Number,
+		filetype:   String,
+		url:      String
 	});
 
 	schema.add(schemaPaths);
@@ -236,6 +216,148 @@ s3file.prototype.updateItem = function(item, data) {
 
 
 /**
+ * Validates a header option value provided for this item, throwing an error otherwise
+ * @param header {Object} the header object to validate
+ * @param callback {Function} a callback function to call when validation is complete
+ * @return {Boolean}
+ * @api private
+ */
+
+var validateHeader = function(header, callback) {
+	var HEADER_NAME_KEY = 'name',
+		HEADER_VALUE_KEY = 'value',
+		validKeys = [HEADER_NAME_KEY, HEADER_VALUE_KEY],
+		filteredKeys;
+
+	if (!_.has(header, HEADER_NAME_KEY)){
+		return callback(new Error('Unsupported Header option: missing required key "' + HEADER_NAME_KEY + '" in ' + JSON.stringify(header)));
+	}
+	if (!_.has(header, HEADER_VALUE_KEY)){
+		return callback(new Error('Unsupported Header option: missing required key "' + HEADER_VALUE_KEY + '" in ' + JSON.stringify(header)));
+	}
+
+	filteredKeys = _.filter(_.keys(header), function (key){ return _.indexOf(validKeys, key) > -1 });
+
+	_.each(filteredKeys, function (key){
+		if (!_.isString(header[key])){
+			return callback(new Error('Unsupported Header option: value for ' + key + ' header must be a String ' + header[key].toString()));
+		}
+	});
+	
+	return true;
+};
+
+
+/**
+ * Convenience method to validate a headers object
+ * @param headers {Object} the headers object to validate
+ * @param callback {Function} a callback function to call when validation is complete
+ * @return {Boolean}
+ * @api private
+ */
+
+var validateHeaders = function(headers, callback) {
+	var _headers = [];
+
+	if (!_.isObject(headers)){
+		return callback(new Error('Unsupported Header option: headers must be an Object ' + JSON.stringify(headers)));
+	}
+
+	_.each(headers, function (value, key){
+		_headers.push({ name: key, value: value });
+	});
+
+	_.each(_headers, function (header){
+		validateHeader(header, callback);
+	});
+
+	return true;
+};
+
+
+/**
+ * Generates a headers object for this item to use during upload
+ * @param item {Object} the list item
+ * @param file {Object} the uploaded file
+ * @param callback {Function} a callback function to call when validation is complete
+ * @return {Object}
+ * @api public
+ */
+
+s3file.prototype.generateHeaders = function (item, file, callback){
+	var field = this,
+		filetype = file.mimetype || file.type,
+		headers = {
+			'Content-Type': filetype,
+			'x-amz-acl': 'public-read'
+		},
+		customHeaders = {},
+		headersOption = {},
+		computedHeaders,
+		defaultHeaders;
+
+
+	if (_.has(field.s3config, 'default headers')){
+		defaultHeaders = field.s3config['default headers'];
+		if (_.isArray(defaultHeaders)){
+			_.each(defaultHeaders, function (header){
+				var _header = {};
+				if (validateHeader(header, callback)){
+					_header[header.name] = header.value;
+					customHeaders = _.extend(customHeaders, _header); 
+				}
+			});
+		} else if (_.isObject(defaultHeaders)){
+			customHeaders = _.extend(customHeaders, defaultHeaders);  
+		} else {
+			return callback(new Error('Unsupported Header option: defaults headers must be either an Object or Array ' + JSON.stringify(defaultHeaders)));
+		}
+	}
+
+	if (field.options.headers){
+		headersOption = field.options.headers;
+		
+		if (_.isFunction(headersOption)){
+			computedHeaders = headersOption.call(field, item, file);
+
+			if (_.isArray(computedHeaders)){
+				_.each(computedHeaders, function (header){
+					var _header = {};
+					if (validateHeader(header, callback)){
+						_header[header.name] = header.value;
+						customHeaders = _.extend(customHeaders, _header); 
+					}
+				});
+			} else if (_.isObject(computedHeaders)){
+				customHeaders = _.extend(customHeaders, computedHeaders);
+			} else {
+				return callback(new Error('Unsupported Header option: computed headers must be either an Object or Array ' + JSON.stringify(computedHeaders)));
+			}
+
+		} else if (_.isArray(headersOption)){
+			_.each(headersOption, function (header){
+				var _header = {};
+				if (validateHeader(header, callback)){
+					_header[header.name] = header.value;
+					customHeaders = _.extend(customHeaders, _header); 
+				}
+			});
+		} else if (_.isObject(headersOption)){
+			customHeaders = _.extend(customHeaders, headersOption);
+		} 
+	}
+
+	if (validateHeaders(customHeaders, callback)){
+		headers = _.extend(headers, customHeaders);
+	}
+
+	return headers;
+
+};
+
+
+
+/**
  * Uploads the file for this field
  *
  * @api public
@@ -247,27 +369,27 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		path = field.options.s3path ? field.options.s3path + '/' : '',
 		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
 		filename = prefix + file.name,
-		filetype = file.mimetype || file.type;
-
-	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
-		return callback(new Error('Unsupported File Type: ' + filetype));
-	}
+		filetype = file.mimetype || file.type,
+		headers;
 
 	if ('function' === typeof update) {
 		callback = update;
 		update = false;
 	}
 
+	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
+		return callback(new Error('Unsupported File Type: ' + filetype));
+	}
+	
 	var doUpload = function() {
 
 		if ('function' === typeof field.options.filename) {
 			filename = field.options.filename(item, filename);
 		}
 
-		knox.createClient(field.s3config).putFile(file.path, path + filename, {
-			'Content-Type': filetype,
-			'x-amz-acl': 'public-read'
-		}, function(err, res) {
+		headers = field.generateHeaders(item, file, callback);
+
+		knox.createClient(field.s3config).putFile(file.path, path + filename, headers, function(err, res) {
 
 			if (err) return callback(err);
 			if (res) {
@@ -298,7 +420,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	async.eachSeries(this._pre.upload, function(fn, next) {
+	this.hooks('pre:upload', function(fn, next) {
 		fn(item, file, next);
 	}, function(err) {
 		if (err) return callback(err);
@@ -336,8 +458,9 @@ s3file.prototype.getRequestHandler = function(item, req, paths, callback) {
 		if (req.body) {
 			var action = req.body[paths.action];
 
-			if (/^(delete|reset)$/.test(action))
+			if (/^(delete|reset)$/.test(action)) {
 				field.apply(item, action);
+			}
 		}
 
 		if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {

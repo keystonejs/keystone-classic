@@ -31,7 +31,7 @@ exports = module.exports = function(req, res) {
 				if (i.isValid) {
 					return _.clone(i);
 				} else {
-				    keystone.console.err('Relationship Configuration Error', 'Relationship: ' + i.path + ' on list: ' + req.list.key + ' links to an invalid list: ' + i.ref);
+					keystone.console.err('Relationship Configuration Error', 'Relationship: ' + i.path + ' on list: ' + req.list.key + ' links to an invalid list: ' + i.ref);
 					return null;
 				}
 			})));
@@ -44,8 +44,9 @@ exports = module.exports = function(req, res) {
 			
 			var loadDrilldown = function(cb) {
 				
-				if (!drilldown.def)
+				if (!drilldown.def) {
 					return cb();
+				}
 				
 				// step back through the drilldown list and load in reverse order to support nested relationships
 				// TODO: proper support for nested relationships in drilldown
@@ -55,8 +56,9 @@ exports = module.exports = function(req, res) {
 					
 					var field = req.list.fields[path];
 					
-					if (!field || field.type !== 'relationship')
+					if (!field || field.type !== 'relationship') {
 						throw new Error('Drilldown for ' + req.list.key + ' is invalid: field at path ' + path + ' is not a relationship.');
+					}
 					
 					var refList = field.refList;
 					

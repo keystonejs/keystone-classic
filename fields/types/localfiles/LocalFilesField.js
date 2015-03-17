@@ -1,5 +1,5 @@
 var _     = require('underscore'),
-	$     = require('jquery'),
+	$	  = require('jquery'),
 	bytes = require('bytes'),
 	React = require('react'),
 	Field = require('../Field');
@@ -63,7 +63,7 @@ module.exports = Field.create({
 
 	removeItem: function (i) {
 		var thumbs = this.state.items;
-		var thumb  = thumbs[i];
+		var thumb = thumbs[i];
 
 		if (thumb.props.isQueued) {
 			thumbs[i] = null;
@@ -164,23 +164,23 @@ module.exports = Field.create({
 		});
 		if (remove.length) value = 'remove:' + remove.join(',');
 
-		return <input ref='action' className='field-action' type='hidden' value={value} name={this.props.paths.action} /> ;
+		return <input ref="action" className="field-action" type="hidden" value={value} name={this.props.paths.action} />;
 	},
 
 	renderUploadsField: function () {
-		return <input ref='uploads' className='field-uploads' type='hidden' name={this.props.paths.uploads} /> ;
+		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
 
 	renderUI: function () {
 		return (
-			<div className='field field-type-files'>
-				<label className='field-label'>{this.props.label}</label>
+			<div className="field field-type-files">
+				<label className="field-label">{this.props.label}</label>
 
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}
 
-				<div className='field-ui'>
+				<div className="field-ui">
 					{this.renderContainer()}
 					{this.renderToolbar()}
 				</div>

@@ -7,7 +7,7 @@ jQuery(function($) {
 		this.table = table;
 		this.$table = $(table);
 		this.drag = null;
-	}
+	};
 	
 	Sortable.prototype.start = function($row, startEvent) {
 		
@@ -30,8 +30,9 @@ jQuery(function($) {
 			var rowIndex = $row.index(),
 				rowHit = self.getRowHit(e);
 			
-			if (rowHit == -1 || rowHit == rowIndex)
+			if (rowHit == -1 || rowHit == rowIndex) {
 				return;
+			}
 			
 			var pos = rowHit < rowIndex ? 'Before' : 'After';
 			

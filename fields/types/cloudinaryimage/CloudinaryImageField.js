@@ -39,7 +39,7 @@ module.exports = Field.create({
 	 * Reset origin and removal.
 	 */
 	undoRemove: function() {
-		this.fileFieldNode().value = "";
+		this.fileFieldNode().value = '';
 		this.setState({
 			removeExisting: false,
 			localSource:    null,
@@ -59,7 +59,7 @@ module.exports = Field.create({
 			_.each(files, function (f) {
 				if (!_.contains(SUPPORTED_TYPES, f.type)) {
 					self.removeImage();
-					alert("Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD");
+					alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD');
 					return false;
 				}
 
@@ -68,14 +68,14 @@ module.exports = Field.create({
 					if (!self.isMounted()) return;
 					self.setState({
 						localSource: e.target.result,
-						origin: "local"
+						origin: 'local'
 					});
 				};
 				fileReader.readAsDataURL(f);
 			});
 		} else {
 			this.setState({
-				origin: "local"
+				origin: 'local'
 			});
 		}
 	},
@@ -90,21 +90,21 @@ module.exports = Field.create({
 		};
 
 		if (this.hasLocal()) {
-			this.fileFieldNode().value = "";
+			this.fileFieldNode().value = '';
 		} else if (this.hasExisting()) {
 			state.removeExisting = true;
 
 			if (this.props.autoCleanup) {
 				if (e.altKey) {
-					state.action = "reset";
+					state.action = 'reset';
 				} else {
-					state.action = "delete";
+					state.action = 'delete';
 				}
 			} else {
 				if (e.altKey) {
-					state.action = "delete";
+					state.action = 'delete';
 				} else {
-					state.action = "reset";
+					state.action = 'reset';
 				}
 			}
 		}
@@ -116,7 +116,7 @@ module.exports = Field.create({
 	 * Is the currently active image uploaded in this session?
 	 */
 	hasLocal: function() {
-		return this.state.origin === "local";
+		return this.state.origin === 'local';
 	},
 
 	/**
@@ -149,7 +149,7 @@ module.exports = Field.create({
 		}
 
 		var body = [this.renderImagePreviewThumbnail()];
-		if (iconClassName) body.push(<div  key={this.props.path + '_preview_icon'} className={iconClassName} />);
+		if (iconClassName) body.push(<div key={this.props.path + '_preview_icon'} className={iconClassName} />);
 
 		var url = this.getImageURL();
 
@@ -202,7 +202,7 @@ module.exports = Field.create({
 			return <div className='upload-queued pull-left'>
 				<div className='alert alert-success'>Image selected - save to upload</div>
 			</div>;
-		} else if (this.state.origin === "cloudinary") {
+		} else if (this.state.origin === 'cloudinary') {
 			return <div className='select-queued pull-left'>
 				<div className='alert alert-success'>Image selected from Cloudinary</div>
 			</div>;

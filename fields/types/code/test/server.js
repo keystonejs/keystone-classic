@@ -7,32 +7,21 @@ exports.initList = function(List) {
 		nested: {
 			code: { type: CodeType }
 		},
-		cCode: { type: CodeType, language: 'c' },
-		cPlusPlusCode: { type: CodeType, language: 'c++' },
-		objectivecCode: { type: CodeType, language: 'objectivec' },
-		cssCode: { type: CodeType, language: 'css' },
-		aspCode: { type: CodeType, language: 'asp' },
-		cSharpCode: { type: CodeType, language: 'c#' },
-		vbCode: { type: CodeType, language: 'vb' },
-		xmlCode: { type: CodeType, language: 'xml' },
-		phpCode: { type: CodeType, language: 'php' },
-		htmlCode: { type: CodeType, language: 'html' },
-		iniCode: { type: CodeType, language: 'ini' },
-		jsCode: { type: CodeType, language: 'js' },
-		javaCode: { type: CodeType, language: 'java' },
-		coffeeCode: { type: CodeType, language: 'coffee' },
-		lispCode: { type: CodeType, language: 'lisp' },
-		perlCode: { type: CodeType, language: 'perl' },
-		pythonCode: { type: CodeType, language: 'python' },
-		sqlCode: { type: CodeType, language: 'sql' },
-		jsonCode: { type: CodeType, language: 'json' },
-		lessCode: { type: CodeType, language: 'less' },
-		sassCode: { type: CodeType, language: 'sass' },
-		shCode: { type: CodeType, language: 'sh' },
-		rubyCode: { type: CodeType, language: 'ruby' },
-		jspCode: { type: CodeType, language: 'jsp' },
-		tplCode: { type: CodeType, language: 'tpl' },
-		jadeCode: { type: CodeType, language: 'jade' },
+		lang: {
+			type: CodeType,
+			lang: 'c'
+		},
+		language: {
+			type: CodeType,
+			lang: 'js'
+		},
+		codemirror: {
+			type: CodeType,
+			lang: 'html',
+			codemirror: {
+				value: 'fooga'
+			}
+		}
 	});
 };
 
@@ -73,32 +62,22 @@ exports.testFieldType = function(List) {
 		testItem.nested.code = undefined;
 	});
 	
-	it('should properly infer mime type', function() {
-		demand(List.fields.cCode.mime).be('text/x-csrc');
-		demand(List.fields.cPlusPlusCode.mime).be('text/x-c++src');
-		demand(List.fields.objectivecCode.mime).be('text/x-c++src');
-		demand(List.fields.cssCode.mime).be('text/css');
-		demand(List.fields.aspCode.mime).be('application/x-aspx');
-		demand(List.fields.cSharpCode.mime).be('text/x-csharp');
-		demand(List.fields.vbCode.mime).be('text/x-vb');
-		demand(List.fields.xmlCode.mime).be('text/xml');
-		demand(List.fields.phpCode.mime).be('application/x-httpd-php');
-		demand(List.fields.htmlCode.mime).be('text/html');
-		demand(List.fields.iniCode.mime).be('text/x-properties');
-		demand(List.fields.jsCode.mime).be('text/javascript');
-		demand(List.fields.javaCode.mime).be('text/x-java');
-		demand(List.fields.coffeeCode.mime).be('text/x-coffeescript');
-		demand(List.fields.lispCode.mime).be('text/x-common-lisp');
-		demand(List.fields.perlCode.mime).be('text/x-perl');
-		demand(List.fields.pythonCode.mime).be('text/x-python');
-		demand(List.fields.sqlCode.mime).be('text/x-sql');
-		demand(List.fields.jsonCode.mime).be('application/json');
-		demand(List.fields.lessCode.mime).be('text/x-less');
-		demand(List.fields.sassCode.mime).be('text/x-sass');
-		demand(List.fields.shCode.mime).be('text/x-sh');
-		demand(List.fields.rubyCode.mime).be('text/x-ruby');
-		demand(List.fields.jspCode.mime).be('application/x-jsp');
-		demand(List.fields.tplCode.mime).be('text/x-smarty');
-		demand(List.fields.jadeCode.mime).be('text/x-jade');
+	it('should handle a `lang` config property', function() {
+		demand(List.fields.lang.lang).be('c');
+	});
+	
+	it('should handle a `language` config property', function() {
+		demand(List.fields.language.lang).be('js');
+	});
+	
+	it('should support a `codemirror` config property', function() {
+		demand(List.fields.codemirror.codemirror).be.object();
+		demand(List.fields.codemirror.codemirror.value).be('fooga');
+	});
+	
+	it('should merge the `lang` and `codemirror` config properties', function() {
+		demand(List.fields.codemirror.editor).be.object();
+		demand(List.fields.codemirror.editor.mode).be('html');
+		demand(List.fields.codemirror.editor.value).be('fooga');
 	});
 };
