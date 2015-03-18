@@ -4,7 +4,8 @@ var _ = require('underscore'),
 	Fields = require('../fields'),
 	FormHeading = require('./FormHeading'),
 	Toolbar = require('./Toolbar'),
-	InvalidFieldType = require('./InvalidFieldType');
+	InvalidFieldType = require('./InvalidFieldType'),
+	Tabs = require('react-simpletabs');
 
 var EditForm = React.createClass({
 	
@@ -130,12 +131,14 @@ var EditForm = React.createClass({
 		
 	},
 	
-	renderFormElements: function() {
+	renderFormElements: function(src) {
 		
 		var elements = {},
 			headings = 0;
 		
-		_.each(this.props.list.uiElements, function(el) {
+		src = src || this.props.list.uiElements;
+		
+		_.each(src, function(el) {
 			
 			if (el.type === 'heading') {
 				
@@ -143,8 +146,19 @@ var EditForm = React.createClass({
 				el.options.values = this.state.values;
 				elements['h-' + headings] = React.createElement(FormHeading, el);
 				
-			} else if (el.type === 'field') {
+			} else if (el.type === 'tabs') {
+				var tabs = Object.keys(el.tabs).map(function(name) {
+					return (
+						<Tabs.Panel title={name}>
+							{this.renderFormElements(el.tabs[name])}
+						</Tabs.Panel>
+			        );
+				}.bind(this));
 				
+				elements.tabs = (
+					<Tabs>{tabs}</Tabs>
+				);
+			} else if (el.type === 'field') {
 				var field = this.props.list.fields[el.field];
 				
 				if ('function' !== typeof Fields[field.type]) {
