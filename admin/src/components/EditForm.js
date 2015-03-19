@@ -152,7 +152,7 @@ var EditForm = React.createClass({
 
 				var tabs = Object.keys(el.tabs).map(function(name) {
 					return (
-						<Tabs.Panel title={name}>
+						<Tabs.Panel title={name} key={name}>
 							{this.renderFormElements(el.tabs[name])}
 						</Tabs.Panel>
 			        );
