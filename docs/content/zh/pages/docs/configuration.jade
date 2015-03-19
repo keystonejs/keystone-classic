@@ -507,6 +507,18 @@ block content
 			pre: code.language-javascript
 				| keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });
 			
+			p 设置对象也可以包含 'default headers' 属性。 这个属性可以是 <code class="data-type">Object</code> 类型或者是 <code class="data-type">Array</code> 类型。
+			
+			pre: code.language-javascript
+				| keystone.set('s3 config', { 
+				|	 bucket: 'my-bucket', 
+				|	 key: 'my-key', 
+				|	 secret: 'my-secret',
+				|	 'default headers':  {
+				|	 'x-amz-meta-X-Default-Header': 'Custom Default Value'
+				|	 }
+				| });
+			
 			
 			a(name='services-azure')
 			h3 Windows Azure存储
