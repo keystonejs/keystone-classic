@@ -48,7 +48,7 @@ jQuery(function($) {
 	$('.ui-select2-tags').each(function(i, el) {
 		el = $(el);
 		el.select2({
-			tags: el.val().split(",")
+			tags: el.val().split(',')
 		});
 	});
 
@@ -70,7 +70,7 @@ jQuery(function($) {
 				order: order.join(',')
 			}),
 			error: function() {
-				alert("There was a problem saving your changes. Please refresh to see the current data.");
+				alert('There was a problem saving your changes. Please refresh to see the current data.');
 			}
 		});
 	});
@@ -111,7 +111,7 @@ jQuery(function($) {
 					if (refFilters) {
 						filters = {};
 						_.each(refFilters, function(value, key) {
-							if($.type(value) === 'string' && value.substr(0,1) == ':') {
+							if($.type(value) === 'string' && value.substr(0, 1) == ':') {
 								fieldName = value.substr(1);
 								// check for an existing input field
 								$related = $('input[name="' + fieldName + '"]');
@@ -156,8 +156,9 @@ jQuery(function($) {
 					
 					var loaded = function(rtn) {
 						data.push(rtn);
-						if (data.length == ids.length)
+						if (data.length == ids.length) {
 							callback(multi ? data : data[0]);
+						}
 					};
 					
 					$.each(ids, function() {
@@ -185,7 +186,7 @@ jQuery(function($) {
 				if (val == '') {
 					$gotoLink.hide();
 				} else {
-					$gotoLink.attr('href','/keystone/' + refPath + '/' + val);
+					$gotoLink.attr('href', '/keystone/' + refPath + '/' + val);
 					$gotoLink.show();
 				}
 			});
@@ -205,7 +206,7 @@ jQuery(function($) {
 				return;
 			}
 
-			if (value.substr(0,1) != ':') {
+			if (value.substr(0, 1) != ':') {
 				return;
 			}
 
@@ -221,7 +222,7 @@ jQuery(function($) {
 					$inputs2.show();
 					$message.hide();
 				}
-			}
+			};
 
 			checkRelated();
 

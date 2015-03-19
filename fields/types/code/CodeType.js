@@ -18,7 +18,7 @@ function code(list, path, options) {
 	this._defaultSize = 'full';
 
 	this.height = options.height || 180;
-	this.lang   = options.lang || options.language;
+	this.lang = options.lang || options.language;
 	this.codemirror = options.codemirror || {};
 	this.editor = _.defaults(this.codemirror, { mode : this.lang });
 	

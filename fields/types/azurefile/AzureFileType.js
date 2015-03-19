@@ -8,7 +8,7 @@ var _ = require('underscore'),
 	util = require('util'),
 	azure = require('azure'),
 	utils = require('keystone-utils'),
-	prepost = require("../../../lib/prepost"),
+	prepost = require('../../../lib/prepost'),
 	super_ = require('../Type');
 
 
@@ -20,7 +20,7 @@ var _ = require('underscore'),
 
 function azurefile(list, path, options) {
 	prepost.mixin(this)
-		.register("pre:upload");
+		.register('pre:upload');
 
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
@@ -53,7 +53,7 @@ function azurefile(list, path, options) {
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
-		this.pre("upload", options.pre.upload);
+		this.pre('upload', options.pre.upload);
 	}
 
 }
@@ -268,7 +268,7 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	this.hooks("pre:upload", function(fn, next) {
+	this.hooks('pre:upload', function(fn, next) {
 		fn(item, file, next);
 	}, function(err) {
 		if (err) return callback(err);

@@ -20,7 +20,7 @@ var _ = require('underscore'),
 
 function s3file(list, path, options) {
 	prepost.mixin(this)
-		.register("pre:upload");
+		.register('pre:upload');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
 
@@ -44,7 +44,7 @@ function s3file(list, path, options) {
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
-		this.pre("upload", options.pre.upload);
+		this.pre('upload', options.pre.upload);
 	}
 
 }
@@ -308,7 +308,7 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 				}
 			});
 		} else if (_.isObject(defaultHeaders)){
-			customHeaders =  _.extend(customHeaders, defaultHeaders);  
+			customHeaders = _.extend(customHeaders, defaultHeaders);  
 		} else {
 			return callback(new Error('Unsupported Header option: defaults headers must be either an Object or Array ' + JSON.stringify(defaultHeaders)));
 		}
@@ -420,7 +420,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	this.hooks("pre:upload", function(fn, next) {
+	this.hooks('pre:upload', function(fn, next) {
 		fn(item, file, next);
 	}, function(err) {
 		if (err) return callback(err);
@@ -458,8 +458,9 @@ s3file.prototype.getRequestHandler = function(item, req, paths, callback) {
 		if (req.body) {
 			var action = req.body[paths.action];
 
-			if (/^(delete|reset)$/.test(action))
+			if (/^(delete|reset)$/.test(action)) {
 				field.apply(item, action);
+			}
 		}
 
 		if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {

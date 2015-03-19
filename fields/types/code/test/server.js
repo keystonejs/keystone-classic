@@ -21,7 +21,7 @@ exports.initList = function(List) {
 			codemirror: {
 				value: 'fooga'
 			}
-		},
+		}
 	});
 };
 

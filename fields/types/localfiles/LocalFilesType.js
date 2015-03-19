@@ -21,7 +21,7 @@ var fs = require('fs-extra'),
 
 function localfiles(list, path, options) {
 	prepost.mixin(this)
-		.register("pre:move", "post:move");
+		.register('pre:move', 'post:move');
 	this._underscoreMethods = ['format', 'uploadFiles'];
 	this._fixedSize = 'full';
 
@@ -48,11 +48,11 @@ function localfiles(list, path, options) {
 
 	// Allow hook into before and after
 	if (options.pre && options.pre.move) {
-		this.pre("move", options.pre.move);
+		this.pre('move', options.pre.move);
 	}
 
 	if (options.post && options.post.move) {
-		this.post("move", options.post.move);
+		this.post('move', options.post.move);
 	}
 	
 }
@@ -86,7 +86,7 @@ localfiles.prototype.addToSchema = function() {
 		exists:			this._path.append('.exists'),
 		upload:			this._path.append('_upload'),
 		action:			this._path.append('_action'),
-		order: 			this._path.append('_order'),
+		order: 			this._path.append('_order')
 	};
 
 	var schemaPaths = new mongoose.Schema({
@@ -315,7 +315,7 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 			
 		};
 		
-		field.hooks("pre:move", function(fn, next) {
+		field.hooks('pre:move', function(fn, next) {
 			fn(item, file, next);
 		}, function(err) {
 			if (err) return processedFile(err);
@@ -323,7 +323,7 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 			doMove(function(err, fileData) {
 				if (err) return processedFile(err);
 				
-				field.hooks("post:move", function(fn, next) {
+				field.hooks('post:move', function(fn, next) {
 					fn(item, file, fileData, next);
 				}, function(err) {
 					return processedFile(err, fileData);

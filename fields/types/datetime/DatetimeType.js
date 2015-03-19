@@ -130,8 +130,9 @@ datetime.prototype.validateInput = function(data, required, item) {
 
 datetime.prototype.updateItem = function(item, data) {
 
-	if (!(this.path in data || (this.paths.date in data && this.paths.time in data)))
+	if (!(this.path in data || (this.paths.date in data && this.paths.time in data))) {
 		return;
+	}
 
 	var newValue = moment(this.getInputFromData(data), parseFormats);
 
