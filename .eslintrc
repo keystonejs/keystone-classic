@@ -21,6 +21,7 @@
 		"no-proto": 0,
 		"new-cap": 0,
 		"key-spacing": 0,
+		"consistent-return": 0
 	},
 	"globals": {
 		"jQuery": true,
