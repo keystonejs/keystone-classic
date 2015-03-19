@@ -14,8 +14,7 @@ var EditForm = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			values: _.clone(this.props.data.fields),
-			tabs: {}
+			values: _.clone(this.props.data.fields)
 		};
 	},
 	
@@ -149,8 +148,6 @@ var EditForm = React.createClass({
 				elements['h-' + headings] = React.createElement(FormHeading, el);
 				
 			} else if (el.type === 'tabs') {
-				var key = 'tabs' + idx;
-
 				var tabs = Object.keys(el.tabs).map(function(name) {
 					return (
 						<Tab key={name}>
@@ -217,10 +214,6 @@ var EditForm = React.createClass({
 				{this.renderToolbar()}
 			</form>
 		);
-	},
-
-	onTabChange: function(key, index) {
-		this.state.tabs[key] = index;
 	}
 	
 });
