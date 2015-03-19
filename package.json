@@ -51,7 +51,7 @@
     "range_check": "~0.0.5",
     "react": "~0.12.2",
     "react-select": "~0.3.5",
-    "react-simpletabs": "^0.5.3",
+    "react-tab-view": "0.0.2",
     "scmp": "~1.0.0",
     "semver": "~4.3.1",
     "serve-favicon": "~2.2.0",

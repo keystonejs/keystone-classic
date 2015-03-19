@@ -5,7 +5,8 @@ var _ = require('underscore'),
 	FormHeading = require('./FormHeading'),
 	Toolbar = require('./Toolbar'),
 	InvalidFieldType = require('./InvalidFieldType'),
-	Tabs = require('react-simpletabs');
+	Tabs = require("react-tab-view").Tabs,
+	Tab = require("react-tab-view").Tab;
 
 var EditForm = React.createClass({
 	
@@ -152,14 +153,14 @@ var EditForm = React.createClass({
 
 				var tabs = Object.keys(el.tabs).map(function(name) {
 					return (
-						<Tabs.Panel title={name} key={name}>
+						<Tab key={name}>
 							{this.renderFormElements(el.tabs[name])}
-						</Tabs.Panel>
+						</Tab>
 			        );
 				}.bind(this));
 
 				elements.tabs = (
-					<Tabs tabActive={this.state.tabs[key] || 1} onBeforeChange={this.beforeTabChange.bind(this, key)}>
+					<Tabs headers={Object.keys(el.tabs)}>
 					{tabs}
 					</Tabs>
 				);
@@ -218,7 +219,7 @@ var EditForm = React.createClass({
 		);
 	},
 
-	beforeTabChange: function(key, index) {
+	onTabChange: function(key, index) {
 		this.state.tabs[key] = index;
 	}
 	
