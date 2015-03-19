@@ -13,7 +13,8 @@ var EditForm = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			values: _.clone(this.props.data.fields)
+			values: _.clone(this.props.data.fields),
+			tabs: {}
 		};
 	},
 	
@@ -138,7 +139,7 @@ var EditForm = React.createClass({
 		
 		src = src || this.props.list.uiElements;
 		
-		_.each(src, function(el) {
+		_.each(src, function(el, idx) {
 			
 			if (el.type === 'heading') {
 				
@@ -147,6 +148,8 @@ var EditForm = React.createClass({
 				elements['h-' + headings] = React.createElement(FormHeading, el);
 				
 			} else if (el.type === 'tabs') {
+				var key = 'tabs' + idx;
+
 				var tabs = Object.keys(el.tabs).map(function(name) {
 					return (
 						<Tabs.Panel title={name}>
@@ -154,9 +157,11 @@ var EditForm = React.createClass({
 						</Tabs.Panel>
 			        );
 				}.bind(this));
-				
+
 				elements.tabs = (
-					<Tabs>{tabs}</Tabs>
+					<Tabs tabActive={this.state.tabs[key] || 1} onBeforeChange={this.beforeTabChange.bind(this, key)}>
+					{tabs}
+					</Tabs>
 				);
 			} else if (el.type === 'field') {
 				var field = this.props.list.fields[el.field];
@@ -211,6 +216,10 @@ var EditForm = React.createClass({
 				{this.renderToolbar()}
 			</form>
 		);
+	},
+
+	beforeTabChange: function(key, index) {
+		this.state.tabs[key] = index;
 	}
 	
 });
