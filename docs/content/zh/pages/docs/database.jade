@@ -1086,6 +1086,46 @@ block content
 								return item._id + '-' + filename;
 							}
 						}
+				p <code>headers</code> <code class="data-type">Object</code>，<code class="data-type">Array</code> 或者 <code class="data-type">Function</code> - 设置 S3 对象请求头
+				p 请求头可以提供 <code class="data-type">Object</code> 类型， 键值对的键被用来定义请求头名称，值用来设置请求头的值。
+					pre: code.language-javascript. 
+						{
+							type: Types.S3File, 
+								headers: {
+								'x-amz-meta-Cache-Control' : 'max-age=' + (60 * 15),
+								'x-amz-meta-X-Custom-Header' : 'Object Option'
+							} 
+						}
+				p 当用 <code class="data-type">Array</code> 设置请求头， 数组内的每一个请求头元素应该是一个 <code class="data-type">Object</code> 类型包含 <code>name</code>和 <code>value</code> <code class="data-type">String</code> 属性。
+					pre: code.language-javascript. 
+						{ 
+							type: Types.S3File, 
+								headers: [
+								{ name: 'x-amz-meta-Cache-Control', value: 'max-age=' + (60 * 15) },
+								{ name: 'x-amz-meta-X-Custom-Header', value: 'Array Option' }
+							]
+						}
+				p 当用 <code class="data-type">Function</code> 设置请求头，以当前模型和客户端文件名为参数的函数；该函数返回一个有效的请求头对象或者一个简单 <code class="data-type">Object</code> 类型对象。
+					pre: code.language-javascript. 
+						{ 
+							type: Types.S3File, 
+								headers: function (item, file){
+								var headers = [];
+								headers.push({ name: 'x-amz-meta-Cache-Control', value: 'max-age=' + item.maxAge });
+								headers.push({ name: 'x-amz-meta-X-Custom-Header', value: 'Computed Option (Array)' });
+								return headers;
+							}
+						}
+						// 或 
+						{
+							type: Types.S3File,
+								headers: function (item, file){
+								var headers = {};
+								headers['x-amz-meta-Cache-Control'] = 'max-age=' + item.maxAge;
+								headers['x-amz-meta-X-Custom-Header'] = 'Computed Option (Object)';
+								return headers;
+							}
+						}	
 				p <code>format</code> <code class="data-type">Function</code> - 以当前模型和客户端文件名为参数的函数，返回要上传文件的新文件名。
 					pre: code.language-javascript.
 						{
