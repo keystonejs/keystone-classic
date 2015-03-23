@@ -3,7 +3,7 @@ var fs = require('fs'),
 	_ = require('underscore'),
 	express = require('express'),
 	utils = require('keystone-utils'),
-	prepost = require('./lib/prepost');
+	grappling = require('grappling-hook');
 
 /**
  * Don't use process.cwd() as it breaks module encapsulation
@@ -24,8 +24,8 @@ var moduleRoot = (function(_rootPath) {
  * @api public
  */
 var Keystone = function() {
-	prepost.mixin(this)
-		.register('pre:routes', 'pre:render');
+	grappling.mixin(this)
+		.allowHooks('pre:routes', 'pre:render');
 	this.lists = {};
 	this.paths = {};
 	this._options = {

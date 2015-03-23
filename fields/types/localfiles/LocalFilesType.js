@@ -11,7 +11,7 @@ var fs = require('fs-extra'),
 	utils = require('keystone-utils'),
 	super_ = require('../Type'),
 	async = require('async'),
-	prepost = require('../../../lib/prepost');
+	grappling = require('grappling-hook');
 
 /**
  * localfiles FieldType Constructor
@@ -20,8 +20,8 @@ var fs = require('fs-extra'),
  */
 
 function localfiles(list, path, options) {
-	prepost.mixin(this)
-		.register('pre:move', 'post:move');
+	grappling.mixin(this)
+		.allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFiles'];
 	this._fixedSize = 'full';
 
@@ -315,17 +315,12 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 			
 		};
 		
-		field.hooks('pre:move', function(fn, next) {
-			fn(item, file, next);
-		}, function(err) {
+		field.callHook('pre:move', [item, file], function(err) {
 			if (err) return processedFile(err);
 			
 			doMove(function(err, fileData) {
 				if (err) return processedFile(err);
-				
-				field.hooks('post:move', function(fn, next) {
-					fn(item, file, fileData, next);
-				}, function(err) {
+				field.callHook('post:move', [item, file, fileData], function(err) {
 					return processedFile(err, fileData);
 				});
 			});
