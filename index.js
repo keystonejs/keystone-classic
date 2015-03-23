@@ -3,7 +3,7 @@ var fs = require('fs'),
 	_ = require('underscore'),
 	express = require('express'),
 	utils = require('keystone-utils'),
-	prepost = require('./lib/prepost');
+	grappling = require('grappling-hook');
 
 /**
  * Don't use process.cwd() as it breaks module encapsulation
