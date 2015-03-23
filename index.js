@@ -26,7 +26,7 @@ var moduleRoot = (function(_rootPath) {
 
 var Keystone = function() {
 	grappling.mixin(this)
-		.allowHooks('pre:routes', 'pre:render');
+		.allowHooks('pre:routes', 'pre:render', 'updates');
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -201,7 +201,15 @@ Keystone.prototype.import = function(dirname) {
  */
 
 Keystone.prototype.applyUpdates = function(callback) {
-	require('./lib/updates').apply(callback);
+	var self = this;
+	self.callHook('pre:updates', function(err){
+		require('./lib/updates').apply(function(err){
+			if(err){
+				callback(err);
+			}
+			self.callHook('post:updates', callback);
+		});
+	})
 };
 
 
