@@ -25,8 +25,8 @@ var moduleRoot = (function(_rootPath) {
  */
 
 var Keystone = function() {
-	prepost.mixin(this)
-		.register('pre:routes', 'pre:render');
+	grappling.mixin(this)
+		.allowHooks('pre:routes', 'pre:render');
 	this.stores = {};
 	this.lists = {};
 	this.paths = {};
@@ -203,7 +203,15 @@ Keystone.prototype.import = function(dirname) {
  */
 
 Keystone.prototype.applyUpdates = function(callback) {
-	require('./lib/updates').apply(callback);
+	var self = this;
+	self.callHook('pre:updates', function(err){
+		require('./lib/updates').apply(function(err){
+			if(err){
+				callback(err);
+			}
+			self.callHook('post:updates', callback);
+		});
+	})
 };
 
 
