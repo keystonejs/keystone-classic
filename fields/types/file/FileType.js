@@ -3,7 +3,7 @@
  */
 
 var path = require('path'),
-	keystone = require('keystone'),
+	keystone = require('../../../'),
 	_ = require('underscore'),
 	async = require('async'),
 	util = require('util'),

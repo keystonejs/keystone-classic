@@ -1,4 +1,4 @@
-var keystone = require('keystone'),
+var keystone = require('../../'),
 	util = require('util'),
 	super_ = require('./Type');
 
