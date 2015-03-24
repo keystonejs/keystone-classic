@@ -6,7 +6,7 @@ var StorageAdapter = require('../StorageAdapter'),
 function localfile() {
 	StorageAdapter.apply(this, arguments);
 
-	if (!options.dest) {
+	if (!this.options.dest) {
 		throw new Error('Invalid Configuration\n\nlocalfile store requires the "dest" option to be set.');
 	}
 }
