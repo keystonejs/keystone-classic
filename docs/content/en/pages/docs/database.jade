@@ -957,6 +957,9 @@ block content
 			pre: code.language-javascript { type: Types.Url }
 			.options
 				
+				h5 Options
+				p <code>format</code> <code class="data-type">Function</code> - process URL before its printed in the href/text of Admin UI cell. Defaults to <code class="default-value">removeProtocolPrefix</code>
+
 				h5 Underscore methods:
 				p <code>format()</code> - formats the stored value by stripping the leading protocol (if any)
 				pre: code.language-javascript
@@ -1015,6 +1018,7 @@ block content
 				pre: code.language-javascript { type: Types.CloudinaryImage, publicID: 'slug' }
 				p <code>folder</code> <code class="data-type">String</code> specifies a custom folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.
 				pre: code.language-javascript { type: Types.CloudinaryImage, folder: 'path/to/image' }
+				p.note If you want Cloudinary to automatically create folders when the <code>cloudinary folders</code> option is set to <code class="default-value">true</code>, make sure you enable "Auto-create folders" in your Cloudinary account "Upload Settings".
 				p <code>autoCleanup</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code> changes Keystone's default behavior from <code class="default-value">remove</code> (which only removes the Cloudinary image from the database) to <code class="default-value">delete</code> (which removes the image from both the database and Cloudinary storage). Additionally, this option replaces an existing image (if one already exists) during upload.
 				pre: code.language-javascript { type: Types.CloudinaryImage, autoCleanup : true }
 				p <code>select</code> <code class="data-type">Boolean</code> when <code class="default-value">true</code> a select field is displayed with a list of images currently available in Cloudinary storage. Only images with IDs that begin with the <code>selectPrefix</code> will be displayed when the <code>selectPrefix</code> is specified. Otherwise, images with IDs that begin with the <code>folder</code> will be displayed. If neither <code>selectPrefix</code> nor <code>folder</code> are configured, then only images with IDs that begin with <code class="data-type">[{prefix}]/{list.path}/{field.path}/</code> will be displayed.
@@ -1067,7 +1071,7 @@ block content
 				h5 Options
 				p <code>folder</code> <code class="data-type">String</code> specifies a custom folder/prefix for the Cloudinary image <code class="data-type">public_id</code> when <code class="default-value">cloudinary folders</code> is set to <code class="default-value">true</code>.
 				pre: code.language-javascript { type: Types.CloudinaryImages, folder: 'path/to/image' }
-			
+				p.note If you want Cloudinary to automatically create folders when the <code>cloudinary folders</code> option is set to <code class="default-value">true</code>, make sure you enable "Auto-create folders" in your Cloudinary account "Upload Settings".
 			
 			a(name="fieldtypes-embedly")
 			h3 <code>Embedly</code>
@@ -1177,6 +1181,46 @@ block content
 								return item._id + '-' + filename;
 							}
 						}
+				p <code>headers</code> <code class="data-type">Object</code> or <code class="data-type">Array</code> or <code class="data-type">Function</code> - headers to set on the S3 object
+				p Headers can be provided as an <code class="data-type">Object</code>, in which the keys are used as header names and the values are used as header values.
+					pre: code.language-javascript. 
+						{ 
+					    type: Types.S3File, 
+					    headers: { 
+					      'x-amz-meta-Cache-Control' : 'max-age=' + (60 * 15),
+					      'x-amz-meta-X-Custom-Header' : 'Object Option'
+					    } 
+					  }
+				p When the option is provided as an <code class="data-type">Array</code> of headers, each header element in the array should be an <code class="data-type">Object</code> with <code>name</code> and <code>value</code> <code class="data-type">String</code> properties
+					pre: code.language-javascript. 
+						{ 
+					    type: Types.S3File, 
+					    headers: [
+					      { name: 'x-amz-meta-Cache-Control', value: 'max-age=' + (60 * 15) },
+					      { name: 'x-amz-meta-X-Custom-Header', value: 'Array Option' }
+					    ]
+					  }
+				p When the option is provided as a <code class="data-type">Function</code>, the function will be called with arguments for the current model and client file; The function should return either an <code class="data-type">Array</code> of valid header objects or a simple <code class="data-type">Object</code>.
+					pre: code.language-javascript. 
+						{ 
+					    type: Types.S3File, 
+					    headers: function (item, file){
+					      var headers = [];
+					      headers.push({ name: 'x-amz-meta-Cache-Control', value: 'max-age=' + item.maxAge });
+					      headers.push({ name: 'x-amz-meta-X-Custom-Header', value: 'Computed Option (Array)' });
+					      return headers;
+					    }
+					  }
+					  // or 
+				   { 
+					    type: Types.S3File, 
+					    headers: function (item, file){
+					      var headers = {};
+					      headers['x-amz-meta-Cache-Control'] = 'max-age=' + item.maxAge;
+					      headers['x-amz-meta-X-Custom-Header'] = 'Computed Option (Object)';
+					      return headers;
+					    }
+					  }
 				p <code>format</code> <code class="data-type">Function</code> - function with two arguments: current model and file object to return representation of this file in Admin UI.
 					pre: code.language-javascript.
 						{

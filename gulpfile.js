@@ -63,11 +63,11 @@ gulp.task('watch-scripts', function() {
 	function rebundle() {
 		w.bundle()
 			.on('error', function(e) {
- 				gutil.log('Browserify Error', e);
- 			})
- 			.pipe(source('app.js'))
+				gutil.log('Browserify Error', e);
+			})
+			.pipe(source('app.js'))
 			.pipe(streamify(uglify()))
- 			.pipe(gulp.dest('./public/build/js'));
+			.pipe(gulp.dest('./public/build/js'));
 	}
 	
 	return rebundle();

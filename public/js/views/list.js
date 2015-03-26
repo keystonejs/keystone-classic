@@ -12,7 +12,7 @@ jQuery(function($) {
 	if ($('.search-list input').val()) {
 		setTimeout(function() {
 			$('.search-list input').focus();
-		},10);
+		}, 10);
 	}
 	
 	/** Columns */

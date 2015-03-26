@@ -33,7 +33,7 @@ var toggleHeading = function(e, level) {
 	}
 
 	// Set the cursor
-	e.setSelection(cursor,cursor + chunk.length);
+	e.setSelection(cursor, cursor + chunk.length);
 };
 
 var renderMarkdown = function(component) {
@@ -98,6 +98,11 @@ var renderMarkdown = function(component) {
 module.exports = Field.create({
 	
 	displayName: 'MarkdownField',
+
+	// Override `shouldCollapse` to check the markdown field correctly
+	shouldCollapse : function() {
+		return this.props.collapse && !this.props.value.md;
+	},
 	
 	// only have access to `refs` once component is mounted
 	componentDidMount: function() {

@@ -5,10 +5,10 @@
 var _ = require('underscore'),
 	moment = require('moment'),
 	keystone = require('../../../'),
-	async = require('async'),
 	util = require('util'),
 	azure = require('azure'),
 	utils = require('keystone-utils'),
+	prepost = require('../../../lib/prepost'),
 	super_ = require('../Type');
 
 
@@ -19,14 +19,11 @@ var _ = require('underscore'),
  */
 
 function azurefile(list, path, options) {
+	prepost.mixin(this)
+		.register('pre:upload');
 
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
-
-	// event queues
-	this._pre = {
-		upload: []
-	};
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
@@ -56,7 +53,7 @@ function azurefile(list, path, options) {
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
-		this._pre.upload = this._pre.upload.concat(options.pre.upload);
+		this.pre('upload', options.pre.upload);
 	}
 
 }
@@ -74,22 +71,6 @@ util.inherits(azurefile, super_);
 Object.defineProperty(azurefile.prototype, 'azurefileconfig', { get: function() {
 	return this.options.azurefileconfig || keystone.get('azurefile config');
 }});
-
-
-/**
- * Allows you to add pre middleware after the field has been initialised
- *
- * @api public
- */
-
-azurefile.prototype.pre = function(event, fn) {
-	if (!this._pre[event]) {
-		throw new Error('AzureFile (' + this.list.key + '.' + this.path + ') error: azurefile.pre()\n\n' +
-			'Event ' + event + ' is not supported.\n');
-	}
-	this._pre[event].push(fn);
-	return this;
-};
 
 
 /**
@@ -287,7 +268,7 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	async.eachSeries(this._pre.upload, function(fn, next) {
+	this.hooks('pre:upload', function(fn, next) {
 		fn(item, file, next);
 	}, function(err) {
 		if (err) return callback(err);

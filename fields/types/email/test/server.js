@@ -58,19 +58,19 @@ exports.testFieldType = function(List) {
 	});
 
 	it('should properly validate valid emails', function() {
-		demand(List.fields.email.validateInput({ email: "example@example.com" })).be(true);
+		demand(List.fields.email.validateInput({ email: 'example@example.com' })).be(true);
 	});
 	
 
 	it('should properly generate gravatar', function() {
-		demand(testItem._.email.gravatarUrl()).be("");
-		testItem.email = "sebastian@thinkmill.com.au";
-		demand(testItem._.email.gravatarUrl()).be("//www.gravatar.com/avatar/45eed6685108e64b67f79fb056d95a64?s=80&d=identicon&r=g");
+		demand(testItem._.email.gravatarUrl()).be('');
+		testItem.email = 'sebastian@thinkmill.com.au';
+		demand(testItem._.email.gravatarUrl()).be('//www.gravatar.com/avatar/45eed6685108e64b67f79fb056d95a64?s=80&d=identicon&r=g');
 		// size
-		demand(testItem._.email.gravatarUrl(50)).be("//www.gravatar.com/avatar/45eed6685108e64b67f79fb056d95a64?s=50&d=identicon&r=g");
+		demand(testItem._.email.gravatarUrl(50)).be('//www.gravatar.com/avatar/45eed6685108e64b67f79fb056d95a64?s=50&d=identicon&r=g');
 		// defaultImage
-		demand(testItem._.email.gravatarUrl(null, "https://avatars1.githubusercontent.com/u/853712")).be("//www.gravatar.com/avatar/45eed6685108e64b67f79fb056d95a64?s=80&d=https%3A%2F%2Favatars1.githubusercontent.com%2Fu%2F853712&r=g");
+		demand(testItem._.email.gravatarUrl(null, 'https://avatars1.githubusercontent.com/u/853712')).be('//www.gravatar.com/avatar/45eed6685108e64b67f79fb056d95a64?s=80&d=https%3A%2F%2Favatars1.githubusercontent.com%2Fu%2F853712&r=g');
 		// rating
-		demand(testItem._.email.gravatarUrl(null, null, "pg")).be("//www.gravatar.com/avatar/45eed6685108e64b67f79fb056d95a64?s=80&d=identicon&r=pg");
+		demand(testItem._.email.gravatarUrl(null, null, 'pg')).be('//www.gravatar.com/avatar/45eed6685108e64b67f79fb056d95a64?s=80&d=identicon&r=pg');
 	});
 };
