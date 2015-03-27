@@ -19,6 +19,14 @@ know. We'll help you get started, rather than adding it to the queue.
 but please ensure there are not more violations than before your changes.
 * All new features and changes need documentation. We have three translations,
 please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
+* **PRO TIP**: If you've opened an issue and have come up with a solution yourself, we prefer you to convert the already existing issue into a PR instead of opening a new one. This can be done with the [hub command line tool](https://github.com/github/hub)
+
+  Example:
+  ```sh
+  # convert issue 1239 into a pull-request sending all commits from `fix_hooks` branch in creynders'
+  # keystone fork to the `master` branch of the official repo
+  hub pull-request -i 1239 -b keystonejs/keystone:master -h creynders/keystone:fix_hooks
+  ```
 
 If you are working on the React Admin UI, you'll also need to know this:
 
