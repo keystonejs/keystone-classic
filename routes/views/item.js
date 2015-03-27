@@ -4,7 +4,8 @@ var keystone = require('../../'),
 
 exports = module.exports = function(req, res) {
 	
-	var itemQuery = req.list.model.findById(req.params.item);
+	var itemQuery = req.list.model.findById(req.params.item),
+		revQuery;
 	
 	if (req.list.tracking && req.list.tracking.createdBy) {
 		itemQuery.populate(req.list.tracking.createdBy);
@@ -41,6 +42,8 @@ exports = module.exports = function(req, res) {
 				// data: {},
 				items: []
 			};
+			
+			var revisions;
 			
 			var loadDrilldown = function(cb) {
 				
@@ -136,11 +139,36 @@ exports = module.exports = function(req, res) {
 				}, cb);
 			};
 			
+			var loadRevisions = function(cb) {
+				if (!req.list.history) {
+					return cb();
+				}
+				
+				var HistoryModel = req.list.HistoryModel;
+				
+				var q = HistoryModel.find({ i : item.id })
+					.select('t o d c')
+					.sort('-t')
+					.limit(5);
+				
+				q.exec(function(err, results) {
+					if (err) {
+						return cb();
+					}
+					
+					revisions = results;
+					
+					cb();
+				});
+			
+			};
+			
 			/** Render View */
 			
 			async.parallel([
 				loadDrilldown,
-				loadRelationships
+				loadRelationships,
+				loadRevisions
 			], function(err) {
 				
 				// TODO: Handle err
@@ -159,7 +187,8 @@ exports = module.exports = function(req, res) {
 					item: item,
 					drilldown: drilldown,
 					relationships: relationships,
-					showRelationships: showRelationships
+					showRelationships: showRelationships,
+					revisions: revisions
 				}));
 				
 			});

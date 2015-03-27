@@ -1,6 +1,7 @@
 var React = require('react'),
 	CreateForm = require('../../components/CreateForm'),
 	EditForm = require('../../components/EditForm'),
+	Revisions = require('../../components/Revisions'),
 	Header = require('./Header');
 
 var View = React.createClass({
@@ -30,6 +31,7 @@ var View = React.createClass({
 				{this.renderCreateForm()}
 				<Header list={Keystone.list} data={Keystone.item} drilldown={Keystone.drilldown} toggleCreate={this.toggleCreate} />
 				<EditForm list={Keystone.list} data={Keystone.item} />
+				<Revisions data={Keystone.revisions} />
 			</div>
 		);
 	}
