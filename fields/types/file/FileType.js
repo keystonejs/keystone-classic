@@ -8,6 +8,7 @@ var path = require('path'),
 	async = require('async'),
 	util = require('util'),
 	utils = require('keystone-utils'),
+	grappling = require('grappling-hook'),
 	super_ = require('../Type');
 
 /**
@@ -48,6 +49,8 @@ var path = require('path'),
  */
 
 function file(list, path, options) {
+	grappling.mixin(this)
+		.allowHooks("upload", "download", "remove");
 	
 	this._underscoreMethods = ['format', 'uploadFile', 'deleteFile'];
 	this._fixedSize = 'full';
@@ -55,12 +58,14 @@ function file(list, path, options) {
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
 
-	// event queues
-	this._pre = {
-		upload: []
-	};
-	
 	file.super_.call(this, list, path, options);
+
+	_.each(options.pre, function(middleware, action) {
+		this.pre(action, middleware);
+	}, this);
+	_.each(options.post, function(middleware, action) {
+		this.post(action, middleware);
+	}, this);
 
 	var store = options.store;
 	if (keystone.stores[store]) {
@@ -76,38 +81,6 @@ function file(list, path, options) {
  */
 
 util.inherits(file, super_);
-
-
-/**
- * Allows you to add pre middleware after the field has been initialised
- *
- * @api public
- */
-
-file.prototype.pre = function(event, fn) {
-	if (!this._pre[event]) {
-		throw new Error('file (' + this.list.key + '.' + this.path + ') error: file.pre()\n\n' +
-			'Event ' + event + ' is not supported.\n');
-	}
-	this._pre[event].push(fn);
-	return this;
-};
-
-
-/**
- * Allows you to add post middleware after the field has been initialised
- *
- * @api public
- */
-
-file.prototype.post = function(event, fn) {
-	if (!this._post[event]) {
-		throw new Error('file (' + this.list.key + '.' + this.path + ') error: file.post()\n\n' +
-			'Event ' + event + ' is not supported.\n');
-	}
-	this._post[event].push(fn);
-	return this;
-};
 
 
 /**
@@ -287,17 +260,15 @@ file.prototype.updateItem = function(item, data) {
 file.prototype.uploadFile = function(item, file, update, callback) {
 	var self = this;
 
-	async.eachSeries(this._pre.upload, function(fn, next) {
-		fn(item, file, next);
-	}, function(err) {
+	this.callHook('pre:upload', [item, file], function(err) {
 		if (err) return callback(err);
-		
 		self.store.uploadFile(file, function(err, data) {
-			if (!err && update) {
-				item.set(self.path, data);
-			}
-
-			callback(err, data);
+			self.callHook('post:upload', [item, file, data], function(err) {
+				if (!err && update) {
+					item.set(self.path, data);
+				}
+				callback(err, data);
+			});
 		});
 	});
 };
