@@ -27,24 +27,13 @@ exports = module.exports = function(req, res) {
             return renderView();
         }
 
-        var onSuccess = function (user) {
-
-            if (req.query.from && req.query.from.match(/^(?!http|\/\/|javascript).+/)) {
-                res.redirect(req.query.from);
-            } else {
-                req.flash('success', infoMessage );
-                res.redirect('/keystone/resetpassword');
-            }
-
-        };
-
-        var onFail = function () {
+        var genericMessage = function () {
             req.flash('success', infoMessage );
             renderView();
         };
 
         console.log('CHECK EMAIL AND SEND EMAIL');
-        session.checkResetPassword(req.body, req, res, onSuccess, onFail);
+        session.checkResetPassword(req.body, req, res, genericMessage, genericMessage);
 
     } else {
         renderView();
