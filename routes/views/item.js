@@ -156,7 +156,12 @@ exports = module.exports = function(req, res) {
 					title: appName + ': ' + req.list.singular + ': ' + req.list.getDocumentName(item),
 					page: 'item',
 					list: req.list,
-					item: item,
+					item: JSON.stringify(req.list.getData(item), function(k, v) {
+						if (typeof v == 'string') {
+							return v.replace(/<\/script/g, '</scr\\ipt');
+						}
+						return v;
+					}),
 					drilldown: drilldown,
 					relationships: relationships,
 					showRelationships: showRelationships

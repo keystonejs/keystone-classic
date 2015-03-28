@@ -9,7 +9,7 @@ block css
 block js
 	script.
 		Keystone.list = !{JSON.stringify(list.getOptions())};
-		Keystone.item = !{JSON.stringify(list.getData(item))};
+		Keystone.item = !{item};
 		Keystone.drilldown = !{JSON.stringify(drilldown)};
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 		
