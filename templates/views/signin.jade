@@ -27,6 +27,8 @@ block content
 					
 					button(type='submit').btn.btn-primary Sign In
 				
+					if sendResetPassword
+						a(href='/keystone/resetpassword').btn.btn-cancel Forgot your password?
 				//- TODO generic forgotten password functionality
 				//- button(type='button').btn.btn-link Forgot Password?
 				
