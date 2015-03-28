@@ -222,7 +222,7 @@ s3file.prototype.updateItem = function(item, data) {
 				item.set(paths[key], data[field][key] || null);
 			}
         }
-    }
+    };
 
     _.each(['filename', 'path', 'size', 'filetype', 'url'], setValue);
 };
