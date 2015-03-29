@@ -71,8 +71,6 @@
     "gulp-util": "~3.0.4",
     "gulp-watch": "~4.2.0",
     "istanbul": "^0.3.10",
-    "jshint-stylish": "~1.0.1",
-    "jsxhint": "^0.13.2",
     "mocha": "^2.2.1",
     "must": ">= 0.12 < 1",
     "reactify": "~1.1.0",
@@ -120,8 +118,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "lint": "jsxhint --reporter=node_modules/jshint-stylish/stylish.js .",
-    "style": "eslint ./; true",
+    "lint": "eslint ./; true",
     "test-cov": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha",
     "clean": "rimraf ./coverage"
   },
