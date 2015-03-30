@@ -9,11 +9,9 @@ block css
 block js
 	script.
 		Keystone.list = !{JSON.stringify(list.getOptions())};
-		Keystone.item = !{item};
-		Keystone.drilldown = !{JSON.stringify(drilldown)};
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 		
-		App.Views.Item.render();
+		App.Views.Item.render("!{item.id}");
 		
 block content
 	// Attach point for new React View

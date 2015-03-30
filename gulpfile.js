@@ -35,7 +35,7 @@ gulp.task('build-scripts', function() {
 
 // watch scripts & build with debug features
 gulp.task('watch-scripts', function() {
-	
+
 	var b = browserify(_.defaults({
 			standalone: 'App',
 			debug: true
@@ -66,7 +66,6 @@ gulp.task('watch-scripts', function() {
 				gutil.log('Browserify Error', e);
 			})
 			.pipe(source('app.js'))
-			.pipe(streamify(uglify()))
 			.pipe(gulp.dest('./public/build/js'));
 	}
 	
