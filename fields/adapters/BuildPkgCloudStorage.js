@@ -32,7 +32,7 @@ module.exports = function(provider, additionalOptions) {
 		});
 
 		writeStream.on('success', function(file) {
-			console.log(file);
+			callback(null, file);
 		});
 
 		readStream.pipe(writeStream);
