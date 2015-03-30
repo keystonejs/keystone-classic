@@ -265,7 +265,7 @@ file.prototype.uploadFile = function(item, file, update, callback) {
 
 	this.callHook('pre:upload', [item, file], function(err) {
 		if (err) return callback(err);
-		self.store.uploadFile(file, function(err, data) {
+		self.store.uploadFile(self, item, file, function(err, data) {
 			self.callHook('post:upload', [item, file, data], function(err) {
 				if (!err && update) {
 					item.set(self.path, data);

@@ -18,12 +18,13 @@ module.exports = function(provider, additionalOptions) {
 
 	util.inherits(PkgCloudAdapater, StorageAdapter);
 
-	PkgCloudAdapater.prototype.uploadFile = function(data, callback) {
+	PkgCloudAdapater.prototype.uploadFile = function(field, item, data, callback) {
 		var readStream = fs.createReadStream(data.path);
+		var options = _.defaults({}, field.options, this.options);
 
 		var writeStream = this.client.upload({
 			container: 'keystone',
-			remote: this.normaliseFilename(data.name)
+			remote: this.normaliseFilename(item, data, options)
 		});
 
 		writeStream.on('error', function(err) {

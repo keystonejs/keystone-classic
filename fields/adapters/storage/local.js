@@ -1,6 +1,7 @@
 var StorageAdapter = require('../StorageAdapter'),
 	util = require('util'),
 	path = require('path'),
+	_ = require('underscore'),
 	fs = require('fs-extra');
 
 function localfile() {
@@ -13,14 +14,15 @@ function localfile() {
 
 util.inherits(localfile, StorageAdapter);
 
-localfile.prototype.uploadFile = function(data, callback) {
+localfile.prototype.uploadFile = function(field, item, data, callback) {
 	var self = this,
-		filename = this.normaliseFilename(data.name),
+		options = _.defaults({}, field.options, this.options),
+		filename = this.normaliseFilename(item, data, options),
 		src = data.path,
-		dest = path.join(this.options.dest, filename);
+		dest = path.join(options.dest, filename);
 
 	fs.move(src, dest, {
-		clobber: this.options.overwrite
+		clobber: options.overwrite
 	}, function(err) {
 		if (err) return callback(err);
 
