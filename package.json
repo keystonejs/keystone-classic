@@ -80,7 +80,7 @@
     "sinon": "~1.14.1",
     "supertest": "~0.15.0",
     "vinyl-source-stream": "~1.1.0",
-    "watchify": "~2.6.2"
+    "watchify": "~3.0.0"
   },
   "browserify": {
     "transform": [
