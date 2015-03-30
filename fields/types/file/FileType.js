@@ -97,6 +97,7 @@ file.prototype.addToSchema = function() {
 	var paths = this.paths = {
 		// fields
 		filename:		this._path.append('.filename'),
+		originalname:	this._path.append('.originalname'),
 		path:			this._path.append('.path'),
 		size:			this._path.append('.size'),
 		filetype:		this._path.append('.filetype'),
@@ -109,6 +110,7 @@ file.prototype.addToSchema = function() {
 	
 	var schemaPaths = this._path.addTo({}, {
 		filename:		String,
+		originalname:	String,
 		path:			String,
 		size:			Number,
 		filetype:		String
@@ -142,6 +144,7 @@ file.prototype.addToSchema = function() {
 	var reset = function(item) {
 		item.set(field.path, {
 			filename: '',
+			originalname: '',
 			path: '',
 			size: 0,
 			filetype: ''

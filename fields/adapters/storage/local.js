@@ -26,6 +26,7 @@ localfile.prototype.uploadFile = function(data, callback) {
 
 		callback(null, {
 			filename: filename,
+			originalname: data.originalname,
 			path: dest,
 			size: data.size,
 			filetype: data.mimetype || data.type
