@@ -79,7 +79,7 @@ numberarray.prototype.validateInput = function(data, required, item) {
 			return false;
 		}
 		if (Array.isArray(value) && !value.length) {
-			return false
+			return false;
 		}
 	}
 

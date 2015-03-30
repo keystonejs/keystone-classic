@@ -509,6 +509,18 @@ block content
 			
 			pre: code.language-javascript
 				| keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });
+
+			p The config object can also contain a 'default headers' property. This property should be either an <code class="data-type">Object</code> or an <code class="data-type">Array</code>.
+
+			pre: code.language-javascript.
+				keystone.set('s3 config', { 
+					bucket: 'my-bucket', 
+					key: 'my-key', 
+					secret: 'my-secret',
+					'default headers':  {
+				    'x-amz-meta-X-Default-Header': 'Custom Default Value'
+				  }
+				});
 			
 			
 			a(name='services-azure')
@@ -556,7 +568,11 @@ block content
 					li <code class="default-value">{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is not set)
 					li <code class="default-value">{prefix}/{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is set)
 	
-			p.note You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).
+			p.note 
+				| You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).
+				br
+				br
+				| If you want Cloudinary to automatically create folders when the <code>cloudinary folders</code> option is set to <code class="default-value">true</code>, make sure you enable "Auto-create folders" in your Cloudinary account "Upload Settings".
 			
 			p If you are serving over HTTPS and want to ensure that cloudinary images are also serverd over HTTPS, set the <code>cloudinary secure</code> option to <code class="default-value">true</code>.
 

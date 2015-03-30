@@ -14,6 +14,8 @@ var util = require('util'),
 function url(list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format'];
+	this._formatUrl = options.format || removeProtocolPrefix;
+
 	url.super_.call(this, list, path, options);
 }
 
@@ -25,17 +27,25 @@ util.inherits(url, super_);
 
 
 /**
- * Formats the field value
- *
- * Strips the leading protocol from the value for simpler display
+ * Formats the field value using either a supplied format function or default
+ * which strips the leading protocol from the value for simpler display
  *
  * @api public
  */
 
 url.prototype.format = function(item) {
-	return (item.get(this.path) || '').replace(/^[a-zA-Z]+\:\/\//, '');
+	var url = (item.get(this.path) || '');
+	return this._formatUrl(url);
 };
 
+/**
+ * Remove the protocol prefix from url
+ *
+ * @api private
+ */
+function removeProtocolPrefix(url) {
+	return url.replace(/^[a-zA-Z]+\:\/\//, '');
+}
 
 // TODO: Proper url validation
 

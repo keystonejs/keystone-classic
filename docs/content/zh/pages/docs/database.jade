@@ -353,9 +353,11 @@ block content
 			
 			// TODO: Documentation for Update Handler
 			a(name='headings')
-				h2 标题
-					p 定义标题以区分文档流程。标题可以定义为 <code>String</code> 或者 <code>Object</code> 以及 <a href="#dependsOn">依赖于</a> 其他域的值。
-					pre: code.language-javascript
+			h2 标题
+				
+			p 定义标题以区分文档流程。标题可以定义为 <code>String</code> 或者 <code>Object</code> 以及 <a href="#dependsOn">依赖于</a> 其他域的值。
+			
+			pre: code.language-javascript
 				| Person.add(
 				|    'User', 
 				|    { name: { type: Types.Name, required: true, index: true, initial: true } }, 
@@ -368,8 +370,10 @@ block content
 				|    { heading: "GT Activities", dependsOn: { place: 'GT' } },
 				|    { type: { type: Types.Select, options: ['ZC', 'MP'], dependsOn: { place: 'GT'} }
 				| );
-				.options
-					h5 参数
+			
+			.options
+				
+				h5 参数
 				p <code>heading</code> <code class="data-type">String</code> -  标题显示的文字
 				p <code>dependsOn</code> <code class="data-type">Object</code> - 标题只会在当前对象指定路径和数据项匹配时候显示。 <a href="#dependsOn">dependsOn</a> 
 
@@ -962,6 +966,7 @@ block content
 				pre: code.language-javascript { type: Types.CloudinaryImage, publicID: 'slug' }
 				p <code>folder</code> <code class="data-type">String</code> 当<code class="default-value">cloudinary folders</code>设为<code class="default-value">true</code>时，用来为Cloudinary图片<code class="data-type">public_id</code>指定文件夹/前缀
 				pre: code.language-javascript { type: Types.CloudinaryImage, folder: 'path/to/image' }
+				p.note 如果你希望 Cloudinary 在 <code>cloudinary folders</code> 设置为 <code class="default-value">true</code>  的时候自动创建文件夹， 确认已经在你的 Cloudinary 账户中启用 "Auto-create folders"。
 				p <code>autoCleanup</code> <code class="data-type">Boolean</code> 为<code class="default-value">true</code>时，会将Keystone的默认行为从<code class="default-value">remove</code> (只是从数据库中去掉Cloudinary 图片)变成<code class="default-value">delete</code> (会同时从数据库和Cloudinary存储中去掉图片)。此外，这个参数还会在上传时替换掉已有图片(如果图片已存在的话)。
 				pre: code.language-javascript { type: Types.CloudinaryImage, autoCleanup : true }
 				p <code>select</code> <code class="data-type">Boolean</code> 为<code class="default-value">true</code> 时，会显示一个下拉列表域，其中是当前保存在Cloudinary存储中的图片。当指定<code>selectPrefix</code>时，只有ID以<code>selectPrefix</code>开头的图片才会显示。否则，显示ID以<code>folder</code>开头的图片。如果既没有配置<code>selectPrefix</code>，也没配置<code>folder</code>，则只显示ID以<code class="data-type">[{prefix}]/{list.path}/{field.path}/</code>开头的图片。
@@ -1014,7 +1019,7 @@ block content
 				h5 参数
 				p <code>folder</code> <code class="data-type">String</code> 当<code class="default-value">cloudinary folders</code>设为<code class="default-value">true</code>时，用来为Cloudinary图片<code class="data-type">public_id</code>指定文件夹/前缀。
 				pre: code.language-javascript { type: Types.CloudinaryImages, folder: 'path/to/image' }
-			//- TODO: Usage Examples
+				p.note 如果你希望 Cloudinary 在 <code>cloudinary folders</code> 设置为 <code class="default-value">true</code>  的时候自动创建文件夹， 确认已经在你的 Cloudinary 账户中启用 "Auto-create folders"。
 			
 			
 			a(name="fieldtypes-localfile")
@@ -1081,6 +1086,46 @@ block content
 								return item._id + '-' + filename;
 							}
 						}
+				p <code>headers</code> <code class="data-type">Object</code>，<code class="data-type">Array</code> 或者 <code class="data-type">Function</code> - 设置 S3 对象请求头
+				p 请求头可以提供 <code class="data-type">Object</code> 类型， 键值对的键被用来定义请求头名称，值用来设置请求头的值。
+					pre: code.language-javascript. 
+						{
+							type: Types.S3File, 
+								headers: {
+								'x-amz-meta-Cache-Control' : 'max-age=' + (60 * 15),
+								'x-amz-meta-X-Custom-Header' : 'Object Option'
+							} 
+						}
+				p 当用 <code class="data-type">Array</code> 设置请求头， 数组内的每一个请求头元素应该是一个 <code class="data-type">Object</code> 类型包含 <code>name</code>和 <code>value</code> <code class="data-type">String</code> 属性。
+					pre: code.language-javascript. 
+						{ 
+							type: Types.S3File, 
+								headers: [
+								{ name: 'x-amz-meta-Cache-Control', value: 'max-age=' + (60 * 15) },
+								{ name: 'x-amz-meta-X-Custom-Header', value: 'Array Option' }
+							]
+						}
+				p 当用 <code class="data-type">Function</code> 设置请求头，以当前模型和客户端文件名为参数的函数；该函数返回一个有效的请求头对象或者一个简单 <code class="data-type">Object</code> 类型对象。
+					pre: code.language-javascript. 
+						{ 
+							type: Types.S3File, 
+								headers: function (item, file){
+								var headers = [];
+								headers.push({ name: 'x-amz-meta-Cache-Control', value: 'max-age=' + item.maxAge });
+								headers.push({ name: 'x-amz-meta-X-Custom-Header', value: 'Computed Option (Array)' });
+								return headers;
+							}
+						}
+						// 或 
+						{
+							type: Types.S3File,
+								headers: function (item, file){
+								var headers = {};
+								headers['x-amz-meta-Cache-Control'] = 'max-age=' + item.maxAge;
+								headers['x-amz-meta-X-Custom-Header'] = 'Computed Option (Object)';
+								return headers;
+							}
+						}	
 				p <code>format</code> <code class="data-type">Function</code> - 以当前模型和客户端文件名为参数的函数，返回要上传文件的新文件名。
 					pre: code.language-javascript.
 						{

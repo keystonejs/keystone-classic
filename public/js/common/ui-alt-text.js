@@ -7,13 +7,13 @@ jQuery(function($) {
 		this.$el = $(el);
 		this.originalText = this.$el.text();
 		this.altText = this.$el.data('alt-text');
-	}
+	};
 	
 	AltText.prototype.state = function(alt) {
 		
 		this.$el.text(alt ? this.altText : this.originalText);
 		
-	}
+	};
 	
 	// ALT-TEXT PLUGIN
 	// ===============
@@ -27,7 +27,7 @@ jQuery(function($) {
 			
 			altText.state(state);
 		});
-	}
+	};
 	
 	$.fn.altText.Constructor = AltText;
 	

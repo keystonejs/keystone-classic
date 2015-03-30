@@ -1,23 +1,40 @@
-#Contributing
+# Contributing
 
-Thank you for your interest in KeystoneJS, an open source project administered
-by Thinkmill.
+Thanks for your interest in KeystoneJS. It's a project we're excited to be
+working on, and we welcome all forms of contribution - from issue reports,
+to PRs and documentation / write-ups.
 
-Contributing to Keystone is easy. In a few simple steps:
+As a simple guide:
 
 * Ensure that your effort is aligned with the project's roadmap by talking to
 the maintainers, especially if you are going to spend a lot of time on it.
-* Make something better or fix a bug.
-* If you are working on the React Admin UI, run `gulp watch-scripts` to build
-the scripts with your changes.
-* Make sure you do not add regressions by running `npm test`. There should not
-be more errors than you began with.
-* Make sure you do not add jshint violations. Run `make lint`. There should not
-be more violations than you began with.
-* Adhere to code style outlined in the .jscsrc file. Run `make style`. Ensure
-you did not add more style violations than you began with.
-* Submit a pull request through Github. _Please do not include build files in
-your PR_
+* Make sure there's an Issue open for any work you take on and intend to submit
+as a pull request - it helps core members review your concept and direction
+early and is a good way to discuss what you're planning to do.
+* If you open an issue and are interested in working on a fix, please let us
+know. We'll help you get started, rather than adding it to the queue.
+* Make sure you do not add regressions by running `npm test`. Please also
+[follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards) (with regards to formatting, etc)
+* You can also run `npm run lint` and `npm run style` - our linter is a WIP
+but please ensure there are not more violations than before your changes.
+* All new features and changes need documentation. We have three translations,
+please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
+* **PRO TIP**: If you've opened an issue and have come up with a solution yourself, we prefer you to convert the already existing issue into a PR instead of opening a new one. This can be done with the [hub command line tool](https://github.com/github/hub)
+
+  Example:
+  ```sh
+  # convert issue 1239 into a pull-request sending all commits from `fix_hooks` branch in creynders'
+  # keystone fork to the `master` branch of the official repo
+  hub pull-request -i 1239 -b keystonejs/keystone:master -h creynders/keystone:fix_hooks
+  ```
+
+If you are working on the React Admin UI, you'll also need to know this:
+
+* The Admin UI is generated with Browserify by gulp. In development, run
+`gulp watch-scripts`. 
+* _Make sure you revert your build before submitting a PR_ to reduce the change
+of conflicts. `gulp build-scripts` is run after PRs are merged and before any
+releases are made.
 
 If you'd like to talk to the core developers, we all hang out in a Slack channel
 to discuss Keystone. Ping @jedwatson to get an invite.

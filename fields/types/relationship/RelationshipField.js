@@ -9,6 +9,16 @@ module.exports = Field.create({
 	
 	displayName: 'RelationshipField',
 	
+	shouldCollapse: function() {
+		// many:true relationships have an Array for a value
+		// so need to check length instead
+		if(this.props.many) {
+			return this.props.collapse && !this.props.value.length;
+		}
+		
+		return this.props.collapse && !this.props.value;
+	},
+	
 	getInitialState: function() {
 		return {
 			ready: this.props.value ? false : true,
@@ -72,7 +82,7 @@ module.exports = Field.create({
 		
 		_.each(this.props.filters, function(value, key) {
 			if(_.isString(value) && value[0] == ':') {
-				fieldName = value.slice(1);
+				var fieldName = value.slice(1);
 
 				var val = this.props.values[fieldName];
 				if (val) {
@@ -94,13 +104,16 @@ module.exports = Field.create({
 		
 		_.each(filters, function (val, key) {
 			parts.push('filters[' + key + ']=' + encodeURIComponent(val));
-		})
+		});
 		
 		return parts.join('&');
 	},
 
 	buildOptionQuery: function (input) {
-		return 'context=relationship&q=' + input + '&list=' + Keystone.list.path + '&field=' + this.props.path + '&' + this.buildFilters()
+		return  'context=relationship&q=' + input +
+				'&list=' + Keystone.list.path +
+				'&field=' + this.props.path +
+				'&' + this.buildFilters();
 	},
 
 	getOptions: function(input, callback) {
@@ -143,19 +156,15 @@ module.exports = Field.create({
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
 		}
-		// TODO expand IDs
-		if (this.props.many) {
-			// a(href='/keystone/' + refList.path + '/' + item.get(field.path), data-ref-path=refList.path).ui-related-item= item.get(field.path)
-			return <div className='field-value'>{this.props.value}</div>;
-		} else if (this.props.many && this.props.value.length) {
-			// var body = [];
-			// 
-			// _.each(this.props.value, function (value) {
-			// 	body.push(<a href={'/keystone/' + this.props.refList.path + '/' + value} className='ui-related-item'>{value}</a>);
-			// }, this);
-			// 
-			// return value;
-			return <div className='field-value'>{this.props.value}</div>;
+		// Todo: this is only a temporary fix, remodel
+		if (this.state.expandedValues && this.state.expandedValues.length) {
+			var body = [];
+			
+			_.each(this.state.expandedValues, function (item) {
+				body.push(<a href={'/keystone/' + this.props.refList.path + '/' + item.value} className='related-item-link'>{item.label}</a>);
+			}, this);
+			
+			return body;
 		} else {
 			return <div className='field-value'>(not set)</div>;
 		}

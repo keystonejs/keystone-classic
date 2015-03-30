@@ -228,7 +228,7 @@ relationship.prototype.addFilters = function(query, item) {
 		}
 		query.where(path);
 		_.each(filters, function(value, method) {
-			if ('string' === typeof value && value.substr(0,1) === ':') {
+			if ('string' === typeof value && value.substr(0, 1) === ':') {
 				if (!item) {
 					return;
 				}

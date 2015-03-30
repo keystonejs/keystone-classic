@@ -106,8 +106,9 @@ date.prototype.validateInput = function(data, required, item) {
 
 date.prototype.updateItem = function(item, data) {
 
-	if (!(this.path in data))
+	if (!(this.path in data)) {
 		return;
+	}
 
 	var newValue = moment(data[this.path]);
 

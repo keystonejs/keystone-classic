@@ -83,12 +83,14 @@ password.prototype.addToSchema = function() {
 		var item = this;
 
 		bcrypt.genSalt(field.workFactor, function(err, salt) {
-			if (err)
+			if (err) {
 				return next(err);
+			}
 
 			bcrypt.hash(item.get(field.path), salt, function () {}, function(err, hash) {
-				if (err)
+				if (err) {
 					return next(err);
+				}
 
 				// override the cleartext password with the hashed one
 				item.set(field.path, hash);

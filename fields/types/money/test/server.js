@@ -103,15 +103,15 @@ exports.testFieldType = function(List) {
 
 	it('should properly format', function () {
 		testItem.money = 1234;
-		demand(testItem._.money.format()).be("$1,234.00");
+		demand(testItem._.money.format()).be('$1,234.00');
 		testItem.money = -244;
-		demand(testItem._.money.format()).be("-$244.00");
+		demand(testItem._.money.format()).be('-$244.00');
 	});
 
 	it('should ignore formatting if the format option is false', function () {
 		testItem.money = 1234;
-		demand(testItem._.money.format()).be("$1,234.00");
+		demand(testItem._.money.format()).be('$1,234.00');
 		testItem.money = -244;
-		demand(testItem._.money.format()).be("-$244.00");
+		demand(testItem._.money.format()).be('-$244.00');
 	});
 };

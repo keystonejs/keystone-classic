@@ -15,8 +15,11 @@ var util = require('util'),
 
 function money(list, path, options) {
 	
+	this.currency = options.currency;
+	
 	this._nativeType = Number;
 	this._underscoreMethods = ['format'];
+	this._properties = ['currency'];
 	this._fixedSize = 'small';
 	this._formatString = (options.format === false) ? false : (options.format || '$0,0.00');
 	
@@ -42,6 +45,14 @@ util.inherits(money, super_);
  */
 
 money.prototype.format = function(item, format) {
+	if (this.currency) {
+		try {
+			numeral.language(this.currency, require('numeral/languages/' + this.currency));
+			numeral.language(this.currency);
+		} catch (err) {
+			throw new Error('FieldType.Money: options.currency failed to load.');
+		}
+	}
 	if (format || this._formatString) {
 		return ('number' === typeof item.get(this.path)) ? numeral(item.get(this.path)).format(format || this._formatString) : '';
 	} else {
