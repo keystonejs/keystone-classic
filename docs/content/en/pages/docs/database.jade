@@ -115,6 +115,9 @@ block content
 					td <code>drilldown</code> <code class="data-type">String</code>
 					td A space-delimited list of relationships to display as drilldown in the Admin UI
 				tr
+					td <code>inherits</code> <code class="data-type">List</code>
+					td A list object that you would like to inherit fields from.
+				tr
 					td <code>sortable</code> <code class="data-type">Boolean</code>
 					td Adds a hidden field <code>sortOrder</code> to the schema, and enables drag and drop sorting in the Admin UI
 				tr
@@ -196,6 +199,33 @@ block content
 				| });
 			
 			
+			h4 Inheritance example
+
+			p The inheritance option can be used to allow a list to inherit its fields from another list using Mongoose <a href="http://mongoosejs.com/docs/3.7.x/docs/api.html#model_Model.discriminator">model discriminators</a>
+
+			p Parent lists may not themselves inherit from other lists.
+
+			.code-header: h4 Example: Inheriting List fields from other lists
+			pre: code.language-javascript
+				|var keystone = require('keystone');
+				|
+				|var BasePage = new keystone.List('BasePage', {
+				|    map: { name: 'title' },
+				|	    autokey: { path: 'slug', from: 'title', unique: true },
+				|	});
+				|BasePage.add(
+				|	{
+				|		title: { type: String, required: true },
+				|		slug: { type: String, readonly: true },
+				|	}
+				|);
+				|BasePage.register();
+				|
+				|var ChildPage = new keystone.List('ChildPage', { inherits: BasePage });
+				|ChildPage.add({ child_content: { type: String, readonly: true } });
+				|ChildPage.register();
+
+
 			a(name='lists-plugins')
 			h3 Schema Plugins
 			
