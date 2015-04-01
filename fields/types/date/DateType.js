@@ -17,9 +17,10 @@ function date(list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'large';
-	this._properties = ['formatString'];
+	this._properties = ['formatString', 'yearRange'];
 	
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
+	this.yearRange = options.yearRange;
 	
 	if (this.formatString && 'string' !== typeof this.formatString) {
 		throw new Error('FieldType.Date: options.format must be a string.');

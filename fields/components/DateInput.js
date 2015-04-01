@@ -33,6 +33,7 @@ module.exports = React.createClass({
 		this.picker = new Pikaday({ 
 			field: this.getDOMNode(),
 			format: this.props.format,
+			yearRange: this.props.yearRange,
 			onSelect: function(date) {
 				if (this.props.onChange && this.picker.toString() !== this.props.value) {
 					this.props.onChange(this.picker.toString());
