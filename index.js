@@ -2,15 +2,8 @@ var fs = require('fs'),
 	path = require('path'),
 	_ = require('underscore'),
 	express = require('express'),
-	async = require('async'),
-	jade = require('jade'),
-	moment = require('moment'),
-	numeral = require('numeral'),
-	cloudinary = require('cloudinary'),
 	utils = require('keystone-utils'),
 	prepost = require('./lib/prepost');
-
-var templateCache = {};
 
 /**
  * Don't use process.cwd() as it breaks module encapsulation
