@@ -66,6 +66,8 @@ exports = module.exports = function(req, res) {
 	}
 	query.exec(function(err, results) {
 
+		if (err) return res.status(500).json(err);
+
 		var sendCSV = function(data) {
 
 			var columns = data.length ? Object.keys(data[0]) : [];
