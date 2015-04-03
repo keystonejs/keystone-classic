@@ -1,9 +1,9 @@
 var React = require('react');
 var request = require('superagent');
 
-var CreateForm = require('../../components/CreateForm');
-var EditForm = require('../../components/EditForm');
-var Header = require('./Header');
+var CreateForm = require('../components/CreateForm');
+var EditForm = require('../components/EditForm');
+var Header = require('../components/ItemViewHeader');
 
 var View = React.createClass({
 	

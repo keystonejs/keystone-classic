@@ -1,5 +1,5 @@
 var React = require('react'),
-	CreateForm = require('../../components/CreateForm');
+	CreateForm = require('../components/CreateForm');
 
 var View = React.createClass({
 	

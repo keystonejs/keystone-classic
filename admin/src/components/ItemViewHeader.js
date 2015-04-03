@@ -1,6 +1,6 @@
 var React = require('react/addons'),
 	ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
-	AltText = require('../../components/AltText');
+	AltText = require('./AltText');
 
 var Header = React.createClass({
 	
