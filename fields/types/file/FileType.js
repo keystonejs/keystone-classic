@@ -9,6 +9,7 @@ var path = require('path'),
 	util = require('util'),
 	utils = require('keystone-utils'),
 	grappling = require('grappling-hook'),
+	fs = require('fs'),
 	super_ = require('../Type');
 
 /**
@@ -120,14 +121,13 @@ file.prototype.addToSchema = function() {
 	
 	// exists checks for a matching file at run-time
 	var exists = function(item) {
-		var filepath = item.get(paths.path),
-			filename = item.get(paths.filename);
-
-		if (!filepath || !filename) {
+		var filepath = item.get(paths.path);
+		
+		if (!filepath ) {
 			return false;
 		}
 
-		return fs.existsSync(path.join(filepath, filename));
+		return fs.existsSync(filepath);
 	};
 	
 	// The .exists virtual indicates whether a file is stored
@@ -141,7 +141,7 @@ file.prototype.addToSchema = function() {
 	});
 	
 	// reset clears the value of the field
-	var reset = function(item) {
+	var reset = function(item, callback) {
 		item.set(field.path, {
 			filename: '',
 			originalname: '',
@@ -149,6 +149,7 @@ file.prototype.addToSchema = function() {
 			size: 0,
 			filetype: ''
 		});
+		callback && callback();
 	};
 
 	var schemaMethods = {
@@ -160,19 +161,25 @@ file.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		reset: function() {
-			reset(this);
+		reset: function(callback) {
+			reset(this, callback);
 		},
 		/**
 		 * Deletes the file from file and resets the field
 		 *
 		 * @api public
 		 */
-		delete: function() {
+		delete: function(callback) {
+			//we want `reset` to happen in _any_ case (even if file deletion would fail)
+			//but we also want to call the callback with potential file deletion errors
 			if (exists(this)) {
-				field.deleteFile(item.get(field.path), callback);
+				var done = callback;
+				var data = this.get(field.path); //cache file data in closure
+				callback = function(){
+					field.deleteFile(data, done);
+				}.bind(this);
 			}
-			reset(this);
+			reset(this, callback);
 		}
 	};
 
@@ -279,13 +286,13 @@ file.prototype.uploadFile = function(item, file, update, callback) {
 
 
 /**
- * Uploads a file
+ * Deletes a file
  *
  * @api public
  */
 
 file.prototype.deleteFile = function() {
-	this.store.deleteFile(data);
+	this.store.deleteFile.apply(this.store, _.toArray(arguments));
 };
 
 
@@ -317,8 +324,10 @@ file.prototype.getRequestHandler = function(item, req, paths, callback) {
 		if (req.body) {
 			var action = req.body[paths.action];
 
-			if (/^(delete|reset)$/.test(action))
-				field.apply(item, action);
+			if (/^(delete|reset)$/.test(action)){
+				field.apply(item, action, callback);
+				return;
+			}
 		}
 
 		if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {

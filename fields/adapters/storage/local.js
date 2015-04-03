@@ -37,7 +37,7 @@ localfile.prototype.uploadFile = function(field, item, data, callback) {
 };
 
 localfile.prototype.deleteFile = function (data, callback) {
-	fs.unlink(data.filename);
+	fs.unlink(data.path, callback);
 };
 
 module.exports = localfile;
