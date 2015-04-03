@@ -121,13 +121,7 @@ file.prototype.addToSchema = function() {
 	
 	// exists checks for a matching file at run-time
 	var exists = function(item) {
-		var filepath = item.get(paths.path);
-		
-		if (!filepath ) {
-			return false;
-		}
-
-		return fs.existsSync(filepath);
+		return field.fileExists(item, paths);
 	};
 	
 	// The .exists virtual indicates whether a file is stored
@@ -260,6 +254,9 @@ file.prototype.updateItem = function(item, data) {
 	// TODO - direct updating of data (not via upload)
 };
 
+file.prototype.fileExists = function(file, data){
+	this.store.fileExists.apply(this.store, _.toArray(arguments));
+};
 
 /**
  * Uploads a file

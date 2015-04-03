@@ -2,7 +2,8 @@ var StorageAdapter = require('../StorageAdapter'),
 	util = require('util'),
 	path = require('path'),
 	_ = require('underscore'),
-	fs = require('fs-extra');
+	fs = require('fs'),
+	fsExtra = require('fs-extra');
 
 function localfile() {
 	StorageAdapter.apply(this, arguments);
@@ -21,7 +22,7 @@ localfile.prototype.uploadFile = function(field, item, data, callback) {
 		src = data.path,
 		dest = path.join(options.dest, filename);
 
-	fs.move(src, dest, {
+	fsExtra.move(src, dest, {
 		clobber: options.overwrite
 	}, function(err) {
 		if (err) return callback(err);
@@ -37,7 +38,18 @@ localfile.prototype.uploadFile = function(field, item, data, callback) {
 };
 
 localfile.prototype.deleteFile = function (data, callback) {
-	fs.unlink(data.path, callback);
+	fsExtra.unlink(data.path, callback);
+};
+
+localfile.prototype.fileExists = function(item, data){
+	console.log(item, data);
+	var filepath = item.get(data.path);
+	
+	if (!filepath ) {
+		return false;
+	}
+	
+	return fs.existsSync(filepath);
 };
 
 module.exports = localfile;
