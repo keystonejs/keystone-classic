@@ -34,6 +34,8 @@ mixin column(list, col, item)
 			+column_boolean(value)
 		else if col.type == 'url'
 			+column_link(value, value, true)
+		else if col.type == 'color'
+			+column_color(value)
 		else
 			+column_basic(value)
 
@@ -55,3 +57,8 @@ mixin column_html(value)
 
 mixin column_basic(value)
 	div.col-value= value
+
+mixin column_color(value)
+	div.col-value
+		if (value)
+			div.color-preview(style={'background-color': value})
