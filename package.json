@@ -12,6 +12,7 @@
     "asyncdi": "^1.1.0",
     "azure": "~0.10.5",
     "bcrypt-nodejs": "~0.0.3",
+    "blacklist": "^1.1.1",
     "bluebird": "~2.9.24",
     "body-parser": "~1.12.2",
     "browserify-shim": "^3.8.3",
