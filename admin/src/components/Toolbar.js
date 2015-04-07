@@ -1,81 +1,104 @@
-var React = require('react');
-
-/**
- * TODO: Refactor this to use React, not jQuery
- */
+var _ = require('underscore'),
+	React = require('react'),
+	blacklist = require('blacklist');
 
 var Toolbar = React.createClass({
 	
 	displayName: 'Toolbar',
 	
-	componentDidMount: function() {
-		(function() {
-		
-			var $window = $(window),
-				$body = $('#body'),
-				$toolbar = $('.toolbar');
-			
-			if (!$toolbar.length) {
-				return;
-			}
-			
-			$toolbar.wrap("<div class='toolbar-wrapper' style='position: relative'>");
-			
-			var toolbarHeight = $toolbar.outerHeight() + 15, // add 15px for margin
-				$wrap = $toolbar.parent().css('height', toolbarHeight);
-			
-			$toolbar.css({
-				width: $toolbar.outerWidth(),
-				position: 'absolute'
-			});
-			
-			var mode = 'inline',
-				windowSize = {
-					x: $window.width(),
-					y: $window.height()
-				};
-			
-			var onScroll = function() {
-				
-				var maxY = $wrap.offset().top + toolbarHeight,
-					viewY = $window.scrollTop() + $window.height(),
-					newSize = {
-						x: $window.width(),
-						y: $window.height()
-					},
-					sizeChanged = (newSize.x != windowSize.x || newSize.y != windowSize.y);
-				
-				if (viewY > maxY && (sizeChanged || mode != 'inline')) {
-					mode = 'inline';
-					windowSize = newSize;
-					$toolbar.css({
-						top: 0,
-						position: 'absolute'
-					});
-				} else if (viewY <= maxY && (sizeChanged || mode == 'inline')) {
-					mode = 'fixed';
-					windowSize = newSize;
-					$toolbar.css({
-						top: $window.height() - toolbarHeight,
-						position: 'fixed'
-					});
-				}
-				
-			};
-			
-			$window.scroll(onScroll);
-			$window.resize(onScroll);
-			$window.on('redraw', onScroll);
-			onScroll();
-			
-			// do it again in a few hundred ms to correct for other UI initialisation
-			setTimeout(onScroll, 200);
-			
-		})();
+	getDefaultProps: function() {
+		return {
+			offsetTop: 15 // top margin, added to offset
+		};
 	},
+	
+	getInitialState: function() {
+		return {
+			position: 'relative',
+			width: 'auto',
+			height: 'auto',
+			top: 0
+		};
+	},
+	
+	componentDidMount: function() {
+		var toolbar = this.refs.toolbar.getDOMNode();
+		
+		this.windowSize = this.getWindowSize();
+		
+		this.toolbarSize = {
+			x: toolbar.offsetWidth,
+			y: toolbar.offsetHeight + this.props.offsetTop
+		};
+		
+		window.addEventListener('scroll', this.recalcPosition, false);
+		window.addEventListener('resize', this.recalcPosition, false);
+		
+		this.recalcPosition();
+	},
+	
+	getWindowSize: function() {
+		return {
+			x: window.innerWidth,
+			y: window.innerHeight	
+		};
+	},
+	
+	recalcPosition: function() {
+		var wrapper = this.refs.wrapper.getDOMNode();
+		var toolbar = this.refs.toolbar.getDOMNode();
+		
+		this.toolbarSize.x = wrapper.offsetWidth;
+		
+		var offsetTop = 0;
+		var offsetEl = wrapper;
+		
+		while (offsetEl) {
+			offsetTop += offsetEl.offsetTop;
+			offsetEl = offsetEl.offsetParent;
+		}
+		
+		var maxY = offsetTop + this.toolbarSize.y;
+		var viewY = window.scrollY + window.innerHeight;
+		
+		var newSize = this.getWindowSize();
+		var sizeChanged = (newSize.x !== this.windowSize.x || newSize.y !== this.windowSize.y);
+		this.windowSize = newSize;
+		
+		var newState = {
+			width: this.toolbarSize.x,
+			height: this.toolbarSize.y
+		};
+		
+		if (viewY > maxY && (sizeChanged || this.mode !== 'inline')) {
+			this.mode = 'inline';
+			newState.top = 0;
+			newState.position = 'absolute';
+			this.setState(newState);
+		} else if (viewY <= maxY && (sizeChanged || this.mode !== 'fixed')) {
+			this.mode = 'fixed';
+			newState.top = window.innerHeight - this.toolbarSize.y;
+			newState.position = 'fixed';
+			this.setState(newState);
+		}
+	},
+	
 	render: function() {
+		var wrapperStyle = {
+			position: 'relative',
+			height: this.state.height
+		};
+		var toolbarProps = blacklist(this.props, 'children', 'style');
+		var toolbarStyle = _.extend(this.props.style || {}, {
+			position: this.state.position,
+			top: this.state.top,
+			width: this.state.width,
+			height: this.state.height
+		});
 		return (
-			<div className="toolbar">{this.props.children}</div>
+			<div ref="wrapper" style={wrapperStyle}>
+				<div ref="toolbar" style={toolbarStyle} {...toolbarProps}>{this.props.children}</div>
+			</div>
 		);
 	}
 });
