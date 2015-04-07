@@ -89,7 +89,7 @@ var renderMarkdown = function(component) {
 
 	if (component.props.toolbarOptions.hiddenButtons) {
 		var hiddenButtons = ('string' === typeof component.props.toolbarOptions.hiddenButtons) ? component.props.toolbarOptions.hiddenButtons.split(',') : component.props.toolbarOptions.hiddenButtons;
-		options.hiddenButtons = markdownOptions.hiddenButtons.concat(hiddenButtons);
+		options.hiddenButtons = options.hiddenButtons.concat(hiddenButtons);
 	}
 	
 	$(component.refs.markdownTextarea.getDOMNode()).markdown(options);

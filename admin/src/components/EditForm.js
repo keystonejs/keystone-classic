@@ -178,7 +178,7 @@ var EditForm = React.createClass({
 		}
 		
 		return (
-			<Toolbar>
+			<Toolbar className="toolbar">
 				{toolbar}
 			</Toolbar>
 		);

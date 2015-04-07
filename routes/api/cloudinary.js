@@ -3,13 +3,6 @@ var cloudinary = require('cloudinary'),
 
 exports = module.exports = {
 
-
-	/**
-	 * Upload Cloudinary Image
-	 * @param  {[type]} req [description]
-	 * @param  {[type]} res [description]
-	 * @return {[type]}     [description]
-	 */
 	upload: function(req, res) {
 		if(req.files && req.files.file){
 			var options = {};
@@ -19,15 +12,14 @@ exports = module.exports = {
 			}
 
 			cloudinary.uploader.upload(req.files.file.path, function(result) {
-
 				if (result.error) {
-					res.send('{"error":{"message":"' + result.error.message + '"}}');
+					res.json({ error: { message: result.error.message } });
 				} else {
-					res.send('{"image":{"url":"' + result.url + '"}}');
+					res.json({ image: { url: result.url } });
 				}
 			}, options);
 		} else {
-			res.send('{"error":{"message":"No image selected"}}');
+			res.json({ error: { message: 'No image selected' } });
 		}
 	},
 
@@ -38,7 +30,7 @@ exports = module.exports = {
 
 		cloudinary.api.resources(function(result) {
 			if (result.error) {
-				res.send('{"error":{"message":"' + result.error.message + '"}}');
+				res.json({ error: { message: result.error.message } });
 			} else {
 				res.json({
 					next: result.next_cursor,
@@ -56,7 +48,7 @@ exports = module.exports = {
 	get: function(req, res) {
 		cloudinary.api.resource(req.query.id, function(result) {
 			if (result.error) {
-				res.send('{"error":{"message":"' + result.error.message + '"}}');
+				res.json({ error: { message: result.error.message } });
 			} else {
 				res.json({ item: result });	
 			}
