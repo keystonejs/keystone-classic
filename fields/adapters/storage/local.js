@@ -11,9 +11,14 @@ function localfile() {
 	if (!this.options.dest) {
 		throw new Error('Invalid Configuration\n\nlocalfile store requires the "dest" option to be set.');
 	}
+	
 }
 
 util.inherits(localfile, StorageAdapter);
+
+localfile.prototype.getPaths = function(basePaths) {
+	return basePaths;
+};
 
 localfile.prototype.uploadFile = function(field, item, data, callback) {
 	var self = this,
@@ -41,8 +46,7 @@ localfile.prototype.deleteFile = function (data, callback) {
 	fsExtra.unlink(data.path, callback);
 };
 
-localfile.prototype.fileExists = function(item, data){
-	console.log(item, data);
+localfile.prototype.fileExists = function(item, data) {
 	var filepath = item.get(data.path);
 	
 	if (!filepath ) {

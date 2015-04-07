@@ -11,7 +11,6 @@ var path = require('path'),
 	grappling = require('grappling-hook'),
 	fs = require('fs'),
 	super_ = require('../Type');
-
 /**
  * File fieldtyppe
  * 
@@ -59,7 +58,6 @@ function file(list, path, options) {
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
 
-	file.super_.call(this, list, path, options);
 
 	_.each(options.pre, function(middleware, action) {
 		this.pre(action, middleware);
@@ -75,6 +73,7 @@ function file(list, path, options) {
 		throw new ReferenceError('unknown store ' + store);
 	}
 
+	file.super_.call(this, list, path, options);
 }
 
 /*!
@@ -83,6 +82,15 @@ function file(list, path, options) {
 
 util.inherits(file, super_);
 
+file.prototype.getPaths = function() {
+	return {
+		filename:		String,
+		originalname:	String,
+		path:			String,
+		size:			Number,
+		filetype:		String
+	}	
+};
 
 /**
  * Registers the field on the List's Mongoose Schema.
@@ -93,30 +101,21 @@ util.inherits(file, super_);
 file.prototype.addToSchema = function() {
 	
 	var field = this,
-		schema = this.list.schema;
+		schema = this.list.schema,
+		pathsConfig = this.store.getPaths(field.getPaths());
 	
 	var paths = this.paths = {
-		// fields
-		filename:		this._path.append('.filename'),
-		originalname:	this._path.append('.originalname'),
-		path:			this._path.append('.path'),
-		size:			this._path.append('.size'),
-		filetype:		this._path.append('.filetype'),
 		// virtuals
 		exists:			this._path.append('.exists'),
 		href:			this._path.append('.href'),
 		upload:			this._path.append('_upload'),
 		action:			this._path.append('_action')
 	};
+	_.each(pathsConfig, function(type, name) {
+		this.paths[name] = this._path.append("."+name);
+	}, this);
 	
-	var schemaPaths = this._path.addTo({}, {
-		filename:		String,
-		originalname:	String,
-		path:			String,
-		size:			Number,
-		filetype:		String
-	});
-	
+	var schemaPaths = this._path.addTo({}, pathsConfig);
 	schema.add(schemaPaths);
 	
 	// exists checks for a matching file at run-time
@@ -136,13 +135,16 @@ file.prototype.addToSchema = function() {
 	
 	// reset clears the value of the field
 	var reset = function(item) {
-		item.set(field.path, {
-			filename: '',
-			originalname: '',
-			path: '',
-			size: 0,
-			filetype: ''
+		var data = {};
+		_.each(pathsConfig, function(type, name) {
+			var value;
+			switch(type){
+				case Number: value=0; break;
+				default: value="";
+			}
+			data[name] = value;
 		});
+		item.set(field.path, data);
 	};
 
 	var schemaMethods = {
