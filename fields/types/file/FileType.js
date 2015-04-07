@@ -135,7 +135,7 @@ file.prototype.addToSchema = function() {
 	});
 	
 	// reset clears the value of the field
-	var reset = function(item, callback) {
+	var reset = function(item) {
 		item.set(field.path, {
 			filename: '',
 			originalname: '',
@@ -143,7 +143,6 @@ file.prototype.addToSchema = function() {
 			size: 0,
 			filetype: ''
 		});
-		callback && callback();
 	};
 
 	var schemaMethods = {
@@ -155,8 +154,8 @@ file.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		reset: function(callback) {
-			reset(this, callback);
+		reset: function() {
+			reset(this);
 		},
 		/**
 		 * Deletes the file from file and resets the field
@@ -166,14 +165,11 @@ file.prototype.addToSchema = function() {
 		delete: function(callback) {
 			//we want `reset` to happen in _any_ case (even if file deletion would fail)
 			//but we also want to call the callback with potential file deletion errors
+			var data = this.get(field.path);
+			reset(this);
 			if (exists(this)) {
-				var done = callback;
-				var data = this.get(field.path); //cache file data in closure
-				callback = function(){
-					field.deleteFile(data, done);
-				}.bind(this);
+				field.deleteFile(data, callback);
 			}
-			reset(this, callback);
 		}
 	};
 
@@ -317,7 +313,6 @@ file.prototype.getRequestHandler = function(item, req, paths, callback) {
 	callback = callback || function() {};
 
 	return function() {
-
 		if (req.body) {
 			var action = req.body[paths.action];
 
