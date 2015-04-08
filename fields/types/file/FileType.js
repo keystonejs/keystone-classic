@@ -167,10 +167,10 @@ file.prototype.addToSchema = function() {
 		delete: function(callback) {
 			//we want `reset` to happen in _any_ case (even if file deletion would fail)
 			//but we also want to call the callback with potential file deletion errors
-			var data = this.get(field.path);
+			var file = this.get(field.path);
 			reset(this);
 			if (exists(this)) {
-				field.deleteFile(data, callback);
+				field.deleteFile(field, file, callback);
 			}
 		}
 	};

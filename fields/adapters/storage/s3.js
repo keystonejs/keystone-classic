@@ -33,6 +33,10 @@ s3file.prototype.getPaths = function(basePaths) {
 	}, basePaths);
 };
 
+s3file.prototype.fileExists = function(item, paths){
+	return (item.get(paths.url) ? true : false);
+};
+
 /**
  * Validates a header option value provided for this item, throwing an error otherwise
  * @param header {Object} the header object to validate
@@ -187,6 +191,7 @@ s3file.prototype.uploadFile = function(field, item, file, callback) {
 		filename = this.normaliseFilename(item, file, options),
 		path = field.options.s3path ? field.options.s3path + '/' : '',
 		filetype = file.mimetype || file.type,
+		s3config = _.default({}, field.s3config, this.s3config),
 		headers;
 
 	headers = this.generateHeaders(item, file, callback);
@@ -201,11 +206,12 @@ s3file.prototype.uploadFile = function(field, item, file, callback) {
 			}
 		}
 
-		var protocol = (self.s3config.protocol && self.s3config.protocol + ':') || '',
+		var protocol = s3config.protocol || '',
 			url = res.req.url.replace(/^https?:/i, protocol);
 
 		var fileData = {
 			filename: filename,
+			originalname: data.originalname,
 			path: path,
 			size: file.size,
 			filetype: filetype,

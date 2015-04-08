@@ -20,11 +20,11 @@ localfile.prototype.getPaths = function(basePaths) {
 	return basePaths;
 };
 
-localfile.prototype.uploadFile = function(field, item, data, callback) {
+localfile.prototype.uploadFile = function(field, item, file, callback) {
 	var self = this,
 		options = _.defaults({}, field.options, this.options),
-		filename = this.normaliseFilename(item, data, options),
-		src = data.path,
+		filename = this.normaliseFilename(item, file, options),
+		src = file.path,
 		dest = path.join(options.dest, filename);
 
 	fsExtra.move(src, dest, {
@@ -34,16 +34,16 @@ localfile.prototype.uploadFile = function(field, item, data, callback) {
 
 		callback(null, {
 			filename: filename,
-			originalname: data.originalname,
+			originalname: file.originalname,
 			path: dest,
-			size: data.size,
-			filetype: data.mimetype || data.type
+			size: file.size,
+			filetype: file.mimetype || file.type
 		});
 	});
 };
 
-localfile.prototype.deleteFile = function (data, callback) {
-	fsExtra.unlink(data.path, callback);
+localfile.prototype.deleteFile = function (field, file, callback) {
+	fsExtra.unlink(file.path, callback);
 };
 
 localfile.prototype.fileExists = function(item, data) {
