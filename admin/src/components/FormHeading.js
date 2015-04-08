@@ -4,7 +4,11 @@ function evalDependsOn(dependsOn, values) {
 	if (!_.isObject(dependsOn)) return true;
 	var keys = _.keys(dependsOn);
 	return (keys.length) ? _.every(keys, function(key) {
-		var matches = _.isArray(dependsOn[key]) ? dependsOn[key] : [dependsOn[key]];
+		var dependsValue = dependsOn[key];
+		if(_.isBoolean(dependsValue)) {
+			return dependsValue !== _.isEmpty(values[key]);
+		}
+		var matches = _.isArray(dependsValue) ? dependsValue : [dependsValue];
 		return _.contains(matches, values[key]);
 	}, this) : true;
 }
