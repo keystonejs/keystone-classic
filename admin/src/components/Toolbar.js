@@ -6,12 +6,6 @@ var Toolbar = React.createClass({
 	
 	displayName: 'Toolbar',
 	
-	getDefaultProps: function() {
-		return {
-			offsetTop: 15 // top margin, added to offset
-		};
-	},
-	
 	getInitialState: function() {
 		return {
 			position: 'relative',
@@ -22,13 +16,20 @@ var Toolbar = React.createClass({
 	},
 	
 	componentDidMount: function() {
+		
+		// Bail in IE8 because React doesn't support the onScroll event in that browser
+		// Conveniently (!) IE8 doesn't have window.getComputedStyle which we also use here
+		if (!window.getComputedStyle) return;
+		
 		var toolbar = this.refs.toolbar.getDOMNode();
 		
 		this.windowSize = this.getWindowSize();
 		
+		var toolbarStyle = window.getComputedStyle(toolbar);
+		
 		this.toolbarSize = {
 			x: toolbar.offsetWidth,
-			y: toolbar.offsetHeight + this.props.offsetTop
+			y: toolbar.offsetHeight + parseInt(toolbarStyle.marginTop || '0')
 		};
 		
 		window.addEventListener('scroll', this.recalcPosition, false);
