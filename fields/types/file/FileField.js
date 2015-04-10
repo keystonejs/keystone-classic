@@ -8,6 +8,10 @@ var _ = require('underscore'),
 module.exports = Field.create({
 	displayName: 'FileField',
 	
+	shouldCollapse: function() {
+		return this.props.collapse && !this.hasExisting();
+	},
+	
 	fileFieldNode: function() {
 		return this.refs.fileField.getDOMNode();
 	},
