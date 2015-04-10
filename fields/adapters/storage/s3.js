@@ -191,7 +191,7 @@ s3file.prototype.uploadFile = function(field, item, file, callback) {
 		filename = this.normaliseFilename(item, file, options),
 		path = field.options.s3path ? field.options.s3path + '/' : '',
 		filetype = file.mimetype || file.type,
-		s3config = _.default({}, field.s3config, this.s3config),
+		s3config = _.defaults({}, field.s3config, this.s3config),
 		headers;
 
 	headers = this.generateHeaders(item, file, callback);
@@ -211,7 +211,7 @@ s3file.prototype.uploadFile = function(field, item, file, callback) {
 
 		var fileData = {
 			filename: filename,
-			originalname: data.originalname,
+			originalname: file.originalname,
 			path: path,
 			size: file.size,
 			filetype: filetype,
