@@ -86,7 +86,6 @@ file.prototype.getPaths = function() {
 	return {
 		filename:		String,
 		originalname:	String,
-		path:			String,
 		size:			Number,
 		filetype:		String
 	}	
