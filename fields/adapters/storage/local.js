@@ -17,7 +17,9 @@ function localfile() {
 util.inherits(localfile, StorageAdapter);
 
 localfile.prototype.getPaths = function(basePaths) {
-	return basePaths;
+	return _.defaults({
+		path      : String
+	}, basePaths);
 };
 
 localfile.prototype.uploadFile = function(field, item, file, callback) {
