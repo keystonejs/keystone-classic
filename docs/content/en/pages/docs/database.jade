@@ -681,6 +681,18 @@ block content
 			h4 <code class="data-type">Boolean</code> &mdash; Displayed as a checkbox in the Admin UI
 			pre: code.language-javascript { type: Types.Boolean }
 			
+			a(name="fieldtypes-code")
+			h3 <code>Code</code>
+			h4 <code class="data-type">String</code> &mdash; Displayed with CodeMirror in the Admin UI.
+			pre: code.language-javascript { type: Types.Code, height: 180, language: json }
+			.options
+				
+				h5 Options
+				p <code>height</code> <code class="data-type">Number</code> - the height of the field (in pixels). Default: 180
+				p <code>language</code> <code class="data-type">String</code> - the language in the code field.
+				| Supported Languages: <code>c++, objectivec, css, asp, c, vb, xml, php, html, ini, js, java, coffee, lisp, perl, python, sql, json, less, sass, sh, ruby, jsp, tpl, jade</code>
+			
+			
 			a(name="fieldtypes-color")
 			h3 <code>Color</code>
 			h4 <code class="data-type">Color</code> &mdash; Displayed as a text field with a color picker
