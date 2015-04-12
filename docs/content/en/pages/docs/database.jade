@@ -208,7 +208,7 @@ block content
 			.code-header: h4 Example: Inheriting List fields from other lists
 			pre: code.language-javascript
 				|var keystone = require('keystone');
-				|
+				| 
 				|var BasePage = new keystone.List('BasePage', {
 				|    map: { name: 'title' },
 				|	    autokey: { path: 'slug', from: 'title', unique: true },
@@ -220,7 +220,7 @@ block content
 				|	}
 				|);
 				|BasePage.register();
-				|
+				| 
 				|var ChildPage = new keystone.List('ChildPage', { inherits: BasePage });
 				|ChildPage.add({ child_content: { type: String, readonly: true } });
 				|ChildPage.register();
@@ -1226,44 +1226,44 @@ block content
 						}
 				p <code>headers</code> <code class="data-type">Object</code> or <code class="data-type">Array</code> or <code class="data-type">Function</code> - headers to set on the S3 object
 				p Headers can be provided as an <code class="data-type">Object</code>, in which the keys are used as header names and the values are used as header values.
-					pre: code.language-javascript. 
+					pre: code.language-javascript.
 						{ 
-					    type: Types.S3File, 
-					    headers: { 
-					      'x-amz-meta-Cache-Control' : 'max-age=' + (60 * 15),
-					      'x-amz-meta-X-Custom-Header' : 'Object Option'
-					    } 
-					  }
+							type: Types.S3File, 
+							headers: { 
+								'x-amz-meta-Cache-Control' : 'max-age=' + (60 * 15),
+								'x-amz-meta-X-Custom-Header' : 'Object Option'
+							} 
+						}
 				p When the option is provided as an <code class="data-type">Array</code> of headers, each header element in the array should be an <code class="data-type">Object</code> with <code>name</code> and <code>value</code> <code class="data-type">String</code> properties
-					pre: code.language-javascript. 
+					pre: code.language-javascript.
 						{ 
-					    type: Types.S3File, 
-					    headers: [
-					      { name: 'x-amz-meta-Cache-Control', value: 'max-age=' + (60 * 15) },
-					      { name: 'x-amz-meta-X-Custom-Header', value: 'Array Option' }
-					    ]
-					  }
+							type: Types.S3File, 
+							headers: [
+								{ name: 'x-amz-meta-Cache-Control', value: 'max-age=' + (60 * 15) },
+								{ name: 'x-amz-meta-X-Custom-Header', value: 'Array Option' }
+							]
+						}
 				p When the option is provided as a <code class="data-type">Function</code>, the function will be called with arguments for the current model and client file; The function should return either an <code class="data-type">Array</code> of valid header objects or a simple <code class="data-type">Object</code>.
-					pre: code.language-javascript. 
+					pre: code.language-javascript.
 						{ 
-					    type: Types.S3File, 
-					    headers: function (item, file){
-					      var headers = [];
-					      headers.push({ name: 'x-amz-meta-Cache-Control', value: 'max-age=' + item.maxAge });
-					      headers.push({ name: 'x-amz-meta-X-Custom-Header', value: 'Computed Option (Array)' });
-					      return headers;
-					    }
-					  }
-					  // or 
-				   { 
-					    type: Types.S3File, 
-					    headers: function (item, file){
-					      var headers = {};
-					      headers['x-amz-meta-Cache-Control'] = 'max-age=' + item.maxAge;
-					      headers['x-amz-meta-X-Custom-Header'] = 'Computed Option (Object)';
-					      return headers;
-					    }
-					  }
+							type: Types.S3File, 
+							headers: function (item, file) {
+								var headers = [];
+								headers.push({ name: 'x-amz-meta-Cache-Control', value: 'max-age=' + item.maxAge });
+								headers.push({ name: 'x-amz-meta-X-Custom-Header', value: 'Computed Option (Array)' });
+								return headers;
+							}
+						}
+						// or 
+						{ 
+							type: Types.S3File, 
+							headers: function (item, file){
+								var headers = {};
+								headers['x-amz-meta-Cache-Control'] = 'max-age=' + item.maxAge;
+								headers['x-amz-meta-X-Custom-Header'] = 'Computed Option (Object)';
+								return headers;
+							}
+						}
 				p <code>format</code> <code class="data-type">Function</code> - function with two arguments: current model and file object to return representation of this file in Admin UI.
 					pre: code.language-javascript.
 						{
