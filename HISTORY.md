@@ -1,5 +1,26 @@
 # KeystoneJS Changelog
 
+## v0.3.5 / 2015-04-12
+
+* changed; Switched from SJCS to ESLint for project linting and style checking
+* changed; Item data is now loaded via JSON API in the Admin UI, fixes escaping edge-case issues and paves the way forward
+* added; List history feature for tracking document revisions
+* added; Schema inheritance for lists, thanks [Robert Clark](https://github.com/lojack)
+* added; yearRange option for Date fields, thanks [Robert Clark](https://github.com/lojack)
+* fixed; intermittend ordering issues with Relationship fields, thanks [Robert Clark](https://github.com/lojack)
+* added; `format` option for Url fields to prevent stripping http/https, thanks [Daniel Zurawski](https://github.com/danielzurawski)
+* added; color preview in list view, thanks [Teemu Sirkiä](https://github.com/ttsirkia)
+* added; ability to add mandrill template content, thanks [Brett Newman](https://github.com/snowkeeper)
+* added; original file name is saved for AWS uploads, thanks [Subash Pathak](https://github.com/Subash)
+* fixed; `wysiwyg cloudinary images` key is no longer required to be global, can be set per-field, thanks [Alberto Gasparin](https://github.com/albertogasparin)
+* fixed; refactored `doSignin()`, now exposed as `keystone.session.signinWithUser()`, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+* fixed; Use filename without suffix as default publicID for cloudinary, thanks [@aschwersenz](https://github.com/aschwersenz)
+* added; support for custom headers in S3 File Fields, thanks [Chris Montoro](https://github.com/montmanu)
+* added; currency option for the Money field, thanks [@douglasf](https://github.com/douglasf)
+* fixed; markdown field collapse behaviour, thanks [Pat Cavit](https://github.com/tivac)
+* fixed; wysiwyg & file field collapse behaviour, thanks [Robert Clark](https://github.com/lojack)
+* fixed; scripts are no longer minified in dev mode
+
 ## v0.3.4 / 2015-03-10
 
 * fixed; missing less variable for react-select was breaking the less>css build, thanks everyone involved and [esparragito](https://github.com/esparragito) for the fix
