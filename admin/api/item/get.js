@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var async = require('async');
+var keystone = require('../../../');
 
 function skip(cb) { cb(); }
 
@@ -27,7 +28,7 @@ module.exports = function(req, res) {
 
 		var relationships;
 
-		/* Drilldown (optional) */
+		/* Drilldown (optional, provided if ?drilldown=true in querystring) */
 
 		var loadDrilldown = req.query.drilldown === 'true' && req.list.get('drilldown') ? function(cb) {
 
@@ -59,10 +60,12 @@ module.exports = function(req, res) {
 							// drilldown.data[path] = results;
 							drilldown.items.push({
 								list: refList.getOptions(),
-								items: _.map(results, function(i) { return {
-									label: refList.getDocumentName(i),
-									href: '/keystone/' + refList.path + '/' + i.id
-								};}),
+								items: _.map(results, function(i) {
+									return {
+										label: refList.getDocumentName(i),
+										href: '/keystone/' + refList.path + '/' + i.id
+									};
+								}),
 								more: (more) ? true : false
 							});
 						}
@@ -83,7 +86,7 @@ module.exports = function(req, res) {
 								}]
 							});
 						}
-						done();
+						done(err);
 					});
 				}
 
@@ -96,7 +99,7 @@ module.exports = function(req, res) {
 
 		} : skip;
 
-		/* Relationships (optional) */
+		/* Relationships (optional, provided if ?relationships=true in querystring) */
 
 		var loadRelationships = req.query.relationships === 'true' ? function(cb) {
 
@@ -130,6 +133,7 @@ module.exports = function(req, res) {
 				});
 
 			}, cb);
+			
 		} : skip;
 
 		/* Load data */
@@ -155,4 +159,4 @@ module.exports = function(req, res) {
 		});
 
 	});
-}
+};
