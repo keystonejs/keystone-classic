@@ -534,7 +534,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
                   </td>
                 </tr>
                 <tr>
-                  <td><code>wysiwyg override toolbar</code> <code class="data-type">Booelan</code></td>
+                  <td><code>wysiwyg override toolbar</code> <code class="data-type">Boolean</code></td>
                   <td>
                     <p>这会去掉wysiwyg模式下的默认按钮组。这个参数应该跟<code>wysiwyg additional buttons</code>和<code>wysiwyg additional plugins</code>一起使用。默认为<code class="data-type">false</code>。</p>
                   </td>
@@ -632,7 +632,16 @@ keystone.set('default region', 'au'); // 可选，会将自动完成的结果限
               <p>要在你的程序中使用S3File域，需要<a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">注册一个账号</a>，创建一个<strong>S3桶</strong>，获取你的<strong>键</strong>和<strong>密码</strong>。</p>
               <p>然后设定<code>s3 config</code>参数为包含你的配置的对象(见下文示例)。</p>
               <p>另外还要设置环境变量<code class="default-value">S3_BUCKET</code>、<code class="default-value">S3_KEY</code>和<code class="default-value">S3_SECRET</code></p>
-              <pre><code class="language-javascript">keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });</code></pre><a name="services-azure"></a>
+              <pre><code class="language-javascript">keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });</code></pre>
+              <p>设置对象也可以包含 'default headers' 属性。 这个属性可以是 <code class="data-type">Object</code> 类型或者是 <code class="data-type">Array</code> 类型。</p>
+              <pre><code class="language-javascript">keystone.set('s3 config', { 
+	 bucket: 'my-bucket', 
+	 key: 'my-key', 
+	 secret: 'my-secret',
+	 'default headers':  {
+	 'x-amz-meta-X-Default-Header': 'Custom Default Value'
+	 }
+});</code></pre><a name="services-azure"></a>
               <h3>Windows Azure存储</h3>
               <p>KeystoneJS的<a href="/zh/docs/database#field_azurefile">AzureFile</a>域类型支持<a href="http://www.windowsazure.com/" target="_blank">Windows Azure存储</a>的文件上传和托管。</p>
               <p>要在程序中使用AzureFile域，需要<a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">注册一个账号</a>，进入<a href="https://manage.windowsazure.com/">Azure管理门户</a>。用新建(按钮)创建一个存储账号，数据服务，存储。在存储账号页面中用按钮“管理访问键”获取访问信息（账号名、键（有效的主键或二级键））。</p>
@@ -665,7 +674,7 @@ keystone.set('default region', 'au'); // 可选，会将自动完成的结果限
                   <li><code class="default-value">{prefix}/{list.path}/{field.path}/</code> (设置了<code>cloudinary prefix</code>时)</li>
                 </ul>
               </p>
-              <p class="note">你可以直接在<code>CloudinaryImage</code>域(参见<a href="/zh/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> 参数) 或 <code>CloudinaryImages</code>域(参见 <a href="/zh/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> 参数)上设置<code class="default-value">folder</code>参数覆盖默认的Cloudinary文件夹。</p>
+              <p class="note">你可以直接在<code>CloudinaryImage</code>域(参见<a href="/zh/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> 参数) 或 <code>CloudinaryImages</code>域(参见 <a href="/zh/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> 参数)上设置<code class="default-value">folder</code>参数覆盖默认的 Cloudinary 文件夹。<br><br>如果你希望 Cloudinary 在 <code>cloudinary folders</code> 设置为 <code class="default-value">true</code>  的时候自动创建文件夹， 确认已经在你的 Cloudinary 账户中启用 "Auto-create folders"。</p>
               <p>如果你在使用HTTPS服务，并且确保cloudinary images也通过HTTPS传输, 设置<code>cloudinary secure</code>选项为<code class="default-value">true</code>.</p>
               <pre><code class="language-javascript">keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
 // 或

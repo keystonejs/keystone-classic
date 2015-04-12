@@ -534,7 +534,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
                   </td>
                 </tr>
                 <tr>
-                  <td><code>wysiwyg override toolbar</code> <code class="data-type">Booelan</code></td>
+                  <td><code>wysiwyg override toolbar</code> <code class="data-type">Boolean</code></td>
                   <td>
                     <p>This will remove the default set of buttons for wysiwyg mode. Use this with <code>wysiwyg additional buttons</code> and <code>wysiwyg additional plugins</code>. Defaults to <code class="data-type">false</code>.</p>
                   </td>
@@ -639,7 +639,18 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
               <p>To use the S3File field in your app, <a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">sign up for an account</a>, create an <strong>S3 bucket</strong>, and get your <strong>key</strong> and <strong>secret</strong>.</p>
               <p>Then set the <code>s3 config</code> option to an object containing your configuration (see example below).</p>
               <p>Alternatively, set the <code class="default-value">S3_BUCKET</code>, <code class="default-value">S3_KEY</code> and <code class="default-value">S3_SECRET</code> environment variables.</p>
-              <pre><code class="language-javascript">keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });</code></pre><a name="services-azure"></a>
+              <pre><code class="language-javascript">keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });</code></pre>
+              <p>The config object can also contain a 'default headers' property. This property should be either an <code class="data-type">Object</code> or an <code class="data-type">Array</code>.</p>
+              <pre><code class="language-javascript">keystone.set('s3 config', { 
+	bucket: 'my-bucket', 
+	key: 'my-key', 
+	secret: 'my-secret',
+	'default headers':  {
+    'x-amz-meta-X-Default-Header': 'Custom Default Value'
+  }
+});
+
+</code></pre><a name="services-azure"></a>
               <h3>Windows Azure Storage</h3>
               <p>KeystoneJS supports <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.</p>
               <p>To use the AzureFile field in your app, <a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">sign up for an account</a>, enter into <a href="https://manage.windowsazure.com/">Azure Management Portal</a>. Create a storage account with new(button), data services, storage. In storage account page get the access (account name, key (valid primary or secondary key)) with the button "manage access key".</p>
@@ -672,7 +683,10 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
                   <li><code class="default-value">{prefix}/{list.path}/{field.path}/</code> (when <code>cloudinary prefix</code> is set)</li>
                 </ul>
               </p>
-              <p class="note">You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).</p>
+              <p class="note">
+                 
+                You may override the default Cloudinary folder by setting the <code class="default-value">folder</code> option directly on a <code>CloudinaryImage</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimage">CloudinaryImage</a> options) or a <code>CloudinaryImages</code> field (see <a href="/docs/database#fieldtypes-cloudinaryimages">CloudinaryImages</a> options).<br><br>If you want Cloudinary to automatically create folders when the <code>cloudinary folders</code> option is set to <code class="default-value">true</code>, make sure you enable "Auto-create folders" in your Cloudinary account "Upload Settings".
+              </p>
               <p>If you are serving over HTTPS and want to ensure that cloudinary images are also serverd over HTTPS, set the <code>cloudinary secure</code> option to <code class="default-value">true</code>.</p>
               <pre><code class="language-javascript">keystone.set('cloudinary config', { cloud_name: 'my-cloud', api_key: 'abc', api_secret: '123' });
 // or
