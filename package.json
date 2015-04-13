@@ -69,6 +69,7 @@
     "eslint": "^0.19.0",
     "eslint-plugin-react": "^2.1.0",
     "gulp": "~3.8.11",
+    "gulp-git": "^1.1.1",
     "gulp-rename": "~1.2.2",
     "gulp-util": "~3.0.4",
     "gulp-watch": "~4.2.4",
