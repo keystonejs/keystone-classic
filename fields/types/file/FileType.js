@@ -262,7 +262,12 @@ file.prototype.fileExists = function(file, data){
  */
 
 file.prototype.uploadFile = function(item, file, update, callback) {
-	var self = this;
+	var self = this,
+		filetype = file.mimetype || file.type;
+	
+	if (this.options.allowedTypes && !_.contains(this.options.allowedTypes, filetype)) {
+		return callback(new Error('Unsupported File Type: ' + filetype));
+	}
 
 	this.callHook('pre:upload', [item, file], function(err) {
 		if (err) return callback(err);
