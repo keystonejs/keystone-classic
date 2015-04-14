@@ -56,7 +56,7 @@
     "semver": "~4.3.3",
     "serve-favicon": "~2.2.0",
     "store-prototype": "^1.0.1",
-    "superagent": "^1.1.0",
+    "superagent": "^1.2.0",
     "underscore": "^1.8.3",
     "vkey": "^1.0.0"
   },
