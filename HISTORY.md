@@ -1,5 +1,11 @@
 # KeystoneJS Changelog
 
+## v0.3.6 / 2015-04-14
+
+* fixed; `list.schema.path("field")` would not return the field schema before the List had been registered
+* fixed; `evalDependsOn` not working correctly with `Boolean` field types
+* fixed; whitespaces issues in the Admin UI LESS file
+
 ## v0.3.5 / 2015-04-12
 
 * changed; Switched from SJCS to ESLint for project linting and style checking
