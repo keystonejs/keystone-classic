@@ -145,6 +145,7 @@ keystone.Field = require('./fields/types/Type');
 keystone.Field.Types = require('./lib/fieldTypes');
 keystone.View = require('./lib/view');
 keystone.Email = require('./lib/email');
+keystone.user = require('./lib/user');
 
 keystone.security = {
 	csrf: require('./lib/security/csrf')
