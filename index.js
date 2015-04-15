@@ -147,6 +147,7 @@ keystone.Field.Types = require('./lib/fieldTypes');
 keystone.Keystone = Keystone;
 keystone.List = require('./lib/list');
 keystone.View = require('./lib/view');
+keystone.user = require('./lib/user');
 
 keystone.content = require('./lib/content');
 keystone.security = {
