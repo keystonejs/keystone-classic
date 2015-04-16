@@ -115,6 +115,28 @@
 	}
 }
 
+// Field character count
+.field-max-counter {
+	position: absolute;
+	right: 10px + 15px;
+	bottom: 8px;
+	font-size: 0.8em;
+	color: @gray-light;
+
+	&.do-limit {
+		color: @brand-danger;
+	}
+
+	&.do-warn {
+		color: @brand-warning;
+	}
+
+	+ .form-control {
+		padding-right: 40px !important;
+	}
+}
+
+
 // Field value. Used for non-editable fields
 .field-value {
 	background-color: mix(white, @input-bg-disabled, 10%);

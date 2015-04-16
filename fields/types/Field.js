@@ -53,7 +53,23 @@ var Base = module.exports.Base = {
 	},
 	
 	renderField: function() {
-		return <input type="text" ref="focusTarget" name={this.props.path} placeholder={this.props.placeholder} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+		var max = this.props.maxLen,
+				value = this.props.value || '',
+				counter;
+
+		if (max) {
+			var len = value.length
+					counterClassName = cx('field-max-counter', len > max.chars ? 'do-' + max.mode : '');
+			counter = (
+				<div className={counterClassName}>
+					{ max.mode == 'limit' ? max.chars - len : (len > max.chars ? len : '') }
+				</div>
+			);
+		}
+		return [
+			counter,
+			<input type="text" ref="focusTarget" name={this.props.path} placeholder={this.props.placeholder} value={value} onChange={this.valueChanged} autoComplete="off" className="form-control" />
+		];
 	},
 	
 	renderValue: function() {
