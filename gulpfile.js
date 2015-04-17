@@ -17,6 +17,18 @@ var watchify = require('watchify');
  * Build Tasks
  */
 
+gulp.task('build-packages', function() {
+	var packages = require('./admin/packages');
+	
+	var b = browserify();
+	packages.forEach(function(i) { b.require(i); });
+	
+	return b.bundle()
+		.pipe(source('packages.js'))
+		.pipe(streamify(uglify()))
+		.pipe(gulp.dest('./public/js'));
+});
+
 // build scripts with browserify and react / jsx transforms
 gulp.task('build-scripts', function() {
 	return browserify({
