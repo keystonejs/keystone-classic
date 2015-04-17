@@ -238,7 +238,16 @@ cloudinaryimages.prototype.validateInput = function(data) {
  */
 
 cloudinaryimages.prototype.updateItem = function(item, data) {
-	// TODO - direct updating of data (not via upload)
+    if (! data[this.path] || (item.get(this.path) && _.isEqual(item.get(this.path), data[this.path]))) return;
+
+    var props = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
+
+    var items = [];
+    data[this.path].forEach(function(image) {
+        items.push(_.pick(image, props));
+    });
+
+    item.set(this.path, items);
 };
 
 
