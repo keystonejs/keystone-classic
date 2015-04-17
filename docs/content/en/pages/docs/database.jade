@@ -787,10 +787,13 @@ block content
 			h4 <code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI
 			p Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.
 			p Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).
-			p See the <a href="/docs/configuration#services-google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.
-			pre: code.language-javascript { type: Types.Location }
+			p Google Places integration requires the <code>google api key</code> option to be set for Keystone. See the <a href="/docs/configuration#services-google">Google configuration documentation</a> for details.
+			pre: code.language-javascript { type: Types.Location, defaults: { country: 'Australia' } }
 			p.note Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.
 			.options
+				
+				h5 Options
+				p <code>defaults</code> <code class="data-type">Object</code> - default values for each path in the field schema
 				
 				h5 Schema
 				p <code>name</code> <code class="data-type">String</code> - building name
