@@ -45,7 +45,7 @@ localfile.prototype.uploadFile = function(field, item, file, callback) {
 };
 
 localfile.prototype.deleteFile = function (field, file, callback) {
-	fsExtra.unlink(file.path, callback);
+	fs.unlink(path.resolve(file.path), callback);
 };
 
 localfile.prototype.fileExists = function(item, data) {
@@ -54,8 +54,7 @@ localfile.prototype.fileExists = function(item, data) {
 	if (!filepath ) {
 		return false;
 	}
-	
-	return fs.existsSync(filepath);
+	return fs.existsSync(path.resolve(filepath));
 };
 
 module.exports = localfile;

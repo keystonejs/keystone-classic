@@ -155,8 +155,9 @@ file.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		reset: function() {
+		reset: function(callback) {
 			reset(this);
+			callback();
 		},
 		/**
 		 * Deletes the file from file and resets the field
@@ -167,9 +168,14 @@ file.prototype.addToSchema = function() {
 			//we want `reset` to happen in _any_ case (even if file deletion would fail)
 			//but we also want to call the callback with potential file deletion errors
 			var file = this.get(field.path);
-			reset(this);
 			if (exists(this)) {
-				field.deleteFile(field, file, callback);
+				field.deleteFile(field, file, function(err){
+					reset(this);
+					callback(err);
+				}.bind(this));
+			}else{
+				reset(this);
+				callback(new Error('file not found'));
 			}
 		}
 	};
@@ -252,7 +258,7 @@ file.prototype.updateItem = function(item, data) {
 };
 
 file.prototype.fileExists = function(file, data){
-	this.store.fileExists.apply(this.store, _.toArray(arguments));
+	return this.store.fileExists.apply(this.store, _.toArray(arguments));
 };
 
 /**
