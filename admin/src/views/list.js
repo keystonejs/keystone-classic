@@ -1,5 +1,5 @@
-var React = require('react'),
-	CreateForm = require('../components/CreateForm');
+var React = require('react');
+var CreateForm = require('../components/CreateForm');
 
 var View = React.createClass({
 	
@@ -58,6 +58,4 @@ var View = React.createClass({
 	
 });
 
-exports.render = function() {
-	React.render(<View />, document.getElementById('list-view'));
-};
+React.render(<View />, document.getElementById('list-view'));

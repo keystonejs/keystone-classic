@@ -20,13 +20,13 @@ block js
 		Keystone.list.cols = !{JSON.stringify(colPaths)};
 		Keystone.list.perPage = !{ Number(list.perPage) || 50 };
 		Keystone.items = !{ JSON.stringify(items) };
-		Keystone.search = "#{search}";
+		Keystone.search = '#{search}';
 		Keystone.filters = !{ JSON.stringify(filters) };
-		Keystone.sort = "#{sort.by}";
-		Keystone.query = "#{query}";
-		Keystone.csrf_query = "!{csrf_query}";
-		
-		App.Views.List.render();
+		Keystone.sort = '#{sort.by}';
+		Keystone.query = '#{query}';
+		Keystone.csrf_query = '!{csrf_query}';
+	script(src='/keystone/js/packages.js')
+	script(src='/keystone/js/list.js')
 			
 block content
 	//- New React View

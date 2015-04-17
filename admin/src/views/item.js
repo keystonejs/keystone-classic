@@ -59,6 +59,4 @@ var View = React.createClass({
 	
 });
 
-exports.render = function(id) {
-	React.render(<View itemId={id} />, document.getElementById('item-view'));
-};
+React.render(<View itemId={Keystone.itemId} />, document.getElementById('item-view'));
