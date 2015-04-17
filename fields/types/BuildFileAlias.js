@@ -5,6 +5,7 @@ var keystone = require('../../'),
 
 module.exports = function(adapter, multiple) {
 	function file(list, path, options) {
+		console.log('Keystone:','"'+adapter+'File" will be deprecated, please create a "'+adapter+'" Store and use "FileType"');
 		var storeName = list.key + '-' + path;
 		new keystone.Store(storeName, _.defaults({
 			adapter: adapter
