@@ -40,12 +40,12 @@ azurefile.prototype.getPaths = function(basePaths) {
 
 azurefile.prototype.uploadFile = function(field, item, file, callback) {
 	var self = this,
-		options = _.defaults({}, field.options, this.options),
+		options = field.getCombinedOptions(),
 		filename = this.normaliseFilename(item, file, options),
 		filetype = file.mimetype || file.type,
 		azurefileconfig = _.default({}, field.azurefileconfig, this.azurefileconfig),
 		blobService = azure.createBlobService(),
-		container = field.options.containerFormatter(item, filename);
+		container = options.containerFormatter(item, filename);
 
 	blobService.createContainerIfNotExists(container, {publicAccessLevel: 'blob'}, function(err) {
 

@@ -91,6 +91,10 @@ file.prototype.getPaths = function() {
 	}	
 };
 
+file.prototype.getCombinedOptions = function(){
+	return _.defaults({}, this.options, this.store.adapter.options);
+};
+
 /**
  * Registers the field on the List's Mongoose Schema.
  *

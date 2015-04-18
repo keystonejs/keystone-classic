@@ -24,7 +24,7 @@ localfile.prototype.getPaths = function(basePaths) {
 
 localfile.prototype.uploadFile = function(field, item, file, callback) {
 	var self = this,
-		options = _.defaults({}, field.options, this.options),
+		options = field.getCombinedOptions(),
 		filename = this.normaliseFilename(item, file, options),
 		src = file.path,
 		dest = path.join(options.dest, filename);

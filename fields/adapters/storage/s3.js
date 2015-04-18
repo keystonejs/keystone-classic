@@ -111,6 +111,7 @@ var validateHeaders = function(headers, callback) {
 s3file.prototype.generateHeaders = function(item, file, callback) {
 	var field = this,
 		filetype = file.mimetype || file.type,
+		options = field.getCombinedOptions(),
 		headers = {
 			'Content-Type': filetype,
 			'x-amz-acl'   : 'public-read'
@@ -137,8 +138,8 @@ s3file.prototype.generateHeaders = function(item, file, callback) {
 		}
 	}
 
-	if (field.options.headers) {
-		headersOption = field.options.headers;
+	if (options.headers) {
+		headersOption = options.headers;
 
 		if (_.isFunction(headersOption)) {
 			computedHeaders = headersOption.call(field, item, file);
@@ -186,9 +187,9 @@ s3file.prototype.generateHeaders = function(item, file, callback) {
 
 s3file.prototype.uploadFile = function(field, item, file, callback) {
 	var self = this,
-		options = _.defaults({}, field.options, this.options),
+		options = field.getCombinedOptions(),
 		filename = this.normaliseFilename(item, file, options),
-		path = field.options.s3path ? field.options.s3path + '/' : '',
+		path = options.s3path ? options.s3path + '/' : '',
 		filetype = file.mimetype || file.type,
 		s3config = _.defaults({}, field.s3config, this.s3config),
 		headers;
@@ -222,7 +223,8 @@ s3file.prototype.uploadFile = function(field, item, file, callback) {
 };
 
 s3file.prototype.deleteFile = function(field, file, callback) {
-	var dest = field.options.s3path ? field.options.s3path + '/' : '';
+	var options = field.getCombinedOptions(),
+		dest = options.s3path ? options.s3path + '/' : '';
 	knox.createClient(this.s3config).deleteFile(path.join(dest, file.filename),callback);
 };
 module.exports = s3file;
