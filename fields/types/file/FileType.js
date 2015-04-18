@@ -91,6 +91,11 @@ file.prototype.getPaths = function() {
 	}	
 };
 
+file.prototype.getProperties = function(){
+	var opts = this.getCombinedOptions();
+	return _.pick(opts, 'autoCleanup');
+};
+
 file.prototype.getCombinedOptions = function(){
 	return _.defaults({}, this.options, this.store.adapter.options);
 };
