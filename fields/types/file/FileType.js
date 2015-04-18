@@ -214,7 +214,7 @@ file.prototype.format = function(item) {
 	if (this.hasFormatter()) {
 		var file = item.get(this.path);
 		file.href = this.href(item);
-		return this.options.format.call(this, file, item);
+		return this.getCombinedOptions().format.call(this, file, item);
 	}
 	return this.href(item);
 };
@@ -227,7 +227,7 @@ file.prototype.format = function(item) {
  */
 
 file.prototype.hasFormatter = function() {
-	return 'function' === typeof this.options.format;
+	return 'function' === typeof this.getCombinedOptions().format;
 };
 
 
@@ -239,7 +239,7 @@ file.prototype.hasFormatter = function() {
 
 file.prototype.href = function(item) {
 	if (!item.get(this.paths.filename)) return '';
-	var prefix = this.options.prefix ? this.options.prefix : item.get(this.paths.path);
+	var prefix = this.getCombinedOptions().prefix ? this.getCombinedOptions().prefix : item.get(this.paths.path);
 	return path.join(prefix, item.get(this.paths.filename));
 };
 
@@ -278,9 +278,10 @@ file.prototype.fileExists = function(file, data){
 
 file.prototype.uploadFile = function(item, file, update, callback) {
 	var self = this,
-		filetype = file.mimetype || file.type;
+		filetype = file.mimetype || file.type,
+		options = this.getCombinedOptions();
 	
-	if (this.options.allowedTypes && !_.contains(this.options.allowedTypes, filetype)) {
+	if (options.allowedTypes && !_.contains(options.allowedTypes, filetype)) {
 		return callback(new Error('Unsupported File Type: ' + filetype));
 	}
 
