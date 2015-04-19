@@ -12,11 +12,20 @@ exports = module.exports = {
 			}
 
 			cloudinary.uploader.upload(req.files.file.path, function(result) {
-				if (result.error) {
-					res.json({ error: { message: result.error.message } });
-				} else {
-					res.json({ image: { url: result.url } });
-				}
+				var sendResult = function () {
+					if (result.error) {
+						res.send({ error: { message: result.error.message } });
+					} else {
+						res.send({ image: { url: result.url } });
+					}
+				};
+				
+				// TinyMCE upload plugin uses the iframe transport technique
+				// so the response type must be text/html
+				res.format({
+					html: sendResult,
+					json: sendResult
+				});
 			}, options);
 		} else {
 			res.json({ error: { message: 'No image selected' } });
