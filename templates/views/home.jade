@@ -1,31 +1,13 @@
 extends ../layout/base
 
-block intro
-	.page-header
-		h1 Manage
+block js
+	- var getListMeta = function(list) { return _.pick(list, ['key', 'label', 'path']); }
+	script.
+		Keystone.nav = !{JSON.stringify(nav)};
+		Keystone.lists = !{JSON.stringify(_.map(lists, getListMeta))};
+		Keystone.orphanedLists = !{JSON.stringify(orphanedLists.map(getListMeta))};
+	script(src='/keystone/js/packages.js')
+	script(src='/keystone/js/home.js')
 
 block content
-	.keystone-lists
-		if nav.flat
-			each list in lists
-				if (!list.get('hidden'))
-					if list.external
-						- path = list.path
-					else
-						- path = '/keystone/' + list.path
-					h3: a(href=path)= list.label
-		else
-			each navSection in nav.sections
-				.nav-section
-					h4= navSection.label
-					ul: each list in navSection.lists
-						if list.external
-							- path = list.path
-						else
-							- path = '/keystone/' + list.path
-						li: a(href=path)= list.label
-			if orphanedLists.length
-				.nav-section
-					h4 Other
-					ul: each list in orphanedLists
-						li: a(href='/keystone/' + list.path)= list.label
+	#home-view
