@@ -1,7 +1,6 @@
 docs/*
 public/js/lib/*
-public/js/build/*
-public/build/*
+public/js/packages.js
 test/*
 node_modules/*
 coverage/*
