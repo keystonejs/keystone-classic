@@ -1,5 +1,5 @@
 var keystone = require('../../'),
-	session = require('../../lib/session');
+	User = keystone.list(keystone.get('user model'));
 
 exports = module.exports = function(req, res) {
 
@@ -7,7 +7,8 @@ exports = module.exports = function(req, res) {
 		keystone.render(req, res, 'signin', {
 			submitted: req.body,
 			from: req.query.from,
-			logo: keystone.get('signin logo')
+			logo: keystone.get('signin logo'),
+			sendResetLink: (!!User.schema.methods.sendResetPassword) ? keystone.get("resetpassword url") : false
 		});
 	}
 
