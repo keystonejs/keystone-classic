@@ -8,10 +8,9 @@
 
 var babelify = require('babelify');
 var browserify = require('browserify-middleware');
-var debug = require('debug')('keystone:admin:app');
+var debug = require('debug')('keystone:admin:app:static');
 var express = require('express');
 var packages = require('../packages');
-var path = require('path');
 var router = express.Router();
 
 router.use('/styles', require('less-middleware')(__dirname + '../../../public/styles'));
