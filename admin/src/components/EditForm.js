@@ -145,14 +145,23 @@ var EditForm = React.createClass({
 				
 			} else if (el.type === 'field') {
 				
-				var field = this.props.list.fields[el.field];
-				
+				var field = this.props.list.fields[el.field],
+					props = this.getFieldProps(field);
+
+
 				if ('function' !== typeof Fields[field.type]) {
 					elements[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
 					return;
 				}
-				
-				elements[field.path] = React.createElement(Fields[field.type], this.getFieldProps(field));
+
+				if (props.dependsOn) {
+					props.currentDependencies = {};
+					Object.keys(props.dependsOn).forEach(function (dep) {
+						props.currentDependencies[dep] = this.state.values[dep];
+					}, this);
+				}
+
+				elements[field.path] = React.createElement(Fields[field.type], props);
 				
 			}
 			
