@@ -41,6 +41,17 @@ module.exports = Field.create({
 		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
+		
+		if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)
+			&& !_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
+			var instance = tinymce.get(prevState.id);
+			if (instance) {
+				tinymce.EditorManager.execCommand('mceRemoveEditor', true, prevState.id)
+				this.initWysiwyg();
+			} else {
+				this.initWysiwyg();
+			}
+		}
 	},
 
 	componentDidMount: function() {
