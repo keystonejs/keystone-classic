@@ -17,6 +17,7 @@
 		"no-underscore-dangle": 0,
 		"camelcase": 0,
 		"strict": 0,
+		"no-caller": 0,
 		"no-mixed-requires": 0,
 		"no-path-concat": 0,
 		"no-process-exit": 0,
