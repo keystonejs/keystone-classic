@@ -81,7 +81,6 @@
   },
   "browserify": {
     "transform": [
-      "reactify",
       "browserify-shim"
     ]
   },
