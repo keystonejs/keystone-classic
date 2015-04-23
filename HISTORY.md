@@ -1,5 +1,9 @@
 # KeystoneJS Changelog
 
+## v0.3.8 / 2015-04-23
+
+* fixed; worked around a breaking issue with the `bytes` package by downgrading it and including it in the pre-built Admin UI packages bundle
+
 ## v0.3.7 / 2015-04-23
 
 * changed; switched from pre-built admin scripts to pre-built browserify packages and on-demand admin UI scripts w/ browserify-middleware
