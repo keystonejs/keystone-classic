@@ -127,7 +127,7 @@ embedly.prototype.addToSchema = function() {
 
 		var post = this;
 
-		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function(err, api) { // jshint ignore:line
+		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function(err, api) {
 
 			if (err) {
 				console.error('Error creating Embedly api:');

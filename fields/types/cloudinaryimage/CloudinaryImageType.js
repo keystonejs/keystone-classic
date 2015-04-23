@@ -6,7 +6,7 @@ var _ = require('underscore'),
 	keystone = require('../../../'),
 	util = require('util'),
 	cloudinary = require('cloudinary'),
-	MPromise = require('mpromise'), // jshint ignore:line
+	MPromise = require('mpromise'),
 	utils = require('keystone-utils'),
 	super_ = require('../Type');
 
