@@ -318,7 +318,7 @@ cloudinaryimage.prototype.updateItem = function(item, data) {
 			var field = paths[key].substr(0, index);
 			// Note we allow implicit conversion here so that numbers submitted as strings in the data object
 			// aren't treated as different values to the stored Number values
-			if (data[field] && data[field][key] && data[field][key] != item.get(paths[key])) { // jshint ignore:line
+			if (data[field] && data[field][key] && data[field][key] != item.get(paths[key])) { // eslint-disable-line eqeqeq
 				item.set(paths[key], data[field][key] || null);
 			}
 		}
