@@ -55,7 +55,7 @@ key.prototype.validateInput = function(data, required, item) {
 
 	value = this.generateKey(value);
 
-	return (value || !required);
+	return (value || !required) ? true : false;
 
 };
 
