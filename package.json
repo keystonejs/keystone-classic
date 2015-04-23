@@ -18,7 +18,7 @@
     "body-parser": "~1.12.3",
     "browserify-middleware": "^5.0.2",
     "browserify-shim": "^3.8.5",
-    "bytes": "^2.0.0",
+    "bytes": "^1.0.0",
     "caller-id": "^0.1.0",
     "classnames": "^1.2.0",
     "cloudinary": "~1.2.1",
