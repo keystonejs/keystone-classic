@@ -3,7 +3,7 @@ var fs = require('fs'),
 	_ = require('underscore'),
 	express = require('express'),
 	utils = require('keystone-utils'),
-	prepost = require('./lib/prepost');
+	grappling = require('grappling-hook');
 
 /**
  * Don't use process.cwd() as it breaks module encapsulation
@@ -25,8 +25,9 @@ var moduleRoot = (function(_rootPath) {
  */
 
 var Keystone = function() {
-	prepost.mixin(this)
-		.register('pre:routes', 'pre:render');
+	grappling.mixin(this)
+		.allowHooks('pre:routes', 'pre:render');
+	this.stores = {};
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -140,6 +141,7 @@ keystone.utils = utils;
 keystone.Keystone = Keystone;
 keystone.content = require('./lib/content');
 keystone.List = require('./lib/list');
+keystone.Store = require('./lib/store');
 keystone.Field = require('./fields/types/Type');
 keystone.Field.Types = require('./lib/fieldTypes');
 keystone.View = require('./lib/view');
@@ -201,7 +203,15 @@ Keystone.prototype.import = function(dirname) {
  */
 
 Keystone.prototype.applyUpdates = function(callback) {
-	require('./lib/updates').apply(callback);
+	var self = this;
+	self.callHook('pre:updates', function(err){
+		require('./lib/updates').apply(function(err){
+			if(err){
+				callback(err);
+			}
+			self.callHook('post:updates', callback);
+		});
+	})
 };
 
 

@@ -10,6 +10,8 @@ module.exports = {
 	datetime:         require('../../fields/types/datetime/DatetimeField'),
 	email:            require('../../fields/types/email/EmailField'),
 	embedly:          require('../../fields/types/embedly/EmbedlyField'),
+	file:             require('../../fields/types/file/FileField'),
+	files:            require('../../fields/types/files/FilesField'),
 	geopoint:         require('../../fields/types/geopoint/GeoPointField'),
 	html:             require('../../fields/types/html/HtmlField'),
 	key:              require('../../fields/types/key/KeyField'),
