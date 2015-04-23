@@ -18,6 +18,7 @@
 		"camelcase": 0,
 		"strict": 0,
 		"no-mixed-requires": 0,
+		"no-path-concat": 0,
 		"no-process-exit": 0,
 		"no-proto": 0,
 		"no-shadow": 0,
