@@ -8,7 +8,7 @@ var util = require('util'),
 	super_ = require('../Type');
 
 /**
- * TextArray FieldType Constructor
+ * ObjectArray FieldType Constructor
  * @extends Field
  * @api public
  */
