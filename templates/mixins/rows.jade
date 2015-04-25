@@ -6,7 +6,7 @@ mixin row(list, colums, item)
       td.control: a(href='/keystone/' + list.path + '?delete=' + item.id + csrf_query).control-delete
     else if !list.get('nodelete')
       td.control
-    if sortable
+    if sortable && !xFilters
       td.control: a(href=js).control-sort
     each col, i in columns
       td
