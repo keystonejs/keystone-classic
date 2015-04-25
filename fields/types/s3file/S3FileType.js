@@ -9,7 +9,7 @@ var _ = require('underscore'),
 	knox = require('knox'),
 	// s3 = require('s3'),
 	utils = require('keystone-utils'),
-	prepost = require('../../../lib/prepost'),
+	grappling = require('grappling-hook'),
 	super_ = require('../Type');
 
 /**
@@ -19,8 +19,8 @@ var _ = require('underscore'),
  */
 
 function s3file(list, path, options) {
-	prepost.mixin(this)
-		.register('pre:upload');
+	grappling.mixin(this)
+		.allowHooks('pre:upload');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
 
@@ -424,9 +424,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	this.hooks('pre:upload', function(fn, next) {
-		fn(item, file, next);
-	}, function(err) {
+	this.callHook('pre:upload', [item, file, next], function(err) {
 		if (err) return callback(err);
 		doUpload();
 	});

@@ -6,7 +6,7 @@ var fs = require('fs-extra'),
 	path = require('path'),
 	_ = require('underscore'),
 	moment = require('moment'),
-	prepost = require('../../../lib/prepost'),
+	grappling = require('grappling-hook'),
 	util = require('util'),
 	utils = require('keystone-utils'),
 	super_ = require('../Type');
@@ -18,8 +18,8 @@ var fs = require('fs-extra'),
  */
 
 function localfile(list, path, options) {
-	prepost.mixin(this)
-		.register('pre:move', 'post:move');
+	grappling.mixin(this)
+		.allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
 
@@ -291,23 +291,15 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	field.hooks('pre:move', function(fn, next) {
-		fn(item, file, next);
-	}, function(err) {
-		
+	field.callHook('pre:move', [item, file], function(err) {
 		if (err) return callback(err);
-
 		doMove(function(err, fileData) {
 			if (err) return callback(err);
-
-			field.hooks('post:move', function(fn, next) {
-				fn(item, file, fileData, next);
-			}, function(err) {
+			field.callHook('post:move', [item, file, fileData], function(err) {
 				if (err) return callback(err);
 				callback(null, fileData);
 			});
 		});
-		
 	});
 };
 
