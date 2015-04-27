@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars*/ //temporary fix for https://github.com/yannickcr/eslint-plugin-react/issues/50#issuecomment-96708326
 var _ = require('underscore'),
 	$ = require('jquery'),
 	React = require('react'),
 	Field = require('../Field');
+/* eslint-enable */
 
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
 
