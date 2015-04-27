@@ -44,7 +44,7 @@ exports = module.exports = function(req, res) {
 					done(err);
 				});
 				
-			}, function(err) {
+			}, function(err) { //eslint-disable-line no-unused-vars, handle-callback-err
 				
 				// TODO: Handle err
 				

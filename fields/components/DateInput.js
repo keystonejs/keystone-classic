@@ -16,7 +16,7 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return {
 			value: this.props.value,
-			id: Math.round(Math.random()*100000)
+			id: Math.round(Math.random() * 100000)
 		};
 	},
 	
@@ -34,7 +34,7 @@ module.exports = React.createClass({
 			field: this.getDOMNode(),
 			format: this.props.format,
 			yearRange: this.props.yearRange,
-			onSelect: function(date) {
+			onSelect: function(date) {//eslint-disable-line no-unused-vars
 				if (this.props.onChange && this.picker.toString() !== this.props.value) {
 					this.props.onChange(this.picker.toString());
 				}
@@ -52,7 +52,7 @@ module.exports = React.createClass({
 		this.setState({ value: e.target.value });
 	},
 	
-	handleBlur: function(e) {
+	handleBlur: function(e) {//eslint-disable-line no-unused-vars
 		if (this.state.value === this.props.value) return;
 		this.picker.setMoment(moment(this.state.value, this.props.format));
 	},

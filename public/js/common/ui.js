@@ -1,8 +1,9 @@
 jQuery(function($) {
+	/*global moment*/
 	
 	// show hide the "back to website" message in the navbar
 	
-	$('.navbar-backtobrand-trigger').mouseenter(function(e) {
+	$('.navbar-backtobrand-trigger').mouseenter(function(e) {// eslint-disable-line no-unused-vars
 		$('.navbar-backtobrand-message').addClass('active');
 	}).mouseleave(function() {
 		$('.navbar-backtobrand-message').removeClass('active');
@@ -33,7 +34,7 @@ jQuery(function($) {
 
 	$('a[data-toggle=tooltip]').tooltip();
 
-	var datepickers = $('.ui-datepicker').pikaday({ firstDay: 1 });
+	$('.ui-datepicker').pikaday({ firstDay: 1 });
 
 	$('.btn-set-today').click(function() {
 		$(this).prevAll('.ui-datepicker:first').pikaday('setDate', new Date());
@@ -111,7 +112,7 @@ jQuery(function($) {
 					if (refFilters) {
 						filters = {};
 						_.each(refFilters, function(value, key) {
-							if($.type(value) === 'string' && value.substr(0, 1) == ':') {
+							if($.type(value) === 'string' && value.substr(0, 1) == ':') {// eslint-disable-line eqeqeq
 								fieldName = value.substr(1);
 								// check for an existing input field
 								$related = $('input[name="' + fieldName + '"]');
@@ -156,7 +157,7 @@ jQuery(function($) {
 					
 					var loaded = function(rtn) {
 						data.push(rtn);
-						if (data.length == ids.length) {
+						if (data.length == ids.length) {// eslint-disable-line eqeqeq
 							callback(multi ? data : data[0]);
 						}
 					};
@@ -172,18 +173,18 @@ jQuery(function($) {
 					});
 				}
 			},
-			formatResult: function(i) { return i.name },
-			formatSelection: function(i) { return i.name },
+			formatResult: function(i) { return i.name; },
+			formatSelection: function(i) { return i.name; },
 			escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
 		});
 
 		if (!multi) {
-			el.on('change', function(e) {
+			el.on('change', function(e) {// eslint-disable-line no-unused-vars
 				var $this = $(this),
 					$gotoLink = $this.next('a.btn-goto-linked-item'),
 					val = $this.select2('val');
 
-				if (val == '') {
+				if (val == '') {// eslint-disable-line eqeqeq
 					$gotoLink.hide();
 				} else {
 					$gotoLink.attr('href', '/keystone/' + refPath + '/' + val);
@@ -200,22 +201,22 @@ jQuery(function($) {
 			data = $input.data(),
 			$inputs2 = $input.siblings('#s2id_' + $input.attr('id'));
 
-		_.each(data.refFilters, function(value, key) {
+		_.each(data.refFilters, function(value, key) {// eslint-disable-line no-unused-vars
 
 			if ('string' !== typeof value) {
 				return;
 			}
 
-			if (value.substr(0, 1) != ':') {
+			if (value.substr(0, 1) != ':') {// eslint-disable-line eqeqeq
 				return;
 			}
 
 			var $related = $('#field_' + value.substr(1)),
 				relatedData = $related.data();
 
-			var checkRelated = function(msg) {
+			var checkRelated = function(msg) {// eslint-disable-line no-unused-vars
 				var $message = $input.siblings('.field-message');
-				if ($related.val() == '') {
+				if ($related.val() == '') {// eslint-disable-line eqeqeq
 					$inputs2.hide();
 					$message.html('<span>Please select a ' + relatedData.refSingular + ' before selecting a ' + data.refSingular + '.</span>').show();
 				} else {
@@ -226,7 +227,7 @@ jQuery(function($) {
 
 			checkRelated();
 
-			$related.on('change.dependency.' + $input.attr('id'), function(e) {
+			$related.on('change.dependency.' + $input.attr('id'), function(e) {// eslint-disable-line no-unused-vars
 				var $gotoLink = $input.next('a.btn-goto-linked-item');
 
 				checkRelated();

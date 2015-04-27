@@ -147,7 +147,6 @@ module.exports = Field.create({
 
 	renderToolbar: function() {
 		var body = [];
-		var self = this;
 
 		var push = function (queueType, alertType, count, action) {
 			if (count <= 0) return;
@@ -196,9 +195,11 @@ module.exports = Field.create({
 	},
 
 	renderContainer: function() {
-		return <div className='images-container clearfix'>
-			{this.state.thumbnails}
-		</div>;
+		return (
+			<div className='images-container clearfix'>
+				{this.state.thumbnails}
+			</div>
+		);
 	},
 
 	renderFieldAction: function() {

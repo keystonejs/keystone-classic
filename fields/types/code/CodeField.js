@@ -59,7 +59,7 @@ module.exports = Field.create({
 		});
 	},
 	
-	codemirrorValueChanged: function(doc, change) {
+	codemirrorValueChanged: function(doc, change) {//eslint-disable-line no-unused-vars
 		var newValue = doc.getValue();
 		this._currentCodemirrorValue = newValue;
 		this.props.onChange({

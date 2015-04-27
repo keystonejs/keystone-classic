@@ -13,4 +13,4 @@ module.exports = function evalDependsOn(dependsOn, values) {
 		var matches = _.isArray(dependsValue) ? dependsValue : [dependsValue];
 		return _.contains(matches, values[key]);
 	}, this) : true;
-}
+};

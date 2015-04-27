@@ -3,12 +3,12 @@
 	$.deserialize = function(str, options) {
 		if (!str.length) return {};
 		var pairs = str.split(/&amp;|&/i),
-			h = {},
-			options = options || {};
+			h = {};
+		options = options || {};
 		for(var i = 0; i < pairs.length; i++) {
 			var kv = pairs[i].split('=');
 			kv[0] = decodeURIComponent(kv[0]);
-			if(!options.except || options.except.indexOf(kv[0]) == -1) {
+			if(!options.except || options.except.indexOf(kv[0]) == -1) {// eslint-disable-line eqeqeq
 				if((/^\w+\[\w+\]$/).test(kv[0])) {
 					var matches = kv[0].match(/^(\w+)\[(\w+)\]$/);
 					if(typeof h[matches[1]] === 'undefined') {
@@ -25,7 +25,7 @@
 
 	$.deserializeSearch = function() {
 		var search = window.location.search;
-		if (search.charAt(0) == '?') search = search.substr(1);
+		if (search.charAt(0) == '?') search = search.substr(1);// eslint-disable-line eqeqeq
 		return $.deserialize(search);
 	};
 	

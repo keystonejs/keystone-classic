@@ -14,7 +14,7 @@ exports.testFieldType = function(List) {
 	it('should throw error if required field missing', function (done) {
 		new List.model({
 			text: 'value'
-		}).save(function(err, data) {
+		}).save(function(err, data) {// eslint-disable-line no-unused-vars
 			err.errors.testRelationship.message.must.equal('Path `testRelationship` is required.');
 			done();
 		});
@@ -26,7 +26,7 @@ exports.testFieldType = function(List) {
 			testRelationship: testItem._id
 		}).save(function(err, data) {
 			if (err) {
-				throw new err;
+				throw err;
 			}
 			
 			demand(data.testRelationship).equal(testItem._id);
@@ -39,7 +39,7 @@ exports.testFieldType = function(List) {
 		new List.model({
 			text: 'value',
 			testRelationship: testItem._id
-		}).save(function(err, data) {
+		}).save(function(err, data) {// eslint-disable-line no-unused-vars
 			demand(err.code).equal(11000);
 			done();
 		});
