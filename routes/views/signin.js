@@ -8,7 +8,7 @@ exports = module.exports = function(req, res) {
 			submitted: req.body,
 			from: req.query.from,
 			logo: keystone.get('signin logo'),
-			sendResetLink: (!!User.schema.methods.sendResetPassword) ? keystone.get("resetpassword url") : false
+			sendResetLink: (User.schema.methods.sendResetPassword) ? keystone.get('resetpassword url') : false
 		});
 	}
 
@@ -19,13 +19,13 @@ exports = module.exports = function(req, res) {
 			req.flash('error', 'There was an error with your request, please try again.');
 			return renderView();
 		}
-		
+
 		if (!req.body.email || !req.body.password) {
 			req.flash('error', 'Please enter your email address and password.');
 			return renderView();
 		}
 
-		var onSuccess = function (user) {
+		var onSuccess = function(user) {
 
 			if (req.query.from && req.query.from.match(/^(?!http|\/\/|javascript).+/)) {
 				res.redirect(req.query.from);
@@ -39,12 +39,12 @@ exports = module.exports = function(req, res) {
 
 		};
 
-		var onFail = function () {
+		var onFail = function() {
 			req.flash('error', 'Sorry, that email and password combo are not valid.');
 			renderView();
 		};
 
-		session.signin(req.body, req, res, onSuccess, onFail);
+		keystone.session.signin(req.body, req, res, onSuccess, onFail);
 
 	} else {
 		renderView();
