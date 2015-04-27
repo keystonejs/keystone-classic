@@ -1,9 +1,6 @@
-var _ = require('underscore'),
-	$ = require('jquery'),
-	React = require('react'),
+var React = require('react'),
 	Field = require('../Field'),
-	Note = require('../../components/Note'),
-	Select = require('react-select');
+	Note = require('../../components/Note');
 
 module.exports = Field.create({
 	

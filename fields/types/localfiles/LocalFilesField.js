@@ -1,5 +1,4 @@
-var _     = require('underscore'),
-	$	  = require('jquery'),
+var _ = require('underscore'),
 	bytes = require('bytes'),
 	React = require('react'),
 	Field = require('../Field');
