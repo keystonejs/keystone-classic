@@ -33,6 +33,7 @@
     "express": "~4.12.3",
     "express-session": "~1.11.1",
     "fs-extra": "~0.18.2",
+    "grappling-hook": "^2.1.0",
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.2.0",
     "jade": "~1.9.2",
