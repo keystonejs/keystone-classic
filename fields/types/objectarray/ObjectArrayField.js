@@ -101,7 +101,7 @@ module.exports = Field.create({
 		return (
 			<div key={obj.key}>
 				<label className='label'>
-					{obj.label}
+					{obj.label || obj.fieldName}
 				</label>
 				<input ref={obj.key} className='form-control multi' type='text' name={fieldName} value={obj.value} autoComplete='off' onChange={this.updateItem.bind(this, obj, objIndex, parentIndex)} />
 			</div>
