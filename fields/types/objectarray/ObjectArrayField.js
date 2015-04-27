@@ -32,9 +32,15 @@ module.exports = Field.create({
 	displayName: 'ObjectArrayField',
 
 	getInitialState: function() {
-		var values = this.props.value.map(function(item) {
-			return newItem(item, this.props.parts);
-		}.bind(this));
+		var values;
+
+		if (this.props.value && this.props.value instanceof Array && this.props.value.length) {
+			values = this.props.value.map(function(item) {
+				return newItem(item, this.props.parts);
+			}.bind(this));
+		} else {
+			values = [];
+		}
 
 		return {
 			values: values
