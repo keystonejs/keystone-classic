@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars*/ //temporary fix for https://github.com/yannickcr/eslint-plugin-react/issues/50#issuecomment-96708326
 var Select = require('react-select'),
 	React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	superagent = require('superagent'),
 	_ = require('underscore');
+/* eslint-enable */
 
 module.exports = Field.create({
 	
@@ -82,7 +84,7 @@ module.exports = Field.create({
 		var filters = {};
 		
 		_.each(this.props.filters, function(value, key) {
-			if(_.isString(value) && value[0] == ':') {
+			if(_.isString(value) && value[0] == ':') {//eslint-disable-line eqeqeq
 				var fieldName = value.slice(1);
 
 				var val = this.props.values[fieldName];

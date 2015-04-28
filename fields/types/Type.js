@@ -5,14 +5,8 @@
 var _ = require('underscore'),
 	marked = require('marked'),
 	Path = require('../../lib/path'),
-	fspath = require('path'),
-	jade = require('jade'),
-	fs = require('fs'),
-	keystone = require('../../'),
 	utils = require('keystone-utils'),
-	di = require('asyncdi'),
-	compiledTemplates = {};
-
+	di = require('asyncdi');
 
 /**
  * Field Constructor

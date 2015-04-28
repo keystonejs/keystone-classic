@@ -49,7 +49,7 @@ jQuery(function($) {
 		var $input = $filter.find('input[type=text]');
 		if ($input.length) {
 			try { $input[0].focus(); }
-			catch(e) {}
+			catch(e) {}// eslint-disable-line no-empty
 		}
 	});
 	
@@ -92,7 +92,7 @@ jQuery(function($) {
 		// Prase the recent searches
 		try {
 			recentSearches = JSON.parse(window.localStorage.getItem(key) || 'false');
-		} catch (err) {}
+		} catch (err) {}// eslint-disable-line no-empty
 		if (Array.isArray(recentSearches) === false) {
 			recentSearches = [];
 		}
@@ -213,13 +213,13 @@ jQuery(function($) {
 					case 'money':
 					case 'date':
 					case 'datetime':
-						if (value = parseValueWithType(data.type, $filter.find('input[name=value]').val())) {
+						if (value = parseValueWithType(data.type, $filter.find('input[name=value]').val())) {// eslint-disable-line no-cond-assign
 							queryFilter.value = value;
 						}
 						break;
 					
 					case 'select':
-						if (value = parseValueWithType(data.type, $filter.find('select[name=value]').val())) {
+						if (value = parseValueWithType(data.type, $filter.find('select[name=value]').val())) {// eslint-disable-line no-cond-assign
 							queryFilter.value = value;
 						}
 						break;
@@ -245,7 +245,7 @@ jQuery(function($) {
 						break;
 					
 					case 'relationship':
-						if (value = parseValueWithType(data.type, $filter.find('input[type=hidden]').val())) {
+						if (value = parseValueWithType(data.type, $filter.find('input[type=hidden]').val())) {// eslint-disable-line no-cond-assign
 							queryFilter.value = value;
 						}
 						break;
@@ -269,7 +269,7 @@ jQuery(function($) {
 	
 	/** List Controls */
 	$('table.items-list tbody').on('mouseenter mouseleave', 'tr a.control-delete', function(e) {
-		if (e.type == 'mouseenter') {
+		if (e.type == 'mouseenter') {// eslint-disable-line eqeqeq
 			$(this).closest('tr').addClass('delete-hover');
 		} else {
 			$(this).closest('tr').removeClass('delete-hover');
@@ -323,11 +323,11 @@ jQuery(function($) {
 
 				$row.remove();
 
-				$('.items-total').text(Keystone.items.total + ' ' + (Keystone.items.total == 1 ? Keystone.list.singular : Keystone.list.plural));
+				$('.items-total').text(Keystone.items.total + ' ' + (Keystone.items.total == 1 ? Keystone.list.singular : Keystone.list.plural));// eslint-disable-line eqeqeq
 
 				// update .list-pagination
-				if (Keystone.items.totalPages == 1) {
-					$('.list-pagination .count').text('Showing ' + Keystone.items.total + ' ' + (Keystone.items.total == 1 ? Keystone.list.singular : Keystone.list.plural));
+				if (Keystone.items.totalPages == 1) {// eslint-disable-line eqeqeq
+					$('.list-pagination .count').text('Showing ' + Keystone.items.total + ' ' + (Keystone.items.total == 1 ? Keystone.list.singular : Keystone.list.plural));// eslint-disable-line eqeqeq
 				}
 				if (Keystone.items.totalPages > 1) {
 					if(Keystone.items.last > Keystone.items.total) {

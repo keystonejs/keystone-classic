@@ -72,7 +72,7 @@ geopoint.prototype.format = function(item) {
  * @api public
  */
 
-geopoint.prototype.validateInput = function(data, required, item) {
+geopoint.prototype.validateInput = function(data, required, item) {//eslint-disable-line no-unused-vars
 	
 	var values = this.getValueFromData(data);
 
