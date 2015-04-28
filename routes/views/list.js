@@ -111,10 +111,20 @@ exports = module.exports = function(req, res) {
 			
 			var appName = keystone.get('name') || 'Keystone';
 
-			columns.forEach(function(col) {
-				if (!col.field) return;
+			/* Simplify data structures for React */
+
+			columns = columns.map(function(col) {
+				col = _.clone(col);
+				if (!col.field) return col;
 				col.field = col.field.getOptions();
+				return col;
 			});
+
+			items.results = items.results.map(function(i) {
+				return req.list.getData(i);
+			});
+
+			/* Render the list template */
 			
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: keystone.nav.by.list[req.list.key] || {},
