@@ -110,6 +110,11 @@ exports = module.exports = function(req, res) {
 			}
 			
 			var appName = keystone.get('name') || 'Keystone';
+
+			columns.forEach(function(col) {
+				if (!col.field) return;
+				col.field = col.field.getOptions();
+			});
 			
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: keystone.nav.by.list[req.list.key] || {},

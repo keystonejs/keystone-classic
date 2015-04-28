@@ -1,9 +1,9 @@
 var React = require('react');
 var CreateForm = require('../components/CreateForm');
 
-var View = React.createClass({
+var Header = React.createClass({
 	
-	displayName: 'ListView',
+	displayName: 'ListHeader',
 	
 	getInitialState: function() {
 		return {
@@ -58,4 +58,4 @@ var View = React.createClass({
 	
 });
 
-React.render(<View />, document.getElementById('list-view'));
+React.render(<Header />, document.getElementById('list-view-header'));
