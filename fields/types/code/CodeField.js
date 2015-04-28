@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars*/ //temporary fix for https://github.com/yannickcr/eslint-plugin-react/issues/50#issuecomment-96708326
 var _ = require('underscore'),
 	React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	CodeMirror = require('codemirror');
+/* eslint-enable */
 
 // See CodeMirror docs for API:
 // http://codemirror.net/doc/manual.html
@@ -59,7 +61,7 @@ module.exports = Field.create({
 		});
 	},
 	
-	codemirrorValueChanged: function(doc, change) {
+	codemirrorValueChanged: function(doc, change) {//eslint-disable-line no-unused-vars
 		var newValue = doc.getValue();
 		this._currentCodemirrorValue = newValue;
 		this.props.onChange({

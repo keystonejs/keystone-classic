@@ -49,7 +49,7 @@ function azurefile(list, path, options) {
 
 	var self = this;
 	options.filenameFormatter = options.filenameFormatter || function(item, filename) { return filename; };
-	options.containerFormatter = options.containerFormatter || function(item, filename) { return self.azurefileconfig.container; };
+	options.containerFormatter = options.containerFormatter || function(item, filename) { return self.azurefileconfig.container; };//eslint-disable-line no-unused-vars
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
@@ -142,7 +142,7 @@ azurefile.prototype.addToSchema = function() {
 		reset: function() {
 			try {
 				azure.createBlobService().deleteBlob(this.get(paths.container), this.get(paths.filename), function() {});
-			} catch(e) {}
+			} catch(e) {}//eslint-disable-line no-empty
 			reset(this);
 		},
 		/**
@@ -153,7 +153,7 @@ azurefile.prototype.addToSchema = function() {
 		delete: function() {
 			try {
 				azure.createBlobService().blobService.deleteBlob(this.get(paths.container), this.get(paths.filename), function() {});
-			} catch(e) {}
+			} catch(e) {}//eslint-disable-line no-empty
 			reset(this);
 		}
 	};
@@ -199,7 +199,7 @@ azurefile.prototype.isModified = function(item) {
  * @api public
  */
 
-azurefile.prototype.validateInput = function(data) {
+azurefile.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -211,7 +211,7 @@ azurefile.prototype.validateInput = function(data) {
  * @api public
  */
 
-azurefile.prototype.updateItem = function(item, data) {
+azurefile.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 };
 
@@ -225,7 +225,7 @@ azurefile.prototype.updateItem = function(item, data) {
 azurefile.prototype.uploadFile = function(item, file, update, callback) {
 
 	var field = this,
-		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
+		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',//eslint-disable-line no-unused-vars
 		filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
@@ -245,7 +245,7 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 			
 			if (err) return callback(err);
 
-			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function(err, blob, res) {
+			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function(err, blob, res) {//eslint-disable-line no-unused-vars
 
 				if (err) return callback(err);
 			
@@ -302,8 +302,9 @@ azurefile.prototype.getRequestHandler = function(item, req, paths, callback) {
 		if (req.body) {
 			var action = req.body[paths.action];
 
-			if (/^(delete|reset)$/.test(action))
+			if (/^(delete|reset)$/.test(action)) {
 				field.apply(item, action);
+			}
 		}
 
 		if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {

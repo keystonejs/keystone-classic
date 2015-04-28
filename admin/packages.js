@@ -8,5 +8,5 @@ module.exports = [
 	'react',
 	'react-select',
 	'react/addons',
-	'superagent',
+	'superagent'
 ];

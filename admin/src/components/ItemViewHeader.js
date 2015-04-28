@@ -46,6 +46,7 @@ var Header = React.createClass({
 	
 	renderDrilldown: function() {
 		if (this.state.searchIsVisible) return null;
+		/* eslint-disable no-script-url */
 		return (
 			<ul className="item-breadcrumbs" key="drilldown">
 				<li>
@@ -56,6 +57,7 @@ var Header = React.createClass({
 				{this.renderDrilldownItems()}
 			</ul>
 		);
+		/* eslint-enable */
 	},
 	
 	renderDrilldownItems: function() {
@@ -70,7 +72,7 @@ var Header = React.createClass({
 			dd.items.forEach(function(el, i) {
 				links.push(<a key={'dd' + i} href={el.href} title={dd.list.singular}>{el.label}</a>);
 				if (i < dd.items.length - 1) {
-					links.push(<span key={'ds' + i} className="separator">,</span>);
+					links.push(<span key={'ds' + i} className="separator">,</span>);//eslint-disable-line comma-spacing
 				}
 			});
 			
@@ -155,6 +157,7 @@ var Header = React.createClass({
 	
 	renderCreateButton: function() {
 		if (this.props.list.nocreate) return null;
+		/* eslint-disable no-script-url */
 		return (
 			<li>
 				<a className="item-toolbar-create-button" href="javascript:;" onClick={this.toggleCreate.bind(this, true)}>
@@ -163,6 +166,7 @@ var Header = React.createClass({
 				</a>
 			</li>
 		);
+		/* eslint-enable */
 	},
 	
 	render: function() {

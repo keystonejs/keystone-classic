@@ -60,7 +60,7 @@ var Base = module.exports.Base = {
 		return <div className="field-value">{this.props.value}</div>;
 	},
 	
-	renderUI: function(spec) {
+	renderUI: function(spec) {//eslint-disable-line no-unused-vars
 		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label });
 		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
 		return (
@@ -103,6 +103,7 @@ var Mixins = module.exports.Mixins = {
 			if (!this.shouldRenderField()) {
 				return null;
 			}
+			/* eslint-disable no-script-url */
 			return (
 				<div className={'field field-type-' + this.props.type}>
 					<div className="col-sm-12">
@@ -112,6 +113,7 @@ var Mixins = module.exports.Mixins = {
 					</div>
 				</div>
 			);
+			/* eslint-enable */
 		}
 	}
 };

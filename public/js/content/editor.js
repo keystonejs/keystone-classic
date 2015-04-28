@@ -16,11 +16,11 @@ jQuery(function($) {
 			})
 			.appendTo($editable);
 		
-		$editable.on('mouseenter mousemove', function(e) {
+		$editable.on('mouseenter mousemove', function(e) {// eslint-disable-line no-unused-vars
 			if (visible) return;
 			visible = true;
 			$btn.css({ opacity: 1 });
-		}).on('mouseleave', function(e) {
+		}).on('mouseleave', function(e) {// eslint-disable-line no-unused-vars
 			visible = false;
 			$btn.css({ opacity: 0 });
 		});

@@ -8,7 +8,7 @@
 
 var babelify = require('babelify');
 var browserify = require('browserify-middleware');
-var debug = require('debug')('keystone:admin:app:static');
+var debug = require('debug')('keystone:admin:app:static');//eslint-disable-line no-unused-vars
 var express = require('express');
 var packages = require('../packages');
 var router = express.Router();

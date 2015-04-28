@@ -46,7 +46,7 @@ module.exports = Field.create({
 			&& !_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
 			var instance = tinymce.get(prevState.id);
 			if (instance) {
-				tinymce.EditorManager.execCommand('mceRemoveEditor', true, prevState.id)
+				tinymce.EditorManager.execCommand('mceRemoveEditor', true, prevState.id);
 				this.initWysiwyg();
 			} else {
 				this.initWysiwyg();
@@ -94,7 +94,8 @@ module.exports = Field.create({
 				this.props.wysiwyg,
 				Keystone.wysiwyg.options
 			),
-			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link';
+			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
+			i;
 
 		if (options.enableImages) {
 			plugins.push('image');
@@ -108,13 +109,13 @@ module.exports = Field.create({
 
 		if (options.additionalButtons) {
 			var additionalButtons = options.additionalButtons.split(',');
-			for (var i = 0; i < additionalButtons.length; i++) {
+			for (i = 0; i < additionalButtons.length; i++) {
 				toolbar += (' | ' + additionalButtons[i]);
 			}
 		}
 		if (options.additionalPlugins) {
 			var additionalPlugins = options.additionalPlugins.split(',');
-			for (var i = 0; i < additionalPlugins.length; i++) {
+			for (i = 0; i < additionalPlugins.length; i++) {
 				plugins.push(additionalPlugins[i]);
 			}
 		}

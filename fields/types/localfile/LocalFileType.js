@@ -226,7 +226,7 @@ localfile.prototype.isModified = function(item) {
  * @api public
  */
 
-localfile.prototype.validateInput = function(data) {
+localfile.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -238,7 +238,7 @@ localfile.prototype.validateInput = function(data) {
  * @api public
  */
 
-localfile.prototype.updateItem = function(item, data) {
+localfile.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 };
 

@@ -21,18 +21,18 @@ var View = React.createClass({
 	componentDidMount: function() {
 		request.get('/keystone/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
 			.set('Accept', 'application/json')
-			.end((function(err, res) {
+			.end(function(err, res) {//eslint-disable-line no-unused-vars, handle-callback-err
 				if (!res.ok) {
 					// TODO: nicer error handling
 					console.log('Error loading item data:', res.text);
 					alert('Error loading data (details logged to console)');
 					return;
 				}
-				this.setState({
+				this.setState({//eslint-disable-line react/no-did-mount-set-state
 					itemData: res.body.data,
 					itemDrilldown: res.body.drilldown 
 				});
-			}).bind(this));
+			}.bind(this));
 	},
 	
 	toggleCreate: function(visible) {

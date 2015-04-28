@@ -35,12 +35,12 @@ jQuery(function($) {
 	// ==============
 	
 	$(document).on('keydown.ui.altText', function(e) {
-		if (e.which != 18) return;
+		if (e.which != 18) return;// eslint-disable-line eqeqeq
 		$('[data-alt-text]').altText(true);
 	});
 	
 	$(document).on('keyup.ui.altText', function(e) {
-		if (e.which != 18) return;
+		if (e.which != 18) return;// eslint-disable-line eqeqeq
 		$('[data-alt-text]').altText();
 	});
 	
