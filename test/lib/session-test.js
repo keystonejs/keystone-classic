@@ -88,50 +88,50 @@ describe('Keystone.session', function() {
 				function callWithNoArgs() {
 					keystone.session.signinWithUser();
 				}
-				callWithNoArgs.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
+				callWithNoArgs.must.throw('keystone.session.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
 				function callWithOneArg() {
 					keystone.session.signinWithUser(user);
 				}
-				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
+				callWithOneArg.must.throw('keystone.session.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
 				function callWithTwoArgs() {
 					keystone.session.signinWithUser(user, req);
 				}
-				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
+				callWithOneArg.must.throw('keystone.session.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
 				function callWithThreeArgs() {
 					keystone.session.signinWithUser(user, req, res);
 				}
-				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
+				callWithOneArg.must.throw('keystone.session.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 			});
 
 			it('should error when user arg is not an object', function() {
 				function callWithInvalidUser() {
 					keystone.session.signinWithUser('user', req, res, onSuccess);
 				}
-				callWithInvalidUser.must.throw('keystone.sesson.signinWithUser requires user to be an object.');
+				callWithInvalidUser.must.throw('keystone.session.signinWithUser requires user to be an object.');
 			});
 
 			it('should error when req arg is not an object', function() {
 				function callWithInvalidReq() {
 					keystone.session.signinWithUser(user, 'req', res, onSuccess);
 				}
-				callWithInvalidReq.must.throw('keystone.sesson.signinWithUser requires req to be an object.');
+				callWithInvalidReq.must.throw('keystone.session.signinWithUser requires req to be an object.');
 			});
 
 			it('should error when res arg is not an object', function() {
 				function callWithInvalidRes() {
 					keystone.session.signinWithUser(user, req, 'res', onSuccess);
 				}
-				callWithInvalidRes.must.throw('keystone.sesson.signinWithUser requires res to be an object.');
+				callWithInvalidRes.must.throw('keystone.session.signinWithUser requires res to be an object.');
 			});
 
 			it('should error when onSuccess arg is not a function', function() {
 				function callWithInvalidCallback() {
 					keystone.session.signinWithUser(user, req, res, 'onSuccess');
 				}
-				callWithInvalidCallback.must.throw('keystone.sesson.signinWithUser requires onSuccess to be a function.');
+				callWithInvalidCallback.must.throw('keystone.session.signinWithUser requires onSuccess to be a function.');
 			});
 
 		});
