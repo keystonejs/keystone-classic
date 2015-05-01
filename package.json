@@ -117,6 +117,7 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
+    "build": "NODE_ENV=production gulp build-packages",
     "test": "mocha",
     "lint": "eslint ./; true",
     "test-cov": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha",
