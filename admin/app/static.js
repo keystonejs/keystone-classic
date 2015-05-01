@@ -17,7 +17,9 @@ router.use('/styles', require('less-middleware')(__dirname + '../../../public/st
 router.use(express.static(__dirname + '../../../public'));
 router.use('/js', browserify(__dirname + '../../../admin/src/views', {
 	external: packages,
-	transform: [babelify]
+	transform: [babelify.configure({
+		plugins: [require('babel-plugin-object-assign')]
+	})]
 }));
 
 module.exports = router;
