@@ -118,6 +118,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production gulp build-packages",
+    "release": "gulp release",
     "test": "mocha",
     "lint": "eslint ./; true",
     "test-cov": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha",
