@@ -25,7 +25,7 @@ function location(list, path, options) {
 	this._fixedSize = 'full';
 
 	this.enableMapsAPI = keystone.get('google api key') ? true : false;
-	
+
 	this._properties = ['enableMapsAPI'];
 
 	if (!options.defaults) {
@@ -195,18 +195,18 @@ location.prototype.isModified = function(item) {
  */
 
 location.prototype.validateInput = function(data, required, item) {
-	
+
 	if (!required) {
 		return true;
 	}
-	
+
 	var paths = this.paths,
 		nested = this._path.get(data),
 		values = nested || data,
 		valid = true;
-	
+
 	this.requiredPaths.forEach(function(path) {
-		
+
 		if (nested) {
 			if (!(path in values) && item && item.get(paths[path])) {
 				return;
@@ -222,11 +222,11 @@ location.prototype.validateInput = function(data, required, item) {
 				valid = false;
 			}
 		}
-		
+
 	});
-	
+
 	return valid;
-	
+
 };
 
 
@@ -244,7 +244,7 @@ location.prototype.updateItem = function(item, data) {
 		valueKeys = fieldKeys.concat(geoKeys),
 		valuePaths = valueKeys,
 		values = this._path.get(data);
-	
+
 	if (!values) {
 		// Handle flattened values
 		valuePaths = valueKeys.map(function(i) {
@@ -252,10 +252,10 @@ location.prototype.updateItem = function(item, data) {
 		});
 		values = _.pick(data, valuePaths);
 	}
-	
+
 	// convert valuePaths to a map for easier usage
 	valuePaths = _.object(valueKeys, valuePaths);
-	
+
 	var setValue = function(key) {
 		if (valuePaths[key] in values && values[valuePaths[key]] !== item.get(paths[key])) {
 			item.set(paths[key], values[valuePaths[key]] || null);
@@ -423,7 +423,7 @@ location.prototype.googleLookup = function(item, region, update, callback) {
 	doGoogleGeocodeRequest(address, region || keystone.get('default region'), function(err, geocode){
 
 		if (err || geocode.status !== 'OK') {
-			return callback(err);
+			return callback(err || new Error(geocode.status + ': ' + geocode.error_message));
 		}
 
 		// use the first result
