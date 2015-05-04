@@ -5,6 +5,9 @@
 module.exports = [
 	'bytes',
 	'classnames',
+	'marked',
+	'moment',
+	'pikaday',
 	'react',
 	'react-select',
 	'react/addons',

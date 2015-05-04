@@ -11,6 +11,8 @@
     "async": "~0.9.0",
     "asyncdi": "^1.1.0",
     "azure": "~0.10.5",
+    "babel-core": "^5.2.2",
+    "babel-plugin-object-assign": "^1.0.1",
     "babelify": "^6.0.2",
     "bcrypt-nodejs": "~0.0.3",
     "blacklist": "^1.1.2",
@@ -115,6 +117,8 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
+    "build": "NODE_ENV=production gulp build-packages",
+    "release": "gulp release",
     "test": "mocha",
     "lint": "eslint ./; true",
     "test-cov": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha",
