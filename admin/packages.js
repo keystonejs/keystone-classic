@@ -7,6 +7,7 @@ module.exports = [
 	'classnames',
 	'marked',
 	'moment',
+	'numeral',
 	'pikaday',
 	'react',
 	'react-select',
