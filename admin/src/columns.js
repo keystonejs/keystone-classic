@@ -2,6 +2,7 @@ var React = require('react');
 
 var Columns = {
 	name: require('../../fields/types/name/NameColumn'),
+	email: require('../../fields/types/email/EmailColumn'),
 	text: require('../../fields/types/text/TextColumn'),
 	boolean: require('../../fields/types/boolean/BooleanColumn'),
 	password: require('../../fields/types/password/PasswordColumn'),

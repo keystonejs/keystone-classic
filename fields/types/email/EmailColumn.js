@@ -1,22 +1,22 @@
 var React = require('react');
 
-var UrlColumn = React.createClass({
+var EmailColumn = React.createClass({
 
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		if (value) {
 			return (
 				<td>
-					<div className="col-value"><a href={value} target="_blank">{value}</a></div>
+					<div className="col-value"><a href={'mailto:'+ {value}} target="_blank">{value}</a></div>
 				</td>
 			)
 		} else {
 			return (
-				<td><div className="col-value"></div></td>
+				<td></td>
 			)
 		}	
 	}
 	
 });
 
-module.exports = UrlColumn;
+module.exports = EmailColumn;
