@@ -16,7 +16,8 @@ var Columns = {
 	embedly: require('../../fields/types/embedly/EmbedlyColumn'),
 	textarea: require('../../fields/types/textarea/TextareaColumn'),
 	cloudinaryimage: require('../../fields/types/cloudinaryimage/CloudinaryimageColumn'),
-	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryimagesColumn')
+	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryimagesColumn'),
+	key: require('../../fields/types/key/KeyColumn')
 };
 
 Columns.__unrecognised__ = Columns.text;

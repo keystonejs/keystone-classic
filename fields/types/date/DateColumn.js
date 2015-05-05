@@ -6,7 +6,6 @@ var DateColumn = React.createClass({
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		var formattedValue = moment(value).format('MMMM Do YYYY');
-		console.log(formattedValue)
 		if (value) {
 			return (
 				<td>
