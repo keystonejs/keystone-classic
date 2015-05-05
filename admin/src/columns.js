@@ -11,7 +11,8 @@ var Columns = {
 	datetime: require('../../fields/types/datetime/DateTimeColumn'),
 	code: require('../../fields/types/code/CodeColumn'),
 	markdown: require('../../fields/types/markdown/MarkdownColumn'),
-	html: require('../../fields/types/html/HtmlColumn')
+	html: require('../../fields/types/html/HtmlColumn'),
+	embedly: require('../../fields/types/embedly/EmbedlyColumn')
 };
 
 Columns.__unrecognised__ = Columns.text;
