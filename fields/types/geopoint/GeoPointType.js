@@ -62,7 +62,10 @@ geopoint.prototype.getData = function(item) {
  */
 
 geopoint.prototype.format = function(item) {
-	return item.get(this.path).join(', ');
+	if (item.get(this.path)) {
+		return item.get(this.path).reverse().join(', ');	
+	}
+	return null;
 };
 
 
