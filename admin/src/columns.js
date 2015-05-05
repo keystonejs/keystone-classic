@@ -12,7 +12,8 @@ var Columns = {
 	code: require('../../fields/types/code/CodeColumn'),
 	markdown: require('../../fields/types/markdown/MarkdownColumn'),
 	html: require('../../fields/types/html/HtmlColumn'),
-	embedly: require('../../fields/types/embedly/EmbedlyColumn')
+	embedly: require('../../fields/types/embedly/EmbedlyColumn'),
+	textarea: require('../../fields/types/textarea/TextareaColumn')
 };
 
 Columns.__unrecognised__ = Columns.text;
