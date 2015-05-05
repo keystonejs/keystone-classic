@@ -19,7 +19,8 @@ var Columns = {
 	textarea: require('../../fields/types/textarea/TextareaColumn'),
 	cloudinaryimage: require('../../fields/types/cloudinaryimage/CloudinaryimageColumn'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryimagesColumn'),
-	key: require('../../fields/types/key/KeyColumn')
+	key: require('../../fields/types/key/KeyColumn'),
+	s3file: require('../../fields/types/s3file/S3FileColumn')
 };
 
 Columns.__unrecognised__ = Columns.text;
