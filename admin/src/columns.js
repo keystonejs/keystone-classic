@@ -13,7 +13,8 @@ var Columns = {
 	markdown: require('../../fields/types/markdown/MarkdownColumn'),
 	html: require('../../fields/types/html/HtmlColumn'),
 	embedly: require('../../fields/types/embedly/EmbedlyColumn'),
-	textarea: require('../../fields/types/textarea/TextareaColumn')
+	textarea: require('../../fields/types/textarea/TextareaColumn'),
+	cloudinaryimage: require('../../fields/types/cloudinaryimage/CloudinaryimageColumn')
 };
 
 Columns.__unrecognised__ = Columns.text;
