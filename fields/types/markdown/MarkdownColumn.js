@@ -4,7 +4,6 @@ var MarkdownColumn = React.createClass({
 
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
-
 		if (value && Object.keys(value).length != 0) {
 
 			var limitedValue = value.md.substring(0, 500);

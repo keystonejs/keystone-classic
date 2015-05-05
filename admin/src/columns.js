@@ -10,7 +10,8 @@ var Columns = {
 	url: require('../../fields/types/url/UrlColumn'),
 	datetime: require('../../fields/types/datetime/DateTimeColumn'),
 	code: require('../../fields/types/code/CodeColumn'),
-	markdown: require('../../fields/types/markdown/MarkdownColumn')
+	markdown: require('../../fields/types/markdown/MarkdownColumn'),
+	html: require('../../fields/types/html/HtmlColumn')
 };
 
 Columns.__unrecognised__ = Columns.text;
