@@ -7,11 +7,15 @@ var CodeColumn = React.createClass({
 		if (value) {
 			var limitedValue = value.substring(0, 500);
 			return (
-				<td className='col-value'>{limitedValue}</td>
+				<td>
+					<div className='col-value'>{limitedValue}</div>
+				</td>
 			)
 		} else {
 			return (
-				<td className='col-value'></td>
+				<td>
+					<div className='col-value'></div>
+				</td>
 			)
 		}
 		

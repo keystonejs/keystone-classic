@@ -9,7 +9,8 @@ var Columns = {
 	money: require('../../fields/types/money/MoneyColumn'),
 	url: require('../../fields/types/url/UrlColumn'),
 	datetime: require('../../fields/types/datetime/DateTimeColumn'),
-	code: require('../../fields/types/code/CodeColumn')
+	code: require('../../fields/types/code/CodeColumn'),
+	markdown: require('../../fields/types/markdown/MarkdownColumn')
 };
 
 Columns.__unrecognised__ = Columns.text;
