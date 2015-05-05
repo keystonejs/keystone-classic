@@ -17,6 +17,7 @@ function newItem(defaultItemValue, parts) {
 				key: item.key + '_' + i,
 				fieldName: i,
 				label: parts[i].label,
+				type: parts[i].type,
 				value: defaultItemValue[i] ? defaultItemValue[i] : ''
 			};
 
@@ -103,13 +104,36 @@ module.exports = Field.create({
 
 	renderPart: function(obj, objIndex, parentIndex) {
 		var fieldName = this.props.path + '[' + parentIndex + ']' +'[' + obj.fieldName + ']';
+		var input = <input ref={obj.key} className='form-control multi' type={obj.type} name={fieldName} value={obj.value} autoComplete='off' onChange={this.updateItem.bind(this, obj, objIndex, parentIndex)} />;
+
+		switch (obj.type) {
+			case 'number':
+			case 'text':
+			case 'email':
+			case 'date':
+			case 'datetime':
+			case 'hidden':
+			case 'url':
+			case 'password':
+			case 'color':
+			case 'month':
+			case 'week':
+				break;
+
+			case 'textarea':
+				input = <textarea ref={obj.key} className='form-control multi' name={fieldName} value={obj.value} autoComplete='off' onChange={this.updateItem.bind(this, obj, objIndex, parentIndex)} />;
+				break;
+
+			default:
+				<input ref={obj.key} className='form-control multi' type='text' name={fieldName} value={obj.value} autoComplete='off' onChange={this.updateItem.bind(this, obj, objIndex, parentIndex)} />;
+		}
 
 		return (
 			<div key={obj.key}>
 				<label className='label'>
 					{obj.label || obj.fieldName}
 				</label>
-				<input ref={obj.key} className='form-control multi' type='text' name={fieldName} value={obj.value} autoComplete='off' onChange={this.updateItem.bind(this, obj, objIndex, parentIndex)} />
+				{input}
 			</div>
 		);
 	},
