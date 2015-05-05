@@ -20,7 +20,8 @@ var Columns = {
 	cloudinaryimage: require('../../fields/types/cloudinaryimage/CloudinaryimageColumn'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryimagesColumn'),
 	key: require('../../fields/types/key/KeyColumn'),
-	s3file: require('../../fields/types/s3file/S3FileColumn')
+	s3file: require('../../fields/types/s3file/S3FileColumn'),
+	localfile: require('../../fields/types/localfile/LocalFileColumn')
 };
 
 Columns.__unrecognised__ = Columns.text;
