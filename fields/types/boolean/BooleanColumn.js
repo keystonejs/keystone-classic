@@ -10,14 +10,14 @@ var BooleanColumn = React.createClass({
 					<img src="/keystone/images/icons/16/checkbox-checked.png" width="16" height="16" />
 				</td>
 			);
-		 } else {
+		} else {
 			return (
 				<td>
 					<img src="/keystone/images/icons/16/checkbox-unchecked.png" width="16" height="16" />
 				</td>
-			)
+			);
 		}
-	},
+	}
 });
 
 module.exports = BooleanColumn;

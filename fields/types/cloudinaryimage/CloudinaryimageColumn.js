@@ -9,16 +9,16 @@ var CloudinaryimageColumn = React.createClass({
 				<td>
 					<div className='col-value'>{value.url}</div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td>
 					<div className='col-value'></div>
 				</td>
-			)
+			);
 		}
 		
-	},
+	}
 });
 
 module.exports = CloudinaryimageColumn;

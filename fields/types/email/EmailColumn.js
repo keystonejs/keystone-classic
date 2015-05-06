@@ -9,11 +9,11 @@ var EmailColumn = React.createClass({
 				<td>
 					<div className="col-value"><a href={'mailto:'+ {value}} target="_blank">{value}</a></div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td></td>
-			)
+			);
 		}	
 	}
 	

@@ -11,13 +11,13 @@ var DatetimeColumn = React.createClass({
 				<td>
 					<div className="col-value">{formattedValue}</div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td>
 					<div className="col-value"></div>
 				</td>
-			)
+			);
 		}
 	}
 	

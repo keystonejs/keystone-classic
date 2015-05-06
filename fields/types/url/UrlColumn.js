@@ -9,11 +9,11 @@ var UrlColumn = React.createClass({
 				<td>
 					<div className="col-value"><a href={value} target="_blank">{value}</a></div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td><div className="col-value"></div></td>
-			)
+			);
 		}	
 	}
 	

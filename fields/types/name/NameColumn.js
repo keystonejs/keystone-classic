@@ -9,13 +9,13 @@ var NameColumn = React.createClass({
 				<td>
 					<div className="col-value"><a href={'/keystone/users/'+ this.props.data.id}>{value.first + ' ' + value.last}</a></div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td>
 					<div className="col-value"></div>
 				</td>
-			)
+			);
 		}
 	}
 });

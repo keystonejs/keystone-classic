@@ -9,13 +9,13 @@ var PasswordColumn = React.createClass({
 				<td>
 					<div className="col-value">******</div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td>
 					<div className="col-value"></div>
 				</td>
-			)
+			);
 		}	
 	}
 	

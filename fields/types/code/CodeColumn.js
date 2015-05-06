@@ -10,16 +10,16 @@ var CodeColumn = React.createClass({
 				<td>
 					<div className='col-value'>{limitedValue}</div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td>
 					<div className='col-value'></div>
 				</td>
-			)
+			);
 		}
 		
-	},
+	}
 });
 
 module.exports = CodeColumn;

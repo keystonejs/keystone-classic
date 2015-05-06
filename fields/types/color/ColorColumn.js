@@ -9,19 +9,19 @@ var ColorColumn = React.createClass({
 			borderRadius: '5px',
 			height: '20px',
 			width: '20px'
-		}
+		};
 		if (value) {
 			return (
 				<td>
 					<div className="col-value"><div style={divColorBox}></div></div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td>
 					<div className="col-value"></div>
 				</td>
-			)
+			);
 		}
 	}
 });

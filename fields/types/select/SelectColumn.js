@@ -9,13 +9,13 @@ var SelectColumn = React.createClass({
 				<td>
 					<div className='col-value'>{value}</div>
 				</td>
-			)
+			);
 		} else {
 			return (
 				<td>
 					<div className='col-value'></div>
 				</td>
-			)
+			);
 		}
 	}
 	
