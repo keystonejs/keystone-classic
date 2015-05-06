@@ -5,6 +5,7 @@ var Columns = {
 	email: require('../../fields/types/email/EmailColumn'),
 	text: require('../../fields/types/text/TextColumn'),
 	boolean: require('../../fields/types/boolean/BooleanColumn'),
+	number: require('../../fields/types/number/NumberColumn'),
 	password: require('../../fields/types/password/PasswordColumn'),
 	location: require('../../fields/types/location/LocationColumn'),
 	select: require('../../fields/types/select/SelectColumn'),

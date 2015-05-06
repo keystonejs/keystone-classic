@@ -4,10 +4,10 @@ var LocalFileColumn = React.createClass({
 
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
-		if (value) {
+		if (value && Object.keys(value).length !== 0) {
 			return (
 				<td>
-					<div className="col-value">{value}</div>
+					<div className="col-value">{value.path + '/' + value.filename}</div>
 				</td>
 			);
 		} else {

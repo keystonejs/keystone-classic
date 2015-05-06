@@ -7,7 +7,7 @@ var S3FileColumn = React.createClass({
 		if (value) {
 			return (
 				<td>
-					<div className="col-value">{value}</div>
+					<div className="col-value"><a href={value.url} target='_blank'>{value.url}</a></div>
 				</td>
 			);
 		} else {
