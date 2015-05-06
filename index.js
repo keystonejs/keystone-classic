@@ -123,7 +123,7 @@ Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
 /* Expose Admin UI App */
 Keystone.prototype.adminApp = {
-	staticRouter: require('./admin/app/static');
+	staticRouter: require('./admin/app/static')
 };
 
 /* Legacy Attach Mechanisms */
