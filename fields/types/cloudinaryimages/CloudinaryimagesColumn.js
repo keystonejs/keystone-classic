@@ -4,13 +4,12 @@ var CloudinaryimagesColumn = React.createClass({
 
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
-		console.log(value)
 		if (value.length > 0) {
 			return (
 				<td>
-					{ value.map(function(image) {
+					{value.map(function(image) {
  						return <div className="col-value" key={image.id}><a href={image.url}>{image.url}</a></div>;
- 					})}	
+ 					})}
 				</td>
 			);
 		} else {
