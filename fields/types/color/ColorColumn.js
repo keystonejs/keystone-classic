@@ -4,25 +4,29 @@ var ColorColumn = React.createClass({
 
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
-		var divColorBox = {
-			backgroundColor: value,
-			borderRadius: '5px',
-			height: '20px',
-			width: '20px'
-		};
-		if (value) {
-			return (
-				<td>
-					<div className="col-value"><div style={divColorBox}></div></div>
-				</td>
-			);
-		} else {
+
+		if (!value) {
 			return (
 				<td>
 					<div className="col-value"></div>
 				</td>
 			);
 		}
+
+		var colorBoxStyle = {
+			display: 'inline-block',
+			backgroundColor: value,
+			borderRadius: '5px',
+			marginRight: '10px',
+			height: '20px',
+			width: '20px'
+		};
+		
+		return (
+			<td>
+				<div className="col-value"><span style={colorBoxStyle}></span>{value}</div>
+			</td>
+		);
 	}
 });
 
