@@ -4,7 +4,6 @@ var GeoPointColumn = React.createClass({
 
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
-		console.log(value);
 		if (value.length > 0) {
 			return (
 				<td>
