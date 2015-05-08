@@ -10,7 +10,6 @@ var NameColumn = React.createClass({
 		return <a href={'/keystone/users/'+ this.props.data.id}>{value.first + ' ' + value.last}</a>
 	},
 
-
 	render: function() {
 		return (
 			<td>
