@@ -71,34 +71,84 @@
 	font-family: @font-family-monospace;
 }
 
+
+
+
 //
-// Dashboard lists
+// Model Lists
 // --------------------------------------------------
 
-.keystone-lists {
-	// display: flex; // put this back when it's opt-in
-	flex-wrap: wrap;
-}
-.nav-section {
-	flex-basis: 100%;
-	margin-bottom: 2em;
 
-	h3 {
-		font-weight: normal;
+// base
+
+.model-group {
+	margin-bottom: 40px;
+}
+
+
+// headings
+
+.model-group__heading {
+	font-size: 1.5em;
+	font-weight: 500;
+	margin-bottom: 1em;
+
+	&::before {
+		color: @gray-light;
+		font-size: 16px;
+		display: inline-block;
+		margin-top: -1px;
+		vertical-align: middle;
+		width: 30px;
 	}
-	ul {
-		.list-unstyled();
-		line-height: 2em;
+}
+
+// list
+
+/*ul*/.model-group__list {
+	&:extend(.clearfix all);
+	list-style: none;
+	margin: 0 -10px -10px 20px;
+	padding: 0;
+	
+	> li {
+		float: left;
+		padding: 0 10px 20px;
+		width: 100%;
 	}
-	li {
-		font-size: 1.8em;
-		margin-bottom: .66em;
+	
+	> li > a {
+		background-color: @app-primary;
+		border-radius: @border-radius-base;
+		color: rgba(255, 255, 255, 0.75);
+		display: block;
+		height: 80px;
+		padding: 10px;
+
+		&:hover,
+		&:focus {
+			background-color: lighten(@app-primary, 5%);
+			text-decoration: none;
+		}
+
+		&:active {
+			background-color: darken(@app-primary, 5%);
+		}
 	}
 
-	@media (min-width: @screen-sm) { flex-basis: 50%; }
-	@media (min-width: @screen-md) { flex-basis: 33%; }
-	@media (min-width: @screen-lg) { flex-basis: 25%; }
+	@media (min-width: @screen-sm) { > li { width: 50%; } }
+	@media (min-width: @screen-md) { > li { width: 33%; } }
+	@media (min-width: @screen-lg) { > li { width: 25%; } }
 }
+
+.model-group__list-label {
+	color: white;
+	font-size: 1.25em;
+	font-weight: 500;
+}
+
+
+
 
 //
 // Overrides
