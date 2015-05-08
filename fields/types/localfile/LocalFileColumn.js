@@ -1,22 +1,21 @@
 var React = require('react');
+var _ = require('underscore');
 
 var LocalFileColumn = React.createClass({
 
-	render: function() {
+	renderValue: function() {
 		var value = this.props.data.fields[this.props.col.path];
-		if (value && Object.keys(value).length !== 0) {
-			return (
-				<td>
-					<div className="col-value">{value.path + '/' + value.filename}</div>
-				</td>
-			);
-		} else {
-			return (
-				<td>
-					<div className="col-value"></div>
-				</td>
-			);
-		}	
+		if (!value || !_.size(value)) return;
+
+		return value.path + '/' + value.filename
+	},
+
+	render: function() {
+		return (
+			<td>
+				<div className="col-value">{this.renderValue()}</div>
+			</td>
+		);	
 	}
 	
 });
