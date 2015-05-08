@@ -64,7 +64,7 @@
     "superagent": "^1.2.0",
     "underscore": "^1.8.3",
     "vkey": "^1.0.0",
-    "elemental": "0.0.3"
+    "elemental": "0.0.4"
   },
   "devDependencies": {
     "babel-eslint": "^3.0.1",
