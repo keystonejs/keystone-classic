@@ -51,7 +51,7 @@ var Header = React.createClass({
 			<ul className="item-breadcrumbs" key="drilldown">
 				<li>
 					<a href="javascript:;" title={'Search ' + this.props.list.plural} onClick={this.toggleSearch.bind(this, true)}>
-						<span className="ion-search"></span>
+						<span className="octicon octicon-search" />
 					</a>
 				</li>
 				{this.renderDrilldownItems()}
@@ -87,7 +87,7 @@ var Header = React.createClass({
 			
 		});
 		
-		var backIcon = (!els.length) ? <span className="mr-5 ion-arrow-left-c"></span> : '';
+		var backIcon = (!els.length) ? <span className="octicon octicon-arrow-left mr-5" /> : '';
 		
 		els.push(
 			<li key="back">
@@ -161,7 +161,7 @@ var Header = React.createClass({
 		return (
 			<li>
 				<a className="item-toolbar-create-button" href="javascript:;" onClick={this.toggleCreate.bind(this, true)}>
-					<span className="mr-5 ion-plus"></span>
+					<span className="octicon octicon-plus mr-5" />
 					New {this.props.list.singular}
 				</a>
 			</li>

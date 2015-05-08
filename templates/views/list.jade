@@ -152,7 +152,7 @@ block content
 							.dropdown-inline.list-filter-dropdown.js-recent-searches.hidden.mr-5
 								button(type='button', data-toggle='dropdown', title='Recent Filters').btn.btn-default.dropdown-toggle
 									span.sr-only Recent Filters
-									span.ion-clock
+									span.octicon.octicon-clock
 									|  
 									span.caret
 								ul.dropdown-menu
@@ -198,22 +198,22 @@ block content
 											li.dropdown-header= el.heading
 										else if el.type == 'field' && !el.field.nocol && !el.field.hidden
 											li: a(href=js, data-col=el.field.path).btn-toggle-column
-												span(class=_.contains(colPaths, el.field.path) ? 'ion-checkmark' : '').icon
+												span(class=_.contains(colPaths, el.field.path) ? 'octicon octicon-check' : '').icon
 												span= el.field.label
 									if list.tracking
 										li.divider
 											if list.tracking.createdAt
 												li: a(href=js, data-col=list.tracking.createdAt).btn-toggle-column
-													span(class=_.contains(colPaths, list.tracking.createdAt) ? 'ion-checkmark' : '').icon
+													span(class=_.contains(colPaths, list.tracking.createdAt) ? 'octicon octicon-check' : '').icon
 													span Date Created
 											if list.tracking.updatedAt
 												li: a(href=js, data-col=list.tracking.updatedAt).btn-toggle-column
-													span(class=_.contains(colPaths, list.tracking.updatedAt) ? 'ion-checkmark' : '').icon
+													span(class=_.contains(colPaths, list.tracking.updatedAt) ? 'octicon octicon-check' : '').icon
 													span Date Modified
 									if query.cols
 										li.divider
 										li: a(href=link_to({ cols: undefined }))
-											span.ion-close.icon
+											span.octicon.octicon-x.icon
 											span Reset to default
 			
 			
