@@ -7,12 +7,12 @@
 
 .md-editor {
 	display: block;
-	border: 1px solid @table-border-color;
+	border: 1px solid #ccc;
 
 	> .md-header, .md-footer {
 		display: block;
 		padding: 6px 4px;
-		background: @panel-default-heading-bg;
+		background: #222;
 	}
 
 	> .md-header {
@@ -20,9 +20,9 @@
 	}
 
 	> .md-preview {
-		background: @panel-bg;
-		border-top: 1px solid @table-border-color;
-		border-bottom: 1px solid @table-border-color;
+		background: white;
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
 		min-height: 10px;
 		overflow: auto;
 	}
@@ -37,19 +37,20 @@
 		padding: 0;
 		width: 100%;
 		border: 0;
-		border-top: 1px solid @table-border-color !important;
-		border-bottom: 1px solid @table-border-color !important;
+		border-top: 1px solid #ccc !important;
+		border-bottom: 1px solid #ccc !important;
 		border-radius: 0;
 		box-shadow: none;
-		background: @input-bg-disabled;
+		background: #f6f6f6;
+
 		&:focus {
 			box-shadow: none;
-			background: @input-bg;
+			background: white;
 		}
 	}
 
 	// Hover state
-	@color: @input-border-focus;
+	@color: @input-border-color-focus;
 	@color-rgba: rgba(red(@color), green(@color), blue(@color), .6);
 	&.active {
 		border-color: @color;

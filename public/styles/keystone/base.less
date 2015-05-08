@@ -29,16 +29,16 @@
 
 	// back arrow
 	.navbar-backtobrand-trigger {
-		.opacity(0);
 		.transition( opacity 160ms linear );
-		color: @navbar-default-link-color;
+		color: white;
 		left: @navbar-padding-horizontal * -2;
+		opacity: 0;
 		padding: @navbar-padding-vertical @navbar-padding-horizontal;
 		position: absolute;
 		text-decoration: none;
 
 		&:hover {
-			color: @navbar-default-link-hover-color;
+			color: white;
 		}
 	}
 	// show on hover
@@ -47,8 +47,8 @@
 	}
 	.navbar-backtobrand-message {
 		.transition( ~"opacity 200ms linear, visibility 200ms linear" );
-		background-color: @navbar-default-bg;
-		font-size: @font-size-large;
+		background-color: @app-primary;
+		font-size: @font-size-lg;
 		height: @navbar-height;
 		line-height: @navbar-height;
 		position: absolute;
@@ -181,7 +181,7 @@
 // Footer
 // --------------------------------------------------
 #footer {
-	font-size: @font-size-small;
+	font-size: @font-size-sm;
 	padding-top: 40px;
 	padding-bottom: 30px;
 	margin-top: 60px;

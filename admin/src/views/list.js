@@ -1,5 +1,6 @@
 var React = require('react');
 var CreateForm = require('../components/CreateForm');
+var Button = require('elemental').Button;
 
 var View = React.createClass({
 	
@@ -32,10 +33,10 @@ var View = React.createClass({
 		}
 		return (
 			<div className="toolbar">
-				<button type="button" className="btn btn-default btn-create btn-create-item" onClick={this.toggleCreate.bind(this, true)}>
+				<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
 					<span className="octicon octicon-plus mr-5 mr-5" />
 					Create {Keystone.list.singular}
-				</button>
+				</Button>
 			</div>
 		);
 	},

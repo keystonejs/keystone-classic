@@ -1,7 +1,8 @@
-var _ = require('underscore'),
-	React = require('react'),
-	Fields = require('../fields'),
-	InvalidFieldType = require('./InvalidFieldType');
+var _ = require('underscore');
+var React = require('react');
+var Fields = require('../fields');
+var InvalidFieldType = require('./InvalidFieldType');
+var Button = require('elemental').Button;
 
 var Form = React.createClass({
 	

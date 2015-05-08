@@ -60,7 +60,7 @@ h4 {
 
 // Create form header
 .create-item h4 {
-	color: @gray-light; //darken(@brand-success, 10%);
+	color: @gray-light; //darken(@app-success, 10%);
 }
 
 .alert h4 {
@@ -285,11 +285,11 @@ h4 {
 			left: 50%;
 		}
 		&:before {
-			border-top-color: @navbar-default-border;
+			border-top-color: #ccc;
 			bottom: -(@sectionnav-arrow-size + 1);
 		}
 		&:after {
-			border-top-color: @navbar-default-bg;
+			border-top-color: #eee;
 			bottom: -@sectionnav-arrow-size;
 		}
 	}
@@ -367,7 +367,7 @@ h4 {
 		> a,
 		> span {
 			border: 1px solid transparent;
-			border-radius: @border-radius-small;
+			border-radius: 3px;
 			color: @gray;
 			float: left; // Collapse white-space
 			line-height: 1.3;
@@ -422,7 +422,7 @@ h4 {
 // Heading 3
 h3.form-heading {
 	border-top: 1px dashed @gray-lighter;
-	color: @brand-primary;
+	color: @app-primary;
 	font-weight: 200;
 	margin-bottom: 20px;
 	margin-top: 30px;
@@ -436,7 +436,7 @@ h3.form-heading {
 
 // Heading 2
 h2.form-heading {
-	color: @brand-primary;
+	color: @app-primary;
 	font-weight: 200;
 	margin-bottom: 20px;
 	margin-top: 20px;
@@ -482,7 +482,7 @@ h3.relationship-heading {
 	&:focus {
 		@shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@link-color,50%);
 		.box-shadow( @shadow );
-		border-color: @input-border-focus lighten(@input-border-focus, 5%) lighten(@input-border-focus, 5%);
+		border-color: @input-border-color-focus lighten(@input-border-color-focus, 5%) lighten(@input-border-color-focus, 5%);
 	}
 }
 
@@ -492,7 +492,7 @@ h3.relationship-heading {
 .select2-container-multi.select2-container-active .select2-choices {
 	@shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@link-color,50%);
 	.box-shadow( @shadow );
-	border-color: @input-border-focus lighten(@input-border-focus, 5%) lighten(@input-border-focus, 5%);
+	border-color: @input-border-color-focus lighten(@input-border-color-focus, 5%) lighten(@input-border-color-focus, 5%);
 }
 
 // Add a little depth to select2 selected options
@@ -508,8 +508,8 @@ h3.relationship-heading {
 .item-name .form-control,
 // react
 .item-name-field .form-control {
-	.input-size(@input-height-large + 10; @padding-base-vertical; @padding-base-horizontal; ceil(@font-size-base * 1.70); @line-height-large; @input-border-radius);
-	// color: @brand-primary;
+	// .input-size(40px; @padding-base-vertical; @padding-base-horizontal; ceil(@font-size-base * 1.70); 40px; @border-radius-base);
+	// color: @app-primary;
 	font-weight: 200;
 	margin-bottom: 10px;
 }
@@ -552,51 +552,6 @@ h3.relationship-heading {
 }
 .checkbox {
 	max-width: @screen-xs;
-}
-
-
-// Buttons
-// --------------------------------------------------
-
-// Cancel buttons
-.btn-cancel,
-.btn-link.btn-cancel {
-	color: @gray-light;
-
-	&:hover {
-		color: @state-danger-text;
-	}
-}
-
-// wider buttons
-.btn.btn-create,
-.btn.btn-search,
-.btn.btn-save,
-.btn.btn-filter {
-	padding-left: @padding-large-horizontal;
-	padding-right: @padding-large-horizontal;
-}
-
-// Create buttons
-.btn.btn-create {
-	#gradient .vertical( lighten(@brand-success, 4%), darken(@brand-success, 4%), 0%, 100% );
-	border-color: lighten(@brand-success, 4%) @brand-success darken(@brand-success, 4%);
-	box-shadow: none;
-	color: white;
-
-	&:hover,
-	&:focus {
-		#gradient .vertical( lighten(@brand-success, 8%), @brand-success, 0%, 100% );
-		border-color: lighten(@brand-success, 8%) lighten(@brand-success, 4%) @brand-success;
-		box-shadow: none;
-	}
-
-	&:active,
-	&.active {
-		background: @brand-success;
-		border-color: darken(@brand-success, 8%) darken(@brand-success, 4%) @brand-success;
-		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
-	}
 }
 
 
@@ -649,7 +604,7 @@ h3.relationship-heading {
 
 	&:hover,
 	&:focus {
-		#gradient .vertical( lighten(@brand-danger, 4%), darken(@brand-danger, 4%), 0%, 100% );
+		#gradient .vertical( lighten(@app-danger, 4%), darken(@app-danger, 4%), 0%, 100% );
 		color: white;
 		text-decoration: none;
 	}
@@ -665,14 +620,14 @@ h3.relationship-heading {
 .breadcrumb {
 	margin-bottom: 0;
 	padding: 0;
-	font-size: @font-size-large;
+	font-size: @font-size-lg;
 	background-color: transparent;
 
 	> li {
 		display: inline-block;
 
 		span {
-			color: @breadcrumb-color;
+			color: #ccc;
 		}
 	}
 }
@@ -687,8 +642,8 @@ h3.relationship-heading {
 
 .items-list {
 	thead > tr > th {
-		border-bottom: 2px solid @table-border-color;
-		padding: @table-cell-padding;
+		border-bottom: 2px solid #ccc;
+		padding: 8px;
 		text-align: left;
 	}
 
@@ -761,7 +716,7 @@ table.relationships-list {
 	tbody > tr > th,
 	tfoot > tr > th {
 		color: @gray-light;
-		font-size: @font-size-small;
+		font-size: @font-size-sm;
 		text-transform: uppercase;
 	}
 }

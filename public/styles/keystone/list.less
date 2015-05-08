@@ -60,7 +60,7 @@
 	padding-bottom: 20px;
 
 	// force align with input fields
-	.btn { height: @input-height-base; }
+	// .btn { height: @input-height-base; }
 }
 .search-list {
 	float: left;
@@ -92,12 +92,12 @@
 		
 		&:hover,
 		&:focus {
-			color: @brand-danger;
+			color: @app-danger;
 			outline: 0 none;
 			text-decoration: none;
 		}
 		&:active {
-			color: darken(@brand-danger, 20%);
+			color: darken(@app-danger, 20%);
 		}
 	}
 
@@ -119,7 +119,7 @@
 .list-sort-dropdown {
 	
 	.caret {
-		border-width: @caret-width-large;
+		border-width: 8px;
 		border-bottom-width: 0;
 		border-top-color: @link-color;
 	}
@@ -199,7 +199,7 @@
 		}
 		
 		select {
-			font-size: @font-size-small;
+			font-size: @font-size-sm;
 			height: 22px;
 			width: 100%;
 		}
@@ -213,12 +213,12 @@
 		
 		&:hover,
 		&:focus {
-			color: @brand-danger;
+			color: @app-danger;
 			outline: 0 none;
 			text-decoration: none;
 		}
 		&:active {
-			color: darken(@brand-danger, 20%);
+			color: darken(@app-danger, 20%);
 		}
 	}
 	

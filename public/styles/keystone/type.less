@@ -14,15 +14,15 @@
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
 	// color: @headings-color;
-	font-family: @headings-font-family;
-	font-weight: @headings-font-weight;
-	line-height: @headings-line-height;
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1;
 	margin-top: 0;
 	margin-bottom: 0;
 
 	small,
 	.small {
-		color: @headings-small-color;
+		color: @gray-light;
 		font-size: 75%;
 		font-weight: normal;
 		line-height: 1;
@@ -116,7 +116,7 @@ cite    { font-style: normal; }
 
 // Contextual colors
 .text-muted {
-	color: @text-muted;
+	color: @gray-light;
 }
 
 .text-confirm {
@@ -126,13 +126,13 @@ cite    { font-style: normal; }
 	button&:focus,
 	a&:hover,
 	a&:focus {
-		color: @brand-danger;
+		color: @app-danger;
 	}
 }
 .page-header {
 	padding-bottom: ((@line-height-computed / 2) - 1);
 	margin: (@line-height-computed * 2) 0 @line-height-computed;
-	border-bottom: 1px solid @page-header-border-color;
+	border-bottom: 1px solid #ccc;
 }
 
 
@@ -173,22 +173,4 @@ ol {
 		padding-left: 5px;
 		padding-right: 5px;
 	}
-}
-
-
-
-
-// MISC
-// ------------------------------
-
-// Abbreviations and acronyms
-abbr[title],
-// Add data-* attribute to help out our tooltip plugin, per https://github.com/twbs/bootstrap/issues/5257
-abbr[data-original-title] {
-	border-bottom: 1px dotted @abbr-border-color;
-	cursor: help;
-}
-.initialism {
-	font-size: 90%;
-	text-transform: uppercase;
 }
