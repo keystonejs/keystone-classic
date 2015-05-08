@@ -3,12 +3,18 @@ var _ = require('underscore');
 
 var NameColumn = React.createClass({
 
-	render: function() {
+	renderValue: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value || !_.size(value)) return;
+
+		return <a href={'/keystone/users/'+ this.props.data.id}>{value.first + ' ' + value.last}</a>
+	},
+
+
+	render: function() {
 		return (
 			<td>
-				<div className="col-value"><a href={'/keystone/users/'+ this.props.data.id}>{value.first + ' ' + value.last}</a></div>
+				<div className="col-value">{this.renderValue()}</div>
 			</td>
 		);
 	}
