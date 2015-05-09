@@ -2,19 +2,20 @@ var React = require('react');
 
 var EmailColumn = React.createClass({
 
-	render: function() {
+
+	renderValue: function() {
 		var value = this.props.data.fields[this.props.col.path];
-		if (value) {
-			return (
-				<td>
-					<div className="col-value"><a href={'mailto:'+ {value}} target="_blank">{value}</a></div>
-				</td>
-			);
-		} else {
-			return (
-				<td></td>
-			);
-		}	
+		if (!value) return
+
+		return <a href={'mailto:'+ value} target="_blank">{value}</a>
+	},
+
+	render: function() {
+		return (
+			<td>
+				<div className="col-value">{this.renderValue()}</div>
+			</td>
+		);	
 	}
 	
 });
