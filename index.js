@@ -25,7 +25,7 @@ var moduleRoot = (function(_rootPath) {
  */
 var Keystone = function() {
 	grappling.mixin(this)
-		.allowHooks('pre:routes', 'pre:render', 'updates');
+		.allowHooks('pre:routes', 'pre:render', 'updates', 'signout');
 	this.lists = {};
 	this.paths = {};
 	this._options = {
