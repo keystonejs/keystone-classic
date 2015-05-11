@@ -1,10 +1,10 @@
-var _ = require('underscore'),
-	moment = require('moment'),
-	React = require('react'),
-	Fields = require('../fields'),
-	FormHeading = require('./FormHeading'),
-	Toolbar = require('./Toolbar'),
-	InvalidFieldType = require('./InvalidFieldType');
+var _ = require('underscore');
+var moment = require('moment');
+var React = require('react');
+var Fields = require('../fields');
+var FormHeading = require('./FormHeading');
+var Toolbar = require('./Toolbar');
+var InvalidFieldType = require('./InvalidFieldType');
 
 var EditForm = React.createClass({
 	
