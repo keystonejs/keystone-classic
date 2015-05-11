@@ -4,6 +4,8 @@ var evalDependsOn = require('../utils/evalDependsOn.js');
 var React = require('react');
 var Note = require('../components/Note');
 
+var FormField = require('elemental').FormField;
+
 function validateSpec(spec) {
 	if (!_.isObject(spec.supports)) {
 		spec.supports = {};
@@ -53,7 +55,7 @@ var Base = module.exports.Base = {
 	},
 	
 	renderField: function() {
-		return <input type="text" ref="focusTarget" name={this.props.path} placeholder={this.props.placeholder} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+		return <input type="text" ref="focusTarget" name={this.props.path} placeholder={this.props.placeholder} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="FormInput" />;
 	},
 	
 	renderValue: function() {
@@ -61,7 +63,7 @@ var Base = module.exports.Base = {
 	},
 	
 	renderUI: function(spec) {//eslint-disable-line no-unused-vars
-		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label });
+		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className);
 		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
 		return (
 			<div className={wrapperClassName}>
