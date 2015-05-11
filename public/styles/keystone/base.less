@@ -8,62 +8,6 @@
  * Designed and built with all the love in the world by @jedwatson
  */
 
-
-
-//
-// Header
-// --------------------------------------------------
-.navbar {
-	margin-bottom: 0;
-}
-#header {
-
-	.container {
-		position: relative;
-	}
-	// no longer relevant
-	// .navbar-headernav-hide {
-	// 	display: none !important;
-	// 	visbility: hidden !important;
-	// }
-
-	// back arrow
-	.navbar-backtobrand-trigger {
-		.transition( opacity 160ms linear );
-		color: white;
-		left: @navbar-padding-horizontal * -2;
-		opacity: 0;
-		padding: @navbar-padding-vertical @navbar-padding-horizontal;
-		position: absolute;
-		text-decoration: none;
-
-		&:hover {
-			color: white;
-		}
-	}
-	// show on hover
-	&:hover .navbar-backtobrand-trigger {
-		opacity: 1;
-	}
-	.navbar-backtobrand-message {
-		.transition( ~"opacity 200ms linear, visibility 200ms linear" );
-		background-color: @app-primary;
-		font-size: @font-size-lg;
-		height: @navbar-height;
-		line-height: @navbar-height;
-		position: absolute;
-		width: 100%;
-		z-index: @zindex-navbar;
-		opacity: 0;
-		visibility: hidden;
-
-		&.active {
-			opacity: 1;
-			visibility: visible;
-		}
-	}
-}
-
 //
 // Typography
 // --------------------------------------------------

@@ -140,20 +140,20 @@
 		&:before,
 		&:after {
 			.square(0);
-			border: @sectionnav-arrow-size solid transparent;
+			border: @secondary-navbar-arrow-size solid transparent;
 			border-bottom-width: 0;
 			content: "";
-			margin-left: -@sectionnav-arrow-size;
+			margin-left: -@secondary-navbar-arrow-size;
 			position: absolute;
 			left: 50%;
 		}
 		&:before {
 			border-top-color: #ccc;
-			bottom: -(@sectionnav-arrow-size + 1);
+			bottom: -(@secondary-navbar-arrow-size + 1);
 		}
 		&:after {
 			border-top-color: @secondary-navbar-bg;
-			bottom: -@sectionnav-arrow-size;
+			bottom: -@secondary-navbar-arrow-size;
 		}
 		&, &:hover {
 			background-color: @secondary-navbar-active-bg;
