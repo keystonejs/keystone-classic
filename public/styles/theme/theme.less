@@ -578,37 +578,6 @@ h3.relationship-heading {
 		color: darken(@link-color, 15%);
 	}
 }
-.btn.btn-save {
-	#gradient .vertical( lighten(@link-color, 4%), darken(@link-color, 4%), 0%, 100% );
-	border-color: lighten(@link-color, 4%) @link-color darken(@link-color, 4%);
-	box-shadow: none;
-	color: white;
-
-	&:hover,
-	&:focus {
-		#gradient .vertical( lighten(@link-color, 8%), @link-color, 0%, 100% );
-		border-color: lighten(@link-color, 8%) lighten(@link-color, 4%) @link-color;
-		box-shadow: none;
-	}
-
-	&:active,
-	&.active {
-		background: @link-color;
-		border-color: darken(@link-color, 8%) darken(@link-color, 4%) @link-color;
-		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
-	}
-}
-.toolbar > .delete {
-	border-radius: @border-radius-base;
-	float: right;
-
-	&:hover,
-	&:focus {
-		#gradient .vertical( lighten(@app-danger, 4%), darken(@app-danger, 4%), 0%, 100% );
-		color: white;
-		text-decoration: none;
-	}
-}
 
 
 
