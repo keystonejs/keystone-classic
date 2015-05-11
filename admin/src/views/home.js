@@ -80,7 +80,7 @@ var View = React.createClass({
 	render: function() {
 		return (
 			<div>
-				<div className="page-header"><h1>Manage</h1></div>
+				<div className="page-header"><h1>Dashboard</h1></div>
 				<div className="model-groups">
 					{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}
 				</div>

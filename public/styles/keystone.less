@@ -36,6 +36,30 @@
 @input-height-base: 24px;
 
 
+
+
+// Navbars
+// ------------------------------
+
+@primary-navbar-bg:                   @link-color;
+@primary-navbar-color:                white;
+@primary-navbar-padding-vertical:     .75em;
+@primary-navbar-padding-horizontal:   1.5em;
+@primary-navbar-hover-bg:             transparent;
+@primary-navbar-hover-color:          white;
+@primary-navbar-active-bg:            darken(@primary-navbar-bg, 6.5%);
+@primary-navbar-active-color:         white;
+
+@secondary-navbar-bg:                 #f6f6f6;
+@secondary-nav-border-color:          darken(@secondary-navbar-bg, 10%);
+@secondary-navbar-color:              #666;
+@secondary-navbar-hover-color:        lighten(@link-color, 10%);
+@secondary-navbar-padding-vertical:   .75em;
+@secondary-navbar-padding-horizontal: 1em;
+@secondary-navbar-active-bg:          transparent;
+@secondary-navbar-active-color:       @text-color;
+
+
 // Pagination
 // -------------------------
 
@@ -57,6 +81,7 @@
 @import "keystone/details.less";
 @import "keystone/forms.less";
 @import "keystone/mixins.less";
+@import "keystone/navigation.less";
 // @import "keystone/modal.less";
 @import "keystone/tables.less";
 @import "keystone/type.less";
