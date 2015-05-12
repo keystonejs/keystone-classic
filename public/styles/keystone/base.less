@@ -8,7 +8,6 @@
  * Designed and built with all the love in the world by @jedwatson
  */
 
-//
 // Typography
 // --------------------------------------------------
 .code {
@@ -18,7 +17,6 @@
 
 
 
-//
 // Model Lists
 // --------------------------------------------------
 
@@ -49,6 +47,8 @@
 
 // list
 
+@dashboard-list-bg: #f6f6f6; // move later
+
 /*ul*/.model-group__list {
 	&:extend(.clearfix all);
 	list-style: none;
@@ -62,21 +62,21 @@
 	}
 	
 	> li > a {
-		background-color: @app-primary;
+		background-color: @dashboard-list-bg;
 		border-radius: @border-radius-base;
-		color: rgba(255, 255, 255, 0.75);
+		color: @gray-light;
 		display: block;
 		height: 80px;
 		padding: 10px 15px;
 
 		&:hover,
 		&:focus {
-			background-color: lighten(@app-primary, 5%);
+			background-color: darken(@dashboard-list-bg, 2%);
 			text-decoration: none;
 		}
 
 		&:active {
-			background-color: darken(@app-primary, 5%);
+			background-color: darken(@dashboard-list-bg, 4%);
 		}
 	}
 
@@ -86,7 +86,7 @@
 }
 
 .model-group__list-label {
-	color: white;
+	color: @text-color;
 	font-size: 1.25em;
 	font-weight: 500;
 }
@@ -94,7 +94,6 @@
 
 
 
-//
 // Overrides
 // --------------------------------------------------
 .no-border {
@@ -105,7 +104,6 @@
 
 
 
-//
 // Body
 // --------------------------------------------------
 #body {
@@ -113,7 +111,6 @@
 }
 
 
-//
 // Home Page
 // --------------------------------------------------
 .keystone-lists h3 {
@@ -121,7 +118,6 @@
 }
 
 
-//
 // Footer
 // --------------------------------------------------
 #footer {
@@ -139,4 +135,14 @@
 	ul a {
 		color: @gray;
 	}
+}
+
+
+// View
+// --------------------------------------------------
+
+
+.view-loading-indicator {
+	padding: 40px 0;
+	text-align: center;
 }

@@ -56,7 +56,9 @@
 	clear: left;
 }
 .item-toolbar-create-button {
+	border: none;
 	color: @app-success;
+	padding: 0;
 
 	&:hover,
 	&:focus {
@@ -170,9 +172,6 @@
 // tablets, desktops and laptops
 
 @media (min-width: @screen-sm) {
-	.item-toolbar {
-		height: @input-height-base; // stop any jumping around when the form is revealed
-	}
 	.item-toolbar-info {
 		clear: none;
 		float: right;

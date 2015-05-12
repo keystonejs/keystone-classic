@@ -1,6 +1,11 @@
-var React = require('react/addons'),
-	ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
-	AltText = require('./AltText');
+var React = require('react/addons');
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var AltText = require('./AltText');
+
+var FormInput = require('elemental').FormInput;
+var FormIconField = require('elemental').FormIconField;
+var InputGroup = require('elemental').InputGroup;
+var Button = require('elemental').Button;
 
 var Header = React.createClass({
 	
@@ -87,7 +92,7 @@ var Header = React.createClass({
 			
 		});
 		
-		var backIcon = (!els.length) ? <span className="octicon octicon-arrow-left mr-5" /> : '';
+		var backIcon = (!els.length) ? <span className="octicon octicon-chevron-left mr-5" /> : '';
 		
 		els.push(
 			<li key="back">
@@ -105,12 +110,12 @@ var Header = React.createClass({
 	renderSearch: function() {
 		if (!this.state.searchIsVisible) return null;
 		var list = this.props.list;
-		var submitButtonClass = 'btn ' + (this.state.searchIsFocused ? 'btn-primary' : 'btn-default');
+		var submitButtonType = this.state.searchIsFocused ? 'primary' : 'default';
 		return (
 			<div className="searchbox" key="search">
 				<form action={'/keystone/' + list.path} className="form-inline searchbox-form">
-					<div className="searchbox-field">
-						<input
+					<FormIconField iconPosition="left" iconColor="default" iconKey="search" style={{ float: 'left', margin: 0, width: 240 }}>
+						<FormInput
 							ref="searchField"
 							type="search"
 							name="search"
@@ -118,14 +123,9 @@ var Header = React.createClass({
 							onChange={this.searchStringChanged}
 							onFocus={this.searchFocusChanged.bind(this, true)}
 							onBlur={this.searchFocusChanged.bind(this, false)}
-							placeholder={'Search ' + list.plural}
-							className="form-control searchbox-input"
-						/>
-					</div>
-					<div className="searchbox-button">
-						<button type="submit" className={submitButtonClass}>Search</button>
-					</div>
-					<button type="button" className="btn btn-link btn-cancel" onClick={this.toggleSearch.bind(this, false)}>Cancel</button>
+							placeholder={'Search ' + list.plural} />
+					</FormIconField>
+					<Button type="link-cancel" onClick={this.toggleSearch.bind(this, false)}>Cancel</Button>
 				</form>
 			</div>
 		);
@@ -160,10 +160,10 @@ var Header = React.createClass({
 		/* eslint-disable no-script-url */
 		return (
 			<li>
-				<a className="item-toolbar-create-button" href="javascript:;" onClick={this.toggleCreate.bind(this, true)}>
+				<Button type="link" onClick={this.toggleCreate.bind(this, true)} className="item-toolbar-create-button">
 					<span className="octicon octicon-plus mr-5" />
 					New {this.props.list.singular}
-				</a>
+				</Button>
 			</li>
 		);
 		/* eslint-enable */

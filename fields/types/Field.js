@@ -22,6 +22,12 @@ var Base = module.exports.Base = {
 		return {};
 	},
 	
+	getDefaultProps: function() {
+		return {
+			size: 'large'
+		};
+	},
+	
 	valueChanged: function(event) {
 		this.props.onChange({
 			path: this.props.path,

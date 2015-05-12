@@ -5,6 +5,8 @@ var CreateForm = require('../components/CreateForm');
 var EditForm = require('../components/EditForm');
 var Header = require('../components/ItemViewHeader');
 
+var Spinner = require('elemental').Spinner;
+
 var View = React.createClass({
 	
 	displayName: 'ItemView',
@@ -47,7 +49,7 @@ var View = React.createClass({
 	},
 	
 	render: function() {
-		if (!this.state.itemData) return <div />;
+		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner /></div>;
 		return (
 			<div>
 				{this.renderCreateForm()}

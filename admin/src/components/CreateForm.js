@@ -2,7 +2,9 @@ var _ = require('underscore');
 var React = require('react');
 var Fields = require('../fields');
 var InvalidFieldType = require('./InvalidFieldType');
+
 var Button = require('elemental').Button;
+var Modal  = require('elemental').Modal;
 
 var Form = React.createClass({
 	
@@ -119,29 +121,20 @@ var Form = React.createClass({
 		}, this);
 		
 		return (
-			<div>
-				<div className={modalClass}>
-					<div className="modal-dialog">
-						<form className="modal-content" encType="multipart/form-data" method="post" action={formAction}>
-							<input type="hidden" name="action" value="create" />
-							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
-							<div className="modal-header">
-								<button type="button" className="modal-close" onClick={this.props.onCancel}></button>
-								<div className="modal-title">Create a new {list.singular}</div>
-							</div>
-							<div className="modal-body">
-								{errors}
-								{form}
-							</div>
-							<div className="modal-footer">
-								<button type="submit" className="btn btn-create">Create</button>
-								<button type="button" className="btn btn-link btn-cancel" onClick={this.props.onCancel}>cancel</button>
-							</div>
-						</form>
+			<Modal isOpen onChange={this.props.onCancel} headerTitle={'Create a new ' + list.singular} headerHasCloseButton backdropClosesModal>
+				<form encType="multipart/form-data" method="post" action={formAction}>
+					<input type="hidden" name="action" value="create" />
+					<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
+					<div className="Modal-body">
+						{errors}
+						{form}
 					</div>
-				</div>
-				<div className="modal-backdrop"></div>
-			</div>
+					<div className="Modal-footer">
+						<Button type="success" submit>Create</Button>
+						<Button type="link-cancel" onClick={this.props.onCancel}>cancel</Button>
+					</div>
+				</form>
+			</Modal>
 		);
 	}
 	
