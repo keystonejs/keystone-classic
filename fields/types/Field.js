@@ -1,10 +1,13 @@
 var _ = require('underscore');
+var blacklist = require('blacklist');
 var cx = require('classnames');
 var evalDependsOn = require('../utils/evalDependsOn.js');
 var React = require('react');
 var Note = require('../components/Note');
 
 var FormField = require('elemental').FormField;
+var FormInput = require('elemental').FormInput;
+var Button = require('elemental').Button;
 
 function validateSpec(spec) {
 	if (!_.isObject(spec.supports)) {
@@ -24,6 +27,9 @@ var Base = module.exports.Base = {
 	
 	getDefaultProps: function() {
 		return {
+			inputProps: {},
+			labelProps: {},
+			valueProps: {},
 			size: 'large'
 		};
 	},
@@ -61,7 +67,13 @@ var Base = module.exports.Base = {
 	},
 	
 	renderField: function() {
-		return <input type="text" ref="focusTarget" name={this.props.path} placeholder={this.props.placeholder} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="FormInput" />;
+		var props = _.extend(this.props.inputProps, {
+			ref: 'focusTarget',
+			name: this.props.path,
+			onChange: this.valueChanged,
+			autoComplete: 'off'
+		});
+		return <FormInput {...props} />;
 	},
 	
 	renderValue: function() {
@@ -71,6 +83,7 @@ var Base = module.exports.Base = {
 	renderUI: function(spec) {//eslint-disable-line no-unused-vars
 		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className);
 		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
+		console.log(this.props.path + ': ' + fieldClassName);
 		return (
 			<div className={wrapperClassName}>
 				{this.renderLabel()}
@@ -108,20 +121,14 @@ var Mixins = module.exports.Mixins = {
 		},
 		
 		renderCollapse: function() {
-			if (!this.shouldRenderField()) {
-				return null;
-			}
-			/* eslint-disable no-script-url */
+			if (!this.shouldRenderField()) return null;
 			return (
 				<div className={'field field-type-' + this.props.type}>
 					<div className="col-sm-12">
-						<label className="uncollapse">
-							<a href="javascript:;" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</a>
-						</label>
+						<Button type="link" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
 					</div>
 				</div>
 			);
-			/* eslint-enable */
 		}
 	}
 };

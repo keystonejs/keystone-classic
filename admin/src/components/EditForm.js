@@ -53,9 +53,14 @@ var EditForm = React.createClass({
 		if (nameIsEditable) {
 			
 			var nameFieldProps = this.getFieldProps(nameField);
-			nameFieldProps.className = 'item-name-field';
-			nameFieldProps.placeholder = nameField.label;
+
 			nameFieldProps.label = false;
+			nameFieldProps.size = 'full';
+			nameFieldProps.inputProps = {
+				className: 'item-name-field',
+				placeholder: nameField.label,
+				size: 'lg'
+			};
 			
 			return wrapNameField(
 				React.createElement(Fields[nameField.type], nameFieldProps)
