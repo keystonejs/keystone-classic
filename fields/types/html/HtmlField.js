@@ -143,7 +143,7 @@ module.exports = Field.create({
 		};
 
 		if (this.shouldRenderField()) {
-			opts.uploadimage_form_url = '/keystone/api/cloudinary/upload';
+			opts.uploadimage_form_url = '/' + Keystone.adminUri + '/api/cloudinary/upload';
 		} else {
 			_.extend(opts, {
 				mode: 'textareas',
