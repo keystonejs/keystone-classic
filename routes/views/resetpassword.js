@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
 			return renderView();
 		}
 
-		keystone.user.attemptReset(req.body, function(err) {
+		keystone.user.attemptResetMail(req.body, function(err) {
 			if (err) {
 				req.flash('error', 'There was an error with your request, please try again.');
 			} else {
