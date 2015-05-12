@@ -8,7 +8,7 @@ var _ = require('underscore'),
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
 module.exports = Field.create({
-	
+
 	displayName: 'CloudinaryImageField',
 
 	fileFieldNode: function() {
@@ -196,7 +196,7 @@ module.exports = Field.create({
 
 	/**
 	 * Render an alert.
-	 * 
+	 *
 	 *  - On a local file, output a "to be uploaded" message.
 	 *  - On a cloudinary file, output a "from cloudinary" message.
 	 *  - On removal of existing file, output a "save to remove" message.
@@ -277,7 +277,7 @@ module.exports = Field.create({
 
 	renderImageSelect: function() {
 		var getOptions = function(input, callback) {
-			$.get('/keystone/api/cloudinary/autocomplete', {
+			$.get('/' + Keystone.adminUri + '/api/cloudinary/autocomplete', {
 				dataType: 'json',
 				data: {
 					q: input
@@ -341,10 +341,10 @@ module.exports = Field.create({
 		return (
 			<div className='field field-type-cloudinaryimage'>
 				<label className='field-label'>{this.props.label}</label>
-	
+
 				{this.renderFileField()}
 				{this.renderFileAction()}
-	
+
 				<div className={fieldClassName}>
 					<div className='image-container'>{container}</div>
 					{body}

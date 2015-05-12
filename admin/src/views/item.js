@@ -6,9 +6,9 @@ var EditForm = require('../components/EditForm');
 var Header = require('../components/ItemViewHeader');
 
 var View = React.createClass({
-	
+
 	displayName: 'ItemView',
-	
+
 	getInitialState: function() {
 		return {
 			createIsVisible: false,
@@ -19,7 +19,7 @@ var View = React.createClass({
 	},
 
 	componentDidMount: function() {
-		request.get('/keystone/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
+		request.get('/' + Keystone.adminUri + '/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
 			.set('Accept', 'application/json')
 			.end(function(err, res) {//eslint-disable-line no-unused-vars, handle-callback-err
 				if (!res.ok) {
@@ -30,22 +30,22 @@ var View = React.createClass({
 				}
 				this.setState({//eslint-disable-line react/no-did-mount-set-state
 					itemData: res.body.data,
-					itemDrilldown: res.body.drilldown 
+					itemDrilldown: res.body.drilldown
 				});
 			}.bind(this));
 	},
-	
+
 	toggleCreate: function(visible) {
 		this.setState({
 			createIsVisible: visible
 		});
 	},
-	
+
 	renderCreateForm: function() {
 		if (!this.state.createIsVisible) return null;
 		return <CreateForm list={Keystone.list} animate onCancel={this.toggleCreate.bind(this, false)} />;
 	},
-	
+
 	render: function() {
 		if (!this.state.itemData) return <div />;
 		return (
@@ -56,7 +56,7 @@ var View = React.createClass({
 			</div>
 		);
 	}
-	
+
 });
 
 React.render(<View itemId={Keystone.itemId} />, document.getElementById('item-view'));

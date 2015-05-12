@@ -4,25 +4,25 @@ include ../mixins/columns
 
 block css
 	if list.fieldTypes.code
-		link(rel='stylesheet', href='/keystone/js/lib/codemirror/codemirror.css')
+		link(rel='stylesheet', href='/#{adminUri}/js/lib/codemirror/codemirror.css')
 
 block js
 	script.
 		Keystone.list = !{JSON.stringify(list.getOptions())};
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 		Keystone.itemId = '!{item.id}';
-	script(src='/keystone/js/packages.js')
-	script(src='/keystone/js/item.js')
-		
+	script(src='/#{adminUri}/js/packages.js')
+	script(src='/#{adminUri}/js/item.js')
+
 block content
 	// Attach point for new React View
 	div#item-view
-	
+
 	if showRelationships
 		h2.relationship-heading.form-heading Relationships
 			each rel in relationships
 				if rel.items.results.length
-					h3.form-heading.relationship-heading: a(href='/keystone/' + rel.list.path)= (rel.label) ? rel.label : rel.list.label
+					h3.form-heading.relationship-heading: a(href='/#{adminUri}/' + rel.list.path)= (rel.label) ? rel.label : rel.list.label
 					if rel.note
 						.field-note= rel.note
 					- var firstColspan = 1

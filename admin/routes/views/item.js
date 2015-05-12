@@ -10,7 +10,7 @@ exports = module.exports = function(req, res) {
 
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');
-			return res.redirect('/keystone/' + req.list.path);
+			return res.redirect('/' + keystone.get('admin uri') + '/' + req.list.path);
 		}
 
 		var renderView = function() {
@@ -55,6 +55,7 @@ exports = module.exports = function(req, res) {
 				var appName = keystone.get('name') || 'Keystone';
 
 				keystone.render(req, res, 'item', {
+					adminUri: keystone.get('admin uri'),
 					section: keystone.nav.by.list[req.list.key] || {},
 					title: appName + ': ' + req.list.singular + ': ' + req.list.getDocumentName(item),
 					page: 'item',
@@ -81,7 +82,7 @@ exports = module.exports = function(req, res) {
 					return renderView();
 				}
 				req.flash('success', 'Your changes have been saved.');
-				return res.redirect('/keystone/' + req.list.path + '/' + item.id);
+				return res.redirect('/' + keystone.get('admin uri') + '/' + req.list.path + '/' + item.id);
 			});
 
 

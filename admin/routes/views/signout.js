@@ -10,7 +10,7 @@ exports = module.exports = function(req, res) {
 		} else if ('function' === typeof keystone.get('signout redirect')) {
 			return keystone.get('signout redirect')(req, res);
 		} else {
-			return res.redirect('/keystone');
+			return res.redirect('/' + keystone.get('admin uri'));
 		}
 
 		keystone.render(req, res, 'signout', {
