@@ -3,6 +3,7 @@ var React = require('react');
 var Fields = require('../fields');
 var InvalidFieldType = require('./InvalidFieldType');
 
+var Alert = require('elemental').Alert;
 var Button = require('elemental').Button;
 var Modal  = require('elemental').Modal;
 
@@ -83,10 +84,10 @@ var Form = React.createClass({
 				msgs[path] = <li>{err.message}</li>;
 			});
 			errors = (
-				<div className="alert alert-danger">
+				<Alert type="danger">
 					<h4>There was an error creating the new {list.singular}:</h4>
 					<ul>{msgs}</ul>
-				</div>
+				</Alert>
 			);
 		}
 		
