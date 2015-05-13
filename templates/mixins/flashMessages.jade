@@ -1,6 +1,6 @@
 mixin flash-messages(messages)
 	if messages
-		#flash-messages
+		#flash-messages.container
 			each message in messages.info
 				+flash-message(message, 'info')
 			each message in messages.success

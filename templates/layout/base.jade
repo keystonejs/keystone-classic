@@ -53,8 +53,7 @@ html
 									- path = '/keystone/' + navList.path
 									
 								li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
-			#body: .container
-				block intro
+			#body
 				+flash-messages(messages)
 				block content
 
