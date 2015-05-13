@@ -42,12 +42,14 @@
 	margin: 0 0 15px;
 	
 	.count {
-		.inline-align();
+		display: inline-block;
 		margin-right: 10px;
+		vertical-align: middle;
 	}
 	.pagination {
-		.inline-align();
+		display: inline-block;
 		margin: 0;
+		vertical-align: middle;
 	}
 }
 
@@ -109,7 +111,8 @@
 	
 }
 .searchbox-form {
-	.inline-align();
+	display: inline-block;
+	vertical-align: middle;
 }
 
 
@@ -186,7 +189,8 @@
 		padding: 5px 0 0 24px;
 	}
 	.filter-input {
-		.inline-align();
+		display: inline-block;
+		vertical-align: middle;
 		
 		&.filter-input-lg {
 			width: 300px;
@@ -231,9 +235,10 @@
 
 // icons that represent field types
 .fieldicon {
-	.inline-align();
 	.square( 16px );
 	background-repeat: no-repeat;
+	display: inline-block;
+	vertical-align: middle;
 	
 	&.fieldicon-text            { background-image: url( "/keystone/images/icons/16/field-text.png" ); }
 	&.fieldicon-textarea          { background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }

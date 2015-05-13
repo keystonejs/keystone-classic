@@ -132,8 +132,9 @@
 
 // align label copy with field text
 label {
-	.inline-align();
+	display: inline-block;
 	font-weight: normal; // bold's a bit intense
+	vertical-align: middle;
 }
 .field-label {
 	margin: 0;
@@ -183,16 +184,7 @@ label.checkbox {
 // columns separated fields
 // need space when the form collapses
 .form-row {
-	.col-spacing(0,0 5px);
 	.make-row(10px);
-	
-	@media (max-width: @screen-sm) {
-		.col-spacing(0 0 .8em,0 5px);
-	}
-}
-
-.input-xs {
-	// .input-size(22px; 1px; 5px; 12px; @line-height-small; @border-radius-small);
 }
 
 
