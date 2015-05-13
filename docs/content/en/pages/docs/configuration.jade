@@ -176,7 +176,7 @@ block content
 					td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>express.compress</code> middleware (<a href="http://expressjs.com/api.html#compress" target="_blank">see docs here</a>).
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
-					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether.
+					td Set this to include the <code>morgan</code> middleware. The value will be passed to the middleware initialisation (<a href="https://github.com/expressjs/morgan" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether. Defaults to <code class="default-value">:method :url :status :response-time ms</code>.
 
 				tr
 					td <code>trust proxy</code> <code class="data-type">Boolean</code>
