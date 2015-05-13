@@ -1,29 +1,11 @@
-/*!
- * Keystone JS
- *
- * Copyright 2013 Jed Watson
- * Licensed under the MIT License
- * http://opensource.org/licenses/MIT
- */
+//
+// Keystone's Variables
+// ==============================
 
 
 
-// Elemental
-// ------------------------------
 
-@import "../../node_modules/elemental/less/elemental.less";
-
-
-// KEYSTONE VARIABLES
 @line-height-computed:    floor(@font-size-base * @line-height-base); // ~20px
-
-@navbar-height:                    50px;
-@navbar-margin-bottom:             @line-height-computed;
-@navbar-border-radius:             @border-radius-base;
-@navbar-padding-horizontal:        floor((@grid-gutter-width / 2));
-@navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
-@navbar-collapse-max-height:       340px;
-@zindex-navbar:                    100;
 
 @padding-base-vertical:          6px;
 @padding-base-horizontal:        12px;
@@ -73,28 +55,3 @@
 @pagination-active-color:              @gray-light;
 
 @pagination-disabled-color:            @gray-light;
-
-
-// KEYSTONE SETUP
-@import "keystone/base.less";
-@import "keystone/forms.less";
-@import "keystone/navigation.less";
-@import "keystone/tables.less";
-@import "keystone/utils.less";
-
-@import "keystone/list.less";
-@import "keystone/item.less";
-
-// COMPONENTS
-@import "keystone/wysiwyg.less";
-@import "keystone/select2.less";
-
-// THEME SETUP
-// @import "theme/variables.less";
-@import "theme/theme.less";
-
-
-// REACT FIELDS
-@import "react/react.less";
-
-
