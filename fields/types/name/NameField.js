@@ -1,5 +1,9 @@
-var React = require('react'),
-	Field = require('../Field');
+var React = require('react');
+var Field = require('../Field');
+
+var FormField = require('elemental').FormField;
+var FormInput = require('elemental').FormInput;
+var FormRow = require('elemental').FormRow;
 
 module.exports = Field.create({
 	
@@ -31,14 +35,14 @@ module.exports = Field.create({
 	
 	renderField: function() {
 		return (
-			<div className="form-row">
-				<div className="col-sm-6">
-					<input type="text" name={this.props.paths.first} placeholder="First name" ref="first" value={this.props.value.first} onChange={this.valueChanged.bind(this, 'first')} autoComplete="off" className="FormInput" />
-				</div>
-				<div className="col-sm-6">
-					<input type="text" name={this.props.paths.last} placeholder="Last name" ref="last" value={this.props.value.last} onChange={this.valueChanged.bind(this, 'last')} autoComplete="off" className="FormInput" />
-				</div>
-			</div>
+			<FormRow>
+				<FormField width="one-half">
+					<FormInput name={this.props.paths.first} placeholder="First name" ref="first" value={this.props.value.first} onChange={this.valueChanged.bind(this, 'first')} autoComplete="off" />
+				</FormField>
+				<FormField width="one-half">
+					<FormInput name={this.props.paths.last} placeholder="Last name" ref="last" value={this.props.value.last} onChange={this.valueChanged.bind(this, 'last')} autoComplete="off" />
+				</FormField>
+			</FormRow>
 		);
 	}
 	
