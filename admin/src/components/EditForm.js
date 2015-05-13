@@ -7,6 +7,7 @@ var Toolbar = require('./Toolbar');
 var InvalidFieldType = require('./InvalidFieldType');
 
 var Button = require('elemental').Button;
+var FormField = require('elemental').FormField;
 
 var EditForm = React.createClass({
 	
@@ -42,11 +43,9 @@ var EditForm = React.createClass({
 		
 		function wrapNameField(field) {
 			return (
-				<div className="field item-name">
-					<div className="col-sm-12">
-						{field}
-					</div>
-				</div>
+				<FormField className="item-name">
+					{field}
+				</FormField>
 			);
 		}
 		
@@ -206,8 +205,8 @@ var EditForm = React.createClass({
 			<form method="post" encType="multipart/form-data" className="item-details horizontal-form">
 				<input type="hidden" name="action" value="updateItem" />
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
-				{this.renderNameField()}
 				{this.renderTrackingMeta()}
+				{this.renderNameField()}
 				{this.renderFormElements()}
 				{this.renderToolbar()}
 			</form>

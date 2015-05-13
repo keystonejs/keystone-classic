@@ -98,10 +98,12 @@
 	font-size: @font-size-base;
 	font-weight: normal;
 }
-.form-field--secondary > .form-label {
-	color: @gray-light;
-	font-size: .85em;
-	padding-left: 2em;
+@media (min-width: @screen-sm) {
+	.form-field--secondary > .form-label {
+		color: @gray-light;
+		font-size: .85em;
+		padding-left: 2em;
+	}
 }
 
 
@@ -224,6 +226,10 @@ label.checkbox {
 .field-reveal-trigger {
 	padding-left: 0;
 	padding-right: 0;
+
+	// stop things jumping around
+	// TODO: find out why this is necessary 
+	margin-bottom: 1px; 
 }
 
 // Locations
