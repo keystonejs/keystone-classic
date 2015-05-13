@@ -76,7 +76,7 @@ exports = module.exports = function(req, res) {
 		query.exec(function(err, items) {
 			
 			if (err) {
-				console.log(err);
+				console.error(err);
 				return res.status(500).send('Error querying items:<br><br>' + JSON.stringify(err));
 			}
 			
@@ -158,8 +158,8 @@ exports = module.exports = function(req, res) {
 			}
 			req.list.updateAll(data, function(err) {
 				if (err) {
-					console.log('Error updating all ' + req.list.plural);
-					console.log(err);
+					console.warn('Error updating all ' + req.list.plural);
+					console.error(err);
 					req.flash('error', 'There was an error updating all ' + req.list.plural + ' (logged to console)');
 				} else {
 					req.flash('success', 'All ' + req.list.plural + ' updated successfully.');
@@ -182,8 +182,8 @@ exports = module.exports = function(req, res) {
 			
 			item.remove(function (err) {
 				if (err) {
-					console.log('Error deleting ' + req.list.singular);
-					console.log(err);
+					console.warn('Error deleting ' + req.list.singular);
+					console.error(err);
 					req.flash('error', 'Error deleting the ' + req.list.singular + ': ' + err.message);
 				} else {
 					req.flash('success', req.list.singular + ' deleted successfully.');
@@ -203,7 +203,7 @@ exports = module.exports = function(req, res) {
 			
 			if (err) {
 				console.log('There was an error creating the new ' + req.list.singular + ':');
-				console.log(err);
+				console.error(err);
 				req.flash('error', 'There was an error creating the new ' + req.list.singular + '.');
 				renderView();
 			} else {

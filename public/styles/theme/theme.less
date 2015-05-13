@@ -2,72 +2,6 @@
 // THEME
 // --------------------------------------------------
 
-// Reset keystone navbar basics
-@navbar-keystone-bg:                         @link-color;// #004a80;
-@navbar-keystone-color:                      mix(white,@navbar-keystone-bg,50%);
-@navbar-keystone-border:                     darken(@navbar-keystone-bg, 10%);
-
-// Keystone navbar links
-@navbar-keystone-link-color:                 mix(white,@navbar-keystone-bg,60%);
-@navbar-keystone-link-hover-color:           #fff;
-@navbar-keystone-link-hover-bg:              lighten(@navbar-keystone-bg, 3.5%);
-@navbar-keystone-link-active-color:          @navbar-keystone-link-hover-color;
-@navbar-keystone-link-active-bg:             darken(@navbar-keystone-bg, 3.5%);
-@navbar-keystone-link-disabled-color:        #444;
-@navbar-keystone-link-disabled-bg:           transparent;
-
-// Keystone navbar brand label
-@navbar-keystone-brand-color:                mix(white,@navbar-keystone-link-color,50%);
-@navbar-keystone-brand-hover-color:          #fff;
-@navbar-keystone-brand-hover-bg:             transparent;
-
-// Keystone navbar search
-@navbar-keystone-search-bg:                  lighten(@navbar-keystone-bg, 25%);
-@navbar-keystone-search-bg-focus:            #fff;
-@navbar-keystone-search-border:              darken(@navbar-keystone-bg, 10%);
-@navbar-keystone-search-placeholder-color:   #ccc;
-
-// Keystone navbar toggle
-@navbar-keystone-toggle-hover-bg:            mix(white, @navbar-keystone-bg, 25%);
-@navbar-keystone-toggle-icon-bar-bg:         #fff;
-@navbar-keystone-toggle-border-color:        transparent;
-
-
-
-
-//
-// Resets
-// --------------------------------------------------
-
-abbr, .disabled, .disabled a {
-	cursor: default !important;
-}
-
-
-//
-// Typography
-// --------------------------------------------------
-h3 {
-	font-weight: normal;
-}
-
-h4 {
-	text-transform: uppercase;
-	font-size: @font-size-base;
-	color: @gray-light;
-	margin-bottom: 10px;
-}
-
-// Create form header
-.create-item h4 {
-	color: @gray-light; //darken(@app-success, 10%);
-}
-
-.alert h4 {
-	color: inherit;
-	text-transform: none;
-}
-
 
 
 
@@ -192,54 +126,11 @@ h4 {
 // Forms
 // --------------------------------------------------
 
-// Heading 3
-h3.form-heading {
-	border-top: 1px dashed @gray-lighter;
-	// color: @app-primary;
-	font-weight: 200;
-	margin-bottom: 20px;
-	margin-top: 30px;
-	padding-top: 30px;
-	position: relative;
-}
-.item-name+h3.form-heading {
-	margin-top: 10px;
-	padding-top: 20px;
-}
 
-// Heading 2
-h2.form-heading {
-	// color: @app-primary;
-	font-weight: 200;
-	margin-bottom: 20px;
-	margin-top: 20px;
-	position: relative;
+// Headings
 
-
-	/**
-		Diagonal Stripes
-		==============================
-		Courtesy of http://svgeneration.com/generate/Diagonal-Stripes
-	**/
-	&.relationship-heading {
-		padding-top: 40px;
-		&:before {
-			.size( 100%,8px );
-			background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0NScgaGVpZ2h0PSc5MCcgdmlld0JveD0nMCAwIDUgMTAnPgoJPHJlY3Qgd2lkdGg9JzExMCUnIHg9Jy01JScgeT0nLTUlJyBoZWlnaHQ9JzExMCUnIGZpbGw9JyNmZmZmZmYnLz4KCTxsaW5lIHgxPSctMicgeTE9JzEnIHgyPSc3JyB5Mj0nMTAnIHN0cm9rZT0nI2Y2ZjZmNicgc3Ryb2tlLXdpZHRoPScxLjc1Jy8+Cgk8bGluZSB4MT0nLTInIHkxPSc2JyB4Mj0nNycgeTI9JzE1JyBzdHJva2U9JyNmNmY2ZjYnIHN0cm9rZS13aWR0aD0nMS43NScvPgoJPGxpbmUgeDE9Jy0yJyB5MT0nLTQnIHgyPSc3JyB5Mj0nNScgc3Ryb2tlPScjZjZmNmY2JyBzdHJva2Utd2lkdGg9JzEuNzUnLz4KPC9zdmc+');
-			content: " ";
-			position: absolute;
-			top: 0;
-		}
-	}
-}
-h3.relationship-heading,
-h2.form-heading + h3.form-heading {
-	border-top: 0 none;
-	padding-top: 0;
-	margin-top: 30px;
-}
-h3.relationship-heading {
-	margin-top: 50px;
+.form-heading {
+	margin-top: 3em;
 }
 
 // Common fields
@@ -392,7 +283,7 @@ h3.relationship-heading {
 	thead > tr > td,
 	tbody > tr > td,
 	tfoot > tr > td {
-		background-color: white;
+		// background-color: white;
 		border-top: 1px solid #e5e5e5;
 		line-height: 1;
 		height: 2.5em; // behaves like min-height on table cells
