@@ -11,7 +11,7 @@ var ICON_EXTS = [
 ];
 
 var Item = React.createClass({
-	
+
 	render: function () {
 		var filename = this.props.filename;
 		var ext = filename.split('.').pop();
@@ -21,7 +21,7 @@ var Item = React.createClass({
 
 		var body = [];
 
-		body.push(<img className='file-icon' src={'/keystone/images/icons/32/' + iconName + '.png'} />);
+		body.push(<img className='file-icon' src={'/' + Keystone.adminUri + '/images/icons/32/' + iconName + '.png'} />);
 		body.push(<span className='file-filename'>{filename}</span>);
 
 		if (this.props.size) {
@@ -44,7 +44,7 @@ var Item = React.createClass({
 
 		return <div className={itemClassName} key={this.props.key}>{body}</div>;
 	}
-	
+
 });
 
 module.exports = Field.create({
@@ -150,7 +150,7 @@ module.exports = Field.create({
 	},
 
 	renderContainer: function () {
-		return ( 
+		return (
 			<div className='files-container clearfix'>
 				{this.state.items}
 			</div>

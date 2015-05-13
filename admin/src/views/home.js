@@ -1,12 +1,12 @@
 var React = require('react');
 
 var View = React.createClass({
-	
+
 	displayName: 'HomeView',
-	
+
 	renderFlatNav: function() {
 		return Keystone.lists.map((list) => {
-			var href = list.external ? list.path : '/keystone/' + list.path;
+			var href = list.external ? list.path : '/' + Keystone.adminUri + '/' + list.path;
 			return (
 				<h3 key={list.path}>
 					<a href={href}>{list.label}</a>
@@ -24,7 +24,7 @@ var View = React.createClass({
 							<h4>{navSection.label}</h4>
 							<ul>
 								{navSection.lists.map((list) => {
-									var href = list.external ? list.path : '/keystone/' + list.path;
+									var href = list.external ? list.path : '/' + Keystone.adminUri + '/' + list.path;
 									return (
 										<li key={list.path}><a href={href}>{list.label}</a></li>
 									);
@@ -42,7 +42,7 @@ var View = React.createClass({
 								{Keystone.orphanedLists.map((list) => {
 									return (
 										<li key={list.path}>
-											<a href={'/keystone/' + list.path}>{list.label}</a>
+											<a href={'/' + Keystone.adminUri + '/' + list.path}>{list.label}</a>
 										</li>
 									);
 								})}
@@ -62,7 +62,7 @@ var View = React.createClass({
 			</div>
 		);
 	}
-	
+
 });
 
 React.render(<View />, document.getElementById('home-view'));

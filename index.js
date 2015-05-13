@@ -31,6 +31,7 @@ var Keystone = function() {
 	this._options = {
 		'name': 'Keystone',
 		'brand': 'Keystone',
+		'admin uri': 'keystone',
 		'compress': true,
 		'headless': false,
 		'logger': ':method :url :status :response-time ms',
@@ -117,19 +118,17 @@ Keystone.prototype.mount = require('./lib/core/mount');
 Keystone.prototype.populateRelated = require('./lib/core/populateRelated');
 Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.render = require('./lib/core/render');
-Keystone.prototype.routes = require('./lib/core/routes');
+// Keystone.prototype.routes = require('./lib/core/routes');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
 /* Expose Admin UI App */
-Keystone.prototype.adminApp = {
-	staticRouter: require('./admin/app/static')
-};
+Keystone.prototype.adminApp = require('./admin');
 
 /* Legacy Attach Mechanisms */
-Keystone.prototype.static = function(app) {
+Keystone.prototype.static = function() {
 	if (!this.get('headless')) {
-		app.use('/keystone', Keystone.prototype.adminApp.staticRouter);
+		this.app.use('/' + this.get('admin uri'), Keystone.prototype.adminApp(this));
 	}
 }
 

@@ -4,9 +4,9 @@ include ../mixins/rows
 include ../mixins/pagination
 
 block js
-	script(src='/keystone/js/views/list.js')
-	script(src='/keystone/js/lib/browserified/querystring.js')
-	script(src='/keystone/js/lib/browserified/queryfilter.js')
+	script(src='/#{adminUri}/js/views/list.js')
+	script(src='/#{adminUri}/js/lib/browserified/querystring.js')
+	script(src='/#{adminUri}/js/lib/browserified/queryfilter.js')
 	script.
 		Keystone.list = !{JSON.stringify(list.getOptions())};
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
@@ -25,8 +25,8 @@ block js
 		Keystone.sort = '#{sort.by}';
 		Keystone.query = '#{query}';
 		Keystone.csrf_query = '!{csrf_query}';
-	script(src='/keystone/js/packages.js')
-	script(src='/keystone/js/list.js')
+	script(src='/#{adminUri}/js/packages.js')
+	script(src='/#{adminUri}/js/list.js')
 			
 block content
 	//- New React View
@@ -161,7 +161,7 @@ block content
 								.searchbox-field
 									input(type='search', name='search', placeholder='Search #{list.plural.toLowerCase()}', value=search).form-control.js-search-list.searchbox-input
 									if search
-										a(href='/keystone/#{list.path}', title='Clear search').search-list-clear &times;
+										a(href='/#{adminUri}/#{list.path}', title='Clear search').search-list-clear &times;
 								.searchbox-button: button(type='submit').btn.btn-default.btn-search.searchbox-submit
 									span.visible-xs Go
 									span.hidden-xs Search
@@ -374,7 +374,7 @@ block content
 								
 				.list-filters-action
 					button(type='submit').btn.btn-default.btn-filter Search
-					a(href='/keystone/#{list.path}').btn.btn-link.btn-cancel clear filters
+					a(href='/#{adminUri}/#{list.path}').btn.btn-link.btn-cancel clear filters
 			
 	if items.results.length
 		//-

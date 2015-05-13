@@ -31,7 +31,7 @@ module.exports = Field.create({
 			);
 		} else {
 			var state = this.props.value ? 'checked' : 'unchecked';
-			var imgSrc = '/keystone/images/icons/16/checkbox-' + state + '.png';
+			var imgSrc = '/' + Keystone.adminUri + '/images/icons/16/checkbox-' + state + '.png';
 			input = (
 				<div className={fieldClassName}>
 					<img src={imgSrc} width='16' height='16' className={state} style={{marginRight: 5}} />
