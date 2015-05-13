@@ -19,7 +19,8 @@ router.use('/js', browserify(__dirname + '../../../admin/src/views', {
 	external: packages,
 	transform: [babelify.configure({
 		ignore: ['**/bootstrap-markdown.js'],
-		plugins: [require('babel-plugin-object-assign')]
+		plugins: [require('babel-plugin-object-assign')],
+		compact: false
 	})]
 }));
 
