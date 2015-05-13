@@ -203,7 +203,7 @@ var EditForm = React.createClass({
 	render: function() {
 		
 		return (
-			<form method="post" encType="multipart/form-data" className="item-details">
+			<form method="post" encType="multipart/form-data" className="item-details horizontal-form">
 				<input type="hidden" name="action" value="updateItem" />
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				{this.renderNameField()}

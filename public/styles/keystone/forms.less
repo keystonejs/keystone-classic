@@ -21,7 +21,6 @@
 
 // Adding vertical spacing between form elements
 .field,
-.form-indent,
 .field-ui .row,
 #signin-form .row {
 	margin-top: @input-vspacing;
@@ -50,9 +49,22 @@
 	}
 }
 
-// Indentation
-.form-indent {
-	margin-left: 20px;
+
+
+
+// Manage Field Widths
+// ------------------------------
+
+.keystone-form-group {
+	@media (min-width: @screen-sm) {
+		padding-right: 100px;
+	}
+	@media (min-width: @screen-md) {
+		padding-right: 200px;
+	}
+	@media (min-width: @screen-lg) {
+		padding-right: 300px;
+	}
 }
 
 
@@ -72,6 +84,25 @@
 	width: 100%;
 }
 
+
+// field indentation - usually on checkboxes
+
+.field-indented {
+	margin-left: @form-label-width;
+}
+
+
+// form label
+
+.form-label {
+	font-size: @font-size-base;
+	font-weight: normal;
+}
+.form-field--secondary > .form-label {
+	color: @gray-light;
+	font-size: .85em;
+	padding-left: 2em;
+}
 
 
 
@@ -181,59 +212,18 @@ label.checkbox {
 	}
 }
 
-// columns separated fields
-// need space when the form collapses
-.form-row {
-	.make-row(10px);
-}
-
-
-
-
-// Field Sizes
-// ------------------------------
-
-.field {
-	.make-row();
-}
-.field-label {
-	.make-sm-column(2);
-}
-// default + large
-.field-size-large {
-	.make-sm-column(10);
-	.make-md-column(7);
-	.make-lg-column(6);
-}
-.field-size-medium {
-	.make-sm-column(5);
-	.make-md-column(4);
-}
-.field-size-small {
-	.make-sm-column(3);
-	.make-md-column(2);
-}
-.field-size-full {
-	.make-sm-column(9);
-	.make-md-column(10);
-}
-
 
 
 
 // Field Types
 // ------------------------------
 
-// Booleans
-.field-type-boolean {
-	.field-ui {
-		.make-sm-column(9);
-		.make-md-column(10);
-		
-		&.field-indented {
-			.make-sm-column-offset(2);
-		}
-	}
+
+// Reveal Trigger
+
+.field-reveal-trigger {
+	padding-left: 0;
+	padding-right: 0;
 }
 
 // Locations

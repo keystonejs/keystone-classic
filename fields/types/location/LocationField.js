@@ -3,10 +3,16 @@
  * - Custom path support
  */
 
-var _ = require('underscore'),
-	React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note');
+var React = require('react');
+var _ = require('underscore');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+
+var Button = require('elemental').Button;
+var FormField = require('elemental').FormField;
+var FormInput = require('elemental').FormInput;
+var FormLabel = require('elemental').FormLabel;
+var FormRow = require('elemental').FormRow;
 
 module.exports = Field.create({
 	
@@ -97,33 +103,40 @@ module.exports = Field.create({
 		}
 		
 		return (
-			<div className="row">
-				<div className="col-sm-2 location-field-label">
-					<label className="text-muted">{label}</label>
-				</div>
-				<div className="col-sm-10 col-md-7 col-lg-6 location-field-controls">
-					<input type="text" name={this.props.path + '.' + path} ref={path} value={this.props.value[path]} onChange={this.fieldChanged.bind(this, path)} className="FormInput" />
-				</div>
-			</div>
+			<FormField label={label} className="form-field--secondary" htmlFor={this.props.path + '.' + path}>
+				<FormInput name={this.props.path + '.' + path} ref={path} value={this.props.value[path]} onChange={this.fieldChanged.bind(this, path)} placeholder={label} />
+			</FormField>
 		);
 		
 	},
 	
-	renderStateAndPostcode: function() {
+	renderSuburbState: function() {
 		return (
-			<div className="row">
-				<div className="col-sm-2 location-field-label">
-					<label className="text-muted">State/Postcode</label>
-				</div>
-				<div className="col-sm-10 col-md-7 col-lg-6 location-field-controls"><div className="form-row">
-					<div className="col-xs-6">
-						<input type="text" name={this.props.path + '.state'} ref="state" value={this.props.value.state} onChange={this.fieldChanged.bind(this, 'state')} className="FormInput" placeholder="State" />
-					</div>
-					<div className="col-xs-6">
-						<input type="text" name={this.props.path + '.postcode'} ref="postcode" value={this.props.value.postcode} onChange={this.fieldChanged.bind(this, 'postcode')} className="FormInput" placeholder="Postcode" />
-					</div>
-				</div></div>
-			</div>
+			<FormField label="Suburb/State" className="form-field--secondary" htmlFor={this.props.path + '.suburb'}>
+				<FormRow>
+					<FormField width="two-thirds" className="form-field--secondary">
+						<FormInput name={this.props.path + '.suburb'} ref="suburb" value={this.props.value.suburb} onChange={this.fieldChanged.bind(this, 'suburb')} placeholder="Suburb" />
+					</FormField>
+					<FormField width="one-third" className="form-field--secondary">
+						<FormInput name={this.props.path + '.state'} ref="state" value={this.props.value.state} onChange={this.fieldChanged.bind(this, 'state')} placeholder="State" />
+					</FormField>
+				</FormRow>
+			</FormField>
+		);
+	},
+	
+	renderPostcodeCountry: function() {
+		return (
+			<FormField label="Postcode/Country" className="form-field--secondary" htmlFor={this.props.path + '.postcode'}>
+				<FormRow>
+					<FormField width="one-third" className="form-field--secondary">
+						<FormInput name={this.props.path + '.postcode'} ref="postcode" value={this.props.value.postcode} onChange={this.fieldChanged.bind(this, 'postcode')} placeholder="Post Code" />
+					</FormField>
+					<FormField width="two-thirds" className="form-field--secondary">
+						<FormInput name={this.props.path + '.country'} ref="country" value={this.props.value.country} onChange={this.fieldChanged.bind(this, 'country')} placeholder="Country" />
+					</FormField>
+				</FormRow>
+			</FormField>
 		);
 	},
 	
@@ -134,19 +147,16 @@ module.exports = Field.create({
 		}
 		
 		return (
-			<div className="row">
-				<div className="col-sm-2 location-field-label">
-					<label className="text-muted">Lat / Lng</label>
-				</div>
-				<div className="col-sm-10 col-md-7 col-lg-6 location-field-controls"><div className="form-row">
-					<div className="col-xs-6">
-						<input type="text" name={this.props.paths.geo} ref="geo1" value={this.props.value.geo ? this.props.value.geo[1] : ''} onChange={this.geoChanged.bind(this, 1)} placeholder="Latitude" className="FormInput" />
-					</div>
-					<div className="col-xs-6">
-						<input type="text" name={this.props.paths.geo} ref="geo0" value={this.props.value.geo ? this.props.value.geo[0] : ''} onChange={this.geoChanged.bind(this, 0)} placeholder="Longitude" className="FormInput" />
-					</div>
-				</div></div>
-			</div>
+			<FormField label="Lat/Lng" className="form-field--secondary" htmlFor={this.props.paths.geo}>
+				<FormRow>
+					<FormField width="one-half" className="form-field--secondary">
+						<FormInput name={this.props.paths.geo} ref="geo1" value={this.props.value.geo ? this.props.value.geo[1] : ''} onChange={this.geoChanged.bind(this, 1)} placeholder="Latitude" />
+					</FormField>
+					<FormField width="one-half" className="form-field--secondary">
+						<FormInput name={this.props.paths.geo} ref="geo0" value={this.props.value.geo ? this.props.value.geo[0] : ''} onChange={this.geoChanged.bind(this, 0)} placeholder="Longitude" />
+					</FormField>
+				</FormRow>
+			</FormField>
 		);
 		
 	},
@@ -182,37 +192,34 @@ module.exports = Field.create({
 		
 		if (!this.shouldRenderField()) {
 			return (
-				<div className="field field-type-location">
-					<label className="field-label">{this.props.label}</label>
-					<div className="field-ui noedit">
+				<FormField label={this.props.label} className="form-field--secondary">
+					<div className="noedit">
 						{this.renderValue()}
 					</div>
-				</div>
+				</FormField>
 			);
 		}
 		
 		/* eslint-disable no-script-url */
 		var showMore = !_.isEmpty(this.state.collapsedFields)
-			? <a href="javascript:;" className="field-label-companion" onClick={this.uncollapseFields}>(show more fields)</a>
+			? <Button type="link" className="field-reveal-trigger" onClick={this.uncollapseFields}>(show more fields)</Button>
 			: null;
 		/* eslint-enable */
 		
-		return ( 
-			<div className="field field-type-location">
-				<div className="field-ui">
-					<label>{this.props.label}</label>
+		return (
+			<div className="keystone-form-group">
+				<FormField label={this.props.label}>
 					{showMore}
-					{this.renderField('number', 'PO Box / Shop', true)}
-					{this.renderField('name', 'Building Name', true)}
-					{this.renderField('street1', 'Street Address')}
-					{this.renderField('street2', 'Street Address 2', true)}
-					{this.renderField('suburb', 'Suburb')}
-					{this.renderStateAndPostcode()}
-					{this.renderField('country', 'Country')}
-					{this.renderGeo()}
-					{this.renderGoogleOptions()}
-					<Note note={this.props.note} />
-				</div>
+				</FormField>
+				{this.renderField('number', 'PO Box / Shop', true)}
+				{this.renderField('name', 'Building Name', true)}
+				{this.renderField('street1', 'Street Address')}
+				{this.renderField('street2', 'Street Address 2', true)}
+				{this.renderSuburbState()}
+				{this.renderPostcodeCountry()}
+				{this.renderGeo()}
+				{this.renderGoogleOptions()}
+				<Note note={this.props.note} />
 			</div>
 		);
 		

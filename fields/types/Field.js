@@ -81,15 +81,14 @@ var Base = module.exports.Base = {
 	},
 	
 	renderUI: function(spec) {//eslint-disable-line no-unused-vars
-		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className);
+		var wrapperClassName = cx(('field-type-' + this.props.type), this.props.className);
 		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
 		return (
-			<div className={wrapperClassName}>
-				{this.renderLabel()}
-				<div className={fieldClassName}>
+			<div className="keystone-form-group">
+				<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
 					{this.shouldRenderField() ? this.renderField() : this.renderValue()}
 					{this.renderNote()}
-				</div>
+				</FormField>
 			</div>
 		);
 		
@@ -122,10 +121,10 @@ var Mixins = module.exports.Mixins = {
 		renderCollapse: function() {
 			if (!this.shouldRenderField()) return null;
 			return (
-				<div className={'field field-type-' + this.props.type}>
-					<div className="col-sm-12">
-						<Button type="link" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
-					</div>
+				<div className="keystone-form-group">
+					<FormField>
+						<Button type="link" className="field-reveal-trigger" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
+					</FormField>
 				</div>
 			);
 		}
