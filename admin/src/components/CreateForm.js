@@ -126,14 +126,14 @@ var Form = React.createClass({
 				<form encType="multipart/form-data" method="post" action={formAction}>
 					<input type="hidden" name="action" value="create" />
 					<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
-					<div className="Modal-body">
+					<Modal.Body>
 						{errors}
 						{form}
-					</div>
-					<div className="Modal-footer">
+					</Modal.Body>
+					<Modal.Footer>
 						<Button type="success" submit>Create</Button>
 						<Button type="link-cancel" onClick={this.props.onCancel}>cancel</Button>
-					</div>
+					</Modal.Footer>
 				</form>
 			</Modal>
 		);
