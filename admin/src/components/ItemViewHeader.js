@@ -90,13 +90,13 @@ var Header = React.createClass({
 			
 		});
 		
-		var backIcon = (!els.length) ? <span className="octicon octicon-jump-left mr-5" /> : '';
+		var backIcon = (!els.length) ? <span className="octicon octicon-list-unordered mr-5" /> : '';
 		
 		els.push(
 			<li key="back">
-				<Button type="link" href={'/keystone/' + list.path} title={'Back to ' + list.plural}>
+				<Button type="link" href={'/keystone/' + list.path}>
 					{backIcon}
-					Back
+					All {list.plural}
 				</Button>
 			</li>
 		);
