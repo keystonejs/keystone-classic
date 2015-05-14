@@ -19,7 +19,7 @@ var View = React.createClass({
 		return (
 			<div>
 				{Keystone.nav.sections.map((navSection) => {
-					var headingClassName = 'model-group__heading octicon';
+					var headingClassName = 'dashboard-group__heading octicon';
 					
 					if (navSection.key === 'events') { headingClassName += ' octicon-calendar'; }
 					else if (navSection.key === 'people') { headingClassName += ' octicon-organization'; }
@@ -31,17 +31,17 @@ var View = React.createClass({
 					else { headingClassName += ' octicon-primitive-dot'; }
 					
 					return (
-						<div className="model-group" key={navSection.key}>
+						<div className="dashboard-group" key={navSection.key}>
 							<div className={headingClassName}>
 								{navSection.label}
 							</div>
-							<ul className="model-group__list">
+							<ul className="dashboard-group__list">
 								{navSection.lists.map((list) => {
 									var href = list.external ? list.path : '/keystone/' + list.path;
 									return (
 										<li key={list.path}>
 											<a href={href}>
-												<div className="model-group__list-label">{list.label}</div>
+												<div className="dashboard-group__list-label">{list.label}</div>
 												<div>4 Items</div>
 											</a>
 										</li>
@@ -54,16 +54,16 @@ var View = React.createClass({
 				{() => {
 					if (!Keystone.orphanedLists.length) return;
 					return (
-						<div className="model-group">
-							<div className="model-group__heading octicon octicon-database">
+						<div className="dashboard-group">
+							<div className="dashboard-group__heading octicon octicon-database">
 								Other
 							</div>
-							<ul className="model-group__list">
+							<ul className="dashboard-group__list">
 								{Keystone.orphanedLists.map((list) => {
 									return (
 										<li key={list.path}>
 											<a href={'/keystone/' + list.path}>
-												<div className="model-group__list-label">{list.label}</div>
+												<div className="dashboard-group__list-label">{list.label}</div>
 												<div>4 Items</div>
 											</a>
 										</li>
@@ -81,7 +81,7 @@ var View = React.createClass({
 		return (
 			<div className="container">
 				<div className="page-header"><h1>Dashboard</h1></div>
-				<div className="model-groups">
+				<div className="dashboard-groups">
 					{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}
 				</div>
 			</div>
