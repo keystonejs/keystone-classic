@@ -43,7 +43,7 @@ var EditForm = React.createClass({
 		
 		function wrapNameField(field) {
 			return (
-				<div className="item-details__name-field">
+				<div className="EditForm__name-field">
 					{field}
 				</div>
 			);
@@ -129,7 +129,7 @@ var EditForm = React.createClass({
 		}
 		
 		return (
-			<Toolbar className="item-details__footer">
+			<Toolbar className="EditForm__footer">
 				{toolbar}
 			</Toolbar>
 		);
@@ -148,9 +148,9 @@ var EditForm = React.createClass({
 			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
 			if (data.createdAt) {
 				elements.createdAt = (
-					<div className="item-details__meta-item">
-						<span className="item-details__meta-label">Created on</span>
-						<span className="item-details__meta-info" title={moment(data.createdAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.createdAt).format('Do MMM YYYY')}</span>
+					<div className="EditForm__meta-item">
+						<span className="EditForm__meta-label">Created on</span>
+						<span className="EditForm__meta-info" title={moment(data.createdAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.createdAt).format('Do MMM YYYY')}</span>
 					</div>
 				);
 			}
@@ -161,9 +161,9 @@ var EditForm = React.createClass({
 			if (data.createdBy) {
 				// todo: harden logic around user name
 				elements.createdBy = (
-					<div className="item-details__meta-item">
-						<span className="item-details__meta-label">Created by</span>
-						<span className="item-details__meta-info">{data.createdBy.name.first} {data.createdBy.name.last}</span>
+					<div className="EditForm__meta-item">
+						<span className="EditForm__meta-label">Created by</span>
+						<span className="EditForm__meta-info">{data.createdBy.name.first} {data.createdBy.name.last}</span>
 					</div>
 				);
 			}
@@ -173,9 +173,9 @@ var EditForm = React.createClass({
 			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
 			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
 				elements.updatedAt = (
-					<div className="item-details__meta-item">
-						<span className="item-details__meta-label">Updated on</span>
-						<span className="item-details__meta-info" title={moment(data.updatedAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.updatedAt).format('Do MMM YYYY')}</span>
+					<div className="EditForm__meta-item">
+						<span className="EditForm__meta-label">Updated on</span>
+						<span className="EditForm__meta-info" title={moment(data.updatedAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.updatedAt).format('Do MMM YYYY')}</span>
 					</div>
 				);
 			}
@@ -185,15 +185,15 @@ var EditForm = React.createClass({
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
 			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
 				elements.updatedBy = (
-					<div className="item-details__meta-item">
-						<span className="item-details__meta-label">Updated by</span>
-						<span className="item-details__meta-info">{data.updatedBy.name.first} {data.updatedBy.name.last}</span>
+					<div className="EditForm__meta-item">
+						<span className="EditForm__meta-label">Updated by</span>
+						<span className="EditForm__meta-info">{data.updatedBy.name.first} {data.updatedBy.name.last}</span>
 					</div>
 				);
 			}
 		}
 		
-		return Object.keys(elements).length ? <div className="item-details__meta hidden-xs">{elements}</div> : null;
+		return Object.keys(elements).length ? <div className="EditForm__meta hidden-xs">{elements}</div> : null;
 		
 	},
 	
@@ -205,7 +205,7 @@ var EditForm = React.createClass({
 					{this.renderTrackingMeta()}
 				</div>
 				<div className="col-md-9 col-md-pull-3">
-					<form method="post" encType="multipart/form-data" className="item-details horizontal-form">
+					<form method="post" encType="multipart/form-data" className="EditForm horizontal-form">
 						<input type="hidden" name="action" value="updateItem" />
 						<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 						{this.renderNameField()}

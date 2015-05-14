@@ -6,7 +6,7 @@
 // Header
 // ------------------------------
 
-.item-header {
+.EditForm__header {
 	border-bottom: 1px dashed darken(@body-bg, 10%);
 	color: @gray-light;
 	margin-bottom: 3em;
@@ -25,19 +25,15 @@
 
 // remove the padding from elements on either side to keep everything aligned correctly
 
-.item-header__left {
+.EditForm__header__list--left {
 	float: left;
 
 	> li:first-child > .Button {
 		padding-left: 0;
 	}
 }
-.item-header__right {
+.EditForm__header__list--right {
 	float: right;
-
-	> li:last-child > .Button {
-		padding-right: 0;
-	}
 }
 
 
@@ -46,7 +42,7 @@
 // Search
 // ------------------------------
 
-.item-header__search-field {
+.EditForm__header__search-field {
 	margin-bottom: 0;
 
 	.IconField__icon {
@@ -55,7 +51,7 @@
 }
 
 // make the input appear as a button link until focused
-.item-header__search-input {
+.EditForm__header__search-input {
 	// override elemental's transition to catch the width or it looks weird
 	.transition( all 0.15s ease-in-out ); 
 	.placeholder(@link-color);
@@ -110,7 +106,7 @@
 // Header Lists
 // ------------------------------
 
-.item-header__list {
+.EditForm__header__list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -120,7 +116,7 @@
 		vertical-align: middle;
 	}
 }
-.item-header__list-text {
+.EditForm__header__list-text {
 	display: inline-block;
 	vertical-align: middle;
 
@@ -136,19 +132,19 @@
 // ------------------------------
 
 
-.item-details__meta {
+.EditForm__meta {
 	color: #aaa;
 	font-size: @font-size-sm;
 	margin-bottom: @grid-gutter-width;
 }
-.item-details__meta-item {
+.EditForm__meta-item {
 	border-bottom: 1px dotted rgba(0, 0, 0, 0.06);
 	line-height: 1;
 	margin-bottom: .66em;
 	text-align: right;
 }
-.item-details__meta-label,
-.item-details__meta-info {
+.EditForm__meta-label,
+.EditForm__meta-info {
 	background-color: @body-bg;
 	bottom: -1px;
 	display: inline-block;
@@ -158,7 +154,7 @@
 		color: inherit;
 	}
 }
-.item-details__meta-label {
+.EditForm__meta-label {
 	color: #ccc;
 	float: left;
 	margin-right: (@padding-base-horizontal / 2);
@@ -171,7 +167,7 @@
 // ------------------------------
 
 // stop the sticky toolbar from covering the footer's box-shadow
-.item-details {
+.EditForm {
 	padding-bottom: 1px;
 }
 
@@ -192,7 +188,7 @@
 
 // name field
 
-.item-details__name-field {
+.EditForm__name-field {
 	margin-bottom: 3em;
 }
 
@@ -201,7 +197,7 @@
 // Footer Bar
 // ------------------------------
 
-.item-details__footer {
+.EditForm__footer {
 	background-color: fade(@body-bg, 93%);
 	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 	// margin-top: 3em;
@@ -214,14 +210,14 @@
 // Relationships
 // ------------------------------
 
-.item-details__relationships {
+.EditForm__relationships {
 	background-color: darken(@body-bg, 2%);
 	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
 	margin-top: 60px;
 	padding-bottom: 60px;
 	padding-top: 60px;
 }
-.item-details__relationships-heading {
+.EditForm__relationships-heading {
 	margin-bottom: 60px;
 }
 

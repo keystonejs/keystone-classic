@@ -19,12 +19,12 @@ block content
 	div#item-view
 	
 	if showRelationships
-		.item-details__relationships
+		.EditForm__relationships
 			.container
-				h2.item-details__relationships-heading Relationships
+				h2.EditForm__relationships-heading Relationships
 				each rel in relationships
 					if rel.items.results.length
-						h3.item-details__relationships-subheading
+						h3.EditForm__relationships-subheading
 							a(href='/keystone/' + rel.list.path)= (rel.label) ? rel.label : rel.list.label
 						if rel.note
 							.field-note= rel.note

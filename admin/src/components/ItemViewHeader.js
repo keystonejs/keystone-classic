@@ -53,7 +53,7 @@ var Header = React.createClass({
 		if (this.state.searchIsVisible) return null;
 		/* eslint-disable no-script-url */
 		return (
-			<ul className="item-header__left item-header__list item-breadcrumbs" key="drilldown">
+			<ul className="EditForm__header__list EditForm__header__list--left item-breadcrumbs" key="drilldown">
 				{this.renderDrilldownItems()}
 				<li className="hidden-xs">
 					{this.renderSearch()}
@@ -108,8 +108,8 @@ var Header = React.createClass({
 	renderSearch: function() {
 		var list = this.props.list;
 		return (
-			<form action={'/keystone/' + list.path} className="item-header__search">
-				<FormIconField iconPosition="left" iconColor="default" iconKey="search" className="item-header__search-field">
+			<form action={'/keystone/' + list.path} className="EditForm__header__search">
+				<FormIconField iconPosition="left" iconColor="default" iconKey="search" className="EditForm__header__search-field">
 					<FormInput
 						ref="searchField"
 						type="search"
@@ -119,7 +119,7 @@ var Header = React.createClass({
 						onFocus={this.searchFocusChanged.bind(this, true)}
 						onBlur={this.searchFocusChanged.bind(this, false)}
 						placeholder="Search"
-						className="item-header__search-input" />
+						className="EditForm__header__search-input" />
 				</FormIconField>
 			</form>
 		);
@@ -127,7 +127,7 @@ var Header = React.createClass({
 	
 	renderInfo: function() {
 		return (
-			<ul className="item-header__right item-header__list">
+			<ul className="EditForm__header__list EditForm__header__list--right">
 				{this.renderKeyOrId()}
 				{this.renderCreateButton()}
 			</ul>
@@ -143,7 +143,7 @@ var Header = React.createClass({
 					<AltText
 						normal={autokeyLabel + this.props.data[list.autokey.path]}
 						modified={'ID: ' + this.props.data.id}
-						className="item-header__list-text"
+						className="EditForm__header__list-text"
 					/>
 				</li>	
 			);
@@ -156,7 +156,7 @@ var Header = React.createClass({
 		/* eslint-disable no-script-url */
 		return (
 			<li>
-				<Button type="link-success" onClick={this.toggleCreate.bind(this, true)}>
+				<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
 					<span className="octicon octicon-plus mr-5" />
 					New {this.props.list.singular}
 				</Button>
@@ -167,7 +167,7 @@ var Header = React.createClass({
 	
 	render: function() {
 		return (
-			<div className="item-header">
+			<div className="EditForm__header">
 				<div className="container">
 					{this.renderDrilldown()}
 					{this.renderInfo()}
