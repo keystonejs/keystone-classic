@@ -199,9 +199,25 @@
 .item-details__footer {
 	background-color: fade(@body-bg, 93%);
 	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-	margin-top: 3em;
-	padding: 20px 0 25px;
+	// margin-top: 3em;
+	padding: @grid-gutter-width 0;
 	z-index: 100;
+}
+
+
+
+// Relationships
+// ------------------------------
+
+.item-details__relationships {
+	background-color: darken(@body-bg, 2%);
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+	margin-top: 60px;
+	padding-bottom: 60px;
+	padding-top: 60px;
+}
+.item-details__relationships-heading {
+	margin-bottom: 60px;
 }
 
 

@@ -20,7 +20,7 @@ html
 		block head
 
 	body(id='page-' + page)
-		#wrap
+		.keystone-wrapper
 			nav.site-navbar.primary-navbar
 				.container
 					//- a(href=backUrl).navbar-backtobrand-trigger.hidden-xs: span.octicon.octicon-arrow-left
@@ -53,18 +53,19 @@ html
 									- path = '/keystone/' + navList.path
 									
 								li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
-			#body
+			.keystone-body
 				+flash-messages(messages)
 				block content
 
-		#footer: .container
-			p
-				a(href=backUrl) #{brand + (appversion ? (' ' + appversion) : '')}
-				|  Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
-				if User && user
-					|  Signed in as 
-					a(href='/keystone/' + User.path + '/' + user.id)= User.getDocumentName(user)
-					| .
+		.keystone-footer
+			.container
+				p
+					a(href=backUrl) #{brand + (appversion ? (' ' + appversion) : '')}
+					|  Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
+					if User && user
+						|  Signed in as 
+						a(href='/keystone/' + User.path + '/' + user.id)= User.getDocumentName(user)
+						| .
 
 		//- Common
 		script(src="/keystone/js/lib/underscore/underscore-1.5.1.min.js")

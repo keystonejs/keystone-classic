@@ -20,7 +20,7 @@
 .container {
 	max-width: @container-lg;
 	width: 100%;
-	
+
 	@media (min-width: @screen-sm) {
 		padding-left:  @grid-gutter-width;
 		padding-right: @grid-gutter-width;
@@ -138,9 +138,10 @@
 
 // Body
 // --------------------------------------------------
-#body {
-	// margin-top: 20px;
-}
+
+.keystone-body {}
+
+
 
 
 // Home Page
@@ -150,15 +151,16 @@
 }
 
 
+
+
 // Footer
 // --------------------------------------------------
-#footer {
+.keystone-footer {
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
 	font-size: @font-size-sm;
-	padding-top: 40px;
 	padding-bottom: 30px;
-	margin-top: 60px;
-	// text-align: center;
-	border-top: 1px solid @gray-lighter;
+	padding-top: 40px;
+	text-align: center;
 
 	p {
 		color: @gray-light;
