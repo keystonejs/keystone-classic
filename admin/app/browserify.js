@@ -34,15 +34,17 @@ module.exports = function(file, name) {
 	var src;
 	function build() {
 		var opts = { basedir: basedir };
-		if (name) {
-			opts.standalone = name;
-		}
 		if (devMode) {
 			logInit(file);
 			opts.cache = {};
 			opts.packageCache = {};
 		}
-		var b = browserify(file, opts);
+		if (name) {
+			b = browserify(opts);
+			b.require('./' + file, { expose: name });
+		} else {
+			b = browserify(file, opts);
+		}
 		b.transform(babelify.configure({
 			ignore: ['**/lib/**'],
 			plugins: [require('babel-plugin-object-assign')]
