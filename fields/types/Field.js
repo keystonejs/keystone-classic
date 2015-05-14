@@ -73,7 +73,7 @@ var Base = module.exports.Base = {
 	},
 	
 	renderValue: function() {
-		return <div className="field-value">{this.props.value}</div>;
+		return <FormInput noedit>{this.props.value}</FormInput>;
 	},
 	
 	renderUI: function(spec) {//eslint-disable-line no-unused-vars

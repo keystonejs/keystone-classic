@@ -93,7 +93,7 @@ module.exports = Field.create({
 	},
 	
 	renderValue: function() {
-		return <div className="field-value">{this.formatValue() || '(no value)'}</div>;
+		return <FormInput noedit>{this.formatValue() || '(no value)'}</FormInput>;
 	},
 	
 	renderField: function(path, label, collapse) {//eslint-disable-line no-unused-vars

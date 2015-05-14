@@ -1,6 +1,8 @@
-var React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note');
+var React = require('react');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+
+var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
 	
@@ -103,7 +105,7 @@ module.exports = Field.create({
 		if (this.hasFile() && !this.state.removeExisting) {
 			values = (
 				<div className='file-values'>
-					<div className='field-value'>{this.getFilename()}</div>
+					<FormInput noedit>{this.getFilename()}</FormInput>
 				</div>
 			);
 		}

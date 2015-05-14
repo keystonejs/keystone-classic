@@ -5,6 +5,7 @@ var DateInput = require('../../components/DateInput');
 var moment = require('moment');
 
 var InputGroup = require('elemental').InputGroup;
+var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
 	
@@ -65,7 +66,7 @@ module.exports = Field.create({
 	},
 
 	renderValue: function() {
-		return <div className="field-value">{this.format(this.props.value, this.props.formatString)}</div>;
+		return <FormInput noedit>{this.format(this.props.value, this.props.formatString)}</FormInput>;
 	}
 
 });

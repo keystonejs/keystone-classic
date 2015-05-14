@@ -119,28 +119,6 @@
 	}
 }
 
-// Field value. Used for non-editable fields
-.field-value {
-	background-color: mix(white, @input-bg-disabled, 10%);
-	border: 1px solid mix(white, @input-border-color, 40%);
-	border-radius: @border-radius-base;
-	color: @text-color;
-	display: inline-block;
-	font-size: @font-size-base;
-	line-height: @line-height-base;
-	height: auto;
-	// min-height: @input-height-base;
-	padding: @padding-base-vertical @padding-base-horizontal;
-	vertical-align: middle;
-	width: auto;
-	min-width: 180px;
-	
-	&.no-value {
-		color: @gray-light;
-		cursor: default;
-	}
-}
-
 .field .help-block {
 	margin-bottom: 0px;
 }
@@ -261,22 +239,6 @@ label.checkbox {
 		background: transparent;
 		border-radius: @border-radius-base;
 	}
-}
-
-// Related Items
-.related-item-link {
-	.field-value;
-	min-width: 0;
-	background: white;
-	color: #0089cb;
-	margin-right: 5px;
-	text-decoration: none;
-	
-	&:hover {
-		background-color: #f0f8fc;
-		border-color: #80c4e5;
-		color: #0c699e;
-	};
 }
 
 // Messages

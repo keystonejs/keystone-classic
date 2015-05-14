@@ -22,13 +22,13 @@ module.exports = Field.create({
 	renderValue: function() {
 		var values = {};
 		if (this.props.value.first) {
-			values.first = <div className="field-value">{this.props.value.first}</div>;
+			values.first = <FormInput noedit>{this.props.value.first}</FormInput>;
 		}
 		if (this.props.value.last) {
-			values.last = <div className="field-value">{this.props.value.last}</div>;
+			values.last = <FormInput noedit>{this.props.value.last}</FormInput>;
 		}
 		if (!values.first && values.last) {
-			values.none = <div className="field-value" />;
+			values.none = <FormInput noedit />;
 		}
 		return values;
 	},

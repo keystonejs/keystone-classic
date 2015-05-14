@@ -3,10 +3,10 @@
  * - Custom path support
  */
 
-var _ = require('underscore'),
-	React = require('react'),
-	Select = require('react-select'),
-	Field = require('../Field');
+var _ = require('underscore');
+var React = require('react');
+var Select = require('react-select');
+var Field = require('../Field');
 
 module.exports = Field.create({
 	
@@ -25,7 +25,7 @@ module.exports = Field.create({
 	
 	renderValue: function() {
 		var selected = _.findWhere(this.props.ops, { value: this.props.value });
-		return <div className="field-value">{selected ? selected.label : null}</div>;
+		return <FormInput noedit>{selected ? selected.label : null}</FormInput>;
 	},
 	
 	renderField: function() {

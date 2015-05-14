@@ -1,5 +1,7 @@
-var React = require('react'),
-	Field = require('../Field');
+var React = require('react');
+var Field = require('../Field');
+
+var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
 	
@@ -13,7 +15,7 @@ module.exports = Field.create({
 	renderValue: function() {
 		
 		if (!this.props.value.exists) {
-			return <div className="field-value">(not set)</div>;
+			return <FormInput noedit>(not set)</FormInput>;
 		}
 		
 		var imagePreview = this.props.value.thumbnailUrl ? (
@@ -27,21 +29,21 @@ module.exports = Field.create({
 		// TODO review this return statement
 		return (
 			<div>
-				<div className="field-value">{this.props.value.providerName} {this.props.value.type}</div>
-				<div className="field-value">{this.props.value.url}</div>
+				<FormInput noedit>{this.props.value.providerName} {this.props.value.type}</FormInput>
+				<FormInput noedit>{this.props.value.url}</FormInput>
 				{imagePreview}
 			</div>
 		);
 		
 		// if item.get(field.paths.exists)
-		// 	.field-value= item.get(field.paths.providerName) + ' ' + utils.upcase(item.get(field.paths.type))
-		// 	.field-value= item.get(field.paths.url)
+		// 	.FormInput-noedit= item.get(field.paths.providerName) + ' ' + utils.upcase(item.get(field.paths.type))
+		// 	.FormInput-noedit= item.get(field.paths.url)
 		// 	if item.get(field.paths.thumbnailUrl)
 		// 		.image-preview
 		// 			a(href=item.get(field.paths.url), rel=field.path).img-thumbnail
 		// 				img(width=item.get(field.paths.thumbnailWidth), height=item.get(field.paths.thumbnailHeight), src=item.get(field.paths.thumbnailUrl))
 		
-		//return <div className="field-value">{this.props.value}</div>;
+		//return <FormInput noedit>{this.props.value}</FormInput>;
 		
 	}
 	

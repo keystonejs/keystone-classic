@@ -1,6 +1,11 @@
-var _ = require('underscore'),
-	React = require('react'),
-	Field = require('../Field');
+var _ = require('underscore');
+var React = require('react');
+var Field = require('../Field');
+
+var Button = require('elemental').Button;
+var FormField = require('elemental').FormField;
+var FormInput = require('elemental').FormInput;
+var FormRow = require('elemental').FormRow;
 
 module.exports = Field.create({
 	
@@ -42,7 +47,7 @@ module.exports = Field.create({
 	},
 	
 	renderValue: function() {
-		return <div className="field-value">{this.props.value ? 'password set' : 'password not set'}</div>;
+		return <FormInput noedit>{this.props.value ? 'password set' : 'password not set'}</FormInput>;
 	},
 	
 	renderField: function() {
@@ -51,21 +56,21 @@ module.exports = Field.create({
 	
 	renderFields: function() {
 		return (
-			<div className="form-row">
-				<div className="col-sm-6">
-					<input type="password" name={this.props.path} placeholder="New password" ref="password" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete="off" className="form-control" />
-				</div>
-				<div className="col-sm-6">
-					<input type="password" name={this.props.paths.confirm} placeholder="Confirm new password" ref="confirm" value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" className="form-control" />
-				</div>
-			</div>
+			<FormRow>
+				<FormField width="one-half">
+					<FormInput type="password" name={this.props.path} placeholder="New password" ref="password" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete="off" />
+				</FormField>
+				<FormField width="one-half">
+					<FormInput type="password" name={this.props.paths.confirm} placeholder="Confirm new password" ref="confirm" value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" />
+				</FormField>
+			</FormRow>
 		);
 	},
 	
 	renderChangeButton: function() {
 		var label = this.state.passwordIsSet ? 'Change Password' : 'Set Password';
 		return (
-			<button type="button" className="btn btn-default" onClick={this.showChangeUI}>{label}</button>
+			<Button onClick={this.showChangeUI}>{label}</Button>
 		);
 	}
 	

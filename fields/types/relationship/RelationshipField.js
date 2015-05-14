@@ -5,6 +5,7 @@ var superagent = require('superagent');
 var _ = require('underscore');
 
 var Button = require('elemental').Button;
+var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
 	
@@ -163,12 +164,12 @@ module.exports = Field.create({
 			var body = [];
 			
 			_.each(this.state.expandedValues, function (item) {
-				body.push(<a href={'/keystone/' + this.props.refList.path + '/' + item.value} className='related-item-link'>{item.label}</a>);
+				body.push(<FormInput href={'/keystone/' + this.props.refList.path + '/' + item.value} noedit>{item.label}</FormInput>);
 			}, this);
 			
 			return body;
 		} else {
-			return <div className='field-value'>(not set)</div>;
+			return <FormInput noedit>not set)</FormInput>;
 		}
 	},
 	
