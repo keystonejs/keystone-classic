@@ -53,13 +53,11 @@ var Header = React.createClass({
 		if (this.state.searchIsVisible) return null;
 		/* eslint-disable no-script-url */
 		return (
-			<ul className="item-breadcrumbs" key="drilldown">
-				<li>
-					<a href="javascript:;" title={'Search ' + this.props.list.plural} onClick={this.toggleSearch.bind(this, true)}>
-						<span className="octicon octicon-search" />
-					</a>
-				</li>
+			<ul className="item-header__left item-header__list item-breadcrumbs" key="drilldown">
 				{this.renderDrilldownItems()}
+				<li className="hidden-xs">
+					{this.renderSearch()}
+				</li>
 			</ul>
 		);
 		/* eslint-enable */
@@ -92,14 +90,14 @@ var Header = React.createClass({
 			
 		});
 		
-		var backIcon = (!els.length) ? <span className="octicon octicon-chevron-left mr-5" /> : '';
+		var backIcon = (!els.length) ? <span className="octicon octicon-jump-left mr-5" /> : '';
 		
 		els.push(
 			<li key="back">
-				<a href={'/keystone/' + list.path} title={'Back to ' + list.plural}>
+				<Button type="link" href={'/keystone/' + list.path} title={'Back to ' + list.plural}>
 					{backIcon}
-					{list.plural}
-				</a>
+					Back
+				</Button>
 			</li>
 		);
 		
@@ -108,32 +106,28 @@ var Header = React.createClass({
 	},
 	
 	renderSearch: function() {
-		if (!this.state.searchIsVisible) return null;
 		var list = this.props.list;
-		var submitButtonType = this.state.searchIsFocused ? 'primary' : 'default';
 		return (
-			<div className="searchbox" key="search">
-				<form action={'/keystone/' + list.path} className="form-inline searchbox-form">
-					<FormIconField iconPosition="left" iconColor="default" iconKey="search" style={{ float: 'left', margin: 0, width: 240 }}>
-						<FormInput
-							ref="searchField"
-							type="search"
-							name="search"
-							value={this.state.searchString}
-							onChange={this.searchStringChanged}
-							onFocus={this.searchFocusChanged.bind(this, true)}
-							onBlur={this.searchFocusChanged.bind(this, false)}
-							placeholder={'Search ' + list.plural} />
-					</FormIconField>
-					<Button type="link-cancel" onClick={this.toggleSearch.bind(this, false)}>Cancel</Button>
-				</form>
-			</div>
+			<form action={'/keystone/' + list.path} className="item-header__search">
+				<FormIconField iconPosition="left" iconColor="default" iconKey="search" className="item-header__search-field">
+					<FormInput
+						ref="searchField"
+						type="search"
+						name="search"
+						value={this.state.searchString}
+						onChange={this.searchStringChanged}
+						onFocus={this.searchFocusChanged.bind(this, true)}
+						onBlur={this.searchFocusChanged.bind(this, false)}
+						placeholder="Search"
+						className="item-header__search-input" />
+				</FormIconField>
+			</form>
 		);
 	},
 	
 	renderInfo: function() {
 		return (
-			<ul className="item-toolbar-info">
+			<ul className="item-header__right item-header__list">
 				{this.renderKeyOrId()}
 				{this.renderCreateButton()}
 			</ul>
@@ -143,11 +137,13 @@ var Header = React.createClass({
 	renderKeyOrId: function() {
 		var list = this.props.list;
 		if (list.autokey && this.props.data[list.autokey.path]) {
+			var autokeyLabel = list.autokey.path.substr(0,1).toUpperCase() + list.autokey.path.substr(1) + ': ';
 			return (
 				<li>
 					<AltText
-						normal={list.autokey.path + ': ' + this.props.data[list.autokey.path]}
-						modified={'id: ' + this.props.data.id}
+						normal={autokeyLabel + this.props.data[list.autokey.path]}
+						modified={'ID: ' + this.props.data.id}
+						className="item-header__list-text"
 					/>
 				</li>	
 			);
@@ -160,7 +156,7 @@ var Header = React.createClass({
 		/* eslint-disable no-script-url */
 		return (
 			<li>
-				<Button type="link" onClick={this.toggleCreate.bind(this, true)} className="item-toolbar-create-button">
+				<Button type="link-success" onClick={this.toggleCreate.bind(this, true)}>
 					<span className="octicon octicon-plus mr-5" />
 					New {this.props.list.singular}
 				</Button>
@@ -171,12 +167,9 @@ var Header = React.createClass({
 	
 	render: function() {
 		return (
-			<div>
-				<div className="item-toolbar item-toolbar--header hidden-xs">
-					<ReactCSSTransitionGroup transitionName="ToolbarToggle" className="ToolbarToggle-wrapper" component="div">
-						{this.renderDrilldown()}
-						{this.renderSearch()}
-					</ReactCSSTransitionGroup>
+			<div className="item-header">
+				<div className="container">
+					{this.renderDrilldown()}
 					{this.renderInfo()}
 				</div>
 			</div>

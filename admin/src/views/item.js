@@ -51,10 +51,12 @@ var View = React.createClass({
 	render: function() {
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner /></div>;
 		return (
-			<div className="container">
-				{this.renderCreateForm()}
+			<div>
 				<Header list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
-				<EditForm list={this.state.list} data={this.state.itemData} />
+				<div className="container">
+					{this.renderCreateForm()}
+					<EditForm list={this.state.list} data={this.state.itemData} />
+				</div>
 			</div>
 		);
 	}

@@ -207,7 +207,7 @@ module.exports = Field.create({
 		/* eslint-enable */
 		
 		return (
-			<div className="keystone-form-group">
+			<div>
 				<FormField label={this.props.label}>
 					{showMore}
 				</FormField>

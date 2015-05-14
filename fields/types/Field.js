@@ -84,12 +84,10 @@ var Base = module.exports.Base = {
 		var wrapperClassName = cx(('field-type-' + this.props.type), this.props.className);
 		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
 		return (
-			<div className="keystone-form-group">
-				<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
-					{this.shouldRenderField() ? this.renderField() : this.renderValue()}
-					{this.renderNote()}
-				</FormField>
-			</div>
+			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
+				{this.shouldRenderField() ? this.renderField() : this.renderValue()}
+				{this.renderNote()}
+			</FormField>
 		);
 		
 	}
@@ -121,11 +119,9 @@ var Mixins = module.exports.Mixins = {
 		renderCollapse: function() {
 			if (!this.shouldRenderField()) return null;
 			return (
-				<div className="keystone-form-group">
-					<FormField>
-						<Button type="link" className="field-reveal-trigger" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
-					</FormField>
-				</div>
+				<FormField>
+					<Button type="link" className="field-reveal-trigger" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
+				</FormField>
 			);
 		}
 	}

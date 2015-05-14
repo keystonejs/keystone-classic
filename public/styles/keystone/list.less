@@ -57,6 +57,28 @@
 //
 // Searching
 // --------------------------------------------------
+
+.searchbox-form {
+	.clearfix();
+	
+	> button {
+		float: left;
+	}
+}
+.searchbox-field {
+	float: left;
+	position: relative;
+	width: 15em;
+
+	> input {
+		.border-right-radius(0);
+
+		// transitioning the bg/text color of the button looks rubbish
+		// so we remove the transition on the input
+		.transition( none );
+	}
+}
+
 .list-toolbar {
 	.clearfix();
 	padding-bottom: 20px;

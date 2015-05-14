@@ -1,239 +1,203 @@
+// 
 // Toolbar
+// ==============================
+
+
+// Header
 // ------------------------------
 
-.item-toolbar {
-	.clearfix();
+.item-header {
+	border-bottom: 1px dashed darken(@body-bg, 10%);
 	color: @gray-light;
+	margin-bottom: @grid-gutter-width;
+	padding-bottom: 1em;
+	padding-top: 1em;
+
+	// clear the interior floats
+	> .container {
+		&:extend(.clearfix all);
+	}
 }
 
 
-// Toolbar lists
+// Left Side - Contains the back link and search field
+// Right Side - Contains key/id and the create link
 
-.item-breadcrumbs,
-.item-toolbar-info {
+// Remove the padding from the offending elements to keep everything aligned correctly
+
+.item-header__left {
+	float: left;
+
+	> li:first-child > .Button {
+		padding-left: 0;
+	}
+}
+.item-header__right {
+	float: right;
+
+	> li:last-child > .Button {
+		padding-right: 0;
+	}
+}
+
+
+
+
+// Search
+// ------------------------------
+
+.item-header__search-field {
+	margin-bottom: 0;
+	width: 240px;
+
+	.IconField__icon {
+		color: @app-primary;
+	}
+}
+.item-header__search-input {
+	.placeholder(@link-color);
+	background: transparent;
+	border-color: transparent;
+	box-shadow: none;
+
+	// make the input appear as a link on hover
+	&:hover {
+		.placeholder(@link-hover-color);
+		border-color: transparent;
+		cursor: pointer;
+
+		// handle placeholder text
+		&::-moz-placeholder { text-decoration: underline; }
+		&:-ms-input-placeholder { text-decoration: underline; }
+		&::-webkit-input-placeholder  { text-decoration: underline; }
+
+		+ .IconField__icon {
+			color: @link-hover-color;
+		}
+	}
+
+	// return the input to it's natural appearance on focus
+	&:focus {
+		.placeholder(@input-placeholder-color);
+		background: white;
+		border-color: @input-border-color-focus;
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px fade(@input-border-color-focus, 10%);
+		cursor: auto;
+		outline: 0;
+
+		// handle placeholder text
+		&::-moz-placeholder { text-decoration: none; }
+		&:-ms-input-placeholder { text-decoration: none; }
+		&::-webkit-input-placeholder  { text-decoration: none; }
+
+		+ .IconField__icon {
+			color: @input-placeholder-color;
+		}
+	}
+}
+
+
+
+
+// Header Lists
+// ------------------------------
+
+.item-header__list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 
 	> li {
 		display: inline-block;
-		padding: 0 9px;
 		vertical-align: middle;
-		
-		&+li:before {
-			content: "\00B7";
-			display: inline-block;
-			left: -10px;
-			position: relative;
-		}
-	}
-
-	a {
-		display: inline-block;
-		padding-bottom: @padding-base-vertical;
-		padding-top: @padding-base-vertical;
-
-		// enlarge hit area
-		margin-left: -9px;
-		margin-right: -9px;
-		padding-left: 9px;
-		padding-right: 9px;
 	}
 }
+.item-header__list-text {
+	display: inline-block;
+	vertical-align: middle;
 
-
-// Breadcrumbs
-
-.item-breadcrumbs {
-	float: left;
-	
-	.separator {
-		margin-right: 5px;
-	}
+	// handle alignment issue caused by <button> and <input> elements having borders
+	margin-top: 2px;
 }
 
 
-// Info
-
-.item-toolbar-info {
-	clear: left;
-}
-.item-toolbar-create-button {
-	border: none;
-	color: @app-success;
-	padding: 0;
-
-	&:hover,
-	&:focus {
-		color: lighten(@app-success, 10%);
-	}
-	&:active {
-		color: @app-success;
-	}
-}
-
-
-// Search form
-
-.searchbox {
-	float: left;
-}
-.searchbox-form {
-	.clearfix();
-	
-	> button {
-		float: left;
-	}
-}
-.searchbox-field {
-	float: left;
-	position: relative;
-	width: 15em;
-
-	> input {
-		.border-right-radius(0);
-
-		// transitioning the bg/text color of the button looks rubbish
-		// so we remove the transition on the input
-		.transition( none );
-	}
-}
-.searchbox-button {
-	float: left;
-
-	> .btn {
-		.border-left-radius(0);
-		height: @input-height-base;
-		margin-left: -1px;
-	}
-}
-// native focus looks weird when animating
-.btn-cancel:focus {
-	outline: none;
-}
-
-
-
-
-// Search Transition
-// ------------------------------
-
-// common
-.ToolbarToggle-wrapper {
-	position: relative;
-}
-.ToolbarToggle-enter,
-.ToolbarToggle-leave {
-	.transition( all 320ms cubic-bezier(0.645, 0.045, 0.355, 1) );
-	left: 0;
-	position: absolute;
-	top: 0;
-}
-
-// animate searchbox
-.searchbox.ToolbarToggle-enter {
-	.translate3d(-25%, 0, 0);
-	opacity: .01;
-}
-.searchbox.ToolbarToggle-enter-active {
-	.translate3d(0, 0, 0);
-	opacity: 1;
-}
-.searchbox.ToolbarToggle-leave {
-	.translate3d(0, 0, 0);
-	opacity: 1;
-}
-.searchbox.ToolbarToggle-leave-active {
-	.translate3d(-25%, 0, 0);
-	opacity: .01;
-}
-
-// animate breadcrumbs
-.item-breadcrumbs.ToolbarToggle-enter {
-	.translate3d(50%, 0, 0);
-	opacity: .01;
-}
-.item-breadcrumbs.ToolbarToggle-enter-active {
-	.translate3d(0, 0, 0);
-	opacity: 1;
-}
-.item-breadcrumbs.ToolbarToggle-leave {
-	.translate3d(0, 0, 0);
-	opacity: 1;
-}
-.item-breadcrumbs.ToolbarToggle-leave-active {
-	.translate3d(50%, 0, 0);
-	opacity: .01;
-}
-
-
-
-// Responsive
-// ------------------------------
-
-
-// tablets, desktops and laptops
-
-@media (min-width: @screen-sm) {
-	.item-toolbar-info {
-		clear: none;
-		float: right;
-	}
-}
-
-
-
-
-//
-// DETAILS SCREEN
-// --------------------------------------------------
-
-.item-id {
-	color: #999;
-	@media (min-width: @screen-sm) {
-		text-align: right;
-	}
-}
-
-.item-details .toolbar {
-	background-color: fade(@body-bg, 95%);
-	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-	margin-top: 20px;
-	padding: 20px 0 25px;
-	z-index: 100;
-}
-.item-header .drilldown {
-	margin-top: 0;
-}
 
 
 // Item Meta (tracking)
+// Displayed to the right of the form on tablets and up
+// ------------------------------
 
-.item-details-meta {
-	&:extend(.clearfix all);
-	background-color: #fafafa;
-	border-left: 4px solid #eaeaea;
+
+.item-details__meta {
 	color: #aaa;
-	margin: 10px 0 20px;
-	padding: @padding-base-vertical @padding-base-horizontal;
+	margin-bottom: @grid-gutter-width;
 }
-.item-details-meta-item {
+.item-details__meta-item {
 	display: inline-block;
-	margin-right: @padding-base-horizontal;
+	margin-right: (@padding-base-horizontal / 2);
 	
 	&:last-child {
 		margin-right: 0;
 	}
 }
-.item-details-meta-label,
-.item-details-meta-info {
+.item-details__meta-label,
+.item-details__meta-info {
 	display: inline-block;
 
 	> a {
 		color: inherit;
 	}
 }
-.item-details-meta-label {
+.item-details__meta-label {
 	color: #ccc;
-	padding-right: @padding-base-horizontal;
+	margin-right: (@padding-base-horizontal / 2);
 }
+
+
+
+
+// Item Details (<form>)
+// ------------------------------
+
+.item-details {
+
+	// Exclusive styles for FormField components inside the item details form
+	.form-field {
+		position: relative;
+	}
+}
+
+
+
+
+// Field Specific
+// ------------------------------
+
+
+// name field
+
+.item-details__name-field {
+	margin-bottom: 3em;
+}
+
+
+
+// Footer Bar
+// ------------------------------
+
+.item-details__footer {
+	background-color: fade(@body-bg, 93%);
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+	margin-top: 3em;
+	padding: 20px 0 25px;
+	z-index: 100;
+}
+
+
+
+
+
+
+
+
+

@@ -43,9 +43,9 @@ var EditForm = React.createClass({
 		
 		function wrapNameField(field) {
 			return (
-				<FormField className="item-name">
+				<div className="item-details__name-field">
 					{field}
-				</FormField>
+				</div>
 			);
 		}
 		
@@ -70,69 +70,6 @@ var EditForm = React.createClass({
 				<h2 className="form-heading name-value">{this.props.data.name || '(no name)'}</h2>
 			);
 		}
-	},
-	
-	renderTrackingMeta: function() {
-		
-		if (!this.props.list.tracking) return null;
-		
-		var elements = {},
-			data = {},
-			label;
-		
-		if (this.props.list.tracking.createdAt) {
-			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
-			if (data.createdAt) {
-				elements.createdAt = (
-					<div className="item-details-meta-item">
-						<span className="item-details-meta-label">Created</span>
-						<span className="item-details-meta-info">{moment(data.createdAt).format('Do MMM YY h:mm:ssa')}</span>
-					</div>
-				);
-			}
-		}
-		
-		if (this.props.list.tracking.createdBy) {
-			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
-			if (data.createdBy) {
-				label = data.createdAt ? 'by' : 'Created by';
-				// todo: harden logic around user name
-				elements.createdBy = (
-					<div className="item-details-meta-item">
-						<span className="item-details-meta-label">{label}</span>
-						<span className="item-details-meta-info">{data.createdBy.name.first} {data.createdBy.name.last}</span>
-					</div>
-				);
-			}
-		}
-		
-		if (this.props.list.tracking.updatedAt) {
-			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
-			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
-				elements.updatedAt = (
-					<div className="item-details-meta-item">
-						<span className="item-details-meta-label">Updated</span>
-						<span className="item-details-meta-info">{moment(data.updatedAt).format('Do MMM YY h:mm:ssa')}</span>
-					</div>
-				);
-			}
-		}
-		
-		if (this.props.list.tracking.updatedBy) {
-			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
-			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
-				label = data.updatedAt ? 'by' : 'Created by';
-				elements.updatedBy = (
-					<div className="item-details-meta-item">
-						<span className="item-details-meta-label">{label}</span>
-						<span className="item-details-meta-info">{data.updatedBy.name.first} {data.updatedBy.name.last}</span>
-					</div>
-				);
-			}
-		}
-		
-		return Object.keys(elements).length ? <div className="item-details-meta">{elements}</div> : null;
-		
 	},
 	
 	renderFormElements: function() {
@@ -192,24 +129,93 @@ var EditForm = React.createClass({
 		}
 		
 		return (
-			<Toolbar className="toolbar">
+			<Toolbar className="item-details__footer">
 				{toolbar}
 			</Toolbar>
 		);
 		
 	},
 	
+	renderTrackingMeta: function() {
+		
+		if (!this.props.list.tracking) return null;
+		
+		var elements = {},
+			data = {},
+			label;
+		
+		if (this.props.list.tracking.createdAt) {
+			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
+			if (data.createdAt) {
+				elements.createdAt = (
+					<div className="item-details__meta-item">
+						<span className="item-details__meta-label">Created</span>
+						<span className="item-details__meta-info">{moment(data.createdAt).format('Do MMM YY h:mm:ssa')}</span>
+					</div>
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.createdBy) {
+			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
+			if (data.createdBy) {
+				label = data.createdAt ? 'by' : 'Created by';
+				// todo: harden logic around user name
+				elements.createdBy = (
+					<div className="item-details__meta-item">
+						<span className="item-details__meta-label">{label}</span>
+						<span className="item-details__meta-info">{data.createdBy.name.first} {data.createdBy.name.last}</span>
+					</div>
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.updatedAt) {
+			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
+			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
+				elements.updatedAt = (
+					<div className="item-details__meta-item">
+						<span className="item-details__meta-label">Updated</span>
+						<span className="item-details__meta-info">{moment(data.updatedAt).format('Do MMM YY h:mm:ssa')}</span>
+					</div>
+				);
+			}
+		}
+		
+		if (this.props.list.tracking.updatedBy) {
+			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
+			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
+				label = data.updatedAt ? 'by' : 'Created by';
+				elements.updatedBy = (
+					<div className="item-details__meta-item">
+						<span className="item-details__meta-label">{label}</span>
+						<span className="item-details__meta-info">{data.updatedBy.name.first} {data.updatedBy.name.last}</span>
+					</div>
+				);
+			}
+		}
+		
+		return Object.keys(elements).length ? <div className="item-details__meta">{elements}</div> : null;
+		
+	},
+	
 	render: function() {
 		
 		return (
-			<form method="post" encType="multipart/form-data" className="item-details horizontal-form">
-				<input type="hidden" name="action" value="updateItem" />
-				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
-				{this.renderTrackingMeta()}
-				{this.renderNameField()}
-				{this.renderFormElements()}
-				{this.renderToolbar()}
-			</form>
+			<div className="row">
+				<div className="[ col-md-4 col-lg-3 ] [ col-md-push-8 col-lg-push-9 ]">
+					{this.renderTrackingMeta()}
+				</div>
+				<div className="[ col-md-8 col-lg-9 ] [ col-md-pull-4 col-lg-pull-3 ]">
+					<form method="post" encType="multipart/form-data" className="item-details horizontal-form">
+						<input type="hidden" name="action" value="updateItem" />
+						<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
+						{this.renderNameField()}
+						{this.renderFormElements()}
+						{this.renderToolbar()}
+					</form>
+				</div>
+			</div>
 		);
 	}
 	
