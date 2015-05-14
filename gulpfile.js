@@ -18,7 +18,7 @@ gulp.task('build-packages', function() {
 	return b.bundle()
 		.pipe(source('packages.js'))
 		.pipe(streamify(uglify()))
-		.pipe(gulp.dest('./public/js'));
+		.pipe(gulp.dest('./admin/public/js'));
 });
 
 /**

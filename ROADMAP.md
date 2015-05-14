@@ -17,3 +17,4 @@
 ## Backlog
 
 * Add squire as option for wysiwyg editor https://github.com/keystonejs/keystone/issues/1112
+* Permissions (aka Super Users) feature https://github.com/keystonejs/keystone/issues/803

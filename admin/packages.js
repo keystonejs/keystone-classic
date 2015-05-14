@@ -11,6 +11,7 @@ module.exports = [
 	'pikaday',
 	'react',
 	'react-select',
+	'react-alt-text',
 	'react/addons',
 	'superagent'
 ];

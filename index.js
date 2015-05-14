@@ -121,6 +121,18 @@ Keystone.prototype.routes = require('./lib/core/routes');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
+/* Expose Admin UI App */
+Keystone.prototype.adminApp = {
+	staticRouter: require('./admin/app/static')
+};
+
+/* Legacy Attach Mechanisms */
+Keystone.prototype.static = function(app) {
+	if (!this.get('headless')) {
+		app.use('/keystone', Keystone.prototype.adminApp.staticRouter);
+	}
+}
+
 /**
  * The exports object is an instance of Keystone.
  *
