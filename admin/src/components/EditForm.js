@@ -201,10 +201,10 @@ var EditForm = React.createClass({
 		
 		return (
 			<div className="row">
-				<div className="[ col-md-4 col-lg-3 ] [ col-md-push-8 col-lg-push-9 ]">
+				<div className="col-md-3 col-md-push-9">
 					{this.renderTrackingMeta()}
 				</div>
-				<div className="[ col-md-8 col-lg-9 ] [ col-md-pull-4 col-lg-pull-3 ]">
+				<div className="col-md-9 col-md-pull-3">
 					<form method="post" encType="multipart/form-data" className="item-details horizontal-form">
 						<input type="hidden" name="action" value="updateItem" />
 						<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
