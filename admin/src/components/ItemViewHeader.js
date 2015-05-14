@@ -139,7 +139,7 @@ var Header = React.createClass({
 		if (list.autokey && this.props.data[list.autokey.path]) {
 			var autokeyLabel = list.autokey.path.substr(0,1).toUpperCase() + list.autokey.path.substr(1) + ': ';
 			return (
-				<li>
+				<li className="hidden-xs">
 					<AltText
 						normal={autokeyLabel + this.props.data[list.autokey.path]}
 						modified={'ID: ' + this.props.data.id}
