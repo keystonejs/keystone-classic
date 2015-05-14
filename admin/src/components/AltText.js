@@ -1,5 +1,6 @@
-var React = require('react'),
-	vkey = require('vkey');
+var React = require('react');
+var blacklist = require('blacklist');
+var vkey = require('vkey');
 
 var AltText = React.createClass({
 	
@@ -45,7 +46,9 @@ var AltText = React.createClass({
 	},
 	
 	render: function() {
-		return React.createElement(this.props.component, null, this.state.modified ? this.props.modified : this.props.normal);
+		var props = blacklist(this.props, 'component', 'modifier', 'normal', 'modified');
+
+		return React.createElement(this.props.component, props, this.state.modified ? this.props.modified : this.props.normal);
 	}
 	
 });
