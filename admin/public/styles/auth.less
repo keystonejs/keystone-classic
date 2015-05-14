@@ -9,24 +9,10 @@
 // Variables
 // ------------------------------
 
-// needed so the included bootstrap components don't break
-@import "bootstrap/variables.less";
-
 // reset variables here
 @brand-primary:         #348dd9;
 @body-bg:               #fafafa;
 @gutter-width:          30px;
-
-
-
-// Imports
-// ------------------------------
-@import "bootstrap/mixins.less";
-@import "bootstrap/normalize.less";
-@import "bootstrap/scaffolding.less";
-@import "bootstrap/alerts.less";
-@import "bootstrap/forms.less";
-@import "bootstrap/buttons.less";
 
 
 
@@ -81,7 +67,7 @@ body {
 .auth-body {
 	.box-shadow( 0 2px 1px darken(@body-bg, 3.5%) );
 	background-color: white;
-	border-radius: @border-radius-small;
+	border-radius: @border-radius-base;
 	border: 1px solid darken(@body-bg, 6.5%);
 	border-bottom-color: darken(@body-bg, 11.5%);
 	margin-bottom: 2em;
@@ -164,7 +150,7 @@ body {
 
 // fields
 .form-control {
-	border-top-color: darken(@input-border, 13.5%);
+	border-top-color: darken(@input-border-color, 13.5%);
 	-webkit-appearance: none;
 	
 	&:focus {

@@ -18,14 +18,14 @@ block content
 			else
 				form(method="post", novalidate).auth-form
 					input(type='hidden', name=csrf_token_key, value=csrf_token_value)
-					.form-group
-						label(for='email') Email
-						input(type='email', name='email', id='email', value=submitted.email).form-control
-					.form-group
-						label(for='password') Password
-						input(type='password', name='password', id='password').form-control
+					.form-field
+						label(for='email').form-label Email
+						input(type='email', name='email', id='email', value=submitted.email).FormInput
+					.form-field
+						label(for='password').form-label Password
+						input(type='password', name='password', id='password').FormInput
 					
-					button(type='submit').btn.btn-primary Sign In
+					button(type='submit').Button.Button--primary Sign In
 				
 				//- TODO generic forgotten password functionality
 				//- button(type='button').btn.btn-link Forgot Password?
