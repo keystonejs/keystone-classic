@@ -170,21 +170,19 @@ module.exports = Field.create({
 	renderGoogleOptions: function() {
 		if (!this.props.enableMapsAPI) return null;
 		var replace = this.state.improve ? (
-			<label className="checkbox overwrite" htmlFor={this.props.paths.overwrite}>
+			<label className="checkbox">
 				<input type="checkbox" name={this.props.paths.overwrite} id={this.props.paths.overwrite} value="true" onChange={this.updateGoogleOption.bind(this, 'overwrite')} checked={this.state.overwrite} />
 				Replace existing data
 			</label>
 		) : null;
 		return (
-			<div className="row">
-				<div className="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2 improve-options">
-					<label className="checkbox autoimprove" htmlFor={this.props.paths.improve} title="When checked, this will attempt to fill missing fields. It will also get the lat/long">
-						<input type="checkbox" name={this.props.paths.improve} id={this.props.paths.improve} value="true" onChange={this.updateGoogleOption.bind(this, 'improve')} checked={this.state.improve} />
-						Autodetect and improve location on save
-					</label>
-					{replace}
-				</div>
-			</div>
+			<FormField offsetAbsentLabel>
+				<label className="checkbox mr-1" title="When checked, this will attempt to fill missing fields. It will also get the lat/long">
+					<input type="checkbox" name={this.props.paths.improve} id={this.props.paths.improve} value="true" onChange={this.updateGoogleOption.bind(this, 'improve')} checked={this.state.improve} />
+					Autodetect and improve location on save
+				</label>
+				{replace}
+			</FormField>
 		);
 	},
 	
