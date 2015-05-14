@@ -1,5 +1,7 @@
-var React = require('react'),
-	Field = require('../Field');
+var React = require('react');
+var Field = require('../Field');
+
+var FormField = require('elemental').FormField;
 
 module.exports = Field.create({
 	
@@ -14,33 +16,27 @@ module.exports = Field.create({
 	
 	renderUI: function() {
 		
-		var input, fieldClassName = 'field-ui';
-		
-		if (this.props.indent) {
-			fieldClassName += ' field-indented';
-		}
+		var input;
 		
 		if (this.shouldRenderField()) {
 			input = (
-				<div className={fieldClassName}>
-					<label htmlFor={this.props.path} className="checkbox">
-						<input type='checkbox' name={this.props.path} id={this.props.path} value='true' checked={this.props.value} onChange={this.valueChanged} />
-						{this.props.label}
-					</label>
-				</div>
+				<label htmlFor={this.props.path} className="checkbox">
+					<input type='checkbox' name={this.props.path} id={this.props.path} value='true' checked={this.props.value} onChange={this.valueChanged} />
+					{this.props.label}
+				</label>
 			);
 		} else {
 			var state = this.props.value ? 'checked' : 'unchecked';
 			var imgSrc = '/keystone/images/icons/16/checkbox-' + state + '.png';
 			input = (
-				<div className={fieldClassName}>
+				<div>
 					<img src={imgSrc} width='16' height='16' className={state} style={{marginRight: 5}} />
 					<span>{this.props.label}</span>
 				</div>
 			);
 		}
 		
-		return <div className="field field-type-boolean">{input}</div>;
+		return <FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean">{input}</FormField>;
 	}
 	
 });
