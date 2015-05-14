@@ -68,10 +68,11 @@ var Base = module.exports.Base = {
 	
 	renderField: function() {
 		var props = _.extend(this.props.inputProps, {
-			ref: 'focusTarget',
+			autoComplete: 'off',
 			name: this.props.path,
 			onChange: this.valueChanged,
-			autoComplete: 'off'
+			ref: 'focusTarget',
+			value: this.props.value
 		});
 		return <FormInput {...props} />;
 	},
