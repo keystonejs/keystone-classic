@@ -29,10 +29,13 @@ function logError(file, err) {
 
 module.exports = function(file, name) {
 	var b;
+	var building = false;
 	var queue = [];
 	var ready;
 	var src;
 	function build() {
+		if (building) return;
+		building = true;
 		var opts = { basedir: basedir };
 		if (devMode) {
 			logInit(file);
