@@ -112,7 +112,7 @@ module.exports = Field.create({
 	
 	renderSuburbState: function() {
 		return (
-			<FormField label="Suburb/State" className="form-field--secondary" htmlFor={this.props.path + '.suburb'}>
+			<FormField label="Suburb / State" className="form-field--secondary" htmlFor={this.props.path + '.suburb'}>
 				<FormRow>
 					<FormField width="two-thirds" className="form-field--secondary">
 						<FormInput name={this.props.path + '.suburb'} ref="suburb" value={this.props.value.suburb} onChange={this.fieldChanged.bind(this, 'suburb')} placeholder="Suburb" />
@@ -127,7 +127,7 @@ module.exports = Field.create({
 	
 	renderPostcodeCountry: function() {
 		return (
-			<FormField label="Postcode/Country" className="form-field--secondary" htmlFor={this.props.path + '.postcode'}>
+			<FormField label="Postcode / Country" className="form-field--secondary" htmlFor={this.props.path + '.postcode'}>
 				<FormRow>
 					<FormField width="one-third" className="form-field--secondary">
 						<FormInput name={this.props.path + '.postcode'} ref="postcode" value={this.props.value.postcode} onChange={this.fieldChanged.bind(this, 'postcode')} placeholder="Post Code" />
@@ -147,7 +147,7 @@ module.exports = Field.create({
 		}
 		
 		return (
-			<FormField label="Lat/Lng" className="form-field--secondary" htmlFor={this.props.paths.geo}>
+			<FormField label="Lat / Lng" className="form-field--secondary" htmlFor={this.props.paths.geo}>
 				<FormRow>
 					<FormField width="one-half" className="form-field--secondary">
 						<FormInput name={this.props.paths.geo} ref="geo1" value={this.props.value.geo ? this.props.value.geo[1] : ''} onChange={this.geoChanged.bind(this, 1)} placeholder="Latitude" />
