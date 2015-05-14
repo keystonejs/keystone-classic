@@ -316,12 +316,7 @@ module.exports = Field.create({
 	renderUI: function() {
 		var container = [],
 			body = [],
-			hasImage = this.hasImage(),
-			fieldClassName = 'field-ui';
-
-		if (hasImage) {
-			fieldClassName += ' has-image';
-		}
+			hasImage = this.hasImage();
 
 		if (this.shouldRenderField()) {
 			if (hasImage) {
@@ -344,12 +339,10 @@ module.exports = Field.create({
 	
 				{this.renderFileField()}
 				{this.renderFileAction()}
-	
-				<div className={fieldClassName}>
-					<div className='image-container'>{container}</div>
-					{body}
-					<Note note={this.props.note} />
-				</div>
+
+				<div className='image-container'>{container}</div>
+				{body}
+				<Note note={this.props.note} />
 			</FormField>
 		);
 	}

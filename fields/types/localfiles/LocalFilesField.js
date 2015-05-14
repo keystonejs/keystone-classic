@@ -180,11 +180,9 @@ module.exports = Field.create({
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}
-
-				<div className="field-ui">
-					{this.renderContainer()}
-					{this.renderToolbar()}
-				</div>
+				{this.renderContainer()}
+				{this.renderToolbar()}
+					
 			</div>
 		);
 	}

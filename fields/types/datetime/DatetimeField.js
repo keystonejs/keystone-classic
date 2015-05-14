@@ -77,23 +77,18 @@ module.exports = Field.create({
 
 	renderUI: function() {
 		
-		var input,
-			fieldClassName = 'field-ui';
+		var input;
 		
 		if (this.shouldRenderField()) {
 			input = (
-				<div className={fieldClassName}>
+				<div>
 					<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
 					<input type="text" name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" className="form-control time" />
 					<button type="button" className="btn btn-default btn-set-now" onClick={this.setNow}>Now</button>
 				</div>
 			);
 		} else {
-			input = (
-				<div className={fieldClassName}>
-					<FormInput noedit>{this.format(this.props.value, this.props.formatString)}</FormInput>
-				</div>
-			);
+			input = <FormInput noedit>{this.format(this.props.value, this.props.formatString)}</FormInput>;
 		}
 		
 		return (

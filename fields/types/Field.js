@@ -78,7 +78,6 @@ var Base = module.exports.Base = {
 	
 	renderUI: function(spec) {//eslint-disable-line no-unused-vars
 		var wrapperClassName = cx(('field-type-' + this.props.type), this.props.className);
-		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
 		return (
 			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
 				{this.shouldRenderField() ? this.renderField() : this.renderValue()}

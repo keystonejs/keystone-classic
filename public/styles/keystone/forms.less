@@ -21,7 +21,6 @@
 
 // Adding vertical spacing between form elements
 .field,
-.field-ui .row,
 #signin-form .row {
 	margin-top: @input-vspacing;
 }
@@ -47,23 +46,6 @@
 	a&:hover {
 		text-decoration: none;
 	}
-}
-
-
-
-
-// Name fields
-// ------------------------------
-
-// old
-.item-name .form-control {
-	color: @brand-primary;
-	margin-bottom: 20px;
-}
-// new
-.item-name-field > .field-ui,
-.modal-body > .item-name-field > .field-ui {
-	width: 100%;
 }
 
 
@@ -199,10 +181,6 @@ label.checkbox {
 	}
 	label+.row {
 		margin-top: 12px;
-	}
-	.field-ui {
-		.make-sm-column(12);
-		.make-md-column(12);
 	}
 	.noedit {
 		.make-sm-column(9);

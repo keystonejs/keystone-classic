@@ -188,12 +188,7 @@ module.exports = Field.create({
 	renderUI: function() {
 		var container = [],
 			body = [],
-			hasFile = this.hasFile(),
-			fieldClassName = 'field-ui';
-
-		if (hasFile) {
-			fieldClassName += ' has-file';
-		}
+			hasFile = this.hasFile();
 
 		if (this.shouldRenderField()) {
 			if (hasFile) {
@@ -215,11 +210,10 @@ module.exports = Field.create({
 				{this.renderFileField()}
 				{this.renderFileAction()}
 	
-				<div className={fieldClassName}>
-					<div className='file-container'>{container}</div>
-					{body}
-					<Note note={this.props.note} />
-				</div>
+				<div className='file-container'>{container}</div>
+				{body}
+				<Note note={this.props.note} />
+				
 			</div>
 		);
 	}

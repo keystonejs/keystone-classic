@@ -223,15 +223,11 @@ module.exports = Field.create({
 	renderUI: function() {
 		return (
 			<FormField label={this.props.label} className='field-type-cloudinaryimages'>
-
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}
-
-				<div className='field-ui'>
-					{this.renderContainer()}
-					{this.renderToolbar()}
-				</div>
+				{this.renderContainer()}
+				{this.renderToolbar()}
 			</FormField>
 		);
 	}
