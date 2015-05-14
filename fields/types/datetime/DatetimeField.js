@@ -1,8 +1,10 @@
-var React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note'),
-	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+var React = require('react');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+var DateInput = require('../../components/DateInput');
+var moment = require('moment');
+
+var FormField = require('elemental').FormField;
 
 module.exports = Field.create({
 	
@@ -94,13 +96,12 @@ module.exports = Field.create({
 		}
 		
 		return (
-			<div className="field field-type-datetime">
-				<label className="field-label">{this.props.label}</label>
+			<FormField label={this.props.label} className="field-type-datetime">
 				{input}
 				<div className="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2 field-note-wrapper">
 					<Note note={this.props.note} />
 				</div>
-			</div>
+			</FormField>
 		);
 	}
 

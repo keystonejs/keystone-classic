@@ -1,6 +1,8 @@
-var React = require('react'),
-	Pikaday = require('pikaday'),
-	moment = require('moment');
+var React = require('react');
+var Pikaday = require('pikaday');
+var moment = require('moment');
+
+var FormInput = require('elemental').FormInput;
 
 module.exports = React.createClass({
 	
@@ -58,7 +60,7 @@ module.exports = React.createClass({
 	},
 
 	render: function() {
-		return <input type="text" name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" className="form-control" />;
+		return <FormInput name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" />;
 	}
 	
 });

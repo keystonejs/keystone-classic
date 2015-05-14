@@ -1,8 +1,10 @@
-var React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note'),
-	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+var React = require('react');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+var DateInput = require('../../components/DateInput');
+var moment = require('moment');
+
+var InputGroup = require('elemental').InputGroup;
 
 module.exports = Field.create({
 	
@@ -55,10 +57,10 @@ module.exports = Field.create({
 	renderField: function() {
 		// TODO: Currently ignores inputProps
 		return (
-			<div>
+			<InputGroup>
 				<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} yearRange={this.props.yearRange} />
-				<Button onClick={this.setToday}>Today</Button>
-			</div>
+				<InputGroup.Addon onClick={this.setToday}>Today</InputGroup.Addon>
+			</InputGroup>
 		);
 	},
 
