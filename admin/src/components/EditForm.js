@@ -149,8 +149,8 @@ var EditForm = React.createClass({
 			if (data.createdAt) {
 				elements.createdAt = (
 					<div className="item-details__meta-item">
-						<span className="item-details__meta-label">Created</span>
-						<span className="item-details__meta-info">{moment(data.createdAt).format('Do MMM YY h:mm:ssa')}</span>
+						<span className="item-details__meta-label">Created on</span>
+						<span className="item-details__meta-info" title={moment(data.createdAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.createdAt).format('Do MMM YYYY')}</span>
 					</div>
 				);
 			}
@@ -159,11 +159,10 @@ var EditForm = React.createClass({
 		if (this.props.list.tracking.createdBy) {
 			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
 			if (data.createdBy) {
-				label = data.createdAt ? 'by' : 'Created by';
 				// todo: harden logic around user name
 				elements.createdBy = (
 					<div className="item-details__meta-item">
-						<span className="item-details__meta-label">{label}</span>
+						<span className="item-details__meta-label">Created by</span>
 						<span className="item-details__meta-info">{data.createdBy.name.first} {data.createdBy.name.last}</span>
 					</div>
 				);
@@ -175,8 +174,8 @@ var EditForm = React.createClass({
 			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
 				elements.updatedAt = (
 					<div className="item-details__meta-item">
-						<span className="item-details__meta-label">Updated</span>
-						<span className="item-details__meta-info">{moment(data.updatedAt).format('Do MMM YY h:mm:ssa')}</span>
+						<span className="item-details__meta-label">Updated on</span>
+						<span className="item-details__meta-info" title={moment(data.updatedAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.updatedAt).format('Do MMM YYYY')}</span>
 					</div>
 				);
 			}
@@ -185,17 +184,16 @@ var EditForm = React.createClass({
 		if (this.props.list.tracking.updatedBy) {
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
 			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
-				label = data.updatedAt ? 'by' : 'Created by';
 				elements.updatedBy = (
 					<div className="item-details__meta-item">
-						<span className="item-details__meta-label">{label}</span>
+						<span className="item-details__meta-label">Updated by</span>
 						<span className="item-details__meta-info">{data.updatedBy.name.first} {data.updatedBy.name.last}</span>
 					</div>
 				);
 			}
 		}
 		
-		return Object.keys(elements).length ? <div className="item-details__meta">{elements}</div> : null;
+		return Object.keys(elements).length ? <div className="item-details__meta hidden-xs">{elements}</div> : null;
 		
 	},
 	

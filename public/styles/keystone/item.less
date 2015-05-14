@@ -138,19 +138,21 @@
 
 .item-details__meta {
 	color: #aaa;
+	font-size: @font-size-sm;
 	margin-bottom: @grid-gutter-width;
 }
 .item-details__meta-item {
-	display: inline-block;
-	margin-right: (@padding-base-horizontal / 2);
-	
-	&:last-child {
-		margin-right: 0;
-	}
+	border-bottom: 1px dotted rgba(0, 0, 0, 0.06);
+	line-height: 1;
+	margin-bottom: .66em;
+	text-align: right;
 }
 .item-details__meta-label,
 .item-details__meta-info {
+	background-color: @body-bg;
+	bottom: -1px;
 	display: inline-block;
+	position: relative;
 
 	> a {
 		color: inherit;
@@ -158,6 +160,7 @@
 }
 .item-details__meta-label {
 	color: #ccc;
+	float: left;
 	margin-right: (@padding-base-horizontal / 2);
 }
 
