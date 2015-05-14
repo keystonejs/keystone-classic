@@ -15,16 +15,20 @@ function ts() {
 	return chalk.gray(moment().format('YYYY-MM-DD HH:MM '));
 }
 
-function logError(file, err) {
-	console.log(ts() + chalk.red('error building ' + chalk.underline(file) + ':') + '\n' + err.message);
+function logInit(file) {
+	console.log(chalk.grey('Watching ' + chalk.black.underline('keystone/admin/src/' + file) + ' for changes...'));
 }
 
 function logRebuild(file) {
 	console.log(ts() + chalk.green('rebuilt ' + chalk.underline(file)));
 }
 
-module.exports = function(file, name) {
+function logError(file, err) {
+	console.log(ts() + chalk.red('error building ' + chalk.underline(file) + ':') + '\n' + err.message);
+}
 
+module.exports = function(file, name) {
+	var b;
 	var queue = [];
 	var ready;
 	var src;
@@ -34,7 +38,7 @@ module.exports = function(file, name) {
 			opts.standalone = name;
 		}
 		if (devMode) {
-			console.log(chalk.grey('Watching ' + chalk.black.underline(file) + ' for changes...'));
+			logInit(file);
 			opts.cache = {};
 			opts.packageCache = {};
 		}
