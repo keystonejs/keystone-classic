@@ -182,8 +182,8 @@ module.exports = Field.create({
 		
 		if (!this.props.many && this.props.value) {
 			body.push(
-				<Button type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='btn-goto-linked-item'>
-					view {this.props.refList.singular.toLowerCase()}
+				<Button type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='btn-goto-linked-item' title={'Go to "' + this.state.expandedValues[0].label + '"'}>
+					<span className="octicon octicon-file-symlink-file" />
 				</Button>
 			);
 		}
