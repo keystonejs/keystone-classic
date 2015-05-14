@@ -56,11 +56,6 @@ var Base = module.exports.Base = {
 		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
 	},
 	
-	renderLabel: function() {
-		if (!this.props.label) return null;
-		return <label className="field-label">{this.props.label}</label>;
-	},
-	
 	renderNote: function() {
 		if (!this.props.note) return null;
 		return <Note note={this.props.note} />;
