@@ -1,8 +1,10 @@
-var Select = require('react-select'),
-	React = require('react'),
-	Field = require('../Field'),
-	superagent = require('superagent'),
-	_ = require('underscore');
+var Select = require('react-select');
+var React = require('react');
+var Field = require('../Field');
+var superagent = require('superagent');
+var _ = require('underscore');
+
+var Button = require('elemental').Button;
 
 module.exports = Field.create({
 	
@@ -180,9 +182,9 @@ module.exports = Field.create({
 		
 		if (!this.props.many && this.props.value) {
 			body.push(
-				<a href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='btn btn-link btn-goto-linked-item'>
+				<Button type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='btn-goto-linked-item'>
 					view {this.props.refList.singular.toLowerCase()}
-				</a>
+				</Button>
 			);
 		}
 		
