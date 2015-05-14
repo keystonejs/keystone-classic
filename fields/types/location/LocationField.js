@@ -6,12 +6,12 @@
 var React = require('react');
 var _ = require('underscore');
 var Field = require('../Field');
-var Note = require('../../components/Note');
 
 var Button = require('elemental').Button;
 var FormField = require('elemental').FormField;
 var FormInput = require('elemental').FormInput;
 var FormLabel = require('elemental').FormLabel;
+var FormNote = require('elemental').FormNote;
 var FormRow = require('elemental').FormRow;
 
 module.exports = Field.create({
@@ -217,7 +217,7 @@ module.exports = Field.create({
 				{this.renderPostcodeCountry()}
 				{this.renderGeo()}
 				{this.renderGoogleOptions()}
-				<Note note={this.props.note} />
+				<FormNote note={this.props.note} />
 			</div>
 		);
 		

@@ -2,12 +2,12 @@ var _ = require('underscore');
 var $ = require('jquery');
 var React = require('react');
 var Field = require('../Field');
-var Note = require('../../components/Note');
 var Select = require('react-select');
 
 var Button = require('elemental').Button;
 var FormField = require('elemental').FormField;
 var FormInput = require('elemental').FormInput;
+var FormNote = require('elemental').FormNote;
 
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
@@ -342,7 +342,7 @@ module.exports = Field.create({
 
 				<div className='image-container'>{container}</div>
 				{body}
-				<Note note={this.props.note} />
+				<FormNote note={this.props.note} />
 			</FormField>
 		);
 	}

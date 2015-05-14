@@ -3,10 +3,10 @@ var blacklist = require('blacklist');
 var cx = require('classnames');
 var evalDependsOn = require('../utils/evalDependsOn.js');
 var React = require('react');
-var Note = require('../components/Note');
 
 var FormField = require('elemental').FormField;
 var FormInput = require('elemental').FormInput;
+var FormNote = require('elemental').FormNote;
 var Button = require('elemental').Button;
 
 function validateSpec(spec) {
@@ -58,7 +58,7 @@ var Base = module.exports.Base = {
 	
 	renderNote: function() {
 		if (!this.props.note) return null;
-		return <Note note={this.props.note} />;
+		return <FormNote note={this.props.note} />;
 	},
 	
 	renderField: function() {

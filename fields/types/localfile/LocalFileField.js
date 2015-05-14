@@ -1,8 +1,8 @@
 var React = require('react');
 var Field = require('../Field');
-var Note = require('../../components/Note');
 
 var FormInput = require('elemental').FormInput;
+var FormNote = require('elemental').FormNote;
 
 module.exports = Field.create({
 	
@@ -212,7 +212,7 @@ module.exports = Field.create({
 	
 				<div className='file-container'>{container}</div>
 				{body}
-				<Note note={this.props.note} />
+				<FormNote note={this.props.note} />
 				
 			</div>
 		);

@@ -1,12 +1,12 @@
 var React = require('react');
 var Field = require('../Field');
-var Note = require('../../components/Note');
 var DateInput = require('../../components/DateInput');
 var moment = require('moment');
 
 var Button = require('elemental').Button;
 var FormField = require('elemental').FormField;
 var FormInput = require('elemental').FormInput;
+var FormNote = require('elemental').FormNote;
 var FormRow = require('elemental').FormRow;
 var InputGroup = require('elemental').InputGroup;
 
@@ -103,9 +103,7 @@ module.exports = Field.create({
 		return (
 			<FormField label={this.props.label} className="field-type-datetime">
 				{input}
-				<div className="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2 field-note-wrapper">
-					<Note note={this.props.note} />
-				</div>
+				<FormNote note={this.props.note} />
 			</FormField>
 		);
 	}
