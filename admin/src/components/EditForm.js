@@ -67,7 +67,7 @@ var EditForm = React.createClass({
 			
 		} else {
 			return wrapNameField(
-				<h2 className="form-heading name-value">{this.props.data.name || '(no name)'}</h2>
+				<h2>{this.props.data.name || '(no name)'}</h2>
 			);
 		}
 	},
