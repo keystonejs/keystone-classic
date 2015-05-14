@@ -12,6 +12,14 @@
 	position: absolute;
 	left: -9999px;
 }
+.field-type-cloudinaryimage,
+.field-type-cloudinaryimages {
+
+	// give values some breathing room
+	.FormInput-noedit {
+		margin-bottom: 10px;
+	}
+}
 
 
 
@@ -66,15 +74,7 @@
 	
 	.image-details {
 		overflow: hidden;
-		.image-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
+
 		.image-message {
 			margin-left: 0px;
 			font-size: 12px;
@@ -103,6 +103,20 @@
 	}
 }
 
+.img-thumbnail {
+	background-color: white;
+	border-radius: @border-radius-base;
+	border: 1px solid @input-border-color;
+	display: inline-block;
+	height: auto;
+	line-height: 1;
+	max-width: 100%;
+	padding: 4px;
+
+	// contain the absolutely position elements inside the thumbnail
+	position: relative;
+}
+
 
 
 
@@ -110,6 +124,7 @@
 // ------------------------------
 
 .field-type-cloudinaryimages {
+
 	.image-field {
 		width: auto;
 		float: left;
@@ -159,17 +174,18 @@
 				}
 			}
 		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			color: #6A6A6A;
-			font-size: 23px;
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
+		.img-loading,
+		.img-uploading,
+		.upload-pending,
+		.delete-pending {
 			bottom: 0;
+			color: rgba(0, 0, 0, 0.66);
+			left: 0;
 			line-height: 100px;
+			position: absolute;
+			right: 0;
 			text-align: center;
-			text-shadow: 0 0 50px #FFFFFF;
+			top: 0;
 		}
 		.image-message {
 			margin-left: 0px;
@@ -206,12 +222,6 @@
 			font-size: 12px;
 			width: 100%;
 		}
-	}
-	.field-value {
-		width: auto;
-		float: left;
-		margin-right: 10px;
-		margin-bottom: 15px;
 	}
 	.upload-queued,
 	.delete-queued {

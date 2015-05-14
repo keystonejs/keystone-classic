@@ -1,9 +1,13 @@
-var _ = require('underscore'),
-	$ = require('jquery'),
-	React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note'),
-	Select = require('react-select');
+var _ = require('underscore');
+var $ = require('jquery');
+var React = require('react');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+var Select = require('react-select');
+
+var Button = require('elemental').Button;
+var FormField = require('elemental').FormField;
+var FormInput = require('elemental').FormInput;
 
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
@@ -142,10 +146,10 @@ module.exports = Field.create({
 
 		if (this.hasLocal()) {
 			className += ' upload-pending';
-			iconClassName = 'ion-upload upload-pending';
+			iconClassName = 'upload-pending mega-octicon octicon-cloud-upload';
 		} else if (this.state.removeExisting) {
 			className += ' removed';
-			iconClassName = 'delete-pending ion-close';
+			iconClassName = 'delete-pending mega-octicon octicon-x';
 		}
 
 		var body = [this.renderImagePreviewThumbnail()];
@@ -176,8 +180,11 @@ module.exports = Field.create({
 		if (!this.hasLocal() && !this.state.removeExisting) {
 			values = (
 				<div className='image-values'>
-					<div className='field-value'>{this.props.value.url}</div>
-					{this.renderImageDimensions()}
+					<FormInput noedit>{this.props.value.url}</FormInput>
+					{/*
+						TODO: move this somewhere better when appropriate
+						this.renderImageDimensions()
+					*/}
 				</div>
 			);
 		}
@@ -191,7 +198,7 @@ module.exports = Field.create({
 	},
 
 	renderImageDimensions: function() {
-		return <div className='field-value'>{this.props.value.width} x {this.props.value.height}</div>;
+		return <FormInput noedit>{this.props.value.width} x {this.props.value.height}</FormInput>;
 	},
 
 	/**
@@ -204,21 +211,15 @@ module.exports = Field.create({
 	renderAlert: function() {
 		if (this.hasLocal()) {
 			return (
-				<div className='upload-queued pull-left'>
-					<div className='alert alert-success'>Image selected - save to upload</div>
-				</div>
+				<FormInput noedit>Image selected - save to upload</FormInput>
 			);
 		} else if (this.state.origin === 'cloudinary') {
 			return (
-				<div className='select-queued pull-left'>
-					<div className='alert alert-success'>Image selected from Cloudinary</div>
-				</div>
+				<FormInput noedit>Image selected from Cloudinary</FormInput>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<div className='delete-queued pull-left'>
-					<div className='alert alert-danger'>Image {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</div>
-				</div>
+				<FormInput noedit>Image {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</FormInput>
 			);
 		} else {
 			return null;
@@ -234,21 +235,21 @@ module.exports = Field.create({
 	renderClearButton: function() {
 		if (this.state.removeExisting) {
 			return (
-				<button type='button' className='btn btn-link btn-cancel btn-undo-image' onClick={this.undoRemove}>
+				<Button type="link-cancel" onClick={this.undoRemove}>
 					Undo Remove
-				</button>
+				</Button>
 			);
 		} else {
 			var clearText;
 			if (this.hasLocal()) {
-				clearText = 'Cancel Upload';
+				clearText = 'Cancel';
 			} else {
 				clearText = (this.props.autoCleanup ? 'Delete Image' : 'Remove Image');
 			}
 			return (
-				<button type='button' className='btn btn-link btn-cancel btn-delete-image' onClick={this.removeImage}>
+				<Button type="link-cancel" onClick={this.removeImage}>
 					{clearText}
-				</button>
+				</Button>
 			);
 		}
 	},
@@ -265,9 +266,9 @@ module.exports = Field.create({
 		return (
 			<div key={this.props.path + '_toolbar'} className='image-toolbar'>
 				<div className='pull-left'>
-					<button type='button' onClick={this.changeImage} className='btn btn-default btn-upload-image'>
+					<Button onClick={this.changeImage}>
 						{this.hasImage() ? 'Change' : 'Upload'} Image
-					</button>
+					</Button>
 					{this.hasImage() && this.renderClearButton()}
 				</div>
 				{this.props.select && this.renderImageSelect()}
@@ -339,8 +340,7 @@ module.exports = Field.create({
 		}
 
 		return (
-			<div className='field field-type-cloudinaryimage'>
-				<label className='field-label'>{this.props.label}</label>
+			<FormField label={this.props.label} className='field-type-cloudinaryimage'>
 	
 				{this.renderFileField()}
 				{this.renderFileAction()}
@@ -350,7 +350,7 @@ module.exports = Field.create({
 					{body}
 					<Note note={this.props.note} />
 				</div>
-			</div>
+			</FormField>
 		);
 	}
 });

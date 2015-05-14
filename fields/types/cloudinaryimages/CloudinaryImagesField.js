@@ -1,6 +1,10 @@
-var _ = require('underscore'),
-	React = require('react'),
-	Field = require('../Field');
+var _ = require('underscore');
+var React = require('react');
+var Field = require('../Field');
+
+var Button = require('elemental').Button;
+var FormField = require('elemental').FormField;
+var FormInput = require('elemental').FormInput;
 
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
@@ -12,9 +16,9 @@ var Thumbnail = React.createClass({
 		var iconClassName, imageDetails;
 
 		if (this.props.deleted) {
-			iconClassName = 'delete-pending ion-close';
+			iconClassName = 'delete-pending mega-octicon octicon-x';
 		} else if (this.props.isQueued) {
-			iconClassName = 'img-uploading ion-upload';
+			iconClassName = 'img-uploading mega-octicon octicon-cloud-upload';
 		}
 
 		var previewClassName = 'image-preview';
@@ -30,7 +34,7 @@ var Thumbnail = React.createClass({
 		if (!this.props.isQueued) {
 			imageDetails = (
 				<div className='image-details'>
-					<button onClick={this.props.toggleDelete} type='button' className='btn btn-link btn-cancel btn-undo-remove'>{actionLabel}</button>
+					<Button type="link-cancel" block onClick={this.props.toggleDelete}>{actionLabel}</Button>
 				</div>
 			);
 		}
@@ -153,7 +157,7 @@ module.exports = Field.create({
 			var imageText = count === 1 ? 'image' : 'images';
 
 			body.push(<div key={queueType + '-toolbar'} className={queueType + '-queued' + ' pull-left'}>
-				<div className={'alert alert-' + alertType}>{count} {imageText} {action} - save to confirm</div>
+				<FormInput noedit>{count} {imageText} {action} - save to confirm</FormInput>
 			</div>);
 		};
 
@@ -162,13 +166,13 @@ module.exports = Field.create({
 
 		var clearFilesButton;
 		if (this.hasFiles()) {
-			clearFilesButton = <button type='button' className='btn btn-default btn-upload' onClick={this.clearFiles}>Clear selection</button>;
+			clearFilesButton = <Button onClick={this.clearFiles} className="ml-5">Clear selection</Button>;
 		}
 
 		return (
 			<div className='images-toolbar row col-sm-3 col-md-12'>
 				<div className='pull-left'>
-					<button type='button' className='btn btn-default btn-upload' onClick={this.changeImage}>Select files</button>
+					<Button onClick={this.changeImage}>Select files</Button>
 					{clearFilesButton}
 				</div>
 				{body}
@@ -182,7 +186,7 @@ module.exports = Field.create({
 				<div className='image-preview'>
 					<span className='img-thumbnail'>
 						<span className='img-dropzone' />
-						<div className='ion-picture img-uploading' />
+						<div className='img-uploading mega-octicon octicon-file-media' />
 					</span>
 				</div>
 
@@ -218,8 +222,7 @@ module.exports = Field.create({
 
 	renderUI: function() {
 		return (
-			<div className='field field-type-cloudinaryimages'>
-				<label className='field-label'>{this.props.label}</label>
+			<FormField label={this.props.label} className='field-type-cloudinaryimages'>
 
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
@@ -229,7 +232,7 @@ module.exports = Field.create({
 					{this.renderContainer()}
 					{this.renderToolbar()}
 				</div>
-			</div>
+			</FormField>
 		);
 	}
 });
