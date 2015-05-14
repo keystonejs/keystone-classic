@@ -96,7 +96,7 @@ var Header = React.createClass({
 			<li key="back">
 				<Button type="link" href={'/keystone/' + list.path}>
 					{backIcon}
-					All {list.plural}
+					{list.plural}
 				</Button>
 			</li>
 		);
@@ -128,27 +128,9 @@ var Header = React.createClass({
 	renderInfo: function() {
 		return (
 			<ul className="EditForm__header__list EditForm__header__list--right">
-				{this.renderKeyOrId()}
 				{this.renderCreateButton()}
 			</ul>
 		);
-	},
-	
-	renderKeyOrId: function() {
-		var list = this.props.list;
-		if (list.autokey && this.props.data[list.autokey.path]) {
-			var autokeyLabel = list.autokey.path.substr(0,1).toUpperCase() + list.autokey.path.substr(1) + ': ';
-			return (
-				<li className="hidden-xs">
-					<AltText
-						normal={autokeyLabel + this.props.data[list.autokey.path]}
-						modified={'ID: ' + this.props.data.id}
-						className="EditForm__header__list-text"
-					/>
-				</li>	
-			);
-		}
-		return <li>id: {this.props.data.id}</li>;
 	},
 	
 	renderCreateButton: function() {

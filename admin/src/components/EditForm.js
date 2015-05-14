@@ -3,10 +3,12 @@ var moment = require('moment');
 var React = require('react');
 var Fields = require('../fields');
 var FormHeading = require('./FormHeading');
+var AltText = require('./AltText');
 var Toolbar = require('./Toolbar');
 var InvalidFieldType = require('./InvalidFieldType');
 
 var Button = require('elemental').Button;
+var FormInput = require('elemental').FormInput;
 var FormField = require('elemental').FormField;
 
 var EditForm = React.createClass({
@@ -34,6 +36,30 @@ var EditForm = React.createClass({
 		this.setState({
 			values: values
 		});
+	},
+	
+	renderKeyOrId: function() {
+		var className = 'EditForm__key-or-id';
+		var list = this.props.list;
+
+		if (list.nameField && list.autokey && this.props.data[list.autokey.path]) {
+			return (
+				<AltText
+					normal={list.autokey.path + ': ' + this.props.data[list.autokey.path]}
+					modified={'ID: ' + String(this.props.data.id)}
+					component="div"
+					title="Press <alt> to reveal the ID"
+					className={className} />
+			);
+		} else if (list.autokey && this.props.data[list.autokey.path]) {
+			return (
+				<div className={className}>{list.autokey.path}: {this.props.data[list.autokey.path]}</div>
+			);
+		} else if (list.nameField) {
+			return (
+				<div className={className}>id: {this.props.data.id}</div>
+			);
+		}
 	},
 	
 	renderNameField: function() {
@@ -148,23 +174,22 @@ var EditForm = React.createClass({
 			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
 			if (data.createdAt) {
 				elements.createdAt = (
-					<div className="EditForm__meta-item">
-						<span className="EditForm__meta-label">Created on</span>
-						<span className="EditForm__meta-info" title={moment(data.createdAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.createdAt).format('Do MMM YYYY')}</span>
-					</div>
+					<FormField label="Created on">
+						<FormInput noedit title={moment(data.createdAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.createdAt).format('Do MMM YYYY')}</FormInput>
+					</FormField>
 				);
 			}
 		}
 		
 		if (this.props.list.tracking.createdBy) {
 			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
+			var label = this.props.list.tracking.createdAt ? 'by' : 'Created by';
 			if (data.createdBy) {
 				// todo: harden logic around user name
 				elements.createdBy = (
-					<div className="EditForm__meta-item">
-						<span className="EditForm__meta-label">Created by</span>
-						<span className="EditForm__meta-info">{data.createdBy.name.first} {data.createdBy.name.last}</span>
-					</div>
+					<FormField label="Created by">
+						<FormInput noedit>{data.createdBy.name.first} {data.createdBy.name.last}</FormInput>
+					</FormField>
 				);
 			}
 		}
@@ -173,27 +198,31 @@ var EditForm = React.createClass({
 			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
 			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
 				elements.updatedAt = (
-					<div className="EditForm__meta-item">
-						<span className="EditForm__meta-label">Updated on</span>
-						<span className="EditForm__meta-info" title={moment(data.updatedAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.updatedAt).format('Do MMM YYYY')}</span>
-					</div>
+					<FormField label="Updated on">
+						<FormInput noedit title={moment(data.updatedAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.updatedAt).format('Do MMM YYYY')}</FormInput>
+					</FormField>
 				);
 			}
 		}
 		
 		if (this.props.list.tracking.updatedBy) {
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
+			var label = this.props.list.tracking.createdAt ? 'by' : 'Updated by';
 			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
 				elements.updatedBy = (
-					<div className="EditForm__meta-item">
-						<span className="EditForm__meta-label">Updated by</span>
-						<span className="EditForm__meta-info">{data.updatedBy.name.first} {data.updatedBy.name.last}</span>
-					</div>
+					<FormField label="Updated by">
+						<FormInput noedit>{data.updatedBy.name.first} {data.updatedBy.name.last}</FormInput>
+					</FormField>
 				);
 			}
 		}
 		
-		return Object.keys(elements).length ? <div className="EditForm__meta hidden-xs">{elements}</div> : null;
+		return Object.keys(elements).length ? (
+			<div className="EditForm__meta">
+				<h3 className="form-heading">Meta</h3>
+				{elements}
+			</div>
+		) : null;
 		
 	},
 	
@@ -202,14 +231,15 @@ var EditForm = React.createClass({
 		return (
 			<div className="row">
 				<div className="col-md-3 col-md-push-9">
-					{this.renderTrackingMeta()}
 				</div>
 				<div className="col-md-9 col-md-pull-3">
 					<form method="post" encType="multipart/form-data" className="EditForm horizontal-form">
 						<input type="hidden" name="action" value="updateItem" />
 						<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 						{this.renderNameField()}
+						{this.renderKeyOrId()}
 						{this.renderFormElements()}
+						{this.renderTrackingMeta()}
 						{this.renderToolbar()}
 					</form>
 				</div>

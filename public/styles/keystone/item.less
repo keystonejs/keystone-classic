@@ -116,48 +116,23 @@
 		vertical-align: middle;
 	}
 }
-.EditForm__header__list-text {
-	display: inline-block;
-	vertical-align: middle;
-
-	// handle alignment issue caused by <button> and <input> elements having borders
-	margin-top: 2px;
-}
 
 
 
 
-// Item Meta (tracking)
-// Displayed to the right of the form on tablets and up
+// Key or ID
+// Displayed beneath the item name
 // ------------------------------
 
+.EditForm__key-or-id {
+	color: @input-placeholder-color;
+	font-family: @font-family-monospace;
+	margin-bottom: 3em;
+	margin-top: -2em;
 
-.EditForm__meta {
-	color: #aaa;
-	font-size: @font-size-sm;
-	margin-bottom: @grid-gutter-width;
-}
-.EditForm__meta-item {
-	border-bottom: 1px dotted rgba(0, 0, 0, 0.06);
-	line-height: 1;
-	margin-bottom: .66em;
-	text-align: right;
-}
-.EditForm__meta-label,
-.EditForm__meta-info {
-	background-color: @body-bg;
-	bottom: -1px;
-	display: inline-block;
-	position: relative;
-
-	> a {
-		color: inherit;
+	&::first-letter {
+		text-transform: uppercase;
 	}
-}
-.EditForm__meta-label {
-	color: #ccc;
-	float: left;
-	margin-right: (@padding-base-horizontal / 2);
 }
 
 
