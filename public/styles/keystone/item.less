@@ -23,7 +23,7 @@
 // Left Side - Contains the back link and search field
 // Right Side - Contains key/id and the create link
 
-// Remove the padding from the offending elements to keep everything aligned correctly
+// remove the padding from elements on either side to keep everything aligned correctly
 
 .item-header__left {
 	float: left;
@@ -48,19 +48,26 @@
 
 .item-header__search-field {
 	margin-bottom: 0;
-	width: 240px;
 
 	.IconField__icon {
 		color: @app-primary;
 	}
 }
+
+// make the input appear as a button link until focused
 .item-header__search-input {
+	// override elemental's transition to catch the width or it looks weird
+	.transition( all 0.15s ease-in-out ); 
 	.placeholder(@link-color);
 	background: transparent;
 	border-color: transparent;
 	box-shadow: none;
 
-	// make the input appear as a link on hover
+	// set the width to only be as long as if it were a button initially
+	// this is updated on focus to a more comfortable typing length
+	width: 100px;
+
+	// decorate the input as a link
 	&:hover {
 		.placeholder(@link-hover-color);
 		border-color: transparent;
@@ -84,6 +91,7 @@
 		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px fade(@input-border-color-focus, 10%);
 		cursor: auto;
 		outline: 0;
+		width: 240px;
 
 		// handle placeholder text
 		&::-moz-placeholder { text-decoration: none; }
