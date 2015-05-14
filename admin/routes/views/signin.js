@@ -1,5 +1,5 @@
-var keystone = require('../../'),
-	session = require('../../lib/session');
+var keystone = require('../../../'),
+	session = require('../../../lib/session');
 
 exports = module.exports = function(req, res) {
 
@@ -18,7 +18,7 @@ exports = module.exports = function(req, res) {
 			req.flash('error', 'There was an error with your request, please try again.');
 			return renderView();
 		}
-		
+
 		if (!req.body.email || !req.body.password) {
 			req.flash('error', 'Please enter your email address and password.');
 			return renderView();
