@@ -3,40 +3,6 @@
 // ==============================
 
 
-// Header
-// ------------------------------
-
-.EditForm__header {
-	border-bottom: 1px dashed darken(@body-bg, 10%);
-	color: @gray-light;
-	margin-bottom: 3em;
-	padding-bottom: 1em;
-	padding-top: 1em;
-
-	// clear the interior floats
-	> .container {
-		&:extend(.clearfix all);
-	}
-}
-
-
-// Left Side - Contains the back link and search field
-// Right Side - Contains key/id and the create link
-
-// remove the padding from elements on either side to keep everything aligned correctly
-
-.EditForm__header__list--left {
-	float: left;
-
-	> li:first-child > .Button {
-		padding-left: 0;
-	}
-}
-.EditForm__header__list--right {
-	float: right;
-}
-
-
 
 
 // Search
