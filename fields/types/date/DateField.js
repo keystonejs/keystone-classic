@@ -3,6 +3,7 @@ var Field = require('../Field');
 var DateInput = require('../../components/DateInput');
 var moment = require('moment');
 
+var Button = require('elemental').Button;
 var InputGroup = require('elemental').InputGroup;
 var FormInput = require('elemental').FormInput;
 
@@ -58,8 +59,12 @@ module.exports = Field.create({
 		// TODO: Currently ignores inputProps
 		return (
 			<InputGroup>
-				<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} yearRange={this.props.yearRange} />
-				<InputGroup.Addon onClick={this.setToday}>Today</InputGroup.Addon>
+				<InputGroup.Section grow>
+					<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} yearRange={this.props.yearRange} />
+				</InputGroup.Section>
+				<InputGroup.Section>
+					<Button onClick={this.setToday}>Today</Button>
+				</InputGroup.Section>
 			</InputGroup>
 		);
 	},

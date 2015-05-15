@@ -90,8 +90,12 @@ module.exports = Field.create({
 					</FormField>
 					<FormField width="one-half">
 						<InputGroup>
-							<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
-							<InputGroup.Addon onClick={this.setNow}>Now</InputGroup.Addon>
+							<InputGroup.Section grow>
+								<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
+							</InputGroup.Section>
+							<InputGroup.Section>
+								<Button onClick={this.setNow}>Now</Button>
+							</InputGroup.Section>
 						</InputGroup>
 					</FormField>
 				</FormRow>
