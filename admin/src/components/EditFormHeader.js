@@ -92,7 +92,7 @@ var Header = React.createClass({
 		if (!els.length) {
 			return (
 				<Button type="link" href={'/keystone/' + list.path}>
-					<span className="octicon octicon-list-unordered mr-5" />
+					<span className="octicon octicon-list-unordered" />
 					{list.plural}
 				</Button>
 			);
@@ -135,7 +135,7 @@ var Header = React.createClass({
 		/* eslint-disable no-script-url */
 		return (
 			<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
-				<span className="octicon octicon-plus mr-5" />
+				<span className="octicon octicon-plus" />
 				New {this.props.list.singular}
 			</Button>
 		);
