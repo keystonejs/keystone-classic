@@ -1,39 +1,32 @@
 //
-// ITEM LIST
+// List view
+// ==============================
+
+
+
+
+// Blank State (empty list)
 // --------------------------------------------------
 
-//
-// Empty Lists
-// --------------------------------------------------
-.empty-list {
-	border: none;
+.blank-state {
+	background-color: darken(@body-bg, 4%);
+	border-radius: @border-radius-base;
+	margin: 3em 0;
+	text-align: center;
 }
+.blank-state__heading {
+	color: @gray-light;
 
-//
-// Creating
-// --------------------------------------------------
-.create-item {
-	
-	.form, .toolbar-create {
-		display: none;
-	}
-	
-	.form {
-		margin-bottom: 10px;
-	}
-	
-	.toolbar {
-		border-top: none;
-		padding: 0;
-		margin: 0;
-	}
-	
+	// apply the padding to the heading (not the wrapper) so it's relative to the font-size
+	padding: 3em;
 }
 
 
-//
+
+
 // List Pagination
 // --------------------------------------------------
+
 .list-pagination {
 	.clearfix;
 	color: @gray-light;
