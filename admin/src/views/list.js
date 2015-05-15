@@ -24,16 +24,14 @@ var View = React.createClass({
 	},
 	
 	renderCreateButton: function() {
+		var props = { type: 'success' };
 		if (Keystone.list.autocreate) {
-			return (
-				<Button type="success" href={'?new' + Keystone.csrf.query}>
-					<span className="octicon octicon-plus mr-5 mr-5" />
-					Create {Keystone.list.singular}
-				</Button>
-			);
+			props.href = '?new' + Keystone.csrf.query;
+		} else {
+			props.onClick = this.toggleCreate.bind(this, true);
 		}
 		return (
-			<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
+			<Button {...props}>
 				<span className="octicon octicon-plus mr-5 mr-5" />
 				Create {Keystone.list.singular}
 			</Button>
