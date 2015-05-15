@@ -13,7 +13,7 @@
 
 
 // Layout
-// --------------------------------------------------
+// ------------------------------
 
 // Deviate from Bootstrap to get the most out of the viewport 
 
@@ -31,7 +31,8 @@
 
 
 // Typography
-// --------------------------------------------------
+// ------------------------------
+
 .code {
 	font-family: @font-family-monospace;
 }
@@ -39,8 +40,21 @@
 
 
 
+// Toolbar
+// ------------------------------
+
+.toolbar {
+	border-bottom: 1px solid @gray-lighter;
+	margin-bottom: @grid-gutter-width;
+	margin-top: @grid-gutter-width;
+	padding-bottom: @grid-gutter-width;
+}
+
+
+
+
 // Flash Messages
-// --------------------------------------------------
+// ------------------------------
 
 .flash-messages {
 	margin-top: @grid-gutter-width;
@@ -49,90 +63,8 @@
 
 
 
-// Model Lists (dashboard)
-// --------------------------------------------------
-
-
-// base
-
-.dashboard-group {
-	margin-bottom: 40px;
-}
-
-
-// headings
-
-.dashboard-group__heading {
-	font-size: 1.5em;
-	font-weight: 500;
-	margin-bottom: 1em;
-
-	&::before {
-		color: @gray-light;
-		font-size: 16px;
-		display: inline-block;
-		margin-top: -1px;
-		vertical-align: middle;
-		width: 30px;
-	}
-}
-
-// list
-
-@dashboard-list-bg: #f6f6f6; // move later
-
-/*ul*/.dashboard-group__list {
-	&:extend(.clearfix all);
-	list-style: none;
-	margin: 0 -10px -10px 20px;
-	padding: 0;
-	
-	> li {
-		float: left;
-		padding: 0 10px 20px;
-		width: 100%;
-	}
-	
-	> li > a {
-		.transition( all 140ms linear );
-		background-color: @dashboard-list-bg;
-		border-radius: @border-radius-base;
-		color: @gray-light;
-		display: block;
-		height: 80px;
-		padding: 10px 15px;
-
-		&:hover,
-		&:focus {
-			background-color: darken(@dashboard-list-bg, 2%);
-			text-decoration: none;
-
-			.dashboard-group__list-label {
-				color: @link-color;
-			}
-		}
-
-		&:active {
-			background-color: darken(@dashboard-list-bg, 4%);
-		}
-	}
-
-	@media (min-width: @screen-sm) { > li { width: 50%; } }
-	@media (min-width: @screen-md) { > li { width: 33%; } }
-	@media (min-width: @screen-lg) { > li { width: 25%; } }
-}
-
-.dashboard-group__list-label {
-	color: @text-color;
-	font-size: 1.25em;
-	font-weight: 500;
-}
-
-
-
-
 // Overrides
-// --------------------------------------------------
+// ------------------------------
 
 // bring the react-select control's height into line with elemental fields
 
@@ -145,7 +77,7 @@
 
 
 // Body
-// --------------------------------------------------
+// ------------------------------
 
 .keystone-body {}
 
@@ -153,7 +85,7 @@
 
 
 // Footer
-// --------------------------------------------------
+// ------------------------------
 .keystone-footer {
 	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
 	font-size: @font-size-sm;
@@ -172,7 +104,7 @@
 
 
 // View
-// --------------------------------------------------
+// ------------------------------
 
 
 .view-loading-indicator {
