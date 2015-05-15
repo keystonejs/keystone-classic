@@ -42,6 +42,7 @@
 	.pagination {
 		display: inline-block;
 		margin: 0;
+		padding: 0;
 		vertical-align: middle;
 	}
 }
@@ -328,10 +329,12 @@
 		margin: @table-cell-padding;
 	}
 	
-	.col-value, td a {
+	.col-value,
+	td a {
 		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	
 	.color-preview {
