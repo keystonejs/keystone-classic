@@ -11,14 +11,13 @@ var uglify = require('gulp-uglify');
 
 gulp.task('build-packages', function() {
 	var packages = require('./admin/packages');
-	
 	var b = browserify();
 	packages.forEach(function(i) { b.require(i); });
-	
-	return b.bundle()
-		.pipe(source('packages.js'))
-		.pipe(streamify(uglify()))
-		.pipe(gulp.dest('./admin/public/js'));
+	b = b.bundle().pipe(source('packages.js'));
+	if (process.env.NODE_ENV === 'prodiction') {
+		b.pipe(streamify(uglify()));
+	}
+	return b.pipe(gulp.dest('./admin/public/js'));
 });
 
 /**

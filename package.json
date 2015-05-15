@@ -121,6 +121,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production gulp build-packages",
+    "build-dev": "gulp build-packages",
     "release": "gulp release",
     "test": "mocha",
     "lint": "eslint ./; true",
