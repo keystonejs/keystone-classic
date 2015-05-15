@@ -78,8 +78,6 @@ var ListSortDropdown = React.createClass({
 
 	menuItems: function() {
 		return Keystone.list.uiElements.map(function(item, i) {
-			console.log(item);
-
 			if (item.type === 'heading') {
 				return { type: 'header', label: item.content };
 			} else {
