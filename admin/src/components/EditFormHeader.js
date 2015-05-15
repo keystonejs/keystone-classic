@@ -1,6 +1,7 @@
 var React = require('react/addons');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var AltText = require('./AltText');
+var Toolbar = require('./Toolbar');
 
 var FormInput = require('elemental').FormInput;
 var FormIconField = require('elemental').FormIconField;
@@ -53,12 +54,10 @@ var Header = React.createClass({
 		if (this.state.searchIsVisible) return null;
 		/* eslint-disable no-script-url */
 		return (
-			<ul className="EditForm__header__list EditForm__header__list--left item-breadcrumbs" key="drilldown">
+			<Toolbar.Section left>
 				{this.renderDrilldownItems()}
-				<li className="hidden-xs">
-					{this.renderSearch()}
-				</li>
-			</ul>
+				{this.renderSearch()}
+			</Toolbar.Section>
 		);
 		/* eslint-enable */
 	},
@@ -89,26 +88,24 @@ var Header = React.createClass({
 			);
 			
 		});
-		
-		var backIcon = (!els.length) ? <span className="octicon octicon-list-unordered mr-5" /> : '';
-		
-		els.push(
-			<li key="back">
+
+		if (!els.length) {
+			return (
 				<Button type="link" href={'/keystone/' + list.path}>
-					{backIcon}
+					<span className="octicon octicon-list-unordered mr-5" />
 					{list.plural}
 				</Button>
-			</li>
-		);
-		
-		return els;
+			);
+		} else {
+			return <ul className="item-breadcrumbs" key="drilldown">els</ul>;
+		}
 		
 	},
 	
 	renderSearch: function() {
 		var list = this.props.list;
 		return (
-			<form action={'/keystone/' + list.path} className="EditForm__header__search">
+			<form action={'/keystone/' + list.path} className="EditForm__header__search hidden-xs">
 				<FormIconField iconPosition="left" iconColor="default" iconKey="search" className="EditForm__header__search-field">
 					<FormInput
 						ref="searchField"
@@ -127,9 +124,9 @@ var Header = React.createClass({
 	
 	renderInfo: function() {
 		return (
-			<ul className="EditForm__header__list EditForm__header__list--right">
+			<Toolbar.Section right>
 				{this.renderCreateButton()}
-			</ul>
+			</Toolbar.Section>
 		);
 	},
 	
@@ -137,24 +134,20 @@ var Header = React.createClass({
 		if (this.props.list.nocreate) return null;
 		/* eslint-disable no-script-url */
 		return (
-			<li>
-				<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
-					<span className="octicon octicon-plus mr-5" />
-					New {this.props.list.singular}
-				</Button>
-			</li>
+			<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
+				<span className="octicon octicon-plus mr-5" />
+				New {this.props.list.singular}
+			</Button>
 		);
 		/* eslint-enable */
 	},
 	
 	render: function() {
 		return (
-			<div className="EditForm__header">
-				<div className="container">
-					{this.renderDrilldown()}
-					{this.renderInfo()}
-				</div>
-			</div>
+			<Toolbar>
+				{this.renderDrilldown()}
+				{this.renderInfo()}
+			</Toolbar>
 		);
 	}
 	
