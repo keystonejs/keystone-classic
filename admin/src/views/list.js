@@ -53,10 +53,12 @@ var View = React.createClass({
 					{this.renderCreateForm()}
 				</Toolbar.Section>
 				<Toolbar.Section right>
-					<Button type="link">
-						<span className="octicon octicon-clock mr-5" />
-						Recent Filters
-					</Button>
+					<Dropdown alignRight items={[{ label: 'Listing state matches "published"' },{ label: 'Email matches "gmail"' }]}>
+						<Button type="link">
+							<span className="octicon octicon-clock mr-5" />
+							Recent Filters
+						</Button>
+					</Dropdown>
 					<Button type="link">
 						<span className="octicon octicon-cloud-download mr-5" />
 						Download
@@ -82,7 +84,18 @@ var ListSortDropdown = React.createClass({
 	displayName: 'ListSortDropdown',
 	
 	getInitialState: function() {
-		return {};
+		return {
+			sortOrder: Keystone.sort
+		};
+	},
+
+	handleSortChange: function(newSortOrder) {
+		// handle state later, for now just use old querystring method
+		console.log('/keystone/' + Keystone.list.plural.toLowerCase() + '?sort=' + utils.camelcase(newSortOrder, true));
+		var listParam = '/keystone/' + Keystone.list.plural.toLowerCase();
+		var sortParam = '?sort=' + utils.camelcase(newSortOrder, true).replace(/\s+/g, '');
+		
+		window.location = listParam.concat(sortParam);
 	},
 
 	menuItems: function() {
@@ -96,11 +109,11 @@ var ListSortDropdown = React.createClass({
 	},
 	
 	renderDropdown: function() {
-		var sort = Keystone.sort;
+		var sort = this.state.sortOrder;
 		var buttonLabel = 'sort by';
 
-		if (sort.label) {
-			buttonLabel = sort.label.toLowerCase();
+		if (sort) {
+			buttonLabel = utils.titlecase(sort).toLowerCase();
 
 			if (sort.inv) {
 				buttonLabel += ' (descending)';
@@ -108,8 +121,11 @@ var ListSortDropdown = React.createClass({
 		}
 
 		return (
-			<Dropdown items={this.menuItems()} component='span'>
-				<a href="javascript:;">{buttonLabel}</a>
+			<Dropdown items={this.menuItems()} onSelect={this.handleSortChange} component='span'>
+				<a href="javascript:;">
+					{buttonLabel}
+					<span className="disclosure-arrow" />
+				</a>
 			</Dropdown>
 		);
 	},
