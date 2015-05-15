@@ -31,7 +31,7 @@
     "cookie-parser": "~1.3.4",
     "csv": "~0.3.7",
     "debug": "^2.2.0",
-    "elemental": "0.0.7",
+    "elemental": "0.0.8",
     "embedly": "~1.0.4",
     "errorhandler": "^1.3.6",
     "express": "~4.12.3",
