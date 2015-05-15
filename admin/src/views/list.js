@@ -1,6 +1,7 @@
 var React = require('react');
-var CreateForm = require('../components/CreateForm');
 var utils = require('keystone-utils');
+var CreateForm = require('../components/CreateForm');
+var Toolbar = require('../components/Toolbar');
 
 var Button = require('elemental').Button;
 var Dropdown = require('elemental').Dropdown;
@@ -32,7 +33,7 @@ var View = React.createClass({
 		}
 		return (
 			<Button {...props}>
-				<span className="octicon octicon-plus mr-5 mr-5" />
+				<span className="octicon octicon-plus mr-5" />
 				Create {Keystone.list.singular}
 			</Button>
 		);
@@ -46,12 +47,22 @@ var View = React.createClass({
 	render: function() {
 		if (Keystone.list.nocreate) return null;
 		return (
-			<div className="EditForm__header">
-				<div className="container">
+			<Toolbar>
+				<Toolbar.Section left>
 					{this.renderCreateButton()}
 					{this.renderCreateForm()}
-				</div>
-			</div>
+				</Toolbar.Section>
+				<Toolbar.Section right>
+					<Button type="link">
+						<span className="octicon octicon-clock mr-5" />
+						Recent Filters
+					</Button>
+					<Button type="link">
+						<span className="octicon octicon-cloud-download mr-5" />
+						Download
+					</Button>
+				</Toolbar.Section>
+			</Toolbar>
 		);
 	}
 	
