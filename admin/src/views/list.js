@@ -1,7 +1,9 @@
 var React = require('react');
 var CreateForm = require('../components/CreateForm');
+var utils = require('keystone-utils');
 
 var Button = require('elemental').Button;
+var Dropdown = require('elemental').Dropdown;
 
 var View = React.createClass({
 	
@@ -46,13 +48,70 @@ var View = React.createClass({
 	render: function() {
 		if (Keystone.list.nocreate) return null;
 		return (
-			<div className="toolbar toolbar--create">
-				{this.renderCreateButton()}
-				{this.renderCreateForm()}
+			<div className="EditForm__header">
+				<div className="container">
+					{this.renderCreateButton()}
+					{this.renderCreateForm()}
+				</div>
 			</div>
 		);
 	}
 	
 });
 
+
+
+
+/*
+	==============================
+	SORT DROPDOWN
+	==============================
+*/
+
+var ListSortDropdown = React.createClass({
+	
+	displayName: 'ListSortDropdown',
+	
+	getInitialState: function() {
+		return {};
+	},
+
+	menuItems: function() {
+		return Keystone.list.uiElements.map(function(item, i) {
+			console.log(item);
+
+			if (item.type === 'heading') {
+				return { type: 'header', label: item.content };
+			} else {
+				return { type: 'item', label: utils.titlecase(item.field) };
+			}
+		});
+	},
+	
+	renderDropdown: function() {
+		var sort = Keystone.sort;
+		var buttonLabel = 'sort by';
+
+		if (sort.label) {
+			buttonLabel = sort.label.toLowerCase();
+
+			if (sort.inv) {
+				buttonLabel += ' (descending)';
+			}
+		}
+
+		return (
+			<Dropdown items={this.menuItems()} component='span'>
+				<a href="javascript:;">{buttonLabel}</a>
+			</Dropdown>
+		);
+	},
+	
+	render: function() {
+		return this.renderDropdown();
+	}
+	
+});
+
 React.render(<View />, document.getElementById('list-view'));
+React.render(<ListSortDropdown />, document.getElementById('list-sort-dropdown'));

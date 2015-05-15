@@ -30,17 +30,13 @@ block js
 	script(src='/keystone/js/list.js')
 			
 block content
+	//- New React View
+	//- ------------------------------
+	#list-view
+	
+	//- List
+	//- ------------------------------
 	.container
-		//- New React View
-		//- ------------------------------
-		#list-view
-
-
-
-
-		//- List
-		//- ------------------------------
-		
 		- var xFilters = _.size(filters);
 
 		if !items.total && !search && !xFilters
