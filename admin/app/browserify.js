@@ -12,7 +12,7 @@ var basedir = path.resolve(__dirname + '/../src/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
 
 function ts() {
-	return chalk.gray(moment().format('YYYY-MM-DD HH:MM '));
+	return chalk.gray(moment().format('YYYY-MM-DD HH:MM:SS '));
 }
 
 function logInit(file) {
