@@ -122,7 +122,7 @@ var Form = React.createClass({
 		}, this);
 		
 		return (
-			<Modal isOpen onChange={this.props.onCancel} headerTitle={'Create a new ' + list.singular} headerHasCloseButton backdropClosesModal>
+			<Modal isOpen onCancel={this.props.onCancel} headerTitle={'Create a new ' + list.singular} headerHasCloseButton backdropClosesModal>
 				<form encType="multipart/form-data" method="post" action={formAction} className="horizontal-form create-form">
 					<input type="hidden" name="action" value="create" />
 					<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
