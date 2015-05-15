@@ -3,7 +3,7 @@ var request = require('superagent');
 
 var CreateForm = require('../components/CreateForm');
 var EditForm = require('../components/EditForm');
-var Header = require('../components/ItemViewHeader');
+var EditFormHeader = require('../components/EditFormHeader');
 
 var Spinner = require('elemental').Spinner;
 
@@ -52,7 +52,7 @@ var View = React.createClass({
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner /></div>;
 		return (
 			<div>
-				<Header list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
+				<EditFormHeader list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
 				<div className="container">
 					{this.renderCreateForm()}
 					<EditForm list={this.state.list} data={this.state.itemData} />
