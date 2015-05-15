@@ -57,15 +57,15 @@ html
 				+flash-messages(messages)
 				block content
 
-		.keystone-footer
-			.container
-				p
-					a(href=backUrl) #{brand + (appversion ? (' ' + appversion) : '')}
-					|  Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
-					if User && user
-						|  Signed in as 
-						a(href='/keystone/' + User.path + '/' + user.id)= User.getDocumentName(user)
-						| .
+			.keystone-footer
+				.container
+					p
+						a(href=backUrl) #{brand + (appversion ? (' ' + appversion) : '')}
+						|  Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
+						if User && user
+							|  Signed in as 
+							a(href='/keystone/' + User.path + '/' + user.id)= User.getDocumentName(user)
+							| .
 
 		//- Common
 		script(src="/keystone/js/lib/underscore/underscore-1.5.1.min.js")
