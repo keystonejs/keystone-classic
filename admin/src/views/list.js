@@ -1,5 +1,6 @@
 var React = require('react');
 var CreateForm = require('../components/CreateForm');
+
 var Button = require('elemental').Button;
 
 var View = React.createClass({
@@ -23,21 +24,17 @@ var View = React.createClass({
 	renderCreateButton: function() {
 		if (Keystone.list.autocreate) {
 			return (
-				<div className="toolbar">
-					<a href={'?new' + Keystone.csrf.query} className="btn btn-default btn-create btn-create-item">
-						<span className="octicon octicon-plus mr-5 mr-5" />
-						Create {Keystone.list.singular}
-					</a>
-				</div>
-			);
-		}
-		return (
-			<div className="toolbar">
-				<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
+				<Button type="success" href={'?new' + Keystone.csrf.query}>
 					<span className="octicon octicon-plus mr-5 mr-5" />
 					Create {Keystone.list.singular}
 				</Button>
-			</div>
+			);
+		}
+		return (
+			<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
+				<span className="octicon octicon-plus mr-5 mr-5" />
+				Create {Keystone.list.singular}
+			</Button>
 		);
 	},
 	
@@ -49,10 +46,9 @@ var View = React.createClass({
 	render: function() {
 		if (Keystone.list.nocreate) return null;
 		return (
-			<div className="create-item">
+			<div className="toolbar toolbar--create">
 				{this.renderCreateButton()}
 				{this.renderCreateForm()}
-				<hr />
 			</div>
 		);
 	}
