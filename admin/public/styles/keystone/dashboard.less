@@ -40,8 +40,6 @@
 
 // base
 
-@dashboard-list-bg: #f6f6f6; // move later
-
 /*ul*/.dashboard-group__list {
 	&:extend(.clearfix all);
 	list-style: none;
@@ -69,7 +67,7 @@
 			text-decoration: none;
 
 			.dashboard-group__list-label {
-				color: @link-color;
+				text-decoration: underline;
 			}
 		}
 
@@ -84,7 +82,7 @@
 }
 
 .dashboard-group__list-label {
-	color: @text-color;
+	color: @link-color;
 	font-size: 1.25em;
 	font-weight: 500;
 }
