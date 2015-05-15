@@ -2,9 +2,9 @@ var _ = require('underscore'),
 	React = require('react'),
 	blacklist = require('blacklist');
 
-var Footer = React.createClass({
+var FooterBar = React.createClass({
 	
-	displayName: 'Footer',
+	displayName: 'FooterBar',
 	
 	getInitialState: function() {
 		return {
@@ -104,4 +104,4 @@ var Footer = React.createClass({
 	}
 });
 
-module.exports = Footer;
+module.exports = FooterBar;

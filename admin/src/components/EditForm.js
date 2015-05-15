@@ -4,7 +4,7 @@ var React = require('react');
 var Fields = require('../fields');
 var FormHeading = require('./FormHeading');
 var AltText = require('./AltText');
-var Footer = require('./Footer');
+var FooterBar = require('./FooterBar');
 var InvalidFieldType = require('./InvalidFieldType');
 
 var Button = require('elemental').Button;
@@ -139,7 +139,7 @@ var EditForm = React.createClass({
 		
 	},
 	
-	renderFooter: function() {
+	renderFooterBar: function() {
 		
 		var footer = {};
 		
@@ -155,9 +155,9 @@ var EditForm = React.createClass({
 		}
 		
 		return (
-			<Footer className="EditForm__footer">
+			<FooterBar className="EditForm__footer">
 				{footer}
-			</Footer>
+			</FooterBar>
 		);
 		
 	},
@@ -240,7 +240,7 @@ var EditForm = React.createClass({
 						{this.renderKeyOrId()}
 						{this.renderFormElements()}
 						{this.renderTrackingMeta()}
-						{this.renderFooter()}
+						{this.renderFooterBar()}
 					</form>
 				</div>
 			</div>
