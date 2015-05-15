@@ -2,9 +2,9 @@ var _ = require('underscore'),
 	React = require('react'),
 	blacklist = require('blacklist');
 
-var Toolbar = React.createClass({
+var Footer = React.createClass({
 	
-	displayName: 'Toolbar',
+	displayName: 'Footer',
 	
 	getInitialState: function() {
 		return {
@@ -21,15 +21,15 @@ var Toolbar = React.createClass({
 		// Conveniently (!) IE8 doesn't have window.getComputedStyle which we also use here
 		if (!window.getComputedStyle) return;
 		
-		var toolbar = this.refs.toolbar.getDOMNode();
+		var footer = this.refs.footer.getDOMNode();
 		
 		this.windowSize = this.getWindowSize();
 		
-		var toolbarStyle = window.getComputedStyle(toolbar);
+		var footerStyle = window.getComputedStyle(footer);
 		
-		this.toolbarSize = {
-			x: toolbar.offsetWidth,
-			y: toolbar.offsetHeight + parseInt(toolbarStyle.marginTop || '0')
+		this.footerSize = {
+			x: footer.offsetWidth,
+			y: footer.offsetHeight + parseInt(footerStyle.marginTop || '0')
 		};
 		
 		window.addEventListener('scroll', this.recalcPosition, false);
@@ -48,7 +48,7 @@ var Toolbar = React.createClass({
 	recalcPosition: function() {
 		var wrapper = this.refs.wrapper.getDOMNode();
 		
-		this.toolbarSize.x = wrapper.offsetWidth;
+		this.footerSize.x = wrapper.offsetWidth;
 		
 		var offsetTop = 0;
 		var offsetEl = wrapper;
@@ -58,7 +58,7 @@ var Toolbar = React.createClass({
 			offsetEl = offsetEl.offsetParent;
 		}
 		
-		var maxY = offsetTop + this.toolbarSize.y;
+		var maxY = offsetTop + this.footerSize.y;
 		var viewY = window.scrollY + window.innerHeight;
 		
 		var newSize = this.getWindowSize();
@@ -66,8 +66,8 @@ var Toolbar = React.createClass({
 		this.windowSize = newSize;
 		
 		var newState = {
-			width: this.toolbarSize.x,
-			height: this.toolbarSize.y
+			width: this.footerSize.x,
+			height: this.footerSize.y
 		};
 		
 		if (viewY > maxY && (sizeChanged || this.mode !== 'inline')) {
@@ -77,7 +77,7 @@ var Toolbar = React.createClass({
 			this.setState(newState);
 		} else if (viewY <= maxY && (sizeChanged || this.mode !== 'fixed')) {
 			this.mode = 'fixed';
-			newState.top = window.innerHeight - this.toolbarSize.y;
+			newState.top = window.innerHeight - this.footerSize.y;
 			newState.position = 'fixed';
 			this.setState(newState);
 		}
@@ -89,8 +89,8 @@ var Toolbar = React.createClass({
 			marginTop: 60,
 			position: 'relative'
 		};
-		var toolbarProps = blacklist(this.props, 'children', 'style');
-		var toolbarStyle = _.extend(this.props.style || {}, {
+		var footerProps = blacklist(this.props, 'children', 'style');
+		var footerStyle = _.extend(this.props.style || {}, {
 			position: this.state.position,
 			top: this.state.top,
 			width: this.state.width,
@@ -98,10 +98,10 @@ var Toolbar = React.createClass({
 		});
 		return (
 			<div ref="wrapper" style={wrapperStyle}>
-				<div ref="toolbar" style={toolbarStyle} {...toolbarProps}>{this.props.children}</div>
+				<div ref="footer" style={footerStyle} {...footerProps}>{this.props.children}</div>
 			</div>
 		);
 	}
 });
 
-module.exports = Toolbar;
+module.exports = Footer;

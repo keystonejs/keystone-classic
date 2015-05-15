@@ -4,7 +4,7 @@ var React = require('react');
 var Fields = require('../fields');
 var FormHeading = require('./FormHeading');
 var AltText = require('./AltText');
-var Toolbar = require('./Toolbar');
+var Footer = require('./Footer');
 var InvalidFieldType = require('./InvalidFieldType');
 
 var Button = require('elemental').Button;
@@ -139,25 +139,25 @@ var EditForm = React.createClass({
 		
 	},
 	
-	renderToolbar: function() {
+	renderFooter: function() {
 		
-		var toolbar = {};
+		var footer = {};
 		
 		if (!this.props.list.noedit) {
-			toolbar.save = <Button type="primary" submit>Save</Button>;
+			footer.save = <Button type="primary" submit>Save</Button>;
 			// TODO: Confirm: Use React & Modal
-			toolbar.reset = <Button href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">reset changes</Button>;
+			footer.reset = <Button href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">reset changes</Button>;
 		}
 		
 		if (!this.props.list.noedit && !this.props.list.nodelete) {
 			// TODO: Confirm: Use React & Modal
-			toolbar.del = <Button href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="pull-right" data-confirm={'Are you sure you want to delete this?' + this.props.list.singular.toLowerCase()}>delete {this.props.list.singular.toLowerCase()}</Button>;
+			footer.del = <Button href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="pull-right" data-confirm={'Are you sure you want to delete this?' + this.props.list.singular.toLowerCase()}>delete {this.props.list.singular.toLowerCase()}</Button>;
 		}
 		
 		return (
-			<Toolbar className="EditForm__footer">
-				{toolbar}
-			</Toolbar>
+			<Footer className="EditForm__footer">
+				{footer}
+			</Footer>
 		);
 		
 	},
@@ -240,7 +240,7 @@ var EditForm = React.createClass({
 						{this.renderKeyOrId()}
 						{this.renderFormElements()}
 						{this.renderTrackingMeta()}
-						{this.renderToolbar()}
+						{this.renderFooter()}
 					</form>
 				</div>
 			</div>
