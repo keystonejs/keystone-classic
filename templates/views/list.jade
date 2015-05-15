@@ -44,7 +44,7 @@ block content
 				h2.blank-state__heading No #{list.plural.toLowerCase()} found
 		else
 			.page-header.list-header
-				h1
+				//- h1
 					if items.total
 						span.items-total= utils.plural(items.total, '* ' + list.singular, '* ' + list.plural) + ' '
 					else
@@ -145,7 +145,7 @@ block content
 				//-
 				//- Filters
 				//- ------------------------------
-				form#list-filters
+				//- form#list-filters
 					
 					//-
 					//- Search Bar
@@ -386,7 +386,7 @@ block content
 				//- Pagination
 				//- ------------------------------
 				
-				.list-pagination
+				//- .list-pagination
 					if items.totalPages > 1
 						+pagination(items)
 					else
