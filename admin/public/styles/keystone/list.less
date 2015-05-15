@@ -24,6 +24,41 @@
 
 
 
+// List Filters
+// --------------------------------------------------
+
+.list-filter {
+	display: inline-block;
+	font-size: .85em;
+	font-weight: 500;
+	margin-right: .5em;
+	overflow: hidden;
+	line-height: 2.3em;
+}
+.list-filter__label,
+.list-filter__close {
+	background-color: fade(@link-color, 10%);
+	color: @link-color;
+	cursor: pointer;
+	display: block;
+	float: left;
+	padding: 0 1em;
+
+	&:hover {
+		background-color: fade(@link-color, 15%);
+	}
+}
+.list-filter__label {
+	.border-left-radius(2em);
+	margin-right: 1px;
+}
+.list-filter__close {
+	.border-right-radius(2em);
+	margin-left: 1px;
+}
+
+
+
 // List Pagination
 // --------------------------------------------------
 
