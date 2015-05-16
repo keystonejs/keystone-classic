@@ -21,38 +21,36 @@ html
 
 	body(id='page-' + page)
 		.keystone-wrapper
-			nav.primary-navbar
-				.container
-					//- a(href=backUrl).navbar-backtobrand-trigger.hidden-xs: span.octicon.octicon-arrow-left
-					//- .navbar-backtobrand-message Back to the #{brand} website
-					//- a(href='/keystone', class=(section == 'home' ? 'active' : null)).primary-navbar-brand= brand
-					ul.app-nav
-						li(class=!section.key ? 'active' : null)
-							a(href='/keystone' title="Dashboard")
-								span.octicon.octicon-home
-						each navSection in nav.sections
-							if navSection.lists[0].external
-								- path = navSection.lists[0].path
-							else
-								- path = '/keystone/' + navSection.lists[0].path
-
-							li(class=section.key == navSection.key ? 'active' : null)
-								a(href=path)= navSection.label
-						if signout
-							li.right
-								a(href=signout title="Sign Out").signout
-									span.octicon.octicon-sign-out
-			if section.lists && section.lists.length > 1
-				nav.secondary-navbar
+			.keystone-navigation
+				nav.primary-navbar
 					.container
 						ul.app-nav
-							each navList in section.lists
-								if navList.external
-									- path = navList.path
+							li(class=!section.key ? 'active' : null)
+								a(href='/keystone' title="Dashboard - " + brand)
+									span.octicon.octicon-home
+							each navSection in nav.sections
+								if navSection.lists[0].external
+									- path = navSection.lists[0].path
 								else
-									- path = '/keystone/' + navList.path
-									
-								li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
+									- path = '/keystone/' + navSection.lists[0].path
+
+								li(class=section.key == navSection.key ? 'active' : null)
+									a(href=path)= navSection.label
+							if signout
+								li.right
+									a(href=signout title="Sign Out").signout
+										span.octicon.octicon-sign-out
+				if section.lists && section.lists.length > 1
+					nav.secondary-navbar
+						.container
+							ul.app-nav
+								each navList in section.lists
+									if navList.external
+										- path = navList.path
+									else
+										- path = '/keystone/' + navList.path
+										
+									li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
 			.keystone-body
 				+flash-messages(messages)
 				block content
