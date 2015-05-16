@@ -227,7 +227,7 @@ localfiles.prototype.hasFormatter = function() {
 localfiles.prototype.href = function(file) {
 	if (!file.filename) return '';
 	var prefix = this.options.prefix ? this.options.prefix : file.path;
-	return path.join(prefix, file.filename);
+	return prefix + '/' + file.filename;
 };
 
 
