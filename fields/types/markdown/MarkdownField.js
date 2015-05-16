@@ -18,12 +18,12 @@ var toggleHeading = function(e, level) {
 	}
 
 	// transform selection and set the cursor into chunked text
-	if ((pointer = level.length + 1, content.substr(selected.start-pointer, pointer) === level + ' ')
-		|| (pointer = level.length, content.substr(selected.start-pointer, pointer) === level)) {
-		e.setSelection(selected.start-pointer, selected.end);
+	if ((pointer = level.length + 1, content.substr(selected.start - pointer, pointer) === level + ' ')
+		|| (pointer = level.length, content.substr(selected.start - pointer, pointer) === level)) {
+		e.setSelection(selected.start - pointer, selected.end);
 		e.replaceSelection(chunk);
-		cursor = selected.start-pointer;
-	} else if (selected.start > 0 && (prevChar = content.substr(selected.start-1, 1), !!prevChar && prevChar !== '\n')) {
+		cursor = selected.start - pointer;
+	} else if (selected.start > 0 && (prevChar = content.substr(selected.start - 1, 1), !!prevChar && prevChar !== '\n')) {
 		e.replaceSelection('\n\n' + level + ' ' + chunk);
 		cursor = selected.start + level.length + 3;
 	} else {

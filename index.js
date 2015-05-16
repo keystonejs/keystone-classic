@@ -131,7 +131,7 @@ Keystone.prototype.static = function(app) {
 	if (!this.get('headless')) {
 		app.use('/keystone', Keystone.prototype.adminApp.staticRouter);
 	}
-}
+};
 
 /**
  * The exports object is an instance of Keystone.

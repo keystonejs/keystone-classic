@@ -44,7 +44,7 @@ module.exports = {
 
 	componentDidUpdate: function() {
 		this.props.value.forEach(function (val, i) {
-			var dateInput = this.getDOMNode().getElementsByClassName('datepicker_'+ this.state.values[i].key)[0];
+			var dateInput = this.getDOMNode().getElementsByClassName('datepicker_' + this.state.values[i].key)[0];
 			// Add a date picker to each updated field
 			this.props.pickers[i] = new Pikaday({
 				field: dateInput,
@@ -61,7 +61,7 @@ module.exports = {
 
 	componentDidMount: function() {
 		this.props.value.forEach(function (val, i) {
-			var dateInput = this.getDOMNode().getElementsByClassName('datepicker_'+ this.state.values[i].key)[0];
+			var dateInput = this.getDOMNode().getElementsByClassName('datepicker_' + this.state.values[i].key)[0];
 			if (this.props.pickers[i]) this.props.pickers[i].destroy();
 			this.props.pickers[i] = new Pikaday({
 				field: dateInput,
@@ -119,7 +119,7 @@ module.exports = {
 		return (
 			<div key={i.key} className='field-item'>
 				<a href="javascript:;" className='field-item-button btn-cancel' onClick={this.removeItem.bind(this, i)}>&times;</a>
-				<input ref={'input_' + i.key} className={'form-control multi datepicker_'+i.key} type='text' name={this.props.path} value={i.value} onChange={this.updateItem.bind(this, i)} autoComplete='off' />
+				<input ref={'input_' + i.key} className={'form-control multi datepicker_' + i.key} type='text' name={this.props.path} value={i.value} onChange={this.updateItem.bind(this, i)} autoComplete='off' />
 			</div>
 		);
 		/* eslint-enable */
