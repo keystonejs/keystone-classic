@@ -46,66 +46,35 @@
 }
 
 
-//
-// Searching
+
+
+// Search Form
 // --------------------------------------------------
 
-.searchbox-form {
-	.clearfix();
-	
-	> button {
-		float: left;
-	}
-}
-.searchbox-field {
-	float: left;
+.ListHeader__searchbar {}
+.ListHeader__searchbar-field {
 	position: relative;
-	width: 15em;
-
-	> input {
-		.border-right-radius(0);
-
-		// transitioning the bg/text color of the button looks rubbish
-		// so we remove the transition on the input
-		.transition( none );
-	}
 }
+/*button*/.ListHeader__searchbar-field__icon {
+	background: none;
+	border: none;
+	color: @gray-light;
+	font-weight: bold;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 2.2em;
+	z-index: 2; // above the form field on focus
 
-.list-toolbar {
-	.clearfix();
-	padding-bottom: 20px;
+	// styles when search icon
+	&.is-search {
+		pointer-events: none;
+	}
 
-	// force align with input fields
-	// .btn { height: @input-height-base; }
-}
-.search-list {
-	float: left;
-	
-	form {
-		margin-bottom: 0;
-	
-		.search-button {
-			margin-top: 0 !important;
-		}
-	}
-	.search-field {
-		display: inline-block;
-		position: relative;
-		vertical-align: middle;
-		width: 200px;
-	}
-	.search-list-field {
-		position: relative;
-	}
-	.search-list-clear {
-		color: @gray-light;
-		font-weight: bold;
-		line-height: 1.3;
-		position: absolute;
-		padding: @padding-base-vertical @padding-base-horizontal;
-		top: 0;
-		right: 5px;
-		
+	// styles when clear icon
+	&.is-clear {
 		&:hover,
 		&:focus {
 			color: @app-danger;
@@ -113,138 +82,9 @@
 			text-decoration: none;
 		}
 		&:active {
-			color: darken(@app-danger, 20%);
+			color: darken(@app-danger, 10%);
 		}
 	}
-
-	@media (min-width: @screen-sm) {
-		.search-field {
-			width: 300px;
-		}
-	}
-	
-}
-.searchbox-form {
-	display: inline-block;
-	vertical-align: middle;
-}
-
-
-//
-// Sorting
-// --------------------------------------------------
-.list-sort-dropdown {
-	
-	.caret {
-		border-width: 8px;
-		border-bottom-width: 0;
-		border-top-color: @link-color;
-	}
-	
-	.dropdown-toggle:focus,
-	.dropdown-toggle:hover {
-		text-decoration: none;
-		.caret {
-			border-top-color: @link-hover-color;
-		}
-	}
-	
-	// menu
-	.dropdown-menu > .active > a {
-		&,
-		&:hover,
-		&:focus {
-			// background-color: @gray;
-		}
-	}
-	
-}
-
-
-//
-// Filtering
-// --------------------------------------------------
-.list-filters {
-	
-	margin: -20px 0 20px;
-	
-	/*
-	.filter {
-		display: none;
-		margin-bottom: 12px;
-		padding-top: 8px;
-		border-top: 1px dashed #ddd;
-	}
-	
-	.list-filters-action {
-		margin: 15px 0;
-		border-top: 1px dashed #ddd;
-		padding-top: 15px;
-		display: none;
-	}
-	*/
-	
-	.filter {
-		display: none;
-		padding-top: 8px;
-	}
-	
-	.filter.active {
-		display: block;
-	}
-	
-	.list-filters-action {
-		border-bottom: 1px solid @gray-lighter;
-		padding-bottom: 20px;
-		margin: 20px 0;
-	}
-	
-	.filter-options {
-		padding: 5px 0 0 24px;
-	}
-	.filter-input {
-		display: inline-block;
-		vertical-align: middle;
-		
-		&.filter-input-lg {
-			width: 300px;
-		}
-		&.filter-input-md {
-			width: 200px;
-		}
-		&.filter-input-sm {
-			width: 100px;
-		}
-		
-		select {
-			font-size: @font-size-sm;
-			height: 22px;
-			width: 100%;
-		}
-	}
-	
-	// clearing
-	.clear-filter {
-		color: @gray-light;
-		font-weight: bold;
-		margin-right: 7px;
-		
-		&:hover,
-		&:focus {
-			color: @app-danger;
-			outline: 0 none;
-			text-decoration: none;
-		}
-		&:active {
-			color: darken(@app-danger, 20%);
-		}
-	}
-	
-}
-
-// The toolbar starts hidden
-.list-filters-action {
-	display: none;
 }
 
 // icons that represent field types
