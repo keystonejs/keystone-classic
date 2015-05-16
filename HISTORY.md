@@ -11,7 +11,7 @@ KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an am
 * fixed; The `href` method of localfile/s shouldn't use `path.join`, see #1406
 * fixed; display issues with Type.GeoPoint and Type.Location, thanks [Al Connelly](https://github.com/WingedToaster)
 * added; SVG Support for Cloudinary Image fields, thanks [Christian Nolte](https://github.com/drlogout)
-* fixed; Disabled drag and drop sorting in list view when filters are applied, thanks (Michael)[https://github.com/mldangelo]
+* fixed; Disabled drag and drop sorting in list view when filters are applied, thanks [Michael](https://github.com/mldangelo)
 * improved; Now using [grappling-hook](https://github.com/keystonejs/grappling-hook), thanks [Camille Reynders](https://github.com/creynders)
 * improved; The Location field throws an error if `googleLookup` fails, thanks [Daniel Cousens](https://github.com/dcousens)
 * fixed; issues with schema inheritance and schemaPlugins, thanks [Robert Clark](https://github.com/lojack)
