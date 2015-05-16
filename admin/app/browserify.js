@@ -84,19 +84,19 @@ module.exports = function(file, name) {
 	}
 	function send(req, res) {
 		res.setHeader('Content-Type', 'application/javascript');
-	    var etag = crypto.createHash('md5').update(src).digest('hex').slice(0, 6);
-	    if (req.get && (etag === req.get('If-None-Match'))) {
-	        res.status(304);
-	        res.end();
-	    }
-	    else {
-	        res.setHeader('ETag', etag);
-	        res.setHeader('Vary', 'Accept-Encoding');
-	        res.send(src);
-	    }
+		var etag = crypto.createHash('md5').update(src).digest('hex').slice(0, 6);
+		if (req.get && (etag === req.get('If-None-Match'))) {
+			res.status(304);
+			res.end();
+		}
+		else {
+			res.setHeader('ETag', etag);
+			res.setHeader('Vary', 'Accept-Encoding');
+			res.send(src);
+		}
 	}
 	return {
 		serve: serve,
 		build: build
 	};
-}
+};
