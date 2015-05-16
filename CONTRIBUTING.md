@@ -30,11 +30,12 @@ please read our [Documentation Guidelines](https://github.com/keystonejs/keyston
 
 If you are working on the React Admin UI, you'll also need to know this:
 
-* The Admin UI is generated with Browserify by gulp. In development, run
-`gulp watch-scripts`. 
-* _Make sure you revert your build before submitting a PR_ to reduce the change
-of conflicts. `gulp build-scripts` is run after PRs are merged and before any
-releases are made.
+* The Admin UI is generated with Browserify when Keystone starts. To enable
+watching files, set the environment variable `KEYSTONE_DEV`, e.g
+
+```
+KEYSTONE_DEV=true node keystone.js
+```
 
 If you'd like to talk to the core developers, we all hang out in a Slack channel
 to discuss Keystone. Ping @jedwatson to get an invite.
