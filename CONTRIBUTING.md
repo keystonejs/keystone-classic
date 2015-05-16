@@ -14,12 +14,15 @@ early and is a good way to discuss what you're planning to do.
 * If you open an issue and are interested in working on a fix, please let us
 know. We'll help you get started, rather than adding it to the queue.
 * Make sure you do not add regressions by running `npm test`. Please also
-[follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards) (with regards to formatting, etc)
+[follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards) 
+(with regards to formatting, etc)
 * You can also run `npm run lint` and `npm run style` - our linter is a WIP
 but please ensure there are not more violations than before your changes.
 * All new features and changes need documentation. We have three translations,
 please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
-* **PRO TIP**: If you've opened an issue and have come up with a solution yourself, we prefer you to convert the already existing issue into a PR instead of opening a new one. This can be done with the [hub command line tool](https://github.com/github/hub)
+* **PRO TIP**: If you've opened an issue and have come up with a solution
+yourself, we prefer you to convert the already existing issue into a PR instead
+of opening a new one. This can be done with the [hub command line tool](https://github.com/github/hub)
 
   Example:
   ```sh
@@ -37,5 +40,5 @@ watching files, set the environment variable `KEYSTONE_DEV`, e.g
 KEYSTONE_DEV=true node keystone.js
 ```
 
-If you'd like to talk to the core developers, we all hang out in a Slack channel
-to discuss Keystone. Ping @jedwatson to get an invite.
+If you'd like to talk to the core developers, we all hang out in a Slack
+channel to discuss Keystone. Ping @jedwatson to get an invite.
