@@ -2,7 +2,7 @@ var React = require('react');
 var utils = require('keystone-utils');
 var CreateForm = require('../components/CreateForm');
 var Toolbar = require('../components/Toolbar');
-var ListSearchBar = require('../components/ListSearchBar');
+var ListHeader = require('../components/ListHeader');
 
 var Button = require('elemental').Button;
 var Dropdown = require('elemental').Dropdown;
@@ -61,7 +61,7 @@ var View = React.createClass({
 						</Button>
 					</Toolbar.Section>
 				</Toolbar>
-				<ListSearchBar />
+				<ListHeader />
 			</div>
 		);
 	}

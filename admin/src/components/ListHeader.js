@@ -21,14 +21,22 @@ const SORT_OPTIONS = [
 	{ label: 'Created At' }
 ];
 
-var ListSearchBar = React.createClass({
+var ListHeader = React.createClass({
 	
-	displayName: 'ListSearchBar',
+	displayName: 'ListHeader',
 	
 	getInitialState: function() {
 		return {
 			something: false
 		};
+	},
+
+	handleFilterClick: function(filter) {
+		return console.log('clicked:', filter);
+	},
+
+	handleFilterClear: function(filter) {
+		return console.log('cleared:', filter);
 	},
 	
 	renderPagination: function() {
@@ -41,11 +49,14 @@ var ListSearchBar = React.createClass({
 	},
 	
 	renderFilters: function() {
+		var self = this;
+
 		var currentFilters = CURRENT_FILTERS.map(function(filter, i) {
 			return (
-				<Tag label={filter} hasClearButton />
+				<Tag label={filter} onClick={self.handleFilterClick.bind(this, filter)} onClear={self.handleFilterClear.bind(this, filter)} type="primary" hasClearButton />
 			);
 		});
+		currentFilters.push(<Tag label="Clear All" onClick={self.handleFilterClick.bind(this, 'Clear All')} />);
 		return (
 			<div className="ListHeader__filters mb-2">
 				{currentFilters}
@@ -99,4 +110,4 @@ var ListSearchBar = React.createClass({
 	
 });
 
-module.exports = ListSearchBar;
+module.exports = ListHeader;
