@@ -141,12 +141,12 @@ block content
 				tr
 					td <code>static</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
 					td
-						p One or more paths to your application's static files. Setting this will include the <code>express.static</code> middleware.
+						p One or more paths to your application's static files. Setting this will include the <code>serve-static</code> middleware.
 						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">'public'</code>.
 				tr
 					td <code>static options</code> <code class="data-type">Object</code>
 					td
-						p Optional config options that will be passed to the <code>express.static</code> middleware.
+						p Optional config options that will be passed to the <code>serve-static</code> middleware (<a href="https://github.com/expressjs/serve-static" target="_blank">see docs here</a>).
 				tr
 					td <code>less</code> <code class="data-type">String</code> or <code class="data-type">Array</code>
 					td
@@ -169,14 +169,14 @@ block content
 				tr
 					td <code>favicon</code> <code class="data-type">String</code>
 					td
-						p The path to your application's <strong>favicon</strong>. Setting this will include the <code>express.favicon</code> middleware. Should be relative to your project's root.
+						p The path to your application's <strong>favicon</strong>. Setting this will include the <code>serve-favicon</code> middleware. Should be relative to your project's root.
 						p If you're following the <a href="/guide#start_structure">recommended project structure</a>, this should be set to <code class="default-value">"/public/favicon.ico"</code>.
 				tr
 					td <code>compress</code> <code class="data-type">Boolean</code>
-					td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>express.compress</code> middleware (<a href="http://expressjs.com/api.html#compress" target="_blank">see docs here</a>).
+					td Set this to <code class="default-value">true</code> to enable HTTP compression. This will include the <code>compression</code> middleware (<a href="https://github.com/expressjs/compression" target="_blank">see docs here</a>).
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
-					td Set this to include the <code>express.logger</code> middleware. The value will be passed to the middleware initialisation (<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether.
+					td Set this to include the <code>morgan</code> middleware. The value will be passed to the middleware initialisation (<a href="https://github.com/expressjs/morgan" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether. Defaults to <code class="default-value">:method :url :status :response-time ms</code>.
 
 				tr
 					td <code>trust proxy</code> <code class="data-type">Boolean</code>
