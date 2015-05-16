@@ -18,14 +18,16 @@ var bundles = {
 	fields: browserify('fields.js', 'FieldTypes'),
 	home: browserify('views/home.js'),
 	item: browserify('views/item.js'),
-	list: browserify('views/list.js')
+	listHeader: browserify('views/list-header.js'),
+	listTable: browserify('views/list-table.js')
 };
 
 router.prebuild = function() {
 	bundles.fields.build();
 	bundles.home.build();
 	bundles.item.build();
-	bundles.list.build();
+	bundles.listHeader.build();
+	bundles.listTable.build();
 };
 
 /* Prepare LESS options */
@@ -47,6 +49,7 @@ router.use(express.static(__dirname + '../../public'));
 router.get('/js/fields.js', bundles.fields.serve);
 router.get('/js/home.js', bundles.home.serve);
 router.get('/js/item.js', bundles.item.serve);
-router.get('/js/list.js', bundles.list.serve);
+router.get('/js/list-header.js', bundles.listHeader.serve);
+router.get('/js/list-table.js', bundles.listTable.serve);
 
 module.exports = router;
