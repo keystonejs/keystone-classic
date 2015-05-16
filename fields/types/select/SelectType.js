@@ -33,7 +33,7 @@ function select(list, path, options) {
 	this.ops = options.options.map(function(i) {
 		var op = _.isString(i) ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
 		if (!_.isObject(op)) {
-			op = { label: ''+i, value: ''+i };
+			op = { label: '' + i, value: '' + i };
 		}
 		if (options.numeric && !_.isNumber(op.value)) {
 			op.value = Number(op.value);

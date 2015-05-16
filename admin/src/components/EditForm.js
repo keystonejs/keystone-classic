@@ -1,7 +1,7 @@
 var _ = require('underscore'),
 	moment = require('moment'),
 	React = require('react'),
-	Fields = require('../fields'),
+	Fields = require('FieldTypes'),
 	FormHeading = require('./FormHeading'),
 	Toolbar = require('./Toolbar'),
 	InvalidFieldType = require('./InvalidFieldType');

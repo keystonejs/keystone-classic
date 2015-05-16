@@ -80,6 +80,7 @@ localfiles.prototype.addToSchema = function() {
 		// fields
 		filename:		this._path.append('.filename'),
 		path:			  this._path.append('.path'),
+		originalname:		this._path.append('.originalname'),
 		size:			  this._path.append('.size'),
 		filetype:		this._path.append('.filetype'),
 		// virtuals
@@ -91,6 +92,7 @@ localfiles.prototype.addToSchema = function() {
 
 	var schemaPaths = new mongoose.Schema({
 		filename:		String,
+		originalname:   String,
 		path:			String,
 		size:			Number,
 		filetype:		String
@@ -227,7 +229,7 @@ localfiles.prototype.hasFormatter = function() {
 localfiles.prototype.href = function(file) {
 	if (!file.filename) return '';
 	var prefix = this.options.prefix ? this.options.prefix : file.path;
-	return path.join(prefix, file.filename);
+	return prefix + '/' + file.filename;
 };
 
 
@@ -293,7 +295,7 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 		var doMove = function(doneMove) {
 			
 			if ('function' === typeof field.options.filename) {
-				filename = field.options.filename(item, filename);
+				filename = field.options.filename(item, file);
 			}
 			
 			fs.move(file.path, path.join(field.options.dest, filename), { clobber: field.options.overwrite }, function(err) {
@@ -301,6 +303,7 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 				
 				var fileData = {
 					filename: filename,
+					originalname: file.originalname,
 					path: field.options.dest,
 					size: file.size,
 					filetype: filetype
