@@ -765,10 +765,12 @@ item._.email.gravatarUrl(200,'mm','r'); // "//www.gravatar.com/avatar/74a0071e5f
               <h4><code class="data-type">Object</code> &mdash; Displayed as a combination of fields in the Admin UI</h4>
               <p>Contains a standard set of strings for storing an address, and a longitude / latitude point with a <code class="data-type">2dsphere</code> index.</p>
               <p>Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).</p>
-              <p>See the <a href="/docs/configuration#services-google">Google configuration documentation</a> for details on how to set up Google Maps in KeystoneJS.</p>
-              <pre><code class="language-javascript">{ type: Types.Location }</code></pre>
+              <p>Google Places integration requires the <code>google api key</code> option to be set for Keystone. See the <a href="/docs/configuration#services-google">Google configuration documentation</a> for details.</p>
+              <pre><code class="language-javascript">{ type: Types.Location, defaults: { country: 'Australia' } }</code></pre>
               <p class="note">Note: the schema paths are based on Australian address formats, and should be updated to be more appropriate for other international formats. If you have feedback on how the structure should be internationalised, please open a ticket.</p>
               <div class="options">
+                <h5>Options</h5>
+                <p><code>defaults</code> <code class="data-type">Object</code> - default values for each path in the field schema</p>
                 <h5>Schema</h5>
                 <p><code>name</code> <code class="data-type">String</code> - building name</p>
                 <p><code>number</code> <code class="data-type">String</code> - unit or shop number</p>
