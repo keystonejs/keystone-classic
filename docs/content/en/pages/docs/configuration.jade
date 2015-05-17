@@ -177,6 +177,10 @@ block content
 				tr
 					td <code>logger</code> <code class="data-type">String</code>
 					td Set this to include the <code>morgan</code> middleware. The value will be passed to the middleware initialisation (<a href="https://github.com/expressjs/morgan" target="_blank">see docs here</a>). Set this to <code class="default-value">false</code> to disable logging altogether. Defaults to <code class="default-value">:method :url :status :response-time ms</code>.
+				tr
+					td <code>logger options</code> <code class="data-type">Object</code>
+					td
+						p Optional config options that will be passed to the <code>morgan</code> middleware; see <a href="https://github.com/expressjs/morgan" target="_blank">github.com/expressjs/morgan</a> for more information.
 
 				tr
 					td <code>trust proxy</code> <code class="data-type">Boolean</code>
@@ -308,7 +312,7 @@ block content
 						pre: code.language-javascript
 							| var keystone = require('keystone'),
 							|     ConnectMemcached = require('connect-memcached')
-							|
+							| 
 							| keystone.init({
 							|   //...
 							|   'session store': function(session){
