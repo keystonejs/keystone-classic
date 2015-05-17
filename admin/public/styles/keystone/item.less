@@ -78,12 +78,22 @@
 .item-breadcrumbs {
 	display: inline-block;
 	list-style: none;
-	margin: 0;
+	margin: 0 @component-padding 0 0;
 	padding: 0;
 
 	> li {
 		display: inline-block;
 		vertical-align: middle;
+
+		&::before {
+			.octicon();
+			content: "\f078";
+			margin-left: .5em;
+			margin-right: .5em;
+		}
+		&:first-child::before {
+			display: none;
+		}
 	}
 }
 

@@ -97,7 +97,13 @@ var Header = React.createClass({
 				</Button>
 			);
 		} else {
-			return <ul className="item-breadcrumbs" key="drilldown">els</ul>;
+			// add the current list
+			els.push(		
+				<li key="back">		
+					<a type="link" href={'/keystone/' + list.path}>{list.plural}</a>
+				</li>
+			);
+			return <ul className="item-breadcrumbs" key="drilldown">{els}</ul>;
 		}
 		
 	},
