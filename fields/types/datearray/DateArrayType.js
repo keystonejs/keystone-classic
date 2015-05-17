@@ -19,6 +19,7 @@ function datearray(list, path, options) {
 	this._underscoreMethods = ['format'];
 	this._properties = ['formatString'];
 
+	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
 	
 	if (this.formatString && 'string' !== typeof this.formatString) {
@@ -59,9 +60,10 @@ datearray.prototype.format = function(item, format) {
 datearray.prototype.validateInput = function(data, required, item) {
 
 	var value = this.getValueFromData(data);
+	var parseFormatString = this.parseFormatString;
 
 	if ('string' === typeof value) {
-		if (!moment(value).isValid()) {
+		if (!moment(value, parseFormatString).isValid()) {
 			return false;
 		}
 		value = [value];
@@ -78,17 +80,24 @@ datearray.prototype.validateInput = function(data, required, item) {
 			return false;
 		}
 	}
+	
 	if (Array.isArray(value)) {
-		// Filter out empty fields
+		// filter out empty fields
 		value = value.filter(function(date) {
 			return date.trim() !== '';
 		});
-		// If any date in the array is invalid, return false
-		if (value.some(function (dateValue) { return !moment(dateValue).isValid(); })) {
+		// if there are no values left, and requried is true, return false
+		if (required && !value.length) {
+			return false;
+		}
+		// if any date in the array is invalid, return false
+		if (value.some(function (dateValue) { return !moment(dateValue, parseFormatString).isValid(); })) {
 			return false;
 		}
 	}
+
 	return (value === undefined || Array.isArray(value));
+
 };
 
 

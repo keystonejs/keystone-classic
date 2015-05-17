@@ -19,6 +19,7 @@ function date(list, path, options) {
 	this._fixedSize = 'large';
 	this._properties = ['formatString', 'yearRange'];
 	
+	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
 	this.yearRange = options.yearRange;
 	
@@ -86,7 +87,7 @@ date.prototype.validateInput = function(data, required, item) {
 
 	if (!(this.path in data) && item && item.get(this.path)) return true;
 
-	var newValue = moment(data[this.path]);
+	var newValue = moment(data[this.path], this.parseFormatString);
 
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
@@ -111,7 +112,7 @@ date.prototype.updateItem = function(item, data) {
 		return;
 	}
 
-	var newValue = moment(data[this.path]);
+	var newValue = moment(data[this.path], this.parseFormatString);
 
 	if (newValue && newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
