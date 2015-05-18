@@ -38,8 +38,9 @@ exports = module.exports = function(req, res) {
 
 		};
 
-		var onFail = function () {
-			req.flash('error', 'Sorry, that email and password combo are not valid.');
+		var onFail = function (err) {
+			var message = (err && err.message) ? err.message : 'Sorry, that email and password combo are not valid.';
+			req.flash('error', message );
 			renderView();
 		};
 
