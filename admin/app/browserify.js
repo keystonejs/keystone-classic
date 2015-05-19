@@ -5,7 +5,6 @@ var crypto = require('crypto');
 var moment = require('moment');
 var packages = require('../packages');
 var path = require('path');
-var stream = require('stream');
 var watchify = require('watchify');
 
 var basedir = path.resolve(__dirname + '/../src/');
@@ -67,7 +66,7 @@ module.exports = function(file, name) {
 				send.apply(null, i);
 			});
 		});
-		b.on('update', function (ids) {
+		b.on('update', function() {
 			b.bundle(function(err, buff) {
 				if (err) return logError(file, err);
 				else logRebuild(file);
@@ -75,29 +74,29 @@ module.exports = function(file, name) {
 			});
 		});
 	}
-	function serve(req, res, next) {
+	function serve(req, res) {
 		if (!ready) {
 			build();
-			queue.push([req, res, next]);
+			queue.push([req, res]);
 			return;
 		}
-		send(req, res, next);
+		send(req, res);
 	}
-	function send(req, res, next) {
+	function send(req, res) {
 		res.setHeader('Content-Type', 'application/javascript');
-	    var etag = crypto.createHash('md5').update(src).digest('hex').slice(0, 6);
-	    if (req.get && (etag === req.get('If-None-Match'))) {
-	        res.status(304);
-	        res.end();
-	    }
-	    else {
-	        res.setHeader('ETag', etag);
-	        res.setHeader('Vary', 'Accept-Encoding');
-	        res.send(src);
-	    }
+		var etag = crypto.createHash('md5').update(src).digest('hex').slice(0, 6);
+		if (req.get && (etag === req.get('If-None-Match'))) {
+			res.status(304);
+			res.end();
+		}
+		else {
+			res.setHeader('ETag', etag);
+			res.setHeader('Vary', 'Accept-Encoding');
+			res.send(src);
+		}
 	}
 	return {
 		serve: serve,
 		build: build
 	};
-}
+};

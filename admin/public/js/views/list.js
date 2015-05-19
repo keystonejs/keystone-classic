@@ -103,7 +103,7 @@ jQuery(function($) {
 		if (querystring.q) {
 			var existingIndex = recentSearches.indexOf(querystring.q);
 			if (existingIndex !== -1) {
-				recentSearches = recentSearches.slice(0, existingIndex).concat(recentSearches.slice(existingIndex+1));
+				recentSearches = recentSearches.slice(0, existingIndex).concat(recentSearches.slice(existingIndex + 1));
 			}
 			recentSearches.unshift(querystring.q);
 			recentSearches = recentSearches.slice(0, 20); // only keep the 20 most recent

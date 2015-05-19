@@ -7,9 +7,9 @@ var ListHeader = require('../components/ListHeader');
 var Button = require('elemental').Button;
 var Dropdown = require('elemental').Dropdown;
 
-var View = React.createClass({
+var Header = React.createClass({
 	
-	displayName: 'ListView',
+	displayName: 'ListHeader',
 	
 	getInitialState: function() {
 		return {
@@ -68,4 +68,4 @@ var View = React.createClass({
 	
 });
 
-React.render(<View />, document.getElementById('list-view'));
+React.render(<Header />, document.getElementById('list-view-header'));
