@@ -10,6 +10,7 @@
 //
 // Page Header
 // --------------------------------------------------
+
 .page-header {
 	border-bottom: 1px solid darken(@body-bg, 10%);
 	padding-bottom: 1em;
@@ -32,28 +33,6 @@
 			}
 		}
 	}
-}
-
-
-
-// Dropdowns
-// ------------------------------
-
-.dropdown-inline {
-	display: inline-block;
-	position: relative;
-}
-.dropdown-menu {
-	max-height: 400px;
-	overflow-y: auto;
-
-	// return spacing to the bottom after max-height crops the padding
-	> li:last-child {
-		margin-bottom: 5px;
-	}
-}
-.dropdown-header:not(:first-child) {
-	margin-top: 1em;
 }
 
 
@@ -143,64 +122,6 @@
 	border: 0 none;
 	line-height: @line-height-base;
 	padding-left: 20px;
-}
-
-// location field options
-.autoimprove {
-	color: #5a497d;
-}
-.overwrite {
-	color: #cb3965;
-}
-.checkbox {
-	max-width: @screen-xs;
-}
-
-
-
-
-// Toolbar Buttons
-// ------------------------------
-
-.btn.btn-filter {
-	#gradient .vertical( #fff, mix(white, @link-color, 93%), 30%, 100% );
-	color: darken(@link-color, 10%);
-	border-color: @link-color;
-
-	&:hover {
-		// color: darken(@link-color, 5%);
-		border-color: darken(@link-color, 10%);
-	}
-
-	.open &,
-	&:active,
-	&.active {
-		background: mix(white, @link-color, 93%);
-		border-color: darken(@link-color, 10%);
-		color: darken(@link-color, 15%);
-	}
-}
-
-
-
-
-
-//
-// Breadcrumbs
-// --------------------------------------------------
-.breadcrumb {
-	margin-bottom: 0;
-	padding: 0;
-	font-size: @font-size-lg;
-	background-color: transparent;
-
-	> li {
-		display: inline-block;
-
-		span {
-			color: #ccc;
-		}
-	}
 }
 
 
