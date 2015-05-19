@@ -42,14 +42,7 @@ block content
 	//- ------------------------------
 	.container
 		if items.results.length
-			.list-pagination
-				+pagination(items)
-			
 			#list-view-table
-									
-			if items.totalPages > 1
-				.list-pagination
-					+pagination(items)
 		else
 			.blank-state
 				h2.blank-state__heading No #{list.plural.toLowerCase()} found

@@ -9,6 +9,7 @@ var Button = require('elemental').Button;
 var Dropdown = require('elemental').Dropdown;
 var FormInput = require('elemental').FormInput;
 var InputGroup = require('elemental').InputGroup;
+var Pagination = require('elemental').Pagination;
 var Tag = require('elemental').Tag;
 
 const CURRENT_FILTERS = [
@@ -53,6 +54,9 @@ var ListHeader = React.createClass({
 	},
 	handleSortSelect: function(selected) {
 		console.log('Sort selected: ', selected);
+	},
+	handlePageSelect: function(selected) {
+		console.log('Page selected: ', selected);
 	},
 	
 	renderTitle: function() {
@@ -108,14 +112,6 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
-	renderPagination: function() {
-		return (
-			<div className="ListHeader__pagination">
-				<div className="count">Showing 1 to 50 of 933</div>
-				<ul className="Pagination"><li className="active"><a href="/keystone/listings/1">1</a></li><li><a href="/keystone/listings/2">2</a></li><li><a href="/keystone/listings/3">3</a></li><li><a href="/keystone/listings/4">4</a></li><li><a href="/keystone/listings/5">5</a></li><li><a href="/keystone/listings/6">6</a></li><li><a href="/keystone/listings/7">7</a></li><li><a href="/keystone/listings/8">8</a></li><li><a href="/keystone/listings/9">9</a></li><li><a href="/keystone/listings/10">10</a></li><li><a href="/keystone/listings/19">...</a></li></ul>
-			</div>
-		);
-	},
 	
 	render: function() {
 		return (
@@ -130,7 +126,7 @@ var ListHeader = React.createClass({
 						{this.renderSortButton()}
 					</InputGroup>
 					<ListFilters filters={CURRENT_FILTERS} />
-					{this.renderPagination()}
+					<Pagination pagination={Keystone.items} onClick={this.handlePageSelect} className="ListHeader__pagination" />
 				</div>
 			</div>
 		);
