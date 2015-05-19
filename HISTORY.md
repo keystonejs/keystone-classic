@@ -9,6 +9,8 @@ KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an am
 * added; `parseFormat` option for `Date` / `Datetime` field types, and more robust validation in `DateArray`
 * added; `logger options` setting, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
 
+Also, our site and documentation have been split out into their own repository: [keystonejs/keystonejs-site](https://github.com/keystonejs/keystonejs-site). Please contribute any changes, additions and issues to that new repo going forward.
+
 ## v0.3.9 / 2015-05-17
 
 * added; Babel `object-assign` plugin for the Admin UI browserify build process
