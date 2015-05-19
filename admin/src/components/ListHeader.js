@@ -1,5 +1,9 @@
 var React = require('react');
 var classNames = require('classnames');
+var utils = require('keystone-utils');
+
+var ListFilters = require('./ListFilters');
+var ListFiltersAdd = require('./ListFiltersAdd');
 
 var Button = require('elemental').Button;
 var Dropdown = require('elemental').Dropdown;
@@ -10,17 +14,15 @@ var Tag = require('elemental').Tag;
 const CURRENT_FILTERS = [
 	'Created Date between 21/08/2014 and 21/09/2014',
 	'Email contains "@gmail"',
-	'Is NOT Admin',
-	'School: Surry Hills Primary School'
+	'Is NOT Admin'
 ];
 
-const SORT_OPTIONS = [
-	{ label: 'Name' },
-	{ label: 'Listing Type' },
-	{ label: 'Place' },
-	{ label: 'Listing State' },
-	{ label: 'Created At' }
-];
+const COLUMNS = Keystone.list.uiElements.map(function(col,i) {
+	return {
+		type:  col.type === 'heading' ? 'header' : 'item',
+		label: col.type === 'heading' ? col.content : utils.titlecase(col.field)
+	}
+});
 
 var ListHeader = React.createClass({
 	
@@ -31,13 +33,7 @@ var ListHeader = React.createClass({
 			searchString: ''
 		};
 	},
-
-	handleFilterClick: function(filter) {
-		return console.log('clicked:', filter);
-	},
-	handleFilterClear: function(filter) {
-		return console.log('cleared:', filter);
-	},
+	
 	handleSearch: function(e) {
 		this.setState({
 			searchString: e.target.value
@@ -49,10 +45,19 @@ var ListHeader = React.createClass({
 		});
 		React.findDOMNode(this.refs.listSearchInput).focus();
 	},
+	handleFilterSelect: function(selected) {
+		console.log('Filter selected: ', selected);
+	},
+	handleColumnSelect: function(selected) {
+		console.log('Column selected: ', selected);
+	},
+	handleSortSelect: function(selected) {
+		console.log('Sort selected: ', selected);
+	},
 	
 	renderTitle: function() {
 		return (
-			<h2 className="ListHeader__title">7287 Events sorted by name</h2>
+			<h2 className="ListHeader__title">7287 Events <span className="text-muted">sorted by name</span></h2>
 		);
 	},
 	renderRecentFilters: function() {
@@ -61,6 +66,7 @@ var ListHeader = React.createClass({
 				<Dropdown items={[{ label: 'Listing state matches "published"' },{ label: 'Email matches "gmail"' }]}>
 					<Button title="Recent Filters">
 						<span className="octicon octicon-clock" />
+						<span className="disclosure-arrow" />
 					</Button>
 				</Dropdown>
 			</InputGroup.Section>
@@ -78,51 +84,28 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
-	renderFilterButton: function() {
-		return (
-			<InputGroup.Section>
-				<Button type="primary">
-					<span className="octicon octicon-settings" />
-					<span className="hidden-xs">Add Filter</span>
-				</Button>
-			</InputGroup.Section>
-		);
-	},
 	renderColumnsButton: function() {
 		return (
 			<InputGroup.Section>
-				<Button>
-					<span className="octicon octicon-mirror" />
-					<span className="hidden-xs">Columns</span>
-				</Button>
+				<Dropdown alignRight items={COLUMNS} onSelect={this.handleColumnSelect}>
+					<Button>
+						Columns
+						<span className="disclosure-arrow" />
+					</Button>
+				</Dropdown>
 			</InputGroup.Section>
 		);
 	},
 	renderSortButton: function() {
 		return (
 			<InputGroup.Section>
-				<Dropdown alignRight items={SORT_OPTIONS}>
+				<Dropdown alignRight items={COLUMNS} onSelect={this.handleSortSelect}>
 					<Button>
-						<span className="octicon octicon-list-ordered" />
-						<span className="hidden-xs">Sort</span>
+						Sort
+						<span className="disclosure-arrow" />
 					</Button>
 				</Dropdown>
 			</InputGroup.Section>
-		);
-	},
-	renderFilters: function() {
-		var self = this;
-
-		var currentFilters = CURRENT_FILTERS.map(function(filter, i) {
-			return (
-				<Tag label={filter} onClick={self.handleFilterClick.bind(this, filter)} onClear={self.handleFilterClear.bind(this, filter)} type="primary" hasClearButton />
-			);
-		});
-		currentFilters.push(<Tag label="Clear All" onClick={self.handleFilterClick.bind(this, 'Clear All')} />);
-		return (
-			<div className="ListHeader__filters mb-2">
-				{currentFilters}
-			</div>
 		);
 	},
 	renderPagination: function() {
@@ -142,11 +125,11 @@ var ListHeader = React.createClass({
 					<InputGroup contiguous={false} className="ListHeader__searchbar">
 						{this.renderRecentFilters()}
 						{this.renderSearch()}
-						{this.renderFilterButton()}
+						<ListFiltersAdd key="listFilters__add" />
 						{this.renderColumnsButton()}
 						{this.renderSortButton()}
 					</InputGroup>
-					{this.renderFilters()}
+					<ListFilters filters={CURRENT_FILTERS} />
 					{this.renderPagination()}
 				</div>
 			</div>

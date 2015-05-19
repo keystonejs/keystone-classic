@@ -95,22 +95,22 @@
 	vertical-align: middle;
 	
 	&.fieldicon-text            { background-image: url( "/keystone/images/icons/16/field-text.png" ); }
-	&.fieldicon-textarea          { background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }
+	&.fieldicon-textarea        { background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }
 	&.fieldicon-name            { background-image: url( "/keystone/images/icons/16/field-name.png" ); }
 	&.fieldicon-html            { background-image: url( "/keystone/images/icons/16/field-html.png" ); }
 	&.fieldicon-url             { background-image: url( "/keystone/images/icons/16/field-url.png" ); }
 	&.fieldicon-key             { background-image: url( "/keystone/images/icons/16/field-key.png" ); }
-	&.fieldicon-email             { background-image: url( "/keystone/images/icons/16/field-email.png" ); }
-	&.fieldicon-select            { background-image: url( "/keystone/images/icons/16/field-select.png" ); }
-	&.fieldicon-location          { background-image: url( "/keystone/images/icons/16/field-location.png" ); }
-	&.fieldicon-boolean           { background-image: url( "/keystone/images/icons/16/field-boolean.png" ); }
-	&.fieldicon-cloudinaryimage       { background-image: url( "/keystone/images/icons/16/field-image.png" ); }
+	&.fieldicon-email           { background-image: url( "/keystone/images/icons/16/field-email.png" ); }
+	&.fieldicon-select          { background-image: url( "/keystone/images/icons/16/field-select.png" ); }
+	&.fieldicon-location        { background-image: url( "/keystone/images/icons/16/field-location.png" ); }
+	&.fieldicon-boolean         { background-image: url( "/keystone/images/icons/16/field-boolean.png" ); }
+	&.fieldicon-cloudinaryimage { background-image: url( "/keystone/images/icons/16/field-image.png" ); }
 	&.fieldicon-s3file          { background-image: url( "/keystone/images/icons/16/field-file.png" ); }
-	&.fieldicon-relationship        { background-image: url( "/keystone/images/icons/16/field-numericSelect.png" ); }
+	&.fieldicon-relationship    { background-image: url( "/keystone/images/icons/16/field-numericSelect.png" ); }
 	&.fieldicon-date            { background-image: url( "/keystone/images/icons/16/field-date.png" ); }
-	&.fieldicon-datetime          { background-image: url( "/keystone/images/icons/16/field-dateTime.png" ); }
+	&.fieldicon-datetime        { background-image: url( "/keystone/images/icons/16/field-dateTime.png" ); }
 	&.fieldicon-money           { background-image: url( "/keystone/images/icons/16/field-money.png" ); }
-	&.fieldicon-number            { background-image: url( "/keystone/images/icons/16/field-number.png" ); }
+	&.fieldicon-number          { background-image: url( "/keystone/images/icons/16/field-number.png" ); }
 	&.fieldicon-sort            { background-image: url( "/keystone/images/icons/16/field-sort.png" ); }
 }
 .dropdown-menu .fieldicon {
@@ -123,9 +123,66 @@
 	margin-left: -5px;
 }
 
-//
+
+
+
+// Filters
+// --------------------------------------------------
+
+.ListFiltersForm__header {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	// font-size: @font-size-sm;
+	font-weight: 500;
+	margin-bottom: 20px;
+	padding-bottom: 1em;
+	position: relative;
+	text-align: center;
+}
+.ListFiltersForm__header__icon {
+	background: none;
+	border: none;
+	color: @gray-light;
+	left: 0;
+	position: absolute;
+	outline: none;
+	-webkit-appearance: none;
+
+	// increase the hittable area
+	&::after {
+		bottom: -10px;
+		content: "";
+		left: -10px;
+		position: absolute;
+		right: -10px;
+		top: -10px;
+	}
+}
+
+.ListFiltersForm__footer {
+	.clearfix();
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	font-weight: 500;
+	margin-bottom: -20px;
+	margin-top: 20px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+.ListFiltersForm__footer-button--apply  {
+	float: left;
+	font-weight: bold;
+	margin-left: -1em;
+}
+.ListFiltersForm__footer-button--cancel {
+	float: right;
+	margin-right: -1em;
+}
+
+
+
+
 // Items List
 // --------------------------------------------------
+
 .items-list {
 	margin-bottom: 1.5em;
 	table-layout: fixed;
