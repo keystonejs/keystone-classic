@@ -19,41 +19,6 @@
 
 
 
-// Adding vertical spacing between form elements
-.field,
-#signin-form .row {
-	margin-top: @input-vspacing;
-}
-
-
-// Field Item
-// I usually house controls like buttons aswell as the input
-
-.field-item {
-	margin-bottom: floor(@input-vspacing / 2);
-	position: relative;
-}
-.field-item-button {
-	display: inline-block;
-	font-size: 16px;
-	height: 100%;
-	// line-height: @input-height-base;
-	padding: 0 @font-size-sm;
-	position: absolute;
-	right: 0;
-
-	a&:focus,
-	a&:hover {
-		text-decoration: none;
-	}
-}
-
-
-// field indentation - usually on checkboxes
-
-.field-indented {
-	margin-left: @form-label-width;
-}
 
 
 // form label
@@ -70,77 +35,6 @@
 	}
 }
 
-
-
-// Disabled fields
-.form-control.disabled {
-	background-color: @input-bg-disabled;
-}
-
-
-// The note that sits beneath a field
-.field-note {
-	display: inline-block;
-	margin-top: 5px;
-	margin-bottom: 10px;
-	padding: @padding-base-vertical @padding-base-horizontal;
-
-	// FIXME: dangerouslySetInnerHTML is injecting a P tag?
-	> p {
-		line-height: 1;
-		margin: 0;
-	}
-
-	// stop notes from wrapping on the shorter fields
-	// TODO: this is a bit hacky, we may need more control over notes
-	@media (min-width: @screen-sm) {
-		.field-size-small > &,
-		.field-size-medium > & {
-			white-space: nowrap;
-		}
-	}
-}
-
-.field .help-block {
-	margin-bottom: 0px;
-}
-
-// align label copy with field text
-label {
-	display: inline-block;
-	font-weight: normal; // bold's a bit intense
-	vertical-align: middle;
-}
-.field-label {
-	margin: 0;
-	
-	// so fields don't jump on reveal
-	padding-bottom: @padding-base-vertical + 1;
-	padding-top: @padding-base-vertical + 1;
-}
-
-// label companion
-// sits next to a label, keeps him company
-.field-label-companion {
-	padding-left: @padding-base-horizontal;
-}
-
-// limit textareas to be vertically resizable only, set heights
-textarea {
-	.resizable(vertical);
-	min-height: 100px;
-	
-	&.tall {
-		min-height: 200px;
-	}
-}
-
-input,
-textarea {
-	&.code {
-		font-size: @font-size-sm !important;
-	}
-}
 
 // radios + checkboxes
 .radio,
