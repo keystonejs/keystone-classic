@@ -2,6 +2,13 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.10 / 2015-05-19
+
+* fixed; worked around an intermittent issue with the new browserify build process
+* added; new hooks `updates`, `signin` and `signout`, thanks [Camille Reynders](https://github.com/creynders)
+* added; `parseFormat` option for `Date` / `Datetime` field types, and more robust validation in `DateArray`
+* added; `logger options` setting, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+
 ## v0.3.9 / 2015-05-17
 
 * added; Babel `object-assign` plugin for the Admin UI browserify build process
