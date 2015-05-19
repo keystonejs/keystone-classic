@@ -14,7 +14,7 @@ var _ = require('underscore'),
 
 function name(list, path, options) {
 	
-	this._fixedSize = 'large';
+	this._fixedSize = 'full';
 	
 	// TODO: implement filtering, hard-coded as disabled for now
 	options.nofilter = true;

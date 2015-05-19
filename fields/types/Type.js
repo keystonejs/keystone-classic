@@ -121,7 +121,7 @@ Field.prototype.getSize = function() {
 	if (this.__size) return this.__size;
 	var size = this._fixedSize || this.options.size || this.options.width;
 	if (size !== 'small' && size !== 'medium' && size !== 'large' && size !== 'full') {
-		size = this._defaultSize || 'large';
+		size = this._defaultSize || 'full';
 	}
 	this.__size = size;
 	return size;

@@ -16,7 +16,7 @@ function date(list, path, options) {
 	
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
-	this._fixedSize = 'large';
+	this._fixedSize = 'full';
 	this._properties = ['formatString', 'yearRange'];
 	
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');

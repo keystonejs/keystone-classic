@@ -17,7 +17,7 @@ function password(list, path, options) {
 	
 	this._nativeType = String;
 	this._underscoreMethods = ['format', 'compare'];
-	this._fixedSize = 'large';
+	this._fixedSize = 'full';
 	
 	// You can't sort on password fields
 	options.nosort = true;

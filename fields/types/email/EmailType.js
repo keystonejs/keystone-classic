@@ -17,7 +17,6 @@ function email(list, path, options) {
 	
 	this._nativeType = String;
 	this._underscoreMethods = ['gravatarUrl'];
-	this._fixedSize = 'large';
 	
 	this.typeDescription = 'email address';
 	

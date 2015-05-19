@@ -30,7 +30,7 @@ var Base = module.exports.Base = {
 			inputProps: {},
 			labelProps: {},
 			valueProps: {},
-			size: 'large'
+			size: 'full'
 		};
 	},
 	
@@ -77,7 +77,12 @@ var Base = module.exports.Base = {
 	},
 	
 	renderUI: function(spec) {//eslint-disable-line no-unused-vars
-		var wrapperClassName = cx(('field-type-' + this.props.type), this.props.className);
+		var wrapperClassName = cx(
+			('field-type-' + this.props.type),
+			('field-size-' + this.props.size),
+			this.props.className
+		);
+		
 		return (
 			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
 				{this.shouldRenderField() ? this.renderField() : this.renderValue()}

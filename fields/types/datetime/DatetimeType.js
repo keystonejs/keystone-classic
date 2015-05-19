@@ -18,7 +18,7 @@ function datetime(list, path, options) {
 	
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
-	this._fixedSize = 'large';
+	this._fixedSize = 'full';
 	this._properties = ['formatString'];
 	
 	this.typeDescription = 'date and time';
