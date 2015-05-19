@@ -43,9 +43,9 @@ module.exports = function(file, name) {
 		}
 		if (name) {
 			b = browserify(opts);
-			b.require(path.join(basedir, file), { expose: name });
+			b.require('./' + file, { expose: name });
 		} else {
-			b = browserify(file, opts);
+			b = browserify('./' + file, opts);
 		}
 		b.transform(babelify.configure({
 			ignore: ['**/lib/**'],
