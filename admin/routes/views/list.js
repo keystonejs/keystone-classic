@@ -115,8 +115,9 @@ exports = module.exports = function(req, res) {
 
 			columns = columns.map(function(col) {
 				col = _.clone(col);
-				if (!col.field) return col;
-				col.field = col.field.getOptions();
+				if (col.field) col.field = col.field.getOptions();
+				if (col.refList) col.refList = col.refList.getOptions()
+				if (col.subField) col.subField = col.subField.getOptions()
 				return col;
 			});
 
