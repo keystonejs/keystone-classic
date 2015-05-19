@@ -1,0 +1,274 @@
+//
+// Popout
+// ==============================
+
+@popout-gutter:             20px;
+@popout-arrow-size:          8px;
+@popout-width:             320px;
+
+@popout-pane-animation-duration:             240ms;
+
+
+
+
+// Menu
+// ------------------------------
+
+
+// wrapper
+
+.popout-wrapper {
+	position: relative;
+}
+
+
+// base
+
+.popout {
+	.animation-duration( 200ms );
+	.animation-timing-function( cubic-bezier(0.77, 0, 0.175, 1) );
+	.transition( ~"width 200ms, height 200ms" );
+	background-color: @dropdown-bg;
+	border-radius: @border-radius-base;
+	box-shadow: 0 0 0 1px rgba(0,0,0,.175), 0 3px 8px rgba(0,0,0,.175);
+	font-size: @font-size-base;
+	left: 50%;
+	margin-left: -(@popout-width / 2);
+	margin-top: @popout-arrow-size + 4; // make room for the arrow
+	position: absolute;
+	top: 100%;
+	width: @popout-width;
+	z-index: @zindex-dropdown;
+
+	.align-right & {
+		left: auto;
+		right: 0;
+	}
+}
+.popout-enter {
+	.animation-name( popoutEnter );
+}
+.popout-leave {
+	.animation-name( popoutLeave );
+}
+
+
+// arrow
+
+.popout-arrow {
+	left: 50%;
+	margin-left: -@popout-arrow-size;
+	margin-top: -@popout-arrow-size;
+	position: absolute;
+
+	// common setup for shapes
+	&:before,
+	&:after {
+		border-left:  @popout-arrow-size solid transparent;
+		border-right: @popout-arrow-size solid transparent;
+		border-bottom:   @popout-arrow-size dashed;
+		content: "";
+		display: inline-block;
+		height: 0;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 0;
+	}
+
+	// the white part of the arrow
+	&:before {
+		border-bottom-color: rgba(0, 0, 0, 0.2);
+		top: -1px;
+	}
+
+	// the shadow
+	&:after {
+		border-bottom-color: white;
+	}
+}
+
+
+// inner
+
+.popout-inner {
+	.transition( height @popout-pane-animation-duration );
+	position: relative;
+
+	// fix height and scroll
+	max-height: @dropdown-menu-height;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+
+// panes
+
+.popout-pane {
+	.animation-duration( @popout-pane-animation-duration );
+	.animation-timing-function( cubic-bezier(0.77, 0, 0.175, 1) );
+	left: 0;
+	padding: @popout-gutter;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.popout-pane-next-enter {
+	.animation-name( slideInFromRight );
+}
+.popout-pane-next-leave {
+	.animation-name( slideOutToLeft );
+}
+.popout-pane-prev-enter {
+	.animation-name( slideInFromLeft );
+}
+.popout-pane-prev-leave {
+	.animation-name( slideOutToRight );
+}
+
+
+
+
+// Toggle
+// ------------------------------
+
+
+// base
+
+.popout__toggle {
+	border: 1px solid @input-border-color;
+	border-radius: 5px;
+	display: table;
+	font-size: @font-size-sm;
+	margin-bottom: 1em;
+	// table-layout: fixed;
+	width: 100%;
+}
+
+
+// item
+
+.popout__toggle__item {
+	display: table-cell;
+	padding: 2px 1px;
+
+	&:first-child {
+		padding-left: 2px;
+	}
+	&:last-child {
+		padding-right: 2px;
+	}
+}
+
+
+// action
+
+/*button*/.popout__toggle__action {
+	.text-overflow();
+	background: none;
+	border: none;
+	border-radius: 3px;
+	display: block;
+
+	// buttons receive padding from the browser. we want to
+	// squeeze all the space that we can out of this small component
+	padding-left: 0;
+	padding-right: 0;
+
+	width: 100%;
+	-webkit-appearance: none;
+
+	&:hover,
+	&:focus {
+		background-color: @gray-lighter;
+		outline: none;
+	}
+
+	// selected
+	&.is-selected {
+		background-color: @gray-light;
+		color: white;
+	}
+}
+
+
+
+
+// Lists
+// ------------------------------
+
+
+// items
+
+.popout__list__item {
+	.transition( all 140ms );
+	.text-overflow();
+	background: #fafafa;
+	border: none;
+	border-radius: .25em;
+	color: @text-color;
+	display: block;
+	padding: .5em 1em;
+	text-align: left;
+	width: 100%; // because we're using buttons, display block isn't enough
+	-webkit-appearance: none;
+
+	& + & {
+		margin-top: 3px;
+	}
+
+	&:hover,
+	&:focus {
+		background-color: fade(@link-color, 10%);
+		color: @link-color;
+		outline: none;
+
+		.popout__list__item__icon {
+			color: @link-color;
+		}
+	}
+
+	// selected filters
+	&.is-selected {
+		background-color: @link-color;
+		color: white;
+
+		.popout__list__item__icon {
+			color: white;
+		}
+	}
+}
+
+
+// headers
+
+.popout__list__header {
+	font-size: @font-size-sm;
+	color: @gray-light;
+	font-weight: 500;
+	margin-bottom: 5px;
+	margin-top: 2em;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+
+// icon
+
+.popout__list__item__icon {
+	color: fade(@text-color, 40%);
+	float: right;
+	margin-left: .5em;
+}
+
+
+
+
+
+
+
+
+
