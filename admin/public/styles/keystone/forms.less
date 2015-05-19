@@ -2,7 +2,7 @@
 // FORM ELEMENTS
 // Some field types are imported at the bottom 
 // of this file so they inherit styles
-// --------------------------------------------------
+// ==============================
 
 
 
@@ -60,104 +60,42 @@ label.checkbox {
 // ------------------------------
 
 @media (min-width: @screen-sm) {
-	.horizontal-form .field-size-small,
-	.horizontal-form .field-size-medium,
-	.horizontal-form .field-size-large {
+	.horizontal-form > .field-size-small,
+	.horizontal-form > .field-size-medium,
+	.horizontal-form > .field-size-large {
 		min-width: 0;
 	}
-	.horizontal-form .field-size-small  { width: 40%; }
-	.horizontal-form .field-size-medium { width: 60%; }
-	.horizontal-form .field-size-large  { width: 80%; }
+	.horizontal-form > .field-size-small  { width: 40%; }
+	.horizontal-form > .field-size-medium { width: 60%; }
+	.horizontal-form > .field-size-large  { width: 80%; }
 }
 
 
 
 
-// Field Types
+// Relational Button
+// sits to the right of a form field
+// used for things like clearing an array field or linking to related item
 // ------------------------------
 
 
-// Reveal Trigger
+// relatively position the wrapper to contain the button
 
-.field-reveal-trigger {
-	padding-left: 0;
-	padding-right: 0;
-
-	// stop things jumping around
-	// TODO: find out why this is necessary 
-	margin-bottom: 1px; 
+.form-field {
+	position: relative;
 }
 
-// Locations
-.field-type-location {
-	label {
-		margin: 0;
+// position the button using translate so we don't have to worry about widths
+
+@media (min-width: @screen-md) {
+	.keystone-relational-button {
+		.translate(100%, 0);
+		display: block;
+		margin-left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
 	}
-	label+.row {
-		margin-top: 12px;
-	}
-	.noedit {
-		.make-sm-column(9);
-		.make-md-column(10);
-	}
-	.row label {
-		padding-top: @padding-base-vertical;
-	}
-}
-
-// HTML
-.field-type-html {
-	textarea {
-		// .form-control;
-	}
-}
-
-
-
-// Code
-.field-type-code {
-	.CodeMirror-container {
-		// .form-control;
-		height: auto;
-		padding: 0;
-		
-		&.is-focused {
-			@shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@link-color,50%);
-			.box-shadow(@shadow);
-			border-color: @input-border-color-focus lighten(@input-border-color-focus, 5%) lighten(@input-border-color-focus, 5%);
-		}
-	}
-	.CodeMirror {
-		background: transparent;
-		border-radius: @border-radius-base;
-	}
-}
-
-// Messages
-.field-message {
-	display: none;
-	min-height: 30px;
-
-	span {
-		display: inline-block;
-		background: #f9f9f9;
-		border: 1px solid #ccc;
-		color: #999;
-		margin-right: 10px;
-		padding: 5px 10px;
-		// .border-radius(3px);
-		cursor: default;
-	}
-}
-
-
-// Date
-
-.field-type-date .form-control,
-.field-type-datetime .form-control{
-	display: inline-block;
-	margin-right: 5px;
-	width: auto;
 }
 
 
@@ -190,35 +128,17 @@ label.checkbox {
 
 
 
-// Hacky improvements for desktop
-// ------------------------------
-
-@media (min-width: @screen-md) {
-	.field-type-date .form-control,
-	.field-type-datetime .form-control {
-		width: 165px;
-	}
-	.btn-goto-linked-item {
-		.translate(100%, 0);
-		display: block;
-		margin-left: 0;
-		position: absolute;
-		right: 0;
-		top: 0;
-	}
-}
-
-
-
-
 // Field Imports
 // ------------------------------
 
+// large enough to require their own sheet
 @import "./field-azurefile";
 @import "./field-cloudinaryimage";
 @import "./field-localfile";
 @import "./field-s3file";
-@import "./field-localfiles";
+
+// all others
+@import "./field-types";
 
 
 

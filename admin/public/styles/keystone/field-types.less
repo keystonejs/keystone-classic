@@ -1,0 +1,138 @@
+//
+// Field Types
+// ==============================
+
+
+
+
+// Collapsed Field Label
+// ------------------------------
+
+/*button*/.collapsed-field-label {
+	padding-left: 0;
+	padding-right: 0;
+
+	// stop things jumping around
+	// TODO: find out why this is necessary 
+	margin-bottom: 1px; 
+}
+
+
+
+
+// Colour
+// ------------------------------
+
+@color-preview-gutter: 4px;
+
+.field-type-color {
+	position: relative;
+}
+.field-type-color__preview {
+	.square(@component-height);
+	position: absolute;
+}
+.field-type-color__preview__inner {
+	border-radius: .2em;
+	bottom: @color-preview-gutter;
+	left: @color-preview-gutter;
+	position: absolute;
+	right: @color-preview-gutter;
+	top: @color-preview-gutter;
+}
+@media (min-width: @screen-sm) {
+	.field-type-color__preview {
+		.square(@component-height);
+		background-color: @input-bg-color;
+		border-radius: @border-radius-base;
+		border: 1px solid @input-border-color;
+		margin-right: -@color-preview-gutter;
+		right: -@component-height;
+		top: 0;
+	}
+}
+@media (max-width: @screen-xs-max) {
+	.field-type-color__preview {
+		bottom: 0;
+		right: 0;
+	}
+}
+
+
+
+
+// Location
+// ------------------------------
+
+.field-type-location {
+	label {
+		margin: 0;
+	}
+	label+.row {
+		margin-top: 12px;
+	}
+	.noedit {
+		.make-sm-column(9);
+		.make-md-column(10);
+	}
+	.row label {
+		padding-top: @padding-base-vertical;
+	}
+}
+
+
+
+
+// Code
+// ------------------------------
+
+.CodeMirror-container {
+	.FormInput();
+	height: auto;
+	padding: 0;
+}
+.CodeMirror {
+	background: transparent;
+	border-radius: @border-radius-base;
+}
+
+
+
+
+// Local Files (plural)
+// ------------------------------
+
+.field-type-localfiles__note {
+	background-color: transparent;
+	border-color: transparent;
+}
+.field-type-localfiles__note--delete {
+	color: fade(@app-danger, 50%);
+}
+.field-type-localfiles__note--upload {
+	color: fade(@app-success, 50%);
+}
+
+
+
+
+// Messages
+// ------------------------------
+
+/*
+TODO: Reinstate when understood
+.field-message {
+	display: none;
+	min-height: 30px;
+
+	span {
+		display: inline-block;
+		background: #f9f9f9;
+		border: 1px solid #ccc;
+		color: #999;
+		margin-right: 10px;
+		padding: 5px 10px;
+		// .border-radius(3px);
+		cursor: default;
+	}
+}*/

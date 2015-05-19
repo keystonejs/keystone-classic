@@ -200,7 +200,7 @@ module.exports = Field.create({
 		
 		/* eslint-disable no-script-url */
 		var showMore = !_.isEmpty(this.state.collapsedFields)
-			? <Button type="link" className="field-reveal-trigger" onClick={this.uncollapseFields}>(show more fields)</Button>
+			? <Button type="link" className="collapsed-field-label" onClick={this.uncollapseFields}>(show more fields)</Button>
 			: null;
 		/* eslint-enable */
 		

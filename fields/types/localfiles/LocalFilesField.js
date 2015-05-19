@@ -1,7 +1,12 @@
-var _ = require('underscore'),
-	bytes = require('bytes'),
-	React = require('react'),
-	Field = require('../Field');
+var React = require('react');
+var Field = require('../Field');
+var _ = require('underscore');
+var bytes = require('bytes');
+
+var Button = require('elemental').Button;
+var FormField = require('elemental').FormField;
+var FormInput = require('elemental').FormInput;
+var FormNote = require('elemental').FormNote;
 
 var ICON_EXTS = [
 	'aac', 'ai', 'aiff', 'avi', 'bmp', 'c', 'cpp', 'css', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h',
@@ -22,27 +27,24 @@ var Item = React.createClass({
 		var body = [];
 
 		body.push(<img className='file-icon' src={'/keystone/images/icons/32/' + iconName + '.png'} />);
-		body.push(<span className='file-filename'>{filename}</span>);
-
-		if (this.props.size) {
-			body.push(<span className='file-size'>{bytes(this.props.size)}</span>);
-		}
+		body.push(<FormInput noedit className='file-filename'>
+			{filename}
+			{this.props.size ? ' (' + bytes(this.props.size) + ')' : null}
+		</FormInput>);
 
 		if (this.props.deleted) {
-			body.push(<span className='file-note-delete'>save to delete</span>);
+			body.push(<FormInput noedit className="field-type-localfiles__note field-type-localfiles__note--delete">save to delete</FormInput>);
 		} else if (this.props.isQueued) {
-			body.push(<span className='file-note-upload'>save to upload</span>);
+			body.push(<FormInput noedit className="field-type-localfiles__note field-type-localfiles__note--upload">save to upload</FormInput>);
 		}
 
 		if (!this.props.isQueued) {
-			var actionLabel = this.props.deleted ? 'undo' : 'remove';
-			body.push(<span className='file-action' onClick={this.props.toggleDelete}>{actionLabel}</span>);
+			var buttonLabel = this.props.deleted ? 'Undo' : 'Remove';
+			var buttonType = this.props.deleted ? 'link' : 'link-cancel';
+			body.push(<Button type={buttonType} onClick={this.props.toggleDelete}>{buttonLabel}</Button>);
 		}
 
-		var itemClassName = 'file-item';
-		if (this.props.deleted) itemClassName += ' file-item-deleted';
-
-		return <div className={itemClassName} key={this.props.key}>{body}</div>;
+		return <FormField key={this.props.key}>{body}</FormField>;
 	}
 	
 });
@@ -119,13 +121,13 @@ module.exports = Field.create({
 	renderToolbar: function () {
 		var clearFilesButton;
 		if (this.hasFiles()) {
-			clearFilesButton = <button type='button' className='btn btn-default btn-upload' onClick={this.clearFiles}>Clear uploads</button>;
+			clearFilesButton = <Button type="link-cancel" className="ml-5" onClick={this.clearFiles}>Clear Uploads</Button>;
 		}
 
 		return (
 			<div className='files-toolbar row col-sm-3 col-md-12'>
 				<div className='pull-left'>
-					<button type='button' className='btn btn-default btn-upload' onClick={this.changeFiles}>Upload</button>
+					<Button onClick={this.changeFiles}>Upload</Button>
 					{clearFilesButton}
 				</div>
 			</div>
@@ -174,8 +176,7 @@ module.exports = Field.create({
 
 	renderUI: function () {
 		return (
-			<div className="field field-type-files">
-				<label className="field-label">{this.props.label}</label>
+			<FormField label={this.props.label} className='field-type-localfiles'>
 
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
@@ -183,7 +184,7 @@ module.exports = Field.create({
 				{this.renderContainer()}
 				{this.renderToolbar()}
 					
-			</div>
+			</FormField>
 		);
 	}
 });

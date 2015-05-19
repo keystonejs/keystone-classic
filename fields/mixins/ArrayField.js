@@ -1,5 +1,9 @@
-var _ = require('underscore'),
-	React = require('react');
+var React = require('react');
+var _ = require('underscore');
+
+var Button = require('elemental').Button;
+var FormField = require('elemental').FormField;
+var FormInput = require('elemental').FormInput;
 
 var lastId = 0;
 
@@ -23,10 +27,14 @@ module.exports = {
 		}
 	},
 	
-	addItem: function() {
+	addItem: function(i) {
+		var self = this;
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
 			values: newValues
+		}, function() {
+			if (!self.state.values.length) return;
+			self.refs['item_' + self.state.values.length].getDOMNode().focus();
 		});
 		this.valueChanged(_.pluck(newValues, 'value'));
 	},
@@ -35,6 +43,8 @@ module.exports = {
 		var newValues = _.without(this.state.values, i);
 		this.setState({
 			values: newValues
+		}, function() {
+			this.refs.button.getDOMNode().focus();
 		});
 		this.valueChanged(_.pluck(newValues, 'value'));
 	},
@@ -56,22 +66,22 @@ module.exports = {
 		});
 	},
 	
-	renderItem: function(i) {
-		/* eslint-disable no-script-url */
+	renderItem: function(item, index) {
 		return (
-			<div key={i.key} className='field-item'>
-				<a href="javascript:;" className='field-item-button btn-cancel' onClick={this.removeItem.bind(this, i)}>&times;</a>
-				<input ref={'input_' + i.key} className='form-control multi' type='text' name={this.props.path} value={i.value} onChange={this.updateItem.bind(this, i)} autoComplete='off' />
-			</div>
+			<FormField key={item.key}>
+				<FormInput ref={'item_' + (index + 1)} name={this.props.path} value={item.value} onChange={this.updateItem.bind(this, item)} autoComplete='off' />
+				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
+					<span className="octicon octicon-x" />
+				</Button>
+			</FormField>
 		);
-		/* eslint-enable */
 	},
 	
 	renderField: function () {
 		return (
 			<div>
 				{this.state.values.map(this.renderItem)}
-				<button type="button" className='btn btn-xs btn-default' onClick={this.addItem}>Add item</button>
+				<Button ref="button" onClick={this.addItem}>Add item</Button>
 			</div>
 		);
 	},

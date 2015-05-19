@@ -1,5 +1,7 @@
-var React = require('react'),
-	Field = require('../Field');
+var React = require('react');
+var Field = require('../Field');
+
+var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
 	
@@ -15,7 +17,7 @@ module.exports = Field.create({
 	},
 	
 	renderField: function() {
-		return <input type="text" name={this.props.path} ref="focusTarget" value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+		return <FormInput name={this.props.path} ref="focusTarget" value={this.props.value} onChange={this.valueChanged} autoComplete="off" />;
 	}
 	
 });

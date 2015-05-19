@@ -60,6 +60,10 @@ var Base = module.exports.Base = {
 		if (!this.props.note) return null;
 		return <FormNote note={this.props.note} />;
 	},
+
+	wrapField: function() {
+		return this.renderField();
+	},
 	
 	renderField: function() {
 		var props = _.extend(this.props.inputProps, {
@@ -71,12 +75,16 @@ var Base = module.exports.Base = {
 		});
 		return <FormInput {...props} />;
 	},
+
+	wrapValue: function() {
+		return this.renderValue();
+	},
 	
 	renderValue: function() {
 		return <FormInput noedit>{this.props.value}</FormInput>;
 	},
 	
-	renderUI: function(spec) {//eslint-disable-line no-unused-vars
+	renderUI: function() {
 		var wrapperClassName = cx(
 			('field-type-' + this.props.type),
 			('field-size-' + this.props.size),
@@ -85,7 +93,7 @@ var Base = module.exports.Base = {
 		
 		return (
 			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
-				{this.shouldRenderField() ? this.renderField() : this.renderValue()}
+				{this.shouldRenderField() ? this.wrapField() : this.wrapValue()}
 				{this.renderNote()}
 			</FormField>
 		);
@@ -120,7 +128,7 @@ var Mixins = module.exports.Mixins = {
 			if (!this.shouldRenderField()) return null;
 			return (
 				<FormField>
-					<Button type="link" className="field-reveal-trigger" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
+					<Button type="link" className="collapsed-field-label" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
 				</FormField>
 			);
 		}
@@ -148,7 +156,7 @@ module.exports.create = function(spec) {
 			if (this.state.isCollapsed) {
 				return this.renderCollapse();
 			}
-			return this.renderUI(spec);
+			return this.renderUI();
 		}
 		
 	};

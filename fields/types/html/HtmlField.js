@@ -1,7 +1,9 @@
-var tinymce = require('tinymce'),
-	React = require('react'),
-	Field = require('../Field'),
-	_ = require('underscore');
+var React = require('react');
+var Field = require('../Field');
+var tinymce = require('tinymce');
+var _ = require('underscore');
+
+var FormInput = require('elemental').FormInput;
 
 var lastId = 0;
 
@@ -173,7 +175,7 @@ module.exports = Field.create({
 		};
 		return (
 			<div className={className}>
-				<textarea ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} readOnly={readOnly} value={this.props.value}></textarea>
+				<FormInput multiline ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} disabled={readOnly} value={this.props.value} />
 			</div>
 		);
 	},

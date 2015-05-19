@@ -3,10 +3,12 @@
  * - Custom path support
  */
 
-var _ = require('underscore');
 var React = require('react');
-var Select = require('react-select');
 var Field = require('../Field');
+var _ = require('underscore');
+var Select = require('react-select');
+
+var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
 	

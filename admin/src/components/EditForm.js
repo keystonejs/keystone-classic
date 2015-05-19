@@ -142,14 +142,13 @@ var EditForm = React.createClass({
 	renderFooterBar: function() {
 		
 		var footer = {};
+
+		footer.save = <Button type="primary" submit>Save</Button>;
 		
-		if (!this.props.list.noedit) {
-			footer.save = <Button type="primary" submit>Save</Button>;
-			// TODO: Confirm: Use React & Modal
-			footer.reset = <Button href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">reset changes</Button>;
-		}
-		
-		if (!this.props.list.noedit && !this.props.list.nodelete) {
+		// TODO: Confirm: Use React & Modal
+		footer.reset = <Button href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">reset changes</Button>;
+
+		if (!this.props.list.nodelete) {
 			// TODO: Confirm: Use React & Modal
 			footer.del = <Button href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="pull-right" data-confirm={'Are you sure you want to delete this?' + this.props.list.singular.toLowerCase()}>delete {this.props.list.singular.toLowerCase()}</Button>;
 		}
@@ -240,7 +239,7 @@ var EditForm = React.createClass({
 						{this.renderKeyOrId()}
 						{this.renderFormElements()}
 						{this.renderTrackingMeta()}
-						{this.renderFooterBar()}
+						{!this.props.list.noedit ? this.renderFooterBar() : null}
 					</form>
 				</div>
 			</div>

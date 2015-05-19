@@ -1,7 +1,9 @@
-var _ = require('underscore'),
-	React = require('react'),
-	Field = require('../Field'),
-	CodeMirror = require('codemirror');
+var React = require('react');
+var Field = require('../Field');
+var _ = require('underscore');
+var CodeMirror = require('codemirror');
+
+var FormInput = require('elemental').FormInput;
 
 // See CodeMirror docs for API:
 // http://codemirror.net/doc/manual.html
@@ -74,7 +76,7 @@ module.exports = Field.create({
 		}
 		return (
 			<div className={className}>
-				<textarea ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />
+				<FormInput multiline ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" />
 			</div>
 		);
 	},

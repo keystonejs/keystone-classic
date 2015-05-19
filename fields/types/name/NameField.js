@@ -20,16 +20,16 @@ module.exports = Field.create({
 	},
 	
 	renderValue: function() {
-		var values = {};
-		if (this.props.value.first) {
-			values.first = <FormInput noedit>{this.props.value.first}</FormInput>;
-		}
-		if (this.props.value.last) {
-			values.last = <FormInput noedit>{this.props.value.last}</FormInput>;
-		}
-		if (!values.first && values.last) {
-			values.none = <FormInput noedit />;
-		}
+		return (
+			<FormRow>
+				<FormField width="one-half">
+					<FormInput noedit style={{ width: '100%' }}>{this.props.value.first}</FormInput>
+				</FormField>
+				<FormField width="one-half">
+					<FormInput noedit style={{ width: '100%' }}>{this.props.value.last}</FormInput>
+				</FormField>
+			</FormRow>
+		);
 		return values;
 	},
 	

@@ -1,5 +1,8 @@
-var React = require('react'),
-	Field = require('../Field');
+var React = require('react');
+var Field = require('../Field');
+
+var FormIconField = require('elemental').FormIconField;
+var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
 	
@@ -11,7 +14,6 @@ module.exports = Field.create({
 			newValue = '#' + newValue;
 		}
 		if (newValue === this.props.value) return;
-		console.log(newValue);
 		this.props.onChange({
 			path: this.props.path,
 			value: newValue
@@ -24,23 +26,17 @@ module.exports = Field.create({
 		
 		if (this.props.value) {
 			colorPreview = (
-				<div style={{
-					position: 'absolute',
-					top: 5,
-					right: 20,
-					width: 24,
-					height: 24,
-					borderRadius: 5,
-					background: this.props.value
-				}} />
+				<div className="field-type-color__preview">
+					<div className="field-type-color__preview__inner" style={{ background: this.props.value }} />
+				</div>
 			);
 		}
 		
 		return (
-			<div>
-				<input ref='field' type='text' className='form-control' onChange={this.valueChanged} name={this.props.path} value={this.props.value} autoComplete='off' />
+			<span>
+				<FormInput ref="field" onChange={this.valueChanged} name={this.props.path} value={this.props.value} autoComplete="off" />
 				{colorPreview}
-			</div>
+			</span>
 		);
 	}
 	
