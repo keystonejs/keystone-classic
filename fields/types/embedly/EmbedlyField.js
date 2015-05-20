@@ -1,6 +1,7 @@
 var React = require('react');
 var Field = require('../Field');
 
+var FormField = require('elemental').FormField;
 var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
@@ -12,38 +13,71 @@ module.exports = Field.create({
 		return this.renderValue();
 	},
 	
-	renderValue: function() {
-		
-		if (!this.props.value.exists) {
-			return <FormInput noedit>(not set)</FormInput>;
-		}
-		
-		var imagePreview = this.props.value.thumbnailUrl ? (
-				<div className="image-preview">
-					<a href={this.props.value.url} className="img-thumbnail">
-						<img width={this.props.value.thumbnailWidth} height={this.props.value.thumbnailHeight} src={this.props.value.thumbnailUrl} />
-					</a>
-				</div>
-			) : null;
-		
-		// TODO review this return statement
+	renderValue: function(path, label, multiline) {
 		return (
-			<div>
-				<FormInput noedit>{this.props.value.providerName} {this.props.value.type}</FormInput>
-				<FormInput noedit>{this.props.value.url}</FormInput>
-				{imagePreview}
-			</div>
+			<FormField key={path} label={label} className="form-field--secondary">
+				<FormInput noedit multiline={multiline}>{this.props.value[path]}</FormInput>
+			</FormField>
+		);
+	},
+	renderAuthor: function() {
+		if (!this.props.value.authorName) return;
+		return (
+			<FormField key="author" label="Author" className="form-field--secondary">
+				<FormInput noedit href={this.props.value.authorUrl && this.props.value.authorUrl} target="_blank">{this.props.value.authorName}</FormInput>
+			</FormField>
 		);
 		
-		// if item.get(field.paths.exists)
-		// 	.FormInput-noedit= item.get(field.paths.providerName) + ' ' + utils.upcase(item.get(field.paths.type))
-		// 	.FormInput-noedit= item.get(field.paths.url)
-		// 	if item.get(field.paths.thumbnailUrl)
-		// 		.image-preview
-		// 			a(href=item.get(field.paths.url), rel=field.path).img-thumbnail
-		// 				img(width=item.get(field.paths.thumbnailWidth), height=item.get(field.paths.thumbnailHeight), src=item.get(field.paths.thumbnailUrl))
+	},
+	renderDimensions: function() {
+		if (!this.props.value.width || !this.props.value.height);
+		return (
+			<FormField key="dimensions" label="Dimensions" className="form-field--secondary">
+				<FormInput noedit>{this.props.value.width} &times; {this.props.value.height}px</FormInput>
+			</FormField>
+		);
 		
-		//return <FormInput noedit>{this.props.value}</FormInput>;
+	},
+	renderPreview: function() {
+		if (!this.props.value.thumbnailUrl) return;
+		
+		var image = <img width={this.props.value.thumbnailWidth} height={this.props.value.thumbnailHeight} src={this.props.value.thumbnailUrl} />;
+		
+		var preview = this.props.value.url ? (
+			<a href={this.props.value.url} target="_blank" className="img-thumbnail">{image}</a>
+		) : (
+			<div className="img-thumbnail">{image}</div>
+		);
+
+		return (
+			<FormField label="preview" label="Preview" className="form-field--secondary">
+				{preview}
+			</FormField>
+		);
+		
+	},
+
+	renderUI: function() {
+		if (!this.props.value.exists) {
+			return (
+				<FormField label={this.props.label}>
+					<FormInput noedit>(not set)</FormInput>
+				</FormField>
+			);
+		}
+		
+		return (
+			<div className="field-type-embedly field-size-full">
+				<FormField key="provider" label={this.props.label}>
+					<FormInput noedit>{this.props.value.providerName} {this.props.value.type}</FormInput>
+				</FormField>
+				{this.renderValue('title', 'Title')}
+				{this.renderAuthor()}
+				{this.renderValue('description', 'Description', true)}
+				{this.renderPreview()}
+				{this.renderDimensions()}
+			</div>
+		);
 		
 	}
 	
