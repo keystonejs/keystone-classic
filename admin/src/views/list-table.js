@@ -36,7 +36,7 @@ var Table = React.createClass({
 		tableClass += 'table items-list';
 		return (
 			<div className="items-list-wrapper">
-				<table cellpadding="0" cellspacing="0" className={tableClass}>
+				<table cellPadding="0" cellSpacing="0" className={tableClass}>
 					{this.renderCols()}
 					{this.renderHeaders()}
 					{Keystone.items.results.map(this.renderRow)}
