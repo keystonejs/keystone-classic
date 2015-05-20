@@ -158,7 +158,7 @@ module.exports = Field.create({
 		var url = this.getImageURL();
 
 		if (url) {
-			body = <a className='img-thumbnail' href={this.getImageURL()}>{body}</a>;
+			body = <a className='img-thumbnail' href={this.getImageURL()} target="__blank">{body}</a>;
 		} else {
 			body = <div className='img-thumbnail'>{body}</div>;
 		}

@@ -42,7 +42,7 @@ var Thumbnail = React.createClass({
 		return (
 			<div className='image-field image-sortable row col-sm-3 col-md-12' title={title}> 
 				<div className={previewClassName}> 
-					<a href={this.props.url} className='img-thumbnail'>
+					<a href={this.props.url} className='img-thumbnail' target="__blank">
 						<img style={ { height: '90'} } className='img-load' src={this.props.url} />
 						<span className={iconClassName} />
 					</a>
@@ -166,7 +166,7 @@ module.exports = Field.create({
 
 		var clearFilesButton;
 		if (this.hasFiles()) {
-			clearFilesButton = <Button onClick={this.clearFiles} className="ml-5">Clear selection</Button>;
+			clearFilesButton = <Button type="link-cancel" onClick={this.clearFiles} className="ml-5">Clear selection</Button>;
 		}
 
 		return (
