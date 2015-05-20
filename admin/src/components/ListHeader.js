@@ -34,6 +34,11 @@ var ListHeader = React.createClass({
 			searchString: ''
 		};
 	},
+	componentDidMount: function() {
+		console.log('Items:', Keystone.items);
+		console.log('List:',  Keystone.list);
+		console.log('Sort:',  Keystone.sort);
+	},
 	
 	handleSearch: function(e) {
 		this.setState({
@@ -53,15 +58,27 @@ var ListHeader = React.createClass({
 		console.log('Column selected: ', selected);
 	},
 	handleSortSelect: function(selected) {
-		console.log('Sort selected: ', selected);
+		console.log('Sort selected: ', utils.camelcase(selected));
 	},
 	handlePageSelect: function(selected) {
-		console.log('Page selected: ', selected);
+		var pagination = Keystone.items;
+		var page = selected.target.innerText;
+
+		// TODO: fix me
+		if (page === '...') {
+			page = (pagination.next ? pagination.totalPages : 1);
+		}
+
+		location.href = '/keystone/' + Keystone.list.path + '/' + page;
 	},
 	
 	renderTitle: function() {
+		var sort = Keystone.sort ? <span className="text-muted"> sorted by {Keystone.sort}</span> : null;
 		return (
-			<h2 className="ListHeader__title">7287 Events <span className="text-muted">sorted by name</span></h2>
+			<h2 className="ListHeader__title">
+				{utils.plural(Keystone.items.total, ('* ' + Keystone.list.singular), ('* ' + Keystone.list.plural))} 
+				{sort}
+			</h2>
 		);
 	},
 	renderRecentFilters: function() {
