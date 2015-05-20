@@ -39,7 +39,7 @@ We have a friendly, growing community and welcome everyone to get involved.
 Here are some ways:
 
 * Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements
-* Join our [keystonejs/keystone gitter](https://gitter.im/keystonejs/keystone) room to chat with other Keystone users and developers
+* Chat with us [![Join the chat at https://gitter.im/keystonejs/keystone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keystonejs/keystone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 * If you've got ideas, questions or need some advice, check out the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
 * Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs`
 * Report bugs and issues on our [issue tracker](https://github.com/keystonejs/keystone/issues)
