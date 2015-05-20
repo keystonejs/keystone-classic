@@ -190,11 +190,7 @@ module.exports = Field.create({
 		
 		if (!this.shouldRenderField()) {
 			return (
-				<FormField label={this.props.label} className="form-field--secondary">
-					<div className="noedit">
-						{this.renderValue()}
-					</div>
-				</FormField>
+				<FormField label={this.props.label}>{this.renderValue()}</FormField>
 			);
 		}
 		
