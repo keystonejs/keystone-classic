@@ -12,8 +12,8 @@ block content
 				p.lead You're already signed in.
 				.toolbar
 					if user.isAdmin
-						a(href='/keystone').btn.btn-primary Open Keystone
-					a(href='/keystone/signout').btn.btn-cancel Sign out
+						a(href='/keystone').Button.Button--primary Open Keystone
+					a(href='/keystone/signout').Button.Button--link-cancel Sign out
 			
 			else
 				form(method="post", novalidate).auth-form
