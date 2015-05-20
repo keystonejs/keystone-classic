@@ -102,14 +102,21 @@
 // Local Files (plural)
 // ------------------------------
 
+.field-type-localfiles__filename {
+	min-width: 55%;
+}
+
 .field-type-localfiles__note {
 	background-color: transparent;
 	border-color: transparent;
+	margin-left: .5em;
 }
 .field-type-localfiles__note--delete {
+	background-color: fade(@app-danger, 5%);
 	color: fade(@app-danger, 50%);
 }
 .field-type-localfiles__note--upload {
+	background-color: fade(@app-success, 5%);
 	color: fade(@app-success, 50%);
 }
 

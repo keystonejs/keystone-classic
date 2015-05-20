@@ -27,7 +27,7 @@ var Item = React.createClass({
 		var body = [];
 
 		body.push(<img className='file-icon' src={'/keystone/images/icons/32/' + iconName + '.png'} />);
-		body.push(<FormInput noedit className='file-filename'>
+		body.push(<FormInput noedit className='field-type-localfiles__filename'>
 			{filename}
 			{this.props.size ? ' (' + bytes(this.props.size) + ')' : null}
 		</FormInput>);
