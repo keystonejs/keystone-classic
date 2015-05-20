@@ -214,8 +214,69 @@
 		width: 16px;
 		height: 16px;
 	}
+	thead > tr > th {
+		border-bottom: 2px solid #ccc;
+		padding: 8px;
+		text-align: left;
+	}
+
+	thead > tr > td,
+	tbody > tr > td,
+	tfoot > tr > td {
+		// background-color: white;
+		border-top: 1px solid #e5e5e5;
+		line-height: 1;
+		height: 2.5em; // behaves like min-height on table cells
+	}
+
+	tr.delete-hover {
+		td {
+			color: #AD1212;
+			a { color: #AD1212; }
+		}
+	}
+
+	tr.delete-inprogress {
+		td {
+			color: #ccc;
+			a { color: #ccc; }
+		}
+	}
+
+	tr.sort-hover, tr.dragged {
+		.control-sort {
+			opacity: 1;
+		}
+		td {
+			color: #246818;
+			a { color: #246818; }
+		}
+	}
+
+	// links get a larger hit area
+	tbody a {
+		display: inline-block;
+		padding: @padding-small-vertical @padding-small-horizontal;
+		color: @text-color;
+		text-decoration: none;
+
+		&:hover {
+			color: darken(@text-color, 10%);
+			text-decoration: underline;
+		}
+	}
+
+	.col-value {
+		padding: @padding-small-vertical @padding-small-horizontal;
+	}
+
+	.col-boolean {
+		text-align: left;
+		padding: @padding-small-vertical @padding-small-horizontal 2px;
+	}
 
 }
+
 
 
 // Responsive tables

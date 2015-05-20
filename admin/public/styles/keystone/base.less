@@ -58,19 +58,6 @@
 
 
 
-// Toolbar
-// ------------------------------
-
-.toolbar {
-	border-bottom: 1px solid @gray-lighter;
-	margin-bottom: @grid-gutter-width;
-	margin-top: @grid-gutter-width;
-	padding-bottom: @grid-gutter-width;
-}
-
-
-
-
 // Flash Messages
 // ------------------------------
 
@@ -128,4 +115,24 @@
 .view-loading-indicator {
 	padding: 40px 0;
 	text-align: center;
+}
+
+
+
+
+// Page Header
+// ------------------------------
+
+.page-header {
+	border-bottom: 1px solid darken(@body-bg, 10%);
+	padding-bottom: 1em;
+	padding-top: 1em;
+	margin-bottom: 60px;
+	margin-top: 60px;
+
+	h1 {
+		font-weight: 200;
+		line-height: 1;
+		margin: 0;
+	}
 }
