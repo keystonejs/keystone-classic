@@ -158,16 +158,16 @@ module.exports = Field.create({
 		var url = this.getImageURL();
 
 		if (url) {
-			body = <a className='img-thumbnail' href={this.getImageURL()} target="__blank">{body}</a>;
+			body = <a className="img-thumbnail" href={this.getImageURL()} target="__blank">{body}</a>;
 		} else {
-			body = <div className='img-thumbnail'>{body}</div>;
+			body = <div className="img-thumbnail">{body}</div>;
 		}
 
 		return <div key={this.props.path + '_preview'} className={className}>{body}</div>;
 	},
 
 	renderImagePreviewThumbnail: function() {
-		return <img key={this.props.path + '_preview_thumbnail'} className='img-load' style={ { height: '90' } } src={this.getImageSource()} />;
+		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={ { height: '90' } } src={this.getImageSource()} />;
 	},
 
 	/**
@@ -179,7 +179,7 @@ module.exports = Field.create({
 
 		if (!this.hasLocal() && !this.state.removeExisting) {
 			values = (
-				<div className='image-values'>
+				<div className="image-values">
 					<FormInput noedit>{this.props.value.url}</FormInput>
 					{/*
 						TODO: move this somewhere better when appropriate
@@ -190,7 +190,7 @@ module.exports = Field.create({
 		}
 
 		return (
-			<div key={this.props.path + '_details'} className='image-details'>
+			<div key={this.props.path + '_details'} className="image-details">
 				{values}
 				{add}
 			</div>
@@ -259,12 +259,12 @@ module.exports = Field.create({
 	},
 
 	renderFileAction: function() {
-		return <input type='hidden' name={this.props.paths.action} className='field-action' value={this.state.action} />;
+		return <input type="hidden" name={this.props.paths.action} className="field-action" value={this.state.action} />;
 	},
 
 	renderImageToolbar: function() {
 		return (
-			<div key={this.props.path + '_toolbar'} className='image-toolbar'>
+			<div key={this.props.path + '_toolbar'} className="image-toolbar">
 				<div className='u-float-left'>
 					<Button onClick={this.changeImage}>
 						{this.hasImage() ? 'Change' : 'Upload'} Image
@@ -301,10 +301,10 @@ module.exports = Field.create({
 		};
 
 		return (
-			<div className='image-select'>
+			<div className="image-select">
 				<Select
-					placeholder='Search for an image from Cloudinary ...'
-					className='ui-select2-cloudinary'
+					placeholder="Search for an image from Cloudinary ..."
+					className="ui-select2-cloudinary"
 					name={this.props.paths.select}
 					id={'field_' + this.props.paths.select}
 					asyncOptions={getOptions}
@@ -330,17 +330,17 @@ module.exports = Field.create({
 				container.push(this.renderImagePreview());
 				container.push(this.renderImageDetails());
 			} else {
-				container.push(<div className='help-block'>no image</div>);
+				container.push(<div className="help-block">no image</div>);
 			}
 		}
 
 		return (
-			<FormField label={this.props.label} className='field-type-cloudinaryimage'>
+			<FormField label={this.props.label} className="field-type-cloudinaryimage">
 	
 				{this.renderFileField()}
 				{this.renderFileAction()}
 
-				<div className='image-container'>{container}</div>
+				<div className="image-container">{container}</div>
 				{body}
 				<FormNote note={this.props.note} />
 			</FormField>

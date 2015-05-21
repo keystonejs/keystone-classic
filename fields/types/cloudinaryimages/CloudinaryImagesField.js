@@ -40,10 +40,10 @@ var Thumbnail = React.createClass({
 		}
 
 		return (
-			<div className='image-field image-sortable row col-sm-3 col-md-12' title={title}> 
+			<div className="image-field image-sortable row col-sm-3 col-md-12" title={title}> 
 				<div className={previewClassName}> 
-					<a href={this.props.url} className='img-thumbnail' target="__blank">
-						<img style={ { height: '90'} } className='img-load' src={this.props.url} />
+					<a href={this.props.url} className="img-thumbnail" target="__blank">
+						<img style={ { height: '90'} } className="img-load" src={this.props.url} />
 						<span className={iconClassName} />
 					</a>
 				</div>
@@ -170,8 +170,8 @@ module.exports = Field.create({
 		}
 
 		return (
-			<div className='images-toolbar row col-sm-3 col-md-12'>
-				<div className='u-float-left'>
+			<div className="images-toolbar row col-sm-3 col-md-12">
+				<div className="u-float-left">
 					<Button onClick={this.changeImage}>Select files</Button>
 					{clearFilesButton}
 				</div>
@@ -182,16 +182,16 @@ module.exports = Field.create({
 
 	renderPlaceholder: function() {
 		return (
-			<div className='image-field image-upload row col-sm-3 col-md-12' onClick={this.changeImage}>
-				<div className='image-preview'>
-					<span className='img-thumbnail'>
-						<span className='img-dropzone' />
-						<div className='img-uploading mega-octicon octicon-file-media' />
+			<div className="image-field image-upload row col-sm-3 col-md-12" onClick={this.changeImage}>
+				<div className="image-preview">
+					<span className="img-thumbnail">
+						<span className="img-dropzone" />
+						<div className="img-uploading mega-octicon octicon-file-media" />
 					</span>
 				</div>
 
-				<div className='image-details'>
-					<span className='image-message'>Click to upload</span>
+				<div className="image-details">
+					<span className="image-message">Click to upload</span>
 				</div>
 			</div>
 		);
@@ -199,7 +199,7 @@ module.exports = Field.create({
 
 	renderContainer: function() {
 		return (
-			<div className='images-container clearfix'>
+			<div className="images-container clearfix">
 				{this.state.thumbnails}
 			</div>
 		);
@@ -213,16 +213,16 @@ module.exports = Field.create({
 		});
 		if (remove.length) value = 'remove:' + remove.join(',');
 
-		return <input ref='action' className='field-action' type='hidden' value={value} name={this.props.paths.action} />;
+		return <input ref="action" className="field-action" type="hidden" value={value} name={this.props.paths.action} />;
 	},
 
 	renderUploadsField: function() {
-		return <input ref='uploads' className='field-uploads' type='hidden' name={this.props.paths.uploads} />;
+		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
 
 	renderUI: function() {
 		return (
-			<FormField label={this.props.label} className='field-type-cloudinaryimages'>
+			<FormField label={this.props.label} className="field-type-cloudinaryimages">
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}
