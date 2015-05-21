@@ -124,8 +124,10 @@
     "build-dev": "gulp build-packages",
     "release": "gulp release",
     "test": "mocha",
-    "lint": "eslint ./",
-    "test-cov": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha",
+    "lint": "eslint .",
+    "pretest-cov": "npm run clean",
+    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
+    "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate < coverage/lcov.info; fi",
     "clean": "rimraf ./coverage"
   },
   "engines": {
