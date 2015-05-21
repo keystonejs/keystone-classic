@@ -19,20 +19,21 @@ var View = React.createClass({
 		return (
 			<div>
 				{Keystone.nav.sections.map((navSection) => {
-					var headingClassName = 'dashboard-group__heading octicon';
+					var headingIconClass = 'dashboard-group__heading-icon octicon ';
 					
-					if (navSection.key === 'events') { headingClassName += ' octicon-calendar'; }
-					else if (navSection.key === 'people') { headingClassName += ' octicon-organization'; }
-					else if (navSection.key === 'listings') { headingClassName += ' octicon-briefcase'; }
-					else if (navSection.key === 'places') { headingClassName += ' octicon-location'; }
-					else if (navSection.key === 'posts') { headingClassName += ' octicon-book'; }
-					else if (navSection.key === 'jobs') { headingClassName += ' octicon-megaphone'; }
-					else if (navSection.key === 'forums') { headingClassName += ' octicon-podium'; }
-					else { headingClassName += ' octicon-primitive-dot'; }
+					if (navSection.key === 'events') { headingIconClass += ' octicon-calendar'; }
+					else if (navSection.key === 'people') { headingIconClass += ' octicon-organization'; }
+					else if (navSection.key === 'listings') { headingIconClass += ' octicon-briefcase'; }
+					else if (navSection.key === 'places') { headingIconClass += ' octicon-location'; }
+					else if (navSection.key === 'posts') { headingIconClass += ' octicon-book'; }
+					else if (navSection.key === 'jobs') { headingIconClass += ' octicon-megaphone'; }
+					else if (navSection.key === 'forums') { headingIconClass += ' octicon-podium'; }
+					else { headingIconClass += ' octicon-primitive-dot'; }
 					
 					return (
 						<div className="dashboard-group" key={navSection.key}>
-							<div className={headingClassName}>
+							<div className="dashboard-group__heading">
+								<span className={headingIconClass} />
 								{navSection.label}
 							</div>
 							<ul className="dashboard-group__list">
@@ -55,7 +56,8 @@ var View = React.createClass({
 					if (!Keystone.orphanedLists.length) return;
 					return (
 						<div className="dashboard-group">
-							<div className="dashboard-group__heading octicon octicon-database">
+							<div className="dashboard-group__heading">
+								<span className="dashboard-group__heading-icon  octicon octicon-database" />
 								Other
 							</div>
 							<ul className="dashboard-group__list">
