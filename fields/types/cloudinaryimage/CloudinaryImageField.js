@@ -255,7 +255,7 @@ module.exports = Field.create({
 	},
 
 	renderFileField: function() {
-		return <input ref='fileField' type='file' name={this.props.paths.upload} className='field-upload' onChange={this.fileChanged} />;
+		return <input ref="fileField" type="file" name={this.props.paths.upload} className="field-upload" onChange={this.fileChanged} tabIndex="-1" />;
 	},
 
 	renderFileAction: function() {
