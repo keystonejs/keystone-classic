@@ -100,11 +100,23 @@ label.checkbox {
 @media (min-width: @screen-md) {
 	.keystone-relational-button {
 		.translate(100%, 0);
+		.transition( all 140ms );
+		border: 1px solid transparent;
 		display: block;
-		margin-left: 0;
+		margin-right: -4px; // so it doesn't sit right up against the field
 		position: absolute;
 		right: 0;
 		top: 0;
+
+		// provide feedback when user tabs to this element
+		&:hover,
+		&:focus {
+			background-color: white;
+			border-color: rgba(0, 0, 0, 0.05);
+		}
+		&:active {
+			background-color: rgba(0, 0, 0, 0.05);
+		}
 	}
 }
 
