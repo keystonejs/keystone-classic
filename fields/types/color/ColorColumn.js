@@ -8,7 +8,7 @@ var ColorColumn = React.createClass({
 		if (!value) {
 			return (
 				<td>
-					<div className="col-value"></div>
+					<div className="ItemList__col-value"></div>
 				</td>
 			);
 		}
@@ -24,7 +24,7 @@ var ColorColumn = React.createClass({
 		
 		return (
 			<td>
-				<div className="col-value"><span style={colorBoxStyle}></span>{value}</div>
+				<div className="ItemList__col-value"><span style={colorBoxStyle}></span>{value}</div>
 			</td>
 		);
 	}

@@ -6,13 +6,13 @@ var EmailColumn = React.createClass({
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value) return
 
-		return <a href={'mailto:'+ value} target="_blank">{value}</a>
+		return <a href={'mailto:'+ value} className="ItemList__col-value" target="_blank">{value}</a>
 	},
 
 	render: function() {
 		return (
 			<td>
-				<div className="col-value">{this.renderValue()}</div>
+				{this.renderValue()}
 			</td>
 		);	
 	}

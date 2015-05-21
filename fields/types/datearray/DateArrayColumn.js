@@ -8,13 +8,13 @@ var DateArrayColumn = React.createClass({
 			return (
 				<td>
 					{ value.map(function(date) {
-						return <div className="col-value" key={date.id}>{date}</div>;
+						return <div className="ItemList__col-value" key={date.id}>{date}</div>;
 					})}	
 				</td>
 			);
 		} else {
 			return (
-				<td><div className="col-value"></div></td>
+				<td><div className="ItemList__col-value"></div></td>
 			);
 		}
 	}

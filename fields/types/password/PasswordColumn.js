@@ -7,7 +7,7 @@ var PasswordColumn = React.createClass({
 		
 		return (
 			<td>
-				<div className="col-value">{value ? '*****' : ''}</div>
+				<div className="ItemList__col-value">{value ? '*****' : ''}</div>
 			</td>
 		);
 	}

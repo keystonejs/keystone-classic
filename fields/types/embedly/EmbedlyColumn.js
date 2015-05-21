@@ -12,7 +12,7 @@ var EmbedlyColumn = React.createClass({
 	render: function() {
 		return (
 			<td>
-				<div className='col-value'>{this.renderValue()}</div>
+				<div className='ItemList__col-value'>{this.renderValue()}</div>
 			</td>
 		);
 	}

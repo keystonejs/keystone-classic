@@ -8,14 +8,14 @@ var CloudinaryimagesColumn = React.createClass({
 			return (
 				<td>
 					{value.map(function(image) {
- 						return <div className="col-value" key={image.id}><a href={image.url}>{image.url}</a></div>;
+ 						return <div className="ItemList__col-value" key={image.id}><a href={image.url}>{image.url}</a></div>;
  					})}
 				</td>
 			);
 		} else {
 			return (
 				<td>
-					<div className="col-value"></div>
+					<div className="ItemList__col-value"></div>
 				</td>
 			);
 		}

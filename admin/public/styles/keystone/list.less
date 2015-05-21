@@ -5,46 +5,10 @@
 
 
 
-// Search Form
-// --------------------------------------------------
-
-.ListHeader__searchbar {}
-.ListHeader__searchbar-field {
-	position: relative;
-}
-/*button*/.ListHeader__searchbar-field__icon {
-	background: none;
-	border: none;
-	color: @gray-light;
-	font-weight: bold;
-	height: 100%;
-	position: absolute;
-	right: 0;
-	text-align: center;
-	top: 0;
-	width: 2.2em;
-	z-index: 2; // above the form field on focus
-
-	// styles when search icon
-	&.is-search {
-		pointer-events: none;
-	}
-
-	// styles when clear icon
-	&.is-clear {
-		&:hover,
-		&:focus {
-			color: @app-danger;
-			outline: 0 none;
-			text-decoration: none;
-		}
-		&:active {
-			color: darken(@app-danger, 10%);
-		}
-	}
-}
-
+// Field Icons
 // icons that represent field types
+// ------------------------------
+
 .fieldicon {
 	.square( 16px );
 	background-repeat: no-repeat;
@@ -83,215 +47,112 @@
 
 
 
-// Filters
-// --------------------------------------------------
-
-.ListFiltersForm__header {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	// font-size: @font-size-sm;
-	font-weight: 500;
-	margin-bottom: 20px;
-	padding-bottom: 1em;
-	position: relative;
-	text-align: center;
-}
-.ListFiltersForm__header__icon {
-	background: none;
-	border: none;
-	color: @gray-light;
-	left: 0;
-	position: absolute;
-	outline: none;
-	-webkit-appearance: none;
-
-	// increase the hittable area
-	&::after {
-		bottom: -10px;
-		content: "";
-		left: -10px;
-		position: absolute;
-		right: -10px;
-		top: -10px;
-	}
-}
-
-.ListFiltersForm__footer {
-	&:extend(.u-clearfix all);
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
-	font-weight: 500;
-	margin-bottom: -20px;
-	margin-top: 20px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-}
-.ListFiltersForm__footer-button--apply  {
-	float: left;
-	font-weight: bold;
-	margin-left: -1em;
-}
-.ListFiltersForm__footer-button--cancel {
-	float: right;
-	margin-right: -1em;
-}
-
-
-
-
 // Items List
-// --------------------------------------------------
+// the table itself and its components
+// ------------------------------
 
-.items-list {
-	margin-bottom: 1.5em;
+
+// base
+
+.ItemList {
+	margin-bottom: 60px;
 	table-layout: fixed;
 	width: 100%;
+}
+
+
+// col value - crop field content so we maintain one line throught the list table
+
+.ItemList__col-value {
+	.u-text-truncate();
+}
+
+
+
+
+// Field Specific
+// ------------------------------
+
+
+// Name Field
+// 1. fix an optical illusion that occurs between the row name and the row icon.
+//    in most cases the first character of the name col is uppercase, so
+//    the icon appears to be too low due the absence of a decender in the row name
+//    (they are in fact aligned middle correctly)
+// 2. remove the negative margin on table anchors to provide a comfortable gutter
+//    between the row name and the row icon
+
+.ItemList__col-value--name {
+	bottom: -1px; // 1
+	position: relative; // 1
+
+	.ItemList__control-col + td > & {
+		margin-left: 0 !important; // 2
+	}
+}
+
+
+// Colour Field
 	
-	.control {
-		padding: @table-cell-padding - 1;
-		text-align: center;
-		width: 18px;
-		
-		a {
-			display: block;
-			width: 16px;
-			height: 18px;
-			padding: 0px;
-			background: url('/keystone/images/icons/list-controls.png') top left no-repeat;
-			opacity: 0.5;
-		}
-		a:hover {
-			opacity: 1;
-		}
-		.control-delete {
-			background-position: 0 0;
-		}
-		.control-sort {
-			background-position: -32px 0;
-			cursor: move;
-		}
-	}
-	.control + .control {
-		padding-left: @table-cell-padding / 2;
-	}
-	
-	.control-delete i {
-		background-position: 0 0;
-	}
-	
-	img {
-		margin: @table-cell-padding;
-	}
-	
-	.col-value,
-	td a {
-		max-width: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	
-	.color-preview {
-		display: inline-block;
-		border-radius: 5px;
-		width: 16px;
-		height: 16px;
-	}
-	thead > tr > th {
-		border-bottom: 2px solid #ccc;
-		padding: 8px;
-		text-align: left;
-	}
-
-	thead > tr > td,
-	tbody > tr > td,
-	tfoot > tr > td {
-		// background-color: white;
-		border-top: 1px solid #e5e5e5;
-		line-height: 1;
-		height: 2.5em; // behaves like min-height on table cells
-	}
-
-	tr.delete-hover {
-		td {
-			color: #AD1212;
-			a { color: #AD1212; }
-		}
-	}
-
-	tr.delete-inprogress {
-		td {
-			color: #ccc;
-			a { color: #ccc; }
-		}
-	}
-
-	tr.sort-hover, tr.dragged {
-		.control-sort {
-			opacity: 1;
-		}
-		td {
-			color: #246818;
-			a { color: #246818; }
-		}
-	}
-
-	// links get a larger hit area
-	tbody a {
-		display: inline-block;
-		padding: @padding-small-vertical @padding-small-horizontal;
-		color: @text-color;
-		text-decoration: none;
-
-		&:hover {
-			color: darken(@text-color, 10%);
-			text-decoration: underline;
-		}
-	}
-
-	.col-value {
-		padding: @padding-small-vertical @padding-small-horizontal;
-	}
-
-	.col-boolean {
-		text-align: left;
-		padding: @padding-small-vertical @padding-small-horizontal 2px;
-	}
-
+.ItemList__color-preview {
+	display: inline-block;
+	border-radius: 5px;
+	width: 16px;
+	height: 16px;
 }
 
 
 
 // Responsive tables
+// ------------------------------
 //
-// Wrap your tables in `.table-scrollable` and we'll make them mobile friendly
-// by enabling horizontal scrolling. Only applies <768px. Everything above that
-// will display normally.
+// Enable horizontal scrolling - applies < 768px
+// Everything above that will display normally
 
 @media (max-width: @screen-sm) {
-	.items-list-wrapper {
-		// border: 1px solid @table-border-color;
+	.ItemList-wrapper {
 		margin-bottom: (@line-height-computed * 0.75);
 		overflow-y: hidden;
 		overflow-x: scroll;
 		-ms-overflow-style: -ms-autohiding-scrollbar;
 		-webkit-overflow-scrolling: touch;
 		width: 100%;
+	}
 
-		// Tighten up spacing
-		> .items-list {
-			table-layout: auto;
-			margin-bottom: 0;
+	// Tighten up spacing for smaller devices
+	.ItemList {
+		table-layout: auto;
+		margin-bottom: 0;
 
-			// Ensure the content doesn't wrap
-			> thead,
-			> tbody,
-			> tfoot {
-				> tr {
-					> th,
-					> td {
-						white-space: nowrap;
-					}
+		// Ensure the content doesn't wrap
+		> thead,
+		> tbody,
+		> tfoot {
+			> tr {
+				> th,
+				> td {
+					white-space: nowrap;
 				}
 			}
 		}
 	}
 }
+
+
+
+
+// Complementary list files
+// ------------------------------
+
+@import "./list-controls";
+@import "./list-filters";
+
+
+
+
+
+
+
+
+
+

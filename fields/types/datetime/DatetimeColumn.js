@@ -8,7 +8,7 @@ var DatetimeColumn = React.createClass({
 		var formattedValue = moment(value).format('MMMM Do YYYY, h:mm:ss a');
 		return (
 			<td>
-				<div className="col-value">{formattedValue ? formattedValue : null}</div>
+				<div className="ItemList__col-value">{formattedValue ? formattedValue : null}</div>
 			</td>
 		);
 	}

@@ -1,0 +1,115 @@
+// 
+// List Filters
+// ==============================
+
+
+
+
+// Search Form
+// ------------------------------
+
+.ListHeader__searchbar {}
+.ListHeader__searchbar-field {
+	position: relative;
+}
+/*button*/.ListHeader__searchbar-field__icon {
+	background: none;
+	border: none;
+	color: @gray-light;
+	font-weight: bold;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 2.2em;
+	z-index: 2; // above the form field on focus
+
+	// styles when search icon
+	&.is-search {
+		pointer-events: none;
+	}
+
+	// styles when clear icon
+	&.is-clear {
+		&:hover,
+		&:focus {
+			color: @app-danger;
+			outline: 0 none;
+			text-decoration: none;
+		}
+		&:active {
+			color: darken(@app-danger, 10%);
+		}
+	}
+}
+
+
+
+
+// Filter Form
+// this is the form that appears when you click the "add filter" button
+// ------------------------------
+
+
+// header
+
+.ListFiltersForm__header {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	// font-size: @font-size-sm;
+	font-weight: 500;
+	margin-bottom: 20px;
+	padding-bottom: 1em;
+	position: relative;
+	text-align: center;
+}
+.ListFiltersForm__header__icon {
+	background: none;
+	border: none;
+	color: @gray-light;
+	left: 0;
+	position: absolute;
+	outline: none;
+	-webkit-appearance: none;
+
+	// increase the hittable area
+	&::after {
+		bottom: -10px;
+		content: "";
+		left: -10px;
+		position: absolute;
+		right: -10px;
+		top: -10px;
+	}
+}
+
+
+// footer
+
+.ListFiltersForm__footer {
+	&:extend(.u-clearfix all);
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	font-weight: 500;
+	margin-bottom: -20px;
+	margin-top: 20px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+.ListFiltersForm__footer-button--apply  {
+	float: left;
+	font-weight: bold;
+	margin-left: -1em;
+}
+.ListFiltersForm__footer-button--cancel {
+	float: right;
+	margin-right: -1em;
+}
+
+
+
+
+
+
+
+
+

@@ -6,7 +6,7 @@ var SelectColumn = React.createClass({
 		var value = this.props.data.fields[this.props.col.path];
 		return (
 			<td>
-				<div className='col-value'>{value}</div>
+				<div className='ItemList__col-value'>{value}</div>
 			</td>
 		);
 	}
