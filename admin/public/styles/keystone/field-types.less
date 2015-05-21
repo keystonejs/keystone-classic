@@ -25,31 +25,17 @@
 
 @color-preview-gutter: 4px;
 
-.field-type-color {
+.field-type-color__wrapper {
 	position: relative;
 }
 .field-type-color__preview {
-	.square(@component-height);
-	position: absolute;
-}
-.field-type-color__preview__inner {
-	border-radius: .2em;
+	border-radius: 1em;
 	bottom: @color-preview-gutter;
-	left: @color-preview-gutter;
 	position: absolute;
 	right: @color-preview-gutter;
 	top: @color-preview-gutter;
+	width: @color-preview-gutter * 2;
 }
-@media (min-width: @screen-sm) {
-	.field-type-color__preview {
-		.square(@component-height);
-		background-color: @input-bg-color;
-		border-radius: @border-radius-base;
-		border: 1px solid @input-border-color;
-		margin-right: -@color-preview-gutter;
-		right: -@component-height;
-		top: 0;
-	}
 }
 @media (max-width: @screen-xs-max) {
 	.field-type-color__preview {

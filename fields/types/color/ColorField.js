@@ -25,18 +25,14 @@ module.exports = Field.create({
 		var colorPreview = null;
 		
 		if (this.props.value) {
-			colorPreview = (
-				<div className="field-type-color__preview">
-					<div className="field-type-color__preview__inner" style={{ background: this.props.value }} />
-				</div>
-			);
+			colorPreview = <div className="field-type-color__preview" style={{ background: this.props.value }} />;
 		}
 		
 		return (
-			<span>
+			<div className="field-type-color__wrapper">
 				<FormInput ref="field" onChange={this.valueChanged} name={this.props.path} value={this.props.value} autoComplete="off" />
 				{colorPreview}
-			</span>
+			</div>
 		);
 	}
 	
