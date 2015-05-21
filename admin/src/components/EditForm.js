@@ -228,21 +228,23 @@ var EditForm = React.createClass({
 	render: function() {
 		
 		return (
-			<div className="row">
-				<div className="col-md-3 col-md-push-9">
+			<form method="post" encType="multipart/form-data" className="EditForm-container">
+				<div className="row">
+					<div className="col-md-3 col-md-push-9">
+					</div>
+					<div className="col-md-9 col-md-pull-3">
+						<div className="EditForm horizontal-form">
+							<input type="hidden" name="action" value="updateItem" />
+							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
+							{this.renderNameField()}
+							{this.renderKeyOrId()}
+							{this.renderFormElements()}
+							{this.renderTrackingMeta()}
+						</div>
+					</div>
 				</div>
-				<div className="col-md-9 col-md-pull-3">
-					<form method="post" encType="multipart/form-data" className="EditForm horizontal-form">
-						<input type="hidden" name="action" value="updateItem" />
-						<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
-						{this.renderNameField()}
-						{this.renderKeyOrId()}
-						{this.renderFormElements()}
-						{this.renderTrackingMeta()}
-						{!this.props.list.noedit ? this.renderFooterBar() : null}
-					</form>
-				</div>
-			</div>
+				{!this.props.list.noedit ? this.renderFooterBar() : null}
+			</form>
 		);
 	}
 	
