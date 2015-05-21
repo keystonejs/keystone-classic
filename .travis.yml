@@ -7,3 +7,11 @@ notifications:
 
 services:
   - mongodb
+
+git:
+  depth:
+    10
+
+cache:
+  directories:
+    - node_modules
