@@ -72,10 +72,23 @@ label.checkbox {
 // ------------------------------
 
 
-// relatively position the wrapper to contain the button
+// relatively position all wrappers to contain the button, as we can't be sure
+// where relational buttons will be implemented
 
 .form-field {
 	position: relative;
+}
+
+.keystone-relational-button {
+	.transition( all 140ms );
+	border: 1px solid transparent;
+	display: block;
+	padding: 0 @input-padding-horizontal;
+	position: absolute;
+	right: 0;
+	
+	// use bottom rather than top because the labels stack on smaller devices
+	bottom: 0;
 }
 
 // position the button using translate so we don't have to worry about widths
@@ -83,13 +96,7 @@ label.checkbox {
 @media (min-width: @screen-md) {
 	.keystone-relational-button {
 		.translate(100%, 0);
-		.transition( all 140ms );
-		border: 1px solid transparent;
-		display: block;
 		margin-right: -4px; // so it doesn't sit right up against the field
-		position: absolute;
-		right: 0;
-		top: 0;
 
 		// provide feedback when user tabs to this element
 		&:hover,
