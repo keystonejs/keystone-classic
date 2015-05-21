@@ -123,19 +123,19 @@ module.exports = Field.create({
 	renderAlert: function() {
 		if (this.hasLocal()) {
 			return (
-				<div className='upload-queued pull-left'>
+				<div className='upload-queued u-float-left'>
 					<FormInput noedit>File selected - save to upload</FormInput>
 				</div>
 			);
 		} else if (this.state.origin === 'cloudinary') {
 			return ( 
-				<div className='select-queued pull-left'>
+				<div className='select-queued u-float-left'>
 					<FormInput noedit>File selected from Cloudinary</FormInput>
 				</div>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<div className='delete-queued pull-left'>
+				<div className='delete-queued u-float-left'>
 					<FormInput noedit>File {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</FormInput>
 				</div>
 			);
@@ -177,7 +177,7 @@ module.exports = Field.create({
 	renderFileToolbar: function() {
 		return (
 			<div key={this.props.path + '_toolbar'} className='file-toolbar'>
-				<div className='pull-left'>
+				<div className='u-float-left'>
 					<Button onClick={this.changeFile}>
 						{this.hasFile() ? 'Change' : 'Upload'} File
 					</Button>

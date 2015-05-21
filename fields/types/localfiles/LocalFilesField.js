@@ -87,7 +87,7 @@ module.exports = Field.create({
 	},
 
 	renderFileField: function () {
-		return <input ref='fileField' type='file' name={this.props.paths.upload} multiple className='field-upload' onChange={this.uploadFile} />;
+		return <input ref="fileField" type="file" name={this.props.paths.upload} multiple className="field-upload" onChange={this.uploadFile} />;
 	},
 
 	clearFiles: function () {
@@ -125,8 +125,8 @@ module.exports = Field.create({
 		}
 
 		return (
-			<div className='files-toolbar row col-sm-3 col-md-12'>
-				<div className='pull-left'>
+			<div className="files-toolbar row col-sm-3 col-md-12">
+				<div className="u-float-left">
 					<Button onClick={this.changeFiles}>Upload</Button>
 					{clearFilesButton}
 				</div>
@@ -136,16 +136,16 @@ module.exports = Field.create({
 
 	renderPlaceholder: function () {
 		return (
-			<div className='file-field file-upload row col-sm-3 col-md-12' onClick={this.changeFiles}>
-				<div className='file-preview'>
-					<span className='file-thumbnail'>
-						<span className='file-dropzone' />
-						<div className='ion-picture file-uploading' />
+			<div className="file-field file-upload row col-sm-3 col-md-12" onClick={this.changeFiles}>
+				<div className="file-preview">
+					<span className="file-thumbnail">
+						<span className="file-dropzone" />
+						<div className="ion-picture file-uploading" />
 					</span>
 				</div>
 
-				<div className='file-details'>
-					<span className='file-message'>Click to upload</span>
+				<div className="file-details">
+					<span className="file-message">Click to upload</span>
 				</div>
 			</div>
 		);
@@ -153,7 +153,7 @@ module.exports = Field.create({
 
 	renderContainer: function () {
 		return ( 
-			<div className='files-container clearfix'>
+			<div className="files-container clearfix">
 				{this.state.items}
 			</div>
 		);
@@ -176,7 +176,7 @@ module.exports = Field.create({
 
 	renderUI: function () {
 		return (
-			<FormField label={this.props.label} className='field-type-localfiles'>
+			<FormField label={this.props.label} className="field-type-localfiles">
 
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}

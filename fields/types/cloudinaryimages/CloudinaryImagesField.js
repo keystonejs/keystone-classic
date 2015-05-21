@@ -156,7 +156,7 @@ module.exports = Field.create({
 
 			var imageText = count === 1 ? 'image' : 'images';
 
-			body.push(<div key={queueType + '-toolbar'} className={queueType + '-queued' + ' pull-left'}>
+			body.push(<div key={queueType + '-toolbar'} className={queueType + '-queued' + ' u-float-left'}>
 				<FormInput noedit>{count} {imageText} {action} - save to confirm</FormInput>
 			</div>);
 		};
@@ -171,7 +171,7 @@ module.exports = Field.create({
 
 		return (
 			<div className='images-toolbar row col-sm-3 col-md-12'>
-				<div className='pull-left'>
+				<div className='u-float-left'>
 					<Button onClick={this.changeImage}>Select files</Button>
 					{clearFilesButton}
 				</div>
