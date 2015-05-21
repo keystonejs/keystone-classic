@@ -124,10 +124,6 @@ module.exports = Field.create({
 			height: this.props.height
 		};
 		
-		return (
-			<div className="md-editor">
-				<textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="form-control markdown code"></textarea>
-			</div>
-		);
+		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="md-editor__input code" />;
 	}
 });
