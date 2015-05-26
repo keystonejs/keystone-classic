@@ -62,8 +62,8 @@ module.exports = function(file, name) {
 			if (err) return logError(file, err);
 			src = buff;
 			ready = true;
-			queue.forEach(function(i) {
-				send.apply(null, i);
+			queue.forEach(function(reqres) {
+				send.apply(null, reqres);
 			});
 		});
 		b.on('update', function() {
