@@ -18,7 +18,8 @@ know. We'll help you get started, rather than adding it to the queue.
 (with regards to formatting, etc)
 * You can also run `npm run lint` and `npm run style` - our linter is a WIP
 but please ensure there are not more violations than before your changes.
-* All new features and changes need documentation. We have three translations,
+* All new features and changes need documentation. They live over at the  [Keystone-site](https://github.com/keystonejs/keystonejs-site) repo.
+* We have three translations so far,
 please read our [Documentation Translation  Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
 * **PRO TIP**: If you've opened an issue and have come up with a solution
 yourself, we prefer you to convert the already existing issue into a PR instead
