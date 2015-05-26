@@ -19,7 +19,7 @@ know. We'll help you get started, rather than adding it to the queue.
 * You can also run `npm run lint` and `npm run style` - our linter is a WIP
 but please ensure there are not more violations than before your changes.
 * All new features and changes need documentation. We have three translations,
-please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
+please read our [Documentation Translation  Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
 * **PRO TIP**: If you've opened an issue and have come up with a solution
 yourself, we prefer you to convert the already existing issue into a PR instead
 of opening a new one. This can be done with the [hub command line tool](https://github.com/github/hub)
