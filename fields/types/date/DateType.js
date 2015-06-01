@@ -3,7 +3,8 @@
  */
 
 var util = require('util'),
-	moment = require('moment'),
+	keystone = require('../../../'),
+	moment = require('moment-timezone'),
 	super_ = require('../Type');
 
 /**
@@ -17,11 +18,14 @@ function date(list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'large';
-	this._properties = ['formatString', 'yearRange'];
+	this._properties = ['formatString', 'yearRange', 'timezone'];
 	
 	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
 	this.yearRange = options.yearRange;
+	
+	this.timezone = keystone.get('timezone') || 'UTC';
+	moment.tz.setDefault(this.timezone);
 	
 	if (this.formatString && 'string' !== typeof this.formatString) {
 		throw new Error('FieldType.Date: options.format must be a string.');

@@ -2,7 +2,7 @@ var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+	moment = require('moment-timezone');
 
 module.exports = Field.create({
 	
@@ -14,7 +14,8 @@ module.exports = Field.create({
 	inputFormat: 'YYYY-MM-DD',
 
 	getInitialState: function() {
-		return { 
+		moment.tz.setDefault(this.props.timezone);
+		return {
 			value: this.props.value ? moment(this.props.value).format(this.inputFormat) : ''
 		};
 	},
