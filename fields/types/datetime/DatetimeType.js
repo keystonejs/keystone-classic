@@ -3,7 +3,8 @@
  */
 
 var util = require('util'),
-	moment = require('moment'),
+	keystone = require('../../../'),
+	moment = require('moment-timezone'),
 	super_ = require('../Type');
 
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
@@ -19,7 +20,10 @@ function datetime(list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'large';
-	this._properties = ['formatString'];
+	this._properties = ['formatString', 'timezone'];
+	
+	this.timezone = keystone.get('timezone') || 'UTC';
+	moment.tz.setDefault(this.timezone);
 	
 	this.typeDescription = 'date and time';
 	this.parseFormatString = options.parseFormat || parseFormats;
