@@ -34,7 +34,7 @@ module.exports = Field.create({
 			var imgSrc = '/keystone/images/icons/16/checkbox-' + state + '.png';
 			input = (
 				<div className={fieldClassName}>
-					<img src={imgSrc} width='16' height='16' className={state} style={{marginRight: 5}} />
+					<img src={imgSrc} width='16' height='16' className={state} style={{ marginRight: 5 }} />
 					<span>{this.props.label}</span>
 				</div>
 			);

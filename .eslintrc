@@ -23,6 +23,7 @@
 		"no-trailing-spaces": 0,
 		"no-underscore-dangle": 0,
 		"no-use-before-define": 0,
+		"object-curly-spacing": [1, "always"],
 		"quotes": [2, "single", "avoid-escape"],
 		"react/jsx-boolean-value": 1,
 		"react/jsx-no-undef": 1,

@@ -109,7 +109,7 @@ exports = module.exports = function(req, res) {
 
 			_.each(order, function(id, i) {
 				queue.push(function(done) {
-					req.list.model.update({ _id: id }, { $set: { sortOrder: i }}, done);
+					req.list.model.update({ _id: id }, { $set: { sortOrder: i } }, done);
 				});
 			});
 
@@ -238,7 +238,7 @@ exports = module.exports = function(req, res) {
 
 					locals = { list: req.list, columns: columns, item: items[0], csrf_query: req.query.csrf_query, _:_ };
 					row = jade.renderFile(__dirname + '/../../templates/partials/row.jade', locals);
-					pagination = jade.renderFile(__dirname + '/../../templates/partials/pagination.jade', {items: req.query.items, link_to: link_to });
+					pagination = jade.renderFile(__dirname + '/../../templates/partials/pagination.jade', { items: req.query.items, link_to: link_to });
 
 					return sendResponse({
 						item: items[0],

@@ -61,7 +61,7 @@ util.inherits(s3file, super_);
 
 Object.defineProperty(s3file.prototype, 's3config', { get: function() {
 	return this.options.s3config || keystone.get('s3 config');
-}});
+} });
 
 
 /**
