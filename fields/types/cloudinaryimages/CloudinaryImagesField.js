@@ -39,7 +39,7 @@ var Thumbnail = React.createClass({
 			<div className='image-field image-sortable row col-sm-3 col-md-12' title={title}> 
 				<div className={previewClassName}> 
 					<a href={this.props.url} className='img-thumbnail'>
-						<img style={ { height: '90'} } className='img-load' src={this.props.url} />
+						<img style={{ height: '90' }} className='img-load' src={this.props.url} />
 						<span className={iconClassName} />
 					</a>
 				</div>

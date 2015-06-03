@@ -70,7 +70,7 @@ util.inherits(azurefile, super_);
 
 Object.defineProperty(azurefile.prototype, 'azurefileconfig', { get: function() {
 	return this.options.azurefileconfig || keystone.get('azurefile config');
-}});
+} });
 
 
 /**
@@ -241,7 +241,7 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 		var blobService = azure.createBlobService();
 		var container = field.options.containerFormatter(item, file.name);
 
-		blobService.createContainerIfNotExists(container, {publicAccessLevel : 'blob'}, function(err) {
+		blobService.createContainerIfNotExists(container, { publicAccessLevel : 'blob' }, function(err) {
 			
 			if (err) return callback(err);
 
