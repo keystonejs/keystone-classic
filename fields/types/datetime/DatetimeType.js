@@ -114,7 +114,7 @@ datetime.prototype.validateInput = function(data, required, item) {
 
 	if (!(this.path in data && !(this.paths.date in data && this.paths.time in data)) && item && item.get(this.path)) return true;
 
-	var newValue = moment(this.getInputFromData(data), parseFormats);
+	var newValue = moment.tz(this.getInputFromData(data), parseFormats, this.timezone);
 
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
@@ -139,7 +139,7 @@ datetime.prototype.updateItem = function(item, data) {
 		return;
 	}
 
-	var newValue = moment(this.getInputFromData(data), parseFormats);
+	var newValue = moment.tz(this.getInputFromData(data), parseFormats, this.timezone);
 
 	if (newValue && newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {

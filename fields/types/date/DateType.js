@@ -91,7 +91,7 @@ date.prototype.validateInput = function(data, required, item) {
 
 	if (!(this.path in data) && item && item.get(this.path)) return true;
 
-	var newValue = moment(data[this.path], this.parseFormatString);
+	var newValue = moment.tz(data[this.path], this.parseFormatString, this.timezone);
 
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
@@ -116,7 +116,7 @@ date.prototype.updateItem = function(item, data) {
 		return;
 	}
 
-	var newValue = moment(data[this.path], this.parseFormatString);
+	var newValue = moment.tz(data[this.path], this.parseFormatString, this.timezone);
 
 	if (newValue && newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
