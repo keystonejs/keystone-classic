@@ -59,9 +59,11 @@ util.inherits(s3file, super_);
  * Exposes the custom or keystone s3 config settings
  */
 
-Object.defineProperty(s3file.prototype, 's3config', { get: function() {
-	return this.options.s3config || keystone.get('s3 config');
-} });
+Object.defineProperty(s3file.prototype, 's3config', { 
+	get: function() {
+		return this.options.s3config || keystone.get('s3 config');
+	}
+});
 
 
 /**

@@ -68,9 +68,11 @@ util.inherits(azurefile, super_);
  * Exposes the custom or keystone s3 config settings
  */
 
-Object.defineProperty(azurefile.prototype, 'azurefileconfig', { get: function() {
-	return this.options.azurefileconfig || keystone.get('azurefile config');
-} });
+Object.defineProperty(azurefile.prototype, 'azurefileconfig', {
+	get: function() {
+		return this.options.azurefileconfig || keystone.get('azurefile config');
+	}
+});
 
 
 /**
