@@ -1,5 +1,37 @@
 # KeystoneJS Changelog
 
+KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
+
+## v0.3.10 / 2015-05-19
+
+* fixed; worked around an intermittent issue with the new browserify build process
+* added; new hooks `updates`, `signin` and `signout`, thanks [Camille Reynders](https://github.com/creynders)
+* added; `parseFormat` option for `Date` / `Datetime` field types, and more robust validation in `DateArray`
+* added; `logger options` setting, thanks [Johnny Estilles](https://github.com/JohnnyEstilles)
+
+Also, our site and documentation have been split out into their own repository: [keystonejs/keystonejs-site](https://github.com/keystonejs/keystonejs-site). Please contribute any changes, additions and issues to that new repo going forward.
+
+## v0.3.9 / 2015-05-17
+
+* added; Babel `object-assign` plugin for the Admin UI browserify build process
+* improved; The whole Admin UI JS build system has been rewritten and should now be completely stable and much faster than any previous setup. You can enable development mode with the `KEYSTONE_DEV=true` environment variable
+* fixed / changed; the LESS config api was changed with `less-middleware@2.0.0` and you should now just use the `less options` setting, thanks [Francesco Nero](https://github.com/francesconero). Old options will log warnings if you use them.
+* fixed; The path to `react-select`'s less file is now dynamically detected, see #1384
+* fixed; The `href` method of localfile/s shouldn't use `path.join`, see #1406
+* fixed; display issues with Type.GeoPoint and Type.Location, thanks [Al Connelly](https://github.com/WingedToaster)
+* added; SVG Support for Cloudinary Image fields, thanks [Christian Nolte](https://github.com/drlogout)
+* fixed; Disabled drag and drop sorting in list view when filters are applied, thanks [Michael](https://github.com/mldangelo)
+* improved; Now using [grappling-hook](https://github.com/keystonejs/grappling-hook), thanks [Camille Reynders](https://github.com/creynders)
+* improved; The Location field throws an error if `googleLookup` fails, thanks [Daniel Cousens](https://github.com/dcousens)
+* fixed; issues with schema inheritance and schemaPlugins, thanks [Robert Clark](https://github.com/lojack)
+* fixed; default `formatString` for Datetime fields now includes `h:m:s a`, thanks [Al Connelly](https://github.com/WingedToaster)
+* fixed; `Keystone.prototype.static(app)` was removed in 0.3.7, has been reintroduced for backwards-compatibility
+* changed; `react-alt-text` is now its own npm package
+* changed; The Admin UI is being consolidated into `/admin` and many files have moved, thanks to [Milos Dakic](https://github.com/milosdakic) for helping with this.
+
+Also in this release: Keystone is completely free of ESLint warnings thanks to the incredible efforts of [Camille Reynders](https://github.com/creynders) and [Jed Watson](https://github.com/JedWatson).
+
+
 ## v0.3.8 / 2015-04-23
 
 * fixed; worked around a breaking issue with the `bytes` package by downgrading it and including it in the pre-built Admin UI packages bundle

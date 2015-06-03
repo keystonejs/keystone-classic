@@ -42,7 +42,7 @@ module.exports = Field.create({
 		});
 	},
 
-	fileChanged: function (event) {
+	fileChanged: function (event) {//eslint-disable-line no-unused-vars
 		this.setState({
 			origin: 'local'
 		});
@@ -101,30 +101,40 @@ module.exports = Field.create({
 		var values = null;
 
 		if (this.hasFile() && !this.state.removeExisting) {
-			values = <div className='file-values'>
-				<div className='field-value'>{this.getFilename()}</div>
-			</div>;
+			values = (
+				<div className='file-values'>
+					<div className='field-value'>{this.getFilename()}</div>
+				</div>
+			);
 		}
 
-		return <div key={this.props.path + '_details'} className='file-details'>
-			{values}
-			{add}
-		</div>;
+		return (
+			<div key={this.props.path + '_details'} className='file-details'>
+				{values}
+				{add}
+			</div>
+		);
 	},
 
 	renderAlert: function() {
 		if (this.hasLocal()) {
-			return <div className='upload-queued pull-left'>
-				<div className='alert alert-success'>File selected - save to upload</div>
-			</div>;
+			return (
+				<div className='upload-queued pull-left'>
+					<div className='alert alert-success'>File selected - save to upload</div>
+				</div>
+			);
 		} else if (this.state.origin === 'cloudinary') {
-			return <div className='select-queued pull-left'>
-				<div className='alert alert-success'>File selected from Cloudinary</div>
-			</div>;
+			return ( 
+				<div className='select-queued pull-left'>
+					<div className='alert alert-success'>File selected from Cloudinary</div>
+				</div>
+			);
 		} else if (this.state.removeExisting) {
-			return <div className='delete-queued pull-left'>
-				<div className='alert alert-danger'>File {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</div>
-			</div>;
+			return (
+				<div className='delete-queued pull-left'>
+					<div className='alert alert-danger'>File {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</div>
+				</div>
+			);
 		} else {
 			return null;
 		}
@@ -132,9 +142,11 @@ module.exports = Field.create({
 
 	renderClearButton: function() {
 		if (this.state.removeExisting) {
-			return <button type='button' className='btn btn-link btn-cancel btn-undo-file' onClick={this.undoRemove}>
-				Undo Remove
-			</button>;
+			return (
+				<button type='button' className='btn btn-link btn-cancel btn-undo-file' onClick={this.undoRemove}>
+					Undo Remove
+				</button>
+			);
 		} else {
 			var clearText;
 			if (this.hasLocal()) {
@@ -142,9 +154,11 @@ module.exports = Field.create({
 			} else {
 				clearText = (this.props.autoCleanup ? 'Delete File' : 'Remove File');
 			}
-			return <button type='button' className='btn btn-link btn-cancel btn-delete-file' onClick={this.removeFile}>
-				{clearText}
-			</button>;
+			return (
+				<button type='button' className='btn btn-link btn-cancel btn-delete-file' onClick={this.removeFile}>
+					{clearText}
+				</button>
+			);
 		}
 	},
 
@@ -157,14 +171,16 @@ module.exports = Field.create({
 	},
 
 	renderFileToolbar: function() {
-		return <div key={this.props.path + '_toolbar'} className='file-toolbar'>
-			<div className='pull-left'>
-				<button type='button' onClick={this.changeFile} className='btn btn-default btn-upload-file'>
-					{this.hasFile() ? 'Change' : 'Upload'} File
-				</button>
-				{this.hasFile() && this.renderClearButton()}
+		return (
+			<div key={this.props.path + '_toolbar'} className='file-toolbar'>
+				<div className='pull-left'>
+					<button type='button' onClick={this.changeFile} className='btn btn-default btn-upload-file'>
+						{this.hasFile() ? 'Change' : 'Upload'} File
+					</button>
+					{this.hasFile() && this.renderClearButton()}
+				</div>
 			</div>
-		</div>;
+		);
 	},
 
 	renderUI: function() {
@@ -190,18 +206,20 @@ module.exports = Field.create({
 			}
 		}
 
-		return <div className='field field-type-localfile'>
-			<label className='field-label'>{this.props.label}</label>
-
-			{this.renderFileField()}
-			{this.renderFileAction()}
-
-			<div className={fieldClassName}>
-				<div className='file-container'>{container}</div>
-				{body}
-				<Note note={this.props.note} />
+		return (
+			<div className='field field-type-localfile'>
+				<label className='field-label'>{this.props.label}</label>
+	
+				{this.renderFileField()}
+				{this.renderFileAction()}
+	
+				<div className={fieldClassName}>
+					<div className='file-container'>{container}</div>
+					{body}
+					<Note note={this.props.note} />
+				</div>
 			</div>
-		</div>;
+		);
 	}
 	
 });

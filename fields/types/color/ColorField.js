@@ -23,15 +23,17 @@ module.exports = Field.create({
 		var colorPreview = null;
 		
 		if (this.props.value) {
-			colorPreview = <div style={{
-				position: 'absolute',
-				top: 5,
-				right: 20,
-				width: 24,
-				height: 24,
-				borderRadius: 5,
-				background: this.props.value
-			}} />;
+			colorPreview = (
+				<div style={{
+					position: 'absolute',
+					top: 5,
+					right: 20,
+					width: 24,
+					height: 24,
+					borderRadius: 5,
+					background: this.props.value
+				}} />
+			);
 		}
 		
 		return (

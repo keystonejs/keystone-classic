@@ -90,7 +90,7 @@ module.exports = Field.create({
 		return <div className="field-value">{this.formatValue() || '(no value)'}</div>;
 	},
 	
-	renderField: function(path, label, collapse) {
+	renderField: function(path, label, collapse) {//eslint-disable-line no-unused-vars
 		
 		if (this.state.collapsedFields[path]) {
 			return null;
@@ -181,34 +181,40 @@ module.exports = Field.create({
 	renderUI: function() {
 		
 		if (!this.shouldRenderField()) {
-			return <div className="field field-type-location">
-				<label className="field-label">{this.props.label}</label>
-				<div className="field-ui noedit">
-					{this.renderValue()}
+			return (
+				<div className="field field-type-location">
+					<label className="field-label">{this.props.label}</label>
+					<div className="field-ui noedit">
+						{this.renderValue()}
+					</div>
 				</div>
-			</div>;
+			);
 		}
 		
+		/* eslint-disable no-script-url */
 		var showMore = !_.isEmpty(this.state.collapsedFields)
 			? <a href="javascript:;" className="field-label-companion" onClick={this.uncollapseFields}>(show more fields)</a>
 			: null;
+		/* eslint-enable */
 		
-		return <div className="field field-type-location">
-			<div className="field-ui">
-				<label>{this.props.label}</label>
-				{showMore}
-				{this.renderField('number', 'PO Box / Shop', true)}
-				{this.renderField('name', 'Building Name', true)}
-				{this.renderField('street1', 'Street Address')}
-				{this.renderField('street2', 'Street Address 2', true)}
-				{this.renderField('suburb', 'Suburb')}
-				{this.renderStateAndPostcode()}
-				{this.renderField('country', 'Country')}
-				{this.renderGeo()}
-				{this.renderGoogleOptions()}
-				<Note note={this.props.note} />
+		return ( 
+			<div className="field field-type-location">
+				<div className="field-ui">
+					<label>{this.props.label}</label>
+					{showMore}
+					{this.renderField('number', 'PO Box / Shop', true)}
+					{this.renderField('name', 'Building Name', true)}
+					{this.renderField('street1', 'Street Address')}
+					{this.renderField('street2', 'Street Address 2', true)}
+					{this.renderField('suburb', 'Suburb')}
+					{this.renderStateAndPostcode()}
+					{this.renderField('country', 'Country')}
+					{this.renderGeo()}
+					{this.renderGoogleOptions()}
+					<Note note={this.props.note} />
+				</div>
 			</div>
-		</div>;
+		);
 		
 	}
 	

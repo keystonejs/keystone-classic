@@ -5,7 +5,7 @@ var _ = require('underscore'),
 	Note = require('../../components/Note'),
 	Select = require('react-select');
 
-var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop'];
+var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
 module.exports = Field.create({
 	
@@ -59,7 +59,7 @@ module.exports = Field.create({
 			_.each(files, function (f) {
 				if (!_.contains(SUPPORTED_TYPES, f.type)) {
 					self.removeImage();
-					alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD');
+					alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
 					return false;
 				}
 
@@ -174,16 +174,20 @@ module.exports = Field.create({
 		var values = null;
 
 		if (!this.hasLocal() && !this.state.removeExisting) {
-			values = <div className='image-values'>
-				<div className='field-value'>{this.props.value.url}</div>
-				{this.renderImageDimensions()}
-			</div>;
+			values = (
+				<div className='image-values'>
+					<div className='field-value'>{this.props.value.url}</div>
+					{this.renderImageDimensions()}
+				</div>
+			);
 		}
 
-		return <div key={this.props.path + '_details'} className='image-details'>
-			{values}
-			{add}
-		</div>;
+		return (
+			<div key={this.props.path + '_details'} className='image-details'>
+				{values}
+				{add}
+			</div>
+		);
 	},
 
 	renderImageDimensions: function() {
@@ -199,17 +203,23 @@ module.exports = Field.create({
 	 */
 	renderAlert: function() {
 		if (this.hasLocal()) {
-			return <div className='upload-queued pull-left'>
-				<div className='alert alert-success'>Image selected - save to upload</div>
-			</div>;
+			return (
+				<div className='upload-queued pull-left'>
+					<div className='alert alert-success'>Image selected - save to upload</div>
+				</div>
+			);
 		} else if (this.state.origin === 'cloudinary') {
-			return <div className='select-queued pull-left'>
-				<div className='alert alert-success'>Image selected from Cloudinary</div>
-			</div>;
+			return (
+				<div className='select-queued pull-left'>
+					<div className='alert alert-success'>Image selected from Cloudinary</div>
+				</div>
+			);
 		} else if (this.state.removeExisting) {
-			return <div className='delete-queued pull-left'>
-				<div className='alert alert-danger'>Image {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</div>
-			</div>;
+			return (
+				<div className='delete-queued pull-left'>
+					<div className='alert alert-danger'>Image {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</div>
+				</div>
+			);
 		} else {
 			return null;
 		}
@@ -223,9 +233,11 @@ module.exports = Field.create({
 	 */
 	renderClearButton: function() {
 		if (this.state.removeExisting) {
-			return <button type='button' className='btn btn-link btn-cancel btn-undo-image' onClick={this.undoRemove}>
-				Undo Remove
-			</button>;
+			return (
+				<button type='button' className='btn btn-link btn-cancel btn-undo-image' onClick={this.undoRemove}>
+					Undo Remove
+				</button>
+			);
 		} else {
 			var clearText;
 			if (this.hasLocal()) {
@@ -233,9 +245,11 @@ module.exports = Field.create({
 			} else {
 				clearText = (this.props.autoCleanup ? 'Delete Image' : 'Remove Image');
 			}
-			return <button type='button' className='btn btn-link btn-cancel btn-delete-image' onClick={this.removeImage}>
-				{clearText}
-			</button>;
+			return (
+				<button type='button' className='btn btn-link btn-cancel btn-delete-image' onClick={this.removeImage}>
+					{clearText}
+				</button>
+			);
 		}
 	},
 
@@ -248,15 +262,17 @@ module.exports = Field.create({
 	},
 
 	renderImageToolbar: function() {
-		return <div key={this.props.path + '_toolbar'} className='image-toolbar'>
-			<div className='pull-left'>
-				<button type='button' onClick={this.changeImage} className='btn btn-default btn-upload-image'>
-					{this.hasImage() ? 'Change' : 'Upload'} Image
-				</button>
-				{this.hasImage() && this.renderClearButton()}
+		return (
+			<div key={this.props.path + '_toolbar'} className='image-toolbar'>
+				<div className='pull-left'>
+					<button type='button' onClick={this.changeImage} className='btn btn-default btn-upload-image'>
+						{this.hasImage() ? 'Change' : 'Upload'} Image
+					</button>
+					{this.hasImage() && this.renderClearButton()}
+				</div>
+				{this.props.select && this.renderImageSelect()}
 			</div>
-			{this.props.select && this.renderImageSelect()}
-		</div>;
+		);
 	},
 
 	renderImageSelect: function() {
@@ -283,15 +299,17 @@ module.exports = Field.create({
 			});
 		};
 
-		return <div className='image-select'>
-			<Select
-				placeholder='Search for an image from Cloudinary ...'
-				className='ui-select2-cloudinary'
-				name={this.props.paths.select}
-				id={'field_' + this.props.paths.select}
-				asyncOptions={getOptions}
-			/>
-		</div>;
+		return (
+			<div className='image-select'>
+				<Select
+					placeholder='Search for an image from Cloudinary ...'
+					className='ui-select2-cloudinary'
+					name={this.props.paths.select}
+					id={'field_' + this.props.paths.select}
+					asyncOptions={getOptions}
+				/>
+			</div>
+		);
 	},
 
 	renderUI: function() {
@@ -320,17 +338,19 @@ module.exports = Field.create({
 			}
 		}
 
-		return <div className='field field-type-cloudinaryimage'>
-			<label className='field-label'>{this.props.label}</label>
-
-			{this.renderFileField()}
-			{this.renderFileAction()}
-
-			<div className={fieldClassName}>
-				<div className='image-container'>{container}</div>
-				{body}
-				<Note note={this.props.note} />
+		return (
+			<div className='field field-type-cloudinaryimage'>
+				<label className='field-label'>{this.props.label}</label>
+	
+				{this.renderFileField()}
+				{this.renderFileAction()}
+	
+				<div className={fieldClassName}>
+					<div className='image-container'>{container}</div>
+					{body}
+					<Note note={this.props.note} />
+				</div>
 			</div>
-		</div>;
+		);
 	}
 });

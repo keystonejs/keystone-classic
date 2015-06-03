@@ -88,50 +88,50 @@ describe('Keystone.session', function() {
 				function callWithNoArgs() {
 					keystone.session.signinWithUser();
 				}
-				callWithNoArgs.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
+				callWithNoArgs.must.throw('keystone.session.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
 				function callWithOneArg() {
 					keystone.session.signinWithUser(user);
 				}
-				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
+				callWithOneArg.must.throw('keystone.session.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
 				function callWithTwoArgs() {
 					keystone.session.signinWithUser(user, req);
 				}
-				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
+				callWithOneArg.must.throw('keystone.session.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 
 				function callWithThreeArgs() {
 					keystone.session.signinWithUser(user, req, res);
 				}
-				callWithOneArg.must.throw('keystone.sesson.signinWithUser requires user, req and res objects, and an onSuccess callback.');
+				callWithOneArg.must.throw('keystone.session.signinWithUser requires user, req and res objects, and an onSuccess callback.');
 			});
 
 			it('should error when user arg is not an object', function() {
 				function callWithInvalidUser() {
 					keystone.session.signinWithUser('user', req, res, onSuccess);
 				}
-				callWithInvalidUser.must.throw('keystone.sesson.signinWithUser requires user to be an object.');
+				callWithInvalidUser.must.throw('keystone.session.signinWithUser requires user to be an object.');
 			});
 
 			it('should error when req arg is not an object', function() {
 				function callWithInvalidReq() {
 					keystone.session.signinWithUser(user, 'req', res, onSuccess);
 				}
-				callWithInvalidReq.must.throw('keystone.sesson.signinWithUser requires req to be an object.');
+				callWithInvalidReq.must.throw('keystone.session.signinWithUser requires req to be an object.');
 			});
 
 			it('should error when res arg is not an object', function() {
 				function callWithInvalidRes() {
 					keystone.session.signinWithUser(user, req, 'res', onSuccess);
 				}
-				callWithInvalidRes.must.throw('keystone.sesson.signinWithUser requires res to be an object.');
+				callWithInvalidRes.must.throw('keystone.session.signinWithUser requires res to be an object.');
 			});
 
 			it('should error when onSuccess arg is not a function', function() {
 				function callWithInvalidCallback() {
 					keystone.session.signinWithUser(user, req, res, 'onSuccess');
 				}
-				callWithInvalidCallback.must.throw('keystone.sesson.signinWithUser requires onSuccess to be a function.');
+				callWithInvalidCallback.must.throw('keystone.session.signinWithUser requires onSuccess to be a function.');
 			});
 
 		});
@@ -199,69 +199,69 @@ describe('Keystone.session', function() {
 				keystone.session.signinWithUser.reset();
 			});
 
-			it('shoud match email with mixed case', function () {
+			it('shoud match email with mixed case', function (done) {
 				var lookup = { email: 'Test@Test.Com', password: 'password'};
 
-				keystone.session.signin(lookup, null, null, this.onSuccess, this.onFailure);
+				keystone.session.signin(lookup, null, null, function(){
+					// make sure .findOne() is called with a regular expression
+					sinon.assert.calledOnce(this.User.model.findOne);
+					this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
+					// make sure .exec() is called after
+					sinon.assert.calledOnce(this.User.model.exec);
+					this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
+					// make sure .signinWithUser() is called on successful match
+					sinon.assert.calledOnce(keystone.session.signinWithUser);
+					done();
+				}.bind(this), this.onFailure);
 
-				// make sure .findOne() is called with a regular expression
-				sinon.assert.calledOnce(this.User.model.findOne);
-				this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
-				// make sure .exec() is called after
-				sinon.assert.calledOnce(this.User.model.exec);
-				this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
-				// make sure .signinWithUser() is called on successful match
-				sinon.assert.calledOnce(keystone.session.signinWithUser);
-				// make sure onSuccess callback is called on successful match
-				sinon.assert.calledOnce(this.onSuccess);
 			});
 
-			it('shoud match email with all uppercase', function () {
+			it('shoud match email with all uppercase', function (done) {
 				var lookup = { email: 'TEST@TEST.COM', password: 'password'};
-				keystone.session.signin(lookup, null, null, this.onSuccess, this.onFailure);
+					keystone.session.signin(lookup, null, null, function(){
+					// make sure .findOne() is called with a regular expression
+					sinon.assert.calledOnce(this.User.model.findOne);
+					this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
+					// make sure .exec() is called after
+					sinon.assert.calledOnce(this.User.model.exec);
+					this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
+					// make sure .signinWithUser() is called on successful match
+					sinon.assert.calledOnce(keystone.session.signinWithUser);
+					done();
+				}.bind(this), this.onFailure);
 
-				// make sure .findOne() is called with a regular expression
-				sinon.assert.calledOnce(this.User.model.findOne);
-				this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
-				// make sure .exec() is called after
-				sinon.assert.calledOnce(this.User.model.exec);
-				this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
-				// make sure .signinWithUser() is called on successful match
-				sinon.assert.calledOnce(keystone.session.signinWithUser);
-				// make sure onSuccess callback is called on successful match
-				sinon.assert.calledOnce(this.onSuccess);
 			});
 
-			it('shoud match email with all lowercase', function () {
+			it('shoud match email with all lowercase', function (done) {
 				var lookup = { email: 'test@test.com', password: 'password'};
-				keystone.session.signin(lookup, null, null, this.onSuccess, this.onFailure);
+				keystone.session.signin(lookup, null, null, function(){
+					// make sure .findOne() is called with a regular expression
+					sinon.assert.calledOnce(this.User.model.findOne);
+					this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
+					// make sure .exec() is called after
+					sinon.assert.calledOnce(this.User.model.exec);
+					this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
+					// make sure .signinWithUser() is called on successful match
+					sinon.assert.calledOnce(keystone.session.signinWithUser);
+					done();
+				}.bind(this), this.onFailure);
 
-				// make sure .findOne() is called with a regular expression
-				sinon.assert.calledOnce(this.User.model.findOne);
-				this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
-				// make sure .exec() is called after
-				sinon.assert.calledOnce(this.User.model.exec);
-				this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
-				// make sure .signinWithUser() is called on successful match
-				sinon.assert.calledOnce(keystone.session.signinWithUser);
-				// make sure onSuccess callback is called on successful match
-				sinon.assert.calledOnce(this.onSuccess);
 			});
 
-			it('shoud not match email when invalid', function () {
+			it('shoud not match email when invalid', function (done) {
 				var lookup = { email: 'xxx', password: 'password'};
-				keystone.session.signin(lookup, null, null, this.onSuccess, this.onFailure);
+				keystone.session.signin(lookup, null, null, this.onSuccess, function(){
+					// make sure .findOne() is called with a regular expression
+					sinon.assert.calledOnce(this.User.model.findOne);
+					this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
+					// make sure .exec() is called after
+					sinon.assert.calledOnce(this.User.model.exec);
+					this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
+					// make sure .signinWithUser() is NOT called on failed match
+					sinon.assert.notCalled(keystone.session.signinWithUser);
+					done();
+				}.bind(this));
 
-				// make sure .findOne() is called with a regular expression
-				sinon.assert.calledOnce(this.User.model.findOne);
-				this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
-				// make sure .exec() is called after
-				sinon.assert.calledOnce(this.User.model.exec);
-				this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
-				// make sure .signinWithUser() is NOT called on failed match
-				sinon.assert.notCalled(keystone.session.signinWithUser);
-				// make sure onFailure callback is called on failed match
-				sinon.assert.calledOnce(this.onFailure);
 			});
 
 		});

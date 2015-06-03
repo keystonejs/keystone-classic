@@ -25,7 +25,7 @@ coverage.html
 lib-cov
 
 docs/_dist
-public/styles/auth.css
-public/styles/auth.min.css
-public/styles/keystone.css
-public/styles/keystone.min.css
+admin/public/styles/auth.css
+admin/public/styles/auth.min.css
+admin/public/styles/keystone.css
+admin/public/styles/keystone.min.css

@@ -1,5 +1,4 @@
-var _ = require('underscore'),
-	Field = require('../Field'),
+var Field = require('../Field'),
 	ArrayFieldMixin = require('../../mixins/DateArrayField');
 
 module.exports = Field.create({

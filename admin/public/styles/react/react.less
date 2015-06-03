@@ -1,0 +1,39 @@
+@select-text-color:                @input-color;
+@select-input-border-color:        @input-border;
+@select-input-border-radius:       @input-border-radius;
+@select-input-border-focus:        @input-border-focus;
+@select-input-placeholder:         #aaa;
+
+@select-padding-vertical:          @padding-base-vertical;
+@select-padding-horizontal:        @padding-base-horizontal;
+
+@select-arrow-color:               @gray-light;
+@select-arrow-width:               5px;
+
+@select-menu-zindex:               @zindex-dropdown;
+@select-menu-max-height:           200px;
+
+@select-option-color:              lighten(@select-text-color, 20%);
+@select-option-focused-color:      @select-text-color;
+@select-option-focused-bg:         #f2f9fc; // pale blue
+
+@select-noresults-color:           lighten(@select-text-color, 40%);
+
+@select-clear-color:               @gray-light;
+@select-clear-hover-color:         @brand-danger;
+
+@select-item-border-radius:        2px;
+@select-item-gutter:               2px;
+@select-item-padding-vertical:     3px;
+@select-item-padding-horizontal:   5px;
+@select-item-font-size:            1em;
+@select-item-color:                #08c; // pale blue
+@select-item-bg:                   #f2f9fc;
+@select-item-border-color:         darken(@select-item-bg, 10%);
+@select-item-hover-color:          darken(@select-item-color, 5%); // pale blue
+@select-item-hover-bg:             darken(@select-item-bg, 5%);
+
+/* The path to react-select is dynamically detected by KeystoneJS */
+@import "@{reactSelectPath}/less/select.less";
+
+@import "../../../../fields/types/markdown/less/bootstrap-markdown.less";

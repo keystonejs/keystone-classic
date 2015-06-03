@@ -11,11 +11,11 @@ exports.initList = function(List) {
 	});
 };
 
-exports.createData = function(List) {
+exports.createData = function(List) {//eslint-disable-line no-unused-vars
 
 };
 
-exports.testFilters = function(List) {
+exports.testFilters = function(List) {//eslint-disable-line no-unused-vars
 
 };
 
@@ -50,7 +50,7 @@ exports.testFieldType = function(List) {
 	
 	it('generateKey should return a slug of the provided string', function() {
 		List.fields.key.generateKey('A b ç').must.be('a-b-c');
-	})
+	});
 	
 	it('should invalidate input with stripped characters', function() {
 		List.fields.key.validateInput({
