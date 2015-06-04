@@ -54,9 +54,11 @@ function Field(list, path, options) {
 
 	// Convert notes from markdown to html
 	var note = null;
-	Object.defineProperty(this, 'note', { get: function() {
-		return (note === null) ? (note = (this.options.note) ? marked(this.options.note) : '') : note;
-	} });
+	Object.defineProperty(this, 'note', { 
+		get: function() {
+			return (note === null) ? (note = (this.options.note) ? marked(this.options.note) : '') : note;
+		}
+	});
 
 }
 
