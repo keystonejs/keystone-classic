@@ -271,10 +271,6 @@ location.prototype.updateItem = function(item, data) {
 
 		if (!Array.isArray(newGeo) || newGeo.length !== 2) {
 			newGeo = [];
-		} else {
-			//reverse the array because value from UI will be in lat,lng format
-			//and db needs it in lng,lat for the GeoJSON type
-			newGeo.reverse();
 		}
 
 		if (newGeo[0] !== oldGeo[0] || newGeo[1] !== oldGeo[1]) {
