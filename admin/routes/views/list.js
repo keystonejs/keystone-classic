@@ -90,6 +90,11 @@ exports = module.exports = function(req, res) {
 				return res.redirect('/keystone/' + req.list.path + '/' + items.results[0].id);
 			}
 
+			// transform the items to simple objects so that custom toJSON transforms are ignored
+			items.results = items.results.map(function(i) {
+				return i.toObject({ virtuals: false, transform: false });
+			});
+
 			var download_link = '/keystone/download/' + req.list.path,
 				downloadParams = {};
 

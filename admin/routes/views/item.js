@@ -40,13 +40,19 @@ exports = module.exports = function(req, res) {
 				rel.list.selectColumns(q, rel.columns);
 
 				q.exec(function(err, results) {
-					rel.items = results;
+					// transform the items to simple objects so that custom toJSON transforms are ignored
+					rel.items = results.map(function(i) {
+						return i.toObject({ virtuals: false, transform: false });
+					});
 					done(err);
 				});
 
 			}, function(err) { //eslint-disable-line no-unused-vars, handle-callback-err
 
 				// TODO: Handle err
+				
+				// transform the items to simple objects so that custom toJSON transforms are ignored
+				var itemData = item.toObject({ virtuals: false, transform: false });
 
 				var showRelationships = _.some(relationships, function(rel) {
 					return rel.items.results.length;
@@ -59,7 +65,7 @@ exports = module.exports = function(req, res) {
 					title: appName + ': ' + req.list.singular + ': ' + req.list.getDocumentName(item),
 					page: 'item',
 					list: req.list,
-					item: item,
+					item: itemData,
 					relationships: relationships,
 					showRelationships: showRelationships
 				});
