@@ -19,7 +19,7 @@ block js
 		// Legacy data for List view
 		Keystone.list.cols = !{JSON.stringify(colPaths)};
 		Keystone.list.perPage = !{ Number(list.perPage) || 50 };
-		Keystone.items = !{ JSON.stringify(items) };
+		Keystone.items = !{ JSON.stringify(_.omit(items, 'results')) };
 		Keystone.search = '#{search}';
 		Keystone.filters = !{ JSON.stringify(filters) };
 		Keystone.sort = '#{sort.by}';
