@@ -2,6 +2,18 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.11 / 2015-06-12
+
+* fixed; issues with file field types not working correclty with getters, thanks [Alexander Shemetovsky](https://github.com/AlexKVal)
+* fixed; bug saving lat / lng in location fields, thanks [Al Connelly](https://github.com/WingedToaster)
+* fixed; issue saving blank values in money fields, thanks [Harry Moreno](https://github.com/morenoh149)
+* fixed; Admin UI issues caused by custom toJSON / toObject transforms configured for models
+* improved; optimised items list
+
+All is not as quiet as this release implies; we are working aggressively through the next big update in the `elemental-integration` branch, which will see the Admin UI released as a Single Page Application built with [Elemental UI](http://elemental-ui.com) components, and the foundation for much better customisation features to come.
+
+If you are interested in being part of Keystone's development team and aren't in our Slack channel, ping @JedWatson to get an invite!
+
 ## v0.3.10 / 2015-05-19
 
 * fixed; worked around an intermittent issue with the new browserify build process
