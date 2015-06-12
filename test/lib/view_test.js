@@ -51,7 +51,7 @@ describe('Keystone.View', function() {
 			app.get('/', function(req, res) {
 				var view = new keystone.View(req, res);
 				view.render(function(err, req2, res2) {
-					demand(err).be.undefined();
+					demand(err).equal(null);
 					req2.must.equal(req);
 					res2.must.equal(res);
 					res.send('OK');
