@@ -7,14 +7,14 @@ var getExpressApp = require('./helpers/getExpressApp');
 var removeModel = require('./helpers/removeModel');
 
 describe('List "track" option', function () {
-	var app = getExpressApp(),
-		userModelName = 'User',
-		testModelName = 'Test',
-		User,
-		Test,
-		dummyUser1,
-		dummyUser2,
-		post;
+	var app = getExpressApp();
+	var userModelName = 'User';
+	var testModelName = 'Test';
+	var User;
+	var Test;
+	var dummyUser1;
+	var dummyUser2;
+	var post;
 
 	before(function(done) {
 		var tasks = [];

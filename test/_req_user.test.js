@@ -5,10 +5,11 @@ var getExpressApp = require('./helpers/getExpressApp');
 var removeModel = require('./helpers/removeModel');
 
 describe('List schema pre/post save hooks', function() {
-	var app = getExpressApp(),
-		dummyUser = { _id: 'USERID' },
-		Test,
-		pre, post;
+	var app = getExpressApp();
+	var dummyUser = { _id: 'USERID' };
+	var Test;
+	var pre;
+	var post;
 
 	before(function() {
 		// in case other modules didn't cleanup
