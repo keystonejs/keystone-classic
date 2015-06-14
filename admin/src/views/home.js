@@ -16,6 +16,7 @@ var View = React.createClass({
 	},
 
 	renderGroupedNav: function() {
+		var self = this;
 		return (
 			<div>
 				{Keystone.nav.sections.map((navSection) => {

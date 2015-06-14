@@ -420,7 +420,7 @@ block content
 								= col.label
 			tbody
 				each item in items.results
-					+row(list, colums, item)
+					+row(list, colums, item, lang)
 								
 		if items.totalPages > 1
 			.list-pagination

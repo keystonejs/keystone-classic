@@ -61,7 +61,11 @@ var Base = module.exports.Base = {
 	},
 	
 	renderUI: function(spec) {//eslint-disable-line no-unused-vars
-		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label });
+		var path = this.props.path;
+		var langOfField = path ? path.split('_lang_') : null;
+		langOfField = langOfField && langOfField.length > 1 ? langOfField[1] : '';
+
+		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label }, langOfField);
 		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
 		return (
 			<div className={wrapperClassName}>

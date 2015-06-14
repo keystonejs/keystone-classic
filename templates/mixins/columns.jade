@@ -1,4 +1,4 @@
-mixin column(list, col, item)
+mixin column(list, col, item, lang)
 	if col.type == 'relationship'
 		- var refData = item.get(col.path)
 		if col.field.many
@@ -25,7 +25,7 @@ mixin column(list, col, item)
 	else
 		- var value = col.field ? col.field.format(item) : item.get(col.path)
 		if col.isName
-			+column_link(value || '(no name)', '/keystone/' + list.path + '/' + item.id)
+			+column_link(value || '(no name)', '/keystone/' + list.path + '/' + item.id + '?lang=' + lang)
 		else if col.type == 'email'
 			if value && col.field.options.displayGravatar
 				+column_gravatar(col.field.gravatarUrl(item,35))
