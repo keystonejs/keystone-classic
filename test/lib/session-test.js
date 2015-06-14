@@ -1,5 +1,5 @@
-var keystone = require('../..'),
-	sinon = require('sinon');
+var keystone = require('../..');
+var sinon = require('sinon');
 
 describe('Keystone.session', function() {
 
