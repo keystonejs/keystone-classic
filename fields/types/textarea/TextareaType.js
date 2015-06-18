@@ -16,6 +16,9 @@ function textarea(list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format', 'crop'];
 	this.height = options.height || 90;
+
+	this._properties = ['height'];
+	
 	textarea.super_.call(this, list, path, options);
 }
 
