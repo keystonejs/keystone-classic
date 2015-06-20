@@ -374,6 +374,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		path = field.options.s3path ? field.options.s3path + '/' : '',
 		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
 		filename = prefix + file.name,
+		originalname = originalname,
 		filetype = file.mimetype || file.type,
 		headers;
 
@@ -389,7 +390,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 	var doUpload = function() {
 
 		if ('function' === typeof field.options.filename) {
-			filename = field.options.filename(item, filename);
+			filename = field.options.filename(item, filename, originalname);
 		}
 
 		headers = field.generateHeaders(item, file, callback);
@@ -410,7 +411,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 
 			var fileData = {
 				filename: filename,
-				originalname: file.originalname,
+				originalname: originalname,
 				path: path,
 				size: file.size,
 				filetype: filetype,
