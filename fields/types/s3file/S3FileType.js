@@ -374,7 +374,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		path = field.options.s3path ? field.options.s3path + '/' : '',
 		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
 		filename = prefix + file.name,
-		originalname = originalname,
+		originalname = file.originalname,
 		filetype = file.mimetype || file.type,
 		headers;
 
