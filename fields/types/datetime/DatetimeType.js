@@ -3,7 +3,8 @@
  */
 
 var util = require('util'),
-	moment = require('moment'),
+	keystone = require('../../../'),
+	moment = require('moment-timezone'),
 	super_ = require('../Type');
 
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
@@ -19,7 +20,10 @@ function datetime(list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'large';
-	this._properties = ['formatString'];
+	this._properties = ['formatString', 'timezone'];
+	
+	this.timezone = keystone.get('timezone') || 'UTC';
+	moment.tz.setDefault(this.timezone);
 	
 	this.typeDescription = 'date and time';
 	this.parseFormatString = options.parseFormat || parseFormats;
@@ -110,7 +114,7 @@ datetime.prototype.validateInput = function(data, required, item) {
 
 	if (!(this.path in data && !(this.paths.date in data && this.paths.time in data)) && item && item.get(this.path)) return true;
 
-	var newValue = moment(this.getInputFromData(data), parseFormats);
+	var newValue = moment.tz(this.getInputFromData(data), parseFormats, this.timezone);
 
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
@@ -135,7 +139,7 @@ datetime.prototype.updateItem = function(item, data) {
 		return;
 	}
 
-	var newValue = moment(this.getInputFromData(data), parseFormats);
+	var newValue = moment.tz(this.getInputFromData(data), parseFormats, this.timezone);
 
 	if (newValue && newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {

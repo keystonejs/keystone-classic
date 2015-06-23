@@ -2,7 +2,7 @@ var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+	moment = require('moment-timezone');
 
 module.exports = Field.create({
 	
@@ -18,7 +18,8 @@ module.exports = Field.create({
 	parseFormats: ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'],
 
 	getInitialState: function() {
-		return { 
+		moment.tz.setDefault(this.props.timezone);
+		return {
 			dateValue: this.props.value ? moment(this.props.value).format(this.dateInputFormat) : '',
 			timeValue: this.props.value ? moment(this.props.value).format(this.timeInputFormat) : ''
 		};
@@ -80,7 +81,7 @@ module.exports = Field.create({
 		if (this.shouldRenderField()) {
 			input = (
 				<div className={fieldClassName}>
-					<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
+					<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} timezone={this.props.timezone} />
 					<input type="text" name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" className="form-control time" />
 					<button type="button" className="btn btn-default btn-set-now" onClick={this.setNow}>Now</button>
 				</div>

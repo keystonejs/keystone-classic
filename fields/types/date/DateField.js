@@ -2,7 +2,7 @@ var React = require('react'),
 	Field = require('../Field'),
 	Note = require('../../components/Note'),
 	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+	moment = require('moment-timezone');
 
 module.exports = Field.create({
 	
@@ -14,7 +14,8 @@ module.exports = Field.create({
 	inputFormat: 'YYYY-MM-DD',
 
 	getInitialState: function() {
-		return { 
+		moment.tz.setDefault(this.props.timezone);
+		return {
 			value: this.props.value ? moment(this.props.value).format(this.inputFormat) : ''
 		};
 	},
@@ -59,7 +60,7 @@ module.exports = Field.create({
 		if (this.shouldRenderField()) {
 			input = (
 				<div className={fieldClassName}>
-					<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} yearRange={this.props.yearRange} />
+					<DateInput ref="dateInput" name={this.props.path} format={this.inputFormat} value={this.state.value} onChange={this.valueChanged} yearRange={this.props.yearRange} timezone={this.props.timezone} />
 					<button type="button" className="btn btn-default btn-set-today" onClick={this.setToday}>Today</button>
 				</div>
 			);

@@ -3,7 +3,8 @@
  */
 
 var util = require('util'),
-	moment = require('moment'),
+	keystone = require('../../../'),
+	moment = require('moment-timezone'),
 	super_ = require('../Type');
 
 /**
@@ -17,11 +18,14 @@ function date(list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'large';
-	this._properties = ['formatString', 'yearRange'];
+	this._properties = ['formatString', 'yearRange', 'timezone'];
 	
 	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
 	this.yearRange = options.yearRange;
+	
+	this.timezone = keystone.get('timezone') || 'UTC';
+	moment.tz.setDefault(this.timezone);
 	
 	if (this.formatString && 'string' !== typeof this.formatString) {
 		throw new Error('FieldType.Date: options.format must be a string.');
@@ -87,7 +91,7 @@ date.prototype.validateInput = function(data, required, item) {
 
 	if (!(this.path in data) && item && item.get(this.path)) return true;
 
-	var newValue = moment(data[this.path], this.parseFormatString);
+	var newValue = moment.tz(data[this.path], this.parseFormatString, this.timezone);
 
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
@@ -112,7 +116,7 @@ date.prototype.updateItem = function(item, data) {
 		return;
 	}
 
-	var newValue = moment(data[this.path], this.parseFormatString);
+	var newValue = moment.tz(data[this.path], this.parseFormatString, this.timezone);
 
 	if (newValue && newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
