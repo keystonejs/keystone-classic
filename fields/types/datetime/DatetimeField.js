@@ -1,8 +1,8 @@
-var React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note'),
-	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+var React = require('react');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+var DateInput = require('../../components/DateInput');
+var moment = require('moment');
 
 module.exports = Field.create({
 	
@@ -42,8 +42,8 @@ module.exports = Field.create({
 	},
 
 	handleChange: function(dateValue, timeValue) {
-		var value = dateValue + ' ' + timeValue,
-			datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
+		var value = dateValue + ' ' + timeValue;
+		var datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
 
 		this.props.onChange({
 			path: this.props.path,
@@ -62,8 +62,8 @@ module.exports = Field.create({
 	},
 
 	setNow: function() {
-		var dateValue = moment().format(this.dateInputFormat),
-			timeValue = moment().format(this.timeInputFormat);
+		var dateValue = moment().format(this.dateInputFormat);
+		var timeValue = moment().format(this.timeInputFormat);
 
 		this.setState({
 			dateValue: dateValue,
@@ -74,8 +74,8 @@ module.exports = Field.create({
 
 	renderUI: function() {
 		
-		var input,
-			fieldClassName = 'field-ui';
+		var input;
+		var fieldClassName = 'field-ui';
 		
 		if (this.shouldRenderField()) {
 			input = (

@@ -1,8 +1,8 @@
-var React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note'),
-	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+var React = require('react');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+var DateInput = require('../../components/DateInput');
+var moment = require('moment');
 
 module.exports = Field.create({
 	
@@ -54,7 +54,8 @@ module.exports = Field.create({
 
 	renderUI: function() {
 		
-		var input, fieldClassName = 'field-ui';
+		var input;
+		var fieldClassName = 'field-ui';
 
 		if (this.shouldRenderField()) {
 			input = (

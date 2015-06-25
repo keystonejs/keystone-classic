@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
-var util = require('util'),
-	moment = require('moment'),
-	super_ = require('../Type');
+var util = require('util');
+var moment = require('moment');
+var super_ = require('../Type');
 
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
 
