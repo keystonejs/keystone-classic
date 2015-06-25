@@ -18,7 +18,6 @@
     "blacklist": "^1.1.2",
     "bluebird": "~2.9.30",
     "body-parser": "~1.13.1",
-    "browserify-middleware": "^6.0.0",
     "browserify-shim": "^3.8.9",
     "bytes": "^2.1.0",
     "caller-id": "^0.1.0",
