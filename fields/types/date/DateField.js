@@ -15,7 +15,7 @@ module.exports = Field.create({
 
 	getInitialState: function() {
 		return { 
-			value: this.props.value ? moment(this.props.value).format(this.inputFormat) : ''
+			value: this.props.value ? this.moment(this.props.value).format(this.inputFormat) : ''
 		};
 	},
 
@@ -23,6 +23,12 @@ module.exports = Field.create({
 		return { 
 			formatString: 'Do MMM YYYY'
 		};
+	},
+
+	moment: function(value) {
+		var m = moment(value);
+		if (this.props.isUTC) m.utc();
+		return m;
 	},
 
 	// TODO: Move isValid() so we can share with server-side code
@@ -33,7 +39,7 @@ module.exports = Field.create({
 	// TODO: Move format() so we can share with server-side code
 	format: function(dateValue, format) {
 		format = format || this.inputFormat;
-		return dateValue ? moment(this.props.dateValue).format(format) : '';
+		return dateValue ? this.moment(this.props.dateValue).format(format) : '';
 	},
 
 	setDate: function(dateValue) {
