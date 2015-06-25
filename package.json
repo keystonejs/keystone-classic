@@ -79,7 +79,6 @@
     "mocha": "^2.2.5",
     "must": ">= 0.12 < 1",
     "rimraf": "^2.4.0",
-    "should": "^7.0.1",
     "sinon": "~1.15.3",
     "supertest": "~1.0.1",
     "vinyl-source-stream": "~1.1.0"
