@@ -154,29 +154,34 @@ keystone.security = {
 keystone.utils = utils;
 
 /**
- * returns all .js modules (recursively) in the path specified, relative
+ * returns all .js modules (recursively) in the path(s) specified.
+ *
+ * If the input dirname is a string then it will be assumed to be a relative path
  * to the module root (where the keystone project is being consumed from).
+ *
+ * If the input dirname is an array then it will be assumed that all paths in the
+ * array are fully qualified and will be imported as is.
  *
  * ####Example:
  *
- *     var models = keystone.import('models');
+ *     var models = keystone.import('relative-path-models-dir');
+ *     or
+ *     var models = keystone.import(['absolute-path-model-dir1', 'absolute-path-model-dir2',...]);
  *
- * @param {String} dirname
+ * @param {String | Array} dirname
  * @api public
  */
 
 Keystone.prototype.import = function(dirname) {
 
-	var initialPath = path.join(this.get('module root'), dirname);
+	var imported = {};
 
 	var doImport = function(fromPath) {
-
-		var imported = {};
 
 		fs.readdirSync(fromPath).forEach(function(name) {
 
 			var fsPath = path.join(fromPath, name),
-			info = fs.statSync(fsPath);
+				info = fs.statSync(fsPath);
 
 			// recur
 			if (info.isDirectory()) {
@@ -189,14 +194,28 @@ Keystone.prototype.import = function(dirname) {
 					imported[base] = require(fsPath);
 				}
 			}
-
 		});
-
-		return imported;
 	};
 
-	return doImport(initialPath);
+	if ('string' !== typeof dirname) {
+
+		if (Array.isArray(dirname)) {
+
+			_.each(dirname, function(dir) {
+				doImport(dir);
+			});
+
+		} else {
+			console.error("Invalid models path specified.");
+		}
+	} else {
+		var initialPath = path.join(this.get('module root'), dirname);
+		doImport(initialPath);
+	}
+
+	return imported;
 };
+
 
 
 /**
