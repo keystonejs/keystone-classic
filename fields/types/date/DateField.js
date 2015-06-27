@@ -10,7 +10,7 @@ module.exports = Field.create({
 
 	focusTargetRef: 'dateInput',
 
-	// default formats
+	// default input format
 	inputFormat: 'YYYY-MM-DD',
 
 	getInitialState: function() {
