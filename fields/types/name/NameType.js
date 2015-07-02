@@ -18,6 +18,7 @@ function name(list, path, options) {
 	
 	// TODO: implement filtering, hard-coded as disabled for now
 	options.nofilter = true;
+	options.default = { first: '', last: '' };
 	name.super_.call(this, list, path, options);
 	
 }
