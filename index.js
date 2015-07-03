@@ -160,7 +160,7 @@ keystone.utils = utils;
  * to the module root (where the keystone project is being consumed from).
  *
  * If the input dirname is an array then it will be assumed that all paths in the
- * array are fully qualified and will be imported as is.
+ * array are absolute and will be imported as is.
  *
  * ####Example:
  *
@@ -183,7 +183,7 @@ Keystone.prototype.import = function(dirname) {
 			var fsPath = path.join(fromPath, name),
 				info = fs.statSync(fsPath);
 
-			// recur
+			// recurse
 			if (info.isDirectory()) {
 				imported[name] = doImport(fsPath);
 			} else {
@@ -206,7 +206,7 @@ Keystone.prototype.import = function(dirname) {
 			});
 
 		} else {
-			console.error("Invalid models path specified.");
+			console.error('Invalid models path specified');
 		}
 	} else {
 		var initialPath = path.join(this.get('module root'), dirname);
