@@ -155,6 +155,26 @@ uploadcareimage.prototype.addToSchema = function() {
 		return promise;
 	};
 
+	var pollUntilReady = function(info, tries, callback) {
+		if (info.is_ready) {
+			return callback(null, info);
+		}
+
+		if (tries > 5) {
+			return callback(new Error('Timeout waiting for uploaded file to be ready'));
+		}
+
+		setTimeout(function () {
+			uc.files.info(info.uuid, function(err, info) {
+				if (err) {
+					callback(err);
+				} else {
+					pollUntilReady(info, tries + 1, callback);
+				}
+			});
+		}, 1000);
+	};
+
 	schemaMethods.upload = function(file) {
 		var promise = new MPromise();
 		uc.file.upload(fs.createReadStream(file), function(err, result) {
@@ -162,7 +182,13 @@ uploadcareimage.prototype.addToSchema = function() {
 				promise.reject(err);
 			} else {
 				uc.files.store(result.file, function(err, result) {
-					promise.resolve(err, result);
+					if (err) {
+						promise.reject(err);
+					} else {
+						pollUntilReady(result, 0, function(err, result) {
+							promise.resolve(err, result);
+						});
+					}
 				});
 			}
 		});
