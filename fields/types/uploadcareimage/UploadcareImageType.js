@@ -136,7 +136,7 @@ uploadcareimage.prototype.addToSchema = function() {
 	// Use the uploadcare-cdn methods, automatically passing the url as the 1st param
 	var schemaMethods = Object.keys(uccdn).reduce(function (schemaMethods, key) {
 		schemaMethods[key] = function () {
-			var args = arguments;
+			var args = [].slice.call(arguments);
 			return uccdn[key].apply(null, [this.get(paths.original_file_url)].concat(args));
 		};
 		return schemaMethods;
