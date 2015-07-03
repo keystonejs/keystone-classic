@@ -62,6 +62,8 @@
     "store-prototype": "^1.1.0",
     "superagent": "^1.2.0",
     "underscore": "^1.8.3",
+    "uploadcare": "^0.3.1",
+    "uploadcare-cdn": "^1.0.1",
     "vkey": "^1.0.0",
     "watchify": "^3.2.3"
   },
