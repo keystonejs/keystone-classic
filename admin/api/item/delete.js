@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var keystone = require('../../../');
 
 module.exports = function(req, res) {
@@ -26,4 +25,4 @@ module.exports = function(req, res) {
 			});
 		});
 	});
-}
+};
