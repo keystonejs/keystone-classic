@@ -2,7 +2,7 @@ var React = require('react');
 var Transition = React.addons.CSSTransitionGroup;
 var blacklist = require('blacklist');
 var classNames = require('classnames');
-var utils = require('keystone-utils');
+var utils = require('../utils.js');
 
 var ListFiltersAddForm = require('./ListFiltersAddForm');
 

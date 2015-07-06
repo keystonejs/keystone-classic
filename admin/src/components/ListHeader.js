@@ -1,6 +1,6 @@
 var React = require('react');
 var classNames = require('classnames');
-var utils = require('keystone-utils');
+var utils = require('../utils.js');
 
 var ListFilters = require('./ListFilters');
 var ListFiltersAdd = require('./ListFiltersAdd');
