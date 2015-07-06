@@ -70,7 +70,7 @@ module.exports = Field.create({
 					if (err) throw err;
 					
 					var value = res.body;
-					_.findWhere(expandedValues, {value: value.id}).label = value.name;
+					_.findWhere(expandedValues, { value: value.id }).label = value.name;
 
 					callbackCount++;
 					if (callbackCount === inputs.length) {

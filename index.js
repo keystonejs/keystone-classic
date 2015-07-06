@@ -1,9 +1,9 @@
-var fs = require('fs'),
-	path = require('path'),
-	_ = require('underscore'),
-	express = require('express'),
-	utils = require('keystone-utils'),
-	grappling = require('grappling-hook');
+var _ = require('underscore');
+var express = require('express');
+var fs = require('fs');
+var grappling = require('grappling-hook');
+var path = require('path');
+var utils = require('keystone-utils');
 
 /**
  * Don't use process.cwd() as it breaks module encapsulation
@@ -24,8 +24,7 @@ var moduleRoot = (function(_rootPath) {
  * @api public
  */
 var Keystone = function() {
-	grappling.mixin(this)
-		.allowHooks('pre:routes', 'pre:render');
+	grappling.mixin(this).allowHooks('pre:routes', 'pre:render', 'updates', 'signout', 'signin');
 	this.lists = {};
 	this.paths = {};
 	this._options = {
@@ -205,7 +204,18 @@ Keystone.prototype.import = function(dirname) {
  */
 
 Keystone.prototype.applyUpdates = function(callback) {
-	require('./lib/updates').apply(callback);
+	var self = this;
+	self.callHook('pre:updates', function(err){
+		if(err){
+			callback(err);
+		}
+		require('./lib/updates').apply(function(err){
+			if(err){
+				callback(err);
+			}
+			self.callHook('post:updates', callback);
+		});
+	});
 };
 
 

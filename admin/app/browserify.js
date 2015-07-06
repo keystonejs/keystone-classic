@@ -45,7 +45,7 @@ module.exports = function(file, name) {
 			b = browserify(opts);
 			b.require('./' + file, { expose: name });
 		} else {
-			b = browserify(file, opts);
+			b = browserify('./' + file, opts);
 		}
 		b.transform(babelify.configure({
 			ignore: ['**/lib/**'],
@@ -62,8 +62,8 @@ module.exports = function(file, name) {
 			if (err) return logError(file, err);
 			src = buff;
 			ready = true;
-			queue.forEach(function(i) {
-				send.apply(null, i);
+			queue.forEach(function(reqres) {
+				send.apply(null, reqres);
 			});
 		});
 		b.on('update', function() {

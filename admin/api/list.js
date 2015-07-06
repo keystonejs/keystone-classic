@@ -1,7 +1,7 @@
-var _ = require('underscore'),
-	async = require('async'),
-	keystone = require('../../'),
-	jade = require('jade');
+var _ = require('underscore');
+var async = require('async');
+var keystone = require('../../');
+var jade = require('jade');
 
 exports = module.exports = function(req, res) {
 
@@ -24,17 +24,17 @@ exports = module.exports = function(req, res) {
 	switch (req.params.action) {
 
 		case 'autocomplete':
-			var limit = req.query.limit || 50,
-				page = req.query.page || 1,
-				skip = limit * (page - 1);
+			var limit = req.query.limit || 50;
+			var page = req.query.page || 1;
+			var skip = limit * (page - 1);
 				
 			var filters = req.list.getSearchFilters(req.query.q);
 
-			var count = req.list.model.count(filters),
-				query = req.list.model.find(filters)
-					.limit(limit)
-					.skip(skip)
-					.sort(req.list.defaultSort);
+			var count = req.list.model.count(filters);
+			var query = req.list.model.find(filters)
+				.limit(limit)
+				.skip(skip)
+				.sort(req.list.defaultSort);
 
 			if (req.query.context === 'relationship') {
 				var srcList = keystone.list(req.query.list);
@@ -100,8 +100,8 @@ exports = module.exports = function(req, res) {
 				return sendError('invalid csrf');
 			}
 
-			var order = req.query.order || req.body.order,
-				queue = [];
+			var order = req.query.order || req.body.order;
+			var queue = [];
 
 			if ('string' === typeof order) {
 				order = order.split(',');
@@ -109,7 +109,7 @@ exports = module.exports = function(req, res) {
 
 			_.each(order, function(id, i) {
 				queue.push(function(done) {
-					req.list.model.update({ _id: id }, { $set: { sortOrder: i }}, done);
+					req.list.model.update({ _id: id }, { $set: { sortOrder: i } }, done);
 				});
 			});
 
@@ -131,9 +131,9 @@ exports = module.exports = function(req, res) {
 				return sendError('invalid csrf');
 			}
 
-			var item = new req.list.model(),
-				updateHandler = item.getUpdateHandler(req),
-				data = (req.method === 'POST') ? req.body : req.query;
+			var item = new req.list.model();
+			var updateHandler = item.getUpdateHandler(req);
+			var data = (req.method === 'POST') ? req.body : req.query;
 
 			if (req.list.nameIsInitial) {
 				if (req.list.nameField.validateInput(data)) {
@@ -206,10 +206,10 @@ exports = module.exports = function(req, res) {
 			
 			(function() {
 
-				var queryFilters = req.list.getSearchFilters(req.query.search, req.query.filters),
-					skip = parseInt(req.query.items.last) - 1,
-					querystring = require('querystring'),
-					link_to = function(params) {
+				var queryFilters = req.list.getSearchFilters(req.query.search, req.query.filters);
+				var skip = parseInt(req.query.items.last) - 1;
+				var querystring = require('querystring');
+				var link_to = function(params) {
 						var p = params.page || '';
 						delete params.page;
 						var queryParams = _.clone(req.query.q);
@@ -223,8 +223,8 @@ exports = module.exports = function(req, res) {
 						return '/keystone/' + req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
 					};
 
-				var query = req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1),
-					columns = req.list.expandColumns(req.query.cols);
+				var query = req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1);
+				var columns = req.list.expandColumns(req.query.cols);
 
 				req.list.selectColumns(query, columns);
 
@@ -238,7 +238,7 @@ exports = module.exports = function(req, res) {
 
 					locals = { list: req.list, columns: columns, item: items[0], csrf_query: req.query.csrf_query, _:_ };
 					row = jade.renderFile(__dirname + '/../../templates/partials/row.jade', locals);
-					pagination = jade.renderFile(__dirname + '/../../templates/partials/pagination.jade', {items: req.query.items, link_to: link_to });
+					pagination = jade.renderFile(__dirname + '/../../templates/partials/pagination.jade', { items: req.query.items, link_to: link_to });
 
 					return sendResponse({
 						item: items[0],

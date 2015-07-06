@@ -11,11 +11,9 @@ jQuery(function($) {
 
 
 	// generic confirm
-	
-	$('a[data-confirm]').click(function(e) {
+	$(document).on('click', 'a[data-confirm]', function (e){
 		if (!confirm($(this).data().confirm)) {
 			e.preventDefault();
-			return false;
 		}
 	});
 	

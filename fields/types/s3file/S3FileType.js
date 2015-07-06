@@ -59,9 +59,11 @@ util.inherits(s3file, super_);
  * Exposes the custom or keystone s3 config settings
  */
 
-Object.defineProperty(s3file.prototype, 's3config', { get: function() {
-	return this.options.s3config || keystone.get('s3 config');
-}});
+Object.defineProperty(s3file.prototype, 's3config', {
+	get: function() {
+		return this.options.s3config || keystone.get('s3 config');
+	}
+});
 
 
 /**
@@ -246,7 +248,7 @@ var validateHeader = function(header, callback) {
 			return callback(new Error('Unsupported Header option: value for ' + key + ' header must be a String ' + header[key].toString()));
 		}
 	});
-	
+
 	return true;
 };
 
@@ -307,11 +309,11 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 				var _header = {};
 				if (validateHeader(header, callback)){
 					_header[header.name] = header.value;
-					customHeaders = _.extend(customHeaders, _header); 
+					customHeaders = _.extend(customHeaders, _header);
 				}
 			});
 		} else if (_.isObject(defaultHeaders)){
-			customHeaders = _.extend(customHeaders, defaultHeaders);  
+			customHeaders = _.extend(customHeaders, defaultHeaders);
 		} else {
 			return callback(new Error('Unsupported Header option: defaults headers must be either an Object or Array ' + JSON.stringify(defaultHeaders)));
 		}
@@ -319,7 +321,7 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 
 	if (field.options.headers){
 		headersOption = field.options.headers;
-		
+
 		if (_.isFunction(headersOption)){
 			computedHeaders = headersOption.call(field, item, file);
 
@@ -328,7 +330,7 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 					var _header = {};
 					if (validateHeader(header, callback)){
 						_header[header.name] = header.value;
-						customHeaders = _.extend(customHeaders, _header); 
+						customHeaders = _.extend(customHeaders, _header);
 					}
 				});
 			} else if (_.isObject(computedHeaders)){
@@ -342,12 +344,12 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 				var _header = {};
 				if (validateHeader(header, callback)){
 					_header[header.name] = header.value;
-					customHeaders = _.extend(customHeaders, _header); 
+					customHeaders = _.extend(customHeaders, _header);
 				}
 			});
 		} else if (_.isObject(headersOption)){
 			customHeaders = _.extend(customHeaders, headersOption);
-		} 
+		}
 	}
 
 	if (validateHeaders(customHeaders, callback)){
@@ -372,6 +374,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		path = field.options.s3path ? field.options.s3path + '/' : '',
 		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
 		filename = prefix + file.name,
+		originalname = file.originalname,
 		filetype = file.mimetype || file.type,
 		headers;
 
@@ -383,11 +386,15 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
 		return callback(new Error('Unsupported File Type: ' + filetype));
 	}
-	
+
 	var doUpload = function() {
 
+		if ('function' === typeof field.options.path) {
+			path = field.options.path(item, path);
+		}
+
 		if ('function' === typeof field.options.filename) {
-			filename = field.options.filename(item, filename);
+			filename = field.options.filename(item, filename, originalname);
 		}
 
 		headers = field.generateHeaders(item, file, callback);
@@ -408,7 +415,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 
 			var fileData = {
 				filename: filename,
-				originalname: file.originalname,
+				originalname: originalname,
 				path: path,
 				size: file.size,
 				filetype: filetype,

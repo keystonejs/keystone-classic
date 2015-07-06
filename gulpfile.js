@@ -14,7 +14,7 @@ gulp.task('build-packages', function() {
 	var b = browserify();
 	packages.forEach(function(i) { b.require(i); });
 	b = b.bundle().pipe(source('packages.js'));
-	if (process.env.NODE_ENV === 'prodiction') {
+	if (process.env.NODE_ENV === 'production') {
 		b.pipe(streamify(uglify()));
 	}
 	return b.pipe(gulp.dest('./admin/public/js'));

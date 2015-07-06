@@ -9,11 +9,11 @@ exports = module.exports = function(req, res) {
 		showCreateForm: _.has(req.query, 'new')
 	};
 
-	var sort = { by: req.query.sort || req.list.defaultSort },
-		filters = req.list.processFilters(req.query.q),
-		cleanFilters = {},
-		queryFilters = req.list.getSearchFilters(req.query.search, filters),
-		columns = (req.query.cols) ? req.list.expandColumns(req.query.cols) : req.list.defaultColumns;
+	var sort = { by: req.query.sort || req.list.defaultSort };
+	var filters = req.list.processFilters(req.query.q);
+	var cleanFilters = {};
+	var queryFilters = req.list.getSearchFilters(req.query.search, filters);
+	var columns = (req.query.cols) ? req.list.expandColumns(req.query.cols) : req.list.defaultColumns;
 
 	_.each(filters, function(filter, path) {
 		cleanFilters[path] = _.omit(filter, 'field');
@@ -90,8 +90,8 @@ exports = module.exports = function(req, res) {
 				return res.redirect('/keystone/' + req.list.path + '/' + items.results[0].id);
 			}
 
-			var download_link = '/keystone/download/' + req.list.path,
-				downloadParams = {};
+			var download_link = '/keystone/download/' + req.list.path;
+			var downloadParams = {};
 
 			if (req.query.q) {
 				downloadParams.q = req.query.q;

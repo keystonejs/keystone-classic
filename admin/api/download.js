@@ -1,17 +1,17 @@
-var keystone = require('../../'),
-	_ = require('underscore'),
-	async = require('async'),
-	moment = require('moment'),
-	csv = require('csv');
+var _ = require('underscore');
+var async = require('async');
+var baby = require('babyparse');
+var keystone = require('../../');
+var moment = require('moment');
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 
 exports = module.exports = function(req, res) {
 
-	var filters = req.list.processFilters(req.query.q),
-		queryFilters = req.list.getSearchFilters(req.query.search, filters);
-
+	var filters = req.list.processFilters(req.query.q);
+	var queryFilters = req.list.getSearchFilters(req.query.search, filters);
 	var relFields = [];
+
 	_.each(req.list.fields, function(field) {
 		if (field.type === 'relationship') {
 			relFields.push(field.path);
@@ -70,17 +70,14 @@ exports = module.exports = function(req, res) {
 
 		var sendCSV = function(data) {
 
-			var columns = data.length ? Object.keys(data[0]) : [];
 			res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv');
 			res.setHeader('Content-Type', 'application/octet-stream');
 
-			csv().from(data).to.options({
-				header: true,
-				columns: columns,
+			var content = baby.unparse(data, {
 				delimiter: keystone.get('csv field delimiter') || ','
-			}).to.string(function(data) {
-				res.end('\ufeff' + data, 'utf-8');
 			});
+			
+			res.end(content, 'utf-8');
 		};
 
 		if (!results.length) {

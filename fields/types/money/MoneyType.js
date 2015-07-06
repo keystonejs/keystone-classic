@@ -77,7 +77,7 @@ money.prototype.validateInput = function(data, required, item) {
 		return true;
 	}
 	
-	if (value !== undefined) {
+	if (value !== undefined && value !== '') {
 		var newValue = utils.number(value);
 		return (!isNaN(newValue));
 	} else {
