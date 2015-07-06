@@ -1,5 +1,4 @@
 var React = require('react');
-var utils = require('keystone-utils');
 var CreateForm = require('../components/CreateForm');
 var Toolbar = require('../components/Toolbar');
 var ListHeader = require('../components/ListHeader');

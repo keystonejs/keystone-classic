@@ -1,6 +1,5 @@
 var React = require('react');
 var Field = require('../Field');
-var Note = require('../../components/Note');
 var DateInput = require('../../components/DateInput');
 var moment = require('moment');
 
@@ -63,14 +62,6 @@ module.exports = Field.create({
 	},
 	
 	renderField: function() {
-		
-		var input;
-		var fieldClassName = 'field-ui';
-
-		if (this.shouldRenderField()) {
-			input = (
-				<div className={fieldClassName}>
-		// TODO: Currently ignores inputProps
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
