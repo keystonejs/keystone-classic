@@ -2,8 +2,6 @@ var _ = require('underscore');
 var async = require('async');
 var keystone = require('../../../');
 
-function skip(cb) { cb(); }
-
 module.exports = function(req, res) {
 
 	var query = req.list.model.findById(req.params.id);
