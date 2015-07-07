@@ -8,7 +8,7 @@ module.exports = function(req, res) {
 	if (req.list.get('nodelete')) {
 		return res.apiError('nodelete');
 	}
-	var ids = req.body.ids;
+	var ids = req.body.ids || req.body.id;
 	if (typeof ids === 'string') {
 		ids = ids.split(',');
 	}
