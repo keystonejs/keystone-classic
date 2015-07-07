@@ -148,7 +148,7 @@ module.exports = function(req, res) {
 				});
 			}
 			res.json({
-				data: req.list.getData(item),
+				data: req.list.getData(item, req.query.fields),
 				drilldown: drilldown,
 				relationships: relationships
 			});
