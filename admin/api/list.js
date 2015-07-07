@@ -164,40 +164,6 @@ exports = module.exports = function(req, res) {
 
 		break;
 
-		case 'delete':
-
-			if (!keystone.security.csrf.validate(req)) {
-				return sendError('invalid csrf');
-			}
-
-			if (req.list.get('nodelete')) {
-				return sendError('nodelete');
-			}
-
-			var id = req.body.id || req.query.id;
-			
-			if (req.user && id === req.user.id) {
-				return sendError('You can not delete yourself');
-			}
-			
-			req.list.model.findById(id).exec(function (err, item) {
-
-				if (err) return sendError('database error', err);
-				if (!item) return sendError('not found');
-
-				item.remove(function (err) {
-					if (err) return sendError('database error', err);
-
-					return sendResponse({
-						success: true,
-						count: 1
-					});
-				});
-
-			});
-
-		break;
-
 		case 'fetch':
 		
 			if (!keystone.security.csrf.validate(req)) {
