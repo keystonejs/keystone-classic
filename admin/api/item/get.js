@@ -23,14 +23,16 @@ module.exports = function(req, res) {
 
 
 		var tasks = [];
-		var drilldown = {
-			def: req.list.get('drilldown'),
-			items: []
-		};
+		var drilldown;
 		var relationships;
 
 		/* Drilldown (optional, provided if ?drilldown=true in querystring) */
 		if (req.query.drilldown === 'true' && req.list.get('drilldown')) {
+			drilldown = {
+				def: req.list.get('drilldown'),
+				items: []
+			};
+
 			tasks.push(function(cb) {
 
 				// TODO: proper support for nested relationships in drilldown
