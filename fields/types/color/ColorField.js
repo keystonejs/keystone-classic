@@ -1,20 +1,22 @@
 var React = require('react'),
 	Field = require('../Field');
+var ColorInput = require('../../components/ColorInput');
+
 
 module.exports = Field.create({
 	
 	displayName: 'ColorField',
 	
-	valueChanged: function(event) {
-		var newValue = event.target.value;
+	valueChanged: function(changedData) {
+		/*var newValue = event.target.value;
 		if (/^([0-9A-F]{3}){1,2}$/.test(newValue)) {
 			newValue = '#' + newValue;
 		}
 		if (newValue === this.props.value) return;
-		console.log(newValue);
+		console.log(newValue);*/
 		this.props.onChange({
 			path: this.props.path,
-			value: newValue
+			value: changedData.value
 		});
 	},
 	
@@ -38,8 +40,7 @@ module.exports = Field.create({
 		
 		return (
 			<div>
-				<input ref='field' type='text' className='form-control' onChange={this.valueChanged} name={this.props.path} value={this.props.value} autoComplete='off' />
-				{colorPreview}
+				<ColorInput value={this.props.value} onChange={this.valueChanged} name={this.props.path} />
 			</div>
 		);
 	}

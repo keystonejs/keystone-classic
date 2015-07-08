@@ -1,0 +1,37 @@
+.container {
+  background: #fff;
+}
+
+h4 ~ p {
+  padding-left: 20px;
+}
+
+.inl-bl {
+  display: inline-block;
+}
+
+.well .markup-heading {
+
+}
+
+.well .markup {
+  background: #fff;
+  color: #777;
+  position: relative;
+  padding: 45px 15px 15px;
+  margin: 15px 0 0 0;
+  border-radius: 0 0 4px 4px;
+  box-shadow: none;
+}
+
+.well .markup::after {
+  content: "Example";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
