@@ -85,7 +85,6 @@ localfiles.prototype.addToSchema = function() {
 		filetype:		this._path.append('.filetype'),
 		// virtuals
 		exists:			this._path.append('.exists'),
-		href:			this._path.append('.href'),
 		upload:			this._path.append('_upload'),
 		action:			this._path.append('_action'),
 		order: 			this._path.append('_order')
@@ -97,6 +96,11 @@ localfiles.prototype.addToSchema = function() {
 		path:			String,
 		size:			Number,
 		filetype:		String
+	});
+
+	// The .href virtual returns the public path of the file
+	schemaPaths.virtual('href').get(function() {
+		return field.href.call(field, this);
 	});
 
 	schema.add(this._path.addTo({}, [schemaPaths]));
