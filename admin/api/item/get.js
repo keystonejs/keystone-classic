@@ -6,6 +6,11 @@ module.exports = function(req, res) {
 
 	var query = req.list.model.findById(req.params.id);
 
+	var fields = req.query.fields;
+	if (req.query.basic !== undefined) {
+		fields = false;
+	}
+
 	if (req.list.tracking && req.list.tracking.createdBy) {
 		query.populate(req.list.tracking.createdBy);
 	}
