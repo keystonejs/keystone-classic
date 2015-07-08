@@ -54,7 +54,7 @@ function Field(list, path, options) {
 
 	// Convert notes from markdown to html
 	var note = null;
-	Object.defineProperty(this, 'note', { 
+	Object.defineProperty(this, 'note', {
 		get: function() {
 			return (note === null) ? (note = (this.options.note) ? marked(this.options.note) : '') : note;
 		}
@@ -67,11 +67,11 @@ function Field(list, path, options) {
  */
 
 Field.prototype.getOptions = function() {
-	
+
 	if (!this.__options) {
-		
+
 		this.__options = {};
-		
+
 		var optionKeys = [
 			'path',
 			'paths',
@@ -91,15 +91,15 @@ Field.prototype.getOptions = function() {
 			'collapse',
 			'dependsOn'
 		];
-		
+
 		if (_.isArray(this._properties)) {
 			optionKeys = optionKeys.concat(this._properties);
 		}
-		
+
 		optionKeys.forEach(function(key) {
 			if (this[key]) {
 				this.__options[key] = this[key];
-			} else if(this.options[key]){
+			} else if (this.options[key]){
 				this.__options[key] = this.options[key];
 			}
 		}.bind(this));
@@ -107,13 +107,13 @@ Field.prototype.getOptions = function() {
 		if (this.getProperties) {
 			_.extend(this.__options, this.getProperties());
 		}
-		
+
 		this.__options.defaultValue = this.getDefaultValue();
-	
+
 	}
-	
+
 	return this.__options;
-	
+
 };
 
 /**
@@ -339,19 +339,19 @@ Field.prototype.validateInput = function(data, required, item) {
  */
 
 Field.prototype.updateItem = function(item, data) {
-	
+
 	var value = this.getValueFromData(data);
-	
+
 	// This is a deliberate type coercion so that numbers from forms play nice
 	if (value !== undefined && value != item.get(this.path)) { // eslint-disable-line eqeqeq
 		item.set(this.path, value);
 	}
-	
+
 };
 
 /**
  * Retrieves the value from an object, whether the path is nested or flattened
- * 
+ *
  * @api public
  */
 
