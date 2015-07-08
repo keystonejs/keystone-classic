@@ -2,6 +2,14 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.12 / 2015-06-26
+
+* fixed; `height` option for TextArea fields was not respected in the Admin UI, thanks [Eóin Martin](https://github.com/SlashmanX)
+* fixed; API error string was missing `not` in message, thanks [Daniel Cousens](https://github.com/dcousens)
+* improved; better instructions for installing missing session store modules
+* fixed; delete confirmation was not working (items could be deleted with a single click), thanks [gerotakke](gerotakke)
+* added; new `utc` option for `Date` and `DateTime` field types, see [#1487](https://github.com/keystonejs/keystone/issues/1487) for more details.
+
 ## v0.3.11 / 2015-06-12
 
 * fixed; issues with file field types not working correclty with getters, thanks [Alexander Shemetovsky](https://github.com/AlexKVal)

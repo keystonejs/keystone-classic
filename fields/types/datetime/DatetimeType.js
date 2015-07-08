@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
-var util = require('util'),
-	moment = require('moment'),
-	super_ = require('../Type');
+var util = require('util');
+var moment = require('moment');
+var super_ = require('../Type');
 
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
 
@@ -19,11 +19,12 @@ function datetime(list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'large';
-	this._properties = ['formatString'];
+	this._properties = ['formatString', 'isUTC'];
 	
 	this.typeDescription = 'date and time';
 	this.parseFormatString = options.parseFormat || parseFormats;
 	this.formatString = (options.format === false) ? false : (options.format || 'YYYY-MM-DD h:m:s a');
+	this.isUTC = options.utc || false;
 	
 	if (this.formatString && 'string' !== typeof this.formatString) {
 		throw new Error('FieldType.DateTime: options.format must be a string.');
@@ -52,7 +53,7 @@ util.inherits(datetime, super_);
  */
 datetime.prototype.format = function(item, format) {
 	if (format || this.formatString) {
-		return item.get(this.path) ? moment(item.get(this.path)).format(format || this.formatString) : '';
+		return item.get(this.path) ? this.moment(item).format(format || this.formatString) : '';
 	} else {
 		return item.get(this.path) || '';
 	}
@@ -66,7 +67,9 @@ datetime.prototype.format = function(item, format) {
  */
 
 datetime.prototype.moment = function(item) {
-	return moment(item.get(this.path));
+	var m = moment(item.get(this.path));
+	if (this.isUTC) m.utc();
+	return m;
 };
 
 
@@ -77,7 +80,8 @@ datetime.prototype.moment = function(item) {
  */
 
 datetime.prototype.parse = function(item) {
-	var newValue = moment.apply(moment, Array.prototype.slice.call(arguments, 1));
+	var m = this.isUTC ? moment.utc : moment;
+	var newValue = m.apply(m, Array.prototype.slice.call(arguments, 1));
 	item.set(this.path, (newValue && newValue.isValid()) ? newValue.toDate() : null);
 	return newValue;
 };
@@ -107,11 +111,8 @@ datetime.prototype.getInputFromData = function(data) {
  */
 
 datetime.prototype.validateInput = function(data, required, item) {
-
 	if (!(this.path in data && !(this.paths.date in data && this.paths.time in data)) && item && item.get(this.path)) return true;
-
 	var newValue = moment(this.getInputFromData(data), parseFormats);
-
 	if (required && (!newValue || !newValue.isValid())) {
 		return false;
 	} else if (this.getInputFromData(data) && newValue && !newValue.isValid()) {
@@ -119,7 +120,6 @@ datetime.prototype.validateInput = function(data, required, item) {
 	} else {
 		return true;
 	}
-
 };
 
 
@@ -130,21 +130,18 @@ datetime.prototype.validateInput = function(data, required, item) {
  */
 
 datetime.prototype.updateItem = function(item, data) {
-
 	if (!(this.path in data || (this.paths.date in data && this.paths.time in data))) {
 		return;
 	}
-
-	var newValue = moment(this.getInputFromData(data), parseFormats);
-
-	if (newValue && newValue.isValid()) {
+	var m = this.isUTC ? moment.utc : moment;
+	var newValue = m(this.getInputFromData(data), parseFormats);
+	if (newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
 			item.set(this.path, newValue.toDate());
 		}
 	} else if (item.get(this.path)) {
 		item.set(this.path, null);
 	}
-
 };
 
 

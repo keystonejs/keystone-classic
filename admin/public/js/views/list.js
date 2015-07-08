@@ -286,10 +286,10 @@ jQuery(function($) {
 			if (err && err.responseJSON) {
 				err = err.responseJSON;
 			}
-			var errorMessage = 'There was an error deleting the ' + Keystone.list.singular.toLowerCase() + '.';
-			var errorDetail = err ? err.detail || err.error : '';
+			var errorMessage = 'There was an error deleting the ' + Keystone.list.singular.toLowerCase();
+			var errorDetail = err ? err.err || err.key : '';
 			if (errorDetail) {
-				errorMessage += ' ( error: ' + errorDetail + ')';
+				errorMessage += '\n\n' + errorDetail;
 			}
 			alert(errorMessage);
 			$row.removeClass('delete-inprogress');
@@ -298,7 +298,8 @@ jQuery(function($) {
 			data: Keystone.csrf({
 				id: $row.attr('id')
 			}),
-			dataType: 'json'
+			dataType: 'json',
+			type: 'POST'
 		}).done(function(rtn) {
 			if (rtn.success) {
 				// decrement total
