@@ -30,17 +30,6 @@ module.exports = React.createClass({
 	},
 
 	componentDidMount: function() {
-		// add date picker
-		/*this.picker = new Pikaday({ 
-			field: this.getDOMNode(),
-			format: this.props.format,
-			yearRange: this.props.yearRange,
-			onSelect: function(date) {//eslint-disable-line no-unused-vars
-				if (this.props.onChange && this.picker.toString() !== this.props.value) {
-					this.props.onChange(this.picker.toString());
-				}
-			}.bind(this)
-		});*/
 		this.picker = $(this.el()).colorpicker({
 			color: this.state.value,
 			format: this.props.format
@@ -49,7 +38,7 @@ module.exports = React.createClass({
 	},
 
 	componentWillUnmount: function() {
-		// clean up
+		// TODO you should clean up component whenever no long using. Current ColorPicker component does not support.
 		// this.picker.destroy();
 	},
 	
