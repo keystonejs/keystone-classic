@@ -161,11 +161,7 @@ jQuery(function($) {
 					};
 					
 					$.each(ids, function() {
-						$.ajax('/keystone/api/' + refPath + '/get', {
-							data: {
-								id: this,
-								dataset: 'simple'
-							},
+						$.ajax('/keystone/api/' + refPath + '/' + this + '?simple', {
 							dataType: 'json'
 						}).done(loaded);
 					});
