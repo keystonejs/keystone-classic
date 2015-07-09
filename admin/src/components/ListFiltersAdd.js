@@ -6,11 +6,7 @@ var utils = require('../utils.js');
 
 var ListFiltersAddForm = require('./ListFiltersAddForm');
 
-var Button = require('elemental').Button;
-var Dropdown = require('elemental').Dropdown;
-var FormInput = require('elemental').FormInput;
-var InputGroup = require('elemental').InputGroup;
-var Tag = require('elemental').Tag;
+var { Button, InputGroup } = require('elemental');
 
 // const TOGGLE_OPTIONS = ['Contains', 'Exactly']; // Text
 const TOGGLE_OPTIONS = ['Linked To', 'NOT Linked To']; // Relationship
@@ -40,12 +36,13 @@ var ListFiltersAdd = React.createClass({
 	
 	displayName: 'ListFiltersAdd',
 
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return {
 			maxHeight: 360
 		};
 	},
-	getInitialState: function() {
+
+	getInitialState () {
 		return {
 			isOpen: false,
 			selectedFilter: false,
@@ -53,34 +50,37 @@ var ListFiltersAdd = React.createClass({
 		};
 	},
 
-	openPopout: function() {
+	openPopout () {
 		this.setState({ isOpen: true });
 	},
-	closePopout: function() {
+
+	closePopout () {
 		this.setState({ isOpen: false, selectedFilter: false, innerHeight: 0 });
 	},
-	setPopoutHeight: function(height) {
+
+	setPopoutHeight (height) {
 		this.setState({ innerHeight: Math.min(this.props.maxHeight, height) });
 	},
 
-	handleFilterRemove: function(filter) {
+	handleFilterRemove (filter) {
 		this.setState({
 			selectedFilter: false
 		});
 	},
 
-	handleFilterSelect: function(filter) {
+	handleFilterSelect (filter) {
 		this.setState({
 			selectedFilter: filter
 		});
 	},
 
-	renderButton: function() {
+	renderButton () {
 		return (
 			<Button ref="addFilterButton" type="primary" onClick={this.state.isOpen ? this.closePopout : this.openPopout}>Add Filter</Button>
 		);
 	},
-	renderList: function() {
+	
+	renderList () {
 		var self = this;
 		// if (this.state.selectedFilter) return;
 
@@ -113,14 +113,16 @@ var ListFiltersAdd = React.createClass({
 			</HeightDetektor>
 		);
 	},
-	renderForm: function() {
+	
+	renderForm () {
 		return (
 			<HeightDetektor onLayout={this.setPopoutHeight} key="form" className="popout-pane">
 				<ListFiltersAddForm filterName={this.state.selectedFilter} toggleOptions={TOGGLE_OPTIONS} selectedToggleOption={TOGGLE_OPTIONS[0]} onApply={this.closePopout} onCancel={this.closePopout} onBack={this.handleFilterRemove} />
 			</HeightDetektor>
 		);
 	},
-	renderPopout: function() {
+	
+	renderPopout () {
 		if (!this.state.isOpen) return;
 		var height = this.state.innerHeight ? { height: this.state.innerHeight } : null;
 		return (
@@ -132,12 +134,13 @@ var ListFiltersAdd = React.createClass({
 			</div>
 		);
 	},
-	renderBlockout: function() {
+	
+	renderBlockout () {
 		if (!this.state.isOpen) return;
 		return <div className="blockout" onClick={this.closePopout} />;
 	},
 	
-	render: function() {
+	render () {
 		var style = { display: 'inline-block', marginLeft: '.5em', marginRight: '.5em', position: 'relative' };
 		return (
 			<InputGroup.Section>

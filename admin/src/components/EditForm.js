@@ -7,21 +7,19 @@ var AltText = require('./AltText');
 var FooterBar = require('./FooterBar');
 var InvalidFieldType = require('./InvalidFieldType');
 
-var Button = require('elemental').Button;
-var FormInput = require('elemental').FormInput;
-var FormField = require('elemental').FormField;
+var { Button, FormField, FormInput } = require('elemental');
 
 var EditForm = React.createClass({
 	
 	displayName: 'EditForm',
 	
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			values: _.clone(this.props.data.fields)
 		};
 	},
 	
-	getFieldProps: function(field) {
+	getFieldProps (field) {
 		var props = _.clone(field);
 		props.value = this.state.values[field.path];
 		props.values = this.state.values;
@@ -30,7 +28,7 @@ var EditForm = React.createClass({
 		return props;
 	},
 	
-	handleChange: function(event) {
+	handleChange (event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
 		this.setState({
@@ -38,7 +36,7 @@ var EditForm = React.createClass({
 		});
 	},
 	
-	renderKeyOrId: function() {
+	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
 
@@ -62,7 +60,7 @@ var EditForm = React.createClass({
 		}
 	},
 	
-	renderNameField: function() {
+	renderNameField () {
 		
 		var nameField = this.props.list.nameField,
 			nameIsEditable = this.props.list.nameIsEditable;
@@ -98,7 +96,7 @@ var EditForm = React.createClass({
 		}
 	},
 	
-	renderFormElements: function() {
+	renderFormElements () {
 		
 		var elements = {},
 			headings = 0;
@@ -139,7 +137,7 @@ var EditForm = React.createClass({
 		
 	},
 	
-	renderFooterBar: function() {
+	renderFooterBar () {
 		
 		var footer = {};
 
@@ -161,7 +159,7 @@ var EditForm = React.createClass({
 		
 	},
 	
-	renderTrackingMeta: function() {
+	renderTrackingMeta () {
 		
 		if (!this.props.list.tracking) return null;
 		
@@ -225,7 +223,7 @@ var EditForm = React.createClass({
 		
 	},
 	
-	render: function() {
+	render () {
 		
 		return (
 			<form method="post" encType="multipart/form-data" className="EditForm-container">

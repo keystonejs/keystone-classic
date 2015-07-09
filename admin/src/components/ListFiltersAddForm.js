@@ -1,40 +1,38 @@
 var React = require('react');
 var classNames = require('classnames');
 
-var Button = require('elemental').Button;
-var Dropdown = require('elemental').Dropdown;
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
+var { Button, FormField, FormInput } = require('elemental');
 
 var ListHeader = React.createClass({
 	
 	displayName: 'ListFiltersAddForm',
+	
 	propTypes: {
 		onApply: React.PropTypes.func,
 		onCancel: React.PropTypes.func
 	},
 	
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			selectedToggle: this.props.selectedToggleOption
 		};
 	},
-	componentDidMount: function() {
+	componentDidMount () {
 		React.findDOMNode(this.refs.input).focus();
 	},
 
-	handleToggleSelect: function(toggle) {
+	handleToggleSelect (toggle) {
 		this.setState({
 			selectedToggle: toggle
 		});
 		React.findDOMNode(this.refs.input).focus();
 	},
-	handleFormSubmit: function(e) {
+	handleFormSubmit (e) {
 		e.preventDefault();
 		this.props.onApply();
 	},
 
-	renderToggle: function() {
+	renderToggle () {
 		var self = this;
 		var toggleItems = this.props.toggleOptions.map(function(opt, i) {
 			var className = classNames('popout__toggle__action', { 'is-selected': opt === self.state.selectedToggle });
@@ -48,7 +46,7 @@ var ListHeader = React.createClass({
 		return <div className="popout__toggle">{toggleItems}</div>;
 	},
 	
-	render: function() {
+	render () {
 		return (
 			<form onSubmit={this.handleFormSubmit} className="ListFiltersForm">
 				<div className="ListFiltersForm__header">

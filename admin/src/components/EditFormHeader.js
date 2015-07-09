@@ -3,16 +3,13 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var AltText = require('./AltText');
 var Toolbar = require('./Toolbar');
 
-var FormInput = require('elemental').FormInput;
-var FormIconField = require('elemental').FormIconField;
-var InputGroup = require('elemental').InputGroup;
-var Button = require('elemental').Button;
+var { Button, FormIconField, FormInput } = require('elemental');
 
 var Header = React.createClass({
 	
 	displayName: 'ItemViewHeader',
 	
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			searchIsVisible: false,
 			searchIsFocused: false,
@@ -20,17 +17,17 @@ var Header = React.createClass({
 		};
 	},
 	
-	componentDidUpdate: function(prevProps, prevState) {
+	componentDidUpdate (prevProps, prevState) {
 		if (this.state.searchIsVisible && !prevState.searchIsVisible) {
 			this.refs.searchField.getDOMNode().focus();
 		}
 	},
 	
-	toggleCreate: function(visible) {
+	toggleCreate (visible) {
 		this.props.toggleCreate(visible);
 	},
 	
-	toggleSearch: function(visible) {
+	toggleSearch (visible) {
 		this.setState({
 			searchIsVisible: visible,
 			searchIsFocused: visible,
@@ -38,19 +35,19 @@ var Header = React.createClass({
 		});
 	},
 	
-	searchFocusChanged: function(focused) {
+	searchFocusChanged (focused) {
 		this.setState({
 			searchIsFocused: focused
 		});
 	},
 	
-	searchStringChanged: function(event) {
+	searchStringChanged (event) {
 		this.setState({
 			searchString: event.target.value
 		});
 	},
 	
-	renderDrilldown: function() {
+	renderDrilldown () {
 		if (this.state.searchIsVisible) return null;
 		/* eslint-disable no-script-url */
 		return (
@@ -62,7 +59,7 @@ var Header = React.createClass({
 		/* eslint-enable */
 	},
 	
-	renderDrilldownItems: function() {
+	renderDrilldownItems () {
 		
 		var list = this.props.list,
 			items = this.props.drilldown.items;
@@ -108,7 +105,7 @@ var Header = React.createClass({
 		
 	},
 	
-	renderSearch: function() {
+	renderSearch () {
 		var list = this.props.list;
 		return (
 			<form action={'/keystone/' + list.path} className="EditForm__header__search hidden-xs">
@@ -128,7 +125,7 @@ var Header = React.createClass({
 		);
 	},
 	
-	renderInfo: function() {
+	renderInfo () {
 		return (
 			<Toolbar.Section right>
 				{this.renderCreateButton()}
@@ -136,7 +133,7 @@ var Header = React.createClass({
 		);
 	},
 	
-	renderCreateButton: function() {
+	renderCreateButton () {
 		if (this.props.list.nocreate) return null;
 		/* eslint-disable no-script-url */
 		return (
@@ -148,7 +145,7 @@ var Header = React.createClass({
 		/* eslint-enable */
 	},
 	
-	render: function() {
+	render () {
 		return (
 			<Toolbar>
 				{this.renderDrilldown()}
