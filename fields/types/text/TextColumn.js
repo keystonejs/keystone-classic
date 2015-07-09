@@ -3,9 +3,9 @@ var React = require('react');
 var TextColumn = React.createClass({
 
 	propTypes: {
-		col: React.PropTypes.obj,
-		list: React.PropTypes.obj,
-		data: React.PropTypes.obj,
+		col: React.PropTypes.object,
+		list: React.PropTypes.object,
+		data: React.PropTypes.object,
 		href: React.PropTypes.string
 	},
 
