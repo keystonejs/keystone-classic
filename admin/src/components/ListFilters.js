@@ -3,7 +3,7 @@ var classNames = require('classnames');
 
 var ListFiltersAdd = require('./ListFiltersAdd');
 
-var Tag = require('elemental').Tag;
+var { Pill } = require('elemental');
 
 var ListFilters = React.createClass({
 	
@@ -21,13 +21,13 @@ var ListFilters = React.createClass({
 
 		var currentFilters = this.props.filters.map(function(filter, i) {
 			return (
-				<Tag key={filter} label={filter} onClick={self.handleFilterClick.bind(self, filter)} onClear={self.handleFilterClear.bind(self, filter)} type="primary" hasClearButton />
+				<Pill key={filter} label={filter} onClick={self.handleFilterClick.bind(self, filter)} onClear={self.handleFilterClear.bind(self, filter)} type="primary" hasClearButton />
 			);
 		});
 
 		// append the clear button
 		if (currentFilters.length > 1) {
-			currentFilters.push(<Tag key="listFilters__clear" label="Clear All" onClick={self.handleFilterClick.bind(self, 'Clear All')} />);
+			currentFilters.push(<Pill key="listFilters__clear" label="Clear All" onClick={self.handleFilterClick.bind(self, 'Clear All')} />);
 		}
 		return (
 			<div className="ListFilters mb-2">
