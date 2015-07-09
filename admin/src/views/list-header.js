@@ -3,8 +3,7 @@ var CreateForm = require('../components/CreateForm');
 var Toolbar = require('../components/Toolbar');
 var ListHeader = require('../components/ListHeader');
 
-var Button = require('elemental').Button;
-var Dropdown = require('elemental').Dropdown;
+var { Button } = require('elemental');
 
 var Header = React.createClass({
 	
@@ -12,15 +11,13 @@ var Header = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			createIsVisible: Keystone.showCreateForm,
-			animateCreateForm: false
+			createIsOpen: Keystone.showCreateForm
 		};
 	},
 	
 	toggleCreate: function(visible) {
 		this.setState({
-			createIsVisible: visible,
-			animateCreateForm: true
+			createIsOpen: visible
 		});
 	},
 	
@@ -40,8 +37,7 @@ var Header = React.createClass({
 	},
 	
 	renderCreateForm: function() {
-		if (!this.state.createIsVisible) return null;
-		return <CreateForm list={Keystone.list} animate={this.state.animateCreateForm} onCancel={this.toggleCreate.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
+		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
 	
 	render: function() {

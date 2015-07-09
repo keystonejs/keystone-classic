@@ -13,7 +13,7 @@ var View = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			createIsVisible: false,
+			createIsOpen: false,
 			list: Keystone.list,
 			itemData: null,
 			itemDrilldown: null
@@ -39,13 +39,13 @@ var View = React.createClass({
 	
 	toggleCreate: function(visible) {
 		this.setState({
-			createIsVisible: visible
+			createIsOpen: visible
 		});
 	},
 	
 	renderCreateForm: function() {
-		if (!this.state.createIsVisible) return null;
-		return <CreateForm list={Keystone.list} animate onCancel={this.toggleCreate.bind(this, false)} />;
+		if (!this.state.createIsOpen) return null;
+		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} />;
 	},
 	
 	render: function() {

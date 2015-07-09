@@ -3,9 +3,7 @@ var React = require('react');
 var Fields = require('../fields');
 var InvalidFieldType = require('./InvalidFieldType');
 
-var Alert = require('elemental').Alert;
-var Button = require('elemental').Button;
-var Modal  = require('elemental').Modal;
+var { Alert, Button, Modal } = require('elemental');
 
 var Form = React.createClass({
 	
@@ -15,7 +13,7 @@ var Form = React.createClass({
 		return {
 			err: null,
 			values: {},
-			animate: false
+			isOpen: false
 		};
 	},
 	
@@ -69,26 +67,31 @@ var Form = React.createClass({
 	
 	render: function() {
 		
-		var errors = null,
-			form = {},
-			list = this.props.list,
-			formAction = '/keystone/' + list.path,
-			nameField = this.props.list.nameField,
-			focusRef;
-		
-		var modalClass = 'modal modal-md' + (this.props.animate ? ' animate' : '');
+		var alert = null;
+		var form = {};
+		var list = this.props.list;
+		var formAction = '/keystone/' + list.path;
+		var nameField = this.props.list.nameField;
+		var focusRef;
 		
 		if (this.props.err && this.props.err.errors) {
+			var alertContent;
+			var errorCount = Object.keys(this.props.err.errors).length;
 			var msgs = {};
+
 			_.each(this.props.err.errors, function(err, path) {
-				msgs[path] = <li>{err.message}</li>;
+				msgs[path] = errorCount > 1 ? <li>{err.message}</li> : <div>{err.message}</div>;
 			});
-			errors = (
-				<Alert type="danger">
-					<h4>There was an error creating the new {list.singular}:</h4>
+
+			if (errorCount > 1) {
+				alertContent = <div>
+					<h4>There were {errorCount} errors creating the new {list.singular}:</h4>
 					<ul>{msgs}</ul>
-				</Alert>
-			);
+				</div>
+			} else {
+				alertContent = {msgs}
+			}
+			alert = <Alert type="danger">{alertContent}</Alert>;
 		}
 		
 		if (list.nameIsInitial) {
@@ -122,12 +125,13 @@ var Form = React.createClass({
 		}, this);
 		
 		return (
-			<Modal isOpen onCancel={this.props.onCancel} headerTitle={'Create a new ' + list.singular} headerHasCloseButton backdropClosesModal>
+			<Modal isOpen={this.props.isOpen} onCancel={this.props.onCancel} backdropClosesModal>
 				<form encType="multipart/form-data" method="post" action={formAction} className="horizontal-form create-form">
 					<input type="hidden" name="action" value="create" />
 					<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
+					<Modal.Header text={'Create a new ' + list.singular} onClose={this.props.onCancel} showCloseButton />
 					<Modal.Body>
-						{errors}
+						{alert}
 						{form}
 					</Modal.Body>
 					<Modal.Footer>
