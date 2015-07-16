@@ -32,7 +32,11 @@ module.exports = Field.create({
 		// TODO: This should be natively handled by the Select component
 		var ops = (this.props.numeric) ? this.props.ops.map(function(i) { return { label: i.label, value: String(i.value) }; }) : this.props.ops;
 		var value = ('number' === typeof this.props.value) ? String(this.props.value) : this.props.value;
-		return <Select name={this.props.path} value={value} options={ops} onChange={this.valueChanged} />;	
+		if (this.props.delimiter !== undefined && this.props.delimiter !== '') {
+			return <Select name={this.props.path} value={value} options={ops} onChange={this.valueChanged} delimiter={this.props.delimiter} />;
+		} else {
+			return <Select name={this.props.path} value={value} options={ops} onChange={this.valueChanged} />;	
+		}
 	}
 	
 });

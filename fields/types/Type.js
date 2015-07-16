@@ -89,7 +89,8 @@ Field.prototype.getOptions = function() {
 			'indent',
 			'hidden',
 			'collapse',
-			'dependsOn'
+			'dependsOn',
+			'delimiter'
 		];
 		
 		if (_.isArray(this._properties)) {
