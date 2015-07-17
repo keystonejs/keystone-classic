@@ -37,7 +37,7 @@ var ListHeader = React.createClass({
 					<span className="ListFiltersForm__header__label">{this.props.field.label}</span>
 				</div>
 				<div className="ListFiltersForm__body">
-					{TypeFilter ? <TypeFilter /> : this.renderInvalidFilter()}
+					{TypeFilter ? <TypeFilter field={this.props.field} /> : this.renderInvalidFilter()}
 				</div>
 				<div className="ListFiltersForm__footer">
 					<Button onClick={this.props.onApply} type="link" className="ListFiltersForm__footer-button ListFiltersForm__footer-button--apply" submit>Apply</Button>
