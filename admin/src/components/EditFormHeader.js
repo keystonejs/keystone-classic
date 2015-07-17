@@ -6,9 +6,9 @@ var Toolbar = require('./Toolbar');
 var { Button, FormIconField, FormInput } = require('elemental');
 
 var Header = React.createClass({
-	
+
 	displayName: 'ItemViewHeader',
-	
+
 	getInitialState () {
 		return {
 			searchIsVisible: false,
@@ -16,17 +16,17 @@ var Header = React.createClass({
 			searchString: ''
 		};
 	},
-	
+
 	componentDidUpdate (prevProps, prevState) {
 		if (this.state.searchIsVisible && !prevState.searchIsVisible) {
 			this.refs.searchField.getDOMNode().focus();
 		}
 	},
-	
+
 	toggleCreate (visible) {
 		this.props.toggleCreate(visible);
 	},
-	
+
 	toggleSearch (visible) {
 		this.setState({
 			searchIsVisible: visible,
@@ -34,19 +34,19 @@ var Header = React.createClass({
 			searchString: ''
 		});
 	},
-	
+
 	searchFocusChanged (focused) {
 		this.setState({
 			searchIsFocused: focused
 		});
 	},
-	
+
 	searchStringChanged (event) {
 		this.setState({
 			searchString: event.target.value
 		});
 	},
-	
+
 	renderDrilldown () {
 		if (this.state.searchIsVisible) return null;
 		/* eslint-disable no-script-url */
@@ -58,32 +58,32 @@ var Header = React.createClass({
 		);
 		/* eslint-enable */
 	},
-	
+
 	renderDrilldownItems () {
-		
-		var list = this.props.list,
-			items = this.props.drilldown.items;
-		
+
+		var list = this.props.list;
+		var items = this.props.data.drilldown ? this.props.data.drilldown.items : [];
+
 		var els = items.map(function(dd) {
-			
+
 			var links = [];
-			
+
 			dd.items.forEach(function(el, i) {
 				links.push(<a key={'dd' + i} href={el.href} title={dd.list.singular}>{el.label}</a>);
 				if (i < dd.items.length - 1) {
 					links.push(<span key={'ds' + i} className="separator">,</span>);//eslint-disable-line comma-spacing
 				}
 			});
-			
+
 			var more = dd.more ? <span>...</span> : '';
-			
+
 			return (
 				<li>
 					{links}
 					{more}
 				</li>
 			);
-			
+
 		});
 
 		if (!els.length) {
@@ -95,16 +95,16 @@ var Header = React.createClass({
 			);
 		} else {
 			// add the current list
-			els.push(		
-				<li key="back">		
+			els.push(
+				<li key="back">
 					<a type="link" href={'/keystone/' + list.path}>{list.plural}</a>
 				</li>
 			);
 			return <ul className="item-breadcrumbs" key="drilldown">{els}</ul>;
 		}
-		
+
 	},
-	
+
 	renderSearch () {
 		var list = this.props.list;
 		return (
@@ -124,7 +124,7 @@ var Header = React.createClass({
 			</form>
 		);
 	},
-	
+
 	renderInfo () {
 		return (
 			<Toolbar.Section right>
@@ -132,7 +132,7 @@ var Header = React.createClass({
 			</Toolbar.Section>
 		);
 	},
-	
+
 	renderCreateButton () {
 		if (this.props.list.nocreate) return null;
 		/* eslint-disable no-script-url */
@@ -144,7 +144,7 @@ var Header = React.createClass({
 		);
 		/* eslint-enable */
 	},
-	
+
 	render () {
 		return (
 			<Toolbar>
@@ -153,7 +153,7 @@ var Header = React.createClass({
 			</Toolbar>
 		);
 	}
-	
+
 });
 
 module.exports = Header;
