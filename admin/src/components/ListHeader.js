@@ -21,21 +21,21 @@ const COLUMNS = Keystone.list.uiElements.map(function(col,i) {
 });
 
 var ListHeader = React.createClass({
-	
+
 	displayName: 'ListHeader',
-	
+
 	getInitialState () {
 		return {
 			searchString: ''
 		};
 	},
-	
+
 	componentDidMount () {
 		console.info('Items:', Keystone.items);
 		console.info('List:',  Keystone.list);
 		console.info('Sort:',  Keystone.sort);
 	},
-	
+
 	handleSearch (e) {
 		this.setState({
 			searchString: e.target.value
@@ -72,12 +72,12 @@ var ListHeader = React.createClass({
 
 		location.href = '/keystone/' + Keystone.list.path + '/' + page;
 	},
-	
+
 	renderTitle () {
 		var sort = Keystone.sort ? <span className="text-muted"> sorted by {Keystone.sort}</span> : null;
 		return (
 			<h2 className="ListHeader__title">
-				{utils.plural(Keystone.items.total, ('* ' + Keystone.list.singular), ('* ' + Keystone.list.plural))} 
+				{utils.plural(Keystone.items.total, ('* ' + Keystone.list.singular), ('* ' + Keystone.list.plural))}
 				{sort}
 			</h2>
 		);
@@ -121,7 +121,7 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
-	
+
 	render () {
 		return (
 			<div className="ListHeader">
@@ -139,7 +139,7 @@ var ListHeader = React.createClass({
 			</div>
 		);
 	}
-	
+
 });
 
 module.exports = ListHeader;

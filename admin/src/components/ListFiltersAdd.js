@@ -8,22 +8,14 @@ var ListFiltersAddForm = require('./ListFiltersAddForm');
 
 var { Button, InputGroup } = require('elemental');
 
-// const TOGGLE_OPTIONS = ['Contains', 'Exactly']; // Text
-const TOGGLE_OPTIONS = ['Linked To', 'NOT Linked To']; // Relationship
+const TOGGLE_OPTIONS = ['Contains', 'Exactly']; // Text
+// const TOGGLE_OPTIONS = ['Linked To', 'NOT Linked To']; // Relationship
 // const TOGGLE_OPTIONS = ['Checked', 'NOT Checked']; // Boolean
 // const TOGGLE_OPTIONS = ['Exactly', 'Greater Than', 'Less Than', 'Between']; // Number
 // const TOGGLE_OPTIONS = ['On', 'After', 'Before', 'Between']; // Date
 
-const COLUMNS = Keystone.list.uiElements.map(function(col,i) {
-	return {
-		type:  col.type === 'heading' ? 'header' : 'item',
-		label: col.type === 'heading' ? col.content : utils.titlecase(col.field)
-	}
-});
-
-var HeightDetektor = React.createClass({
+var HeightDetector = React.createClass({
 	componentDidMount () {
-		console.log("Detected height: " + this.getDOMNode().offsetHeight);
 		this.props.onLayout && this.props.onLayout(this.getDOMNode().offsetHeight);
 	},
 	render () {
@@ -33,7 +25,7 @@ var HeightDetektor = React.createClass({
 });
 
 var ListFiltersAdd = React.createClass({
-	
+
 	displayName: 'ListFiltersAdd',
 
 	getDefaultProps () {
@@ -45,7 +37,7 @@ var ListFiltersAdd = React.createClass({
 	getInitialState () {
 		return {
 			isOpen: false,
-			selectedFilter: false,
+			selectedField: false,
 			innerHeight: 0
 		};
 	},
@@ -55,22 +47,31 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	closePopout () {
-		this.setState({ isOpen: false, selectedFilter: false, innerHeight: 0 });
+		this.setState({ isOpen: false, selectedField: false, innerHeight: 0 });
 	},
 
 	setPopoutHeight (height) {
 		this.setState({ innerHeight: Math.min(this.props.maxHeight, height) });
 	},
 
-	handleFilterRemove (filter) {
+	navigateBack () {
 		this.setState({
-			selectedFilter: false
+			selectedField: false
 		});
 	},
 
-	handleFilterSelect (filter) {
+	selectField (field) {
 		this.setState({
-			selectedFilter: filter
+			selectedField: field
+		});
+	},
+
+	getListUIElements () {
+		return Keystone.list.uiElements.map((el) => {
+			return el.type === 'field' ? {
+				type: 'field',
+				field: Keystone.list.fields[el.field]
+			} : el;
 		});
 	},
 
@@ -79,67 +80,60 @@ var ListFiltersAdd = React.createClass({
 			<Button ref="addFilterButton" type="primary" onClick={this.state.isOpen ? this.closePopout : this.openPopout}>Add Filter</Button>
 		);
 	},
-	
-	renderList () {
-		var self = this;
-		// if (this.state.selectedFilter) return;
 
-		var popoutList = COLUMNS.map(function(item, i) {
-			var menuItem;
+	renderList () {
+		var popoutList = this.getListUIElements().map((el, i) => {
+			if (el.type === 'heading') {
+				return <div key={'item-' + i} className="popout__list__header">{el.content}</div>
+			}
+			var filterIsActive = i < 1; // TODO: Actually track filter values
 			var itemClass = classNames('popout__list__item', {
-				'is-selected': item.type === 'item' && i < 1
+				'is-selected': filterIsActive
 			});
 			var iconClass = classNames('popout__list__item__icon octicon',
-				(item.type === 'item' && i < 1) ? 'octicon-check' : 'octicon-chevron-right'
+				filterIsActive ? 'octicon-check' : 'octicon-chevron-right'
 			);
-			if (item.type === 'header') {
-				menuItem = <div key={'item-' + i} className="popout__list__header">{item.label}</div>
-			} else if (item.type === 'divider') {
-				menuItem = <div key={'item-' + i} className="popout__list__divider" />
-			} else {
-				menuItem = (
-					<button key={'item-' + i} onClick={self.handleFilterSelect.bind(self, item.label)} title={item.label} className={itemClass}>
-						<span className={iconClass} />
-						{item.label}
-					</button>
-				);
-			}
-			return menuItem;
-		}.bind(this));
+			return (
+				<button key={'item-' + el.field.path} onClick={() => { this.selectField(el.field) }} title={el.field.label} className={itemClass}>
+					<span className={iconClass} />
+					{el.field.label}
+				</button>
+			);
+		});
 
 		return (
-			<HeightDetektor onLayout={this.setPopoutHeight} key="list" className="popout__list popout-pane" component="div">
+			<HeightDetector onLayout={this.setPopoutHeight} key="list" className="popout__list popout-pane" component="div">
 				{popoutList}
-			</HeightDetektor>
+			</HeightDetector>
 		);
 	},
-	
+
 	renderForm () {
 		return (
-			<HeightDetektor onLayout={this.setPopoutHeight} key="form" className="popout-pane">
-				<ListFiltersAddForm filterName={this.state.selectedFilter} toggleOptions={TOGGLE_OPTIONS} selectedToggleOption={TOGGLE_OPTIONS[0]} onApply={this.closePopout} onCancel={this.closePopout} onBack={this.handleFilterRemove} />
-			</HeightDetektor>
+			<HeightDetector onLayout={this.setPopoutHeight} key="form" className="popout-pane">
+				<ListFiltersAddForm field={this.state.selectedField} onApply={this.closePopout} onCancel={this.closePopout} onBack={this.navigateBack} />
+			</HeightDetector>
 		);
 	},
-	
+
 	renderPopout () {
 		if (!this.state.isOpen) return;
 		var height = this.state.innerHeight ? { height: this.state.innerHeight } : null;
 		return (
 			<div className="popout">
 				<span className="popout-arrow" />
-				<Transition style={height} className="popout-inner" transitionName={!!this.state.selectedFilter ? 'popout-pane-next' : 'popout-pane-prev'} component="div">
-					{this.state.selectedFilter ? this.renderForm() : this.renderList()}
+				<Transition style={height} className="popout-inner" transitionName={!!this.state.selectedField ? 'popout-pane-next' : 'popout-pane-prev'} component="div">
+					{this.state.selectedField ? this.renderForm() : this.renderList()}
 				</Transition>
 			</div>
 		);
 	},
-	
+
 	renderBlockout () {
 		if (!this.state.isOpen) return;
 		return <div className="blockout" onClick={this.closePopout} />;
 	},
-	
+
 	render () {
 		var style = { display: 'inline-block', marginLeft: '.5em', marginRight: '.5em', position: 'relative' };
 		return (
@@ -152,7 +146,7 @@ var ListFiltersAdd = React.createClass({
 			</InputGroup.Section>
 		);
 	}
-	
+
 });
 
 module.exports = ListFiltersAdd;
