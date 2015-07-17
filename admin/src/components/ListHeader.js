@@ -83,19 +83,6 @@ var ListHeader = React.createClass({
 		);
 	},
 
-	renderRecentFilters () {
-		return (
-			<InputGroup.Section>
-				<Dropdown items={[{ label: 'Listing state matches "published"' },{ label: 'Email matches "gmail"' }]}>
-					<Button title="Recent Filters">
-						<span className="octicon octicon-clock" />
-						<span className="disclosure-arrow" />
-					</Button>
-				</Dropdown>
-			</InputGroup.Section>
-		);
-	},
-
 	renderSearch () {
 		var searchClearIcon = classNames('ListHeader__searchbar-field__icon octicon', {
 			'is-search octicon-search': !this.state.searchString.length,
@@ -141,7 +128,6 @@ var ListHeader = React.createClass({
 				<div className="container">
 					{this.renderTitle()}
 					<InputGroup contiguous={false} className="ListHeader__searchbar">
-						{this.renderRecentFilters()}
 						{this.renderSearch()}
 						<ListFiltersAdd key="listFilters__add" />
 						{this.renderColumnsButton()}
