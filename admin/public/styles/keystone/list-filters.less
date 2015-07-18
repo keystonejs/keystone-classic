@@ -72,6 +72,11 @@
 	outline: none;
 	-webkit-appearance: none;
 
+	// handle mouse/keyboard interaction
+	&:hover  { color: @gray; }
+	&:active { color: @gray-dark; }
+	&:focus  { color: @app-primary; }
+
 	// increase the hittable area
 	&::after {
 		bottom: -10px;
