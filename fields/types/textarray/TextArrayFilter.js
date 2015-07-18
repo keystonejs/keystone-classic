@@ -79,4 +79,4 @@ var TextArrayFilter = React.createClass({
 
 });
 
-module.exports = TextFilter;
+module.exports = TextArrayFilter;

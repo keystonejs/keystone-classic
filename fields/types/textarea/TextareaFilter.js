@@ -79,4 +79,4 @@ var TextareaFilter = React.createClass({
 
 });
 
-module.exports = TextFilter;
+module.exports = TextareaFilter;
