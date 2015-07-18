@@ -21,7 +21,7 @@ var ListFilters = React.createClass({
 
 		var currentFilters = this.props.filters.map(function(filter, i) {
 			return (
-				<Pill key={filter} label={filter} onClick={self.handleFilterClick.bind(self, filter)} onClear={self.handleFilterClear.bind(self, filter)} type="primary" hasClearButton />
+				<Pill key={filter} label={filter} onClick={self.handleFilterClick.bind(self, filter)} onClear={self.handleFilterClear.bind(self, filter)} type="primary" showClearButton />
 			);
 		});
 
