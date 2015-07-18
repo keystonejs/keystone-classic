@@ -109,7 +109,7 @@ var Header = React.createClass({
 		var list = this.props.list;
 		return (
 			<form action={'/keystone/' + list.path} className="EditForm__header__search hidden-xs">
-				<FormIconField iconPosition="left" iconColor="default" iconKey="search" className="EditForm__header__search-field">
+				<FormIconField iconPosition="left" iconColor="primary" iconKey="search" className="EditForm__header__search-field">
 					<FormInput
 						ref="searchField"
 						type="search"
