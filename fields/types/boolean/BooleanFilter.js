@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { FormField, FormInput } from 'elemental';
+import { SegmentedControl } from 'elemental';
 
 var BooleanFilter = React.createClass({
 
@@ -18,21 +18,12 @@ var BooleanFilter = React.createClass({
 	},
 
 	renderToggle () {
-		let { checked } = this.state;
+		let options = [
+			{ label: 'Is Checked', value: true },
+			{ label: 'Is NOT Checked', value: false }
+		];
 
-		let isChecedClass = classNames('popout__toggle__action', { 'is-selected': checked });
-		let isNotCheckedClass = classNames('popout__toggle__action', { 'is-selected': !checked });
-
-		return (
-			<div className="popout__toggle">
-				<span className="popout__toggle__item">
-					<button type="button" onClick={(e) => { this.toggleChecked(true); }} className={isChecedClass}>Is Checked</button>
-				</span>
-				<span className="popout__toggle__item">
-					<button type="button" onClick={(e) => { this.toggleChecked(false); }} className={isNotCheckedClass}>Is NOT Checked</button>
-				</span>
-			</div>
-		);
+		return <SegmentedControl equalWidthSegments type="primary" options={options} value={this.state.checked} onChange={this.toggleChecked} />;
 	},
 
 	render () {
