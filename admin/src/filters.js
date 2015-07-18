@@ -22,7 +22,7 @@ module.exports = {
 	// number:           require('../../fields/types/number/NumberFilter'),
 	// numberarray:      require('../../fields/types/numberarray/NumberArrayFilter'),
 	// password:         require('../../fields/types/password/PasswordFilter'),
-	// relationship:     require('../../fields/types/relationship/RelationshipFilter'),
+	relationship:     require('../../fields/types/relationship/RelationshipFilter'),
 	// s3file:           require('../../fields/types/s3file/S3FileFilter'),
 	select:           require('../../fields/types/select/SelectFilter'),
 	text:             require('../../fields/types/text/TextFilter'),
