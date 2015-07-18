@@ -368,6 +368,10 @@ function doGoogleGeocodeRequest(address, region, callback) {
 		options.region = region;
 	}
 
+	if (keystone.get('google server api key')){
+		options.key = keystone.get('google server api key');
+	}
+
 	var endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?' + querystring.stringify(options);
 
 	https.get(endpoint, function(res) {
