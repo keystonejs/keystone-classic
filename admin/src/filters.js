@@ -24,7 +24,7 @@ module.exports = {
 	// password:         require('../../fields/types/password/PasswordFilter'),
 	// relationship:     require('../../fields/types/relationship/RelationshipFilter'),
 	// s3file:           require('../../fields/types/s3file/S3FileFilter'),
-	// select:           require('../../fields/types/select/SelectFilter'),
+	select:           require('../../fields/types/select/SelectFilter'),
 	text:             require('../../fields/types/text/TextFilter'),
 	textarea:         require('../../fields/types/textarea/TextareaFilter'),
 	textarray:        require('../../fields/types/textarray/TextArrayFilter'),
