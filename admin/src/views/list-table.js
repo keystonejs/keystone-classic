@@ -77,7 +77,7 @@ var Table = React.createClass({
 	render: function() {
 		var sortable = Keystone.list.sortable;
 		var tableClass = sortable ? 'sortable ' : '';
-		tableClass += 'table ItemList';
+		tableClass += 'Table ItemList';
 		return (
 			<div className="ItemList-wrapper">
 				<table cellPadding="0" cellSpacing="0" className={tableClass}>
