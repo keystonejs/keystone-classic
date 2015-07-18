@@ -41,19 +41,24 @@ var Form = React.createClass({
 		});
 	},
 
-	componentWillMount: function() {
-		this._bodyStyleOverflow = document.body.style.overflow;
-		document.body.style.overflow = 'hidden';
+	componentDidUpdate: function(prevProps, prevState) {
+		let bodyStyle = document.body.style;
+		
+		if (this.refs.focusTarget) {
+			this.refs.focusTarget.focus();
+		}
+		
+		if (this.props.isOpen) {
+			bodyStyle.overflow = 'hidden';
+		} else {
+			bodyStyle.overflow = '';
+		}
 	},
 	
 	componentDidMount: function() {
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}
-	},
-
-	componentWillUnmount: function() {
-		document.body.style.overflow = this._bodyStyleOverflow;
 	},
 	
 	getFieldProps: function(field) {
