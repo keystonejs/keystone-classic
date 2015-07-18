@@ -8,7 +8,7 @@ module.exports = {
 	// date:             require('../../fields/types/date/DateFilter'),
 	// datearray:        require('../../fields/types/datearray/DateArrayFilter'),
 	// datetime:         require('../../fields/types/datetime/DatetimeFilter'),
-	// email:            require('../../fields/types/email/EmailFilter'),
+	email:            require('../../fields/types/email/EmailFilter'),
 	// embedly:          require('../../fields/types/embedly/EmbedlyFilter'),
 	// geopoint:         require('../../fields/types/geopoint/GeoPointFilter'),
 	// html:             require('../../fields/types/html/HtmlFilter'),
@@ -28,5 +28,5 @@ module.exports = {
 	text:             require('../../fields/types/text/TextFilter'),
 	textarea:         require('../../fields/types/textarea/TextareaFilter'),
 	textarray:        require('../../fields/types/textarray/TextArrayFilter'),
-	// url:              require('../../fields/types/url/UrlFilter')
+	url:              require('../../fields/types/url/UrlFilter')
 };
