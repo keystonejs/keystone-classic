@@ -1,6 +1,6 @@
+var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
-var FieldType = require('../Type');
 
 /**
  * Text FieldType Constructor
@@ -42,5 +42,5 @@ text.prototype.addFilterToQuery = function(filter, query) {
 	query[this.path] = filter.invert ? { $not: value } : value;
 };
 
-/* Export Field */
+/* Export Field Type */
 exports = module.exports = text;
