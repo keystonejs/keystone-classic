@@ -55,7 +55,6 @@ var View = React.createClass({
 		return (
 			<div>
 				<EditFormHeader list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
-				<Header list={this.state.list} data={this.state.itemData} toggleCreate={this.toggleCreate} />
 				<div className="container">
 					{this.renderCreateForm()}
 					<EditForm list={this.state.list} data={this.state.itemData} />
