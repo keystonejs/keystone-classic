@@ -1,5 +1,5 @@
-var util = require('util');
 var FieldType = require('../Type');
+var util = require('util');
 
 /**
  * Boolean FieldType Constructor

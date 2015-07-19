@@ -1,6 +1,6 @@
+var crypto = require('crypto');
 var FieldType = require('../Type');
 var TextType = require('../text/TextType');
-var crypto = require('crypto');
 var util = require('util');
 var utils = require('keystone-utils');
 

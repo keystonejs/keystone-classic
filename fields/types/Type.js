@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 var _ = require('underscore');
+var di = require('asyncdi');
 var marked = require('marked');
 var Path = require('../../lib/path');
 var utils = require('keystone-utils');
-var di = require('asyncdi');
 
 var DEFAULT_OPTION_KEYS = [
 	'path',
