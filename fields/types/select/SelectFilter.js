@@ -25,7 +25,7 @@ var SelectFilter = React.createClass({
 
 	renderToggle () {
 		let options = [
-			{ label: 'Does Match', value: false },
+			{ label: 'Matches', value: false },
 			{ label: 'Does NOT Match', value: true }
 		];
 

@@ -2,21 +2,17 @@ import _ from 'underscore';
 import classNames from 'classnames';
 import React from 'react';
 
-import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
+import { FormField, FormInput, FormRow, SegmentedControl } from 'elemental';
 
 const MODE_OPTIONS = [
 	{ label: 'Exactly',     value: 'exactly' },
-	{ label: 'Contains',    value: 'contains' },
-	{ label: 'Begins with', value: 'beginsWith' },
-	{ label: 'Ends with',   value: 'endsWith' }
+	{ label: 'Contains',    value: 'contains' }
 ];
 
 var TextFilter = React.createClass({
 
 	getInitialState () {
 		return {
-			modeValue: MODE_OPTIONS[0].value, // 'exactly'
-			modeLabel: MODE_OPTIONS[0].label, // 'Exactly'
 			inverted: false,
 			value: ''
 		};
@@ -33,17 +29,6 @@ var TextFilter = React.createClass({
 		});
 	},
 
-	selectMode (mode) {
-		// TODO: implement w/o underscore
-		this.setState({
-			modeValue: mode,
-			modeLabel: _.findWhere(MODE_OPTIONS, { value: mode }).label
-		});
-
-		// focus the text input after a mode selection is made
-		React.findDOMNode(this.refs.focusTarget).focus();
-	},
-
 	renderToggle () {
 		let options = [
 			{ label: 'Matches', value: false },
@@ -54,18 +39,28 @@ var TextFilter = React.createClass({
 	},
 
 	render () {
-		let { field } = this.props;
 		let { modeLabel, modeValue } = this.state;
-
-		let placeholder = field.label + ' ' + modeLabel.toLowerCase() + '...';
 
 		return (
 			<div>
 				{this.renderToggle()}
-				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={modeValue} />
 				<FormField>
-					<FormInput ref="focusTarget" placeholder={placeholder} />
+					<FormInput ref="focusTarget" placeholder="Address" />
 				</FormField>
+				<FormRow>
+					<FormField width="two-thirds">
+						<FormInput placeholder="City" />
+					</FormField>
+					<FormField width="one-third">
+						<FormInput placeholder="State" />
+					</FormField>
+					<FormField width="one-third">
+						<FormInput placeholder="Zip Code" />
+					</FormField>
+					<FormField width="two-thirds">
+						<FormInput placeholder="Country" />
+					</FormField>
+				</FormRow>
 			</div>
 		);
 	}
