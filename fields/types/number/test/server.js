@@ -61,7 +61,7 @@ exports.testFieldType = function(List) {
 		testItem.number = 1;
 		demand(List.fields.number.validateInput({
 			number: ''
-		}, true, testItem)).be(true);
+		}, true, testItem)).be(false);
 		testItem.number = undefined;
 	});
 

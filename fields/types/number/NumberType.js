@@ -71,14 +71,14 @@ number.prototype.format = function(item, format) {
  */
 number.prototype.validateInput = function(data, required, item) {
 	var value = this.getValueFromData(data);
-	if ((value === undefined || value === '') && item && (item.get(this.path) || item.get(this.path) === 0)) {
+	if (value === undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
 		return true;
 	}
-	if (value === undefined || value === '') {
-		return (required) ? false : true;
-	} else {
+	if (value !== undefined && value !== '') {
 		var newValue = utils.number(value);
 		return (!isNaN(newValue));
+	} else {
+		return (required) ? false : true;
 	}
 };
 
