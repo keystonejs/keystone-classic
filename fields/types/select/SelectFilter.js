@@ -25,8 +25,8 @@ var SelectFilter = React.createClass({
 
 	renderToggle () {
 		let options = [
-			{ label: 'Does Match', value: true },
-			{ label: 'Does NOT Match', value: false }
+			{ label: 'Does Match', value: false },
+			{ label: 'Does NOT Match', value: true }
 		];
 
 		return <SegmentedControl equalWidthSegments type="primary" options={options} value={this.state.inverted} onChange={this.toggleInverted} />;
