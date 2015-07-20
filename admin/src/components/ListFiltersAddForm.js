@@ -13,10 +13,6 @@ var ListHeader = React.createClass({
 		onCancel: React.PropTypes.func
 	},
 
-	componentDidMount () {
-		// React.findDOMNode(this.refs.input).focus();
-	},
-
 	handleFormSubmit (e) {
 		e.preventDefault();
 		this.props.onApply();

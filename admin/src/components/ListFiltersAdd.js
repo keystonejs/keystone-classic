@@ -4,25 +4,10 @@ var blacklist = require('blacklist');
 var classNames = require('classnames');
 var utils = require('../utils.js');
 
+var HeightDetector = require('./HeightDetector');
 var ListFiltersAddForm = require('./ListFiltersAddForm');
 
 var { Button, InputGroup } = require('elemental');
-
-const TOGGLE_OPTIONS = ['Contains', 'Exactly']; // Text
-// const TOGGLE_OPTIONS = ['Linked To', 'NOT Linked To']; // Relationship
-// const TOGGLE_OPTIONS = ['Checked', 'NOT Checked']; // Boolean
-// const TOGGLE_OPTIONS = ['Exactly', 'Greater Than', 'Less Than', 'Between']; // Number
-// const TOGGLE_OPTIONS = ['On', 'After', 'Before', 'Between']; // Date
-
-var HeightDetector = React.createClass({
-	componentDidMount () {
-		this.props.onLayout && this.props.onLayout(this.getDOMNode().offsetHeight);
-	},
-	render () {
-		var props = blacklist(this.props, 'onLayout', 'children');
-		return <div {...props}>{this.props.children}</div>
-	}
-});
 
 var ListFiltersAdd = React.createClass({
 
@@ -77,7 +62,7 @@ var ListFiltersAdd = React.createClass({
 
 	renderButton () {
 		return (
-			<Button ref="addFilterButton" type="primary" onClick={this.state.isOpen ? this.closePopout : this.openPopout}>Add Filter</Button>
+			<Button type="primary" onClick={this.state.isOpen ? this.closePopout : this.openPopout}>Add Filter</Button>
 		);
 	},
 
