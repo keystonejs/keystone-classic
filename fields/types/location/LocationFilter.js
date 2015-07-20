@@ -54,10 +54,10 @@ var TextFilter = React.createClass({
 					<FormField width="one-third">
 						<FormInput placeholder="State" />
 					</FormField>
-					<FormField width="one-third">
+					<FormField width="one-third" style={{ marginBottom: 0 }}>
 						<FormInput placeholder="Zip Code" />
 					</FormField>
-					<FormField width="two-thirds">
+					<FormField width="two-thirds" style={{ marginBottom: 0 }}>
 						<FormInput placeholder="Country" />
 					</FormField>
 				</FormRow>

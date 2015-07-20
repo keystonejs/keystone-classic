@@ -46,10 +46,10 @@ var NumberFilter = React.createClass({
 		if (modeValue === 'between') {
 			controls = (
 				<FormRow>
-					<FormField width="one-half">
+					<FormField width="one-half" style={{ marginBottom: 0 }}>
 						<FormInput type="number" ref="input" placeholder="Min." />
 					</FormField>
-					<FormField width="one-half">
+					<FormField width="one-half" style={{ marginBottom: 0 }}>
 						<FormInput type="number" placeholder="Max." />
 					</FormField>
 				</FormRow>
