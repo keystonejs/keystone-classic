@@ -15,13 +15,6 @@ function text(list, path, options) {
 util.inherits(text, FieldType);
 
 /**
- * Crops the string to the specifed length.
- */
-text.prototype.crop = function(item, length, append, preserveWords) {
-	return utils.cropString(item.get(this.path), length, append, preserveWords);
-};
-
-/**
  * Add filters to a query
  */
 text.prototype.addFilterToQuery = function(filter, query) {
@@ -40,6 +33,13 @@ text.prototype.addFilterToQuery = function(filter, query) {
 	}
 	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
 	query[this.path] = filter.invert ? { $not: value } : value;
+};
+
+/**
+ * Crops the string to the specifed length.
+ */
+text.prototype.crop = function(item, length, append, preserveWords) {
+	return utils.cropString(item.get(this.path), length, append, preserveWords);
 };
 
 /* Export Field Type */
