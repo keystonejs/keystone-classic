@@ -18,7 +18,7 @@ function number(list, path, options) {
 	}
 	number.super_.call(this, list, path, options);
 }
-util.inherits(number, super_);
+util.inherits(number, FieldType);
 
 /**
  * Add filters to a query
