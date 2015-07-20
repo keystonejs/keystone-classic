@@ -56,8 +56,6 @@ number.prototype.addFilterToQuery = function(filter, query) {
 
 /**
  * Formats the field value
- *
- * @api public
  */
 number.prototype.format = function(item, format) {
 	if (format || this._formatString) {
@@ -69,10 +67,7 @@ number.prototype.format = function(item, format) {
 
 /**
  * Checks that a valid number has been provided in a data object
- *
  * An empty value clears the stored value and is considered valid
- *
- * @api public
  */
 number.prototype.validateInput = function(data, required, item) {
 	var value = this.getValueFromData(data);
@@ -89,23 +84,20 @@ number.prototype.validateInput = function(data, required, item) {
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
 number.prototype.updateItem = function(item, data) {
-	var value = this.getValueFromData(data);
-	if ((value === undefined || value === '') && 'number' === typeof item.get(this.path)) {
-		item.set(this.path, null);
-		return;
-	}
-	var newValue = utils.number(value);
-	if (!isNaN(newValue)) {
-		if (newValue !== item.get(this.path)) {
-			item.set(this.path, newValue);
-		}
-	} else if ('number' === typeof item.get(this.path)) {
-		item.set(this.path, null);
-	}
+ 	var value = this.getValueFromData(data);
+ 	if (value === undefined) {
+ 		return;
+ 	}
+ 	var newValue = utils.number(value);
+ 	if (!isNaN(newValue)) {
+ 		if (newValue !== item.get(this.path)) {
+ 			item.set(this.path, newValue);
+ 		}
+ 	} else if ('number' === typeof item.get(this.path)) {
+ 		item.set(this.path, null);
+ 	}
 };
 
 /* Export Field Type */
