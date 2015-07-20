@@ -19,7 +19,7 @@ module.exports = {
 	// markdown:         require('../../fields/types/markdown/MarkdownFilter'),
 	// money:            require('../../fields/types/money/MoneyFilter'),
 	// name:             require('../../fields/types/name/NameFilter'),
-	// number:           require('../../fields/types/number/NumberFilter'),
+	number:           require('../../fields/types/number/NumberFilter'),
 	// numberarray:      require('../../fields/types/numberarray/NumberArrayFilter'),
 	// password:         require('../../fields/types/password/PasswordFilter'),
 	relationship:     require('../../fields/types/relationship/RelationshipFilter'),
