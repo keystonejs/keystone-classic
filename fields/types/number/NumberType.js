@@ -86,18 +86,18 @@ number.prototype.validateInput = function(data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 number.prototype.updateItem = function(item, data) {
- 	var value = this.getValueFromData(data);
- 	if (value === undefined) {
- 		return;
- 	}
- 	var newValue = utils.number(value);
- 	if (!isNaN(newValue)) {
- 		if (newValue !== item.get(this.path)) {
- 			item.set(this.path, newValue);
- 		}
- 	} else if ('number' === typeof item.get(this.path)) {
- 		item.set(this.path, null);
- 	}
+	var value = this.getValueFromData(data);
+	if (value === undefined) {
+		return;
+	}
+	var newValue = utils.number(value);
+	if (!isNaN(newValue)) {
+		if (newValue !== item.get(this.path)) {
+			item.set(this.path, newValue);
+		}
+	} else if ('number' === typeof item.get(this.path)) {
+		item.set(this.path, null);
+	}
 };
 
 /* Export Field Type */
