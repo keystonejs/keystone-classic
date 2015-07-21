@@ -12,7 +12,8 @@ function code(list, path, options) {
 	this._nativeType = String;
 	this._defaultSize = 'full';
 	this.height = options.height || 180;
-	this._properties = ['editor', 'height'];
+	this.lang = options.lang || options.language;
+	this._properties = ['editor', 'height', 'lang'];
 	this.codemirror = options.codemirror || {};
 	this.editor = _.defaults(this.codemirror, { mode : this.lang });
 	code.super_.call(this, list, path, options);
