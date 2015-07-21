@@ -2,7 +2,6 @@ var FieldType = require('../Type');
 var NumberType = require('../number/NumberType');
 var numeral = require('numeral');
 var util = require('util');
-var utils = require('keystone-utils');
 
 /**
  * Money FieldType Constructor

@@ -22,7 +22,7 @@ function datetime(list, path, options) {
 	if (this.formatString && 'string' !== typeof this.formatString) {
 		throw new Error('FieldType.DateTime: options.format must be a string.');
 	}
-	datetime.super_.call(this, list, path, options)
+	datetime.super_.call(this, list, path, options);
 	this.paths = {
 		date: this._path.append('_date'),
 		time: this._path.append('_time')
