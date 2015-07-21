@@ -101,6 +101,18 @@ select.prototype.cloneMap = function() {
 };
 
 /**
+ * Add filters to a query
+ */
+select.prototype.addFilterToQuery = function(filter, query) {
+	query = query || {};
+	if (filter.value) {
+		query[this.path] = (filter.invert) ? { $ne: value } : value;
+	} else {
+		query[this.path] = (filter.inverse) ? { $nin: ['', null] } : { $in: ['', null] };
+	}
+};
+
+/**
  * Validates that a valid option has been provided in a data object
  */
 select.prototype.validateInput = function(data, required, item) {
