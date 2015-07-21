@@ -70,6 +70,26 @@ relationship.prototype.addToSchema = function() {
 };
 
 /**
+ * Add filters to a query
+ */
+relationship.prototype.addFilterToQuery = function(filter, query) {
+	query = query || {};
+	if (this.many) {
+		if (filter.value) {
+			query[this.path] = (filter.inverse) ? { $nin: [filter.value] } : { $in: [filter.value] };
+		} else {
+			query[this.path] = (filter.inverse) ? { $not: { $size: 0 } } : { $size: 0 };
+		}
+	} else {
+		if (filter.value) {
+			query[this.path] = (filter.inverse) ? { $ne: filter.value } : filter.value;
+		} else {
+			query[this.path] = (filter.inverse) ? { $ne: null } : null;
+		}
+	}
+};
+
+/**
  * Formats the field value
  */
 relationship.prototype.format = function(item) {
