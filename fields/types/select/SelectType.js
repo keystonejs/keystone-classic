@@ -106,7 +106,7 @@ select.prototype.cloneMap = function() {
 select.prototype.addFilterToQuery = function(filter, query) {
 	query = query || {};
 	if (filter.value) {
-		query[this.path] = (filter.invert) ? { $ne: value } : value;
+		query[this.path] = (filter.invert) ? { $ne: filter.value } : filter.value;
 	} else {
 		query[this.path] = (filter.inverse) ? { $nin: ['', null] } : { $in: ['', null] };
 	}
