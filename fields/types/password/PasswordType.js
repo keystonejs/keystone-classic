@@ -77,6 +77,14 @@ password.prototype.addToSchema = function() {
 };
 
 /**
+ * Add filters to a query
+ */
+password.prototype.addFilterToQuery = function(filter, query) {
+	query = query || {};
+	query[this.path] = (filter.exists) ? { $ne: null } : null;
+};
+
+/**
  * Formats the field value
  *
  * Password fields are always formatted as a random no. of asterisks,
