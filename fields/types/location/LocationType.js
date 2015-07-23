@@ -267,7 +267,9 @@ location.prototype.updateItem = function(item, data) {
 	if (valuePaths.geo in values) {
 
 		var oldGeo = item.get(paths.geo) || [],
-			newGeo = values[valuePaths.geo];
+			newLat = utils.number(values[valuePaths.geo][0]),
+			newLng = utils.number(values[valuePaths.geo][1]),
+			newGeo = [newLng, newLat];
 
 		if (!Array.isArray(newGeo) || newGeo.length !== 2) {
 			newGeo = [];
