@@ -101,11 +101,32 @@ module.exports = Field.create({
 		var values = null;
 
 		if (this.hasFile() && !this.state.removeExisting) {
-			values = (
-				<div className='file-values'>
-					<div className='field-value'>{this.getFilename()}</div>
-				</div>
-			);
+			var path = this.props.value.path;
+			var uploadedRootFolder = Keystone.uploadedRootFolder || '';
+			var filename = this.getFilename();
+			var src = '', filetype;
+
+			console.log('renderFileDetails');
+			console.log(path);
+			path = uploadedRootFolder ? path.replace(uploadedRootFolder + '/', '') : path;
+			src = "/" + path + '/' + filename;
+			
+			filetype = (this.props.value.filetype || '').toLowerCase();
+			if (filetype.indexOf('image') > -1) {
+				values = (
+					<div className='file-values'>
+						<div className='field-value'>{filename}</div>
+						<img src={src} alt="" style={{maxWidth:"100px"}} />
+					</div>
+				);
+			} else {
+				values = (
+					<div className='file-values'>
+						<div className='field-value'>{filename}</div>
+					</div>
+				);
+			}
+			
 		}
 
 		return (

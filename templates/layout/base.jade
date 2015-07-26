@@ -114,6 +114,8 @@ html
 		//- App
 		script.
 			var Keystone = {};
+			Keystone.lang = "#{lang}";
+			Keystone.uploadedRootFolder = "#{uploadedRootFolder}";
 			Keystone.csrf = function(obj) {
 				obj['#{csrf_token_key}'] = "#{csrf_token_value}";
 				return obj;
