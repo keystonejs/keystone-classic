@@ -10,6 +10,7 @@ module.exports = function(req, res) {
 			query.find();
 			query.limit(Number(req.query.limit) || 100);
 			query.skip(Number(req.query.skip) || 0);
+			query.sort(req.query.sort || req.list.defaultSort);
 			query.exec(next);
 		}
 	}, function(err, results) {
