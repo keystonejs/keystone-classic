@@ -14,6 +14,10 @@ block js
 	script(src='/keystone/js/packages.js')
 	script(src='/keystone/js/fields.js')
 	script(src='/keystone/js/item.js')
+
+block js_codemirror
+	if list.fieldTypes.code
+		script(src="/keystone/js/lib/codemirror/codemirror-compressed.js")
 		
 block content
 	// Attach point for new React View
