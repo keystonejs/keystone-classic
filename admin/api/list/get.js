@@ -1,7 +1,16 @@
 var async = require('async');
 
 module.exports = function(req, res) {
-	var query = req.list.model.find();
+	var filters;
+	if (req.query.filters) {
+		try {
+			filters = JSON.parse(req.query.filters);
+		} catch(e) { }
+	}
+	if (filters) {
+		filters = req.list.addFiltersToQuery(filters);
+	}
+	var query = req.list.model.find(filters);
 	async.series({
 		count: function(next) {
 			query.count(next);
