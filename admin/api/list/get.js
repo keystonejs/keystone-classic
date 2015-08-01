@@ -16,7 +16,7 @@ module.exports = function(req, res) {
 		if (err) return res.apiError('database error', err);
 		return res.json({
 			results: results.items.map(function (item) {
-				return req.list.getData(item);
+				return req.list.getData(item, req.query.select);
 			}),
 			count: results.count
 		});
