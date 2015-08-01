@@ -1,13 +1,12 @@
 var async = require('async');
 
 module.exports = function(req, res) {
-	var filters;
-	if (req.query.filters) {
-		try {
-			filters = JSON.parse(req.query.filters);
-		} catch(e) { }
+	var filters = req.query.filters;
+	if (filters && typeof filters === 'string') {
+		try { filters = JSON.parse(req.query.filters); }
+		catch(e) { }
 	}
-	if (filters) {
+	if (typeof filters === 'object') {
 		filters = req.list.addFiltersToQuery(filters);
 	}
 	var query = req.list.model.find(filters);
