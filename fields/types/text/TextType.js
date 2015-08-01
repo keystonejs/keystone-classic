@@ -33,6 +33,7 @@ text.prototype.addFilterToQuery = function(filter, query) {
 	}
 	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
 	query[this.path] = filter.invert ? { $not: value } : value;
+	return query;
 };
 
 /**

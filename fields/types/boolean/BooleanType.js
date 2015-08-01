@@ -25,6 +25,7 @@ boolean.prototype.addFilterToQuery = function(filter, query) {
 	} else {
 		query[this.path] = true;
 	}
+	return query;
 };
 
 /**

@@ -87,6 +87,7 @@ relationship.prototype.addFilterToQuery = function(filter, query) {
 			query[this.path] = (filter.inverse) ? { $ne: null } : null;
 		}
 	}
+	return query;
 };
 
 /**

@@ -82,6 +82,7 @@ password.prototype.addToSchema = function() {
 password.prototype.addFilterToQuery = function(filter, query) {
 	query = query || {};
 	query[this.path] = (filter.exists) ? { $ne: null } : null;
+	return query;
 };
 
 /**

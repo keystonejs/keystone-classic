@@ -52,6 +52,7 @@ number.prototype.addFilterToQuery = function(filter, query) {
 			query[this.path] = value;
 		}
 	}
+	return query;
 };
 
 /**

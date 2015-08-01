@@ -110,6 +110,7 @@ select.prototype.addFilterToQuery = function(filter, query) {
 	} else {
 		query[this.path] = (filter.inverse) ? { $nin: ['', null] } : { $in: ['', null] };
 	}
+	return query;
 };
 
 /**

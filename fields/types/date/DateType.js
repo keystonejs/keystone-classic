@@ -54,6 +54,7 @@ date.prototype.addFilterToQuery = function(filter, query) {
 			}
 		}
 	}
+	return query;
 };
 
 /**
