@@ -1,46 +1,63 @@
-/*!
- * Module dependencies.
- */
-
-var util = require('util'),
-	numeral = require('numeral'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type');
+var FieldType = require('../Type');
+var numeral = require('numeral');
+var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * Number FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function number(list, path, options) {
-	
 	this._nativeType = Number;
 	this._fixedSize = 'small';
 	this._underscoreMethods = ['format'];
 	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
-	
 	if (this._formatString && 'string' !== typeof this._formatString) {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
-	
 	number.super_.call(this, list, path, options);
-	
 }
+util.inherits(number, FieldType);
 
-/*!
- * Inherit from Field
+/**
+ * Add filters to a query
  */
-
-util.inherits(number, super_);
-
+number.prototype.addFilterToQuery = function(filter, query) {
+	query = query || {};
+	if (filter.mode === 'equals' && !filter.value) {
+		query[this.path] = filter.invert ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
+		return;
+	}
+	if (filter.mode === 'between') {
+		var min = utils.number(value.min);
+		var max = utils.number(value.max);
+		if (!isNaN(min) && !isNaN(max)) {
+			query[this.path] = {
+				$gte: min,
+				$lte: max
+			};
+		}
+		return;
+	}
+	var value = utils.number(filter.value);
+	if (!isNaN(value)) {
+		if (filter.mode === 'gt') {
+			query[this.path] = { $gt: value };
+		}
+		else if (filter.mode === 'lt') {
+			query[this.path] = { $lt: value };
+		}
+		else {
+			query[this.path] = value;
+		}
+	}
+	return query;
+};
 
 /**
  * Formats the field value
- *
- * @api public
  */
-
 number.prototype.format = function(item, format) {
 	if (format || this._formatString) {
 		return ('number' === typeof item.get(this.path)) ? numeral(item.get(this.path)).format(format || this._formatString) : '';
@@ -49,50 +66,32 @@ number.prototype.format = function(item, format) {
 	}
 };
 
-
 /**
  * Checks that a valid number has been provided in a data object
- *
  * An empty value clears the stored value and is considered valid
- *
- * @api public
  */
-
 number.prototype.validateInput = function(data, required, item) {
-	
 	var value = this.getValueFromData(data);
-	
-	if ((value === undefined || value === '') && item && (item.get(this.path) || item.get(this.path) === 0)) {
+	if (value === undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
 		return true;
 	}
-	
-	if (value === undefined || value === '') {
-		return (required) ? false : true;
-	} else {
+	if (value !== undefined && value !== '') {
 		var newValue = utils.number(value);
 		return (!isNaN(newValue));
+	} else {
+		return (required) ? false : true;
 	}
-	
 };
-
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
 number.prototype.updateItem = function(item, data) {
-	
 	var value = this.getValueFromData(data);
-	
-	if ((value === undefined || value === '') && 'number' === typeof item.get(this.path)) {
-		item.set(this.path, null);
+	if (value === undefined) {
 		return;
 	}
-	
 	var newValue = utils.number(value);
-	
 	if (!isNaN(newValue)) {
 		if (newValue !== item.get(this.path)) {
 			item.set(this.path, newValue);
@@ -100,12 +99,7 @@ number.prototype.updateItem = function(item, data) {
 	} else if ('number' === typeof item.get(this.path)) {
 		item.set(this.path, null);
 	}
-
 };
 
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 exports = module.exports = number;

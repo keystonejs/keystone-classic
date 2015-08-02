@@ -1,7 +1,7 @@
-var _ = require('underscore'),
-	async = require('async'),
-	keystone = require('../../'),
-	jade = require('jade');
+var _ = require('underscore');
+var async = require('async');
+var keystone = require('../../');
+var jade = require('jade');
 
 exports = module.exports = function(req, res) {
 
@@ -24,17 +24,17 @@ exports = module.exports = function(req, res) {
 	switch (req.params.action) {
 
 		case 'autocomplete':
-			var limit = req.query.limit || 50,
-				page = req.query.page || 1,
-				skip = limit * (page - 1);
+			var limit = req.query.limit || 50;
+			var page = req.query.page || 1;
+			var skip = limit * (page - 1);
 				
 			var filters = req.list.getSearchFilters(req.query.q);
 
-			var count = req.list.model.count(filters),
-				query = req.list.model.find(filters)
-					.limit(limit)
-					.skip(skip)
-					.sort(req.list.defaultSort);
+			var count = req.list.model.count(filters);
+			var query = req.list.model.find(filters)
+				.limit(limit)
+				.skip(skip)
+				.sort(req.list.defaultSort);
 
 			if (req.query.context === 'relationship') {
 				var srcList = keystone.list(req.query.list);
@@ -74,34 +74,14 @@ exports = module.exports = function(req, res) {
 
 		break;
 
-		case 'get':
-
-			req.list.model.findById(req.query.id).exec(function(err, item) {
-
-				if (err) return sendError('database error', err);
-				if (!item) return sendResponse({ name: req.query.id, id: req.query.id });
-
-				switch (req.query.dataset) {
-					case 'simple':
-						return sendResponse({
-							name: req.list.getDocumentName(item, false),
-							id: item.id
-						});
-					default:
-						return sendResponse(item);
-				}
-			});
-
-		break;
-
 		case 'order':
 
 			if (!keystone.security.csrf.validate(req)) {
 				return sendError('invalid csrf');
 			}
 
-			var order = req.query.order || req.body.order,
-				queue = [];
+			var order = req.query.order || req.body.order;
+			var queue = [];
 
 			if ('string' === typeof order) {
 				order = order.split(',');
@@ -131,9 +111,9 @@ exports = module.exports = function(req, res) {
 				return sendError('invalid csrf');
 			}
 
-			var item = new req.list.model(),
-				updateHandler = item.getUpdateHandler(req),
-				data = (req.method === 'POST') ? req.body : req.query;
+			var item = new req.list.model();
+			var updateHandler = item.getUpdateHandler(req);
+			var data = (req.method === 'POST') ? req.body : req.query;
 
 			if (req.list.nameIsInitial) {
 				if (req.list.nameField.validateInput(data)) {
@@ -164,40 +144,6 @@ exports = module.exports = function(req, res) {
 
 		break;
 
-		case 'delete':
-
-			if (!keystone.security.csrf.validate(req)) {
-				return sendError('invalid csrf');
-			}
-
-			if (req.list.get('nodelete')) {
-				return sendError('nodelete');
-			}
-
-			var id = req.body.id || req.query.id;
-			
-			if (req.user && id === req.user.id) {
-				return sendError('You can not delete yourself');
-			}
-			
-			req.list.model.findById(id).exec(function (err, item) {
-
-				if (err) return sendError('database error', err);
-				if (!item) return sendError('not found');
-
-				item.remove(function (err) {
-					if (err) return sendError('database error', err);
-
-					return sendResponse({
-						success: true,
-						count: 1
-					});
-				});
-
-			});
-
-		break;
-
 		case 'fetch':
 		
 			if (!keystone.security.csrf.validate(req)) {
@@ -206,10 +152,10 @@ exports = module.exports = function(req, res) {
 			
 			(function() {
 
-				var queryFilters = req.list.getSearchFilters(req.query.search, req.query.filters),
-					skip = parseInt(req.query.items.last) - 1,
-					querystring = require('querystring'),
-					link_to = function(params) {
+				var queryFilters = req.list.getSearchFilters(req.query.search, req.query.filters);
+				var skip = parseInt(req.query.items.last) - 1;
+				var querystring = require('querystring');
+				var link_to = function(params) {
 						var p = params.page || '';
 						delete params.page;
 						var queryParams = _.clone(req.query.q);
@@ -223,8 +169,8 @@ exports = module.exports = function(req, res) {
 						return '/keystone/' + req.list.path + (p ? '/' + p : '') + (params ? '?' + params : '');
 					};
 
-				var query = req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1),
-					columns = req.list.expandColumns(req.query.cols);
+				var query = req.list.model.find(queryFilters).sort(req.query.sort).skip(skip).limit(1);
+				var columns = req.list.expandColumns(req.query.cols);
 
 				req.list.selectColumns(query, columns);
 
