@@ -2,7 +2,6 @@ var _ = require('underscore');
 var React = require('react');
 
 var LocationColumn = React.createClass({
-
 	renderValue: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value || !_.size(value)) return;
@@ -14,7 +13,6 @@ var LocationColumn = React.createClass({
 		});
 		return output.join(', ');
 	},
-
 	render: function() {
 		return (
 			<td>
@@ -22,7 +20,6 @@ var LocationColumn = React.createClass({
 			</td>
 		);
 	}
-	
 });
 
 module.exports = LocationColumn;

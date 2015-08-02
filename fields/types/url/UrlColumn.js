@@ -1,7 +1,6 @@
 var React = require('react');
 
 var UrlColumn = React.createClass({
-
 	renderValue: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
@@ -14,10 +13,9 @@ var UrlColumn = React.createClass({
 
 		// strip the protocol from the link if it's http(s)
 		var label = value.replace(/^https?\:\/\//i, '');
-
+		
 		return <a href={href} target="_blank">{label}</a>;
 	},
-
 	render: function() {
 		return (
 			<td>
@@ -25,7 +23,6 @@ var UrlColumn = React.createClass({
 			</td>
 		);
 	}
-	
 });
 
 module.exports = UrlColumn;

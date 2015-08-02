@@ -1,7 +1,6 @@
 var React = require('react');
 
 var GeoPointColumn = React.createClass({
-
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		if (value.length > 0) {
@@ -16,9 +15,8 @@ var GeoPointColumn = React.createClass({
 					<div className="ItemList__col-value"></div>
 				</td>
 			);
-		}	
+		}
 	}
-	
 });
 
 module.exports = GeoPointColumn;

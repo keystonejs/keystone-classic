@@ -9,7 +9,7 @@ var BooleanColumn = React.createClass({
 				<img src={imgSrc} width="16" height="16" />
 			</td>
 		);
-	},
+	}
 });
 
 module.exports = BooleanColumn;

@@ -1,7 +1,6 @@
 var React = require('react');
 
 var SelectColumn = React.createClass({
-
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		return (
@@ -10,7 +9,6 @@ var SelectColumn = React.createClass({
 			</td>
 		);
 	}
-	
 });
 
 module.exports = SelectColumn;

@@ -1,7 +1,6 @@
 var React = require('react');
 
 var NumberColumn = React.createClass({
-
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		return (

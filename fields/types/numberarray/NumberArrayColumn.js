@@ -1,7 +1,6 @@
 var React = require('react');
 
 var NumberArrayColumn = React.createClass({
-
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		if (value.length > 0) {
@@ -9,7 +8,7 @@ var NumberArrayColumn = React.createClass({
 				<td>
 					{ value.map(function(date) {
 						return <div className="ItemList__col-value" key={date.id}>{date}</div>;
-					})}	
+					})}
 				</td>
 			);
 		} else {
@@ -18,7 +17,7 @@ var NumberArrayColumn = React.createClass({
 			);
 		}
 	}
-	
+
 });
 
 module.exports = NumberArrayColumn;

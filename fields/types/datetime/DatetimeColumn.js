@@ -2,7 +2,6 @@ var React = require('react');
 var moment = require('moment');
 
 var DatetimeColumn = React.createClass({
-
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		var formattedValue = moment(value).format('MMMM Do YYYY, h:mm:ss a');
@@ -12,7 +11,6 @@ var DatetimeColumn = React.createClass({
 			</td>
 		);
 	}
-	
 });
 
 module.exports = DatetimeColumn;
