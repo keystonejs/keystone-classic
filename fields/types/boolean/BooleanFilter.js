@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import { SegmentedControl } from 'elemental';
@@ -16,21 +15,13 @@ var BooleanFilter = React.createClass({
 			checked: checked
 		});
 	},
-
-	renderToggle () {
+	render () {
 		let options = [
 			{ label: 'Is Checked', value: true },
 			{ label: 'Is NOT Checked', value: false }
 		];
 
 		return <SegmentedControl equalWidthSegments type="primary" options={options} value={this.state.checked} onChange={this.toggleChecked} />;
-	},
-
-	render () {
-		let { field } = this.props;
-		let { checked } = this.state;
-
-		return this.renderToggle();
 	}
 
 });
