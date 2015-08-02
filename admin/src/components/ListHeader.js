@@ -2,23 +2,12 @@ var React = require('react');
 var classNames = require('classnames');
 var utils = require('../utils.js');
 
+var CurrentListStore = require('../stores/CurrentListStore');
+
 var ListFilters = require('./ListFilters');
 var ListFiltersAdd = require('./ListFiltersAdd');
 
 var { Button, Dropdown, FormInput, InputGroup, Pagination } = require('elemental');
-
-const CURRENT_FILTERS = [
-	'Created Date between 21/08/2014 and 21/09/2014',
-	'Email contains "@gmail"',
-	'Is NOT Admin'
-];
-
-const COLUMNS = Keystone.list.uiElements.map(function(col,i) {
-	return {
-		type:  col.type === 'heading' ? 'header' : 'item',
-		label: col.type === 'heading' ? col.content : utils.titlecase(col.field)
-	}
-});
 
 var ListHeader = React.createClass({
 
@@ -28,12 +17,6 @@ var ListHeader = React.createClass({
 		return {
 			searchString: ''
 		};
-	},
-
-	componentDidMount () {
-		console.info('Items:', Keystone.items);
-		console.info('List:',  Keystone.list);
-		console.info('Sort:',  Keystone.sort);
 	},
 
 	handleSearch (e) {
@@ -99,7 +82,7 @@ var ListHeader = React.createClass({
 	renderColumnsButton () {
 		return (
 			<InputGroup.Section>
-				<Dropdown alignRight items={COLUMNS} onSelect={this.handleColumnSelect}>
+				<Dropdown alignRight items={CurrentListStore.getAvailableColumns()} onSelect={this.handleColumnSelect}>
 					<Button>
 						Columns
 						<span className="disclosure-arrow" />
@@ -112,7 +95,7 @@ var ListHeader = React.createClass({
 	renderSortButton () {
 		return (
 			<InputGroup.Section>
-				<Dropdown alignRight items={COLUMNS} onSelect={this.handleSortSelect}>
+				<Dropdown alignRight items={CurrentListStore.getAvailableColumns()} onSelect={this.handleSortSelect}>
 					<Button>
 						Sort
 						<span className="disclosure-arrow" />
@@ -133,7 +116,7 @@ var ListHeader = React.createClass({
 						{this.renderColumnsButton()}
 						{this.renderSortButton()}
 					</InputGroup>
-					<ListFilters filters={CURRENT_FILTERS} />
+					<ListFilters filters={CurrentListStore.getActiveFilters()} />
 					<Pagination pagination={Keystone.items} onClick={this.handlePageSelect} className="ListHeader__pagination" />
 				</div>
 			</div>
