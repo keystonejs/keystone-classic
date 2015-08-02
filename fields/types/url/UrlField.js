@@ -5,7 +5,7 @@ var Button = require('elemental').Button;
 var FormInput = require('elemental').FormInput;
 
 module.exports = Field.create({
-	
+
 	displayName: 'URLField',
 
 	openValue: function() {
@@ -34,6 +34,6 @@ module.exports = Field.create({
 	},
 	renderValue: function() {
 		return <FormInput noedit onClick={this.openValue}>{this.props.value}</FormInput>;
-	},
-	
+	}
+
 });

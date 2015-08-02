@@ -1,14 +1,13 @@
 import _ from 'underscore';
-import classNames from 'classnames';
 import React from 'react';
 
 import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
 
 const MODE_OPTIONS = [
-	{ label: 'Exactly',     value: 'exactly' },
-	{ label: 'Contains',    value: 'contains' },
+	{ label: 'Exactly', value: 'exactly' },
+	{ label: 'Contains', value: 'contains' },
 	{ label: 'Begins with', value: 'beginsWith' },
-	{ label: 'Ends with',   value: 'endsWith' }
+	{ label: 'Ends with', value: 'endsWith' }
 ];
 
 var TextFilter = React.createClass({

@@ -1,14 +1,13 @@
 import _ from 'underscore';
-import classNames from 'classnames';
 import React from 'react';
 
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
 const CONTROL_OPTIONS = [
-	{ label: 'Exactly',      value: 'exactly' },
+	{ label: 'Exactly', value: 'exactly' },
 	{ label: 'Greater Than', value: 'greaterThan' },
-	{ label: 'Less Than',    value: 'lessThan' },
-	{ label: 'Between',      value: 'between' }
+	{ label: 'Less Than', value: 'lessThan' },
+	{ label: 'Between', value: 'between' }
 ];
 
 var NumberFilter = React.createClass({
@@ -66,7 +65,7 @@ var NumberFilter = React.createClass({
 	},
 
 	render () {
-		let { modeLabel, modeValue } = this.state;
+		let { modeValue } = this.state;
 
 		return (
 			<div>

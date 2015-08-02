@@ -18,7 +18,7 @@ module.exports = {
 			values: this.props.value.map(newItem)
 		};
 	},
-	
+
 	componentWillReceiveProps: function(nextProps) {
 		if (nextProps.value.join('|') !== _.pluck(this.state.values, 'value').join('|')) {
 			this.setState({
@@ -26,8 +26,8 @@ module.exports = {
 			});
 		}
 	},
-	
-	addItem: function(i) {
+
+	addItem: function() {
 		var self = this;
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
@@ -38,7 +38,7 @@ module.exports = {
 		});
 		this.valueChanged(_.pluck(newValues, 'value'));
 	},
-	
+
 	removeItem: function(i) {
 		var newValues = _.without(this.state.values, i);
 		this.setState({
@@ -48,7 +48,7 @@ module.exports = {
 		});
 		this.valueChanged(_.pluck(newValues, 'value'));
 	},
-	
+
 	updateItem: function(i, event) {
 		var updatedValues = this.state.values;
 		var updateIndex = updatedValues.indexOf(i);
@@ -58,14 +58,14 @@ module.exports = {
 		});
 		this.valueChanged(_.pluck(updatedValues, 'value'));
 	},
-	
+
 	valueChanged: function(values) {
 		this.props.onChange({
 			path: this.props.path,
 			value: values
 		});
 	},
-	
+
 	renderItem: function(item, index) {
 		return (
 			<FormField key={item.key}>
@@ -76,7 +76,7 @@ module.exports = {
 			</FormField>
 		);
 	},
-	
+
 	renderField: function () {
 		return (
 			<div>
@@ -85,7 +85,7 @@ module.exports = {
 			</div>
 		);
 	},
-	
+
 	// Override shouldCollapse to check for array length
 	shouldCollapse: function () {
 		return this.props.collapse && !this.props.value.length;

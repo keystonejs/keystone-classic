@@ -5,12 +5,12 @@ import React from 'react';
 import { FormField, FormInput, FormSelect } from 'elemental';
 
 const CONTROL_OPTIONS = [
-	{ label: 'Matches',     value: 'matches' },
-	{ label: 'Contains',    value: 'contains' },
+	{ label: 'Matches', value: 'matches' },
+	{ label: 'Contains', value: 'contains' },
 	{ label: 'Begins with', value: 'beginsWith' },
-	{ label: 'Ends with',   value: 'endsWith' },
-	{ label: 'Is',          value: 'is' },
-	{ label: 'Is not',      value: 'isNot' },
+	{ label: 'Ends with', value: 'endsWith' },
+	{ label: 'Is', value: 'is' },
+	{ label: 'Is not', value: 'isNot' }
 ];
 
 var TextareaFilter = React.createClass({

@@ -1,8 +1,6 @@
-import _ from 'underscore';
-import classNames from 'classnames';
 import React from 'react';
 
-import { Checkbox, FormField, SegmentedControl } from 'elemental';
+import { Checkbox, SegmentedControl } from 'elemental';
 
 var SelectFilter = React.createClass({
 
@@ -14,7 +12,7 @@ var SelectFilter = React.createClass({
 	},
 
 	toggleAllCheckboxes () {
-		console.log('Toggle all checkboxes')
+		console.log('Toggle all checkboxes');
 	},
 
 	toggleInverted (value) {
@@ -34,7 +32,7 @@ var SelectFilter = React.createClass({
 
 	renderCheckboxes () {
 		let checkboxes = this.props.field.ops.map((opt) => {
-			return <Checkbox label={opt.label} value={opt.label} />
+			return <Checkbox label={opt.label} value={opt.label} />;
 		});
 
 		checkboxes.unshift(<Checkbox onChange={this.toggleAllCheckboxes} label="Toggle all" />);
