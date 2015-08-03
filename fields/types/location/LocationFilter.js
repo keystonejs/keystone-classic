@@ -9,12 +9,20 @@ const MODE_OPTIONS = [
 	{ label: 'Contains',    value: 'contains' }
 ];
 
+const TOGGLE_OPTIONS = [
+	{ label: 'Matches', value: false },
+	{ label: 'Does NOT Match', value: true }
+];
+
 var TextFilter = React.createClass({
 
 	getInitialState () {
 		return {
 			inverted: false,
-			value: ''
+			city: '',
+			state: '',
+			code: '',
+			country: ''
 		};
 	},
 
@@ -29,36 +37,27 @@ var TextFilter = React.createClass({
 		});
 	},
 
-	renderToggle () {
-		let options = [
-			{ label: 'Matches', value: false },
-			{ label: 'Does NOT Match', value: true }
-		];
-
-		return <SegmentedControl equalWidthSegments type="primary" options={options} value={this.state.inverted} onChange={this.toggleInverted} />;
-	},
-
 	render () {
 		let { modeLabel, modeValue } = this.state;
 
 		return (
 			<div>
-				{this.renderToggle()}
+				<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
 				<FormField>
 					<FormInput ref="focusTarget" placeholder="Address" />
 				</FormField>
 				<FormRow>
 					<FormField width="two-thirds">
-						<FormInput placeholder="City" />
+						<FormInput placeholder="City" value={this.state.city} />
 					</FormField>
 					<FormField width="one-third">
-						<FormInput placeholder="State" />
+						<FormInput placeholder="State" value={this.state.state} />
 					</FormField>
 					<FormField width="one-third" style={{ marginBottom: 0 }}>
-						<FormInput placeholder="Zip Code" />
+						<FormInput placeholder="Postcode" value={this.state.code} />
 					</FormField>
 					<FormField width="two-thirds" style={{ marginBottom: 0 }}>
-						<FormInput placeholder="Country" />
+						<FormInput placeholder="Country" value={this.state.country} />
 					</FormField>
 				</FormRow>
 			</div>

@@ -3,6 +3,11 @@ import React from 'react';
 
 import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
 
+const TOGGLE_OPTIONS = [
+	{ label: 'Matches', value: false },
+	{ label: 'Does NOT Match', value: true }
+];
+
 const MODE_OPTIONS = [
 	{ label: 'Exactly', value: 'exactly' },
 	{ label: 'Contains', value: 'contains' },
@@ -43,15 +48,6 @@ var TextFilter = React.createClass({
 		React.findDOMNode(this.refs.focusTarget).focus();
 	},
 
-	renderToggle () {
-		let options = [
-			{ label: 'Matches', value: false },
-			{ label: 'Does NOT Match', value: true }
-		];
-
-		return <SegmentedControl equalWidthSegments type="primary" options={options} value={this.state.inverted} onChange={this.toggleInverted} />;
-	},
-
 	render () {
 		let { field } = this.props;
 		let { modeLabel, modeValue } = this.state;
@@ -60,7 +56,7 @@ var TextFilter = React.createClass({
 
 		return (
 			<div>
-				{this.renderToggle()}
+				<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
 				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={modeValue} />
 				<FormField>
 					<FormInput ref="focusTarget" placeholder={placeholder} />
