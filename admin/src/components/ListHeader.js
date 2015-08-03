@@ -112,7 +112,7 @@ var ListHeader = React.createClass({
 					{this.renderTitle()}
 					<InputGroup contiguous={false} className="ListHeader__searchbar">
 						{this.renderSearch()}
-						<ListFiltersAdd key="listFilters__add" />
+						<ListFiltersAdd />
 						{this.renderColumnsButton()}
 						{this.renderSortButton()}
 					</InputGroup>

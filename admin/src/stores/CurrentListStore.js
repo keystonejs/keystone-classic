@@ -31,6 +31,14 @@ var CurrentListStore = new Store({
 	},
 	getAvailableFilters () {
 		return available.filters;
+	},
+	addFilter (filter) {
+		active.filters.push(filter);
+		this.notifyChange();
+	},
+	removeFilter (filter) {
+		active.filters.splice(active.filters.indexOf(filter), 1);
+		this.notifyChange();
 	}
 });
 

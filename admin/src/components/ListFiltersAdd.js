@@ -4,6 +4,8 @@ var blacklist = require('blacklist');
 var classNames = require('classnames');
 var utils = require('../utils.js');
 
+var CurrentListStore = require('../stores/CurrentListStore');
+
 var HeightDetector = require('./HeightDetector');
 var ListFiltersAddForm = require('./ListFiltersAddForm');
 
@@ -48,6 +50,13 @@ var ListFiltersAdd = React.createClass({
 	selectField (field) {
 		this.setState({
 			selectedField: field
+		});
+	},
+
+	applyFilter (value) {
+		CurrentListStore.addFilter({
+			field: this.state.selectedField,
+			value: value
 		});
 	},
 
@@ -96,7 +105,7 @@ var ListFiltersAdd = React.createClass({
 	renderForm () {
 		return (
 			<HeightDetector onLayout={this.setPopoutHeight} key="form" className="popout-pane">
-				<ListFiltersAddForm field={this.state.selectedField} onApply={this.closePopout} onCancel={this.closePopout} onBack={this.navigateBack} />
+				<ListFiltersAddForm field={this.state.selectedField} onApply={this.applyFilter} onCancel={this.closePopout} onBack={this.navigateBack} />
 			</HeightDetector>
 		);
 	},

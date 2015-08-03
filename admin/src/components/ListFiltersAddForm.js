@@ -5,7 +5,7 @@ var filters = require('../filters');
 
 var { Button } = require('elemental');
 
-var ListHeader = React.createClass({
+var ListFiltersAddForm = React.createClass({
 
 	propTypes: {
 		field: React.PropTypes.object.isRequired,
@@ -33,7 +33,7 @@ var ListHeader = React.createClass({
 					<span className="ListFiltersForm__header__label">{this.props.field.label}</span>
 				</div>
 				<div className="ListFiltersForm__body">
-					{TypeFilter ? <TypeFilter field={this.props.field} /> : this.renderInvalidFilter()}
+					{TypeFilter ? <TypeFilter field={this.props.field} onChange={this.updateValue} /> : this.renderInvalidFilter()}
 				</div>
 				<div className="ListFiltersForm__footer">
 					<Button onClick={this.props.onApply} type="link" className="ListFiltersForm__footer-button ListFiltersForm__footer-button--apply" submit>Apply</Button>
@@ -45,4 +45,4 @@ var ListHeader = React.createClass({
 
 });
 
-module.exports = ListHeader;
+module.exports = ListFiltersAddForm;
