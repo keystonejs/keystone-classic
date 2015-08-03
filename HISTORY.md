@@ -2,7 +2,7 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
-## v0.3.13 / 2015-07-03
+## v0.3.13 / 2015-08-03
 
 * improved; major speed increase for initialisation
 * improved; codemirror is now only loaded as required, thanks [Carlos Colon](https://github.com/webteckie)
