@@ -1,33 +1,46 @@
 var React = require('react');
 var classNames = require('classnames');
 
-var ListFiltersAdd = require('./ListFiltersAdd');
+var CurrentListStore = require('../stores/CurrentListStore');
 
 var { Pill } = require('elemental');
 
 var ListFilters = React.createClass({
-	
-	displayName: 'ListFilters',
-
-	handleFilterClick: function(filter) {
+	getInitialState () {
+		return this.getStateFromStore();
+	},
+	componentDidMount () {
+		CurrentListStore.addChangeListener(this.updateStateFromStore);
+	},
+	componentWillUnmount () {
+		CurrentListStore.removeChangeListener(this.updateStateFromStore);
+	},
+	updateStateFromStore () {
+		this.setState(this.getStateFromStore());
+	},
+	getStateFromStore () {
+		return {
+			filters: CurrentListStore.getActiveFilters()
+		};
+	},
+	handleFilterClick (filter) {
 		return console.log('clicked:', filter);
 	},
-	handleFilterClear: function(filter) {
-		return console.log('cleared:', filter);
+	handleFilterClear (filter) {
+		CurrentListStore.removeFilter(filter);
 	},
-	
-	render: function() {
-		var self = this;
+	render () {
+		if (!this.state.filters.length) return <div />;
 
-		var currentFilters = this.props.filters.map(function(filter, i) {
+		var currentFilters = this.state.filters.map((filter, i) => {
 			return (
-				<Pill key={filter} label={filter} onClick={self.handleFilterClick.bind(self, filter)} onClear={self.handleFilterClear.bind(self, filter)} type="primary" showClearButton />
+				<Pill key={'f' + i} label={filter} onClick={this.handleFilterClick.bind(this, filter)} onClear={this.handleFilterClear.bind(this, filter)} type="primary" showClearButton />
 			);
 		});
 
 		// append the clear button
 		if (currentFilters.length > 1) {
-			currentFilters.push(<Pill key="listFilters__clear" label="Clear All" onClick={self.handleFilterClick.bind(self, 'Clear All')} />);
+			currentFilters.push(<Pill key="listFilters__clear" label="Clear All" onClick={this.handleFilterClick.bind(this, 'Clear All')} />);
 		}
 		return (
 			<div className="ListFilters mb-2">
@@ -35,7 +48,6 @@ var ListFilters = React.createClass({
 			</div>
 		);
 	}
-	
 });
 
 module.exports = ListFilters;

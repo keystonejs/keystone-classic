@@ -116,7 +116,7 @@ var ListHeader = React.createClass({
 						{this.renderColumnsButton()}
 						{this.renderSortButton()}
 					</InputGroup>
-					<ListFilters filters={CurrentListStore.getActiveFilters()} />
+					<ListFilters />
 					<Pagination pagination={Keystone.items} onClick={this.handlePageSelect} className="ListHeader__pagination" />
 				</div>
 			</div>
