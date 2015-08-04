@@ -1,12 +1,17 @@
-var keystone = require('../../../'),
-	_ = require('underscore'),
-	async = require('async');
+var keystone = require('../../../');
+var _ = require('underscore');
+var async = require('async');
 
 exports = module.exports = function(req, res) {
 
 	var itemQuery = req.list.model.findById(req.params.item).select();
 
 	itemQuery.exec(function(err, item) {
+
+		if (err) {
+			req.flash('error', 'A database error occurred.');
+			return res.redirect('/keystone/' + req.list.path);
+		}
 
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');

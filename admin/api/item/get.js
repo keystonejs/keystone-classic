@@ -6,6 +6,11 @@ module.exports = function(req, res) {
 
 	var query = req.list.model.findById(req.params.id);
 
+	var fields = req.query.fields;
+	if (req.query.basic !== undefined) {
+		fields = false;
+	}
+
 	if (req.list.tracking && req.list.tracking.createdBy) {
 		query.populate(req.list.tracking.createdBy);
 	}
@@ -18,7 +23,6 @@ module.exports = function(req, res) {
 
 		if (err) return res.status(500).json({ err: 'database error', detail: err });
 		if (!item) return res.status(404).json({ err: 'not found', id: req.params.id });
-
 
 		var tasks = [];
 		var drilldown;
@@ -147,11 +151,10 @@ module.exports = function(req, res) {
 					detail: err
 				});
 			}
-			res.json({
-				data: req.list.getData(item, req.query.fields),
+			res.json(_.assign(req.list.getData(item, fields), {
 				drilldown: drilldown,
 				relationships: relationships
-			});
+			}));
 		});
 	});
 };

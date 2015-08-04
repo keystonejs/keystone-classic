@@ -74,26 +74,6 @@ exports = module.exports = function(req, res) {
 
 		break;
 
-		case 'get':
-
-			req.list.model.findById(req.query.id).exec(function(err, item) {
-
-				if (err) return sendError('database error', err);
-				if (!item) return sendResponse({ name: req.query.id, id: req.query.id });
-
-				switch (req.query.dataset) {
-					case 'simple':
-						return sendResponse({
-							name: req.list.getDocumentName(item, false),
-							id: item.id
-						});
-					default:
-						return sendResponse(item);
-				}
-			});
-
-		break;
-
 		case 'order':
 
 			if (!keystone.security.csrf.validate(req)) {

@@ -1,41 +1,24 @@
-/*!
- * Module dependencies.
- */
-
-var _ = require('underscore'),
-	util = require('util'),
-	bcrypt = require('bcrypt-nodejs'),
-	super_ = require('../Type');
+var _ = require('underscore');
+var bcrypt = require('bcrypt-nodejs');
+var FieldType = require('../Type');
+var util = require('util');
 
 /**
  * password FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function password(list, path, options) {
-	
 	this._nativeType = String;
 	this._underscoreMethods = ['format', 'compare'];
 	this._fixedSize = 'large';
-	
 	// You can't sort on password fields
 	options.nosort = true;
-	
-	// TODO: implement filtering, hard-coded as disabled for now
-	options.nofilter = true;
-	
+	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	this.workFactor = options.workFactor || 10;
-	
 	password.super_.call(this, list, path, options);
-	
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(password, super_);
+util.inherits(password, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
@@ -45,10 +28,8 @@ util.inherits(password, super_);
  * @api public
  */
 password.prototype.addToSchema = function() {
-
-	var field = this,
-		schema = this.list.schema;
-	
+	var field = this;
+	var schema = this.list.schema;
 	var needs_hashing = '__' + field.path + '_needs_hashing';
 
 	this.paths = {
@@ -63,47 +44,46 @@ password.prototype.addToSchema = function() {
 			return newValue;
 		}
 	}, this.options));
-	
+
 	schema.virtual(this.paths.hash).set(function(newValue) {
 		this.set(field.path, newValue);
 		this[needs_hashing] = false;
 	});
 
 	schema.pre('save', function(next) {
-		
 		if (!this.isModified(field.path) || !this[needs_hashing]) {
 			return next();
 		}
-
 		if (!this.get(field.path)) {
 			this.set(field.path, undefined);
 			return next();
 		}
-
 		var item = this;
-
 		bcrypt.genSalt(field.workFactor, function(err, salt) {
 			if (err) {
 				return next(err);
 			}
-
 			bcrypt.hash(item.get(field.path), salt, function () {}, function(err, hash) {
 				if (err) {
 					return next(err);
 				}
-
 				// override the cleartext password with the hashed one
 				item.set(field.path, hash);
 				next();
 			});
 		});
-
 	});
-
 	this.bindUnderscoreMethods();
-
 };
 
+/**
+ * Add filters to a query
+ */
+password.prototype.addFilterToQuery = function(filter, query) {
+	query = query || {};
+	query[this.path] = (filter.exists) ? { $ne: null } : null;
+	return query;
+};
 
 /**
  * Formats the field value
@@ -114,7 +94,6 @@ password.prototype.addToSchema = function() {
  *
  * @api public
  */
-
 password.prototype.format = function(item) {
 	if (!item.get(this.path)) return '';
 	var len = Math.round(Math.random() * 4) + 6;
@@ -123,20 +102,17 @@ password.prototype.format = function(item) {
 	return stars;
 };
 
-
 /**
  * Compares
  *
  * @api public
  */
-
 password.prototype.compare = function(item, candidate, callback) {
 	if ('function' !== typeof callback) throw new Error('Password.compare() requires a callback function.');
 	var value = item.get(this.path);
 	if (!value) return callback(null, false);
 	bcrypt.compare(candidate, item.get(this.path), callback);
 };
-
 
 /**
  * If password fields are required, check that either a value has been
@@ -147,7 +123,6 @@ password.prototype.compare = function(item, candidate, callback) {
  *
  * @api public
  */
-
 password.prototype.validateInput = function(data, required, item) {
 	if (data[this.path] && this.paths.confirm in data) {
 		return data[this.path] === data[this.paths.confirm] ? true : false;
@@ -156,7 +131,6 @@ password.prototype.validateInput = function(data, required, item) {
 	return required ? false : true;
 };
 
-
 /**
  * Updates the value for this field in the item from a data object
  *
@@ -164,7 +138,6 @@ password.prototype.validateInput = function(data, required, item) {
  *
  * @api public
  */
-
 password.prototype.updateItem = function(item, data) {
 	if (this.path in data) {
 		item.set(this.path, data[this.path]);
@@ -173,9 +146,5 @@ password.prototype.updateItem = function(item, data) {
 	}
 };
 
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 exports = module.exports = password;

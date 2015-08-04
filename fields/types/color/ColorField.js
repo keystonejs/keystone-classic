@@ -31,6 +31,9 @@ module.exports = Field.create({
 					width: 24,
 					height: 24,
 					borderRadius: 5,
+					borderStyle: 'solid',
+					borderWidth: '1px',
+					borderColor: '#E0E0E0',
 					background: this.props.value
 				}} />
 			);
