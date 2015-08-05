@@ -4,18 +4,8 @@
 	
 	Using glyphicons for continuity
 */
-
-
-
 // Import the fonts
-@font-face {
-  font-family: 'wysiwyg';
-  src: url('fonts/wysiwyg.eot?2140760');
-  src: url('fonts/wysiwyg.eot?2140760#iefix') format('embedded-opentype'),
-       url('fonts/wysiwyg.woff?2140760') format('woff'),
-       url('fonts/wysiwyg.ttf?2140760') format('truetype'),
-       url('fonts/wysiwyg.svg?2140760#wysiwyg') format('svg');
-}
+@import "Fonts.less";
 
 @icon-size: 14px;
 
@@ -39,6 +29,7 @@
 .mce-i-italic                     { &:before { content: '\e839'; } }
 
 .mce-i-link                       { &:before { content: '\e84c'; } }
+.mce-i-unlink                     { &:before { content: '\e84d'; } }
 
 .mce-i-alignleft                  { &:before { content: '\e844'; } }
 .mce-i-aligncenter                { &:before { content: '\e843'; } }
@@ -53,6 +44,12 @@
 .mce-i-bullist                    { &:before { content: '\e83e'; } }
 .mce-i-numlist                    { &:before { content: '\e83d'; } }
 
+.mce-i-table                      { &:before { content: "\e847"; } }
+
+.mce-i-cut                        { &:before { content: "\e83a"; } }
+.mce-i-copy                       { &:before { content: "\e802"; } }
+.mce-i-paste                      { &:before { content: "\e848"; } }
+
 .mce-i-code                       { &:before { content: "\e84f"; } }
 
 // not in the standard set
@@ -62,6 +59,39 @@
 
 // resize
 .mce-i-resize                     { &:before { content: "\e853"; } }
+
+// additional buttons
+.mce-i-globe                      { &:before { content: "\e852"; } }
+
+.mce-i-settings, .mce-i-fullpage  { &:before { font-family: 'icomoon'; content: "\e002"; } }
+
+.mce-i-searchreplace              { &:before { font-family: 'icomoon'; content: "\e009"; } }
+
+.mce-i-anchor                     { &:before { font-family: 'icomoon'; content: "\e013"; } }
+
+.mce-i-media                      { &:before { font-family: 'icomoon'; content: "\e015"; } }
+.mce-i-help                       { &:before { font-family: 'icomoon'; content: "\e016"; } }
+
+.mce-i-inserttime                 { &:before { font-family: 'icomoon'; content: "\e018"; } }
+
+.mce-i-charmap                    { &:before { font-family: 'icomoon'; content: "\e020"; } }
+.mce-i-emoticons                  { &:before { font-family: 'icomoon'; content: "\e021"; } }
+.mce-i-print                      { &:before { font-family: 'icomoon'; content: "\e022"; } }
+.mce-i-fullscreen                 { &:before { font-family: 'icomoon'; content: "\e023"; } }
+.mce-i-spellchecker               { &:before { font-family: 'icomoon'; content: "\e024"; } }
+.mce-i-nonbreaking                { &:before { font-family: 'icomoon'; content: "\e025"; } }
+.mce-i-template                   { &:before { font-family: 'icomoon'; content: "\e026"; } }
+.mce-i-pagebreak                  { &:before { font-family: 'icomoon'; content: "\e027"; } }
+.mce-i-restoredraft               { &:before { font-family: 'icomoon'; content: "\e028"; } }
+.mce-i-untitled                   { &:before { font-family: 'icomoon'; content: "\e029"; } }
+
+.mce-i-underline                  { &:before { font-family: 'icomoon'; content: "\e02c"; } }
+.mce-i-strikethrough              { &:before { font-family: 'icomoon'; content: "\e02d"; } }
+.mce-i-visualchars                { &:before { font-family: 'icomoon'; content: "\e02e"; } }
+.mce-i-ltr                        { &:before { font-family: 'icomoon'; content: "\e02f"; } }
+.mce-i-rtl                        { &:before { font-family: 'icomoon'; content: "\e030"; } }
+.mce-i-resize                     { &:before { font-family: 'icomoon'; content: "\e032"; } }
+.mce-i-browse                     { &:before { font-family: 'icomoon'; content: "\e034"; } }
 
 
 /*
