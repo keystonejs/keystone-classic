@@ -24,6 +24,7 @@ module.exports = {
 	password:         require('../../fields/types/password/PasswordField'),
 	relationship:     require('../../fields/types/relationship/RelationshipField'),
 	s3file:           require('../../fields/types/s3file/S3FileField'),
+	s3files:          require('../../fields/types/s3files/S3FilesField'),
 	select:           require('../../fields/types/select/SelectField'),
 	text:             require('../../fields/types/text/TextField'),
 	textarea:         require('../../fields/types/textarea/TextareaField'),
