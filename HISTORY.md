@@ -2,6 +2,20 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.13 / 2015-08-03
+
+* improved; major speed increase for initialisation
+* improved; codemirror is now only loaded as required, thanks [Carlos Colon](https://github.com/webteckie)
+* fixed; correctly handling blank values in the DateInput component
+* changed; switched to babyparse for CSV generation
+* fixed; docs links now point to keystone site
+* fixed; add Maps API key to request, allow override per model, check for server instead of browser key, thanks [stosorio](https://github.com/stosorio)
+* fixed; added check for duplicate `_revisions` models, thanks [Jeffrey](https://github.com/jeffreypriebe)
+* fixed; localFile .format property ignored by Admin U, thanks [Javier Castro](https://github.com/jacargentina)
+* fixed; href working correctly on LocalFiles Type, thanks [Matthias Tylkowski](https://github.com/tylkomat)
+* added; several new API endpoints for the Admin UI in preparation of the 0.4 release
+
+
 ## v0.3.12 / 2015-06-26
 
 * fixed; `height` option for TextArea fields was not respected in the Admin UI, thanks [Eóin Martin](https://github.com/SlashmanX)
