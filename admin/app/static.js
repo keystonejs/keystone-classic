@@ -16,6 +16,7 @@ var router = express.Router();
 
 var bundles = {
 	fields: browserify('fields.js', 'FieldTypes'),
+	signin: browserify('views/signin.js'),
 	home: browserify('views/home.js'),
 	item: browserify('views/item.js'),
 	listHeader: browserify('views/list-header.js'),
@@ -24,6 +25,7 @@ var bundles = {
 
 router.prebuild = function() {
 	bundles.fields.build();
+	bundles.signin.build();
 	bundles.home.build();
 	bundles.item.build();
 	bundles.listHeader.build();
@@ -47,6 +49,7 @@ var lessOptions = {
 router.use('/styles', less(__dirname + '../../public/styles', lessOptions));
 router.use(express.static(__dirname + '../../public'));
 router.get('/js/fields.js', bundles.fields.serve);
+router.get('/js/signin.js', bundles.signin.serve);
 router.get('/js/home.js', bundles.home.serve);
 router.get('/js/item.js', bundles.item.serve);
 router.get('/js/list-header.js', bundles.listHeader.serve);
