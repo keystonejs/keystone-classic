@@ -1,9 +1,14 @@
 var knox = require('knox');
 var keystone = require('../../');
+var Types = keystone.Field.Types;
 
 exports = module.exports = {
 
 	upload: function(req, res) {
+		if (!keystone.security.csrf.validate(req, req.body.authenticity_token)) {
+			return res.status(400).send({ error: { message:'invalid csrf' } });
+		}
+
 		if(req.files && req.files.file){
 
 			var s3Config = keystone.get('s3 config');
@@ -13,9 +18,11 @@ exports = module.exports = {
 				originalname = file.originalname,
 				filetype = file.mimetype || file.type;
 
+			var headers = Types.S3File.prototype.generateHeaders.call({s3config: s3Config, options: {}}, null, file);
+			
 			var s3Client = knox.createClient(s3Config);
 
-			s3Client.putFile(file.path, path + file.name, function(err, s3Response) {
+			s3Client.putFile(file.path, path + file.name, headers, function(err, s3Response) {
 				var sendResult = function () {
 					if(err){
 						return res.send({ error: { message: err.message } });
