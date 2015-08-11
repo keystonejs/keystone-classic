@@ -15,11 +15,9 @@ exports = module.exports = {
 
 			var file = req.files.file,
 				path = s3Config.s3path ? s3Config.s3path + '/' : '';
-				originalname = file.originalname,
-				filetype = file.mimetype || file.type;
 
-			var headers = Types.S3File.prototype.generateHeaders.call({s3config: s3Config, options: {}}, null, file);
-			
+			var headers = Types.S3File.prototype.generateHeaders.call({ s3config: s3Config, options: {} }, null, file);
+
 			var s3Client = knox.createClient(s3Config);
 
 			s3Client.putFile(file.path, path + file.name, headers, function(err, s3Response) {
@@ -32,7 +30,7 @@ exports = module.exports = {
 						if (s3Response.statusCode !== 200) {
 							return res.send({ error: { message:'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
-							return res.send({ image: { url: "https://s3.amazonaws.com/" + s3Config.bucket + "/" + file.name } });
+							return res.send({ image: { url: 'https://s3.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
 						}
 					}
 				};
