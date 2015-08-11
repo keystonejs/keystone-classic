@@ -10,7 +10,6 @@
 // ------------------------------
 
 // reset variables here
-@brand-primary:         #348dd9;
 @body-bg:               #fafafa;
 @gutter-width:          30px;
 
@@ -53,7 +52,7 @@ body {
 	@media (max-width: @screen-xs-max) {
 		padding-bottom: @gutter-width;
 		
-		.alert-placeholder {
+		.Alert--placeholder {
 			display: none;
 		}
 	}
@@ -70,7 +69,7 @@ body {
 
 // Body
 // ------------------------------
-.auth-body {
+.auth-box {
 	.box-shadow( 0 2px 1px darken(@body-bg, 3.5%) );
 	background-color: white;
 	border-radius: @border-radius-base;
@@ -81,7 +80,7 @@ body {
 }
 
 // shake when there's errors
-.auth-body.has-errors {
+.auth-box--has-errors {
 	animation: shake 0.5s 0.25s 1;
 	-webkit-animation: shake 0.5s 0.25s 1;
 }
@@ -96,7 +95,7 @@ body {
 	font-size: .85em;
 	text-align: center;
 	
-	a {
+	> a {
 		color: darken(@gray-light, 15%);
 		
 		&:hover {
@@ -108,31 +107,17 @@ body {
 
 
 
-// Buttons
-// ------------------------------
-
-.btn-primary {
-	#gradient .vertical(lighten(@link-color, 4%), darken(@link-color, 4%));
-	// border: 0 none;
-}
-
-
-
-
 // Signin Form
 // ------------------------------
 
-.auth-box {
+.auth-box__inner {
 	.make-row(@gutter-width);
 }
-.auth-box-col {
+.auth-box__col {
 	.make-sm-column(6,@gutter-width);
 }
-.auth-box-brand {
-	font-weight: 500;
-	font-size: 1.25em;
+.auth-box__brand {
 	line-height: 1;
-	margin: 0;
 	text-align: center;
 	
 	img { max-width: 100%; }
@@ -150,7 +135,7 @@ body {
 		padding-bottom: @gutter-width;
 	}
 }
-.auth-box-logo {
+.auth-box__brand__logo {
 	display: inline;
 }
 
@@ -168,12 +153,9 @@ body {
 }
 
 // alerts
-.alert {
-	padding: 10px;
+.Alert {
+	.animation( fadeIn .4s );
 	text-align: center;
-	
-	animation: apparate .4s;
-	-webkit-animation: apparate .4s;
 }
 
 
@@ -192,15 +174,6 @@ body {
 	0%, 100% { -webkit-transform: translateX(0); }
 	20%, 60% { -webkit-transform: translateX(-10px); }
 	40%, 80% { -webkit-transform: translateX(10px); }
-}
-
-@keyframes apparate {
-	0% { opacity: 0; }
-	100% { opacity: 1; }
-}
-@-webkit-keyframes apparate {
-	0% { opacity: 0; }
-	100% { opacity: 1; }
 }
 
 

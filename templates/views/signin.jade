@@ -8,6 +8,7 @@ block js
 			csrf_token_key: !{JSON.stringify(csrf_token_key || '')},
 			csrf_token_value: !{JSON.stringify(csrf_token_value || '')},
 			logo: !{JSON.stringify(logo || '')},
+			messages: !{JSON.stringify(messages || '')},
 			user: !{JSON.stringify(user || '')},
 			userCanAccessKeystone: !{user && user.canAccessKeystone ? 'true' : 'false'},
 		};
