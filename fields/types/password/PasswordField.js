@@ -1,17 +1,11 @@
-var _ = require('underscore');
 var React = require('react');
 var Field = require('../Field');
 
-var Button = require('elemental').Button;
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
-var FormRow = require('elemental').FormRow;
+var { Button, FormField, FormInput, FormRow, InputGroup } = require('elemental');
 
 module.exports = Field.create({
 	
 	displayName: 'PasswordField',
-
-	focusTarget: 'password',
 	
 	getInitialState: function() {
 		return {
@@ -22,28 +16,22 @@ module.exports = Field.create({
 		};
 	},
 	
-	componentDidUpdate: function() {
-		if (this._focusAfterUpdate) {
-			this._focusAfterUpdate = false;
-			this.focus();
-		}
-	},
-	
 	valueChanged: function(which, event) {
-		this.setState(_.object([which], [event.target.value]));
-		if (which === 'password') {
-			this.props.onChange({
-				path: this.props.path,
-				value: event.target.value
-			});
-		}
+		var newState = {};
+		newState[which] = event.target.value;
+		this.setState(newState);
 	},
 	
 	showChangeUI: function() {
-		this._focusAfterUpdate = true;
 		this.setState({
 			showChangeUI: true
-		});
+		}, () => this.focus());
+	},
+	
+	onCancel: function() {
+		this.setState({
+			showChangeUI: false
+		}, () => this.focus());
 	},
 	
 	renderValue: function() {
@@ -56,21 +44,22 @@ module.exports = Field.create({
 	
 	renderFields: function() {
 		return (
-			<FormRow>
-				<FormField width="one-half">
-					<FormInput type="password" name={this.props.path} placeholder="New password" ref="password" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete="off" />
-				</FormField>
-				<FormField width="one-half">
-					<FormInput type="password" name={this.props.paths.confirm} placeholder="Confirm new password" ref="confirm" value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" />
-				</FormField>
-			</FormRow>
+			<InputGroup>
+				<InputGroup.Section grow>
+					<FormInput type="password" name={this.props.path} placeholder="New password" ref="focusTarget" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete="off" />
+				</InputGroup.Section>
+				<InputGroup.Section grow>
+					<FormInput type="password" name={this.props.paths.confirm} placeholder="Confirm new password" value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" />
+				</InputGroup.Section>
+				{this.state.passwordIsSet ? <InputGroup.Section><Button onClick={this.onCancel}>Cancel</Button></InputGroup.Section> : null}
+			</InputGroup>
 		);
 	},
 	
 	renderChangeButton: function() {
 		var label = this.state.passwordIsSet ? 'Change Password' : 'Set Password';
 		return (
-			<Button onClick={this.showChangeUI}>{label}</Button>
+			<Button ref="focusTarget" onClick={this.showChangeUI}>{label}</Button>
 		);
 	}
 	
