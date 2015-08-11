@@ -7,7 +7,7 @@ var AltText = require('./AltText');
 var FooterBar = require('./FooterBar');
 var InvalidFieldType = require('./InvalidFieldType');
 
-var { Button, FormField, FormInput } = require('elemental');
+var { Button, Form, FormField, FormInput } = require('elemental');
 
 var EditForm = React.createClass({
 	
@@ -231,14 +231,14 @@ var EditForm = React.createClass({
 					<div className="col-md-3 col-md-push-9">
 					</div>
 					<div className="col-md-9 col-md-pull-3">
-						<div className="EditForm horizontal-form">
+						<Form type="horizontal" className="EditForm" component="div">
 							<input type="hidden" name="action" value="updateItem" />
 							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 							{this.renderNameField()}
 							{this.renderKeyOrId()}
 							{this.renderFormElements()}
 							{this.renderTrackingMeta()}
-						</div>
+						</Form>
 					</div>
 				</div>
 				{!this.props.list.noedit ? this.renderFooterBar() : null}
