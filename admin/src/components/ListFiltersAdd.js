@@ -71,7 +71,10 @@ var ListFiltersAdd = React.createClass({
 
 	renderButton () {
 		return (
-			<Button type="primary" onClick={this.state.isOpen ? this.closePopout : this.openPopout}>Add Filter</Button>
+			<Button onClick={this.state.isOpen ? this.closePopout : this.openPopout}>
+				Filters
+				<span className="disclosure-arrow" />
+			</Button>
 		);
 	},
 
