@@ -53,11 +53,14 @@ var ListFiltersAdd = React.createClass({
 		});
 	},
 
-	applyFilter (value) {
+	applyFilter (event, value) {
+		event.preventDefault();
+		
 		CurrentListStore.addFilter({
 			field: this.state.selectedField,
 			value: value
 		});
+		this.closePopout();
 	},
 
 	getListUIElements () {
@@ -91,7 +94,7 @@ var ListFiltersAdd = React.createClass({
 				filterIsActive ? 'octicon-check' : 'octicon-chevron-right'
 			);
 			return (
-				<button key={'item-' + el.field.path} onClick={() => { this.selectField(el.field) }} title={el.field.label} className={itemClass}>
+				<button type="button" key={'item-' + el.field.path} onClick={() => { this.selectField(el.field) }} title={el.field.label} className={itemClass}>
 					<span className={iconClass} />
 					{el.field.label}
 				</button>
@@ -99,7 +102,7 @@ var ListFiltersAdd = React.createClass({
 		});
 
 		return (
-			<HeightDetector onLayout={this.setPopoutHeight} key="list" className="popout__list popout-pane" component="div">
+			<HeightDetector onLayout={this.setPopoutHeight} key="list" className="popout__body popout__list popout-pane" component="div">
 				{popoutList}
 			</HeightDetector>
 		);
@@ -116,12 +119,30 @@ var ListFiltersAdd = React.createClass({
 	renderPopout () {
 		if (!this.state.isOpen) return;
 		var height = this.state.innerHeight ? { height: this.state.innerHeight } : null;
+		
+		var headerButton = this.state.selectedField ? <button key="headerButton" type="button" className="popout__header__icon octicon octicon-chevron-left" onClick={this.navigateBack} /> : null;
+		var headerTitle = this.state.selectedField ? <span key="headerTitleHasField" className="popout__header__label">{this.state.selectedField.label}</span> : <span key="headerTitle" className="popout__header__label">Filter</span>;
+		
 		return (
 			<div className="popout">
 				<span className="popout-arrow" />
-				<Transition style={height} className="popout-inner" transitionName={!!this.state.selectedField ? 'popout-pane-next' : 'popout-pane-prev'} component="div">
-					{this.state.selectedField ? this.renderForm() : this.renderList()}
-				</Transition>
+				<form onSubmit={this.applyFilter} className="popout-inner">
+					<div className="popout__header">
+						<Transition transitionName="react-transitiongroup-fade">
+							{headerButton}
+						</Transition>
+						<Transition transitionName={!!this.state.selectedField ? 'popout-pane-next' : 'popout-pane-prev'}>
+							{headerTitle}
+						</Transition>
+					</div>
+					<Transition style={height} className="popout__scrollable-area" transitionName={!!this.state.selectedField ? 'popout-pane-next' : 'popout-pane-prev'} component="div">
+						{this.state.selectedField ? this.renderForm() : this.renderList()}
+					</Transition>
+					<div className="popout__footer">
+						<Button disabled={!this.state.selectedField} type="link" className="popout__footer-button popout__footer-button--apply" submit>Apply</Button>
+						<Button onClick={this.closePopout} type="link-cancel" className="popout__footer-button popout__footer-button--cancel">Cancel</Button>
+					</div>
+				</form>
 			</div>
 		);
 	},
@@ -132,7 +153,6 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	render () {
-		var style = { display: 'inline-block', marginLeft: '.5em', marginRight: '.5em', position: 'relative' };
 		return (
 			<InputGroup.Section>
 				{this.renderButton()}
