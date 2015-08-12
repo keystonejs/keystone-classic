@@ -13,14 +13,26 @@ var ListFiltersAddForm = React.createClass({
 		onCancel: React.PropTypes.func
 	},
 
+	getInitialState () {
+		return {
+			value: {}
+		};
+	},
+	
+	updateValue (value) {
+		this.setState({
+			value: Object.assign(this.state.value, value)
+		});
+	},
+
 	handleFormSubmit (e) {
 		e.preventDefault();
-		this.props.onApply();
+		this.props.onApply(this.state.value);
 	},
 
 	renderInvalidFilter () {
 		return (
-			<div>Error: type {this.props.field.type} has no filter UI yet.</div>
+			<div>Error: type {this.props.field.type} has no filter UI.</div>
 		);
 	},
 
@@ -33,10 +45,10 @@ var ListFiltersAddForm = React.createClass({
 					<span className="ListFiltersForm__header__label">{this.props.field.label}</span>
 				</div>
 				<div className="ListFiltersForm__body">
-					{TypeFilter ? <TypeFilter field={this.props.field} onChange={this.updateValue} /> : this.renderInvalidFilter()}
+					{TypeFilter ? <TypeFilter field={this.props.field} value={this.state.value} onChange={this.updateValue} /> : this.renderInvalidFilter()}
 				</div>
 				<div className="ListFiltersForm__footer">
-					<Button onClick={this.props.onApply} type="link" className="ListFiltersForm__footer-button ListFiltersForm__footer-button--apply" submit>Apply</Button>
+					<Button type="link" className="ListFiltersForm__footer-button ListFiltersForm__footer-button--apply" submit>Apply</Button>
 					<Button onClick={this.props.onCancel} type="link-cancel" className="ListFiltersForm__footer-button ListFiltersForm__footer-button--cancel">Cancel</Button>
 				</div>
 			</form>
