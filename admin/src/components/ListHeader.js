@@ -6,6 +6,7 @@ var CurrentListStore = require('../stores/CurrentListStore');
 
 var ListFilters = require('./ListFilters');
 var ListFiltersAdd = require('./ListFiltersAdd');
+var ListDownloadForm = require('./ListDownloadForm');
 
 var { Button, Dropdown, FormInput, InputGroup, Pagination } = require('elemental');
 
@@ -55,6 +56,12 @@ var ListHeader = React.createClass({
 
 		location.href = '/keystone/' + Keystone.list.path + '/' + page;
 	},
+	
+	toggleDownloadModal: function(visible) {
+		this.setState({
+			downloadIsOpen: visible
+		});
+	},
 
 	renderTitle () {
 		var sort = Keystone.sort ? (
@@ -94,6 +101,17 @@ var ListHeader = React.createClass({
 		);
 	},
 
+	renderDownloadButton () {
+		return (
+			<InputGroup.Section>
+				<Button>
+					Download
+					<span className="disclosure-arrow" />
+				</Button>
+			</InputGroup.Section>
+		);
+	},
+
 	render () {
 		return (
 			<div className="ListHeader">
@@ -103,6 +121,7 @@ var ListHeader = React.createClass({
 						{this.renderSearch()}
 						<ListFiltersAdd />
 						{this.renderColumnsButton()}
+						<ListDownloadForm />
 					</InputGroup>
 					<ListFilters />
 					<Pagination pagination={Keystone.items} onClick={this.handlePageSelect} className="ListHeader__pagination" />

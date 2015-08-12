@@ -1,6 +1,5 @@
 var React = require('react');
 var CreateForm = require('../components/CreateForm');
-var DownloadForm = require('../components/DownloadForm');
 var Toolbar = require('../components/Toolbar');
 var ListHeader = require('../components/ListHeader');
 
@@ -19,12 +18,6 @@ var Header = React.createClass({
 	toggleCreateModal: function(visible) {
 		this.setState({
 			createIsOpen: visible
-		});
-	},
-	
-	toggleDownloadModal: function(visible) {
-		this.setState({
-			downloadIsOpen: visible
 		});
 	},
 	
@@ -47,19 +40,6 @@ var Header = React.createClass({
 		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
 	
-	renderDownloadButton: function() {
-		return (
-			<Button type="link" onClick={this.toggleDownloadModal.bind(this, true)}>
-				<span className="octicon octicon-cloud-download" />
-				Download CSV/JSON
-			</Button>
-		);
-	},
-	
-	renderDownloadForm: function() {
-		return <DownloadForm list={Keystone.list} isOpen={this.state.downloadIsOpen} onCancel={this.toggleDownloadModal.bind(this, false)} />;
-	},
-	
 	render: function() {
 		if (Keystone.list.nocreate) return null;
 		return (
@@ -68,13 +48,9 @@ var Header = React.createClass({
 					<Toolbar.Section left>
 						{this.renderCreateButton()}
 					</Toolbar.Section>
-					<Toolbar.Section right>
-						{this.renderDownloadButton()}
-					</Toolbar.Section>
 				</Toolbar>
 				<ListHeader />
 				{this.renderCreateForm()}
-				{this.renderDownloadForm()}
 			</div>
 		);
 	}
