@@ -57,7 +57,9 @@ var ListHeader = React.createClass({
 	},
 
 	renderTitle () {
-		var sort = Keystone.sort ? <span className="text-muted"> sorted by {Keystone.sort}</span> : null;
+		var sort = Keystone.sort ? (
+			<span className="text-muted"> sorted by <a href="javascript:;">{Keystone.sort}</a></span>
+		) : null;
 		return (
 			<h2 className="ListHeader__title">
 				{utils.plural(Keystone.items.total, ('* ' + Keystone.list.singular), ('* ' + Keystone.list.plural))}
@@ -92,19 +94,6 @@ var ListHeader = React.createClass({
 		);
 	},
 
-	renderSortButton () {
-		return (
-			<InputGroup.Section>
-				<Dropdown alignRight items={CurrentListStore.getAvailableColumns()} onSelect={this.handleSortSelect}>
-					<Button>
-						Sort
-						<span className="disclosure-arrow" />
-					</Button>
-				</Dropdown>
-			</InputGroup.Section>
-		);
-	},
-
 	render () {
 		return (
 			<div className="ListHeader">
@@ -114,7 +103,6 @@ var ListHeader = React.createClass({
 						{this.renderSearch()}
 						<ListFiltersAdd />
 						{this.renderColumnsButton()}
-						{this.renderSortButton()}
 					</InputGroup>
 					<ListFilters />
 					<Pagination pagination={Keystone.items} onClick={this.handlePageSelect} className="ListHeader__pagination" />
