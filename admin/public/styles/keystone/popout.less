@@ -2,11 +2,12 @@
 // Popout
 // ==============================
 
-@popout-gutter:             20px;
-@popout-arrow-size:          8px;
-@popout-width:             320px;
+@popout-gutter:                     20px;
+@popout-arrow-size:                  8px;
+@popout-width:                     320px;
 
-@popout-pane-animation-duration:             240ms;
+@popout-pane-animation-duration:   360ms;
+@popout-pane-timing-function:      cubic-bezier(.36, .66, .04, 1);
 
 
 
@@ -110,7 +111,7 @@
 
 .popout-pane {
 	.animation-duration( @popout-pane-animation-duration );
-	.animation-timing-function( cubic-bezier(0.77, 0, 0.175, 1) );
+	.animation-timing-function( @popout-pane-timing-function );
 	left: 0;
 	position: absolute;
 	top: 0;
@@ -242,7 +243,7 @@
 }
 .popout__header__label {
 	.animation-duration( @popout-pane-animation-duration );
-	.animation-timing-function( cubic-bezier(0.77, 0, 0.175, 1) );
+	.animation-timing-function( @popout-pane-timing-function );
 	height: @component-height;
 	left: 0;
 	line-height: @component-line-height;
