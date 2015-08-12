@@ -34,7 +34,7 @@ var ListFilters = React.createClass({
 
 		var currentFilters = this.state.filters.map((filter, i) => {
 			return (
-				<Pill key={'f' + i} label={filter} onClick={this.handleFilterClick.bind(this, filter)} onClear={this.handleFilterClear.bind(this, filter)} type="primary" showClearButton />
+				<Pill key={'f' + i} label={filter.field.label} onClick={this.handleFilterClick.bind(this, filter)} onClear={this.handleFilterClear.bind(this, filter)} type="primary" showClearButton />
 			);
 		});
 
