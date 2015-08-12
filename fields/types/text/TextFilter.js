@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import React from 'react';
 
 import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
@@ -9,20 +8,37 @@ const TOGGLE_OPTIONS = [
 ];
 
 const MODE_OPTIONS = [
-	{ label: 'Exactly', value: 'exactly' },
 	{ label: 'Contains', value: 'contains' },
+	{ label: 'Exactly', value: 'exactly' },
 	{ label: 'Begins with', value: 'beginsWith' },
 	{ label: 'Ends with', value: 'endsWith' }
 ];
 
-var TextFilter = React.createClass({
+function getDefaultValue () {
+	return {
+		mode: MODE_OPTIONS[0].value,
+		inverted: false,
+		value: ''
+	};
+}
 
-	getInitialState () {
+var TextFilter = React.createClass({
+	
+	statics: {
+		getDefaultValue: getDefaultValue
+	},
+	
+	propTypes: {
+		filter: React.PropTypes.shape({
+			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
+			inverted: React.PropTypes.boolean,
+			value: React.PropTypes.string
+		})
+	},
+	
+	getDefaultProps () {
 		return {
-			modeValue: MODE_OPTIONS[0].value, // 'exactly'
-			modeLabel: MODE_OPTIONS[0].label, // 'Exactly'
-			inverted: false,
-			value: ''
+			filter: getDefaultValue()
 		};
 	},
 
@@ -30,36 +46,39 @@ var TextFilter = React.createClass({
 		// focus the text focusTarget
 		React.findDOMNode(this.refs.focusTarget).focus();
 	},
-
-	toggleInverted (value) {
-		this.setState({
-			inverted: value
-		});
+	
+	updateFilter (key, val) {
+		var update = {};
+		update[key] = val;
+		this.props.onChange(Object.assign(this.props.filter, update));
 	},
 
 	selectMode (mode) {
-		// TODO: implement w/o underscore
-		this.setState({
-			modeValue: mode,
-			modeLabel: _.findWhere(MODE_OPTIONS, { value: mode }).label
-		});
-
+		this.updateFilter('mode', mode);
 		// focus the text input after a mode selection is made
 		React.findDOMNode(this.refs.focusTarget).focus();
 	},
 
-	render () {
-		let { field } = this.props;
-		let { modeLabel, modeValue } = this.state;
+	toggleInverted (value) {
+		this.updateFilter('inverted', !this.props.filter.inverted);
+	},
+	
+	updateValue (e) {
+		this.updateFilter('value', e.target.value);
+	},
 
-		let placeholder = field.label + ' ' + modeLabel.toLowerCase() + '...';
+	render () {
+		let { field, filter } = this.props;
+		var mode = MODE_OPTIONS.filter((i => i.value === filter.mode))[0];
+
+		let placeholder = field.label + ' ' + mode.label.toLowerCase() + '...';
 
 		return (
 			<div>
-				<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
-				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={modeValue} />
+				<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
 				<FormField>
-					<FormInput ref="focusTarget" placeholder={placeholder} />
+					<FormInput ref="focusTarget" value={this.props.filter.value} onChange={this.updateValue} placeholder={placeholder} />
 				</FormField>
 			</div>
 		);

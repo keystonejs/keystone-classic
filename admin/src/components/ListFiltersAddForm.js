@@ -14,20 +14,23 @@ var ListFiltersAddForm = React.createClass({
 	},
 
 	getInitialState () {
+		var filterComponent = filters[this.props.field.type];
+		var filterValue = filterComponent && filterComponent.getDefaultValue ? filterComponent.getDefaultValue() : {};
 		return {
-			value: {}
+			filterComponent: filterComponent,
+			filterValue: filterValue
 		};
 	},
 	
-	updateValue (value) {
+	updateValue (filterValue) {
 		this.setState({
-			value: Object.assign(this.state.value, value)
+			filterValue: filterValue
 		});
 	},
 
 	handleFormSubmit (e) {
 		e.preventDefault();
-		this.props.onApply(this.state.value);
+		this.props.onApply(this.state.filterValue);
 	},
 
 	renderInvalidFilter () {
@@ -37,12 +40,17 @@ var ListFiltersAddForm = React.createClass({
 	},
 
 	render () {
-		var TypeFilter = filters[this.props.field.type];
-		
+		var FilterComponent = this.state.filterComponent;
 		return (
-			<div className="popout__body">
-				{TypeFilter ? <TypeFilter field={this.props.field} value={this.state.value} onChange={this.updateValue} /> : this.renderInvalidFilter()}
-			</div>
+			<form onSubmit={this.handleFormSubmit}>
+				<div className="popout__body">
+					{FilterComponent ? <FilterComponent field={this.props.field} filter={this.state.filterValue} onChange={this.updateValue} /> : this.renderInvalidFilter()}
+				</div>
+				<div className="popout__footer">
+					<Button type="link" className="popout__footer-button popout__footer-button--apply" submit>Apply</Button>
+					<Button onClick={this.closePopout} type="link-cancel" className="popout__footer-button popout__footer-button--cancel">Cancel</Button>
+				</div>
+			</form>
 		);
 	}
 
