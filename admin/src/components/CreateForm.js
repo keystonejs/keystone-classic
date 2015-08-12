@@ -3,9 +3,9 @@ var React = require('react');
 var Fields = require('../fields');
 var InvalidFieldType = require('./InvalidFieldType');
 
-var { Alert, Button, Modal } = require('elemental');
+var { Alert, Button, Form, Modal } = require('elemental');
 
-var Form = React.createClass({
+var CreateForm = React.createClass({
 	
 	displayName: 'CreateForm',
 	
@@ -131,7 +131,7 @@ var Form = React.createClass({
 		
 		return (
 			<Modal isOpen={this.props.isOpen} onCancel={this.props.onCancel} backdropClosesModal>
-				<form encType="multipart/form-data" method="post" action={formAction} className="horizontal-form create-form">
+				<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} className="create-form">
 					<input type="hidden" name="action" value="create" />
 					<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 					<Modal.Header text={'Create a new ' + list.singular} onClose={this.props.onCancel} showCloseButton />
@@ -141,13 +141,13 @@ var Form = React.createClass({
 					</Modal.Body>
 					<Modal.Footer>
 						<Button type="success" submit>Create</Button>
-						<Button type="link-cancel" onClick={this.props.onCancel}>cancel</Button>
+						<Button type="link-cancel" onClick={this.props.onCancel}>Cancel</Button>
 					</Modal.Footer>
-				</form>
+				</Form>
 			</Modal>
 		);
 	}
 	
 });
 
-module.exports = Form;
+module.exports = CreateForm;
