@@ -1,7 +1,7 @@
 var React = require('react');
 var Field = require('../Field');
 
-var FormField = require('elemental').FormField;
+var { Checkbox, FormField } = require('elemental');
 
 module.exports = Field.create({
 
@@ -20,10 +20,7 @@ module.exports = Field.create({
 
 		if (this.shouldRenderField()) {
 			input = (
-				<label htmlFor={this.props.path} className="checkbox">
-					<input type='checkbox' name={this.props.path} id={this.props.path} value='true' checked={this.props.value} onChange={this.valueChanged} />
-					{this.props.label}
-				</label>
+				<Checkbox label={this.props.label} htmlFor={this.props.path} value='true' checked={this.props.value} onChange={this.valueChanged} />
 			);
 		} else {
 			var state = this.props.value ? 'checked' : 'unchecked';
