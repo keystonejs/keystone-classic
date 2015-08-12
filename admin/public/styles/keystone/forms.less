@@ -25,12 +25,8 @@
 
 // form label
 
-.form-label {
-	font-size: @font-size-base;
-	font-weight: normal;
-}
 @media (min-width: @screen-sm) {
-	.form-field--secondary > .form-label {
+	.form-field--secondary > .FormLabel {
 		color: @gray-light;
 		font-size: @font-size-sm;
 		padding-left: 1em;
@@ -40,17 +36,10 @@
 
 // radios + checkboxes
 
-.radio,
-.checkbox {
+.Radio,
+.Checkbox {
 	margin-bottom: 0;
 	margin-top: 0;
-}
-label.checkbox {
-	padding-top: 0;
-
-	> input[type="checkbox"] {
-		margin-right: .5em;
-	}
 }
 
 
@@ -70,14 +59,6 @@ label.checkbox {
 // sits to the right of a form field
 // used for things like clearing an array field or linking to related item
 // ------------------------------
-
-
-// relatively position all wrappers to contain the button, as we can't be sure
-// where relational buttons will be implemented
-
-.form-field {
-	position: relative;
-}
 
 // HTML
 .field-type-html {
