@@ -92,6 +92,10 @@
 // inner
 
 .popout-inner {
+	padding: 0 @popout-gutter;
+}
+
+.popout__scrollable-area {
 	.transition( height @popout-pane-animation-duration );
 	position: relative;
 
@@ -108,7 +112,6 @@
 	.animation-duration( @popout-pane-animation-duration );
 	.animation-timing-function( cubic-bezier(0.77, 0, 0.175, 1) );
 	left: 0;
-	padding: @popout-gutter;
 	position: absolute;
 	top: 0;
 	width: 100%;
@@ -197,6 +200,102 @@
 	color: fade(@text-color, 40%);
 	float: right;
 	margin-left: .5em;
+}
+
+
+
+
+// Popout Layout
+// ------------------------------
+
+
+// header
+
+.popout__header {
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+	// font-size: @font-size-sm;
+	font-weight: 500;
+	height: 3.4em;
+	overflow: hidden;
+	padding-bottom: .5em;
+	padding-top: .5em;
+	position: relative;
+	text-align: center;
+	z-index: 1; // above the scrollable area
+}
+.popout__header__icon {
+	background: white;
+	border: none;
+	color: @gray-light;
+	height: 2.4em;
+	left: 0;
+	position: absolute;
+	outline: none;
+	width: 2.4em;
+	z-index: 2;
+	-webkit-appearance: none;
+
+	// handle mouse/keyboard interaction
+	&:hover  { color: @gray; }
+	&:active { color: @gray-dark; }
+	&:focus  { color: @app-primary; }
+}
+.popout__header__label {
+	.animation-duration( @popout-pane-animation-duration );
+	.animation-timing-function( cubic-bezier(0.77, 0, 0.175, 1) );
+	height: @component-height;
+	left: 0;
+	line-height: @component-line-height;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	z-index: 1;
+}
+.popout__header__label-next-enter {
+	.animation-name( slideInFromRight );
+}
+.popout__header__label-next-leave {
+	.animation-name( slideOutToLeft );
+}
+.popout__header__label-prev-enter {
+	.animation-name( slideInFromLeft );
+}
+.popout__header__label-prev-leave {
+	.animation-name( slideOutToRight );
+}
+
+
+// footer
+
+.popout__footer {
+	&:extend(.u-clearfix all);
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+	font-weight: 500;
+	padding-bottom: .5em;
+	padding-top: .5em;
+	position: relative;
+	z-index: 1; // above the scrollable area
+}
+.popout__footer-button--apply  {
+	float: left;
+	font-weight: bold;
+	margin-left: -1em;
+}
+.popout__footer-button--cancel {
+	float: right;
+	margin-right: -1em;
+}
+
+
+// body
+
+.popout__body {
+	padding-bottom: @popout-gutter;
+	padding-top: @popout-gutter;
+	
+	.FormRow {
+		margin-bottom: 0;
+	}
 }
 
 
