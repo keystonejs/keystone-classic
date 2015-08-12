@@ -1,5 +1,6 @@
 var React = require('react');
 var CreateForm = require('../components/CreateForm');
+var DownloadForm = require('../components/DownloadForm');
 var Toolbar = require('../components/Toolbar');
 var ListHeader = require('../components/ListHeader');
 
@@ -15,9 +16,15 @@ var Header = React.createClass({
 		};
 	},
 	
-	toggleCreate: function(visible) {
+	toggleCreateModal: function(visible) {
 		this.setState({
 			createIsOpen: visible
+		});
+	},
+	
+	toggleDownloadModal: function(visible) {
+		this.setState({
+			downloadIsOpen: visible
 		});
 	},
 	
@@ -26,7 +33,7 @@ var Header = React.createClass({
 		if (Keystone.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
 		} else {
-			props.onClick = this.toggleCreate.bind(this, true);
+			props.onClick = this.toggleCreateModal.bind(this, true);
 		}
 		return (
 			<Button {...props}>
@@ -37,7 +44,20 @@ var Header = React.createClass({
 	},
 	
 	renderCreateForm: function() {
-		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
+		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
+	},
+	
+	renderDownloadButton: function() {
+		return (
+			<Button type="link" onClick={this.toggleDownloadModal.bind(this, true)}>
+				<span className="octicon octicon-cloud-download" />
+				Download CSV/JSON
+			</Button>
+		);
+	},
+	
+	renderDownloadForm: function() {
+		return <DownloadForm list={Keystone.list} isOpen={this.state.downloadIsOpen} onCancel={this.toggleDownloadModal.bind(this, false)} />;
 	},
 	
 	render: function() {
@@ -47,16 +67,14 @@ var Header = React.createClass({
 				<Toolbar>
 					<Toolbar.Section left>
 						{this.renderCreateButton()}
-						{this.renderCreateForm()}
 					</Toolbar.Section>
 					<Toolbar.Section right>
-						<Button type="link">
-							<span className="octicon octicon-cloud-download" />
-							Download
-						</Button>
+						{this.renderDownloadButton()}
 					</Toolbar.Section>
 				</Toolbar>
 				<ListHeader />
+				{this.renderCreateForm()}
+				{this.renderDownloadForm()}
 			</div>
 		);
 	}
