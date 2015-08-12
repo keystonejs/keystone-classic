@@ -82,7 +82,7 @@ var SigninView = React.createClass({
 	
 	renderAlert () {
 		return this.state.isInvalid ? (
-			<Alert key="real" type="danger">{this.state.invalidMessage}</Alert>
+			<Alert key="real" type="danger" style={{ textAlign: 'center' }}>{this.state.invalidMessage}</Alert>
 		) : (
 			<Alert key="fake" type="placeholder">&nbsp;</Alert>
 		);
