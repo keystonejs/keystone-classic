@@ -59,7 +59,7 @@
 .popout-arrow {
 	left: 50%;
 	margin-left: -@popout-arrow-size;
-	margin-top: -@popout-arrow-size;
+	margin-top: -@popout-arrow-size + 1;
 	position: absolute;
 
 	// common setup for shapes
@@ -67,7 +67,7 @@
 	&:after {
 		border-left:  @popout-arrow-size solid transparent;
 		border-right: @popout-arrow-size solid transparent;
-		border-bottom:   @popout-arrow-size dashed;
+		border-bottom: @popout-arrow-size dashed;
 		content: "";
 		display: inline-block;
 		height: 0;
@@ -157,7 +157,7 @@
 	& + & {
 		margin-top: 3px;
 	}
-	
+
 	&:hover,
 	&:focus {
 		.transition( none );
@@ -178,7 +178,7 @@
 		.popout__list__item__icon {
 			color: white;
 		}
-		
+
 		&:focus {
 			outline: 1px dotted rgba(255, 255, 255, 0.75);;
 			outline-offset: -3px;
@@ -249,7 +249,7 @@
 	&:hover  { color: @gray; }
 	&:active { color: @gray-dark; }
 	&:focus  { color: @app-primary; }
-	
+
 	&::before {
 		font-size: 16px;
 	}
@@ -312,7 +312,7 @@
 .popout__body {
 	padding-bottom: @popout-gutter;
 	padding-top: @popout-gutter;
-	
+
 	.FormField:last-child,
 	.FormRow {
 		margin-bottom: 0;
@@ -321,12 +321,3 @@
 		width: 100px;
 	}
 }
-
-
-
-
-
-
-
-
-
