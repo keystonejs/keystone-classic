@@ -54,7 +54,7 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	applyFilter (value) {
-		console.info('applying filter:', this.state.selectedField, value);
+		console.info('Applying filter:', this.state.selectedField.path, value);
 		CurrentListStore.addFilter({
 			field: this.state.selectedField,
 			value: value
@@ -85,7 +85,7 @@ var ListFiltersAdd = React.createClass({
 			if (el.type === 'heading') {
 				return <div key={'item-' + i} className="popout__list__header">{el.content}</div>
 			}
-			var filterIsActive = i < 1; // TODO: Actually track filter values
+			var filterIsActive = false; // TODO: Actually track filter values
 			var itemClass = classNames('popout__list__item', {
 				'is-selected': filterIsActive
 			});
