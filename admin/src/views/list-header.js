@@ -42,17 +42,8 @@ var Header = React.createClass({
 	
 	render: function() {
 		if (Keystone.list.nocreate) return null;
-		return (
-			<div>
-				<Toolbar>
-					<Toolbar.Section left>
-						{this.renderCreateButton()}
-					</Toolbar.Section>
-				</Toolbar>
-				<ListHeader />
-				{this.renderCreateForm()}
-			</div>
-		);
+				
+		return <ListHeader />;
 	}
 	
 });

@@ -1,9 +1,10 @@
-var React = require('react');
 var classNames = require('classnames');
+var React = require('react');
 var utils = require('../utils.js');
 
 var CurrentListStore = require('../stores/CurrentListStore');
 
+var CreateForm = require('./CreateForm');
 var ListFilters = require('./ListFilters');
 var ListFiltersAdd = require('./ListFiltersAdd');
 var ListColumnsForm = require('./ListColumnsForm');
@@ -17,8 +18,15 @@ var ListHeader = React.createClass({
 
 	getInitialState () {
 		return {
+			createIsOpen: Keystone.showCreateForm,
 			searchString: ''
 		};
+	},
+	
+	toggleCreateModal (visible) {
+		this.setState({
+			createIsOpen: visible
+		});
 	},
 
 	handleSearch (e) {
@@ -58,7 +66,7 @@ var ListHeader = React.createClass({
 		location.href = '/keystone/' + Keystone.list.path + '/' + page;
 	},
 	
-	toggleDownloadModal: function(visible) {
+	toggleDownloadModal (visible) {
 		this.setState({
 			downloadIsOpen: visible
 		});
@@ -99,6 +107,27 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
+	
+	renderCreateButton () {
+		var props = { type: 'success' };
+		if (Keystone.list.autocreate) {
+			props.href = '?new' + Keystone.csrf.query;
+		} else {
+			props.onClick = this.toggleCreateModal.bind(this, true);
+		}
+		return (
+			<InputGroup.Section style={{ borderLeft: '1px solid rgba(0,0,0,0.1)', marginLeft: '.75em', paddingLeft: '.75em' }}>
+				<Button {...props}>
+					<span className="octicon octicon-plus" />
+					Create {Keystone.list.singular}
+				</Button>
+			</InputGroup.Section>
+		);
+	},
+	
+	renderCreateForm () {
+		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
+	},
 
 	render () {
 		return (
@@ -110,10 +139,12 @@ var ListHeader = React.createClass({
 						<ListFiltersAdd />
 						<ListColumnsForm />
 						<ListDownloadForm />
+						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
 					<Pagination pagination={Keystone.items} onClick={this.handlePageSelect} className="ListHeader__pagination" />
 				</div>
+				{this.renderCreateForm()}
 			</div>
 		);
 	}
