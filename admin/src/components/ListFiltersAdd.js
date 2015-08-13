@@ -11,6 +11,10 @@ var ListFiltersAddForm = require('./ListFiltersAddForm');
 
 var { Button, InputGroup } = require('elemental');
 
+function pluck(arr, key) {
+	return arr.map(obj => obj[key]);
+}
+
 var ListFiltersAdd = React.createClass({
 
 	displayName: 'ListFiltersAdd',
@@ -22,10 +26,15 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	getInitialState () {
+		return this.getStateFromStore();
+	},
+	
+	getStateFromStore () {
 		return {
+			activeFilters: CurrentListStore.getActiveFilters(),
+			innerHeight: 0,
 			isOpen: false,
 			selectedField: false,
-			innerHeight: 0
 		};
 	},
 
@@ -81,11 +90,14 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	renderList () {
+		let activeFilterFields = pluck(this.state.activeFilters, 'field');
+		let activeFilterPaths = pluck(activeFilterFields, 'path');
+		
 		var popoutList = this.getListUIElements().map((el, i) => {
 			if (el.type === 'heading') {
 				return <div key={'item-' + i} className="popout__list__header">{el.content}</div>
 			}
-			var filterIsActive = false; // TODO: Actually track filter values
+			var filterIsActive = activeFilterPaths.length && (activeFilterPaths.indexOf(el.field.path) > -1);
 			var itemClass = classNames('popout__list__item', {
 				'is-selected': filterIsActive
 			});
