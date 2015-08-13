@@ -85,8 +85,8 @@ var SigninView = React.createClass({
 
 		return (
 			<div className="auth-box__col">
-				<p>Hi {this.props.user.name.first}</p>
-				<p>You're already signed in</p>
+				<p>Hi {this.props.user.name.first},</p>
+				<p>You're already signed in.</p>
 				{openKeystoneButton}
 				<Button href="/keystone/signout" type="link-cancel">Sign Out</Button>
 			</div>
