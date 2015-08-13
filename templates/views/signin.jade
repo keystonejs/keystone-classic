@@ -9,7 +9,7 @@ block js
 			csrf_token_value: !{JSON.stringify(csrf_token_value || '')},
 			logo: !{JSON.stringify(logo || '')},
 			messages: !{JSON.stringify(messages || '')},
-			user: !{JSON.stringify(user || '')},
+			user: !{JSON.stringify(user || null)},
 			userCanAccessKeystone: !{user && user.canAccessKeystone ? 'true' : 'false'},
 		};
 	script(src='/keystone/js/signin.js')
