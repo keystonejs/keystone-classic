@@ -1,12 +1,16 @@
 import React from 'react';
-
 import { SegmentedControl } from 'elemental';
+
+const TOGGLE_OPTIONS = [
+	{ label: 'Is Checked', value: true },
+	{ label: 'Is NOT Checked', value: false }
+];
 
 var BooleanFilter = React.createClass({
 
 	getInitialState () {
 		return {
-			checked: this.props.value || true
+			checked: this.props.value || TOGGLE_OPTIONS[0].value
 		};
 	},
 
@@ -16,12 +20,7 @@ var BooleanFilter = React.createClass({
 		});
 	},
 	render () {
-		let options = [
-			{ label: 'Is Checked', value: true },
-			{ label: 'Is NOT Checked', value: false }
-		];
-
-		return <SegmentedControl equalWidthSegments type="primary" options={options} value={this.state.checked} onChange={this.toggleChecked} />;
+		return <SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.checked} onChange={this.toggleChecked} />;
 	}
 
 });

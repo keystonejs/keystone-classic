@@ -18,7 +18,7 @@ var TextFilter = React.createClass({
 
 	getInitialState () {
 		return {
-			inverted: false,
+			inverted: TOGGLE_OPTIONS[0].value,
 			city: '',
 			state: '',
 			code: '',
@@ -42,7 +42,9 @@ var TextFilter = React.createClass({
 
 		return (
 			<div>
-				<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
+				<FormField>
+					<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
+				</FormField>
 				<FormField>
 					<FormInput ref="focusTarget" placeholder="Address" />
 				</FormField>

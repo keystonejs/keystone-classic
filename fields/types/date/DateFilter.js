@@ -4,6 +4,11 @@ import React from 'react';
 
 import { FormField, FormInput, FormRow, FormSelect, SegmentedControl } from 'elemental';
 
+const TOGGLE_OPTIONS = [
+	{ label: 'Matches', value: false },
+	{ label: 'Does NOT Match', value: true }
+];
+
 const MODE_OPTIONS = [
 	{ label: 'On',      value: 'on' },
 	{ label: 'After',   value: 'after' },
@@ -17,7 +22,7 @@ var NumberFilter = React.createClass({
 		return {
 			modeValue: MODE_OPTIONS[0].value, // 'on'
 			modeLabel: MODE_OPTIONS[0].label, // 'On'
-			inverted: false,
+			inverted: TOGGLE_OPTIONS[0].value,
 			value: ''
 		};
 	},
@@ -45,12 +50,11 @@ var NumberFilter = React.createClass({
 	},
 
 	renderToggle () {
-		let options = [
-			{ label: 'Matches', value: false },
-			{ label: 'Does NOT Match', value: true }
-		];
-
-		return <SegmentedControl equalWidthSegments type="primary" options={options} value={this.state.inverted} onChange={this.toggleInverted} />;
+		return (
+			<FormField>
+				<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
+			</FormField>
+		);
 	},
 
 	renderControls () {

@@ -17,7 +17,7 @@ const MODE_OPTIONS = [
 function getDefaultValue () {
 	return {
 		mode: MODE_OPTIONS[0].value,
-		inverted: false,
+		inverted: TOGGLE_OPTIONS[0].value,
 		value: ''
 	};
 }
@@ -75,7 +75,9 @@ var TextFilter = React.createClass({
 
 		return (
 			<div>
-				<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+				<FormField>
+					<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+				</FormField>
 				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
 				<FormField>
 					<FormInput ref="focusTarget" value={this.props.filter.value} onChange={this.updateValue} placeholder={placeholder} />
