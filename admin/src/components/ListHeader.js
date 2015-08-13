@@ -6,6 +6,7 @@ var CurrentListStore = require('../stores/CurrentListStore');
 
 var ListFilters = require('./ListFilters');
 var ListFiltersAdd = require('./ListFiltersAdd');
+var ListColumnsForm = require('./ListColumnsForm');
 var ListDownloadForm = require('./ListDownloadForm');
 
 var { Button, Dropdown, FormInput, InputGroup, Pagination } = require('elemental');
@@ -88,19 +89,6 @@ var ListHeader = React.createClass({
 		);
 	},
 
-	renderColumnsButton () {
-		return (
-			<InputGroup.Section>
-				<Dropdown alignRight items={CurrentListStore.getAvailableColumns()} onSelect={this.handleColumnSelect}>
-					<Button>
-						Columns
-						<span className="disclosure-arrow" />
-					</Button>
-				</Dropdown>
-			</InputGroup.Section>
-		);
-	},
-
 	renderDownloadButton () {
 		return (
 			<InputGroup.Section>
@@ -120,7 +108,7 @@ var ListHeader = React.createClass({
 					<InputGroup contiguous={false} className="ListHeader__searchbar">
 						{this.renderSearch()}
 						<ListFiltersAdd />
-						{this.renderColumnsButton()}
+						<ListColumnsForm />
 						<ListDownloadForm />
 					</InputGroup>
 					<ListFilters />
