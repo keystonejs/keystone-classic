@@ -76,7 +76,7 @@ var TextFilter = React.createClass({
 		return (
 			<div>
 				<FormField>
-					<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
 				<FormField>

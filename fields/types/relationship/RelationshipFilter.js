@@ -29,7 +29,7 @@ var RelationshipFilter = React.createClass({
 	},
 
 	renderToggle () {
-		return <SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />;
+		return <SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />;
 	},
 
 	renderSelect () {

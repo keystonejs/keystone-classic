@@ -23,7 +23,7 @@ var PasswordFilter = React.createClass({
 			{ label: 'Is NOT Set', value: false }
 		];
 
-		return <SegmentedControl equalWidthSegments type="primary" options={options} value={this.state.checked} onChange={this.toggleChecked} />;
+		return <SegmentedControl equalWidthSegments options={options} value={this.state.checked} onChange={this.toggleChecked} />;
 	},
 
 	render () {

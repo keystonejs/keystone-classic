@@ -20,7 +20,7 @@ var BooleanFilter = React.createClass({
 		});
 	},
 	render () {
-		return <SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.checked} onChange={this.toggleChecked} />;
+		return <SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.checked} onChange={this.toggleChecked} />;
 	}
 
 });

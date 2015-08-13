@@ -49,7 +49,7 @@ var SelectFilter = React.createClass({
 	renderToggle () {
 		return (
 			<FormField>
-				<SegmentedControl equalWidthSegments type="primary" options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
+				<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
 			</FormField>
 		);
 	},
