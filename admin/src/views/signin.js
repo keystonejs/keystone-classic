@@ -4,8 +4,6 @@ var { Alert, Button, Form, FormField, FormInput, Spinner } = require('elemental'
 var SessionStore = require('../stores/SessionStore');
 
 var SigninView = React.createClass({
-	displayName: 'SigninView',
-
 	getInitialState: function() {
 		return {
 			email: '',
@@ -15,50 +13,52 @@ var SigninView = React.createClass({
 			invalidMessage: '',
 		};
 	},
-
 	componentDidMount () {
 		if (this.refs.email) {
 			React.findDOMNode(this.refs.email).select();
 		}
 	},
-
 	handleInputChange (e) {
 		let newState = {};
 		newState[e.target.name] = e.target.value;
-
 		this.setState(newState);
 	},
-
 	handleSubmit (e) {
 		e.preventDefault();
-
+		if (!this.state.email || !this.state.password) {
+			return this.displayError('Please enter an email address and password to sign in.');
+		}
 		SessionStore.signin({
 			email: this.state.email,
 			password: this.state.password
 		}, (err, data) => {
-			if (data.success === true) {
-				console.log('Success!');
+			if (err) {
+				this.displayError('The email and password you entered are not valid.');
 			} else {
-				this.setState({
-					isAnimating: true,
-					isInvalid: true,
-					invalidMessage: 'That email and password combination is invalid'
-				});
-				setTimeout(() => {
-					if (!this.isMounted()) return;
-					if (this.refs.email) {
-						React.findDOMNode(this.refs.email).select();
-					}
-					this.setState({
-						isAnimating: false
-					});
-				}, 750);
+				// TODO: Handle custom signin redirections
+				top.location.href = '/keystone';
 			}
 		});
 	},
-
+	displayError (message) {
+		this.setState({
+			isAnimating: true,
+			isInvalid: true,
+			invalidMessage: message
+		});
+		setTimeout(this.finishAnimation, 750);
+	},
+	finishAnimation () {
+		if (!this.isMounted()) return;
+		if (this.refs.email) {
+			React.findDOMNode(this.refs.email).select();
+		}
+		this.setState({
+			isAnimating: false
+		});
+	},
 	renderBrand () {
-		var logo = { src: '/keystone/images/logo.png', width: 205, height: 68 };
+		let logo = { src: '/keystone/images/logo.png', width: 205, height: 68 };
 		if (this.props.logo) {
 			logo = typeof this.props.logo === 'string' ? { src: this.props.logo } : this.props.logo;
 			// TODO: Deprecate this
@@ -66,7 +66,6 @@ var SigninView = React.createClass({
 				logo = { src: logo[0], width: logo[1], height: logo[2] };
 			}
 		}
-
 		return (
 			<div className="auth-box__col">
 				<div className="auth-box__brand">
@@ -77,12 +76,9 @@ var SigninView = React.createClass({
 			</div>
 		);
 	},
-
 	renderUserInfo () {
 		if (!this.props.user) return null;
-
-		var openKeystoneButton = this.props.userCanAccessKeystone ? <Button href="/keystone" type="primary">Open Keystone</Button> : null;
-
+		let openKeystoneButton = this.props.userCanAccessKeystone ? <Button href="/keystone" type="primary">Open Keystone</Button> : null;
 		return (
 			<div className="auth-box__col">
 				<p>Hi {this.props.user.name.first},</p>
@@ -92,7 +88,6 @@ var SigninView = React.createClass({
 			</div>
 		);
 	},
-
 	renderAlert () {
 		return this.state.isInvalid ? (
 			<Alert key="real" type="danger" style={{ textAlign: 'center' }}>{this.state.invalidMessage}</Alert>
@@ -100,10 +95,8 @@ var SigninView = React.createClass({
 			<Alert key="fake" type="placeholder">&nbsp;</Alert>
 		);
 	},
-
 	renderForm () {
 		if (this.props.user) return null;
-
 		return (
 			<div className="auth-box__col">
 				<Form method="post" onSubmit={this.handleSubmit} noValidate>
@@ -120,12 +113,10 @@ var SigninView = React.createClass({
 			</div>
 		);
 	},
-
 	render: function() {
 		let boxClassname = classnames('auth-box', {
 			'auth-box--has-errors': this.state.isAnimating
 		});
-
 		return (
 			<div className="auth-wrapper">
 				{this.renderAlert()}
@@ -144,7 +135,6 @@ var SigninView = React.createClass({
 			</div>
 		);
 	}
-
 });
 
 React.render(<SigninView
