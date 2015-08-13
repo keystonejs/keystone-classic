@@ -4,7 +4,7 @@ var Transition = React.addons.CSSTransitionGroup;
 
 var CurrentListStore = require('../stores/CurrentListStore');
 
-var { Button, Checkbox, FormField, InputGroup, SegmentedControl } = require('elemental');
+var { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } = require('elemental');
 
 const FORMAT_OPTIONS = [
 	{ label: 'CSV', value: 'csv' },
@@ -133,13 +133,15 @@ var ListDownloadForm = React.createClass({
 					<div className="popout__header">
 						<span className="popout__header__label">Download</span>
 					</div>
-					<div className="popout__body popout__scrollable-area">
-						<FormField>
-							<SegmentedControl equalWidthSegments type="primary" options={FORMAT_OPTIONS} value={this.state.format} onChange={this.changeFormat} />
+					<Form type="horizontal" className="popout__body popout__scrollable-area" component="div">
+						<FormField label="File format:">
+							<SegmentedControl equalWidthSegments options={FORMAT_OPTIONS} value={this.state.format} onChange={this.changeFormat} />
 						</FormField>
-						<Checkbox label="Use the current columns" onChange={() => this.setState({useCurrentColumns:!useCurrentColumns})} checked={useCurrentColumns} />
+						<FormField label="Columns:">
+							<Checkbox label="Use currently selected" onChange={() => this.setState({useCurrentColumns:!useCurrentColumns})} checked={useCurrentColumns} />
+						</FormField>
 						{this.renderColumnSelect()}
-					</div>
+					</Form>
 					<div className="popout__footer">
 						<Button type="link" className="popout__footer-button popout__footer-button--apply" submit>Download</Button>
 						<Button onClick={this.togglePopout.bind(this, false)} type="link-cancel" className="popout__footer-button popout__footer-button--cancel">Cancel</Button>
