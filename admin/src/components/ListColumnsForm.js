@@ -3,8 +3,9 @@ var React = require('react');
 var Transition = React.addons.CSSTransitionGroup;
 
 var CurrentListStore = require('../stores/CurrentListStore');
-
 var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
+
+const ESC_KEYCODE = 27;
 
 var ListDownloadForm = React.createClass({
 	displayName: 'ListDownloadForm',
@@ -25,6 +26,20 @@ var ListDownloadForm = React.createClass({
 			isOpen: false,
 			selectedColumns: {},
 		};
+	},
+	
+	componentDidMount: function() {
+		window.addEventListener('keydown', this.handleKeyDown);
+	},
+	
+	componentWillUnMount: function() {
+		window.removeEventListener('keydown', this.handleKeyDown);
+	},
+	
+	handleKeyDown (e) {
+		if ( e.keyCode == ESC_KEYCODE ) {
+			this.togglePopout(false);
+		}
 	},
 
 	getListUIElements () {
@@ -66,7 +81,7 @@ var ListDownloadForm = React.createClass({
 
 	renderButton () {
 		return (
-			<Button onClick={this.togglePopout.bind(this, true)}>
+			<Button onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
 				Columns
 				<span className="disclosure-arrow" />
 			</Button>

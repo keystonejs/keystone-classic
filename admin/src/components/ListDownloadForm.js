@@ -11,6 +11,8 @@ const FORMAT_OPTIONS = [
 	{ label: 'JSON', value: 'json' },
 ];
 
+const ESC_KEYCODE = 27;
+
 var ListDownloadForm = React.createClass({
 	displayName: 'ListDownloadForm',
 	propTypes: {
@@ -35,6 +37,20 @@ var ListDownloadForm = React.createClass({
 			selectedColumns: {},
 		};
 		
+	},
+	
+	componentDidMount: function() {
+		window.addEventListener('keydown', this.handleKeyDown);
+	},
+	
+	componentWillUnMount: function() {
+		window.removeEventListener('keydown', this.handleKeyDown);
+	},
+	
+	handleKeyDown (e) {
+		if ( e.keyCode == ESC_KEYCODE ) {
+			this.togglePopout(false);
+		}
 	},
 
 	getListUIElements () {

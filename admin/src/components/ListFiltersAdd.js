@@ -15,6 +15,8 @@ function pluck(arr, key) {
 	return arr.map(obj => obj[key]);
 }
 
+const ESC_KEYCODE = 27;
+
 var ListFiltersAdd = React.createClass({
 
 	displayName: 'ListFiltersAdd',
@@ -27,6 +29,20 @@ var ListFiltersAdd = React.createClass({
 
 	getInitialState () {
 		return this.getStateFromStore();
+	},
+	
+	componentDidMount: function() {
+		window.addEventListener('keydown', this.handleKeyDown);
+	},
+	
+	componentWillUnMount: function() {
+		window.removeEventListener('keydown', this.handleKeyDown);
+	},
+	
+	handleKeyDown (e) {
+		if ( e.keyCode == ESC_KEYCODE ) {
+			this.closePopout();
+		}
 	},
 	
 	getStateFromStore () {
