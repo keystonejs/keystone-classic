@@ -1,9 +1,10 @@
+var classnames = require('classnames');
 var React = require('react');
 var Transition = React.addons.CSSTransitionGroup;
 
 var CurrentListStore = require('../stores/CurrentListStore');
 
-var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
+var { Button, Checkbox, FormField, InputGroup, SegmentedControl } = require('elemental');
 
 const FORMAT_OPTIONS = [
 	{ label: 'CSV', value: 'csv' },
@@ -19,25 +20,49 @@ var ListDownloadForm = React.createClass({
 		onSubmit: React.PropTypes.func,
 	},
 	
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return {
 			columns: null,
 			isOpen: false,
 		};
 	},
 	
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			format: FORMAT_OPTIONS[0].value,
 			isOpen: false,
 			useCurrentColumns: true,
+			selectedColumns: {},
 		};
 		
 	},
+
+	getListUIElements () {
+		return Keystone.list.uiElements.map((el) => {
+			return el.type === 'field' ? {
+				type: 'field',
+				field: Keystone.list.fields[el.field]
+			} : el;
+		});
+	},
 	
-	togglePopout: function(visible) {
+	togglePopout (visible) {
 		this.setState({
 			isOpen: visible
+		});
+	},
+	
+	toggleColumn (column, value) {
+		let newColumns = this.state.selectedColumns;
+		
+		if (value) {
+			newColumns[column] = value;
+		} else {
+			delete newColumns[column];
+		}
+		
+		this.setState({
+			selectedColumns: newColumns
 		});
 	},
 
@@ -45,6 +70,13 @@ var ListDownloadForm = React.createClass({
 		this.setState({
 			format: value
 		});
+	},
+	
+	handleFormSubmit (e) {
+		e.preventDefault();
+		
+		console.info(`Download ${this.state.format.toUpperCase()} with columns:`, Object.keys(this.state.selectedColumns));
+		this.togglePopout(false);
 	},
 
 	renderButton () {
@@ -59,8 +91,28 @@ var ListDownloadForm = React.createClass({
 	renderColumnSelect () {
 		if (this.state.useCurrentColumns) return null;
 		
-		let checkboxStyle = { float: 'left', overflow: 'hidden', textOverflow: 'ellipsis', width: '50%', whiteSpace: 'nowrap' };
-		let possibleColumns = CurrentListStore.getAvailableColumns().map(opt => <Checkbox label={opt.label} style={checkboxStyle} />);
+		let possibleColumns = this.getListUIElements().map((el, i) => {
+			if (el.type === 'heading') {
+				return <div key={'item-' + i} className="popout__list__header">{el.content}</div>
+			}
+			
+			let columnKey = el.field.path;
+			let columnValue = this.state.selectedColumns[columnKey];
+			
+			var itemClassname = classnames('popout__list__item', {
+				'is-selected': columnValue
+			});
+			var iconClassname = classnames('popout__list__item__icon octicon',
+				columnValue ? 'octicon-check' : 'octicon-dash'
+			);
+			
+			return (
+				<button type="button" key={'item-' + el.field.path} onClick={this.toggleColumn.bind(this, columnKey, !columnValue)} title={el.field.label} className={itemClassname}>
+					<span className={iconClassname} />
+					{el.field.label}
+				</button>
+			);
+		});
 		
 		return (
 			<div style={{ borderTop: '1px dashed #eee', marginTop: '1em', paddingTop: '1em' }}>
@@ -82,7 +134,9 @@ var ListDownloadForm = React.createClass({
 						<span className="popout__header__label">Download</span>
 					</div>
 					<div className="popout__body popout__scrollable-area">
-						<SegmentedControl equalWidthSegments type="primary" options={FORMAT_OPTIONS} value={this.state.format} onChange={this.changeFormat} />
+						<FormField>
+							<SegmentedControl equalWidthSegments type="primary" options={FORMAT_OPTIONS} value={this.state.format} onChange={this.changeFormat} />
+						</FormField>
 						<Checkbox label="Use the current columns" onChange={() => this.setState({useCurrentColumns:!useCurrentColumns})} checked={useCurrentColumns} />
 						{this.renderColumnSelect()}
 					</div>
@@ -100,7 +154,7 @@ var ListDownloadForm = React.createClass({
 		return <div className="blockout" onClick={this.togglePopout.bind(this, false)} />;
 	},
 	
-	render: function() {
+	render () {
 		let { list } = this.props;
 		let { useCurrentColumns } = this.state;
 		
