@@ -8,15 +8,15 @@ var ListControl = React.createClass({
 	},
 
 	renderControl: function() {
-		var icon = 'octicon';
+		var icon = 'octicon octicon-';
 		var className = 'ItemList__control ItemList__control--' + this.props.type;
 		var tabindex = this.props.type === 'sortable' ? -1 : null;
 
 		if (this.props.type === 'delete') {
-			icon += ' octicon-trashcan';
+			icon += 'trashcan';
 		}
 		if (this.props.type === 'sortable') {
-			icon += ' octicon-three-bars';
+			icon += 'three-bars';
 		}
 
 		return (
