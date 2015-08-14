@@ -140,7 +140,7 @@ var ListFiltersAdd = React.createClass({
 		
 		return (
 			<InputGroup.Section>
-				<Button onClick={this.state.isOpen ? this.closePopout : this.openPopout}>
+				<Button isActive={this.state.isOpen} onClick={this.state.isOpen ? this.closePopout : this.openPopout}>
 					Filters
 					<span className="disclosure-arrow" />
 				</Button>

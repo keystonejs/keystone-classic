@@ -1,7 +1,7 @@
-var classnames = require('classnames');
-var React = require('react');
-var Transition = React.addons.CSSTransitionGroup;
+import classnames from 'classnames';
+import React from 'react';
 
+var Transition = React.addons.CSSTransitionGroup;
 var CurrentListStore = require('../stores/CurrentListStore');
 var Popout = require('./Popout');
 var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
@@ -94,11 +94,11 @@ var ListDownloadForm = React.createClass({
 		
 		return (
 			<InputGroup.Section>
-				<Button onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
+				<Button isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
 					Columns
 					<span className="disclosure-arrow" />
 				</Button>
-				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, !this.state.isOpen)}>
+				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)}>
 					<Popout.Header title="Columns" />
 					<Popout.Body scrollable>
 						{this.renderColumnSelect()}
@@ -106,7 +106,7 @@ var ListDownloadForm = React.createClass({
 					<Popout.Footer 
 						primaryButtonAction={this.applyColumns}
 						primaryButtonLabel="Apply"
-						secondaryButtonAction={this.togglePopout.bind(this, !this.state.isOpen)}
+						secondaryButtonAction={this.togglePopout.bind(this, false)}
 						secondaryButtonLabel="Cancel" />
 				</Popout>
 			</InputGroup.Section>

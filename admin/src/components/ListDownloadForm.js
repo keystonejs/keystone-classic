@@ -1,8 +1,9 @@
-var classnames = require('classnames');
-var React = require('react');
-var Transition = React.addons.CSSTransitionGroup;
+import classnames from 'classnames';
+import React from 'react';
 
+var Transition = React.addons.CSSTransitionGroup;
 var CurrentListStore = require('../stores/CurrentListStore');
+var Popout = require('./Popout');
 
 var { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } = require('elemental');
 
@@ -10,8 +11,6 @@ const FORMAT_OPTIONS = [
 	{ label: 'CSV', value: 'csv' },
 	{ label: 'JSON', value: 'json' },
 ];
-
-const ESC_KEYCODE = 27;
 
 var ListDownloadForm = React.createClass({
 	displayName: 'ListDownloadForm',
@@ -37,20 +36,6 @@ var ListDownloadForm = React.createClass({
 			selectedColumns: {},
 		};
 		
-	},
-	
-	componentDidMount: function() {
-		window.addEventListener('keydown', this.handleKeyDown);
-	},
-	
-	componentWillUnMount: function() {
-		window.removeEventListener('keydown', this.handleKeyDown);
-	},
-	
-	handleKeyDown (e) {
-		if ( e.keyCode == ESC_KEYCODE ) {
-			this.togglePopout(false);
-		}
 	},
 
 	getListUIElements () {
@@ -88,20 +73,9 @@ var ListDownloadForm = React.createClass({
 		});
 	},
 	
-	handleFormSubmit (e) {
-		e.preventDefault();
-		
+	handleDownloadRequest () {
 		console.info(`Download ${this.state.format.toUpperCase()} with columns:`, Object.keys(this.state.selectedColumns));
 		this.togglePopout(false);
-	},
-
-	renderButton () {
-		return (
-			<Button onClick={this.togglePopout.bind(this, true)}>
-				Download
-				<span className="disclosure-arrow" />
-			</Button>
-		);
 	},
 	
 	renderColumnSelect () {
@@ -109,16 +83,16 @@ var ListDownloadForm = React.createClass({
 		
 		let possibleColumns = this.getListUIElements().map((el, i) => {
 			if (el.type === 'heading') {
-				return <div key={'item-' + i} className="popout__list__header">{el.content}</div>
+				return <div key={'item-' + i} className="Popout__list__header">{el.content}</div>
 			}
 			
 			let columnKey = el.field.path;
 			let columnValue = this.state.selectedColumns[columnKey];
 			
-			var itemClassname = classnames('popout__list__item', {
+			var itemClassname = classnames('Popout__list__item', {
 				'is-selected': columnValue
 			});
-			var iconClassname = classnames('popout__list__item__icon octicon',
+			var iconClassname = classnames('Popout__list__item__icon octicon',
 				columnValue ? 'octicon-check' : 'octicon-dash'
 			);
 			
@@ -136,41 +110,6 @@ var ListDownloadForm = React.createClass({
 			</div>
 		);
 	},
-
-	renderPopout () {
-		if (!this.state.isOpen) return;
-		
-		let { useCurrentColumns } = this.state;
-		
-		return (
-			<div className="popout">
-				<span className="popout-arrow" />
-				<form onSubmit={this.handleFormSubmit} className="popout-inner">
-					<div className="popout__header">
-						<span className="popout__header__label">Download</span>
-					</div>
-					<Form type="horizontal" className="popout__body popout__scrollable-area" component="div">
-						<FormField label="File format:">
-							<SegmentedControl equalWidthSegments options={FORMAT_OPTIONS} value={this.state.format} onChange={this.changeFormat} />
-						</FormField>
-						<FormField label="Columns:">
-							<Checkbox label="Use currently selected" onChange={() => this.setState({useCurrentColumns:!useCurrentColumns})} checked={useCurrentColumns} />
-						</FormField>
-						{this.renderColumnSelect()}
-					</Form>
-					<div className="popout__footer">
-						<Button type="link" className="Popout__footer__button Popout__footer__button--apply" submit>Download</Button>
-						<Button onClick={this.togglePopout.bind(this, false)} type="link-cancel" className="Popout__footer__button Popout__footer__button--cancel">Cancel</Button>
-					</div>
-				</form>
-			</div>
-		);
-	},
-
-	renderBlockout () {
-		if (!this.state.isOpen) return;
-		return <div className="blockout" onClick={this.togglePopout.bind(this, false)} />;
-	},
 	
 	render () {
 		let { list } = this.props;
@@ -178,11 +117,29 @@ var ListDownloadForm = React.createClass({
 		
 		return (
 			<InputGroup.Section>
-				{this.renderButton()}
-				<Transition className="popout-wrapper" transitionName="popout" component="div">
-					{this.renderPopout()}
-				</Transition>
-				{this.renderBlockout()}
+				<Button isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
+					Download
+					<span className="disclosure-arrow" />
+				</Button>
+				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)}>
+					<Popout.Header title="Download" />
+					<Popout.Body scrollable>
+						<Form type="horizontal" component="div">
+							<FormField label="File format:">
+								<SegmentedControl equalWidthSegments options={FORMAT_OPTIONS} value={this.state.format} onChange={this.changeFormat} />
+							</FormField>
+							<FormField label="Columns:">
+								<Checkbox label="Use currently selected" onChange={() => this.setState({useCurrentColumns:!useCurrentColumns})} checked={useCurrentColumns} />
+							</FormField>
+							{this.renderColumnSelect()}
+						</Form>
+					</Popout.Body>
+					<Popout.Footer 
+						primaryButtonAction={this.handleDownloadRequest}
+						primaryButtonLabel="Download"
+						secondaryButtonAction={this.togglePopout.bind(this, false)}
+						secondaryButtonLabel="Cancel" />
+				</Popout>
 			</InputGroup.Section>
 		);
 	}
