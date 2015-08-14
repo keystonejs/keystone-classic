@@ -142,7 +142,7 @@ var ListHeader = React.createClass({
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
-					<Pagination pagination={Keystone.items} onClick={this.handlePageSelect} className="ListHeader__pagination" />
+					<Pagination pagination={Keystone.items} onPageSelect={this.handlePageSelect} className="ListHeader__pagination" />
 				</div>
 				{this.renderCreateForm()}
 			</div>
