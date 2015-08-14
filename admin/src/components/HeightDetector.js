@@ -6,8 +6,8 @@ var HeightDetector = React.createClass({
 		this.props.onLayout && this.props.onLayout(this.getDOMNode().offsetHeight);
 	},
 	render () {
-		var props = blacklist(this.props, 'onLayout', 'children');
-		return <div {...props}>{this.props.children}</div>
+		var props = blacklist(this.props, 'onLayout');
+		return <div {...props} />
 	}
 });
 
