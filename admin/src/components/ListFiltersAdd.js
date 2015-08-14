@@ -31,6 +31,10 @@ var ListFiltersAdd = React.createClass({
 		return this.getStateFromStore();
 	},
 	
+	componentWillReceiveProps (nextProps) {
+		this.setState({ isOpen: nextProps.isOpen });
+	},
+	
 	getStateFromStore () {
 		return {
 			activeFilters: CurrentListStore.getActiveFilters(),
@@ -51,7 +55,7 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	closePopout () {
-		this.setState({ isOpen: false, selectedField: false, innerHeight: 0 });
+		this.setState({ isOpen: false, selectedField: false, searchString: '', innerHeight: 0 });
 	},
 
 	setPopoutHeight (height) {
@@ -97,7 +101,7 @@ var ListFiltersAdd = React.createClass({
 
 		function searchFilter (filter) {
 			if (filter.type === 'heading') return false;
-			return searchRegex.test(filter.field.path.toLowerCase())
+			return searchRegex.test(filter.field.label.toLowerCase())
 		};
 		
 		let filteredFilters = searchString ? availableFilters.filter(searchFilter) : availableFilters;

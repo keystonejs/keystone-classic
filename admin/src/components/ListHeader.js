@@ -35,14 +35,14 @@ var ListHeader = React.createClass({
 	},
 	
 	handleKeyPress (e) {
-		if (document.activeElement.nodeName !== 'BODY') return;
+		if (document.activeElement.nodeName === 'INPUT') return;
 		
 		e = e || window.event;
 		var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
 		
 		this.setState({
 			lastKeyPressed: String.fromCharCode(charCode).toUpperCase()
-		})
+		});
 		
 	},
 	
@@ -147,8 +147,8 @@ var ListHeader = React.createClass({
 					{this.renderTitle()}
 					<InputGroup contiguous={false} className="ListHeader__searchbar">
 						{this.renderSearch()}
-						<ListFiltersAdd />
-						<ListColumnsForm isOpen={this.state.lastKeyPressed === 'C'} />
+						<ListFiltersAdd isOpen={this.state.lastKeyPressed === 'F'} />
+						<ListColumnsForm />
 						<ListDownloadForm />
 						{this.renderCreateButton()}
 					</InputGroup>

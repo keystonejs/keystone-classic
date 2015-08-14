@@ -7,6 +7,8 @@ var Popout = require('./Popout');
 var PopoutList = require('./PopoutList');
 var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
 
+const ESC_KEYCODE = 27;
+
 var ListDownloadForm = React.createClass({
 	displayName: 'ListDownloadForm',
 	
@@ -17,8 +19,27 @@ var ListDownloadForm = React.createClass({
 		};
 	},
 	
-	componentWillReceiveProps (nextProps) {
-		this.setState({ isOpen: nextProps.isOpen });
+	componentDidMount () {
+		window.addEventListener('keydown', this.handleKeyPress);
+	},
+	componentWillUnMount () {
+		window.removeEventListener('keydown', this.handleKeyPress);
+	},
+	
+	handleKeyPress (e) {
+		if (document.activeElement.nodeName === 'INPUT') return;
+		
+		e = e || window.event;
+		var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
+		
+		console.log(charCode);
+		
+		if (charCode === 27) {
+			this.togglePopout(false);
+		} else if (String.fromCharCode(charCode).toUpperCase() === 'C') {
+			this.togglePopout(true);
+			React.findDOMNode(this.refs.button).focus();
+		}
 	},
 
 	getListUIElements () {
@@ -65,7 +86,7 @@ var ListDownloadForm = React.createClass({
 			let columnValue = this.state.selectedColumns[columnKey];
 			
 			return <PopoutList.Item
-				key={'item_' + el.field.path}
+				key={'column_' + el.field.path}
 				icon={columnValue ? 'check' : 'dash'}
 				isSelected={columnValue}
 				label={el.field.label}
@@ -85,7 +106,7 @@ var ListDownloadForm = React.createClass({
 		
 		return (
 			<InputGroup.Section>
-				<Button isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
+				<Button ref="button" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
 					Columns
 					<span className="disclosure-arrow" />
 				</Button>
