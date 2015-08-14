@@ -159,8 +159,8 @@ var ListDownloadForm = React.createClass({
 						{this.renderColumnSelect()}
 					</Form>
 					<div className="popout__footer">
-						<Button type="link" className="popout__footer-button popout__footer-button--apply" submit>Download</Button>
-						<Button onClick={this.togglePopout.bind(this, false)} type="link-cancel" className="popout__footer-button popout__footer-button--cancel">Cancel</Button>
+						<Button type="link" className="Popout__footer__button Popout__footer__button--apply" submit>Download</Button>
+						<Button onClick={this.togglePopout.bind(this, false)} type="link-cancel" className="Popout__footer__button Popout__footer__button--cancel">Cancel</Button>
 					</div>
 				</form>
 			</div>

@@ -1,6 +1,6 @@
 var React = require('react');
 
-const buttonBaseClassname = 'Popout__footer-button Popout__footer-button--';
+const buttonBaseClassname = 'Popout__footer__button Popout__footer__button--';
 
 var PopoutFooter = React.createClass({
 	displayName: 'PopoutFooter',

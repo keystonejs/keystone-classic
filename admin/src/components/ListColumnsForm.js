@@ -100,7 +100,7 @@ var ListDownloadForm = React.createClass({
 				</Button>
 				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, !this.state.isOpen)}>
 					<Popout.Header title="Columns" />
-					<Popout.Body>
+					<Popout.Body scrollable>
 						{this.renderColumnSelect()}
 					</Popout.Body>
 					<Popout.Footer 
