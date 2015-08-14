@@ -43,8 +43,6 @@ var Popout = React.createClass({
 	renderPopout () {
 		if (!this.props.isOpen) return;
 		
-		console.log('popout invoked?');
-		
 		return (
 			<div className="Popout">
 				<span className="Popout__arrow" />
