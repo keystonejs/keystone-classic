@@ -11,15 +11,15 @@ var PopoutHeader = React.createClass({
 	},
 	
 	render () {
-		var headerButton = (this.props.leftAction && this.props.leftIcon) ? <button key={'button_' + Date.now()} type="button" className={'Popout__header__button octicon octicon-' + this.props.leftIcon} onClick={this.navigateBack} /> : null;
-		var headerTitle = this.props.title ? <span key={'title_' + Date.now()} className="Popout__header__label">{this.props.title}</span> : null;
+		var headerButton = (this.props.leftAction && this.props.leftIcon) ? <button key={'button_' + this.props.transitionDirection} type="button" className={'Popout__header__button octicon octicon-' + this.props.leftIcon} onClick={this.props.leftAction} /> : null;
+		var headerTitle = this.props.title ? <span key={'title_' + this.props.transitionDirection} className="Popout__header__label">{this.props.title}</span> : null;
 		
 		return (
 			<div className="Popout__header">
 				<Transition transitionName="react-transitiongroup-fade">
 					{headerButton}
 				</Transition>
-				<Transition transitionName={'Popout-pane-' + this.props.transitionDirection}>
+				<Transition transitionName={'Popout__pane-' + this.props.transitionDirection}>
 					{headerTitle}
 				</Transition>
 			</div>
