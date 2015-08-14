@@ -12,33 +12,6 @@ var Popout = React.createClass({
 		onCancel: React.PropTypes.func,
 		onSubmit: React.PropTypes.func,
 	},
-	
-	getDefaultProps () {
-		return {
-			isOpen: false,
-		};
-	},
-	
-	getInitialState () {
-		return {
-			isOpen: false,
-			selectedColumns: {},
-		};
-	},
-	
-	componentDidMount: function() {
-		window.addEventListener('keydown', this.handleKeyDown);
-	},
-	
-	componentWillUnMount: function() {
-		window.removeEventListener('keydown', this.handleKeyDown);
-	},
-	
-	handleKeyDown (e) {
-		if ( e.keyCode == ESC_KEYCODE ) {
-			this.props.onCancel();
-		}
-	},
 
 	renderPopout () {
 		if (!this.props.isOpen) return;
