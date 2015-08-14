@@ -4,6 +4,7 @@ import React from 'react';
 var Transition = React.addons.CSSTransitionGroup;
 var CurrentListStore = require('../stores/CurrentListStore');
 var Popout = require('./Popout');
+var PopoutList = require('./PopoutList');
 var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
 
 var ListDownloadForm = React.createClass({
@@ -64,28 +65,25 @@ var ListDownloadForm = React.createClass({
 	renderColumnSelect () {
 		let possibleColumns = this.getListUIElements().map((el, i) => {
 			if (el.type === 'heading') {
-				return <div key={'item-' + i} className="Popout__list__header">{el.content}</div>
+				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
 			
 			let columnKey = el.field.path;
 			let columnValue = this.state.selectedColumns[columnKey];
 			
-			var itemClassname = classnames('Popout__list__item', {
-				'is-selected': columnValue
-			});
-			var iconClassname = classnames('Popout__list__item__icon octicon',
-				columnValue ? 'octicon-check' : 'octicon-dash'
-			);
-			
-			return (
-				<button type="button" key={'item-' + el.field.path} onClick={this.toggleColumn.bind(this, columnKey, !columnValue)} title={el.field.label} className={itemClassname}>
-					<span className={iconClassname} />
-					{el.field.label}
-				</button>
-			);
+			return <PopoutList.Item
+				key={'item_' + el.field.path}
+				icon={columnValue ? 'check' : 'dash'}
+				isSelected={columnValue}
+				label={el.field.label}
+				onClick={this.toggleColumn.bind(this, columnKey, !columnValue)} />;
 		});
 		
-		return possibleColumns;
+		return (
+			<PopoutList>
+				{possibleColumns}
+			</PopoutList>
+		);
 	},
 	
 	render () {
