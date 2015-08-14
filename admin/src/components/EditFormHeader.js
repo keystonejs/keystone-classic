@@ -89,7 +89,7 @@ var Header = React.createClass({
 		if (!els.length) {
 			return (
 				<Button type="link" href={'/keystone/' + list.path}>
-					<span className="octicon octicon-list-unordered" />
+					<span className="octicon octicon-chevron-left" />
 					{list.plural}
 				</Button>
 			);
