@@ -11,13 +11,11 @@ var ListFiltersAddForm = require('./ListFiltersAddForm');
 var Popout = require('./Popout');
 var PopoutList = require('./PopoutList');
 
-var { Button, InputGroup } = require('elemental');
+var { Button, FormField, FormInput, InputGroup } = require('elemental');
 
 function pluck(arr, key) {
 	return arr.map(obj => obj[key]);
 }
-
-const ESC_KEYCODE = 27;
 
 var ListFiltersAdd = React.createClass({
 
@@ -36,10 +34,16 @@ var ListFiltersAdd = React.createClass({
 	getStateFromStore () {
 		return {
 			activeFilters: CurrentListStore.getActiveFilters(),
+			availableFilters: this.getListUIElements(),
 			innerHeight: 0,
 			isOpen: false,
+			searchString: '',
 			selectedField: false,
 		};
+	},
+
+	updateSearch (e) {
+		this.setState({ searchString: e.target.value });
 	},
 
 	openPopout () {
@@ -88,7 +92,17 @@ var ListFiltersAdd = React.createClass({
 		let activeFilterFields = pluck(this.state.activeFilters, 'field');
 		let activeFilterPaths = pluck(activeFilterFields, 'path');
 		
-		var popoutList = this.getListUIElements().map((el, i) => {
+		let { availableFilters, searchString } = this.state
+		let searchRegex = new RegExp(searchString)
+
+		function searchFilter (filter) {
+			if (filter.type === 'heading') return false;
+			return searchRegex.test(filter.field.path.toLowerCase())
+		};
+		
+		let filteredFilters = searchString ? availableFilters.filter(searchFilter) : availableFilters;
+		
+		var popoutList = filteredFilters.map((el, i) => {
 			if (el.type === 'heading') {
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
@@ -105,6 +119,9 @@ var ListFiltersAdd = React.createClass({
 
 		return (
 			<HeightDetector onLayout={this.setPopoutHeight} key="list" className="Popout__body Popout__pane" component="div">
+				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
+					<FormInput focusOnMount  value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a filter..." />
+				</FormField>
 				{popoutList}
 			</HeightDetector>
 		);

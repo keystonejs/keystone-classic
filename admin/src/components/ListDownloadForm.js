@@ -136,7 +136,7 @@ var ListDownloadForm = React.createClass({
 								<SegmentedControl equalWidthSegments options={FORMAT_OPTIONS} value={this.state.format} onChange={this.changeFormat} />
 							</FormField>
 							<FormField label="Columns:">
-								<Checkbox label="Use currently selected" onChange={this.toggleCurrentlySelectedColumns} value={true} checked={useCurrentColumns} />
+								<Checkbox focusOnMount label="Use currently selected" onChange={this.toggleCurrentlySelectedColumns} value={true} checked={useCurrentColumns} />
 							</FormField>
 							{this.renderColumnSelect()}
 						</Form>
