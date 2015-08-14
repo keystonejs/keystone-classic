@@ -20,7 +20,7 @@ module.exports = Field.create({
 
 		if (this.shouldRenderField()) {
 			input = (
-				<Checkbox label={this.props.label} htmlFor={this.props.path} value='true' checked={this.props.value} onChange={this.valueChanged} />
+				<Checkbox label={this.props.label} name={this.props.path} checked={this.props.value} onChange={this.valueChanged} />
 			);
 		} else {
 			var state = this.props.value ? 'checked' : 'unchecked';
