@@ -18,9 +18,32 @@ var ListHeader = React.createClass({
 
 	getInitialState () {
 		return {
+			availableColumns: CurrentListStore.getAvailableColumns(),
+			activeColumns: CurrentListStore.getActiveColumns(),
+			availableFilters: CurrentListStore.getAvailableFilters(),
+			activeFilters: CurrentListStore.getActiveFilters(),
 			createIsOpen: Keystone.showCreateForm,
 			searchString: ''
 		};
+	},
+	
+	componentDidMount () {
+		window.addEventListener('keypress', this.handleKeyPress);
+	},
+	componentWillUnMount () {
+		window.removeEventListener('keypress', this.handleKeyPress);
+	},
+	
+	handleKeyPress (e) {
+		if (document.activeElement.nodeName !== 'BODY') return;
+		
+		e = e || window.event;
+		var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
+		
+		this.setState({
+			lastKeyPressed: String.fromCharCode(charCode).toUpperCase()
+		})
+		
 	},
 	
 	toggleCreateModal (visible) {
@@ -40,18 +63,6 @@ var ListHeader = React.createClass({
 			searchString: ''
 		});
 		React.findDOMNode(this.refs.listSearchInput).focus();
-	},
-
-	handleFilterSelect (selected) {
-		console.log('Filter selected: ', selected);
-	},
-
-	handleColumnSelect (selected) {
-		console.log('Column selected: ', selected);
-	},
-
-	handleSortSelect (selected) {
-		console.log('Sort selected: ', utils.camelcase(selected));
 	},
 
 	handlePageSelect (selected) {
@@ -137,7 +148,7 @@ var ListHeader = React.createClass({
 					<InputGroup contiguous={false} className="ListHeader__searchbar">
 						{this.renderSearch()}
 						<ListFiltersAdd />
-						<ListColumnsForm />
+						<ListColumnsForm isOpen={this.state.lastKeyPressed === 'C'} />
 						<ListDownloadForm />
 						{this.renderCreateButton()}
 					</InputGroup>

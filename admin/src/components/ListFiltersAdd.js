@@ -33,20 +33,6 @@ var ListFiltersAdd = React.createClass({
 		return this.getStateFromStore();
 	},
 	
-	componentDidMount: function() {
-		window.addEventListener('keydown', this.handleKeyDown);
-	},
-	
-	componentWillUnMount: function() {
-		window.removeEventListener('keydown', this.handleKeyDown);
-	},
-	
-	handleKeyDown (e) {
-		if ( e.keyCode == ESC_KEYCODE ) {
-			this.closePopout();
-		}
-	},
-	
 	getStateFromStore () {
 		return {
 			activeFilters: CurrentListStore.getActiveFilters(),

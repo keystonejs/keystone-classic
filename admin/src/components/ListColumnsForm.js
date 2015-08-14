@@ -9,23 +9,16 @@ var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
 
 var ListDownloadForm = React.createClass({
 	displayName: 'ListDownloadForm',
-	propTypes: {
-		isOpen: React.PropTypes.string,
-		onCancel: React.PropTypes.func,
-		onSubmit: React.PropTypes.func,
-	},
-	
-	getDefaultProps () {
-		return {
-			isOpen: false,
-		};
-	},
 	
 	getInitialState () {
 		return {
-			isOpen: false,
+			columns: this.getListUIElements(),
 			selectedColumns: {},
 		};
+	},
+	
+	componentWillReceiveProps (nextProps) {
+		this.setState({ isOpen: nextProps.isOpen });
 	},
 
 	getListUIElements () {
@@ -63,7 +56,7 @@ var ListDownloadForm = React.createClass({
 	},
 	
 	renderColumnSelect () {
-		let possibleColumns = this.getListUIElements().map((el, i) => {
+		let possibleColumns = this.state.columns.map((el, i) => {
 			if (el.type === 'heading') {
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
