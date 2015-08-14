@@ -2,10 +2,13 @@ var Store = require('store-prototype');
 var utils = require('../utils');
 var xhr = require('xhr');
 
-var list = Keystone.list;
+var _list = Keystone.list;
+var _ready = false;
+var _loading = false;
+var _items = {};
 
 var available = {
-	columns: list.uiElements.map((col,i) => {
+	columns: _list.uiElements.map((col,i) => {
 		return {
 			type: col.type === 'heading' ? 'header' : 'item',
 			label: col.type === 'heading' ? col.content : utils.titlecase(col.field)
@@ -20,6 +23,9 @@ var active = {
 };
 
 var CurrentListStore = new Store({
+	getList () {
+		return _list;
+	},
 	getActiveColumns () {
 		return active.columns;
 	},
@@ -39,6 +45,33 @@ var CurrentListStore = new Store({
 	removeFilter (filter) {
 		active.filters.splice(active.filters.indexOf(filter), 1);
 		this.notifyChange();
+	},
+	isLoading () {
+		return _loading;
+	},
+	isReady () {
+		return _ready;
+	},
+	loadItems () {
+		_loading = true;
+		xhr({
+		    url: '/keystone/api/' + _list.path
+		}, (err, resp, body) => {
+		    // check resp.statusCode
+			_loading = false;
+			try {
+				body = JSON.parse(body);
+			} catch(e) {
+				console.log('Error parsing results json:', e, body);
+				return;
+			}
+			_ready = true;
+			_items = body;
+			this.notifyChange();
+		})
+	},
+	getItems () {
+		return _items;
 	}
 });
 
