@@ -9,6 +9,7 @@ var CurrentListStore = require('../stores/CurrentListStore');
 var HeightDetector = require('./HeightDetector');
 var ListFiltersAddForm = require('./ListFiltersAddForm');
 var Popout = require('./Popout');
+var PopoutList = require('./PopoutList');
 
 var { Button, InputGroup } = require('elemental');
 
@@ -103,21 +104,17 @@ var ListFiltersAdd = React.createClass({
 		
 		var popoutList = this.getListUIElements().map((el, i) => {
 			if (el.type === 'heading') {
-				return <div key={'item-' + i} className="Popout__list__header">{el.content}</div>
+				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
+			
 			var filterIsActive = activeFilterPaths.length && (activeFilterPaths.indexOf(el.field.path) > -1);
-			var itemClass = classNames('Popout__list__item', {
-				'is-selected': filterIsActive
-			});
-			var iconClass = classNames('Popout__list__item__icon octicon',
-				filterIsActive ? 'octicon-check' : 'octicon-chevron-right'
-			);
-			return (
-				<button type="button" key={'item-' + el.field.path} onClick={() => { this.selectField(el.field) }} title={el.field.label} className={itemClass}>
-					<span className={iconClass} />
-					{el.field.label}
-				</button>
-			);
+			
+			return <PopoutList.Item
+				key={'item_' + el.field.path}
+				icon={filterIsActive ? 'check' : 'chevron-right'}
+				isSelected={filterIsActive}
+				label={el.field.label}
+				onClick={() => { this.selectField(el.field) }} />;
 		});
 
 		return (
