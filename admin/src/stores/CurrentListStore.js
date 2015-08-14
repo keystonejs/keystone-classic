@@ -22,6 +22,19 @@ var active = {
 	filters: []
 };
 
+function getFilters () {
+	var filters = {};
+	active.filters.forEach((filter) => {
+		filters[filter.field.path] = filter.value;
+	});
+	return filters;
+}
+
+function buildQueryString () {
+	var queryFilters = active.filters.length ? JSON.stringify(getFilters()) : '';
+	return '?filters=' + queryFilters;
+}
+
 var CurrentListStore = new Store({
 	getList () {
 		return _list;
@@ -40,10 +53,12 @@ var CurrentListStore = new Store({
 	},
 	addFilter (filter) {
 		active.filters.push(filter);
+		this.loadItems();
 		this.notifyChange();
 	},
 	removeFilter (filter) {
 		active.filters.splice(active.filters.indexOf(filter), 1);
+		this.loadItems();
 		this.notifyChange();
 	},
 	isLoading () {
@@ -54,8 +69,10 @@ var CurrentListStore = new Store({
 	},
 	loadItems () {
 		_loading = true;
+		var url = '/keystone/api/' + _list.path + buildQueryString();
+		console.log(url);
 		xhr({
-		    url: '/keystone/api/' + _list.path
+		    url: url
 		}, (err, resp, body) => {
 		    // check resp.statusCode
 			_loading = false;
