@@ -8,6 +8,7 @@ var CurrentListStore = require('../stores/CurrentListStore');
 
 var HeightDetector = require('./HeightDetector');
 var ListFiltersAddForm = require('./ListFiltersAddForm');
+var Popout = require('./Popout');
 
 var { Button, InputGroup } = require('elemental');
 
@@ -96,28 +97,19 @@ var ListFiltersAdd = React.createClass({
 		});
 	},
 
-	renderButton () {
-		return (
-			<Button onClick={this.state.isOpen ? this.closePopout : this.openPopout}>
-				Filters
-				<span className="disclosure-arrow" />
-			</Button>
-		);
-	},
-
 	renderList () {
 		let activeFilterFields = pluck(this.state.activeFilters, 'field');
 		let activeFilterPaths = pluck(activeFilterFields, 'path');
 		
 		var popoutList = this.getListUIElements().map((el, i) => {
 			if (el.type === 'heading') {
-				return <div key={'item-' + i} className="popout__list__header">{el.content}</div>
+				return <div key={'item-' + i} className="Popout__list__header">{el.content}</div>
 			}
 			var filterIsActive = activeFilterPaths.length && (activeFilterPaths.indexOf(el.field.path) > -1);
-			var itemClass = classNames('popout__list__item', {
+			var itemClass = classNames('Popout__list__item', {
 				'is-selected': filterIsActive
 			});
-			var iconClass = classNames('popout__list__item__icon octicon',
+			var iconClass = classNames('Popout__list__item__icon octicon',
 				filterIsActive ? 'octicon-check' : 'octicon-chevron-right'
 			);
 			return (
@@ -129,62 +121,39 @@ var ListFiltersAdd = React.createClass({
 		});
 
 		return (
-			<HeightDetector onLayout={this.setPopoutHeight} key="list" className="popout-pane" component="div">
-				<div className="popout__body">
-					{popoutList}
-				</div>
+			<HeightDetector onLayout={this.setPopoutHeight} key="list" className="Popout__body Popout__pane" component="div">
+				{popoutList}
 			</HeightDetector>
 		);
 	},
 
 	renderForm () {
 		return (
-			<HeightDetector onLayout={this.setPopoutHeight} key="form" className="popout-pane">
+			<HeightDetector onLayout={this.setPopoutHeight} key="form" className="Popout__pane">
 				<ListFiltersAddForm field={this.state.selectedField} onApply={this.applyFilter} onCancel={this.closePopout} onBack={this.navigateBack} />
 			</HeightDetector>
 		);
 	},
 
-	renderPopout () {
-		if (!this.state.isOpen) return;
-		var popoutStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
-		
-		var headerButton = this.state.selectedField ? <button key="headerButton" type="button" className="Popout__header__button octicon octicon-chevron-left" onClick={this.navigateBack} /> : null;
-		var headerTitle = this.state.selectedField ? <span key="headerTitleHasField" className="popout__header__label">{this.state.selectedField.label}</span> : <span key="headerTitle" className="popout__header__label">Filter</span>;
-		
-		return (
-			<div className="popout">
-				<span className="popout-arrow" />
-				<div className="popout-inner">
-					<div className="popout__header">
-						<Transition transitionName="react-transitiongroup-fade">
-							{headerButton}
-						</Transition>
-						<Transition transitionName={!!this.state.selectedField ? 'popout-pane-next' : 'popout-pane-prev'}>
-							{headerTitle}
-						</Transition>
-					</div>
-					<Transition style={popoutStyle} className="popout__scrollable-area" transitionName={!!this.state.selectedField ? 'popout-pane-next' : 'popout-pane-prev'} component="div">
-						{this.state.selectedField ? this.renderForm() : this.renderList()}
-					</Transition>
-				</div>
-			</div>
-		);
-	},
-
-	renderBlockout () {
-		if (!this.state.isOpen) return;
-		return <div className="blockout" onClick={this.closePopout} />;
-	},
-
 	render () {
+		var popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
+		
 		return (
 			<InputGroup.Section>
-				{this.renderButton()}
-				<Transition className="popout-wrapper" transitionName="popout" component="div">
-					{this.renderPopout()}
-				</Transition>
-				{this.renderBlockout()}
+				<Button onClick={this.state.isOpen ? this.closePopout : this.openPopout}>
+					Filters
+					<span className="disclosure-arrow" />
+				</Button>
+				<Popout isOpen={this.state.isOpen} onCancel={this.closePopout}>
+					<Popout.Header
+						leftAction={this.state.selectedField ? this.navigateBack : null}
+						leftIcon={this.state.selectedField ? 'chevron-left' : null}
+						title={this.state.selectedField ? this.state.selectedField.label : 'Filter'}
+						transitionDirection={!!this.state.selectedField ? 'next' : 'prev'} />
+					<Transition style={popoutBodyStyle} className="Popout__scrollable-area" transitionName={!!this.state.selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'} component="div">
+						{this.state.selectedField ? this.renderForm() : this.renderList()}
+					</Transition>
+				</Popout>
 			</InputGroup.Section>
 		);
 	}

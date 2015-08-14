@@ -2,6 +2,7 @@ var React = require('react');
 var classNames = require('classnames');
 
 var filters = require('../filters');
+var Popout = require('./Popout');
 
 var { Button } = require('elemental');
 
@@ -43,13 +44,14 @@ var ListFiltersAddForm = React.createClass({
 		var FilterComponent = this.state.filterComponent;
 		return (
 			<form onSubmit={this.handleFormSubmit}>
-				<div className="popout__body">
+				<Popout.Body>
 					{FilterComponent ? <FilterComponent field={this.props.field} filter={this.state.filterValue} onChange={this.updateValue} /> : this.renderInvalidFilter()}
-				</div>
-				<div className="popout__footer">
-					<Button type="link" className="popout__footer-button popout__footer-button--apply" submit>Apply</Button>
-					<Button onClick={this.props.onCancel} type="link-cancel" className="popout__footer-button popout__footer-button--cancel">Cancel</Button>
-				</div>
+				</Popout.Body>
+				<Popout.Footer 
+					primaryButtonIsSubmit
+					primaryButtonLabel="Apply"
+					secondaryButtonAction={this.props.onCancel}
+					secondaryButtonLabel="Cancel" />
 			</form>
 		);
 	}
