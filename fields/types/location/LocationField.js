@@ -7,12 +7,7 @@ var React = require('react');
 var _ = require('underscore');
 var Field = require('../Field');
 
-var Button = require('elemental').Button;
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
-var FormLabel = require('elemental').FormLabel;
-var FormNote = require('elemental').FormNote;
-var FormRow = require('elemental').FormRow;
+import { Button, Checkbox, FormField, FormInput, FormLabel, FormNote, FormRow } from 'elemental';
 
 module.exports = Field.create({
 	
@@ -170,17 +165,20 @@ module.exports = Field.create({
 	renderGoogleOptions: function() {
 		if (!this.props.enableMapsAPI) return null;
 		var replace = this.state.improve ? (
-			<label className="checkbox">
-				<input type="checkbox" name={this.props.paths.overwrite} id={this.props.paths.overwrite} value="true" onChange={this.updateGoogleOption.bind(this, 'overwrite')} checked={this.state.overwrite} />
-				Replace existing data
-			</label>
+			<Checkbox
+				label="Replace existing data"
+				name={this.props.paths.overwrite}
+				onChange={this.updateGoogleOption.bind(this, 'overwrite')}
+				checked={this.state.overwrite} />
 		) : null;
 		return (
 			<FormField offsetAbsentLabel>
-				<label className="checkbox mr-1" title="When checked, this will attempt to fill missing fields. It will also get the lat/long">
-					<input type="checkbox" name={this.props.paths.improve} id={this.props.paths.improve} value="true" onChange={this.updateGoogleOption.bind(this, 'improve')} checked={this.state.improve} />
-					Autodetect and improve location on save
-				</label>
+				<Checkbox
+					label="Autodetect and improve location on save"
+					name={this.props.paths.improve}
+					onChange={this.updateGoogleOption.bind(this, 'improve')}
+					checked={this.state.improve}
+					title="When checked, this will attempt to fill missing fields. It will also get the lat/long" />
 				{replace}
 			</FormField>
 		);
