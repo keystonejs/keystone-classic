@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import React from 'react';
 import { Checkbox, FormField, SegmentedControl } from 'elemental';
+import PopoutList from '../../../admin/src/components/PopoutList';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Matches', value: false },
@@ -40,42 +41,29 @@ var SelectFilter = React.createClass({
 		});
 	},
 
-	toggleInverted (value) {
-		this.setState({
-			inverted: value
-		});
-	},
-
 	renderToggle () {
 		return (
 			<FormField>
-				<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
+				<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={() => this.setState({ inverted: !this.state.inverted })} />
 			</FormField>
 		);
 	},
 
-	renderCheckboxes () {
-		let checkboxes = this.props.field.ops.map((opt) => {
+	renderOptions () {
+		let options = this.props.field.ops.map((opt) => {
 			
 			let optionKey = opt.value;
 			let optionValue = this.state.selectedOptions[optionKey];
 			
-			let itemClassname = classnames('popout__list__item', {
-				'is-selected': optionValue
-			});
-			let iconClassname = classnames('popout__list__item__icon octicon',
-				optionValue ? 'octicon-check' : 'octicon-dash'
-			);
-			
-			return (
-				<button type="button" key={'item-' + opt.value} onClick={this.toggleOption.bind(this, optionKey, !optionValue)} title={opt.label} className={itemClassname}>
-					<span className={iconClassname} />
-					{opt.label}
-				</button>
-			);
+			return <PopoutList.Item
+				key={'item_' + opt.value}
+				icon={optionValue ? 'check' : 'dash'}
+				isSelected={optionValue}
+				label={opt.label}
+				onClick={this.toggleOption.bind(this, optionKey, !optionValue)} />;
 		});
 
-		return checkboxes;
+		return options;
 	},
 
 	render () {
@@ -85,7 +73,7 @@ var SelectFilter = React.createClass({
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
 					<Checkbox focusOnMount onChange={this.toggleAllOptions} label="Select all options" value={true} checked={this.state.allSelected} indeterminate={this.state.indeterminate} />
 				</FormField>
-				{this.renderCheckboxes()}
+				{this.renderOptions()}
 			</div>
 		);
 	}
