@@ -19,8 +19,7 @@ var bundles = {
 	signin: browserify('views/signin.js'),
 	home: browserify('views/home.js'),
 	item: browserify('views/item.js'),
-	listHeader: browserify('views/list-header.js'),
-	listTable: browserify('views/list-table.js')
+	list: browserify('views/list.js')
 };
 
 router.prebuild = function() {
@@ -28,8 +27,7 @@ router.prebuild = function() {
 	bundles.signin.build();
 	bundles.home.build();
 	bundles.item.build();
-	bundles.listHeader.build();
-	bundles.listTable.build();
+	bundles.list.build();
 };
 
 /* Prepare LESS options */
@@ -52,7 +50,6 @@ router.get('/js/fields.js', bundles.fields.serve);
 router.get('/js/signin.js', bundles.signin.serve);
 router.get('/js/home.js', bundles.home.serve);
 router.get('/js/item.js', bundles.item.serve);
-router.get('/js/list-header.js', bundles.listHeader.serve);
-router.get('/js/list-table.js', bundles.listTable.serve);
+router.get('/js/list.js', bundles.list.serve);
 
 module.exports = router;

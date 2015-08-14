@@ -13,39 +13,47 @@ var ListDownloadForm = require('./ListDownloadForm');
 var { Button, Dropdown, FormInput, InputGroup, Pagination } = require('elemental');
 
 var ListHeader = React.createClass({
-
 	displayName: 'ListHeader',
-
 	getInitialState () {
+		return {
+			createIsOpen: Keystone.showCreateForm,
+			searchString: '',
+			...this.getStateFromStore()
+		};
+	},
+	componentDidMount () {
+		CurrentListStore.addChangeListener(this.updateStateFromStore);
+		window.addEventListener('keypress', this.handleKeyPress);
+	},
+	componentWillUnmount () {
+		CurrentListStore.removeChangeListener(this.updateStateFromStore);
+		window.removeEventListener('keypress', this.handleKeyPress);
+	},
+	getStateFromStore () {
 		return {
 			availableColumns: CurrentListStore.getAvailableColumns(),
 			activeColumns: CurrentListStore.getActiveColumns(),
 			availableFilters: CurrentListStore.getAvailableFilters(),
 			activeFilters: CurrentListStore.getActiveFilters(),
-			createIsOpen: Keystone.showCreateForm,
-			searchString: ''
+			items: CurrentListStore.getItems(),
+			list: CurrentListStore.getList(),
+			ready: CurrentListStore.isReady()
 		};
 	},
-	
-	componentDidMount () {
-		window.addEventListener('keypress', this.handleKeyPress);
+	updateStateFromStore () {
+		this.setState(this.getStateFromStore());
 	},
-	componentWillUnMount () {
-		window.removeEventListener('keypress', this.handleKeyPress);
-	},
-	
 	handleKeyPress (e) {
-		if (document.activeElement.nodeName === 'INPUT') return;
-		
-		e = e || window.event;
-		var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
-		
-		this.setState({
-			lastKeyPressed: String.fromCharCode(charCode).toUpperCase()
-		});
-		
+	//	if (document.activeElement.nodeName === 'INPUT') return;
+	//
+	//	e = e || window.event;
+	//	var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
+	//
+	//	this.setState({
+	//		lastKeyPressed: String.fromCharCode(charCode).toUpperCase()
+	//	});
 	},
-	
+
 	toggleCreateModal (visible) {
 		this.setState({
 			createIsOpen: visible
@@ -66,17 +74,10 @@ var ListHeader = React.createClass({
 	},
 
 	handlePageSelect (selected) {
-		var pagination = Keystone.items;
-		var page = selected.target.innerText;
-
-		// TODO: fix me
-		if (page === '...') {
-			page = (pagination.next ? pagination.totalPages : 1);
-		}
-
-		location.href = '/keystone/' + Keystone.list.path + '/' + page;
+		// TODO
+		// location.href = '/keystone/' + this.state.list.path + '/' + page;
 	},
-	
+
 	toggleDownloadModal (visible) {
 		this.setState({
 			downloadIsOpen: visible
@@ -84,12 +85,15 @@ var ListHeader = React.createClass({
 	},
 
 	renderTitle () {
+		if (!this.state.ready) {
+			return <h2 className="ListHeader__title">Loading...</h2>;
+		}
 		var sort = Keystone.sort ? (
 			<span className="text-muted"> sorted by <a href="javascript:;">{Keystone.sort}</a></span>
 		) : null;
 		return (
 			<h2 className="ListHeader__title">
-				{utils.plural(Keystone.items.total, ('* ' + Keystone.list.singular), ('* ' + Keystone.list.plural))}
+				{utils.plural(this.state.items.count, ('* ' + this.state.list.singular), ('* ' + this.state.list.plural))}
 				{sort}
 			</h2>
 		);
@@ -118,10 +122,17 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
-	
+
+	renderPagination () {
+		return null;
+		// TODO: Paginations needs to be updated...
+		if (!this.state.ready) return null;
+		return <Pagination pagination={this.state.items} onPageSelect={this.handlePageSelect} className="ListHeader__pagination" />;
+	},
+
 	renderCreateButton () {
 		var props = { type: 'success' };
-		if (Keystone.list.autocreate) {
+		if (this.state.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
 		} else {
 			props.onClick = this.toggleCreateModal.bind(this, true);
@@ -130,14 +141,14 @@ var ListHeader = React.createClass({
 			<InputGroup.Section style={{ borderLeft: '1px solid rgba(0,0,0,0.1)', marginLeft: '.75em', paddingLeft: '.75em' }}>
 				<Button {...props}>
 					<span className="octicon octicon-plus" />
-					Create {Keystone.list.singular}
+					Create {this.state.list.singular}
 				</Button>
 			</InputGroup.Section>
 		);
 	},
-	
+
 	renderCreateForm () {
-		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
+		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
 
 	render () {
@@ -153,7 +164,7 @@ var ListHeader = React.createClass({
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
-					<Pagination pagination={Keystone.items} onPageSelect={this.handlePageSelect} className="ListHeader__pagination" />
+					{this.renderPagination()}
 				</div>
 				{this.renderCreateForm()}
 			</div>
