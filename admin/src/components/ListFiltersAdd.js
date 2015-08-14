@@ -149,7 +149,7 @@ var ListFiltersAdd = React.createClass({
 		if (!this.state.isOpen) return;
 		var popoutStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
 		
-		var headerButton = this.state.selectedField ? <button key="headerButton" type="button" className="popout__header__icon octicon octicon-chevron-left" onClick={this.navigateBack} /> : null;
+		var headerButton = this.state.selectedField ? <button key="headerButton" type="button" className="Popout__header__button octicon octicon-chevron-left" onClick={this.navigateBack} /> : null;
 		var headerTitle = this.state.selectedField ? <span key="headerTitleHasField" className="popout__header__label">{this.state.selectedField.label}</span> : <span key="headerTitle" className="popout__header__label">Filter</span>;
 		
 		return (
