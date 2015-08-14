@@ -6,9 +6,9 @@ var ListControl = require('../components/ListControl');
 
 var CurrentListStore = require('../stores/CurrentListStore');
 
-var Table = React.createClass({
+var ListView = React.createClass({
 
-	displayName: 'ListTable',
+	displayName: 'ListView',
 
 	getInitialState () {
 		return {
@@ -91,15 +91,15 @@ var Table = React.createClass({
 
 		// add sortable icon when applicable
 		if (Keystone.list.sortable) {
-			cells.unshift(<ListControl onClick={this.reorderItems} type="sortable" />);
+			cells.unshift(<ListControl key="_sort" onClick={this.reorderItems} type="sortable" />);
 		}
 
 		// add delete icon when applicable
 		if (!Keystone.list.nodelete) {
-			cells.unshift(<ListControl onClick={this.removeItem} type="delete" />);
+			cells.unshift(<ListControl key="_delete" onClick={this.removeItem} type="delete" />);
 		}
 
-		return <tr>{cells}</tr>;
+		return <tr key={'i' + item.id}>{cells}</tr>;
 	},
 
 	render: function() {
@@ -115,7 +115,9 @@ var Table = React.createClass({
 						<table cellPadding="0" cellSpacing="0" className={tableClass}>
 							{this.renderCols()}
 							{this.renderHeaders()}
-							{this.state.items.results.map(this.renderRow)}
+							<tbody>
+								{this.state.items.results.map(this.renderRow)}
+							</tbody>
 						</table>
 					</div>
 				</div>
@@ -127,5 +129,5 @@ var Table = React.createClass({
 
 var target = document.getElementById('list-view-table');
 if (target) {
-	React.render(<Table />, target);
+	React.render(<ListView />, target);
 }

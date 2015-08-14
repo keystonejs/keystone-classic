@@ -30,11 +30,11 @@ var ListFiltersAdd = React.createClass({
 	getInitialState () {
 		return this.getStateFromStore();
 	},
-	
+
 	componentWillReceiveProps (nextProps) {
 		this.setState({ isOpen: nextProps.isOpen });
 	},
-	
+
 	getStateFromStore () {
 		return {
 			activeFilters: CurrentListStore.getActiveFilters(),
@@ -95,7 +95,7 @@ var ListFiltersAdd = React.createClass({
 	renderList () {
 		let activeFilterFields = pluck(this.state.activeFilters, 'field');
 		let activeFilterPaths = pluck(activeFilterFields, 'path');
-		
+
 		let { availableFilters, searchString } = this.state
 		let searchRegex = new RegExp(searchString)
 
@@ -103,20 +103,20 @@ var ListFiltersAdd = React.createClass({
 			if (filter.type === 'heading') return false;
 			return searchRegex.test(filter.field.label.toLowerCase())
 		};
-		
+
 		let filteredFilters = searchString ? availableFilters.filter(searchFilter) : availableFilters;
-		
+
 		var popoutList = filteredFilters.map((el, i) => {
 			if (el.type === 'heading') {
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
-			
+
 			var filterIsActive = activeFilterPaths.length && (activeFilterPaths.indexOf(el.field.path) > -1);
-			
+
 			return <PopoutList.Item
 				key={'item_' + el.field.path}
 				icon={filterIsActive ? 'check' : 'chevron-right'}
-				isSelected={filterIsActive}
+				isSelected={!!filterIsActive}
 				label={el.field.label}
 				onClick={() => { this.selectField(el.field) }} />;
 		});
@@ -141,7 +141,7 @@ var ListFiltersAdd = React.createClass({
 
 	render () {
 		var popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
-		
+
 		return (
 			<InputGroup.Section>
 				<Button isActive={this.state.isOpen} onClick={this.state.isOpen ? this.closePopout : this.openPopout}>

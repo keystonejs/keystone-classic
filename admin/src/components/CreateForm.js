@@ -6,9 +6,9 @@ var InvalidFieldType = require('./InvalidFieldType');
 var { Alert, Button, Form, Modal } = require('elemental');
 
 var CreateForm = React.createClass({
-	
+
 	displayName: 'CreateForm',
-	
+
 	getDefaultProps: function() {
 		return {
 			err: null,
@@ -16,23 +16,23 @@ var CreateForm = React.createClass({
 			isOpen: false
 		};
 	},
-	
+
 	getInitialState: function() {
-		
+
 		var values = this.props.values;
-		
+
 		_.each(this.props.list.fields, function(field) {
 			if (!values[field.path]) {
 				values[field.path] = field.defaultValue;
 			}
 		});
-		
+
 		return {
 			values: values
 		};
-		
+
 	},
-	
+
 	handleChange: function(event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
@@ -43,42 +43,43 @@ var CreateForm = React.createClass({
 
 	componentDidUpdate: function(prevProps, prevState) {
 		let bodyStyle = document.body.style;
-		
+
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}
-		
+
 		if (this.props.isOpen) {
 			bodyStyle.overflow = 'hidden';
 		} else {
 			bodyStyle.overflow = '';
 		}
 	},
-	
+
 	componentDidMount: function() {
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}
 	},
-	
+
 	getFieldProps: function(field) {
 		var props = _.clone(field);
 		props.value = this.state.values[field.path];
 		props.values = this.state.values;
 		props.onChange = this.handleChange;
 		props.mode = 'create';
+		props.key = field.path;
 		return props;
 	},
-	
+
 	render: function() {
-		
+
 		var alert = null;
-		var form = {};
+		var form = [];
 		var list = this.props.list;
 		var formAction = '/keystone/' + list.path;
 		var nameField = this.props.list.nameField;
 		var focusRef;
-		
+
 		if (this.props.err && this.props.err.errors) {
 			var alertContent;
 			var errorCount = Object.keys(this.props.err.errors).length;
@@ -98,7 +99,7 @@ var CreateForm = React.createClass({
 			}
 			alert = <Alert type="danger">{alertContent}</Alert>;
 		}
-		
+
 		if (list.nameIsInitial) {
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.ref = focusRef = 'focusTarget';
@@ -109,26 +110,20 @@ var CreateForm = React.createClass({
 			}
 			form[nameField.path] = React.createElement(Fields[nameField.type], nameFieldProps);
 		}
-		
+
 		_.each(list.initialFields, function(path) {
-				
 			var field = list.fields[path];
-			
 			if ('function' !== typeof Fields[field.type]) {
-				form[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
+				form.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
 				return;
 			}
-			
 			var fieldProps = this.getFieldProps(field);
-			
 			if (!focusRef) {
 				fieldProps.ref = focusRef = 'focusTarget';
 			}
-			
-			form[field.path] = React.createElement(Fields[field.type], fieldProps);
-			
+			form.push(React.createElement(Fields[field.type], fieldProps));
 		}, this);
-		
+
 		return (
 			<Modal isOpen={this.props.isOpen} onCancel={this.props.onCancel} backdropClosesModal>
 				<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} className="create-form">
@@ -147,7 +142,7 @@ var CreateForm = React.createClass({
 			</Modal>
 		);
 	}
-	
+
 });
 
 module.exports = CreateForm;

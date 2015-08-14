@@ -8,14 +8,14 @@ const ESC_KEYCODE = 27;
 var Popout = React.createClass({
 	displayName: 'Popout',
 	propTypes: {
-		isOpen: React.PropTypes.string,
+		isOpen: React.PropTypes.bool,
 		onCancel: React.PropTypes.func,
 		onSubmit: React.PropTypes.func,
 	},
 
 	renderPopout () {
 		if (!this.props.isOpen) return;
-		
+
 		return (
 			<div className="Popout">
 				<span className="Popout__arrow" />
@@ -30,7 +30,7 @@ var Popout = React.createClass({
 		if (!this.props.isOpen) return;
 		return <div className="blockout" onClick={this.props.onCancel} />;
 	},
-	
+
 	render () {
 		return (
 			<span>
@@ -41,7 +41,7 @@ var Popout = React.createClass({
 			</span>
 		);
 	}
-	
+
 });
 
 module.exports = Popout;
