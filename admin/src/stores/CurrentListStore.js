@@ -1,3 +1,4 @@
+var listToArray = require('list-to-array');
 var Store = require('store-prototype');
 var utils = require('../utils');
 var xhr = require('xhr');
@@ -9,16 +10,18 @@ var _items = {};
 
 var available = {
 	columns: _list.uiElements.map((col,i) => {
-		return {
-			type: col.type === 'heading' ? 'header' : 'item',
-			label: col.type === 'heading' ? col.content : utils.titlecase(col.field)
-		};
-	}),
+		if (col.type === 'heading') {
+			return { type: 'heading', label: col.content };
+		} else {
+			var field = _list.fields[col.field];
+			return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
+		}
+	}).map(i => i),
 	filters: []
 };
 
 var active = {
-	columns: Keystone.columns,
+	columns: expandColumns(_list.defaultColumns),
 	filters: []
 };
 
@@ -31,8 +34,32 @@ function getFilters () {
 }
 
 function buildQueryString () {
-	var queryFilters = active.filters.length ? JSON.stringify(getFilters()) : '';
-	return '?filters=' + queryFilters;
+	var parts = [];
+	parts.push(active.filters.length ? 'filters=' + JSON.stringify(getFilters()) : '');
+	parts.push('select=' + active.columns.map(i => i.path).join(','));
+	return '?' + parts.filter(i => i).join('&');
+}
+
+function expandColumns (input) {
+	return listToArray(input).map(i => {
+		var split = i.split('|');
+		var path = split[0];
+		var width = split[1] || 'auto';
+		if (path === '__name__') {
+			path = _list.namePath;
+		}
+		var field = _list.fields[path];
+		if (!field) {
+			// TODO: Support arbitary document paths
+			console.log('Invalid Column specified: ', i);
+			return;
+		}
+		return {
+			field: field,
+			title: field.label,
+			path: field.path
+		};
+	}).filter(i => i);
 }
 
 var CurrentListStore = new Store({
@@ -44,6 +71,10 @@ var CurrentListStore = new Store({
 	},
 	getAvailableColumns () {
 		return available.columns;
+	},
+	setActiveColumns (cols) {
+		active.columns = expandColumns(cols);
+		this.loadItems();
 	},
 	getActiveFilters () {
 		return active.filters;

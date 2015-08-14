@@ -9,61 +9,42 @@ var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
 
 const ESC_KEYCODE = 27;
 
-var ListDownloadForm = React.createClass({
-	displayName: 'ListDownloadForm',
+var ListColumnsForm = React.createClass({
+	displayName: 'ListColumnsForm',
 
 	getInitialState () {
 		return {
-			columns: this.getListUIElements(),
-			selectedColumns: {},
+			selectedColumns: {}
 		};
 	},
 
-	componentDidMount () {
-		// window.addEventListener('keydown', this.handleKeyPress);
-	},
-	componentWillUnMount () {
-		// window.removeEventListener('keydown', this.handleKeyPress);
-	},
-
-	handleKeyPress (e) {
-		if (document.activeElement.nodeName === 'INPUT') return;
-
-		e = e || window.event;
-		var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
-
-		console.log(charCode);
-
-		if (charCode === 27) {
-			this.togglePopout(false);
-		} else if (String.fromCharCode(charCode).toUpperCase() === 'C') {
-			this.togglePopout(true);
-			React.findDOMNode(this.refs.button).focus();
-		}
-	},
-
-	getListUIElements () {
-		return Keystone.list.uiElements.map((el) => {
-			return el.type === 'field' ? {
-				type: 'field',
-				field: Keystone.list.fields[el.field]
-			} : el;
+	getSelectedColumnsFromStore () {
+		var selectedColumns = {};
+		CurrentListStore.getActiveColumns().forEach(col => {
+			selectedColumns[col.path] = true;
 		});
+		console.log('a', selectedColumns);
+		return selectedColumns;
 	},
 
-	togglePopout (visible) {
+	togglePopout (visible, callback) {
 		this.setState({
+			selectedColumns: this.getSelectedColumnsFromStore(),
 			isOpen: visible
+		}, () => {
+			if (visible) {
+				React.findDOMNode(this.refs.button).focus();
+			}
 		});
 	},
 
-	toggleColumn (column, value) {
+	toggleColumn (path, value) {
 		let newColumns = this.state.selectedColumns;
 
 		if (value) {
-			newColumns[column] = value;
+			newColumns[path] = value;
 		} else {
-			delete newColumns[column];
+			delete newColumns[path];
 		}
 
 		this.setState({
@@ -72,38 +53,29 @@ var ListDownloadForm = React.createClass({
 	},
 
 	applyColumns () {
-		console.info(`Set list columns:`, Object.keys(this.state.selectedColumns));
+		CurrentListStore.setActiveColumns(Object.keys(this.state.selectedColumns));
 		this.togglePopout(false);
 	},
 
-	renderColumnSelect () {
-		let possibleColumns = this.state.columns.map((el, i) => {
+	renderColumns () {
+		return CurrentListStore.getAvailableColumns().map((el, i) => {
 			if (el.type === 'heading') {
-				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
+				return <PopoutList.Heading key={'heading_' + i}>{el.label}</PopoutList.Heading>;
 			}
 
-			let columnKey = el.field.path;
-			let columnValue = this.state.selectedColumns[columnKey];
+			let path = el.field.path;
+			let selected = this.state.selectedColumns[path];
 
 			return <PopoutList.Item
 				key={'column_' + el.field.path}
-				icon={columnValue ? 'check' : 'dash'}
-				isSelected={!!columnValue}
+				icon={selected ? 'check' : 'dash'}
+				isSelected={!!selected}
 				label={el.field.label}
-				onClick={() => { this.toggleColumn(columnKey, !columnValue); }} />;
+				onClick={() => { this.toggleColumn(path, !selected); }} />;
 		});
-
-		return (
-			<PopoutList>
-				{possibleColumns}
-			</PopoutList>
-		);
 	},
 
 	render () {
-		let { list } = this.props;
-		let { useCurrentColumns } = this.state;
-
 		return (
 			<InputGroup.Section>
 				<Button ref="button" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
@@ -113,7 +85,9 @@ var ListDownloadForm = React.createClass({
 				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)}>
 					<Popout.Header title="Columns" />
 					<Popout.Body scrollable>
-						{this.renderColumnSelect()}
+						<PopoutList>
+							{this.renderColumns()}
+						</PopoutList>
 					</Popout.Body>
 					<Popout.Footer
 						primaryButtonAction={this.applyColumns}
@@ -127,4 +101,4 @@ var ListDownloadForm = React.createClass({
 
 });
 
-module.exports = ListDownloadForm;
+module.exports = ListColumnsForm;
