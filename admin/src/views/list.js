@@ -1,20 +1,19 @@
-var React = require('react');
+const React = require('react');
 
-var Columns = require('../columns');
-var ListHeader = require('../components/ListHeader');
-var ListControl = require('../components/ListControl');
+const Columns = require('../columns');
+const ListHeader = require('../components/ListHeader');
+const ListControl = require('../components/ListControl');
 
-var CurrentListStore = require('../stores/CurrentListStore');
+const CurrentListStore = require('../stores/CurrentListStore');
 
-var ListView = React.createClass({
+const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
+
+const ListView = React.createClass({
 
 	displayName: 'ListView',
 
 	getInitialState () {
-		return {
-			ready: CurrentListStore.isReady(),
-			items: CurrentListStore.getItems()
-		};
+		return this.getStateFromStore();
 	},
 
 	componentDidMount () {
@@ -29,10 +28,16 @@ var ListView = React.createClass({
 	},
 
 	updateStateFromStore () {
-		this.setState({
+		this.setState(this.getStateFromStore());
+	},
+
+	getStateFromStore () {
+		return {
+			list: CurrentListStore.getList(),
 			ready: CurrentListStore.isReady(),
-			items: CurrentListStore.getItems()
-		});
+			items: CurrentListStore.getItems(),
+			columns: CurrentListStore.getActiveColumns()
+		};
 	},
 
 	reorderItems: function() {
@@ -44,61 +49,44 @@ var ListView = React.createClass({
 	},
 
 	renderCols: function() {
-		var controlColumnWidth = 26; // width of the icon + padding
-
-		var cols = Keystone.columns.map(function(col) {
-			if (col.width) {
-				return <col width={col.width} key={col.path} />;
-			} else {
-				return <col key={col.path} />;
-			}
-		});
-
+		var cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
 		// add delete col when applicable
-		if (!Keystone.list.nodelete) {
-			cols.unshift(<col width={controlColumnWidth} key="delete" />);
+		if (!this.state.list.nodelete) {
+			cols.unshift(<col width={CONTROL_COLUMN_WIDTH} key="delete" />);
 		}
-
 		// add sort col when applicable
-		if (Keystone.list.sortable) {
-			cols.unshift(<col width={controlColumnWidth} key="sortable" />);
+		if (this.state.list.sortable) {
+			cols.unshift(<col width={CONTROL_COLUMN_WIDTH} key="sortable" />);
 		}
-
 		return cols;
 	},
 
 	renderHeaders: function() {
-		var cells = Keystone.columns.map(function(col, i) {
-			// add extra cols when applicable
+		var cells = this.state.columns.map((col, i) => {
+			// span first col for controls when present
 			var span = 1;
-
 			if (!i) {
 				if (Keystone.list.sortable) span++;
 				if (!Keystone.list.nodelete) span++;
 			}
-
 			return <th key={col.path} colSpan={span}>{col.label}</th>;
 		});
-
-		return <thead>{cells}</thead>;
+		return <thead><tr>{cells}</tr></thead>;
 	},
 
 	renderRow: function(item) {
-		var cells = Keystone.columns.map(function(col) {
-			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
+		var cells = this.state.columns.map((col) => {
+			var ColumnType = Columns[col.field.type] || Columns.__unrecognised__;
 			return <ColumnType key={col.path} list={Keystone.list} col={col} data={item} />;
 		});
-
 		// add sortable icon when applicable
 		if (Keystone.list.sortable) {
 			cells.unshift(<ListControl key="_sort" onClick={this.reorderItems} type="sortable" />);
 		}
-
 		// add delete icon when applicable
 		if (!Keystone.list.nodelete) {
 			cells.unshift(<ListControl key="_delete" onClick={this.removeItem} type="delete" />);
 		}
-
 		return <tr key={'i' + item.id}>{cells}</tr>;
 	},
 

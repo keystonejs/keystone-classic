@@ -56,7 +56,7 @@ function expandColumns (input) {
 		}
 		return {
 			field: field,
-			title: field.label,
+			label: field.label,
 			path: field.path
 		};
 	}).filter(i => i);
@@ -101,7 +101,7 @@ var CurrentListStore = new Store({
 	loadItems () {
 		_loading = true;
 		var url = '/keystone/api/' + _list.path + buildQueryString();
-		console.log(url);
+		// console.log(url);
 		xhr({
 		    url: url
 		}, (err, resp, body) => {
