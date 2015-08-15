@@ -32,5 +32,6 @@ var Columns = {
 	url: require('../../fields/types/url/UrlColumn')
 };
 
-Columns.__unrecognised__ = Columns.text;
+Columns.id = require('../../fields/components/columns/IdColumn');
+Columns.__unrecognised__ = require('../../fields/components/columns/InvalidColumn');
 module.exports = Columns;

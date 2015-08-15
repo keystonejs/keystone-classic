@@ -23,7 +23,6 @@ var ListColumnsForm = React.createClass({
 		CurrentListStore.getActiveColumns().forEach(col => {
 			selectedColumns[col.path] = true;
 		});
-		console.log('a', selectedColumns);
 		return selectedColumns;
 	},
 

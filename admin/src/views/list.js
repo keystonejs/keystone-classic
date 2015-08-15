@@ -76,7 +76,7 @@ const ListView = React.createClass({
 
 	renderRow: function(item) {
 		var cells = this.state.columns.map((col) => {
-			var ColumnType = Columns[col.field.type] || Columns.__unrecognised__;
+			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
 			return <ColumnType key={col.path} list={Keystone.list} col={col} data={item} />;
 		});
 		// add sortable icon when applicable

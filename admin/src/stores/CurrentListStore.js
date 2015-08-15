@@ -41,12 +41,16 @@ function buildQueryString () {
 }
 
 function expandColumns (input) {
-	return listToArray(input).map(i => {
+	var nameIncluded = false;
+	var cols = listToArray(input).map(i => {
 		var split = i.split('|');
 		var path = split[0];
 		var width = split[1] || 'auto';
 		if (path === '__name__') {
 			path = _list.namePath;
+		}
+		if (path === _list.namePath) {
+			nameIncluded = true;
 		}
 		var field = _list.fields[path];
 		if (!field) {
@@ -56,10 +60,19 @@ function expandColumns (input) {
 		}
 		return {
 			field: field,
+			type: field.type,
 			label: field.label,
 			path: field.path
 		};
 	}).filter(i => i);
+	if (!nameIncluded) {
+		cols.unshift({
+			type: 'id',
+			label: 'ID',
+			path: 'id'
+		});
+	}
+	return cols;
 }
 
 var CurrentListStore = new Store({
