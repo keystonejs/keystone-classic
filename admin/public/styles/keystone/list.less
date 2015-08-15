@@ -14,7 +14,7 @@
 	background-repeat: no-repeat;
 	display: inline-block;
 	vertical-align: middle;
-	
+
 	&.fieldicon-text            { background-image: url( "/keystone/images/icons/16/field-text.png" ); }
 	&.fieldicon-textarea        { background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }
 	&.fieldicon-name            { background-image: url( "/keystone/images/icons/16/field-name.png" ); }
@@ -91,9 +91,32 @@
 	}
 }
 
+.ItemList__col-value--id {
+	bottom: -1px; // 1
+	position: relative; // 1
+	font-family: @font-family-monospace;
+	font-size: 0.91em;
+	
+	.ItemList__control-col + td > & {
+		margin-left: 0 !important; // 2
+	}
+}
+
+.ItemList__col-value--invalid {
+	bottom: -1px; // 1
+	position: relative; // 1
+	font-family: @font-family-monospace;
+	font-size: 0.91em;
+	color: @app-danger !important;
+
+	.ItemList__control-col + td > & {
+		margin-left: 0 !important; // 2
+	}
+}
+
 
 // Colour Field
-	
+
 .ItemList__color-preview {
 	display: inline-block;
 	border-radius: 5px;
@@ -146,13 +169,3 @@
 
 @import "./list-controls";
 @import "./list-filters";
-
-
-
-
-
-
-
-
-
-
