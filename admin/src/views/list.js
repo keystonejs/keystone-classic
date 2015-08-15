@@ -58,7 +58,7 @@ const ListView = React.createClass({
 		if (this.state.list.sortable) {
 			cols.unshift(<col width={CONTROL_COLUMN_WIDTH} key="sortable" />);
 		}
-		return cols;
+		return <colgroup>{cols}</colgroup>;
 	},
 
 	renderHeaders: function() {
