@@ -51,7 +51,9 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	openPopout () {
-		this.setState({ isOpen: true });
+		this.setState({
+			isOpen: true
+		}, this.focusSearch);
 	},
 
 	closePopout () {
@@ -64,8 +66,14 @@ var ListFiltersAdd = React.createClass({
 
 	navigateBack () {
 		this.setState({
-			selectedField: false
-		});
+			selectedField: false,
+			searchString: '',
+			innerHeight: 0
+		}, this.focusSearch);
+	},
+
+	focusSearch () {
+		React.findDOMNode(this.refs.search).focus();
 	},
 
 	selectField (field) {
@@ -124,7 +132,7 @@ var ListFiltersAdd = React.createClass({
 		return (
 			<HeightDetector onLayout={this.setPopoutHeight} key="list" className="Popout__body Popout__pane" component="div">
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-					<FormInput focusOnMount  value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a filter..." />
+					<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a filter..." />
 				</FormField>
 				{popoutList}
 			</HeightDetector>
