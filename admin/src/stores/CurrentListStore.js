@@ -22,7 +22,8 @@ var available = {
 
 var active = {
 	columns: expandColumns(_list.defaultColumns),
-	filters: []
+	filters: [],
+	search: ''
 };
 
 function getFilters () {
@@ -35,6 +36,7 @@ function getFilters () {
 
 function buildQueryString () {
 	var parts = [];
+	parts.push(active.search ? 'search=' + active.search : '');
 	parts.push(active.filters.length ? 'filters=' + JSON.stringify(getFilters()) : '');
 	parts.push('select=' + active.columns.map(i => i.path).join(','));
 	return '?' + parts.filter(i => i).join('&');
@@ -95,6 +97,14 @@ var CurrentListStore = new Store({
 	getAvailableFilters () {
 		return available.filters;
 	},
+	setActiveSearch (str) {
+		active.search = str;
+		this.loadItems();
+		this.notifyChange();
+	},
+	getActiveSearch () {
+		return active.search;
+	},
 	addFilter (filter) {
 		active.filters.push(filter);
 		this.loadItems();
@@ -129,7 +139,7 @@ var CurrentListStore = new Store({
 			_ready = true;
 			_items = body;
 			this.notifyChange();
-		})
+		});
 	},
 	getItems () {
 		return _items;

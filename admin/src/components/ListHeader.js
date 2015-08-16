@@ -17,7 +17,6 @@ var ListHeader = React.createClass({
 	getInitialState () {
 		return {
 			createIsOpen: Keystone.showCreateForm,
-			searchString: '',
 			...this.getStateFromStore()
 		};
 	},
@@ -35,6 +34,7 @@ var ListHeader = React.createClass({
 			activeColumns: CurrentListStore.getActiveColumns(),
 			availableFilters: CurrentListStore.getAvailableFilters(),
 			activeFilters: CurrentListStore.getActiveFilters(),
+			searchString: CurrentListStore.getActiveSearch(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
 			ready: CurrentListStore.isReady()
@@ -60,17 +60,26 @@ var ListHeader = React.createClass({
 		});
 	},
 
-	handleSearch (e) {
+	updateSearch (e) {
 		this.setState({
 			searchString: e.target.value
 		});
 	},
 
-	handleSearchClear (e) {
-		this.setState({
-			searchString: ''
-		});
+	handleSearchClear () {
+		CurrentListStore.setActiveSearch('');
 		React.findDOMNode(this.refs.listSearchInput).focus();
+	},
+
+	handleSearchKey (e) {
+		// enter
+		if (e.which === 13) {
+			CurrentListStore.setActiveSearch(this.state.searchString);
+		}
+		// esc
+		else if (e.which === 27) {
+			this.handleSearchClear ();
+		}
 	},
 
 	handlePageSelect (selected) {
@@ -106,7 +115,7 @@ var ListHeader = React.createClass({
 		});
 		return (
 			<InputGroup.Section grow className="ListHeader__searchbar-field">
-				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.handleSearch} placeholder="Search" className="ListHeader__searchbar-input" />
+				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
 				<button ref="listSearchClear" type="button" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
 			</InputGroup.Section>
 		);
