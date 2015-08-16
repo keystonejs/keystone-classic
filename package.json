@@ -51,6 +51,7 @@
     "mpromise": "~0.5.5",
     "multer": "~0.1.8",
     "numeral": "~1.5.3",
+    "object-assign": "^3.0.0",
     "pikaday": "^1.3.3",
     "queryfilter": "~0.0.4",
     "range_check": "~0.0.5",
