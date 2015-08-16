@@ -1,8 +1,6 @@
-import _ from 'underscore';
-import classNames from 'classnames';
 import React from 'react';
 
-import { Checkbox, FormField, SegmentedControl } from 'elemental';
+import { SegmentedControl } from 'elemental';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Linked To', value: true },
@@ -19,7 +17,7 @@ var RelationshipFilter = React.createClass({
 	},
 
 	toggleAllCheckboxes () {
-		console.log('Toggle all checkboxes')
+		console.log('Toggle all checkboxes');
 	},
 
 	toggleInverted (value) {

@@ -52,10 +52,10 @@ var TextareaFilter = React.createClass({
 		return (
 			<div className="popout__toggle">
 				<span className="popout__toggle__item">
-					<button type="button" onClick={(e) => { this.toggleMode('partial'); }} className={containClass}>Contains</button>
+					<button type="button" onClick={() => { this.toggleMode('partial'); }} className={containClass}>Contains</button>
 				</span>
 				<span className="popout__toggle__item">
-					<button type="button" onClick={(e) => { this.toggleMode('match'); }} className={matchClass}>Matches</button>
+					<button type="button" onClick={() => { this.toggleMode('match'); }} className={matchClass}>Matches</button>
 				</span>
 			</div>
 		);

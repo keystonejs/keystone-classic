@@ -27,16 +27,14 @@ module.exports = Field.create({
 				<FormInput noedit href={this.props.value.authorUrl && this.props.value.authorUrl} target="_blank">{this.props.value.authorName}</FormInput>
 			</FormField>
 		);
-
 	},
 	renderDimensions: function() {
-		if (!this.props.value.width || !this.props.value.height);
+		if (!this.props.value.width || !this.props.value.height) return;
 		return (
 			<FormField key="dimensions" label="Dimensions" className="form-field--secondary">
 				<FormInput noedit>{this.props.value.width} &times; {this.props.value.height}px</FormInput>
 			</FormField>
 		);
-
 	},
 	renderPreview: function() {
 		if (!this.props.value.thumbnailUrl) return;

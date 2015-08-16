@@ -7,12 +7,12 @@ var React = require('react');
 var _ = require('underscore');
 var Field = require('../Field');
 
-import { Button, Checkbox, FormField, FormInput, FormLabel, FormNote, FormRow } from 'elemental';
+import { Button, Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
 
 module.exports = Field.create({
-	
+
 	displayName: 'LocationField',
-	
+
 	getInitialState: function() {
 		return {
 			collapsedFields: {},
@@ -20,39 +20,39 @@ module.exports = Field.create({
 			overwrite: false
 		};
 	},
-	
+
 	componentWillMount: function() {
-		
+
 		var collapsedFields = {};
-		
+
 		_.each(['number', 'name', 'street2', 'geo'], function(i) {
 			if (!this.props.value[i]) {
 				collapsedFields[i] = true;
 			}
 		}, this);
-		
+
 		this.setState({
 			collapsedFields: collapsedFields
 		});
-		
+
 	},
-	
+
 	componentDidUpdate: function(prevProps, prevState) {
 		if (prevState.fieldsCollapsed && !this.state.fieldsCollapsed) {
 			this.refs.number.getDOMNode().focus();
 		}
 	},
-	
+
 	shouldCollapse: function() {
 		return this.formatValue() ? false : true;
 	},
-	
+
 	uncollapseFields: function() {
 		this.setState({
 			collapsedFields: {}
 		});
 	},
-	
+
 	fieldChanged: function(path, event) {
 		var value = this.props.value;
 		value[path] = event.target.value;
@@ -61,7 +61,7 @@ module.exports = Field.create({
 			value: value
 		});
 	},
-	
+
 	geoChanged: function(i, event) {
 		var value = this.props.value;
 		if (!value.geo) {
@@ -73,7 +73,7 @@ module.exports = Field.create({
 			value: value
 		});
 	},
-	
+
 	formatValue: function() {
 		return _.compact([
 			this.props.value.number,
@@ -86,25 +86,25 @@ module.exports = Field.create({
 			this.props.value.country
 		]).join(', ');
 	},
-	
+
 	renderValue: function() {
 		return <FormInput noedit>{this.formatValue() || '(no value)'}</FormInput>;
 	},
-	
+
 	renderField: function(path, label, collapse) {//eslint-disable-line no-unused-vars
-		
+
 		if (this.state.collapsedFields[path]) {
 			return null;
 		}
-		
+
 		return (
 			<FormField label={label} className="form-field--secondary" htmlFor={this.props.path + '.' + path}>
 				<FormInput name={this.props.path + '.' + path} ref={path} value={this.props.value[path]} onChange={this.fieldChanged.bind(this, path)} placeholder={label} />
 			</FormField>
 		);
-		
+
 	},
-	
+
 	renderSuburbState: function() {
 		return (
 			<FormField label="Suburb / State" className="form-field--secondary" htmlFor={this.props.path + '.suburb'}>
@@ -119,7 +119,7 @@ module.exports = Field.create({
 			</FormField>
 		);
 	},
-	
+
 	renderPostcodeCountry: function() {
 		return (
 			<FormField label="Postcode / Country" className="form-field--secondary" htmlFor={this.props.path + '.postcode'}>
@@ -134,13 +134,13 @@ module.exports = Field.create({
 			</FormField>
 		);
 	},
-	
+
 	renderGeo: function() {
-		
+
 		if (this.state.collapsedFields.geo) {
 			return null;
 		}
-		
+
 		return (
 			<FormField label="Lat / Lng" className="form-field--secondary" htmlFor={this.props.paths.geo}>
 				<FormRow>
@@ -153,15 +153,15 @@ module.exports = Field.create({
 				</FormRow>
 			</FormField>
 		);
-		
+
 	},
-	
+
 	updateGoogleOption: function(key, e) {
 		var newState = {};
 		newState[key] = e.target.checked;
 		this.setState(newState);
 	},
-	
+
 	renderGoogleOptions: function() {
 		if (!this.props.enableMapsAPI) return null;
 		var replace = this.state.improve ? (
@@ -183,21 +183,21 @@ module.exports = Field.create({
 			</FormField>
 		);
 	},
-	
+
 	renderUI: function() {
-		
+
 		if (!this.shouldRenderField()) {
 			return (
 				<FormField label={this.props.label}>{this.renderValue()}</FormField>
 			);
 		}
-		
+
 		/* eslint-disable no-script-url */
 		var showMore = !_.isEmpty(this.state.collapsedFields)
 			? <Button type="link" className="collapsed-field-label" onClick={this.uncollapseFields}>(show more fields)</Button>
 			: null;
 		/* eslint-enable */
-		
+
 		return (
 			<div>
 				<FormField label={this.props.label}>
@@ -214,7 +214,7 @@ module.exports = Field.create({
 				<FormNote note={this.props.note} />
 			</div>
 		);
-		
+
 	}
-	
+
 });

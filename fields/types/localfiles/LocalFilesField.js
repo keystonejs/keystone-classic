@@ -6,7 +6,6 @@ var bytes = require('bytes');
 var Button = require('elemental').Button;
 var FormField = require('elemental').FormField;
 var FormInput = require('elemental').FormInput;
-var FormNote = require('elemental').FormNote;
 
 var ICON_EXTS = [
 	'aac', 'ai', 'aiff', 'avi', 'bmp', 'c', 'cpp', 'css', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h',
@@ -16,7 +15,7 @@ var ICON_EXTS = [
 ];
 
 var Item = React.createClass({
-	
+
 	render: function () {
 		var filename = this.props.filename;
 		var ext = filename.split('.').pop();
@@ -46,7 +45,7 @@ var Item = React.createClass({
 
 		return <FormField key={this.props.key}>{body}</FormField>;
 	}
-	
+
 });
 
 module.exports = Field.create({
@@ -152,7 +151,7 @@ module.exports = Field.create({
 	},
 
 	renderContainer: function () {
-		return ( 
+		return (
 			<div className="files-container clearfix">
 				{this.state.items}
 			</div>
@@ -183,7 +182,7 @@ module.exports = Field.create({
 				{this.renderFileField()}
 				{this.renderContainer()}
 				{this.renderToolbar()}
-					
+
 			</FormField>
 		);
 	}

@@ -1,4 +1,3 @@
-import classnames from 'classnames';
 import React from 'react';
 import { Checkbox, FormField, SegmentedControl } from 'elemental';
 import PopoutList from '../../../admin/src/components/PopoutList';
@@ -15,25 +14,25 @@ var SelectFilter = React.createClass({
 			inverted: TOGGLE_OPTIONS[0].value,
 			selectedOptions: {},
 			allSelected: false,
-			indeterminate: false,
+			indeterminate: false
 		};
 	},
 
 	toggleAllOptions () {
 		this.props.field.ops.map(opt => this.toggleOption(opt.value, !this.state.allSelected));
 	},
-	
+
 	toggleOption (option, value) {
 		let newOptions = this.state.selectedOptions;
-		
+
 		if (value) {
 			newOptions[option] = value;
 		} else {
 			delete newOptions[option];
 		}
-		
+
 		let optionCount = Object.keys(newOptions).length;
-		
+
 		this.setState({
 			selectedOptions: newOptions,
 			indeterminate: !!optionCount && optionCount !== this.props.field.ops.length,
@@ -51,16 +50,18 @@ var SelectFilter = React.createClass({
 
 	renderOptions () {
 		let options = this.props.field.ops.map((opt) => {
-			
+
 			let optionKey = opt.value;
 			let optionValue = this.state.selectedOptions[optionKey];
-			
-			return <PopoutList.Item
-				key={'item_' + opt.value}
-				icon={optionValue ? 'check' : 'dash'}
-				isSelected={optionValue}
-				label={opt.label}
-				onClick={this.toggleOption.bind(this, optionKey, !optionValue)} />;
+
+			return (
+				<PopoutList.Item
+					key={'item_' + opt.value}
+					icon={optionValue ? 'check' : 'dash'}
+					isSelected={optionValue}
+					label={opt.label}
+					onClick={this.toggleOption.bind(this, optionKey, !optionValue)} />
+			);
 		});
 
 		return options;

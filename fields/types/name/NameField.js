@@ -6,11 +6,11 @@ var FormInput = require('elemental').FormInput;
 var FormRow = require('elemental').FormRow;
 
 module.exports = Field.create({
-	
+
 	displayName: 'NameField',
 
 	focusTargetRef: 'first',
-	
+
 	valueChanged: function(which, event) {
 		this.props.value[which] = event.target.value;
 		this.props.onChange({
@@ -18,7 +18,7 @@ module.exports = Field.create({
 			value: this.props.value
 		});
 	},
-	
+
 	renderValue: function() {
 		return (
 			<FormRow>
@@ -30,9 +30,8 @@ module.exports = Field.create({
 				</FormField>
 			</FormRow>
 		);
-		return values;
 	},
-	
+
 	renderField: function() {
 		return (
 			<FormRow>
@@ -45,5 +44,5 @@ module.exports = Field.create({
 			</FormRow>
 		);
 	}
-	
+
 });

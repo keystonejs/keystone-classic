@@ -1,7 +1,11 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import { SegmentedControl } from 'elemental';
+
+const OPTIONS = [
+	{ label: 'Is Set', value: true },
+	{ label: 'Is NOT Set', value: false }
+];
 
 var PasswordFilter = React.createClass({
 
@@ -17,20 +21,8 @@ var PasswordFilter = React.createClass({
 		});
 	},
 
-	renderToggle () {
-		let options = [
-			{ label: 'Is Set', value: true },
-			{ label: 'Is NOT Set', value: false }
-		];
-
-		return <SegmentedControl equalWidthSegments options={options} value={this.state.checked} onChange={this.toggleChecked} />;
-	},
-
 	render () {
-		let { field } = this.props;
-		let { checked } = this.state;
-
-		return this.renderToggle();
+		return <SegmentedControl equalWidthSegments options={OPTIONS} value={this.state.checked} onChange={this.toggleChecked} />;
 	}
 
 });

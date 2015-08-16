@@ -1,12 +1,12 @@
 var React = require('react');
 var Field = require('../Field');
 
-var { Button, FormField, FormInput, FormRow, InputGroup } = require('elemental');
+var { Button, FormInput, InputGroup } = require('elemental');
 
 module.exports = Field.create({
-	
+
 	displayName: 'PasswordField',
-	
+
 	getInitialState: function() {
 		return {
 			passwordIsSet: this.props.value ? true : false,
@@ -15,33 +15,33 @@ module.exports = Field.create({
 			confirm: ''
 		};
 	},
-	
+
 	valueChanged: function(which, event) {
 		var newState = {};
 		newState[which] = event.target.value;
 		this.setState(newState);
 	},
-	
+
 	showChangeUI: function() {
 		this.setState({
 			showChangeUI: true
 		}, () => this.focus());
 	},
-	
+
 	onCancel: function() {
 		this.setState({
 			showChangeUI: false
 		}, () => this.focus());
 	},
-	
+
 	renderValue: function() {
 		return <FormInput noedit>{this.props.value ? 'password set' : 'password not set'}</FormInput>;
 	},
-	
+
 	renderField: function() {
 		return this.state.showChangeUI ? this.renderFields() : this.renderChangeButton();
 	},
-	
+
 	renderFields: function() {
 		return (
 			<InputGroup>
@@ -55,12 +55,12 @@ module.exports = Field.create({
 			</InputGroup>
 		);
 	},
-	
+
 	renderChangeButton: function() {
 		var label = this.state.passwordIsSet ? 'Change Password' : 'Set Password';
 		return (
 			<Button ref="focusTarget" onClick={this.showChangeUI}>{label}</Button>
 		);
 	}
-	
+
 });
