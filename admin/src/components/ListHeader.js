@@ -9,6 +9,7 @@ var ListFilters = require('./ListFilters');
 var ListFiltersAdd = require('./ListFiltersAdd');
 var ListColumnsForm = require('./ListColumnsForm');
 var ListDownloadForm = require('./ListDownloadForm');
+var ListSortForm = require('./ListSortForm');
 
 var { Button, Dropdown, FormInput, InputGroup, Pagination } = require('elemental');
 
@@ -80,7 +81,7 @@ var ListHeader = React.createClass({
 			return <h2 className="ListHeader__title">Loading...</h2>;
 		}
 		var sort = Keystone.sort ? (
-			<span className="text-muted"> sorted by <a href="javascript:;">{Keystone.sort}</a></span>
+			<ListSortForm isOpen />
 		) : null;
 		return (
 			<h2 className="ListHeader__title">
