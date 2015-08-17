@@ -22,11 +22,10 @@ var ListHeader = React.createClass({
 	},
 	componentDidMount () {
 		CurrentListStore.addChangeListener(this.updateStateFromStore);
-		window.addEventListener('keypress', this.handleKeyPress);
 	},
 	componentWillUnmount () {
+		clearTimeout(this._searchTimeout);
 		CurrentListStore.removeChangeListener(this.updateStateFromStore);
-		window.removeEventListener('keypress', this.handleKeyPress);
 	},
 	getStateFromStore () {
 		return {
@@ -43,56 +42,39 @@ var ListHeader = React.createClass({
 	updateStateFromStore () {
 		this.setState(this.getStateFromStore());
 	},
-	handleKeyPress (e) {
-	//	if (document.activeElement.nodeName === 'INPUT') return;
-	//
-	//	e = e || window.event;
-	//	var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
-	//
-	//	this.setState({
-	//		lastKeyPressed: String.fromCharCode(charCode).toUpperCase()
-	//	});
-	},
-
 	toggleCreateModal (visible) {
 		this.setState({
 			createIsOpen: visible
 		});
 	},
-
 	updateSearch (e) {
+		clearTimeout(this._searchTimeout);
 		this.setState({
 			searchString: e.target.value
 		});
+		this._searchTimeout = setTimeout(() => {
+			CurrentListStore.setActiveSearch(this.state.searchString);
+		}, 200);
 	},
-
 	handleSearchClear () {
 		CurrentListStore.setActiveSearch('');
 		React.findDOMNode(this.refs.listSearchInput).focus();
 	},
-
 	handleSearchKey (e) {
-		// enter
-		if (e.which === 13) {
-			CurrentListStore.setActiveSearch(this.state.searchString);
-		}
-		// esc
-		else if (e.which === 27) {
+		// clear on esc
+		if (e.which === 27) {
 			this.handleSearchClear ();
 		}
 	},
-
 	handlePageSelect (selected) {
 		// TODO
 		// location.href = '/keystone/' + this.state.list.path + '/' + page;
 	},
-
 	toggleDownloadModal (visible) {
 		this.setState({
 			downloadIsOpen: visible
 		});
 	},
-
 	renderTitle () {
 		if (!this.state.ready) {
 			return <h2 className="ListHeader__title">Loading...</h2>;
@@ -107,7 +89,6 @@ var ListHeader = React.createClass({
 			</h2>
 		);
 	},
-
 	renderSearch () {
 		var searchClearIcon = classNames('ListHeader__searchbar-field__icon octicon', {
 			'is-search octicon-search': !this.state.searchString.length,
@@ -120,7 +101,6 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
-
 	renderDownloadButton () {
 		return (
 			<InputGroup.Section>
@@ -131,14 +111,12 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
-
 	renderPagination () {
 		return null;
 		// TODO: Paginations needs to be updated...
 		if (!this.state.ready) return null;
 		return <Pagination pagination={this.state.items} onPageSelect={this.handlePageSelect} className="ListHeader__pagination" />;
 	},
-
 	renderCreateButton () {
 		var props = { type: 'success' };
 		if (this.state.list.autocreate) {
@@ -155,11 +133,9 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
-
 	renderCreateForm () {
 		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
-
 	render () {
 		return (
 			<div className="ListHeader">
