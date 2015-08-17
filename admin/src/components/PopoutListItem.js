@@ -28,7 +28,7 @@ var PopoutListItem = React.createClass({
 		return (
 			<button type="button" title={this.props.label} className={itemClassname} {...props}>
 				{this.renderIcon()}
-				{this.props.label}
+				<span className="PopoutList__item__label">{this.props.label}</span>
 			</button>
 		);
 	}
