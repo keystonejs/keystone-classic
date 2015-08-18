@@ -1,5 +1,6 @@
-var React = require('react'),
-	Field = require('../Field');
+import React from 'react';
+import Field from '../Field';
+import { FormInput } from 'elemental';
 
 // Scope jQuery and the bootstrap-markdown editor so it will mount
 var $ = require('jquery');
@@ -125,5 +126,10 @@ module.exports = Field.create({
 		};
 		
 		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="md-editor__input code" />;
+	},
+	
+	renderValue () {
+		// TODO: @JedWatson review use of dangerouslySetInnerHTML
+		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value.md.replace(/\n/g, '<br />') }} />
 	}
 });
