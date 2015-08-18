@@ -3,10 +3,10 @@ var _ = require('underscore'),
 	blacklist = require('blacklist');
 
 var FooterBar = React.createClass({
-	
+
 	displayName: 'FooterBar',
-	
-	getInitialState: function() {
+
+	getInitialState () {
 		return {
 			position: 'relative',
 			width: 'auto',
@@ -14,62 +14,62 @@ var FooterBar = React.createClass({
 			top: 0
 		};
 	},
-	
-	componentDidMount: function() {
-		
+
+	componentDidMount () {
+
 		// Bail in IE8 because React doesn't support the onScroll event in that browser
 		// Conveniently (!) IE8 doesn't have window.getComputedStyle which we also use here
 		if (!window.getComputedStyle) return;
-		
+
 		var footer = this.refs.footer.getDOMNode();
-		
+
 		this.windowSize = this.getWindowSize();
-		
+
 		var footerStyle = window.getComputedStyle(footer);
-		
+
 		this.footerSize = {
 			x: footer.offsetWidth,
 			y: footer.offsetHeight + parseInt(footerStyle.marginTop || '0')
 		};
-		
+
 		window.addEventListener('scroll', this.recalcPosition, false);
 		window.addEventListener('resize', this.recalcPosition, false);
-		
+
 		this.recalcPosition();
 	},
-	
-	getWindowSize: function() {
+
+	getWindowSize () {
 		return {
 			x: window.innerWidth,
-			y: window.innerHeight	
+			y: window.innerHeight
 		};
 	},
-	
-	recalcPosition: function() {
+
+	recalcPosition () {
 		var wrapper = this.refs.wrapper.getDOMNode();
-		
+
 		this.footerSize.x = wrapper.offsetWidth;
-		
+
 		var offsetTop = 0;
 		var offsetEl = wrapper;
-		
+
 		while (offsetEl) {
 			offsetTop += offsetEl.offsetTop;
 			offsetEl = offsetEl.offsetParent;
 		}
-		
+
 		var maxY = offsetTop + this.footerSize.y;
 		var viewY = window.scrollY + window.innerHeight;
-		
+
 		var newSize = this.getWindowSize();
 		var sizeChanged = (newSize.x !== this.windowSize.x || newSize.y !== this.windowSize.y);
 		this.windowSize = newSize;
-		
+
 		var newState = {
 			width: this.footerSize.x,
 			height: this.footerSize.y
 		};
-		
+
 		if (viewY > maxY && (sizeChanged || this.mode !== 'inline')) {
 			this.mode = 'inline';
 			newState.top = 0;
@@ -82,8 +82,8 @@ var FooterBar = React.createClass({
 			this.setState(newState);
 		}
 	},
-	
-	render: function() {
+
+	render () {
 		var wrapperStyle = {
 			height: this.state.height,
 			marginTop: 60,

@@ -9,7 +9,7 @@ var CreateForm = React.createClass({
 
 	displayName: 'CreateForm',
 
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return {
 			err: null,
 			values: {},
@@ -17,7 +17,7 @@ var CreateForm = React.createClass({
 		};
 	},
 
-	getInitialState: function() {
+	getInitialState () {
 
 		var values = this.props.values;
 
@@ -33,7 +33,7 @@ var CreateForm = React.createClass({
 
 	},
 
-	handleChange: function(event) {
+	handleChange (event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
 		this.setState({
@@ -41,7 +41,7 @@ var CreateForm = React.createClass({
 		});
 	},
 
-	componentDidUpdate: function(prevProps, prevState) {
+	componentDidUpdate (prevProps, prevState) {
 		let bodyStyle = document.body.style;
 
 		if (this.refs.focusTarget) {
@@ -55,13 +55,13 @@ var CreateForm = React.createClass({
 		}
 	},
 
-	componentDidMount: function() {
+	componentDidMount () {
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}
 	},
 
-	getFieldProps: function(field) {
+	getFieldProps (field) {
 		var props = _.clone(field);
 		props.value = this.state.values[field.path];
 		props.values = this.state.values;
@@ -71,7 +71,7 @@ var CreateForm = React.createClass({
 		return props;
 	},
 
-	render: function() {
+	render () {
 
 		var alert = null;
 		var form = [];

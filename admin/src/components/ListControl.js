@@ -7,7 +7,7 @@ var ListControl = React.createClass({
 		type: React.PropTypes.oneOf(['delete', 'sortable'])
 	},
 
-	renderControl: function() {
+	renderControl () {
 		var icon = 'octicon octicon-';
 		var className = 'ItemList__control ItemList__control--' + this.props.type;
 		var tabindex = this.props.type === 'sortable' ? -1 : null;
@@ -26,9 +26,9 @@ var ListControl = React.createClass({
 		);
 	},
 
-	render: function() {
+	render () {
 		var className = 'ItemList__control-col ItemList__control-col--' + this.props.type;
-		
+
 		return (
 			<td className={className}>
 				{this.renderControl()}

@@ -7,8 +7,8 @@ module.exports = React.createClass({
 	propTypes: {
 		className: React.PropTypes.string
 	},
-	
-	render: function() {
+
+	render () {
 		return (
 			<div {...this.props} className="Toolbar">
 				<div className="container">
@@ -17,7 +17,7 @@ module.exports = React.createClass({
 			</div>
 		);
 	}
-	
+
 });
 
 // expose the children to the top level export

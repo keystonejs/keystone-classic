@@ -9,8 +9,8 @@ module.exports = React.createClass({
 		left: React.PropTypes.bool,
 		right: React.PropTypes.bool
 	},
-	
-	render: function() {
+
+	render () {
 		// classes
 		var className = classNames('Toolbar__section', {
 			'Toolbar__section--left': this.props.left,
@@ -22,5 +22,5 @@ module.exports = React.createClass({
 
 		return <div {...props} className={className}>{this.props.children}</div>;
 	}
-	
+
 });
