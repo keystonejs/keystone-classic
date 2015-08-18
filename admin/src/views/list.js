@@ -75,8 +75,8 @@ const ListView = React.createClass({
 			// span first col for controls when present
 			var span = 1;
 			if (!i) {
-				if (Keystone.list.sortable) span++;
-				if (!Keystone.list.nodelete) span++;
+				if (this.state.list.sortable) span++;
+				if (!this.state.list.nodelete) span++;
 			}
 			return <th key={col.path} colSpan={span}>{col.label}</th>;
 		});
@@ -86,14 +86,14 @@ const ListView = React.createClass({
 	renderRow: function(item) {
 		var cells = this.state.columns.map((col) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			return <ColumnType key={col.path} list={Keystone.list} col={col} data={item} />;
+			return <ColumnType key={col.path} list={this.state.list} col={col} data={item} />;
 		});
 		// add sortable icon when applicable
-		if (Keystone.list.sortable) {
+		if (this.state.list.sortable) {
 			cells.unshift(<ListControl key="_sort" onClick={this.reorderItems} type="sortable" />);
 		}
 		// add delete icon when applicable
-		if (!Keystone.list.nodelete) {
+		if (!this.state.list.nodelete) {
 			cells.unshift(<ListControl key="_delete" onClick={this.removeItem} type="delete" />);
 		}
 		return <tr key={'i' + item.id}>{cells}</tr>;
@@ -104,7 +104,7 @@ const ListView = React.createClass({
 		return (
 			<div className="container">
 				<BlankState style={{ marginTop: 40 }}>
-					<BlankState.Heading>No {Keystone.list.plural.toLowerCase()} found&hellip;</BlankState.Heading>
+					<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found&hellip;</BlankState.Heading>
 					{this.renderCreateButton()}
 				</BlankState>
 				{this.renderCreateForm()}
@@ -115,7 +115,7 @@ const ListView = React.createClass({
 	renderActiveState () {
 		if (!Object.keys(this.state.items.results).length) return null;
 		
-		var sortable = Keystone.list.sortable;
+		var sortable = this.state.list.sortable;
 		var tableClass = sortable ? 'sortable ' : '';
 		tableClass += 'Table ItemList';
 		return (
