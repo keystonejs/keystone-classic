@@ -102,12 +102,12 @@ var ListFiltersAdd = React.createClass({
 		let activeFilterFields = pluck(this.state.activeFilters, 'field');
 		let activeFilterPaths = pluck(activeFilterFields, 'path');
 
-		let { availableFilters, searchString } = this.state
-		let searchRegex = new RegExp(searchString)
+		let { availableFilters, searchString } = this.state;
+		let searchRegex = new RegExp(searchString);
 
 		function searchFilter (filter) {
 			if (filter.type === 'heading') return false;
-			return searchRegex.test(filter.field.label.toLowerCase())
+			return searchRegex.test(filter.field.label.toLowerCase());
 		};
 
 		let filteredFilters = searchString ? availableFilters.filter(searchFilter) : availableFilters;
@@ -119,12 +119,14 @@ var ListFiltersAdd = React.createClass({
 
 			var filterIsActive = activeFilterPaths.length && (activeFilterPaths.indexOf(el.field.path) > -1);
 
-			return <PopoutList.Item
-				key={'item_' + el.field.path}
-				icon={filterIsActive ? 'check' : 'chevron-right'}
-				isSelected={!!filterIsActive}
-				label={el.field.label}
-				onClick={() => { this.selectField(el.field) }} />;
+			return (
+				<PopoutList.Item
+					key={'item_' + el.field.path}
+					icon={filterIsActive ? 'check' : 'chevron-right'}
+					isSelected={!!filterIsActive}
+					label={el.field.label}
+					onClick={() => { this.selectField(el.field); }} />
+			);
 		});
 
 		return (

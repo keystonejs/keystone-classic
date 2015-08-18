@@ -59,7 +59,8 @@ var FlashMessages = React.createClass({
 	},
 
 	renderErrorAlerts () {
-		return ();
+		// TODO: @JM was this implemented?
+		return null;
 	},
 
 	render () {

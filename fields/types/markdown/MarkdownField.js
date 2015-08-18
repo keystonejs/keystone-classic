@@ -92,19 +92,19 @@ var renderMarkdown = function(component) {
 		var hiddenButtons = ('string' === typeof component.props.toolbarOptions.hiddenButtons) ? component.props.toolbarOptions.hiddenButtons.split(',') : component.props.toolbarOptions.hiddenButtons;
 		options.hiddenButtons = options.hiddenButtons.concat(hiddenButtons);
 	}
-	
+
 	$(component.refs.markdownTextarea.getDOMNode()).markdown(options);
 };
 
 module.exports = Field.create({
-	
+
 	displayName: 'MarkdownField',
 
 	// Override `shouldCollapse` to check the markdown field correctly
 	shouldCollapse : function() {
 		return this.props.collapse && !this.props.value.md;
 	},
-	
+
 	// only have access to `refs` once component is mounted
 	componentDidMount: function() {
 		if (this.props.wysiwyg) {
@@ -118,18 +118,18 @@ module.exports = Field.create({
 			renderMarkdown(this);
 		}
 	},
-	
+
 	renderField: function() {
 		var styles = {
 			padding: 8,
 			height: this.props.height
 		};
-		
+
 		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="md-editor__input code" />;
 	},
-	
+
 	renderValue () {
 		// TODO: @JedWatson review use of dangerouslySetInnerHTML
-		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value.md.replace(/\n/g, '<br />') }} />
+		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value.md.replace(/\n/g, '<br />') }} />;
 	}
 });

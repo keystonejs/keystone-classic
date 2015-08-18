@@ -12,9 +12,9 @@ function getId() {
 }
 
 module.exports = Field.create({
-	
+
 	displayName: 'HtmlField',
-	
+
 	getInitialState: function() {
 		return {
 			id: getId(),
@@ -43,7 +43,7 @@ module.exports = Field.create({
 		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
-		
+
 		if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)
 			&& !_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
 			var instance = tinymce.get(prevState.id);
@@ -59,13 +59,13 @@ module.exports = Field.create({
 	componentDidMount: function() {
 		this.initWysiwyg();
 	},
-	
+
 	componentWillReceiveProps: function(nextProps) {
 		if (this.editor && this._currentValue !== nextProps.value) {
 			this.editor.setContent(nextProps.value);
 		}
 	},
-	
+
 	focusChanged: function(focused) {
 		this.setState({
 			isFocused: focused
@@ -128,10 +128,10 @@ module.exports = Field.create({
 				importcss_append: true,
 				importcss_merge_classes: true
 			};
-			
+
 			_.extend(options.additionalOptions, importcssOptions);
 		}
-		
+
 		if (!options.overrideToolbar) {
 			toolbar += ' | code';
 		}
@@ -179,9 +179,9 @@ module.exports = Field.create({
 			</div>
 		);
 	},
-	
+
 	renderValue: function() {
-		return <FormInput multiline noedit value={this.props.value} />
+		return <FormInput multiline noedit value={this.props.value} />;
 	}
-	
+
 });

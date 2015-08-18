@@ -4,7 +4,7 @@ var inflect = require('i');
 /**
  * Displays the singular or plural of a string based on a number
  * or number of items in an array.
- * 
+ *
  * If arity is 1, returns the plural form of the word.
  *
  * @param {String} count
@@ -28,7 +28,7 @@ var plural = exports.plural = function(count, sn, pl) {
 		count = _.size(count);
 	}
 	return (count == 1 ? sn : pl).replace('*', count);
-}
+};
 
 
 /**
@@ -43,7 +43,7 @@ var upcase = exports.upcase = function(str) {
 	if (str && str.toString) str = str.toString();
 	if (typeof str !== 'string' || !str.length) return '';
 	return (str.substr(0,1).toUpperCase() + str.substr(1));
-}
+};
 
 
 /**
@@ -58,7 +58,7 @@ var downcase = exports.downcase = function(str) {
 	if (str && str.toString) str = str.toString();
 	if (typeof str !== 'string' || !str.length) return '';
 	return (str.substr(0,1).toLowerCase() + str.substr(1));
-}
+};
 
 
 /**
@@ -80,7 +80,7 @@ var titlecase = exports.titlecase = function(str) {
 		}
 	}
 	return _.compact(parts).join(' ');
-}
+};
 
 
 /**
@@ -94,4 +94,4 @@ var titlecase = exports.titlecase = function(str) {
 
 var camelcase = exports.camelcase = function(str, lc) {
 	return inflect.camelize(str, !(lc));
-}
+};

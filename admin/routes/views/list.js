@@ -116,8 +116,8 @@ exports = module.exports = function(req, res) {
 			columns = columns.map(function(col) {
 				col = _.clone(col);
 				if (col.field) col.field = col.field.getOptions();
-				if (col.refList) col.refList = col.refList.getOptions()
-				if (col.subField) col.subField = col.subField.getOptions()
+				if (col.refList) col.refList = col.refList.getOptions();
+				if (col.subField) col.subField = col.subField.getOptions();
 				return col;
 			});
 
@@ -126,7 +126,7 @@ exports = module.exports = function(req, res) {
 			});
 
 			/* Render the list template */
-			
+
 			keystone.render(req, res, 'list', _.extend(viewLocals, {
 				section: keystone.nav.by.list[req.list.key] || {},
 				title: appName + ': ' + req.list.plural,

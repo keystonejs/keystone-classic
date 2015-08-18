@@ -77,14 +77,14 @@ var ListDownloadForm = React.createClass({
 	toggleCurrentlySelectedColumns (e) {
 		let newState = {
 			useCurrentColumns: !this.state.useCurrentColumns
-		}
+		};
 
 		// clear selected fields
 		if (e.target.value) {
-			newState.selectedColumns =  {}
+			newState.selectedColumns =  {};
 		}
 
-		this.setState(newState)
+		this.setState(newState);
 	},
 
 	handleDownloadRequest () {
@@ -103,12 +103,14 @@ var ListDownloadForm = React.createClass({
 			let columnKey = el.field.path;
 			let columnValue = this.state.selectedColumns[columnKey];
 
-			return <PopoutList.Item
-				key={'item_' + el.field.path}
-				icon={columnValue ? 'check' : 'dash'}
-				isSelected={columnValue}
-				label={el.field.label}
-				onClick={this.toggleColumn.bind(this, columnKey, !columnValue)} />;
+			return (
+				<PopoutList.Item
+					key={'item_' + el.field.path}
+					icon={columnValue ? 'check' : 'dash'}
+					isSelected={columnValue}
+					label={el.field.label}
+					onClick={this.toggleColumn.bind(this, columnKey, !columnValue)} />
+			);
 		});
 
 		return (

@@ -8,32 +8,27 @@ var PopoutList = require('./PopoutList');
 
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
-
 	getInitialState () {
 		return {
 			selectedColumn: null,
 			invertSort: false,
 		};
 	},
-
 	togglePopout (visible) {
 		this.setState({
 			selectedColumn: null,
 			isOpen: visible
 		});
 	},
-
 	toggleColumn (path) {
 		this.setState({
 			selectedColumn: path,
 		 	invertSort: this.state.selectedColumn === path ? !this.state.invertSort : false
 		});
 	},
-
 	applyColumns () {
 		this.togglePopout(false);
 	},
-
 	renderColumns () {
 		return CurrentListStore.getAvailableColumns().map((el, i) => {
 			if (el.type === 'heading') {
@@ -43,15 +38,16 @@ var ListColumnsForm = React.createClass({
 			let path = el.field.path;
 			let isSelected = this.state.selectedColumn === path;
 
-			return <PopoutList.Item
-				key={'column_' + el.field.path}
-				icon={isSelected ? (this.state.invertSort ? 'chevron-up' : 'chevron-down') : 'dash'}
-				isSelected={isSelected}
-				label={el.field.label}
-				onClick={() => { this.toggleColumn(path); }} />;
+			return (
+				<PopoutList.Item
+					key={'column_' + el.field.path}
+					icon={isSelected ? (this.state.invertSort ? 'chevron-up' : 'chevron-down') : 'dash'}
+					isSelected={isSelected}
+					label={el.field.label}
+					onClick={() => { this.toggleColumn(path); }} />
+			);
 		});
 	},
-
 	render () {
 		return (
 			<span>
@@ -78,7 +74,6 @@ var ListColumnsForm = React.createClass({
 			</span>
 		);
 	}
-
 });
 
 module.exports = ListColumnsForm;

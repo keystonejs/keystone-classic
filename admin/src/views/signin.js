@@ -92,7 +92,9 @@ var SigninView = React.createClass({
 		return this.state.isInvalid ? (
 			<Alert key="real" type="danger" style={{ textAlign: 'center' }}>{this.state.invalidMessage}</Alert>
 		) : (
+			/* eslint-disable react/self-closing-comp */
 			<Alert key="fake" type="placeholder">&nbsp;</Alert>
+			/* eslint-enable */
 		);
 	},
 	renderForm () {

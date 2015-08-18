@@ -22,16 +22,18 @@ var ListFiltersAddForm = React.createClass({
 			filterValue: filterValue
 		};
 	},
-	
+
 	componentDidMount () {
 		let footer = React.findDOMNode(this.refs.footer);
 		let body = React.findDOMNode(this.refs.body);
-		
+
+		/* eslint-disable react/no-did-mount-set-state */
 		this.setState({
 			bodyHeight: body.scrollHeight > this.props.maxHeight ? (body.offsetHeight - footer.offsetHeight) : 'auto'
 		});
+		/* eslint-enable */
 	},
-	
+
 	updateValue (filterValue) {
 		this.setState({
 			filterValue: filterValue
@@ -57,7 +59,7 @@ var ListFiltersAddForm = React.createClass({
 					{FilterComponent ? <FilterComponent field={this.props.field} filter={this.state.filterValue} onChange={this.updateValue} /> : this.renderInvalidFilter()}
 				</Popout.Body>
 				<Popout.Footer
-					ref="footer" 
+					ref="footer"
 					primaryButtonIsSubmit
 					primaryButtonLabel="Apply"
 					secondaryButtonAction={this.props.onCancel}

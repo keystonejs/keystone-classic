@@ -90,12 +90,14 @@ var CreateForm = React.createClass({
 			});
 
 			if (errorCount > 1) {
-				alertContent = <div>
-					<h4>There were {errorCount} errors creating the new {list.singular}:</h4>
-					<ul>{msgs}</ul>
-				</div>
+				alertContent = (
+					<div>
+						<h4>There were {errorCount} errors creating the new {list.singular}:</h4>
+						<ul>{msgs}</ul>
+					</div>
+				);
 			} else {
-				alertContent = {msgs}
+				alertContent = msgs;
 			}
 			alert = <Alert type="danger">{alertContent}</Alert>;
 		}

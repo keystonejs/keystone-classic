@@ -63,12 +63,14 @@ var ListColumnsForm = React.createClass({
 			let path = el.field.path;
 			let selected = this.state.selectedColumns[path];
 
-			return <PopoutList.Item
-				key={'column_' + el.field.path}
-				icon={selected ? 'check' : 'dash'}
-				isSelected={!!selected}
-				label={el.field.label}
-				onClick={() => { this.toggleColumn(path, !selected); }} />;
+			return (
+				<PopoutList.Item
+					key={'column_' + el.field.path}
+					icon={selected ? 'check' : 'dash'}
+					isSelected={!!selected}
+					label={el.field.label}
+					onClick={() => { this.toggleColumn(path, !selected); }} />
+			);
 		});
 	},
 
