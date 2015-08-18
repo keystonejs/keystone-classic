@@ -18,6 +18,7 @@ var ListHeader = React.createClass({
 	getInitialState () {
 		return {
 			createIsOpen: Keystone.showCreateForm,
+			searchString: '',
 			...this.getStateFromStore()
 		};
 	},
@@ -34,7 +35,6 @@ var ListHeader = React.createClass({
 			activeColumns: CurrentListStore.getActiveColumns(),
 			availableFilters: CurrentListStore.getAvailableFilters(),
 			activeFilters: CurrentListStore.getActiveFilters(),
-			searchString: CurrentListStore.getActiveSearch(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
 			ready: CurrentListStore.isReady()
