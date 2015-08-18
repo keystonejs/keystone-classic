@@ -97,7 +97,7 @@ var ListHeader = React.createClass({
 		});
 		return (
 			<InputGroup.Section grow className="ListHeader__searchbar-field">
-				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
+				<FormInput tabIndex={1} ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
 				<button ref="listSearchClear" type="button" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
 			</InputGroup.Section>
 		);
