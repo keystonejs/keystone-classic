@@ -57,7 +57,7 @@ function expandColumns (input) {
 		var field = _list.fields[path];
 		if (!field) {
 			// TODO: Support arbitary document paths
-			console.log('Invalid Column specified: ', i);
+			console.warn('Invalid Column specified:', i);
 			return;
 		}
 		return {
