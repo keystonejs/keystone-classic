@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var moment = require('moment');
 var React = require('react');
 var Fields = require('../fields');
@@ -15,12 +14,12 @@ var EditForm = React.createClass({
 	
 	getInitialState () {
 		return {
-			values: _.clone(this.props.data.fields)
+			values: Object.assign({}, this.props.data.fields)
 		};
 	},
 	
 	getFieldProps (field) {
-		var props = _.clone(field);
+		var props = Object.assign({}, field);
 		props.value = this.state.values[field.path];
 		props.values = this.state.values;
 		props.onChange = this.handleChange;
@@ -101,7 +100,7 @@ var EditForm = React.createClass({
 		var elements = {},
 			headings = 0;
 		
-		_.each(this.props.list.uiElements, function(el) {
+		this.props.list.uiElements.map((el) => {
 			
 			if (el.type === 'heading') {
 				
@@ -126,7 +125,7 @@ var EditForm = React.createClass({
 						props.currentDependencies[dep] = this.state.values[dep];
 					}, this);
 				}
-
+				
 				elements[field.path] = React.createElement(Fields[field.type], props);
 				
 			}
