@@ -119,24 +119,42 @@ const ListView = React.createClass({
 	renderActiveState () {
 		if (this.state.showBlankState) return null;
 
-		var sortable = this.state.list.sortable;
-		var tableClass = sortable ? 'sortable ' : '';
-		tableClass += 'Table ItemList';
 		return (
 			<div>
 				<ListHeader />
 				<div className="container">
-					<div className="ItemList-wrapper">
-						<table cellPadding="0" cellSpacing="0" className={tableClass}>
-							{this.renderCols()}
-							{this.renderHeaders()}
-							<tbody>
-								{this.state.items.results.map(this.renderRow)}
-							</tbody>
-						</table>
-					</div>
+					{this.renderItemsTable()}
+					{this.renderNoSearchResults()}
 				</div>
 			</div>
+		);
+	},
+
+	renderItemsTable () {
+		if (!this.state.items.results.length) return null;
+		var sortable = this.state.list.sortable;
+		var tableClass = sortable ? 'sortable ' : '';
+		tableClass += 'Table ItemList';
+		return (
+			<div className="ItemList-wrapper">
+				<table cellPadding="0" cellSpacing="0" className={tableClass}>
+					{this.renderCols()}
+					{this.renderHeaders()}
+					<tbody>
+						{this.state.items.results.map(this.renderRow)}
+					</tbody>
+				</table>
+			</div>
+		);
+	},
+
+	renderNoSearchResults () {
+		if (this.state.items.results.length) return null;
+		return (
+			<BlankState style={{ marginTop: 20 }}>
+				<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found matching {this.state.search}</BlankState.Heading>
+				{this.renderCreateButton()}
+			</BlankState>
 		);
 	},
 
