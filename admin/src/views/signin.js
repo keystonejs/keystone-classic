@@ -93,7 +93,9 @@ var SigninView = React.createClass({
 			<Alert key="real" type="danger" style={{ textAlign: 'center' }}>{this.state.invalidMessage}</Alert>
 		) : (
 			/* eslint-disable react/self-closing-comp */
-			<Alert key="fake" type="placeholder">&nbsp;</Alert>
+			// TODO: This probably isn't the best way to do this, we
+			// shouldn't be using Elemental classNames instead of components
+			<div key="fake" className="Alert Alert--placeholder">&nbsp;</div>
 			/* eslint-enable */
 		);
 	},
