@@ -1,9 +1,9 @@
-var React = require('react');
-var Field = require('../Field');
-var tinymce = require('tinymce');
-var _ = require('underscore');
+import React from 'react';
+import _ from 'underscore';
+import tinymce from 'tinymce';
+import { FormInput } from 'elemental';
+import Field from '../Field';
 
-var FormInput = require('elemental').FormInput;
 
 var lastId = 0;
 
@@ -167,25 +167,21 @@ module.exports = Field.create({
 		var className = this.props.wysiwyg ? 'wysiwyg' : 'code';
 		return className;
 	},
-	
-	renderEditor: function(readOnly) {
+
+	renderField: function() {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
 			height: this.props.height
 		};
 		return (
 			<div className={className}>
-				<FormInput multiline ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} disabled={readOnly} value={this.props.value} />
+				<FormInput multiline ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} value={this.props.value} />
 			</div>
 		);
 	},
-
-	renderField: function() {
-		return this.renderEditor();
-	},
 	
 	renderValue: function() {
-		return this.renderEditor(true);
+		return <FormInput multiline noedit value={this.props.value} />
 	}
 	
 });
