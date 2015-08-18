@@ -1,12 +1,10 @@
 var React = require('react');
 var Transition = React.addons.CSSTransitionGroup;
-var blacklist = require('blacklist');
-var classNames = require('classnames');
+var classnames = require('classnames');
 var utils = require('../utils.js');
 
 var CurrentListStore = require('../stores/CurrentListStore');
 
-var HeightDetector = require('./HeightDetector');
 var ListFiltersAddForm = require('./ListFiltersAddForm');
 var Popout = require('./Popout');
 var PopoutList = require('./PopoutList');
@@ -130,25 +128,31 @@ var ListFiltersAdd = React.createClass({
 		});
 
 		return (
-			<HeightDetector onLayout={this.setPopoutHeight} key="list" className="Popout__body Popout__pane" component="div">
-				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-					<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a filter..." />
-				</FormField>
-				{popoutList}
-			</HeightDetector>
+			<Popout.Pane onLayout={this.setPopoutHeight} key="list">
+				<Popout.Body>
+					<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
+						<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a filter..." />
+					</FormField>
+					{popoutList}
+				</Popout.Body>
+			</Popout.Pane>
 		);
 	},
 
 	renderForm () {
 		return (
-			<HeightDetector onLayout={this.setPopoutHeight} key="form" className="Popout__pane">
-				<ListFiltersAddForm field={this.state.selectedField} onApply={this.applyFilter} onCancel={this.closePopout} onBack={this.navigateBack} />
-			</HeightDetector>
+			<Popout.Pane onLayout={this.setPopoutHeight} key="form">
+				<ListFiltersAddForm field={this.state.selectedField} onApply={this.applyFilter} onCancel={this.closePopout} onBack={this.navigateBack} maxHeight={this.props.maxHeight} />
+			</Popout.Pane>
 		);
 	},
 
 	render () {
-		var popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
+		let { selectedField } = this.state;
+		let popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
+		let popoutPanesClassname = classnames('Popout__panes', {
+			'Popout__scrollable-area': !selectedField
+		});
 
 		return (
 			<InputGroup.Section>
@@ -158,12 +162,12 @@ var ListFiltersAdd = React.createClass({
 				</Button>
 				<Popout isOpen={this.state.isOpen} onCancel={this.closePopout}>
 					<Popout.Header
-						leftAction={this.state.selectedField ? this.navigateBack : null}
-						leftIcon={this.state.selectedField ? 'chevron-left' : null}
-						title={this.state.selectedField ? this.state.selectedField.label : 'Filter'}
-						transitionDirection={!!this.state.selectedField ? 'next' : 'prev'} />
-					<Transition style={popoutBodyStyle} className="Popout__scrollable-area" transitionName={!!this.state.selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'} component="div">
-						{this.state.selectedField ? this.renderForm() : this.renderList()}
+						leftAction={selectedField ? this.navigateBack : null}
+						leftIcon={selectedField ? 'chevron-left' : null}
+						title={selectedField ? selectedField.label : 'Filter'}
+						transitionDirection={!!selectedField ? 'next' : 'prev'} />
+					<Transition style={popoutBodyStyle} className={popoutPanesClassname} transitionName={!!selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'} component="div">
+						{selectedField ? this.renderForm() : this.renderList()}
 					</Transition>
 				</Popout>
 			</InputGroup.Section>

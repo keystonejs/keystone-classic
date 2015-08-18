@@ -48,3 +48,4 @@ module.exports = Popout;
 module.exports.Header = require('./PopoutHeader');
 module.exports.Body = require('./PopoutBody');
 module.exports.Footer = require('./PopoutFooter');
+module.exports.Pane = require('./PopoutPane');
