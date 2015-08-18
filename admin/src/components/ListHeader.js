@@ -59,6 +59,7 @@ var ListHeader = React.createClass({
 	},
 	handleSearchClear () {
 		CurrentListStore.setActiveSearch('');
+		this.setState({ searchString: '' });
 		React.findDOMNode(this.refs.listSearchInput).focus();
 	},
 	handleSearchKey (e) {
