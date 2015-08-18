@@ -24,7 +24,7 @@ html
 			header.keystone-navigation
 				nav.primary-navbar
 					.container
-						ul.app-nav
+						ul.app-nav.app-nav--primary.app-nav--left
 							li(class=!section.key ? 'active' : null)
 								a(href='/keystone' title="Dashboard - " + brand)
 									span.octicon.octicon-home
@@ -36,14 +36,15 @@ html
 
 								li(class=section.key == navSection.key ? 'active' : null)
 									a(href=path)= navSection.label
-							if signout
-								li.right
+						if signout
+							ul.app-nav.app-nav--primary.app-nav--right
+								li
 									a(href=signout title="Sign Out").signout
 										span.octicon.octicon-sign-out
 				if section.lists && section.lists.length > 1
 					nav.secondary-navbar
 						.container
-							ul.app-nav
+							ul.app-nav.app-nav--secondary.app-nav--left
 								each navList in section.lists
 									if navList.external
 										- path = navList.path

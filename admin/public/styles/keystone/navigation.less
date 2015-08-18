@@ -23,13 +23,27 @@
 		display: block;
 		text-decoration: none;
 	}
+}
+.app-nav--left {
+	float: left;
+}
+.app-nav--right {
+	float: right;
 
 	// Alignment Hack
 	// align last nav items to the right of the container
 	// first item alignment declared separately for primary/secondary - see below
-	.right:last-child > a {
+	li:last-child > a {
 		padding-right: 0;
 	}
+}
+
+// fade out the hovered item's siblings
+.app-nav--primary:hover {
+	color: fade(@primary-navbar-color, 66%);
+}
+.app-nav--secondary:hover {
+	color: fade(@secondary-navbar-color, 66%);
 }
 
 
@@ -37,15 +51,9 @@
 
 .primary-navbar {
 	background-color: @primary-navbar-bg;
+	color: @primary-navbar-color;
 	padding-bottom: .5em;
 	padding-top: .5em;
-
-	// fade out the hovered item's siblings
-	&:hover {
-		a {
-			color: fade(white, 66%);
-		}
-	}
 
 	// add a little divider between nav items
 	li {
@@ -72,7 +80,7 @@
 
 	li > a {
 		border-radius: .3em;
-		color: @primary-navbar-color;
+		color: inherit;
 		padding: @primary-navbar-padding-vertical @primary-navbar-padding-horizontal;
 		position: relative;
 
@@ -122,17 +130,13 @@
 	border-bottom: 1px solid darken(@secondary-navbar-bg, 10%);
 	color: @secondary-navbar-color;
 
-	&:hover {
-		color: lighten(@secondary-navbar-color, 20%);
-	}
-
 	li > a {
 		color: inherit;
 		padding: @secondary-navbar-padding-vertical @secondary-navbar-padding-horizontal;
 		position: relative;
 
 		&:hover {
-			color: darken(@secondary-navbar-color, 20%);
+			color: @secondary-navbar-hover-color;
 		}
 	}
 	.active > a {
