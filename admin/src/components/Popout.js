@@ -3,8 +3,6 @@ var React = require('react');
 var Transition = React.addons.CSSTransitionGroup;
 var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
 
-const ESC_KEYCODE = 27;
-
 var Popout = React.createClass({
 	displayName: 'Popout',
 	propTypes: {

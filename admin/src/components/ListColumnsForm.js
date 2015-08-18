@@ -7,8 +7,6 @@ var Popout = require('./Popout');
 var PopoutList = require('./PopoutList');
 var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
 
-const ESC_KEYCODE = 27;
-
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
 
