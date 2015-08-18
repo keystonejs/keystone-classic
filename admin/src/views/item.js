@@ -46,7 +46,6 @@ var View = React.createClass({
 	},
 	
 	renderCreateForm: function() {
-		if (!this.state.createIsOpen) return null;
 		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} />;
 	},
 	
