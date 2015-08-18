@@ -35,12 +35,16 @@ const ListView = React.createClass({
 	},
 
 	getStateFromStore () {
-		return {
-			list: CurrentListStore.getList(),
-			ready: CurrentListStore.isReady(),
+		var state = {
+			columns: CurrentListStore.getActiveColumns(),
 			items: CurrentListStore.getItems(),
-			columns: CurrentListStore.getActiveColumns()
+			list: CurrentListStore.getList(),
+			loading: CurrentListStore.isLoading(),
+			ready: CurrentListStore.isReady(),
+			search: CurrentListStore.getActiveSearch()
 		};
+		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search) ? true : false;
+		return state;
 	},
 
 	toggleCreateModal (visible) {
@@ -100,7 +104,7 @@ const ListView = React.createClass({
 	},
 
 	renderBlankState () {
-		if (Object.keys(this.state.items.results).length) return null;
+		if (!this.state.showBlankState) return null;
 		return (
 			<div className="container">
 				<BlankState style={{ marginTop: 40 }}>
@@ -113,7 +117,7 @@ const ListView = React.createClass({
 	},
 
 	renderActiveState () {
-		if (!Object.keys(this.state.items.results).length) return null;
+		if (this.state.showBlankState) return null;
 
 		var sortable = this.state.list.sortable;
 		var tableClass = sortable ? 'sortable ' : '';
@@ -157,7 +161,6 @@ const ListView = React.createClass({
 	},
 
 	render () {
-
 		return !this.state.ready ? (
 			<div className="view-loading-indicator"><Spinner /></div>
 		) : (
