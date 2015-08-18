@@ -8,10 +8,10 @@ var EditFormHeader = require('../components/EditFormHeader');
 var Spinner = require('elemental').Spinner;
 
 var View = React.createClass({
-	
+
 	displayName: 'ItemView',
-	
-	getInitialState: function() {
+
+	getInitialState () {
 		return {
 			createIsOpen: false,
 			list: Keystone.list,
@@ -19,11 +19,11 @@ var View = React.createClass({
 		};
 	},
 
-	componentDidMount: function() {
+	componentDidMount () {
 		this.loadItemData();
 	},
 
-	loadItemData: function() {
+	loadItemData () {
 		request.get('/keystone/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
 			.set('Accept', 'application/json')
 			.end((err, res) => {
@@ -38,18 +38,18 @@ var View = React.createClass({
 				});
 			});
 	},
-	
-	toggleCreate: function(visible) {
+
+	toggleCreate (visible) {
 		this.setState({
 			createIsOpen: visible
 		});
 	},
-	
-	renderCreateForm: function() {
+
+	renderCreateForm () {
 		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} />;
 	},
-	
-	render: function() {
+
+	render () {
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner /></div>;
 		return (
 			<div>
@@ -61,7 +61,7 @@ var View = React.createClass({
 			</div>
 		);
 	}
-	
+
 });
 
 React.render(<View itemId={Keystone.itemId} />, document.getElementById('item-view'));

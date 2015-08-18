@@ -42,22 +42,22 @@ const ListView = React.createClass({
 			columns: CurrentListStore.getActiveColumns()
 		};
 	},
-	
+
 	toggleCreateModal (visible) {
 		this.setState({
 			createIsOpen: visible
 		});
 	},
 
-	reorderItems: function() {
+	reorderItems () {
 		alert('TODO: Add re-ordering of items');
 	},
 
-	removeItem: function() {
+	removeItem () {
 		confirm('Are you sure you want to remove this item?');
 	},
 
-	renderCols: function() {
+	renderCols () {
 		var cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
 		// add delete col when applicable
 		if (!this.state.list.nodelete) {
@@ -70,7 +70,7 @@ const ListView = React.createClass({
 		return <colgroup>{cols}</colgroup>;
 	},
 
-	renderHeaders: function() {
+	renderHeaders () {
 		var cells = this.state.columns.map((col, i) => {
 			// span first col for controls when present
 			var span = 1;
@@ -83,7 +83,7 @@ const ListView = React.createClass({
 		return <thead><tr>{cells}</tr></thead>;
 	},
 
-	renderRow: function(item) {
+	renderRow (item) {
 		var cells = this.state.columns.map((col) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
 			return <ColumnType key={col.path} list={this.state.list} col={col} data={item} />;
@@ -98,7 +98,7 @@ const ListView = React.createClass({
 		}
 		return <tr key={'i' + item.id}>{cells}</tr>;
 	},
-	
+
 	renderBlankState () {
 		if (Object.keys(this.state.items.results).length) return null;
 		return (
@@ -111,10 +111,10 @@ const ListView = React.createClass({
 			</div>
 		);
 	},
-	
+
 	renderActiveState () {
 		if (!Object.keys(this.state.items.results).length) return null;
-		
+
 		var sortable = this.state.list.sortable;
 		var tableClass = sortable ? 'sortable ' : '';
 		tableClass += 'Table ItemList';
@@ -135,7 +135,7 @@ const ListView = React.createClass({
 			</div>
 		);
 	},
-	
+
 	renderCreateButton () {
 		var props = { type: 'success' };
 		if (this.state.list.nocreate) return null;
@@ -151,13 +151,13 @@ const ListView = React.createClass({
 			</Button>
 		);
 	},
-	
+
 	renderCreateForm () {
 		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
 
-	render: function() {
-		
+	render () {
+
 		return !this.state.ready ? (
 			<div className="view-loading-indicator"><Spinner /></div>
 		) : (

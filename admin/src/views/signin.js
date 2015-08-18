@@ -4,7 +4,7 @@ var { Alert, Button, Form, FormField, FormInput, Spinner } = require('elemental'
 var SessionStore = require('../stores/SessionStore');
 
 var SigninView = React.createClass({
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			email: '',
 			password: '',
@@ -113,7 +113,7 @@ var SigninView = React.createClass({
 			</div>
 		);
 	},
-	render: function() {
+	render () {
 		let boxClassname = classnames('auth-box', {
 			'auth-box--has-errors': this.state.isAnimating
 		});

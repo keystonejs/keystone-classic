@@ -1,10 +1,10 @@
 var React = require('react');
 
 var View = React.createClass({
-	
+
 	displayName: 'HomeView',
-	
-	renderFlatNav: function() {
+
+	renderFlatNav () {
 		return Keystone.lists.map((list) => {
 			var href = list.external ? list.path : '/keystone/' + list.path;
 			return (
@@ -15,12 +15,12 @@ var View = React.createClass({
 		});
 	},
 
-	renderGroupedNav: function() {
+	renderGroupedNav () {
 		return (
 			<div>
 				{Keystone.nav.sections.map((navSection) => {
 					var headingIconClass = 'dashboard-group__heading-icon octicon ';
-					
+
 					if (navSection.key === 'events') { headingIconClass += ' octicon-calendar'; }
 					else if (navSection.key === 'people') { headingIconClass += ' octicon-organization'; }
 					else if (navSection.key === 'listings') { headingIconClass += ' octicon-briefcase'; }
@@ -29,7 +29,7 @@ var View = React.createClass({
 					else if (navSection.key === 'jobs') { headingIconClass += ' octicon-megaphone'; }
 					else if (navSection.key === 'forums') { headingIconClass += ' octicon-podium'; }
 					else { headingIconClass += ' octicon-primitive-dot'; }
-					
+
 					return (
 						<div className="dashboard-group" key={navSection.key}>
 							<div className="dashboard-group__heading">
@@ -79,7 +79,7 @@ var View = React.createClass({
 		);
 	},
 
-	render: function() {
+	render () {
 		return (
 			<div className="container">
 				<div className="page-header"><h1>{Keystone.brand}</h1></div>
@@ -89,7 +89,7 @@ var View = React.createClass({
 			</div>
 		);
 	}
-	
+
 });
 
 React.render(<View />, document.getElementById('home-view'));
