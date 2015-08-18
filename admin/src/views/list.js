@@ -3,8 +3,11 @@ const React = require('react');
 const Columns = require('../columns');
 const ListHeader = require('../components/ListHeader');
 const ListControl = require('../components/ListControl');
+const CreateForm = require('../components/CreateForm');
 
 const CurrentListStore = require('../stores/CurrentListStore');
+
+const { BlankState, Button, Spinner } = require('elemental');
 
 const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
@@ -38,6 +41,12 @@ const ListView = React.createClass({
 			items: CurrentListStore.getItems(),
 			columns: CurrentListStore.getActiveColumns()
 		};
+	},
+	
+	toggleCreateModal (visible) {
+		this.setState({
+			createIsOpen: visible
+		});
 	},
 
 	reorderItems: function() {
@@ -89,9 +98,23 @@ const ListView = React.createClass({
 		}
 		return <tr key={'i' + item.id}>{cells}</tr>;
 	},
-
-	render: function() {
-		if (!this.state.ready) return null;
+	
+	renderBlankState () {
+		if (Object.keys(this.state.items.results).length) return null;
+		return (
+			<div className="container">
+				<BlankState style={{ marginTop: 40 }}>
+					<BlankState.Heading>No {Keystone.list.plural.toLowerCase()} found&hellip;</BlankState.Heading>
+					{this.renderCreateButton()}
+				</BlankState>
+				{this.renderCreateForm()}
+			</div>
+		);
+	},
+	
+	renderActiveState () {
+		if (!Object.keys(this.state.items.results).length) return null;
+		
 		var sortable = Keystone.list.sortable;
 		var tableClass = sortable ? 'sortable ' : '';
 		tableClass += 'Table ItemList';
@@ -111,11 +134,43 @@ const ListView = React.createClass({
 				</div>
 			</div>
 		);
+	},
+	
+	renderCreateButton () {
+		var props = { type: 'success' };
+		if (this.state.list.nocreate) return null;
+		if (this.state.list.autocreate) {
+			props.href = '?new' + Keystone.csrf.query;
+		} else {
+			props.onClick = this.toggleCreateModal.bind(this, true);
+		}
+		return (
+			<Button {...props}>
+				<span className="octicon octicon-plus" />
+				Create {this.state.list.singular}
+			</Button>
+		);
+	},
+	
+	renderCreateForm () {
+		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
+	},
+
+	render: function() {
+		
+		return !this.state.ready ? (
+			<div className="view-loading-indicator"><Spinner /></div>
+		) : (
+			<div>
+				{this.renderBlankState()}
+				{this.renderActiveState()}
+			</div>
+		);
 	}
 
 });
 
-var target = document.getElementById('list-view-table');
+var target = document.getElementById('list-view');
 if (target) {
 	React.render(<ListView />, target);
 }

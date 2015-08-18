@@ -34,14 +34,4 @@ block js
 block content
 	//- New React View
 	//- ------------------------------
-	div#list-view
-	
-	//- List
-	//- ------------------------------
-	.container
-		if items.results.length
-			#list-view-table
-		else
-			.blank-state
-				h2.blank-state__heading No #{list.plural.toLowerCase()} found
-	
+	#list-view
