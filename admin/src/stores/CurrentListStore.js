@@ -81,9 +81,6 @@ var CurrentListStore = new Store({
 	getList () {
 		return _list;
 	},
-	getListSort () {
-		return _list.defaultSort;
-	},
 	getActiveColumns () {
 		return active.columns;
 	},
