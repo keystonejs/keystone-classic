@@ -14,7 +14,7 @@ var ICON_EXTS = [
 	'wav', 'xls', 'xlsx', 'xml', 'yml', 'zip'
 ];
 
-var Item = React.createClass({
+var LocalFilesFieldItem = React.createClass({
 
 	render: function () {
 		var filename = this.props.filename;
@@ -78,7 +78,7 @@ module.exports = Field.create({
 		thumbs = thumbs || this.state.items;
 		var i = thumbs.length;
 		args.toggleDelete = this.removeItem.bind(this, i);
-		thumbs.push(<Item key={i} {...args} />);
+		thumbs.push(<LocalFilesFieldItem key={i} {...args} />);
 	},
 
 	fileFieldNode: function () {
