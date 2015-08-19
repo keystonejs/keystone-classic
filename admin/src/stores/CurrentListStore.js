@@ -126,9 +126,9 @@ var CurrentListStore = new Store({
 		var url = '/keystone/api/' + _list.path + buildQueryString();
 		// console.log(url);
 		xhr({
-		    url: url
+			url: url
 		}, (err, resp, body) => {
-		    // check resp.statusCode
+			// check resp.statusCode
 			_loading = false;
 			try {
 				body = JSON.parse(body);
