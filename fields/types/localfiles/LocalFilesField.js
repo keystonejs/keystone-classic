@@ -15,6 +15,14 @@ var ICON_EXTS = [
 ];
 
 var LocalFilesFieldItem = React.createClass({
+	propTypes: {
+		deleted: React.PropTypes.bool,
+		filename: React.PropTypes.string,
+		isQueued: React.PropTypes.bool,
+		key: React.PropTypes.number,
+		size: React.PropTypes.number,
+		toggleDelete: React.PropTypes.func,
+	},
 
 	render: function () {
 		var filename = this.props.filename;
