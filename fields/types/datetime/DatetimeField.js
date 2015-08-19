@@ -81,6 +81,12 @@ module.exports = Field.create({
 		});
 		this.handleChange(dateValue, timeValue);
 	},
+	
+	renderNote () {
+		if (!this.props.note) return null;
+		
+		return <FormNote note={this.props.note} />;
+	},
 
 	renderUI: function() {
 		var input;
@@ -109,7 +115,7 @@ module.exports = Field.create({
 		return (
 			<FormField label={this.props.label} className="field-type-datetime">
 				{input}
-				<FormNote note={this.props.note} />
+				{this.renderNote()}
 			</FormField>
 		);
 	}
