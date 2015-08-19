@@ -53,9 +53,10 @@ var ListHeader = React.createClass({
 		this.setState({
 			searchString: e.target.value
 		});
+		var delay = e.target.value.length > 1 ? 250 : 0;
 		this._searchTimeout = setTimeout(() => {
 			CurrentListStore.setActiveSearch(this.state.searchString);
-		}, 200);
+		}, delay);
 	},
 	handleSearchClear () {
 		CurrentListStore.setActiveSearch('');
