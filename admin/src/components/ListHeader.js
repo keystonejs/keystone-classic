@@ -9,7 +9,6 @@ import ListDownloadForm from './ListDownloadForm';
 import ListFilters from './ListFilters';
 import ListFiltersAdd from './ListFiltersAdd';
 import ListHeaderTitle from './ListHeaderTitle';
-import ListSortForm from './ListSortForm';
 
 import CurrentListStore from '../stores/CurrentListStore';
 
