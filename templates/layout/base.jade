@@ -26,7 +26,7 @@ html
 					.container
 						ul.app-nav.app-nav--primary.app-nav--left
 							li(class=!section.key ? 'active' : null)
-								a(href='/keystone' title="Dashboard - " + brand)
+								a(href='/keystone' title='Dashboard - ' + brand tabIndex="-1")
 									span.octicon.octicon-home
 							each navSection in nav.sections
 								if navSection.lists[0].external
@@ -35,11 +35,11 @@ html
 									- path = '/keystone/' + navSection.lists[0].path
 
 								li(class=section.key == navSection.key ? 'active' : null)
-									a(href=path)= navSection.label
+									a(href=path tabIndex="-1")= navSection.label
 						if signout
 							ul.app-nav.app-nav--primary.app-nav--right
 								li
-									a(href=signout title="Sign Out").signout
+									a(href=signout title="Sign Out" tabIndex="-1").signout
 										span.octicon.octicon-sign-out
 				if section.lists && section.lists.length > 1
 					nav.secondary-navbar
@@ -51,18 +51,18 @@ html
 									else
 										- path = '/keystone/' + navList.path
 										
-									li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
+									li(class=navList.key == list.key ? 'active' : null): a(href=path tabIndex="-1")= navList.label
 			.keystone-body
 				+flash-messages(messages)
 				block content
 
 			footer.keystone-footer
 				.container
-					a(href=backUrl).keystone-footer__link #{brand + (appversion ? (' ' + appversion) : '')}
-					|  Powered by <a href="http://keystonejs.com" target="_blank" class="keystone-footer__link">KeystoneJS</a> version #{version}.
+					a(href=backUrl tabIndex="-1").keystone-footer__link #{brand + (appversion ? (' ' + appversion) : '')}
+					|  Powered by <a href="http://keystonejs.com" target="_blank" class="keystone-footer__link" tabIndex="-1">KeystoneJS</a> version #{version}.
 					if User && user
 						|  Signed in as 
-						a(href='/keystone/' + User.path + '/' + user.id).keystone-footer__link= User.getDocumentName(user)
+						a(href='/keystone/' + User.path + '/' + user.id tabIndex="-1").keystone-footer__link= User.getDocumentName(user)
 						| .
 
 		//- Common
