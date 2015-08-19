@@ -152,8 +152,8 @@ const ListView = React.createClass({
 		if (this.state.items.results.length) return null;
 		return (
 			<BlankState style={{ marginTop: 20 }}>
+				<span className="octicon octicon-search" style={{ fontSize: 32, marginBottom: 20 }} />
 				<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found matching {this.state.search}</BlankState.Heading>
-				{this.renderCreateButton()}
 			</BlankState>
 		);
 	},
