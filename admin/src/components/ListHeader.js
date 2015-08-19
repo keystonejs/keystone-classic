@@ -1,17 +1,17 @@
-var classNames = require('classnames');
-var React = require('react');
-var utils = require('../utils.js');
+import classNames from 'classnames';
+import React from 'react';
+import utils from '../utils.js';
+import { Button, Dropdown, FormInput, InputGroup, Pagination } from 'elemental';
 
-var CurrentListStore = require('../stores/CurrentListStore');
+import CreateForm from './CreateForm';
+import ListColumnsForm from './ListColumnsForm';
+import ListDownloadForm from './ListDownloadForm';
+import ListFilters from './ListFilters';
+import ListFiltersAdd from './ListFiltersAdd';
+import ListHeaderTitle from './ListHeaderTitle';
+import ListSortForm from './ListSortForm';
 
-var CreateForm = require('./CreateForm');
-var ListFilters = require('./ListFilters');
-var ListFiltersAdd = require('./ListFiltersAdd');
-var ListColumnsForm = require('./ListColumnsForm');
-var ListDownloadForm = require('./ListDownloadForm');
-var ListSortForm = require('./ListSortForm');
-
-var { Button, Dropdown, FormInput, InputGroup, Pagination } = require('elemental');
+import CurrentListStore from '../stores/CurrentListStore';
 
 var ListHeader = React.createClass({
 	displayName: 'ListHeader',
@@ -35,6 +35,7 @@ var ListHeader = React.createClass({
 			activeColumns: CurrentListStore.getActiveColumns(),
 			availableFilters: CurrentListStore.getAvailableFilters(),
 			activeFilters: CurrentListStore.getActiveFilters(),
+			activeSort: CurrentListStore.getListSort(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
 			ready: CurrentListStore.isReady()
@@ -46,6 +47,16 @@ var ListHeader = React.createClass({
 	toggleCreateModal (visible) {
 		this.setState({
 			createIsOpen: visible
+		});
+	},
+	toggleSortPopout (visible) {
+		this.setState({
+			sortPopoutIsOpen: visible
+		});
+	},
+	toggleDownloadModal (visible) {
+		this.setState({
+			downloadIsOpen: visible
 		});
 	},
 	updateSearch (e) {
@@ -69,28 +80,16 @@ var ListHeader = React.createClass({
 			this.handleSearchClear ();
 		}
 	},
+	handleSortSelect (path) {
+		this.setState({
+			activeSort: path,
+			// 	invertSort: this.state.selectedColumn === path ? !this.state.invertSort : false
+		});
+		this.toggleSortPopout(false);
+	},
 	handlePageSelect (selected) {
 		// TODO
 		// location.href = '/keystone/' + this.state.list.path + '/' + page;
-	},
-	toggleDownloadModal (visible) {
-		this.setState({
-			downloadIsOpen: visible
-		});
-	},
-	renderTitle () {
-		if (!this.state.ready) {
-			return <h2 className="ListHeader__title">Loading...</h2>;
-		}
-		var sort = Keystone.sort ? (
-			<ListSortForm isOpen />
-		) : null;
-		return (
-			<h2 className="ListHeader__title">
-				{utils.plural(this.state.items.count, ('* ' + this.state.list.singular), ('* ' + this.state.list.plural))}
-				{sort}
-			</h2>
-		);
 	},
 	renderSearch () {
 		var searchClearIcon = classNames('ListHeader__searchbar-field__icon octicon', {
@@ -140,13 +139,22 @@ var ListHeader = React.createClass({
 		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
 	render () {
+		// console.log(this.state.list.defaultSort);
 		return (
 			<div className="ListHeader">
 				<div className="container">
-					{this.renderTitle()}
+					<ListHeaderTitle
+						activeSort={this.state.list.fields[this.state.activeSort]}
+						invertSort={this.state.invertSort}
+						popoutIsOpen={this.state.sortPopoutIsOpen}
+						title={utils.plural(this.state.items.count, ('* ' + this.state.list.singular), ('* ' + this.state.list.plural))}
+						onColumnSelect={this.handleSortSelect}
+						closePopout={this.toggleSortPopout.bind(this, false)}
+						openPopout={this.toggleSortPopout.bind(this, true)}
+						/>
 					<InputGroup contiguous={false} className="ListHeader__searchbar">
 						{this.renderSearch()}
-						<ListFiltersAdd isOpen={this.state.lastKeyPressed === 'F'} />
+						<ListFiltersAdd />
 						<ListColumnsForm />
 						<ListDownloadForm />
 						{this.renderCreateButton()}
