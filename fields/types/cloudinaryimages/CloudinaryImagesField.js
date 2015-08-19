@@ -9,11 +9,26 @@ var FormInput = require('elemental').FormInput;
 var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
 var Thumbnail = React.createClass({
-
-	displayName: 'CloudinaryImagesField',
+	displayName: 'CloudinaryImagesFieldThumbnail',
+	
+	propTypes: {
+		deleted: React.PropTypes.bool,
+		height: React.PropTypes.number,
+		isQueued: React.PropTypes.bool,
+		shouldRenderActionButton: React.PropTypes.bool,
+		toggleDelete: React.PropTypes.func,
+		url: React.PropTypes.string,
+		width: React.PropTypes.number,
+	},
+	
+	renderActionButton () {
+		if (!this.props.shouldRenderActionButton || this.props.isQueued) return null;
+		
+		return <Button type={this.props.deleted ? 'link-text' : 'link-cancel'} block onClick={this.props.toggleDelete}>{this.props.deleted ? 'Undo' : 'Remove'}</Button>;
+	},
 
 	render: function() {
-		var iconClassName, imageDetails;
+		var iconClassName;
 
 		if (this.props.deleted) {
 			iconClassName = 'delete-pending mega-octicon octicon-x';
@@ -29,16 +44,6 @@ var Thumbnail = React.createClass({
 		var height = this.props.height;
 		if (width && height) title = width + ' x ' + height;
 
-		var actionLabel = this.props.deleted ? 'Undo' : 'Remove';
-
-		if (!this.props.isQueued) {
-			imageDetails = (
-				<div className='image-details'>
-					<Button type="link-cancel" block onClick={this.props.toggleDelete}>{actionLabel}</Button>
-				</div>
-			);
-		}
-
 		return (
 			<div className="image-field image-sortable row col-sm-3 col-md-12" title={title}>
 				<div className={previewClassName}>
@@ -47,8 +52,7 @@ var Thumbnail = React.createClass({
 						<span className={iconClassName} />
 					</a>
 				</div>
-
-				{imageDetails}
+				{this.renderActionButton()}
 			</div>
 		);
 	}
@@ -85,6 +89,7 @@ module.exports = Field.create({
 		thumbs = thumbs || this.state.thumbnails;
 		var i = thumbs.length;
 		args.toggleDelete = this.removeThumbnail.bind(this, i);
+		args.shouldRenderActionButton = this.shouldRenderField();
 		thumbs.push(<Thumbnail key={i} {...args} />);
 	},
 
@@ -103,6 +108,8 @@ module.exports = Field.create({
 	},
 
 	renderFileField: function() {
+		if (!this.shouldRenderField()) return null;
+		
 		return <input ref="fileField" type="file" name={this.props.paths.upload} multiple className="field-upload" onChange={this.uploadFile} tabIndex="-1" />;
 	},
 
@@ -149,6 +156,8 @@ module.exports = Field.create({
 	},
 
 	renderToolbar: function() {
+		if (!this.shouldRenderField()) return null;
+		
 		var body = [];
 
 		var push = function (queueType, alertType, count, action) {
@@ -206,6 +215,8 @@ module.exports = Field.create({
 	},
 
 	renderFieldAction: function() {
+		if (!this.shouldRenderField()) return null;
+		
 		var value = '';
 		var remove = [];
 		_.each(this.state.thumbnails, function (thumb) {
@@ -217,9 +228,11 @@ module.exports = Field.create({
 	},
 
 	renderUploadsField: function() {
+		if (!this.shouldRenderField()) return null;
+		
 		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
-
+	
 	renderUI: function() {
 		return (
 			<FormField label={this.props.label} className="field-type-cloudinaryimages">
