@@ -167,10 +167,14 @@ module.exports = Field.create({
 	},
 
 	renderFileField: function() {
+		if (!this.shouldRenderField()) return null;
+		
 		return <input ref="fileField" type="file" name={this.props.paths.upload} className="field-upload" onChange={this.fileChanged} tabIndex="-1" />;
 	},
 
 	renderFileAction: function() {
+		if (!this.shouldRenderField()) return null;
+		
 		return <input type="hidden" name={this.props.paths.action} className="field-action" value={this.state.action} />;
 	},
 
@@ -185,6 +189,12 @@ module.exports = Field.create({
 				</div>
 			</div>
 		);
+	},
+	
+	renderNote () {
+		if (!this.props.note) return null;
+		
+		return <FormNote note={this.props.note} />;
 	},
 
 	renderUI: function() {
@@ -213,7 +223,7 @@ module.exports = Field.create({
 	
 				<div className="file-container">{container}</div>
 				{body}
-				<FormNote note={this.props.note} />
+				{this.renderNote()}
 				
 			</FormField>
 		);
