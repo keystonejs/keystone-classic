@@ -23,35 +23,42 @@ var LocalFilesFieldItem = React.createClass({
 		size: React.PropTypes.number,
 		toggleDelete: React.PropTypes.func,
 	},
+	
+	renderActionButton () {
+		if (!this.props.shouldRenderActionButton || this.props.isQueued) return null;
+		
+		var buttonLabel = this.props.deleted ? 'Undo' : 'Remove';
+		var buttonType = this.props.deleted ? 'link' : 'link-cancel';
+		
+		return <Button key="action-button" type={buttonType} onClick={this.props.toggleDelete}>{buttonLabel}</Button>;
+	},
 
 	render: function () {
-		var filename = this.props.filename;
-		var ext = filename.split('.').pop();
+		let { filename } = this.props;
+		let ext = filename.split('.').pop();
 
-		var iconName = '_blank';
+		let iconName = '_blank';
 		if (_.contains(ICON_EXTS, ext)) iconName = ext;
-
-		var body = [];
-
-		body.push(<img key="file-type-icon" className="file-icon" src={'/keystone/images/icons/32/' + iconName + '.png'} />);
-		body.push(<FormInput key="file-name" noedit className="field-type-localfiles__filename">
-			{filename}
-			{this.props.size ? ' (' + bytes(this.props.size) + ')' : null}
-		</FormInput>);
+		
+		let note;
 
 		if (this.props.deleted) {
-			body.push(<FormInput key="delete-note" noedit className="field-type-localfiles__note field-type-localfiles__note--delete">save to delete</FormInput>);
+			note = <FormInput key="delete-note" noedit className="field-type-localfiles__note field-type-localfiles__note--delete">save to delete</FormInput>;
 		} else if (this.props.isQueued) {
-			body.push(<FormInput key="upload-note" noedit className="field-type-localfiles__note field-type-localfiles__note--upload">save to upload</FormInput>);
+			note = <FormInput key="upload-note" noedit className="field-type-localfiles__note field-type-localfiles__note--upload">save to upload</FormInput>;
 		}
 
-		if (!this.props.isQueued) {
-			var buttonLabel = this.props.deleted ? 'Undo' : 'Remove';
-			var buttonType = this.props.deleted ? 'link' : 'link-cancel';
-			body.push(<Button key="action-button" type={buttonType} onClick={this.props.toggleDelete}>{buttonLabel}</Button>);
-		}
-
-		return <FormField>{body}</FormField>;
+		return (
+			<FormField>
+				<img key="file-type-icon" className="file-icon" src={'/keystone/images/icons/32/' + iconName + '.png'} />
+				<FormInput key="file-name" noedit className="field-type-localfiles__filename">
+					{filename}
+					{this.props.size ? ' (' + bytes(this.props.size) + ')' : null}
+				</FormInput>
+				{note}
+				{this.renderActionButton()}
+			</FormField>
+		);
 	}
 
 });
@@ -86,6 +93,7 @@ module.exports = Field.create({
 		thumbs = thumbs || this.state.items;
 		var i = thumbs.length;
 		args.toggleDelete = this.removeItem.bind(this, i);
+		args.shouldRenderActionButton = this.shouldRenderField();
 		thumbs.push(<LocalFilesFieldItem key={i} {...args} />);
 	},
 
@@ -126,6 +134,8 @@ module.exports = Field.create({
 	},
 
 	renderToolbar: function () {
+		if (!this.shouldRenderField()) return null;
+		
 		var clearFilesButton;
 		if (this.hasFiles()) {
 			clearFilesButton = <Button type="link-cancel" className="ml-5" onClick={this.clearFiles}>Clear Uploads</Button>;
