@@ -86,6 +86,20 @@ module.exports = {
 		);
 	},
 
+	renderValue: function () {
+		return (
+			<div>
+				{this.state.values.map((item, i) => {
+					return (
+						<div key={i} style={i ? { marginTop: '1em' } : null}>
+							<FormInput noedit value={item.value} />
+						</div>
+					);
+				})}
+			</div>
+		);
+	},
+
 	// Override shouldCollapse to check for array length
 	shouldCollapse: function () {
 		return this.props.collapse && !this.props.value.length;

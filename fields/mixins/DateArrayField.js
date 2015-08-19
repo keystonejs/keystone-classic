@@ -142,5 +142,19 @@ module.exports = {
 				<Button ref="button" onClick={this.addItem}>Add date</Button>
 			</div>
 		);
+	},
+
+	renderValue: function () {
+		return (
+			<div>
+				{this.state.values.map((item, i) => {
+					return (
+						<div key={i} style={i ? { marginTop: '1em' } : null}>
+							<FormInput noedit value={item.value} />
+						</div>
+					);
+				})}
+			</div>
+		);
 	}
 };
