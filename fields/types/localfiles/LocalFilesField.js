@@ -25,25 +25,25 @@ var LocalFilesFieldItem = React.createClass({
 
 		var body = [];
 
-		body.push(<img className="file-icon" src={'/keystone/images/icons/32/' + iconName + '.png'} />);
-		body.push(<FormInput noedit className="field-type-localfiles__filename">
+		body.push(<img key="file-type-icon" className="file-icon" src={'/keystone/images/icons/32/' + iconName + '.png'} />);
+		body.push(<FormInput key="file-name" noedit className="field-type-localfiles__filename">
 			{filename}
 			{this.props.size ? ' (' + bytes(this.props.size) + ')' : null}
 		</FormInput>);
 
 		if (this.props.deleted) {
-			body.push(<FormInput noedit className="field-type-localfiles__note field-type-localfiles__note--delete">save to delete</FormInput>);
+			body.push(<FormInput key="delete-note" noedit className="field-type-localfiles__note field-type-localfiles__note--delete">save to delete</FormInput>);
 		} else if (this.props.isQueued) {
-			body.push(<FormInput noedit className="field-type-localfiles__note field-type-localfiles__note--upload">save to upload</FormInput>);
+			body.push(<FormInput key="upload-note" noedit className="field-type-localfiles__note field-type-localfiles__note--upload">save to upload</FormInput>);
 		}
 
 		if (!this.props.isQueued) {
 			var buttonLabel = this.props.deleted ? 'Undo' : 'Remove';
 			var buttonType = this.props.deleted ? 'link' : 'link-cancel';
-			body.push(<Button type={buttonType} onClick={this.props.toggleDelete}>{buttonLabel}</Button>);
+			body.push(<Button key="action-button" type={buttonType} onClick={this.props.toggleDelete}>{buttonLabel}</Button>);
 		}
 
-		return <FormField key={this.props.key}>{body}</FormField>;
+		return <FormField>{body}</FormField>;
 	}
 
 });
