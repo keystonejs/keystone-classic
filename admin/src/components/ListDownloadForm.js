@@ -126,11 +126,11 @@ var ListDownloadForm = React.createClass({
 
 		return (
 			<InputGroup.Section>
-				<Button isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
+				<Button id="listHeaderDownloadButton" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
 					Download
 					<span className="disclosure-arrow" />
 				</Button>
-				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)}>
+				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)} relativeToID="listHeaderDownloadButton">
 					<Popout.Header title="Download" />
 					<Popout.Body scrollable>
 						<Form type="horizontal" component="div">

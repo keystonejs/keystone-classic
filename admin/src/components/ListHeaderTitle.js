@@ -42,14 +42,12 @@ var ListHeaderTitle = React.createClass({
 				<h2 className="ListHeader__title">
 					{this.props.title}
 					<span> sorted by </span>
-					<span style={{ display: 'inline-block', position: 'relative' }}>
-						<a href="javascript:;" onClick={this.props.openPopout}>
-							{this.props.activeSort.label.toLowerCase()}
-							<span className="disclosure-arrow" />
-						</a>
-					</span>
+					<a id="listHeaderSortButton" href="javascript:;" onClick={this.props.openPopout}>
+						{this.props.activeSort.label.toLowerCase()}
+						<span className="disclosure-arrow" />
+					</a>
 				</h2>
-				<Popout isOpen={this.props.popoutIsOpen} onCancel={this.props.closePopout}>
+				<Popout isOpen={this.props.popoutIsOpen} onCancel={this.props.closePopout} relativeToID="listHeaderSortButton">
 					<Popout.Header title="Sort" />
 					<Popout.Body scrollable>
 						<PopoutList>

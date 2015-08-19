@@ -1,7 +1,12 @@
-var classnames = require('classnames');
-var React = require('react');
-var Transition = React.addons.CSSTransitionGroup;
-var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
+import classnames from 'classnames';
+import React from 'react';
+import { Button, Checkbox, InputGroup, SegmentedControl } from 'elemental';
+import Portal from './Portal';
+
+const Transition = React.addons.CSSTransitionGroup;
+const sizes = {
+	arrowHeight: 12
+};
 
 var Popout = React.createClass({
 	displayName: 'Popout',
@@ -9,13 +14,49 @@ var Popout = React.createClass({
 		isOpen: React.PropTypes.bool,
 		onCancel: React.PropTypes.func,
 		onSubmit: React.PropTypes.func,
+		relativeToID: React.PropTypes.string.isRequired,
+		width: React.PropTypes.number,
+	},
+	
+	getInitialState () {
+		return {};
+	},
+
+	getDefaultProps () {
+		return {
+			width: 320,
+		};
+	},
+	
+	componentDidMount () {
+		let posNode = document.getElementById(this.props.relativeToID);
+		
+		let pos = {
+			top: 0,
+			left: 0,
+			width: posNode.offsetWidth,
+			height: posNode.offsetHeight
+		};
+		while (posNode.offsetParent) {
+			pos.top += posNode.offsetTop;
+			pos.left += posNode.offsetLeft;
+			posNode = posNode.offsetParent;
+		}
+		
+		let leftOffset = pos.left + (pos.width / 2) - (this.props.width / 2);
+		let topOffset = pos.top + pos.height + sizes.arrowHeight;
+		
+		this.setState({
+			leftOffset: leftOffset,
+			topOffset: topOffset
+		});
 	},
 
 	renderPopout () {
 		if (!this.props.isOpen) return;
 
 		return (
-			<div className="Popout">
+			<div className="Popout" style={{ left: this.state.leftOffset, top: this.state.topOffset, width: this.props.width }}>
 				<span className="Popout__arrow" />
 				<div className="Popout__inner">
 					{this.props.children}
@@ -31,12 +72,12 @@ var Popout = React.createClass({
 
 	render () {
 		return (
-			<span>
-				<Transition className="Popout-wrapper" transitionName="Popout" component="div">
+			<Portal className="Popout-wrapper">
+				<Transition className="Popout-animation" transitionName="Popout" component="div">
 					{this.renderPopout()}
 				</Transition>
 				{this.renderBlockout()}
-			</span>
+			</Portal>
 		);
 	}
 

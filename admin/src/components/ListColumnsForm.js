@@ -24,13 +24,13 @@ var ListColumnsForm = React.createClass({
 		return selectedColumns;
 	},
 
-	togglePopout (visible, callback) {
+	togglePopout (visible) {
 		this.setState({
 			selectedColumns: this.getSelectedColumnsFromStore(),
-			isOpen: visible
+			isOpen: visible,
 		}, () => {
 			if (visible) {
-				React.findDOMNode(this.refs.button).focus();
+				React.findDOMNode(this.refs.target).focus();
 			}
 		});
 	},
@@ -77,11 +77,11 @@ var ListColumnsForm = React.createClass({
 	render () {
 		return (
 			<InputGroup.Section>
-				<Button ref="button" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
+				<Button ref="target" id="listHeaderColumnButton" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
 					Columns
 					<span className="disclosure-arrow" />
 				</Button>
-				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)}>
+				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)} relativeToID="listHeaderColumnButton">
 					<Popout.Header title="Columns" />
 					<Popout.Body scrollable>
 						<PopoutList>

@@ -158,11 +158,11 @@ var ListFiltersAdd = React.createClass({
 
 		return (
 			<InputGroup.Section>
-				<Button isActive={this.state.isOpen} onClick={this.state.isOpen ? this.closePopout : this.openPopout}>
+				<Button id="listHeaderFilterButton" isActive={this.state.isOpen} onClick={this.state.isOpen ? this.closePopout : this.openPopout}>
 					Filter
 					<span className="disclosure-arrow" />
 				</Button>
-				<Popout isOpen={this.state.isOpen} onCancel={this.closePopout}>
+				<Popout isOpen={this.state.isOpen} onCancel={this.closePopout} relativeToID="listHeaderFilterButton">
 					<Popout.Header
 						leftAction={selectedField ? this.navigateBack : null}
 						leftIcon={selectedField ? 'chevron-left' : null}
