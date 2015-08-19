@@ -163,8 +163,8 @@ module.exports = Field.create({
 		if (this.state.expandedValues && this.state.expandedValues.length) {
 			var body = [];
 			
-			_.each(this.state.expandedValues, function (item) {
-				body.push(<FormInput href={'/keystone/' + this.props.refList.path + '/' + item.value} noedit>{item.label}</FormInput>);
+			_.each(this.state.expandedValues, function (item, i) {
+				body.push(<FormInput key={i} noedit href={'/keystone/' + this.props.refList.path + '/' + item.value}>{item.label}</FormInput>);
 			}, this);
 			
 			return body;
@@ -179,11 +179,11 @@ module.exports = Field.create({
 		}
 		var body = [];
 
-		body.push(<Select multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />);
+		body.push(<Select key="relationship-select" multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />);
 		
 		if (!this.props.many && this.props.value) {
 			body.push(
-				<Button type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='keystone-relational-button' title={'Go to "' + this.state.expandedValues[0].label + '"'}>
+				<Button key="relational-button" type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='keystone-relational-button' title={'Go to "' + this.state.expandedValues[0].label + '"'}>
 					<span className="octicon octicon-file-symlink-file" />
 				</Button>
 			);
