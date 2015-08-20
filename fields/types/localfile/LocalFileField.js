@@ -119,19 +119,19 @@ module.exports = Field.create({
 	renderAlert () {
 		if (this.hasLocal()) {
 			return (
-				<div className="upload-queued u-float-left">
+				<div className="file-values upload-queued">
 					<FormInput noedit>File selected - save to upload</FormInput>
 				</div>
 			);
 		} else if (this.state.origin === 'cloudinary') {
 			return ( 
-				<div className="select-queued u-float-left">
+				<div className="file-values select-queued">
 					<FormInput noedit>File selected from Cloudinary</FormInput>
 				</div>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<div className="delete-queued u-float-left">
+				<div className="file-values delete-queued">
 					<FormInput noedit>File {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</FormInput>
 				</div>
 			);
@@ -143,7 +143,7 @@ module.exports = Field.create({
 	renderClearButton () {
 		if (this.state.removeExisting) {
 			return (
-				<Button type="link-cancel" onClick={this.undoRemove}>
+				<Button type="link" onClick={this.undoRemove}>
 					Undo Remove
 				</Button>
 			);
