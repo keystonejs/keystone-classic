@@ -229,6 +229,11 @@ module.exports = Field.create({
 		
 		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
+
+	renderNote () {
+		if (!this.props.note) return null;
+		return <FormNote note={this.props.note} />;
+	},
 	
 	renderUI () {
 		return (
@@ -238,6 +243,7 @@ module.exports = Field.create({
 				{this.renderFileField()}
 				{this.renderContainer()}
 				{this.renderToolbar()}
+				{this.renderNote()}
 			</FormField>
 		);
 	}
