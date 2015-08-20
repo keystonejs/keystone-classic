@@ -139,11 +139,9 @@ module.exports = Field.create({
 		}
 
 		return (
-			<div className="files-toolbar row col-sm-3 col-md-12">
-				<div className="u-float-left">
-					<Button onClick={this.changeFiles}>Upload</Button>
-					{clearFilesButton}
-				</div>
+			<div className="files-toolbar">
+				<Button onClick={this.changeFiles}>Upload</Button>
+				{clearFilesButton}
 			</div>
 		);
 	},
