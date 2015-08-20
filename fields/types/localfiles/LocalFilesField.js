@@ -30,7 +30,7 @@ var LocalFilesFieldItem = React.createClass({
 		return <Button key="action-button" type={buttonType} onClick={this.props.toggleDelete}>{buttonLabel}</Button>;
 	},
 
-	render: function () {
+	render () {
 		let { filename } = this.props;
 		let ext = filename.split('.').pop();
 
@@ -62,7 +62,7 @@ var LocalFilesFieldItem = React.createClass({
 
 module.exports = Field.create({
 
-	getInitialState: function () {
+	getInitialState () {
 		var items = [];
 		var self = this;
 
@@ -73,7 +73,7 @@ module.exports = Field.create({
 		return { items: items };
 	},
 
-	removeItem: function (i) {
+	removeItem (i) {
 		var thumbs = this.state.items;
 		var thumb = thumbs[i];
 
@@ -86,7 +86,7 @@ module.exports = Field.create({
 		this.setState({ items: thumbs });
 	},
 
-	pushItem: function (args, thumbs) {
+	pushItem (args, thumbs) {
 		thumbs = thumbs || this.state.items;
 		var i = thumbs.length;
 		args.toggleDelete = this.removeItem.bind(this, i);
@@ -94,15 +94,15 @@ module.exports = Field.create({
 		thumbs.push(<LocalFilesFieldItem key={i} {...args} />);
 	},
 
-	fileFieldNode: function () {
+	fileFieldNode () {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	renderFileField: function () {
+	renderFileField () {
 		return <input ref="fileField" type="file" name={this.props.paths.upload} multiple className="field-upload" onChange={this.uploadFile} tabIndex="-1" />;
 	},
 
-	clearFiles: function () {
+	clearFiles () {
 		this.fileFieldNode().value = '';
 
 		this.setState({
@@ -112,7 +112,7 @@ module.exports = Field.create({
 		});
 	},
 
-	uploadFile: function (event) {
+	uploadFile (event) {
 		var self = this;
 
 		var files = event.target.files;
@@ -122,15 +122,15 @@ module.exports = Field.create({
 		});
 	},
 
-	changeFiles: function () {
+	changeFiles () {
 		this.fileFieldNode().click();
 	},
 
-	hasFiles: function () {
+	hasFiles () {
 		return this.refs.fileField && this.fileFieldNode().value;
 	},
 
-	renderToolbar: function () {
+	renderToolbar () {
 		if (!this.shouldRenderField()) return null;
 		
 		var clearFilesButton;
@@ -148,7 +148,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderPlaceholder: function () {
+	renderPlaceholder () {
 		return (
 			<div className="file-field file-upload row col-sm-3 col-md-12" onClick={this.changeFiles}>
 				<div className="file-preview">
@@ -165,7 +165,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderContainer: function () {
+	renderContainer () {
 		return (
 			<div className="files-container clearfix">
 				{this.state.items}
@@ -173,7 +173,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderFieldAction: function () {
+	renderFieldAction () {
 		var value = '';
 		var remove = [];
 		_.each(this.state.items, function (thumb) {
@@ -184,11 +184,11 @@ module.exports = Field.create({
 		return <input ref="action" className="field-action" type="hidden" value={value} name={this.props.paths.action} />;
 	},
 
-	renderUploadsField: function () {
+	renderUploadsField () {
 		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
 
-	renderUI: function () {
+	renderUI () {
 		return (
 			<FormField label={this.props.label} className="field-type-localfiles">
 
