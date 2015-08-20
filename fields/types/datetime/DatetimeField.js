@@ -2,7 +2,7 @@ import DateInput from '../../components/DateInput';
 import Field from '../Field';
 import moment from 'moment';
 import React from 'react';
-import { Button, FormField, FormInput, FormNote, FormRow, InputGroup } from 'elemental';
+import { Button, FormField, FormInput, FormNote, InputGroup } from 'elemental';
 
 module.exports = Field.create({
 	
@@ -87,21 +87,17 @@ module.exports = Field.create({
 		var fieldClassName = 'field-ui';
 		if (this.shouldRenderField()) {
 			input = (
-				<FormRow>
-					<FormField width="one-half">
+				<InputGroup>
+					<InputGroup.Section grow>
 						<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
-					</FormField>
-					<FormField width="one-half">
-						<InputGroup>
-							<InputGroup.Section grow>
-								<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
-							</InputGroup.Section>
-							<InputGroup.Section>
-								<Button onClick={this.setNow}>Now</Button>
-							</InputGroup.Section>
-						</InputGroup>
-					</FormField>
-				</FormRow>
+					</InputGroup.Section>
+					<InputGroup.Section grow>
+						<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
+					</InputGroup.Section>
+					<InputGroup.Section>
+						<Button onClick={this.setNow}>Now</Button>
+					</InputGroup.Section>
+				</InputGroup>
 			);
 		} else {
 			input = <FormInput noedit>{this.format(this.props.value, this.props.formatString)}</FormInput>;
