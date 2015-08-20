@@ -10,7 +10,7 @@ module.exports = Field.create({
 	
 	displayName: 'RelationshipField',
 	
-	shouldCollapse: function() {
+	shouldCollapse () {
 		// many:true relationships have an Array for a value
 		// so need to check length instead
 		if(this.props.many) {
@@ -20,7 +20,7 @@ module.exports = Field.create({
 		return this.props.collapse && !this.props.value;
 	},
 	
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			ready: this.props.value ? false : true,
 			simpleValue: this.props.value,
@@ -28,11 +28,11 @@ module.exports = Field.create({
 		};
 	},
 	
-	componentDidMount: function() {
+	componentDidMount () {
 		this.loadValues(this.props.value);
 	},
 	
-	componentWillReceiveProps: function(newProps) {
+	componentWillReceiveProps (newProps) {
 		if (newProps.value !== this.state.simpleValue) {
 			this.setState({
 				ready: false,
@@ -43,7 +43,7 @@ module.exports = Field.create({
 		}
 	},
 	
-	loadValues: function(input) {
+	loadValues (input) {
 		var expandedValues = [];
 		var inputs = _.compact([].concat(input));
 		var self = this;
@@ -79,7 +79,7 @@ module.exports = Field.create({
 		});
 	},
 	
-	buildFilters: function() {
+	buildFilters () {
 		var filters = {};
 		
 		_.each(this.props.filters, function(value, key) {
@@ -111,14 +111,14 @@ module.exports = Field.create({
 		return parts.join('&');
 	},
 
-	buildOptionQuery: function (input) {
+	buildOptionQuery  (input) {
 		return 'context=relationship&q=' + input +
 				'&list=' + Keystone.list.path +
 				'&field=' + this.props.path +
 				'&' + this.buildFilters();
 	},
 
-	getOptions: function(input, callback) {
+	getOptions (input, callback) {
 		superagent
 			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery(input))
 			.set('Accept', 'application/json')
@@ -139,11 +139,11 @@ module.exports = Field.create({
 			});
 	},
 	
-	renderLoadingUI: function() {
+	renderLoadingUI () {
 		return <div className='help-block'>loading...</div>;
 	},
 	
-	updateValue: function(simpleValue, expandedValues) {
+	updateValue (simpleValue, expandedValues) {
 		this.setState({
 			simpleValue: simpleValue,
 			expandedValues: expandedValues
@@ -154,7 +154,7 @@ module.exports = Field.create({
 		});
 	},
 	
-	renderValue: function() {
+	renderValue () {
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
 		}
@@ -172,7 +172,7 @@ module.exports = Field.create({
 		}
 	},
 	
-	renderField: function() {
+	renderField () {
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
 		}
