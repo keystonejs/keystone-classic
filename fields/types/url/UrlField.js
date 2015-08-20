@@ -1,8 +1,6 @@
-var React = require('react');
-var Field = require('../Field');
-
-var Button = require('elemental').Button;
-var FormInput = require('elemental').FormInput;
+import React from 'react';
+import Field from '../Field';
+import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({
 
@@ -17,7 +15,8 @@ module.exports = Field.create({
 		window.open(href);
 	},
 	renderLink: function() {
-		if (!this.props.value) return;
+		if (!this.props.value) return null;
+		
 		return (
 			<Button type="link" onClick={this.openValue} className="keystone-relational-button" title={'Open ' + this.props.value + ' in a new tab'}>
 				<span className="octicon octicon-link" />
@@ -26,10 +25,10 @@ module.exports = Field.create({
 	},
 	wrapField: function() {
 		return (
-			<span>
+			<div style={{ position: 'relative' }}>
 				{this.renderField()}
 				{this.renderLink()}
-			</span>
+			</div>
 		);
 	},
 	renderValue: function() {
