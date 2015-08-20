@@ -63,7 +63,7 @@ module.exports = Field.create({
 		}
 
 		return (
-			<div className="field-type-embedly field-size-full">
+			<div className="field-type-embedly">
 				<FormField key="provider" label={this.props.label}>
 					<FormInput noedit>{this.props.value.providerName} {this.props.value.type}</FormInput>
 				</FormField>
