@@ -1,19 +1,19 @@
+import _ from 'underscore';
+import React from 'react';
+import Field from '../Field';
+
+import { Button, Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
+
 /**
  * TODO:
  * - Custom path support
  */
 
-var React = require('react');
-var _ = require('underscore');
-var Field = require('../Field');
-
-import { Button, Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
-
 module.exports = Field.create({
 
 	displayName: 'LocationField',
 
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			collapsedFields: {},
 			improve: false,
@@ -21,7 +21,7 @@ module.exports = Field.create({
 		};
 	},
 
-	componentWillMount: function() {
+	componentWillMount () {
 
 		var collapsedFields = {};
 
@@ -37,23 +37,23 @@ module.exports = Field.create({
 
 	},
 
-	componentDidUpdate: function(prevProps, prevState) {
+	componentDidUpdate (prevProps, prevState) {
 		if (prevState.fieldsCollapsed && !this.state.fieldsCollapsed) {
 			this.refs.number.getDOMNode().focus();
 		}
 	},
 
-	shouldCollapse: function() {
+	shouldCollapse () {
 		return this.formatValue() ? false : true;
 	},
 
-	uncollapseFields: function() {
+	uncollapseFields () {
 		this.setState({
 			collapsedFields: {}
 		});
 	},
 
-	fieldChanged: function(path, event) {
+	fieldChanged (path, event) {
 		var value = this.props.value;
 		value[path] = event.target.value;
 		this.props.onChange({
@@ -62,7 +62,7 @@ module.exports = Field.create({
 		});
 	},
 
-	geoChanged: function(i, event) {
+	geoChanged (i, event) {
 		var value = this.props.value;
 		if (!value.geo) {
 			value.geo = ['', ''];
@@ -74,7 +74,7 @@ module.exports = Field.create({
 		});
 	},
 
-	formatValue: function() {
+	formatValue () {
 		return _.compact([
 			this.props.value.number,
 			this.props.value.name,
@@ -87,11 +87,11 @@ module.exports = Field.create({
 		]).join(', ');
 	},
 
-	renderValue: function() {
+	renderValue () {
 		return <FormInput noedit>{this.formatValue() || '(no value)'}</FormInput>;
 	},
 
-	renderField: function(path, label, collapse) {//eslint-disable-line no-unused-vars
+	renderField (path, label, collapse) {//eslint-disable-line no-unused-vars
 
 		if (this.state.collapsedFields[path]) {
 			return null;
@@ -105,7 +105,7 @@ module.exports = Field.create({
 
 	},
 
-	renderSuburbState: function() {
+	renderSuburbState () {
 		return (
 			<FormField label="Suburb / State" className="form-field--secondary" htmlFor={this.props.path + '.suburb'}>
 				<FormRow>
@@ -120,7 +120,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderPostcodeCountry: function() {
+	renderPostcodeCountry () {
 		return (
 			<FormField label="Postcode / Country" className="form-field--secondary" htmlFor={this.props.path + '.postcode'}>
 				<FormRow>
@@ -135,7 +135,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderGeo: function() {
+	renderGeo () {
 
 		if (this.state.collapsedFields.geo) {
 			return null;
@@ -156,13 +156,13 @@ module.exports = Field.create({
 
 	},
 
-	updateGoogleOption: function(key, e) {
+	updateGoogleOption (key, e) {
 		var newState = {};
 		newState[key] = e.target.checked;
 		this.setState(newState);
 	},
 
-	renderGoogleOptions: function() {
+	renderGoogleOptions () {
 		if (!this.props.enableMapsAPI) return null;
 		var replace = this.state.improve ? (
 			<Checkbox
@@ -184,7 +184,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderNote: function() {
+	renderNote () {
 		if (!this.props.note) return null;
 		return (
 			<FormField offsetAbsentLabel>
@@ -193,7 +193,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderUI: function() {
+	renderUI () {
 
 		if (!this.shouldRenderField()) {
 			return (
