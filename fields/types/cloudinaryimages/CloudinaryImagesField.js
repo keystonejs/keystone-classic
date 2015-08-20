@@ -1,12 +1,9 @@
-var _ = require('underscore');
-var React = require('react');
-var Field = require('../Field');
+import _ from 'underscore';
+import React from 'react';
+import Field from '../Field';
+import { Button, FormField, FormInput, FormNote } from 'elemental';
 
-var Button = require('elemental').Button;
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
-
-var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
+const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
 var Thumbnail = React.createClass({
 	displayName: 'CloudinaryImagesFieldThumbnail',
