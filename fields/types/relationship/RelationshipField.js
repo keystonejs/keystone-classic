@@ -1,11 +1,10 @@
-var Select = require('react-select');
-var React = require('react');
-var Field = require('../Field');
-var superagent = require('superagent');
-var _ = require('underscore');
+import _ from 'underscore';
+import Field from '../Field';
+import React from 'react';
+import Select from 'react-select';
+import superagent from 'superagent';
 
-var Button = require('elemental').Button;
-var FormInput = require('elemental').FormInput;
+import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({
 	
