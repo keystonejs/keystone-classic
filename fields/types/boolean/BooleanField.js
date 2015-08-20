@@ -6,7 +6,6 @@ module.exports = Field.create({
 
 	displayName: 'BooleanField',
 
-	valueChanged: function(event) {
 	propTypes: {
 		indent: React.PropTypes.bool,
 		label: React.PropTypes.string,
@@ -15,13 +14,20 @@ module.exports = Field.create({
 		path: React.PropTypes.string,
 		value: React.PropTypes.bool,
 	},
+
+	valueChanged (event) {
 		this.props.onChange({
 			path: this.props.path,
 			value: event.target.checked
 		});
 	},
 
-	renderUI: function() {
+	renderNote () {
+		if (!this.props.note) return null;
+		return <FormNote note={this.props.note} />;
+	},
+
+	renderUI () {
 
 		var input;
 
@@ -40,7 +46,12 @@ module.exports = Field.create({
 			);
 		}
 
-		return <FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean">{input}</FormField>;
+		return (
+			<FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean">
+				{input}
+				{this.renderNote()}
+			</FormField>
+		);
 	}
 
 });
