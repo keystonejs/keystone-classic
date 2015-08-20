@@ -32,6 +32,7 @@
 		line-height: 0px;
 		float: left;
 		margin-right: 10px;
+		
 		.placeholder-wrap {
 			position: relative;
 			height: 100px;
@@ -81,11 +82,16 @@
 			text-align: center;
 			width: 100%;
 		}
+		
+		& + .image-toolbar {
+			margin-top: @input-vspacing;
+		}
 	}
 	
-	.image-details + .image-toolbar {
-		margin-top: @input-vspacing;
+	.image-toolbar {
+		&:extend(.u-clearfix all);
 	}
+	
 
 	.image-select {
 		clear: both; 

@@ -17,7 +17,8 @@
 	}
 
 	.file-details {
-		overflow: hidden;
+		&:extend(.u-clearfix all);
+		
 		.file-values {
 			.FormInput-noedit {
 				width: auto;
@@ -34,10 +35,13 @@
 			text-align: center;
 			width: 100%;
 		}
+		& + .file-toolbar {
+			margin-top: @input-vspacing;
+		}
 	}
-
-	.file-details + .file-toolbar {
-		margin-top: @input-vspacing;
+	
+	.file-toolbar {
+		&:extend(.u-clearfix all);
 	}
 
 	.upload-queued, .delete-queued {
