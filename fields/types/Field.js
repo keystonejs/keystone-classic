@@ -79,16 +79,17 @@ var Base = module.exports.Base = {
 		return <FormInput noedit>{this.props.value}</FormInput>;
 	},
 
-		var wrapperClassName = cx(
 	renderUI () {
+		var wrapperClassName = classnames(
 			('field-type-' + this.props.type),
-			('field-size-' + this.props.size),
 			this.props.className
 		);
 
 		return (
 			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
-				{this.shouldRenderField() ? this.wrapField() : this.wrapValue()}
+				<div className={'FormField__inner field-size-' + this.props.size}>
+					{this.shouldRenderField() ? this.wrapField() : this.wrapValue()}
+				</div>
 				{this.renderNote()}
 			</FormField>
 		);
