@@ -1,7 +1,6 @@
-var React = require('react');
-var Field = require('../Field');
-
-var { Checkbox, FormField } = require('elemental');
+import React from 'react';
+import Field from '../Field';
+import { Checkbox, FormField, FormNote } from 'elemental';
 
 module.exports = Field.create({
 
