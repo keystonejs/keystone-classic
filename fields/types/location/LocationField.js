@@ -184,6 +184,15 @@ module.exports = Field.create({
 		);
 	},
 
+	renderNote: function() {
+		if (!this.props.note) return null;
+		return (
+			<FormField offsetAbsentLabel>
+				<FormNote note={this.props.note} />
+			</FormField>
+		);
+	},
+
 	renderUI: function() {
 
 		if (!this.shouldRenderField()) {
@@ -211,7 +220,7 @@ module.exports = Field.create({
 				{this.renderPostcodeCountry()}
 				{this.renderGeo()}
 				{this.renderGoogleOptions()}
-				<FormNote note={this.props.note} />
+				{this.renderNote()}
 			</div>
 		);
 
