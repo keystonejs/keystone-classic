@@ -1,26 +1,22 @@
-var React = require('react');
-var Field = require('../Field');
-
-var Button = require('elemental').Button;
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
-var FormNote = require('elemental').FormNote;
+import Field from '../Field';
+import React from 'react';
+import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 module.exports = Field.create({
 	
-	shouldCollapse: function() {
+	shouldCollapse () {
 		return this.props.collapse && !this.hasExisting();
 	},
 
-	fileFieldNode: function() {
+	fileFieldNode () {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	changeFile: function() {
+	changeFile () {
 		this.refs.fileField.getDOMNode().click();
 	},
 
-	getFileSource: function() {
+	getFileSource () {
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
@@ -30,13 +26,13 @@ module.exports = Field.create({
 		}
 	},
 
-	getFileURL: function() {
+	getFileURL () {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
 	},
 
-	undoRemove: function() {
+	undoRemove () {
 		this.fileFieldNode().value = '';
 		this.setState({
 			removeExisting: false,
@@ -46,13 +42,13 @@ module.exports = Field.create({
 		});
 	},
 
-	fileChanged: function (event) {//eslint-disable-line no-unused-vars
+	fileChanged  (event) {//eslint-disable-line no-unused-vars
 		this.setState({
 			origin: 'local'
 		});
 	},
 
-	removeFile: function (e) {
+	removeFile  (e) {
 		var state = {
 			localSource: null,
 			origin: false
@@ -81,19 +77,19 @@ module.exports = Field.create({
 		this.setState(state);
 	},
 
-	hasLocal: function() {
+	hasLocal () {
 		return this.state.origin === 'local';
 	},
 
-	hasFile: function() {
+	hasFile () {
 		return this.hasExisting() || this.hasLocal();
 	},
 
-	hasExisting: function() {
+	hasExisting () {
 		return !!this.props.value.filename;
 	},
 
-	getFilename: function() {
+	getFilename () {
 		if (this.hasLocal()) {
 			return this.fileFieldNode().value.split('\\').pop();
 		} else {
@@ -101,7 +97,7 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileDetails: function (add) {
+	renderFileDetails  (add) {
 		var values = null;
 
 		if (this.hasFile() && !this.state.removeExisting) {
@@ -120,7 +116,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderAlert: function() {
+	renderAlert () {
 		if (this.hasLocal()) {
 			return (
 				<div className="upload-queued u-float-left">
@@ -144,7 +140,7 @@ module.exports = Field.create({
 		}
 	},
 
-	renderClearButton: function() {
+	renderClearButton () {
 		if (this.state.removeExisting) {
 			return (
 				<Button type="link-cancel" onClick={this.undoRemove}>
@@ -166,19 +162,19 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileField: function() {
+	renderFileField () {
 		if (!this.shouldRenderField()) return null;
 		
 		return <input ref="fileField" type="file" name={this.props.paths.upload} className="field-upload" onChange={this.fileChanged} tabIndex="-1" />;
 	},
 
-	renderFileAction: function() {
+	renderFileAction () {
 		if (!this.shouldRenderField()) return null;
 		
 		return <input type="hidden" name={this.props.paths.action} className="field-action" value={this.state.action} />;
 	},
 
-	renderFileToolbar: function() {
+	renderFileToolbar () {
 		return (
 			<div key={this.props.path + '_toolbar'} className='file-toolbar'>
 				<div className='u-float-left'>
@@ -197,7 +193,7 @@ module.exports = Field.create({
 		return <FormNote note={this.props.note} />;
 	},
 
-	renderUI: function() {
+	renderUI () {
 		var container = [],
 			body = [],
 			hasFile = this.hasFile();

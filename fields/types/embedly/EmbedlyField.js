@@ -1,26 +1,24 @@
-var React = require('react');
-var Field = require('../Field');
-
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
+import React from 'react';
+import Field from '../Field';
+import { FormField, FormInput } from 'elemental';
 
 module.exports = Field.create({
 
 	displayName: 'EmbedlyField',
 
 	// always defers to renderValue; there is no form UI for this field
-	renderField: function() {
+	renderField () {
 		return this.renderValue();
 	},
 
-	renderValue: function(path, label, multiline) {
+	renderValue (path, label, multiline) {
 		return (
 			<FormField key={path} label={label} className="form-field--secondary">
 				<FormInput noedit multiline={multiline}>{this.props.value[path]}</FormInput>
 			</FormField>
 		);
 	},
-	renderAuthor: function() {
+	renderAuthor () {
 		if (!this.props.value.authorName) return;
 		return (
 			<FormField key="author" label="Author" className="form-field--secondary">
@@ -28,7 +26,7 @@ module.exports = Field.create({
 			</FormField>
 		);
 	},
-	renderDimensions: function() {
+	renderDimensions () {
 		if (!this.props.value.width || !this.props.value.height) return;
 		return (
 			<FormField key="dimensions" label="Dimensions" className="form-field--secondary">
@@ -36,7 +34,7 @@ module.exports = Field.create({
 			</FormField>
 		);
 	},
-	renderPreview: function() {
+	renderPreview () {
 		if (!this.props.value.thumbnailUrl) return;
 
 		var image = <img width={this.props.value.thumbnailWidth} height={this.props.value.thumbnailHeight} src={this.props.value.thumbnailUrl} />;
@@ -55,7 +53,7 @@ module.exports = Field.create({
 
 	},
 
-	renderUI: function() {
+	renderUI () {
 		if (!this.props.value.exists) {
 			return (
 				<FormField label={this.props.label}>

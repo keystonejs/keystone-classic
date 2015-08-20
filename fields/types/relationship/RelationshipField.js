@@ -3,7 +3,6 @@ import Field from '../Field';
 import React from 'react';
 import Select from 'react-select';
 import superagent from 'superagent';
-
 import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({

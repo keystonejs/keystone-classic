@@ -1,19 +1,18 @@
+import Field from '../Field';
+import React from 'react';
+import { FormInput } from 'elemental';
+
 /*
 	TODO:
 	- gravatar
 	- validate email address
  */
 
-var React = require('react');
-var Field = require('../Field');
-
-var FormInput = require('elemental').FormInput;
-
 module.exports = Field.create({
 	
 	displayName: 'EmailField',
 	
-	renderValue: function() {
+	renderValue () {
 		return this.props.value ? (
 			<FormInput noedit href={'mailto:' + this.props.value}>{this.props.value}</FormInput>
 		) : (

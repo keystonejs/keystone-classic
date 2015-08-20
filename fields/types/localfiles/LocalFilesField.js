@@ -4,6 +4,11 @@ import Field from '../Field';
 import React from 'react';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 
+/**
+ * TODO:
+ * - Remove dependency on underscore
+ */
+
 const ICON_EXTS = [
 	'aac', 'ai', 'aiff', 'avi', 'bmp', 'c', 'cpp', 'css', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h',
 	'hpp', 'html', 'ics', 'iso', 'java', 'jpg', 'js', 'key', 'less', 'mid', 'mp3', 'mp4', 'mpg', 'odf', 'ods', 'odt', 'otp', 'ots',

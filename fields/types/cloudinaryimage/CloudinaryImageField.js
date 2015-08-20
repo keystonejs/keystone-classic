@@ -1,29 +1,31 @@
-var _ = require('underscore');
-var $ = require('jquery');
-var React = require('react');
-var Field = require('../Field');
-var Select = require('react-select');
+import _ from 'underscore';
+import $ from 'jquery';
+import React from 'react';
+import Field from '../Field';
+import Select from 'react-select';
+import { Button, FormField, FormInput, FormNote } from 'elemental';
 
-var Button = require('elemental').Button;
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
-var FormNote = require('elemental').FormNote;
+/**
+ * TODO:
+ * - Remove dependency on jQuery
+ * - Remove dependency on underscore
+ */
 
-var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
+const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
 module.exports = Field.create({
 	
 	displayName: 'CloudinaryImageField',
 
-	fileFieldNode: function() {
+	fileFieldNode () {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	changeImage: function() {
+	changeImage () {
 		this.refs.fileField.getDOMNode().click();
 	},
 
-	getImageSource: function() {
+	getImageSource () {
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
@@ -33,7 +35,7 @@ module.exports = Field.create({
 		}
 	},
 
-	getImageURL: function() {
+	getImageURL () {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
@@ -42,7 +44,7 @@ module.exports = Field.create({
 	/**
 	 * Reset origin and removal.
 	 */
-	undoRemove: function() {
+	undoRemove () {
 		this.fileFieldNode().value = '';
 		this.setState({
 			removeExisting: false,
@@ -55,7 +57,7 @@ module.exports = Field.create({
 	/**
 	 * Check support for input files on input change.
 	 */
-	fileChanged: function (event) {
+	fileChanged  (event) {
 		var self = this;
 
 		if (window.FileReader) {
@@ -87,7 +89,7 @@ module.exports = Field.create({
 	/**
 	 * If we have a local file added then remove it and reset the file field.
 	 */
-	removeImage: function (e) {
+	removeImage  (e) {
 		var state = {
 			localSource: null,
 			origin: false
@@ -119,28 +121,28 @@ module.exports = Field.create({
 	/**
 	 * Is the currently active image uploaded in this session?
 	 */
-	hasLocal: function() {
+	hasLocal () {
 		return this.state.origin === 'local';
 	},
 
 	/**
 	 * Do we have an image preview to display?
 	 */
-	hasImage: function() {
+	hasImage () {
 		return this.hasExisting() || this.hasLocal();
 	},
 
 	/**
 	 * Do we have an existing file?
 	 */
-	hasExisting: function() {
+	hasExisting () {
 		return !!this.props.value.url;
 	},
 
 	/**
 	 * Render an image preview
 	 */
-	renderImagePreview: function() {
+	renderImagePreview () {
 		var iconClassName;
 		var className = 'image-preview';
 
@@ -166,7 +168,7 @@ module.exports = Field.create({
 		return <div key={this.props.path + '_preview'} className={className}>{body}</div>;
 	},
 
-	renderImagePreviewThumbnail: function() {
+	renderImagePreviewThumbnail () {
 		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={ { height: '90' } } src={this.getImageSource()} />;
 	},
 
@@ -174,7 +176,7 @@ module.exports = Field.create({
 	 * Render image details - leave these out if we're uploading a local file or
 	 * the existing file is to be removed.
 	 */
-	renderImageDetails: function (add) {
+	renderImageDetails  (add) {
 		var values = null;
 
 		if (!this.hasLocal() && !this.state.removeExisting) {
@@ -197,7 +199,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderImageDimensions: function() {
+	renderImageDimensions () {
 		return <FormInput noedit>{this.props.value.width} x {this.props.value.height}</FormInput>;
 	},
 
@@ -208,7 +210,7 @@ module.exports = Field.create({
 	 *  - On a cloudinary file, output a "from cloudinary" message.
 	 *  - On removal of existing file, output a "save to remove" message.
 	 */
-	renderAlert: function() {
+	renderAlert () {
 		if (this.hasLocal()) {
 			return (
 				<FormInput noedit>Image selected - save to upload</FormInput>
@@ -232,10 +234,10 @@ module.exports = Field.create({
 	 *  - On removal of existing image, output "undo remove" button.
 	 *  - Otherwise output Cancel/Delete image button.
 	 */
-	renderClearButton: function() {
+	renderClearButton () {
 		if (this.state.removeExisting) {
 			return (
-				<Button type="link-cancel" onClick={this.undoRemove}>
+				<Button type="link" onClick={this.undoRemove}>
 					Undo Remove
 				</Button>
 			);
@@ -254,15 +256,15 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileField: function() {
+	renderFileField () {
 		return <input ref="fileField" type="file" name={this.props.paths.upload} className="field-upload" onChange={this.fileChanged} tabIndex="-1" />;
 	},
 
-	renderFileAction: function() {
+	renderFileAction () {
 		return <input type="hidden" name={this.props.paths.action} className="field-action" value={this.state.action} />;
 	},
 
-	renderImageToolbar: function() {
+	renderImageToolbar () {
 		return (
 			<div key={this.props.path + '_toolbar'} className="image-toolbar">
 				<div className='u-float-left'>
@@ -276,7 +278,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderImageSelect: function() {
+	renderImageSelect () {
 		var getOptions = function(input, callback) {
 			$.get('/keystone/api/cloudinary/autocomplete', {
 				dataType: 'json',
@@ -313,7 +315,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderUI: function() {
+	renderUI () {
 		var container = [],
 			body = [],
 			hasImage = this.hasImage();

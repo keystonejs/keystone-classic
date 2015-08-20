@@ -6,7 +6,7 @@ module.exports = Field.create({
 
 	displayName: 'URLField',
 
-	openValue: function() {
+	openValue () {
 		var href = this.props.value;
 		if (!href) return;
 		if (!/^(mailto\:)|(\w+\:\/\/)/.test(href)) {
@@ -14,7 +14,7 @@ module.exports = Field.create({
 		}
 		window.open(href);
 	},
-	renderLink: function() {
+	renderLink () {
 		if (!this.props.value) return null;
 		
 		return (
@@ -23,7 +23,7 @@ module.exports = Field.create({
 			</Button>
 		);
 	},
-	wrapField: function() {
+	wrapField () {
 		return (
 			<div style={{ position: 'relative' }}>
 				{this.renderField()}
@@ -31,7 +31,7 @@ module.exports = Field.create({
 			</div>
 		);
 	},
-	renderValue: function() {
+	renderValue () {
 		return <FormInput noedit onClick={this.openValue}>{this.props.value}</FormInput>;
 	}
 

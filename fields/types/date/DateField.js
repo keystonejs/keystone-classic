@@ -1,11 +1,8 @@
-var React = require('react');
-var Field = require('../Field');
-var DateInput = require('../../components/DateInput');
-var moment = require('moment');
-
-var Button = require('elemental').Button;
-var InputGroup = require('elemental').InputGroup;
-var FormInput = require('elemental').FormInput;
+import DateInput from '../../components/DateInput';
+import Field from '../Field';
+import moment from 'moment';
+import React from 'react';
+import { Button, InputGroup, FormInput } from 'elemental';
 
 module.exports = Field.create({
 	
@@ -16,36 +13,36 @@ module.exports = Field.create({
 	// default input format
 	inputFormat: 'YYYY-MM-DD',
 
-	getInitialState: function() {
+	getInitialState () {
 		return { 
 			value: this.props.value ? this.moment(this.props.value).format(this.inputFormat) : ''
 		};
 	},
 
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return { 
 			formatString: 'Do MMM YYYY'
 		};
 	},
 
-	moment: function(value) {
+	moment (value) {
 		var m = moment(value);
 		if (this.props.isUTC) m.utc();
 		return m;
 	},
 
 	// TODO: Move isValid() so we can share with server-side code
-	isValid: function(value) {
+	isValid (value) {
 		return moment(value, this.inputFormat).isValid();
 	},
 
 	// TODO: Move format() so we can share with server-side code
-	format: function(dateValue, format) {
+	format (dateValue, format) {
 		format = format || this.inputFormat;
 		return dateValue ? this.moment(this.props.dateValue).format(format) : '';
 	},
 
-	setDate: function(dateValue) {
+	setDate (dateValue) {
 		this.setState({ value: dateValue });
 		this.props.onChange({
 			path: this.props.path,
@@ -53,15 +50,15 @@ module.exports = Field.create({
 		});
 	},
 
-	setToday: function() {
+	setToday () {
 		this.setDate(moment().format(this.inputFormat));
 	},
 
-	valueChanged: function(value) {
+	valueChanged (value) {
 		this.setDate(value);
 	},
 	
-	renderField: function() {
+	renderField () {
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
@@ -74,7 +71,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderValue: function() {
+	renderValue () {
 		return <FormInput noedit>{this.format(this.props.value, this.props.formatString)}</FormInput>;
 	}
 

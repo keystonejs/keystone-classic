@@ -1,13 +1,12 @@
-var React = require('react');
-var Field = require('../Field');
-
-var { Button, FormInput, InputGroup } = require('elemental');
+import React from 'react';
+import Field from '../Field';
+import { Button, FormInput, InputGroup } from 'elemental';
 
 module.exports = Field.create({
 
 	displayName: 'PasswordField',
 
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			passwordIsSet: this.props.value ? true : false,
 			showChangeUI: this.props.mode === 'create' ? true : false,
@@ -16,33 +15,33 @@ module.exports = Field.create({
 		};
 	},
 
-	valueChanged: function(which, event) {
+	valueChanged (which, event) {
 		var newState = {};
 		newState[which] = event.target.value;
 		this.setState(newState);
 	},
 
-	showChangeUI: function() {
+	showChangeUI () {
 		this.setState({
 			showChangeUI: true
 		}, () => this.focus());
 	},
 
-	onCancel: function() {
+	onCancel () {
 		this.setState({
 			showChangeUI: false
 		}, () => this.focus());
 	},
 
-	renderValue: function() {
+	renderValue () {
 		return <FormInput noedit>{this.props.value ? 'password set' : 'password not set'}</FormInput>;
 	},
 
-	renderField: function() {
+	renderField () {
 		return this.state.showChangeUI ? this.renderFields() : this.renderChangeButton();
 	},
 
-	renderFields: function() {
+	renderFields () {
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
@@ -56,7 +55,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderChangeButton: function() {
+	renderChangeButton () {
 		var label = this.state.passwordIsSet ? 'Change Password' : 'Set Password';
 		return (
 			<Button ref="focusTarget" onClick={this.showChangeUI}>{label}</Button>

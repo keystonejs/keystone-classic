@@ -1,6 +1,11 @@
-import React from 'react';
 import Field from '../Field';
+import React from 'react';
 import { FormInput } from 'elemental';
+
+/**
+ * TODO:
+ * - Remove dependency on jQuery
+ */
 
 // Scope jQuery and the bootstrap-markdown editor so it will mount
 var $ = require('jquery');
@@ -101,25 +106,25 @@ module.exports = Field.create({
 	displayName: 'MarkdownField',
 
 	// Override `shouldCollapse` to check the markdown field correctly
-	shouldCollapse : function() {
+	shouldCollapse () {
 		return this.props.collapse && !this.props.value.md;
 	},
 
 	// only have access to `refs` once component is mounted
-	componentDidMount: function() {
+	componentDidMount () {
 		if (this.props.wysiwyg) {
 			renderMarkdown(this);
 		}
 	},
 
 	// only have access to `refs` once component is mounted
-	componentDidUpdate : function() {
+	componentDidUpdate  () {
 		if (this.props.wysiwyg) {
 			renderMarkdown(this);
 		}
 	},
 
-	renderField: function() {
+	renderField () {
 		var styles = {
 			padding: 8,
 			height: this.props.height
@@ -129,7 +134,6 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
-		// TODO: @JedWatson review use of dangerouslySetInnerHTML
 		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value.md.replace(/\n/g, '<br />') }} />;
 	}
 });

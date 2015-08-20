@@ -1,9 +1,6 @@
-var React = require('react');
-var Field = require('../Field');
-
-var FormRow = require('elemental').FormRow;
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
+import Field from '../Field';
+import React from 'react';
+import { FormRow, FormField, FormInput } from 'elemental';
 
 module.exports = Field.create({
 	
@@ -11,7 +8,7 @@ module.exports = Field.create({
 
 	focusTargetRef: 'lat',
 	
-	valueChanged: function(which, event) {
+	valueChanged (which, event) {
 		this.props.value[which] = event.target.value;
 		this.props.onChange({
 			path: this.props.path,
@@ -19,14 +16,14 @@ module.exports = Field.create({
 		});
 	},
 	
-	renderValue: function() {
+	renderValue () {
 		if (this.props.value[1] && this.props.value[0]) {
 			return <FormInput noedit>{this.props.value[1]}, {this.props.value[0]}</FormInput>;//eslint-disable-line comma-spacing
 		}
 		return <FormInput noedit>(not set)</FormInput>;
 	},
 	
-	renderField: function() {
+	renderField () {
 		return (
 			<FormRow>
 				<FormField width="one-half">

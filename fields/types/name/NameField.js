@@ -1,9 +1,6 @@
-var React = require('react');
-var Field = require('../Field');
-
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
-var FormRow = require('elemental').FormRow;
+import Field from '../Field';
+import React from 'react';
+import { FormField, FormInput, FormRow } from 'elemental';
 
 module.exports = Field.create({
 
@@ -19,7 +16,7 @@ module.exports = Field.create({
 		});
 	},
 
-	renderValue: function() {
+	renderValue () {
 		return (
 			<FormRow>
 				<FormField width="one-half">
@@ -32,7 +29,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderField: function() {
+	renderField () {
 		return (
 			<FormRow>
 				<FormField width="one-half">

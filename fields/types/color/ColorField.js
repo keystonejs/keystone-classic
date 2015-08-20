@@ -1,14 +1,12 @@
-var React = require('react');
-var Field = require('../Field');
-
-var FormIconField = require('elemental').FormIconField;
-var FormInput = require('elemental').FormInput;
+import Field from '../Field';
+import React from 'react';
+import { FormIconField, FormInput } from 'elemental';
 
 module.exports = Field.create({
 	
 	displayName: 'ColorField',
 	
-	valueChanged: function(event) {
+	valueChanged (event) {
 		var newValue = event.target.value;
 		if (/^([0-9A-F]{3}){1,2}$/.test(newValue)) {
 			newValue = '#' + newValue;
@@ -20,7 +18,7 @@ module.exports = Field.create({
 		});
 	},
 	
-	renderField: function() {
+	renderField () {
 		
 		var colorPreview = null;
 		

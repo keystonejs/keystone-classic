@@ -1,11 +1,11 @@
 import _ from 'underscore';
 import React from 'react';
 import Field from '../Field';
-
 import { Button, Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
 
 /**
  * TODO:
+ * - Remove dependency on underscore
  * - Custom path support
  */
 

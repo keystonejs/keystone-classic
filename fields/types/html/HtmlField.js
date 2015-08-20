@@ -1,9 +1,13 @@
-import React from 'react';
 import _ from 'underscore';
+import Field from '../Field';
+import React from 'react';
 import tinymce from 'tinymce';
 import { FormInput } from 'elemental';
-import Field from '../Field';
 
+/**
+ * TODO:
+ * - Remove dependency on underscore
+ */
 
 var lastId = 0;
 
@@ -15,14 +19,14 @@ module.exports = Field.create({
 
 	displayName: 'HtmlField',
 
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			id: getId(),
 			isFocused: false
 		};
 	},
 
-	initWysiwyg: function() {
+	initWysiwyg () {
 		if (!this.props.wysiwyg) return;
 
 		var self = this;
@@ -39,7 +43,7 @@ module.exports = Field.create({
 		tinymce.init(opts);
 	},
 
-	componentDidUpdate: function(prevProps, prevState) {
+	componentDidUpdate (prevProps, prevState) {
 		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
@@ -56,23 +60,23 @@ module.exports = Field.create({
 		}
 	},
 
-	componentDidMount: function() {
+	componentDidMount () {
 		this.initWysiwyg();
 	},
 
-	componentWillReceiveProps: function(nextProps) {
+	componentWillReceiveProps (nextProps) {
 		if (this.editor && this._currentValue !== nextProps.value) {
 			this.editor.setContent(nextProps.value);
 		}
 	},
 
-	focusChanged: function(focused) {
+	focusChanged (focused) {
 		this.setState({
 			isFocused: focused
 		});
 	},
 
-	valueChanged: function () {
+	valueChanged  () {
 		var content;
 		if (this.editor) {
 			content = this.editor.getContent();
@@ -89,7 +93,7 @@ module.exports = Field.create({
 		});
 	},
 
-	getOptions: function() {
+	getOptions () {
 		var plugins = ['code', 'link'],
 			options = _.defaults(
 				{},
@@ -163,12 +167,12 @@ module.exports = Field.create({
 		return opts;
 	},
 
-	getFieldClassName: function() {
+	getFieldClassName () {
 		var className = this.props.wysiwyg ? 'wysiwyg' : 'code';
 		return className;
 	},
 
-	renderField: function() {
+	renderField () {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
 			height: this.props.height
@@ -180,7 +184,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderValue: function() {
+	renderValue () {
 		return <FormInput multiline noedit value={this.props.value} />;
 	}
 

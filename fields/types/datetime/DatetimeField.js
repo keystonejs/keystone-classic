@@ -1,14 +1,8 @@
-var React = require('react');
-var Field = require('../Field');
-var DateInput = require('../../components/DateInput');
-var moment = require('moment');
-
-var Button = require('elemental').Button;
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
-var FormNote = require('elemental').FormNote;
-var FormRow = require('elemental').FormRow;
-var InputGroup = require('elemental').InputGroup;
+import DateInput from '../../components/DateInput';
+import Field from '../Field';
+import moment from 'moment';
+import React from 'react';
+import { Button, FormField, FormInput, FormNote, FormRow, InputGroup } from 'elemental';
 
 module.exports = Field.create({
 	
@@ -23,37 +17,37 @@ module.exports = Field.create({
 	// parse formats (duplicated from lib/fieldTypes/datetime.js)
 	parseFormats: ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'],
 
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			dateValue: this.props.value ? this.moment(this.props.value).format(this.dateInputFormat) : '',
 			timeValue: this.props.value ? this.moment(this.props.value).format(this.timeInputFormat) : ''
 		};
 	},
 
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return { 
 			formatString: 'Do MMM YYYY, h:mm:ss a'
 		};
 	},
 
-	moment: function(value) {
+	moment (value) {
 		var m = moment(value);
 		if (this.props.isUTC) m.utc();
 		return m;
 	},
 
 	// TODO: Move isValid() so we can share with server-side code
-	isValid: function(value) {
+	isValid (value) {
 		return moment(value, this.parseFormats).isValid();
 	},
 
 	// TODO: Move format() so we can share with server-side code
-	format: function(value, format) {
+	format (value, format) {
 		format = format || this.dateInputFormat + ' ' + this.timeInputFormat;
 		return value ? this.moment(value).format(format) : '';
 	},
 
-	handleChange: function(dateValue, timeValue) {
+	handleChange (dateValue, timeValue) {
 		var value = dateValue + ' ' + timeValue;
 		var datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
 		this.props.onChange({
@@ -62,17 +56,17 @@ module.exports = Field.create({
 		});
 	},
 
-	dateChanged: function(value) {
+	dateChanged (value) {
 		this.setState({ dateValue: value });
 		this.handleChange(value, this.state.timeValue);
 	},
 
-	timeChanged: function(event) {
+	timeChanged (event) {
 		this.setState({ timeValue: event.target.value });
 		this.handleChange(this.state.dateValue, event.target.value);
 	},
 
-	setNow: function() {
+	setNow () {
 		var dateValue = moment().format(this.dateInputFormat);
 		var timeValue = moment().format(this.timeInputFormat);
 		this.setState({
@@ -88,7 +82,7 @@ module.exports = Field.create({
 		return <FormNote note={this.props.note} />;
 	},
 
-	renderUI: function() {
+	renderUI () {
 		var input;
 		var fieldClassName = 'field-ui';
 		if (this.shouldRenderField()) {
