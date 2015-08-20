@@ -35,7 +35,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "fs-extra": "^0.23.1",
-    "grappling-hook": "^2.5.0",
+    "grappling-hook": "^3.0.0",
     "jade": "^1.11.0",
     "jquery": "^2.1.4",
     "keystone-utils": "^0.3.0",
