@@ -1,12 +1,8 @@
-var _ = require('underscore');
-var cx = require('classnames');
-var evalDependsOn = require('../utils/evalDependsOn.js');
-var React = require('react');
-
-var FormField = require('elemental').FormField;
-var FormInput = require('elemental').FormInput;
-var FormNote = require('elemental').FormNote;
-var Button = require('elemental').Button;
+import _ from 'underscore';
+import classnames from 'classnames';
+import evalDependsOn from '../utils/evalDependsOn.js';
+import React from 'react';
+import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 function validateSpec(spec) {
 	if (!_.isObject(spec.supports)) {
@@ -20,11 +16,11 @@ function validateSpec(spec) {
 
 var Base = module.exports.Base = {
 
-	getInitialState: function() {
+	getInitialState () {
 		return {};
 	},
 
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return {
 			inputProps: {},
 			labelProps: {},
@@ -33,38 +29,38 @@ var Base = module.exports.Base = {
 		};
 	},
 
-	valueChanged: function(event) {
+	valueChanged (event) {
 		this.props.onChange({
 			path: this.props.path,
 			value: event.target.value
 		});
 	},
 
-	shouldCollapse: function() {
+	shouldCollapse () {
 		return this.props.collapse && !this.props.value;
 	},
 
-	shouldRenderField: function() {
+	shouldRenderField () {
 		if (!this.props.noedit) return true;
 		if (this.props.mode === 'create' && this.props.initial) return true;
 		return false;
 	},
 
-	focus: function() {
+	focus () {
 		if (!this.refs[this.spec.focusTargetRef]) return;
 		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
 	},
 
-	renderNote: function() {
+	renderNote () {
 		if (!this.props.note) return null;
 		return <FormNote note={this.props.note} />;
 	},
 
-	wrapField: function() {
+	wrapField () {
 		return this.renderField();
 	},
 
-	renderField: function() {
+	renderField () {
 		var props = _.extend(this.props.inputProps, {
 			autoComplete: 'off',
 			name: this.props.path,
@@ -75,16 +71,16 @@ var Base = module.exports.Base = {
 		return <FormInput {...props} />;
 	},
 
-	wrapValue: function() {
+	wrapValue () {
 		return this.renderValue();
 	},
 
-	renderValue: function() {
+	renderValue () {
 		return <FormInput noedit>{this.props.value}</FormInput>;
 	},
 
-	renderUI: function() {
 		var wrapperClassName = cx(
+	renderUI () {
 			('field-type-' + this.props.type),
 			('field-size-' + this.props.size),
 			this.props.className
@@ -105,25 +101,25 @@ var Mixins = module.exports.Mixins = {
 
 	Collapse: {
 
-		componentWillMount: function() {
+		componentWillMount () {
 			this.setState({
 				isCollapsed: this.shouldCollapse()
 			});
 		},
 
-		componentDidUpdate: function(prevProps, prevState) {
+		componentDidUpdate (prevProps, prevState) {
 			if (prevState.isCollapsed && !this.state.isCollapsed) {
 				this.focus();
 			}
 		},
 
-		uncollapse: function() {
+		uncollapse () {
 			this.setState({
 				isCollapsed: false
 			});
 		},
 
-		renderCollapse: function() {
+		renderCollapse () {
 			if (!this.shouldRenderField()) return null;
 			return (
 				<FormField>
@@ -148,7 +144,7 @@ module.exports.create = function(spec) {
 
 		mixins: [Mixins.Collapse],
 
-		render: function() {
+		render () {
 			if (!evalDependsOn(this.props.dependsOn, this.props.values)) {
 				return null;
 			}
