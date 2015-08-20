@@ -7,6 +7,14 @@ module.exports = Field.create({
 	displayName: 'BooleanField',
 
 	valueChanged: function(event) {
+	propTypes: {
+		indent: React.PropTypes.bool,
+		label: React.PropTypes.string,
+		note: React.PropTypes.string,
+		onChange: React.PropTypes.func,
+		path: React.PropTypes.string,
+		value: React.PropTypes.bool,
+	},
 		this.props.onChange({
 			path: this.props.path,
 			value: event.target.checked
