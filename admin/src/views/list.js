@@ -16,7 +16,10 @@ const ListView = React.createClass({
 	displayName: 'ListView',
 
 	getInitialState () {
-		return this.getStateFromStore();
+		return {
+			constrainTableWidth: true,
+			...this.getStateFromStore()
+		};
 	},
 
 	componentDidMount () {
@@ -32,6 +35,12 @@ const ListView = React.createClass({
 
 	updateStateFromStore () {
 		this.setState(this.getStateFromStore());
+	},
+	
+	toggleTableWidth () {
+		this.setState({
+			constrainTableWidth: !this.state.constrainTableWidth
+		});
 	},
 
 	getStateFromStore () {
@@ -118,11 +127,19 @@ const ListView = React.createClass({
 
 	renderActiveState () {
 		if (this.state.showBlankState) return null;
+		
+		let containerStyle = {
+			maxWidth: this.state.constrainTableWidth ? null : '100%',
+			transition: 'max-width 160ms ease-out',
+			msTransition: 'max-width 160ms ease-out',
+			MozTransition: 'max-width 160ms ease-out',
+			WebkitTransition: 'max-width 160ms ease-out',
+		}
 
 		return (
 			<div>
-				<ListHeader />
-				<div className="container">
+				<ListHeader toggleTableWidth={this.toggleTableWidth} tableIsExpanded={!this.state.constrainTableWidth} />
+				<div className="container" style={containerStyle}>
 					{this.renderItemsTable()}
 					{this.renderNoSearchResults()}
 				</div>

@@ -117,12 +117,6 @@ var ListHeader = React.createClass({
 			</InputGroup.Section>
 		);
 	},
-	renderPagination () {
-		return null;
-		// TODO: Paginations needs to be updated...
-		if (!this.state.ready) return null;
-		return <Pagination pagination={this.state.items} onPageSelect={this.handlePageSelect} className="ListHeader__pagination" />;
-	},
 	renderCreateButton () {
 		var props = { type: 'success' };
 		if (this.state.list.autocreate) {
@@ -162,6 +156,11 @@ var ListHeader = React.createClass({
 						<ListFiltersAdd />
 						<ListColumnsForm />
 						<ListDownloadForm />
+						<InputGroup.Section style={{ borderLeft: '1px solid rgba(0,0,0,0.1)', marginLeft: '.75em', paddingLeft: '.75em' }}>
+							<Button isActive={this.props.tableIsExpanded} onClick={this.props.toggleTableWidth} title="Expand table width">
+								<span className="octicon octicon-mirror" />
+							</Button>
+						</InputGroup.Section>
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
@@ -177,7 +176,6 @@ var ListHeader = React.createClass({
 						total={items.count}
 						totalPages={1}
 						/>
-					{this.renderPagination()}
 				</div>
 				{this.renderCreateForm()}
 			</div>
