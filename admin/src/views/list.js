@@ -36,7 +36,7 @@ const ListView = React.createClass({
 	updateStateFromStore () {
 		this.setState(this.getStateFromStore());
 	},
-	
+
 	toggleTableWidth () {
 		this.setState({
 			constrainTableWidth: !this.state.constrainTableWidth
@@ -127,7 +127,7 @@ const ListView = React.createClass({
 
 	renderActiveState () {
 		if (this.state.showBlankState) return null;
-		
+
 		let containerStyle = {
 			maxWidth: this.state.constrainTableWidth ? null : '100%',
 			transition: 'max-width 160ms ease-out',
@@ -197,7 +197,7 @@ const ListView = React.createClass({
 
 	render () {
 		return !this.state.ready ? (
-			<div className="view-loading-indicator"><Spinner /></div>
+			<div className="view-loading-indicator"><Spinner size="md" /></div>
 		) : (
 			<div>
 				{this.renderBlankState()}
