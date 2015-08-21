@@ -15,7 +15,7 @@
 // Layout
 // ------------------------------
 
-// Deviate from Bootstrap to get the most out of the viewport 
+// Deviate from Elemental to get the most out of the viewport 
 
 .container {
 	max-width: @container-lg;
@@ -53,6 +53,25 @@
 
 .code {
 	font-family: @font-family-monospace;
+}
+kbd {
+	background-color: @body-bg;
+	border-radius: 3px;
+	border: 1px solid @input-border-color;
+	border-bottom-color: darken(@input-border-color, 4%);
+	border-top-color: lighten(@input-border-color, 4%);
+	box-shadow: 0 1px 1px rgba(0,0,0,.12),0 2px 0 0 rgba(255,255,255,.7) inset;
+	display: inline-block;
+	font-family: Consolas,"Liberation Mono",Courier,monospace;
+	font-size: .85em;
+	font-weight: 700;
+	line-height: inherit;
+	padding: 1px 4px;
+	white-space: nowrap;
+	
+	// little hack to tweak "visual-middle" alignment
+	position: relative;
+	top: -1px;
 }
 
 

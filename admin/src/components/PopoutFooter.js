@@ -5,9 +5,10 @@ const buttonBaseClassname = 'Popout__footer__button Popout__footer__button--';
 var PopoutFooter = React.createClass({
 	displayName: 'PopoutFooter',
 	propTypes: {
+		children: React.PropTypes.node,
 		primaryButtonAction: React.PropTypes.func,
 		primaryButtonIsSubmit: React.PropTypes.bool,
-		primaryButtonLabel: React.PropTypes.string.isRequired,
+		primaryButtonLabel: React.PropTypes.string,
 		secondaryButtonAction: React.PropTypes.func,
 		secondaryButtonLabel: React.PropTypes.string,
 	},
@@ -37,6 +38,7 @@ var PopoutFooter = React.createClass({
 			<div className="Popout__footer">
 				{this.renderPrimaryButton()}
 				{this.renderSecondaryButton()}
+				{this.props.children}
 			</div>
 		);
 	}

@@ -79,12 +79,17 @@ var ListHeader = React.createClass({
 			this.handleSearchClear ();
 		}
 	},
-	handleSortSelect (path) {
+	handleSortSelect (e, path) {
+		// invert if selection matches the current sort order or if the altKey was held
 		this.setState({
 			activeSort: path,
-			// 	invertSort: this.state.selectedColumn === path ? !this.state.invertSort : false
+			invertSort: this.state.activeSort === path ? !this.state.invertSort : e.altKey
 		});
-		this.toggleSortPopout(false);
+		
+		// give the user time to see their change before closing the popout
+		setTimeout(() => {
+			this.toggleSortPopout(false);
+		}, 200);
 	},
 	handlePageSelect (selected) {
 		// TODO
@@ -138,15 +143,16 @@ var ListHeader = React.createClass({
 		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
 	render () {
-		// console.log(this.state.list.defaultSort);
+		let { activeSort, invertSort, items, list, sortPopoutIsOpen } = this.state;
+		
 		return (
 			<div className="ListHeader">
 				<div className="container">
 					<ListHeaderTitle
-						activeSort={this.state.list.fields[this.state.activeSort]}
-						invertSort={this.state.invertSort}
-						popoutIsOpen={this.state.sortPopoutIsOpen}
-						title={utils.plural(this.state.items.count, ('* ' + this.state.list.singular), ('* ' + this.state.list.plural))}
+						activeSort={list.fields[activeSort]}
+						invertSort={invertSort}
+						popoutIsOpen={sortPopoutIsOpen}
+						title={utils.plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
 						onColumnSelect={this.handleSortSelect}
 						closePopout={this.toggleSortPopout.bind(this, false)}
 						openPopout={this.toggleSortPopout.bind(this, true)}
@@ -159,6 +165,18 @@ var ListHeader = React.createClass({
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
+					<Pagination
+						className="ListHeader__pagination"
+						currentPage={1}
+						first={1}
+						last={items.count}
+						next={false}
+						onPageSelect={this.handlePageSelect}
+						pages={[1]}
+						previous={false}
+						total={items.count}
+						totalPages={1}
+						/>
 					{this.renderPagination()}
 				</div>
 				{this.renderCreateForm()}
