@@ -1,10 +1,8 @@
-var moment = require('moment');
-var Pikaday = require('pikaday');
-var React = require('react');
-var Pikaday = require('pikaday');
-var moment = require('moment');
+import moment from 'moment';
+import Pikaday from 'pikaday';
+import React from 'react';
+import { FormInput } from 'elemental';
 
-var FormInput = require('elemental').FormInput;
 
 module.exports = React.createClass({
 	
