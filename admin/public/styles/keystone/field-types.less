@@ -39,10 +39,6 @@
 // Colour
 // ------------------------------
 
-.field-type-color input {
-	width: 100% !important;
-}
-
 .field-type-color__wrapper {
 	position: relative;
 }
@@ -56,6 +52,17 @@
 	display: block;
 	height: 100%;
 	width: 100%;
+}
+
+// fix sizing issues with https://github.com/casesandberg/react-color
+// component doesn't play nice with border-box
+
+.field-type-color__picker {
+	div,
+	input,
+	span {
+		box-sizing: content-box;
+	}
 }
 
 

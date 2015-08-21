@@ -3,12 +3,32 @@ import Field from '../Field';
 import React from 'react';
 import { FormInput, InputGroup } from 'elemental';
 
+const PICKER_TYPES = ['chrome', 'compact', 'material', 'photoshop', 'sketch', 'slider', 'swatches'];
+const TRANSPARENT_BG = '<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
+	'<g fill="#CCCCCC">' +
+		'<path d="M0,0 L8,0 L8,8 L0,8 L0,0 Z M8,8 L16,8 L16,16 L8,16 L8,8 Z M0,16 L8,16 L8,24 L0,24 L0,16 Z M16,0 L24,0 L24,8 L16,8 L16,0 Z M16,16 L24,16 L24,24 L16,24 L16,16 Z" />'+
+	'</g>'
+'</svg>';
+
 module.exports = Field.create({
 	displayName: 'ColorField',
+	
+	propTypes: {
+		pickerType: React.PropTypes.oneOf(PICKER_TYPES),
+		onChange: React.PropTypes.func,
+		path: React.PropTypes.string,
+		value: React.PropTypes.string,
+	},
 	
 	getInitialState () {
 		return {
 			displayColorPicker: false,
+		};
+	},
+
+	getDefaultProps () {
+		return {
+			pickerType: 'sketch'
 		};
 	},
 	
@@ -45,29 +65,37 @@ module.exports = Field.create({
 		this.updateValue(newValue);
 	},
 	
+	renderSwatch () {
+		return (this.props.value) ? (
+			<span className="field-type-color__swatch" style={{ backgroundColor: this.props.value }} />
+		) : (
+			<span className="field-type-color__swatch" dangerouslySetInnerHTML={{ __html: TRANSPARENT_BG }} />
+		);
+	},
+	
 	renderField () {
-		
 		return (
 			<div className="field-type-color__wrapper">
 				<InputGroup>
-					<InputGroup.Section>
+					<InputGroup.Section grow>
 						<FormInput ref="field" onChange={this.valueChanged} name={this.props.path} value={this.props.value} autoComplete="off" />
 					</InputGroup.Section>
 					<InputGroup.Section>
 						<button type="button" onClick={this.handleClick} className="FormInput FormSelect field-type-color__button">
-							<span className="field-type-color__swatch" style={{ backgroundColor: this.props.value }} />
+							{this.renderSwatch()}
 						</button>
 					</InputGroup.Section>
 				</InputGroup>
-				<ColorPicker
-					className="field-type-color__picker"
-					color={this.props.value}
-					display={this.state.displayColorPicker}
-					onChangeComplete={this.handlePickerChange}
-					onClose={ this.handleClose }
-					position={window.innerWidth > 480 ? 'right' : 'below'}
-					type="sketch"
-					/>
+				<div className="field-type-color__picker">
+					<ColorPicker
+						color={this.props.value}
+						display={this.state.displayColorPicker}
+						onChangeComplete={this.handlePickerChange}
+						onClose={ this.handleClose }
+						position={window.innerWidth > 480 ? 'right' : 'below'}
+						type={this.props.pickerType}
+						/>
+				</div>
 			</div>
 		);
 	}
