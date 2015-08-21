@@ -17,7 +17,7 @@ var Popout = React.createClass({
 		relativeToID: React.PropTypes.string.isRequired,
 		width: React.PropTypes.number,
 	},
-	
+
 	getInitialState () {
 		return {};
 	},
@@ -27,10 +27,10 @@ var Popout = React.createClass({
 			width: 320,
 		};
 	},
-	
+
 	componentDidMount () {
 		let posNode = document.getElementById(this.props.relativeToID);
-		
+
 		let pos = {
 			top: 0,
 			left: 0,
@@ -42,14 +42,16 @@ var Popout = React.createClass({
 			pos.left += posNode.offsetLeft;
 			posNode = posNode.offsetParent;
 		}
-		
+
 		let leftOffset = pos.left + (pos.width / 2) - (this.props.width / 2);
 		let topOffset = pos.top + pos.height + sizes.arrowHeight;
-		
+
+		/* eslint-disable react/no-did-mount-set-state */
 		this.setState({
 			leftOffset: leftOffset,
 			topOffset: topOffset
 		});
+		/* eslint-enable */
 	},
 
 	renderPopout () {

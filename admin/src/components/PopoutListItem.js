@@ -15,7 +15,7 @@ var PopoutListItem = React.createClass({
 	getInitialState () {
 		return {
 			currentIcon: this.props.icon
-		}
+		};
 	},
 	setToActive (e) {
 		this.setState({ currentIcon: e.altKey ? this.props.iconHoverAlt : this.props.iconHover });
@@ -26,7 +26,7 @@ var PopoutListItem = React.createClass({
 	renderIcon () {
 		if (!this.props.icon) return null;
 		let iconClassname = classnames('PopoutList__item__icon octicon', ('octicon-' + this.state.currentIcon));
-		
+
 		return <span className={iconClassname} />;
 	},
 	render () {
