@@ -123,6 +123,7 @@ var ListFiltersAdd = React.createClass({
 				<PopoutList.Item
 					key={'item_' + el.field.path}
 					icon={filterIsActive ? 'check' : 'chevron-right'}
+					iconHover={filterIsActive ? 'check' : 'chevron-right'}
 					isSelected={!!filterIsActive}
 					label={el.field.label}
 					onClick={() => { this.selectField(el.field); }} />

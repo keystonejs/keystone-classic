@@ -17,10 +17,10 @@ var PopoutListItem = React.createClass({
 			currentIcon: this.props.icon
 		}
 	},
-	handleMouseOver (e) {
+	setToActive (e) {
 		this.setState({ currentIcon: e.altKey ? this.props.iconHoverAlt : this.props.iconHover });
 	},
-	handleMouseOut (e) {
+	setToInactive (e) {
 		this.setState({ currentIcon: this.props.icon });
 	},
 	renderIcon () {
@@ -39,8 +39,10 @@ var PopoutListItem = React.createClass({
 				type="button"
 				title={this.props.label}
 				className={itemClassname}
-				onMouseOver={this.handleMouseOver}
-				onMouseOut={this.handleMouseOut}
+				onFocus={this.setToActive}
+				onBlur={this.setToInactive}
+				onMouseOver={this.setToActive}
+				onMouseOut={this.setToInactive}
 				{...props}
 				>
 				{this.renderIcon()}

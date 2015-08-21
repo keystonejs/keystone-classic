@@ -107,6 +107,7 @@ var ListDownloadForm = React.createClass({
 				<PopoutList.Item
 					key={'item_' + el.field.path}
 					icon={columnValue ? 'check' : 'dash'}
+					iconHover={columnValue ? 'dash' : 'check'}
 					isSelected={columnValue}
 					label={el.field.label}
 					onClick={this.toggleColumn.bind(this, columnKey, !columnValue)} />

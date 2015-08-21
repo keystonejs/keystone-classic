@@ -67,6 +67,7 @@ var ListColumnsForm = React.createClass({
 				<PopoutList.Item
 					key={'column_' + el.field.path}
 					icon={selected ? 'check' : 'dash'}
+					iconHover={selected ? 'dash' : 'check'}
 					isSelected={!!selected}
 					label={el.field.label}
 					onClick={() => { this.toggleColumn(path, !selected); }} />
