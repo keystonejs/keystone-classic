@@ -323,12 +323,12 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 
 		};
 
-		field.callHook('pre:move', [item, file], function(err) {
+		field.callHook('pre:move', item, file, function(err) {
 			if (err) return processedFile(err);
 
 			doMove(function(err, fileData) {
 				if (err) return processedFile(err);
-				field.callHook('post:move', [item, file, fileData], function(err) {
+				field.callHook('post:move', item, file, fileData, function(err) {
 					return processedFile(err, fileData);
 				});
 			});
