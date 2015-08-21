@@ -1,15 +1,12 @@
 const React = require('react');
 
-const Columns = require('../columns');
 const ListHeader = require('../components/ListHeader');
-const ListControl = require('../components/ListControl');
 const CreateForm = require('../components/CreateForm');
+const ItemsTable = require('../components/ItemsTable');
 
 const CurrentListStore = require('../stores/CurrentListStore');
 
 const { BlankState, Button, Spinner } = require('elemental');
-
-const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
 const ListView = React.createClass({
 
@@ -70,48 +67,6 @@ const ListView = React.createClass({
 		confirm('Are you sure you want to remove this item?');
 	},
 
-	renderCols () {
-		var cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
-		// add delete col when applicable
-		if (!this.state.list.nodelete) {
-			cols.unshift(<col width={CONTROL_COLUMN_WIDTH} key="delete" />);
-		}
-		// add sort col when applicable
-		if (this.state.list.sortable) {
-			cols.unshift(<col width={CONTROL_COLUMN_WIDTH} key="sortable" />);
-		}
-		return <colgroup>{cols}</colgroup>;
-	},
-
-	renderHeaders () {
-		var cells = this.state.columns.map((col, i) => {
-			// span first col for controls when present
-			var span = 1;
-			if (!i) {
-				if (this.state.list.sortable) span++;
-				if (!this.state.list.nodelete) span++;
-			}
-			return <th key={col.path} colSpan={span}>{col.label}</th>;
-		});
-		return <thead><tr>{cells}</tr></thead>;
-	},
-
-	renderRow (item) {
-		var cells = this.state.columns.map((col) => {
-			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			return <ColumnType key={col.path} list={this.state.list} col={col} data={item} />;
-		});
-		// add sortable icon when applicable
-		if (this.state.list.sortable) {
-			cells.unshift(<ListControl key="_sort" onClick={this.reorderItems} type="sortable" />);
-		}
-		// add delete icon when applicable
-		if (!this.state.list.nodelete) {
-			cells.unshift(<ListControl key="_delete" onClick={this.removeItem} type="delete" />);
-		}
-		return <tr key={'i' + item.id}>{cells}</tr>;
-	},
-
 	renderBlankState () {
 		if (!this.state.showBlankState) return null;
 		return (
@@ -134,7 +89,7 @@ const ListView = React.createClass({
 			msTransition: 'max-width 160ms ease-out',
 			MozTransition: 'max-width 160ms ease-out',
 			WebkitTransition: 'max-width 160ms ease-out',
-		}
+		};
 
 		return (
 			<div>
@@ -149,18 +104,12 @@ const ListView = React.createClass({
 
 	renderItemsTable () {
 		if (!this.state.items.results.length) return null;
-		var sortable = this.state.list.sortable;
-		var tableClass = sortable ? 'sortable ' : '';
-		tableClass += 'Table ItemList';
 		return (
 			<div className="ItemList-wrapper">
-				<table cellPadding="0" cellSpacing="0" className={tableClass}>
-					{this.renderCols()}
-					{this.renderHeaders()}
-					<tbody>
-						{this.state.items.results.map(this.renderRow)}
-					</tbody>
-				</table>
+				<ItemsTable
+					items={this.state.items.results}
+					columns={this.state.columns}
+					list={this.state.list} />
 			</div>
 		);
 	},
