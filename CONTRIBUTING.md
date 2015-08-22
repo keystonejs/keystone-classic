@@ -16,7 +16,7 @@ know. We'll help you get started, rather than adding it to the queue.
 * Make sure you do not add regressions by running `npm test`. Please also
 [follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards)
 (with regards to formatting, etc)
-* You can also run `npm run lint` - our linter is a WIP
+* You can also run `npm run lint`
 but please ensure there are not more violations than before your changes.
 * All new features and changes need documentation. They live over at the  [Keystone-site](https://github.com/keystonejs/keystonejs-site) repo.
 * We have three translations so far,
