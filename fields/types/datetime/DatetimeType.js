@@ -25,7 +25,8 @@ function datetime(list, path, options) {
 	datetime.super_.call(this, list, path, options);
 	this.paths = {
 		date: this._path.append('_date'),
-		time: this._path.append('_time')
+		time: this._path.append('_time'),
+		real: this._path.append('_real')
 	};
 }
 util.inherits(datetime, FieldType);
@@ -40,6 +41,9 @@ datetime.prototype.parse = DateType.prototype.parse;
  * Get the value from a data object; may be simple or a pair of fields
  */
 datetime.prototype.getInputFromData = function(data) {
+	if(this.paths.real in data){
+		return data[this.paths.real];
+	}
 	if (this.paths.date in data && this.paths.time in data) {
 		return (data[this.paths.date] + ' ' + data[this.paths.time]).trim();
 	} else {
@@ -70,7 +74,7 @@ datetime.prototype.updateItem = function(item, data) {
 	if (!(this.path in data || (this.paths.date in data && this.paths.time in data))) {
 		return;
 	}
-	var m = this.isUTC ? moment.utc : moment;
+	var m = moment.utc;
 	var newValue = m(this.getInputFromData(data), parseFormats);
 	if (newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
