@@ -26,6 +26,15 @@ var active = {
 	search: ''
 };
 
+var page = defaultPage();
+
+function defaultPage () {
+	return {
+		size: 100,
+		index: 1
+	};
+}
+
 function getFilters () {
 	var filters = {};
 	active.filters.forEach((filter) => {
@@ -39,6 +48,8 @@ function buildQueryString () {
 	parts.push(active.search ? 'search=' + active.search : '');
 	parts.push(active.filters.length ? 'filters=' + JSON.stringify(getFilters()) : '');
 	parts.push('select=' + active.columns.map(i => i.path).join(','));
+	parts.push('limit=' + page.size);
+	parts.push(page.index > 1 ? 'skip=' + ((page.index - 1) * page.size) : '');
 	return '?' + parts.filter(i => i).join('&');
 }
 
@@ -104,6 +115,16 @@ var CurrentListStore = new Store({
 	},
 	getActiveSearch () {
 		return active.search;
+	},
+	getPageSize () {
+		return page.size;
+	},
+	getCurrentPage () {
+		return page.index;
+	},
+	setCurrentPage (i) {
+		page.index = i;
+		this.loadItems();
 	},
 	addFilter (filter) {
 		active.filters.push(filter);

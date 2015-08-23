@@ -30,13 +30,15 @@ var ListHeader = React.createClass({
 	},
 	getStateFromStore () {
 		return {
-			availableColumns: CurrentListStore.getAvailableColumns(),
 			activeColumns: CurrentListStore.getActiveColumns(),
-			availableFilters: CurrentListStore.getAvailableFilters(),
 			activeFilters: CurrentListStore.getActiveFilters(),
 			activeSort: 'name',
+			availableColumns: CurrentListStore.getAvailableColumns(),
+			availableFilters: CurrentListStore.getAvailableFilters(),
+			currentPage: CurrentListStore.getCurrentPage(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
+			pageSize: CurrentListStore.getPageSize(),
 			ready: CurrentListStore.isReady()
 		};
 	},
@@ -85,15 +87,14 @@ var ListHeader = React.createClass({
 			activeSort: path,
 			invertSort: this.state.activeSort === path ? !this.state.invertSort : e.altKey
 		});
-		
+
 		// give the user time to see their change before closing the popout
 		setTimeout(() => {
 			this.toggleSortPopout(false);
 		}, 200);
 	},
-	handlePageSelect (selected) {
-		// TODO
-		// location.href = '/keystone/' + this.state.list.path + '/' + page;
+	handlePageSelect (i) {
+		CurrentListStore.setCurrentPage(i);
 	},
 	renderSearch () {
 		var searchClearIcon = classNames('ListHeader__searchbar-field__icon octicon', {
@@ -137,8 +138,7 @@ var ListHeader = React.createClass({
 		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
 	render () {
-		let { activeSort, invertSort, items, list, sortPopoutIsOpen } = this.state;
-		
+		let { activeSort, currentPage, invertSort, items, list, pageSize, sortPopoutIsOpen } = this.state;
 		return (
 			<div className="ListHeader">
 				<div className="container">
@@ -166,15 +166,12 @@ var ListHeader = React.createClass({
 					<ListFilters />
 					<Pagination
 						className="ListHeader__pagination"
-						currentPage={1}
-						first={1}
-						last={items.count}
-						next={false}
+						currentPage={currentPage}
 						onPageSelect={this.handlePageSelect}
-						pages={[1]}
-						previous={false}
+						pageSize={pageSize}
+						plural={list.plural}
+						singular={list.singular}
 						total={items.count}
-						totalPages={1}
 						/>
 				</div>
 				{this.renderCreateForm()}
