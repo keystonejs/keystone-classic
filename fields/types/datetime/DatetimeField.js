@@ -1,8 +1,8 @@
-var React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note'),
-	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+var React = require('react');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+var DateInput = require('../../components/DateInput');
+var moment = require('moment');
 
 module.exports = Field.create({
 	
@@ -18,9 +18,9 @@ module.exports = Field.create({
 	parseFormats: ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'],
 
 	getInitialState: function() {
-		return { 
-			dateValue: this.props.value ? moment(this.props.value).format(this.dateInputFormat) : '',
-			timeValue: this.props.value ? moment(this.props.value).format(this.timeInputFormat) : ''
+		return {
+			dateValue: this.props.value ? this.moment(this.props.value).format(this.dateInputFormat) : '',
+			timeValue: this.props.value ? this.moment(this.props.value).format(this.timeInputFormat) : ''
 		};
 	},
 
@@ -28,6 +28,12 @@ module.exports = Field.create({
 		return { 
 			formatString: 'Do MMM YYYY, h:mm:ss a'
 		};
+	},
+
+	moment: function(value) {
+		var m = moment(value);
+		if (this.props.isUTC) m.utc();
+		return m;
 	},
 
 	// TODO: Move isValid() so we can share with server-side code
@@ -38,13 +44,12 @@ module.exports = Field.create({
 	// TODO: Move format() so we can share with server-side code
 	format: function(value, format) {
 		format = format || this.dateInputFormat + ' ' + this.timeInputFormat;
-		return value ? moment(value).format(format) : '';
+		return value ? this.moment(value).format(format) : '';
 	},
 
 	handleChange: function(dateValue, timeValue) {
-		var value = dateValue + ' ' + timeValue,
-			datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
-
+		var value = dateValue + ' ' + timeValue;
+		var datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
 		this.props.onChange({
 			path: this.props.path,
 			value: this.isValid(value) ? moment(value, datetimeFormat).toISOString() : null
@@ -62,9 +67,8 @@ module.exports = Field.create({
 	},
 
 	setNow: function() {
-		var dateValue = moment().format(this.dateInputFormat),
-			timeValue = moment().format(this.timeInputFormat);
-
+		var dateValue = moment().format(this.dateInputFormat);
+		var timeValue = moment().format(this.timeInputFormat);
 		this.setState({
 			dateValue: dateValue,
 			timeValue: timeValue
@@ -73,10 +77,8 @@ module.exports = Field.create({
 	},
 
 	renderUI: function() {
-		
-		var input,
-			fieldClassName = 'field-ui';
-		
+		var input;
+		var fieldClassName = 'field-ui';
 		if (this.shouldRenderField()) {
 			input = (
 				<div className={fieldClassName}>
@@ -92,7 +94,6 @@ module.exports = Field.create({
 				</div>
 			);
 		}
-		
 		return (
 			<div className="field field-type-datetime">
 				<label className="field-label">{this.props.label}</label>
@@ -103,5 +104,4 @@ module.exports = Field.create({
 			</div>
 		);
 	}
-
 });

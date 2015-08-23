@@ -1,5 +1,5 @@
-var demand = require('must'),
-	Path = require("../../lib/path");
+var demand = require('must');
+var Path = require("../../lib/path");
 
 describe("Path", function() {
 	describe("new", function() {

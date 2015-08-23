@@ -54,7 +54,7 @@ function Field(list, path, options) {
 
 	// Convert notes from markdown to html
 	var note = null;
-	Object.defineProperty(this, 'note', {
+	Object.defineProperty(this, 'note', { 
 		get: function() {
 			return (note === null) ? (note = (this.options.note) ? marked(this.options.note) : '') : note;
 		}
@@ -102,12 +102,11 @@ Field.prototype.getOptions = function() {
 			} else if (this.options[key]){
 				this.__options[key] = this.options[key];
 			}
-		}.bind(this));
-
+		}, this);
 		if (this.getProperties) {
 			_.extend(this.__options, this.getProperties());
 		}
-
+		this.__options.hasFilterMethod = this.addFilterToQuery ? true : false;
 		this.__options.defaultValue = this.getDefaultValue();
 
 	}
@@ -120,21 +119,20 @@ Field.prototype.getOptions = function() {
  * Validates and returns the size of the field.
  * Defaults to deprecated 'width' option.
  */
-
 Field.prototype.getSize = function() {
-	if (this.__size) return this.__size;
-	var size = this._fixedSize || this.options.size || this.options.width;
-	if (size !== 'small' && size !== 'medium' && size !== 'large' && size !== 'full') {
-		size = this._defaultSize || 'large';
+	if (!this.__size) {
+		var size = this._fixedSize || this.options.size || this.options.width;
+		if (size !== 'small' && size !== 'medium' && size !== 'large' && size !== 'full') {
+			size = this._defaultSize || 'large';
+		}
+		this.__size = size;
 	}
-	this.__size = size;
-	return size;
+	return this.__size;
 };
 
 /**
  * Gets default value for the field, based on the option or default for the type
  */
-
 Field.prototype.getDefaultValue = function() {
 	return this.options.default || '';
 };
@@ -142,7 +140,6 @@ Field.prototype.getDefaultValue = function() {
 /**
  * Gets the field's data from an Item, as used by the React components
  */
-
 Field.prototype.getData = function(item) {
 	return item.get(this.path);
 };
@@ -150,11 +147,9 @@ Field.prototype.getData = function(item) {
 /**
  * Field watching implementation
  */
-
 Field.prototype.getPreSaveWatcher = function() {
-
-	var field = this,
-		applyValue;
+	var field = this;
+	var applyValue;
 
 	if (this.options.watch === true) {
 		// watch == true means always apply the value method
@@ -213,12 +208,9 @@ Field.prototype.getPreSaveWatcher = function() {
 	};
 
 };
-
 exports = module.exports = Field;
 
-
 /** Getter properties for the Field prototype */
-
 Object.defineProperty(Field.prototype, 'size', { get: function() { return this.getSize(); } });
 Object.defineProperty(Field.prototype, 'initial', { get: function() { return this.options.initial || false; } });
 Object.defineProperty(Field.prototype, 'required', { get: function() { return this.options.required || false; } });
@@ -354,7 +346,6 @@ Field.prototype.updateItem = function(item, data) {
  *
  * @api public
  */
-
 Field.prototype.getValueFromData = function(data) {
 	return this.path in data ? data[this.path] : this._path.get(data);
 };

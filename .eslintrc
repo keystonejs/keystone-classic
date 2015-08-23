@@ -37,6 +37,7 @@
 		"react/self-closing-comp": 1,
 		"react/wrap-multilines": 1,
 		"semi": 2,
+		"space-infix-ops": 0,
 		"strict": 0,
 		"yoda": 0
 	},
