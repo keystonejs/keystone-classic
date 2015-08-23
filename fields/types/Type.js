@@ -93,6 +93,8 @@ Field.prototype.getOptions = function() {
 		optionKeys.forEach(function(key) {
 			if (this[key]) {
 				this.__options[key] = this[key];
+			} else if (this.options[key]){
+				this.__options[key] = this.options[key];
 			}
 		}, this);
 		if (this.getProperties) {
