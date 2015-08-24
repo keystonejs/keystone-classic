@@ -14,7 +14,7 @@ import { Button, FormField, FormInput, FormNote } from 'elemental';
 const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
 module.exports = Field.create({
-	
+
 	displayName: 'CloudinaryImageField',
 
 	fileFieldNode () {
@@ -205,7 +205,7 @@ module.exports = Field.create({
 
 	/**
 	 * Render an alert.
-	 * 
+	 *
 	 *  - On a local file, output a "to be uploaded" message.
 	 *  - On a cloudinary file, output a "from cloudinary" message.
 	 *  - On removal of existing file, output a "save to remove" message.
@@ -279,12 +279,14 @@ module.exports = Field.create({
 	},
 
 	renderImageSelect () {
+		var selectPrefix = this.props.selectPrefix;
 		var getOptions = function(input, callback) {
 			$.get('/keystone/api/cloudinary/autocomplete', {
 				dataType: 'json',
 				data: {
 					q: input
-				}
+				},
+				prefix: selectPrefix
 			}, function (data) {
 				var options = [];
 
@@ -338,7 +340,7 @@ module.exports = Field.create({
 
 		return (
 			<FormField label={this.props.label} className="field-type-cloudinaryimage">
-	
+
 				{this.renderFileField()}
 				{this.renderFileAction()}
 
