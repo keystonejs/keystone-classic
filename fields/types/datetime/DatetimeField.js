@@ -5,7 +5,7 @@ import React from 'react';
 import { Button, FormField, FormInput, FormNote, InputGroup } from 'elemental';
 
 module.exports = Field.create({
-	
+
 	displayName: 'DatetimeField',
 
 	focusTargetRef: 'dateInput',
@@ -25,7 +25,7 @@ module.exports = Field.create({
 	},
 
 	getDefaultProps () {
-		return { 
+		return {
 			formatString: 'Do MMM YYYY, h:mm:ss a'
 		};
 	},
@@ -75,10 +75,9 @@ module.exports = Field.create({
 		});
 		this.handleChange(dateValue, timeValue);
 	},
-	
+
 	renderNote () {
 		if (!this.props.note) return null;
-		
 		return <FormNote note={this.props.note} />;
 	},
 

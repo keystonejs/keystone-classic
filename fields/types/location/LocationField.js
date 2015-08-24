@@ -22,19 +22,15 @@ module.exports = Field.create({
 	},
 
 	componentWillMount () {
-
 		var collapsedFields = {};
-
 		_.each(['number', 'name', 'street2', 'geo'], function(i) {
 			if (!this.props.value[i]) {
 				collapsedFields[i] = true;
 			}
 		}, this);
-
 		this.setState({
 			collapsedFields: collapsedFields
 		});
-
 	},
 
 	componentDidUpdate (prevProps, prevState) {
@@ -92,17 +88,14 @@ module.exports = Field.create({
 	},
 
 	renderField (path, label, collapse) {//eslint-disable-line no-unused-vars
-
 		if (this.state.collapsedFields[path]) {
 			return null;
 		}
-
 		return (
 			<FormField label={label} className="form-field--secondary" htmlFor={this.props.path + '.' + path}>
 				<FormInput name={this.props.path + '.' + path} ref={path} value={this.props.value[path]} onChange={this.fieldChanged.bind(this, path)} placeholder={label} />
 			</FormField>
 		);
-
 	},
 
 	renderSuburbState () {
@@ -136,11 +129,9 @@ module.exports = Field.create({
 	},
 
 	renderGeo () {
-
 		if (this.state.collapsedFields.geo) {
 			return null;
 		}
-
 		return (
 			<FormField label="Lat / Lng" className="form-field--secondary" htmlFor={this.props.paths.geo}>
 				<FormRow>
@@ -153,7 +144,6 @@ module.exports = Field.create({
 				</FormRow>
 			</FormField>
 		);
-
 	},
 
 	updateGoogleOption (key, e) {
@@ -223,7 +213,6 @@ module.exports = Field.create({
 				{this.renderNote()}
 			</div>
 		);
-
 	}
 
 });

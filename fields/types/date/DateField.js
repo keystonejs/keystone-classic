@@ -5,7 +5,7 @@ import React from 'react';
 import { Button, InputGroup, FormInput } from 'elemental';
 
 module.exports = Field.create({
-	
+
 	displayName: 'DateField',
 
 	focusTargetRef: 'dateInput',
@@ -14,13 +14,13 @@ module.exports = Field.create({
 	inputFormat: 'YYYY-MM-DD',
 
 	getInitialState () {
-		return { 
+		return {
 			value: this.props.value ? this.moment(this.props.value).format(this.inputFormat) : ''
 		};
 	},
 
 	getDefaultProps () {
-		return { 
+		return {
 			formatString: 'Do MMM YYYY'
 		};
 	},
@@ -57,7 +57,7 @@ module.exports = Field.create({
 	valueChanged (value) {
 		this.setDate(value);
 	},
-	
+
 	renderField () {
 		return (
 			<InputGroup>

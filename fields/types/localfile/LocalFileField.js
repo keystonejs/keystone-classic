@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 module.exports = Field.create({
-	
+
 	shouldCollapse () {
 		return this.props.collapse && !this.hasExisting();
 	},
@@ -124,7 +124,7 @@ module.exports = Field.create({
 				</div>
 			);
 		} else if (this.state.origin === 'cloudinary') {
-			return ( 
+			return (
 				<div className="file-values select-queued">
 					<FormInput noedit>File selected from Cloudinary</FormInput>
 				</div>
@@ -164,13 +164,13 @@ module.exports = Field.create({
 
 	renderFileField () {
 		if (!this.shouldRenderField()) return null;
-		
+
 		return <input ref="fileField" type="file" name={this.props.paths.upload} className="field-upload" onChange={this.fileChanged} tabIndex="-1" />;
 	},
 
 	renderFileAction () {
 		if (!this.shouldRenderField()) return null;
-		
+
 		return <input type="hidden" name={this.props.paths.action} className="field-action" value={this.state.action} />;
 	},
 
@@ -186,17 +186,17 @@ module.exports = Field.create({
 			</div>
 		);
 	},
-	
+
 	renderNote () {
 		if (!this.props.note) return null;
-		
+
 		return <FormNote note={this.props.note} />;
 	},
 
 	renderUI () {
-		var container = [],
-			body = [],
-			hasFile = this.hasFile();
+		var container = [];
+		var body = [];
+		var hasFile = this.hasFile();
 
 		if (this.shouldRenderField()) {
 			if (hasFile) {
@@ -213,16 +213,16 @@ module.exports = Field.create({
 
 		return (
 			<FormField label={this.props.label} className="field-type-localfile">
-			
+
 				{this.renderFileField()}
 				{this.renderFileAction()}
-	
+
 				<div className="file-container">{container}</div>
 				{body}
 				{this.renderNote()}
-				
+
 			</FormField>
 		);
 	}
-	
+
 });

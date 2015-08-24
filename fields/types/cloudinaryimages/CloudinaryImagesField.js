@@ -7,7 +7,7 @@ const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'i
 
 var Thumbnail = React.createClass({
 	displayName: 'CloudinaryImagesFieldThumbnail',
-	
+
 	propTypes: {
 		deleted: React.PropTypes.bool,
 		height: React.PropTypes.number,
@@ -17,10 +17,9 @@ var Thumbnail = React.createClass({
 		url: React.PropTypes.string,
 		width: React.PropTypes.number,
 	},
-	
+
 	renderActionButton () {
 		if (!this.props.shouldRenderActionButton || this.props.isQueued) return null;
-		
 		return <Button type={this.props.deleted ? 'link-text' : 'link-cancel'} block onClick={this.props.toggleDelete}>{this.props.deleted ? 'Undo' : 'Remove'}</Button>;
 	},
 
@@ -106,7 +105,7 @@ module.exports = Field.create({
 
 	renderFileField () {
 		if (!this.shouldRenderField()) return null;
-		
+
 		return <input ref="fileField" type="file" name={this.props.paths.upload} multiple className="field-upload" onChange={this.uploadFile} tabIndex="-1" />;
 	},
 
@@ -154,7 +153,7 @@ module.exports = Field.create({
 
 	renderToolbar () {
 		if (!this.shouldRenderField()) return null;
-		
+
 		var body = [];
 
 		var push = function (queueType, alertType, count, action) {
@@ -213,7 +212,7 @@ module.exports = Field.create({
 
 	renderFieldAction () {
 		if (!this.shouldRenderField()) return null;
-		
+
 		var value = '';
 		var remove = [];
 		_.each(this.state.thumbnails, function (thumb) {
@@ -226,7 +225,7 @@ module.exports = Field.create({
 
 	renderUploadsField () {
 		if (!this.shouldRenderField()) return null;
-		
+
 		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
 
@@ -234,7 +233,7 @@ module.exports = Field.create({
 		if (!this.props.note) return null;
 		return <FormNote note={this.props.note} />;
 	},
-	
+
 	renderUI () {
 		return (
 			<FormField label={this.props.label} className="field-type-cloudinaryimages">

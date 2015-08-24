@@ -318,16 +318,15 @@ module.exports = Field.create({
 	},
 
 	renderUI () {
-		var container = [],
-			body = [],
-			hasImage = this.hasImage();
+		var container = [];
+		var body = [];
+		var hasImage = this.hasImage();
 
 		if (this.shouldRenderField()) {
 			if (hasImage) {
 				container.push(this.renderImagePreview());
 				container.push(this.renderImageDetails(this.renderAlert()));
 			}
-
 			body.push(this.renderImageToolbar());
 		} else {
 			if (hasImage) {
@@ -337,13 +336,10 @@ module.exports = Field.create({
 				container.push(<div className="help-block">no image</div>);
 			}
 		}
-
 		return (
 			<FormField label={this.props.label} className="field-type-cloudinaryimage">
-
 				{this.renderFileField()}
 				{this.renderFileAction()}
-
 				<div className="image-container">{container}</div>
 				{body}
 				<FormNote note={this.props.note} />

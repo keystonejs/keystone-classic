@@ -16,7 +16,7 @@ module.exports = Field.create({
 	},
 	renderLink () {
 		if (!this.props.value) return null;
-		
+
 		return (
 			<Button type="link" onClick={this.openValue} className="keystone-relational-button" title={'Open ' + this.props.value + ' in a new tab'}>
 				<span className="octicon octicon-link" />

@@ -3,9 +3,9 @@ import Field from '../Field';
 import { FormInput } from 'elemental';
 
 module.exports = Field.create({
-	
+
 	displayName: 'NumberField',
-	
+
 	valueChanged (event) {
 		var newValue = event.target.value.replace(/[^\d\.]/g, '');
 		if (newValue === this.props.value) return;
@@ -14,9 +14,9 @@ module.exports = Field.create({
 			value: newValue
 		});
 	},
-	
+
 	renderField () {
 		return <FormInput name={this.props.path} ref="focusTarget" value={this.props.value} onChange={this.valueChanged} autoComplete="off" />;
 	}
-	
+
 });

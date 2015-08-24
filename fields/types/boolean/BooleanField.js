@@ -28,9 +28,7 @@ module.exports = Field.create({
 	},
 
 	renderUI () {
-
 		var input;
-
 		if (this.shouldRenderField()) {
 			input = (
 				<Checkbox label={this.props.label} name={this.props.path} checked={this.props.value} onChange={this.valueChanged} />
@@ -45,7 +43,6 @@ module.exports = Field.create({
 				</div>
 			);
 		}
-
 		return (
 			<FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean">
 				{input}

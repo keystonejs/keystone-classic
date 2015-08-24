@@ -9,9 +9,7 @@ import { FormInput } from 'elemental';
  */
 
 module.exports = Field.create({
-	
 	displayName: 'EmailField',
-	
 	renderValue () {
 		return this.props.value ? (
 			<FormInput noedit href={'mailto:' + this.props.value}>{this.props.value}</FormInput>
@@ -19,5 +17,4 @@ module.exports = Field.create({
 			<FormInput noedit>(not set)</FormInput>
 		);
 	}
-	
 });

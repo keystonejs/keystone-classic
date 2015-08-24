@@ -129,7 +129,6 @@ module.exports = Field.create({
 			padding: 8,
 			height: this.props.height
 		};
-
 		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="md-editor__input code" />;
 	},
 

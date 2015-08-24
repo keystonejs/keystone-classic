@@ -50,7 +50,6 @@ module.exports = Field.create({
 				{preview}
 			</FormField>
 		);
-
 	},
 
 	renderUI () {
@@ -61,7 +60,6 @@ module.exports = Field.create({
 				</FormField>
 			);
 		}
-
 		return (
 			<div className="field-type-embedly">
 				<FormField key="provider" label={this.props.label}>
@@ -74,7 +72,6 @@ module.exports = Field.create({
 				{this.renderDimensions()}
 			</div>
 		);
-
 	}
 
 });
