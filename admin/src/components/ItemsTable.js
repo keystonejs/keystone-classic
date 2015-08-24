@@ -41,9 +41,10 @@ var ItemsTable = React.createClass({
 	},
 
 	renderRow (item) {
-		var cells = this.props.columns.map((col) => {
+		var cells = this.props.columns.map((col, i) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			return <ColumnType key={col.path} list={this.props.list} col={col} data={item} />;
+			var linkTo = !i ? `/keystone/${this.props.list.path}/${item.id}` : undefined;
+			return <ColumnType key={col.path} list={this.props.list} col={col} data={item} linkTo={linkTo} />;
 		});
 		// add sortable icon when applicable
 		if (this.props.list.sortable) {

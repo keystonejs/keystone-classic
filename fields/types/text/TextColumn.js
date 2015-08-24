@@ -8,28 +8,26 @@ var TextColumn = React.createClass({
 		href: React.PropTypes.string
 	},
 	renderValue: function() {
-		var value = this.props.data.fields[this.props.col.path];
-		var className = 'ItemList__col-value';
-		if (this.props.col.isName) className += ' ItemList__col-value--name';
-
-		if (this.props.col.isName) {
-			return (
-				<a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className={className}>
-					{value}
-				</a>
-			);
-		} else {
-			return (
-				<div className="ItemList__col-value">
-					{value}
-				</div>
-			);
-		}
+		return this.props.data.fields[this.props.col.path];
+	},
+	renderText () {
+		return (
+			<div className="ItemList__col-value">
+				{this.renderValue()}
+			</div>
+		);
+	},
+	renderLink () {
+		return (
+			<a href={this.props.linkTo} className="ItemList__col-value ItemList__col-value--name">
+				{this.renderValue()}
+			</a>
+		);
 	},
 	render: function() {
 		return (
 			<td>
-				{this.renderValue()}
+				{this.props.linkTo ? this.renderLink() : this.renderText()}
 			</td>
 		);
 	}
