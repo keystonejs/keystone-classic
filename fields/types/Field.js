@@ -28,6 +28,9 @@ var Base = module.exports.Base = {
 	},
 		
 	shouldCollapse: function() {
+		if(this.props.type == 'table'){
+			return this.props.collapse && (this.props.value.length==1 && Object.keys(this.props.value[0]).length==1);
+		}
 		return this.props.collapse && !this.props.value;
 	},
 	
