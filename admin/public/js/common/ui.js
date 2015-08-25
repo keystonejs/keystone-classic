@@ -58,7 +58,7 @@ jQuery(function($) {
 		}
 	});
 	
-	$('.items-list.sortable').on('ui.sorted', function() {
+	$('.ItemList.sortable').on('ui.sorted', function() {
 		var $this = $(this),
 			listPath = $this.data('listPath'),
 			order = _.pluck($this.find('tbody tr'), 'id');

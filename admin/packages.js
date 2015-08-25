@@ -5,6 +5,7 @@
 module.exports = [
 	'bytes',
 	'classnames',
+	'i',
 	'marked',
 	'moment',
 	'numeral',

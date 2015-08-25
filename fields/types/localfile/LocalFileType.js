@@ -291,7 +291,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	field.callHook('pre:move', [item, file], function(err) {
+	field.callHook('pre:move', item, file, function(err) {
 		if (err) return callback(err);
 		doMove(function(err, fileData) {
 			if (err) return callback(err);

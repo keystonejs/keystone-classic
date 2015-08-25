@@ -1,7 +1,13 @@
-var _ = require('underscore'),
-	React = require('react'),
-	Field = require('../Field'),
-	CodeMirror = require('codemirror');
+import _ from 'underscore';
+import CodeMirror from 'codemirror';
+import Field from '../Field';
+import React from 'react';
+import { FormInput } from 'elemental';
+
+/**
+ * TODO:
+ * - Remove dependency on underscore
+ */
 
 // See CodeMirror docs for API:
 // http://codemirror.net/doc/manual.html
@@ -10,13 +16,13 @@ module.exports = Field.create({
 	
 	displayName: 'CodeField',
 	
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			isFocused: false
 		};
 	},
 	
-	componentDidMount: function() {
+	componentDidMount () {
 		if (!this.refs.codemirror) {
 			return;
 		}
@@ -33,32 +39,32 @@ module.exports = Field.create({
 		this._currentCodemirrorValue = this.props.value;
 	},
 	
-	componentWillUnmount: function() {
+	componentWillUnmount () {
 		// todo: is there a lighter-weight way to remove the cm instance?
 		if (this.codeMirror) {
 			this.codeMirror.toTextArea();
 		}
 	},
 	
-	componentWillReceiveProps: function(nextProps) {
+	componentWillReceiveProps (nextProps) {
 		if (this.codeMirror && this._currentCodemirrorValue !== nextProps.value) {
 			this.codeMirror.setValue(nextProps.value);
 		}
 	},
 	
-	focus: function() {
+	focus () {
 		if (this.codeMirror) {
 			this.codeMirror.focus();
 		}
 	},
 	
-	focusChanged: function(focused) {
+	focusChanged (focused) {
 		this.setState({
 			isFocused: focused
 		});
 	},
 	
-	codemirrorValueChanged: function(doc, change) {//eslint-disable-line no-unused-vars
+	codemirrorValueChanged (doc, change) {//eslint-disable-line no-unused-vars
 		var newValue = doc.getValue();
 		this._currentCodemirrorValue = newValue;
 		this.props.onChange({
@@ -67,23 +73,23 @@ module.exports = Field.create({
 		});
 	},
 	
-	renderCodemirror: function() {
+	renderCodemirror () {
 		var className = 'CodeMirror-container';
 		if (this.state.isFocused && this.shouldRenderField()) {
 			className += ' is-focused';
 		}
 		return (
 			<div className={className}>
-				<textarea ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />
+				<FormInput multiline ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" />
 			</div>
 		);
 	},
 	
-	renderValue: function() {
+	renderValue () {
 		return this.renderCodemirror();
 	},
 	
-	renderField: function() {
+	renderField () {
 		return this.renderCodemirror();
 	}
 	

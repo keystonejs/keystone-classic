@@ -431,7 +431,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	this.callHook('pre:upload', [item, file], function(err) {
+	this.callHook('pre:upload', item, file, function(err) {
 		if (err) return callback(err);
 		doUpload();
 	});

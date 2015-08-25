@@ -11,7 +11,7 @@ var util = require('util');
 function date(list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
-	this._fixedSize = 'large';
+	this._fixedSize = 'medium';
 	this._properties = ['formatString', 'yearRange', 'isUTC'];
 	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');

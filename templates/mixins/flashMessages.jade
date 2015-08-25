@@ -1,6 +1,6 @@
 mixin flash-messages(messages)
 	if messages
-		#flash-messages
+		.flash-messages: .container
 			each message in messages.info
 				+flash-message(message, 'info')
 			each message in messages.success
@@ -11,7 +11,7 @@ mixin flash-messages(messages)
 				+flash-message(message, 'danger')
 				
 mixin flash-message(message, type)
-	div(class='alert alert-' + type)
+	div(class='Alert Alert--' + type)
 		if utils.isObject(message)
 			if message.title
 				h4= message.title

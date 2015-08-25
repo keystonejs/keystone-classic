@@ -1,29 +1,15 @@
-include ../mixins/flashMessages
-
 doctype html
 html
 	head
 		meta(charset="utf-8")
 		meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
 		title Sign into #{brand ? brand : 'Keystone'}
-		link(rel="stylesheet", href="/keystone/styles/auth.min.css")
+		link(rel="stylesheet", href="/keystone/styles/keystone.min.css")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 		block css
 			
-	body: .auth-wrapper
-		
-		+flash-messages(messages)
-		if !messages
-			.alert.alert-placeholder &nbsp;
-		.auth-body(class=messages && messages.error.length ? 'has-errors' : null)
-			block content
-		
-		block footer
-			.auth-footer
-				| Powered by 
-				a(href='http://keystonejs.com', target='_blank', title='The Node.js CMS and web application platform (new window)') KeystoneJS
-		
-		//- Page Scripts
+	body
+		block content
 		block js
 		
 		//- Google Analytics

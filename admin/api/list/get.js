@@ -1,15 +1,19 @@
 var async = require('async');
 
 module.exports = function(req, res) {
+	var where = {};
 	var filters = req.query.filters;
 	if (filters && typeof filters === 'string') {
 		try { filters = JSON.parse(req.query.filters); }
 		catch(e) { } // eslint-disable-line no-empty
 	}
 	if (typeof filters === 'object') {
-		filters = req.list.addFiltersToQuery(filters);
+		req.list.addFiltersToQuery(filters, where);
 	}
-	var query = req.list.model.find(filters);
+	if (req.query.search) {
+		req.list.addSearchToQuery(req.query.search, where);
+	}
+	var query = req.list.model.find(where);
 	async.series({
 		count: function(next) {
 			query.count(next);

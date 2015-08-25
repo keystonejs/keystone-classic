@@ -1,0 +1,64 @@
+// 
+// List Filters
+// ==============================
+
+
+
+
+// Base
+// ------------------------------
+
+.ListHeader {
+	padding-top: 40px;
+}
+
+
+
+
+// Search Form
+// ------------------------------
+
+.ListHeader__searchbar {}
+.ListHeader__searchbar-field {
+	position: relative;
+}
+/*button*/.ListHeader__searchbar-field__icon {
+	background: none;
+	border: none;
+	color: @gray-light;
+	font-weight: bold;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 2.2em;
+	z-index: 2; // above the form field on focus
+
+	// styles when search icon
+	&.is-search {
+		pointer-events: none;
+	}
+
+	// styles when clear icon
+	&.is-clear {
+		&:hover,
+		&:focus {
+			color: @app-danger;
+			outline: 0 none;
+			text-decoration: none;
+		}
+		&:active {
+			color: darken(@app-danger, 10%);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+

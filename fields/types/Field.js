@@ -1,8 +1,8 @@
-var _ = require('underscore');
-var cx = require('classnames');
-var evalDependsOn = require('../utils/evalDependsOn.js');
-var React = require('react');
-var Note = require('../components/Note');
+import _ from 'underscore';
+import classnames from 'classnames';
+import evalDependsOn from '../utils/evalDependsOn.js';
+import React from 'react';
+import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 function validateSpec(spec) {
 	if (!_.isObject(spec.supports)) {
@@ -15,135 +15,148 @@ function validateSpec(spec) {
 }
 
 var Base = module.exports.Base = {
-	
-	getInitialState: function() {
+
+	getInitialState () {
 		return {};
 	},
-	
-	valueChanged: function(event) {
+
+	getDefaultProps () {
+		return {
+			inputProps: {},
+			labelProps: {},
+			valueProps: {},
+			size: 'full'
+		};
+	},
+
+	valueChanged (event) {
 		this.props.onChange({
 			path: this.props.path,
 			value: event.target.value
 		});
 	},
-		
-	shouldCollapse: function() {
+
+	shouldCollapse () {
 		return this.props.collapse && !this.props.value;
 	},
-	
-	shouldRenderField: function() {
+
+	shouldRenderField () {
 		if (!this.props.noedit) return true;
 		if (this.props.mode === 'create' && this.props.initial) return true;
 		return false;
 	},
-	
-	focus: function() {
+
+	focus () {
 		if (!this.refs[this.spec.focusTargetRef]) return;
 		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
 	},
-	
-	renderLabel: function() {
-		if (!this.props.label) return null;
-		return <label className="field-label">{this.props.label}</label>;
-	},
-	
-	renderNote: function() {
+
+	renderNote () {
 		if (!this.props.note) return null;
-		return <Note note={this.props.note} />;
+		return <FormNote note={this.props.note} />;
 	},
-	
-	renderField: function() {
-		return <input type="text" ref="focusTarget" name={this.props.path} placeholder={this.props.placeholder} value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="form-control" />;
+
+	wrapField () {
+		return this.renderField();
 	},
-	
-	renderValue: function() {
-		return <div className="field-value">{this.props.value}</div>;
+
+	renderField () {
+		var props = _.extend(this.props.inputProps, {
+			autoComplete: 'off',
+			name: this.props.path,
+			onChange: this.valueChanged,
+			ref: 'focusTarget',
+			value: this.props.value
+		});
+		return <FormInput {...props} />;
 	},
-	
-	renderUI: function(spec) {//eslint-disable-line no-unused-vars
-		var wrapperClassName = cx('field', 'field-type-' + this.props.type, this.props.className, { 'field-has-label': this.props.label });
-		var fieldClassName = cx('field-ui', 'field-size-' + this.props.size);
-		return (
-			<div className={wrapperClassName}>
-				{this.renderLabel()}
-				<div className={fieldClassName}>
-					{this.shouldRenderField() ? this.renderField() : this.renderValue()}
-					{this.renderNote()}
-				</div>
-			</div>
+
+	wrapValue () {
+		return this.renderValue();
+	},
+
+	renderValue () {
+		return <FormInput noedit>{this.props.value}</FormInput>;
+	},
+
+	renderUI () {
+		var wrapperClassName = classnames(
+			('field-type-' + this.props.type),
+			this.props.className
 		);
-		
+
+		return (
+			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
+				<div className={'FormField__inner field-size-' + this.props.size}>
+					{this.shouldRenderField() ? this.wrapField() : this.wrapValue()}
+				</div>
+				{this.renderNote()}
+			</FormField>
+		);
+
 	}
-	
+
 };
 
 var Mixins = module.exports.Mixins = {
-	
+
 	Collapse: {
-		
-		componentWillMount: function() {
+
+		componentWillMount () {
 			this.setState({
 				isCollapsed: this.shouldCollapse()
 			});
 		},
-		
-		componentDidUpdate: function(prevProps, prevState) {
+
+		componentDidUpdate (prevProps, prevState) {
 			if (prevState.isCollapsed && !this.state.isCollapsed) {
 				this.focus();
 			}
 		},
-		
-		uncollapse: function() {
+
+		uncollapse () {
 			this.setState({
 				isCollapsed: false
 			});
 		},
-		
-		renderCollapse: function() {
-			if (!this.shouldRenderField()) {
-				return null;
-			}
-			/* eslint-disable no-script-url */
+
+		renderCollapse () {
+			if (!this.shouldRenderField()) return null;
 			return (
-				<div className={'field field-type-' + this.props.type}>
-					<div className="col-sm-12">
-						<label className="uncollapse">
-							<a href="javascript:;" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</a>
-						</label>
-					</div>
-				</div>
+				<FormField>
+					<Button type="link" className="collapsed-field-label" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
+				</FormField>
 			);
-			/* eslint-enable */
 		}
 	}
 };
 
 module.exports.create = function(spec) {
-	
+
 	spec = validateSpec(spec || {});
-	
+
 	var excludeBaseMethods = [];
-	
+
 	var field = {
-		
+
 		spec: spec,
-		
+
 		displayName: spec.displayName,
-		
+
 		mixins: [Mixins.Collapse],
-		
-		render: function() {
+
+		render () {
 			if (!evalDependsOn(this.props.dependsOn, this.props.values)) {
 				return null;
 			}
 			if (this.state.isCollapsed) {
 				return this.renderCollapse();
 			}
-			return this.renderUI(spec);
+			return this.renderUI();
 		}
-		
+
 	};
-	
+
 	if (spec.mixins) {
 		_.each(spec.mixins, function(mixin) {
 			_.each(mixin, function(method, name) {
@@ -151,14 +164,14 @@ module.exports.create = function(spec) {
 			});
 		});
 	}
-	
+
 	_.extend(field, _.omit(Base, excludeBaseMethods));
 	_.extend(field, _.omit(spec, 'mixins'));
-	
+
 	if (_.isArray(spec.mixins)) {
 		field.mixins = field.mixins.concat(spec.mixins);
 	}
-	
+
 	return React.createClass(field);
-	
+
 };

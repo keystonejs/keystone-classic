@@ -20,6 +20,7 @@ function cloudinaryimage(list, path, options) {
 
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
+	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;

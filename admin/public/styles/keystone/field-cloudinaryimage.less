@@ -12,6 +12,13 @@
 	position: absolute;
 	left: -9999px;
 }
+.field-type-cloudinaryimage {
+
+	// give values some breathing room
+	.FormInput-noedit {
+		margin-bottom: 10px;
+	}
+}
 
 
 
@@ -25,6 +32,7 @@
 		line-height: 0px;
 		float: left;
 		margin-right: 10px;
+		
 		.placeholder-wrap {
 			position: relative;
 			height: 100px;
@@ -66,15 +74,7 @@
 	
 	.image-details {
 		overflow: hidden;
-		.image-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
+
 		.image-message {
 			margin-left: 0px;
 			font-size: 12px;
@@ -82,11 +82,16 @@
 			text-align: center;
 			width: 100%;
 		}
+		
+		& + .image-toolbar {
+			margin-top: @input-vspacing;
+		}
 	}
 	
-	.image-details + .image-toolbar {
-		margin-top: @input-vspacing;
+	.image-toolbar {
+		&:extend(.u-clearfix all);
 	}
+	
 
 	.image-select {
 		clear: both; 
@@ -110,6 +115,7 @@
 // ------------------------------
 
 .field-type-cloudinaryimages {
+
 	.image-field {
 		width: auto;
 		float: left;
@@ -159,17 +165,18 @@
 				}
 			}
 		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			color: #6A6A6A;
-			font-size: 23px;
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
+		.img-loading,
+		.img-uploading,
+		.upload-pending,
+		.delete-pending {
 			bottom: 0;
+			color: rgba(0, 0, 0, 0.66);
+			left: 0;
 			line-height: 100px;
+			position: absolute;
+			right: 0;
 			text-align: center;
-			text-shadow: 0 0 50px #FFFFFF;
+			top: 0;
 		}
 		.image-message {
 			margin-left: 0px;
@@ -197,7 +204,7 @@
 			padding: @padding-base-vertical @padding-base-horizontal;
 			margin-bottom: 0;
 			font-size: 12px;
-			font-weight: @btn-font-weight;
+			font-weight: 500;
 			line-height: @line-height-base;
 			text-align: center;
 			vertical-align: middle;
@@ -206,12 +213,6 @@
 			font-size: 12px;
 			width: 100%;
 		}
-	}
-	.field-value {
-		width: auto;
-		float: left;
-		margin-right: 10px;
-		margin-bottom: 15px;
 	}
 	.upload-queued,
 	.delete-queued {
@@ -224,14 +225,10 @@
 		text-align: center;
 		width: 100%;
 	}
+	
+	.images-container,
 	.images-toolbar {
-		margin-top: 0;
-		.alert {
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-			margin-bottom: 0px;
-		}
+		&:extend(.u-clearfix all);
 	}
 	.sortable-placeholder {
 		border: 1px dashed #777;
