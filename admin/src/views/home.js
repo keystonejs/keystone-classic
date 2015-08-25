@@ -1,5 +1,17 @@
 var React = require('react');
 
+const ICON_TAGS_BOOK = ['books', 'posts', 'blog-posts', 'stories', 'news-stories'];
+const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
+const ICON_TAGS_CALENDAR = ['events', 'dates'];
+const ICON_TAGS_CLOCK = ['classes', 'hours', 'times'];
+const ICON_TAGS_FILE_MEDIA = ['images', 'photos', 'pictures'];
+const ICON_TAGS_FILE_TEXT = ['attachments', 'docs', 'documents', 'files'];
+const ICON_TAGS_LOCATION = ['locations', 'markers', 'places'];
+const ICON_TAGS_MEGAPHONE = ['broadcasts', 'jobs', 'talks'];
+const ICON_TAGS_ORGANIZATION = ['contacts', 'customers', 'groups', 'members', 'people', 'speakers', 'teams', 'users'];
+const ICON_TAGS_PACKAGE = ['boxes', 'items', 'packages', 'parcels'];
+const ICON_TAGS_TAG = ['tags'];
+
 var View = React.createClass({
 
 	displayName: 'HomeView',
@@ -19,16 +31,20 @@ var View = React.createClass({
 		return (
 			<div>
 				{Keystone.nav.sections.map((navSection) => {
-					var headingIconClass = 'dashboard-group__heading-icon octicon ';
+					var headingIconClass = 'dashboard-group__heading-icon octicon octicon-';
 
-					if (navSection.key === 'events') { headingIconClass += ' octicon-calendar'; }
-					else if (navSection.key === 'people') { headingIconClass += ' octicon-organization'; }
-					else if (navSection.key === 'listings') { headingIconClass += ' octicon-briefcase'; }
-					else if (navSection.key === 'places') { headingIconClass += ' octicon-location'; }
-					else if (navSection.key === 'posts') { headingIconClass += ' octicon-book'; }
-					else if (navSection.key === 'jobs') { headingIconClass += ' octicon-megaphone'; }
-					else if (navSection.key === 'forums') { headingIconClass += ' octicon-podium'; }
-					else { headingIconClass += ' octicon-primitive-dot'; }
+					if (ICON_TAGS_BRIEFCASE.indexOf(navSection.key) !== -1) { headingIconClass += 'briefcase'; }
+					else if (ICON_TAGS_BOOK.indexOf(navSection.key) !== -1) { headingIconClass += 'book'; }
+					else if (ICON_TAGS_CALENDAR.indexOf(navSection.key) !== -1) { headingIconClass += 'calendar'; }
+					else if (ICON_TAGS_CLOCK.indexOf(navSection.key) !== -1) { headingIconClass += 'clock'; }
+					else if (ICON_TAGS_FILE_MEDIA.indexOf(navSection.key) !== -1) { headingIconClass += 'file-media'; }
+					else if (ICON_TAGS_FILE_TEXT.indexOf(navSection.key) !== -1) { headingIconClass += 'file-text'; }
+					else if (ICON_TAGS_LOCATION.indexOf(navSection.key) !== -1) { headingIconClass += 'location'; }
+					else if (ICON_TAGS_MEGAPHONE.indexOf(navSection.key) !== -1) { headingIconClass += 'megaphone'; }
+					else if (ICON_TAGS_ORGANIZATION.indexOf(navSection.key) !== -1) { headingIconClass += 'organization'; }
+					else if (ICON_TAGS_PACKAGE.indexOf(navSection.key) !== -1) { headingIconClass += 'package'; }
+					else if (ICON_TAGS_TAG.indexOf(navSection.key) !== -1) { headingIconClass += 'tag'; }
+					else { headingIconClass += 'primitive-dot'; }
 
 					return (
 						<div className="dashboard-group" key={navSection.key}>
