@@ -2,6 +2,17 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.14 / 2015-08-25
+
+* improved; internal cleanup and refactoring
+* added; new API routes for future use by the Admin UI, including signin and signout
+* added; support for selecting arbitrary document paths in `List.getData`
+* added; new search query generation functionality for `List` and `Field` classes
+* fixed; vertical alignment of Format menu icons in the WYSIWYG editor, thanks [Jeffrey](https://github.com/jeffreypriebe)
+* fixed; validation issues with the `GeoLocation` field type, thanks [Vintesh](https://github.com/vintesh)
+* fixed; use of 'select' and 'selectPrefix' options in CloudinaryImage type, thanks [azterix](https://github.com/azterix)
+* updated; grappling-hook @ v3.0.0, thanks [Camille Reynders](https://github.com/creynders)
+
 ## v0.3.13 / 2015-08-03
 
 * improved; major speed increase for initialisation
