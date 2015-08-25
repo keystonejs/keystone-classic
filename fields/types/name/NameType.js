@@ -8,7 +8,8 @@ var util = require('util');
  * @api public
  */
 function name(list, path, options) {
-	this._fixedSize = 'large';
+	this._fixedSize = 'full';
+	options.default = { first: '', last: '' };
 	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	name.super_.call(this, list, path, options);
 }

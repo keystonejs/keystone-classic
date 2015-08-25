@@ -268,7 +268,7 @@ jQuery(function($) {
 	});
 	
 	/** List Controls */
-	$('table.items-list tbody').on('mouseenter mouseleave', 'tr a.control-delete', function(e) {
+	$('table.ItemList tbody').on('mouseenter mouseleave', 'tr a.control-delete', function(e) {
 		if (e.type == 'mouseenter') {// eslint-disable-line eqeqeq
 			$(this).closest('tr').addClass('delete-hover');
 		} else {
@@ -313,7 +313,7 @@ jQuery(function($) {
 					$('.search-sort').remove();
 					$('form#list-filters').remove();
 					$('.list-pagination').remove();
-					$('.items-list-wrapper').remove();
+					$('.ItemList-wrapper').remove();
 					return;
 				}
 

@@ -15,7 +15,7 @@ var util = require('util'),
 function datearray(list, path, options) {
 	
 	this._nativeType = [Date];
-	this._fixedSize = 'large';
+	this._defaultSize = 'medium';
 	this._underscoreMethods = ['format'];
 	this._properties = ['formatString'];
 

@@ -20,63 +20,50 @@ html
 		block head
 
 	body(id='page-' + page)
-		#wrap
-			nav(role='navigation')#header.navbar.navbar-default.navbar-static-top: .container
-				a(href=backUrl).navbar-backtobrand-trigger.hidden-xs: span.ion-arrow-left-c
-				.navbar-backtobrand-message Back to the #{brand} website
-				.navbar-header
-					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-headernav-collapse')
-						span.sr-only Toggle section navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-					a(href='/keystone', class=(section == 'home' ? 'active' : null)).navbar-brand= brand
-				.collapse.navbar-collapse.navbar-headernav-collapse
-					if signout
-						ul.nav.navbar-nav.navbar-right
-							li.divider
-							li: a(href=signout).signout Sign Out
-					ul.nav.navbar-nav
-						each navSection in nav.sections
-							if navSection.lists[0].external
-								- path = navSection.lists[0].path
-							else
-								- path = '/keystone/' + navSection.lists[0].path
-
-							li(class=section.key == navSection.key ? 'active' : null): a(href=path)= navSection.label
-			if section.lists && section.lists.length > 1
-				nav(role='navigation')#section-nav.navbar.navbar-default.navbar-static-top: .container
-					.navbar-header
-						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-sectionnav-collapse')
-							span.sr-only Toggle list navigation
-							span.icon-bar
-							span.icon-bar
-							span.icon-bar
-						.navbar-brand.visible-xs
-							=section.label
-							if section.label != list.label
-								| : #{list.label}
-					.collapse.navbar-collapse.navbar-sectionnav-collapse
-						ul.nav.navbar-nav
-							each navList in section.lists
-								if navList.external
-									- path = navList.path
+		.keystone-wrapper
+			header.keystone-navigation
+				nav.primary-navbar
+					.container
+						ul.app-nav.app-nav--primary.app-nav--left
+							li(class=!section.key ? 'active' : null)
+								a(href='/keystone' title='Dashboard - ' + brand tabIndex="-1")
+									span.octicon.octicon-home
+							each navSection in nav.sections
+								if navSection.lists[0].external
+									- path = navSection.lists[0].path
 								else
-									- path = '/keystone/' + navList.path
-									
-								li(class=navList.key == list.key ? 'active' : null): a(href=path)= navList.label
-			#body: .container
-				block intro
+									- path = '/keystone/' + navSection.lists[0].path
+
+								li(class=section.key == navSection.key ? 'active' : null)
+									a(href=path tabIndex="-1")= navSection.label
+						if signout
+							ul.app-nav.app-nav--primary.app-nav--right
+								li
+									a(href=signout title="Sign Out" tabIndex="-1").signout
+										span.octicon.octicon-sign-out
+				if section.lists && section.lists.length > 1
+					nav.secondary-navbar
+						.container
+							ul.app-nav.app-nav--secondary.app-nav--left
+								each navList in section.lists
+									if navList.external
+										- path = navList.path
+									else
+										- path = '/keystone/' + navList.path
+										
+									li(class=navList.key == list.key ? 'active' : null): a(href=path tabIndex="-1")= navList.label
+			.keystone-body
 				+flash-messages(messages)
 				block content
 
-		#footer: .container
-			p 	#{brand} #{appversion} 
-				| Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
-				if User && user
-					|  Signed in as 
-					a(href='/keystone/' + User.path + '/' + user.id)= User.getDocumentName(user)
-					| .
+			footer.keystone-footer
+				.container
+					a(href=backUrl tabIndex="-1").keystone-footer__link #{brand + (appversion ? (' ' + appversion) : '')}
+					|  Powered by <a href="http://keystonejs.com" target="_blank" class="keystone-footer__link" tabIndex="-1">KeystoneJS</a> version #{version}.
+					if User && user
+						|  Signed in as 
+						a(href='/keystone/' + User.path + '/' + user.id tabIndex="-1").keystone-footer__link= User.getDocumentName(user)
+						| .
 
 		//- Common
 		script(src="/keystone/js/lib/underscore/underscore-1.5.1.min.js")

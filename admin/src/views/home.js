@@ -1,10 +1,10 @@
 var React = require('react');
 
 var View = React.createClass({
-	
+
 	displayName: 'HomeView',
-	
-	renderFlatNav: function() {
+
+	renderFlatNav () {
 		return Keystone.lists.map((list) => {
 			var href = list.external ? list.path : '/keystone/' + list.path;
 			return (
@@ -15,18 +15,37 @@ var View = React.createClass({
 		});
 	},
 
-	renderGroupedNav: function() {
+	renderGroupedNav () {
 		return (
 			<div>
 				{Keystone.nav.sections.map((navSection) => {
+					var headingIconClass = 'dashboard-group__heading-icon octicon ';
+
+					if (navSection.key === 'events') { headingIconClass += ' octicon-calendar'; }
+					else if (navSection.key === 'people') { headingIconClass += ' octicon-organization'; }
+					else if (navSection.key === 'listings') { headingIconClass += ' octicon-briefcase'; }
+					else if (navSection.key === 'places') { headingIconClass += ' octicon-location'; }
+					else if (navSection.key === 'posts') { headingIconClass += ' octicon-book'; }
+					else if (navSection.key === 'jobs') { headingIconClass += ' octicon-megaphone'; }
+					else if (navSection.key === 'forums') { headingIconClass += ' octicon-podium'; }
+					else { headingIconClass += ' octicon-primitive-dot'; }
+
 					return (
-						<div className="nav-section" key={navSection.key}>
-							<h4>{navSection.label}</h4>
-							<ul>
+						<div className="dashboard-group" key={navSection.key}>
+							<div className="dashboard-group__heading">
+								<span className={headingIconClass} />
+								{navSection.label}
+							</div>
+							<ul className="dashboard-group__list">
 								{navSection.lists.map((list) => {
 									var href = list.external ? list.path : '/keystone/' + list.path;
 									return (
-										<li key={list.path}><a href={href}>{list.label}</a></li>
+										<li key={list.path}>
+											<a href={href}>
+												<div className="dashboard-group__list-label">{list.label}</div>
+												<div>4 Items</div>
+											</a>
+										</li>
 									);
 								})}
 							</ul>
@@ -36,13 +55,19 @@ var View = React.createClass({
 				{() => {
 					if (!Keystone.orphanedLists.length) return;
 					return (
-						<div className="nav-section">
-							<h4>Other</h4>
-							<ul>
+						<div className="dashboard-group">
+							<div className="dashboard-group__heading">
+								<span className="dashboard-group__heading-icon  octicon octicon-database" />
+								Other
+							</div>
+							<ul className="dashboard-group__list">
 								{Keystone.orphanedLists.map((list) => {
 									return (
 										<li key={list.path}>
-											<a href={'/keystone/' + list.path}>{list.label}</a>
+											<a href={'/keystone/' + list.path}>
+												<div className="dashboard-group__list-label">{list.label}</div>
+												<div>4 Items</div>
+											</a>
 										</li>
 									);
 								})}
@@ -54,15 +79,17 @@ var View = React.createClass({
 		);
 	},
 
-	render: function() {
+	render () {
 		return (
-			<div>
-				<div className="page-header"><h1>Manage</h1></div>
-				<div className="keystone-lists">{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}</div>
+			<div className="container">
+				<div className="page-header"><h1>{Keystone.brand}</h1></div>
+				<div className="dashboard-groups">
+					{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}
+				</div>
 			</div>
 		);
 	}
-	
+
 });
 
 React.render(<View />, document.getElementById('home-view'));

@@ -9,49 +9,11 @@
 // Variables
 // ------------------------------
 
-// needed so the included bootstrap components don't break
-@import "bootstrap/variables.less";
-
-// reset variables here
-@brand-primary:         #348dd9;
-@body-bg:               #fafafa;
 @gutter-width:          30px;
-
-
-
-// Imports
-// ------------------------------
-@import "bootstrap/mixins.less";
-@import "bootstrap/normalize.less";
-@import "bootstrap/scaffolding.less";
-@import "bootstrap/alerts.less";
-@import "bootstrap/forms.less";
-@import "bootstrap/buttons.less";
-
-
-
-
-// Type
-// ------------------------------
-h1,h2,h3 {
-	margin-top: 0;
-}
-
-.lead {
-	font-size: 120%;
-}
-
 
 // Layout
 // ------------------------------
-html {
-	height: 100%;
-	overflow-y: auto;
-}
-body {
-	background-color: @body-bg;
-	height: 100%;
-}
+
 .auth-wrapper {
 	margin: 0 auto;
 	max-width: 600px;
@@ -67,9 +29,15 @@ body {
 	@media (max-width: @screen-xs-max) {
 		padding-bottom: @gutter-width;
 		
-		.alert-placeholder {
+		.Alert--placeholder {
 			display: none;
 		}
+	}
+
+	// TEMP fix
+	> .flash-messages > .container {
+		padding-left: 0;
+		padding-right: 0;
 	}
 }
 
@@ -78,10 +46,10 @@ body {
 
 // Body
 // ------------------------------
-.auth-body {
+.auth-box {
 	.box-shadow( 0 2px 1px darken(@body-bg, 3.5%) );
 	background-color: white;
-	border-radius: @border-radius-small;
+	border-radius: @border-radius-base;
 	border: 1px solid darken(@body-bg, 6.5%);
 	border-bottom-color: darken(@body-bg, 11.5%);
 	margin-bottom: 2em;
@@ -89,7 +57,7 @@ body {
 }
 
 // shake when there's errors
-.auth-body.has-errors {
+.auth-box--has-errors {
 	animation: shake 0.5s 0.25s 1;
 	-webkit-animation: shake 0.5s 0.25s 1;
 }
@@ -104,7 +72,7 @@ body {
 	font-size: .85em;
 	text-align: center;
 	
-	a {
+	> a {
 		color: darken(@gray-light, 15%);
 		
 		&:hover {
@@ -116,31 +84,17 @@ body {
 
 
 
-// Buttons
-// ------------------------------
-
-.btn-primary {
-	#gradient .vertical(lighten(@link-color, 4%), darken(@link-color, 4%));
-	// border: 0 none;
-}
-
-
-
-
 // Signin Form
 // ------------------------------
 
-.auth-box {
+.auth-box__inner {
 	.make-row(@gutter-width);
 }
-.auth-box-col {
+.auth-box__col {
 	.make-sm-column(6,@gutter-width);
 }
-.auth-box-brand {
-	font-weight: 500;
-	font-size: 1.25em;
+.auth-box__brand {
 	line-height: 1;
-	margin: 0;
 	text-align: center;
 	
 	img { max-width: 100%; }
@@ -158,13 +112,13 @@ body {
 		padding-bottom: @gutter-width;
 	}
 }
-.auth-box-logo {
+.auth-box__brand__logo {
 	display: inline;
 }
 
 // fields
 .form-control {
-	border-top-color: darken(@input-border, 13.5%);
+	border-top-color: darken(@input-border-color, 13.5%);
 	-webkit-appearance: none;
 	
 	&:focus {
@@ -175,18 +129,9 @@ body {
 	}
 }
 
-// toolbar
-.toolbar {
-	margin-top: 20px;
-}
-
 // alerts
-.alert {
-	padding: 10px;
-	text-align: center;
-	
-	animation: apparate .4s;
-	-webkit-animation: apparate .4s;
+.Alert {
+	.animation( fadeIn .4s );
 }
 
 
@@ -205,15 +150,6 @@ body {
 	0%, 100% { -webkit-transform: translateX(0); }
 	20%, 60% { -webkit-transform: translateX(-10px); }
 	40%, 80% { -webkit-transform: translateX(10px); }
-}
-
-@keyframes apparate {
-	0% { opacity: 0; }
-	100% { opacity: 1; }
-}
-@-webkit-keyframes apparate {
-	0% { opacity: 0; }
-	100% { opacity: 1; }
 }
 
 
