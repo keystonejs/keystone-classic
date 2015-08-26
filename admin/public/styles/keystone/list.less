@@ -96,7 +96,7 @@
 	position: relative; // 1
 	font-family: @font-family-monospace;
 	font-size: 0.91em;
-	
+
 	.ItemList__control-col + td > & {
 		margin-left: 0 !important; // 2
 	}
@@ -111,6 +111,26 @@
 
 	.ItemList__control-col + td > & {
 		margin-left: 0 !important; // 2
+	}
+}
+
+
+// Boolean Field
+
+.ItemList__boolean-check {
+	background: white;
+	display: inline-block;
+	border-radius: 3px;
+	border: 1px solid fade(@input-border-color, 50%);
+	width: 20px;
+	height: 20px;
+	text-align: center;
+
+	.octicon-x {
+		color: @input-border-color;
+	}
+	.octicon-check {
+		color: @input-border-color-focus;
 	}
 }
 
