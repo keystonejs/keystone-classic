@@ -24,6 +24,7 @@ var Columns = {
 	number: require('../../fields/types/number/NumberColumn'),
 	numberarray: require('../../fields/types/numberarray/NumberArrayColumn'),
 	password: require('../../fields/types/password/PasswordColumn'),
+	relationship: require('../../fields/types/relationship/RelationshipColumn'),
 	s3file: require('../../fields/types/s3file/S3FileColumn'),
 	select: require('../../fields/types/select/SelectColumn'),
 	text: require('../../fields/types/text/TextColumn'),
