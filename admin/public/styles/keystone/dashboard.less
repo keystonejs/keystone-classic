@@ -1,4 +1,4 @@
-// 
+//
 // Dashboard
 // ==============================
 
@@ -45,25 +45,28 @@
 	list-style: none;
 	margin: 0 -10px -10px 20px;
 	padding: 0;
-	
+
 	> li {
 		float: left;
 		padding: 0 10px 20px;
 		width: 100%;
 	}
-	
+
 	> li > a {
-		.transition( all 140ms linear );
+		// .transition( all 140ms linear );
 		background-color: @dashboard-list-bg;
 		border-radius: @border-radius-base;
+		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px rgba(0,0,0,0.1);
 		color: @gray-light;
 		display: block;
 		height: 80px;
 		padding: 10px 15px;
+		position: relative;
 
 		&:hover,
 		&:focus {
-			background-color: darken(@dashboard-list-bg, 2%);
+			box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px fade(@link-color, 50%);
+			outline: none;
 			text-decoration: none;
 
 			.dashboard-group__list-label {
@@ -72,7 +75,8 @@
 		}
 
 		&:active {
-			background-color: darken(@dashboard-list-bg, 4%);
+			box-shadow: 0 0 0 1px fade(@link-color, 50%);
+			top: 1px;
 		}
 	}
 
@@ -82,6 +86,7 @@
 }
 
 .dashboard-group__list-label {
+	.u-text-truncate();
 	color: @link-color;
 	font-size: 1.25em;
 	font-weight: 500;
