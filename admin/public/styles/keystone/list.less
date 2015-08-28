@@ -118,18 +118,18 @@
 // Boolean Field
 
 .ItemList__boolean-check {
+	.align-items(center);
+	.display-flex();
+	.justify-content(center);
 	background: white;
-	display: inline-block;
+	color: @input-border-color;
 	border-radius: 3px;
 	border: 1px solid fade(@input-border-color, 50%);
 	width: 20px;
 	height: 20px;
 	text-align: center;
 
-	.octicon-x {
-		color: @input-border-color;
-	}
-	.octicon-check {
+	&.is-checked {
 		color: @input-border-color-focus;
 	}
 }

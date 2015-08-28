@@ -1,14 +1,16 @@
 var React = require('react');
+var classnames = require('classnames');
 
 var BooleanColumn = React.createClass({
 	render: function() {
 		var value = this.props.data.fields[this.props.col.path];
-		var iconClassName = 'octicon ' + (value ? 'octicon-check' : 'octicon-x');
+		var iconClassName = classnames('ItemList__boolean-check octicon', {
+			'is-checked octicon-check': value,
+			'octicon-x': !value
+		});
 		return (
 			<td>
-				<span className="ItemList__boolean-check">
-					<span className={iconClassName} />
-				</span>
+				<span className={iconClassName} />
 			</td>
 		);
 	}
