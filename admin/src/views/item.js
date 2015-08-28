@@ -5,7 +5,7 @@ var CreateForm = require('../components/CreateForm');
 var EditForm = require('../components/EditForm');
 var EditFormHeader = require('../components/EditFormHeader');
 
-var Spinner = require('elemental').Spinner;
+var { Spinner } = require('elemental');
 
 var View = React.createClass({
 
@@ -50,7 +50,7 @@ var View = React.createClass({
 	},
 
 	render () {
-		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner /></div>;
+		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
 		return (
 			<div>
 				<EditFormHeader list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
