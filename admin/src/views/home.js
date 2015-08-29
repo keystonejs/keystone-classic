@@ -82,7 +82,7 @@ var View = React.createClass({
 										<li key={list.path}>
 											<a href={'/keystone/' + list.path}>
 												<div className="dashboard-group__list-label">{list.label}</div>
-												<div>4 Items</div>
+												{/*<div>4 Items</div>*/}
 											</a>
 										</li>
 									);
