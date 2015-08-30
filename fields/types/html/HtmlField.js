@@ -108,7 +108,7 @@ module.exports = Field.create({
 			toolbar += ' | image';
 		}
 
-		if (options.enableCloudinaryUploads) {
+		if (options.enableCloudinaryUploads || options.enableS3Uploads) {
 			plugins.push('uploadimage');
 			toolbar += options.enableImages ? ' uploadimage' : ' | uploadimage';
 		}
@@ -149,7 +149,7 @@ module.exports = Field.create({
 		};
 
 		if (this.shouldRenderField()) {
-			opts.uploadimage_form_url = '/keystone/api/cloudinary/upload';
+			opts.uploadimage_form_url = options.enableS3Uploads ? '/keystone/api/s3/upload' : '/keystone/api/cloudinary/upload';
 		} else {
 			_.extend(opts, {
 				mode: 'textareas',

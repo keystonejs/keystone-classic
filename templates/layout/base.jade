@@ -5,6 +5,7 @@ html
 	head
 		meta(charset="utf-8")
 		meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
+		meta(name="csrf-token", content="#{csrf_token_value}")
 
 		title= title
 
@@ -50,7 +51,7 @@ html
 										- path = navList.path
 									else
 										- path = '/keystone/' + navList.path
-										
+
 									li(class=navList.key == list.key ? 'active' : null): a(href=path tabIndex="-1")= navList.label
 			.keystone-body
 				+flash-messages(messages)
@@ -61,7 +62,7 @@ html
 					a(href=backUrl tabIndex="-1").keystone-footer__link #{brand + (appversion ? (' ' + appversion) : '')}
 					|  Powered by <a href="http://keystonejs.com" target="_blank" class="keystone-footer__link" tabIndex="-1">KeystoneJS</a> version #{version}.
 					if User && user
-						|  Signed in as 
+						|  Signed in as
 						a(href='/keystone/' + User.path + '/' + user.id tabIndex="-1").keystone-footer__link= User.getDocumentName(user)
 						| .
 
@@ -115,7 +116,7 @@ html
 		script(src="/keystone/js/common/ui.js")
 		script(src="/keystone/js/common/ui-alt-text.js")
 		script(src="/keystone/js/common/ui-sortable.js")
-		
+
 		//- Page Scripts
 		block js
 
