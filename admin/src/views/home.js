@@ -1,6 +1,6 @@
 var React = require('react');
 
-const ICON_TAGS_BOOK = ['books', 'posts', 'blog-posts', 'stories', 'news-stories'];
+const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'];
 const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
 const ICON_TAGS_CALENDAR = ['events', 'dates'];
 const ICON_TAGS_CLOCK = ['classes', 'hours', 'times'];
