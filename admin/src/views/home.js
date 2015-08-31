@@ -26,7 +26,7 @@ var View = React.createClass({
 	getInitialState () {
 		return {
 			counts: {}
-		}
+		};
 	},
 
 	componentDidMount () {
