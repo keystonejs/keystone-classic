@@ -42,7 +42,7 @@ var ItemsTable = React.createClass({
 	},
 
 	deleteItem (item, e) {
-		if (!confirm('Are you sure you want to delete ' + item.name + '?')) return;
+		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
 		CurrentListStore.deleteItem(item);
 	},
 
