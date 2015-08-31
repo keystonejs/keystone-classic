@@ -1,7 +1,8 @@
-const React = require('react');
 const blacklist = require('blacklist');
 const Columns = require('../columns');
+const CurrentListStore = require('../stores/CurrentListStore');
 const ListControl = require('./ListControl');
+const React = require('react');
 const { Alert } = require('elemental');
 
 const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
@@ -40,6 +41,11 @@ var ItemsTable = React.createClass({
 		return <thead><tr>{cells}</tr></thead>;
 	},
 
+	deleteItem (item, e) {
+		if (!confirm('Are you sure you want to delete ' + item.name + '?')) return;
+		CurrentListStore.deleteItem(item);
+	},
+
 	renderRow (item) {
 		var cells = this.props.columns.map((col, i) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
@@ -52,7 +58,7 @@ var ItemsTable = React.createClass({
 		}
 		// add delete icon when applicable
 		if (!this.props.list.nodelete) {
-			cells.unshift(<ListControl key="_delete" onClick={this.removeItem} type="delete" />);
+			cells.unshift(<ListControl key="_delete" onClick={(e) => this.deleteItem(item, e)} type="delete" />);
 		}
 		return <tr key={'i' + item.id}>{cells}</tr>;
 	},

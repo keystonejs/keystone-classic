@@ -164,6 +164,22 @@ var CurrentListStore = new Store({
 	},
 	getItems () {
 		return _items;
+	},
+	deleteItem (item) {
+		var url = '/keystone/api/' + _list.path + '/' + item.id + '/delete';
+		xhr({
+			url: url,
+			method: 'POST',
+			headers: Keystone.csrf.header
+		}, (err, resp, body) => {
+			try {
+				body = JSON.parse(body);
+			} catch(e) {
+				console.log('Error parsing results json:', e, body);
+				return;
+			}
+			this.loadItems();
+		});
 	}
 });
 
