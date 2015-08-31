@@ -1,4 +1,6 @@
 var React = require('react');
+var xhr = require('xhr');
+var { plural } = require('../utils');
 
 const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'];
 const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
@@ -12,9 +14,43 @@ const ICON_TAGS_ORGANIZATION = ['contacts', 'customers', 'groups', 'members', 'p
 const ICON_TAGS_PACKAGE = ['boxes', 'items', 'packages', 'parcels'];
 const ICON_TAGS_TAG = ['tags'];
 
+var listsByKey = {};
+Keystone.lists.forEach((list) => {
+	listsByKey[list.key] = list;
+});
+
 var View = React.createClass({
 
 	displayName: 'HomeView',
+
+	getInitialState () {
+		return {
+			counts: {}
+		}
+	},
+
+	componentDidMount () {
+		this.loadCounts();
+	},
+
+	loadCounts () {
+		xhr({
+			url: '/keystone/api/counts'
+		}, (err, resp, body) => {
+			try {
+				body = JSON.parse(body);
+			} catch(e) {
+				console.log('Error parsing results json:', e, body);
+				return;
+			}
+			if (body && body.counts) {
+				if (!this.isMounted()) return;
+				this.setState({
+					counts: body.counts
+				});
+			}
+		});
+	},
 
 	renderFlatNav () {
 		return Keystone.lists.map((list) => {
@@ -25,6 +61,14 @@ var View = React.createClass({
 				</h3>
 			);
 		});
+	},
+
+	renderItemCount (list) {
+		return (
+			<div>
+				{plural(this.state.counts[list.key], '* Item', '* Items')}
+			</div>
+		);
 	},
 
 	renderGroupedNav () {
@@ -59,7 +103,7 @@ var View = React.createClass({
 										<li key={list.path}>
 											<a href={href}>
 												<div className="dashboard-group__list-label">{list.label}</div>
-												<div>4 Items</div>
+												{this.renderItemCount(list)}
 											</a>
 										</li>
 									);
@@ -82,7 +126,7 @@ var View = React.createClass({
 										<li key={list.path}>
 											<a href={'/keystone/' + list.path}>
 												<div className="dashboard-group__list-label">{list.label}</div>
-												{/*<div>4 Items</div>*/}
+												{this.renderItemCount(list)}
 											</a>
 										</li>
 									);
