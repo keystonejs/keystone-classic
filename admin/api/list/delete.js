@@ -3,7 +3,7 @@ var keystone = require('../../../');
 
 module.exports = function(req, res) {
 	if (!keystone.security.csrf.validate(req)) {
-		return res.apiError('invalid csrf');
+		return res.apiError(403, 'invalid csrf');
 	}
 	if (req.list.get('nodelete')) {
 		return res.apiError('nodelete');
