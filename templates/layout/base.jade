@@ -94,6 +94,7 @@ html
 				obj['#{csrf_token_key}'] = "#{csrf_token_value}";
 				return obj;
 			};
+			Keystone.csrf.header = { "!{csrf_header_key}": "!{csrf_token_value}" };
 			Keystone.csrf.key = "#{csrf_token_key}";
 			Keystone.csrf.value = "#{csrf_token_value}";
 			Keystone.csrf.query = "!{csrf_query}";
