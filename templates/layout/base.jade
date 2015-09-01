@@ -62,7 +62,7 @@ html
 					a(href=backUrl tabIndex="-1").keystone-footer__link #{brand + (appversion ? (' ' + appversion) : '')}
 					|  Powered by <a href="http://keystonejs.com" target="_blank" class="keystone-footer__link" tabIndex="-1">KeystoneJS</a> version #{version}.
 					if User && user
-						|  Signed in as
+						|  Signed in as 
 						a(href='/keystone/' + User.path + '/' + user.id tabIndex="-1").keystone-footer__link= User.getDocumentName(user)
 						| .
 
