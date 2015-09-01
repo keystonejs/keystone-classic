@@ -6,9 +6,10 @@ const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news
 const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
 const ICON_TAGS_CALENDAR = ['events', 'dates'];
 const ICON_TAGS_CLOCK = ['classes', 'hours', 'times'];
-const ICON_TAGS_FILE_MEDIA = ['images', 'photos', 'pictures'];
+const ICON_TAGS_FILE_MEDIA = ['gallery', 'galleries', 'images', 'photos', 'pictures'];
 const ICON_TAGS_FILE_TEXT = ['attachments', 'docs', 'documents', 'files'];
 const ICON_TAGS_LOCATION = ['locations', 'markers', 'places'];
+const ICON_TAGS_MAIL = ['emails', 'enquiries'];
 const ICON_TAGS_MEGAPHONE = ['broadcasts', 'jobs', 'talks'];
 const ICON_TAGS_ORGANIZATION = ['contacts', 'customers', 'groups', 'members', 'people', 'speakers', 'teams', 'users'];
 const ICON_TAGS_PACKAGE = ['boxes', 'items', 'packages', 'parcels'];
@@ -84,6 +85,7 @@ var View = React.createClass({
 					else if (ICON_TAGS_FILE_MEDIA.indexOf(navSection.key) !== -1) { headingIconClass += 'file-media'; }
 					else if (ICON_TAGS_FILE_TEXT.indexOf(navSection.key) !== -1) { headingIconClass += 'file-text'; }
 					else if (ICON_TAGS_LOCATION.indexOf(navSection.key) !== -1) { headingIconClass += 'location'; }
+					else if (ICON_TAGS_MAIL.indexOf(navSection.key) !== -1) { headingIconClass += 'mail'; }
 					else if (ICON_TAGS_MEGAPHONE.indexOf(navSection.key) !== -1) { headingIconClass += 'megaphone'; }
 					else if (ICON_TAGS_ORGANIZATION.indexOf(navSection.key) !== -1) { headingIconClass += 'organization'; }
 					else if (ICON_TAGS_PACKAGE.indexOf(navSection.key) !== -1) { headingIconClass += 'package'; }
