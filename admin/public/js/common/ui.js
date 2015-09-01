@@ -58,7 +58,7 @@ jQuery(function($) {
 		}
 	});
 	
-	$('.items-list.sortable').on('ui.sorted', function() {
+	$('.ItemList.sortable').on('ui.sorted', function() {
 		var $this = $(this),
 			listPath = $this.data('listPath'),
 			order = _.pluck($this.find('tbody tr'), 'id');
@@ -161,11 +161,7 @@ jQuery(function($) {
 					};
 					
 					$.each(ids, function() {
-						$.ajax('/keystone/api/' + refPath + '/get', {
-							data: {
-								id: this,
-								dataset: 'simple'
-							},
+						$.ajax('/keystone/api/' + refPath + '/' + this + '?simple', {
 							dataType: 'json'
 						}).done(loaded);
 					});

@@ -3,60 +3,65 @@ var request = require('superagent');
 
 var CreateForm = require('../components/CreateForm');
 var EditForm = require('../components/EditForm');
-var Header = require('../components/ItemViewHeader');
+var EditFormHeader = require('../components/EditFormHeader');
+
+var { Spinner } = require('elemental');
 
 var View = React.createClass({
-	
+
 	displayName: 'ItemView',
-	
-	getInitialState: function() {
+
+	getInitialState () {
 		return {
-			createIsVisible: false,
+			createIsOpen: false,
 			list: Keystone.list,
-			itemData: null,
-			itemDrilldown: null
+			itemData: null
 		};
 	},
 
-	componentDidMount: function() {
+	componentDidMount () {
+		this.loadItemData();
+	},
+
+	loadItemData () {
 		request.get('/keystone/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
 			.set('Accept', 'application/json')
-			.end(function(err, res) {//eslint-disable-line no-unused-vars, handle-callback-err
-				if (!res.ok) {
+			.end((err, res) => {
+				if (err || !res.ok) {
 					// TODO: nicer error handling
-					console.log('Error loading item data:', res.text);
+					console.log('Error loading item data:', res ? res.text : err);
 					alert('Error loading data (details logged to console)');
 					return;
 				}
-				this.setState({//eslint-disable-line react/no-did-mount-set-state
-					itemData: res.body.data,
-					itemDrilldown: res.body.drilldown 
+				this.setState({
+					itemData: res.body
 				});
-			}.bind(this));
+			});
 	},
-	
-	toggleCreate: function(visible) {
+
+	toggleCreate (visible) {
 		this.setState({
-			createIsVisible: visible
+			createIsOpen: visible
 		});
 	},
-	
-	renderCreateForm: function() {
-		if (!this.state.createIsVisible) return null;
-		return <CreateForm list={Keystone.list} animate onCancel={this.toggleCreate.bind(this, false)} />;
+
+	renderCreateForm () {
+		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} />;
 	},
-	
-	render: function() {
-		if (!this.state.itemData) return <div />;
+
+	render () {
+		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
 		return (
 			<div>
-				{this.renderCreateForm()}
-				<Header list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
-				<EditForm list={this.state.list} data={this.state.itemData} />
+				<EditFormHeader list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
+				<div className="container">
+					{this.renderCreateForm()}
+					<EditForm list={this.state.list} data={this.state.itemData} />
+				</div>
 			</div>
 		);
 	}
-	
+
 });
 
 React.render(<View itemId={Keystone.itemId} />, document.getElementById('item-view'));

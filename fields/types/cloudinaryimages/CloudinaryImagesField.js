@@ -1,20 +1,35 @@
-var _ = require('underscore'),
-	React = require('react'),
-	Field = require('../Field');
+import _ from 'underscore';
+import React from 'react';
+import Field from '../Field';
+import { Button, FormField, FormInput, FormNote } from 'elemental';
 
-var SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
+const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
 var Thumbnail = React.createClass({
-	
-	displayName: 'CloudinaryImagesField',
-	
-	render: function() {
-		var iconClassName, imageDetails;
+	displayName: 'CloudinaryImagesFieldThumbnail',
+
+	propTypes: {
+		deleted: React.PropTypes.bool,
+		height: React.PropTypes.number,
+		isQueued: React.PropTypes.bool,
+		shouldRenderActionButton: React.PropTypes.bool,
+		toggleDelete: React.PropTypes.func,
+		url: React.PropTypes.string,
+		width: React.PropTypes.number,
+	},
+
+	renderActionButton () {
+		if (!this.props.shouldRenderActionButton || this.props.isQueued) return null;
+		return <Button type={this.props.deleted ? 'link-text' : 'link-cancel'} block onClick={this.props.toggleDelete}>{this.props.deleted ? 'Undo' : 'Remove'}</Button>;
+	},
+
+	render () {
+		var iconClassName;
 
 		if (this.props.deleted) {
-			iconClassName = 'delete-pending ion-close';
+			iconClassName = 'delete-pending mega-octicon octicon-x';
 		} else if (this.props.isQueued) {
-			iconClassName = 'img-uploading ion-upload';
+			iconClassName = 'img-uploading mega-octicon octicon-cloud-upload';
 		}
 
 		var previewClassName = 'image-preview';
@@ -25,35 +40,24 @@ var Thumbnail = React.createClass({
 		var height = this.props.height;
 		if (width && height) title = width + ' x ' + height;
 
-		var actionLabel = this.props.deleted ? 'Undo' : 'Remove';
-
-		if (!this.props.isQueued) {
-			imageDetails = (
-				<div className='image-details'>
-					<button onClick={this.props.toggleDelete} type='button' className='btn btn-link btn-cancel btn-undo-remove'>{actionLabel}</button>
-				</div>
-			);
-		}
-
 		return (
-			<div className='image-field image-sortable row col-sm-3 col-md-12' title={title}> 
-				<div className={previewClassName}> 
-					<a href={this.props.url} className='img-thumbnail'>
-						<img style={{ height: '90' }} className='img-load' src={this.props.url} />
+			<div className="image-field image-sortable row col-sm-3 col-md-12" title={title}>
+				<div className={previewClassName}>
+					<a href={this.props.url} className="img-thumbnail" target="__blank">
+						<img style={{ height: '90' }} className="img-load" src={this.props.url} />
 						<span className={iconClassName} />
 					</a>
 				</div>
-
-				{imageDetails}
+				{this.renderActionButton()}
 			</div>
 		);
 	}
-	
+
 });
 
 module.exports = Field.create({
 
-	getInitialState: function() {
+	getInitialState () {
 		var thumbnails = [];
 		var self = this;
 
@@ -64,7 +68,7 @@ module.exports = Field.create({
 		return { thumbnails: thumbnails };
 	},
 
-	removeThumbnail: function (i) {
+	removeThumbnail  (i) {
 		var thumbs = this.state.thumbnails;
 		var thumb = thumbs[i];
 
@@ -77,18 +81,19 @@ module.exports = Field.create({
 		this.setState({ thumbnails: thumbs });
 	},
 
-	pushThumbnail: function (args, thumbs) {
+	pushThumbnail  (args, thumbs) {
 		thumbs = thumbs || this.state.thumbnails;
 		var i = thumbs.length;
 		args.toggleDelete = this.removeThumbnail.bind(this, i);
+		args.shouldRenderActionButton = this.shouldRenderField();
 		thumbs.push(<Thumbnail key={i} {...args} />);
 	},
 
-	fileFieldNode: function() {
+	fileFieldNode () {
 		return this.refs.fileField.getDOMNode();
 	},
 
-	getCount: function (key) {
+	getCount  (key) {
 		var count = 0;
 
 		_.each(this.state.thumbnails, function (thumb) {
@@ -98,11 +103,13 @@ module.exports = Field.create({
 		return count;
 	},
 
-	renderFileField: function() {
-		return <input ref='fileField' type='file' name={this.props.paths.upload} multiple className='field-upload' onChange={this.uploadFile} />;
+	renderFileField () {
+		if (!this.shouldRenderField()) return null;
+
+		return <input ref="fileField" type="file" name={this.props.paths.upload} multiple className="field-upload" onChange={this.uploadFile} tabIndex="-1" />;
 	},
 
-	clearFiles: function() {
+	clearFiles () {
 		this.fileFieldNode().value = '';
 
 		this.setState({
@@ -112,7 +119,7 @@ module.exports = Field.create({
 		});
 	},
 
-	uploadFile: function (event) {
+	uploadFile  (event) {
 		var self = this;
 
 		var files = event.target.files;
@@ -136,15 +143,17 @@ module.exports = Field.create({
 		});
 	},
 
-	changeImage: function() {
+	changeImage () {
 		this.fileFieldNode().click();
 	},
 
-	hasFiles: function() {
+	hasFiles () {
 		return this.refs.fileField && this.fileFieldNode().value;
 	},
 
-	renderToolbar: function() {
+	renderToolbar () {
+		if (!this.shouldRenderField()) return null;
+
 		var body = [];
 
 		var push = function (queueType, alertType, count, action) {
@@ -152,8 +161,8 @@ module.exports = Field.create({
 
 			var imageText = count === 1 ? 'image' : 'images';
 
-			body.push(<div key={queueType + '-toolbar'} className={queueType + '-queued' + ' pull-left'}>
-				<div className={'alert alert-' + alertType}>{count} {imageText} {action} - save to confirm</div>
+			body.push(<div key={queueType + '-toolbar'} className={queueType + '-queued' + ' u-float-left'}>
+				<FormInput noedit>{count} {imageText} {action} - save to confirm</FormInput>
 			</div>);
 		};
 
@@ -162,13 +171,13 @@ module.exports = Field.create({
 
 		var clearFilesButton;
 		if (this.hasFiles()) {
-			clearFilesButton = <button type='button' className='btn btn-default btn-upload' onClick={this.clearFiles}>Clear selection</button>;
+			clearFilesButton = <Button type="link-cancel" onClick={this.clearFiles} className="ml-5">Clear selection</Button>;
 		}
 
 		return (
-			<div className='images-toolbar row col-sm-3 col-md-12'>
-				<div className='pull-left'>
-					<button type='button' className='btn btn-default btn-upload' onClick={this.changeImage}>Select files</button>
+			<div className="images-toolbar">
+				<div className="u-float-left">
+					<Button onClick={this.changeImage}>Select files</Button>
 					{clearFilesButton}
 				</div>
 				{body}
@@ -176,32 +185,34 @@ module.exports = Field.create({
 		);
 	},
 
-	renderPlaceholder: function() {
+	renderPlaceholder () {
 		return (
-			<div className='image-field image-upload row col-sm-3 col-md-12' onClick={this.changeImage}>
-				<div className='image-preview'>
-					<span className='img-thumbnail'>
-						<span className='img-dropzone' />
-						<div className='ion-picture img-uploading' />
+			<div className="image-field image-upload row col-sm-3 col-md-12" onClick={this.changeImage}>
+				<div className="image-preview">
+					<span className="img-thumbnail">
+						<span className="img-dropzone" />
+						<div className="img-uploading mega-octicon octicon-file-media" />
 					</span>
 				</div>
 
-				<div className='image-details'>
-					<span className='image-message'>Click to upload</span>
+				<div className="image-details">
+					<span className="image-message">Click to upload</span>
 				</div>
 			</div>
 		);
 	},
 
-	renderContainer: function() {
+	renderContainer () {
 		return (
-			<div className='images-container clearfix'>
+			<div className="images-container">
 				{this.state.thumbnails}
 			</div>
 		);
 	},
 
-	renderFieldAction: function() {
+	renderFieldAction () {
+		if (!this.shouldRenderField()) return null;
+
 		var value = '';
 		var remove = [];
 		_.each(this.state.thumbnails, function (thumb) {
@@ -209,27 +220,30 @@ module.exports = Field.create({
 		});
 		if (remove.length) value = 'remove:' + remove.join(',');
 
-		return <input ref='action' className='field-action' type='hidden' value={value} name={this.props.paths.action} />;
+		return <input ref="action" className="field-action" type="hidden" value={value} name={this.props.paths.action} />;
 	},
 
-	renderUploadsField: function() {
-		return <input ref='uploads' className='field-uploads' type='hidden' name={this.props.paths.uploads} />;
+	renderUploadsField () {
+		if (!this.shouldRenderField()) return null;
+
+		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
 
-	renderUI: function() {
+	renderNote () {
+		if (!this.props.note) return null;
+		return <FormNote note={this.props.note} />;
+	},
+
+	renderUI () {
 		return (
-			<div className='field field-type-cloudinaryimages'>
-				<label className='field-label'>{this.props.label}</label>
-
+			<FormField label={this.props.label} className="field-type-cloudinaryimages">
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}
-
-				<div className='field-ui'>
-					{this.renderContainer()}
-					{this.renderToolbar()}
-				</div>
-			</div>
+				{this.renderContainer()}
+				{this.renderToolbar()}
+				{this.renderNote()}
+			</FormField>
 		);
 	}
 });

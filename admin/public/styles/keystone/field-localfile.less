@@ -17,9 +17,10 @@
 	}
 
 	.file-details {
-		overflow: hidden;
+		&:extend(.u-clearfix all);
+		
 		.file-values {
-			.field-value {
+			.FormInput-noedit {
 				width: auto;
 				min-width: 1px;
 				float: left;
@@ -34,10 +35,13 @@
 			text-align: center;
 			width: 100%;
 		}
+		& + .file-toolbar {
+			margin-top: @input-vspacing;
+		}
 	}
-
-	.file-details + .file-toolbar {
-		margin-top: @input-vspacing;
+	
+	.file-toolbar {
+		&:extend(.u-clearfix all);
 	}
 
 	.upload-queued, .delete-queued {
@@ -77,7 +81,7 @@
 	}
 	.file-preview.remove {
 		img {
-			.opacity(.3);
+			opacity: .3;
 		}
 	}
 	.delete-pending {

@@ -1,0 +1,176 @@
+// 
+// Navigation
+// ==============================
+
+
+// Common
+
+.app-nav {
+	&:extend(.u-clearfix all);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	> li {
+		float: left;
+
+		&.right {
+			float: right;
+		}
+	}
+	> li > a {
+		.transition( color 180ms );
+		display: block;
+		text-decoration: none;
+	}
+}
+.app-nav--left {
+	float: left;
+}
+.app-nav--right {
+	float: right;
+
+	// Alignment Hack
+	// align last nav items to the right of the container
+	// first item alignment declared separately for primary/secondary - see below
+	li:last-child > a {
+		padding-right: 0;
+	}
+}
+
+// fade out the hovered item's siblings
+.app-nav--primary:hover {
+	color: fade(@primary-navbar-color, 66%);
+}
+.app-nav--secondary:hover {
+	color: fade(@secondary-navbar-color, 66%);
+}
+
+
+// Primary
+
+.primary-navbar {
+	background-color: @primary-navbar-bg;
+	color: @primary-navbar-color;
+	padding-bottom: .5em;
+	padding-top: .5em;
+
+	// add a little divider between nav items
+	li {
+		position: relative;
+
+		&:before {
+			.translate(0,-50%);
+			background-color: rgba(255, 255, 255, 0.2);
+			content: " ";
+			left: 0;
+			height: 1em;
+			position: absolute;
+			top: 50%;
+			width: 1px;
+			z-index: 1;
+		}
+
+		// hide the divider where appropriate
+		&:first-child::before,
+		&.right:last-child::before {
+			display: none;
+		}
+	}
+
+	li > a {
+		border-radius: .3em;
+		color: inherit;
+		padding: @primary-navbar-padding-vertical @primary-navbar-padding-horizontal;
+		position: relative;
+
+		&:hover {
+			background-color: @primary-navbar-hover-bg;
+			color: @primary-navbar-hover-color;
+		}
+	}
+
+	// the selected nav item
+	.active {
+		// hide the active element's divider and mask the one to its right
+		box-shadow: 2px 0 0 @primary-navbar-bg; // this sits on top of the divider, masking it from view
+		z-index: 2;
+
+		&:before {
+			display: none;
+		}
+
+		> a {
+			&, &:hover {
+				background-color: @primary-navbar-active-bg;
+				color: @primary-navbar-active-color;
+			}
+		}
+	}
+
+	// align first nav items to the left of the container
+	// because the active state has a background we exclude it in this selector
+	li:first-child:not(.active) > a {
+		padding-left: 0;
+	}
+}
+
+// brand
+.primary-navbar-brand {
+	color: @primary-navbar-color;
+	float: left;
+	padding: @primary-navbar-padding-vertical @primary-navbar-padding-horizontal @primary-navbar-padding-vertical 0;
+}
+
+
+// Secondary
+
+.secondary-navbar {
+	background-color: @secondary-navbar-bg;
+	border-bottom: 1px solid darken(@secondary-navbar-bg, 10%);
+	color: @secondary-navbar-color;
+
+	li > a {
+		color: inherit;
+		padding: @secondary-navbar-padding-vertical @secondary-navbar-padding-horizontal;
+		position: relative;
+
+		&:hover {
+			color: @secondary-navbar-hover-color;
+		}
+	}
+	.active > a {
+
+		&:before,
+		&:after {
+			.square(0);
+			border: @secondary-navbar-arrow-size solid transparent;
+			border-bottom-width: 0;
+			content: "";
+			margin-left: -@secondary-navbar-arrow-size;
+			position: absolute;
+			left: 50%;
+		}
+		&:before {
+			border-top-color: #ccc;
+			bottom: -(@secondary-navbar-arrow-size + 1);
+		}
+		&:after {
+			border-top-color: @secondary-navbar-bg;
+			bottom: -@secondary-navbar-arrow-size;
+		}
+		&, &:hover {
+			background-color: @secondary-navbar-active-bg;
+			color: @secondary-navbar-active-color;
+		}
+	}
+
+	// align first nav items to the left of the container
+	// 1. remove right padding to fix the center alignment of the active arrow
+	// 2. recover the missing right padding using margin
+	li:first-child > a {
+		margin-right: @secondary-navbar-padding-horizontal; // 2
+		padding-left: 0;
+		padding-right: 0; // 1
+	}
+}

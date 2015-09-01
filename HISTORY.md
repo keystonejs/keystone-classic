@@ -2,6 +2,31 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.14 / 2015-08-25
+
+* improved; internal cleanup and refactoring
+* added; new API routes for future use by the Admin UI, including signin and signout
+* added; support for selecting arbitrary document paths in `List.getData`
+* added; new search query generation functionality for `List` and `Field` classes
+* fixed; vertical alignment of Format menu icons in the WYSIWYG editor, thanks [Jeffrey](https://github.com/jeffreypriebe)
+* fixed; validation issues with the `GeoLocation` field type, thanks [Vintesh](https://github.com/vintesh)
+* fixed; use of 'select' and 'selectPrefix' options in CloudinaryImage type, thanks [azterix](https://github.com/azterix)
+* updated; grappling-hook @ v3.0.0, thanks [Camille Reynders](https://github.com/creynders)
+
+## v0.3.13 / 2015-08-03
+
+* improved; major speed increase for initialisation
+* improved; codemirror is now only loaded as required, thanks [Carlos Colon](https://github.com/webteckie)
+* fixed; correctly handling blank values in the DateInput component
+* changed; switched to babyparse for CSV generation
+* fixed; docs links now point to keystone site
+* fixed; add Maps API key to request, allow override per model, check for server instead of browser key, thanks [stosorio](https://github.com/stosorio)
+* fixed; added check for duplicate `_revisions` models, thanks [Jeffrey](https://github.com/jeffreypriebe)
+* fixed; localFile .format property ignored by Admin U, thanks [Javier Castro](https://github.com/jacargentina)
+* fixed; href working correctly on LocalFiles Type, thanks [Matthias Tylkowski](https://github.com/tylkomat)
+* added; several new API endpoints for the Admin UI in preparation of the 0.4 release
+
+
 ## v0.3.12 / 2015-06-26
 
 * fixed; `height` option for TextArea fields was not respected in the Admin UI, thanks [Eóin Martin](https://github.com/SlashmanX)

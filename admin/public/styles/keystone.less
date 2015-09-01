@@ -1,99 +1,167 @@
 /*!
  * Keystone JS
  *
- * Copyright 2013 Jed Watson
+ * Copyright 2015 Jed Watson
  * Licensed under the MIT License
  * http://opensource.org/licenses/MIT
- *
- * Bootstrap v3.0.0 is Copyright 2013 Twitter, Inc
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
-// Core variables and mixins
-@import "bootstrap/variables.less";
-@import "bootstrap/mixins.less";
 
-// Reset
-@import "bootstrap/normalize.less";
-// @import "bootstrap/print.less";
-
-// Core CSS
-@import "bootstrap/scaffolding.less";
-// @import "bootstrap/type.less";
-@import "bootstrap/code.less";
-@import "bootstrap/grid.less";
-// @import "bootstrap/tables.less";
-@import "bootstrap/forms.less";
-
-// Components
-@import "bootstrap/component-animations.less";
-@import "bootstrap/glyphicons.less";
-@import "bootstrap/dropdowns.less";
-@import "bootstrap/buttons.less";
-@import "bootstrap/button-groups.less";
-@import "bootstrap/input-groups.less";
-@import "bootstrap/navs.less";
-@import "bootstrap/navbar.less";
-@import "bootstrap/breadcrumbs.less";
-@import "bootstrap/pagination.less";
-//@import "bootstrap/pager.less";
-//@import "bootstrap/labels.less";
-//@import "bootstrap/badges.less";
-//@import "bootstrap/jumbotron.less";
-//@import "bootstrap/thumbnails.less";
-@import "bootstrap/alerts.less";
-//@import "bootstrap/progress-bars.less";
-//@import "bootstrap/media.less";
-//@import "bootstrap/list-group.less";
-//@import "bootstrap/panels.less";
-//@import "bootstrap/wells.less";
-//@import "bootstrap/close.less";
-
-// Components w/ JavaScript
-//@import "bootstrap/modals.less";
-@import "bootstrap/tooltip.less";
-//@import "bootstrap/popovers.less";
-//@import "bootstrap/carousel.less";
-
-// Utility classes
-@import "bootstrap/utilities.less";
-@import "bootstrap/responsive-utilities.less";
-
-
-
-// Icon Font
+// Elemental
 // ------------------------------
 
-@import "ionicons/ionicons.less";
+@import "@{elementalPath}/less/elemental.less";
 
+
+// KEYSTONE VARIABLES
+@import "variables.less";
+
+// KEYSTONE AUTH
+@import "auth.less";
 
 // KEYSTONE SETUP
 @import "keystone/animation.less";
 @import "keystone/base.less";
-@import "keystone/buttons.less";
-@import "keystone/details.less";
+@import "keystone/dashboard.less";
 @import "keystone/forms.less";
-@import "keystone/mixins.less";
-@import "keystone/modal.less";
+@import "keystone/navigation.less";
 @import "keystone/tables.less";
-@import "keystone/type.less";
 @import "keystone/utils.less";
 
 @import "keystone/list.less";
 @import "keystone/item.less";
+@import "keystone/toolbar.less";
 
 // COMPONENTS
 @import "keystone/wysiwyg.less";
 @import "keystone/select2.less";
-
-// THEME SETUP
-@import "theme/variables.less";
-@import "theme/theme.less";
+@import "keystone/popout.less";
 
 
 // REACT FIELDS
 @import "react/react.less";
 
 
+// DayPicker styles
+
+.DayPicker {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem 0;
+    position: relative;
+    user-select: none;
+}
+
+.DayPicker-Month {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    margin: 0 1rem;
+    user-select: none;
+}
+
+  .DayPicker-NavBar {
+    left: 0;
+    padding: 0 .5rem;
+    position: absolute;
+    right: 0;
+  }
+
+  .DayPicker-NavButton {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    height: 1.5rem;
+    position: absolute;
+    width: 1.5rem;
+  }
+
+    .DayPicker-NavButton--prev {
+      left: 1rem;
+      background-image: url("../assets/prev.svg");
+    }
+
+    .DayPicker-NavButton--next {
+      right: 1rem;
+      background-image: url("../assets/next.svg");
+    }
+
+
+  .DayPicker-Caption {
+    display: table-caption;
+    height: 1.5rem;
+    text-align: center;
+  }
+
+  .DayPicker-Weekdays {
+    display: table-header-group;
+    > div {
+      display: table-row;
+    }
+  }
+
+    .DayPicker-Weekday {
+      display: table-cell;
+      padding: .5rem;
+      font-size: .875em;
+      text-align: center;
+    }
+
+  .DayPicker-Body {
+    display: table-row-group;
+  }
+
+    .DayPicker-Week {
+      display: table-row;
+    }
+
+      .DayPicker-Day {
+        display: table-cell;
+        padding: .5rem;
+        border: 1px solid lighten(@gray, 5);
+        text-align: center;
+        cursor: pointer;
+        vertical-align: middle;
+      }
+
+  .DayPicker--interactionDisabled .DayPicker-Day {
+    cursor: default;
+  }
+
+
+// Modifiers
+
+.DayPicker-Day--today {
+  color: red;
+  font-weight: 500;
+}
+
+.DayPicker-Day--disabled {
+  color: @gray;
+  cursor: default;
+  background-color: lighten(@gray, 7);
+}
+
+.DayPicker-Day--sunday {
+  color: @gray;
+  background-color: lighten(@gray, 10);
+}
+
+.DayPicker-Day--outside {
+  cursor: default;
+  color: @gray;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  color: white;
+  background-color: @app-primary;
+}
+
+// Locales
+
+.DayPicker--ar {
+  direction: rtl;
+}

@@ -1,5 +1,11 @@
-var React = require('react'),
-	Field = require('../Field');
+import Field from '../Field';
+import React from 'react';
+import { FormInput } from 'elemental';
+
+/**
+ * TODO:
+ * - Remove dependency on jQuery
+ */
 
 // Scope jQuery and the bootstrap-markdown editor so it will mount
 var $ = require('jquery');
@@ -91,43 +97,42 @@ var renderMarkdown = function(component) {
 		var hiddenButtons = ('string' === typeof component.props.toolbarOptions.hiddenButtons) ? component.props.toolbarOptions.hiddenButtons.split(',') : component.props.toolbarOptions.hiddenButtons;
 		options.hiddenButtons = options.hiddenButtons.concat(hiddenButtons);
 	}
-	
+
 	$(component.refs.markdownTextarea.getDOMNode()).markdown(options);
 };
 
 module.exports = Field.create({
-	
+
 	displayName: 'MarkdownField',
 
 	// Override `shouldCollapse` to check the markdown field correctly
-	shouldCollapse : function() {
+	shouldCollapse () {
 		return this.props.collapse && !this.props.value.md;
 	},
-	
+
 	// only have access to `refs` once component is mounted
-	componentDidMount: function() {
+	componentDidMount () {
 		if (this.props.wysiwyg) {
 			renderMarkdown(this);
 		}
 	},
 
 	// only have access to `refs` once component is mounted
-	componentDidUpdate : function() {
+	componentDidUpdate  () {
 		if (this.props.wysiwyg) {
 			renderMarkdown(this);
 		}
 	},
-	
-	renderField: function() {
+
+	renderField () {
 		var styles = {
 			padding: 8,
 			height: this.props.height
 		};
-		
-		return (
-			<div className="md-editor">
-				<textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="form-control markdown code"></textarea>
-			</div>
-		);
+		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="md-editor__input code" />;
+	},
+
+	renderValue () {
+		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value.md.replace(/\n/g, '<br />') }} />;
 	}
 });

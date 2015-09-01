@@ -16,6 +16,7 @@ var router = express.Router();
 
 var bundles = {
 	fields: browserify('fields.js', 'FieldTypes'),
+	signin: browserify('views/signin.js'),
 	home: browserify('views/home.js'),
 	item: browserify('views/item.js'),
 	list: browserify('views/list.js')
@@ -23,6 +24,7 @@ var bundles = {
 
 router.prebuild = function() {
 	bundles.fields.build();
+	bundles.signin.build();
 	bundles.home.build();
 	bundles.item.build();
 	bundles.list.build();
@@ -30,11 +32,13 @@ router.prebuild = function() {
 
 /* Prepare LESS options */
 
+var elementalPath = path.join(path.dirname(require.resolve('elemental')), '..');
 var reactSelectPath = path.join(path.dirname(require.resolve('react-select')), '..');
 
 var lessOptions = {
 	render: {
 		modifyVars: {
+			elementalPath: JSON.stringify(elementalPath),
 			reactSelectPath: JSON.stringify(reactSelectPath)
 		}
 	}
@@ -45,6 +49,7 @@ var lessOptions = {
 router.use('/styles', less(__dirname + '../../public/styles', lessOptions));
 router.use(express.static(__dirname + '../../public'));
 router.get('/js/fields.js', bundles.fields.serve);
+router.get('/js/signin.js', bundles.signin.serve);
 router.get('/js/home.js', bundles.home.serve);
 router.get('/js/item.js', bundles.item.serve);
 router.get('/js/list.js', bundles.list.serve);

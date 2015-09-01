@@ -1,7 +1,13 @@
-var tinymce = require('tinymce'),
-	React = require('react'),
-	Field = require('../Field'),
-	_ = require('underscore');
+import _ from 'underscore';
+import Field from '../Field';
+import React from 'react';
+import tinymce from 'tinymce';
+import { FormInput } from 'elemental';
+
+/**
+ * TODO:
+ * - Remove dependency on underscore
+ */
 
 var lastId = 0;
 
@@ -10,17 +16,17 @@ function getId() {
 }
 
 module.exports = Field.create({
-	
+
 	displayName: 'HtmlField',
-	
-	getInitialState: function() {
+
+	getInitialState () {
 		return {
 			id: getId(),
 			isFocused: false
 		};
 	},
 
-	initWysiwyg: function() {
+	initWysiwyg () {
 		if (!this.props.wysiwyg) return;
 
 		var self = this;
@@ -37,11 +43,11 @@ module.exports = Field.create({
 		tinymce.init(opts);
 	},
 
-	componentDidUpdate: function(prevProps, prevState) {
+	componentDidUpdate (prevProps, prevState) {
 		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
-		
+
 		if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)
 			&& !_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
 			var instance = tinymce.get(prevState.id);
@@ -54,23 +60,23 @@ module.exports = Field.create({
 		}
 	},
 
-	componentDidMount: function() {
+	componentDidMount () {
 		this.initWysiwyg();
 	},
-	
-	componentWillReceiveProps: function(nextProps) {
+
+	componentWillReceiveProps (nextProps) {
 		if (this.editor && this._currentValue !== nextProps.value) {
 			this.editor.setContent(nextProps.value);
 		}
 	},
-	
-	focusChanged: function(focused) {
+
+	focusChanged (focused) {
 		this.setState({
 			isFocused: focused
 		});
 	},
 
-	valueChanged: function () {
+	valueChanged  () {
 		var content;
 		if (this.editor) {
 			content = this.editor.getContent();
@@ -87,7 +93,7 @@ module.exports = Field.create({
 		});
 	},
 
-	getOptions: function() {
+	getOptions () {
 		var plugins = ['code', 'link'],
 			options = _.defaults(
 				{},
@@ -102,7 +108,7 @@ module.exports = Field.create({
 			toolbar += ' | image';
 		}
 
-		if (options.enableCloudinaryUploads) {
+		if (options.enableCloudinaryUploads || options.enableS3Uploads) {
 			plugins.push('uploadimage');
 			toolbar += options.enableImages ? ' uploadimage' : ' | uploadimage';
 		}
@@ -126,10 +132,10 @@ module.exports = Field.create({
 				importcss_append: true,
 				importcss_merge_classes: true
 			};
-			
+
 			_.extend(options.additionalOptions, importcssOptions);
 		}
-		
+
 		if (!options.overrideToolbar) {
 			toolbar += ' | code';
 		}
@@ -143,7 +149,7 @@ module.exports = Field.create({
 		};
 
 		if (this.shouldRenderField()) {
-			opts.uploadimage_form_url = '/keystone/api/cloudinary/upload';
+			opts.uploadimage_form_url = options.enableS3Uploads ? '/keystone/api/s3/upload' : '/keystone/api/cloudinary/upload';
 		} else {
 			_.extend(opts, {
 				mode: 'textareas',
@@ -161,29 +167,25 @@ module.exports = Field.create({
 		return opts;
 	},
 
-	getFieldClassName: function() {
+	getFieldClassName () {
 		var className = this.props.wysiwyg ? 'wysiwyg' : 'code';
 		return className;
 	},
-	
-	renderEditor: function(readOnly) {
+
+	renderField () {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
 			height: this.props.height
 		};
 		return (
 			<div className={className}>
-				<textarea ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} readOnly={readOnly} value={this.props.value}></textarea>
+				<FormInput multiline ref='editor' style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} value={this.props.value} />
 			</div>
 		);
 	},
 
-	renderField: function() {
-		return this.renderEditor();
-	},
-	
-	renderValue: function() {
-		return this.renderEditor(true);
+	renderValue () {
+		return <FormInput multiline noedit value={this.props.value} />;
 	}
-	
+
 });

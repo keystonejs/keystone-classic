@@ -6,6 +6,7 @@ block js
 		Keystone.nav = !{JSON.stringify(nav)};
 		Keystone.lists = !{JSON.stringify(_.map(lists, getListMeta))};
 		Keystone.orphanedLists = !{JSON.stringify(orphanedLists.map(getListMeta))};
+		Keystone.brand = !{JSON.stringify(brand)};
 	script(src='/keystone/js/packages.js')
 	script(src='/keystone/js/home.js')
 
