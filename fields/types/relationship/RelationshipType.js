@@ -35,6 +35,26 @@ relationship.prototype.getProperties = function () {
 };
 
 /**
+ * Gets id and name for the related item(s) from populated values
+ */
+
+function expandRelatedItemData(item) {
+	return {
+		id: item.id,
+		name: this.refList.getDocumentName(item)
+	};
+}
+
+relationship.prototype.getExpandedData = function(item) {
+	var value = item.get(this.path);
+	if (this.many) {
+		return value.map(expandRelatedItemData.bind(this));
+	} else {
+		return expandRelatedItemData.call(this, value);
+	}
+};
+
+/**
  * Registers the field on the List's Mongoose Schema.
  */
 relationship.prototype.addToSchema = function() {
