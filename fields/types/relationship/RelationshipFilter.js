@@ -140,7 +140,7 @@ var RelationshipFilter = React.createClass({
 					icon="dash"
 					iconHover={itemIconHover}
 					label={item.label}
-					onClick={() => { listAction(item) }} />
+					onClick={() => { listAction(item); }} />
 			);
 		});
 
