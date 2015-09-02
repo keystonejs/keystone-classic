@@ -26,8 +26,8 @@ var TextColumn = React.createClass({
 			}
 			items.push(this.renderValue(value[i]));
 		}
-		if (items.length > 3) {
-			items.push(<span key="more" className="ItemList__col-more">{items.length - 3} more</span>);
+		if (value.length > 3) {
+			items.push(<span key="more" className="ItemList__col-more">{value.length - 3} more</span>);
 		}
 		return items;
 	},
