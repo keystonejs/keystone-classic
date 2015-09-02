@@ -20,6 +20,25 @@ Keystone.lists.forEach((list) => {
 	listsByKey[list.key] = list;
 });
 
+var ListTile = React.createClass({
+	propTypes: {
+		count: React.PropTypes.number,
+		href: React.PropTypes.string,
+		label: React.PropTypes.string,
+	},
+	render () {
+		return (
+			<li className="dashboard-group__list">
+				<a href={this.props.href} className="dashboard-group__list-tile">
+					<div className="dashboard-group__list-label">{this.props.label}</div>
+					<div className="dashboard-group__list-count">{this.props.count}</div>
+				</a>
+				<a href={this.props.href} className="dashboard-group__list-create octicon octicon-plus" />
+			</li>
+		);
+	},
+});
+
 var View = React.createClass({
 
 	displayName: 'HomeView',
@@ -64,14 +83,6 @@ var View = React.createClass({
 		});
 	},
 
-	renderItemCount (list) {
-		return (
-			<div>
-				{plural(this.state.counts[list.key], '* Item', '* Items')}
-			</div>
-		);
-	},
-
 	renderGroupedNav () {
 		return (
 			<div>
@@ -98,17 +109,10 @@ var View = React.createClass({
 								<span className={headingIconClass} />
 								{navSection.label}
 							</div>
-							<ul className="dashboard-group__list">
+							<ul className="dashboard-group__lists">
 								{navSection.lists.map((list) => {
 									var href = list.external ? list.path : '/keystone/' + list.path;
-									return (
-										<li key={list.path}>
-											<a href={href}>
-												<div className="dashboard-group__list-label">{list.label}</div>
-												{this.renderItemCount(list)}
-											</a>
-										</li>
-									);
+									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
 							</ul>
 						</div>
@@ -119,19 +123,12 @@ var View = React.createClass({
 					return (
 						<div className="dashboard-group">
 							<div className="dashboard-group__heading">
-								<span className="dashboard-group__heading-icon  octicon octicon-database" />
+								<span className="dashboard-group__heading-icon octicon octicon-database" />
 								Other
 							</div>
-							<ul className="dashboard-group__list">
+							<ul className="dashboard-group__lists">
 								{Keystone.orphanedLists.map((list) => {
-									return (
-										<li key={list.path}>
-											<a href={'/keystone/' + list.path}>
-												<div className="dashboard-group__list-label">{list.label}</div>
-												{this.renderItemCount(list)}
-											</a>
-										</li>
-									);
+									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
 							</ul>
 						</div>

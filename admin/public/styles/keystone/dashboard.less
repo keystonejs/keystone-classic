@@ -40,54 +40,90 @@
 
 // base
 
-/*ul*/.dashboard-group__list {
+.dashboard-group__lists {
 	&:extend(.u-clearfix all);
 	list-style: none;
 	margin: 0 -10px -10px 20px;
 	padding: 0;
+}
 
-	> li {
-		float: left;
-		padding: 0 10px 20px;
-		width: 100%;
-	}
 
-	> li > a {
-		// .transition( all 140ms linear );
-		background-color: @dashboard-list-bg;
-		border-radius: @border-radius-base;
-		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px rgba(0,0,0,0.1);
+// wrapper for layout
+
+.dashboard-group__list {
+	float: left;
+	padding: 0 10px 20px;
+	position: relative;
+	width: 100%;
+
+	@media (min-width: @screen-sm) { width: 50%; }
+	@media (min-width: @screen-md) { width: 33%; }
+	@media (min-width: @screen-lg) { width: 25%; }
+}
+
+
+// the list represented as a tile
+
+.dashboard-group__list-tile {
+	// .transition( all 140ms linear );
+	background-color: @dashboard-list-bg;
+	border-radius: @border-radius-base;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px rgba(0,0,0,0.1);
+	color: @gray-light;
+	display: block;
+	line-height: 1;
+	height: 80px;
+	padding: 15px;
+	position: relative;
+
+	&:hover,
+	&:focus {
+		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px fade(@link-color, 50%);
 		color: @gray-light;
-		display: block;
-		height: 80px;
-		padding: 10px 15px;
-		position: relative;
+		outline: none;
+		text-decoration: none;
 
-		&:hover,
-		&:focus {
-			box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px fade(@link-color, 50%);
-			outline: none;
-			text-decoration: none;
-
-			.dashboard-group__list-label {
-				text-decoration: underline;
-			}
-		}
-
-		&:active {
-			box-shadow: 0 0 0 1px fade(@link-color, 50%);
-			top: 1px;
+		.dashboard-group__list-label {
+			border-bottom-color: fade(@link-color, 50%);
 		}
 	}
 
-	@media (min-width: @screen-sm) { > li { width: 50%; } }
-	@media (min-width: @screen-md) { > li { width: 33%; } }
-	@media (min-width: @screen-lg) { > li { width: 25%; } }
+	&:active {
+		box-shadow: 0 0 0 1px fade(@link-color, 50%);
+		top: 1px;
+	}
 }
 
 .dashboard-group__list-label {
 	.u-text-truncate();
+	border-bottom: 1px solid transparent;
 	color: @link-color;
+	display: inline-block;
 	font-size: 1.25em;
 	font-weight: 500;
+}
+
+
+// green create button
+
+.dashboard-group__list-create {
+	.align-items(center);
+	.display-flex();
+	.justify-content(center);
+	.square(24px);
+	.transition( background-color 50ms linear );
+	background-color: @gray-lighter;
+	border-radius: @border-radius-base;
+	color: white;
+	position: absolute;
+	right: 25px;
+	top: 15px;
+
+	&:hover,
+	&:focus {
+		background-color: @app-success;
+		color: white;
+		outline: none;
+		text-decoration: none;
+	}
 }
