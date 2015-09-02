@@ -39,16 +39,22 @@ relationship.prototype.getProperties = function () {
  */
 
 function expandRelatedItemData(item) {
+	if (!item || !item.id) return undefined;
 	return {
 		id: item.id,
 		name: this.refList.getDocumentName(item)
 	};
 }
 
+function truthy (value) {
+	return value;
+}
+
 relationship.prototype.getExpandedData = function(item) {
 	var value = item.get(this.path);
 	if (this.many) {
-		return value.map(expandRelatedItemData.bind(this));
+		if (!value || !Array.isArray(value)) return [];
+		return value.map(expandRelatedItemData.bind(this)).filter(truthy);
 	} else {
 		return expandRelatedItemData.call(this, value);
 	}
