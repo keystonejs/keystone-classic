@@ -8,6 +8,7 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
+    "@jedwatson/react-color": "^1.0.6",
     "async": "^1.4.2",
     "asyncdi": "^1.1.0",
     "azure": "^0.10.6",
@@ -59,7 +60,6 @@
     "range_check": "^0.0.5",
     "react": "^0.13.3",
     "react-alt-text": "^1.1.0",
-    "react-color": "^1.0.5",
     "react-day-picker": "^1.0.4",
     "react-select": "^0.6.3",
     "scmp": "^1.0.0",
