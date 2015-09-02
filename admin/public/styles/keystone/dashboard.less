@@ -65,7 +65,7 @@
 // the list represented as a tile
 
 .dashboard-group__list-tile {
-	// .transition( all 140ms linear );
+	.transition( box-shadow 80ms linear );
 	background-color: @dashboard-list-bg;
 	border-radius: @border-radius-base;
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px rgba(0,0,0,0.1);
@@ -74,6 +74,7 @@
 	line-height: 1;
 	height: 80px;
 	padding: 15px;
+	padding-right: 39px; // make room for the create button
 	position: relative;
 
 	&:hover,
@@ -95,23 +96,32 @@
 }
 
 .dashboard-group__list-label {
+	.transition( border-color 80ms linear );
 	.u-text-truncate();
 	border-bottom: 1px solid transparent;
 	color: @link-color;
 	display: inline-block;
 	font-size: 1.25em;
 	font-weight: 500;
+	margin-bottom: .3em;
 }
 
 
 // green create button
 
+.dashboard-group__list-inner:hover >
+.dashboard-group__list-create {
+	background-color: darken(@gray-lighter, 6%);
+}
+
+// upsetting specificity
+.dashboard-group__list-inner >
 .dashboard-group__list-create {
 	.align-items(center);
 	.display-flex();
 	.justify-content(center);
 	.square(24px);
-	.transition( background-color 50ms linear );
+	.transition( background-color 80ms linear );
 	background-color: @gray-lighter;
 	border-radius: @border-radius-base;
 	color: white;
@@ -122,8 +132,12 @@
 	&:hover,
 	&:focus {
 		background-color: @app-success;
+		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 		color: white;
 		outline: none;
 		text-decoration: none;
+	}
+	&:active {
+		background-color: darken(@app-success, 6%);
 	}
 }

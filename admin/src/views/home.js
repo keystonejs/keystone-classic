@@ -29,11 +29,13 @@ var ListTile = React.createClass({
 	render () {
 		return (
 			<li className="dashboard-group__list">
-				<a href={this.props.href} className="dashboard-group__list-tile">
-					<div className="dashboard-group__list-label">{this.props.label}</div>
-					<div className="dashboard-group__list-count">{this.props.count}</div>
-				</a>
-				<a href={this.props.href} className="dashboard-group__list-create octicon octicon-plus" />
+				<span className="dashboard-group__list-inner">
+					<a href={this.props.href} className="dashboard-group__list-tile">
+						<div className="dashboard-group__list-label">{this.props.label}</div>
+						<div className="dashboard-group__list-count">{this.props.count}</div>
+					</a>
+					<a href={this.props.href} className="dashboard-group__list-create octicon octicon-plus" title="Create" />
+				</span>
 			</li>
 		);
 	},
