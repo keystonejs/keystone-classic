@@ -1,11 +1,15 @@
 var React = require('react');
 
 var SelectColumn = React.createClass({
-	render: function() {
+	renderValue () {
 		var value = this.props.data.fields[this.props.col.path];
+		var option = this.props.col.field.ops.filter(i => i.value === value)[0];
+		return option ? <span className="ItemList__col-tag">{option.label}</span> : '';
+	},
+	render () {
 		return (
 			<td>
-				<div className='ItemList__col-value'>{value}</div>
+				<div>{this.renderValue()}</div>
 			</td>
 		);
 	}
