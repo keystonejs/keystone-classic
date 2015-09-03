@@ -1,8 +1,9 @@
 const React = require('react');
 
-const ListHeader = require('../components/ListHeader');
 const CreateForm = require('../components/CreateForm');
 const ItemsTable = require('../components/ItemsTable');
+const ListHeader = require('../components/ListHeader');
+const PrimaryNavigation = require('../components/PrimaryNavigation');
 
 const CurrentListStore = require('../stores/CurrentListStore');
 
@@ -149,6 +150,11 @@ const ListView = React.createClass({
 			<div className="view-loading-indicator"><Spinner size="md" /></div>
 		) : (
 			<div>
+				<PrimaryNavigation
+					activeView={Keystone.nav.currentSection}
+					brand={Keystone.brand}
+					navItems={Keystone.nav.sections}
+					signoutUrl={Keystone.signoutUrl} />
 				{this.renderBlankState()}
 				{this.renderActiveState()}
 			</div>

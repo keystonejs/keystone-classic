@@ -1,7 +1,8 @@
-var React = require('react');
-var { Container } = require('elemental');
-var xhr = require('xhr');
-var { plural } = require('../utils');
+const React = require('react');
+const { Container } = require('elemental');
+const xhr = require('xhr');
+const { plural } = require('../utils');
+const PrimaryNavigation = require('../components/PrimaryNavigation');
 
 const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'];
 const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
@@ -142,14 +143,21 @@ var View = React.createClass({
 
 	render () {
 		return (
-			<Container>
-				<div className="dashboard-header">
-					<div className="dashboard-heading">{this.props.brand}</div>
-				</div>
-				<div className="dashboard-groups">
-					{this.props.navIsFlat ? this.renderFlatNav() : this.renderGroupedNav()}
-				</div>
-			</Container>
+			<div>
+				<PrimaryNavigation
+					brand={Keystone.brand}
+					navItems={Keystone.nav.sections}
+					signoutUrl={Keystone.signoutUrl}
+					/>
+				<Container>
+					<div className="dashboard-header">
+						<div className="dashboard-heading">{this.props.brand}</div>
+					</div>
+					<div className="dashboard-groups">
+						{this.props.navIsFlat ? this.renderFlatNav() : this.renderGroupedNav()}
+					</div>
+				</Container>
+			</div>
 		);
 	}
 

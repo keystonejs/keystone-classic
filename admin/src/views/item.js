@@ -1,11 +1,12 @@
-var React = require('react');
-var request = require('superagent');
+const React = require('react');
+const request = require('superagent');
 
-var CreateForm = require('../components/CreateForm');
-var EditForm = require('../components/EditForm');
-var EditFormHeader = require('../components/EditFormHeader');
+const CreateForm = require('../components/CreateForm');
+const EditForm = require('../components/EditForm');
+const EditFormHeader = require('../components/EditFormHeader');
+const PrimaryNavigation = require('../components/PrimaryNavigation');
 
-var { Container, Spinner } = require('elemental');
+const { Container, Spinner } = require('elemental');
 
 var View = React.createClass({
 
@@ -52,7 +53,16 @@ var View = React.createClass({
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
 		return (
 			<div>
-				<EditFormHeader list={this.props.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
+				<PrimaryNavigation
+					activeView={Keystone.nav.currentSection}
+					brand={Keystone.brand}
+					navItems={Keystone.nav.sections}
+					signoutUrl={Keystone.signoutUrl} />
+				<EditFormHeader
+					list={this.props.list}
+					data={this.state.itemData}
+					drilldown={this.state.itemDrilldown}
+					toggleCreate={this.toggleCreate} />
 				<Container>
 					{this.renderCreateForm()}
 					<EditForm list={this.props.list} data={this.state.itemData} />

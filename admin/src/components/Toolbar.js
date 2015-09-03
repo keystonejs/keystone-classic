@@ -12,7 +12,7 @@ module.exports = React.createClass({
 	render () {
 		return (
 			<div {...this.props} className="Toolbar">
-				<Container>
+				<Container clearfix >
 					{this.props.children}
 				</Container>
 			</div>
