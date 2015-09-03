@@ -3,15 +3,24 @@ html
 	head
 		meta(charset="utf-8")
 		meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
-		title Sign into #{brand ? brand : 'Keystone'}
+		title Sign in to #{brand ? brand : 'Keystone'}
 		link(rel="stylesheet", href="/keystone/styles/keystone.min.css")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
-		block css
-			
 	body
-		block content
-		block js
-		
+		div#signin-view
+		script(src='/keystone/js/packages.js')
+		script.
+			var Keystone = {
+				brand: !{JSON.stringify(brand || '')},
+				csrf_header_key: !{JSON.stringify(csrf_header_key || '')},
+				csrf_token_key: !{JSON.stringify(csrf_token_key || '')},
+				csrf_token_value: !{JSON.stringify(csrf_token_value || '')},
+				logo: !{JSON.stringify(logo || '')},
+				messages: !{JSON.stringify(messages || '')},
+				user: !{JSON.stringify(user || null)},
+				userCanAccessKeystone: !{user && user.canAccessKeystone ? 'true' : 'false'},
+			};
+		script(src='/keystone/js/signin.js')
 		//- Google Analytics
 		if env == 'production' && ga.property && ga.domain
 			script.
