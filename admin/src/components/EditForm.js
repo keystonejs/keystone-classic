@@ -227,7 +227,7 @@ var EditForm = React.createClass({
 		return (
 			<form method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
-					<Col sm="75%">
+					<Col lg="75%">
 						<Form type="horizontal" className="EditForm" component="div">
 							<input type="hidden" name="action" value="updateItem" />
 							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
@@ -237,7 +237,7 @@ var EditForm = React.createClass({
 							{this.renderTrackingMeta()}
 						</Form>
 					</Col>
-					<Col sm="25%" />
+					<Col lg="25%" />
 				</Row>
 				{!this.props.list.noedit ? this.renderFooterBar() : null}
 			</form>
