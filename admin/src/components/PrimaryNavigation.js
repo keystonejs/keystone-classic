@@ -25,9 +25,9 @@ var PrimaryNavItem = React.createClass({
 var PrimaryNavigation = React.createClass({
 	displayName: 'PrimaryNavigation',
 	propTypes: {
-		activeView: React.PropTypes.string,
+		currentSectionKey: React.PropTypes.string,
 		brand: React.PropTypes.string,
-		navItems: React.PropTypes.array.isRequired,
+		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
 	},
 	renderSignout () {
@@ -43,19 +43,19 @@ var PrimaryNavigation = React.createClass({
 	},
 	renderBrand () {
 		return (
-			<PrimaryNavItem className={!this.props.activeView ? 'active' : null} href='/keystone' title={'Dashboard - ' + this.props.brand} title={'Dashboard - ' + this.props.brand} title="Sign Out">
+			<PrimaryNavItem className={!this.props.currentSectionKey ? 'active' : null} href='/keystone' title={'Dashboard - ' + this.props.brand} title={'Dashboard - ' + this.props.brand}>
 				<span className="octicon octicon-home" />
 			</PrimaryNavItem>
 		);
 	},
 	renderNavigation () {
-		return this.props.navItems.map((item) => {
-			let href = item.lists[0].external ? item.lists[0].path : ('/keystone/' + item.lists[0].path);
-			let className = (this.props.activeView && this.props.activeView.key === item.key) ? 'active' : null
+		return this.props.sections.map((section) => {
+			let href = section.lists[0].external ? section.lists[0].path : ('/keystone/' + section.lists[0].path);
+			let className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'active' : null
 
 			return (
-				<PrimaryNavItem className={className} href={href} title={'Dashboard - ' + this.props.brand} title="Sign Out">
-					{item.label}
+				<PrimaryNavItem className={className} href={href}>
+					{section.label}
 				</PrimaryNavItem>
 			);
 		});

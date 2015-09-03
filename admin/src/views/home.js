@@ -146,7 +146,7 @@ var View = React.createClass({
 			<div>
 				<PrimaryNavigation
 					brand={Keystone.brand}
-					navItems={Keystone.nav.sections}
+					sections={Keystone.nav.sections}
 					signoutUrl={Keystone.signoutUrl}
 					/>
 				<Container>

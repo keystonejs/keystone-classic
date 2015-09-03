@@ -5,6 +5,7 @@ const CreateForm = require('../components/CreateForm');
 const EditForm = require('../components/EditForm');
 const EditFormHeader = require('../components/EditFormHeader');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
+const SecondaryNavigation = require('../components/SecondaryNavigation');
 
 const { Container, Spinner } = require('elemental');
 
@@ -54,10 +55,13 @@ var View = React.createClass({
 		return (
 			<div>
 				<PrimaryNavigation
-					activeView={Keystone.nav.currentSection}
+					currentSectionKey={Keystone.nav.currentSection.key}
 					brand={Keystone.brand}
-					navItems={Keystone.nav.sections}
+					sections={Keystone.nav.sections}
 					signoutUrl={Keystone.signoutUrl} />
+				<SecondaryNavigation
+					currentListKey={Keystone.list.path}
+					lists={Keystone.nav.currentSection.lists} />
 				<EditFormHeader
 					list={this.props.list}
 					data={this.state.itemData}

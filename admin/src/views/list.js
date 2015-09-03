@@ -4,6 +4,7 @@ const CreateForm = require('../components/CreateForm');
 const ItemsTable = require('../components/ItemsTable');
 const ListHeader = require('../components/ListHeader');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
+const SecondaryNavigation = require('../components/SecondaryNavigation');
 
 const CurrentListStore = require('../stores/CurrentListStore');
 
@@ -151,10 +152,13 @@ const ListView = React.createClass({
 		) : (
 			<div>
 				<PrimaryNavigation
-					activeView={Keystone.nav.currentSection}
+					currentSectionKey={Keystone.nav.currentSection.key}
 					brand={Keystone.brand}
-					navItems={Keystone.nav.sections}
+					sections={Keystone.nav.sections}
 					signoutUrl={Keystone.signoutUrl} />
+				<SecondaryNavigation
+					currentListKey={Keystone.list.path}
+					lists={Keystone.nav.currentSection.lists} />
 				{this.renderBlankState()}
 				{this.renderActiveState()}
 			</div>
