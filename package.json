@@ -38,6 +38,7 @@
     "express-session": "^1.11.3",
     "fs-extra": "^0.23.1",
     "grappling-hook": "^3.0.0",
+    "history": "^1.8.4",
     "i": "^0.3.3",
     "jade": "^1.11.0",
     "jquery": "^2.1.4",
