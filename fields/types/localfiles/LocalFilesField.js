@@ -153,7 +153,7 @@ module.exports = Field.create({
 
 	renderPlaceholder () {
 		return (
-			<div className="file-field file-upload row col-sm-3 col-md-12" onClick={this.changeFiles}>
+			<div className="file-field file-upload" onClick={this.changeFiles}>
 				<div className="file-preview">
 					<span className="file-thumbnail">
 						<span className="file-dropzone" />

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import utils from '../utils.js';
-import { Button, Dropdown, FormInput, InputGroup, Pagination } from 'elemental';
+import { Button, Container, Dropdown, FormInput, InputGroup, Pagination } from 'elemental';
 
 import CreateForm from './CreateForm';
 import ListColumnsForm from './ListColumnsForm';
@@ -141,7 +141,7 @@ var ListHeader = React.createClass({
 		let { activeSort, currentPage, invertSort, items, list, pageSize, sortPopoutIsOpen } = this.state;
 		return (
 			<div className="ListHeader">
-				<div className="container">
+				<Container>
 					<ListHeaderTitle
 						activeSort={list.fields[activeSort]}
 						invertSort={invertSort}
@@ -173,7 +173,7 @@ var ListHeader = React.createClass({
 						singular={list.singular}
 						total={items.count}
 						/>
-				</div>
+				</Container>
 				{this.renderCreateForm()}
 			</div>
 		);

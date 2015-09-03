@@ -41,7 +41,7 @@ var Thumbnail = React.createClass({
 		if (width && height) title = width + ' x ' + height;
 
 		return (
-			<div className="image-field image-sortable row col-sm-3 col-md-12" title={title}>
+			<div className="image-field image-sortable" title={title}>
 				<div className={previewClassName}>
 					<a href={this.props.url} className="img-thumbnail" target="__blank">
 						<img style={{ height: '90' }} className="img-load" src={this.props.url} />
@@ -187,7 +187,7 @@ module.exports = Field.create({
 
 	renderPlaceholder () {
 		return (
-			<div className="image-field image-upload row col-sm-3 col-md-12" onClick={this.changeImage}>
+			<div className="image-field image-upload" onClick={this.changeImage}>
 				<div className="image-preview">
 					<span className="img-thumbnail">
 						<span className="img-dropzone" />

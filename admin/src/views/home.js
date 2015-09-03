@@ -1,4 +1,5 @@
 var React = require('react');
+var { Container } = require('elemental');
 var xhr = require('xhr');
 var { plural } = require('../utils');
 
@@ -142,12 +143,12 @@ var View = React.createClass({
 
 	render () {
 		return (
-			<div className="container">
+			<Container>
 				<div className="page-header"><h1>{Keystone.brand}</h1></div>
 				<div className="dashboard-groups">
 					{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}
 				</div>
-			</div>
+			</Container>
 		);
 	}
 

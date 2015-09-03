@@ -5,7 +5,7 @@ var CreateForm = require('../components/CreateForm');
 var EditForm = require('../components/EditForm');
 var EditFormHeader = require('../components/EditFormHeader');
 
-var { Spinner } = require('elemental');
+var { Container, Spinner } = require('elemental');
 
 var View = React.createClass({
 
@@ -54,10 +54,10 @@ var View = React.createClass({
 		return (
 			<div>
 				<EditFormHeader list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
-				<div className="container">
+				<Container>
 					{this.renderCreateForm()}
 					<EditForm list={this.state.list} data={this.state.itemData} />
-				</div>
+				</Container>
 			</div>
 		);
 	}

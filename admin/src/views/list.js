@@ -6,7 +6,7 @@ const ItemsTable = require('../components/ItemsTable');
 
 const CurrentListStore = require('../stores/CurrentListStore');
 
-const { BlankState, Button, Spinner } = require('elemental');
+const { BlankState, Container, Button, Spinner } = require('elemental');
 
 const ListView = React.createClass({
 
@@ -70,13 +70,13 @@ const ListView = React.createClass({
 	renderBlankState () {
 		if (!this.state.showBlankState) return null;
 		return (
-			<div className="container">
+			<Container>
 				<BlankState style={{ marginTop: 40 }}>
 					<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found&hellip;</BlankState.Heading>
 					{this.renderCreateButton()}
 				</BlankState>
 				{this.renderCreateForm()}
-			</div>
+			</Container>
 		);
 	},
 
@@ -94,10 +94,10 @@ const ListView = React.createClass({
 		return (
 			<div>
 				<ListHeader toggleTableWidth={this.toggleTableWidth} tableIsExpanded={!this.state.constrainTableWidth} />
-				<div className="container" style={containerStyle}>
+				<Container style={containerStyle}>
 					{this.renderItemsTable()}
 					{this.renderNoSearchResults()}
-				</div>
+				</Container>
 			</div>
 		);
 	},
