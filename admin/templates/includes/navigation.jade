@@ -1,0 +1,30 @@
+header.keystone-navigation
+	nav.primary-navbar
+		.container
+			ul.app-nav.app-nav--primary.app-nav--left
+				li(class=!section.key ? 'active' : null)
+					a(href='/keystone' title='Dashboard - ' + brand tabIndex="-1")
+						span.octicon.octicon-home
+				each navSection in nav.sections
+					if navSection.lists[0].external
+						- path = navSection.lists[0].path
+					else
+						- path = '/keystone/' + navSection.lists[0].path
+
+					li(class=section.key == navSection.key ? 'active' : null)
+						a(href=path tabIndex="-1")= navSection.label
+			if signout
+				ul.app-nav.app-nav--primary.app-nav--right
+					li
+						a(href=signout title="Sign Out" tabIndex="-1").signout
+							span.octicon.octicon-sign-out
+	if section.lists && section.lists.length > 1
+		nav.secondary-navbar
+			.container
+				ul.app-nav.app-nav--secondary.app-nav--left
+					each navList in section.lists
+						if navList.external
+							- path = navList.path
+						else
+							- path = '/keystone/' + navList.path
+						li(class=navList.key == list.key ? 'active' : null): a(href=path tabIndex="-1")= navList.label
