@@ -16,14 +16,27 @@
 	border: none;
 	color: #ccc;
 	display: block;
+	height: 20px;
 	line-height: 0; // collapse buttons
 	padding: 0;
+	position: relative;
 	text-align: center;
-	height: 20px;
 	width: 20px;
 
-	&:focus {
+	&:hover,
+	&:focus,
+	&:active {
 		outline: none;
+	}
+
+	// expand hit area
+	&::before {
+		bottom: -@table-padding;
+		content: " ";
+		left: -@table-padding;
+		position: absolute;
+		right: -@table-padding;
+		top: -@table-padding;
 	}
 
 	// explicit font-size (multiple of 16) + disable antialiasing stops blurring

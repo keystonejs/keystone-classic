@@ -34,7 +34,7 @@ var TextColumn = React.createClass({
 	renderValue (value) {
 		var refList = this.props.col.field.refList;
 		return (
-			<a href={'/keystone/' + refList.path + '/' + value.id} key={value.id}>
+			<a href={'/keystone/' + refList.path + '/' + value.id} key={value.id} className="ItemList__col-value ItemList__col-value--relationship ItemList__col-link">
 				{value.name}
 			</a>
 		);

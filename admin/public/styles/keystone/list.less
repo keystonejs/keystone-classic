@@ -59,6 +59,10 @@
 	margin-bottom: 60px;
 	table-layout: fixed;
 	width: 100%;
+
+	a {
+		// color: @text-color;
+	}
 }
 
 
@@ -80,6 +84,18 @@
 .ItemList__col-more {
 	color: #666;
 }
+.ItemList__col-link {
+	color: @text-color;
+	display: inline-block;
+	margin: -@table-padding;
+	padding: @table-padding;
+
+	&:hover,
+	&:focus {
+		color: @text-color;
+		outline: none;
+	}
+}
 
 
 
@@ -89,20 +105,14 @@
 
 
 // Name Field
-// 1. fix an optical illusion that occurs between the row name and the row icon.
-//    in most cases the first character of the name col is uppercase, so
-//    the icon appears to be too low due the absence of a decender in the row name
-//    (they are in fact aligned middle correctly)
-// 2. remove the negative margin on table anchors to provide a comfortable gutter
-//    between the row name and the row icon
+// fix an optical illusion that occurs between the row name and the row icon.
+// in most cases the first character of the name col is uppercase, so
+// the icon appears to be too low due the absence of a decender in the row name
+// (they are in fact aligned middle correctly)
 
 .ItemList__col-value--name {
-	bottom: -1px; // 1
-	position: relative; // 1
-
-	.ItemList__control-col + td > & {
-		margin-left: 0 !important; // 2
-	}
+	bottom: -1px;
+	position: relative;
 }
 
 .ItemList__col-value--id {
