@@ -21,12 +21,12 @@
 .dashboard-header {
 	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 	margin-bottom: 40px;
-	margin-top: 1em;
+	margin-top: 40px;
 	padding-bottom: 1em;
 }
 .dashboard-heading {
 	font-size: 2em;
-	font-weight: 500;
+	font-weight: 300;
 }
 
 
@@ -91,22 +91,27 @@
 	padding-right: 39px; // make room for the create button
 	position: relative;
 
-	&:hover,
 	&:focus {
 		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px fade(@link-color, 50%);
 		color: @gray-light;
 		outline: none;
 		text-decoration: none;
-
-		.dashboard-group__list-label {
-			border-bottom-color: fade(@link-color, 50%);
-		}
+	}
+	&:hover .dashboard-group__list-label {
+		border-bottom-color: fade(@link-color, 50%);
 	}
 
 	&:active {
 		box-shadow: 0 0 0 1px fade(@link-color, 50%);
 		top: 1px;
 	}
+}
+.dashboard-group__list-inner:hover >
+.dashboard-group__list-tile {
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px fade(@link-color, 50%);
+	color: @gray-light;
+	outline: none;
+	text-decoration: none;
 }
 
 .dashboard-group__list-label {
