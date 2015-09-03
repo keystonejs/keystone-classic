@@ -129,6 +129,7 @@ var View = React.createClass({
 							</div>
 							<div className="dashboard-group__lists">
 								{this.props.orphanedLists.map((list) => {
+									var href = list.external ? list.path : '/keystone/' + list.path;
 									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
 							</div>
