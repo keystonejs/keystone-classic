@@ -143,7 +143,9 @@ var View = React.createClass({
 	render () {
 		return (
 			<Container>
-				<div className="page-header"><h1>{this.props.brand}</h1></div>
+				<div className="dashboard-header">
+					<div className="dashboard-heading">{this.props.brand}</div>
+				</div>
 				<div className="dashboard-groups">
 					{this.props.navIsFlat ? this.renderFlatNav() : this.renderGroupedNav()}
 				</div>
