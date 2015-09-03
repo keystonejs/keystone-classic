@@ -19,7 +19,7 @@ var TextColumn = React.createClass({
 	},
 	renderLink () {
 		return (
-			<a href={this.props.linkTo} className="ItemList__col-value ItemList__col-value--name ItemList__col-link">
+			<a href={this.props.linkTo} className="ItemList__col-value ItemList__col-value--name ItemList__link--padded ItemList__link--interior">
 				{this.renderValue()}
 			</a>
 		);

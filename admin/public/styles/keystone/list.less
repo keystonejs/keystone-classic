@@ -59,10 +59,6 @@
 	margin-bottom: 60px;
 	table-layout: fixed;
 	width: 100%;
-
-	a {
-		// color: @text-color;
-	}
 }
 
 
@@ -72,27 +68,29 @@
 	.u-text-truncate();
 }
 
-.ItemList__col-tag {
-	margin-right: 5px;
-	cursor: default;
-}
 
-.ItemList__col-separator {
-	margin-right: 3px;
-	color: #666;
-}
-.ItemList__col-more {
-	color: #666;
-}
-.ItemList__col-link {
-	color: @text-color;
+
+
+// Links
+// ------------------------------
+
+.ItemList__link--padded {
 	display: inline-block;
 	margin: -@table-padding;
 	padding: @table-padding;
+}
+.ItemList__link--interior {
+	color: @text-color;
 
 	&:hover,
 	&:focus {
 		color: @text-color;
+		outline: none;
+	}
+}
+.ItemList__link--exterior {
+	&:hover,
+	&:focus {
 		outline: none;
 	}
 }
@@ -115,6 +113,9 @@
 	position: relative;
 }
 
+
+// ID Field
+
 .ItemList__col-value--id {
 	bottom: -1px; // 1
 	position: relative; // 1
@@ -125,6 +126,9 @@
 		margin-left: 0 !important; // 2
 	}
 }
+
+
+// __INVALID__ Field
 
 .ItemList__col-value--invalid {
 	bottom: -1px; // 1
@@ -166,6 +170,16 @@
 	border-radius: 5px;
 	width: 16px;
 	height: 16px;
+}
+
+
+// Relationship Field
+
+.ItemList__more-indicator {
+	color: #bbb;
+	font-size: @font-size-xs;
+	font-weight: 500;
+	margin-left: .5em;
 }
 
 
