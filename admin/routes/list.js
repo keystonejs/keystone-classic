@@ -184,32 +184,6 @@ exports = module.exports = function(req, res) {
 			});
 		})();
 
-	} else if (!req.list.get('nodelete') && req.query['delete']) { //eslint-disable-line dot-notation
-
-		if (!checkCSRF()) return renderView();
-
-		if (req.query['delete'] === req.user.id) { //eslint-disable-line dot-notation
-			req.flash('error', 'You can\'t delete your own ' + req.list.singular + '.');
-			return renderView();
-		}
-
-		req.list.model.findById(req.query['delete']).exec(function (err, item) { //eslint-disable-line dot-notation
-			if (err || !item) return res.redirect('/keystone/' + req.list.path);
-
-			item.remove(function (err) {
-				if (err) {
-					console.warn('Error deleting ' + req.list.singular);
-					console.error(err);
-					req.flash('error', 'Error deleting the ' + req.list.singular + ': ' + err.message);
-				} else {
-					req.flash('success', req.list.singular + ' deleted successfully.');
-				}
-				res.redirect('/keystone/' + req.list.path);
-			});
-		});
-
-		return;
-
 	} else if (!req.list.get('nocreate') && req.list.get('autocreate') && _.has(req.query, 'new')) {
 
 		if (!checkCSRF()) return renderView();
