@@ -29,7 +29,7 @@ var ListTile = React.createClass({
 	},
 	render () {
 		return (
-			<li className="dashboard-group__list">
+			<div className="dashboard-group__list">
 				<span className="dashboard-group__list-inner">
 					<a href={this.props.href} className="dashboard-group__list-tile">
 						<div className="dashboard-group__list-label">{this.props.label}</div>
@@ -37,7 +37,7 @@ var ListTile = React.createClass({
 					</a>
 					<a href={this.props.href} className="dashboard-group__list-create octicon octicon-plus" title="Create" />
 				</span>
-			</li>
+			</div>
 		);
 	},
 });
@@ -76,20 +76,18 @@ var View = React.createClass({
 	},
 
 	renderFlatNav () {
-		return Keystone.lists.map((list) => {
+		let lists = this.props.navLists.map((list) => {
 			var href = list.external ? list.path : '/keystone/' + list.path;
-			return (
-				<h3 key={list.path}>
-					<a href={href}>{list.label}</a>
-				</h3>
-			);
+			return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 		});
+
+		return <div className="dashboard-group__lists">{lists}</div>;
 	},
 
 	renderGroupedNav () {
 		return (
 			<div>
-				{Keystone.nav.sections.map((navSection) => {
+				{this.props.navSections.map((navSection) => {
 					var headingIconClass = 'dashboard-group__heading-icon octicon octicon-';
 
 					if (ICON_TAGS_BRIEFCASE.indexOf(navSection.key) !== -1) { headingIconClass += 'briefcase'; }
@@ -112,28 +110,28 @@ var View = React.createClass({
 								<span className={headingIconClass} />
 								{navSection.label}
 							</div>
-							<ul className="dashboard-group__lists">
+							<div className="dashboard-group__lists">
 								{navSection.lists.map((list) => {
 									var href = list.external ? list.path : '/keystone/' + list.path;
 									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
-							</ul>
+							</div>
 						</div>
 					);
 				})}
 				{() => {
-					if (!Keystone.orphanedLists.length) return;
+					if (!this.props.orphanedLists.length) return;
 					return (
 						<div className="dashboard-group">
 							<div className="dashboard-group__heading">
 								<span className="dashboard-group__heading-icon octicon octicon-database" />
 								Other
 							</div>
-							<ul className="dashboard-group__lists">
-								{Keystone.orphanedLists.map((list) => {
+							<div className="dashboard-group__lists">
+								{this.props.orphanedLists.map((list) => {
 									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
-							</ul>
+							</div>
 						</div>
 					);
 				}()}
@@ -144,9 +142,9 @@ var View = React.createClass({
 	render () {
 		return (
 			<Container>
-				<div className="page-header"><h1>{Keystone.brand}</h1></div>
+				<div className="page-header"><h1>{this.props.brand}</h1></div>
 				<div className="dashboard-groups">
-					{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}
+					{this.props.navIsFlat ? this.renderFlatNav() : this.renderGroupedNav()}
 				</div>
 			</Container>
 		);
@@ -154,4 +152,10 @@ var View = React.createClass({
 
 });
 
-React.render(<View />, document.getElementById('home-view'));
+React.render(<View
+		brand={Keystone.brand}
+		navIsFlat={Keystone.nav.flat}
+		navLists={Keystone.lists}
+		navSections={Keystone.nav.sections}
+		orphanedLists={Keystone.orphanedLists}
+	/>, document.getElementById('home-view'));

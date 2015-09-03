@@ -128,7 +128,7 @@ const ListView = React.createClass({
 		var props = { type: 'success' };
 		if (this.state.list.nocreate) return null;
 		if (this.state.list.autocreate) {
-			props.href = '?new' + Keystone.csrf.query;
+			props.href = '?new' + this.props.csrfQuery;
 		} else {
 			props.onClick = this.toggleCreateModal.bind(this, true);
 		}
@@ -141,10 +141,11 @@ const ListView = React.createClass({
 	},
 
 	renderCreateForm () {
-		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
+		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={this.props.createFormData} err={this.props.createFormErrors} />;
 	},
 
 	render () {
+		console.count('render')
 		return !this.state.ready ? (
 			<div className="view-loading-indicator"><Spinner size="md" /></div>
 		) : (
@@ -159,5 +160,9 @@ const ListView = React.createClass({
 
 var target = document.getElementById('list-view');
 if (target) {
-	React.render(<ListView />, target);
+	React.render(<ListView
+	csrfQuery={Keystone.csrf_query}
+	createFormData={Keystone.createFormData}
+	createFormErrors={Keystone.createFormErrors} />,
+	target);
 }

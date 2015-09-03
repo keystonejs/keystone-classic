@@ -42,9 +42,7 @@
 
 .dashboard-group__lists {
 	&:extend(.u-clearfix all);
-	list-style: none;
-	margin: 0 -10px -10px 20px;
-	padding: 0;
+	margin: 0 -10px 20px;
 }
 
 
@@ -112,6 +110,10 @@
 .dashboard-group__list-inner:hover >
 .dashboard-group__list-create {
 	background-color: darken(@gray-lighter, 6%);
+}
+.dashboard-group__list-inner:active >
+.dashboard-group__list-create {
+	top: 16px;
 }
 
 // upsetting specificity

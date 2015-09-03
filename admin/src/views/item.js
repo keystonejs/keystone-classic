@@ -14,7 +14,6 @@ var View = React.createClass({
 	getInitialState () {
 		return {
 			createIsOpen: false,
-			list: Keystone.list,
 			itemData: null
 		};
 	},
@@ -24,7 +23,7 @@ var View = React.createClass({
 	},
 
 	loadItemData () {
-		request.get('/keystone/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
+		request.get('/keystone/api/' + this.props.list.path + '/' + this.props.itemId + '?drilldown=true')
 			.set('Accept', 'application/json')
 			.end((err, res) => {
 				if (err || !res.ok) {
@@ -46,17 +45,17 @@ var View = React.createClass({
 	},
 
 	renderCreateForm () {
-		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} />;
+		return <CreateForm list={this.props.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} />;
 	},
 
 	render () {
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
 		return (
 			<div>
-				<EditFormHeader list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
+				<EditFormHeader list={this.props.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
 				<Container>
 					{this.renderCreateForm()}
-					<EditForm list={this.state.list} data={this.state.itemData} />
+					<EditForm list={this.props.list} data={this.state.itemData} />
 				</Container>
 			</div>
 		);
@@ -64,4 +63,7 @@ var View = React.createClass({
 
 });
 
-React.render(<View itemId={Keystone.itemId} />, document.getElementById('item-view'));
+React.render(<View
+		itemId={Keystone.itemId}
+		list={Keystone.list}
+	/>, document.getElementById('item-view'));
