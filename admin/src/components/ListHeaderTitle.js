@@ -54,6 +54,8 @@ var ListHeaderTitle = React.createClass({
 						<span className="disclosure-arrow" />
 					</a>*/}
 				</h2>
+				{/*
+				TODO
 				<Popout isOpen={this.props.popoutIsOpen} onCancel={this.props.closePopout} relativeToID="listHeaderSortButton">
 					<Popout.Header title="Sort" />
 					<Popout.Body scrollable>
@@ -65,6 +67,7 @@ var ListHeaderTitle = React.createClass({
 						<FormNote>Hold <kbd>alt</kbd> to toggle ascending/descending</FormNote>
 					</Popout.Footer>
 				</Popout>
+				*/}
 			</div>
 		);
 	}
