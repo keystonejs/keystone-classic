@@ -1,4 +1,4 @@
-var keystone = require('../../../');
+var keystone = require('../../');
 
 exports = module.exports = function(req, res) {
 
