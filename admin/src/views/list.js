@@ -145,7 +145,6 @@ const ListView = React.createClass({
 	},
 
 	render () {
-		console.count('render')
 		return !this.state.ready ? (
 			<div className="view-loading-indicator"><Spinner size="md" /></div>
 		) : (
