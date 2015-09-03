@@ -1,5 +1,8 @@
 script.
 	var Keystone = {};
+	Keystone.nav = !{JSON.stringify(nav)};
+	Keystone.nav.currentSection = !{JSON.stringify(section)};
+	Keystone.messages = !{JSON.stringify(messages)};
 	Keystone.csrf = function(obj) {
 		obj['#{csrf_token_key}'] = "#{csrf_token_value}";
 		return obj;
