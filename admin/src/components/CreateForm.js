@@ -75,7 +75,7 @@ var CreateForm = React.createClass({
 		if (errorCount > 1) {
 			alertContent = (
 				<div>
-					<h4>There were {errorCount} errors creating the new {list.singular}:</h4>
+					<h4>There were {errorCount} errors creating the new {this.props.list.singular}:</h4>
 					<ul>{messages}</ul>
 				</div>
 			);
