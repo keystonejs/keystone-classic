@@ -1,7 +1,14 @@
-var React = require('react');
-var classnames = require('classnames');
-var { Alert, Button, Form, FormField, FormInput, Spinner } = require('elemental');
-var SessionStore = require('../stores/SessionStore');
+import classnames from 'classnames';
+import React from 'react';
+import SessionStore from '../stores/SessionStore';
+import { Alert, Button, Form, FormField, FormInput, Spinner } from 'elemental';
+import { createHistory } from 'history';
+
+var history = createHistory();
+
+function wasSignedOut() {
+	return window.location.search === '?signedout=true';
+}
 
 var SigninView = React.createClass({
 	getInitialState () {
@@ -11,9 +18,13 @@ var SigninView = React.createClass({
 			isAnimating: false,
 			isInvalid: false,
 			invalidMessage: '',
+			signedOut: wasSignedOut()
 		};
 	},
 	componentDidMount () {
+		if (this.state.signedOut && window.history.replaceState) {
+			history.replaceState({}, window.location.pathname);
+		}
 		if (this.refs.email) {
 			React.findDOMNode(this.refs.email).select();
 		}
@@ -89,15 +100,17 @@ var SigninView = React.createClass({
 		);
 	},
 	renderAlert () {
-		return this.state.isInvalid ? (
-			<Alert key="real" type="danger" style={{ textAlign: 'center' }}>{this.state.invalidMessage}</Alert>
-		) : (
+		if (this.state.isInvalid) {
+			return <Alert key="error" type="danger" style={{ textAlign: 'center' }}>{this.state.invalidMessage}</Alert>;
+		} else if (this.state.signedOut) {
+			return <Alert key="signed-out" type="info" style={{ textAlign: 'center' }}>You have been signed out.</Alert>;
+		} else {
 			/* eslint-disable react/self-closing-comp */
 			// TODO: This probably isn't the best way to do this, we
 			// shouldn't be using Elemental classNames instead of components
-			<div key="fake" className="Alert Alert--placeholder">&nbsp;</div>
+			return <div key="fake" className="Alert Alert--placeholder">&nbsp;</div>;
 			/* eslint-enable */
-		);
+		}
 	},
 	renderForm () {
 		if (this.props.user) return null;
