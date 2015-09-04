@@ -14,12 +14,12 @@ var UrlColumn = React.createClass({
 		// strip the protocol from the link if it's http(s)
 		var label = value.replace(/^https?\:\/\//i, '');
 
-		return <a href={href} target="_blank">{label}</a>;
+		return <a href={href} target="_blank" className="ItemList__value ItemList__value--url ItemList__link--padded ItemList__link--exterior">{label}</a>;
 	},
 	render: function() {
 		return (
 			<td className="ItemList__col">
-				<div className="ItemList__value ItemList__value--url ItemList__link--padded ItemList__link--exterior">{this.renderValue()}</div>
+				{this.renderValue()}
 			</td>
 		);
 	}
