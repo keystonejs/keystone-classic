@@ -148,6 +148,7 @@ var View = React.createClass({
 				<header className="keystone-header">
 					<PrimaryNavigation
 						brand={Keystone.brand}
+						currentSectionKey="dashboard"
 						sections={Keystone.nav.sections}
 						signoutUrl={Keystone.signoutUrl}
 						/>
