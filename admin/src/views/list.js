@@ -4,6 +4,7 @@ const CreateForm = require('../components/CreateForm');
 const ItemsTable = require('../components/ItemsTable');
 const ListHeader = require('../components/ListHeader');
 const Footer = require('../components/Footer');
+const FlashMessages = require('../components/FlashMessages');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
 
@@ -74,6 +75,7 @@ const ListView = React.createClass({
 		if (!this.state.showBlankState) return null;
 		return (
 			<Container>
+				<FlashMessages messages={Keystone.messages} />
 				<BlankState style={{ marginTop: 40 }}>
 					<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found&hellip;</BlankState.Heading>
 					{this.renderCreateButton()}
@@ -98,6 +100,7 @@ const ListView = React.createClass({
 			<div>
 				<ListHeader toggleTableWidth={this.toggleTableWidth} tableIsExpanded={!this.state.constrainTableWidth} />
 				<Container style={containerStyle}>
+					<FlashMessages messages={Keystone.messages} />
 					{this.renderItemsTable()}
 					{this.renderNoSearchResults()}
 				</Container>

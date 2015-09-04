@@ -1,5 +1,4 @@
 const React = require('react');
-const blacklist = require('blacklist');
 const { Alert } = require('elemental');
 
 var FlashMessage = React.createClass({
@@ -13,17 +12,13 @@ var FlashMessage = React.createClass({
 		type: React.PropTypes.string,
 	},
 
-	renderMessage () {
-		let { message } = this.props;
-
-		if (typeof message === 'string') {
-			return <span>{message}</span>;
-		}
+	renderMessage (message) {
+		if (typeof message === 'string') return <span>{message}</span>;
 
 		let title = message.title ? <h4>{message.title}</h4> : null;
 		let detail = message.detail ? <p>{message.detail}</p> : null;
 		let list = message.list ? (
-			<ul>
+			<ul style={{ marginBottom: 0 }}>
 				{message.list.map(item => <li>{item}</li>)}
 			</ul>
 		) : null;
@@ -38,10 +33,7 @@ var FlashMessage = React.createClass({
 	},
 
 	render () {
-		// sanitize types
-		let type = (this.props.type === 'error') ? 'danger' : this.props.type;
-
-		return <Alert type={type}>{this.renderMessage()}</Alert>;
+		return <Alert type={this.props.type}>{this.renderMessage(this.props.message)}</Alert>;
 	}
 
 });
@@ -58,15 +50,24 @@ var FlashMessages = React.createClass({
 		})
 	},
 
-	renderErrorAlerts () {
-		// TODO: @JM was this implemented?
-		return null;
+	renderMessages (messages, type) {
+		if (!messages || !messages.length) return null;
+
+		return messages.map((message) => {
+			return <FlashMessage message={message} type={type} />
+		});
+	},
+
+	renderTypes (types) {
+		return Object.keys(types).map(type => this.renderMessages(types[type], type));
 	},
 
 	render () {
+		if (!this.props.messages) return null;
+
 		return (
 			<div className="flash-messages">
-				{this.renderErrorAlerts()}
+				{this.renderTypes(this.props.messages)}
 			</div>
 		);
 	}

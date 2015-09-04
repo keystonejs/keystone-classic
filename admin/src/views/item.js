@@ -5,6 +5,7 @@ const CreateForm = require('../components/CreateForm');
 const EditForm = require('../components/EditForm');
 const EditFormHeader = require('../components/EditFormHeader');
 const Footer = require('../components/Footer');
+const FlashMessages = require('../components/FlashMessages');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
 
@@ -73,6 +74,7 @@ var View = React.createClass({
 						toggleCreate={this.toggleCreate} />
 					<Container>
 						{this.renderCreateForm()}
+						<FlashMessages messages={Keystone.messages} />
 						<EditForm list={this.props.list} data={this.state.itemData} />
 					</Container>
 				</div>
