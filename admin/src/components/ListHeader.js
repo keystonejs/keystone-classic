@@ -127,9 +127,12 @@ var ListHeader = React.createClass({
 		}
 		return (
 			<InputGroup.Section className="ListHeader__create">
-				<Button {...props}>
+				<Button {...props} title={'Create ' + this.state.list.singular}>
 					<span className="ListHeader__create__icon octicon octicon-plus" />
 					<span className="ListHeader__create__label">
+						Create
+					</span>
+					<span className="ListHeader__create__label--lg">
 						Create {this.state.list.singular}
 					</span>
 				</Button>

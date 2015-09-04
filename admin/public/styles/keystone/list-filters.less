@@ -30,7 +30,6 @@
 // Search Form
 // ------------------------------
 
-.ListHeader__searchbar {}
 .ListHeader__search {
 	position: relative;
 }
@@ -116,6 +115,7 @@
 .ListHeader__create {
 	.ListHeader__separator();
 }
+.ListHeader__create__label--lg { display: none; }
 
 
 
@@ -127,6 +127,8 @@
 	.ListHeader__expand {
 		display: block;
 	}
+	.ListHeader__create__label { display: none; }
+	.ListHeader__create__label--lg { display: inline; }
 }
 
 @media (max-width: @screen-xs-max) {
@@ -150,11 +152,13 @@
 
 		> .Button {
 			display: block;
+			padding-left: 0;
+			padding-right: 0;
 			width: 100%;
 		}
 	}
 }
-@media (max-width: 600px) {
+@media (max-width: 500px) {
 	.ListHeader__create {
 		border: none;
 		margin: 0;
@@ -170,11 +174,11 @@
 	}
 
 	// replace button labels with icons
+	.ListHeader__columns__icon,
+	.ListHeader__download__icon,
 	.ListHeader__filter__icon { display: inline-block; }
+	.ListHeader__columns__label,
+	.ListHeader__create__label,
+	.ListHeader__download__label,
 	.ListHeader__filter__label { display: none; }
-	.ListHeader__columns__icon { display: inline-block; }
-	.ListHeader__columns__label { display: none; }
-	.ListHeader__download__icon { display: inline-block; }
-	.ListHeader__download__label { display: none; }
-	.ListHeader__create__label { display: none; }
 }
