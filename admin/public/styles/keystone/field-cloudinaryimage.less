@@ -1,4 +1,4 @@
-// 
+//
 // Cloudinary Image
 // ==============================
 
@@ -17,6 +17,10 @@
 	// give values some breathing room
 	.FormInput-noedit {
 		margin-bottom: 10px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 100%;
 	}
 }
 
@@ -32,16 +36,16 @@
 		line-height: 0px;
 		float: left;
 		margin-right: 10px;
-		
+
 		.placeholder-wrap {
 			position: relative;
 			height: 100px;
 			overflow: hidden;
-			
+
 			.placeholder {
 				height: 90px;
 				opacity: 0.25;
-				
+
 				&.no-preview {
 					width: 100px;
 					display: block;
@@ -71,7 +75,7 @@
 			}
 		}
 	}
-	
+
 	.image-details {
 		overflow: hidden;
 
@@ -82,22 +86,22 @@
 			text-align: center;
 			width: 100%;
 		}
-		
+
 		& + .image-toolbar {
 			margin-top: @input-vspacing;
 		}
 	}
-	
+
 	.image-toolbar {
 		&:extend(.u-clearfix all);
 	}
-	
+
 
 	.image-select {
-		clear: both; 
+		clear: both;
 		padding-top: 10px;
 	}
-	
+
 	.upload-queued, .delete-queued, .select-queued {
 		.alert {
 			margin-right: 10px;
@@ -122,7 +126,7 @@
 		margin-top: 0px;
 		margin-right: 0px;
 		margin-bottom: 10px;
-		
+
 		&.image-upload {
 			cursor: pointer;
 			.img-thumbnail {
@@ -154,11 +158,11 @@
 		.placeholder-wrap {
 			height: 100px;
 			overflow: hidden;
-			
+
 			.placeholder {
 				height: 90px;
 				opacity: 0.25;
-				
+
 				&.no-preview {
 					width: 100px;
 					display: block;
@@ -225,7 +229,7 @@
 		text-align: center;
 		width: 100%;
 	}
-	
+
 	.images-container,
 	.images-toolbar {
 		&:extend(.u-clearfix all);
