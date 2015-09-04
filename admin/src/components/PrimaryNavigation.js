@@ -54,7 +54,7 @@ var PrimaryNavigation = React.createClass({
 
 		return this.props.sections.map((section) => {
 			let href = section.lists[0].external ? section.lists[0].path : ('/keystone/' + section.lists[0].path);
-			let className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'active' : null
+			let className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'active' : null;
 
 			return (
 				<PrimaryNavItem className={className} href={href}>

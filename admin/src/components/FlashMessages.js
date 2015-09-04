@@ -54,7 +54,7 @@ var FlashMessages = React.createClass({
 		if (!messages || !messages.length) return null;
 
 		return messages.map((message) => {
-			return <FlashMessage message={message} type={type} />
+			return <FlashMessage message={message} type={type} />;
 		});
 	},
 

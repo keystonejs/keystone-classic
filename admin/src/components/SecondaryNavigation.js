@@ -33,7 +33,7 @@ var SecondaryNavigation = React.createClass({
 
 		let navigation = lists.map((list) => {
 			let href = list.external ? list.path : ('/keystone/' + list.path);
-			let className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null
+			let className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
 
 			return (
 				<SecondaryNavItem className={className} href={href}>
