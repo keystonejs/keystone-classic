@@ -15,8 +15,8 @@ var LocationColumn = React.createClass({
 	},
 	render: function() {
 		return (
-			<td>
-				<div className="ItemList__col-value">{this.renderValue()}</div>
+			<td className="ItemList__col">
+				<div className="ItemList__value ItemList__value--location">{this.renderValue()}</div>
 			</td>
 		);
 	}

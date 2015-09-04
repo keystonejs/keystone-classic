@@ -36,7 +36,7 @@ html
 //- 		- var refData = item.get(col.path)
 //- 		if col.field.many
 //- 			if Array.isArray(refData) && refData.length
-//- 				div.ItemList__col-value
+//- 				div.ItemList__value
 //- 					- var values = []
 //- 					- _.first(refData, 3).forEach(function(i) { values.push(col.subField ? col.subField.format(i) : i[col.refPath]) })
 //- 					= values.join(', ')
@@ -88,13 +88,13 @@ html
 //- 		img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16)
 //- 
 //- mixin column_html(value)
-//- 	div.ItemList__col-value!= value
+//- 	div.ItemList__value!= value
 //- 
 //- mixin column_basic(value)
-//- 	div.ItemList__col-value= value
+//- 	div.ItemList__value= value
 //- 
 //- mixin column_color(value)
-//- 	div.ItemList__col-value
+//- 	div.ItemList__value
 //- 		if (value)
 //- 			div.color-preview(style={'background-color': value})
 //- if showRelationships

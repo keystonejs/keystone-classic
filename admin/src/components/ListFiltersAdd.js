@@ -160,7 +160,7 @@ var ListFiltersAdd = React.createClass({
 		return (
 			<InputGroup.Section className={this.props.className}>
 				<Button id="listHeaderFilterButton" isActive={this.state.isOpen} onClick={this.state.isOpen ? this.closePopout : this.openPopout}>
-					<span className={this.props.className + '__icon octicon octicon-fold'} />
+					<span className={this.props.className + '__icon octicon octicon-eye'} />
 					<span className={this.props.className + '__label'}>Filter</span>
 					<span className="disclosure-arrow" />
 				</Button>

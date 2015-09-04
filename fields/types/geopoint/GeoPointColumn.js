@@ -5,14 +5,14 @@ var GeoPointColumn = React.createClass({
 		var value = this.props.data.fields[this.props.col.path];
 		if (value.length > 0) {
 			return (
-				<td>
-					<div className="ItemList__col-value">Lat: {value[1]} Lng: {value[0]} </div>
+				<td className="ItemList__col">
+					<div className="ItemList__value ItemList__value--geo-point">Lat: {value[1]} Lng: {value[0]} </div>
 				</td>
 			);
 		} else {
 			return (
-				<td>
-					<div className="ItemList__col-value"></div>
+				<td className="ItemList__col">
+					<div className="ItemList__value ItemList__value--geo-point"></div>
 				</td>
 			);
 		}

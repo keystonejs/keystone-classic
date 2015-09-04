@@ -9,11 +9,11 @@ var TextColumn = React.createClass({
 		href: React.PropTypes.string
 	},
 	renderCell (children) {
-		return <td>{children}</td>;
+		return <td className="ItemList__col">{children}</td>;
 	},
 	renderNoValue () {
 		return (
-			<div className="ItemList__col-value">
+			<div className="ItemList__value ItemList__value--relationship">
 				&nbsp;
 			</div>
 		);
@@ -34,7 +34,7 @@ var TextColumn = React.createClass({
 	},
 	renderValue (value) {
 		var refList = this.props.col.field.refList;
-		var className = classnames('ItemList__col-value ItemList__col-value--relationship ItemList__link--interior', {
+		var className = classnames('ItemList__value ItemList__value--relationship ItemList__link--interior', {
 			'ItemList__link--padded': !this.props.col.field.many
 		});
 		return (

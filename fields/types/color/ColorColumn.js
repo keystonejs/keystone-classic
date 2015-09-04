@@ -5,8 +5,8 @@ var ColorColumn = React.createClass({
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value) {
 			return (
-				<td>
-					<div className="ItemList__col-value"></div>
+				<td className="ItemList__col">
+					<div className="ItemList__value ItemList__value--color"></div>
 				</td>
 			);
 		}
@@ -19,8 +19,8 @@ var ColorColumn = React.createClass({
 			width: '20px'
 		};
 		return (
-			<td>
-				<div className="ItemList__col-value"><span style={colorBoxStyle}></span>{value}</div>
+			<td className="ItemList__col">
+				<div className="ItemList__value ItemList__value--color"><span style={colorBoxStyle}></span>{value}</div>
 			</td>
 		);
 	}

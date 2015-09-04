@@ -8,8 +8,8 @@ var IdColumn = React.createClass({
 	},
 	render: function() {
 		return (
-			<td>
-				<div className="ItemList__col-value ItemList__col-value--invalid">
+			<td className="ItemList__col">
+				<div className="ItemList__value ItemList__value--invalid">
 					(Invalid Type: {this.props.col.type})
 				</div>
 			</td>

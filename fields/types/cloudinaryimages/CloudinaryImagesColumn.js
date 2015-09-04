@@ -5,16 +5,16 @@ var CloudinaryimagesColumn = React.createClass({
 		var value = this.props.data.fields[this.props.col.path];
 		if (value.length > 0) {
 			return (
-				<td>
+				<td className="ItemList__col">
 					{value.map(function(image) {
-						return <div className="ItemList__col-value" key={image.id}><a href={image.url}>{image.url}</a></div>;
+						return <div className="ItemList__value ItemList__value--cloudinary-images" key={image.id}><a href={image.url}>{image.url}</a></div>;
 					})}
 				</td>
 			);
 		} else {
 			return (
-				<td>
-					<div className="ItemList__col-value"></div>
+				<td className="ItemList__col">
+					<div className="ItemList__value ItemList__value--cloudinary-images"></div>
 				</td>
 			);
 		}

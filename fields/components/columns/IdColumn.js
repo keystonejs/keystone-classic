@@ -6,7 +6,7 @@ var IdColumn = React.createClass({
 		data: React.PropTypes.object
 	},
 	render: function() {
-		var className = 'ItemList__col-value ItemList__col-value--id';
+		var className = 'ItemList__value ItemList__value--id';
 		return (
 			<td>
 				<a href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} className={className}>

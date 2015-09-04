@@ -6,8 +6,8 @@ var MoneyColumn = React.createClass({
 		var value = this.props.data.fields[this.props.col.path];
 		var formattedValue = numeral(value).format('$0,0.00');
 		return (
-			<td>
-				<div className="ItemList__col-value">{formattedValue ? formattedValue : null}</div>
+			<td className="ItemList__col">
+				<div className="ItemList__value ItemList__value--money">{formattedValue ? formattedValue : null}</div>
 			</td>
 		);
 	}

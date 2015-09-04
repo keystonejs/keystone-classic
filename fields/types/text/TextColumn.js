@@ -12,21 +12,21 @@ var TextColumn = React.createClass({
 	},
 	renderText () {
 		return (
-			<div className="ItemList__col-value">
+			<div className="ItemList__value ItemList__value--text">
 				{this.renderValue()}
 			</div>
 		);
 	},
 	renderLink () {
 		return (
-			<a href={this.props.linkTo} className="ItemList__col-value ItemList__col-value--name ItemList__link--padded ItemList__link--interior">
+			<a href={this.props.linkTo} className="ItemList__value ItemList__value--text ItemList__link--padded ItemList__link--interior">
 				{this.renderValue()}
 			</a>
 		);
 	},
 	render: function() {
 		return (
-			<td>
+			<td className="ItemList__col">
 				{this.props.linkTo ? this.renderLink() : this.renderText()}
 			</td>
 		);

@@ -10,7 +10,7 @@ var CloudinaryimageColumn = React.createClass({
 	render: function() {
 		return (
 			<td>
-				<div className='ItemList__col-value'>{this.renderValue()}</div>
+				<div className='ItemList__value'>{this.renderValue()}</div>
 			</td>
 		);
 	}

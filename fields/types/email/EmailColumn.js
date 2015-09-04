@@ -4,11 +4,11 @@ var EmailColumn = React.createClass({
 	renderValue: function() {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
-		return <a href={'mailto:'+ value} className="ItemList__col-value ItemList__col-value--email ItemList__link--padded ItemList__link--exterior">{value}</a>;
+		return <a href={'mailto:'+ value} className="ItemList__value ItemList__value--email ItemList__link--padded ItemList__link--exterior">{value}</a>;
 	},
 	render: function() {
 		return (
-			<td>
+			<td className="ItemList__col">
 				{this.renderValue()}
 			</td>
 		);
