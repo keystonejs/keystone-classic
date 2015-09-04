@@ -77,9 +77,10 @@ var ListColumnsForm = React.createClass({
 
 	render () {
 		return (
-			<InputGroup.Section>
+			<InputGroup.Section className={this.props.className}>
 				<Button ref="target" id="listHeaderColumnButton" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
-					Columns
+					<span className={this.props.className + '__icon octicon octicon-list-unordered'} />
+					<span className={this.props.className + '__label'}>Columns</span>
 					<span className="disclosure-arrow" />
 				</Button>
 				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)} relativeToID="listHeaderColumnButton">

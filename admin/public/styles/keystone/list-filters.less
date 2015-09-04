@@ -1,6 +1,18 @@
-// 
+//
 // List Filters
 // ==============================
+
+
+
+
+// Helpers
+// ------------------------------
+
+.ListHeader__separator () {
+	border-left: 1px solid rgba(0,0,0,0.1);
+	margin-left: @input-padding-horizontal;
+	paddingleft: @input-padding-horizontal;
+}
 
 
 
@@ -19,10 +31,10 @@
 // ------------------------------
 
 .ListHeader__searchbar {}
-.ListHeader__searchbar-field {
+.ListHeader__search {
 	position: relative;
 }
-/*button*/.ListHeader__searchbar-field__icon {
+/*button*/.ListHeader__search__icon {
 	background: none;
 	border: none;
 	color: @gray-light;
@@ -57,8 +69,112 @@
 
 
 
+// Filter
+// ------------------------------
+
+.ListHeader__filter__icon {
+	display: none;
+}
 
 
 
 
+// Columns
+// ------------------------------
 
+.ListHeader__columns__icon {
+	display: none;
+}
+
+
+
+
+// Download
+// ------------------------------
+
+.ListHeader__download__icon {
+	display: none;
+}
+
+
+
+
+// Expand
+// ------------------------------
+
+.ListHeader__expand {
+	.ListHeader__separator();
+	display: none;
+}
+
+
+
+
+// Create
+// ------------------------------
+
+.ListHeader__create {
+	.ListHeader__separator();
+}
+
+
+
+
+// Responsive
+// ------------------------------
+
+@media (min-width: @screen-lg) {
+	.ListHeader__expand {
+		display: block;
+	}
+}
+
+@media (max-width: @screen-xs-max) {
+	.ListHeader__bar {
+		.flex-wrap(wrap);
+	}
+	.ListHeader__search {
+		margin-bottom: @input-padding-horizontal;
+		min-width: 100%;
+	}
+	.ListHeader__filter.ListHeader__filter {
+		padding-left: 1px;
+	}
+
+	// make buttons fill width
+	.ListHeader__filter,
+	.ListHeader__columns,
+	.ListHeader__download,
+	.ListHeader__create {
+		.flex(1,1,0);
+
+		> .Button {
+			display: block;
+			width: 100%;
+		}
+	}
+}
+@media (max-width: 600px) {
+	.ListHeader__create {
+		border: none;
+		margin: 0;
+		padding: 0;
+	}
+	.ListHeader__create__icon {
+		margin-right: 0 !important;
+	}
+
+	// remove margin from disclosure arrows
+	.ListHeader__bar .disclosure-arrow {
+		margin-left: 0;
+	}
+
+	// replace button labels with icons
+	.ListHeader__filter__icon { display: inline-block; }
+	.ListHeader__filter__label { display: none; }
+	.ListHeader__columns__icon { display: inline-block; }
+	.ListHeader__columns__label { display: none; }
+	.ListHeader__download__icon { display: inline-block; }
+	.ListHeader__download__label { display: none; }
+	.ListHeader__create__label { display: none; }
+}

@@ -97,12 +97,12 @@ var ListHeader = React.createClass({
 		CurrentListStore.setCurrentPage(i);
 	},
 	renderSearch () {
-		var searchClearIcon = classNames('ListHeader__searchbar-field__icon octicon', {
+		var searchClearIcon = classNames('ListHeader__search__icon octicon', {
 			'is-search octicon-search': !this.state.searchString.length,
 			'is-clear octicon-x': this.state.searchString.length
 		});
 		return (
-			<InputGroup.Section grow className="ListHeader__searchbar-field">
+			<InputGroup.Section grow className="ListHeader__search">
 				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
 				<button ref="listSearchClear" type="button" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
 			</InputGroup.Section>
@@ -126,10 +126,12 @@ var ListHeader = React.createClass({
 			props.onClick = this.toggleCreateModal.bind(this, true);
 		}
 		return (
-			<InputGroup.Section style={{ borderLeft: '1px solid rgba(0,0,0,0.1)', marginLeft: '.75em', paddingLeft: '.75em' }}>
+			<InputGroup.Section className="ListHeader__create">
 				<Button {...props}>
-					<span className="octicon octicon-plus" />
-					Create {this.state.list.singular}
+					<span className="ListHeader__create__icon octicon octicon-plus" />
+					<span className="ListHeader__create__label">
+						Create {this.state.list.singular}
+					</span>
 				</Button>
 			</InputGroup.Section>
 		);
@@ -151,12 +153,12 @@ var ListHeader = React.createClass({
 						closePopout={this.toggleSortPopout.bind(this, false)}
 						openPopout={this.toggleSortPopout.bind(this, true)}
 						/>
-					<InputGroup contiguous={false} className="ListHeader__searchbar">
+					<InputGroup className="ListHeader__bar">
 						{this.renderSearch()}
-						<ListFiltersAdd />
-						<ListColumnsForm />
-						<ListDownloadForm />
-						<InputGroup.Section style={{ borderLeft: '1px solid rgba(0,0,0,0.1)', marginLeft: '.75em', paddingLeft: '.75em' }}>
+						<ListFiltersAdd className="ListHeader__filter" />
+						<ListColumnsForm className="ListHeader__columns" />
+						<ListDownloadForm className="ListHeader__download" />
+						<InputGroup.Section className="ListHeader__expand">
 							<Button isActive={this.props.tableIsExpanded} onClick={this.props.toggleTableWidth} title="Expand table width">
 								<span className="octicon octicon-mirror" />
 							</Button>

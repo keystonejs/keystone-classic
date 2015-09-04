@@ -126,9 +126,10 @@ var ListDownloadForm = React.createClass({
 		let { useCurrentColumns } = this.state;
 
 		return (
-			<InputGroup.Section>
+			<InputGroup.Section className={this.props.className}>
 				<Button id="listHeaderDownloadButton" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
-					Download
+					<span className={this.props.className + '__icon octicon octicon-cloud-download'} />
+					<span className={this.props.className + '__label'}>Download</span>
 					<span className="disclosure-arrow" />
 				</Button>
 				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)} relativeToID="listHeaderDownloadButton">
