@@ -2,6 +2,7 @@ const React = require('react');
 const { Container } = require('elemental');
 const xhr = require('xhr');
 const { plural } = require('../utils');
+const Footer = require('../components/Footer');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 
 const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'];
@@ -143,20 +144,31 @@ var View = React.createClass({
 
 	render () {
 		return (
-			<div>
-				<PrimaryNavigation
+			<div className="keystone-wrapper">
+				<header className="keystone-header">
+					<PrimaryNavigation
+						brand={Keystone.brand}
+						sections={Keystone.nav.sections}
+						signoutUrl={Keystone.signoutUrl}
+						/>
+				</header>
+				<div className="keystone-body">
+					<Container>
+						<div className="dashboard-header">
+							<div className="dashboard-heading">{this.props.brand}</div>
+						</div>
+						<div className="dashboard-groups">
+							{this.props.navIsFlat ? this.renderFlatNav() : this.renderGroupedNav()}
+						</div>
+					</Container>
+				</div>
+				<Footer
+					appversion={Keystone.appversion}
+					backUrl={Keystone.backUrl}
 					brand={Keystone.brand}
-					sections={Keystone.nav.sections}
-					signoutUrl={Keystone.signoutUrl}
-					/>
-				<Container>
-					<div className="dashboard-header">
-						<div className="dashboard-heading">{this.props.brand}</div>
-					</div>
-					<div className="dashboard-groups">
-						{this.props.navIsFlat ? this.renderFlatNav() : this.renderGroupedNav()}
-					</div>
-				</Container>
+					User={Keystone.User}
+					user={Keystone.user}
+					version={Keystone.version} />
 			</div>
 		);
 	}

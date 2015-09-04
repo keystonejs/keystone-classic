@@ -3,6 +3,7 @@ const React = require('react');
 const CreateForm = require('../components/CreateForm');
 const ItemsTable = require('../components/ItemsTable');
 const ListHeader = require('../components/ListHeader');
+const Footer = require('../components/Footer');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
 
@@ -150,17 +151,28 @@ const ListView = React.createClass({
 		return !this.state.ready ? (
 			<div className="view-loading-indicator"><Spinner size="md" /></div>
 		) : (
-			<div>
-				<PrimaryNavigation
-					currentSectionKey={Keystone.nav.currentSection.key}
+			<div className="keystone-wrapper">
+				<header className="keystone-header">
+					<PrimaryNavigation
+						currentSectionKey={Keystone.nav.currentSection.key}
+						brand={Keystone.brand}
+						sections={Keystone.nav.sections}
+						signoutUrl={Keystone.signoutUrl} />
+					<SecondaryNavigation
+						currentListKey={Keystone.list.path}
+						lists={Keystone.nav.currentSection.lists} />
+				</header>
+				<div className="keystone-body">
+					{this.renderBlankState()}
+					{this.renderActiveState()}
+				</div>
+				<Footer
+					appversion={Keystone.appversion}
+					backUrl={Keystone.backUrl}
 					brand={Keystone.brand}
-					sections={Keystone.nav.sections}
-					signoutUrl={Keystone.signoutUrl} />
-				<SecondaryNavigation
-					currentListKey={Keystone.list.path}
-					lists={Keystone.nav.currentSection.lists} />
-				{this.renderBlankState()}
-				{this.renderActiveState()}
+					User={Keystone.User}
+					user={Keystone.user}
+					version={Keystone.version} />
 			</div>
 		);
 	}

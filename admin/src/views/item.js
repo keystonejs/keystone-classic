@@ -4,6 +4,7 @@ const request = require('superagent');
 const CreateForm = require('../components/CreateForm');
 const EditForm = require('../components/EditForm');
 const EditFormHeader = require('../components/EditFormHeader');
+const Footer = require('../components/Footer');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
 
@@ -53,24 +54,35 @@ var View = React.createClass({
 	render () {
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
 		return (
-			<div>
-				<PrimaryNavigation
-					currentSectionKey={Keystone.nav.currentSection.key}
+			<div className="keystone-wrapper">
+				<header className="keystone-header">
+					<PrimaryNavigation
+						currentSectionKey={Keystone.nav.currentSection.key}
+						brand={Keystone.brand}
+						sections={Keystone.nav.sections}
+						signoutUrl={Keystone.signoutUrl} />
+					<SecondaryNavigation
+						currentListKey={Keystone.list.path}
+						lists={Keystone.nav.currentSection.lists} />
+				</header>
+				<div className="keystone-body">
+					<EditFormHeader
+						list={this.props.list}
+						data={this.state.itemData}
+						drilldown={this.state.itemDrilldown}
+						toggleCreate={this.toggleCreate} />
+					<Container>
+						{this.renderCreateForm()}
+						<EditForm list={this.props.list} data={this.state.itemData} />
+					</Container>
+				</div>
+				<Footer
+					appversion={Keystone.appversion}
+					backUrl={Keystone.backUrl}
 					brand={Keystone.brand}
-					sections={Keystone.nav.sections}
-					signoutUrl={Keystone.signoutUrl} />
-				<SecondaryNavigation
-					currentListKey={Keystone.list.path}
-					lists={Keystone.nav.currentSection.lists} />
-				<EditFormHeader
-					list={this.props.list}
-					data={this.state.itemData}
-					drilldown={this.state.itemDrilldown}
-					toggleCreate={this.toggleCreate} />
-				<Container>
-					{this.renderCreateForm()}
-					<EditForm list={this.props.list} data={this.state.itemData} />
-				</Container>
+					User={Keystone.User}
+					user={Keystone.user}
+					version={Keystone.version} />
 			</div>
 		);
 	}

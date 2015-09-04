@@ -11,13 +11,8 @@ html
 		link(rel="stylesheet", href="/keystone/styles/keystone.min.css")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
-	body#page-list
-		.keystone-wrapper
-			//- include includes/navigation
-			.keystone-body
-				+flash-messages(messages)
-				#list-view
-			include includes/footer
+	body
+		#list-view
 
 		//- Common
 		script(src="/keystone/js/lib/underscore/underscore-1.5.1.min.js")
