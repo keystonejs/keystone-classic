@@ -29,6 +29,8 @@ var SecondaryNavigation = React.createClass({
 		lists: React.PropTypes.array.isRequired,
 	},
 	renderNavigation () {
+		if (!this.props.lists || !this.props.lists.length) return null;
+		
 		let navigation = this.props.lists.map((list) => {
 			let href = list.external ? list.path : ('/keystone/' + list.path);
 			let className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null
