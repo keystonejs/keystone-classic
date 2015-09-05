@@ -5,6 +5,7 @@ const ItemsTable = require('../components/ItemsTable');
 const ListHeader = require('../components/ListHeader');
 const Footer = require('../components/Footer');
 const FlashMessages = require('../components/FlashMessages');
+const MobileNavigation = require('../components/MobileNavigation');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
 
@@ -156,9 +157,16 @@ const ListView = React.createClass({
 		) : (
 			<div className="keystone-wrapper">
 				<header className="keystone-header">
-					<PrimaryNavigation
-						currentSectionKey={Keystone.nav.currentSection.key}
+					<MobileNavigation
 						brand={Keystone.brand}
+						currentListKey={Keystone.list.path}
+						currentSectionKey={Keystone.nav.currentSection.key}
+						sections={Keystone.nav.sections}
+						signoutUrl={Keystone.signoutUrl}
+						/>
+					<PrimaryNavigation
+						brand={Keystone.brand}
+						currentSectionKey={Keystone.nav.currentSection.key}
 						sections={Keystone.nav.sections}
 						signoutUrl={Keystone.signoutUrl} />
 					<SecondaryNavigation

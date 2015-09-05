@@ -64,6 +64,8 @@ var PrimaryNavigation = React.createClass({
 		});
 	},
 	render () {
+		if (window.innerWidth < 768) return null;
+
 		return (
 			<nav className="primary-navbar">
 				<Container clearfix>

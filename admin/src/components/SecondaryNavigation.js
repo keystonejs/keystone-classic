@@ -29,8 +29,6 @@ var SecondaryNavigation = React.createClass({
 		lists: React.PropTypes.array.isRequired,
 	},
 	renderNavigation (lists) {
-		if (!lists || lists.length <= 1) return null;
-
 		let navigation = lists.map((list) => {
 			let href = list.external ? list.path : ('/keystone/' + list.path);
 			let className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
@@ -49,6 +47,8 @@ var SecondaryNavigation = React.createClass({
 		);
 	},
 	render () {
+		if (!this.props.lists || this.props.lists.length <= 1 || window.innerWidth < 768) return null;
+
 		return (
 			<nav className="secondary-navbar">
 				<Container clearfix>

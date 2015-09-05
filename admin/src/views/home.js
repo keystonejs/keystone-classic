@@ -4,6 +4,7 @@ const xhr = require('xhr');
 const { plural } = require('../utils');
 const Footer = require('../components/Footer');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
+const MobileNavigation = require('../components/MobileNavigation');
 
 const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'];
 const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
@@ -146,6 +147,12 @@ var View = React.createClass({
 		return (
 			<div className="keystone-wrapper">
 				<header className="keystone-header">
+					<MobileNavigation
+						brand={Keystone.brand}
+						currentSectionKey="dashboard"
+						sections={Keystone.nav.sections}
+						signoutUrl={Keystone.signoutUrl}
+						/>
 					<PrimaryNavigation
 						brand={Keystone.brand}
 						currentSectionKey="dashboard"

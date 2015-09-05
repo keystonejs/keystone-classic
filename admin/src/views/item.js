@@ -6,6 +6,7 @@ const EditForm = require('../components/EditForm');
 const EditFormHeader = require('../components/EditFormHeader');
 const Footer = require('../components/Footer');
 const FlashMessages = require('../components/FlashMessages');
+const MobileNavigation = require('../components/MobileNavigation');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
 
@@ -57,6 +58,13 @@ var View = React.createClass({
 		return (
 			<div className="keystone-wrapper">
 				<header className="keystone-header">
+					<MobileNavigation
+						brand={Keystone.brand}
+						currentListKey={Keystone.list.path}
+						currentSectionKey={Keystone.nav.currentSection.key}
+						sections={Keystone.nav.sections}
+						signoutUrl={Keystone.signoutUrl}
+						/>
 					<PrimaryNavigation
 						currentSectionKey={Keystone.nav.currentSection.key}
 						brand={Keystone.brand}
