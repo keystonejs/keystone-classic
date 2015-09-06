@@ -193,7 +193,7 @@ const ListView = React.createClass({
 var target = document.getElementById('list-view');
 if (target) {
 	React.render(<ListView
-	csrfQuery={Keystone.csrf_query}
+	csrfQuery={Keystone.csrf.query}
 	createFormData={Keystone.createFormData}
 	createFormErrors={Keystone.createFormErrors} />,
 	target);
