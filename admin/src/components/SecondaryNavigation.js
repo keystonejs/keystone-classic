@@ -28,6 +28,21 @@ var SecondaryNavigation = React.createClass({
 		currentListKey: React.PropTypes.string,
 		lists: React.PropTypes.array.isRequired,
 	},
+	getInitialState() {
+		return {};
+	},
+	componentDidMount: function() {
+		this.handleResize();
+		window.addEventListener('resize', this.handleResize);
+	},
+	componentWillUnmount: function() {
+		window.removeEventListener('resize', this.handleResize);
+	},
+	handleResize: function() {
+		this.setState({
+			navIsVisible: this.props.lists && this.props.lists.length > 1 && window.innerWidth >= 768
+		});
+	},
 	renderNavigation (lists) {
 		let navigation = lists.map((list) => {
 			let href = list.external ? list.path : ('/keystone/' + list.path);
@@ -47,7 +62,7 @@ var SecondaryNavigation = React.createClass({
 		);
 	},
 	render () {
-		if (!this.props.lists || this.props.lists.length <= 1 || window.innerWidth < 768) return null;
+		if (!this.state.navIsVisible) return null;
 
 		return (
 			<nav className="secondary-navbar">

@@ -30,6 +30,21 @@ var PrimaryNavigation = React.createClass({
 		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
 	},
+	getInitialState() {
+		return {};
+	},
+	componentDidMount: function() {
+		this.handleResize();
+		window.addEventListener('resize', this.handleResize);
+	},
+	componentWillUnmount: function() {
+		window.removeEventListener('resize', this.handleResize);
+	},
+	handleResize: function() {
+		this.setState({
+			navIsVisible: window.innerWidth >= 768
+		});
+	},
 	renderSignout () {
 		if (!this.props.signoutUrl) return null;
 
@@ -64,7 +79,7 @@ var PrimaryNavigation = React.createClass({
 		});
 	},
 	render () {
-		if (window.innerWidth < 768) return null;
+		if (!this.state.navIsVisible) return null;
 
 		return (
 			<nav className="primary-navbar">

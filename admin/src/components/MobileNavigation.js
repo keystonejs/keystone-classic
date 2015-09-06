@@ -70,7 +70,21 @@ var MobileNavigation = React.createClass({
 		signoutUrl: React.PropTypes.string,
 	},
 	getInitialState() {
-		return {};
+		return {
+			barIsVisible: false,
+		};
+	},
+	componentDidMount: function() {
+		this.handleResize();
+		window.addEventListener('resize', this.handleResize);
+	},
+	componentWillUnmount: function() {
+		window.removeEventListener('resize', this.handleResize);
+	},
+	handleResize: function() {
+		this.setState({
+			barIsVisible: window.innerWidth < 768
+		});
 	},
 	toggleMenu () {
 		this.setState({
@@ -116,7 +130,7 @@ var MobileNavigation = React.createClass({
 		);
 	},
 	render () {
-		if (window.innerWidth > 768) return null;
+		if (!this.state.barIsVisible) return null;
 
 		let componentClassname = this.state.menuIsVisible ? 'MobileNavigation is-open' : 'MobileNavigation';
 
