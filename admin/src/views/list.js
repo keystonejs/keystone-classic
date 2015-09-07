@@ -13,6 +13,10 @@ const CurrentListStore = require('../stores/CurrentListStore');
 
 const { BlankState, Container, Button, Spinner } = require('elemental');
 
+function showCreateForm() {
+	return window.location.search === '?create' || Keystone.createFormErrors;
+}
+
 const ListView = React.createClass({
 
 	displayName: 'ListView',
@@ -20,6 +24,7 @@ const ListView = React.createClass({
 	getInitialState () {
 		return {
 			constrainTableWidth: true,
+			showCreateForm: showCreateForm(),
 			...this.getStateFromStore()
 		};
 	},
@@ -60,7 +65,7 @@ const ListView = React.createClass({
 
 	toggleCreateModal (visible) {
 		this.setState({
-			createIsOpen: visible
+			showCreateForm: visible
 		});
 	},
 
@@ -148,7 +153,14 @@ const ListView = React.createClass({
 	},
 
 	renderCreateForm () {
-		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={this.props.createFormData} err={this.props.createFormErrors} />;
+		return (
+			<CreateForm
+				list={this.state.list}
+				isOpen={this.state.showCreateForm}
+				onCancel={this.toggleCreateModal.bind(this, false)}
+				values={this.props.createFormData}
+				err={this.props.createFormErrors} />
+		);
 	},
 
 	render () {
@@ -192,9 +204,11 @@ const ListView = React.createClass({
 
 var target = document.getElementById('list-view');
 if (target) {
-	React.render(<ListView
-	csrfQuery={Keystone.csrf.query}
-	createFormData={Keystone.createFormData}
-	createFormErrors={Keystone.createFormErrors} />,
-	target);
+	React.render(
+		<ListView
+			csrfQuery={Keystone.csrf.query}
+			createFormData={Keystone.createFormData}
+			createFormErrors={Keystone.createFormErrors} />,
+		target
+	);
 }
