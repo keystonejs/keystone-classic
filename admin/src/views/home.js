@@ -2,7 +2,6 @@ const React = require('react');
 const { Container } = require('elemental');
 const xhr = require('xhr');
 const { plural } = require('../utils');
-const CreateForm = require('../components/CreateForm');
 const Footer = require('../components/Footer');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const MobileNavigation = require('../components/MobileNavigation');
@@ -30,21 +29,6 @@ var ListTile = React.createClass({
 		count: React.PropTypes.number,
 		href: React.PropTypes.string,
 		label: React.PropTypes.string,
-	},
-	renderCreateButton () {
-		var props = { type: 'success' };
-		if (this.state.list.nocreate) return null;
-		if (this.state.list.autocreate) {
-			props.href = '?new' + this.props.csrfQuery;
-		} else {
-			props.onClick = this.toggleCreateModal.bind(this, true);
-		}
-		return (
-			<Button {...props}>
-				<span className="octicon octicon-plus" />
-				Create {this.state.list.singular}
-			</Button>
-		);
 	},
 	render () {
 		return (
