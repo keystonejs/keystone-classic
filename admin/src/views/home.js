@@ -26,7 +26,7 @@ Keystone.lists.forEach((list) => {
 
 var ListTile = React.createClass({
 	propTypes: {
-		count: React.PropTypes.number,
+		count: React.PropTypes.string,
 		href: React.PropTypes.string,
 		label: React.PropTypes.string,
 	},
