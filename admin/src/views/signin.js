@@ -7,7 +7,7 @@ import { createHistory } from 'history';
 var history = createHistory();
 
 function wasSignedOut() {
-	return window.location.search === '?signedout=true';
+	return window.location.search === '?signedout';
 }
 
 var SigninView = React.createClass({
