@@ -54,7 +54,7 @@ var ListTile = React.createClass({
 						<div className="dashboard-group__list-label">{this.props.label}</div>
 						<div className="dashboard-group__list-count">{this.props.count}</div>
 					</a>
-					<a href={this.props.href} className="dashboard-group__list-create octicon octicon-plus" title="Create" />
+					<a href={this.props.href} className="dashboard-group__list-create octicon octicon-plus" title="Create" tabIndex="-1" />
 				</span>
 			</div>
 		);
