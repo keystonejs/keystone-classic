@@ -72,7 +72,7 @@ var PrimaryNavigation = React.createClass({
 			let className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'active' : null;
 
 			return (
-				<PrimaryNavItem className={className} href={href}>
+				<PrimaryNavItem key={section.key} className={className} href={href}>
 					{section.label}
 				</PrimaryNavItem>
 			);

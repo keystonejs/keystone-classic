@@ -9,15 +9,15 @@ var InvalidFieldType = require('./InvalidFieldType');
 var { Button, Col, Form, FormField, FormInput, Row } = require('elemental');
 
 var EditForm = React.createClass({
-	
+
 	displayName: 'EditForm',
-	
+
 	getInitialState () {
 		return {
 			values: Object.assign({}, this.props.data.fields)
 		};
 	},
-	
+
 	getFieldProps (field) {
 		var props = Object.assign({}, field);
 		props.value = this.state.values[field.path];
@@ -26,7 +26,7 @@ var EditForm = React.createClass({
 		props.mode = 'edit';
 		return props;
 	},
-	
+
 	handleChange (event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
@@ -34,7 +34,7 @@ var EditForm = React.createClass({
 			values: values
 		});
 	},
-	
+
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
@@ -58,12 +58,12 @@ var EditForm = React.createClass({
 			);
 		}
 	},
-	
+
 	renderNameField () {
-		
+
 		var nameField = this.props.list.nameField,
 			nameIsEditable = this.props.list.nameIsEditable;
-		
+
 		function wrapNameField(field) {
 			return (
 				<div className="EditForm__name-field">
@@ -71,9 +71,9 @@ var EditForm = React.createClass({
 				</div>
 			);
 		}
-		
+
 		if (nameIsEditable) {
-			
+
 			var nameFieldProps = this.getFieldProps(nameField);
 
 			nameFieldProps.label = false;
@@ -83,33 +83,33 @@ var EditForm = React.createClass({
 				placeholder: nameField.label,
 				size: 'lg'
 			};
-			
+
 			return wrapNameField(
 				React.createElement(Fields[nameField.type], nameFieldProps)
 			);
-			
+
 		} else {
 			return wrapNameField(
 				<h2>{this.props.data.name || '(no name)'}</h2>
 			);
 		}
 	},
-	
+
 	renderFormElements () {
-		
+
 		var elements = {},
 			headings = 0;
-		
+
 		this.props.list.uiElements.map((el) => {
-			
+
 			if (el.type === 'heading') {
-				
+
 				headings++;
 				el.options.values = this.state.values;
 				elements['h-' + headings] = React.createElement(FormHeading, el);
-				
+
 			} else if (el.type === 'field') {
-				
+
 				var field = this.props.list.fields[el.field],
 					props = this.getFieldProps(field);
 
@@ -125,23 +125,23 @@ var EditForm = React.createClass({
 						props.currentDependencies[dep] = this.state.values[dep];
 					}, this);
 				}
-				
+
 				elements[field.path] = React.createElement(Fields[field.type], props);
-				
+
 			}
-			
+
 		}, this);
-		
+
 		return elements;
-		
+
 	},
-	
+
 	renderFooterBar () {
-		
+
 		var footer = {};
 
 		footer.save = <Button type="primary" submit>Save</Button>;
-		
+
 		// TODO: Confirm: Use React & Modal
 		footer.reset = <Button href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">reset changes</Button>;
 
@@ -149,23 +149,23 @@ var EditForm = React.createClass({
 			// TODO: Confirm: Use React & Modal
 			footer.del = <Button href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="u-float-right" data-confirm={'Are you sure you want to delete this?' + this.props.list.singular.toLowerCase()}>delete {this.props.list.singular.toLowerCase()}</Button>;
 		}
-		
+
 		return (
 			<FooterBar className="EditForm__footer">
 				{footer}
 			</FooterBar>
 		);
-		
+
 	},
-	
+
 	renderTrackingMeta () {
-		
+
 		if (!this.props.list.tracking) return null;
-		
+
 		var elements = {},
 			data = {},
 			label;
-		
+
 		if (this.props.list.tracking.createdAt) {
 			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
 			if (data.createdAt) {
@@ -176,7 +176,7 @@ var EditForm = React.createClass({
 				);
 			}
 		}
-		
+
 		if (this.props.list.tracking.createdBy) {
 			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
 			var label = this.props.list.tracking.createdAt ? 'by' : 'Created by';
@@ -189,7 +189,7 @@ var EditForm = React.createClass({
 				);
 			}
 		}
-		
+
 		if (this.props.list.tracking.updatedAt) {
 			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
 			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
@@ -200,7 +200,7 @@ var EditForm = React.createClass({
 				);
 			}
 		}
-		
+
 		if (this.props.list.tracking.updatedBy) {
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
 			var label = this.props.list.tracking.createdAt ? 'by' : 'Updated by';
@@ -212,18 +212,18 @@ var EditForm = React.createClass({
 				);
 			}
 		}
-		
+
 		return Object.keys(elements).length ? (
 			<div className="EditForm__meta">
 				<h3 className="form-heading">Meta</h3>
 				{elements}
 			</div>
 		) : null;
-		
+
 	},
-	
+
 	render () {
-		
+
 		return (
 			<form method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
@@ -237,13 +237,13 @@ var EditForm = React.createClass({
 							{this.renderTrackingMeta()}
 						</Form>
 					</Col>
-					<Col lg="1/4" />
+					<Col lg="1/4"><span /></Col>
 				</Row>
 				{!this.props.list.noedit ? this.renderFooterBar() : null}
 			</form>
 		);
 	}
-	
+
 });
 
 module.exports = EditForm;

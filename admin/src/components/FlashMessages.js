@@ -41,13 +41,16 @@ var FlashMessage = React.createClass({
 var FlashMessages = React.createClass({
 	displayName: 'FlashMessages',
 	propTypes: {
-		messages: React.PropTypes.shape({
-			error: React.PropTypes.array,
-			hilight: React.PropTypes.array,
-			info: React.PropTypes.array,
-			success: React.PropTypes.array,
-			warning: React.PropTypes.array,
-		})
+		messages: React.PropTypes.oneOfType([
+			React.PropTypes.bool,
+			React.PropTypes.shape({
+				error: React.PropTypes.array,
+				hilight: React.PropTypes.array,
+				info: React.PropTypes.array,
+				success: React.PropTypes.array,
+				warning: React.PropTypes.array,
+			})
+		]),
 	},
 
 	renderMessages (messages, type) {

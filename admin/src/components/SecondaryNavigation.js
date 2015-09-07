@@ -49,7 +49,7 @@ var SecondaryNavigation = React.createClass({
 			let className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
 
 			return (
-				<SecondaryNavItem className={className} href={href}>
+				<SecondaryNavItem key={list.path} className={className} href={href}>
 					{list.label}
 				</SecondaryNavItem>
 			);
