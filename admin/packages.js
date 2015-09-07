@@ -6,7 +6,6 @@ module.exports = [
 	'blacklist',
 	'bytes',
 	'classnames',
-	'elemental',
 	'history',
 	'i',
 	'list-to-array',
