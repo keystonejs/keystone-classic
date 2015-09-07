@@ -102,13 +102,14 @@
 // ------------------------------
 
 
-// Name Field
+// "First" Field Cols
 // fix an optical illusion that occurs between the row name and the row icon.
 // in most cases the first character of the name col is uppercase, so
 // the icon appears to be too low due the absence of a decender in the row name
 // (they are in fact aligned middle correctly)
 
-.ItemList__value--name {
+.ItemList__value--name,
+.ItemList__value--id {
 	bottom: -1px;
 	position: relative;
 }
@@ -117,29 +118,15 @@
 // ID Field
 
 .ItemList__value--id {
-	bottom: -1px; // 1
-	position: relative; // 1
 	font-family: @font-family-monospace;
-	font-size: 0.91em;
-
-	.ItemList__control-col + td > & {
-		margin-left: 0 !important; // 2
-	}
 }
 
 
 // __INVALID__ Field
 
 .ItemList__value--invalid {
-	bottom: -1px; // 1
-	position: relative; // 1
 	font-family: @font-family-monospace;
-	font-size: 0.91em;
 	color: @app-danger !important;
-
-	.ItemList__control-col + td > & {
-		margin-left: 0 !important; // 2
-	}
 }
 
 
@@ -198,6 +185,9 @@
 		-ms-overflow-style: -ms-autohiding-scrollbar;
 		-webkit-overflow-scrolling: touch;
 		width: 100%;
+	}
+	.ItemList__value {
+		max-width: none;
 	}
 
 	// Tighten up spacing for smaller devices
