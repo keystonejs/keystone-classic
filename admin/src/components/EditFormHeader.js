@@ -3,7 +3,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var AltText = require('./AltText');
 var Toolbar = require('./Toolbar');
 
-var { Button, FormIconField, FormInput } = require('elemental');
+var { Button, FormIconField, FormInput, ResponsiveText } = require('elemental');
 
 var Header = React.createClass({
 
@@ -108,7 +108,7 @@ var Header = React.createClass({
 	renderSearch () {
 		var list = this.props.list;
 		return (
-			<form action={'/keystone/' + list.path} className="EditForm__header__search hidden-xs">
+			<form action={'/keystone/' + list.path} className="EditForm__header__search">
 				<FormIconField iconPosition="left" iconColor="primary" iconKey="search" className="EditForm__header__search-field">
 					<FormInput
 						ref="searchField"
@@ -139,7 +139,7 @@ var Header = React.createClass({
 		return (
 			<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
 				<span className="octicon octicon-plus" />
-				New {this.props.list.singular}
+				<ResponsiveText hiddenXS={`New ${this.props.list.singular}`} visibleXS="Create" />
 			</Button>
 		);
 		/* eslint-enable */

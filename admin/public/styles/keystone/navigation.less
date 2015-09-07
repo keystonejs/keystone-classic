@@ -209,7 +209,7 @@
 	color: white;
 	line-height: @mobile-nav-bar-height;
 	position: fixed;
-	z-index: @zindex-modal + 10;
+	z-index: @mobile-nav-zindex-bar;
 	width: 100%;
 }
 .MobileNavigation__bar__button {
@@ -252,7 +252,7 @@
 	position: fixed;
 	top: @mobile-nav-bar-height;
 	width: 100%;
-	z-index: @zindex-modal + 1;
+	z-index: @mobile-nav-zindex-blockout;
 }
 
 
@@ -265,23 +265,21 @@
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 	left: 0;
 	margin: @grid-gutter-width;
-	overflow-x: hidden;
-	overflow-y: auto;
+	max-width: 375 - (@grid-gutter-width * 2); // arbitrary: iPhone6 portrait
+	overflow: hidden;
 	position: fixed;
 	right: 0;
 	top: @mobile-nav-bar-height;
-	z-index: @zindex-modal + 5;
-	-ms-overflow-style: -ms-autohiding-scrollbar;
-	-webkit-overflow-scrolling: touch;
+	z-index: @mobile-nav-zindex-menu;
 }
 .MobileNavigation__menu-enter {
-	.animation-name( modalDialogEnter );
+	.animation-name( mobileNavMenuEnter );
 	.animation-duration( 260ms );
-	.animation-timing-function( cubic-bezier(0.500, -0.550, 0.400, 1.550) );
+	.animation-timing-function( cubic-bezier(0.190, 1.000, 0.220, 1.000) );
 }
 .MobileNavigation__menu-leave {
-	.animation-duration( 140ms );
-	.animation-name( modalDialogLeave );
+	.animation-duration( 200ms );
+	.animation-name( mobileNavMenuLeave );
 }
 
 .MobileNavigation__icon {
@@ -296,6 +294,11 @@
 
 .MobileNavigation__sections {
 	box-shadow: inset @mobile-nav-menu-border-width 0 0 @mobile-nav-menu-border-color;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	-webkit-overflow-scrolling: touch;
 	// padding: @mobile-nav-padding-vertical 0;
 }
 .MobileNavigation__section {
@@ -347,4 +350,29 @@
 		background-color: @mobile-nav-menu-list-item-selected-bg;
 		color: @mobile-nav-menu-list-item-selected-color;
 	}
+}
+
+
+// slide in
+
+@-webkit-keyframes mobileNavMenuEnter {
+	from { opacity: 0; -webkit-transform: translate3d(-8%, 0, 0); }
+	to   { opacity: 1; -webkit-transform: none; }
+}
+@keyframes mobileNavMenuEnter {
+	from { opacity: 0; transform: translate3d(-8%, 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+
+
+// slide out
+
+@-webkit-keyframes mobileNavMenuLeave {
+	from { opacity: 1; -webkit-transform: none; }
+	to   { opacity: 0; -webkit-transform: translate3d(-4%, 0, 0); }
+}
+@keyframes mobileNavMenuLeave {
+	from { opacity: 1; transform: none; }
+	to   { opacity: 0; transform: translate3d(-4%, 0, 0); }
 }
