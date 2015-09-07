@@ -135,9 +135,15 @@ var Header = React.createClass({
 
 	renderCreateButton () {
 		if (this.props.list.nocreate) return null;
-		/* eslint-disable no-script-url */
+
+		var props = {};
+		if (this.props.list.autocreate) {
+			props.href = '?new' + Keystone.csrf.query;
+		} else {
+			props.onClick = this.toggleCreate.bind(this, true);
+		}
 		return (
-			<Button type="success" onClick={this.toggleCreate.bind(this, true)}>
+			<Button type="success" {...props}>
 				<span className="octicon octicon-plus" />
 				<ResponsiveText hiddenXS={`New ${this.props.list.singular}`} visibleXS="Create" />
 			</Button>

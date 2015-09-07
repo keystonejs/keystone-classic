@@ -50,7 +50,12 @@ var View = React.createClass({
 	},
 
 	renderCreateForm () {
-		return <CreateForm list={this.props.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} />;
+		return (
+			<CreateForm
+				list={this.props.list}
+				isOpen={this.state.createIsOpen}
+				onCancel={this.toggleCreate.bind(this, false)} />
+		);
 	},
 
 	render () {
