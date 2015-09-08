@@ -23,7 +23,7 @@ var ColorColumn = React.createClass({
 		};
 
 		return (
-			<ItemsTableValue truncate={false} field={this.props.col.path}>
+			<ItemsTableValue truncate={false} field={this.props.col.type}>
 				<div style={{ lineHeight: '18px' }}>
 					<span style={colorBoxStyle} />
 					<span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{value}</span>
@@ -31,7 +31,7 @@ var ColorColumn = React.createClass({
 			</ItemsTableValue>
 		);
 	},
-	render: function() {
+	render () {
 		return (
 			<ItemsTableCell>
 				{this.renderValue()}

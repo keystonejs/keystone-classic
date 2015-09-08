@@ -16,7 +16,7 @@ var GeoPointColumn = React.createClass({
 		let formattedTitle = `Lat: ${value[1]} Lng: ${value[0]}`;
 
 		return (
-			<ItemsTableValue title={formattedTitle} field={this.props.col.path}>
+			<ItemsTableValue title={formattedTitle} field={this.props.col.type}>
 				{formattedValue}
 			</ItemsTableValue>
 		);

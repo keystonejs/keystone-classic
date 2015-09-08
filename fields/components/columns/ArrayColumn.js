@@ -17,7 +17,7 @@ var ArrayColumn = React.createClass({
 	render () {
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue field={this.props.col.path}>
+				<ItemsTableValue field={this.props.col.type}>
 					{this.renderValue()}
 				</ItemsTableValue>
 			</ItemsTableCell>

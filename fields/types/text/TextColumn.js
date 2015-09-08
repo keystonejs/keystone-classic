@@ -10,14 +10,14 @@ var TextColumn = React.createClass({
 		linkTo: React.PropTypes.string,
 	},
 	// cropping text is necessary for textarea, which uses this column
-	renderValue: function() {
+	renderValue () {
 		let value = this.props.data.fields[this.props.col.path];
 		return value ? value.substr(0, 100) : null;
 	},
-	render: function() {
+	render () {
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue href={this.props.linkTo} padded interior field={this.props.col.path}>
+				<ItemsTableValue href={this.props.linkTo} padded interior field={this.props.col.type}>
 					{this.renderValue()}
 				</ItemsTableValue>
 			</ItemsTableCell>

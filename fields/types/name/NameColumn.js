@@ -9,15 +9,15 @@ var NameColumn = React.createClass({
 		data: React.PropTypes.object,
 		linkTo: React.PropTypes.string,
 	},
-	renderValue: function() {
+	renderValue () {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value || (!value.first && !value.last)) return '(no name)';
 		return [value.first, value.last].filter(i => i).join(' ');
 	},
-	render: function() {
+	render () {
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue href={this.props.linkTo} padded interior field={this.props.col.path}>
+				<ItemsTableValue href={this.props.linkTo} padded interior field={this.props.col.type}>
 					{this.renderValue()}
 				</ItemsTableValue>
 			</ItemsTableCell>

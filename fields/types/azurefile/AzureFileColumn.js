@@ -1,12 +1,12 @@
-var React = require('react');
+import React from 'react';
 
 var AzureFileColumn = React.createClass({
-	renderValue: function() {
+	renderValue () {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
 		return <a href={value.url} target='_blank'>{value.url}</a>;
 	},
-	render: function() {
+	render () {
 		return (
 			<td className="ItemList__col">
 				<div className="ItemList__value ItemList__value--azure-file">{this.renderValue()}</div>

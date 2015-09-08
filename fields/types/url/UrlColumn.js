@@ -8,7 +8,7 @@ var UrlColumn = React.createClass({
 		col: React.PropTypes.object,
 		data: React.PropTypes.object,
 	},
-	renderValue: function() {
+	renderValue () {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
 
@@ -22,12 +22,12 @@ var UrlColumn = React.createClass({
 		var label = value.replace(/^https?\:\/\//i, '');
 
 		return (
-			<ItemsTableValue href={href} padded exterior field={this.props.col.path}>
+			<ItemsTableValue href={href} padded exterior field={this.props.col.type}>
 				{label}
 			</ItemsTableValue>
 		);
 	},
-	render: function() {
+	render () {
 		let value = this.props.data.fields[this.props.col.path];
 		return (
 			<ItemsTableCell>

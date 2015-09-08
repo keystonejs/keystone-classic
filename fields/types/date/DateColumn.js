@@ -4,7 +4,7 @@ import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
 import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 var DateColumn = React.createClass({
-	displayName: 'SelectColumn',
+	displayName: 'DateColumn',
 	propTypes: {
 		col: React.PropTypes.object,
 		data: React.PropTypes.object,
@@ -17,10 +17,10 @@ var DateColumn = React.createClass({
 		let formattedValue = moment(value).format(format);
 
 		return (
-			<ItemsTableValue title={formattedValue} field={this.props.col.path}>
+			<ItemsTableValue title={formattedValue} field={this.props.col.type}>
 				{formattedValue}
 			</ItemsTableValue>
-		);;
+		);
 	},
 	render () {
 		return (

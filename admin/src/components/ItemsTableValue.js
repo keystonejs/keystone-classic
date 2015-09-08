@@ -17,7 +17,7 @@ var ItemsTableValue = React.createClass({
 			truncate: true,
 		};
 	},
-	render: function() {
+	render () {
 		let tag = this.props.href ? 'a' : 'div';
 		let className = classnames('ItemList__value', (
 			this.props.field ? ('ItemList__value--' + this.props.field) : null

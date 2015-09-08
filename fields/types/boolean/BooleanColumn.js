@@ -16,7 +16,7 @@ var BooleanColumn = React.createClass({
 			'octicon-x': !value
 		});
 		return (
-			<ItemsTableValue truncate={false} field={this.props.col.path}>
+			<ItemsTableValue truncate={false} field={this.props.col.type}>
 				<span className={iconClassName} />
 			</ItemsTableValue>
 		);

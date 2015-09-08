@@ -26,7 +26,7 @@ var RelationshipColumn = React.createClass({
 			items.push(<span key="more" className="ItemList__more-indicator">[...{value.length - 3} more]</span>);
 		}
 		return (
-			<ItemsTableValue field={this.props.col.path}>
+			<ItemsTableValue field={this.props.col.type}>
 				{items}
 			</ItemsTableValue>
 		);
@@ -34,12 +34,12 @@ var RelationshipColumn = React.createClass({
 	renderValue (value) {
 		let refList = this.props.col.field.refList;
 		return (
-			<ItemsTableValue href={'/keystone/' + refList.path + '/' + value.id} padded interior field={this.props.col.path}>
+			<ItemsTableValue href={'/keystone/' + refList.path + '/' + value.id} padded interior field={this.props.col.type}>
 				{value.name}
 			</ItemsTableValue>
 		);
 	},
-	render: function() {
+	render () {
 		let value = this.props.data.fields[this.props.col.path];
 		let many = this.props.col.field.many;
 		if (!value || (many && !value.length)) return null;

@@ -22,12 +22,12 @@ var LocationColumn = React.createClass({
 			}
 		});
 		return (
-			<ItemsTableValue field={this.props.col.path} title={output.join(', ')}>
+			<ItemsTableValue field={this.props.col.type} title={output.join(', ')}>
 				{output.join(', ')}
 			</ItemsTableValue>
 		);
 	},
-	render: function() {
+	render () {
 		return (
 			<ItemsTableCell>
 				{this.renderValue()}

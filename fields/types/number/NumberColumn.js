@@ -9,7 +9,7 @@ var NumberColumn = React.createClass({
 		col: React.PropTypes.object,
 		data: React.PropTypes.object,
 	},
-	renderValue: function() {
+	renderValue () {
 		let value = this.props.data.fields[this.props.col.path];
 		if (!value || isNaN(value)) return null
 
@@ -17,10 +17,10 @@ var NumberColumn = React.createClass({
 
 		return formattedValue;
 	},
-	render: function() {
+	render () {
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue field={this.props.col.path}>
+				<ItemsTableValue field={this.props.col.type}>
 					{this.renderValue()}
 				</ItemsTableValue>
 			</ItemsTableCell>

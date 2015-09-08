@@ -8,17 +8,17 @@ var EmailColumn = React.createClass({
 		col: React.PropTypes.object,
 		data: React.PropTypes.object,
 	},
-	renderValue: function() {
+	renderValue () {
 		let value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
 
 		return (
-			<ItemsTableValue href={'mailto:'+ value} padded exterior field={this.props.col.path}>
+			<ItemsTableValue href={'mailto:'+ value} padded exterior field={this.props.col.type}>
 				{value}
 			</ItemsTableValue>
 		);
 	},
-	render: function() {
+	render () {
 		let value = this.props.data.fields[this.props.col.path];
 		return (
 			<ItemsTableCell>
