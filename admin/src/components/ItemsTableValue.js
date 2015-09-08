@@ -10,12 +10,19 @@ var ItemsTableValue = React.createClass({
 		field: React.PropTypes.string,
 		interior: React.PropTypes.bool,
 		padded: React.PropTypes.bool,
+		truncate: React.PropTypes.bool,
+	},
+	getDefaultProps () {
+		return {
+			truncate: true,
+		};
 	},
 	render: function() {
-		let tag = this.props.href ? 'a' : 'span';
+		let tag = this.props.href ? 'a' : 'div';
 		let className = classnames('ItemList__value', (
 			this.props.field ? ('ItemList__value--' + this.props.field) : null
 		), {
+			'ItemList__value--truncate': this.props.truncate,
 			'ItemList__link--exterior': this.props.href && this.props.exterior,
 			'ItemList__link--interior': this.props.href && this.props.interior,
 			'ItemList__link--padded':   this.props.href && this.props.padded,

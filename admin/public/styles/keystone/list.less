@@ -64,8 +64,16 @@
 
 // col value - crop field content so we maintain one line throught the list table
 
-.ItemList__value {
-	.u-text-truncate();
+.ItemList__value--truncate {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-wrap: normal;
+
+	a& {
+		display: inline-block;
+	}
 }
 
 
