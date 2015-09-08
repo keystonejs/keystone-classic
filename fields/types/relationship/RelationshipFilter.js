@@ -36,7 +36,6 @@ function findElement(arr, propName, propValue) {
 var RelationshipFilter = React.createClass({
 
 	getInitialState () {
-		console.log(this);
 		return {
 			activeItems: [],
 			inactiveItems: RELATED_ITEMS,
