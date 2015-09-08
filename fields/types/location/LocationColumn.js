@@ -1,23 +1,37 @@
-var _ = require('underscore');
-var React = require('react');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+
+const SUB_FIELDS = ['street1', 'suburb', 'state', 'postcode', 'country'];
 
 var LocationColumn = React.createClass({
-	renderValue: function() {
-		var value = this.props.data.fields[this.props.col.path];
-		if (!value || !_.size(value)) return;
-		var output = [];
-		_.each(['street1', 'suburb', 'state', 'postcode', 'country'], function(i) {
+	displayName: 'LocationColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
+	},
+	renderValue () {
+		let value = this.props.data.fields[this.props.col.path];
+		if (!value || !Object.keys(value).length) return null;
+
+		let output = [];
+
+		SUB_FIELDS.map((i) => {
 			if (value[i]) {
 				output.push(value[i]);
 			}
 		});
-		return output.join(', ');
+		return (
+			<ItemsTableValue field={this.props.col.path} title={output.join(', ')}>
+				{output.join(', ')}
+			</ItemsTableValue>
+		);
 	},
 	render: function() {
 		return (
-			<td className="ItemList__col">
-				<div className="ItemList__value ItemList__value--location">{this.renderValue()}</div>
-			</td>
+			<ItemsTableCell>
+				{this.renderValue()}
+			</ItemsTableCell>
 		);
 	}
 });

@@ -8,13 +8,13 @@ var ArrayColumn = React.createClass({
 		col: React.PropTypes.object,
 		data: React.PropTypes.object,
 	},
-	renderValue: function() {
+	renderValue () {
 		let value = this.props.data.fields[this.props.col.path];
 		if (!value || !value.length) return null;
 
 		return value.join(', ');
 	},
-	render: function() {
+	render () {
 		return (
 			<ItemsTableCell>
 				<ItemsTableValue field={this.props.col.path}>
