@@ -1,17 +1,31 @@
-var React = require('react');
-var classnames = require('classnames');
+import React from 'react';
+import classnames from 'classnames';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 var BooleanColumn = React.createClass({
-	render: function() {
-		var value = this.props.data.fields[this.props.col.path];
-		var iconClassName = classnames('ItemList__boolean-check octicon', {
+	displayName: 'BooleanColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
+	},
+	renderValue () {
+		let value = this.props.data.fields[this.props.col.path];
+		let iconClassName = classnames('ItemList__boolean-check octicon', {
 			'is-checked octicon-check': value,
 			'octicon-x': !value
 		});
 		return (
-			<td>
+			<ItemsTableValue truncate={false} field={this.props.col.path}>
 				<span className={iconClassName} />
-			</td>
+			</ItemsTableValue>
+		);
+	},
+	render () {
+		return (
+			<ItemsTableCell>
+				{this.renderValue()}
+			</ItemsTableCell>
 		);
 	}
 });
