@@ -1,10 +1,10 @@
 const React = require('react');
 
 const CreateForm = require('../components/CreateForm');
+const FlashMessages = require('../components/FlashMessages');
+const Footer = require('../components/Footer');
 const ItemsTable = require('../components/ItemsTable');
 const ListHeader = require('../components/ListHeader');
-const Footer = require('../components/Footer');
-const FlashMessages = require('../components/FlashMessages');
 const MobileNavigation = require('../components/MobileNavigation');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
@@ -81,7 +81,7 @@ const ListView = React.createClass({
 		if (!this.state.showBlankState) return null;
 		return (
 			<Container>
-				<FlashMessages messages={Keystone.messages} />
+				<FlashMessages messages={this.props.messages} />
 				<BlankState style={{ marginTop: 40 }}>
 					<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found&hellip;</BlankState.Heading>
 					{this.renderCreateButton()}
@@ -106,7 +106,7 @@ const ListView = React.createClass({
 			<div>
 				<ListHeader toggleTableWidth={this.toggleTableWidth} tableIsExpanded={!this.state.constrainTableWidth} />
 				<Container style={containerStyle}>
-					<FlashMessages messages={Keystone.messages} />
+					<FlashMessages messages={this.props.messages} />
 					{this.renderItemsTable()}
 					{this.renderNoSearchResults()}
 				</Container>
@@ -170,45 +170,52 @@ const ListView = React.createClass({
 			<div className="keystone-wrapper">
 				<header className="keystone-header">
 					<MobileNavigation
-						brand={Keystone.brand}
-						currentListKey={Keystone.list.path}
-						currentSectionKey={Keystone.nav.currentSection.key}
-						sections={Keystone.nav.sections}
-						signoutUrl={Keystone.signoutUrl}
+						brand={this.props.brand}
+						currentListKey={this.state.list.path}
+						currentSectionKey={this.props.nav.currentSection.key}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
 						/>
 					<PrimaryNavigation
-						brand={Keystone.brand}
-						currentSectionKey={Keystone.nav.currentSection.key}
-						sections={Keystone.nav.sections}
-						signoutUrl={Keystone.signoutUrl} />
+						brand={this.props.brand}
+						currentSectionKey={this.props.nav.currentSection.key}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl} />
 					<SecondaryNavigation
-						currentListKey={Keystone.list.path}
-						lists={Keystone.nav.currentSection.lists} />
+						currentListKey={this.state.list.path}
+						lists={this.props.nav.currentSection.lists} />
 				</header>
 				<div className="keystone-body">
 					{this.renderBlankState()}
 					{this.renderActiveState()}
 				</div>
 				<Footer
-					appversion={Keystone.appversion}
-					backUrl={Keystone.backUrl}
-					brand={Keystone.brand}
-					User={Keystone.User}
-					user={Keystone.user}
-					version={Keystone.version} />
+					appversion={this.props.appversion}
+					backUrl={this.props.backUrl}
+					brand={this.props.brand}
+					User={this.props.User}
+					user={this.props.user}
+					version={this.props.version} />
 			</div>
 		);
 	}
 
 });
 
-var target = document.getElementById('list-view');
-if (target) {
-	React.render(
-		<ListView
-			csrfQuery={Keystone.csrf.query}
-			createFormData={Keystone.createFormData}
-			createFormErrors={Keystone.createFormErrors} />,
-		target
-	);
-}
+React.render(
+	<ListView
+		appversion={Keystone.appversion}
+		backUrl={Keystone.backUrl}
+		brand={Keystone.brand}
+		createFormData={Keystone.createFormData}
+		createFormErrors={Keystone.createFormErrors}
+		csrfQuery={Keystone.csrf.query}
+		messages={Keystone.messages}
+		nav={Keystone.nav}
+		signoutUrl={Keystone.signoutUrl}
+		user={Keystone.user}
+		User={Keystone.User}
+		version={Keystone.version}
+	/>,
+	document.getElementById('list-view')
+);
