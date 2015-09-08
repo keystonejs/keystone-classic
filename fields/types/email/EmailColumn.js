@@ -1,16 +1,29 @@
-var React = require('react');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 var EmailColumn = React.createClass({
+	displayName: 'EmailColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
+	},
 	renderValue: function() {
-		var value = this.props.data.fields[this.props.col.path];
+		let value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
-		return <a href={'mailto:'+ value} className="ItemList__value ItemList__value--email ItemList__link--padded ItemList__link--exterior">{value}</a>;
+
+		return (
+			<ItemsTableValue href={'mailto:'+ value} padded exterior field={this.props.col.path}>
+				{value}
+			</ItemsTableValue>
+		);
 	},
 	render: function() {
+		let value = this.props.data.fields[this.props.col.path];
 		return (
-			<td className="ItemList__col">
+			<ItemsTableCell>
 				{this.renderValue()}
-			</td>
+			</ItemsTableCell>
 		);
 	}
 });
