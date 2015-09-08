@@ -3,8 +3,8 @@ const { Container } = require('elemental');
 const xhr = require('xhr');
 const { plural } = require('../utils');
 const Footer = require('../components/Footer');
-const PrimaryNavigation = require('../components/PrimaryNavigation');
 const MobileNavigation = require('../components/MobileNavigation');
+const PrimaryNavigation = require('../components/PrimaryNavigation');
 
 const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'];
 const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
@@ -148,16 +148,16 @@ var View = React.createClass({
 			<div className="keystone-wrapper">
 				<header className="keystone-header">
 					<MobileNavigation
-						brand={Keystone.brand}
+						brand={this.props.brand}
 						currentSectionKey="dashboard"
-						sections={Keystone.nav.sections}
-						signoutUrl={Keystone.signoutUrl}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
 						/>
 					<PrimaryNavigation
-						brand={Keystone.brand}
+						brand={this.props.brand}
 						currentSectionKey="dashboard"
-						sections={Keystone.nav.sections}
-						signoutUrl={Keystone.signoutUrl}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
 						/>
 				</header>
 				<div className="keystone-body">
@@ -171,22 +171,32 @@ var View = React.createClass({
 					</Container>
 				</div>
 				<Footer
-					appversion={Keystone.appversion}
-					backUrl={Keystone.backUrl}
-					brand={Keystone.brand}
-					User={Keystone.User}
-					user={Keystone.user}
-					version={Keystone.version} />
+					appversion={this.props.appversion}
+					backUrl={this.props.backUrl}
+					brand={this.props.brand}
+					User={this.props.User}
+					user={this.props.user}
+					version={this.props.version} />
 			</div>
 		);
 	}
 
 });
 
-React.render(<View
+React.render(
+	<View
+		appversion={Keystone.appversion}
+		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
+		nav={Keystone.nav}
 		navIsFlat={Keystone.nav.flat}
 		navLists={Keystone.lists}
 		navSections={Keystone.nav.sections}
 		orphanedLists={Keystone.orphanedLists}
-	/>, document.getElementById('home-view'));
+		signoutUrl={Keystone.signoutUrl}
+		User={Keystone.User}
+		user={Keystone.user}
+		version={Keystone.version}
+	/>,
+	document.getElementById('home-view')
+);
