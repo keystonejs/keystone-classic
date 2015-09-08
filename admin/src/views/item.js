@@ -4,8 +4,8 @@ const request = require('superagent');
 const CreateForm = require('../components/CreateForm');
 const EditForm = require('../components/EditForm');
 const EditFormHeader = require('../components/EditFormHeader');
-const Footer = require('../components/Footer');
 const FlashMessages = require('../components/FlashMessages');
+const Footer = require('../components/Footer');
 const MobileNavigation = require('../components/MobileNavigation');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
@@ -49,35 +49,26 @@ var View = React.createClass({
 		});
 	},
 
-	renderCreateForm () {
-		return (
-			<CreateForm
-				list={this.props.list}
-				isOpen={this.state.createIsOpen}
-				onCancel={this.toggleCreate.bind(this, false)} />
-		);
-	},
-
 	render () {
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
 		return (
 			<div className="keystone-wrapper">
 				<header className="keystone-header">
 					<MobileNavigation
-						brand={Keystone.brand}
-						currentListKey={Keystone.list.path}
-						currentSectionKey={Keystone.nav.currentSection.key}
-						sections={Keystone.nav.sections}
-						signoutUrl={Keystone.signoutUrl}
+						brand={this.props.brand}
+						currentListKey={this.props.list.path}
+						currentSectionKey={this.props.nav.currentSection.key}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
 						/>
 					<PrimaryNavigation
-						currentSectionKey={Keystone.nav.currentSection.key}
-						brand={Keystone.brand}
-						sections={Keystone.nav.sections}
-						signoutUrl={Keystone.signoutUrl} />
+						currentSectionKey={this.props.nav.currentSection.key}
+						brand={this.props.brand}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl} />
 					<SecondaryNavigation
-						currentListKey={Keystone.list.path}
-						lists={Keystone.nav.currentSection.lists} />
+						currentListKey={this.props.list.path}
+						lists={this.props.nav.currentSection.lists} />
 				</header>
 				<div className="keystone-body">
 					<EditFormHeader
@@ -86,25 +77,43 @@ var View = React.createClass({
 						drilldown={this.state.itemDrilldown}
 						toggleCreate={this.toggleCreate} />
 					<Container>
-						{this.renderCreateForm()}
-						<FlashMessages messages={Keystone.messages} />
-						<EditForm list={this.props.list} data={this.state.itemData} />
+						<CreateForm
+							list={this.props.list}
+							isOpen={this.state.createIsOpen}
+							onCancel={this.toggleCreate.bind(this, false)} />
+						<FlashMessages
+							messages={this.props.messages} />
+						<EditForm
+							list={this.props.list}
+							data={this.state.itemData} />
 					</Container>
 				</div>
 				<Footer
-					appversion={Keystone.appversion}
-					backUrl={Keystone.backUrl}
-					brand={Keystone.brand}
-					User={Keystone.User}
-					user={Keystone.user}
-					version={Keystone.version} />
+					appversion={this.props.appversion}
+					backUrl={this.props.backUrl}
+					brand={this.props.brand}
+					User={this.props.User}
+					user={this.props.user}
+					version={this.props.version} />
 			</div>
 		);
 	}
 
 });
 
-React.render(<View
+React.render(
+	<View
+		appversion={Keystone.appversion}
+		backUrl={Keystone.backUrl}
+		brand={Keystone.brand}
 		itemId={Keystone.itemId}
 		list={Keystone.list}
-	/>, document.getElementById('item-view'));
+		messages={Keystone.messages}
+		nav={Keystone.nav}
+		signoutUrl={Keystone.signoutUrl}
+		User={Keystone.User}
+		user={Keystone.user}
+		version={Keystone.version}
+	/>,
+	document.getElementById('item-view')
+);
