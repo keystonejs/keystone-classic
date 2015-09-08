@@ -12,7 +12,7 @@ const SecondaryNavigation = require('../components/SecondaryNavigation');
 
 const { Container, Spinner } = require('elemental');
 
-var View = React.createClass({
+var ItemView = React.createClass({
 
 	displayName: 'ItemView',
 
@@ -102,7 +102,7 @@ var View = React.createClass({
 });
 
 React.render(
-	<View
+	<ItemView
 		appversion={Keystone.appversion}
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}

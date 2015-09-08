@@ -45,7 +45,7 @@ var ListTile = React.createClass({
 	},
 });
 
-var View = React.createClass({
+var HomeView = React.createClass({
 
 	displayName: 'HomeView',
 
@@ -184,7 +184,7 @@ var View = React.createClass({
 });
 
 React.render(
-	<View
+	<HomeView
 		appversion={Keystone.appversion}
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
