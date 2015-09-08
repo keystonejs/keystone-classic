@@ -9,6 +9,7 @@ var RelationshipColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderMany (value) {
+		if (!value || !value.length) return;
 		let refList = this.props.col.field.refList;
 		let items = [];
 		for (let i = 0; i < 3; i++) {
@@ -32,6 +33,7 @@ var RelationshipColumn = React.createClass({
 		);
 	},
 	renderValue (value) {
+		if (!value) return;
 		let refList = this.props.col.field.refList;
 		return (
 			<ItemsTableValue href={'/keystone/' + refList.path + '/' + value.id} padded interior field={this.props.col.type}>
@@ -42,8 +44,6 @@ var RelationshipColumn = React.createClass({
 	render () {
 		let value = this.props.data.fields[this.props.col.path];
 		let many = this.props.col.field.many;
-		if (!value || (many && !value.length)) return null;
-
 		return (
 			<ItemsTableCell>
 				{many ? this.renderMany(value) : this.renderValue(value)}
