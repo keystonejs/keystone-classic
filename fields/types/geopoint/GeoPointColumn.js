@@ -1,21 +1,32 @@
-var React = require('react');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 var GeoPointColumn = React.createClass({
-	render: function() {
-		var value = this.props.data.fields[this.props.col.path];
-		if (value.length > 0) {
-			return (
-				<td className="ItemList__col">
-					<div className="ItemList__value ItemList__value--geo-point">Lat: {value[1]} Lng: {value[0]} </div>
-				</td>
-			);
-		} else {
-			return (
-				<td className="ItemList__col">
-					<div className="ItemList__value ItemList__value--geo-point"></div>
-				</td>
-			);
-		}
+	displayName: 'GeoPointColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
+	},
+	renderValue () {
+		let value = this.props.data.fields[this.props.col.path];
+		if (!value || !value.length) return null;
+
+		let formattedValue = `${value[1]}, ${value[0]}`;
+		let formattedTitle = `Lat: ${value[1]} Lng: ${value[0]}`;
+
+		return (
+			<ItemsTableValue title={formattedTitle} field={this.props.col.path}>
+				{formattedValue}
+			</ItemsTableValue>
+		);
+	},
+	render () {
+		return (
+			<ItemsTableCell>
+				{this.renderValue()}
+			</ItemsTableCell>
+		);
 	}
 });
 
