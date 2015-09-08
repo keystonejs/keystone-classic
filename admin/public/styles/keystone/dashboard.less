@@ -28,18 +28,6 @@
 	font-size: 2em;
 	font-weight: 300;
 }
-@media (max-width: @screen-xs) {
-	.dashboard-header {
-		border: 0;
-		height: @mobile-nav-bar-height;
-		margin: 0 0 30px;
-		overflow: hidden;
-		padding: 0;
-	}
-	.dashboard-heading {
-		display: none;
-	}
-}
 
 
 // headings
@@ -58,6 +46,28 @@
 	margin-top: -1px;
 	vertical-align: middle;
 	width: 30px;
+}
+
+// Small Devices
+@media (max-width: @screen-xs-max) {
+	.dashboard-header {
+		border: 0;
+		height: @grid-gutter-width;
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+	}
+	.dashboard-heading {
+		display: none;
+	}
+
+	// hide icons on small devices
+	.dashboard-group {
+		padding-left: 0,
+	}
+	.dashboard-group__heading-icon {
+		display: none;
+	}
 }
 
 
