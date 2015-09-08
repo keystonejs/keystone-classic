@@ -1,54 +1,55 @@
-var React = require('react');
-var classnames = require('classnames');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
-var TextColumn = React.createClass({
+var RelationshipColumn = React.createClass({
+	displayName: 'RelationshipColumn',
 	propTypes: {
 		col: React.PropTypes.object,
-		list: React.PropTypes.object,
 		data: React.PropTypes.object,
-		href: React.PropTypes.string
-	},
-	renderCell (children) {
-		return <td className="ItemList__col">{children}</td>;
-	},
-	renderNoValue () {
-		return (
-			<div className="ItemList__value ItemList__value--relationship">
-				&nbsp;
-			</div>
-		);
 	},
 	renderMany (value) {
-		var items = [];
-		for (var i = 0; i < 3; i++) {
+		let refList = this.props.col.field.refList;
+		let items = [];
+		for (let i = 0; i < 3; i++) {
 			if (!value[i]) break;
 			if (i) {
 				items.push(<span key={'comma' + i}>, </span>);
 			}
-			items.push(this.renderValue(value[i]));
+			items.push(
+				<ItemsTableValue interior truncate={false} key={'anchor' + i} href={'/keystone/' + refList.path + '/' + value[i].id}>
+					{value[i].name}
+				</ItemsTableValue>
+			);
 		}
 		if (value.length > 3) {
 			items.push(<span key="more" className="ItemList__more-indicator">[...{value.length - 3} more]</span>);
 		}
-		return items;
+		return (
+			<ItemsTableValue field={this.props.col.path}>
+				{items}
+			</ItemsTableValue>
+		);
 	},
 	renderValue (value) {
-		var refList = this.props.col.field.refList;
-		var className = classnames('ItemList__value ItemList__value--relationship ItemList__link--interior', {
-			'ItemList__link--padded': !this.props.col.field.many
-		});
+		let refList = this.props.col.field.refList;
 		return (
-			<a href={'/keystone/' + refList.path + '/' + value.id} key={value.id} className={className}>
+			<ItemsTableValue href={'/keystone/' + refList.path + '/' + value.id} padded interior field={this.props.col.path}>
 				{value.name}
-			</a>
+			</ItemsTableValue>
 		);
 	},
 	render: function() {
-		var value = this.props.data.fields[this.props.col.path];
-		var many = this.props.col.field.many;
-		if (!value || (many && !value.length)) return this.renderCell(this.renderNoValue());
-		return this.renderCell(many ? this.renderMany(value) : this.renderValue(value));
+		let value = this.props.data.fields[this.props.col.path];
+		let many = this.props.col.field.many;
+		if (!value || (many && !value.length)) return null;
+
+		return (
+			<ItemsTableCell>
+				{many ? this.renderMany(value) : this.renderValue(value)}
+			</ItemsTableCell>
+		);
 	}
 });
 
-module.exports = TextColumn;
+module.exports = RelationshipColumn;
