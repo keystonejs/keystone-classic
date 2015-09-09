@@ -16,11 +16,9 @@ function validateSpec(spec) {
 }
 
 var Base = module.exports.Base = {
-
 	getInitialState () {
 		return {};
 	},
-
 	getDefaultProps () {
 		return {
 			inputProps: {},
@@ -29,34 +27,28 @@ var Base = module.exports.Base = {
 			size: 'full'
 		};
 	},
-
 	valueChanged (event) {
 		this.props.onChange({
 			path: this.props.path,
 			value: event.target.value
 		});
 	},
-
 	shouldCollapse () {
 		return this.props.collapse && !this.props.value;
 	},
-
 	shouldRenderField () {
 		if (!this.props.noedit) return true;
 		if (this.props.mode === 'create' && this.props.initial) return true;
 		return false;
 	},
-
 	focus () {
 		if (!this.refs[this.spec.focusTargetRef]) return;
 		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
 	},
-
 	renderNote () {
 		if (!this.props.note) return null;
 		return <FormNote note={this.props.note} />;
 	},
-
 	renderField () {
 		var props = _.extend(this.props.inputProps, {
 			autoComplete: 'off',
@@ -67,17 +59,14 @@ var Base = module.exports.Base = {
 		});
 		return <FormInput {...props} />;
 	},
-
 	renderValue () {
 		return <FormInput noedit>{this.props.value}</FormInput>;
 	},
-
 	renderUI () {
 		var wrapperClassName = classnames(
 			('field-type-' + this.props.type),
 			this.props.className
 		);
-
 		return (
 			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
 				<div className={'FormField__inner field-size-' + this.props.size}>
@@ -86,33 +75,26 @@ var Base = module.exports.Base = {
 				{this.renderNote()}
 			</FormField>
 		);
-
 	}
-
 };
 
 var Mixins = module.exports.Mixins = {
-
 	Collapse: {
-
 		componentWillMount () {
 			this.setState({
 				isCollapsed: this.shouldCollapse()
 			});
 		},
-
 		componentDidUpdate (prevProps, prevState) {
 			if (prevState.isCollapsed && !this.state.isCollapsed) {
 				this.focus();
 			}
 		},
-
 		uncollapse () {
 			this.setState({
 				isCollapsed: false
 			});
 		},
-
 		renderCollapse () {
 			if (!this.shouldRenderField()) return null;
 			return (
