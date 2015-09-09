@@ -187,7 +187,7 @@ module.exports = Field.create({
 
 	renderPlaceholder () {
 		return (
-			<div className="image-field image-upload" onClick={this.changeImage}>
+			<div className="image-field image-field--upload" onClick={this.changeImage}>
 				<div className="image-preview">
 					<span className="img-thumbnail">
 						<span className="img-dropzone" />

@@ -20,6 +20,25 @@
 	}
 }
 
+// cover the image with an icon to indicate pending change
+.field-type-cloudinaryimage,
+.field-type-cloudinaryimages {
+	.img-loading,
+	.img-uploading,
+	.upload-pending,
+	.delete-pending {
+		bottom: @thumbnail-gutter-width;
+		background-color: rgba(0, 0, 0, 0.5);
+		color: white;
+		left: @thumbnail-gutter-width;
+		line-height: 90px;
+		position: absolute;
+		right: @thumbnail-gutter-width;
+		text-align: center;
+		top: @thumbnail-gutter-width;
+	}
+}
+
 
 
 
@@ -48,37 +67,14 @@
 				}
 			}
 		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			.square(40px);
-			color: rgba(0,0,0,0.66);
-			font-size: 40px;
-			left: 50%;
-			margin: -20px 0 0 -20px;
-			position: absolute;
-			text-align: center;
-			top: 50%;
-		}
-		.img-thumbnail {
-			img {
-				display: block;
-			}
-		}
-		&.removed {
-			.img-thumbnail {
-				img {
-					opacity: 0.25;
-				}
-			}
-		}
 	}
 
 	.image-details {
 		overflow: hidden;
 
 		.image-message {
-			margin-left: 0px;
 			font-size: 12px;
-			width: 110px;
+			margin-left: 0px;
 			text-align: center;
 			width: 100%;
 		}
@@ -92,19 +88,9 @@
 		&:extend(.u-clearfix all);
 	}
 
-
 	.image-select {
 		clear: both;
 		padding-top: 10px;
-	}
-
-	.upload-queued, .delete-queued, .select-queued {
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
 	}
 }
 
@@ -116,86 +102,51 @@
 
 .field-type-cloudinaryimages {
 
+	// wrapper for image
 	.image-field {
-		width: auto;
 		float: left;
-		margin-top: 0px;
-		margin-right: 0px;
 		margin-bottom: 10px;
+		margin-right: 10px;
+	}
 
-		&.image-upload {
-			cursor: pointer;
+	// drop zone
+	.image-field--upload {
+		cursor: pointer;
+
+		.img-thumbnail {
+			.img-dropzone {
+				width: 90px;
+				height: 90px;
+				display: block;
+				position: relative;
+				z-index: 1;
+			}
+		}
+		&:hover,
+		&.hover {
 			.img-thumbnail {
-				.img-dropzone {
-					width: 90px;
-					height: 90px;
-					display: block;
-					position: relative;
-					z-index: 1;
+				border: 1px solid #C8EECD;
+				background: #EFFDF0;
+				.img-uploading {
+					color: #0B851A;
 				}
 			}
-			&:hover,
-			&.hover {
-				.img-thumbnail {
-					border: 1px solid #C8EECD;
-					background: #EFFDF0;
-					.img-uploading {
-						color: #0B851A;
-					}
-				}
-				.image-message {
-					text-decoration: underline;
-				}
+			.image-message {
+				text-decoration: underline;
 			}
 		}
 	}
+
+	// anchor containing the image, and when applicable an icon
 	.image-preview {
-		line-height: 0px;
-		.placeholder-wrap {
-			height: 100px;
-			overflow: hidden;
+		line-height: 0;
 
-			.placeholder {
-				height: 90px;
-				opacity: 0.25;
-
-				&.no-preview {
-					width: 100px;
-					display: block;
-				}
-			}
-		}
-		.img-loading,
-		.img-uploading,
-		.upload-pending,
-		.delete-pending {
-			bottom: 0;
-			color: rgba(0, 0, 0, 0.66);
-			left: 0;
-			line-height: 100px;
-			position: absolute;
-			right: 0;
-			text-align: center;
-			top: 0;
-		}
 		.image-message {
 			margin-left: 0px;
 			font-size: 12px;
 			width: 110px;
 			text-align: center;
 			width: 100%;
-		}
-		.img-thumbnail {
-			img {
-				display: block;
-			}
-		}
-		&.action {
-			.img-thumbnail {
-				img {
-					opacity: 0.25;
-				}
-			}
 		}
 	}
 	.image-details {
