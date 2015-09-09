@@ -91,8 +91,8 @@ module.exports = Field.create({
 				}
 
 				// check if filtering by id and item was already saved
-				if (fieldName === ':_id' && Keystone.item) {
-					filters[key] = Keystone.item.id;
+				if (fieldName === '_id' && Keystone.itemId) {
+					filters[key] = Keystone.itemId;
 					return;
 				}
 			} else {
