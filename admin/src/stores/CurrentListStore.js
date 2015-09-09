@@ -23,7 +23,8 @@ var available = {
 var active = {
 	columns: expandColumns(_list.defaultColumns),
 	filters: [],
-	search: ''
+	search: '',
+	sort: expandSort(_list.defaultSort)
 };
 
 var page = defaultPage();
@@ -43,6 +44,12 @@ function getFilters () {
 	return filters;
 }
 
+function getSortString () {
+	return active.sort.paths.map(i => {
+		return i.invert ? '-' + i.path : i.path;
+	}).filter(i => i).join(',');
+}
+
 function buildQueryString () {
 	var parts = [];
 	parts.push(active.search ? 'search=' + active.search : '');
@@ -51,6 +58,7 @@ function buildQueryString () {
 	parts.push('limit=' + page.size);
 	parts.push(page.index > 1 ? 'skip=' + ((page.index - 1) * page.size) : '');
 	parts.push('expandRelationshipFields=true');
+	parts.push('sort=' + getSortString());
 	return '?' + parts.filter(i => i).join('&');
 }
 
@@ -89,6 +97,39 @@ function expandColumns (input) {
 	return cols;
 }
 
+function expandSort (input) {
+	var sort = {
+		rawInput: input || _list.defaultSort,
+		isDefaultSort: false
+	};
+	sort.input = sort.rawInput;
+	if (sort.input === '__default__') {
+		sort.isDefaultSort = true;
+		sort.input = _list.sortable ? 'sortOrder' : _list.namePath;
+	}
+	sort.paths = listToArray(sort.input).map(path => {
+		var invert = false;
+		if (path.charAt(0) === '-') {
+			invert = true;
+			path = path.substr(1);
+		}
+		var field = _list.fields[path];
+		if (!field) {
+			// TODO: Support arbitary document paths
+			console.warn('Invalid Sort specified:', path);
+			return;
+		}
+		return {
+			field: field,
+			type: field.type,
+			label: field.label,
+			path: field.path,
+			invert: invert
+		};
+	}).filter(i => i);
+	return sort;
+}
+
 var CurrentListStore = new Store({
 	getList () {
 		return _list;
@@ -116,6 +157,9 @@ var CurrentListStore = new Store({
 	},
 	getActiveSearch () {
 		return active.search;
+	},
+	getActiveSort () {
+		return active.sort;
 	},
 	getPageSize () {
 		return page.size;
@@ -146,7 +190,6 @@ var CurrentListStore = new Store({
 	loadItems () {
 		_loading = true;
 		var url = '/keystone/api/' + _list.path + buildQueryString();
-		// console.log(url);
 		xhr({
 			url: url
 		}, (err, resp, body) => {
