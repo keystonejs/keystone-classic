@@ -2,6 +2,7 @@ import _ from 'underscore';
 import React from 'react';
 import Field from '../Field';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
+import Lightbox from '../../../admin/src/components/Lightbox';
 
 const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
@@ -12,6 +13,7 @@ var Thumbnail = React.createClass({
 		deleted: React.PropTypes.bool,
 		height: React.PropTypes.number,
 		isQueued: React.PropTypes.bool,
+		openLightbox: React.PropTypes.func,
 		shouldRenderActionButton: React.PropTypes.bool,
 		toggleDelete: React.PropTypes.func,
 		url: React.PropTypes.string,
@@ -24,27 +26,25 @@ var Thumbnail = React.createClass({
 	},
 
 	render () {
-		var iconClassName;
+		let iconClassName;
+ 		let { deleted, height, isQueued, url, width } = this.props;
 
-		if (this.props.deleted) {
+		if (deleted) {
 			iconClassName = 'delete-pending mega-octicon octicon-x';
-		} else if (this.props.isQueued) {
+		} else if (isQueued) {
 			iconClassName = 'img-uploading mega-octicon octicon-cloud-upload';
 		}
 
-		var previewClassName = 'image-preview';
-		if (this.props.deleted || this.props.isQueued) previewClassName += ' action';
+		let previewClassName = 'image-preview';
+		if (deleted || isQueued) previewClassName += ' action';
 
-		var title = '';
-		var width = this.props.width;
-		var height = this.props.height;
-		if (width && height) title = width + ' x ' + height;
+		let title = (width && height) ? (width + ' × ' + height) : '';
 
 		return (
 			<div className="image-field image-sortable" title={title}>
 				<div className={previewClassName}>
-					<a href={this.props.url} className="img-thumbnail" target="__blank">
-						<img style={{ height: '90' }} className="img-load" src={this.props.url} />
+					<a href={url} onClick={this.props.openLightbox} className="img-thumbnail">
+						<img style={{ height: '90' }} className="img-load" src={url} />
 						<span className={iconClassName} />
 					</a>
 				</div>
@@ -68,6 +68,36 @@ module.exports = Field.create({
 		return { thumbnails: thumbnails };
 	},
 
+	openLightbox (index) {
+		event.preventDefault();
+		this.setState({
+			lightboxIsVisible: true,
+			lightboxImageIndex: index,
+		});
+	},
+
+	closeLightbox () {
+		this.setState({
+			lightboxIsVisible: false,
+			lightboxImageIndex: null,
+		});
+	},
+
+	renderLightbox () {
+		if (!this.props.value || !this.props.value.length) return;
+
+		let images = this.props.value.map(image => image.url);
+
+		return (
+			<Lightbox
+				images={images}
+				initialImage={this.state.lightboxImageIndex}
+				isOpen={this.state.lightboxIsVisible}
+				onCancel={this.closeLightbox}
+			/>
+		);
+	},
+
 	removeThumbnail  (i) {
 		var thumbs = this.state.thumbnails;
 		var thumb = thumbs[i];
@@ -86,6 +116,7 @@ module.exports = Field.create({
 		var i = thumbs.length;
 		args.toggleDelete = this.removeThumbnail.bind(this, i);
 		args.shouldRenderActionButton = this.shouldRenderField();
+		args.openLightbox = this.openLightbox.bind(this, i);
 		thumbs.push(<Thumbnail key={i} {...args} />);
 	},
 
@@ -187,7 +218,7 @@ module.exports = Field.create({
 
 	renderPlaceholder () {
 		return (
-			<div className="image-field image-upload" onClick={this.changeImage}>
+			<div className="image-field image-field--upload" onClick={this.changeImage}>
 				<div className="image-preview">
 					<span className="img-thumbnail">
 						<span className="img-dropzone" />
@@ -243,6 +274,7 @@ module.exports = Field.create({
 				{this.renderContainer()}
 				{this.renderToolbar()}
 				{this.renderNote()}
+				{this.renderLightbox()}
 			</FormField>
 		);
 	}

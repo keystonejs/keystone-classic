@@ -4,6 +4,7 @@ import React from 'react';
 import Field from '../Field';
 import Select from 'react-select';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
+import Lightbox from '../../../admin/src/components/Lightbox';
 
 /**
  * TODO:
@@ -16,6 +17,37 @@ const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'i
 module.exports = Field.create({
 
 	displayName: 'CloudinaryImageField',
+
+	openLightbox (index) {
+		event.preventDefault();
+		this.setState({
+			lightboxIsVisible: true,
+			lightboxImageIndex: index,
+		});
+	},
+
+	closeLightbox () {
+		this.setState({
+			lightboxIsVisible: false,
+			lightboxImageIndex: null,
+		});
+	},
+
+	renderLightbox () {
+		let { value } = this.props;
+		if (!value || !Object.keys(value).length) return;
+
+		let images = [value.url];
+
+		return (
+			<Lightbox
+				images={images}
+				initialImage={this.state.lightboxImageIndex}
+				isOpen={this.state.lightboxIsVisible}
+				onCancel={this.closeLightbox}
+			/>
+		);
+	},
 
 	fileFieldNode () {
 		return this.refs.fileField.getDOMNode();
@@ -147,7 +179,6 @@ module.exports = Field.create({
 		var className = 'image-preview';
 
 		if (this.hasLocal()) {
-			className += ' upload-pending';
 			iconClassName = 'upload-pending mega-octicon octicon-cloud-upload';
 		} else if (this.state.removeExisting) {
 			className += ' removed';
@@ -160,7 +191,7 @@ module.exports = Field.create({
 		var url = this.getImageURL();
 
 		if (url) {
-			body = <a className="img-thumbnail" href={this.getImageURL()} target="__blank">{body}</a>;
+			body = <a className="img-thumbnail" href={this.getImageURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</a>;
 		} else {
 			body = <div className="img-thumbnail">{body}</div>;
 		}
@@ -317,6 +348,11 @@ module.exports = Field.create({
 		);
 	},
 
+	renderNote () {
+		if (!this.props.note) return null;
+		return <FormNote note={this.props.note} />;
+	},
+
 	renderUI () {
 		var container = [];
 		var body = [];
@@ -342,7 +378,8 @@ module.exports = Field.create({
 				{this.renderFileAction()}
 				<div className="image-container">{container}</div>
 				{body}
-				<FormNote note={this.props.note} />
+				{this.renderNote()}
+				{this.renderLightbox()}
 			</FormField>
 		);
 	}

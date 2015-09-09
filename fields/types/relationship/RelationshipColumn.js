@@ -2,6 +2,13 @@ import React from 'react';
 import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
 import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
+const moreIndicatorStyle = {
+	color: '#bbb',
+	fontSize: '.8rem',
+	fontWeight: 500,
+	marginLeft: 8,
+};
+
 var RelationshipColumn = React.createClass({
 	displayName: 'RelationshipColumn',
 	propTypes: {
@@ -24,7 +31,7 @@ var RelationshipColumn = React.createClass({
 			);
 		}
 		if (value.length > 3) {
-			items.push(<span key="more" className="ItemList__more-indicator">[...{value.length - 3} more]</span>);
+			items.push(<span key="more" style={moreIndicatorStyle}>[...{value.length - 3} more]</span>);
 		}
 		return (
 			<ItemsTableValue field={this.props.col.type}>
