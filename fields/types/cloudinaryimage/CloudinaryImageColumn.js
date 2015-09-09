@@ -1,19 +1,32 @@
-var React = require('react');
+import React from 'react';
+import CloudinaryImageSummary from '../../components/columns/CloudinaryImageSummary';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
-var CloudinaryimageColumn = React.createClass({
+var CloudinaryImageColumn = React.createClass({
+	displayName: 'CloudinaryImageColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
+	},
 	renderValue: function() {
 		var value = this.props.data.fields[this.props.col.path];
-		if (!value) return;
-		return <a href={value.url} target='_blank'>{value.url}</a>;
+		if (!value || !Object.keys(value).length) return;
+
+		return (
+			<ItemsTableValue field={this.props.col.type}>
+				<CloudinaryImageSummary label="dimensions" image={value} />
+			</ItemsTableValue>
+		);
 
 	},
-	render: function() {
+	render () {
 		return (
-			<td>
-				<div className='ItemList__value'>{this.renderValue()}</div>
-			</td>
+			<ItemsTableCell>
+				{this.renderValue()}
+			</ItemsTableCell>
 		);
 	}
 });
 
-module.exports = CloudinaryimageColumn;
+module.exports = CloudinaryImageColumn;
