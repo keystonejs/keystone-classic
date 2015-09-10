@@ -5,6 +5,7 @@ import React from 'react';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 function validateSpec(spec) {
+	if (!spec) spec = {};
 	if (!_.isObject(spec.supports)) {
 		spec.supports = {};
 	}
@@ -56,10 +57,6 @@ var Base = module.exports.Base = {
 		return <FormNote note={this.props.note} />;
 	},
 
-	wrapField () {
-		return this.renderField();
-	},
-
 	renderField () {
 		var props = _.extend(this.props.inputProps, {
 			autoComplete: 'off',
@@ -69,10 +66,6 @@ var Base = module.exports.Base = {
 			value: this.props.value
 		});
 		return <FormInput {...props} />;
-	},
-
-	wrapValue () {
-		return this.renderValue();
 	},
 
 	renderValue () {
@@ -88,7 +81,7 @@ var Base = module.exports.Base = {
 		return (
 			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
 				<div className={'FormField__inner field-size-' + this.props.size}>
-					{this.shouldRenderField() ? this.wrapField() : this.wrapValue()}
+					{this.shouldRenderField() ? this.renderField() : this.renderValue()}
 				</div>
 				{this.renderNote()}
 			</FormField>
@@ -133,18 +126,13 @@ var Mixins = module.exports.Mixins = {
 
 module.exports.create = function(spec) {
 
-	spec = validateSpec(spec || {});
+	spec = validateSpec(spec);
 
 	var excludeBaseMethods = [];
-
 	var field = {
-
 		spec: spec,
-
 		displayName: spec.displayName,
-
 		mixins: [Mixins.Collapse],
-
 		render () {
 			if (!evalDependsOn(this.props.dependsOn, this.props.values)) {
 				return null;
@@ -154,7 +142,6 @@ module.exports.create = function(spec) {
 			}
 			return this.renderUI();
 		}
-
 	};
 
 	if (spec.mixins) {

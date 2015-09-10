@@ -1,26 +1,51 @@
-// 
+//
 // List Controls
 // ==============================
 
 
 
 
-// base
+// Cells
+// ------------------------------
 
-/*button*/.ItemList__control {
+// needs the element qualifier to up the specificity :(
+
+td.ItemList__col--control {
+	padding: 0;
+}
+
+
+
+// Buttons
+// ------------------------------
+
+.ItemList__control {
+	.align-items(center);
+	.display-flex();
+	.justify-content(center);
 	.transition( color 140ms );
 	background: none;
 	border: none;
 	color: #ccc;
 	display: block;
-	font-size: 16px; // stop weird blurring on icons
-	line-height: 0; // collapse buttons
-	padding: 0 .25em;
+	height: round(@font-size-base + ((@table-padding * @font-size-base) * 2));
+	padding: 0;
+	position: relative;
 	text-align: center;
-	width: 100%;
+	width: 26px;
 
-	&:focus {
+	&:hover,
+	&:focus,
+	&:active {
 		outline: none;
+	}
+
+	// explicit font-size (multiple of 16) + disable antialiasing stops blurring
+	// when viewport width is uneven e.g. "1283px"
+	> .octicon {
+		font-size: 16px;
+		-moz-osx-font-smoothing: none;
+		-webkit-font-smoothing: none;
 	}
 }
 
@@ -46,6 +71,7 @@
 		color: @text-color;
 	}
 	&:active {
+		color: @app-primary;
 		cursor: -webkit-grabbing;
 		cursor: -moz-grabbing;
 	}

@@ -50,6 +50,7 @@ function buildQueryString () {
 	parts.push('select=' + active.columns.map(i => i.path).join(','));
 	parts.push('limit=' + page.size);
 	parts.push(page.index > 1 ? 'skip=' + ((page.index - 1) * page.size) : '');
+	parts.push('expandRelationshipFields=true');
 	return '?' + parts.filter(i => i).join('&');
 }
 

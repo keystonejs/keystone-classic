@@ -1,17 +1,24 @@
-var React = require('react');
-var _ = require('underscore');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 var MarkdownColumn = React.createClass({
-	renderValue: function() {
-		var value = this.props.data.fields[this.props.col.path];
-		if (!value || !_.size(value)) return;
-		return value.md.substring(0, 500);
+	displayName: 'MarkdownColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
 	},
-	render: function() {
+	renderValue () {
+		let value = this.props.data.fields[this.props.col.path];
+		return (value && Object.keys(value).length) ? value.md.substr(0, 100) : null;
+	},
+	render () {
 		return (
-			<td>
-				<div className="ItemList__col-value">{this.renderValue()}</div>
-			</td>
+			<ItemsTableCell>
+				<ItemsTableValue field={this.props.col.type}>
+					{this.renderValue()}
+				</ItemsTableValue>
+			</ItemsTableCell>
 		);
 	}
 });

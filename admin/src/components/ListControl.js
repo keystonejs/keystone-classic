@@ -27,7 +27,7 @@ var ListControl = React.createClass({
 	},
 
 	render () {
-		var className = 'ItemList__control-col ItemList__control-col--' + this.props.type;
+		var className = 'ItemList__col--control ItemList__col--' + this.props.type;
 
 		return (
 			<td className={className}>

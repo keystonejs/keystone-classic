@@ -1,21 +1,32 @@
-var React = require('react');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 var GeoPointColumn = React.createClass({
-	render: function() {
-		var value = this.props.data.fields[this.props.col.path];
-		if (value.length > 0) {
-			return (
-				<td>
-					<div className="ItemList__col-value">Lat: {value[1]} Lng: {value[0]} </div>
-				</td>
-			);
-		} else {
-			return (
-				<td>
-					<div className="ItemList__col-value"></div>
-				</td>
-			);
-		}
+	displayName: 'GeoPointColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
+	},
+	renderValue () {
+		let value = this.props.data.fields[this.props.col.path];
+		if (!value || !value.length) return null;
+
+		let formattedValue = `${value[1]}, ${value[0]}`;
+		let formattedTitle = `Lat: ${value[1]} Lng: ${value[0]}`;
+
+		return (
+			<ItemsTableValue title={formattedTitle} field={this.props.col.type}>
+				{formattedValue}
+			</ItemsTableValue>
+		);
+	},
+	render () {
+		return (
+			<ItemsTableCell>
+				{this.renderValue()}
+			</ItemsTableCell>
+		);
 	}
 });
 

@@ -24,6 +24,11 @@
 		padding-right: @grid-gutter-width;
 	}
 }
+@media (max-width: @screen-xs-max) {
+	.Modal-dialog {
+		padding-top: @mobile-nav-bar-height + (@grid-gutter-width / 2);
+	}
+}
 
 
 
@@ -75,16 +80,6 @@ kbd {
 
 
 
-// Flash Messages
-// ------------------------------
-
-.flash-messages {
-	margin-top: @grid-gutter-width;
-}
-
-
-
-
 // Overrides
 // ------------------------------
 
@@ -119,6 +114,12 @@ kbd {
 }
 .keystone-footer__link {
 	color: @gray;
+
+	&:hover,
+	&:focus {
+		color: @gray;
+		outline: none;
+	}
 }
 
 

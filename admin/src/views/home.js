@@ -1,14 +1,19 @@
-var React = require('react');
-var xhr = require('xhr');
-var { plural } = require('../utils');
+const React = require('react');
+const { Container } = require('elemental');
+const xhr = require('xhr');
+const { plural } = require('../utils');
+const Footer = require('../components/Footer');
+const MobileNavigation = require('../components/MobileNavigation');
+const PrimaryNavigation = require('../components/PrimaryNavigation');
 
 const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'];
 const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
 const ICON_TAGS_CALENDAR = ['events', 'dates'];
 const ICON_TAGS_CLOCK = ['classes', 'hours', 'times'];
-const ICON_TAGS_FILE_MEDIA = ['images', 'photos', 'pictures'];
+const ICON_TAGS_FILE_MEDIA = ['gallery', 'galleries', 'images', 'photos', 'pictures'];
 const ICON_TAGS_FILE_TEXT = ['attachments', 'docs', 'documents', 'files'];
 const ICON_TAGS_LOCATION = ['locations', 'markers', 'places'];
+const ICON_TAGS_MAIL = ['emails', 'enquiries'];
 const ICON_TAGS_MEGAPHONE = ['broadcasts', 'jobs', 'talks'];
 const ICON_TAGS_ORGANIZATION = ['contacts', 'customers', 'groups', 'members', 'people', 'speakers', 'teams', 'users'];
 const ICON_TAGS_PACKAGE = ['boxes', 'items', 'packages', 'parcels'];
@@ -19,7 +24,28 @@ Keystone.lists.forEach((list) => {
 	listsByKey[list.key] = list;
 });
 
-var View = React.createClass({
+var ListTile = React.createClass({
+	propTypes: {
+		count: React.PropTypes.string,
+		href: React.PropTypes.string,
+		label: React.PropTypes.string,
+	},
+	render () {
+		return (
+			<div className="dashboard-group__list">
+				<span className="dashboard-group__list-inner">
+					<a href={this.props.href} className="dashboard-group__list-tile">
+						<div className="dashboard-group__list-label">{this.props.label}</div>
+						<div className="dashboard-group__list-count">{this.props.count}</div>
+					</a>
+					<a href={this.props.href + '?create'} className="dashboard-group__list-create octicon octicon-plus" title="Create" tabIndex="-1" />
+				</span>
+			</div>
+		);
+	},
+});
+
+var HomeView = React.createClass({
 
 	displayName: 'HomeView',
 
@@ -53,28 +79,18 @@ var View = React.createClass({
 	},
 
 	renderFlatNav () {
-		return Keystone.lists.map((list) => {
+		let lists = this.props.navLists.map((list) => {
 			var href = list.external ? list.path : '/keystone/' + list.path;
-			return (
-				<h3 key={list.path}>
-					<a href={href}>{list.label}</a>
-				</h3>
-			);
+			return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 		});
-	},
 
-	renderItemCount (list) {
-		return (
-			<div>
-				{plural(this.state.counts[list.key], '* Item', '* Items')}
-			</div>
-		);
+		return <div className="dashboard-group__lists">{lists}</div>;
 	},
 
 	renderGroupedNav () {
 		return (
 			<div>
-				{Keystone.nav.sections.map((navSection) => {
+				{this.props.navSections.map((navSection) => {
 					var headingIconClass = 'dashboard-group__heading-icon octicon octicon-';
 
 					if (ICON_TAGS_BRIEFCASE.indexOf(navSection.key) !== -1) { headingIconClass += 'briefcase'; }
@@ -84,6 +100,7 @@ var View = React.createClass({
 					else if (ICON_TAGS_FILE_MEDIA.indexOf(navSection.key) !== -1) { headingIconClass += 'file-media'; }
 					else if (ICON_TAGS_FILE_TEXT.indexOf(navSection.key) !== -1) { headingIconClass += 'file-text'; }
 					else if (ICON_TAGS_LOCATION.indexOf(navSection.key) !== -1) { headingIconClass += 'location'; }
+					else if (ICON_TAGS_MAIL.indexOf(navSection.key) !== -1) { headingIconClass += 'mail'; }
 					else if (ICON_TAGS_MEGAPHONE.indexOf(navSection.key) !== -1) { headingIconClass += 'megaphone'; }
 					else if (ICON_TAGS_ORGANIZATION.indexOf(navSection.key) !== -1) { headingIconClass += 'organization'; }
 					else if (ICON_TAGS_PACKAGE.indexOf(navSection.key) !== -1) { headingIconClass += 'package'; }
@@ -96,42 +113,29 @@ var View = React.createClass({
 								<span className={headingIconClass} />
 								{navSection.label}
 							</div>
-							<ul className="dashboard-group__list">
+							<div className="dashboard-group__lists">
 								{navSection.lists.map((list) => {
 									var href = list.external ? list.path : '/keystone/' + list.path;
-									return (
-										<li key={list.path}>
-											<a href={href}>
-												<div className="dashboard-group__list-label">{list.label}</div>
-												{this.renderItemCount(list)}
-											</a>
-										</li>
-									);
+									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
-							</ul>
+							</div>
 						</div>
 					);
 				})}
 				{() => {
-					if (!Keystone.orphanedLists.length) return;
+					if (!this.props.orphanedLists.length) return;
 					return (
 						<div className="dashboard-group">
 							<div className="dashboard-group__heading">
-								<span className="dashboard-group__heading-icon  octicon octicon-database" />
+								<span className="dashboard-group__heading-icon octicon octicon-database" />
 								Other
 							</div>
-							<ul className="dashboard-group__list">
-								{Keystone.orphanedLists.map((list) => {
-									return (
-										<li key={list.path}>
-											<a href={'/keystone/' + list.path}>
-												<div className="dashboard-group__list-label">{list.label}</div>
-												{this.renderItemCount(list)}
-											</a>
-										</li>
-									);
+							<div className="dashboard-group__lists">
+								{this.props.orphanedLists.map((list) => {
+									var href = list.external ? list.path : '/keystone/' + list.path;
+									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
-							</ul>
+							</div>
 						</div>
 					);
 				}()}
@@ -141,15 +145,58 @@ var View = React.createClass({
 
 	render () {
 		return (
-			<div className="container">
-				<div className="page-header"><h1>{Keystone.brand}</h1></div>
-				<div className="dashboard-groups">
-					{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}
+			<div className="keystone-wrapper">
+				<header className="keystone-header">
+					<MobileNavigation
+						brand={this.props.brand}
+						currentSectionKey="dashboard"
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
+						/>
+					<PrimaryNavigation
+						brand={this.props.brand}
+						currentSectionKey="dashboard"
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
+						/>
+				</header>
+				<div className="keystone-body">
+					<Container>
+						<div className="dashboard-header">
+							<div className="dashboard-heading">{this.props.brand}</div>
+						</div>
+						<div className="dashboard-groups">
+							{this.props.navIsFlat ? this.renderFlatNav() : this.renderGroupedNav()}
+						</div>
+					</Container>
 				</div>
+				<Footer
+					appversion={this.props.appversion}
+					backUrl={this.props.backUrl}
+					brand={this.props.brand}
+					User={this.props.User}
+					user={this.props.user}
+					version={this.props.version} />
 			</div>
 		);
 	}
 
 });
 
-React.render(<View />, document.getElementById('home-view'));
+React.render(
+	<HomeView
+		appversion={Keystone.appversion}
+		backUrl={Keystone.backUrl}
+		brand={Keystone.brand}
+		nav={Keystone.nav}
+		navIsFlat={Keystone.nav.flat}
+		navLists={Keystone.lists}
+		navSections={Keystone.nav.sections}
+		orphanedLists={Keystone.orphanedLists}
+		signoutUrl={Keystone.signoutUrl}
+		User={Keystone.User}
+		user={Keystone.user}
+		version={Keystone.version}
+	/>,
+	document.getElementById('home-view')
+);

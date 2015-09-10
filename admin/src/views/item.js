@@ -1,20 +1,24 @@
-var React = require('react');
-var request = require('superagent');
+const React = require('react');
+const request = require('superagent');
 
-var CreateForm = require('../components/CreateForm');
-var EditForm = require('../components/EditForm');
-var EditFormHeader = require('../components/EditFormHeader');
+const CreateForm = require('../components/CreateForm');
+const EditForm = require('../components/EditForm');
+const EditFormHeader = require('../components/EditFormHeader');
+const FlashMessages = require('../components/FlashMessages');
+const Footer = require('../components/Footer');
+const MobileNavigation = require('../components/MobileNavigation');
+const PrimaryNavigation = require('../components/PrimaryNavigation');
+const SecondaryNavigation = require('../components/SecondaryNavigation');
 
-var { Spinner } = require('elemental');
+const { Container, Spinner } = require('elemental');
 
-var View = React.createClass({
+var ItemView = React.createClass({
 
 	displayName: 'ItemView',
 
 	getInitialState () {
 		return {
 			createIsOpen: false,
-			list: Keystone.list,
 			itemData: null
 		};
 	},
@@ -24,7 +28,7 @@ var View = React.createClass({
 	},
 
 	loadItemData () {
-		request.get('/keystone/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
+		request.get('/keystone/api/' + this.props.list.path + '/' + this.props.itemId + '?drilldown=true')
 			.set('Accept', 'application/json')
 			.end((err, res) => {
 				if (err || !res.ok) {
@@ -45,23 +49,71 @@ var View = React.createClass({
 		});
 	},
 
-	renderCreateForm () {
-		return <CreateForm list={Keystone.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreate.bind(this, false)} />;
-	},
-
 	render () {
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
 		return (
-			<div>
-				<EditFormHeader list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
-				<div className="container">
-					{this.renderCreateForm()}
-					<EditForm list={this.state.list} data={this.state.itemData} />
+			<div className="keystone-wrapper">
+				<header className="keystone-header">
+					<MobileNavigation
+						brand={this.props.brand}
+						currentListKey={this.props.list.path}
+						currentSectionKey={this.props.nav.currentSection.key}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
+						/>
+					<PrimaryNavigation
+						currentSectionKey={this.props.nav.currentSection.key}
+						brand={this.props.brand}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl} />
+					<SecondaryNavigation
+						currentListKey={this.props.list.path}
+						lists={this.props.nav.currentSection.lists} />
+				</header>
+				<div className="keystone-body">
+					<EditFormHeader
+						list={this.props.list}
+						data={this.state.itemData}
+						drilldown={this.state.itemDrilldown}
+						toggleCreate={this.toggleCreate} />
+					<Container>
+						<CreateForm
+							list={this.props.list}
+							isOpen={this.state.createIsOpen}
+							onCancel={this.toggleCreate.bind(this, false)} />
+						<FlashMessages
+							messages={this.props.messages} />
+						<EditForm
+							list={this.props.list}
+							data={this.state.itemData} />
+					</Container>
 				</div>
+				<Footer
+					appversion={this.props.appversion}
+					backUrl={this.props.backUrl}
+					brand={this.props.brand}
+					User={this.props.User}
+					user={this.props.user}
+					version={this.props.version} />
 			</div>
 		);
 	}
 
 });
 
-React.render(<View itemId={Keystone.itemId} />, document.getElementById('item-view'));
+React.render(
+	<ItemView
+		appversion={Keystone.appversion}
+		backUrl={Keystone.backUrl}
+		brand={Keystone.brand}
+		itemId={Keystone.itemId}
+		list={Keystone.list}
+		messages={Keystone.messages}
+		nav={Keystone.nav}
+		signoutUrl={Keystone.signoutUrl}
+		User={Keystone.User}
+		user={Keystone.user}
+		version={Keystone.version}
+	/>,
+	document.getElementById('item-view')
+);

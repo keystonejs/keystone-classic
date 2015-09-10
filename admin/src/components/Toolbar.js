@@ -1,6 +1,7 @@
 var React = require('react');
 var blacklist = require('blacklist');
 var classNames = require('classnames');
+var { Container } = require('elemental');
 
 module.exports = React.createClass({
 	displayName: 'Toolbar',
@@ -11,9 +12,9 @@ module.exports = React.createClass({
 	render () {
 		return (
 			<div {...this.props} className="Toolbar">
-				<div className="container">
+				<Container clearfix >
 					{this.props.children}
-				</div>
+				</Container>
 			</div>
 		);
 	}

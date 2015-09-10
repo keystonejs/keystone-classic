@@ -55,6 +55,7 @@
 // base
 
 .ItemList {
+	line-height: 1;
 	margin-bottom: 60px;
 	table-layout: fixed;
 	width: 100%;
@@ -63,8 +64,43 @@
 
 // col value - crop field content so we maintain one line throught the list table
 
-.ItemList__col-value {
-	.u-text-truncate();
+.ItemList__value--truncate {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-wrap: normal;
+
+	a& {
+		display: inline-block;
+	}
+}
+
+
+
+
+// Links
+// ------------------------------
+
+.ItemList__link--padded {
+	display: inline-block;
+	margin: -@table-padding;
+	padding: @table-padding;
+}
+.ItemList__link--interior {
+	color: @text-color;
+
+	&:hover,
+	&:focus {
+		color: @text-color;
+		outline: none;
+	}
+}
+.ItemList__link--exterior {
+	&:hover,
+	&:focus {
+		outline: none;
+	}
 }
 
 
@@ -74,44 +110,35 @@
 // ------------------------------
 
 
-// Name Field
-// 1. fix an optical illusion that occurs between the row name and the row icon.
-//    in most cases the first character of the name col is uppercase, so
-//    the icon appears to be too low due the absence of a decender in the row name
-//    (they are in fact aligned middle correctly)
-// 2. remove the negative margin on table anchors to provide a comfortable gutter
-//    between the row name and the row icon
+// "First" Field Cols
+// fix an optical illusion that occurs between the row name and the row icon.
+// in most cases the first character of the name col is uppercase, so
+// the icon appears to be too low due the absence of a decender in the row name
+// (they are in fact aligned middle correctly)
 
-.ItemList__col-value--name {
-	bottom: -1px; // 1
-	position: relative; // 1
-
-	.ItemList__control-col + td > & {
-		margin-left: 0 !important; // 2
-	}
+.ItemList__value--name,
+.ItemList__value--id {
+	bottom: -1px;
+	position: relative;
 }
 
-.ItemList__col-value--id {
-	bottom: -1px; // 1
-	position: relative; // 1
-	font-family: @font-family-monospace;
-	font-size: 0.91em;
 
-	.ItemList__control-col + td > & {
-		margin-left: 0 !important; // 2
-	}
+// Monospaced Fields
+
+.ItemList__value--code,
+.ItemList__value--key,
+.ItemList__value--html,
+.ItemList__value--htmlWYSIWYG,
+.ItemList__value--id {
+	font-family: @font-family-monospace;
 }
 
-.ItemList__col-value--invalid {
-	bottom: -1px; // 1
-	position: relative; // 1
+
+// __INVALID__ Field
+
+.ItemList__value--invalid {
 	font-family: @font-family-monospace;
-	font-size: 0.91em;
 	color: @app-danger !important;
-
-	.ItemList__control-col + td > & {
-		margin-left: 0 !important; // 2
-	}
 }
 
 
@@ -135,16 +162,6 @@
 }
 
 
-// Colour Field
-
-.ItemList__color-preview {
-	display: inline-block;
-	border-radius: 5px;
-	width: 16px;
-	height: 16px;
-}
-
-
 
 // Responsive tables
 // ------------------------------
@@ -160,6 +177,9 @@
 		-ms-overflow-style: -ms-autohiding-scrollbar;
 		-webkit-overflow-scrolling: touch;
 		width: 100%;
+	}
+	.ItemList__value {
+		max-width: none;
 	}
 
 	// Tighten up spacing for smaller devices

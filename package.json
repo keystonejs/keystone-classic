@@ -8,12 +8,13 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
+    "@jedwatson/react-color": "^1.0.6",
     "async": "^1.4.2",
     "asyncdi": "^1.1.0",
     "azure": "^0.10.6",
-    "babel-core": "^5.8.22",
+    "babel-core": "^5.8.23",
     "babel-plugin-object-assign": "^1.2.1",
-    "babelify": "^6.2.0",
+    "babelify": "^6.3.0",
     "babyparse": "^0.4.3",
     "bcrypt-nodejs": "~0.0.3",
     "blacklist": "^1.1.2",
@@ -30,13 +31,14 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.3.5",
     "debug": "^2.2.0",
-    "elemental": "^0.3.4",
+    "elemental": "^0.4.3",
     "embedly": "^1.0.4",
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
-    "fs-extra": "^0.23.1",
+    "fs-extra": "^0.24.0",
     "grappling-hook": "^3.0.0",
+    "history": "^1.8.4",
     "i": "^0.3.3",
     "jade": "^1.11.0",
     "jquery": "^2.1.4",
@@ -48,7 +50,7 @@
     "marked": "^0.3.5",
     "method-override": "^2.3.5",
     "moment": "^2.10.6",
-    "mongoose": "^4.1.3",
+    "mongoose": "^4.1.5",
     "morgan": "^1.6.1",
     "mpromise": "^0.5.5",
     "multer": "^0.1.8",
@@ -59,9 +61,8 @@
     "range_check": "^0.0.5",
     "react": "^0.13.3",
     "react-alt-text": "^1.1.0",
-    "react-color": "^1.0.5",
-    "react-day-picker": "^1.0.4",
-    "react-select": "^0.6.3",
+    "react-day-picker": "^1.0.5",
+    "react-select": "^0.6.7",
     "scmp": "^1.0.0",
     "semver": "^5.0.1",
     "serve-favicon": "^2.3.0",
@@ -70,29 +71,34 @@
     "underscore": "^1.8.3",
     "vkey": "^1.0.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "watchify": "^3.2.3",
     "mongoose-simple-random": "^0.3.2"
 =======
     "watchify": "^3.3.1",
     "xhr": "^2.0.3"
 >>>>>>> keystonejs/master
+=======
+    "watchify": "^3.4.0",
+    "xhr": "^2.0.4"
+>>>>>>> keystonejs/master
   },
   "devDependencies": {
-    "babel-eslint": "^4.0.10",
+    "babel-eslint": "^4.1.1",
     "browserify": "^11.0.1",
     "codeclimate-test-reporter": "0.1.0",
-    "eslint": "^1.2.1",
-    "eslint-plugin-react": "^3.2.3",
+    "eslint": "^1.3.1",
+    "eslint-plugin-react": "^3.3.1",
     "gulp": "^3.9.0",
-    "gulp-git": "^1.2.4",
+    "gulp-git": "^1.3.1",
     "gulp-streamify": "1.0.0",
-    "gulp-uglify": "^1.2.0",
-    "istanbul": "^0.3.18",
-    "mocha": "^2.2.5",
+    "gulp-uglify": "^1.4.0",
+    "istanbul": "^0.3.19",
+    "mocha": "^2.3.0",
     "must": ">= 0.12 < 1",
-    "rimraf": "^2.4.2",
+    "rimraf": "^2.4.3",
     "sinon": "^1.16.1",
-    "supertest": "^1.0.1",
+    "supertest": "^1.1.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "browserify": {

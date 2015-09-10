@@ -1,30 +1,26 @@
-var React = require('react');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 var NameColumn = React.createClass({
-	renderValue: function() {
+	displayName: 'NameColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
+		linkTo: React.PropTypes.string,
+	},
+	renderValue () {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value || (!value.first && !value.last)) return '(no name)';
 		return [value.first, value.last].filter(i => i).join(' ');
 	},
-	renderText () {
+	render () {
 		return (
-			<div className="ItemList__col-value">
-				{this.renderValue()}
-			</div>
-		);
-	},
-	renderLink () {
-		return (
-			<a href={this.props.linkTo} className="ItemList__col-value ItemList__col-value--name">
-				{this.renderValue()}
-			</a>
-		);
-	},
-	render: function() {
-		return (
-			<td>
-				{this.props.linkTo ? this.renderLink() : this.renderText()}
-			</td>
+			<ItemsTableCell>
+				<ItemsTableValue href={this.props.linkTo} padded interior field={this.props.col.type}>
+					{this.renderValue()}
+				</ItemsTableValue>
+			</ItemsTableCell>
 		);
 	}
 });

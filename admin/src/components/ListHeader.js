@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import utils from '../utils.js';
-import { Button, Dropdown, FormInput, InputGroup, Pagination } from 'elemental';
+import { Button, Container, Dropdown, FormInput, InputGroup, Pagination } from 'elemental';
 
 import CreateForm from './CreateForm';
 import ListColumnsForm from './ListColumnsForm';
@@ -32,7 +32,7 @@ var ListHeader = React.createClass({
 		return {
 			activeColumns: CurrentListStore.getActiveColumns(),
 			activeFilters: CurrentListStore.getActiveFilters(),
-			activeSort: CurrentListStore.getList().cols[0],
+			// TODO activeSort: CurrentListStore.getList().cols[0],
 			availableColumns: CurrentListStore.getAvailableColumns(),
 			availableFilters: CurrentListStore.getAvailableFilters(),
 			currentPage: CurrentListStore.getCurrentPage(),
@@ -97,12 +97,12 @@ var ListHeader = React.createClass({
 		CurrentListStore.setCurrentPage(i);
 	},
 	renderSearch () {
-		var searchClearIcon = classNames('ListHeader__searchbar-field__icon octicon', {
+		var searchClearIcon = classNames('ListHeader__search__icon octicon', {
 			'is-search octicon-search': !this.state.searchString.length,
 			'is-clear octicon-x': this.state.searchString.length
 		});
 		return (
-			<InputGroup.Section grow className="ListHeader__searchbar-field">
+			<InputGroup.Section grow className="ListHeader__search">
 				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
 				<button ref="listSearchClear" type="button" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
 			</InputGroup.Section>
@@ -126,10 +126,15 @@ var ListHeader = React.createClass({
 			props.onClick = this.toggleCreateModal.bind(this, true);
 		}
 		return (
-			<InputGroup.Section style={{ borderLeft: '1px solid rgba(0,0,0,0.1)', marginLeft: '.75em', paddingLeft: '.75em' }}>
-				<Button {...props}>
-					<span className="octicon octicon-plus" />
-					Create {this.state.list.singular}
+			<InputGroup.Section className="ListHeader__create">
+				<Button {...props} title={'Create ' + this.state.list.singular}>
+					<span className="ListHeader__create__icon octicon octicon-plus" />
+					<span className="ListHeader__create__label">
+						Create
+					</span>
+					<span className="ListHeader__create__label--lg">
+						Create {this.state.list.singular}
+					</span>
 				</Button>
 			</InputGroup.Section>
 		);
@@ -141,7 +146,7 @@ var ListHeader = React.createClass({
 		let { activeSort, currentPage, invertSort, items, list, pageSize, sortPopoutIsOpen } = this.state;
 		return (
 			<div className="ListHeader">
-				<div className="container">
+				<Container>
 					<ListHeaderTitle
 						activeSort={list.fields[activeSort]}
 						invertSort={invertSort}
@@ -151,12 +156,12 @@ var ListHeader = React.createClass({
 						closePopout={this.toggleSortPopout.bind(this, false)}
 						openPopout={this.toggleSortPopout.bind(this, true)}
 						/>
-					<InputGroup contiguous={false} className="ListHeader__searchbar">
+					<InputGroup className="ListHeader__bar">
 						{this.renderSearch()}
-						<ListFiltersAdd />
-						<ListColumnsForm />
-						<ListDownloadForm />
-						<InputGroup.Section style={{ borderLeft: '1px solid rgba(0,0,0,0.1)', marginLeft: '.75em', paddingLeft: '.75em' }}>
+						<ListFiltersAdd className="ListHeader__filter" />
+						<ListColumnsForm className="ListHeader__columns" />
+						<ListDownloadForm className="ListHeader__download" />
+						<InputGroup.Section className="ListHeader__expand">
 							<Button isActive={this.props.tableIsExpanded} onClick={this.props.toggleTableWidth} title="Expand table width">
 								<span className="octicon octicon-mirror" />
 							</Button>
@@ -173,7 +178,7 @@ var ListHeader = React.createClass({
 						singular={list.singular}
 						total={items.count}
 						/>
-				</div>
+				</Container>
 				{this.renderCreateForm()}
 			</div>
 		);

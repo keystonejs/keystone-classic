@@ -1,12 +1,24 @@
-var React = require('react');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 var PasswordColumn = React.createClass({
-	render: function() {
-		var value = this.props.data.fields[this.props.col.path];
+	displayName: 'PasswordColumn',
+	propTypes: {
+		col: React.PropTypes.object,
+		data: React.PropTypes.object,
+	},
+	renderValue () {
+		let value = this.props.data.fields[this.props.col.path];
+		return value ? '********' : '';
+	},
+	render () {
 		return (
-			<td>
-				<div className="ItemList__col-value">{value ? '*****' : ''}</div>
-			</td>
+			<ItemsTableCell>
+				<ItemsTableValue field={this.props.col.type}>
+					{this.renderValue()}
+				</ItemsTableValue>
+			</ItemsTableCell>
 		);
 	}
 });

@@ -38,6 +38,7 @@ module.exports = function(file, name) {
 		var opts = { basedir: basedir };
 		if (devMode) {
 			logInit(file);
+			opts.debug = true;
 			opts.cache = {};
 			opts.packageCache = {};
 		}

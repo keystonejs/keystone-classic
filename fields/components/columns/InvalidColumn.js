@@ -1,20 +1,27 @@
-var React = require('react');
+import React from 'react';
+import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
-var IdColumn = React.createClass({
+var InvalidColumn = React.createClass({
+	displayName: 'InvalidColumn',
 	propTypes: {
 		col: React.PropTypes.object,
-		list: React.PropTypes.object,
-		data: React.PropTypes.object
 	},
-	render: function() {
+	renderValue () {
 		return (
-			<td>
-				<div className="ItemList__col-value ItemList__col-value--invalid">
-					(Invalid Type: {this.props.col.type})
-				</div>
-			</td>
+			<ItemsTableValue field={this.props.col.type}>
+				(Invalid Type: {this.props.col.type})
+			</ItemsTableValue>
+		);
+
+	},
+	render () {
+		return (
+			<ItemsTableCell>
+				{this.renderValue()}
+			</ItemsTableCell>
 		);
 	}
 });
 
-module.exports = IdColumn;
+module.exports = InvalidColumn;
