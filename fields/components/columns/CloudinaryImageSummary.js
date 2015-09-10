@@ -58,14 +58,14 @@ var CloudinaryImageSummary = React.createClass({
 	},
 	render () {
 		let { image } = this.props;
-
+		
 		return (
-			<a href={image.url} target="_blank" style={linkStyle}>
+			<span style={linkStyle}>
 				<span style={boxStyle}>
 					<img src={image.url} style={imageStyle} />
 				</span>
 				{this.renderLabel()}
-			</a>
+			</span>
 		);
 	}
 });
