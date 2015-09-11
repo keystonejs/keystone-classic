@@ -17,7 +17,7 @@ var ListHeaderTitle = React.createClass({
 		title: React.PropTypes.string,
 		openPopout: React.PropTypes.func,
 		closePopout: React.PropTypes.func,
-		onColumnSelect: React.PropTypes.func,
+		onSortChange: React.PropTypes.func,
 	},
 	renderColumns () {
 		return CurrentListStore.getAvailableColumns().map((el, i) => {

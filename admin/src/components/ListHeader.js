@@ -32,7 +32,7 @@ var ListHeader = React.createClass({
 		return {
 			activeColumns: CurrentListStore.getActiveColumns(),
 			activeFilters: CurrentListStore.getActiveFilters(),
-			// TODO activeSort: CurrentListStore.getList().cols[0],
+			activeSort: CurrentListStore.getActiveSort(),
 			availableColumns: CurrentListStore.getAvailableColumns(),
 			availableFilters: CurrentListStore.getAvailableFilters(),
 			currentPage: CurrentListStore.getCurrentPage(),
@@ -81,17 +81,8 @@ var ListHeader = React.createClass({
 			this.handleSearchClear ();
 		}
 	},
-	handleSortSelect (e, path) {
-		// invert if selection matches the current sort order or if the altKey was held
-		this.setState({
-			activeSort: path,
-			invertSort: this.state.activeSort === path ? !this.state.invertSort : e.altKey
-		});
-
-		// give the user time to see their change before closing the popout
-		setTimeout(() => {
-			this.toggleSortPopout(false);
-		}, 200);
+	handleSortSelect (sort) {
+		CurrentListStore.setActiveSort(sort);
 	},
 	handlePageSelect (i) {
 		CurrentListStore.setCurrentPage(i);
@@ -148,11 +139,10 @@ var ListHeader = React.createClass({
 			<div className="ListHeader">
 				<Container>
 					<ListHeaderTitle
-						activeSort={list.fields[activeSort]}
-						invertSort={invertSort}
+						activeSort={this.state.activeSort}
 						popoutIsOpen={sortPopoutIsOpen}
 						title={utils.plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
-						onColumnSelect={this.handleSortSelect}
+						onSortChange={this.handleSortSelect}
 						closePopout={this.toggleSortPopout.bind(this, false)}
 						openPopout={this.toggleSortPopout.bind(this, true)}
 						/>
