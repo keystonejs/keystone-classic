@@ -20,23 +20,28 @@ var ListHeaderTitle = React.createClass({
 		onSortChange: React.PropTypes.func,
 	},
 	renderColumns () {
+		// TODO: Handle multiple sort paths
+		let { activeSort } = this.props;
+		let activeSortPath = activeSort && activeSort.paths.length && activeSort.paths[0];
+
 		return CurrentListStore.getAvailableColumns().map((el, i) => {
 			if (el.type === 'heading') {
 				return <PopoutList.Heading key={'heading_' + i}>{el.label}</PopoutList.Heading>;
 			}
 
 			let path = el.field.path;
-			let isSelected = false;// TODO this.props.activeSort.path === path;
+			let isSelected = activeSortPath && activeSortPath.path === path;
+			let isInverted = isSelected && activeSortPath.inverted;
 
 			return (
 				<PopoutList.Item
 					key={'column_' + el.field.path}
-					icon={isSelected ? (this.props.invertSort ? 'chevron-up' : 'chevron-down') : 'dash'}
-					iconHover={isSelected ? (this.props.invertSort ? 'chevron-down' : 'chevron-up') : 'chevron-down'}
-					iconHoverAlt={isSelected ? (this.props.invertSort ? 'chevron-up' : 'chevron-down') : 'chevron-up'}
+					icon={isSelected ? (isInverted ? 'chevron-up' : 'chevron-down') : 'dash'}
+					iconHover={isSelected ? (isInverted ? 'chevron-down' : 'chevron-up') : 'chevron-down'}
+					iconHoverAlt={isSelected ? (isInverted ? 'chevron-up' : 'chevron-down') : 'chevron-up'}
 					isSelected={isSelected}
 					label={el.field.label}
-					onClick={(e) => { this.props.onColumnSelect(e, path); }} />
+					onClick={(e) => { this.props.onSortChange(e, path); }} />
 			);
 		});
 	},
@@ -64,8 +69,6 @@ var ListHeaderTitle = React.createClass({
 					{this.props.title}
 					{this.renderSort()}
 				</h2>
-				{/*
-				TODO
 				<Popout isOpen={this.props.popoutIsOpen} onCancel={this.props.closePopout} relativeToID="listHeaderSortButton">
 					<Popout.Header title="Sort" />
 					<Popout.Body scrollable>
@@ -77,7 +80,6 @@ var ListHeaderTitle = React.createClass({
 						<FormNote>Hold <kbd>alt</kbd> to toggle ascending/descending</FormNote>
 					</Popout.Footer>
 				</Popout>
-				*/}
 			</div>
 		);
 	}

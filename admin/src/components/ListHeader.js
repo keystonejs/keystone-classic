@@ -81,7 +81,8 @@ var ListHeader = React.createClass({
 			this.handleSearchClear ();
 		}
 	},
-	handleSortSelect (sort) {
+	handleSortSelect (e, sort) {
+		this.toggleSortPopout(false);
 		CurrentListStore.setActiveSort(sort);
 	},
 	handlePageSelect (i) {
