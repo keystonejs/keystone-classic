@@ -40,19 +40,29 @@ var ListHeaderTitle = React.createClass({
 			);
 		});
 	},
+	renderSort () {
+		// TODO: Handle multiple sort paths
+		let { activeSort } = this.props;
+		if (!activeSort || !activeSort.paths.length) return;
+		let activeSortPath = activeSort.paths[0];
+
+		return (
+			<span>
+			 	<span className="ListHeader__sortedby"> sorted by </span>
+				<a id="listHeaderSortButton" href="javascript:;" onClick={this.props.openPopout}>
+					{activeSortPath.label.toLowerCase()}
+					{activeSortPath.invert ? ' (descending)' : ''}
+					<span className="disclosure-arrow" />
+				</a>
+			</span>
+		)
+	},
 	render () {
 		return (
 			<div>
 				<h2 className="ListHeader__title">
 					{this.props.title}
-					{/*
-					TODO
-					<span> sorted by </span>
-					<a id="listHeaderSortButton" href="javascript:;" onClick={this.props.openPopout}>
-						{this.props.activeSort.label.toLowerCase()}
-						{this.props.invertSort ? ' (asc)' : ' (desc)'}
-						<span className="disclosure-arrow" />
-					</a>*/}
+					{this.renderSort()}
 				</h2>
 				{/*
 				TODO
