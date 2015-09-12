@@ -31,9 +31,11 @@ var ListSort = React.createClass({
 			popoutIsOpen: false
 		});
 	},
-	handleSortSelect (e, sort) {
+	handleSortSelect (e, path, inverted) {
+		if (e.altKey) inverted = true;
+		if (inverted) path = '-' + path;
 		this.closePopout();
-		CurrentListStore.setActiveSort(sort);
+		CurrentListStore.setActiveSort(path);
 	},
 	renderColumns () {
 		// TODO: Handle multiple sort paths
@@ -46,17 +48,19 @@ var ListSort = React.createClass({
 
 			let path = el.field.path;
 			let isSelected = activeSortPath && activeSortPath.path === path;
-			let isInverted = isSelected && activeSortPath.inverted;
+			let isInverted = isSelected && activeSortPath.invert;
 
 			return (
 				<PopoutList.Item
 					key={'column_' + el.field.path}
 					icon={isSelected ? (isInverted ? 'chevron-up' : 'chevron-down') : 'dash'}
 					iconHover={isSelected ? (isInverted ? 'chevron-down' : 'chevron-up') : 'chevron-down'}
-					iconHoverAlt={isSelected ? (isInverted ? 'chevron-up' : 'chevron-down') : 'chevron-up'}
+					iconHoverAlt={isSelected ? (isInverted ? 'chevron-up' : 'chevron-up') : 'chevron-up'}
 					isSelected={isSelected}
 					label={el.field.label}
-					onClick={(e) => { this.handleSortSelect(e, path); }} />
+					onClick={(e) => {
+						this.handleSortSelect(e, path, isSelected && !isInverted);
+					}} />
 			);
 		});
 	},
