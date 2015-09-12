@@ -163,6 +163,7 @@ var CurrentListStore = new Store({
 	},
 	setActiveSort (sort) {
 		active.sort = expandSort(sort || _list.defaultSort);
+		this.loadItems();
 		this.notifyChange();
 	},
 	getPageSize () {
