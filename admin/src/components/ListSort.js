@@ -12,23 +12,14 @@ var ListSort = React.createClass({
 	displayName: 'ListSort',
 	getInitialState () {
 		return {
-			popoutIsOpen: false,
-			...this.getStateFromStore()
+			popoutIsOpen: false
 		};
 	},
 	componentDidMount () {
-		CurrentListStore.addChangeListener(this.updateStateFromStore);
+		CurrentListStore.addChangeListener(this.forceUpdate);
 	},
 	componentWillUnmount () {
-		CurrentListStore.removeChangeListener(this.updateStateFromStore);
-	},
-	getStateFromStore () {
-		return {
-			activeSort: CurrentListStore.getActiveSort()
-		};
-	},
-	updateStateFromStore () {
-		this.setState(this.getStateFromStore());
+		CurrentListStore.removeChangeListener(this.forceUpdate);
 	},
 	openPopout () {
 		this.setState({
@@ -46,7 +37,7 @@ var ListSort = React.createClass({
 	},
 	renderColumns () {
 		// TODO: Handle multiple sort paths
-		let activeSortPath = this.state.activeSort && this.state.activeSort.paths[0];
+		let activeSortPath = CurrentListStore.getActiveSort().paths[0];
 
 		return CurrentListStore.getAvailableColumns().map((el, i) => {
 			if (el.type === 'heading') {
@@ -71,7 +62,7 @@ var ListSort = React.createClass({
 	},
 	render () {
 		// TODO: Handle multiple sort paths
-		let activeSortPath = this.state.activeSort && this.state.activeSort.paths[0];
+		let activeSortPath = CurrentListStore.getActiveSort().paths[0];
 		return (
 			<span>
 				{activeSortPath && (
