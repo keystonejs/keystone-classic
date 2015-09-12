@@ -15,12 +15,6 @@ var ListSort = React.createClass({
 			popoutIsOpen: false
 		};
 	},
-	componentDidMount () {
-		CurrentListStore.addChangeListener(this.forceUpdate);
-	},
-	componentWillUnmount () {
-		CurrentListStore.removeChangeListener(this.forceUpdate);
-	},
 	openPopout () {
 		this.setState({
 			popoutIsOpen: true
