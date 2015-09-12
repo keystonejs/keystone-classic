@@ -58,6 +58,17 @@ name.prototype.addToSchema = function() {
 };
 
 /**
+ * Gets the string to use for sorting by this field
+ */
+
+name.prototype.getSortString = function(options) {
+	if (options.invert) {
+		return '-' + this.paths.first + ' -' + this.paths.last;
+	}
+	return this.paths.first + ' ' + this.paths.last;
+};
+
+/**
  * Formats the field value
  */
 

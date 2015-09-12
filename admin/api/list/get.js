@@ -26,6 +26,7 @@ module.exports = function(req, res) {
 			query.populate(i.path);
 		});
 	}
+	var sort = req.list.expandSort(req.query.sort);
 	async.series({
 		count: function(next) {
 			query.count(next);
@@ -34,7 +35,7 @@ module.exports = function(req, res) {
 			query.find();
 			query.limit(Number(req.query.limit) || 100);
 			query.skip(Number(req.query.skip) || 0);
-			query.sort(req.query.sort || req.list.defaultSort);
+			query.sort(sort.string);
 			query.exec(next);
 		}
 	}, function(err, results) {

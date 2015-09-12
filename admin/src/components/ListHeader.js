@@ -8,7 +8,7 @@ import ListColumnsForm from './ListColumnsForm';
 import ListDownloadForm from './ListDownloadForm';
 import ListFilters from './ListFilters';
 import ListFiltersAdd from './ListFiltersAdd';
-import ListHeaderTitle from './ListHeaderTitle';
+import ListSort from './ListSort';
 
 import CurrentListStore from '../stores/CurrentListStore';
 
@@ -32,7 +32,6 @@ var ListHeader = React.createClass({
 		return {
 			activeColumns: CurrentListStore.getActiveColumns(),
 			activeFilters: CurrentListStore.getActiveFilters(),
-			// TODO activeSort: CurrentListStore.getList().cols[0],
 			availableColumns: CurrentListStore.getAvailableColumns(),
 			availableFilters: CurrentListStore.getAvailableFilters(),
 			currentPage: CurrentListStore.getCurrentPage(),
@@ -48,11 +47,6 @@ var ListHeader = React.createClass({
 	toggleCreateModal (visible) {
 		this.setState({
 			createIsOpen: visible
-		});
-	},
-	toggleSortPopout (visible) {
-		this.setState({
-			sortPopoutIsOpen: visible
 		});
 	},
 	toggleDownloadModal (visible) {
@@ -80,18 +74,6 @@ var ListHeader = React.createClass({
 		if (e.which === 27) {
 			this.handleSearchClear ();
 		}
-	},
-	handleSortSelect (e, path) {
-		// invert if selection matches the current sort order or if the altKey was held
-		this.setState({
-			activeSort: path,
-			invertSort: this.state.activeSort === path ? !this.state.invertSort : e.altKey
-		});
-
-		// give the user time to see their change before closing the popout
-		setTimeout(() => {
-			this.toggleSortPopout(false);
-		}, 200);
 	},
 	handlePageSelect (i) {
 		CurrentListStore.setCurrentPage(i);
@@ -143,19 +125,14 @@ var ListHeader = React.createClass({
 		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
 	render () {
-		let { activeSort, currentPage, invertSort, items, list, pageSize, sortPopoutIsOpen } = this.state;
+		let { currentPage, items, list, pageSize } = this.state;
 		return (
 			<div className="ListHeader">
 				<Container>
-					<ListHeaderTitle
-						activeSort={list.fields[activeSort]}
-						invertSort={invertSort}
-						popoutIsOpen={sortPopoutIsOpen}
-						title={utils.plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
-						onColumnSelect={this.handleSortSelect}
-						closePopout={this.toggleSortPopout.bind(this, false)}
-						openPopout={this.toggleSortPopout.bind(this, true)}
-						/>
+					<h2 className="ListHeader__title">
+						{utils.plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
+						<ListSort />
+					</h2>
 					<InputGroup className="ListHeader__bar">
 						{this.renderSearch()}
 						<ListFiltersAdd className="ListHeader__filter" />

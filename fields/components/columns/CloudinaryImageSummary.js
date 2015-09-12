@@ -4,7 +4,7 @@ import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
 const linkStyle = {
 	marginRight: 8,
-}
+};
 const boxStyle = {
 	borderRadius: 3,
 	display: 'inline-block',
@@ -12,7 +12,7 @@ const boxStyle = {
 	overflow: 'hidden',
 	verticalAlign: 'middle',
 	width: 18,
-}
+};
 const imageStyle = {
 	display: 'block',
 	height: 18,
@@ -58,7 +58,7 @@ var CloudinaryImageSummary = React.createClass({
 	},
 	render () {
 		let { image } = this.props;
-		
+
 		return (
 			<span style={linkStyle}>
 				<span style={boxStyle}>
