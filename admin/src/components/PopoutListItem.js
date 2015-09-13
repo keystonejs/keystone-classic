@@ -7,25 +7,25 @@ var PopoutListItem = React.createClass({
 	propTypes: {
 		icon: React.PropTypes.string,
 		iconHover: React.PropTypes.string,
-		iconHoverAlt: React.PropTypes.string,
 		isSelected: React.PropTypes.bool,
 		label: React.PropTypes.string.isRequired,
 		onClick: React.PropTypes.func,
 	},
 	getInitialState () {
 		return {
-			currentIcon: this.props.icon
+			hover: false
 		};
 	},
-	setToActive (e) {
-		this.setState({ currentIcon: e.altKey ? this.props.iconHoverAlt : this.props.iconHover });
+	hover () {
+		this.setState({ hover: true });
 	},
-	setToInactive (e) {
-		this.setState({ currentIcon: this.props.icon });
+	unhover () {
+		this.setState({ hover: false });
 	},
 	renderIcon () {
 		if (!this.props.icon) return null;
-		let iconClassname = classnames('PopoutList__item__icon octicon', ('octicon-' + this.state.currentIcon));
+		let icon = this.state.hover && this.props.iconHover ? this.props.iconHover : this.props.icon;
+		let iconClassname = classnames('PopoutList__item__icon octicon', ('octicon-' + icon));
 
 		return <span className={iconClassname} />;
 	},
@@ -39,10 +39,10 @@ var PopoutListItem = React.createClass({
 				type="button"
 				title={this.props.label}
 				className={itemClassname}
-				onFocus={this.setToActive}
-				onBlur={this.setToInactive}
-				onMouseOver={this.setToActive}
-				onMouseOut={this.setToInactive}
+				onFocus={this.hover}
+				onBlur={this.unhover}
+				onMouseOver={this.hover}
+				onMouseOut={this.unhover}
 				{...props}
 				>
 				{this.renderIcon()}
