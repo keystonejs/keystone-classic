@@ -25,7 +25,7 @@
 		"no-use-before-define": 0,
 		"object-curly-spacing": [1, "always"],
 		"quotes": [2, "single", "avoid-escape"],
-		"react/jsx-boolean-value": 1,
+		"react/jsx-boolean-value": 0,
 		"react/jsx-no-undef": 1,
 		"react/jsx-quotes": 1,
 		"react/jsx-uses-react": 1,
