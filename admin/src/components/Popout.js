@@ -46,7 +46,6 @@ var Popout = React.createClass({
 			height: posNode.offsetHeight
 		};
 		while (posNode.offsetParent) {
-			console.log(posNode, posNode.offsetLeft + ', ' + posNode.offsetTop);
 			pos.top += posNode.offsetTop;
 			pos.left += posNode.offsetLeft;
 			posNode = posNode.offsetParent;
