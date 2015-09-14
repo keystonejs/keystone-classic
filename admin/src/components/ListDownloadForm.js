@@ -19,8 +19,15 @@ var ListDownloadForm = React.createClass({
 			format: FORMAT_OPTIONS[0].value,
 			isOpen: false,
 			useCurrentColumns: true,
-			selectedColumns: {}
+			selectedColumns: this.getDefaultSelectedColumns()
 		};
+	},
+	getDefaultSelectedColumns () {
+		var selectedColumns = {};
+		CurrentListStore.getActiveColumns().forEach(col => {
+			selectedColumns[col.path] = true;
+		});
+		return selectedColumns;
 	},
 	getListUIElements () {
 		return Keystone.list.uiElements.map((el) => {
@@ -53,11 +60,9 @@ var ListDownloadForm = React.createClass({
 	},
 	toggleCurrentlySelectedColumns (e) {
 		let newState = {
-			useCurrentColumns: e.target.checked
+			useCurrentColumns: e.target.checked,
+			selectedColumns: this.getDefaultSelectedColumns()
 		};
-		if (e.target.checked) {
-			newState.selectedColumns =  {};
-		}
 		this.setState(newState);
 	},
 
