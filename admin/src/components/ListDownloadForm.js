@@ -14,31 +14,14 @@ const FORMAT_OPTIONS = [
 ];
 
 var ListDownloadForm = React.createClass({
-	displayName: 'ListDownloadForm',
-	propTypes: {
-		columns: React.PropTypes.array,
-		isOpen: React.PropTypes.bool,
-		onCancel: React.PropTypes.func,
-		onSubmit: React.PropTypes.func,
-	},
-
-	getDefaultProps () {
-		return {
-			columns: null,
-			isOpen: false,
-		};
-	},
-
 	getInitialState () {
 		return {
 			format: FORMAT_OPTIONS[0].value,
 			isOpen: false,
 			useCurrentColumns: true,
-			selectedColumns: {},
+			selectedColumns: {}
 		};
-
 	},
-
 	getListUIElements () {
 		return Keystone.list.uiElements.map((el) => {
 			return el.type === 'field' ? {
@@ -47,43 +30,34 @@ var ListDownloadForm = React.createClass({
 			} : el;
 		});
 	},
-
 	togglePopout (visible) {
 		this.setState({
 			isOpen: visible
 		});
 	},
-
 	toggleColumn (column, value) {
 		let newColumns = this.state.selectedColumns;
-
 		if (value) {
 			newColumns[column] = value;
 		} else {
 			delete newColumns[column];
 		}
-
 		this.setState({
 			selectedColumns: newColumns
 		});
 	},
-
 	changeFormat (value) {
 		this.setState({
 			format: value
 		});
 	},
-
 	toggleCurrentlySelectedColumns (e) {
 		let newState = {
-			useCurrentColumns: !this.state.useCurrentColumns
+			useCurrentColumns: e.target.value
 		};
-
-		// clear selected fields
 		if (e.target.value) {
 			newState.selectedColumns =  {};
 		}
-
 		this.setState(newState);
 	},
 
