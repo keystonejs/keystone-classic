@@ -1,9 +1,5 @@
 var async = require('async');
 
-function filterRelationships(field) {
-	return field.type === 'relationship';
-}
-
 module.exports = function(req, res) {
 	var where = {};
 	var filters = req.query.filters;
