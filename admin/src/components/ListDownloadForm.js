@@ -53,16 +53,16 @@ var ListDownloadForm = React.createClass({
 	},
 	toggleCurrentlySelectedColumns (e) {
 		let newState = {
-			useCurrentColumns: e.target.value
+			useCurrentColumns: e.target.checked
 		};
-		if (e.target.value) {
+		if (e.target.checked) {
 			newState.selectedColumns =  {};
 		}
 		this.setState(newState);
 	},
 
 	handleDownloadRequest () {
-		console.info(`Download ${this.state.format.toUpperCase()} with columns:`, Object.keys(this.state.selectedColumns));
+		CurrentListStore.downloadItems(this.state.format, Object.keys(this.state.selectedColumns));
 		this.togglePopout(false);
 	},
 

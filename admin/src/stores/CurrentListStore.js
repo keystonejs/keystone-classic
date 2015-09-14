@@ -62,6 +62,25 @@ function buildQueryString () {
 	return '?' + parts.filter(i => i).join('&');
 }
 
+function getDownloadURL (format, columns) {
+	var url = '/keystone/api/' + _list.path;
+	var parts = [];
+	if (format !== 'json') {
+		format = 'csv';
+	}
+	if (columns) {
+		columns = expandColumns(columns);
+	} else {
+		columns = active.columns;
+	}
+	parts.push(active.search ? 'search=' + active.search : '');
+	parts.push(active.filters.length ? 'filters=' + JSON.stringify(getFilters()) : '');
+	parts.push('select=' + columns.map(i => i.path).join(','));
+	parts.push('expandRelationshipFields=true');
+	parts.push('sort=' + getSortString());
+	return url + '/export.' + format + '?' + parts.filter(i => i).join('&');
+}
+
 function expandColumns (input) {
 	var nameIncluded = false;
 	var cols = listToArray(input).map(i => {
@@ -210,6 +229,9 @@ var CurrentListStore = new Store({
 			_items = body;
 			this.notifyChange();
 		});
+	},
+	downloadItems (columns) {
+		window.open(getDownloadURL(columns));
 	},
 	getItems () {
 		return _items;
