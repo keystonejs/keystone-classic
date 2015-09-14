@@ -2,6 +2,7 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 var chalk = require('chalk');
 var crypto = require('crypto');
+var fs = require('fs-extra');
 var moment = require('moment');
 var packages = require('../packages');
 var path = require('path');
@@ -41,6 +42,7 @@ module.exports = function(file, name) {
 			opts.debug = true;
 			opts.cache = {};
 			opts.packageCache = {};
+			opts.fullPaths = true;
 		}
 		if (name) {
 			b = browserify(opts);
@@ -66,12 +68,14 @@ module.exports = function(file, name) {
 			queue.forEach(function(reqres) {
 				send.apply(null, reqres);
 			});
+			devMode && fs.outputFile(path.resolve(path.join(__dirname, '../public/js/bundles', file)), buff, 'utf8');
 		});
 		b.on('update', function() {
 			b.bundle(function(err, buff) {
 				if (err) return logError(file, err);
 				else logRebuild(file);
 				src = buff;
+				devMode && fs.outputFile(path.resolve(path.join(__dirname, '../public/js/bundles', file)), buff, 'utf8');
 			});
 		});
 	}
