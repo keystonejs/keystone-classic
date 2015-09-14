@@ -10,6 +10,7 @@ var watchify = require('watchify');
 
 var basedir = path.resolve(__dirname + '/../src/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
+var devWriteBundles = process.env.KEYSTONE_WRITE_BUNDLES === 'true';
 
 function ts() {
 	return chalk.gray(moment().format('YYYY-MM-DD HH:MM:SS '));
@@ -33,6 +34,10 @@ module.exports = function(file, name) {
 	var queue = [];
 	var ready;
 	var src;
+	function writeBundle(buff) {
+		if (!devWriteBundles) return;
+		devWriteBundles && fs.outputFile(path.resolve(path.join(__dirname, '../public/js/bundles', file)), buff, 'utf8');
+	}
 	function build() {
 		if (building) return;
 		building = true;
@@ -68,14 +73,14 @@ module.exports = function(file, name) {
 			queue.forEach(function(reqres) {
 				send.apply(null, reqres);
 			});
-			devMode && fs.outputFile(path.resolve(path.join(__dirname, '../public/js/bundles', file)), buff, 'utf8');
+			writeBundle(buff);
 		});
 		b.on('update', function() {
 			b.bundle(function(err, buff) {
 				if (err) return logError(file, err);
 				else logRebuild(file);
 				src = buff;
-				devMode && fs.outputFile(path.resolve(path.join(__dirname, '../public/js/bundles', file)), buff, 'utf8');
+				writeBundle(buff);
 			});
 		});
 	}
