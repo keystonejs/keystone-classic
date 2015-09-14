@@ -9,6 +9,8 @@ before_script:
 script:
   - npm run test-cov
 
+sudo: false
+
 notifications:
   email:
     - jed@keystonejs.com
