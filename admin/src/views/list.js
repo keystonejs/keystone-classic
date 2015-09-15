@@ -18,9 +18,6 @@ function showCreateForm() {
 }
 
 const ListView = React.createClass({
-
-	displayName: 'ListView',
-
 	getInitialState () {
 		return {
 			constrainTableWidth: true,
@@ -28,28 +25,23 @@ const ListView = React.createClass({
 			...this.getStateFromStore()
 		};
 	},
-
 	componentDidMount () {
 		CurrentListStore.addChangeListener(this.updateStateFromStore);
 		if (!this.state.ready) {
 			CurrentListStore.loadItems();
 		}
 	},
-
 	componentWillUnmount () {
 		CurrentListStore.removeChangeListener(this.updateStateFromStore);
 	},
-
 	updateStateFromStore () {
 		this.setState(this.getStateFromStore());
 	},
-
 	toggleTableWidth () {
 		this.setState({
 			constrainTableWidth: !this.state.constrainTableWidth
 		});
 	},
-
 	getStateFromStore () {
 		var state = {
 			columns: CurrentListStore.getActiveColumns(),
@@ -62,21 +54,11 @@ const ListView = React.createClass({
 		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search) ? true : false;
 		return state;
 	},
-
 	toggleCreateModal (visible) {
 		this.setState({
 			showCreateForm: visible
 		});
 	},
-
-	reorderItems () {
-		alert('TODO: Add re-ordering of items');
-	},
-
-	removeItem () {
-		confirm('Are you sure you want to remove this item?');
-	},
-
 	renderBlankState () {
 		if (!this.state.showBlankState) return null;
 		return (
@@ -90,7 +72,6 @@ const ListView = React.createClass({
 			</Container>
 		);
 	},
-
 	renderActiveState () {
 		if (this.state.showBlankState) return null;
 
@@ -113,7 +94,6 @@ const ListView = React.createClass({
 			</div>
 		);
 	},
-
 	renderItemsTable () {
 		if (!this.state.items.results.length) return null;
 		return (
@@ -125,7 +105,6 @@ const ListView = React.createClass({
 			</div>
 		);
 	},
-
 	renderNoSearchResults () {
 		if (this.state.items.results.length) return null;
 		return (
@@ -135,7 +114,6 @@ const ListView = React.createClass({
 			</BlankState>
 		);
 	},
-
 	renderCreateButton () {
 		var props = { type: 'success' };
 		if (this.state.list.nocreate) return null;
@@ -151,7 +129,6 @@ const ListView = React.createClass({
 			</Button>
 		);
 	},
-
 	renderCreateForm () {
 		return (
 			<CreateForm
@@ -162,7 +139,6 @@ const ListView = React.createClass({
 				err={this.props.createFormErrors} />
 		);
 	},
-
 	render () {
 		return !this.state.ready ? (
 			<div className="view-loading-indicator"><Spinner size="md" /></div>
