@@ -36,7 +36,7 @@ var ListFiltersAdd = React.createClass({
 	getStateFromStore () {
 		return {
 			activeFilters: CurrentListStore.getActiveFilters(),
-			availableFilters: this.getListUIElements(),
+			availableFilters: CurrentListStore.getAvailableColumns(),
 			innerHeight: 0,
 			isOpen: false,
 			searchString: '',
@@ -88,15 +88,6 @@ var ListFiltersAdd = React.createClass({
 		this.closePopout();
 	},
 
-	getListUIElements () {
-		return Keystone.list.uiElements.map((el) => {
-			return el.type === 'field' ? {
-				type: 'field',
-				field: Keystone.list.fields[el.field]
-			} : el;
-		});
-	},
-
 	renderList () {
 		let activeFilterFields = pluck(this.state.activeFilters, 'field');
 		let activeFilterPaths = pluck(activeFilterFields, 'path');
@@ -115,9 +106,7 @@ var ListFiltersAdd = React.createClass({
 			if (el.type === 'heading') {
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
-
 			var filterIsActive = activeFilterPaths.length && (activeFilterPaths.indexOf(el.field.path) > -1);
-
 			return (
 				<PopoutList.Item
 					key={'item_' + el.field.path}

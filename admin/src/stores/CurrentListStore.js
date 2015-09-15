@@ -9,9 +9,9 @@ var _loading = false;
 var _items = {};
 
 var available = {
-	columns: _list.uiElements.map((col,i) => {
+	columns: _list.uiElements.map((col, i) => {
 		if (col.type === 'heading') {
-			return { type: 'heading', label: col.content };
+			return { type: 'heading', content: col.content };
 		} else {
 			var field = _list.fields[col.field];
 			return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
