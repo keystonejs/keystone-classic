@@ -64,10 +64,16 @@ module.exports = Field.create({
 				.get('/keystone/api/' + self.props.refList.path + '/' + input + '?simple')
 				.set('Accept', 'application/json')
 				.end(function (err, res) {
-					if (err) throw err;
-					
-					var value = res.body;
-					_.findWhere(expandedValues, { value: value.id }).label = value.name;
+					if (err && err.status !== 404) {
+             throw err;
+          }
+          else if (err) {
+            _.findWhere(expandedValues, { value: input }).label = 'Missing: ' + input;
+          }
+          else {
+            var value = res.body;
+            _.findWhere(expandedValues, { value: value.id }).label = value.name;
+          }
 
 					callbackCount++;
 					if (callbackCount === inputs.length) {
