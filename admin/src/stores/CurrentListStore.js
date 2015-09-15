@@ -162,22 +162,35 @@ var CurrentListStore = new Store({
 		active.columns = expandColumns(cols);
 		this.loadItems();
 	},
-	getActiveFilters () {
-		return active.filters;
+	getActiveSearch () {
+		return active.search;
 	},
 	setActiveSearch (str) {
 		active.search = str;
 		this.loadItems();
 		this.notifyChange();
 	},
-	getActiveSearch () {
-		return active.search;
-	},
 	getActiveSort () {
 		return active.sort;
 	},
 	setActiveSort (sort) {
 		active.sort = expandSort(sort || _list.defaultSort);
+		this.loadItems();
+		this.notifyChange();
+	},
+	getAvailableFilters () {
+		return available.filters;
+	},
+	getActiveFilters () {
+		return active.filters;
+	},
+	addFilter (filter) {
+		active.filters.push(filter);
+		this.loadItems();
+		this.notifyChange();
+	},
+	removeFilter (filter) {
+		active.filters.splice(active.filters.indexOf(filter), 1);
 		this.loadItems();
 		this.notifyChange();
 	},
@@ -190,16 +203,6 @@ var CurrentListStore = new Store({
 	setCurrentPage (i) {
 		page.index = i;
 		this.loadItems();
-	},
-	addFilter (filter) {
-		active.filters.push(filter);
-		this.loadItems();
-		this.notifyChange();
-	},
-	removeFilter (filter) {
-		active.filters.splice(active.filters.indexOf(filter), 1);
-		this.loadItems();
-		this.notifyChange();
 	},
 	isLoading () {
 		return _loading;
