@@ -45,13 +45,14 @@ const ListView = React.createClass({
 	getStateFromStore () {
 		var state = {
 			columns: CurrentListStore.getActiveColumns(),
+			filters: CurrentListStore.getActiveFilters(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
 			loading: CurrentListStore.isLoading(),
 			ready: CurrentListStore.isReady(),
 			search: CurrentListStore.getActiveSearch()
 		};
-		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search) ? true : false;
+		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length) ? true : false;
 		return state;
 	},
 	toggleCreateModal (visible) {
