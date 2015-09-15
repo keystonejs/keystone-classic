@@ -16,8 +16,7 @@ var available = {
 			var field = _list.fields[col.field];
 			return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
 		}
-	}).map(i => i),
-	filters: []
+	}).filter(i => i)
 };
 
 var active = {
@@ -153,11 +152,11 @@ var CurrentListStore = new Store({
 	getList () {
 		return _list;
 	},
-	getActiveColumns () {
-		return active.columns;
-	},
 	getAvailableColumns () {
 		return available.columns;
+	},
+	getActiveColumns () {
+		return active.columns;
 	},
 	setActiveColumns (cols) {
 		active.columns = expandColumns(cols);
@@ -165,9 +164,6 @@ var CurrentListStore = new Store({
 	},
 	getActiveFilters () {
 		return active.filters;
-	},
-	getAvailableFilters () {
-		return available.filters;
 	},
 	setActiveSearch (str) {
 		active.search = str;

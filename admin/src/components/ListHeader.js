@@ -33,7 +33,6 @@ var ListHeader = React.createClass({
 			activeColumns: CurrentListStore.getActiveColumns(),
 			activeFilters: CurrentListStore.getActiveFilters(),
 			availableColumns: CurrentListStore.getAvailableColumns(),
-			availableFilters: CurrentListStore.getAvailableFilters(),
 			currentPage: CurrentListStore.getCurrentPage(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
