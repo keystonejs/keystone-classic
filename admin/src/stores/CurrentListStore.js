@@ -250,4 +250,13 @@ var CurrentListStore = new Store({
 	}
 });
 
+// setTimeout(() => {
+// 	CurrentListStore.addFilter({
+// 		field: available.columns.filter((i) => {
+// 			return i.field && i.field.path === 'isAdmin';
+// 		})[0],
+// 		value: { value: true }
+// 	});
+// }, 550);
+
 module.exports = CurrentListStore;

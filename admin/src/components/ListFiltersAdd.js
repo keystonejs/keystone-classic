@@ -81,7 +81,6 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	applyFilter (value) {
-		console.info('Applying filter:', this.state.selectedField.path, value);
 		CurrentListStore.addFilter({
 			field: this.state.selectedField,
 			value: value
