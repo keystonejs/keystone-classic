@@ -146,15 +146,17 @@ var ListHeader = React.createClass({
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
-					<Pagination
-						className="ListHeader__pagination"
-						currentPage={currentPage}
-						onPageSelect={this.handlePageSelect}
-						pageSize={pageSize}
-						plural={list.plural}
-						singular={list.singular}
-						total={items.count}
-						/>
+					{items.count ? (
+						<Pagination
+							className="ListHeader__pagination"
+							currentPage={currentPage}
+							onPageSelect={this.handlePageSelect}
+							pageSize={pageSize}
+							plural={list.plural}
+							singular={list.singular}
+							total={items.count}
+							/>
+					) : null}
 				</Container>
 				{this.renderCreateForm()}
 			</div>
