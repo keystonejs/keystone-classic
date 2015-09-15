@@ -12,6 +12,7 @@ const SecondaryNavigation = require('../components/SecondaryNavigation');
 const CurrentListStore = require('../stores/CurrentListStore');
 
 const { BlankState, Container, Button, Spinner } = require('elemental');
+const { plural } = require('../utils');
 
 function showCreateForm() {
 	return window.location.search === '?create' || Keystone.createFormErrors;
@@ -108,10 +109,15 @@ const ListView = React.createClass({
 	},
 	renderNoSearchResults () {
 		if (this.state.items.results.length) return null;
+		let matching = this.state.search;
+		if (this.state.filters.length) {
+			matching += (matching ? ' and ' : '') + plural(this.state.filters.length, '* filter', '* filters');
+		}
+		matching = matching ? ' found matching ' + matching : '.';
 		return (
-			<BlankState style={{ marginTop: 20 }}>
+			<BlankState style={{ marginTop: 20, marginBottom: 20 }}>
 				<span className="octicon octicon-search" style={{ fontSize: 32, marginBottom: 20 }} />
-				<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found matching {this.state.search}</BlankState.Heading>
+				<BlankState.Heading>No {this.state.list.plural.toLowerCase()}{matching}</BlankState.Heading>
 			</BlankState>
 		);
 	},
