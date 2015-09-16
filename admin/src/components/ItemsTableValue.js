@@ -24,6 +24,7 @@ var ItemsTableValue = React.createClass({
 			this.props.field ? ('ItemList__value--' + this.props.field) : null
 		), {
 			'ItemList__value--truncate': this.props.truncate,
+			'ItemList__link--empty': this.props.empty,
 			'ItemList__link--exterior': this.props.href && this.props.exterior,
 			'ItemList__link--interior': this.props.href && this.props.interior,
 			'ItemList__link--padded':   this.props.href && this.props.padded,

@@ -9,16 +9,19 @@ var TextColumn = React.createClass({
 		data: React.PropTypes.object,
 		linkTo: React.PropTypes.string,
 	},
-	// cropping text is necessary for textarea, which uses this column
-	renderValue () {
+	getValue () {
+		// cropping text is important for textarea, which uses this column
 		let value = this.props.data.fields[this.props.col.path];
 		return value ? value.substr(0, 100) : null;
 	},
 	render () {
+		let value = this.getValue();
+		let empty = !value && this.props.linkTo ? true : false;
+		if (!value) value = this.props.data.id;
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue href={this.props.linkTo} padded interior field={this.props.col.type}>
-					{this.renderValue()}
+				<ItemsTableValue href={this.props.linkTo} empty={empty} padded interior field={this.props.col.type}>
+					{value}
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
