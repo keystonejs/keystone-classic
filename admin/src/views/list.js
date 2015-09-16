@@ -70,18 +70,12 @@ const ListView = React.createClass({
 	// HEADER
 	// ==============================
 
-	toggleManageOpen (filter = !this.state.manageMode) {
-		this.setState({
-			manageMode: filter,
-			checkedItems: {}
-		});
-	},
 	updateSearch (e) {
 		clearTimeout(this._searchTimeout);
 		this.setState({
 			searchString: e.target.value
 		});
-		var delay = e.target.value.length > 1 ? 250 : 0;
+		var delay = e.target.value.length > 1 ? 150 : 0;
 		this._searchTimeout = setTimeout(() => {
 			CurrentListStore.setActiveSearch(this.state.searchString);
 		}, delay);
@@ -99,6 +93,40 @@ const ListView = React.createClass({
 	},
 	handlePageSelect (i) {
 		CurrentListStore.setCurrentPage(i);
+	},
+	toggleManageMode (filter = !this.state.manageMode) {
+		this.setState({
+			manageMode: filter,
+			checkedItems: {}
+		});
+	},
+	massUpdate () {
+		console.log('Update ALL the things!');
+	},
+	massDelete () {
+		let { checkedItems, list } = this.state;
+		let itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
+		if (!confirm(`Are you sure you want to delete ${itemCount}?`)) return;
+
+		// TODO: implement mass deletion
+
+		console.log(`Deleted ${itemCount}:`, Object.keys(checkedItems));
+		this.toggleManageMode();
+	},
+	getManagementSelectOptions () {
+		let { items, pageSize } = this.state;
+		let visibleCount = items.count > pageSize ? pageSize : items.count;
+		return [
+			{ value: 'none', label: 'None' },
+			{ value: 'visible', label: `Visible (${visibleCount})` },
+			{ value: 'all', label: `All (${items.count})` },
+		];
+	},
+	handleManagementSelect (selection) {
+		if (selection === 'all') this.checkAllTableItems();
+		if (selection === 'none') this.uncheckAllTableItems();
+		if (selection === 'visible') this.checkAllTableItems();
+		return false
 	},
 	renderSearch () {
 		var searchClearIcon = classnames('ListHeader__search__icon octicon', {
@@ -139,33 +167,26 @@ const ListView = React.createClass({
 
 		let updateButton = !list.noedit ? (
 			<InputGroup.Section>
-				<Button disabled={!Object.keys(checkedItems).length}>Update</Button>
+				<Button onClick={this.massUpdate} disabled={!Object.keys(checkedItems).length}>Update</Button>
 			</InputGroup.Section>
 		) : null;
 		let deleteButton = !list.nodelete ? (
 			<InputGroup.Section>
-				<Button disabled={!Object.keys(checkedItems).length}>Delete</Button>
+				<Button onClick={this.massDelete} disabled={!Object.keys(checkedItems).length}>Delete</Button>
 			</InputGroup.Section>
 		) : null;
 
 		let manageUI = manageMode ? (
 			<div style={{ float: 'left', marginRight: 10 }}>
-				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0 }}>
-					<InputGroup.Section>
-						<Button onClick={this.checkAllTableItems}>Select all</Button>
-					</InputGroup.Section>
-					<InputGroup.Section>
-						<Button onClick={this.uncheckAllTableItems}>Select none</Button>
-					</InputGroup.Section>
-				</InputGroup>
+				<Dropdown items={this.getManagementSelectOptions()} buttonLabel="Select" onSelect={this.handleManagementSelect} />
 				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0, marginLeft: '.5em' }}>
 					{updateButton}
 					{deleteButton}
 				</InputGroup>
-				<Button type="link-cancel" onClick={this.toggleManageOpen.bind(this, false)}>Cancel</Button>
+				<Button type="link-cancel" onClick={this.toggleManageMode.bind(this, false)}>Cancel</Button>
 			</div>
 		) : (
-			<Button onClick={this.toggleManageOpen.bind(this, true)} style={{ float: 'left', marginRight: 10 }}>Manage</Button>
+			<Button onClick={this.toggleManageMode.bind(this, true)} style={{ float: 'left', marginRight: 10 }}>Manage</Button>
 		);
 
 		return manageUI;

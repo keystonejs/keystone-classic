@@ -82,19 +82,31 @@
 // List Management
 // ------------------------------
 
-.ItemList__row--manage:hover {
-	color: @text-color;
+.ItemList__row--manage {
+	// make it obvious that the row is now selectable
+	color: @gray;
 
+	// stop text selection whilst row is in manage mode
+	-webkit-touch-callout: none;
+	  -webkit-user-select: none;
+		 -moz-user-select: none;
+		  -ms-user-select: none;
+			  user-select: none;
+
+	// apply selectable styles to anchors
 	a {
 		color: inherit;
+		pointer-events: none;
 	}
-	.ItemList__control--check {
-		color: @app-primary;
+
+	// highlight the row on hover
+	&:hover {
+		color: @text-color;
+
+		.ItemList__control--check {
+			color: @app-primary;
+		}
 	}
-}
-.ItemList__row--manage a {
-	color: @gray;
-	pointer-events: none;
 }
 .ItemList__row--selected {
 	background-color: white;
@@ -103,7 +115,6 @@
 	> td:first-child {
 		box-shadow: -2px 0 0 @app-primary;
 	}
-
 	a {
 		color: inherit;
 	}
