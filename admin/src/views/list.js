@@ -1,4 +1,5 @@
 const React = require('react');
+const classnames = require('classnames');
 
 const CurrentListStore = require('../stores/CurrentListStore');
 const Columns = require('../columns');
@@ -6,14 +7,18 @@ const Columns = require('../columns');
 const CreateForm = require('../components/CreateForm');
 const FlashMessages = require('../components/FlashMessages');
 const Footer = require('../components/Footer');
-const ItemsTable = require('../components/ItemsTable');
-const ListHeader = require('../components/ListHeader');
+const ListColumnsForm = require('../components/ListColumnsForm');
 const ListControl = require('../components/ListControl');
+const ListDownloadForm = require('../components/ListDownloadForm');
+const ListFilters = require('../components/ListFilters');
+const ListFiltersAdd = require('../components/ListFiltersAdd');
+const ListSort = require('../components/ListSort');
 const MobileNavigation = require('../components/MobileNavigation');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
 
-const { Alert, BlankState, Container, Button, Spinner } = require('elemental');
+const { Alert, BlankState, Button, Container, Dropdown, FormInput, InputGroup, Pagination, Spinner } = require('elemental');
+
 const { plural } = require('../utils');
 
 const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
@@ -26,6 +31,8 @@ const ListView = React.createClass({
 	getInitialState () {
 		return {
 			constrainTableWidth: true,
+			manageIsOpen: false,
+			searchString: '',
 			showCreateForm: showCreateForm(),
 			...this.getStateFromStore()
 		};
@@ -45,10 +52,12 @@ const ListView = React.createClass({
 	getStateFromStore () {
 		var state = {
 			columns: CurrentListStore.getActiveColumns(),
+			currentPage: CurrentListStore.getCurrentPage(),
 			filters: CurrentListStore.getActiveFilters(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
 			loading: CurrentListStore.isLoading(),
+			pageSize: CurrentListStore.getPageSize(),
 			ready: CurrentListStore.isReady(),
 			search: CurrentListStore.getActiveSearch()
 		};
@@ -57,9 +66,153 @@ const ListView = React.createClass({
 	},
 
 	// ==============================
-	// TABLE
+	// HEADER
 	// ==============================
 
+	toggleManageOpen (filter = !this.state.manageIsOpen) {
+		this.setState({
+			manageIsOpen: filter
+		});
+	},
+	updateSearch (e) {
+		clearTimeout(this._searchTimeout);
+		this.setState({
+			searchString: e.target.value
+		});
+		var delay = e.target.value.length > 1 ? 250 : 0;
+		this._searchTimeout = setTimeout(() => {
+			CurrentListStore.setActiveSearch(this.state.searchString);
+		}, delay);
+	},
+	handleSearchClear () {
+		CurrentListStore.setActiveSearch('');
+		this.setState({ searchString: '' });
+		React.findDOMNode(this.refs.listSearchInput).focus();
+	},
+	handleSearchKey (e) {
+		// clear on esc
+		if (e.which === 27) {
+			this.handleSearchClear ();
+		}
+	},
+	handlePageSelect (i) {
+		CurrentListStore.setCurrentPage(i);
+	},
+	renderSearch () {
+		var searchClearIcon = classnames('ListHeader__search__icon octicon', {
+			'is-search octicon-search': !this.state.searchString.length,
+			'is-clear octicon-x': this.state.searchString.length
+		});
+		return (
+			<InputGroup.Section grow className="ListHeader__search">
+				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
+				<button ref="listSearchClear" type="button" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
+			</InputGroup.Section>
+		);
+	},
+	renderCreateButton () {
+		var props = { type: 'success' };
+		if (this.state.list.autocreate) {
+			props.href = '?new' + Keystone.csrf.query;
+		} else {
+			props.onClick = this.toggleCreateModal.bind(this, true);
+		}
+		return (
+			<InputGroup.Section className="ListHeader__create">
+				<Button {...props} title={'Create ' + this.state.list.singular}>
+					<span className="ListHeader__create__icon octicon octicon-plus" />
+					<span className="ListHeader__create__label">
+						Create
+					</span>
+					<span className="ListHeader__create__label--lg">
+						Create {this.state.list.singular}
+					</span>
+				</Button>
+			</InputGroup.Section>
+		);
+	},
+	renderManagement () {
+		let { items, manageIsOpen } = this.state;
+		if (!items.count) return;
+
+		let manageUI = manageIsOpen ? (
+			<div style={{ float: 'left', marginRight: 10 }}>
+				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0 }}>
+					<InputGroup.Section>
+						<Button>Select all</Button>
+					</InputGroup.Section>
+					<InputGroup.Section>
+						<Button>Select none</Button>
+					</InputGroup.Section>
+				</InputGroup>
+				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0, marginLeft: '.5em' }}>
+					<InputGroup.Section>
+						<Button>Update</Button>
+					</InputGroup.Section>
+					<InputGroup.Section>
+						<Button>Delete</Button>
+					</InputGroup.Section>
+				</InputGroup>
+				<Button type="link-cancel" onClick={this.toggleManageOpen.bind(this, false)}>Cancel</Button>
+			</div>
+		) : (
+			<Button onClick={this.toggleManageOpen.bind(this, true)} style={{ float: 'left', marginRight: 10 }}>Manage</Button>
+		);
+
+		return manageUI;
+	},
+	renderPagination () {
+		let { currentPage, items, list, manageIsOpen, pageSize } = this.state;
+		if (manageIsOpen || !items.count) return;
+
+		return (
+			<Pagination
+				className="ListHeader__pagination"
+				currentPage={currentPage}
+				onPageSelect={this.handlePageSelect}
+				pageSize={pageSize}
+				plural={list.plural}
+				singular={list.singular}
+				style={{ marginBottom: 0 }}
+				total={items.count}
+				/>
+		);
+	},
+	renderHeader () {
+		let { currentPage, items, list, pageSize } = this.state;
+		return (
+			<div className="ListHeader">
+				<Container>
+					<h2 className="ListHeader__title">
+						{plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
+						<ListSort />
+					</h2>
+					<InputGroup className="ListHeader__bar">
+						{this.renderSearch()}
+						<ListFiltersAdd className="ListHeader__filter" />
+						<ListColumnsForm className="ListHeader__columns" />
+						<ListDownloadForm className="ListHeader__download" />
+						<InputGroup.Section className="ListHeader__expand">
+							<Button isActive={!this.state.constrainTableWidth} onClick={this.toggleTableWidth} title="Expand table width">
+								<span className="octicon octicon-mirror" />
+							</Button>
+						</InputGroup.Section>
+						{this.renderCreateButton()}
+					</InputGroup>
+					<ListFilters />
+					<div style={{ height: 32, marginBottom: '2em' }}>
+						{this.renderManagement()}
+						{this.renderPagination()}
+						<span style={{ clear: 'both', display: 'table' }} />
+					</div>
+				</Container>
+			</div>
+		);
+	},
+
+	// ==============================
+	// TABLE
+	// ==============================
 
 	deleteTableItem (item, e) {
 		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
@@ -126,6 +279,7 @@ const ListView = React.createClass({
 		);
 	},
 
+
 	// ==============================
 	// COMMON
 	// ==============================
@@ -135,6 +289,21 @@ const ListView = React.createClass({
 			showCreateForm: visible
 		});
 	},
+	renderBlankStateCreateButton () {
+		var props = { type: 'success' };
+		if (this.state.list.nocreate) return null;
+		if (this.state.list.autocreate) {
+			props.href = '?new' + this.props.csrfQuery;
+		} else {
+			props.onClick = this.toggleCreateModal.bind(this, true);
+		}
+		return (
+			<Button {...props}>
+				<span className="octicon octicon-plus" />
+				Create {this.state.list.singular}
+			</Button>
+		);
+	},
 	renderBlankState () {
 		if (!this.state.showBlankState) return null;
 		return (
@@ -142,9 +311,8 @@ const ListView = React.createClass({
 				<FlashMessages messages={this.props.messages} />
 				<BlankState style={{ marginTop: 40 }}>
 					<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found&hellip;</BlankState.Heading>
-					{this.renderCreateButton()}
+					{this.renderBlankStateCreateButton()}
 				</BlankState>
-				{this.renderCreateForm()}
 			</Container>
 		);
 	},
@@ -161,7 +329,7 @@ const ListView = React.createClass({
 
 		return (
 			<div>
-				<ListHeader toggleTableWidth={this.toggleTableWidth} tableIsExpanded={!this.state.constrainTableWidth} />
+				{this.renderHeader()}
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
 					{this.renderTable()}
@@ -182,31 +350,6 @@ const ListView = React.createClass({
 				<span className="octicon octicon-search" style={{ fontSize: 32, marginBottom: 20 }} />
 				<BlankState.Heading>No {this.state.list.plural.toLowerCase()}{matching}</BlankState.Heading>
 			</BlankState>
-		);
-	},
-	renderCreateButton () {
-		var props = { type: 'success' };
-		if (this.state.list.nocreate) return null;
-		if (this.state.list.autocreate) {
-			props.href = '?new' + this.props.csrfQuery;
-		} else {
-			props.onClick = this.toggleCreateModal.bind(this, true);
-		}
-		return (
-			<Button {...props}>
-				<span className="octicon octicon-plus" />
-				Create {this.state.list.singular}
-			</Button>
-		);
-	},
-	renderCreateForm () {
-		return (
-			<CreateForm
-				list={this.state.list}
-				isOpen={this.state.showCreateForm}
-				onCancel={this.toggleCreateModal.bind(this, false)}
-				values={this.props.createFormData}
-				err={this.props.createFormErrors} />
 		);
 	},
 	render () {
@@ -242,6 +385,12 @@ const ListView = React.createClass({
 					User={this.props.User}
 					user={this.props.user}
 					version={this.props.version} />
+				<CreateForm
+					list={this.state.list}
+					isOpen={this.state.showCreateForm}
+					onCancel={this.toggleCreateModal.bind(this, false)}
+					values={this.props.createFormData}
+					err={this.props.createFormErrors} />
 			</div>
 		);
 	}
