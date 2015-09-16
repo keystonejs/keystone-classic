@@ -1,18 +1,22 @@
 const React = require('react');
 
+const CurrentListStore = require('../stores/CurrentListStore');
+const Columns = require('../columns');
+
 const CreateForm = require('../components/CreateForm');
 const FlashMessages = require('../components/FlashMessages');
 const Footer = require('../components/Footer');
 const ItemsTable = require('../components/ItemsTable');
 const ListHeader = require('../components/ListHeader');
+const ListControl = require('../components/ListControl');
 const MobileNavigation = require('../components/MobileNavigation');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
 
-const CurrentListStore = require('../stores/CurrentListStore');
-
-const { BlankState, Container, Button, Spinner } = require('elemental');
+const { Alert, BlankState, Container, Button, Spinner } = require('elemental');
 const { plural } = require('../utils');
+
+const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
 function showCreateForm() {
 	return window.location.search === '?create' || Keystone.createFormErrors;
@@ -38,11 +42,6 @@ const ListView = React.createClass({
 	updateStateFromStore () {
 		this.setState(this.getStateFromStore());
 	},
-	toggleTableWidth () {
-		this.setState({
-			constrainTableWidth: !this.state.constrainTableWidth
-		});
-	},
 	getStateFromStore () {
 		var state = {
 			columns: CurrentListStore.getActiveColumns(),
@@ -56,6 +55,81 @@ const ListView = React.createClass({
 		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length) ? true : false;
 		return state;
 	},
+
+	// ==============================
+	// TABLE
+	// ==============================
+
+
+	deleteTableItem (item, e) {
+		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
+		CurrentListStore.deleteItem(item);
+	},
+	toggleTableWidth () {
+		this.setState({
+			constrainTableWidth: !this.state.constrainTableWidth
+		});
+	},
+	renderTableCols () {
+		var cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
+		// add delete col when applicable
+		if (!this.state.list.nodelete) {
+			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />);
+		}
+		// add sort col when applicable
+		if (this.state.list.sortable) {
+			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />);
+		}
+		return <colgroup>{cols}</colgroup>;
+	},
+	renderTableHeaders () {
+		var cells = this.state.columns.map((col, i) => {
+			// span first col for controls when present
+			var span = 1;
+			if (!i) {
+				if (this.state.list.sortable) span++;
+				if (!this.state.list.nodelete) span++;
+			}
+			return <th key={col.path} colSpan={span}>{col.label}</th>;
+		});
+		return <thead><tr>{cells}</tr></thead>;
+	},
+	renderTableRow (item) {
+		var cells = this.state.columns.map((col, i) => {
+			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
+			var linkTo = !i ? `/keystone/${this.state.list.path}/${item.id}` : undefined;
+			return <ColumnType key={col.path} list={this.state.list} col={col} data={item} linkTo={linkTo} />;
+		});
+		// add sortable icon when applicable
+		if (this.state.list.sortable) {
+			cells.unshift(<ListControl key="_sort" onClick={this.reorderItems} type="sortable" />);
+		}
+		// add delete icon when applicable
+		if (!this.state.list.nodelete) {
+			cells.unshift(<ListControl key="_delete" onClick={(e) => this.deleteTableItem(item, e)} type="delete" />);
+		}
+		return <tr key={'i' + item.id}>{cells}</tr>;
+	},
+	renderTable () {
+		if (!this.state.items.results.length) return null;
+
+		return (
+			<div className="ItemList-wrapper">
+				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
+					{this.renderTableCols()}
+					{this.renderTableHeaders()}
+					<tbody>
+						{this.state.items.results.map(this.renderTableRow)}
+					</tbody>
+				</table>
+			</div>
+		);
+	},
+
+	// ==============================
+	// COMMON
+	// ==============================
+
 	toggleCreateModal (visible) {
 		this.setState({
 			showCreateForm: visible
@@ -90,20 +164,9 @@ const ListView = React.createClass({
 				<ListHeader toggleTableWidth={this.toggleTableWidth} tableIsExpanded={!this.state.constrainTableWidth} />
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
-					{this.renderItemsTable()}
+					{this.renderTable()}
 					{this.renderNoSearchResults()}
 				</Container>
-			</div>
-		);
-	},
-	renderItemsTable () {
-		if (!this.state.items.results.length) return null;
-		return (
-			<div className="ItemList-wrapper">
-				<ItemsTable
-					items={this.state.items.results}
-					columns={this.state.columns}
-					list={this.state.list} />
 			</div>
 		);
 	},
