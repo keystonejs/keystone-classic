@@ -17,6 +17,7 @@ var ListHeader = React.createClass({
 	getInitialState () {
 		return {
 			createIsOpen: Keystone.showCreateForm,
+			manageIsOpen: false,
 			searchString: '',
 			...this.getStateFromStore()
 		};
@@ -51,6 +52,11 @@ var ListHeader = React.createClass({
 	toggleDownloadModal (visible) {
 		this.setState({
 			downloadIsOpen: visible
+		});
+	},
+	toggleManageOpen (filter = !this.state.manageIsOpen) {
+		this.setState({
+			manageIsOpen: filter
 		});
 	},
 	updateSearch (e) {
@@ -123,6 +129,53 @@ var ListHeader = React.createClass({
 	renderCreateForm () {
 		return <CreateForm list={this.state.list} isOpen={this.state.createIsOpen} onCancel={this.toggleCreateModal.bind(this, false)} values={Keystone.createFormData} err={Keystone.createFormErrors} />;
 	},
+	renderManagement () {
+		let { items, manageIsOpen } = this.state;
+		if (!items.count) return;
+
+		let manageUI = manageIsOpen ? (
+			<div style={{ float: 'left', marginRight: 10 }}>
+				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0 }}>
+					<InputGroup.Section>
+						<Button>Select all</Button>
+					</InputGroup.Section>
+					<InputGroup.Section>
+						<Button>Select none</Button>
+					</InputGroup.Section>
+				</InputGroup>
+				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0, marginLeft: '.5em' }}>
+					<InputGroup.Section>
+						<Button>Update</Button>
+					</InputGroup.Section>
+					<InputGroup.Section>
+						<Button>Delete</Button>
+					</InputGroup.Section>
+				</InputGroup>
+				<Button type="link-cancel" onClick={this.toggleManageOpen.bind(this, false)}>Cancel</Button>
+			</div>
+		) : (
+			<Button onClick={this.toggleManageOpen.bind(this, true)} style={{ float: 'left', marginRight: 10 }}>Manage</Button>
+		);
+
+		return manageUI;
+	},
+	renderPagination () {
+		let { currentPage, items, list, manageIsOpen, pageSize } = this.state;
+		if (manageIsOpen || !items.count) return;
+
+		return (
+			<Pagination
+				className="ListHeader__pagination"
+				currentPage={currentPage}
+				onPageSelect={this.handlePageSelect}
+				pageSize={pageSize}
+				plural={list.plural}
+				singular={list.singular}
+				style={{ marginBottom: 0 }}
+				total={items.count}
+				/>
+		);
+	},
 	render () {
 		let { currentPage, items, list, pageSize } = this.state;
 		return (
@@ -145,17 +198,11 @@ var ListHeader = React.createClass({
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
-					{items.count ? (
-						<Pagination
-							className="ListHeader__pagination"
-							currentPage={currentPage}
-							onPageSelect={this.handlePageSelect}
-							pageSize={pageSize}
-							plural={list.plural}
-							singular={list.singular}
-							total={items.count}
-							/>
-					) : null}
+					<div style={{ height: 32, marginBottom: '2em' }}>
+						{this.renderManagement()}
+						{this.renderPagination()}
+						<span style={{ clear: 'both', display: 'table' }} />
+					</div>
 				</Container>
 				{this.renderCreateForm()}
 			</div>
