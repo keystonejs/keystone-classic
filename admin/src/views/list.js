@@ -72,7 +72,8 @@ const ListView = React.createClass({
 
 	toggleManageOpen (filter = !this.state.manageMode) {
 		this.setState({
-			manageMode: filter
+			manageMode: filter,
+			checkedItems: {}
 		});
 	},
 	updateSearch (e) {
@@ -223,6 +224,7 @@ const ListView = React.createClass({
 	// ==============================
 
 	checkTableItem (item, e) {
+		e.preventDefault();
 		let newCheckedItems = this.state.checkedItems;
 		let itemId = item.id;
 		if (this.state.checkedItems[itemId]) {
@@ -283,6 +285,10 @@ const ListView = React.createClass({
 	},
 	renderTableRow (item) {
 		let itemId = item.id;
+		let rowClassname = classnames({
+			'ItemList__row--selected': this.state.checkedItems[itemId],
+			'ItemList__row--manage': this.state.manageMode,
+		});
 		var cells = this.state.columns.map((col, i) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
 			var linkTo = !i ? `/keystone/${this.state.list.path}/${itemId}` : undefined;
@@ -295,12 +301,12 @@ const ListView = React.createClass({
 		// add delete/check icon when applicable
 		if (!this.state.list.nodelete) {
 			cells.unshift(this.state.manageMode ? (
-				<ListControl key="_check" onClick={(e) => this.checkTableItem(item, e)} type="check" active={this.state.checkedItems[itemId]} />
+				<ListControl key="_check" type="check" active={this.state.checkedItems[itemId]} />
 			) : (
 				<ListControl key="_delete" onClick={(e) => this.deleteTableItem(item, e)} type="delete" />
 			));
 		}
-		return <tr key={'i' + item.id}>{cells}</tr>;
+		return <tr key={'i' + item.id} onClick={this.state.manageMode ? (e) => this.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>;
 	},
 	renderTable () {
 		if (!this.state.items.results.length) return null;

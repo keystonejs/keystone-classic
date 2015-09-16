@@ -79,6 +79,39 @@
 
 
 
+// List Management
+// ------------------------------
+
+.ItemList__row--manage:hover {
+	color: @text-color;
+
+	a {
+		color: inherit;
+	}
+	.ItemList__control--check {
+		color: @app-primary;
+	}
+}
+.ItemList__row--manage a {
+	color: @gray;
+	pointer-events: none;
+}
+.ItemList__row--selected {
+	background-color: white;
+	color: @text-color;
+
+	> td:first-child {
+		box-shadow: -2px 0 0 @app-primary;
+	}
+
+	a {
+		color: inherit;
+	}
+}
+
+
+
+
 // Links
 // ------------------------------
 
