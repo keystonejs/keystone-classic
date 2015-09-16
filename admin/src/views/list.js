@@ -134,17 +134,17 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
-		let { items, list, manageMode } = this.state;
+		let { checkedItems, items, list, manageMode } = this.state;
 		if (!items.count || (list.nodelete && list.noedit)) return;
 
 		let updateButton = !list.noedit ? (
 			<InputGroup.Section>
-				<Button>Update</Button>
+				<Button disabled={!Object.keys(checkedItems).length}>Update</Button>
 			</InputGroup.Section>
 		) : null;
 		let deleteButton = !list.nodelete ? (
 			<InputGroup.Section>
-				<Button>Delete</Button>
+				<Button disabled={!Object.keys(checkedItems).length}>Delete</Button>
 			</InputGroup.Section>
 		) : null;
 
