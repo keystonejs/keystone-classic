@@ -13,7 +13,7 @@ var Filter = React.createClass({
 	getInitialState () {
 		return {
 			isOpen: false
-		}
+		};
 	},
 	open () {
 		this.setState({
