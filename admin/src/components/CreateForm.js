@@ -2,8 +2,10 @@ var _ = require('underscore');
 var React = require('react');
 var Fields = require('../fields');
 var InvalidFieldType = require('./InvalidFieldType');
-
 var { Alert, Button, Form, Modal } = require('elemental');
+
+
+// TODO: remove dependency on underscore
 
 var CreateForm = React.createClass({
 
@@ -53,7 +55,7 @@ var CreateForm = React.createClass({
 	},
 
 	getFieldProps (field) {
-		var props = _.clone(field);
+		var props = Object.assign({}, field);
 		props.value = this.state.values[field.path];
 		props.values = this.state.values;
 		props.onChange = this.handleChange;
@@ -68,7 +70,7 @@ var CreateForm = React.createClass({
 		var alertContent;
 		var errorCount = Object.keys(this.props.err.errors).length;
 
-		var messages = _.map(this.props.err.errors, (err, path) => {
+		var messages = this.props.err.errors.map((err, path) => {
 			return errorCount > 1 ? <li key={path}>{err.message}</li> : <div key={path}>{err.message}</div>;
 		});
 
