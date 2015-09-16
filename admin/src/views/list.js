@@ -182,21 +182,29 @@ const ListView = React.createClass({
 				<Button onClick={this.massDelete} disabled={!Object.keys(checkedItems).length}>Delete</Button>
 			</InputGroup.Section>
 		) : null;
-
-		let manageUI = manageMode ? (
-			<div style={{ float: 'left', marginRight: 10 }}>
+		let dropdownButton = manageMode ? (
+			<InputGroup.Section>
 				<Dropdown items={this.getManagementSelectOptions()} buttonLabel="Select" onSelect={this.handleManagementSelect} />
-				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0, marginLeft: '.5em' }}>
+			</InputGroup.Section>
+		) : null;
+		let actionButtons = manageMode ? (
+			<InputGroup.Section>
+				<InputGroup contiguous>
 					{updateButton}
 					{deleteButton}
 				</InputGroup>
-				<Button type="link-cancel" onClick={this.toggleManageMode.bind(this, false)}>Cancel</Button>
-			</div>
-		) : (
-			<Button onClick={this.toggleManageMode.bind(this, true)} style={{ float: 'left', marginRight: 10 }}>Manage</Button>
-		);
+			</InputGroup.Section>
+		) : null;
 
-		return manageUI;
+		return (
+			<InputGroup style={{ float: 'left', marginRight: '.75em' }}>
+				<InputGroup.Section>
+					<Button isActive={manageMode} onClick={this.toggleManageMode.bind(this, !manageMode)}>Manage</Button>
+				</InputGroup.Section>
+				{dropdownButton}
+				{actionButtons}
+			</InputGroup>
+		);
 	},
 	renderPagination () {
 		let { currentPage, items, list, manageMode, pageSize } = this.state;
@@ -237,7 +245,7 @@ const ListView = React.createClass({
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
-					<div style={{ height: 32, marginBottom: '2em' }}>
+					<div style={{ height: 34, marginBottom: '2em' }}>
 						{this.renderManagement()}
 						{this.renderPagination()}
 						<span style={{ clear: 'both', display: 'table' }} />
