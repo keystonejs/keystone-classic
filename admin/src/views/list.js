@@ -30,8 +30,9 @@ function showCreateForm() {
 const ListView = React.createClass({
 	getInitialState () {
 		return {
+			checkedItems: {},
 			constrainTableWidth: true,
-			manageIsOpen: false,
+			manageMode: false,
 			searchString: '',
 			showCreateForm: showCreateForm(),
 			...this.getStateFromStore()
@@ -69,9 +70,9 @@ const ListView = React.createClass({
 	// HEADER
 	// ==============================
 
-	toggleManageOpen (filter = !this.state.manageIsOpen) {
+	toggleManageOpen (filter = !this.state.manageMode) {
 		this.setState({
-			manageIsOpen: filter
+			manageMode: filter
 		});
 	},
 	updateSearch (e) {
@@ -132,26 +133,33 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
-		let { items, manageIsOpen } = this.state;
-		if (!items.count) return;
+		let { items, list, manageMode } = this.state;
+		if (!items.count || (list.nodelete && list.noedit)) return;
 
-		let manageUI = manageIsOpen ? (
+		let updateButton = !list.noedit ? (
+			<InputGroup.Section>
+				<Button>Update</Button>
+			</InputGroup.Section>
+		) : null;
+		let deleteButton = !list.nodelete ? (
+			<InputGroup.Section>
+				<Button>Delete</Button>
+			</InputGroup.Section>
+		) : null;
+
+		let manageUI = manageMode ? (
 			<div style={{ float: 'left', marginRight: 10 }}>
 				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0 }}>
 					<InputGroup.Section>
-						<Button>Select all</Button>
+						<Button onClick={this.checkAllTableItems}>Select all</Button>
 					</InputGroup.Section>
 					<InputGroup.Section>
-						<Button>Select none</Button>
+						<Button onClick={this.uncheckAllTableItems}>Select none</Button>
 					</InputGroup.Section>
 				</InputGroup>
 				<InputGroup contiguous style={{ display: 'inline-flex', marginBottom: 0, marginLeft: '.5em' }}>
-					<InputGroup.Section>
-						<Button>Update</Button>
-					</InputGroup.Section>
-					<InputGroup.Section>
-						<Button>Delete</Button>
-					</InputGroup.Section>
+					{updateButton}
+					{deleteButton}
 				</InputGroup>
 				<Button type="link-cancel" onClick={this.toggleManageOpen.bind(this, false)}>Cancel</Button>
 			</div>
@@ -162,8 +170,8 @@ const ListView = React.createClass({
 		return manageUI;
 	},
 	renderPagination () {
-		let { currentPage, items, list, manageIsOpen, pageSize } = this.state;
-		if (manageIsOpen || !items.count) return;
+		let { currentPage, items, list, manageMode, pageSize } = this.state;
+		if (manageMode || !items.count) return;
 
 		return (
 			<Pagination
@@ -214,6 +222,32 @@ const ListView = React.createClass({
 	// TABLE
 	// ==============================
 
+	checkTableItem (item, e) {
+		let newCheckedItems = this.state.checkedItems;
+		let itemId = item.id;
+		if (this.state.checkedItems[itemId]) {
+			delete newCheckedItems[itemId]
+		} else {
+			newCheckedItems[itemId] = true
+		}
+		this.setState({
+			checkedItems: newCheckedItems
+		});
+	},
+	checkAllTableItems () {
+		let checkedItems = {};
+		this.state.items.results.forEach(function(item) {
+			checkedItems[item.id] = true;
+		});
+		this.setState({
+			checkedItems: checkedItems
+		});
+	},
+	uncheckAllTableItems () {
+		this.setState({
+			checkedItems: {}
+		});
+	},
 	deleteTableItem (item, e) {
 		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
 		CurrentListStore.deleteItem(item);
@@ -248,18 +282,23 @@ const ListView = React.createClass({
 		return <thead><tr>{cells}</tr></thead>;
 	},
 	renderTableRow (item) {
+		let itemId = item.id;
 		var cells = this.state.columns.map((col, i) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			var linkTo = !i ? `/keystone/${this.state.list.path}/${item.id}` : undefined;
+			var linkTo = !i ? `/keystone/${this.state.list.path}/${itemId}` : undefined;
 			return <ColumnType key={col.path} list={this.state.list} col={col} data={item} linkTo={linkTo} />;
 		});
 		// add sortable icon when applicable
 		if (this.state.list.sortable) {
 			cells.unshift(<ListControl key="_sort" onClick={this.reorderItems} type="sortable" />);
 		}
-		// add delete icon when applicable
+		// add delete/check icon when applicable
 		if (!this.state.list.nodelete) {
-			cells.unshift(<ListControl key="_delete" onClick={(e) => this.deleteTableItem(item, e)} type="delete" />);
+			cells.unshift(this.state.manageMode ? (
+				<ListControl key="_check" onClick={(e) => this.checkTableItem(item, e)} type="check" active={this.state.checkedItems[itemId]} />
+			) : (
+				<ListControl key="_delete" onClick={(e) => this.deleteTableItem(item, e)} type="delete" />
+			));
 		}
 		return <tr key={'i' + item.id}>{cells}</tr>;
 	},

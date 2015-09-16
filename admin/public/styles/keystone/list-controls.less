@@ -50,6 +50,21 @@ td.ItemList__col--control {
 }
 
 
+// check control
+
+.ItemList__control--check {
+	&:hover,
+	&:focus {
+		color: @gray-light;
+	}
+
+	// active state
+	&.is-active {
+		color: @app-primary;
+	}
+}
+
+
 // delete control
 
 .ItemList__control--delete {
