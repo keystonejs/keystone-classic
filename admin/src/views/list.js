@@ -12,15 +12,13 @@ const SecondaryNavigation = require('../components/SecondaryNavigation');
 const CurrentListStore = require('../stores/CurrentListStore');
 
 const { BlankState, Container, Button, Spinner } = require('elemental');
+const { plural } = require('../utils');
 
 function showCreateForm() {
 	return window.location.search === '?create' || Keystone.createFormErrors;
 }
 
 const ListView = React.createClass({
-
-	displayName: 'ListView',
-
 	getInitialState () {
 		return {
 			constrainTableWidth: true,
@@ -28,55 +26,41 @@ const ListView = React.createClass({
 			...this.getStateFromStore()
 		};
 	},
-
 	componentDidMount () {
 		CurrentListStore.addChangeListener(this.updateStateFromStore);
 		if (!this.state.ready) {
 			CurrentListStore.loadItems();
 		}
 	},
-
 	componentWillUnmount () {
 		CurrentListStore.removeChangeListener(this.updateStateFromStore);
 	},
-
 	updateStateFromStore () {
 		this.setState(this.getStateFromStore());
 	},
-
 	toggleTableWidth () {
 		this.setState({
 			constrainTableWidth: !this.state.constrainTableWidth
 		});
 	},
-
 	getStateFromStore () {
 		var state = {
 			columns: CurrentListStore.getActiveColumns(),
+			filters: CurrentListStore.getActiveFilters(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
 			loading: CurrentListStore.isLoading(),
 			ready: CurrentListStore.isReady(),
 			search: CurrentListStore.getActiveSearch()
 		};
-		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search) ? true : false;
+		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length) ? true : false;
 		return state;
 	},
-
 	toggleCreateModal (visible) {
 		this.setState({
 			showCreateForm: visible
 		});
 	},
-
-	reorderItems () {
-		alert('TODO: Add re-ordering of items');
-	},
-
-	removeItem () {
-		confirm('Are you sure you want to remove this item?');
-	},
-
 	renderBlankState () {
 		if (!this.state.showBlankState) return null;
 		return (
@@ -90,7 +74,6 @@ const ListView = React.createClass({
 			</Container>
 		);
 	},
-
 	renderActiveState () {
 		if (this.state.showBlankState) return null;
 
@@ -113,7 +96,6 @@ const ListView = React.createClass({
 			</div>
 		);
 	},
-
 	renderItemsTable () {
 		if (!this.state.items.results.length) return null;
 		return (
@@ -125,17 +107,20 @@ const ListView = React.createClass({
 			</div>
 		);
 	},
-
 	renderNoSearchResults () {
 		if (this.state.items.results.length) return null;
+		let matching = this.state.search;
+		if (this.state.filters.length) {
+			matching += (matching ? ' and ' : '') + plural(this.state.filters.length, '* filter', '* filters');
+		}
+		matching = matching ? ' found matching ' + matching : '.';
 		return (
-			<BlankState style={{ marginTop: 20 }}>
+			<BlankState style={{ marginTop: 20, marginBottom: 20 }}>
 				<span className="octicon octicon-search" style={{ fontSize: 32, marginBottom: 20 }} />
-				<BlankState.Heading>No {this.state.list.plural.toLowerCase()} found matching {this.state.search}</BlankState.Heading>
+				<BlankState.Heading>No {this.state.list.plural.toLowerCase()}{matching}</BlankState.Heading>
 			</BlankState>
 		);
 	},
-
 	renderCreateButton () {
 		var props = { type: 'success' };
 		if (this.state.list.nocreate) return null;
@@ -151,7 +136,6 @@ const ListView = React.createClass({
 			</Button>
 		);
 	},
-
 	renderCreateForm () {
 		return (
 			<CreateForm
@@ -162,7 +146,6 @@ const ListView = React.createClass({
 				err={this.props.createFormErrors} />
 		);
 	},
-
 	render () {
 		return !this.state.ready ? (
 			<div className="view-loading-indicator"><Spinner size="md" /></div>

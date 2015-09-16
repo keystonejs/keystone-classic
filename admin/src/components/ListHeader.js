@@ -33,7 +33,6 @@ var ListHeader = React.createClass({
 			activeColumns: CurrentListStore.getActiveColumns(),
 			activeFilters: CurrentListStore.getActiveFilters(),
 			availableColumns: CurrentListStore.getAvailableColumns(),
-			availableFilters: CurrentListStore.getAvailableFilters(),
 			currentPage: CurrentListStore.getCurrentPage(),
 			items: CurrentListStore.getItems(),
 			list: CurrentListStore.getList(),
@@ -146,15 +145,17 @@ var ListHeader = React.createClass({
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters />
-					<Pagination
-						className="ListHeader__pagination"
-						currentPage={currentPage}
-						onPageSelect={this.handlePageSelect}
-						pageSize={pageSize}
-						plural={list.plural}
-						singular={list.singular}
-						total={items.count}
-						/>
+					{items.count ? (
+						<Pagination
+							className="ListHeader__pagination"
+							currentPage={currentPage}
+							onPageSelect={this.handlePageSelect}
+							pageSize={pageSize}
+							plural={list.plural}
+							singular={list.singular}
+							total={items.count}
+							/>
+					) : null}
 				</Container>
 				{this.renderCreateForm()}
 			</div>
