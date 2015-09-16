@@ -16,6 +16,7 @@ const ListSort = require('../components/ListSort');
 const MobileNavigation = require('../components/MobileNavigation');
 const PrimaryNavigation = require('../components/PrimaryNavigation');
 const SecondaryNavigation = require('../components/SecondaryNavigation');
+const UpdateForm = require('../components/UpdateForm');
 
 const { Alert, BlankState, Button, Container, Dropdown, FormInput, InputGroup, Pagination, Spinner } = require('elemental');
 
@@ -35,6 +36,7 @@ const ListView = React.createClass({
 			manageMode: false,
 			searchString: '',
 			showCreateForm: showCreateForm(),
+			showUpdateForm: false,
 			...this.getStateFromStore()
 		};
 	},
@@ -98,6 +100,11 @@ const ListView = React.createClass({
 		this.setState({
 			manageMode: filter,
 			checkedItems: {}
+		});
+	},
+	toggleUpdateModal (filter = !this.state.showUpdateForm) {
+		this.setState({
+			showUpdateForm: filter
 		});
 	},
 	massUpdate () {
@@ -167,7 +174,7 @@ const ListView = React.createClass({
 
 		let updateButton = !list.noedit ? (
 			<InputGroup.Section>
-				<Button onClick={this.massUpdate} disabled={!Object.keys(checkedItems).length}>Update</Button>
+				<Button onClick={this.toggleUpdateModal} disabled={!Object.keys(checkedItems).length}>Update</Button>
 			</InputGroup.Section>
 		) : null;
 		let deleteButton = !list.nodelete ? (
@@ -452,11 +459,16 @@ const ListView = React.createClass({
 					user={this.props.user}
 					version={this.props.version} />
 				<CreateForm
-					list={this.state.list}
+					err={this.props.createFormErrors}
 					isOpen={this.state.showCreateForm}
+					list={this.state.list}
 					onCancel={this.toggleCreateModal.bind(this, false)}
-					values={this.props.createFormData}
-					err={this.props.createFormErrors} />
+					values={this.props.createFormData} />
+				<UpdateForm
+					isOpen={this.state.showUpdateForm}
+					itemIds={Object.keys(this.state.checkedItems)}
+					list={this.state.list}
+					onCancel={this.toggleUpdateModal.bind(this, false)} />
 			</div>
 		);
 	}
