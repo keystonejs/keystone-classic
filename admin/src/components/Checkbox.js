@@ -48,7 +48,7 @@ var Checkbox = React.createClass({
 		let background = (checked && !readonly) ? primaryColor.hexString() : 'white';
 		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.15) rgba(0,0,0,0.2) rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.25) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
 		let boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 0 rgba(0,0,0,0.06)';
-		let color = (checked && !readonly) ? 'white' : '#aaa';
+		let color = (checked && !readonly) ? 'white' : '#bbb';
 
 		// pseudo state
 		if (hover && !focus && !readonly) {
@@ -66,10 +66,10 @@ var Checkbox = React.createClass({
 
 		// noedit
 		if (readonly) {
-			background = 'transparent';
-			borderColor = 'rgba(0,0,0,0.15)';
+			background = 'rgba(255,255,255,0.5)';
+			borderColor = 'rgba(0,0,0,0.1)';
 			boxShadow = 'none';
-			color = checked ? primaryColor.hexString() : '#aaa';
+			color = checked ? primaryColor.hexString() : '#bbb';
 		}
 
 		return {
@@ -77,7 +77,7 @@ var Checkbox = React.createClass({
 			background: background,
 			border: '1px solid',
 			borderColor: borderColor,
-			borderRadius: 3,
+			borderRadius: E.borderRadius.sm,
 			boxShadow: boxShadow,
 			color: color,
 			display: 'inline-flex',
