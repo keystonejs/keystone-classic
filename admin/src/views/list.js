@@ -124,7 +124,7 @@ const ListView = React.createClass({
 		if (selection === 'all') this.checkAllTableItems();
 		if (selection === 'none') this.uncheckAllTableItems();
 		if (selection === 'visible') this.checkAllTableItems();
-		return false
+		return false;
 	},
 	renderSearch () {
 		var searchClearIcon = classnames('ListHeader__search__icon octicon', {
@@ -284,9 +284,9 @@ const ListView = React.createClass({
 		let newCheckedItems = this.state.checkedItems;
 		let itemId = item.id;
 		if (this.state.checkedItems[itemId]) {
-			delete newCheckedItems[itemId]
+			delete newCheckedItems[itemId];
 		} else {
-			newCheckedItems[itemId] = true
+			newCheckedItems[itemId] = true;
 		}
 		this.setState({
 			checkedItems: newCheckedItems
