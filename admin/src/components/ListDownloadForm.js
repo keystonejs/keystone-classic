@@ -94,7 +94,7 @@ var ListDownloadForm = React.createClass({
 		});
 
 		return (
-			<div style={{ borderTop: '1px dashed #eee', marginTop: '1em', paddingTop: '1em' }}>
+			<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: '1em', paddingTop: '1em' }}>
 				{possibleColumns}
 			</div>
 		);

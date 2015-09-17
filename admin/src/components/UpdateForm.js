@@ -2,7 +2,7 @@ const React = require('react');
 const Select = require ('react-select');
 const Fields = require('../fields');
 const { plural } = require('../utils');
-const { Alert, Button, Form, Modal } = require('elemental');
+const { Alert, BlankState, Button, Form, Modal } = require('elemental');
 
 function pluck(arr, key) {
 	return arr.map(obj => obj[key]);
@@ -53,17 +53,24 @@ var UpdateForm = React.createClass({
 	updateOptions (simpleValue, expandedValues) {
 		this.setState({
 			fields: expandedValues
+		}, () => {
+			// TODO: @jedwatson you can see the select field stealing focus back
+			this.refs.focusTarget.getDOMNode().focus();
 		});
 	},
 	handleChange (value) {
 		console.log('handleChange:', value);
 	},
+	handleClose (value) {
+		this.setState({
+			fields: []
+		});
+		this.props.onCancel();
+	},
 
-	renderForm () {
+	renderFields () {
 		let { itemIds, list } = this.props;
 		let { fields } = this.state;
-		let itemCount = plural(itemIds, ('* ' + list.singular), ('* ' + list.plural));
-		let formAction = '/keystone/' + list.path;
 		let formFields = [];
 		let focusRef;
 
@@ -81,29 +88,42 @@ var UpdateForm = React.createClass({
 			formFields.push(React.createElement(Fields[field.type], fieldProps));
 		});
 
-		let form = formFields.length ? (
-			<div style={{ borderTop: '1px dashed #eee', marginTop: 20, paddingTop: 20,  }}>{formFields}</div>
-		) : null;
+		let fieldsUI = formFields.length ? formFields : (
+			<BlankState style={{ padding: '3em 2em' }}>
+				<BlankState.Heading style={{ fontSize: '1.5em' }}>Choose a field above to begin</BlankState.Heading>
+			</BlankState>
+		);
+
+		return (
+			<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: 20, paddingTop: 20,  }}>
+				{fieldsUI}
+			</div>
+		);
+	},
+	renderForm () {
+		let { itemIds, list } = this.props;
+		let itemCount = plural(itemIds, ('* ' + list.singular), ('* ' + list.plural));
+		let formAction = '/keystone/' + list.path;
 
 		return (
 			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction}>
 				<input type="hidden" name="action" value="update" />
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
-				<Modal.Header text={'Update ' + itemCount} onClose={this.props.onCancel} showCloseButton />
+				<Modal.Header text={'Update ' + itemCount} onClose={this.handleClose} showCloseButton />
 				<Modal.Body>
-					<Select ref="focusTarget" onChange={this.updateOptions} options={this.getOptions()} value={this.state.fields} key="field-select" multi />
-					{form}
+					<Select ref="initialFocusTarget" onChange={this.updateOptions} options={this.getOptions()} value={this.state.fields} key="field-select" multi />
+					{this.renderFields()}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button type="primary" submit>Update</Button>
-					<Button type="link-cancel" onClick={this.props.onCancel}>Cancel</Button>
+					<Button type="link-cancel" onClick={this.handleClose}>Cancel</Button>
 				</Modal.Footer>
 			</Form>
 		);
 	},
 	render () {
 		return (
-			<Modal isOpen={this.props.isOpen} onCancel={this.props.onCancel} backdropClosesModal>
+			<Modal isOpen={this.props.isOpen} onCancel={this.handleClose} backdropClosesModal>
 				{this.renderForm()}
 			</Modal>
 		);
