@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import Checkbox from '../../../admin/src/components/Checkbox';
 import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
 import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
 
@@ -10,14 +11,9 @@ var BooleanColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
-		let iconClassName = classnames('ItemList__boolean-check octicon', {
-			'is-checked octicon-check': value,
-			'octicon-x': !value
-		});
 		return (
 			<ItemsTableValue truncate={false} field={this.props.col.type}>
-				<span className={iconClassName} />
+				<Checkbox readonly checked={this.props.data.fields[this.props.col.path]} />
 			</ItemsTableValue>
 		);
 	},
