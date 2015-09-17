@@ -120,15 +120,6 @@ const ListView = React.createClass({
 		console.log(`Deleted ${itemCount}:`, Object.keys(checkedItems));
 		this.toggleManageMode();
 	},
-	getManagementSelectOptions () {
-		let { items, pageSize } = this.state;
-		let visibleCount = items.count > pageSize ? pageSize : items.count;
-		return [
-			{ value: 'none', label: 'None' },
-			{ value: 'visible', label: `Visible (${visibleCount})` },
-			{ value: 'all', label: `All (${items.count})` },
-		];
-	},
 	handleManagementSelect (selection) {
 		if (selection === 'all') this.checkAllTableItems();
 		if (selection === 'none') this.uncheckAllTableItems();
@@ -169,40 +160,69 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
-		let { checkedItems, items, list, manageMode } = this.state;
+		let { checkedItems, items, list, manageMode, pageSize } = this.state;
 		if (!items.count || (list.nodelete && list.noedit)) return;
 
-		let updateButton = !list.noedit ? (
+		let checkedItemCount = Object.keys(checkedItems).length;
+		let visibleCount = items.count > pageSize ? pageSize : items.count;
+		let buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
+
+		// action buttons
+		let actionUpdateButton = !list.noedit ? (
 			<InputGroup.Section>
-				<Button onClick={this.toggleUpdateModal} disabled={!Object.keys(checkedItems).length}>Update</Button>
+				<Button onClick={this.toggleUpdateModal} disabled={!checkedItemCount}>Update</Button>
 			</InputGroup.Section>
 		) : null;
-		let deleteButton = !list.nodelete ? (
+		let actionDeleteButton = !list.nodelete ? (
 			<InputGroup.Section>
-				<Button onClick={this.massDelete} disabled={!Object.keys(checkedItems).length}>Delete</Button>
-			</InputGroup.Section>
-		) : null;
-		let dropdownButton = manageMode ? (
-			<InputGroup.Section>
-				<Dropdown items={this.getManagementSelectOptions()} buttonLabel="Select" onSelect={this.handleManagementSelect} />
+				<Button onClick={this.massDelete} disabled={!checkedItemCount}>Delete</Button>
 			</InputGroup.Section>
 		) : null;
 		let actionButtons = manageMode ? (
 			<InputGroup.Section>
 				<InputGroup contiguous>
-					{updateButton}
-					{deleteButton}
+					{actionUpdateButton}
+					{actionDeleteButton}
 				</InputGroup>
 			</InputGroup.Section>
 		) : null;
 
+		// select buttons
+		let selectAllButton = items.count > pageSize ? (
+		<InputGroup.Section>
+			<Button onClick={this.handleManagementSelect.bind(this, 'all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
+		</InputGroup.Section>
+		) : null;
+		let selectButtons = manageMode ? (
+			<InputGroup.Section>
+				<InputGroup contiguous>
+					{selectAllButton}
+					<InputGroup.Section>
+						<Button onClick={this.handleManagementSelect.bind(this, 'visible')} title="Select all rows">{items.count > pageSize ? 'Page' : 'All'} <small style={buttonNoteStyles}>({items.results.length})</small></Button>
+					</InputGroup.Section>
+					<InputGroup.Section>
+						<Button onClick={this.handleManagementSelect.bind(this, 'none')} title="Deselect all rows">None</Button>
+					</InputGroup.Section>
+				</InputGroup>
+			</InputGroup.Section>
+		) : null;
+
+		// selected count text
+		let selectedCountText = manageMode ? (
+			<InputGroup.Section grow>
+				<span style={{ color: '#666', display: 'inline-block', lineHeight: '2.4em', margin: 1 }}>{checkedItemCount} selected</span>
+			</InputGroup.Section>
+		) : null;
+
+		// put it all together
 		return (
 			<InputGroup style={{ float: 'left', marginRight: '.75em' }}>
 				<InputGroup.Section>
 					<Button isActive={manageMode} onClick={this.toggleManageMode.bind(this, !manageMode)}>Manage</Button>
 				</InputGroup.Section>
-				{dropdownButton}
+				{selectButtons}
 				{actionButtons}
+				{selectedCountText}
 			</InputGroup>
 		);
 	},
