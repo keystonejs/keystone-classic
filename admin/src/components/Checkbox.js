@@ -16,6 +16,12 @@ var Checkbox = React.createClass({
 			component: 'button',
 		};
 	},
+	componentDidMount () {
+		window.addEventListener('mouseup', this.handleMouseUp, false);
+	},
+	componentWillUnmount () {
+		window.removeEventListener('mouseup', this.handleMouseUp, false);
+	},
 	getInitialState () {
 		return {
 			active: null,
@@ -30,10 +36,10 @@ var Checkbox = React.createClass({
 		let checkedColor = Color('#3999fc');
 
 		let background = (checked && !readonly) ? checkedColor.hexString() : 'white';
-		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.05) rgba(0,0,0,0.1) rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.25) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
+		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.15) rgba(0,0,0,0.1) rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.3) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
 		let boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 0 rgba(0,0,0,0.06)';
 		let color = (checked && !readonly) ? 'white' : '#bbb';
-		let textShadow = (checked && !readonly) ? '0 1px 0 rgba(0,0,0,0.1)' : null;
+		let textShadow = (checked && !readonly) ? '0 1px 0 rgba(0,0,0,0.2)' : null;
 
 		// pseudo state
 		if (hover && !focus && !readonly) {
@@ -42,7 +48,7 @@ var Checkbox = React.createClass({
 		if (active) {
 			background = (checked && !readonly) ? checkedColor.darken(0.2).hexString() : '#eee';
 			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.4) rgba(0,0,0,0.35) rgba(0,0,0,0.3)';
-			boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 2px rgba(0,0,0,0.15)';
+			boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 3px rgba(0,0,0,0.2)';
 		}
 		if (focus && !active) {
 			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : checkedColor.hexString();
@@ -124,6 +130,7 @@ var Checkbox = React.createClass({
 			'octicon-check': checked,
 			'octicon-x': (typeof checked === 'boolean') && !checked && readonly,
 		});
+		props.type = readonly ? null : 'button';
 
 		props.onKeyDown = this.handleKeyDown;
 		props.onKeyUp = this.handleKeyUp;
@@ -136,8 +143,6 @@ var Checkbox = React.createClass({
 		props.onClick = readonly ? null : this.handleChange;
 		props.onFocus = readonly ? null : this.toggleFocus.bind(this, true);
 		props.onBlur = readonly ? null : this.toggleFocus.bind(this, false);
-		props.type = 'button';
-
 
 		let node = readonly ? 'span' : this.props.component;
 
