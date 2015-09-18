@@ -23,45 +23,30 @@ var Checkbox = React.createClass({
 			hover: null,
 		};
 	},
-	componentDidMount () {
-		document.body.addEventListener('keydown', this.handleMouseDown);
-		document.body.addEventListener('keyup', this.handleMouseUp);
-		document.body.addEventListener('mousedown', this.handleMouseDown);
-		document.body.addEventListener('mouseup', this.handleMouseUp);
-		document.body.addEventListener('mouseover', this.handleMouseOver);
-		document.body.addEventListener('mouseout', this.handleMouseOut);
-	},
-	componentWillUnmount () {
-		document.body.removeEventListener('keydown', this.handleMouseDown);
-		document.body.removeEventListener('keyup', this.handleMouseUp);
-		document.body.removeEventListener('mousedown', this.handleMouseDown);
-		document.body.removeEventListener('mouseup', this.handleMouseUp);
-		document.body.removeEventListener('mouseover', this.handleMouseOver);
-		document.body.removeEventListener('mouseout', this.handleMouseOut);
-	},
 	getStyles () {
 		let { checked, readonly } = this.props;
 		let { active, focus, hover } = this.state;
 
-		let primaryColor = Color(E.color.appPrimary);
+		let checkedColor = Color('#3999fc');
 
-		let background = (checked && !readonly) ? primaryColor.hexString() : 'white';
-		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.15) rgba(0,0,0,0.2) rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.25) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
+		let background = (checked && !readonly) ? checkedColor.hexString() : 'white';
+		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.05) rgba(0,0,0,0.1) rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.25) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
 		let boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 0 rgba(0,0,0,0.06)';
 		let color = (checked && !readonly) ? 'white' : '#bbb';
+		let textShadow = (checked && !readonly) ? '0 1px 0 rgba(0,0,0,0.1)' : null;
 
 		// pseudo state
 		if (hover && !focus && !readonly) {
-			borderColor = (checked) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.35) rgba(0,0,0,0.3) rgba(0,0,0,0.25)';
+			borderColor = (checked) ? 'rgba(0,0,0,0.1) rgba(0,0,0,0.15) rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.35) rgba(0,0,0,0.3) rgba(0,0,0,0.25)';
 		}
 		if (active) {
-			background = (checked && !readonly) ? primaryColor.darken(0.2).hexString() : '#eee';
+			background = (checked && !readonly) ? checkedColor.darken(0.2).hexString() : '#eee';
 			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.4) rgba(0,0,0,0.35) rgba(0,0,0,0.3)';
 			boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 2px rgba(0,0,0,0.15)';
 		}
 		if (focus && !active) {
-			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : primaryColor.hexString();
-			boxShadow = (checked && !readonly) ? `0 0 0 3px ${primaryColor.alpha(0.1).rgbString()}` : `inset 0 1px 2px rgba(0,0,0,0.15), 0 0 0 3px ${primaryColor.alpha(0.1).rgbString()}`;
+			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : checkedColor.hexString();
+			boxShadow = (checked && !readonly) ? `0 0 0 3px ${checkedColor.alpha(0.15).rgbString()}` : `inset 0 1px 2px rgba(0,0,0,0.15), 0 0 0 3px ${checkedColor.alpha(0.15).rgbString()}`;
 		}
 
 		// noedit
@@ -69,7 +54,7 @@ var Checkbox = React.createClass({
 			background = 'rgba(255,255,255,0.5)';
 			borderColor = 'rgba(0,0,0,0.1)';
 			boxShadow = 'none';
-			color = checked ? primaryColor.hexString() : '#bbb';
+			color = checked ? checkedColor.hexString() : '#bbb';
 		}
 
 		return {
@@ -80,55 +65,50 @@ var Checkbox = React.createClass({
 			borderRadius: E.borderRadius.sm,
 			boxShadow: boxShadow,
 			color: color,
-			display: 'inline-flex',
-			height: 20,
-			justifyContent: 'center',
-			MozTransition: 'all 120ms ease-out',
-			MsFlexAlign: 'center',
-			MsFlexPack: 'center',
-			msTransition: 'all 120ms ease-out',
+			display: 'inline-block',
+			fontSize: 14,
+			height: 16,
+			lineHeight: '15px',
 			outline: 'none',
 			padding: 0,
 			textAlign: 'center',
-			transition: 'all 120ms ease-out',
+			textShadow: textShadow,
 			verticalAlign: 'middle',
-			WebkitAlignItems: 'center',
-			WebkitJustifyContent: 'center',
+			width: 16,
+
+			msTransition: 'all 120ms ease-out',
+			MozTransition: 'all 120ms ease-out',
 			WebkitTransition: 'all 120ms ease-out',
-			width: 20,
+			transition: 'all 120ms ease-out',
 		};
 	},
+	handleKeyDown (e) {
+		if (e.keyCode !== 32) return;
+		this.toggleActive(true);
+	},
+	handleKeyUp (e) {
+		this.toggleActive(false);
+	},
 	handleMouseOver (e) {
-		if (!this.props.readonly && e.target === this.refs.checkbox.getDOMNode()) {
-			this.handleHover(true);
-		}
+		this.toggleHover(true);
 	},
 	handleMouseDown (e) {
-		if (!this.props.readonly && e.target === this.refs.checkbox.getDOMNode()) {
-			this.handleActive(true);
-			this.handleFocus(true);
-		}
+		this.toggleActive(true);
+		this.toggleFocus(true);
 	},
 	handleMouseUp (e) {
-		if (!this.props.readonly && e.target === this.refs.checkbox.getDOMNode()) {
-			this.handleActive(false);
-		} else {
-			this.handleActive(false);
-			this.handleFocus(false);
-		}
+		this.toggleActive(false);
 	},
 	handleMouseOut (e) {
-		if (!this.props.readonly && e.target === this.refs.checkbox.getDOMNode()) {
-			this.handleHover(false);
-		}
+		this.toggleHover(false);
 	},
-	handleActive (pseudo) {
+	toggleActive (pseudo) {
 		this.setState({ active: pseudo });
 	},
-	handleHover (pseudo) {
+	toggleHover (pseudo) {
 		this.setState({ hover: pseudo });
 	},
-	handleFocus (pseudo) {
+	toggleFocus (pseudo) {
 		this.setState({ focus: pseudo });
 	},
 	handleChange () {
@@ -144,9 +124,18 @@ var Checkbox = React.createClass({
 			'octicon-check': checked,
 			'octicon-x': (typeof checked === 'boolean') && !checked && readonly,
 		});
+
+		props.onKeyDown = this.handleKeyDown;
+		props.onKeyUp = this.handleKeyUp;
+
+		props.onMouseDown = this.handleMouseDown;
+		props.onMouseUp = this.handleMouseUp;
+		props.onMouseOver = this.handleMouseOver;
+		props.onMouseOut = this.handleMouseOut;
+
 		props.onClick = readonly ? null : this.handleChange;
-		props.onFocus = readonly ? null : this.handleFocus.bind(this, true);
-		props.onBlur = readonly ? null : this.handleFocus.bind(this, false);
+		props.onFocus = readonly ? null : this.toggleFocus.bind(this, true);
+		props.onBlur = readonly ? null : this.toggleFocus.bind(this, false);
 		props.type = 'button';
 
 
