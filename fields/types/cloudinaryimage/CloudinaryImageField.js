@@ -130,7 +130,7 @@ module.exports = Field.create({
 	 * Do we have an existing file?
 	 */
 	hasExisting: function() {
-		return !!this.props.value.url;
+		return (this.props.value && this.props.value.url);
 	},
 
 	/**
