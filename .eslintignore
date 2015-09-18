@@ -1,3 +1,4 @@
+bundles/*
 docs/*
 admin/public/js/lib/*
 admin/public/js/packages.js

@@ -23,6 +23,7 @@ coverage.html
 .cover*
 lib-cov
 
+bundles
 docs/_dist
 admin/public/styles/auth.css
 admin/public/styles/auth.min.css

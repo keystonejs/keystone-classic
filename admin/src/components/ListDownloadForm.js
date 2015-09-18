@@ -14,31 +14,21 @@ const FORMAT_OPTIONS = [
 ];
 
 var ListDownloadForm = React.createClass({
-	displayName: 'ListDownloadForm',
-	propTypes: {
-		columns: React.PropTypes.array,
-		isOpen: React.PropTypes.bool,
-		onCancel: React.PropTypes.func,
-		onSubmit: React.PropTypes.func,
-	},
-
-	getDefaultProps () {
-		return {
-			columns: null,
-			isOpen: false,
-		};
-	},
-
 	getInitialState () {
 		return {
 			format: FORMAT_OPTIONS[0].value,
 			isOpen: false,
 			useCurrentColumns: true,
-			selectedColumns: {},
+			selectedColumns: this.getDefaultSelectedColumns()
 		};
-
 	},
-
+	getDefaultSelectedColumns () {
+		var selectedColumns = {};
+		CurrentListStore.getActiveColumns().forEach(col => {
+			selectedColumns[col.path] = true;
+		});
+		return selectedColumns;
+	},
 	getListUIElements () {
 		return Keystone.list.uiElements.map((el) => {
 			return el.type === 'field' ? {
@@ -47,48 +37,37 @@ var ListDownloadForm = React.createClass({
 			} : el;
 		});
 	},
-
 	togglePopout (visible) {
 		this.setState({
 			isOpen: visible
 		});
 	},
-
 	toggleColumn (column, value) {
 		let newColumns = this.state.selectedColumns;
-
 		if (value) {
 			newColumns[column] = value;
 		} else {
 			delete newColumns[column];
 		}
-
 		this.setState({
 			selectedColumns: newColumns
 		});
 	},
-
 	changeFormat (value) {
 		this.setState({
 			format: value
 		});
 	},
-
 	toggleCurrentlySelectedColumns (e) {
 		let newState = {
-			useCurrentColumns: !this.state.useCurrentColumns
+			useCurrentColumns: e.target.checked,
+			selectedColumns: this.getDefaultSelectedColumns()
 		};
-
-		// clear selected fields
-		if (e.target.value) {
-			newState.selectedColumns =  {};
-		}
-
 		this.setState(newState);
 	},
 
 	handleDownloadRequest () {
-		console.info(`Download ${this.state.format.toUpperCase()} with columns:`, Object.keys(this.state.selectedColumns));
+		CurrentListStore.downloadItems(this.state.format, Object.keys(this.state.selectedColumns));
 		this.togglePopout(false);
 	},
 
@@ -115,7 +94,7 @@ var ListDownloadForm = React.createClass({
 		});
 
 		return (
-			<div style={{ borderTop: '1px dashed #eee', marginTop: '1em', paddingTop: '1em' }}>
+			<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: '1em', paddingTop: '1em' }}>
 				{possibleColumns}
 			</div>
 		);

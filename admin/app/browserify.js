@@ -2,6 +2,7 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 var chalk = require('chalk');
 var crypto = require('crypto');
+var fs = require('fs-extra');
 var moment = require('moment');
 var packages = require('../packages');
 var path = require('path');
@@ -9,6 +10,8 @@ var watchify = require('watchify');
 
 var basedir = path.resolve(__dirname + '/../src/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
+var devWriteBundles = process.env.KEYSTONE_WRITE_BUNDLES === 'true';
+var devWriteDisc = process.env.KEYSTONE_WRITE_DISC === 'true';
 
 function ts() {
 	return chalk.gray(moment().format('YYYY-MM-DD HH:MM:SS '));
@@ -32,6 +35,22 @@ module.exports = function(file, name) {
 	var queue = [];
 	var ready;
 	var src;
+	function writeBundle(buff) {
+		if (devWriteBundles) {
+			fs.outputFile(path.resolve(path.join(__dirname, '../../bundles/js', file)), buff, 'utf8');
+		}
+		if (devWriteDisc) {
+			var discFile = file.replace('.js', '.html');
+			require('disc').bundle(buff, function(err, html) {
+				if (err) {
+					logError(discFile, err);
+				} else {
+					fs.outputFile(path.resolve(path.join(__dirname, '../../bundles/disc', discFile)), html, 'utf8');
+					console.log(ts() + chalk.green('wrote disc for ' + chalk.underline(file)));
+				}
+			});
+		}
+	}
 	function build() {
 		if (building) return;
 		building = true;
@@ -41,6 +60,7 @@ module.exports = function(file, name) {
 			opts.debug = true;
 			opts.cache = {};
 			opts.packageCache = {};
+			opts.fullPaths = true;
 		}
 		if (name) {
 			b = browserify(opts);
@@ -66,12 +86,14 @@ module.exports = function(file, name) {
 			queue.forEach(function(reqres) {
 				send.apply(null, reqres);
 			});
+			writeBundle(buff);
 		});
 		b.on('update', function() {
 			b.bundle(function(err, buff) {
 				if (err) return logError(file, err);
 				else logRebuild(file);
 				src = buff;
+				writeBundle(buff);
 			});
 		});
 	}

@@ -1,11 +1,8 @@
-var _ = require('underscore'),
-	React = require('react'),
-	blacklist = require('blacklist');
+var _ = require('underscore');
+var React = require('react');
+var blacklist = require('blacklist');
 
 var FooterBar = React.createClass({
-
-	displayName: 'FooterBar',
-
 	getInitialState () {
 		return {
 			position: 'relative',
@@ -14,37 +11,27 @@ var FooterBar = React.createClass({
 			top: 0
 		};
 	},
-
 	componentDidMount () {
-
 		// Bail in IE8 because React doesn't support the onScroll event in that browser
 		// Conveniently (!) IE8 doesn't have window.getComputedStyle which we also use here
 		if (!window.getComputedStyle) return;
-
 		var footer = this.refs.footer.getDOMNode();
-
 		this.windowSize = this.getWindowSize();
-
 		var footerStyle = window.getComputedStyle(footer);
-
 		this.footerSize = {
 			x: footer.offsetWidth,
 			y: footer.offsetHeight + parseInt(footerStyle.marginTop || '0')
 		};
-
 		window.addEventListener('scroll', this.recalcPosition, false);
 		window.addEventListener('resize', this.recalcPosition, false);
-
 		this.recalcPosition();
 	},
-
 	getWindowSize () {
 		return {
 			x: window.innerWidth,
 			y: window.innerHeight
 		};
 	},
-
 	recalcPosition () {
 		var wrapper = this.refs.wrapper.getDOMNode();
 
@@ -82,7 +69,6 @@ var FooterBar = React.createClass({
 			this.setState(newState);
 		}
 	},
-
 	render () {
 		var wrapperStyle = {
 			height: this.state.height,

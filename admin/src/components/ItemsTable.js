@@ -8,13 +8,15 @@ const { Alert } = require('elemental');
 const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
 var ItemsTable = React.createClass({
-
 	propTypes: {
 		columns: React.PropTypes.array,
 		items: React.PropTypes.array,
 		list: React.PropTypes.object,
 	},
-
+	deleteItem (item, e) {
+		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
+		CurrentListStore.deleteItem(item);
+	},
 	renderCols () {
 		var cols = this.props.columns.map((col) => <col width={col.width} key={col.path} />);
 		// add delete col when applicable
@@ -27,7 +29,6 @@ var ItemsTable = React.createClass({
 		}
 		return <colgroup>{cols}</colgroup>;
 	},
-
 	renderHeaders () {
 		var cells = this.props.columns.map((col, i) => {
 			// span first col for controls when present
@@ -40,12 +41,6 @@ var ItemsTable = React.createClass({
 		});
 		return <thead><tr>{cells}</tr></thead>;
 	},
-
-	deleteItem (item, e) {
-		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
-		CurrentListStore.deleteItem(item);
-	},
-
 	renderRow (item) {
 		var cells = this.props.columns.map((col, i) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
@@ -62,7 +57,6 @@ var ItemsTable = React.createClass({
 		}
 		return <tr key={'i' + item.id}>{cells}</tr>;
 	},
-
 	render () {
 		var sortable = this.props.list.sortable;
 		var tableClass = sortable ? 'sortable ' : '';
@@ -77,7 +71,6 @@ var ItemsTable = React.createClass({
 			</table>
 		);
 	}
-
 });
 
 module.exports = ItemsTable;

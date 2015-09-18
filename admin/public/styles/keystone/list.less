@@ -79,6 +79,50 @@
 
 
 
+// List Management
+// ------------------------------
+
+.ItemList__row--manage {
+	// make it obvious that the row is now selectable
+	color: @gray;
+
+	// stop text selection whilst row is in manage mode
+	-webkit-touch-callout: none;
+	  -webkit-user-select: none;
+		 -moz-user-select: none;
+		  -ms-user-select: none;
+			  user-select: none;
+
+	// apply selectable styles to anchors
+	a {
+		color: inherit;
+		pointer-events: none;
+	}
+
+	// highlight the row on hover
+	&:hover {
+		color: @text-color;
+
+		.ItemList__control--check {
+			color: @app-primary;
+		}
+	}
+}
+.ItemList__row--selected {
+	background-color: white;
+	color: @text-color;
+
+	> td:first-child {
+		box-shadow: -2px 0 0 @app-primary;
+	}
+	a {
+		color: inherit;
+	}
+}
+
+
+
+
 // Links
 // ------------------------------
 
@@ -101,6 +145,13 @@
 	&:focus {
 		outline: none;
 	}
+}
+
+
+// Empty value links
+
+.ItemList__link--empty {
+	color: #999;
 }
 
 
@@ -139,26 +190,6 @@
 .ItemList__value--invalid {
 	font-family: @font-family-monospace;
 	color: @app-danger !important;
-}
-
-
-// Boolean Field
-
-.ItemList__boolean-check {
-	.align-items(center);
-	.display-flex();
-	.justify-content(center);
-	background: white;
-	color: @input-border-color;
-	border-radius: 3px;
-	border: 1px solid fade(@input-border-color, 50%);
-	width: 20px;
-	height: 20px;
-	text-align: center;
-
-	&.is-checked {
-		color: @input-border-color-focus;
-	}
 }
 
 

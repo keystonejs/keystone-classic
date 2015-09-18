@@ -1,17 +1,23 @@
 var React = require('react');
+var classnames = require('classnames');
 
 var ListControl = React.createClass({
 
 	propTypes: {
 		onClick: React.PropTypes.func,
-		type: React.PropTypes.oneOf(['delete', 'sortable'])
+		type: React.PropTypes.oneOf(['check', 'delete', 'sortable'])
 	},
 
 	renderControl () {
 		var icon = 'octicon octicon-';
-		var className = 'ItemList__control ItemList__control--' + this.props.type;
+		var className = classnames('ItemList__control ItemList__control--' + this.props.type, {
+			'is-active': this.props.active
+		});
 		var tabindex = this.props.type === 'sortable' ? -1 : null;
 
+		if (this.props.type === 'check') {
+			icon += 'check';
+		}
 		if (this.props.type === 'delete') {
 			icon += 'trashcan';
 		}

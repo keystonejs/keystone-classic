@@ -29,6 +29,14 @@ var Popout = React.createClass({
 	},
 
 	componentDidMount () {
+		if (this.props.isOpen) this.calculatePosition();
+	},
+
+	componentWillReceiveProps (nextProps) {
+		if (!this.props.isOpen && nextProps.isOpen) this.calculatePosition();
+	},
+
+	calculatePosition () {
 		let posNode = document.getElementById(this.props.relativeToID);
 
 		let pos = {
@@ -46,12 +54,10 @@ var Popout = React.createClass({
 		let leftOffset = pos.left + (pos.width / 2) - (this.props.width / 2);
 		let topOffset = pos.top + pos.height + sizes.arrowHeight;
 
-		/* eslint-disable react/no-did-mount-set-state */
 		this.setState({
 			leftOffset: leftOffset,
 			topOffset: topOffset
 		});
-		/* eslint-enable */
 	},
 
 	renderPopout () {

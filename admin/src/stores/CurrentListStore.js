@@ -9,15 +9,14 @@ var _loading = false;
 var _items = {};
 
 var available = {
-	columns: _list.uiElements.map((col,i) => {
+	columns: _list.uiElements.map((col, i) => {
 		if (col.type === 'heading') {
-			return { type: 'heading', label: col.content };
+			return { type: 'heading', content: col.content };
 		} else {
 			var field = _list.fields[col.field];
 			return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
 		}
-	}).map(i => i),
-	filters: []
+	}).filter(i => i)
 };
 
 var active = {
@@ -60,6 +59,25 @@ function buildQueryString () {
 	parts.push('expandRelationshipFields=true');
 	parts.push('sort=' + getSortString());
 	return '?' + parts.filter(i => i).join('&');
+}
+
+function getDownloadURL (format, columns) {
+	var url = '/keystone/api/' + _list.path;
+	var parts = [];
+	if (format !== 'json') {
+		format = 'csv';
+	}
+	if (columns) {
+		columns = expandColumns(columns);
+	} else {
+		columns = active.columns;
+	}
+	parts.push(active.search ? 'search=' + active.search : '');
+	parts.push(active.filters.length ? 'filters=' + JSON.stringify(getFilters()) : '');
+	parts.push('select=' + columns.map(i => i.path).join(','));
+	parts.push('expandRelationshipFields=true');
+	parts.push('sort=' + getSortString());
+	return url + '/export.' + format + '?' + parts.filter(i => i).join('&');
 }
 
 function expandColumns (input) {
@@ -134,35 +152,45 @@ var CurrentListStore = new Store({
 	getList () {
 		return _list;
 	},
-	getActiveColumns () {
-		return active.columns;
-	},
 	getAvailableColumns () {
 		return available.columns;
+	},
+	getActiveColumns () {
+		return active.columns;
 	},
 	setActiveColumns (cols) {
 		active.columns = expandColumns(cols);
 		this.loadItems();
 	},
-	getActiveFilters () {
-		return active.filters;
-	},
-	getAvailableFilters () {
-		return available.filters;
+	getActiveSearch () {
+		return active.search;
 	},
 	setActiveSearch (str) {
 		active.search = str;
 		this.loadItems();
 		this.notifyChange();
 	},
-	getActiveSearch () {
-		return active.search;
-	},
 	getActiveSort () {
 		return active.sort;
 	},
 	setActiveSort (sort) {
 		active.sort = expandSort(sort || _list.defaultSort);
+		this.loadItems();
+		this.notifyChange();
+	},
+	getAvailableFilters () {
+		return available.filters;
+	},
+	getActiveFilters () {
+		return active.filters;
+	},
+	addFilter (filter) {
+		active.filters.push(filter);
+		this.loadItems();
+		this.notifyChange();
+	},
+	removeFilter (filter) {
+		active.filters.splice(active.filters.indexOf(filter), 1);
 		this.loadItems();
 		this.notifyChange();
 	},
@@ -175,16 +203,6 @@ var CurrentListStore = new Store({
 	setCurrentPage (i) {
 		page.index = i;
 		this.loadItems();
-	},
-	addFilter (filter) {
-		active.filters.push(filter);
-		this.loadItems();
-		this.notifyChange();
-	},
-	removeFilter (filter) {
-		active.filters.splice(active.filters.indexOf(filter), 1);
-		this.loadItems();
-		this.notifyChange();
 	},
 	isLoading () {
 		return _loading;
@@ -211,6 +229,9 @@ var CurrentListStore = new Store({
 			this.notifyChange();
 		});
 	},
+	downloadItems (columns) {
+		window.open(getDownloadURL(columns));
+	},
 	getItems () {
 		return _items;
 	},
@@ -231,5 +252,12 @@ var CurrentListStore = new Store({
 		});
 	}
 });
+
+// CurrentListStore.addFilter({
+// 	field: available.columns.filter((i) => {
+// 		return i.field && i.field.path === 'isAdmin';
+// 	})[0].field,
+// 	value: { value: true }
+// });
 
 module.exports = CurrentListStore;
