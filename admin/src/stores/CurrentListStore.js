@@ -8,16 +8,14 @@ var _ready = false;
 var _loading = false;
 var _items = {};
 
-var available = {
-	columns: _list.uiElements.map((col, i) => {
-		if (col.type === 'heading') {
-			return { type: 'heading', content: col.content };
-		} else {
-			var field = _list.fields[col.field];
-			return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
-		}
-	}).filter(i => i)
-};
+var columns = _list.uiElements.map((col, i) => {
+	if (col.type === 'heading') {
+		return { type: 'heading', content: col.content };
+	} else {
+		var field = _list.fields[col.field];
+		return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
+	}
+}).filter(i => i);
 
 var active = {
 	columns: expandColumns(_list.defaultColumns),
@@ -153,7 +151,7 @@ var CurrentListStore = new Store({
 		return _list;
 	},
 	getAvailableColumns () {
-		return available.columns;
+		return columns;
 	},
 	getActiveColumns () {
 		return active.columns;
@@ -256,7 +254,7 @@ var CurrentListStore = new Store({
 });
 
 // CurrentListStore.addFilter({
-// 	field: available.columns.filter((i) => {
+// 	field: columns.filter((i) => {
 // 		return i.field && i.field.path === 'isAdmin';
 // 	})[0].field,
 // 	value: { value: true }
