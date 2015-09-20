@@ -1,14 +1,11 @@
 var React = require('react');
 var Transition = React.addons.CSSTransitionGroup;
 var classnames = require('classnames');
-var utils = require('../utils.js');
 
 var CurrentListStore = require('../stores/CurrentListStore');
-
 var ListFiltersAddForm = require('./ListFiltersAddForm');
 var Popout = require('./Popout');
 var PopoutList = require('./PopoutList');
-
 var { Button, FormField, FormInput, InputGroup } = require('elemental');
 
 function pluck(arr, key) {
