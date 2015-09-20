@@ -176,9 +176,6 @@ var CurrentListStore = new Store({
 		this.loadItems();
 		this.notifyChange();
 	},
-	getAvailableFilters () {
-		return available.filters;
-	},
 	getActiveFilters () {
 		return active.filters;
 	},
