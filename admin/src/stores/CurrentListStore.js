@@ -179,8 +179,19 @@ var CurrentListStore = new Store({
 	getActiveFilters () {
 		return active.filters;
 	},
-	addFilter (filter) {
-		active.filters.push(filter);
+	setFilter (path, value) {
+		let filter = active.filters.filter(i => i.field.path === path)[0];
+		if (filter) {
+			filter.value = value;
+		} else {
+			let field = _list.fields[path];
+			if (!field) {
+				console.warn('Invalid Filter path specified:', path);
+				return;
+			}
+			filter = { field, value };
+			active.filters.push(filter);
+		}
 		this.loadItems();
 		this.notifyChange();
 	},

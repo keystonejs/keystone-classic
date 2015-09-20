@@ -81,10 +81,7 @@ var ListFiltersAdd = React.createClass({
 	},
 
 	applyFilter (value) {
-		CurrentListStore.addFilter({
-			field: this.state.selectedField,
-			value: value
-		});
+		CurrentListStore.setFilter(this.state.selectedField.path, value);
 		this.closePopout();
 	},
 
