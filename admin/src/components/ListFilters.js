@@ -1,12 +1,12 @@
-var React = require('react');
-var classNames = require('classnames');
+const React = require('react');
+const classNames = require('classnames');
+const filterComponents = require('../filters');
+const CurrentListStore = require('../stores/CurrentListStore');
 
-var CurrentListStore = require('../stores/CurrentListStore');
+const Popout = require('./Popout');
+const { Pill } = require('elemental');
 
-var Popout = require('./Popout');
-var { Pill } = require('elemental');
-
-var Filter = React.createClass({
+const Filter = React.createClass({
 	propTypes: {
 		filter: React.PropTypes.object
 	},
@@ -17,7 +17,8 @@ var Filter = React.createClass({
 	},
 	open () {
 		this.setState({
-			isOpen: true
+			isOpen: true,
+			filterValue: this.props.filter.value
 		});
 	},
 	close () {
@@ -25,8 +26,13 @@ var Filter = React.createClass({
 			isOpen: false
 		});
 	},
+	updateValue (filterValue) {
+		this.setState({
+			filterValue: filterValue
+		});
+	},
 	updateFilter (e) {
-		console.log('UPDATING FILTER');
+		CurrentListStore.setFilter(this.props.filter.field.path, this.state.filterValue);
 		this.close();
 		e.preventDefault();
 	},
@@ -36,6 +42,7 @@ var Filter = React.createClass({
 	render () {
 		let { filter } = this.props;
 		let filterId = 'activeFilter__' + filter.field.path;
+		let FilterComponent = filterComponents[filter.field.type];
 		return (
 			<span>
 				<Pill label={filter.field.label} onClick={this.open} onClear={this.removeFilter} type="primary" id={filterId} showClearButton />
@@ -43,7 +50,7 @@ var Filter = React.createClass({
 					<form onSubmit={this.updateFilter}>
 						<Popout.Header title="Edit Filter" />
 						<Popout.Body>
-							Filter form goes here
+							<FilterComponent field={filter.field} filter={this.state.filterValue} onChange={this.updateValue} />
 						</Popout.Body>
 						<Popout.Footer
 							ref="footer"
@@ -58,7 +65,7 @@ var Filter = React.createClass({
 	}
 });
 
-var ListFilters = React.createClass({
+const ListFilters = React.createClass({
 	getInitialState () {
 		return this.getStateFromStore();
 	},
@@ -85,7 +92,7 @@ var ListFilters = React.createClass({
 	render () {
 		if (!this.state.filters.length) return <div />;
 
-		var currentFilters = this.state.filters.map((filter, i) => {
+		let currentFilters = this.state.filters.map((filter, i) => {
 			return (
 				<Filter key={'f' + i} filter={filter} />
 			);
