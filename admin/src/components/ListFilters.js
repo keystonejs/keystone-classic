@@ -31,7 +31,7 @@ var Filter = React.createClass({
 		e.preventDefault();
 	},
 	removeFilter () {
-		CurrentListStore.removeFilter(this.props.filter);
+		CurrentListStore.clearFilter(this.props.filter.field.path);
 	},
 	render () {
 		let { filter } = this.props;

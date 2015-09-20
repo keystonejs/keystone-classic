@@ -189,7 +189,9 @@ var CurrentListStore = new Store({
 		this.loadItems();
 		this.notifyChange();
 	},
-	removeFilter (filter) {
+	clearFilter (path) {
+		var filter = active.filters.filter(i => i.field.path === path)[0];
+		if (!filter) return;
 		active.filters.splice(active.filters.indexOf(filter), 1);
 		this.loadItems();
 		this.notifyChange();
