@@ -179,6 +179,9 @@ var CurrentListStore = new Store({
 	getActiveFilters () {
 		return active.filters;
 	},
+	getFilter (path) {
+		return active.filters.filter(i => i.field.path === path)[0];
+	},
 	setFilter (path, value) {
 		let filter = active.filters.filter(i => i.field.path === path)[0];
 		if (filter) {
