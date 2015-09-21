@@ -86,6 +86,15 @@ var ItemView = React.createClass({
 						<EditForm
 							list={this.props.list}
 							data={this.state.itemData} />
+						{/*
+						TODO:
+							New component for item relationships:
+							<ItemRelationships list={this.props.list} itemId={this.props.itemId} />
+
+							The ItemRelationships component would loop through defined relationships,
+							and render a component for each:
+							<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
+						*/}
 					</Container>
 				</div>
 				<Footer
