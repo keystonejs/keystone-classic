@@ -5,7 +5,7 @@ import Radio from './Radio';
 var RadioGroup = React.createClass({
 	displayName: 'RadioGroup',
 	propTypes: {
-		display: : React.PropTypes.oneOf([
+		display: React.PropTypes.oneOf([
 			'block',
 			'inline'
 		]),
