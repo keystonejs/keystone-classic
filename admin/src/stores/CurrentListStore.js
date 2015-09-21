@@ -1,27 +1,19 @@
 var listToArray = require('list-to-array');
 var Store = require('store-prototype');
 var utils = require('../utils');
+var List = require('../lib/List');
 var xhr = require('xhr');
 
-var _list = Keystone.list;
+var _list = new List(Keystone.list);
 var _ready = false;
 var _loading = false;
 var _items = {};
 
-var columns = _list.uiElements.map((col, i) => {
-	if (col.type === 'heading') {
-		return { type: 'heading', content: col.content };
-	} else {
-		var field = _list.fields[col.field];
-		return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
-	}
-}).filter(i => i);
-
 var active = {
-	columns: expandColumns(_list.defaultColumns),
+	columns: _list.expandColumns(Keystone.list.defaultColumns),
 	filters: [],
 	search: '',
-	sort: expandSort(_list.defaultSort)
+	sort: _list.expandSort(Keystone.list.defaultSort)
 };
 
 var page = defaultPage();
@@ -34,83 +26,31 @@ function defaultPage () {
 }
 
 function getFilters () {
-	var filters = {};
-	active.filters.forEach((filter) => {
-		filters[filter.field.path] = filter.value;
-	});
-	return filters;
+	return _list.getFilters(active.filters);
 }
 
 function getSortString () {
-	return active.sort.paths.map(i => {
-		return i.invert ? '-' + i.path : i.path;
-	}).filter(i => i).join(',');
+	return _list.getSortString(active.sort);
 }
 
 function buildQueryString () {
-	var parts = [];
-	parts.push(active.search ? 'search=' + active.search : '');
-	parts.push(active.filters.length ? 'filters=' + JSON.stringify(getFilters()) : '');
-	parts.push('select=' + active.columns.map(i => i.path).join(','));
-	parts.push('limit=' + page.size);
-	parts.push(page.index > 1 ? 'skip=' + ((page.index - 1) * page.size) : '');
-	parts.push('expandRelationshipFields=true');
-	parts.push('sort=' + getSortString());
-	return '?' + parts.filter(i => i).join('&');
+	return _list.buildQueryString({
+		search: active.search,
+		filters: active.filters,
+		sort: active.sort,
+		columns: active.columns,
+		page: page
+	});
 }
 
 function getDownloadURL (format, columns) {
-	var url = '/keystone/api/' + _list.path;
-	var parts = [];
-	if (format !== 'json') {
-		format = 'csv';
-	}
-	if (columns) {
-		columns = expandColumns(columns);
-	} else {
-		columns = active.columns;
-	}
-	parts.push(active.search ? 'search=' + active.search : '');
-	parts.push(active.filters.length ? 'filters=' + JSON.stringify(getFilters()) : '');
-	parts.push('select=' + columns.map(i => i.path).join(','));
-	parts.push('expandRelationshipFields=true');
-	parts.push('sort=' + getSortString());
-	return url + '/export.' + format + '?' + parts.filter(i => i).join('&');
-}
-
-function expandColumns (input) {
-	var nameIncluded = false;
-	var cols = listToArray(input).map(i => {
-		var split = i.split('|');
-		var path = split[0];
-		var width = split[1] || 'auto';
-		if (path === '__name__') {
-			path = _list.namePath;
-		}
-		if (path === _list.namePath) {
-			nameIncluded = true;
-		}
-		var field = _list.fields[path];
-		if (!field) {
-			// TODO: Support arbitary document paths
-			console.warn('Invalid Column specified:', i);
-			return;
-		}
-		return {
-			field: field,
-			type: field.type,
-			label: field.label,
-			path: field.path
-		};
-	}).filter(i => i);
-	if (!nameIncluded) {
-		cols.unshift({
-			type: 'id',
-			label: 'ID',
-			path: 'id'
-		});
-	}
-	return cols;
+	return _list.getDownloadURL({
+		search: active.search,
+		filters: active.filters,
+		sort: active.sort,
+		columns: columns ? _list.expandColumns(columns) : active.columns,
+		format: format
+	});
 }
 
 function expandSort (input) {
@@ -151,13 +91,13 @@ var CurrentListStore = new Store({
 		return _list;
 	},
 	getAvailableColumns () {
-		return columns;
+		return _list.columns;
 	},
 	getActiveColumns () {
 		return active.columns;
 	},
 	setActiveColumns (cols) {
-		active.columns = expandColumns(cols);
+		active.columns = _list.expandColumns(cols);
 		this.loadItems();
 	},
 	getActiveSearch () {
@@ -172,7 +112,7 @@ var CurrentListStore = new Store({
 		return active.sort;
 	},
 	setActiveSort (sort) {
-		active.sort = expandSort(sort || _list.defaultSort);
+		active.sort = _list.expandSort(sort || _list.defaultSort);
 		this.loadItems();
 		this.notifyChange();
 	},
@@ -241,7 +181,7 @@ var CurrentListStore = new Store({
 		});
 	},
 	downloadItems (columns) {
-		window.open(getDownloadURL(columns));
+		window.open(_list.getDownloadURL(columns));
 	},
 	getItems () {
 		return _items;
