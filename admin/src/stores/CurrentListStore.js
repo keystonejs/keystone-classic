@@ -8,16 +8,14 @@ var _ready = false;
 var _loading = false;
 var _items = {};
 
-var available = {
-	columns: _list.uiElements.map((col, i) => {
-		if (col.type === 'heading') {
-			return { type: 'heading', content: col.content };
-		} else {
-			var field = _list.fields[col.field];
-			return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
-		}
-	}).filter(i => i)
-};
+var columns = _list.uiElements.map((col, i) => {
+	if (col.type === 'heading') {
+		return { type: 'heading', content: col.content };
+	} else {
+		var field = _list.fields[col.field];
+		return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
+	}
+}).filter(i => i);
 
 var active = {
 	columns: expandColumns(_list.defaultColumns),
@@ -153,7 +151,7 @@ var CurrentListStore = new Store({
 		return _list;
 	},
 	getAvailableColumns () {
-		return available.columns;
+		return columns;
 	},
 	getActiveColumns () {
 		return active.columns;
@@ -178,18 +176,31 @@ var CurrentListStore = new Store({
 		this.loadItems();
 		this.notifyChange();
 	},
-	getAvailableFilters () {
-		return available.filters;
-	},
 	getActiveFilters () {
 		return active.filters;
 	},
-	addFilter (filter) {
-		active.filters.push(filter);
+	getFilter (path) {
+		return active.filters.filter(i => i.field.path === path)[0];
+	},
+	setFilter (path, value) {
+		let filter = active.filters.filter(i => i.field.path === path)[0];
+		if (filter) {
+			filter.value = value;
+		} else {
+			let field = _list.fields[path];
+			if (!field) {
+				console.warn('Invalid Filter path specified:', path);
+				return;
+			}
+			filter = { field, value };
+			active.filters.push(filter);
+		}
 		this.loadItems();
 		this.notifyChange();
 	},
-	removeFilter (filter) {
+	clearFilter (path) {
+		var filter = active.filters.filter(i => i.field.path === path)[0];
+		if (!filter) return;
 		active.filters.splice(active.filters.indexOf(filter), 1);
 		this.loadItems();
 		this.notifyChange();
@@ -254,7 +265,7 @@ var CurrentListStore = new Store({
 });
 
 // CurrentListStore.addFilter({
-// 	field: available.columns.filter((i) => {
+// 	field: columns.filter((i) => {
 // 		return i.field && i.field.path === 'isAdmin';
 // 	})[0].field,
 // 	value: { value: true }
