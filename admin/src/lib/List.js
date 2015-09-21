@@ -144,7 +144,7 @@ List.prototype.loadItems = function (options, callback) {
 		}
 		callback(null, body);
 	});
-}
+};
 
 List.prototype.deleteItem = function (item, callback) {
 	var url = '/keystone/api/' + this.path + '/' + item.id + '/delete';
@@ -163,6 +163,6 @@ List.prototype.deleteItem = function (item, callback) {
 		}
 		callback(null, body);
 	});
-}
+};
 
 module.exports = List;
