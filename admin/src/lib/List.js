@@ -1,4 +1,5 @@
 var listToArray = require('list-to-array');
+var xhr = require('xhr');
 
 function getColumns (options) {
 	return options.uiElements.map((col, i) => {
@@ -102,18 +103,6 @@ List.prototype.getSortString = function (sort) {
 	}).filter(i => i).join(',');
 };
 
-List.prototype.buildQueryString = function (options) {
-	var parts = [];
-	parts.push(options.search ? 'search=' + options.search : '');
-	parts.push(options.filters.length ? 'filters=' + JSON.stringify(this.getFilters(options.filters)) : '');
-	parts.push('select=' + options.columns.map(i => i.path).join(','));
-	parts.push('limit=' + options.page.size);
-	parts.push(options.page.index > 1 ? 'skip=' + ((options.page.index - 1) * options.page.size) : '');
-	parts.push('expandRelationshipFields=true');
-	parts.push('sort=' + this.getSortString(options.sort));
-	return '?' + parts.filter(i => i).join('&');
-};
-
 List.prototype.getDownloadURL = function (options) {
 	var url = '/keystone/api/' + this.path;
 	var parts = [];
@@ -127,5 +116,53 @@ List.prototype.getDownloadURL = function (options) {
 	parts.push('sort=' + this.getSortString(options.sort));
 	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
 };
+
+List.prototype.buildQueryString = function (options) {
+	var parts = [];
+	parts.push(options.search ? 'search=' + options.search : '');
+	parts.push(options.filters.length ? 'filters=' + JSON.stringify(this.getFilters(options.filters)) : '');
+	parts.push('select=' + options.columns.map(i => i.path).join(','));
+	parts.push('limit=' + options.page.size);
+	parts.push(options.page.index > 1 ? 'skip=' + ((options.page.index - 1) * options.page.size) : '');
+	parts.push('expandRelationshipFields=true');
+	parts.push('sort=' + this.getSortString(options.sort));
+	return '?' + parts.filter(i => i).join('&');
+};
+
+List.prototype.loadItems = function (options, callback) {
+	var url = '/keystone/api/' + this.path + this.buildQueryString(options);
+	xhr({
+		url: url
+	}, (err, resp, body) => {
+		if (err) return callback(err);
+		// TODO: check resp.statusCode
+		try {
+			body = JSON.parse(body);
+		} catch (e) {
+			console.log('Error parsing results json:', e, body);
+			return callback(e);
+		}
+		callback(null, body);
+	});
+}
+
+List.prototype.deleteItem = function (item, callback) {
+	var url = '/keystone/api/' + this.path + '/' + item.id + '/delete';
+	xhr({
+		url: url,
+		method: 'POST',
+		headers: Keystone.csrf.header
+	}, (err, resp, body) => {
+		if (err) return callback(err);
+		// TODO: check resp.statusCode
+		try {
+			body = JSON.parse(body);
+		} catch(e) {
+			console.log('Error parsing results json:', e, body);
+			return callback(e);
+		}
+		callback(null, body);
+	});
+}
 
 module.exports = List;

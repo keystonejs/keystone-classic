@@ -2,7 +2,6 @@ var listToArray = require('list-to-array');
 var Store = require('store-prototype');
 var utils = require('../utils');
 var List = require('../lib/List');
-var xhr = require('xhr');
 
 var _list = new List(Keystone.list);
 var _ready = false;
@@ -23,16 +22,6 @@ function defaultPage () {
 		size: 100,
 		index: 1
 	};
-}
-
-function buildQueryString () {
-	return _list.buildQueryString({
-		search: active.search,
-		filters: active.filters,
-		sort: active.sort,
-		columns: active.columns,
-		page: page
-	});
 }
 
 var CurrentListStore = new Store({
@@ -112,21 +101,29 @@ var CurrentListStore = new Store({
 	},
 	loadItems () {
 		_loading = true;
-		var url = '/keystone/api/' + _list.path + buildQueryString();
-		xhr({
-			url: url
-		}, (err, resp, body) => {
-			// TODO: check resp.statusCode
+		_list.loadItems({
+			search: active.search,
+			filters: active.filters,
+			sort: active.sort,
+			columns: active.columns,
+			page: page
+		}, (err, items) => {
 			_loading = false;
-			try {
-				body = JSON.parse(body);
-			} catch(e) {
-				console.log('Error parsing results json:', e, body);
-				return;
+			// TODO: graceful error handling
+			if (items) {
+				_ready = true;
+				_items = items;
 			}
-			_ready = true;
-			_items = body;
 			this.notifyChange();
+		});
+	},
+	getItems () {
+		return _items;
+	},
+	deleteItem (item) {
+		_list.deleteItem(item, (err, data) => {
+			// TODO: graceful error handling
+			this.loadItems();
 		});
 	},
 	downloadItems (format, columns) {
@@ -138,25 +135,6 @@ var CurrentListStore = new Store({
 			format: format
 		});
 		window.open(url);
-	},
-	getItems () {
-		return _items;
-	},
-	deleteItem (item) {
-		var url = '/keystone/api/' + _list.path + '/' + item.id + '/delete';
-		xhr({
-			url: url,
-			method: 'POST',
-			headers: Keystone.csrf.header
-		}, (err, resp, body) => {
-			try {
-				body = JSON.parse(body);
-			} catch(e) {
-				console.log('Error parsing results json:', e, body);
-				return;
-			}
-			this.loadItems();
-		});
 	}
 });
 
