@@ -1,24 +1,20 @@
 var listToArray = require('list-to-array');
 var xhr = require('xhr');
 
-function getColumns (options) {
-	return options.uiElements.map((col, i) => {
+function getColumns (list) {
+	return list.uiElements.map((col, i) => {
 		if (col.type === 'heading') {
 			return { type: 'heading', content: col.content };
 		} else {
-			var field = options.fields[col.field];
+			var field = list.fields[col.field];
 			return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
 		}
 	}).filter(i => i);
 }
 
 const List = function (options) {
-	this.columns = getColumns(options);
-	this.fields = options.fields;
-	this.path = options.path;
-	this.namePath = options.namePath;
-	this.defaultSort = options.defaultSort;
-	this.sortable = options.sortable;
+	Object.assign(this, options);
+	this.columns = getColumns(this);
 };
 
 List.prototype.expandColumns = function (input) {
