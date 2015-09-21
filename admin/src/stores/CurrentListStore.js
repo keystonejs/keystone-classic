@@ -25,14 +25,6 @@ function defaultPage () {
 	};
 }
 
-function getFilters () {
-	return _list.getFilters(active.filters);
-}
-
-function getSortString () {
-	return _list.getSortString(active.sort);
-}
-
 function buildQueryString () {
 	return _list.buildQueryString({
 		search: active.search,
@@ -41,49 +33,6 @@ function buildQueryString () {
 		columns: active.columns,
 		page: page
 	});
-}
-
-function getDownloadURL (format, columns) {
-	return _list.getDownloadURL({
-		search: active.search,
-		filters: active.filters,
-		sort: active.sort,
-		columns: columns ? _list.expandColumns(columns) : active.columns,
-		format: format
-	});
-}
-
-function expandSort (input) {
-	var sort = {
-		rawInput: input || _list.defaultSort,
-		isDefaultSort: false
-	};
-	sort.input = sort.rawInput;
-	if (sort.input === '__default__') {
-		sort.isDefaultSort = true;
-		sort.input = _list.sortable ? 'sortOrder' : _list.namePath;
-	}
-	sort.paths = listToArray(sort.input).map(path => {
-		var invert = false;
-		if (path.charAt(0) === '-') {
-			invert = true;
-			path = path.substr(1);
-		}
-		var field = _list.fields[path];
-		if (!field) {
-			// TODO: Support arbitary document paths
-			console.warn('Invalid Sort specified:', path);
-			return;
-		}
-		return {
-			field: field,
-			type: field.type,
-			label: field.label,
-			path: field.path,
-			invert: invert
-		};
-	}).filter(i => i);
-	return sort;
 }
 
 var CurrentListStore = new Store({
@@ -167,7 +116,7 @@ var CurrentListStore = new Store({
 		xhr({
 			url: url
 		}, (err, resp, body) => {
-			// check resp.statusCode
+			// TODO: check resp.statusCode
 			_loading = false;
 			try {
 				body = JSON.parse(body);
@@ -180,8 +129,15 @@ var CurrentListStore = new Store({
 			this.notifyChange();
 		});
 	},
-	downloadItems (columns) {
-		window.open(_list.getDownloadURL(columns));
+	downloadItems (format, columns) {
+		var url = _list.getDownloadURL({
+			search: active.search,
+			filters: active.filters,
+			sort: active.sort,
+			columns: columns ? _list.expandColumns(columns) : active.columns,
+			format: format
+		});
+		window.open(url);
 	},
 	getItems () {
 		return _items;

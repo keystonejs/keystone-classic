@@ -86,7 +86,7 @@ List.prototype.expandSort = function (input) {
 		};
 	}).filter(i => i);
 	return sort;
-}
+};
 
 List.prototype.getFilters = function (filterArray) {
 	var filters = {};
@@ -94,25 +94,25 @@ List.prototype.getFilters = function (filterArray) {
 		filters[filter.field.path] = filter.value;
 	});
 	return filters;
-}
+};
 
 List.prototype.getSortString = function (sort) {
 	return sort.paths.map(i => {
 		return i.invert ? '-' + i.path : i.path;
 	}).filter(i => i).join(',');
-}
+};
 
 List.prototype.buildQueryString = function (options) {
 	var parts = [];
 	parts.push(options.search ? 'search=' + options.search : '');
-	parts.push(options.filters.length ? 'filters=' + JSON.stringify(getFilters()) : '');
+	parts.push(options.filters.length ? 'filters=' + JSON.stringify(this.getFilters(options.filters)) : '');
 	parts.push('select=' + options.columns.map(i => i.path).join(','));
 	parts.push('limit=' + options.page.size);
 	parts.push(options.page.index > 1 ? 'skip=' + ((options.page.index - 1) * options.page.size) : '');
 	parts.push('expandRelationshipFields=true');
 	parts.push('sort=' + this.getSortString(options.sort));
 	return '?' + parts.filter(i => i).join('&');
-}
+};
 
 List.prototype.getDownloadURL = function (options) {
 	var url = '/keystone/api/' + this.path;
@@ -126,6 +126,6 @@ List.prototype.getDownloadURL = function (options) {
 	parts.push('expandRelationshipFields=true');
 	parts.push('sort=' + this.getSortString(options.sort));
 	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
-}
+};
 
 module.exports = List;
