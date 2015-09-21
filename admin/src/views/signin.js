@@ -80,7 +80,7 @@ var SigninView = React.createClass({
 		return (
 			<div className="auth-box__col">
 				<div className="auth-box__brand">
-					<a href='/' className="auth-box__brand__logo">
+					<a href="/" className="auth-box__brand__logo">
 						<img src={logo.src} width={logo.width ? logo.width : null} height={logo.height ? logo.height : null} alt={this.props.brand} />
 					</a>
 				</div>

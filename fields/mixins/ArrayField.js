@@ -69,7 +69,7 @@ module.exports = {
 	renderItem: function(item, index) {
 		return (
 			<FormField key={item.key}>
-				<FormInput ref={'item_' + (index + 1)} name={this.props.path} value={item.value} onChange={this.updateItem.bind(this, item)} autoComplete='off' />
+				<FormInput ref={'item_' + (index + 1)} name={this.props.path} value={item.value} onChange={this.updateItem.bind(this, item)} autoComplete="off" />
 				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
 					<span className="octicon octicon-x" />
 				</Button>

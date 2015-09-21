@@ -6,7 +6,7 @@ var S3FileColumn = React.createClass({
 		var isVal = value.url ? value.url : null;
 		return (
 			<td className="ItemList__col">
-				<div className="ItemList__value ItemList__value--s3-file"><a href={isVal} target='_blank'>{ isVal }</a></div>
+				<div className="ItemList__value ItemList__value--s3-file"><a href={isVal} target="_blank">{ isVal }</a></div>
 			</td>
 		);
 	}
