@@ -143,4 +143,28 @@ var CurrentListStore = new Store({
 	}
 });
 
+
+var filtersFromUrlParams = function () {
+	// Pick simple filters from url params
+	// i.e. ?title={"mode":"contains","inverted":false,"value":"aaa"}
+	// TODO: this should use react-router, or something pretty to parse
+	var filters = [];
+	var qs = _.object(
+		_.compact(
+			_.map(
+				location.search.slice(1).split('&'),
+				function(item) { if (item) return item.split('='); }
+			)
+		)
+	);
+	if (qs) {
+		for (var field in qs) {
+			var value = qs[field];
+			CurrentListStore.setFilter(field, JSON.parse(decodeURIComponent(value)));
+		}
+	}
+}
+filtersFromUrlParams();
+
+
 module.exports = CurrentListStore;
