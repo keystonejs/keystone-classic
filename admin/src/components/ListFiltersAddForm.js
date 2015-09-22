@@ -1,9 +1,9 @@
 var React = require('react');
 var classNames = require('classnames');
 
+var CurrentListStore = require('../stores/CurrentListStore');
 var filters = require('../filters');
 var Popout = require('./Popout');
-
 var { Button } = require('elemental');
 
 var ListFiltersAddForm = React.createClass({
@@ -15,8 +15,13 @@ var ListFiltersAddForm = React.createClass({
 	},
 
 	getInitialState () {
-		var filterComponent = filters[this.props.field.type];
-		var filterValue = filterComponent && filterComponent.getDefaultValue ? filterComponent.getDefaultValue() : {};
+		let filterComponent = filters[this.props.field.type];
+		let filterValue = CurrentListStore.getFilter(this.props.field.path);
+		if (filterValue) {
+			filterValue = filterValue.value;
+		} else {
+			filterValue = filterComponent && filterComponent.getDefaultValue ? filterComponent.getDefaultValue() : {};
+		}
 		return {
 			filterComponent: filterComponent,
 			filterValue: filterValue

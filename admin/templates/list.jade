@@ -21,7 +21,8 @@ html
 		include includes/script/keystone
 		include includes/script/components
 		script.
-			Keystone.list = !{JSON.stringify(list.getOptions())};
+			Keystone.lists = !{JSON.stringify(lists)};
+			Keystone.list = Keystone.lists[!{JSON.stringify(list.key)}];
 			Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 			// Support for the POST-based create process
 			Keystone.showCreateForm = !{JSON.stringify(showCreateForm)};

@@ -4,8 +4,8 @@ import classnames from 'classnames';
 import Color from 'color';
 import E from '../constants';
 
-var Checkbox = React.createClass({
-	displayName: 'Checkbox',
+var Radio = React.createClass({
+	displayName: 'Radio',
 	propTypes: {
 		checked: React.PropTypes.bool,
 		onChange: React.PropTypes.func,
@@ -36,7 +36,7 @@ var Checkbox = React.createClass({
 		let checkedColor = Color('#3999fc');
 
 		let background = (checked && !readonly) ? checkedColor.hexString() : 'white';
-		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.15) rgba(0,0,0,0.1) rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.3) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
+		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.05) rgba(0,0,0,0.1) rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.3) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
 		let boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 0 rgba(0,0,0,0.06)';
 		let color = (checked && !readonly) ? 'white' : '#bbb';
 		let textShadow = (checked && !readonly) ? '0 1px 0 rgba(0,0,0,0.2)' : null;
@@ -68,11 +68,11 @@ var Checkbox = React.createClass({
 			background: background,
 			border: '1px solid',
 			borderColor: borderColor,
-			borderRadius: E.borderRadius.sm,
+			borderRadius: '50%',
 			boxShadow: boxShadow,
 			color: color,
 			display: 'inline-block',
-			fontSize: 14,
+			fontSize: 10,
 			height: 16,
 			lineHeight: '15px',
 			outline: 'none',
@@ -118,7 +118,7 @@ var Checkbox = React.createClass({
 		this.setState({ focus: pseudo });
 	},
 	handleChange () {
-		this.props.onChange(!this.props.checked);
+		this.props.onChange(this.props.value);
 	},
 	render () {
 		let { checked, readonly } = this.props;
@@ -127,7 +127,7 @@ var Checkbox = React.createClass({
 		props.style = this.getStyles();
 		props.ref = 'checkbox';
 		props.className = classnames('octicon', {
-			'octicon-check': checked,
+			'octicon-primitive-dot': checked,
 			'octicon-x': (typeof checked === 'boolean') && !checked && readonly,
 		});
 		props.type = readonly ? null : 'button';
@@ -150,4 +150,4 @@ var Checkbox = React.createClass({
 	}
 });
 
-module.exports = Checkbox;
+module.exports = Radio;

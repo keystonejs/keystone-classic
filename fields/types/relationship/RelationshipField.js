@@ -138,7 +138,7 @@ module.exports = Field.create({
 	},
 
 	renderLoadingUI () {
-		return <div className='help-block'>loading...</div>;
+		return <div className="help-block">loading...</div>;
 	},
 
 	updateValue (simpleValue, expandedValues) {
@@ -175,7 +175,7 @@ module.exports = Field.create({
 			return this.renderLoadingUI();
 		}
 		let button = (!this.props.many && this.props.value) ? (
-			<Button key="relational-button" type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='keystone-relational-button' title={'Go to "' + this.state.expandedValues[0].label + '"'}>
+			<Button key="relational-button" type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className="keystone-relational-button" title={'Go to "' + this.state.expandedValues[0].label + '"'}>
 				<span className="octicon octicon-file-symlink-file" />
 			</Button>
 		) : null;

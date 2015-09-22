@@ -102,14 +102,14 @@ module.exports = Field.create({
 
 		if (this.hasFile() && !this.state.removeExisting) {
 			values = (
-				<div className='file-values'>
+				<div className="file-values">
 					<FormInput noedit>{this.getFilename()}</FormInput>
 				</div>
 			);
 		}
 
 		return (
-			<div key={this.props.path + '_details'} className='file-details'>
+			<div key={this.props.path + '_details'} className="file-details">
 				{values}
 				{add}
 			</div>
@@ -176,8 +176,8 @@ module.exports = Field.create({
 
 	renderFileToolbar () {
 		return (
-			<div key={this.props.path + '_toolbar'} className='file-toolbar'>
-				<div className='u-float-left'>
+			<div key={this.props.path + '_toolbar'} className="file-toolbar">
+				<div className="u-float-left">
 					<Button onClick={this.changeFile}>
 						{this.hasFile() ? 'Change' : 'Upload'} File
 					</Button>
