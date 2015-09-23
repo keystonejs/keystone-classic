@@ -26,7 +26,7 @@ util.inherits(number, FieldType);
 number.prototype.addFilterToQuery = function(filter, query) {
 	query = query || {};
 	if (filter.mode === 'equals' && !filter.value) {
-		query[this.path] = filter.invert ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
+		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
 		return;
 	}
 	if (filter.mode === 'between') {
