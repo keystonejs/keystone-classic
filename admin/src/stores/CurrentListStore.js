@@ -83,6 +83,11 @@ var CurrentListStore = new Store({
 		this.loadItems();
 		this.notifyChange();
 	},
+	clearAllFilters () {
+		active.filters = [];
+		this.loadItems();
+		this.notifyChange();
+	},
 	getPageSize () {
 		return page.size;
 	},
