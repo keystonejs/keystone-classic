@@ -143,11 +143,4 @@ var CurrentListStore = new Store({
 	}
 });
 
-// CurrentListStore.addFilter({
-// 	field: columns.filter((i) => {
-// 		return i.field && i.field.path === 'isAdmin';
-// 	})[0].field,
-// 	value: { value: true }
-// });
-
 module.exports = CurrentListStore;
