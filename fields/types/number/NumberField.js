@@ -7,7 +7,7 @@ module.exports = Field.create({
 	displayName: 'NumberField',
 
 	valueChanged (event) {
-		var newValue = event.target.value.replace(/[^\d\.]/g, '');
+		var newValue = event.target.value.replace(/[^-\d\.]/g, '');
 		if (newValue === this.props.value) return;
 		this.props.onChange({
 			path: this.props.path,
