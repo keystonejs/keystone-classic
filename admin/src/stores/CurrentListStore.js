@@ -163,7 +163,7 @@ var filtersFromUrlParams = function () {
 			CurrentListStore.setFilter(field, JSON.parse(decodeURIComponent(value)));
 		}
 	}
-}
+};
 filtersFromUrlParams();
 
 

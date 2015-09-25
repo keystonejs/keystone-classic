@@ -13,14 +13,14 @@ const SecondaryNavigation = require('../components/SecondaryNavigation');
 const { Container, Spinner } = require('elemental');
 
 var RelatedItemsList = React.createClass({
-		render () {
-			var json = JSON.stringify(Keystone.list.relationships, null, '  ');
-			return (
-				<span>
-					{json}
-				</span>
-			)
-		}
+	render () {
+		var json = JSON.stringify(Keystone.list.relationships, null, '  ');
+		return (
+			<span>
+				{json}
+			</span>
+		);
+	}
 });
 
 
@@ -60,21 +60,22 @@ var ItemView = React.createClass({
 			createIsOpen: visible
 		});
 	},
-	
+
 	renderRelationships () {
 		var relationships = [];
 		for (var relName in this.props.list.relationships) {
 			relationships.push(this.props.list.relationships[relName]);
 		}
-		var self = this;
-		relationships = relationships.map(function (relationship) {
+		relationships = relationships.map((relationship) => {
 			var unusedForNow = (
-				<RelatedItemsList relationship={relationship} relatedItemId={self.props.itemId} />
+				<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
 			);
 			var filter = JSON.stringify({
-				match: "exact", inverted: "false", value: self.props.itemId
+				match: 'exact',
+				inverted: 'false',
+				value: this.props.itemId
 			});
-			var link = "/keystone/" + relationship.ref + "?" + relationship.refPath + "=" + filter;
+			var link = '/keystone/' + relationship.ref + '?' + relationship.refPath + '=' + filter;
 			return (
 				<ul>
 					<li>{relationship.path} ({relationship.ref} list) <a href={link}>visit</a>
