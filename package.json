@@ -20,6 +20,7 @@
     "blacklist": "^1.1.2",
     "bluebird": "^2.10.0",
     "body-parser": "^1.14.0",
+    "browserify": "^11.1.0",
     "browserify-shim": "^3.8.10",
     "bytes": "^2.1.0",
     "caller-id": "^0.1.0",
@@ -76,7 +77,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^4.1.3",
-    "browserify": "^11.1.0",
     "codeclimate-test-reporter": "0.1.1",
     "disc": "^1.3.2",
     "eslint": "^1.5.0",
