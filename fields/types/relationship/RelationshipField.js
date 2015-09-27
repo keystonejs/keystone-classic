@@ -64,8 +64,7 @@ module.exports = Field.create({
 				.get('/keystone/api/' + self.props.refList.path + '/' + input + '?simple')
 				.set('Accept', 'application/json')
 				.end(function (err, res) {
-					if (err) throw err;
-
+					if (err && err.status !== 404) throw err;
 					var value = res.body;
 					_.findWhere(expandedValues, { value: value.id }).label = value.name;
 
