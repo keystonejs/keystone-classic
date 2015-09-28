@@ -61,8 +61,8 @@ var EditForm = React.createClass({
 
 	renderNameField () {
 
-		var nameField = this.props.list.nameField,
-			nameIsEditable = this.props.list.nameIsEditable;
+		var nameField = this.props.list.nameField;
+		var nameIsEditable = this.props.list.nameIsEditable;
 
 		function wrapNameField(field) {
 			return (
@@ -97,8 +97,8 @@ var EditForm = React.createClass({
 
 	renderFormElements () {
 
-		var elements = {},
-			headings = 0;
+		var elements = {};
+		var headings = 0;
 
 		this.props.list.uiElements.map((el) => {
 
@@ -110,8 +110,8 @@ var EditForm = React.createClass({
 
 			} else if (el.type === 'field') {
 
-				var field = this.props.list.fields[el.field],
-					props = this.getFieldProps(field);
+				var field = this.props.list.fields[el.field];
+				var props = this.getFieldProps(field);
 
 
 				if ('function' !== typeof Fields[field.type]) {
@@ -170,9 +170,9 @@ var EditForm = React.createClass({
 
 		if (!this.props.list.tracking) return null;
 
-		var elements = {},
-			data = {},
-			label;
+		var elements = {};
+		var data = {};
+		var label;
 
 		if (this.props.list.tracking.createdAt) {
 			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
