@@ -26,27 +26,24 @@ util.inherits(number, FieldType);
 number.prototype.addFilterToQuery = function(filter, query) {
 	query = query || {};
 	if (filter.mode === 'equals' && !filter.value) {
-		query[this.path] = filter.invert ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
+		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
 		return;
 	}
 	if (filter.mode === 'between') {
 		var min = utils.number(value.min);
 		var max = utils.number(value.max);
 		if (!isNaN(min) && !isNaN(max)) {
-			query[this.path] = {
-				$gte: min,
-				$lte: max
-			};
+			query[this.path] = filter.inverted ? { $gte: max, $lte: min } : { $gte: min, $lte: max };
 		}
 		return;
 	}
 	var value = utils.number(filter.value);
 	if (!isNaN(value)) {
 		if (filter.mode === 'gt') {
-			query[this.path] = { $gt: value };
+			query[this.path] = filter.inverted ? { $lt: value } : { $gt: value };
 		}
 		else if (filter.mode === 'lt') {
-			query[this.path] = { $lt: value };
+			query[this.path] = filter.inverted ? { $gt: value } : { $lt: value };
 		}
 		else {
 			query[this.path] = value;

@@ -83,11 +83,8 @@ const ListFilters = React.createClass({
 			filters: CurrentListStore.getActiveFilters()
 		};
 	},
-	handleFilterClick (filter) {
-		return console.log('clicked:', filter);
-	},
 	clearAllFilters () {
-		// TODO
+		CurrentListStore.clearAllFilters();
 	},
 	render () {
 		if (!this.state.filters.length) return <div />;

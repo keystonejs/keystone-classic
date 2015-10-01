@@ -12,6 +12,18 @@ const SecondaryNavigation = require('../components/SecondaryNavigation');
 
 const { Container, Spinner } = require('elemental');
 
+var RelatedItemsList = React.createClass({
+	render () {
+		var json = JSON.stringify(Keystone.list.relationships, null, '  ');
+		return (
+			<span>
+				{json}
+			</span>
+		);
+	}
+});
+
+
 var ItemView = React.createClass({
 
 	displayName: 'ItemView',
@@ -47,6 +59,36 @@ var ItemView = React.createClass({
 		this.setState({
 			createIsOpen: visible
 		});
+	},
+
+	renderRelationships () {
+		var relationships = [];
+		for (var relName in this.props.list.relationships) {
+			relationships.push(this.props.list.relationships[relName]);
+		}
+		relationships = relationships.map((relationship) => {
+			var unusedForNow = (
+				<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
+			);
+			var filter = JSON.stringify({
+				match: 'exact',
+				inverted: 'false',
+				value: this.props.itemId
+			});
+			var link = '/keystone/' + relationship.ref + '?' + relationship.refPath + '=' + filter;
+			return (
+				<ul>
+					<li>{relationship.path} ({relationship.ref} list) <a href={link}>visit</a>
+					</li>
+				</ul>
+			);
+		});
+		return (
+			<Container>
+				<h4>Relationships</h4>
+				{relationships}
+			</Container>
+		);
 	},
 
 	render () {
@@ -86,6 +128,7 @@ var ItemView = React.createClass({
 						<EditForm
 							list={this.props.list}
 							data={this.state.itemData} />
+						{ this.renderRelationships() }
 						{/*
 						TODO:
 							New component for item relationships:

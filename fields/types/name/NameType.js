@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var FieldType = require('../Type');
 var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * Name FieldType Constructor
@@ -66,6 +67,45 @@ name.prototype.getSortString = function(options) {
 		return '-' + this.paths.first + ' -' + this.paths.last;
 	}
 	return this.paths.first + ' ' + this.paths.last;
+};
+
+/**
+ * Add filters to a query
+ *
+ * TODO: this filter will conflict with any other $or filter, including filters
+ * on other "name" type fields; need to work out a better way to implement.
+ */
+name.prototype.addFilterToQuery = function(filter, query) {
+	query = query || {};
+	if (filter.mode === 'exactly' && !filter.value) {
+		query[this.paths.first] = query[this.paths.last] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
+		return;
+	}
+	var value = utils.escapeRegExp(filter.value);
+	if (filter.mode === 'startsWith') {
+		value = '^' + value;
+	} else if (filter.mode === 'endsWith') {
+		value = value + '$';
+	} else if (filter.mode === 'exactly') {
+		value = '^' + value + '$';
+	}
+	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
+	if (filter.inverted) {
+		query[this.paths.first] = query[this.paths.last] = { $not: value };
+	} else {
+		var first = {}; first[this.paths.first] = value;
+		var last = {}; last[this.paths.last] = value;
+		var $or = [first, last];
+		if (query.$and) {
+			query.$and.push({ $or: $or });
+		} else if (query.$or) {
+			query.$and = [{ $or: query.$or }, { $or: $or }];
+			delete query.$or;
+		} else {
+			query.$or = $or;
+		}
+	}
+	return query;
 };
 
 /**

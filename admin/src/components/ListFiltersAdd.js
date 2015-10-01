@@ -13,52 +13,53 @@ function pluck(arr, key) {
 }
 
 var ListFiltersAdd = React.createClass({
-
 	displayName: 'ListFiltersAdd',
-
 	getDefaultProps () {
 		return {
 			maxHeight: 360
 		};
 	},
-
 	getInitialState () {
-		return this.getStateFromStore();
-	},
-
-	componentWillReceiveProps (nextProps) {
-		this.setState({ isOpen: nextProps.isOpen });
-	},
-
-	getStateFromStore () {
 		return {
-			activeFilters: CurrentListStore.getActiveFilters(),
-			availableFilters: CurrentListStore.getAvailableColumns(),
 			innerHeight: 0,
 			isOpen: false,
 			searchString: '',
 			selectedField: false,
+			...this.getStateFromStore()
 		};
 	},
-
+	componentDidMount () {
+		CurrentListStore.addChangeListener(this.updateStateFromStore);
+	},
+	componentWillReceiveProps (nextProps) {
+		this.setState({ isOpen: nextProps.isOpen });
+	},
+	componentWillUnmount () {
+		CurrentListStore.removeChangeListener(this.updateStateFromStore);
+	},
+	getStateFromStore () {
+		return {
+			activeFilters: CurrentListStore.getActiveFilters(),
+			availableFilters: CurrentListStore.getAvailableColumns()
+		};
+	},
+	updateStateFromStore () {
+		this.setState(this.getStateFromStore());
+	},
 	updateSearch (e) {
 		this.setState({ searchString: e.target.value });
 	},
-
 	openPopout () {
 		this.setState({
 			isOpen: true
 		}, this.focusSearch);
 	},
-
 	closePopout () {
 		this.setState({ isOpen: false, selectedField: false, searchString: '', innerHeight: 0 });
 	},
-
 	setPopoutHeight (height) {
 		this.setState({ innerHeight: Math.min(this.props.maxHeight, height) });
 	},
-
 	navigateBack () {
 		this.setState({
 			selectedField: false,
@@ -66,22 +67,18 @@ var ListFiltersAdd = React.createClass({
 			innerHeight: 0
 		}, this.focusSearch);
 	},
-
 	focusSearch () {
 		React.findDOMNode(this.refs.search).focus();
 	},
-
 	selectField (field) {
 		this.setState({
 			selectedField: field
 		});
 	},
-
 	applyFilter (value) {
 		CurrentListStore.setFilter(this.state.selectedField.path, value);
 		this.closePopout();
 	},
-
 	renderList () {
 		let activeFilterFields = pluck(this.state.activeFilters, 'field');
 		let activeFilterPaths = pluck(activeFilterFields, 'path');
@@ -123,7 +120,6 @@ var ListFiltersAdd = React.createClass({
 			</Popout.Pane>
 		);
 	},
-
 	renderForm () {
 		return (
 			<Popout.Pane onLayout={this.setPopoutHeight} key="form">
@@ -131,7 +127,6 @@ var ListFiltersAdd = React.createClass({
 			</Popout.Pane>
 		);
 	},
-
 	render () {
 		let { selectedField } = this.state;
 		let popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
@@ -159,7 +154,6 @@ var ListFiltersAdd = React.createClass({
 			</InputGroup.Section>
 		);
 	}
-
 });
 
 module.exports = ListFiltersAdd;

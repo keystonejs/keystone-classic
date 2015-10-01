@@ -77,7 +77,7 @@ module.exports = function(file, name) {
 			b.exclude(i);
 		});
 		if (devMode) {
-			b = watchify(b);
+			b = watchify(b, { poll: 500 });
 		}
 		b.bundle(function(err, buff) {
 			if (err) return logError(file, err);
