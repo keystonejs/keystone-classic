@@ -61,7 +61,7 @@ var PrimaryNavigation = React.createClass({
 			<PrimaryNavItem href="/" title={'Front page - ' + this.props.brand}>
 						<span className="octicon octicon-eye" />
 				</PrimaryNavItem>
-		)
+		);
 	},
 	renderBrand () {
 		// TODO: support navbarLogo from keystone config
