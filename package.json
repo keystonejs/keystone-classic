@@ -72,22 +72,8 @@
     "superagent": "^1.4.0",
     "underscore": "^1.8.3",
     "vkey": "^1.0.0",
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "watchify": "^3.2.3",
-    "mongoose-simple-random": "^0.3.2"
-=======
-    "watchify": "^3.3.1",
-    "xhr": "^2.0.3"
->>>>>>> keystonejs/master
-=======
     "watchify": "^3.4.0",
-<<<<<<< HEAD
-    "xhr": "^2.0.4"
->>>>>>> keystonejs/master
-=======
     "xhr": "^2.1.0"
->>>>>>> keystonejs/master
   },
   "devDependencies": {
     "babel-eslint": "^4.1.3",
