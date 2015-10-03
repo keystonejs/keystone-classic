@@ -24,8 +24,8 @@ function location(list, path, options) {
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
 	this._fixedSize = 'full';
 
-	this.enableMapsAPI = keystone.get('google api key') ? true : false;
-	
+	this.enableMapsAPI = (options.geocodeGoogle===true || (options.geocodeGoogle !== false && keystone.get('google server api key'))) ? true : false;
+
 	this._properties = ['enableMapsAPI'];
 
 	if (!options.defaults) {
@@ -195,18 +195,18 @@ location.prototype.isModified = function(item) {
  */
 
 location.prototype.validateInput = function(data, required, item) {
-	
+
 	if (!required) {
 		return true;
 	}
-	
+
 	var paths = this.paths,
 		nested = this._path.get(data),
 		values = nested || data,
 		valid = true;
-	
+
 	this.requiredPaths.forEach(function(path) {
-		
+
 		if (nested) {
 			if (!(path in values) && item && item.get(paths[path])) {
 				return;
@@ -222,11 +222,11 @@ location.prototype.validateInput = function(data, required, item) {
 				valid = false;
 			}
 		}
-		
+
 	});
-	
+
 	return valid;
-	
+
 };
 
 
@@ -244,7 +244,7 @@ location.prototype.updateItem = function(item, data) {
 		valueKeys = fieldKeys.concat(geoKeys),
 		valuePaths = valueKeys,
 		values = this._path.get(data);
-	
+
 	if (!values) {
 		// Handle flattened values
 		valuePaths = valueKeys.map(function(i) {
@@ -252,10 +252,10 @@ location.prototype.updateItem = function(item, data) {
 		});
 		values = _.pick(data, valuePaths);
 	}
-	
+
 	// convert valuePaths to a map for easier usage
 	valuePaths = _.object(valueKeys, valuePaths);
-	
+
 	var setValue = function(key) {
 		if (valuePaths[key] in values && values[valuePaths[key]] !== item.get(paths[key])) {
 			item.set(paths[key], values[valuePaths[key]] || null);
@@ -266,8 +266,12 @@ location.prototype.updateItem = function(item, data) {
 
 	if (valuePaths.geo in values) {
 
-		var oldGeo = item.get(paths.geo) || [],
-			newGeo = values[valuePaths.geo];
+		var oldGeo = item.get(paths.geo) || [];
+		if (oldGeo.length > 1) {
+			oldGeo[0] = item.get(paths.geo)[1];
+			oldGeo[1] = item.get(paths.geo)[0];
+		}
+		var newGeo = values[valuePaths.geo];
 
 		if (!Array.isArray(newGeo) || newGeo.length !== 2) {
 			newGeo = [];
@@ -368,6 +372,10 @@ function doGoogleGeocodeRequest(address, region, callback) {
 		options.region = region;
 	}
 
+	if (keystone.get('google server api key')){
+		options.key = keystone.get('google server api key');
+	}
+
 	var endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?' + querystring.stringify(options);
 
 	https.get(endpoint, function(res) {
@@ -382,7 +390,7 @@ function doGoogleGeocodeRequest(address, region, callback) {
 					result = JSON.parse(dataBuff);
 				}
 				catch (exp) {
-					result = {'status_code': 500, 'status_text': 'JSON Parse Failed', 'status': 'UNKNOWN_ERROR'};
+					result = { 'status_code': 500, 'status_text': 'JSON Parse Failed', 'status': 'UNKNOWN_ERROR' };
 				}
 				callback(null, result);
 			});
@@ -417,13 +425,13 @@ location.prototype.googleLookup = function(item, region, update, callback) {
 		address = item.get(this.paths.serialised);
 
 	if (address.length === 0) {
-		return callback({'status_code': 500, 'status_text': 'No address to geocode', 'status': 'NO_ADDRESS'});
+		return callback({ 'status_code': 500, 'status_text': 'No address to geocode', 'status': 'NO_ADDRESS' });
 	}
 
 	doGoogleGeocodeRequest(address, region || keystone.get('default region'), function(err, geocode){
 
 		if (err || geocode.status !== 'OK') {
-			return callback(err);
+			return callback(err || new Error(geocode.status + ': ' + geocode.error_message));
 		}
 
 		// use the first result
@@ -509,9 +517,10 @@ function calculateDistance(point1, point2) {
 	var lat1 = (point1[1]) * Math.PI / 180;
 	var lat2 = (point2[1]) * Math.PI / 180;
 
+	/* eslint-disable space-infix-ops */
 	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLng/2) * Math.sin(dLng/2) * Math.cos(lat1) * Math.cos(lat2);
 	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
+	/* eslint-enable space-infix-ops */
 	return c;
 
 }

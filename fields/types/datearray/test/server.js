@@ -45,13 +45,13 @@ exports.testFieldType = function(List) {
 	
 	it('should invalidate arrays with invalid dates', function() {
 		demand(List.fields.datearr.validateInput({
-			datearr: '35-02-2001'
+			datearr: 'not a real date'
 		})).be(false);
 		demand(List.fields.datearr.validateInput({
-			datearr: ['35-02-2001']
+			datearr: ['2001-01-35']
 		})).be(false);
 		demand(List.fields.datearr.validateInput({
-			datearr: ['35-02-2001', '81-02-0000']
+			datearr: ['35-34-3210', '2001-01-01']
 		})).be(false);
 	});
 

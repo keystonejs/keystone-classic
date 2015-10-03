@@ -1,0 +1,193 @@
+//
+// Cloudinary Image
+// ==============================
+
+
+
+
+// Common
+// ------------------------------
+
+.field-upload {
+	position: absolute;
+	left: -9999px;
+}
+.field-type-cloudinaryimage {
+
+	// give values some breathing room
+	.FormInput-noedit {
+		margin-bottom: 10px;
+	}
+}
+
+// cover the image with an icon to indicate pending change
+.field-type-cloudinaryimage,
+.field-type-cloudinaryimages {
+	.img-loading,
+	.img-uploading,
+	.upload-pending,
+	.delete-pending {
+		bottom: @thumbnail-gutter-width;
+		background-color: rgba(0, 0, 0, 0.5);
+		color: white;
+		left: @thumbnail-gutter-width;
+		line-height: 90px;
+		position: absolute;
+		right: @thumbnail-gutter-width;
+		text-align: center;
+		top: @thumbnail-gutter-width;
+	}
+}
+
+
+
+
+// Singular
+// ------------------------------
+
+.field-type-cloudinaryimage {
+	.image-preview {
+		position: relative;
+		line-height: 0px;
+		float: left;
+		margin-right: 10px;
+
+		.placeholder-wrap {
+			position: relative;
+			height: 100px;
+			overflow: hidden;
+
+			.placeholder {
+				height: 90px;
+				opacity: 0.25;
+
+				&.no-preview {
+					width: 100px;
+					display: block;
+				}
+			}
+		}
+	}
+
+	.image-details {
+		overflow: hidden;
+
+		.image-message {
+			font-size: 12px;
+			margin-left: 0px;
+			text-align: center;
+			width: 100%;
+		}
+
+		& + .image-toolbar {
+			margin-top: @input-vspacing;
+		}
+	}
+
+	.image-toolbar {
+		&:extend(.u-clearfix all);
+	}
+
+	.image-select {
+		clear: both;
+		padding-top: 10px;
+	}
+}
+
+
+
+
+// Multiple
+// ------------------------------
+
+.field-type-cloudinaryimages {
+
+	// wrapper for image
+	.image-field {
+		float: left;
+		margin-bottom: 10px;
+		margin-right: 10px;
+	}
+
+	// drop zone
+	.image-field--upload {
+		cursor: pointer;
+
+		.img-thumbnail {
+			.img-dropzone {
+				width: 90px;
+				height: 90px;
+				display: block;
+				position: relative;
+				z-index: 1;
+			}
+		}
+		&:hover,
+		&.hover {
+			.img-thumbnail {
+				border: 1px solid #C8EECD;
+				background: #EFFDF0;
+				.img-uploading {
+					color: #0B851A;
+				}
+			}
+			.image-message {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	// anchor containing the image, and when applicable an icon
+	.image-preview {
+		line-height: 0;
+
+		.image-message {
+			margin-left: 0px;
+			font-size: 12px;
+			width: 110px;
+			text-align: center;
+			width: 100%;
+		}
+	}
+	.image-details {
+		.image-message {
+			display: inline-block;
+			padding: @padding-base-vertical @padding-base-horizontal;
+			margin-bottom: 0;
+			font-size: 12px;
+			font-weight: 500;
+			line-height: @line-height-base;
+			text-align: center;
+			vertical-align: middle;
+			white-space: nowrap;
+			margin-left: 0px;
+			font-size: 12px;
+			width: 100%;
+		}
+	}
+	.upload-queued,
+	.delete-queued {
+		margin-left: 10px;
+	}
+	.btn-cancel {
+		margin-left: 0px;
+		font-size: 12px;
+		width: 110px;
+		text-align: center;
+		width: 100%;
+	}
+
+	.images-container,
+	.images-toolbar {
+		&:extend(.u-clearfix all);
+	}
+	.sortable-placeholder {
+		border: 1px dashed #777;
+		background: none;
+		margin-top: 0px;
+		margin-left: 3px;
+		margin-right: 12px;
+		margin-bottom: 0px;
+		float: left;
+	}
+}

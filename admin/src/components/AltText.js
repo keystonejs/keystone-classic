@@ -1,11 +1,9 @@
-var React = require('react'),
-	vkey = require('vkey');
+import React from 'react';
+import blacklist from 'blacklist';
+import vkey from 'vkey';
 
 var AltText = React.createClass({
-	
-	displayName: 'AltText',
-	
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return {
 			component: 'span',
 			modifier: '<alt>',
@@ -13,41 +11,35 @@ var AltText = React.createClass({
 			modified: ''
 		};
 	},
-	
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			modified: false
 		};
 	},
-	
-	componentDidMount: function() {
+	componentDidMount () {
 		document.body.addEventListener('keydown', this.handleKeyDown, false);
 		document.body.addEventListener('keyup', this.handleKeyUp, false);
 	},
-	
-	handleKeyDown: function(e) {
+	componentWillUnmount () {
+		document.body.removeEventListener('keydown', this.handleKeyDown);
+		document.body.removeEventListener('keyup', this.handleKeyUp);
+	},
+	handleKeyDown (e) {
 		if (vkey[e.keyCode] !== this.props.modifier) return;
 		this.setState({
 			modified: true
 		});
 	},
-	
-	handleKeyUp: function(e) {
+	handleKeyUp (e) {
 		if (vkey[e.keyCode] !== this.props.modifier) return;
 		this.setState({
 			modified: false
 		});
 	},
-	
-	componentWillUnmount: function() {
-		document.body.removeEventListener('keydown', this.handleKeyDown);
-		document.body.removeEventListener('keyup', this.handleKeyUp);
-	},
-	
-	render: function() {
-		return React.createElement(this.props.component, null, this.state.modified ? this.props.modified : this.props.normal);
+	render () {
+		var props = blacklist(this.props, 'component', 'modifier', 'normal', 'modified');
+		return React.createElement(this.props.component, props, this.state.modified ? this.props.modified : this.props.normal);
 	}
-	
 });
 
 module.exports = AltText;

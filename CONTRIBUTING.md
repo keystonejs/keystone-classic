@@ -14,27 +14,22 @@ early and is a good way to discuss what you're planning to do.
 * If you open an issue and are interested in working on a fix, please let us
 know. We'll help you get started, rather than adding it to the queue.
 * Make sure you do not add regressions by running `npm test`. Please also
-[follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards) (with regards to formatting, etc)
-* You can also run `npm run lint` and `npm run style` - our linter is a WIP
+[follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards)
+(with regards to formatting, etc)
+* You can also run `npm run lint`
 but please ensure there are not more violations than before your changes.
-* All new features and changes need documentation. We have three translations,
-please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
-* **PRO TIP**: If you've opened an issue and have come up with a solution yourself, we prefer you to convert the already existing issue into a PR instead of opening a new one. This can be done with the [hub command line tool](https://github.com/github/hub)
-
-  Example:
-  ```sh
-  # convert issue 1239 into a pull-request sending all commits from `fix_hooks` branch in creynders'
-  # keystone fork to the `master` branch of the official repo
-  hub pull-request -i 1239 -b keystonejs/keystone:master -h creynders/keystone:fix_hooks
-  ```
+* All new features and changes need documentation. They live over at the  [Keystone-site](https://github.com/keystonejs/keystonejs-site) repo.
+* We have three translations so far,
+please read our [Documentation Translation  Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
 
 If you are working on the React Admin UI, you'll also need to know this:
 
-* The Admin UI is generated with Browserify by gulp. In development, run
-`gulp watch-scripts`. 
-* _Make sure you revert your build before submitting a PR_ to reduce the change
-of conflicts. `gulp build-scripts` is run after PRs are merged and before any
-releases are made.
+* The Admin UI is generated with Browserify when Keystone starts. To enable
+watching files, set the environment variable `KEYSTONE_DEV`, e.g
 
-If you'd like to talk to the core developers, we all hang out in a Slack channel
-to discuss Keystone. Ping @jedwatson to get an invite.
+```
+KEYSTONE_DEV=true node keystone.js
+```
+
+If you'd like to talk to the core developers, we all hang out in a Slack
+channel to discuss Keystone. Ping @jedwatson to get an invite.

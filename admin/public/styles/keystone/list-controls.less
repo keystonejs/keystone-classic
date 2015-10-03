@@ -1,0 +1,93 @@
+//
+// List Controls
+// ==============================
+
+
+
+
+// Cells
+// ------------------------------
+
+// needs the element qualifier to up the specificity :(
+
+td.ItemList__col--control {
+	padding: 0;
+}
+
+
+
+// Buttons
+// ------------------------------
+
+.ItemList__control {
+	.align-items(center);
+	.display-flex();
+	.justify-content(center);
+	.transition( color 140ms );
+	background: none;
+	border: none;
+	color: #ccc;
+	display: block;
+	height: round(@font-size-base + ((@table-padding * @font-size-base) * 2));
+	padding: 0;
+	position: relative;
+	text-align: center;
+	width: 26px;
+
+	&:hover,
+	&:focus,
+	&:active {
+		outline: none;
+	}
+
+	// explicit font-size (multiple of 16) + disable antialiasing stops blurring
+	// when viewport width is uneven e.g. "1283px"
+	> .octicon {
+		font-size: 16px;
+		-moz-osx-font-smoothing: none;
+		-webkit-font-smoothing: none;
+	}
+}
+
+
+// check control
+
+.ItemList__control--check {
+	&:hover,
+	&:focus {
+		color: @gray-light;
+	}
+
+	// active state
+	&.is-active {
+		color: @app-primary;
+	}
+}
+
+
+// delete control
+
+.ItemList__control--delete {
+	&:hover,
+	&:focus {
+		color: @app-danger;
+	}
+}
+
+
+// sortable control
+
+.ItemList__control--sortable {
+	cursor: hand;
+	cursor: -webkit-grab;
+	cursor: -moz-grab;
+
+	&:hover {
+		color: @text-color;
+	}
+	&:active {
+		color: @app-primary;
+		cursor: -webkit-grabbing;
+		cursor: -moz-grabbing;
+	}
+}

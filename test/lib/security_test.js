@@ -1,6 +1,6 @@
-var demand = require('must'),
-	sinon = require('sinon'),
-	csrf = require('../../lib/security/csrf');
+var demand = require('must');
+var sinon = require('sinon');
+var csrf = require('../../lib/security/csrf');
 
 var REQ = function(method) {
 	var rtn = {

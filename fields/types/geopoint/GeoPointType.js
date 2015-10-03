@@ -62,7 +62,10 @@ geopoint.prototype.getData = function(item) {
  */
 
 geopoint.prototype.format = function(item) {
-	return item.get(this.path).join(', ');
+	if (item.get(this.path)) {
+		return item.get(this.path).reverse().join(', ');	
+	}
+	return null;
 };
 
 
@@ -72,7 +75,7 @@ geopoint.prototype.format = function(item) {
  * @api public
  */
 
-geopoint.prototype.validateInput = function(data, required, item) {
+geopoint.prototype.validateInput = function(data, required, item) {//eslint-disable-line no-unused-vars
 	
 	var values = this.getValueFromData(data);
 

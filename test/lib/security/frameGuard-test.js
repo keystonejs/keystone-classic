@@ -1,10 +1,10 @@
-var keystone = require('../../..'),
-	demand = require('must'),
-	request = require('supertest'),
-	demand = require('must'),
-	getExpressApp = require('../../helpers/getExpressApp'),
-	app = getExpressApp(),
-	frameGuard = require('../../../lib/security/frameGuard');
+var keystone = require('../../..');
+var demand = require('must');
+var request = require('supertest');
+var demand = require('must');
+var getExpressApp = require('../../helpers/getExpressApp');
+var app = getExpressApp();
+var frameGuard = require('../../../lib/security/frameGuard');
 
 describe('Keystone "frame guard" setting', function () {
 	before(function() {

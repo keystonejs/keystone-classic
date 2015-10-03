@@ -1,0 +1,335 @@
+//
+// Popout
+// ==============================
+
+@popout-gutter:                     20px;
+@popout-arrow-size:                  8px;
+@popout-width:                     320px;
+
+@popout-pane-animation-duration:   360ms;
+@popout-pane-timing-function:      cubic-bezier(.36, .66, .04, 1);
+
+
+
+
+// Dialog
+// ------------------------------
+
+
+// base
+
+.Popout {
+	.animation-duration( 200ms );
+	.animation-timing-function( cubic-bezier(0.77, 0, 0.175, 1) );
+	.transition( ~"width 200ms, height 200ms" );
+	background-color: @dropdown-bg;
+	border-radius: @border-radius-base;
+	box-shadow: 0 0 0 1px rgba(0,0,0,.175), 0 3px 8px rgba(0,0,0,.175);
+	font-size: @font-size-base;
+	position: absolute;
+	width: @popout-width;
+	z-index: @zindex-modal;
+
+	.align-right & {
+		left: auto;
+		right: 0;
+	}
+}
+.Popout-enter {
+	.animation-name( popoutEnter );
+}
+.Popout-leave {
+	.animation-name( popoutLeave );
+}
+
+
+// forms inside popouts
+
+.Popout {
+	.FormField:last-child,
+	.FormRow {
+		margin-bottom: 0;
+	}
+	.FormLabel {
+		width: 100px;
+	}
+}
+
+
+// arrow
+
+.Popout__arrow {
+	left: 50%;
+	margin-left: -@popout-arrow-size;
+	margin-top: -@popout-arrow-size + 1;
+	position: absolute;
+
+	// common setup for shapes
+	&:before,
+	&:after {
+		border-left:  @popout-arrow-size solid transparent;
+		border-right: @popout-arrow-size solid transparent;
+		border-bottom: @popout-arrow-size dashed;
+		content: "";
+		display: inline-block;
+		height: 0;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 0;
+	}
+
+	// the white part of the arrow
+	&:before {
+		border-bottom-color: rgba(0, 0, 0, 0.2);
+		top: -1px;
+	}
+
+	// the shadow
+	&:after {
+		border-bottom-color: white;
+	}
+}
+
+
+// inner
+
+.Popout__inner {
+	overflow: hidden;
+}
+
+// fix height and scroll
+.Popout__scrollable-area {
+	max-height: @dropdown-menu-height;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+
+// panes
+
+.Popout__panes {
+	.transition( height @popout-pane-animation-duration );
+	position: relative;
+}
+.Popout__pane {
+	.animation-duration( @popout-pane-animation-duration );
+	.animation-timing-function( @popout-pane-timing-function );
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.Popout__pane-next-enter {
+	.animation-name( slideInFromRight );
+}
+.Popout__pane-next-leave {
+	.animation-name( slideOutToLeft );
+}
+.Popout__pane-prev-enter {
+	.animation-name( slideInFromLeft );
+}
+.Popout__pane-prev-leave {
+	.animation-name( slideOutToRight );
+}
+
+
+
+
+// Popout Layout
+// ------------------------------
+
+
+// header
+
+.Popout__header {
+	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+	// font-size: @font-size-sm;
+	font-weight: 500;
+	height: 3.4em;
+	overflow: hidden;
+	margin-left: @popout-gutter;
+	margin-right: @popout-gutter;
+	padding-bottom: .5em;
+	padding-top: .5em;
+	position: relative;
+	text-align: center;
+	z-index: 1; // above the scrollable area
+}
+.Popout__header__button {
+	background: white;
+	border: none;
+	color: @gray-light;
+	font-size: @font-size-base;
+	height: 2.4em;
+	left: 0;
+	padding: 0;
+	position: absolute;
+	outline: none;
+	width: 2.4em;
+	z-index: 2;
+	-webkit-appearance: none;
+
+	// handle mouse/keyboard interaction
+	&:hover  { color: @gray; }
+	&:active { color: @gray-dark; }
+	&:focus  { color: @app-primary; }
+
+	&::before {
+		font-size: 16px;
+	}
+}
+.Popout__header__label {
+	.animation-duration( @popout-pane-animation-duration );
+	.animation-timing-function( @popout-pane-timing-function );
+	display: block;
+	height: @component-height;
+	left: 0;
+	line-height: @component-height;
+	overflow: hidden;
+	padding-left: @component-height;
+	padding-right: @component-height;
+	position: absolute;
+	text-align: center;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+	z-index: 1;
+}
+.Popout__header__label-next-enter {
+	.animation-name( slideInFromRight );
+}
+.Popout__header__label-next-leave {
+	.animation-name( slideOutToLeft );
+}
+.Popout__header__label-prev-enter {
+	.animation-name( slideInFromLeft );
+}
+.Popout__header__label-prev-leave {
+	.animation-name( slideOutToRight );
+}
+
+
+// footer
+
+.Popout__footer {
+	&:extend(.u-clearfix all);
+	box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.1);
+	margin-left: @popout-gutter;
+	margin-right: @popout-gutter;
+	padding-bottom: .5em;
+	padding-top: .5em;
+	position: relative;
+	z-index: 1; // above the scrollable area
+}
+.Popout__footer__button {
+	background: none;
+	border: none;
+	line-height: 2.4em;
+	padding: 0 @popout-gutter;
+
+	&:hover,
+	&:focus {
+		outline: none;
+		text-decoration: underline;
+	}
+}
+.Popout__footer__button--primary  {
+	color: @app-primary;
+	float: left;
+	font-weight: 500;
+	margin-left: -@popout-gutter;
+}
+.Popout__footer__button--secondary {
+	color: @gray;
+	float: right;
+	margin-right: -@popout-gutter;
+}
+
+
+// body
+
+.Popout__body {
+	padding: @popout-gutter;
+}
+
+
+
+
+// Popout List
+// ------------------------------
+
+
+// item
+
+.PopoutList__item {
+	.transition( all 140ms );
+	.text-overflow();
+	background: #fafafa;
+	border: none;
+	border-radius: .25em;
+	color: @text-color;
+	display: block;
+	font-weight: normal;
+	padding: .5em 1em;
+	text-align: left;
+	width: 100%; // because we're using buttons, display block isn't enough
+	-webkit-appearance: none;
+
+	& + & {
+		margin-top: 3px;
+	}
+
+	&:hover,
+	&:focus {
+		.transition( none );
+		background-color: fade(@link-color, 10%);
+		color: @link-color;
+		outline: none;
+
+		.PopoutList__item__icon {
+			color: @link-color;
+		}
+	}
+
+	// selected filters
+	&.is-selected {
+		background-color: @link-color;
+		color: white;
+
+		.PopoutList__item__icon {
+			color: white;
+		}
+
+		&:focus {
+			outline: 1px dotted rgba(255, 255, 255, 0.75);
+			outline-offset: -3px;
+		}
+	}
+}
+
+
+// heading
+
+.PopoutList__heading {
+	font-size: @font-size-sm;
+	color: @gray-light;
+	font-weight: 500;
+	margin-bottom: 5px;
+	margin-top: 2em;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+
+// icon
+
+.PopoutList__item__icon {
+	color: fade(@text-color, 40%);
+	float: right;
+	margin-left: .5em;
+}

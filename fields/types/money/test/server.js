@@ -84,6 +84,8 @@ exports.testFieldType = function(List) {
 	it('should validate no input', function() {
 		demand(List.fields.money.validateInput({})).be(true);
 		demand(List.fields.money.validateInput({}, true)).be(false);
+		demand(List.fields.money.validateInput({ money: '' })).be(true);
+		demand(List.fields.money.validateInput({ money: '' }, true)).be(false);
 		testItem.money = 1;
 		demand(List.fields.money.validateInput({}, true, testItem)).be(true);
 		testItem.money = undefined;

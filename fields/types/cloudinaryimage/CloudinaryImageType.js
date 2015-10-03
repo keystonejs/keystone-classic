@@ -6,7 +6,7 @@ var _ = require('underscore'),
 	keystone = require('../../../'),
 	util = require('util'),
 	cloudinary = require('cloudinary'),
-	MPromise = require('mpromise'), // jshint ignore:line
+	MPromise = require('mpromise'),
 	utils = require('keystone-utils'),
 	super_ = require('../Type');
 
@@ -20,6 +20,7 @@ function cloudinaryimage(list, path, options) {
 
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
+	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
@@ -106,7 +107,7 @@ cloudinaryimage.prototype.addToSchema = function() {
 		return schemaMethods.exists.apply(this);
 	});
 
-	var folder = function(item) {
+	var folder = function(item) {//eslint-disable-line no-unused-vars
 		var folderValue = null;
 
 		if (keystone.get('cloudinary folders')) {
@@ -297,7 +298,7 @@ cloudinaryimage.prototype.isModified = function(item) {
  * @api public
  */
 
-cloudinaryimage.prototype.validateInput = function(data) {
+cloudinaryimage.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?
 	return true;
 };
@@ -318,7 +319,7 @@ cloudinaryimage.prototype.updateItem = function(item, data) {
 			var field = paths[key].substr(0, index);
 			// Note we allow implicit conversion here so that numbers submitted as strings in the data object
 			// aren't treated as different values to the stored Number values
-			if (data[field] && data[field][key] && data[field][key] != item.get(paths[key])) { // jshint ignore:line
+			if (data[field] && data[field][key] && data[field][key] != item.get(paths[key])) { // eslint-disable-line eqeqeq
 				item.set(paths[key], data[field][key] || null);
 			}
 		}

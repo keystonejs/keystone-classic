@@ -1,38 +1,27 @@
-/*!
- * Module dependencies.
- */
-
-var util = require('util'),
-	super_ = require('../Type');
+var FieldType = require('../Type');
+var TextType = require('../text/TextType');
+var util = require('util');
 
 /**
  * URL FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function url(list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format'];
 	this._formatUrl = options.format || removeProtocolPrefix;
-
 	url.super_.call(this, list, path, options);
 }
+util.inherits(url, FieldType);
 
-/*!
- * Inherit from Field
- */
-
-util.inherits(url, super_);
-
+/* Inherit from TextType prototype */
+url.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
 
 /**
  * Formats the field value using either a supplied format function or default
  * which strips the leading protocol from the value for simpler display
- *
- * @api public
  */
-
 url.prototype.format = function(item) {
 	var url = (item.get(this.path) || '');
 	return this._formatUrl(url);
@@ -40,8 +29,6 @@ url.prototype.format = function(item) {
 
 /**
  * Remove the protocol prefix from url
- *
- * @api private
  */
 function removeProtocolPrefix(url) {
 	return url.replace(/^[a-zA-Z]+\:\/\//, '');
@@ -49,9 +36,5 @@ function removeProtocolPrefix(url) {
 
 // TODO: Proper url validation
 
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 exports = module.exports = url;

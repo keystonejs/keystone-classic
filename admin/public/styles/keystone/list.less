@@ -1,0 +1,242 @@
+//
+// List view
+// ==============================
+
+
+
+
+// Field Icons
+// icons that represent field types
+// ------------------------------
+
+.fieldicon {
+	.square( 16px );
+	background-repeat: no-repeat;
+	display: inline-block;
+	vertical-align: middle;
+
+	&.fieldicon-text            { background-image: url( "/keystone/images/icons/16/field-text.png" ); }
+	&.fieldicon-textarea        { background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }
+	&.fieldicon-name            { background-image: url( "/keystone/images/icons/16/field-name.png" ); }
+	&.fieldicon-html            { background-image: url( "/keystone/images/icons/16/field-html.png" ); }
+	&.fieldicon-url             { background-image: url( "/keystone/images/icons/16/field-url.png" ); }
+	&.fieldicon-key             { background-image: url( "/keystone/images/icons/16/field-key.png" ); }
+	&.fieldicon-email           { background-image: url( "/keystone/images/icons/16/field-email.png" ); }
+	&.fieldicon-select          { background-image: url( "/keystone/images/icons/16/field-select.png" ); }
+	&.fieldicon-location        { background-image: url( "/keystone/images/icons/16/field-location.png" ); }
+	&.fieldicon-boolean         { background-image: url( "/keystone/images/icons/16/field-boolean.png" ); }
+	&.fieldicon-cloudinaryimage { background-image: url( "/keystone/images/icons/16/field-image.png" ); }
+	&.fieldicon-s3file          { background-image: url( "/keystone/images/icons/16/field-file.png" ); }
+	&.fieldicon-relationship    { background-image: url( "/keystone/images/icons/16/field-numericSelect.png" ); }
+	&.fieldicon-date            { background-image: url( "/keystone/images/icons/16/field-date.png" ); }
+	&.fieldicon-datetime        { background-image: url( "/keystone/images/icons/16/field-dateTime.png" ); }
+	&.fieldicon-money           { background-image: url( "/keystone/images/icons/16/field-money.png" ); }
+	&.fieldicon-number          { background-image: url( "/keystone/images/icons/16/field-number.png" ); }
+	&.fieldicon-sort            { background-image: url( "/keystone/images/icons/16/field-sort.png" ); }
+}
+.dropdown-menu .fieldicon {
+	margin-right: 10px;
+}
+.dropdown-menu .icon {
+	color: @gray-light;
+	display: inline-block;
+	width: 25px;
+	margin-left: -5px;
+}
+
+
+
+
+// Items List
+// the table itself and its components
+// ------------------------------
+
+
+// base
+
+.ItemList {
+	line-height: 1;
+	margin-bottom: 60px;
+	table-layout: fixed;
+	width: 100%;
+}
+
+
+// col value - crop field content so we maintain one line throught the list table
+
+.ItemList__value--truncate {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-wrap: normal;
+
+	a& {
+		display: inline-block;
+	}
+}
+
+
+
+
+// List Management
+// ------------------------------
+
+.ItemList__row--manage {
+	// make it obvious that the row is now selectable
+	color: @gray;
+
+	// stop text selection whilst row is in manage mode
+	-webkit-touch-callout: none;
+	  -webkit-user-select: none;
+		 -moz-user-select: none;
+		  -ms-user-select: none;
+			  user-select: none;
+
+	// apply selectable styles to anchors
+	a {
+		color: inherit;
+		pointer-events: none;
+	}
+
+	// highlight the row on hover
+	&:hover {
+		color: @text-color;
+
+		.ItemList__control--check {
+			color: @app-primary;
+		}
+	}
+}
+.ItemList__row--selected {
+	background-color: white;
+	color: @text-color;
+
+	> td:first-child {
+		box-shadow: -2px 0 0 @app-primary;
+	}
+	a {
+		color: inherit;
+	}
+}
+
+
+
+
+// Links
+// ------------------------------
+
+.ItemList__link--padded {
+	display: inline-block;
+	margin: -@table-padding;
+	padding: @table-padding;
+}
+.ItemList__link--interior {
+	color: @text-color;
+
+	&:hover,
+	&:focus {
+		color: @text-color;
+		outline: none;
+	}
+}
+.ItemList__link--exterior {
+	&:hover,
+	&:focus {
+		outline: none;
+	}
+}
+
+
+// Empty value links
+
+.ItemList__link--empty {
+	color: #999;
+}
+
+
+
+
+// Field Specific
+// ------------------------------
+
+
+// "First" Field Cols
+// fix an optical illusion that occurs between the row name and the row icon.
+// in most cases the first character of the name col is uppercase, so
+// the icon appears to be too low due the absence of a decender in the row name
+// (they are in fact aligned middle correctly)
+
+.ItemList__value--name,
+.ItemList__value--id {
+	bottom: -1px;
+	position: relative;
+}
+
+
+// Monospaced Fields
+
+.ItemList__value--code,
+.ItemList__value--key,
+.ItemList__value--html,
+.ItemList__value--htmlWYSIWYG,
+.ItemList__value--id {
+	font-family: @font-family-monospace;
+}
+
+
+// __INVALID__ Field
+
+.ItemList__value--invalid {
+	font-family: @font-family-monospace;
+	color: @app-danger !important;
+}
+
+
+
+// Responsive tables
+// ------------------------------
+//
+// Enable horizontal scrolling - applies < 768px
+// Everything above that will display normally
+
+@media (max-width: @screen-sm) {
+	.ItemList-wrapper {
+		margin-bottom: (@line-height-computed * 0.75);
+		overflow-y: hidden;
+		overflow-x: scroll;
+		-ms-overflow-style: -ms-autohiding-scrollbar;
+		-webkit-overflow-scrolling: touch;
+		width: 100%;
+	}
+	.ItemList__value {
+		max-width: none;
+	}
+
+	// Tighten up spacing for smaller devices
+	.ItemList {
+		table-layout: auto;
+		margin-bottom: 0;
+
+		// Ensure the content doesn't wrap
+		> thead,
+		> tbody,
+		> tfoot {
+			> tr {
+				> th,
+				> td {
+					white-space: nowrap;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+// Complementary list files
+// ------------------------------
+
+@import "./list-controls";
+@import "./list-filters";

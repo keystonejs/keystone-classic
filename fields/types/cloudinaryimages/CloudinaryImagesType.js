@@ -20,6 +20,7 @@ function cloudinaryimages(list, path, options) {
 
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
+	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
@@ -83,7 +84,7 @@ cloudinaryimages.prototype.addToSchema = function() {
 	});
 
 	// Generate cloudinary folder used to upload/select images
-	var folder = function(item) {
+	var folder = function(item) {//eslint-disable-line no-unused-vars
 		var folderValue = '';
 
 		if (keystone.get('cloudinary folders')) {
@@ -213,7 +214,7 @@ cloudinaryimages.prototype.format = function(item) {
  * @api public
  */
 
-cloudinaryimages.prototype.isModified = function(item) {
+cloudinaryimages.prototype.isModified = function(item) {//eslint-disable-line no-unused-vars
 	// TODO - how should this be detected?
 	return true;
 };
@@ -225,7 +226,7 @@ cloudinaryimages.prototype.isModified = function(item) {
  * @api public
  */
 
-cloudinaryimages.prototype.validateInput = function(data) {
+cloudinaryimages.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?
 	return true;
 };
@@ -237,7 +238,7 @@ cloudinaryimages.prototype.validateInput = function(data) {
  * @api public
  */
 
-cloudinaryimages.prototype.updateItem = function(item, data) {
+cloudinaryimages.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 };
 
@@ -329,9 +330,16 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 				uploadOptions.tags.push(tp + 'dev');
 			}
 
+
 			async.each(files, function(file, next) {
 
 				if (!file.size) return next();
+
+				if (field.options.filenameAsPublicID) {
+					uploadOptions.public_id = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
+				} else {
+					uploadOptions = undefined;
+				}
 
 				cloudinary.uploader.upload(file.path, function(result) {
 					if (result.error) {
@@ -348,9 +356,7 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 		} else {
 			return callback();
 		}
-
 	};
-
 };
 
 

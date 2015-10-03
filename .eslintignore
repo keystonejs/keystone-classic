@@ -1,7 +1,7 @@
+bundles/*
 docs/*
-public/js/lib/*
-public/js/build/*
-public/build/*
+admin/public/js/lib/*
+admin/public/js/packages.js
 test/*
 node_modules/*
 coverage/*

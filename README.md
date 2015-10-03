@@ -1,15 +1,24 @@
 ![KeystoneJS](http://keystonejs.com/images/logo.svg)
 ===================================
 
-![Build Status](https://travis-ci.org/keystonejs/keystone.svg)
+[![Build Status](https://travis-ci.org/keystonejs/keystone.svg?branch=master)](https://travis-ci.org/keystonejs/keystone)
 
-[KeystoneJS](http://keystonejs.com) is a powerful Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com) that makes it easy to create sophisticated web sites and apps, and gives you a beautiful, auto-generated Admin UI.
+[KeystoneJS](http://keystonejs.com) is a powerful Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com). Keystone makes it easy to create sophisticated web sites and apps, and comes with a beautiful auto-generated Admin UI.
 
 Check out [keystonejs.com](http://keystonejs.com) for documentation and guides.
 
 You can also deploy a starter project to [Heroku](https://heroku.com) for free to try it out:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
+
+
+## v0.4.0 React Rebuild coming soon
+
+We've been working on a major update to Keystone for several months now, rewriting the Admin UI as a ReactJS App.
+
+Work on this has now been merged into our `master` branch, which is currently not stable (but which we encourage you to try out and give us feedback on!). Stable `0.3.x` releases will continue to be published from the `0.3.x` branch.
+
+For more information on the upcoming version, including how to try it out and get involved, check out [issue #1612](https://github.com/keystonejs/keystone/issues/1612)
 
 
 ## About
@@ -39,7 +48,7 @@ We have a friendly, growing community and welcome everyone to get involved.
 Here are some ways:
 
 * Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements
-* Join our [keystonejs/keystone gitter](https://gitter.im/keystonejs/keystone) room to chat with other Keystone users and developers
+* Chat with us [![Join the chat at https://gitter.im/keystonejs/keystone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keystonejs/keystone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 * If you've got ideas, questions or need some advice, check out the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
 * Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs`
 * Report bugs and issues on our [issue tracker](https://github.com/keystonejs/keystone/issues)
@@ -73,7 +82,7 @@ $ yo keystone
 
 Answer the questions, and the generator will create a new project based on the options you select, and install the required packages from **npm**.
 
-Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "^0.2.0"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
+Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "^0.3.9"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
 
 Then read through the [Documentation](http://keystonejs.com/docs) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
 
@@ -130,7 +139,7 @@ To understand how these settings are used, and how the Express application is in
 Keystone builds on the basic data types provided by mongo and allows you to easily add rich,
 functional fields to your application's models.
 
-You get helper methods on your models for dealing with each field type easily (such as 
+You get helper methods on your models for dealing with each field type easily (such as
 formatting a date or number, resizing an image, getting an array of the available options
 for a select field, or using Google's Places API to improve addresses) as well as a beautiful,
 responsive admin UI to edit your data with.

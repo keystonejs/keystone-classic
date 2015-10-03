@@ -1,0 +1,40 @@
+//
+// Toolbar
+// ==============================
+
+
+
+
+// Base
+
+.Toolbar {
+	border-bottom: 1px dashed darken(@body-bg, 10%);
+	margin-bottom: 2em;
+	padding-bottom: 1em;
+	padding-top: 1em;
+
+	// clear the interior floats
+	> .container {
+		&:extend(.u-clearfix all);
+	}
+}
+
+
+// Sections
+
+// remove the padding from Link style Buttons on either side to keep everything aligned correctly
+
+.Toolbar__section--left {
+	float: left;
+
+	> .Button--link:first-child {
+		padding-left: 0;
+	}
+}
+.Toolbar__section--right {
+	float: right;
+
+	> .Button--link:last-child {
+		padding-right: 0;
+	}
+}

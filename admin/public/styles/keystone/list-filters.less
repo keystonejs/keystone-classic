@@ -1,0 +1,194 @@
+//
+// List Filters
+// ==============================
+
+
+
+
+// Helpers
+// ------------------------------
+
+.ListHeader__separator () {
+	border-left: 1px solid rgba(0,0,0,0.1);
+	margin-left: @input-padding-horizontal;
+	paddingleft: @input-padding-horizontal;
+}
+
+
+
+
+// Base
+// ------------------------------
+
+.ListHeader {
+	padding-top: 40px;
+}
+
+
+
+
+// Sort By
+// ------------------------------
+
+.ListHeader__sortedby {
+	color: @gray-light;
+}
+
+
+
+
+// Search Form
+// ------------------------------
+
+.ListHeader__search {
+	position: relative;
+}
+/*button*/.ListHeader__search__icon {
+	background: none;
+	border: none;
+	color: @gray-light;
+	font-weight: bold;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 2.2em;
+	z-index: 2; // above the form field on focus
+
+	// styles when search icon
+	&.is-search {
+		pointer-events: none;
+	}
+
+	// styles when clear icon
+	&.is-clear {
+		&:hover,
+		&:focus {
+			color: @app-danger;
+			outline: 0 none;
+			text-decoration: none;
+		}
+		&:active {
+			color: darken(@app-danger, 10%);
+		}
+	}
+}
+
+
+
+
+// Filter
+// ------------------------------
+
+.ListHeader__filter__icon {
+	display: none;
+}
+
+
+
+
+// Columns
+// ------------------------------
+
+.ListHeader__columns__icon {
+	display: none;
+}
+
+
+
+
+// Download
+// ------------------------------
+
+.ListHeader__download__icon {
+	display: none;
+}
+
+
+
+
+// Expand
+// ------------------------------
+
+.ListHeader__expand {
+	.ListHeader__separator();
+	display: none;
+}
+
+
+
+
+// Create
+// ------------------------------
+
+.ListHeader__create {
+	.ListHeader__separator();
+}
+.ListHeader__create__label--lg { display: none; }
+
+
+
+
+// Responsive
+// ------------------------------
+
+@media (min-width: @screen-lg) {
+	.ListHeader__expand {
+		display: block;
+	}
+	.ListHeader__create__label { display: none; }
+	.ListHeader__create__label--lg { display: inline; }
+}
+
+@media (max-width: @screen-xs-max) {
+	.ListHeader__bar {
+		.flex-wrap(wrap);
+	}
+	.ListHeader__search {
+		margin-bottom: @input-padding-horizontal;
+		min-width: 100%;
+	}
+	.ListHeader__filter.ListHeader__filter {
+		padding-left: 1px;
+	}
+
+	// make buttons fill width
+	.ListHeader__filter,
+	.ListHeader__columns,
+	.ListHeader__download,
+	.ListHeader__create {
+		.flex(1,1,0);
+
+		> .Button {
+			display: block;
+			padding-left: 0;
+			padding-right: 0;
+			width: 100%;
+		}
+	}
+}
+@media (max-width: 500px) {
+	.ListHeader__create {
+		border: none;
+		margin: 0;
+		padding: 0;
+	}
+	.ListHeader__create__icon {
+		margin-right: 0 !important;
+	}
+
+	// remove margin from disclosure arrows
+	.ListHeader__bar .disclosure-arrow {
+		margin-left: 0;
+	}
+
+	// replace button labels with icons
+	.ListHeader__columns__icon,
+	.ListHeader__download__icon,
+	.ListHeader__filter__icon { display: inline-block; }
+	.ListHeader__columns__label,
+	.ListHeader__create__label,
+	.ListHeader__download__label,
+	.ListHeader__filter__label { display: none; }
+}

@@ -127,7 +127,7 @@ embedly.prototype.addToSchema = function() {
 
 		var post = this;
 
-		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function(err, api) { // jshint ignore:line
+		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function(err, api) {//eslint-disable-line no-new
 
 			if (err) {
 				console.error('Error creating Embedly api:');
@@ -239,7 +239,7 @@ embedly.prototype.isModified = function(item) {
  * @api public
  */
 
-embedly.prototype.validateInput = function(data) {
+embedly.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
 	// TODO: I don't think embedly fields need to be validated...
 	return true;
 };

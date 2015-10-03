@@ -1,64 +1,96 @@
-var React = require('react'),
-	Pikaday = require('pikaday'),
-	moment = require('moment');
+import moment from 'moment';
+import DayPicker from 'react-day-picker';
+import React from 'react';
+import Popout from '../../admin/src/components/Popout';
+import { FormInput } from 'elemental';
+
+function isSameDay(d1, d2) {
+	d1.setHours(0, 0, 0, 0);
+	d2.setHours(0, 0, 0, 0);
+	
+	return d1.getTime() === d2.getTime();
+}
 
 module.exports = React.createClass({
 	
 	displayName: 'DateInput',
 	
 	// set default properties
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return {
 			format: 'YYYY-MM-DD'
 		};
 	},
 	
-	getInitialState: function() {
+	getInitialState () {
 		return {
-			value: this.props.value,
-			id: Math.round(Math.random()*100000)
+			selectedDay: new Date(),
+			id: Math.round(Math.random() * 100000),
+			pickerIsOpen: false
 		};
 	},
 	
-	componentWillReceiveProps: function(newProps) {
-		if (newProps.value === this.state.value) return;
+	// componentWillReceiveProps: function(newProps) {
+	// 	console.log(moment(newProps.value).format("ddd MMMM DD YYYY hh:mm:ss a Z"));
+	// 	if (newProps.value === this.state.selectedDay) return;
+	// 	this.setState({
+	// 		selectedDay: moment(newProps.value).format("ddd MMMM DD YYYY hh:mm:ss a Z")
+	// 	});
+	// },
+	
+	handleChange (e, day) {
 		this.setState({
-			value: newProps.value
+			selectedDay: day
+		}, () => {
+			setTimeout(() => {
+				this.setState({
+					pickerIsOpen: false
+				});
+			}, 200);
 		});
-		this.picker.setMoment(moment(newProps.value, this.props.format));
-	},
-
-	componentDidMount: function() {
-		// add date picker
-		this.picker = new Pikaday({ 
-			field: this.getDOMNode(),
-			format: this.props.format,
-			yearRange: this.props.yearRange,
-			onSelect: function(date) {
-				if (this.props.onChange && this.picker.toString() !== this.props.value) {
-					this.props.onChange(this.picker.toString());
-				}
-			}.bind(this)
-		});			
-	},
-
-	componentWillUnmount: function() {
-		// clean up
-		this.picker.destroy();
 	},
 	
-	handleChange: function(e) {
-		if (e.target.value === this.state.value) return;
-		this.setState({ value: e.target.value });
+	handleFocus (e) {
+		this.setState({
+			pickerIsOpen: true
+		});
 	},
 	
-	handleBlur: function(e) {
-		if (this.state.value === this.props.value) return;
-		this.picker.setMoment(moment(this.state.value, this.props.format));
+	handleBlur (e) {
 	},
 
-	render: function() {
-		return <input type="text" name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" className="form-control" />;
+	render () {
+		let { selectedDay } = this.state;
+		
+		let modifiers = {
+			'selected': (day) => isSameDay(selectedDay, day)
+		};
+		
+		return (
+			<div>
+				<FormInput
+					autoComplete="off"
+					id={this.state.id}
+					name={this.props.name}
+					onBlur={this.handleBlur}
+					onFocus={this.handleFocus}
+					onChange={this.handleChange}
+					placeholder={this.props.format}
+					value={moment(selectedDay).format(this.props.format)} />
+				<Popout
+					isOpen={this.state.pickerIsOpen}
+					onCancel={() => this.setState({ pickerIsOpen: false })}
+					relativeToID={this.state.id}
+					width={260}>
+					<DayPicker
+						modifiers={ modifiers }
+						onDayClick={ this.handleChange }
+						style={{ marginBottom: 9 }}
+						tabIndex={-1} />
+				</Popout>
+			</div>
+		);
+		// return <FormInput name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" />;
 	}
 	
 });
