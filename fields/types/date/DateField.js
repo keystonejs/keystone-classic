@@ -15,7 +15,7 @@ module.exports = Field.create({
 
 	getInitialState () {
 		return {
-			value: this.props.value ? this.moment(this.props.value).format(this.inputFormat) : ''
+			value: this.props.value ? this.moment(this.props.value).format(this.inputFormat) : this.moment(new Date()).format(this.inputFormat)
 		};
 	},
 
