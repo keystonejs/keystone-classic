@@ -29,33 +29,7 @@ exports = module.exports = function(req, res) {
 	};
 
 	var item;
-	if ('update' in req.query) {
-
-		if (!checkCSRF()) return renderView();
-
-		(function() {
-			var data = null;
-			if (req.query.update) {
-				try {
-					data = JSON.parse(req.query.update);
-				} catch(e) {
-					req.flash('error', 'There was an error parsing the update data.');
-					return renderView();
-				}
-			}
-			req.list.updateAll(data, function(err) {
-				if (err) {
-					console.warn('Error updating all ' + req.list.plural);
-					console.error(err);
-					req.flash('error', 'There was an error updating all ' + req.list.plural + ' (logged to console)');
-				} else {
-					req.flash('success', 'All ' + req.list.plural + ' updated successfully.');
-				}
-				res.redirect('/keystone/' + req.list.path);
-			});
-		})();
-
-	} else if (!req.list.get('nocreate') && req.list.get('autocreate') && _.has(req.query, 'new')) {
+	if (!req.list.get('nocreate') && req.list.get('autocreate') && _.has(req.query, 'new')) {
 
 		if (!checkCSRF()) return renderView();
 
