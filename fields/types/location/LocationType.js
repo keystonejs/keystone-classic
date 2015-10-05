@@ -1,24 +1,20 @@
 /*!
  * Module dependencies.
  */
+var _ = require('underscore');
+var keystone = require('../../../');
+var querystring = require('querystring');
+var https = require('https');
+var util = require('util');
+var utils = require('keystone-utils');
+var super_ = require('../Type');
 
-var _ = require('underscore'),
-	keystone = require('../../../'),
-	querystring = require('querystring'),
-	https = require('https'),
-	util = require('util'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type');
-
-var RADIUS_KM = 6371,
-	RADIUS_MILES = 3959;
+var RADIUS_KM = 6371;
+var RADIUS_MILES = 3959;
 
 /**
  * Location FieldType Constructor
- * @extends Field
- * @api public
  */
-
 function location(list, path, options) {
 
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
@@ -55,21 +51,16 @@ function location(list, path, options) {
 /*!
  * Inherit from Field
  */
-
 util.inherits(location, super_);
-
 
 /**
  * Registers the field on the List's Mongoose Schema.
- *
- * @api public
  */
-
 location.prototype.addToSchema = function() {
 
-	var field = this,
-		schema = this.list.schema,
-		options = this.options;
+	var field = this;
+	var schema = this.list.schema;
+	var options = this.options;
 
 	var paths = this.paths = {
 		number: this._path.append('.number'),
@@ -137,7 +128,6 @@ location.prototype.addToSchema = function() {
 
 };
 
-
 /**
  * Formats a list of the values stored by the field. Only paths that
  * have values will be included.
@@ -145,33 +135,21 @@ location.prototype.addToSchema = function() {
  * Optionally provide a space-separated list of values to include.
  *
  * Delimiter defaults to `', '`.
- *
- * @api public
  */
-
 location.prototype.format = function(item, values, delimiter) {
-
 	if (!values) {
 		return item.get(this.paths.serialised);
 	}
-
 	var paths = this.paths;
-
 	values = values.split(' ').map(function(i) {
 		return item.get(paths[i]);
 	});
-
 	return _.compact(values).join(delimiter || ', ');
-
 };
-
 
 /**
  * Detects whether the field has been modified
- *
- * @api public
  */
-
 location.prototype.isModified = function(item) {
 	return item.isModified(this.paths.number) ||
 		item.isModified(this.paths.name) ||
@@ -184,29 +162,19 @@ location.prototype.isModified = function(item) {
 		item.isModified(this.paths.geo);
 };
 
-
 /**
  * Validates that a value for this field has been provided in a data object
  *
  * options.required specifies an array or space-delimited list of paths that
  * are required (defaults to street1, suburb)
- *
- * @api public
  */
-
 location.prototype.validateInput = function(data, required, item) {
-
-	if (!required) {
-		return true;
-	}
-
-	var paths = this.paths,
-		nested = this._path.get(data),
-		values = nested || data,
-		valid = true;
-
+	if (!required) return true;
+	var paths = this.paths;
+	var nested = this._path.get(data);
+	var values = nested || data;
+	var valid = true;
 	this.requiredPaths.forEach(function(path) {
-
 		if (nested) {
 			if (!(path in values) && item && item.get(paths[path])) {
 				return;
@@ -222,28 +190,21 @@ location.prototype.validateInput = function(data, required, item) {
 				valid = false;
 			}
 		}
-
 	});
-
 	return valid;
-
 };
-
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
 location.prototype.updateItem = function(item, data) {
 
-	var paths = this.paths,
-		fieldKeys = ['number', 'name', 'street1', 'street2', 'suburb', 'state', 'postcode', 'country'],
-		geoKeys = ['geo', 'geo_lat', 'geo_lng'],
-		valueKeys = fieldKeys.concat(geoKeys),
-		valuePaths = valueKeys,
-		values = this._path.get(data);
+	var paths = this.paths;
+	var fieldKeys = ['number', 'name', 'street1', 'street2', 'suburb', 'state', 'postcode', 'country'];
+	var geoKeys = ['geo', 'geo_lat', 'geo_lng'];
+	var valueKeys = fieldKeys.concat(geoKeys);
+	var valuePaths = valueKeys;
+	var values = this._path.get(data);
 
 	if (!values) {
 		// Handle flattened values
@@ -265,33 +226,24 @@ location.prototype.updateItem = function(item, data) {
 	_.each(fieldKeys, setValue);
 
 	if (valuePaths.geo in values) {
-
 		var oldGeo = item.get(paths.geo) || [];
 		if (oldGeo.length > 1) {
 			oldGeo[0] = item.get(paths.geo)[1];
 			oldGeo[1] = item.get(paths.geo)[0];
 		}
 		var newGeo = values[valuePaths.geo];
-
 		if (!Array.isArray(newGeo) || newGeo.length !== 2) {
 			newGeo = [];
 		}
-
 		if (newGeo[0] !== oldGeo[0] || newGeo[1] !== oldGeo[1]) {
 			item.set(paths.geo, newGeo);
 		}
-
 	} else if (valuePaths.geo_lat in values && valuePaths.geo_lng in values) {
-
-		var lat = utils.number(values[valuePaths.geo_lat]),
-			lng = utils.number(values[valuePaths.geo_lng]);
-
+		var lat = utils.number(values[valuePaths.geo_lat]);
+		var lng = utils.number(values[valuePaths.geo_lng]);
 		item.set(paths.geo, (lat && lng) ? [lng, lat] : undefined);
-
 	}
-
 };
-
 
 /**
  * Returns a callback that handles a standard form submission for the field
@@ -299,27 +251,18 @@ location.prototype.updateItem = function(item, data) {
  * Handles:
  * - `field.paths.improve` in `req.body` - improves data via `.googleLookup()`
  * - `field.paths.overwrite` in `req.body` - in conjunction with `improve`, overwrites existing data
- *
- * @api public
  */
-
 location.prototype.getRequestHandler = function(item, req, paths, callback) {
-
 	var field = this;
-
 	if (utils.isFunction(paths)) {
 		callback = paths;
 		paths = field.paths;
 	} else if (!paths) {
 		paths = field.paths;
 	}
-
 	callback = callback || function() {};
-
 	return function() {
-
 		var update = req.body[paths.overwrite] ? 'overwrite' : true;
-
 		if (req.body && req.body[paths.improve]) {
 			field.googleLookup(item, false, update, function() {
 				callback();
@@ -327,29 +270,19 @@ location.prototype.getRequestHandler = function(item, req, paths, callback) {
 		} else {
 			callback();
 		}
-
 	};
-
 };
-
 
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- *
- * @api public
  */
-
 location.prototype.handleRequest = function(item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
-
 /**
  * Internal Google geocode request method
- *
- * @api private
  */
-
 function doGoogleGeocodeRequest(address, region, callback) {
 
 	// https://developers.google.com/maps/documentation/geocoding/
@@ -400,7 +333,6 @@ function doGoogleGeocodeRequest(address, region, callback) {
 	});
 }
 
-
 /**
  * Autodetect the full address and lat, lng from the stored value.
  *
@@ -409,10 +341,7 @@ function doGoogleGeocodeRequest(address, region, callback) {
  * Please make sure your Keystone app complies with the Google Maps API License.
  *
  * Internal status codes mimic the Google API status codes.
- *
- * @api private
  */
-
 location.prototype.googleLookup = function(item, region, update, callback) {
 
 	if (_.isFunction(update)) {
@@ -420,9 +349,9 @@ location.prototype.googleLookup = function(item, region, update, callback) {
 		update = false;
 	}
 
-	var field = this,
-		stored = item.get(this.path),
-		address = item.get(this.paths.serialised);
+	var field = this;
+	var stored = item.get(this.path);
+	var address = item.get(this.paths.serialised);
 
 	if (address.length === 0) {
 		return callback({ 'status_code': 500, 'status_text': 'No address to geocode', 'status': 'NO_ADDRESS' });
@@ -501,55 +430,38 @@ location.prototype.googleLookup = function(item, region, update, callback) {
 	});
 };
 
-
 /**
  * Internal Distance calculation function
  *
  * See http://en.wikipedia.org/wiki/Haversine_formula
- *
- * @api private
  */
-
 function calculateDistance(point1, point2) {
-
 	var dLng = (point2[0] - point1[0]) * Math.PI / 180;
 	var dLat = (point2[1] - point1[1]) * Math.PI / 180;
 	var lat1 = (point1[1]) * Math.PI / 180;
 	var lat2 = (point2[1]) * Math.PI / 180;
-
 	/* eslint-disable space-infix-ops */
 	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLng/2) * Math.sin(dLng/2) * Math.cos(lat1) * Math.cos(lat2);
 	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 	/* eslint-enable space-infix-ops */
 	return c;
-
 }
-
 
 /**
  * Returns the distance from a [lat, lng] point in kilometres
- *
- * @api public
  */
-
 location.prototype.kmFrom = function(item, point) {
 	return calculateDistance(this.get(this.paths.geo), point) * RADIUS_KM;
 };
 
-
 /**
  * Returns the distance from a [lat, lng] point in miles
- *
- * @api public
  */
-
 location.prototype.milesFrom = function(item, point) {
 	return calculateDistance(this.get(this.paths.geo), point) * RADIUS_MILES;
 };
 
-
 /*!
  * Export class
  */
-
 exports = module.exports = location;
