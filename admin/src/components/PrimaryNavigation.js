@@ -59,8 +59,8 @@ var PrimaryNavigation = React.createClass({
 	renderFrontLink () {
 		return (
 			<PrimaryNavItem href="/" title={'Front page - ' + this.props.brand}>
-						<span className="octicon octicon-eye" />
-				</PrimaryNavItem>
+				<span className="octicon octicon-globe" />
+			</PrimaryNavItem>
 		);
 	},
 	renderBrand () {
