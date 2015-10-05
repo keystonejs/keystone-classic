@@ -5,31 +5,37 @@ import Popout from '../../admin/src/components/Popout';
 import { FormInput } from 'elemental';
 
 function isSameDay(d1, d2) {
+	if (!_.isDate(d1)) {
+		d1 = new Date();
+	}
+	if (!_.isDate(d2)) {
+		d2 = new Date();
+	}
 	d1.setHours(0, 0, 0, 0);
 	d2.setHours(0, 0, 0, 0);
-	
+
 	return d1.getTime() === d2.getTime();
 }
 
 module.exports = React.createClass({
-	
+
 	displayName: 'DateInput',
-	
+
 	// set default properties
 	getDefaultProps () {
 		return {
 			format: 'YYYY-MM-DD'
 		};
 	},
-	
+
 	getInitialState () {
 		return {
-			selectedDay: new Date(),
+			selectedDay: this.props.value,
 			id: Math.round(Math.random() * 100000),
 			pickerIsOpen: false
 		};
 	},
-	
+
 	// componentWillReceiveProps: function(newProps) {
 	// 	console.log(moment(newProps.value).format("ddd MMMM DD YYYY hh:mm:ss a Z"));
 	// 	if (newProps.value === this.state.selectedDay) return;
@@ -37,7 +43,7 @@ module.exports = React.createClass({
 	// 		selectedDay: moment(newProps.value).format("ddd MMMM DD YYYY hh:mm:ss a Z")
 	// 	});
 	// },
-	
+
 	handleChange (e, day) {
 		this.setState({
 			selectedDay: day
@@ -49,23 +55,23 @@ module.exports = React.createClass({
 			}, 200);
 		});
 	},
-	
+
 	handleFocus (e) {
 		this.setState({
 			pickerIsOpen: true
 		});
 	},
-	
+
 	handleBlur (e) {
 	},
 
 	render () {
 		let { selectedDay } = this.state;
-		
+
 		let modifiers = {
 			'selected': (day) => isSameDay(selectedDay, day)
 		};
-		
+
 		return (
 			<div>
 				<FormInput
@@ -92,5 +98,5 @@ module.exports = React.createClass({
 		);
 		// return <FormInput name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" />;
 	}
-	
+
 });

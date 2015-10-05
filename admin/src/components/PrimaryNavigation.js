@@ -56,6 +56,13 @@ var PrimaryNavigation = React.createClass({
 			</ul>
 		);
 	},
+	renderFrontLink () {
+		return (
+			<PrimaryNavItem href="/" title={'Front page - ' + this.props.brand}>
+						<span className="octicon octicon-eye" />
+				</PrimaryNavItem>
+		);
+	},
 	renderBrand () {
 		// TODO: support navbarLogo from keystone config
 		return (
@@ -85,6 +92,7 @@ var PrimaryNavigation = React.createClass({
 			<nav className="primary-navbar">
 				<Container clearfix>
 					<ul className="app-nav app-nav--primary app-nav--left">
+						{this.renderFrontLink()}
 						{this.renderBrand()}
 						{this.renderNavigation()}
 					</ul>
