@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import React from 'react';
+import Transition from 'react-addons-css-transition-group';
 
-var Transition = React.addons.CSSTransitionGroup;
 var CurrentListStore = require('../stores/CurrentListStore');
 var Popout = require('./Popout');
 var PopoutList = require('./PopoutList');

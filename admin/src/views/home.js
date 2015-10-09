@@ -1,4 +1,5 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 const { Container } = require('elemental');
 const xhr = require('xhr');
 const { plural } = require('../utils');
@@ -183,7 +184,7 @@ var HomeView = React.createClass({
 
 });
 
-React.render(
+ReactDOM.render(
 	<HomeView
 		appversion={Keystone.appversion}
 		backUrl={Keystone.backUrl}

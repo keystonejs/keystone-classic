@@ -1,6 +1,6 @@
-var React = require('react');
-var Transition = React.addons.CSSTransitionGroup;
-var classnames = require('classnames');
+import React from 'react';
+import Transition from 'react-addons-css-transition-group';
+import classnames from 'classnames';
 
 var CurrentListStore = require('../stores/CurrentListStore');
 var ListFiltersAddForm = require('./ListFiltersAddForm');

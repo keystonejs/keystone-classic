@@ -3,11 +3,10 @@ import classNames from 'classnames';
 import React from 'react';
 import Popout from './Popout';
 import PopoutList from './PopoutList';
+import Transition from 'react-addons-css-transition-group';
 import vkey from 'vkey';
 
 import CurrentListStore from '../stores/CurrentListStore';
-
-const Transition = React.addons.CSSTransitionGroup;
 
 var ListSort = React.createClass({
 	displayName: 'ListSort',

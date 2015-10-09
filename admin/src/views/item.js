@@ -1,4 +1,5 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 const request = require('superagent');
 
 const CreateForm = require('../components/CreateForm');
@@ -153,7 +154,7 @@ var ItemView = React.createClass({
 
 });
 
-React.render(
+ReactDOM.render(
 	<ItemView
 		appversion={Keystone.appversion}
 		backUrl={Keystone.backUrl}

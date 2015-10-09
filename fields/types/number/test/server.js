@@ -112,7 +112,7 @@ exports.testFieldType = function(List) {
 		testItem.number = undefined;
 	});
 
-	it('should not null value when null', function() {
+	it('should null value when null', function() {
 		testItem.number = 1;
 		List.fields.number.updateItem(testItem, {
 			number: null
