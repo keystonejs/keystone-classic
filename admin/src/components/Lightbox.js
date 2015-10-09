@@ -1,7 +1,7 @@
 import React from 'react';
 import blacklist from 'blacklist';
 import Portal from './Portal';
-const Transition = React.addons.CSSTransitionGroup;
+import Transition from 'react-addons-css-transition-group';
 
 const BODY = document.getElementsByTagName('body')[0];
 

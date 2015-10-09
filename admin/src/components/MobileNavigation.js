@@ -1,8 +1,8 @@
 import blacklist from 'blacklist';
 import classnames from 'classnames';
 import React from 'react';
+import Transition from 'react-addons-css-transition-group';
 import { Container } from 'elemental';
-const Transition = React.addons.CSSTransitionGroup;
 
 var MobileListItem = React.createClass({
 	displayName: 'MobileListItem',
