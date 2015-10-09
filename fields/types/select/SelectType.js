@@ -128,7 +128,7 @@ select.prototype.validateInput = function(data, required, item) {
  * Formats the field value
  */
 select.prototype.format = function(item) {
-	return this.labels[item.get(this.path)];
+	return this.labels[item.get(this.path)] || '';
 };
 
 /* Export Field Type */
