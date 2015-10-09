@@ -1,21 +1,16 @@
-/*!
- * Module dependencies.
- */
-
-var _ = require('underscore'),
-	keystone = require('../../../'),
-	util = require('util'),
-	cloudinary = require('cloudinary'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type'),
-	async = require('async');
+var _ = require('underscore');
+var keystone = require('../../../');
+var util = require('util');
+var cloudinary = require('cloudinary');
+var utils = require('keystone-utils');
+var super_ = require('../Type');
+var async = require('async');
 
 /**
  * CloudinaryImages FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function cloudinaryimages(list, path, options) {
 
 	this._underscoreMethods = ['format'];
@@ -44,22 +39,19 @@ function cloudinaryimages(list, path, options) {
 /*!
  * Inherit from Field
  */
-
 util.inherits(cloudinaryimages, super_);
-
 
 /**
  * Registers the field on the List's Mongoose Schema.
  *
  * @api public
  */
-
 cloudinaryimages.prototype.addToSchema = function() {
 
 	var mongoose = keystone.mongoose;
 
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 
 	this.paths = {
 		// virtuals
@@ -194,54 +186,45 @@ cloudinaryimages.prototype.addToSchema = function() {
 	this.bindUnderscoreMethods();
 };
 
-
 /**
  * Formats the field value
  *
  * @api public
  */
-
 cloudinaryimages.prototype.format = function(item) {
 	return _.map(item.get(this.path), function(img) {
 		return img.src();
 	}).join(', ');
 };
 
-
 /**
  * Detects whether the field has been modified
  *
  * @api public
  */
-
 cloudinaryimages.prototype.isModified = function(item) {//eslint-disable-line no-unused-vars
 	// TODO - how should this be detected?
 	return true;
 };
-
 
 /**
  * Validates that a value for this field has been provided in a data object
  *
  * @api public
  */
-
 cloudinaryimages.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?
 	return true;
 };
-
 
 /**
  * Updates the value for this field in the item from a data object
  *
  * @api public
  */
-
 cloudinaryimages.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 };
-
 
 /**
  * Returns a callback that handles a standard form submission for the field
@@ -252,7 +235,6 @@ cloudinaryimages.prototype.updateItem = function(item, data) {//eslint-disable-l
  *
  * @api public
  */
-
 cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callback) {
 
 	var field = this;
@@ -270,8 +252,8 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 
 		// Order
 		if (req.body[paths.order]) {
-			var images = item.get(field.path),
-				newOrder = req.body[paths.order].split(',');
+			var images = item.get(field.path);
+			var newOrder = req.body[paths.order].split(',');
 
 			images.sort(function(a, b) {
 				return (newOrder.indexOf(a.public_id) > newOrder.indexOf(b.public_id)) ? 1 : -1;
@@ -284,8 +266,8 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 
 			actions.forEach(function(action) {
 				action = action.split(':');
-				var method = action[0],
-					ids = action[1];
+				var method = action[0];
+				var ids = action[1];
 
 				if (!method.match(/^(remove|delete)$/) || !ids) return;
 
@@ -359,20 +341,16 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 	};
 };
 
-
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
  *
  * @api public
  */
-
 cloudinaryimages.prototype.handleRequest = function(item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
-
 /*!
  * Export class
  */
-
 exports = module.exports = cloudinaryimages;
