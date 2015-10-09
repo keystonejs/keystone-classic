@@ -50,7 +50,7 @@ exports.testFieldType = function(List) {
 	});
 
 	it('should validate a valid option has been provided', function () {
-		testItem.select = 'one'
+		testItem.select = 'one';
 		demand(List.fields.select.validateInput(testItem)).be(true);
 		testItem.select = 'undefined';
 	});
