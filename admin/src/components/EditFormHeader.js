@@ -1,5 +1,4 @@
-var React = require('react/addons');
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var React = require('react');
 var AltText = require('./AltText');
 var Toolbar = require('./Toolbar');
 

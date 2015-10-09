@@ -1,4 +1,5 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 const classnames = require('classnames');
 
 const CurrentListStore = require('../stores/CurrentListStore');
@@ -503,7 +504,7 @@ const ListView = React.createClass({
 
 });
 
-React.render(
+ReactDOM.render(
 	<ListView
 		appversion={Keystone.appversion}
 		backUrl={Keystone.backUrl}

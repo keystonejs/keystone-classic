@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import SessionStore from '../stores/SessionStore';
 import { Alert, Button, Form, FormField, FormInput, Spinner } from 'elemental';
 import { createHistory } from 'history';
@@ -154,7 +155,7 @@ var SigninView = React.createClass({
 	}
 });
 
-React.render(<SigninView
+ReactDOM.render(<SigninView
 		brand={Keystone.brand}
 		csrfTokenKey={Keystone.csrf_token_key}
 		csrfTokenValue={Keystone.csrf_token_value}
