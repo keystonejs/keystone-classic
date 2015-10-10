@@ -55,7 +55,12 @@ exports.testFieldType = function(List) {
 		testItem.select = 'undefined';
 	});
 
-	it('should return a shallow clone of the options', function () {
+	it('should retrieve a shallow clone of the options map', function () {
+		var clonedMap = List.fields.select.cloneMap();
+		demand(clonedMap).not.eql(List.fields.select.ops);
+	});
+
+	it('should retrieve a shallow clone of the options array', function () {
 		var clonedOps = List.fields.select.cloneOps();
 		demand(clonedOps).eql(List.fields.select.ops);
 		demand(clonedOps).not.equal(List.fields.select.ops);
