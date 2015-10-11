@@ -19,7 +19,7 @@ exports.testFieldType = function(List) {
 		demand(testItem.text).be('value');
 		testItem.text = undefined;
 	});
-	
+
 	it('should update nested fields', function() {
 		List.fields['nested.text'].updateItem(testItem, {
 			nested: {
@@ -29,12 +29,19 @@ exports.testFieldType = function(List) {
 		demand(testItem.nested.text).be('value');
 		testItem.nested.text = undefined;
 	});
-	
+
 	it('should update nested fields with flat paths', function() {
 		List.fields['nested.text'].updateItem(testItem, {
 			'nested.text': 'value'
 		});
 		demand(testItem.nested.text).be('value');
 		testItem.nested.text = undefined;
-	});	
+	});
+
+	it('should crop the string to the specified length', function () {
+		List.fields.text.updateItem(testItem, {
+			text: 'va'
+		});
+		demand(List.fields.text.crop(testItem)).be('va');
+	});
 };
