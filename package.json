@@ -33,7 +33,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
-    "elemental": "^0.4.8",
+    "elemental": "^0.5.0",
     "embedly": "^1.0.4",
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
