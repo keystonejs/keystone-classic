@@ -285,7 +285,7 @@ Field.prototype.isModified = function(item) {
  */
 Field.prototype.validateInput = function(data, required, item, callback) {
 	process.nextTick(callback(null, this.inputIsValid()));
-}
+};
 
 /**
  * Validates that a value for this field has been provided in a data object
