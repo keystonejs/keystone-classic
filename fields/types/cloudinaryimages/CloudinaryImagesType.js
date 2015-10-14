@@ -212,7 +212,7 @@ cloudinaryimages.prototype.isModified = function(item) {//eslint-disable-line no
  *
  * @api public
  */
-cloudinaryimages.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
+cloudinaryimages.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?
 	return true;
 };

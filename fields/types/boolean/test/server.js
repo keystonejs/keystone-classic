@@ -93,20 +93,20 @@ exports.testFieldType = function(List) {
 	});
 
 	it('should always validate when not required', function() {
-		demand(List.fields.bool.validateInput({ bool: 'true' }, false)).be(true);
-		demand(List.fields.bool.validateInput({ bool: true }, false)).be(true);
-		demand(List.fields.bool.validateInput({ bool: 'false' }, false)).be(true);
-		demand(List.fields.bool.validateInput({ bool: false }, false)).be(true);
-		demand(List.fields.bool.validateInput({ bool: '' }, false)).be(true);
-		demand(List.fields.bool.validateInput({ bool: undefined }, false)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: 'true' }, false)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: true }, false)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: 'false' }, false)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: false }, false)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: '' }, false)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: undefined }, false)).be(true);
 	});
 
 	it('should validate input properly when required', function() {
-		demand(List.fields.bool.validateInput({ bool: 'true' }, true)).be(true);
-		demand(List.fields.bool.validateInput({ bool: true }, true)).be(true);
-		demand(List.fields.bool.validateInput({ bool: 'false' }, true)).be(false);
-		demand(List.fields.bool.validateInput({ bool: false }, true)).be(false);
-		demand(List.fields.bool.validateInput({ bool: '' }, true)).be(false);
-		demand(List.fields.bool.validateInput({ bool: undefined }, true)).be(false);
+		demand(List.fields.bool.inputIsValid({ bool: 'true' }, true)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: true }, true)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: 'false' }, true)).be(false);
+		demand(List.fields.bool.inputIsValid({ bool: false }, true)).be(false);
+		demand(List.fields.bool.inputIsValid({ bool: '' }, true)).be(false);
+		demand(List.fields.bool.inputIsValid({ bool: undefined }, true)).be(false);
 	});
 };

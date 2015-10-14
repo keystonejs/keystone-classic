@@ -67,7 +67,7 @@ number.prototype.format = function(item, format) {
  * Checks that a valid number has been provided in a data object
  * An empty value clears the stored value and is considered valid
  */
-number.prototype.validateInput = function(data, required, item) {
+number.prototype.inputIsValid = function(data, required, item) {
 	var value = this.getValueFromData(data);
 	if (value === undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
 		return true;

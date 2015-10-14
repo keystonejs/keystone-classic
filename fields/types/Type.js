@@ -283,7 +283,17 @@ Field.prototype.isModified = function(item) {
  *
  * @api public
  */
-Field.prototype.validateInput = function(data, required, item) {
+Field.prototype.validateInput = function(data, required, item, callback) {
+	process.nextTick(callback(null, this.inputIsValid()));
+};
+
+/**
+ * Validates that a value for this field has been provided in a data object
+ * Overridden by some fieldType Classes
+ *
+ * Not a reliable public API; use inputIsValid, which is async, instead
+ */
+Field.prototype.inputIsValid = function(data, required, item) {
 	if (!required) return true;
 	var value = this.getValueFromData(data);
 	if (value === undefined && item && item.get(this.path)) return true;

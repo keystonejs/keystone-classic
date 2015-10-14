@@ -18,42 +18,42 @@ exports.testFieldType = function(List) {
 	});
 	
 	it('should validate input', function() {
-		demand(List.fields.numarr.validateInput({
+		demand(List.fields.numarr.inputIsValid({
 			numarr: [1]
 		})).be(true);
-		demand(List.fields.numarr.validateInput({
+		demand(List.fields.numarr.inputIsValid({
 			numarr: [1, 2]
 		})).be(true);
 	});
 	
 	it('should validate no input', function() {
-		demand(List.fields.numarr.validateInput({})).be(true);
-		demand(List.fields.numarr.validateInput({}, true)).be(false);
+		demand(List.fields.numarr.inputIsValid({})).be(true);
+		demand(List.fields.numarr.inputIsValid({}, true)).be(false);
 		testItem.numarr = [1];
-		demand(List.fields.numarr.validateInput({}, true, testItem)).be(true);
+		demand(List.fields.numarr.inputIsValid({}, true, testItem)).be(true);
 		testItem.numarr = undefined;
 	});
 	
 	it('should validate length when required', function() {
-		demand(List.fields.numarr.validateInput({
+		demand(List.fields.numarr.inputIsValid({
 			numarr: []
 		}, true)).be(false);
 	});
 	
 	it('should validate arrays with numeric string values', function() {
-		demand(List.fields.numarr.validateInput({
+		demand(List.fields.numarr.inputIsValid({
 			numarr: ['1']
 		})).be(true);
 	});
 	
 	it('should invalidate arrays with non-numeric string values', function() {
-		demand(List.fields.numarr.validateInput({
+		demand(List.fields.numarr.inputIsValid({
 			numarr: ['a']
 		})).be(false);
 	});
 	
 	it('should invalidate arrays with complex values', function() {
-		demand(List.fields.numarr.validateInput({
+		demand(List.fields.numarr.inputIsValid({
 			numarr: [[]]
 		}, true)).be(false);
 	});

@@ -92,7 +92,7 @@ exports = module.exports = function(req, res) {
 			var updateHandler = item.getUpdateHandler(req);
 			var data = (req.method === 'POST') ? req.body : req.query;
 			if (req.list.nameIsInitial) {
-				if (req.list.nameField.validateInput(data)) {
+				if (req.list.nameField.inputIsValid(data)) {
 					req.list.nameField.updateItem(item, data);
 				} else {
 					updateHandler.addValidationError(req.list.nameField.path, 'Name is required.');

@@ -123,7 +123,7 @@ password.prototype.compare = function(item, candidate, callback) {
  *
  * @api public
  */
-password.prototype.validateInput = function(data, required, item) {
+password.prototype.inputIsValid = function(data, required, item) {
 	if (data[this.path] && this.paths.confirm in data) {
 		return data[this.path] === data[this.paths.confirm] ? true : false;
 	}

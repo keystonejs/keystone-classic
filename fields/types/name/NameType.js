@@ -119,7 +119,7 @@ name.prototype.format = function(item) {
 /**
  * Validates that a value for this field has been provided in a data object
  */
-name.prototype.validateInput = function(data, required, item) {
+name.prototype.inputIsValid = function(data, required, item) {
 	// Input is valid if none was provided, but the item has data
 	if (!(this.path in data || this.paths.first in data || this.paths.last in data || this.paths.full in data) && item && item.get(this.paths.full)) return true;
 	// Input is valid if the field is not required

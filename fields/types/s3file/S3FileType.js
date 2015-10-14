@@ -203,7 +203,7 @@ s3file.prototype.isModified = function(item) {
  * @api public
  */
 
-s3file.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
+s3file.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };

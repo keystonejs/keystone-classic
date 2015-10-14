@@ -32,7 +32,7 @@ boolean.prototype.addFilterToQuery = function(filter, query) {
  * Validates that a truthy value for this field has been provided in a data object.
  * Useful for checkboxes that are required to be true (e.g. agreed to terms and cond's)
  */
-boolean.prototype.validateInput = function(data, required) {
+boolean.prototype.inputIsValid = function(data, required) {
 	if (required) {
 		return (data[this.path] === true || data[this.path] === 'true') ? true : false;
 	} else {

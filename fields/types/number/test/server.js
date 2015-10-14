@@ -14,65 +14,65 @@ exports.testFieldType = function(List) {
 	var testItem = new List.model();
 
 	it('should validate numeric input', function() {
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: 0
 		})).be(true);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: 1
 		})).be(true);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: -1
 		})).be(true);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: 1.1
 		})).be(true);
 	});
 
 	it('should validate string input', function() {
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: '0'
 		})).be(true);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: '1'
 		})).be(true);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: '-1'
 		})).be(true);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: '1.1'
 		})).be(true);
 	});
 
 	it('should validate no input', function() {
-		demand(List.fields.number.validateInput({})).be(true);
-		demand(List.fields.number.validateInput({}, true)).be(false);
+		demand(List.fields.number.inputIsValid({})).be(true);
+		demand(List.fields.number.inputIsValid({}, true)).be(false);
 		testItem.number = 1;
-		demand(List.fields.number.validateInput({}, true, testItem)).be(true);
+		demand(List.fields.number.inputIsValid({}, true, testItem)).be(true);
 		testItem.number = undefined;
 	});
 
 	it('should validate empty strings', function() {
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: ''
 		})).be(true);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: ''
 		}, true)).be(false);
 		testItem.number = 1;
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: ''
 		}, true, testItem)).be(false);
 		testItem.number = undefined;
 	});
 
 	it('should invalidate invalid input', function() {
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: {}
 		})).be(false);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: []
 		})).be(false);
-		demand(List.fields.number.validateInput({
+		demand(List.fields.number.inputIsValid({
 			number: 'a'
 		})).be(false);
 	});

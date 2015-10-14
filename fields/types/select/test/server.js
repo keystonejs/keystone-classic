@@ -51,7 +51,7 @@ exports.testFieldType = function(List) {
 
 	it('should validate a valid option has been provided', function () {
 		testItem.select = 'one';
-		demand(List.fields.select.validateInput(testItem)).be(true);
+		demand(List.fields.select.inputIsValid(testItem)).be(true);
 		testItem.select = 'undefined';
 	});
 
