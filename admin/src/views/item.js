@@ -1,28 +1,47 @@
-var React = require('react');
-var request = require('superagent');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const request = require('superagent');
 
-var CreateForm = require('../components/CreateForm');
-var EditForm = require('../components/EditForm');
-var Header = require('../components/ItemViewHeader');
+const CreateForm = require('../components/CreateForm');
+const EditForm = require('../components/EditForm');
+const EditFormHeader = require('../components/EditFormHeader');
+const FlashMessages = require('../components/FlashMessages');
+const Footer = require('../components/Footer');
+const MobileNavigation = require('../components/MobileNavigation');
+const PrimaryNavigation = require('../components/PrimaryNavigation');
+const SecondaryNavigation = require('../components/SecondaryNavigation');
 
-var View = React.createClass({
-	
+const { Container, Spinner } = require('elemental');
+
+var RelatedItemsList = React.createClass({
+	render () {
+		var json = JSON.stringify(Keystone.list.relationships, null, '  ');
+		return (
+			<span>
+				{json}
+			</span>
+		);
+	}
+});
+
+
+var ItemView = React.createClass({
+
 	displayName: 'ItemView',
-	
-	getInitialState: function() {
+
+	getInitialState () {
 		return {
-			createIsVisible: false,
-			list: Keystone.list,
+			createIsOpen: false,
 			itemData: null
 		};
 	},
 
-	componentDidMount: function() {
+	componentDidMount () {
 		this.loadItemData();
 	},
 
-	loadItemData: function() {
-		request.get('/keystone/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
+	loadItemData () {
+		request.get('/keystone/api/' + this.props.list.path + '/' + this.props.itemId + '?drilldown=true')
 			.set('Accept', 'application/json')
 			.end((err, res) => {
 				if (err || !res.ok) {
@@ -36,29 +55,118 @@ var View = React.createClass({
 				});
 			});
 	},
-	
-	toggleCreate: function(visible) {
+
+	toggleCreate (visible) {
 		this.setState({
-			createIsVisible: visible
+			createIsOpen: visible
 		});
 	},
-	
-	renderCreateForm: function() {
-		if (!this.state.createIsVisible) return null;
-		return <CreateForm list={Keystone.list} animate onCancel={this.toggleCreate.bind(this, false)} />;
-	},
-	
-	render: function() {
-		if (!this.state.itemData) return <div />;
+
+	renderRelationships () {
+		var relationships = [];
+		for (var relName in this.props.list.relationships) {
+			relationships.push(this.props.list.relationships[relName]);
+		}
+		relationships = relationships.map((relationship) => {
+			var unusedForNow = (
+				<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
+			);
+			var filter = JSON.stringify({
+				match: 'exact',
+				inverted: 'false',
+				value: this.props.itemId
+			});
+			var link = '/keystone/' + relationship.ref + '?' + relationship.refPath + '=' + filter;
+			return (
+				<ul>
+					<li>{relationship.path} ({relationship.ref} list) <a href={link}>visit</a>
+					</li>
+				</ul>
+			);
+		});
 		return (
-			<div>
-				{this.renderCreateForm()}
-				<Header list={this.state.list} data={this.state.itemData} toggleCreate={this.toggleCreate} />
-				<EditForm list={this.state.list} data={this.state.itemData} />
+			<Container>
+				<h4>Relationships</h4>
+				{relationships}
+			</Container>
+		);
+	},
+
+	render () {
+		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
+		return (
+			<div className="keystone-wrapper">
+				<header className="keystone-header">
+					<MobileNavigation
+						brand={this.props.brand}
+						currentListKey={this.props.list.path}
+						currentSectionKey={this.props.nav.currentSection.key}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
+						/>
+					<PrimaryNavigation
+						currentSectionKey={this.props.nav.currentSection.key}
+						brand={this.props.brand}
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl} />
+					<SecondaryNavigation
+						currentListKey={this.props.list.path}
+						lists={this.props.nav.currentSection.lists} />
+				</header>
+				<div className="keystone-body">
+					<EditFormHeader
+						list={this.props.list}
+						data={this.state.itemData}
+						drilldown={this.state.itemDrilldown}
+						toggleCreate={this.toggleCreate} />
+					<Container>
+						<CreateForm
+							list={this.props.list}
+							isOpen={this.state.createIsOpen}
+							onCancel={this.toggleCreate.bind(this, false)} />
+						<FlashMessages
+							messages={this.props.messages} />
+						<EditForm
+							list={this.props.list}
+							data={this.state.itemData} />
+						{ this.renderRelationships() }
+						{/*
+						TODO:
+							New component for item relationships:
+							<ItemRelationships list={this.props.list} itemId={this.props.itemId} />
+
+							The ItemRelationships component would loop through defined relationships,
+							and render a component for each:
+							<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
+						*/}
+					</Container>
+				</div>
+				<Footer
+					appversion={this.props.appversion}
+					backUrl={this.props.backUrl}
+					brand={this.props.brand}
+					User={this.props.User}
+					user={this.props.user}
+					version={this.props.version} />
 			</div>
 		);
 	}
-	
+
 });
 
-React.render(<View itemId={Keystone.itemId} />, document.getElementById('item-view'));
+ReactDOM.render(
+	<ItemView
+		appversion={Keystone.appversion}
+		backUrl={Keystone.backUrl}
+		brand={Keystone.brand}
+		itemId={Keystone.itemId}
+		list={Keystone.list}
+		messages={Keystone.messages}
+		nav={Keystone.nav}
+		signoutUrl={Keystone.signoutUrl}
+		User={Keystone.User}
+		user={Keystone.user}
+		version={Keystone.version}
+	/>,
+	document.getElementById('item-view')
+);

@@ -201,7 +201,7 @@ azurefile.prototype.isModified = function(item) {
  * @api public
  */
 
-azurefile.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
+azurefile.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -270,7 +270,7 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	this.callHook('pre:upload', [item, file], function(err) {
+	this.callHook('pre:upload', item, file, function(err) {
 		if (err) return callback(err);
 		doUpload();
 	});

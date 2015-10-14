@@ -18,39 +18,39 @@ exports.testFieldType = function(List) {
 	});
 	
 	it('should validate input', function() {
-		demand(List.fields.datearr.validateInput({
+		demand(List.fields.datearr.inputIsValid({
 			datearr: '2015-03-03'
 		})).be(true);
-		demand(List.fields.datearr.validateInput({
+		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2015-03-03']
 		})).be(true);
-		demand(List.fields.datearr.validateInput({
+		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2015-03-03', '2015-03-04']
 		})).be(true);
 	});
 	
 	it('should validate no input', function() {
-		demand(List.fields.datearr.validateInput({})).be(true);
-		demand(List.fields.datearr.validateInput({}, true)).be(false);
+		demand(List.fields.datearr.inputIsValid({})).be(true);
+		demand(List.fields.datearr.inputIsValid({}, true)).be(false);
 		testItem.datearr = ['2015-03-03'];
-		demand(List.fields.datearr.validateInput({}, true, testItem)).be(true);
+		demand(List.fields.datearr.inputIsValid({}, true, testItem)).be(true);
 		testItem.datearr = undefined;
 	});
 	
 	it('should validate length when required', function() {
-		demand(List.fields.datearr.validateInput({
+		demand(List.fields.datearr.inputIsValid({
 			datearr: []
 		}, true)).be(false);
 	});
 	
 	it('should invalidate arrays with invalid dates', function() {
-		demand(List.fields.datearr.validateInput({
+		demand(List.fields.datearr.inputIsValid({
 			datearr: 'not a real date'
 		})).be(false);
-		demand(List.fields.datearr.validateInput({
+		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2001-01-35']
 		})).be(false);
-		demand(List.fields.datearr.validateInput({
+		demand(List.fields.datearr.inputIsValid({
 			datearr: ['35-34-3210', '2001-01-01']
 		})).be(false);
 	});

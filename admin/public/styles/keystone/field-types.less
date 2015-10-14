@@ -1,0 +1,141 @@
+//
+// Field Types
+// ==============================
+
+
+
+
+// Code
+// ------------------------------
+
+.CodeMirror-container {
+	.FormInput();
+	height: auto;
+	padding: 0;
+}
+.CodeMirror {
+	background: transparent;
+	border-radius: @border-radius-base;
+}
+
+
+
+
+// Collapsed Field Label
+// ------------------------------
+
+/*button*/.collapsed-field-label {
+	padding-left: 0;
+	padding-right: 0;
+
+	// stop things jumping around
+	// TODO: find out why this is necessary
+	margin-bottom: 1px;
+}
+
+
+
+
+// Colour
+// ------------------------------
+
+.field-type-color__wrapper {
+	position: relative;
+}
+.field-type-color__button {
+	padding: 4px;
+	width: @component-height;
+}
+.field-type-color__swatch {
+	border-radius: 1px;
+	box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+// fix sizing issues with https://github.com/casesandberg/react-color
+// component doesn't play nice with border-box
+
+.field-type-color__picker {
+	div,
+	input,
+	span {
+		box-sizing: content-box;
+	}
+}
+
+
+
+
+// Local Files (plural)
+// ------------------------------
+
+.field-type-localfiles__filename {
+	min-width: 55%;
+}
+
+.field-type-localfiles__note {
+	background-color: transparent;
+	border-color: transparent;
+	margin-left: .5em;
+	min-width: 0;
+}
+.field-type-localfiles__note--delete {
+	background-color: fade(@app-danger, 5%);
+	color: fade(@app-danger, 50%);
+}
+.field-type-localfiles__note--upload {
+	background-color: fade(@app-success, 5%);
+	color: fade(@app-success, 50%);
+}
+
+
+
+
+// Location
+// ------------------------------
+
+.field-type-location {
+	label {
+		margin: 0;
+	}
+	label+.row {
+		margin-top: 12px;
+	}
+	// .noedit {
+	// 	.make-sm-column(9);
+	// 	.make-md-column(10);
+	// }
+	.row label {
+		padding-top: @padding-base-vertical;
+	}
+}
+
+
+
+
+// Password
+// ------------------------------
+
+// some browsers *cough* Chrome *cough* render heights differently for inputs, buttons, divs etc.
+// this stops the height of the label/input row jumping when we reveal the fields
+
+.field-type-password {
+	min-height: 2.5em;
+}
+
+
+
+
+// Relationship
+// ------------------------------
+
+// hide the link on smaller devices because it overlaps the select controls
+// TODO: find a better solution for this
+
+@media (max-width: @screen-sm-max) {
+	.field-type-relationship .keystone-relational-button {
+		display: none;
+	}
+}

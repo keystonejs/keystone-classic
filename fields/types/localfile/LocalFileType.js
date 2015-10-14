@@ -226,7 +226,7 @@ localfile.prototype.isModified = function(item) {
  * @api public
  */
 
-localfile.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
+localfile.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -291,7 +291,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	field.callHook('pre:move', [item, file], function(err) {
+	field.callHook('pre:move', item, file, function(err) {
 		if (err) return callback(err);
 		doMove(function(err, fileData) {
 			if (err) return callback(err);

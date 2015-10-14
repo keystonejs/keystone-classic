@@ -19,7 +19,7 @@ function numberarray(list, path, options) {
 
 	this._underscoreMethods = ['format'];
 	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
-	this._fixedSize = 'small';
+	this._defaultSize = 'small';
 	
 	if (this._formatString && 'string' !== typeof this._formatString) {
 		throw new Error('FieldType.Number: options.format must be a string.');
@@ -68,7 +68,7 @@ function isValidNumber(value) {
  * @api public
  */
 
-numberarray.prototype.validateInput = function(data, required, item) {
+numberarray.prototype.inputIsValid = function(data, required, item) {
 	var value = this.getValueFromData(data);
 
 	if (required) {

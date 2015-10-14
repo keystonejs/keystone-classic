@@ -1,0 +1,77 @@
+//
+// Keystone's Variables
+// ==============================
+
+
+
+
+// Common
+// ------------------------------
+
+@body-bg:                        #fafafa;
+
+@line-height-computed:           floor(@font-size-base * @line-height-base); // ~20px
+
+@padding-base-vertical:           6px;
+@padding-base-horizontal:        12px;
+
+@comboarrow-size:                 4px;
+@input-vspacing:                 12px;
+@table-cell-padding:              8px;
+@input-height-base:              24px;
+
+@dashboard-list-bg:              white;
+
+
+
+
+// Mobile Navigation
+// ------------------------------
+
+@mobile-nav-menu-bg:                              #313e4c;
+@mobile-nav-menu-border-color:                    rgba(255, 255, 255, 0.2);
+@mobile-nav-menu-border-width:                    4px;
+@mobile-nav-menu-padding-horizontal:              24px;
+@mobile-nav-menu-padding-vertical:                7px;
+
+@mobile-nav-menu-section-selected-bg:             rgba(0,0,0,0.28);
+@mobile-nav-menu-section-selected-border-color:   fade(@app-primary, 60%);
+@mobile-nav-menu-section-selected-border-width:   4px;
+@mobile-nav-menu-section-item-color:              white;
+@mobile-nav-menu-list-item-color:                 rgba(255,255,255,0.75);
+@mobile-nav-menu-list-item-selected-bg:           @app-primary;
+@mobile-nav-menu-list-item-selected-color:        white;
+
+@mobile-nav-bar-height:                           40px;
+@mobile-nav-bar-padding-horizontal:               15px;
+@mobile-nav-bar-padding-vertical:                 7px;
+@mobile-nav-bar-padding-vertical:                 7px;
+
+@mobile-nav-zindex-bar:                           @zindex-modal - 1;
+@mobile-nav-zindex-blockout:                      @zindex-modal - 3;
+@mobile-nav-zindex-menu:                          @zindex-modal - 2;
+
+
+
+
+// Navbars
+// ------------------------------
+
+@primary-navbar-bg:                   @link-color;
+@primary-navbar-color:                white;
+@primary-navbar-padding-vertical:     .75em;
+@primary-navbar-padding-horizontal:   1.5em;
+@primary-navbar-hover-bg:             transparent;
+@primary-navbar-hover-color:          white;
+@primary-navbar-active-bg:            darken(@primary-navbar-bg, 6.5%);
+@primary-navbar-active-color:         white;
+
+@secondary-navbar-bg:                 darken(@body-bg, 2%);
+@secondary-nav-border-color:          darken(@secondary-navbar-bg, 10%);
+@secondary-navbar-color:              #666;
+@secondary-navbar-hover-color:        darken(@secondary-navbar-color, 20%);
+@secondary-navbar-padding-vertical:   .75em;
+@secondary-navbar-padding-horizontal: 1em;
+@secondary-navbar-active-bg:          transparent;
+@secondary-navbar-active-color:       @text-color;
+@secondary-navbar-arrow-size:         8px;

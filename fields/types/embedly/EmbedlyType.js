@@ -239,7 +239,7 @@ embedly.prototype.isModified = function(item) {
  * @api public
  */
 
-embedly.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
+embedly.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
 	// TODO: I don't think embedly fields need to be validated...
 	return true;
 };

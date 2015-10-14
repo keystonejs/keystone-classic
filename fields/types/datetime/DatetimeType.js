@@ -13,7 +13,7 @@ var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYY
 function datetime(list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
-	this._fixedSize = 'large';
+	this._fixedSize = 'full';
 	this._properties = ['formatString', 'isUTC'];
 	this.typeDescription = 'date and time';
 	this.parseFormatString = options.parseFormat || parseFormats;
@@ -51,7 +51,7 @@ datetime.prototype.getInputFromData = function(data) {
  * Checks that a valid date has been provided in a data object
  * An empty value clears the stored value and is considered valid
  */
-datetime.prototype.validateInput = function(data, required, item) {
+datetime.prototype.inputIsValid = function(data, required, item) {
 	if (!(this.path in data && !(this.paths.date in data && this.paths.time in data)) && item && item.get(this.path)) return true;
 	var newValue = moment(this.getInputFromData(data), parseFormats);
 	if (required && (!newValue || !newValue.isValid())) {

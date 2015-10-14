@@ -1,7 +1,7 @@
-@select-text-color:                @input-color;
-@select-input-border-color:        @input-border;
-@select-input-border-radius:       @input-border-radius;
-@select-input-border-focus:        @input-border-focus;
+@select-text-color:                @text-color;
+@select-input-border-color:        @input-border-color;
+@select-input-border-radius:       @border-radius-base;
+@select-input-border-focus:        @input-border-color-focus;
 @select-input-placeholder:         #aaa;
 
 @select-padding-vertical:          @padding-base-vertical;
@@ -20,7 +20,7 @@
 @select-noresults-color:           lighten(@select-text-color, 40%);
 
 @select-clear-color:               @gray-light;
-@select-clear-hover-color:         @brand-danger;
+@select-clear-hover-color:         @app-danger;
 
 @select-item-border-radius:        2px;
 @select-item-gutter:               2px;
@@ -37,3 +37,4 @@
 @import "@{reactSelectPath}/less/select.less";
 
 @import "../../../../fields/types/markdown/less/bootstrap-markdown.less";
+@import "../../../public/js/lib/tinymce/skins/keystone/skin.less";

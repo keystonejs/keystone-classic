@@ -29,7 +29,7 @@ key.prototype.generateKey = function(str) {
 /**
  * Checks that a valid key has been provided in a data object
  */
-key.prototype.validateInput = function(data, required, item) {
+key.prototype.inputIsValid = function(data, required, item) {
 	var value = this.getValueFromData(data);
 	if (value === undefined && item && item.get(this.path)) {
 		return true;

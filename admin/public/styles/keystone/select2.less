@@ -16,7 +16,7 @@
 
 // Small fields for List filtering UI
 .filter .select2-container {
-	font-size: @font-size-small;
+	font-size: @font-size-sm;
 }
 
 // Style the field so it looks like the other fields
@@ -31,7 +31,7 @@
 }
 .filter .select2-container .select2-choice,
 .filter .select2-container-multi .select2-choices {
-	border-radius: @border-radius-small;
+	border-radius: 3px;
 }
 
 // single-select fields have a fixed height to match the Bootstrap fields
@@ -71,8 +71,8 @@
 	padding: 2px 20px 2px 5px;
 }
 .filter .select2-input, #page-list .select2-search .select2-input {
-	height: @input-height-small - 2;
-	font-size: @font-size-small;
+	height: 12px;
+	font-size: @font-size-sm;
 }
 
 // Clean up the height and line-height of inputs for multi-select fields
@@ -91,7 +91,7 @@
 }
 // Reset the focused appearance of selected values for multi-select fields
 .select2-container-multi .select2-choices .select2-search-choice-focus {
-	border-color: @input-border-focus;
+	border-color: @input-border-color-focus;
 }
 
 // Remove the gradient from the dropdown-arrow and set the chevron position
@@ -108,7 +108,7 @@
 	}
 }
 .filter .select2-container .select2-choice div {
-	font-size: @font-size-small;
+	font-size: @font-size-sm;
 	b {
 		margin-top: -2px;
 	}
@@ -174,7 +174,7 @@
 	min-height: 27px;
 }
 #page-list .select2-results {
-	font-size: @font-size-small;
+	font-size: @font-size-sm;
 	.select2-result-label {
 		min-height: 20px;
 		padding: 3px 7px 1px;
@@ -192,6 +192,6 @@
  * then replaced by a select2 input when javascript kicks in.
  */  
 select.ui-select2 {
-	height: @input-height-base;
+	// height: @input-height-base;
 	visibility: hidden;
 }

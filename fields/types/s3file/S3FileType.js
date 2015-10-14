@@ -203,7 +203,7 @@ s3file.prototype.isModified = function(item) {
  * @api public
  */
 
-s3file.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
+s3file.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -411,7 +411,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 			}
 
 			var protocol = (field.s3config.protocol && field.s3config.protocol + ':') || '',
-				url = res.req.url.replace(/^https?:/i, protocol);
+				url = res.req.url.replace(/^https?:/i, protocol).replace(/%25/g, '%');
 
 			var fileData = {
 				filename: filename,
@@ -431,7 +431,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	this.callHook('pre:upload', [item, file], function(err) {
+	this.callHook('pre:upload', item, file, function(err) {
 		if (err) return callback(err);
 		doUpload();
 	});

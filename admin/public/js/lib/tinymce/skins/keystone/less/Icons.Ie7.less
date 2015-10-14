@@ -1,26 +1,5 @@
 /* Icons IE7 */
-
-@font-face {
-	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot');
-	src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-		url('fonts/icomoon.svg#icomoon') format('svg'),
-		url('fonts/icomoon.woff') format('woff'),
-		url('fonts/icomoon.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'icomoon-small';
-	src:url('fonts/icomoon-small.eot');
-	src:url('fonts/icomoon-small.eot?#iefix') format('embedded-opentype'),
-		url('fonts/icomoon-small.svg#icomoon') format('svg'),
-		url('fonts/icomoon-small.woff') format('woff'),
-		url('fonts/icomoon-small.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
+@import "Fonts.less";
 
 @iconSize: 16px;
 
@@ -52,7 +31,7 @@
 
 .mce-i-save           { -ie7-icon: "\e000"; }
 .mce-i-newdocument    { -ie7-icon: "\e001"; }
-.mce-i-fullpage       { -ie7-icon: "\e002"; }
+.mce-i-fullpage, .mce-i-settings  { -ie7-icon: "\e002"; }
 .mce-i-alignleft      { -ie7-icon: "\e003"; }
 .mce-i-aligncenter    { -ie7-icon: "\e004"; }
 .mce-i-alignright     { -ie7-icon: "\e005"; }
@@ -67,7 +46,7 @@
 .mce-i-blockquote     { -ie7-icon: "\e801"; }
 .mce-i-undo           { -ie7-icon: "\e00f"; }
 .mce-i-redo           { -ie7-icon: "\e010"; }
-.mce-i-link           { -ie7-icon: "\e011"; }
+.mce-i-link, .mce-i-anchor { -ie7-icon: "\e011"; }
 .mce-i-unlink         { -ie7-icon: "\e012"; }
 .mce-i-anchor         { -ie7-icon: "\e013"; }
 .mce-i-image          { -ie7-icon: "\e014"; }

@@ -3,12 +3,11 @@
 // --------------------------------------------------
 
 .wysihtml5-toolbar {
-	
+	&:extend(.u-clearfix all);
 	list-style: none;
 	margin: 0;
-	padding: 0;
 	padding-bottom: 10px;
-	.clearfix();
+	padding: 0;
 	
 	> li {
 		float: left;
@@ -30,7 +29,7 @@
 	
 	.wysihtml5-command-active,
 	.wysihtml5-command-dialog-opened {
-		.btn.active;
+		background-color: #eee;
 	}
 	
 	.icon-ok { background-image: url('/keystone/images/icons/16/tick-circle.png') }

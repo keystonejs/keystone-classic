@@ -1,4 +1,4 @@
-// 
+//
 // Cloudinary Image
 // ==============================
 
@@ -11,6 +11,32 @@
 .field-upload {
 	position: absolute;
 	left: -9999px;
+}
+.field-type-cloudinaryimage {
+
+	// give values some breathing room
+	.FormInput-noedit {
+		margin-bottom: 10px;
+	}
+}
+
+// cover the image with an icon to indicate pending change
+.field-type-cloudinaryimage,
+.field-type-cloudinaryimages {
+	.img-loading,
+	.img-uploading,
+	.upload-pending,
+	.delete-pending {
+		bottom: @thumbnail-gutter-width;
+		background-color: rgba(0, 0, 0, 0.5);
+		color: white;
+		left: @thumbnail-gutter-width;
+		line-height: 90px;
+		position: absolute;
+		right: @thumbnail-gutter-width;
+		text-align: center;
+		top: @thumbnail-gutter-width;
+	}
 }
 
 
@@ -25,81 +51,46 @@
 		line-height: 0px;
 		float: left;
 		margin-right: 10px;
+
 		.placeholder-wrap {
 			position: relative;
 			height: 100px;
 			overflow: hidden;
-			
+
 			.placeholder {
 				height: 90px;
 				opacity: 0.25;
-				
+
 				&.no-preview {
 					width: 100px;
 					display: block;
 				}
 			}
 		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			.square(40px);
-			color: rgba(0,0,0,0.66);
-			font-size: 40px;
-			left: 50%;
-			margin: -20px 0 0 -20px;
-			position: absolute;
-			text-align: center;
-			top: 50%;
-		}
-		.img-thumbnail {
-			img {
-				display: block;
-			}
-		}
-		&.removed {
-			.img-thumbnail {
-				img {
-					opacity: 0.25;
-				}
-			}
-		}
 	}
-	
+
 	.image-details {
 		overflow: hidden;
-		.image-values {
-			.field-value {
-				width: auto;
-				min-width: 1px;
-				float: left;
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-		}
+
 		.image-message {
-			margin-left: 0px;
 			font-size: 12px;
-			width: 110px;
+			margin-left: 0px;
 			text-align: center;
 			width: 100%;
 		}
+
+		& + .image-toolbar {
+			margin-top: @input-vspacing;
+		}
 	}
-	
-	.image-details + .image-toolbar {
-		margin-top: @input-vspacing;
+
+	.image-toolbar {
+		&:extend(.u-clearfix all);
 	}
 
 	.image-select {
-		clear: both; 
+		clear: both;
 		padding-top: 10px;
-	}
-	
-	.upload-queued, .delete-queued, .select-queued {
-		.alert {
-			margin-right: 10px;
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-		}
 	}
 }
 
@@ -110,85 +101,52 @@
 // ------------------------------
 
 .field-type-cloudinaryimages {
+
+	// wrapper for image
 	.image-field {
-		width: auto;
 		float: left;
-		margin-top: 0px;
-		margin-right: 0px;
 		margin-bottom: 10px;
-		
-		&.image-upload {
-			cursor: pointer;
+		margin-right: 10px;
+	}
+
+	// drop zone
+	.image-field--upload {
+		cursor: pointer;
+
+		.img-thumbnail {
+			.img-dropzone {
+				width: 90px;
+				height: 90px;
+				display: block;
+				position: relative;
+				z-index: 1;
+			}
+		}
+		&:hover,
+		&.hover {
 			.img-thumbnail {
-				.img-dropzone {
-					width: 90px;
-					height: 90px;
-					display: block;
-					position: relative;
-					z-index: 1;
+				border: 1px solid #C8EECD;
+				background: #EFFDF0;
+				.img-uploading {
+					color: #0B851A;
 				}
 			}
-			&:hover,
-			&.hover {
-				.img-thumbnail {
-					border: 1px solid #C8EECD;
-					background: #EFFDF0;
-					.img-uploading {
-						color: #0B851A;
-					}
-				}
-				.image-message {
-					text-decoration: underline;
-				}
+			.image-message {
+				text-decoration: underline;
 			}
 		}
 	}
+
+	// anchor containing the image, and when applicable an icon
 	.image-preview {
-		line-height: 0px;
-		.placeholder-wrap {
-			height: 100px;
-			overflow: hidden;
-			
-			.placeholder {
-				height: 90px;
-				opacity: 0.25;
-				
-				&.no-preview {
-					width: 100px;
-					display: block;
-				}
-			}
-		}
-		.img-loading, .img-uploading, .upload-pending, .delete-pending {
-			color: #6A6A6A;
-			font-size: 23px;
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			line-height: 100px;
-			text-align: center;
-			text-shadow: 0 0 50px #FFFFFF;
-		}
+		line-height: 0;
+
 		.image-message {
 			margin-left: 0px;
 			font-size: 12px;
 			width: 110px;
 			text-align: center;
 			width: 100%;
-		}
-		.img-thumbnail {
-			img {
-				display: block;
-			}
-		}
-		&.action {
-			.img-thumbnail {
-				img {
-					opacity: 0.25;
-				}
-			}
 		}
 	}
 	.image-details {
@@ -197,7 +155,7 @@
 			padding: @padding-base-vertical @padding-base-horizontal;
 			margin-bottom: 0;
 			font-size: 12px;
-			font-weight: @btn-font-weight;
+			font-weight: 500;
 			line-height: @line-height-base;
 			text-align: center;
 			vertical-align: middle;
@@ -206,12 +164,6 @@
 			font-size: 12px;
 			width: 100%;
 		}
-	}
-	.field-value {
-		width: auto;
-		float: left;
-		margin-right: 10px;
-		margin-bottom: 15px;
 	}
 	.upload-queued,
 	.delete-queued {
@@ -224,14 +176,10 @@
 		text-align: center;
 		width: 100%;
 	}
+
+	.images-container,
 	.images-toolbar {
-		margin-top: 0;
-		.alert {
-			margin-bottom: 10px;
-			float: left;
-			padding: 6px 12px;
-			margin-bottom: 0px;
-		}
+		&:extend(.u-clearfix all);
 	}
 	.sortable-placeholder {
 		border: 1px dashed #777;

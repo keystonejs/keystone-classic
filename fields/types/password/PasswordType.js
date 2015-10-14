@@ -11,7 +11,7 @@ var util = require('util');
 function password(list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format', 'compare'];
-	this._fixedSize = 'large';
+	this._fixedSize = 'full';
 	// You can't sort on password fields
 	options.nosort = true;
 	options.nofilter = true; // TODO: remove this when 0.4 is merged
@@ -123,7 +123,7 @@ password.prototype.compare = function(item, candidate, callback) {
  *
  * @api public
  */
-password.prototype.validateInput = function(data, required, item) {
+password.prototype.inputIsValid = function(data, required, item) {
 	if (data[this.path] && this.paths.confirm in data) {
 		return data[this.path] === data[this.paths.confirm] ? true : false;
 	}

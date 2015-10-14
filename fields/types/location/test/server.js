@@ -103,26 +103,26 @@ exports.testFieldType = function(List) {
 	});
 	
 	it('should validate required fields', function() {
-		List.fields['location.basic'].validateInput({}, true, testItem).must.be.false();
-		List.fields['location.basic'].validateInput({
+		List.fields['location.basic'].inputIsValid({}, true, testItem).must.be.false();
+		List.fields['location.basic'].inputIsValid({
 			'location.basic.street1': 'street1',
 			'location.basic.suburb': ''
 		}, true, testItem).must.be.false();
-		List.fields['location.basic'].validateInput({
+		List.fields['location.basic'].inputIsValid({
 			'location.basic.street1': 'street1',
 			'location.basic.suburb': 'suburb'
 		}, true, testItem).must.be.true();
-		List.fields['location.basic'].validateInput({
+		List.fields['location.basic'].inputIsValid({
 			location: { basic: {
 				street1: 'street1',
 				suburb: 'suburb'
 			} }
 		}, true, testItem).must.be.true();
-		List.fields['location.customRequired'].validateInput({
+		List.fields['location.customRequired'].inputIsValid({
 			'location.customRequired.street1': 'street1',
 			'location.customRequired.suburb': 'suburb'
 		}, true, testItem).must.be.false();
-		List.fields['location.customRequired'].validateInput({
+		List.fields['location.customRequired'].inputIsValid({
 			'location.customRequired.state': 'state',
 			'location.customRequired.country': 'country'
 		}, true, testItem).must.be.true();

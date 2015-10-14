@@ -18,30 +18,30 @@ exports.testFieldType = function(List) {
 	});
 	
 	it('should validate input', function() {
-		demand(List.fields.textarr.validateInput({
+		demand(List.fields.textarr.inputIsValid({
 			textarr: ['a']
 		})).be(true);
-		demand(List.fields.textarr.validateInput({
+		demand(List.fields.textarr.inputIsValid({
 			textarr: ['a', 'b']
 		})).be(true);
 	});
 	
 	it('should validate no input', function() {
-		demand(List.fields.textarr.validateInput({})).be(true);
-		demand(List.fields.textarr.validateInput({}, true)).be(false);
+		demand(List.fields.textarr.inputIsValid({})).be(true);
+		demand(List.fields.textarr.inputIsValid({}, true)).be(false);
 		testItem.textarr = ['a'];
-		demand(List.fields.textarr.validateInput({}, true, testItem)).be(true);
+		demand(List.fields.textarr.inputIsValid({}, true, testItem)).be(true);
 		testItem.textarr = undefined;
 	});
 	
 	it('should validate length when required', function() {
-		demand(List.fields.textarr.validateInput({
+		demand(List.fields.textarr.inputIsValid({
 			textarr: []
 		}, true)).be(false);
 	});
 	
 	it('should invalidate arrays with complex values', function() {
-		demand(List.fields.textarr.validateInput({
+		demand(List.fields.textarr.inputIsValid({
 			textarr: [[]]
 		}, true)).be(false);
 	});

@@ -29,7 +29,7 @@ util.inherits(textarray, super_);
  * @api public
  */
 
-textarray.prototype.validateInput = function(data, required, item) {
+textarray.prototype.inputIsValid = function(data, required, item) {
 	var value = this.getValueFromData(data);
 
 	if (required) {

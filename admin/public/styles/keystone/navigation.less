@@ -1,0 +1,371 @@
+//
+// Navigation
+// ==============================
+
+
+
+
+// Common
+// ------------------------------
+
+.app-nav {
+	&:extend(.u-clearfix all);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	> li {
+		float: left;
+
+		&.right {
+			float: right;
+		}
+	}
+	> li > a {
+		.transition( color 180ms );
+		display: block;
+		outline: none;
+		text-decoration: none;
+	}
+}
+.app-nav--left {
+	float: left;
+}
+.app-nav--right {
+	float: right;
+
+	// Alignment Hack
+	// align last nav items to the right of the container
+	// first item alignment declared separately for primary/secondary - see below
+	li:last-child > a {
+		padding-right: 0;
+	}
+}
+
+// fade out the hovered item's siblings
+.app-nav--primary:hover {
+	color: fade(@primary-navbar-color, 66%);
+}
+.app-nav--secondary:hover {
+	color: fade(@secondary-navbar-color, 66%);
+}
+
+
+
+
+// Primary
+// ------------------------------
+
+.primary-navbar {
+	background-color: @primary-navbar-bg;
+	color: @primary-navbar-color;
+	padding-bottom: .5em;
+	padding-top: .5em;
+
+	// add a little divider between nav items
+	li {
+		position: relative;
+
+		&:before {
+			.translate(0,-50%);
+			background-color: rgba(255, 255, 255, 0.2);
+			content: " ";
+			left: 0;
+			height: 1em;
+			position: absolute;
+			top: 50%;
+			width: 1px;
+			z-index: 1;
+		}
+
+		// hide the divider where appropriate
+		&:first-child::before,
+		&.right:last-child::before {
+			display: none;
+		}
+	}
+
+	li > a {
+		border-radius: .3em;
+		color: inherit;
+		padding: @primary-navbar-padding-vertical @primary-navbar-padding-horizontal;
+		position: relative;
+
+		&:hover {
+			background-color: @primary-navbar-hover-bg;
+			color: @primary-navbar-hover-color;
+		}
+	}
+
+	// the selected nav item
+	.active {
+		// hide the active element's divider and mask the one to its right
+		box-shadow: 2px 0 0 @primary-navbar-bg; // this sits on top of the divider, masking it from view
+		z-index: 2;
+
+		&:before {
+			display: none;
+		}
+
+		> a {
+			&, &:hover {
+				background-color: @primary-navbar-active-bg;
+				color: @primary-navbar-active-color;
+			}
+		}
+	}
+
+	// align first nav items to the left of the container
+	// because the active state has a background we exclude it in this selector
+	li:first-child:not(.active) > a {
+		padding-left: 0;
+	}
+}
+
+
+
+
+// Secondary
+// ------------------------------
+
+.secondary-navbar {
+	background-color: @secondary-navbar-bg;
+	border-bottom: 1px solid darken(@secondary-navbar-bg, 10%);
+	color: @secondary-navbar-color;
+
+	li > a {
+		color: inherit;
+		padding: @secondary-navbar-padding-vertical @secondary-navbar-padding-horizontal;
+		position: relative;
+
+		&:hover {
+			color: @secondary-navbar-hover-color;
+		}
+	}
+	.active > a {
+
+		&:before,
+		&:after {
+			.square(0);
+			border: @secondary-navbar-arrow-size solid transparent;
+			border-bottom-width: 0;
+			content: "";
+			margin-left: -@secondary-navbar-arrow-size;
+			position: absolute;
+			left: 50%;
+		}
+		&:before {
+			border-top-color: #ccc;
+			bottom: -(@secondary-navbar-arrow-size + 1);
+		}
+		&:after {
+			border-top-color: @secondary-navbar-bg;
+			bottom: -@secondary-navbar-arrow-size;
+		}
+		&, &:hover {
+			background-color: @secondary-navbar-active-bg;
+			color: @secondary-navbar-active-color;
+		}
+	}
+
+	// align first nav items to the left of the container
+	// 1. remove right padding to fix the center alignment of the active arrow
+	// 2. recover the missing right padding using margin
+	li:first-child > a {
+		margin-right: @secondary-navbar-padding-horizontal; // 2
+		padding-left: 0;
+		padding-right: 0; // 1
+	}
+}
+
+
+
+
+// Mobile
+// ------------------------------
+
+.MobileNavigation {}
+
+
+// Common
+
+.MobileNavigation__icon {}
+
+
+// Bar
+
+.MobileNavigation__bar--placeholder {
+	height: @mobile-nav-bar-height;
+}
+.MobileNavigation__bar {
+	background-color: @app-primary;
+	color: white;
+	line-height: @mobile-nav-bar-height;
+	position: fixed;
+	z-index: @mobile-nav-zindex-bar;
+	width: 100%;
+}
+.MobileNavigation__bar__button {
+	background: none;
+	border: none;
+	display: inline-block;
+	color: white;
+	padding: 0 @mobile-nav-bar-padding-horizontal;
+
+	&:hover,
+	&:focus {
+		color: white;
+		outline: none;
+	}
+	&:active {
+		opacity: .75;
+	}
+}
+.MobileNavigation__bar__button--signout {
+	float: right;
+}
+.MobileNavigation__bar__icon {
+}
+.MobileNavigation__bar__label {
+	font-size: @font-size-lg;
+	// font-weight: 300;
+}
+
+
+// Blockout
+
+.MobileNavigation__blockout {
+	.transition( opacity 160ms ease-out 100ms );
+	background: fade(@body-bg, 60%);
+	height: 100%;
+	left: 0;
+	opacity: 0;
+	opacity: 1;
+	overflow: hidden;
+	position: fixed;
+	top: @mobile-nav-bar-height;
+	width: 100%;
+	z-index: @mobile-nav-zindex-blockout;
+}
+
+
+// Menu
+
+.MobileNavigation__menu {
+	background: @mobile-nav-menu-bg;
+	border-radius: @border-radius-base;
+	bottom: 0;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+	left: 0;
+	margin: @grid-gutter-width;
+	max-width: 375 - (@grid-gutter-width * 2); // arbitrary: iPhone6 portrait
+	overflow: hidden;
+	position: fixed;
+	right: 0;
+	top: @mobile-nav-bar-height;
+	z-index: @mobile-nav-zindex-menu;
+}
+.MobileNavigation__menu-enter {
+	.animation-name( mobileNavMenuEnter );
+	.animation-duration( 260ms );
+	.animation-timing-function( cubic-bezier(0.230, 1.000, 0.320, 1.000) ); // easeOutQuint
+}
+.MobileNavigation__menu-leave {
+	.animation-duration( 200ms );
+	.animation-name( mobileNavMenuLeave );
+}
+
+.MobileNavigation__icon {
+	display: inline-block;
+	min-height: 1px;
+	text-align: center;
+	width: 32px;
+}
+
+
+// Sections
+
+.MobileNavigation__sections {
+	box-shadow: inset @mobile-nav-menu-border-width 0 0 @mobile-nav-menu-border-color;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	-webkit-overflow-scrolling: touch;
+	// padding: @mobile-nav-padding-vertical 0;
+}
+.MobileNavigation__section {
+	padding: @mobile-nav-menu-padding-vertical @mobile-nav-menu-padding-horizontal  @mobile-nav-menu-padding-vertical 0;
+
+	&.is-active {
+		background-color: @mobile-nav-menu-section-selected-bg;
+		box-shadow: inset @mobile-nav-menu-section-selected-border-width 0 0 @mobile-nav-menu-section-selected-border-color;
+	}
+}
+
+.MobileNavigation__section-item {
+	color: @mobile-nav-menu-section-item-color;
+	display: block;
+	font-size: @font-size-lg;
+	padding: @mobile-nav-menu-padding-vertical @mobile-nav-menu-padding-horizontal;
+
+	&:hover,
+	&:focus,
+	&:active {
+		color: @mobile-nav-menu-section-item-color;
+		outline: none;
+		text-decoration: none;
+	}
+}
+
+
+// Lists
+
+.MobileNavigation__lists {
+	// padding: 10px 0;
+}
+
+.MobileNavigation__list-item {
+	.border-right-radius(@border-radius-base);
+	color: @mobile-nav-menu-list-item-color;
+	display: block;
+	padding: @mobile-nav-menu-padding-vertical @mobile-nav-menu-padding-horizontal;
+
+	&:hover,
+	&:focus,
+	&:active {
+		color: @mobile-nav-menu-list-item-color;
+		outline: none;
+		text-decoration: none;
+	}
+
+	&.is-active {
+		background-color: @mobile-nav-menu-list-item-selected-bg;
+		color: @mobile-nav-menu-list-item-selected-color;
+	}
+}
+
+
+// slide in
+
+@-webkit-keyframes mobileNavMenuEnter {
+	from { opacity: 0; -webkit-transform: translate3d(-8%, 0, 0); }
+	to   { opacity: 1; -webkit-transform: none; }
+}
+@keyframes mobileNavMenuEnter {
+	from { opacity: 0; transform: translate3d(-8%, 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+
+
+// slide out
+
+@-webkit-keyframes mobileNavMenuLeave {
+	from { opacity: 1; -webkit-transform: none; }
+	to   { opacity: 0; -webkit-transform: translate3d(-4%, 0, 0); }
+}
+@keyframes mobileNavMenuLeave {
+	from { opacity: 1; transform: none; }
+	to   { opacity: 0; transform: translate3d(-4%, 0, 0); }
+}

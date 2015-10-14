@@ -1,12 +1,13 @@
-var React = require('react'),
-	Field = require('../Field');
+import Field from '../Field';
+import React from 'react';
+import { FormField, FormInput, FormRow } from 'elemental';
 
 module.exports = Field.create({
-	
+
 	displayName: 'NameField',
 
 	focusTargetRef: 'first',
-	
+
 	valueChanged: function(which, event) {
 		this.props.value[which] = event.target.value;
 		this.props.onChange({
@@ -14,32 +15,31 @@ module.exports = Field.create({
 			value: this.props.value
 		});
 	},
-	
-	renderValue: function() {
-		var values = {};
-		if (this.props.value.first) {
-			values.first = <div className="field-value">{this.props.value.first}</div>;
-		}
-		if (this.props.value.last) {
-			values.last = <div className="field-value">{this.props.value.last}</div>;
-		}
-		if (!values.first && !values.last) {
-			values.none = <div className="field-value" />;
-		}
-		return values;
-	},
-	
-	renderField: function() {
+
+	renderValue () {
 		return (
-			<div className="form-row">
-				<div className="col-sm-6">
-					<input type="text" name={this.props.paths.first} placeholder="First name" ref="first" value={this.props.value.first} onChange={this.valueChanged.bind(this, 'first')} autoComplete="off" className="form-control" />
-				</div>
-				<div className="col-sm-6">
-					<input type="text" name={this.props.paths.last} placeholder="Last name" ref="last" value={this.props.value.last} onChange={this.valueChanged.bind(this, 'last')} autoComplete="off" className="form-control" />
-				</div>
-			</div>
+			<FormRow>
+				<FormField width="one-half">
+					<FormInput noedit style={{ width: '100%' }}>{this.props.value.first}</FormInput>
+				</FormField>
+				<FormField width="one-half">
+					<FormInput noedit style={{ width: '100%' }}>{this.props.value.last}</FormInput>
+				</FormField>
+			</FormRow>
+		);
+	},
+
+	renderField () {
+		return (
+			<FormRow>
+				<FormField width="one-half">
+					<FormInput name={this.props.paths.first} placeholder="First name" ref="first" value={this.props.value.first} onChange={this.valueChanged.bind(this, 'first')} autoComplete="off" />
+				</FormField>
+				<FormField width="one-half">
+					<FormInput name={this.props.paths.last} placeholder="Last name" ref="last" value={this.props.value.last} onChange={this.valueChanged.bind(this, 'last')} autoComplete="off" />
+				</FormField>
+			</FormRow>
 		);
 	}
-	
+
 });

@@ -24,7 +24,7 @@ util.inherits(money, FieldType);
 
 /* Inherit from NumberType prototype */
 money.prototype.updateItem = NumberType.prototype.updateItem;
-money.prototype.validateInput = NumberType.prototype.validateInput;
+money.prototype.inputIsValid = NumberType.prototype.inputIsValid;
 
 /**
  * Formats the field value

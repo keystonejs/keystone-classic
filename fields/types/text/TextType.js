@@ -19,8 +19,8 @@ util.inherits(text, FieldType);
  */
 text.prototype.addFilterToQuery = function(filter, query) {
 	query = query || {};
-	if (filter.mode === 'match' && !filter.value) {
-		query[this.path] = filter.invert ? { $nin: ['', null] } : { $in: ['', null] };
+	if (filter.mode === 'exactly' && !filter.value) {
+		query[this.path] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
 		return;
 	}
 	var value = utils.escapeRegExp(filter.value);
@@ -28,11 +28,11 @@ text.prototype.addFilterToQuery = function(filter, query) {
 		value = '^' + value;
 	} else if (filter.mode === 'endsWith') {
 		value = value + '$';
-	} else if (filter.mode === 'match') {
+	} else if (filter.mode === 'exactly') {
 		value = '^' + value + '$';
 	}
 	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
-	query[this.path] = filter.invert ? { $not: value } : value;
+	query[this.path] = filter.inverted ? { $not: value } : value;
 	return query;
 };
 

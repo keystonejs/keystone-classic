@@ -2,16 +2,20 @@ var keystone = require('../../../');
 
 module.exports = function(req, res) {
 	if (!keystone.security.csrf.validate(req)) {
-		return res.apiError('invalid csrf');
+		console.log('Refusing to delete ' + req.list.key + ' ' + req.params.id + '; CSRF failure');
+		return res.apiError(403, 'invalid csrf');
 	}
 	if (req.list.get('nodelete')) {
-		return res.apiError('nodelete');
+		console.log('Refusing to delete ' + req.list.key + ' ' + req.params.id + '; List.nodelete is true');
+		return res.apiError(403, 'nodelete');
 	}
 	if (req.user && req.params.id === req.user.id) {
-		return res.apiError('not allowed', 'You can not delete yourself');
+		console.log('Refusing to delete ' + req.list.key + ' ' + req.params.id + '; item is current User');
+		return res.apiError(403, 'not allowed', 'You can not delete yourself');
 	}
 	req.list.model.findById(req.params.id).exec(function (err, item) {
 		if (err) {
+			console.log('Error deleting ' + req.list.key + ' ' + req.params.id, err);
 			return res.apiError('database error', err);
 		}
 		if (!item) {

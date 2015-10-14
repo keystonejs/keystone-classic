@@ -15,7 +15,7 @@ var util = require('util'),
 function datearray(list, path, options) {
 	
 	this._nativeType = [Date];
-	this._fixedSize = 'large';
+	this._defaultSize = 'medium';
 	this._underscoreMethods = ['format'];
 	this._properties = ['formatString'];
 
@@ -57,7 +57,7 @@ datearray.prototype.format = function(item, format) {
  * @api public
  */
 
-datearray.prototype.validateInput = function(data, required, item) {
+datearray.prototype.inputIsValid = function(data, required, item) {
 
 	var value = this.getValueFromData(data);
 	var parseFormatString = this.parseFormatString;
