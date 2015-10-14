@@ -128,7 +128,7 @@ relationship.prototype.format = function(item) {
 /**
  * Validates that a value for this field has been provided in a data object
  */
-relationship.prototype.validateInput = function(data, required, item) {
+relationship.prototype.inputIsValid = function(data, required, item) {
 	if (!required) return true;
 	if (!(this.path in data) && item && ((this.many && item.get(this.path).length) || item.get(this.path))) return true;
 	if ('string' === typeof data[this.path]) {

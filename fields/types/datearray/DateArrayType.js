@@ -57,7 +57,7 @@ datearray.prototype.format = function(item, format) {
  * @api public
  */
 
-datearray.prototype.validateInput = function(data, required, item) {
+datearray.prototype.inputIsValid = function(data, required, item) {
 
 	var value = this.getValueFromData(data);
 	var parseFormatString = this.parseFormatString;

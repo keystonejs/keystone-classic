@@ -91,7 +91,7 @@ date.prototype.parse = function(item) {
  * Checks that a valid date has been provided in a data object
  * An empty value clears the stored value and is considered valid
  */
-date.prototype.validateInput = function(data, required, item) {
+date.prototype.inputIsValid = function(data, required, item) {
 	if (!(this.path in data) && item && item.get(this.path)) return true;
 	var newValue = moment(data[this.path], this.parseFormatString);
 	if (required && (!newValue.isValid())) {

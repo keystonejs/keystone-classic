@@ -168,7 +168,7 @@ location.prototype.isModified = function(item) {
  * options.required specifies an array or space-delimited list of paths that
  * are required (defaults to street1, suburb)
  */
-location.prototype.validateInput = function(data, required, item) {
+location.prototype.inputIsValid = function(data, required, item) {
 	if (!required) return true;
 	var paths = this.paths;
 	var nested = this._path.get(data);

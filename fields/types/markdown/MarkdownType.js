@@ -101,7 +101,7 @@ markdown.prototype.format = function(item) {
  * @api public
  */
 
-markdown.prototype.validateInput = function(data, required, item) {
+markdown.prototype.inputIsValid = function(data, required, item) {
 	if (!(this.path in data || this.paths.md in data) && item && item.get(this.paths.md)) {
 		return true;
 	}

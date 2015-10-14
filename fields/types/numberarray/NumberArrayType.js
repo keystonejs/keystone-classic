@@ -68,7 +68,7 @@ function isValidNumber(value) {
  * @api public
  */
 
-numberarray.prototype.validateInput = function(data, required, item) {
+numberarray.prototype.inputIsValid = function(data, required, item) {
 	var value = this.getValueFromData(data);
 
 	if (required) {
