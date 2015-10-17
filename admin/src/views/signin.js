@@ -118,7 +118,6 @@ var SigninView = React.createClass({
 		return (
 			<div className="auth-box__col">
 				<Form method="post" onSubmit={this.handleSubmit} noValidate>
-					<FormInput type="hidden" name={this.props.csrfTokenKey} value={this.props.csrfTokenValue} />
 					<FormField label="Email" htmlFor="email">
 						<FormInput type="email" name="email" onChange={this.handleInputChange} value={this.state.email} ref="email" />
 					</FormField>
@@ -157,8 +156,6 @@ var SigninView = React.createClass({
 
 ReactDOM.render(<SigninView
 		brand={Keystone.brand}
-		csrfTokenKey={Keystone.csrf_token_key}
-		csrfTokenValue={Keystone.csrf_token_value}
 		logo={Keystone.logo}
 		user={Keystone.user}
 		userCanAccessKeystone={Keystone.userCanAccessKeystone}
