@@ -241,6 +241,7 @@ const ListView = React.createClass({
 				singular={list.singular}
 				style={{ marginBottom: 0 }}
 				total={items.count}
+				limit={10}
 				/>
 		);
 	},
