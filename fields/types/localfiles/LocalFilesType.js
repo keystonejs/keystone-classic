@@ -117,7 +117,7 @@ localfiles.prototype.addToSchema = function() {
 		if (typeof element_id === 'undefined') {
 			value = values[0];
 		} else {
-			value = _.findWhere(values, { 'id': element_id });
+			value = _.findWhere(values, { '_id': element_id });
 		}
 
 		if (typeof value === 'undefined') {
@@ -144,7 +144,7 @@ localfiles.prototype.addToSchema = function() {
 			item.set(field.path, []);
 		} else {
 			var values = item.get(field.path);
-			var value = _.findWhere(values, { 'id': element_id });
+			var value = _.findWhere(values, { '_id': element_id });
 			if (typeof value !== 'undefined') {
 				values.splice(values.indexOf(value), 1);
 			}
