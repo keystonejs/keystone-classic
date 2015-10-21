@@ -171,7 +171,7 @@ localfiles.prototype.addToSchema = function() {
 		delete: function(element_id) {
 			if (exists(this, element_id)) {
 				var values = this.get(field.path);
-				var value = _.findWhere(values, { 'id': element_id });
+				var value = _.findWhere(values, { '_id': element_id });
 				if (typeof value !== 'undefined') {
 					fs.unlinkSync(path.join(value.path, value.filename));
 				}
