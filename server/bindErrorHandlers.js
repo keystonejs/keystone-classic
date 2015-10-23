@@ -93,4 +93,4 @@ module.exports = function bindErrorHandlers (keystone, app) {
 			default500Handler(err, req, res, next);
 		}
 	});
-}
+};
