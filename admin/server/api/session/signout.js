@@ -1,4 +1,4 @@
-var keystone = require('../../../');
+var keystone = require('../../../../');
 
 function signout (req, res) {
 	var user = req.user;

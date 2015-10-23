@@ -1,5 +1,5 @@
-var keystone = require('../../');
-var session = require('../../lib/session');
+var keystone = require('../../../');
+var session = require('../../../lib/session');
 
 exports = module.exports = function(req, res) {
 	session.signout(req, res, function() {

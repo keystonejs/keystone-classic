@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var async = require('async');
 var baby = require('babyparse');
-var keystone = require('../../');
+var keystone = require('../../../');
 var moment = require('moment');
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -76,7 +76,7 @@ exports = module.exports = function(req, res) {
 			var content = baby.unparse(data, {
 				delimiter: keystone.get('csv field delimiter') || ','
 			});
-			
+
 			res.end(content, 'utf-8');
 		};
 

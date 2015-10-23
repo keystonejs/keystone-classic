@@ -1,4 +1,4 @@
-var keystone = require('../../');
+var keystone = require('../../../');
 var async = require('async');
 
 module.exports = function(req, res) {

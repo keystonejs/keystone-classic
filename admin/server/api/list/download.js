@@ -1,5 +1,5 @@
 var baby = require('babyparse');
-var keystone = require('../../../');
+var keystone = require('../../../../');
 var moment = require('moment');
 
 module.exports = function(req, res) {

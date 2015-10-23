@@ -1,6 +1,6 @@
 var utils = require('keystone-utils');
-var keystone = require('../../../');
-var session = require('../../../lib/session');
+var keystone = require('../../../../');
+var session = require('../../../../lib/session');
 
 function signin (req, res) {
 	if (!req.body.email || !req.body.password) {

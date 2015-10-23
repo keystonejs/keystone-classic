@@ -2,7 +2,7 @@ import _ from 'underscore';
 import React from 'react';
 import Field from '../Field';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
-import Lightbox from '../../../admin/src/components/Lightbox';
+import Lightbox from '../../../admin/client/components/Lightbox';
 
 const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
