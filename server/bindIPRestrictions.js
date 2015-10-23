@@ -1,6 +1,6 @@
 module.exports = function bindIPRestrictions (keystone, app) {
 	// Check for IP range restrictions
-	if (this.get('allowed ip ranges')) {
+	if (keystone.get('allowed ip ranges')) {
 		if (!app.get('trust proxy')) {
 			console.log(
 				'KeystoneJS Initialisaton Error:\n\n' +
@@ -8,10 +8,10 @@ module.exports = function bindIPRestrictions (keystone, app) {
 			);
 			process.exit(1);
 		}
-		debug('adding IP ranges', this.get('allowed ip ranges'));
+		debug('adding IP ranges', keystone.get('allowed ip ranges'));
 		app.use(require('../security/ipRangeRestrict')(
-			this.get('allowed ip ranges'),
-			this.wrapHTMLError
+			keystone.get('allowed ip ranges'),
+			keystone.wrapHTMLError
 		));
 	}
 };
