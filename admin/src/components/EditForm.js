@@ -9,15 +9,12 @@ var InvalidFieldType = require('./InvalidFieldType');
 var { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } = require('elemental');
 
 var EditForm = React.createClass({
-
 	displayName: 'EditForm',
-
 	getInitialState () {
 		return {
 			values: Object.assign({}, this.props.data.fields)
 		};
 	},
-
 	getFieldProps (field) {
 		var props = Object.assign({}, field);
 		props.value = this.state.values[field.path];
@@ -26,7 +23,6 @@ var EditForm = React.createClass({
 		props.mode = 'edit';
 		return props;
 	},
-
 	handleChange (event) {
 		var values = this.state.values;
 		values[event.path] = event.value;
@@ -34,7 +30,6 @@ var EditForm = React.createClass({
 			values: values
 		});
 	},
-
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
@@ -58,12 +53,9 @@ var EditForm = React.createClass({
 			);
 		}
 	},
-
 	renderNameField () {
-
 		var nameField = this.props.list.nameField;
 		var nameIsEditable = this.props.list.nameIsEditable;
-
 		function wrapNameField(field) {
 			return (
 				<div className="EditForm__name-field">
@@ -71,11 +63,8 @@ var EditForm = React.createClass({
 				</div>
 			);
 		}
-
 		if (nameIsEditable) {
-
 			var nameFieldProps = this.getFieldProps(nameField);
-
 			nameFieldProps.label = false;
 			nameFieldProps.size = 'full';
 			nameFieldProps.inputProps = {
@@ -83,11 +72,9 @@ var EditForm = React.createClass({
 				placeholder: nameField.label,
 				size: 'lg'
 			};
-
 			return wrapNameField(
 				React.createElement(Fields[nameField.type], nameFieldProps)
 			);
-
 		} else {
 			return wrapNameField(
 				<h2>{this.props.data.name || '(no name)'}</h2>
@@ -96,59 +83,43 @@ var EditForm = React.createClass({
 	},
 
 	renderFormElements () {
-
-		var elements = {};
+		var elements = [];
 		var headings = 0;
-
 		this.props.list.uiElements.map((el) => {
-
 			if (el.type === 'heading') {
-
 				headings++;
 				el.options.values = this.state.values;
-				elements['h-' + headings] = React.createElement(FormHeading, el);
-
+				el.key = 'h-' + headings;
+				elements.push(React.createElement(FormHeading, el));
 			} else if (el.type === 'field') {
-
 				var field = this.props.list.fields[el.field];
 				var props = this.getFieldProps(field);
-
-
 				if ('function' !== typeof Fields[field.type]) {
 					elements[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
 					return;
 				}
-
 				if (props.dependsOn) {
 					props.currentDependencies = {};
 					Object.keys(props.dependsOn).forEach(function (dep) {
 						props.currentDependencies[dep] = this.state.values[dep];
 					}, this);
 				}
-
-				elements[field.path] = React.createElement(Fields[field.type], props);
-
+				props.key = field.path;
+				elements.push(React.createElement(Fields[field.type], props));
 			}
-
 		}, this);
-
 		return elements;
-
 	},
 
 	renderFooterBar () {
-
 		var footer = {};
-
 		footer.save = <Button type="primary" submit>Save</Button>;
-
 		// TODO: Confirm: Use React & Modal
 		footer.reset = (
 			<Button href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
-
 		if (!this.props.list.nodelete) {
 			// TODO: Confirm: Use React & Modal
 			footer.del = (
@@ -157,28 +128,25 @@ var EditForm = React.createClass({
 				</Button>
 			);
 		}
-
 		return (
 			<FooterBar className="EditForm__footer">
 				{footer}
 			</FooterBar>
 		);
-
 	},
 
 	renderTrackingMeta () {
-
 		if (!this.props.list.tracking) return null;
 
-		var elements = {};
+		var elements = [];
 		var data = {};
 		var label;
 
 		if (this.props.list.tracking.createdAt) {
 			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
 			if (data.createdAt) {
-				elements.createdAt = (
-					<FormField label="Created on">
+				elements.push(
+					<FormField key="createdAt" label="Created on">
 						<FormInput noedit title={moment(data.createdAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.createdAt).format('Do MMM YYYY')}</FormInput>
 					</FormField>
 				);
@@ -190,8 +158,8 @@ var EditForm = React.createClass({
 			var label = this.props.list.tracking.createdAt ? 'by' : 'Created by';
 			if (data.createdBy) {
 				// todo: harden logic around user name
-				elements.createdBy = (
-					<FormField label="Created by">
+				elements.push(
+					<FormField key="createdBy" label="Created by">
 						<FormInput noedit>{data.createdBy.name.first} {data.createdBy.name.last}</FormInput>
 					</FormField>
 				);
@@ -201,8 +169,8 @@ var EditForm = React.createClass({
 		if (this.props.list.tracking.updatedAt) {
 			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
 			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
-				elements.updatedAt = (
-					<FormField label="Updated on">
+				elements.push(
+					<FormField key="updatedAt" label="Updated on">
 						<FormInput noedit title={moment(data.updatedAt).format('DD/MM/YYYY h:mm:ssa')}>{moment(data.updatedAt).format('Do MMM YYYY')}</FormInput>
 					</FormField>
 				);
@@ -213,8 +181,8 @@ var EditForm = React.createClass({
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
 			var label = this.props.list.tracking.createdAt ? 'by' : 'Updated by';
 			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
-				elements.updatedBy = (
-					<FormField label="Updated by">
+				elements.push(
+					<FormField key="updatedBy" label="Updated by">
 						<FormInput noedit>{data.updatedBy.name.first} {data.updatedBy.name.last}</FormInput>
 					</FormField>
 				);
@@ -227,11 +195,9 @@ var EditForm = React.createClass({
 				{elements}
 			</div>
 		) : null;
-
 	},
 
 	render () {
-
 		return (
 			<form method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
@@ -247,7 +213,6 @@ var EditForm = React.createClass({
 					</Col>
 					<Col lg="1/4"><span /></Col>
 				</Row>
-				{!this.props.list.noedit ? this.renderFooterBar() : null}
 			</form>
 		);
 	}
