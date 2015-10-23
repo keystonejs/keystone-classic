@@ -8,8 +8,8 @@ html
 		link(rel="stylesheet", href="/keystone/styles/keystone.min.css")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
-	body#home-view
-	
+	body
+		#home-view
 		include includes/script/keystone
 		- var getListMeta = function(list) { return _.pick(list, ['key', 'label', 'path']); }
 		script.
