@@ -4,11 +4,11 @@ var chalk = require('chalk');
 var crypto = require('crypto');
 var fs = require('fs-extra');
 var moment = require('moment');
-var packages = require('../packages');
+var packages = require('../../client/packages');
 var path = require('path');
 var watchify = require('watchify');
 
-var basedir = path.resolve(__dirname + '/../src/');
+var basedir = path.resolve(__dirname + '/../../client/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
 var devWriteBundles = process.env.KEYSTONE_WRITE_BUNDLES === 'true';
 var devWriteDisc = process.env.KEYSTONE_WRITE_DISC === 'true';

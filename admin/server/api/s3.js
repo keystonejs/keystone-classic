@@ -1,5 +1,5 @@
 var knox = require('knox');
-var keystone = require('../../');
+var keystone = require('../../../');
 var Types = keystone.Field.Types;
 
 exports = module.exports = {

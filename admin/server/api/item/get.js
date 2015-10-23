@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var async = require('async');
-var keystone = require('../../../');
+var keystone = require('../../../../');
 
 module.exports = function(req, res) {
 
@@ -38,7 +38,7 @@ module.exports = function(req, res) {
 			tasks.push(function(cb) {
 
 				// TODO: proper support for nested relationships in drilldown
-				
+
 				// step back through the drilldown list and load in reverse order to support nested relationships
 				drilldown.def = drilldown.def.split(' ').reverse();
 

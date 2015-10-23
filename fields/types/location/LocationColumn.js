@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
 
 const SUB_FIELDS = ['street1', 'suburb', 'state', 'postcode', 'country'];
 

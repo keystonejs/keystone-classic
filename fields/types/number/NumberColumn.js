@@ -1,7 +1,7 @@
 import React from 'react';
 import numeral from 'numeral';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
 
 var NumberColumn = React.createClass({
 	displayName: 'NumberColumn',

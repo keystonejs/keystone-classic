@@ -1,4 +1,4 @@
-var keystone = require('../../');
+var keystone = require('../../../');
 var _ = require('underscore');
 var async = require('async');
 

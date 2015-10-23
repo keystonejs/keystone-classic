@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var async = require('async');
-var keystone = require('../../');
+var keystone = require('../../../');
 
 exports = module.exports = function(req, res) {
 

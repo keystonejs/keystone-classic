@@ -1,6 +1,6 @@
 import React from 'react';
 // import CloudinaryImage from 'react-cloudinary-img';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
 
 const linkStyle = {
 	marginRight: 8,

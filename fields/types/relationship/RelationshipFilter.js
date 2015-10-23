@@ -1,6 +1,6 @@
 import React from 'react';
 var { Button, FormField, FormInput, InputGroup, SegmentedControl } = require('elemental');
-import PopoutList from '../../../admin/src/components/PopoutList';
+import PopoutList from '../../../admin/client/components/PopoutList';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Linked To', value: true },

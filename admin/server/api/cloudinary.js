@@ -1,5 +1,5 @@
 var cloudinary = require('cloudinary');
-var keystone = require('../../');
+var keystone = require('../../../');
 
 exports = module.exports = {
 
@@ -19,7 +19,7 @@ exports = module.exports = {
 						res.send({ image: { url: result.url } });
 					}
 				};
-				
+
 				// TinyMCE upload plugin uses the iframe transport technique
 				// so the response type must be text/html
 				res.format({
@@ -46,7 +46,7 @@ exports = module.exports = {
 					items: result.resources
 				});
 			}
-		}, { 
+		}, {
 			type: 'upload',
 			prefix: prefix,
 			max_results: max,
@@ -59,7 +59,7 @@ exports = module.exports = {
 			if (result.error) {
 				res.json({ error: { message: result.error.message } });
 			} else {
-				res.json({ item: result });	
+				res.json({ item: result });
 			}
 		});
 	}

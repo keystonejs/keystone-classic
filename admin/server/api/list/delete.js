@@ -1,5 +1,5 @@
 var async = require('async');
-var keystone = require('../../../');
+var keystone = require('../../../../');
 
 module.exports = function(req, res) {
 	if (!keystone.security.csrf.validate(req)) {

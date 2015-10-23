@@ -4,7 +4,7 @@ import React from 'react';
 import Field from '../Field';
 import Select from 'react-select';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
-import Lightbox from '../../../admin/src/components/Lightbox';
+import Lightbox from '../../../admin/client/components/Lightbox';
 
 /**
  * TODO:
