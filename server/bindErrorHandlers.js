@@ -1,3 +1,6 @@
+var dashes = '\n------------------------------------------------\n';
+var utils = require('keystone-utils');
+
 module.exports = function bindErrorHandlers (keystone, app) {
 
 	// Handle 404 (no route matched) errors

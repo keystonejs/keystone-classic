@@ -2,7 +2,7 @@ var assign = require('object-assign');
 
 module.exports = function initTrustProxy (keystone, app) {
 	// Apply locals
-	if (utils.isObject(keystone.get('locals'))) {
+	if (typeof keystone.get('locals') === 'object') {
 		assign(app.locals, keystone.get('locals'));
 	}
 
