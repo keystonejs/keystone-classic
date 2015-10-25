@@ -117,7 +117,6 @@ Keystone.prototype.openDatabaseConnection = require('./lib/core/openDatabaseConn
 Keystone.prototype.populateRelated = require('./lib/core/populateRelated');
 Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.render = require('./lib/core/render');
-Keystone.prototype.routes = require('./lib/core/routes');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
