@@ -129,6 +129,9 @@ Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 var keystone = module.exports = exports = new Keystone();
 
 // Expose modules and Classes
+keystone.Admin = {
+	Server: require('./admin/server')
+};
 keystone.Email = require('./lib/email');
 keystone.Field = require('./fields/types/Type');
 keystone.Field.Types = require('./lib/fieldTypes');
