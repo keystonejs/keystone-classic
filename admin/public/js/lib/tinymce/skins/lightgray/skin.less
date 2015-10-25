@@ -1,0 +1,2207 @@
+
+// Variables
+// Syntax: <control>-(<sub control>)-<bg|border|text>-(<state>)-(<extra>);
+// Example: @btn-primary-bg-hover-hlight;
+
+@prefix:                         mce;
+
+// Default font
+@font-family:                    "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-size:                      14px;
+@line-height:                    20px;
+@has-gradients:                  false;
+@has-radius:                     false;
+@has-boxshadow:                  false;
+@has-button-borders:             false;
+
+// Text colors
+@text:                           #333;
+@text-inverse:                   white;
+@text-disabled:                  #aaa;
+@text-shadow:                    0 1px 1px hsla(hue(@text-inverse), saturation(@text-inverse), lightness(@text-inverse), 0.75);
+@text-error:                     #aa0000;
+
+// Button
+@btn-text:                       @text;
+@btn-text-shadow:                none; 
+@btn-border-top:                 transparent;
+@btn-border-right:               transparent;
+@btn-border-bottom:              transparent;
+@btn-border-left:                transparent;
+@btn-caret-border:               @btn-text;   
+@btn-text-disabled:              @text-disabled;
+@btn-box-shadow:                 inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+@btn-box-shadow-active:          inset 0 2px 4px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .05);
+@btn-box-disabled-opacity:       0.4;
+@btn-bg:                         white;
+@btn-bg-hlight:                  #D9D9D9;
+@btn-bg-hover:                   darken(@btn-bg, 5%);
+@btn-bg-hlight-hover:            darken(@btn-bg-hlight, 5%);
+@btn-border-hover:               darken(@btn-bg, 20%);
+@btn-border-active:              darken(@btn-bg, 20%);
+@btn-padding:                    4px 8px;
+
+@btn-primary-bg:                 #2980b9;
+@btn-primary-bg-hlight:          #3498db;
+@btn-primary-bg-hover:           darken(@btn-primary-bg, 5%);
+@btn-primary-bg-hover-hlight:    darken(@btn-primary-bg-hlight, 5%);
+@btn-primary-text:               #fff;
+@btn-primary-text-shadow:        none;
+@btn-primary-border-top:         mix(@btn-border-top, @btn-primary-bg, 50%);
+@btn-primary-border-right:       mix(@btn-border-right, @btn-primary-bg, 50%);
+@btn-primary-border-bottom:      mix(@btn-border-bottom, @btn-primary-bg, 50%);
+@btn-primary-border-left:        mix(@btn-border-left, @btn-primary-bg, 50%);
+@btn-primary-border:             transparent;
+@btn-primary-border-hover:       transparent;
+
+// Button group
+@btn-group-border-width:         1px;
+
+// Menu
+@menuitem-text:                  @text;
+@menu-bg:                        #fff;
+@menu-margin:                    -1px 0 0;
+@menu-border:                    rgba(0, 0, 0, 0.2);
+@menubar-border:                 mix(@panel-border, @panel-bg, 60%);
+@menuitem-text-inverse:          @text-inverse;
+@menubar-bg-active:              darken(@btn-bg, 10%);
+@menuitem-bg-hover:              #0081C2;
+@menuitem-bg-selected:           #2980b9;
+@menuitem-bg-selected-hlight:    #3498db;
+@menuitem-bg-disabled:           #CCC;
+@menuitem-caret:                 @menuitem-text;
+@menuitem-caret-selected:        @menuitem-text-inverse;
+@menuitem-separator-top:         transparent;
+@menuitem-separator-bottom:      rgba(0,0,0,0.1);
+@menuitem-bg-active:             #3498db;
+@menuitem-text-active:           @text-inverse;
+@menuitem-preview-border-active: #aaa;
+@menubar-menubtn-text:           #333;
+
+// Panel
+@panel-border:                   rgba(0,0,0,.2);
+@panel-bg:                       #FDFDFD;
+@panel-bg-hlight:                #DDD;
+
+// Tabs
+@tab-border:                     #c5c5c5;
+@tab-bg:                         #ffffff;
+@tab-bg-hover:                   #FDFDFD;
+@tab-bg-active:                  #FDFDFD;
+@tabs-bg:						 #FFF;
+
+// Tooltip
+@tooltip-bg:                     #000;
+@tooltip-text:                   white;
+@tooltip-font-size:              11px;
+
+// Window
+@window-border:                  #c5c5c5;
+@window-head-border:             @window-border;
+@window-head-close:              mix(@text, @window-bg, 60%);
+@window-head-close-hover:        mix(@text, @window-bg, 40%);
+@window-foot-border:             @window-border;
+@window-foot-bg:                 @window-bg;
+@window-fullscreen-bg:           #FFF;
+@window-modalblock-bg:           #000;
+@window-modalblock-opacity:      0.3;
+@window-box-shadow:              0 3px 7px rgba(0, 0, 0, 0.3);
+@window-bg:                      #FFF;
+@window-title-font-size:         20px;
+
+// Popover
+@popover-bg:                     @window-bg;
+@popover-arrow-width:            10px;
+@popover-arrow:                  @window-bg;
+@popover-arrow-outer-width:      @popover-arrow-width + 1;
+@popover-arrow-outer:            rgba(0, 0, 0, 0.25);
+
+// Floatpanel
+@floatpanel-box-shadow:          0 5px 10px rgba(0, 0, 0, .2);
+
+// Checkbox
+@checkbox-bg:                    @btn-bg;
+@checkbox-bg-hlight:             @btn-bg-hlight;
+@checkbox-box-shadow:            inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+@checkbox-border:                #c5c5c5;
+@checkbox-border-focus:          rgba(82, 168, 236, .8);
+
+// Path
+@path-text:                      @text;
+@path-bg-focus:                  #666;
+@path-text-focus:                #fff;
+
+// Textbox
+@textbox-text-placeholder:       #aaa;
+@textbox-box-shadow:             inset 0 1px 1px rgba(0, 0, 0, 0.075);
+@textbox-bg:                     #fff;
+@textbox-border:                 #c5c5c5;
+@textbox-border-focus:           #3498db;
+
+// Throbber
+@throbber-bg:                    #fff url('img/loader.gif') no-repeat center center;
+
+// Combobox
+@combobox-border:                @textbox-border;
+
+// Colorpicker
+@colorpicker-border:             @textbox-border;
+@colorpicker-hue-bg:             #fff;
+@colorpicker-hue-border:         #333;
+
+// Grid
+@grid-bg-active:                 @menuitem-bg-active;
+@grid-border-active:             @menuitem-bg-active;
+@grid-border:                    #d6d6d6;
+
+// Misc
+@colorbtn-backcolor-bg:          #BBB;
+@iframe-border:                  @panel-border;
+
+// Slider
+@slider-border:                  #AAA;
+@slider-bg:                      #EEE;
+@slider-handle-border:           #BBB;
+@slider-handle-bg:               #DDD;
+
+// Flow layout
+@flow-layout-spacing:            2px;
+
+
+// Reset
+
+.@{prefix}-container, .@{prefix}-container *, .@{prefix}-widget, .@{prefix}-widget *, .@{prefix}-reset {
+	margin: 0; padding: 0; border: 0; outline: 0;
+	vertical-align: top; background: transparent;
+	text-decoration: none; color: @text;
+	font-family: @font-family;
+	font-size: @font-size; text-shadow: none; float: none;
+	position: static; width: auto; height: auto;
+	white-space: nowrap; cursor: inherit;
+	-webkit-tap-highlight-color: transparent;
+	line-height: normal; font-weight: normal;
+	text-align: left;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+	direction: ltr;
+	max-width: none;
+}
+
+.@{prefix}-widget button {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.@{prefix}-container *[unselectable] {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+
+// Mixins
+
+.opacity(@opacity) {
+	opacity: @opacity;
+	@opacityie: @opacity * 100;
+	filter: ~"alpha(opacity=@{opacityie})";
+	zoom: 1;
+}
+
+.vertical-gradient(@startColor, @endColor) when (@has-gradients = true) {
+	background-color: mix(@startColor, @endColor, 60%);
+	background-image: -moz-linear-gradient(top, @startColor, @endColor); // FF 3.6+
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@startColor), to(@endColor)); // Safari 4+, Chrome 2+
+	background-image: -webkit-linear-gradient(top, @startColor, @endColor); // Safari 5.1+, Chrome 10+
+	background-image: -o-linear-gradient(top, @startColor, @endColor); // Opera 11.10
+	background-image: linear-gradient(to bottom, @startColor, @endColor); // Standard, IE10
+	background-repeat: repeat-x;
+	filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", argb(@startColor), argb(@endColor)));
+	zoom: 1;
+}
+
+.vertical-gradient(@startColor, @endColor) when (@has-gradients = false) {
+	background-color: mix(@startColor, @endColor, 60%);
+}
+
+.border-radius(@radius) when (@has-radius = true) {
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	border-radius: @radius;
+}
+
+.box-shadow(@shadowA, @shadowB:X, ...) when (@has-boxshadow = true) {
+	// Multiple shadow solution from http://toekneestuck.com/blog/2012/05/15/less-css-arguments-variable/
+	@props: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`;
+	-webkit-box-shadow: @props;
+	-moz-box-shadow: @props;
+	box-shadow: @props;
+}
+
+.transition(@transition) {
+	-webkit-transition: @transition;
+	transition: @transition;
+}
+
+.inline-block() {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.reset-gradient() {
+	filter: e(%("progid:DXImageTransform.Microsoft.gradient(enabled = false)"));
+	background: transparent;
+}
+
+
+// Animations
+
+.@{prefix}-fade {
+	opacity: 0;
+	.transition(opacity .15s linear);
+
+	&.@{prefix}-in {
+		opacity: 1;
+	}
+}
+
+
+.@{prefix}-tinymce {
+	// Avoid FOUC
+	visibility: inherit !important;
+	position: relative;
+}
+
+.@{prefix}-fullscreen {
+	border: 0; padding: 0; margin: 0;
+	overflow: hidden;
+	height: 100%;
+	z-index: 100;
+}
+
+div.@{prefix}-fullscreen {
+	position: fixed;
+	top: 0; left: 0;
+	width: 100%;
+	height: auto;
+}
+
+.@{prefix}-tinymce {
+	display: block;
+	.border-radius(2px);
+}
+
+.@{prefix}-wordcount {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 8px;
+}
+
+div.@{prefix}-edit-area {
+	background: #FFF;
+	filter: none;
+}
+
+.@{prefix}-statusbar {
+	position: relative;
+}
+
+.@{prefix}-statusbar .@{prefix}-container-body {
+	position: relative;
+}
+
+.@{prefix}-fullscreen .@{prefix}-resizehandle {
+	display: none;
+}
+
+// Charmap
+
+.@{prefix}-charmap {
+	border-collapse: collapse;
+}
+
+.@{prefix}-charmap td {
+	cursor: default;
+	border: 1px solid @panel-border;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 2px;
+}
+
+.@{prefix}-charmap td div {
+	text-align: center;
+}
+
+.@{prefix}-charmap td:hover {
+	background: @btn-bg-hlight;
+}
+
+.@{prefix}-grid td.@{prefix}-grid-cell div {
+	border: 1px solid @grid-border;
+	width: 15px; height: 15px;
+	margin: 0px;
+	cursor: pointer;
+
+	&:focus {
+		border-color: @grid-border-active;
+	}
+
+	&[disabled] {
+		cursor: not-allowed;
+	}
+}
+
+.@{prefix}-grid {
+	border-spacing: 2px;
+	border-collapse: separate;
+
+	a {
+		display: block;
+		border: 1px solid transparent;
+
+		&:hover, &:focus {
+			border-color: @grid-border-active;
+		}
+	}
+}
+
+.@{prefix}-grid-border {
+	margin: 0 4px 0 4px;
+
+	a {
+		border-color: @grid-border;
+		width: 13px; height: 13px;
+	}
+
+	a:hover, a.@{prefix}-active {
+		border-color: @grid-border-active;
+		background: @grid-bg-active;
+	}
+}
+
+.@{prefix}-text-center {
+	text-align: center;
+}
+
+div.@{prefix}-tinymce-inline {
+	width: 100%;
+	.box-shadow(none);
+}
+
+.@{prefix}-colorbtn-trans div {
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 16px;
+	color: mix(@text, #fff, 70%);
+}
+
+// Reduce double margins between toolbar rows
+
+.@{prefix}-toolbar-grp when (@has-button-borders = false) {
+	padding: @flow-layout-spacing 0;
+}
+
+.@{prefix}-toolbar-grp when (@has-button-borders = true) {
+	padding-bottom: 2px;
+}
+
+.@{prefix}-toolbar-grp .@{prefix}-flow-layout-item {
+	margin-bottom: 0;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-wordcount {
+	left: 0;
+	right: auto;
+}
+
+
+// CropRect
+
+.@{prefix}-croprect-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.@{prefix}-croprect-handle {
+	position: absolute;
+	top: 0; left: 0;
+	width: 20px; height: 20px;
+	border: 2px solid white;
+}
+
+.@{prefix}-croprect-handle-nw {
+	border-width: 2px 0 0 2px;
+	margin: -2px 0 0 -2px;
+	cursor: nw-resize;
+	top: 100px; left: 100px;
+}
+
+.@{prefix}-croprect-handle-ne {
+	border-width: 2px 2px 0 0;
+	margin: -2px 0 0 -20px;
+	cursor: ne-resize;
+	top: 100px; left: 200px;
+}
+
+.@{prefix}-croprect-handle-sw {
+	border-width: 0 0 2px 2px;
+	margin: -20px 2px 0 -2px;
+	cursor: sw-resize;
+	top: 200px; left: 100px;
+}
+
+.@{prefix}-croprect-handle-se {
+	border-width: 0 2px 2px 0;
+	margin: -20px 0 0 -20px;
+	cursor: se-resize;
+	top: 200px; left: 200px;
+}
+
+.@{prefix}-croprect-handle-move {
+	position: absolute;
+	cursor: move;
+	border: 0;
+}
+
+.@{prefix}-croprect-block {
+	.opacity(@window-modalblock-opacity);
+	position: absolute;
+	background: black;
+}
+
+
+// ImagePanel
+
+.@{prefix}-imagepanel {
+	overflow: auto;
+	background: black;
+}
+
+.@{prefix}-imagepanel img {
+	position: absolute;
+}
+
+.@{prefix}-imagetool.@{prefix}-btn .@{prefix}-ico {
+	display: block;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 20px;
+	padding: 5px;
+}
+
+
+// Container
+
+.@{prefix}-container, .@{prefix}-container-body {
+	display: block;
+}
+
+.@{prefix}-autoscroll {
+	overflow: hidden;
+}
+
+
+// Scrollbar
+
+.@{prefix}-scrollbar {
+	position: absolute;
+	width: 7px;
+	height: 100%;
+	top: 2px;
+	right: 2px;
+	.opacity(0.4);
+}
+
+.@{prefix}-scrollbar-h {
+	top: auto;
+	right: auto;
+	left: 2px;
+	bottom: 2px;
+	width: 100%;
+	height: 7px;
+}
+
+.@{prefix}-scrollbar-thumb {
+	position: absolute;
+	background-color: #000;
+	border: 1px solid #888;
+	border-color: rgba(85, 85, 85, .6);
+	width: 5px;
+	height: 100%;
+	.border-radius(7px);
+}
+
+.@{prefix}-scrollbar-h .@{prefix}-scrollbar-thumb {
+	width: 100%;
+	height: 5px;
+}
+
+.@{prefix}-scrollbar:hover, .@{prefix}-scrollbar.@{prefix}-active {
+	background-color: #AAA;
+	.opacity(0.6);
+	.border-radius(7px);
+}
+
+.@{prefix}-scroll {
+	position: relative;
+}
+
+
+// Panel
+
+.@{prefix}-panel {
+	border: 0 solid mix(rgb(red(@panel-border), green(@panel-border), blue(@panel-border)), @panel-bg, 20%); 
+	border: 0 solid @panel-border;
+	.vertical-gradient(@panel-bg, @panel-bg-hlight);
+}
+
+
+﻿// FloatPanel
+
+.@{prefix}-floatpanel {
+	position: absolute;
+	.box-shadow(@floatpanel-box-shadow);
+}
+
+.@{prefix}-floatpanel.@{prefix}-fixed {
+	position: fixed;
+}
+
+// Popover panel
+
+.@{prefix}-floatpanel .@{prefix}-arrow,
+.@{prefix}-floatpanel .@{prefix}-arrow:after {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+
+.@{prefix}-floatpanel .@{prefix}-arrow {
+	border-width: @popover-arrow-outer-width;
+}
+
+.@{prefix}-floatpanel .@{prefix}-arrow:after {
+	border-width: @popover-arrow-width;
+	content: "";
+}
+
+.@{prefix}-floatpanel.@{prefix}-popover {
+	.reset-gradient();
+	.border-radius(6px);
+	.box-shadow(@floatpanel-box-shadow);
+	top: 0;
+	left: 0;
+	background: @popover-bg;
+	border: 1px solid @panel-border;
+	border: 1px solid @popover-arrow-outer;
+
+	&.@{prefix}-bottom {
+		margin-top: @popover-arrow-width;
+		*margin-top: 0;
+
+		& > .@{prefix}-arrow {
+			left: 50%;
+			margin-left: -@popover-arrow-outer-width;
+			border-top-width: 0;
+			border-bottom-color: @panel-border;
+			border-bottom-color: @popover-arrow-outer;
+			top: -@popover-arrow-outer-width;
+
+			&:after {
+				top: 1px;
+				margin-left: -@popover-arrow-width;
+				border-top-width: 0;
+				border-bottom-color: @popover-arrow;
+			}
+		}
+
+		&.@{prefix}-start { margin-left: -22px; }
+		&.@{prefix}-start > .@{prefix}-arrow { left: 20px; }
+
+		&.@{prefix}-end { margin-left: 22px; }
+		&.@{prefix}-end > .@{prefix}-arrow { right: 10px; left: auto; }
+	}
+}
+
+// Window
+
+.@{prefix}-fullscreen {
+	border: 0; padding: 0; margin: 0;
+	overflow: hidden;
+	height: 100%;
+}
+
+div.@{prefix}-fullscreen {
+	position: fixed;
+	top: 0; left: 0;
+}
+
+#@{prefix}-modal-block {
+	.opacity(0);
+	position: fixed;
+	left: 0; top: 0;
+	width: 100%; height: 100%;
+	background: @window-modalblock-bg;
+}
+
+#@{prefix}-modal-block.@{prefix}-in {
+	.opacity(@window-modalblock-opacity);
+}
+
+.@{prefix}-window-move {
+	cursor: move;
+}
+
+.@{prefix}-window {
+	.border-radius(6px);
+	.box-shadow(@window-box-shadow);
+	.reset-gradient();
+	background: @window-bg;
+	position: fixed;
+	top: 0; left: 0;
+	opacity: 0;
+	.transition(opacity 150ms ease-in);
+}
+
+.@{prefix}-window.@{prefix}-in {
+	opacity: 1;
+}
+
+.@{prefix}-window-head {
+	padding: 9px 15px;
+	border-bottom: 1px solid @window-head-border;
+	position: relative;
+}
+
+.@{prefix}-window-head .@{prefix}-close {
+	position: absolute;
+	right: 15px;
+	top: 9px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 20px;
+	color: @window-head-close;
+	cursor: pointer;
+
+	// IE7
+	height: 20px;
+	overflow: hidden;
+}
+
+.@{prefix}-close:hover {
+	color: @window-head-close-hover;
+}
+
+.@{prefix}-window-head .@{prefix}-title {
+	line-height: 20px;
+	font-size: @window-title-font-size;
+	font-weight: bold;
+	text-rendering: optimizelegibility;
+	padding-right: 10px;
+}
+
+.@{prefix}-window .@{prefix}-container-body {
+	display: block;
+}
+
+.@{prefix}-foot {
+	display: block;
+	background-color: @window-foot-bg;
+	border-top: 1px solid @window-foot-border;
+	.border-radius(0 0 6px 6px);
+}
+
+.@{prefix}-window-head .@{prefix}-dragh {
+	position: absolute;
+	top: 0; left: 0;
+	cursor: move;
+	width: 90%;
+	height: 100%;
+}
+
+.@{prefix}-window iframe {
+	width: 100%;
+	height: 100%;
+}
+
+.@{prefix}-window.@{prefix}-fullscreen, .@{prefix}-window.@{prefix}-fullscreen .@{prefix}-foot {
+	.border-radius(0);
+}
+
+.@{prefix}-window-body .@{prefix}-listbox {
+	border-color: @btn-border-hover;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-window-head .@{prefix}-close {
+	position: absolute;
+	right: auto;
+	left: 15px;
+}
+
+.@{prefix}-rtl .@{prefix}-window-head .@{prefix}-dragh {
+	left: auto;
+	right: 0;
+}
+
+.@{prefix}-rtl .@{prefix}-window-head .@{prefix}-title {
+	direction: rtl;
+	text-align: right;
+}
+
+
+// AbsoluteLayout
+
+.@{prefix}-abs-layout {
+	position: relative;
+}
+
+body .@{prefix}-abs-layout-item, .@{prefix}-abs-end {
+	position: absolute;
+}
+
+.@{prefix}-abs-end {
+	width: 1px; height: 1px;
+}
+
+.@{prefix}-container-body.@{prefix}-abs-layout {
+	overflow: hidden;
+}
+
+
+// Tooltip
+
+.@{prefix}-tooltip {
+	position: absolute;
+	padding: 5px;
+	.opacity(0.8);
+}
+
+.@{prefix}-tooltip-inner {
+	font-size: @tooltip-font-size;
+	background-color: @tooltip-bg;
+	color: @tooltip-text;
+	max-width: 200px;
+	padding: 5px 8px 4px 8px;
+	text-align: center;
+	white-space: normal;
+}
+
+.@{prefix}-tooltip-inner {
+	.border-radius(3px);
+}
+
+.@{prefix}-tooltip-inner {
+	.box-shadow(0 0 5px @tooltip-bg);
+}
+
+.@{prefix}-tooltip-arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	border: 5px dashed @tooltip-bg;
+}
+
+.@{prefix}-tooltip-arrow-n {
+	border-bottom-color: @tooltip-bg;
+}
+
+.@{prefix}-tooltip-arrow-s {
+	border-top-color: @tooltip-bg;
+}
+
+.@{prefix}-tooltip-arrow-e {
+	border-left-color: @tooltip-bg;
+}
+
+.@{prefix}-tooltip-arrow-w {
+	border-right-color: @tooltip-bg;
+}
+
+.@{prefix}-tooltip-nw, .@{prefix}-tooltip-sw {
+	margin-left: -14px;
+}
+
+.@{prefix}-tooltip-n .@{prefix}-tooltip-arrow {
+	top: 0px;
+	left: 50%;
+	margin-left: -5px;
+	border-bottom-style: solid;
+	border-top: none;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.@{prefix}-tooltip-nw .@{prefix}-tooltip-arrow {
+	top: 0;
+	left: 10px;
+	border-bottom-style: solid;
+	border-top: none;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.@{prefix}-tooltip-ne .@{prefix}-tooltip-arrow {
+	top: 0;
+	right: 10px;
+	border-bottom-style: solid;
+	border-top: none;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.@{prefix}-tooltip-s .@{prefix}-tooltip-arrow {
+	bottom: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-top-style: solid;
+	border-bottom: none;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.@{prefix}-tooltip-sw .@{prefix}-tooltip-arrow {
+	bottom: 0;
+	left: 10px;
+	border-top-style: solid;
+	border-bottom: none;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.@{prefix}-tooltip-se .@{prefix}-tooltip-arrow {
+	bottom: 0;
+	right: 10px;
+	border-top-style: solid;
+	border-bottom: none;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.@{prefix}-tooltip-e .@{prefix}-tooltip-arrow {
+	right: 0;
+	top: 50%;
+	margin-top: -5px;
+	border-left-style: solid;
+	border-right: none;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.@{prefix}-tooltip-w .@{prefix}-tooltip-arrow {
+	left: 0;
+	top: 50%;
+	margin-top: -5px;
+	border-right-style: solid;
+	border-left: none;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+
+// Button
+
+.@{prefix}-btn {
+	border: 1px solid mix(rgb(red(@btn-border-right), green(@btn-border-right), blue(@btn-border-right)), @panel-bg, 30%);
+	border-color: @btn-border-top @btn-border-right @btn-border-bottom @btn-border-left;
+	position: relative;
+	text-shadow: @text-shadow;
+
+	.inline-block();
+	.border-radius(3px);
+	.box-shadow(@btn-box-shadow);
+	.vertical-gradient(@btn-bg, @btn-bg-hlight);
+
+	&:hover, &:focus {
+		color: @btn-text;
+		.vertical-gradient(darken(@btn-bg, 5%), darken(@btn-bg-hlight, 5%));
+		border-color: @btn-border-hover;
+	}
+
+	&.@{prefix}-disabled button, &.@{prefix}-disabled:hover button {
+		cursor: default;
+		.box-shadow(none);
+		.opacity(@btn-box-disabled-opacity);
+	}
+
+	&.@{prefix}-active, &.@{prefix}-active:hover {
+		.vertical-gradient(darken(@btn-bg, 10%), darken(@btn-bg-hlight, 5%));
+		.box-shadow(@btn-box-shadow-active);
+		border-color: darken(@btn-bg, 20%);
+	}
+
+	&:active {
+		.vertical-gradient(darken(@btn-bg, 7%), darken(@btn-bg-hlight, 5%));
+		.box-shadow(@btn-box-shadow-active);
+		border-color: @btn-border-active;
+
+	}
+}
+
+.@{prefix}-btn button {
+	padding: @btn-padding;
+	font-size: @font-size;
+	line-height: @line-height;
+	*line-height: @line-height - 4px;
+	cursor: pointer;
+	color: @btn-text;
+	text-align: center;
+
+	// Fixes for default inner padding of button
+	overflow: visible; // IE7
+	-webkit-appearance: none; // WebKit
+	&::-moz-focus-inner { // Gecko
+		border: 0;
+		padding: 0;
+	}
+}
+
+.@{prefix}-btn i {
+	text-shadow: 1px 1px @btn-text-shadow;
+}
+
+.@{prefix}-primary {
+	min-width: 50px;
+	color: @btn-primary-text;
+	border: 1px solid transparent;
+	border-color: @btn-primary-border;
+	.vertical-gradient(@btn-primary-bg, @btn-primary-bg-hlight);
+
+	&:hover, &:focus {
+		.vertical-gradient(darken(@btn-primary-bg, 5%), darken(@btn-primary-bg-hlight, 5%));
+		border-color: @btn-primary-border-hover;
+	}
+
+	&.@{prefix}-disabled button, &.@{prefix}-disabled:hover button {
+		cursor: default;
+		.box-shadow(none);
+		.opacity(@btn-box-disabled-opacity);
+	}
+
+	&.@{prefix}-active, &.@{prefix}-active:hover, &:not(.@{prefix}-disabled):active {
+		.vertical-gradient(darken(@btn-primary-bg, 10%), darken(@btn-primary-bg-hlight, 10%));
+		.box-shadow(@btn-box-shadow-active);
+	}
+}
+
+.@{prefix}-primary button, .@{prefix}-primary button i {
+	color: @btn-primary-text;
+	text-shadow: 1px 1px @btn-primary-text-shadow;
+}
+
+.@{prefix}-btn-large button {
+	padding: 9px 14px;
+	font-size: @font-size + 2px;
+	line-height: normal;
+	.border-radius(5px);
+}
+
+.@{prefix}-btn-large i {
+	margin-top: 2px;
+}
+
+.@{prefix}-btn-small button {
+	padding: 1px 5px;
+	font-size: @font-size - 2px;
+	*padding-bottom: 2px;
+}
+
+.@{prefix}-btn-small i {
+	line-height: 20px;
+	vertical-align: top;
+	*line-height: 18px;
+}
+
+.@{prefix}-btn .@{prefix}-caret {
+	margin-top: 8px;
+	margin-left: 0;
+}
+
+.@{prefix}-btn-small .@{prefix}-caret {
+	margin-top: 8px;
+	margin-left: 0;
+}
+
+.@{prefix}-caret {
+	.inline-block();
+	width: 0; height: 0;
+	vertical-align: top;
+	border-top: 4px solid @btn-caret-border;
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+	content: "";
+}
+
+.@{prefix}-disabled .@{prefix}-caret {
+	border-top-color: @text-disabled;
+}
+
+.@{prefix}-caret.@{prefix}-up {
+	border-bottom: 4px solid @btn-caret-border;
+	border-top: 0;
+}
+
+.@{prefix}-btn-flat {
+	border: 0;
+	background: transparent;
+	.border-radius(0);
+	.box-shadow(none);
+	filter: none;
+}
+
+.@{prefix}-btn-flat:hover, .@{prefix}-btn-flat.@{prefix}-active, .@{prefix}-btn-flat:focus, .@{prefix}-btn-flat:active {
+	border: 0;
+	background: @menubar-bg-active;
+	filter: none;
+	.box-shadow(none);
+}
+
+.@{prefix}-btn-has-text .@{prefix}-ico {
+	padding-right: 5px;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-btn button {
+	direction: rtl;
+}
+
+
+// ButtonGroup
+
+.btn-group-border-left(@border-color) when (@has-button-borders = true) {
+	border-left: 1px solid @border-color;
+}
+
+.btn-group-border-right(@border-color) when (@has-button-borders = true) {
+	border-right: 1px solid @border-color;
+}
+
+
+.@{prefix}-btn-group .@{prefix}-btn {
+	border-width: @btn-group-border-width;
+	margin: 0;
+	.border-radius(0);
+	margin-left: @flow-layout-spacing;
+}
+
+.@{prefix}-btn-group .@{prefix}-btn when (@has-button-borders = true) {
+	border-left-width: 0;
+	border-right-width: 0;
+	margin-left: 0;
+}
+
+.@{prefix}-btn-group:not(:first-child) when (@has-button-borders = true) {
+	padding-left: 1px;
+	margin-left: 1px;
+}
+
+.@{prefix}-btn-group:not(:first-child) when (@has-button-borders = false) {
+	border-left: 1px solid darken(@btn-bg, 15%);
+	padding-left: @flow-layout-spacing + 1px;
+	margin-left: @flow-layout-spacing + 1px;
+}
+
+.@{prefix}-btn-group .@{prefix}-first {
+	.border-radius(3px 0 0 3px);
+	.btn-group-border-left(@btn-border-left);
+	margin-left: 0;
+}
+
+.@{prefix}-btn-group .@{prefix}-last {
+	.border-radius(0 3px 3px 0);
+	.btn-group-border-right(@btn-border-right);
+}
+
+.@{prefix}-btn-group .@{prefix}-first.@{prefix}-last {
+	.border-radius(3px);
+}
+
+.@{prefix}-btn-group .@{prefix}-btn.@{prefix}-flow-layout-item {
+	margin: 0;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-btn-group .@{prefix}-btn {
+	margin-left: 0;
+	margin-right: @flow-layout-spacing;
+}
+
+.@{prefix}-rtl .@{prefix}-btn-group .@{prefix}-first {
+	margin-right: 0;
+}
+
+.@{prefix}-rtl .@{prefix}-btn-group:not(:first-child) {
+	border-left: none;
+	border-right:1px solid darken(@btn-bg, 15%);
+	padding-right: @flow-layout-spacing + 2px;
+	margin-right: @flow-layout-spacing + 2px;
+}
+
+
+// Checkbox
+
+.@{prefix}-checkbox {
+	cursor: pointer;
+}
+
+i.@{prefix}-i-checkbox {
+	margin: 0 3px 0 0;
+	border: 1px solid @checkbox-border;
+	.border-radius(3px);
+	.box-shadow(@checkbox-box-shadow);
+	.vertical-gradient(@checkbox-bg, @checkbox-bg-hlight);
+	text-indent: -10em;
+	*font-size: 0;
+	*line-height: 0;
+	*text-indent: 0;
+	overflow: hidden;
+}
+
+.@{prefix}-checked i.@{prefix}-i-checkbox {
+	color: @btn-text;
+	font-size: 16px;
+	line-height: 16px;
+	text-indent: 0;
+}
+
+.@{prefix}-checkbox:focus i.@{prefix}-i-checkbox, .@{prefix}-checkbox.@{prefix}-focus i.@{prefix}-i-checkbox {
+	border: 1px solid @checkbox-border-focus;
+	.box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px fadeout(@checkbox-border-focus, 15%));
+}
+
+.@{prefix}-checkbox.@{prefix}-disabled .@{prefix}-label, .@{prefix}-checkbox.@{prefix}-disabled i.@{prefix}-i-checkbox {
+	color: mix(@text, @panel-bg, 40%);
+}
+
+.@{prefix}-checkbox .@{prefix}-label {
+	vertical-align: middle;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-checkbox {
+	direction: rtl;
+	text-align: right;
+}
+
+.@{prefix}-rtl i.@{prefix}-i-checkbox {
+	margin: 0 0 0 3px;
+}
+
+
+// ComboBox
+
+.@{prefix}-combobox {
+	.inline-block();
+	.border-radius(3px);
+	.box-shadow(@textbox-box-shadow);
+	*height: 32px;
+}
+
+.@{prefix}-combobox input {
+	border: 1px solid @textbox-border;
+	border-right-color: @combobox-border;
+	height: 28px;
+}
+
+.@{prefix}-combobox.@{prefix}-disabled input {
+	color: mix(@text, @textbox-bg, 40%);
+}
+
+.@{prefix}-combobox.@{prefix}-has-open input {
+	.border-radius(4px 0 0 4px);
+}
+
+.@{prefix}-combobox .@{prefix}-btn {
+	border: 1px solid @textbox-border;
+	border-left: 0;
+	.border-radius(0 4px 4px 0);
+}
+
+.@{prefix}-combobox button {
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+.@{prefix}-combobox.@{prefix}-disabled .@{prefix}-btn button {
+	cursor: default;
+	.box-shadow(none);
+	.opacity(@btn-box-disabled-opacity);
+}
+
+
+// ColorBox
+
+.@{prefix}-colorbox i {
+	border: 1px solid @textbox-border;
+	width: 14px; height: 14px;
+}
+
+
+// ColorButton
+
+.@{prefix}-colorbutton .@{prefix}-ico {
+	position: relative;
+}
+
+.@{prefix}-colorbutton-grid {
+	margin: 4px;	
+}
+
+.@{prefix}-colorbutton button {
+    padding-right: 6px;
+    padding-left: 6px;
+}
+
+.@{prefix}-colorbutton .@{prefix}-preview {
+	padding-right: 3px;
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -17px;
+	margin-top: 7px;
+	background: gray;
+	width: 13px;
+	height: 2px;
+	overflow: hidden;
+}
+
+.@{prefix}-colorbutton.@{prefix}-btn-small .@{prefix}-preview {
+	margin-left: -16px;
+	padding-right: 0;
+	width: 16px;
+}
+
+.@{prefix}-colorbutton .@{prefix}-open {
+	padding-left: 4px;
+	padding-right: 4px;
+	border-left: 1px solid transparent;
+}
+
+.@{prefix}-colorbutton:hover .@{prefix}-open {
+	border-color: darken(@btn-bg, 20%);
+}
+
+.@{prefix}-colorbutton.@{prefix}-btn-small .@{prefix}-open {
+	padding: 0 3px 0 3px;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-colorbutton {
+	direction: rtl;
+}
+
+.@{prefix}-rtl .@{prefix}-colorbutton .@{prefix}-preview {
+	margin-left: 0;
+	padding-right: 0;
+	padding-left: 3px;
+}
+
+.@{prefix}-rtl .@{prefix}-colorbutton.@{prefix}-btn-small .@{prefix}-preview {
+	margin-left: 0;
+	padding-right: 0;
+	padding-left: 2px;
+}
+
+.@{prefix}-rtl .@{prefix}-colorbutton .@{prefix}-open {
+	padding-left: 4px;
+	padding-right: 4px;
+	border-left: 0;
+}
+
+
+// ColorPicker
+
+.@{prefix}-colorpicker {
+	position: relative;
+	width: 250px;
+	height: 220px;
+}
+
+.@{prefix}-colorpicker-sv {
+	position: absolute;
+	top: 0; left: 0;
+	width: 90%;
+	height: 100%;
+	border: 1px solid @colorpicker-border;
+	cursor: crosshair;
+	overflow: hidden;
+}
+
+.@{prefix}-colorpicker-h-chunk {
+	width: 100%;
+}
+
+.@{prefix}-colorpicker-overlay1, .@{prefix}-colorpicker-overlay2 {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.@{prefix}-colorpicker-overlay1 {
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr='#ffffff', endColorstr='#00ffffff');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr='#ffffff', endColorstr='#00ffffff')";
+	background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.@{prefix}-colorpicker-overlay2 {
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00000000', endColorstr='#000000');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00000000', endColorstr='#000000')";
+	background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+}
+
+.@{prefix}-colorpicker-selector1 {
+	background: none;
+	position: absolute;
+	width: 12px;
+	height: 12px;
+	margin: -8px 0 0 -8px;
+	border: 1px solid black;
+	border-radius: 50%;
+}
+
+.@{prefix}-colorpicker-selector2 {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border: 1px solid white;
+	border-radius: 50%;
+}
+
+.@{prefix}-colorpicker-h {
+	position: absolute;
+	top: 0; right: 0;
+	width: 6.5%;
+	height: 100%;
+	border: 1px solid @colorpicker-border;
+	cursor: crosshair;
+}
+
+.@{prefix}-colorpicker-h-marker {
+	margin-top: -4px;
+	position: absolute;
+	top: 0;
+	left: -1px;
+	width: 100%;
+	border: 1px solid @colorpicker-hue-border;
+	background: @colorpicker-hue-bg;
+	height: 4px;
+	z-index: 100;
+}
+
+
+// Path
+
+.@{prefix}-path {
+	.inline-block();
+	padding: 8px;
+	white-space: normal;
+}
+
+.@{prefix}-path .@{prefix}-txt {
+	display: inline-block;
+	padding-right: 3px;
+}
+
+.@{prefix}-path .@{prefix}-path-body {
+	display: inline-block;
+}
+
+.@{prefix}-path-item {
+	.inline-block();
+	cursor: pointer;
+	color: @path-text;
+}
+
+.@{prefix}-path-item:hover {
+	text-decoration: underline;
+}
+
+.@{prefix}-path-item:focus {
+	background: @path-bg-focus;
+	color: @path-text-focus;
+}
+
+.@{prefix}-path .@{prefix}-divider {
+	display: inline;
+}
+
+.@{prefix}-disabled .@{prefix}-path-item {
+	color: @text-disabled;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-path {
+	direction: rtl;
+}
+
+
+﻿// FieldSet
+
+.@{prefix}-fieldset {
+	border: 0 solid #9E9E9E;
+	.border-radius(3px);
+}
+
+.@{prefix}-fieldset > .@{prefix}-container-body {
+	margin-top: -15px;
+}
+
+.@{prefix}-fieldset-title {
+	margin-left: 5px;
+	padding: 0 5px 0 5px;
+}
+
+// FitLayout
+
+.@{prefix}-fit-layout {
+	.inline-block();
+}
+
+.@{prefix}-fit-layout-item {
+	position: absolute;
+}
+
+
+// FlowLayout
+
+.@{prefix}-flow-layout-item {
+	.inline-block();
+}
+
+.@{prefix}-flow-layout-item {
+	margin: @flow-layout-spacing 0 @flow-layout-spacing @flow-layout-spacing;
+}
+
+.@{prefix}-flow-layout-item.@{prefix}-last {
+	margin-right: @flow-layout-spacing;
+}
+
+.@{prefix}-flow-layout {
+	white-space: normal;
+}
+
+.@{prefix}-tinymce-inline .@{prefix}-flow-layout {
+	white-space: nowrap;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-flow-layout {
+	text-align: right;
+	direction: rtl;
+}
+
+.@{prefix}-rtl .@{prefix}-flow-layout-item {
+	margin: @flow-layout-spacing @flow-layout-spacing @flow-layout-spacing 0;
+}
+
+.@{prefix}-rtl .@{prefix}-flow-layout-item.@{prefix}-last {
+	margin-left: @flow-layout-spacing;
+}
+
+
+// Iframe
+
+.@{prefix}-iframe {
+	border: 0 solid @iframe-border;
+	width: 100%; height: 100%;
+}
+
+
+// Label
+
+.@{prefix}-label {
+	.inline-block();
+	text-shadow: @text-shadow;
+	overflow: hidden;
+}
+
+.@{prefix}-label.@{prefix}-autoscroll {
+	overflow: auto;
+}
+
+.@{prefix}-label.@{prefix}-disabled {
+	color: @text-disabled;
+}
+
+.@{prefix}-label.@{prefix}-multiline {
+	white-space: pre-wrap;
+}
+
+.@{prefix}-label.@{prefix}-error {
+	color: @text-error;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-label {
+	text-align: right;
+	direction: rtl;
+}
+
+
+/* MenuBar */
+
+.@{prefix}-menubar .@{prefix}-menubtn {
+	border-color: transparent;
+	background: transparent;
+	.border-radius(0);
+	.box-shadow(none);
+	filter: none;
+}
+
+.@{prefix}-menubar .@{prefix}-menubtn button {
+	color: @menubar-menubtn-text;
+}
+
+.@{prefix}-menubar {
+	border: 1px solid @menubar-border;
+}
+
+.@{prefix}-menubar .@{prefix}-menubtn button span {
+	color: @text;
+}
+
+.@{prefix}-menubar .@{prefix}-caret {
+	border-top-color: @text;
+}
+
+.@{prefix}-menubar .@{prefix}-menubtn:hover, .@{prefix}-menubar .@{prefix}-menubtn.@{prefix}-active, .@{prefix}-menubar .@{prefix}-menubtn:focus {
+	border-color: darken(@btn-bg, 20%);
+	background: @menu-bg;
+	filter: none;
+	.box-shadow(none);
+}
+
+
+/* MenuButton */
+
+.@{prefix}-menubtn button {
+	color: @btn-text;
+	//margin-right: 2px;
+	//line-height: @line-height;
+	//*line-height: @line-height - 4px;
+}
+
+.@{prefix}-menubtn.@{prefix}-btn-small span {
+	font-size: @font-size - 2px;
+}
+
+.@{prefix}-menubtn.@{prefix}-fixed-width span {
+	display: inline-block;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	width: 90px;
+}
+
+.@{prefix}-menubtn.@{prefix}-fixed-width.@{prefix}-btn-small span {
+	width: 70px;
+}
+
+.@{prefix}-menubtn .@{prefix}-caret {
+	*margin-top: 6px;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-menubtn button {
+	direction: rtl;
+	text-align: right;
+}
+
+
+// MenuItem
+
+.@{prefix}-menu-item {
+	display: block;
+	padding: 6px 15px 6px 12px;
+	clear: both;
+	font-weight: normal;
+	line-height: 20px;
+	color: @menuitem-text;
+	white-space: nowrap;
+	cursor: pointer;
+	line-height: normal;
+	border-left: 4px solid transparent;
+	margin-bottom: 1px;
+}
+
+.@{prefix}-menu-item .@{prefix}-ico, .@{prefix}-menu-item .@{prefix}-text {
+	color: @menuitem-text;
+}
+
+.@{prefix}-menu-item.@{prefix}-disabled .@{prefix}-text, .@{prefix}-menu-item.@{prefix}-disabled .@{prefix}-ico {
+	color: mix(@menuitem-text, @menu-bg, 40%);
+}
+
+.@{prefix}-menu-item:hover .@{prefix}-text, .@{prefix}-menu-item.@{prefix}-selected .@{prefix}-text, .@{prefix}-menu-item:focus .@{prefix}-text {
+	color: @menuitem-text-inverse;
+}
+
+.@{prefix}-menu-item:hover .@{prefix}-ico, .@{prefix}-menu-item.@{prefix}-selected .@{prefix}-ico, .@{prefix}-menu-item:focus .@{prefix}-ico {
+	color: @menuitem-text-inverse;
+}
+
+.@{prefix}-menu-item.@{prefix}-disabled:hover {
+	background: @menuitem-bg-disabled;
+}
+
+.@{prefix}-menu-shortcut {
+	display: inline-block;
+	color: mix(@menuitem-text, @menu-bg, 40%);
+}
+
+.@{prefix}-menu-shortcut {
+	.inline-block();
+	padding: 0 15px 0 20px;
+}
+
+.@{prefix}-menu-item:hover .@{prefix}-menu-shortcut, .@{prefix}-menu-item.@{prefix}-selected .@{prefix}-menu-shortcut, .@{prefix}-menu-item:focus .@{prefix}-menu-shortcut {
+	color: @menuitem-text-inverse;
+}
+
+.@{prefix}-menu-item .@{prefix}-caret {
+	margin-top: 4px;
+	*margin-top: 3px;
+	margin-right: 6px;
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-left: 4px solid @menuitem-caret;
+}
+
+.@{prefix}-menu-item.@{prefix}-selected .@{prefix}-caret, .@{prefix}-menu-item:focus .@{prefix}-caret, .@{prefix}-menu-item:hover .@{prefix}-caret {
+	border-left-color: @menuitem-caret-selected;
+}
+
+.@{prefix}-menu-align .@{prefix}-menu-shortcut {
+	*margin-top: -2px;
+}
+
+.@{prefix}-menu-align .@{prefix}-menu-shortcut, .@{prefix}-menu-align .@{prefix}-caret {
+	position: absolute;
+	right: 0;
+}
+
+.@{prefix}-menu-item.@{prefix}-active i {
+	visibility: visible;
+}
+
+.@{prefix}-menu-item-normal.@{prefix}-active {
+	background-color: @menuitem-bg-active;
+}
+
+.@{prefix}-menu-item-preview.@{prefix}-active {
+	border-left: 5px solid @menuitem-preview-border-active;
+}
+
+.@{prefix}-menu-item-normal.@{prefix}-active .@{prefix}-text {
+	color: @menuitem-text-active;
+}
+
+.@{prefix}-menu-item-normal.@{prefix}-active:hover .@{prefix}-text, .@{prefix}-menu-item-normal.@{prefix}-active:hover .@{prefix}-ico {
+	color: @menuitem-text-inverse;
+}
+
+.@{prefix}-menu-item-normal.@{prefix}-active:focus .@{prefix}-text, .@{prefix}-menu-item-normal.@{prefix}-active:focus .@{prefix}-ico {
+	color: @menuitem-text-inverse;
+}
+
+.@{prefix}-menu-item:hover, .@{prefix}-menu-item.@{prefix}-selected, .@{prefix}-menu-item:focus {
+	text-decoration: none;
+	color: @menuitem-text-inverse;
+	.vertical-gradient(@menuitem-bg-selected, @menuitem-bg-selected-hlight);
+}
+
+div.@{prefix}-menu .@{prefix}-menu-item-sep, .@{prefix}-menu-item-sep:hover {
+	border: 0;
+	padding: 0;
+	height: 1px;
+	margin: 9px 1px;
+	overflow: hidden;
+	background: @menuitem-separator-top;
+	border-bottom: 1px solid @menuitem-separator-bottom;
+	cursor: default;
+	filter: none;
+}
+
+// RTL
+
+.@{prefix}-menu.@{prefix}-rtl {
+	direction: rtl;
+}
+
+.@{prefix}-rtl .@{prefix}-menu-item {
+	text-align: right;
+	direction: rtl;
+	padding: 6px 12px 6px 15px;
+}
+
+.@{prefix}-menu-align.@{prefix}-rtl .@{prefix}-menu-shortcut, .@{prefix}-menu-align.@{prefix}-rtl .@{prefix}-caret {
+	right: auto;
+	left: 0;
+}
+
+.@{prefix}-rtl .@{prefix}-menu-item .@{prefix}-caret {
+	margin-left: 6px;
+	margin-right: 0;
+	border-right: 4px solid @menuitem-caret;
+	border-left: 0;
+}
+
+.@{prefix}-rtl .@{prefix}-menu-item.@{prefix}-selected .@{prefix}-caret, .@{prefix}-rtl .@{prefix}-menu-item:focus .@{prefix}-caret, .@{prefix}-rtl .@{prefix}-menu-item:hover .@{prefix}-caret {
+	border-left-color: transparent;
+	border-right-color: @menuitem-caret-selected;
+}
+
+
+// Menu
+
+.@{prefix}-menu {
+	position: absolute;
+	left: 0; top: 0;
+	.reset-gradient();
+	z-index: 1000;
+	padding: 5px 0 5px 0;
+	margin: @menu-margin; 
+	min-width: 160px;
+	background: @menu-bg;
+	border: 1px solid mix(rgb(red(@menu-border), green(@menu-border), blue(@menu-border)), @panel-bg, round(alpha(@menu-border) * 200));
+	border: 1px solid @menu-border;
+	z-index: 1002;
+	.border-radius(6px);
+	.box-shadow(0 5px 10px rgba(0,0,0,.2));
+	max-height: 400px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.@{prefix}-menu i {
+	display: none;
+}
+
+.@{prefix}-menu-has-icons i {
+	display: inline-block;
+	*display: inline;
+}
+
+.@{prefix}-menu-sub-tr-tl { margin: -6px 0 0 -1px; }
+.@{prefix}-menu-sub-br-bl { margin: 6px 0 0 -1px; }
+.@{prefix}-menu-sub-tl-tr { margin: -6px 0 0 1px; }
+.@{prefix}-menu-sub-bl-br { margin: 6px 0 0 1px; }
+
+
+// ListBox
+
+.@{prefix}-listbox button {
+	text-align: left;
+	padding-right: 20px;
+	position: relative;
+}
+
+.@{prefix}-listbox .@{prefix}-caret {
+	position: absolute;
+	margin-top: -2px;
+	right: 8px;
+	top: 50%;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-listbox .@{prefix}-caret {
+	right: auto;
+	left: 8px;
+}
+
+.@{prefix}-rtl .@{prefix}-listbox button {
+	padding-right: 10px;
+	padding-left: 20px;
+}
+
+
+// Radio - not implemented yet
+
+
+.@{prefix}-container-body .@{prefix}-resizehandle {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 16px;
+	height: 16px;
+	visibility: visible;
+	cursor: s-resize;
+	margin: 0;
+}
+
+.@{prefix}-container-body .@{prefix}-resizehandle-both {
+	cursor: se-resize;
+}
+
+i.@{prefix}-i-resize {
+	color: @text;
+}
+
+
+// Slider
+
+.@{prefix}-slider {
+	.border-radius(3px);
+	border: 1px solid @slider-border;
+	background: @slider-bg;
+	width: 100px;
+	height: 10px;
+	position: relative;
+	display: block;
+}
+
+.@{prefix}-slider.@{prefix}-vertical {
+	width: 10px;
+	height: 100px;
+}
+
+.@{prefix}-slider-handle {
+	.border-radius(3px);
+	border: 1px solid @slider-handle-border;
+	background: @slider-handle-bg;
+	display: block;
+	width: 13px;
+	height: 13px;
+	position: absolute;
+	top: 0; left: 0;
+	margin-left: -1px;
+	margin-top: -2px;
+}
+
+
+// Spacer
+
+.@{prefix}-spacer {
+	visibility: hidden;
+}
+
+
+// SplitButton
+
+.@{prefix}-splitbtn .@{prefix}-open {
+	border-left: 1px solid transparent;
+}
+
+.@{prefix}-splitbtn:hover .@{prefix}-open {
+	border-left-color: darken(@btn-bg, 20%);
+}
+
+.@{prefix}-splitbtn button when (@has-button-borders = false) {
+	padding-right: 6px;
+	padding-left: 6px;
+}
+
+.@{prefix}-splitbtn button when (@has-button-borders = true) {
+	padding-right: 4px;
+	padding-left: 8px;
+}
+
+.@{prefix}-splitbtn .@{prefix}-open {
+	padding-right: 4px;
+	padding-left: 4px;
+}
+
+.@{prefix}-splitbtn .@{prefix}-open.@{prefix}-active {
+	.vertical-gradient(darken(@btn-bg, 10%), darken(@btn-bg-hlight, 5%));
+	outline: 1px solid darken(@btn-bg, 20%);
+}
+
+.@{prefix}-splitbtn.@{prefix}-btn-small .@{prefix}-open {
+	padding: 0 3px 0 3px;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-splitbtn {
+	direction: rtl;
+	text-align: right;
+}
+
+.@{prefix}-rtl .@{prefix}-splitbtn button {
+	padding-right: 4px;
+	padding-left: 4px;
+}
+
+.@{prefix}-rtl .@{prefix}-splitbtn .@{prefix}-open {
+	border-left: 0;
+}
+
+
+// StackLayout 
+
+.@{prefix}-stack-layout-item {
+	display: block;
+}
+
+
+// TabPanel
+
+.@{prefix}-tabs {
+	display: block;
+	border-bottom: 1px solid @tab-border;
+}
+
+.@{prefix}-tabs,
+.@{prefix}-tabs + .@{prefix}-container-body {
+	background: @tabs-bg;
+}
+
+.@{prefix}-tab {
+	.inline-block();
+	border: 1px solid @tab-border;
+	border-width: 0 1px 0 0;
+	background: @tab-bg;
+	padding: 8px;
+	text-shadow: @text-shadow;
+	height: 13px;
+	cursor: pointer;
+}
+
+.@{prefix}-tab:hover {
+	background: @tab-bg-hover;
+}
+
+.@{prefix}-tab.@{prefix}-active {
+	background: @tab-bg-active;
+	border-bottom-color: transparent;
+	margin-bottom: -1px;
+	height: 14px;
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-tabs {
+	text-align: right;
+	direction: rtl;
+}
+
+.@{prefix}-rtl .@{prefix}-tab {
+	border-width: 0 0 0 1px;
+}
+
+
+// TextBox
+
+.@{prefix}-textbox {
+	background: @textbox-bg;
+	border: 1px solid @textbox-border;
+	.border-radius(3px);
+	.box-shadow(@textbox-box-shadow);
+	display: inline-block;
+	.transition(~"border linear .2s, box-shadow linear .2s");
+	height: 28px;
+	resize: none;
+	padding: 0 4px 0 4px;
+	white-space: pre-wrap;
+	*white-space: pre;
+	color: @text;
+}
+
+.@{prefix}-textbox:focus, .@{prefix}-textbox.@{prefix}-focus {
+	border-color: @textbox-border-focus;
+	.box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px fadeout(@textbox-border-focus, 15%));
+}
+
+.@{prefix}-placeholder .@{prefix}-textbox {
+	color: @textbox-text-placeholder;
+}
+
+.@{prefix}-textbox.@{prefix}-multiline {
+	padding: 4px;
+}
+
+.@{prefix}-textbox.@{prefix}-disabled {
+	color: mix(@text, @textbox-bg, 40%);
+}
+
+// RTL
+
+.@{prefix}-rtl .@{prefix}-textbox {
+	text-align: right;
+	direction: rtl;
+}
+
+
+// Throbber
+
+.@{prefix}-throbber {
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%; height: 100%;
+	.opacity(0.6);
+	background: @throbber-bg;
+}
+
+.@{prefix}-throbber-inline {
+	position: static;
+	height: 50px;
+}
+
+
+/* Icons */
+
+@font-face {
+	font-family: 'tinymce';
+	src:url('fonts/tinymce.eot');
+	src:url('fonts/tinymce.eot?#iefix') format('embedded-opentype'),
+		url('fonts/tinymce.woff') format('woff'),
+		url('fonts/tinymce.ttf') format('truetype'),
+		url('fonts/tinymce.svg#tinymce') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'tinymce-small';
+	src:url('fonts/tinymce-small.eot');
+	src:url('fonts/tinymce-small.eot?#iefix') format('embedded-opentype'),
+		url('fonts/tinymce-small.woff') format('woff'),
+		url('fonts/tinymce-small.ttf') format('truetype'),
+		url('fonts/tinymce-small.svg#tinymce') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@iconSize: 16px;
+
+.@{prefix}-ico {
+	font-family: 'tinymce', Arial;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	font-size: @iconSize;
+	line-height: 16px;
+	speak: none;
+	vertical-align: text-top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	display: inline-block;
+	background: transparent center center;
+	background-size: cover;
+	width: 16px;
+	height: 16px;
+	color: @btn-text;
+}
+
+.@{prefix}-btn-small .@{prefix}-ico {
+	font-family: 'tinymce-small', Arial;
+}
+
+.@{prefix}-i-save:before           { content: "\e000"; }
+.@{prefix}-i-newdocument:before    { content: "\e001"; }
+.@{prefix}-i-fullpage:before       { content: "\e002"; }
+.@{prefix}-i-alignleft:before      { content: "\e003"; }
+.@{prefix}-i-aligncenter:before    { content: "\e004"; }
+.@{prefix}-i-alignright:before     { content: "\e005"; }
+.@{prefix}-i-alignjustify:before   { content: "\e006"; }
+.@{prefix}-i-alignnone:before      { content: "\e003"; }
+.@{prefix}-i-cut:before            { content: "\e007"; }
+.@{prefix}-i-paste:before          { content: "\e008"; }
+.@{prefix}-i-searchreplace:before  { content: "\e009"; }
+.@{prefix}-i-bullist:before        { content: "\e00a"; }
+.@{prefix}-i-numlist:before        { content: "\e00b"; }
+.@{prefix}-i-indent:before         { content: "\e00c"; }
+.@{prefix}-i-outdent:before        { content: "\e00d"; }
+.@{prefix}-i-blockquote:before     { content: "\e00e"; }
+.@{prefix}-i-undo:before           { content: "\e00f"; }
+.@{prefix}-i-redo:before           { content: "\e010"; }
+.@{prefix}-i-link:before           { content: "\e011"; }
+.@{prefix}-i-unlink:before         { content: "\e012"; }
+.@{prefix}-i-anchor:before         { content: "\e013"; }
+.@{prefix}-i-image:before          { content: "\e014"; }
+.@{prefix}-i-media:before          { content: "\e015"; }
+.@{prefix}-i-help:before           { content: "\e016"; }
+.@{prefix}-i-code:before           { content: "\e017"; }
+.@{prefix}-i-insertdatetime:before { content: "\e018"; }
+.@{prefix}-i-preview:before        { content: "\e019"; }
+.@{prefix}-i-forecolor:before      { content: "\e01a"; }
+.@{prefix}-i-backcolor:before      { content: "\e01a"; }
+.@{prefix}-i-table:before          { content: "\e01b"; }
+.@{prefix}-i-hr:before             { content: "\e01c"; }
+.@{prefix}-i-removeformat:before   { content: "\e01d"; }
+.@{prefix}-i-subscript:before      { content: "\e01e"; }
+.@{prefix}-i-superscript:before    { content: "\e01f"; }
+.@{prefix}-i-charmap:before        { content: "\e020"; }
+.@{prefix}-i-emoticons:before      { content: "\e021"; }
+.@{prefix}-i-print:before          { content: "\e022"; }
+.@{prefix}-i-fullscreen:before     { content: "\e023"; }
+.@{prefix}-i-spellchecker:before   { content: "\e024"; }
+.@{prefix}-i-nonbreaking:before    { content: "\e025"; }
+.@{prefix}-i-template:before       { content: "\e026"; }
+.@{prefix}-i-pagebreak:before      { content: "\e027"; }
+.@{prefix}-i-restoredraft:before   { content: "\e028"; }
+.@{prefix}-i-untitled:before       { content: "\e029"; }
+.@{prefix}-i-bold:before           { content: "\e02a"; }
+.@{prefix}-i-italic:before         { content: "\e02b"; }
+.@{prefix}-i-underline:before      { content: "\e02c"; }
+.@{prefix}-i-strikethrough:before  { content: "\e02d"; }
+.@{prefix}-i-visualchars:before    { content: "\e02e"; }
+.@{prefix}-i-visualblocks:before   { content: "\e02e"; }
+.@{prefix}-i-ltr:before            { content: "\e02f"; }
+.@{prefix}-i-rtl:before            { content: "\e030"; }
+.@{prefix}-i-copy:before           { content: "\e031"; }
+.@{prefix}-i-resize:before         { content: "\e032"; }
+.@{prefix}-i-browse:before         { content: "\e034"; }
+.@{prefix}-i-pastetext:before      { content: "\e035"; }
+.@{prefix}-i-rotateleft:before     { content: "\eaa8"; }
+.@{prefix}-i-rotateright:before    { content: "\eaa9"; }
+.@{prefix}-i-crop:before           { content: "\ee78"; }
+.@{prefix}-i-editimage:before      { content: "\e914"; }
+.@{prefix}-i-options:before        { content: "\ec6a"; }
+.@{prefix}-i-flipv:before          { content: "\eaaa"; }
+.@{prefix}-i-fliph:before          { content: "\eaac"; }
+.@{prefix}-i-zoomin:before         { content: "\eb35"; }
+.@{prefix}-i-zoomout:before        { content: "\eb36"; }
+.@{prefix}-i-sun:before            { content: "\eccc"; }
+.@{prefix}-i-moon:before           { content: "\eccd"; }
+.@{prefix}-i-arrowleft:before      { content: "\edc0"; }
+.@{prefix}-i-arrowright:before     { content: "\edb8"; }
+.@{prefix}-i-drop:before           { content: "\e934"; }
+.@{prefix}-i-contrast:before       { content: "\ecd4"; }
+.@{prefix}-i-sharpen:before        { content: "\eba7"; }
+.@{prefix}-i-palette:before        { content: "\e92a"; }
+.@{prefix}-i-resize2:before        { content: "\edf9"; }
+.@{prefix}-i-orientation:before    { content: "\e601"; }
+.@{prefix}-i-invert:before         { content: "\e602"; }
+.@{prefix}-i-gamma:before          { content: "\e600"; }
+.@{prefix}-i-remove:before         { content: "\ed6a"; }
+
+.@{prefix}-i-checkbox:before, .@{prefix}-i-selected:before {
+	content: "\e033";
+}
+
+.@{prefix}-i-selected              { visibility: hidden; }
+i.@{prefix}-i-backcolor            { text-shadow: none; background: @colorbtn-backcolor-bg; }
+
