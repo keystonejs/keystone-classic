@@ -214,6 +214,7 @@ var EditForm = React.createClass({
 					</Col>
 					<Col lg="1/4"><span /></Col>
 				</Row>
+				{this.renderFooterBar()}
 			</form>
 		);
 	}
