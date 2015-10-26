@@ -37,7 +37,10 @@ module.exports = function createDynamicRouter(keystone) {
 		router.use(keystone.get('auth'));
 	}
 
-	// #3: Cloudinary and S3 specific APIs
+	// #3: Home route
+	router.get('/', require('../routes/home'));
+
+	// #4: Cloudinary and S3 specific APIs
 	// TODO: poor separation of concerns; should / could this happen elsewhere?
 	if (keystone.get('cloudinary config')) {
 		router.get('/api/cloudinary/get', require('../api/cloudinary').get);
@@ -48,7 +51,7 @@ module.exports = function createDynamicRouter(keystone) {
 		router.post('/api/s3/upload', require('../api/s3').upload);
 	}
 
-	// #4: Core Lists API
+	// #5: Core Lists API
 
 	// Init API request helpers
 	router.use('/api', require('../middleware/apiError'));
@@ -73,7 +76,7 @@ module.exports = function createDynamicRouter(keystone) {
 	router.post('/api/:list/:id', initList(), require('../api/item/update'));
 	router.post('/api/:list/:id/delete', initList(), require('../api/item/delete'));
 
-	// #5: List Routes
+	// #6: List Routes
 	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list'));
 	router.all('/:list/:item', initList(true), require('../routes/item'));
 
