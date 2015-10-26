@@ -1,4 +1,6 @@
+var bodyParser = require('body-parser');
 var express = require('express');
+var multer = require('multer');
 
 module.exports = function createDynamicRouter(keystone) {
 
@@ -9,6 +11,11 @@ module.exports = function createDynamicRouter(keystone) {
 	}
 
 	var router = express.Router();
+
+	// Use bodyParser and multer to parse request bodies and file uploads
+	router.use(bodyParser.json({}));
+	router.use(bodyParser.urlencoded({ extended: true }));
+	router.use(multer({ includeEmptyFields: true }));
 
 	// #1: Session API
 	// TODO: this should respect keystone auth options
@@ -79,6 +86,8 @@ module.exports = function createDynamicRouter(keystone) {
 	// #6: List Routes
 	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list'));
 	router.all('/:list/:item', initList(true), require('../routes/item'));
+
+	// TODO: catch 404s and errors with Admin-UI specific handlers
 
 	return router;
 };
