@@ -109,7 +109,7 @@ module.exports = Field.create({
 	},
 
 	buildOptionQuery  (input) {
-		return 'context=relationship&q=' + input +
+		return 'search=' + input + '&select=name' +
 				'&list=' + Keystone.list.path +
 				'&field=' + this.props.path +
 				'&' + this.buildFilters();
@@ -117,7 +117,7 @@ module.exports = Field.create({
 
 	getOptions (input, callback) {
 		superagent
-			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery(input))
+			.get('/keystone/api/' + this.props.refList.path + '?' + this.buildOptionQuery(input))
 			.set('Accept', 'application/json')
 			.end(function (err, res) {
 				if (err) throw err;
@@ -125,13 +125,13 @@ module.exports = Field.create({
 				var data = res.body;
 
 				callback(null, {
-					options: data.items.map(function (item) {
+					options: data.results.map(function (item) {
 						return {
 							value: item.id,
 							label: item.name
 						};
 					}),
-					complete: data.total === data.items.length
+					complete: data.count === data.results.length
 				});
 			});
 	},
@@ -181,7 +181,7 @@ module.exports = Field.create({
 
 		return (
 			<div style={{ position: 'relative' }}>
-				<Select key="relationship-select" multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />
+				<Select key="relationship-select" multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} autoload={false} value={this.state.expandedValues} />
 				{button}
 			</div>
 		);
