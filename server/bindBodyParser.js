@@ -1,5 +1,6 @@
 var multer = require('multer');
 var bodyParser = require('body-parser');
+var debug = require('debug');
 
 module.exports = function bindIPRestrictions (keystone, app) {
 	// Set up body options and cookie parser
