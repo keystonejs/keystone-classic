@@ -10,9 +10,8 @@ module.exports = Field.create({
 	displayName: 'RelationshipField',
 
 	shouldCollapse () {
-		// many:true relationships have an Array for a value
-		// so need to check length instead
 		if (this.props.many) {
+			// many:true relationships have an Array for a value
 			return this.props.collapse && !this.props.value.length;
 		}
 		return this.props.collapse && !this.props.value;
@@ -165,7 +164,7 @@ module.exports = Field.create({
 
 			return body;
 		} else {
-			return <FormInput noedit>not set)</FormInput>;
+			return <FormInput noedit>(not set)</FormInput>;
 		}
 	},
 
@@ -181,7 +180,7 @@ module.exports = Field.create({
 
 		return (
 			<div style={{ position: 'relative' }}>
-				<Select key="relationship-select" multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />
+				<Select multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />
 				{button}
 			</div>
 		);
