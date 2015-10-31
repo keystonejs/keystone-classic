@@ -16,4 +16,4 @@ module.exports = function (keystone, app, callback) {
 		keystone.httpServer = app.listen(port || 3000, ready);
 	}
 
-}
+};

@@ -14,4 +14,5 @@ module.exports = function(keystone, app, callback) {
 		keystone.httpServer = app.listen(unixSocket, ready);
 		fs.chmod(unixSocket, 0x777);
 	});
-}
+	
+};
