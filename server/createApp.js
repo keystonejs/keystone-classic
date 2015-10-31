@@ -97,4 +97,4 @@ module.exports = function createApp (keystone, express) {
 
 	return app;
 
-}
+};
