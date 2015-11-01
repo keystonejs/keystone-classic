@@ -10,7 +10,7 @@ var uglify = require('gulp-uglify');
  */
 
 gulp.task('build-packages', function() {
-	var packages = require('./admin/packages');
+	var packages = require('./admin/client/packages');
 	var b = browserify();
 	packages.forEach(function(i) { b.require(i); });
 	b = b.bundle().pipe(source('packages.js'));
@@ -45,4 +45,3 @@ gulp.task('publish:npm', function(done) {
 });
 
 gulp.task('release', ['publish:tag', 'publish:npm']);
-
