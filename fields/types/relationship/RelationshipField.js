@@ -1,8 +1,9 @@
 import _ from 'underscore';
+import async from 'async';
 import Field from '../Field';
 import React from 'react';
 import Select from 'react-select';
-import superagent from 'superagent';
+import xhr from 'xhr';
 import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({
@@ -19,9 +20,9 @@ module.exports = Field.create({
 
 	getInitialState () {
 		return {
-			ready: this.props.value ? false : true,
-			simpleValue: this.props.value,
-			expandedValues: null
+			ready: false,
+			value: this.props.value,
+			expandedValues: [],
 		};
 	},
 
@@ -34,44 +35,35 @@ module.exports = Field.create({
 			this.setState({
 				ready: false,
 				simpleValue: newProps.value,
-				expandedValues: null
+				expandedValues: [],
 			});
 			this.loadValues(newProps.value);
 		}
 	},
 
 	loadValues (input) {
-		var expandedValues = [];
-		var inputs = _.compact([].concat(input));
-		var self = this;
+		var values = _.compact([].concat(input));
 
-		var finish = function () {
-			self.setState({
+		if (!values.length) {
+			this.setState({
 				ready: true,
-				expandedValues: expandedValues
 			});
-		};
+		}
 
-		if (!inputs.length) return finish();
-
-		var callbackCount = 0;
-		_.each(inputs, function(input) {
-			expandedValues.push({
-				value: input
+		async.map(values, (id, done) => {
+			xhr({
+				url: '/keystone/api/' + this.props.refList.path + '/' + id + '?basic',
+				responseType: 'json',
+			}, (err, resp, body) => {
+				console.log(body);
+				done(err, body);
 			});
-			superagent
-				.get('/keystone/api/' + self.props.refList.path + '/' + input + '?simple')
-				.set('Accept', 'application/json')
-				.end(function (err, res) {
-					if (err && err.status !== 404) throw err;
-					var value = res.body;
-					_.findWhere(expandedValues, { value: value.id }).label = value.name;
-
-					callbackCount++;
-					if (callbackCount === inputs.length) {
-						finish();
-					}
-				});
+		}, (err, results) => {
+			// TODO: handle err
+			this.setState({
+				ready: true,
+				expandedValues: results,
+			});
 		});
 	},
 
@@ -107,14 +99,16 @@ module.exports = Field.create({
 		return parts.join('&');
 	},
 
-	buildOptionQuery  (input) {
-		return 'context=relationship&q=' + input +
-				'&list=' + Keystone.list.path +
-				'&field=' + this.props.path +
-				'&' + this.buildFilters();
-	},
-
 	getOptions (input, callback) {
+		// TODO: Implement filters
+		console.log('INPUT:', input);
+		xhr({
+			url: '/keystone/api/' + this.props.refList.path + '?search=' + input,
+			responseType: 'json',
+		}, (err, resp, body) => {
+			console.log(body);
+			// done(err, body);
+		});
 		superagent
 			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery(input))
 			.set('Accept', 'application/json')
