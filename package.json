@@ -8,7 +8,7 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
-    "@jedwatson/react-color": "^1.2.2",
+    "react-color": "^1.2.1",
     "async": "^1.4.2",
     "asyncdi": "^1.1.0",
     "azure": "^0.10.6",
