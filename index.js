@@ -83,6 +83,9 @@ var Keystone = function() {
 		this.set('cloudinary config', true);
 	}
 
+	// init mongoose
+	this.set('mongoose', require('mongoose'));
+
 	// Attach middleware packages, bound to this instance
 	this.middleware = {
 		api: require('./lib/middleware/api')(this),
