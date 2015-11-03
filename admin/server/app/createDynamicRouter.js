@@ -63,17 +63,8 @@ module.exports = function createDynamicRouter(keystone) {
 	// Init API request helpers
 	router.use('/api', require('../middleware/apiError'));
 
-	// TODO: Move this to ../middleware (...needs to use keystone reference)
-	var initList = function (respectHiddenOption) {
-		return function (req, res, next) {
-			req.list = keystone.list(req.params.list);
-			if (!req.list || (respectHiddenOption && req.list.get('hidden'))) {
-				req.flash('error', 'List ' + req.params.list + ' could not be found.');
-				return res.redirect('');
-			}
-			next();
-		};
-	};
+	// Init req with list
+	var initList = require('../middleware/initList')(keystone);
 
 	router.all('/api/counts', require('../api/counts'));
 	router.get('/api/:list', initList(), require('../api/list/get'));

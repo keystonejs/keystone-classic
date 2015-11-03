@@ -18,7 +18,7 @@ function ts() {
 }
 
 function logInit(file) {
-	console.log(chalk.grey('Watching ' + chalk.black.underline('keystone/admin/src/' + file) + ' for changes...'));
+	console.log(chalk.grey('Watching ') + chalk.underline('keystone/admin/src/' + file) + chalk.grey(' for changes...'));
 }
 
 function logRebuild(file) {
