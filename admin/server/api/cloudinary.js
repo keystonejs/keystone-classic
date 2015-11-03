@@ -4,19 +4,32 @@ var keystone = require('../../../');
 exports = module.exports = {
 
 	upload: function(req, res) {
-		if(req.files && req.files.file){
+		if (req.files && req.files.file) {
 			var options = {};
 
+			if (keystone.get('wysiwyg cloudinary images folder')) {
+				options.folder = keystone.get('wysiwyg cloudinary images folder');
+			}
+
 			if (keystone.get('wysiwyg cloudinary images filenameAsPublicID')) {
-				options.public_id = req.files.file.originalname.substring(0, req.files.file.originalname.lastIndexOf('.'));
+				options.public_id = req.files.file.originalname.substring(0, req.files.file
+					.originalname.lastIndexOf('.'));
 			}
 
 			cloudinary.uploader.upload(req.files.file.path, function(result) {
-				var sendResult = function () {
+				var sendResult = function() {
 					if (result.error) {
-						res.send({ error: { message: result.error.message } });
+						res.send({
+							error: {
+								message: result.error.message
+							}
+						});
 					} else {
-						res.send({ image: { url: result.url } });
+						res.send({
+							image: {
+								url: result.url
+							}
+						});
 					}
 				};
 
@@ -28,7 +41,11 @@ exports = module.exports = {
 				});
 			}, options);
 		} else {
-			res.json({ error: { message: 'No image selected' } });
+			res.json({
+				error: {
+					message: 'No image selected'
+				}
+			});
 		}
 	},
 
@@ -39,7 +56,11 @@ exports = module.exports = {
 
 		cloudinary.api.resources(function(result) {
 			if (result.error) {
-				res.json({ error: { message: result.error.message } });
+				res.json({
+					error: {
+						message: result.error.message
+					}
+				});
 			} else {
 				res.json({
 					next: result.next_cursor,
@@ -57,9 +78,15 @@ exports = module.exports = {
 	get: function(req, res) {
 		cloudinary.api.resource(req.query.id, function(result) {
 			if (result.error) {
-				res.json({ error: { message: result.error.message } });
+				res.json({
+					error: {
+						message: result.error.message
+					}
+				});
 			} else {
-				res.json({ item: result });
+				res.json({
+					item: result
+				});
 			}
 		});
 	}
