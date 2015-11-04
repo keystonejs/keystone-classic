@@ -7,8 +7,8 @@ exports = module.exports = {
 		if (req.files && req.files.file) {
 			var options = {};
 
-			if (keystone.get('wysiwyg cloudinary images folder')) {
-				options.folder = keystone.get('wysiwyg cloudinary images folder');
+			if (keystone.get('wysiwyg cloudinary images options')) {
+				options = keystone.get('wysiwyg cloudinary images options');
 			}
 
 			if (keystone.get('wysiwyg cloudinary images filenameAsPublicID')) {
