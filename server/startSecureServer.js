@@ -1,4 +1,16 @@
+/**
+ * Configures and starts express server in SSL.
+ *
+ * Events are fired during initialisation to allow customisation, including:
+ *   - onHttpsServerCreated
+ *
+ * consumed by lib/core/start.js
+ *
+ * @api private
+ */
+ 
 var https = require('https');
+var fs = require('fs');
 
 module.exports = function (keystone, app, created, callback) {
 
@@ -30,15 +42,15 @@ module.exports = function (keystone, app, created, callback) {
 		return ready(null, 'Warning: Invalid SSL Configuration (cert and ca files required)');
 	}
 
-	var server = keystone.httpsServer = https.createServer(options, app);
+	var server = https.createServer(options, app);
 	created();
 
 	if (host) {
 		message += 'https://' + host + ':' + port;
-		server.listen(port, host, ready);
+		keystone.httpsServer = server.listen(port, host, ready);
 	} else {
 		message += 'port ' + port;
-		server.listen(port, ready);
+		keystone.httpsServer = server.listen(port, ready);
 	}
 	
 };
