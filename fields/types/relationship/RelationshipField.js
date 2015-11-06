@@ -74,7 +74,6 @@ module.exports = Field.create({
 	},
 
 	cacheItem (item) {
-		console.log('caching', item);
 		item.href = '/keystone/' + this.props.refList.path + '/' + item.id;
 		this._itemsCache[item.id] = item;
 	},
