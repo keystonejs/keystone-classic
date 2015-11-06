@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import async from 'async';
 import Field from '../Field';
 import React from 'react';
@@ -10,6 +9,17 @@ module.exports = Field.create({
 
 	displayName: 'RelationshipField',
 
+	getInitialState () {
+		return {
+			value: null,
+		};
+	},
+
+	componentDidMount () {
+		this._valuesCache = {};
+		this.onValueChanged();
+	},
+
 	shouldCollapse () {
 		if (this.props.many) {
 			// many:true relationships have an Array for a value
@@ -18,7 +28,6 @@ module.exports = Field.create({
 		return this.props.collapse && !this.props.value;
 	},
 
-	/*
 	buildFilters () {
 		var filters = {};
 
@@ -50,7 +59,29 @@ module.exports = Field.create({
 
 		return parts.join('&');
 	},
-	*/
+
+	onValueChanged () {
+		let values = this.props.many ? this.props.value : [this.props.value];
+		this.setState({
+			loading: true,
+		});
+		async.map(values, (value, done) => {
+			if (this._valuesCache[value]) return done(null, this._valuesCache[value]);
+			xhr({
+				url: '/keystone/api/' + this.props.refList.path + '/' + value + '?basic',
+				responseType: 'json',
+			}, (err, resp, data) => {
+				if (err || !data) return done(err);
+				this._valuesCache[value] = data;
+				done(err, data);
+			});
+		}, (err, expanded) => {
+			this.setState({
+				loading: false,
+				value: this.props.many ? expanded : expanded[0],
+			});
+		});
+	},
 
 	getOptions (input, callback) {
 		// TODO: Implement filters
@@ -60,49 +91,19 @@ module.exports = Field.create({
 			responseType: 'json',
 		}, (err, resp, body) => {
 			console.log(body);
-			// done(err, body);
+			return callback(null, []);
+			// async.map(values, (id, done) => {
+			// 	xhr({
+			// 		url: '/keystone/api/' + this.props.refList.path + '/' + id + '?basic',
+			// 		responseType: 'json',
+			// 	}, (err, resp, body) => {
+			// 		console.log(body);
+			// 		done(err, body);
+			// 	});
+			// }, (err, results) => {
+			//
+			// });
 		});
-		/*
-		async.map(values, (id, done) => {
-			xhr({
-				url: '/keystone/api/' + this.props.refList.path + '/' + id + '?basic',
-				responseType: 'json',
-			}, (err, resp, body) => {
-				console.log(body);
-				done(err, body);
-			});
-		}, (err, results) => {
-			// TODO: handle err
-			this.setState({
-				ready: true,
-				expandedValues: results,
-			});
-		});
-		*/
-		/*
-		superagent
-			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery(input))
-			.set('Accept', 'application/json')
-			.end(function (err, res) {
-				if (err) throw err;
-
-				var data = res.body;
-
-				callback(null, {
-					options: data.items.map(function (item) {
-						return {
-							value: item.id,
-							label: item.name
-						};
-					}),
-					complete: data.total === data.items.length
-				});
-			});
-		*/
-	},
-
-	updateValue (value) {
-
 	},
 
 	renderSelect (noedit) {
@@ -110,9 +111,11 @@ module.exports = Field.create({
 			<Select
 				multi={this.props.many}
 				disabled={noedit}
-				onChange={this.updateValue}
+				labelKey="name"
 				name={this.props.path}
-				value={this.props.value}
+				onChange={this.valueChanged}
+				value={this.state.value}
+				valueKey="id"
 			/>
 		);
 	},
