@@ -14,14 +14,14 @@ module.exports = [
 	'numeral',
 	'pikaday',
 	'qs',
-	'react',
+	'react-addons-css-transition-group',
+	'react-alt-text',
 	'react-dom',
 	'react-select',
-	'react-alt-text',
-	'react-addons-css-transition-group',
+	'react',
 	'store-prototype',
 	'superagent',
 	'underscore',
 	'vkey',
-	'xhr'
+	'xhr',
 ];
