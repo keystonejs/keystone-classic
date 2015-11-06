@@ -35,6 +35,9 @@ var RelatedItemsList = React.createClass({
 		return columns.filter(i => i.path !== relationship.refPath);
 	},
 	componentDidMount () {
+		this.loadItems();
+	},
+	loadItems () {
 		// TODO: Handle invalid relationship definitions
 		const { refList, relatedItemId, relationship } = this.props;
 		refList.loadItems({
