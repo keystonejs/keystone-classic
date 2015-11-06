@@ -1,79 +1,44 @@
-import _ from 'underscore';
+import async from 'async';
 import Field from '../Field';
 import React from 'react';
 import Select from 'react-select';
-import superagent from 'superagent';
+import xhr from 'xhr';
 import { Button, FormInput } from 'elemental';
+
+function compareValues(current, next) {
+	if (current.length !== next.length) return false;
+	for (let i = 0; i < current.length; i++) {
+		if (current[i] !== next[i]) return false;
+	}
+	return true;
+}
 
 module.exports = Field.create({
 
 	displayName: 'RelationshipField',
 
-	shouldCollapse () {
-		// many:true relationships have an Array for a value
-		// so need to check length instead
-		if (this.props.many) {
-			return this.props.collapse && !this.props.value.length;
-		}
-		return this.props.collapse && !this.props.value;
-	},
-
 	getInitialState () {
 		return {
-			ready: this.props.value ? false : true,
-			simpleValue: this.props.value,
-			expandedValues: null
+			value: null,
 		};
 	},
 
 	componentDidMount () {
-		this.loadValues(this.props.value);
+		this._itemsCache = {};
+		this.loadValue(this.props.value);
 	},
 
-	componentWillReceiveProps (newProps) {
-		if (newProps.value !== this.state.simpleValue) {
-			this.setState({
-				ready: false,
-				simpleValue: newProps.value,
-				expandedValues: null
-			});
-			this.loadValues(newProps.value);
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.value === this.props.value || nextProps.many && compareValues(this.props.value, nextProps.value)) return;
+		this.loadValue(nextProps.value);
+	},
+
+	shouldCollapse () {
+		if (this.props.many) {
+			// many:true relationships have an Array for a value
+			return this.props.collapse && !this.props.value.length;
 		}
-	},
-
-	loadValues (input) {
-		var expandedValues = [];
-		var inputs = _.compact([].concat(input));
-		var self = this;
-
-		var finish = function () {
-			self.setState({
-				ready: true,
-				expandedValues: expandedValues
-			});
-		};
-
-		if (!inputs.length) return finish();
-
-		var callbackCount = 0;
-		_.each(inputs, function(input) {
-			expandedValues.push({
-				value: input
-			});
-			superagent
-				.get('/keystone/api/' + self.props.refList.path + '/' + input + '?simple')
-				.set('Accept', 'application/json')
-				.end(function (err, res) {
-					if (err && err.status !== 404) throw err;
-					var value = res.body;
-					_.findWhere(expandedValues, { value: value.id }).label = value.name;
-
-					callbackCount++;
-					if (callbackCount === inputs.length) {
-						finish();
-					}
-				});
-		});
+		return this.props.collapse && !this.props.value;
 	},
 
 	buildFilters () {
@@ -108,83 +73,89 @@ module.exports = Field.create({
 		return parts.join('&');
 	},
 
-	buildOptionQuery  (input) {
-		return 'context=relationship&q=' + input +
-				'&list=' + Keystone.list.path +
-				'&field=' + this.props.path +
-				'&' + this.buildFilters();
+	cacheItem (item) {
+		console.log('caching', item);
+		item.href = '/keystone/' + this.props.refList.path + '/' + item.id;
+		this._itemsCache[item.id] = item;
 	},
 
-	getOptions (input, callback) {
-		superagent
-			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery(input))
-			.set('Accept', 'application/json')
-			.end(function (err, res) {
-				if (err) throw err;
-
-				var data = res.body;
-
-				callback(null, {
-					options: data.items.map(function (item) {
-						return {
-							value: item.id,
-							label: item.name
-						};
-					}),
-					complete: data.total === data.items.length
-				});
+	loadValue (values) {
+		values = this.props.many ? values : [values];
+		let cachedValues = values.map(i => this._itemsCache[i]).filter(i => i);
+		if (cachedValues.length === values.length) {
+			this.setState({
+				loading: false,
+				value: this.props.many ? cachedValues : cachedValues[0],
 			});
-	},
-
-	renderLoadingUI () {
-		return <div className="help-block">loading...</div>;
-	},
-
-	updateValue (simpleValue, expandedValues) {
+			return;
+		}
 		this.setState({
-			simpleValue: simpleValue,
-			expandedValues: expandedValues
+			loading: true,
+			value: null,
 		});
+		async.map(values, (value, done) => {
+			xhr({
+				url: '/keystone/api/' + this.props.refList.path + '/' + value + '?basic',
+				responseType: 'json',
+			}, (err, resp, data) => {
+				if (err || !data) return done(err);
+				this.cacheItem(data);
+				done(err, data);
+			});
+		}, (err, expanded) => {
+			this.setState({
+				loading: false,
+				value: this.props.many ? expanded : expanded[0],
+			});
+		});
+	},
+
+	loadOptions (input, callback) {
+		// TODO: Implement filters
+		xhr({
+			url: '/keystone/api/' + this.props.refList.path + '?basic&search=' + input,
+			responseType: 'json',
+		}, (err, resp, data) => {
+			if (err) {
+				console.error('Error loading items:', err);
+				return callback(null, []);
+			}
+			data.results.forEach(this.cacheItem);
+			callback(null, {
+				options: data.results,
+				complete: data.results.length === data.count,
+			});
+		});
+	},
+
+	valueChanged (value) {
 		this.props.onChange({
 			path: this.props.path,
-			value: this.props.many ? _.pluck(expandedValues, 'value') : simpleValue
+			value: this.props.many ? value.map(i => i.id) : value.id,
 		});
+	},
+
+	renderSelect (noedit) {
+		return (
+			<Select.Async
+				multi={this.props.many}
+				disabled={noedit}
+				loadOptions={this.loadOptions}
+				labelKey="name"
+				name={this.props.path}
+				onChange={this.valueChanged}
+				value={this.state.value}
+				valueKey="id"
+			/>
+		);
 	},
 
 	renderValue () {
-		if (!this.state.ready) {
-			return this.renderLoadingUI();
-		}
-		// Todo: this is only a temporary fix, remodel
-		if (this.state.expandedValues && this.state.expandedValues.length) {
-			var body = [];
-
-			_.each(this.state.expandedValues, function (item, i) {
-				body.push(<FormInput key={i} noedit href={'/keystone/' + this.props.refList.path + '/' + item.value}>{item.label}</FormInput>);
-			}, this);
-
-			return body;
-		} else {
-			return <FormInput noedit>not set)</FormInput>;
-		}
+		return this.renderSelect(true);
 	},
 
 	renderField () {
-		if (!this.state.ready) {
-			return this.renderLoadingUI();
-		}
-		let button = (!this.props.many && this.props.value) ? (
-			<Button key="relational-button" type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className="keystone-relational-button" title={'Go to "' + this.state.expandedValues[0].label + '"'}>
-				<span className="octicon octicon-file-symlink-file" />
-			</Button>
-		) : null;
-
-		return (
-			<div style={{ position: 'relative' }}>
-				<Select key="relationship-select" multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />
-				{button}
-			</div>
-		);
+		return this.renderSelect();
 	}
 
 });

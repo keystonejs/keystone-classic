@@ -1,3 +1,14 @@
+/**
+ * Configures and starts express server.
+ *
+ * Events are fired during initialisation to allow customisation, including:
+ *   - onHttpServerCreated
+ *
+ * consumed by lib/core/start.js
+ *
+ * @api private
+ */
+ 
 module.exports = function (keystone, app, callback) {
 
 	var host = keystone.get('host');
