@@ -5,6 +5,14 @@ import Select from 'react-select';
 import xhr from 'xhr';
 import { Button, FormInput } from 'elemental';
 
+function compareValues(current, next) {
+	if (current.length !== next.length) return false;
+	for (let i = 0; i < current.length; i++) {
+		if (current[i] !== next[i]) return false;
+	}
+	return true;
+}
+
 module.exports = Field.create({
 
 	displayName: 'RelationshipField',
@@ -16,8 +24,13 @@ module.exports = Field.create({
 	},
 
 	componentDidMount () {
-		this._valuesCache = {};
-		this.onValueChanged();
+		this._itemsCache = {};
+		this.loadValue(this.props.value);
+	},
+
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.value === this.props.value || nextProps.many && compareValues(this.props.value, nextProps.value)) return;
+		this.loadValue(nextProps.value);
 	},
 
 	shouldCollapse () {
@@ -60,19 +73,33 @@ module.exports = Field.create({
 		return parts.join('&');
 	},
 
-	onValueChanged () {
-		let values = this.props.many ? this.props.value : [this.props.value];
+	cacheItem (item) {
+		console.log('caching', item);
+		item.href = '/keystone/' + this.props.refList.path + '/' + item.id;
+		this._itemsCache[item.id] = item;
+	},
+
+	loadValue (values) {
+		values = this.props.many ? values : [values];
+		let cachedValues = values.map(i => this._itemsCache[i]).filter(i => i);
+		if (cachedValues.length === values.length) {
+			this.setState({
+				loading: false,
+				value: this.props.many ? cachedValues : cachedValues[0],
+			});
+			return;
+		}
 		this.setState({
 			loading: true,
+			value: null,
 		});
 		async.map(values, (value, done) => {
-			if (this._valuesCache[value]) return done(null, this._valuesCache[value]);
 			xhr({
 				url: '/keystone/api/' + this.props.refList.path + '/' + value + '?basic',
 				responseType: 'json',
 			}, (err, resp, data) => {
 				if (err || !data) return done(err);
-				this._valuesCache[value] = data;
+				this.cacheItem(data);
 				done(err, data);
 			});
 		}, (err, expanded) => {
@@ -83,34 +110,37 @@ module.exports = Field.create({
 		});
 	},
 
-	getOptions (input, callback) {
+	loadOptions (input, callback) {
 		// TODO: Implement filters
-		console.log('INPUT:', input);
 		xhr({
-			url: '/keystone/api/' + this.props.refList.path + '?search=' + input,
+			url: '/keystone/api/' + this.props.refList.path + '?basic&search=' + input,
 			responseType: 'json',
-		}, (err, resp, body) => {
-			console.log(body);
-			return callback(null, []);
-			// async.map(values, (id, done) => {
-			// 	xhr({
-			// 		url: '/keystone/api/' + this.props.refList.path + '/' + id + '?basic',
-			// 		responseType: 'json',
-			// 	}, (err, resp, body) => {
-			// 		console.log(body);
-			// 		done(err, body);
-			// 	});
-			// }, (err, results) => {
-			//
-			// });
+		}, (err, resp, data) => {
+			if (err) {
+				console.error('Error loading items:', err);
+				return callback(null, []);
+			}
+			data.results.forEach(this.cacheItem);
+			callback(null, {
+				options: data.results,
+				complete: data.results.length === data.count,
+			});
+		});
+	},
+
+	valueChanged (value) {
+		this.props.onChange({
+			path: this.props.path,
+			value: this.props.many ? value.map(i => i.id) : value.id,
 		});
 	},
 
 	renderSelect (noedit) {
 		return (
-			<Select
+			<Select.Async
 				multi={this.props.many}
 				disabled={noedit}
+				loadOptions={this.loadOptions}
 				labelKey="name"
 				name={this.props.path}
 				onChange={this.valueChanged}
@@ -125,13 +155,6 @@ module.exports = Field.create({
 	},
 
 	renderField () {
-
-		// let button = (!this.props.many && this.props.value) ? (
-		// 	<Button key="relational-button" type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className="keystone-relational-button" title={'Go to "' + this.state.expandedValues[0].label + '"'}>
-		// 		<span className="octicon octicon-file-symlink-file" />
-		// 	</Button>
-		// ) : null;
-
 		return this.renderSelect();
 	}
 
