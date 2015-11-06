@@ -13,6 +13,7 @@ module.exports = [
 	'moment',
 	'numeral',
 	'pikaday',
+	'qs',
 	'react',
 	'react-dom',
 	'react-select',
