@@ -83,6 +83,9 @@ var Keystone = function() {
 		this.set('cloudinary config', true);
 	}
 
+	// init mongoose
+	this.set('mongoose', require('mongoose'));
+
 	// Attach middleware packages, bound to this instance
 	this.middleware = {
 		api: require('./lib/middleware/api')(this),
@@ -109,6 +112,7 @@ Keystone.prototype.getOrphanedLists = require('./lib/core/getOrphanedLists');
 Keystone.prototype.importer = require('./lib/core/importer');
 Keystone.prototype.init = require('./lib/core/init');
 Keystone.prototype.initDatabase = require('./lib/core/initDatabase');
+Keystone.prototype.initExpressApp = require('./lib/core/initExpressApp');
 Keystone.prototype.initExpressSession = require('./lib/core/initExpressSession');
 Keystone.prototype.initNav = require('./lib/core/initNav');
 Keystone.prototype.list = require('./lib/core/list');
