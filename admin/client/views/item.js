@@ -2,6 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const request = require('superagent');
 
+const Columns = require('../columns');
 const Lists = require('../stores/Lists');
 
 const CreateForm = require('../components/CreateForm');
@@ -18,14 +19,72 @@ const { Container, Spinner } = require('elemental');
 var RelatedItemsList = React.createClass({
 	propTypes: {
 		list: React.PropTypes.object.isRequired,
+		refList: React.PropTypes.object.isRequired,
 		relatedItemId: React.PropTypes.string.isRequired,
 		relationship: React.PropTypes.object.isRequired,
 	},
+	getInitialState () {
+		return {
+			columns: this.getColumns(),
+			items: null,
+		};
+	},
+	getColumns () {
+		const { relationship, refList } = this.props;
+		const columns = refList.expandColumns(refList.defaultColumns);
+		return columns.filter(i => i.path !== relationship.refPath);
+	},
+	componentDidMount () {
+		// TODO: Handle invalid relationship definitions
+		const { refList, relatedItemId, relationship } = this.props;
+		refList.loadItems({
+			columns: this.state.columns,
+			filters: [{
+				field: refList.fields[relationship.refPath],
+				value: { value: relatedItemId },
+			}],
+		}, (err, items) => {
+			// TODO: indicate pagination & link to main list view
+			this.setState({ items });
+		});
+	},
+	renderTableCols () {
+		const cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
+		return <colgroup>{cols}</colgroup>;
+	},
+	renderTableHeaders () {
+		const cells = this.state.columns.map((col, i) => {
+			return <th key={col.path}>{col.label}</th>;
+		});
+		return <thead><tr>{cells}</tr></thead>;
+	},
+	renderTableRow (item) {
+		const cells = this.state.columns.map((col, i) => {
+			const ColumnType = Columns[col.type] || Columns.__unrecognised__;
+			const linkTo = !i ? `/keystone/${this.props.refList.path}/${item.id}` : undefined;
+			return <ColumnType key={col.path} list={this.props.refList} col={col} data={item} linkTo={linkTo} />;
+		});
+		return <tr key={'i' + item.id}>{cells}</tr>;
+	},
 	render () {
+		const listHref = '/keystone/' + this.props.refList.path;
 		return (
-			<span>
-				{json}
-			</span>
+			<div className="Relationship">
+				<h3><a href={listHref}>{this.props.refList.label}</a></h3>
+				{this.state.items ? (
+					<div className="ItemList-wrapper">
+						<table cellPadding="0" cellSpacing="0" className="Table ItemList">
+							{this.renderTableCols()}
+							{this.renderTableHeaders()}
+							<tbody>
+								{this.state.items.results.map(this.renderTableRow)}
+							</tbody>
+						</table>
+					</div>
+				) : (
+					<Spinner size="sm" />
+				)}
+			</div>
 		);
 	}
 });
@@ -65,8 +124,6 @@ var ItemView = React.createClass({
 	},
 
 	renderRelationships () {
-		// TODO
-		return;
 		let { relationships } = this.props.list;
 		let keys = Object.keys(relationships);
 		if (!keys.length) return;
@@ -74,7 +131,9 @@ var ItemView = React.createClass({
 			<div>
 				<h2>Relationships</h2>
 				{keys.map(key => {
-					return <RelatedItemsList list={this.props.list} relationship={relationships[key]} relatedItemId={this.props.itemId} />;
+					let relationship = relationships[key];
+					let refList = Lists[relationship.ref];
+					return <RelatedItemsList key={relationship.path} list={this.props.list} refList={refList} relatedItemId={this.props.itemId} relationship={relationship} />;
 				})}
 			</div>
 		);
