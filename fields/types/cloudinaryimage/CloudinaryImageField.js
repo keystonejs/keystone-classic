@@ -339,7 +339,6 @@ module.exports = Field.create({
 			<div className="image-select">
 				<Select
 					placeholder="Search for an image from Cloudinary ..."
-					className="ui-select2-cloudinary"
 					name={this.props.paths.select}
 					id={'field_' + this.props.paths.select}
 					asyncOptions={getOptions}
