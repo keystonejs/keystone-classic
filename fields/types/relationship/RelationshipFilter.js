@@ -7,10 +7,8 @@ const TOGGLE_OPTIONS = [
 	{ label: 'NOT Linked To', value: false }
 ];
 
-const RELATED_ITEMS = [
+const TEST_RESULTS = [
 	{ label: 'Amazon',             value: 'amazon' },
-	{ label: 'Arnold',             value: 'arnold' },
-	{ label: 'Disrupt',            value: 'disrupt' },
 	{ label: 'Ebay',               value: 'ebay' },
 	{ label: 'Google',             value: 'google' },
 	{ label: 'Jaze',               value: 'jaze' },
@@ -19,7 +17,6 @@ const RELATED_ITEMS = [
 	{ label: 'Prismatik',          value: 'prismatik' },
 	{ label: 'Sweathers',          value: 'sweathers' },
 	{ label: 'Team9',              value: 'team9' },
-	{ label: 'The Means',          value: 'the_means' },
 	{ label: 'Thinkmill',          value: 'thinkmill' },
 	{ label: 'Twitter',            value: 'twitter' },
 	{ label: 'Yahoo',              value: 'yahoo' },
@@ -38,15 +35,27 @@ var RelationshipFilter = React.createClass({
 	getInitialState () {
 		return {
 			activeItems: [],
-			inactiveItems: RELATED_ITEMS,
+			inactiveItems: [],
 			inverted: TOGGLE_OPTIONS[0].value,
+			loadedItems: [],
+			loading: true,
 			searchString: '',
 			value: '',
 		};
 	},
 
 	componentDidMount () {
+		this.loadItems();
 		this.focusSearch();
+	},
+
+	loadItems () {
+		setTimeout(() => {
+			this.setState({
+				loadedItems: TEST_RESULTS,
+				loading: false,
+			});
+		}, 200);
 	},
 
 	toggleInverted (value) {
