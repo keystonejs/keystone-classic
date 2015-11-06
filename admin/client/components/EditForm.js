@@ -65,7 +65,7 @@ var EditForm = React.createClass({
 		}
 		if (nameIsEditable) {
 			var nameFieldProps = this.getFieldProps(nameField);
-			nameFieldProps.label = false;
+			nameFieldProps.label = null;
 			nameFieldProps.size = 'full';
 			nameFieldProps.inputProps = {
 				className: 'item-name-field',

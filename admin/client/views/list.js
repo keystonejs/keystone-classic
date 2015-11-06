@@ -1,7 +1,10 @@
+'use strict';
+
 const React = require('react');
 const ReactDOM = require('react-dom');
 const classnames = require('classnames');
 
+const Lists = require('../stores/Lists');
 const CurrentListStore = require('../stores/CurrentListStore');
 const Columns = require('../columns');
 

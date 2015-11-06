@@ -1,3 +1,5 @@
+'use strict';
+
 var listToArray = require('list-to-array');
 var Store = require('store-prototype');
 var utils = require('../utils');

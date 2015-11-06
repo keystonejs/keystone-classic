@@ -2,6 +2,9 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const request = require('superagent');
 
+const Columns = require('../columns');
+const Lists = require('../stores/Lists');
+
 const CreateForm = require('../components/CreateForm');
 const EditForm = require('../components/EditForm');
 const EditFormHeader = require('../components/EditFormHeader');
@@ -14,12 +17,77 @@ const SecondaryNavigation = require('../components/SecondaryNavigation');
 const { Container, Spinner } = require('elemental');
 
 var RelatedItemsList = React.createClass({
+	propTypes: {
+		list: React.PropTypes.object.isRequired,
+		refList: React.PropTypes.object.isRequired,
+		relatedItemId: React.PropTypes.string.isRequired,
+		relationship: React.PropTypes.object.isRequired,
+	},
+	getInitialState () {
+		return {
+			columns: this.getColumns(),
+			items: null,
+		};
+	},
+	getColumns () {
+		const { relationship, refList } = this.props;
+		const columns = refList.expandColumns(refList.defaultColumns);
+		return columns.filter(i => i.path !== relationship.refPath);
+	},
+	componentDidMount () {
+		this.loadItems();
+	},
+	loadItems () {
+		// TODO: Handle invalid relationship definitions
+		const { refList, relatedItemId, relationship } = this.props;
+		refList.loadItems({
+			columns: this.state.columns,
+			filters: [{
+				field: refList.fields[relationship.refPath],
+				value: { value: relatedItemId },
+			}],
+		}, (err, items) => {
+			// TODO: indicate pagination & link to main list view
+			this.setState({ items });
+		});
+	},
+	renderTableCols () {
+		const cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
+		return <colgroup>{cols}</colgroup>;
+	},
+	renderTableHeaders () {
+		const cells = this.state.columns.map((col, i) => {
+			return <th key={col.path}>{col.label}</th>;
+		});
+		return <thead><tr>{cells}</tr></thead>;
+	},
+	renderTableRow (item) {
+		const cells = this.state.columns.map((col, i) => {
+			const ColumnType = Columns[col.type] || Columns.__unrecognised__;
+			const linkTo = !i ? `/keystone/${this.props.refList.path}/${item.id}` : undefined;
+			return <ColumnType key={col.path} list={this.props.refList} col={col} data={item} linkTo={linkTo} />;
+		});
+		return <tr key={'i' + item.id}>{cells}</tr>;
+	},
 	render () {
-		var json = JSON.stringify(Keystone.list.relationships, null, '  ');
+		const listHref = '/keystone/' + this.props.refList.path;
 		return (
-			<span>
-				{json}
-			</span>
+			<div className="Relationship">
+				<h3><a href={listHref}>{this.props.refList.label}</a></h3>
+				{this.state.items ? (
+					<div className="ItemList-wrapper">
+						<table cellPadding="0" cellSpacing="0" className="Table ItemList">
+							{this.renderTableCols()}
+							{this.renderTableHeaders()}
+							<tbody>
+								{this.state.items.results.map(this.renderTableRow)}
+							</tbody>
+						</table>
+					</div>
+				) : (
+					<Spinner size="sm" />
+				)}
+			</div>
 		);
 	}
 });
@@ -32,7 +100,7 @@ var ItemView = React.createClass({
 	getInitialState () {
 		return {
 			createIsOpen: false,
-			itemData: null
+			itemData: null,
 		};
 	},
 
@@ -41,19 +109,15 @@ var ItemView = React.createClass({
 	},
 
 	loadItemData () {
-		request.get('/keystone/api/' + this.props.list.path + '/' + this.props.itemId + '?drilldown=true')
-			.set('Accept', 'application/json')
-			.end((err, res) => {
-				if (err || !res.ok) {
-					// TODO: nicer error handling
-					console.log('Error loading item data:', res ? res.text : err);
-					alert('Error loading data (details logged to console)');
-					return;
-				}
-				this.setState({
-					itemData: res.body
-				});
-			});
+		this.props.list.loadItem(this.props.itemId, { drilldown: true }, (err, itemData) => {
+			if (err || !itemData) {
+				// TODO: nicer error handling
+				console.log('Error loading item data', err);
+				alert('Error loading data (details logged to console)');
+				return;
+			}
+			this.setState({ itemData });
+		});
 	},
 
 	toggleCreate (visible) {
@@ -63,32 +127,18 @@ var ItemView = React.createClass({
 	},
 
 	renderRelationships () {
-		var relationships = [];
-		for (var relName in this.props.list.relationships) {
-			relationships.push(this.props.list.relationships[relName]);
-		}
-		relationships = relationships.map((relationship) => {
-			var unusedForNow = (
-				<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
-			);
-			var filter = JSON.stringify({
-				match: 'exact',
-				inverted: 'false',
-				value: this.props.itemId
-			});
-			var link = '/keystone/' + relationship.ref + '?' + relationship.refPath + '=' + filter;
-			return (
-				<ul>
-					<li>{relationship.path} ({relationship.ref} list) <a href={link}>visit</a>
-					</li>
-				</ul>
-			);
-		});
+		let { relationships } = this.props.list;
+		let keys = Object.keys(relationships);
+		if (!keys.length) return;
 		return (
-			<Container>
-				<h4>Relationships</h4>
-				{relationships}
-			</Container>
+			<div>
+				<h2>Relationships</h2>
+				{keys.map(key => {
+					let relationship = relationships[key];
+					let refList = Lists[relationship.ref];
+					return <RelatedItemsList key={relationship.path} list={this.props.list} refList={refList} relatedItemId={this.props.itemId} relationship={relationship} />;
+				})}
+			</div>
 		);
 	},
 
@@ -129,16 +179,7 @@ var ItemView = React.createClass({
 						<EditForm
 							list={this.props.list}
 							data={this.state.itemData} />
-						{ this.renderRelationships() }
-						{/*
-						TODO:
-							New component for item relationships:
-							<ItemRelationships list={this.props.list} itemId={this.props.itemId} />
-
-							The ItemRelationships component would loop through defined relationships,
-							and render a component for each:
-							<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
-						*/}
+						{this.renderRelationships()}
 					</Container>
 				</div>
 				<Footer
@@ -160,7 +201,7 @@ ReactDOM.render(
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
 		itemId={Keystone.itemId}
-		list={Keystone.list}
+		list={Lists[Keystone.list.key]}
 		messages={Keystone.messages}
 		nav={Keystone.nav}
 		signoutUrl={Keystone.signoutUrl}

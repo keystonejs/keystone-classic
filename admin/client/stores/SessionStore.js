@@ -1,3 +1,5 @@
+'use strict';
+
 const Store = require('store-prototype');
 const xhr = require('xhr');
 
