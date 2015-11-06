@@ -14,8 +14,12 @@ const SecondaryNavigation = require('../components/SecondaryNavigation');
 const { Container, Spinner } = require('elemental');
 
 var RelatedItemsList = React.createClass({
+	propTypes: {
+		list: React.PropTypes.object.isRequired,
+		relatedItemId: React.PropTypes.string.isRequired,
+		relationship: React.PropTypes.object.isRequired,
+	},
 	render () {
-		var json = JSON.stringify(Keystone.list.relationships, null, '  ');
 		return (
 			<span>
 				{json}
@@ -63,32 +67,18 @@ var ItemView = React.createClass({
 	},
 
 	renderRelationships () {
-		var relationships = [];
-		for (var relName in this.props.list.relationships) {
-			relationships.push(this.props.list.relationships[relName]);
-		}
-		relationships = relationships.map((relationship) => {
-			var unusedForNow = (
-				<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
-			);
-			var filter = JSON.stringify({
-				match: 'exact',
-				inverted: 'false',
-				value: this.props.itemId
-			});
-			var link = '/keystone/' + relationship.ref + '?' + relationship.refPath + '=' + filter;
-			return (
-				<ul>
-					<li>{relationship.path} ({relationship.ref} list) <a href={link}>visit</a>
-					</li>
-				</ul>
-			);
-		});
+		// TODO
+		return;
+		let { relationships } = this.props.list;
+		let keys = Object.keys(relationships);
+		if (!keys.length) return;
 		return (
-			<Container>
-				<h4>Relationships</h4>
-				{relationships}
-			</Container>
+			<div>
+				<h2>Relationships</h2>
+				{keys.map(key => {
+					return <RelatedItemsList list={this.props.list} relationship={relationships[key]} relatedItemId={this.props.itemId} />;
+				})}
+			</div>
 		);
 	},
 
@@ -129,16 +119,7 @@ var ItemView = React.createClass({
 						<EditForm
 							list={this.props.list}
 							data={this.state.itemData} />
-						{ this.renderRelationships() }
-						{/*
-						TODO:
-							New component for item relationships:
-							<ItemRelationships list={this.props.list} itemId={this.props.itemId} />
-
-							The ItemRelationships component would loop through defined relationships,
-							and render a component for each:
-							<RelatedItemsList relationship={relationship} relatedItemId={this.props.itemId} />
-						*/}
+						{this.renderRelationships()}
 					</Container>
 				</div>
 				<Footer
