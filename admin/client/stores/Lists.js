@@ -1,3 +1,5 @@
+"use strict";
+
 const List = require('../lib/List');
 
 for (let key in Keystone.lists) {

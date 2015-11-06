@@ -2,6 +2,8 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const request = require('superagent');
 
+const Lists = require('../stores/Lists');
+
 const CreateForm = require('../components/CreateForm');
 const EditForm = require('../components/EditForm');
 const EditFormHeader = require('../components/EditFormHeader');
@@ -36,7 +38,7 @@ var ItemView = React.createClass({
 	getInitialState () {
 		return {
 			createIsOpen: false,
-			itemData: null
+			itemData: null,
 		};
 	},
 
@@ -45,19 +47,15 @@ var ItemView = React.createClass({
 	},
 
 	loadItemData () {
-		request.get('/keystone/api/' + this.props.list.path + '/' + this.props.itemId + '?drilldown=true')
-			.set('Accept', 'application/json')
-			.end((err, res) => {
-				if (err || !res.ok) {
-					// TODO: nicer error handling
-					console.log('Error loading item data:', res ? res.text : err);
-					alert('Error loading data (details logged to console)');
-					return;
-				}
-				this.setState({
-					itemData: res.body
-				});
-			});
+		this.props.list.loadItem(this.props.itemId, { drilldown: true }, (err, itemData) => {
+			if (err || !itemData) {
+				// TODO: nicer error handling
+				console.log('Error loading item data', err);
+				alert('Error loading data (details logged to console)');
+				return;
+			}
+			this.setState({ itemData });
+		});
 	},
 
 	toggleCreate (visible) {
@@ -141,7 +139,7 @@ ReactDOM.render(
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
 		itemId={Keystone.itemId}
-		list={Keystone.list}
+		list={Lists[Keystone.list.key]}
 		messages={Keystone.messages}
 		nav={Keystone.nav}
 		signoutUrl={Keystone.signoutUrl}

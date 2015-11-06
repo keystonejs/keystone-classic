@@ -1,4 +1,7 @@
+"use strict";
+
 var listToArray = require('list-to-array');
+var qs = require('qs');
 var xhr = require('xhr');
 
 function getColumns (list) {
@@ -111,20 +114,32 @@ List.prototype.expandSort = function (input) {
 	return sort;
 };
 
+List.prototype.loadItem = function (itemId, options, callback) {
+	if (arguments.length === 2 && typeof options === 'function') {
+		callback = options;
+		options = null;
+	}
+	let url = '/keystone/api/' + this.path + '/' + itemId;
+	let query = qs.stringify(options);
+	if (query.length) url += '?' + query;
+	xhr({
+		url: url,
+		responseType: 'json',
+	}, (err, resp, data) => {
+		if (err) return callback(err);
+		// TODO: check resp.statusCode
+		callback(err, data);
+	});
+};
+
 List.prototype.loadItems = function (options, callback) {
 	var url = '/keystone/api/' + this.path + buildQueryString(options);
 	xhr({
-		url: url
-	}, (err, resp, body) => {
-		if (err) return callback(err);
+		url: url,
+		responseType: 'json',
+	}, (err, resp, data) => {
 		// TODO: check resp.statusCode
-		try {
-			body = JSON.parse(body);
-		} catch (err) {
-			console.log('Error parsing results json:', err, body);
-			return callback(err);
-		}
-		callback(null, body);
+		callback(err, data);
 	});
 };
 
