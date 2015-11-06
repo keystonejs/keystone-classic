@@ -101,24 +101,35 @@ module.exports = Field.create({
 		*/
 	},
 
-	updateValue () {
+	updateValue (value) {
 
 	},
 
-	renderUI () {
-
-		let button = (!this.props.many && this.props.value) ? (
-			<Button key="relational-button" type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className="keystone-relational-button" title={'Go to "' + this.state.expandedValues[0].label + '"'}>
-				<span className="octicon octicon-file-symlink-file" />
-			</Button>
-		) : null;
-
+	renderSelect (noedit) {
 		return (
-			<div style={{ position: 'relative' }}>
-				<Select multi={this.props.many} disabled={this.shouldRenderField()} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.props.value} />
-				{button}
-			</div>
+			<Select
+				multi={this.props.many}
+				disabled={noedit}
+				onChange={this.updateValue}
+				name={this.props.path}
+				value={this.props.value}
+			/>
 		);
+	},
+
+	renderValue () {
+		return this.renderSelect(true);
+	},
+
+	renderField () {
+
+		// let button = (!this.props.many && this.props.value) ? (
+		// 	<Button key="relational-button" type="link" href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className="keystone-relational-button" title={'Go to "' + this.state.expandedValues[0].label + '"'}>
+		// 		<span className="octicon octicon-file-symlink-file" />
+		// 	</Button>
+		// ) : null;
+
+		return this.renderSelect();
 	}
 
 });
