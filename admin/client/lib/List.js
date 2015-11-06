@@ -12,6 +12,32 @@ function getColumns (list) {
 	}).filter(i => i);
 }
 
+function getFilters (filterArray) {
+	var filters = {};
+	filterArray.forEach((filter) => {
+		filters[filter.field.path] = filter.value;
+	});
+	return filters;
+};
+
+function getSortString (sort) {
+	return sort.paths.map(i => {
+		return i.invert ? '-' + i.path : i.path;
+	}).filter(i => i).join(',');
+};
+
+function buildQueryString (options) {
+	var parts = [];
+	parts.push(options.search ? 'search=' + options.search : '');
+	parts.push(options.filters.length ? 'filters=' + JSON.stringify(getFilters(options.filters)) : '');
+	parts.push('select=' + options.columns.map(i => i.path).join(','));
+	parts.push('limit=' + options.page.size);
+	parts.push(options.page.index > 1 ? 'skip=' + ((options.page.index - 1) * options.page.size) : '');
+	parts.push('expandRelationshipFields=true');
+	parts.push('sort=' + getSortString(options.sort));
+	return '?' + parts.filter(i => i).join('&');
+};
+
 const List = function (options) {
 	Object.assign(this, options);
 	this.columns = getColumns(this);
@@ -85,18 +111,21 @@ List.prototype.expandSort = function (input) {
 	return sort;
 };
 
-List.prototype.getFilters = function (filterArray) {
-	var filters = {};
-	filterArray.forEach((filter) => {
-		filters[filter.field.path] = filter.value;
+List.prototype.loadItems = function (options, callback) {
+	var url = '/keystone/api/' + this.path + buildQueryString(options);
+	xhr({
+		url: url
+	}, (err, resp, body) => {
+		if (err) return callback(err);
+		// TODO: check resp.statusCode
+		try {
+			body = JSON.parse(body);
+		} catch (err) {
+			console.log('Error parsing results json:', err, body);
+			return callback(err);
+		}
+		callback(null, body);
 	});
-	return filters;
-};
-
-List.prototype.getSortString = function (sort) {
-	return sort.paths.map(i => {
-		return i.invert ? '-' + i.path : i.path;
-	}).filter(i => i).join(',');
 };
 
 List.prototype.getDownloadURL = function (options) {
@@ -106,40 +135,11 @@ List.prototype.getDownloadURL = function (options) {
 		options.format = 'csv';
 	}
 	parts.push(options.search ? 'search=' + options.search : '');
-	parts.push(options.filters.length ? 'filters=' + JSON.stringify(this.getFilters(options.filters)) : '');
+	parts.push(options.filters.length ? 'filters=' + JSON.stringify(getFilters(options.filters)) : '');
 	parts.push('select=' + options.columns.map(i => i.path).join(','));
 	parts.push('expandRelationshipFields=true');
-	parts.push('sort=' + this.getSortString(options.sort));
+	parts.push('sort=' + getSortString(options.sort));
 	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
-};
-
-List.prototype.buildQueryString = function (options) {
-	var parts = [];
-	parts.push(options.search ? 'search=' + options.search : '');
-	parts.push(options.filters.length ? 'filters=' + JSON.stringify(this.getFilters(options.filters)) : '');
-	parts.push('select=' + options.columns.map(i => i.path).join(','));
-	parts.push('limit=' + options.page.size);
-	parts.push(options.page.index > 1 ? 'skip=' + ((options.page.index - 1) * options.page.size) : '');
-	parts.push('expandRelationshipFields=true');
-	parts.push('sort=' + this.getSortString(options.sort));
-	return '?' + parts.filter(i => i).join('&');
-};
-
-List.prototype.loadItems = function (options, callback) {
-	var url = '/keystone/api/' + this.path + this.buildQueryString(options);
-	xhr({
-		url: url
-	}, (err, resp, body) => {
-		if (err) return callback(err);
-		// TODO: check resp.statusCode
-		try {
-			body = JSON.parse(body);
-		} catch (e) {
-			console.log('Error parsing results json:', e, body);
-			return callback(e);
-		}
-		callback(null, body);
-	});
 };
 
 List.prototype.deleteItem = function (item, callback) {
