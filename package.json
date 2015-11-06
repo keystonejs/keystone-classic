@@ -65,7 +65,7 @@
     "react-alt-text": "^1.1.0",
     "react-day-picker": "^1.0.10",
     "react-dom": "^0.14.1",
-    "react-select": "^0.9.1",
+    "react-select": "^1.0.0-beta1",
     "scmp": "^1.0.0",
     "semver": "^5.0.3",
     "serve-favicon": "^2.3.0",
