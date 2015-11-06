@@ -1,8 +1,8 @@
 "use strict";
 
-var listToArray = require('list-to-array');
-var qs = require('qs');
-var xhr = require('xhr');
+const listToArray = require('list-to-array');
+const qs = require('qs');
+const xhr = require('xhr');
 
 function getColumns (list) {
 	return list.uiElements.map((col, i) => {
@@ -30,14 +30,14 @@ function getSortString (sort) {
 };
 
 function buildQueryString (options) {
-	var parts = [];
+	const parts = [];
 	parts.push(options.search ? 'search=' + options.search : '');
 	parts.push(options.filters.length ? 'filters=' + JSON.stringify(getFilters(options.filters)) : '');
-	parts.push('select=' + options.columns.map(i => i.path).join(','));
-	parts.push('limit=' + options.page.size);
-	parts.push(options.page.index > 1 ? 'skip=' + ((options.page.index - 1) * options.page.size) : '');
+	parts.push(options.columns ? 'select=' + options.columns.map(i => i.path).join(',') : '');
+	parts.push(options.page && options.page.size ? 'limit=' + options.page.size : '');
+	parts.push(options.page && options.page.index > 1 ? 'skip=' + ((options.page.index - 1) * options.page.size) : '');
+	parts.push(options.sort ? 'sort=' + getSortString(options.sort) : '');
 	parts.push('expandRelationshipFields=true');
-	parts.push('sort=' + getSortString(options.sort));
 	return '?' + parts.filter(i => i).join('&');
 };
 
@@ -47,18 +47,18 @@ const List = function (options) {
 };
 
 List.prototype.expandColumns = function (input) {
-	var nameIncluded = false;
-	var cols = listToArray(input).map(i => {
-		var split = i.split('|');
-		var path = split[0];
-		var width = split[1] || 'auto';
+	let nameIncluded = false;
+	const cols = listToArray(input).map(i => {
+		let split = i.split('|');
+		let path = split[0];
+		let width = split[1] || 'auto';
 		if (path === '__name__') {
 			path = this.namePath;
 		}
 		if (path === this.namePath) {
 			nameIncluded = true;
 		}
-		var field = this.fields[path];
+		let field = this.fields[path];
 		if (!field) {
 			// TODO: Support arbitary document paths
 			console.warn('Invalid Column specified:', i);
@@ -82,7 +82,7 @@ List.prototype.expandColumns = function (input) {
 };
 
 List.prototype.expandSort = function (input) {
-	var sort = {
+	const sort = {
 		rawInput: input || this.defaultSort,
 		isDefaultSort: false
 	};
@@ -92,12 +92,12 @@ List.prototype.expandSort = function (input) {
 		sort.input = this.sortable ? 'sortOrder' : this.namePath;
 	}
 	sort.paths = listToArray(sort.input).map(path => {
-		var invert = false;
+		let invert = false;
 		if (path.charAt(0) === '-') {
 			invert = true;
 			path = path.substr(1);
 		}
-		var field = this.fields[path];
+		const field = this.fields[path];
 		if (!field) {
 			// TODO: Support arbitary document paths
 			console.warn('Invalid Sort specified:', path);
@@ -133,7 +133,7 @@ List.prototype.loadItem = function (itemId, options, callback) {
 };
 
 List.prototype.loadItems = function (options, callback) {
-	var url = '/keystone/api/' + this.path + buildQueryString(options);
+	const url = '/keystone/api/' + this.path + buildQueryString(options);
 	xhr({
 		url: url,
 		responseType: 'json',
@@ -144,21 +144,21 @@ List.prototype.loadItems = function (options, callback) {
 };
 
 List.prototype.getDownloadURL = function (options) {
-	var url = '/keystone/api/' + this.path;
-	var parts = [];
+	const url = '/keystone/api/' + this.path;
+	const parts = [];
 	if (options.format !== 'json') {
 		options.format = 'csv';
 	}
 	parts.push(options.search ? 'search=' + options.search : '');
 	parts.push(options.filters.length ? 'filters=' + JSON.stringify(getFilters(options.filters)) : '');
-	parts.push('select=' + options.columns.map(i => i.path).join(','));
+	parts.push(options.columns ? 'select=' + options.columns.map(i => i.path).join(',') : '');
+	parts.push(options.sort ? 'sort=' + getSortString(options.sort) : '');
 	parts.push('expandRelationshipFields=true');
-	parts.push('sort=' + getSortString(options.sort));
 	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
 };
 
 List.prototype.deleteItem = function (item, callback) {
-	var url = '/keystone/api/' + this.path + '/' + item.id + '/delete';
+	const url = '/keystone/api/' + this.path + '/' + item.id + '/delete';
 	xhr({
 		url: url,
 		method: 'POST',
