@@ -79,6 +79,12 @@ module.exports = Field.create({
 	},
 
 	loadValue (values) {
+		if (!values) {
+			return this.setState({
+				loading: false,
+				value: null,
+			});
+		};
 		values = this.props.many ? values : [values];
 		let cachedValues = values.map(i => this._itemsCache[i]).filter(i => i);
 		if (cachedValues.length === values.length) {
