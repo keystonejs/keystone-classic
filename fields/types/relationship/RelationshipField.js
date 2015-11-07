@@ -130,7 +130,7 @@ module.exports = Field.create({
 	valueChanged (value) {
 		this.props.onChange({
 			path: this.props.path,
-			value: this.props.many ? value.map(i => i.id) : value.id,
+			value: value,
 		});
 	},
 
@@ -143,6 +143,7 @@ module.exports = Field.create({
 				labelKey="name"
 				name={this.props.path}
 				onChange={this.valueChanged}
+				simpleValue
 				value={this.state.value}
 				valueKey="id"
 			/>
