@@ -42,13 +42,8 @@ var TextFilter = React.createClass({
 		};
 	},
 
-	componentDidMount () {
-		// focus the text focusTarget
-		React.findDOMNode(this.refs.focusTarget).focus();
-	},
-
 	updateFilter (key, val) {
-		var update = {};
+		let update = {};
 		update[key] = val;
 		this.props.onChange(Object.assign(this.props.filter, update));
 	},
@@ -68,10 +63,9 @@ var TextFilter = React.createClass({
 	},
 
 	render () {
-		let { field, filter } = this.props;
-		var mode = MODE_OPTIONS.filter((i => i.value === filter.mode))[0];
-
-		let placeholder = field.label + ' ' + mode.label.toLowerCase() + '...';
+		const { field, filter } = this.props;
+		const mode = MODE_OPTIONS.filter((i => i.value === filter.mode))[0];
+		const placeholder = field.label + ' ' + mode.label.toLowerCase() + '...';
 
 		return (
 			<div>
