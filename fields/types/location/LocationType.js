@@ -129,6 +129,29 @@ location.prototype.addToSchema = function() {
 };
 
 /**
+ * Add filters to a query
+ */
+var FILTER_PATH_MAP = {
+	street: 'street1',
+	city: 'suburb',
+	state: 'state',
+	code: 'postcode',
+	country: 'country',
+};
+location.prototype.addFilterToQuery = function(filter, query) {
+	query = query || {};
+	var field = this;
+	['street', 'city', 'state', 'code', 'country'].forEach(function(i) {
+		if (!filter[i]) return;
+		var value = utils.escapeRegExp(filter[i]);
+		value = new RegExp(value, 'i');
+		query[field.paths[FILTER_PATH_MAP[i]]] = filter.inverted ? { $not: value } : value;
+	});
+	console.log(query);
+	return query;
+};
+
+/**
  * Formats a list of the values stored by the field. Only paths that
  * have values will be included.
  *
