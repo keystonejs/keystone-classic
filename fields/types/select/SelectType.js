@@ -105,10 +105,21 @@ select.prototype.cloneMap = function() {
  */
 select.prototype.addFilterToQuery = function(filter, query) {
 	query = query || {};
-	if (filter.value) {
-		query[this.path] = (filter.invert) ? { $ne: filter.value } : filter.value;
+	if (!Array.isArray(filter.value)) {
+		if (filter.value) {
+			filter.value = [filter.value];
+		} else {
+			filter.value = [];
+		}
+	}
+	if (filter.value.length) {
+		if (filter.value.length > 1) {
+			query[this.path] = (filter.inverted) ? { $nin: filter.value } : { $in: filter.value };
+		} else {
+			query[this.path] = (filter.inverted) ? { $ne: filter.value } : filter.value;
+		}
 	} else {
-		query[this.path] = (filter.inverse) ? { $nin: ['', null] } : { $in: ['', null] };
+		query[this.path] = (filter.inverted) ? { $nin: ['', null] } : { $in: ['', null] };
 	}
 	return query;
 };
