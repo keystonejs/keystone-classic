@@ -1,3 +1,4 @@
+import async from 'async';
 import React from 'react';
 import xhr from 'xhr';
 
@@ -6,8 +7,8 @@ import { Button, FormField, FormInput, InputGroup, SegmentedControl } from 'elem
 import PopoutList from '../../../admin/client/components/PopoutList';
 
 const TOGGLE_OPTIONS = [
-	{ label: 'Linked To', value: true },
-	{ label: 'NOT Linked To', value: false },
+	{ label: 'Linked To', value: false },
+	{ label: 'NOT Linked To', value: true },
 ];
 
 function findElement(arr, propName, propValue) {
@@ -48,52 +49,110 @@ var RelationshipFilter = React.createClass({
 
 	getInitialState () {
 		return {
-			loading: true,
+			searchIsLoading: false,
 			searchResults: [],
 			searchString: '',
+			selectedItems: [],
+			valueIsLoading: true,
 		};
 	},
 
 	componentDidMount () {
 		this._itemsCache = {};
-		this.loadSearchResults();
+		this.loadSearchResults(true);
+	},
+
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.filter.value !== this.props.filter.value) {
+			this.populateValue(nextProps.filter.value);
+		}
+	},
+
+	isLoading () {
+		return this.state.searchIsLoading || this.state.valueIsLoading;
+	},
+
+	populateValue (value) {
+		async.map(value, (id, next) => {
+			if (this._itemsCache[id]) return next(null, this._itemsCache[id]);
+			xhr({
+				url: '/keystone/api/' + this.props.field.refList.path + '/' + id + '?basic',
+				responseType: 'json',
+			}, (err, resp, data) => {
+				if (err || !data) return done(err);
+				this.cacheItem(data);
+				done(err, data);
+			});
+		}, (err, items) => {
+			if (err) {
+				// TODO: Handle errors better
+				console.error('Error loading items:', err);
+			}
+			this.setState({
+				valueIsLoading: false,
+				selectedItems: items || [],
+			}, () => {
+				this.refs.focusTarget.focus();
+			});
+		});
 	},
 
 	cacheItem (item) {
 		this._itemsCache[item.id] = item;
 	},
 
-	loadSearchResults () {
+	loadSearchResults (thenPopulateValue) {
 		let searchString = this.state.searchString;
 		xhr({
 			url: '/keystone/api/' + this.props.field.refList.path + '?basic&search=' + searchString,
 			responseType: 'json',
 		}, (err, resp, data) => {
 			if (err) {
+				// TODO: Handle errors better
 				console.error('Error loading items:', err);
+				this.setState({
+					searchIsLoading: false,
+				});
 				return;
 			}
 			data.results.forEach(this.cacheItem);
+			if (thenPopulateValue) {
+				this.populateValue(this.props.filter.value);
+			}
 			if (searchString !== this.state.searchString) return;
-			// todo: handle pagination
-			// setTimeout(() => {
 			this.setState({
+				searchIsLoading: false,
 				searchResults: data.results,
 			}, this.updateHeight);
-			// }, 800);
 		});
 	},
 
 	updateHeight () {
-		this.props.onHeightChange(this.refs.container.offsetHeight);
+		if (this.props.onHeightChange) {
+			this.props.onHeightChange(this.refs.container.offsetHeight);
+		}
 	},
 
-	toggleInverted (value) {
-		this.setState({ inverted: value });
+	toggleInverted (inverted) {
+		this.updateFilter({ inverted });
 	},
 
 	updateSearch (e) {
 		this.setState({ searchString: e.target.value }, this.loadSearchResults);
+	},
+
+	selectItem (item) {
+		let value = this.props.filter.value.concat(item.id);
+		this.updateFilter({ value });
+	},
+
+	removeItem (item) {
+		let value = this.props.filter.value.filter(i => { return i !== item.id });
+		this.updateFilter({ value });
+	},
+
+	updateFilter (value) {
+		this.props.onChange({ ...this.props.filter, ...value });
 	},
 
 	renderItems (items, selected) {
@@ -106,23 +165,28 @@ var RelationshipFilter = React.createClass({
 					icon="dash"
 					iconHover={itemIconHover}
 					label={item.name}
-					onClick={() => { console.log(item); }} />
+					onClick={() => {
+						if (selected) this.removeItem(item);
+						else this.selectItem(item);
+					}}
+				/>
 			);
 		});
 	},
 
 	render () {
-		let selectedItems = [];
+		let selectedItems = this.state.selectedItems;
 		let searchResults = this.state.searchResults.filter(i => {
 			return this.props.filter.value.indexOf(i.id) === -1;
 		});
+		let placeholder = this.isLoading() ? 'Loading...' : 'Find a ' + this.props.field.label + '...';
 		return (
 			<div ref="container">
 				<FormField>
-					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
+					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.props.filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-					<FormInput autofocus ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={'Find a ' + this.props.field.label + '...'} />
+					<FormInput disabled={this.state.valueIsLoading} ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={placeholder} />
 				</FormField>
 				{selectedItems.length ? (
 					<PopoutList>
