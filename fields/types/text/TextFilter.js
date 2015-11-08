@@ -4,41 +4,41 @@ import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Matches', value: false },
-	{ label: 'Does NOT Match', value: true }
+	{ label: 'Does NOT Match', value: true },
 ];
 
 const MODE_OPTIONS = [
 	{ label: 'Contains', value: 'contains' },
 	{ label: 'Exactly', value: 'exactly' },
 	{ label: 'Begins with', value: 'beginsWith' },
-	{ label: 'Ends with', value: 'endsWith' }
+	{ label: 'Ends with', value: 'endsWith' },
 ];
 
 function getDefaultValue () {
 	return {
 		mode: MODE_OPTIONS[0].value,
 		inverted: TOGGLE_OPTIONS[0].value,
-		value: ''
+		value: '',
 	};
 }
 
 var TextFilter = React.createClass({
 
 	statics: {
-		getDefaultValue: getDefaultValue
+		getDefaultValue: getDefaultValue,
 	},
 
 	propTypes: {
 		filter: React.PropTypes.shape({
 			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
 			inverted: React.PropTypes.boolean,
-			value: React.PropTypes.string
+			value: React.PropTypes.string,
 		})
 	},
 
 	getDefaultProps () {
 		return {
-			filter: getDefaultValue()
+			filter: getDefaultValue(),
 		};
 	},
 
@@ -50,7 +50,6 @@ var TextFilter = React.createClass({
 
 	selectMode (mode) {
 		this.updateFilter('mode', mode);
-		// focus the text input after a mode selection is made
 		React.findDOMNode(this.refs.focusTarget).focus();
 	},
 

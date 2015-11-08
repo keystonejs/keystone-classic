@@ -3,27 +3,27 @@ import { SegmentedControl } from 'elemental';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Is Checked', value: true },
-	{ label: 'Is NOT Checked', value: false }
+	{ label: 'Is NOT Checked', value: false },
 ];
 
 function getDefaultValue () {
 	return {
-		value: true
+		value: true,
 	};
 }
 
 var BooleanFilter = React.createClass({
 	statics: {
-		getDefaultValue: getDefaultValue
+		getDefaultValue: getDefaultValue,
 	},
 	propTypes: {
 		filter: React.PropTypes.shape({
-			value: React.PropTypes.bool
+			value: React.PropTypes.bool,
 		})
 	},
 	getDefaultProps () {
 		return {
-			filter: getDefaultValue()
+			filter: getDefaultValue(),
 		};
 	},
 	updateValue (value) {

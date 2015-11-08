@@ -4,7 +4,7 @@ import { SegmentedControl } from 'elemental';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Is Set', value: true },
-	{ label: 'Is NOT Set', value: false }
+	{ label: 'Is NOT Set', value: false },
 ];
 
 function getDefaultValue () {
