@@ -42,23 +42,22 @@ var TextFilter = React.createClass({
 		};
 	},
 
-	updateFilter (key, val) {
-		let update = {};
-		update[key] = val;
-		this.props.onChange(Object.assign(this.props.filter, update));
+	updateFilter (value) {
+		this.props.onChange({ ...this.props.filter, ...value });
 	},
 
 	selectMode (mode) {
-		this.updateFilter('mode', mode);
+		this.updateFilter({ mode });
 		React.findDOMNode(this.refs.focusTarget).focus();
 	},
 
-	toggleInverted (value) {
-		this.updateFilter('inverted', value);
+	toggleInverted (inverted) {
+		this.updateFilter({ inverted });
+		React.findDOMNode(this.refs.focusTarget).focus();
 	},
 
 	updateValue (e) {
-		this.updateFilter('value', e.target.value);
+		this.updateFilter({ value: e.target.value });
 	},
 
 	render () {
