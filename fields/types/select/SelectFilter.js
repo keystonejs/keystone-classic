@@ -72,7 +72,7 @@ var SelectFilter = React.createClass({
 			<div>
 				{this.renderToggle()}
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-					<Checkbox focusOnMount onChange={this.toggleAllOptions} label="Select all options" value={true} checked={this.state.allSelected} indeterminate={this.state.indeterminate} />
+					<Checkbox autofocus onChange={this.toggleAllOptions} label="Select all options" value={true} checked={this.state.allSelected} indeterminate={this.state.indeterminate} />
 				</FormField>
 				{this.renderOptions()}
 			</div>

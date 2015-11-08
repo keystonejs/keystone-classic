@@ -74,7 +74,7 @@ var TextFilter = React.createClass({
 				</FormField>
 				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
 				<FormField>
-					<FormInput focusOnMount ref="focusTarget" value={this.props.filter.value} onChange={this.updateValue} placeholder={placeholder} />
+					<FormInput autofocus ref="focusTarget" value={this.props.filter.value} onChange={this.updateValue} placeholder={placeholder} />
 				</FormField>
 			</div>
 		);
