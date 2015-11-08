@@ -1,35 +1,20 @@
-/*!
- * Module dependencies.
- */
-
-var util = require('util'),
-	super_ = require('../Type');
+var FieldType = require('../Type');
+var TextType = require('../text/TextType');
+var util = require('util');
 
 /**
  * Color FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function color(list, path, options) {
-	
 	this._nativeType = String;
-	this._underscoreMethods = [];
-	this._fixedSize = 'small';
-	
 	color.super_.call(this, list, path, options);
-	
 }
+util.inherits(color, FieldType);
 
-/*!
- * Inherit from Field
- */
+/* Inherit from TextType prototype */
+color.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
 
-util.inherits(color, super_);
-
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 exports = module.exports = color;
