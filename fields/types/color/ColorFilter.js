@@ -1,1 +1,1 @@
-module.exports = require('../password/PasswordFilter');
+module.exports = require('../text/TextFilter');
