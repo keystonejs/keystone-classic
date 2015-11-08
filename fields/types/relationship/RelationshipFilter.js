@@ -11,14 +11,6 @@ const TOGGLE_OPTIONS = [
 	{ label: 'NOT Linked To', value: true },
 ];
 
-function findElement(arr, propName, propValue) {
-	for (var i=0; i < arr.length; i++) {
-		if (arr[i][propName] == propValue) {
-			return arr[i];
-		}
-	}
-};
-
 function getDefaultValue () {
 	return {
 		inverted: TOGGLE_OPTIONS[0].value,
@@ -186,7 +178,7 @@ var RelationshipFilter = React.createClass({
 					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.props.filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-					<FormInput disabled={this.state.valueIsLoading} ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={placeholder} />
+					<FormInput autofocus ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={placeholder} />
 				</FormField>
 				{selectedItems.length ? (
 					<PopoutList>
