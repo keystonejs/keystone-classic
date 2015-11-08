@@ -139,7 +139,7 @@ var RelationshipFilter = React.createClass({
 	},
 
 	removeItem (item) {
-		let value = this.props.filter.value.filter(i => { return i !== item.id });
+		let value = this.props.filter.value.filter(i => { return i !== item.id; });
 		this.updateFilter({ value });
 	},
 
