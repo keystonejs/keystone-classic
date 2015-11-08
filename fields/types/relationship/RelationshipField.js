@@ -108,6 +108,7 @@ module.exports = Field.create({
 				done(err, data);
 			});
 		}, (err, expanded) => {
+			if (!this.isMounted()) return;
 			this.setState({
 				loading: false,
 				value: this.props.many ? expanded : expanded[0],
