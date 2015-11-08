@@ -1,25 +1,13 @@
 import React from 'react';
-var { Button, FormField, FormInput, InputGroup, SegmentedControl } = require('elemental');
+import xhr from 'xhr';
+
+import { Button, FormField, FormInput, InputGroup, SegmentedControl } from 'elemental';
+
 import PopoutList from '../../../admin/client/components/PopoutList';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Linked To', value: true },
-	{ label: 'NOT Linked To', value: false }
-];
-
-const TEST_RESULTS = [
-	{ label: 'Amazon',             value: 'amazon' },
-	{ label: 'Ebay',               value: 'ebay' },
-	{ label: 'Google',             value: 'google' },
-	{ label: 'Jaze',               value: 'jaze' },
-	{ label: 'Keystone',           value: 'keystone' },
-	{ label: 'Molomby Consulting', value: 'molomby_consulting' },
-	{ label: 'Prismatik',          value: 'prismatik' },
-	{ label: 'Sweathers',          value: 'sweathers' },
-	{ label: 'Team9',              value: 'team9' },
-	{ label: 'Thinkmill',          value: 'thinkmill' },
-	{ label: 'Twitter',            value: 'twitter' },
-	{ label: 'Yahoo',              value: 'yahoo' },
+	{ label: 'NOT Linked To', value: false },
 ];
 
 function findElement(arr, propName, propValue) {
@@ -30,162 +18,124 @@ function findElement(arr, propName, propValue) {
 	}
 };
 
+function getDefaultValue () {
+	return {
+		inverted: TOGGLE_OPTIONS[0].value,
+		value: [],
+	};
+}
+
 var RelationshipFilter = React.createClass({
+
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
+
+	propTypes: {
+		field: React.PropTypes.object,
+		filter: React.PropTypes.shape({
+			inverted: React.PropTypes.bool,
+			value: React.PropTypes.array,
+		}),
+		onHeightChange: React.PropTypes.func,
+	},
+
+	getDefaultProps () {
+		return {
+			filter: getDefaultValue(),
+		};
+	},
 
 	getInitialState () {
 		return {
-			activeItems: [],
-			inactiveItems: [],
-			inverted: TOGGLE_OPTIONS[0].value,
-			loadedItems: [],
 			loading: true,
+			searchResults: [],
 			searchString: '',
-			value: '',
 		};
 	},
 
 	componentDidMount () {
-		this.loadItems();
-		this.focusSearch();
+		this._itemsCache = {};
+		this.loadSearchResults();
 	},
 
-	loadItems () {
-		setTimeout(() => {
+	cacheItem (item) {
+		this._itemsCache[item.id] = item;
+	},
+
+	loadSearchResults () {
+		let searchString = this.state.searchString;
+		xhr({
+			url: '/keystone/api/' + this.props.field.refList.path + '?basic&search=' + searchString,
+			responseType: 'json',
+		}, (err, resp, data) => {
+			if (err) {
+				console.error('Error loading items:', err);
+				return;
+			}
+			data.results.forEach(this.cacheItem);
+			if (searchString !== this.state.searchString) return;
+			// todo: handle pagination
+			// setTimeout(() => {
 			this.setState({
-				loadedItems: TEST_RESULTS,
-				loading: false,
-			});
-		}, 200);
+				searchResults: data.results,
+			}, this.updateHeight);
+			// }, 800);
+		});
+	},
+
+	updateHeight () {
+		this.props.onHeightChange(this.refs.container.offsetHeight);
 	},
 
 	toggleInverted (value) {
-		this.setState({
-			inverted: value
-		});
-	},
-
-	focusSearch () {
-		React.findDOMNode(this.refs.search).focus();
+		this.setState({ inverted: value });
 	},
 
 	updateSearch (e) {
-		this.setState({ searchString: e.target.value });
+		this.setState({ searchString: e.target.value }, this.loadSearchResults);
 	},
 
-	makeSelectionActive (selectedItem) {
-		console.log(selectedItem);
-		let { activeItems, inactiveItems } = this.state;
-		let newActiveItems = activeItems;
-		let newInactiveItems = inactiveItems;
+	renderItems (items, selected) {
+		let itemIconHover = selected ? 'x' : 'check';
 
-		// remove the item from "inactive items"
-		let selectedItemIndex = inactiveItems.indexOf(findElement(inactiveItems, 'value', selectedItem.value));
-		if (selectedItemIndex > -1) {
-			newInactiveItems.splice(selectedItemIndex, 1);
-		}
-		// add it to "picked up"
-		newActiveItems.push(selectedItem);
-
-		// reset verification to simulate real update
-		// and take the user to the correct list
-		this.setState({
-			activeItems: newActiveItems,
-			inactiveItems: newInactiveItems,
-		});
-	},
-
-	makeSelectionInactive (selectedItem) {
-		console.log(selectedItem);
-		let { activeItems, inactiveItems } = this.state;
-		let newActiveItems = activeItems;
-		let newInactiveItems = inactiveItems;
-
-		// remove the item from "inactive items"
-		let selectedItemIndex = activeItems.indexOf(findElement(activeItems, 'value', selectedItem.value));
-		if (selectedItemIndex > -1) {
-			newActiveItems.splice(selectedItemIndex, 1);
-		}
-		// add it to "picked up"
-		newInactiveItems.push(selectedItem);
-
-		// reset verification to simulate real update
-		// and take the user to the correct list
-		this.setState({
-			activeItems: newActiveItems,
-			inactiveItems: newInactiveItems,
-		});
-	},
-
-	renderToggle () {
-		return (
-			<FormField>
-				<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
-			</FormField>
-		);
-	},
-
-	renderList (active) {
-		let self = this;
-		let { activeItems, inactiveItems, searchString } = this.state;
-		let searchRegex = new RegExp(searchString);
-
-		let listItems = active ? activeItems : inactiveItems;
-		let itemIconHover = active ? 'x' : 'check';
-		function listAction(item) {
-			return active ? self.makeSelectionInactive(item) :  self.makeSelectionActive(item);
-		};
-
-		function searchFilter (filter) {
-			return searchRegex.test(filter.label.toLowerCase());
-		};
-
-		let filteredItems = searchString ? listItems.filter(searchFilter) : listItems;
-
-		var popoutList = filteredItems.map((item, i) => {
+		return items.map((item, i) => {
 			return (
 				<PopoutList.Item
-					key={'item_' + item.value}
+					key={`item-${i}-${item.id}`}
 					icon="dash"
 					iconHover={itemIconHover}
-					label={item.label}
-					onClick={() => { listAction(item); }} />
+					label={item.name}
+					onClick={() => { console.log(item); }} />
 			);
 		});
-
-		return popoutList;
-	},
-
-	renderInactiveItems () {
-		if (!this.state.inactiveItems.length) return null;
-
-		return (
-			<PopoutList>
-				<PopoutList.Heading style={this.state.activeItems.length ? { marginTop: '2em' } : null}>Items</PopoutList.Heading>
-				{this.renderList()}
-			</PopoutList>
-		);
-	},
-
-	renderActiveItems () {
-		if (!this.state.activeItems.length) return null;
-
-		return (
-			<PopoutList>
-				<PopoutList.Heading>Selected</PopoutList.Heading>
-				{this.renderList(true)}
-			</PopoutList>
-		);
 	},
 
 	render () {
+		let selectedItems = [];
+		let searchResults = this.state.searchResults.filter(i => {
+			return this.props.filter.value.indexOf(i.id) === -1;
+		});
 		return (
-			<div>
-				{this.renderToggle()}
-				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-					<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder={'Find a ' + this.props.field.label + '...'} />
+			<div ref="container">
+				<FormField>
+					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
 				</FormField>
-				{this.renderActiveItems()}
-				{this.renderInactiveItems()}
+				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
+					<FormInput autofocus ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={'Find a ' + this.props.field.label + '...'} />
+				</FormField>
+				{selectedItems.length ? (
+					<PopoutList>
+						<PopoutList.Heading>Selected</PopoutList.Heading>
+						{this.renderItems(selectedItems, true)}
+					</PopoutList>
+				) : null}
+				{searchResults.length ? (
+					<PopoutList>
+						<PopoutList.Heading style={selectedItems.length ? { marginTop: '2em' } : null}>Items</PopoutList.Heading>
+						{this.renderItems(searchResults)}
+					</PopoutList>
+				) : null}
 			</div>
 		);
 	}
