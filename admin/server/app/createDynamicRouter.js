@@ -14,8 +14,8 @@ module.exports = function createDynamicRouter(keystone) {
 
 	// Use bodyParser and multer to parse request bodies and file uploads
 	router.use(bodyParser.json({}));
-	router.use(bodyParser.urlencoded({ extended: true }));
-	router.use(multer({ includeEmptyFields: true }));
+	router.use(bodyParser.urlencoded({extended: true}));
+	router.use(multer({includeEmptyFields: true}));
 
 	// #1: Session API
 	// TODO: this should respect keystone auth options
@@ -50,9 +50,10 @@ module.exports = function createDynamicRouter(keystone) {
 	// #4: Cloudinary and S3 specific APIs
 	// TODO: poor separation of concerns; should / could this happen elsewhere?
 	if (keystone.get('cloudinary config')) {
-		router.get('/api/cloudinary/get', require('../api/cloudinary').get);
-		router.get('/api/cloudinary/autocomplete', require('../api/cloudinary').autocomplete);
-		router.post('/api/cloudinary/upload', require('../api/cloudinary').upload);
+		var cloudinary = require('../api/cloudinary')(keystone);
+		router.get('/api/cloudinary/get', cloudinary.get);
+		router.get('/api/cloudinary/autocomplete', cloudinary.autocomplete);
+		router.post('/api/cloudinary/upload', cloudinary.upload);
 	}
 	if (keystone.get('s3 config')) {
 		router.post('/api/s3/upload', require('../api/s3').upload);
