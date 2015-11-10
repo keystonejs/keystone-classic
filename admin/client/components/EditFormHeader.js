@@ -46,6 +46,14 @@ var Header = React.createClass({
 		});
 	},
 
+	handleEscapeKey (event) {
+		const escapeKeyCode = 27;
+
+		if (event.which === escapeKeyCode) {
+			this.refs.searchField.getDOMNode().blur();
+		}
+	},
+
 	renderDrilldown () {
 		if (this.state.searchIsVisible) return null;
 		/* eslint-disable no-script-url */
@@ -117,6 +125,7 @@ var Header = React.createClass({
 						onChange={this.searchStringChanged}
 						onFocus={this.searchFocusChanged.bind(this, true)}
 						onBlur={this.searchFocusChanged.bind(this, false)}
+						onKeyUp={this.handleEscapeKey.bind(this)}
 						placeholder="Search"
 						className="EditForm__header__search-input" />
 				</FormIconField>
