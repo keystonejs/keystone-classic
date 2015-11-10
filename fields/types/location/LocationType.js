@@ -24,7 +24,7 @@ function location(list, path, options) {
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
 	this._fixedSize = 'full';
 
-	this.enableMapsAPI = keystone.get('google api key') ? true : false;
+	this.enableMapsAPI = (options.geocodeGoogle===true || (options.geocodeGoogle !== false && keystone.get('google server api key'))) ? true : false;
 
 	this._properties = ['enableMapsAPI'];
 
@@ -266,8 +266,12 @@ location.prototype.updateItem = function(item, data) {
 
 	if (valuePaths.geo in values) {
 
-		var oldGeo = item.get(paths.geo) || [],
-			newGeo = values[valuePaths.geo];
+		var oldGeo = item.get(paths.geo) || [];
+		if (oldGeo.length > 1) {
+			oldGeo[0] = item.get(paths.geo)[1];
+			oldGeo[1] = item.get(paths.geo)[0];
+		}
+		var newGeo = values[valuePaths.geo];
 
 		if (!Array.isArray(newGeo) || newGeo.length !== 2) {
 			newGeo = [];
@@ -366,6 +370,10 @@ function doGoogleGeocodeRequest(address, region, callback) {
 
 	if (region) {
 		options.region = region;
+	}
+
+	if (keystone.get('google server api key')){
+		options.key = keystone.get('google server api key');
 	}
 
 	var endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?' + querystring.stringify(options);

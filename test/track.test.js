@@ -1,20 +1,20 @@
-var keystone = require('../index.js'),
-	Types = require('../lib/fieldTypes'),
-	request = require('supertest'),
-	demand = require('must'),
-	async = require('async'),
-	getExpressApp = require('./helpers/getExpressApp'),
-	removeModel = require('./helpers/removeModel');
+var keystone = require('../index.js');
+var Types = require('../lib/fieldTypes');
+var request = require('supertest');
+var demand = require('must');
+var async = require('async');
+var getExpressApp = require('./helpers/getExpressApp');
+var removeModel = require('./helpers/removeModel');
 
 describe('List "track" option', function () {
-	var app = getExpressApp(),
-		userModelName = 'User',
-		testModelName = 'Test',
-		User,
-		Test,
-		dummyUser1,
-		dummyUser2,
-		post;
+	var app = getExpressApp();
+	var userModelName = 'User';
+	var testModelName = 'Test';
+	var User;
+	var Test;
+	var dummyUser1;
+	var dummyUser2;
+	var post;
 
 	before(function(done) {
 		var tasks = [];

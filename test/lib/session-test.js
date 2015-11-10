@@ -1,16 +1,14 @@
-var keystone = require('../..'),
-	sinon = require('sinon');
+var keystone = require('../..');
+var sinon = require('sinon');
 
 describe('Keystone.session', function() {
 
 	describe('keystone.session.signinWithUser()', function() {
 		// mock args for signinWithUser(user, req, res, onSuccess)
-		var res = {
-				cookie: sinon.stub()
-			},
-			onSuccess = sinon.stub(),
-			user,
-			req;
+		var res = { cookie: sinon.stub() };
+		var onSuccess = sinon.stub();
+		var user;
+		var req;
 
 		function resetMocks() {
 			user = {

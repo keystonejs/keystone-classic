@@ -23,7 +23,7 @@ module.exports = Field.create({
 		if (this.props.value.last) {
 			values.last = <div className="field-value">{this.props.value.last}</div>;
 		}
-		if (!values.first && values.last) {
+		if (!values.first && !values.last) {
 			values.none = <div className="field-value" />;
 		}
 		return values;

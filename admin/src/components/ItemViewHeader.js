@@ -62,8 +62,8 @@ var Header = React.createClass({
 	
 	renderDrilldownItems: function() {
 		
-		var list = this.props.list,
-			items = this.props.drilldown.items;
+		var list = this.props.list;
+		var items = this.props.data.drilldown ? this.props.data.drilldown.items : [];
 		
 		var els = items.map(function(dd) {
 			

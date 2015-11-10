@@ -1,9 +1,9 @@
 ![KeystoneJS](http://keystonejs.com/images/logo.svg)
 ===================================
 
-![Build Status](https://travis-ci.org/keystonejs/keystone.svg)
+[![Build Status](https://travis-ci.org/keystonejs/keystone.svg?branch=master)](https://travis-ci.org/keystonejs/keystone)
 
-[KeystoneJS](http://keystonejs.com) is a powerful Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com) that makes it easy to create sophisticated web sites and apps, and gives you a beautiful, auto-generated Admin UI.
+[KeystoneJS](http://keystonejs.com) is a powerful Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com). Keystone makes it easy to create sophisticated web sites and apps, and comes with a beautiful auto-generated Admin UI.
 
 Check out [keystonejs.com](http://keystonejs.com) for documentation and guides.
 
@@ -130,7 +130,7 @@ To understand how these settings are used, and how the Express application is in
 Keystone builds on the basic data types provided by mongo and allows you to easily add rich,
 functional fields to your application's models.
 
-You get helper methods on your models for dealing with each field type easily (such as 
+You get helper methods on your models for dealing with each field type easily (such as
 formatting a date or number, resizing an image, getting an array of the available options
 for a select field, or using Google's Places API to improve addresses) as well as a beautiful,
 responsive admin UI to edit your data with.

@@ -61,7 +61,7 @@ module.exports = Field.create({
 				value: input
 			});
 			superagent
-				.get('/keystone/api/' + self.props.refList.path + '/get?dataset=simple&id=' + input)
+				.get('/keystone/api/' + self.props.refList.path + '/' + input + '?simple')
 				.set('Accept', 'application/json')
 				.end(function (err, res) {
 					if (err) throw err;

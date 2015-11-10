@@ -1,49 +1,34 @@
-/*!
- * Module dependencies.
- */
-
-var util = require('util'),
-	numeral = require('numeral'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type');
+var FieldType = require('../Type');
+var NumberType = require('../number/NumberType');
+var numeral = require('numeral');
+var util = require('util');
 
 /**
  * Money FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function money(list, path, options) {
-	
 	this.currency = options.currency;
-	
 	this._nativeType = Number;
 	this._underscoreMethods = ['format'];
 	this._properties = ['currency'];
 	this._fixedSize = 'small';
 	this._formatString = (options.format === false) ? false : (options.format || '$0,0.00');
-	
 	if (this._formatString && 'string' !== typeof this._formatString) {
 		throw new Error('FieldType.Money: options.format must be a string.');
 	}
-	
 	money.super_.call(this, list, path, options);
-	
 }
+util.inherits(money, FieldType);
 
-/*!
- * Inherit from Field
- */
-
-util.inherits(money, super_);
-
+/* Inherit from NumberType prototype */
+money.prototype.updateItem = NumberType.prototype.updateItem;
+money.prototype.validateInput = NumberType.prototype.validateInput;
 
 /**
  * Formats the field value
- *
- * @api public
  */
-
 money.prototype.format = function(item, format) {
 	if (this.currency) {
 		try {
@@ -60,62 +45,5 @@ money.prototype.format = function(item, format) {
 	}
 };
 
-
-/**
- * Checks that a valid number has been provided in a data object
- *
- * An empty value clears the stored value and is considered valid
- *
- * @api public
- */
-
-money.prototype.validateInput = function(data, required, item) {
-	
-	var value = this.getValueFromData(data);
-	
-	if (value === undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
-		return true;
-	}
-	
-	if (value !== undefined) {
-		var newValue = utils.number(value);
-		return (!isNaN(newValue));
-	} else {
-		return (required) ? false : true;
-	}
-	
-};
-
-
-/**
- * Updates the value for this field in the item from a data object
- *
- * @api public
- */
-
-money.prototype.updateItem = function(item, data) {
-	
-	var value = this.getValueFromData(data);
-	
-	if (value === undefined) {
-		return;
-	}
-	
-	var newValue = utils.number(value);
-	
-	if (!isNaN(newValue)) {
-		if (newValue !== item.get(this.path)) {
-			item.set(this.path, newValue);
-		}
-	} else if ('number' === typeof item.get(this.path)) {
-		item.set(this.path, null);
-	}
-	
-};
-
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 exports = module.exports = money;
