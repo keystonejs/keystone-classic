@@ -5,6 +5,7 @@ var grappling = require('grappling-hook');
 var path = require('path');
 var utils = require('keystone-utils');
 var options = require('./lib/core/options')();
+var mongoose = require('mongoose');
 
 var VERSION = require('./package.json').version;
 
@@ -95,14 +96,25 @@ var Keystone = function(explicitModuleRoot) {
 	}
 
 	// init mongoose
-	this.set('mongoose', require('mongoose'));
+	this.set('mongoose', new mongoose.Mongoose());
 
 	// Attach middleware packages, bound to this instance
 	this.middleware = {
 		api : require('./lib/middleware/api')(this),
 		cors: require('./lib/middleware/cors')(this)
 	};
+	
+	this.Field = require('./fields/types/Type');
+	this.Field.Types = require('./lib/fieldTypes')(this);
+	this.List = require('./lib/list')(this);
+	this.Email = require('./lib/email')(this);
+	this.View = require('./lib/view')(this);
+	this.content = require('./lib/content')(this);
+	this.session = require('./lib/session')(this);
+	
 };
+
+
 
 Keystone.prototype.prefixModel = function(key) {
 	var modelPrefix = this.get('model prefix');
@@ -135,15 +147,7 @@ Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 Keystone.prototype.Admin = {
 	Server: require('./admin/server')
 };
-Keystone.prototype.Email = require('./lib/email');
-Keystone.prototype.Field = require('./fields/types/Type');
-Keystone.prototype.Field.Types = require('./lib/fieldTypes');
 Keystone.prototype.Keystone = Keystone;
-Keystone.prototype.List = require('./lib/list');
-Keystone.prototype.View = require('./lib/view');
-
-Keystone.prototype.content = require('./lib/content');
-Keystone.prototype.session = require('./lib/session');
 Keystone.prototype.security = {
 	csrf: require('./lib/security/csrf')
 };
@@ -204,7 +208,7 @@ Keystone.prototype.applyUpdates = function(callback) {
 		if (err) {
 			callback(err);
 		}
-		require('./lib/updates').apply(function(err) {
+		require('./lib/updates')(self).apply(function(err) {
 			if (err) {
 				callback(err);
 			}
