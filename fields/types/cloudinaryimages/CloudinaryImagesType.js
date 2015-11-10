@@ -20,6 +20,7 @@ function cloudinaryimages(list, path, options) {
 
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
+	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
@@ -329,9 +330,16 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 				uploadOptions.tags.push(tp + 'dev');
 			}
 
+
 			async.each(files, function(file, next) {
 
 				if (!file.size) return next();
+
+				if (field.options.filenameAsPublicID) {
+					uploadOptions.public_id = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
+				} else {
+					uploadOptions = undefined;
+				}
 
 				cloudinary.uploader.upload(file.path, function(result) {
 					if (result.error) {
@@ -348,9 +356,7 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 		} else {
 			return callback();
 		}
-
 	};
-
 };
 
 

@@ -2,6 +2,56 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.15 / 2015-10-15
+
+* added; new hooks in the app middleware setup are available, see [#1736](https://github.com/keystonejs/keystone/issues/1736) for documentation.
+* updated; all packages, including pre-build client side bundles
+
+## v0.3.14 / 2015-08-25
+
+* improved; internal cleanup and refactoring
+* added; new API routes for future use by the Admin UI, including signin and signout
+* added; support for selecting arbitrary document paths in `List.getData`
+* added; new search query generation functionality for `List` and `Field` classes
+* fixed; vertical alignment of Format menu icons in the WYSIWYG editor, thanks [Jeffrey](https://github.com/jeffreypriebe)
+* fixed; validation issues with the `GeoLocation` field type, thanks [Vintesh](https://github.com/vintesh)
+* fixed; use of 'select' and 'selectPrefix' options in CloudinaryImage type, thanks [azterix](https://github.com/azterix)
+* updated; grappling-hook @ v3.0.0, thanks [Camille Reynders](https://github.com/creynders)
+
+## v0.3.13 / 2015-08-03
+
+* improved; major speed increase for initialisation
+* improved; codemirror is now only loaded as required, thanks [Carlos Colon](https://github.com/webteckie)
+* fixed; correctly handling blank values in the DateInput component
+* changed; switched to babyparse for CSV generation
+* fixed; docs links now point to keystone site
+* fixed; add Maps API key to request, allow override per model, check for server instead of browser key, thanks [stosorio](https://github.com/stosorio)
+* fixed; added check for duplicate `_revisions` models, thanks [Jeffrey](https://github.com/jeffreypriebe)
+* fixed; localFile .format property ignored by Admin U, thanks [Javier Castro](https://github.com/jacargentina)
+* fixed; href working correctly on LocalFiles Type, thanks [Matthias Tylkowski](https://github.com/tylkomat)
+* added; several new API endpoints for the Admin UI in preparation of the 0.4 release
+
+
+## v0.3.12 / 2015-06-26
+
+* fixed; `height` option for TextArea fields was not respected in the Admin UI, thanks [Eóin Martin](https://github.com/SlashmanX)
+* fixed; API error string was missing `not` in message, thanks [Daniel Cousens](https://github.com/dcousens)
+* improved; better instructions for installing missing session store modules
+* fixed; delete confirmation was not working (items could be deleted with a single click), thanks [gerotakke](gerotakke)
+* added; new `utc` option for `Date` and `DateTime` field types, see [#1487](https://github.com/keystonejs/keystone/issues/1487) for more details.
+
+## v0.3.11 / 2015-06-12
+
+* fixed; issues with file field types not working correclty with getters, thanks [Alexander Shemetovsky](https://github.com/AlexKVal)
+* fixed; bug saving lat / lng in location fields, thanks [Al Connelly](https://github.com/WingedToaster)
+* fixed; issue saving blank values in money fields, thanks [Harry Moreno](https://github.com/morenoh149)
+* fixed; Admin UI issues caused by custom toJSON / toObject transforms configured for models
+* improved; optimised items list
+
+All is not as quiet as this release implies; we are working aggressively through the next big update in the `elemental-integration` branch, which will see the Admin UI released as a Single Page Application built with [Elemental UI](http://elemental-ui.com) components, and the foundation for much better customisation features to come.
+
+If you are interested in being part of Keystone's development team and aren't in our Slack channel, ping @JedWatson to get an invite!
+
 ## v0.3.10 / 2015-05-19
 
 * fixed; worked around an intermittent issue with the new browserify build process

@@ -11,11 +11,9 @@ jQuery(function($) {
 
 
 	// generic confirm
-	
-	$('a[data-confirm]').click(function(e) {
+	$(document).on('click', 'a[data-confirm]', function (e){
 		if (!confirm($(this).data().confirm)) {
 			e.preventDefault();
-			return false;
 		}
 	});
 	
@@ -163,11 +161,7 @@ jQuery(function($) {
 					};
 					
 					$.each(ids, function() {
-						$.ajax('/keystone/api/' + refPath + '/get', {
-							data: {
-								id: this,
-								dataset: 'simple'
-							},
+						$.ajax('/keystone/api/' + refPath + '/' + this + '?simple', {
 							dataType: 'json'
 						}).done(loaded);
 					});

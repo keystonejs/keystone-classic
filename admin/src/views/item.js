@@ -13,26 +13,28 @@ var View = React.createClass({
 		return {
 			createIsVisible: false,
 			list: Keystone.list,
-			itemData: null,
-			itemDrilldown: null
+			itemData: null
 		};
 	},
 
 	componentDidMount: function() {
+		this.loadItemData();
+	},
+
+	loadItemData: function() {
 		request.get('/keystone/api/' + Keystone.list.path + '/' + this.props.itemId + '?drilldown=true')
 			.set('Accept', 'application/json')
-			.end(function(err, res) {//eslint-disable-line no-unused-vars, handle-callback-err
-				if (!res.ok) {
+			.end((err, res) => {
+				if (err || !res.ok) {
 					// TODO: nicer error handling
-					console.log('Error loading item data:', res.text);
+					console.log('Error loading item data:', res ? res.text : err);
 					alert('Error loading data (details logged to console)');
 					return;
 				}
-				this.setState({//eslint-disable-line react/no-did-mount-set-state
-					itemData: res.body.data,
-					itemDrilldown: res.body.drilldown 
+				this.setState({
+					itemData: res.body
 				});
-			}.bind(this));
+			});
 	},
 	
 	toggleCreate: function(visible) {
@@ -51,7 +53,7 @@ var View = React.createClass({
 		return (
 			<div>
 				{this.renderCreateForm()}
-				<Header list={this.state.list} data={this.state.itemData} drilldown={this.state.itemDrilldown} toggleCreate={this.toggleCreate} />
+				<Header list={this.state.list} data={this.state.itemData} toggleCreate={this.toggleCreate} />
 				<EditForm list={this.state.list} data={this.state.itemData} />
 			</div>
 		);

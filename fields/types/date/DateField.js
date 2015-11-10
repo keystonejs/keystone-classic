@@ -1,8 +1,8 @@
-var React = require('react'),
-	Field = require('../Field'),
-	Note = require('../../components/Note'),
-	DateInput = require('../../components/DateInput'),
-	moment = require('moment');
+var React = require('react');
+var Field = require('../Field');
+var Note = require('../../components/Note');
+var DateInput = require('../../components/DateInput');
+var moment = require('moment');
 
 module.exports = Field.create({
 	
@@ -10,12 +10,12 @@ module.exports = Field.create({
 
 	focusTargetRef: 'dateInput',
 
-	// default formats
+	// default input format
 	inputFormat: 'YYYY-MM-DD',
 
 	getInitialState: function() {
 		return { 
-			value: this.props.value ? moment(this.props.value).format(this.inputFormat) : ''
+			value: this.props.value ? this.moment(this.props.value).format(this.inputFormat) : ''
 		};
 	},
 
@@ -23,6 +23,12 @@ module.exports = Field.create({
 		return { 
 			formatString: 'Do MMM YYYY'
 		};
+	},
+
+	moment: function(value) {
+		var m = moment(value);
+		if (this.props.isUTC) m.utc();
+		return m;
 	},
 
 	// TODO: Move isValid() so we can share with server-side code
@@ -33,7 +39,7 @@ module.exports = Field.create({
 	// TODO: Move format() so we can share with server-side code
 	format: function(dateValue, format) {
 		format = format || this.inputFormat;
-		return dateValue ? moment(this.props.dateValue).format(format) : '';
+		return dateValue ? this.moment(this.props.dateValue).format(format) : '';
 	},
 
 	setDate: function(dateValue) {
@@ -54,7 +60,8 @@ module.exports = Field.create({
 
 	renderUI: function() {
 		
-		var input, fieldClassName = 'field-ui';
+		var input;
+		var fieldClassName = 'field-ui';
 
 		if (this.shouldRenderField()) {
 			input = (
