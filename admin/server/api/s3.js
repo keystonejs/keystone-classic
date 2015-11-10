@@ -1,48 +1,50 @@
 var knox = require('knox');
-var keystone = require('../../../');
-var Types = keystone.Field.Types;
 
-exports = module.exports = {
+exports = module.exports = function(keystone) { 
+	var Types = keystone.Field.Types;
 
-	upload: function(req, res) {
-		if (!keystone.security.csrf.validate(req, req.body.authenticity_token)) {
-			return res.status(403).send({ error: { message: 'invalid csrf' } });
-		}
+	return {
 
-		if(req.files && req.files.file){
+		upload: function(req, res) {
+			if (!keystone.security.csrf.validate(req, req.body.authenticity_token)) {
+				return res.status(403).send({ error: { message: 'invalid csrf' } });
+			}
 
-			var s3Config = keystone.get('s3 config');
+			if(req.files && req.files.file){
 
-			var file = req.files.file,
-				path = s3Config.s3path ? s3Config.s3path + '/' : '';
+				var s3Config = keystone.get('s3 config');
 
-			var headers = Types.S3File.prototype.generateHeaders.call({ s3config: s3Config, options: {} }, null, file);
+				var file = req.files.file,
+					path = s3Config.s3path ? s3Config.s3path + '/' : '';
 
-			var s3Client = knox.createClient(s3Config);
+				var headers = Types.S3File.prototype.generateHeaders.call({ s3config: s3Config, options: {} }, null, file);
 
-			s3Client.putFile(file.path, path + file.name, headers, function(err, s3Response) {
-				var sendResult = function () {
-					if(err){
-						return res.send({ error: { message: err.message } });
-					}
+				var s3Client = knox.createClient(s3Config);
 
-					if (s3Response) {
-						if (s3Response.statusCode !== 200) {
-							return res.send({ error: { message:'Amazon returned Http Code: ' + s3Response.statusCode } });
-						} else {
-							return res.send({ image: { url: 'https://s3.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
+				s3Client.putFile(file.path, path + file.name, headers, function(err, s3Response) {
+					var sendResult = function () {
+						if(err){
+							return res.send({ error: { message: err.message } });
 						}
-					}
-				};
 
-				res.format({
-					html: sendResult,
-					json: sendResult
+						if (s3Response) {
+							if (s3Response.statusCode !== 200) {
+								return res.send({ error: { message:'Amazon returned Http Code: ' + s3Response.statusCode } });
+							} else {
+								return res.send({ image: { url: 'https://s3.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
+							}
+						}
+					};
+
+					res.format({
+						html: sendResult,
+						json: sendResult
+					});
 				});
-			});
 
-		} else {
-			res.json({ error: { message: 'No image selected' } });
+			} else {
+				res.json({ error: { message: 'No image selected' } });
+			}
 		}
-	}
+	};
 };

@@ -20,8 +20,8 @@ module.exports = function createDynamicRouter(keystone) {
 	// #1: Session API
 	// TODO: this should respect keystone auth options
 	router.get('/api/session', require('../api/session/get'));
-	router.post('/api/session/signin', require('../api/session/signin'));
-	router.post('/api/session/signout', require('../api/session/signout'));
+	router.post('/api/session/signin', require('../api/session/signin')(keystone));
+	router.post('/api/session/signout', require('../api/session/signout')(keystone.callHook));
 
 	// #2: Session Routes
 	// Bind auth middleware (generic or custom) to * routes, allowing
@@ -37,15 +37,15 @@ module.exports = function createDynamicRouter(keystone) {
 		if (!keystone.nativeApp || !keystone.get('session')) {
 			router.all('*', keystone.session.persist);
 		}
-		router.all('/signin', require('../routes/signin'));
-		router.all('/signout', require('../routes/signout'));
+		router.all('/signin', require('../routes/signin')(keystone));
+		router.all('/signout', require('../routes/signout')(keystone));
 		router.use(keystone.session.keystoneAuth);
 	} else if ('function' === typeof keystone.get('auth')) {
 		router.use(keystone.get('auth'));
 	}
 
 	// #3: Home route
-	router.get('/', require('../routes/home'));
+	router.get('/', require('../routes/home')(keystone));
 
 	// #4: Cloudinary and S3 specific APIs
 	// TODO: poor separation of concerns; should / could this happen elsewhere?
@@ -56,7 +56,7 @@ module.exports = function createDynamicRouter(keystone) {
 		router.post('/api/cloudinary/upload', cloudinary.upload);
 	}
 	if (keystone.get('s3 config')) {
-		router.post('/api/s3/upload', require('../api/s3').upload);
+		router.post('/api/s3/upload', require('../api/s3')(keystone).upload);
 	}
 
 	// #5: Core Lists API
@@ -70,14 +70,14 @@ module.exports = function createDynamicRouter(keystone) {
 	router.all('/api/counts', require('../api/counts')(keystone.lists));
 	router.get('/api/:list', initList(), require('../api/list/get'));
 	router.get('/api/:list/:format(export.csv|export.json)', initList(), require('../api/list/download'));
-	router.post('/api/:list/delete', initList(), require('../api/list/delete'));
-	router.get('/api/:list/:id', initList(), require('../api/item/get'));
+	router.post('/api/:list/delete', initList(), require('../api/list/delete')(keystone.security.csrf));
+	router.get('/api/:list/:id', initList(), require('../api/item/get')(keystone));
 	router.post('/api/:list/:id', initList(), require('../api/item/update'));
-	router.post('/api/:list/:id/delete', initList(), require('../api/item/delete'));
+	router.post('/api/:list/:id/delete', initList(), require('../api/item/delete')(keystone.security.csrf));
 
 	// #6: List Routes
-	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list'));
-	router.all('/:list/:item', initList(true), require('../routes/item'));
+	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list')(keystone));
+	router.all('/:list/:item', initList(true), require('../routes/item')(keystone));
 
 	// TODO: catch 404s and errors with Admin-UI specific handlers
 

@@ -12,6 +12,7 @@
 *.iws
 .idea/
 *.sublime-*
+*.geany
 
 logs
 node_modules/
