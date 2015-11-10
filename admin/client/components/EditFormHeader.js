@@ -10,19 +10,12 @@ var Header = React.createClass({
 
 	getInitialState () {
 		return {
-			searchIsFocused: false,
 			searchString: ''
 		};
 	},
 
 	toggleCreate (visible) {
 		this.props.toggleCreate(visible);
-	},
-
-	searchFocusChanged (focused) {
-		this.setState({
-			searchIsFocused: focused
-		});
 	},
 
 	searchStringChanged (event) {
@@ -99,8 +92,6 @@ var Header = React.createClass({
 						name="search"
 						value={this.state.searchString}
 						onChange={this.searchStringChanged}
-						onFocus={this.searchFocusChanged.bind(this, true)}
-						onBlur={this.searchFocusChanged.bind(this, false)}
 						placeholder="Search"
 						className="EditForm__header__search-input" />
 				</FormIconField>
