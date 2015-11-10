@@ -10,28 +10,13 @@ var Header = React.createClass({
 
 	getInitialState () {
 		return {
-			searchIsVisible: false,
 			searchIsFocused: false,
 			searchString: ''
 		};
 	},
 
-	componentDidUpdate (prevProps, prevState) {
-		if (this.state.searchIsVisible && !prevState.searchIsVisible) {
-			this.refs.searchField.getDOMNode().focus();
-		}
-	},
-
 	toggleCreate (visible) {
 		this.props.toggleCreate(visible);
-	},
-
-	toggleSearch (visible) {
-		this.setState({
-			searchIsVisible: visible,
-			searchIsFocused: visible,
-			searchString: ''
-		});
 	},
 
 	searchFocusChanged (focused) {
@@ -47,7 +32,6 @@ var Header = React.createClass({
 	},
 
 	renderDrilldown () {
-		if (this.state.searchIsVisible) return null;
 		/* eslint-disable no-script-url */
 		return (
 			<Toolbar.Section left>
