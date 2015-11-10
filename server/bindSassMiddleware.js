@@ -4,7 +4,9 @@ module.exports = function bindSassMiddleware (keystone, app) {
 
 	var sassPaths = keystone.get('sass');
 	var sassOptions = keystone.get('sass options') || {};
-
+	var debug = require('debug')('keystone:core:createItems');
+	var _ = require('underscore');
+	
 	if (typeof sassPaths === 'string') {
 		sassPaths = [sassPaths];
 	}
