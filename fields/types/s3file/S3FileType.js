@@ -309,11 +309,11 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 				var _header = {};
 				if (validateHeader(header, callback)){
 					_header[header.name] = header.value;
-					customHeaders = _.extend(customHeaders, _header);
+					customHeaders = Object.assign(customHeaders, _header);
 				}
 			});
 		} else if (_.isObject(defaultHeaders)){
-			customHeaders = _.extend(customHeaders, defaultHeaders);
+			customHeaders = Object.assign(customHeaders, defaultHeaders);
 		} else {
 			return callback(new Error('Unsupported Header option: defaults headers must be either an Object or Array ' + JSON.stringify(defaultHeaders)));
 		}
@@ -330,11 +330,11 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 					var _header = {};
 					if (validateHeader(header, callback)){
 						_header[header.name] = header.value;
-						customHeaders = _.extend(customHeaders, _header);
+						customHeaders = Object.assign(customHeaders, _header);
 					}
 				});
 			} else if (_.isObject(computedHeaders)){
-				customHeaders = _.extend(customHeaders, computedHeaders);
+				customHeaders = Object.assign(customHeaders, computedHeaders);
 			} else {
 				return callback(new Error('Unsupported Header option: computed headers must be either an Object or Array ' + JSON.stringify(computedHeaders)));
 			}
@@ -344,16 +344,16 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 				var _header = {};
 				if (validateHeader(header, callback)){
 					_header[header.name] = header.value;
-					customHeaders = _.extend(customHeaders, _header);
+					customHeaders = Object.assign(customHeaders, _header);
 				}
 			});
 		} else if (_.isObject(headersOption)){
-			customHeaders = _.extend(customHeaders, headersOption);
+			customHeaders = Object.assign(customHeaders, headersOption);
 		}
 	}
 
 	if (validateHeaders(customHeaders, callback)){
-		headers = _.extend(headers, customHeaders);
+		headers = Object.assign(headers, customHeaders);
 	}
 
 	return headers;

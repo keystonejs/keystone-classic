@@ -98,7 +98,7 @@ Field.prototype.getOptions = function() {
 			}
 		}, this);
 		if (this.getProperties) {
-			_.extend(this.__options, this.getProperties());
+			Object.assign(this.__options, this.getProperties());
 		}
 		this.__options.hasFilterMethod = this.addFilterToQuery ? true : false;
 		this.__options.defaultValue = this.getDefaultValue();

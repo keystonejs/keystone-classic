@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var express = require('express');
 var fs = require('fs');
 var grappling = require('grappling-hook');
@@ -93,7 +92,7 @@ var Keystone = function() {
 	};
 };
 
-_.extend(Keystone.prototype, require('./lib/core/options')());
+Object.assign(Keystone.prototype, require('./lib/core/options')());
 
 
 Keystone.prototype.prefixModel = function (key) {

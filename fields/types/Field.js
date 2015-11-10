@@ -50,7 +50,7 @@ var Base = module.exports.Base = {
 		return <FormNote note={this.props.note} />;
 	},
 	renderField () {
-		var props = _.extend(this.props.inputProps, {
+		var props = Object.assign(this.props.inputProps, {
 			autoComplete: 'off',
 			name: this.props.path,
 			onChange: this.valueChanged,
@@ -134,8 +134,8 @@ module.exports.create = function(spec) {
 		});
 	}
 
-	_.extend(field, _.omit(Base, excludeBaseMethods));
-	_.extend(field, _.omit(spec, 'mixins'));
+	Object.assign(field, _.omit(Base, excludeBaseMethods));
+	Object.assign(field, _.omit(spec, 'mixins'));
 
 	if (_.isArray(spec.mixins)) {
 		field.mixins = field.mixins.concat(spec.mixins);

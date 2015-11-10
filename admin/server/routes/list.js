@@ -10,7 +10,7 @@ exports = module.exports = function(req, res) {
 	};
 	var appName = keystone.get('name') || 'Keystone';
 	var renderView = function() {
-		keystone.render(req, res, 'list', _.extend(viewLocals, {
+		keystone.render(req, res, 'list', Object.assign(viewLocals, {
 			section: keystone.nav.by.list[req.list.key] || {},
 			title: appName + ': ' + req.list.plural,
 			page: 'list',

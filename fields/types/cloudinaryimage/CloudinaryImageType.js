@@ -166,7 +166,7 @@ cloudinaryimage.prototype.addToSchema = function() {
 		if (width) options.width = width;
 		if (height) options.height = height;
 		if ('object' === typeof other) {
-			_.extend(options, other);
+			Object.assign(options, other);
 		}
 		return options;
 	};
