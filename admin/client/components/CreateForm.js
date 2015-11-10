@@ -1,11 +1,7 @@
-var _ = require('underscore');
 var React = require('react');
 var Fields = require('../fields');
 var InvalidFieldType = require('./InvalidFieldType');
 var { Alert, Button, Form, Modal } = require('elemental');
-
-
-// TODO: remove dependency on underscore
 
 var CreateForm = React.createClass({
 
@@ -21,11 +17,14 @@ var CreateForm = React.createClass({
 
 	getInitialState () {
 		var values = this.props.values;
-		_.each(this.props.list.fields, function(field) {
+
+		Object.keys(this.props.list.fields).forEach(function(key) {
+			var field = this.props.list.fields[key];
+
 			if (!values[field.path]) {
 				values[field.path] = field.defaultValue;
 			}
-		});
+		}, this);
 		return {
 			values: values
 		};
@@ -108,8 +107,8 @@ var CreateForm = React.createClass({
 			form.push(React.createElement(Fields[nameField.type], nameFieldProps));
 		}
 
-		_.each(list.initialFields, function(path) {
-			var field = list.fields[path];
+		Object.keys(list.initialFields).forEach(function(key) {
+			var field = list.fields[list.initialFields[key]];
 			if ('function' !== typeof Fields[field.type]) {
 				form.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
 				return;

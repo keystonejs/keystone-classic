@@ -28,15 +28,17 @@ var ListFiltersAddForm = React.createClass({
 		};
 	},
 
-	componentDidMount () {
-		let footer = React.findDOMNode(this.refs.footer);
-		let body = React.findDOMNode(this.refs.body);
-
-		/* eslint-disable react/no-did-mount-set-state */
+	updateHeight (bodyHeight) {
+		bodyHeight += 40; // TODO: remove magic number, currently accounts for padding
+		let footerHeight = React.findDOMNode(this.refs.footer).offsetHeight;
+		let maxBodyHeight = this.props.maxHeight - footerHeight;
+		let newHeight = bodyHeight + footerHeight;
+		// console.log(bodyHeight, maxBodyHeight, '|', newHeight, this.props.maxHeight);
 		this.setState({
-			bodyHeight: body.scrollHeight > this.props.maxHeight ? (body.offsetHeight - footer.offsetHeight) : 'auto'
+			bodyHeight: Math.min(bodyHeight, maxBodyHeight),
+		}, () => {
+			this.props.onHeightChange(Math.min(newHeight, this.props.maxHeight));
 		});
-		/* eslint-enable */
 	},
 
 	updateValue (filterValue) {
@@ -61,7 +63,7 @@ var ListFiltersAddForm = React.createClass({
 		return (
 			<form onSubmit={this.handleFormSubmit}>
 				<Popout.Body ref="body" scrollable style={{ height: this.state.bodyHeight }}>
-					{FilterComponent ? <FilterComponent field={this.props.field} filter={this.state.filterValue} onChange={this.updateValue} /> : this.renderInvalidFilter()}
+					{FilterComponent ? <FilterComponent field={this.props.field} filter={this.state.filterValue} onChange={this.updateValue} onHeightChange={this.updateHeight} /> : this.renderInvalidFilter()}
 				</Popout.Body>
 				<Popout.Footer
 					ref="footer"

@@ -100,17 +100,20 @@ relationship.prototype.addToSchema = function() {
  */
 relationship.prototype.addFilterToQuery = function(filter, query) {
 	query = query || {};
-	if (this.many) {
-		if (filter.value) {
-			query[this.path] = (filter.inverse) ? { $nin: [filter.value] } : { $in: [filter.value] };
+	if (!Array.isArray(filter.value)) {
+		if (typeof filter.value === 'string' && filter.value) {
+			filter.value = [filter.value];
 		} else {
-			query[this.path] = (filter.inverse) ? { $not: { $size: 0 } } : { $size: 0 };
+			filter.value = [];
 		}
+	}
+	if (filter.value.length) {
+		query[this.path] = (filter.inverted) ? { $nin: filter.value } : { $in: filter.value };
 	} else {
-		if (filter.value) {
-			query[this.path] = (filter.inverse) ? { $ne: filter.value } : filter.value;
+		if (this.many) {
+			query[this.path] = (filter.inverted) ? { $not: { $size: 0 } } : { $size: 0 };
 		} else {
-			query[this.path] = (filter.inverse) ? { $ne: null } : null;
+			query[this.path] = (filter.inverted) ? { $ne: null } : null;
 		}
 	}
 	return query;

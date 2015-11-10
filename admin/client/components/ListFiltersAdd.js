@@ -123,7 +123,7 @@ var ListFiltersAdd = React.createClass({
 	renderForm () {
 		return (
 			<Popout.Pane onLayout={this.setPopoutHeight} key="form">
-				<ListFiltersAddForm field={this.state.selectedField} onApply={this.applyFilter} onCancel={this.closePopout} onBack={this.navigateBack} maxHeight={this.props.maxHeight} />
+				<ListFiltersAddForm field={this.state.selectedField} onApply={this.applyFilter} onCancel={this.closePopout} onBack={this.navigateBack} maxHeight={this.props.maxHeight} onHeightChange={this.setPopoutHeight} />
 			</Popout.Pane>
 		);
 	},
