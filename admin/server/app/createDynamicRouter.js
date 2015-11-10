@@ -62,6 +62,7 @@ module.exports = function createDynamicRouter(keystone) {
 
 	// Init API request helpers
 	router.use('/api', require('../middleware/apiError'));
+	router.use('/api', require('../middleware/logError'));
 
 	// Init req with list
 	var initList = require('../middleware/initList')(keystone);
