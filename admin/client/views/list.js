@@ -57,7 +57,7 @@ const ListView = React.createClass({
 		this.setState(this.getStateFromStore());
 	},
 	getStateFromStore () {
-		var state = {
+		return {
 			columns: CurrentListStore.getActiveColumns(),
 			currentPage: CurrentListStore.getCurrentPage(),
 			filters: CurrentListStore.getActiveFilters(),
@@ -66,10 +66,9 @@ const ListView = React.createClass({
 			loading: CurrentListStore.isLoading(),
 			pageSize: CurrentListStore.getPageSize(),
 			ready: CurrentListStore.isReady(),
-			search: CurrentListStore.getActiveSearch()
+			search: CurrentListStore.getActiveSearch(),
+			showBlankState: (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length)
 		};
-		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length) ? true : false;
-		return state;
 	},
 
 	// ==============================
