@@ -1,5 +1,4 @@
 /* global Pikaday */
-var React = require('react');
 var _ = require('underscore');
 var moment = require('moment');
 

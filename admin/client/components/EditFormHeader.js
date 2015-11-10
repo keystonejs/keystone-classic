@@ -1,5 +1,4 @@
 var React = require('react');
-var AltText = require('./AltText');
 var Toolbar = require('./Toolbar');
 
 var { Button, FormIconField, FormInput, ResponsiveText } = require('elemental');

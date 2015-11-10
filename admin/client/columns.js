@@ -1,5 +1,3 @@
-var React = require('react');
-
 var Columns = {
 	azurefile        : require('../../fields/types/azurefile/AzureFileColumn'),
 	boolean          : require('../../fields/types/boolean/BooleanColumn'),

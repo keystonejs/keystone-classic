@@ -141,7 +141,6 @@ var EditForm = React.createClass({
 
 		var elements = [];
 		var data = {};
-		var label;
 
 		if (this.props.list.tracking.createdAt) {
 			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
@@ -156,7 +155,6 @@ var EditForm = React.createClass({
 
 		if (this.props.list.tracking.createdBy) {
 			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
-			var label = this.props.list.tracking.createdAt ? 'by' : 'Created by';
 			if (data.createdBy) {
 				// todo: harden logic around user name
 				elements.push(
@@ -180,7 +178,6 @@ var EditForm = React.createClass({
 
 		if (this.props.list.tracking.updatedBy) {
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
-			var label = this.props.list.tracking.createdAt ? 'by' : 'Updated by';
 			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
 				elements.push(
 					<FormField key="updatedBy" label="Updated by">

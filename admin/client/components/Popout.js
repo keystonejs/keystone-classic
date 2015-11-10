@@ -1,6 +1,4 @@
-import classnames from 'classnames';
 import React from 'react';
-import { Button, Checkbox, InputGroup, SegmentedControl } from 'elemental';
 import Portal from './Portal';
 import Transition from 'react-addons-css-transition-group';
 

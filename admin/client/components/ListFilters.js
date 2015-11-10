@@ -1,5 +1,4 @@
 const React = require('react');
-const classNames = require('classnames');
 const filterComponents = require('../filters');
 const CurrentListStore = require('../stores/CurrentListStore');
 

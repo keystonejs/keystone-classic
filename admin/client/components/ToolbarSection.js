@@ -11,13 +11,11 @@ module.exports = React.createClass({
 	},
 
 	render () {
-		// classes
 		var className = classNames('Toolbar__section', {
 			'Toolbar__section--left': this.props.left,
 			'Toolbar__section--right': this.props.right
 		}, this.props.className);
 
-		// props
 		var props = blacklist(this.props, 'left', 'right', 'className');
 
 		return <div {...props} className={className}>{this.props.children}</div>;

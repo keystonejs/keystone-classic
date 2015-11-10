@@ -38,7 +38,7 @@ var CreateForm = React.createClass({
 		});
 	},
 
-	componentDidUpdate (prevProps, prevState) {
+	componentDidUpdate (prevProps) {
 		if (this.props.isOpen !== prevProps.isOpen) {
 			document.body.style.overflow = (this.props.isOpen) ? 'hidden' : '';
 			if (this.refs.focusTarget) {

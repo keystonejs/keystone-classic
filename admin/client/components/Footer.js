@@ -1,5 +1,3 @@
-import blacklist from 'blacklist';
-import classnames from 'classnames';
 import React from 'react';
 import { Container } from 'elemental';
 

@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SessionStore from '../stores/SessionStore';
-import { Alert, Button, Form, FormField, FormInput, Spinner } from 'elemental';
+import { Alert, Button, Form, FormField, FormInput } from 'elemental';
 import { createHistory } from 'history';
 
 var history = createHistory();

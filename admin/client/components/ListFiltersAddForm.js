@@ -1,10 +1,8 @@
 var React = require('react');
-var classNames = require('classnames');
 
 var CurrentListStore = require('../stores/CurrentListStore');
 var filters = require('../filters');
 var Popout = require('./Popout');
-var { Button } = require('elemental');
 
 var ListFiltersAddForm = React.createClass({
 
