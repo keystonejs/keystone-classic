@@ -162,7 +162,9 @@ var filtersFromUrlParams = function () {
 	if (qs) {
 		for (var field in qs) {
 			var value = qs[field];
-			CurrentListStore.setFilter(field, JSON.parse(decodeURIComponent(value)));
+			if (value) {
+				CurrentListStore.setFilter(field, JSON.parse(decodeURIComponent(value)));
+			}
 		}
 	}
 };
