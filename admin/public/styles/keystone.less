@@ -49,9 +49,14 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	outline: none;
 	padding: 1rem;
 	position: relative;
 	user-select: none;
+
+	&:focus .DayPicker-Caption {
+		text-decoration: underline;
+	}
 }
 
 // wrap the calendar in chrome
@@ -136,6 +141,13 @@
 	padding: .5rem 0;
 	text-align: center;
 	vertical-align: middle;
+
+	&:hover,
+	&:focus {
+		background-color: mix(@link-color, @dropdown-bg, 10%);
+		color: @link-color;
+		outline: none;
+	}
 }
 
 .DayPicker--interactionDisabled .DayPicker-Day {
@@ -146,7 +158,7 @@
 // Modifiers
 
 .DayPicker-Day--today {
-	color: red;
+	color: #FF4981; // pink
 	font-weight: 500;
 }
 
