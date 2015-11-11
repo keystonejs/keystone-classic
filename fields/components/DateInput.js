@@ -4,19 +4,6 @@ import React from 'react';
 import Popout from '../../admin/client/components/Popout';
 import { FormInput } from 'elemental';
 
-function isSameDay(d1, d2) {
-	if (!_.isDate(d1)) {
-		d1 = new Date();
-	}
-	if (!_.isDate(d2)) {
-		d2 = new Date();
-	}
-	d1.setHours(0, 0, 0, 0);
-	d2.setHours(0, 0, 0, 0);
-
-	return d1.getTime() === d2.getTime();
-}
-
 module.exports = React.createClass({
 
 	displayName: 'DateInput',
@@ -69,7 +56,7 @@ module.exports = React.createClass({
 		let { selectedDay } = this.state;
 
 		let modifiers = {
-			'selected': (day) => isSameDay(selectedDay, day)
+			'selected': (day) => moment(selectedDay).isSame(day)
 		};
 
 		return (

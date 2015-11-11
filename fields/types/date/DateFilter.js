@@ -1,6 +1,8 @@
 import _ from 'underscore';
 import classNames from 'classnames';
+import moment from 'moment';
 import React from 'react';
+import DayPicker from 'react-day-picker';
 
 import { FormField, FormInput, FormRow, FormSelect, SegmentedControl } from 'elemental';
 
@@ -16,17 +18,23 @@ const MODE_OPTIONS = [
 	{ label: 'Between', value: 'between' }
 ];
 
-var NumberFilter = React.createClass({
-
+var DateFilter = React.createClass({
+	displayName: 'DateFilter',
 	getInitialState () {
 		return {
+			activeInputField: 'from',
 			modeValue: MODE_OPTIONS[0].value, // 'on'
 			modeLabel: MODE_OPTIONS[0].label, // 'On'
+			month: new Date(), // The month to display in the calendar
 			inverted: TOGGLE_OPTIONS[0].value,
-			value: ''
+			// value: moment().format("L"), // The value of the input field
 		};
 	},
-
+	getDefaultProps () {
+		return {
+			format: 'DD-MM-YYYY'
+		};
+	},
 	componentDidMount () {
 		// focus the text input
 		React.findDOMNode(this.refs.input).focus();
@@ -37,7 +45,6 @@ var NumberFilter = React.createClass({
 			inverted: value
 		});
 	},
-
 	selectMode (mode) {
 		// TODO: implement w/o underscore
 		this.setState({
@@ -49,6 +56,31 @@ var NumberFilter = React.createClass({
 		React.findDOMNode(this.refs.input).focus();
 	},
 
+	handleInputChange(e) {
+
+		const { value } = e.target;
+		let { month } = this.state;
+
+		// Change the current month only if the value entered by the user is a valid
+		// date, according to the `L` format
+		if (moment(value, "L", true).isValid()) {
+		  month = moment(value, "L").toDate();
+		}
+
+		this.setState({ value, month }, this.showCurrentDate);
+
+	},
+	selectDay (e, day, modifiers) {
+		if (modifiers.indexOf("disabled") > -1) return;
+
+		this.setState({
+			value: day
+		});
+	},
+	showCurrentDate() {
+		this.refs.daypicker.showMonth(this.state.month);
+	},
+
 	renderToggle () {
 		return (
 			<FormField>
@@ -56,35 +88,58 @@ var NumberFilter = React.createClass({
 			</FormField>
 		);
 	},
-
 	renderControls () {
 		let controls;
 		let { field } = this.props;
-		let { modeLabel, modeValue } = this.state;
+		let { modeLabel, modeValue, value } = this.state;
 		let placeholder = field.label + ' is ' + modeLabel.toLowerCase() + '...';
+
+		// DayPicker stuff
+		const modifiers = {
+			'selected': (day) => moment(value).isSame(day)
+		};
+		const selectedDay = moment(this.state.value, "L", true).toDate();
 
 		if (modeValue === 'between') {
 			controls = (
-				<FormRow>
-					<FormField width="one-half">
-						<FormInput ref="input" placeholder="From" />
-					</FormField>
-					<FormField width="one-half">
-						<FormInput placeholder="To" />
-					</FormField>
-				</FormRow>
+				<div>
+					<FormRow>
+						<FormField width="one-half">
+							<FormInput ref="from" placeholder="From" />
+						</FormField>
+						<FormField width="one-half">
+							<FormInput ref="to" placeholder="To" />
+						</FormField>
+					</FormRow>
+					<DayPicker
+						modifiers={ modifiers }
+						onDayClick={ this.handleChange }
+						tabIndex={-1} />
+				</div>
 			);
 		} else {
 			controls = (
-				<FormField>
-					<FormInput ref="input" placeholder={placeholder} />
-				</FormField>
+				<div>
+					<FormField>
+						<FormInput
+							ref="input"
+							placeholder={placeholder}
+							value={moment(value).format(this.props.format)}
+							onChange={this.handleInputChange}
+							onFocus={this.showCurrentDate}
+						/>
+					</FormField>
+					<DayPicker
+						ref="daypicker"
+						modifiers={ modifiers }
+						onDayClick={this.selectDay}
+						tabIndex={-1} />
+				</div>
 			);
 		}
 
 		return controls;
 	},
-
 	render () {
 		let { modeLabel, modeValue } = this.state;
 
@@ -99,4 +154,4 @@ var NumberFilter = React.createClass({
 
 });
 
-module.exports = NumberFilter;
+module.exports = DateFilter;
