@@ -73,15 +73,15 @@ var DateFilter = React.createClass({
 
 		// Change the current month only if the value entered by the user is a valid
 		// date, according to the `L` format
-		if (moment(value, "L", true).isValid()) {
-		  month = moment(value, "L").toDate();
+		if (moment(value, 'L', true).isValid()) {
+		  month = moment(value, 'L').toDate();
 		}
 
 		this.setState({ value, month }, this.showCurrentDate);
 
 	},
 	selectDay (e, day, modifiers) {
-		if (modifiers.indexOf("disabled") > -1) return;
+		if (modifiers.indexOf('disabled') > -1) return;
 
 		this.setState({
 			value: day
@@ -108,7 +108,7 @@ var DateFilter = React.createClass({
 		const modifiers = {
 			'selected': (day) => moment(value).isSame(day)
 		};
-		const selectedDay = moment(this.state.value, "L", true).toDate();
+		const selectedDay = moment(this.state.value, 'L', true).toDate();
 
 		if (modeValue === 'between') {
 			controls = (
