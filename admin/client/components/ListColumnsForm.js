@@ -34,7 +34,7 @@ var ListColumnsForm = React.createClass({
 	},
 
 	toggleColumn (path, value) {
-		let newColumns = this.state.selectedColumns;
+		let newColumns = Object.assign({}, this.state.selectedColumns);
 
 		if (value) {
 			newColumns[path] = value;

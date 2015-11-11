@@ -16,7 +16,7 @@ var CreateForm = React.createClass({
 	},
 
 	getInitialState () {
-		var values = this.props.values;
+		var values = Object.assign({}, this.props.values);
 
 		Object.keys(this.props.list.fields).forEach(function(key) {
 			var field = this.props.list.fields[key];
@@ -31,7 +31,7 @@ var CreateForm = React.createClass({
 	},
 
 	handleChange (event) {
-		var values = this.state.values;
+		var values = Object.assign({}, this.state.values);
 		values[event.path] = event.value;
 		this.setState({
 			values: values
