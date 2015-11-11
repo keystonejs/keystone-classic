@@ -69,8 +69,8 @@ var CreateForm = React.createClass({
 		var alertContent;
 		var errorCount = Object.keys(this.props.err.errors).length;
 
-		var messages = this.props.err.errors.map((err, path) => {
-			return errorCount > 1 ? <li key={path}>{err.message}</li> : <div key={path}>{err.message}</div>;
+		var messages = Object.keys(this.props.err.errors).map((path) => {
+			return errorCount > 1 ? <li key={path}>{this.props.err.errors[path].message}</li> : <div key={path}>{this.props.err.errors[path].message}</div>;
 		});
 
 		if (errorCount > 1) {
