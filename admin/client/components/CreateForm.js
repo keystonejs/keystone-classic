@@ -31,7 +31,7 @@ var CreateForm = React.createClass({
 	},
 
 	handleChange (event) {
-		var values = this.state.values;
+		var values = Object.assign({}, this.state.values);
 		values[event.path] = event.value;
 		this.setState({
 			values: values

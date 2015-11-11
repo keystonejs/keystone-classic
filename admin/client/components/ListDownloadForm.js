@@ -43,7 +43,7 @@ var ListDownloadForm = React.createClass({
 		});
 	},
 	toggleColumn (column, value) {
-		let newColumns = this.state.selectedColumns;
+		let newColumns = Object.assign({}, this.state.selectedColumns);
 		if (value) {
 			newColumns[column] = value;
 		} else {
