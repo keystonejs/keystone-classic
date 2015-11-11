@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var AltText = require('./AltText');
 var Toolbar = require('./Toolbar');
 
@@ -18,7 +19,7 @@ var Header = React.createClass({
 
 	componentDidUpdate (prevProps, prevState) {
 		if (this.state.searchIsVisible && !prevState.searchIsVisible) {
-			this.refs.searchField.getDOMNode().focus();
+			ReactDOM.findDOMNode(this.refs.searchField).focus();
 		}
 	},
 
@@ -50,7 +51,7 @@ var Header = React.createClass({
 		const escapeKeyCode = 27;
 
 		if (event.which === escapeKeyCode) {
-			this.refs.searchField.getDOMNode().blur();
+			ReactDOM.findDOMNode(this.refs.searchField).blur();
 		}
 	},
 
