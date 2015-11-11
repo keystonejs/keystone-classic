@@ -87,17 +87,30 @@ var MobileNavigation = React.createClass({
 		});
 	},
 	toggleMenu () {
+		this[this.state.menuIsVisible ? 'hideMenu' : 'showMenu']();
+	},
+	showMenu () {
 		this.setState({
-			menuIsVisible: !this.state.menuIsVisible
-		}, () => {
-			let body = document.getElementsByTagName('body')[0];
-
-			if (this.state.menuIsVisible) {
-				body.style.overflow = 'hidden';
-			} else {
-				body.style.overflow = null;
-			}
+			menuIsVisible: true
 		});
+
+		document.body.style.overflow = 'hidden';
+		document.body.addEventListener('keyup', this.handleEscapeKey, false);
+	},
+	hideMenu () {
+		this.setState({
+			menuIsVisible: false
+		});
+
+		document.body.style.overflow = null;
+		document.body.removeEventListener('keyup', this.handleEscapeKey, false);
+	},
+	handleEscapeKey (event) {
+		const escapeKeyCode = 27;
+
+		if (event.which === escapeKeyCode) {
+			this.hideMenu();
+		}
 	},
 	renderNavigation () {
 		if (!this.props.sections || !this.props.sections.length) return null;
