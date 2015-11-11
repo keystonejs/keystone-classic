@@ -25,14 +25,12 @@ var Header = React.createClass({
 	},
 
 	renderDrilldown () {
-		/* eslint-disable no-script-url */
 		return (
 			<Toolbar.Section left>
 				{this.renderDrilldownItems()}
 				{this.renderSearch()}
 			</Toolbar.Section>
 		);
-		/* eslint-enable */
 	},
 
 	renderDrilldownItems () {
@@ -122,7 +120,6 @@ var Header = React.createClass({
 				<ResponsiveText hiddenXS={`New ${this.props.list.singular}`} visibleXS="Create" />
 			</Button>
 		);
-		/* eslint-enable */
 	},
 
 	render () {
