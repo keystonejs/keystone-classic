@@ -1,8 +1,5 @@
-import blacklist from 'blacklist';
-import classnames from 'classnames';
 import React from 'react';
 import Transition from 'react-addons-css-transition-group';
-import { Container } from 'elemental';
 
 var MobileListItem = React.createClass({
 	displayName: 'MobileListItem',
@@ -144,8 +141,6 @@ var MobileNavigation = React.createClass({
 	},
 	render () {
 		if (!this.state.barIsVisible) return null;
-
-		let componentClassname = this.state.menuIsVisible ? 'MobileNavigation is-open' : 'MobileNavigation';
 
 		return (
 			<div className="MobileNavigation">
