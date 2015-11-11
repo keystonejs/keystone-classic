@@ -43,23 +43,32 @@
 
 
 // DayPicker styles
+// ------------------------------
 
 .DayPicker {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	outline: none;
-	padding: 1rem 0;
+	padding: 1rem;
 	position: relative;
 	user-select: none;
+}
+
+// wrap the calendar in chrome
+.DayPicker--chrome {
+	background-color: #fafafa;
+	border-radius: @border-radius-base;
+	border: 1px solid @input-border-color;
 }
 
 .DayPicker-Month {
 	border-collapse: collapse;
 	border-spacing: 0;
 	display: table;
-	margin: 0 1rem;
+	// margin: 0 1rem;
+	table-layout: fixed;
 	user-select: none;
+	width: 100%;
 }
 
 .DayPicker-NavBar {
@@ -105,8 +114,9 @@
 
 .DayPicker-Weekday {
 	display: table-cell;
-	padding: .5rem;
 	font-size: .875em;
+	font-weight: 500;
+	padding: .5rem;
 	text-align: center;
 }
 
@@ -119,11 +129,12 @@
 }
 
 .DayPicker-Day {
-	display: table-cell;
-	padding: .5rem;
-	border: 1px solid lighten(@gray, 5);
-	text-align: center;
+	background-color: @dropdown-bg;
+	border: 1px solid @input-border-color;
 	cursor: pointer;
+	display: table-cell;
+	padding: .5rem 0;
+	text-align: center;
 	vertical-align: middle;
 }
 
@@ -151,6 +162,7 @@
 }
 
 .DayPicker-Day--outside {
+	background-color: rgba(0, 0, 0, 0.05);
 	cursor: default;
 	color: @gray;
 }
@@ -164,4 +176,33 @@
 
 .DayPicker--ar {
 	direction: rtl;
+}
+
+// Custom
+
+@daypicker-indicator-size: 7px;
+
+.DayPicker-Indicator {
+	left: 1rem;
+	position: absolute;
+	top: -(@daypicker-indicator-size - 1);
+}
+.DayPicker-Indicator__bg,
+.DayPicker-Indicator__border {
+	border: @daypicker-indicator-size solid transparent;
+	border-top-width: 0;
+	display: inline-block;
+	left: 0;
+	top: 0;
+	height: 0;
+	position: absolute;
+	width: 0;
+}
+
+.DayPicker-Indicator__border {
+	border-bottom-color: darken(@input-border-color, 10%);
+	top: -1px;
+}
+.DayPicker-Indicator__bg {
+	border-bottom-color: #fafafa;
 }

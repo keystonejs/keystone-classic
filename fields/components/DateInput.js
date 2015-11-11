@@ -78,7 +78,6 @@ module.exports = React.createClass({
 					<DayPicker
 						modifiers={ modifiers }
 						onDayClick={ this.handleChange }
-						style={{ marginBottom: 9 }}
 						tabIndex={-1} />
 				</Popout>
 			</div>

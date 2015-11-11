@@ -18,6 +18,16 @@ const MODE_OPTIONS = [
 	{ label: 'Between', value: 'between' }
 ];
 
+var DayPickerIndicator = React.createClass({
+	render () {
+		return (
+			<span className="DayPicker-Indicator">
+				<span className="DayPicker-Indicator__border" />
+				<span className="DayPicker-Indicator__bg" />
+			</span>
+		);
+	}
+});
 var DateFilter = React.createClass({
 	displayName: 'DateFilter',
 	getInitialState () {
@@ -111,10 +121,14 @@ var DateFilter = React.createClass({
 							<FormInput ref="to" placeholder="To" />
 						</FormField>
 					</FormRow>
-					<DayPicker
-						modifiers={ modifiers }
-						onDayClick={ this.handleChange }
-						tabIndex={-1} />
+					<div style={{ position: 'relative' }}>
+						<DayPicker
+							modifiers={ modifiers }
+							className="DayPicker--chrome"
+							onDayClick={ this.handleChange }
+						/>
+						<DayPickerIndicator />
+					</div>
 				</div>
 			);
 		} else {
@@ -129,11 +143,15 @@ var DateFilter = React.createClass({
 							onFocus={this.showCurrentDate}
 						/>
 					</FormField>
-					<DayPicker
-						ref="daypicker"
-						modifiers={ modifiers }
-						onDayClick={this.selectDay}
-						tabIndex={-1} />
+					<div style={{ position: 'relative' }}>
+						<DayPicker
+							ref="daypicker"
+							modifiers={ modifiers }
+							className="DayPicker--chrome"
+							onDayClick={this.selectDay}
+						/>
+						<DayPickerIndicator />
+					</div>
 				</div>
 			);
 		}
