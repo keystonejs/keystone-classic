@@ -5,6 +5,7 @@ module.exports = function bindSassMiddleware (keystone, app) {
 	var sassPaths = keystone.get('sass');
 	var sassOptions = keystone.get('sass options') || {};
 	var debug = require('debug')('keystone:core:bindSassMiddleware');
+	var _ = require('underscore');
 
 	if (typeof sassPaths === 'string') {
 		sassPaths = [sassPaths];
@@ -28,7 +29,7 @@ module.exports = function bindSassMiddleware (keystone, app) {
 			}
 		}
 		sassPaths.forEach(function(path) {
-			app.use(sassMiddleware(Object.assign({
+			app.use(sassMiddleware(_.extend({
 				src: keystone.expandPath(path),
 				dest: keystone.expandPath(path),
 				outputStyle: keystone.get('env') === 'production' ? 'compressed' : 'nested'
