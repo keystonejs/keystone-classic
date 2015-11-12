@@ -18,7 +18,7 @@ module.exports = Field.create({
 		note: React.PropTypes.string,
 		onChange: React.PropTypes.func,
 		path: React.PropTypes.string,
-		value: React.PropTypes.date,
+		value: React.PropTypes.string,
 	},
 
 	getDefaultProps () {
@@ -31,7 +31,7 @@ module.exports = Field.create({
 	valueChanged (value) {
 		this.props.onChange({
 			path: this.props.path,
-			value: this.isValid(value) ? value : null
+			value: this.isValid(value) ? value : null,
 		});
 	},
 
