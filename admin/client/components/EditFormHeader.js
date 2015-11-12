@@ -14,12 +14,6 @@ var Header = React.createClass({
 		};
 	},
 
-	componentDidUpdate (prevProps, prevState) {
-		if (this.state.searchIsVisible && !prevState.searchIsVisible) {
-			ReactDOM.findDOMNode(this.refs.searchField).focus();
-		}
-	},
-
 	toggleCreate (visible) {
 		this.props.toggleCreate(visible);
 	},
