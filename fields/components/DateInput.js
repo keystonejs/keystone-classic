@@ -4,6 +4,8 @@ import React from 'react';
 import Popout from '../../admin/client/components/Popout';
 import { FormInput } from 'elemental';
 
+let lastId = 0;
+
 module.exports = React.createClass({
 
 	displayName: 'DateInput',
@@ -11,15 +13,15 @@ module.exports = React.createClass({
 	// set default properties
 	getDefaultProps () {
 		return {
-			format: 'YYYY-MM-DD'
+			format: 'YYYY-MM-DD',
 		};
 	},
 
 	getInitialState () {
 		return {
 			selectedDay: this.props.value,
-			id: Math.round(Math.random() * 100000),
-			pickerIsOpen: false
+			id: `_DateInput_${++lastId}`,
+			pickerIsOpen: false,
 		};
 	},
 
