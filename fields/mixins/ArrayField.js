@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react'); // this is needed since we use JSX, even though the `React` name is not used in our code
 var _ = require('underscore');
 
 var Button = require('elemental').Button;

@@ -1,6 +1,4 @@
 var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
 var { Container } = require('elemental');
 
 module.exports = React.createClass({

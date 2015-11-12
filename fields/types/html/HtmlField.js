@@ -133,7 +133,7 @@ module.exports = Field.create({
 				importcss_merge_classes: true
 			};
 
-			_.extend(options.additionalOptions, importcssOptions);
+			Object.assign(options.additionalOptions, importcssOptions);
 		}
 
 		if (!options.overrideToolbar) {
@@ -151,7 +151,7 @@ module.exports = Field.create({
 		if (this.shouldRenderField()) {
 			opts.uploadimage_form_url = options.enableS3Uploads ? '/keystone/api/s3/upload' : '/keystone/api/cloudinary/upload';
 		} else {
-			_.extend(opts, {
+			Object.assign(opts, {
 				mode: 'textareas',
 				readonly: true,
 				menubar: false,
@@ -161,7 +161,7 @@ module.exports = Field.create({
 		}
 
 		if (options.additionalOptions){
-			_.extend(opts, options.additionalOptions);
+			Object.assign(opts, options.additionalOptions);
 		}
 
 		return opts;

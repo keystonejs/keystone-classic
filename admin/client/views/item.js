@@ -56,7 +56,7 @@ var RelatedItemsList = React.createClass({
 		return <colgroup>{cols}</colgroup>;
 	},
 	renderTableHeaders () {
-		const cells = this.state.columns.map((col, i) => {
+		const cells = this.state.columns.map((col) => {
 			return <th key={col.path}>{col.label}</th>;
 		});
 		return <thead><tr>{cells}</tr></thead>;
