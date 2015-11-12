@@ -1,18 +1,22 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
 module.exports = React.createClass({
 	displayName: 'Portal',
 	portalElement: null,
-	render: () => null,
-	componentDidMount() {
-		let p = document.createElement('div');
-		document.body.appendChild(p);
-		this.portalElement = p;
+	componentDidMount () {
+		let el = document.createElement('div');
+		document.body.appendChild(el);
+		this.portalElement = el;
 		this.componentDidUpdate();
 	},
-	componentWillUnmount() {
+	componentWillUnmount () {
 		document.body.removeChild(this.portalElement);
 	},
-	componentDidUpdate() {
-		React.render(<div {...this.props}>{this.props.children}</div>, this.portalElement);
+	componentDidUpdate () {
+		ReactDOM.render(<div {...this.props}>{this.props.children}</div>, this.portalElement);
+	},
+	render () {
+		return null;
 	}
 });
