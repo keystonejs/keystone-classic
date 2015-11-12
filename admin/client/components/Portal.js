@@ -16,6 +16,9 @@ module.exports = React.createClass({
 	componentDidUpdate () {
 		ReactDOM.render(<div {...this.props}>{this.props.children}</div>, this.portalElement);
 	},
+	getPortalDOMNode () {
+		return this.portalElement;
+	},
 	render () {
 		return null;
 	}

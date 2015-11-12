@@ -26,6 +26,10 @@ var Popout = React.createClass({
 		};
 	},
 
+	getPortalDOMNode () {
+		return this.refs.portal.getPortalDOMNode();
+	},
+
 	componentDidMount () {
 		if (this.props.isOpen) this.calculatePosition();
 	},
@@ -78,7 +82,7 @@ var Popout = React.createClass({
 
 	render () {
 		return (
-			<Portal className="Popout-wrapper">
+			<Portal className="Popout-wrapper" ref="portal">
 				<Transition className="Popout-animation" transitionName="Popout" component="div">
 					{this.renderPopout()}
 				</Transition>
