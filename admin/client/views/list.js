@@ -71,7 +71,7 @@ const ListView = React.createClass({
 			search: CurrentListStore.getActiveSearch(),
 			rowAlert: CurrentListStore.rowAlert()
 		};
-		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length) ? true : false;
+		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length);
 		return state;
 	},
 

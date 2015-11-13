@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 module.exports = function evalDependsOn(dependsOn, values) {
 	if (!_.isObject(dependsOn)) return true;
 	var keys = _.keys(dependsOn);

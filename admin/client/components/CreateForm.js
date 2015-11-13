@@ -16,7 +16,7 @@ var CreateForm = React.createClass({
 	},
 
 	getInitialState () {
-		var values = this.props.values;
+		var values = Object.assign({}, this.props.values);
 
 		Object.keys(this.props.list.fields).forEach(function(key) {
 			var field = this.props.list.fields[key];
@@ -31,19 +31,19 @@ var CreateForm = React.createClass({
 	},
 
 	handleChange (event) {
-		var values = this.state.values;
+		var values = Object.assign({}, this.state.values);
 		values[event.path] = event.value;
 		this.setState({
 			values: values
 		});
 	},
 
-	componentDidUpdate (prevProps, prevState) {
+	componentDidUpdate (prevProps) {
 		if (this.props.isOpen !== prevProps.isOpen) {
 			document.body.style.overflow = (this.props.isOpen) ? 'hidden' : '';
-			if (this.refs.focusTarget) {
-				this.refs.focusTarget.focus();
-			}
+
+			// focus the focusTarget after the "open modal" CSS animation has started
+			setTimeout(() => this.refs.focusTarget && this.refs.focusTarget.focus(), 0);
 		}
 	},
 
@@ -69,8 +69,8 @@ var CreateForm = React.createClass({
 		var alertContent;
 		var errorCount = Object.keys(this.props.err.errors).length;
 
-		var messages = this.props.err.errors.map((err, path) => {
-			return errorCount > 1 ? <li key={path}>{err.message}</li> : <div key={path}>{err.message}</div>;
+		var messages = Object.keys(this.props.err.errors).map((path) => {
+			return errorCount > 1 ? <li key={path}>{this.props.err.errors[path].message}</li> : <div key={path}>{this.props.err.errors[path].message}</div>;
 		});
 
 		if (errorCount > 1) {

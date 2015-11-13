@@ -17,7 +17,7 @@ module.exports = function(req, res) {
 	if (req.query.populate) {
 		query.populate(req.query.populate);
 	}
-	if (req.query.expandRelationshipFields) {
+	if (req.query.expandRelationshipFields && req.query.expandRelationshipFields !== 'false') {
 		req.list.relationshipFields.forEach(function(i) {
 			query.populate(i.path);
 		});
@@ -35,7 +35,10 @@ module.exports = function(req, res) {
 			query.exec(next);
 		}
 	}, function(err, results) {
-		if (err) return res.apiError('database error', err);
+		if (err) {
+			res.logError('admin/server/api/list/get', 'database error finding items', err);
+			return res.apiError('database error', err);
+		}
 		return res.json({
 			results: results.items.map(function (item) {
 				return req.list.getData(item, req.query.select, req.query.expandRelationshipFields);

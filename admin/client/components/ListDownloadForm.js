@@ -1,6 +1,4 @@
-import classnames from 'classnames';
 import React from 'react';
-import Transition from 'react-addons-css-transition-group';
 
 var CurrentListStore = require('../stores/CurrentListStore');
 var Popout = require('./Popout');
@@ -43,7 +41,7 @@ var ListDownloadForm = React.createClass({
 		});
 	},
 	toggleColumn (column, value) {
-		let newColumns = this.state.selectedColumns;
+		let newColumns = Object.assign({}, this.state.selectedColumns);
 		if (value) {
 			newColumns[column] = value;
 		} else {
@@ -101,7 +99,6 @@ var ListDownloadForm = React.createClass({
 	},
 
 	render () {
-		let { list } = this.props;
 		let { useCurrentColumns } = this.state;
 
 		return (

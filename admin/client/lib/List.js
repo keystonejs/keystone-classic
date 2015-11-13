@@ -5,7 +5,7 @@ const qs = require('qs');
 const xhr = require('xhr');
 
 function getColumns (list) {
-	return list.uiElements.map((col, i) => {
+	return list.uiElements.map((col) => {
 		if (col.type === 'heading') {
 			return { type: 'heading', content: col.content };
 		} else {
@@ -51,7 +51,6 @@ List.prototype.expandColumns = function (input) {
 	const cols = listToArray(input).map(i => {
 		let split = i.split('|');
 		let path = split[0];
-		let width = split[1] || 'auto';
 		if (path === '__name__') {
 			path = this.namePath;
 		}

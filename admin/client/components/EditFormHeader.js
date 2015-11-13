@@ -1,5 +1,4 @@
 var React = require('react');
-var AltText = require('./AltText');
 var Toolbar = require('./Toolbar');
 
 var { Button, FormIconField, FormInput, ResponsiveText } = require('elemental');
@@ -10,34 +9,12 @@ var Header = React.createClass({
 
 	getInitialState () {
 		return {
-			searchIsVisible: false,
-			searchIsFocused: false,
 			searchString: ''
 		};
 	},
 
-	componentDidUpdate (prevProps, prevState) {
-		if (this.state.searchIsVisible && !prevState.searchIsVisible) {
-			this.refs.searchField.getDOMNode().focus();
-		}
-	},
-
 	toggleCreate (visible) {
 		this.props.toggleCreate(visible);
-	},
-
-	toggleSearch (visible) {
-		this.setState({
-			searchIsVisible: visible,
-			searchIsFocused: visible,
-			searchString: ''
-		});
-	},
-
-	searchFocusChanged (focused) {
-		this.setState({
-			searchIsFocused: focused
-		});
 	},
 
 	searchStringChanged (event) {
@@ -47,15 +24,12 @@ var Header = React.createClass({
 	},
 
 	renderDrilldown () {
-		if (this.state.searchIsVisible) return null;
-		/* eslint-disable no-script-url */
 		return (
 			<Toolbar.Section left>
 				{this.renderDrilldownItems()}
 				{this.renderSearch()}
 			</Toolbar.Section>
 		);
-		/* eslint-enable */
 	},
 
 	renderDrilldownItems () {
@@ -115,8 +89,6 @@ var Header = React.createClass({
 						name="search"
 						value={this.state.searchString}
 						onChange={this.searchStringChanged}
-						onFocus={this.searchFocusChanged.bind(this, true)}
-						onBlur={this.searchFocusChanged.bind(this, false)}
 						placeholder="Search"
 						className="EditForm__header__search-input" />
 				</FormIconField>
@@ -147,7 +119,6 @@ var Header = React.createClass({
 				<ResponsiveText hiddenXS={`New ${this.props.list.singular}`} visibleXS="Create" />
 			</Button>
 		);
-		/* eslint-enable */
 	},
 
 	render () {
