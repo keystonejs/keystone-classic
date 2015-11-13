@@ -66,19 +66,19 @@ var MobileNavigation = React.createClass({
 		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
 	},
-	getInitialState() {
+	getInitialState () {
 		return {
 			barIsVisible: false,
 		};
 	},
-	componentDidMount: function() {
+	componentDidMount () {
 		this.handleResize();
 		window.addEventListener('resize', this.handleResize);
 	},
-	componentWillUnmount: function() {
+	componentWillUnmount () {
 		window.removeEventListener('resize', this.handleResize);
 	},
-	handleResize: function() {
+	handleResize () {
 		this.setState({
 			barIsVisible: window.innerWidth < 768
 		});
@@ -154,7 +154,7 @@ var MobileNavigation = React.createClass({
 					</a>
 				</div>
 				<div className="MobileNavigation__bar--placeholder" />
-				<Transition transitionName="MobileNavigation__menu">
+				<Transition transitionName="MobileNavigation__menu" transitionEnterTimeout={260} transitionLeaveTimeout={200}>
 					{this.renderMenu()}
 				</Transition>
 				<Transition transitionName="react-transitiongroup-fade">

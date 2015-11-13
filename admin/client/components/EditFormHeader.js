@@ -1,8 +1,7 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Toolbar = require('./Toolbar');
-
-var { Button, FormIconField, FormInput, ResponsiveText } = require('elemental');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Toolbar from './Toolbar';
+import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
 
 var Header = React.createClass({
 

@@ -1,9 +1,8 @@
 import React from 'react';
-
-var CurrentListStore = require('../stores/CurrentListStore');
-var Popout = require('./Popout');
-var PopoutList = require('./PopoutList');
-var { Button, InputGroup } = require('elemental');
+import CurrentListStore from '../stores/CurrentListStore';
+import Popout from './Popout';
+import PopoutList from './PopoutList';
+import { Button, InputGroup } from 'elemental';
 
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',

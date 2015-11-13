@@ -1,5 +1,5 @@
-var React = require('react');
-var classnames = require('classnames');
+import React from 'react';
+import classnames from 'classnames';
 
 var ListControl = React.createClass({
 

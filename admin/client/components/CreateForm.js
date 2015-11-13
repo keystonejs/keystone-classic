@@ -1,7 +1,7 @@
-var React = require('react');
-var Fields = require('../fields');
-var InvalidFieldType = require('./InvalidFieldType');
-var { Alert, Button, Form, Modal } = require('elemental');
+import React from 'react';
+import Fields from '../fields';
+import InvalidFieldType from './InvalidFieldType';
+import { Alert, Button, Form, Modal } from 'elemental';
 
 var CreateForm = React.createClass({
 

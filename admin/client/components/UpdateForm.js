@@ -1,8 +1,8 @@
-const React = require('react');
-const Select = require ('react-select');
-const Fields = require('../fields');
-const { plural } = require('../utils');
-const { BlankState, Button, Form, Modal } = require('elemental');
+import React from 'react';
+import Select from 'react-select';
+import Fields from '../fields';
+import { plural } from '../utils';
+import { BlankState, Button, Form, Modal } from 'elemental';
 
 var UpdateForm = React.createClass({
 	displayName: 'UpdateForm',

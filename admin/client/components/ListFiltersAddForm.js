@@ -1,8 +1,7 @@
-var React = require('react');
-
-var CurrentListStore = require('../stores/CurrentListStore');
-var filters = require('../filters');
-var Popout = require('./Popout');
+import React from 'react';
+import CurrentListStore from '../stores/CurrentListStore';
+import filters from '../filters';
+import Popout from './Popout';
 
 var ListFiltersAddForm = React.createClass({
 
