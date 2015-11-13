@@ -3,7 +3,6 @@ import React from 'react';
 import Popout from './Popout';
 import PopoutList from './PopoutList';
 import vkey from 'vkey';
-
 import CurrentListStore from '../stores/CurrentListStore';
 
 var ListSort = React.createClass({

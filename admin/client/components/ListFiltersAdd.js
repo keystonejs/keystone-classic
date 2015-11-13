@@ -1,12 +1,11 @@
 import React from 'react';
 import Transition from 'react-addons-css-transition-group';
 import classnames from 'classnames';
-
-var CurrentListStore = require('../stores/CurrentListStore');
-var ListFiltersAddForm = require('./ListFiltersAddForm');
-var Popout = require('./Popout');
-var PopoutList = require('./PopoutList');
-var { Button, FormField, FormInput, InputGroup } = require('elemental');
+import CurrentListStore from '../stores/CurrentListStore';
+import ListFiltersAddForm from './ListFiltersAddForm';
+import Popout from './Popout';
+import PopoutList from './PopoutList';
+import { Button, FormField, FormInput, InputGroup } from 'elemental';
 
 function pluck(arr, key) {
 	return arr.map(obj => obj[key]);

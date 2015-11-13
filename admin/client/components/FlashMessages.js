@@ -1,5 +1,5 @@
-const React = require('react');
-const { Alert } = require('elemental');
+import React from 'react';
+import { Alert } from 'elemental';
 
 var FlashMessage = React.createClass({
 	displayName: 'FlashMessage',

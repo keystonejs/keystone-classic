@@ -1,7 +1,7 @@
-const Columns = require('../columns');
-const CurrentListStore = require('../stores/CurrentListStore');
-const ListControl = require('./ListControl');
-const React = require('react');
+import React from 'react';
+import Columns from '../columns';
+import CurrentListStore from '../stores/CurrentListStore';
+import ListControl from './ListControl';
 
 const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 

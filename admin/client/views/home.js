@@ -1,13 +1,13 @@
 'use strict';
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { Container } = require('elemental');
-const xhr = require('xhr');
-const { plural } = require('../utils');
-const Footer = require('../components/Footer');
-const MobileNavigation = require('../components/MobileNavigation');
-const PrimaryNavigation = require('../components/PrimaryNavigation');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Container } from 'elemental';
+import xhr from 'xhr';
+import { plural } from '../utils';
+import Footer from '../components/Footer';
+import MobileNavigation from '../components/MobileNavigation';
+import PrimaryNavigation from '../components/PrimaryNavigation';
 
 var listsByKey = {};
 Keystone.lists.forEach((list) => {

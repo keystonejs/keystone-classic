@@ -1,7 +1,7 @@
 'use strict';
 
-const Store = require('store-prototype');
-const xhr = require('xhr');
+import Store from 'store-prototype';
+import xhr from 'xhr';
 
 const fn = function () {};
 

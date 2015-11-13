@@ -1,5 +1,5 @@
-var React = require('react');
-var blacklist = require('blacklist');
+import React from 'react';
+import blacklist from 'blacklist';
 
 var FooterBar = React.createClass({
 	getInitialState () {

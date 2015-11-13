@@ -1,12 +1,11 @@
-var moment = require('moment');
-var React = require('react');
-var Fields = require('../fields');
-var FormHeading = require('./FormHeading');
-var AltText = require('./AltText');
-var FooterBar = require('./FooterBar');
-var InvalidFieldType = require('./InvalidFieldType');
-
-var { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } = require('elemental');
+import React from 'react';
+import moment from 'moment';
+import Fields from '../fields';
+import FormHeading from './FormHeading';
+import AltText from './AltText';
+import FooterBar from './FooterBar';
+import InvalidFieldType from './InvalidFieldType';
+import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
 
 var EditForm = React.createClass({
 	displayName: 'EditForm',

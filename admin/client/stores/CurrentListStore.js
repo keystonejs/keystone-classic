@@ -1,7 +1,7 @@
 'use strict';
 
-var Store = require('store-prototype');
-var List = require('../lib/List');
+import Store from 'store-prototype';
+import List from '../lib/List';
 
 var _list = new List(Keystone.list);
 var _ready = false;
