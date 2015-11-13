@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import classNames from 'classnames';
 import moment from 'moment';
 import React from 'react';
@@ -56,10 +55,9 @@ var DateFilter = React.createClass({
 		});
 	},
 	selectMode (mode) {
-		// TODO: implement w/o underscore
 		this.setState({
 			modeValue: mode,
-			modeLabel: _.findWhere(MODE_OPTIONS, { value: mode }).label
+			modeLabel: MODE_OPTIONS.find(option => option.value === mode).label
 		});
 
 		// focus the text input after a mode selection is made
