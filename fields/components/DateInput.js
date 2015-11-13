@@ -11,6 +11,11 @@ module.exports = React.createClass({
 
 	displayName: 'DateInput',
 
+	propTypes: {
+		path: React.PropTypes.string,
+		value: React.PropTypes.string,
+	},
+
 	// set default properties
 	getDefaultProps () {
 		return {
@@ -33,13 +38,12 @@ module.exports = React.createClass({
 		};
 	},
 
-	// componentWillReceiveProps: function(newProps) {
-	// 	console.log(moment(newProps.value).format("ddd MMMM DD YYYY hh:mm:ss a Z"));
-	// 	if (newProps.value === this.state.selectedDay) return;
-	// 	this.setState({
-	// 		selectedDay: moment(newProps.value).format("ddd MMMM DD YYYY hh:mm:ss a Z")
-	// 	});
-	// },
+	componentWillReceiveProps: function(newProps) {
+		if (newProps.value === this.state.value) return;
+		this.setState({
+			value: newProps.value,
+		});
+	},
 
 	componentDidMount () {
 		this.showCurrentDate();
