@@ -7,7 +7,7 @@
 
 Check out [keystonejs.com](http://keystonejs.com) for documentation and guides.
 
-You can also deploy a starter project to [Heroku](https://heroku.com) for free to try it out:
+You can also deploy a starter project to [Heroku](https://www.heroku.com/) for free to try it out:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
 
@@ -38,7 +38,7 @@ Keystone gives you:
 
 Use our [Yeoman Generator](https://github.com/keystonejs/generator-keystone) to get up and running with KeystoneJS quickly, then check out our getting started guide &amp; docs at [keystonejs.com/docs/getting-started](http://keystonejs.com/docs/getting-started).
 
-We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/JedWatson/keystone-demo) to see how it was built.
+We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/keystonejs/keystone-demo) to see how it was built.
 
 
 ### Community
@@ -180,7 +180,7 @@ relationships between different models.
 ### Running KeystoneJS in Production
 
 When you deploy your KeystoneJS app to production, be sure to set your `ENV` environment variable to `production`.
-You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](https://github.com/scottmotte/dotenv).
+You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](https://github.com/motdotla/dotenv).
 
 Setting your environment enables certain features, including template caching, simpler error reporting and html minification, that are important in production but annoying in development.
 
@@ -210,16 +210,16 @@ Thanks to the following companies and projects whose work we have used or taken 
 * [Node.js](http://nodejs.org)
 * [Thinkmill](http://thinkmill.com.au)
 * [ExpressJS](http://expressjs.com)
-* [MongoDB](http://www.mongodb.org)
+* [MongoDB](https://www.mongodb.org/)
 * [Mongoose](http://mongoosejs.com)
 * [React](http://facebook.github.io/react/)
 * [jQuery](http://jquery.com)
 * [Underscore](http://underscorejs.org)
 * [Bootstrap](http://getbootstrap.com)
 * [Amazon](http://aws.amazon.com)
-* [Heroku](http://www.heroku.com)
+* [Heroku](https://www.heroku.com/)
 * [Google](https://developers.google.com)
-* [Cloudinary](https://cloudinary.com)
+* [Cloudinary](http://cloudinary.com/)
 * [Embedly](http://embed.ly)
 * [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/)
 
