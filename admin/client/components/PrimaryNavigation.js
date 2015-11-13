@@ -31,14 +31,14 @@ var PrimaryNavigation = React.createClass({
 	getInitialState() {
 		return {};
 	},
-	componentDidMount: function() {
+	componentDidMount () {
 		this.handleResize();
 		window.addEventListener('resize', this.handleResize);
 	},
-	componentWillUnmount: function() {
+	componentWillUnmount () {
 		window.removeEventListener('resize', this.handleResize);
 	},
-	handleResize: function() {
+	handleResize () {
 		this.setState({
 			navIsVisible: window.innerWidth >= 768
 		});
