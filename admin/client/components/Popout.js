@@ -79,7 +79,7 @@ var Popout = React.createClass({
 	render () {
 		return (
 			<Portal className="Popout-wrapper">
-				<Transition className="Popout-animation" transitionName="Popout" component="div">
+				<Transition className="Popout-animation" transitionEnterTimeout={200} transitionLeaveTimeout={200} transitionName="Popout" component="div">
 					{this.renderPopout()}
 				</Transition>
 				{this.renderBlockout()}

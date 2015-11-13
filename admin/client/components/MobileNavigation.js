@@ -154,7 +154,7 @@ var MobileNavigation = React.createClass({
 					</a>
 				</div>
 				<div className="MobileNavigation__bar--placeholder" />
-				<Transition transitionName="MobileNavigation__menu">
+				<Transition transitionName="MobileNavigation__menu" transitionEnterTimeout={260} transitionLeaveTimeout={200}>
 					{this.renderMenu()}
 				</Transition>
 				<Transition transitionName="react-transitiongroup-fade">
