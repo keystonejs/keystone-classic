@@ -19,9 +19,16 @@ module.exports = React.createClass({
 	},
 
 	getInitialState () {
+		let id = ++lastId;
+		let month = new Date();
+		let { format, value } = this.props;
+		if (moment(value, format, true).isValid()) {
+			month = moment(value, format).toDate();
+		}
 		return {
-			selectedDay: this.props.value,
-			id: `_DateInput_${++lastId}`,
+			value: value,
+			id: `_DateInput_${id}`,
+			month: new Date(),
 			pickerIsOpen: false,
 		};
 	},
@@ -34,14 +41,31 @@ module.exports = React.createClass({
 	// 	});
 	// },
 
+	componentDidMount () {
+		this.showCurrentDate();
+	},
+
 	focus () {
 		if (!this.refs.input) return;
 		this.refs.input.focus();
 	},
 
-	handleChange (e, day) {
+	handleInputChange (e) {
+		const { value } = e.target;
+		let { month } = this.state;
+		if (moment(value, this.props.format, true).isValid()) {
+			month = moment(value, this.props.format).toDate();
+		}
+		this.setState({ value, month }, this.showCurrentDate);
+	},
+
+	handleDaySelect (e, day, modifiers) {
+		if (modifiers.indexOf('disabled') > -1) {
+			return;
+		}
 		this.setState({
-			selectedDay: day
+			value: moment(day).format(this.props.format),
+			month: day,
 		}, () => {
 			setTimeout(() => {
 				this.setState({
@@ -51,11 +75,18 @@ module.exports = React.createClass({
 		});
 	},
 
+	showPicker () {
+		this.setState({ pickerIsOpen: true }, this.showCurrentDate);
+	},
+
+	showCurrentDate () {
+		if (!this.refs.picker) return;
+		this.refs.picker.showMonth(this.state.month);
+	},
+
 	handleFocus (e) {
 		if (this.state.pickerIsOpen) return;
-		this.setState({
-			pickerIsOpen: true,
-		});
+		this.showPicker();
 	},
 
 	handleBlur (e) {
@@ -78,17 +109,17 @@ module.exports = React.createClass({
 		};
 
 		return (
-			<div ref="container">
+			<div>
 				<FormInput
 					autoComplete="off"
 					id={this.state.id}
 					name={this.props.name}
 					onBlur={this.handleBlur}
 					onFocus={this.handleFocus}
-					onChange={this.handleChange}
+					onChange={this.handleInputChange}
 					placeholder={this.props.format}
 					ref="input"
-					value={moment(selectedDay).format(this.props.format)} />
+					value={this.state.value} />
 				<Popout
 					ref="popout"
 					isOpen={this.state.pickerIsOpen}
@@ -96,13 +127,13 @@ module.exports = React.createClass({
 					relativeToID={this.state.id}
 					width={260}>
 					<DayPicker
+						ref="picker"
 						modifiers={modifiers}
-						onDayClick={this.handleChange}
+						onDayClick={this.handleDaySelect}
 						tabIndex={-1} />
 				</Popout>
 			</div>
 		);
-		// return <FormInput name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" />;
 	}
 
 });
