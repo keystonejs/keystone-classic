@@ -96,7 +96,7 @@ List.prototype.expandSort = function (input) {
 			invert = true;
 			path = path.substr(1);
 		}
-		const field = this.fields[path];
+		let field = this.fields[path];
 		if (!field) {
 			// TODO: Support arbitary document paths
 			console.warn('Invalid Sort specified:', path);
@@ -158,6 +158,25 @@ List.prototype.getDownloadURL = function (options) {
 
 List.prototype.deleteItem = function (item, callback) {
 	const url = '/keystone/api/' + this.path + '/' + item.id + '/delete';
+	xhr({
+		url: url,
+		method: 'POST',
+		headers: Keystone.csrf.header
+	}, (err, resp, body) => {
+		if (err) return callback(err);
+		// TODO: check resp.statusCode
+		try {
+			body = JSON.parse(body);
+		} catch(e) {
+			console.log('Error parsing results json:', e, body);
+			return callback(e);
+		}
+		callback(null, body);
+	});
+};
+
+List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, callback) {
+	const url = '/keystone/api/' + this.path + '/' + item.id + '/sortOrder/' + oldSortOrder + '/' + newSortOrder;
 	xhr({
 		url: url,
 		method: 'POST',
