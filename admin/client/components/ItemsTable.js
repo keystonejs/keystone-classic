@@ -16,7 +16,7 @@ const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
  */
 const itemSource = {
 	beginDrag(props) {
-		return {...props};
+		return { ...props };
 	},
 	endDrag: function (props, monitor, component) {
 
@@ -30,7 +30,7 @@ const itemSource = {
 		// dropped on a target
 		props.reorderItems(props.item, prevSortOrder, newSortOrder);
 	}
-}
+};
 /**
  * Implements drag target.
  */
@@ -132,9 +132,9 @@ const ItemsRow = React.createClass({
 		);
 	},
 	render() {
-		return this.renderRows(this.props.item)
+		return this.renderRows(this.props.item);
 	}
-})
+});
 
 const Row = DragSource('item', itemSource, collect)(DropTarget('item', itemTarget, connect)(ItemsRow));
 

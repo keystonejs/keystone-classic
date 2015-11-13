@@ -149,7 +149,7 @@ var CurrentListStore = new Store({
 		_list.deleteItem(item, (err, data) => {
 			// TODO: graceful error handling
 			if(err) {
-				return this.resetItems(this.findItem[item.id])
+				return this.resetItems(this.findItem[item.id]);
 			}
 			this.loadItems();
 		});
@@ -160,14 +160,14 @@ var CurrentListStore = new Store({
 			defaultRowAlert();
 			return this.notifyChange();
 		}
-		return _rowAlert
+		return _rowAlert;
 	},
 	reorderItems(item, prevSortOrder, newSortOrder) {
 		// send the item, previous sortOrder and the new sortOrder
 		_list.reorderItems(item, prevSortOrder, newSortOrder, (err, data) => {
 			// if err flash the row alert
 			if(err) {
-				return this.resetItems(this.findItem[item.id])
+				return this.resetItems(this.findItem[item.id]);
 			}
 			// reload with the newly ordered list
 			this.loadItems({
@@ -178,7 +178,7 @@ var CurrentListStore = new Store({
 	},
 	moveItem(prevIndex, newIndex) {
 		// moves an item up/down in the list
-		_items.results.splice(newIndex, 0, _items.results.splice(prevIndex, 1)[0])
+		_items.results.splice(newIndex, 0, _items.results.splice(prevIndex, 1)[0]);
 		this.notifyChange();
 	},
 	findItem(id) {
@@ -199,7 +199,7 @@ var CurrentListStore = new Store({
 		_rowAlert = {
 			success: false,
 			fail: this.findClonedItem(itemIndex).id
-		}
+		};
 		this.notifyChange();
 	},
 	downloadItems(format, columns) {
