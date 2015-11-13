@@ -29,14 +29,14 @@ var SecondaryNavigation = React.createClass({
 	getInitialState() {
 		return {};
 	},
-	componentDidMount: function() {
+	componentDidMount () {
 		this.handleResize();
 		window.addEventListener('resize', this.handleResize);
 	},
-	componentWillUnmount: function() {
+	componentWillUnmount () {
 		window.removeEventListener('resize', this.handleResize);
 	},
-	handleResize: function() {
+	handleResize () {
 		this.setState({
 			navIsVisible: this.props.lists && this.props.lists.length > 1 && window.innerWidth >= 768
 		});

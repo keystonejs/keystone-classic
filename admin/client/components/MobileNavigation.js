@@ -66,19 +66,19 @@ var MobileNavigation = React.createClass({
 		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
 	},
-	getInitialState() {
+	getInitialState () {
 		return {
 			barIsVisible: false,
 		};
 	},
-	componentDidMount: function() {
+	componentDidMount () {
 		this.handleResize();
 		window.addEventListener('resize', this.handleResize);
 	},
-	componentWillUnmount: function() {
+	componentWillUnmount () {
 		window.removeEventListener('resize', this.handleResize);
 	},
-	handleResize: function() {
+	handleResize () {
 		this.setState({
 			barIsVisible: window.innerWidth < 768
 		});
