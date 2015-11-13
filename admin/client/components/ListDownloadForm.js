@@ -1,10 +1,8 @@
 import React from 'react';
-
-var CurrentListStore = require('../stores/CurrentListStore');
-var Popout = require('./Popout');
-var PopoutList = require('./PopoutList');
-
-var { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } = require('elemental');
+import CurrentListStore from '../stores/CurrentListStore';
+import Popout from './Popout';
+import PopoutList from './PopoutList';
+import { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
 
 const FORMAT_OPTIONS = [
 	{ label: 'CSV', value: 'csv' },

@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 
 const buttonBaseClassname = 'Popout__footer__button Popout__footer__button--';
 

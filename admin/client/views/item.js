@@ -1,20 +1,17 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const request = require('superagent');
-
-const Columns = require('../columns');
-const Lists = require('../stores/Lists');
-
-const CreateForm = require('../components/CreateForm');
-const EditForm = require('../components/EditForm');
-const EditFormHeader = require('../components/EditFormHeader');
-const FlashMessages = require('../components/FlashMessages');
-const Footer = require('../components/Footer');
-const MobileNavigation = require('../components/MobileNavigation');
-const PrimaryNavigation = require('../components/PrimaryNavigation');
-const SecondaryNavigation = require('../components/SecondaryNavigation');
-
-const { Container, Spinner } = require('elemental');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import request from 'superagent';
+import Columns from '../columns';
+import Lists from '../stores/Lists';
+import CreateForm from '../components/CreateForm';
+import EditForm from '../components/EditForm';
+import EditFormHeader from '../components/EditFormHeader';
+import FlashMessages from '../components/FlashMessages';
+import Footer from '../components/Footer';
+import MobileNavigation from '../components/MobileNavigation';
+import PrimaryNavigation from '../components/PrimaryNavigation';
+import SecondaryNavigation from '../components/SecondaryNavigation';
+import { Container, Spinner } from 'elemental';
 
 var RelatedItemsList = React.createClass({
 	propTypes: {

@@ -1,6 +1,6 @@
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
+import React from 'react';
+import blacklist from 'blacklist';
+import classNames from 'classnames';
 
 module.exports = React.createClass({
 	displayName: 'ToolbarSection',
