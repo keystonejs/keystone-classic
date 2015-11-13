@@ -24,12 +24,17 @@ var ListControl = React.createClass({
 		if (this.props.type === 'sortable') {
 			icon += 'three-bars';
 		}
-
-		return (
+		
+		var but = (
 			<button type="button" onClick={this.props.onClick} className={className} tabIndex={tabindex}>
 				<span className={icon} />
 			</button>
 		);
+		if(this.props.dragSource) {
+			return this.props.dragSource(but);
+		} else {
+			return but;
+		}
 	},
 
 	render () {

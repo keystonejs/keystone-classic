@@ -125,6 +125,40 @@
 }
 
 
+// Dropped States
+// ------------------------------
+ItemList__row--sortable {
+	td {
+		min-width:'100px';
+	}
+}
+.ItemList__row--success {
+	background-color: lighten(@app-success, 40%);
+    -webkit-animation: fade-out-background-success 1s ease-out;
+    -webkit-animation-fill-mode: forwards;
+}
+.ItemList__row--failure {
+	background-color: darken(#FDD4AE, 5%);
+    -webkit-animation: fade-out-background-fail 1s ease-in;
+    -webkit-animation-fill-mode: forwards;
+}
+// Fade out row
+// ------------
+@-webkit-keyframes fade-out-background-success {
+	0% {  background-color: lighten(@app-success, 40%);}
+	25% {background-color: mix(lighten(@app-success, 40%), @gray-lighter, 40%);}
+	50% {background-color: mix(lighten(@app-success, 40%), @gray-lighter, 70%);}
+	95% {background-color: mix(lighten(@app-success, 40%), @gray-lighter, 95%);}
+	100% {background-color: initial;}
+}
+@-webkit-keyframes fade-out-background-fail {
+	0% { background-color: darken(#FDD4AE, 5%)}
+	25% {background-color: mix(darken(#FDD4AE, 5%), @gray-lighter, 30%);}
+	50% {background-color: mix(darken(#FDD4AE, 5%), @gray-lighter, 60%);}
+	95% {background-color: mix(darken(#FDD4AE, 5%), @gray-lighter, 85%);}
+	100% {background-color: initial;}
+}
+
 
 
 // Links
@@ -235,8 +269,6 @@
 		}
 	}
 }
-
-
 
 
 // Complementary list files
