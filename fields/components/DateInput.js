@@ -106,10 +106,9 @@ module.exports = React.createClass({
 	},
 
 	render () {
-		let { selectedDay } = this.state;
-
+		const selectedDay = this.state.value;
 		let modifiers = {
-			selected: (day) => moment(selectedDay).isSame(day),
+			selected: (day) => moment(day).format(this.props.format) === selectedDay,
 		};
 
 		return (
