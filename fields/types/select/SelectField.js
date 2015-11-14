@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import Field from '../Field';
 import React from 'react';
 import Select from 'react-select';
@@ -6,7 +5,6 @@ import { FormInput } from 'elemental';
 
 /**
  * TODO:
- * - Remove dependency on underscore
  * - Custom path support
  */
 
@@ -26,7 +24,7 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
-		var selected = _.findWhere(this.props.ops, { value: this.props.value });
+		var selected = this.props.ops.find(option => option.value === this.props.value);
 		return <FormInput noedit>{selected ? selected.label : null}</FormInput>;
 	},
 
