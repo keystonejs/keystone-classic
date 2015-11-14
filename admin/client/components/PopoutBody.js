@@ -1,6 +1,6 @@
+import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
-import React from 'react';
 
 var PopoutBody = React.createClass({
 	displayName: 'PopoutBody',

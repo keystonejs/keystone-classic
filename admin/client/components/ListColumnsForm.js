@@ -1,11 +1,8 @@
-import classnames from 'classnames';
 import React from 'react';
-import Transition from 'react-addons-css-transition-group';
-
-var CurrentListStore = require('../stores/CurrentListStore');
-var Popout = require('./Popout');
-var PopoutList = require('./PopoutList');
-var { Button, Checkbox, InputGroup, SegmentedControl } = require('elemental');
+import CurrentListStore from '../stores/CurrentListStore';
+import Popout from './Popout';
+import PopoutList from './PopoutList';
+import { Button, InputGroup } from 'elemental';
 
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
@@ -36,7 +33,7 @@ var ListColumnsForm = React.createClass({
 	},
 
 	toggleColumn (path, value) {
-		let newColumns = this.state.selectedColumns;
+		let newColumns = Object.assign({}, this.state.selectedColumns);
 
 		if (value) {
 			newColumns[path] = value;

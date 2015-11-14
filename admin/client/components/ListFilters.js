@@ -1,10 +1,8 @@
-const React = require('react');
-const classNames = require('classnames');
-const filterComponents = require('../filters');
-const CurrentListStore = require('../stores/CurrentListStore');
-
-const Popout = require('./Popout');
-const { Pill } = require('elemental');
+import React from 'react';
+import filterComponents from '../filters';
+import CurrentListStore from '../stores/CurrentListStore';
+import Popout from './Popout';
+import { Pill } from 'elemental';
 
 const Filter = React.createClass({
 	propTypes: {

@@ -1,9 +1,7 @@
-const blacklist = require('blacklist');
-const Columns = require('../columns');
-const CurrentListStore = require('../stores/CurrentListStore');
-const ListControl = require('./ListControl');
-const React = require('react');
-const { Alert } = require('elemental');
+import React from 'react';
+import Columns from '../columns';
+import CurrentListStore from '../stores/CurrentListStore';
+import ListControl from './ListControl';
 
 const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 

@@ -1,12 +1,11 @@
-var moment = require('moment');
-var React = require('react');
-var Fields = require('../fields');
-var FormHeading = require('./FormHeading');
-var AltText = require('./AltText');
-var FooterBar = require('./FooterBar');
-var InvalidFieldType = require('./InvalidFieldType');
-
-var { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } = require('elemental');
+import React from 'react';
+import moment from 'moment';
+import Fields from '../fields';
+import FormHeading from './FormHeading';
+import AltText from './AltText';
+import FooterBar from './FooterBar';
+import InvalidFieldType from './InvalidFieldType';
+import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
 
 var EditForm = React.createClass({
 	displayName: 'EditForm',
@@ -24,7 +23,7 @@ var EditForm = React.createClass({
 		return props;
 	},
 	handleChange (event) {
-		var values = this.state.values;
+		var values = Object.assign({}, this.state.values);
 		values[event.path] = event.value;
 		this.setState({
 			values: values
@@ -83,20 +82,21 @@ var EditForm = React.createClass({
 	},
 
 	renderFormElements () {
-		var elements = [];
 		var headings = 0;
-		this.props.list.uiElements.map((el) => {
+
+		return this.props.list.uiElements.map((el) => {
 			if (el.type === 'heading') {
 				headings++;
 				el.options.values = this.state.values;
 				el.key = 'h-' + headings;
-				elements.push(React.createElement(FormHeading, el));
-			} else if (el.type === 'field') {
+				return React.createElement(FormHeading, el);
+			}
+
+			if (el.type === 'field') {
 				var field = this.props.list.fields[el.field];
 				var props = this.getFieldProps(field);
 				if ('function' !== typeof Fields[field.type]) {
-					elements.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
-					return;
+					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
 				}
 				if (props.dependsOn) {
 					props.currentDependencies = {};
@@ -105,10 +105,9 @@ var EditForm = React.createClass({
 					}, this);
 				}
 				props.key = field.path;
-				elements.push(React.createElement(Fields[field.type], props));
+				return React.createElement(Fields[field.type], props);
 			}
 		}, this);
-		return elements;
 	},
 
 	renderFooterBar () {
@@ -141,7 +140,6 @@ var EditForm = React.createClass({
 
 		var elements = [];
 		var data = {};
-		var label;
 
 		if (this.props.list.tracking.createdAt) {
 			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
@@ -156,7 +154,6 @@ var EditForm = React.createClass({
 
 		if (this.props.list.tracking.createdBy) {
 			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
-			var label = this.props.list.tracking.createdAt ? 'by' : 'Created by';
 			if (data.createdBy) {
 				// todo: harden logic around user name
 				elements.push(
@@ -180,7 +177,6 @@ var EditForm = React.createClass({
 
 		if (this.props.list.tracking.updatedBy) {
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
-			var label = this.props.list.tracking.createdAt ? 'by' : 'Updated by';
 			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
 				elements.push(
 					<FormField key="updatedBy" label="Updated by">

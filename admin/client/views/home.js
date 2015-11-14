@@ -1,26 +1,13 @@
 'use strict';
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { Container } = require('elemental');
-const xhr = require('xhr');
-const { plural } = require('../utils');
-const Footer = require('../components/Footer');
-const MobileNavigation = require('../components/MobileNavigation');
-const PrimaryNavigation = require('../components/PrimaryNavigation');
-
-const ICON_TAGS_BOOK = ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'];
-const ICON_TAGS_BRIEFCASE = ['businesses', 'companies', 'listings', 'organizations', 'partners'];
-const ICON_TAGS_CALENDAR = ['events', 'dates'];
-const ICON_TAGS_CLOCK = ['classes', 'hours', 'times'];
-const ICON_TAGS_FILE_MEDIA = ['gallery', 'galleries', 'images', 'photos', 'pictures'];
-const ICON_TAGS_FILE_TEXT = ['attachments', 'docs', 'documents', 'files'];
-const ICON_TAGS_LOCATION = ['locations', 'markers', 'places'];
-const ICON_TAGS_MAIL = ['emails', 'enquiries'];
-const ICON_TAGS_MEGAPHONE = ['broadcasts', 'jobs', 'talks'];
-const ICON_TAGS_ORGANIZATION = ['contacts', 'customers', 'groups', 'members', 'people', 'speakers', 'teams', 'users'];
-const ICON_TAGS_PACKAGE = ['boxes', 'items', 'packages', 'parcels'];
-const ICON_TAGS_TAG = ['tags'];
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Container } from 'elemental';
+import xhr from 'xhr';
+import { plural } from '../utils';
+import Footer from '../components/Footer';
+import MobileNavigation from '../components/MobileNavigation';
+import PrimaryNavigation from '../components/PrimaryNavigation';
 
 var listsByKey = {};
 Keystone.lists.forEach((list) => {
@@ -81,6 +68,33 @@ var HomeView = React.createClass({
 		});
 	},
 
+	getHeadingIconClasses (navSectionKey) {
+		const icons = [
+			{ icon: 'book', sections: ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'] },
+			{ icon: 'briefcase', sections: ['businesses', 'companies', 'listings', 'organizations', 'partners'] },
+			{ icon: 'calendar', sections: ['events', 'dates'] },
+			{ icon: 'clock', sections: ['classes', 'hours', 'times'] },
+			{ icon: 'file-media', sections: ['gallery', 'galleries', 'images', 'photos', 'pictures'] },
+			{ icon: 'file-text', sections: ['attachments', 'docs', 'documents', 'files'] },
+			{ icon: 'location', sections: ['locations', 'markers', 'places'] },
+			{ icon: 'mail', sections: ['emails', 'enquiries'] },
+			{ icon: 'megaphone', sections: ['broadcasts', 'jobs', 'talks'] },
+			{ icon: 'organization', sections: ['contacts', 'customers', 'groups', 'members', 'people', 'speakers', 'teams', 'users'] },
+			{ icon: 'package', sections: ['boxes', 'items', 'packages', 'parcels'] },
+			{ icon: 'tag', sections: ['tags'] }
+		];
+
+		const classes = icons
+			.filter(obj => obj.sections.indexOf(navSectionKey) !== -1)
+			.map(obj => `octicon-${obj.icon}`);
+
+		if (!classes.length) {
+			classes.push('octicon-primitive-dot');
+		}
+
+		return ['dashboard-group__heading-icon', 'octicon', ...classes].join(' ');
+	},
+
 	renderFlatNav () {
 		let lists = this.props.navLists.map((list) => {
 			var href = list.external ? list.path : '/keystone/' + list.path;
@@ -94,26 +108,10 @@ var HomeView = React.createClass({
 		return (
 			<div>
 				{this.props.navSections.map((navSection) => {
-					var headingIconClass = 'dashboard-group__heading-icon octicon octicon-';
-
-					if (ICON_TAGS_BRIEFCASE.indexOf(navSection.key) !== -1) { headingIconClass += 'briefcase'; }
-					else if (ICON_TAGS_BOOK.indexOf(navSection.key) !== -1) { headingIconClass += 'book'; }
-					else if (ICON_TAGS_CALENDAR.indexOf(navSection.key) !== -1) { headingIconClass += 'calendar'; }
-					else if (ICON_TAGS_CLOCK.indexOf(navSection.key) !== -1) { headingIconClass += 'clock'; }
-					else if (ICON_TAGS_FILE_MEDIA.indexOf(navSection.key) !== -1) { headingIconClass += 'file-media'; }
-					else if (ICON_TAGS_FILE_TEXT.indexOf(navSection.key) !== -1) { headingIconClass += 'file-text'; }
-					else if (ICON_TAGS_LOCATION.indexOf(navSection.key) !== -1) { headingIconClass += 'location'; }
-					else if (ICON_TAGS_MAIL.indexOf(navSection.key) !== -1) { headingIconClass += 'mail'; }
-					else if (ICON_TAGS_MEGAPHONE.indexOf(navSection.key) !== -1) { headingIconClass += 'megaphone'; }
-					else if (ICON_TAGS_ORGANIZATION.indexOf(navSection.key) !== -1) { headingIconClass += 'organization'; }
-					else if (ICON_TAGS_PACKAGE.indexOf(navSection.key) !== -1) { headingIconClass += 'package'; }
-					else if (ICON_TAGS_TAG.indexOf(navSection.key) !== -1) { headingIconClass += 'tag'; }
-					else { headingIconClass += 'primitive-dot'; }
-
 					return (
 						<div className="dashboard-group" key={navSection.key}>
 							<div className="dashboard-group__heading">
-								<span className={headingIconClass} />
+								<span className={this.getHeadingIconClasses(navSection.key)} />
 								{navSection.label}
 							</div>
 							<div className="dashboard-group__lists">
@@ -125,23 +123,25 @@ var HomeView = React.createClass({
 						</div>
 					);
 				})}
-				{() => {
-					if (!this.props.orphanedLists.length) return;
-					return (
-						<div className="dashboard-group">
-							<div className="dashboard-group__heading">
-								<span className="dashboard-group__heading-icon octicon octicon-database" />
-								Other
-							</div>
-							<div className="dashboard-group__lists">
-								{this.props.orphanedLists.map((list) => {
-									var href = list.external ? list.path : '/keystone/' + list.path;
-									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
-								})}
-							</div>
-						</div>
-					);
-				}()}
+				{this.renderOrphanedLists()}
+			</div>
+		);
+	},
+
+	renderOrphanedLists () {
+		if (!this.props.orphanedLists.length) return;
+		return (
+			<div className="dashboard-group">
+				<div className="dashboard-group__heading">
+					<span className="dashboard-group__heading-icon octicon octicon-database" />
+					Other
+				</div>
+				<div className="dashboard-group__lists">
+					{this.props.orphanedLists.map((list) => {
+						var href = list.external ? list.path : '/keystone/' + list.path;
+						return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
+					})}
+				</div>
 			</div>
 		);
 	},

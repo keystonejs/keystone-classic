@@ -1,9 +1,7 @@
 'use strict';
 
-var listToArray = require('list-to-array');
-var Store = require('store-prototype');
-var utils = require('../utils');
-var List = require('../lib/List');
+import Store from 'store-prototype';
+import List from '../lib/List';
 
 var _list = new List(Keystone.list);
 var _ready = false;
@@ -150,7 +148,6 @@ var filtersFromUrlParams = function () {
 	// Pick simple filters from url params
 	// i.e. ?title={"mode":"contains","inverted":false,"value":"aaa"}
 	// TODO: this should use react-router, or something pretty to parse
-	var filters = [];
 	var qs = _.object(
 		_.compact(
 			_.map(

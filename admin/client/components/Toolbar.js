@@ -1,7 +1,5 @@
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-var { Container } = require('elemental');
+import React from 'react';
+import { Container } from 'elemental';
 
 module.exports = React.createClass({
 	displayName: 'Toolbar',

@@ -1,5 +1,5 @@
-var evalDependsOn = require('../../../fields/utils/evalDependsOn.js');
-var React = require('react');
+import React from 'react';
+import evalDependsOn from '../../../fields/utils/evalDependsOn';
 
 module.exports = React.createClass({
 

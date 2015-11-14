@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import classNames from 'classnames';
 import moment from 'moment';
 import React from 'react';
@@ -56,10 +55,9 @@ var DateFilter = React.createClass({
 		});
 	},
 	selectMode (mode) {
-		// TODO: implement w/o underscore
 		this.setState({
 			modeValue: mode,
-			modeLabel: _.findWhere(MODE_OPTIONS, { value: mode }).label
+			modeLabel: MODE_OPTIONS.find(option => option.value === mode).label
 		});
 
 		// focus the text input after a mode selection is made
@@ -73,15 +71,15 @@ var DateFilter = React.createClass({
 
 		// Change the current month only if the value entered by the user is a valid
 		// date, according to the `L` format
-		if (moment(value, "L", true).isValid()) {
-		  month = moment(value, "L").toDate();
+		if (moment(value, 'L', true).isValid()) {
+		  month = moment(value, 'L').toDate();
 		}
 
 		this.setState({ value, month }, this.showCurrentDate);
 
 	},
 	selectDay (e, day, modifiers) {
-		if (modifiers.indexOf("disabled") > -1) return;
+		if (modifiers.indexOf('disabled') > -1) return;
 
 		this.setState({
 			value: day
@@ -108,7 +106,7 @@ var DateFilter = React.createClass({
 		const modifiers = {
 			'selected': (day) => moment(value).isSame(day)
 		};
-		const selectedDay = moment(this.state.value, "L", true).toDate();
+		const selectedDay = moment(this.state.value, 'L', true).toDate();
 
 		if (modeValue === 'between') {
 			controls = (

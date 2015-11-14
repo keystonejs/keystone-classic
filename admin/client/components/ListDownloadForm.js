@@ -1,12 +1,8 @@
-import classnames from 'classnames';
 import React from 'react';
-import Transition from 'react-addons-css-transition-group';
-
-var CurrentListStore = require('../stores/CurrentListStore');
-var Popout = require('./Popout');
-var PopoutList = require('./PopoutList');
-
-var { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } = require('elemental');
+import CurrentListStore from '../stores/CurrentListStore';
+import Popout from './Popout';
+import PopoutList from './PopoutList';
+import { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
 
 const FORMAT_OPTIONS = [
 	{ label: 'CSV', value: 'csv' },
@@ -43,7 +39,7 @@ var ListDownloadForm = React.createClass({
 		});
 	},
 	toggleColumn (column, value) {
-		let newColumns = this.state.selectedColumns;
+		let newColumns = Object.assign({}, this.state.selectedColumns);
 		if (value) {
 			newColumns[column] = value;
 		} else {
@@ -101,7 +97,6 @@ var ListDownloadForm = React.createClass({
 	},
 
 	render () {
-		let { list } = this.props;
 		let { useCurrentColumns } = this.state;
 
 		return (

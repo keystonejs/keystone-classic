@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import React from 'react';
 
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
@@ -26,10 +25,9 @@ var NumberFilter = React.createClass({
 	},
 
 	toggleMode (mode) {
-		// TODO: implement w/o underscore
 		this.setState({
 			modeValue: mode,
-			modeLabel: _.findWhere(CONTROL_OPTIONS, { value: mode }).label
+			modeLabel: CONTROL_OPTIONS.find(option => option.value === mode).label
 		});
 
 		// focus the text input after a mode selection is made

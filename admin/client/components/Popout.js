@@ -1,6 +1,4 @@
-import classnames from 'classnames';
 import React from 'react';
-import { Button, Checkbox, InputGroup, SegmentedControl } from 'elemental';
 import Portal from './Portal';
 import Transition from 'react-addons-css-transition-group';
 
@@ -26,6 +24,10 @@ var Popout = React.createClass({
 		return {
 			width: 320,
 		};
+	},
+
+	getPortalDOMNode () {
+		return this.refs.portal.getPortalDOMNode();
 	},
 
 	componentDidMount () {
@@ -80,8 +82,8 @@ var Popout = React.createClass({
 
 	render () {
 		return (
-			<Portal className="Popout-wrapper">
-				<Transition className="Popout-animation" transitionName="Popout" component="div">
+			<Portal className="Popout-wrapper" ref="portal">
+				<Transition className="Popout-animation" transitionEnterTimeout={200} transitionLeaveTimeout={200} transitionName="Popout" component="div">
 					{this.renderPopout()}
 				</Transition>
 				{this.renderBlockout()}

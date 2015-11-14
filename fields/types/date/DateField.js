@@ -4,6 +4,10 @@ import moment from 'moment';
 import React from 'react';
 import { Button, InputGroup, FormInput } from 'elemental';
 
+/*
+TODO: Implement yearRange Prop, or deprecate for max / min values (better)
+*/
+
 const DEFAULT_INPUT_FORMAT = 'YYYY-MM-DD';
 const DEFAULT_FORMAT_STRING = 'Do MMM YYYY';
 
@@ -18,7 +22,7 @@ module.exports = Field.create({
 		note: React.PropTypes.string,
 		onChange: React.PropTypes.func,
 		path: React.PropTypes.string,
-		value: React.PropTypes.date,
+		value: React.PropTypes.string,
 	},
 
 	getDefaultProps () {
@@ -31,7 +35,7 @@ module.exports = Field.create({
 	valueChanged (value) {
 		this.props.onChange({
 			path: this.props.path,
-			value: this.isValid(value) ? value : null
+			value: value,
 		});
 	},
 
@@ -50,7 +54,7 @@ module.exports = Field.create({
 	},
 
 	setToday () {
-		this.valueChanged(new Date());
+		this.valueChanged(this.moment(new Date()).format(this.props.inputFormat));
 	},
 
 	renderValue () {
@@ -58,10 +62,12 @@ module.exports = Field.create({
 	},
 
 	renderField () {
+		let value = moment(this.props.value);
+		value = value.isValid() ? value.format(this.props.inputFormat) : this.props.value;
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
-					<DateInput ref="dateInput" name={this.props.path} format={this.props.inputFormat} value={this.state.value} onChange={this.valueChanged} yearRange={this.props.yearRange} />
+					<DateInput ref="dateInput" name={this.props.path} format={this.props.inputFormat} value={value} onChange={this.valueChanged} />
 				</InputGroup.Section>
 				<InputGroup.Section>
 					<Button onClick={this.setToday}>Today</Button>

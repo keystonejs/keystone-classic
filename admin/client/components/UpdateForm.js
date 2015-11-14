@@ -1,12 +1,8 @@
-const React = require('react');
-const Select = require ('react-select');
-const Fields = require('../fields');
-const { plural } = require('../utils');
-const { Alert, BlankState, Button, Form, Modal } = require('elemental');
-
-function pluck(arr, key) {
-	return arr.map(obj => obj[key]);
-}
+import React from 'react';
+import Select from 'react-select';
+import Fields from '../fields';
+import { plural } from '../utils';
+import { BlankState, Button, Form, Modal } from 'elemental';
 
 var UpdateForm = React.createClass({
 	displayName: 'UpdateForm',
@@ -26,7 +22,7 @@ var UpdateForm = React.createClass({
 			fields: []
 		};
 	},
-	componentDidUpdate (prevProps, prevState) {
+	componentDidUpdate () {
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}
@@ -61,7 +57,7 @@ var UpdateForm = React.createClass({
 	handleChange (value) {
 		console.log('handleChange:', value);
 	},
-	handleClose (value) {
+	handleClose () {
 		this.setState({
 			fields: []
 		});
@@ -69,7 +65,7 @@ var UpdateForm = React.createClass({
 	},
 
 	renderFields () {
-		let { itemIds, list } = this.props;
+		let { list } = this.props;
 		let { fields } = this.state;
 		let formFields = [];
 		let focusRef;

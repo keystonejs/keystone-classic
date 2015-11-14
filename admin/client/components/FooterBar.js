@@ -1,5 +1,5 @@
-var React = require('react');
-var blacklist = require('blacklist');
+import React from 'react';
+import blacklist from 'blacklist';
 
 var FooterBar = React.createClass({
 	getInitialState () {
@@ -75,7 +75,7 @@ var FooterBar = React.createClass({
 			position: 'relative'
 		};
 		var footerProps = blacklist(this.props, 'children', 'style');
-		var footerStyle = Object.assign(this.props.style || {}, {
+		var footerStyle = Object.assign({}, this.props.style || {}, {
 			position: this.state.position,
 			top: this.state.top,
 			width: this.state.width,
