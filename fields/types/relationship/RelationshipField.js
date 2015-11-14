@@ -85,7 +85,7 @@ module.exports = Field.create({
 				value: null,
 			});
 		};
-		values = this.props.many ? [values] : values;
+		values = values.split(",");
 		let cachedValues = values.map(i => this._itemsCache[i]).filter(i => i);
 		if (cachedValues.length === values.length) {
 			this.setState({
