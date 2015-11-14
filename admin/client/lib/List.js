@@ -175,8 +175,8 @@ List.prototype.deleteItem = function (item, callback) {
 	});
 };
 
-List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, callback) {
-	const url = '/keystone/api/' + this.path + '/' + item.id + '/sortOrder/' + oldSortOrder + '/' + newSortOrder;
+List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOptions, callback) {
+	const url = '/keystone/api/' + this.path + '/' + item.id + '/sortOrder/' + oldSortOrder + '/' + newSortOrder + '/' + buildQueryString(pageOptions);
 	xhr({
 		url: url,
 		method: 'POST',

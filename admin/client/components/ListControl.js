@@ -4,6 +4,7 @@ var classnames = require('classnames');
 var ListControl = React.createClass({
 
 	propTypes: {
+		dragSource: React.PropTypes.func,
 		onClick: React.PropTypes.func,
 		type: React.PropTypes.oneOf(['check', 'delete', 'sortable'])
 	},
@@ -25,15 +26,15 @@ var ListControl = React.createClass({
 			icon += 'three-bars';
 		}
 		
-		var but = (
+		var renderButton = (
 			<button type="button" onClick={this.props.onClick} className={className} tabIndex={tabindex}>
 				<span className={icon} />
 			</button>
 		);
 		if(this.props.dragSource) {
-			return this.props.dragSource(but);
+			return this.props.dragSource(renderButton);
 		} else {
-			return but;
+			return renderButton;
 		}
 	},
 

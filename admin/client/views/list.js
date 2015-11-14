@@ -1,32 +1,29 @@
 'use strict';
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const classnames = require('classnames');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import classnames from 'classnames';
+import Lists from '../stores/Lists';
+import CurrentListStore from '../stores/CurrentListStore';
+import Columns from '../columns';
+import CreateForm from '../components/CreateForm';
+import FlashMessages from '../components/FlashMessages';
+import Footer from '../components/Footer';
+import ListColumnsForm from '../components/ListColumnsForm';
+import ListControl from '../components/ListControl';
+import ListDownloadForm from '../components/ListDownloadForm';
+import ListFilters from '../components/ListFilters';
+import ListFiltersAdd from '../components/ListFiltersAdd';
+import ListSort from '../components/ListSort';
+import ItemsTable from '../components/ItemsTable';
 
-const Lists = require('../stores/Lists');
-const CurrentListStore = require('../stores/CurrentListStore');
-const Columns = require('../columns');
+import MobileNavigation from '../components/MobileNavigation';
+import PrimaryNavigation from '../components/PrimaryNavigation';
+import SecondaryNavigation from '../components/SecondaryNavigation';
+import UpdateForm from '../components/UpdateForm';
+import { Alert, BlankState, Button, Container, Dropdown, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+import { plural } from '../utils';
 
-const CreateForm = require('../components/CreateForm');
-const FlashMessages = require('../components/FlashMessages');
-const Footer = require('../components/Footer');
-const ListColumnsForm = require('../components/ListColumnsForm');
-const ListControl = require('../components/ListControl');
-const ListDownloadForm = require('../components/ListDownloadForm');
-const ListFilters = require('../components/ListFilters');
-const ListFiltersAdd = require('../components/ListFiltersAdd');
-const ListSort = require('../components/ListSort');
-const ItemsTable = require('../components/ItemsTable');
-const MobileNavigation = require('../components/MobileNavigation');
-const PrimaryNavigation = require('../components/PrimaryNavigation');
-const SecondaryNavigation = require('../components/SecondaryNavigation');
-const UpdateForm = require('../components/UpdateForm');
-
-
-const { Alert, BlankState, Button, Container, Dropdown, FormInput, InputGroup, Pagination, Spinner } = require('elemental');
-
-const { plural } = require('../utils');
 
 const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
@@ -372,13 +369,13 @@ const ListView = React.createClass({
 			WebkitTransition: 'max-width 160ms ease-out',
 		};
 		if (!this.state.constrainTableWidth) containerStyle['maxWidth'] = '100%';
-
+		const Table = this.state.list.sortable ? ItemsTable.Sortable : ItemsTable
 		return (
 			<div>
 				{this.renderHeader()}
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
-					<ItemsTable
+					<Table
 						list={this.state.list} 
 						columns={this.state.columns} 
 						items={this.state.items}

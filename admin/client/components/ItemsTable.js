@@ -1,142 +1,17 @@
-const classnames = require('classnames');
+'strict'
 
-const Columns = require('../columns');
-const CurrentListStore = require('../stores/CurrentListStore');
-const ListControl = require('./ListControl');
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { DragDropContext, DropTarget, DragSource } = require('react-dnd');
-const HTML5Backend = require('react-dnd-html5-backend');
+import React from 'react';
+import classnames from 'classnames';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
+import Columns from '../columns';
+import CurrentListStore from '../stores/CurrentListStore';
+import ListControl from './ListControl';
+import TableRow from './ItemsTableRow'
 
 const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
-/**
- * Implements drag source.
- */
-const itemSource = {
-	beginDrag(props) {
-		return { ...props };
-	},
-	endDrag: function (props, monitor, component) {
-
-		if (!monitor.didDrop()) {
-			return CurrentListStore.resetItems(CurrentListStore.findItem(props.id).index);
-		}
-		
-		const prevSortOrder = props.sortOrder;
-		const newSortOrder = CurrentListStore.findClonedItem(props.index).sortOrder;
-		
-		// dropped on a target
-		props.reorderItems(props.item, prevSortOrder, newSortOrder);
-	}
-};
-/**
- * Implements drag target.
- */
-const itemTarget = {
-	
-	drop(props, monitor, component) {
-		return props;
-	},
-	hover(props, monitor, component) {
-		
-		// reset row alerts
-		if(props.rowAlert.success || props.rowAlert.fail) {
-			CurrentListStore.rowAlert('reset');
-		}
-		
-		const dragged = monitor.getItem().index;
-		const over = props.index;
-
-		// self
-		if (dragged === over) {
-		  return;
-		}
-
-		props.moveItem(dragged, over);
-		monitor.getItem().index = over;
-	}
-};
-
-/**
- * Specifies the props to inject into your component.
- */
-function collect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
-    connectDragPreview: connect.dragPreview(),
-  };
-}
-
-function connect(connect) {
-	 return {
-		 connectDropTarget: connect.dropTarget()
-	};
-};
-
-const ItemsRow = React.createClass({
-	propTypes: {
-		columns: React.PropTypes.array,
-		items: React.PropTypes.object,
-		list: React.PropTypes.object,
-		index: React.PropTypes.number.isRequired,
-		id: React.PropTypes.any.isRequired,
-		// Injected by React DnD:
-		isDragging: React.PropTypes.bool.isRequired,
-		connectDragSource: React.PropTypes.func.isRequired,
-		connectDropTarget: React.PropTypes.func.isRequired,
-		connectDragPreview: React.PropTypes.func.isRequired
-	},
-	deleteItem (item, e) {
-		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
-		CurrentListStore.deleteItem(item);
-	},
-	renderRows (item) {
-		let itemId = item.id;
-		let rowClassname = classnames({
-			'ItemList__row--sortable': this.props.isDragging,
-			'ItemList__row--selected': this.props.checkedItems[itemId],
-			'ItemList__row--manage': this.props.manageMode,
-			'ItemList__row--success': this.props.rowAlert.success === itemId,
-			'ItemList__row--failure': this.props.rowAlert.fail === itemId,
-		});
-		var cells = this.props.columns.map((col, i) => {
-			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			var linkTo = !i ? `/keystone/${this.props.list.path}/${itemId}` : undefined;
-			return <ColumnType key={col.path} list={this.props.list} col={col} data={item} linkTo={linkTo} />;
-		});
-		// add sortable icon when applicable
-		if (this.props.list.sortable) {
-			cells.unshift(<ListControl key="_sort" type="sortable" dragSource={this.props.connectDragSource} />);
-		}
-		// add delete/check icon when applicable
-		if (!this.props.list.nodelete) {
-			cells.unshift(this.props.manageMode ? (
-				<ListControl key="_check" type="check" active={this.props.checkedItems[itemId]} />
-			) : (
-				<ListControl key="_delete" onClick={(e) => this.deleteItem(item, e)} type="delete" />
-			));
-		}
-		
-		var style = this.props.isDragging ? {
-			borderLeft: '2px solid #1385e5',
-			color: 'black',
-			backgroundColor: 'white',
-			cursor: 'move',
-			opacity: 0
-		} : {};		
-		return (
-			this.props.connectDragPreview(this.props.connectDropTarget(<tr style={{ ...style }} key={'i' + item.id} onClick={this.props.manageMode ? (e) => this.props.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>))
-		);
-	},
-	render() {
-		return this.renderRows(this.props.item);
-	}
-});
-
-const Row = DragSource('item', itemSource, collect)(DropTarget('item', itemTarget, connect)(ItemsRow));
 
 const ItemsTable = React.createClass({
 	propTypes: {
@@ -154,7 +29,7 @@ const ItemsTable = React.createClass({
 		if (this.props.list.sortable) {
 			cols.unshift(<col width={CONTROL_COLUMN_WIDTH} key="sortable" />);
 		}
-		return <colgroup>{cols}</colgroup>;
+		return <colgroup width={CONTROL_COLUMN_WIDTH}>{cols}</colgroup>;
 	},
 	renderHeaders () {
 		var cells = this.props.columns.map((col, i) => {
@@ -170,6 +45,7 @@ const ItemsTable = React.createClass({
 	},
 	render () {
 		if (!this.props.items.results.length) return null;
+		const Row = this.props.list.sortable ? TableRow.Sortable : TableRow
 		return (
 			<div className="ItemList-wrapper">
 				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
@@ -180,10 +56,10 @@ const ItemsTable = React.createClass({
 							return (
 								<Row key={item.id}
 									index={i}
-									sortOrder={item.sortOrder}
+									sortOrder={item.sortOrder || 0}
 									id={item.id}
 									item={item}
-									{...this.props}
+									{ ...this.props }
 								/>
 							);
 						})}
@@ -194,4 +70,6 @@ const ItemsTable = React.createClass({
 	}
 });
 
-module.exports = DragDropContext(HTML5Backend)(ItemsTable);
+module.exports = exports = ItemsTable;
+
+exports.Sortable = DragDropContext(HTML5Backend)(ItemsTable);
