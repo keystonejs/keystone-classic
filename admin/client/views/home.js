@@ -123,23 +123,25 @@ var HomeView = React.createClass({
 						</div>
 					);
 				})}
-				{() => {
-					if (!this.props.orphanedLists.length) return;
-					return (
-						<div className="dashboard-group">
-							<div className="dashboard-group__heading">
-								<span className="dashboard-group__heading-icon octicon octicon-database" />
-								Other
-							</div>
-							<div className="dashboard-group__lists">
-								{this.props.orphanedLists.map((list) => {
-									var href = list.external ? list.path : '/keystone/' + list.path;
-									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
-								})}
-							</div>
-						</div>
-					);
-				}()}
+				{this.renderOrphanedLists()}
+			</div>
+		);
+	},
+
+	renderOrphanedLists () {
+		if (!this.props.orphanedLists.length) return;
+		return (
+			<div className="dashboard-group">
+				<div className="dashboard-group__heading">
+					<span className="dashboard-group__heading-icon octicon octicon-database" />
+					Other
+				</div>
+				<div className="dashboard-group__lists">
+					{this.props.orphanedLists.map((list) => {
+						var href = list.external ? list.path : '/keystone/' + list.path;
+						return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
+					})}
+				</div>
 			</div>
 		);
 	},
