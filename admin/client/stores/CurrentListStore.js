@@ -7,6 +7,7 @@ var _list = new List(Keystone.list);
 var _ready = false;
 var _loading = false;
 var _items = {};
+var _itemsResultsClone = [];
 
 var active = {
 	columns: _list.expandColumns(Keystone.list.defaultColumns),
@@ -19,8 +20,17 @@ var page = defaultPage();
 
 function defaultPage () {
 	return {
-		size: 100,
+		size: 10,
 		index: 1
+	};
+}
+
+var _rowAlert = defaultRowAlert();
+
+function defaultRowAlert () {
+	return _rowAlert = {
+		success: false,
+		fail: false
 	};
 }
 
@@ -104,8 +114,9 @@ var CurrentListStore = new Store({
 	isReady () {
 		return _ready;
 	},
-	loadItems () {
+	loadItems (options = {}) {
 		_loading = true;
+		defaultRowAlert();
 		_list.loadItems({
 			search: active.search,
 			filters: active.filters,
@@ -118,9 +129,20 @@ var CurrentListStore = new Store({
 			if (items) {
 				_ready = true;
 				_items = items;
+				_itemsResultsClone =  items.results.slice(0);
+				
+				if(options.success && options.id) {
+					// flashes a success background on the row
+					_rowAlert.success = options.id;
+				}
+				if(options.fail && options.id) {
+					// flashes a failure background on the row
+					_rowAlert.fail = options.id;
+				}
 			}
 			this.notifyChange();
 		});
+		
 	},
 	getItems () {
 		return _items;
@@ -128,8 +150,73 @@ var CurrentListStore = new Store({
 	deleteItem (item) {
 		_list.deleteItem(item, (err, data) => {
 			// TODO: graceful error handling
+			if(err) {
+				return this.resetItems(this.findItem[item.id]);
+			}
 			this.loadItems();
 		});
+	},
+	rowAlert (reset = false) {
+		//  reset the alerts or return the object
+		if(reset) {
+			defaultRowAlert();
+			return this.notifyChange();
+		}
+		return _rowAlert;
+	},
+	reorderItems (item, prevSortOrder, newSortOrder) {
+		// send the item, previous sortOrder and the new sortOrder
+		// we should get a new list in return
+		_list.reorderItems(
+			item,
+			prevSortOrder,
+			newSortOrder,
+			{
+				search: active.search,
+				filters: active.filters,
+				sort: active.sort,
+				columns: active.columns,
+				page: page
+			},
+			(err, items) => {
+				// if err flash the row alert
+				if(err) {
+					return this.resetItems(this.findItem[item.id]);
+				}
+				if('object' === typeof items && items.results) {
+					_items = items;
+					_itemsResultsClone =  items.results.slice(0);
+					_rowAlert.success = item.id;
+				}	
+				return this.notifyChange();
+			}
+		);
+	},
+	moveItem (prevIndex, newIndex) {
+		// moves an item up/down in the list
+		_items.results.splice(newIndex, 0, _items.results.splice(prevIndex, 1)[0]);
+		this.notifyChange();
+	},
+	findItem (id) {
+		// find an item in the clone by id
+		const item = _itemsResultsClone.filter(c => c.id === id)[0];
+		return {
+			item,
+			index: _itemsResultsClone.indexOf(item)
+		};
+	},
+	findClonedItem (index) {
+		// fing item in clone by index
+		return _itemsResultsClone[index];
+	},
+	resetItems (itemIndex) {
+		// reset the list if dragout or error
+		_items.results = _itemsResultsClone.slice(0);
+		_rowAlert = {
+			success: false,
+			fail: this.findClonedItem(itemIndex).id
+		};
+		this.notifyChange();
 	},
 	downloadItems (format, columns) {
 		var url = _list.getDownloadURL({
