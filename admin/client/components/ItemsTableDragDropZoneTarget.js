@@ -24,7 +24,7 @@ var ItemsTableDragDropZoneTarget = React.createClass({
 		if (isOver) {
 			className += ( page === CurrentListStore.getCurrentPage() ) ? ' is-available ' : ' is-waiting ';
 		}
-		return this.props.connectDropTarget(<div className={className} onClick={(e) => { CurrentListStore.setCurrentPage(page); }} >{pageItems}</div>)
+		return this.props.connectDropTarget(<div className={className} onClick={(e) => { CurrentListStore.setCurrentPage(page); }} >{pageItems}</div>);
 	}
 });
 

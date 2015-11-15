@@ -4,8 +4,8 @@ import classnames from 'classnames';
 import Columns from '../columns';
 import CurrentListStore from '../stores/CurrentListStore';
 import ListControl from './ListControl';
-import TableRow from './ItemsTableRow'
-import DrapDrop from './ItemsTableDragDrop'
+import TableRow from './ItemsTableRow';
+import DrapDrop from './ItemsTableDragDrop';
 
 const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 

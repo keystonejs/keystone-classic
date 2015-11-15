@@ -81,7 +81,7 @@ module.exports = exports = ItemsRow;
  */
 const dragItem = {
 	beginDrag (props) {
-		let send = { ...props }
+		let send = { ...props };
 		CurrentListStore.setDragBase(props.item, props.index);
 		return { ...send };
 	},

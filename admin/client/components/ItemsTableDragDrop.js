@@ -1,8 +1,8 @@
 import React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { Sortable } from './ItemsTableRow'
-import DropZone from './ItemsTableDragDropZone'
+import { Sortable } from './ItemsTableRow';
+import DropZone from './ItemsTableDragDropZone';
 
 import CurrentListStore from '../stores/CurrentListStore';
 import classnames from 'classnames';

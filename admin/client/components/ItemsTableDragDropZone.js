@@ -1,6 +1,6 @@
 import React from 'react';
 import CurrentListStore from '../stores/CurrentListStore';
-import DropZoneTarget from './ItemsTableDragDropZoneTarget'
+import DropZoneTarget from './ItemsTableDragDropZoneTarget';
 import classnames from 'classnames';
 
 var ItemsTableDragDropZone = React.createClass({

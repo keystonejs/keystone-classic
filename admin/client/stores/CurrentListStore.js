@@ -24,7 +24,7 @@ function defaultDrag () {
 		item: false,
 		clonedItems: false,
 		index: false
-	}
+	};
 }
 
 var page = defaultPage();
@@ -56,7 +56,7 @@ var CurrentListStore = new Store({
 		drag.page = page.index;
 		drag.clonedItems = _itemsResultsClone.slice(0);
 		if(item) {
-			drag.item = item
+			drag.item = item;
 			if(index) {
 				drag.index = index;
 			}
@@ -224,7 +224,7 @@ var CurrentListStore = new Store({
 		page = {
 			size: page.size,
 			index: goToPage || page.index
-		}
+		};
 		// send the item, previous sortOrder and the new sortOrder
 		// we should get the proper list and new page results in return
 		_list.reorderItems(
