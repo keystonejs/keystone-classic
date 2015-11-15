@@ -4,6 +4,7 @@ import Transition from 'react-addons-css-transition-group';
 var MobileListItem = React.createClass({
 	displayName: 'MobileListItem',
 	propTypes: {
+		adminPath: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
@@ -30,7 +31,7 @@ var MobileSectionItem = React.createClass({
 		if (!this.props.lists || this.props.lists.length <= 1) return null;
 
 		let navLists = this.props.lists.map((item) => {
-			let href = item.external ? item.path : ('/keystone/' + item.path);
+			let href = item.external ? item.path : (this.props.adminPath + '/' + item.path);
 			let className = (this.props.currentListKey && this.props.currentListKey === item.path) ? 'MobileNavigation__list-item is-active' : 'MobileNavigation__list-item';
 
 			return (
@@ -114,7 +115,7 @@ var MobileNavigation = React.createClass({
 		if (!this.props.sections || !this.props.sections.length) return null;
 
 		return this.props.sections.map((section) => {
-			let href = section.lists[0].external ? section.lists[0].path : ('/keystone/' + section.lists[0].path);
+			let href = section.lists[0].external ? section.lists[0].path : (this.props.adminPath + '/' + section.lists[0].path);
 			let className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'MobileNavigation__section is-active' : 'MobileNavigation__section';
 
 			return (

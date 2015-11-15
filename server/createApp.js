@@ -44,7 +44,7 @@ module.exports = function createApp (keystone, express) {
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Static Router for public resources
 	if (!keystone.get('headless')) {
-		app.use('/keystone', require('../admin/server').createStaticRouter(keystone));
+		app.use('/' + keystone.get('admin path'), require('../admin/server').createStaticRouter(keystone));
 	}
 
 	require('./bindLessMiddleware')(keystone, app);
@@ -60,7 +60,7 @@ module.exports = function createApp (keystone, express) {
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Dynamic Router
 	if (!keystone.get('headless')) {
-		app.use('/keystone', require('../admin/server').createDynamicRouter(keystone));
+		app.use('/' + keystone.get('admin path'), require('../admin/server').createDynamicRouter(keystone));
 	}
 
 	// Pre bodyparser middleware

@@ -75,7 +75,7 @@ var EditForm = React.createClass({
 				// TODO: slow a flash message on form
 				return;
 			}
-			top.location.href = '/keystone/' + list.path;
+			top.location.href = this.props.adminPath + '/' + list.path;
 		});
 	},
 
@@ -170,7 +170,7 @@ var EditForm = React.createClass({
 			<Button key="save" type="primary" submit>Save</Button>
 		];
 		buttons.push(
-			<Button key="reset" onClick={this.confirmReset} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
+			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);

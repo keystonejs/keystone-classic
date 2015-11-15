@@ -51,7 +51,7 @@ var HomeView = React.createClass({
 
 	loadCounts () {
 		xhr({
-			url: '/keystone/api/counts'
+			url: this.props.adminPath + '/api/counts'
 		}, (err, resp, body) => {
 			try {
 				body = JSON.parse(body);
@@ -97,7 +97,7 @@ var HomeView = React.createClass({
 
 	renderFlatNav () {
 		let lists = this.props.navLists.map((list) => {
-			var href = list.external ? list.path : '/keystone/' + list.path;
+			var href = list.external ? list.path : this.props.adminPath + '/' + list.path;
 			return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 		});
 
@@ -116,7 +116,7 @@ var HomeView = React.createClass({
 							</div>
 							<div className="dashboard-group__lists">
 								{navSection.lists.map((list) => {
-									var href = list.external ? list.path : '/keystone/' + list.path;
+									var href = list.external ? list.path : this.props.adminPath + '/' + list.path;
 									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
 							</div>
@@ -138,7 +138,7 @@ var HomeView = React.createClass({
 				</div>
 				<div className="dashboard-group__lists">
 					{this.props.orphanedLists.map((list) => {
-						var href = list.external ? list.path : '/keystone/' + list.path;
+						var href = list.external ? list.path : this.props.adminPath + '/' + list.path;
 						return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 					})}
 				</div>
@@ -151,12 +151,14 @@ var HomeView = React.createClass({
 			<div className="keystone-wrapper">
 				<header className="keystone-header">
 					<MobileNavigation
+						adminPath={this.props.adminPath}
 						brand={this.props.brand}
 						currentSectionKey="dashboard"
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl}
 						/>
 					<PrimaryNavigation
+						adminPath={this.props.adminPath}
 						brand={this.props.brand}
 						currentSectionKey="dashboard"
 						sections={this.props.nav.sections}
@@ -175,6 +177,7 @@ var HomeView = React.createClass({
 				</div>
 				<Footer
 					appversion={this.props.appversion}
+					adminPath={this.props.adminPath}
 					backUrl={this.props.backUrl}
 					brand={this.props.brand}
 					User={this.props.User}
@@ -189,6 +192,7 @@ var HomeView = React.createClass({
 ReactDOM.render(
 	<HomeView
 		appversion={Keystone.appversion}
+		adminPath={Keystone.adminPath}
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
 		nav={Keystone.nav}

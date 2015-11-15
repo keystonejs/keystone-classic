@@ -68,6 +68,7 @@ var ItemView = React.createClass({
 			<div className="keystone-wrapper">
 				<header className="keystone-header">
 					<MobileNavigation
+						adminPath={this.props.adminPath}
 						brand={this.props.brand}
 						currentListKey={this.props.list.path}
 						currentSectionKey={this.props.nav.currentSection.key}
@@ -75,28 +76,33 @@ var ItemView = React.createClass({
 						signoutUrl={this.props.signoutUrl}
 						/>
 					<PrimaryNavigation
+						adminPath={this.props.adminPath}
 						currentSectionKey={this.props.nav.currentSection.key}
 						brand={this.props.brand}
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl} />
 					<SecondaryNavigation
+						adminPath={this.props.adminPath}
 						currentListKey={this.props.list.path}
 						lists={this.props.nav.currentSection.lists} />
 				</header>
 				<div className="keystone-body">
 					<EditFormHeader
+						adminPath={this.props.adminPath}
 						list={this.props.list}
 						data={this.state.itemData}
 						drilldown={this.state.itemDrilldown}
 						toggleCreate={this.toggleCreate} />
 					<Container>
 						<CreateForm
+							adminPath={this.props.adminPath}
 							list={this.props.list}
 							isOpen={this.state.createIsOpen}
 							onCancel={() => this.toggleCreate(false)} />
 						<FlashMessages
 							messages={this.props.messages} />
 						<EditForm
+							adminPath={this.props.adminPath}
 							list={this.props.list}
 							data={this.state.itemData} />
 						{this.renderRelationships()}
@@ -104,6 +110,7 @@ var ItemView = React.createClass({
 				</div>
 				<Footer
 					appversion={this.props.appversion}
+					adminPath={this.props.adminPath}
 					backUrl={this.props.backUrl}
 					brand={this.props.brand}
 					User={this.props.User}
@@ -118,6 +125,7 @@ var ItemView = React.createClass({
 ReactDOM.render(
 	<ItemView
 		appversion={Keystone.appversion}
+		adminPath={Keystone.adminPath}
 		backUrl={Keystone.backUrl}
 		brand={Keystone.brand}
 		itemId={Keystone.itemId}

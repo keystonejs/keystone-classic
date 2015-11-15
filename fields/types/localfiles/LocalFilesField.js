@@ -19,6 +19,7 @@ const ICON_EXTS = [
 
 var LocalFilesFieldItem = React.createClass({
 	propTypes: {
+		adminPath: React.PropTypes.string,
 		deleted: React.PropTypes.bool,
 		filename: React.PropTypes.string,
 		isQueued: React.PropTypes.bool,
@@ -53,7 +54,7 @@ var LocalFilesFieldItem = React.createClass({
 
 		return (
 			<FormField>
-				<img key="file-type-icon" className="file-icon" src={'/keystone/images/icons/32/' + iconName + '.png'} />
+				<img key="file-type-icon" className="file-icon" src={this.props.adminPath + '/images/icons/32/' + iconName + '.png'} />
 				<FormInput key="file-name" noedit className="field-type-localfiles__filename">
 					{filename}
 					{this.props.size ? ' (' + bytes(this.props.size) + ')' : null}
@@ -97,6 +98,7 @@ module.exports = Field.create({
 		var i = thumbs.length;
 		args.toggleDelete = this.removeItem.bind(this, i);
 		args.shouldRenderActionButton = this.shouldRenderField();
+		args.adminPath = this.props.adminPath;
 		thumbs.push(<LocalFilesFieldItem key={i} {...args} />);
 	},
 
