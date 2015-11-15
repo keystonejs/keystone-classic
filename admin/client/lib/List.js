@@ -156,8 +156,8 @@ List.prototype.getDownloadURL = function (options) {
 	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
 };
 
-List.prototype.deleteItem = function (item, callback) {
-	const url = '/keystone/api/' + this.path + '/' + item.id + '/delete';
+List.prototype.deleteItems = function (itemIds, callback) {
+	const url = '/keystone/api/' + this.path + '/' + itemIds.join() + '/delete';
 	xhr({
 		url: url,
 		method: 'POST',
@@ -173,6 +173,10 @@ List.prototype.deleteItem = function (item, callback) {
 		}
 		callback(null, body);
 	});
+};
+
+List.prototype.deleteItem = function (itemId, callback) {
+	return this.deleteItems([itemId], callback);
 };
 
 module.exports = List;
