@@ -68,7 +68,7 @@ var SigninView = React.createClass({
 		});
 	},
 	renderBrand () {
-		let logo = { src: this.props.adminPath + '/images/logo.png', width: 205, height: 68 };
+		let logo = { src: `${this.props.adminPath}/images/logo.png`, width: 205, height: 68 };
 		if (this.props.logo) {
 			logo = typeof this.props.logo === 'string' ? { src: this.props.logo } : this.props.logo;
 			// TODO: Deprecate this
@@ -94,7 +94,7 @@ var SigninView = React.createClass({
 				<p>Hi {this.props.user.name.first},</p>
 				<p>You're already signed in.</p>
 				{openKeystoneButton}
-				<Button href={this.props.adminPath + '/signout'} type="link-cancel">Sign Out</Button>
+				<Button href={`${this.props.adminPath}/signout`} type="link-cancel">Sign Out</Button>
 			</div>
 		);
 	},

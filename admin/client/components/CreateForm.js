@@ -98,7 +98,7 @@ var CreateForm = React.createClass({
 		if (!this.props.isOpen) return;
 		var form = [];
 		var list = this.props.list;
-		var formAction = this.props.adminPath + '/' + list.path;
+		var formAction = `${this.props.adminPath}/${list.path}`;
 		var nameField = this.props.list.nameField;
 		var focusRef;
 

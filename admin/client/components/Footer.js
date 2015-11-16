@@ -19,7 +19,7 @@ var Footer = React.createClass({
 		return (
 			<span>
 				<span>Signed in as </span>
-				<a href={this.props.adminPath + '/' + User.path + '/' + user.id} tabIndex="-1" className="keystone-footer__link">
+				<a href={`${this.props.adminPath}/${User.path}/${user.id}`} tabIndex="-1" className="keystone-footer__link">
 					{User.getDocumentName(user)}
 				</a>
 				<span>.</span>

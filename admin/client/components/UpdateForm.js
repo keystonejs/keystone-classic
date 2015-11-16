@@ -100,7 +100,7 @@ var UpdateForm = React.createClass({
 	renderForm () {
 		let { itemIds, list } = this.props;
 		let itemCount = plural(itemIds, ('* ' + list.singular), ('* ' + list.plural));
-		let formAction = this.props.adminPath + '/' + list.path;
+		let formAction = `${this.props.adminPath}/${list.path}`;
 
 		return (
 			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction}>
