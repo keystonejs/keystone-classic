@@ -2,7 +2,7 @@ var keystone = require('../../../');
 var _ = require('underscore');
 var async = require('async');
 
-exports = module.exports = function(req, res) {
+module.exports = function(req, res) {
 
 	var itemQuery = req.list.model.findById(req.params.item).select();
 

@@ -353,4 +353,4 @@ cloudinaryimages.prototype.handleRequest = function(item, req, paths, callback) 
 /*!
  * Export class
  */
-exports = module.exports = cloudinaryimages;
+module.exports = cloudinaryimages;

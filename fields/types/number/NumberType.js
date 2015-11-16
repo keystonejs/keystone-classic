@@ -99,4 +99,4 @@ number.prototype.updateItem = function(item, data) {
 };
 
 /* Export Field Type */
-exports = module.exports = number;
+module.exports = number;

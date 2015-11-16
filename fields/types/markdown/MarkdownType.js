@@ -142,4 +142,4 @@ markdown.prototype.updateItem = function(item, data) {
  * Export class
  */
 
-exports = module.exports = markdown;
+module.exports = markdown;

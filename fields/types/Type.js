@@ -199,7 +199,7 @@ Field.prototype.getPreSaveWatcher = function() {
 	};
 
 };
-exports = module.exports = Field;
+module.exports = Field;
 
 /** Getter properties for the Field prototype */
 Object.defineProperty(Field.prototype, 'size', { get: function() { return this.getSize(); } });

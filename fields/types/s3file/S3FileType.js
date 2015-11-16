@@ -498,4 +498,4 @@ s3file.prototype.handleRequest = function(item, req, paths, callback) {
  * Export class
  */
 
-exports = module.exports = s3file;
+module.exports = s3file;
