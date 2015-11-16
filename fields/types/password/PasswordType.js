@@ -147,4 +147,4 @@ password.prototype.updateItem = function(item, data) {
 };
 
 /* Export Field Type */
-exports = module.exports = password;
+module.exports = password;

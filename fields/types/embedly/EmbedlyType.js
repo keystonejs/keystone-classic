@@ -279,4 +279,4 @@ embedly.prototype.updateItem = function(item, data) {
  * Export class
  */
 
-exports = module.exports = embedly;
+module.exports = embedly;

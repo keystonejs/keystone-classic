@@ -3,9 +3,6 @@ var request = require('supertest');
 var _ = require('underscore');
 var exec = require('child_process').exec;
 
-var exports = module.exports = {};
-
-
 function testApp(request, page , server, done) {
 	server = server || keystone.httpServer;
 	request
@@ -16,7 +13,7 @@ function testApp(request, page , server, done) {
 			server.close();
 			done();
 		});
-	
+
 }
 
 var routes = function(app){
@@ -46,7 +43,7 @@ exports.startHttp = function startHttp(cb) {
 			}
 		}
 	});
-	
+
 }
 
 exports.startHttps = function startHttps(cb) {
@@ -92,7 +89,7 @@ exports.startSocket = function startSocket(cb) {
 					return cb(false);
 				}
 				return cb(true);
-			});	
+			});
 		}
 	});
 }

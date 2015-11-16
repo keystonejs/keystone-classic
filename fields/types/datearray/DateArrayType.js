@@ -137,4 +137,4 @@ datearray.prototype.updateItem = function(item, data) {
  * Export class
  */
 
-exports = module.exports = datearray;
+module.exports = datearray;

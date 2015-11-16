@@ -136,4 +136,4 @@ date.prototype.updateItem = function(item, data) {
 };
 
 /* Export Field Type */
-exports = module.exports = date;
+module.exports = date;

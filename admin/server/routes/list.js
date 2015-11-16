@@ -2,7 +2,7 @@ var keystone = require('../../../');
 var _ = require('underscore');
 var querystring = require('querystring');
 
-exports = module.exports = function(req, res) {
+module.exports = function(req, res) {
 
 	var viewLocals = {
 		validationErrors: {},

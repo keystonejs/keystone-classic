@@ -57,4 +57,4 @@ boolean.prototype.updateItem = function(item, data) {
 };
 
 /* Export Field Type */
-exports = module.exports = boolean;
+module.exports = boolean;
