@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
-import Lists from '../stores/Lists';
 import CurrentListStore from '../stores/CurrentListStore';
 import Columns from '../columns';
 import CreateForm from '../components/CreateForm';
@@ -19,7 +18,7 @@ import MobileNavigation from '../components/MobileNavigation';
 import PrimaryNavigation from '../components/PrimaryNavigation';
 import SecondaryNavigation from '../components/SecondaryNavigation';
 import UpdateForm from '../components/UpdateForm';
-import { Alert, BlankState, Button, Container, Dropdown, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
 import { plural } from '../utils';
 
 const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
@@ -163,7 +162,6 @@ const ListView = React.createClass({
 		if (!items.count || (list.nodelete && list.noedit)) return;
 
 		let checkedItemCount = Object.keys(checkedItems).length;
-		let visibleCount = items.count > pageSize ? pageSize : items.count;
 		let buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
 
 		// action buttons
@@ -244,7 +242,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderHeader () {
-		let { currentPage, items, list, pageSize } = this.state;
+		let { items, list } = this.state;
 		return (
 			<div className="ListHeader">
 				<Container>

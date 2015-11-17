@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import request from 'superagent';
 import Columns from '../columns';
 import Lists from '../stores/Lists';
 import CreateForm from '../components/CreateForm';
