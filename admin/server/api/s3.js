@@ -2,7 +2,7 @@ var knox = require('knox');
 var keystone = require('../../../');
 var Types = keystone.Field.Types;
 
-exports = module.exports = {
+module.exports = {
 
 	upload: function(req, res) {
 		if (!keystone.security.csrf.validate(req, req.body.authenticity_token)) {

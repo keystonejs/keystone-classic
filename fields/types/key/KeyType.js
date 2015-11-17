@@ -53,4 +53,4 @@ key.prototype.updateItem = function(item, data) {
 };
 
 /* Export Field Type */
-exports = module.exports = key;
+module.exports = key;

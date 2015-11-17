@@ -487,4 +487,4 @@ location.prototype.milesFrom = function(item, point) {
 /*!
  * Export class
  */
-exports = module.exports = location;
+module.exports = location;

@@ -125,8 +125,14 @@ var CurrentListStore = new Store({
 	getItems () {
 		return _items;
 	},
-	deleteItem (item) {
-		_list.deleteItem(item, (err, data) => {
+	deleteItem (itemId) {
+		_list.deleteItem(itemId, (err, data) => {
+			// TODO: graceful error handling
+			this.loadItems();
+		});
+	},
+	deleteItems (itemIds) {
+		_list.deleteItems(itemIds, (err, data) => {
 			// TODO: graceful error handling
 			this.loadItems();
 		});

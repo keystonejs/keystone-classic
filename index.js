@@ -129,7 +129,7 @@ Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
  *
  * @api public
  */
-var keystone = module.exports = exports = new Keystone();
+var keystone = module.exports = new Keystone();
 
 // Expose modules and Classes
 keystone.Admin = {

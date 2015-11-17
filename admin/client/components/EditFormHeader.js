@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Toolbar from './Toolbar';
 import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
 
@@ -20,6 +21,14 @@ var Header = React.createClass({
 		this.setState({
 			searchString: event.target.value
 		});
+	},
+
+	handleEscapeKey (event) {
+		const escapeKeyCode = 27;
+
+		if (event.which === escapeKeyCode) {
+			ReactDOM.findDOMNode(this.refs.searchField).blur();
+		}
 	},
 
 	renderDrilldown () {
@@ -88,6 +97,7 @@ var Header = React.createClass({
 						name="search"
 						value={this.state.searchString}
 						onChange={this.searchStringChanged}
+						onKeyUp={this.handleEscapeKey.bind(this)}
 						placeholder="Search"
 						className="EditForm__header__search-input" />
 				</FormIconField>

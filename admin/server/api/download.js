@@ -6,7 +6,7 @@ var moment = require('moment');
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 
-exports = module.exports = function(req, res) {
+module.exports = function(req, res) {
 
 	var filters = req.list.processFilters(req.query.q);
 	var queryFilters = req.list.getSearchFilters(req.query.search, filters);

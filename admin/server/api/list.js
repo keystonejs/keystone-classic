@@ -2,7 +2,7 @@ var _ = require('underscore');
 var async = require('async');
 var keystone = require('../../../');
 
-exports = module.exports = function(req, res) {
+module.exports = function(req, res) {
 
 	var sendResponse = function(status) {
 		res.json(status);

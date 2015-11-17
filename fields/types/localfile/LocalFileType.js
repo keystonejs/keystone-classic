@@ -363,4 +363,4 @@ localfile.prototype.handleRequest = function(item, req, paths, callback) {
  * Export class
  */
 
-exports = module.exports = localfile;
+module.exports = localfile;

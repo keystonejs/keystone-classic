@@ -69,4 +69,4 @@ email.prototype.updateItem = function(item, data) {
 };
 
 /* Export Field Type */
-exports = module.exports = email;
+module.exports = email;

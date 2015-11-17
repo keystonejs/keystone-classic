@@ -113,11 +113,10 @@ const ListView = React.createClass({
 	massDelete () {
 		let { checkedItems, list } = this.state;
 		let itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
+		let itemIds = Object.keys(checkedItems);
 		if (!confirm(`Are you sure you want to delete ${itemCount}?`)) return;
 
-		// TODO: implement mass deletion
-
-		console.log(`Deleted ${itemCount}:`, Object.keys(checkedItems));
+		CurrentListStore.deleteItems(itemIds);
 		this.toggleManageMode();
 	},
 	handleManagementSelect (selection) {
@@ -309,7 +308,7 @@ const ListView = React.createClass({
 	},
 	deleteTableItem (item, e) {
 		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
-		CurrentListStore.deleteItem(item);
+		CurrentListStore.deleteItem(item.id);
 	},
 	toggleTableWidth () {
 		this.setState({

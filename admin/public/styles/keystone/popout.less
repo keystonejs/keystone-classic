@@ -5,6 +5,7 @@
 @popout-gutter:                     20px;
 @popout-arrow-size:                  8px;
 @popout-width:                     320px;
+@popout-body-height:               310px;
 
 @popout-pane-animation-duration:   360ms;
 @popout-pane-timing-function:      cubic-bezier(.36, .66, .04, 1);
@@ -104,6 +105,9 @@
 	overflow-x: hidden;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
+	&.Popout__body {
+		max-height: @popout-body-height;
+	}
 }
 
 
