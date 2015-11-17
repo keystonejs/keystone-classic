@@ -70,17 +70,6 @@ module.exports = {
 		});
 	},
 
-	renderItem: function(item, index) {
-		return (
-			<FormField key={item.key}>
-				<FormInput ref={'item_' + (index + 1)} name={this.props.path} value={item.value} onChange={this.updateItem.bind(this, item)} autoComplete="off" />
-				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
-					<span className="octicon octicon-x" />
-				</Button>
-			</FormField>
-		);
-	},
-
 	renderField: function () {
 		return (
 			<div>
@@ -90,13 +79,28 @@ module.exports = {
 		);
 	},
 
+	renderItem: function(item, index) {
+		const Input = this.getInputComponent ? this.getInputComponent() : FormInput;
+		const value = this.processInputValue ? this.processInputValue(item.value) : item.value;
+		return (
+			<FormField key={item.key}>
+				<Input ref={'item_' + (index + 1)} name={this.props.path} value={value} onChange={this.updateItem.bind(this, item)} autoComplete="off" />
+				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
+					<span className="octicon octicon-x" />
+				</Button>
+			</FormField>
+		);
+	},
+
 	renderValue: function () {
+		const Input = this.getInputComponent ? this.getInputComponent() : FormInput;
 		return (
 			<div>
 				{this.state.values.map((item, i) => {
+					const value = this.formatValue ? this.formatValue(item.value) : item.value;
 					return (
 						<div key={i} style={i ? { marginTop: '1em' } : null}>
-							<FormInput noedit value={item.value} />
+							<Input noedit value={value} />
 						</div>
 					);
 				})}
