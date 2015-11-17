@@ -5,7 +5,7 @@ import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
 
 var Header = React.createClass({
 
-	displayName: 'ItemViewHeader',
+	displayName: 'EditFormHeader',
 
 	getInitialState () {
 		return {
@@ -97,7 +97,7 @@ var Header = React.createClass({
 						name="search"
 						value={this.state.searchString}
 						onChange={this.searchStringChanged}
-						onKeyUp={this.handleEscapeKey.bind(this)}
+						onKeyUp={this.handleEscapeKey}
 						placeholder="Search"
 						className="EditForm__header__search-input" />
 				</FormIconField>
@@ -120,7 +120,7 @@ var Header = React.createClass({
 		if (this.props.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
 		} else {
-			props.onClick = this.toggleCreate.bind(this, true);
+			props.onClick = () => { this.toggleCreate(true); };
 		}
 		return (
 			<Button type="success" {...props}>
