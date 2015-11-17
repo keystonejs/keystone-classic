@@ -2,6 +2,7 @@ import _ from 'underscore';
 import bytes from 'bytes';
 import Field from '../Field';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 /**
@@ -25,13 +26,13 @@ var LocalFilesFieldItem = React.createClass({
 		size: React.PropTypes.number,
 		toggleDelete: React.PropTypes.func,
 	},
-	
+
 	renderActionButton () {
 		if (!this.props.shouldRenderActionButton || this.props.isQueued) return null;
-		
+
 		var buttonLabel = this.props.deleted ? 'Undo' : 'Remove';
 		var buttonType = this.props.deleted ? 'link' : 'link-cancel';
-		
+
 		return <Button key="action-button" type={buttonType} onClick={this.props.toggleDelete}>{buttonLabel}</Button>;
 	},
 
@@ -41,7 +42,7 @@ var LocalFilesFieldItem = React.createClass({
 
 		let iconName = '_blank';
 		if (_.contains(ICON_EXTS, ext)) iconName = ext;
-		
+
 		let note;
 
 		if (this.props.deleted) {
@@ -100,7 +101,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return this.refs.fileField.getDOMNode();
+		return ReactDOM.findDOMNode(this.refs.fileField);
 	},
 
 	renderFileField () {
@@ -137,7 +138,7 @@ module.exports = Field.create({
 
 	renderToolbar () {
 		if (!this.shouldRenderField()) return null;
-		
+
 		var clearFilesButton;
 		if (this.hasFiles()) {
 			clearFilesButton = <Button type="link-cancel" className="ml-5" onClick={this.clearFiles}>Clear Uploads</Button>;

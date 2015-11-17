@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Field from '../Field';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import Lightbox from '../../../admin/client/components/Lightbox';
@@ -121,7 +122,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return this.refs.fileField.getDOMNode();
+		return ReactDOM.findDOMNode(this.refs.fileField);
 	},
 
 	getCount  (key) {

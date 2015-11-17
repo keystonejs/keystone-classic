@@ -2,6 +2,7 @@ import _ from 'underscore';
 import classnames from 'classnames';
 import evalDependsOn from '../utils/evalDependsOn.js';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 function validateSpec(spec) {
@@ -43,7 +44,7 @@ var Base = module.exports.Base = {
 	},
 	focus () {
 		if (!this.refs[this.spec.focusTargetRef]) return;
-		this.refs[this.spec.focusTargetRef].getDOMNode().focus();
+		ReactDOM.findDOMNode(this.refs[this.spec.focusTargetRef]).focus();
 	},
 	renderNote () {
 		if (!this.props.note) return null;

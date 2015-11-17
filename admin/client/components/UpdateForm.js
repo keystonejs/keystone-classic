@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import Fields from '../fields';
 import { plural } from '../utils';
@@ -50,8 +51,7 @@ var UpdateForm = React.createClass({
 		this.setState({
 			fields: expandedValues
 		}, () => {
-			// TODO: @jedwatson you can see the select field stealing focus back
-			this.refs.focusTarget.getDOMNode().focus();
+			ReactDOM.findDOMNode(this.refs.focusTarget).focus();
 		});
 	},
 	handleChange (value) {
