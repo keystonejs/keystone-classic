@@ -1,5 +1,4 @@
 var React = require('react');
-var _ = require('underscore');
 
 var Button = require('elemental').Button;
 var FormField = require('elemental').FormField;
@@ -7,9 +6,13 @@ var FormInput = require('elemental').FormInput;
 
 var lastId = 0;
 
-function newItem(value) {
+function newItem (value) {
 	lastId = lastId + 1;
 	return { key: 'i' + lastId, value: value };
+}
+
+function reduceValues (values) {
+	return values.map(i => i.value);
 }
 
 module.exports = {
@@ -20,7 +23,7 @@ module.exports = {
 	},
 
 	componentWillReceiveProps: function(nextProps) {
-		if (nextProps.value.join('|') !== _.pluck(this.state.values, 'value').join('|')) {
+		if (nextProps.value.join('|') !== reduceValues(this.state.values).join('|')) {
 			this.setState({
 				values: nextProps.value.map(newItem)
 			});
@@ -36,7 +39,7 @@ module.exports = {
 			if (!self.state.values.length) return;
 			self.refs['item_' + self.state.values.length].getDOMNode().focus();
 		});
-		this.valueChanged(_.pluck(newValues, 'value'));
+		this.valueChanged(reduceValues(newValues));
 	},
 
 	removeItem: function(i) {
@@ -46,7 +49,7 @@ module.exports = {
 		}, function() {
 			this.refs.button.getDOMNode().focus();
 		});
-		this.valueChanged(_.pluck(newValues, 'value'));
+		this.valueChanged(reduceValues(newValues));
 	},
 
 	updateItem: function(i, event) {
@@ -56,7 +59,7 @@ module.exports = {
 		this.setState({
 			values: updatedValues
 		});
-		this.valueChanged(_.pluck(updatedValues, 'value'));
+		this.valueChanged(reduceValues(updatedValues));
 	},
 
 	valueChanged: function(values) {
