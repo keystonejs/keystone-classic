@@ -1,5 +1,6 @@
 import Field from '../Field';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { FormInput } from 'elemental';
 
 /**
@@ -98,7 +99,7 @@ var renderMarkdown = function(component) {
 		options.hiddenButtons = options.hiddenButtons.concat(hiddenButtons);
 	}
 
-	$(component.refs.markdownTextarea.getDOMNode()).markdown(options);
+	$(ReactDOM.findDOMNode(component.refs.markdownTextarea)).markdown(options);
 };
 
 module.exports = Field.create({
