@@ -69,6 +69,7 @@ module.exports = function(file, name) {
 			b = browserify('./' + file, opts);
 		}
 		b.transform(babelify.configure({
+			ignore: /(.?)\/react-day-picker\//,
 			plugins: [require('babel-plugin-transform-object-rest-spread'), require('babel-plugin-transform-object-assign')],
 			presets: [require('babel-preset-es2015'), require('babel-preset-react')],
 		}));
