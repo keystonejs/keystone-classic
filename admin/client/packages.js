@@ -12,7 +12,6 @@ module.exports = [
 	'marked',
 	'moment',
 	'numeral',
-	'pikaday',
 	'qs',
 	'react-addons-css-transition-group',
 	'react-alt-text',
