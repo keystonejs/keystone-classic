@@ -15,7 +15,8 @@ var ListFiltersAdd = React.createClass({
 	displayName: 'ListFiltersAdd',
 	getDefaultProps () {
 		return {
-			maxHeight: 360
+			maxHeight: 360,
+			minHeight: 295
 		};
 	},
 	getInitialState () {
@@ -57,6 +58,9 @@ var ListFiltersAdd = React.createClass({
 		this.setState({ isOpen: false, selectedField: false, searchString: '', innerHeight: 0 });
 	},
 	setPopoutHeight (height) {
+		if (height < this.props.minHeight) {
+			height = this.props.minHeight;
+		}
 		this.setState({ innerHeight: Math.min(this.props.maxHeight, height) });
 	},
 	navigateBack () {
@@ -109,7 +113,7 @@ var ListFiltersAdd = React.createClass({
 		});
 
 		return (
-			<Popout.Pane onLayout={this.setPopoutHeight} key="list">
+			<Popout.Pane onLayout={this.setPopoutHeight} maxHeight={this.props.maxHeight} height={this.state.innerHeight} key="list">
 				<Popout.Body>
 					<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
 						<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a filter..." />
@@ -121,7 +125,7 @@ var ListFiltersAdd = React.createClass({
 	},
 	renderForm () {
 		return (
-			<Popout.Pane onLayout={this.setPopoutHeight} key="form">
+			<Popout.Pane onLayout={this.setPopoutHeight} maxHeight={this.props.maxHeight} height={this.state.innerHeight} key="form">
 				<ListFiltersAddForm field={this.state.selectedField} onApply={this.applyFilter} onCancel={this.closePopout} onBack={this.navigateBack} maxHeight={this.props.maxHeight} onHeightChange={this.setPopoutHeight} />
 			</Popout.Pane>
 		);
