@@ -23,10 +23,6 @@ import { plural } from '../utils';
 
 const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
-function showCreateForm() {
-	return window.location.search === '?create' || Keystone.createFormErrors;
-}
-
 const ListView = React.createClass({
 	getInitialState () {
 		return {
@@ -34,7 +30,7 @@ const ListView = React.createClass({
 			constrainTableWidth: true,
 			manageMode: false,
 			searchString: '',
-			showCreateForm: showCreateForm(),
+			showCreateForm: window.location.search === '?create' || Keystone.createFormErrors,
 			showUpdateForm: false,
 			...this.getStateFromStore()
 		};
@@ -292,9 +288,9 @@ const ListView = React.createClass({
 	},
 	checkAllTableItems () {
 		let checkedItems = {};
-		this.state.items.results.forEach(function(item) {
-			checkedItems[item.id] = true;
-		});
+		this.state.items.results.forEach(item =>
+			checkedItems[item.id] = true
+		);
 		this.setState({
 			checkedItems: checkedItems
 		});

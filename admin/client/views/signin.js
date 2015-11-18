@@ -9,10 +9,6 @@ import { createHistory } from 'history';
 
 var history = createHistory();
 
-function wasSignedOut() {
-	return window.location.search === '?signedout';
-}
-
 var SigninView = React.createClass({
 	getInitialState () {
 		return {
@@ -21,7 +17,7 @@ var SigninView = React.createClass({
 			isAnimating: false,
 			isInvalid: false,
 			invalidMessage: '',
-			signedOut: wasSignedOut()
+			signedOut: window.location.search === '?signedout'
 		};
 	},
 	componentDidMount () {

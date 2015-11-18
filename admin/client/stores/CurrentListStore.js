@@ -15,14 +15,10 @@ var active = {
 	sort: _list.expandSort(Keystone.list.defaultSort)
 };
 
-var page = defaultPage();
-
-function defaultPage () {
-	return {
-		size: 100,
-		index: 1
-	};
-}
+var page = {
+	size: 100,
+	index: 1
+};
 
 var CurrentListStore = new Store({
 	getList () {
@@ -158,7 +154,7 @@ var filtersFromUrlParams = function () {
 		_.compact(
 			_.map(
 				location.search.slice(1).split('&'),
-				function(item) { if (item) return item.split('='); }
+				item => item ? item.split('=') : undefined
 			)
 		)
 	);
