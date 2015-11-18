@@ -2,7 +2,18 @@ import DateInput from '../../components/DateInput';
 import Field from '../Field';
 import moment from 'moment';
 import React from 'react';
-import { Button, FormField, FormInput, FormNote, InputGroup } from 'elemental';
+import { Button, FormRow, FormField, FormInput, FormNote, InputGroup } from 'elemental';
+import Select from 'react-select';
+
+let CLOCK_OPTIONS = {
+	get hour () {
+		return Array.apply(null, new Array(12)).map((_,i) => { return { label: i+1, value: i+1 }; });
+	},
+	get min () {
+		return Array.apply(null, new Array(60)).map((_,i) => { return { label: i, value: i }; });
+	}
+};
+CLOCK_OPTIONS.sec = CLOCK_OPTIONS.min;
 
 module.exports = Field.create({
 
@@ -19,8 +30,8 @@ module.exports = Field.create({
 
 	getInitialState () {
 		return {
-			dateValue: this.props.value ? this.moment(this.props.value).format(this.dateInputFormat) : this.moment(new Date()).format(this.dateInputFormat),
-			timeValue: this.props.value ? this.moment(this.props.value).format(this.timeInputFormat) : this.moment(new Date()).format(this.timeInputFormat)
+			dateValue: this.props.value ? this.moment(this.props.value).format(this.dateInputFormat) : this.moment().format(this.dateInputFormat),
+			timeValue: this.props.value ? this.moment(this.props.value).format(this.timeInputFormat) : this.moment().format(this.timeInputFormat)
 		};
 	},
 
@@ -61,11 +72,36 @@ module.exports = Field.create({
 		this.handleChange(value, this.state.timeValue);
 	},
 
-	timeChanged (event) {
-		this.setState({ timeValue: event.target.value });
-		this.handleChange(this.state.dateValue, event.target.value);
-	},
+	timeChanged (who, val) {
+		
+		const { dateValue, timeValue } = this.state;
+		let m = this.moment(dateValue + ' ' + timeValue);
 
+		// set the requested value
+		if (who !== 'ampm') {
+			
+			if (who === 'hour' && m.format('a') === 'pm') {
+				m[who](val.value + 12);
+			} else {
+				m[who](val.value);	
+			}
+			
+		} else {
+			
+			if(val.value === 'pm') {
+				m.add(12, 'hours');
+			} else {
+				m.subtract(12, 'hours');
+			}
+			
+		}
+		
+		const time = m.format('h') + ':' + m.format('m') + ':' + m.format('s') + ' ' + m.format('a');
+			
+		this.setState({ timeValue: time });
+		this.handleChange(dateValue, time);
+	},
+	
 	setNow () {
 		var dateValue = moment().format(this.dateInputFormat);
 		var timeValue = moment().format(this.timeInputFormat);
@@ -75,23 +111,79 @@ module.exports = Field.create({
 		});
 		this.handleChange(dateValue, timeValue);
 	},
-
+	
+	renderHiddenInput () {
+		const { timeValue, dateValue } = this.state;
+		return (<input type="hidden" name={this.props.path} value={dateValue + ' ' + timeValue} />);
+	},
+	
 	renderNote () {
 		if (!this.props.note) return null;
 		return <FormNote note={this.props.note} />;
 	},
-
+	
+	renderOption: function(option) {
+		return <span style={{ color: 'black' }}>{option.label}</span>;
+	},
+	
 	renderUI () {
 		var input;
 		var fieldClassName = 'field-ui';
+		const { timeValue, dateValue } = this.state;
+		const ampm = [
+			{ value: 'am', label: 'am' },
+			{ value: 'pm', label: 'pm' }
+		];
 		if (this.shouldRenderField()) {
+			const time = moment(dateValue + ' ' + timeValue);
 			input = (
 				<InputGroup>
 					<InputGroup.Section grow>
-						<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
+						<DateInput ref="dateInput" name={this.props.paths.date} value={dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
 					</InputGroup.Section>
 					<InputGroup.Section grow>
-						<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
+						<Select
+							labelKey="hour"
+							onChange={ (v) => { this.timeChanged('hour', v); } }
+							value={Number(time.format('h'))}
+							options={CLOCK_OPTIONS.hour}
+							optionRenderer={this.renderOption}
+							valueRenderer={this.renderOption}
+							clearable={false}
+						/>
+					</InputGroup.Section>
+					<InputGroup.Section grow>
+						<Select
+							labelKey="min"
+							onChange={ (v) => { this.timeChanged('minutes', v); } }
+							value={Number(time.format('m'))}
+							options={CLOCK_OPTIONS.min}
+							optionRenderer={this.renderOption}
+							valueRenderer={this.renderOption}
+							clearable={false}
+						/>
+					</InputGroup.Section>
+					<InputGroup.Section grow>
+						<Select
+							labelKey="sec"
+							onChange={ (v) => { this.timeChanged('seconds', v); } }
+							value={Number(time.format('s'))}
+							options={CLOCK_OPTIONS.sec}
+							optionRenderer={this.renderOption}
+							valueRenderer={this.renderOption}
+							clearable={false}
+						/>
+					</InputGroup.Section>
+					<InputGroup.Section grow>
+						<Select
+							labelKey="am/pm"
+							onChange={ (v) => { this.timeChanged('ampm', v); } }
+							value={time.format('a')}
+							options={ampm}
+							optionRenderer={this.renderOption}
+							valueRenderer={this.renderOption}
+							clearable={false}
+						/>
 					</InputGroup.Section>
 					<InputGroup.Section>
 						<Button onClick={this.setNow}>Now</Button>
@@ -104,6 +196,7 @@ module.exports = Field.create({
 		return (
 			<FormField label={this.props.label} className="field-type-datetime">
 				{input}
+				{this.renderHiddenInput()}
 				{this.renderNote()}
 			</FormField>
 		);
