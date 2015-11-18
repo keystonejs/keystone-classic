@@ -31,10 +31,55 @@ function datetime(list, path, options) {
 util.inherits(datetime, FieldType);
 
 /* Inherit from DateType prototype */
-datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
+// datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
 datetime.prototype.parse = DateType.prototype.parse;
+
+
+/**
+ * Add filters to a query
+ */
+datetime.prototype.addFilterToQuery = function(filter, query) {
+	query = query || {};
+	if (filter.mode === 'between') {
+		
+		if (filter.after && filter.before) {
+			
+			filter.after = moment(filter.after);
+			filter.before = moment(filter.before);
+			
+			if (filter.after.isValid() && filter.before.isValid()) {
+				query[this.path] = {
+					$gte: filter.after.toDate(),
+					$lte: filter.before.toDate()
+				};
+			}
+		}
+		
+	} else if (filter.value) {
+		
+		filter.value = moment(filter.value);
+		
+		if (filter.value.isValid()) {
+			if (filter.mode === 'after') {
+				query[this.path] = { $gt: filter.value.toDate() };
+			} else if (filter.mode === 'before') {
+				query[this.path] = { $lt: filter.value.toDate() };
+			} else {
+				query[this.path] = filter.value.toDate();
+			}
+		}
+		
+	}
+	
+	if (filter.inverted) {
+		query[this.path] =  { $not: query[this.path] };	
+	}
+	return query;
+};
+
+
 
 /**
  * Get the value from a data object; may be simple or a pair of fields

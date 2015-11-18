@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var moment = require('moment');
 var util = require('util');
+var debug = require('debug')('keystone:fields:datetype');
 
 /**
  * Date FieldType Constructor
@@ -33,13 +34,13 @@ date.prototype.addFilterToQuery = function(filter, query) {
 		
 		if (filter.after && filter.before) {
 			
-			filter.after = moment(filter.after);
-			filter.before = moment(filter.before);
+			filter.after = moment(filter.after).utc();
+			filter.before = moment(filter.before).utc();
 			
 			if (filter.after.isValid() && filter.before.isValid()) {
 				query[this.path] = {
-					$gte: filter.after.startOf('day').toDate(),
-					$lte: filter.before.endOf('day').toDate()
+					$gte: filter.after.startOf('day').toISOString(),
+					$lte: filter.before.endOf('day').toISOString()
 				};
 			}
 		}
@@ -47,10 +48,10 @@ date.prototype.addFilterToQuery = function(filter, query) {
 	} else if (filter.value) {
 		
 		var day = {
-			moment: moment(filter.value)
+			moment: moment(filter.value).utc()
 		};
-		day.start = day.moment.startOf('day').toDate();
-		day.end = moment(filter.value).endOf('day').toDate();
+		day.start = day.moment.startOf('day').toISOString();
+		day.end = moment(filter.value).utc().endOf('day').toISOString();
 		
 		if (day.moment.isValid()) {
 			if (filter.mode === 'after') {
@@ -67,7 +68,9 @@ date.prototype.addFilterToQuery = function(filter, query) {
 	if (filter.inverted) {
 		query[this.path] =  { $not: query[this.path] };	
 	}
-
+	
+	debug(query[this.path]);
+	
 	return query;
 };
 
