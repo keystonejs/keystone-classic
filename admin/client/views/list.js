@@ -14,11 +14,13 @@ import ListDownloadForm from '../components/ListDownloadForm';
 import ListFilters from '../components/ListFilters';
 import ListFiltersAdd from '../components/ListFiltersAdd';
 import ListSort from '../components/ListSort';
+import ItemsTable from '../components/ItemsTable';
 import MobileNavigation from '../components/MobileNavigation';
 import PrimaryNavigation from '../components/PrimaryNavigation';
 import SecondaryNavigation from '../components/SecondaryNavigation';
 import UpdateForm from '../components/UpdateForm';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+
 import { plural } from '../utils';
 
 const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
@@ -61,7 +63,8 @@ const ListView = React.createClass({
 			loading: CurrentListStore.isLoading(),
 			pageSize: CurrentListStore.getPageSize(),
 			ready: CurrentListStore.isReady(),
-			search: CurrentListStore.getActiveSearch()
+			search: CurrentListStore.getActiveSearch(),
+			rowAlert: CurrentListStore.rowAlert()
 		};
 		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length);
 		return state;
@@ -271,15 +274,15 @@ const ListView = React.createClass({
 				</Container>
 			</div>
 		);
-	},
-
+	},	
+	
 	// ==============================
 	// TABLE
 	// ==============================
-
+	
 	checkTableItem (item, e) {
 		e.preventDefault();
-		let newCheckedItems = this.state.checkedItems;
+		let newCheckedItems = { ...this.state.checkedItems };
 		let itemId = item.id;
 		if (this.state.checkedItems[itemId]) {
 			delete newCheckedItems[itemId];
@@ -308,81 +311,16 @@ const ListView = React.createClass({
 		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
 		CurrentListStore.deleteItem(item.id);
 	},
+	
+	// ==============================
+	// COMMON
+	// ==============================
+	
 	toggleTableWidth () {
 		this.setState({
 			constrainTableWidth: !this.state.constrainTableWidth
 		});
 	},
-	renderTableCols () {
-		var cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
-		// add delete col when applicable
-		if (!this.state.list.nodelete) {
-			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />);
-		}
-		// add sort col when applicable
-		if (this.state.list.sortable) {
-			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />);
-		}
-		return <colgroup>{cols}</colgroup>;
-	},
-	renderTableHeaders () {
-		var cells = this.state.columns.map((col, i) => {
-			// span first col for controls when present
-			var span = 1;
-			if (!i) {
-				if (this.state.list.sortable) span++;
-				if (!this.state.list.nodelete) span++;
-			}
-			return <th key={col.path} colSpan={span}>{col.label}</th>;
-		});
-		return <thead><tr>{cells}</tr></thead>;
-	},
-	renderTableRow (item) {
-		let itemId = item.id;
-		let rowClassname = classnames({
-			'ItemList__row--selected': this.state.checkedItems[itemId],
-			'ItemList__row--manage': this.state.manageMode,
-		});
-		var cells = this.state.columns.map((col, i) => {
-			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			var linkTo = !i ? `/keystone/${this.state.list.path}/${itemId}` : undefined;
-			return <ColumnType key={col.path} list={this.state.list} col={col} data={item} linkTo={linkTo} />;
-		});
-		// add sortable icon when applicable
-		if (this.state.list.sortable) {
-			cells.unshift(<ListControl key="_sort" onClick={this.reorderItems} type="sortable" />);
-		}
-		// add delete/check icon when applicable
-		if (!this.state.list.nodelete) {
-			cells.unshift(this.state.manageMode ? (
-				<ListControl key="_check" type="check" active={this.state.checkedItems[itemId]} />
-			) : (
-				<ListControl key="_delete" onClick={(e) => this.deleteTableItem(item, e)} type="delete" />
-			));
-		}
-		return <tr key={'i' + item.id} onClick={this.state.manageMode ? (e) => this.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>;
-	},
-	renderTable () {
-		if (!this.state.items.results.length) return null;
-
-		return (
-			<div className="ItemList-wrapper">
-				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
-					{this.renderTableCols()}
-					{this.renderTableHeaders()}
-					<tbody>
-						{this.state.items.results.map(this.renderTableRow)}
-					</tbody>
-				</table>
-			</div>
-		);
-	},
-
-
-	// ==============================
-	// COMMON
-	// ==============================
-
 	toggleCreateModal (visible) {
 		this.setState({
 			showCreateForm: visible
@@ -425,13 +363,20 @@ const ListView = React.createClass({
 			WebkitTransition: 'max-width 160ms ease-out',
 		};
 		if (!this.state.constrainTableWidth) containerStyle['maxWidth'] = '100%';
-
 		return (
 			<div>
 				{this.renderHeader()}
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
-					{this.renderTable()}
+					<ItemsTable
+						list={this.state.list} 
+						columns={this.state.columns} 
+						items={this.state.items}
+						manageMode={this.state.manageMode} 
+						checkedItems={this.state.checkedItems}
+						rowAlert={this.state.rowAlert}
+						checkTableItem={this.checkTableItem}
+					/>
 					{this.renderNoSearchResults()}
 				</Container>
 			</div>
