@@ -91,20 +91,40 @@ const dragItem = {
 			return CurrentListStore.resetItems(CurrentListStore.findClonedItemById(props.id).index);
 		}
 		
+		const base = CurrentListStore.getDragBase();
+		const page = CurrentListStore.getCurrentPage();
 		const droppedOn = monitor.getDropResult();
-		// some drops provide the data for us in newSortOrder and prevSortOrder
+		// some drops provide the data for us in prevSortOrder
 		const prevSortOrder = droppedOn.prevSortOrder ? droppedOn.prevSortOrder : props.sortOrder;
 		// use a given newSortOrder prop or retrieve from the cloned items list
-		const newSortOrder = droppedOn.newSortOrder ? droppedOn.newSortOrder : CurrentListStore.findClonedItemByIndex(droppedOn.index).sortOrder;
+		let newSortOrder = droppedOn.newSortOrder ? droppedOn.newSortOrder : CurrentListStore.findClonedItemByIndex(droppedOn.index).sortOrder;
 
 		// self
 		if (prevSortOrder === newSortOrder) {
-			return CurrentListStore.resetItems(CurrentListStore.findClonedItemById(props.id).index);
+			if(base.page !== page) {
+				// we were dropped on ourself, but not on our original page
+				if(droppedOn.index === 0) {
+					// item is first in the list
+					// save to the sortOrder of the 2nd item - 1
+					newSortOrder = CurrentListStore.findClonedItemByIndex(1).sortOrder - 1;
+					droppedOn.goToPage = Number(page) - 1;
+				} else {
+					// item is last in the list
+					// save to the sortOrder of the 2nd to last item - 1
+					newSortOrder = CurrentListStore.findClonedItemByIndex(droppedOn.index - 1).sortOrder + 1;
+					droppedOn.goToPage = Number(page) + 1;
+				}
+				if (!newSortOrder || !droppedOn.goToPage) {
+					// something is wrong so reset
+					return CurrentListStore.resetItems(CurrentListStore.findClonedItemById(props.id).index);
+				}
+			} else {
+				return CurrentListStore.resetItems(CurrentListStore.findClonedItemById(props.id).index);
+			}
 		}
-		
 		// dropped on a target
-		// droppedOn.goToPage is a manual page override for dropping items on a new page target
-		CurrentListStore.reorderItems(props.item, prevSortOrder, newSortOrder, droppedOn.goToPage);
+		// droppedOn.goToPage is an optional page override for dropping items on a new page target
+		CurrentListStore.reorderItems(props.item, prevSortOrder, newSortOrder, Number(droppedOn.goToPage));
 	}
 };
 /**
