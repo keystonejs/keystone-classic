@@ -141,8 +141,8 @@ var Checkbox = React.createClass({
 		props.onMouseOut = this.handleMouseOut;
 
 		props.onClick = readonly ? null : this.handleChange;
-		props.onFocus = readonly ? null : this.toggleFocus.bind(this, true);
-		props.onBlur = readonly ? null : this.toggleFocus.bind(this, false);
+		props.onFocus = readonly ? null : () => this.toggleFocus(true);
+		props.onBlur = readonly ? null : () => this.toggleFocus(false);
 
 		let node = readonly ? 'span' : this.props.component;
 

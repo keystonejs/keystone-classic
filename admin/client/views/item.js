@@ -180,7 +180,7 @@ var ItemView = React.createClass({
 						<CreateForm
 							list={this.props.list}
 							isOpen={this.state.createIsOpen}
-							onCancel={this.toggleCreate.bind(this, false)} />
+							onCancel={() => this.toggleCreate(false)} />
 						<FlashMessages
 							messages={this.props.messages} />
 						<EditForm
