@@ -96,7 +96,7 @@ List.prototype.expandSort = function (input) {
 			invert = true;
 			path = path.substr(1);
 		}
-		const field = this.fields[path];
+		let field = this.fields[path];
 		if (!field) {
 			// TODO: Support arbitary document paths
 			console.warn('Invalid Sort specified:', path);
@@ -177,6 +177,25 @@ List.prototype.deleteItems = function (itemIds, callback) {
 
 List.prototype.deleteItem = function (itemId, callback) {
 	return this.deleteItems([itemId], callback);
+};
+
+List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOptions, callback) {
+	const url = '/keystone/api/' + this.path + '/' + item.id + '/sortOrder/' + oldSortOrder + '/' + newSortOrder + '/' + buildQueryString(pageOptions);
+	xhr({
+		url: url,
+		method: 'POST',
+		headers: Keystone.csrf.header
+	}, (err, resp, body) => {
+		if (err) return callback(err);
+		// TODO: check resp.statusCode
+		try {
+			body = JSON.parse(body);
+		} catch(e) {
+			console.log('Error parsing results json:', e, body);
+			return callback(e);
+		}
+		callback(null, body);
+	});
 };
 
 module.exports = List;
