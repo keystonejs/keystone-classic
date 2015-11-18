@@ -141,7 +141,7 @@ const ListView = React.createClass({
 		if (this.state.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
 		} else {
-			props.onClick = this.toggleCreateModal.bind(this, true);
+			props.onClick = () => this.toggleCreateModal(true);
 		}
 		return (
 			<InputGroup.Section className="ListHeader__create">
@@ -187,7 +187,7 @@ const ListView = React.createClass({
 		// select buttons
 		let selectAllButton = items.count > pageSize ? (
 		<InputGroup.Section>
-			<Button onClick={this.handleManagementSelect.bind(this, 'all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
+			<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
 		</InputGroup.Section>
 		) : null;
 		let selectButtons = manageMode ? (
@@ -195,10 +195,10 @@ const ListView = React.createClass({
 				<InputGroup contiguous>
 					{selectAllButton}
 					<InputGroup.Section>
-						<Button onClick={this.handleManagementSelect.bind(this, 'visible')} title="Select all rows">{items.count > pageSize ? 'Page' : 'All'} <small style={buttonNoteStyles}>({items.results.length})</small></Button>
+						<Button onClick={() => this.handleManagementSelect('visible')} title="Select all rows">{items.count > pageSize ? 'Page' : 'All'} <small style={buttonNoteStyles}>({items.results.length})</small></Button>
 					</InputGroup.Section>
 					<InputGroup.Section>
-						<Button onClick={this.handleManagementSelect.bind(this, 'none')} title="Deselect all rows">None</Button>
+						<Button onClick={() => this.handleManagementSelect('none')} title="Deselect all rows">None</Button>
 					</InputGroup.Section>
 				</InputGroup>
 			</InputGroup.Section>
@@ -215,7 +215,7 @@ const ListView = React.createClass({
 		return (
 			<InputGroup style={{ float: 'left', marginRight: '.75em' }}>
 				<InputGroup.Section>
-					<Button isActive={manageMode} onClick={this.toggleManageMode.bind(this, !manageMode)}>Manage</Button>
+					<Button isActive={manageMode} onClick={() => this.toggleManageMode(!manageMode)}>Manage</Button>
 				</InputGroup.Section>
 				{selectButtons}
 				{actionButtons}
@@ -394,7 +394,7 @@ const ListView = React.createClass({
 		if (this.state.list.autocreate) {
 			props.href = '?new' + this.props.csrfQuery;
 		} else {
-			props.onClick = this.toggleCreateModal.bind(this, true);
+			props.onClick = () => this.toggleCreateModal(true);
 		}
 		return (
 			<Button {...props}>
@@ -488,13 +488,13 @@ const ListView = React.createClass({
 					err={this.props.createFormErrors}
 					isOpen={this.state.showCreateForm}
 					list={this.state.list}
-					onCancel={this.toggleCreateModal.bind(this, false)}
+					onCancel={() => this.toggleCreateModal(false)}
 					values={this.props.createFormData} />
 				<UpdateForm
 					isOpen={this.state.showUpdateForm}
 					itemIds={Object.keys(this.state.checkedItems)}
 					list={this.state.list}
-					onCancel={this.toggleUpdateModal.bind(this, false)} />
+					onCancel={() => this.toggleUpdateModal(false)} />
 			</div>
 		);
 	}

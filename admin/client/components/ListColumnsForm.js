@@ -75,12 +75,12 @@ var ListColumnsForm = React.createClass({
 	render () {
 		return (
 			<InputGroup.Section className={this.props.className}>
-				<Button ref="target" id="listHeaderColumnButton" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
+				<Button ref="target" id="listHeaderColumnButton" isActive={this.state.isOpen} onClick={() => this.togglePopout(!this.state.isOpen)}>
 					<span className={this.props.className + '__icon octicon octicon-list-unordered'} />
 					<span className={this.props.className + '__label'}>Columns</span>
 					<span className="disclosure-arrow" />
 				</Button>
-				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)} relativeToID="listHeaderColumnButton">
+				<Popout isOpen={this.state.isOpen} onCancel={() => this.togglePopout(false)} relativeToID="listHeaderColumnButton">
 					<Popout.Header title="Columns" />
 					<Popout.Body scrollable>
 						<PopoutList>
@@ -90,7 +90,7 @@ var ListColumnsForm = React.createClass({
 					<Popout.Footer
 						primaryButtonAction={this.applyColumns}
 						primaryButtonLabel="Apply"
-						secondaryButtonAction={this.togglePopout.bind(this, false)}
+						secondaryButtonAction={() => this.togglePopout(false)}
 						secondaryButtonLabel="Cancel" />
 				</Popout>
 			</InputGroup.Section>
