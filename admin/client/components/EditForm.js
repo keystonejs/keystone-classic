@@ -55,13 +55,11 @@ var EditForm = React.createClass({
 	renderNameField () {
 		var nameField = this.props.list.nameField;
 		var nameIsEditable = this.props.list.nameIsEditable;
-		function wrapNameField(field) {
-			return (
-				<div className="EditForm__name-field">
-					{field}
-				</div>
-			);
-		}
+		var wrapNameField = field => (
+			<div className="EditForm__name-field">
+				{field}
+			</div>
+		);
 		if (nameIsEditable) {
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.label = null;
@@ -100,9 +98,9 @@ var EditForm = React.createClass({
 				}
 				if (props.dependsOn) {
 					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(function (dep) {
-						props.currentDependencies[dep] = this.state.values[dep];
-					}, this);
+					Object.keys(props.dependsOn).forEach(dep =>
+						props.currentDependencies[dep] = this.state.values[dep]
+					);
 				}
 				props.key = field.path;
 				return React.createElement(Fields[field.type], props);

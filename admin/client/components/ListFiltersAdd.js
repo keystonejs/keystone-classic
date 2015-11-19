@@ -7,10 +7,6 @@ import Popout from './Popout';
 import PopoutList from './PopoutList';
 import { Button, FormField, FormInput, InputGroup } from 'elemental';
 
-function pluck(arr, key) {
-	return arr.map(obj => obj[key]);
-}
-
 var ListFiltersAdd = React.createClass({
 	displayName: 'ListFiltersAdd',
 	getDefaultProps () {
@@ -79,18 +75,16 @@ var ListFiltersAdd = React.createClass({
 		this.closePopout();
 	},
 	renderList () {
-		let activeFilterFields = pluck(this.state.activeFilters, 'field');
-		let activeFilterPaths = pluck(activeFilterFields, 'path');
-
+		let activeFilterFields = this.state.activeFilters.map(obj => obj.field);
+		let activeFilterPaths = activeFilterFields.map(obj => obj.path);
 		let { availableFilters, searchString } = this.state;
-		let searchRegex = new RegExp(searchString);
+		let filteredFilters = availableFilters;
 
-		function searchFilter (filter) {
-			if (filter.type === 'heading') return false;
-			return searchRegex.test(filter.field.label.toLowerCase());
-		};
-
-		let filteredFilters = searchString ? availableFilters.filter(searchFilter) : availableFilters;
+		if (searchString) {
+			filteredFilters = filteredFilters
+				.filter(filter => filter.type !== 'heading')
+				.filter(filter => new RegExp(searchString).test(filter.field.label.toLowerCase()));
+		}
 
 		var popoutList = filteredFilters.map((el, i) => {
 			if (el.type === 'heading') {
