@@ -25,7 +25,7 @@ var CurrentListStore = new Store({
 		return _list;
 	},
 	getAvailableColumns () {
-		return _list.columns;
+		return _list.columns.filter( (field) => { return field.field.hasFilterMethod; } );
 	},
 	getActiveColumns () {
 		return active.columns;
