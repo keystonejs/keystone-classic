@@ -337,8 +337,6 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 
 				if (field.options.filenameAsPublicID) {
 					uploadOptions.public_id = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
-				} else {
-					uploadOptions = undefined;
 				}
 
 				cloudinary.uploader.upload(file.path, function(result) {
