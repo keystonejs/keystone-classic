@@ -50,6 +50,9 @@ var CurrentListStore = new Store({
 		this.loadItems();
 		this.notifyChange();
 	},
+	getAvailableFilters () {
+		return _list.columns.filter(col => col.field && col.field.hasFilterMethod);
+	},
 	getActiveFilters () {
 		return active.filters;
 	},

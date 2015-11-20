@@ -11,7 +11,7 @@ var ListFiltersAdd = React.createClass({
 	displayName: 'ListFiltersAdd',
 	getDefaultProps () {
 		return {
-			maxHeight: 360
+			maxHeight: 360,
 		};
 	},
 	getInitialState () {
@@ -20,7 +20,7 @@ var ListFiltersAdd = React.createClass({
 			isOpen: false,
 			searchString: '',
 			selectedField: false,
-			...this.getStateFromStore()
+			...this.getStateFromStore(),
 		};
 	},
 	componentDidMount () {
@@ -35,7 +35,7 @@ var ListFiltersAdd = React.createClass({
 	getStateFromStore () {
 		return {
 			activeFilters: CurrentListStore.getActiveFilters(),
-			availableFilters: CurrentListStore.getAvailableColumns()
+			availableFilters: CurrentListStore.getAvailableFilters(),
 		};
 	},
 	updateStateFromStore () {
@@ -45,9 +45,7 @@ var ListFiltersAdd = React.createClass({
 		this.setState({ searchString: e.target.value });
 	},
 	openPopout () {
-		this.setState({
-			isOpen: true
-		}, this.focusSearch);
+		this.setState({ isOpen: true }, this.focusSearch);
 	},
 	closePopout () {
 		this.setState({ isOpen: false, selectedField: false, searchString: '', innerHeight: 0 });
@@ -59,7 +57,7 @@ var ListFiltersAdd = React.createClass({
 		this.setState({
 			selectedField: false,
 			searchString: '',
-			innerHeight: 0
+			innerHeight: 0,
 		}, this.focusSearch);
 	},
 	focusSearch () {
@@ -67,7 +65,7 @@ var ListFiltersAdd = React.createClass({
 	},
 	selectField (field) {
 		this.setState({
-			selectedField: field
+			selectedField: field,
 		});
 	},
 	applyFilter (value) {
@@ -124,7 +122,7 @@ var ListFiltersAdd = React.createClass({
 		let { selectedField } = this.state;
 		let popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
 		let popoutPanesClassname = classnames('Popout__panes', {
-			'Popout__scrollable-area': !selectedField
+			'Popout__scrollable-area': !selectedField,
 		});
 
 		return (
