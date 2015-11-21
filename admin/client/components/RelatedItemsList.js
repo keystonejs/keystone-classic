@@ -45,6 +45,21 @@ const RelatedItemsList = React.createClass({
 			this.setState({ items });
 		});
 	},
+	renderItems () {
+		return this.state.items.length ? (
+			<div className="ItemList-wrapper">
+				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
+					{this.renderTableCols()}
+					{this.renderTableHeaders()}
+					<tbody>
+						{this.state.items.results.map(this.renderTableRow)}
+					</tbody>
+				</table>
+			</div>
+		) : (
+			<h4>No related {this.props.refList.plural}</h4>
+		);
+	},
 	renderTableCols () {
 		const cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
 		return <colgroup>{cols}</colgroup>;
@@ -71,19 +86,7 @@ const RelatedItemsList = React.createClass({
 		return (
 			<div className="Relationship">
 				<h3><a href={listHref}>{this.props.refList.label}</a></h3>
-				{this.state.items ? (
-					<div className="ItemList-wrapper">
-						<table cellPadding="0" cellSpacing="0" className="Table ItemList">
-							{this.renderTableCols()}
-							{this.renderTableHeaders()}
-							<tbody>
-								{this.state.items.results.map(this.renderTableRow)}
-							</tbody>
-						</table>
-					</div>
-				) : (
-					<Spinner size="sm" />
-				)}
+				{this.state.items ? this.renderItems() : <Spinner size="sm" />}
 			</div>
 		);
 	}
