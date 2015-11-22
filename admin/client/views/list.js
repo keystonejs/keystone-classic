@@ -154,6 +154,11 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
+
+		// WIP: Management mode currently under development, so the UI is disabled
+		// unless the KEYSTONE_DEV environment variable is set
+		if (!Keystone.devMode) return;
+
 		let { checkedItems, items, list, manageMode, pageSize } = this.state;
 		if (!items.count || (list.nodelete && list.noedit)) return;
 
