@@ -29,6 +29,16 @@ var EditForm = React.createClass({
 			values: values
 		});
 	},
+	handleReset(ev) {
+		if (!confirm(`Are you sure you want to reset your changes to this ${this.props.list.singular.toLowerCase()}?`)) {
+			ev && ev.preventDefault();
+		}
+	},
+	handleDelete(ev) {
+		if (!confirm(`Are you sure you want to delete this ${this.props.list.singular.toLowerCase()}?`)) {
+			ev && ev.preventDefault();
+		}
+	},
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
@@ -109,26 +119,24 @@ var EditForm = React.createClass({
 	},
 
 	renderFooterBar () {
-		var footer = [
+		var buttons = [
 			<Button key="save" type="primary" submit>Save</Button>
 		];
-		// TODO: Confirm: Use React & Modal
-		footer.push(
-			<Button key="reset" href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">
+		buttons.push(
+			<Button key="reset" onClick={ev => this.handleReset(ev)} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
 		if (!this.props.list.nodelete) {
-			// TODO: Confirm: Use React & Modal
-			footer.push(
-				<Button key="del" href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="u-float-right" data-confirm={'Are you sure you want to delete this?' + this.props.list.singular.toLowerCase()}>
+			buttons.push(
+				<Button key="del" onClick={ev => this.handleDelete(ev)} href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
 		}
 		return (
 			<FooterBar className="EditForm__footer">
-				{footer}
+				{buttons}
 			</FooterBar>
 		);
 	},
