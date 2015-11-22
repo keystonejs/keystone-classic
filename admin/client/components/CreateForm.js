@@ -40,8 +40,6 @@ var CreateForm = React.createClass({
 
 	componentDidUpdate (prevProps) {
 		if (this.props.isOpen !== prevProps.isOpen) {
-			document.body.style.overflow = (this.props.isOpen) ? 'hidden' : '';
-
 			// focus the focusTarget after the "open modal" CSS animation has started
 			setTimeout(() => this.refs.focusTarget && this.refs.focusTarget.focus(), 0);
 		}
