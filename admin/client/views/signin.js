@@ -42,7 +42,7 @@ var SigninView = React.createClass({
 			email: this.state.email,
 			password: this.state.password
 		}, (err, data) => {
-			if (err) {
+			if (err || data && data.error) {
 				this.displayError('The email and password you entered are not valid.');
 			} else {
 				// TODO: Handle custom signin redirections
