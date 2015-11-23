@@ -42,7 +42,7 @@ var ItemView = React.createClass({
 
 	toggleCreate (visible) {
 		this.setState({
-			createIsOpen: visible
+			createIsOpen: visible,
 		});
 	},
 

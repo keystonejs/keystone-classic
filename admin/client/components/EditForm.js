@@ -15,7 +15,7 @@ var EditForm = React.createClass({
 	},
 	getInitialState () {
 		return {
-			values: Object.assign({}, this.props.data.fields)
+			values: Object.assign({}, this.props.data.fields),
 		};
 	},
 	getFieldProps (field) {
@@ -29,9 +29,7 @@ var EditForm = React.createClass({
 	handleChange (event) {
 		var values = Object.assign({}, this.state.values);
 		values[event.path] = event.value;
-		this.setState({
-			values: values
-		});
+		this.setState({ values });
 	},
 	handleReset(ev) {
 		if (!confirm(`Are you sure you want to reset your changes to this ${this.props.list.singular.toLowerCase()}?`)) {
@@ -81,7 +79,7 @@ var EditForm = React.createClass({
 			nameFieldProps.inputProps = {
 				className: 'item-name-field',
 				placeholder: nameField.label,
-				size: 'lg'
+				size: 'lg',
 			};
 			return wrapNameField(
 				React.createElement(Fields[nameField.type], nameFieldProps)
@@ -112,9 +110,9 @@ var EditForm = React.createClass({
 				}
 				if (props.dependsOn) {
 					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(dep =>
+					Object.keys(props.dependsOn).forEach(dep => {
 						props.currentDependencies[dep] = this.state.values[dep]
-					);
+					});
 				}
 				props.key = field.path;
 				return React.createElement(Fields[field.type], props);
