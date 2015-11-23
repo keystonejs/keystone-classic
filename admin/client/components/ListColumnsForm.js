@@ -7,6 +7,10 @@ import { Button, InputGroup } from 'elemental';
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
 
+	propTypes: {
+		className: React.PropTypes.string.isRequired
+	},
+
 	getInitialState () {
 		return {
 			selectedColumns: {}

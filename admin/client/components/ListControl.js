@@ -5,7 +5,7 @@ var ListControl = React.createClass({
 
 	propTypes: {
 		onClick: React.PropTypes.func,
-		type: React.PropTypes.oneOf(['check', 'delete', 'sortable'])
+		type: React.PropTypes.oneOf(['check', 'delete', 'sortable']).isRequired
 	},
 
 	renderControl () {

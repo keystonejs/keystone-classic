@@ -4,8 +4,8 @@ import Transition from 'react-addons-css-transition-group';
 var MobileListItem = React.createClass({
 	displayName: 'MobileListItem',
 	propTypes: {
-		className: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
 	},
 	render () {
@@ -22,6 +22,7 @@ var MobileSectionItem = React.createClass({
 	propTypes: {
 		className: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
+		currentListKey: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
 		lists: React.PropTypes.array,
 	},

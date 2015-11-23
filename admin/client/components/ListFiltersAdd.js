@@ -9,6 +9,10 @@ import { Button, FormField, FormInput, InputGroup } from 'elemental';
 
 var ListFiltersAdd = React.createClass({
 	displayName: 'ListFiltersAdd',
+	propTypes: {
+		className: React.PropTypes.string.isRequired,
+		maxHeight: React.PropTypes.number,
+	},
 	getDefaultProps () {
 		return {
 			maxHeight: 360,

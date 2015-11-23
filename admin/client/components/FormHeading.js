@@ -5,6 +5,10 @@ module.exports = React.createClass({
 
 	displayName: 'FormHeading',
 
+	propTypes: {
+		options: React.PropTypes.object
+	},
+
 	render () {
 		if (!evalDependsOn(this.props.options.dependsOn, this.props.options.values)) {
 			return null;
