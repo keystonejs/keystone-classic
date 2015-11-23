@@ -10,6 +10,9 @@ const FORMAT_OPTIONS = [
 ];
 
 var ListDownloadForm = React.createClass({
+	propTypes: {
+		className: React.PropTypes.string.isRequired,
+	},
 	getInitialState () {
 		return {
 			format: FORMAT_OPTIONS[0].value,

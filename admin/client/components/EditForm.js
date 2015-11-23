@@ -9,6 +9,10 @@ import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'el
 
 var EditForm = React.createClass({
 	displayName: 'EditForm',
+	propTypes: {
+		data: React.PropTypes.object,
+		list: React.PropTypes.object,
+	},
 	getInitialState () {
 		return {
 			values: Object.assign({}, this.props.data.fields)

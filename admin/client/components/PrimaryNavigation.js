@@ -4,8 +4,8 @@ import { Container } from 'elemental';
 var PrimaryNavItem = React.createClass({
 	displayName: 'PrimaryNavItem',
 	propTypes: {
-		className: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
 		title: React.PropTypes.string,
 	},

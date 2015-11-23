@@ -8,6 +8,7 @@ var Checkbox = React.createClass({
 	displayName: 'Checkbox',
 	propTypes: {
 		checked: React.PropTypes.bool,
+		component: React.PropTypes.node,
 		onChange: React.PropTypes.func,
 		readonly: React.PropTypes.bool,
 	},

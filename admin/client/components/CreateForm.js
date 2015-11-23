@@ -7,6 +7,14 @@ var CreateForm = React.createClass({
 
 	displayName: 'CreateForm',
 
+	propTypes: {
+		err: React.PropTypes.object,
+		isOpen: React.PropTypes.bool,
+		list: React.PropTypes.object,
+		onCancel: React.PropTypes.func,
+		values: React.PropTypes.object,
+	},
+
 	getDefaultProps () {
 		return {
 			err: null,

@@ -3,9 +3,6 @@ import { Container } from 'elemental';
 
 module.exports = React.createClass({
 	displayName: 'Toolbar',
-	propTypes: {
-		className: React.PropTypes.string
-	},
 
 	render () {
 		return (

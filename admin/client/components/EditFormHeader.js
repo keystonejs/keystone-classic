@@ -7,6 +7,12 @@ var Header = React.createClass({
 
 	displayName: 'EditFormHeader',
 
+	propTypes: {
+		data: React.PropTypes.object,
+		list: React.PropTypes.object,
+		toggleCreate: React.PropTypes.func,
+	},
+
 	getInitialState () {
 		return {
 			searchString: ''
