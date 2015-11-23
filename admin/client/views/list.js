@@ -32,7 +32,7 @@ const ListView = React.createClass({
 			searchString: '',
 			showCreateForm: window.location.search === '?create' || Keystone.createFormErrors,
 			showUpdateForm: false,
-			...this.getStateFromStore()
+			...this.getStateFromStore(),
 		};
 	},
 	componentDidMount () {
@@ -57,7 +57,7 @@ const ListView = React.createClass({
 			loading: CurrentListStore.isLoading(),
 			pageSize: CurrentListStore.getPageSize(),
 			ready: CurrentListStore.isReady(),
-			search: CurrentListStore.getActiveSearch()
+			search: CurrentListStore.getActiveSearch(),
 		};
 		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length);
 		return state;
@@ -85,7 +85,7 @@ const ListView = React.createClass({
 	handleSearchKey (e) {
 		// clear on esc
 		if (e.which === 27) {
-			this.handleSearchClear ();
+			this.handleSearchClear();
 		}
 	},
 	handlePageSelect (i) {
@@ -94,15 +94,16 @@ const ListView = React.createClass({
 	toggleManageMode (filter = !this.state.manageMode) {
 		this.setState({
 			manageMode: filter,
-			checkedItems: {}
+			checkedItems: {},
 		});
 	},
 	toggleUpdateModal (filter = !this.state.showUpdateForm) {
 		this.setState({
-			showUpdateForm: filter
+			showUpdateForm: filter,
 		});
 	},
 	massUpdate () {
+		// TODO: Implement update multi-item
 		console.log('Update ALL the things!');
 	},
 	massDelete () {
@@ -123,7 +124,7 @@ const ListView = React.createClass({
 	renderSearch () {
 		var searchClearIcon = classnames('ListHeader__search__icon octicon', {
 			'is-search octicon-search': !this.state.searchString.length,
-			'is-clear octicon-x': this.state.searchString.length
+			'is-clear octicon-x': this.state.searchString.length,
 		});
 		return (
 			<InputGroup.Section grow className="ListHeader__search">
@@ -288,21 +289,21 @@ const ListView = React.createClass({
 			newCheckedItems[itemId] = true;
 		}
 		this.setState({
-			checkedItems: newCheckedItems
+			checkedItems: newCheckedItems,
 		});
 	},
 	checkAllTableItems () {
 		let checkedItems = {};
-		this.state.items.results.forEach(item =>
-			checkedItems[item.id] = true
-		);
+		this.state.items.results.forEach(item => {
+			checkedItems[item.id] = true;
+		});
 		this.setState({
-			checkedItems: checkedItems
+			checkedItems: checkedItems,
 		});
 	},
 	uncheckAllTableItems () {
 		this.setState({
-			checkedItems: {}
+			checkedItems: {},
 		});
 	},
 	deleteTableItem (item, e) {
@@ -311,7 +312,7 @@ const ListView = React.createClass({
 	},
 	toggleTableWidth () {
 		this.setState({
-			constrainTableWidth: !this.state.constrainTableWidth
+			constrainTableWidth: !this.state.constrainTableWidth,
 		});
 	},
 	renderTableCols () {
@@ -386,7 +387,7 @@ const ListView = React.createClass({
 
 	toggleCreateModal (visible) {
 		this.setState({
-			showCreateForm: visible
+			showCreateForm: visible,
 		});
 	},
 	renderBlankStateCreateButton () {
