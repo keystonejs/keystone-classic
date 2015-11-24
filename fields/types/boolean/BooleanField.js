@@ -13,6 +13,9 @@ module.exports = Field.create({
 	},
 	
 	renderUI: function() {
+		var path = this.props.path;
+		var langOfField = path ? path.split('_lang_') : null;
+		langOfField = langOfField && langOfField.length > 1 ? langOfField[1] : '';
 		
 		var input, fieldClassName = 'field-ui';
 		
@@ -40,7 +43,7 @@ module.exports = Field.create({
 			);
 		}
 		
-		return <div className="field field-type-boolean">{input}</div>;
+		return <div className={"field field-type-boolean " + langOfField}>{input}</div>;
 	}
 	
 });
