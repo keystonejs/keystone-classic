@@ -72,7 +72,7 @@ var CurrentListStore = new Store({
 			filter = { field, value };
 			active.filters.push(filter);
 		}
-		this.loadItems();
+		this.setCurrentPage(1);
 		this.notifyChange();
 	},
 	clearFilter (path) {
