@@ -111,7 +111,7 @@ var EditForm = React.createClass({
 				if (props.dependsOn) {
 					props.currentDependencies = {};
 					Object.keys(props.dependsOn).forEach(dep => {
-						props.currentDependencies[dep] = this.state.values[dep]
+						props.currentDependencies[dep] = this.state.values[dep];
 					});
 				}
 				props.key = field.path;
