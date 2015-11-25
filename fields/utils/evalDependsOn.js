@@ -3,18 +3,22 @@ function isObject(arg) {
 };
 
 module.exports = function evalDependsOn(dependsOn, values) {
-	if (!isObject(dependsOn)) return true;
-	var keys = Object.keys(dependsOn);
-	return (keys.length) ? keys.every(function(key) {
-		var dependsValue = dependsOn[key];
-		if (typeof dependsValue === 'boolean') {
-			if (typeof values[key] === 'boolean') {
-				return dependsValue === values[key];
-			} else {
-				return dependsValue !== (Object.keys(values[key]).length === 0);
-			}
-		}
-		var matches = Array.isArray(dependsValue) ? dependsValue : [dependsValue];
-		return matches.indexOf(values[key]) !== -1;
-	}) : true;
+    if (!isObject(dependsOn) || !Object.keys(dependsOn).length) {
+        return true;
+    }
+
+    return Object.keys(dependsOn).every(function(key) {
+        var value = values[key];
+        var dependsOnValue = dependsOn[key];
+
+        if (typeof dependsOnValue === 'boolean' && typeof value !== 'boolean') {
+            value = Boolean(Object.keys(value).length);
+        }
+
+        if (Array.isArray(dependsOnValue)) {
+            return dependsOnValue.indexOf(value) !== -1;
+        }
+
+        return dependsOnValue === value;
+    });
 };
