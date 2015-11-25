@@ -37,9 +37,11 @@ var EditForm = React.createClass({
 		}
 	},
 	handleDelete(ev) {
-		if (!confirm(`Are you sure you want to delete this ${this.props.list.singular.toLowerCase()}?`)) {
-			ev && ev.preventDefault();
-		}
+		if (!confirm(`Are you sure you want to delete this ${this.props.list.singular.toLowerCase()}?`)) return;
+		this.props.list.deleteItem(this.props.data.id, err => {
+			// TODO: Handle error
+			top.location.href = '/keystone/' + this.props.list.path;
+		});
 	},
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
@@ -125,13 +127,13 @@ var EditForm = React.createClass({
 			<Button key="save" type="primary" submit>Save</Button>
 		];
 		buttons.push(
-			<Button key="reset" onClick={ev => this.handleReset(ev)} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
+			<Button key="reset" onClick={this.handleReset} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
 		if (!this.props.list.nodelete) {
 			buttons.push(
-				<Button key="del" onClick={ev => this.handleDelete(ev)} href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="u-float-right">
+				<Button key="del" onClick={this.handleDelete} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);

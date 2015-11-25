@@ -156,6 +156,10 @@ List.prototype.getDownloadURL = function (options) {
 	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
 };
 
+List.prototype.deleteItem = function (itemId, callback) {
+	this.deleteItems([itemId], callback);
+};
+
 List.prototype.deleteItems = function (itemIds, callback) {
 	const url = '/keystone/api/' + this.path + '/' + itemIds.join() + '/delete';
 	xhr({
