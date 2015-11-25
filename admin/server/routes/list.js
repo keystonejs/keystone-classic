@@ -46,6 +46,30 @@ module.exports = function(req, res) {
 			}
 		});
 
+	} else if (!req.list.get('nodelete') && req.query['delete']) { //eslint-disable-line dot-notation
+
+		if (!checkCSRF()) return renderView();
+
+		if (req.query['delete'] === req.user.id) { //eslint-disable-line dot-notation
+			req.flash('error', 'You can\'t delete your own ' + req.list.singular + '.');
+			return renderView();
+		}
+
+		req.list.model.findById(req.query['delete']).exec(function (err, item) { //eslint-disable-line dot-notation
+			if (err || !item) return res.redirect('/keystone/' + req.list.path);
+
+			item.remove(function (err) {
+				if (err) {
+					console.log('Error deleting ' + req.list.singular);
+					console.log(err);
+					req.flash('error', 'Error deleting the ' + req.list.singular + ': ' + err.message);
+				} else {
+					req.flash('success', req.list.singular + ' deleted successfully.');
+				}
+				return res.redirect('/keystone/' + req.list.path);
+			});
+		});
+
 	} else if (!req.list.get('nocreate') && req.method === 'POST' && req.body.action === 'create') {
 
 		if (!checkCSRF()) return renderView();
