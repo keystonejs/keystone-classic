@@ -1,13 +1,17 @@
-import _ from 'underscore';
 import classnames from 'classnames';
 import evalDependsOn from '../utils/evalDependsOn.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
+import blacklist from 'blacklist';
+
+function isObject(arg) {
+	return Object.prototype.toString.call(arg) === '[object Object]';
+}
 
 function validateSpec(spec) {
 	if (!spec) spec = {};
-	if (!_.isObject(spec.supports)) {
+	if (!isObject(spec.supports)) {
 		spec.supports = {};
 	}
 	if (!spec.focusTargetRef) {
@@ -111,7 +115,6 @@ module.exports.create = function(spec) {
 
 	spec = validateSpec(spec);
 
-	var excludeBaseMethods = [];
 	var field = {
 		spec: spec,
 		displayName: spec.displayName,
@@ -127,18 +130,21 @@ module.exports.create = function(spec) {
 		}
 	};
 
+	var excludeBaseMethods = {};
 	if (spec.mixins) {
-		_.each(spec.mixins, function(mixin) {
-			_.each(mixin, function(method, name) {
-				if (Base[name]) excludeBaseMethods.push(name);
+		spec.mixins.forEach(function(mixin) {
+			Object.keys(mixin).forEach(function(name) {
+				if (Base[name]) {
+					excludeBaseMethods[name] = true;
+				}
 			});
 		});
 	}
 
-	Object.assign(field, _.omit(Base, excludeBaseMethods));
-	Object.assign(field, _.omit(spec, 'mixins'));
+	Object.assign(field, blacklist(Base, excludeBaseMethods));
+	Object.assign(field, blacklist(spec, 'mixins'));
 
-	if (_.isArray(spec.mixins)) {
+	if (Array.isArray(spec.mixins)) {
 		field.mixins = field.mixins.concat(spec.mixins);
 	}
 
