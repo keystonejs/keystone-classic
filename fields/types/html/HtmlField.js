@@ -95,10 +95,10 @@ module.exports = Field.create({
 
 	getOptions () {
 		var plugins = ['code', 'link'],
-			options = _.defaults(
+			options = Object.assign(
 				{},
-				this.props.wysiwyg,
-				Keystone.wysiwyg.options
+				Keystone.wysiwyg.options,
+				this.props.wysiwyg
 			),
 			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
 			i;
