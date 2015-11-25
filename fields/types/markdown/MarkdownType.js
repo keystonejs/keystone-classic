@@ -20,12 +20,13 @@ function markdown(list, path, options) {
 	options.nofilter = true;
 
 	this.toolbarOptions = options.toolbarOptions || {};
+	this.markedOptions = options.markedOptions || {};
 	this.height = options.height || 90;
 
 	// since wysiwyg option can be falsey this needs to use `in` instead of ||
 	this.wysiwyg = ('wysiwyg' in options) ? options.wysiwyg : true;
 
-	this._properties = ['wysiwyg', 'height', 'toolbarOptions'];
+	this._properties = ['wysiwyg', 'height', 'toolbarOptions', 'markedOptions'];
 
 	markdown.super_.call(this, list, path, options);
 
@@ -56,6 +57,8 @@ markdown.prototype.addToSchema = function() {
 		html: this._path.append('.html')
 	};
 
+	var markedOptions = this.markedOptions;
+
 	var setMarkdown = function(value) {
 
 		if (value === this.get(paths.md)) {
@@ -63,7 +66,7 @@ markdown.prototype.addToSchema = function() {
 		}
 
 		if (typeof value === 'string') {
-			this.set(paths.html, marked(value));
+			this.set(paths.html, marked(value, markedOptions));
 			return value;
 		} else {
 			this.set(paths.html, undefined);
