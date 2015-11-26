@@ -26,7 +26,7 @@ function markdown(list, path, options) {
 	// since wysiwyg option can be falsey this needs to use `in` instead of ||
 	this.wysiwyg = ('wysiwyg' in options) ? options.wysiwyg : true;
 
-	this._properties = ['wysiwyg', 'height', 'toolbarOptions', 'markedOptions'];
+	this._properties = ['wysiwyg', 'height', 'toolbarOptions'];
 
 	markdown.super_.call(this, list, path, options);
 
