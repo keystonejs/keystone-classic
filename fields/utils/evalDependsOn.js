@@ -1,18 +1,24 @@
-var _ = require('underscore');
+function isObject(arg) {
+    return Object.prototype.toString.call(arg) === '[object Object]';
+};
 
 module.exports = function evalDependsOn(dependsOn, values) {
-	if (!_.isObject(dependsOn)) return true;
-	var keys = _.keys(dependsOn);
-	return (keys.length) ? _.every(keys, function(key) {
-		var dependsValue = dependsOn[key];
-		if (_.isBoolean(dependsValue)) {
-			if (_.isBoolean(values[key])) {
-				return dependsValue === values[key];
-			} else {
-				return dependsValue !== _.isEmpty(values[key]);
-			}
-		}
-		var matches = _.isArray(dependsValue) ? dependsValue : [dependsValue];
-		return _.contains(matches, values[key]);
-	}, this) : true;
+    if (!isObject(dependsOn) || !Object.keys(dependsOn).length) {
+        return true;
+    }
+
+    return Object.keys(dependsOn).every(function(key) {
+        var value = values[key];
+        var dependsOnValue = dependsOn[key];
+
+        if (typeof dependsOnValue === 'boolean' && typeof value !== 'boolean') {
+            value = Boolean(Object.keys(value).length);
+        }
+
+        if (Array.isArray(dependsOnValue)) {
+            return dependsOnValue.indexOf(value) !== -1;
+        }
+
+        return dependsOnValue === value;
+    });
 };
