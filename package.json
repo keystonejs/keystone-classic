@@ -60,7 +60,7 @@
     "multer": "^0.1.8",
     "numeral": "^1.5.3",
     "object-assign": "^4.0.1",
-    "qs": "^6.0.1",
+    "qs": "^4.0.0",
     "queryfilter": "^0.0.4",
     "range_check": "^1.2.0",
     "react": "^0.14.3",
