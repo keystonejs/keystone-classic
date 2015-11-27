@@ -62,7 +62,10 @@ module.exports = Field.create({
 		if (this.hasLocal()) {
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
-			return this.props.value.url;
+			//TODO: use the proper thumbnail method here
+			return this.props.value.url.replace('upload/', 'upload/h_90/');
+			//return this.props.value.url;
+			//return this.thumbnail(props.value.width || 300, props.value.height || 300);
 		} else {
 			return null;
 		}
