@@ -46,6 +46,7 @@
     "i": "^0.3.3",
     "jade": "^1.11.0",
     "jquery": "^2.1.4",
+    "kerberos": "0.0.17",
     "keystone-utils": "^0.3.0",
     "knox": "^0.9.2",
     "less-middleware": "^2.0.1",
