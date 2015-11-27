@@ -14,6 +14,7 @@ module.exports = [
 	'marked',
 	'moment',
 	'numeral',
+	'qs',
 	'react-addons-css-transition-group',
 	'react-alt-text',
 	'react-day-picker',
