@@ -7,8 +7,10 @@ var ListFiltersAddForm = React.createClass({
 
 	propTypes: {
 		field: React.PropTypes.object.isRequired,
+		maxHeight: React.PropTypes.number,
 		onApply: React.PropTypes.func,
-		onCancel: React.PropTypes.func
+		onCancel: React.PropTypes.func,
+		onHeightChange: React.PropTypes.func,
 	},
 
 	getInitialState () {

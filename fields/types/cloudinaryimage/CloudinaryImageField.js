@@ -1,6 +1,7 @@
 import _ from 'underscore';
 import $ from 'jquery';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Field from '../Field';
 import Select from 'react-select';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
@@ -50,11 +51,11 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return this.refs.fileField.getDOMNode();
+		return ReactDOM.findDOMNode(this.refs.fileField);
 	},
 
 	changeImage () {
-		this.refs.fileField.getDOMNode().click();
+		this.fileFieldNode().click();
 	},
 
 	getImageSource () {

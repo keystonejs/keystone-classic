@@ -3,6 +3,12 @@ import blacklist from 'blacklist';
 import vkey from 'vkey';
 
 var AltText = React.createClass({
+	propTypes: {
+		component: React.PropTypes.string,
+		modified: React.PropTypes.string,
+		modifier: React.PropTypes.string,
+		normal: React.PropTypes.string,
+	},
 	getDefaultProps () {
 		return {
 			component: 'span',

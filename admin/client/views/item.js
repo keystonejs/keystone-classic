@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import request from 'superagent';
 import Columns from '../columns';
 import Lists from '../stores/Lists';
 import CreateForm from '../components/CreateForm';
@@ -10,85 +9,9 @@ import FlashMessages from '../components/FlashMessages';
 import Footer from '../components/Footer';
 import MobileNavigation from '../components/MobileNavigation';
 import PrimaryNavigation from '../components/PrimaryNavigation';
+import RelatedItemsList from '../components/RelatedItemsList';
 import SecondaryNavigation from '../components/SecondaryNavigation';
-import { Container, Spinner } from 'elemental';
-
-var RelatedItemsList = React.createClass({
-	propTypes: {
-		list: React.PropTypes.object.isRequired,
-		refList: React.PropTypes.object.isRequired,
-		relatedItemId: React.PropTypes.string.isRequired,
-		relationship: React.PropTypes.object.isRequired,
-	},
-	getInitialState () {
-		return {
-			columns: this.getColumns(),
-			items: null,
-		};
-	},
-	getColumns () {
-		const { relationship, refList } = this.props;
-		const columns = refList.expandColumns(refList.defaultColumns);
-		return columns.filter(i => i.path !== relationship.refPath);
-	},
-	componentDidMount () {
-		this.loadItems();
-	},
-	loadItems () {
-		// TODO: Handle invalid relationship definitions
-		const { refList, relatedItemId, relationship } = this.props;
-		refList.loadItems({
-			columns: this.state.columns,
-			filters: [{
-				field: refList.fields[relationship.refPath],
-				value: { value: relatedItemId },
-			}],
-		}, (err, items) => {
-			// TODO: indicate pagination & link to main list view
-			this.setState({ items });
-		});
-	},
-	renderTableCols () {
-		const cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
-		return <colgroup>{cols}</colgroup>;
-	},
-	renderTableHeaders () {
-		const cells = this.state.columns.map((col) => {
-			return <th key={col.path}>{col.label}</th>;
-		});
-		return <thead><tr>{cells}</tr></thead>;
-	},
-	renderTableRow (item) {
-		const cells = this.state.columns.map((col, i) => {
-			const ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			const linkTo = !i ? `/keystone/${this.props.refList.path}/${item.id}` : undefined;
-			return <ColumnType key={col.path} list={this.props.refList} col={col} data={item} linkTo={linkTo} />;
-		});
-		return <tr key={'i' + item.id}>{cells}</tr>;
-	},
-	render () {
-		const listHref = '/keystone/' + this.props.refList.path;
-		return (
-			<div className="Relationship">
-				<h3><a href={listHref}>{this.props.refList.label}</a></h3>
-				{this.state.items ? (
-					<div className="ItemList-wrapper">
-						<table cellPadding="0" cellSpacing="0" className="Table ItemList">
-							{this.renderTableCols()}
-							{this.renderTableHeaders()}
-							<tbody>
-								{this.state.items.results.map(this.renderTableRow)}
-							</tbody>
-						</table>
-					</div>
-				) : (
-					<Spinner size="sm" />
-				)}
-			</div>
-		);
-	}
-});
-
+import { Alert, Container, Spinner } from 'elemental';
 
 var ItemView = React.createClass({
 
@@ -119,7 +42,7 @@ var ItemView = React.createClass({
 
 	toggleCreate (visible) {
 		this.setState({
-			createIsOpen: visible
+			createIsOpen: visible,
 		});
 	},
 
@@ -170,7 +93,7 @@ var ItemView = React.createClass({
 						<CreateForm
 							list={this.props.list}
 							isOpen={this.state.createIsOpen}
-							onCancel={this.toggleCreate.bind(this, false)} />
+							onCancel={() => this.toggleCreate(false)} />
 						<FlashMessages
 							messages={this.props.messages} />
 						<EditForm

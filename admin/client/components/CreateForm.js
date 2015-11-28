@@ -7,6 +7,14 @@ var CreateForm = React.createClass({
 
 	displayName: 'CreateForm',
 
+	propTypes: {
+		err: React.PropTypes.object,
+		isOpen: React.PropTypes.bool,
+		list: React.PropTypes.object,
+		onCancel: React.PropTypes.func,
+		values: React.PropTypes.object,
+	},
+
 	getDefaultProps () {
 		return {
 			err: null,
@@ -18,13 +26,13 @@ var CreateForm = React.createClass({
 	getInitialState () {
 		var values = Object.assign({}, this.props.values);
 
-		Object.keys(this.props.list.fields).forEach(function(key) {
+		Object.keys(this.props.list.fields).forEach(key => {
 			var field = this.props.list.fields[key];
 
 			if (!values[field.path]) {
 				values[field.path] = field.defaultValue;
 			}
-		}, this);
+		});
 		return {
 			values: values
 		};
@@ -40,8 +48,6 @@ var CreateForm = React.createClass({
 
 	componentDidUpdate (prevProps) {
 		if (this.props.isOpen !== prevProps.isOpen) {
-			document.body.style.overflow = (this.props.isOpen) ? 'hidden' : '';
-
 			// focus the focusTarget after the "open modal" CSS animation has started
 			setTimeout(() => this.refs.focusTarget && this.refs.focusTarget.focus(), 0);
 		}
@@ -107,7 +113,7 @@ var CreateForm = React.createClass({
 			form.push(React.createElement(Fields[nameField.type], nameFieldProps));
 		}
 
-		Object.keys(list.initialFields).forEach(function(key) {
+		Object.keys(list.initialFields).forEach(key => {
 			var field = list.fields[list.initialFields[key]];
 			if ('function' !== typeof Fields[field.type]) {
 				form.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
@@ -118,7 +124,7 @@ var CreateForm = React.createClass({
 				fieldProps.ref = focusRef = 'focusTarget';
 			}
 			form.push(React.createElement(Fields[field.type], fieldProps));
-		}, this);
+		});
 
 		return (
 			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} className="create-form">

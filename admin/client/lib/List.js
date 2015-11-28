@@ -30,15 +30,15 @@ function getSortString (sort) {
 };
 
 function buildQueryString (options) {
-	const parts = [];
-	parts.push(options.search ? 'search=' + options.search : '');
-	parts.push(options.filters.length ? 'filters=' + JSON.stringify(getFilters(options.filters)) : '');
-	parts.push(options.columns ? 'select=' + options.columns.map(i => i.path).join(',') : '');
-	parts.push(options.page && options.page.size ? 'limit=' + options.page.size : '');
-	parts.push(options.page && options.page.index > 1 ? 'skip=' + ((options.page.index - 1) * options.page.size) : '');
-	parts.push(options.sort ? 'sort=' + getSortString(options.sort) : '');
-	parts.push('expandRelationshipFields=true');
-	return '?' + parts.filter(i => i).join('&');
+	const query = {};
+	if (options.search) query.search = options.search;
+	if (options.filters.length) query.filters = JSON.stringify(getFilters(options.filters));
+	if (options.columns) query.select = options.columns.map(i => i.path).join(',');
+	if (options.page && options.page.size) query.limit = options.page.size;
+	if (options.page && options.page.index > 1) query.skip = (options.page.index - 1) * options.page.size;
+	if (options.sort) query.sort = getSortString(options.sort);
+	query.expandRelationshipFields = true;
+	return '?' + qs.stringify(query);
 };
 
 const List = function (options) {
@@ -154,6 +154,10 @@ List.prototype.getDownloadURL = function (options) {
 	parts.push(options.sort ? 'sort=' + getSortString(options.sort) : '');
 	parts.push('expandRelationshipFields=true');
 	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
+};
+
+List.prototype.deleteItem = function (itemId, callback) {
+	this.deleteItems([itemId], callback);
 };
 
 List.prototype.deleteItems = function (itemIds, callback) {

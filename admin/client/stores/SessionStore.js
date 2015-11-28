@@ -3,8 +3,6 @@
 import Store from 'store-prototype';
 import xhr from 'xhr';
 
-const fn = function () {};
-
 var csrfHeaders = {};
 csrfHeaders[Keystone.csrf_header_key] = Keystone.csrf_token_value;
 
@@ -32,7 +30,7 @@ var SessionStore = new Store({
 		}, callbackResponse(callback));
 	},
 	signout (callback) {
-		callback = callback || fn;
+		callback = callback || function () {};
 		xhr({
 			url: '/keystone/api/session/signout',
 			method: 'post',

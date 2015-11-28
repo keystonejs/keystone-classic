@@ -5,7 +5,13 @@ import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
 
 var Header = React.createClass({
 
-	displayName: 'ItemViewHeader',
+	displayName: 'EditFormHeader',
+
+	propTypes: {
+		data: React.PropTypes.object,
+		list: React.PropTypes.object,
+		toggleCreate: React.PropTypes.func,
+	},
 
 	getInitialState () {
 		return {
@@ -45,11 +51,10 @@ var Header = React.createClass({
 		var list = this.props.list;
 		var items = this.props.data.drilldown ? this.props.data.drilldown.items : [];
 
-		var els = items.map(function(dd) {
-
+		var els = items.map(dd => {
 			var links = [];
 
-			dd.items.forEach(function(el, i) {
+			dd.items.forEach((el, i) => {
 				links.push(<a key={'dd' + i} href={el.href} title={dd.list.singular}>{el.label}</a>);
 				if (i < dd.items.length - 1) {
 					links.push(<span key={'ds' + i} className="separator">,</span>);//eslint-disable-line comma-spacing
@@ -64,7 +69,6 @@ var Header = React.createClass({
 					{more}
 				</li>
 			);
-
 		});
 
 		if (!els.length) {
@@ -97,7 +101,7 @@ var Header = React.createClass({
 						name="search"
 						value={this.state.searchString}
 						onChange={this.searchStringChanged}
-						onKeyUp={this.handleEscapeKey.bind(this)}
+						onKeyUp={this.handleEscapeKey}
 						placeholder="Search"
 						className="EditForm__header__search-input" />
 				</FormIconField>
@@ -120,7 +124,7 @@ var Header = React.createClass({
 		if (this.props.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
 		} else {
-			props.onClick = this.toggleCreate.bind(this, true);
+			props.onClick = () => { this.toggleCreate(true); };
 		}
 		return (
 			<Button type="success" {...props}>

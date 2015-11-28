@@ -5,8 +5,13 @@ var ItemsTableCell = React.createClass({
 	propTypes: {
 		className: React.PropTypes.string,
 	},
+	getDefaultProps () {
+		return {
+			className: ''
+		};
+	},
 	render () {
-		let className = 'ItemList__col' + (this.props.className ?  (' ' + this.props.className) : '');
+		let className = 'ItemList__col ' + this.props.className;
 		return (
 			<td {...this.props} className={className} />
 		);

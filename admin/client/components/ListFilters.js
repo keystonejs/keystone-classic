@@ -6,7 +6,7 @@ import { Pill } from 'elemental';
 
 const Filter = React.createClass({
 	propTypes: {
-		filter: React.PropTypes.object
+		filter: React.PropTypes.object.isRequired
 	},
 	getInitialState () {
 		return {

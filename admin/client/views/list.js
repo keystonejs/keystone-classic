@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
-import Lists from '../stores/Lists';
 import CurrentListStore from '../stores/CurrentListStore';
 import Columns from '../columns';
 import CreateForm from '../components/CreateForm';
@@ -19,14 +18,10 @@ import MobileNavigation from '../components/MobileNavigation';
 import PrimaryNavigation from '../components/PrimaryNavigation';
 import SecondaryNavigation from '../components/SecondaryNavigation';
 import UpdateForm from '../components/UpdateForm';
-import { Alert, BlankState, Button, Container, Dropdown, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
 import { plural } from '../utils';
 
 const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
-
-function showCreateForm() {
-	return window.location.search === '?create' || Keystone.createFormErrors;
-}
 
 const ListView = React.createClass({
 	getInitialState () {
@@ -35,9 +30,9 @@ const ListView = React.createClass({
 			constrainTableWidth: true,
 			manageMode: false,
 			searchString: '',
-			showCreateForm: showCreateForm(),
+			showCreateForm: window.location.search === '?create' || Keystone.createFormErrors,
 			showUpdateForm: false,
-			...this.getStateFromStore()
+			...this.getStateFromStore(),
 		};
 	},
 	componentDidMount () {
@@ -62,8 +57,11 @@ const ListView = React.createClass({
 			loading: CurrentListStore.isLoading(),
 			pageSize: CurrentListStore.getPageSize(),
 			ready: CurrentListStore.isReady(),
-			search: CurrentListStore.getActiveSearch()
+			search: CurrentListStore.getActiveSearch(),
 		};
+		if (!this._searchTimeout) {
+			state.searchString = state.search;
+		}
 		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length);
 		return state;
 	},
@@ -79,6 +77,7 @@ const ListView = React.createClass({
 		});
 		var delay = e.target.value.length > 1 ? 150 : 0;
 		this._searchTimeout = setTimeout(() => {
+			delete this._searchTimeout;
 			CurrentListStore.setActiveSearch(this.state.searchString);
 		}, delay);
 	},
@@ -90,7 +89,7 @@ const ListView = React.createClass({
 	handleSearchKey (e) {
 		// clear on esc
 		if (e.which === 27) {
-			this.handleSearchClear ();
+			this.handleSearchClear();
 		}
 	},
 	handlePageSelect (i) {
@@ -99,15 +98,16 @@ const ListView = React.createClass({
 	toggleManageMode (filter = !this.state.manageMode) {
 		this.setState({
 			manageMode: filter,
-			checkedItems: {}
+			checkedItems: {},
 		});
 	},
 	toggleUpdateModal (filter = !this.state.showUpdateForm) {
 		this.setState({
-			showUpdateForm: filter
+			showUpdateForm: filter,
 		});
 	},
 	massUpdate () {
+		// TODO: Implement update multi-item
 		console.log('Update ALL the things!');
 	},
 	massDelete () {
@@ -128,7 +128,7 @@ const ListView = React.createClass({
 	renderSearch () {
 		var searchClearIcon = classnames('ListHeader__search__icon octicon', {
 			'is-search octicon-search': !this.state.searchString.length,
-			'is-clear octicon-x': this.state.searchString.length
+			'is-clear octicon-x': this.state.searchString.length,
 		});
 		return (
 			<InputGroup.Section grow className="ListHeader__search">
@@ -142,7 +142,7 @@ const ListView = React.createClass({
 		if (this.state.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
 		} else {
-			props.onClick = this.toggleCreateModal.bind(this, true);
+			props.onClick = () => this.toggleCreateModal(true);
 		}
 		return (
 			<InputGroup.Section className="ListHeader__create">
@@ -159,11 +159,15 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
+
+		// WIP: Management mode currently under development, so the UI is disabled
+		// unless the KEYSTONE_DEV environment variable is set
+		if (!Keystone.devMode) return;
+
 		let { checkedItems, items, list, manageMode, pageSize } = this.state;
 		if (!items.count || (list.nodelete && list.noedit)) return;
 
 		let checkedItemCount = Object.keys(checkedItems).length;
-		let visibleCount = items.count > pageSize ? pageSize : items.count;
 		let buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
 
 		// action buttons
@@ -189,7 +193,7 @@ const ListView = React.createClass({
 		// select buttons
 		let selectAllButton = items.count > pageSize ? (
 		<InputGroup.Section>
-			<Button onClick={this.handleManagementSelect.bind(this, 'all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
+			<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
 		</InputGroup.Section>
 		) : null;
 		let selectButtons = manageMode ? (
@@ -197,10 +201,10 @@ const ListView = React.createClass({
 				<InputGroup contiguous>
 					{selectAllButton}
 					<InputGroup.Section>
-						<Button onClick={this.handleManagementSelect.bind(this, 'visible')} title="Select all rows">{items.count > pageSize ? 'Page' : 'All'} <small style={buttonNoteStyles}>({items.results.length})</small></Button>
+						<Button onClick={() => this.handleManagementSelect('visible')} title="Select all rows">{items.count > pageSize ? 'Page' : 'All'} <small style={buttonNoteStyles}>({items.results.length})</small></Button>
 					</InputGroup.Section>
 					<InputGroup.Section>
-						<Button onClick={this.handleManagementSelect.bind(this, 'none')} title="Deselect all rows">None</Button>
+						<Button onClick={() => this.handleManagementSelect('none')} title="Deselect all rows">None</Button>
 					</InputGroup.Section>
 				</InputGroup>
 			</InputGroup.Section>
@@ -217,7 +221,7 @@ const ListView = React.createClass({
 		return (
 			<InputGroup style={{ float: 'left', marginRight: '.75em' }}>
 				<InputGroup.Section>
-					<Button isActive={manageMode} onClick={this.toggleManageMode.bind(this, !manageMode)}>Manage</Button>
+					<Button isActive={manageMode} onClick={() => this.toggleManageMode(!manageMode)}>Manage</Button>
 				</InputGroup.Section>
 				{selectButtons}
 				{actionButtons}
@@ -244,7 +248,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderHeader () {
-		let { currentPage, items, list, pageSize } = this.state;
+		let { items, list } = this.state;
 		return (
 			<div className="ListHeader">
 				<Container>
@@ -289,21 +293,21 @@ const ListView = React.createClass({
 			newCheckedItems[itemId] = true;
 		}
 		this.setState({
-			checkedItems: newCheckedItems
+			checkedItems: newCheckedItems,
 		});
 	},
 	checkAllTableItems () {
 		let checkedItems = {};
-		this.state.items.results.forEach(function(item) {
+		this.state.items.results.forEach(item => {
 			checkedItems[item.id] = true;
 		});
 		this.setState({
-			checkedItems: checkedItems
+			checkedItems: checkedItems,
 		});
 	},
 	uncheckAllTableItems () {
 		this.setState({
-			checkedItems: {}
+			checkedItems: {},
 		});
 	},
 	deleteTableItem (item, e) {
@@ -312,7 +316,7 @@ const ListView = React.createClass({
 	},
 	toggleTableWidth () {
 		this.setState({
-			constrainTableWidth: !this.state.constrainTableWidth
+			constrainTableWidth: !this.state.constrainTableWidth,
 		});
 	},
 	renderTableCols () {
@@ -387,7 +391,7 @@ const ListView = React.createClass({
 
 	toggleCreateModal (visible) {
 		this.setState({
-			showCreateForm: visible
+			showCreateForm: visible,
 		});
 	},
 	renderBlankStateCreateButton () {
@@ -396,7 +400,7 @@ const ListView = React.createClass({
 		if (this.state.list.autocreate) {
 			props.href = '?new' + this.props.csrfQuery;
 		} else {
-			props.onClick = this.toggleCreateModal.bind(this, true);
+			props.onClick = () => this.toggleCreateModal(true);
 		}
 		return (
 			<Button {...props}>
@@ -490,13 +494,13 @@ const ListView = React.createClass({
 					err={this.props.createFormErrors}
 					isOpen={this.state.showCreateForm}
 					list={this.state.list}
-					onCancel={this.toggleCreateModal.bind(this, false)}
+					onCancel={() => this.toggleCreateModal(false)}
 					values={this.props.createFormData} />
 				<UpdateForm
 					isOpen={this.state.showUpdateForm}
 					itemIds={Object.keys(this.state.checkedItems)}
 					list={this.state.list}
-					onCancel={this.toggleUpdateModal.bind(this, false)} />
+					onCancel={() => this.toggleUpdateModal(false)} />
 			</div>
 		);
 	}

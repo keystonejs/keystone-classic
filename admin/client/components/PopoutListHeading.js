@@ -6,6 +6,7 @@ var PopoutListHeading = React.createClass({
 	displayName: 'PopoutListHeading',
 	propTypes: {
 		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
 	},
 	render () {
 		let className = classnames('PopoutList__heading', this.props.className);

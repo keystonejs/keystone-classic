@@ -10,6 +10,9 @@ const FORMAT_OPTIONS = [
 ];
 
 var ListDownloadForm = React.createClass({
+	propTypes: {
+		className: React.PropTypes.string.isRequired,
+	},
 	getInitialState () {
 		return {
 			format: FORMAT_OPTIONS[0].value,
@@ -85,7 +88,7 @@ var ListDownloadForm = React.createClass({
 					iconHover={columnValue ? 'dash' : 'check'}
 					isSelected={columnValue}
 					label={el.field.label}
-					onClick={this.toggleColumn.bind(this, columnKey, !columnValue)} />
+					onClick={() => this.toggleColumn(columnKey, !columnValue)} />
 			);
 		});
 
@@ -101,12 +104,12 @@ var ListDownloadForm = React.createClass({
 
 		return (
 			<InputGroup.Section className={this.props.className}>
-				<Button id="listHeaderDownloadButton" isActive={this.state.isOpen} onClick={this.togglePopout.bind(this, !this.state.isOpen)}>
+				<Button id="listHeaderDownloadButton" isActive={this.state.isOpen} onClick={() => this.togglePopout(!this.state.isOpen)}>
 					<span className={this.props.className + '__icon octicon octicon-cloud-download'} />
 					<span className={this.props.className + '__label'}>Download</span>
 					<span className="disclosure-arrow" />
 				</Button>
-				<Popout isOpen={this.state.isOpen} onCancel={this.togglePopout.bind(this, false)} relativeToID="listHeaderDownloadButton">
+				<Popout isOpen={this.state.isOpen} onCancel={() => this.togglePopout(false)} relativeToID="listHeaderDownloadButton">
 					<Popout.Header title="Download" />
 					<Popout.Body scrollable>
 						<Form type="horizontal" component="div">
@@ -122,7 +125,7 @@ var ListDownloadForm = React.createClass({
 					<Popout.Footer
 						primaryButtonAction={this.handleDownloadRequest}
 						primaryButtonLabel="Download"
-						secondaryButtonAction={this.togglePopout.bind(this, false)}
+						secondaryButtonAction={() => this.togglePopout(false)}
 						secondaryButtonLabel="Cancel" />
 				</Popout>
 			</InputGroup.Section>

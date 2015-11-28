@@ -4,8 +4,8 @@ import { Container } from 'elemental';
 var PrimaryNavItem = React.createClass({
 	displayName: 'PrimaryNavItem',
 	propTypes: {
-		className: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
 		title: React.PropTypes.string,
 	},
@@ -47,18 +47,19 @@ var PrimaryNavigation = React.createClass({
 		if (!this.props.signoutUrl) return null;
 
 		return (
-			<ul className="app-nav app-nav--primary app-nav--right">
-				<PrimaryNavItem href={this.props.signoutUrl} title="Sign Out">
-					<span className="octicon octicon-sign-out" />
-				</PrimaryNavItem>
-			</ul>
+			<PrimaryNavItem href={this.props.signoutUrl} title="Sign Out">
+				<span className="octicon octicon-sign-out" />
+			</PrimaryNavItem>
 		);
 	},
 	renderFrontLink () {
 		return (
-			<PrimaryNavItem href="/" title={'Front page - ' + this.props.brand}>
-				<span className="octicon octicon-globe" />
-			</PrimaryNavItem>
+			<ul className="app-nav app-nav--primary app-nav--right">
+				<PrimaryNavItem href="/" title={'Front page - ' + this.props.brand}>
+					<span className="octicon octicon-globe" />
+				</PrimaryNavItem>
+				{this.renderSignout()}
+			</ul>
 		);
 	},
 	renderBrand () {
@@ -90,11 +91,10 @@ var PrimaryNavigation = React.createClass({
 			<nav className="primary-navbar">
 				<Container clearfix>
 					<ul className="app-nav app-nav--primary app-nav--left">
-						{this.renderFrontLink()}
 						{this.renderBrand()}
 						{this.renderNavigation()}
 					</ul>
-					{this.renderSignout()}
+					{this.renderFrontLink()}
 				</Container>
 			</nav>
 		);

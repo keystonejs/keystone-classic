@@ -9,9 +9,13 @@ import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'el
 
 var EditForm = React.createClass({
 	displayName: 'EditForm',
+	propTypes: {
+		data: React.PropTypes.object,
+		list: React.PropTypes.object,
+	},
 	getInitialState () {
 		return {
-			values: Object.assign({}, this.props.data.fields)
+			values: Object.assign({}, this.props.data.fields),
 		};
 	},
 	getFieldProps (field) {
@@ -25,8 +29,18 @@ var EditForm = React.createClass({
 	handleChange (event) {
 		var values = Object.assign({}, this.state.values);
 		values[event.path] = event.value;
-		this.setState({
-			values: values
+		this.setState({ values });
+	},
+	handleReset(ev) {
+		if (!confirm(`Are you sure you want to reset your changes to this ${this.props.list.singular.toLowerCase()}?`)) {
+			ev && ev.preventDefault();
+		}
+	},
+	handleDelete(ev) {
+		if (!confirm(`Are you sure you want to delete this ${this.props.list.singular.toLowerCase()}?`)) return;
+		this.props.list.deleteItem(this.props.data.id, err => {
+			// TODO: Handle error
+			top.location.href = '/keystone/' + this.props.list.path;
 		});
 	},
 	renderKeyOrId () {
@@ -55,13 +69,11 @@ var EditForm = React.createClass({
 	renderNameField () {
 		var nameField = this.props.list.nameField;
 		var nameIsEditable = this.props.list.nameIsEditable;
-		function wrapNameField(field) {
-			return (
-				<div className="EditForm__name-field">
-					{field}
-				</div>
-			);
-		}
+		var wrapNameField = field => (
+			<div className="EditForm__name-field">
+				{field}
+			</div>
+		);
 		if (nameIsEditable) {
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.label = null;
@@ -69,7 +81,7 @@ var EditForm = React.createClass({
 			nameFieldProps.inputProps = {
 				className: 'item-name-field',
 				placeholder: nameField.label,
-				size: 'lg'
+				size: 'lg',
 			};
 			return wrapNameField(
 				React.createElement(Fields[nameField.type], nameFieldProps)
@@ -100,9 +112,9 @@ var EditForm = React.createClass({
 				}
 				if (props.dependsOn) {
 					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(function (dep) {
+					Object.keys(props.dependsOn).forEach(dep => {
 						props.currentDependencies[dep] = this.state.values[dep];
-					}, this);
+					});
 				}
 				props.key = field.path;
 				return React.createElement(Fields[field.type], props);
@@ -111,26 +123,24 @@ var EditForm = React.createClass({
 	},
 
 	renderFooterBar () {
-		var footer = [
+		var buttons = [
 			<Button key="save" type="primary" submit>Save</Button>
 		];
-		// TODO: Confirm: Use React & Modal
-		footer.push(
-			<Button key="reset" href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">
+		buttons.push(
+			<Button key="reset" onClick={this.handleReset} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
 		if (!this.props.list.nodelete) {
-			// TODO: Confirm: Use React & Modal
-			footer.push(
-				<Button key="del" href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="u-float-right" data-confirm={'Are you sure you want to delete this?' + this.props.list.singular.toLowerCase()}>
+			buttons.push(
+				<Button key="del" onClick={this.handleDelete} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
 		}
 		return (
 			<FooterBar className="EditForm__footer">
-				{footer}
+				{buttons}
 			</FooterBar>
 		);
 	},

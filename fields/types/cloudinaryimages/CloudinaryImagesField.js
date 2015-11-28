@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Field from '../Field';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import Lightbox from '../../../admin/client/components/Lightbox';
@@ -121,7 +122,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return this.refs.fileField.getDOMNode();
+		return ReactDOM.findDOMNode(this.refs.fileField);
 	},
 
 	getCount  (key) {
@@ -193,12 +194,12 @@ module.exports = Field.create({
 			var imageText = count === 1 ? 'image' : 'images';
 
 			body.push(<div key={queueType + '-toolbar'} className={queueType + '-queued' + ' u-float-left'}>
-				<FormInput noedit>{count} {imageText} {action} - save to confirm</FormInput>
+				<FormInput noedit>{count} {imageText} {action}</FormInput>
 			</div>);
 		};
 
-		push('upload', 'success', this.getCount('isQueued'), 'queued for upload');
-		push('delete', 'danger', this.getCount('deleted'), 'removed');
+		push('upload', 'success', this.getCount('isQueued'), 'selected - save to upload');
+		push('delete', 'danger', this.getCount('deleted'), 'removed - save to confirm');
 
 		var clearFilesButton;
 		if (this.hasFiles()) {
@@ -208,7 +209,7 @@ module.exports = Field.create({
 		return (
 			<div className="images-toolbar">
 				<div className="u-float-left">
-					<Button onClick={this.changeImage}>Select files</Button>
+					<Button onClick={this.changeImage}>Upload Images</Button>
 					{clearFilesButton}
 				</div>
 				{body}

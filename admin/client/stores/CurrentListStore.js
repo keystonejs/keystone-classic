@@ -1,30 +1,32 @@
 'use strict';
 
+import createHistory from 'history/lib/createBrowserHistory';
+import useQueries from 'history/lib/useQueries';
 import Store from 'store-prototype';
 import List from '../lib/List';
 
-var _list = new List(Keystone.list);
-var _ready = false;
-var _loading = false;
-var _items = {};
+let history = useQueries(createHistory)();
 
-var active = {
+let _location = null;
+let _ready = false;
+let _loading = false;
+let _items = {};
+
+const _list = new List(Keystone.list);
+
+const active = {
 	columns: _list.expandColumns(Keystone.list.defaultColumns),
 	filters: [],
 	search: '',
 	sort: _list.expandSort(Keystone.list.defaultSort)
 };
 
-var page = defaultPage();
+const page = {
+	size: 100,
+	index: 1
+};
 
-function defaultPage () {
-	return {
-		size: 100,
-		index: 1
-	};
-}
-
-var CurrentListStore = new Store({
+const CurrentListStore = new Store({
 	getList () {
 		return _list;
 	},
@@ -42,9 +44,9 @@ var CurrentListStore = new Store({
 		return active.search;
 	},
 	setActiveSearch (str) {
-		active.search = str;
-		this.loadItems();
-		this.notifyChange();
+		let params = {};
+		if (str) params.search = str;
+		history.pushState(null, _location.pathname, params);
 	},
 	getActiveSort () {
 		return active.sort;
@@ -53,6 +55,9 @@ var CurrentListStore = new Store({
 		active.sort = _list.expandSort(sort || _list.defaultSort);
 		this.loadItems();
 		this.notifyChange();
+	},
+	getAvailableFilters () {
+		return _list.columns.filter(col => col.field && col.field.hasFilterMethod);
 	},
 	getActiveFilters () {
 		return active.filters;
@@ -73,7 +78,7 @@ var CurrentListStore = new Store({
 			filter = { field, value };
 			active.filters.push(filter);
 		}
-		this.loadItems();
+		this.setCurrentPage(1);
 		this.notifyChange();
 	},
 	clearFilter (path) {
@@ -149,29 +154,11 @@ var CurrentListStore = new Store({
 	}
 });
 
-
-var filtersFromUrlParams = function () {
-	// Pick simple filters from url params
-	// i.e. ?title={"mode":"contains","inverted":false,"value":"aaa"}
-	// TODO: this should use react-router, or something pretty to parse
-	var qs = _.object(
-		_.compact(
-			_.map(
-				location.search.slice(1).split('&'),
-				function(item) { if (item) return item.split('='); }
-			)
-		)
-	);
-	if (qs) {
-		for (var field in qs) {
-			var value = qs[field];
-			if (value) {
-				CurrentListStore.setFilter(field, JSON.parse(decodeURIComponent(value)));
-			}
-		}
-	}
-};
-filtersFromUrlParams();
-
+history.listen(function (location) {
+	_location = location;
+	active.search = location.query.search || '';
+	CurrentListStore.loadItems();
+	CurrentListStore.notifyChange();
+});
 
 module.exports = CurrentListStore;

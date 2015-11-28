@@ -1,5 +1,5 @@
-var React = require('react'); // this is needed since we use JSX, even though the `React` name is not used in our code
-var _ = require('underscore');
+var React = require('react');
+var ReactDOM = require('react-dom');
 
 var Button = require('elemental').Button;
 var FormField = require('elemental').FormField;
@@ -7,9 +7,13 @@ var FormInput = require('elemental').FormInput;
 
 var lastId = 0;
 
-function newItem(value) {
+function newItem (value) {
 	lastId = lastId + 1;
 	return { key: 'i' + lastId, value: value };
+}
+
+function reduceValues (values) {
+	return values.map(i => i.value);
 }
 
 module.exports = {
@@ -20,7 +24,7 @@ module.exports = {
 	},
 
 	componentWillReceiveProps: function(nextProps) {
-		if (nextProps.value.join('|') !== _.pluck(this.state.values, 'value').join('|')) {
+		if (nextProps.value.join('|') !== reduceValues(this.state.values).join('|')) {
 			this.setState({
 				values: nextProps.value.map(newItem)
 			});
@@ -32,11 +36,11 @@ module.exports = {
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
 			values: newValues
-		}, function() {
-			if (!self.state.values.length) return;
-			self.refs['item_' + self.state.values.length].getDOMNode().focus();
+		}, () => {
+			if (!this.state.values.length) return;
+			ReactDOM.findDOMNode(this.refs['item_' + this.state.values.length]).focus();
 		});
-		this.valueChanged(_.pluck(newValues, 'value'));
+		this.valueChanged(reduceValues(newValues));
 	},
 
 	removeItem: function(i) {
@@ -44,9 +48,9 @@ module.exports = {
 		this.setState({
 			values: newValues
 		}, function() {
-			this.refs.button.getDOMNode().focus();
+			ReactDOM.findDOMNode(this.refs.button).focus();
 		});
-		this.valueChanged(_.pluck(newValues, 'value'));
+		this.valueChanged(reduceValues(newValues));
 	},
 
 	updateItem: function(i, event) {
@@ -56,7 +60,7 @@ module.exports = {
 		this.setState({
 			values: updatedValues
 		});
-		this.valueChanged(_.pluck(updatedValues, 'value'));
+		this.valueChanged(reduceValues(updatedValues));
 	},
 
 	valueChanged: function(values) {
@@ -64,17 +68,6 @@ module.exports = {
 			path: this.props.path,
 			value: values
 		});
-	},
-
-	renderItem: function(item, index) {
-		return (
-			<FormField key={item.key}>
-				<FormInput ref={'item_' + (index + 1)} name={this.props.path} value={item.value} onChange={this.updateItem.bind(this, item)} autoComplete="off" />
-				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
-					<span className="octicon octicon-x" />
-				</Button>
-			</FormField>
-		);
 	},
 
 	renderField: function () {
@@ -86,13 +79,28 @@ module.exports = {
 		);
 	},
 
+	renderItem: function(item, index) {
+		const Input = this.getInputComponent ? this.getInputComponent() : FormInput;
+		const value = this.processInputValue ? this.processInputValue(item.value) : item.value;
+		return (
+			<FormField key={item.key}>
+				<Input ref={'item_' + (index + 1)} name={this.props.path} value={value} onChange={this.updateItem.bind(this, item)} autoComplete="off" />
+				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
+					<span className="octicon octicon-x" />
+				</Button>
+			</FormField>
+		);
+	},
+
 	renderValue: function () {
+		const Input = this.getInputComponent ? this.getInputComponent() : FormInput;
 		return (
 			<div>
 				{this.state.values.map((item, i) => {
+					const value = this.formatValue ? this.formatValue(item.value) : item.value;
 					return (
 						<div key={i} style={i ? { marginTop: '1em' } : null}>
-							<FormInput noedit value={item.value} />
+							<Input noedit value={value} />
 						</div>
 					);
 				})}

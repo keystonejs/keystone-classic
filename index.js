@@ -11,7 +11,7 @@ var utils = require('keystone-utils');
  * This way, the consuming app/module can be an embedded node_module and path resolutions will still work
  * (process.cwd() breaks module encapsulation if the consuming app/module is itself a node_module)
  */
-var moduleRoot = (function(_rootPath) {
+var moduleRoot = (function (_rootPath) {
 	var parts = _rootPath.split(path.sep);
 	parts.pop(); //get rid of /node_modules from the end of the path
 	return parts.join(path.sep);
@@ -23,7 +23,7 @@ var moduleRoot = (function(_rootPath) {
  *
  * @api public
  */
-var Keystone = function() {
+var Keystone = function () {
 	grappling.mixin(this).allowHooks('pre:static', 'pre:bodyparser', 'pre:session', 'pre:routes', 'pre:render', 'updates', 'signout', 'signin');
 	this.lists = {};
 	this.paths = {};
@@ -160,15 +160,15 @@ keystone.utils = utils;
  * @api public
  */
 
-Keystone.prototype.import = function(dirname) {
+Keystone.prototype.import = function (dirname) {
 
 	var initialPath = path.join(this.get('module root'), dirname);
 
-	var doImport = function(fromPath) {
+	var doImport = function (fromPath) {
 
 		var imported = {};
 
-		fs.readdirSync(fromPath).forEach(function(name) {
+		fs.readdirSync(fromPath).forEach(function (name) {
 
 			var fsPath = path.join(fromPath, name),
 			info = fs.statSync(fsPath);
@@ -198,16 +198,12 @@ Keystone.prototype.import = function(dirname) {
  * Applies Application updates
  */
 
-Keystone.prototype.applyUpdates = function(callback) {
+Keystone.prototype.applyUpdates = function (callback) {
 	var self = this;
-	self.callHook('pre:updates', function(err){
-		if(err){
-			callback(err);
-		}
-		require('./lib/updates').apply(function(err){
-			if(err){
-				callback(err);
-			}
+	self.callHook('pre:updates', function (err){
+		if (err) return callback(err);
+		require('./lib/updates').apply(function (err){
+			if (err) return callback(err);
 			self.callHook('post:updates', callback);
 		});
 	});
@@ -221,7 +217,7 @@ Keystone.prototype.applyUpdates = function(callback) {
  */
 
 Keystone.prototype.console = {};
-Keystone.prototype.console.err = function(type, msg) {
+Keystone.prototype.console.err = function (type, msg) {
 	if (keystone.get('logger')) {
 		var dashes = '\n------------------------------------------------\n';
 		console.log(dashes + 'KeystoneJS: ' + type + ':\n\n' + msg + dashes);
