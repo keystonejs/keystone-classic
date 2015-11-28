@@ -1,26 +1,32 @@
 'use strict';
 
+import createHistory from 'history/lib/createBrowserHistory';
+import useQueries from 'history/lib/useQueries';
 import Store from 'store-prototype';
 import List from '../lib/List';
 
-var _list = new List(Keystone.list);
-var _ready = false;
-var _loading = false;
-var _items = {};
+let history = useQueries(createHistory)();
 
-var active = {
+let _location = null;
+let _ready = false;
+let _loading = false;
+let _items = {};
+
+const _list = new List(Keystone.list);
+
+const active = {
 	columns: _list.expandColumns(Keystone.list.defaultColumns),
 	filters: [],
 	search: '',
 	sort: _list.expandSort(Keystone.list.defaultSort)
 };
 
-var page = {
+const page = {
 	size: 100,
 	index: 1
 };
 
-var CurrentListStore = new Store({
+const CurrentListStore = new Store({
 	getList () {
 		return _list;
 	},
@@ -38,9 +44,9 @@ var CurrentListStore = new Store({
 		return active.search;
 	},
 	setActiveSearch (str) {
-		active.search = str;
-		this.loadItems();
-		this.notifyChange();
+		let params = {};
+		if (str) params.search = str;
+		history.pushState(null, _location.pathname, params);
 	},
 	getActiveSort () {
 		return active.sort;
@@ -146,6 +152,13 @@ var CurrentListStore = new Store({
 		});
 		window.open(url);
 	}
+});
+
+history.listen(function (location) {
+	_location = location;
+	active.search = location.query.search || '';
+	CurrentListStore.loadItems();
+	CurrentListStore.notifyChange();
 });
 
 module.exports = CurrentListStore;

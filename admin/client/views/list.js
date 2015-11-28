@@ -59,6 +59,7 @@ const ListView = React.createClass({
 			ready: CurrentListStore.isReady(),
 			search: CurrentListStore.getActiveSearch(),
 		};
+		state.searchString = state.search;
 		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length);
 		return state;
 	},
