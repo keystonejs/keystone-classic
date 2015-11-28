@@ -59,7 +59,9 @@ const ListView = React.createClass({
 			ready: CurrentListStore.isReady(),
 			search: CurrentListStore.getActiveSearch(),
 		};
-		state.searchString = state.search;
+		if (!this._searchTimeout) {
+			state.searchString = state.search;
+		}
 		state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length);
 		return state;
 	},
@@ -75,6 +77,7 @@ const ListView = React.createClass({
 		});
 		var delay = e.target.value.length > 1 ? 150 : 0;
 		this._searchTimeout = setTimeout(() => {
+			delete this._searchTimeout;
 			CurrentListStore.setActiveSearch(this.state.searchString);
 		}, delay);
 	},
