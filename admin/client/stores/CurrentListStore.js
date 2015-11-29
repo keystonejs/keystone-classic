@@ -156,9 +156,12 @@ const CurrentListStore = new Store({
 
 history.listen(function (location) {
 	_location = location;
-	active.search = location.query.search || '';
-	CurrentListStore.loadItems();
-	CurrentListStore.notifyChange();
+	let querySearch = location.query.search || '';
+	if (active.search !== querySearch) {
+		active.search = querySearch;
+		CurrentListStore.loadItems();
+		CurrentListStore.notifyChange();
+	}
 });
 
 module.exports = CurrentListStore;
