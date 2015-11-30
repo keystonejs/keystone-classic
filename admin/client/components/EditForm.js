@@ -14,9 +14,11 @@ import { Modal, ModalHeader, ModalBody, ModalFooter,
 function getModalCleanState() {
 	return {
 		body: null,
-		header: null,
 		isOpen: false,
-		meta: null
+		primaryAction: null,
+		primaryActionLabel: 'Okay',
+		secondaryAction: null,
+		secondaryActionLabel: 'Cancel',
 	};
 };
 
@@ -50,14 +52,16 @@ var EditForm = React.createClass({
 
 	handleReset(event) {
 		event.preventDefault();
-		let values = Object.assign({}, this.state.values);
+		let { data } = this.props;
 		let modal = {
-			header: `Reset ${values.title}`,
-			body: `Are you sure you want to reset your changes to this ${this.props.list.singular.toLowerCase()}?`,
+			body: <div>Reset your changes to <strong>{data.name}?</strong></div>,
 			isOpen: true,
-			meta: 'reset'
+			primaryAction: this.handleResetAction,
+			primaryActionLabel: 'Reset',
+			secondaryAction: this.closeModal,
+			secondaryActionLabel: 'Cancel',
 		};
-		this.setState({ values, modal });
+		this.setState({ modal });
 	},
 
 	handleResetAction () {
@@ -65,22 +69,23 @@ var EditForm = React.createClass({
 	},
 
 	handleDelete() {
-		let values = Object.assign({}, this.state.values);
+		let { data } = this.props;
 		let modal = {
-			header: `Delete ${values.title}`,
-			body: `Are you sure you want to delete this ${this.props.list.singular.toLowerCase()}?`,
+			body: <div>Are you sure you want to delete <strong>{data.name}?</strong><br /><br />This cannot be undone.</div>,
 			isOpen: true,
-			meta: 'delete'
+			primaryAction: this.handleDeleteAction,
+			primaryActionLabel: 'Delete',
+			secondaryAction: this.closeModal,
+			secondaryActionLabel: 'Cancel',
 		};
-		this.setState({ values, modal });
+		this.setState({ modal });
 	},
 
 	handleDeleteAction () {
-		let { values } = this.state;
 		let { data, list } = this.props;
 		list.deleteItem(data.id, err => {
 			if (err) {
-				console.error(`Problem deleting Post: ${values.title}`);
+				console.error(`Problem deleting ${list.singular}: ${data.name}`);
 				// TODO: slow a flash message on form
 				return;
 			}
@@ -259,18 +264,20 @@ var EditForm = React.createClass({
 		});
 	},
 
-	renderModalButtons () {
+	renderModalFooter () {
 		let { modal } = this.state;
-		let modalAction = modal.meta === 'delete' ? this.handleDeleteAction :
-			modal.meta === 'reset' ? this.handleResetAction : this.closeModal;
+		if (!modal.primaryAction && !modal.secondaryAction) return;
 
-		return (<div>
-			<Button type="primary" onClick={modalAction}>OK</Button>
-			&nbsp;
-			{(modal.meta === 'delete' || modal.meta === 'reset') ?
-				<Button type="default-danger" onClick={this.closeModal}>Cancel</Button>
-				: ''}
-			</div>);
+		return (
+			<ModalFooter>
+				<Button size="sm" type="danger" onClick={modal.primaryAction}>
+					{modal.primaryActionLabel}
+				</Button>
+				{modal.secondaryAction && <Button size="sm" type="link-cancel" onClick={modal.secondaryAction}>
+					{modal.secondaryActionLabel}
+				</Button>}
+			</ModalFooter>
+		);
 	},
 
 	render () {
@@ -293,14 +300,11 @@ var EditForm = React.createClass({
 				</Row>
 				{this.renderFooterBar()}
 
-				<Modal isOpen={modal.isOpen} onCancel={this.closeModal} closebackdropClosesModal>
-					<ModalHeader text={modal.header} />
+				<Modal isOpen={modal.isOpen} onCancel={this.closeModal} width={400} closebackdropClosesModal>
 					<ModalBody>
-						<div>{modal.body}</div>
+						{modal.body}
 					</ModalBody>
-					<ModalFooter>
-						{this.renderModalButtons()}
-					</ModalFooter>
+					{this.renderModalFooter()}
 				</Modal>
 			</form>
 		);
