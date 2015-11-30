@@ -1,6 +1,6 @@
 var knox = require('knox');
 
-exports = module.exports = function(keystone) { 
+module.exports = function(keystone) { 
 	var Types = keystone.Field.Types;
 
 	return {

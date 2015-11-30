@@ -143,4 +143,4 @@ select.prototype.format = function(item) {
 };
 
 /* Export Field Type */
-exports = module.exports = select;
+module.exports = select;

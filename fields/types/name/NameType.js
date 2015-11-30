@@ -177,4 +177,4 @@ name.prototype.updateItem = function(item, data) {
 
 
 /* Export Field Type */
-exports = module.exports = name;
+module.exports = name;

@@ -75,4 +75,4 @@ textarray.prototype.updateItem = function(item, data) {
  * Export class
  */
 
-exports = module.exports = textarray;
+module.exports = textarray;

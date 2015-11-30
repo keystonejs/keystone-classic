@@ -226,4 +226,4 @@ relationship.prototype.addFilters = function(query, item) {
 };
 
 /* Export Field Type */
-exports = module.exports = relationship;
+module.exports = relationship;

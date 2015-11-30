@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import Fields from '../fields';
 import { plural } from '../utils';
@@ -14,12 +15,12 @@ var UpdateForm = React.createClass({
 	},
 	getDefaultProps () {
 		return {
-			isOpen: false
+			isOpen: false,
 		};
 	},
 	getInitialState () {
 		return {
-			fields: []
+			fields: [],
 		};
 	},
 	componentDidUpdate () {
@@ -46,12 +47,11 @@ var UpdateForm = React.createClass({
 		props.key = field.path;
 		return props;
 	},
-	updateOptions (simpleValue, expandedValues) {
+	updateOptions (fields) {
 		this.setState({
-			fields: expandedValues
+			fields: fields,
 		}, () => {
-			// TODO: @jedwatson you can see the select field stealing focus back
-			this.refs.focusTarget.getDOMNode().focus();
+			ReactDOM.findDOMNode(this.refs.focusTarget).focus();
 		});
 	},
 	handleChange (value) {
@@ -59,7 +59,7 @@ var UpdateForm = React.createClass({
 	},
 	handleClose () {
 		this.setState({
-			fields: []
+			fields: [],
 		});
 		this.props.onCancel();
 	},
@@ -124,7 +124,6 @@ var UpdateForm = React.createClass({
 			</Modal>
 		);
 	}
-
 });
 
 module.exports = UpdateForm;

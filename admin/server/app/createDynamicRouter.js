@@ -14,8 +14,8 @@ module.exports = function createDynamicRouter(keystone) {
 
 	// Use bodyParser and multer to parse request bodies and file uploads
 	router.use(bodyParser.json({}));
-	router.use(bodyParser.urlencoded({extended: true}));
-	router.use(multer({includeEmptyFields: true}));
+	router.use(bodyParser.urlencoded({ extended: true }));
+	router.use(multer({ includeEmptyFields: true }));
 
 	// #1: Session API
 	// TODO: this should respect keystone auth options
@@ -74,7 +74,7 @@ module.exports = function createDynamicRouter(keystone) {
 	router.post('/api/:list/delete', initList(), require('../api/list/delete')(keystone.security.csrf));
 	router.get('/api/:list/:id', initList(), require('../api/item/get')(keystone));
 	router.post('/api/:list/:id', initList(), require('../api/item/update'));
-	router.post('/api/:list/:id/delete', initList(), require('../api/item/delete')(keystone.security.csrf));
+	router.post('/api/:list/:id/delete', initList(), require('../api/list/delete'));
 
 	// #6: List Routes
 	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list')(keystone));

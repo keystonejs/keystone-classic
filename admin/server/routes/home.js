@@ -1,4 +1,4 @@
-exports = module.exports = function(keystone) {
+module.exports = function(keystone) {
 	return function(req, res) {
 
 		keystone.render(req, res, 'home', {

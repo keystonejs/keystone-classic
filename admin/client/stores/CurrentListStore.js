@@ -1,30 +1,48 @@
 'use strict';
 
+import createHistory from 'history/lib/createBrowserHistory';
+import useQueries from 'history/lib/useQueries';
 import Store from 'store-prototype';
 import List from '../lib/List';
 
-var _list = new List(Keystone.list);
-var _ready = false;
-var _loading = false;
-var _items = {};
+let history = useQueries(createHistory)();
 
-var active = {
-	columns: _list.expandColumns(Keystone.list.defaultColumns),
+let _location = null;
+let _ready = false;
+let _loading = false;
+let _items = {};
+
+const _list = new List(Keystone.list);
+
+const active = {
+	columns: _list.expandColumns(_list.defaultColumns),
 	filters: [],
 	search: '',
-	sort: _list.expandSort(Keystone.list.defaultSort)
+	sort: _list.expandSort(_list.defaultSort),
 };
 
-var page = defaultPage();
+const page = {
+	size: 100,
+	index: 1,
+};
 
-function defaultPage () {
-	return {
-		size: 100,
-		index: 1
-	};
+function updateQueryParams (params, replace) {
+	if (!_location) return;
+	let newParams = Object.assign({}, _location.query);
+	Object.keys(params).forEach(i => {
+		if (params[i]) {
+			newParams[i] = params[i];
+			if (typeof newParams[i] === 'object') {
+				newParams[i] = JSON.stringify(newParams[i]);
+			}
+		} else {
+			delete newParams[i];
+		}
+	});
+	history[replace ? 'replaceState' : 'pushState'](null, _location.pathname, newParams);
 }
 
-var CurrentListStore = new Store({
+const CurrentListStore = new Store({
 	getList () {
 		return _list;
 	},
@@ -34,25 +52,29 @@ var CurrentListStore = new Store({
 	getActiveColumns () {
 		return active.columns;
 	},
-	setActiveColumns (cols) {
-		active.columns = _list.expandColumns(cols);
-		this.loadItems();
+	setActiveColumns (columns) {
+		if (Array.isArray(columns)) columns = columns.join(',');
+		if (columns === _list.defaultColumnPaths) columns = undefined;
+		updateQueryParams({ columns });
 	},
 	getActiveSearch () {
 		return active.search;
 	},
 	setActiveSearch (str) {
-		active.search = str;
-		this.loadItems();
-		this.notifyChange();
+		// starting or clearing a search pushes a new history state, but updating
+		// the current search replaces it for nicer history navigation support
+		let replace = (str && this.getActiveSearch());
+		updateQueryParams({ search: str }, replace);
 	},
 	getActiveSort () {
 		return active.sort;
 	},
 	setActiveSort (sort) {
-		active.sort = _list.expandSort(sort || _list.defaultSort);
-		this.loadItems();
-		this.notifyChange();
+		if (sort === _list.defaultSort) sort = undefined;
+		updateQueryParams({ sort });
+	},
+	getAvailableFilters () {
+		return _list.columns.filter(col => col.field && col.field.hasFilterMethod);
 	},
 	getActiveFilters () {
 		return active.filters;
@@ -61,7 +83,7 @@ var CurrentListStore = new Store({
 		return active.filters.filter(i => i.field.path === path)[0];
 	},
 	setFilter (path, value) {
-		let filter = active.filters.filter(i => i.field.path === path)[0];
+		let filter = this.getFilter(path);
 		if (filter) {
 			filter.value = value;
 		} else {
@@ -73,7 +95,7 @@ var CurrentListStore = new Store({
 			filter = { field, value };
 			active.filters.push(filter);
 		}
-		this.loadItems();
+		this.setCurrentPage(1);
 		this.notifyChange();
 	},
 	clearFilter (path) {
@@ -94,9 +116,9 @@ var CurrentListStore = new Store({
 	getCurrentPage () {
 		return page.index;
 	},
-	setCurrentPage (i) {
-		page.index = i;
-		this.loadItems();
+	setCurrentPage (index) {
+		if (index === 1) index = undefined;
+		updateQueryParams({ page: index });
 	},
 	isLoading () {
 		return _loading;
@@ -125,8 +147,14 @@ var CurrentListStore = new Store({
 	getItems () {
 		return _items;
 	},
-	deleteItem (item) {
-		_list.deleteItem(item, (err, data) => {
+	deleteItem (itemId) {
+		_list.deleteItem(itemId, (err, data) => {
+			// TODO: graceful error handling
+			this.loadItems();
+		});
+	},
+	deleteItems (itemIds) {
+		_list.deleteItems(itemIds, (err, data) => {
 			// TODO: graceful error handling
 			this.loadItems();
 		});
@@ -143,29 +171,15 @@ var CurrentListStore = new Store({
 	}
 });
 
-
-var filtersFromUrlParams = function () {
-	// Pick simple filters from url params
-	// i.e. ?title={"mode":"contains","inverted":false,"value":"aaa"}
-	// TODO: this should use react-router, or something pretty to parse
-	var qs = _.object(
-		_.compact(
-			_.map(
-				location.search.slice(1).split('&'),
-				function(item) { if (item) return item.split('='); }
-			)
-		)
-	);
-	if (qs) {
-		for (var field in qs) {
-			var value = qs[field];
-			if (value) {
-				CurrentListStore.setFilter(field, JSON.parse(decodeURIComponent(value)));
-			}
-		}
-	}
-};
-filtersFromUrlParams();
-
+history.listen(function (location) {
+	_location = location;
+	active.columns = _list.expandColumns(location.query.columns || _list.defaultColumns);
+	active.search = location.query.search || '';
+	active.sort = _list.expandSort(location.query.sort || _list.defaultSort);
+	page.index = Number(location.query.page);
+	if (isNaN(page.index)) page.index = 1;
+	CurrentListStore.loadItems();
+	CurrentListStore.notifyChange();
+});
 
 module.exports = CurrentListStore;

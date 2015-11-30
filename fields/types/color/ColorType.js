@@ -17,4 +17,4 @@ util.inherits(color, FieldType);
 color.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
 
 /* Export Field Type */
-exports = module.exports = color;
+module.exports = color;

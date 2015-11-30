@@ -134,4 +134,4 @@ geopoint.prototype.updateItem = function(item, data) {
  * Export class
  */
 
-exports = module.exports = geopoint;
+module.exports = geopoint;

@@ -37,4 +37,4 @@ function removeProtocolPrefix(url) {
 // TODO: Proper url validation
 
 /* Export Field Type */
-exports = module.exports = url;
+module.exports = url;

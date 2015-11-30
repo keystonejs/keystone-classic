@@ -1,6 +1,6 @@
 var session = require('../../../lib/session');
 
-exports = module.exports = function(keystone) {
+module.exports = function(keystone) {
 	return function(req, res) {
 		session.signout(req, res, function() {
 			if ('string' === typeof keystone.get('signout redirect')) {

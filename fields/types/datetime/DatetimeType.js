@@ -82,4 +82,4 @@ datetime.prototype.updateItem = function(item, data) {
 };
 
 /* Export Field Type */
-exports = module.exports = datetime;
+module.exports = datetime;

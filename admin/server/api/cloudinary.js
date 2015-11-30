@@ -1,6 +1,6 @@
 var cloudinary = require('cloudinary');
 
-exports = module.exports = function(keystone) {
+module.exports = function(keystone) {
 	return {
 		upload: function(req, res) {
 			if (req.files && req.files.file) {
@@ -46,8 +46,8 @@ exports = module.exports = function(keystone) {
 					});
 				}
 			}, {
-				type       : 'upload',
-				prefix     : prefix,
+				type: 'upload',
+				prefix: prefix,
 				max_results: max,
 				next_cursor: next
 			});

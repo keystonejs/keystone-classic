@@ -5,13 +5,33 @@ import FormHeading from './FormHeading';
 import AltText from './AltText';
 import FooterBar from './FooterBar';
 import InvalidFieldType from './InvalidFieldType';
-import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+import { Modal, ModalHeader, ModalBody, ModalFooter,
+	Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+
+/**
+ * @TODO: Wait for the redux PR to be approved then we rewrite this.
+ */
+function getModalCleanState() {
+	return {
+		body: null,
+		isOpen: false,
+		primaryAction: null,
+		primaryActionLabel: 'Okay',
+		secondaryAction: null,
+		secondaryActionLabel: 'Cancel',
+	};
+};
 
 var EditForm = React.createClass({
 	displayName: 'EditForm',
+	propTypes: {
+		data: React.PropTypes.object,
+		list: React.PropTypes.object,
+	},
 	getInitialState () {
 		return {
-			values: Object.assign({}, this.props.data.fields)
+			values: Object.assign({}, this.props.data.fields),
+			modal: getModalCleanState()
 		};
 	},
 	getFieldProps (field) {
@@ -23,12 +43,56 @@ var EditForm = React.createClass({
 		return props;
 	},
 	handleChange (event) {
-		var values = Object.assign({}, this.state.values);
+		let values = Object.assign({}, this.state.values);
+		let modal = getModalCleanState();
+
 		values[event.path] = event.value;
-		this.setState({
-			values: values
+		this.setState({ values, modal });
+	},
+
+	handleReset(event) {
+		event.preventDefault();
+		let { data } = this.props;
+		let modal = {
+			body: <div>Reset your changes to <strong>{data.name}?</strong></div>,
+			isOpen: true,
+			primaryAction: this.handleResetAction,
+			primaryActionLabel: 'Reset',
+			secondaryAction: this.closeModal,
+			secondaryActionLabel: 'Cancel',
+		};
+		this.setState({ modal });
+	},
+
+	handleResetAction () {
+		window.location.reload();
+	},
+
+	handleDelete() {
+		let { data } = this.props;
+		let modal = {
+			body: <div>Are you sure you want to delete <strong>{data.name}?</strong><br /><br />This cannot be undone.</div>,
+			isOpen: true,
+			primaryAction: this.handleDeleteAction,
+			primaryActionLabel: 'Delete',
+			secondaryAction: this.closeModal,
+			secondaryActionLabel: 'Cancel',
+		};
+		this.setState({ modal });
+	},
+
+	handleDeleteAction () {
+		let { data, list } = this.props;
+		list.deleteItem(data.id, err => {
+			if (err) {
+				console.error(`Problem deleting ${list.singular}: ${data.name}`);
+				// TODO: slow a flash message on form
+				return;
+			}
+			top.location.href = '/keystone/' + list.path;
 		});
 	},
+
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
@@ -52,16 +116,15 @@ var EditForm = React.createClass({
 			);
 		}
 	},
+
 	renderNameField () {
 		var nameField = this.props.list.nameField;
 		var nameIsEditable = this.props.list.nameIsEditable;
-		function wrapNameField(field) {
-			return (
-				<div className="EditForm__name-field">
-					{field}
-				</div>
-			);
-		}
+		var wrapNameField = field => (
+			<div className="EditForm__name-field">
+				{field}
+			</div>
+		);
 		if (nameIsEditable) {
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.label = null;
@@ -69,7 +132,7 @@ var EditForm = React.createClass({
 			nameFieldProps.inputProps = {
 				className: 'item-name-field',
 				placeholder: nameField.label,
-				size: 'lg'
+				size: 'lg',
 			};
 			return wrapNameField(
 				React.createElement(Fields[nameField.type], nameFieldProps)
@@ -100,9 +163,9 @@ var EditForm = React.createClass({
 				}
 				if (props.dependsOn) {
 					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(function (dep) {
+					Object.keys(props.dependsOn).forEach(dep => {
 						props.currentDependencies[dep] = this.state.values[dep];
-					}, this);
+					});
 				}
 				props.key = field.path;
 				return React.createElement(Fields[field.type], props);
@@ -111,26 +174,24 @@ var EditForm = React.createClass({
 	},
 
 	renderFooterBar () {
-		var footer = [
+		var buttons = [
 			<Button key="save" type="primary" submit>Save</Button>
 		];
-		// TODO: Confirm: Use React & Modal
-		footer.push(
-			<Button key="reset" href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel" data-confirm="Are you sure you want to reset your changes?">
+		buttons.push(
+			<Button key="reset" onClick={this.handleReset} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
 		if (!this.props.list.nodelete) {
-			// TODO: Confirm: Use React & Modal
-			footer.push(
-				<Button key="del" href={'/keystone/' + this.props.list.path + '?delete=' + this.props.data.id + Keystone.csrf.query} type="link-delete" className="u-float-right" data-confirm={'Are you sure you want to delete this?' + this.props.list.singular.toLowerCase()}>
+			buttons.push(
+				<Button key="del" onClick={this.handleDelete} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
 		}
 		return (
 			<FooterBar className="EditForm__footer">
-				{footer}
+				{buttons}
 			</FooterBar>
 		);
 	},
@@ -194,7 +255,34 @@ var EditForm = React.createClass({
 		) : null;
 	},
 
+	closeModal () {
+		let { values } = this.state;
+
+		this.setState({
+			values,
+			modal: getModalCleanState()
+		});
+	},
+
+	renderModalFooter () {
+		let { modal } = this.state;
+		if (!modal.primaryAction && !modal.secondaryAction) return;
+
+		return (
+			<ModalFooter>
+				<Button size="sm" type="danger" onClick={modal.primaryAction}>
+					{modal.primaryActionLabel}
+				</Button>
+				{modal.secondaryAction && <Button size="sm" type="link-cancel" onClick={modal.secondaryAction}>
+					{modal.secondaryActionLabel}
+				</Button>}
+			</ModalFooter>
+		);
+	},
+
 	render () {
+		let { modal } = this.state;
+
 		return (
 			<form method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
@@ -211,6 +299,13 @@ var EditForm = React.createClass({
 					<Col lg="1/4"><span /></Col>
 				</Row>
 				{this.renderFooterBar()}
+
+				<Modal isOpen={modal.isOpen} onCancel={this.closeModal} width={400} closebackdropClosesModal>
+					<ModalBody>
+						{modal.body}
+					</ModalBody>
+					{this.renderModalFooter()}
+				</Modal>
 			</form>
 		);
 	}

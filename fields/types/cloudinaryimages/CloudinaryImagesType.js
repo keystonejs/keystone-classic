@@ -5,7 +5,7 @@ var utils = require('keystone-utils');
 var super_ = require('../Type');
 var async = require('async');
 
-exports = module.exports = function(keystone){
+module.exports = function(keystone){
 
 	/**
 	 * CloudinaryImages FieldType Constructor
@@ -110,6 +110,9 @@ exports = module.exports = function(keystone){
 		var addSize = function(options, width, height) {
 			if (width) options.width = width;
 			if (height) options.height = height;
+			if ('object' === typeof other) {
+				Object.assign(options, other);
+			}
 			return options;
 		};
 
@@ -117,40 +120,40 @@ exports = module.exports = function(keystone){
 			return src(this, options);
 		});
 
-		ImageSchema.method('scale', function(width, height) {
-			return src(this, addSize({ crop: 'scale' }, width, height));
+		ImageSchema.method('scale', function(width, height, options) {
+			return src(this, addSize({ crop: 'scale' }, width, height, options));
 		});
 
-		ImageSchema.method('fill', function(width, height) {
-			return src(this, addSize({ crop: 'fill', gravity: 'faces' }, width, height));
+		ImageSchema.method('fill', function(width, height, options) {
+			return src(this, addSize({ crop: 'fill', gravity: 'faces' }, width, height, options));
 		});
 
-		ImageSchema.method('lfill', function(width, height) {
-			return src(this, addSize({ crop: 'lfill', gravity: 'faces' }, width, height));
+		ImageSchema.method('lfill', function(width, height, options) {
+			return src(this, addSize({ crop: 'lfill', gravity: 'faces' }, width, height, options));
 		});
 
-		ImageSchema.method('fit', function(width, height) {
-			return src(this, addSize({ crop: 'fit' }, width, height));
+		ImageSchema.method('fit', function(width, height, options) {
+			return src(this, addSize({ crop: 'fit' }, width, height, options));
 		});
 
-		ImageSchema.method('limit', function(width, height) {
-			return src(this, addSize({ crop: 'limit' }, width, height));
+		ImageSchema.method('limit', function(width, height, options) {
+			return src(this, addSize({ crop: 'limit' }, width, height, options));
 		});
 
-		ImageSchema.method('pad', function(width, height) {
-			return src(this, addSize({ crop: 'pad' }, width, height));
+		ImageSchema.method('pad', function(width, height, options) {
+			return src(this, addSize({ crop: 'pad' }, width, height, options));
 		});
 
-		ImageSchema.method('lpad', function(width, height) {
-			return src(this, addSize({ crop: 'lpad' }, width, height));
+		ImageSchema.method('lpad', function(width, height, options) {
+			return src(this, addSize({ crop: 'lpad' }, width, height, options));
 		});
 
-		ImageSchema.method('crop', function(width, height) {
-			return src(this, addSize({ crop: 'crop', gravity: 'faces' }, width, height));
+		ImageSchema.method('crop', function(width, height, options) {
+			return src(this, addSize({ crop: 'crop', gravity: 'faces' }, width, height, options));
 		});
 
-		ImageSchema.method('thumbnail', function(width, height) {
-			return src(this, addSize({ crop: 'thumb', gravity: 'faces' }, width, height));
+		ImageSchema.method('thumbnail', function(width, height, options) {
+			return src(this, addSize({ crop: 'thumb', gravity: 'faces' }, width, height, options));
 		});
 
 		schema.add(this._path.addTo({}, [ImageSchema]));
@@ -320,8 +323,6 @@ exports = module.exports = function(keystone){
 
 					if (field.options.filenameAsPublicID) {
 						uploadOptions.public_id = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
-					} else {
-						uploadOptions = undefined;
 					}
 
 					cloudinary.uploader.upload(file.path, function(result) {

@@ -142,4 +142,4 @@ numberarray.prototype.updateItem = function(item, data) {
  * Export class
  */
 
-exports = module.exports = numberarray;
+module.exports = numberarray;

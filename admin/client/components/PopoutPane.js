@@ -9,13 +9,18 @@ var PopoutPane = React.createClass({
 		className: React.PropTypes.string,
 		onLayout: React.PropTypes.func
 	},
+	getDefaultProps () {
+		return {
+			onLayout: () => {}
+		};
+	},
 	componentDidMount () {
-		this.props.onLayout && this.props.onLayout(this.getDOMNode().offsetHeight);
+		this.props.onLayout(this.refs.el.offsetHeight);
 	},
 	render () {
 		let className = classnames('Popout__pane', this.props.className);
 		let props = blacklist(this.props, 'className', 'onLayout');
-		return <div className={className} {...props} />;
+		return <div ref="el" className={className} {...props} />;
 	}
 });
 

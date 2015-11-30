@@ -44,4 +44,4 @@ text.prototype.crop = function(item, length, append, preserveWords) {
 };
 
 /* Export Field Type */
-exports = module.exports = text;
+module.exports = text;

@@ -7,15 +7,15 @@ import Popout from './Popout';
 import PopoutList from './PopoutList';
 import { Button, FormField, FormInput, InputGroup } from 'elemental';
 
-function pluck(arr, key) {
-	return arr.map(obj => obj[key]);
-}
-
 var ListFiltersAdd = React.createClass({
 	displayName: 'ListFiltersAdd',
+	propTypes: {
+		className: React.PropTypes.string.isRequired,
+		maxHeight: React.PropTypes.number,
+	},
 	getDefaultProps () {
 		return {
-			maxHeight: 360
+			maxHeight: 360,
 		};
 	},
 	getInitialState () {
@@ -24,7 +24,7 @@ var ListFiltersAdd = React.createClass({
 			isOpen: false,
 			searchString: '',
 			selectedField: false,
-			...this.getStateFromStore()
+			...this.getStateFromStore(),
 		};
 	},
 	componentDidMount () {
@@ -39,7 +39,7 @@ var ListFiltersAdd = React.createClass({
 	getStateFromStore () {
 		return {
 			activeFilters: CurrentListStore.getActiveFilters(),
-			availableFilters: CurrentListStore.getAvailableColumns()
+			availableFilters: CurrentListStore.getAvailableFilters(),
 		};
 	},
 	updateStateFromStore () {
@@ -49,9 +49,7 @@ var ListFiltersAdd = React.createClass({
 		this.setState({ searchString: e.target.value });
 	},
 	openPopout () {
-		this.setState({
-			isOpen: true
-		}, this.focusSearch);
+		this.setState({ isOpen: true }, this.focusSearch);
 	},
 	closePopout () {
 		this.setState({ isOpen: false, selectedField: false, searchString: '', innerHeight: 0 });
@@ -63,7 +61,7 @@ var ListFiltersAdd = React.createClass({
 		this.setState({
 			selectedField: false,
 			searchString: '',
-			innerHeight: 0
+			innerHeight: 0,
 		}, this.focusSearch);
 	},
 	focusSearch () {
@@ -71,7 +69,7 @@ var ListFiltersAdd = React.createClass({
 	},
 	selectField (field) {
 		this.setState({
-			selectedField: field
+			selectedField: field,
 		});
 	},
 	applyFilter (value) {
@@ -79,18 +77,16 @@ var ListFiltersAdd = React.createClass({
 		this.closePopout();
 	},
 	renderList () {
-		let activeFilterFields = pluck(this.state.activeFilters, 'field');
-		let activeFilterPaths = pluck(activeFilterFields, 'path');
-
+		let activeFilterFields = this.state.activeFilters.map(obj => obj.field);
+		let activeFilterPaths = activeFilterFields.map(obj => obj.path);
 		let { availableFilters, searchString } = this.state;
-		let searchRegex = new RegExp(searchString);
+		let filteredFilters = availableFilters;
 
-		function searchFilter (filter) {
-			if (filter.type === 'heading') return false;
-			return searchRegex.test(filter.field.label.toLowerCase());
-		};
-
-		let filteredFilters = searchString ? availableFilters.filter(searchFilter) : availableFilters;
+		if (searchString) {
+			filteredFilters = filteredFilters
+				.filter(filter => filter.type !== 'heading')
+				.filter(filter => new RegExp(searchString).test(filter.field.label.toLowerCase()));
+		}
 
 		var popoutList = filteredFilters.map((el, i) => {
 			if (el.type === 'heading') {
@@ -130,7 +126,7 @@ var ListFiltersAdd = React.createClass({
 		let { selectedField } = this.state;
 		let popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
 		let popoutPanesClassname = classnames('Popout__panes', {
-			'Popout__scrollable-area': !selectedField
+			'Popout__scrollable-area': !selectedField,
 		});
 
 		return (

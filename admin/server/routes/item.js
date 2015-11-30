@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var async = require('async');
 
-exports = module.exports = function(keystone) {
+module.exports = function(keystone) {
 	return function(req, res) {
 
 		var itemQuery = req.list.model.findById(req.params.item).select();

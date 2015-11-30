@@ -8,6 +8,7 @@ var Checkbox = React.createClass({
 	displayName: 'Checkbox',
 	propTypes: {
 		checked: React.PropTypes.bool,
+		component: React.PropTypes.node,
 		onChange: React.PropTypes.func,
 		readonly: React.PropTypes.bool,
 	},
@@ -141,8 +142,8 @@ var Checkbox = React.createClass({
 		props.onMouseOut = this.handleMouseOut;
 
 		props.onClick = readonly ? null : this.handleChange;
-		props.onFocus = readonly ? null : this.toggleFocus.bind(this, true);
-		props.onBlur = readonly ? null : this.toggleFocus.bind(this, false);
+		props.onFocus = readonly ? null : () => this.toggleFocus(true);
+		props.onBlur = readonly ? null : () => this.toggleFocus(false);
 
 		let node = readonly ? 'span' : this.props.component;
 

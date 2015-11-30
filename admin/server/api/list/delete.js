@@ -15,7 +15,7 @@ module.exports = function(csrf){
 			ids = ids.split(',');
 		}
 		if (!Array.isArray(ids)) {
-			return res.apiError(400, 'invalid ids', 'ids must be an Array or comma-delimited list of ids');
+			ids = [ids];
 		}
 		if (req.user) {
 			var userId = String(req.user.id);

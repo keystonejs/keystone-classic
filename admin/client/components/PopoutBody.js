@@ -6,6 +6,7 @@ var PopoutBody = React.createClass({
 	displayName: 'PopoutBody',
 	propTypes: {
 		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
 		scrollable: React.PropTypes.bool,
 	},
 	render () {

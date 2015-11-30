@@ -40,7 +40,7 @@ module.exports = Field.create({
 	},
 
 	shouldCollapse () {
-		return this.formatValue() ? false : true;
+		return this.props.collapse && !this.formatValue();
 	},
 
 	uncollapseFields () {

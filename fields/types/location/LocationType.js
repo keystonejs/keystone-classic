@@ -11,7 +11,7 @@ var super_ = require('../Type');
 var RADIUS_KM = 6371;
 var RADIUS_MILES = 3959;
 
-exports = module.exports = function(keystone){
+module.exports = function(keystone){
 
 	/**
 	 * Location FieldType Constructor

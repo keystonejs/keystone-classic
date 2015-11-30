@@ -335,4 +335,4 @@ azurefile.prototype.handleRequest = function(item, req, paths, callback) {
  * Export class
  */
 
-exports = module.exports = azurefile;
+module.exports = azurefile;

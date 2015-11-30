@@ -3,6 +3,7 @@ script.
 	Keystone.backUrl = !{JSON.stringify(backUrl)};
 	Keystone.user = !{JSON.stringify(user)};
 	Keystone.version = !{JSON.stringify(version)};
+	Keystone.devMode = !{process.env.KEYSTONE_DEV ? 'true' : 'false'};
 	
 	Keystone.brand = !{JSON.stringify(brand)};
 	Keystone.nav = !{JSON.stringify(nav)};

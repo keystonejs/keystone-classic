@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var querystring = require('querystring');
 
-exports = module.exports = function(keystone) {
+module.exports = function(keystone) {
 	return function(req, res) {
 
 		var viewLocals = {

@@ -5,7 +5,7 @@ var MPromise = require('mpromise');
 var utils = require('keystone-utils');
 var super_ = require('../Type');
 
-exports = module.exports = function(keystone){
+module.exports = function(keystone){
 	/**
 	 * CloudinaryImage FieldType Constructor
 	 * @extends Field
