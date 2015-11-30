@@ -181,8 +181,4 @@ List.prototype.deleteItems = function (itemIds, callback) {
 	});
 };
 
-List.prototype.deleteItem = function (itemId, callback) {
-	return this.deleteItems([itemId], callback);
-};
-
 module.exports = List;
