@@ -26,14 +26,14 @@ const page = {
 	index: 1
 };
 
-function updateQueryParams (params) {
+function updateQueryParams (params, replace) {
 	if (!_location) return;
 	let newParams = Object.assign({}, _location.query);
 	Object.keys(params).forEach(i => {
 		if (params[i]) newParams[i] = params[i];
 		else delete newParams[i];
 	});
-	history.pushState(null, _location.pathname, newParams);
+	history[replace ? 'replaceState' : 'pushState'](null, _location.pathname, newParams);
 }
 
 const CurrentListStore = new Store({
@@ -54,7 +54,10 @@ const CurrentListStore = new Store({
 		return active.search;
 	},
 	setActiveSearch (str) {
-		updateQueryParams({ search: str });
+		// starting or clearing a search pushes a new history state, but updating
+		// the current search replaces it for nicer history navigation support
+		let replace = (str && this.getActiveSearch());
+		updateQueryParams({ search: str }, replace);
 	},
 	getActiveSort () {
 		return active.sort;
