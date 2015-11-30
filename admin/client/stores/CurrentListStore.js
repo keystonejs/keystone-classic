@@ -26,6 +26,16 @@ const page = {
 	index: 1
 };
 
+function updateQueryParams (params) {
+	if (!_location) return;
+	let newParams = Object.assign({}, _location.query);
+	Object.keys(params).forEach(i => {
+		if (params[i]) newParams[i] = params[i];
+		else delete newParams[i];
+	});
+	history.pushState(null, _location.pathname, newParams);
+}
+
 const CurrentListStore = new Store({
 	getList () {
 		return _list;
@@ -44,9 +54,7 @@ const CurrentListStore = new Store({
 		return active.search;
 	},
 	setActiveSearch (str) {
-		let params = {};
-		if (str) params.search = str;
-		history.pushState(null, _location.pathname, params);
+		updateQueryParams({ search: str });
 	},
 	getActiveSort () {
 		return active.sort;
