@@ -4,6 +4,7 @@ import { Alert, Spinner } from 'elemental';
 
 const RelatedItemsList = React.createClass({
 	propTypes: {
+		adminPath: React.PropTypes.string.isRequired,
 		list: React.PropTypes.object.isRequired,
 		refList: React.PropTypes.object.isRequired,
 		relatedItemId: React.PropTypes.string.isRequired,
@@ -73,7 +74,7 @@ const RelatedItemsList = React.createClass({
 	renderTableRow (item) {
 		const cells = this.state.columns.map((col, i) => {
 			const ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			const linkTo = !i ? `/keystone/${this.props.refList.path}/${item.id}` : undefined;
+			const linkTo = !i ? `${this.props.adminPath}/${this.props.refList.path}/${item.id}` : undefined;
 			return <ColumnType key={col.path} list={this.props.refList} col={col} data={item} linkTo={linkTo} />;
 		});
 		return <tr key={'i' + item.id}>{cells}</tr>;
@@ -82,7 +83,7 @@ const RelatedItemsList = React.createClass({
 		if (this.state.err) {
 			return <div className="Relationship">{this.state.err}</div>;
 		}
-		const listHref = '/keystone/' + this.props.refList.path;
+		const listHref = `${this.props.adminPath}/${this.props.refList.path}`;
 		return (
 			<div className="Relationship">
 				<h3><a href={listHref}>{this.props.refList.label}</a></h3>

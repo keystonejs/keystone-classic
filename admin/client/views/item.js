@@ -56,7 +56,7 @@ var ItemView = React.createClass({
 				{keys.map(key => {
 					let relationship = relationships[key];
 					let refList = Lists[relationship.ref];
-					return <RelatedItemsList key={relationship.path} list={this.props.list} refList={refList} relatedItemId={this.props.itemId} relationship={relationship} />;
+					return <RelatedItemsList key={relationship.path} adminPath={this.props.adminPath} list={this.props.list} refList={refList} relatedItemId={this.props.itemId} relationship={relationship} />;
 				})}
 			</div>
 		);
