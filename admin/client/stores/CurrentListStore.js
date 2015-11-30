@@ -18,20 +18,27 @@ const active = {
 	columns: _list.expandColumns(Keystone.list.defaultColumns),
 	filters: [],
 	search: '',
-	sort: _list.expandSort(Keystone.list.defaultSort)
+	sort: _list.expandSort(Keystone.list.defaultSort),
 };
 
 const page = {
 	size: 100,
-	index: 1
+	index: 1,
 };
 
 function updateQueryParams (params, replace) {
 	if (!_location) return;
 	let newParams = Object.assign({}, _location.query);
 	Object.keys(params).forEach(i => {
-		if (params[i]) newParams[i] = params[i];
-		else delete newParams[i];
+		if (params[i]) {
+			newParams[i] = params[i];
+			if (typeof newParams[i] === 'object') {
+				newParams[i] = JSON.stringify(newParams[i]);
+			}
+		}
+		else {
+			delete newParams[i];
+		}
 	});
 	history[replace ? 'replaceState' : 'pushState'](null, _location.pathname, newParams);
 }
@@ -110,9 +117,9 @@ const CurrentListStore = new Store({
 	getCurrentPage () {
 		return page.index;
 	},
-	setCurrentPage (i) {
-		page.index = i;
-		this.loadItems();
+	setCurrentPage (index) {
+		if (index === 1) index = undefined;
+		updateQueryParams({ page: index });
 	},
 	isLoading () {
 		return _loading;
@@ -167,12 +174,11 @@ const CurrentListStore = new Store({
 
 history.listen(function (location) {
 	_location = location;
-	let querySearch = location.query.search || '';
-	if (active.search !== querySearch) {
-		active.search = querySearch;
-		CurrentListStore.loadItems();
-		CurrentListStore.notifyChange();
-	}
+	page.index = Number(location.query.page);
+	if (isNaN(page.index)) page.index = 1;
+	active.search = location.query.search || '';
+	CurrentListStore.loadItems();
+	CurrentListStore.notifyChange();
 });
 
 module.exports = CurrentListStore;
