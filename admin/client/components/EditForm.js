@@ -1,26 +1,12 @@
 import React from 'react';
 import moment from 'moment';
+import ConfirmationDialog from './ConfirmationDialog';
 import Fields from '../fields';
 import FormHeading from './FormHeading';
 import AltText from './AltText';
 import FooterBar from './FooterBar';
 import InvalidFieldType from './InvalidFieldType';
-import { Modal, ModalHeader, ModalBody, ModalFooter,
-	Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
-
-/**
- * @TODO: Wait for the redux PR to be approved then we rewrite this.
- */
-function getModalCleanState() {
-	return {
-		body: null,
-		isOpen: false,
-		primaryAction: null,
-		primaryActionLabel: 'Okay',
-		secondaryAction: null,
-		secondaryActionLabel: 'Cancel',
-	};
-};
+import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
 
 var EditForm = React.createClass({
 	displayName: 'EditForm',
@@ -31,7 +17,7 @@ var EditForm = React.createClass({
 	getInitialState () {
 		return {
 			values: Object.assign({}, this.props.data.fields),
-			modal: getModalCleanState()
+			confirmationDialog: null
 		};
 	},
 	getFieldProps (field) {
@@ -44,44 +30,44 @@ var EditForm = React.createClass({
 	},
 	handleChange (event) {
 		let values = Object.assign({}, this.state.values);
-		let modal = getModalCleanState();
 
 		values[event.path] = event.value;
-		this.setState({ values, modal });
+		this.setState({ values });
 	},
 
-	handleReset(event) {
+	confirmReset(event) {
+		const confirmationDialog = (
+			<ConfirmationDialog
+				body={`Reset your changes to <strong>${this.props.data.name}</strong>?`}
+				confirmationLabel="Reset"
+				onCancel={this.removeConfirmationDialog}
+				onConfirmation={this.handleReset}
+			/>
+		);
+
 		event.preventDefault();
-		let { data } = this.props;
-		let modal = {
-			body: <div>Reset your changes to <strong>{data.name}?</strong></div>,
-			isOpen: true,
-			primaryAction: this.handleResetAction,
-			primaryActionLabel: 'Reset',
-			secondaryAction: this.closeModal,
-			secondaryActionLabel: 'Cancel',
-		};
-		this.setState({ modal });
+
+		this.setState({ confirmationDialog });
 	},
 
-	handleResetAction () {
+	handleReset () {
 		window.location.reload();
 	},
 
-	handleDelete() {
-		let { data } = this.props;
-		let modal = {
-			body: <div>Are you sure you want to delete <strong>{data.name}?</strong><br /><br />This cannot be undone.</div>,
-			isOpen: true,
-			primaryAction: this.handleDeleteAction,
-			primaryActionLabel: 'Delete',
-			secondaryAction: this.closeModal,
-			secondaryActionLabel: 'Cancel',
-		};
-		this.setState({ modal });
+	confirmDelete() {
+		const confirmationDialog = (
+			<ConfirmationDialog
+				body={`Are you sure you want to delete <strong>${this.props.data.name}?</strong><br /><br />This cannot be undone.`}
+				confirmationLabel="Delete"
+				onCancel={this.removeConfirmationDialog}
+				onConfirmation={this.handleDelete}
+			/>
+		);
+
+		this.setState({ confirmationDialog });
 	},
 
-	handleDeleteAction () {
+	handleDelete () {
 		let { data, list } = this.props;
 		list.deleteItem(data.id, err => {
 			if (err) {
@@ -90,6 +76,12 @@ var EditForm = React.createClass({
 				return;
 			}
 			top.location.href = '/keystone/' + list.path;
+		});
+	},
+
+	removeConfirmationDialog () {
+		this.setState({
+			confirmationDialog: null
 		});
 	},
 
@@ -178,13 +170,13 @@ var EditForm = React.createClass({
 			<Button key="save" type="primary" submit>Save</Button>
 		];
 		buttons.push(
-			<Button key="reset" onClick={this.handleReset} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
+			<Button key="reset" onClick={this.confirmReset} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
 		if (!this.props.list.nodelete) {
 			buttons.push(
-				<Button key="del" onClick={this.handleDelete} type="link-delete" className="u-float-right">
+				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
@@ -255,34 +247,7 @@ var EditForm = React.createClass({
 		) : null;
 	},
 
-	closeModal () {
-		let { values } = this.state;
-
-		this.setState({
-			values,
-			modal: getModalCleanState()
-		});
-	},
-
-	renderModalFooter () {
-		let { modal } = this.state;
-		if (!modal.primaryAction && !modal.secondaryAction) return;
-
-		return (
-			<ModalFooter>
-				<Button size="sm" type="danger" onClick={modal.primaryAction}>
-					{modal.primaryActionLabel}
-				</Button>
-				{modal.secondaryAction && <Button size="sm" type="link-cancel" onClick={modal.secondaryAction}>
-					{modal.secondaryActionLabel}
-				</Button>}
-			</ModalFooter>
-		);
-	},
-
 	render () {
-		let { modal } = this.state;
-
 		return (
 			<form method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
@@ -299,13 +264,7 @@ var EditForm = React.createClass({
 					<Col lg="1/4"><span /></Col>
 				</Row>
 				{this.renderFooterBar()}
-
-				<Modal isOpen={modal.isOpen} onCancel={this.closeModal} width={400} closebackdropClosesModal>
-					<ModalBody>
-						{modal.body}
-					</ModalBody>
-					{this.renderModalFooter()}
-				</Modal>
+				{this.state.confirmationDialog}
 			</form>
 		);
 	}
