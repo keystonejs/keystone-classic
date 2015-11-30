@@ -44,6 +44,8 @@ function buildQueryString (options) {
 const List = function (options) {
 	Object.assign(this, options);
 	this.columns = getColumns(this);
+	this.expandedDefaultColumns = this.expandColumns(this.defaultColumns);
+	this.defaultColumnPaths = this.expandedDefaultColumns.map(i => i.path).join(',');
 };
 
 List.prototype.expandColumns = function (input) {
