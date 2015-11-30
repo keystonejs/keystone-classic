@@ -35,8 +35,7 @@ function updateQueryParams (params, replace) {
 			if (typeof newParams[i] === 'object') {
 				newParams[i] = JSON.stringify(newParams[i]);
 			}
-		}
-		else {
+		} else {
 			delete newParams[i];
 		}
 	});
@@ -84,7 +83,7 @@ const CurrentListStore = new Store({
 		return active.filters.filter(i => i.field.path === path)[0];
 	},
 	setFilter (path, value) {
-		let filter = active.filters.filter(i => i.field.path === path)[0];
+		let filter = this.getFilter(path);
 		if (filter) {
 			filter.value = value;
 		} else {
