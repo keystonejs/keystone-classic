@@ -70,9 +70,8 @@ const CurrentListStore = new Store({
 		return active.sort;
 	},
 	setActiveSort (sort) {
-		active.sort = _list.expandSort(sort || _list.defaultSort);
-		this.loadItems();
-		this.notifyChange();
+		if (sort === _list.defaultSort) sort = undefined;
+		updateQueryParams({ sort });
 	},
 	getAvailableFilters () {
 		return _list.columns.filter(col => col.field && col.field.hasFilterMethod);
@@ -177,6 +176,7 @@ history.listen(function (location) {
 	page.index = Number(location.query.page);
 	if (isNaN(page.index)) page.index = 1;
 	active.search = location.query.search || '';
+	active.sort = _list.expandSort(location.query.sort || _list.defaultSort);
 	CurrentListStore.loadItems();
 	CurrentListStore.notifyChange();
 });
