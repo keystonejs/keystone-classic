@@ -5,7 +5,20 @@ import FormHeading from './FormHeading';
 import AltText from './AltText';
 import FooterBar from './FooterBar';
 import InvalidFieldType from './InvalidFieldType';
-import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+import { Modal, ModalHeader, ModalBody, ModalFooter,
+	Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+
+/**
+ * @TODO: Wait for the redux PR to be approved then we rewrite this.
+ */
+function getModalCleanState() {
+	return {
+		body: null,
+		header: null,
+		isOpen: false,
+		meta: null
+	};
+};
 
 var EditForm = React.createClass({
 	displayName: 'EditForm',
@@ -16,6 +29,7 @@ var EditForm = React.createClass({
 	getInitialState () {
 		return {
 			values: Object.assign({}, this.props.data.fields),
+			modal: getModalCleanState()
 		};
 	},
 	getFieldProps (field) {
@@ -27,22 +41,53 @@ var EditForm = React.createClass({
 		return props;
 	},
 	handleChange (event) {
-		var values = Object.assign({}, this.state.values);
+		let values = Object.assign({}, this.state.values);
+		let modal = getModalCleanState();
+
 		values[event.path] = event.value;
-		this.setState({ values });
+		this.setState({ values, modal });
 	},
-	handleReset(ev) {
-		if (!confirm(`Are you sure you want to reset your changes to this ${this.props.list.singular.toLowerCase()}?`)) {
-			ev && ev.preventDefault();
-		}
+
+	handleReset(event) {
+		event.preventDefault();
+		let values = Object.assign({}, this.state.values);
+		let modal = {
+			header: `Reset ${values.title}`,
+			body: `Are you sure you want to reset your changes to this ${this.props.list.singular.toLowerCase()}?`,
+			isOpen: true,
+			meta: 'reset'
+		};
+		this.setState({ values, modal });
 	},
-	handleDelete(ev) {
-		if (!confirm(`Are you sure you want to delete this ${this.props.list.singular.toLowerCase()}?`)) return;
-		this.props.list.deleteItem(this.props.data.id, err => {
-			// TODO: Handle error
-			top.location.href = '/keystone/' + this.props.list.path;
+
+	handleResetAction () {
+		window.location.reload();
+	},
+
+	handleDelete() {
+		let values = Object.assign({}, this.state.values);
+		let modal = {
+			header: `Delete ${values.title}`,
+			body: `Are you sure you want to delete this ${this.props.list.singular.toLowerCase()}?`,
+			isOpen: true,
+			meta: 'delete'
+		};
+		this.setState({ values, modal });
+	},
+
+	handleDeleteAction () {
+		let { values } = this.state;
+		let { data, list } = this.props;
+		list.deleteItem(data.id, err => {
+			if (err) {
+				console.error(`Problem deleting Post: ${values.title}`);
+				// TODO: slow a flash message on form
+				return;
+			}
+			top.location.href = '/keystone/' + list.path;
 		});
 	},
+
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
@@ -66,6 +111,7 @@ var EditForm = React.createClass({
 			);
 		}
 	},
+
 	renderNameField () {
 		var nameField = this.props.list.nameField;
 		var nameIsEditable = this.props.list.nameIsEditable;
@@ -204,7 +250,32 @@ var EditForm = React.createClass({
 		) : null;
 	},
 
+	closeModal () {
+		let { values } = this.state;
+
+		this.setState({
+			values,
+			modal: getModalCleanState()
+		});
+	},
+
+	renderModalButtons () {
+		let { modal } = this.state;
+		let modalAction = modal.meta === 'delete' ? this.handleDeleteAction :
+			modal.meta === 'reset' ? this.handleResetAction : this.closeModal;
+
+		return (<div>
+			<Button type="primary" onClick={modalAction}>OK</Button>
+			&nbsp;
+			{(modal.meta === 'delete' || modal.meta === 'reset') ?
+				<Button type="default-danger" onClick={this.closeModal}>Cancel</Button>
+				: ''}
+			</div>);
+	},
+
 	render () {
+		let { modal } = this.state;
+
 		return (
 			<form method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
@@ -221,6 +292,16 @@ var EditForm = React.createClass({
 					<Col lg="1/4"><span /></Col>
 				</Row>
 				{this.renderFooterBar()}
+
+				<Modal isOpen={modal.isOpen} onCancel={this.closeModal} closebackdropClosesModal>
+					<ModalHeader text={modal.header} />
+					<ModalBody>
+						<div>{modal.body}</div>
+					</ModalBody>
+					<ModalFooter>
+						{this.renderModalButtons()}
+					</ModalFooter>
+				</Modal>
 			</form>
 		);
 	}
