@@ -18,6 +18,8 @@ We've been working on a major update to Keystone for several months now, rewriti
 
 Work on this has now been merged into our `master` branch, which is currently not stable (but which we encourage you to try out and give us feedback on!). Stable `0.3.x` releases will continue to be published from the `0.3.x` branch.
 
+**UPDATE:** Our [demo site](http://demo.keystonejs.com/) has been updated to the new version - check it out and let us know what you think!
+
 For more information on the upcoming version, including how to try it out and get involved, check out [issue #1612](https://github.com/keystonejs/keystone/issues/1612)
 
 
