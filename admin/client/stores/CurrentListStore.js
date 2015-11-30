@@ -53,9 +53,10 @@ const CurrentListStore = new Store({
 	getActiveColumns () {
 		return active.columns;
 	},
-	setActiveColumns (cols) {
-		active.columns = _list.expandColumns(cols);
-		this.loadItems();
+	setActiveColumns (columns) {
+		if (Array.isArray(columns)) columns = columns.join(',');
+		if (columns === _list.defaultColumnPaths) columns = undefined;
+		updateQueryParams({ columns });
 	},
 	getActiveSearch () {
 		return active.search;
@@ -173,10 +174,11 @@ const CurrentListStore = new Store({
 
 history.listen(function (location) {
 	_location = location;
-	page.index = Number(location.query.page);
-	if (isNaN(page.index)) page.index = 1;
+	active.columns = _list.expandColumns(location.query.columns || _list.defaultColumns);
 	active.search = location.query.search || '';
 	active.sort = _list.expandSort(location.query.sort || _list.defaultSort);
+	page.index = Number(location.query.page);
+	if (isNaN(page.index)) page.index = 1;
 	CurrentListStore.loadItems();
 	CurrentListStore.notifyChange();
 });
