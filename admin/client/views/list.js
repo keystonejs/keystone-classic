@@ -37,9 +37,6 @@ const ListView = React.createClass({
 	},
 	componentDidMount () {
 		CurrentListStore.addChangeListener(this.updateStateFromStore);
-		if (!this.state.ready) {
-			CurrentListStore.loadItems();
-		}
 	},
 	componentWillUnmount () {
 		CurrentListStore.removeChangeListener(this.updateStateFromStore);
