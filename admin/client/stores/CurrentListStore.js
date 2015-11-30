@@ -15,10 +15,10 @@ let _items = {};
 const _list = new List(Keystone.list);
 
 const active = {
-	columns: _list.expandColumns(Keystone.list.defaultColumns),
+	columns: _list.expandColumns(_list.defaultColumns),
 	filters: [],
 	search: '',
-	sort: _list.expandSort(Keystone.list.defaultSort),
+	sort: _list.expandSort(_list.defaultSort),
 };
 
 const page = {
