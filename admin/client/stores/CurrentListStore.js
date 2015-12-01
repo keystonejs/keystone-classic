@@ -4,6 +4,7 @@ import createHistory from 'history/lib/createBrowserHistory';
 import useQueries from 'history/lib/useQueries';
 import Store from 'store-prototype';
 import List from '../lib/List';
+import { plural } from '../utils';
 
 let history = useQueries(createHistory)();
 
@@ -159,7 +160,8 @@ const CurrentListStore = new Store({
 	deleteItems (itemIds) {
 		_list.deleteItems(itemIds, (err, data) => {
 			if (err) {
-				this.notifyError(err.message || `Failed to delete item(s) of type ${_list.path}`);
+				let listTypeName = plural(itemIds.length, _list.singular, _list.plural);
+				this.notifyError(`Failed to delete ${listTypeName}`);
 			} else {
 				// notify
 				this.loadItems();
