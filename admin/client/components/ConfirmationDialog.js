@@ -8,6 +8,7 @@ module.exports = React.createClass({
 		body: React.PropTypes.string.isRequired,
 		cancelLabel: React.PropTypes.string,
 		confirmationLabel: React.PropTypes.string,
+		confirmationType: React.PropTypes.oneOf(['danger', 'warning', 'primary']),
 		onCancel: React.PropTypes.func.isRequired,
 		onConfirmation: React.PropTypes.func.isRequired,
 	},
@@ -16,6 +17,7 @@ module.exports = React.createClass({
 		return {
 			cancelLabel: 'Cancel',
 			confirmationLabel: 'Ok',
+			confirmationType: 'danger'
 		};
 	},
 
@@ -32,7 +34,7 @@ module.exports = React.createClass({
 					<div dangerouslySetInnerHTML={this.getBodyHtml()} />
 				</ModalBody>
 				<ModalFooter>
-					<Button size="sm" type="danger" onClick={this.props.onConfirmation}>
+					<Button size="sm" type={this.props.confirmationType} onClick={this.props.onConfirmation}>
 						{this.props.confirmationLabel}
 					</Button>
 					<Button size="sm" type="link-cancel" onClick={this.props.onCancel}>
