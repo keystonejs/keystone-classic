@@ -113,10 +113,21 @@ const ListView = React.createClass({
 		let { checkedItems, list } = this.state;
 		let itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
 		let itemIds = Object.keys(checkedItems);
-		if (!confirm(`Are you sure you want to delete ${itemCount}?`)) return;
 
-		CurrentListStore.deleteItems(itemIds);
-		this.toggleManageMode();
+        const confirmationDialog = (
+            <ConfirmationDialog
+                body={`Are you sure you want to delete ${itemCount}?<br /><br />This cannot be undone.`}
+                confirmationLabel="Delete"
+                onCancel={this.removeConfirmationDialog}
+                onConfirmation={() => {
+                    CurrentListStore.deleteItems(itemIds);
+                    this.toggleManageMode();
+                    this.removeConfirmationDialog();
+                }}
+            />
+        );
+
+        this.setState({ confirmationDialog });
 	},
 	handleManagementSelect (selection) {
 		if (selection === 'all') this.checkAllTableItems();
