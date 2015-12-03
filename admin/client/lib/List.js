@@ -163,7 +163,7 @@ List.prototype.deleteItem = function (itemId, callback) {
 };
 
 List.prototype.deleteItems = function (itemIds, callback) {
-	const url = Keystone.adminPath + '/api/' + this.path + '/' + item.id + '/delete';
+	const url = Keystone.adminPath + '/api/' + this.path + '/' + itemIds.join(',') + '/delete';
 	xhr({
 		url: url,
 		method: 'POST',
