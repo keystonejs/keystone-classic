@@ -7,6 +7,7 @@ var csrfHeaders = {};
 csrfHeaders[Keystone.csrf_header_key] = Keystone.csrf_token_value;
 
 var _user = Keystone.user;
+var _adminPath = Keystone.adminPath;
 
 function callbackResponse (callback) {
 	return function (err, resp, body) {
@@ -23,7 +24,7 @@ var SessionStore = new Store({
 	},
 	signin (options, callback) {
 		xhr({
-			url: '/keystone/api/session/signin',
+			url: _adminPath + '/api/session/signin',
 			method: 'post',
 			json: options,
 			headers: csrfHeaders
@@ -32,7 +33,7 @@ var SessionStore = new Store({
 	signout (callback) {
 		callback = callback || function () {};
 		xhr({
-			url: '/keystone/api/session/signout',
+			url: _adminPath + '/api/session/signout',
 			method: 'post',
 			json: {}
 		}, callbackResponse(callback));

@@ -12,6 +12,7 @@ const moreIndicatorStyle = {
 var RelationshipColumn = React.createClass({
 	displayName: 'RelationshipColumn',
 	propTypes: {
+		adminPath: React.PropTypes.string,
 		col: React.PropTypes.object,
 		data: React.PropTypes.object,
 	},
@@ -25,7 +26,7 @@ var RelationshipColumn = React.createClass({
 				items.push(<span key={'comma' + i}>, </span>);
 			}
 			items.push(
-				<ItemsTableValue interior truncate={false} key={'anchor' + i} href={'/keystone/' + refList.path + '/' + value[i].id}>
+				<ItemsTableValue interior truncate={false} key={'anchor' + i} href={this.props.adminPath + '/' + refList.path + '/' + value[i].id}>
 					{value[i].name}
 				</ItemsTableValue>
 			);
@@ -43,7 +44,7 @@ var RelationshipColumn = React.createClass({
 		if (!value) return;
 		let refList = this.props.col.field.refList;
 		return (
-			<ItemsTableValue href={'/keystone/' + refList.path + '/' + value.id} padded interior field={this.props.col.type}>
+			<ItemsTableValue href={this.props.adminPath + '/' + refList.path + '/' + value.id} padded interior field={this.props.col.type}>
 				{value.name}
 			</ItemsTableValue>
 		);

@@ -6,6 +6,7 @@ import { Pill } from 'elemental';
 
 const Filter = React.createClass({
 	propTypes: {
+		adminPath: React.PropTypes.string,
 		filter: React.PropTypes.object.isRequired
 	},
 	getInitialState () {
@@ -48,7 +49,7 @@ const Filter = React.createClass({
 					<form onSubmit={this.updateFilter}>
 						<Popout.Header title="Edit Filter" />
 						<Popout.Body>
-							<FilterComponent field={filter.field} filter={this.state.filterValue} onChange={this.updateValue} />
+							<FilterComponent field={filter.field} filter={this.state.filterValue} onChange={this.updateValue} adminPath={this.props.adminPath} />
 						</Popout.Body>
 						<Popout.Footer
 							ref="footer"
@@ -89,7 +90,7 @@ const ListFilters = React.createClass({
 
 		let currentFilters = this.state.filters.map((filter, i) => {
 			return (
-				<Filter key={'f' + i} filter={filter} />
+				<Filter key={'f' + i} filter={filter} adminPath={this.props.adminPath} />
 			);
 		});
 

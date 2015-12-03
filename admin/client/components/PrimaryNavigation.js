@@ -4,6 +4,7 @@ import { Container } from 'elemental';
 var PrimaryNavItem = React.createClass({
 	displayName: 'PrimaryNavItem',
 	propTypes: {
+		adminPath: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
@@ -65,7 +66,7 @@ var PrimaryNavigation = React.createClass({
 	renderBrand () {
 		// TODO: support navbarLogo from keystone config
 		return (
-			<PrimaryNavItem className={this.props.currentSectionKey === 'dashboard' ? 'active' : null} href="/keystone" title={'Dashboard - ' + this.props.brand}>
+			<PrimaryNavItem className={this.props.currentSectionKey === 'dashboard' ? 'active' : null} href={this.props.adminPath} title={'Dashboard - ' + this.props.brand}>
 				<span className="octicon octicon-home" />
 			</PrimaryNavItem>
 		);
@@ -74,7 +75,7 @@ var PrimaryNavigation = React.createClass({
 		if (!this.props.sections || !this.props.sections.length) return null;
 
 		return this.props.sections.map((section) => {
-			let href = section.lists[0].external ? section.lists[0].path : ('/keystone/' + section.lists[0].path);
+			let href = section.lists[0].external ? section.lists[0].path : `${this.props.adminPath}/${section.lists[0].path}`;
 			let className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'active' : null;
 
 			return (

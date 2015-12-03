@@ -26,6 +26,7 @@ var Base = module.exports.Base = {
 	},
 	getDefaultProps () {
 		return {
+			adminPath: Keystone.adminPath,
 			inputProps: {},
 			labelProps: {},
 			valueProps: {},

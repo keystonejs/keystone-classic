@@ -29,10 +29,10 @@ module.exports = function createDynamicRouter(keystone) {
 	if (keystone.get('auth') === true) {
 		// TODO: poor separation of concerns; settings should be defaulted elsewhere
 		if (!keystone.get('signout url')) {
-			keystone.set('signout url', '/keystone/signout');
+			keystone.set('signout url', '/' + keystone.get('admin path') + '/signout');
 		}
 		if (!keystone.get('signin url')) {
-			keystone.set('signin url', '/keystone/signin');
+			keystone.set('signin url', '/' + keystone.get('admin path') + '/signin');
 		}
 		if (!keystone.nativeApp || !keystone.get('session')) {
 			router.all('*', keystone.session.persist);

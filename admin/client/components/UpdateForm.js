@@ -8,6 +8,7 @@ import { BlankState, Button, Form, Modal } from 'elemental';
 var UpdateForm = React.createClass({
 	displayName: 'UpdateForm',
 	propTypes: {
+		adminPath: React.PropTypes.string,
 		isOpen: React.PropTypes.bool,
 		itemIds: React.PropTypes.array,
 		list: React.PropTypes.object,
@@ -99,7 +100,7 @@ var UpdateForm = React.createClass({
 	renderForm () {
 		let { itemIds, list } = this.props;
 		let itemCount = plural(itemIds, ('* ' + list.singular), ('* ' + list.plural));
-		let formAction = '/keystone/' + list.path;
+		let formAction = `${this.props.adminPath}/${list.path}`;
 
 		return (
 			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction}>

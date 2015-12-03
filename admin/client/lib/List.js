@@ -120,7 +120,7 @@ List.prototype.loadItem = function (itemId, options, callback) {
 		callback = options;
 		options = null;
 	}
-	let url = '/keystone/api/' + this.path + '/' + itemId;
+	let url = Keystone.adminPath + '/api/' + this.path + '/' + itemId;
 	let query = qs.stringify(options);
 	if (query.length) url += '?' + query;
 	xhr({
@@ -134,7 +134,7 @@ List.prototype.loadItem = function (itemId, options, callback) {
 };
 
 List.prototype.loadItems = function (options, callback) {
-	const url = '/keystone/api/' + this.path + buildQueryString(options);
+	const url = Keystone.adminPath + '/api/' + this.path + buildQueryString(options);
 	xhr({
 		url: url,
 		responseType: 'json',
@@ -145,7 +145,7 @@ List.prototype.loadItems = function (options, callback) {
 };
 
 List.prototype.getDownloadURL = function (options) {
-	const url = '/keystone/api/' + this.path;
+	const url = Keystone.adminPath + '/api/' + this.path;
 	const parts = [];
 	if (options.format !== 'json') {
 		options.format = 'csv';
@@ -163,7 +163,7 @@ List.prototype.deleteItem = function (itemId, callback) {
 };
 
 List.prototype.deleteItems = function (itemIds, callback) {
-	const url = '/keystone/api/' + this.path + '/' + itemIds.join() + '/delete';
+	const url = Keystone.adminPath + '/api/' + this.path + '/' + item.id + '/delete';
 	xhr({
 		url: url,
 		method: 'POST',
