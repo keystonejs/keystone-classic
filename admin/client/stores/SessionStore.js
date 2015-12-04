@@ -3,11 +3,11 @@
 import Store from 'store-prototype';
 import xhr from 'xhr';
 
-var csrfHeaders = {};
-csrfHeaders[Keystone.csrf_header_key] = Keystone.csrf_token_value;
+var csrfHeaders = {
+	[Keystone.csrf_header_key]: Keystone.csrf_token_value
+};
 
-var _user = Keystone.user;
-var _adminPath = Keystone.adminPath;
+let { user, adminPath } = Keystone;
 
 function callbackResponse (callback) {
 	return function (err, resp, body) {
@@ -20,11 +20,11 @@ function callbackResponse (callback) {
 
 var SessionStore = new Store({
 	getUser () {
-		return _user;
+		return user;
 	},
 	signin (options, callback) {
 		xhr({
-			url: _adminPath + '/api/session/signin',
+			url: `${adminPath}/api/session/signin`,
 			method: 'post',
 			json: options,
 			headers: csrfHeaders
@@ -33,7 +33,7 @@ var SessionStore = new Store({
 	signout (callback) {
 		callback = callback || function () {};
 		xhr({
-			url: _adminPath + '/api/session/signout',
+			url: `${adminPath}/api/session/signout`,
 			method: 'post',
 			json: {}
 		}, callbackResponse(callback));
