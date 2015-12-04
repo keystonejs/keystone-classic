@@ -75,7 +75,7 @@ var EditForm = React.createClass({
 				// TODO: slow a flash message on form
 				return;
 			}
-			top.location.href = this.props.adminPath + '/' + list.path;
+			top.location.href = `${this.props.adminPath}/${list.path}`;
 		});
 	},
 
