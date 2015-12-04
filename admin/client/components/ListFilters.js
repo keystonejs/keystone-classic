@@ -40,7 +40,7 @@ const Filter = React.createClass({
 	},
 	render () {
 		let { filter } = this.props;
-		let filterId = 'activeFilter__' + filter.field.path;
+		let filterId = `activeFilter__${filter.field.path}`;
 		let FilterComponent = filterComponents[filter.field.type];
 		return (
 			<span>
