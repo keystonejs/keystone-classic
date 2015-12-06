@@ -74,7 +74,7 @@ module.exports = Field.create({
 	},
 
 	cacheItem (item) {
-		item.href = this.props.adminPath + '/' + this.props.refList.path + '/' + item.id;
+		item.href = Keystone.adminPath + '/' + this.props.refList.path + '/' + item.id;
 		this._itemsCache[item.id] = item;
 	},
 
@@ -100,7 +100,7 @@ module.exports = Field.create({
 		});
 		async.map(values, (value, done) => {
 			xhr({
-				url: this.props.adminPath + '/api/' + this.props.refList.path + '/' + value + '?basic',
+				url: Keystone.adminPath + '/api/' + this.props.refList.path + '/' + value + '?basic',
 				responseType: 'json',
 			}, (err, resp, data) => {
 				if (err || !data) return done(err);
@@ -119,7 +119,7 @@ module.exports = Field.create({
 	loadOptions (input, callback) {
 		// TODO: Implement filters
 		xhr({
-			url: this.props.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input,
+			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input,
 			responseType: 'json',
 		}, (err, resp, data) => {
 			if (err) {

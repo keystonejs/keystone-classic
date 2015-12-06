@@ -73,7 +73,7 @@ var Header = React.createClass({
 
 		if (!els.length) {
 			return (
-				<Button type="link" href={`${this.props.adminPath}/${list.path}`}>
+				<Button type="link" href={`${Keystone.adminPath}/${list.path}`}>
 					<span className="octicon octicon-chevron-left" />
 					{list.plural}
 				</Button>
@@ -82,7 +82,7 @@ var Header = React.createClass({
 			// add the current list
 			els.push(
 				<li key="back">
-					<a type="link" href={`${this.props.adminPath}/${list.path}`}>{list.plural}</a>
+					<a type="link" href={`${Keystone.adminPath}/${list.path}`}>{list.plural}</a>
 				</li>
 			);
 			return <ul className="item-breadcrumbs" key="drilldown">{els}</ul>;
@@ -93,7 +93,7 @@ var Header = React.createClass({
 	renderSearch () {
 		var list = this.props.list;
 		return (
-			<form action={`${this.props.adminPath}/${list.path}`} className="EditForm__header__search">
+			<form action={`${Keystone.adminPath}/${list.path}`} className="EditForm__header__search">
 				<FormIconField iconPosition="left" iconColor="primary" iconKey="search" className="EditForm__header__search-field">
 					<FormInput
 						ref="searchField"

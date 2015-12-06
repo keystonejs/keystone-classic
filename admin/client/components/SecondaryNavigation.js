@@ -4,7 +4,6 @@ import { Container } from 'elemental';
 var SecondaryNavItem = React.createClass({
 	displayName: 'SecondaryNavItem',
 	propTypes: {
-		adminPath: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
@@ -44,7 +43,7 @@ var SecondaryNavigation = React.createClass({
 	},
 	renderNavigation (lists) {
 		let navigation = lists.map((list) => {
-			let href = list.external ? list.path : `${this.props.adminPath}/${list.path}`;
+			let href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			let className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
 
 			return (

@@ -25,7 +25,6 @@ var RelationshipFilter = React.createClass({
 	},
 
 	propTypes: {
-		adminPath: React.PropTypes.string,
 		field: React.PropTypes.object,
 		filter: React.PropTypes.shape({
 			inverted: React.PropTypes.bool,
@@ -69,7 +68,7 @@ var RelationshipFilter = React.createClass({
 		async.map(value, (id, next) => {
 			if (this._itemsCache[id]) return next(null, this._itemsCache[id]);
 			xhr({
-				url: this.props.adminPath + '/api/' + this.props.field.refList.path + '/' + id + '?basic',
+				url: Keystone.adminPath + '/api/' + this.props.field.refList.path + '/' + id + '?basic',
 				responseType: 'json',
 			}, (err, resp, data) => {
 				if (err || !data) return done(err);
@@ -97,7 +96,7 @@ var RelationshipFilter = React.createClass({
 	loadSearchResults (thenPopulateValue) {
 		let searchString = this.state.searchString;
 		xhr({
-			url: this.props.adminPath + '/api/' + this.props.field.refList.path + '?basic&search=' + searchString,
+			url: Keystone.adminPath + '/api/' + this.props.field.refList.path + '?basic&search=' + searchString,
 			responseType: 'json',
 		}, (err, resp, data) => {
 			if (err) {

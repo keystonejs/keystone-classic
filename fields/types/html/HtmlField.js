@@ -150,8 +150,8 @@ module.exports = Field.create({
 
 		if (this.shouldRenderField()) {
 			opts.uploadimage_form_url = options.enableS3Uploads ?
-				this.props.adminPath + '/api/s3/upload' :
-				this.props.adminPath + '/api/cloudinary/upload';
+				Keystone.adminPath + '/api/s3/upload' :
+				Keystone.adminPath + '/api/cloudinary/upload';
 		} else {
 			Object.assign(opts, {
 				mode: 'textareas',

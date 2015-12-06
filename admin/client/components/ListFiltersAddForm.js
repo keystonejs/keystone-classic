@@ -6,7 +6,6 @@ import Popout from './Popout';
 var ListFiltersAddForm = React.createClass({
 
 	propTypes: {
-		adminPath: React.PropTypes.string,
 		field: React.PropTypes.object.isRequired,
 		maxHeight: React.PropTypes.number,
 		onApply: React.PropTypes.func,
@@ -63,7 +62,7 @@ var ListFiltersAddForm = React.createClass({
 		return (
 			<form onSubmit={this.handleFormSubmit}>
 				<Popout.Body ref="body" scrollable style={{ height: this.state.bodyHeight }}>
-					{FilterComponent ? <FilterComponent field={this.props.field} filter={this.state.filterValue} onChange={this.updateValue} onHeightChange={this.updateHeight} adminPath={this.props.adminPath} /> : this.renderInvalidFilter()}
+					{FilterComponent ? <FilterComponent field={this.props.field} filter={this.state.filterValue} onChange={this.updateValue} onHeightChange={this.updateHeight} /> : this.renderInvalidFilter()}
 				</Popout.Body>
 				<Popout.Footer
 					ref="footer"

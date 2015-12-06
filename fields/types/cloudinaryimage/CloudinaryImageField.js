@@ -322,7 +322,7 @@ module.exports = Field.create({
 	renderImageSelect () {
 		var selectPrefix = this.props.selectPrefix;
 		var getOptions = function(input, callback) {
-			$.get(this.props.adminPath + '/api/cloudinary/autocomplete', {
+			$.get(Keystone.adminPath + '/api/cloudinary/autocomplete', {
 				dataType: 'json',
 				data: {
 					q: input
