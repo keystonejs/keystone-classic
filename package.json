@@ -35,7 +35,7 @@
     "connect-flash": "0.1.1",
     "cookie-parser": "1.4.0",
     "debug": "2.2.0",
-    "elemental": "0.5.6",
+    "elemental": "0.5.7",
     "embedly": "1.0.4",
     "errorhandler": "1.4.2",
     "express": "4.13.3",
