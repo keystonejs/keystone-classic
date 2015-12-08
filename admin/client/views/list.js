@@ -27,7 +27,9 @@ const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 const ListView = React.createClass({
 	getInitialState () {
 		return {
-			confirmationDialog: null,
+			confirmationDialog: {
+				isOpen: false
+			},
 			checkedItems: {},
 			constrainTableWidth: true,
 			manageMode: false,
@@ -114,20 +116,18 @@ const ListView = React.createClass({
 		let itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
 		let itemIds = Object.keys(checkedItems);
 
-        const confirmationDialog = (
-            <ConfirmationDialog
-                body={`Are you sure you want to delete ${itemCount}?<br /><br />This cannot be undone.`}
-                confirmationLabel="Delete"
-                onCancel={this.removeConfirmationDialog}
-                onConfirmation={() => {
-                    CurrentListStore.deleteItems(itemIds);
-                    this.toggleManageMode();
-                    this.removeConfirmationDialog();
-                }}
-            />
-        );
-
-        this.setState({ confirmationDialog });
+		this.setState({
+			confirmationDialog: {
+				isOpen: true,
+				label: 'Delete',
+				body: `Are you sure you want to delete ${itemCount}?<br /><br />This cannot be undone.`,
+				onConfirmation: () => {
+					CurrentListStore.deleteItems(itemIds);
+					this.toggleManageMode();
+					this.removeConfirmationDialog();
+				}
+			}
+		});
 	},
 	handleManagementSelect (selection) {
 		if (selection === 'all') this.checkAllTableItems();
@@ -166,6 +166,19 @@ const ListView = React.createClass({
 					</span>
 				</Button>
 			</InputGroup.Section>
+		);
+	},
+	renderConfirmationDialog () {
+		const props = this.state.confirmationDialog;
+
+		return (
+			<ConfirmationDialog
+				isOpen={props.isOpen}
+				body={props.body}
+				confirmationLabel={props.label}
+				onCancel={this.removeConfirmationDialog}
+				onConfirmation={props.onConfirmation}
+			/>
 		);
 	},
 	renderManagement () {
@@ -325,24 +338,25 @@ const ListView = React.createClass({
 			return CurrentListStore.deleteItem(item.id);
 		}
 
-		const confirmationDialog = (
-			<ConfirmationDialog
-				body={`Are you sure you want to delete <strong>${item.name}</strong>?<br /><br />This cannot be undone.`}
-				confirmationLabel="Delete"
-				onCancel={this.removeConfirmationDialog}
-				onConfirmation={() => {
+		e.preventDefault();
+
+		this.setState({
+			confirmationDialog: {
+				isOpen: true,
+				label: 'Delete',
+				body: `Are you sure you want to delete <strong>${item.name}</strong>?<br /><br />This cannot be undone.`,
+				onConfirmation: () => {
 					CurrentListStore.deleteItem(item.id);
 					this.removeConfirmationDialog();
-				}}
-			/>
-		);
-
-		e.preventDefault();
-		this.setState({ confirmationDialog });
+				}
+			}
+		});
 	},
 	removeConfirmationDialog () {
 		this.setState({
-			confirmationDialog: null
+			confirmationDialog: {
+				isOpen: false
+			}
 		});
 	},
 	toggleTableWidth () {
@@ -532,7 +546,7 @@ const ListView = React.createClass({
 					itemIds={Object.keys(this.state.checkedItems)}
 					list={this.state.list}
 					onCancel={() => this.toggleUpdateModal(false)} />
-				{this.state.confirmationDialog}
+				{this.renderConfirmationDialog()}
 			</div>
 		);
 	}

@@ -5,19 +5,20 @@ module.exports = React.createClass({
 	displayName: 'ConfirmationDialog',
 
 	propTypes: {
-		body: React.PropTypes.string.isRequired,
+		body: React.PropTypes.string,
 		cancelLabel: React.PropTypes.string,
 		confirmationLabel: React.PropTypes.string,
 		confirmationType: React.PropTypes.oneOf(['danger', 'warning', 'primary']),
-		onCancel: React.PropTypes.func.isRequired,
-		onConfirmation: React.PropTypes.func.isRequired,
+		onCancel: React.PropTypes.func,
+		onConfirmation: React.PropTypes.func,
 	},
 
 	getDefaultProps () {
 		return {
 			cancelLabel: 'Cancel',
 			confirmationLabel: 'Ok',
-			confirmationType: 'danger'
+			confirmationType: 'danger',
+			isOpen: false
 		};
 	},
 
@@ -29,7 +30,7 @@ module.exports = React.createClass({
 
 	render () {
 		return (
-			<Modal onCancel={this.props.onCancel} width={400} isOpen backdropClosesModal>
+			<Modal onCancel={this.props.onCancel} width={400} isOpen={this.props.isOpen} backdropClosesModal>
 				<ModalBody>
 					<div dangerouslySetInnerHTML={this.getBodyHtml()} />
 				</ModalBody>
