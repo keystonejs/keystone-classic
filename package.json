@@ -140,7 +140,6 @@
     "release": "gulp release",
     "pretest": "npm run lint",
     "test": "mocha",
-    "test:gulp": "gulp test",
     "lint": "eslint .",
     "pretest-cov": "npm run clean && npm run lint",
     "current": "updtr",
