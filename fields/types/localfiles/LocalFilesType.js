@@ -116,13 +116,13 @@ localfiles.prototype.addToSchema = function() {
 		if (typeof element_id === 'undefined') {
 			value = values[0];
 		} else {
-			value = values.find(function (val) { return val._id === element_id; });
+			value = values.find(function (val) { return val._id == element_id; });
 		}
 
 		if (typeof value === 'undefined') {
 			return false;
 		}
-
+		
 		var filepaths = value.path,
 			filename = value.filename;
 
@@ -143,9 +143,10 @@ localfiles.prototype.addToSchema = function() {
 			item.set(field.path, []);
 		} else {
 			var values = item.get(field.path);
-			var value = values.find(function (val) { return val._id === element_id; });
+			var value = values.find(function (val) { return val._id == element_id; });
 			if (typeof value !== 'undefined') {
 				values.splice(values.indexOf(value), 1);
+				item.set(field.path, values);
 			}
 		}
 	};
@@ -170,7 +171,7 @@ localfiles.prototype.addToSchema = function() {
 		delete: function(element_id) {
 			if (exists(this, element_id)) {
 				var values = this.get(field.path);
-				var value = values.find(function (val) { return val._id === element_id; });
+				var value = values.find(function (val) { return val._id == element_id; });
 				if (typeof value !== 'undefined') {
 					fs.unlinkSync(path.join(value.path, value.filename));
 				}
