@@ -53,7 +53,7 @@ var SelectFilter = React.createClass({
 	},
 
 	removeOption (option) {
-		let value = this.props.filter.value.filter(i => { return i !== option.value; });
+		let value = this.props.filter.value.filter(i => i !== option.value);
 		this.updateFilter({ value });
 	},
 
