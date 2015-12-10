@@ -95,11 +95,13 @@
     "istanbul": "0.4.1",
     "mocha": "2.3.4",
     "must": "0.13.1",
+    "react-engine": "2.6.0",
     "rimraf": "2.4.4",
     "sinon": "1.17.2",
     "supertest": "1.1.0",
     "updtr": "0.1.5",
-    "vinyl-source-stream": "1.1.0"
+    "vinyl-source-stream": "1.1.0",
+    "watch": "0.16.0"
   },
   "browserify": {
     "transform": [
@@ -142,6 +144,7 @@
     "test": "mocha",
     "test:gulp": "gulp test",
     "lint": "eslint .",
+    "watch": "watch 'npm run lint' lib admin server test",
     "pretest-cov": "npm run clean && npm run lint",
     "current": "updtr",
     "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
