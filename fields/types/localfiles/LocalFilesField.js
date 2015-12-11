@@ -82,7 +82,7 @@ module.exports = Field.create({
 		var thumbs = [];
 		var self = this;
 		_.each(this.state.items, function (thumb) {
-			if(thumb.props._id == id){
+			if (thumb.props._id === id) {
 				thumb.props.deleted = !thumb.props.deleted;
 			}
 			self.pushItem(thumb.props, thumbs);
