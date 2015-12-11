@@ -116,6 +116,7 @@ localfiles.prototype.addToSchema = function() {
 		if (typeof element_id === 'undefined') {
 			value = values[0];
 		} else {
+			// allow implicit type coercion to compare string IDs with MongoID objects
 			value = values.find(function (val) { return val._id == element_id; });
 		}
 
@@ -143,6 +144,7 @@ localfiles.prototype.addToSchema = function() {
 			item.set(field.path, []);
 		} else {
 			var values = item.get(field.path);
+			// allow implicit type coercion to compare string IDs with MongoID objects
 			var value = values.find(function (val) { return val._id == element_id; });
 			if (typeof value !== 'undefined') {
 				values.splice(values.indexOf(value), 1);
@@ -171,6 +173,7 @@ localfiles.prototype.addToSchema = function() {
 		delete: function(element_id) {
 			if (exists(this, element_id)) {
 				var values = this.get(field.path);
+				// allow implicit type coercion to compare string IDs with MongoID objects
 				var value = values.find(function (val) { return val._id == element_id; });
 				if (typeof value !== 'undefined') {
 					fs.unlinkSync(path.join(value.path, value.filename));
