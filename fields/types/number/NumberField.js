@@ -13,7 +13,7 @@ module.exports = Field.create({
 				path: this.props.path,
 				value: newValue
 			});
-		}else return;
+		}
 	},
 
 	renderField () {
