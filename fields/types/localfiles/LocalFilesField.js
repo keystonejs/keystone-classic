@@ -44,7 +44,6 @@ var LocalFilesFieldItem = React.createClass({
 		if (_.contains(ICON_EXTS, ext)) iconName = ext;
 
 		let note;
-
 		if (this.props.deleted) {
 			note = <FormInput key="delete-note" noedit className="field-type-localfiles__note field-type-localfiles__note--delete">save to delete</FormInput>;
 		} else if (this.props.isQueued) {
@@ -79,15 +78,15 @@ module.exports = Field.create({
 		return { items: items };
 	},
 
-	removeItem (i) {
-		var thumbs = this.state.items;
-		var thumb = thumbs[i];
-
-		if (thumb.props.isQueued) {
-			thumbs[i] = null;
-		} else {
-			thumb.props.deleted = !thumb.props.deleted;
-		}
+	removeItem (id) {
+		var thumbs = [];
+		var self = this;
+		_.each(this.state.items, function (thumb) {
+			if(thumb.props._id == id){
+				thumb.props.deleted = !thumb.props.deleted;
+			}
+			self.pushItem(thumb.props, thumbs);
+		});
 
 		this.setState({ items: thumbs });
 	},
@@ -95,10 +94,10 @@ module.exports = Field.create({
 	pushItem (args, thumbs) {
 		thumbs = thumbs || this.state.items;
 		var i = thumbs.length;
-		args.toggleDelete = this.removeItem.bind(this, i);
+		args.toggleDelete = this.removeItem.bind(this, args._id);
 		args.shouldRenderActionButton = this.shouldRenderField();
 		args.adminPath = Keystone.adminPath;
-		thumbs.push(<LocalFilesFieldItem key={i} {...args} />);
+		thumbs.push(<LocalFilesFieldItem key={args._id} {...args} />);
 	},
 
 	fileFieldNode () {
