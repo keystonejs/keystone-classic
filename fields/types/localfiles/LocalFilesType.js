@@ -122,9 +122,9 @@ localfiles.prototype.addToSchema = function() {
 		if (typeof value === 'undefined') {
 			return false;
 		}
-		
-		var filepaths = value.path,
-			filename = value.filename;
+
+		var filepaths = value.path;
+		var filename = value.filename;
 
 		if (!filepaths || !filename) {
 			return false;
