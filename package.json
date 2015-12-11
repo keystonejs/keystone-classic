@@ -75,6 +75,7 @@
     "react-redux": "^4.0.0",
     "react-select": "1.0.0-beta6",
     "redux": "^3.0.4",
+    "redux-router": "^1.0.0-beta5",
     "redux-thunk": "^1.0.0",
     "scmp": "1.0.0",
     "semver": "5.1.0",
