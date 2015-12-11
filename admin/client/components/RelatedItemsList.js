@@ -46,7 +46,7 @@ const RelatedItemsList = React.createClass({
 		});
 	},
 	renderItems () {
-		return this.state.items.length ? (
+		return this.state.items.results.length ? (
 			<div className="ItemList-wrapper">
 				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
 					{this.renderTableCols()}
