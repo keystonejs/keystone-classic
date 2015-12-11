@@ -393,8 +393,6 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
 				if (upFiles.length > 0) {
 					upFiles = _.filter(upFiles, function(f) { return typeof f.name !== 'undefined' && f.name.length > 0; });
 					if (upFiles.length > 0) {
-						console.log('uploading files:');
-						console.log(upFiles);
 						return field.uploadFiles(item, upFiles, true, callback);
 					}
 				}
