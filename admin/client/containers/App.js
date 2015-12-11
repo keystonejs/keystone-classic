@@ -12,7 +12,7 @@ Keystone.lists.forEach((list) => {
 	listsByKey[list.key] = list;
 });
 
-export default class extends React.Component {
+export default class App extends React.Component {
 	render() {
 		return (
 		<div>
