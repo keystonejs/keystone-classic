@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Transition from 'react-addons-css-transition-group';
 import classnames from 'classnames';
 import CurrentListStore from '../stores/CurrentListStore';
@@ -65,7 +66,7 @@ var ListFiltersAdd = React.createClass({
 		}, this.focusSearch);
 	},
 	focusSearch () {
-		React.findDOMNode(this.refs.search).focus();
+		ReactDOM.findDOMNode(this.refs.search).focus();
 	},
 	selectField (field) {
 		this.setState({
