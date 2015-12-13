@@ -27,7 +27,7 @@ module.exports = Field.create({
 		return (
 			<FormRow>
 				<FormField width="one-half">
-					<FormInput name={this.props.path + '[1]'} placeholder="Latitude" ref="lat" value={this.props.value[1]} onChange={this.valueChanged.bind(this, 1)} autoComplete="off" />
+					<FormInput name={this.props.path + '[1]'} placeholder="Latitude" ref="lat" value={this.props.value[1]} onChange={this.valueChanged.bind(this, 1)} autoComplete="off" autofocus />
 				</FormField>
 				<FormField width="one-half">
 					<FormInput name={this.props.path + '[0]'} placeholder="Longitude" ref="lng" value={this.props.value[0]} onChange={this.valueChanged.bind(this, 0)} autoComplete="off" />

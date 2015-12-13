@@ -88,7 +88,7 @@ module.exports = Field.create({
 			input = (
 				<InputGroup>
 					<InputGroup.Section grow>
-						<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
+						<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} autofocus />
 					</InputGroup.Section>
 					<InputGroup.Section grow>
 						<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />

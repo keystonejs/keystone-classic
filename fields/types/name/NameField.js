@@ -33,7 +33,7 @@ module.exports = Field.create({
 		return (
 			<FormRow>
 				<FormField width="one-half">
-					<FormInput name={this.props.paths.first} placeholder="First name" ref="first" value={this.props.value.first} onChange={this.valueChanged.bind(this, 'first')} autoComplete="off" />
+					<FormInput name={this.props.paths.first} placeholder="First name" ref="first" value={this.props.value.first} onChange={this.valueChanged.bind(this, 'first')} autoComplete="off" autofocus />
 				</FormField>
 				<FormField width="one-half">
 					<FormInput name={this.props.paths.last} placeholder="Last name" ref="last" value={this.props.value.last} onChange={this.valueChanged.bind(this, 'last')} autoComplete="off" />

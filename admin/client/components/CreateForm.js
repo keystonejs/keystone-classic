@@ -100,11 +100,14 @@ var CreateForm = React.createClass({
 		var list = this.props.list;
 		var formAction = `${Keystone.adminPath}/${list.path}`;
 		var nameField = this.props.list.nameField;
-		var focusRef;
+		var hasAutofocus = false;
 
 		if (list.nameIsInitial) {
 			var nameFieldProps = this.getFieldProps(nameField);
-			nameFieldProps.ref = focusRef = 'focusTarget';
+
+			nameFieldProps.inputProps = { autofocus: true };
+			hasAutofocus = true;
+
 			if (nameField.type === 'text') {
 				nameFieldProps.className = 'item-name-field';
 				nameFieldProps.placeholder = nameField.label;
@@ -120,8 +123,9 @@ var CreateForm = React.createClass({
 				return;
 			}
 			var fieldProps = this.getFieldProps(field);
-			if (!focusRef) {
-				fieldProps.ref = focusRef = 'focusTarget';
+			if (!hasAutofocus) {
+				fieldProps.inputProps = { autofocus: true };
+				hasAutofocus = true;
 			}
 			form.push(React.createElement(Fields[field.type], fieldProps));
 		});
