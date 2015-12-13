@@ -25,7 +25,7 @@ var SigninView = React.createClass({
 			history.replaceState({}, window.location.pathname);
 		}
 		if (this.refs.email) {
-			React.findDOMNode(this.refs.email).select();
+			ReactDOM.findDOMNode(this.refs.email).select();
 		}
 	},
 	handleInputChange (e) {
@@ -61,7 +61,7 @@ var SigninView = React.createClass({
 	finishAnimation () {
 		if (!this.isMounted()) return;
 		if (this.refs.email) {
-			React.findDOMNode(this.refs.email).select();
+			ReactDOM.findDOMNode(this.refs.email).select();
 		}
 		this.setState({
 			isAnimating: false
