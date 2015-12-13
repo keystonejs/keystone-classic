@@ -3,7 +3,7 @@ var Columns = {
 	boolean          : require('../../fields/types/boolean/BooleanColumn'),
 	cloudinaryimage  : require('../../fields/types/cloudinaryimage/CloudinaryImageColumn'),
 	cloudinaryimages : require('../../fields/types/cloudinaryimages/CloudinaryImagesColumn'),
-	code             : require('../../fields/types/code/CodeColumn'),
+	codemirror       : require('../../fields/types/codemirror/CodeMirrorColumn'),
 	color            : require('../../fields/types/color/ColorColumn'),
 	date             : require('../../fields/types/date/DateColumn'),
 	datearray        : require('../../fields/types/datearray/DateArrayColumn'),
