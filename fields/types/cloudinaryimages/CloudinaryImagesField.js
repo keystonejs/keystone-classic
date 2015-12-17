@@ -99,7 +99,7 @@ module.exports = Field.create({
 		);
 	},
 
-	removeThumbnail  (i) {
+	removeThumbnail (i) {
 		var thumbs = this.state.thumbnails;
 		var thumb = thumbs[i];
 
@@ -112,7 +112,7 @@ module.exports = Field.create({
 		this.setState({ thumbnails: thumbs });
 	},
 
-	pushThumbnail  (args, thumbs) {
+	pushThumbnail (args, thumbs) {
 		thumbs = thumbs || this.state.thumbnails;
 		var i = thumbs.length;
 		args.toggleDelete = this.removeThumbnail.bind(this, i);
@@ -125,7 +125,7 @@ module.exports = Field.create({
 		return ReactDOM.findDOMNode(this.refs.fileField);
 	},
 
-	getCount  (key) {
+	getCount (key) {
 		var count = 0;
 
 		_.each(this.state.thumbnails, function (thumb) {
@@ -151,7 +151,7 @@ module.exports = Field.create({
 		});
 	},
 
-	uploadFile  (event) {
+	uploadFile (event) {
 		var self = this;
 
 		var files = event.target.files;
