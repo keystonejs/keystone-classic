@@ -74,7 +74,7 @@ cloudinaryimage.prototype.addToSchema = function() {
 		// form paths
 		upload: 		this._path.append('_upload'),
 		action: 		this._path.append('_action'),
-		select: 		this._path.append('_select')
+		select: 		this._path.append('_select'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
@@ -86,7 +86,7 @@ cloudinaryimage.prototype.addToSchema = function() {
 		url:			String,
 		width:			Number,
 		height:			Number,
-		secure_url:		String
+		secure_url:		String,
 	});
 
 	schema.add(schemaPaths);
@@ -158,7 +158,7 @@ cloudinaryimage.prototype.addToSchema = function() {
 			url: '',
 			width: 0,
 			height: 0,
-			secure_url: ''
+			secure_url: '',
 		});
 	};
 

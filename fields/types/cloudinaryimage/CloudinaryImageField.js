@@ -125,7 +125,7 @@ module.exports = Field.create({
 	removeImage  (e) {
 		var state = {
 			localSource: null,
-			origin: false
+			origin: false,
 		};
 
 		if (this.hasLocal()) {

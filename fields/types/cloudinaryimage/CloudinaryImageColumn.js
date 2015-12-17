@@ -26,7 +26,7 @@ var CloudinaryImageColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = CloudinaryImageColumn;
