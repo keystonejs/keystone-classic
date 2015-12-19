@@ -99,7 +99,7 @@
     "rimraf": "2.4.4",
     "sinon": "1.17.2",
     "supertest": "1.1.0",
-    "watch": "0.16.0",
+    "watch": "0.17.1",
     "updtr": "0.1.6",
     "vinyl-source-stream": "1.1.0"
   },
