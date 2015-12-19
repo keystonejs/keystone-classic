@@ -15,7 +15,7 @@ import { FormInput } from 'elemental';
 
 module.exports = Field.create({
 
-	displayName: 'CodeField',
+	displayName: 'CodeMirrorField',
 
 	getInitialState () {
 		return {

@@ -1,24 +1,24 @@
 var demand = require('must'),
-	CodeType = require('../CodeType');
+	CodeMirrorType = require('../CodeMirrorType');
 
 exports.initList = function(List) {
 	List.add({
-		code: { type: CodeType },
+		code: { type: CodeMirrorType },
 		nested: {
-			code: { type: CodeType }
+			code: { type: CodeMirrorType }
 		},
 		lang: {
-			type: CodeType,
+			type: CodeMirrorType,
 			lang: 'c'
 		},
 		language: {
-			type: CodeType,
+			type: CodeMirrorType,
 			lang: 'js'
 		},
-		codemirror: {
-			type: CodeType,
+		config: {
+			type: CodeMirrorType,
 			lang: 'html',
-			codemirror: {
+			config: {
 				value: 'fooga'
 			}
 		}
@@ -43,7 +43,7 @@ exports.testFieldType = function(List) {
 		demand(testItem.code).be('foo(bar);');
 		testItem.code = undefined;
 	});
-	
+
 	it('should update nested fields', function() {
 		List.fields['nested.code'].updateItem(testItem, {
 			nested: {
@@ -53,7 +53,7 @@ exports.testFieldType = function(List) {
 		demand(testItem.nested.code).be('foo(bar);');
 		testItem.nested.code = undefined;
 	});
-	
+
 	it('should update nested fields with flat paths', function() {
 		List.fields['nested.code'].updateItem(testItem, {
 			'nested.code': 'foo(bar);'
@@ -61,23 +61,23 @@ exports.testFieldType = function(List) {
 		demand(testItem.nested.code).be('foo(bar);');
 		testItem.nested.code = undefined;
 	});
-	
+
 	it('should handle a `lang` config property', function() {
 		demand(List.fields.lang.lang).be('c');
 	});
-	
+
 	it('should handle a `language` config property', function() {
 		demand(List.fields.language.lang).be('js');
 	});
-	
-	it('should support a `codemirror` config property', function() {
-		demand(List.fields.codemirror.codemirror).be.object();
-		demand(List.fields.codemirror.codemirror.value).be('fooga');
+
+	it('should support a config property', function() {
+		demand(List.fields.config.config).be.object();
+		demand(List.fields.config.config.value).be('fooga');
 	});
-	
+
 	it('should merge the `lang` and `codemirror` config properties', function() {
-		demand(List.fields.codemirror.editor).be.object();
-		demand(List.fields.codemirror.editor.mode).be('html');
-		demand(List.fields.codemirror.editor.value).be('fooga');
+		demand(List.fields.config.editor).be.object();
+		demand(List.fields.config.editor.mode).be('html');
+		demand(List.fields.config.editor.value).be('fooga');
 	});
 };
