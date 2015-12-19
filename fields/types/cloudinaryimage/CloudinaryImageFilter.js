@@ -7,13 +7,13 @@ var PasswordFilter = React.createClass({
 
 	getInitialState () {
 		return {
-			checked: this.props.value || true
+			checked: this.props.value || true,
 		};
 	},
 
 	toggleChecked (checked) {
 		this.setState({
-			checked: checked
+			checked: checked,
 		});
 	},
 
