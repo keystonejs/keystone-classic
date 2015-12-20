@@ -148,6 +148,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderCreateButton () {
+		if (this.state.list.nocreate) return null;
 		var props = { type: 'success' };
 		if (this.state.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
