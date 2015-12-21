@@ -6,6 +6,7 @@ import Field from '../Field';
 import Select from 'react-select';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import Lightbox from '../../../admin/client/components/Lightbox';
+import classnames from 'classnames';
 
 /**
  * TODO:
@@ -14,6 +15,18 @@ import Lightbox from '../../../admin/client/components/Lightbox';
  */
 
 const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
+
+const iconClassUploadPending = [
+	'upload-pending',
+	'mega-octicon',
+	'octicon-cloud-upload'
+];
+
+const iconClassDeletePending = [
+	'delete-pending',
+	'mega-octicon',
+	'octicon-x'
+];
 
 module.exports = Field.create({
 
@@ -177,14 +190,15 @@ module.exports = Field.create({
 	 */
 	renderImagePreview () {
 		var iconClassName;
-		var className = 'image-preview';
+		var className = ['image-preview'];
 
 		if (this.hasLocal()) {
-			iconClassName = 'upload-pending mega-octicon octicon-cloud-upload';
+			iconClassName = clasnames(iconClassUploadPending);
 		} else if (this.state.removeExisting) {
-			className += ' removed';
-			iconClassName = 'delete-pending mega-octicon octicon-x';
+			className.push(' removed');
+			iconClassName = classnames(iconClassDeletePending);
 		}
+		className = classnames(className);
 
 		var body = [this.renderImagePreviewThumbnail()];
 		if (iconClassName) body.push(<div key={this.props.path + '_preview_icon'} className={iconClassName} />);

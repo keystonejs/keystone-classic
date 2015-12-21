@@ -4,6 +4,7 @@ import Field from '../Field';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { FormInput } from 'elemental';
+import classnames from 'classnames';
 
 /**
  * TODO:
@@ -75,10 +76,10 @@ module.exports = Field.create({
 	},
 
 	renderCodemirror () {
-		var className = 'CodeMirror-container';
-		if (this.state.isFocused && this.shouldRenderField()) {
-			className += ' is-focused';
-		}
+		let className = classnames('CodeMirror-container', {
+			'is-focused': this.state.isFocused && this.shouldRenderField()
+		});
+
 		return (
 			<div className={className}>
 				<FormInput multiline ref="codemirror" name={this.props.path} value={this.props.value} onChange={this.valueChanged} autoComplete="off" />
