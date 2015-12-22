@@ -4,8 +4,21 @@ import ReactDOM from 'react-dom';
 import Field from '../Field';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import Lightbox from '../../../admin/client/components/Lightbox';
+import classnames from 'classnames';
 
 const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
+
+const iconClassDeleted = [
+	'delete-pending',
+	'mega-octicon',
+	'octicon-x'
+];
+
+const iconClassQueued = [
+	'img-uploading',
+	'mega-octicon',
+	'octicon-cloud-upload'
+];
 
 var Thumbnail = React.createClass({
 	displayName: 'CloudinaryImagesFieldThumbnail',
@@ -28,18 +41,17 @@ var Thumbnail = React.createClass({
 
 	render () {
 		let iconClassName;
- 		let { deleted, height, isQueued, url, width } = this.props;
+		let { deleted, height, isQueued, url, width } = this.props;
+		let previewClassName = classnames('image-preview', {
+			'action': (deleted || isQueued)
+		});
+		let title = (width && height) ? (width + ' × ' + height) : '';
 
 		if (deleted) {
-			iconClassName = 'delete-pending mega-octicon octicon-x';
+			iconClassName = classnames(iconClassDeleted);
 		} else if (isQueued) {
-			iconClassName = 'img-uploading mega-octicon octicon-cloud-upload';
+			iconClassName = classnames(iconClassQueued);
 		}
-
-		let previewClassName = 'image-preview';
-		if (deleted || isQueued) previewClassName += ' action';
-
-		let title = (width && height) ? (width + ' × ' + height) : '';
 
 		return (
 			<div className="image-field image-sortable" title={title}>
