@@ -11,7 +11,7 @@
     "async": "1.5.0",
     "asyncdi": "1.1.0",
     "azure": "0.10.6",
-    "babel-core": "6.3.21",
+    "babel-core": "6.3.26",
     "babel-plugin-transform-object-assign": "6.3.13",
     "babel-plugin-transform-object-rest-spread": "6.3.13",
     "babel-preset-es2015": "6.3.13",
