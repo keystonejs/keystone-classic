@@ -41,7 +41,7 @@ var Thumbnail = React.createClass({
 
 	render () {
 		let iconClassName;
-		let { deleted, height, isQueued, url, width } = this.props;
+		let { deleted, height, isQueued, url, width, openLightbox } = this.props;
 		let previewClassName = classnames('image-preview', {
 			'action': (deleted || isQueued)
 		});
@@ -56,7 +56,7 @@ var Thumbnail = React.createClass({
 		return (
 			<div className="image-field image-sortable" title={title}>
 				<div className={previewClassName}>
-					<a href={url} onClick={this.props.openLightbox} className="img-thumbnail">
+					<a href={url} onClick={openLightbox} className="img-thumbnail">
 						<img style={{ height: '90' }} className="img-load" src={url} />
 						<span className={iconClassName} />
 					</a>
@@ -274,8 +274,7 @@ module.exports = Field.create({
 	},
 
 	renderNote () {
-		if (!this.props.note) return null;
-		return <FormNote note={this.props.note} />;
+		return this.props.note ? <FormNote note={this.props.note} /> : null;
 	},
 
 	renderUI () {
