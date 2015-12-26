@@ -35,6 +35,7 @@ module.exports = Field.create({
 		});
 
 		this.codeMirror = CodeMirror.fromTextArea(ReactDOM.findDOMNode(this.refs.codemirror), options);
+		this.codeMirror.setSize(undefined, this.props.height);
 		this.codeMirror.on('change', this.codemirrorValueChanged);
 		this.codeMirror.on('focus', this.focusChanged.bind(this, true));
 		this.codeMirror.on('blur', this.focusChanged.bind(this, false));
