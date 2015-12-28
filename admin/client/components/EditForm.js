@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import ConfirmationDialog from './ConfirmationDialog';
 import Fields from '../fields';
 import FormHeading from './FormHeading';
 import AltText from './AltText';
@@ -16,6 +17,7 @@ var EditForm = React.createClass({
 	getInitialState () {
 		return {
 			values: Object.assign({}, this.props.data.fields),
+			confirmationDialog: null
 		};
 	},
 	getFieldProps (field) {
@@ -27,22 +29,62 @@ var EditForm = React.createClass({
 		return props;
 	},
 	handleChange (event) {
-		var values = Object.assign({}, this.state.values);
+		let values = Object.assign({}, this.state.values);
+
 		values[event.path] = event.value;
 		this.setState({ values });
 	},
-	handleReset(ev) {
-		if (!confirm(`Are you sure you want to reset your changes to this ${this.props.list.singular.toLowerCase()}?`)) {
-			ev && ev.preventDefault();
-		}
+
+	confirmReset(event) {
+		const confirmationDialog = (
+			<ConfirmationDialog
+				body={`Reset your changes to <strong>${this.props.data.name}</strong>?`}
+				confirmationLabel="Reset"
+				onCancel={this.removeConfirmationDialog}
+				onConfirmation={this.handleReset}
+			/>
+		);
+
+		event.preventDefault();
+
+		this.setState({ confirmationDialog });
 	},
-	handleDelete(ev) {
-		if (!confirm(`Are you sure you want to delete this ${this.props.list.singular.toLowerCase()}?`)) return;
-		this.props.list.deleteItem(this.props.data.id, err => {
-			// TODO: Handle error
-			top.location.href = '/keystone/' + this.props.list.path;
+
+	handleReset () {
+		window.location.reload();
+	},
+
+	confirmDelete() {
+		const confirmationDialog = (
+			<ConfirmationDialog
+				body={`Are you sure you want to delete <strong>${this.props.data.name}?</strong><br /><br />This cannot be undone.`}
+				confirmationLabel="Delete"
+				onCancel={this.removeConfirmationDialog}
+				onConfirmation={this.handleDelete}
+			/>
+		);
+
+		this.setState({ confirmationDialog });
+	},
+
+	handleDelete () {
+		let { data, list } = this.props;
+		list.deleteItem(data.id, err => {
+			if (err) {
+				console.error(`Problem deleting ${list.singular}: ${data.name}`);
+				// TODO: slow a flash message on form
+				return;
+			}
+			top.location.href = `${Keystone.adminPath}/${list.path}`;
 		});
 	},
+
+	removeConfirmationDialog () {
+		this.setState({
+			confirmationDialog: null
+		});
+	},
+
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
@@ -66,6 +108,7 @@ var EditForm = React.createClass({
 			);
 		}
 	},
+
 	renderNameField () {
 		var nameField = this.props.list.nameField;
 		var nameIsEditable = this.props.list.nameIsEditable;
@@ -127,13 +170,13 @@ var EditForm = React.createClass({
 			<Button key="save" type="primary" submit>Save</Button>
 		];
 		buttons.push(
-			<Button key="reset" onClick={this.handleReset} href={'/keystone/' + this.props.list.path + '/' + this.props.data.id} type="link-cancel">
+			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
 		if (!this.props.list.nodelete) {
 			buttons.push(
-				<Button key="del" onClick={this.handleDelete} type="link-delete" className="u-float-right">
+				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
@@ -221,6 +264,7 @@ var EditForm = React.createClass({
 					<Col lg="1/4"><span /></Col>
 				</Row>
 				{this.renderFooterBar()}
+				{this.state.confirmationDialog}
 			</form>
 		);
 	}

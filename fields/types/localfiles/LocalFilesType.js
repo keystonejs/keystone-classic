@@ -116,15 +116,16 @@ localfiles.prototype.addToSchema = function() {
 		if (typeof element_id === 'undefined') {
 			value = values[0];
 		} else {
-			value = values.find(function (val) { return val._id === element_id; });
+			// allow implicit type coercion to compare string IDs with MongoID objects
+			value = values.find(function (val) { return val._id == element_id; });
 		}
 
 		if (typeof value === 'undefined') {
 			return false;
 		}
 
-		var filepaths = value.path,
-			filename = value.filename;
+		var filepaths = value.path;
+		var filename = value.filename;
 
 		if (!filepaths || !filename) {
 			return false;
@@ -143,9 +144,11 @@ localfiles.prototype.addToSchema = function() {
 			item.set(field.path, []);
 		} else {
 			var values = item.get(field.path);
-			var value = values.find(function (val) { return val._id === element_id; });
+			// allow implicit type coercion to compare string IDs with MongoID objects
+			var value = values.find(function (val) { return val._id == element_id; });
 			if (typeof value !== 'undefined') {
 				values.splice(values.indexOf(value), 1);
+				item.set(field.path, values);
 			}
 		}
 	};
@@ -170,7 +173,8 @@ localfiles.prototype.addToSchema = function() {
 		delete: function(element_id) {
 			if (exists(this, element_id)) {
 				var values = this.get(field.path);
-				var value = values.find(function (val) { return val._id === element_id; });
+				// allow implicit type coercion to compare string IDs with MongoID objects
+				var value = values.find(function (val) { return val._id == element_id; });
 				if (typeof value !== 'undefined') {
 					fs.unlinkSync(path.join(value.path, value.filename));
 				}
@@ -392,8 +396,6 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
 				if (upFiles.length > 0) {
 					upFiles = _.filter(upFiles, function(f) { return typeof f.name !== 'undefined' && f.name.length > 0; });
 					if (upFiles.length > 0) {
-						console.log('uploading files:');
-						console.log(upFiles);
 						return field.uploadFiles(item, upFiles, true, callback);
 					}
 				}

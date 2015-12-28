@@ -2,20 +2,22 @@ import React from 'react';
 // import CloudinaryImage from 'react-cloudinary-img';
 import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
 
+const IMAGE_SIZE = 18;
+
 const linkStyle = {
 	marginRight: 8,
 };
 const boxStyle = {
 	borderRadius: 3,
 	display: 'inline-block',
-	height: 18,
+	height: IMAGE_SIZE,
 	overflow: 'hidden',
 	verticalAlign: 'middle',
-	width: 18,
+	width: IMAGE_SIZE,
 };
 const imageStyle = {
 	display: 'block',
-	height: 18,
+	height: IMAGE_SIZE,
 	left: '50%',
 	position: 'relative',
 
@@ -56,13 +58,18 @@ var CloudinaryImageSummary = React.createClass({
 			</span>
 		);
 	},
-	render () {
-		let { image } = this.props;
+	renderImageThumbnail () {
+		if (!this.props.image) return;
 
+		let url = this.props.image.url.replace(/image\/upload/, `image/upload/c_thumb,g_face,h_${IMAGE_SIZE},w_${IMAGE_SIZE}`);
+
+		return <img src={url} style={imageStyle} className="img-load" style={ { height: IMAGE_SIZE } } />;
+	},
+	render () {
 		return (
 			<span style={linkStyle}>
 				<span style={boxStyle}>
-					<img src={image.url} style={imageStyle} />
+					{this.renderImageThumbnail()}
 				</span>
 				{this.renderLabel()}
 			</span>

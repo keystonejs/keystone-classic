@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import CurrentListStore from '../stores/CurrentListStore';
 import Columns from '../columns';
+import ConfirmationDialog from '../components/ConfirmationDialog';
 import CreateForm from '../components/CreateForm';
 import FlashMessages from '../components/FlashMessages';
 import Footer from '../components/Footer';
@@ -26,6 +27,9 @@ const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 const ListView = React.createClass({
 	getInitialState () {
 		return {
+			confirmationDialog: {
+				isOpen: false
+			},
 			checkedItems: {},
 			constrainTableWidth: true,
 			manageMode: false,
@@ -37,9 +41,6 @@ const ListView = React.createClass({
 	},
 	componentDidMount () {
 		CurrentListStore.addChangeListener(this.updateStateFromStore);
-		if (!this.state.ready) {
-			CurrentListStore.loadItems();
-		}
 	},
 	componentWillUnmount () {
 		CurrentListStore.removeChangeListener(this.updateStateFromStore);
@@ -84,7 +85,7 @@ const ListView = React.createClass({
 	handleSearchClear () {
 		CurrentListStore.setActiveSearch('');
 		this.setState({ searchString: '' });
-		React.findDOMNode(this.refs.listSearchInput).focus();
+		ReactDOM.findDOMNode(this.refs.listSearchInput).focus();
 	},
 	handleSearchKey (e) {
 		// clear on esc
@@ -114,10 +115,19 @@ const ListView = React.createClass({
 		let { checkedItems, list } = this.state;
 		let itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
 		let itemIds = Object.keys(checkedItems);
-		if (!confirm(`Are you sure you want to delete ${itemCount}?`)) return;
 
-		CurrentListStore.deleteItems(itemIds);
-		this.toggleManageMode();
+		this.setState({
+			confirmationDialog: {
+				isOpen: true,
+				label: 'Delete',
+				body: `Are you sure you want to delete ${itemCount}?<br /><br />This cannot be undone.`,
+				onConfirmation: () => {
+					CurrentListStore.deleteItems(itemIds);
+					this.toggleManageMode();
+					this.removeConfirmationDialog();
+				}
+			}
+		});
 	},
 	handleManagementSelect (selection) {
 		if (selection === 'all') this.checkAllTableItems();
@@ -138,6 +148,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderCreateButton () {
+		if (this.state.list.nocreate) return null;
 		var props = { type: 'success' };
 		if (this.state.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
@@ -156,6 +167,19 @@ const ListView = React.createClass({
 					</span>
 				</Button>
 			</InputGroup.Section>
+		);
+	},
+	renderConfirmationDialog () {
+		const props = this.state.confirmationDialog;
+
+		return (
+			<ConfirmationDialog
+				isOpen={props.isOpen}
+				body={props.body}
+				confirmationLabel={props.label}
+				onCancel={this.removeConfirmationDialog}
+				onConfirmation={props.onConfirmation}
+			/>
 		);
 	},
 	renderManagement () {
@@ -311,8 +335,30 @@ const ListView = React.createClass({
 		});
 	},
 	deleteTableItem (item, e) {
-		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
-		CurrentListStore.deleteItem(item.id);
+		if (e.altKey) {
+			return CurrentListStore.deleteItem(item.id);
+		}
+
+		e.preventDefault();
+
+		this.setState({
+			confirmationDialog: {
+				isOpen: true,
+				label: 'Delete',
+				body: `Are you sure you want to delete <strong>${item.name}</strong>?<br /><br />This cannot be undone.`,
+				onConfirmation: () => {
+					CurrentListStore.deleteItem(item.id);
+					this.removeConfirmationDialog();
+				}
+			}
+		});
+	},
+	removeConfirmationDialog () {
+		this.setState({
+			confirmationDialog: {
+				isOpen: false
+			}
+		});
 	},
 	toggleTableWidth () {
 		this.setState({
@@ -351,7 +397,7 @@ const ListView = React.createClass({
 		});
 		var cells = this.state.columns.map((col, i) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			var linkTo = !i ? `/keystone/${this.state.list.path}/${itemId}` : undefined;
+			var linkTo = !i ? `${Keystone.adminPath}/${this.state.list.path}/${itemId}` : undefined;
 			return <ColumnType key={col.path} list={this.state.list} col={col} data={item} linkTo={linkTo} />;
 		});
 		// add sortable icon when applicable
@@ -501,6 +547,7 @@ const ListView = React.createClass({
 					itemIds={Object.keys(this.state.checkedItems)}
 					list={this.state.list}
 					onCancel={() => this.toggleUpdateModal(false)} />
+				{this.renderConfirmationDialog()}
 			</div>
 		);
 	}

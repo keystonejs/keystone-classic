@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
@@ -21,7 +22,7 @@ var NumberFilter = React.createClass({
 
 	componentDidMount () {
 		// focus the text input
-		React.findDOMNode(this.refs.input).focus();
+		ReactDOM.findDOMNode(this.refs.input).focus();
 	},
 
 	toggleMode (mode) {
@@ -31,7 +32,7 @@ var NumberFilter = React.createClass({
 		});
 
 		// focus the text input after a mode selection is made
-		React.findDOMNode(this.refs.input).focus();
+		ReactDOM.findDOMNode(this.refs.input).focus();
 	},
 
 	renderControls () {

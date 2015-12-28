@@ -46,7 +46,7 @@ const RelatedItemsList = React.createClass({
 		});
 	},
 	renderItems () {
-		return this.state.items.length ? (
+		return this.state.items.results.length ? (
 			<div className="ItemList-wrapper">
 				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
 					{this.renderTableCols()}
@@ -73,7 +73,7 @@ const RelatedItemsList = React.createClass({
 	renderTableRow (item) {
 		const cells = this.state.columns.map((col, i) => {
 			const ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			const linkTo = !i ? `/keystone/${this.props.refList.path}/${item.id}` : undefined;
+			const linkTo = !i ? `${Keystone.adminPath}/${this.props.refList.path}/${item.id}` : undefined;
 			return <ColumnType key={col.path} list={this.props.refList} col={col} data={item} linkTo={linkTo} />;
 		});
 		return <tr key={'i' + item.id}>{cells}</tr>;
@@ -82,7 +82,7 @@ const RelatedItemsList = React.createClass({
 		if (this.state.err) {
 			return <div className="Relationship">{this.state.err}</div>;
 		}
-		const listHref = '/keystone/' + this.props.refList.path;
+		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
 		return (
 			<div className="Relationship">
 				<h3><a href={listHref}>{this.props.refList.label}</a></h3>

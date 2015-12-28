@@ -51,7 +51,7 @@ var HomeView = React.createClass({
 
 	loadCounts () {
 		xhr({
-			url: '/keystone/api/counts'
+			url: `${Keystone.adminPath}/api/counts`
 		}, (err, resp, body) => {
 			try {
 				body = JSON.parse(body);
@@ -97,7 +97,7 @@ var HomeView = React.createClass({
 
 	renderFlatNav () {
 		let lists = this.props.navLists.map((list) => {
-			var href = list.external ? list.path : '/keystone/' + list.path;
+			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 		});
 
@@ -116,7 +116,7 @@ var HomeView = React.createClass({
 							</div>
 							<div className="dashboard-group__lists">
 								{navSection.lists.map((list) => {
-									var href = list.external ? list.path : '/keystone/' + list.path;
+									var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 								})}
 							</div>
@@ -138,7 +138,7 @@ var HomeView = React.createClass({
 				</div>
 				<div className="dashboard-group__lists">
 					{this.props.orphanedLists.map((list) => {
-						var href = list.external ? list.path : '/keystone/' + list.path;
+						var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 						return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 					})}
 				</div>

@@ -68,7 +68,7 @@ module.exports = function(req, res) {
 									items: _.map(results, function(i) {
 										return {
 											label: refList.getDocumentName(i),
-											href: '/keystone/' + refList.path + '/' + i.id
+											href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + i.id
 										};
 									}),
 									more: (more) ? true : false
@@ -87,7 +87,7 @@ module.exports = function(req, res) {
 									list: refList.getOptions(),
 									items: [{
 										label: refList.getDocumentName(result),
-										href: '/keystone/' + refList.path + '/' + result.id
+										href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + result.id
 									}]
 								});
 							}

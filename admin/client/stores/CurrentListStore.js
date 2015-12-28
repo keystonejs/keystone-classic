@@ -15,16 +15,32 @@ let _items = {};
 const _list = new List(Keystone.list);
 
 const active = {
-	columns: _list.expandColumns(Keystone.list.defaultColumns),
+	columns: _list.expandColumns(_list.defaultColumns),
 	filters: [],
 	search: '',
-	sort: _list.expandSort(Keystone.list.defaultSort)
+	sort: _list.expandSort(_list.defaultSort),
 };
 
 const page = {
 	size: 100,
-	index: 1
+	index: 1,
 };
+
+function updateQueryParams (params, replace) {
+	if (!_location) return;
+	let newParams = Object.assign({}, _location.query);
+	Object.keys(params).forEach(i => {
+		if (params[i]) {
+			newParams[i] = params[i];
+			if (typeof newParams[i] === 'object') {
+				newParams[i] = JSON.stringify(newParams[i]);
+			}
+		} else {
+			delete newParams[i];
+		}
+	});
+	history[replace ? 'replaceState' : 'pushState'](null, _location.pathname, newParams);
+}
 
 const CurrentListStore = new Store({
 	getList () {
@@ -36,25 +52,26 @@ const CurrentListStore = new Store({
 	getActiveColumns () {
 		return active.columns;
 	},
-	setActiveColumns (cols) {
-		active.columns = _list.expandColumns(cols);
-		this.loadItems();
+	setActiveColumns (columns) {
+		if (Array.isArray(columns)) columns = columns.join(',');
+		if (columns === _list.defaultColumnPaths) columns = undefined;
+		updateQueryParams({ columns });
 	},
 	getActiveSearch () {
 		return active.search;
 	},
 	setActiveSearch (str) {
-		let params = {};
-		if (str) params.search = str;
-		history.pushState(null, _location.pathname, params);
+		// starting or clearing a search pushes a new history state, but updating
+		// the current search replaces it for nicer history navigation support
+		let replace = (str && this.getActiveSearch());
+		updateQueryParams({ search: str }, replace);
 	},
 	getActiveSort () {
 		return active.sort;
 	},
 	setActiveSort (sort) {
-		active.sort = _list.expandSort(sort || _list.defaultSort);
-		this.loadItems();
-		this.notifyChange();
+		if (sort === _list.defaultSort) sort = undefined;
+		updateQueryParams({ sort });
 	},
 	getAvailableFilters () {
 		return _list.columns.filter(col => col.field && col.field.hasFilterMethod);
@@ -66,7 +83,7 @@ const CurrentListStore = new Store({
 		return active.filters.filter(i => i.field.path === path)[0];
 	},
 	setFilter (path, value) {
-		let filter = active.filters.filter(i => i.field.path === path)[0];
+		let filter = this.getFilter(path);
 		if (filter) {
 			filter.value = value;
 		} else {
@@ -99,9 +116,9 @@ const CurrentListStore = new Store({
 	getCurrentPage () {
 		return page.index;
 	},
-	setCurrentPage (i) {
-		page.index = i;
-		this.loadItems();
+	setCurrentPage (index) {
+		if (index === 1) index = undefined;
+		updateQueryParams({ page: index });
 	},
 	isLoading () {
 		return _loading;
@@ -156,12 +173,13 @@ const CurrentListStore = new Store({
 
 history.listen(function (location) {
 	_location = location;
-	let querySearch = location.query.search || '';
-	if (active.search !== querySearch) {
-		active.search = querySearch;
-		CurrentListStore.loadItems();
-		CurrentListStore.notifyChange();
-	}
+	active.columns = _list.expandColumns(location.query.columns || _list.defaultColumns);
+	active.search = location.query.search || '';
+	active.sort = _list.expandSort(location.query.sort || _list.defaultSort);
+	page.index = Number(location.query.page);
+	if (isNaN(page.index)) page.index = 1;
+	CurrentListStore.loadItems();
+	CurrentListStore.notifyChange();
 });
 
 module.exports = CurrentListStore;

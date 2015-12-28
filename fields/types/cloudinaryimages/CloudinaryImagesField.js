@@ -4,8 +4,21 @@ import ReactDOM from 'react-dom';
 import Field from '../Field';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import Lightbox from '../../../admin/client/components/Lightbox';
+import classnames from 'classnames';
 
 const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
+
+const iconClassDeleted = [
+	'delete-pending',
+	'mega-octicon',
+	'octicon-x'
+];
+
+const iconClassQueued = [
+	'img-uploading',
+	'mega-octicon',
+	'octicon-cloud-upload'
+];
 
 var Thumbnail = React.createClass({
 	displayName: 'CloudinaryImagesFieldThumbnail',
@@ -28,23 +41,22 @@ var Thumbnail = React.createClass({
 
 	render () {
 		let iconClassName;
- 		let { deleted, height, isQueued, url, width } = this.props;
+		let { deleted, height, isQueued, url, width, openLightbox } = this.props;
+		let previewClassName = classnames('image-preview', {
+			'action': (deleted || isQueued)
+		});
+		let title = (width && height) ? (width + ' × ' + height) : '';
 
 		if (deleted) {
-			iconClassName = 'delete-pending mega-octicon octicon-x';
+			iconClassName = classnames(iconClassDeleted);
 		} else if (isQueued) {
-			iconClassName = 'img-uploading mega-octicon octicon-cloud-upload';
+			iconClassName = classnames(iconClassQueued);
 		}
-
-		let previewClassName = 'image-preview';
-		if (deleted || isQueued) previewClassName += ' action';
-
-		let title = (width && height) ? (width + ' × ' + height) : '';
 
 		return (
 			<div className="image-field image-sortable" title={title}>
 				<div className={previewClassName}>
-					<a href={url} onClick={this.props.openLightbox} className="img-thumbnail">
+					<a href={url} onClick={openLightbox} className="img-thumbnail">
 						<img style={{ height: '90' }} className="img-load" src={url} />
 						<span className={iconClassName} />
 					</a>
@@ -99,7 +111,7 @@ module.exports = Field.create({
 		);
 	},
 
-	removeThumbnail  (i) {
+	removeThumbnail (i) {
 		var thumbs = this.state.thumbnails;
 		var thumb = thumbs[i];
 
@@ -112,7 +124,7 @@ module.exports = Field.create({
 		this.setState({ thumbnails: thumbs });
 	},
 
-	pushThumbnail  (args, thumbs) {
+	pushThumbnail (args, thumbs) {
 		thumbs = thumbs || this.state.thumbnails;
 		var i = thumbs.length;
 		args.toggleDelete = this.removeThumbnail.bind(this, i);
@@ -125,7 +137,7 @@ module.exports = Field.create({
 		return ReactDOM.findDOMNode(this.refs.fileField);
 	},
 
-	getCount  (key) {
+	getCount (key) {
 		var count = 0;
 
 		_.each(this.state.thumbnails, function (thumb) {
@@ -151,7 +163,7 @@ module.exports = Field.create({
 		});
 	},
 
-	uploadFile  (event) {
+	uploadFile (event) {
 		var self = this;
 
 		var files = event.target.files;
@@ -262,8 +274,7 @@ module.exports = Field.create({
 	},
 
 	renderNote () {
-		if (!this.props.note) return null;
-		return <FormNote note={this.props.note} />;
+		return this.props.note ? <FormNote note={this.props.note} /> : null;
 	},
 
 	renderUI () {

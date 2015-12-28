@@ -149,7 +149,9 @@ module.exports = Field.create({
 		};
 
 		if (this.shouldRenderField()) {
-			opts.uploadimage_form_url = options.enableS3Uploads ? '/keystone/api/s3/upload' : '/keystone/api/cloudinary/upload';
+			opts.uploadimage_form_url = options.enableS3Uploads ?
+				Keystone.adminPath + '/api/s3/upload' :
+				Keystone.adminPath + '/api/cloudinary/upload';
 		} else {
 			Object.assign(opts, {
 				mode: 'textareas',

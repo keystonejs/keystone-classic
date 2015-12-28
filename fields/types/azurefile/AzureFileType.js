@@ -2,14 +2,14 @@
  * Module dependencies.
  */
 
-var _ = require('underscore'),
-	moment = require('moment'),
-	keystone = require('../../../'),
-	util = require('util'),
-	azure = require('azure'),
-	utils = require('keystone-utils'),
-	grappling = require('grappling-hook'),
-	super_ = require('../Type');
+var _ = require('underscore');
+var moment = require('moment');
+var keystone = require('../../../');
+var util = require('util');
+var azure = require('azure');
+var utils = require('keystone-utils');
+var grappling = require('grappling-hook');
+var super_ = require('../Type');
 
 
 /**
@@ -18,7 +18,7 @@ var _ = require('underscore'),
  * @api public
  */
 
-function azurefile(list, path, options) {
+function azurefile (list, path, options) {
 	grappling.mixin(this)
 		.allowHooks('pre:upload');
 
@@ -48,8 +48,8 @@ function azurefile(list, path, options) {
 	this.azurefileconfig.container = this.azurefileconfig.container || 'keystone';
 
 	var self = this;
-	options.filenameFormatter = options.filenameFormatter || function(item, filename) { return filename; };
-	options.containerFormatter = options.containerFormatter || function(item, filename) { return self.azurefileconfig.container; };//eslint-disable-line no-unused-vars
+	options.filenameFormatter = options.filenameFormatter || function (item, filename) { return filename; };
+	options.containerFormatter = options.containerFormatter || function (item, filename) { return self.azurefileconfig.container; };//eslint-disable-line no-unused-vars
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
@@ -69,7 +69,7 @@ util.inherits(azurefile, super_);
  */
 
 Object.defineProperty(azurefile.prototype, 'azurefileconfig', {
-	get: function() {
+	get: function () {
 		return this.options.azurefileconfig || keystone.get('azurefile config');
 	}
 });
@@ -81,10 +81,10 @@ Object.defineProperty(azurefile.prototype, 'azurefileconfig', {
  * @api public
  */
 
-azurefile.prototype.addToSchema = function() {
+azurefile.prototype.addToSchema = function () {
 
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// fields
@@ -113,16 +113,16 @@ azurefile.prototype.addToSchema = function() {
 
 	schema.add(schemaPaths);
 
-	var exists = function(item) {
+	var exists = function (item) {
 		return (item.get(paths.url) ? true : false);
 	};
 
 	// The .exists virtual indicates whether a file is stored
-	schema.virtual(paths.exists).get(function() {
+	schema.virtual(paths.exists).get(function () {
 		return schemaMethods.exists.apply(this);
 	});
 
-	var reset = function(item) {
+	var reset = function (item) {
 		item.set(field.path, {
 			filename: '',
 			path: '',
@@ -133,7 +133,7 @@ azurefile.prototype.addToSchema = function() {
 	};
 
 	var schemaMethods = {
-		exists: function() {
+		exists: function () {
 			return exists(this);
 		},
 		/**
@@ -141,9 +141,9 @@ azurefile.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		reset: function() {
+		reset: function () {
 			try {
-				azure.createBlobService().deleteBlob(this.get(paths.container), this.get(paths.filename), function() {});
+				azure.createBlobService().deleteBlob(this.get(paths.container), this.get(paths.filename), function () {});
 			} catch(e) {}//eslint-disable-line no-empty
 			reset(this);
 		},
@@ -152,20 +152,20 @@ azurefile.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		delete: function() {
+		delete: function () {
 			try {
-				azure.createBlobService().blobService.deleteBlob(this.get(paths.container), this.get(paths.filename), function() {});
+				azure.createBlobService().blobService.deleteBlob(this.get(paths.container), this.get(paths.filename), function () {});
 			} catch(e) {}//eslint-disable-line no-empty
 			reset(this);
 		}
 	};
 
-	_.each(schemaMethods, function(fn, key) {
+	_.each(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
 	// expose a method on the field to call schema methods
-	this.apply = function(item, method) {
+	this.apply = function (item, method) {
 		return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
 	};
 
@@ -179,7 +179,7 @@ azurefile.prototype.addToSchema = function() {
  * @api public
  */
 
-azurefile.prototype.format = function(item) {
+azurefile.prototype.format = function (item) {
 	return item.get(this.paths.url);
 };
 
@@ -190,7 +190,7 @@ azurefile.prototype.format = function(item) {
  * @api public
  */
 
-azurefile.prototype.isModified = function(item) {
+azurefile.prototype.isModified = function (item) {
 	return item.isModified(this.paths.url);
 };
 
@@ -201,7 +201,7 @@ azurefile.prototype.isModified = function(item) {
  * @api public
  */
 
-azurefile.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
+azurefile.prototype.inputIsValid = function (data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -213,7 +213,7 @@ azurefile.prototype.inputIsValid = function(data) {//eslint-disable-line no-unus
  * @api public
  */
 
-azurefile.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
+azurefile.prototype.updateItem = function (item, data) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 };
 
@@ -224,7 +224,7 @@ azurefile.prototype.updateItem = function(item, data) {//eslint-disable-line no-
  * @api public
  */
 
-azurefile.prototype.uploadFile = function(item, file, update, callback) {
+azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
 	var field = this,
 		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',//eslint-disable-line no-unused-vars
@@ -239,18 +239,18 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 		update = false;
 	}
 
-	var doUpload = function() {
+	var doUpload = function () {
 		var blobService = azure.createBlobService();
 		var container = field.options.containerFormatter(item, file.name);
 
-		blobService.createContainerIfNotExists(container, { publicAccessLevel : 'blob' }, function(err) {
-			
+		blobService.createContainerIfNotExists(container, { publicAccessLevel : 'blob' }, function (err) {
+
 			if (err) return callback(err);
 
-			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function(err, blob, res) {//eslint-disable-line no-unused-vars
+			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) {//eslint-disable-line no-unused-vars
 
 				if (err) return callback(err);
-			
+
 				var fileData = {
 					filename: blob.blob,
 					size: file.size,
@@ -265,12 +265,12 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
 				}
 
 				callback(null, fileData);
-					
+
 			});
 		});
 	};
 
-	this.callHook('pre:upload', item, file, function(err) {
+	this.callHook('pre:upload', item, file, function (err) {
 		if (err) return callback(err);
 		doUpload();
 	});
@@ -287,7 +287,7 @@ azurefile.prototype.uploadFile = function(item, file, update, callback) {
  * @api public
  */
 
-azurefile.prototype.getRequestHandler = function(item, req, paths, callback) {
+azurefile.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
 
@@ -298,9 +298,9 @@ azurefile.prototype.getRequestHandler = function(item, req, paths, callback) {
 		paths = field.paths;
 	}
 
-	callback = callback || function() {};
+	callback = callback || function () {};
 
-	return function() {
+	return function () {
 		if (req.body) {
 			var action = req.body[paths.action];
 
@@ -326,7 +326,7 @@ azurefile.prototype.getRequestHandler = function(item, req, paths, callback) {
  * @api public
  */
 
-azurefile.prototype.handleRequest = function(item, req, paths, callback) {
+azurefile.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 

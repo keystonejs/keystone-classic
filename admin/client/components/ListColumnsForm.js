@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import CurrentListStore from '../stores/CurrentListStore';
 import Popout from './Popout';
 import PopoutList from './PopoutList';
@@ -31,7 +32,7 @@ var ListColumnsForm = React.createClass({
 			isOpen: visible,
 		}, () => {
 			if (visible) {
-				React.findDOMNode(this.refs.target).focus();
+				ReactDOM.findDOMNode(this.refs.target).focus();
 			}
 		});
 	},

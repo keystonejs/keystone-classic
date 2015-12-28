@@ -35,7 +35,7 @@ jQuery(function($) {
 		switch (data.type) {
 			
 			case 'list':
-				var href = '/keystone/' + data.path,
+				var href = Keystone.adminPath + '/' + data.path,
 					label = 'Manage ' + data.plural;
 				
 				if (data.id) {

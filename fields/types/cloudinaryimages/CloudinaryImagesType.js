@@ -46,7 +46,7 @@ util.inherits(cloudinaryimages, super_);
  *
  * @api public
  */
-cloudinaryimages.prototype.addToSchema = function() {
+cloudinaryimages.prototype.addToSchema = function () {
 
 	var mongoose = keystone.mongoose;
 
@@ -76,7 +76,7 @@ cloudinaryimages.prototype.addToSchema = function() {
 	});
 
 	// Generate cloudinary folder used to upload/select images
-	var folder = function(item) {//eslint-disable-line no-unused-vars
+	var folder = function (item) {//eslint-disable-line no-unused-vars
 		var folderValue = '';
 
 		if (keystone.get('cloudinary folders')) {
@@ -94,11 +94,11 @@ cloudinaryimages.prototype.addToSchema = function() {
 	};
 
 	// The .folder virtual returns the cloudinary folder used to upload/select images
-	schema.virtual(field.paths.folder).get(function() {
+	schema.virtual(field.paths.folder).get(function () {
 		return folder(this);
 	});
 
-	var src = function(img, options) {
+	var src = function (img, options) {
 		if (keystone.get('cloudinary secure')) {
 			options = options || {};
 			options.secure = true;
@@ -106,7 +106,7 @@ cloudinaryimages.prototype.addToSchema = function() {
 		return img.public_id ? cloudinary.url(img.public_id + '.' + img.format, options) : '';
 	};
 
-	var addSize = function(options, width, height, other) {
+	var addSize = function (options, width, height, other) {
 		if (width) options.width = width;
 		if (height) options.height = height;
 		if ('object' === typeof other) {
@@ -115,49 +115,49 @@ cloudinaryimages.prototype.addToSchema = function() {
 		return options;
 	};
 
-	ImageSchema.method('src', function(options) {
+	ImageSchema.method('src', function (options) {
 		return src(this, options);
 	});
 
-	ImageSchema.method('scale', function(width, height, options) {
+	ImageSchema.method('scale', function (width, height, options) {
 		return src(this, addSize({ crop: 'scale' }, width, height, options));
 	});
 
-	ImageSchema.method('fill', function(width, height, options) {
+	ImageSchema.method('fill', function (width, height, options) {
 		return src(this, addSize({ crop: 'fill', gravity: 'faces' }, width, height, options));
 	});
 
-	ImageSchema.method('lfill', function(width, height, options) {
+	ImageSchema.method('lfill', function (width, height, options) {
 		return src(this, addSize({ crop: 'lfill', gravity: 'faces' }, width, height, options));
 	});
 
-	ImageSchema.method('fit', function(width, height, options) {
+	ImageSchema.method('fit', function (width, height, options) {
 		return src(this, addSize({ crop: 'fit' }, width, height, options));
 	});
 
-	ImageSchema.method('limit', function(width, height, options) {
+	ImageSchema.method('limit', function (width, height, options) {
 		return src(this, addSize({ crop: 'limit' }, width, height, options));
 	});
 
-	ImageSchema.method('pad', function(width, height, options) {
+	ImageSchema.method('pad', function (width, height, options) {
 		return src(this, addSize({ crop: 'pad' }, width, height, options));
 	});
 
-	ImageSchema.method('lpad', function(width, height, options) {
+	ImageSchema.method('lpad', function (width, height, options) {
 		return src(this, addSize({ crop: 'lpad' }, width, height, options));
 	});
 
-	ImageSchema.method('crop', function(width, height, options) {
+	ImageSchema.method('crop', function (width, height, options) {
 		return src(this, addSize({ crop: 'crop', gravity: 'faces' }, width, height, options));
 	});
 
-	ImageSchema.method('thumbnail', function(width, height, options) {
+	ImageSchema.method('thumbnail', function (width, height, options) {
 		return src(this, addSize({ crop: 'thumb', gravity: 'faces' }, width, height, options));
 	});
 
 	schema.add(this._path.addTo({}, [ImageSchema]));
 
-	this.removeImage = function(item, id, method, callback) {
+	this.removeImage = function (item, id, method, callback) {
 		var images = item.get(field.path);
 		if ('number' !== typeof id) {
 			for (var i = 0; i < images.length; i++) {
@@ -170,7 +170,7 @@ cloudinaryimages.prototype.addToSchema = function() {
 		var img = images[id];
 		if (!img) return;
 		if (method === 'delete') {
-			cloudinary.uploader.destroy(img.public_id, function() {});
+			cloudinary.uploader.destroy(img.public_id, function () {});
 		}
 		images.splice(id, 1);
 		if (callback) {
@@ -178,11 +178,11 @@ cloudinaryimages.prototype.addToSchema = function() {
 		}
 	};
 
-	this.underscoreMethod('remove', function(id, callback) {
+	this.underscoreMethod('remove', function (id, callback) {
 		field.removeImage(this, id, 'remove', callback);
 	});
 
-	this.underscoreMethod('delete', function(id, callback) {
+	this.underscoreMethod('delete', function (id, callback) {
 		field.removeImage(this, id, 'delete', callback);
 	});
 
@@ -194,8 +194,8 @@ cloudinaryimages.prototype.addToSchema = function() {
  *
  * @api public
  */
-cloudinaryimages.prototype.format = function(item) {
-	return _.map(item.get(this.path), function(img) {
+cloudinaryimages.prototype.format = function (item) {
+	return _.map(item.get(this.path), function (img) {
 		return img.src();
 	}).join(', ');
 };
@@ -205,7 +205,7 @@ cloudinaryimages.prototype.format = function(item) {
  *
  * @api public
  */
-cloudinaryimages.prototype.isModified = function(item) {//eslint-disable-line no-unused-vars
+cloudinaryimages.prototype.isModified = function (item) {//eslint-disable-line no-unused-vars
 	// TODO - how should this be detected?
 	return true;
 };
@@ -215,7 +215,7 @@ cloudinaryimages.prototype.isModified = function(item) {//eslint-disable-line no
  *
  * @api public
  */
-cloudinaryimages.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
+cloudinaryimages.prototype.inputIsValid = function (data) {//eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?
 	return true;
 };
@@ -225,7 +225,7 @@ cloudinaryimages.prototype.inputIsValid = function(data) {//eslint-disable-line 
  *
  * @api public
  */
-cloudinaryimages.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
+cloudinaryimages.prototype.updateItem = function (item, data) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 };
 
@@ -238,7 +238,7 @@ cloudinaryimages.prototype.updateItem = function(item, data) {//eslint-disable-l
  *
  * @api public
  */
-cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callback) {
+cloudinaryimages.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
 
@@ -249,16 +249,16 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 		paths = field.paths;
 	}
 
-	callback = callback || function() {};
+	callback = callback || function () {};
 
-	return function() {
+	return function () {
 
 		// Order
 		if (req.body[paths.order]) {
 			var images = item.get(field.path);
 			var newOrder = req.body[paths.order].split(',');
 
-			images.sort(function(a, b) {
+			images.sort(function (a, b) {
 				return (newOrder.indexOf(a.public_id) > newOrder.indexOf(b.public_id)) ? 1 : -1;
 			});
 		}
@@ -267,14 +267,14 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 		if (req.body && req.body[paths.action]) {
 			var actions = req.body[paths.action].split('|');
 
-			actions.forEach(function(action) {
+			actions.forEach(function (action) {
 				action = action.split(':');
 				var method = action[0];
 				var ids = action[1];
 
 				if (!method.match(/^(remove|delete)$/) || !ids) return;
 
-				ids.split(',').forEach(function(id) {
+				ids.split(',').forEach(function (id) {
 					field.removeImage(item, id, method);
 				});
 			});
@@ -284,7 +284,7 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 		if (req.body[paths.uploads]) {
 			var uploads = JSON.parse(req.body[paths.uploads]);
 
-			uploads.forEach(function(file) {
+			uploads.forEach(function (file) {
 				item.get(field.path).push(file);
 			});
 		}
@@ -316,7 +316,7 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 			}
 
 
-			async.each(files, function(file, next) {
+			async.each(files, function (file, next) {
 
 				if (!file.size) return next();
 
@@ -324,7 +324,7 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 					uploadOptions.public_id = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
 				}
 
-				cloudinary.uploader.upload(file.path, function(result) {
+				cloudinary.uploader.upload(file.path, function (result) {
 					if (result.error) {
 						return next(result.error);
 					} else {
@@ -333,7 +333,7 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
 					}
 				}, uploadOptions);
 
-			}, function(err) {
+			}, function (err) {
 				return callback(err);
 			});
 		} else {
@@ -347,7 +347,7 @@ cloudinaryimages.prototype.getRequestHandler = function(item, req, paths, callba
  *
  * @api public
  */
-cloudinaryimages.prototype.handleRequest = function(item, req, paths, callback) {
+cloudinaryimages.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 

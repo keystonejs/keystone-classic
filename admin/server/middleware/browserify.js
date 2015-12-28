@@ -60,6 +60,8 @@ module.exports = function(file, name) {
 			opts.debug = true;
 			opts.cache = {};
 			opts.packageCache = {};
+		}
+		if (devWriteDisc) {
 			opts.fullPaths = true;
 		}
 		if (name) {

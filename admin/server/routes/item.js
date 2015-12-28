@@ -10,12 +10,12 @@ module.exports = function(req, res) {
 
 		if (err) {
 			req.flash('error', 'A database error occurred.');
-			return res.redirect('/keystone/' + req.list.path);
+			return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path);
 		}
 
 		if (!item) {
 			req.flash('error', 'Item ' + req.params.item + ' could not be found.');
-			return res.redirect('/keystone/' + req.list.path);
+			return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path);
 		}
 
 		var renderView = function() {
@@ -86,7 +86,7 @@ module.exports = function(req, res) {
 					return renderView();
 				}
 				req.flash('success', 'Your changes have been saved.');
-				return res.redirect('/keystone/' + req.list.path + '/' + item.id);
+				return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path + '/' + item.id);
 			});
 
 

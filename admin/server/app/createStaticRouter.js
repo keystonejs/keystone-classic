@@ -20,7 +20,7 @@ module.exports = function createStaticRouter (keystone) {
 		signin: browserify('views/signin.js'),
 		home: browserify('views/home.js'),
 		item: browserify('views/item.js'),
-		list: browserify('views/list.js')
+		list: browserify('views/list.js'),
 	};
 
 	// prebuild static resources on the next tick
@@ -41,7 +41,8 @@ module.exports = function createStaticRouter (keystone) {
 		render: {
 			modifyVars: {
 				elementalPath: JSON.stringify(elementalPath),
-				reactSelectPath: JSON.stringify(reactSelectPath)
+				reactSelectPath: JSON.stringify(reactSelectPath),
+				adminPath: JSON.stringify(keystone.get('admin path')),
 			}
 		}
 	};

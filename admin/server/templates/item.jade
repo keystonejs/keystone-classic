@@ -8,14 +8,14 @@ html
 		meta(name="csrf-token", content="#{csrf_token_value}")
 		title= title
 		include includes/css/components
-		link(rel="stylesheet", href="/keystone/styles/keystone.min.css")
+		link(rel="stylesheet", href="#{adminPath}/styles/keystone.min.css")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
 	body
 		#item-view
 		//- Common
-		script(src="/keystone/js/lib/underscore/underscore-1.5.1.min.js")
-		script(src="/keystone/js/lib/jquery/jquery-1.10.2.min.js")
+		script(src="#{adminPath}/js/lib/underscore/underscore-1.5.1.min.js")
+		script(src="#{adminPath}/js/lib/jquery/jquery-1.10.2.min.js")
 
 		//- Components
 		include includes/script/keystone
@@ -25,9 +25,9 @@ html
 			Keystone.list = Keystone.lists[!{JSON.stringify(list.key)}];
 			Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 			Keystone.itemId = '!{item.id}';
-		script(src='/keystone/js/packages.js')
-		script(src='/keystone/js/fields.js')
-		script(src='/keystone/js/item.js')
+		script(src='#{adminPath}/js/packages.js')
+		script(src='#{adminPath}/js/fields.js')
+		script(src='#{adminPath}/js/item.js')
 		include includes/script/ga
 
 // TODO: Rewrite relationships in React. Original source here for reference.
@@ -49,7 +49,7 @@ html
 //- 			else
 //- 				- var value = col.subField ? col.subField.format(refData) : refData[col.refPath]
 //- 				if col.refList && refData && refData.id
-//- 					+column_link(value, '/keystone/' + col.refList.path + '/' + refData.id)
+//- 					+column_link(value, '#{adminPath}/' + col.refList.path + '/' + refData.id)
 //- 				else
 //- 					+column_basic(value)
 //- 	else if col.type == 'markdown'
@@ -59,7 +59,7 @@ html
 //- 	else
 //- 		- var value = col.field ? col.field.format(item) : item.get(col.path)
 //- 		if col.isName
-//- 			+column_link(value || '(no name)', '/keystone/' + list.path + '/' + item.id)
+//- 			+column_link(value || '(no name)', '#{adminPath}/' + list.path + '/' + item.id)
 //- 		else if col.type == 'email'
 //- 			if value && col.field.options.displayGravatar
 //- 				+column_gravatar(col.field.gravatarUrl(item,35))
@@ -74,26 +74,26 @@ html
 //- 			+column_html(value)
 //- 		else
 //- 			+column_basic(value)
-//- 
+//-
 //- mixin column_link(value, href, newWindow)
 //- 	if value
 //- 		a(href=href, target=newWindow ? '_blank' : undefined)= value
-//- 
+//-
 //- mixin column_gravatar(src)
 //- 	img(src=src).img-thumbnail
-//- 
+//-
 //- mixin column_boolean(value)
 //- 	if (value)
-//- 		img(src='/keystone/images/icons/16/checkbox-checked.png', width=16, height=16)
+//- 		img(src='#{adminPath}/images/icons/16/checkbox-checked.png', width=16, height=16)
 //- 	else
-//- 		img(src='/keystone/images/icons/16/checkbox-unchecked.png', width=16, height=16)
-//- 
+//- 		img(src='#{adminPath}/images/icons/16/checkbox-unchecked.png', width=16, height=16)
+//-
 //- mixin column_html(value)
 //- 	div.ItemList__value!= value
-//- 
+//-
 //- mixin column_basic(value)
 //- 	div.ItemList__value= value
-//- 
+//-
 //- mixin column_color(value)
 //- 	div.ItemList__value
 //- 		if (value)
@@ -105,7 +105,7 @@ html
 //- 			each rel in relationships
 //- 				if rel.items.results.length
 //- 					h3.EditForm__relationships-subheading
-//- 						a(href='/keystone/' + rel.list.path)= (rel.label) ? rel.label : rel.list.label
+//- 						a(href='#{adminPath}/' + rel.list.path)= (rel.label) ? rel.label : rel.list.label
 //- 					if rel.note
 //- 						.field-note= rel.note
 //- 					- var firstColspan = 1
