@@ -14,19 +14,23 @@ var ListControl = React.createClass({
 			'is-active': this.props.active
 		});
 		var tabindex = this.props.type === 'sortable' ? -1 : null;
+		var title;
 
 		if (this.props.type === 'check') {
 			icon += 'check';
+			title = 'Check';
 		}
 		if (this.props.type === 'delete') {
 			icon += 'trashcan';
+			title = 'Delete';
 		}
 		if (this.props.type === 'sortable') {
 			icon += 'three-bars';
+			title = 'Change sortorder of';
 		}
 
 		return (
-			<button type="button" onClick={this.props.onClick} className={className} tabIndex={tabindex}>
+			<button type="button" title={title + ' item'} onClick={this.props.onClick} className={className} tabIndex={tabindex}>
 				<span className={icon} />
 			</button>
 		);
