@@ -89,7 +89,7 @@
     "eslint": "1.10.3",
     "eslint-plugin-react": "3.13.1",
     "gulp": "3.9.0",
-    "gulp-git": "1.6.0",
+    "gulp-git": "1.6.1",
     "gulp-streamify": "1.0.2",
     "gulp-uglify": "1.5.1",
     "istanbul": "0.4.1",
