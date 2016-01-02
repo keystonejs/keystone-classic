@@ -30,8 +30,8 @@ number.prototype.addFilterToQuery = function(filter, query) {
 		return;
 	}
 	if (filter.mode === 'between') {
-		var min = utils.number(value.min);
-		var max = utils.number(value.max);
+		var min = utils.number(filter.value.min);
+		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
 			query[this.path] = filter.inverted ? { $gte: max, $lte: min } : { $gte: min, $lte: max };
 		}
