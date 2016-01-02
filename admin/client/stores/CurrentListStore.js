@@ -4,6 +4,7 @@ import createHistory from 'history/lib/createBrowserHistory';
 import useQueries from 'history/lib/useQueries';
 import Store from 'store-prototype';
 import List from '../lib/List';
+import { plural } from '../utils';
 
 let history = useQueries(createHistory)();
 
@@ -11,6 +12,7 @@ let _location = null;
 let _ready = false;
 let _loading = false;
 let _items = {};
+let _onErrorHandlers = [];
 
 const _list = new List(Keystone.list);
 
@@ -135,6 +137,11 @@ const CurrentListStore = new Store({
 			columns: active.columns,
 			page: page
 		}, (err, items) => {
+
+			if (err) {
+				this.notifyError(err);
+			}
+
 			_loading = false;
 			// TODO: graceful error handling
 			if (items) {
@@ -148,15 +155,17 @@ const CurrentListStore = new Store({
 		return _items;
 	},
 	deleteItem (itemId) {
-		_list.deleteItem(itemId, (err, data) => {
-			// TODO: graceful error handling
-			this.loadItems();
-		});
+		this.deleteItems([itemId]);
 	},
 	deleteItems (itemIds) {
 		_list.deleteItems(itemIds, (err, data) => {
-			// TODO: graceful error handling
-			this.loadItems();
+			if (err) {
+				let listTypeName = plural(itemIds.length, _list.singular, _list.plural);
+				this.notifyError(`Failed to delete ${listTypeName}`);
+			} else {
+				// notify
+				this.loadItems();
+			}
 		});
 	},
 	downloadItems (format, columns) {
@@ -168,6 +177,31 @@ const CurrentListStore = new Store({
 			format: format
 		});
 		window.open(url);
+	},
+
+	/**
+	 * Register a callback incase we get an error on any of the registered
+	 * list we have for this store.
+	 * @param Function fn
+	 */
+	onError (fn) {
+		if (typeof fn === 'function' && _onErrorHandlers.indexOf(fn) === -1) {
+			_onErrorHandlers.push(fn);
+		}
+	},
+
+	notifyError (err) {
+		if (!(err instanceof Error) && (typeof err === 'string')) {
+			err = new Error(err);
+		}
+
+		// Log into the console
+		// @TODO: Add a if-statement checking for the environment flag.
+		console.error(err);
+
+		_onErrorHandlers.forEach(function(fn) {
+			fn(err);
+		});
 	}
 });
 
