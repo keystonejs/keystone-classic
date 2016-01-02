@@ -93,6 +93,14 @@ module.exports = function createApp (keystone, express) {
 	}
 
 	require('./bindRedirectsHandler')(keystone, app);
+
+	// Error config
+	if ('function' === typeof keystone.get('pre:error')) {
+		keystone.get('pre:error')(app);
+	}
+	app.use(function(req, res, next) {
+		keystone.callHook('pre:error', req, res, next);
+	});
 	require('./bindErrorHandlers')(keystone, app);
 
 	return app;
