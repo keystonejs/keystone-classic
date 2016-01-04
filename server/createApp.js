@@ -3,6 +3,8 @@ var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
 
+var createComponentRouter = require('./createComponentRouter');
+
 module.exports = function createApp (keystone, express) {
 
 	if (!keystone.app) {
@@ -90,6 +92,11 @@ module.exports = function createApp (keystone, express) {
 	// Configure application routes
 	if ('function' === typeof keystone.get('routes')) {
 		keystone.get('routes')(app);
+	}
+
+	// Configure component routes
+	if (keystone.get('component routes')) {
+		app.use('/', createComponentRouter(keystone.get('component routes')));
 	}
 
 	require('./bindRedirectsHandler')(keystone, app);
