@@ -30,7 +30,7 @@ module.exports = function createApp (keystone, express) {
 	}
 
 	// Pre static config
-	if ('function' === typeof keystone.get('pre:static')) {
+	if (typeof keystone.get('pre:static') === 'function') {
 		keystone.get('pre:static')(app);
 	}
 	app.use(function(req, res, next) {
@@ -66,7 +66,7 @@ module.exports = function createApp (keystone, express) {
 	}
 
 	// Pre bodyparser middleware
-	if ('function' === typeof keystone.get('pre:bodyparser')) {
+	if (typeof keystone.get('pre:bodyparser') === 'function') {
 		keystone.get('pre:bodyparser')(app);
 	}
 	app.use(function(req, res, next) {
@@ -82,7 +82,7 @@ module.exports = function createApp (keystone, express) {
 	}
 
 	// Pre route config
-	if ('function' === typeof keystone.get('pre:routes')) {
+	if (typeof keystone.get('pre:routes') === 'function') {
 		keystone.get('pre:routes')(app);
 	}
 	app.use(function(req, res, next) {
@@ -90,7 +90,7 @@ module.exports = function createApp (keystone, express) {
 	});
 
 	// Configure application routes
-	if ('function' === typeof keystone.get('routes')) {
+	if (typeof keystone.get('routes') === 'function') {
 		keystone.get('routes')(app);
 	}
 
@@ -102,7 +102,7 @@ module.exports = function createApp (keystone, express) {
 	require('./bindRedirectsHandler')(keystone, app);
 
 	// Error config
-	if ('function' === typeof keystone.get('pre:error')) {
+	if (typeof keystone.get('pre:error') === 'function') {
 		keystone.get('pre:error')(app);
 	}
 	app.use(function(req, res, next) {
