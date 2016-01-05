@@ -21,10 +21,6 @@ const ItemsRow = React.createClass({
 		connectDropTarget: React.PropTypes.func,
 		connectDragPreview: React.PropTypes.func
 	},
-	deleteItem (item, e) {
-		if (!e.altKey && !confirm('Are you sure you want to delete ' + item.name + '?')) return;
-		CurrentListStore.deleteItem(item);
-	},
 	renderRow (item) {
 		let itemId = item.id;
 		let rowClassname = classnames({
@@ -51,7 +47,7 @@ const ItemsRow = React.createClass({
 			cells.unshift(this.props.manageMode ? (
 				<ListControl key="_check" type="check" active={this.props.checkedItems[itemId]} />
 			) : (
-				<ListControl key="_delete" onClick={(e) => this.deleteItem(item, e)} type="delete" />
+				<ListControl key="_delete" onClick={(e) => this.props.deleteTableItem(item, e)} type="delete" />
 			));
 		}
 		

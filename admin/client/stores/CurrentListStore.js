@@ -22,10 +22,14 @@ const active = {
 	sort: _list.expandSort(_list.defaultSort),
 };
 
-let page = {
-	size: 100,
-	index: 1,
-};
+let page = defaultPage();
+
+function defaultPage () {
+	return {
+		size: _list.perPage,
+		index: 1
+	};
+}
 
 
 let drag = defaultDrag();

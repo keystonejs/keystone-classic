@@ -7,7 +7,7 @@ import ListControl from './ListControl';
 import TableRow from './ItemsTableRow';
 import DrapDrop from './ItemsTableDragDrop';
 
-const CONTROL_COLUMN_WIDTH = 26;  // icon + padding
+const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
 
 const ItemsTable = React.createClass({
@@ -20,13 +20,13 @@ const ItemsTable = React.createClass({
 		var cols = this.props.columns.map((col) => <col width={col.width} key={col.path} />);
 		// add delete col when applicable
 		if (!this.props.list.nodelete) {
-			cols.unshift(<col width={CONTROL_COLUMN_WIDTH} key="delete" />);
+			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />);
 		}
 		// add sort col when applicable
 		if (this.props.list.sortable) {
-			cols.unshift(<col width={CONTROL_COLUMN_WIDTH} key="sortable" />);
+			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />);
 		}
-		return <colgroup width={CONTROL_COLUMN_WIDTH}>{cols}</colgroup>;
+		return <colgroup>{cols}</colgroup>;
 	},
 	renderHeaders () {
 		var cells = this.props.columns.map((col, i) => {
@@ -53,6 +53,7 @@ const ItemsTable = React.createClass({
 					{this.props.items.results.map((item, i) => { 
 						return (
 							<TableRow key={item.id}
+								deleteTableItem={this.props.deleteTableItem}
 								index={i}
 								sortOrder={item.sortOrder || 0}
 								id={item.id}

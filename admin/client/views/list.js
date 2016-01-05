@@ -367,18 +367,6 @@ const ListView = React.createClass({
 			constrainTableWidth: !this.state.constrainTableWidth,
 		});
 	},
-	renderTableCols () {
-		var cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
-		// add delete col when applicable
-		if (!this.state.list.nodelete) {
-			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />);
-		}
-		// add sort col when applicable
-		if (this.state.list.sortable) {
-			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />);
-		}
-		return <colgroup>{cols}</colgroup>;
-	},
 
 	// ==============================
 	// COMMON
@@ -433,6 +421,7 @@ const ListView = React.createClass({
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
 					<ItemsTable
+						deleteTableItem={this.deleteTableItem}
 						list={this.state.list} 
 						columns={this.state.columns} 
 						items={this.state.items}
