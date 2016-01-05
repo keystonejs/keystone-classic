@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
 import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
+import displayName from 'display-name';
 
 var NameColumn = React.createClass({
 	displayName: 'NameColumn',
@@ -12,7 +13,7 @@ var NameColumn = React.createClass({
 	renderValue () {
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value || (!value.first && !value.last)) return '(no name)';
-		return [value.first, value.last].filter(i => i).join(' ');
+		return displayName(value.first, value.last);
 	},
 	render () {
 		return (

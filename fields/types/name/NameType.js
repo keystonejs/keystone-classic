@@ -2,6 +2,7 @@ var _ = require('underscore');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+var displayName = require('display-name');
 
 /**
  * Name FieldType Constructor
@@ -41,7 +42,7 @@ name.prototype.addToSchema = function() {
 	}, this.path + '.');
 
 	schema.virtual(paths.full).get(function () {
-		return _.compact([this.get(paths.first), this.get(paths.last)]).join(' ');
+		return displayName(this.get(paths.first), this.get(paths.last));
 	});
 
 	schema.virtual(paths.full).set(function(value) {
