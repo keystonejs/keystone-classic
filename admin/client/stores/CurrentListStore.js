@@ -254,6 +254,7 @@ const CurrentListStore = new Store({
 		} else {
 			_items.results.splice(newIndex, 0, _items.results.splice(prevIndex, 1)[0]);
 		}
+
 		this.notifyChange();
 	},
 	reorderItems (item, prevSortOrder, newSortOrder, goToPage) {
@@ -264,6 +265,7 @@ const CurrentListStore = new Store({
 			size: page.size,
 			index: goToPage || page.index
 		};
+
 		// send the item, previous sortOrder and the new sortOrder
 		// we should get the proper list and new page results in return
 		_list.reorderItems(
