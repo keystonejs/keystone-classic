@@ -96,12 +96,13 @@
     "mocha": "2.3.4",
     "must": "0.13.1",
     "react-engine": "2.6.2",
+    "react-router": "1.0.3",
     "rimraf": "2.5.0",
     "sinon": "1.17.2",
     "supertest": "1.1.0",
-    "watch": "0.17.1",
     "updtr": "0.1.6",
-    "vinyl-source-stream": "1.1.0"
+    "vinyl-source-stream": "1.1.0",
+    "watch": "0.17.1"
   },
   "browserify": {
     "transform": [
