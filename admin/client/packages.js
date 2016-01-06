@@ -10,6 +10,7 @@ module.exports = [
 	'classnames',
 	'color',
 	'elemental',
+	'expression-match',
 	'history',
 	'i',
 	'list-to-array',
