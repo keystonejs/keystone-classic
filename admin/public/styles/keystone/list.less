@@ -124,7 +124,38 @@
 	}
 }
 
-
+// Dropped States
+// ------------------------------
+.ItemList__row--dragging {
+	border-left: 2px solid #1385e5;
+	background-color: transparent;
+	cursor: move;
+	opacity: 1;
+}
+.ItemList__row--success {
+    -webkit-animation: fade-out-background-success 2s linear 1 normal;
+	-moz-animation: fade-out-background-success 2s linear  1 normal;
+	-ms-animation: fade-out-background-success 2s linear  1 normals;
+	-o-animation: fade-out-background-success 2s linear  1 normal;
+	animation: fade-out-background-success 2s linear 1 normal;
+}
+.ItemList__row--failure {
+	-webkit-animation: fade-out-background-fail 2s linear 1 normal;
+	-moz-animation: fade-out-background-fail 2s linear  1 normal;
+	-ms-animation: fade-out-background-fail 2s linear  1 normals;
+	-o-animation: fade-out-background-fail 2s linear  1 normal;
+	animation: fade-out-background-fail 2s linear 1 normal;
+}
+// Fade out row
+// ------------
+@-webkit-keyframes fade-out-background-success {
+	0% {background-color: lighten(@app-success, 40%);}
+	100% {background-color: initial;}
+}
+@-webkit-keyframes fade-out-background-fail {
+	0% { background-color: darken(#FDD4AE, 5%)}
+	100% {background-color: initial;}
+}
 
 
 // Links

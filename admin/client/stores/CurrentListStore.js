@@ -11,6 +11,7 @@ let _location = null;
 let _ready = false;
 let _loading = false;
 let _items = {};
+let _itemsResultsClone = [];
 
 const _list = new List(Keystone.list);
 
@@ -21,10 +22,36 @@ const active = {
 	sort: _list.expandSort(_list.defaultSort),
 };
 
-const page = {
-	size: 100,
-	index: 1,
-};
+let page = defaultPage();
+
+function defaultPage () {
+	return {
+		size: _list.perPage,
+		index: 1
+	};
+}
+
+
+let drag = defaultDrag();
+
+function defaultDrag () {
+	return drag = {
+		page: 1,
+		item: false,
+		clonedItems: false,
+		index: false
+	};
+}
+
+
+var _rowAlert = defaultRowAlert();
+
+function defaultRowAlert () {
+	return _rowAlert = {
+		success: false,
+		fail: false
+	};
+}
 
 function updateQueryParams (params, replace) {
 	if (!_location) return;
@@ -45,6 +72,20 @@ function updateQueryParams (params, replace) {
 const CurrentListStore = new Store({
 	getList () {
 		return _list;
+	},
+	getDragBase () {
+		return drag;
+	},
+	setDragBase (item, index) {
+		drag.page = page.index;
+		drag.clonedItems = _itemsResultsClone.slice(0);
+		if(item) {
+			drag.item = item;
+			if(index) {
+				drag.index = index;
+			}
+		}
+		return drag;
 	},
 	getAvailableColumns () {
 		return _list.columns;
@@ -126,8 +167,9 @@ const CurrentListStore = new Store({
 	isReady () {
 		return _ready;
 	},
-	loadItems () {
+	loadItems (options = {}) {
 		_loading = true;
+		defaultRowAlert();
 		_list.loadItems({
 			search: active.search,
 			filters: active.filters,
@@ -140,6 +182,26 @@ const CurrentListStore = new Store({
 			if (items) {
 				_ready = true;
 				_items = items;
+				
+				if (page.index !== drag.page && drag.item) {
+					// add the dragging item
+					if (page.index > drag.page) {
+						_items.results.unshift(drag.item);
+					} else {
+						_items.results.push(drag.item);
+					}
+				}
+				_itemsResultsClone =  items.results.slice(0);
+				
+				if (options.success && options.id) {
+					// flashes a success background on the row
+					_rowAlert.success = options.id;
+				}
+				if (options.fail && options.id) {
+					// flashes a failure background on the row
+					_rowAlert.fail = options.id;
+				}
+				
 			}
 			this.notifyChange();
 		});
@@ -150,14 +212,122 @@ const CurrentListStore = new Store({
 	deleteItem (itemId) {
 		_list.deleteItem(itemId, (err, data) => {
 			// TODO: graceful error handling
+			if(err) {
+				return this.resetItems(this.findItemById[itemId]);
+			}
 			this.loadItems();
 		});
 	},
 	deleteItems (itemIds) {
 		_list.deleteItems(itemIds, (err, data) => {
 			// TODO: graceful error handling
+			
 			this.loadItems();
 		});
+	},
+	downloadItems (format, columns) {
+		var url = _list.getDownloadURL({
+			search: active.search,
+			filters: active.filters,
+			sort: active.sort,
+			columns: columns ? _list.expandColumns(columns) : active.columns,
+			format: format
+		});
+		window.open(url);
+	},
+		rowAlert (reset = false) {
+		//  reset the alerts or return the object
+		if(reset) {
+			defaultRowAlert();
+			return this.notifyChange();
+		}
+		return _rowAlert;
+	},
+	dragDropChangePage (page) {
+		this.setCurrentPage(page);
+	},
+	moveItem (prevIndex, newIndex, options) {
+		// moves an item up/down in the list
+		if (options.manageMode) {
+			// TODO: option to use manageMode for sortOrder
+			_items.results.splice(newIndex, 0, _items.results.splice(prevIndex, 1)[0]);
+		} else {
+			_items.results.splice(newIndex, 0, _items.results.splice(prevIndex, 1)[0]);
+		}
+
+		this.notifyChange();
+	},
+	reorderItems (item, prevSortOrder, newSortOrder, goToPage) {
+		// reset drag
+		defaultDrag();
+		// set the new page data
+		page = {
+			size: page.size,
+			index: goToPage || page.index
+		};
+
+		// send the item, previous sortOrder and the new sortOrder
+		// we should get the proper list and new page results in return
+		_list.reorderItems(
+			item,
+			prevSortOrder,
+			newSortOrder,
+			{
+				search: active.search,
+				filters: active.filters,
+				sort: active.sort,
+				columns: active.columns,
+				page
+			},
+			(err, items) => {
+				// if err flash the row alert
+				if(err) {
+					return this.resetItems(this.findItemById[item.id]);
+				}
+				if('object' === typeof items && items.results) {
+					_items = items;
+					_itemsResultsClone =  items.results.slice(0);
+					_rowAlert.success = item.id;
+				}	
+				return this.notifyChange();
+			}
+		);
+	},
+	findClonedItemById (id) {
+		// find an item in the clone by id
+		const item = _itemsResultsClone.filter(c => c.id === id)[0];
+		return {
+			item,
+			index: _itemsResultsClone.indexOf(item)
+		};
+	},
+	findClonedItemByIndex (index) {
+		// find an item in the clone by index
+		return _itemsResultsClone[index];
+	},
+	resetItems (itemIndex) {
+				
+		if (page.index !== drag.page) {
+			// we are not on the original page so we need to move back to it
+			page.index = drag.page;
+			this.loadItems({
+				fail: true,
+				id: this.findClonedItemByIndex(itemIndex).id
+			});
+			// reset drag
+			return defaultDrag();
+		}
+		
+		// reset the list if dragout or error
+		_rowAlert = {
+			success: false,
+			fail: this.findClonedItemByIndex(itemIndex).id
+		};
+		// we use the cached clone since this is the same page
+		// the clone contains the proper index numbers which get overwritten on drag
+		_items.results = drag.clonedItems;
+		defaultDrag();
+		this.notifyChange();
 	},
 	downloadItems (format, columns) {
 		var url = _list.getDownloadURL({
