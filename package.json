@@ -40,7 +40,7 @@
     "errorhandler": "1.4.2",
     "express": "4.13.3",
     "express-session": "1.12.1",
-    "fs-extra": "0.26.3",
+    "fs-extra": "0.26.4",
     "grappling-hook": "3.0.0",
     "history": "1.17.0",
     "i": "0.3.3",
