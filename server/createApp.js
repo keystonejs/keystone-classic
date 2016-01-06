@@ -68,7 +68,6 @@ module.exports = function createApp (keystone, express) {
 		keystone.callHook('logger', req, res, next);
 	});
 
-
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Dynamic Router
 	if (!keystone.get('headless')) {
