@@ -9,7 +9,7 @@ module.exports = function createApp (keystone, express) {
 		if (!express) {
 			express = require('express');
 		}
-		keystone.app = new express();
+		keystone.app = express();
 	}
 
 	var app = keystone.app;
