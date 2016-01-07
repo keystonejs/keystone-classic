@@ -76,6 +76,9 @@ const dropTarget = {
 	canDrop (props, monitor) {
 		// if we drop on a page target, move the item to the correct first or last position in the new page
 		// if we want to stop this behaviour set return false
+		
+		if (!Keystone.devMode) return;
+		
 		const original = CurrentListStore.getDragBase();
 		// self
 		if (original.page === props.page) {
