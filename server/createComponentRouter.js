@@ -6,25 +6,25 @@ var match = ReactRouter.match;
 var RoutingContext = ReactRouter.RoutingContext;
 
 module.exports = function createComponentRouter (routes) {
-  return function componentRouter (req, res, next) {
-    match({ routes: routes, location: req.url },
-      function (error, redirectLocation, renderProps) {
+	return function componentRouter (req, res, next) {
+		match({ routes: routes, location: req.url },
+			function (error, redirectLocation, renderProps) {
 
-        if (error) return res.status(500).send(error.message);
+				if (error) return res.status(500).send(error.message);
 
-        if (redirectLocation) {
-          return res.redirect(302,
-            redirectLocation.pathname + redirectLocation.search);
-        }
+				if (redirectLocation) {
+					return res.redirect(302,
+						redirectLocation.pathname + redirectLocation.search);
+				}
 
-        if (renderProps) {
-          return res.render('default', {
-            content: renderToString(React.createElement(RoutingContext, renderProps))
-          });
-        }
+				if (renderProps) {
+					return res.render('default', {
+						content: renderToString(React.createElement(RoutingContext, renderProps))
+					});
+				}
 
-        next(null);
-      }
-    );
-  };
+				next(null);
+			}
+		);
+	};
 };
