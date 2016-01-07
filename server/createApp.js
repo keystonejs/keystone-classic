@@ -89,9 +89,9 @@ module.exports = function createApp (keystone, express) {
 		keystone.callHook('pre:routes', req, res, next);
 	});
 
-	// Configure component routes
-	if (keystone.get('component routes')) {
-		app.use('/', createComponentRouter(keystone.get('component routes')));
+	// Configure React routes
+	if (keystone.get('react routes')) {
+		app.use('/', createComponentRouter(keystone.get('react routes')));
 	}
 
 	// Configure application routes
