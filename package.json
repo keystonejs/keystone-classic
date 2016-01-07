@@ -74,7 +74,7 @@
     "react-day-picker": "1.2.0",
     "react-dnd": "^2.0.2",
     "react-dnd-html5-backend": "^2.0.2",
-    "react-dom": "0.14.5",
+    "react-dom": "0.14.6",
     "react-select": "1.0.0-beta8",
     "scmp": "1.0.0",
     "semver": "5.1.0",
