@@ -13,8 +13,8 @@ html
 		include includes/script/keystone
 		- var getListMeta = function(list) { return _.pick(list, ['key', 'label', 'path']); }
 		script.
-			Keystone.lists = !{JSON.stringify(_.map(lists, getListMeta))};
-			Keystone.orphanedLists = !{JSON.stringify(orphanedLists.map(getListMeta))};
+			Keystone.lists = !{serializeJavaScript(_.map(lists, getListMeta))};
+			Keystone.orphanedLists = !{serializeJavaScript(orphanedLists.map(getListMeta))};
 		script(src="#{adminPath}/js/lib/underscore/underscore-1.5.1.min.js")
 		script(src="#{adminPath}/js/packages.js")
 		script(src="#{adminPath}/js/home.js")

@@ -1,16 +1,16 @@
 script.
 	var Keystone = {};
-	Keystone.adminPath = !{JSON.stringify(adminPath)};
-	Keystone.backUrl = !{JSON.stringify(backUrl)};
-	Keystone.user = !{JSON.stringify(user)};
-	Keystone.version = !{JSON.stringify(version)};
+	Keystone.adminPath = !{serializeJavaScript(adminPath)};
+	Keystone.backUrl = !{serializeJavaScript(backUrl)};
+	Keystone.user = !{serializeJavaScript(user)};
+	Keystone.version = !{serializeJavaScript(version)};
 	Keystone.devMode = !{process.env.KEYSTONE_DEV ? 'true' : 'false'};
 	
-	Keystone.brand = !{JSON.stringify(brand)};
-	Keystone.nav = !{JSON.stringify(nav)};
-	Keystone.nav.currentSection = !{JSON.stringify(section)};
-	Keystone.messages = !{JSON.stringify(messages)};
-	Keystone.signoutUrl = !{JSON.stringify(signout)};
+	Keystone.brand = !{serializeJavaScript(brand)};
+	Keystone.nav = !{serializeJavaScript(nav)};
+	Keystone.nav.currentSection = !{serializeJavaScript(section)};
+	Keystone.messages = !{serializeJavaScript(messages)};
+	Keystone.signoutUrl = !{serializeJavaScript(signout)};
 	Keystone.csrf = function(obj) {
 		obj['#{csrf_token_key}'] = "#{csrf_token_value}";
 		return obj;

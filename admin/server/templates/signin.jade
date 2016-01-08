@@ -11,11 +11,11 @@ html
 		script(src='#{adminPath}/js/packages.js')
 		script.
 			var Keystone = {
-				adminPath: !{JSON.stringify(adminPath)},
-				brand: !{JSON.stringify(brand || '')},
-				logo: !{JSON.stringify(logo || '')},
-				messages: !{JSON.stringify(messages || '')},
-				user: !{JSON.stringify(user || null)},
+				adminPath: !{serializeJavaScript(adminPath)},
+				brand: !{serializeJavaScript(brand || '')},
+				logo: !{serializeJavaScript(logo || '')},
+				messages: !{serializeJavaScript(messages || '')},
+				user: !{serializeJavaScript(user || null)},
 				userCanAccessKeystone: !{user && user.canAccessKeystone ? 'true' : 'false'},
 			};
 		script(src='#{adminPath}/js/signin.js')

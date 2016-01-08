@@ -21,13 +21,13 @@ html
 		include includes/script/keystone
 		include includes/script/components
 		script.
-			Keystone.lists = !{JSON.stringify(lists)};
-			Keystone.list = Keystone.lists[!{JSON.stringify(list.key)}];
-			Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
+			Keystone.lists = !{serializeJavaScript(lists)};
+			Keystone.list = Keystone.lists[!{serializeJavaScript(list.key)}];
+			Keystone.wysiwyg = { options: !{serializeJavaScript(wysiwygOptions)} };
 			// Support for the POST-based create process
-			Keystone.showCreateForm = !{JSON.stringify(showCreateForm)};
-			Keystone.createFormData = !{JSON.stringify(submitted)};
-			Keystone.createFormErrors = !{JSON.stringify(createErrors || null)};
+			Keystone.showCreateForm = !{serializeJavaScript(showCreateForm)};
+			Keystone.createFormData = !{serializeJavaScript(submitted)};
+			Keystone.createFormErrors = !{serializeJavaScript(createErrors || null)};
 		script(src='#{adminPath}/js/packages.js')
 		script(src='#{adminPath}/js/fields.js')
 		script(src='#{adminPath}/js/list.js')
