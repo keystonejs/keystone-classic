@@ -15,6 +15,7 @@ var Columns = {
 	key              : require('../../fields/types/key/KeyColumn'),
 	localfile        : require('../../fields/types/localfile/LocalFileColumn'),
 	localfiles       : require('../../fields/types/localfiles/LocalFilesColumn'),
+	localimage        : require('../../fields/types/localimage/LocalImageColumn'),
 	location         : require('../../fields/types/location/LocationColumn'),
 	markdown         : require('../../fields/types/markdown/MarkdownColumn'),
 	money            : require('../../fields/types/money/MoneyColumn'),
