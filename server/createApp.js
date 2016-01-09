@@ -51,6 +51,7 @@ module.exports = function createApp (keystone, express) {
 
 	require('./bindLessMiddleware')(keystone, app);
 	require('./bindSassMiddleware')(keystone, app);
+	require('./bindStylusMiddleware')(keystone, app);
 	require('./bindStaticMiddleware')(keystone, app);
 	require('./bindSessionMiddleware')(keystone, app);
 
