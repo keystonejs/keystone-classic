@@ -68,7 +68,7 @@ module.exports = function createApp (keystone, express) {
 
 	// We should also allow custom logging middleware to exist in the normal middleware flow
 	app.use(function(req, res, next) {
-		keystone.callHook('logger', req, res, next);
+		keystone.callHook('pre:logger', req, res, next);
 	});
 
 	// unless the headless option is set (which disables the Admin UI),
