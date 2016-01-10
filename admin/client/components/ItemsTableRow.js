@@ -33,7 +33,7 @@ const ItemsRow = React.createClass({
 		// item fields
 		var cells = this.props.columns.map((col, i) => {
 			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			var linkTo = !i ? `/keystone/${this.props.list.path}/${itemId}` : undefined;
+			var linkTo = !i ? `${Keystone.adminPath}/${this.props.list.path}/${itemId}` : undefined;
 			return <ColumnType key={col.path} list={this.props.list} col={col} data={item} linkTo={linkTo} />;
 		});
 		
