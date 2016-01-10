@@ -182,7 +182,7 @@ List.prototype.deleteItems = function (itemIds, callback) {
 };
 
 List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOptions, callback) {
-	const url = '/keystone/api/' + this.path + '/' + item.id + '/sortOrder/' + oldSortOrder + '/' + newSortOrder + '/' + buildQueryString(pageOptions);
+	const url = Keystone.adminPath + '/api/' + this.path + '/' + item.id + '/sortOrder/' + oldSortOrder + '/' + newSortOrder + '/' + buildQueryString(pageOptions);
 	xhr({
 		url: url,
 		method: 'POST',
