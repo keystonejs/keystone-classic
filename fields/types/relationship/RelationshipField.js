@@ -117,9 +117,9 @@ module.exports = Field.create({
 	},
 
 	loadOptions (input, callback) {
-		// TODO: Implement filters
+		let filters = this.buildFilters();
 		xhr({
-			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input,
+			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input + '&' + filters,
 			responseType: 'json',
 		}, (err, resp, data) => {
 			if (err) {
