@@ -93,10 +93,25 @@ var RelationshipFilter = React.createClass({
 		this._itemsCache[item.id] = item;
 	},
 
+	buildFilters () {
+		var filters = {};
+		_.each(this.props.field.filters, function(value, key) {
+			filters[key] = value;
+		}, this);
+
+		var parts = [];
+		_.each(filters, function (val, key) {
+			parts.push('filters[' + key + '][value]=' + encodeURIComponent(val));
+		});
+
+		return parts.join('&');
+	},
+
 	loadSearchResults (thenPopulateValue) {
 		let searchString = this.state.searchString;
+		let filters = this.buildFilters();
 		xhr({
-			url: Keystone.adminPath + '/api/' + this.props.field.refList.path + '?basic&search=' + searchString,
+			url: Keystone.adminPath + '/api/' + this.props.field.refList.path + '?basic&search=' + searchString + '&' + filters,
 			responseType: 'json',
 		}, (err, resp, data) => {
 			if (err) {
