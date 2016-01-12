@@ -79,7 +79,6 @@
     "react-select": "1.0.0-beta8",
     "scmp": "1.0.0",
     "semver": "5.1.0",
-    "serialize-javascript": "1.1.2",
     "serve-favicon": "2.3.0",
     "store-prototype": "1.1.1",
     "superagent": "1.6.1",
