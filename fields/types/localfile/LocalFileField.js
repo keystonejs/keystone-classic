@@ -17,6 +17,10 @@ module.exports = Field.create({
 		this.fileFieldNode().click();
 	},
 
+	isImage () {
+		return (/\.(gif|jpg|jpeg|png)$/i).test(this.getFilename());
+	},
+
 	getFileSource () {
 		if (this.hasLocal()) {
 			return this.state.localSource;
