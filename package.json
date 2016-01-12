@@ -100,7 +100,7 @@
     "istanbul": "0.4.2",
     "mocha": "2.3.4",
     "must": "0.13.1",
-    "react-engine": "2.6.2",
+    "react-engine": "3.0.0",
     "rimraf": "2.5.0",
     "sinon": "1.17.2",
     "supertest": "1.1.0",
