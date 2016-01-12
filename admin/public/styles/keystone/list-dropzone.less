@@ -7,9 +7,9 @@
 // ------------------------------
 
 .ItemList__dropzone {
-	border: 0px dashed @gray-light;
 	color: @gray;
-	padding: 5px;
+	margin-left: -@spacing-sm;
+	margin-right: -@spacing-sm;
 	position: relative;
 
 	&:hover,
@@ -24,18 +24,18 @@
 
 // page control
 .ItemList__dropzone--page {
-	text-align: center;
-	float:left;
-	width: 75px;
-	padding:10px;
-	margin: 5px;
-	
-	font-weight: normal;
-	font-size: 12px;
+	border: 1px dashed @gray-light;
+	border-radius: @border-radius-base;
 	cursor: pointer;
+	float:left;
+	font-size: @font-size-sm;
+	margin: @spacing-sm;
+	padding: .75em;
+	text-align: center;
+	width: 75px;
+
 	&:hover {
-		background-color: white;
-		border: 1px solid @gray-lighter;
+		text-decoration: underline;
 	}
 	&.is-active {
 		background-color: @gray-lighter;
@@ -44,6 +44,8 @@
 		background-color: white;
 	}
 	&.is-available {
-		background-color: lighten(@app-success, 40%);
+		border-color: @app-primary;
+		border-style: solid;
+		color: @app-primary;
 	}
 }
