@@ -2,6 +2,7 @@ import React from 'react';
 import Fields from '../fields';
 import InvalidFieldType from './InvalidFieldType';
 import { Alert, Button, Form, Modal } from 'elemental';
+import xhr from 'xhr';
 
 var CreateForm = React.createClass({
 
@@ -12,6 +13,7 @@ var CreateForm = React.createClass({
 		isOpen: React.PropTypes.bool,
 		list: React.PropTypes.object,
 		onCancel: React.PropTypes.func,
+		onCreate: React.PropTypes.func,
 		values: React.PropTypes.object,
 	},
 
@@ -67,6 +69,30 @@ var CreateForm = React.createClass({
 		props.mode = 'create';
 		props.key = field.path;
 		return props;
+	},
+
+	submitForm (event) {
+		// If there is an onCreate function,
+		// 	create new item using async create api instead
+		// 	of using a POST request to the list endpoint.
+		if (this.props.onCreate) {
+			event.preventDefault();
+			xhr({
+				url: `${Keystone.adminPath}/api/${this.props.list.path}/create`,
+				responseType: 'json',
+				method: 'POST',
+				json: this.state.values
+			}, (err, resp, data) => {
+				if (resp.statusCode === 200) {
+					this.props.onCreate(data);
+					this.setState({
+						values: {}
+					}); // Clear form
+				} else {
+					// TODO: Display errors
+				}
+			});
+		}
 	},
 
 	renderAlerts () {
@@ -127,7 +153,7 @@ var CreateForm = React.createClass({
 		});
 
 		return (
-			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} className="create-form">
+			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} onSubmit={this.submitForm} className="create-form">
 				<input type="hidden" name="action" value="create" />
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				<Modal.Header text={'Create a new ' + list.singular} onClose={this.props.onCancel} showCloseButton />
