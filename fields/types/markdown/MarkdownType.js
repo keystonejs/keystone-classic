@@ -17,7 +17,9 @@ function markdown (list, path, options) {
 	this.height = options.height || 90;
 	this.wysiwyg = ('wysiwyg' in options) ? options.wysiwyg : true;
 
-	this._properties = ['wysiwyg', 'height', 'toolbarOptions'];
+	this._properties = ['wysiwyg', 'height', 'toolbarOptions', 'dropZoneOptions'];
+	this.dropZoneOptions = options.dropZoneOptions;
+
 	markdown.super_.call(this, list, path, options);
 }
 util.inherits(markdown, FieldType);
