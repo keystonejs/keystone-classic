@@ -69,7 +69,7 @@ var SecondaryNavigation = React.createClass({
 				</Container>
 			</nav>
 		);
-	}
+	},
 });
 
 module.exports = SecondaryNavigation;

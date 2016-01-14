@@ -19,7 +19,7 @@ var ItemsTableDragDrop = React.createClass({
 	render () {
 		return (
 			<tbody >
-				{this.props.items.results.map((item, i) => { 
+				{this.props.items.results.map((item, i) => {
 					return (
 						<Sortable key={item.id}
 							index={i}
@@ -33,7 +33,7 @@ var ItemsTableDragDrop = React.createClass({
 				<DropZone { ...this.props } />
 			</tbody>
 		);
-	}
+	},
 });
 
 module.exports = DragDropContext(HTML5Backend)(ItemsTableDragDrop);

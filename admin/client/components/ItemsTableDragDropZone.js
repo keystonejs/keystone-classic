@@ -15,9 +15,9 @@ var ItemsTableDragDropZone = React.createClass({
 		let { items, list } = this.props;
 		let currentPage = CurrentListStore.getCurrentPage();
 		let pageSize = CurrentListStore.getPageSize();
-				
+
 		let totalPages = Math.ceil(items.count / pageSize);
-		
+
 		let pages = [];
 		for (let i = 0; i < totalPages; i++) {
 			let page = i + 1;
@@ -30,7 +30,7 @@ var ItemsTableDragDropZone = React.createClass({
 			pages.push(<DropZoneTarget key={'page_' + page} page={page} className={className} pageItems={pageItems}  />);
 			/* eslint-enable */
 		}
-			
+
 		let cols = this.props.columns.length;
 		if (this.props.list.sortable) cols++;
 		if (!this.props.list.nodelete) cols++;
@@ -47,9 +47,7 @@ var ItemsTableDragDropZone = React.createClass({
 	},
 	render () {
 		return this.renderPageDrops();
-	}
+	},
 });
-
-
 
 module.exports = ItemsTableDragDropZone;

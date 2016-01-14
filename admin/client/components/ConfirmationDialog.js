@@ -3,7 +3,6 @@ import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
 
 module.exports = React.createClass({
 	displayName: 'ConfirmationDialog',
-
 	propTypes: {
 		body: React.PropTypes.string,
 		cancelLabel: React.PropTypes.string,
@@ -12,22 +11,19 @@ module.exports = React.createClass({
 		onCancel: React.PropTypes.func,
 		onConfirmation: React.PropTypes.func,
 	},
-
 	getDefaultProps () {
 		return {
 			cancelLabel: 'Cancel',
 			confirmationLabel: 'Ok',
 			confirmationType: 'danger',
-			isOpen: false
+			isOpen: false,
 		};
 	},
-
 	getBodyHtml () {
 		return {
-			__html: this.props.body
+			__html: this.props.body,
 		};
 	},
-
 	render () {
 		return (
 			<Modal onCancel={this.props.onCancel} width={400} isOpen={this.props.isOpen} backdropClosesModal>
@@ -44,5 +40,5 @@ module.exports = React.createClass({
 				</ModalFooter>
 			</Modal>
 		);
-	}
+	},
 });

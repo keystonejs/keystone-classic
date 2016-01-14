@@ -3,7 +3,6 @@ import { Container } from 'elemental';
 
 module.exports = React.createClass({
 	displayName: 'Toolbar',
-
 	render () {
 		return (
 			<div {...this.props} className="Toolbar">
@@ -12,8 +11,7 @@ module.exports = React.createClass({
 				</Container>
 			</div>
 		);
-	}
-
+	},
 });
 
 // expose the children to the top level export

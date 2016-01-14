@@ -7,9 +7,8 @@ var PopoutHeader = React.createClass({
 		leftAction: React.PropTypes.func,
 		leftIcon: React.PropTypes.string,
 		title: React.PropTypes.string.isRequired,
-		transitionDirection: React.PropTypes.oneOf(['next', 'prev'])
+		transitionDirection: React.PropTypes.oneOf(['next', 'prev']),
 	},
-
 	render () {
 		var headerButton = (this.props.leftAction && this.props.leftIcon) ? <button key={'button_' + this.props.transitionDirection} type="button" className={'Popout__header__button octicon octicon-' + this.props.leftIcon} onClick={this.props.leftAction} /> : null;
 		var headerTitle = this.props.title ? <span key={'title_' + this.props.transitionDirection} className="Popout__header__label">{this.props.title}</span> : null;
@@ -24,8 +23,7 @@ var PopoutHeader = React.createClass({
 				</Transition>
 			</div>
 		);
-	}
-
+	},
 });
 
 module.exports = PopoutHeader;

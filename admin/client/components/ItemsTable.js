@@ -9,12 +9,11 @@ import DrapDrop from './ItemsTableDragDrop';
 
 const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
-
 const ItemsTable = React.createClass({
 	propTypes: {
 		columns: React.PropTypes.array,
 		items: React.PropTypes.object,
-		list: React.PropTypes.object
+		list: React.PropTypes.object,
 	},
 	renderCols () {
 		var cols = this.props.columns.map((col) => <col width={col.width} key={col.path} />);
@@ -41,16 +40,15 @@ const ItemsTable = React.createClass({
 		return <thead><tr>{cells}</tr></thead>;
 	},
 	render () {
-		
 		if (!this.props.items.results.length) return null;
-		
+
 		let tableBody;
 		if (this.props.list.sortable) {
 			tableBody = <DrapDrop { ...this.props } />;
 		} else {
 			tableBody = (
 				<tbody >
-					{this.props.items.results.map((item, i) => { 
+					{this.props.items.results.map((item, i) => {
 						return (
 							<TableRow key={item.id}
 								deleteTableItem={this.props.deleteTableItem}
@@ -74,7 +72,7 @@ const ItemsTable = React.createClass({
 				</table>
 			</div>
 		);
-	}
+	},
 });
 
 module.exports = exports = ItemsTable;

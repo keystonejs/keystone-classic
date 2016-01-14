@@ -148,7 +148,7 @@ var Checkbox = React.createClass({
 		let node = readonly ? 'span' : this.props.component;
 
 		return React.createElement(node, props);
-	}
+	},
 });
 
 module.exports = Checkbox;

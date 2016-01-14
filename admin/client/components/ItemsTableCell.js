@@ -7,7 +7,7 @@ var ItemsTableCell = React.createClass({
 	},
 	getDefaultProps () {
 		return {
-			className: ''
+			className: '',
 		};
 	},
 	render () {
@@ -15,7 +15,7 @@ var ItemsTableCell = React.createClass({
 		return (
 			<td {...this.props} className={className} />
 		);
-	}
+	},
 });
 
 module.exports = ItemsTableCell;

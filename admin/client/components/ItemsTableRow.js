@@ -7,7 +7,6 @@ import ListControl from './ListControl';
 
 import { DropTarget, DragSource } from 'react-dnd';
 
-
 const ItemsRow = React.createClass({
 	propTypes: {
 		columns: React.PropTypes.array,
@@ -19,7 +18,7 @@ const ItemsRow = React.createClass({
 		isDragging: React.PropTypes.bool,
 		connectDragSource: React.PropTypes.func,
 		connectDropTarget: React.PropTypes.func,
-		connectDragPreview: React.PropTypes.func
+		connectDragPreview: React.PropTypes.func,
 	},
 	renderRow (item) {
 		let itemId = item.id;
@@ -36,12 +35,12 @@ const ItemsRow = React.createClass({
 			var linkTo = !i ? `${Keystone.adminPath}/${this.props.list.path}/${itemId}` : undefined;
 			return <ColumnType key={col.path} list={this.props.list} col={col} data={item} linkTo={linkTo} />;
 		});
-		
+
 		// add sortable icon when applicable
 		if (this.props.list.sortable) {
 			cells.unshift(<ListControl key="_sort" type="sortable" dragSource={this.props.connectDragSource} />);
 		}
-		
+
 		// add delete/check icon when applicable
 		if (!this.props.list.nodelete) {
 			cells.unshift(this.props.manageMode ? (
@@ -50,10 +49,10 @@ const ItemsRow = React.createClass({
 				<ListControl key="_delete" onClick={(e) => this.props.deleteTableItem(item, e)} type="delete" />
 			));
 		}
-		
+
 		var addRow = (<tr key={'i' + item.id} onClick={this.props.manageMode ? (e) => this.props.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>);
-		
-		if(this.props.list.sortable) {	
+
+		if(this.props.list.sortable) {
 			return (
 				// we could add a preview container/image
 				// this.props.connectDragPreview(this.props.connectDropTarget(addRow))
@@ -65,7 +64,7 @@ const ItemsRow = React.createClass({
 	},
 	render () {
 		return this.renderRow(this.props.item);
-	}
+	},
 });
 
 module.exports = exports = ItemsRow;
@@ -82,11 +81,11 @@ const dragItem = {
 		return { ...send };
 	},
 	endDrag (props, monitor, component) {
-		
+
 		if (!monitor.didDrop()) {
 			return CurrentListStore.resetItems(CurrentListStore.findClonedItemById(props.id).index);
 		}
-		
+
 		const base = CurrentListStore.getDragBase();
 		const page = CurrentListStore.getCurrentPage();
 		const droppedOn = monitor.getDropResult();
@@ -121,23 +120,21 @@ const dragItem = {
 		// dropped on a target
 		// droppedOn.goToPage is an optional page override for dropping items on a new page target
 		CurrentListStore.reorderItems(props.item, prevSortOrder, newSortOrder, Number(droppedOn.goToPage));
-	}
+	},
 };
 /**
  * Implements drag target.
  */
 const dropItem = {
-	
 	drop (props, monitor, component) {
 		return { ...props };
 	},
 	hover (props, monitor, component) {
-		
 		// reset row alerts
-		if(props.rowAlert.success || props.rowAlert.fail) {
+		if (props.rowAlert.success || props.rowAlert.fail) {
 			CurrentListStore.rowAlert('reset');
 		}
-		
+
 		const dragged = monitor.getItem().index;
 		const over = props.index;
 
@@ -148,7 +145,7 @@ const dropItem = {
 
 		CurrentListStore.moveItem(dragged, over, props);
 		monitor.getItem().index = over;
-	}
+	},
 };
 
 /**
@@ -164,9 +161,8 @@ function dragProps (connect, monitor) {
 
 function dropProps (connect) {
 	 return {
-		 connectDropTarget: connect.dropTarget()
+		 connectDropTarget: connect.dropTarget(),
 	};
 };
 
 exports.Sortable = DragSource('item', dragItem, dragProps)(DropTarget('item', dropItem, dropProps)(ItemsRow));
-

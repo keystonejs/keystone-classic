@@ -6,27 +6,27 @@ import { Pill } from 'elemental';
 
 const Filter = React.createClass({
 	propTypes: {
-		filter: React.PropTypes.object.isRequired
+		filter: React.PropTypes.object.isRequired,
 	},
 	getInitialState () {
 		return {
-			isOpen: false
+			isOpen: false,
 		};
 	},
 	open () {
 		this.setState({
 			isOpen: true,
-			filterValue: this.props.filter.value
+			filterValue: this.props.filter.value,
 		});
 	},
 	close () {
 		this.setState({
-			isOpen: false
+			isOpen: false,
 		});
 	},
 	updateValue (filterValue) {
 		this.setState({
-			filterValue: filterValue
+			filterValue: filterValue,
 		});
 	},
 	updateFilter (e) {
@@ -60,7 +60,7 @@ const Filter = React.createClass({
 				</Popout>
 			</span>
 		);
-	}
+	},
 });
 
 const ListFilters = React.createClass({
@@ -77,9 +77,8 @@ const ListFilters = React.createClass({
 		this.setState(this.getStateFromStore());
 	},
 	getStateFromStore () {
-		return {
-			filters: CurrentListStore.getActiveFilters()
-		};
+		let filters = CurrentListStore.getActiveFilters();
+		return { filters };
 	},
 	clearAllFilters () {
 		CurrentListStore.clearAllFilters();
@@ -102,7 +101,7 @@ const ListFilters = React.createClass({
 				{currentFilters}
 			</div>
 		);
-	}
+	},
 });
 
 module.exports = ListFilters;

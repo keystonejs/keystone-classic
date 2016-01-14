@@ -7,7 +7,7 @@ var PopoutPane = React.createClass({
 	propTypes: {
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
-		onLayout: React.PropTypes.func
+		onLayout: React.PropTypes.func,
 	},
 	getDefaultProps () {
 		return {
@@ -21,7 +21,7 @@ var PopoutPane = React.createClass({
 		let className = classnames('Popout__pane', this.props.className);
 		let props = blacklist(this.props, 'className', 'onLayout');
 		return <div ref="el" className={className} {...props} />;
-	}
+	},
 });
 
 module.exports = PopoutPane;
