@@ -4,31 +4,25 @@ import Toolbar from './Toolbar';
 import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
 
 var Header = React.createClass({
-
 	displayName: 'EditFormHeader',
-
 	propTypes: {
 		data: React.PropTypes.object,
 		list: React.PropTypes.object,
 		toggleCreate: React.PropTypes.func,
 	},
-
 	getInitialState () {
 		return {
-			searchString: ''
+			searchString: '',
 		};
 	},
-
 	toggleCreate (visible) {
 		this.props.toggleCreate(visible);
 	},
-
 	searchStringChanged (event) {
 		this.setState({
-			searchString: event.target.value
+			searchString: event.target.value,
 		});
 	},
-
 	handleEscapeKey (event) {
 		const escapeKeyCode = 27;
 
@@ -36,7 +30,6 @@ var Header = React.createClass({
 			ReactDOM.findDOMNode(this.refs.searchField).blur();
 		}
 	},
-
 	renderDrilldown () {
 		return (
 			<Toolbar.Section left>
@@ -45,7 +38,6 @@ var Header = React.createClass({
 			</Toolbar.Section>
 		);
 	},
-
 	renderDrilldownItems () {
 
 		var list = this.props.list;
@@ -87,9 +79,7 @@ var Header = React.createClass({
 			);
 			return <ul className="item-breadcrumbs" key="drilldown">{els}</ul>;
 		}
-
 	},
-
 	renderSearch () {
 		var list = this.props.list;
 		return (
@@ -108,7 +98,6 @@ var Header = React.createClass({
 			</form>
 		);
 	},
-
 	renderInfo () {
 		return (
 			<Toolbar.Section right>
@@ -116,7 +105,6 @@ var Header = React.createClass({
 			</Toolbar.Section>
 		);
 	},
-
 	renderCreateButton () {
 		if (this.props.list.nocreate) return null;
 
@@ -133,7 +121,6 @@ var Header = React.createClass({
 			</Button>
 		);
 	},
-
 	render () {
 		return (
 			<Toolbar>
@@ -141,8 +128,7 @@ var Header = React.createClass({
 				{this.renderInfo()}
 			</Toolbar>
 		);
-	}
-
+	},
 });
 
 module.exports = Header;

@@ -49,7 +49,7 @@ var PopoutListItem = React.createClass({
 				<span className="PopoutList__item__label">{this.props.label}</span>
 			</button>
 		);
-	}
+	},
 });
 
 module.exports = PopoutListItem;

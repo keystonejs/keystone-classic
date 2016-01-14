@@ -29,7 +29,7 @@ const ListView = React.createClass({
 	getInitialState () {
 		return {
 			confirmationDialog: {
-				isOpen: false
+				isOpen: false,
 			},
 			checkedItems: {},
 			constrainTableWidth: true,
@@ -60,7 +60,7 @@ const ListView = React.createClass({
 			pageSize: CurrentListStore.getPageSize(),
 			ready: CurrentListStore.isReady(),
 			search: CurrentListStore.getActiveSearch(),
-			rowAlert: CurrentListStore.rowAlert()
+			rowAlert: CurrentListStore.rowAlert(),
 		};
 		if (!this._searchTimeout) {
 			state.searchString = state.search;
@@ -76,7 +76,7 @@ const ListView = React.createClass({
 	updateSearch (e) {
 		clearTimeout(this._searchTimeout);
 		this.setState({
-			searchString: e.target.value
+			searchString: e.target.value,
 		});
 		var delay = e.target.value.length > 1 ? 150 : 0;
 		this._searchTimeout = setTimeout(() => {
@@ -173,7 +173,6 @@ const ListView = React.createClass({
 	},
 	renderConfirmationDialog () {
 		const props = this.state.confirmationDialog;
-
 		return (
 			<ConfirmationDialog
 				isOpen={props.isOpen}
@@ -185,7 +184,6 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
-
 		// WIP: Management mode currently under development, so the UI is disabled
 		// unless the KEYSTONE_DEV environment variable is set
 		if (!Keystone.devMode) return;
@@ -351,15 +349,15 @@ const ListView = React.createClass({
 				onConfirmation: () => {
 					CurrentListStore.deleteItem(item.id);
 					this.removeConfirmationDialog();
-				}
-			}
+				},
+			},
 		});
 	},
 	removeConfirmationDialog () {
 		this.setState({
 			confirmationDialog: {
-				isOpen: false
-			}
+				isOpen: false,
+			},
 		});
 	},
 	toggleTableWidth () {
@@ -422,10 +420,10 @@ const ListView = React.createClass({
 					<FlashMessages messages={this.props.messages} />
 					<ItemsTable
 						deleteTableItem={this.deleteTableItem}
-						list={this.state.list} 
-						columns={this.state.columns} 
+						list={this.state.list}
+						columns={this.state.columns}
 						items={this.state.items}
-						manageMode={this.state.manageMode} 
+						manageMode={this.state.manageMode}
 						checkedItems={this.state.checkedItems}
 						rowAlert={this.state.rowAlert}
 						checkTableItem={this.checkTableItem}
@@ -496,8 +494,7 @@ const ListView = React.createClass({
 				{this.renderConfirmationDialog()}
 			</div>
 		);
-	}
-
+	},
 });
 
 ReactDOM.render(

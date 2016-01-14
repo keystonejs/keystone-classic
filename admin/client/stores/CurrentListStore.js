@@ -27,10 +27,9 @@ let page = defaultPage();
 function defaultPage () {
 	return {
 		size: _list.perPage,
-		index: 1
+		index: 1,
 	};
 }
-
 
 let drag = defaultDrag();
 
@@ -39,17 +38,16 @@ function defaultDrag () {
 		page: 1,
 		item: false,
 		clonedItems: false,
-		index: false
+		index: false,
 	};
 }
-
 
 var _rowAlert = defaultRowAlert();
 
 function defaultRowAlert () {
 	return _rowAlert = {
 		success: false,
-		fail: false
+		fail: false,
 	};
 }
 
@@ -175,14 +173,14 @@ const CurrentListStore = new Store({
 			filters: active.filters,
 			sort: active.sort,
 			columns: active.columns,
-			page: page
+			page: page,
 		}, (err, items) => {
 			_loading = false;
 			// TODO: graceful error handling
 			if (items) {
 				_ready = true;
 				_items = items;
-				
+
 				if (page.index !== drag.page && drag.item) {
 					// add the dragging item
 					if (page.index > drag.page) {
@@ -192,7 +190,7 @@ const CurrentListStore = new Store({
 					}
 				}
 				_itemsResultsClone =  items.results.slice(0);
-				
+
 				if (options.success && options.id) {
 					// flashes a success background on the row
 					_rowAlert.success = options.id;
@@ -201,7 +199,7 @@ const CurrentListStore = new Store({
 					// flashes a failure background on the row
 					_rowAlert.fail = options.id;
 				}
-				
+
 			}
 			this.notifyChange();
 		});
@@ -221,7 +219,6 @@ const CurrentListStore = new Store({
 	deleteItems (itemIds) {
 		_list.deleteItems(itemIds, (err, data) => {
 			// TODO: graceful error handling
-			
 			this.loadItems();
 		});
 	},
@@ -231,7 +228,7 @@ const CurrentListStore = new Store({
 			filters: active.filters,
 			sort: active.sort,
 			columns: columns ? _list.expandColumns(columns) : active.columns,
-			format: format
+			format: format,
 		});
 		window.open(url);
 	},
@@ -263,7 +260,7 @@ const CurrentListStore = new Store({
 		// set the new page data
 		page = {
 			size: page.size,
-			index: goToPage || page.index
+			index: goToPage || page.index,
 		};
 
 		// send the item, previous sortOrder and the new sortOrder
@@ -277,7 +274,7 @@ const CurrentListStore = new Store({
 				filters: active.filters,
 				sort: active.sort,
 				columns: active.columns,
-				page
+				page,
 			},
 			(err, items) => {
 				// if err flash the row alert
@@ -288,7 +285,7 @@ const CurrentListStore = new Store({
 					_items = items;
 					_itemsResultsClone =  items.results.slice(0);
 					_rowAlert.success = item.id;
-				}	
+				}
 				return this.notifyChange();
 			}
 		);
@@ -298,7 +295,7 @@ const CurrentListStore = new Store({
 		const item = _itemsResultsClone.filter(c => c.id === id)[0];
 		return {
 			item,
-			index: _itemsResultsClone.indexOf(item)
+			index: _itemsResultsClone.indexOf(item),
 		};
 	},
 	findClonedItemByIndex (index) {
@@ -306,22 +303,22 @@ const CurrentListStore = new Store({
 		return _itemsResultsClone[index];
 	},
 	resetItems (itemIndex) {
-				
+
 		if (page.index !== drag.page) {
 			// we are not on the original page so we need to move back to it
 			page.index = drag.page;
 			this.loadItems({
 				fail: true,
-				id: this.findClonedItemByIndex(itemIndex).id
+				id: this.findClonedItemByIndex(itemIndex).id,
 			});
 			// reset drag
 			return defaultDrag();
 		}
-		
+
 		// reset the list if dragout or error
 		_rowAlert = {
 			success: false,
-			fail: this.findClonedItemByIndex(itemIndex).id
+			fail: this.findClonedItemByIndex(itemIndex).id,
 		};
 		// we use the cached clone since this is the same page
 		// the clone contains the proper index numbers which get overwritten on drag
@@ -335,10 +332,10 @@ const CurrentListStore = new Store({
 			filters: active.filters,
 			sort: active.sort,
 			columns: columns ? _list.expandColumns(columns) : active.columns,
-			format: format
+			format: format,
 		});
 		window.open(url);
-	}
+	},
 });
 
 history.listen(function (location) {

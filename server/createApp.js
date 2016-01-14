@@ -3,6 +3,7 @@ var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
 
+var language = require('../lib/middleware/language');
 var createComponentRouter = require('./createComponentRouter');
 
 module.exports = function createApp (keystone, express) {
@@ -87,6 +88,12 @@ module.exports = function createApp (keystone, express) {
 
 	require('./bindBodyParser')(keystone, app);
 	app.use(methodOverride());
+
+	// Set language preferences
+	var languageOptions = keystone.get('language options') || {};
+	if (!languageOptions.disable) {
+		app.use(language(keystone));
+	}
 
 	// Add 'X-Frame-Options' to response header for ClickJacking protection
 	if (keystone.get('frame guard')) {

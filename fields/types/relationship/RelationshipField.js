@@ -7,8 +7,10 @@ import xhr from 'xhr';
 import { Button, FormInput, InputGroup } from 'elemental';
 
 function compareValues(current, next) {
-	if (current.length !== next.length) return false;
-	for (let i = 0; i < current.length; i++) {
+	let currentLength = current ? current.length : 0;
+	let nextLength = next ? next.length : 0;
+	if (currentLength !== nextLength) return false;
+	for (let i = 0; i < currentLength; i++) {
 		if (current[i] !== next[i]) return false;
 	}
 	return true;

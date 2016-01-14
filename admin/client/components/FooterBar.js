@@ -3,11 +3,11 @@ import blacklist from 'blacklist';
 
 var FooterBar = React.createClass({
 	propTypes: {
-		style: React.PropTypes.object
+		style: React.PropTypes.object,
 	},
 	getDefaultProps () {
 		return {
-			style: {}
+			style: {},
 		};
 	},
 	getInitialState () {
@@ -36,7 +36,7 @@ var FooterBar = React.createClass({
 	getWindowSize () {
 		return {
 			x: window.innerWidth,
-			y: window.innerHeight
+			y: window.innerHeight,
 		};
 	},
 	recalcPosition () {
@@ -94,7 +94,7 @@ var FooterBar = React.createClass({
 				<div ref="footer" style={footerStyle} {...footerProps}>{this.props.children}</div>
 			</div>
 		);
-	}
+	},
 });
 
 module.exports = FooterBar;

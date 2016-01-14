@@ -5,9 +5,7 @@ import { Alert, Button, Form, Modal } from 'elemental';
 import xhr from 'xhr';
 
 var CreateForm = React.createClass({
-
 	displayName: 'CreateForm',
-
 	propTypes: {
 		err: React.PropTypes.object,
 		isOpen: React.PropTypes.bool,
@@ -16,15 +14,13 @@ var CreateForm = React.createClass({
 		onCreate: React.PropTypes.func,
 		values: React.PropTypes.object,
 	},
-
 	getDefaultProps () {
 		return {
 			err: null,
 			values: {},
-			isOpen: false
+			isOpen: false,
 		};
 	},
-
 	getInitialState () {
 		var values = Object.assign({}, this.props.values);
 
@@ -36,31 +32,27 @@ var CreateForm = React.createClass({
 			}
 		});
 		return {
-			values: values
+			values: values,
 		};
 	},
-
 	handleChange (event) {
 		var values = Object.assign({}, this.state.values);
 		values[event.path] = event.value;
 		this.setState({
-			values: values
+			values: values,
 		});
 	},
-
 	componentDidUpdate (prevProps) {
 		if (this.props.isOpen !== prevProps.isOpen) {
 			// focus the focusTarget after the "open modal" CSS animation has started
 			setTimeout(() => this.refs.focusTarget && this.refs.focusTarget.focus(), 0);
 		}
 	},
-
 	componentDidMount () {
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}
 	},
-
 	getFieldProps (field) {
 		var props = Object.assign({}, field);
 		props.value = this.state.values[field.path];
@@ -118,10 +110,9 @@ var CreateForm = React.createClass({
 
 		return <Alert type="danger">{alertContent}</Alert>;
 	},
-
 	renderForm () {
-
 		if (!this.props.isOpen) return;
+
 		var form = [];
 		var list = this.props.list;
 		var formAction = `${Keystone.adminPath}/${list.path}`;
@@ -168,15 +159,13 @@ var CreateForm = React.createClass({
 			</Form>
 		);
 	},
-
 	render () {
 		return (
 			<Modal isOpen={this.props.isOpen} onCancel={this.props.onCancel} backdropClosesModal>
 				{this.renderForm()}
 			</Modal>
 		);
-	}
-
+	},
 });
 
 module.exports = CreateForm;
