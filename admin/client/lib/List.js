@@ -41,6 +41,18 @@ function buildQueryString (options) {
 	return '?' + qs.stringify(query);
 };
 
+function handleResponse (callback) {
+	return function(err, res, body) {
+		if (err) return callback(err);
+		if (res.statusCode < 200 || res.statusCode >= 300) {
+			err = body.err;
+			body = null;
+		}
+
+		callback(err, body);
+	}
+}
+
 const List = function (options) {
 	Object.assign(this, options);
 	this.columns = getColumns(this);
@@ -167,18 +179,9 @@ List.prototype.deleteItems = function (itemIds, callback) {
 	xhr({
 		url: url,
 		method: 'POST',
-		headers: Keystone.csrf.header
-	}, (err, resp, body) => {
-		if (err) return callback(err);
-		// TODO: check resp.statusCode
-		try {
-			body = JSON.parse(body);
-		} catch(e) {
-			console.log('Error parsing results json:', e, body);
-			return callback(e);
-		}
-		callback(null, body);
-	});
+		headers: Keystone.csrf.header,
+		responseType: 'json'
+	}, handleResponse(callback));
 };
 
 List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOptions, callback) {
@@ -186,18 +189,20 @@ List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOp
 	xhr({
 		url: url,
 		method: 'POST',
-		headers: Keystone.csrf.header
-	}, (err, resp, body) => {
-		if (err) return callback(err);
-		// TODO: check resp.statusCode
-		try {
-			body = JSON.parse(body);
-		} catch(e) {
-			console.log('Error parsing results json:', e, body);
-			return callback(e);
-		}
-		callback(null, body);
-	});
+		headers: Keystone.csrf.header,
+		responseType: 'json'
+	}, handleResponse(callback));
+};
+
+
+
+List.prototype.callCustomAction = function (itemId, action, callback) {
+	const url = Keystone.adminPath + '/api/' + this.path + '/' + itemId + '/customAction/' + action.slug;
+	xhr({
+		url: url,
+		method: 'GET',
+		responseType: 'json'
+	}, handleResponse(callback));
 };
 
 

@@ -18,13 +18,19 @@ var ItemView = React.createClass({
 	getInitialState () {
 		return {
 			createIsOpen: false,
-			itemData: null,
+			itemData: null
 		};
+	},
+	componentWillMount() {
+		// TODO: Change completely to locally generated messages and dont use bootstrapped ones from template. For now, we pull these in.
+		this.setState({
+			messages: this.props.messages
+		})
 	},
 	componentDidMount () {
 		this.loadItemData();
 	},
-	loadItemData () {
+	loadItemData (callback) {
 		this.props.list.loadItem(this.props.itemId, { drilldown: true }, (err, itemData) => {
 			if (err || !itemData) {
 				// TODO: nicer error handling
@@ -33,6 +39,7 @@ var ItemView = React.createClass({
 				return;
 			}
 			this.setState({ itemData });
+			_.isFunction(callback) ? callback(err, itemData) : null;
 		});
 	},
 	toggleCreate (visible) {
@@ -54,6 +61,25 @@ var ItemView = React.createClass({
 				})}
 			</div>
 		);
+	},
+	addMessage(type, message) {
+		// TODO: Change completely to locally generated messages and dont use bootstrapped ones from template. For now, we pull these in.
+		let newMessages;
+		if (!this.state.messages) {
+			newMessages = { [type]: [message] };
+		} else {
+			newMessages = _.clone(this.state.messages);
+			newMessages[type].push(message);
+		}
+
+		this.setState({
+			messages: newMessages
+		});
+	},
+	clearMessages(type, message) {
+		this.setState({
+			messages: false
+		});
 	},
 	render () {
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
@@ -88,10 +114,13 @@ var ItemView = React.createClass({
 							isOpen={this.state.createIsOpen}
 							onCancel={() => this.toggleCreate(false)} />
 						<FlashMessages
-							messages={this.props.messages} />
+							messages={this.state.messages } />
 						<EditForm
 							list={this.props.list}
-							data={this.state.itemData} />
+							data={this.state.itemData}
+							reloadData={this.loadItemData}
+							addMessage={this.addMessage}
+							clearMessages={this.clearMessages} />
 						{this.renderRelationships()}
 					</Container>
 				</div>

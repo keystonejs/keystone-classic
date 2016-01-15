@@ -13,11 +13,13 @@ var EditForm = React.createClass({
 	propTypes: {
 		data: React.PropTypes.object,
 		list: React.PropTypes.object,
+		reloadData: React.PropTypes.func
 	},
 	getInitialState () {
 		return {
 			values: Object.assign({}, this.props.data.fields),
 			confirmationDialog: null,
+			actionsDisabled: false
 		};
 	},
 	getFieldProps (field) {
@@ -65,10 +67,31 @@ var EditForm = React.createClass({
 		list.deleteItem(data.id, err => {
 			if (err) {
 				console.error(`Problem deleting ${list.singular}: ${data.name}`);
-				// TODO: slow a flash message on form
+				// TODO: show a flash message on form
 				return;
 			}
 			top.location.href = `${Keystone.adminPath}/${list.path}`;
+		});
+	},
+	handleCustomAction (customAction) {
+		let { data, list } = this.props;
+		this.setState({ actionsDisabled: true });
+		list.callCustomAction(data.id, customAction, (actionErr, body) => {
+			this.setState({ actionsDisabled: false });
+			this.props.reloadData((err, itemData) => {
+
+				this.setState({
+					values: Object.assign({}, this.props.data.fields)
+				});
+
+				this.props.clearMessages();
+				if (!_.isUndefined(actionErr)) {
+					console.error(`Problem carrying out custom action ${customAction.name}: `, actionErr);
+					this.props.addMessage('error', actionErr);
+				} else {
+					this.props.addMessage('success', body.message);
+				}
+			});
 		});
 	},
 	removeConfirmationDialog () {
@@ -155,16 +178,26 @@ var EditForm = React.createClass({
 	},
 	renderFooterBar () {
 		var buttons = [
-			<Button key="save" type="primary" submit>Save</Button>
+			<Button key="save" type="primary" submit disabled={this.state.actionsDisabled}>Save</Button>
 		];
+
+		this.props.list.customActions.forEach(customAction => {
+			buttons.push(
+				<Button onClick={this.handleCustomAction.bind(this, customAction)} key={customAction.slug} type="hollow-primary" disabled={this.state.actionsDisabled}>
+					<ResponsiveText hiddenXS={`${customAction.name}`} visibleXS={customAction.mobileText} />
+				</Button>
+			);
+		})
+
 		buttons.push(
-			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
+			<Button key="reset" onClick={this.confirmReset} type="link-cancel" disabled={this.state.actionsDisabled}>
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
-		);
+		)
+
 		if (!this.props.list.nodelete) {
 			buttons.push(
-				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
+				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right" disabled={this.state.actionsDisabled}>
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
