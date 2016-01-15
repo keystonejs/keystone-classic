@@ -10,7 +10,7 @@ var ListSort = React.createClass({
 	getInitialState () {
 		return {
 			altDown: false,
-			popoutIsOpen: false
+			popoutIsOpen: false,
 		};
 	},
 	componentDidMount () {
@@ -103,7 +103,7 @@ var ListSort = React.createClass({
 				</Popout>
 			</span>
 		);
-	}
+	},
 });
 
 module.exports = ListSort;

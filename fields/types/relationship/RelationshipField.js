@@ -6,8 +6,10 @@ import xhr from 'xhr';
 import { Button, FormInput } from 'elemental';
 
 function compareValues(current, next) {
-	if (current.length !== next.length) return false;
-	for (let i = 0; i < current.length; i++) {
+	let currentLength = current ? current.length : 0;
+	let nextLength = next ? next.length : 0;
+	if (currentLength !== nextLength) return false;
+	for (let i = 0; i < currentLength; i++) {
 		if (current[i] !== next[i]) return false;
 	}
 	return true;
@@ -67,7 +69,7 @@ module.exports = Field.create({
 		var parts = [];
 
 		_.each(filters, function (val, key) {
-			parts.push('filters[' + key + ']=' + encodeURIComponent(val));
+			parts.push('filters[' + key + '][value]=' + encodeURIComponent(val));
 		});
 
 		return parts.join('&');
@@ -117,9 +119,9 @@ module.exports = Field.create({
 	},
 
 	loadOptions (input, callback) {
-		// TODO: Implement filters
+		let filters = this.buildFilters();
 		xhr({
-			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input,
+			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input + '&' + filters,
 			responseType: 'json',
 		}, (err, resp, data) => {
 			if (err) {

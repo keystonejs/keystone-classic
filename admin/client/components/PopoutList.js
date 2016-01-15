@@ -12,7 +12,7 @@ var PopoutList = React.createClass({
 		let className = classnames('PopoutList', this.props.className);
 		let props = blacklist(this.props, 'className');
 		return <div className={className} {...props} />;
-	}
+	},
 });
 module.exports = PopoutList;
 

@@ -163,7 +163,7 @@ var MobileNavigation = React.createClass({
 				</Transition>
 			</div>
 		);
-	}
+	},
 });
 
 module.exports = MobileNavigation;

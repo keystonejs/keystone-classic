@@ -3,7 +3,7 @@ import Portal from './Portal';
 import Transition from 'react-addons-css-transition-group';
 
 const sizes = {
-	arrowHeight: 12
+	arrowHeight: 12,
 };
 
 var Popout = React.createClass({
@@ -15,29 +15,23 @@ var Popout = React.createClass({
 		relativeToID: React.PropTypes.string.isRequired,
 		width: React.PropTypes.number,
 	},
-
 	getInitialState () {
 		return {};
 	},
-
 	getDefaultProps () {
 		return {
 			width: 320,
 		};
 	},
-
 	getPortalDOMNode () {
 		return this.refs.portal.getPortalDOMNode();
 	},
-
 	componentDidMount () {
 		if (this.props.isOpen) this.calculatePosition();
 	},
-
 	componentWillReceiveProps (nextProps) {
 		if (!this.props.isOpen && nextProps.isOpen) this.calculatePosition();
 	},
-
 	calculatePosition () {
 		let posNode = document.getElementById(this.props.relativeToID);
 
@@ -61,7 +55,6 @@ var Popout = React.createClass({
 			topOffset: topOffset
 		});
 	},
-
 	renderPopout () {
 		if (!this.props.isOpen) return;
 
@@ -74,12 +67,10 @@ var Popout = React.createClass({
 			</div>
 		);
 	},
-
 	renderBlockout () {
 		if (!this.props.isOpen) return;
 		return <div className="blockout" onClick={this.props.onCancel} />;
 	},
-
 	render () {
 		return (
 			<Portal className="Popout-wrapper" ref="portal">
@@ -89,8 +80,7 @@ var Popout = React.createClass({
 				{this.renderBlockout()}
 			</Portal>
 		);
-	}
-
+	},
 });
 
 module.exports = Popout;

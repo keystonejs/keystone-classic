@@ -27,7 +27,7 @@ var SessionStore = new Store({
 			url: `${adminPath}/api/session/signin`,
 			method: 'post',
 			json: options,
-			headers: csrfHeaders
+			headers: csrfHeaders,
 		}, callbackResponse(callback));
 	},
 	signout (callback) {
@@ -35,9 +35,9 @@ var SessionStore = new Store({
 		xhr({
 			url: `${adminPath}/api/session/signout`,
 			method: 'post',
-			json: {}
+			json: {},
 		}, callbackResponse(callback));
-	}
+	},
 });
 
 export default SessionStore;

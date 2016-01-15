@@ -14,20 +14,16 @@ import SecondaryNavigation from '../components/SecondaryNavigation';
 import { Alert, Container, Spinner } from 'elemental';
 
 var ItemView = React.createClass({
-
 	displayName: 'ItemView',
-
 	getInitialState () {
 		return {
 			createIsOpen: false,
 			itemData: null,
 		};
 	},
-
 	componentDidMount () {
 		this.loadItemData();
 	},
-
 	loadItemData () {
 		this.props.list.loadItem(this.props.itemId, { drilldown: true }, (err, itemData) => {
 			if (err || !itemData) {
@@ -39,13 +35,11 @@ var ItemView = React.createClass({
 			this.setState({ itemData });
 		});
 	},
-
 	toggleCreate (visible) {
 		this.setState({
 			createIsOpen: visible,
 		});
 	},
-
 	renderRelationships () {
 		let { relationships } = this.props.list;
 		let keys = Object.keys(relationships);
@@ -61,7 +55,6 @@ var ItemView = React.createClass({
 			</div>
 		);
 	},
-
 	render () {
 		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
 		return (
@@ -111,8 +104,7 @@ var ItemView = React.createClass({
 					version={this.props.version} />
 			</div>
 		);
-	}
-
+	},
 });
 
 ReactDOM.render(

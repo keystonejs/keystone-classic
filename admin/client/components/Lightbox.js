@@ -30,12 +30,12 @@ var Lightbox = React.createClass({
 	},
 	getInitialState () {
 		return {
-			currentImage: this.props.initialImage
+			currentImage: this.props.initialImage,
 		};
 	},
 	componentWillReceiveProps (nextProps) {
 		this.setState({
-			currentImage: nextProps.initialImage
+			currentImage: nextProps.initialImage,
 		});
 
 		if (nextProps.isOpen && nextProps.enableKeyboardInput) {
@@ -137,7 +137,7 @@ var Lightbox = React.createClass({
 				</Transition>
 			</Portal>
 		);
-	}
+	},
 });
 
 const styles = {

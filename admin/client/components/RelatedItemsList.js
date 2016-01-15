@@ -89,7 +89,7 @@ const RelatedItemsList = React.createClass({
 				{this.state.items ? this.renderItems() : <Spinner size="sm" />}
 			</div>
 		);
-	}
+	},
 });
 
 module.exports = RelatedItemsList;

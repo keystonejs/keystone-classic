@@ -98,7 +98,7 @@ var PrimaryNavigation = React.createClass({
 				</Container>
 			</nav>
 		);
-	}
+	},
 });
 
 module.exports = PrimaryNavigation;

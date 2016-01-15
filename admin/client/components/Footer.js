@@ -39,7 +39,7 @@ var Footer = React.createClass({
 				</Container>
 			</footer>
 		);
-	}
+	},
 });
 
 module.exports = Footer;

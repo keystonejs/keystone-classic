@@ -7,17 +7,14 @@ import { Button, InputGroup } from 'elemental';
 
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
-
 	propTypes: {
-		className: React.PropTypes.string.isRequired
+		className: React.PropTypes.string.isRequired,
 	},
-
 	getInitialState () {
 		return {
-			selectedColumns: {}
+			selectedColumns: {},
 		};
 	},
-
 	getSelectedColumnsFromStore () {
 		var selectedColumns = {};
 		CurrentListStore.getActiveColumns().forEach(col => {
@@ -25,7 +22,6 @@ var ListColumnsForm = React.createClass({
 		});
 		return selectedColumns;
 	},
-
 	togglePopout (visible) {
 		this.setState({
 			selectedColumns: this.getSelectedColumnsFromStore(),
@@ -36,7 +32,6 @@ var ListColumnsForm = React.createClass({
 			}
 		});
 	},
-
 	toggleColumn (path, value) {
 		let newColumns = Object.assign({}, this.state.selectedColumns);
 
@@ -47,15 +42,13 @@ var ListColumnsForm = React.createClass({
 		}
 
 		this.setState({
-			selectedColumns: newColumns
+			selectedColumns: newColumns,
 		});
 	},
-
 	applyColumns () {
 		CurrentListStore.setActiveColumns(Object.keys(this.state.selectedColumns));
 		this.togglePopout(false);
 	},
-
 	renderColumns () {
 		return CurrentListStore.getAvailableColumns().map((el, i) => {
 			if (el.type === 'heading') {
@@ -76,7 +69,6 @@ var ListColumnsForm = React.createClass({
 			);
 		});
 	},
-
 	render () {
 		return (
 			<InputGroup.Section className={this.props.className}>
@@ -100,8 +92,7 @@ var ListColumnsForm = React.createClass({
 				</Popout>
 			</InputGroup.Section>
 		);
-	}
-
+	},
 });
 
 module.exports = ListColumnsForm;

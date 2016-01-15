@@ -149,7 +149,7 @@ var ListFiltersAdd = React.createClass({
 				</Popout>
 			</InputGroup.Section>
 		);
-	}
+	},
 });
 
 module.exports = ListFiltersAdd;

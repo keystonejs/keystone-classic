@@ -38,7 +38,7 @@ var ItemsTableValue = React.createClass({
 			props,
 			this.props.children
 		);
-	}
+	},
 });
 
 module.exports = ItemsTableValue;

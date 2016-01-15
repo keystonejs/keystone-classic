@@ -2,13 +2,11 @@ import React from 'react';
 import classnames from 'classnames';
 
 var ListControl = React.createClass({
-
 	propTypes: {
 		dragSource: React.PropTypes.func,
 		onClick: React.PropTypes.func,
-		type: React.PropTypes.oneOf(['check', 'delete', 'sortable']).isRequired
+		type: React.PropTypes.oneOf(['check', 'delete', 'sortable']).isRequired,
 	},
-
 	renderControl () {
 		var icon = 'octicon octicon-';
 		var className = classnames('ItemList__control ItemList__control--' + this.props.type, {
@@ -41,7 +39,6 @@ var ListControl = React.createClass({
 			return renderButton;
 		}
 	},
-
 	render () {
 		var className = 'ItemList__col--control ItemList__col--' + this.props.type;
 
@@ -50,8 +47,7 @@ var ListControl = React.createClass({
 				{this.renderControl()}
 			</td>
 		);
-	}
-
+	},
 });
 
 module.exports = ListControl;
