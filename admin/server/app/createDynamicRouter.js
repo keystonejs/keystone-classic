@@ -70,6 +70,7 @@ module.exports = function createDynamicRouter(keystone) {
 	router.all('/api/counts', require('../api/counts'));
 	router.get('/api/:list', initList(), require('../api/list/get'));
 	router.get('/api/:list/:format(export.csv|export.json)', initList(), require('../api/list/download'));
+	router.post('/api/:list/create', initList(), require('../api/list/create'));
 	router.post('/api/:list/delete', initList(), require('../api/list/delete'));
 	// items
 	router.get('/api/:list/:id', initList(), require('../api/item/get'));
