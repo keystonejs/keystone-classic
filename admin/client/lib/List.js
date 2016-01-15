@@ -50,8 +50,8 @@ function handleResponse (callback) {
 		}
 
 		callback(err, body);
-	}
-}
+	};
+};
 
 const List = function (options) {
 	Object.assign(this, options);

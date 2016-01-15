@@ -25,7 +25,7 @@ var ItemView = React.createClass({
 		// TODO: Change completely to locally generated messages and dont use bootstrapped ones from template. For now, we pull these in.
 		this.setState({
 			messages: this.props.messages
-		})
+		});
 	},
 	componentDidMount () {
 		this.loadItemData();

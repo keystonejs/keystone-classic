@@ -187,13 +187,13 @@ var EditForm = React.createClass({
 					<ResponsiveText hiddenXS={`${customAction.name}`} visibleXS={customAction.mobileText} />
 				</Button>
 			);
-		})
+		});
 
 		buttons.push(
 			<Button key="reset" onClick={this.confirmReset} type="link-cancel" disabled={this.state.actionsDisabled}>
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
-		)
+		);
 
 		if (!this.props.list.nodelete) {
 			buttons.push(
