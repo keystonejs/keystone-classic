@@ -12,10 +12,11 @@ var utils = require('keystone-utils');
 function relationship(list, path, options) {
 	this.many = (options.many) ? true : false;
 	this.filters = options.filters;
+	this.createInline = (options.createInline) ? true : false;
 	this._defaultSize = 'full';
 	this._nativeType = keystone.mongoose.Schema.Types.ObjectId;
 	this._underscoreMethods = ['format'];
-	this._properties = ['isValid', 'many', 'filters'];
+	this._properties = ['isValid', 'many', 'filters', 'createInline'];
 	relationship.super_.call(this, list, path, options);
 }
 util.inherits(relationship, FieldType);
@@ -29,7 +30,8 @@ relationship.prototype.getProperties = function () {
 		refList: {
 			singular: refList.singular,
 			plural:   refList.plural,
-			path:     refList.path
+			path:     refList.path,
+			key:      refList.key,
 		}
 	};
 };
