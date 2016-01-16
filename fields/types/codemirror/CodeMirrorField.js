@@ -16,7 +16,7 @@ import classnames from 'classnames';
 
 module.exports = Field.create({
 
-	displayName: 'CodeField',
+	displayName: 'CodeMirrorField',
 
 	getInitialState () {
 		return {

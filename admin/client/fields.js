@@ -3,7 +3,7 @@ module.exports = {
 	boolean:          require('../../fields/types/boolean/BooleanField'),
 	cloudinaryimage:  require('../../fields/types/cloudinaryimage/CloudinaryImageField'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesField'),
-	code:             require('../../fields/types/code/CodeField'),
+	codemirror:       require('../../fields/types/codemirror/CodeMirrorField'),
 	color:            require('../../fields/types/color/ColorField'),
 	date:             require('../../fields/types/date/DateField'),
 	datearray:        require('../../fields/types/datearray/DateArrayField'),

@@ -1,24 +1,23 @@
 var demand = require('must'),
-	CodeType = require('../CodeType');
+	CodeMirrorType = require('../CodeMirrorType');
 
 exports.initList = function(List) {
 	List.add({
-		code: { type: CodeType },
 		nested: {
-			code: { type: CodeType }
+			codemirror: { type: CodeMirrorType }
 		},
 		lang: {
-			type: CodeType,
+			type: CodeMirrorType,
 			lang: 'c'
 		},
 		language: {
-			type: CodeType,
+			type: CodeMirrorType,
 			lang: 'js'
 		},
 		codemirror: {
-			type: CodeType,
+			type: CodeMirrorType,
 			lang: 'html',
-			codemirror: {
+			config: {
 				value: 'fooga'
 			}
 		}
@@ -37,44 +36,44 @@ exports.testFieldType = function(List) {
 	var testItem = new List.model();
 
 	it('should update top level fields', function() {
-		List.fields.code.updateItem(testItem, {
-			code: 'foo(bar);'
+		List.fields.codemirror.updateItem(testItem, {
+			codemirror: 'foo(bar);'
 		});
-		demand(testItem.code).be('foo(bar);');
-		testItem.code = undefined;
+		demand(testItem.codemirror).be('foo(bar);');
+		testItem.codemirror = undefined;
 	});
-	
+
 	it('should update nested fields', function() {
-		List.fields['nested.code'].updateItem(testItem, {
+		List.fields['nested.codemirror'].updateItem(testItem, {
 			nested: {
-				code: 'foo(bar);'
+				codemirror: 'foo(bar);'
 			}
 		});
-		demand(testItem.nested.code).be('foo(bar);');
-		testItem.nested.code = undefined;
+		demand(testItem.nested.codemirror).be('foo(bar);');
+		testItem.nested.codemirror = undefined;
 	});
-	
+
 	it('should update nested fields with flat paths', function() {
-		List.fields['nested.code'].updateItem(testItem, {
-			'nested.code': 'foo(bar);'
+		List.fields['nested.codemirror'].updateItem(testItem, {
+			'nested.codemirror': 'foo(bar);'
 		});
-		demand(testItem.nested.code).be('foo(bar);');
-		testItem.nested.code = undefined;
+		demand(testItem.nested.codemirror).be('foo(bar);');
+		testItem.nested.codemirror = undefined;
 	});
-	
+
 	it('should handle a `lang` config property', function() {
 		demand(List.fields.lang.lang).be('c');
 	});
-	
+
 	it('should handle a `language` config property', function() {
 		demand(List.fields.language.lang).be('js');
 	});
-	
+
 	it('should support a `codemirror` config property', function() {
-		demand(List.fields.codemirror.codemirror).be.object();
-		demand(List.fields.codemirror.codemirror.value).be('fooga');
+		demand(List.fields.codemirror.config).be.object();
+		demand(List.fields.codemirror.config.value).be('fooga');
 	});
-	
+
 	it('should merge the `lang` and `codemirror` config properties', function() {
 		demand(List.fields.codemirror.editor).be.object();
 		demand(List.fields.codemirror.editor.mode).be('html');
