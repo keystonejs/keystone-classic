@@ -27,3 +27,10 @@ git:
 cache:
   directories:
     - node_modules
+
+addons:
+  apt:
+    sources:
+      - mongodb-3.0-precise
+    packages:
+      - mongodb-org-server
