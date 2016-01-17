@@ -154,21 +154,35 @@ var EditForm = React.createClass({
 		}, this);
 	},
 	renderFooterBar () {
-		var buttons = [
-			<Button key="save" type="primary" submit>Save</Button>
-		];
-		buttons.push(
-			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
-				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
-			</Button>
-		);
-		if (!this.props.list.nodelete) {
+		if (this.props.list.noedit) return null;
+
+		let hasListUpdatePermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[this.props.list.key].roles.update.indexOf(n) != -1;
+			}).length > 0;
+
+		if (hasListUpdatePermissions) {
+			var buttons = [
+				<Button key="save" type="primary" submit>Save</Button>
+			];
+			buttons.push(
+				<Button key="reset" onClick={this.confirmReset} type="link-cancel">
+					<ResponsiveText hiddenXS="reset changes" visibleXS="reset"/>
+				</Button>
+			);
+		}
+
+		let hasListDeletePermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[this.props.list.key].roles.delete.indexOf(n) != -1;
+			}).length > 0;
+
+		if (hasListDeletePermissions) {
 			buttons.push(
 				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
 		}
+
 		return (
 			<FooterBar className="EditForm__footer">
 				{buttons}

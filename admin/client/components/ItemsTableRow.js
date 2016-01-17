@@ -42,7 +42,11 @@ const ItemsRow = React.createClass({
 		}
 
 		// add delete/check icon when applicable
-		if (!this.props.list.nodelete) {
+		let hasListDeletePermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[this.props.list.key].roles.delete.indexOf(n) != -1;
+			}).length > 0;
+
+		if (!this.props.list.nodelete && hasListDeletePermissions) {
 			cells.unshift(this.props.manageMode ? (
 				<ListControl key="_check" type="check" active={this.props.checkedItems[itemId]} />
 			) : (

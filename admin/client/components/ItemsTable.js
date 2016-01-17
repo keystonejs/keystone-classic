@@ -14,11 +14,18 @@ const ItemsTable = React.createClass({
 		columns: React.PropTypes.array,
 		items: React.PropTypes.object,
 		list: React.PropTypes.object,
+		user: React.PropTypes.object,
+		permissions: React.PropTypes.object,
 	},
 	renderCols () {
 		var cols = this.props.columns.map((col) => <col width={col.width} key={col.path} />);
+
+		let hasListDeletePermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[this.props.list.key].roles.delete.indexOf(n) != -1;
+			}).length > 0;
+
 		// add delete col when applicable
-		if (!this.props.list.nodelete) {
+		if (!this.props.list.nodelete && hasListDeletePermissions) {
 			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />);
 		}
 		// add sort col when applicable
@@ -28,12 +35,16 @@ const ItemsTable = React.createClass({
 		return <colgroup>{cols}</colgroup>;
 	},
 	renderHeaders () {
+		let hasListDeletePermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[this.props.list.key].roles.delete.indexOf(n) != -1;
+			}).length > 0;
+
 		var cells = this.props.columns.map((col, i) => {
 			// span first col for controls when present
 			var span = 1;
 			if (!i) {
 				if (this.props.list.sortable) span++;
-				if (!this.props.list.nodelete) span++;
+				if (!this.props.list.nodelete || hasListDeletePermissions) span++;
 			}
 			return <th key={col.path} colSpan={span}>{col.label}</th>;
 		});

@@ -19,8 +19,20 @@ var ListTile = React.createClass({
 		count: React.PropTypes.string,
 		href: React.PropTypes.string,
 		label: React.PropTypes.string,
+		listkey: React.PropTypes.string
 	},
 	render () {
+		let canCreateLists = this.props.user.roles.filter((n) => {
+			return this.props.permissions[this.props.listkey].roles.create.indexOf(n) != -1;
+		}).length > 0;
+
+		let renderCreateLink = null;
+		if (canCreateLists) {
+			renderCreateLink = (<a href={this.props.href + '?create'}
+			   className="dashboard-group__list-create octicon octicon-plus"
+			   title="Create" tabIndex="-1"/>);
+		}
+
 		return (
 			<div className="dashboard-group__list">
 				<span className="dashboard-group__list-inner">
@@ -28,11 +40,11 @@ var ListTile = React.createClass({
 						<div className="dashboard-group__list-label">{this.props.label}</div>
 						<div className="dashboard-group__list-count">{this.props.count}</div>
 					</a>
-					<a href={this.props.href + '?create'} className="dashboard-group__list-create octicon octicon-plus" title="Create" tabIndex="-1" />
+					{renderCreateLink}
 				</span>
 			</div>
 		);
-	},
+	}
 });
 
 var HomeView = React.createClass({
@@ -90,8 +102,16 @@ var HomeView = React.createClass({
 	},
 	renderFlatNav () {
 		let lists = this.props.navLists.map((list) => {
-			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-			return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
+			var hasListReadPermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[list.key].roles.read.indexOf(n) != -1;
+			});
+
+			if (hasListReadPermissions.length > 0) {
+				var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
+				return (<ListTile listkey={list.key} label={list.label} href={href}
+								 count={plural(this.state.counts[list.key], '* Item', '* Items')}
+								 user={this.props.user} permissions={this.props.permissions} />);
+			}
 		});
 		return <div className="dashboard-group__lists">{lists}</div>;
 	},
@@ -99,6 +119,16 @@ var HomeView = React.createClass({
 		return (
 			<div>
 				{this.props.navSections.map((navSection) => {
+					let hasListReadPermissions = {};
+					let hasReadPermissionsForSomeLists = false;
+					{navSection.lists.map((list) => {
+						hasListReadPermissions[list.key] = this.props.user.roles.filter((n) => {
+								return this.props.permissions[list.key].roles.read.indexOf(n) != -1;
+						}).length > 0;
+						hasReadPermissionsForSomeLists = hasReadPermissionsForSomeLists ? hasReadPermissionsForSomeLists : hasListReadPermissions[list.key];
+					});}
+					if (!hasReadPermissionsForSomeLists) return;
+
 					return (
 						<div className="dashboard-group" key={navSection.key}>
 							<div className="dashboard-group__heading">
@@ -107,8 +137,12 @@ var HomeView = React.createClass({
 							</div>
 							<div className="dashboard-group__lists">
 								{navSection.lists.map((list) => {
-									var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-									return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
+									if (hasListReadPermissions[list.key]) {
+										var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
+										return (<ListTile listkey={list.key} label={list.label} href={href}
+														 count={plural(this.state.counts[list.key], '* Item', '* Items')}
+														 user={this.props.user} permissions={this.props.permissions} />);
+									}
 								})}
 							</div>
 						</div>
@@ -120,6 +154,17 @@ var HomeView = React.createClass({
 	},
 	renderOrphanedLists () {
 		if (!this.props.orphanedLists.length) return;
+
+		let hasListReadPermissions = {};
+		let hasReadPermissionsForSomeList = false;
+		this.props.orphanedLists.map((list) => {
+			hasListReadPermissions[list.key] = this.props.user.roles.filter((n) => {
+				return this.props.permissions[list.key].roles.read.indexOf(n) != -1;
+			}).length > 0;
+			hasReadPermissionsForSomeList = hasListReadPermissions[list.key] ? true : hasReadPermissionsForSomeList;
+		});
+		if (!hasReadPermissionsForSomeList) return;
+
 		return (
 			<div className="dashboard-group">
 				<div className="dashboard-group__heading">
@@ -128,8 +173,12 @@ var HomeView = React.createClass({
 				</div>
 				<div className="dashboard-group__lists">
 					{this.props.orphanedLists.map((list) => {
-						var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-						return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
+						if (hasListReadPermissions[list.key]) {
+							var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
+							return (<ListTile listkey={list.key} label={list.label} href={href}
+											 count={plural(this.state.counts[list.key], '* Item', '* Items')}
+											 user={this.props.user} permissions={this.props.permissions} />);
+						}
 					})}
 				</div>
 			</div>
@@ -144,12 +193,16 @@ var HomeView = React.createClass({
 						currentSectionKey="dashboard"
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl}
+						user={this.props.user}
+						permissions={this.props.permissions}
 						/>
 					<PrimaryNavigation
 						brand={this.props.brand}
 						currentSectionKey="dashboard"
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl}
+						user={this.props.user}
+						permissions={this.props.permissions}
 						/>
 				</header>
 				<div className="keystone-body">
@@ -187,6 +240,7 @@ ReactDOM.render(
 		signoutUrl={Keystone.signoutUrl}
 		User={Keystone.User}
 		user={Keystone.user}
+		permissions={Keystone.permissions}
 		version={Keystone.version}
 	/>,
 	document.getElementById('home-view')

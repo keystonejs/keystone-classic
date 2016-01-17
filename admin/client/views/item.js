@@ -66,22 +66,33 @@ var ItemView = React.createClass({
 						currentSectionKey={this.props.nav.currentSection.key}
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl}
+						user={this.props.user}
+						permissions={this.props.permissions}
 						/>
 					<PrimaryNavigation
 						currentSectionKey={this.props.nav.currentSection.key}
 						brand={this.props.brand}
 						sections={this.props.nav.sections}
-						signoutUrl={this.props.signoutUrl} />
+						signoutUrl={this.props.signoutUrl}
+						user={this.props.user}
+						permissions={this.props.permissions}
+						/>
 					<SecondaryNavigation
 						currentListKey={this.props.list.path}
-						lists={this.props.nav.currentSection.lists} />
+						lists={this.props.nav.currentSection.lists}
+						user={this.props.user}
+						permissions={this.props.permissions}
+						/>
 				</header>
 				<div className="keystone-body">
 					<EditFormHeader
 						list={this.props.list}
 						data={this.state.itemData}
 						drilldown={this.state.itemDrilldown}
-						toggleCreate={this.toggleCreate} />
+						toggleCreate={this.toggleCreate}
+						user={this.props.user}
+						permissions={this.props.permissions}
+						/>
 					<Container>
 						<CreateForm
 							list={this.props.list}
@@ -91,7 +102,10 @@ var ItemView = React.createClass({
 							messages={this.props.messages} />
 						<EditForm
 							list={this.props.list}
-							data={this.state.itemData} />
+							data={this.state.itemData}
+							user={this.props.user}
+							permissions={this.props.permissions}
+							/>
 						{this.renderRelationships()}
 					</Container>
 				</div>
@@ -119,6 +133,7 @@ ReactDOM.render(
 		signoutUrl={Keystone.signoutUrl}
 		User={Keystone.User}
 		user={Keystone.user}
+		permissions={Keystone.permissions}
 		version={Keystone.version}
 	/>,
 	document.getElementById('item-view')

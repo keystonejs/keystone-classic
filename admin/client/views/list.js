@@ -151,6 +151,13 @@ const ListView = React.createClass({
 	},
 	renderCreateButton () {
 		if (this.state.list.nocreate) return null;
+
+		let hasListCreatePermissions = this.props.user.roles.filter((n) => {
+			return this.props.permissions[this.state.list.key].roles.create.indexOf(n) != -1;
+		}).length > 0;
+
+		if (!hasListCreatePermissions) return null;
+
 		var props = { type: 'success' };
 		if (this.state.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
@@ -194,17 +201,27 @@ const ListView = React.createClass({
 		let checkedItemCount = Object.keys(checkedItems).length;
 		let buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
 
+		let hasListUpdatePermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[this.state.list.key].roles.update.indexOf(n) != -1;
+			}).length > 0;
+
 		// action buttons
-		let actionUpdateButton = !list.noedit ? (
+		let actionUpdateButton = (!list.noedit || hasListUpdatePermissions) ? (
 			<InputGroup.Section>
 				<Button onClick={this.toggleUpdateModal} disabled={!checkedItemCount}>Update</Button>
 			</InputGroup.Section>
 		) : null;
-		let actionDeleteButton = !list.nodelete ? (
+
+		let hasListDeletePermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[this.state.list.key].roles.delete.indexOf(n) != -1;
+			}).length > 0;
+
+		let actionDeleteButton = (!list.nodelete || hasListDeletePermissions) ? (
 			<InputGroup.Section>
 				<Button onClick={this.massDelete} disabled={!checkedItemCount}>Delete</Button>
 			</InputGroup.Section>
 		) : null;
+
 		let actionButtons = manageMode ? (
 			<InputGroup.Section>
 				<InputGroup contiguous>
@@ -376,8 +393,15 @@ const ListView = React.createClass({
 		});
 	},
 	renderBlankStateCreateButton () {
-		var props = { type: 'success' };
 		if (this.state.list.nocreate) return null;
+
+		let hasListCreatePermissions = this.props.user.roles.filter((n) => {
+			return this.props.permissions[this.state.list.key].roles.create.indexOf(n) != -1;
+		}).length > 0;
+
+		if (!hasListCreatePermissions) return null;
+
+		let props = { type: 'success' };
 		if (this.state.list.autocreate) {
 			props.href = '?new' + this.props.csrfQuery;
 		} else {
@@ -427,6 +451,8 @@ const ListView = React.createClass({
 						checkedItems={this.state.checkedItems}
 						rowAlert={this.state.rowAlert}
 						checkTableItem={this.checkTableItem}
+						user={this.props.user}
+						permissions={this.props.permissions}
 					/>
 					{this.renderNoSearchResults()}
 				</Container>
@@ -459,15 +485,23 @@ const ListView = React.createClass({
 						currentSectionKey={this.props.nav.currentSection.key}
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl}
+						user={this.props.user}
+						permissions={this.props.permissions}
 						/>
 					<PrimaryNavigation
 						brand={this.props.brand}
 						currentSectionKey={this.props.nav.currentSection.key}
 						sections={this.props.nav.sections}
-						signoutUrl={this.props.signoutUrl} />
+						signoutUrl={this.props.signoutUrl}
+						user={this.props.user}
+						permissions={this.props.permissions}
+						/>
 					<SecondaryNavigation
 						currentListKey={this.state.list.path}
-						lists={this.props.nav.currentSection.lists} />
+						lists={this.props.nav.currentSection.lists}
+						user={this.props.user}
+						permissions={this.props.permissions}
+						/>
 				</header>
 				<div className="keystone-body">
 					{this.renderBlankState()}
@@ -510,6 +544,7 @@ ReactDOM.render(
 		signoutUrl={Keystone.signoutUrl}
 		user={Keystone.user}
 		User={Keystone.User}
+		permissions={Keystone.permissions}
 		version={Keystone.version}
 	/>,
 	document.getElementById('list-view')

@@ -1,6 +1,7 @@
 var utils = require('keystone-utils');
 var keystone = require('../../../../');
 var session = require('../../../../lib/session');
+var acl = require('../../../../lib/acl');
 
 function signin (req, res) {
 	if (!req.body.email || !req.body.password) {
@@ -17,7 +18,16 @@ function signin (req, res) {
 						session.signinWithUser(user, req, res, function () {
 							keystone.callHook(user, 'post:signin', function (err) {
 								if (err) return res.json({ error: 'post:signin error', detail: err });
-								res.json({ success: true, user: user });
+								// TODO:  is this the best place to setup the current ACL?  Any other place
+								// seems l
+								acl.getListPermissions()
+									.then((permissions) => {
+										keystone.permissions = permissions;
+										res.json({ success: true, user: user });
+									})
+									.catch((err) => {
+										if (err) return res.json({ error: 'post:signin error', detail: err });
+									});
 							});
 						});
 					} else if (err) {

@@ -15,7 +15,8 @@ module.exports = function(req, res) {
 			title: appName + ': ' + req.list.plural,
 			page: 'list',
 			list: req.list,
-			submitted: req.body || {}
+			submitted: req.body || {},
+			permissions: keystone.permissions
 		}));
 	};
 

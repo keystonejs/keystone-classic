@@ -66,6 +66,8 @@ var MobileNavigation = React.createClass({
 		currentListKey: React.PropTypes.string,
 		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
+		user: React.PropTypes.object.isRequired,
+		permissions: React.PropTypes.object.isRequired
 	},
 	getInitialState () {
 		return {
@@ -116,6 +118,16 @@ var MobileNavigation = React.createClass({
 		return this.props.sections.map((section) => {
 			let href = section.lists[0].external ? section.lists[0].path : `${Keystone.adminPath}/${section.lists[0].path}`;
 			let className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'MobileNavigation__section is-active' : 'MobileNavigation__section';
+			let hasPermissionsToReadSomeListsInSection = false;
+
+			section.lists.map((list) => {
+				if (hasPermissionsToReadSomeListsInSection) return;
+				hasPermissionsToReadSomeListsInSection = this.props.user.roles.filter((n) => {
+						return this.props.permissions[list.key].roles.read.indexOf(n) != -1;
+					}).length > 0;
+			});
+
+			if (!hasPermissionsToReadSomeListsInSection) return null;
 
 			return (
 				<MobileSectionItem key={section.key} className={className} href={href} lists={section.lists} currentListKey={this.props.currentListKey}>

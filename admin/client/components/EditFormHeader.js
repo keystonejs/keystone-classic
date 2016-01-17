@@ -108,6 +108,12 @@ var Header = React.createClass({
 	renderCreateButton () {
 		if (this.props.list.nocreate) return null;
 
+		let hasListCreatePermissions = this.props.user.roles.filter((n) => {
+				return this.props.permissions[this.props.list.key].roles.create.indexOf(n) != -1;
+			}).length > 0;
+
+		if (!hasListCreatePermissions) return null;
+
 		var props = {};
 		if (this.props.list.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
