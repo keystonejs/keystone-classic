@@ -5,6 +5,8 @@ node_js:
 
 before_script:
   - npm run lint
+  - sleep 15
+  - mongo test --eval 'db.addUser('travis', 'test')'
 
 script:
   - npm run test-cov
