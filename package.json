@@ -89,7 +89,6 @@
     "xhr": "2.2.0"
   },
   "devDependencies": {
-    "babel-eslint": "4.1.6",
     "codeclimate-test-reporter": "0.2.0",
     "disc": "1.3.2",
     "eslint": "1.10.3",
