@@ -17,6 +17,7 @@ var ItemsTableDragDropZone = React.createClass({
 		let pageSize = CurrentListStore.getPageSize();
 
 		let totalPages = Math.ceil(items.count / pageSize);
+		let style = { display: totalPages > 1 ? null : 'none' };
 
 		let pages = [];
 		for (let i = 0; i < totalPages; i++) {
@@ -35,7 +36,7 @@ var ItemsTableDragDropZone = React.createClass({
 		if (this.props.list.sortable) cols++;
 		if (!this.props.list.nodelete) cols++;
 		return (
-			<tr>
+			<tr style={style}>
 				<td colSpan={cols}  >
 					<div className="ItemList__dropzone" >
 						{pages}
