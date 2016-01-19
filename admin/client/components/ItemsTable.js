@@ -40,29 +40,32 @@ const ItemsTable = React.createClass({
 		return <thead><tr>{cells}</tr></thead>;
 	},
 	render () {
-		if (!this.props.items.results.length) return null;
+		let { items, list } = this.props;
+		if (!items.results.length) return null;
 
-		let tableBody;
-		if (this.props.list.sortable) {
-			tableBody = <DrapDrop { ...this.props } />;
-		} else {
-			tableBody = (
-				<tbody >
-					{this.props.items.results.map((item, i) => {
-						return (
-							<TableRow key={item.id}
-								deleteTableItem={this.props.deleteTableItem}
-								index={i}
-								sortOrder={item.sortOrder || 0}
-								id={item.id}
-								item={item}
-								{ ...this.props }
-							/>
-						);
-					})}
-				</tbody>
-			);
-		}
+		let currentPage = CurrentListStore.getCurrentPage();
+		let pageSize = CurrentListStore.getPageSize();
+
+		let totalPages = Math.ceil(items.count / pageSize);
+
+		let tableBody = (this.props.list.sortable) ? (
+			<DrapDrop { ...this.props } />
+		) : (
+			<tbody >
+				{items.results.map((item, i) => {
+					return (
+						<TableRow key={item.id}
+							deleteTableItem={this.props.deleteTableItem}
+							index={i}
+							sortOrder={item.sortOrder || 0}
+							id={item.id}
+							item={item}
+							{ ...this.props }
+						/>
+					);
+				})}
+			</tbody>
+		);
 		return (
 			<div className="ItemList-wrapper">
 				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
