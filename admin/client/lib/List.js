@@ -3,6 +3,7 @@
 const listToArray = require('list-to-array');
 const qs = require('qs');
 const xhr = require('xhr');
+const _ = require('underscore');
 
 function getColumns (list) {
 	return list.uiElements.map((col) => {
@@ -196,12 +197,18 @@ List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOp
 
 
 
-List.prototype.callCustomAction = function (itemId, action, callback) {
-	const url = Keystone.adminPath + '/api/' + this.path + '/' + itemId + '/customAction/' + action.slug;
+List.prototype.callCustomAction = function (data, itemId, action, callback) {
+	const url = Keystone.adminPath + '/api/' + this.path + '/' + itemId + '/actions/' + action.slug;
+
 	xhr({
 		url: url,
-		method: 'GET',
-		responseType: 'json'
+		method: 'POST',
+		headers: {
+        	'Content-Type': 'application/json',
+			...Keystone.csrf.header
+		},
+		responseType: 'json',
+		body: JSON.stringify(data)
 	}, handleResponse(callback));
 };
 

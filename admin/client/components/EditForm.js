@@ -6,6 +6,7 @@ import FormHeading from './FormHeading';
 import AltText from './AltText';
 import FooterBar from './FooterBar';
 import InvalidFieldType from './InvalidFieldType';
+import evalDependsOn from '../../../fields/utils/evalDependsOn.js';
 import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
 
 var EditForm = React.createClass({
@@ -74,9 +75,10 @@ var EditForm = React.createClass({
 		});
 	},
 	handleCustomAction (customAction) {
-		let { data, list } = this.props;
+		let { list, data } = this.props;
+		let { values } = this.state;
 		this.setState({ actionsDisabled: true });
-		list.callCustomAction(data.id, customAction, (actionErr, body) => {
+		list.callCustomAction(values, data.id, customAction, (actionErr, body) => {
 			this.setState({ actionsDisabled: false });
 			this.props.reloadData((err, itemData) => {
 
@@ -85,7 +87,8 @@ var EditForm = React.createClass({
 				});
 
 				this.props.clearMessages();
-				if (!_.isUndefined(actionErr)) {
+				window.scroll(0, 0);
+				if (!_.isUndefined(actionErr) && !_.isNull(actionErr) ) {
 					console.error(`Problem carrying out custom action ${customAction.name}: `, actionErr);
 					this.props.addMessage('error', actionErr);
 				} else {
@@ -165,12 +168,6 @@ var EditForm = React.createClass({
 				if ('function' !== typeof Fields[field.type]) {
 					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
 				}
-				if (props.dependsOn) {
-					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(dep => {
-						props.currentDependencies[dep] = this.state.values[dep];
-					});
-				}
 				props.key = field.path;
 				return React.createElement(Fields[field.type], props);
 			}
@@ -183,7 +180,7 @@ var EditForm = React.createClass({
 
 		this.props.list.customActions.forEach(customAction => {
 			buttons.push(
-				<Button onClick={this.handleCustomAction.bind(this, customAction)} key={customAction.slug} type="hollow-primary" disabled={this.state.actionsDisabled}>
+				<Button onClick={this.handleCustomAction.bind(this, customAction)} key={customAction.slug} type={customAction.type} title={customAction.title} disabled={this.state.actionsDisabled || !evalDependsOn(customAction.dependsOn, this.state.values)}>
 					<ResponsiveText hiddenXS={`${customAction.name}`} visibleXS={customAction.mobileText} />
 				</Button>
 			);
