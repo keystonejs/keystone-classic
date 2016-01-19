@@ -36,7 +36,7 @@ module.exports = function(req, res) {
             }, function(err) {
                 if (err) return res.status(500).json({ err: 'database error', detail: err });
                 fireAction(item, customAction, req, res);
-            })
+            });
         } else {
             fireAction(item, customAction, req, res);
         }
