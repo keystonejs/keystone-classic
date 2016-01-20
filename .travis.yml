@@ -5,6 +5,7 @@ node_js:
 
 before_script:
   - npm run lint
+  - sleep 15
 
 script:
   - npm run test-cov
@@ -25,3 +26,10 @@ git:
 cache:
   directories:
     - node_modules
+
+addons:
+  apt:
+    sources:
+      - mongodb-3.0-precise
+    packages:
+      - mongodb-org-server
