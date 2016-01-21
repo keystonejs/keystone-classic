@@ -48,6 +48,22 @@ const List = function (options) {
 	this.defaultColumnPaths = this.expandedDefaultColumns.map(i => i.path).join(',');
 };
 
+List.prototype.createItem = function (values, callback) {
+	xhr({
+		url: `${Keystone.adminPath}/api/${this.path}/create`,
+		responseType: 'json',
+		method: 'POST',
+		headers: Keystone.csrf.header,
+		json: values,
+	}, (err, resp, data) => {
+		if (resp.statusCode === 200) {
+			callback(null, data);
+		} else {
+			callback(err, null);
+		}
+	});
+};
+
 List.prototype.expandColumns = function (input) {
 	let nameIncluded = false;
 	const cols = listToArray(input).map(i => {

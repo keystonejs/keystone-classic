@@ -69,13 +69,9 @@ var CreateForm = React.createClass({
 		// 	of using a POST request to the list endpoint.
 		if (this.props.onCreate) {
 			event.preventDefault();
-			xhr({
-				url: `${Keystone.adminPath}/api/${this.props.list.path}/create`,
-				responseType: 'json',
-				method: 'POST',
-				json: this.state.values
-			}, (err, resp, data) => {
-				if (resp.statusCode === 200) {
+			let values = this.state.values;
+			this.props.list.createItem(values, (err, data) => {
+				if (data) {
 					this.props.onCreate(data);
 					this.setState({
 						values: {}
