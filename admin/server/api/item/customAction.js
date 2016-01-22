@@ -3,7 +3,7 @@ var keystone = require('../../../../'),
     evalDependsOn = require('../../../../fields/utils/evalDependsOn');
 
 
-function fireAction(item, customAction, req, res) {
+function fireAction(item, customAction, req, res, cb) {
         req.items = [item];
         try {
             if (!evalDependsOn(customAction.dependsOn, item)) {
@@ -11,7 +11,16 @@ function fireAction(item, customAction, req, res) {
             }
 
             customAction.action.call(req.list, req, res, function(message) {
-                res.status(200).json({ message: message });
+                if (customAction.save.post) {
+                    if (!message) {
+                        message = '"' + customAction.name + '" was successful.'
+                    }
+                    updateItem(item, req, function(item) {
+                        res.status(200).json({ message: message });
+                    });
+                } else {
+                    res.status(200).json({ message: message });
+                }
             });
         } catch (e) {
             if (!e.message) {
@@ -19,6 +28,16 @@ function fireAction(item, customAction, req, res) {
             }
             res.status(500).json({ err: e.message, id: req.params.id, customAction: customAction.slug });
         }
+}
+
+function updateItem(item, req, cb) {
+    req.list.updateItem(item, {
+        data: req.body,
+        files: req.files
+    }, function(err) {
+        if (err) return res.status(500).json({ err: 'database error', detail: err });
+        cb(item);
+    });
 }
 
 module.exports = function(req, res) {
@@ -29,12 +48,8 @@ module.exports = function(req, res) {
         if (err) return res.apiError('database error', err);
         if (!item) return res.status(404).json({ err: 'not found', id: req.params.id });
 
-        if (customAction.save) {
-            req.list.updateItem(item, {
-                data: req.body,
-                files: req.files
-            }, function(err) {
-                if (err) return res.status(500).json({ err: 'database error', detail: err });
+        if (customAction.save.pre) {
+            updateItem(item, req, function(item) {
                 fireAction(item, customAction, req, res);
             });
         } else {
