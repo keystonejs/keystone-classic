@@ -15,7 +15,7 @@ function fireAction(item, customAction, req, res, cb) {
                     message = '"' + customAction.name + '" was successful.';
                 }
                 if (customAction.save.post) {
-                    updateItem(item, req, function(item) {
+                    req.item.save(function() {
                         res.status(200).json({ message: message });
                     });
                 } else {
