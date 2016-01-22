@@ -37,6 +37,7 @@ var EditForm = React.createClass({
 	confirmReset(event) {
 		const confirmationDialog = (
 			<ConfirmationDialog
+				isOpen
 				body={`Reset your changes to <strong>${this.props.data.name}</strong>?`}
 				confirmationLabel="Reset"
 				onCancel={this.removeConfirmationDialog}
@@ -52,6 +53,7 @@ var EditForm = React.createClass({
 	confirmDelete() {
 		const confirmationDialog = (
 			<ConfirmationDialog
+				isOpen
 				body={`Are you sure you want to delete <strong>${this.props.data.name}?</strong><br /><br />This cannot be undone.`}
 				confirmationLabel="Delete"
 				onCancel={this.removeConfirmationDialog}
