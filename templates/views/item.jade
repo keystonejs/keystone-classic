@@ -3,7 +3,7 @@ extends ../layout/base
 include ../mixins/columns
 
 block css
-	if list.fieldTypes.code
+	if list.fieldTypes.code || list.fieldTypes.json
 		link(rel='stylesheet', href='/keystone/js/lib/codemirror/codemirror.css')
 
 block js
@@ -16,7 +16,7 @@ block js
 	script(src='/keystone/js/item.js')
 
 block js_codemirror
-	if list.fieldTypes.code
+	if list.fieldTypes.code || list.fieldTypes.json
 		script(src="/keystone/js/lib/codemirror/codemirror-compressed.js")
 		
 block content
