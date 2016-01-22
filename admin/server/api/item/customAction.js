@@ -4,17 +4,17 @@ var keystone = require('../../../../'),
 
 
 function fireAction(item, customAction, req, res, cb) {
-        req.items = [item];
+        req.item = item;
         try {
             if (!evalDependsOn(customAction.dependsOn, item)) {
                 throw new Error();
             }
 
             customAction.action.call(req.list, req, res, function(message) {
+                if (!message) {
+                    message = '"' + customAction.name + '" was successful.';
+                }
                 if (customAction.save.post) {
-                    if (!message) {
-                        message = '"' + customAction.name + '" was successful.';
-                    }
                     updateItem(item, req, function(item) {
                         res.status(200).json({ message: message });
                     });
