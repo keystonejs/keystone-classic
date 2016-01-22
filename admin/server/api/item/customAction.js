@@ -13,7 +13,7 @@ function fireAction(item, customAction, req, res, cb) {
             customAction.action.call(req.list, req, res, function(message) {
                 if (customAction.save.post) {
                     if (!message) {
-                        message = '"' + customAction.name + '" was successful.'
+                        message = '"' + customAction.name + '" was successful.';
                     }
                     updateItem(item, req, function(item) {
                         res.status(200).json({ message: message });
