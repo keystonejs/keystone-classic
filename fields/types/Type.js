@@ -288,7 +288,7 @@ Field.prototype.isModified = function(item) {
  */
 Field.prototype.validateInput = function(data, required, item, callback) {
 	process.nextTick(function() {
-		callback(null, this.inputIsValid(data, required, item))
+		callback(null, this.inputIsValid(data, required, item));
 	}.bind(this));
 };
 

@@ -31,7 +31,7 @@ module.exports = function(req, res) {
 			function(err, isValid) {
 				if (!isValid) {
 					// Create object of validation errors
-					var errorMessage = "Error: invalid input for " + field.label;
+					var errorMessage = 'Error: invalid input for ' + field.label;
 					var errorObject = getValidationError(field.path, errorMessage);
 					validationErrors[field.path] = errorObject;
 				}
