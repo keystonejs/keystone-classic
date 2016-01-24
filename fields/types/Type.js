@@ -281,10 +281,15 @@ Field.prototype.isModified = function(item) {
  * Validates that a value for this field has been provided in a data object
  * Overridden by some fieldType Classes
  *
+ * Note: passing the callback into process.nextTick() directly causes an
+ * 	error. See: http://stackoverflow.com/questions/33855141/mocha-returns-callback-is-not-a-function-for-async-calls
+ *
  * @api public
  */
 Field.prototype.validateInput = function(data, required, item, callback) {
-	process.nextTick(callback(null, this.inputIsValid()));
+	process.nextTick(function() {
+		callback(null, this.inputIsValid(data, required, item))
+	}.bind(this));
 };
 
 /**
