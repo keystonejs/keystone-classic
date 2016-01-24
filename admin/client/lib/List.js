@@ -48,13 +48,13 @@ const List = function (options) {
 	this.defaultColumnPaths = this.expandedDefaultColumns.map(i => i.path).join(',');
 };
 
-List.prototype.createItem = function (values, callback) {
+List.prototype.createItem = function (formData, callback) {
 	xhr({
 		url: `${Keystone.adminPath}/api/${this.path}/create`,
 		responseType: 'json',
 		method: 'POST',
 		headers: Keystone.csrf.header,
-		json: values,
+		body: formData,
 	}, (err, resp, data) => {
 		if (resp.statusCode === 200) {
 			callback(null, data);
