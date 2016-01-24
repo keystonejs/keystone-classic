@@ -1,4 +1,4 @@
-import { FormNote } from 'elemental';
+import { FormNote, FormField, FormInput } from 'elemental';
 import React from 'react';
 import Popout from './Popout';
 import PopoutList from './PopoutList';
@@ -11,6 +11,7 @@ var ListSort = React.createClass({
 		return {
 			altDown: false,
 			popoutIsOpen: false,
+			searchString: '',
 		};
 	},
 	componentDidMount () {
@@ -35,12 +36,15 @@ var ListSort = React.createClass({
 	},
 	openPopout () {
 		this.setState({
-			popoutIsOpen: true
+			popoutIsOpen: true,
+		}, () => {
+			this.refs.search.focus();
 		});
 	},
 	closePopout () {
 		this.setState({
-			popoutIsOpen: false
+			popoutIsOpen: false,
+			searchString: '',
 		});
 	},
 	handleSortSelect (path, inverted) {
@@ -49,11 +53,23 @@ var ListSort = React.createClass({
 		this.closePopout();
 		CurrentListStore.setActiveSort(path);
 	},
+	updateSearch (e) {
+		this.setState({ searchString: e.target.value });
+	},
 	renderSortOptions () {
 		// TODO: Handle multiple sort paths
 		let activeSortPath = CurrentListStore.getActiveSort().paths[0];
+		let availibleColumns = CurrentListStore.getAvailableColumns();
+		let { searchString } = this.state;
+		let filteredColumns = availibleColumns;
 
-		return CurrentListStore.getAvailableColumns().map((el, i) => {
+		if (searchString) {
+			filteredColumns = filteredColumns
+				.filter(column => column.type !== 'heading')
+				.filter(column => new RegExp(searchString).test(column.field.label.toLowerCase()));
+		}
+
+		return filteredColumns.map((el, i) => {
 			if (el.type === 'heading') {
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
@@ -93,6 +109,9 @@ var ListSort = React.createClass({
 				<Popout isOpen={this.state.popoutIsOpen} onCancel={this.closePopout} relativeToID="listHeaderSortButton">
 					<Popout.Header title="Sort" />
 					<Popout.Body scrollable>
+						<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
+							<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a field..." />
+						</FormField>
 						<PopoutList>
 							{this.renderSortOptions()}
 						</PopoutList>
