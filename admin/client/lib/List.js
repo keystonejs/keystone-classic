@@ -59,7 +59,11 @@ List.prototype.createItem = function (values, callback) {
 		if (resp.statusCode === 200) {
 			callback(null, data);
 		} else {
-			callback(err, null);
+			// NOTE: xhr callback will be called with an Error if
+			//  there is an error in the browser that prevents
+			//  sending the request. A HTTP 500 response is not
+			//  going to cause an error to be returned.
+			callback(data, null);
 		}
 	});
 };
