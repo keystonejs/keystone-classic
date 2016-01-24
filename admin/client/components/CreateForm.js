@@ -70,8 +70,9 @@ var CreateForm = React.createClass({
 		// 	of using a POST request to the list endpoint.
 		if (this.props.onCreate) {
 			event.preventDefault();
-			let values = this.state.values;
-			this.props.list.createItem(values, (err, data) => {
+			let createForm = this.refs.createForm.getDOMNode();
+			let formData = new FormData(createForm);
+			this.props.list.createItem(formData, (err, data) => {
 				if (data) {
 					this.props.onCreate(data);
 					this.setState({
@@ -80,7 +81,7 @@ var CreateForm = React.createClass({
 					}); // Clear form
 				} else {
 					this.setState({
-						err: data.detail
+						err: err.detail
 					});
 				}
 			});
@@ -145,7 +146,7 @@ var CreateForm = React.createClass({
 		});
 
 		return (
-			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} onSubmit={this.submitForm} className="create-form">
+			<Form ref="createForm" type="horizontal" encType="multipart/form-data" method="post" action={formAction} onSubmit={this.submitForm} className="create-form">
 				<input type="hidden" name="action" value="create" />
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				<Modal.Header text={'Create a new ' + list.singular} onClose={this.props.onCancel} showCloseButton />
