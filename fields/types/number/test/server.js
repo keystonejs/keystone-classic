@@ -77,65 +77,79 @@ exports.testFieldType = function(List) {
 		})).be(false);
 	});
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.number.updateItem(testItem, {
 			number: 42
+		}, function() {
+			demand(testItem.number).be(42);
+			testItem.number = undefined;
+			done();
 		});
-		demand(testItem.number).be(42);
-		testItem.number = undefined;
 	});
 
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.number'].updateItem(testItem, {
 			nested: {
 				number: 42
 			}
+		}, function() {
+			demand(testItem.nested.number).be(42);
+			testItem.nested.number = undefined;
+			done();
 		});
-		demand(testItem.nested.number).be(42);
-		testItem.nested.number = undefined;
 	});
 
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.number'].updateItem(testItem, {
 			'nested.number': 42
+		}, function() {
+			demand(testItem.nested.number).be(42);
+			testItem.nested.number = undefined;
+			done();
 		});
-		demand(testItem.nested.number).be(42);
-		testItem.nested.number = undefined;
 	});
 
-	it('should null value with empty string', function() {
+	it('should null value with empty string', function(done) {
 		testItem.number = 1;
 		List.fields.number.updateItem(testItem, {
 			number: ''
+		}, function() {
+			demand(testItem.number).be(null);
+			testItem.number = undefined;
+			done();
 		});
-		demand(testItem.number).be(null);
-		testItem.number = undefined;
 	});
 
-	it('should null value when null', function() {
+	it('should null value when null', function(done) {
 		testItem.number = 1;
 		List.fields.number.updateItem(testItem, {
 			number: null
+		}, function() {
+			demand(testItem.number).be(null);
+			testItem.number = undefined;
+			done();
 		});
-		demand(testItem.number).be(null);
-		testItem.number = undefined;
 	});
 
-	it('should not null value when undefined', function() {
+	it('should not null value when undefined', function(done) {
 		testItem.number = 1;
 		List.fields.number.updateItem(testItem, {
 			number: undefined
+		}, function() {
+			demand(testItem.number).be(1);
+			testItem.number = undefined;
+			done();
 		});
-		demand(testItem.number).be(1);
-		testItem.number = undefined;
 	});
 
-	it('should convert string values', function() {
+	it('should convert string values', function(done) {
 		testItem.number = 1;
 		List.fields.number.updateItem(testItem, {
 			number: '50.50'
+		}, function() {
+			demand(testItem.number).be(50.50);
+			testItem.number = undefined;
+			done();
 		});
-		demand(testItem.number).be(50.50);
-		testItem.number = undefined;
 	});
 };

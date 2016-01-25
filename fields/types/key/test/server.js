@@ -22,30 +22,36 @@ exports.testFilters = function(List) {//eslint-disable-line no-unused-vars
 exports.testFieldType = function(List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.key.updateItem(testItem, {
 			key: 'foobar'
+		}, function() {
+			demand(testItem.key).be('foobar');
+			testItem.key = undefined;
+			done();
 		});
-		demand(testItem.key).be('foobar');
-		testItem.key = undefined;
 	});
 	
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.key'].updateItem(testItem, {
 			nested: {
 				key: 'foobar'
 			}
+		}, function() {
+			demand(testItem.nested.key).be('foobar');
+			testItem.nested.key = undefined;
+			done();
 		});
-		demand(testItem.nested.key).be('foobar');
-		testItem.nested.key = undefined;
 	});
 	
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.key'].updateItem(testItem, {
 			'nested.key': 'foobar'
+		}, function() {
+			demand(testItem.nested.key).be('foobar');
+			testItem.nested.key = undefined;
+			done();
 		});
-		demand(testItem.nested.key).be('foobar');
-		testItem.nested.key = undefined;
 	});
 	
 	it('generateKey should return a slug of the provided string', function() {
@@ -70,20 +76,24 @@ exports.testFieldType = function(List) {
 		}, true, testItem).must.be.true();
 	});
 	
-	it('should update the item with a slugified value', function() {
+	it('should update the item with a slugified value', function(done) {
 		List.fields.key.updateItem(testItem, {
 			key: 'A b ç'
+		}, function() {
+			demand(testItem.key).be('a-b-c');
+			testItem.key = undefined;
+			done();
 		});
-		demand(testItem.key).be('a-b-c');
-		testItem.key = undefined;
 	});
 	
-	it('should use the separator option for the slugified value', function() {
+	it('should use the separator option for the slugified value', function(done) {
 		List.fields.customSeparator.updateItem(testItem, {
 			customSeparator: 'A b ç'
+		}, function() {
+			demand(testItem.customSeparator).be('a$b$c');
+			testItem.customSeparator = undefined;
+			done();
 		});
-		demand(testItem.customSeparator).be('a$b$c');
-		testItem.customSeparator = undefined;
 	});
 	
 };

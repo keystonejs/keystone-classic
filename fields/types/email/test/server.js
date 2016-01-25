@@ -21,30 +21,36 @@ exports.testFilters = function(List) {//eslint-disable-line no-unused-vars
 exports.testFieldType = function(List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.email.updateItem(testItem, {
 			email: 'sebastian@thinkmill.com.au'
+		}, function() {
+			demand(testItem.email).be('sebastian@thinkmill.com.au');
+			testItem.email = undefined;
+			done();
 		});
-		demand(testItem.email).be('sebastian@thinkmill.com.au');
-		testItem.email = undefined;
 	});
 	
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.email'].updateItem(testItem, {
 			nested: {
 				email: 'sebastian@thinkmill.com.au'
 			}
+		}, function() {
+			demand(testItem.nested.email).be('sebastian@thinkmill.com.au');
+			testItem.nested.email = undefined;
+			done();
 		});
-		demand(testItem.nested.email).be('sebastian@thinkmill.com.au');
-		testItem.nested.email = undefined;
 	});
 	
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.email'].updateItem(testItem, {
 			'nested.email': 'sebastian@thinkmill.com.au'
+		}, function() {
+			demand(testItem.nested.email).be('sebastian@thinkmill.com.au');
+			testItem.nested.email = undefined;
+			done();
 		});
-		demand(testItem.nested.email).be('sebastian@thinkmill.com.au');
-		testItem.nested.email = undefined;
 	});
 
 	it('should properly validate invalid emails', function() {

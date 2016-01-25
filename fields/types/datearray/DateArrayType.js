@@ -107,7 +107,7 @@ datearray.prototype.inputIsValid = function(data, required, item) {
  * @api public
  */
 
-datearray.prototype.updateItem = function(item, data) {
+datearray.prototype.updateItem = function(item, data, callback) {
 
 	var value = this.getValueFromData(data);
 	
@@ -130,6 +130,8 @@ datearray.prototype.updateItem = function(item, data) {
 			item.set(this.path, value);
 		}
 	} else item.set(this.path, []);
+
+	process.nextTick(callback);
 };
 
 

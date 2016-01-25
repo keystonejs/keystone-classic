@@ -21,29 +21,35 @@ exports.testFilters = function(List) {// eslint-disable-line no-unused-vars
 exports.testFieldType = function(List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.markdown.updateItem(testItem, {
 			markdown: 'foobar'
+		}, function() {
+			demand(testItem.markdown.html).be('<p>foobar</p>\n');
+			testItem.markdown = undefined;
+			done();
 		});
-		demand(testItem.markdown.html).be('<p>foobar</p>\n');
-		testItem.markdown = undefined;
 	});
 	
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.markdown'].updateItem(testItem, {
 			nested: {
 				markdown: 'foobar'
 			}
+		}, function() {
+			demand(testItem.nested.markdown.html).be('<p>foobar</p>\n');
+			testItem.nested.markdown = undefined;
+			done();
 		});
-		demand(testItem.nested.markdown.html).be('<p>foobar</p>\n');
-		testItem.nested.markdown = undefined;
 	});
 	
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.markdown'].updateItem(testItem, {
 			'nested.markdown': 'foobar'
+		}, function() {
+			demand(testItem.nested.markdown.html).be('<p>foobar</p>\n');
+			testItem.nested.markdown = undefined;
+			done();
 		});
-		demand(testItem.nested.markdown.html).be('<p>foobar</p>\n');
-		testItem.nested.markdown = undefined;
 	});
 };

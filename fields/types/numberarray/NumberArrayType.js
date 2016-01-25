@@ -107,7 +107,7 @@ numberarray.prototype.inputIsValid = function(data, required, item) {
  */
 
 
-numberarray.prototype.updateItem = function(item, data) {
+numberarray.prototype.updateItem = function(item, data, callback) {
 	var value = this.getValueFromData(data);
 	
 	if ('undefined' !== typeof value) {
@@ -135,6 +135,7 @@ numberarray.prototype.updateItem = function(item, data) {
 		}
 	}
 
+	process.nextTick(callback);
 };
 
 
