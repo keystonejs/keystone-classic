@@ -45,7 +45,7 @@ boolean.prototype.inputIsValid = function(data, required) {
  * Only updates the value if it has changed.
  * Treats a falsy value or the string "false" as false, everything else as true.
  */
-boolean.prototype.updateItem = function(item, data) {
+boolean.prototype.updateItem = function(item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (!value || value === 'false') {
 		if (item.get(this.path) !== false) {
@@ -54,6 +54,7 @@ boolean.prototype.updateItem = function(item, data) {
 	} else if (!item.get(this.path)) {
 		item.set(this.path, true);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */

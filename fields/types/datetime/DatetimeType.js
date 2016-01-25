@@ -66,9 +66,9 @@ datetime.prototype.inputIsValid = function(data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-datetime.prototype.updateItem = function(item, data) {
+datetime.prototype.updateItem = function(item, data, callback) {
 	if (!(this.path in data || (this.paths.date in data && this.paths.time in data))) {
-		return;
+		return process.nextTick(callback);
 	}
 	var m = this.isUTC ? moment.utc : moment;
 	var newValue = m(this.getInputFromData(data), parseFormats);
@@ -79,6 +79,7 @@ datetime.prototype.updateItem = function(item, data) {
 	} else if (item.get(this.path)) {
 		item.set(this.path, null);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */

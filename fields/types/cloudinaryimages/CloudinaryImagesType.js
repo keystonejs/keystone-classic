@@ -225,8 +225,9 @@ cloudinaryimages.prototype.inputIsValid = function (data) {//eslint-disable-line
  *
  * @api public
  */
-cloudinaryimages.prototype.updateItem = function (item, data) {//eslint-disable-line no-unused-vars
+cloudinaryimages.prototype.updateItem = function (item, data, callback) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
+	process.nextTick(callback);
 };
 
 /**

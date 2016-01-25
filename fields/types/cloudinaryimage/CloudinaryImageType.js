@@ -293,7 +293,7 @@ cloudinaryimage.prototype.inputIsValid = function(data) {//eslint-disable-line n
  *
  * @api public
  */
-cloudinaryimage.prototype.updateItem = function(item, data) {
+cloudinaryimage.prototype.updateItem = function(item, data, callback) {
 	var paths = this.paths;
 
 	var setValue = function(key) {
@@ -309,6 +309,8 @@ cloudinaryimage.prototype.updateItem = function(item, data) {
 	};
 
 	_.each(['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'], setValue);
+
+	process.nextTick(callback);
 };
 
 /**

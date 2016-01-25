@@ -99,12 +99,12 @@ geopoint.prototype.inputIsValid = function(data, required, item) {//eslint-disab
  * @api public
  */
 
-geopoint.prototype.updateItem = function(item, data) {
+geopoint.prototype.updateItem = function(item, data, callback) {
 	
-	if (!_.isObject(data)) return;
+	if (!_.isObject(data)) return process.nextTick(callback);
 	
 	var value = this.getValueFromData(data);
-	if (value === undefined) return;
+	if (value === undefined) return process.nextTick(callback);
 
 	if (_.isString(value)) {
 		
@@ -127,6 +127,7 @@ geopoint.prototype.updateItem = function(item, data) {
 		
 	}
 
+	process.nextTick(callback);
 };
 
 

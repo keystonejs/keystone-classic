@@ -55,25 +55,30 @@ module.exports = function(req, res) {
 
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 
+		function processUpdateHandler() {
+			console.log('here');
+			updateHandler.process(req.body, {
+				// flashErrors: true,
+				logErrors: true,
+				fields: req.list.initialFields
+			}, function(err) {
+				if (err) {
+					viewLocals.createErrors = err;
+					return renderView();
+				}
+				req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
+				return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path + '/' + item.id);
+			});
+		}
+
 		if (req.list.nameIsInitial) {
 			if (!req.list.nameField.inputIsValid(req.body, true, item)) {
 				updateHandler.addValidationError(req.list.nameField.path, req.list.nameField.label + ' is required.');
 			}
-			req.list.nameField.updateItem(item, req.body);
+			req.list.nameField.updateItem(item, req.body, processUpdateHandler);
+		} else {
+			processUpdateHandler();
 		}
-
-		updateHandler.process(req.body, {
-			// flashErrors: true,
-			logErrors: true,
-			fields: req.list.initialFields
-		}, function(err) {
-			if (err) {
-				viewLocals.createErrors = err;
-				return renderView();
-			}
-			req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
-			return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path + '/' + item.id);
-		});
 
 	} else {
 		renderView();
