@@ -61,7 +61,6 @@
     "moment": "2.11.1",
     "mongoose": "4.3.6",
     "morgan": "1.6.1",
-    "mpromise": "0.5.5",
     "multer": "0.1.8",
     "numeral": "1.5.3",
     "object-assign": "4.0.1",
