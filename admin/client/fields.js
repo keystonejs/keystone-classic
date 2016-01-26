@@ -19,6 +19,7 @@ module.exports = {
 	markdown:         require('../../fields/types/markdown/MarkdownField'),
 	money:            require('../../fields/types/money/MoneyField'),
 	name:             require('../../fields/types/name/NameField'),
+	nested: 		  require('../../fields/types/nested/NestedField'),
 	number:           require('../../fields/types/number/NumberField'),
 	numberarray:      require('../../fields/types/numberarray/NumberArrayField'),
 	password:         require('../../fields/types/password/PasswordField'),
