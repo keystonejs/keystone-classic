@@ -56,6 +56,7 @@ var Base = module.exports.Base = {
 		return <FormNote note={this.props.note} />;
 	},
 	renderField () {
+		console.log('Props 3', this. props);
 		var props = Object.assign(this.props.inputProps, {
 			autoComplete: 'off',
 			name: this.props.path,
