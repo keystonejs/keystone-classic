@@ -96,9 +96,9 @@ const dragItem = {
 
 		// self
 		if (prevSortOrder === newSortOrder) {
-			if(base.page !== page) {
+			if (base.page !== page) {
 				// we were dropped on ourself, but not on our original page
-				if(droppedOn.index === 0) {
+				if (droppedOn.index === 0) {
 					// item is first in the list
 					// save to the sortOrder of the 2nd item - 1
 					newSortOrder = CurrentListStore.findClonedItemByIndex(1).sortOrder - 1;
@@ -152,11 +152,11 @@ const dropItem = {
  * Specifies the props to inject into your component.
  */
 function dragProps (connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
-    connectDragPreview: connect.dragPreview(),
-  };
+	return {
+		connectDragSource: connect.dragSource(),
+		isDragging: monitor.isDragging(),
+		connectDragPreview: connect.dragPreview(),
+	};
 }
 
 function dropProps (connect) {
