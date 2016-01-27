@@ -96,7 +96,7 @@
     "gulp-streamify": "1.0.2",
     "gulp-uglify": "1.5.1",
     "istanbul": "0.4.2",
-    "mocha": "2.4.2",
+    "mocha": "2.4.4",
     "must": "0.13.1",
     "react-engine": "3.1.0",
     "rimraf": "2.5.1",
