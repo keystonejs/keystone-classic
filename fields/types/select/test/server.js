@@ -13,30 +13,36 @@ exports.initList = function(List) {
 exports.testFieldType = function(List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.select.updateItem(testItem, {
 			select: 'one'
+		}, function() {
+			demand(testItem.select).be('one');
+			testItem.select = undefined;
+			done();
 		});
-		demand(testItem.select).be('one');
-		testItem.select = undefined;
 	});
 
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.select'].updateItem(testItem, {
 			nested: {
 				select: 'one'
 			}
+		}, function() {
+			demand(testItem.nested.select).be('one');
+			testItem.nested.select = undefined;
+			done();
 		});
-		demand(testItem.nested.select).be('one');
-		testItem.nested.select = undefined;
 	});
 
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.select'].updateItem(testItem, {
 			'nested.select': 'one'
+		}, function() {
+			demand(testItem.nested.select).be('one');
+			testItem.nested.select = undefined;
+			done();
 		});
-		demand(testItem.nested.select).be('one');
-		testItem.nested.select = undefined;
 	});
 
 	it('should format values with the label of the option', function() {

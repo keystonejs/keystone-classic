@@ -251,10 +251,10 @@ embedly.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused
  * @api public
  */
 
-embedly.prototype.updateItem = function(item, data) {
+embedly.prototype.updateItem = function(item, data, callback) {
 	// TODO: This could be more granular and check for actual changes to values,
 	// see the Location field for an example
-	return item.set(item.set(this.path, {
+	item.set(item.set(this.path, {
 		exists: 			data[this.paths.exists],
 		type: 				data[this.paths.type],
 		title: 				data[this.paths.title],
@@ -272,6 +272,7 @@ embedly.prototype.updateItem = function(item, data) {
 		thumbnailWidth: 	data[this.paths.thumbnailWidth],
 		thumbnailHeight: 	data[this.paths.thumbnailHeight]
 	}));
+	process.nextTick(callback);
 };
 
 

@@ -83,10 +83,10 @@ number.prototype.inputIsValid = function(data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-number.prototype.updateItem = function(item, data) {
+number.prototype.updateItem = function(item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value === undefined) {
-		return;
+		return process.nextTick(callback);
 	}
 	var newValue = utils.number(value);
 	if (!isNaN(newValue)) {
@@ -96,6 +96,7 @@ number.prototype.updateItem = function(item, data) {
 	} else if ('number' === typeof item.get(this.path)) {
 		item.set(this.path, null);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */

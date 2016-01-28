@@ -138,12 +138,13 @@ password.prototype.inputIsValid = function(data, required, item) {
  *
  * @api public
  */
-password.prototype.updateItem = function(item, data) {
+password.prototype.updateItem = function(item, data, callback) {
 	if (this.path in data) {
 		item.set(this.path, data[this.path]);
 	} else if (this.paths.hash in data) {
 		item.set(this.paths.hash, data[this.paths.hash]);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */

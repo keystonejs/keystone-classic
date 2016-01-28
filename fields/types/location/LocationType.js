@@ -220,7 +220,7 @@ location.prototype.inputIsValid = function(data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-location.prototype.updateItem = function(item, data) {
+location.prototype.updateItem = function(item, data, callback) {
 
 	var paths = this.paths;
 	var fieldKeys = ['number', 'name', 'street1', 'street2', 'suburb', 'state', 'postcode', 'country'];
@@ -266,6 +266,8 @@ location.prototype.updateItem = function(item, data) {
 		var lng = utils.number(values[valuePaths.geo_lng]);
 		item.set(paths.geo, (lat && lng) ? [lng, lat] : undefined);
 	}
+
+	process.nextTick(callback);
 };
 
 /**

@@ -90,7 +90,7 @@ const dropTarget = {
 function dropProps (connect, monitor) {
 	return {
 		connectDropTarget: connect.dropTarget(),
-	 	isOver: monitor.isOver(),
+		isOver: monitor.isOver(),
 	};
 };
 

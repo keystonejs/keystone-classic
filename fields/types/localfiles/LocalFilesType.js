@@ -270,8 +270,9 @@ localfiles.prototype.inputIsValid = function(data) {//eslint-disable-line no-unu
  * @api public
  */
 
-localfiles.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
+localfiles.prototype.updateItem = function(item, data, callback) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
+	process.nextTick(callback);
 };
 
 

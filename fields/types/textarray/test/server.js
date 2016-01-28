@@ -46,61 +46,75 @@ exports.testFieldType = function(List) {
 		}, true)).be(false);
 	});
 	
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: ['a', 'b']
+		}, function() {
+			demand(testItem.textarr).eql(['a', 'b']);
+			testItem.textarr = undefined;
+			done();
 		});
-		demand(testItem.textarr).eql(['a', 'b']);
-		testItem.textarr = undefined;
 	});
 	
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.textarr'].updateItem(testItem, {
 			nested: {
 				textarr: ['a', 'b']
 			}
+		}, function() {
+			demand(testItem.nested.textarr).eql(['a', 'b']);
+			testItem.nested.textarr = undefined;
+			done();
 		});
-		demand(testItem.nested.textarr).eql(['a', 'b']);
-		testItem.nested.textarr = undefined;
 	});
 	
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.textarr'].updateItem(testItem, {
 			'nested.textarr': ['a', 'b']
+		}, function() {
+			demand(testItem.nested.textarr).eql(['a', 'b']);
+			testItem.nested.textarr = undefined;
+			done();
 		});
-		demand(testItem.nested.textarr).eql(['a', 'b']);
-		testItem.nested.textarr = undefined;
 	});
 	
-	it('should update empty arrays', function() {
+	it('should update empty arrays', function(done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: []
+		}, function() {
+			demand(testItem.textarr).eql([]);
+			testItem.textarr = undefined;
+			done();
 		});
-		demand(testItem.textarr).eql([]);
-		testItem.textarr = undefined;
 	});
 	
-	it('should default on null', function() {
+	it('should default on null', function(done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: null
+		}, function() {
+			demand(testItem.textarr).eql([]);
+			testItem.textarr = undefined;
+			done();
 		});
-		demand(testItem.textarr).eql([]);
-		testItem.textarr = undefined;
 	});
 	
-	it('should allow a single string value', function() {
+	it('should allow a single string value', function(done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: 'a'
+		}, function() {
+			demand(testItem.textarr).eql(['a']);
+			testItem.textarr = undefined;
+			done();
 		});
-		demand(testItem.textarr).eql(['a']);
-		testItem.textarr = undefined;
 	});
 	
-	it('should convert numbers to strings', function() {
+	it('should convert numbers to strings', function(done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: 1
+		}, function() {
+			demand(testItem.textarr).eql(['1']);
+			testItem.textarr = undefined;
+			done();
 		});
-		demand(testItem.textarr).eql(['1']);
-		testItem.textarr = undefined;
 	});
 };
