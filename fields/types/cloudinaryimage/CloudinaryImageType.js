@@ -314,12 +314,12 @@ cloudinaryimage.prototype.processFormData = function(item, formData, callback) {
 	var files = formData.files;
 	var data = formData.data;
 
-	var fileField = files[this.paths.upload];
+	var fileData = files[this.paths.upload];
 
 	// No files to upload, continue to validation and updating
-	if (!fileField) return callback();
+	if (!fileData) return callback();
 
-	var filePath = fileField.path;
+	var filePath = fileData.path;
 	this.apply(item, 'upload', filePath)
 		.then(function(response) {
 			if (response.error) {
