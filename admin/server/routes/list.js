@@ -56,7 +56,6 @@ module.exports = function(req, res) {
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 
 		function processUpdateHandler() {
-			console.log('here');
 			updateHandler.process(req.body, {
 				// flashErrors: true,
 				logErrors: true,

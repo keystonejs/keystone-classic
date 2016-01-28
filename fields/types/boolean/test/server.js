@@ -90,7 +90,7 @@ exports.testFieldType = function(List) {
 		});
 	});
 
-	it('should update nested fields wit.onlyh flat paths', function(done) {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.bool'].updateItem(testItem, {
 			'nested.bool': true,
 		}, function() {
