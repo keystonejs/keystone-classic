@@ -361,10 +361,11 @@ Field.prototype.getValueFromData = function(data) {
  *  to update and validation methods by modifying the data
  *  object by reference.
  *
+ * @params item     A list item object
  * @params formData { data, files }
  *
  * @api public
  */
-Field.prototype.processFormData = function(formData, callback) {
+Field.prototype.processFormData = function(item, formData, callback) {
 	process.nextTick(callback);
 };
