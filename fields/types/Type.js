@@ -6,6 +6,7 @@ var di = require('asyncdi');
 var marked = require('marked');
 var Path = require('../../lib/path');
 var utils = require('keystone-utils');
+var jsonCycle = require('json-cycle');
 
 var DEFAULT_OPTION_KEYS = [
 	'path',
@@ -24,7 +25,8 @@ var DEFAULT_OPTION_KEYS = [
 	'indent',
 	'hidden',
 	'collapse',
-	'dependsOn'
+	'dependsOn',
+	'subList'
 ];
 
 /**
@@ -92,9 +94,9 @@ Field.prototype.getOptions = function() {
 		}
 		optionKeys.forEach(function(key) {
 			if (this[key]) {
-				this.__options[key] = this[key];
+				this.__options[key] = key == 'subList' ? jsonCycle.decycle(this[key]) : this[key];
 			} else if (this.options[key]){
-				this.__options[key] = this.options[key];
+				this.__options[key] = key == 'subList' ? jsonCycle.decycle(this.options[key]) : this.options[key];
 			}
 		}, this);
 		if (this.getProperties) {
