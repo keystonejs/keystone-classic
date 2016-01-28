@@ -14,27 +14,19 @@ module.exports = function(req, res) {
 	var files = req.files;
 	var item = new req.list.model();
 
-	req.list.validateInput(item, {
+	req.list.processFormData(item, {
 		data: data,
 		files: files,
-	}, function(err, validationErrors) {
-		if (Object.keys(validationErrors).length > 0) {
-			// There were validation errors
+	}, function(errors, item) {
+		if (errors) {
 			res.status(500).json({
 				err: 'validation error',
 				detail: {
-					errors: validationErrors,
+					errors: errors,
 				},
 			});
 		} else {
-			// There were no validation errors, create the new item
-			req.list.updateItem(item, {
-				data: data,
-				files: files,
-			}, function (err) {
-				if (err) return res.status(500).json({ err: 'database error', detail: err });
-				res.json(req.list.getData(item));
-			});
+			res.json(req.list.getData(item));
 		}
 	});
 };
