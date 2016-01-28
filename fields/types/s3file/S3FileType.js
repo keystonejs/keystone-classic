@@ -215,9 +215,10 @@ s3file.prototype.validateInput = function(data) {//eslint-disable-line no-unused
  * @api public
  */
 
-s3file.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
+// s3file.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
-};
+	// commented out for now so super's updateItem will be called and S3FileType can be seeded with an application update
+// };
 
 
 /**
