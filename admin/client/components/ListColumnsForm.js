@@ -3,21 +3,19 @@ import ReactDOM from 'react-dom';
 import CurrentListStore from '../stores/CurrentListStore';
 import Popout from './Popout';
 import PopoutList from './PopoutList';
-import { Button, InputGroup } from 'elemental';
+import { Button, InputGroup, FormField, FormInput } from 'elemental';
 
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
-
 	propTypes: {
-		className: React.PropTypes.string.isRequired
+		className: React.PropTypes.string.isRequired,
 	},
-
 	getInitialState () {
 		return {
-			selectedColumns: {}
+			selectedColumns: {},
+			searchString: '',
 		};
 	},
-
 	getSelectedColumnsFromStore () {
 		var selectedColumns = {};
 		CurrentListStore.getActiveColumns().forEach(col => {
@@ -25,18 +23,17 @@ var ListColumnsForm = React.createClass({
 		});
 		return selectedColumns;
 	},
-
 	togglePopout (visible) {
 		this.setState({
 			selectedColumns: this.getSelectedColumnsFromStore(),
 			isOpen: visible,
+			searchString: '',
 		}, () => {
 			if (visible) {
-				ReactDOM.findDOMNode(this.refs.target).focus();
+				ReactDOM.findDOMNode(this.refs.search).focus();
 			}
 		});
 	},
-
 	toggleColumn (path, value) {
 		let newColumns = Object.assign({}, this.state.selectedColumns);
 
@@ -47,17 +44,28 @@ var ListColumnsForm = React.createClass({
 		}
 
 		this.setState({
-			selectedColumns: newColumns
+			selectedColumns: newColumns,
 		});
 	},
-
 	applyColumns () {
 		CurrentListStore.setActiveColumns(Object.keys(this.state.selectedColumns));
 		this.togglePopout(false);
 	},
-
+	updateSearch (e) {
+		this.setState({ searchString: e.target.value });
+	},
 	renderColumns () {
-		return CurrentListStore.getAvailableColumns().map((el, i) => {
+		let availibleColumns = CurrentListStore.getAvailableColumns();
+		let { searchString } = this.state;
+		let filteredColumns = availibleColumns;
+
+		if (searchString) {
+			filteredColumns = filteredColumns
+				.filter(column => column.type !== 'heading')
+				.filter(column => new RegExp(searchString).test(column.field.label.toLowerCase()));
+		}
+
+		return filteredColumns.map((el, i) => {
 			if (el.type === 'heading') {
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
@@ -76,7 +84,6 @@ var ListColumnsForm = React.createClass({
 			);
 		});
 	},
-
 	render () {
 		return (
 			<InputGroup.Section className={this.props.className}>
@@ -88,6 +95,9 @@ var ListColumnsForm = React.createClass({
 				<Popout isOpen={this.state.isOpen} onCancel={() => this.togglePopout(false)} relativeToID="listHeaderColumnButton">
 					<Popout.Header title="Columns" />
 					<Popout.Body scrollable>
+						<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
+							<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a column..." />
+						</FormField>
 						<PopoutList>
 							{this.renderColumns()}
 						</PopoutList>
@@ -100,8 +110,7 @@ var ListColumnsForm = React.createClass({
 				</Popout>
 			</InputGroup.Section>
 		);
-	}
-
+	},
 });
 
 module.exports = ListColumnsForm;

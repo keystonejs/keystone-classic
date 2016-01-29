@@ -33,7 +33,6 @@ var UpdateForm = React.createClass({
 			this.refs.focusTarget.focus();
 		}
 	},
-
 	getOptions () {
 		let { fields } = this.props.list;
 		return Object.keys(fields).map(key => ({ value: fields[key].path, label: fields[key].label }));

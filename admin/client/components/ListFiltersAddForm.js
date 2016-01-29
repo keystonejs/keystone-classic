@@ -5,7 +5,6 @@ import filters from '../filters';
 import Popout from './Popout';
 
 var ListFiltersAddForm = React.createClass({
-
 	propTypes: {
 		field: React.PropTypes.object.isRequired,
 		maxHeight: React.PropTypes.number,
@@ -13,7 +12,6 @@ var ListFiltersAddForm = React.createClass({
 		onCancel: React.PropTypes.func,
 		onHeightChange: React.PropTypes.func,
 	},
-
 	getInitialState () {
 		let filterComponent = filters[this.props.field.type];
 		let filterValue = CurrentListStore.getFilter(this.props.field.path);
@@ -27,7 +25,6 @@ var ListFiltersAddForm = React.createClass({
 			filterValue: filterValue
 		};
 	},
-
 	updateHeight (bodyHeight) {
 		bodyHeight += 40; // TODO: remove magic number, currently accounts for padding
 		let footerHeight = ReactDOM.findDOMNode(this.refs.footer).offsetHeight;
@@ -40,24 +37,20 @@ var ListFiltersAddForm = React.createClass({
 			this.props.onHeightChange(Math.min(newHeight, this.props.maxHeight));
 		});
 	},
-
 	updateValue (filterValue) {
 		this.setState({
 			filterValue: filterValue
 		});
 	},
-
 	handleFormSubmit (e) {
 		e.preventDefault();
 		this.props.onApply(this.state.filterValue);
 	},
-
 	renderInvalidFilter () {
 		return (
 			<div>Error: type {this.props.field.type} has no filter UI.</div>
 		);
 	},
-
 	render () {
 		var FilterComponent = this.state.filterComponent;
 		return (
@@ -73,8 +66,7 @@ var ListFiltersAddForm = React.createClass({
 					secondaryButtonLabel="Cancel" />
 			</form>
 		);
-	}
-
+	},
 });
 
 module.exports = ListFiltersAddForm;

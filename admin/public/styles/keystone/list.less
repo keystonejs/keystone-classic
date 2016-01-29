@@ -125,6 +125,22 @@
 }
 
 
+// Drag and Drop
+// ------------------------------
+
+.ItemList__row--dragging {
+	background-color: white;
+	cursor: move;
+	opacity: 1;
+}
+.ItemList__row--success,
+.ItemList__row--failure {
+	animation: listitem-finished-dragging 1.8s;
+}
+
+@-webkit-keyframes listitem-finished-dragging {
+	from { background-color: #fff6c0; }
+}
 
 
 // Links

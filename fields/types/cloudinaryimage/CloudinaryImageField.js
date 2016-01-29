@@ -193,7 +193,7 @@ module.exports = Field.create({
 		var className = ['image-preview'];
 
 		if (this.hasLocal()) {
-			iconClassName = clasnames(iconClassUploadPending);
+			iconClassName = classnames(iconClassUploadPending);
 		} else if (this.state.removeExisting) {
 			className.push(' removed');
 			iconClassName = classnames(iconClassDeletePending);

@@ -15,7 +15,7 @@ var PopoutBody = React.createClass({
 		}, this.props.className);
 		let props = blacklist(this.props, 'className', 'scrollable');
 		return <div className={className} {...props} />;
-	}
+	},
 });
 
 module.exports = PopoutBody;

@@ -2,6 +2,7 @@ var _ = require('underscore');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+var displayName = require('display-name');
 
 /**
  * Name FieldType Constructor
@@ -41,7 +42,7 @@ name.prototype.addToSchema = function() {
 	}, this.path + '.');
 
 	schema.virtual(paths.full).get(function () {
-		return _.compact([this.get(paths.first), this.get(paths.last)]).join(' ');
+		return displayName(this.get(paths.first), this.get(paths.last));
 	});
 
 	schema.virtual(paths.full).set(function(value) {
@@ -147,8 +148,8 @@ name.prototype.isModified = function(item) {
  *
  * @api public
  */
-name.prototype.updateItem = function(item, data) {
-	if (!_.isObject(data)) return;
+name.prototype.updateItem = function(item, data, callback) {
+	if (!_.isObject(data)) return process.nextTick(callback);
 	var paths = this.paths;
 	var setValue;
 	if (this.path in data && _.isString(data[this.path])) {
@@ -173,6 +174,7 @@ name.prototype.updateItem = function(item, data) {
 	if (setValue) {
 		_.each(['full', 'first', 'last'], setValue);
 	}
+	process.nextTick(callback);
 };
 
 

@@ -17,7 +17,7 @@ var SigninView = React.createClass({
 			isAnimating: false,
 			isInvalid: false,
 			invalidMessage: '',
-			signedOut: window.location.search === '?signedout'
+			signedOut: window.location.search === '?signedout',
 		};
 	},
 	componentDidMount () {
@@ -149,12 +149,15 @@ var SigninView = React.createClass({
 				</div>
 			</div>
 		);
-	}
+	},
 });
 
-ReactDOM.render(<SigninView
+ReactDOM.render(
+	<SigninView
 		brand={Keystone.brand}
 		logo={Keystone.logo}
 		user={Keystone.user}
 		userCanAccessKeystone={Keystone.userCanAccessKeystone}
-	/>, document.getElementById('signin-view'));
+	/>,
+	document.getElementById('signin-view')
+);

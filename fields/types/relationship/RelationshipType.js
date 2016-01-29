@@ -12,10 +12,11 @@ var utils = require('keystone-utils');
 function relationship(list, path, options) {
 	this.many = (options.many) ? true : false;
 	this.filters = options.filters;
+	this.createInline = (options.createInline) ? true : false;
 	this._defaultSize = 'full';
 	this._nativeType = keystone.mongoose.Schema.Types.ObjectId;
 	this._underscoreMethods = ['format'];
-	this._properties = ['isValid', 'many', 'filters'];
+	this._properties = ['isValid', 'many', 'filters', 'createInline'];
 	relationship.super_.call(this, list, path, options);
 }
 util.inherits(relationship, FieldType);
@@ -29,7 +30,8 @@ relationship.prototype.getProperties = function () {
 		refList: {
 			singular: refList.singular,
 			plural:   refList.plural,
-			path:     refList.path
+			path:     refList.path,
+			key:      refList.key,
 		}
 	};
 };
@@ -146,9 +148,9 @@ relationship.prototype.inputIsValid = function(data, required, item) {
  * Only updates the value if it has changed.
  * Treats an empty string as a null value.
  */
-relationship.prototype.updateItem = function(item, data) {
+relationship.prototype.updateItem = function(item, data, callback) {
 	if (!(this.path in data)) {
-		return;
+		return process.nextTick(callback);
 	}
 	if (item.populated(this.path)) {
 		throw new Error('fieldTypes.relationship.updateItem() Error - You cannot update populated relationships.');
@@ -174,6 +176,7 @@ relationship.prototype.updateItem = function(item, data) {
 			item.set(this.path, null);
 		}
 	}
+	process.nextTick(callback);
 };
 
 /**

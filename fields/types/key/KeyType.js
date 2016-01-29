@@ -41,15 +41,16 @@ key.prototype.inputIsValid = function(data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-key.prototype.updateItem = function(item, data) {
+key.prototype.updateItem = function(item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value === undefined) {
-		return;
+		return process.nextTick(callback);
 	}
 	value = this.generateKey(value);
 	if (item.get(this.path) !== value) {
 		item.set(this.path, value);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */

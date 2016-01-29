@@ -31,7 +31,7 @@ exports.testFieldType = function(List) {
 		testItem.set('location.customRequired', emptyLocationValues);
 	};
 	
-	it('should update its value from flat paths', function() {
+	it('should update its value from flat paths', function(done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
 			'location.basic.number': 'number',
@@ -44,21 +44,23 @@ exports.testFieldType = function(List) {
 			'location.basic.country': 'country',
 			'location.basic.geo_lat': '-33.865143',
 			'location.basic.geo_lng': '151.2099'
+		}, function() {
+			demand(testItem.location.basic.number).be('number');
+			demand(testItem.location.basic.name).be('name');
+			demand(testItem.location.basic.street1).be('street 1');
+			demand(testItem.location.basic.street2).be('street 2');
+			demand(testItem.location.basic.suburb).be('suburb');
+			demand(testItem.location.basic.state).be('state');
+			demand(testItem.location.basic.postcode).be('postcode');
+			demand(testItem.location.basic.country).be('country');
+			demand(Array.isArray(testItem.location.basic.geo)).be.true();
+			demand(testItem.location.basic.geo[0]).be(151.2099);
+			demand(testItem.location.basic.geo[1]).be(-33.865143);
+			done();
 		});
-		demand(testItem.location.basic.number).be('number');
-		demand(testItem.location.basic.name).be('name');
-		demand(testItem.location.basic.street1).be('street 1');
-		demand(testItem.location.basic.street2).be('street 2');
-		demand(testItem.location.basic.suburb).be('suburb');
-		demand(testItem.location.basic.state).be('state');
-		demand(testItem.location.basic.postcode).be('postcode');
-		demand(testItem.location.basic.country).be('country');
-		demand(Array.isArray(testItem.location.basic.geo)).be.true();
-		demand(testItem.location.basic.geo[0]).be(151.2099);
-		demand(testItem.location.basic.geo[1]).be(-33.865143);
 	});
 	
-	it('should update its value from nested paths', function() {
+	it('should update its value from nested paths', function(done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
 			location: {
@@ -74,32 +76,38 @@ exports.testFieldType = function(List) {
 					geo: ['151.2099', '-33.865143']
 				}
 			}
+		}, function() {		
+			demand(testItem.location.basic.number).be('number');
+			demand(testItem.location.basic.name).be('name');
+			demand(testItem.location.basic.street1).be('street 1');
+			demand(testItem.location.basic.street2).be('street 2');
+			demand(testItem.location.basic.suburb).be('suburb');
+			demand(testItem.location.basic.state).be('state');
+			demand(testItem.location.basic.postcode).be('postcode');
+			demand(testItem.location.basic.country).be('country');
+			demand(Array.isArray(testItem.location.basic.geo)).be.true();
+			demand(testItem.location.basic.geo[0]).be(151.2099);
+			demand(testItem.location.basic.geo[1]).be(-33.865143);
+			done();
 		});
-		demand(testItem.location.basic.number).be('number');
-		demand(testItem.location.basic.name).be('name');
-		demand(testItem.location.basic.street1).be('street 1');
-		demand(testItem.location.basic.street2).be('street 2');
-		demand(testItem.location.basic.suburb).be('suburb');
-		demand(testItem.location.basic.state).be('state');
-		demand(testItem.location.basic.postcode).be('postcode');
-		demand(testItem.location.basic.country).be('country');
-		demand(Array.isArray(testItem.location.basic.geo)).be.true();
-		demand(testItem.location.basic.geo[0]).be(151.2099);
-		demand(testItem.location.basic.geo[1]).be(-33.865143);
 	});
 	
-	it('should remove the location.geo path without valid values', function() {
+	it('should remove the location.geo path without valid values', function(done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
 			'location.basic.geo': ['151.2099', '-33.865143']
+		}, function() {
+			demand(testItem.location.basic.geo[0]).be(151.2099);
+			demand(testItem.location.basic.geo[1]).be(-33.865143);
+
+			List.fields['location.basic'].updateItem(testItem, {
+				'location.basic.geo_lat': '',
+				'location.basic.geo_lng': ''
+			}, function() {
+				demand(testItem.location.basic.geo).be.undefined();
+				done();
+			});
 		});
-		demand(testItem.location.basic.geo[0]).be(151.2099);
-		demand(testItem.location.basic.geo[1]).be(-33.865143);
-		List.fields['location.basic'].updateItem(testItem, {
-			'location.basic.geo_lat': '',
-			'location.basic.geo_lng': ''
-		});
-		demand(testItem.location.basic.geo).be.undefined();
 	});
 	
 	it('should validate required fields', function() {

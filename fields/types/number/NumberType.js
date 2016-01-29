@@ -30,8 +30,8 @@ number.prototype.addFilterToQuery = function(filter, query) {
 		return;
 	}
 	if (filter.mode === 'between') {
-		var min = utils.number(value.min);
-		var max = utils.number(value.max);
+		var min = utils.number(filter.value.min);
+		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
 			query[this.path] = filter.inverted ? { $gte: max, $lte: min } : { $gte: min, $lte: max };
 		}
@@ -83,10 +83,10 @@ number.prototype.inputIsValid = function(data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-number.prototype.updateItem = function(item, data) {
+number.prototype.updateItem = function(item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value === undefined) {
-		return;
+		return process.nextTick(callback);
 	}
 	var newValue = utils.number(value);
 	if (!isNaN(newValue)) {
@@ -96,6 +96,7 @@ number.prototype.updateItem = function(item, data) {
 	} else if ('number' === typeof item.get(this.path)) {
 		item.set(this.path, null);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */

@@ -3,7 +3,6 @@ import { Alert } from 'elemental';
 
 var FlashMessage = React.createClass({
 	displayName: 'FlashMessage',
-
 	propTypes: {
 		message: React.PropTypes.oneOfType([
 			React.PropTypes.object,
@@ -11,7 +10,6 @@ var FlashMessage = React.createClass({
 		]),
 		type: React.PropTypes.string,
 	},
-
 	renderMessage (message) {
 		if (typeof message === 'string') return <span>{message}</span>;
 
@@ -31,11 +29,9 @@ var FlashMessage = React.createClass({
 			</span>
 		);
 	},
-
 	render () {
 		return <Alert type={this.props.type}>{this.renderMessage(this.props.message)}</Alert>;
-	}
-
+	},
 });
 
 var FlashMessages = React.createClass({
@@ -52,7 +48,6 @@ var FlashMessages = React.createClass({
 			})
 		]),
 	},
-
 	renderMessages (messages, type) {
 		if (!messages || !messages.length) return null;
 
@@ -60,11 +55,9 @@ var FlashMessages = React.createClass({
 			return <FlashMessage message={message} type={type} />;
 		});
 	},
-
 	renderTypes (types) {
 		return Object.keys(types).map(type => this.renderMessages(types[type], type));
 	},
-
 	render () {
 		if (!this.props.messages) return null;
 
@@ -73,8 +66,7 @@ var FlashMessages = React.createClass({
 				{this.renderTypes(this.props.messages)}
 			</div>
 		);
-	}
-
+	},
 });
 
 module.exports = FlashMessages;

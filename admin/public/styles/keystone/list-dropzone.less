@@ -1,0 +1,51 @@
+//
+// Sortable List DropZone Controls
+// ==============================
+
+
+// Main
+// ------------------------------
+
+.ItemList__dropzone {
+	color: @gray;
+	margin-left: -@spacing-sm;
+	margin-right: -@spacing-sm;
+	position: relative;
+
+	&:hover,
+	&:focus,
+	&:active {
+		outline: none;
+	}
+	.clearfix {
+		clear: both;
+	}
+}
+
+// page control
+.ItemList__dropzone--page {
+	border: 1px dashed @gray-light;
+	border-radius: @border-radius-base;
+	cursor: pointer;
+	float:left;
+	font-size: @font-size-sm;
+	margin: @spacing-sm;
+	padding: .75em;
+	text-align: center;
+	width: 75px;
+
+	&:hover {
+		text-decoration: underline;
+	}
+	&.is-active {
+		background-color: @gray-lighter;
+	}
+	&.is-waiting {
+		background-color: white;
+	}
+	&.is-available {
+		border-color: @app-primary;
+		border-style: solid;
+		color: @app-primary;
+	}
+}

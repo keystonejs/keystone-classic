@@ -2,27 +2,25 @@ import React from 'react';
 import Fields from '../fields';
 import InvalidFieldType from './InvalidFieldType';
 import { Alert, Button, Form, Modal } from 'elemental';
+import xhr from 'xhr';
 
 var CreateForm = React.createClass({
-
 	displayName: 'CreateForm',
-
 	propTypes: {
 		err: React.PropTypes.object,
 		isOpen: React.PropTypes.bool,
 		list: React.PropTypes.object,
 		onCancel: React.PropTypes.func,
+		onCreate: React.PropTypes.func,
 		values: React.PropTypes.object,
 	},
-
 	getDefaultProps () {
 		return {
 			err: null,
 			values: {},
-			isOpen: false
+			isOpen: false,
 		};
 	},
-
 	getInitialState () {
 		var values = Object.assign({}, this.props.values);
 
@@ -34,31 +32,28 @@ var CreateForm = React.createClass({
 			}
 		});
 		return {
-			values: values
+			values: values,
+			err: this.props.err,
 		};
 	},
-
 	handleChange (event) {
 		var values = Object.assign({}, this.state.values);
 		values[event.path] = event.value;
 		this.setState({
-			values: values
+			values: values,
 		});
 	},
-
 	componentDidUpdate (prevProps) {
 		if (this.props.isOpen !== prevProps.isOpen) {
 			// focus the focusTarget after the "open modal" CSS animation has started
 			setTimeout(() => this.refs.focusTarget && this.refs.focusTarget.focus(), 0);
 		}
 	},
-
 	componentDidMount () {
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}
 	},
-
 	getFieldProps (field) {
 		var props = Object.assign({}, field);
 		props.value = this.state.values[field.path];
@@ -69,14 +64,39 @@ var CreateForm = React.createClass({
 		return props;
 	},
 
+	submitForm (event) {
+		// If there is an onCreate function,
+		// 	create new item using async create api instead
+		// 	of using a POST request to the list endpoint.
+		if (this.props.onCreate) {
+			event.preventDefault();
+			let createForm = this.refs.createForm.getDOMNode();
+			let formData = new FormData(createForm);
+			this.props.list.createItem(formData, (err, data) => {
+				if (data) {
+					this.props.onCreate(data);
+					this.setState({
+						values: {},
+						err: null,
+					}); // Clear form
+				} else {
+					this.setState({
+						err: err.detail
+					});
+				}
+			});
+		}
+	},
+
 	renderAlerts () {
-		if (!this.props.err || !this.props.err.errors) return;
+		if (!this.state.err || !this.state.err.errors) return;
 
+		let errors = this.state.err.errors;
 		var alertContent;
-		var errorCount = Object.keys(this.props.err.errors).length;
+		var errorCount = Object.keys(errors).length;
 
-		var messages = Object.keys(this.props.err.errors).map((path) => {
-			return errorCount > 1 ? <li key={path}>{this.props.err.errors[path].message}</li> : <div key={path}>{this.props.err.errors[path].message}</div>;
+		var messages = Object.keys(errors).map((path) => {
+			return errorCount > 1 ? <li key={path}>{errors[path].message}</li> : <div key={path}>{errors[path].message}</div>;
 		});
 
 		if (errorCount > 1) {
@@ -92,10 +112,9 @@ var CreateForm = React.createClass({
 
 		return <Alert type="danger">{alertContent}</Alert>;
 	},
-
 	renderForm () {
-
 		if (!this.props.isOpen) return;
+
 		var form = [];
 		var list = this.props.list;
 		var formAction = `${Keystone.adminPath}/${list.path}`;
@@ -127,7 +146,7 @@ var CreateForm = React.createClass({
 		});
 
 		return (
-			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} className="create-form">
+			<Form ref="createForm" type="horizontal" encType="multipart/form-data" method="post" action={formAction} onSubmit={this.submitForm} className="create-form">
 				<input type="hidden" name="action" value="create" />
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				<Modal.Header text={'Create a new ' + list.singular} onClose={this.props.onCancel} showCloseButton />
@@ -142,15 +161,13 @@ var CreateForm = React.createClass({
 			</Form>
 		);
 	},
-
 	render () {
 		return (
 			<Modal isOpen={this.props.isOpen} onCancel={this.props.onCancel} backdropClosesModal>
 				{this.renderForm()}
 			</Modal>
 		);
-	}
-
+	},
 });
 
 module.exports = CreateForm;

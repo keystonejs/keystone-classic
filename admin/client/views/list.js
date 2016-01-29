@@ -9,6 +9,7 @@ import ConfirmationDialog from '../components/ConfirmationDialog';
 import CreateForm from '../components/CreateForm';
 import FlashMessages from '../components/FlashMessages';
 import Footer from '../components/Footer';
+import ItemsTable from '../components/ItemsTable';
 import ListColumnsForm from '../components/ListColumnsForm';
 import ListControl from '../components/ListControl';
 import ListDownloadForm from '../components/ListDownloadForm';
@@ -28,7 +29,7 @@ const ListView = React.createClass({
 	getInitialState () {
 		return {
 			confirmationDialog: {
-				isOpen: false
+				isOpen: false,
 			},
 			checkedItems: {},
 			constrainTableWidth: true,
@@ -59,6 +60,7 @@ const ListView = React.createClass({
 			pageSize: CurrentListStore.getPageSize(),
 			ready: CurrentListStore.isReady(),
 			search: CurrentListStore.getActiveSearch(),
+			rowAlert: CurrentListStore.rowAlert(),
 		};
 		if (!this._searchTimeout) {
 			state.searchString = state.search;
@@ -74,7 +76,7 @@ const ListView = React.createClass({
 	updateSearch (e) {
 		clearTimeout(this._searchTimeout);
 		this.setState({
-			searchString: e.target.value
+			searchString: e.target.value,
 		});
 		var delay = e.target.value.length > 1 ? 150 : 0;
 		this._searchTimeout = setTimeout(() => {
@@ -143,7 +145,7 @@ const ListView = React.createClass({
 		return (
 			<InputGroup.Section grow className="ListHeader__search">
 				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
-				<button ref="listSearchClear" type="button" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
+				<button ref="listSearchClear" type="button" title="Clear search query" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
 			</InputGroup.Section>
 		);
 	},
@@ -171,7 +173,6 @@ const ListView = React.createClass({
 	},
 	renderConfirmationDialog () {
 		const props = this.state.confirmationDialog;
-
 		return (
 			<ConfirmationDialog
 				isOpen={props.isOpen}
@@ -183,7 +184,6 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
-
 		// WIP: Management mode currently under development, so the UI is disabled
 		// unless the KEYSTONE_DEV environment variable is set
 		if (!Keystone.devMode) return;
@@ -309,7 +309,7 @@ const ListView = React.createClass({
 
 	checkTableItem (item, e) {
 		e.preventDefault();
-		let newCheckedItems = this.state.checkedItems;
+		let newCheckedItems = { ...this.state.checkedItems };
 		let itemId = item.id;
 		if (this.state.checkedItems[itemId]) {
 			delete newCheckedItems[itemId];
@@ -349,15 +349,15 @@ const ListView = React.createClass({
 				onConfirmation: () => {
 					CurrentListStore.deleteItem(item.id);
 					this.removeConfirmationDialog();
-				}
-			}
+				},
+			},
 		});
 	},
 	removeConfirmationDialog () {
 		this.setState({
 			confirmationDialog: {
-				isOpen: false
-			}
+				isOpen: false,
+			},
 		});
 	},
 	toggleTableWidth () {
@@ -365,71 +365,6 @@ const ListView = React.createClass({
 			constrainTableWidth: !this.state.constrainTableWidth,
 		});
 	},
-	renderTableCols () {
-		var cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
-		// add delete col when applicable
-		if (!this.state.list.nodelete) {
-			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />);
-		}
-		// add sort col when applicable
-		if (this.state.list.sortable) {
-			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />);
-		}
-		return <colgroup>{cols}</colgroup>;
-	},
-	renderTableHeaders () {
-		var cells = this.state.columns.map((col, i) => {
-			// span first col for controls when present
-			var span = 1;
-			if (!i) {
-				if (this.state.list.sortable) span++;
-				if (!this.state.list.nodelete) span++;
-			}
-			return <th key={col.path} colSpan={span}>{col.label}</th>;
-		});
-		return <thead><tr>{cells}</tr></thead>;
-	},
-	renderTableRow (item) {
-		let itemId = item.id;
-		let rowClassname = classnames({
-			'ItemList__row--selected': this.state.checkedItems[itemId],
-			'ItemList__row--manage': this.state.manageMode,
-		});
-		var cells = this.state.columns.map((col, i) => {
-			var ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			var linkTo = !i ? `${Keystone.adminPath}/${this.state.list.path}/${itemId}` : undefined;
-			return <ColumnType key={col.path} list={this.state.list} col={col} data={item} linkTo={linkTo} />;
-		});
-		// add sortable icon when applicable
-		if (this.state.list.sortable) {
-			cells.unshift(<ListControl key="_sort" onClick={this.reorderItems} type="sortable" />);
-		}
-		// add delete/check icon when applicable
-		if (!this.state.list.nodelete) {
-			cells.unshift(this.state.manageMode ? (
-				<ListControl key="_check" type="check" active={this.state.checkedItems[itemId]} />
-			) : (
-				<ListControl key="_delete" onClick={(e) => this.deleteTableItem(item, e)} type="delete" />
-			));
-		}
-		return <tr key={'i' + item.id} onClick={this.state.manageMode ? (e) => this.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>;
-	},
-	renderTable () {
-		if (!this.state.items.results.length) return null;
-
-		return (
-			<div className="ItemList-wrapper">
-				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
-					{this.renderTableCols()}
-					{this.renderTableHeaders()}
-					<tbody>
-						{this.state.items.results.map(this.renderTableRow)}
-					</tbody>
-				</table>
-			</div>
-		);
-	},
-
 
 	// ==============================
 	// COMMON
@@ -483,7 +418,16 @@ const ListView = React.createClass({
 				{this.renderHeader()}
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
-					{this.renderTable()}
+					<ItemsTable
+						deleteTableItem={this.deleteTableItem}
+						list={this.state.list}
+						columns={this.state.columns}
+						items={this.state.items}
+						manageMode={this.state.manageMode}
+						checkedItems={this.state.checkedItems}
+						rowAlert={this.state.rowAlert}
+						checkTableItem={this.checkTableItem}
+					/>
 					{this.renderNoSearchResults()}
 				</Container>
 			</div>
@@ -550,8 +494,7 @@ const ListView = React.createClass({
 				{this.renderConfirmationDialog()}
 			</div>
 		);
-	}
-
+	},
 });
 
 ReactDOM.render(

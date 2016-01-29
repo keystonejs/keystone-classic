@@ -14,12 +14,12 @@ var AltText = React.createClass({
 			component: 'span',
 			modifier: '<alt>',
 			normal: '',
-			modified: ''
+			modified: '',
 		};
 	},
 	getInitialState () {
 		return {
-			modified: false
+			modified: false,
 		};
 	},
 	componentDidMount () {
@@ -33,19 +33,19 @@ var AltText = React.createClass({
 	handleKeyDown (e) {
 		if (vkey[e.keyCode] !== this.props.modifier) return;
 		this.setState({
-			modified: true
+			modified: true,
 		});
 	},
 	handleKeyUp (e) {
 		if (vkey[e.keyCode] !== this.props.modifier) return;
 		this.setState({
-			modified: false
+			modified: false,
 		});
 	},
 	render () {
 		var props = blacklist(this.props, 'component', 'modifier', 'normal', 'modified');
 		return React.createElement(this.props.component, props, this.state.modified ? this.props.modified : this.props.normal);
-	}
+	},
 });
 
 module.exports = AltText;

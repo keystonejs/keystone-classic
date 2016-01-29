@@ -100,7 +100,7 @@ module.exports = Field.create({
 				Keystone.wysiwyg.options,
 				this.props.wysiwyg
 			),
-			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
+			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | removeformat | link ',
 			i;
 
 		if (options.enableImages) {

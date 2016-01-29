@@ -48,6 +48,26 @@ const List = function (options) {
 	this.defaultColumnPaths = this.expandedDefaultColumns.map(i => i.path).join(',');
 };
 
+List.prototype.createItem = function (formData, callback) {
+	xhr({
+		url: `${Keystone.adminPath}/api/${this.path}/create`,
+		responseType: 'json',
+		method: 'POST',
+		headers: Keystone.csrf.header,
+		body: formData,
+	}, (err, resp, data) => {
+		if (resp.statusCode === 200) {
+			callback(null, data);
+		} else {
+			// NOTE: xhr callback will be called with an Error if
+			//  there is an error in the browser that prevents
+			//  sending the request. A HTTP 500 response is not
+			//  going to cause an error to be returned.
+			callback(data, null);
+		}
+	});
+};
+
 List.prototype.expandColumns = function (input) {
 	let nameIncluded = false;
 	const cols = listToArray(input).map(i => {
@@ -180,5 +200,25 @@ List.prototype.deleteItems = function (itemIds, callback) {
 		callback(null, body);
 	});
 };
+
+List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOptions, callback) {
+	const url = Keystone.adminPath + '/api/' + this.path + '/' + item.id + '/sortOrder/' + oldSortOrder + '/' + newSortOrder + '/' + buildQueryString(pageOptions);
+	xhr({
+		url: url,
+		method: 'POST',
+		headers: Keystone.csrf.header
+	}, (err, resp, body) => {
+		if (err) return callback(err);
+		// TODO: check resp.statusCode
+		try {
+			body = JSON.parse(body);
+		} catch(e) {
+			console.log('Error parsing results json:', e, body);
+			return callback(e);
+		}
+		callback(null, body);
+	});
+};
+
 
 module.exports = List;

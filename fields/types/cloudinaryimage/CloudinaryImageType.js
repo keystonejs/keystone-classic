@@ -2,7 +2,6 @@ var _ = require('underscore');
 var keystone = require('../../../');
 var util = require('util');
 var cloudinary = require('cloudinary');
-var MPromise = require('mpromise');
 var utils = require('keystone-utils');
 var super_ = require('../Type');
 
@@ -182,7 +181,7 @@ cloudinaryimage.prototype.addToSchema = function() {
 			return src(this, options);
 		},
 		tag: function(options) {
-			return exists(this) ? cloudinary.image(this.get(field.path), options) : '';
+			return exists(this) ? cloudinary.image(this.get(field.path).public_id, options) : '';
 		},
 		scale: function(width, height, options) {
 			return src(this, addSize({ crop: 'scale' }, width, height, options));
@@ -225,13 +224,13 @@ cloudinaryimage.prototype.addToSchema = function() {
 		 * @api public
 		 */
 		delete: function() {
-			var promise = new MPromise();
-
-			cloudinary.uploader.destroy(this.get(paths.public_id), function(result) {
-				promise.fulfill(result);
+			var _this = this;
+			var promise = new Promise(function(resolve, reject) {
+				cloudinary.uploader.destroy(_this.get(paths.public_id), function(result) {
+					resolve(result);
+				});
 			});
 			reset(this);
-
 			return promise;
 		},
 		/**
@@ -240,12 +239,11 @@ cloudinaryimage.prototype.addToSchema = function() {
 		 * @api public
 		 */
 		upload: function(file, options) {
-			var promise = new MPromise();
-
-			cloudinary.uploader.upload(file, function(result) {
-				promise.fulfill(result);
-			}, options);
-
+			var promise = new Promise(function(resolve, reject) {
+				cloudinary.uploader.upload(file, function(result) {
+						resolve(result);
+				}, options);
+			});
 			return promise;
 		}
 	};
@@ -295,7 +293,7 @@ cloudinaryimage.prototype.inputIsValid = function(data) {//eslint-disable-line n
  *
  * @api public
  */
-cloudinaryimage.prototype.updateItem = function(item, data) {
+cloudinaryimage.prototype.updateItem = function(item, data, callback) {
 	var paths = this.paths;
 
 	var setValue = function(key) {
@@ -311,6 +309,8 @@ cloudinaryimage.prototype.updateItem = function(item, data) {
 	};
 
 	_.each(['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'], setValue);
+
+	process.nextTick(callback);
 };
 
 /**
@@ -407,15 +407,15 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 
 			// upload immediately if image is not being delete
 			if (typeof imageDelete === 'undefined') {
-				field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).onFulfill(uploadComplete);
+				field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).then(uploadComplete);
 			} else {
 				// otherwise wait until image is deleted before uploading
 				// this avoids problems when deleting/uploading images with the same public_id (issue #598)
-				imageDelete.onFulfill(function(result) {
+				imageDelete.then(function(result) {
 					if (result.error) {
 						callback(result.error);
 					} else {
-						field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).onFulfill(uploadComplete);
+						field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).then(uploadComplete);
 					}
 				});
 			}
