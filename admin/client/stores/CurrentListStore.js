@@ -326,16 +326,6 @@ const CurrentListStore = new Store({
 		defaultDrag();
 		this.notifyChange();
 	},
-	downloadItems (format, columns) {
-		var url = _list.getDownloadURL({
-			search: active.search,
-			filters: active.filters,
-			sort: active.sort,
-			columns: columns ? _list.expandColumns(columns) : active.columns,
-			format: format,
-		});
-		window.open(url);
-	},
 });
 
 history.listen(function (location) {
