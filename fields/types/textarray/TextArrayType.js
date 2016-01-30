@@ -52,7 +52,7 @@ textarray.prototype.inputIsValid = function(data, required, item) {
  * @api public
  */
 
-textarray.prototype.updateItem = function(item, data) {
+textarray.prototype.updateItem = function(item, data, callback) {
 	var value = this.getValueFromData(data);
 	
 	if ('undefined' !== typeof value) {
@@ -69,6 +69,8 @@ textarray.prototype.updateItem = function(item, data) {
 			item.set(this.path, value);
 		}
 	}
+
+	process.nextTick(callback);
 };
 
 /*!

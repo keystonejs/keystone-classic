@@ -310,12 +310,13 @@ Field.prototype.inputIsValid = function(data, required, item) {
  *
  * @api public
  */
-Field.prototype.updateItem = function(item, data) {
+Field.prototype.updateItem = function(item, data, callback) {
 	var value = this.getValueFromData(data);
 	// This is a deliberate type coercion so that numbers from forms play nice
 	if (value !== undefined && value != item.get(this.path)) { // eslint-disable-line eqeqeq
 		item.set(this.path, value);
 	}
+	process.nextTick(callback);
 };
 
 /**

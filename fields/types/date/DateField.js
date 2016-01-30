@@ -46,7 +46,7 @@ module.exports = Field.create({
 	},
 
 	isValid (value) {
-		return moment(value, this.inputFormat).isValid();
+		return this.moment(value, this.inputFormat).isValid();
 	},
 
 	format (value) {
@@ -62,8 +62,8 @@ module.exports = Field.create({
 	},
 
 	renderField () {
-		let value = moment(this.props.value);
-		value = this.props.value && value.isValid() ? value.format(this.props.inputFormat) : this.props.value;
+		let value = this.moment(this.props.value);
+		value = this.props.value && value.isValid() ? value.format(this.props.formatString) : this.props.value;
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>

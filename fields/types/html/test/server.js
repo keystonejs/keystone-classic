@@ -21,29 +21,35 @@ exports.testFilters = function(List) {//eslint-disable-line no-unused-vars
 exports.testFieldType = function(List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.html.updateItem(testItem, {
 			html: 'foobar'
+		}, function() {		
+			demand(testItem.html).be('foobar');
+			testItem.html = undefined;
+			done();
 		});
-		demand(testItem.html).be('foobar');
-		testItem.html = undefined;
 	});
 	
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.html'].updateItem(testItem, {
 			nested: {
 				html: 'foobar'
 			}
+		}, function() {
+			demand(testItem.nested.html).be('foobar');
+			testItem.nested.html = undefined;
+			done();
 		});
-		demand(testItem.nested.html).be('foobar');
-		testItem.nested.html = undefined;
 	});
 	
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.html'].updateItem(testItem, {
 			'nested.html': 'foobar'
+		}, function() {
+			demand(testItem.nested.html).be('foobar');
+			testItem.nested.html = undefined;
+			done();
 		});
-		demand(testItem.nested.html).be('foobar');
-		testItem.nested.html = undefined;
 	});
 };

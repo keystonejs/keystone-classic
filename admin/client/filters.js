@@ -28,5 +28,5 @@ module.exports = {
 	text:             require('../../fields/types/text/TextFilter'),
 	textarea:         require('../../fields/types/textarea/TextareaFilter'),
 	textarray:        require('../../fields/types/textarray/TextArrayFilter'),
-	url:              require('../../fields/types/url/UrlFilter')
+	url:              require('../../fields/types/url/UrlFilter'),
 };

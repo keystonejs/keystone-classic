@@ -48,6 +48,26 @@ const List = function (options) {
 	this.defaultColumnPaths = this.expandedDefaultColumns.map(i => i.path).join(',');
 };
 
+List.prototype.createItem = function (formData, callback) {
+	xhr({
+		url: `${Keystone.adminPath}/api/${this.path}/create`,
+		responseType: 'json',
+		method: 'POST',
+		headers: Keystone.csrf.header,
+		body: formData,
+	}, (err, resp, data) => {
+		if (resp.statusCode === 200) {
+			callback(null, data);
+		} else {
+			// NOTE: xhr callback will be called with an Error if
+			//  there is an error in the browser that prevents
+			//  sending the request. A HTTP 500 response is not
+			//  going to cause an error to be returned.
+			callback(data, null);
+		}
+	});
+};
+
 List.prototype.expandColumns = function (input) {
 	let nameIncluded = false;
 	const cols = listToArray(input).map(i => {

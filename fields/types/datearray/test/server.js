@@ -55,53 +55,65 @@ exports.testFieldType = function(List) {
 		})).be(false);
 	});
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.datearr.updateItem(testItem, {
 			datearr: ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04']
+		}, function () {
+			demand(testItem.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
+			testItem.datearr = undefined;
+			done();
 		});
-		demand(testItem.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
-		testItem.datearr = undefined;
 	});
 	
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.datearr'].updateItem(testItem, {
 			nested: {
 				datearr: ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04']
 			}
+		}, function () {
+			demand(testItem.nested.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
+			testItem.nested.datearr = undefined;
+			done();
 		});
-		demand(testItem.nested.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
-		testItem.nested.datearr = undefined;
 	});
 	
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.datearr'].updateItem(testItem, {
 			'nested.datearr': ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04']
+		}, function () {
+			demand(testItem.nested.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
+			testItem.nested.datearr = undefined;
+			done();
 		});
-		demand(testItem.nested.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
-		testItem.nested.datearr = undefined;
 	});
 	
-	it('should update empty arrays', function() {
+	it('should update empty arrays', function(done) {
 		List.fields.datearr.updateItem(testItem, {
 			datearr: []
+		}, function () {
+			demand(testItem.datearr).eql([]);
+			testItem.datearr = undefined;
+			done();
 		});
-		demand(testItem.datearr).eql([]);
-		testItem.datearr = undefined;
 	});
 	
-	it('should default on null', function() {
+	it('should default on null', function(done) {
 		List.fields.datearr.updateItem(testItem, {
 			datearr: null
+		}, function () {
+			demand(testItem.datearr).eql([]);
+			testItem.datearr = undefined;
+			done();
 		});
-		demand(testItem.datearr).eql([]);
-		testItem.datearr = undefined;
 	});
 	
-	it('should allow a single date value', function() {
+	it('should allow a single date value', function(done) {
 		List.fields.datearr.updateItem(testItem, {
 			datearr: '2015-01-01'
+		}, function () {
+			demand(testItem.datearr).eql([new Date('2015-01-01')]);
+			testItem.datearr = undefined;
+			done();
 		});
-		demand(testItem.datearr).eql([new Date('2015-01-01')]);
-		testItem.datearr = undefined;
 	});
 };

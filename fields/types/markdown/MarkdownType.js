@@ -131,13 +131,14 @@ markdown.prototype.isModified = function(item) {
  * @api public
  */
 
-markdown.prototype.updateItem = function(item, data) {
+markdown.prototype.updateItem = function(item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value !== undefined) {
 		item.set(this.paths.md, value);
 	} else if (this.paths.md in data) {
 		item.set(this.paths.md, data[this.paths.md]);
 	}
+	process.nextTick(callback);
 };
 
 

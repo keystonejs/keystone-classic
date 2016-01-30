@@ -36,30 +36,36 @@ exports.testFilters = function(List) {//eslint-disable-line no-unused-vars
 exports.testFieldType = function(List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function(done) {
 		List.fields.code.updateItem(testItem, {
 			code: 'foo(bar);'
+		}, function() {
+			demand(testItem.code).be('foo(bar);');
+			testItem.code = undefined;
+			done();
 		});
-		demand(testItem.code).be('foo(bar);');
-		testItem.code = undefined;
 	});
 	
-	it('should update nested fields', function() {
+	it('should update nested fields', function(done) {
 		List.fields['nested.code'].updateItem(testItem, {
 			nested: {
 				code: 'foo(bar);'
 			}
+		}, function() {
+			demand(testItem.nested.code).be('foo(bar);');
+			testItem.nested.code = undefined;
+			done();
 		});
-		demand(testItem.nested.code).be('foo(bar);');
-		testItem.nested.code = undefined;
 	});
 	
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.code'].updateItem(testItem, {
 			'nested.code': 'foo(bar);'
+		}, function() {
+			demand(testItem.nested.code).be('foo(bar);');
+			testItem.nested.code = undefined;
+			done();
 		});
-		demand(testItem.nested.code).be('foo(bar);');
-		testItem.nested.code = undefined;
 	});
 	
 	it('should handle a `lang` config property', function() {

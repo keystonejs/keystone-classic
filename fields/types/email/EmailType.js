@@ -58,7 +58,7 @@ email.prototype.inputIsValid = function(data, required, item) {
  * Updates the value for this field in the item from a data object
  * Ensures that the email address is lowercase
  */
-email.prototype.updateItem = function(item, data) {
+email.prototype.updateItem = function(item, data, callback) {
 	var newValue = this.getValueFromData(data);
 	if ('string' === typeof newValue) {
 		newValue = newValue.toLowerCase();
@@ -66,6 +66,7 @@ email.prototype.updateItem = function(item, data) {
 	if (newValue !== undefined && newValue !== item.get(this.path)) {
 		item.set(this.path, newValue);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */
