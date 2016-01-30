@@ -281,10 +281,21 @@ Field.prototype.isModified = function(item) {
  * Validates that a value for this field has been provided in a data object
  * Overridden by some fieldType Classes
  *
+ * Note: passing the callback into process.nextTick() directly causes an
+ * 	error. See: http://stackoverflow.com/questions/33855141/mocha-returns-callback-is-not-a-function-for-async-calls
+ *
  * @api public
  */
 Field.prototype.validateInput = function(data, required, item, callback) {
-	process.nextTick(callback(null, this.inputIsValid()));
+	process.nextTick(function() {
+		if (this.inputIsValid(data, required, item)) {
+			// Valid input, call callback with no params
+			callback();
+		} else {
+			// Invalid input, call callback with an error object
+			callback(this.getValidationError());
+		}
+	}.bind(this));
 };
 
 /**
@@ -302,6 +313,21 @@ Field.prototype.inputIsValid = function(data, required, item) {
 	} else {
 		return (data[this.path]) ? true : false;
 	}
+};
+
+/**
+ * Returns a validation error object
+ * @param  {String} msg  The error message to display on the client
+ * @param  {String} type The type of error message
+ * @return {Object}      A Keystone error object
+ */
+Field.prototype.getValidationError = function (msg, type) {
+  return {
+    name: 'ValidatorError',
+    path: this.path,
+    message: msg || 'Error: Invalid input for ' + this.path,
+    type: type || 'required'
+  };
 };
 
 /**
@@ -326,4 +352,20 @@ Field.prototype.updateItem = function(item, data, callback) {
  */
 Field.prototype.getValueFromData = function(data) {
 	return this.path in data ? data[this.path] : this._path.get(data);
+};
+
+/**
+ * Processes formData before validating and updating an item.
+ *  This method is overridden on fieldType classes that need
+ *  to do things with file uploads. Pass processed form data
+ *  to update and validation methods by modifying the data
+ *  object by reference.
+ *
+ * @params item     A list item object
+ * @params formData { data, files }
+ *
+ * @api public
+ */
+Field.prototype.processFormData = function(item, formData, callback) {
+	process.nextTick(callback);
 };

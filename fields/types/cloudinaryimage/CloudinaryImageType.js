@@ -19,14 +19,6 @@ function cloudinaryimage(list, path, options) {
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
 
-	// TODO: implement initial form, usage disabled for now
-	if (options.initial) {
-		throw new Error(
-			'Invalid Configuration\n\n' +
-			'CloudinaryImage fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n'
-		);
-	}
-
 	cloudinaryimage.super_.call(this, list, path, options);
 
 	// validate cloudinary config
@@ -314,6 +306,35 @@ cloudinaryimage.prototype.updateItem = function(item, data, callback) {
 };
 
 /**
+ * Processes the form data for file uploads
+ */
+// TODO: Implement reset, delete, select, folders, tags,
+//   prefix, autoCleanup, image type validation
+cloudinaryimage.prototype.processFormData = function(item, formData, callback) {
+	var files = formData.files;
+	var data = formData.data;
+
+	var fileData = files[this.paths.upload];
+
+	// No files to upload, continue to validation and updating
+	if (!fileData) return callback();
+
+	var filePath = fileData.path;
+	this.apply(item, 'upload', filePath)
+		.then(function(response) {
+			if (response.error) {
+				// TODO: Better error handling
+				var validationErrors = {};
+				validationErrors[this.path] = this.getValidationError();
+				callback(validationErrors);
+			} else {
+				data[this.path] = response;
+				callback();
+			}
+		}.bind(this));
+};
+
+/**
  * Returns a callback that handles a standard form submission for the field
  *
  * Expected form parts are
@@ -347,6 +368,7 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 
 		if (req.body && req.body[paths.select]) {
 
+			// Use existing image from selection
 			cloudinary.api.resource(req.body[paths.select], function(result) {
 				if (result.error) {
 					callback(result.error);
@@ -358,6 +380,7 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 
 		} else if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
 
+			// Upload new image
 			var tp = keystone.get('cloudinary prefix') || '';
 			var imageDelete;
 
