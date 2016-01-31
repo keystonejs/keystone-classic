@@ -3,7 +3,7 @@ var demand = require('must');
 
 keystone.mongoose = require('../../helpers/getMongooseConnection.js');
 
-keystone.import('../../models');
+keystone.import('models');
 
 var DependsOn = keystone.list('DependsOn');
 
