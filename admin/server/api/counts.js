@@ -11,7 +11,7 @@ module.exports = function(req, res) {
 	}, function(err, results) {
 		if (err) return res.apiError('database error', err);
 		return res.json({
-			counts: counts
+			counts: counts,
 		});
 	});
 };

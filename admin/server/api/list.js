@@ -53,9 +53,9 @@ module.exports = function(req, res) {
 						items: items.map(function(i) {
 							return {
 								name: req.list.getDocumentName(i, false) || '(' + i.id + ')',
-								id: i.id
+								id: i.id,
 							};
-						})
+						}),
 					});
 				});
 			});
@@ -79,7 +79,7 @@ module.exports = function(req, res) {
 			async.parallel(queue, function(err) {
 				if (err) return sendError('database error', err);
 				return sendResponse({
-					success: true
+					success: true,
 				});
 			});
 		break;
@@ -96,18 +96,18 @@ module.exports = function(req, res) {
 				updateHandler.process(data, {
 					flashErrors: true,
 					logErrors: true,
-					fields: req.list.initialFields
+					fields: req.list.initialFields,
 				}, function(err) {
 					if (err) {
 						return sendResponse({
 							success: false,
-							err: err
+							err: err,
 						});
 					} else {
 						return sendResponse({
 							success: true,
 							name: req.list.getDocumentName(item, false),
-							id: item.id
+							id: item.id,
 						});
 					}
 				});

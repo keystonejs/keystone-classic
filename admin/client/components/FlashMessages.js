@@ -45,7 +45,7 @@ var FlashMessages = React.createClass({
 				info: React.PropTypes.array,
 				success: React.PropTypes.array,
 				warning: React.PropTypes.array,
-			})
+			}),
 		]),
 	},
 	renderMessages (messages, type) {

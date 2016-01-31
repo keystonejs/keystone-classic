@@ -2,7 +2,6 @@ var cloudinary = require('cloudinary');
 var keystone = require('../../../');
 
 module.exports = {
-
 	upload: function(req, res) {
 		if(req.files && req.files.file){
 			var options = {};
@@ -24,14 +23,13 @@ module.exports = {
 				// so the response type must be text/html
 				res.format({
 					html: sendResult,
-					json: sendResult
+					json: sendResult,
 				});
 			}, options);
 		} else {
 			res.json({ error: { message: 'No image selected' } });
 		}
 	},
-
 	autocomplete: function(req, res) {
 		var max = req.query.max || 10;
 		var prefix = req.query.prefix || '';
@@ -43,17 +41,16 @@ module.exports = {
 			} else {
 				res.json({
 					next: result.next_cursor,
-					items: result.resources
+					items: result.resources,
 				});
 			}
 		}, {
 			type: 'upload',
 			prefix: prefix,
 			max_results: max,
-			next_cursor: next
+			next_cursor: next,
 		});
 	},
-
 	get: function(req, res) {
 		cloudinary.api.resource(req.query.id, function(result) {
 			if (result.error) {
@@ -62,5 +59,5 @@ module.exports = {
 				res.json({ item: result });
 			}
 		});
-	}
+	},
 };

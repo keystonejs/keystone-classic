@@ -6,7 +6,7 @@ module.exports = function(req, res) {
 
 	var viewLocals = {
 		validationErrors: {},
-		showCreateForm: _.has(req.query, 'new')
+		showCreateForm: _.has(req.query, 'new'),
 	};
 	var appName = keystone.get('name') || 'Keystone';
 	var renderView = function() {
@@ -15,7 +15,7 @@ module.exports = function(req, res) {
 			title: appName + ': ' + req.list.plural,
 			page: 'list',
 			list: req.list,
-			submitted: req.body || {}
+			submitted: req.body || {},
 		}));
 	};
 
@@ -59,7 +59,7 @@ module.exports = function(req, res) {
 			updateHandler.process(req.body, {
 				// flashErrors: true,
 				logErrors: true,
-				fields: req.list.initialFields
+				fields: req.list.initialFields,
 			}, function(err) {
 				if (err) {
 					viewLocals.createErrors = err;

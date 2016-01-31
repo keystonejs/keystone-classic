@@ -14,7 +14,7 @@ var ItemsTableDragDrop = React.createClass({
 		items: React.PropTypes.object,
 		list: React.PropTypes.object,
 		index: React.PropTypes.number,
-		id: React.PropTypes.any
+		id: React.PropTypes.any,
 	},
 	render () {
 		return (

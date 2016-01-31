@@ -22,7 +22,7 @@ var ListFiltersAddForm = React.createClass({
 		}
 		return {
 			filterComponent: filterComponent,
-			filterValue: filterValue
+			filterValue: filterValue,
 		};
 	},
 	updateHeight (bodyHeight) {
@@ -39,7 +39,7 @@ var ListFiltersAddForm = React.createClass({
 	},
 	updateValue (filterValue) {
 		this.setState({
-			filterValue: filterValue
+			filterValue: filterValue,
 		});
 	},
 	handleFormSubmit (e) {

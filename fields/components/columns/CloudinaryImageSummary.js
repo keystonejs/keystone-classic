@@ -31,7 +31,7 @@ const textStyle = {
 	display: 'inline-block',
 	fontSize: '.8rem',
 	marginLeft: 8,
-	verticalAlign: 'middle'
+	verticalAlign: 'middle',
 };
 
 var CloudinaryImageSummary = React.createClass({
@@ -74,7 +74,7 @@ var CloudinaryImageSummary = React.createClass({
 				{this.renderLabel()}
 			</span>
 		);
-	}
+	},
 });
 
 module.exports = CloudinaryImageSummary;

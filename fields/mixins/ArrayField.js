@@ -19,14 +19,14 @@ function reduceValues (values) {
 module.exports = {
 	getInitialState: function() {
 		return {
-			values: this.props.value.map(newItem)
+			values: this.props.value.map(newItem),
 		};
 	},
 
 	componentWillReceiveProps: function(nextProps) {
 		if (nextProps.value.join('|') !== reduceValues(this.state.values).join('|')) {
 			this.setState({
-				values: nextProps.value.map(newItem)
+				values: nextProps.value.map(newItem),
 			});
 		}
 	},
@@ -35,7 +35,7 @@ module.exports = {
 		var self = this;
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
-			values: newValues
+			values: newValues,
 		}, () => {
 			if (!this.state.values.length) return;
 			ReactDOM.findDOMNode(this.refs['item_' + this.state.values.length]).focus();
@@ -46,7 +46,7 @@ module.exports = {
 	removeItem: function(i) {
 		var newValues = _.without(this.state.values, i);
 		this.setState({
-			values: newValues
+			values: newValues,
 		}, function() {
 			ReactDOM.findDOMNode(this.refs.button).focus();
 		});
@@ -58,7 +58,7 @@ module.exports = {
 		var updateIndex = updatedValues.indexOf(i);
 		updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(event.target.value) : event.target.value;
 		this.setState({
-			values: updatedValues
+			values: updatedValues,
 		});
 		this.valueChanged(reduceValues(updatedValues));
 	},
@@ -66,7 +66,7 @@ module.exports = {
 	valueChanged: function(values) {
 		this.props.onChange({
 			path: this.props.path,
-			value: values
+			value: values,
 		});
 	},
 
@@ -111,5 +111,5 @@ module.exports = {
 	// Override shouldCollapse to check for array length
 	shouldCollapse: function () {
 		return this.props.collapse && !this.props.value.length;
-	}
+	},
 };

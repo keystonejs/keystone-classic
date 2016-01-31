@@ -18,7 +18,7 @@ var ListDownloadForm = React.createClass({
 			format: FORMAT_OPTIONS[0].value,
 			isOpen: false,
 			useCurrentColumns: true,
-			selectedColumns: this.getDefaultSelectedColumns()
+			selectedColumns: this.getDefaultSelectedColumns(),
 		};
 	},
 	getDefaultSelectedColumns () {
@@ -32,7 +32,7 @@ var ListDownloadForm = React.createClass({
 		return Keystone.list.uiElements.map((el) => {
 			return el.type === 'field' ? {
 				type: 'field',
-				field: Keystone.list.fields[el.field]
+				field: Keystone.list.fields[el.field],
 			} : el;
 		});
 	},

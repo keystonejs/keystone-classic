@@ -74,7 +74,7 @@ module.exports = function(req, res) {
 			res.setHeader('Content-Type', 'application/octet-stream');
 
 			var content = baby.unparse(data, {
-				delimiter: keystone.get('csv field delimiter') || ','
+				delimiter: keystone.get('csv field delimiter') || ',',
 			});
 
 			res.end(content, 'utf-8');
@@ -106,7 +106,7 @@ module.exports = function(req, res) {
 
 			var map = {
 				req: req,
-				user: req.user
+				user: req.user,
 			};
 
 			var applyDeps = function(fn, _this, _map) {

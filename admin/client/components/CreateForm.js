@@ -81,7 +81,7 @@ var CreateForm = React.createClass({
 					}); // Clear form
 				} else {
 					this.setState({
-						err: err.detail
+						err: err.detail,
 					});
 				}
 			});

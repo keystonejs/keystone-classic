@@ -157,7 +157,7 @@ var EditForm = React.createClass({
 	},
 	renderFooterBar () {
 		var buttons = [
-			<Button key="save" type="primary" submit>Save</Button>
+			<Button key="save" type="primary" submit>Save</Button>,
 		];
 		buttons.push(
 			<Button key="reset" onClick={this.confirmReset} type="link-cancel">

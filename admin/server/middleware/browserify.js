@@ -122,6 +122,6 @@ module.exports = function(file, name) {
 	}
 	return {
 		serve: serve,
-		build: build
+		build: build,
 	};
 };

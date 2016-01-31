@@ -37,7 +37,7 @@ module.exports = function(req, res) {
 			res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv');
 			res.setHeader('Content-Type', 'application/octet-stream');
 			var content = baby.unparse(data, {
-				delimiter: keystone.get('csv field delimiter') || ','
+				delimiter: keystone.get('csv field delimiter') || ',',
 			});
 			res.end(content, 'utf-8');
 		} else {

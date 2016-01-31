@@ -33,7 +33,7 @@ module.exports = function(req, res) {
 			query.skip(Number(req.query.skip) || 0);
 			query.sort(sort.string);
 			query.exec(next);
-		}
+		},
 	}, function(err, results) {
 		if (err) {
 			res.logError('admin/server/api/list/get', 'database error finding items', err);
@@ -43,7 +43,7 @@ module.exports = function(req, res) {
 			results: results.items.map(function (item) {
 				return req.list.getData(item, req.query.select, req.query.expandRelationshipFields);
 			}),
-			count: results.count
+			count: results.count,
 		});
 	});
 };

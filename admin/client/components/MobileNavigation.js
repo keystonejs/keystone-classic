@@ -81,7 +81,7 @@ var MobileNavigation = React.createClass({
 	},
 	handleResize () {
 		this.setState({
-			barIsVisible: window.innerWidth < 768
+			barIsVisible: window.innerWidth < 768,
 		});
 	},
 	toggleMenu () {
@@ -89,7 +89,7 @@ var MobileNavigation = React.createClass({
 	},
 	showMenu () {
 		this.setState({
-			menuIsVisible: true
+			menuIsVisible: true,
 		});
 
 		document.body.style.overflow = 'hidden';
@@ -97,7 +97,7 @@ var MobileNavigation = React.createClass({
 	},
 	hideMenu () {
 		this.setState({
-			menuIsVisible: false
+			menuIsVisible: false,
 		});
 
 		document.body.style.overflow = null;

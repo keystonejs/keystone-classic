@@ -32,7 +32,7 @@ module.exports = function(req, res) {
 		if (req.query.drilldown === 'true' && req.list.get('drilldown')) {
 			drilldown = {
 				def: req.list.get('drilldown'),
-				items: []
+				items: [],
 			};
 
 			tasks.push(function(cb) {
@@ -68,10 +68,10 @@ module.exports = function(req, res) {
 									items: _.map(results, function(i) {
 										return {
 											label: refList.getDocumentName(i),
-											href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + i.id
+											href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + i.id,
 										};
 									}),
-									more: (more) ? true : false
+									more: (more) ? true : false,
 								});
 							}
 							done();
@@ -87,8 +87,8 @@ module.exports = function(req, res) {
 									list: refList.getOptions(),
 									items: [{
 										label: refList.getDocumentName(result),
-										href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + result.id
-									}]
+										href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + result.id,
+									}],
 								});
 							}
 							done(err);
@@ -148,12 +148,12 @@ module.exports = function(req, res) {
 			if (err) {
 				return res.status(500).json({
 					err: 'database error',
-					detail: err
+					detail: err,
 				});
 			}
 			res.json(_.assign(req.list.getData(item, fields), {
 				drilldown: drilldown,
-				relationships: relationships
+				relationships: relationships,
 			}));
 		});
 	});

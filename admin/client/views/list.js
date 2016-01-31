@@ -127,8 +127,8 @@ const ListView = React.createClass({
 					CurrentListStore.deleteItems(itemIds);
 					this.toggleManageMode();
 					this.removeConfirmationDialog();
-				}
-			}
+				},
+			},
 		});
 	},
 	handleManagementSelect (selection) {

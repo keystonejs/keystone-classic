@@ -73,7 +73,7 @@ module.exports = React.createClass({
 		}, () => {
 			setTimeout(() => {
 				this.setState({
-					pickerIsOpen: false
+					pickerIsOpen: false,
 				});
 			}, 200);
 		});
@@ -101,7 +101,7 @@ module.exports = React.createClass({
 			rt = rt.parentNode;
 		}
 		this.setState({
-			pickerIsOpen: false
+			pickerIsOpen: false,
 		});
 	},
 
@@ -137,6 +137,6 @@ module.exports = React.createClass({
 				</Popout>
 			</div>
 		);
-	}
+	},
 
 });

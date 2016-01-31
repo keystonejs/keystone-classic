@@ -66,7 +66,7 @@ module.exports = function(req, res) {
 					list: req.list,
 					item: item,
 					relationships: relationships,
-					showRelationships: showRelationships
+					showRelationships: showRelationships,
 				});
 
 			});

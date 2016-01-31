@@ -37,12 +37,12 @@ module.exports = {
 
 				res.format({
 					html: sendResult,
-					json: sendResult
+					json: sendResult,
 				});
 			});
 
 		} else {
 			res.json({ error: { message: 'No image selected' } });
 		}
-	}
+	},
 };

@@ -40,7 +40,7 @@ var PrimaryNavigation = React.createClass({
 	},
 	handleResize () {
 		this.setState({
-			navIsVisible: window.innerWidth >= 768
+			navIsVisible: window.innerWidth >= 768,
 		});
 	},
 	renderSignout () {

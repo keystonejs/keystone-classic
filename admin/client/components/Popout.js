@@ -39,7 +39,7 @@ var Popout = React.createClass({
 			top: 0,
 			left: 0,
 			width: posNode.offsetWidth,
-			height: posNode.offsetHeight
+			height: posNode.offsetHeight,
 		};
 		while (posNode.offsetParent) {
 			pos.top += posNode.offsetTop;
@@ -52,7 +52,7 @@ var Popout = React.createClass({
 
 		this.setState({
 			leftOffset: leftOffset,
-			topOffset: topOffset
+			topOffset: topOffset,
 		});
 	},
 	renderPopout () {

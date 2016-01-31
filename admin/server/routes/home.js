@@ -7,7 +7,7 @@ module.exports = function(req, res) {
 		page: 'home',
 		title: keystone.get('name') || 'Keystone',
 		orphanedLists: keystone.getOrphanedLists(),
-		brand: keystone.get('name')
+		brand: keystone.get('name'),
 	});
 
 };

@@ -90,7 +90,7 @@ var UpdateForm = React.createClass({
 		);
 
 		return (
-			<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: 20, paddingTop: 20,  }}>
+			<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: 20, paddingTop: 20 }}>
 				{fieldsUI}
 			</div>
 		);
@@ -122,7 +122,7 @@ var UpdateForm = React.createClass({
 				{this.renderForm()}
 			</Modal>
 		);
-	}
+	},
 });
 
 module.exports = UpdateForm;
