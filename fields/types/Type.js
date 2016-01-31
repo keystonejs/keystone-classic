@@ -66,7 +66,7 @@ function Field(list, path, options) {
 	}
 	
 	// if dependsOn and required, set required to a function for validation
-	if(this.options.dependsOn && this.options.required === true) {
+	if (this.options.dependsOn && this.options.required === true) {
 		var opts = this.options;
 		this.options.required = function() {
 			// `this` refers to the validating document
