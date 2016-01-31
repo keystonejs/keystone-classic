@@ -72,7 +72,7 @@ function Field(list, path, options) {
 			// `this` refers to the validating document
 			debug('validate dependsOn required', evalDependsOn(opts.dependsOn, this.toObject()));
 			return evalDependsOn(opts.dependsOn, this.toObject());
-		}
+		};
 	}
 	
 	// Add the field to the schema
