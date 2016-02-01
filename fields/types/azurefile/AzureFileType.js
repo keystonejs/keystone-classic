@@ -144,7 +144,7 @@ azurefile.prototype.addToSchema = function () {
 		reset: function () {
 			try {
 				azure.createBlobService().deleteBlob(this.get(paths.container), this.get(paths.filename), function () {});
-			} catch(e) {}//eslint-disable-line no-empty
+			} catch (e) {}//eslint-disable-line no-empty
 			reset(this);
 		},
 		/**
@@ -155,7 +155,7 @@ azurefile.prototype.addToSchema = function () {
 		delete: function () {
 			try {
 				azure.createBlobService().blobService.deleteBlob(this.get(paths.container), this.get(paths.filename), function () {});
-			} catch(e) {}//eslint-disable-line no-empty
+			} catch (e) {}//eslint-disable-line no-empty
 			reset(this);
 		},
 	};

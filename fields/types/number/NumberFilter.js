@@ -37,7 +37,7 @@ var NumberFilter = React.createClass({
 				[type]: value,
 			});
 
-			switch(type) {
+			switch (type) {
 				case 'minValue':
 					onChange({
 						mode: modeValue,

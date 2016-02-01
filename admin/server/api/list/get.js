@@ -5,7 +5,7 @@ module.exports = function(req, res) {
 	var filters = req.query.filters;
 	if (filters && typeof filters === 'string') {
 		try { filters = JSON.parse(req.query.filters); }
-		catch(e) { } // eslint-disable-line no-empty
+		catch (e) { } // eslint-disable-line no-empty
 	}
 	if (typeof filters === 'object') {
 		req.list.addFiltersToQuery(filters, where);

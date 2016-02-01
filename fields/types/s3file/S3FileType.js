@@ -143,7 +143,7 @@ s3file.prototype.addToSchema = function() {
 			try {
 				var client = knox.createClient(field.s3config);
 				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function(err, res){ return res ? res.resume() : false; });//eslint-disable-line handle-callback-err
-			} catch(e) {}// eslint-disable-line no-empty
+			} catch (e) {}// eslint-disable-line no-empty
 			reset(this);
 		},
 	};

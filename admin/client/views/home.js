@@ -51,7 +51,7 @@ var HomeView = React.createClass({
 		}, (err, resp, body) => {
 			try {
 				body = JSON.parse(body);
-			} catch(e) {
+			} catch (e) {
 				console.log('Error parsing results json:', e, body);
 				return;
 			}

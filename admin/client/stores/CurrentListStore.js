@@ -77,9 +77,9 @@ const CurrentListStore = new Store({
 	setDragBase (item, index) {
 		drag.page = page.index;
 		drag.clonedItems = _itemsResultsClone.slice(0);
-		if(item) {
+		if (item) {
 			drag.item = item;
-			if(index) {
+			if (index) {
 				drag.index = index;
 			}
 		}
@@ -210,7 +210,7 @@ const CurrentListStore = new Store({
 	deleteItem (itemId) {
 		_list.deleteItem(itemId, (err, data) => {
 			// TODO: graceful error handling
-			if(err) {
+			if (err) {
 				return this.resetItems(this.findItemById[itemId]);
 			}
 			this.loadItems();
@@ -234,7 +234,7 @@ const CurrentListStore = new Store({
 	},
 		rowAlert (reset = false) {
 		//  reset the alerts or return the object
-		if(reset) {
+		if (reset) {
 			defaultRowAlert();
 			return this.notifyChange();
 		}
@@ -278,10 +278,10 @@ const CurrentListStore = new Store({
 			},
 			(err, items) => {
 				// if err flash the row alert
-				if(err) {
+				if (err) {
 					return this.resetItems(this.findItemById[item.id]);
 				}
-				if('object' === typeof items && items.results) {
+				if ('object' === typeof items && items.results) {
 					_items = items;
 					_itemsResultsClone =  items.results.slice(0);
 					_rowAlert.success = item.id;

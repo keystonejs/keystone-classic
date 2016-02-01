@@ -193,7 +193,7 @@ List.prototype.deleteItems = function (itemIds, callback) {
 		// TODO: check resp.statusCode
 		try {
 			body = JSON.parse(body);
-		} catch(e) {
+		} catch (e) {
 			console.log('Error parsing results json:', e, body);
 			return callback(e);
 		}
@@ -212,7 +212,7 @@ List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOp
 		// TODO: check resp.statusCode
 		try {
 			body = JSON.parse(body);
-		} catch(e) {
+		} catch (e) {
 			console.log('Error parsing results json:', e, body);
 			return callback(e);
 		}

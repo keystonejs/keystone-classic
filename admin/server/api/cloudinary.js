@@ -3,7 +3,7 @@ var keystone = require('../../../');
 
 module.exports = {
 	upload: function(req, res) {
-		if(req.files && req.files.file){
+		if (req.files && req.files.file){
 			var options = {};
 
 			if (keystone.get('wysiwyg cloudinary images filenameAsPublicID')) {

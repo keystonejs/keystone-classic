@@ -52,7 +52,7 @@ const ItemsRow = React.createClass({
 
 		var addRow = (<tr key={'i' + item.id} onClick={this.props.manageMode ? (e) => this.props.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>);
 
-		if(this.props.list.sortable) {
+		if (this.props.list.sortable) {
 			return (
 				// we could add a preview container/image
 				// this.props.connectDragPreview(this.props.connectDropTarget(addRow))

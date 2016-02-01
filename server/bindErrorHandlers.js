@@ -22,7 +22,7 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					}
 					default404Handler(req, res, next);
 				}
-			} catch(e) {
+			} catch (e) {
 				if (keystone.get('logger')) {
 					console.log(dashes + 'Error handling 404 (not found):');
 					console.log(e);
@@ -84,7 +84,7 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					}
 					default500Handler(err, req, res, next);
 				}
-			} catch(e) {
+			} catch (e) {
 				if (keystone.get('logger')) {
 					console.log(dashes + 'Error handling 500 (error):');
 					console.log(e);

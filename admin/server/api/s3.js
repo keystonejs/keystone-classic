@@ -9,7 +9,7 @@ module.exports = {
 			return res.status(403).send({ error: { message: 'invalid csrf' } });
 		}
 
-		if(req.files && req.files.file){
+		if (req.files && req.files.file){
 
 			var s3Config = keystone.get('s3 config');
 
@@ -22,7 +22,7 @@ module.exports = {
 
 			s3Client.putFile(file.path, path + file.name, headers, function(err, s3Response) {
 				var sendResult = function () {
-					if(err){
+					if (err){
 						return res.send({ error: { message: err.message } });
 					}
 

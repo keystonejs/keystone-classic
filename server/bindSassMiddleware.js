@@ -16,7 +16,7 @@ module.exports = function bindSassMiddleware (keystone, app) {
 		try {
 			debug('adding sass');
 			sassMiddleware = require('node-sass-middleware');
-		} catch(e) {
+		} catch (e) {
 			if (e.code === 'MODULE_NOT_FOUND') {
 				console.error(
 					'\nERROR: node-sass not found.\n' +

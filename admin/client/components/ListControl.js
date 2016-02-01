@@ -33,7 +33,7 @@ var ListControl = React.createClass({
 				<span className={icon} />
 			</button>
 		);
-		if(this.props.dragSource) {
+		if (this.props.dragSource) {
 			return this.props.dragSource(renderButton);
 		} else {
 			return renderButton;

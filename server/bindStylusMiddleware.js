@@ -15,7 +15,7 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 		try {
 			debug('adding stylus');
 			stylusMiddleware = require('stylus').middleware;
-		} catch(e) {
+		} catch (e) {
 			if (e.code === 'MODULE_NOT_FOUND') {
 				console.error(
 					'\nERROR: stylus not found.\n' +

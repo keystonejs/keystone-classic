@@ -188,10 +188,10 @@ Field.prototype.getPreSaveWatcher = function() {
 			return next();
 		}
 		di(field.options.value).call(this, function(err, val){
-			if(err){
+			if (err){
 				console.error('\nError: ' +
 				'Watch set with value method for ' + field.list.key + '.' + field.path + ' (' + field.type + ') throws error:' + err);
-			}else{
+			}else {
 				this.set(field.path, val);
 			}
 			next();
