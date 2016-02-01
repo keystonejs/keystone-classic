@@ -11,11 +11,11 @@ exports.initList = function (List) {
 	});
 };
 
-exports.createData = function (List) {//eslint-disable-line no-unused-vars
+exports.createData = function (List) { //eslint-disable-line no-unused-vars
 
 };
 
-exports.testFilters = function (List) {//eslint-disable-line no-unused-vars
+exports.testFilters = function (List) { //eslint-disable-line no-unused-vars
 
 };
 

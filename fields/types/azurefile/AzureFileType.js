@@ -201,7 +201,7 @@ azurefile.prototype.isModified = function (item) {
  * @api public
  */
 
-azurefile.prototype.inputIsValid = function (data) {//eslint-disable-line no-unused-vars
+azurefile.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -213,7 +213,7 @@ azurefile.prototype.inputIsValid = function (data) {//eslint-disable-line no-unu
  * @api public
  */
 
-azurefile.prototype.updateItem = function (item, data, callback) {//eslint-disable-line no-unused-vars
+azurefile.prototype.updateItem = function (item, data, callback) { //eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -248,7 +248,7 @@ azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
 			if (err) return callback(err);
 
-			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) {//eslint-disable-line no-unused-vars
+			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) { //eslint-disable-line no-unused-vars
 
 				if (err) return callback(err);
 
