@@ -13,6 +13,7 @@
 		"react"
 	],
 	"rules": {
+		"comma-dangle": [2, "always-multiline"],
 		"curly": [2, "multi-line"],
 		"jsx-quotes": 1,
 		"object-curly-spacing": [1, "always"],
