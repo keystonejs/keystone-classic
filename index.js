@@ -37,7 +37,7 @@ var Keystone = function () {
 		'auto update': false,
 		'model prefix': null,
 		'module root': moduleRoot,
-		'frame guard': 'sameorigin'
+		'frame guard': 'sameorigin',
 	};
 	this._redirects = {};
 
@@ -90,7 +90,7 @@ var Keystone = function () {
 	// Attach middleware packages, bound to this instance
 	this.middleware = {
 		api: require('./lib/middleware/api')(this),
-		cors: require('./lib/middleware/cors')(this)
+		cors: require('./lib/middleware/cors')(this),
 	};
 };
 
@@ -134,7 +134,7 @@ var keystone = module.exports = new Keystone();
 
 // Expose modules and Classes
 keystone.Admin = {
-	Server: require('./admin/server')
+	Server: require('./admin/server'),
 };
 keystone.Email = require('./lib/email');
 keystone.Field = require('./fields/types/Type');
@@ -145,7 +145,7 @@ keystone.View = require('./lib/view');
 
 keystone.content = require('./lib/content');
 keystone.security = {
-	csrf: require('./lib/security/csrf')
+	csrf: require('./lib/security/csrf'),
 };
 keystone.utils = utils;
 

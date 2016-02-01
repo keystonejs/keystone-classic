@@ -34,7 +34,7 @@ var TextFilter = React.createClass({
 			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
 			inverted: React.PropTypes.boolean,
 			value: React.PropTypes.string,
-		})
+		}),
 	},
 
 	getDefaultProps () {
@@ -77,7 +77,7 @@ var TextFilter = React.createClass({
 				</FormField>
 			</div>
 		);
-	}
+	},
 
 });
 

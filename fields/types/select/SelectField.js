@@ -19,7 +19,7 @@ module.exports = Field.create({
 		}
 		this.props.onChange({
 			path: this.props.path,
-			value: newValue
+			value: newValue,
 		});
 	},
 
@@ -33,6 +33,6 @@ module.exports = Field.create({
 		var ops = (this.props.numeric) ? this.props.ops.map(function(i) { return { label: i.label, value: String(i.value) }; }) : this.props.ops;
 		var value = ('number' === typeof this.props.value) ? String(this.props.value) : this.props.value;
 		return <Select simpleValue name={this.props.path} value={value} options={ops} onChange={this.valueChanged} />;
-	}
+	},
 
 });

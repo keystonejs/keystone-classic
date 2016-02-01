@@ -5,8 +5,8 @@ exports.initList = function(List) {
 	List.add({
 		select: { type: SelectType, options: 'one, two, three' },
 		nested: {
-			select: { type: SelectType, options: 'one, two, three' }
-		}
+			select: { type: SelectType, options: 'one, two, three' },
+		},
 	});
 };
 
@@ -15,7 +15,7 @@ exports.testFieldType = function(List) {
 
 	it('should update top level fields', function(done) {
 		List.fields.select.updateItem(testItem, {
-			select: 'one'
+			select: 'one',
 		}, function() {
 			demand(testItem.select).be('one');
 			testItem.select = undefined;
@@ -26,8 +26,8 @@ exports.testFieldType = function(List) {
 	it('should update nested fields', function(done) {
 		List.fields['nested.select'].updateItem(testItem, {
 			nested: {
-				select: 'one'
-			}
+				select: 'one',
+			},
 		}, function() {
 			demand(testItem.nested.select).be('one');
 			testItem.nested.select = undefined;
@@ -37,7 +37,7 @@ exports.testFieldType = function(List) {
 
 	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.select'].updateItem(testItem, {
-			'nested.select': 'one'
+			'nested.select': 'one',
 		}, function() {
 			demand(testItem.nested.select).be('one');
 			testItem.nested.select = undefined;

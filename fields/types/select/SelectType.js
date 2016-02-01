@@ -58,14 +58,14 @@ select.prototype.addToSchema = function() {
 		data: this.options.dataPath || this._path.append('Data'),
 		label: this.options.labelPath || this._path.append('Label'),
 		options: this.options.optionsPath || this._path.append('Options'),
-		map: this.options.optionsMapPath || this._path.append('OptionsMap')
+		map: this.options.optionsMapPath || this._path.append('OptionsMap'),
 	};
 	schema.path(this.path, _.defaults({
 		type: this._nativeType,
 		enum: this.values,
 		set: function(val) {
 			return (val === '' || val === null || val === false) ? undefined : val;
-		}
+		},
 	}, this.options));
 	schema.virtual(this.paths.data).get(function () {
 		return field.map[this.get(field.path)];

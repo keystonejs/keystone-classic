@@ -169,7 +169,7 @@ module.exports = Field.create({
 		// NOTE: this seems like the wrong way to add options to the Select
 		this.loadOptionsCallback(null, {
 			complete: true,
-			options: Object.keys(this._itemsCache).map((k) => this._itemsCache[k])
+			options: Object.keys(this._itemsCache).map((k) => this._itemsCache[k]),
 		});
 		this.toggleCreate(false);
 	},
@@ -223,6 +223,6 @@ module.exports = Field.create({
 		} else {
 			return this.renderSelect();
 		}
-	}
+	},
 
 });

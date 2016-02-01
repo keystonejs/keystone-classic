@@ -31,7 +31,7 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 			app.use(stylusMiddleware(_.extend({
 				src: keystone.expandPath(path),
 				dest: keystone.expandPath(path),
-				compress: keystone.get('env') === 'production'
+				compress: keystone.get('env') === 'production',
 			}, stylusOptions)));
 		});
 	}

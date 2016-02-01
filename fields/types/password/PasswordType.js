@@ -34,7 +34,7 @@ password.prototype.addToSchema = function() {
 
 	this.paths = {
 		hash: this.options.hashPath || this._path.append('_hash'),
-		confirm: this.options.confirmPath || this._path.append('_confirm')
+		confirm: this.options.confirmPath || this._path.append('_confirm'),
 	};
 
 	schema.path(this.path, _.defaults({
@@ -42,7 +42,7 @@ password.prototype.addToSchema = function() {
 		set: function(newValue) {
 			this[needs_hashing] = true;
 			return newValue;
-		}
+		},
 	}, this.options));
 
 	schema.virtual(this.paths.hash).set(function(newValue) {

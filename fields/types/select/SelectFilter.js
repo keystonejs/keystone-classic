@@ -4,7 +4,7 @@ import PopoutList from '../../../admin/client/components/PopoutList';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Matches', value: false },
-	{ label: 'Does NOT Match', value: true }
+	{ label: 'Does NOT Match', value: true },
 ];
 
 function getDefaultValue () {
@@ -25,7 +25,7 @@ var SelectFilter = React.createClass({
 		filter: React.PropTypes.shape({
 			inverted: React.PropTypes.boolean,
 			value: React.PropTypes.array,
-		})
+		}),
 	},
 
 	getDefaultProps () {
@@ -94,7 +94,7 @@ var SelectFilter = React.createClass({
 				{this.renderOptions()}
 			</div>
 		);
-	}
+	},
 
 });
 

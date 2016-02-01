@@ -22,7 +22,7 @@ var PasswordFilter = React.createClass({
 	propTypes: {
 		filter: React.PropTypes.shape({
 			exists: React.PropTypes.oneOf(TOGGLE_OPTIONS.map(i => i.value)),
-		})
+		}),
 	},
 
 	getDefaultProps () {
@@ -38,7 +38,7 @@ var PasswordFilter = React.createClass({
 	render () {
 		const { field, filter } = this.props;
 		return <SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={filter.exists} onChange={this.toggleExists} />;
-	}
+	},
 
 });
 

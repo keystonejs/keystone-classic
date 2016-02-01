@@ -24,7 +24,7 @@ var DEFAULT_OPTION_KEYS = [
 	'indent',
 	'hidden',
 	'collapse',
-	'dependsOn'
+	'dependsOn',
 ];
 
 /**
@@ -75,7 +75,7 @@ function Field(list, path, options) {
 	Object.defineProperty(this, 'note', {
 		get: function() {
 			return (note === null) ? (note = (this.options.note) ? marked(this.options.note) : '') : note;
-		}
+		},
 	});
 
 }
