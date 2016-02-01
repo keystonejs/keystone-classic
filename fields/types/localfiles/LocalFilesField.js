@@ -14,7 +14,7 @@ const ICON_EXTS = [
 	'aac', 'ai', 'aiff', 'avi', 'bmp', 'c', 'cpp', 'css', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h',
 	'hpp', 'html', 'ics', 'iso', 'java', 'jpg', 'js', 'key', 'less', 'mid', 'mp3', 'mp4', 'mpg', 'odf', 'ods', 'odt', 'otp', 'ots',
 	'ott', 'pdf', 'php', 'png', 'ppt', 'psd', 'py', 'qt', 'rar', 'rb', 'rtf', 'sass', 'scss', 'sql', 'tga', 'tgz', 'tiff', 'txt',
-	'wav', 'xls', 'xlsx', 'xml', 'yml', 'zip'
+	'wav', 'xls', 'xlsx', 'xml', 'yml', 'zip',
 ];
 
 var LocalFilesFieldItem = React.createClass({
@@ -61,7 +61,7 @@ var LocalFilesFieldItem = React.createClass({
 				{this.renderActionButton()}
 			</FormField>
 		);
-	}
+	},
 
 });
 
@@ -114,7 +114,7 @@ module.exports = Field.create({
 		this.setState({
 			items: this.state.items.filter(function (thumb) {
 				return !thumb.props.isQueued;
-			})
+			}),
 		});
 	},
 
@@ -208,5 +208,5 @@ module.exports = Field.create({
 				{this.renderNote()}
 			</FormField>
 		);
-	}
+	},
 });

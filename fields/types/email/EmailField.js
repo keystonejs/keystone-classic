@@ -16,5 +16,5 @@ module.exports = Field.create({
 		) : (
 			<FormInput noedit>(not set)</FormInput>
 		);
-	}
+	},
 });

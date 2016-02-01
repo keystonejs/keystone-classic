@@ -32,7 +32,7 @@ relationship.prototype.getProperties = function () {
 			plural:   refList.plural,
 			path:     refList.path,
 			key:      refList.key,
-		}
+		},
 	};
 };
 
@@ -44,7 +44,7 @@ function expandRelatedItemData(item) {
 	if (!item || !item.id) return undefined;
 	return {
 		id: item.id,
-		name: this.refList.getDocumentName(item)
+		name: this.refList.getDocumentName(item),
 	};
 }
 
@@ -73,10 +73,10 @@ relationship.prototype.addToSchema = function() {
 		ref: this.options.ref,
 		index: (this.options.index ? true : false),
 		required: (this.options.required ? true : false),
-		unique: (this.options.unique ? true : false)
+		unique: (this.options.unique ? true : false),
 	};
 	this.paths = {
-		refList: this.options.refListPath || this._path.append('RefList')
+		refList: this.options.refListPath || this._path.append('RefList'),
 	};
 	schema.path(this.path, this.many ? [def] : def);
 	schema.virtual(this.paths.refList).get(function () {
@@ -185,7 +185,7 @@ relationship.prototype.updateItem = function(item, data, callback) {
 Object.defineProperty(relationship.prototype, 'isValid', {
 	get: function() {
 		return keystone.list(this.options.ref) ? true : false;
-	}
+	},
 });
 
 /**
@@ -194,7 +194,7 @@ Object.defineProperty(relationship.prototype, 'isValid', {
 Object.defineProperty(relationship.prototype, 'refList', {
 	get: function() {
 		return keystone.list(this.options.ref);
-	}
+	},
 });
 
 /**
@@ -203,7 +203,7 @@ Object.defineProperty(relationship.prototype, 'refList', {
 Object.defineProperty(relationship.prototype, 'hasFilters', {
 	get: function() {
 		return (this.filters && _.keys(this.filters).length);
-	}
+	},
 });
 
 /**

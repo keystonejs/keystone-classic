@@ -25,7 +25,7 @@ var EmailColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = EmailColumn;

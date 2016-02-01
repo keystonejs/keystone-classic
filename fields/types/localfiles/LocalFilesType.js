@@ -86,7 +86,7 @@ localfiles.prototype.addToSchema = function() {
 		exists:			this._path.append('.exists'),
 		upload:			this._path.append('_upload'),
 		action:			this._path.append('_action'),
-		order: 			this._path.append('_order')
+		order: 			this._path.append('_order'),
 	};
 
 	var schemaPaths = new mongoose.Schema({
@@ -94,7 +94,7 @@ localfiles.prototype.addToSchema = function() {
 		originalname:	String,
 		path:			String,
 		size:			Number,
-		filetype:		String
+		filetype:		String,
 	});
 
 	// The .href virtual returns the public path of the file
@@ -180,7 +180,7 @@ localfiles.prototype.addToSchema = function() {
 				}
 			}
 			reset(this, element_id);
-		}
+		},
 	};
 
 	_.each(schemaMethods, function(fn, key) {
@@ -314,7 +314,7 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 					originalname: file.originalname,
 					path: field.options.dest,
 					size: file.size,
-					filetype: filetype
+					filetype: filetype,
 				};
 				if (update) {
 					item.get(field.path).push(fileData);

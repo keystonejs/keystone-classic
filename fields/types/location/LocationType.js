@@ -76,7 +76,7 @@ location.prototype.addToSchema = function() {
 		geo_lng: this._path.append('.geo_lng'),
 		serialised: this._path.append('.serialised'),
 		improve: this._path.append('_improve'),
-		overwrite: this._path.append('_improve_overwrite')
+		overwrite: this._path.append('_improve_overwrite'),
 	};
 
 	var getFieldDef = function(type, key) {
@@ -98,7 +98,7 @@ location.prototype.addToSchema = function() {
 		state: getFieldDef(String, 'state'),
 		postcode: getFieldDef(String, 'postcode'),
 		country: getFieldDef(String, 'country'),
-		geo: { type: [Number], index: '2dsphere' }
+		geo: { type: [Number], index: '2dsphere' },
 	}, this.path + '.');
 
 	schema.virtual(paths.serialised).get(function() {
@@ -110,7 +110,7 @@ location.prototype.addToSchema = function() {
 			this.get(paths.suburb),
 			this.get(paths.state),
 			this.get(paths.postcode),
-			this.get(paths.country)
+			this.get(paths.country),
 		]).join(', ');
 	});
 
@@ -318,7 +318,7 @@ function doGoogleGeocodeRequest(address, region, callback) {
 	var options = {
 		sensor: false,
 		language: 'en',
-		address: address
+		address: address,
 	};
 
 	if (arguments.length === 2 && _.isFunction(region)) {
@@ -426,7 +426,7 @@ location.prototype.googleLookup = function(item, region, update, callback) {
 
 		location.geo = [
 			result.geometry.location.lng,
-			result.geometry.location.lat
+			result.geometry.location.lat,
 		];
 
 		//console.log('------ Google Geocode Results ------');

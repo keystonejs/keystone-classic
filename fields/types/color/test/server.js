@@ -5,8 +5,8 @@ exports.initList = function(List) {
 	List.add({
 		color: { type: ColorType },
 		nested: {
-			color: { type: ColorType }
-		}
+			color: { type: ColorType },
+		},
 	});
 };
 
@@ -23,29 +23,29 @@ exports.testFieldType = function(List) {
 
 	it('should update top level fields', function(done) {
 		List.fields.color.updateItem(testItem, {
-			color: '#ffffff'
+			color: '#ffffff',
 		}, function() {
 			demand(testItem.color).be('#ffffff');
 			testItem.color = undefined;
 			done();
 		});
 	});
-	
+
 	it('should update nested fields', function(done) {
 		List.fields['nested.color'].updateItem(testItem, {
 			nested: {
-				color: '#ffffff'
-			}
+				color: '#ffffff',
+			},
 		}, function() {
 			demand(testItem.nested.color).be('#ffffff');
 			testItem.nested.color = undefined;
 			done();
 		});
 	});
-	
+
 	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.color'].updateItem(testItem, {
-			'nested.color': '#ffffff'
+			'nested.color': '#ffffff',
 		}, function() {
 			demand(testItem.nested.color).be('#ffffff');
 			testItem.nested.color = undefined;

@@ -19,13 +19,13 @@ const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'i
 const iconClassUploadPending = [
 	'upload-pending',
 	'mega-octicon',
-	'octicon-cloud-upload'
+	'octicon-cloud-upload',
 ];
 
 const iconClassDeletePending = [
 	'delete-pending',
 	'mega-octicon',
-	'octicon-x'
+	'octicon-x',
 ];
 
 module.exports = Field.create({
@@ -96,7 +96,7 @@ module.exports = Field.create({
 			removeExisting: false,
 			localSource:    null,
 			origin:         false,
-			action:         null
+			action:         null,
 		});
 	},
 
@@ -120,14 +120,14 @@ module.exports = Field.create({
 					if (!self.isMounted()) return;
 					self.setState({
 						localSource: e.target.result,
-						origin: 'local'
+						origin: 'local',
 					});
 				};
 				fileReader.readAsDataURL(f);
 			});
 		} else {
 			this.setState({
-				origin: 'local'
+				origin: 'local',
 			});
 		}
 	},
@@ -339,22 +339,22 @@ module.exports = Field.create({
 			$.get(Keystone.adminPath + '/api/cloudinary/autocomplete', {
 				dataType: 'json',
 				data: {
-					q: input
+					q: input,
 				},
-				prefix: selectPrefix
+				prefix: selectPrefix,
 			}, function (data) {
 				var options = [];
 
 				_.each(data.items, function (item) {
 					options.push({
 						value: item.public_id,
-						label: item.public_id
+						label: item.public_id,
 					});
 				});
 
 				callback(null, {
 					options: options,
-					complete: true
+					complete: true,
 				});
 			});
 		};
@@ -405,5 +405,5 @@ module.exports = Field.create({
 				{this.renderLightbox()}
 			</FormField>
 		);
-	}
+	},
 });

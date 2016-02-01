@@ -39,20 +39,20 @@ module.exports = Field.create({
 			removeExisting: false,
 			localSource:    null,
 			origin:         false,
-			action:         null
+			action:         null,
 		});
 	},
 
-	fileChanged  (event) {//eslint-disable-line no-unused-vars
+	fileChanged (event) {//eslint-disable-line no-unused-vars
 		this.setState({
-			origin: 'local'
+			origin: 'local',
 		});
 	},
 
-	removeFile  (e) {
+	removeFile (e) {
 		var state = {
 			localSource: null,
-			origin: false
+			origin: false,
 		};
 
 		if (this.hasLocal()) {
@@ -98,7 +98,7 @@ module.exports = Field.create({
 		}
 	},
 
-	renderFileDetails  (add) {
+	renderFileDetails (add) {
 		var values = null;
 
 		if (this.hasFile() && !this.state.removeExisting) {
@@ -224,6 +224,6 @@ module.exports = Field.create({
 
 			</FormField>
 		);
-	}
+	},
 
 });

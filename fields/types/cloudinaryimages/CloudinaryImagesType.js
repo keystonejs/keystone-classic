@@ -60,7 +60,7 @@ cloudinaryimages.prototype.addToSchema = function () {
 		upload: 		this._path.append('_upload'),
 		uploads: 		this._path.append('_uploads'),
 		action: 		this._path.append('_action'),
-		order: 			this._path.append('_order')
+		order: 			this._path.append('_order'),
 	};
 
 	var ImageSchema = new mongoose.Schema({
@@ -72,7 +72,7 @@ cloudinaryimages.prototype.addToSchema = function () {
 		url:			String,
 		width:			Number,
 		height:			Number,
-		secure_url:		String
+		secure_url:		String,
 	});
 
 	// Generate cloudinary folder used to upload/select images
@@ -301,7 +301,7 @@ cloudinaryimages.prototype.getRequestHandler = function (item, req, paths, callb
 			}
 
 			var uploadOptions = {
-				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id]
+				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id],
 			};
 
 			if (keystone.get('cloudinary folders')) {

@@ -22,7 +22,7 @@ module.exports = Field.create({
 	getInitialState () {
 		return {
 			id: getId(),
-			isFocused: false
+			isFocused: false,
 		};
 	},
 
@@ -72,7 +72,7 @@ module.exports = Field.create({
 
 	focusChanged (focused) {
 		this.setState({
-			isFocused: focused
+			isFocused: focused,
 		});
 	},
 
@@ -89,7 +89,7 @@ module.exports = Field.create({
 		this._currentValue = content;
 		this.props.onChange({
 			path: this.props.path,
-			value: content
+			value: content,
 		});
 	},
 
@@ -130,7 +130,7 @@ module.exports = Field.create({
 			var importcssOptions = {
 				content_css: options.importcss,
 				importcss_append: true,
-				importcss_merge_classes: true
+				importcss_merge_classes: true,
 			};
 
 			Object.assign(options.additionalOptions, importcssOptions);
@@ -145,7 +145,7 @@ module.exports = Field.create({
 			toolbar:  toolbar,
 			plugins:  plugins,
 			menubar:  options.menubar || false,
-			skin:     options.skin || 'keystone'
+			skin:     options.skin || 'keystone',
 		};
 
 		if (this.shouldRenderField()) {
@@ -158,7 +158,7 @@ module.exports = Field.create({
 				readonly: true,
 				menubar: false,
 				toolbar: 'code',
-				statusbar: false
+				statusbar: false,
 			});
 		}
 
@@ -177,7 +177,7 @@ module.exports = Field.create({
 	renderField () {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
-			height: this.props.height
+			height: this.props.height,
 		};
 		return (
 			<div className={className}>
@@ -188,6 +188,6 @@ module.exports = Field.create({
 
 	renderValue () {
 		return <FormInput multiline noedit value={this.props.value} />;
-	}
+	},
 
 });

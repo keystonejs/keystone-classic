@@ -25,7 +25,7 @@ function datetime(list, path, options) {
 	datetime.super_.call(this, list, path, options);
 	this.paths = {
 		date: this._path.append('_date'),
-		time: this._path.append('_time')
+		time: this._path.append('_time'),
 	};
 }
 util.inherits(datetime, FieldType);

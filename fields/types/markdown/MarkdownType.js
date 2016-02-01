@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
-var util = require('util'),
-	marked = require('marked'),
-	super_ = require('../Type');
+var util = require('util');
+var marked = require('marked');
+var super_ = require('../Type');
 
 /**
  * Markdown FieldType Constructor
@@ -13,9 +13,9 @@ var util = require('util'),
  */
 
 function markdown(list, path, options) {
-	
+
 	this._defaultSize = 'full';
-	
+
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
 
@@ -54,7 +54,7 @@ markdown.prototype.addToSchema = function() {
 
 	var paths = this.paths = {
 		md: this._path.append('.md'),
-		html: this._path.append('.html')
+		html: this._path.append('.html'),
 	};
 
 	var markedOptions = this.markedOptions;
@@ -78,7 +78,7 @@ markdown.prototype.addToSchema = function() {
 	schema.nested[this.path] = true;
 	schema.add({
 		html: { type: String },
-		md: { type: String, set: setMarkdown }
+		md: { type: String, set: setMarkdown },
 	}, this.path + '.');
 
 	this.bindUnderscoreMethods();

@@ -32,7 +32,7 @@ var TextFilter = React.createClass({
 			state: React.PropTypes.string,
 			code: React.PropTypes.string,
 			country: React.PropTypes.string,
-		})
+		}),
 	},
 
 	getDefaultProps () {
@@ -83,7 +83,7 @@ var TextFilter = React.createClass({
 				</FormRow>
 			</div>
 		);
-	}
+	},
 
 });
 

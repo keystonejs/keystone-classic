@@ -2,15 +2,15 @@
  * Module dependencies.
  */
 
-var _ = require('underscore'),
-	moment = require('moment'),
-	keystone = require('../../../'),
-	util = require('util'),
-	knox = require('knox'),
-	// s3 = require('s3'),
-	utils = require('keystone-utils'),
-	grappling = require('grappling-hook'),
-	super_ = require('../Type');
+var _ = require('underscore');
+var moment = require('moment');
+var keystone = require('../../../');
+var util = require('util');
+var knox = require('knox');
+// var s3 = require('s3');
+var utils = require('keystone-utils');
+var grappling = require('grappling-hook');
+var super_ = require('../Type');
 
 /**
  * S3File FieldType Constructor
@@ -62,7 +62,7 @@ util.inherits(s3file, super_);
 Object.defineProperty(s3file.prototype, 's3config', {
 	get: function() {
 		return this.options.s3config || keystone.get('s3 config');
-	}
+	},
 });
 
 
@@ -88,7 +88,7 @@ s3file.prototype.addToSchema = function() {
 		// virtuals
 		exists:     this._path.append('.exists'),
 		upload:     this._path.append('_upload'),
-		action:     this._path.append('_action')
+		action:     this._path.append('_action'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
@@ -97,7 +97,7 @@ s3file.prototype.addToSchema = function() {
 		path:     String,
 		size:     Number,
 		filetype:   String,
-		url:      String
+		url:      String,
 	});
 
 	schema.add(schemaPaths);
@@ -118,7 +118,7 @@ s3file.prototype.addToSchema = function() {
 			path: '',
 			size: 0,
 			filetype: '',
-			url: ''
+			url: '',
 		});
 	};
 
@@ -145,7 +145,7 @@ s3file.prototype.addToSchema = function() {
 				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function(err, res){ return res ? res.resume() : false; });//eslint-disable-line handle-callback-err
 			} catch(e) {}// eslint-disable-line no-empty
 			reset(this);
-		}
+		},
 	};
 
 	_.each(schemaMethods, function(fn, key) {
@@ -295,7 +295,7 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 		filetype = file.mimetype || file.type,
 		headers = {
 			'Content-Type': filetype,
-			'x-amz-acl': 'public-read'
+			'x-amz-acl': 'public-read',
 		},
 		customHeaders = {},
 		headersOption = {},
@@ -420,7 +420,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 				path: path,
 				size: file.size,
 				filetype: filetype,
-				url: url
+				url: url,
 			};
 
 			if (update) {

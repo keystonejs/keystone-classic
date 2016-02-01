@@ -5,8 +5,8 @@ exports.initList = function(List) {
 	List.add({
 		html: { type: HtmlType },
 		nested: {
-			html: { type: HtmlType }
-		}
+			html: { type: HtmlType },
+		},
 	});
 };
 
@@ -23,29 +23,29 @@ exports.testFieldType = function(List) {
 
 	it('should update top level fields', function(done) {
 		List.fields.html.updateItem(testItem, {
-			html: 'foobar'
-		}, function() {		
+			html: 'foobar',
+		}, function() {
 			demand(testItem.html).be('foobar');
 			testItem.html = undefined;
 			done();
 		});
 	});
-	
+
 	it('should update nested fields', function(done) {
 		List.fields['nested.html'].updateItem(testItem, {
 			nested: {
-				html: 'foobar'
-			}
+				html: 'foobar',
+			},
 		}, function() {
 			demand(testItem.nested.html).be('foobar');
 			testItem.nested.html = undefined;
 			done();
 		});
 	});
-	
+
 	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.html'].updateItem(testItem, {
-			'nested.html': 'foobar'
+			'nested.html': 'foobar',
 		}, function() {
 			demand(testItem.nested.html).be('foobar');
 			testItem.nested.html = undefined;

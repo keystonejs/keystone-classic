@@ -71,7 +71,7 @@ util.inherits(azurefile, super_);
 Object.defineProperty(azurefile.prototype, 'azurefileconfig', {
 	get: function () {
 		return this.options.azurefileconfig || keystone.get('azurefile config');
-	}
+	},
 });
 
 
@@ -98,7 +98,7 @@ azurefile.prototype.addToSchema = function () {
 		// virtuals
 		exists:			this._path.append('.exists'),
 		upload:			this._path.append('_upload'),
-		action:			this._path.append('_action')
+		action:			this._path.append('_action'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
@@ -108,7 +108,7 @@ azurefile.prototype.addToSchema = function () {
 		filetype:		String,
 		url:			String,
 		etag: 			String,
-		container:		String
+		container:		String,
 	});
 
 	schema.add(schemaPaths);
@@ -128,7 +128,7 @@ azurefile.prototype.addToSchema = function () {
 			path: '',
 			size: 0,
 			filetype: '',
-			url: ''
+			url: '',
 		});
 	};
 
@@ -157,7 +157,7 @@ azurefile.prototype.addToSchema = function () {
 				azure.createBlobService().blobService.deleteBlob(this.get(paths.container), this.get(paths.filename), function () {});
 			} catch(e) {}//eslint-disable-line no-empty
 			reset(this);
-		}
+		},
 	};
 
 	_.each(schemaMethods, function (fn, key) {
@@ -258,7 +258,7 @@ azurefile.prototype.uploadFile = function (item, file, update, callback) {
 					filetype: filetype,
 					etag: blob.etag,
 					container: container,
-					url: 'http://' + field.azurefileconfig.account + '.blob.core.windows.net/' + container + '/' + blob.blob
+					url: 'http://' + field.azurefileconfig.account + '.blob.core.windows.net/' + container + '/' + blob.blob,
 				};
 
 				if (update) {

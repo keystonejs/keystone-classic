@@ -32,13 +32,13 @@ name.prototype.addToSchema = function() {
 	var paths = this.paths = {
 		first: this._path.append('.first'),
 		last: this._path.append('.last'),
-		full: this._path.append('.full')
+		full: this._path.append('.full'),
 	};
 
 	schema.nested[this.path] = true;
 	schema.add({
 		first: String,
-		last: String
+		last: String,
 	}, this.path + '.');
 
 	schema.virtual(paths.full).get(function () {

@@ -13,7 +13,7 @@ var LocalFilesColumn = React.createClass({
 				<div className="ItemList__value ItemList__value--local-files">{this.renderValue()}</div>
 			</td>
 		);
-	}
+	},
 });
 
 module.exports = LocalFilesColumn;

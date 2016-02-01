@@ -245,7 +245,7 @@ cloudinaryimage.prototype.addToSchema = function() {
 				}, options);
 			});
 			return promise;
-		}
+		},
 	};
 
 	_.each(schemaMethods, function(fn, key) {
@@ -366,7 +366,7 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 			}
 
 			var uploadOptions = {
-				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id]
+				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id],
 			};
 
 			if (keystone.get('cloudinary folders')) {

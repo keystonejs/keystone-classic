@@ -12,7 +12,7 @@ module.exports = Field.create({
 		this.props.value[which] = event.target.value;
 		this.props.onChange({
 			path: this.props.path,
-			value: this.props.value
+			value: this.props.value,
 		});
 	},
 
@@ -34,6 +34,6 @@ module.exports = Field.create({
 				</FormField>
 			</FormRow>
 		);
-	}
+	},
 
 });

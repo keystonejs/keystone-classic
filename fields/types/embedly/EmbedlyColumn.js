@@ -12,7 +12,7 @@ var EmbedlyColumn = React.createClass({
 				<div className="ItemList__value">{this.renderValue()}</div>
 			</td>
 		);
-	}
+	},
 });
 
 module.exports = EmbedlyColumn;

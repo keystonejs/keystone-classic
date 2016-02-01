@@ -30,13 +30,13 @@ var Base = module.exports.Base = {
 			inputProps: {},
 			labelProps: {},
 			valueProps: {},
-			size: 'full'
+			size: 'full',
 		};
 	},
 	valueChanged (event) {
 		this.props.onChange({
 			path: this.props.path,
-			value: event.target.value
+			value: event.target.value,
 		});
 	},
 	shouldCollapse () {
@@ -61,7 +61,7 @@ var Base = module.exports.Base = {
 			name: this.props.path,
 			onChange: this.valueChanged,
 			ref: 'focusTarget',
-			value: this.props.value
+			value: this.props.value,
 		});
 		return <FormInput {...props} />;
 	},
@@ -81,14 +81,14 @@ var Base = module.exports.Base = {
 				{this.renderNote()}
 			</FormField>
 		);
-	}
+	},
 };
 
 var Mixins = module.exports.Mixins = {
 	Collapse: {
 		componentWillMount () {
 			this.setState({
-				isCollapsed: this.shouldCollapse()
+				isCollapsed: this.shouldCollapse(),
 			});
 		},
 		componentDidUpdate (prevProps, prevState) {
@@ -98,7 +98,7 @@ var Mixins = module.exports.Mixins = {
 		},
 		uncollapse () {
 			this.setState({
-				isCollapsed: false
+				isCollapsed: false,
 			});
 		},
 		renderCollapse () {
@@ -108,8 +108,8 @@ var Mixins = module.exports.Mixins = {
 					<Button type="link" className="collapsed-field-label" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
 				</FormField>
 			);
-		}
-	}
+		},
+	},
 };
 
 module.exports.create = function(spec) {
@@ -128,7 +128,7 @@ module.exports.create = function(spec) {
 				return this.renderCollapse();
 			}
 			return this.renderUI();
-		}
+		},
 	};
 
 	var excludeBaseMethods = {};

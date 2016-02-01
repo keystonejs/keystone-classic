@@ -5,8 +5,8 @@ exports.initList = function(List) {
 	List.add({
 		location: {
 			basic: LocationType,
-			customRequired: { type: LocationType, required: ['state', 'country'] }
-		}
+			customRequired: { type: LocationType, required: ['state', 'country'] },
+		},
 	});
 };
 
@@ -22,15 +22,15 @@ exports.testFieldType = function(List) {
 		state: '',
 		postcode: '',
 		country: '',
-		geo: []
+		geo: [],
 	};
-	
+
 	var resetLocationValues = function() {
 		testItem.set('location.basic', emptyLocationValues);
 		testItem.set('location.required', emptyLocationValues);
 		testItem.set('location.customRequired', emptyLocationValues);
 	};
-	
+
 	it('should update its value from flat paths', function(done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
@@ -43,7 +43,7 @@ exports.testFieldType = function(List) {
 			'location.basic.postcode': 'postcode',
 			'location.basic.country': 'country',
 			'location.basic.geo_lat': '-33.865143',
-			'location.basic.geo_lng': '151.2099'
+			'location.basic.geo_lng': '151.2099',
 		}, function() {
 			demand(testItem.location.basic.number).be('number');
 			demand(testItem.location.basic.name).be('name');
@@ -59,7 +59,7 @@ exports.testFieldType = function(List) {
 			done();
 		});
 	});
-	
+
 	it('should update its value from nested paths', function(done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
@@ -73,10 +73,10 @@ exports.testFieldType = function(List) {
 					state: 'state',
 					postcode: 'postcode',
 					country: 'country',
-					geo: ['151.2099', '-33.865143']
-				}
-			}
-		}, function() {		
+					geo: ['151.2099', '-33.865143'],
+				},
+			},
+		}, function() {
 			demand(testItem.location.basic.number).be('number');
 			demand(testItem.location.basic.name).be('name');
 			demand(testItem.location.basic.street1).be('street 1');
@@ -91,48 +91,48 @@ exports.testFieldType = function(List) {
 			done();
 		});
 	});
-	
+
 	it('should remove the location.geo path without valid values', function(done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
-			'location.basic.geo': ['151.2099', '-33.865143']
+			'location.basic.geo': ['151.2099', '-33.865143'],
 		}, function() {
 			demand(testItem.location.basic.geo[0]).be(151.2099);
 			demand(testItem.location.basic.geo[1]).be(-33.865143);
 
 			List.fields['location.basic'].updateItem(testItem, {
 				'location.basic.geo_lat': '',
-				'location.basic.geo_lng': ''
+				'location.basic.geo_lng': '',
 			}, function() {
 				demand(testItem.location.basic.geo).be.undefined();
 				done();
 			});
 		});
 	});
-	
+
 	it('should validate required fields', function() {
 		List.fields['location.basic'].inputIsValid({}, true, testItem).must.be.false();
 		List.fields['location.basic'].inputIsValid({
 			'location.basic.street1': 'street1',
-			'location.basic.suburb': ''
+			'location.basic.suburb': '',
 		}, true, testItem).must.be.false();
 		List.fields['location.basic'].inputIsValid({
 			'location.basic.street1': 'street1',
-			'location.basic.suburb': 'suburb'
+			'location.basic.suburb': 'suburb',
 		}, true, testItem).must.be.true();
 		List.fields['location.basic'].inputIsValid({
 			location: { basic: {
 				street1: 'street1',
-				suburb: 'suburb'
-			} }
+				suburb: 'suburb',
+			} },
 		}, true, testItem).must.be.true();
 		List.fields['location.customRequired'].inputIsValid({
 			'location.customRequired.street1': 'street1',
-			'location.customRequired.suburb': 'suburb'
+			'location.customRequired.suburb': 'suburb',
 		}, true, testItem).must.be.false();
 		List.fields['location.customRequired'].inputIsValid({
 			'location.customRequired.state': 'state',
-			'location.customRequired.country': 'country'
+			'location.customRequired.country': 'country',
 		}, true, testItem).must.be.true();
 	});
 };

@@ -29,14 +29,14 @@ module.exports = Field.create({
 
 	getDefaultProps () {
 		return {
-			pickerType: 'sketch'
+			pickerType: 'sketch',
 		};
 	},
 
 	updateValue (value) {
 		this.props.onChange({
 			path: this.props.path,
-			value: value
+			value: value,
 		});
 	},
 
@@ -99,6 +99,6 @@ module.exports = Field.create({
 				</div>
 			</div>
 		);
-	}
+	},
 
 });

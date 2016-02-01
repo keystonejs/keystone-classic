@@ -23,5 +23,5 @@ module.exports = Field.create({
 				autoComplete="off"
 			/>
 		);
-	}
+	},
 });

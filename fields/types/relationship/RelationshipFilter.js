@@ -209,7 +209,7 @@ var RelationshipFilter = React.createClass({
 				) : null}
 			</div>
 		);
-	}
+	},
 
 });
 

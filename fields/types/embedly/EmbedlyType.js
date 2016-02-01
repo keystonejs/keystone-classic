@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-var _ = require('underscore'),
-	keystone = require('../../../'),
-	util = require('util'),
-	EmbedlyAPI = require('embedly'),
-	super_ = require('../Type');
+var _ = require('underscore');
+var keystone = require('../../../');
+var util = require('util');
+var EmbedlyAPI = require('embedly');
+var super_ = require('../Type');
 
 /**
  * Embedly FieldType Constructor
@@ -22,7 +22,7 @@ function embedly(list, path, options) {
 
 	this._underscoreMethods = ['reset'];
 	this._fixedSize = 'full';
-	
+
 	this.fromPath = options.from;
 	this.embedlyOptions = options.options || {};
 
@@ -87,7 +87,7 @@ embedly.prototype.addToSchema = function() {
 		providerUrl: 			this._path.append('.providerUrl'),
 		thumbnailUrl: 			this._path.append('.thumbnailUrl'),
 		thumbnailWidth: 		this._path.append('.thumbnailWidth'),
-		thumbnailHeight: 		this._path.append('.thumbnailHeight')
+		thumbnailHeight: 		this._path.append('.thumbnailHeight'),
 	};
 
 	schema.nested[this.path] = true;
@@ -107,7 +107,7 @@ embedly.prototype.addToSchema = function() {
 		providerUrl: 			String,
 		thumbnailUrl: 			String,
 		thumbnailWidth: 		Number,
-		thumbnailHeight: 		Number
+		thumbnailHeight: 		Number,
 	}, this.path + '.');
 
 	// Bind the pre-save hook to hit the embedly api if the source path has changed
@@ -163,7 +163,7 @@ embedly.prototype.addToSchema = function() {
 							providerUrl: 		data.provider_url,
 							thumbnailUrl: 		data.thumbnail_url,
 							thumbnailWidth: 	data.thumbnail_width,
-							thumbnailHeight: 	data.thumbnail_height
+							thumbnailHeight: 	data.thumbnail_height,
 						});
 
 					} else {
@@ -205,7 +205,7 @@ embedly.prototype.reset = function(item) {
 		providerUrl: 		null,
 		thumbnailUrl: 		null,
 		thumbnailWidth: 	null,
-		thumbnailHeight: 	null
+		thumbnailHeight: 	null,
 	}));
 };
 
@@ -270,7 +270,7 @@ embedly.prototype.updateItem = function(item, data, callback) {
 		providerUrl: 		data[this.paths.providerUrl],
 		thumbnailUrl: 		data[this.paths.thumbnailUrl],
 		thumbnailWidth: 	data[this.paths.thumbnailWidth],
-		thumbnailHeight: 	data[this.paths.thumbnailHeight]
+		thumbnailHeight: 	data[this.paths.thumbnailHeight],
 	}));
 	process.nextTick(callback);
 };

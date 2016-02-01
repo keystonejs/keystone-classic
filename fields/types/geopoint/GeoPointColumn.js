@@ -27,7 +27,7 @@ var GeoPointColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = GeoPointColumn;

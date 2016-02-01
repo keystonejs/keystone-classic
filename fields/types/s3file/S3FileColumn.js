@@ -9,7 +9,7 @@ var S3FileColumn = React.createClass({
 				<div className="ItemList__value ItemList__value--s3-file"><a href={isVal} target="_blank">{ isVal }</a></div>
 			</td>
 		);
-	}
+	},
 });
 
 module.exports = S3FileColumn;

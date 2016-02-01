@@ -74,6 +74,6 @@ module.exports = Field.create({
 				</InputGroup.Section>
 			</InputGroup>
 		);
-	}
+	},
 
 });

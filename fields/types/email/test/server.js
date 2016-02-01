@@ -5,8 +5,8 @@ exports.initList = function(List) {
 	List.add({
 		email: { type: EmailType },
 		nested: {
-			email: { type: EmailType }
-		}
+			email: { type: EmailType },
+		},
 	});
 };
 
@@ -23,29 +23,29 @@ exports.testFieldType = function(List) {
 
 	it('should update top level fields', function(done) {
 		List.fields.email.updateItem(testItem, {
-			email: 'sebastian@thinkmill.com.au'
+			email: 'sebastian@thinkmill.com.au',
 		}, function() {
 			demand(testItem.email).be('sebastian@thinkmill.com.au');
 			testItem.email = undefined;
 			done();
 		});
 	});
-	
+
 	it('should update nested fields', function(done) {
 		List.fields['nested.email'].updateItem(testItem, {
 			nested: {
-				email: 'sebastian@thinkmill.com.au'
-			}
+				email: 'sebastian@thinkmill.com.au',
+			},
 		}, function() {
 			demand(testItem.nested.email).be('sebastian@thinkmill.com.au');
 			testItem.nested.email = undefined;
 			done();
 		});
 	});
-	
+
 	it('should update nested fields with flat paths', function(done) {
 		List.fields['nested.email'].updateItem(testItem, {
-			'nested.email': 'sebastian@thinkmill.com.au'
+			'nested.email': 'sebastian@thinkmill.com.au',
 		}, function() {
 			demand(testItem.nested.email).be('sebastian@thinkmill.com.au');
 			testItem.nested.email = undefined;
@@ -66,7 +66,7 @@ exports.testFieldType = function(List) {
 	it('should properly validate valid emails', function() {
 		demand(List.fields.email.inputIsValid({ email: 'example@example.com' })).be(true);
 	});
-	
+
 
 	it('should properly generate gravatar', function() {
 		demand(testItem._.email.gravatarUrl()).be('');

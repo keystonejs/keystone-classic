@@ -38,7 +38,7 @@ email.prototype.gravatarUrl = function(item, size, defaultImage, rating) {
 		// default image url encoded href or one of the built in options: 404, mm, identicon, monsterid, wavatar, retro, blank
 		'&d=' + (defaultImage ? encodeURIComponent(defaultImage) : 'identicon'),
 		// rating, g, pg, r or x
-		'&r=' + (/^(?:g|pg|r|x)$/i.test(rating) ? rating.toLowerCase() : 'g')
+		'&r=' + (/^(?:g|pg|r|x)$/i.test(rating) ? rating.toLowerCase() : 'g'),
 	].join('');
 };
 
