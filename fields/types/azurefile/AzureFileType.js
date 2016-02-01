@@ -228,7 +228,7 @@ azurefile.prototype.updateItem = function (item, data, callback) { //eslint-disa
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
 	var field = this,
-		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',//eslint-disable-line no-unused-vars
+		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '', //eslint-disable-line no-unused-vars
 		filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
