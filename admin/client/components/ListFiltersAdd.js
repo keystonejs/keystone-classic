@@ -142,8 +142,8 @@ var ListFiltersAdd = React.createClass({
 						leftAction={selectedField ? this.navigateBack : null}
 						leftIcon={selectedField ? 'chevron-left' : null}
 						title={selectedField ? selectedField.label : 'Filter'}
-						transitionDirection={!!selectedField ? 'next' : 'prev'} />
-					<Transition style={popoutBodyStyle} className={popoutPanesClassname} transitionName={!!selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'} component="div">
+						transitionDirection={selectedField ? 'next' : 'prev'} />
+					<Transition style={popoutBodyStyle} className={popoutPanesClassname} transitionName={selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'} component="div">
 						{selectedField ? this.renderForm() : this.renderList()}
 					</Transition>
 				</Popout>
