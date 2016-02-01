@@ -13,7 +13,7 @@ var util = require('util'),
  */
 
 function datearray (list, path, options) {
-	
+
 	this._nativeType = [Date];
 	this._defaultSize = 'medium';
 	this._underscoreMethods = ['format'];
@@ -21,11 +21,11 @@ function datearray (list, path, options) {
 
 	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
-	
+
 	if (this.formatString && 'string' !== typeof this.formatString) {
 		throw new Error('FieldType.Date: options.format must be a string.');
 	}
-	
+
 	datearray.super_.call(this, list, path, options);
 }
 
@@ -68,7 +68,7 @@ datearray.prototype.inputIsValid = function (data, required, item) {
 		}
 		value = [value];
 	}
-	
+
 	if (required) {
 		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
@@ -80,7 +80,7 @@ datearray.prototype.inputIsValid = function (data, required, item) {
 			return false;
 		}
 	}
-	
+
 	if (Array.isArray(value)) {
 		// filter out empty fields
 		value = value.filter(function (date) {
@@ -110,7 +110,7 @@ datearray.prototype.inputIsValid = function (data, required, item) {
 datearray.prototype.updateItem = function (item, data, callback) {
 
 	var value = this.getValueFromData(data);
-	
+
 	if (value !== undefined) {
 		if (Array.isArray(value)) {
 			// Only save valid dates

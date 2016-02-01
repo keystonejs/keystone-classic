@@ -8,8 +8,8 @@ module.exports = function evalDependsOn (dependsOn, values) {
     if (!isObject(dependsOn) || !Object.keys(dependsOn).length) {
         return true;
     }
-	
+
 	var Match = new ExMatch(dependsOn, values, false);
 	return Match.match();
-	
+
 };

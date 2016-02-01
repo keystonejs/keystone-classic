@@ -237,7 +237,7 @@ const CurrentListStore = new Store({
 		});
 		window.open(url);
 	},
-		rowAlert (reset = false) {
+	rowAlert (reset = false) {
 		//  reset the alerts or return the object
 		if (reset) {
 			defaultRowAlert();

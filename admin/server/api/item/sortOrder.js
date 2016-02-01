@@ -9,5 +9,5 @@ module.exports = function (req, res) {
 	req.list.model.reorderItems(req.params.id, req.params.sortOrder, req.params.newOrder, function (err, doc) {
 		if (err) return res.apiError('database error', err);
 		return Get(req, res);
-	});		
+	});
 };

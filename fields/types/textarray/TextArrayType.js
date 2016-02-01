@@ -54,7 +54,7 @@ textarray.prototype.inputIsValid = function (data, required, item) {
 
 textarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	
+
 	if ('undefined' !== typeof value) {
 		if (value === null) {
 			value = [];

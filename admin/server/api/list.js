@@ -112,7 +112,7 @@ module.exports = function (req, res) {
 					}
 				});
 			};
-			
+
 			if (req.list.nameIsInitial) {
 				if (req.list.nameField.inputIsValid(data)) {
 					req.list.nameField.updateItem(item, data, processUpdateHandler);

@@ -14,19 +14,19 @@ var util = require('util'),
  */
 
 function numberarray (list, path, options) {
-	
+
 	this._nativeType = [Number];
 
 	this._underscoreMethods = ['format'];
 	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
 	this._defaultSize = 'small';
-	
+
 	if (this._formatString && 'string' !== typeof this._formatString) {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
-	
+
 	numberarray.super_.call(this, list, path, options);
-	
+
 }
 
 /*!
@@ -109,7 +109,7 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
 
 numberarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	
+
 	if ('undefined' !== typeof value) {
 		if (Array.isArray(value)) {
 			var temp = value.filter(function (temp) {

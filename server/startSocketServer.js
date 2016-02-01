@@ -8,7 +8,7 @@
  *
  * @api private
  */
- 
+
 var fs = require('fs');
 
 module.exports = function (keystone, app, callback) {
@@ -25,5 +25,5 @@ module.exports = function (keystone, app, callback) {
 		keystone.httpServer = app.listen(unixSocket, ready);
 		fs.chmod(unixSocket, 0x777);
 	});
-	
+
 };

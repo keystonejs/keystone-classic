@@ -5,7 +5,7 @@
 var _ = require('underscore'),
 	util = require('util'),
 	super_ = require('../Type');
-	
+
 var REGEXP_LNGLAT = /^\s*(\-?\d+(?:\.\d+)?)\s*\,\s*(\-?\d+(?:\.\d+)?)\s*$/;
 
 /**
@@ -15,13 +15,13 @@ var REGEXP_LNGLAT = /^\s*(\-?\d+(?:\.\d+)?)\s*\,\s*(\-?\d+(?:\.\d+)?)\s*$/;
  */
 
 function geopoint (list, path, options) {
-	
+
 	this._fixedSize = 'medium';
-	
+
 	// TODO: implement filtering, hard-coded as disabled for now
 	options.nofilter = true;
 	geopoint.super_.call(this, list, path, options);
-	
+
 }
 
 /*!
@@ -63,7 +63,7 @@ geopoint.prototype.getData = function (item) {
 
 geopoint.prototype.format = function (item) {
 	if (item.get(this.path)) {
-		return item.get(this.path).reverse().join(', ');	
+		return item.get(this.path).reverse().join(', ');
 	}
 	return null;
 };
@@ -76,18 +76,18 @@ geopoint.prototype.format = function (item) {
  */
 
 geopoint.prototype.inputIsValid = function (data, required, item) { //eslint-disable-line no-unused-vars
-	
+
 	var values = this.getValueFromData(data);
 
 	// Input is valid if the field is not required, and not present
 	if (values === undefined && !required) return true;
-	
+
 	if (_.isArray(values)) {
 		values = _.compact(values).join(',');
 	}
-	
+
 	if (values === '' && !required) return true;
-	
+
 	return REGEXP_LNGLAT.test(values);
 
 };
@@ -100,31 +100,31 @@ geopoint.prototype.inputIsValid = function (data, required, item) { //eslint-dis
  */
 
 geopoint.prototype.updateItem = function (item, data, callback) {
-	
+
 	if (!_.isObject(data)) return process.nextTick(callback);
-	
+
 	var value = this.getValueFromData(data);
 	if (value === undefined) return process.nextTick(callback);
 
 	if (_.isString(value)) {
-		
+
 		// Value should be formatted lng,lat
 		var values = REGEXP_LNGLAT.exec(value);
-		
+
 		if (values) {
 			item.set(this.path, [values[1], values[2]]);
 		} else {
 			item.set(this.path, undefined);
 		}
-		
+
 	} else if (_.isArray(value)) {
-		
+
 		if (value.length === 2 && REGEXP_LNGLAT.test(_.compact(value).join(','))) {
 			item.set(this.path, value);
 		} else {
 			item.set(this.path, undefined);
 		}
-		
+
 	}
 
 	process.nextTick(callback);
