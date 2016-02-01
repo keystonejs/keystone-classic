@@ -330,7 +330,7 @@ function doGoogleGeocodeRequest (address, region, callback) {
 		options.region = region;
 	}
 
-	if (keystone.get('google server api key')){
+	if (keystone.get('google server api key')) {
 		options.key = keystone.get('google server api key');
 	}
 
@@ -390,7 +390,7 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 		});
 	}
 
-	doGoogleGeocodeRequest(address, region || keystone.get('default region'), function (err, geocode){
+	doGoogleGeocodeRequest(address, region || keystone.get('default region'), function (err, geocode) {
 
 		if (err || geocode.status !== 'OK') {
 			return callback(err || new Error(geocode.status + ': ' + geocode.error_message));
@@ -404,7 +404,7 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 
 		var location = {};
 
-		_.each(result.address_components, function (val){
+		_.each(result.address_components, function (val) {
 			if ( _.indexOf(val.types, 'street_number') >= 0 ) {
 				location.street1 = location.street1 || [];
 				location.street1.push(val.long_name);

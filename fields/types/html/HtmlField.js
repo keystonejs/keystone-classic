@@ -162,7 +162,7 @@ module.exports = Field.create({
 			});
 		}
 
-		if (options.additionalOptions){
+		if (options.additionalOptions) {
 			Object.assign(opts, options.additionalOptions);
 		}
 

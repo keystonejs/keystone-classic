@@ -201,9 +201,9 @@ Keystone.prototype.import = function (dirname) {
 
 Keystone.prototype.applyUpdates = function (callback) {
 	var self = this;
-	self.callHook('pre:updates', function (err){
+	self.callHook('pre:updates', function (err) {
 		if (err) return callback(err);
-		require('./lib/updates').apply(function (err){
+		require('./lib/updates').apply(function (err) {
 			if (err) return callback(err);
 			self.callHook('post:updates', callback);
 		});

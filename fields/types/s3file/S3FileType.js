@@ -142,7 +142,7 @@ s3file.prototype.addToSchema = function () {
 		delete: function () {
 			try {
 				var client = knox.createClient(field.s3config);
-				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function (err, res){ return res ? res.resume() : false; });//eslint-disable-line handle-callback-err
+				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function (err, res) { return res ? res.resume() : false; });//eslint-disable-line handle-callback-err
 			} catch (e) {}// eslint-disable-line no-empty
 			reset(this);
 		},
@@ -235,17 +235,17 @@ var validateHeader = function (header, callback) {
 		validKeys = [HEADER_NAME_KEY, HEADER_VALUE_KEY],
 		filteredKeys;
 
-	if (!_.has(header, HEADER_NAME_KEY)){
+	if (!_.has(header, HEADER_NAME_KEY)) {
 		return callback(new Error('Unsupported Header option: missing required key "' + HEADER_NAME_KEY + '" in ' + JSON.stringify(header)));
 	}
-	if (!_.has(header, HEADER_VALUE_KEY)){
+	if (!_.has(header, HEADER_VALUE_KEY)) {
 		return callback(new Error('Unsupported Header option: missing required key "' + HEADER_VALUE_KEY + '" in ' + JSON.stringify(header)));
 	}
 
-	filteredKeys = _.filter(_.keys(header), function (key){ return _.indexOf(validKeys, key) > -1; });
+	filteredKeys = _.filter(_.keys(header), function (key) { return _.indexOf(validKeys, key) > -1; });
 
-	_.each(filteredKeys, function (key){
-		if (!_.isString(header[key])){
+	_.each(filteredKeys, function (key) {
+		if (!_.isString(header[key])) {
 			return callback(new Error('Unsupported Header option: value for ' + key + ' header must be a String ' + header[key].toString()));
 		}
 	});
@@ -265,15 +265,15 @@ var validateHeader = function (header, callback) {
 var validateHeaders = function (headers, callback) {
 	var _headers = [];
 
-	if (!_.isObject(headers)){
+	if (!_.isObject(headers)) {
 		return callback(new Error('Unsupported Header option: headers must be an Object ' + JSON.stringify(headers)));
 	}
 
-	_.each(headers, function (value, key){
+	_.each(headers, function (value, key) {
 		_headers.push({ name: key, value: value });
 	});
 
-	_.each(_headers, function (header){
+	_.each(_headers, function (header) {
 		validateHeader(header, callback);
 	});
 
@@ -290,7 +290,7 @@ var validateHeaders = function (headers, callback) {
  * @api public
  */
 
-s3file.prototype.generateHeaders = function (item, file, callback){
+s3file.prototype.generateHeaders = function (item, file, callback) {
 	var field = this,
 		filetype = file.mimetype || file.type,
 		headers = {
@@ -303,57 +303,57 @@ s3file.prototype.generateHeaders = function (item, file, callback){
 		defaultHeaders;
 
 
-	if (_.has(field.s3config, 'default headers')){
+	if (_.has(field.s3config, 'default headers')) {
 		defaultHeaders = field.s3config['default headers'];
-		if (_.isArray(defaultHeaders)){
-			_.each(defaultHeaders, function (header){
+		if (_.isArray(defaultHeaders)) {
+			_.each(defaultHeaders, function (header) {
 				var _header = {};
-				if (validateHeader(header, callback)){
+				if (validateHeader(header, callback)) {
 					_header[header.name] = header.value;
 					customHeaders = Object.assign(customHeaders, _header);
 				}
 			});
-		} else if (_.isObject(defaultHeaders)){
+		} else if (_.isObject(defaultHeaders)) {
 			customHeaders = Object.assign(customHeaders, defaultHeaders);
 		} else {
 			return callback(new Error('Unsupported Header option: defaults headers must be either an Object or Array ' + JSON.stringify(defaultHeaders)));
 		}
 	}
 
-	if (field.options.headers){
+	if (field.options.headers) {
 		headersOption = field.options.headers;
 
-		if (_.isFunction(headersOption)){
+		if (_.isFunction(headersOption)) {
 			computedHeaders = headersOption.call(field, item, file);
 
-			if (_.isArray(computedHeaders)){
-				_.each(computedHeaders, function (header){
+			if (_.isArray(computedHeaders)) {
+				_.each(computedHeaders, function (header) {
 					var _header = {};
-					if (validateHeader(header, callback)){
+					if (validateHeader(header, callback)) {
 						_header[header.name] = header.value;
 						customHeaders = Object.assign(customHeaders, _header);
 					}
 				});
-			} else if (_.isObject(computedHeaders)){
+			} else if (_.isObject(computedHeaders)) {
 				customHeaders = Object.assign(customHeaders, computedHeaders);
 			} else {
 				return callback(new Error('Unsupported Header option: computed headers must be either an Object or Array ' + JSON.stringify(computedHeaders)));
 			}
 
-		} else if (_.isArray(headersOption)){
-			_.each(headersOption, function (header){
+		} else if (_.isArray(headersOption)) {
+			_.each(headersOption, function (header) {
 				var _header = {};
-				if (validateHeader(header, callback)){
+				if (validateHeader(header, callback)) {
 					_header[header.name] = header.value;
 					customHeaders = Object.assign(customHeaders, _header);
 				}
 			});
-		} else if (_.isObject(headersOption)){
+		} else if (_.isObject(headersOption)) {
 			customHeaders = Object.assign(customHeaders, headersOption);
 		}
 	}
 
-	if (validateHeaders(customHeaders, callback)){
+	if (validateHeaders(customHeaders, callback)) {
 		headers = Object.assign(headers, customHeaders);
 	}
 

@@ -36,7 +36,7 @@ module.exports = function (req, res) {
 					if (Array.isArray(refData) && refData.length) {
 						_.forEach(refData, function (i) {
 							var name = field.refList.getDocumentName(i);
-							if (keystone.get('csv expanded')){
+							if (keystone.get('csv expanded')) {
 								name = '[' + i.id + ',' + name + ']';
 							}
 							values.push(name);

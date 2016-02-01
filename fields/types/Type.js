@@ -93,7 +93,7 @@ Field.prototype.getOptions = function () {
 		optionKeys.forEach(function (key) {
 			if (this[key]) {
 				this.__options[key] = this[key];
-			} else if (this.options[key]){
+			} else if (this.options[key]) {
 				this.__options[key] = this.options[key];
 			}
 		}, this);
@@ -187,11 +187,11 @@ Field.prototype.getPreSaveWatcher = function () {
 		if (!applyValue(this)) {
 			return next();
 		}
-		di(field.options.value).call(this, function (err, val){
-			if (err){
+		di(field.options.value).call(this, function (err, val) {
+			if (err) {
 				console.error('\nError: ' +
 				'Watch set with value method for ' + field.list.key + '.' + field.path + ' (' + field.type + ') throws error:' + err);
-			}else {
+			} else {
 				this.set(field.path, val);
 			}
 			next();
