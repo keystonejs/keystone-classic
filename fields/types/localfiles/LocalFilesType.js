@@ -99,7 +99,7 @@ localfiles.prototype.addToSchema = function () {
 
 	// The .href virtual returns the public path of the file
 	schemaPaths.virtual('href').get(function () {
-		return field.href.call(field, this);
+		return field.href(this);
 	});
 
 	schema.add(this._path.addTo({}, [schemaPaths]));

@@ -115,7 +115,7 @@ localfile.prototype.addToSchema = function () {
 
 	// The .href virtual returns the public path of the file
 	schema.virtual(paths.href).get(function () {
-		return field.href.call(field, this);
+		return field.href(this);
 	});
 
 	// reset clears the value of the field
