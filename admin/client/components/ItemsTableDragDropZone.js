@@ -28,7 +28,7 @@ var ItemsTableDragDropZone = React.createClass({
 				'is-active': current,
 			});
 			/* eslint-disable no-loop-func */
-			pages.push(<DropZoneTarget key={'page_' + page} page={page} className={className} pageItems={pageItems}  />);
+			pages.push(<DropZoneTarget key={'page_' + page} page={page} className={className} pageItems={pageItems} />);
 			/* eslint-enable */
 		}
 
@@ -37,7 +37,7 @@ var ItemsTableDragDropZone = React.createClass({
 		if (!this.props.list.nodelete) cols++;
 		return (
 			<tr style={style}>
-				<td colSpan={cols}  >
+				<td colSpan={cols} >
 					<div className="ItemList__dropzone" >
 						{pages}
 						<div className="clearfix" />

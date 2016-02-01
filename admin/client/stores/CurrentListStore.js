@@ -189,7 +189,7 @@ const CurrentListStore = new Store({
 						_items.results.push(drag.item);
 					}
 				}
-				_itemsResultsClone =  items.results.slice(0);
+				_itemsResultsClone = items.results.slice(0);
 
 				if (options.success && options.id) {
 					// flashes a success background on the row
@@ -283,7 +283,7 @@ const CurrentListStore = new Store({
 				}
 				if ('object' === typeof items && items.results) {
 					_items = items;
-					_itemsResultsClone =  items.results.slice(0);
+					_itemsResultsClone = items.results.slice(0);
 					_rowAlert.success = item.id;
 				}
 				return this.notifyChange();

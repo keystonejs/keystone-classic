@@ -12,9 +12,9 @@ const TOGGLE_OPTIONS = [
 ];
 
 const MODE_OPTIONS = [
-	{ label: 'On',      value: 'on' },
-	{ label: 'After',   value: 'after' },
-	{ label: 'Before',  value: 'before' },
+	{ label: 'On', value: 'on' },
+	{ label: 'After', value: 'after' },
+	{ label: 'Before', value: 'before' },
 	{ label: 'Between', value: 'between' },
 ];
 
@@ -168,10 +168,10 @@ var DateFilter = React.createClass({
 				<div>
 					<FormRow>
 						<FormField width="one-half">
-							<FormInput ref="after" placeholder="From" onFocus={(e) => { this.setActiveField('after'); }}  value={moment(filter.after).format(this.props.format)} />
+							<FormInput ref="after" placeholder="From" onFocus={(e) => { this.setActiveField('after'); }} value={moment(filter.after).format(this.props.format)} />
 						</FormField>
 						<FormField width="one-half">
-							<FormInput ref="before" placeholder="To"  onFocus={(e) => { this.setActiveField('before'); }} value={moment(filter.before).format(this.props.format)} />
+							<FormInput ref="before" placeholder="To" onFocus={(e) => { this.setActiveField('before'); }} value={moment(filter.before).format(this.props.format)} />
 						</FormField>
 					</FormRow>
 					<div style={{ position: 'relative' }}>

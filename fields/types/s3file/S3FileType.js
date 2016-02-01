@@ -362,7 +362,6 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 };
 
 
-
 /**
  * Uploads the file for this field
  *

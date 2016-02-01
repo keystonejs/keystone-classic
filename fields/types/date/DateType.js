@@ -66,7 +66,7 @@ date.prototype.addFilterToQuery = function (filter, query) {
 	}
 
 	if (filter.inverted) {
-		query[this.path] =  { $not: query[this.path] };
+		query[this.path] = { $not: query[this.path] };
 	}
 
 	return query;

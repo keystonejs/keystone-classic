@@ -61,7 +61,6 @@ function localfile (list, path, options) {
 util.inherits(localfile, super_);
 
 
-
 /**
  * Registers the field on the List's Mongoose Schema.
  *
