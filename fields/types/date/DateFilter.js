@@ -104,7 +104,7 @@ var DateFilter = React.createClass({
 		// Change the current month only if the value entered by the user is a valid
 		// date, according to the `L` format
 		if (moment(value, 'L', true).isValid()) {
-		  month = moment(value, 'L').toDate();
+			month = moment(value, 'L').toDate();
 		}
 
 		this.updateFilter({ value: value });

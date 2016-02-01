@@ -140,7 +140,7 @@ const dropItem = {
 
 		// self
 		if (dragged === over) {
-		  return;
+			return;
 		}
 
 		CurrentListStore.moveItem(dragged, over, props);
@@ -160,8 +160,8 @@ function dragProps (connect, monitor) {
 }
 
 function dropProps (connect) {
-	 return {
-		 connectDropTarget: connect.dropTarget(),
+	return {
+		connectDropTarget: connect.dropTarget(),
 	};
 };
 
