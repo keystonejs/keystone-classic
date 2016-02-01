@@ -55,7 +55,7 @@ module.exports = function (req, res) {
 
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 
-		function processUpdateHandler () {
+		var processUpdateHandler = function () {
 			updateHandler.process(req.body, {
 				// flashErrors: true,
 				logErrors: true,
@@ -68,7 +68,7 @@ module.exports = function (req, res) {
 				req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
 				return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path + '/' + item.id);
 			});
-		}
+		};
 
 		if (req.list.nameIsInitial) {
 			if (!req.list.nameField.inputIsValid(req.body, true, item)) {

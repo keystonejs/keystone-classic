@@ -92,7 +92,7 @@ module.exports = function (req, res) {
 			var updateHandler = item.getUpdateHandler(req);
 			var data = (req.method === 'POST') ? req.body : req.query;
 
-			function processUpdateHandler () {
+			var processUpdateHandler = function () {
 				updateHandler.process(data, {
 					flashErrors: true,
 					logErrors: true,
@@ -111,7 +111,8 @@ module.exports = function (req, res) {
 						});
 					}
 				});
-			}
+			};
+			
 			if (req.list.nameIsInitial) {
 				if (req.list.nameField.inputIsValid(data)) {
 					req.list.nameField.updateItem(item, data, processUpdateHandler);
