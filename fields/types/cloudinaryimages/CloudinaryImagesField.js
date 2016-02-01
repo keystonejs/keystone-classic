@@ -43,7 +43,7 @@ var Thumbnail = React.createClass({
 		let iconClassName;
 		let { deleted, height, isQueued, url, width, openLightbox } = this.props;
 		let previewClassName = classnames('image-preview', {
-			'action': (deleted || isQueued),
+			action: (deleted || isQueued),
 		});
 		let title = (width && height) ? (width + ' × ' + height) : '';
 

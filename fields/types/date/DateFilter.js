@@ -160,7 +160,7 @@ var DateFilter = React.createClass({
 
 		// DayPicker stuff
 		const modifiers = {
-			'selected': (day) => moment(filter.value).isSame(day),
+			selected: (day) => moment(filter.value).isSame(day),
 		};
 
 		if (mode.value === 'between') {
