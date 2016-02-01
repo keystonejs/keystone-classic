@@ -1,7 +1,7 @@
 var demand = require('must'),
 	MarkdownType = require('../MarkdownType');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		markdown: { type: MarkdownType },
 		nested: {
@@ -10,43 +10,43 @@ exports.initList = function(List) {
 	});
 };
 
-exports.createData = function(List) {// eslint-disable-line no-unused-vars
+exports.createData = function (List) {// eslint-disable-line no-unused-vars
 
 };
 
-exports.testFilters = function(List) {// eslint-disable-line no-unused-vars
+exports.testFilters = function (List) {// eslint-disable-line no-unused-vars
 
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function(done) {
+	it('should update top level fields', function (done) {
 		List.fields.markdown.updateItem(testItem, {
 			markdown: 'foobar',
-		}, function() {
+		}, function () {
 			demand(testItem.markdown.html).be('<p>foobar</p>\n');
 			testItem.markdown = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields', function(done) {
+	it('should update nested fields', function (done) {
 		List.fields['nested.markdown'].updateItem(testItem, {
 			nested: {
 				markdown: 'foobar',
 			},
-		}, function() {
+		}, function () {
 			demand(testItem.nested.markdown.html).be('<p>foobar</p>\n');
 			testItem.nested.markdown = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields with flat paths', function(done) {
+	it('should update nested fields with flat paths', function (done) {
 		List.fields['nested.markdown'].updateItem(testItem, {
 			'nested.markdown': 'foobar',
-		}, function() {
+		}, function () {
 			demand(testItem.nested.markdown.html).be('<p>foobar</p>\n');
 			testItem.nested.markdown = undefined;
 			done();

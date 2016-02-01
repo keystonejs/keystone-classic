@@ -4,7 +4,7 @@ var Types = keystone.Field.Types;
 
 module.exports = {
 
-	upload: function(req, res) {
+	upload: function (req, res) {
 		if (!keystone.security.csrf.validate(req, req.body.authenticity_token)) {
 			return res.status(403).send({ error: { message: 'invalid csrf' } });
 		}
@@ -20,7 +20,7 @@ module.exports = {
 
 			var s3Client = knox.createClient(s3Config);
 
-			s3Client.putFile(file.path, path + file.name, headers, function(err, s3Response) {
+			s3Client.putFile(file.path, path + file.name, headers, function (err, s3Response) {
 				var sendResult = function () {
 					if (err){
 						return res.send({ error: { message: err.message } });

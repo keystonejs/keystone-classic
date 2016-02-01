@@ -9,7 +9,7 @@ var utils = require('keystone-utils');
  * @extends Field
  * @api public
  */
-function relationship(list, path, options) {
+function relationship (list, path, options) {
 	this.many = (options.many) ? true : false;
 	this.filters = options.filters;
 	this.createInline = (options.createInline) ? true : false;
@@ -40,7 +40,7 @@ relationship.prototype.getProperties = function () {
  * Gets id and name for the related item(s) from populated values
  */
 
-function expandRelatedItemData(item) {
+function expandRelatedItemData (item) {
 	if (!item || !item.id) return undefined;
 	return {
 		id: item.id,
@@ -52,7 +52,7 @@ function truthy (value) {
 	return value;
 }
 
-relationship.prototype.getExpandedData = function(item) {
+relationship.prototype.getExpandedData = function (item) {
 	var value = item.get(this.path);
 	if (this.many) {
 		if (!value || !Array.isArray(value)) return [];
@@ -65,7 +65,7 @@ relationship.prototype.getExpandedData = function(item) {
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-relationship.prototype.addToSchema = function() {
+relationship.prototype.addToSchema = function () {
 	var field = this;
 	var schema = this.list.schema;
 	var def = {
@@ -83,12 +83,12 @@ relationship.prototype.addToSchema = function() {
 		return keystone.list(field.options.ref);
 	});
 	if (this.many) {
-		this.underscoreMethod('contains', function(find) {
+		this.underscoreMethod('contains', function (find) {
 			var value = this.populated(field.path) || this.get(field.path);
 			if ('object' === typeof find) {
 				find = find.id;
 			}
-			var result = _.some(value, function(value) {
+			var result = _.some(value, function (value) {
 				return (value + '' === find);
 			});
 			return result;
@@ -100,7 +100,7 @@ relationship.prototype.addToSchema = function() {
 /**
  * Add filters to a query
  */
-relationship.prototype.addFilterToQuery = function(filter, query) {
+relationship.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (!Array.isArray(filter.value)) {
 		if (typeof filter.value === 'string' && filter.value) {
@@ -124,7 +124,7 @@ relationship.prototype.addFilterToQuery = function(filter, query) {
 /**
  * Formats the field value
  */
-relationship.prototype.format = function(item) {
+relationship.prototype.format = function (item) {
 	var value = item.get(this.path);
 	// force the formatted value to be a string - unexpected things happen with ObjectIds.
 	return this.many ? value.join(', ') : (value || '') + '';
@@ -133,7 +133,7 @@ relationship.prototype.format = function(item) {
 /**
  * Validates that a value for this field has been provided in a data object
  */
-relationship.prototype.inputIsValid = function(data, required, item) {
+relationship.prototype.inputIsValid = function (data, required, item) {
 	if (!required) return true;
 	if (!(this.path in data) && item && ((this.many && item.get(this.path).length) || item.get(this.path))) return true;
 	if ('string' === typeof data[this.path]) {
@@ -148,7 +148,7 @@ relationship.prototype.inputIsValid = function(data, required, item) {
  * Only updates the value if it has changed.
  * Treats an empty string as a null value.
  */
-relationship.prototype.updateItem = function(item, data, callback) {
+relationship.prototype.updateItem = function (item, data, callback) {
 	if (!(this.path in data)) {
 		return process.nextTick(callback);
 	}
@@ -157,7 +157,7 @@ relationship.prototype.updateItem = function(item, data, callback) {
 	}
 	if (this.many) {
 		var arr = item.get(this.path);
-		var _old = arr.map(function(i) { return String(i); });
+		var _old = arr.map(function (i) { return String(i); });
 		var _new = data[this.path];
 		if (!utils.isArray(_new)) {
 			_new = String(_new || '').split(',');
@@ -183,7 +183,7 @@ relationship.prototype.updateItem = function(item, data, callback) {
  * Returns true if the relationship configuration is valid
  */
 Object.defineProperty(relationship.prototype, 'isValid', {
-	get: function() {
+	get: function () {
 		return keystone.list(this.options.ref) ? true : false;
 	},
 });
@@ -192,7 +192,7 @@ Object.defineProperty(relationship.prototype, 'isValid', {
  * Returns the Related List
  */
 Object.defineProperty(relationship.prototype, 'refList', {
-	get: function() {
+	get: function () {
 		return keystone.list(this.options.ref);
 	},
 });
@@ -201,7 +201,7 @@ Object.defineProperty(relationship.prototype, 'refList', {
  * Whether the field has any filters defined
  */
 Object.defineProperty(relationship.prototype, 'hasFilters', {
-	get: function() {
+	get: function () {
 		return (this.filters && _.keys(this.filters).length);
 	},
 });
@@ -210,13 +210,13 @@ Object.defineProperty(relationship.prototype, 'hasFilters', {
  * Adds relationship filters to a query
  */
 // TODO: Deprecate this? Not sure it's used anywhere - JW
-relationship.prototype.addFilters = function(query, item) {
-	_.each(this.filters, function(filters, path) {
+relationship.prototype.addFilters = function (query, item) {
+	_.each(this.filters, function (filters, path) {
 		if (!utils.isObject(filters)) {
 			filters = { equals: filters };
 		}
 		query.where(path);
-		_.each(filters, function(value, method) {
+		_.each(filters, function (value, method) {
 			if ('string' === typeof value && value.substr(0, 1) === ':') {
 				if (!item) {
 					return;

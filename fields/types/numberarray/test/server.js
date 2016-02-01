@@ -1,7 +1,7 @@
 var demand = require('must'),
 	NumberArrayType = require('../NumberArrayType');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		numarr: { type: NumberArrayType },
 		nested: {
@@ -10,14 +10,14 @@ exports.initList = function(List) {
 	});
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should default to an empty array', function() {
+	it('should default to an empty array', function () {
 		demand(testItem.get('numarr')).eql([]);
 	});
 
-	it('should validate input', function() {
+	it('should validate input', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: [1],
 		})).be(true);
@@ -26,7 +26,7 @@ exports.testFieldType = function(List) {
 		})).be(true);
 	});
 
-	it('should validate no input', function() {
+	it('should validate no input', function () {
 		demand(List.fields.numarr.inputIsValid({})).be(true);
 		demand(List.fields.numarr.inputIsValid({}, true)).be(false);
 		testItem.numarr = [1];
@@ -34,116 +34,116 @@ exports.testFieldType = function(List) {
 		testItem.numarr = undefined;
 	});
 
-	it('should validate length when required', function() {
+	it('should validate length when required', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: [],
 		}, true)).be(false);
 	});
 
-	it('should validate arrays with numeric string values', function() {
+	it('should validate arrays with numeric string values', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: ['1'],
 		})).be(true);
 	});
 
-	it('should invalidate arrays with non-numeric string values', function() {
+	it('should invalidate arrays with non-numeric string values', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: ['a'],
 		})).be(false);
 	});
 
-	it('should invalidate arrays with complex values', function() {
+	it('should invalidate arrays with complex values', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: [[]],
 		}, true)).be(false);
 	});
 
-	it('should update top level fields', function(done) {
+	it('should update top level fields', function (done) {
 		List.fields.numarr.updateItem(testItem, {
 			numarr: [1, 2, 3, 42],
-		}, function() {
+		}, function () {
 			demand(testItem.numarr).eql([1, 2, 3, 42]);
 			testItem.numarr = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields', function(done) {
+	it('should update nested fields', function (done) {
 		List.fields['nested.numarr'].updateItem(testItem, {
 			nested: {
 				numarr: [1, 2, 3, 42],
 			},
-		}, function() {
+		}, function () {
 			demand(testItem.nested.numarr).eql([1, 2, 3, 42]);
 			testItem.nested.numarr = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields with flat paths', function(done) {
+	it('should update nested fields with flat paths', function (done) {
 		List.fields['nested.numarr'].updateItem(testItem, {
 			'nested.numarr': [1, 2, 3, 42],
-		}, function() {
+		}, function () {
 			demand(testItem.nested.numarr).eql([1, 2, 3, 42]);
 			testItem.nested.numarr = undefined;
 			done();
 		});
 	});
 
-	it('should update empty arrays', function(done) {
+	it('should update empty arrays', function (done) {
 		List.fields.numarr.updateItem(testItem, {
 			numarr: [],
-		}, function() {
+		}, function () {
 			demand(testItem.numarr).eql([]);
 			testItem.numarr = undefined;
 			done();
 		});
 	});
 
-	it('should default on null', function(done) {
+	it('should default on null', function (done) {
 		List.fields.numarr.updateItem(testItem, {
 			numarr: null,
-		}, function() {
+		}, function () {
 			demand(testItem.numarr).eql([]);
 			testItem.numarr = undefined;
 			done();
 		});
 	});
 
-	it('should allow a single numeric value', function(done) {
+	it('should allow a single numeric value', function (done) {
 		List.fields.numarr.updateItem(testItem, {
 			numarr: 1,
-		}, function() {
+		}, function () {
 			demand(testItem.numarr).eql([1]);
 			testItem.numarr = undefined;
 			done();
 		});
 	});
 
-	it('should convert strings to numbers', function(done) {
+	it('should convert strings to numbers', function (done) {
 		List.fields.numarr.updateItem(testItem, {
 			numarr: '1',
-		}, function() {
+		}, function () {
 			demand(testItem.numarr).eql([1]);
 			testItem.numarr = undefined;
 			done();
 		});
 	});
 
-	it('should allow decimals', function(done) {
+	it('should allow decimals', function (done) {
 		List.fields.numarr.updateItem(testItem, {
 			numarr: [0.1, '0.2'],
-		}, function() {
+		}, function () {
 			demand(testItem.numarr).eql([0.1, 0.2]);
 			testItem.numarr = undefined;
 			done();
 		});
 	});
 
-	it('should ignore non-numeric strings and complex values', function(done) {
+	it('should ignore non-numeric strings and complex values', function (done) {
 		List.fields.numarr.updateItem(testItem, {
 			numarr: ['1', 'two', {}, 42],
-		}, function() {
+		}, function () {
 			demand(testItem.numarr).eql([1, 42]);
 			testItem.numarr = undefined;
 			done();

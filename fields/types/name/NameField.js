@@ -8,7 +8,7 @@ module.exports = Field.create({
 
 	focusTargetRef: 'first',
 
-	valueChanged: function(which, event) {
+	valueChanged: function (which, event) {
 		this.props.value[which] = event.target.value;
 		this.props.onChange({
 			path: this.props.path,

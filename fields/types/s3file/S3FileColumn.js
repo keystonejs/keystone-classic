@@ -1,7 +1,7 @@
 var React = require('react');
 
 var S3FileColumn = React.createClass({
-	render: function() {
+	render: function () {
 		var value = this.props.data.fields[this.props.col.path];
 		var isVal = value.url ? value.url : null;
 		return (

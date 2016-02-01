@@ -9,7 +9,7 @@ var utils = require('keystone-utils');
  * @extends Field
  * @api public
  */
-function email(list, path, options) {
+function email (list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['gravatarUrl'];
 	this.typeDescription = 'email address';
@@ -23,7 +23,7 @@ email.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
 /**
  * Generate a gravatar image request url
  */
-email.prototype.gravatarUrl = function(item, size, defaultImage, rating) {
+email.prototype.gravatarUrl = function (item, size, defaultImage, rating) {
 	var value = item.get(this.path);
 	if ('string' !== typeof value) {
 		return '';
@@ -45,7 +45,7 @@ email.prototype.gravatarUrl = function(item, size, defaultImage, rating) {
 /**
  * Validates that a valid email has been provided in a data object
  */
-email.prototype.inputIsValid = function(data, required, item) {
+email.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
 	if (value) {
 		return utils.isEmail(value);
@@ -58,7 +58,7 @@ email.prototype.inputIsValid = function(data, required, item) {
  * Updates the value for this field in the item from a data object
  * Ensures that the email address is lowercase
  */
-email.prototype.updateItem = function(item, data, callback) {
+email.prototype.updateItem = function (item, data, callback) {
 	var newValue = this.getValueFromData(data);
 	if ('string' === typeof newValue) {
 		newValue = newValue.toLowerCase();

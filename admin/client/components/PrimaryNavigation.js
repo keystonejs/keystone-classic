@@ -28,7 +28,7 @@ var PrimaryNavigation = React.createClass({
 		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
 	},
-	getInitialState() {
+	getInitialState () {
 		return {};
 	},
 	componentDidMount () {

@@ -1,7 +1,7 @@
 var demand = require('must'),
 	LocationType = require('../LocationType');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		location: {
 			basic: LocationType,
@@ -10,7 +10,7 @@ exports.initList = function(List) {
 	});
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
 	var emptyLocationValues = {
@@ -25,13 +25,13 @@ exports.testFieldType = function(List) {
 		geo: [],
 	};
 
-	var resetLocationValues = function() {
+	var resetLocationValues = function () {
 		testItem.set('location.basic', emptyLocationValues);
 		testItem.set('location.required', emptyLocationValues);
 		testItem.set('location.customRequired', emptyLocationValues);
 	};
 
-	it('should update its value from flat paths', function(done) {
+	it('should update its value from flat paths', function (done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
 			'location.basic.number': 'number',
@@ -44,7 +44,7 @@ exports.testFieldType = function(List) {
 			'location.basic.country': 'country',
 			'location.basic.geo_lat': '-33.865143',
 			'location.basic.geo_lng': '151.2099',
-		}, function() {
+		}, function () {
 			demand(testItem.location.basic.number).be('number');
 			demand(testItem.location.basic.name).be('name');
 			demand(testItem.location.basic.street1).be('street 1');
@@ -60,7 +60,7 @@ exports.testFieldType = function(List) {
 		});
 	});
 
-	it('should update its value from nested paths', function(done) {
+	it('should update its value from nested paths', function (done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
 			location: {
@@ -76,7 +76,7 @@ exports.testFieldType = function(List) {
 					geo: ['151.2099', '-33.865143'],
 				},
 			},
-		}, function() {
+		}, function () {
 			demand(testItem.location.basic.number).be('number');
 			demand(testItem.location.basic.name).be('name');
 			demand(testItem.location.basic.street1).be('street 1');
@@ -92,25 +92,25 @@ exports.testFieldType = function(List) {
 		});
 	});
 
-	it('should remove the location.geo path without valid values', function(done) {
+	it('should remove the location.geo path without valid values', function (done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
 			'location.basic.geo': ['151.2099', '-33.865143'],
-		}, function() {
+		}, function () {
 			demand(testItem.location.basic.geo[0]).be(151.2099);
 			demand(testItem.location.basic.geo[1]).be(-33.865143);
 
 			List.fields['location.basic'].updateItem(testItem, {
 				'location.basic.geo_lat': '',
 				'location.basic.geo_lng': '',
-			}, function() {
+			}, function () {
 				demand(testItem.location.basic.geo).be.undefined();
 				done();
 			});
 		});
 	});
 
-	it('should validate required fields', function() {
+	it('should validate required fields', function () {
 		List.fields['location.basic'].inputIsValid({}, true, testItem).must.be.false();
 		List.fields['location.basic'].inputIsValid({
 			'location.basic.street1': 'street1',

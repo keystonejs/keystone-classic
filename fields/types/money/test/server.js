@@ -1,7 +1,7 @@
 var demand = require('must'),
 	MoneyType = require('../MoneyType');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		money: { type: MoneyType },
 		nested: {
@@ -10,42 +10,42 @@ exports.initList = function(List) {
 	});
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function(done) {
+	it('should update top level fields', function (done) {
 		List.fields.money.updateItem(testItem, {
 			money: 42,
-		}, function() {
+		}, function () {
 			demand(testItem.money).be(42);
 			testItem.money = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields', function(done) {
+	it('should update nested fields', function (done) {
 		List.fields['nested.money'].updateItem(testItem, {
 			nested: {
 				money: 42,
 			},
-		}, function() {
+		}, function () {
 			demand(testItem.nested.money).be(42);
 			testItem.nested.money = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields with flat paths', function(done) {
+	it('should update nested fields with flat paths', function (done) {
 		List.fields['nested.money'].updateItem(testItem, {
 			'nested.money': 42,
-		}, function() {
+		}, function () {
 			demand(testItem.nested.money).be(42);
 			testItem.nested.money = undefined;
 			done();
 		});
 	});
 
-	it('should validate numeric input', function() {
+	it('should validate numeric input', function () {
 		demand(List.fields.money.inputIsValid({
 			money: 0,
 		})).be(true);
@@ -60,7 +60,7 @@ exports.testFieldType = function(List) {
 		})).be(true);
 	});
 
-	it('should validate string input', function() {
+	it('should validate string input', function () {
 		demand(List.fields.money.inputIsValid({
 			money: '0',
 		})).be(true);
@@ -87,7 +87,7 @@ exports.testFieldType = function(List) {
 		})).be(true);
 	});
 
-	it('should validate no input', function() {
+	it('should validate no input', function () {
 		demand(List.fields.money.inputIsValid({})).be(true);
 		demand(List.fields.money.inputIsValid({}, true)).be(false);
 		demand(List.fields.money.inputIsValid({ money: '' })).be(true);
@@ -97,7 +97,7 @@ exports.testFieldType = function(List) {
 		testItem.money = undefined;
 	});
 
-	it('should invalidate invalid input', function() {
+	it('should invalidate invalid input', function () {
 		demand(List.fields.money.inputIsValid({
 			money: {},
 		})).be(false);

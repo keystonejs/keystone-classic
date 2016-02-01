@@ -2,7 +2,7 @@ var cloudinary = require('cloudinary');
 var keystone = require('../../../');
 
 module.exports = {
-	upload: function(req, res) {
+	upload: function (req, res) {
 		if (req.files && req.files.file){
 			var options = {};
 
@@ -10,7 +10,7 @@ module.exports = {
 				options.public_id = req.files.file.originalname.substring(0, req.files.file.originalname.lastIndexOf('.'));
 			}
 
-			cloudinary.uploader.upload(req.files.file.path, function(result) {
+			cloudinary.uploader.upload(req.files.file.path, function (result) {
 				var sendResult = function () {
 					if (result.error) {
 						res.send({ error: { message: result.error.message } });
@@ -30,12 +30,12 @@ module.exports = {
 			res.json({ error: { message: 'No image selected' } });
 		}
 	},
-	autocomplete: function(req, res) {
+	autocomplete: function (req, res) {
 		var max = req.query.max || 10;
 		var prefix = req.query.prefix || '';
 		var next = req.query.next || null;
 
-		cloudinary.api.resources(function(result) {
+		cloudinary.api.resources(function (result) {
 			if (result.error) {
 				res.json({ error: { message: result.error.message } });
 			} else {
@@ -51,8 +51,8 @@ module.exports = {
 			next_cursor: next,
 		});
 	},
-	get: function(req, res) {
-		cloudinary.api.resource(req.query.id, function(result) {
+	get: function (req, res) {
+		cloudinary.api.resource(req.query.id, function (result) {
 			if (result.error) {
 				res.json({ error: { message: result.error.message } });
 			} else {

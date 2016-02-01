@@ -14,7 +14,7 @@ var REGEXP_LNGLAT = /^\s*(\-?\d+(?:\.\d+)?)\s*\,\s*(\-?\d+(?:\.\d+)?)\s*$/;
  * @api public
  */
 
-function geopoint(list, path, options) {
+function geopoint (list, path, options) {
 	
 	this._fixedSize = 'medium';
 	
@@ -39,7 +39,7 @@ util.inherits(geopoint, super_);
  * @api public
  */
 
-geopoint.prototype.addToSchema = function() {
+geopoint.prototype.addToSchema = function () {
 	this.list.schema.path(this.path, _.defaults({ type: [Number], index: '2dsphere' }, this.options));
 	this.bindUnderscoreMethods();
 };
@@ -49,7 +49,7 @@ geopoint.prototype.addToSchema = function() {
  * Gets the field's data from an Item, as used by the React components
  */
 
-geopoint.prototype.getData = function(item) {
+geopoint.prototype.getData = function (item) {
 	var points = item.get(this.path);
 	return (points && points.length === 2) ? points : [];
 };
@@ -61,7 +61,7 @@ geopoint.prototype.getData = function(item) {
  * @api public
  */
 
-geopoint.prototype.format = function(item) {
+geopoint.prototype.format = function (item) {
 	if (item.get(this.path)) {
 		return item.get(this.path).reverse().join(', ');	
 	}
@@ -75,7 +75,7 @@ geopoint.prototype.format = function(item) {
  * @api public
  */
 
-geopoint.prototype.inputIsValid = function(data, required, item) {//eslint-disable-line no-unused-vars
+geopoint.prototype.inputIsValid = function (data, required, item) {//eslint-disable-line no-unused-vars
 	
 	var values = this.getValueFromData(data);
 
@@ -99,7 +99,7 @@ geopoint.prototype.inputIsValid = function(data, required, item) {//eslint-disab
  * @api public
  */
 
-geopoint.prototype.updateItem = function(item, data, callback) {
+geopoint.prototype.updateItem = function (item, data, callback) {
 	
 	if (!_.isObject(data)) return process.nextTick(callback);
 	

@@ -50,11 +50,11 @@ module.exports = Field.create({
 		this.updateValue(newValue);
 	},
 
-	handleClick() {
+	handleClick () {
 		this.setState({ displayColorPicker: !this.state.displayColorPicker });
 	},
 
-	handleClose() {
+	handleClose () {
 		this.setState({ displayColorPicker: false });
 	},
 

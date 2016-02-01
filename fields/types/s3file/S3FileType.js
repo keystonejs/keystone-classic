@@ -18,7 +18,7 @@ var super_ = require('../Type');
  * @api public
  */
 
-function s3file(list, path, options) {
+function s3file (list, path, options) {
 	grappling.mixin(this)
 		.allowHooks('pre:upload');
 	this._underscoreMethods = ['format', 'uploadFile'];
@@ -60,7 +60,7 @@ util.inherits(s3file, super_);
  */
 
 Object.defineProperty(s3file.prototype, 's3config', {
-	get: function() {
+	get: function () {
 		return this.options.s3config || keystone.get('s3 config');
 	},
 });
@@ -72,7 +72,7 @@ Object.defineProperty(s3file.prototype, 's3config', {
  * @api public
  */
 
-s3file.prototype.addToSchema = function() {
+s3file.prototype.addToSchema = function () {
 
 	var field = this,
 		schema = this.list.schema;
@@ -102,16 +102,16 @@ s3file.prototype.addToSchema = function() {
 
 	schema.add(schemaPaths);
 
-	var exists = function(item) {
+	var exists = function (item) {
 		return (item.get(paths.url) ? true : false);
 	};
 
 	// The .exists virtual indicates whether a file is stored
-	schema.virtual(paths.exists).get(function() {
+	schema.virtual(paths.exists).get(function () {
 		return schemaMethods.exists.apply(this);
 	});
 
-	var reset = function(item) {
+	var reset = function (item) {
 		item.set(field.path, {
 			filename: '',
 			originalname: '',
@@ -123,7 +123,7 @@ s3file.prototype.addToSchema = function() {
 	};
 
 	var schemaMethods = {
-		exists: function() {
+		exists: function () {
 			return exists(this);
 		},
 		/**
@@ -131,7 +131,7 @@ s3file.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		reset: function() {
+		reset: function () {
 			reset(this);
 		},
 		/**
@@ -139,21 +139,21 @@ s3file.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		delete: function() {
+		delete: function () {
 			try {
 				var client = knox.createClient(field.s3config);
-				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function(err, res){ return res ? res.resume() : false; });//eslint-disable-line handle-callback-err
+				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function (err, res){ return res ? res.resume() : false; });//eslint-disable-line handle-callback-err
 			} catch (e) {}// eslint-disable-line no-empty
 			reset(this);
 		},
 	};
 
-	_.each(schemaMethods, function(fn, key) {
+	_.each(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
 	// expose a method on the field to call schema methods
-	this.apply = function(item, method) {
+	this.apply = function (item, method) {
 		return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
 	};
 
@@ -167,7 +167,7 @@ s3file.prototype.addToSchema = function() {
  * @api public
  */
 
-s3file.prototype.format = function(item) {
+s3file.prototype.format = function (item) {
 	if (this.hasFormatter()) {
 		return this.options.format(item, item[this.path]);
 	}
@@ -181,7 +181,7 @@ s3file.prototype.format = function(item) {
  * @api public
  */
 
-s3file.prototype.hasFormatter = function() {
+s3file.prototype.hasFormatter = function () {
 	return 'function' === typeof this.options.format;
 };
 
@@ -192,7 +192,7 @@ s3file.prototype.hasFormatter = function() {
  * @api public
  */
 
-s3file.prototype.isModified = function(item) {
+s3file.prototype.isModified = function (item) {
 	return item.isModified(this.paths.url);
 };
 
@@ -203,7 +203,7 @@ s3file.prototype.isModified = function(item) {
  * @api public
  */
 
-s3file.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
+s3file.prototype.inputIsValid = function (data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -215,7 +215,7 @@ s3file.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-
  * @api public
  */
 
-s3file.prototype.updateItem = function(item, data, callback) {//eslint-disable-line no-unused-vars
+s3file.prototype.updateItem = function (item, data, callback) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -229,7 +229,7 @@ s3file.prototype.updateItem = function(item, data, callback) {//eslint-disable-l
  * @api private
  */
 
-var validateHeader = function(header, callback) {
+var validateHeader = function (header, callback) {
 	var HEADER_NAME_KEY = 'name',
 		HEADER_VALUE_KEY = 'value',
 		validKeys = [HEADER_NAME_KEY, HEADER_VALUE_KEY],
@@ -262,7 +262,7 @@ var validateHeader = function(header, callback) {
  * @api private
  */
 
-var validateHeaders = function(headers, callback) {
+var validateHeaders = function (headers, callback) {
 	var _headers = [];
 
 	if (!_.isObject(headers)){
@@ -369,7 +369,7 @@ s3file.prototype.generateHeaders = function (item, file, callback){
  * @api public
  */
 
-s3file.prototype.uploadFile = function(item, file, update, callback) {
+s3file.prototype.uploadFile = function (item, file, update, callback) {
 
 	var field = this,
 		path = field.options.s3path ? field.options.s3path + '/' : '',
@@ -388,7 +388,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		return callback(new Error('Unsupported File Type: ' + filetype));
 	}
 
-	var doUpload = function() {
+	var doUpload = function () {
 
 		if ('function' === typeof field.options.path) {
 			path = field.options.path(item, path);
@@ -400,7 +400,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 
 		headers = field.generateHeaders(item, file, callback);
 
-		knox.createClient(field.s3config).putFile(file.path, path + filename, headers, function(err, res) {
+		knox.createClient(field.s3config).putFile(file.path, path + filename, headers, function (err, res) {
 
 			if (err) return callback(err);
 			if (res) {
@@ -432,7 +432,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	this.callHook('pre:upload', item, file, function(err) {
+	this.callHook('pre:upload', item, file, function (err) {
 		if (err) return callback(err);
 		doUpload();
 	});
@@ -450,7 +450,7 @@ s3file.prototype.uploadFile = function(item, file, update, callback) {
  * @api public
  */
 
-s3file.prototype.getRequestHandler = function(item, req, paths, callback) {
+s3file.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
 
@@ -461,9 +461,9 @@ s3file.prototype.getRequestHandler = function(item, req, paths, callback) {
 		paths = field.paths;
 	}
 
-	callback = callback || function() {};
+	callback = callback || function () {};
 
-	return function() {
+	return function () {
 
 		if (req.body) {
 			var action = req.body[paths.action];
@@ -490,7 +490,7 @@ s3file.prototype.getRequestHandler = function(item, req, paths, callback) {
  * @api public
  */
 
-s3file.prototype.handleRequest = function(item, req, paths, callback) {
+s3file.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 

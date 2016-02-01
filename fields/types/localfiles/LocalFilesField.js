@@ -192,7 +192,7 @@ module.exports = Field.create({
 		return <input ref="uploads" className="field-uploads" type="hidden" name={this.props.paths.uploads} />;
 	},
 
-	renderNote: function() {
+	renderNote: function () {
 		if (!this.props.note) return null;
 		return <FormNote note={this.props.note} />;
 	},

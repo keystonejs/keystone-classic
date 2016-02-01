@@ -6,7 +6,7 @@ import Select from 'react-select';
 import xhr from 'xhr';
 import { Button, FormInput, InputGroup } from 'elemental';
 
-function compareValues(current, next) {
+function compareValues (current, next) {
 	let currentLength = current ? current.length : 0;
 	let nextLength = next ? next.length : 0;
 	if (currentLength !== nextLength) return false;
@@ -48,7 +48,7 @@ module.exports = Field.create({
 	buildFilters () {
 		var filters = {};
 
-		_.each(this.props.filters, function(value, key) {
+		_.each(this.props.filters, function (value, key) {
 			if (_.isString(value) && value[0] == ':') {//eslint-disable-line eqeqeq
 				var fieldName = value.slice(1);
 

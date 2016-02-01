@@ -19,7 +19,7 @@ var grappling = require('grappling-hook');
  * @api public
  */
 
-function localfiles(list, path, options) {
+function localfiles (list, path, options) {
 	grappling.mixin(this).allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFiles'];
 	this._fixedSize = 'full';
@@ -69,7 +69,7 @@ util.inherits(localfiles, super_);
  * @api public
  */
 
-localfiles.prototype.addToSchema = function() {
+localfiles.prototype.addToSchema = function () {
 
 	var field = this;
 	var schema = this.list.schema;
@@ -98,13 +98,13 @@ localfiles.prototype.addToSchema = function() {
 	});
 
 	// The .href virtual returns the public path of the file
-	schemaPaths.virtual('href').get(function() {
+	schemaPaths.virtual('href').get(function () {
 		return field.href.call(field, this);
 	});
 
 	schema.add(this._path.addTo({}, [schemaPaths]));
 
-	var exists = function(item, element_id) {
+	var exists = function (item, element_id) {
 		var values = item.get(field.path);
 		var value;
 
@@ -135,11 +135,11 @@ localfiles.prototype.addToSchema = function() {
 	};
 
 	// The .exists virtual indicates whether a file is stored
-	schema.virtual(paths.exists).get(function() {
+	schema.virtual(paths.exists).get(function () {
 		return schemaMethods.exists.apply(this);
 	});
 
-	var reset = function(item, element_id) {
+	var reset = function (item, element_id) {
 		if (typeof element_id === 'undefined') {
 			item.set(field.path, []);
 		} else {
@@ -154,7 +154,7 @@ localfiles.prototype.addToSchema = function() {
 	};
 
 	var schemaMethods = {
-		exists: function() {
+		exists: function () {
 			return exists(this);
 		},
 		/**
@@ -162,7 +162,7 @@ localfiles.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		reset: function() {
+		reset: function () {
 			reset(this);
 		},
 		/**
@@ -170,7 +170,7 @@ localfiles.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		delete: function(element_id) {
+		delete: function (element_id) {
 			if (exists(this, element_id)) {
 				var values = this.get(field.path);
 				// allow implicit type coercion to compare string IDs with MongoID objects
@@ -183,12 +183,12 @@ localfiles.prototype.addToSchema = function() {
 		},
 	};
 
-	_.each(schemaMethods, function(fn, key) {
+	_.each(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
 	// expose a method on the field to call schema methods
-	this.apply = function(item, method) {
+	this.apply = function (item, method) {
 		return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
 	};
 
@@ -202,7 +202,7 @@ localfiles.prototype.addToSchema = function() {
  * @api public
  */
 
-localfiles.prototype.format = function(item, i) {
+localfiles.prototype.format = function (item, i) {
 	var files = item.get(this.path);
 	if (typeof i === 'undefined') {
 		return utils.plural(files.length, '* File');
@@ -223,7 +223,7 @@ localfiles.prototype.format = function(item, i) {
  * @api public
  */
 
-localfiles.prototype.hasFormatter = function() {
+localfiles.prototype.hasFormatter = function () {
 	return 'function' === typeof this.options.format;
 };
 
@@ -234,7 +234,7 @@ localfiles.prototype.hasFormatter = function() {
  * @api public
  */
 
-localfiles.prototype.href = function(file) {
+localfiles.prototype.href = function (file) {
 	if (!file.filename) return '';
 	var prefix = this.options.prefix ? this.options.prefix : file.path;
 	return prefix + '/' + file.filename;
@@ -247,7 +247,7 @@ localfiles.prototype.href = function(file) {
  * @api public
  */
 
-localfiles.prototype.isModified = function(item) {
+localfiles.prototype.isModified = function (item) {
 	return item.isModified(this.paths.path);
 };
 
@@ -258,7 +258,7 @@ localfiles.prototype.isModified = function(item) {
  * @api public
  */
 
-localfiles.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
+localfiles.prototype.inputIsValid = function (data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -270,7 +270,7 @@ localfiles.prototype.inputIsValid = function(data) {//eslint-disable-line no-unu
  * @api public
  */
 
-localfiles.prototype.updateItem = function(item, data, callback) {//eslint-disable-line no-unused-vars
+localfiles.prototype.updateItem = function (item, data, callback) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -282,7 +282,7 @@ localfiles.prototype.updateItem = function(item, data, callback) {//eslint-disab
  * @api public
  */
 
-localfiles.prototype.uploadFiles = function(item, files, update, callback) {
+localfiles.prototype.uploadFiles = function (item, files, update, callback) {
 
 	var field = this;
 
@@ -291,7 +291,7 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 		update = false;
 	}
 
-	async.map(files, function(file, processedFile) {
+	async.map(files, function (file, processedFile) {
 
 		var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '';
 		var filename = prefix + file.name;
@@ -301,13 +301,13 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 			return processedFile(new Error('Unsupported File Type: ' + filetype));
 		}
 
-		var doMove = function(doneMove) {
+		var doMove = function (doneMove) {
 
 			if ('function' === typeof field.options.filename) {
 				filename = field.options.filename(item, file);
 			}
 
-			fs.move(file.path, path.join(field.options.dest, filename), { clobber: field.options.overwrite }, function(err) {
+			fs.move(file.path, path.join(field.options.dest, filename), { clobber: field.options.overwrite }, function (err) {
 				if (err) return doneMove(err);
 				var fileData = {
 					filename: filename,
@@ -324,11 +324,11 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 
 		};
 
-		field.callHook('pre:move', item, file, function(err) {
+		field.callHook('pre:move', item, file, function (err) {
 			if (err) return processedFile(err);
-			doMove(function(err, fileData) {
+			doMove(function (err, fileData) {
 				if (err) return processedFile(err);
-				field.callHook('post:move', item, file, fileData, function(err) {
+				field.callHook('post:move', item, file, fileData, function (err) {
 					return processedFile(err, fileData);
 				});
 			});
@@ -349,7 +349,7 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
  * @api public
  */
 
-localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
+localfiles.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
 
@@ -360,15 +360,15 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
 		paths = field.paths;
 	}
 
-	callback = callback || function() {};
+	callback = callback || function () {};
 
-	return function() {
+	return function () {
 
 		// Order
 		if (req.body[paths.order]) {
 			var files = item.get(field.path);
 			var newOrder = req.body[paths.order].split(',');
-			files.sort(function(a, b) {
+			files.sort(function (a, b) {
 				return (newOrder.indexOf(a._id.toString()) > newOrder.indexOf(b._id.toString())) ? 1 : -1;
 			});
 		}
@@ -376,12 +376,12 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
 		// Removals
 		if (req.body && req.body[paths.action]) {
 			var actions = req.body[paths.action].split('|');
-			actions.forEach(function(action) {
+			actions.forEach(function (action) {
 				action = action.split(':');
 				var method = action[0];
 				var ids = action[1];
 				if (!(/^(delete|reset)$/.test(method)) || !ids) return;
-				ids.split(',').forEach(function(id) {
+				ids.split(',').forEach(function (id) {
 					field.apply(item, method, id);
 				});
 			});
@@ -395,7 +395,7 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
 					upFiles = [upFiles];
 				}
 				if (upFiles.length > 0) {
-					upFiles = _.filter(upFiles, function(f) { return typeof f.name !== 'undefined' && f.name.length > 0; });
+					upFiles = _.filter(upFiles, function (f) { return typeof f.name !== 'undefined' && f.name.length > 0; });
 					if (upFiles.length > 0) {
 						return field.uploadFiles(item, upFiles, true, callback);
 					}
@@ -415,7 +415,7 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
  * @api public
  */
 
-localfiles.prototype.handleRequest = function(item, req, paths, callback) {
+localfiles.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 

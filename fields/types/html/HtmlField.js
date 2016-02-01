@@ -11,7 +11,7 @@ import { FormInput } from 'elemental';
 
 var lastId = 0;
 
-function getId() {
+function getId () {
 	return 'keystone-html-' + lastId++;
 }
 

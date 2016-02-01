@@ -11,7 +11,7 @@ var async = require('async');
  * @extends Field
  * @api public
  */
-function cloudinaryimages(list, path, options) {
+function cloudinaryimages (list, path, options) {
 
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';

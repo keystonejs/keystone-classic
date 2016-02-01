@@ -17,7 +17,7 @@ var super_ = require('../Type');
  * @api public
  */
 
-function localfile(list, path, options) {
+function localfile (list, path, options) {
 	grappling.mixin(this)
 		.allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFile'];
@@ -68,7 +68,7 @@ util.inherits(localfile, super_);
  * @api public
  */
 
-localfile.prototype.addToSchema = function() {
+localfile.prototype.addToSchema = function () {
 
 	var field = this,
 		schema = this.list.schema;
@@ -98,7 +98,7 @@ localfile.prototype.addToSchema = function() {
 	schema.add(schemaPaths);
 
 	// exists checks for a matching file at run-time
-	var exists = function(item) {
+	var exists = function (item) {
 		var filepath = item.get(paths.path),
 			filename = item.get(paths.filename);
 
@@ -110,17 +110,17 @@ localfile.prototype.addToSchema = function() {
 	};
 
 	// The .exists virtual indicates whether a file is stored
-	schema.virtual(paths.exists).get(function() {
+	schema.virtual(paths.exists).get(function () {
 		return schemaMethods.exists.apply(this);
 	});
 
 	// The .href virtual returns the public path of the file
-	schema.virtual(paths.href).get(function() {
+	schema.virtual(paths.href).get(function () {
 		return field.href.call(field, this);
 	});
 
 	// reset clears the value of the field
-	var reset = function(item) {
+	var reset = function (item) {
 		item.set(field.path, {
 			filename: '',
 			path: '',
@@ -130,7 +130,7 @@ localfile.prototype.addToSchema = function() {
 	};
 
 	var schemaMethods = {
-		exists: function() {
+		exists: function () {
 			return exists(this);
 		},
 		/**
@@ -138,7 +138,7 @@ localfile.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		reset: function() {
+		reset: function () {
 			reset(this);
 		},
 		/**
@@ -146,7 +146,7 @@ localfile.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		delete: function() {
+		delete: function () {
 			if (exists(this)) {
 				fs.unlinkSync(path.join(this.get(paths.path), this.get(paths.filename)));
 			}
@@ -154,12 +154,12 @@ localfile.prototype.addToSchema = function() {
 		},
 	};
 
-	_.each(schemaMethods, function(fn, key) {
+	_.each(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
 	// expose a method on the field to call schema methods
-	this.apply = function(item, method) {
+	this.apply = function (item, method) {
 		return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
 	};
 
@@ -174,7 +174,7 @@ localfile.prototype.addToSchema = function() {
  * @api public
  */
 
-localfile.prototype.format = function(item) {
+localfile.prototype.format = function (item) {
 	if (!item.get(this.paths.filename)) return '';
 	if (this.hasFormatter()) {
 		var file = item.get(this.path);
@@ -191,7 +191,7 @@ localfile.prototype.format = function(item) {
  * @api public
  */
 
-localfile.prototype.hasFormatter = function() {
+localfile.prototype.hasFormatter = function () {
 	return 'function' === typeof this.options.format;
 };
 
@@ -202,7 +202,7 @@ localfile.prototype.hasFormatter = function() {
  * @api public
  */
 
-localfile.prototype.href = function(item) {
+localfile.prototype.href = function (item) {
 	if (!item.get(this.paths.filename)) return '';
 	var prefix = this.options.prefix ? this.options.prefix : item.get(this.paths.path);
 	return prefix + '/' + item.get(this.paths.filename);
@@ -215,7 +215,7 @@ localfile.prototype.href = function(item) {
  * @api public
  */
 
-localfile.prototype.isModified = function(item) {
+localfile.prototype.isModified = function (item) {
 	return item.isModified(this.paths.path);
 };
 
@@ -226,7 +226,7 @@ localfile.prototype.isModified = function(item) {
  * @api public
  */
 
-localfile.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
+localfile.prototype.inputIsValid = function (data) {//eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -238,7 +238,7 @@ localfile.prototype.inputIsValid = function(data) {//eslint-disable-line no-unus
  * @api public
  */
 
-localfile.prototype.updateItem = function(item, data, callback) {//eslint-disable-line no-unused-vars
+localfile.prototype.updateItem = function (item, data, callback) {//eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -250,7 +250,7 @@ localfile.prototype.updateItem = function(item, data, callback) {//eslint-disabl
  * @api public
  */
 
-localfile.prototype.uploadFile = function(item, file, update, callback) {
+localfile.prototype.uploadFile = function (item, file, update, callback) {
 	var field = this,
 		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
 		filename = prefix + file.name,
@@ -265,13 +265,13 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		update = false;
 	}
 
-	var doMove = function(callback) {
+	var doMove = function (callback) {
 
 		if ('function' === typeof field.options.filename) {
 			filename = field.options.filename(item, file);
 		}
 
-		fs.move(file.path, path.join(field.options.dest, filename), { clobber: field.options.overwrite }, function(err) {
+		fs.move(file.path, path.join(field.options.dest, filename), { clobber: field.options.overwrite }, function (err) {
 
 			if (err) return callback(err);
 
@@ -292,11 +292,11 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 		});
 	};
 
-	field.callHook('pre:move', item, file, function(err) {
+	field.callHook('pre:move', item, file, function (err) {
 		if (err) return callback(err);
-		doMove(function(err, fileData) {
+		doMove(function (err, fileData) {
 			if (err) return callback(err);
-			field.callHook('post:move', [item, file, fileData], function(err) {
+			field.callHook('post:move', [item, file, fileData], function (err) {
 				if (err) return callback(err);
 				callback(null, fileData);
 			});
@@ -315,7 +315,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
  * @api public
  */
 
-localfile.prototype.getRequestHandler = function(item, req, paths, callback) {
+localfile.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
 
@@ -326,9 +326,9 @@ localfile.prototype.getRequestHandler = function(item, req, paths, callback) {
 		paths = field.paths;
 	}
 
-	callback = callback || function() {};
+	callback = callback || function () {};
 
-	return function() {
+	return function () {
 
 		if (req.body) {
 			var action = req.body[paths.action];
@@ -355,7 +355,7 @@ localfile.prototype.getRequestHandler = function(item, req, paths, callback) {
  * @api public
  */
 
-localfile.prototype.handleRequest = function(item, req, paths, callback) {
+localfile.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 

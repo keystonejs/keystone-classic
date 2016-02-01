@@ -29,7 +29,7 @@ module.exports = function bindSassMiddleware (keystone, app) {
 			}
 		}
 		var outputStyle = keystone.get('env') === 'production' ? 'compressed' : 'nested';
-		sassPaths.forEach(function(path) {
+		sassPaths.forEach(function (path) {
 			app.use(sassMiddleware(_.extend({
 				src: keystone.expandPath(path),
 				dest: keystone.expandPath(path),

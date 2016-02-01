@@ -17,13 +17,13 @@ function reduceValues (values) {
 }
 
 module.exports = {
-	getInitialState: function() {
+	getInitialState: function () {
 		return {
 			values: this.props.value.map(newItem),
 		};
 	},
 
-	componentWillReceiveProps: function(nextProps) {
+	componentWillReceiveProps: function (nextProps) {
 		if (nextProps.value.join('|') !== reduceValues(this.state.values).join('|')) {
 			this.setState({
 				values: nextProps.value.map(newItem),
@@ -31,7 +31,7 @@ module.exports = {
 		}
 	},
 
-	addItem: function() {
+	addItem: function () {
 		var self = this;
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
@@ -43,17 +43,17 @@ module.exports = {
 		this.valueChanged(reduceValues(newValues));
 	},
 
-	removeItem: function(i) {
+	removeItem: function (i) {
 		var newValues = _.without(this.state.values, i);
 		this.setState({
 			values: newValues,
-		}, function() {
+		}, function () {
 			ReactDOM.findDOMNode(this.refs.button).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
 	},
 
-	updateItem: function(i, event) {
+	updateItem: function (i, event) {
 		var updatedValues = this.state.values;
 		var updateIndex = updatedValues.indexOf(i);
 		updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(event.target.value) : event.target.value;
@@ -63,7 +63,7 @@ module.exports = {
 		this.valueChanged(reduceValues(updatedValues));
 	},
 
-	valueChanged: function(values) {
+	valueChanged: function (values) {
 		this.props.onChange({
 			path: this.props.path,
 			value: values,
@@ -79,7 +79,7 @@ module.exports = {
 		);
 	},
 
-	renderItem: function(item, index) {
+	renderItem: function (item, index) {
 		const Input = this.getInputComponent ? this.getInputComponent() : FormInput;
 		const value = this.processInputValue ? this.processInputValue(item.value) : item.value;
 		return (

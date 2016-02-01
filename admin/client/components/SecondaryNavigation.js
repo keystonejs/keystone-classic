@@ -26,7 +26,7 @@ var SecondaryNavigation = React.createClass({
 		currentListKey: React.PropTypes.string,
 		lists: React.PropTypes.array.isRequired,
 	},
-	getInitialState() {
+	getInitialState () {
 		return {};
 	},
 	componentDidMount () {

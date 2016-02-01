@@ -38,7 +38,7 @@ module.exports = React.createClass({
 		};
 	},
 
-	componentWillReceiveProps: function(newProps) {
+	componentWillReceiveProps: function (newProps) {
 		if (newProps.value === this.state.value) return;
 		this.setState({
 			value: newProps.value,

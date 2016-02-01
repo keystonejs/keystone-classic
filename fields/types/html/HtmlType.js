@@ -7,7 +7,7 @@ var util = require('util');
  * @extends Field
  * @api public
  */
-function html(list, path, options) {
+function html (list, path, options) {
 	this._nativeType = String;
 	this._defaultSize = 'full';
 	this.wysiwyg = options.wysiwyg || false;

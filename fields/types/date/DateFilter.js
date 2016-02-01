@@ -97,7 +97,7 @@ var DateFilter = React.createClass({
 		}
 	},
 
-	handleInputChange(e) {
+	handleInputChange (e) {
 		const { value } = e.target;
 		let { month } = this.state;
 
@@ -139,7 +139,7 @@ var DateFilter = React.createClass({
 		this.updateFilter({ value: day });
 	},
 
-	showCurrentDate() {
+	showCurrentDate () {
 		this.refs.daypicker.showMonth(this.state.month);
 	},
 

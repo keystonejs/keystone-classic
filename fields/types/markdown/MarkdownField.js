@@ -14,7 +14,7 @@ require('./lib/bootstrap-markdown');
 
 // Append/remove ### surround the selection
 // Source: https://github.com/toopay/bootstrap-markdown/blob/master/js/bootstrap-markdown.js#L909
-var toggleHeading = function(e, level) {
+var toggleHeading = function (e, level) {
 	var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
 
 	if (selected.length === 0) {
@@ -43,7 +43,7 @@ var toggleHeading = function(e, level) {
 	e.setSelection(cursor, cursor + chunk.length);
 };
 
-var renderMarkdown = function(component) {
+var renderMarkdown = function (component) {
 	// dependsOn means that sometimes the component is mounted as a null, so account for that & noop
 	if (!component.refs.markdownTextarea) {
 		return;
@@ -63,28 +63,28 @@ var renderMarkdown = function(component) {
 				name: 'cmdH1',
 				title: 'Heading 1',
 				btnText: 'H1',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '#');
 				},
 			}, {
 				name: 'cmdH2',
 				title: 'Heading 2',
 				btnText: 'H2',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '##');
 				},
 			}, {
 				name: 'cmdH3',
 				title: 'Heading 3',
 				btnText: 'H3',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '###');
 				},
 			}, {
 				name: 'cmdH4',
 				title: 'Heading 4',
 				btnText: 'H4',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '####');
 				},
 			}],

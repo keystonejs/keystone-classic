@@ -95,7 +95,7 @@ var RelationshipFilter = React.createClass({
 
 	buildFilters () {
 		var filters = {};
-		_.each(this.props.field.filters, function(value, key) {
+		_.each(this.props.field.filters, function (value, key) {
 			filters[key] = value;
 		}, this);
 

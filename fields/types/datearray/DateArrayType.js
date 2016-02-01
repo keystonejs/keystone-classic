@@ -12,7 +12,7 @@ var util = require('util'),
  * @api public
  */
 
-function datearray(list, path, options) {
+function datearray (list, path, options) {
 	
 	this._nativeType = [Date];
 	this._defaultSize = 'medium';
@@ -41,7 +41,7 @@ util.inherits(datearray, super_);
  * @api public
  */
 
-datearray.prototype.format = function(item, format) {
+datearray.prototype.format = function (item, format) {
 	if (format || this.formatString) {
 		return item.get(this.path) ? moment(item.get(this.path)).format(format || this.formatString) : '';
 	} else {
@@ -57,7 +57,7 @@ datearray.prototype.format = function(item, format) {
  * @api public
  */
 
-datearray.prototype.inputIsValid = function(data, required, item) {
+datearray.prototype.inputIsValid = function (data, required, item) {
 
 	var value = this.getValueFromData(data);
 	var parseFormatString = this.parseFormatString;
@@ -83,7 +83,7 @@ datearray.prototype.inputIsValid = function(data, required, item) {
 	
 	if (Array.isArray(value)) {
 		// filter out empty fields
-		value = value.filter(function(date) {
+		value = value.filter(function (date) {
 			return date.trim() !== '';
 		});
 		// if there are no values left, and requried is true, return false
@@ -107,14 +107,14 @@ datearray.prototype.inputIsValid = function(data, required, item) {
  * @api public
  */
 
-datearray.prototype.updateItem = function(item, data, callback) {
+datearray.prototype.updateItem = function (item, data, callback) {
 
 	var value = this.getValueFromData(data);
 	
 	if (value !== undefined) {
 		if (Array.isArray(value)) {
 			// Only save valid dates
-			value = value.filter(function(date) {
+			value = value.filter(function (date) {
 				return moment(date).isValid();
 			});
 		}

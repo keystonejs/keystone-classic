@@ -2,7 +2,7 @@ var baby = require('babyparse');
 var keystone = require('../../../../');
 var moment = require('moment');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 	var format = req.params.format.split('.')[1]; // json or csv
 	var where = {};
 	var filters = req.query.filters;
@@ -21,13 +21,13 @@ module.exports = function(req, res) {
 		query.populate(req.query.populate);
 	}
 	if (req.query.expandRelationshipFields) {
-		req.list.relationshipFields.forEach(function(i) {
+		req.list.relationshipFields.forEach(function (i) {
 			query.populate(i.path);
 		});
 	}
 	var sort = req.list.expandSort(req.query.sort);
 	query.sort(sort.string);
-	query.exec(function(err, results) {
+	query.exec(function (err, results) {
 		var data;
 		if (err) return res.apiError('database error', err);
 		if (format === 'csv') {

@@ -5,11 +5,11 @@ import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import blacklist from 'blacklist';
 
-function isObject(arg) {
+function isObject (arg) {
 	return Object.prototype.toString.call(arg) === '[object Object]';
 }
 
-function validateSpec(spec) {
+function validateSpec (spec) {
 	if (!spec) spec = {};
 	if (!isObject(spec.supports)) {
 		spec.supports = {};
@@ -112,7 +112,7 @@ var Mixins = module.exports.Mixins = {
 	},
 };
 
-module.exports.create = function(spec) {
+module.exports.create = function (spec) {
 
 	spec = validateSpec(spec);
 
@@ -133,8 +133,8 @@ module.exports.create = function(spec) {
 
 	var excludeBaseMethods = {};
 	if (spec.mixins) {
-		spec.mixins.forEach(function(mixin) {
-			Object.keys(mixin).forEach(function(name) {
+		spec.mixins.forEach(function (mixin) {
+			Object.keys(mixin).forEach(function (name) {
 				if (Base[name]) {
 					excludeBaseMethods[name] = true;
 				}

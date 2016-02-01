@@ -2,14 +2,14 @@ var keystone = require('../../../');
 var _ = require('underscore');
 var querystring = require('querystring');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 
 	var viewLocals = {
 		validationErrors: {},
 		showCreateForm: _.has(req.query, 'new'),
 	};
 	var appName = keystone.get('name') || 'Keystone';
-	var renderView = function() {
+	var renderView = function () {
 		keystone.render(req, res, 'list', _.extend(viewLocals, {
 			section: keystone.nav.by.list[req.list.key] || {},
 			title: appName + ': ' + req.list.plural,
@@ -19,7 +19,7 @@ module.exports = function(req, res) {
 		}));
 	};
 
-	var checkCSRF = function() {
+	var checkCSRF = function () {
 		var pass = keystone.security.csrf.validate(req);
 		if (!pass) {
 			console.error('CSRF failure');
@@ -34,7 +34,7 @@ module.exports = function(req, res) {
 		if (!checkCSRF()) return renderView();
 
 		item = new req.list.model();
-		item.save(function(err) {
+		item.save(function (err) {
 			if (err) {
 				console.log('There was an error creating the new ' + req.list.singular + ':');
 				console.error(err);
@@ -55,12 +55,12 @@ module.exports = function(req, res) {
 
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 
-		function processUpdateHandler() {
+		function processUpdateHandler () {
 			updateHandler.process(req.body, {
 				// flashErrors: true,
 				logErrors: true,
 				fields: req.list.initialFields,
-			}, function(err) {
+			}, function (err) {
 				if (err) {
 					viewLocals.createErrors = err;
 					return renderView();

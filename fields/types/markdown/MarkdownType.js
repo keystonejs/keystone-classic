@@ -12,7 +12,7 @@ var super_ = require('../Type');
  * @api public
  */
 
-function markdown(list, path, options) {
+function markdown (list, path, options) {
 
 	this._defaultSize = 'full';
 
@@ -48,7 +48,7 @@ util.inherits(markdown, super_);
  * @api public
  */
 
-markdown.prototype.addToSchema = function() {
+markdown.prototype.addToSchema = function () {
 
 	var schema = this.list.schema;
 
@@ -59,7 +59,7 @@ markdown.prototype.addToSchema = function() {
 
 	var markedOptions = this.markedOptions;
 
-	var setMarkdown = function(value) {
+	var setMarkdown = function (value) {
 
 		if (value === this.get(paths.md)) {
 			return value;
@@ -91,7 +91,7 @@ markdown.prototype.addToSchema = function() {
  * @api public
  */
 
-markdown.prototype.format = function(item) {
+markdown.prototype.format = function (item) {
 	return item.get(this.paths.html);
 };
 
@@ -104,7 +104,7 @@ markdown.prototype.format = function(item) {
  * @api public
  */
 
-markdown.prototype.inputIsValid = function(data, required, item) {
+markdown.prototype.inputIsValid = function (data, required, item) {
 	if (!(this.path in data || this.paths.md in data) && item && item.get(this.paths.md)) {
 		return true;
 	}
@@ -118,7 +118,7 @@ markdown.prototype.inputIsValid = function(data, required, item) {
  * @api public
  */
 
-markdown.prototype.isModified = function(item) {
+markdown.prototype.isModified = function (item) {
 	return item.isModified(this.paths.md);
 };
 
@@ -131,7 +131,7 @@ markdown.prototype.isModified = function(item) {
  * @api public
  */
 
-markdown.prototype.updateItem = function(item, data, callback) {
+markdown.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value !== undefined) {
 		item.set(this.paths.md, value);

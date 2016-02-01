@@ -27,7 +27,7 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 				throw e;
 			}
 		}
-		stylusPaths.forEach(function(path) {
+		stylusPaths.forEach(function (path) {
 			app.use(stylusMiddleware(_.extend({
 				src: keystone.expandPath(path),
 				dest: keystone.expandPath(path),

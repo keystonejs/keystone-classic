@@ -1,5 +1,5 @@
 module.exports = function (req, res, next) {
-	res.apiError = function apiError(key, err) {
+	res.apiError = function apiError (key, err) {
 		var statusCode = 500;
 		if (key === 404) {
 			statusCode = 404;

@@ -34,7 +34,7 @@ var EditForm = React.createClass({
 		values[event.path] = event.value;
 		this.setState({ values });
 	},
-	confirmReset(event) {
+	confirmReset (event) {
 		const confirmationDialog = (
 			<ConfirmationDialog
 				isOpen
@@ -50,7 +50,7 @@ var EditForm = React.createClass({
 	handleReset () {
 		window.location.reload();
 	},
-	confirmDelete() {
+	confirmDelete () {
 		const confirmationDialog = (
 			<ConfirmationDialog
 				isOpen

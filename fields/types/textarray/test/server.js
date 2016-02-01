@@ -1,7 +1,7 @@
 var demand = require('must'),
 	TextArrayType = require('../TextArrayType');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		textarr: TextArrayType,
 		nested: {
@@ -10,14 +10,14 @@ exports.initList = function(List) {
 	});
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should default to an empty array', function() {
+	it('should default to an empty array', function () {
 		demand(testItem.get('textarr')).eql([]);
 	});
 
-	it('should validate input', function() {
+	it('should validate input', function () {
 		demand(List.fields.textarr.inputIsValid({
 			textarr: ['a'],
 		})).be(true);
@@ -26,7 +26,7 @@ exports.testFieldType = function(List) {
 		})).be(true);
 	});
 
-	it('should validate no input', function() {
+	it('should validate no input', function () {
 		demand(List.fields.textarr.inputIsValid({})).be(true);
 		demand(List.fields.textarr.inputIsValid({}, true)).be(false);
 		testItem.textarr = ['a'];
@@ -34,84 +34,84 @@ exports.testFieldType = function(List) {
 		testItem.textarr = undefined;
 	});
 
-	it('should validate length when required', function() {
+	it('should validate length when required', function () {
 		demand(List.fields.textarr.inputIsValid({
 			textarr: [],
 		}, true)).be(false);
 	});
 
-	it('should invalidate arrays with complex values', function() {
+	it('should invalidate arrays with complex values', function () {
 		demand(List.fields.textarr.inputIsValid({
 			textarr: [[]],
 		}, true)).be(false);
 	});
 
-	it('should update top level fields', function(done) {
+	it('should update top level fields', function (done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: ['a', 'b'],
-		}, function() {
+		}, function () {
 			demand(testItem.textarr).eql(['a', 'b']);
 			testItem.textarr = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields', function(done) {
+	it('should update nested fields', function (done) {
 		List.fields['nested.textarr'].updateItem(testItem, {
 			nested: {
 				textarr: ['a', 'b'],
 			},
-		}, function() {
+		}, function () {
 			demand(testItem.nested.textarr).eql(['a', 'b']);
 			testItem.nested.textarr = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields with flat paths', function(done) {
+	it('should update nested fields with flat paths', function (done) {
 		List.fields['nested.textarr'].updateItem(testItem, {
 			'nested.textarr': ['a', 'b'],
-		}, function() {
+		}, function () {
 			demand(testItem.nested.textarr).eql(['a', 'b']);
 			testItem.nested.textarr = undefined;
 			done();
 		});
 	});
 
-	it('should update empty arrays', function(done) {
+	it('should update empty arrays', function (done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: [],
-		}, function() {
+		}, function () {
 			demand(testItem.textarr).eql([]);
 			testItem.textarr = undefined;
 			done();
 		});
 	});
 
-	it('should default on null', function(done) {
+	it('should default on null', function (done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: null,
-		}, function() {
+		}, function () {
 			demand(testItem.textarr).eql([]);
 			testItem.textarr = undefined;
 			done();
 		});
 	});
 
-	it('should allow a single string value', function(done) {
+	it('should allow a single string value', function (done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: 'a',
-		}, function() {
+		}, function () {
 			demand(testItem.textarr).eql(['a']);
 			testItem.textarr = undefined;
 			done();
 		});
 	});
 
-	it('should convert numbers to strings', function(done) {
+	it('should convert numbers to strings', function (done) {
 		List.fields.textarr.updateItem(testItem, {
 			textarr: 1,
-		}, function() {
+		}, function () {
 			demand(testItem.textarr).eql(['1']);
 			testItem.textarr = undefined;
 			done();

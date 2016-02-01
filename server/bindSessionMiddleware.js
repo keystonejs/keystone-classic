@@ -1,4 +1,4 @@
-module.exports = function bindSessionMiddleware(keystone, app) {
+module.exports = function bindSessionMiddleware (keystone, app) {
 
 	app.use(keystone.get('session options').cookieParser);
 
@@ -6,7 +6,7 @@ module.exports = function bindSessionMiddleware(keystone, app) {
 	if ('function' === typeof keystone.get('pre:session')) {
 		keystone.get('pre:session')(app);
 	}
-	app.use(function(req, res, next) {
+	app.use(function (req, res, next) {
 		keystone.callHook('pre:session', req, res, next);
 	});
 

@@ -8,7 +8,7 @@ var utils = require('keystone-utils');
  * @extends Field
  * @api public
  */
-function number(list, path, options) {
+function number (list, path, options) {
 	this._nativeType = Number;
 	this._fixedSize = 'small';
 	this._underscoreMethods = ['format'];
@@ -23,7 +23,7 @@ util.inherits(number, FieldType);
 /**
  * Add filters to a query
  */
-number.prototype.addFilterToQuery = function(filter, query) {
+number.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (filter.mode === 'equals' && !filter.value) {
 		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
@@ -55,7 +55,7 @@ number.prototype.addFilterToQuery = function(filter, query) {
 /**
  * Formats the field value
  */
-number.prototype.format = function(item, format) {
+number.prototype.format = function (item, format) {
 	if (format || this._formatString) {
 		return ('number' === typeof item.get(this.path)) ? numeral(item.get(this.path)).format(format || this._formatString) : '';
 	} else {
@@ -67,7 +67,7 @@ number.prototype.format = function(item, format) {
  * Checks that a valid number has been provided in a data object
  * An empty value clears the stored value and is considered valid
  */
-number.prototype.inputIsValid = function(data, required, item) {
+number.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
 	if (value === undefined && item && (item.get(this.path) || item.get(this.path) === 0)) {
 		return true;
@@ -83,7 +83,7 @@ number.prototype.inputIsValid = function(data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-number.prototype.updateItem = function(item, data, callback) {
+number.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value === undefined) {
 		return process.nextTick(callback);
