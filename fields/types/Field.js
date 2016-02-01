@@ -70,7 +70,7 @@ var Base = module.exports.Base = {
 	},
 	renderUI () {
 		var wrapperClassName = classnames(
-			('field-type-' + this.props.type),
+			'field-type-' + this.props.type,
 			this.props.className
 		);
 		return (
