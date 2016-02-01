@@ -155,7 +155,7 @@ var DateFilter = React.createClass({
 	renderControls () {
 		let controls;
 		const { field, filter } = this.props;
-		const mode = MODE_OPTIONS.filter((i => i.value === filter.mode))[0];
+		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 		const placeholder = field.label + ' is ' + mode.label.toLowerCase() + '...';
 
 		// DayPicker stuff
@@ -214,7 +214,7 @@ var DateFilter = React.createClass({
 
 	render () {
 		const { filter } = this.props;
-		const mode = MODE_OPTIONS.filter((i => i.value === filter.mode))[0];
+		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 		return (
 			<div>
 				{this.renderToggle()}
