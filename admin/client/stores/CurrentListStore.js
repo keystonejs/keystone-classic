@@ -31,25 +31,30 @@ function defaultPage () {
 	};
 }
 
-let drag = defaultDrag();
+// TODO: This is pretty messy; state variables should not be set by defaulters
+// Needs to be reviewed & cleaned up
 
+let drag;
 function defaultDrag () {
-	return drag = {
+	drag = {
 		page: 1,
 		item: false,
 		clonedItems: false,
 		index: false,
 	};
+	return drag;
 }
+defaultDrag();
 
-var _rowAlert = defaultRowAlert();
-
+var _rowAlert;
 function defaultRowAlert () {
-	return _rowAlert = {
+	_rowAlert = {
 		success: false,
 		fail: false,
 	};
+	return _rowAlert;
 }
+defaultRowAlert();
 
 function updateQueryParams (params, replace) {
 	if (!_location) return;
