@@ -27,7 +27,7 @@ objectarray.prototype.addToSchema = function() {
 
 	sublist.add(this.options.fields);
 
-	this.list.schema.path(this.path, sublist.schema);
+	this.list.schema.path(this.path, [sublist.schema]);
 	this.bindUnderscoreMethods();
 };
 
