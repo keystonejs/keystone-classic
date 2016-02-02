@@ -216,9 +216,9 @@ const ListView = React.createClass({
 
 		// select buttons
 		let selectAllButton = items.count > pageSize ? (
-		<InputGroup.Section>
-			<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
-		</InputGroup.Section>
+			<InputGroup.Section>
+				<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
+			</InputGroup.Section>
 		) : null;
 		let selectButtons = manageMode ? (
 			<InputGroup.Section>

@@ -43,7 +43,7 @@ var Header = React.createClass({
 		var list = this.props.list;
 		var items = this.props.data.drilldown ? this.props.data.drilldown.items : [];
 
-		var els = items.map(dd => {
+		var els = items.map((dd, i) => {
 			var links = [];
 
 			dd.items.forEach((el, i) => {
@@ -56,7 +56,7 @@ var Header = React.createClass({
 			var more = dd.more ? <span>...</span> : '';
 
 			return (
-				<li>
+				<li key={`dd-${i}`}>
 					{links}
 					{more}
 				</li>
