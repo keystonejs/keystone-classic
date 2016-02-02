@@ -107,15 +107,9 @@ Field.prototype.getOptions = function () {
 		}
 		optionKeys.forEach(function (key) {
 			if (this[key]) {
-<<<<<<< HEAD
-				this.__options[key] = this[key];
-			} else if (this.options[key]) {
-				this.__options[key] = this.options[key];
-=======
-				this.__options[key] = key == 'subList' ? jsonCycle.decycle(this[key]) : this[key];
+				this.__options[key] = key == 'subList' ? jsonCycle.decycle(this[key].getOptions()) : this[key];
 			} else if (this.options[key]){
-				this.__options[key] = key == 'subList' ? jsonCycle.decycle(this.options[key]) : this.options[key];
->>>>>>> Included sublists
+				this.__options[key] = key == 'subList' ? jsonCycle.decycle(this.options[key].getOptions()) : this.options[key];
 			}
 		}, this);
 		if (this.getProperties) {

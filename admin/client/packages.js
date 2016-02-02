@@ -32,4 +32,5 @@ module.exports = [
 	'superagent',
 	'vkey',
 	'xhr',
+	'json-cycle'
 ];
