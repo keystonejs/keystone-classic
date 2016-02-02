@@ -176,9 +176,9 @@ var DateFilter = React.createClass({
 					</FormRow>
 					<div style={{ position: 'relative' }}>
 						<DayPicker
-							modifiers={ modifiers }
+							modifiers={modifiers}
 							className="DayPicker--chrome"
-							onDayClick={ this.switchBetweenActiveInputFields }
+							onDayClick={this.switchBetweenActiveInputFields}
 						/>
 						<DayPickerIndicator />
 					</div>
@@ -199,7 +199,7 @@ var DateFilter = React.createClass({
 					<div style={{ position: 'relative' }}>
 						<DayPicker
 							ref="daypicker"
-							modifiers={ modifiers }
+							modifiers={modifiers}
 							className="DayPicker--chrome"
 							onDayClick={this.selectDay}
 						/>

@@ -224,7 +224,7 @@ module.exports = Field.create({
 			url = this.getImageSource();
 		}
 
-		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={ { height: '90' } } src={url} />;
+		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={{ height: '90' }} src={url} />;
 	},
 
 	/**

@@ -92,7 +92,7 @@ module.exports = Field.create({
 						color={this.props.value}
 						display={this.state.displayColorPicker}
 						onChangeComplete={this.handlePickerChange}
-						onClose={ this.handleClose }
+						onClose={this.handleClose}
 						position={window.innerWidth > 480 ? 'right' : 'below'}
 						type={this.props.pickerType}
 						/>
