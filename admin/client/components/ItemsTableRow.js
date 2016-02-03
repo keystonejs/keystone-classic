@@ -10,15 +10,15 @@ import { DropTarget, DragSource } from 'react-dnd';
 const ItemsRow = React.createClass({
 	propTypes: {
 		columns: React.PropTypes.array,
+		id: React.PropTypes.any,
+		index: React.PropTypes.number,
 		items: React.PropTypes.object,
 		list: React.PropTypes.object,
-		index: React.PropTypes.number,
-		id: React.PropTypes.any,
 		// Injected by React DnD:
-		isDragging: React.PropTypes.bool,
-		connectDragSource: React.PropTypes.func,
-		connectDropTarget: React.PropTypes.func,
-		connectDragPreview: React.PropTypes.func,
+		isDragging: React.PropTypes.bool,         // eslint-disable-line react/jsx-sort-prop-types
+		connectDragSource: React.PropTypes.func,  // eslint-disable-line react/jsx-sort-prop-types
+		connectDropTarget: React.PropTypes.func,  // eslint-disable-line react/jsx-sort-prop-types
+		connectDragPreview: React.PropTypes.func, // eslint-disable-line react/jsx-sort-prop-types
 	},
 	renderRow (item) {
 		let itemId = item.id;

@@ -23,8 +23,8 @@ var PrimaryNavItem = React.createClass({
 var PrimaryNavigation = React.createClass({
 	displayName: 'PrimaryNavigation',
 	propTypes: {
-		currentSectionKey: React.PropTypes.string,
 		brand: React.PropTypes.string,
+		currentSectionKey: React.PropTypes.string,
 		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
 	},

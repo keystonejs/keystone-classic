@@ -9,9 +9,9 @@ var ItemsTableDragDropZoneTarget = React.createClass({
 	displayName: 'ItemsTableDragDropZoneTarget',
 	propTypes: {
 		className: React.PropTypes.string,
-		pageItems: React.PropTypes.string,
 		connectDropTarget: React.PropTypes.func,
 		isOver: React.PropTypes.bool,
+		pageItems: React.PropTypes.string,
 	},
 	componentDidUpdate () {
 		if (timeoutID && !this.props.isOver) {

@@ -15,9 +15,9 @@ module.exports = Field.create({
 	displayName: 'ColorField',
 
 	propTypes: {
-		pickerType: React.PropTypes.oneOf(PICKER_TYPES),
 		onChange: React.PropTypes.func,
 		path: React.PropTypes.string,
+		pickerType: React.PropTypes.oneOf(PICKER_TYPES),
 		value: React.PropTypes.string,
 	},
 

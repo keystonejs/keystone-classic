@@ -7,9 +7,9 @@ var ItemsTableDragDropZone = React.createClass({
 	displayName: 'ItemsTableDragDropZone',
 	propTypes: {
 		columns: React.PropTypes.array,
+		connectDropTarget: React.PropTypes.func,
 		items: React.PropTypes.object,
 		list: React.PropTypes.object,
-		connectDropTarget: React.PropTypes.func,
 	},
 	renderPageDrops () {
 		let { items, list } = this.props;

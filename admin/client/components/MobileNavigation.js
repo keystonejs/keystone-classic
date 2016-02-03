@@ -20,8 +20,8 @@ var MobileListItem = React.createClass({
 var MobileSectionItem = React.createClass({
 	displayName: 'MobileSectionItem',
 	propTypes: {
-		className: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
 		currentListKey: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
 		lists: React.PropTypes.array,
@@ -62,8 +62,8 @@ var MobileNavigation = React.createClass({
 	displayName: 'MobileNavigation',
 	propTypes: {
 		brand: React.PropTypes.string,
-		currentSectionKey: React.PropTypes.string,
 		currentListKey: React.PropTypes.string,
+		currentSectionKey: React.PropTypes.string,
 		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
 	},

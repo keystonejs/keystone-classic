@@ -37,8 +37,8 @@ const textStyle = {
 var CloudinaryImageSummary = React.createClass({
 	displayName: 'CloudinaryImageSummary',
 	propTypes: {
-		label: React.PropTypes.oneOf(['dimensions', 'publicId']),
 		image: React.PropTypes.object.isRequired,
+		label: React.PropTypes.oneOf(['dimensions', 'publicId']),
 	},
 	renderLabel () {
 		if (!this.props.label) return;
