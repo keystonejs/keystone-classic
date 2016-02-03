@@ -23,12 +23,12 @@ var UpdateForm = React.createClass({
 			fields: [],
 		};
 	},
-	componentDidUpdate () {
+	componentDidMount () {
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}
 	},
-	componentDidMount () {
+	componentDidUpdate () {
 		if (this.refs.focusTarget) {
 			this.refs.focusTarget.focus();
 		}

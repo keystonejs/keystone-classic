@@ -19,11 +19,6 @@ function getDefaultValue () {
 }
 
 var TextFilter = React.createClass({
-
-	statics: {
-		getDefaultValue: getDefaultValue,
-	},
-
 	propTypes: {
 		filter: React.PropTypes.shape({
 			inverted: React.PropTypes.boolean,
@@ -34,28 +29,26 @@ var TextFilter = React.createClass({
 			country: React.PropTypes.string,
 		}),
 	},
-
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
 	getDefaultProps () {
 		return {
 			filter: getDefaultValue(),
 		};
 	},
-
 	updateFilter (key, val) {
 		let update = {};
 		update[key] = val;
 		this.props.onChange(Object.assign(this.props.filter, update));
 	},
-
 	toggleInverted (value) {
 		this.updateFilter('inverted', value);
 		this.refs.focusTarget.focus();
 	},
-
 	updateValue (e) {
 		this.updateFilter(e.target.name, e.target.value);
 	},
-
 	render () {
 		let { filter } = this.props;
 
@@ -84,7 +77,6 @@ var TextFilter = React.createClass({
 			</div>
 		);
 	},
-
 });
 
 module.exports = TextFilter;

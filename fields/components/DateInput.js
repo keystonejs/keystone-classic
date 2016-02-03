@@ -8,21 +8,16 @@ import { FormInput } from 'elemental';
 let lastId = 0;
 
 module.exports = React.createClass({
-
 	displayName: 'DateInput',
-
 	propTypes: {
 		path: React.PropTypes.string,
 		value: React.PropTypes.string,
 	},
-
-	// set default properties
 	getDefaultProps () {
 		return {
 			format: 'YYYY-MM-DD',
 		};
 	},
-
 	getInitialState () {
 		let id = ++lastId;
 		let month = new Date();
@@ -37,23 +32,19 @@ module.exports = React.createClass({
 			pickerIsOpen: false,
 		};
 	},
-
+	componentDidMount () {
+		this.showCurrentDate();
+	},
 	componentWillReceiveProps: function (newProps) {
 		if (newProps.value === this.state.value) return;
 		this.setState({
 			value: newProps.value,
 		});
 	},
-
-	componentDidMount () {
-		this.showCurrentDate();
-	},
-
 	focus () {
 		if (!this.refs.input) return;
 		this.refs.input.focus();
 	},
-
 	handleInputChange (e) {
 		const { value } = e.target;
 		let { month } = this.state;
@@ -62,7 +53,6 @@ module.exports = React.createClass({
 		}
 		this.setState({ value, month }, this.showCurrentDate);
 	},
-
 	handleDaySelect (e, day, modifiers) {
 		if (modifiers.indexOf('disabled') > -1) {
 			return;
@@ -78,21 +68,17 @@ module.exports = React.createClass({
 			}, 200);
 		});
 	},
-
 	showPicker () {
 		this.setState({ pickerIsOpen: true }, this.showCurrentDate);
 	},
-
 	showCurrentDate () {
 		if (!this.refs.picker) return;
 		this.refs.picker.showMonth(this.state.month);
 	},
-
 	handleFocus (e) {
 		if (this.state.pickerIsOpen) return;
 		this.showPicker();
 	},
-
 	handleBlur (e) {
 		let rt = e.relatedTarget;
 		let popout = this.refs.popout.getPortalDOMNode();
@@ -104,7 +90,6 @@ module.exports = React.createClass({
 			pickerIsOpen: false,
 		});
 	},
-
 	render () {
 		const selectedDay = this.state.value;
 		let modifiers = {
@@ -138,5 +123,4 @@ module.exports = React.createClass({
 			</div>
 		);
 	},
-
 });

@@ -15,22 +15,22 @@ var Popout = React.createClass({
 		relativeToID: React.PropTypes.string.isRequired,
 		width: React.PropTypes.number,
 	},
-	getInitialState () {
-		return {};
-	},
 	getDefaultProps () {
 		return {
 			width: 320,
 		};
 	},
-	getPortalDOMNode () {
-		return this.refs.portal.getPortalDOMNode();
+	getInitialState () {
+		return {};
 	},
 	componentDidMount () {
 		if (this.props.isOpen) this.calculatePosition();
 	},
 	componentWillReceiveProps (nextProps) {
 		if (!this.props.isOpen && nextProps.isOpen) this.calculatePosition();
+	},
+	getPortalDOMNode () {
+		return this.refs.portal.getPortalDOMNode();
 	},
 	calculatePosition () {
 		let posNode = document.getElementById(this.props.relativeToID);

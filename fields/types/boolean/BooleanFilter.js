@@ -13,13 +13,13 @@ function getDefaultValue () {
 }
 
 var BooleanFilter = React.createClass({
-	statics: {
-		getDefaultValue: getDefaultValue,
-	},
 	propTypes: {
 		filter: React.PropTypes.shape({
 			value: React.PropTypes.bool,
 		}),
+	},
+	statics: {
+		getDefaultValue: getDefaultValue,
 	},
 	getDefaultProps () {
 		return {

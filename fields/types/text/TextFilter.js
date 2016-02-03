@@ -24,11 +24,6 @@ function getDefaultValue () {
 }
 
 var TextFilter = React.createClass({
-
-	statics: {
-		getDefaultValue: getDefaultValue,
-	},
-
 	propTypes: {
 		filter: React.PropTypes.shape({
 			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
@@ -36,31 +31,28 @@ var TextFilter = React.createClass({
 			value: React.PropTypes.string,
 		}),
 	},
-
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
 	getDefaultProps () {
 		return {
 			filter: getDefaultValue(),
 		};
 	},
-
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
-
 	selectMode (mode) {
 		this.updateFilter({ mode });
 		ReactDOM.findDOMNode(this.refs.focusTarget).focus();
 	},
-
 	toggleInverted (inverted) {
 		this.updateFilter({ inverted });
 		ReactDOM.findDOMNode(this.refs.focusTarget).focus();
 	},
-
 	updateValue (e) {
 		this.updateFilter({ value: e.target.value });
 	},
-
 	render () {
 		const { field, filter } = this.props;
 		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
@@ -78,7 +70,6 @@ var TextFilter = React.createClass({
 			</div>
 		);
 	},
-
 });
 
 module.exports = TextFilter;
