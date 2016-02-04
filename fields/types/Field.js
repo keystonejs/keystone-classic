@@ -63,6 +63,9 @@ var Base = module.exports.Base = {
 			ref: 'focusTarget',
 			value: this.props.value
 		});
+
+		if (this.props.nested) props.name = this.props.nested + '.' + props.name;
+
 		return <FormInput {...props} />;
 	},
 	renderValue () {

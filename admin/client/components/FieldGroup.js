@@ -24,8 +24,6 @@ var FieldGroup = React.createClass({
 
 		var headings = 0;
 
-		console.log(this.props);
-
 		return this.props.list.uiElements.map((el) => {
 			if (el.type === 'heading') {
 				headings++;
@@ -47,6 +45,7 @@ var FieldGroup = React.createClass({
 					});
 				}
 				props.key = field.path;
+				props.nested = this.props.parentPath;
 				return React.createElement(Fields[field.type], props);
 			}
 		}, this);

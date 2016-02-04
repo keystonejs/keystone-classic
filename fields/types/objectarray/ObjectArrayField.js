@@ -6,6 +6,8 @@ import jsonCycle from 'json-cycle';
 
 import { Button } from 'elemental';
 
+var lastId = 0;
+
 module.exports = Field.create({
 	displayName: 'ObjectArrayField',
 	getInitialState () {
@@ -19,7 +21,7 @@ module.exports = Field.create({
 	renderItems () {
 		return this.state.values.map((val) => {
 			return (
-				<FieldGroup key={val._id} data={val} list={this.state.list} />
+				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} />
 			);
 		});
 	},
@@ -30,12 +32,20 @@ module.exports = Field.create({
 		});
 	},
 	addItem () {
-		var newValues = this.state.values.concat(newItem());
+		var newItem = {};
+
+		lastId += 1;
+
+		Object.keys(this.state.list.fields).forEach((key, i) => {
+			var field = this.state.list.fields[key];
+
+			newItem[key] = field.type.indexOf('array') == -1 ? '' : [];
+			newItem._id = lastId;
+		});
+
+		var newValues = this.state.values.concat([newItem]);
 		this.setState({
 			values: newValues
-		}, () => {
-			if (!this.state.values.length) return;
-			ReactDOM.findDOMNode(this.refs['item_' + this.state.values.length]).focus();
 		});
 		this.valueChanged(newValues);
 	},

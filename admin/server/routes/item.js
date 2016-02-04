@@ -74,6 +74,14 @@ module.exports = function(req, res) {
 		};
 
 		if (req.method === 'POST' && req.body.action === 'updateItem' && !req.list.get('noedit')) {
+			console.log('Hurrdurr?', req.body);
+
+			// Object.keys(req.body).forEach(function (key) {
+			// 	var props = key.split('.');
+			// 	if (props.length == 1) return;
+
+			// 	if (!req.body[props[0]]) req.body[props[0]] = {};
+			// });
 
 			if (!keystone.security.csrf.validate(req)) {
 				console.error('CSRF failure', req.method, req.body);
