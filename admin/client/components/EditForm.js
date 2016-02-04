@@ -131,7 +131,6 @@ var EditForm = React.createClass({
 		var headings = 0;
 
 		return this.props.list.uiElements.map((el) => {
-			console.log('Hurr', el);
 			if (el.type === 'heading') {
 				headings++;
 				el.options.values = this.state.values;
