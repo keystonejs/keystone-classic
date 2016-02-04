@@ -13,35 +13,35 @@ var devMode = process.env.KEYSTONE_DEV === 'true';
 var devWriteBundles = process.env.KEYSTONE_WRITE_BUNDLES === 'true';
 var devWriteDisc = process.env.KEYSTONE_WRITE_DISC === 'true';
 
-function ts() {
+function ts () {
 	return chalk.gray(moment().format('YYYY-MM-DD HH:MM:SS '));
 }
 
-function logInit(file) {
+function logInit (file) {
 	console.log(chalk.grey('Watching ') + chalk.underline('keystone/admin/src/' + file) + chalk.grey(' for changes...'));
 }
 
-function logRebuild(file) {
+function logRebuild (file) {
 	console.log(ts() + chalk.green('rebuilt ' + chalk.underline(file)));
 }
 
-function logError(file, err) {
+function logError (file, err) {
 	console.log(ts() + chalk.red('error building ' + chalk.underline(file) + ':') + '\n' + err.message);
 }
 
-module.exports = function(file, name) {
+module.exports = function (file, name) {
 	var b;
 	var building = false;
 	var queue = [];
 	var ready;
 	var src;
-	function writeBundle(buff) {
+	function writeBundle (buff) {
 		if (devWriteBundles) {
 			fs.outputFile(path.resolve(path.join(__dirname, '../../bundles/js', file)), buff, 'utf8');
 		}
 		if (devWriteDisc) {
 			var discFile = file.replace('.js', '.html');
-			require('disc').bundle(buff, function(err, html) {
+			require('disc').bundle(buff, function (err, html) {
 				if (err) {
 					logError(discFile, err);
 				} else {
@@ -51,7 +51,7 @@ module.exports = function(file, name) {
 			});
 		}
 	}
-	function build() {
+	function build () {
 		if (building) return;
 		building = true;
 		var opts = { basedir: basedir };
@@ -75,23 +75,23 @@ module.exports = function(file, name) {
 			presets: [require('babel-preset-es2015'), require('babel-preset-react')],
 		}));
 		b.exclude('FieldTypes');
-		packages.forEach(function(i) {
+		packages.forEach(function (i) {
 			b.exclude(i);
 		});
 		if (devMode) {
 			b = watchify(b, { poll: 500 });
 		}
-		b.bundle(function(err, buff) {
+		b.bundle(function (err, buff) {
 			if (err) return logError(file, err);
 			src = buff;
 			ready = true;
-			queue.forEach(function(reqres) {
+			queue.forEach(function (reqres) {
 				send.apply(null, reqres);
 			});
 			writeBundle(buff);
 		});
-		b.on('update', function() {
-			b.bundle(function(err, buff) {
+		b.on('update', function () {
+			b.bundle(function (err, buff) {
 				if (err) return logError(file, err);
 				else logRebuild(file);
 				src = buff;
@@ -99,7 +99,7 @@ module.exports = function(file, name) {
 			});
 		});
 	}
-	function serve(req, res) {
+	function serve (req, res) {
 		if (!ready) {
 			build();
 			queue.push([req, res]);
@@ -107,7 +107,7 @@ module.exports = function(file, name) {
 		}
 		send(req, res);
 	}
-	function send(req, res) {
+	function send (req, res) {
 		res.setHeader('Content-Type', 'application/javascript');
 		var etag = crypto.createHash('md5').update(src).digest('hex').slice(0, 6);
 		if (req.get && (etag === req.get('If-None-Match'))) {
@@ -122,6 +122,6 @@ module.exports = function(file, name) {
 	}
 	return {
 		serve: serve,
-		build: build
+		build: build,
 	};
 };

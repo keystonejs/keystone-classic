@@ -1,6 +1,6 @@
 var demand = require('must');
 var sinon = require('sinon');
-var assign = require('lodash/object/assign');
+var assign = require('object-assign');
 var language = require('../../../lib/middleware/language');
 
 var COOKIE_NAME_ARG = 0;

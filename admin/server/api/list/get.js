@@ -1,11 +1,11 @@
 var async = require('async');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 	var where = {};
 	var filters = req.query.filters;
 	if (filters && typeof filters === 'string') {
 		try { filters = JSON.parse(req.query.filters); }
-		catch(e) { } // eslint-disable-line no-empty
+		catch (e) { } // eslint-disable-line no-empty
 	}
 	if (typeof filters === 'object') {
 		req.list.addFiltersToQuery(filters, where);
@@ -18,23 +18,23 @@ module.exports = function(req, res) {
 		query.populate(req.query.populate);
 	}
 	if (req.query.expandRelationshipFields && req.query.expandRelationshipFields !== 'false') {
-		req.list.relationshipFields.forEach(function(i) {
+		req.list.relationshipFields.forEach(function (i) {
 			query.populate(i.path);
 		});
 	}
 	var sort = req.list.expandSort(req.query.sort);
 	async.series({
-		count: function(next) {
+		count: function (next) {
 			query.count(next);
 		},
-		items: function(next) {
+		items: function (next) {
 			query.find();
 			query.limit(Number(req.query.limit) || 100);
 			query.skip(Number(req.query.skip) || 0);
 			query.sort(sort.string);
 			query.exec(next);
-		}
-	}, function(err, results) {
+		},
+	}, function (err, results) {
 		if (err) {
 			res.logError('admin/server/api/list/get', 'database error finding items', err);
 			return res.apiError('database error', err);
@@ -43,7 +43,7 @@ module.exports = function(req, res) {
 			results: results.items.map(function (item) {
 				return req.list.getData(item, req.query.select, req.query.expandRelationshipFields);
 			}),
-			count: results.count
+			count: results.count,
 		});
 	});
 };

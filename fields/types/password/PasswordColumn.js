@@ -20,7 +20,7 @@ var PasswordColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = PasswordColumn;

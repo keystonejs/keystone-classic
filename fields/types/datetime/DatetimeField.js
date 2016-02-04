@@ -20,13 +20,13 @@ module.exports = Field.create({
 	getInitialState () {
 		return {
 			dateValue: this.props.value && this.moment(this.props.value).format(this.dateInputFormat),
-			timeValue: this.props.value && this.moment(this.props.value).format(this.timeInputFormat)
+			timeValue: this.props.value && this.moment(this.props.value).format(this.timeInputFormat),
 		};
 	},
 
 	getDefaultProps () {
 		return {
-			formatString: 'Do MMM YYYY, h:mm:ss a'
+			formatString: 'Do MMM YYYY, h:mm:ss a',
 		};
 	},
 
@@ -52,7 +52,7 @@ module.exports = Field.create({
 		var datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
 		this.props.onChange({
 			path: this.props.path,
-			value: this.isValid(value) ? moment(value, datetimeFormat).toISOString() : null
+			value: this.isValid(value) ? moment(value, datetimeFormat).toISOString() : null,
 		});
 	},
 
@@ -71,7 +71,7 @@ module.exports = Field.create({
 		var timeValue = moment().format(this.timeInputFormat);
 		this.setState({
 			dateValue: dateValue,
-			timeValue: timeValue
+			timeValue: timeValue,
 		});
 		this.handleChange(dateValue, timeValue);
 	},
@@ -107,5 +107,5 @@ module.exports = Field.create({
 				{this.renderNote()}
 			</FormField>
 		);
-	}
+	},
 });

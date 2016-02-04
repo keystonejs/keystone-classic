@@ -1,5 +1,5 @@
 module.exports = function (req, res, next) {
-	res.logError = function logError(endpoint, description, err) {
+	res.logError = function logError (endpoint, description, err) {
 		if (arguments.length === 2 && typeof description !== 'string') {
 			err = description;
 			description = null;

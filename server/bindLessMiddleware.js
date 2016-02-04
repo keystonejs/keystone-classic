@@ -9,7 +9,7 @@ module.exports = function bindLessMiddleware (keystone, app) {
 	}
 
 	if (Array.isArray(lessPaths)) {
-		lessPaths.forEach(function(path) {
+		lessPaths.forEach(function (path) {
 			app.use(require('less-middleware')(keystone.expandPath(path), lessOptions));
 		});
 	}

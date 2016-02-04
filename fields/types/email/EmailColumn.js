@@ -13,7 +13,7 @@ var EmailColumn = React.createClass({
 		if (!value) return;
 
 		return (
-			<ItemsTableValue href={'mailto:'+ value} padded exterior field={this.props.col.type}>
+			<ItemsTableValue href={'mailto:' + value} padded exterior field={this.props.col.type}>
 				{value}
 			</ItemsTableValue>
 		);
@@ -25,7 +25,7 @@ var EmailColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = EmailColumn;

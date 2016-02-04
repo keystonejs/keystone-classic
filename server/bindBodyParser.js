@@ -11,6 +11,6 @@ module.exports = function bindIPRestrictions (keystone, app) {
 	bodyParserParams.extended = true;
 	app.use(bodyParser.urlencoded(bodyParserParams));
 	app.use(multer({
-		includeEmptyFields: true
+		includeEmptyFields: true,
 	}));
 };

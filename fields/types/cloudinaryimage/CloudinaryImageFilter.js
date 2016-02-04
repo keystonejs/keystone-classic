@@ -20,7 +20,7 @@ var PasswordFilter = React.createClass({
 	renderToggle () {
 		let options = [
 			{ label: 'Is Set', value: true },
-			{ label: 'Is NOT Set', value: false }
+			{ label: 'Is NOT Set', value: false },
 		];
 
 		return <SegmentedControl equalWidthSegments options={options} value={this.state.checked} onChange={this.toggleChecked} />;
@@ -31,7 +31,7 @@ var PasswordFilter = React.createClass({
 		let { checked } = this.state;
 
 		return this.renderToggle();
-	}
+	},
 
 });
 

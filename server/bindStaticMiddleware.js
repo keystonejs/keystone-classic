@@ -12,7 +12,7 @@ module.exports = function bindStaticMiddleware (keystone, app) {
 	}
 
 	if (Array.isArray(staticPaths)) {
-		staticPaths.forEach(function(value) {
+		staticPaths.forEach(function (value) {
 			app.use(express.static(keystone.expandPath(value), staticOptions));
 		});
 	}

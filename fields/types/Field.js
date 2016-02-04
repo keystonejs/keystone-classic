@@ -5,11 +5,11 @@ import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import blacklist from 'blacklist';
 
-function isObject(arg) {
+function isObject (arg) {
 	return Object.prototype.toString.call(arg) === '[object Object]';
 }
 
-function validateSpec(spec) {
+function validateSpec (spec) {
 	if (!spec) spec = {};
 	if (!isObject(spec.supports)) {
 		spec.supports = {};
@@ -30,13 +30,13 @@ var Base = module.exports.Base = {
 			inputProps: {},
 			labelProps: {},
 			valueProps: {},
-			size: 'full'
+			size: 'full',
 		};
 	},
 	valueChanged (event) {
 		this.props.onChange({
 			path: this.props.path,
-			value: event.target.value
+			value: event.target.value,
 		});
 	},
 	shouldCollapse () {
@@ -61,7 +61,7 @@ var Base = module.exports.Base = {
 			name: this.props.path,
 			onChange: this.valueChanged,
 			ref: 'focusTarget',
-			value: this.props.value
+			value: this.props.value,
 		});
 		return <FormInput {...props} />;
 	},
@@ -70,7 +70,7 @@ var Base = module.exports.Base = {
 	},
 	renderUI () {
 		var wrapperClassName = classnames(
-			('field-type-' + this.props.type),
+			'field-type-' + this.props.type,
 			this.props.className
 		);
 		return (
@@ -81,14 +81,14 @@ var Base = module.exports.Base = {
 				{this.renderNote()}
 			</FormField>
 		);
-	}
+	},
 };
 
 var Mixins = module.exports.Mixins = {
 	Collapse: {
 		componentWillMount () {
 			this.setState({
-				isCollapsed: this.shouldCollapse()
+				isCollapsed: this.shouldCollapse(),
 			});
 		},
 		componentDidUpdate (prevProps, prevState) {
@@ -98,7 +98,7 @@ var Mixins = module.exports.Mixins = {
 		},
 		uncollapse () {
 			this.setState({
-				isCollapsed: false
+				isCollapsed: false,
 			});
 		},
 		renderCollapse () {
@@ -108,11 +108,11 @@ var Mixins = module.exports.Mixins = {
 					<Button type="link" className="collapsed-field-label" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
 				</FormField>
 			);
-		}
-	}
+		},
+	},
 };
 
-module.exports.create = function(spec) {
+module.exports.create = function (spec) {
 
 	spec = validateSpec(spec);
 
@@ -128,13 +128,13 @@ module.exports.create = function(spec) {
 				return this.renderCollapse();
 			}
 			return this.renderUI();
-		}
+		},
 	};
 
 	var excludeBaseMethods = {};
 	if (spec.mixins) {
-		spec.mixins.forEach(function(mixin) {
-			Object.keys(mixin).forEach(function(name) {
+		spec.mixins.forEach(function (mixin) {
+			Object.keys(mixin).forEach(function (name) {
 				if (Base[name]) {
 					excludeBaseMethods[name] = true;
 				}

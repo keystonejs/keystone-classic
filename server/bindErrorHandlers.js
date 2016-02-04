@@ -4,7 +4,7 @@ var utils = require('keystone-utils');
 module.exports = function bindErrorHandlers (keystone, app) {
 
 	// Handle 404 (no route matched) errors
-	var default404Handler = function (req, res, next) {// eslint-disable-line no-unused-vars
+	var default404Handler = function (req, res, next) { // eslint-disable-line no-unused-vars
 		res.status(404).send(keystone.wrapHTMLError('Sorry, no page could be found at this address (404)'));
 	};
 
@@ -22,7 +22,7 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					}
 					default404Handler(req, res, next);
 				}
-			} catch(e) {
+			} catch (e) {
 				if (keystone.get('logger')) {
 					console.log(dashes + 'Error handling 404 (not found):');
 					console.log(e);
@@ -84,7 +84,7 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					}
 					default500Handler(err, req, res, next);
 				}
-			} catch(e) {
+			} catch (e) {
 				if (keystone.get('logger')) {
 					console.log(dashes + 'Error handling 500 (error):');
 					console.log(e);

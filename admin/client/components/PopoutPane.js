@@ -11,7 +11,7 @@ var PopoutPane = React.createClass({
 	},
 	getDefaultProps () {
 		return {
-			onLayout: () => {}
+			onLayout: () => {},
 		};
 	},
 	componentDidMount () {

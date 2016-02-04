@@ -26,7 +26,7 @@ var SecondaryNavigation = React.createClass({
 		currentListKey: React.PropTypes.string,
 		lists: React.PropTypes.array.isRequired,
 	},
-	getInitialState() {
+	getInitialState () {
 		return {};
 	},
 	componentDidMount () {
@@ -38,7 +38,7 @@ var SecondaryNavigation = React.createClass({
 	},
 	handleResize () {
 		this.setState({
-			navIsVisible: this.props.lists && this.props.lists.length > 1 && window.innerWidth >= 768
+			navIsVisible: this.props.lists && this.props.lists.length > 1 && window.innerWidth >= 768,
 		});
 	},
 	renderNavigation (lists) {

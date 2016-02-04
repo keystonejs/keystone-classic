@@ -22,7 +22,7 @@ var SelectColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = SelectColumn;

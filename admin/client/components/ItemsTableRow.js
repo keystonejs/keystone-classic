@@ -10,15 +10,15 @@ import { DropTarget, DragSource } from 'react-dnd';
 const ItemsRow = React.createClass({
 	propTypes: {
 		columns: React.PropTypes.array,
+		id: React.PropTypes.any,
+		index: React.PropTypes.number,
 		items: React.PropTypes.object,
 		list: React.PropTypes.object,
-		index: React.PropTypes.number,
-		id: React.PropTypes.any,
 		// Injected by React DnD:
-		isDragging: React.PropTypes.bool,
-		connectDragSource: React.PropTypes.func,
-		connectDropTarget: React.PropTypes.func,
-		connectDragPreview: React.PropTypes.func,
+		isDragging: React.PropTypes.bool,         // eslint-disable-line react/jsx-sort-prop-types
+		connectDragSource: React.PropTypes.func,  // eslint-disable-line react/jsx-sort-prop-types
+		connectDropTarget: React.PropTypes.func,  // eslint-disable-line react/jsx-sort-prop-types
+		connectDragPreview: React.PropTypes.func, // eslint-disable-line react/jsx-sort-prop-types
 	},
 	renderRow (item) {
 		let itemId = item.id;
@@ -52,7 +52,7 @@ const ItemsRow = React.createClass({
 
 		var addRow = (<tr key={'i' + item.id} onClick={this.props.manageMode ? (e) => this.props.checkTableItem(item, e) : null} className={rowClassname}>{cells}</tr>);
 
-		if(this.props.list.sortable) {
+		if (this.props.list.sortable) {
 			return (
 				// we could add a preview container/image
 				// this.props.connectDragPreview(this.props.connectDropTarget(addRow))
@@ -96,9 +96,9 @@ const dragItem = {
 
 		// self
 		if (prevSortOrder === newSortOrder) {
-			if(base.page !== page) {
+			if (base.page !== page) {
 				// we were dropped on ourself, but not on our original page
-				if(droppedOn.index === 0) {
+				if (droppedOn.index === 0) {
 					// item is first in the list
 					// save to the sortOrder of the 2nd item - 1
 					newSortOrder = CurrentListStore.findClonedItemByIndex(1).sortOrder - 1;
@@ -140,7 +140,7 @@ const dropItem = {
 
 		// self
 		if (dragged === over) {
-		  return;
+			return;
 		}
 
 		CurrentListStore.moveItem(dragged, over, props);
@@ -152,16 +152,16 @@ const dropItem = {
  * Specifies the props to inject into your component.
  */
 function dragProps (connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
-    connectDragPreview: connect.dragPreview(),
-  };
+	return {
+		connectDragSource: connect.dragSource(),
+		isDragging: monitor.isDragging(),
+		connectDragPreview: connect.dragPreview(),
+	};
 }
 
 function dropProps (connect) {
-	 return {
-		 connectDropTarget: connect.dropTarget(),
+	return {
+		connectDropTarget: connect.dropTarget(),
 	};
 };
 

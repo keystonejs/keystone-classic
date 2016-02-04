@@ -13,13 +13,13 @@ const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'i
 const iconClassUploadPending = [
 	'upload-pending',
 	'mega-octicon',
-	'octicon-cloud-upload'
+	'octicon-cloud-upload',
 ];
 
 const iconClassDeletePending = [
 	'delete-pending',
 	'mega-octicon',
-	'octicon-x'
+	'octicon-x',
 ];
 
 module.exports = Field.create({
@@ -90,19 +90,19 @@ module.exports = Field.create({
 			removeExisting: false,
 			localSource:    null,
 			origin:         false,
-			action:         null
+			action:         null,
 		});
 	},
 
 	/**
 	 * Check support for input files on input change.
 	 */
-	fileChanged  (event) {
+	fileChanged (event) {
 		var self = this;
 
 		if (window.FileReader) {
 			var files = event.target.files;
-			Array.prototype.forEach.call(files, function(f) {
+			Array.prototype.forEach.call(files, function (f) {
 				if (SUPPORTED_TYPES.indexOf(f.type) === -1) {
 					self.removeImage();
 					alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
@@ -114,14 +114,14 @@ module.exports = Field.create({
 					if (!self.isMounted()) return;
 					self.setState({
 						localSource: e.target.result,
-						origin: 'local'
+						origin: 'local',
 					});
 				};
 				fileReader.readAsDataURL(f);
 			});
 		} else {
 			this.setState({
-				origin: 'local'
+				origin: 'local',
 			});
 		}
 	},
@@ -218,7 +218,7 @@ module.exports = Field.create({
 			url = this.getImageSource();
 		}
 
-		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={ { height: '90' } } src={url} />;
+		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={{ height: '90' }} src={url} />;
 	},
 
 	/**
@@ -330,62 +330,63 @@ module.exports = Field.create({
 	renderImageSelect () {
 		var selectPrefix = this.props.selectPrefix;
 		var self = this;
-		var getOptions = function(input, callback) {
+		var getOptions = function (input, callback) {
 
-			//build our url, accounting for selectPrefix
+			// build our url, accounting for selectPrefix
 			var uri = Keystone.adminPath + '/api/cloudinary/autocomplete';
 			if (selectPrefix) {
-				uri = uri +'?prefix='+selectPrefix;
+				uri = uri + '?prefix=' + selectPrefix;
 			}
-			//make the request
+
+			// make the request
 			xhr({
 				body: JSON.stringify({
-					q: input
+					q: input,
 				}),
 				uri: uri,
 				headers: {
-					'Content-Type': 'application/json'
-				}
+					'Content-Type': 'application/json',
+				},
 			}, function (err, resp, body) {
-				//callback with err
+
+				// callback with err
 				if (err) {
 					callback(null, {
 						options: [],
-						complete: false
+						complete: false,
 					});
 					return;
 				}
 
-				//try and parse the response
+				// try and parse the response
 				try {
 					var data = JSON.parse(body);
 					var options = [];
 
-					data.items.forEach(function(item){
+					data.items.forEach(function (item) {
 						options.push({
 							value: item.public_id,
-							label: item.public_id
+							label: item.public_id,
 						});
 					});
-
 					callback(null, {
 						options: options,
-						complete: true
+						complete: true,
 					});
 				} catch (e) {
 					callback(null, {
 						options: [],
-						complete: false
+						complete: false,
 					});
 				}
-
 			});
 		};
+
 		//listen for changes
-		var onChange = function onChange(data) {
+		var onChange = function onChange (data) {
 			if (data && data.value) {
 				self.setState({ selectedCloudinaryImage:data.value });
-			}  else {
+			} else {
 				self.setState({ selectedCloudinaryImage:null });
 			}
 		};
@@ -438,5 +439,5 @@ module.exports = Field.create({
 				{this.renderLightbox()}
 			</FormField>
 		);
-	}
+	},
 });

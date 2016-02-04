@@ -1,6 +1,6 @@
 var demand = require('must');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		bool: { type: Boolean, note: 'This is a boolean field' },
 		indented: { type: Boolean, indent: true },
@@ -17,90 +17,90 @@ exports.initList = function(List) {
 	});
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should be true when passed the boolean true', function(done) {
+	it('should be true when passed the boolean true', function (done) {
 		List.fields.bool.updateItem(testItem, {
 			bool: true,
-		}, function() {
+		}, function () {
 			demand(testItem.bool).be.true();
 			testItem.bool = undefined;
 			done();
 		});
 	});
 
-	it('should be true when passed the string "true"', function(done) {
+	it('should be true when passed the string "true"', function (done) {
 		List.fields.bool.updateItem(testItem, {
 			bool: 'true',
-		}, function() {
+		}, function () {
 			demand(testItem.bool).be.true();
 			testItem.bool = undefined;
 			done();
 		});
 	});
 
-	it('should be false when passed the boolean false', function(done) {
+	it('should be false when passed the boolean false', function (done) {
 		List.fields.bool.updateItem(testItem, {
 			bool: false,
-		}, function() {
+		}, function () {
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;
 			done();
 		});
 	});
 
-	it('should be false when passed the string "false"', function(done) {
+	it('should be false when passed the string "false"', function (done) {
 		List.fields.bool.updateItem(testItem, {
 			bool: 'false',
-		}, function() {
+		}, function () {
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;
 			done();
 		});
 	});
 
-	it('should be false when passed undefined', function(done) {
-		List.fields.bool.updateItem(testItem, {}, function() {
+	it('should be false when passed undefined', function (done) {
+		List.fields.bool.updateItem(testItem, {}, function () {
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;
 			done();
 		});
 	});
 
-	it('should be false when passed an empty string', function(done) {
+	it('should be false when passed an empty string', function (done) {
 		List.fields.bool.updateItem(testItem, {
 			bool: '',
-		}, function() {
+		}, function () {
 			demand(testItem.bool).be.false();
 			testItem.bool = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields', function(done) {
+	it('should update nested fields', function (done) {
 		List.fields['nested.bool'].updateItem(testItem, {
 			nested: {
 				bool: true,
 			},
-		}, function() {
+		}, function () {
 			demand(testItem.nested.bool).be.true();
 			testItem.nested.bool = undefined;
 			done();
 		});
 	});
 
-	it('should update nested fields wit.onlyh flat paths', function(done) {
+	it('should update nested fields with flat paths', function (done) {
 		List.fields['nested.bool'].updateItem(testItem, {
 			'nested.bool': true,
-		}, function() {
+		}, function () {
 			demand(testItem.nested.bool).be.true();
 			testItem.nested.bool = undefined;
 			done();
 		});
 	});
 
-	it('should always validate when not required', function() {
+	it('should always validate when not required', function () {
 		demand(List.fields.bool.inputIsValid({ bool: 'true' }, false)).be(true);
 		demand(List.fields.bool.inputIsValid({ bool: true }, false)).be(true);
 		demand(List.fields.bool.inputIsValid({ bool: 'false' }, false)).be(true);
@@ -109,7 +109,7 @@ exports.testFieldType = function(List) {
 		demand(List.fields.bool.inputIsValid({ bool: undefined }, false)).be(true);
 	});
 
-	it('should validate input properly when required', function() {
+	it('should validate input properly when required', function () {
 		demand(List.fields.bool.inputIsValid({ bool: 'true' }, true)).be(true);
 		demand(List.fields.bool.inputIsValid({ bool: true }, true)).be(true);
 		demand(List.fields.bool.inputIsValid({ bool: 'false' }, true)).be(false);

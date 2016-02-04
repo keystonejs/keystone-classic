@@ -4,7 +4,7 @@ import PopoutList from '../../../admin/client/components/PopoutList';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Matches', value: false },
-	{ label: 'Does NOT Match', value: true }
+	{ label: 'Does NOT Match', value: true },
 ];
 
 function getDefaultValue () {
@@ -15,29 +15,24 @@ function getDefaultValue () {
 }
 
 var SelectFilter = React.createClass({
-
-	statics: {
-		getDefaultValue: getDefaultValue,
-	},
-
 	propTypes: {
 		field: React.PropTypes.object,
 		filter: React.PropTypes.shape({
 			inverted: React.PropTypes.boolean,
 			value: React.PropTypes.array,
-		})
+		}),
 	},
-
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
 	getDefaultProps () {
 		return {
 			filter: getDefaultValue(),
 		};
 	},
-
 	toggleInverted (inverted) {
 		this.updateFilter({ inverted });
 	},
-
 	toggleAllOptions () {
 		const { field, filter } = this.props;
 		if (filter.value.length < field.ops.length) {
@@ -46,21 +41,17 @@ var SelectFilter = React.createClass({
 			this.updateFilter({ value: [] });
 		}
 	},
-
 	selectOption (option) {
 		let value = this.props.filter.value.concat(option.value);
 		this.updateFilter({ value });
 	},
-
 	removeOption (option) {
 		let value = this.props.filter.value.filter(i => i !== option.value);
 		this.updateFilter({ value });
 	},
-
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
-
 	renderOptions () {
 		return this.props.field.ops.map((option, i) => {
 			let selected = this.props.filter.value.indexOf(option.value) > -1;
@@ -78,7 +69,6 @@ var SelectFilter = React.createClass({
 			);
 		});
 	},
-
 	render () {
 		const { field, filter } = this.props;
 		const allSelected = filter.value.length;
@@ -94,8 +84,7 @@ var SelectFilter = React.createClass({
 				{this.renderOptions()}
 			</div>
 		);
-	}
-
+	},
 });
 
 module.exports = SelectFilter;

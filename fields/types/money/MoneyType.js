@@ -8,7 +8,7 @@ var util = require('util');
  * @extends Field
  * @api public
  */
-function money(list, path, options) {
+function money (list, path, options) {
 	this.currency = options.currency;
 	this._nativeType = Number;
 	this._underscoreMethods = ['format'];
@@ -29,7 +29,7 @@ money.prototype.inputIsValid = NumberType.prototype.inputIsValid;
 /**
  * Formats the field value
  */
-money.prototype.format = function(item, format) {
+money.prototype.format = function (item, format) {
 	if (this.currency) {
 		try {
 			numeral.language(this.currency, require('numeral/languages/' + this.currency));

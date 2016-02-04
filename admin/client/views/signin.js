@@ -40,7 +40,7 @@ var SigninView = React.createClass({
 		}
 		SessionStore.signin({
 			email: this.state.email,
-			password: this.state.password
+			password: this.state.password,
 		}, (err, data) => {
 			if (err || data && data.error) {
 				this.displayError('The email and password you entered are not valid.');
@@ -54,7 +54,7 @@ var SigninView = React.createClass({
 		this.setState({
 			isAnimating: true,
 			isInvalid: true,
-			invalidMessage: message
+			invalidMessage: message,
 		});
 		setTimeout(this.finishAnimation, 750);
 	},
@@ -64,7 +64,7 @@ var SigninView = React.createClass({
 			ReactDOM.findDOMNode(this.refs.email).select();
 		}
 		this.setState({
-			isAnimating: false
+			isAnimating: false,
 		});
 	},
 	renderBrand () {
@@ -130,7 +130,7 @@ var SigninView = React.createClass({
 	},
 	render () {
 		let boxClassname = classnames('auth-box', {
-			'auth-box--has-errors': this.state.isAnimating
+			'auth-box--has-errors': this.state.isAnimating,
 		});
 		return (
 			<div className="auth-wrapper">

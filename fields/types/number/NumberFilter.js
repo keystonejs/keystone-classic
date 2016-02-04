@@ -7,7 +7,7 @@ const CONTROL_OPTIONS = [
 	{ label: 'Exactly', value: 'equals' },
 	{ label: 'Greater Than', value: 'gt' },
 	{ label: 'Less Than', value: 'lt' },
-	{ label: 'Between', value: 'between' }
+	{ label: 'Between', value: 'between' },
 ];
 
 var NumberFilter = React.createClass({
@@ -18,7 +18,7 @@ var NumberFilter = React.createClass({
 			modeLabel: CONTROL_OPTIONS[0].label, // 'Matches'
 			value: '',
 			minValue: '',
-			maxValue: ''
+			maxValue: '',
 		};
 	},
 
@@ -34,17 +34,17 @@ var NumberFilter = React.createClass({
 			let { modeValue } = self.state;
 			let { onChange } = self.props;
 			self.setState({
-				[type]: value
+				[type]: value,
 			});
 
-			switch(type) {
+			switch (type) {
 				case 'minValue':
 					onChange({
 						mode: modeValue,
 						value: {
 							min: value,
-							max: self.state.maxValue
-						}
+							max: self.state.maxValue,
+						},
 					});
 					break;
 				case 'maxValue':
@@ -52,14 +52,14 @@ var NumberFilter = React.createClass({
 						mode: modeValue,
 						value: {
 							max: value,
-							min: self.state.minValue
-						}
+							min: self.state.minValue,
+						},
 					});
 					break;
 				case 'value':
 					onChange({
 						mode: modeValue,
-						value
+						value,
 					});
 			}
 		};
@@ -68,7 +68,7 @@ var NumberFilter = React.createClass({
 	toggleMode (mode) {
 		this.setState({
 			modeValue: mode,
-			modeLabel: CONTROL_OPTIONS.find(option => option.value === mode).label
+			modeLabel: CONTROL_OPTIONS.find(option => option.value === mode).label,
 		});
 
 		// focus the text input after a mode selection is made
@@ -112,7 +112,7 @@ var NumberFilter = React.createClass({
 				{this.renderControls()}
 			</div>
 		);
-	}
+	},
 
 });
 

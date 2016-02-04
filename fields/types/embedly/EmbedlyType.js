@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-var _ = require('underscore'),
-	keystone = require('../../../'),
-	util = require('util'),
-	EmbedlyAPI = require('embedly'),
-	super_ = require('../Type');
+var _ = require('underscore');
+var keystone = require('../../../');
+var util = require('util');
+var EmbedlyAPI = require('embedly');
+var super_ = require('../Type');
 
 /**
  * Embedly FieldType Constructor
@@ -18,11 +18,11 @@ var _ = require('underscore'),
  * @api public
  */
 
-function embedly(list, path, options) {
+function embedly (list, path, options) {
 
 	this._underscoreMethods = ['reset'];
 	this._fixedSize = 'full';
-	
+
 	this.fromPath = options.from;
 	this.embedlyOptions = options.options || {};
 
@@ -66,7 +66,7 @@ util.inherits(embedly, super_);
  * @api public
  */
 
-embedly.prototype.addToSchema = function() {
+embedly.prototype.addToSchema = function () {
 
 	var field = this,
 		schema = this.list.schema;
@@ -87,7 +87,7 @@ embedly.prototype.addToSchema = function() {
 		providerUrl: 			this._path.append('.providerUrl'),
 		thumbnailUrl: 			this._path.append('.thumbnailUrl'),
 		thumbnailWidth: 		this._path.append('.thumbnailWidth'),
-		thumbnailHeight: 		this._path.append('.thumbnailHeight')
+		thumbnailHeight: 		this._path.append('.thumbnailHeight'),
 	};
 
 	schema.nested[this.path] = true;
@@ -107,12 +107,12 @@ embedly.prototype.addToSchema = function() {
 		providerUrl: 			String,
 		thumbnailUrl: 			String,
 		thumbnailWidth: 		Number,
-		thumbnailHeight: 		Number
+		thumbnailHeight: 		Number,
 	}, this.path + '.');
 
 	// Bind the pre-save hook to hit the embedly api if the source path has changed
 
-	schema.pre('save', function(next) {
+	schema.pre('save', function (next) {
 
 		if (!this.isModified(field.fromPath)) {
 			return next();
@@ -127,7 +127,7 @@ embedly.prototype.addToSchema = function() {
 
 		var post = this;
 
-		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function(err, api) {//eslint-disable-line no-new
+		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function (err, api) { //eslint-disable-line no-new
 
 			if (err) {
 				console.error('Error creating Embedly api:');
@@ -138,7 +138,7 @@ embedly.prototype.addToSchema = function() {
 
 			var opts = _.defaults({ url: fromValue }, field.embedlyOptions);
 
-			api.oembed(opts, function(err, objs) {
+			api.oembed(opts, function (err, objs) {
 
 				if (err) {
 					console.error('Embedly API Error:');
@@ -163,7 +163,7 @@ embedly.prototype.addToSchema = function() {
 							providerUrl: 		data.provider_url,
 							thumbnailUrl: 		data.thumbnail_url,
 							thumbnailWidth: 	data.thumbnail_width,
-							thumbnailHeight: 	data.thumbnail_height
+							thumbnailHeight: 	data.thumbnail_height,
 						});
 
 					} else {
@@ -188,7 +188,7 @@ embedly.prototype.addToSchema = function() {
  * @api public
  */
 
-embedly.prototype.reset = function(item) {
+embedly.prototype.reset = function (item) {
 	return item.set(item.set(this.path, {
 		exists: 			false,
 		type: 				null,
@@ -205,7 +205,7 @@ embedly.prototype.reset = function(item) {
 		providerUrl: 		null,
 		thumbnailUrl: 		null,
 		thumbnailWidth: 	null,
-		thumbnailHeight: 	null
+		thumbnailHeight: 	null,
 	}));
 };
 
@@ -216,7 +216,7 @@ embedly.prototype.reset = function(item) {
  * @api public
  */
 
-embedly.prototype.format = function(item) {
+embedly.prototype.format = function (item) {
 	return item.get(this.paths.html);
 };
 
@@ -227,7 +227,7 @@ embedly.prototype.format = function(item) {
  * @api public
  */
 
-embedly.prototype.isModified = function(item) {
+embedly.prototype.isModified = function (item) {
 	// Assume that it has changed if the url is different
 	return item.isModified(this.paths.url);
 };
@@ -239,7 +239,7 @@ embedly.prototype.isModified = function(item) {
  * @api public
  */
 
-embedly.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused-vars
+embedly.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
 	// TODO: I don't think embedly fields need to be validated...
 	return true;
 };
@@ -251,7 +251,7 @@ embedly.prototype.inputIsValid = function(data) {//eslint-disable-line no-unused
  * @api public
  */
 
-embedly.prototype.updateItem = function(item, data, callback) {
+embedly.prototype.updateItem = function (item, data, callback) {
 	// TODO: This could be more granular and check for actual changes to values,
 	// see the Location field for an example
 	item.set(item.set(this.path, {
@@ -270,7 +270,7 @@ embedly.prototype.updateItem = function(item, data, callback) {
 		providerUrl: 		data[this.paths.providerUrl],
 		thumbnailUrl: 		data[this.paths.thumbnailUrl],
 		thumbnailWidth: 	data[this.paths.thumbnailWidth],
-		thumbnailHeight: 	data[this.paths.thumbnailHeight]
+		thumbnailHeight: 	data[this.paths.thumbnailHeight],
 	}));
 	process.nextTick(callback);
 };

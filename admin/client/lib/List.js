@@ -89,14 +89,14 @@ List.prototype.expandColumns = function (input) {
 			field: field,
 			type: field.type,
 			label: field.label,
-			path: field.path
+			path: field.path,
 		};
 	}).filter(i => i);
 	if (!nameIncluded) {
 		cols.unshift({
 			type: 'id',
 			label: 'ID',
-			path: 'id'
+			path: 'id',
 		});
 	}
 	return cols;
@@ -105,7 +105,7 @@ List.prototype.expandColumns = function (input) {
 List.prototype.expandSort = function (input) {
 	const sort = {
 		rawInput: input || this.defaultSort,
-		isDefaultSort: false
+		isDefaultSort: false,
 	};
 	sort.input = sort.rawInput;
 	if (sort.input === '__default__') {
@@ -129,7 +129,7 @@ List.prototype.expandSort = function (input) {
 			type: field.type,
 			label: field.label,
 			path: field.path,
-			invert: invert
+			invert: invert,
 		};
 	}).filter(i => i);
 	return sort;
@@ -187,13 +187,13 @@ List.prototype.deleteItems = function (itemIds, callback) {
 	xhr({
 		url: url,
 		method: 'POST',
-		headers: Keystone.csrf.header
+		headers: Keystone.csrf.header,
 	}, (err, resp, body) => {
 		if (err) return callback(err);
 		// TODO: check resp.statusCode
 		try {
 			body = JSON.parse(body);
-		} catch(e) {
+		} catch (e) {
 			console.log('Error parsing results json:', e, body);
 			return callback(e);
 		}
@@ -206,13 +206,13 @@ List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOp
 	xhr({
 		url: url,
 		method: 'POST',
-		headers: Keystone.csrf.header
+		headers: Keystone.csrf.header,
 	}, (err, resp, body) => {
 		if (err) return callback(err);
 		// TODO: check resp.statusCode
 		try {
 			body = JSON.parse(body);
-		} catch(e) {
+		} catch (e) {
 			console.log('Error parsing results json:', e, body);
 			return callback(e);
 		}

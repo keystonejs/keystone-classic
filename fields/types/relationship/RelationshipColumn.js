@@ -56,7 +56,7 @@ var RelationshipColumn = React.createClass({
 				{many ? this.renderMany(value) : this.renderValue(value)}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = RelationshipColumn;

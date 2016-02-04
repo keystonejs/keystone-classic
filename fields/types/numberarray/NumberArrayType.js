@@ -13,20 +13,20 @@ var util = require('util'),
  * @api public
  */
 
-function numberarray(list, path, options) {
-	
+function numberarray (list, path, options) {
+
 	this._nativeType = [Number];
 
 	this._underscoreMethods = ['format'];
 	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
 	this._defaultSize = 'small';
-	
+
 	if (this._formatString && 'string' !== typeof this._formatString) {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
-	
+
 	numberarray.super_.call(this, list, path, options);
-	
+
 }
 
 /*!
@@ -42,7 +42,7 @@ util.inherits(numberarray, super_);
  * @api public
  */
 
-numberarray.prototype.format = function(item, format) {
+numberarray.prototype.format = function (item, format) {
 	if (format || this._formatString) {
 		return ('number' === typeof item.get(this.path)) ? numeral(item.get(this.path)).format(format || this._formatString) : '';
 	} else {
@@ -56,7 +56,7 @@ numberarray.prototype.format = function(item, format) {
  * @api private
  */
 
-function isValidNumber(value) {
+function isValidNumber (value) {
 	return !isNaN(utils.number(value));
 }
 
@@ -68,7 +68,7 @@ function isValidNumber(value) {
  * @api public
  */
 
-numberarray.prototype.inputIsValid = function(data, required, item) {
+numberarray.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
 
 	if (required) {
@@ -107,12 +107,12 @@ numberarray.prototype.inputIsValid = function(data, required, item) {
  */
 
 
-numberarray.prototype.updateItem = function(item, data, callback) {
+numberarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	
+
 	if ('undefined' !== typeof value) {
 		if (Array.isArray(value)) {
-			var temp = value.filter(function(temp) {
+			var temp = value.filter(function (temp) {
 				if (isValidNumber(temp)) {
 					return utils.number(temp);
 				}

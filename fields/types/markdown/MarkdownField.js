@@ -14,7 +14,7 @@ require('./lib/bootstrap-markdown');
 
 // Append/remove ### surround the selection
 // Source: https://github.com/toopay/bootstrap-markdown/blob/master/js/bootstrap-markdown.js#L909
-var toggleHeading = function(e, level) {
+var toggleHeading = function (e, level) {
 	var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
 
 	if (selected.length === 0) {
@@ -43,7 +43,7 @@ var toggleHeading = function(e, level) {
 	e.setSelection(cursor, cursor + chunk.length);
 };
 
-var renderMarkdown = function(component) {
+var renderMarkdown = function (component) {
 	// dependsOn means that sometimes the component is mounted as a null, so account for that & noop
 	if (!component.refs.markdownTextarea) {
 		return;
@@ -63,35 +63,35 @@ var renderMarkdown = function(component) {
 				name: 'cmdH1',
 				title: 'Heading 1',
 				btnText: 'H1',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '#');
-				}
+				},
 			}, {
 				name: 'cmdH2',
 				title: 'Heading 2',
 				btnText: 'H2',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '##');
-				}
+				},
 			}, {
 				name: 'cmdH3',
 				title: 'Heading 3',
 				btnText: 'H3',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '###');
-				}
+				},
 			}, {
 				name: 'cmdH4',
 				title: 'Heading 4',
 				btnText: 'H4',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '####');
-				}
-			}]
+				},
+			}],
 		}],
 
 		// Insert Header buttons into the toolbar
-		reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil']
+		reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil'],
 	};
 
 	if (component.props.toolbarOptions.hiddenButtons) {
@@ -128,12 +128,12 @@ module.exports = Field.create({
 	renderField () {
 		var styles = {
 			padding: 8,
-			height: this.props.height
+			height: this.props.height,
 		};
 		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="md-editor__input code" />;
 	},
 
 	renderValue () {
 		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value.md.replace(/\n/g, '<br />') }} />;
-	}
+	},
 });

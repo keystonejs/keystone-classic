@@ -31,14 +31,14 @@ const textStyle = {
 	display: 'inline-block',
 	fontSize: '.8rem',
 	marginLeft: 8,
-	verticalAlign: 'middle'
+	verticalAlign: 'middle',
 };
 
 var CloudinaryImageSummary = React.createClass({
 	displayName: 'CloudinaryImageSummary',
 	propTypes: {
-		label: React.PropTypes.oneOf(['dimensions', 'publicId']),
 		image: React.PropTypes.object.isRequired,
+		label: React.PropTypes.oneOf(['dimensions', 'publicId']),
 	},
 	renderLabel () {
 		if (!this.props.label) return;
@@ -63,7 +63,7 @@ var CloudinaryImageSummary = React.createClass({
 
 		let url = this.props.image.url.replace(/image\/upload/, `image/upload/c_thumb,g_face,h_${IMAGE_SIZE},w_${IMAGE_SIZE}`);
 
-		return <img src={url} style={imageStyle} className="img-load" style={ { height: IMAGE_SIZE } } />;
+		return <img src={url} style={imageStyle} className="img-load" />;
 	},
 	render () {
 		return (
@@ -74,7 +74,7 @@ var CloudinaryImageSummary = React.createClass({
 				{this.renderLabel()}
 			</span>
 		);
-	}
+	},
 });
 
 module.exports = CloudinaryImageSummary;
