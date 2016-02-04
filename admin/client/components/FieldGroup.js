@@ -13,6 +13,12 @@ var FieldGroup = React.createClass({
 		props.mode = 'edit';
 		return props;
 	},
+	handleChange (event) {
+		let values = Object.assign({}, this.state.values);
+
+		values[event.path] = event.value;
+		this.setState({ values });
+	},
 	renderItems () {
 		let Fields = require('../../../admin/client/fields');
 
