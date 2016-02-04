@@ -23,7 +23,7 @@ module.exports = Field.create({
 
 	componentWillMount () {
 		var collapsedFields = {};
-		_.each(['number', 'name', 'street2', 'geo'], function (i) {
+		_.each(['number', 'name', 'street2', 'geo'], (i) => {
 			if (!this.props.value[i]) {
 				collapsedFields[i] = true;
 			}
