@@ -26,6 +26,7 @@ objectarray.prototype.addToSchema = function() {
 	var sublist = this.subList = new keystone.List('ProductTags', { schema: '' });
 
 	sublist.add(this.options.fields);
+	sublist.register();
 
 	this.list.schema.path(this.path, [sublist.schema]);
 	this.bindUnderscoreMethods();

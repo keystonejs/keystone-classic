@@ -1,53 +1,58 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Field from '../Field';
+import FieldGroup from '../../../admin/client/components/FieldGroup'
 import jsonCycle from 'json-cycle';
+
+import { Button } from 'elemental';
 
 module.exports = Field.create({
 	displayName: 'ObjectArrayField',
 	getInitialState () {
 		var subList = jsonCycle.retrocycle(this.props.subList);
-		console.log(subList);
-		subList.getOptions();
 
 		return {
-			values: Object.assign({}, this.props.subList.fields),
+			values: this.props.value,
 			list: subList
 		};
 	},
-	getFieldProps (field) {
-		var props = Object.assign({}, field);
-		props.value = this.state.values[field.path];
-		props.values = this.state.values;
-		props.onChange = this.handleChange;
-		props.mode = 'edit';
-		return props;
+	renderItems () {
+		return this.state.values.map((val) => {
+			return (
+				<FieldGroup key={val._id} data={val} list={this.state.list} />
+			);
+		});
+	},
+	valueChanged (values) {
+		this.props.onChange({
+			path: this.props.path,
+			value: values
+		});
+	},
+	addItem () {
+		var newValues = this.state.values.concat(newItem());
+		this.setState({
+			values: newValues
+		}, () => {
+			if (!this.state.values.length) return;
+			ReactDOM.findDOMNode(this.refs['item_' + this.state.values.length]).focus();
+		});
+		this.valueChanged(newValues);
 	},
 	renderField () {
-		var headings = 0;
+		// var props = Object.assign(this.props.inputProps, {
+		// 	autoComplete: 'off',
+		// 	name: this.props.path,
+		// 	onChange: this.valueChanged,
+		// 	ref: 'focusTarget',
+		// 	value: this.props.value
+		// });
 
-		return this.state.list.uiElements.map((el) => {
-			if (el.type === 'heading') {
-				headings++;
-				el.options.values = this.state.values;
-				el.key = 'h-' + headings;
-				return React.createElement(FormHeading, el);
-			}
-
-			if (el.type === 'field') {
-				var field = this.state.list.fields[el.field];
-				var props = this.getFieldProps(field);
-				if ('function' !== typeof Fields[field.type]) {
-					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
-				}
-				if (props.dependsOn) {
-					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(dep => {
-						props.currentDependencies[dep] = this.state.values[dep];
-					});
-				}
-				console.log(props);
-				props.key = field.path;
-				return React.createElement(Fields[field.type], props);
-			}
-		}, this);
+		return (
+			<div>
+				{ this.renderItems() }
+				<Button ref="button" onClick={this.addItem}>Add item</Button>
+			</div>
+		);
 	}
 });
