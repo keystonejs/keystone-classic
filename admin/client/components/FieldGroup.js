@@ -31,6 +31,8 @@ var FieldGroup = React.createClass({
 
 		var headings = 0;
 
+		console.log(this.props);
+
 		return this.props.list.uiElements.map((el) => {
 			if (el.type === 'heading') {
 				headings++;

@@ -6,8 +6,11 @@ import jsonCycle from 'json-cycle';
 
 import { Button } from 'elemental';
 
+<<<<<<< HEAD
 var lastId = 0;
 
+=======
+>>>>>>> UI almost done.
 module.exports = Field.create({
 	displayName: 'ObjectArrayField',
 	getInitialState () {
@@ -21,7 +24,11 @@ module.exports = Field.create({
 	renderItems () {
 		return this.state.values.map((val) => {
 			return (
+<<<<<<< HEAD
 				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} onRemove={ this.removeItem } />
+=======
+				<FieldGroup key={val._id} data={val} list={this.state.list} />
+>>>>>>> UI almost done.
 			);
 		});
 	},
@@ -32,6 +39,7 @@ module.exports = Field.create({
 		});
 	},
 	addItem () {
+<<<<<<< HEAD
 		var newItem = {};
 
 		lastId += 1;
@@ -56,6 +64,14 @@ module.exports = Field.create({
 		});
 		this.setState({
 			values: newValues
+=======
+		var newValues = this.state.values.concat(newItem());
+		this.setState({
+			values: newValues
+		}, () => {
+			if (!this.state.values.length) return;
+			ReactDOM.findDOMNode(this.refs['item_' + this.state.values.length]).focus();
+>>>>>>> UI almost done.
 		});
 		this.valueChanged(newValues);
 	},
@@ -71,7 +87,11 @@ module.exports = Field.create({
 		return (
 			<div>
 				{ this.renderItems() }
+<<<<<<< HEAD
 				<Button ref="addObjectItemButton" onClick={this.addItem}>Add item</Button>
+=======
+				<Button ref="button" onClick={this.addItem}>Add item</Button>
+>>>>>>> UI almost done.
 			</div>
 		);
 	}
