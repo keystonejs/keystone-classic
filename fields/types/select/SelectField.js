@@ -14,7 +14,7 @@ module.exports = Field.create({
 
 	valueChanged (newValue) {
 		// TODO: This should be natively handled by the Select component
-		if (this.props.numeric && 'string' === typeof newValue) {
+		if (this.props.numeric && typeof newValue === 'string') {
 			newValue = newValue ? Number(newValue) : undefined;
 		}
 		this.props.onChange({
@@ -31,7 +31,7 @@ module.exports = Field.create({
 	renderField () {
 		// TODO: This should be natively handled by the Select component
 		var ops = (this.props.numeric) ? this.props.ops.map(function (i) { return { label: i.label, value: String(i.value) }; }) : this.props.ops;
-		var value = ('number' === typeof this.props.value) ? String(this.props.value) : this.props.value;
+		var value = (typeof this.props.value === 'number') ? String(this.props.value) : this.props.value;
 		return <Select simpleValue name={this.props.path} value={value} options={ops} onChange={this.valueChanged} />;
 	},
 

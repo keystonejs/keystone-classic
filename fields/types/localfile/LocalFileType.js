@@ -191,7 +191,7 @@ localfile.prototype.format = function (item) {
  */
 
 localfile.prototype.hasFormatter = function () {
-	return 'function' === typeof this.options.format;
+	return typeof this.options.format === 'function';
 };
 
 
@@ -259,14 +259,14 @@ localfile.prototype.uploadFile = function (item, file, update, callback) {
 		return callback(new Error('Unsupported File Type: ' + filetype));
 	}
 
-	if ('function' === typeof update) {
+	if (typeof update === 'function') {
 		callback = update;
 		update = false;
 	}
 
 	var doMove = function (callback) {
 
-		if ('function' === typeof field.options.filename) {
+		if (typeof field.options.filename === 'function') {
 			filename = field.options.filename(item, file);
 		}
 

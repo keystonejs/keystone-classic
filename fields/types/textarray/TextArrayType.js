@@ -36,14 +36,14 @@ textarray.prototype.inputIsValid = function (data, required, item) {
 		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
 		}
-		if (value === undefined || !Array.isArray(value) || ('string' !== typeof value) || ('number' !== typeof value)) {
+		if (value === undefined || !Array.isArray(value) || (typeof value !== 'string') || (typeof value !== 'number')) {
 			return false;
 		}
 		if (Array.isArray(value) && !value.length) {
 			return false;
 		}
 	}
-	return (value === undefined || Array.isArray(value) || ('string' === typeof value) || ('number' === typeof value));
+	return (value === undefined || Array.isArray(value) || (typeof value === 'string') || (typeof value === 'number'));
 };
 
 /**
@@ -55,14 +55,14 @@ textarray.prototype.inputIsValid = function (data, required, item) {
 textarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 
-	if ('undefined' !== typeof value) {
+	if (typeof value !== 'undefined') {
 		if (value === null) {
 			value = [];
 		}
-		if ('string' === typeof value) {
+		if (typeof value === 'string') {
 			value = [value];
 		}
-		if ('number' === typeof value) {
+		if (typeof value === 'number') {
 			value = [value.toString()];
 		}
 		if (Array.isArray(value)) {

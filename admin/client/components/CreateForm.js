@@ -134,7 +134,7 @@ var CreateForm = React.createClass({
 
 		Object.keys(list.initialFields).forEach(key => {
 			var field = list.fields[list.initialFields[key]];
-			if ('function' !== typeof Fields[field.type]) {
+			if (typeof Fields[field.type] !== 'function') {
 				form.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
 				return;
 			}

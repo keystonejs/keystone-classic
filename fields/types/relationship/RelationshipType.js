@@ -85,7 +85,7 @@ relationship.prototype.addToSchema = function () {
 	if (this.many) {
 		this.underscoreMethod('contains', function (find) {
 			var value = this.populated(field.path) || this.get(field.path);
-			if ('object' === typeof find) {
+			if (typeof find === 'object') {
 				find = find.id;
 			}
 			var result = _.some(value, function (value) {
@@ -136,7 +136,7 @@ relationship.prototype.format = function (item) {
 relationship.prototype.inputIsValid = function (data, required, item) {
 	if (!required) return true;
 	if (!(this.path in data) && item && ((this.many && item.get(this.path).length) || item.get(this.path))) return true;
-	if ('string' === typeof data[this.path]) {
+	if (typeof data[this.path] === 'string') {
 		return (data[this.path].trim()) ? true : false;
 	} else {
 		return (data[this.path]) ? true : false;
@@ -217,7 +217,7 @@ relationship.prototype.addFilters = function (query, item) {
 		}
 		query.where(path);
 		_.each(filters, function (value, method) {
-			if ('string' === typeof value && value.substr(0, 1) === ':') {
+			if (typeof value === 'string' && value.substr(0, 1) === ':') {
 				if (!item) {
 					return;
 				}

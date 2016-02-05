@@ -72,7 +72,7 @@ var UpdateForm = React.createClass({
 		fields.forEach((fieldOption) => {
 			let field = list.fields[fieldOption.value];
 
-			if ('function' !== typeof Fields[field.type]) {
+			if (typeof Fields[field.type] !== 'function') {
 				formFields.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
 				return;
 			}

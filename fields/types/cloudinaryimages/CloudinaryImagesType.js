@@ -109,7 +109,7 @@ cloudinaryimages.prototype.addToSchema = function () {
 	var addSize = function (options, width, height, other) {
 		if (width) options.width = width;
 		if (height) options.height = height;
-		if ('object' === typeof other) {
+		if (typeof other === 'object') {
 			Object.assign(options, other);
 		}
 		return options;
@@ -159,7 +159,7 @@ cloudinaryimages.prototype.addToSchema = function () {
 
 	this.removeImage = function (item, id, method, callback) {
 		var images = item.get(field.path);
-		if ('number' !== typeof id) {
+		if (typeof id !== 'number') {
 			for (var i = 0; i < images.length; i++) {
 				if (images[i].public_id === id) {
 					id = i;
@@ -174,7 +174,7 @@ cloudinaryimages.prototype.addToSchema = function () {
 		}
 		images.splice(id, 1);
 		if (callback) {
-			item.save(('function' !== typeof callback) ? callback : undefined);
+			item.save((typeof callback !== 'function') ? callback : undefined);
 		}
 	};
 

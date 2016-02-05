@@ -68,7 +68,7 @@ module.exports = function (req, res) {
 			}
 			var order = req.query.order || req.body.order;
 			var queue = [];
-			if ('string' === typeof order) {
+			if (typeof order === 'string') {
 				order = order.split(',');
 			}
 			_.each(order, function (id, i) {

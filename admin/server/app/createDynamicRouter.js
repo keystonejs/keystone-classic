@@ -40,7 +40,7 @@ module.exports = function createDynamicRouter (keystone) {
 		router.all('/signin', require('../routes/signin'));
 		router.all('/signout', require('../routes/signout'));
 		router.use(keystone.session.keystoneAuth);
-	} else if ('function' === typeof keystone.get('auth')) {
+	} else if (typeof keystone.get('auth') === 'function') {
 		router.use(keystone.get('auth'));
 	}
 

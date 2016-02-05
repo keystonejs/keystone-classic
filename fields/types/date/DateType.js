@@ -18,7 +18,7 @@ function date (list, path, options) {
 
 	this.yearRange = options.yearRange;
 	this.isUTC = options.utc || false;
-	if (this.formatString && 'string' !== typeof this.formatString) {
+	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.Date: options.format must be a string.');
 	}
 	date.super_.call(this, list, path, options);

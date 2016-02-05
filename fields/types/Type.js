@@ -245,10 +245,10 @@ Field.prototype.bindUnderscoreMethods = function (methods) {
 	// automatically bind underscore methods specified by the _underscoreMethods property
 	// always include the 'update' method
 	(this._underscoreMethods || []).concat({ fn: 'updateItem', as: 'update' }, (methods || [])).forEach(function (method) {
-		if ('string' === typeof method) {
+		if (typeof method === 'string') {
 			method = { fn: method, as: method };
 		}
-		if ('function' !== typeof field[method.fn]) {
+		if (typeof field[method.fn] !== 'function') {
 			throw new Error('Invalid underscore method (' + method.fn + ') applied to ' + field.list.key + '.' + field.path + ' (' + field.type + ')');
 		}
 		field.underscoreMethod(method.as, function () {
@@ -310,7 +310,7 @@ Field.prototype.inputIsValid = function (data, required, item) {
 	if (!required) return true;
 	var value = this.getValueFromData(data);
 	if (value === undefined && item && item.get(this.path)) return true;
-	if ('string' === typeof data[this.path]) {
+	if (typeof data[this.path] === 'string') {
 		return (data[this.path].trim()) ? true : false;
 	} else {
 		return (data[this.path]) ? true : false;
