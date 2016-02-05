@@ -31,6 +31,7 @@ module.exports = Field.create({
 			return (
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} onRemove={ this.removeItem } />
 =======
 				<FieldGroup key={val._id} data={val} list={this.state.list} />
@@ -38,6 +39,9 @@ module.exports = Field.create({
 =======
 				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} />
 >>>>>>> Need to go home again. Zzzzz.
+=======
+				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} onRemove={ this.removeItem } />
+>>>>>>> Implemented removing of object array item
 			);
 		});
 	},
@@ -92,6 +96,16 @@ module.exports = Field.create({
 		});
 		this.valueChanged(newValues);
 	},
+	removeItem: function(item) {
+
+		var newValues = this.state.values.filter((value) => {
+			return value._id != item._id;
+		});
+		this.setState({
+			values: newValues
+		});
+		this.valueChanged(newValues);
+	},
 	renderField () {
 		// var props = Object.assign(this.props.inputProps, {
 		// 	autoComplete: 'off',
@@ -105,10 +119,14 @@ module.exports = Field.create({
 			<div>
 				{ this.renderItems() }
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<Button ref="addObjectItemButton" onClick={this.addItem}>Add item</Button>
 =======
 				<Button ref="button" onClick={this.addItem}>Add item</Button>
 >>>>>>> UI almost done.
+=======
+				<Button ref="addObjectItemButton" onClick={this.addItem}>Add item</Button>
+>>>>>>> Implemented removing of object array item
 			</div>
 		);
 	}
