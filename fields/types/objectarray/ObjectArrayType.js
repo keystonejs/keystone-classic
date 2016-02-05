@@ -23,7 +23,7 @@ function objectarray(list, path, options) {
 util.inherits(objectarray, FieldType);
 
 objectarray.prototype.addToSchema = function() {
-	var sublist = this.subList = new keystone.List('ProductTags', { schema: '' });
+	var sublist = this.subList = new keystone.List('_', { schema: '', hidden: true });
 
 	sublist.add(this.options.fields);
 	sublist.register();
