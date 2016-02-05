@@ -48,9 +48,9 @@ function Field (list, path, options) {
 	this.options = utils.options(this.defaults, options);
 	this.label = options.label || utils.keyToLabel(this.path);
 	this.typeDescription = options.typeDescription || this.typeDescription || this.type;
-	
+
 	this.list.automap(this);
-	
+
 	// Warn on required fields that aren't initial
 	if (this.options.required &&
         this.options.initial === undefined &&
@@ -64,25 +64,25 @@ function Field (list, path, options) {
 			'Please provide a default, remove the required setting, or set initial: false to override this error.\n');
 		process.exit(1);
 	}
-	
+
 	// if dependsOn and required, set required to a function for validation
 	if (this.options.dependsOn && this.options.required === true) {
 		var opts = this.options;
-		this.options.required = function() {
+		this.options.required = function () {
 			// `this` refers to the validating document
 			debug('validate dependsOn required', evalDependsOn(opts.dependsOn, this.toObject()));
 			return evalDependsOn(opts.dependsOn, this.toObject());
 		};
 	}
-	
+
 	// Add the field to the schema
 	this.addToSchema();
-	
+
 	// Add pre-save handler to the list if this field watches others
 	if (this.options.watch) {
 		this.list.schema.pre('save', this.getPreSaveWatcher());
 	}
-	
+
 	// Convert notes from markdown to html
 	var note = null;
 	Object.defineProperty(this, 'note', {
