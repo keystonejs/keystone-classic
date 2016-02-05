@@ -15,7 +15,7 @@ function money (list, path, options) {
 	this._properties = ['currency'];
 	this._fixedSize = 'small';
 	this._formatString = (options.format === false) ? false : (options.format || '$0,0.00');
-	if (this._formatString && 'string' !== typeof this._formatString) {
+	if (this._formatString && typeof this._formatString !== 'string') {
 		throw new Error('FieldType.Money: options.format must be a string.');
 	}
 	money.super_.call(this, list, path, options);
@@ -39,7 +39,7 @@ money.prototype.format = function (item, format) {
 		}
 	}
 	if (format || this._formatString) {
-		return ('number' === typeof item.get(this.path)) ? numeral(item.get(this.path)).format(format || this._formatString) : '';
+		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
 	} else {
 		return item.get(this.path) || '';
 	}

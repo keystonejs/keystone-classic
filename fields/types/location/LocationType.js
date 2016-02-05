@@ -32,7 +32,7 @@ function location (list, path, options) {
 		if (Array.isArray(options.required)) {
 			// required can be specified as an array of paths
 			this.requiredPaths = options.required;
-		} else if ('string' === typeof options.required) {
+		} else if (typeof options.required === 'string') {
 			// or it can be specified as a comma-delimited list
 			this.requiredPaths = options.required.replace(/,/g, ' ').split(/\s+/);
 		}

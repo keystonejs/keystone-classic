@@ -95,7 +95,7 @@ var renderMarkdown = function (component) {
 	};
 
 	if (component.props.toolbarOptions.hiddenButtons) {
-		var hiddenButtons = ('string' === typeof component.props.toolbarOptions.hiddenButtons) ? component.props.toolbarOptions.hiddenButtons.split(',') : component.props.toolbarOptions.hiddenButtons;
+		var hiddenButtons = (typeof component.props.toolbarOptions.hiddenButtons === 'string') ? component.props.toolbarOptions.hiddenButtons.split(',') : component.props.toolbarOptions.hiddenButtons;
 		options.hiddenButtons = options.hiddenButtons.concat(hiddenButtons);
 	}
 

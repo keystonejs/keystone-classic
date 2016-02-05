@@ -182,7 +182,7 @@ s3file.prototype.format = function (item) {
  */
 
 s3file.prototype.hasFormatter = function () {
-	return 'function' === typeof this.options.format;
+	return typeof this.options.format === 'function';
 };
 
 
@@ -378,7 +378,7 @@ s3file.prototype.uploadFile = function (item, file, update, callback) {
 		filetype = file.mimetype || file.type,
 		headers;
 
-	if ('function' === typeof update) {
+	if (typeof update === 'function') {
 		callback = update;
 		update = false;
 	}
@@ -389,11 +389,11 @@ s3file.prototype.uploadFile = function (item, file, update, callback) {
 
 	var doUpload = function () {
 
-		if ('function' === typeof field.options.path) {
+		if (typeof field.options.path === 'function') {
 			path = field.options.path(item, path);
 		}
 
-		if ('function' === typeof field.options.filename) {
+		if (typeof field.options.filename === 'function') {
 			filename = field.options.filename(item, filename, originalname);
 		}
 

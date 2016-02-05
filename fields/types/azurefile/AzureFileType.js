@@ -235,7 +235,7 @@ azurefile.prototype.uploadFile = function (item, file, update, callback) {
 		return callback(new Error('Unsupported File Type: ' + filetype));
 	}
 
-	if ('function' === typeof update) {
+	if (typeof update === 'function') {
 		callback = update;
 		update = false;
 	}

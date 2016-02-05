@@ -108,7 +108,7 @@ password.prototype.format = function (item) {
  * @api public
  */
 password.prototype.compare = function (item, candidate, callback) {
-	if ('function' !== typeof callback) throw new Error('Password.compare() requires a callback function.');
+	if (typeof callback !== 'function') throw new Error('Password.compare() requires a callback function.');
 	var value = item.get(this.path);
 	if (!value) return callback(null, false);
 	bcrypt.compare(candidate, item.get(this.path), callback);

@@ -25,7 +25,7 @@ email.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
  */
 email.prototype.gravatarUrl = function (item, size, defaultImage, rating) {
 	var value = item.get(this.path);
-	if ('string' !== typeof value) {
+	if (typeof value !== 'string') {
 		return '';
 	}
 	return [
@@ -60,7 +60,7 @@ email.prototype.inputIsValid = function (data, required, item) {
  */
 email.prototype.updateItem = function (item, data, callback) {
 	var newValue = this.getValueFromData(data);
-	if ('string' === typeof newValue) {
+	if (typeof newValue === 'string') {
 		newValue = newValue.toLowerCase();
 	}
 	if (newValue !== undefined && newValue !== item.get(this.path)) {

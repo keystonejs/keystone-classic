@@ -224,7 +224,7 @@ localfiles.prototype.format = function (item, i) {
  */
 
 localfiles.prototype.hasFormatter = function () {
-	return 'function' === typeof this.options.format;
+	return typeof this.options.format === 'function';
 };
 
 
@@ -286,7 +286,7 @@ localfiles.prototype.uploadFiles = function (item, files, update, callback) {
 
 	var field = this;
 
-	if ('function' === typeof update) {
+	if (typeof update === 'function') {
 		callback = update;
 		update = false;
 	}
@@ -303,7 +303,7 @@ localfiles.prototype.uploadFiles = function (item, files, update, callback) {
 
 		var doMove = function (doneMove) {
 
-			if ('function' === typeof field.options.filename) {
+			if (typeof field.options.filename === 'function') {
 				filename = field.options.filename(item, file);
 			}
 

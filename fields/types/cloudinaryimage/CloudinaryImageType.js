@@ -127,7 +127,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 			return '';
 		}
 
-		options = ('object' === typeof options) ? options : {};
+		options = (typeof options === 'object') ? options : {};
 
 		if (!('fetch_format' in options) && keystone.get('cloudinary webp') !== false) {
 			options.fetch_format = 'auto';
@@ -164,7 +164,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 	var addSize = function (options, width, height, other) {
 		if (width) options.width = width;
 		if (height) options.height = height;
-		if ('object' === typeof other) {
+		if (typeof other === 'object') {
 			Object.assign(options, other);
 		}
 		return options;

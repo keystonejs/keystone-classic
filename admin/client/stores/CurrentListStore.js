@@ -286,7 +286,7 @@ const CurrentListStore = new Store({
 				if (err) {
 					return this.resetItems(this.findItemById[item.id]);
 				}
-				if ('object' === typeof items && items.results) {
+				if (typeof items !== 'object' && items.results) {
 					_items = items;
 					_itemsResultsClone = items.results.slice(0);
 					_rowAlert.success = item.id;

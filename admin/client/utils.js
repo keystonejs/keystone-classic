@@ -18,13 +18,13 @@ var plural = exports.plural = function (count, sn, pl) {
 	if (arguments.length === 1) {
 		return inflect.pluralize(count);
 	}
-	if ('string' != typeof sn) sn = '';
+	if (typeof sn !== 'string') sn = '';
 	if (!pl) {
 		pl = inflect.pluralize(sn);
 	}
-	if ('string' === typeof count) {
+	if (typeof count === 'string') {
 		count = Number(count);
-	} else if ('number' !== typeof count) {
+	} else if (typeof count !== 'number') {
 		count = _.size(count);
 	}
 	return (count == 1 ? sn : pl).replace('*', count);

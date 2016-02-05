@@ -21,7 +21,7 @@ function numberarray (list, path, options) {
 	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
 	this._defaultSize = 'small';
 
-	if (this._formatString && 'string' !== typeof this._formatString) {
+	if (this._formatString && typeof this._formatString !== 'string') {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
 
@@ -44,7 +44,7 @@ util.inherits(numberarray, super_);
 
 numberarray.prototype.format = function (item, format) {
 	if (format || this._formatString) {
-		return ('number' === typeof item.get(this.path)) ? numeral(item.get(this.path)).format(format || this._formatString) : '';
+		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
 	} else {
 		return item.get(this.path) || '';
 	}
@@ -75,7 +75,7 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
 		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
 		}
-		if (value === undefined || !Array.isArray(value) || ('string' !== typeof value) || ('number' !== typeof value)) {
+		if (value === undefined || !Array.isArray(value) || (typeof value !== 'string') || (typeof value !== 'number')) {
 			return false;
 		}
 		if (Array.isArray(value) && !value.length) {
@@ -83,7 +83,7 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
 		}
 	}
 
-	if ('string' === typeof value) {
+	if (typeof value === 'string') {
 		if (!isValidNumber(value)) {
 			return false;
 		}
@@ -97,7 +97,7 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
 		}
 	}
 
-	return (value === undefined || Array.isArray(value) || ('string' === typeof value) || ('number' === typeof value));
+	return (value === undefined || Array.isArray(value) || (typeof value === 'string') || (typeof value === 'number'));
 };
 
 /**
@@ -110,7 +110,7 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
 numberarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 
-	if ('undefined' !== typeof value) {
+	if (typeof value !== 'undefined') {
 		if (Array.isArray(value)) {
 			var temp = value.filter(function (temp) {
 				if (isValidNumber(temp)) {
@@ -122,12 +122,12 @@ numberarray.prototype.updateItem = function (item, data, callback) {
 		if (value === null) {
 			value = [];
 		}
-		if ('string' === typeof value) {
+		if (typeof value === 'string') {
 			if (isValidNumber(value)) {
 				value = [utils.number(value)];
 			}
 		}
-		if ('number' === typeof value) {
+		if (typeof value === 'number') {
 			value = [value];
 		}
 		if (Array.isArray(value)) {
