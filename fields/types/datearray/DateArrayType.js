@@ -1,4 +1,4 @@
-/*!
+/* !
  * Module dependencies.
  */
 
@@ -29,7 +29,7 @@ function datearray (list, path, options) {
 	datearray.super_.call(this, list, path, options);
 }
 
-/*!
+/* !
  * Inherit from Field
  */
 
@@ -135,7 +135,7 @@ datearray.prototype.updateItem = function (item, data, callback) {
 };
 
 
-/*!
+/* !
  * Export class
  */
 

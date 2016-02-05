@@ -1,4 +1,4 @@
-/*!
+/* !
  * Module dependencies.
  */
 
@@ -17,7 +17,7 @@ function textarray (list, path, options) {
 	textarray.super_.call(this, list, path, options);
 }
 
-/*!
+/* !
  * Inherit from Field
  */
 
@@ -73,7 +73,7 @@ textarray.prototype.updateItem = function (item, data, callback) {
 	process.nextTick(callback);
 };
 
-/*!
+/* !
  * Export class
  */
 

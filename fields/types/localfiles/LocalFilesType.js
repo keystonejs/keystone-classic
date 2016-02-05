@@ -1,4 +1,4 @@
-/*!
+/* !
  * Module dependencies.
  */
 
@@ -56,7 +56,7 @@ function localfiles (list, path, options) {
 
 }
 
-/*!
+/* !
  * Inherit from Field
  */
 
@@ -258,7 +258,7 @@ localfiles.prototype.isModified = function (item) {
  * @api public
  */
 
-localfiles.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
+localfiles.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -270,7 +270,7 @@ localfiles.prototype.inputIsValid = function (data) { //eslint-disable-line no-u
  * @api public
  */
 
-localfiles.prototype.updateItem = function (item, data, callback) { //eslint-disable-line no-unused-vars
+localfiles.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -420,7 +420,7 @@ localfiles.prototype.handleRequest = function (item, req, paths, callback) {
 };
 
 
-/*!
+/* !
  * Export class
  */
 

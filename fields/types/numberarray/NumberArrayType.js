@@ -1,4 +1,4 @@
-/*!
+/* !
  * Module dependencies.
  */
 
@@ -29,7 +29,7 @@ function numberarray (list, path, options) {
 
 }
 
-/*!
+/* !
  * Inherit from Field
  */
 
@@ -139,7 +139,7 @@ numberarray.prototype.updateItem = function (item, data, callback) {
 };
 
 
-/*!
+/* !
  * Export class
  */
 
