@@ -64,7 +64,7 @@ var Base = module.exports.Base = {
 			value: this.props.value,
 		});
 
-		if (this.props.nested) props.name = this.props.nested + '.' + props.name;
+		if (this.props.nested) props.name = this.props.nested + '.' + props.name + '_' + this.props._id;
 
 		return <FormInput {...props} />;
 	},

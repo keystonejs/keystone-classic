@@ -82,9 +82,11 @@ module.exports = {
 	renderItem: function (item, index) {
 		const Input = this.getInputComponent ? this.getInputComponent() : FormInput;
 		const value = this.processInputValue ? this.processInputValue(item.value) : item.value;
+		var inputName = this.props.path;
+		if (this.props.nested) inputName = this.props.nested + '.' + inputName + '_' + this.props._id;
 		return (
 			<FormField key={item.key}>
-				<Input ref={'item_' + (index + 1)} name={this.props.path} value={value} onChange={this.updateItem.bind(this, item)} autoComplete="off" />
+				<Input ref={'item_' + (index + 1)} name={inputName} value={value} onChange={this.updateItem.bind(this, item)} autoComplete="off" />
 				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
 					<span className="octicon octicon-x" />
 				</Button>

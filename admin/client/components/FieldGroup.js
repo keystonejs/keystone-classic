@@ -56,6 +56,7 @@ var FieldGroup = React.createClass({
 				}
 				props.key = field.path;
 				props.nested = this.props.parentPath;
+				props._id = this.props.data._id;
 				var domNode = React.createElement(Fields[field.type], props);
 				return (
 					<Col key={ field.path + '_' + this.props.data._id }>{ domNode }</Col>
