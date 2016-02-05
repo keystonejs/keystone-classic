@@ -8,6 +8,7 @@ import { Button } from 'elemental';
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 var lastId = 0;
 
 =======
@@ -16,6 +17,10 @@ var lastId = 0;
 var lastId = 0;
 
 >>>>>>> Need to go home again. Zzzzz.
+=======
+var lastId = 0;
+
+>>>>>>> d88430accc518f7ff5bd0a61d76e4428abd26f58
 module.exports = Field.create({
 	displayName: 'ObjectArrayField',
 	getInitialState () {
@@ -32,6 +37,7 @@ module.exports = Field.create({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} onRemove={ this.removeItem } />
 =======
 				<FieldGroup key={val._id} data={val} list={this.state.list} />
@@ -42,6 +48,9 @@ module.exports = Field.create({
 =======
 				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} onRemove={ this.removeItem } />
 >>>>>>> Implemented removing of object array item
+=======
+				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} />
+>>>>>>> d88430accc518f7ff5bd0a61d76e4428abd26f58
 			);
 		});
 	},
@@ -54,8 +63,11 @@ module.exports = Field.create({
 	addItem () {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Need to go home again. Zzzzz.
+=======
+>>>>>>> d88430accc518f7ff5bd0a61d76e4428abd26f58
 		var newItem = {};
 
 		lastId += 1;
@@ -68,6 +80,7 @@ module.exports = Field.create({
 		});
 
 		var newValues = this.state.values.concat([newItem]);
+<<<<<<< HEAD
 <<<<<<< HEAD
 		this.setState({
 			values: newValues
@@ -101,6 +114,8 @@ module.exports = Field.create({
 		var newValues = this.state.values.filter((value) => {
 			return value._id != item._id;
 		});
+=======
+>>>>>>> d88430accc518f7ff5bd0a61d76e4428abd26f58
 		this.setState({
 			values: newValues
 		});
@@ -120,6 +135,7 @@ module.exports = Field.create({
 				{ this.renderItems() }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<Button ref="addObjectItemButton" onClick={this.addItem}>Add item</Button>
 =======
 				<Button ref="button" onClick={this.addItem}>Add item</Button>
@@ -127,6 +143,9 @@ module.exports = Field.create({
 =======
 				<Button ref="addObjectItemButton" onClick={this.addItem}>Add item</Button>
 >>>>>>> Implemented removing of object array item
+=======
+				<Button ref="button" onClick={this.addItem}>Add item</Button>
+>>>>>>> d88430accc518f7ff5bd0a61d76e4428abd26f58
 			</div>
 		);
 	}
