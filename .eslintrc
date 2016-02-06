@@ -24,6 +24,7 @@
     "constructor-super": 2,
     "curly": [2, "multi-line"],
     "dot-location": [2, "property"],
+    "dot-notation": 2,
     "eol-last": 2,
     "generator-star-spacing": [2, { "before": true, "after": true }],
     "indent": [2, "tab", { "SwitchCase": 1 }],
