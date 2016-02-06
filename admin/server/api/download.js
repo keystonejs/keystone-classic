@@ -138,7 +138,7 @@ module.exports = function (req, res) {
 				data = [];
 				if (includeRowData) {
 					// if row data is required, add it to the map for each iteration
-				_.each(results, function (i) {
+					_.each(results, function (i) {
 						var _map = _.clone(map);
 						_map.row = getRowData(i);
 						data.push(applyDeps(i.toCSV, i, _map));
@@ -146,8 +146,8 @@ module.exports = function (req, res) {
 				} else {
 					// fast path: use the same map for each iteration
 					_.each(results, function (i) {
-					data.push(applyDeps(i.toCSV, i, map));
-				});
+						data.push(applyDeps(i.toCSV, i, map));
+					});
 				}
 				return sendCSV(data);
 			}

@@ -44,15 +44,15 @@ jQuery(function ($) {
 				}
 
 				addButton($editable, href, label);
-			break;
+				break;
 
 			case 'content':
 				// TODO
-			break;
+				break;
 
 			case 'error':
 				// TODO
-			break;
+				break;
 
 		}
 

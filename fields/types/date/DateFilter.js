@@ -94,7 +94,7 @@ var DateFilter = React.createClass({
 		if (moment(value, 'L', true).isValid()) {
 			month = moment(value, 'L').toDate();
 		}
-			this.updateFilter({ value: value });
+		this.updateFilter({ value: value });
 		this.setState({ month }, this.showCurrentDate);
 	},
 	setActiveField (field) {
@@ -104,8 +104,8 @@ var DateFilter = React.createClass({
 	},
 	switchBetweenActiveInputFields (e, day, modifiers) {
 		if (modifiers.indexOf('disabled') > -1) return;
-			const { activeInputField } = this.state;
-				let send = {};
+		const { activeInputField } = this.state;
+		let send = {};
 		send[activeInputField] = day;
 		this.updateFilter(send);
 		const newActiveField = ( activeInputField === 'before' ) ? 'after' : 'before';

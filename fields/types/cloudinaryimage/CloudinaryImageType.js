@@ -241,7 +241,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		upload: function (file, options) {
 			var promise = new Promise(function (resolve, reject) {
 				cloudinary.uploader.upload(file, function (result) {
-						resolve(result);
+					resolve(result);
 				}, options);
 			});
 			return promise;

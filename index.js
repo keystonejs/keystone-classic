@@ -171,8 +171,8 @@ Keystone.prototype.import = function (dirname) {
 
 		fs.readdirSync(fromPath).forEach(function (name) {
 
-			var fsPath = path.join(fromPath, name),
-			info = fs.statSync(fsPath);
+			var fsPath = path.join(fromPath, name);
+			var info = fs.statSync(fsPath);
 
 			// recur
 			if (info.isDirectory()) {
