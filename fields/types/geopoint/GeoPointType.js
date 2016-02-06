@@ -1,4 +1,4 @@
-/*!
+/* !
  * Module dependencies.
  */
 
@@ -24,7 +24,7 @@ function geopoint (list, path, options) {
 
 }
 
-/*!
+/* !
  * Inherit from Field
  */
 
@@ -75,7 +75,7 @@ geopoint.prototype.format = function (item) {
  * @api public
  */
 
-geopoint.prototype.inputIsValid = function (data, required, item) { //eslint-disable-line no-unused-vars
+geopoint.prototype.inputIsValid = function (data, required, item) { // eslint-disable-line no-unused-vars
 
 	var values = this.getValueFromData(data);
 
@@ -131,7 +131,7 @@ geopoint.prototype.updateItem = function (item, data, callback) {
 };
 
 
-/*!
+/* !
  * Export class
  */
 

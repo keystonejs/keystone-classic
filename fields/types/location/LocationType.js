@@ -1,4 +1,4 @@
-/*!
+/* !
  * Module dependencies.
  */
 var _ = require('underscore');
@@ -48,7 +48,7 @@ function location (list, path, options) {
 
 }
 
-/*!
+/* !
  * Inherit from Field
  */
 util.inherits(location, super_);
@@ -437,10 +437,10 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 			result.geometry.location.lat,
 		];
 
-		//console.log('------ Google Geocode Results ------');
-		//console.log(address);
-		//console.log(result);
-		//console.log(location);
+		// console.log('------ Google Geocode Results ------');
+		// console.log(address);
+		// console.log(result);
+		// console.log(location);
 
 		if (update === 'overwrite') {
 			item.set(field.path, location);
@@ -494,7 +494,7 @@ location.prototype.milesFrom = function (item, point) {
 	return calculateDistance(this.get(this.paths.geo), point) * RADIUS_MILES;
 };
 
-/*!
+/* !
  * Export class
  */
 module.exports = location;

@@ -1,4 +1,4 @@
-/*!
+/* !
  * Module dependencies.
  */
 
@@ -32,7 +32,7 @@ function markdown (list, path, options) {
 
 }
 
-/*!
+/* !
  * Inherit from Field
  */
 
@@ -142,7 +142,7 @@ markdown.prototype.updateItem = function (item, data, callback) {
 };
 
 
-/*!
+/* !
  * Export class
  */
 

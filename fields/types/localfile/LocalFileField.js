@@ -43,7 +43,7 @@ module.exports = Field.create({
 		});
 	},
 
-	fileChanged (event) { //eslint-disable-line no-unused-vars
+	fileChanged (event) { // eslint-disable-line no-unused-vars
 		this.setState({
 			origin: 'local',
 		});

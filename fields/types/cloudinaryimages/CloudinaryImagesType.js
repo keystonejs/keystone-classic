@@ -36,7 +36,7 @@ function cloudinaryimages (list, path, options) {
 
 }
 
-/*!
+/* !
  * Inherit from Field
  */
 util.inherits(cloudinaryimages, super_);
@@ -76,7 +76,7 @@ cloudinaryimages.prototype.addToSchema = function () {
 	});
 
 	// Generate cloudinary folder used to upload/select images
-	var folder = function (item) { //eslint-disable-line no-unused-vars
+	var folder = function (item) { // eslint-disable-line no-unused-vars
 		var folderValue = '';
 
 		if (keystone.get('cloudinary folders')) {
@@ -205,7 +205,7 @@ cloudinaryimages.prototype.format = function (item) {
  *
  * @api public
  */
-cloudinaryimages.prototype.isModified = function (item) { //eslint-disable-line no-unused-vars
+cloudinaryimages.prototype.isModified = function (item) { // eslint-disable-line no-unused-vars
 	// TODO - how should this be detected?
 	return true;
 };
@@ -215,7 +215,7 @@ cloudinaryimages.prototype.isModified = function (item) { //eslint-disable-line 
  *
  * @api public
  */
-cloudinaryimages.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
+cloudinaryimages.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?
 	return true;
 };
@@ -225,7 +225,7 @@ cloudinaryimages.prototype.inputIsValid = function (data) { //eslint-disable-lin
  *
  * @api public
  */
-cloudinaryimages.prototype.updateItem = function (item, data, callback) { //eslint-disable-line no-unused-vars
+cloudinaryimages.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -352,7 +352,7 @@ cloudinaryimages.prototype.handleRequest = function (item, req, paths, callback)
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
-/*!
+/* !
  * Export class
  */
 module.exports = cloudinaryimages;
