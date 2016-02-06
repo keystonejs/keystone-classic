@@ -26,6 +26,7 @@
     "dot-location": [2, "property"],
     "eol-last": 2,
     "generator-star-spacing": [2, { "before": true, "after": true }],
+    "indent": [2, "tab", { "SwitchCase": 1 }],
     "jsx-quotes": [2, "prefer-double"],
     "linebreak-style": 2,
     "new-parens": 2,
