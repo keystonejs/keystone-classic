@@ -411,7 +411,9 @@ const ListView = React.createClass({
 			MozTransition: 'max-width 160ms ease-out',
 			WebkitTransition: 'max-width 160ms ease-out',
 		};
-		if (!this.state.constrainTableWidth) containerStyle['maxWidth'] = '100%';
+		if (!this.state.constrainTableWidth) {
+			containerStyle.maxWidth = '100%';
+		}
 
 		return (
 			<div>
