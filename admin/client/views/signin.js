@@ -123,7 +123,7 @@ var SigninView = React.createClass({
 						<FormInput type="password" name="password" onChange={this.handleInputChange} value={this.state.password} ref="password" />
 					</FormField>
 					<Button disabled={this.state.animating} type="primary" submit>Sign In</Button>
-					{/*<Button disabled={this.state.animating} type="link-text">Forgot Password?</Button>*/}
+					{/* <Button disabled={this.state.animating} type="link-text">Forgot Password?</Button> */}
 				</Form>
 			</div>
 		);

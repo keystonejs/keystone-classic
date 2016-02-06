@@ -437,10 +437,10 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 			result.geometry.location.lat,
 		];
 
-		//console.log('------ Google Geocode Results ------');
-		//console.log(address);
-		//console.log(result);
-		//console.log(location);
+		// console.log('------ Google Geocode Results ------');
+		// console.log(address);
+		// console.log(result);
+		// console.log(location);
 
 		if (update === 'overwrite') {
 			item.set(field.path, location);

@@ -142,8 +142,8 @@ s3file.prototype.addToSchema = function () {
 		delete: function () {
 			try {
 				var client = knox.createClient(field.s3config);
-				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function (err, res) { return res ? res.resume() : false; });//eslint-disable-line handle-callback-err
-			} catch (e) {}// eslint-disable-line no-empty
+				client.deleteFile(this.get(paths.path) + this.get(paths.filename), function (err, res) { return res ? res.resume() : false; }); // eslint-disable-line handle-callback-err
+			} catch (e) {} // eslint-disable-line no-empty
 			reset(this);
 		},
 	};
@@ -203,7 +203,7 @@ s3file.prototype.isModified = function (item) {
  * @api public
  */
 
-s3file.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
+s3file.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -215,7 +215,7 @@ s3file.prototype.inputIsValid = function (data) { //eslint-disable-line no-unuse
  * @api public
  */
 
-s3file.prototype.updateItem = function (item, data, callback) { //eslint-disable-line no-unused-vars
+s3file.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };

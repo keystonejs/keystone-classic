@@ -87,7 +87,7 @@ module.exports = Field.create({
 		return <FormInput noedit>{this.formatValue() || '(no value)'}</FormInput>;
 	},
 
-	renderField (path, label, collapse) { //eslint-disable-line no-unused-vars
+	renderField (path, label, collapse) { // eslint-disable-line no-unused-vars
 		if (this.state.collapsedFields[path]) {
 			return null;
 		}

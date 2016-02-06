@@ -99,7 +99,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		return schemaMethods.exists.apply(this);
 	});
 
-	var folder = function (item) { //eslint-disable-line no-unused-vars
+	var folder = function (item) { // eslint-disable-line no-unused-vars
 		var folderValue = null;
 
 		if (keystone.get('cloudinary folders')) {
@@ -283,7 +283,7 @@ cloudinaryimage.prototype.isModified = function (item) {
  *
  * @api public
  */
-cloudinaryimage.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
+cloudinaryimage.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?
 	return true;
 };
