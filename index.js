@@ -13,7 +13,7 @@ var utils = require('keystone-utils');
  */
 var moduleRoot = (function (_rootPath) {
 	var parts = _rootPath.split(path.sep);
-	parts.pop(); //get rid of /node_modules from the end of the path
+	parts.pop(); // get rid of /node_modules from the end of the path
 	return parts.join(path.sep);
 })(module.parent ? module.parent.paths[0] : module.paths[0]);
 

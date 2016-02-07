@@ -49,7 +49,7 @@ function azurefile (list, path, options) {
 
 	var self = this;
 	options.filenameFormatter = options.filenameFormatter || function (item, filename) { return filename; };
-	options.containerFormatter = options.containerFormatter || function (item, filename) { return self.azurefileconfig.container; };//eslint-disable-line no-unused-vars
+	options.containerFormatter = options.containerFormatter || function (item, filename) { return self.azurefileconfig.container; };// eslint-disable-line no-unused-vars
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
@@ -144,7 +144,7 @@ azurefile.prototype.addToSchema = function () {
 		reset: function () {
 			try {
 				azure.createBlobService().deleteBlob(this.get(paths.container), this.get(paths.filename), function () {});
-			} catch (e) {}//eslint-disable-line no-empty
+			} catch (e) {} // eslint-disable-line no-empty
 			reset(this);
 		},
 		/**
@@ -155,7 +155,7 @@ azurefile.prototype.addToSchema = function () {
 		delete: function () {
 			try {
 				azure.createBlobService().blobService.deleteBlob(this.get(paths.container), this.get(paths.filename), function () {});
-			} catch (e) {}//eslint-disable-line no-empty
+			} catch (e) {} // eslint-disable-line no-empty
 			reset(this);
 		},
 	};
@@ -201,7 +201,7 @@ azurefile.prototype.isModified = function (item) {
  * @api public
  */
 
-azurefile.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
+azurefile.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -213,7 +213,7 @@ azurefile.prototype.inputIsValid = function (data) { //eslint-disable-line no-un
  * @api public
  */
 
-azurefile.prototype.updateItem = function (item, data, callback) { //eslint-disable-line no-unused-vars
+azurefile.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -228,7 +228,7 @@ azurefile.prototype.updateItem = function (item, data, callback) { //eslint-disa
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
 	var field = this,
-		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '', //eslint-disable-line no-unused-vars
+		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '', // eslint-disable-line no-unused-vars
 		filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
@@ -248,7 +248,7 @@ azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
 			if (err) return callback(err);
 
-			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) { //eslint-disable-line no-unused-vars
+			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) { // eslint-disable-line no-unused-vars
 
 				if (err) return callback(err);
 
