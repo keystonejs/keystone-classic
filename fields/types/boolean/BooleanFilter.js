@@ -13,13 +13,13 @@ function getDefaultValue () {
 }
 
 var BooleanFilter = React.createClass({
-	statics: {
-		getDefaultValue: getDefaultValue,
-	},
 	propTypes: {
 		filter: React.PropTypes.shape({
 			value: React.PropTypes.bool,
-		})
+		}),
+	},
+	statics: {
+		getDefaultValue: getDefaultValue,
 	},
 	getDefaultProps () {
 		return {
@@ -31,7 +31,7 @@ var BooleanFilter = React.createClass({
 	},
 	render () {
 		return <SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.props.filter.value} onChange={this.updateValue} />;
-	}
+	},
 });
 
 module.exports = BooleanFilter;

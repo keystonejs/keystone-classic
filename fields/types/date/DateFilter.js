@@ -8,14 +8,14 @@ import { FormField, FormInput, FormRow, FormSelect, SegmentedControl } from 'ele
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Matches', value: false },
-	{ label: 'Does NOT Match', value: true }
+	{ label: 'Does NOT Match', value: true },
 ];
 
 const MODE_OPTIONS = [
-	{ label: 'On',      value: 'on' },
-	{ label: 'After',   value: 'after' },
-	{ label: 'Before',  value: 'before' },
-	{ label: 'Between', value: 'between' }
+	{ label: 'On', value: 'on' },
+	{ label: 'After', value: 'after' },
+	{ label: 'Before', value: 'before' },
+	{ label: 'Between', value: 'between' },
 ];
 
 var DayPickerIndicator = React.createClass({
@@ -26,7 +26,7 @@ var DayPickerIndicator = React.createClass({
 				<span className="DayPicker-Indicator__bg" />
 			</span>
 		);
-	}
+	},
 });
 
 function getDefaultValue () {
@@ -35,40 +35,34 @@ function getDefaultValue () {
 		inverted: TOGGLE_OPTIONS[0].value,
 		value: moment(0, 'HH').format(),
 		before: moment(0, 'HH').format(),
-		after: moment(0, 'HH').format()
+		after: moment(0, 'HH').format(),
 	};
 }
 
 var DateFilter = React.createClass({
-	
 	displayName: 'DateFilter',
-	
-	statics: {
-		getDefaultValue: getDefaultValue,
-	},
-	
 	propTypes: {
 		filter: React.PropTypes.shape({
 			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
-			inverted: React.PropTypes.boolean
-		})
+			inverted: React.PropTypes.boolean,
+		}),
 	},
-	
-	getInitialState () {
-		return {
-			activeInputField: 'after',
-			month: new Date() // The month to display in the calendar
-		};
+	statics: {
+		getDefaultValue: getDefaultValue,
 	},
-	
 	getDefaultProps () {
 		return {
 			format: 'DD-MM-YYYY',
 			filter: getDefaultValue(),
-			value: moment().startOf('day').toDate()
+			value: moment().startOf('day').toDate(),
 		};
 	},
-	
+	getInitialState () {
+		return {
+			activeInputField: 'after',
+			month: new Date(), // The month to display in the calendar
+		};
+	},
 	componentDidMount () {
 		// focus the text input
 		if (this.props.filter.mode === 'between') {
@@ -76,52 +70,41 @@ var DateFilter = React.createClass({
 		} else {
 			ReactDOM.findDOMNode(this.refs.input).focus();
 		}
-		
 	},
-	
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
-	
 	toggleInverted (value) {
 		this.updateFilter({ inverted: value });
 		ReactDOM.findDOMNode(this.refs.input).focus();
 	},
-	
 	selectMode (mode) {
 		this.updateFilter({ mode });
 		if (mode === 'between') {
-			setTimeout(() => { ReactDOM.findDOMNode(this.refs[this.state.activeInputField]).focus(); },200);
+			setTimeout(() => { ReactDOM.findDOMNode(this.refs[this.state.activeInputField]).focus(); }, 200);
 		} else {
 			ReactDOM.findDOMNode(this.refs.input).focus();
 		}
 	},
-	
-	handleInputChange(e) {
+	handleInputChange (e) {
 		const { value } = e.target;
 		let { month } = this.state;
-
-		// Change the current month only if the value entered by the user is a valid
+			// Change the current month only if the value entered by the user is a valid
 		// date, according to the `L` format
 		if (moment(value, 'L', true).isValid()) {
-		  month = moment(value, 'L').toDate();
+			month = moment(value, 'L').toDate();
 		}
-		
 		this.updateFilter({ value: value });
 		this.setState({ month }, this.showCurrentDate);
 	},
-	
 	setActiveField (field) {
-		this.setState({ 
-			activeInputField: field
+		this.setState({
+			activeInputField: field,
 		});
 	},
-	
 	switchBetweenActiveInputFields (e, day, modifiers) {
 		if (modifiers.indexOf('disabled') > -1) return;
-		
 		const { activeInputField } = this.state;
-		
 		let send = {};
 		send[activeInputField] = day;
 		this.updateFilter(send);
@@ -133,16 +116,13 @@ var DateFilter = React.createClass({
 			}
 		);
 	},
-	
 	selectDay (e, day, modifiers) {
 		if (modifiers.indexOf('disabled') > -1) return;
 		this.updateFilter({ value: day });
 	},
-	
-	showCurrentDate() {
+	showCurrentDate () {
 		this.refs.daypicker.showMonth(this.state.month);
 	},
-	
 	renderToggle () {
 		const { filter } = this.props;
 		return (
@@ -151,16 +131,15 @@ var DateFilter = React.createClass({
 			</FormField>
 		);
 	},
-	
 	renderControls () {
 		let controls;
 		const { field, filter } = this.props;
-		const mode = MODE_OPTIONS.filter((i => i.value === filter.mode))[0];
+		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 		const placeholder = field.label + ' is ' + mode.label.toLowerCase() + '...';
-		
+
 		// DayPicker stuff
 		const modifiers = {
-			'selected': (day) => moment(filter.value).isSame(day)
+			selected: (day) => moment(filter.value).isSame(day),
 		};
 
 		if (mode.value === 'between') {
@@ -168,17 +147,17 @@ var DateFilter = React.createClass({
 				<div>
 					<FormRow>
 						<FormField width="one-half">
-							<FormInput ref="after" placeholder="From" onFocus={(e) => { this.setActiveField('after'); }}  value={moment(filter.after).format(this.props.format)} />
+							<FormInput ref="after" placeholder="From" onFocus={(e) => { this.setActiveField('after'); }} value={moment(filter.after).format(this.props.format)} />
 						</FormField>
 						<FormField width="one-half">
-							<FormInput ref="before" placeholder="To"  onFocus={(e) => { this.setActiveField('before'); }} value={moment(filter.before).format(this.props.format)} />
+							<FormInput ref="before" placeholder="To" onFocus={(e) => { this.setActiveField('before'); }} value={moment(filter.before).format(this.props.format)} />
 						</FormField>
 					</FormRow>
 					<div style={{ position: 'relative' }}>
 						<DayPicker
-							modifiers={ modifiers }
+							modifiers={modifiers}
 							className="DayPicker--chrome"
-							onDayClick={ this.switchBetweenActiveInputFields }
+							onDayClick={this.switchBetweenActiveInputFields}
 						/>
 						<DayPickerIndicator />
 					</div>
@@ -199,7 +178,7 @@ var DateFilter = React.createClass({
 					<div style={{ position: 'relative' }}>
 						<DayPicker
 							ref="daypicker"
-							modifiers={ modifiers }
+							modifiers={modifiers}
 							className="DayPicker--chrome"
 							onDayClick={this.selectDay}
 						/>
@@ -211,10 +190,9 @@ var DateFilter = React.createClass({
 
 		return controls;
 	},
-	
 	render () {
 		const { filter } = this.props;
-		const mode = MODE_OPTIONS.filter((i => i.value === filter.mode))[0];
+		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 		return (
 			<div>
 				{this.renderToggle()}
@@ -222,8 +200,7 @@ var DateFilter = React.createClass({
 				{this.renderControls()}
 			</div>
 		);
-	}
-
+	},
 });
 
 module.exports = DateFilter;

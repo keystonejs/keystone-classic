@@ -25,7 +25,7 @@ module.exports = function createStaticRouter (keystone) {
 
 	// prebuild static resources on the next tick
 	// improves first-request performance
-	process.nextTick(function() {
+	process.nextTick(function () {
 		bundles.fields.build();
 		bundles.signin.build();
 		bundles.home.build();
@@ -43,8 +43,8 @@ module.exports = function createStaticRouter (keystone) {
 				elementalPath: JSON.stringify(elementalPath),
 				reactSelectPath: JSON.stringify(reactSelectPath),
 				adminPath: JSON.stringify(keystone.get('admin path')),
-			}
-		}
+			},
+		},
 	};
 
 	/* Configure router */

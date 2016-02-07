@@ -11,13 +11,13 @@ const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'i
 const iconClassDeleted = [
 	'delete-pending',
 	'mega-octicon',
-	'octicon-x'
+	'octicon-x',
 ];
 
 const iconClassQueued = [
 	'img-uploading',
 	'mega-octicon',
-	'octicon-cloud-upload'
+	'octicon-cloud-upload',
 ];
 
 var Thumbnail = React.createClass({
@@ -43,7 +43,7 @@ var Thumbnail = React.createClass({
 		let iconClassName;
 		let { deleted, height, isQueued, url, width, openLightbox } = this.props;
 		let previewClassName = classnames('image-preview', {
-			'action': (deleted || isQueued)
+			action: (deleted || isQueued),
 		});
 		let title = (width && height) ? (width + ' × ' + height) : '';
 
@@ -64,7 +64,7 @@ var Thumbnail = React.createClass({
 				{this.renderActionButton()}
 			</div>
 		);
-	}
+	},
 
 });
 
@@ -159,7 +159,7 @@ module.exports = Field.create({
 		this.setState({
 			thumbnails: this.state.thumbnails.filter(function (thumb) {
 				return !thumb.props.isQueued;
-			})
+			}),
 		});
 	},
 
@@ -289,5 +289,5 @@ module.exports = Field.create({
 				{this.renderLightbox()}
 			</FormField>
 		);
-	}
+	},
 });

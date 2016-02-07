@@ -8,7 +8,7 @@
  *
  * @api private
  */
- 
+
 var https = require('https');
 var fs = require('fs');
 
@@ -52,5 +52,5 @@ module.exports = function (keystone, app, created, callback) {
 		message += 'port ' + port;
 		keystone.httpsServer = server.listen(port, ready);
 	}
-	
+
 };

@@ -37,7 +37,7 @@ var ColorColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = ColorColumn;

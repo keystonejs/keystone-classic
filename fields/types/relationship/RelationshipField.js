@@ -6,7 +6,7 @@ import Select from 'react-select';
 import xhr from 'xhr';
 import { Button, FormInput, InputGroup } from 'elemental';
 
-function compareValues(current, next) {
+function compareValues (current, next) {
 	let currentLength = current ? current.length : 0;
 	let nextLength = next ? next.length : 0;
 	if (currentLength !== nextLength) return false;
@@ -48,8 +48,8 @@ module.exports = Field.create({
 	buildFilters () {
 		var filters = {};
 
-		_.each(this.props.filters, function(value, key) {
-			if(_.isString(value) && value[0] == ':') {//eslint-disable-line eqeqeq
+		_.each(this.props.filters, function (value, key) {
+			if (_.isString(value) && value[0] == ':') { // eslint-disable-line eqeqeq
 				var fieldName = value.slice(1);
 
 				var val = this.props.values[fieldName];
@@ -169,7 +169,7 @@ module.exports = Field.create({
 		// NOTE: this seems like the wrong way to add options to the Select
 		this.loadOptionsCallback(null, {
 			complete: true,
-			options: Object.keys(this._itemsCache).map((k) => this._itemsCache[k])
+			options: Object.keys(this._itemsCache).map((k) => this._itemsCache[k]),
 		});
 		this.toggleCreate(false);
 	},
@@ -223,6 +223,6 @@ module.exports = Field.create({
 		} else {
 			return this.renderSelect();
 		}
-	}
+	},
 
 });

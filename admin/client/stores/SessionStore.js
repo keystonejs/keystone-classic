@@ -4,7 +4,7 @@ import Store from 'store-prototype';
 import xhr from 'xhr';
 
 var csrfHeaders = {
-	[Keystone.csrf_header_key]: Keystone.csrf_token_value
+	[Keystone.csrf_header_key]: Keystone.csrf_token_value,
 };
 
 let { user, adminPath } = Keystone;

@@ -34,7 +34,7 @@ var EditForm = React.createClass({
 		values[event.path] = event.value;
 		this.setState({ values });
 	},
-	confirmReset(event) {
+	confirmReset (event) {
 		const confirmationDialog = (
 			<ConfirmationDialog
 				isOpen
@@ -50,7 +50,7 @@ var EditForm = React.createClass({
 	handleReset () {
 		window.location.reload();
 	},
-	confirmDelete() {
+	confirmDelete () {
 		const confirmationDialog = (
 			<ConfirmationDialog
 				isOpen
@@ -141,7 +141,7 @@ var EditForm = React.createClass({
 			if (el.type === 'field') {
 				var field = this.props.list.fields[el.field];
 				var props = this.getFieldProps(field);
-				if ('function' !== typeof Fields[field.type]) {
+				if (typeof Fields[field.type] !== 'function') {
 					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
 				}
 				if (props.dependsOn) {
@@ -157,7 +157,7 @@ var EditForm = React.createClass({
 	},
 	renderFooterBar () {
 		var buttons = [
-			<Button key="save" type="primary" submit>Save</Button>
+			<Button key="save" type="primary" submit>Save</Button>,
 		];
 		buttons.push(
 			<Button key="reset" onClick={this.confirmReset} type="link-cancel">

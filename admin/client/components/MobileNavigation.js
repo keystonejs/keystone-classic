@@ -20,8 +20,8 @@ var MobileListItem = React.createClass({
 var MobileSectionItem = React.createClass({
 	displayName: 'MobileSectionItem',
 	propTypes: {
-		className: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
 		currentListKey: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
 		lists: React.PropTypes.array,
@@ -62,8 +62,8 @@ var MobileNavigation = React.createClass({
 	displayName: 'MobileNavigation',
 	propTypes: {
 		brand: React.PropTypes.string,
-		currentSectionKey: React.PropTypes.string,
 		currentListKey: React.PropTypes.string,
+		currentSectionKey: React.PropTypes.string,
 		sections: React.PropTypes.array.isRequired,
 		signoutUrl: React.PropTypes.string,
 	},
@@ -81,7 +81,7 @@ var MobileNavigation = React.createClass({
 	},
 	handleResize () {
 		this.setState({
-			barIsVisible: window.innerWidth < 768
+			barIsVisible: window.innerWidth < 768,
 		});
 	},
 	toggleMenu () {
@@ -89,7 +89,7 @@ var MobileNavigation = React.createClass({
 	},
 	showMenu () {
 		this.setState({
-			menuIsVisible: true
+			menuIsVisible: true,
 		});
 
 		document.body.style.overflow = 'hidden';
@@ -97,7 +97,7 @@ var MobileNavigation = React.createClass({
 	},
 	hideMenu () {
 		this.setState({
-			menuIsVisible: false
+			menuIsVisible: false,
 		});
 
 		document.body.style.overflow = null;

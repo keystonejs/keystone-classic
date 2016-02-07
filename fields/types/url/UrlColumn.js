@@ -34,7 +34,7 @@ var UrlColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = UrlColumn;

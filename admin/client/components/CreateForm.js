@@ -36,12 +36,10 @@ var CreateForm = React.createClass({
 			err: this.props.err,
 		};
 	},
-	handleChange (event) {
-		var values = Object.assign({}, this.state.values);
-		values[event.path] = event.value;
-		this.setState({
-			values: values,
-		});
+	componentDidMount () {
+		if (this.refs.focusTarget) {
+			this.refs.focusTarget.focus();
+		}
 	},
 	componentDidUpdate (prevProps) {
 		if (this.props.isOpen !== prevProps.isOpen) {
@@ -49,10 +47,12 @@ var CreateForm = React.createClass({
 			setTimeout(() => this.refs.focusTarget && this.refs.focusTarget.focus(), 0);
 		}
 	},
-	componentDidMount () {
-		if (this.refs.focusTarget) {
-			this.refs.focusTarget.focus();
-		}
+	handleChange (event) {
+		var values = Object.assign({}, this.state.values);
+		values[event.path] = event.value;
+		this.setState({
+			values: values,
+		});
 	},
 	getFieldProps (field) {
 		var props = Object.assign({}, field);
@@ -81,7 +81,7 @@ var CreateForm = React.createClass({
 					}); // Clear form
 				} else {
 					this.setState({
-						err: err.detail
+						err: err.detail,
 					});
 				}
 			});
@@ -134,7 +134,7 @@ var CreateForm = React.createClass({
 
 		Object.keys(list.initialFields).forEach(key => {
 			var field = list.fields[list.initialFields[key]];
-			if ('function' !== typeof Fields[field.type]) {
+			if (typeof Fields[field.type] !== 'function') {
 				form.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
 				return;
 			}

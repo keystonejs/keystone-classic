@@ -1,12 +1,12 @@
-module.exports = function bindSessionMiddleware(keystone, app) {
+module.exports = function bindSessionMiddleware (keystone, app) {
 
 	app.use(keystone.get('session options').cookieParser);
 
 	// pre:session hooks
-	if ('function' === typeof keystone.get('pre:session')) {
+	if (typeof keystone.get('pre:session') === 'function') {
 		keystone.get('pre:session')(app);
 	}
-	app.use(function(req, res, next) {
+	app.use(function (req, res, next) {
 		keystone.callHook('pre:session', req, res, next);
 	});
 
@@ -15,7 +15,7 @@ module.exports = function bindSessionMiddleware(keystone, app) {
 
 	if (keystone.get('session') === true) {
 		app.use(keystone.session.persist);
-	} else if ('function' === typeof keystone.get('session')) {
+	} else if (typeof keystone.get('session') === 'function') {
 		app.use(keystone.get('session'));
 	}
 

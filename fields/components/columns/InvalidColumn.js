@@ -21,7 +21,7 @@ var InvalidColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = InvalidColumn;

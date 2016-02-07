@@ -8,7 +8,7 @@ var utils = require('keystone-utils');
  * @extends Field
  * @api public
  */
-function select(list, path, options) {
+function select (list, path, options) {
 	this.ui = options.ui || 'select';
 	this.numeric = options.numeric ? true : false;
 	this._nativeType = (options.numeric) ? Number : String;
@@ -20,7 +20,7 @@ function select(list, path, options) {
 	if (!Array.isArray(options.options)) {
 		throw new Error('Select fields require an options array.');
 	}
-	this.ops = options.options.map(function(i) {
+	this.ops = options.options.map(function (i) {
 		var op = _.isString(i) ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
 		if (!_.isObject(op)) {
 			op = { label: '' + i, value: '' + i };
@@ -51,21 +51,21 @@ util.inherits(select, FieldType);
  * and statics to the Schema for converting a value to a label,
  * and retrieving all of the defined options.
  */
-select.prototype.addToSchema = function() {
+select.prototype.addToSchema = function () {
 	var field = this;
 	var schema = this.list.schema;
 	this.paths = {
 		data: this.options.dataPath || this._path.append('Data'),
 		label: this.options.labelPath || this._path.append('Label'),
 		options: this.options.optionsPath || this._path.append('Options'),
-		map: this.options.optionsMapPath || this._path.append('OptionsMap')
+		map: this.options.optionsMapPath || this._path.append('OptionsMap'),
 	};
 	schema.path(this.path, _.defaults({
 		type: this._nativeType,
 		enum: this.values,
-		set: function(val) {
+		set: function (val) {
 			return (val === '' || val === null || val === false) ? undefined : val;
-		}
+		},
 	}, this.options));
 	schema.virtual(this.paths.data).get(function () {
 		return field.map[this.get(field.path)];
@@ -73,13 +73,13 @@ select.prototype.addToSchema = function() {
 	schema.virtual(this.paths.label).get(function () {
 		return field.labels[this.get(field.path)];
 	});
-	schema.virtual(this.paths.options).get(function() {
+	schema.virtual(this.paths.options).get(function () {
 		return field.ops;
 	});
-	schema.virtual(this.paths.map).get(function() {
+	schema.virtual(this.paths.map).get(function () {
 		return field.map;
 	});
-	this.underscoreMethod('pluck', function(property, d) {
+	this.underscoreMethod('pluck', function (property, d) {
 		var option = this.get(field.paths.data);
 		return (option) ? option[property] : d;
 	});
@@ -89,21 +89,21 @@ select.prototype.addToSchema = function() {
 /**
  * Retrieves a shallow clone of the options array
  */
-select.prototype.cloneOps = function() {
+select.prototype.cloneOps = function () {
 	return _.map(this.ops, _.clone);
 };
 
 /**
  * Retrieves a shallow clone of the options map
  */
-select.prototype.cloneMap = function() {
+select.prototype.cloneMap = function () {
 	return utils.optionsMap(this.ops, true);
 };
 
 /**
  * Add filters to a query
  */
-select.prototype.addFilterToQuery = function(filter, query) {
+select.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (!Array.isArray(filter.value)) {
 		if (filter.value) {
@@ -127,7 +127,7 @@ select.prototype.addFilterToQuery = function(filter, query) {
 /**
  * Validates that a valid option has been provided in a data object
  */
-select.prototype.inputIsValid = function(data, required, item) {
+select.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path]) {
 		return (data[this.path] in this.map) ? true : false;
 	} else {
@@ -138,7 +138,7 @@ select.prototype.inputIsValid = function(data, required, item) {
 /**
  * Formats the field value
  */
-select.prototype.format = function(item) {
+select.prototype.format = function (item) {
 	return this.labels[item.get(this.path)] || '';
 };
 

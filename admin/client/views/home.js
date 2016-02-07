@@ -47,18 +47,18 @@ var HomeView = React.createClass({
 	},
 	loadCounts () {
 		xhr({
-			url: `${Keystone.adminPath}/api/counts`
+			url: `${Keystone.adminPath}/api/counts`,
 		}, (err, resp, body) => {
 			try {
 				body = JSON.parse(body);
-			} catch(e) {
+			} catch (e) {
 				console.log('Error parsing results json:', e, body);
 				return;
 			}
 			if (body && body.counts) {
 				if (!this.isMounted()) return;
 				this.setState({
-					counts: body.counts
+					counts: body.counts,
 				});
 			}
 		});

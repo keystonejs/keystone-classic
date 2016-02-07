@@ -15,7 +15,7 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 		try {
 			debug('adding stylus');
 			stylusMiddleware = require('stylus').middleware;
-		} catch(e) {
+		} catch (e) {
 			if (e.code === 'MODULE_NOT_FOUND') {
 				console.error(
 					'\nERROR: stylus not found.\n' +
@@ -27,11 +27,11 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 				throw e;
 			}
 		}
-		stylusPaths.forEach(function(path) {
+		stylusPaths.forEach(function (path) {
 			app.use(stylusMiddleware(_.extend({
 				src: keystone.expandPath(path),
 				dest: keystone.expandPath(path),
-				compress: keystone.get('env') === 'production'
+				compress: keystone.get('env') === 'production',
 			}, stylusOptions)));
 		});
 	}

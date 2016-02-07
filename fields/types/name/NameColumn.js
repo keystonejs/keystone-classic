@@ -23,7 +23,7 @@ var NameColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = NameColumn;

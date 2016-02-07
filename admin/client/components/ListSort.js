@@ -25,13 +25,13 @@ var ListSort = React.createClass({
 	handleKeyDown (e) {
 		if (vkey[e.keyCode] !== '<alt>') return;
 		this.setState({
-			altDown: true
+			altDown: true,
 		});
 	},
 	handleKeyUp (e) {
 		if (vkey[e.keyCode] !== '<alt>') return;
 		this.setState({
-			altDown: false
+			altDown: false,
 		});
 	},
 	openPopout () {

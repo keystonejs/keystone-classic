@@ -1,6 +1,6 @@
 var keystone = require('../../../../');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 	if (!keystone.security.csrf.validate(req)) {
 		console.log(`Refusing to create item; CSRF failure`);
 		return res.apiError(403, 'invalid csrf');

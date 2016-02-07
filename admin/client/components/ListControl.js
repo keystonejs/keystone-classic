@@ -10,7 +10,7 @@ var ListControl = React.createClass({
 	renderControl () {
 		var icon = 'octicon octicon-';
 		var className = classnames('ItemList__control ItemList__control--' + this.props.type, {
-			'is-active': this.props.active
+			'is-active': this.props.active,
 		});
 		var tabindex = this.props.type === 'sortable' ? -1 : null;
 		var title;
@@ -33,7 +33,7 @@ var ListControl = React.createClass({
 				<span className={icon} />
 			</button>
 		);
-		if(this.props.dragSource) {
+		if (this.props.dragSource) {
 			return this.props.dragSource(renderButton);
 		} else {
 			return renderButton;

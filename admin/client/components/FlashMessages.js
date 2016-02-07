@@ -17,7 +17,7 @@ var FlashMessage = React.createClass({
 		let detail = message.detail ? <p>{message.detail}</p> : null;
 		let list = message.list ? (
 			<ul style={{ marginBottom: 0 }}>
-				{message.list.map(item => <li>{item}</li>)}
+				{message.list.map((item, i) => <li key={`i${i}`}>{item}</li>)}
 			</ul>
 		) : null;
 
@@ -45,14 +45,14 @@ var FlashMessages = React.createClass({
 				info: React.PropTypes.array,
 				success: React.PropTypes.array,
 				warning: React.PropTypes.array,
-			})
+			}),
 		]),
 	},
 	renderMessages (messages, type) {
 		if (!messages || !messages.length) return null;
 
-		return messages.map((message) => {
-			return <FlashMessage message={message} type={type} />;
+		return messages.map((message, i) => {
+			return <FlashMessage message={message} type={type} key={`i${i}`} />;
 		});
 	},
 	renderTypes (types) {

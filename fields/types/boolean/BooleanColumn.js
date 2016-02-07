@@ -23,7 +23,7 @@ var BooleanColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = BooleanColumn;

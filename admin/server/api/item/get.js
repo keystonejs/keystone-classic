@@ -2,7 +2,7 @@ var _ = require('underscore');
 var async = require('async');
 var keystone = require('../../../../');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 
 	var query = req.list.model.findById(req.params.id);
 
@@ -19,7 +19,7 @@ module.exports = function(req, res) {
 		query.populate(req.list.tracking.updatedBy);
 	}
 
-	query.exec(function(err, item) {
+	query.exec(function (err, item) {
 
 		if (err) return res.status(500).json({ err: 'database error', detail: err });
 		if (!item) return res.status(404).json({ err: 'not found', id: req.params.id });
@@ -32,17 +32,17 @@ module.exports = function(req, res) {
 		if (req.query.drilldown === 'true' && req.list.get('drilldown')) {
 			drilldown = {
 				def: req.list.get('drilldown'),
-				items: []
+				items: [],
 			};
 
-			tasks.push(function(cb) {
+			tasks.push(function (cb) {
 
 				// TODO: proper support for nested relationships in drilldown
 
 				// step back through the drilldown list and load in reverse order to support nested relationships
 				drilldown.def = drilldown.def.split(' ').reverse();
 
-				async.eachSeries(drilldown.def, function(path, done) {
+				async.eachSeries(drilldown.def, function (path, done) {
 
 					var field = req.list.fields[path];
 
@@ -56,7 +56,7 @@ module.exports = function(req, res) {
 						if (!item.get(field.path).length) {
 							return done();
 						}
-						refList.model.find().where('_id').in(item.get(field.path)).limit(4).exec(function(err, results) {
+						refList.model.find().where('_id').in(item.get(field.path)).limit(4).exec(function (err, results) {
 							if (err || !results) {
 								done(err);
 							}
@@ -65,13 +65,13 @@ module.exports = function(req, res) {
 								// drilldown.data[path] = results;
 								drilldown.items.push({
 									list: refList.getOptions(),
-									items: _.map(results, function(i) {
+									items: _.map(results, function (i) {
 										return {
 											label: refList.getDocumentName(i),
-											href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + i.id
+											href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + i.id,
 										};
 									}),
-									more: (more) ? true : false
+									more: (more) ? true : false,
 								});
 							}
 							done();
@@ -80,22 +80,22 @@ module.exports = function(req, res) {
 						if (!item.get(field.path)) {
 							return done();
 						}
-						refList.model.findById(item.get(field.path)).exec(function(err, result) {
+						refList.model.findById(item.get(field.path)).exec(function (err, result) {
 							if (result) {
 								// drilldown.data[path] = result;
 								drilldown.items.push({
 									list: refList.getOptions(),
 									items: [{
 										label: refList.getDocumentName(result),
-										href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + result.id
-									}]
+										href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + result.id,
+									}],
 								});
 							}
 							done(err);
 						});
 					}
 
-				}, function(err) {
+				}, function (err) {
 					// put the drilldown list back in the right order
 					drilldown.def.reverse();
 					drilldown.items.reverse();
@@ -108,9 +108,9 @@ module.exports = function(req, res) {
 		/* Relationships (optional, provided if ?relationships=true in querystring) */
 
 		if (req.query.relationships === 'true') {
-			tasks.push(function(cb) {
+			tasks.push(function (cb) {
 
-				relationships = _.values(_.compact(_.map(req.list.relationships, function(i) {
+				relationships = _.values(_.compact(_.map(req.list.relationships, function (i) {
 					if (i.isValid) {
 						return _.clone(i);
 					} else {
@@ -119,7 +119,7 @@ module.exports = function(req, res) {
 					}
 				})));
 
-				async.each(relationships, function(rel, done) {
+				async.each(relationships, function (rel, done) {
 
 					// TODO: Handle invalid relationship config
 					rel.list = keystone.list(rel.ref);
@@ -134,7 +134,7 @@ module.exports = function(req, res) {
 					rel.columns = rel.list.defaultColumns;
 					rel.list.selectColumns(q, rel.columns);
 
-					q.exec(function(err, results) {
+					q.exec(function (err, results) {
 						rel.items = results;
 						done(err);
 					});
@@ -144,16 +144,16 @@ module.exports = function(req, res) {
 		}
 
 		/* Process tasks & return */
-		async.parallel(tasks, function(err) {
+		async.parallel(tasks, function (err) {
 			if (err) {
 				return res.status(500).json({
 					err: 'database error',
-					detail: err
+					detail: err,
 				});
 			}
 			res.json(_.assign(req.list.getData(item, fields), {
 				drilldown: drilldown,
-				relationships: relationships
+				relationships: relationships,
 			}));
 		});
 	});

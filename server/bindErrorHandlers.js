@@ -4,7 +4,7 @@ var utils = require('keystone-utils');
 module.exports = function bindErrorHandlers (keystone, app) {
 
 	// Handle 404 (no route matched) errors
-	var default404Handler = function (req, res, next) {// eslint-disable-line no-unused-vars
+	var default404Handler = function (req, res, next) { // eslint-disable-line no-unused-vars
 		res.status(404).send(keystone.wrapHTMLError('Sorry, no page could be found at this address (404)'));
 	};
 
@@ -12,9 +12,9 @@ module.exports = function bindErrorHandlers (keystone, app) {
 		var err404 = keystone.get('404');
 		if (err404) {
 			try {
-				if ('function' === typeof err404) {
+				if (typeof err404 === 'function') {
 					err404(req, res, next);
-				} else if ('string' === typeof err404) {
+				} else if (typeof err404 === 'string') {
 					res.status(404).render(err404);
 				} else {
 					if (keystone.get('logger')) {
@@ -22,7 +22,7 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					}
 					default404Handler(req, res, next);
 				}
-			} catch(e) {
+			} catch (e) {
 				if (keystone.get('logger')) {
 					console.log(dashes + 'Error handling 404 (not found):');
 					console.log(e);
@@ -57,7 +57,7 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					msg += '<h2>' + err.type + '</h2>';
 				}
 				msg += utils.textToHTML(err.message);
-			} else if ('object' === typeof err) {
+			} else if (typeof err === 'object') {
 				msg += '<code>' + JSON.stringify(err) + '</code>';
 			} else if (err) {
 				msg += err;
@@ -73,9 +73,9 @@ module.exports = function bindErrorHandlers (keystone, app) {
 
 		if (err500) {
 			try {
-				if ('function' === typeof err500) {
+				if (typeof err500 === 'function') {
 					err500(err, req, res, next);
-				} else if ('string' === typeof err500) {
+				} else if (typeof err500 === 'string') {
 					res.locals.err = err;
 					res.status(500).render(err500);
 				} else {
@@ -84,7 +84,7 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					}
 					default500Handler(err, req, res, next);
 				}
-			} catch(e) {
+			} catch (e) {
 				if (keystone.get('logger')) {
 					console.log(dashes + 'Error handling 500 (error):');
 					console.log(e);
