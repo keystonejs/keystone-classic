@@ -15,13 +15,19 @@ var FieldGroup = React.createClass({
 		props.values = this.state.values;
 		props.onChange = this.handleChange;
 		props.mode = 'edit';
+
+		if (field.optionsSource) {
+			props.ops = this.state.values[field.optionsSource].map((value) => { return { label: value, value: value } });
+		}
+
 		return props;
 	},
-	handleChange (event) {
+	handleChange (event, callback) {
 		let values = Object.assign({}, this.state.values);
 
 		values[event.path] = event.value;
-		this.setState({ values });
+
+		this.setState({ values }, callback);
 	},
 	onRemove () {
 		this.props.onRemove(this.state.values);

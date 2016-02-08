@@ -135,6 +135,10 @@ module.exports = Field.create({
 				return callback(null, []);
 			}
 			data.results.forEach(this.cacheItem);
+
+			// THIS IS A HACK, POSSIBLY NEED TO REFACTOR
+			if (this.state.value && this.props.populate) this.populateFields(this.state.value.id);
+
 			callback(null, {
 				options: data.results,
 				complete: data.results.length === data.count,
@@ -146,7 +150,21 @@ module.exports = Field.create({
 		this.props.onChange({
 			path: this.props.path,
 			value: value,
-		});
+		}, function () {
+			if (this.props.populate) {
+				this.populateFields(value);
+			}
+		}.bind(this));
+	},
+
+	populateFields (value) {
+		var options = this.props.populate;
+		var cachedValue = Object.assign({}, this._itemsCache[value]);
+
+		if (!cachedValue.fields[options.mapField]) return;
+
+		var fields = cachedValue.fields[options.mapField];
+		this.props.onChange({ path: options.field, value: fields  });
 	},
 
 	toggleCreate (visible) {
@@ -175,13 +193,16 @@ module.exports = Field.create({
 	},
 
 	renderSelect (noedit) {
+		var fieldName = this.props.path;
+		if (this.props.nested) fieldName = this.props.nested + '.' + this.props.path + '_' + this.props._id;
+
 		return (
 			<Select.Async
 				multi={this.props.many}
 				disabled={noedit}
 				loadOptions={this.loadOptions}
 				labelKey="name"
-				name={this.props.path}
+				name={fieldName}
 				onChange={this.valueChanged}
 				simpleValue
 				value={this.state.value}

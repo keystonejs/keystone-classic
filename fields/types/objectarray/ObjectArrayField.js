@@ -18,6 +18,11 @@ module.exports = Field.create({
 			list: subList
 		};
 	},
+
+	componentWillReceiveProps (nextProps) {
+		this.setState({ values: nextProps.value });
+	},
+
 	renderItems () {
 		return this.state.values.map((val) => {
 			return (

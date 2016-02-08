@@ -28,7 +28,9 @@ var DEFAULT_OPTION_KEYS = [
 	'hidden',
 	'collapse',
 	'dependsOn',
-	'subList'
+	'subList',
+	'populate',
+	'optionsSource'
 ];
 
 /**
