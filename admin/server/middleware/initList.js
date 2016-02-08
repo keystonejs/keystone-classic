@@ -4,7 +4,7 @@ module.exports = function (keystone) {
 			req.list = keystone.list(req.params.list);
 			if (!req.list || (respectHiddenOption && req.list.get('hidden'))) {
 				req.flash('error', 'List ' + req.params.list + ' could not be found.');
-				return res.redirect('');
+				return res.redirect('/' + keystone.get('admin path'));
 			}
 			next();
 		};
