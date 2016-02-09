@@ -104,7 +104,7 @@ module.exports = Field.create({
 		});
 		async.map(values, (value, done) => {
 			xhr({
-				url: Keystone.adminPath + '/api/' + this.props.refList.path + '/' + value + '?basic',
+				url: Keystone.adminPath + '/api/' + this.props.refList.path + '/' + value + (!this.props.populate ? '?basic' : ''),
 				responseType: 'json',
 			}, (err, resp, data) => {
 				if (err || !data) return done(err);
@@ -113,10 +113,14 @@ module.exports = Field.create({
 			});
 		}, (err, expanded) => {
 			if (!this.isMounted()) return;
+			// ANOTHER HACK
 			this.setState({
 				loading: false,
 				value: this.props.many ? expanded : expanded[0],
 			});
+			console.log('Expanded', expanded);
+			console.log('Statey #1', this.state);
+			if (!this.props.many && this.props.populate) this.populateFields(expanded[0].id);
 		});
 	},
 
@@ -135,9 +139,9 @@ module.exports = Field.create({
 				return callback(null, []);
 			}
 			data.results.forEach(this.cacheItem);
-
+			// console.log('Statey #2', this.state);
 			// THIS IS A HACK, POSSIBLY NEED TO REFACTOR
-			if (this.state.value && this.props.populate) this.populateFields(this.state.value.id);
+			// if (this.state.value && this.props.populate) this.populateFields(this.state.value.id);
 
 			callback(null, {
 				options: data.results,
@@ -164,7 +168,7 @@ module.exports = Field.create({
 		if (!cachedValue.fields[options.mapField]) return;
 
 		var fields = cachedValue.fields[options.mapField];
-		this.props.onChange({ path: options.field, value: fields  });
+		this.props.onChange({ path: options.field, value: value, sources: fields });
 	},
 
 	toggleCreate (visible) {

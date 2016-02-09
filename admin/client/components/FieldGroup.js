@@ -7,7 +7,8 @@ var lastId = 0;
 
 var FieldGroup = React.createClass({
 	getInitialState () {
-		return { values: this.props.data };
+		console.log('FieldGroup Props', this.props);
+		return { values: this.props.data, sources: {} };
 	},
 	getFieldProps (field) {
 		var props = Object.assign({}, field);
@@ -16,18 +17,21 @@ var FieldGroup = React.createClass({
 		props.onChange = this.handleChange;
 		props.mode = 'edit';
 
-		if (field.optionsSource) {
+		if (field.optionsSource && this.state.sources[field.optionsSource]) {
 			props.ops = this.state.values[field.optionsSource].map((value) => { return { label: value, value: value } });
 		}
 
 		return props;
 	},
 	handleChange (event, callback) {
-		let values = Object.assign({}, this.state.values);
+		let newState = Object.assign({}, this.state);
 
-		values[event.path] = event.value;
+		newState.values[event.path] = event.value;
 
-		this.setState({ values }, callback);
+		if (event.sources) newState.sources[event.path] = event.sources;
+
+		this.setState(newState, callback);
+		console.log('Statey #4', this.state);
 	},
 	onRemove () {
 		this.props.onRemove(this.state.values);

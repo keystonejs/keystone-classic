@@ -20,13 +20,16 @@ module.exports = Field.create({
 	},
 
 	componentWillReceiveProps (nextProps) {
+		console.log('Propsy', nextProps);
 		this.setState({ values: nextProps.value });
 	},
 
 	renderItems () {
+		console.log('Statey #3', this.state.values);
+		if (!Array.isArray(this.state.values)) return;
 		return this.state.values.map((val) => {
 			return (
-				<FieldGroup key={val._id} parentPath={this.props.path} data={val} list={this.state.list} onRemove={ this.removeItem } />
+				<FieldGroup key={val._id} parentPath={this.props.nested ? (this.props.nested + '.' + this.props.path + '_' + this.props._id) : this.props.path} data={val} list={this.state.list} onRemove={ this.removeItem } />
 			);
 		});
 	},

@@ -2,20 +2,32 @@ module.exports = function (req, res, next) {
 	if (req.method.toUpperCase() != 'POST') return next();
 
 	var fields = {};
+	var nestMapper = {};
 
 	Object.keys(req.body).forEach((key) => {
 		var props = key.split('.');
 		if (props.length == 1) return;
 
-		var parentProp = props[0];
-		var subProps = props[1].split('_');
-		var subProp = subProps[0];
-		var id = subProps[1];
+		var parentProp = props.splice(0, 1)[0];
 
 		if (!fields[parentProp]) fields[parentProp] = {};
-		if (!fields[parentProp][id]) fields[parentProp][id] = {};
 
-		fields[parentProp][id][subProp] = req.body[key];
+		var currentContext = fields[parentProp];
+
+		for (var i = 0; i < props.length; i++) {
+			var subProp = getSubProp(props[i]);
+
+			if (!currentContext[subProp.id]) currentContext[subProp.id] = {};
+			if (i != (props.length - 1)){
+				if (!currentContext[subProp.id][subProp.prop]) currentContext[subProp.id][subProp.prop] = {};
+				nestMapper[subProp.prop] = 'nested';
+			} else {
+				currentContext[subProp.id][subProp.prop] = req.body[key];
+				break;
+			}
+
+			currentContext = currentContext[subProp.id][subProp.prop];
+		}
 	});
 
 	Object.keys(fields).forEach((field) => {
@@ -24,9 +36,33 @@ module.exports = function (req, res, next) {
 		var values = fields[field];
 
 		Object.keys(values).forEach((value) => {
-			req.body[field].push(values[value]);
+			var actualField =  values[value];
+
+			Object.keys(actualField).forEach((fieldKey) => {
+				if (nestMapper[fieldKey] && nestMapper[fieldKey] == 'nested') actualField[fieldKey] = fieldBuilder(actualField[fieldKey]);
+			});
+
+			req.body[field].push(actualField);
 		});
 	});
 
+	function fieldBuilder(values) {
+		var fields = [];
+
+		Object.keys(values).forEach((value) => {
+			var actualField = values[value];
+			if (nestMapper[value] && nestMapper[value] == 'nested') actualField = fieldBuilder(values[value]);
+			fields.push(actualField);
+		});
+
+		return fields;
+	}
+
+	function getSubProp(prop) {
+		var props = prop.split('_');
+		return { prop: props[0], id: props[1] };
+	}
+
 	return next();
 }
+

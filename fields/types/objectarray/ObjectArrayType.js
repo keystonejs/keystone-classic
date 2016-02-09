@@ -26,7 +26,7 @@ objectarray.prototype.addToSchema = function() {
 	var subListName = '_' + this.list.key.toLowerCase() + '.' + this.path;
 	var sublist = this.subList = new keystone.List(subListName, { schema: '', hidden: true });
 
-	sublist.add(this.options.fields);
+	sublist.add(this.options.nestedFields);
 	sublist.register();
 
 	this.list.schema.path(this.path, [sublist.schema]);

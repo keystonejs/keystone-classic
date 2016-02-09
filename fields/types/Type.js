@@ -30,7 +30,8 @@ var DEFAULT_OPTION_KEYS = [
 	'dependsOn',
 	'subList',
 	'populate',
-	'optionsSource'
+	'optionsSource',
+	'mirrored'
 ];
 
 /**
