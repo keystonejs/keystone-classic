@@ -44,7 +44,6 @@ module.exports = function bindErrorHandlers (keystone, app) {
 	// Handle other errors
 
 	var default500Handler = function (err, req, res, next) { // eslint-disable-line no-unused-vars
-
 		if (keystone.get('logger')) {
 			if (err instanceof Error) {
 				console.log((err.type ? err.type + ' ' : '') + 'Error thrown for request: ' + req.url);
@@ -53,11 +52,12 @@ module.exports = function bindErrorHandlers (keystone, app) {
 			}
 			console.log(err.stack || err);
 		}
-
+		// TODO: Take into account dev settings to send a more useful JSON error
+		if (req.headers.accept === 'application/json') {
+			return res.status(500).json({ error: 'unknown error' });
+		}
 		var msg = '';
-
 		if (keystone.get('env') === 'development') {
-
 			if (err instanceof Error) {
 				if (err.type) {
 					msg += '<h2>' + err.type + '</h2>';
@@ -69,26 +69,26 @@ module.exports = function bindErrorHandlers (keystone, app) {
 				msg += err;
 			}
 		}
-
-		res.status(500).send(keystone.wrapHTMLError('Sorry, an error occurred loading the page (500)', msg));
+		return res.status(500).send(keystone.wrapHTMLError('Sorry, an error occurred loading the page (500)', msg));
 	};
 
 	app.use(function (err, req, res, next) {
-
 		var err500 = keystone.get('500');
-
 		if (err500) {
 			try {
 				if (typeof err500 === 'function') {
-					err500(err, req, res, next);
+					return err500(err, req, res, next);
 				} else if (typeof err500 === 'string') {
+					if (req.headers.accept === 'application/json') {
+						return res.status(500).json({ error: 'unknown error' });
+					}
 					res.locals.err = err;
-					res.status(500).render(err500);
+					return res.status(500).render(err500);
 				} else {
 					if (keystone.get('logger')) {
 						console.log(dashes + 'Error handling 500 (error): Invalid type (' + (typeof err500) + ') for 500 setting.' + dashes);
 					}
-					default500Handler(err, req, res, next);
+					return default500Handler(err, req, res, next);
 				}
 			} catch (e) {
 				if (keystone.get('logger')) {
@@ -96,10 +96,10 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					console.log(e);
 					console.log(dashes);
 				}
-				default500Handler(err, req, res, next);
+				return default500Handler(err, req, res, next);
 			}
 		} else {
-			default500Handler(err, req, res, next);
+			return default500Handler(err, req, res, next);
 		}
 	});
 };
