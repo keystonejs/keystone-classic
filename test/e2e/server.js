@@ -23,7 +23,7 @@ keystone.init({
     'cookie secret': 'Secret'
 });
 
-keystone.import('models');
+keystone.import('../models');
 
 keystone.start({
     onStart: function() {

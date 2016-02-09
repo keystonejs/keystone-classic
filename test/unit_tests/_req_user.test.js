@@ -1,8 +1,8 @@
-var keystone = require('../index.js');
+var keystone = require('../../index.js');
 var request = require('supertest');
 var demand = require('must');
-var getExpressApp = require('./helpers/getExpressApp');
-var removeModel = require('./helpers/removeModel');
+var getExpressApp = require('../helpers/getExpressApp');
+var removeModel = require('../helpers/removeModel');
 
 describe('List schema pre/post save hooks', function() {
 	var app = getExpressApp();

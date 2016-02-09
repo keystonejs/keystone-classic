@@ -1,9 +1,9 @@
-var keystone = require('../../../index.js');
+var keystone = require('../../../../index.js');
 var demand = require('must');
 
-keystone.mongoose = require('../../helpers/getMongooseConnection.js');
+keystone.mongoose = require('../../../helpers/getMongooseConnection.js');
 
-keystone.import('models');
+keystone.import('../models');
 
 var DependsOn = keystone.list('DependsOn');
 

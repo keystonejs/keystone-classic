@@ -1,4 +1,4 @@
-var keystone = require('../..');
+var keystone = require('../../../index.js');
 var sinon = require('sinon');
 
 describe('Keystone.session', function() {

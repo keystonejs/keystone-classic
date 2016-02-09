@@ -1,5 +1,5 @@
 var fs = require('fs');
-var keystone = require('../index');
+var keystone = require('../../index.js');
 var path = require('path');
 
 keystone.init();

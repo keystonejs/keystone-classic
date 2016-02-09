@@ -6,7 +6,7 @@ var view = require('react-engine/lib/expressView');
 
 var engine = ReactEngine.server.create({});
 
-var init = require('../../server/initViewEngine.js');
+var init = require('../../../server/initViewEngine.js');
 
 var options = {
 
@@ -30,7 +30,7 @@ var options = {
 };
 
 describe("initViewEngine", function () {
-  var keystone = require('../../index.js');
+  var keystone = require('../../../index.js');
   var app = express();
   keystone.init(options);
   keystone.set('app', app);

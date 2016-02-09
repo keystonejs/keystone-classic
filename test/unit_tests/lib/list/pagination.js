@@ -1,9 +1,9 @@
-var keystone = require('../../../index.js');
+var keystone = require('../../../../index.js');
 var assert = require('core-assert');
 var async = require('async');
 var _ = require('underscore');
 
-keystone.import('models');
+keystone.import('../models');
 
 var Post = keystone.list('Post');
 

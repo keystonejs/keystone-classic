@@ -2,7 +2,7 @@ var demand = require('must');
 var request = require('supertest');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
-var keystone = require('../../index.js');
+var keystone = require('../../../index.js');
 
 var getApp = function() {
 	var app = keystone.express();

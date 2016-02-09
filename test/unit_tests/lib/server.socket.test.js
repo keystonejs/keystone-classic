@@ -1,4 +1,4 @@
-var keystoneApp = require('../helpers/getKeystoneApp');
+var keystoneApp = require('../../helpers/getKeystoneApp');
 var demand = require('must');
 
 describe('startSocketServer', function() {

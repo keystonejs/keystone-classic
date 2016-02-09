@@ -1,7 +1,7 @@
-var keystone = require('../');
+var keystone = require('../../index.js');
 var demand = require('must');
 var path = require('path');
-var getExpressApp = require('./helpers/getExpressApp');
+var getExpressApp = require('../helpers/getExpressApp');
 
 describe('Keystone "module root" setting', function () {
 

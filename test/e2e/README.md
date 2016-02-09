@@ -17,6 +17,6 @@ The setup is based on instructions at [nightwatchjs.org](http://nightwatchjs.org
         
 ## Running
         
-    npm run-script test-e2e
+    npm run test-e2e
     
     

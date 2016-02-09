@@ -1,10 +1,10 @@
-var keystone = require('../index.js');
-var Types = require('../lib/fieldTypes');
+var keystone = require('../../index.js');
+var Types = require('../../lib/fieldTypes');
 var request = require('supertest');
 var demand = require('must');
 var async = require('async');
-var getExpressApp = require('./helpers/getExpressApp');
-var removeModel = require('./helpers/removeModel');
+var getExpressApp = require('../helpers/getExpressApp');
+var removeModel = require('../helpers/removeModel');
 
 describe('List "track" option', function () {
 	var app = getExpressApp();

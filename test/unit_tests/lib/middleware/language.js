@@ -1,7 +1,7 @@
 var demand = require('must');
 var sinon = require('sinon');
 var assign = require('object-assign');
-var language = require('../../../lib/middleware/language');
+var language = require('../../../../lib/middleware/language');
 
 var COOKIE_NAME_ARG = 0;
 var COOKIE_LANGUAGE_ARG = 1;
