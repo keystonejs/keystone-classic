@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
-var util = require('util'),
-	moment = require('moment'),
-	super_ = require('../Type');
+var util = require('util');
+var moment = require('moment');
+var super_ = require('../Type');
 
 /**
  * Date FieldType Constructor

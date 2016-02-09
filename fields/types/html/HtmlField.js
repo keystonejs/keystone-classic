@@ -94,14 +94,14 @@ module.exports = Field.create({
 	},
 
 	getOptions () {
-		var plugins = ['code', 'link'],
-			options = Object.assign(
+		var plugins = ['code', 'link'];
+		var options = Object.assign(
 				{},
 				Keystone.wysiwyg.options,
 				this.props.wysiwyg
-			),
-			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | removeformat | link ',
-			i;
+			);
+		var toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | removeformat | link ';
+		var i;
 
 		if (options.enableImages) {
 			plugins.push('image');

@@ -74,8 +74,8 @@ Object.defineProperty(s3file.prototype, 's3config', {
 
 s3file.prototype.addToSchema = function () {
 
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// fields
@@ -230,10 +230,10 @@ s3file.prototype.updateItem = function (item, data, callback) { // eslint-disabl
  */
 
 var validateHeader = function (header, callback) {
-	var HEADER_NAME_KEY = 'name',
-		HEADER_VALUE_KEY = 'value',
-		validKeys = [HEADER_NAME_KEY, HEADER_VALUE_KEY],
-		filteredKeys;
+	var HEADER_NAME_KEY = 'name';
+	var HEADER_VALUE_KEY = 'value';
+	var validKeys = [HEADER_NAME_KEY, HEADER_VALUE_KEY];
+	var filteredKeys;
 
 	if (!_.has(header, HEADER_NAME_KEY)) {
 		return callback(new Error('Unsupported Header option: missing required key "' + HEADER_NAME_KEY + '" in ' + JSON.stringify(header)));
@@ -291,16 +291,16 @@ var validateHeaders = function (headers, callback) {
  */
 
 s3file.prototype.generateHeaders = function (item, file, callback) {
-	var field = this,
-		filetype = file.mimetype || file.type,
-		headers = {
-			'Content-Type': filetype,
-			'x-amz-acl': 'public-read',
-		},
-		customHeaders = {},
-		headersOption = {},
-		computedHeaders,
-		defaultHeaders;
+	var field = this;
+	var filetype = file.mimetype || file.type;
+	var headers = {
+		'Content-Type': filetype,
+		'x-amz-acl': 'public-read',
+	};
+	var customHeaders = {};
+	var headersOption = {};
+	var computedHeaders;
+	var defaultHeaders;
 
 
 	if (_.has(field.s3config, 'default headers')) {
@@ -370,13 +370,13 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 
 s3file.prototype.uploadFile = function (item, file, update, callback) {
 
-	var field = this,
-		path = field.options.s3path ? field.options.s3path + '/' : '',
-		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
-		filename = prefix + file.name,
-		originalname = file.originalname,
-		filetype = file.mimetype || file.type,
-		headers;
+	var field = this;
+	var path = field.options.s3path ? field.options.s3path + '/' : '';
+	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '';
+	var filename = prefix + file.name;
+	var originalname = file.originalname;
+	var filetype = file.mimetype || file.type;
+	var headers;
 
 	if (typeof update === 'function') {
 		callback = update;
@@ -410,8 +410,8 @@ s3file.prototype.uploadFile = function (item, file, update, callback) {
 				}
 			}
 
-			var protocol = (field.s3config.protocol && field.s3config.protocol + ':') || '',
-				url = res.req.url.replace(/^https?:/i, protocol).replace(/%25/g, '%');
+			var protocol = (field.s3config.protocol && field.s3config.protocol + ':') || '';
+			var url = res.req.url.replace(/^https?:/i, protocol).replace(/%25/g, '%');
 
 			var fileData = {
 				filename: filename,

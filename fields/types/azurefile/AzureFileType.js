@@ -227,9 +227,9 @@ azurefile.prototype.updateItem = function (item, data, callback) { // eslint-dis
 
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
-	var field = this,
-		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '', // eslint-disable-line no-unused-vars
-		filetype = file.mimetype || file.type;
+	var field = this;
+	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : ''; // eslint-disable-line no-unused-var
+	var filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
 		return callback(new Error('Unsupported File Type: ' + filetype));

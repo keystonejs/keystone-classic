@@ -1,5 +1,5 @@
-var demand = require('must'),
-	KeyType = require('../KeyType');
+var demand = require('must');
+var KeyType = require('../KeyType');
 
 exports.initList = function (List) {
 	List.add({

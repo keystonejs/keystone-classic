@@ -1,5 +1,5 @@
-var demand = require('must'),
-	ColorType = require('../ColorType');
+var demand = require('must');
+var ColorType = require('../ColorType');
 
 exports.initList = function (List) {
 	List.add({

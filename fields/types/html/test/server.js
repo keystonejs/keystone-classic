@@ -1,5 +1,5 @@
-var demand = require('must'),
-	HtmlType = require('../HtmlType');
+var demand = require('must');
+var HtmlType = require('../HtmlType');
 
 exports.initList = function (List) {
 	List.add({

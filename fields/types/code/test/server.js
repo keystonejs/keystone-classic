@@ -1,5 +1,5 @@
-var demand = require('must'),
-	CodeType = require('../CodeType');
+var demand = require('must');
+var CodeType = require('../CodeType');
 
 exports.initList = function (List) {
 	List.add({

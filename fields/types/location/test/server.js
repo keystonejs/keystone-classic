@@ -1,5 +1,5 @@
-var demand = require('must'),
-	LocationType = require('../LocationType');
+var demand = require('must');
+var LocationType = require('../LocationType');
 
 exports.initList = function (List) {
 	List.add({

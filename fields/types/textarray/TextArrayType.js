@@ -2,8 +2,8 @@
  * Module dependencies.
  */
 
-var util = require('util'),
-	super_ = require('../Type');
+var util = require('util');
+var super_ = require('../Type');
 
 /**
  * TextArray FieldType Constructor

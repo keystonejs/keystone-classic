@@ -69,8 +69,8 @@ util.inherits(localfile, super_);
 
 localfile.prototype.addToSchema = function () {
 
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// fields
@@ -98,8 +98,8 @@ localfile.prototype.addToSchema = function () {
 
 	// exists checks for a matching file at run-time
 	var exists = function (item) {
-		var filepath = item.get(paths.path),
-			filename = item.get(paths.filename);
+		var filepath = item.get(paths.path);
+		var filename = item.get(paths.filename);
 
 		if (!filepath || !filename) {
 			return false;
@@ -250,10 +250,10 @@ localfile.prototype.updateItem = function (item, data, callback) { // eslint-dis
  */
 
 localfile.prototype.uploadFile = function (item, file, update, callback) {
-	var field = this,
-		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
-		filename = prefix + file.name,
-		filetype = file.mimetype || file.type;
+	var field = this;
+	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '';
+	var filename = prefix + file.name;
+	var filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
 		return callback(new Error('Unsupported File Type: ' + filetype));

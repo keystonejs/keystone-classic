@@ -1,5 +1,5 @@
-var demand = require('must'),
-	EmailType = require('../EmailType');
+var demand = require('must');
+var EmailType = require('../EmailType');
 
 exports.initList = function (List) {
 	List.add({

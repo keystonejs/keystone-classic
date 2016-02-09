@@ -68,8 +68,8 @@ util.inherits(embedly, super_);
 
 embedly.prototype.addToSchema = function () {
 
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 
 	this.paths = {
 		exists: 				this._path.append('.exists'),
