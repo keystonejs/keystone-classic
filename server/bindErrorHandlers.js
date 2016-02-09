@@ -4,7 +4,10 @@ var utils = require('keystone-utils');
 module.exports = function bindErrorHandlers (keystone, app) {
 
 	// Handle 404 (no route matched) errors
-	var default404Handler = function (req, res, next) { // eslint-disable-line no-unused-vars
+	var default404Handler = function (req, res) {
+		if (req.headers.accept === 'application/json') {
+			return res.status(404).json({ error: 'not found' });
+		}
 		res.status(404).send(keystone.wrapHTMLError('Sorry, no page could be found at this address (404)'));
 	};
 
@@ -13,14 +16,17 @@ module.exports = function bindErrorHandlers (keystone, app) {
 		if (err404) {
 			try {
 				if (typeof err404 === 'function') {
-					err404(req, res, next);
+					return err404(req, res, next);
 				} else if (typeof err404 === 'string') {
-					res.status(404).render(err404);
+					if (req.headers.accept === 'application/json') {
+						return res.status(404).json({ error: 'not found' });
+					}
+					return res.status(404).render(err404);
 				} else {
 					if (keystone.get('logger')) {
 						console.log(dashes + 'Error handling 404 (not found): Invalid type (' + (typeof err404) + ') for 404 setting.' + dashes);
 					}
-					default404Handler(req, res, next);
+					return default404Handler(req, res, next);
 				}
 			} catch (e) {
 				if (keystone.get('logger')) {
@@ -28,10 +34,10 @@ module.exports = function bindErrorHandlers (keystone, app) {
 					console.log(e);
 					console.log(dashes);
 				}
-				default404Handler(req, res, next);
+				return default404Handler(req, res, next);
 			}
 		} else {
-			default404Handler(req, res, next);
+			return default404Handler(req, res, next);
 		}
 	});
 
