@@ -13,6 +13,7 @@
     "react"
   ],
   "rules": {
+    "one-var": [2, { "initialized": "never" }],
     "accessor-pairs": 2,
     "array-bracket-spacing": 2,
     "arrow-spacing": [2, { "before": true, "after": true }],
