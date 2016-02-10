@@ -43,7 +43,7 @@ function buildQueryString (options) {
 };
 
 function handleResponse (callback) {
-	return function(err, res, body) {
+	return function (err, res, body) {
 		if (err) return callback(err);
 		if (res.statusCode < 200 || res.statusCode >= 300) {
 			err = body.err;
@@ -201,7 +201,7 @@ List.prototype.deleteItems = function (itemIds, callback) {
 		url: url,
 		method: 'POST',
 		headers: Keystone.csrf.header,
-		responseType: 'json'
+		responseType: 'json',
 	}, handleResponse(callback));
 };
 
@@ -211,11 +211,9 @@ List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOp
 		url: url,
 		method: 'POST',
 		headers: Keystone.csrf.header,
-		responseType: 'json'
+		responseType: 'json',
 	}, handleResponse(callback));
 };
-
-
 
 List.prototype.callCustomAction = function (data, itemId, action, callback) {
 	const url = Keystone.adminPath + '/api/' + this.path + '/' + itemId + '/actions/' + action.slug;
@@ -224,11 +222,11 @@ List.prototype.callCustomAction = function (data, itemId, action, callback) {
 		url: url,
 		method: 'POST',
 		headers: {
-        	'Content-Type': 'application/json',
-			...Keystone.csrf.header
+			'Content-Type': 'application/json',
+			...Keystone.csrf.header,
 		},
 		responseType: 'json',
-		body: JSON.stringify(data)
+		body: JSON.stringify(data),
 	}, handleResponse(callback));
 };
 

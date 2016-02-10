@@ -14,13 +14,13 @@ var EditForm = React.createClass({
 	propTypes: {
 		data: React.PropTypes.object,
 		list: React.PropTypes.object,
-		reloadData: React.PropTypes.func
+		reloadData: React.PropTypes.func,
 	},
 	getInitialState () {
 		return {
 			values: Object.assign({}, this.props.data.fields),
 			confirmationDialog: null,
-			actionsDisabled: false
+			actionsDisabled: false,
 		};
 	},
 	getFieldProps (field) {
@@ -85,7 +85,7 @@ var EditForm = React.createClass({
 			this.props.reloadData((err, itemData) => {
 
 				this.setState({
-					values: Object.assign({}, this.props.data.fields)
+					values: Object.assign({}, this.props.data.fields),
 				});
 
 				this.props.clearMessages();
@@ -177,7 +177,7 @@ var EditForm = React.createClass({
 	},
 	renderFooterBar () {
 		var buttons = [
-			<Button key="save" type="primary" submit disabled={this.state.actionsDisabled}>Save</Button>
+			<Button key="save" type="primary" submit disabled={this.state.actionsDisabled}>Save</Button>,
 		];
 
 		this.props.list.customActions.forEach(customAction => {
