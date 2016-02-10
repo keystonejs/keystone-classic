@@ -8,6 +8,7 @@ var Path = require('../../lib/path');
 var utils = require('keystone-utils');
 var evalDependsOn = require('../utils/evalDependsOn.js');
 var debug = require('debug')('keystone:fields:types:Type');
+var jsonCycle = require('json-cycle');
 
 var DEFAULT_OPTION_KEYS = [
 	'path',
@@ -27,6 +28,11 @@ var DEFAULT_OPTION_KEYS = [
 	'hidden',
 	'collapse',
 	'dependsOn',
+	'subList',
+	'populate',
+	'optionsSource',
+	'mirrored',
+	'treatAsKey'
 ];
 
 /**
@@ -105,9 +111,9 @@ Field.prototype.getOptions = function () {
 		}
 		optionKeys.forEach(function (key) {
 			if (this[key]) {
-				this.__options[key] = this[key];
-			} else if (this.options[key]) {
-				this.__options[key] = this.options[key];
+				this.__options[key] = key == 'subList' ? jsonCycle.decycle(this[key].getOptions()) : this[key];
+			} else if (this.options[key]){
+				this.__options[key] = key == 'subList' ? jsonCycle.decycle(this.options[key].getOptions()) : this.options[key];
 			}
 		}, this);
 		if (this.getProperties) {

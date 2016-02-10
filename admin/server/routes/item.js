@@ -74,7 +74,6 @@ module.exports = function (req, res) {
 		};
 
 		if (req.method === 'POST' && req.body.action === 'updateItem' && !req.list.get('noedit')) {
-
 			if (!keystone.security.csrf.validate(req)) {
 				console.error('CSRF failure', req.method, req.body);
 				req.flash('error', 'There was a problem with your request, please try again.');

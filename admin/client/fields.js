@@ -21,6 +21,7 @@ module.exports = {
 	name:             require('../../fields/types/name/NameField'),
 	number:           require('../../fields/types/number/NumberField'),
 	numberarray:      require('../../fields/types/numberarray/NumberArrayField'),
+	objectarray: 	  require('../../fields/types/objectarray/ObjectArrayField'),
 	password:         require('../../fields/types/password/PasswordField'),
 	relationship:     require('../../fields/types/relationship/RelationshipField'),
 	s3file:           require('../../fields/types/s3file/S3FileField'),
