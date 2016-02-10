@@ -147,7 +147,7 @@
     "pretest": "npm run lint",
     "test": "mocha",
     "test-e2e": "node test/e2eTests/server.js --config ./test/e2eTests/nightwatch.json",
-    "lint": "npm -v",
+    "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "watch": "watch 'clear && npm run lint' lib admin server test",
     "pretest-cov": "npm run clean && npm run lint",
