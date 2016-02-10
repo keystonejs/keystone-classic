@@ -1,5 +1,5 @@
 {
-  "src_folders" : ["test/e2e/test_groups"],
+  "src_folders" : ["test/e2eTests/testGroups"],
   "output_folder" : "reports",
   "custom_commands_path" : "",
   "custom_assertions_path" : "",

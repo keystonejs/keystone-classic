@@ -1,4 +1,4 @@
-test/unit_tests
+test/unitTests
 --recursive
 --require must
 --growl

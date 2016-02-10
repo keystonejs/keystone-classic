@@ -7,12 +7,11 @@ The setup is based on instructions at [nightwatchjs.org](http://nightwatchjs.org
     keystone/bin/
         selenium-server-standalone-x.y.z.jar    => selenium driver
         
-    test/e2e
+    test/e2eTests
         nightwatch.json                         => nightwatch config
-        tests                                   => test groups
+        testGroups                              => test groups
         
         server.js                               => keystone test app server
-        models.js                               => test models
         updates.js                              => keystone updates
         
 ## Running
