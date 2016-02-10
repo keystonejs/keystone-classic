@@ -1,5 +1,5 @@
-var demand = require('must'),
-	KeyType = require('../KeyType');
+var demand = require('must');
+var KeyType = require('../KeyType');
 
 exports.initList = function (List) {
 	List.add({
@@ -11,11 +11,11 @@ exports.initList = function (List) {
 	});
 };
 
-exports.createData = function (List) { //eslint-disable-line no-unused-vars
+exports.createData = function (List) { // eslint-disable-line no-unused-vars
 
 };
 
-exports.testFilters = function (List) { //eslint-disable-line no-unused-vars
+exports.testFilters = function (List) { // eslint-disable-line no-unused-vars
 
 };
 

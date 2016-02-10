@@ -13,8 +13,8 @@ module.exports = {
 
 			var s3Config = keystone.get('s3 config');
 
-			var file = req.files.file,
-				path = s3Config.s3path ? s3Config.s3path + '/' : '';
+			var file = req.files.file;
+			var path = s3Config.s3path ? s3Config.s3path + '/' : '';
 
 			var headers = Types.S3File.prototype.generateHeaders.call({ s3config: s3Config, options: {} }, null, file);
 

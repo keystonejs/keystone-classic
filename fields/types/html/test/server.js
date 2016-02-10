@@ -1,5 +1,5 @@
-var demand = require('must'),
-	HtmlType = require('../HtmlType');
+var demand = require('must');
+var HtmlType = require('../HtmlType');
 
 exports.initList = function (List) {
 	List.add({
@@ -10,11 +10,11 @@ exports.initList = function (List) {
 	});
 };
 
-exports.createData = function (List) { //eslint-disable-line no-unused-vars
+exports.createData = function (List) { // eslint-disable-line no-unused-vars
 
 };
 
-exports.testFilters = function (List) { //eslint-disable-line no-unused-vars
+exports.testFilters = function (List) { // eslint-disable-line no-unused-vars
 
 };
 

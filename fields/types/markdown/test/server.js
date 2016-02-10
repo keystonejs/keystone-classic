@@ -1,5 +1,5 @@
-var demand = require('must'),
-	MarkdownType = require('../MarkdownType');
+var demand = require('must');
+var MarkdownType = require('../MarkdownType');
 
 exports.initList = function (List) {
 	List.add({

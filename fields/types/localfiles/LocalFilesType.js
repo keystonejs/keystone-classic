@@ -117,7 +117,7 @@ localfiles.prototype.addToSchema = function () {
 			value = values[0];
 		} else {
 			// allow implicit type coercion to compare string IDs with MongoID objects
-			value = values.find(function (val) { return val._id == element_id; });
+			value = values.find(function (val) { return val._id == element_id; }); // eslint-disable-line eqeqeq
 		}
 
 		if (typeof value === 'undefined') {
@@ -145,7 +145,7 @@ localfiles.prototype.addToSchema = function () {
 		} else {
 			var values = item.get(field.path);
 			// allow implicit type coercion to compare string IDs with MongoID objects
-			var value = values.find(function (val) { return val._id == element_id; });
+			var value = values.find(function (val) { return val._id == element_id; }); // eslint-disable-line eqeqeq
 			if (typeof value !== 'undefined') {
 				values.splice(values.indexOf(value), 1);
 				item.set(field.path, values);
@@ -174,7 +174,7 @@ localfiles.prototype.addToSchema = function () {
 			if (exists(this, element_id)) {
 				var values = this.get(field.path);
 				// allow implicit type coercion to compare string IDs with MongoID objects
-				var value = values.find(function (val) { return val._id == element_id; });
+				var value = values.find(function (val) { return val._id == element_id; }); // eslint-disable-line eqeqeq
 				if (typeof value !== 'undefined') {
 					fs.unlinkSync(path.join(value.path, value.filename));
 				}
@@ -258,7 +258,7 @@ localfiles.prototype.isModified = function (item) {
  * @api public
  */
 
-localfiles.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
+localfiles.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
@@ -270,7 +270,7 @@ localfiles.prototype.inputIsValid = function (data) { //eslint-disable-line no-u
  * @api public
  */
 
-localfiles.prototype.updateItem = function (item, data, callback) { //eslint-disable-line no-unused-vars
+localfiles.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };

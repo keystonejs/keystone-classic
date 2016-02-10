@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 
-var util = require('util'),
-	numeral = require('numeral'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type');
+var util = require('util');
+var numeral = require('numeral');
+var utils = require('keystone-utils');
+var super_ = require('../Type');
 
 /**
  * Number FieldType Constructor

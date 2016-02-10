@@ -1,5 +1,5 @@
 var keystone = require('../../../index.js');
-var assert = require('assert');
+var assert = require('core-assert');
 var async = require('async');
 var _ = require('underscore');
 

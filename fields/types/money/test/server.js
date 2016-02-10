@@ -1,5 +1,5 @@
-var demand = require('must'),
-	MoneyType = require('../MoneyType');
+var demand = require('must');
+var MoneyType = require('../MoneyType');
 
 exports.initList = function (List) {
 	List.add({

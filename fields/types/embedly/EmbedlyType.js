@@ -68,8 +68,8 @@ util.inherits(embedly, super_);
 
 embedly.prototype.addToSchema = function () {
 
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 
 	this.paths = {
 		exists: 				this._path.append('.exists'),
@@ -127,7 +127,7 @@ embedly.prototype.addToSchema = function () {
 
 		var post = this;
 
-		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function (err, api) { //eslint-disable-line no-new
+		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function (err, api) { // eslint-disable-line no-new
 
 			if (err) {
 				console.error('Error creating Embedly api:');
@@ -239,7 +239,7 @@ embedly.prototype.isModified = function (item) {
  * @api public
  */
 
-embedly.prototype.inputIsValid = function (data) { //eslint-disable-line no-unused-vars
+embedly.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO: I don't think embedly fields need to be validated...
 	return true;
 };

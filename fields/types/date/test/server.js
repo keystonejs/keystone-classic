@@ -1,5 +1,5 @@
-var demand = require('must'),
-	DateType = require('../DateType');
+var demand = require('must');
+var DateType = require('../DateType');
 
 exports.initList = function (List) {
 	List.add({

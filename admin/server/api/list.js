@@ -59,8 +59,7 @@ module.exports = function (req, res) {
 					});
 				});
 			});
-
-		break;
+			break;
 
 		case 'order':
 			if (!keystone.security.csrf.validate(req)) {
@@ -82,7 +81,7 @@ module.exports = function (req, res) {
 					success: true,
 				});
 			});
-		break;
+			break;
 
 		case 'create':
 			if (!keystone.security.csrf.validate(req)) {
@@ -123,7 +122,7 @@ module.exports = function (req, res) {
 			} else {
 				processUpdateHandler();
 			}
-		break;
+			break;
 
 	}
 

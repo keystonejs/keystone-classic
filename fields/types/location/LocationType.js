@@ -339,23 +339,23 @@ function doGoogleGeocodeRequest (address, region, callback) {
 	https.get(endpoint, function (res) {
 		var data = [];
 		res.on('data', function (chunk) {
-				data.push(chunk);
-			})
-			.on('end', function () {
-				var dataBuff = data.join('').trim();
-				var result;
-				try {
-					result = JSON.parse(dataBuff);
-				}
-				catch (exp) {
-					result = {
-						status_code: 500,
-						status_text: 'JSON Parse Failed',
-						status: 'UNKNOWN_ERROR',
-					};
-				}
-				callback(null, result);
-			});
+			data.push(chunk);
+		})
+		.on('end', function () {
+			var dataBuff = data.join('').trim();
+			var result;
+			try {
+				result = JSON.parse(dataBuff);
+			}
+			catch (exp) {
+				result = {
+					status_code: 500,
+					status_text: 'JSON Parse Failed',
+					status: 'UNKNOWN_ERROR',
+				};
+			}
+			callback(null, result);
+		});
 	})
 	.on('error', function (err) {
 		callback(err);
@@ -437,10 +437,10 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 			result.geometry.location.lat,
 		];
 
-		//console.log('------ Google Geocode Results ------');
-		//console.log(address);
-		//console.log(result);
-		//console.log(location);
+		// console.log('------ Google Geocode Results ------');
+		// console.log(address);
+		// console.log(result);
+		// console.log(location);
 
 		if (update === 'overwrite') {
 			item.set(field.path, location);

@@ -382,7 +382,7 @@ module.exports = Field.create({
 			});
 		};
 
-		//listen for changes
+		// listen for changes
 		var onChange = function onChange (data) {
 			if (data && data.value) {
 				self.setState({ selectedCloudinaryImage:data.value });
