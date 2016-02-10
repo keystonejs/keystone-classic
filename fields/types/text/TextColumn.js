@@ -24,7 +24,7 @@ var TextColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = TextColumn;

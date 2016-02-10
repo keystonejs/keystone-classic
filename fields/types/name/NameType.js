@@ -9,7 +9,7 @@ var displayName = require('display-name');
  * @extends Field
  * @api public
  */
-function name(list, path, options) {
+function name (list, path, options) {
 	this._fixedSize = 'full';
 	options.default = { first: '', last: '' };
 	options.nofilter = true; // TODO: remove this when 0.4 is merged
@@ -27,25 +27,25 @@ util.inherits(name, FieldType);
  * @api public
  */
 
-name.prototype.addToSchema = function() {
+name.prototype.addToSchema = function () {
 	var schema = this.list.schema;
 	var paths = this.paths = {
 		first: this._path.append('.first'),
 		last: this._path.append('.last'),
-		full: this._path.append('.full')
+		full: this._path.append('.full'),
 	};
 
 	schema.nested[this.path] = true;
 	schema.add({
 		first: String,
-		last: String
+		last: String,
 	}, this.path + '.');
 
 	schema.virtual(paths.full).get(function () {
 		return displayName(this.get(paths.first), this.get(paths.last));
 	});
 
-	schema.virtual(paths.full).set(function(value) {
+	schema.virtual(paths.full).set(function (value) {
 		if (typeof value !== 'string') {
 			this.set(paths.first, undefined);
 			this.set(paths.last, undefined);
@@ -63,7 +63,7 @@ name.prototype.addToSchema = function() {
  * Gets the string to use for sorting by this field
  */
 
-name.prototype.getSortString = function(options) {
+name.prototype.getSortString = function (options) {
 	if (options.invert) {
 		return '-' + this.paths.first + ' -' + this.paths.last;
 	}
@@ -76,7 +76,7 @@ name.prototype.getSortString = function(options) {
  * TODO: this filter will conflict with any other $or filter, including filters
  * on other "name" type fields; need to work out a better way to implement.
  */
-name.prototype.addFilterToQuery = function(filter, query) {
+name.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.paths.first] = query[this.paths.last] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
@@ -113,14 +113,14 @@ name.prototype.addFilterToQuery = function(filter, query) {
  * Formats the field value
  */
 
-name.prototype.format = function(item) {
+name.prototype.format = function (item) {
 	return item.get(this.paths.full);
 };
 
 /**
  * Validates that a value for this field has been provided in a data object
  */
-name.prototype.inputIsValid = function(data, required, item) {
+name.prototype.inputIsValid = function (data, required, item) {
 	// Input is valid if none was provided, but the item has data
 	if (!(this.path in data || this.paths.first in data || this.paths.last in data || this.paths.full in data) && item && item.get(this.paths.full)) return true;
 	// Input is valid if the field is not required
@@ -139,7 +139,7 @@ name.prototype.inputIsValid = function(data, required, item) {
  *
  * @api public
  */
-name.prototype.isModified = function(item) {
+name.prototype.isModified = function (item) {
 	return item.isModified(this.paths.first) || item.isModified(this.paths.last);
 };
 
@@ -148,8 +148,8 @@ name.prototype.isModified = function(item) {
  *
  * @api public
  */
-name.prototype.updateItem = function(item, data) {
-	if (!_.isObject(data)) return;
+name.prototype.updateItem = function (item, data, callback) {
+	if (!_.isObject(data)) return process.nextTick(callback);
 	var paths = this.paths;
 	var setValue;
 	if (this.path in data && _.isString(data[this.path])) {
@@ -158,14 +158,14 @@ name.prototype.updateItem = function(item, data) {
 	} else if (this.path in data && _.isObject(data[this.path])) {
 		// Allow a nested object like { path: { first: 'Jed' } }
 		var valueObj = data[this.path];
-		setValue = function(key) {
+		setValue = function (key) {
 			if (key in valueObj && valueObj[key] !== item.get(paths[key])) {
 				item.set(paths[key], valueObj[key]);
 			}
 		};
 	} else {
 		// Default to flattened paths like { 'path.first': 'Jed' }
-		setValue = function(key) {
+		setValue = function (key) {
 			if (paths[key] in data && data[paths[key]] !== item.get(paths[key])) {
 				item.set(paths[key], data[paths[key]]);
 			}
@@ -174,6 +174,7 @@ name.prototype.updateItem = function(item, data) {
 	if (setValue) {
 		_.each(['full', 'first', 'last'], setValue);
 	}
+	process.nextTick(callback);
 };
 
 

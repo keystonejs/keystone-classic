@@ -28,7 +28,7 @@ var DateColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = DateColumn;

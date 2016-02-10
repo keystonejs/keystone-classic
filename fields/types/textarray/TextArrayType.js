@@ -2,8 +2,8 @@
  * Module dependencies.
  */
 
-var util = require('util'),
-	super_ = require('../Type');
+var util = require('util');
+var super_ = require('../Type');
 
 /**
  * TextArray FieldType Constructor
@@ -11,7 +11,7 @@ var util = require('util'),
  * @api public
  */
 
-function textarray(list, path, options) {
+function textarray (list, path, options) {
 	this._nativeType = [String];
 
 	textarray.super_.call(this, list, path, options);
@@ -29,21 +29,21 @@ util.inherits(textarray, super_);
  * @api public
  */
 
-textarray.prototype.inputIsValid = function(data, required, item) {
+textarray.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
 
 	if (required) {
 		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
 		}
-		if (value === undefined || !Array.isArray(value) || ('string' !== typeof value) || ('number' !== typeof value)) {
+		if (value === undefined || !Array.isArray(value) || (typeof value !== 'string') || (typeof value !== 'number')) {
 			return false;
 		}
 		if (Array.isArray(value) && !value.length) {
 			return false;
 		}
 	}
-	return (value === undefined || Array.isArray(value) || ('string' === typeof value) || ('number' === typeof value));
+	return (value === undefined || Array.isArray(value) || (typeof value === 'string') || (typeof value === 'number'));
 };
 
 /**
@@ -52,23 +52,25 @@ textarray.prototype.inputIsValid = function(data, required, item) {
  * @api public
  */
 
-textarray.prototype.updateItem = function(item, data) {
+textarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	
-	if ('undefined' !== typeof value) {
+
+	if (typeof value !== 'undefined') {
 		if (value === null) {
 			value = [];
 		}
-		if ('string' === typeof value) {
+		if (typeof value === 'string') {
 			value = [value];
 		}
-		if ('number' === typeof value) {
+		if (typeof value === 'number') {
 			value = [value.toString()];
 		}
 		if (Array.isArray(value)) {
 			item.set(this.path, value);
 		}
 	}
+
+	process.nextTick(callback);
 };
 
 /*!

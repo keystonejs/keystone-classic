@@ -2,13 +2,13 @@ var _ = require('underscore');
 var async = require('async');
 var keystone = require('../../../');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 
-	var sendResponse = function(status) {
+	var sendResponse = function (status) {
 		res.json(status);
 	};
 
-	var sendError = function(key, err, msg) {
+	var sendError = function (key, err, msg) {
 		msg = msg || 'API Error';
 		key = key || 'unknown error';
 		msg += ` (${key})`;
@@ -39,28 +39,27 @@ module.exports = function(req, res) {
 				var field = srcList.fields[req.query.field];
 				if (!field) return sendError('invalid field provided');
 
-				_.each(req.query.filters, function(value, key) {
+				_.each(req.query.filters, function (value, key) {
 					query.where(key).equals(value ? value : null);
 					count.where(key).equals(value ? value : null);
 				});
 			}
-			count.exec(function(err, total) {
+			count.exec(function (err, total) {
 				if (err) return sendError('database error', err);
-				query.exec(function(err, items) {
+				query.exec(function (err, items) {
 					if (err) return sendError('database error', err);
 					sendResponse({
 						total: total,
-						items: items.map(function(i) {
+						items: items.map(function (i) {
 							return {
 								name: req.list.getDocumentName(i, false) || '(' + i.id + ')',
-								id: i.id
+								id: i.id,
 							};
-						})
+						}),
 					});
 				});
 			});
-
-		break;
+			break;
 
 		case 'order':
 			if (!keystone.security.csrf.validate(req)) {
@@ -68,21 +67,21 @@ module.exports = function(req, res) {
 			}
 			var order = req.query.order || req.body.order;
 			var queue = [];
-			if ('string' === typeof order) {
+			if (typeof order === 'string') {
 				order = order.split(',');
 			}
-			_.each(order, function(id, i) {
-				queue.push(function(done) {
+			_.each(order, function (id, i) {
+				queue.push(function (done) {
 					req.list.model.update({ _id: id }, { $set: { sortOrder: i } }, done);
 				});
 			});
-			async.parallel(queue, function(err) {
+			async.parallel(queue, function (err) {
 				if (err) return sendError('database error', err);
 				return sendResponse({
-					success: true
+					success: true,
 				});
 			});
-		break;
+			break;
 
 		case 'create':
 			if (!keystone.security.csrf.validate(req)) {
@@ -91,32 +90,39 @@ module.exports = function(req, res) {
 			var item = new req.list.model();
 			var updateHandler = item.getUpdateHandler(req);
 			var data = (req.method === 'POST') ? req.body : req.query;
+
+			var processUpdateHandler = function () {
+				updateHandler.process(data, {
+					flashErrors: true,
+					logErrors: true,
+					fields: req.list.initialFields,
+				}, function (err) {
+					if (err) {
+						return sendResponse({
+							success: false,
+							err: err,
+						});
+					} else {
+						return sendResponse({
+							success: true,
+							name: req.list.getDocumentName(item, false),
+							id: item.id,
+						});
+					}
+				});
+			};
+
 			if (req.list.nameIsInitial) {
 				if (req.list.nameField.inputIsValid(data)) {
-					req.list.nameField.updateItem(item, data);
+					req.list.nameField.updateItem(item, data, processUpdateHandler);
 				} else {
 					updateHandler.addValidationError(req.list.nameField.path, 'Name is required.');
+					processUpdateHandler();
 				}
+			} else {
+				processUpdateHandler();
 			}
-			updateHandler.process(data, {
-				flashErrors: true,
-				logErrors: true,
-				fields: req.list.initialFields
-			}, function(err) {
-				if (err) {
-					return sendResponse({
-						success: false,
-						err: err
-					});
-				} else {
-					return sendResponse({
-						success: true,
-						name: req.list.getDocumentName(item, false),
-						id: item.id
-					});
-				}
-			});
-		break;
+			break;
 
 	}
 

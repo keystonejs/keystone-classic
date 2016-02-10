@@ -8,16 +8,17 @@ var util = require('util');
  * @api public
  */
 
-function date(list, path, options) {
+function date (list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'medium';
-	this._properties = ['formatString', 'yearRange', 'isUTC'];
-	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
+	this._properties = ['formatString', 'yearRange', 'isUTC', 'inputFormat'];
+	this.parseFormatString = options.inputFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
+
 	this.yearRange = options.yearRange;
 	this.isUTC = options.utc || false;
-	if (this.formatString && 'string' !== typeof this.formatString) {
+	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.Date: options.format must be a string.');
 	}
 	date.super_.call(this, list, path, options);
@@ -27,31 +28,31 @@ util.inherits(date, FieldType);
 /**
  * Add filters to a query
  */
-date.prototype.addFilterToQuery = function(filter, query) {
+date.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (filter.mode === 'between') {
-		
+
 		if (filter.after && filter.before) {
-			
+
 			filter.after = moment(filter.after);
 			filter.before = moment(filter.before);
-			
+
 			if (filter.after.isValid() && filter.before.isValid()) {
 				query[this.path] = {
 					$gte: filter.after.startOf('day').toDate(),
-					$lte: filter.before.endOf('day').toDate()
+					$lte: filter.before.endOf('day').toDate(),
 				};
 			}
 		}
-		
+
 	} else if (filter.value) {
-		
+
 		var day = {
-			moment: moment(filter.value)
+			moment: moment(filter.value),
 		};
 		day.start = day.moment.startOf('day').toDate();
 		day.end = moment(filter.value).endOf('day').toDate();
-		
+
 		if (day.moment.isValid()) {
 			if (filter.mode === 'after') {
 				query[this.path] = { $gt: day.end };
@@ -61,11 +62,11 @@ date.prototype.addFilterToQuery = function(filter, query) {
 				query[this.path] = { $gte: day.start, $lte: day.end };
 			}
 		}
-		
+
 	}
-	
+
 	if (filter.inverted) {
-		query[this.path] =  { $not: query[this.path] };	
+		query[this.path] = { $not: query[this.path] };
 	}
 
 	return query;
@@ -74,7 +75,7 @@ date.prototype.addFilterToQuery = function(filter, query) {
 /**
  * Formats the field value
  */
-date.prototype.format = function(item, format) {
+date.prototype.format = function (item, format) {
 	if (format || this.formatString) {
 		return item.get(this.path) ? this.moment(item).format(format || this.formatString) : '';
 	} else {
@@ -85,7 +86,7 @@ date.prototype.format = function(item, format) {
 /**
  * Returns a new `moment` object with the field value
  */
-date.prototype.moment = function(item) {
+date.prototype.moment = function (item) {
 	var m = moment(item.get(this.path));
 	if (this.isUTC) m.utc();
 	return m;
@@ -94,7 +95,7 @@ date.prototype.moment = function(item) {
 /**
  * Parses input using moment, sets the value, and returns the moment object.
  */
-date.prototype.parse = function(item) {
+date.prototype.parse = function (item) {
 	var m = this.isUTC ? moment.utc : moment;
 	var newValue = m.apply(m, Array.prototype.slice.call(arguments, 1));
 	item.set(this.path, (newValue && newValue.isValid()) ? newValue.toDate() : null);
@@ -105,7 +106,7 @@ date.prototype.parse = function(item) {
  * Checks that a valid date has been provided in a data object
  * An empty value clears the stored value and is considered valid
  */
-date.prototype.inputIsValid = function(data, required, item) {
+date.prototype.inputIsValid = function (data, required, item) {
 	if (!(this.path in data) && item && item.get(this.path)) return true;
 	var newValue = moment(data[this.path], this.parseFormatString);
 	if (required && (!newValue.isValid())) {
@@ -120,9 +121,9 @@ date.prototype.inputIsValid = function(data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-date.prototype.updateItem = function(item, data) {
+date.prototype.updateItem = function (item, data, callback) {
 	if (!(this.path in data)) {
-		return;
+		return process.nextTick(callback);
 	}
 	var m = this.isUTC ? moment.utc : moment;
 	var newValue = m(data[this.path], this.parseFormatString);
@@ -133,6 +134,7 @@ date.prototype.updateItem = function(item, data) {
 	} else if (item.get(this.path)) {
 		item.set(this.path, null);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */

@@ -31,25 +31,30 @@ function defaultPage () {
 	};
 }
 
-let drag = defaultDrag();
+// TODO: This is pretty messy; state variables should not be set by defaulters
+// Needs to be reviewed & cleaned up
 
+let drag;
 function defaultDrag () {
-	return drag = {
+	drag = {
 		page: 1,
 		item: false,
 		clonedItems: false,
 		index: false,
 	};
+	return drag;
 }
+defaultDrag();
 
-var _rowAlert = defaultRowAlert();
-
+var _rowAlert;
 function defaultRowAlert () {
-	return _rowAlert = {
+	_rowAlert = {
 		success: false,
 		fail: false,
 	};
+	return _rowAlert;
 }
+defaultRowAlert();
 
 function updateQueryParams (params, replace) {
 	if (!_location) return;
@@ -77,9 +82,9 @@ const CurrentListStore = new Store({
 	setDragBase (item, index) {
 		drag.page = page.index;
 		drag.clonedItems = _itemsResultsClone.slice(0);
-		if(item) {
+		if (item) {
 			drag.item = item;
-			if(index) {
+			if (index) {
 				drag.index = index;
 			}
 		}
@@ -189,7 +194,7 @@ const CurrentListStore = new Store({
 						_items.results.push(drag.item);
 					}
 				}
-				_itemsResultsClone =  items.results.slice(0);
+				_itemsResultsClone = items.results.slice(0);
 
 				if (options.success && options.id) {
 					// flashes a success background on the row
@@ -210,7 +215,7 @@ const CurrentListStore = new Store({
 	deleteItem (itemId) {
 		_list.deleteItem(itemId, (err, data) => {
 			// TODO: graceful error handling
-			if(err) {
+			if (err) {
 				return this.resetItems(this.findItemById[itemId]);
 			}
 			this.loadItems();
@@ -232,9 +237,9 @@ const CurrentListStore = new Store({
 		});
 		window.open(url);
 	},
-		rowAlert (reset = false) {
+	rowAlert (reset = false) {
 		//  reset the alerts or return the object
-		if(reset) {
+		if (reset) {
 			defaultRowAlert();
 			return this.notifyChange();
 		}
@@ -278,12 +283,12 @@ const CurrentListStore = new Store({
 			},
 			(err, items) => {
 				// if err flash the row alert
-				if(err) {
+				if (err) {
 					return this.resetItems(this.findItemById[item.id]);
 				}
-				if('object' === typeof items && items.results) {
+				if (typeof items !== 'object' && items.results) {
 					_items = items;
-					_itemsResultsClone =  items.results.slice(0);
+					_itemsResultsClone = items.results.slice(0);
 					_rowAlert.success = item.id;
 				}
 				return this.notifyChange();
@@ -325,16 +330,6 @@ const CurrentListStore = new Store({
 		_items.results = drag.clonedItems;
 		defaultDrag();
 		this.notifyChange();
-	},
-	downloadItems (format, columns) {
-		var url = _list.getDownloadURL({
-			search: active.search,
-			filters: active.filters,
-			sort: active.sort,
-			columns: columns ? _list.expandColumns(columns) : active.columns,
-			format: format,
-		});
-		window.open(url);
 	},
 });
 

@@ -20,7 +20,7 @@ module.exports = Field.create({
 
 	getInitialState () {
 		return {
-			isFocused: false
+			isFocused: false,
 		};
 	},
 
@@ -31,7 +31,7 @@ module.exports = Field.create({
 
 		var options = _.defaults({}, this.props.editor, {
 			lineNumbers: true,
-			readOnly: this.shouldRenderField() ? false : true
+			readOnly: this.shouldRenderField() ? false : true,
 		});
 
 		this.codeMirror = CodeMirror.fromTextArea(ReactDOM.findDOMNode(this.refs.codemirror), options);
@@ -63,22 +63,22 @@ module.exports = Field.create({
 
 	focusChanged (focused) {
 		this.setState({
-			isFocused: focused
+			isFocused: focused,
 		});
 	},
 
-	codemirrorValueChanged (doc, change) {//eslint-disable-line no-unused-vars
+	codemirrorValueChanged (doc, change) { // eslint-disable-line no-unused-vars
 		var newValue = doc.getValue();
 		this._currentCodemirrorValue = newValue;
 		this.props.onChange({
 			path: this.props.path,
-			value: newValue
+			value: newValue,
 		});
 	},
 
 	renderCodemirror () {
 		let className = classnames('CodeMirror-container', {
-			'is-focused': this.state.isFocused && this.shouldRenderField()
+			'is-focused': this.state.isFocused && this.shouldRenderField(),
 		});
 
 		return (
@@ -94,6 +94,6 @@ module.exports = Field.create({
 
 	renderField () {
 		return this.renderCodemirror();
-	}
+	},
 
 });

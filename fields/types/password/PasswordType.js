@@ -8,7 +8,7 @@ var util = require('util');
  * @extends Field
  * @api public
  */
-function password(list, path, options) {
+function password (list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format', 'compare'];
 	this._fixedSize = 'full';
@@ -27,30 +27,30 @@ util.inherits(password, FieldType);
  *
  * @api public
  */
-password.prototype.addToSchema = function() {
+password.prototype.addToSchema = function () {
 	var field = this;
 	var schema = this.list.schema;
 	var needs_hashing = '__' + field.path + '_needs_hashing';
 
 	this.paths = {
 		hash: this.options.hashPath || this._path.append('_hash'),
-		confirm: this.options.confirmPath || this._path.append('_confirm')
+		confirm: this.options.confirmPath || this._path.append('_confirm'),
 	};
 
 	schema.path(this.path, _.defaults({
 		type: String,
-		set: function(newValue) {
+		set: function (newValue) {
 			this[needs_hashing] = true;
 			return newValue;
-		}
+		},
 	}, this.options));
 
-	schema.virtual(this.paths.hash).set(function(newValue) {
+	schema.virtual(this.paths.hash).set(function (newValue) {
 		this.set(field.path, newValue);
 		this[needs_hashing] = false;
 	});
 
-	schema.pre('save', function(next) {
+	schema.pre('save', function (next) {
 		if (!this.isModified(field.path) || !this[needs_hashing]) {
 			return next();
 		}
@@ -59,11 +59,11 @@ password.prototype.addToSchema = function() {
 			return next();
 		}
 		var item = this;
-		bcrypt.genSalt(field.workFactor, function(err, salt) {
+		bcrypt.genSalt(field.workFactor, function (err, salt) {
 			if (err) {
 				return next(err);
 			}
-			bcrypt.hash(item.get(field.path), salt, function () {}, function(err, hash) {
+			bcrypt.hash(item.get(field.path), salt, function () {}, function (err, hash) {
 				if (err) {
 					return next(err);
 				}
@@ -79,7 +79,7 @@ password.prototype.addToSchema = function() {
 /**
  * Add filters to a query
  */
-password.prototype.addFilterToQuery = function(filter, query) {
+password.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	query[this.path] = (filter.exists) ? { $ne: null } : null;
 	return query;
@@ -94,7 +94,7 @@ password.prototype.addFilterToQuery = function(filter, query) {
  *
  * @api public
  */
-password.prototype.format = function(item) {
+password.prototype.format = function (item) {
 	if (!item.get(this.path)) return '';
 	var len = Math.round(Math.random() * 4) + 6;
 	var stars = '';
@@ -107,8 +107,8 @@ password.prototype.format = function(item) {
  *
  * @api public
  */
-password.prototype.compare = function(item, candidate, callback) {
-	if ('function' !== typeof callback) throw new Error('Password.compare() requires a callback function.');
+password.prototype.compare = function (item, candidate, callback) {
+	if (typeof callback !== 'function') throw new Error('Password.compare() requires a callback function.');
 	var value = item.get(this.path);
 	if (!value) return callback(null, false);
 	bcrypt.compare(candidate, item.get(this.path), callback);
@@ -123,7 +123,7 @@ password.prototype.compare = function(item, candidate, callback) {
  *
  * @api public
  */
-password.prototype.inputIsValid = function(data, required, item) {
+password.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path] && this.paths.confirm in data) {
 		return data[this.path] === data[this.paths.confirm] ? true : false;
 	}
@@ -138,12 +138,13 @@ password.prototype.inputIsValid = function(data, required, item) {
  *
  * @api public
  */
-password.prototype.updateItem = function(item, data) {
+password.prototype.updateItem = function (item, data, callback) {
 	if (this.path in data) {
 		item.set(this.path, data[this.path]);
 	} else if (this.paths.hash in data) {
 		item.set(this.paths.hash, data[this.paths.hash]);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */

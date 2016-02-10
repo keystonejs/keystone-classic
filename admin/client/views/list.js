@@ -127,8 +127,8 @@ const ListView = React.createClass({
 					CurrentListStore.deleteItems(itemIds);
 					this.toggleManageMode();
 					this.removeConfirmationDialog();
-				}
-			}
+				},
+			},
 		});
 	},
 	handleManagementSelect (selection) {
@@ -216,9 +216,9 @@ const ListView = React.createClass({
 
 		// select buttons
 		let selectAllButton = items.count > pageSize ? (
-		<InputGroup.Section>
-			<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
-		</InputGroup.Section>
+			<InputGroup.Section>
+				<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
+			</InputGroup.Section>
 		) : null;
 		let selectButtons = manageMode ? (
 			<InputGroup.Section>
@@ -411,7 +411,9 @@ const ListView = React.createClass({
 			MozTransition: 'max-width 160ms ease-out',
 			WebkitTransition: 'max-width 160ms ease-out',
 		};
-		if (!this.state.constrainTableWidth) containerStyle['maxWidth'] = '100%';
+		if (!this.state.constrainTableWidth) {
+			containerStyle.maxWidth = '100%';
+		}
 
 		return (
 			<div>

@@ -7,9 +7,9 @@ var ItemsTableDragDropZone = React.createClass({
 	displayName: 'ItemsTableDragDropZone',
 	propTypes: {
 		columns: React.PropTypes.array,
+		connectDropTarget: React.PropTypes.func,
 		items: React.PropTypes.object,
 		list: React.PropTypes.object,
-		connectDropTarget: React.PropTypes.func,
 	},
 	renderPageDrops () {
 		let { items, list } = this.props;
@@ -17,6 +17,7 @@ var ItemsTableDragDropZone = React.createClass({
 		let pageSize = CurrentListStore.getPageSize();
 
 		let totalPages = Math.ceil(items.count / pageSize);
+		let style = { display: totalPages > 1 ? null : 'none' };
 
 		let pages = [];
 		for (let i = 0; i < totalPages; i++) {
@@ -27,7 +28,7 @@ var ItemsTableDragDropZone = React.createClass({
 				'is-active': current,
 			});
 			/* eslint-disable no-loop-func */
-			pages.push(<DropZoneTarget key={'page_' + page} page={page} className={className} pageItems={pageItems}  />);
+			pages.push(<DropZoneTarget key={'page_' + page} page={page} className={className} pageItems={pageItems} />);
 			/* eslint-enable */
 		}
 
@@ -35,8 +36,8 @@ var ItemsTableDragDropZone = React.createClass({
 		if (this.props.list.sortable) cols++;
 		if (!this.props.list.nodelete) cols++;
 		return (
-			<tr>
-				<td colSpan={cols}  >
+			<tr style={style}>
+				<td colSpan={cols} >
 					<div className="ItemList__dropzone" >
 						{pages}
 						<div className="clearfix" />

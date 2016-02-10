@@ -1,49 +1,57 @@
-var demand = require('must'),
-	UrlType = require('../UrlType');
+var demand = require('must');
+var UrlType = require('../UrlType');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		url: UrlType,
 		nested: {
-			url: UrlType
-		}
+			url: UrlType,
+		},
 	});
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function (done) {
 		List.fields.url.updateItem(testItem, {
-			url: 'value'
+			url: 'value',
+		}, function () {
+			demand(testItem.url).be('value');
+			testItem.url = undefined;
+			done();
 		});
-		demand(testItem.url).be('value');
-		testItem.url = undefined;
 	});
-	
-	it('should update nested fields', function() {
+
+	it('should update nested fields', function (done) {
 		List.fields['nested.url'].updateItem(testItem, {
 			nested: {
-				url: 'value'
-			}
+				url: 'value',
+			},
+		}, function () {
+			demand(testItem.nested.url).be('value');
+			testItem.nested.url = undefined;
+			done();
 		});
-		demand(testItem.nested.url).be('value');
-		testItem.nested.url = undefined;
 	});
-	
-	it('should update nested fields with flat paths', function() {
+
+	it('should update nested fields with flat paths', function (done) {
 		List.fields['nested.url'].updateItem(testItem, {
-			'nested.url': 'value'
+			'nested.url': 'value',
+		}, function () {
+			demand(testItem.nested.url).be('value');
+			testItem.nested.url = undefined;
+			done();
 		});
-		demand(testItem.nested.url).be('value');
-		testItem.nested.url = undefined;
-	}); 
-	
-	it('should strip the protocol when formatting', function() {
+	});
+
+	it('should strip the protocol when formatting', function (done) {
 		List.fields.url.updateItem(testItem, {
-			url: 'http://www.keystonejs.com'
+			url: 'http://www.keystonejs.com',
+		}, function () {
+			demand(testItem._.url.format()).be('www.keystonejs.com');
+			testItem.url = undefined;
+			done();
 		});
-		demand(testItem._.url.format()).be('www.keystonejs.com');
-		testItem.url = undefined;
-	}); 
+	});
 };

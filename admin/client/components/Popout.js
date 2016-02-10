@@ -15,22 +15,22 @@ var Popout = React.createClass({
 		relativeToID: React.PropTypes.string.isRequired,
 		width: React.PropTypes.number,
 	},
-	getInitialState () {
-		return {};
-	},
 	getDefaultProps () {
 		return {
 			width: 320,
 		};
 	},
-	getPortalDOMNode () {
-		return this.refs.portal.getPortalDOMNode();
+	getInitialState () {
+		return {};
 	},
 	componentDidMount () {
 		if (this.props.isOpen) this.calculatePosition();
 	},
 	componentWillReceiveProps (nextProps) {
 		if (!this.props.isOpen && nextProps.isOpen) this.calculatePosition();
+	},
+	getPortalDOMNode () {
+		return this.refs.portal.getPortalDOMNode();
 	},
 	calculatePosition () {
 		let posNode = document.getElementById(this.props.relativeToID);
@@ -39,7 +39,7 @@ var Popout = React.createClass({
 			top: 0,
 			left: 0,
 			width: posNode.offsetWidth,
-			height: posNode.offsetHeight
+			height: posNode.offsetHeight,
 		};
 		while (posNode.offsetParent) {
 			pos.top += posNode.offsetTop;
@@ -52,7 +52,7 @@ var Popout = React.createClass({
 
 		this.setState({
 			leftOffset: leftOffset,
-			topOffset: topOffset
+			topOffset: topOffset,
 		});
 	},
 	renderPopout () {

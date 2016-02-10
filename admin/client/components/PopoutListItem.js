@@ -13,7 +13,7 @@ var PopoutListItem = React.createClass({
 	},
 	getInitialState () {
 		return {
-			hover: false
+			hover: false,
 		};
 	},
 	hover () {
@@ -31,7 +31,7 @@ var PopoutListItem = React.createClass({
 	},
 	render () {
 		let itemClassname = classnames('PopoutList__item', {
-			'is-selected': this.props.isSelected
+			'is-selected': this.props.isSelected,
 		});
 		let props = blacklist(this.props, 'className', 'icon', 'isSelected', 'label');
 		return (

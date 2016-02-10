@@ -6,19 +6,19 @@ var moment = require('moment');
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 
 	var filters = req.list.processFilters(req.query.q);
 	var queryFilters = req.list.getSearchFilters(req.query.search, filters);
 	var relFields = [];
 
-	_.each(req.list.fields, function(field) {
+	_.each(req.list.fields, function (field) {
 		if (field.type === 'relationship') {
 			relFields.push(field.path);
 		}
 	});
 
-	var getRowData = function getRowData(i) {
+	var getRowData = function getRowData (i) {
 
 		var rowData = { id: i.id };
 
@@ -26,7 +26,7 @@ module.exports = function(req, res) {
 			rowData[req.list.get('autokey').path] = i.get(req.list.get('autokey').path);
 		}
 
-		_.each(req.list.fields, function(field) {
+		_.each(req.list.fields, function (field) {
 			if (field.type === 'boolean') {
 				rowData[field.path] = i.get(field.path) ? 'true' : 'false';
 			} else if (field.type === 'relationship') {
@@ -34,9 +34,9 @@ module.exports = function(req, res) {
 				if (field.many) {
 					var values = [];
 					if (Array.isArray(refData) && refData.length) {
-						_.forEach(refData, function(i) {
+						_.forEach(refData, function (i) {
 							var name = field.refList.getDocumentName(i);
-							if(keystone.get('csv expanded')){
+							if (keystone.get('csv expanded')) {
 								name = '[' + i.id + ',' + name + ']';
 							}
 							values.push(name);
@@ -64,17 +64,17 @@ module.exports = function(req, res) {
 	if (relFields) {
 		query.populate(relFields.join(' '));
 	}
-	query.exec(function(err, results) {
+	query.exec(function (err, results) {
 
 		if (err) return res.status(500).json(err);
 
-		var sendCSV = function(data) {
+		var sendCSV = function (data) {
 
 			res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv');
 			res.setHeader('Content-Type', 'application/octet-stream');
 
 			var content = baby.unparse(data, {
-				delimiter: keystone.get('csv field delimiter') || ','
+				delimiter: keystone.get('csv field delimiter') || ',',
 			});
 
 			res.end(content, 'utf-8');
@@ -100,17 +100,17 @@ module.exports = function(req, res) {
 			 *   - callback (invokes async mode, must be provided last)
 			 */
 
-			var deps = _.map(results[0].toCSV.toString().match(FN_ARGS)[1].split(','), function(i) { return i.trim(); });
+			var deps = _.map(results[0].toCSV.toString().match(FN_ARGS)[1].split(','), function (i) { return i.trim(); });
 
 			var includeRowData = (deps.indexOf('row') > -1);
 
 			var map = {
 				req: req,
-				user: req.user
+				user: req.user,
 			};
 
-			var applyDeps = function(fn, _this, _map) {
-				var args = _.map(deps, function(key) {
+			var applyDeps = function (fn, _this, _map) {
+				var args = _.map(deps, function (key) {
 					return _map[key];
 				});
 				return fn.apply(_this, args);
@@ -118,14 +118,14 @@ module.exports = function(req, res) {
 
 			if (_.last(deps) === 'callback') {
 				// Allow async toCSV by detecting the last argument is callback
-				return async.map(results, function(i, callback) {
+				return async.map(results, function (i, callback) {
 					var _map = _.clone(map);
 					_map.callback = callback;
 					if (includeRowData) {
 						_map.row = getRowData(i);
 					}
 					applyDeps(i.toCSV, i, _map);
-				}, function(err, results) {
+				}, function (err, results) {
 					if (err) {
 						console.log('Error generating CSV for list ' + req.list.key);
 						console.log(err);
@@ -138,16 +138,16 @@ module.exports = function(req, res) {
 				data = [];
 				if (includeRowData) {
 					// if row data is required, add it to the map for each iteration
-				_.each(results, function(i) {
+					_.each(results, function (i) {
 						var _map = _.clone(map);
 						_map.row = getRowData(i);
 						data.push(applyDeps(i.toCSV, i, _map));
 					});
 				} else {
 					// fast path: use the same map for each iteration
-					_.each(results, function(i) {
-					data.push(applyDeps(i.toCSV, i, map));
-				});
+					_.each(results, function (i) {
+						data.push(applyDeps(i.toCSV, i, map));
+					});
 				}
 				return sendCSV(data);
 			}
@@ -162,7 +162,7 @@ module.exports = function(req, res) {
 			 */
 
 			data = [];
-			_.each(results, function(i) {
+			_.each(results, function (i) {
 				data.push(getRowData(i));
 			});
 			return sendCSV(data);

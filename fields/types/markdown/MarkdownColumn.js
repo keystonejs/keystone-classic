@@ -20,7 +20,7 @@ var MarkdownColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = MarkdownColumn;

@@ -25,7 +25,7 @@ var NumberColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = NumberColumn;

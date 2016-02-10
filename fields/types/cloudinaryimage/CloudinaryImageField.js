@@ -1,5 +1,4 @@
-import _ from 'underscore';
-import $ from 'jquery';
+import xhr from 'xhr';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Field from '../Field';
@@ -8,24 +7,19 @@ import { Button, FormField, FormInput, FormNote } from 'elemental';
 import Lightbox from '../../../admin/client/components/Lightbox';
 import classnames from 'classnames';
 
-/**
- * TODO:
- * - Remove dependency on jQuery
- * - Remove dependency on underscore
- */
 
 const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
 
 const iconClassUploadPending = [
 	'upload-pending',
 	'mega-octicon',
-	'octicon-cloud-upload'
+	'octicon-cloud-upload',
 ];
 
 const iconClassDeletePending = [
 	'delete-pending',
 	'mega-octicon',
-	'octicon-x'
+	'octicon-x',
 ];
 
 module.exports = Field.create({
@@ -96,20 +90,20 @@ module.exports = Field.create({
 			removeExisting: false,
 			localSource:    null,
 			origin:         false,
-			action:         null
+			action:         null,
 		});
 	},
 
 	/**
 	 * Check support for input files on input change.
 	 */
-	fileChanged  (event) {
+	fileChanged (event) {
 		var self = this;
 
 		if (window.FileReader) {
 			var files = event.target.files;
-			_.each(files, function (f) {
-				if (!_.contains(SUPPORTED_TYPES, f.type)) {
+			Array.prototype.forEach.call(files, function (f) {
+				if (SUPPORTED_TYPES.indexOf(f.type) === -1) {
 					self.removeImage();
 					alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
 					return false;
@@ -120,14 +114,14 @@ module.exports = Field.create({
 					if (!self.isMounted()) return;
 					self.setState({
 						localSource: e.target.result,
-						origin: 'local'
+						origin: 'local',
 					});
 				};
 				fileReader.readAsDataURL(f);
 			});
 		} else {
 			this.setState({
-				origin: 'local'
+				origin: 'local',
 			});
 		}
 	},
@@ -224,7 +218,7 @@ module.exports = Field.create({
 			url = this.getImageSource();
 		}
 
-		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={ { height: '90' } } src={url} />;
+		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={{ height: '90' }} src={url} />;
 	},
 
 	/**
@@ -335,37 +329,77 @@ module.exports = Field.create({
 
 	renderImageSelect () {
 		var selectPrefix = this.props.selectPrefix;
-		var getOptions = function(input, callback) {
-			$.get(Keystone.adminPath + '/api/cloudinary/autocomplete', {
-				dataType: 'json',
-				data: {
-					q: input
+		var self = this;
+		var getOptions = function (input, callback) {
+
+			// build our url, accounting for selectPrefix
+			var uri = Keystone.adminPath + '/api/cloudinary/autocomplete';
+			if (selectPrefix) {
+				uri = uri + '?prefix=' + selectPrefix;
+			}
+
+			// make the request
+			xhr({
+				body: JSON.stringify({
+					q: input,
+				}),
+				uri: uri,
+				headers: {
+					'Content-Type': 'application/json',
 				},
-				prefix: selectPrefix
-			}, function (data) {
-				var options = [];
+			}, function (err, resp, body) {
 
-				_.each(data.items, function (item) {
-					options.push({
-						value: item.public_id,
-						label: item.public_id
+				// callback with err
+				if (err) {
+					callback(null, {
+						options: [],
+						complete: false,
 					});
-				});
+					return;
+				}
 
-				callback(null, {
-					options: options,
-					complete: true
-				});
+				// try and parse the response
+				try {
+					var data = JSON.parse(body);
+					var options = [];
+
+					data.items.forEach(function (item) {
+						options.push({
+							value: item.public_id,
+							label: item.public_id,
+						});
+					});
+					callback(null, {
+						options: options,
+						complete: true,
+					});
+				} catch (e) {
+					callback(null, {
+						options: [],
+						complete: false,
+					});
+				}
 			});
+		};
+
+		// listen for changes
+		var onChange = function onChange (data) {
+			if (data && data.value) {
+				self.setState({ selectedCloudinaryImage:data.value });
+			} else {
+				self.setState({ selectedCloudinaryImage:null });
+			}
 		};
 
 		return (
 			<div className="image-select">
-				<Select
+				<Select.Async
 					placeholder="Search for an image from Cloudinary ..."
 					name={this.props.paths.select}
+					value={this.state.selectedCloudinaryImage}
+					onChange={onChange}
 					id={'field_' + this.props.paths.select}
-					asyncOptions={getOptions}
+					loadOptions={getOptions}
 				/>
 			</div>
 		);
@@ -405,5 +439,5 @@ module.exports = Field.create({
 				{this.renderLightbox()}
 			</FormField>
 		);
-	}
+	},
 });

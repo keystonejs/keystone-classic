@@ -34,7 +34,7 @@ module.exports = function createApp (keystone, express) {
 	if (typeof keystone.get('pre:static') === 'function') {
 		keystone.get('pre:static')(app);
 	}
-	app.use(function(req, res, next) {
+	app.use(function (req, res, next) {
 		keystone.callHook('pre:static', req, res, next);
 	});
 
@@ -68,7 +68,7 @@ module.exports = function createApp (keystone, express) {
 	}
 
 	// We should also allow custom logging middleware to exist in the normal middleware flow
-	app.use(function(req, res, next) {
+	app.use(function (req, res, next) {
 		keystone.callHook('pre:logger', req, res, next);
 	});
 
@@ -82,7 +82,7 @@ module.exports = function createApp (keystone, express) {
 	if (typeof keystone.get('pre:bodyparser') === 'function') {
 		keystone.get('pre:bodyparser')(app);
 	}
-	app.use(function(req, res, next) {
+	app.use(function (req, res, next) {
 		keystone.callHook('pre:bodyparser', req, res, next);
 	});
 
@@ -104,7 +104,7 @@ module.exports = function createApp (keystone, express) {
 	if (typeof keystone.get('pre:routes') === 'function') {
 		keystone.get('pre:routes')(app);
 	}
-	app.use(function(req, res, next) {
+	app.use(function (req, res, next) {
 		keystone.callHook('pre:routes', req, res, next);
 	});
 
@@ -125,7 +125,7 @@ module.exports = function createApp (keystone, express) {
 	if (typeof keystone.get('pre:error') === 'function') {
 		keystone.get('pre:error')(app);
 	}
-	app.use(function(req, res, next) {
+	app.use(function (req, res, next) {
 		keystone.callHook('pre:error', req, res, next);
 	});
 	require('./bindErrorHandlers')(keystone, app);

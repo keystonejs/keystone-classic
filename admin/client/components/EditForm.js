@@ -37,9 +37,10 @@ var EditForm = React.createClass({
 		values[event.path] = event.value;
 		this.setState({ values });
 	},
-	confirmReset(event) {
+	confirmReset (event) {
 		const confirmationDialog = (
 			<ConfirmationDialog
+				isOpen
 				body={`Reset your changes to <strong>${this.props.data.name}</strong>?`}
 				confirmationLabel="Reset"
 				onCancel={this.removeConfirmationDialog}
@@ -52,9 +53,10 @@ var EditForm = React.createClass({
 	handleReset () {
 		window.location.reload();
 	},
-	confirmDelete() {
+	confirmDelete () {
 		const confirmationDialog = (
 			<ConfirmationDialog
+				isOpen
 				body={`Are you sure you want to delete <strong>${this.props.data.name}?</strong><br /><br />This cannot be undone.`}
 				confirmationLabel="Delete"
 				onCancel={this.removeConfirmationDialog}
@@ -165,7 +167,7 @@ var EditForm = React.createClass({
 			if (el.type === 'field') {
 				var field = this.props.list.fields[el.field];
 				var props = this.getFieldProps(field);
-				if ('function' !== typeof Fields[field.type]) {
+				if (typeof Fields[field.type] !== 'function') {
 					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
 				}
 				props.key = field.path;

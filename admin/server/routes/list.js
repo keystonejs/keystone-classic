@@ -2,24 +2,24 @@ var keystone = require('../../../');
 var _ = require('underscore');
 var querystring = require('querystring');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 
 	var viewLocals = {
 		validationErrors: {},
-		showCreateForm: _.has(req.query, 'new')
+		showCreateForm: _.has(req.query, 'new'),
 	};
 	var appName = keystone.get('name') || 'Keystone';
-	var renderView = function() {
+	var renderView = function () {
 		keystone.render(req, res, 'list', _.extend(viewLocals, {
 			section: keystone.nav.by.list[req.list.key] || {},
 			title: appName + ': ' + req.list.plural,
 			page: 'list',
 			list: req.list,
-			submitted: req.body || {}
+			submitted: req.body || {},
 		}));
 	};
 
-	var checkCSRF = function() {
+	var checkCSRF = function () {
 		var pass = keystone.security.csrf.validate(req);
 		if (!pass) {
 			console.error('CSRF failure');
@@ -34,7 +34,7 @@ module.exports = function(req, res) {
 		if (!checkCSRF()) return renderView();
 
 		item = new req.list.model();
-		item.save(function(err) {
+		item.save(function (err) {
 			if (err) {
 				console.log('There was an error creating the new ' + req.list.singular + ':');
 				console.error(err);
@@ -55,25 +55,29 @@ module.exports = function(req, res) {
 
 		viewLocals.showCreateForm = true; // always show the create form after a create. success will redirect.
 
+		var processUpdateHandler = function () {
+			updateHandler.process(req.body, {
+				// flashErrors: true,
+				logErrors: true,
+				fields: req.list.initialFields,
+			}, function (err) {
+				if (err) {
+					viewLocals.createErrors = err;
+					return renderView();
+				}
+				req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
+				return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path + '/' + item.id);
+			});
+		};
+
 		if (req.list.nameIsInitial) {
 			if (!req.list.nameField.inputIsValid(req.body, true, item)) {
 				updateHandler.addValidationError(req.list.nameField.path, req.list.nameField.label + ' is required.');
 			}
-			req.list.nameField.updateItem(item, req.body);
+			req.list.nameField.updateItem(item, req.body, processUpdateHandler);
+		} else {
+			processUpdateHandler();
 		}
-
-		updateHandler.process(req.body, {
-			// flashErrors: true,
-			logErrors: true,
-			fields: req.list.initialFields
-		}, function(err) {
-			if (err) {
-				viewLocals.createErrors = err;
-				return renderView();
-			}
-			req.flash('success', 'New ' + req.list.singular + ' ' + req.list.getDocumentName(item) + ' created.');
-			return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path + '/' + item.id);
-		});
 
 	} else {
 		renderView();

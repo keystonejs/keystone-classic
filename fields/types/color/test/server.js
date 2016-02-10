@@ -1,49 +1,55 @@
-var demand = require('must'),
-	ColorType = require('../ColorType');
+var demand = require('must');
+var ColorType = require('../ColorType');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		color: { type: ColorType },
 		nested: {
-			color: { type: ColorType }
-		}
+			color: { type: ColorType },
+		},
 	});
 };
 
-exports.createData = function(List) {//eslint-disable-line no-unused-vars
+exports.createData = function (List) { // eslint-disable-line no-unused-vars
 
 };
 
-exports.testFilters = function(List) {//eslint-disable-line no-unused-vars
+exports.testFilters = function (List) { // eslint-disable-line no-unused-vars
 
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function (done) {
 		List.fields.color.updateItem(testItem, {
-			color: '#ffffff'
+			color: '#ffffff',
+		}, function () {
+			demand(testItem.color).be('#ffffff');
+			testItem.color = undefined;
+			done();
 		});
-		demand(testItem.color).be('#ffffff');
-		testItem.color = undefined;
 	});
-	
-	it('should update nested fields', function() {
+
+	it('should update nested fields', function (done) {
 		List.fields['nested.color'].updateItem(testItem, {
 			nested: {
-				color: '#ffffff'
-			}
+				color: '#ffffff',
+			},
+		}, function () {
+			demand(testItem.nested.color).be('#ffffff');
+			testItem.nested.color = undefined;
+			done();
 		});
-		demand(testItem.nested.color).be('#ffffff');
-		testItem.nested.color = undefined;
 	});
-	
-	it('should update nested fields with flat paths', function() {
+
+	it('should update nested fields with flat paths', function (done) {
 		List.fields['nested.color'].updateItem(testItem, {
-			'nested.color': '#ffffff'
+			'nested.color': '#ffffff',
+		}, function () {
+			demand(testItem.nested.color).be('#ffffff');
+			testItem.nested.color = undefined;
+			done();
 		});
-		demand(testItem.nested.color).be('#ffffff');
-		testItem.nested.color = undefined;
 	});
 };

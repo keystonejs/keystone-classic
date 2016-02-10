@@ -8,7 +8,7 @@
  *
  * @api private
  */
- 
+
 module.exports = function (keystone, app, callback) {
 
 	var host = keystone.get('host');

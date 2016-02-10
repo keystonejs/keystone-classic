@@ -9,6 +9,6 @@ module.exports = Field.create({
 
 	cleanInput (input) {
 		return input.replace(/[^\d]/g, '');
-	}
+	},
 
 });

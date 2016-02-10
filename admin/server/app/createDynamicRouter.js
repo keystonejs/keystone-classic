@@ -2,7 +2,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var multer = require('multer');
 
-module.exports = function createDynamicRouter(keystone) {
+module.exports = function createDynamicRouter (keystone) {
 
 	// ensure keystone nav has been initialised
 	// TODO: move this elsewhere (on demand generation, or client-side?)
@@ -40,7 +40,7 @@ module.exports = function createDynamicRouter(keystone) {
 		router.all('/signin', require('../routes/signin'));
 		router.all('/signout', require('../routes/signout'));
 		router.use(keystone.session.keystoneAuth);
-	} else if ('function' === typeof keystone.get('auth')) {
+	} else if (typeof keystone.get('auth') === 'function') {
 		router.use(keystone.get('auth'));
 	}
 

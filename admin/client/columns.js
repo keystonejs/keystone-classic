@@ -28,7 +28,7 @@ var Columns = {
 	text             : require('../../fields/types/text/TextColumn'),
 	textarea         : require('../../fields/types/textarea/TextareaColumn'),
 	textarray        : require('../../fields/types/textarray/TextArrayColumn'),
-	url              : require('../../fields/types/url/UrlColumn')
+	url              : require('../../fields/types/url/UrlColumn'),
 };
 
 Columns.id = require('../../fields/components/columns/IdColumn');

@@ -43,20 +43,20 @@ var Header = React.createClass({
 		var list = this.props.list;
 		var items = this.props.data.drilldown ? this.props.data.drilldown.items : [];
 
-		var els = items.map(dd => {
+		var els = items.map((dd, i) => {
 			var links = [];
 
 			dd.items.forEach((el, i) => {
 				links.push(<a key={'dd' + i} href={el.href} title={dd.list.singular}>{el.label}</a>);
 				if (i < dd.items.length - 1) {
-					links.push(<span key={'ds' + i} className="separator">,</span>);//eslint-disable-line comma-spacing
+					links.push(<span key={'ds' + i} className="separator">,</span>); // eslint-disable-line comma-spacing
 				}
 			});
 
 			var more = dd.more ? <span>...</span> : '';
 
 			return (
-				<li>
+				<li key={`dd-${i}`}>
 					{links}
 					{more}
 				</li>

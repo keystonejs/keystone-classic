@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 
-var util = require('util'),
-	numeral = require('numeral'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type');
+var util = require('util');
+var numeral = require('numeral');
+var utils = require('keystone-utils');
+var super_ = require('../Type');
 
 /**
  * Number FieldType Constructor
@@ -13,20 +13,20 @@ var util = require('util'),
  * @api public
  */
 
-function numberarray(list, path, options) {
-	
+function numberarray (list, path, options) {
+
 	this._nativeType = [Number];
 
 	this._underscoreMethods = ['format'];
 	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
 	this._defaultSize = 'small';
-	
-	if (this._formatString && 'string' !== typeof this._formatString) {
+
+	if (this._formatString && typeof this._formatString !== 'string') {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
-	
+
 	numberarray.super_.call(this, list, path, options);
-	
+
 }
 
 /*!
@@ -42,9 +42,9 @@ util.inherits(numberarray, super_);
  * @api public
  */
 
-numberarray.prototype.format = function(item, format) {
+numberarray.prototype.format = function (item, format) {
 	if (format || this._formatString) {
-		return ('number' === typeof item.get(this.path)) ? numeral(item.get(this.path)).format(format || this._formatString) : '';
+		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
 	} else {
 		return item.get(this.path) || '';
 	}
@@ -56,7 +56,7 @@ numberarray.prototype.format = function(item, format) {
  * @api private
  */
 
-function isValidNumber(value) {
+function isValidNumber (value) {
 	return !isNaN(utils.number(value));
 }
 
@@ -68,14 +68,14 @@ function isValidNumber(value) {
  * @api public
  */
 
-numberarray.prototype.inputIsValid = function(data, required, item) {
+numberarray.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
 
 	if (required) {
 		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
 		}
-		if (value === undefined || !Array.isArray(value) || ('string' !== typeof value) || ('number' !== typeof value)) {
+		if (value === undefined || !Array.isArray(value) || (typeof value !== 'string') || (typeof value !== 'number')) {
 			return false;
 		}
 		if (Array.isArray(value) && !value.length) {
@@ -83,7 +83,7 @@ numberarray.prototype.inputIsValid = function(data, required, item) {
 		}
 	}
 
-	if ('string' === typeof value) {
+	if (typeof value === 'string') {
 		if (!isValidNumber(value)) {
 			return false;
 		}
@@ -97,7 +97,7 @@ numberarray.prototype.inputIsValid = function(data, required, item) {
 		}
 	}
 
-	return (value === undefined || Array.isArray(value) || ('string' === typeof value) || ('number' === typeof value));
+	return (value === undefined || Array.isArray(value) || (typeof value === 'string') || (typeof value === 'number'));
 };
 
 /**
@@ -107,12 +107,12 @@ numberarray.prototype.inputIsValid = function(data, required, item) {
  */
 
 
-numberarray.prototype.updateItem = function(item, data) {
+numberarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	
-	if ('undefined' !== typeof value) {
+
+	if (typeof value !== 'undefined') {
 		if (Array.isArray(value)) {
-			var temp = value.filter(function(temp) {
+			var temp = value.filter(function (temp) {
 				if (isValidNumber(temp)) {
 					return utils.number(temp);
 				}
@@ -122,12 +122,12 @@ numberarray.prototype.updateItem = function(item, data) {
 		if (value === null) {
 			value = [];
 		}
-		if ('string' === typeof value) {
+		if (typeof value === 'string') {
 			if (isValidNumber(value)) {
 				value = [utils.number(value)];
 			}
 		}
-		if ('number' === typeof value) {
+		if (typeof value === 'number') {
 			value = [value];
 		}
 		if (Array.isArray(value)) {
@@ -135,6 +135,7 @@ numberarray.prototype.updateItem = function(item, data) {
 		}
 	}
 
+	process.nextTick(callback);
 };
 
 

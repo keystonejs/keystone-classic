@@ -13,7 +13,7 @@ var utils = require('keystone-utils');
  */
 var moduleRoot = (function (_rootPath) {
 	var parts = _rootPath.split(path.sep);
-	parts.pop(); //get rid of /node_modules from the end of the path
+	parts.pop(); // get rid of /node_modules from the end of the path
 	return parts.join(path.sep);
 })(module.parent ? module.parent.paths[0] : module.paths[0]);
 
@@ -37,7 +37,7 @@ var Keystone = function () {
 		'auto update': false,
 		'model prefix': null,
 		'module root': moduleRoot,
-		'frame guard': 'sameorigin'
+		'frame guard': 'sameorigin',
 	};
 	this._redirects = {};
 
@@ -90,7 +90,7 @@ var Keystone = function () {
 	// Attach middleware packages, bound to this instance
 	this.middleware = {
 		api: require('./lib/middleware/api')(this),
-		cors: require('./lib/middleware/cors')(this)
+		cors: require('./lib/middleware/cors')(this),
 	};
 };
 
@@ -134,7 +134,7 @@ var keystone = module.exports = new Keystone();
 
 // Expose modules and Classes
 keystone.Admin = {
-	Server: require('./admin/server')
+	Server: require('./admin/server'),
 };
 keystone.Email = require('./lib/email');
 keystone.Field = require('./fields/types/Type');
@@ -145,7 +145,7 @@ keystone.View = require('./lib/view');
 
 keystone.content = require('./lib/content');
 keystone.security = {
-	csrf: require('./lib/security/csrf')
+	csrf: require('./lib/security/csrf'),
 };
 keystone.utils = utils;
 
@@ -171,8 +171,8 @@ Keystone.prototype.import = function (dirname) {
 
 		fs.readdirSync(fromPath).forEach(function (name) {
 
-			var fsPath = path.join(fromPath, name),
-			info = fs.statSync(fsPath);
+			var fsPath = path.join(fromPath, name);
+			var info = fs.statSync(fsPath);
 
 			// recur
 			if (info.isDirectory()) {
@@ -201,9 +201,9 @@ Keystone.prototype.import = function (dirname) {
 
 Keystone.prototype.applyUpdates = function (callback) {
 	var self = this;
-	self.callHook('pre:updates', function (err){
+	self.callHook('pre:updates', function (err) {
 		if (err) return callback(err);
-		require('./lib/updates').apply(function (err){
+		require('./lib/updates').apply(function (err) {
 			if (err) return callback(err);
 			self.callHook('post:updates', callback);
 		});

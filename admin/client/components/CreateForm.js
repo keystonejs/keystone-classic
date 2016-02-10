@@ -33,14 +33,13 @@ var CreateForm = React.createClass({
 		});
 		return {
 			values: values,
+			err: this.props.err,
 		};
 	},
-	handleChange (event) {
-		var values = Object.assign({}, this.state.values);
-		values[event.path] = event.value;
-		this.setState({
-			values: values,
-		});
+	componentDidMount () {
+		if (this.refs.focusTarget) {
+			this.refs.focusTarget.focus();
+		}
 	},
 	componentDidUpdate (prevProps) {
 		if (this.props.isOpen !== prevProps.isOpen) {
@@ -48,10 +47,12 @@ var CreateForm = React.createClass({
 			setTimeout(() => this.refs.focusTarget && this.refs.focusTarget.focus(), 0);
 		}
 	},
-	componentDidMount () {
-		if (this.refs.focusTarget) {
-			this.refs.focusTarget.focus();
-		}
+	handleChange (event) {
+		var values = Object.assign({}, this.state.values);
+		values[event.path] = event.value;
+		this.setState({
+			values: values,
+		});
 	},
 	getFieldProps (field) {
 		var props = Object.assign({}, field);
@@ -69,32 +70,33 @@ var CreateForm = React.createClass({
 		// 	of using a POST request to the list endpoint.
 		if (this.props.onCreate) {
 			event.preventDefault();
-			xhr({
-				url: `${Keystone.adminPath}/api/${this.props.list.path}/create`,
-				responseType: 'json',
-				method: 'POST',
-				json: this.state.values
-			}, (err, resp, data) => {
-				if (resp.statusCode === 200) {
+			let createForm = this.refs.createForm.getDOMNode();
+			let formData = new FormData(createForm);
+			this.props.list.createItem(formData, (err, data) => {
+				if (data) {
 					this.props.onCreate(data);
 					this.setState({
-						values: {}
+						values: {},
+						err: null,
 					}); // Clear form
 				} else {
-					// TODO: Display errors
+					this.setState({
+						err: err.detail,
+					});
 				}
 			});
 		}
 	},
 
 	renderAlerts () {
-		if (!this.props.err || !this.props.err.errors) return;
+		if (!this.state.err || !this.state.err.errors) return;
 
+		let errors = this.state.err.errors;
 		var alertContent;
-		var errorCount = Object.keys(this.props.err.errors).length;
+		var errorCount = Object.keys(errors).length;
 
-		var messages = Object.keys(this.props.err.errors).map((path) => {
-			return errorCount > 1 ? <li key={path}>{this.props.err.errors[path].message}</li> : <div key={path}>{this.props.err.errors[path].message}</div>;
+		var messages = Object.keys(errors).map((path) => {
+			return errorCount > 1 ? <li key={path}>{errors[path].message}</li> : <div key={path}>{errors[path].message}</div>;
 		});
 
 		if (errorCount > 1) {
@@ -132,7 +134,7 @@ var CreateForm = React.createClass({
 
 		Object.keys(list.initialFields).forEach(key => {
 			var field = list.fields[list.initialFields[key]];
-			if ('function' !== typeof Fields[field.type]) {
+			if (typeof Fields[field.type] !== 'function') {
 				form.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
 				return;
 			}
@@ -144,7 +146,7 @@ var CreateForm = React.createClass({
 		});
 
 		return (
-			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} onSubmit={this.submitForm} className="create-form">
+			<Form ref="createForm" type="horizontal" encType="multipart/form-data" method="post" action={formAction} onSubmit={this.submitForm} className="create-form">
 				<input type="hidden" name="action" value="create" />
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				<Modal.Header text={'Create a new ' + list.singular} onClose={this.props.onCancel} showCloseButton />

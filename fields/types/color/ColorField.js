@@ -15,9 +15,9 @@ module.exports = Field.create({
 	displayName: 'ColorField',
 
 	propTypes: {
-		pickerType: React.PropTypes.oneOf(PICKER_TYPES),
 		onChange: React.PropTypes.func,
 		path: React.PropTypes.string,
+		pickerType: React.PropTypes.oneOf(PICKER_TYPES),
 		value: React.PropTypes.string,
 	},
 
@@ -29,14 +29,14 @@ module.exports = Field.create({
 
 	getDefaultProps () {
 		return {
-			pickerType: 'sketch'
+			pickerType: 'sketch',
 		};
 	},
 
 	updateValue (value) {
 		this.props.onChange({
 			path: this.props.path,
-			value: value
+			value: value,
 		});
 	},
 
@@ -50,11 +50,11 @@ module.exports = Field.create({
 		this.updateValue(newValue);
 	},
 
-	handleClick() {
+	handleClick () {
 		this.setState({ displayColorPicker: !this.state.displayColorPicker });
 	},
 
-	handleClose() {
+	handleClose () {
 		this.setState({ displayColorPicker: false });
 	},
 
@@ -92,13 +92,13 @@ module.exports = Field.create({
 						color={this.props.value}
 						display={this.state.displayColorPicker}
 						onChangeComplete={this.handlePickerChange}
-						onClose={ this.handleClose }
+						onClose={this.handleClose}
 						position={window.innerWidth > 480 ? 'right' : 'below'}
 						type={this.props.pickerType}
 						/>
 				</div>
 			</div>
 		);
-	}
+	},
 
 });

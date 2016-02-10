@@ -1,51 +1,57 @@
-var demand = require('must'),
-	SelectType = require('../SelectType');
+var demand = require('must');
+var SelectType = require('../SelectType');
 
-exports.initList = function(List) {
+exports.initList = function (List) {
 	List.add({
 		select: { type: SelectType, options: 'one, two, three' },
 		nested: {
-			select: { type: SelectType, options: 'one, two, three' }
-		}
+			select: { type: SelectType, options: 'one, two, three' },
+		},
 	});
 };
 
-exports.testFieldType = function(List) {
+exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function() {
+	it('should update top level fields', function (done) {
 		List.fields.select.updateItem(testItem, {
-			select: 'one'
+			select: 'one',
+		}, function () {
+			demand(testItem.select).be('one');
+			testItem.select = undefined;
+			done();
 		});
-		demand(testItem.select).be('one');
-		testItem.select = undefined;
 	});
 
-	it('should update nested fields', function() {
+	it('should update nested fields', function (done) {
 		List.fields['nested.select'].updateItem(testItem, {
 			nested: {
-				select: 'one'
-			}
+				select: 'one',
+			},
+		}, function () {
+			demand(testItem.nested.select).be('one');
+			testItem.nested.select = undefined;
+			done();
 		});
-		demand(testItem.nested.select).be('one');
-		testItem.nested.select = undefined;
 	});
 
-	it('should update nested fields with flat paths', function() {
+	it('should update nested fields with flat paths', function (done) {
 		List.fields['nested.select'].updateItem(testItem, {
-			'nested.select': 'one'
+			'nested.select': 'one',
+		}, function () {
+			demand(testItem.nested.select).be('one');
+			testItem.nested.select = undefined;
+			done();
 		});
-		demand(testItem.nested.select).be('one');
-		testItem.nested.select = undefined;
 	});
 
-	it('should format values with the label of the option', function() {
+	it('should format values with the label of the option', function () {
 		testItem.select = 'one';
 		demand(List.fields.select.format(testItem)).be('One');
 		testItem.select = undefined;
 	});
 
-	it('should return a blank string when formatting an undefined value', function() {
+	it('should return a blank string when formatting an undefined value', function () {
 		demand(List.fields.select.format(testItem)).be('');
 	});
 

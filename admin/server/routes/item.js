@@ -2,11 +2,11 @@ var keystone = require('../../../');
 var _ = require('underscore');
 var async = require('async');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
 
 	var itemQuery = req.list.model.findById(req.params.item).select();
 
-	itemQuery.exec(function(err, item) {
+	itemQuery.exec(function (err, item) {
 
 		if (err) {
 			req.flash('error', 'A database error occurred.');
@@ -18,9 +18,9 @@ module.exports = function(req, res) {
 			return res.redirect('/' + keystone.get('admin path') + '/' + req.list.path);
 		}
 
-		var renderView = function() {
+		var renderView = function () {
 
-			var relationships = _.values(_.compact(_.map(req.list.relationships, function(i) {
+			var relationships = _.values(_.compact(_.map(req.list.relationships, function (i) {
 				if (i.isValid) {
 					return _.clone(i);
 				} else {
@@ -29,7 +29,7 @@ module.exports = function(req, res) {
 				}
 			})));
 
-			async.each(relationships, function(rel, done) {
+			async.each(relationships, function (rel, done) {
 
 				// TODO: Handle invalid relationship config
 				rel.list = keystone.list(rel.ref);
@@ -44,16 +44,16 @@ module.exports = function(req, res) {
 				rel.columns = rel.list.defaultColumns;
 				rel.list.selectColumns(q, rel.columns);
 
-				q.exec(function(err, results) {
+				q.exec(function (err, results) {
 					rel.items = results;
 					done(err);
 				});
 
-			}, function(err) { //eslint-disable-line no-unused-vars, handle-callback-err
+			}, function (err) { // eslint-disable-line no-unused-vars, handle-callback-err
 
 				// TODO: Handle err
 
-				var showRelationships = _.some(relationships, function(rel) {
+				var showRelationships = _.some(relationships, function (rel) {
 					return rel.items.results.length;
 				});
 
@@ -66,7 +66,7 @@ module.exports = function(req, res) {
 					list: req.list,
 					item: item,
 					relationships: relationships,
-					showRelationships: showRelationships
+					showRelationships: showRelationships,
 				});
 
 			});
@@ -81,7 +81,7 @@ module.exports = function(req, res) {
 				return renderView();
 			}
 
-			item.getUpdateHandler(req).process(req.body, { flashErrors: true, logErrors: true }, function(err) {
+			item.getUpdateHandler(req).process(req.body, { flashErrors: true, logErrors: true }, function (err) {
 				if (err) {
 					return renderView();
 				}
