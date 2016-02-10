@@ -13,23 +13,49 @@ module.exports = Field.create({
 	getInitialState () {
 		var subList = jsonCycle.retrocycle(this.props.subList);
 
-		return {
+		var initialState = {
 			values: this.props.value,
 			list: subList
 		};
+
+		if (this.props.subFields) initialState.subFieldValues = this.props.subFields;
+		return initialState;
 	},
 
 	componentWillReceiveProps (nextProps) {
-		console.log('Propsy', nextProps);
-		this.setState({ values: nextProps.value });
+		var nextState = {};
+		if (nextProps.subFields) nextState.subFieldValues = nextProps.subFields;
+		this.setState(nextState);
 	},
 
 	renderItems () {
-		console.log('Statey #3', this.state.values);
-		if (!Array.isArray(this.state.values)) return;
-		return this.state.values.map((val) => {
+		return this.state.subFieldValues ? this.renderFields(this.state.subFieldValues, this.state.values) : this.renderFields(this.state.values);
+	},
+	renderFields (fields, values) {
+		return fields.map((field, index) => {
+			var value = field;
+
+			if (values) {
+				value = values[index];
+
+				if (this.props.treatAsKey) {
+					var key = this.props.treatAsKey;
+					value = values.filter((val) => { return val[key] == field[key] })[0] || field;
+				}
+			}
+
+			var props = {
+				key: field._id,
+				parentPath: this.props.nested ? (this.props.nested + '.' + this.props.path + '_' + this.props._id) : this.props.path,
+				data: value,
+				list: this.state.list,
+				onRemove:  this.removeItem,
+			};
+
+			if (this.state.subFieldValues) props.subFieldValue = field;
+
 			return (
-				<FieldGroup key={val._id} parentPath={this.props.nested ? (this.props.nested + '.' + this.props.path + '_' + this.props._id) : this.props.path} data={val} list={this.state.list} onRemove={ this.removeItem } />
+				<FieldGroup {...props} />
 			);
 		});
 	},
@@ -68,14 +94,6 @@ module.exports = Field.create({
 		this.valueChanged(newValues);
 	},
 	renderField () {
-		// var props = Object.assign(this.props.inputProps, {
-		// 	autoComplete: 'off',
-		// 	name: this.props.path,
-		// 	onChange: this.valueChanged,
-		// 	ref: 'focusTarget',
-		// 	value: this.props.value
-		// });
-
 		return (
 			<div>
 				{ this.renderItems() }

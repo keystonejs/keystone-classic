@@ -31,7 +31,8 @@ var DEFAULT_OPTION_KEYS = [
 	'subList',
 	'populate',
 	'optionsSource',
-	'mirrored'
+	'mirrored',
+	'treatAsKey'
 ];
 
 /**

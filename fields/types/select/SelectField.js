@@ -33,7 +33,6 @@ module.exports = Field.create({
 		var ops = (this.props.numeric) ? this.props.ops.map(function (i) { return { label: i.label, value: String(i.value) }; }) : this.props.ops;
 		var value = (typeof this.props.value === 'number') ? String(this.props.value) : this.props.value;
 		var inputName = this.props.path;
-		console.log('Hurrdurr', value);
 		if (this.props.nested) inputName = this.props.nested + '.' + inputName + '_' + this.props._id;
 		return <Select simpleValue name={inputName} value={value} options={ops} onChange={this.valueChanged} />;
 	},
