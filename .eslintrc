@@ -27,6 +27,7 @@
     "dot-notation": 2,
     "eol-last": 2,
     "generator-star-spacing": [2, { "before": true, "after": true }],
+    "guard-for-in": 1,
     "indent": [2, "tab", { "SwitchCase": 1 }],
     "jsx-quotes": [2, "prefer-double"],
     "linebreak-style": 2,
