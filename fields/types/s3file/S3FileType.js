@@ -79,25 +79,25 @@ s3file.prototype.addToSchema = function () {
 
 	var paths = this.paths = {
 		// fields
-		filename:   this._path.append('.filename'),
+		filename: this._path.append('.filename'),
 		originalname: this._path.append('.originalname'),
-		path:     this._path.append('.path'),
-		size:     this._path.append('.size'),
-		filetype:   this._path.append('.filetype'),
-		url:      this._path.append('.url'),
+		path: this._path.append('.path'),
+		size: this._path.append('.size'),
+		filetype: this._path.append('.filetype'),
+		url: this._path.append('.url'),
 		// virtuals
-		exists:     this._path.append('.exists'),
-		upload:     this._path.append('_upload'),
-		action:     this._path.append('_action'),
+		exists: this._path.append('.exists'),
+		upload: this._path.append('_upload'),
+		action: this._path.append('_action'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
-		filename:   String,
+		filename: String,
 		originalname: String,
-		path:     String,
-		size:     Number,
-		filetype:   String,
-		url:      String,
+		path: String,
+		size: Number,
+		filetype: String,
+		url: String,
 	});
 
 	schema.add(schemaPaths);

@@ -55,24 +55,24 @@ cloudinaryimages.prototype.addToSchema = function () {
 
 	this.paths = {
 		// virtuals
-		folder: 		this._path.append('.folder'),
+		folder: this._path.append('.folder'),
 		// form paths
-		upload: 		this._path.append('_upload'),
-		uploads: 		this._path.append('_uploads'),
-		action: 		this._path.append('_action'),
-		order: 			this._path.append('_order'),
+		upload: this._path.append('_upload'),
+		uploads: this._path.append('_uploads'),
+		action: this._path.append('_action'),
+		order: this._path.append('_order'),
 	};
 
 	var ImageSchema = new mongoose.Schema({
-		public_id:		String,
-		version:		Number,
-		signature:		String,
-		format:			String,
-		resource_type:	String,
-		url:			String,
-		width:			Number,
-		height:			Number,
-		secure_url:		String,
+		public_id: String,
+		version: Number,
+		signature: String,
+		format: String,
+		resource_type: String,
+		url: String,
+		width: Number,
+		height: Number,
+		secure_url: String,
 	});
 
 	// Generate cloudinary folder used to upload/select images

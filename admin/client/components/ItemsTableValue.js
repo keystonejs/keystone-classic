@@ -27,7 +27,7 @@ var ItemsTableValue = React.createClass({
 			'ItemList__link--empty': this.props.empty,
 			'ItemList__link--exterior': this.props.href && this.props.exterior,
 			'ItemList__link--interior': this.props.href && this.props.interior,
-			'ItemList__link--padded':   this.props.href && this.props.padded,
+			'ItemList__link--padded': this.props.href && this.props.padded,
 		}, this.props.className);
 
 		var props = blacklist(this.props, 'children', 'className', 'exterior', 'field', 'interior', 'padded');

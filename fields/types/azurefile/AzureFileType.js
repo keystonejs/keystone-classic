@@ -88,27 +88,27 @@ azurefile.prototype.addToSchema = function () {
 
 	var paths = this.paths = {
 		// fields
-		filename:		this._path.append('.filename'),
-		path:			this._path.append('.path'),
-		size:			this._path.append('.size'),
-		filetype:		this._path.append('.filetype'),
-		url:			this._path.append('.url'),
-		etag:			this._path.append('.etag'),
-		container:		this._path.append('.container'),
+		filename: this._path.append('.filename'),
+		path: this._path.append('.path'),
+		size: this._path.append('.size'),
+		filetype: this._path.append('.filetype'),
+		url: this._path.append('.url'),
+		etag: this._path.append('.etag'),
+		container: this._path.append('.container'),
 		// virtuals
-		exists:			this._path.append('.exists'),
-		upload:			this._path.append('_upload'),
-		action:			this._path.append('_action'),
+		exists: this._path.append('.exists'),
+		upload: this._path.append('_upload'),
+		action: this._path.append('_action'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
-		filename:		String,
-		path:			String,
-		size:			Number,
-		filetype:		String,
-		url:			String,
-		etag: 			String,
-		container:		String,
+		filename: String,
+		path: String,
+		size: Number,
+		filetype: String,
+		url: String,
+		etag: String,
+		container: String,
 	});
 
 	schema.add(schemaPaths);
@@ -244,7 +244,7 @@ azurefile.prototype.uploadFile = function (item, file, update, callback) {
 		var blobService = azure.createBlobService();
 		var container = field.options.containerFormatter(item, file.name);
 
-		blobService.createContainerIfNotExists(container, { publicAccessLevel : 'blob' }, function (err) {
+		blobService.createContainerIfNotExists(container, { publicAccessLevel: 'blob' }, function (err) {
 
 			if (err) return callback(err);
 

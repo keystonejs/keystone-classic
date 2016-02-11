@@ -142,10 +142,10 @@ module.exports = Field.create({
 
 		var opts = {
 			selector: '#' + this.state.id,
-			toolbar:  toolbar,
-			plugins:  plugins,
-			menubar:  options.menubar || false,
-			skin:     options.skin || 'keystone',
+			toolbar: toolbar,
+			plugins: plugins,
+			menubar: options.menubar || false,
+			skin: options.skin || 'keystone',
 		};
 
 		if (this.shouldRenderField()) {

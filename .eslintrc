@@ -31,6 +31,7 @@
     "generator-star-spacing": [2, { "before": true, "after": true }],
     "indent": [2, "tab", { "SwitchCase": 1 }],
     "jsx-quotes": [2, "prefer-double"],
+    "key-spacing": 2,
     "linebreak-style": 2,
     "new-parens": 2,
     "no-array-constructor": 2,

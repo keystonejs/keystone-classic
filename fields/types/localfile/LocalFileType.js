@@ -74,24 +74,24 @@ localfile.prototype.addToSchema = function () {
 
 	var paths = this.paths = {
 		// fields
-		filename:		this._path.append('.filename'),
-		originalname:		this._path.append('.originalname'),
-		path:			this._path.append('.path'),
-		size:			this._path.append('.size'),
-		filetype:		this._path.append('.filetype'),
+		filename: this._path.append('.filename'),
+		originalname: this._path.append('.originalname'),
+		path: this._path.append('.path'),
+		size: this._path.append('.size'),
+		filetype: this._path.append('.filetype'),
 		// virtuals
-		exists:			this._path.append('.exists'),
-		href:			this._path.append('.href'),
-		upload:			this._path.append('_upload'),
-		action:			this._path.append('_action'),
+		exists: this._path.append('.exists'),
+		href: this._path.append('.href'),
+		upload: this._path.append('_upload'),
+		action: this._path.append('_action'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
-		filename:		String,
-		originalname:   String,
-		path:			String,
-		size:			Number,
-		filetype:		String,
+		filename: String,
+		originalname: String,
+		path: String,
+		size: Number,
+		filetype: String,
 	});
 
 	schema.add(schemaPaths);

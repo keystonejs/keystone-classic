@@ -77,24 +77,24 @@ localfiles.prototype.addToSchema = function () {
 
 	var paths = this.paths = {
 		// fields
-		filename:		this._path.append('.filename'),
-		path:			this._path.append('.path'),
-		originalname:	this._path.append('.originalname'),
-		size:			this._path.append('.size'),
-		filetype:		this._path.append('.filetype'),
+		filename: this._path.append('.filename'),
+		path: this._path.append('.path'),
+		originalname: this._path.append('.originalname'),
+		size: this._path.append('.size'),
+		filetype: this._path.append('.filetype'),
 		// virtuals
-		exists:			this._path.append('.exists'),
-		upload:			this._path.append('_upload'),
-		action:			this._path.append('_action'),
-		order: 			this._path.append('_order'),
+		exists: this._path.append('.exists'),
+		upload: this._path.append('_upload'),
+		action: this._path.append('_action'),
+		order: this._path.append('_order'),
 	};
 
 	var schemaPaths = new mongoose.Schema({
-		filename:		String,
-		originalname:	String,
-		path:			String,
-		size:			Number,
-		filetype:		String,
+		filename: String,
+		originalname: String,
+		path: String,
+		size: Number,
+		filetype: String,
 	});
 
 	// The .href virtual returns the public path of the file

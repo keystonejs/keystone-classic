@@ -37,9 +37,9 @@ module.exports = Field.create({
 		this.fileFieldNode().value = '';
 		this.setState({
 			removeExisting: false,
-			localSource:    null,
-			origin:         false,
-			action:         null,
+			localSource: null,
+			origin: false,
+			action: null,
 		});
 	},
 
