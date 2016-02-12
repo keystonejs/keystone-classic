@@ -142,34 +142,37 @@ describe('When paginating results', function() {
 					score: { $meta: 'textScore' }
 				}).exec(function(error, results) {
 
-					// Ensure our optional $meta expression has added a value.
-					// Each result should have a 'score'
-					_.each(results.results, function(result) {
-						var score = result.get('score');
-						assert.notEqual(score, undefined);
-					});
+					if (!error) {
+						// Ensure our optional $meta expression has added a value.
+						// Each result should have a 'score'
+						_.each(results.results, function (result) {
+							var score = result.get('score');
+							assert.notEqual(score, undefined);
+						});
 
-					// Ensure our paginated result set works as expected
-					assert.equal(results.currentPage, pageNumber);
-					assert.equal(results.totalPages, searchTestData.expectedPages.length);
-					assert.deepStrictEqual(results.pages, searchTestData.expectedPages);
+						// Ensure our paginated result set works as expected
+						assert.equal(results.currentPage, pageNumber);
+						assert.equal(results.totalPages, searchTestData.expectedPages.length);
+						assert.deepStrictEqual(results.pages, searchTestData.expectedPages);
 
-					if (_.first(searchTestData.expectedPages) === pageNumber) {
-						assert(!results.previous);
-						assert(results.next);
+						if (_.first(searchTestData.expectedPages) === pageNumber) {
+							assert(!results.previous);
+							assert(results.next);
+						}
+						else if (_.last(searchTestData.expectedPages) === pageNumber) {
+							assert(results.previous);
+							assert(!results.next);
+						}
+						else {
+							assert(results.previous);
+							assert(results.next);
+						}
+
+						assert(results.results.length <= searchTestData.perPage);
+						callback();
+					} else {
+						throw error;
 					}
-					else if (_.last(searchTestData.expectedPages) === pageNumber) {
-						assert(results.previous);
-						assert(!results.next);
-					}
-					else {
-						assert(results.previous);
-						assert(results.next);
-					}
-
-					assert(results.results.length <= searchTestData.perPage);
-
-					callback();
 				});
 
 			}, function(error) {
