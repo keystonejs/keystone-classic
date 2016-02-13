@@ -169,10 +169,8 @@ describe('When paginating results', function() {
 						}
 
 						assert(results.results.length <= searchTestData.perPage);
-						callback();
-					} else {
-						throw error;
 					}
+					callback(error);
 				});
 
 			}, function(error) {

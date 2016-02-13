@@ -21,13 +21,20 @@
   "test_settings" : {
     "default" : {
       "launch_url" : "http://localhost",
-      "selenium_port"  : 4444,
-      "selenium_host"  : "localhost",
-      "silent": true,
+      "selenium_host" : "127.0.0.1",
+      "selenium_port" : 4444,
+      "silent" : true,
+      "disable_colors": false,
       "screenshots" : {
         "enabled" : false,
         "path" : ""
       },
+      "desiredCapabilities" : {
+        "browserName" : "firefox",
+        "javascriptEnabled" : true,
+        "acceptSslCerts" : true
+      }
+    },
     "saucelabs" : {
       "selenium_host" : "ondemand.saucelabs.com",
       "selenium_port" : 80,
@@ -42,12 +49,16 @@
         "path" : ""
       },
       "desiredCapabilities": {
-        "browserName": "firefox",
-        "javascriptEnabled": true,
-        "acceptSslCerts": true
+        "name" : "test-firefox",
+        "browserName": "firefox"
+      },
+      "globals" : {
+        "myGlobal" : "some_sauce_global"
+      },
+      "selenium" : {
+        "start_process" : false
       }
     },
-
     "chrome" : {
       "desiredCapabilities": {
         "browserName": "chrome",
