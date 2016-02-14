@@ -119,5 +119,5 @@ module.exports = {
 			this.addItem();
 			event.preventDefault();
 		}
-	}
+	},
 };
