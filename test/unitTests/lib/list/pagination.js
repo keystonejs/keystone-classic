@@ -78,35 +78,36 @@ describe('When paginating results', function() {
 				}).sort({
 					title: 'asc'
 				}).exec(function(error, results) {
-					assert.equal(results.currentPage, pageNumber);
-					assert.equal(results.totalPages, regressionTestData.expectedPages.length);
-					assert.deepStrictEqual(results.pages, regressionTestData.expectedPages);
+					if (!error) {
+						assert.equal(results.currentPage, pageNumber);
+						assert.equal(results.totalPages, regressionTestData.expectedPages.length);
+						assert.deepStrictEqual(results.pages, regressionTestData.expectedPages);
 
-					// If we're on the first page of results, test that there is no
-					// `previous` page to go back to.
-					//
-					// If it's the last page, test that there is no `next`.
-					//
-					// Otherwise test that there are both `previous` and `next`
-					// pages to go to.
-					if (_.first(regressionTestData.expectedPages) === pageNumber) {
-						assert(!results.previous);
-						assert(results.next);
-					}
-					else if (_.last(regressionTestData.expectedPages) === pageNumber) {
-						assert(results.previous);
-						assert(!results.next);
-					}
-					else {
-						assert(results.previous);
-						assert(results.next);
-					}
+						// If we're on the first page of results, test that there is no
+						// `previous` page to go back to.
+						//
+						// If it's the last page, test that there is no `next`.
+						//
+						// Otherwise test that there are both `previous` and `next`
+						// pages to go to.
+						if (_.first(regressionTestData.expectedPages) === pageNumber) {
+							assert(!results.previous);
+							assert(results.next);
+						}
+						else if (_.last(regressionTestData.expectedPages) === pageNumber) {
+							assert(results.previous);
+							assert(!results.next);
+						}
+						else {
+							assert(results.previous);
+							assert(results.next);
+						}
 
-					// Ensure we don't have more results per page than we
-					// defined.
-					assert(results.results.length <= regressionTestData.perPage);
-
-					callback();
+						// Ensure we don't have more results per page than we
+						// defined.
+						assert(results.results.length <= regressionTestData.perPage);
+					}
+					callback(error);
 				});
 
 			}, function(error) {
@@ -142,34 +143,35 @@ describe('When paginating results', function() {
 					score: { $meta: 'textScore' }
 				}).exec(function(error, results) {
 
-					// Ensure our optional $meta expression has added a value.
-					// Each result should have a 'score'
-					_.each(results.results, function(result) {
-						var score = result.get('score');
-						assert.notEqual(score, undefined);
-					});
+					if (!error) {
+						// Ensure our optional $meta expression has added a value.
+						// Each result should have a 'score'
+						_.each(results.results, function (result) {
+							var score = result.get('score');
+							assert.notEqual(score, undefined);
+						});
 
-					// Ensure our paginated result set works as expected
-					assert.equal(results.currentPage, pageNumber);
-					assert.equal(results.totalPages, searchTestData.expectedPages.length);
-					assert.deepStrictEqual(results.pages, searchTestData.expectedPages);
+						// Ensure our paginated result set works as expected
+						assert.equal(results.currentPage, pageNumber);
+						assert.equal(results.totalPages, searchTestData.expectedPages.length);
+						assert.deepStrictEqual(results.pages, searchTestData.expectedPages);
 
-					if (_.first(searchTestData.expectedPages) === pageNumber) {
-						assert(!results.previous);
-						assert(results.next);
+						if (_.first(searchTestData.expectedPages) === pageNumber) {
+							assert(!results.previous);
+							assert(results.next);
+						}
+						else if (_.last(searchTestData.expectedPages) === pageNumber) {
+							assert(results.previous);
+							assert(!results.next);
+						}
+						else {
+							assert(results.previous);
+							assert(results.next);
+						}
+
+						assert(results.results.length <= searchTestData.perPage);
 					}
-					else if (_.last(searchTestData.expectedPages) === pageNumber) {
-						assert(results.previous);
-						assert(!results.next);
-					}
-					else {
-						assert(results.previous);
-						assert(results.next);
-					}
-
-					assert(results.results.length <= searchTestData.perPage);
-
-					callback();
+					callback(error);
 				});
 
 			}, function(error) {
