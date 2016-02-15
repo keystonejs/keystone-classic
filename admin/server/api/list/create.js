@@ -10,7 +10,7 @@ module.exports = function (req, res) {
 	var item = new req.list.model();
 	var data = Object.assign({}, req.body, req.files);
 	req.list.updateItem(item, data, function (err) {
-		if (err) return res.status(500).json({ err: 'database error', detail: err });
+		if (err) return res.status(500).json(err);
 		res.json(req.list.getData(item));
 	});
 };
