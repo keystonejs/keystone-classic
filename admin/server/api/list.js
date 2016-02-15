@@ -11,7 +11,7 @@ module.exports = function (req, res) {
 	var sendError = function (key, err, msg) {
 		msg = msg || 'API Error';
 		key = key || 'unknown error';
-		msg += ` (${key})`;
+		msg += ' (' + key + ')';
 		console.log(msg + (err ? ':' : ''));
 		if (err) {
 			console.log(err);
