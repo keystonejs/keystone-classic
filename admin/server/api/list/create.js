@@ -10,10 +10,8 @@ module.exports = function (req, res) {
 		return res.apiError(400, 'nocreate');
 	}
 	var item = new req.list.model();
-	req.list.updateItem(item, {
-		data: req.body,
-		files: req.files,
-	}, function (err) {
+	var data = Object.assign({}, req.body, req.files);
+	req.list.updateItem(item, data, function (err) {
 		if (err) return res.status(500).json({ err: 'database error', detail: err });
 		res.json(req.list.getData(item));
 	});
