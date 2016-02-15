@@ -3,11 +3,11 @@ var keystone = require('../../../../');
 
 module.exports = function (req, res) {
 	if (!keystone.security.csrf.validate(req)) {
-		console.log(`Refusing to delete ${req.list.key} items; CSRF failure`);
+		console.log('Refusing to delete ' + req.list.key + ' items; CSRF failure');
 		return res.apiError(403, 'invalid csrf');
 	}
 	if (req.list.get('nodelete')) {
-		console.log(`Refusing to delete ${req.list.key} items; List.nodelete is true`);
+		console.log('Refusing to delete ' + req.list.key + ' items; List.nodelete is true');
 		return res.apiError(400, 'nodelete');
 	}
 	var ids = req.body.ids || req.body.id || req.params.id;
