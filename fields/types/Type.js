@@ -291,13 +291,26 @@ Field.prototype.isModified = function (item) {
 };
 
 /**
- * Validates that a value for this field has been provided in a data object
+ * Checks whether a provided value for the field is in a valid format
  * Overridden by some fieldType Classes
  *
  * @api public
  */
-Field.prototype.validateInput = function (data, required, item, callback) {
-	process.nextTick(callback(null, this.inputIsValid()));
+Field.prototype.validateInput = function (data, callback) {
+	var result = this.inputIsValid(data);
+	process.nextTick(callback(result));
+};
+
+/**
+ * Validates that a value for this field has been provided in a data object,
+ * taking into account existing data in an item
+ * Overridden by some fieldType Classes
+ *
+ * @api public
+ */
+Field.prototype.validateRequiredInput = function (item, data, callback) {
+	var result = this.inputIsValid(data, true, item);
+	process.nextTick(callback(result));
 };
 
 /**
