@@ -3,7 +3,6 @@ module.exports = function (req, res, next) {
 		var statusCode = 500;
 		if (key === 404) {
 			statusCode = 404;
-			key = null;
 			key = 'not found';
 		}
 		if (!key) {
