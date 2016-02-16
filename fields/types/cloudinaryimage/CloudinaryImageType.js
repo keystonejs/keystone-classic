@@ -91,7 +91,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 	schema.add(schemaPaths);
 
 	var exists = function (item) {
-		return (item.get(paths.public_id) ? true : false);
+		return item.get(paths.public_id);
 	};
 
 	// The .exists virtual indicates whether an image is stored

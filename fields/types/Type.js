@@ -113,7 +113,7 @@ Field.prototype.getOptions = function () {
 		if (this.getProperties) {
 			Object.assign(this.__options, this.getProperties());
 		}
-		this.__options.hasFilterMethod = this.addFilterToQuery ? true : false;
+		this.__options.hasFilterMethod = this.addFilterToQuery;
 		this.__options.defaultValue = this.getDefaultValue();
 	}
 	return this.__options;
@@ -324,9 +324,9 @@ Field.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
 	if (value === undefined && item && item.get(this.path)) return true;
 	if (typeof data[this.path] === 'string') {
-		return (data[this.path].trim()) ? true : false;
+		return data[this.path].trim();
 	} else {
-		return (data[this.path]) ? true : false;
+		return data[this.path];
 	}
 };
 

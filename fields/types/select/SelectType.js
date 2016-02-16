@@ -10,7 +10,7 @@ var utils = require('keystone-utils');
  */
 function select (list, path, options) {
 	this.ui = options.ui || 'select';
-	this.numeric = options.numeric ? true : false;
+	this.numeric = options.numeric;
 	this._nativeType = (options.numeric) ? Number : String;
 	this._underscoreMethods = ['format'];
 	this._properties = ['ops', 'numeric'];
@@ -35,7 +35,7 @@ function select (list, path, options) {
 		options.emptyOption = true;
 	}
 	// ensure this.emptyOption is a boolean
-	this.emptyOption = options.emptyOption ? true : false;
+	this.emptyOption = options.emptyOption;
 	// cached maps for options, labels and values
 	this.map = utils.optionsMap(this.ops);
 	this.labels = utils.optionsMap(this.ops, 'label');
@@ -129,9 +129,9 @@ select.prototype.addFilterToQuery = function (filter, query) {
  */
 select.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path]) {
-		return (data[this.path] in this.map) ? true : false;
+		return data[this.path] in this.map;
 	} else {
-		return (!required || (!(this.path in data) && item && item.get(this.path))) ? true : false;
+		return (!required || (!(this.path in data) && item && item.get(this.path)));
 	}
 };
 

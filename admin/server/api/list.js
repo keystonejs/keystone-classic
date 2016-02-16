@@ -40,8 +40,8 @@ module.exports = function (req, res) {
 				if (!field) return sendError('invalid field provided');
 
 				_.each(req.query.filters, function (value, key) {
-					query.where(key).equals(value ? value : null);
-					count.where(key).equals(value ? value : null);
+					query.where(key).equals(value);
+					count.where(key).equals(value);
 				});
 			}
 			count.exec(function (err, total) {

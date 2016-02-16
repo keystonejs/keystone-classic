@@ -35,7 +35,7 @@ key.prototype.inputIsValid = function (data, required, item) {
 		return true;
 	}
 	value = this.generateKey(value);
-	return (value || !required) ? true : false;
+	return (value || !required);
 };
 
 /**

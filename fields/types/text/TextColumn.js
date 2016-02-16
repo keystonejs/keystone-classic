@@ -16,7 +16,7 @@ var TextColumn = React.createClass({
 	},
 	render () {
 		let value = this.getValue();
-		let empty = !value && this.props.linkTo ? true : false;
+		let empty = !value && this.props.linkTo;
 		return (
 			<ItemsTableCell>
 				<ItemsTableValue href={this.props.linkTo} empty={empty} padded interior field={this.props.col.type}>

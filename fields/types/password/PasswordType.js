@@ -125,10 +125,10 @@ password.prototype.compare = function (item, candidate, callback) {
  */
 password.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path] && this.paths.confirm in data) {
-		return data[this.path] === data[this.paths.confirm] ? true : false;
+		return data[this.path] === data[this.paths.confirm];
 	}
 	if (data[this.path] || data[this.paths.hash] || (item && item.get(this.path))) return true;
-	return required ? false : true;
+	return required;
 };
 
 /**

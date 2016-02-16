@@ -8,8 +8,8 @@ module.exports = Field.create({
 
 	getInitialState () {
 		return {
-			passwordIsSet: this.props.value ? true : false,
-			showChangeUI: this.props.mode === 'create' ? true : false,
+			passwordIsSet: this.props.value,
+			showChangeUI: this.props.mode === 'create',
 			password: '',
 			confirm: '',
 		};

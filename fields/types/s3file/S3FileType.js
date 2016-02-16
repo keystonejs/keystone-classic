@@ -103,7 +103,7 @@ s3file.prototype.addToSchema = function () {
 	schema.add(schemaPaths);
 
 	var exists = function (item) {
-		return (item.get(paths.url) ? true : false);
+		return item.get(paths.url);
 	};
 
 	// The .exists virtual indicates whether a file is stored

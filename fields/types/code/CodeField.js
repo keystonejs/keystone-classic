@@ -31,7 +31,7 @@ module.exports = Field.create({
 
 		var options = _.defaults({}, this.props.editor, {
 			lineNumbers: true,
-			readOnly: this.shouldRenderField() ? false : true,
+			readOnly: this.shouldRenderField(),
 		});
 
 		this.codeMirror = CodeMirror.fromTextArea(ReactDOM.findDOMNode(this.refs.codemirror), options);
