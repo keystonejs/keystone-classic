@@ -2,7 +2,7 @@ module.exports = {
   before : function (client) {
     client
       .url('http://localhost:3000/keystone')
-      .waitForElementVisible('div#signin-view', 3000)
+      .waitForElementVisible('div#signin-view', 30000)
       .setValue('input[name=email]', 'test@test.e2e')
       .setValue('input[name=password]', 'test')
       .click('button[type=submit]')
@@ -17,7 +17,7 @@ module.exports = {
   'AdminUI should have a home view' : function (client) {
     client
       .url('http://localhost:3000/keystone')
-      .waitForElementVisible('div#home-view', 1000)
+      .waitForElementVisible('div#home-view', 10000)
       .pause(1000);
   }
 };
