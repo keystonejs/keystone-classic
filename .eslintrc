@@ -94,6 +94,7 @@
     "no-trailing-spaces": 2,
     "no-undef": 2,
     "no-unexpected-multiline": 2,
+    "no-unneeded-ternary": [2, { "defaultAssignment": false }],
     "no-unreachable": 2,
     "no-useless-call": 2,
     "no-with": 2,

@@ -10,7 +10,7 @@ function boolean (list, path, options) {
 	this._nativeType = Boolean;
 	this._properties = ['indent'];
 	this._fixedSize = 'full';
-	this.indent = (options.indent) ? true : false;
+	this.indent = options.indent;
 	boolean.super_.call(this, list, path, options);
 }
 util.inherits(boolean, FieldType);
@@ -34,7 +34,7 @@ boolean.prototype.addFilterToQuery = function (filter, query) {
  */
 boolean.prototype.inputIsValid = function (data, required) {
 	if (required) {
-		return (data[this.path] === true || data[this.path] === 'true') ? true : false;
+		return (data[this.path] === true || data[this.path] === 'true');
 	} else {
 		return true;
 	}

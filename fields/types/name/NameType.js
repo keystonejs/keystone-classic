@@ -128,9 +128,9 @@ name.prototype.inputIsValid = function (data, required, item) {
 	// Otherwise check for valid strings in the provided data,
 	// which may be nested or use flattened paths.
 	if (_.isObject(data[this.path])) {
-		return (data[this.path].full || data[this.path].first || data[this.path].last) ? true : false;
+		return (data[this.path].full || data[this.path].first || data[this.path].last);
 	} else {
-		return (data[this.paths.full] || data[this.paths.first] || data[this.paths.last]) ? true : false;
+		return (data[this.paths.full] || data[this.paths.first] || data[this.paths.last]);
 	}
 };
 

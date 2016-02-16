@@ -76,7 +76,7 @@ number.prototype.inputIsValid = function (data, required, item) {
 		var newValue = utils.number(value);
 		return (!isNaN(newValue));
 	} else {
-		return (required) ? false : true;
+		return required;
 	}
 };
 

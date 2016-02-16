@@ -71,7 +71,7 @@ module.exports = function (req, res) {
 											href: '/' + keystone.get('admin path') + '/' + refList.path + '/' + i.id,
 										};
 									}),
-									more: (more) ? true : false,
+									more: more,
 								});
 							}
 							done();

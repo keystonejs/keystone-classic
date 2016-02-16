@@ -10,9 +10,9 @@ var utils = require('keystone-utils');
  * @api public
  */
 function relationship (list, path, options) {
-	this.many = (options.many) ? true : false;
+	this.many = options.many;
 	this.filters = options.filters;
-	this.createInline = (options.createInline) ? true : false;
+	this.createInline = options.createInline;
 	this._defaultSize = 'full';
 	this._nativeType = keystone.mongoose.Schema.Types.ObjectId;
 	this._underscoreMethods = ['format'];
@@ -71,9 +71,9 @@ relationship.prototype.addToSchema = function () {
 	var def = {
 		type: this._nativeType,
 		ref: this.options.ref,
-		index: (this.options.index ? true : false),
-		required: (this.options.required ? true : false),
-		unique: (this.options.unique ? true : false),
+		index: this.options.index,
+		required: this.options.required,
+		unique: this.options.unique,
 	};
 	this.paths = {
 		refList: this.options.refListPath || this._path.append('RefList'),
@@ -137,9 +137,9 @@ relationship.prototype.inputIsValid = function (data, required, item) {
 	if (!required) return true;
 	if (!(this.path in data) && item && ((this.many && item.get(this.path).length) || item.get(this.path))) return true;
 	if (typeof data[this.path] === 'string') {
-		return (data[this.path].trim()) ? true : false;
+		return data[this.path].trim();
 	} else {
-		return (data[this.path]) ? true : false;
+		return data[this.path];
 	}
 };
 
@@ -184,7 +184,7 @@ relationship.prototype.updateItem = function (item, data, callback) {
  */
 Object.defineProperty(relationship.prototype, 'isValid', {
 	get: function () {
-		return keystone.list(this.options.ref) ? true : false;
+		return keystone.list(this.options.ref);
 	},
 });
 

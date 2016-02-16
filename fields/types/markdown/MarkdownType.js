@@ -108,7 +108,7 @@ markdown.prototype.inputIsValid = function (data, required, item) {
 	if (!(this.path in data || this.paths.md in data) && item && item.get(this.paths.md)) {
 		return true;
 	}
-	return (!required || data[this.path] || data[this.paths.md]) ? true : false;
+	return (!required || data[this.path] || data[this.paths.md]);
 };
 
 
