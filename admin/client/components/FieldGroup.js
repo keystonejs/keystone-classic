@@ -75,12 +75,18 @@ var FieldGroup = React.createClass({
 			}
 		}, this);
 	},
+	renderCloseButton () {
+		if (this.props.subFieldValue) return;
+		return (
+			<Button ref="removeObjectItemButton" onClick={ this.onRemove }>
+				<span className="octicon octicon-x" />
+			</Button>
+		);
+	},
 	render () {
 		return (
 			<Card>
-				<Button ref="removeObjectItemButton" onClick={ this.onRemove }>
-					<span className="octicon octicon-x" />
-				</Button>
+				{ this.renderCloseButton() }
 				<Row>
 					{ this.renderItems() }
 				</Row>

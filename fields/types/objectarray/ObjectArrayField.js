@@ -29,6 +29,7 @@ module.exports = Field.create({
 	},
 
 	renderItems () {
+		if (this.state.subFieldValues && this.state.subFieldValues.length == 0) return (<span>No subfields</span>);
 		return this.state.subFieldValues ? this.renderFields(this.state.subFieldValues, this.state.values) : this.renderFields(this.state.values);
 	},
 	renderFields (fields, values) {
@@ -93,11 +94,17 @@ module.exports = Field.create({
 		});
 		this.valueChanged(newValues);
 	},
+	renderAddButton () {
+		if (this.props.treatAsKey) return;
+		return (
+			<Button ref="addObjectItemButton" onClick={this.addItem}>Add item</Button>
+		);
+	},
 	renderField () {
 		return (
 			<div>
 				{ this.renderItems() }
-				<Button ref="addObjectItemButton" onClick={this.addItem}>Add item</Button>
+				{ this.renderAddButton() }
 			</div>
 		);
 	}
