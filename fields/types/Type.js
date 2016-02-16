@@ -298,7 +298,7 @@ Field.prototype.isModified = function (item) {
  */
 Field.prototype.validateInput = function (data, callback) {
 	var result = this.inputIsValid(data);
-	process.nextTick(callback(result));
+	process.nextTick(function () { callback(result); });
 };
 
 /**
@@ -310,7 +310,7 @@ Field.prototype.validateInput = function (data, callback) {
  */
 Field.prototype.validateRequiredInput = function (item, data, callback) {
 	var result = this.inputIsValid(data, true, item);
-	process.nextTick(callback(result));
+	process.nextTick(function () { callback(result); });
 };
 
 /**
