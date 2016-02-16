@@ -134,7 +134,9 @@ password.prototype.validateInput = function (data, callback) {
  * Asynchronously confirms that the provided password is valid
  */
 password.prototype.validateRequiredInput = function (item, data, callback) {
-	var result = this.getValueFromData(data);
+	var value = this.getValueFromData(data);
+	var result = value ? true : false;
+	if (!result && value === undefined && item && item.get(this.path)) result = true;
 	process.nextTick(function () { callback(result); });
 };
 
@@ -163,6 +165,8 @@ password.prototype.inputIsValid = function (data, required, item) {
  * @api public
  */
 password.prototype.updateItem = function (item, data, callback) {
+	// TODO: this is brittle and won't work with nested fields. needs better
+	// support of pulling nested paths out of objects before we can fix it.
 	if (this.path in data) {
 		item.set(this.path, data[this.path]);
 	} else if (this.paths.hash in data) {
