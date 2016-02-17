@@ -31,22 +31,22 @@ function embedly (list, path, options) {
 
 	// check and api key has been set, or bail.
 	if (!keystone.get('embedly api key')) {
-		throw new Error('Invalid Configuration\n\n' +
-			'Embedly fields (' + list.key + '.' + path + ') require the "embedly api key" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-embedly for more information.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'Embedly fields (' + list.key + '.' + path + ') require the "embedly api key" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-embedly for more information.\n');
 	}
 
 	// ensure a fromPath has been defined
 	if (!options.from) {
-		throw new Error('Invalid Configuration\n\n' +
-			'Embedly fields (' + list.key + '.' + path + ') require a fromPath option to be set.\n' +
-			'See http://keystonejs.com/docs/database/#fieldtypes-embedly for more information.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'Embedly fields (' + list.key + '.' + path + ') require a fromPath option to be set.\n'
+			+ 'See http://keystonejs.com/docs/database/#fieldtypes-embedly for more information.\n');
 	}
 
 	// embedly fields cannot be set as initial fields
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'Embedly fields (' + list.key + '.' + path + ') cannot be set as initial fields.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'Embedly fields (' + list.key + '.' + path + ') cannot be set as initial fields.\n');
 	}
 
 	embedly.super_.call(this, list, path, options);

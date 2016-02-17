@@ -52,16 +52,16 @@ function Field (list, path, options) {
 	this.list.automap(this);
 
 	// Warn on required fields that aren't initial
-	if (this.options.required &&
-        this.options.initial === undefined &&
-        this.options.default === undefined &&
-        !this.options.value &&
-        !this.list.get('nocreate') &&
-        this.path !== this.list.mappings.name
+	if (this.options.required
+		&& this.options.initial === undefined
+		&& this.options.default === undefined
+		&& !this.options.value
+		&& !this.list.get('nocreate')
+		&& this.path !== this.list.mappings.name
 	) {
-		console.error('\nError: Invalid Configuration\n\n' +
-			'Field (' + list.key + '.' + path + ') is required but not initial, and has no default or generated value.\n' +
-			'Please provide a default, remove the required setting, or set initial: false to override this error.\n');
+		console.error('\nError: Invalid Configuration\n\n'
+		+ 'Field (' + list.key + '.' + path + ') is required but not initial, and has no default or generated value.\n'
+		+ 'Please provide a default, remove the required setting, or set initial: false to override this error.\n');
 		process.exit(1);
 	}
 
@@ -185,14 +185,14 @@ Field.prototype.getPreSaveWatcher = function () {
 	}
 
 	if (!applyValue) {
-		console.error('\nError: Invalid Configuration\n\n' +
-			'Invalid watch value (' + this.options.watch + ') provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
+		console.error('\nError: Invalid Configuration\n\n'
+		+ 'Invalid watch value (' + this.options.watch + ') provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
 		process.exit(1);
 	}
 
 	if (!_.isFunction(this.options.value)) {
-		console.error('\nError: Invalid Configuration\n\n' +
-			'Watch set with no value method provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
+		console.error('\nError: Invalid Configuration\n\n'
+		+ 'Watch set with no value method provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
 		process.exit(1);
 	}
 
@@ -202,8 +202,8 @@ Field.prototype.getPreSaveWatcher = function () {
 		}
 		di(field.options.value).call(this, function (err, val) {
 			if (err) {
-				console.error('\nError: ' +
-				'Watch set with value method for ' + field.list.key + '.' + field.path + ' (' + field.type + ') throws error:' + err);
+				console.error('\nError: '
+				+ 'Watch set with value method for ' + field.list.key + '.' + field.path + ' (' + field.type + ') throws error:' + err);
 			} else {
 				this.set(field.path, val);
 			}

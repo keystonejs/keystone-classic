@@ -22,8 +22,8 @@ function cloudinaryimage (list, path, options) {
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
 		throw new Error(
-			'Invalid Configuration\n\n' +
-			'CloudinaryImage fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n'
+			'Invalid Configuration\n\n'
+			+ 'CloudinaryImage fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n'
 		);
 	}
 
@@ -32,9 +32,9 @@ function cloudinaryimage (list, path, options) {
 	// validate cloudinary config
 	if (!keystone.get('cloudinary config')) {
 		throw new Error(
-			'Invalid Configuration\n\n' +
-			'CloudinaryImage fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
+			'Invalid Configuration\n\n'
+			+ 'CloudinaryImage fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
 		);
 	}
 

@@ -28,8 +28,8 @@ function localfile (list, path, options) {
 
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'localfile fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'localfile fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
 	if (options.overwrite !== false) {
@@ -40,8 +40,8 @@ function localfile (list, path, options) {
 
 	// validate destination dir
 	if (!options.dest) {
-		throw new Error('Invalid Configuration\n\n' +
-			'localfile fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'localfile fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
 	}
 	// Allow hook into before and after
 	if (options.pre && options.pre.move) {

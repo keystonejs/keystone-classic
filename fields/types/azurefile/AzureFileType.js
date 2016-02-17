@@ -37,9 +37,9 @@ function azurefile (list, path, options) {
 
 	// validate azurefile config (has to happen after super_.call)
 	if (!this.azurefileconfig) {
-		throw new Error('Invalid Configuration\n\n' +
-			'AzureFile fields (' + list.key + '.' + path + ') require the "azurefile config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-azure for more information.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'AzureFile fields (' + list.key + '.' + path + ') require the "azurefile config" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-azure for more information.\n');
 	}
 
 	process.env.AZURE_STORAGE_ACCOUNT = this.azurefileconfig.account;
