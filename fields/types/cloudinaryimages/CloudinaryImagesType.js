@@ -21,17 +21,17 @@ function cloudinaryimages (list, path, options) {
 	options.nofilter = true;
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'CloudinaryImages fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'CloudinaryImages fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
 	cloudinaryimages.super_.call(this, list, path, options);
 
 	// validate cloudinary config
 	if (!keystone.get('cloudinary config')) {
-		throw new Error('Invalid Configuration\n\n' +
-			'CloudinaryImages fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'CloudinaryImages fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n');
 	}
 
 }

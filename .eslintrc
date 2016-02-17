@@ -98,6 +98,7 @@
     "no-useless-call": 2,
     "no-with": 2,
     "object-curly-spacing": [2, "always"],
+    "operator-linebreak": [2, "before"],
     "quote-props": [2, "consistent-as-needed"],
     "quotes": [2, "single", "avoid-escape"],
     "react/jsx-boolean-value": 2,
