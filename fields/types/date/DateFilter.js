@@ -108,7 +108,7 @@ var DateFilter = React.createClass({
 		let send = {};
 		send[activeInputField] = day;
 		this.updateFilter(send);
-		const newActiveField = ( activeInputField === 'before' ) ? 'after' : 'before';
+		const newActiveField = (activeInputField === 'before') ? 'after' : 'before';
 		this.setState(
 			{ activeInputField: newActiveField },
 			() => {

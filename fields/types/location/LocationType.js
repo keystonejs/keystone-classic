@@ -405,25 +405,25 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 		var location = {};
 
 		_.each(result.address_components, function (val) {
-			if ( _.indexOf(val.types, 'street_number') >= 0 ) {
+			if (_.indexOf(val.types, 'street_number') >= 0) {
 				location.street1 = location.street1 || [];
 				location.street1.push(val.long_name);
 			}
-			if ( _.indexOf(val.types, 'route') >= 0 ) {
+			if (_.indexOf(val.types, 'route') >= 0) {
 				location.street1 = location.street1 || [];
 				location.street1.push(val.short_name);
 			}
 			// in some cases, you get suburb, city as locality - so only use the first
-			if ( _.indexOf(val.types, 'locality') >= 0 && !location.suburb) {
+			if (_.indexOf(val.types, 'locality') >= 0 && !location.suburb) {
 				location.suburb = val.long_name;
 			}
-			if ( _.indexOf(val.types, 'administrative_area_level_1') >= 0 ) {
+			if (_.indexOf(val.types, 'administrative_area_level_1') >= 0) {
 				location.state = val.short_name;
 			}
-			if ( _.indexOf(val.types, 'country') >= 0 ) {
+			if (_.indexOf(val.types, 'country') >= 0) {
 				location.country = val.long_name;
 			}
-			if ( _.indexOf(val.types, 'postal_code') >= 0 ) {
+			if (_.indexOf(val.types, 'postal_code') >= 0) {
 				location.postcode = val.short_name;
 			}
 		});
