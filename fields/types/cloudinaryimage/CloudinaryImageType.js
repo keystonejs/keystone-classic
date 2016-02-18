@@ -322,19 +322,51 @@ cloudinaryimage.prototype.inputIsValid = function () {
  * @api public
  */
 cloudinaryimage.prototype.updateItem = function (item, data, callback) {
-	var value = this.getValueFromData(data);
+	var field = this;
 	var paths = this.paths;
+	var value = this.getValueFromData(data);
 
 	if (typeof value === 'object' && 'public_id' in value) {
+		// Cloudinary Image data provided
 		if (value.public_id) {
 			var v = Object.assign(getEmptyValue(), value);
 			item.set(this.path, v);
 		} else {
 			item.set(this.path, getEmptyValue());
 		}
+		process.nextTick(callback);
+	} else if (typeof value === 'object' && 'file' in value) {
+		// File, URL or Base64 data provided - upload it
+		var tagPrefix = keystone.get('cloudinary prefix') || '';
+		var uploadOptions = {
+			tags: [],
+		};
+		if (tagPrefix.length) {
+			uploadOptions.tags.push(tagPrefix);
+			tagPrefix += '_';
+		}
+		uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
+		if (keystone.get('env') !== 'production') {
+			uploadOptions.tags.push(tagPrefix + 'dev');
+		}
+		var folder = this.getFolder();
+		if (folder) {
+			uploadOptions.folder = folder;
+		}
+		// NOTE: field.options.publicID has been deprecated (tbc)
+		if (field.options.filenameAsPublicID && value.originalname && typeof originalname === 'string') {
+			uploadOptions.public_id = value.originalname.substring(0, value.originalname.lastIndexOf('.'));
+		}
+		// TODO: implement autoCleanup; should delete existing images before uploading
+		cloudinary.uploader.upload(value, function (result) {
+			if (result.error) {
+				callback(result.error);
+			} else {
+				item.set(field.path, result);
+				callback();
+			}
+		}, uploadOptions);
 	}
-
-	process.nextTick(callback);
 };
 
 /**
