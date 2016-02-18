@@ -55,6 +55,26 @@ function cloudinaryimage (list, path, options) {
 util.inherits(cloudinaryimage, super_);
 
 /**
+ * Gets the folder for images in this field
+ */
+cloudinaryimage.prototype.getFolder = function () {
+	var folder = null;
+
+	if (keystone.get('cloudinary folders') || this.options.folder) {
+		if (typeof this.options.folder === 'string') {
+			folder = this.options.folder;
+		} else {
+			var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
+			folderList.push(this.list.path);
+			folderList.push(this.path);
+			folder = folderList.join('/');
+		}
+	}
+
+	return folder;
+};
+
+/**
  * Registers the field on the List's Mongoose Schema.
  *
  * @api public
@@ -107,23 +127,6 @@ cloudinaryimage.prototype.addToSchema = function () {
 		return schemaMethods.exists.apply(this);
 	});
 
-	var folder = function (item) { // eslint-disable-line no-unused-vars
-		var folderValue = null;
-
-		if (keystone.get('cloudinary folders')) {
-			if (field.options.folder) {
-				folderValue = field.options.folder;
-			} else {
-				var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
-				folderList.push(field.list.path);
-				folderList.push(field.path);
-				folderValue = folderList.join('/');
-			}
-		}
-
-		return folderValue;
-	};
-
 	// The .folder virtual returns the cloudinary folder used to upload/select images
 	schema.virtual(paths.folder).get(function () {
 		return schemaMethods.folder.apply(this);
@@ -173,7 +176,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 			return exists(this);
 		},
 		folder: function () {
-			return folder(this);
+			return field.folder();
 		},
 		src: function (options) {
 			return src(this, options);
