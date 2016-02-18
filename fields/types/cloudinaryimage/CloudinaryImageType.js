@@ -270,14 +270,41 @@ cloudinaryimage.prototype.isModified = function (item) {
 	return item.isModified(this.paths.url);
 };
 
+
+function validateInput (value) {
+	// undefined values are always valid
+	if (value === undefined) return true;
+	// TODO: strings may not actually be valid but this will be OK for now
+	if (typeof value === 'string') return true;
+	// If the value is an object and has a cloudinary public_id, it is valid
+	if (typeof value === 'object' && value.public_id) return true;
+	return false;
+}
+
 /**
  * Validates that a value for this field has been provided in a data object
  *
  * @api public
  */
-cloudinaryimage.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
-	// TODO - how should image field input be validated?
-	return false;
+cloudinaryimage.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	utils.defer(callback, validateInput(value));
+};
+
+/**
+ * Validates that input has been provided
+ */
+cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = ((value && validateInput(value)) || item.get(this.path).public_id) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
+ * (Deprecated) always assumes the input is valid
+ */
+cloudinaryimage.prototype.inputIsValid = function () {
+	return true;
 };
 
 /**
