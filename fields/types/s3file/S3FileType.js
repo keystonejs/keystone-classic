@@ -29,17 +29,17 @@ function s3file (list, path, options) {
 
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'S3File fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'S3File fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
 	s3file.super_.call(this, list, path, options);
 
 	// validate s3 config (has to happen after super_.call)
 	if (!this.s3config) {
-		throw new Error('Invalid Configuration\n\n' +
-			'S3File fields (' + list.key + '.' + path + ') require the "s3 config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-amazons3 for more information.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'S3File fields (' + list.key + '.' + path + ') require the "s3 config" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-amazons3 for more information.\n');
 	}
 
 	// Could be more pre- hooks, just upload for now

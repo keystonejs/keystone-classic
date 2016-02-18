@@ -18,23 +18,15 @@ function cloudinaryimage (list, path, options) {
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
-
-	// TODO: implement initial form, usage disabled for now
-	if (options.initial) {
-		throw new Error(
-			'Invalid Configuration\n\n' +
-			'CloudinaryImage fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n'
-		);
-	}
-
+	
 	cloudinaryimage.super_.call(this, list, path, options);
 
 	// validate cloudinary config
 	if (!keystone.get('cloudinary config')) {
 		throw new Error(
-			'Invalid Configuration\n\n' +
-			'CloudinaryImage fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
+			'Invalid Configuration\n\n'
+			+ 'CloudinaryImage fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
 		);
 	}
 
@@ -285,7 +277,7 @@ cloudinaryimage.prototype.isModified = function (item) {
  */
 cloudinaryimage.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?
-	return true;
+	return false;
 };
 
 /**

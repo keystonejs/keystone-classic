@@ -5,8 +5,8 @@ module.exports = function bindIPRestrictions (keystone, app) {
 	if (keystone.get('allowed ip ranges')) {
 		if (!app.get('trust proxy')) {
 			console.log(
-				'KeystoneJS Initialisaton Error:\n\n' +
-				'to set IP range restrictions the "trust proxy" setting must be enabled.\n\n'
+				'KeystoneJS Initialisaton Error:\n\n'
+				+ 'to set IP range restrictions the "trust proxy" setting must be enabled.\n\n'
 			);
 			process.exit(1);
 		}
