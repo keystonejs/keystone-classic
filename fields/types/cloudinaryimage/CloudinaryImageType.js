@@ -5,6 +5,22 @@ var cloudinary = require('cloudinary');
 var utils = require('keystone-utils');
 var super_ = require('../Type');
 
+var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
+
+function getEmptyValue () {
+	return {
+		public_id: '',
+		version: 0,
+		signature: '',
+		format: '',
+		resource_type: '',
+		url: '',
+		width: 0,
+		height: 0,
+		secure_url: '',
+	};
+}
+
 /**
  * CloudinaryImage FieldType Constructor
  * @extends Field
@@ -140,17 +156,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 	};
 
 	var reset = function (item) {
-		item.set(field.path, {
-			public_id: '',
-			version: 0,
-			signature: '',
-			format: '',
-			resource_type: '',
-			url: '',
-			width: 0,
-			height: 0,
-			secure_url: '',
-		});
+		item.set(field.path, getEmptyValue());
 	};
 
 	var addSize = function (options, width, height, other) {
@@ -313,21 +319,17 @@ cloudinaryimage.prototype.inputIsValid = function () {
  * @api public
  */
 cloudinaryimage.prototype.updateItem = function (item, data, callback) {
+	var value = this.getValueFromData(data);
 	var paths = this.paths;
 
-	var setValue = function (key) {
-		if (paths[key]) {
-			var index = paths[key].indexOf('.');
-			var field = paths[key].substr(0, index);
-			// Note we allow implicit conversion here so that numbers submitted as strings in the data object
-			// aren't treated as different values to the stored Number values
-			if (data[field] && data[field][key] && data[field][key] != item.get(paths[key])) { // eslint-disable-line eqeqeq
-				item.set(paths[key], data[field][key] || null);
-			}
+	if (typeof value === 'object' && 'public_id' in value) {
+		if (value.public_id) {
+			var v = Object.assign(getEmptyValue(), value);
+			item.set(this.path, v);
+		} else {
+			item.set(this.path, getEmptyValue());
 		}
-	};
-
-	_.each(['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'], setValue);
+	}
 
 	process.nextTick(callback);
 };
