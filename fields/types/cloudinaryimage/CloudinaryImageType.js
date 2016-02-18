@@ -368,6 +368,9 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 				callback();
 			}
 		}, uploadOptions);
+	} else {
+		// Nothing to do
+		process.nextTick(callback);
 	}
 };
 
