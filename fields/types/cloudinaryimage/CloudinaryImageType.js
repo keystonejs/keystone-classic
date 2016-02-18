@@ -18,7 +18,7 @@ function cloudinaryimage (list, path, options) {
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
-	
+
 	cloudinaryimage.super_.call(this, list, path, options);
 
 	// validate cloudinary config
