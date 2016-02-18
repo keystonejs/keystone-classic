@@ -148,7 +148,7 @@
     "test": "mocha",
     "test-all": "npm test && npm run test-e2e",
     "test-e2e": "node test/e2eTests/server.js --env default --config ./test/e2eTests/nightwatch.json",
-    "test-e2e-saucelabs": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2eTests/server.js --env saucelabs --config ./test/e2eTests/nightwatch.json; fi",
+    "test-e2e-saucelabs": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2eTests/server.js --env saucelabs --config ./test/e2eTests/nightwatch.json --group group001Login; fi",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "watch": "watch 'clear && npm run lint' lib admin server test",

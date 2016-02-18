@@ -50,10 +50,8 @@
       },
       "desiredCapabilities": {
         "name" : "test-firefox",
-        "browserName": "firefox"
-      },
-      "globals" : {
-        "myGlobal" : "some_sauce_global"
+        "browserName": "firefox",
+        "tunnel-identifier":"${TRAVIS_JOB_NUMBER}"
       },
       "selenium" : {
         "start_process" : false
