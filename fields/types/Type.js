@@ -297,8 +297,7 @@ Field.prototype.isModified = function (item) {
  * @api public
  */
 Field.prototype.validateInput = function (data, callback) {
-	var result = this.inputIsValid(data);
-	process.nextTick(function () { callback(result); });
+	utils.defer(callback, this.inputIsValid(data));
 };
 
 /**
@@ -309,8 +308,7 @@ Field.prototype.validateInput = function (data, callback) {
  * @api public
  */
 Field.prototype.validateRequiredInput = function (item, data, callback) {
-	var result = this.inputIsValid(data, true, item);
-	process.nextTick(function () { callback(result); });
+	utils.defer(callback, this.inputIsValid(data, true, item));
 };
 
 /**
