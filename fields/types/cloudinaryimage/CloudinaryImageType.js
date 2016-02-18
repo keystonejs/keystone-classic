@@ -287,6 +287,8 @@ function validateInput (value) {
 	if (typeof value === 'string') return true;
 	// If the value is an object and has a cloudinary public_id, it is valid
 	if (typeof value === 'object' && value.public_id) return true;
+	// If the value is an uploaded file, it is valid
+	if (typeof value === 'object' && value.path && value.size) return true;
 	return false;
 }
 
@@ -335,8 +337,8 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 			item.set(this.path, getEmptyValue());
 		}
 		process.nextTick(callback);
-	} else if (typeof value === 'object' && 'file' in value) {
-		// File, URL or Base64 data provided - upload it
+	} else if (typeof value === 'object' && value.path && value.size) {
+		// File provided - upload it
 		var tagPrefix = keystone.get('cloudinary prefix') || '';
 		var uploadOptions = {
 			tags: [],
