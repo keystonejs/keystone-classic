@@ -19,9 +19,9 @@ module.exports = function bindSassMiddleware (keystone, app) {
 		} catch (e) {
 			if (e.code === 'MODULE_NOT_FOUND') {
 				console.error(
-					'\nERROR: node-sass not found.\n' +
-					'\nPlease install the node-sass-middleware from npm to use the `sass` option.' +
-					'\nYou can do this by running "npm install node-sass-middleware --save".\n'
+					'\nERROR: node-sass not found.\n'
+					+ '\nPlease install the node-sass-middleware from npm to use the `sass` option.'
+					+ '\nYou can do this by running "npm install node-sass-middleware --save".\n'
 				);
 				process.exit(1);
 			} else {

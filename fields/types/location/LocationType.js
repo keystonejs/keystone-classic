@@ -174,15 +174,15 @@ location.prototype.format = function (item, values, delimiter) {
  * Detects whether the field has been modified
  */
 location.prototype.isModified = function (item) {
-	return item.isModified(this.paths.number) ||
-		item.isModified(this.paths.name) ||
-		item.isModified(this.paths.street1) ||
-		item.isModified(this.paths.street2) ||
-		item.isModified(this.paths.suburb) ||
-		item.isModified(this.paths.state) ||
-		item.isModified(this.paths.postcode) ||
-		item.isModified(this.paths.country) ||
-		item.isModified(this.paths.geo);
+	return item.isModified(this.paths.number)
+	|| item.isModified(this.paths.name)
+	|| item.isModified(this.paths.street1)
+	|| item.isModified(this.paths.street2)
+	|| item.isModified(this.paths.suburb)
+	|| item.isModified(this.paths.state)
+	|| item.isModified(this.paths.postcode)
+	|| item.isModified(this.paths.country)
+	|| item.isModified(this.paths.geo);
 };
 
 /**
