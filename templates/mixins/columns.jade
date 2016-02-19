@@ -33,7 +33,7 @@ mixin column(list, col, item)
 		else if col.type == 'boolean'
 			+column_boolean(value)
 		else if col.type == 'url'
-			+column_link(value, value, true)
+			+column_link(value, item.get(col.path), true)
 		else if col.type == 'color'
 			+column_color(value)
 		else if col.type == 'localfile'
