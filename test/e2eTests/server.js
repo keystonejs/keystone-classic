@@ -28,6 +28,7 @@ keystone.init({
 keystone.import('../models');
 
 function checkKeystoneReady(callback, results){
+	console.log('Checking if KeystoneJS ready for request.');
 	request
 		.get('http://localhost:3000/keystone')
 		.end(callback);
