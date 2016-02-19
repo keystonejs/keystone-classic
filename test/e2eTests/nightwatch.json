@@ -35,7 +35,7 @@
         "acceptSslCerts" : true
       }
     },
-    "saucelabs" : {
+    "saucelabs-travis" : {
       "selenium_host" : "ondemand.saucelabs.com",
       "selenium_port" : 80,
       "username" : "${SAUCE_USERNAME}",
@@ -52,6 +52,27 @@
         "name" : "test-firefox",
         "browserName": "firefox",
         "tunnel-identifier":"${TRAVIS_JOB_NUMBER}"
+      },
+      "selenium" : {
+        "start_process" : false
+      }
+    },
+    "saucelabs-local" : {
+      "selenium_host" : "ondemand.saucelabs.com",
+      "selenium_port" : 80,
+      "username" : "${SAUCE_USERNAME}",
+      "access_key" : "${SAUCE_ACCESS_KEY}",
+      "use_ssl" : false,
+      "silent" : true,
+      "output" : true,
+      "screenshots" : {
+        "enabled" : false,
+        "on_failure" : true,
+        "path" : ""
+      },
+      "desiredCapabilities": {
+        "name" : "test-firefox",
+        "browserName": "firefox"
       },
       "selenium" : {
         "start_process" : false

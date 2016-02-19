@@ -2,7 +2,7 @@ module.exports = {
   'Keystone should allow admins to login to the Admin UI' : function (client) {
     client
       .url('http://localhost:3000/keystone')
-      .waitForElementVisible('div#signin-view', 30000)
+      .waitForElementVisible('div#signin-view', 10000)
       .setValue('input[name=email]', 'test@test.e2e')
       .setValue('input[name=password]', 'test')
       .click('button[type=submit]')

@@ -1,7 +1,9 @@
+var async = require('async');
 var keystone = require('../..');
 var ReactEngine = require('react-engine');
 var view = require('react-engine/lib/expressView');
 var engine = ReactEngine.server.create({});
+var request = require('superagent');
 var Nightwatch = require('nightwatch/lib/index.js');
 
 keystone.init({
@@ -25,22 +27,42 @@ keystone.init({
 
 keystone.import('../models');
 
+function checkKeystoneReady(callback, results){
+	request
+		.get('http://localhost:3000/keystone')
+		.end(callback);
+}
+
+function runNightwatch() {
+	try {
+		Nightwatch.cli(function(argv) {
+			Nightwatch.runner(argv, function(){
+				process.exit();
+			});
+		});
+	} catch (ex) {
+		console.error('\nThere was an error while starting the nightwatch test runner:\n\n');
+		process.stderr.write(ex.stack + '\n');
+		process.exit(2);
+	}
+}
+
 keystone.start({
 	onMount: function(){
 		console.log('KeystoneJS Mounted Successfuly');
 	},
 	onStart: function() {
 		console.log('KeystoneJS Started Successfully');
-		try {
-			Nightwatch.cli(function(argv) {
-				Nightwatch.runner(argv, function(){
-					process.exit();
-				});
-			});
-		} catch (ex) {
-			console.error('\nThere was an error while starting the nightwatch test runner:\n\n');
-			process.stderr.write(ex.stack + '\n');
-			process.exit(2);
-		}
+
+		// make sure keystone returns 200 before starting Nightwatch testing
+		async.retry({times: 10, interval: 3000}, checkKeystoneReady, function(err, result) {
+			if (!err) {
+				console.log('KeystoneJS Ready!');
+				runNightwatch();
+			} else {
+				console.log('Nightwatch tests not ran!');
+				process.exit();
+			}
+		});
 	},
 });
