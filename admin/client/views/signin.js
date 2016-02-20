@@ -45,8 +45,7 @@ var SigninView = React.createClass({
 			if (err || data && data.error) {
 				this.displayError('The email and password you entered are not valid.');
 			} else {
-				// TODO: Handle custom signin redirections
-				top.location.href = Keystone.adminPath;
+				top.location.href = this.props.from ? Keystone.adminPath + this.props.from : Keystone.adminPath;
 			}
 		});
 	},
@@ -155,6 +154,7 @@ var SigninView = React.createClass({
 ReactDOM.render(
 	<SigninView
 		brand={Keystone.brand}
+		from={Keystone.from}
 		logo={Keystone.logo}
 		user={Keystone.user}
 		userCanAccessKeystone={Keystone.userCanAccessKeystone}

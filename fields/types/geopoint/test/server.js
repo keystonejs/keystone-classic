@@ -1,5 +1,5 @@
-var demand = require('must'),
-	GeoPointType = require('../GeoPointType');
+var demand = require('must');
+var GeoPointType = require('../GeoPointType');
 
 exports.initList = function (List) {
 	List.add({

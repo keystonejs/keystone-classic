@@ -27,7 +27,7 @@ var plural = exports.plural = function (count, sn, pl) {
 	} else if (typeof count !== 'number') {
 		count = _.size(count);
 	}
-	return (count == 1 ? sn : pl).replace('*', count);
+	return (count === 1 ? sn : pl).replace('*', count);
 };
 
 

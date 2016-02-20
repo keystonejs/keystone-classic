@@ -18,9 +18,9 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 		} catch (e) {
 			if (e.code === 'MODULE_NOT_FOUND') {
 				console.error(
-					'\nERROR: stylus not found.\n' +
-					'\nPlease install stylus from npm to use the `stylus` option.' +
-					'\nYou can do this by running "npm install stylus --save".\n'
+					'\nERROR: stylus not found.\n'
+					+ '\nPlease install stylus from npm to use the `stylus` option.'
+					+ '\nYou can do this by running "npm install stylus --save".\n'
 				);
 				process.exit(1);
 			} else {

@@ -1,5 +1,5 @@
-var demand = require('must'),
-	RelationshipType = require('../RelationshipType');
+var demand = require('must');
+var RelationshipType = require('../RelationshipType');
 
 exports.initList = function (List) {
 	List.add({

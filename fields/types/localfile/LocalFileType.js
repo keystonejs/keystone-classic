@@ -28,8 +28,8 @@ function localfile (list, path, options) {
 
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'localfile fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'localfile fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
 	if (options.overwrite !== false) {
@@ -40,8 +40,8 @@ function localfile (list, path, options) {
 
 	// validate destination dir
 	if (!options.dest) {
-		throw new Error('Invalid Configuration\n\n' +
-			'localfile fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'localfile fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
 	}
 	// Allow hook into before and after
 	if (options.pre && options.pre.move) {
@@ -69,37 +69,37 @@ util.inherits(localfile, super_);
 
 localfile.prototype.addToSchema = function () {
 
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// fields
-		filename:		this._path.append('.filename'),
-		originalname:		this._path.append('.originalname'),
-		path:			this._path.append('.path'),
-		size:			this._path.append('.size'),
-		filetype:		this._path.append('.filetype'),
+		filename: this._path.append('.filename'),
+		originalname: this._path.append('.originalname'),
+		path: this._path.append('.path'),
+		size: this._path.append('.size'),
+		filetype: this._path.append('.filetype'),
 		// virtuals
-		exists:			this._path.append('.exists'),
-		href:			this._path.append('.href'),
-		upload:			this._path.append('_upload'),
-		action:			this._path.append('_action'),
+		exists: this._path.append('.exists'),
+		href: this._path.append('.href'),
+		upload: this._path.append('_upload'),
+		action: this._path.append('_action'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
-		filename:		String,
-		originalname:   String,
-		path:			String,
-		size:			Number,
-		filetype:		String,
+		filename: String,
+		originalname: String,
+		path: String,
+		size: Number,
+		filetype: String,
 	});
 
 	schema.add(schemaPaths);
 
 	// exists checks for a matching file at run-time
 	var exists = function (item) {
-		var filepath = item.get(paths.path),
-			filename = item.get(paths.filename);
+		var filepath = item.get(paths.path);
+		var filename = item.get(paths.filename);
 
 		if (!filepath || !filename) {
 			return false;
@@ -250,10 +250,10 @@ localfile.prototype.updateItem = function (item, data, callback) { // eslint-dis
  */
 
 localfile.prototype.uploadFile = function (item, file, update, callback) {
-	var field = this,
-		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
-		filename = prefix + file.name,
-		filetype = file.mimetype || file.type;
+	var field = this;
+	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '';
+	var filename = prefix + file.name;
+	var filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
 		return callback(new Error('Unsupported File Type: ' + filetype));

@@ -21,17 +21,17 @@ function cloudinaryimages (list, path, options) {
 	options.nofilter = true;
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'CloudinaryImages fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'CloudinaryImages fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
 	cloudinaryimages.super_.call(this, list, path, options);
 
 	// validate cloudinary config
 	if (!keystone.get('cloudinary config')) {
-		throw new Error('Invalid Configuration\n\n' +
-			'CloudinaryImages fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'CloudinaryImages fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n');
 	}
 
 }
@@ -55,24 +55,24 @@ cloudinaryimages.prototype.addToSchema = function () {
 
 	this.paths = {
 		// virtuals
-		folder: 		this._path.append('.folder'),
+		folder: this._path.append('.folder'),
 		// form paths
-		upload: 		this._path.append('_upload'),
-		uploads: 		this._path.append('_uploads'),
-		action: 		this._path.append('_action'),
-		order: 			this._path.append('_order'),
+		upload: this._path.append('_upload'),
+		uploads: this._path.append('_uploads'),
+		action: this._path.append('_action'),
+		order: this._path.append('_order'),
 	};
 
 	var ImageSchema = new mongoose.Schema({
-		public_id:		String,
-		version:		Number,
-		signature:		String,
-		format:			String,
-		resource_type:	String,
-		url:			String,
-		width:			Number,
-		height:			Number,
-		secure_url:		String,
+		public_id: String,
+		version: Number,
+		signature: String,
+		format: String,
+		resource_type: String,
+		url: String,
+		width: Number,
+		height: Number,
+		secure_url: String,
 	});
 
 	// Generate cloudinary folder used to upload/select images

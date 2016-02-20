@@ -1,5 +1,5 @@
-var demand = require('must'),
-	UrlType = require('../UrlType');
+var demand = require('must');
+var UrlType = require('../UrlType');
 
 exports.initList = function (List) {
 	List.add({

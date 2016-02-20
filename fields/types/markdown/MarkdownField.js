@@ -15,7 +15,12 @@ require('./lib/bootstrap-markdown');
 // Append/remove ### surround the selection
 // Source: https://github.com/toopay/bootstrap-markdown/blob/master/js/bootstrap-markdown.js#L909
 var toggleHeading = function (e, level) {
-	var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
+	var chunk;
+	var cursor;
+	var selected = e.getSelection();
+	var content = e.getContent();
+	var pointer;
+	var prevChar;
 
 	if (selected.length === 0) {
 		// Give extra word

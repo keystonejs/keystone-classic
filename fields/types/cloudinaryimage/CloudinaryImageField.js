@@ -88,9 +88,9 @@ module.exports = Field.create({
 		this.fileFieldNode().value = '';
 		this.setState({
 			removeExisting: false,
-			localSource:    null,
-			origin:         false,
-			action:         null,
+			localSource: null,
+			origin: false,
+			action: null,
 		});
 	},
 
@@ -385,9 +385,9 @@ module.exports = Field.create({
 		// listen for changes
 		var onChange = function onChange (data) {
 			if (data && data.value) {
-				self.setState({ selectedCloudinaryImage:data.value });
+				self.setState({ selectedCloudinaryImage: data.value });
 			} else {
-				self.setState({ selectedCloudinaryImage:null });
+				self.setState({ selectedCloudinaryImage: null });
 			}
 		};
 

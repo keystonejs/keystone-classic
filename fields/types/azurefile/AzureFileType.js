@@ -37,9 +37,9 @@ function azurefile (list, path, options) {
 
 	// validate azurefile config (has to happen after super_.call)
 	if (!this.azurefileconfig) {
-		throw new Error('Invalid Configuration\n\n' +
-			'AzureFile fields (' + list.key + '.' + path + ') require the "azurefile config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-azure for more information.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'AzureFile fields (' + list.key + '.' + path + ') require the "azurefile config" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-azure for more information.\n');
 	}
 
 	process.env.AZURE_STORAGE_ACCOUNT = this.azurefileconfig.account;
@@ -88,27 +88,27 @@ azurefile.prototype.addToSchema = function () {
 
 	var paths = this.paths = {
 		// fields
-		filename:		this._path.append('.filename'),
-		path:			this._path.append('.path'),
-		size:			this._path.append('.size'),
-		filetype:		this._path.append('.filetype'),
-		url:			this._path.append('.url'),
-		etag:			this._path.append('.etag'),
-		container:		this._path.append('.container'),
+		filename: this._path.append('.filename'),
+		path: this._path.append('.path'),
+		size: this._path.append('.size'),
+		filetype: this._path.append('.filetype'),
+		url: this._path.append('.url'),
+		etag: this._path.append('.etag'),
+		container: this._path.append('.container'),
 		// virtuals
-		exists:			this._path.append('.exists'),
-		upload:			this._path.append('_upload'),
-		action:			this._path.append('_action'),
+		exists: this._path.append('.exists'),
+		upload: this._path.append('_upload'),
+		action: this._path.append('_action'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
-		filename:		String,
-		path:			String,
-		size:			Number,
-		filetype:		String,
-		url:			String,
-		etag: 			String,
-		container:		String,
+		filename: String,
+		path: String,
+		size: Number,
+		filetype: String,
+		url: String,
+		etag: String,
+		container: String,
 	});
 
 	schema.add(schemaPaths);
@@ -227,9 +227,9 @@ azurefile.prototype.updateItem = function (item, data, callback) { // eslint-dis
 
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
-	var field = this,
-		prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '', // eslint-disable-line no-unused-vars
-		filetype = file.mimetype || file.type;
+	var field = this;
+	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : ''; // eslint-disable-line no-unused-var
+	var filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
 		return callback(new Error('Unsupported File Type: ' + filetype));
@@ -244,7 +244,7 @@ azurefile.prototype.uploadFile = function (item, file, update, callback) {
 		var blobService = azure.createBlobService();
 		var container = field.options.containerFormatter(item, file.name);
 
-		blobService.createContainerIfNotExists(container, { publicAccessLevel : 'blob' }, function (err) {
+		blobService.createContainerIfNotExists(container, { publicAccessLevel: 'blob' }, function (err) {
 
 			if (err) return callback(err);
 

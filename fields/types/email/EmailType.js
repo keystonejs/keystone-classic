@@ -50,7 +50,7 @@ email.prototype.inputIsValid = function (data, required, item) {
 	if (value) {
 		return utils.isEmail(value);
 	} else {
-		return (!required || (value !== undefined && item && item.get(this.path))) ? true : false;
+		return (!required || (item && item.get(this.path))) ? true : false;
 	}
 };
 

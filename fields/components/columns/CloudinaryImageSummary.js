@@ -22,9 +22,9 @@ const imageStyle = {
 	position: 'relative',
 
 	WebkitTransform: 'translateX(-50%)',
-	MozTransform:    'translateX(-50%)',
-	msTransform:     'translateX(-50%)',
-	transform:       'translateX(-50%)',
+	MozTransform: 'translateX(-50%)',
+	msTransform: 'translateX(-50%)',
+	transform: 'translateX(-50%)',
 };
 const textStyle = {
 	color: '#888',

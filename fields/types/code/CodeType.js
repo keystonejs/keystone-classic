@@ -15,7 +15,7 @@ function code (list, path, options) {
 	this.lang = options.lang || options.language;
 	this._properties = ['editor', 'height', 'lang'];
 	this.codemirror = options.codemirror || {};
-	this.editor = _.defaults(this.codemirror, { mode : this.lang });
+	this.editor = _.defaults(this.codemirror, { mode: this.lang });
 	code.super_.call(this, list, path, options);
 }
 util.inherits(code, FieldType);

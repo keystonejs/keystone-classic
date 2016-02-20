@@ -29,9 +29,9 @@ relationship.prototype.getProperties = function () {
 	return {
 		refList: {
 			singular: refList.singular,
-			plural:   refList.plural,
-			path:     refList.path,
-			key:      refList.key,
+			plural: refList.plural,
+			path: refList.path,
+			key: refList.key,
 		},
 	};
 };

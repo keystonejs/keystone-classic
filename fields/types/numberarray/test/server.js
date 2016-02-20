@@ -1,5 +1,5 @@
-var demand = require('must'),
-	NumberArrayType = require('../NumberArrayType');
+var demand = require('must');
+var NumberArrayType = require('../NumberArrayType');
 
 exports.initList = function (List) {
 	List.add({

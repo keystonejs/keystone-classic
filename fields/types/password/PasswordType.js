@@ -115,6 +115,32 @@ password.prototype.compare = function (item, candidate, callback) {
 };
 
 /**
+ * Asynchronously confirms that the provided password is valid
+ */
+password.prototype.validateInput = function (data, callback) {
+	var result = true;
+	var detail;
+	// TODO: this is brittle and won't work with nested fields. needs better
+	// support of pulling nested paths out of objects before we can fix it.
+	if (this.paths.confirm in data) {
+		result = data[this.path] === data[this.paths.confirm];
+		if (!result) detail = 'passwords must match';
+	}
+	// TODO: we could support a password complexity option (or regexp) here
+	process.nextTick(function () { callback(result, detail); });
+};
+
+/**
+ * Asynchronously confirms that the provided password is valid
+ */
+password.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value ? true : false;
+	if (!result && value === undefined && item && item.get(this.path)) result = true;
+	process.nextTick(function () { callback(result); });
+};
+
+/**
  * If password fields are required, check that either a value has been
  * provided or already exists in the field.
  *
@@ -139,6 +165,8 @@ password.prototype.inputIsValid = function (data, required, item) {
  * @api public
  */
 password.prototype.updateItem = function (item, data, callback) {
+	// TODO: this is brittle and won't work with nested fields. needs better
+	// support of pulling nested paths out of objects before we can fix it.
 	if (this.path in data) {
 		item.set(this.path, data[this.path]);
 	} else if (this.paths.hash in data) {

@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
-var _ = require('underscore'),
-	util = require('util'),
-	super_ = require('../Type');
+var _ = require('underscore');
+var util = require('util');
+var super_ = require('../Type');
 
 var REGEXP_LNGLAT = /^\s*(\-?\d+(?:\.\d+)?)\s*\,\s*(\-?\d+(?:\.\d+)?)\s*$/;
 

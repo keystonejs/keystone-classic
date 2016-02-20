@@ -13,8 +13,8 @@ module.exports = {
 
 			var s3Config = keystone.get('s3 config');
 
-			var file = req.files.file,
-				path = s3Config.s3path ? s3Config.s3path + '/' : '';
+			var file = req.files.file;
+			var path = s3Config.s3path ? s3Config.s3path + '/' : '';
 
 			var headers = Types.S3File.prototype.generateHeaders.call({ s3config: s3Config, options: {} }, null, file);
 
@@ -28,7 +28,7 @@ module.exports = {
 
 					if (s3Response) {
 						if (s3Response.statusCode !== 200) {
-							return res.send({ error: { message:'Amazon returned Http Code: ' + s3Response.statusCode } });
+							return res.send({ error: { message: 'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
 							return res.send({ image: { url: 'https://s3.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
 						}

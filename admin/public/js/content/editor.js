@@ -29,14 +29,14 @@ jQuery(function ($) {
 
 	refs.each(function (i, editable) {
 
-		var $editable = $(editable),
-			data = $editable.data('ks-editable');
+		var $editable = $(editable);
+		var data = $editable.data('ks-editable');
 
 		switch (data.type) {
 
 			case 'list':
-				var href = Keystone.adminPath + '/' + data.path,
-					label = 'Manage ' + data.plural;
+				var href = Keystone.adminPath + '/' + data.path;
+				var label = 'Manage ' + data.plural;
 
 				if (data.id) {
 					href += '/' + data.id;

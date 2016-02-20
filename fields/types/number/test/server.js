@@ -1,5 +1,5 @@
-var demand = require('must'),
-	NumberType = require('../NumberType');
+var demand = require('must');
+var NumberType = require('../NumberType');
 
 exports.initList = function (List) {
 	List.add({

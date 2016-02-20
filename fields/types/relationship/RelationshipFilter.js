@@ -63,9 +63,9 @@ var RelationshipFilter = React.createClass({
 				url: Keystone.adminPath + '/api/' + this.props.field.refList.path + '/' + id + '?basic',
 				responseType: 'json',
 			}, (err, resp, data) => {
-				if (err || !data) return done(err);
+				if (err || !data) return next(err);
 				this.cacheItem(data);
-				done(err, data);
+				next(err, data);
 			});
 		}, (err, items) => {
 			if (err) {
