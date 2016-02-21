@@ -66,21 +66,16 @@ keystone.start({
 		// if --notest was specified then do not run the test; the user wants to
 		// just run the keystone server app.
 		if (process.argv.indexOf('--notest') == -1) {
-			// in travis-ci keystone does not seem to be ready for some 10 seconds or so
-			// after the onStart fires.  The following is to account for that and prevent
-			// any errors in the travis log.
-			setTimeout(function() {
-				// make sure keystone returns 200 before starting Nightwatch testing
-				async.retry({times: 10, interval: 3000}, checkKeystoneReady, function (err, result) {
-					if (!err) {
-						console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: KeystoneJS Ready!');
-						runNightwatch();
-					} else {
-						console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: Nightwatch tests not ran!');
-						process.exit();
-					}
-				})
-			}, 10000);
+			// make sure keystone returns 200 before starting Nightwatch testing
+			async.retry({times: 10, interval: 3000}, checkKeystoneReady, function (err, result) {
+				if (!err) {
+					console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: KeystoneJS Ready!');
+					runNightwatch();
+				} else {
+					console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: Nightwatch tests not ran!');
+					process.exit();
+				}
+			})
 		}
 	},
 });
