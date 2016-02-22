@@ -363,7 +363,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 			uploadOptions.folder = folder;
 		}
 		// NOTE: field.options.publicID has been deprecated (tbc)
-		if (field.options.filenameAsPublicID && value.originalname && typeof originalname === 'string') {
+		if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
 			uploadOptions.public_id = value.originalname.substring(0, value.originalname.lastIndexOf('.'));
 		}
 		// TODO: implement autoCleanup; should delete existing images before uploading
