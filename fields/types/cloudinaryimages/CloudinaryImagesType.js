@@ -201,16 +201,6 @@ cloudinaryimages.prototype.format = function (item) {
 };
 
 /**
- * Detects whether the field has been modified
- *
- * @api public
- */
-cloudinaryimages.prototype.isModified = function (item) { // eslint-disable-line no-unused-vars
-	// TODO - how should this be detected?
-	return true;
-};
-
-/**
  * Validates that a value for this field has been provided in a data object
  *
  * @api public
