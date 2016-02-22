@@ -258,8 +258,11 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 	var paths = this.paths;
 	var values = this.getValueFromData(data);
 
-	// Bail early if there's an undefined value, there's nothing to update
-	if (!values) {
+	// Early exit path: reset value when falsy, or bail if no value was provided
+	if (!values || values === 'null') {
+		if (values !== undefined) {
+			item.set(field.path, []);
+		}
 		return process.nextTick(callback);
 	}
 
@@ -289,8 +292,6 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 		uploadOptions.folder = folder;
 	}
 
-	// TODO: What's the process for resetting the value of this field? might need
-	// something specific for that, e.g. submitting `null` as the value...
 	async.map(values, function (value, next) {
 		// When the value is a string, assume it's base64 data or a remote URL and
 		// upload it to cloudinary as a file path. More logic could be added here to
