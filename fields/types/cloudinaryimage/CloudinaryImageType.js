@@ -343,7 +343,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 		} else {
 			item.set(this.path, getEmptyValue());
 		}
-		process.nextTick(callback);
+		return process.nextTick(callback);
 	} else if (typeof value === 'object' && value.path) {
 		// File provided - upload it
 		var tagPrefix = keystone.get('cloudinary prefix') || '';
@@ -369,15 +369,15 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 		// TODO: implement autoCleanup; should delete existing images before uploading
 		cloudinary.uploader.upload(value.path, function (result) {
 			if (result.error) {
-				callback(result.error);
+				return callback(result.error);
 			} else {
 				item.set(field.path, result);
-				callback();
+				return callback();
 			}
 		}, uploadOptions);
 	} else {
 		// Nothing to do
-		process.nextTick(callback);
+		return process.nextTick(callback);
 	}
 };
 
