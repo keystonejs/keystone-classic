@@ -276,7 +276,7 @@ cloudinaryimage.prototype.format = function (item) {
  * @api public
  */
 cloudinaryimage.prototype.isModified = function (item) {
-	return item.isModified(this.paths.url);
+	return item.isModified(this.paths.public_id);
 };
 
 
