@@ -1,10 +1,28 @@
 var _ = require('underscore');
-var keystone = require('../../../');
-var util = require('util');
-var cloudinary = require('cloudinary');
-var utils = require('keystone-utils');
-var super_ = require('../Type');
 var async = require('async');
+var cloudinary = require('cloudinary');
+var keystone = require('../../../');
+var super_ = require('../Type');
+var util = require('util');
+var utils = require('keystone-utils');
+
+function getEmptyValue () {
+	return {
+		public_id: '',
+		version: 0,
+		signature: '',
+		format: '',
+		resource_type: '',
+		url: '',
+		width: 0,
+		height: 0,
+		secure_url: '',
+	};
+}
+
+function truthy (value) {
+	return value;
+}
 
 /**
  * CloudinaryImages FieldType Constructor
@@ -40,6 +58,26 @@ function cloudinaryimages (list, path, options) {
  * Inherit from Field
  */
 util.inherits(cloudinaryimages, super_);
+
+/**
+ * Gets the folder for images in this field
+ */
+cloudinaryimages.prototype.getFolder = function () {
+	var folder = null;
+
+	if (keystone.get('cloudinary folders') || this.options.folder) {
+		if (typeof this.options.folder === 'string') {
+			folder = this.options.folder;
+		} else {
+			var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
+			folderList.push(this.list.path);
+			folderList.push(this.path);
+			folder = folderList.join('/');
+		}
+	}
+
+	return folder;
+};
 
 /**
  * Registers the field on the List's Mongoose Schema.
@@ -215,9 +253,85 @@ cloudinaryimages.prototype.inputIsValid = function (data) { // eslint-disable-li
  *
  * @api public
  */
-cloudinaryimages.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
-	// TODO - direct updating of data (not via upload)
-	process.nextTick(callback);
+cloudinaryimages.prototype.updateItem = function (item, data, callback) {
+	var field = this;
+	var paths = this.paths;
+	var values = this.getValueFromData(data);
+
+	// Bail early if there's an undefined value, there's nothing to update
+	if (!values) {
+		return process.nextTick(callback);
+	}
+
+	// When the value exists, but isn't an array, turn it into one (this just
+	// means a single field was submitted in the formdata)
+	if (!Array.isArray(values)) {
+		values = [values];
+	}
+
+	// Precalc these options, it's inefficient when not uploading images but
+	// avoids recalculating them on each iteration in the map below
+	// TODO: is this worth optimising?
+	var tagPrefix = keystone.get('cloudinary prefix') || '';
+	var uploadOptions = {
+		tags: [],
+	};
+	if (tagPrefix.length) {
+		uploadOptions.tags.push(tagPrefix);
+		tagPrefix += '_';
+	}
+	uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
+	if (keystone.get('env') !== 'production') {
+		uploadOptions.tags.push(tagPrefix + 'dev');
+	}
+	var folder = this.getFolder();
+	if (folder) {
+		uploadOptions.folder = folder;
+	}
+
+	// TODO: What's the process for resetting the value of this field? might need
+	// something specific for that, e.g. submitting `null` as the value...
+	async.map(values, function (value, next) {
+		// When the value is a string, assume it's base64 data or a remote URL and
+		// upload it to cloudinary as a file path. More logic could be added here to
+		// detect/prevent invalid uploads (as per cloudinaryimage field)
+		if (typeof value === 'string') {
+			value = { path: value };
+		}
+		if (typeof value === 'object' && 'public_id' in value) {
+			// Cloudinary Image data provided
+			if (value.public_id) {
+				var v = Object.assign(getEmptyValue(), value);
+				return next(null, v);
+			} else {
+				return next(null);
+			}
+		} else if (typeof value === 'object' && value.path) {
+			// File provided - upload it
+			// NOTE: field.options.publicID has been deprecated (tbc)
+			if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
+				uploadOptions = Object.assign({}, uploadOptions, {
+					public_id: value.originalname.substring(0, value.originalname.lastIndexOf('.')),
+				});
+			}
+			// TODO: implement autoCleanup; should delete existing images before uploading
+			cloudinary.uploader.upload(value.path, function (result) {
+				if (result.error) {
+					next(result.error);
+				} else {
+					next(null, result);
+				}
+			}, uploadOptions);
+		} else {
+			// Nothing to do
+			return next();
+		}
+	}, function (err, result) {
+		if (err) return callback(err);
+		result = result.filter(truthy);
+		item.set(field.path, result);
+		return callback();
+	});
 };
 
 /**
