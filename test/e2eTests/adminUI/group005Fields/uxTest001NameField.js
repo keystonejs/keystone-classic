@@ -1,5 +1,5 @@
 module.exports = {
-  'Keystone should allow admins to login to the Admin UI' : function (browser) {
+  before : function (browser) {
 	browser
 	  .url('http://localhost:3000/keystone')
 	  .waitForElementVisible('div#signin-view')
@@ -7,9 +7,16 @@ module.exports = {
 	  .setValue('input[name=password]', browser.globals.adminUILogin.password)
 	  .click('button[type=submit]')
 	  .pause(1000)
-	  .url('http://localhost:3000/keystone')  // just in case we're redirected somewhere other than home page
-	  .waitForElementVisible('div#home-view')
+	  .url('http://localhost:3000/keystone')
+	  .pause(1000);
+  },
+  after : function (browser) {
+	browser
+	  .click('div#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--right > li:nth-child(2) > a')
 	  .pause(1000)
 	  .end();
+  },
+  'TODO' : function (browser) {
+	  // TODO: Create ux/functional tests
   }
 };

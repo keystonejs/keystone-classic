@@ -12,13 +12,11 @@ module.exports = {
   },
   after : function (browser) {
 	browser
+	  .click('div#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--right > li:nth-child(2) > a')
+	  .pause(1000)
 	  .end();
   },
-  'Keystone should allow admins to logout from the Admin UI' : function (browser) {
-	browser
-      .waitForElementVisible('div#home-view')
-	  .click('div#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--right > li:nth-child(2) > a')
-	  .waitForElementVisible('div#signin-view')
-	  .pause(1000);
-  }
+  'TODO' : function (browser) {
+	  // TODO: Create ui tests
+  },
 };

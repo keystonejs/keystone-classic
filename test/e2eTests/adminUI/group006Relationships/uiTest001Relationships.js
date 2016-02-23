@@ -16,7 +16,7 @@ module.exports = {
 	  .pause(1000)
 	  .end();
   },
-  'AdminUI item should have a working name field' : function (browser) {
-	  // TODO figure out field testing
+  'TODO' : function (browser) {
+	  // TODO: Create ui tests
   }
 };

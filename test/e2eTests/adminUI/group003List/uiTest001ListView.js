@@ -16,7 +16,7 @@ module.exports = {
 	  .pause(1000)
 	  .end();
   },
-  'AdminUI should have a item view' : function (browser) {
-	  // TODO figure out item testing
-  }
+  'TODO' : function (browser) {
+	  // TODO: Create ui tests
+  },
 };
