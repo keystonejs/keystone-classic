@@ -101,8 +101,8 @@ var EditForm = React.createClass({
 						title="Press <alt> to reveal the ID"
 						className="EditForm__key-or-id__label" />
 					<AltText
-						normal={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data[list.autokey.path]} className="EditForm__key-or-id__input" />}
-						modified={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data.id} className="EditForm__key-or-id__input" />}
+						normal={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data[list.autokey.path]} className="EditForm__key-or-id__input" readOnly />}
+						modified={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data.id} className="EditForm__key-or-id__input" readOnly />}
 						component="span"
 						title="Press <alt> to reveal the ID"
 						className="EditForm__key-or-id__field" />
@@ -113,7 +113,7 @@ var EditForm = React.createClass({
 				<div className={className}>
 					<span className="EditForm__key-or-id__label">{list.autokey.path}: </span>
 					<div className="EditForm__key-or-id__field">
-						<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data[list.autokey.path]} className="EditForm__key-or-id__input" />
+						<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data[list.autokey.path]} className="EditForm__key-or-id__input" readOnly />
 					</div>
 				</div>
 			);
@@ -122,7 +122,7 @@ var EditForm = React.createClass({
 				<div className={className}>
 					<span className="EditForm__key-or-id__label">ID: </span>
 					<div className="EditForm__key-or-id__field">
-						<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data.id} className="EditForm__key-or-id__input" />
+						<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data.id} className="EditForm__key-or-id__input" readOnly />
 					</div>
 				</div>
 			);
