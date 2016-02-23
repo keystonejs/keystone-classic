@@ -126,10 +126,27 @@
 	font-family: @font-family-monospace;
 	margin-bottom: 1.6em;
 	margin-top: -1em;
+}
+.EditForm__key-or-id__label {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: .5em;
+}
+.EditForm__key-or-id__field {
+	display: inline-block;
+	vertical-align: middle;
+}
+.EditForm__key-or-id__input {
+	background: none;
+	border: none;
+	outline: none;
+	margin: 0;
+	padding: 0;
+	width: 220px;
 
-	&::first-letter {
-		text-transform: uppercase;
-	}
+	// remove the blinking cursor
+	color: transparent;
+	text-shadow: 0 0 0 @input-placeholder-color;
 }
 
 
