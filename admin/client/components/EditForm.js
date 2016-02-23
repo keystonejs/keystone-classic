@@ -9,8 +9,8 @@ import FooterBar from './FooterBar';
 import InvalidFieldType from './InvalidFieldType';
 import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
 
-function upCase(str) {
-	return str.slice(0,1).toUpperCase() + str.substr(1).toLowerCase();
+function upCase (str) {
+	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();
 };
 
 var EditForm = React.createClass({
