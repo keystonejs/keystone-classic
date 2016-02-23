@@ -328,6 +328,12 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 	var paths = this.paths;
 	var value = this.getValueFromData(data);
 
+	// Allow field value reset
+	if (value === '' || value === 'null') {
+		item.set(this.path, getEmptyValue());
+		return process.nextTick(callback);
+	}
+
 	// When the value is a string, assume it's base64 data or a remote URL and
 	// upload it to cloudinary as a file path. More logic could be added here to
 	// detect/prevent invalid uploads
