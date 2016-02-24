@@ -293,11 +293,20 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 	}
 
 	async.map(values, function (value, next) {
-		// When the value is a string, assume it's base64 data or a remote URL and
-		// upload it to cloudinary as a file path. More logic could be added here to
+		// When the value is a string, it may be JSON serialised data. If so, parse
+		// it. Otherwiser, we assume it's base64 data or a remote URL and upload it
+		// to cloudinary as a file path. More logic could be added here to
 		// detect/prevent invalid uploads (as per cloudinaryimage field)
 		if (typeof value === 'string') {
-			value = { path: value };
+			if (value.charAt(0) === '{' && value.charAt(value.length - 1) === '}') {
+				try {
+					value = JSON.parse(value);
+				} catch (e) {
+					// value isn't JSON
+				}
+			} else {
+				value = { path: value };
+			}
 		}
 		if (typeof value === 'object' && 'public_id' in value) {
 			// Cloudinary Image data provided
