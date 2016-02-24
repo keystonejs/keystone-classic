@@ -308,6 +308,9 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 				value = { path: value };
 			}
 		}
+		if (typeof value === 'object' && value.uploadFromKey) {
+			value = data[value.uploadFromKey];
+		}
 		if (typeof value === 'object' && 'public_id' in value) {
 			// Cloudinary Image data provided
 			if (value.public_id) {
