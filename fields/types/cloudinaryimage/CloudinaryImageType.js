@@ -329,7 +329,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 
 	// Allow field value reset
-	if (value === '' || value === 'null') {
+	if (value === '' || value === 'null' || (typeof value === 'object' && !Object.keys(value).length)) {
 		item.set(this.path, getEmptyValue());
 		return process.nextTick(callback);
 	}
