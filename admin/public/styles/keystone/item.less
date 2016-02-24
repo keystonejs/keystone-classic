@@ -122,19 +122,17 @@
 // ------------------------------
 
 .EditForm__key-or-id {
+	.display-flex();
 	color: @input-placeholder-color;
 	font-family: @font-family-monospace;
 	margin-bottom: 1.6em;
 	margin-top: -1em;
 }
 .EditForm__key-or-id__label {
-	display: inline-block;
-	vertical-align: middle;
 	margin-right: .5em;
 }
 .EditForm__key-or-id__field {
-	display: inline-block;
-	vertical-align: middle;
+	.flex(1, 0, auto);
 }
 .EditForm__key-or-id__input {
 	background: none;
@@ -142,7 +140,7 @@
 	outline: none;
 	margin: 0;
 	padding: 0;
-	width: 220px;
+	width: 100%;
 }
 
 
