@@ -96,7 +96,6 @@
     "gulp-streamify": "1.0.2",
     "gulp-uglify": "1.5.3",
     "istanbul": "0.4.2",
-    "keystone-test": "git+https://git@github.com/keystonejs/keystone-test-project.git",
     "mocha": "2.4.5",
     "must": "0.13.1",
     "nightwatch": "^0.8.16",
