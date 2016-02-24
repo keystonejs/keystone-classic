@@ -26,11 +26,11 @@ keystone.init({
 	'cookie secret': 'Secret',
 });
 
-keystone.import('../models');
+keystone.import('models');
 
 keystone.set('nav', {
 	'access': ['users'],
-	'content': ['posts'],
+	'fields': ['name-fields'],
 });
 
 function checkKeystoneReady(callback, results){

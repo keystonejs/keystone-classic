@@ -28,7 +28,7 @@ with a real keystone app server.
         updates                                 => all schema update/migration files
            0.0.1-updates-e2e.js                 => keystone updates
 
-        ../models                               => all test list models
+        models                                  => all test list models
            User.js                              => keystone user list model
            ...
 
@@ -49,6 +49,12 @@ update the test suite so that any broken tests pass again.
 
 
 ## Writing new tests
-If you introduce new UI elements (e.g., a new field type) please ensure there is UI/functional
-test coverage added.  The best approach is to use an existing test as an example and try to
+You should consider adding new UI/UX/Functional tests if:
+
+- you introduce new UI elements (e.g., a new field type).
+- you introduce new client side functionality that may cause a different UX experience.
+- you introduce new server side functionality that may cause a different UX experience.
+- you fix a bug that's does not have UI/UX/Functional test coverage
+
+The best approach is to use an existing test as an example and try to
 keep the test style consistent.  Lastly, please try to keep to the test file structure above.

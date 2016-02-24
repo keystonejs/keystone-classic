@@ -1,4 +1,4 @@
-var keystone = require('../../index.js');
+var keystone = require('../../../index.js');
 var Types = keystone.Field.Types;
 
 var User = new keystone.List('User', {

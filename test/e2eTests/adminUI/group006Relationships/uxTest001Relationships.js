@@ -18,5 +18,5 @@ module.exports = {
   },
   'TODO' : function (browser) {
 	  // TODO: Create ux/functional tests
-  }
+  },
 };

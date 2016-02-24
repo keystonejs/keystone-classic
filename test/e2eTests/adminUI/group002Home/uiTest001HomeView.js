@@ -32,9 +32,9 @@ module.exports = {
 	browser.expect.element('#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--left > li:nth-child(2) > a')
 				  .text.to.equal('Access');
   },
-  'Home view should have an Content menu' : function (browser) {
+  'Home view should have an Fields menu' : function (browser) {
 	browser.expect.element('#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--left > li:nth-child(3) > a')
-				  .text.to.equal('Content');
+				  .text.to.equal('Fields');
   },
   'Home view should have a Front Page link' : function (browser) {
 	browser.expect.element('#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--right > li:nth-child(1) > a > span')
@@ -76,23 +76,23 @@ module.exports = {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(1) > div.dashboard-group__lists > div > span > a.dashboard-group__list-tile > div.dashboard-group__list-count')
 				  .text.to.equal('1 Item');
   },
-  'Home view should have a Content dashboard sub-heading' : function (browser) {
+  'Home view should have a Fields dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(2) > div.dashboard-group__heading > span:nth-child(2)')
-				  .text.to.equal('Content');
+				  .text.to.equal('Fields');
   },
-  'Home view should have a Posts tab under the Content dashboard sub-heading' : function (browser) {
+  'Home view should have a Name Fields tab under the Fields dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(2) > div.dashboard-group__lists > div > span > a.dashboard-group__list-tile > div.dashboard-group__list-label')
-				  .text.to.equal('Posts');
+				  .text.to.equal('Name Fields');
   },
-  'Home view should have a + link for the Posts tab under the Content dashboard sub-heading' : function (browser) {
+  'Home view should have a + link for the Name Fields tab under the Fields dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(2) > div.dashboard-group__lists > div > span > a.dashboard-group__list-create.octicon.octicon-plus')
 				  .to.be.visible;
   },
-  'Home view should have a + icon for the Posts tab under the Content dashboard sub-heading' : function (browser) {
+  'Home view should have a + icon for the Name Fields tab under the Fields dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(2) > div.dashboard-group__lists > div > span > a.dashboard-group__list-create.octicon.octicon-plus')
 				  .to.have.attribute('class').which.contains('dashboard-group__list-create octicon octicon-plus');
   },
-  'Home view should show 0 Items for the Posts tab under the Content dashboard sub-heading' : function (browser) {
+  'Home view should show 0 Items for the Name Fields tab under the Fields dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(2) > div.dashboard-group__lists > div > span > a.dashboard-group__list-tile > div.dashboard-group__list-count')
 				  .text.to.equal('0 Items');
   },
@@ -100,19 +100,19 @@ module.exports = {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(3) > div.dashboard-group__heading > span:nth-child(2)')
 				  .text.to.equal('Other');
   },
-  'Home view should have a Depends Ons tab under the Other dashboard sub-heading' : function (browser) {
+  'Home view should have a Other Lists tab under the Other dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(3) > div.dashboard-group__lists > div > span > a.dashboard-group__list-tile > div.dashboard-group__list-label')
-				  .text.to.equal('Depends Ons');
+				  .text.to.equal('Other Lists');
   },
-  'Home view should have a + link for the Depends Ons tab under the Other dashboard sub-heading' : function (browser) {
+  'Home view should have a + link for the Other Lists tab under the Other dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(3) > div.dashboard-group__lists > div > span > a.dashboard-group__list-create.octicon.octicon-plus')
 				  .to.be.visible;
   },
-  'Home view should have a + icon for the Depends Ons tab under the Other dashboard sub-heading' : function (browser) {
+  'Home view should have a + icon for the Other Lists tab under the Other dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(3) > div.dashboard-group__lists > div > span > a.dashboard-group__list-create.octicon.octicon-plus')
 				  .to.have.attribute('class').which.contains('dashboard-group__list-create octicon octicon-plus');
   },
-  'Home view should show 0 Items for the Depends Ons tab under the Other dashboard sub-heading' : function (browser) {
+  'Home view should show 0 Items for the Other Lists tab under the Other dashboard sub-heading' : function (browser) {
 	browser.expect.element('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(3) > div.dashboard-group__lists > div > span > a.dashboard-group__list-tile > div.dashboard-group__list-count')
 				  .text.to.equal('0 Items');
   },
