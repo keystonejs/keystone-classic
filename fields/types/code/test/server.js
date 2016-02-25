@@ -19,18 +19,10 @@ exports.initList = function (List) {
 			type: CodeType,
 			lang: 'html',
 			codemirror: {
-				value: 'fooga',
+				value: 'codemirror value',
 			},
 		},
 	});
-};
-
-exports.createData = function (List) { // eslint-disable-line no-unused-vars
-
-};
-
-exports.testFilters = function (List) { // eslint-disable-line no-unused-vars
-
 };
 
 exports.testFieldType = function (List) {
@@ -78,12 +70,12 @@ exports.testFieldType = function (List) {
 
 	it('should support a `codemirror` config property', function () {
 		demand(List.fields.codemirror.codemirror).be.object();
-		demand(List.fields.codemirror.codemirror.value).be('fooga');
+		demand(List.fields.codemirror.codemirror.value).be('codemirror value');
 	});
 
 	it('should merge the `lang` and `codemirror` config properties', function () {
 		demand(List.fields.codemirror.editor).be.object();
 		demand(List.fields.codemirror.editor.mode).be('html');
-		demand(List.fields.codemirror.editor.value).be('fooga');
+		demand(List.fields.codemirror.editor.value).be('codemirror value');
 	});
 };
