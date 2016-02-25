@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var TextType = require('../text/TextType');
 var util = require('util');
+var validators = require('../validators');
 
 /**
  * HTML FieldType Constructor
@@ -18,6 +19,14 @@ function code (list, path, options) {
 	code.super_.call(this, list, path, options);
 }
 util.inherits(code, FieldType);
+
+// Use text validators
+code.prototype.validateInput = validators.text.input;
+code.prototype.validateRequiredInput = validators.text.required;
+
+// Use text validators
+code.prototype.validateInput = validators.text.input;
+code.prototype.validateRequiredInput = validators.text.required;
 
 /* Inherit from TextType prototype */
 code.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;

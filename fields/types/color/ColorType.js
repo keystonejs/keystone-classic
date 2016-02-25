@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var TextType = require('../text/TextType');
 var util = require('util');
+var validators = require('../validators');
 
 /**
  * Color FieldType Constructor
@@ -12,6 +13,10 @@ function color (list, path, options) {
 	color.super_.call(this, list, path, options);
 }
 util.inherits(color, FieldType);
+
+// Use text validators
+color.prototype.validateInput = validators.text.input;
+color.prototype.validateRequiredInput = validators.text.required;
 
 /* Inherit from TextType prototype */
 color.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;

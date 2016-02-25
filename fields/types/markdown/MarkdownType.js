@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var marked = require('marked');
 var util = require('util');
+var validators = require('../validators');
 
 /**
  * Markdown FieldType Constructor
@@ -20,6 +21,10 @@ function markdown (list, path, options) {
 	markdown.super_.call(this, list, path, options);
 }
 util.inherits(markdown, FieldType);
+
+// Use text validators
+markdown.prototype.validateInput = validators.text.input;
+markdown.prototype.validateRequiredInput = validators.text.required;
 
 /**
  * Registers the field on the List's Mongoose Schema.
