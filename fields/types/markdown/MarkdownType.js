@@ -74,15 +74,13 @@ markdown.prototype.format = function (item) {
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * Will accept either the field path, or paths.md
- *
  * @api public
  */
 markdown.prototype.inputIsValid = function (data, required, item) {
-	if (!(this.path in data || this.paths.md in data) && item && item.get(this.paths.md)) {
+	if (!(this.path in data) && item && item.get(this.paths.md)) {
 		return true;
 	}
-	return (!required || data[this.path] || data[this.paths.md]) ? true : false;
+	return (!required || data[this.path]) ? true : false;
 };
 
 /**
@@ -105,8 +103,6 @@ markdown.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value !== undefined) {
 		item.set(this.paths.md, value);
-	} else if (this.paths.md in data) {
-		item.set(this.paths.md, data[this.paths.md]);
 	}
 	process.nextTick(callback);
 };
