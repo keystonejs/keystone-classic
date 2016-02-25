@@ -39,48 +39,4 @@ describe("Path", function() {
 			demand(path.get({})).be.undefined()
 		})
 	})
-
-	describe(".prototype.prependToLast", function() {
-		it("must return path with preprended last part", function() {
-			var path = new Path("foo.example.dir")
-			path.prependToLast("cool").must.equal("foo.example.cooldir")
-		})
-
-		it("must return path with last part in titlecase given true", function() {
-			var path = new Path("foo.example.dir")
-			path.prependToLast("cool", true).must.equal("foo.example.coolDir")
-		})
-
-		it("must return path with last part as-is given false", function() {
-			var path = new Path("foo.example.dir")
-			path.prependToLast("cool", false).must.equal("foo.example.cooldir")
-		})
-	})
-
-	describe(".prototype.flatten", function() {
-		it("must return path camel cased given false", function() {
-			var path = new Path("foo.example.dir")
-			path.flatten(false).must.equal("FooExampleDir")
-		})
-
-		it("must return path camel cased with lowercase first letter given true",
-			function() {
-			var path = new Path("foo.example.dir")
-			path.flatten(true).must.equal("fooExampleDir")
-		})
-	})
-
-	describe("last", function() {
-		it("must equal to the last part of path", function() {
-			var path = new Path("foo.example.dir")
-			path.last.must.equal("dir")
-		})
-	})
-
-	describe("exceptLast", function() {
-		it("must equal to the path without last part", function() {
-			var path = new Path("foo.example.dir")
-			path.exceptLast.must.equal("foo.example")
-		})
-	})
 })
