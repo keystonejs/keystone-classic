@@ -20,6 +20,7 @@ describe('List "track" option', function () {
 		var tasks = [];
 
 		// in case model names were previously used and not cleaned up
+		console.log('\nList "track" option before: cleaning models');
 		removeModel(userModelName);
 		removeModel(testModelName);
 
@@ -32,11 +33,12 @@ describe('List "track" option', function () {
 		User.register();
 
 		function getItem(id, done) {
-
 			if (id) {
 				Test.model.findById(id).exec(function(err, found) {
-					if (err)
+					if (err) {
+						console.error('List "track" option before: getItem error: ' + err);
 						throw err;
+					}
 
 					if (!found) {
 						throw new Error('test document not found')
@@ -49,48 +51,47 @@ describe('List "track" option', function () {
 				item = new Test.model();
 				done(item);
 			}
-
 		}
 
 		// route to simulate use of updateHandler()
 		app.post('/using-update-handler/:id?', function(req, res) {
-
 			getItem(req.params.id, function(item) {
 				req.user = req.params.id ? dummyUser2 : dummyUser1;
 				var updateHandler = item.getUpdateHandler(req);
 				updateHandler.process(req.body, function(err, data) {
 					if (err) {
+						console.error('List "track" option before: app.post(/using-update-handler/:id?) error: ' + err);
 						res.send('BAD');
 					} else {
 						res.send('GOOD');
 					}
 				});
 			});
-
 		});
 
 		// route to simulate use of .save()
 		app.post('/using-save/:id?', function(req, res) {
-
 			getItem(req.params.id, function(item) {
 				item._req_user = req.params.id ? dummyUser2 : dummyUser1;
 				item.set(req.body);
 				item.save(function(err, data) {
 					if (err) {
+						console.error('List "track" option before: app.post(/using-save/:id?) error: ' + err);
 						res.send('BAD');
 					} else {
 						res.send('GOOD');
 					}
 				});
 			});
-
 		});
 
 		// tasks to cleanup test User collection and indexes and add dummy users
+		console.log('List "track" option before: configuring tasks');
 		tasks.push(function(done) {
-			var user = keystone.list(userModelName);
-			user.model.collection.dropAllIndexes(function(err) {
+			console.log('List "track" option before: dropping indexes');
+			User.model.collection.dropAllIndexes(function(err) {
 				if (err) {
+					console.error('List "track" option before: error: ' + err);
 					throw err;
 				}
 				done();
@@ -98,8 +99,10 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
+			console.log('List "track" option before: removing user');
 			User.model.remove({}, function(err) {
 				if (err) {
+					console.error('List "track" option before: removing user error: ' + err);
 					throw err;
 				}
 				done();
@@ -107,10 +110,12 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			dummyUser1 = new User.model({ 
+			console.log('List "track" option before: creating/saving new user #1');
+			dummyUser1 = new User.model({
 				'name': 'John Doe'
 			}).save(function(err, data) {
 				if (err) {
+					console.error('List "track" option before: creating/saving new user #1 error: ' + err);
 					throw err;
 				}
 				dummyUser1 = data;
@@ -119,10 +124,12 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			dummyUser2 = new User.model({ 
+			console.log('List "track" option before: creating/saving new user #2');
+			dummyUser2 = new User.model({
 				'name': 'Jane Doe'
 			}).save(function(err, data) {
 				if (err) {
+					console.error('List "track" option before: creating/saving new user #2 error: ' + err);
 					throw err;
 				}
 				dummyUser2 = data;
@@ -132,6 +139,7 @@ describe('List "track" option', function () {
 
 		async.series(tasks, function(err) {
 			if (err) {
+				console.error('List "track" option before: task error: ' + err);
 				throw err;
 			}
 			done();
@@ -139,7 +147,7 @@ describe('List "track" option', function () {
 	});
 
 	describe('when "track" option is not valid', function () {
-		
+
 		afterEach(function() {
 			removeModel(testModelName);
 		});
@@ -172,7 +180,7 @@ describe('List "track" option', function () {
 		});
 
 		it('should not register the plugin if all fields are false', function() {
-			Test = keystone.List(testModelName, { 
+			Test = keystone.List(testModelName, {
 				track: { createdAt: false, createdBy: false, updatedAt: false, updatedBy: false }
 			});
 			Test.add({ name: { type: String } });
@@ -267,7 +275,7 @@ describe('List "track" option', function () {
 						});
 				}, 250);
 			});
-			
+
 		});
 
 		describe('using .save()', function () {
@@ -353,7 +361,7 @@ describe('List "track" option', function () {
 				}, 250);
 
 			});
-			
+
 		});
 
 	});
@@ -364,7 +372,7 @@ describe('List "track" option', function () {
 		describe('using updateHandler()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
+				Test = keystone.List(testModelName, {
 					track: { updatedAt: true, updatedBy: true }
 				});
 				Test.add({ name: { type: String } });
@@ -441,7 +449,7 @@ describe('List "track" option', function () {
 		describe('using .save()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
+				Test = keystone.List(testModelName, {
 					track: { updatedAt: true, updatedBy: true }
 				});
 				Test.add({ name: { type: String } });
@@ -512,7 +520,7 @@ describe('List "track" option', function () {
 				}, 250);
 
 			});
-			
+
 		});
 
 	});
@@ -523,11 +531,11 @@ describe('List "track" option', function () {
 		describe('using updateHandler()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
-					track: { 
+				Test = keystone.List(testModelName, {
+					track: {
 						createdAt: 'customCreatedAt',
 						createdBy: 'customCreatedBy',
-						updatedAt: 'customUpdatedAt', 
+						updatedAt: 'customUpdatedAt',
 						updatedBy: 'customUpdatedBy'
 					}
 				});
@@ -614,15 +622,15 @@ describe('List "track" option', function () {
 			});
 
 		});
-		
+
 		describe('using save()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
-					track: { 
+				Test = keystone.List(testModelName, {
+					track: {
 						createdAt: 'customCreatedAt',
 						createdBy: 'customCreatedBy',
-						updatedAt: 'customUpdatedAt', 
+						updatedAt: 'customUpdatedAt',
 						updatedBy: 'customUpdatedBy'
 					}
 				});
@@ -709,7 +717,7 @@ describe('List "track" option', function () {
 			});
 
 		});
-		
+
 	});
-	
+
 });
