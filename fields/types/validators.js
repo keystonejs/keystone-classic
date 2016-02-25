@@ -24,3 +24,26 @@ exports.boolean = {
 		utils.defer(callback, result);
 	},
 };
+
+/* Text */
+
+// Text fields accept string input. Required text fields don't allow an empty
+// string. Text fields aren't updated when an undefined value is provided.
+
+exports.text = {
+	input: function (data, callback) {
+		var value = this.getValueFromData(data);
+		var result = value === undefined || typeof value === 'string';
+		utils.defer(callback, result);
+	},
+	required: function (item, data, callback) {
+		var value = this.getValueFromData(data);
+		var result = false;
+		if (value === undefined) {
+			if (item && item.get(this.path)) result = true;
+		} else if (typeof value === 'string' && value.length) {
+			result = true;
+		}
+		utils.defer(callback, result);
+	},
+};
