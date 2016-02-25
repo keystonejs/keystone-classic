@@ -231,8 +231,6 @@ Object.defineProperty(Field.prototype, 'dependsOn', { get: function () { return 
 /**
  * Default method to register the field on the List's Mongoose Schema.
  * Overridden by some fieldType Classes
- *
- * @api public
  */
 Field.prototype.addToSchema = function () {
 	var ops = (this._nativeType) ? _.defaults({ type: this._nativeType }, this.options) : this.options;
@@ -240,10 +238,13 @@ Field.prototype.addToSchema = function () {
 	this.bindUnderscoreMethods();
 };
 
+/**
+ * Binds the methods specified by the _underscoreMethods property
+ * Must be called by the field type's `addToSchema` method
+ * Always includes the `update` method
+ */
 Field.prototype.bindUnderscoreMethods = function (methods) {
 	var field = this;
-	// automatically bind underscore methods specified by the _underscoreMethods property
-	// always include the 'update' method
 	(this._underscoreMethods || []).concat({ fn: 'updateItem', as: 'update' }, (methods || [])).forEach(function (method) {
 		if (typeof method === 'string') {
 			method = { fn: method, as: method };
@@ -261,8 +262,6 @@ Field.prototype.bindUnderscoreMethods = function (methods) {
 /**
  * Adds a method to the underscoreMethods collection on the field's list,
  * with a path prefix to match this field's path and bound to the document
- *
- * @api public
  */
 Field.prototype.underscoreMethod = function (path, fn) {
 	this.list.underscoreMethod(this.path + '.' + path, function () {
