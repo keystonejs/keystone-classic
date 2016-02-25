@@ -17,8 +17,8 @@ function boolean (list, path, options) {
 util.inherits(boolean, FieldType);
 
 // Use boolean validators
-boolean.prototype.validateInput = validators.validateInput.boolean;
-boolean.prototype.validateRequiredInput = validators.validateRequiredInput.boolean;
+boolean.prototype.validateInput = validators.boolean.input;
+boolean.prototype.validateRequiredInput = validators.boolean.required;
 
 /**
  * Add filters to a query

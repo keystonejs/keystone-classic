@@ -6,10 +6,7 @@
 
 var utils = require('keystone-utils');
 
-exports.validateInput = {};
-exports.validateRequiredInput = {};
-
-/** Booleans */
+/* Booleans */
 
 // Boolean fields are set to true when truthy, except the string 'false'
 // Falsy values always set the field value to false, to account for undefined
@@ -17,12 +14,13 @@ exports.validateRequiredInput = {};
 // it isn't possible to _not_ set a value for a Boolean field if the field is
 // being updated, even by providing an undefined value in the data object.
 
-exports.validateInput.boolean = function (data, callback) {
-	utils.defer(callback, true);
-};
-
-exports.validateRequiredInput.boolean = function (item, data, callback) {
-	var value = this.getValueFromData(data);
-	var result = (value && value !== 'false') || item.get(this.path) ? true : false;
-	utils.defer(callback, result);
+exports.boolean = {
+	input: function (data, callback) {
+		utils.defer(callback, true);
+	},
+	required: function (item, data, callback) {
+		var value = this.getValueFromData(data);
+		var result = (value && value !== 'false') || item.get(this.path) ? true : false;
+		utils.defer(callback, result);
+	},
 };
