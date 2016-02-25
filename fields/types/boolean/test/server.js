@@ -100,6 +100,9 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	// TODO: these should be updated to test the new validateInput() and
+	// validateRequiredInput() methods
+
 	it('should always validate when not required', function () {
 		demand(List.fields.bool.inputIsValid({ bool: 'true' }, false)).be(true);
 		demand(List.fields.bool.inputIsValid({ bool: true }, false)).be(true);

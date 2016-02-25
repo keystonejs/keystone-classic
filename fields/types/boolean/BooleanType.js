@@ -1,4 +1,5 @@
 var FieldType = require('../Type');
+var utils = require('keystone-utils');
 var util = require('util');
 
 /**
@@ -29,8 +30,33 @@ boolean.prototype.addFilterToQuery = function (filter, query) {
 };
 
 /**
+ * Checks whether a provided value for the field is in a valid format
+ * Since undefined and falsy values are false, and everything truthy is true,
+ * this method always returns true for boolean fields.
+ *
+ * @api public
+ */
+boolean.prototype.validateInput = function (data, callback) {
+	utils.defer(callback, true);
+};
+
+/**
+ * Validates that a truthy value for this field has been provided,
+ * or that there is an existing truthy value in the item
+ *
+ * @api public
+ */
+boolean.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = (value && value !== 'false') || item.get(this.path) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
  * Validates that a truthy value for this field has been provided in a data object.
  * Useful for checkboxes that are required to be true (e.g. agreed to terms and cond's)
+ *
+ * Deprecated
  */
 boolean.prototype.inputIsValid = function (data, required) {
 	if (required) {
