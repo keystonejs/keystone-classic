@@ -347,6 +347,6 @@ Field.prototype.updateItem = function (item, data, callback) {
  *
  * @api public
  */
-Field.prototype.getValueFromData = function (data) {
-	return this.path in data ? data[this.path] : this._path.get(data);
+Field.prototype.getValueFromData = function (data, subpath) {
+	return this._path.get(data, subpath);
 };
