@@ -20,7 +20,6 @@ describe('List "track" option', function () {
 		var tasks = [];
 
 		// in case model names were previously used and not cleaned up
-		console.log('\nList "track" option before: cleaning models');
 		removeModel(userModelName);
 		removeModel(testModelName);
 
@@ -86,9 +85,7 @@ describe('List "track" option', function () {
 		});
 
 		// tasks to cleanup test User collection and indexes and add dummy users
-		console.log('List "track" option before: configuring tasks');
 		tasks.push(function(done) {
-			console.log('List "track" option before: dropping indexes');
 			User.model.collection.dropAllIndexes(function(err) {
 				if (err) {
 					console.error('List "track" option before: error: ' + err);
@@ -99,7 +96,6 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			console.log('List "track" option before: removing user');
 			User.model.remove({}, function(err) {
 				if (err) {
 					console.error('List "track" option before: removing user error: ' + err);
@@ -110,7 +106,6 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			console.log('List "track" option before: creating/saving new user #1');
 			dummyUser1 = new User.model({
 				'name': 'John Doe'
 			}).save(function(err, data) {
@@ -124,7 +119,6 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			console.log('List "track" option before: creating/saving new user #2');
 			dummyUser2 = new User.model({
 				'name': 'Jane Doe'
 			}).save(function(err, data) {
