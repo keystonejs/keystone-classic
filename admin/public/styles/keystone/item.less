@@ -122,14 +122,25 @@
 // ------------------------------
 
 .EditForm__key-or-id {
+	.display-flex();
 	color: @input-placeholder-color;
 	font-family: @font-family-monospace;
 	margin-bottom: 1.6em;
 	margin-top: -1em;
-
-	&::first-letter {
-		text-transform: uppercase;
-	}
+}
+.EditForm__key-or-id__label {
+	margin-right: .5em;
+}
+.EditForm__key-or-id__field {
+	.flex(1, 0, auto);
+}
+.EditForm__key-or-id__input {
+	background: none;
+	border: none;
+	outline: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
 }
 
 

@@ -276,7 +276,7 @@ cloudinaryimage.prototype.format = function (item) {
  * @api public
  */
 cloudinaryimage.prototype.isModified = function (item) {
-	return item.isModified(this.paths.url);
+	return item.isModified(this.paths.public_id);
 };
 
 
@@ -328,6 +328,12 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 	var paths = this.paths;
 	var value = this.getValueFromData(data);
 
+	// Allow field value reset
+	if (value === '' || value === 'null' || (typeof value === 'object' && !Object.keys(value).length)) {
+		item.set(this.path, getEmptyValue());
+		return process.nextTick(callback);
+	}
+
 	// When the value is a string, assume it's base64 data or a remote URL and
 	// upload it to cloudinary as a file path. More logic could be added here to
 	// detect/prevent invalid uploads
@@ -343,7 +349,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 		} else {
 			item.set(this.path, getEmptyValue());
 		}
-		process.nextTick(callback);
+		return process.nextTick(callback);
 	} else if (typeof value === 'object' && value.path) {
 		// File provided - upload it
 		var tagPrefix = keystone.get('cloudinary prefix') || '';
@@ -363,21 +369,21 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 			uploadOptions.folder = folder;
 		}
 		// NOTE: field.options.publicID has been deprecated (tbc)
-		if (field.options.filenameAsPublicID && value.originalname && typeof originalname === 'string') {
+		if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
 			uploadOptions.public_id = value.originalname.substring(0, value.originalname.lastIndexOf('.'));
 		}
 		// TODO: implement autoCleanup; should delete existing images before uploading
 		cloudinary.uploader.upload(value.path, function (result) {
 			if (result.error) {
-				callback(result.error);
+				return callback(result.error);
 			} else {
 				item.set(field.path, result);
-				callback();
+				return callback();
 			}
 		}, uploadOptions);
 	} else {
 		// Nothing to do
-		process.nextTick(callback);
+		return process.nextTick(callback);
 	}
 };
 

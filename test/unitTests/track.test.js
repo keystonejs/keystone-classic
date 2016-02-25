@@ -32,11 +32,11 @@ describe('List "track" option', function () {
 		User.register();
 
 		function getItem(id, done) {
-
 			if (id) {
 				Test.model.findById(id).exec(function(err, found) {
-					if (err)
+					if (err) {
 						throw err;
+					}
 
 					if (!found) {
 						throw new Error('test document not found')
@@ -49,12 +49,10 @@ describe('List "track" option', function () {
 				item = new Test.model();
 				done(item);
 			}
-
 		}
 
 		// route to simulate use of updateHandler()
 		app.post('/using-update-handler/:id?', function(req, res) {
-
 			getItem(req.params.id, function(item) {
 				req.user = req.params.id ? dummyUser2 : dummyUser1;
 				var updateHandler = item.getUpdateHandler(req);
@@ -66,12 +64,10 @@ describe('List "track" option', function () {
 					}
 				});
 			});
-
 		});
 
 		// route to simulate use of .save()
 		app.post('/using-save/:id?', function(req, res) {
-
 			getItem(req.params.id, function(item) {
 				item._req_user = req.params.id ? dummyUser2 : dummyUser1;
 				item.set(req.body);
@@ -83,20 +79,9 @@ describe('List "track" option', function () {
 					}
 				});
 			});
-
 		});
 
 		// tasks to cleanup test User collection and indexes and add dummy users
-		tasks.push(function(done) {
-			var user = keystone.list(userModelName);
-			user.model.collection.dropAllIndexes(function(err) {
-				if (err) {
-					throw err;
-				}
-				done();
-			});
-		});
-
 		tasks.push(function(done) {
 			User.model.remove({}, function(err) {
 				if (err) {
@@ -107,7 +92,7 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			dummyUser1 = new User.model({ 
+			dummyUser1 = new User.model({
 				'name': 'John Doe'
 			}).save(function(err, data) {
 				if (err) {
@@ -119,7 +104,7 @@ describe('List "track" option', function () {
 		});
 
 		tasks.push(function(done) {
-			dummyUser2 = new User.model({ 
+			dummyUser2 = new User.model({
 				'name': 'Jane Doe'
 			}).save(function(err, data) {
 				if (err) {
@@ -139,7 +124,7 @@ describe('List "track" option', function () {
 	});
 
 	describe('when "track" option is not valid', function () {
-		
+
 		afterEach(function() {
 			removeModel(testModelName);
 		});
@@ -172,7 +157,7 @@ describe('List "track" option', function () {
 		});
 
 		it('should not register the plugin if all fields are false', function() {
-			Test = keystone.List(testModelName, { 
+			Test = keystone.List(testModelName, {
 				track: { createdAt: false, createdBy: false, updatedAt: false, updatedBy: false }
 			});
 			Test.add({ name: { type: String } });
@@ -267,7 +252,7 @@ describe('List "track" option', function () {
 						});
 				}, 250);
 			});
-			
+
 		});
 
 		describe('using .save()', function () {
@@ -353,7 +338,7 @@ describe('List "track" option', function () {
 				}, 250);
 
 			});
-			
+
 		});
 
 	});
@@ -364,7 +349,7 @@ describe('List "track" option', function () {
 		describe('using updateHandler()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
+				Test = keystone.List(testModelName, {
 					track: { updatedAt: true, updatedBy: true }
 				});
 				Test.add({ name: { type: String } });
@@ -441,7 +426,7 @@ describe('List "track" option', function () {
 		describe('using .save()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
+				Test = keystone.List(testModelName, {
 					track: { updatedAt: true, updatedBy: true }
 				});
 				Test.add({ name: { type: String } });
@@ -512,7 +497,7 @@ describe('List "track" option', function () {
 				}, 250);
 
 			});
-			
+
 		});
 
 	});
@@ -523,11 +508,11 @@ describe('List "track" option', function () {
 		describe('using updateHandler()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
-					track: { 
+				Test = keystone.List(testModelName, {
+					track: {
 						createdAt: 'customCreatedAt',
 						createdBy: 'customCreatedBy',
-						updatedAt: 'customUpdatedAt', 
+						updatedAt: 'customUpdatedAt',
 						updatedBy: 'customUpdatedBy'
 					}
 				});
@@ -614,15 +599,15 @@ describe('List "track" option', function () {
 			});
 
 		});
-		
+
 		describe('using save()', function() {
 
 			before(function() {
-				Test = keystone.List(testModelName, { 
-					track: { 
+				Test = keystone.List(testModelName, {
+					track: {
 						createdAt: 'customCreatedAt',
 						createdBy: 'customCreatedBy',
-						updatedAt: 'customUpdatedAt', 
+						updatedAt: 'customUpdatedAt',
 						updatedBy: 'customUpdatedBy'
 					}
 				});
@@ -709,7 +694,7 @@ describe('List "track" option', function () {
 			});
 
 		});
-		
+
 	});
-	
+
 });

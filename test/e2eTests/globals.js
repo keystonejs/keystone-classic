@@ -9,7 +9,7 @@ module.exports = {
 
 	// default timeout value in milliseconds for waitFor commands and implicit waitFor value for
 	// expect assertions
-	waitForConditionTimeout : 5000,
+	waitForConditionTimeout : 10000,
 
 	// this will cause waitFor commands on elements to throw an error if multiple
 	// elements are found using the given locate strategy and selector
@@ -44,5 +44,9 @@ module.exports = {
 	reporter : function(results, cb) {
 		//console.log(results);
 		cb();
+	},
+	adminUILogin : {
+		email: 'test@test.e2e',
+		password: 'test'
 	},
 };

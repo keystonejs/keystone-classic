@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import moment from 'moment';
 import ConfirmationDialog from './ConfirmationDialog';
 import Fields from '../fields';
@@ -7,6 +8,10 @@ import AltText from './AltText';
 import FooterBar from './FooterBar';
 import InvalidFieldType from './InvalidFieldType';
 import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+
+function upCase (str) {
+	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();
+};
 
 var EditForm = React.createClass({
 	displayName: 'EditForm',
@@ -73,6 +78,10 @@ var EditForm = React.createClass({
 			top.location.href = `${Keystone.adminPath}/${list.path}`;
 		});
 	},
+	handleKeyFocus () {
+		const input = findDOMNode(this.refs.keyOrIdInput);
+		input.select();
+	},
 	removeConfirmationDialog () {
 		this.setState({
 			confirmationDialog: null,
@@ -84,20 +93,38 @@ var EditForm = React.createClass({
 
 		if (list.nameField && list.autokey && this.props.data[list.autokey.path]) {
 			return (
-				<AltText
-					normal={list.autokey.path + ': ' + this.props.data[list.autokey.path]}
-					modified={'ID: ' + String(this.props.data.id)}
-					component="div"
-					title="Press <alt> to reveal the ID"
-					className={className} />
+				<div className={className}>
+					<AltText
+						normal={`${upCase(list.autokey.path)}: `}
+						modified="ID:"
+						component="span"
+						title="Press <alt> to reveal the ID"
+						className="EditForm__key-or-id__label" />
+					<AltText
+						normal={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data[list.autokey.path]} className="EditForm__key-or-id__input" readOnly />}
+						modified={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data.id} className="EditForm__key-or-id__input" readOnly />}
+						component="span"
+						title="Press <alt> to reveal the ID"
+						className="EditForm__key-or-id__field" />
+				</div>
 			);
 		} else if (list.autokey && this.props.data[list.autokey.path]) {
 			return (
-				<div className={className}>{list.autokey.path}: {this.props.data[list.autokey.path]}</div>
+				<div className={className}>
+					<span className="EditForm__key-or-id__label">{list.autokey.path}: </span>
+					<div className="EditForm__key-or-id__field">
+						<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data[list.autokey.path]} className="EditForm__key-or-id__input" readOnly />
+					</div>
+				</div>
 			);
 		} else if (list.nameField) {
 			return (
-				<div className={className}>id: {this.props.data.id}</div>
+				<div className={className}>
+					<span className="EditForm__key-or-id__label">ID: </span>
+					<div className="EditForm__key-or-id__field">
+						<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data.id} className="EditForm__key-or-id__input" readOnly />
+					</div>
+				</div>
 			);
 		}
 	},
