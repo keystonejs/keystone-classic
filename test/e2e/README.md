@@ -11,7 +11,7 @@ The setup is partly based on instructions at [nightwatchjs.org](http://nightwatc
 for nightwatch specific structure as well as partly based on a typical keystone app since the e2e test runs
 with a real keystone app server.
 
-    test/e2eTests
+    test/e2e
         nightwatch.json                         => nightwatch config
         global.js                               => common nightwatch test environment config
 
