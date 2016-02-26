@@ -3,14 +3,14 @@
  */
 
 var _ = require('underscore');
-var moment = require('moment');
-var keystone = require('../../../');
-var util = require('util');
-var knox = require('knox');
-// var s3 = require('s3');
-var utils = require('keystone-utils');
+var assign = require('object-assign');
 var grappling = require('grappling-hook');
+var keystone = require('../../../');
+var knox = require('knox');
+var moment = require('moment');
 var super_ = require('../Type');
+var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * S3File FieldType Constructor
@@ -310,11 +310,11 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 				var _header = {};
 				if (validateHeader(header, callback)) {
 					_header[header.name] = header.value;
-					customHeaders = Object.assign(customHeaders, _header);
+					customHeaders = assign(customHeaders, _header);
 				}
 			});
 		} else if (_.isObject(defaultHeaders)) {
-			customHeaders = Object.assign(customHeaders, defaultHeaders);
+			customHeaders = assign(customHeaders, defaultHeaders);
 		} else {
 			return callback(new Error('Unsupported Header option: defaults headers must be either an Object or Array ' + JSON.stringify(defaultHeaders)));
 		}
@@ -331,11 +331,11 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 					var _header = {};
 					if (validateHeader(header, callback)) {
 						_header[header.name] = header.value;
-						customHeaders = Object.assign(customHeaders, _header);
+						customHeaders = assign(customHeaders, _header);
 					}
 				});
 			} else if (_.isObject(computedHeaders)) {
-				customHeaders = Object.assign(customHeaders, computedHeaders);
+				customHeaders = assign(customHeaders, computedHeaders);
 			} else {
 				return callback(new Error('Unsupported Header option: computed headers must be either an Object or Array ' + JSON.stringify(computedHeaders)));
 			}
@@ -345,16 +345,16 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 				var _header = {};
 				if (validateHeader(header, callback)) {
 					_header[header.name] = header.value;
-					customHeaders = Object.assign(customHeaders, _header);
+					customHeaders = assign(customHeaders, _header);
 				}
 			});
 		} else if (_.isObject(headersOption)) {
-			customHeaders = Object.assign(customHeaders, headersOption);
+			customHeaders = assign(customHeaders, headersOption);
 		}
 	}
 
 	if (validateHeaders(customHeaders, callback)) {
-		headers = Object.assign(headers, customHeaders);
+		headers = assign(headers, customHeaders);
 	}
 
 	return headers;

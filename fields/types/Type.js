@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 var _ = require('underscore');
+var assign = require('object-assign');
 var di = require('asyncdi');
 var marked = require('marked');
 var Path = require('../../lib/path');
@@ -111,7 +112,7 @@ Field.prototype.getOptions = function () {
 			}
 		}, this);
 		if (this.getProperties) {
-			Object.assign(this.__options, this.getProperties());
+			assign(this.__options, this.getProperties());
 		}
 		this.__options.hasFilterMethod = this.addFilterToQuery ? true : false;
 		this.__options.defaultValue = this.getDefaultValue();

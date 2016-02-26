@@ -1,9 +1,10 @@
 var _ = require('underscore');
-var keystone = require('../../../');
-var util = require('util');
+var assign = require('object-assign');
 var cloudinary = require('cloudinary');
-var utils = require('keystone-utils');
+var keystone = require('../../../');
 var super_ = require('../Type');
+var util = require('util');
+var utils = require('keystone-utils');
 
 var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
 
@@ -166,7 +167,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		if (width) options.width = width;
 		if (height) options.height = height;
 		if (typeof other === 'object') {
-			Object.assign(options, other);
+			assign(options, other);
 		}
 		return options;
 	};
@@ -344,7 +345,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 	if (typeof value === 'object' && 'public_id' in value) {
 		// Cloudinary Image data provided
 		if (value.public_id) {
-			var v = Object.assign(getEmptyValue(), value);
+			var v = assign(getEmptyValue(), value);
 			item.set(this.path, v);
 		} else {
 			item.set(this.path, getEmptyValue());
