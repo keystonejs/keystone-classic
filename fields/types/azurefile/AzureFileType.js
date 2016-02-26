@@ -197,7 +197,7 @@ azurefile.prototype.isModified = function (item) {
 
 /**
  * Validates that a value for this field has been provided in a data object
- 
+
  * Deprecated
  */
 
