@@ -1,18 +1,18 @@
 module.exports = {
   before : function (browser) {
 	browser
-	  .url('http://localhost:3000/keystone')
+	  .url(browser.globals.adminUI.url)
 	  .waitForElementVisible('div#signin-view')
-	  .setValue('input[name=email]', browser.globals.adminUILogin.email)
-	  .setValue('input[name=password]', browser.globals.adminUILogin.password)
+	  .setValue('input[name=email]', browser.globals.adminUI.login.email)
+	  .setValue('input[name=password]', browser.globals.adminUI.login.password)
 	  .click('button[type=submit]')
 	  .pause(1000)
-	  .url('http://localhost:3000/keystone')
+	  .url(browser.globals.adminUI.url)
 	  .pause(1000);
   },
   after : function (browser) {
 	browser
-	  .url('http://localhost:3000/keystone')
+	  .url(browser.globals.adminUI.url)
 	  .pause(1000)
 	  .click('div#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--right > li:nth-child(2) > a')
 	  .pause(1000)
