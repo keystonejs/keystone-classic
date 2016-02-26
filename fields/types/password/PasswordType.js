@@ -147,7 +147,7 @@ password.prototype.validateRequiredInput = function (item, data, callback) {
  * Otherwise, input is always considered valid, as providing an empty
  * value will not change the password.
  *
- * @api public
+ * Deprecated
  */
 password.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path] && this.paths.confirm in data) {

@@ -313,7 +313,9 @@ cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback
 };
 
 /**
- * (Deprecated) always assumes the input is valid
+ * Always assumes the input is valid
+ *
+ * Deprecated
  */
 cloudinaryimage.prototype.inputIsValid = function () {
 	return true;

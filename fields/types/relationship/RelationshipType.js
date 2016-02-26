@@ -132,6 +132,8 @@ relationship.prototype.format = function (item) {
 
 /**
  * Validates that a value for this field has been provided in a data object
+ *
+ * Deprecated
  */
 relationship.prototype.inputIsValid = function (data, required, item) {
 	if (!required) return true;

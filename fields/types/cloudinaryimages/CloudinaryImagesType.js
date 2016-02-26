@@ -242,7 +242,7 @@ cloudinaryimages.prototype.format = function (item) {
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * @api public
+ * Deprecated
  */
 cloudinaryimages.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should image field input be validated?

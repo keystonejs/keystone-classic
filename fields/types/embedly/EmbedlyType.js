@@ -234,13 +234,12 @@ embedly.prototype.isModified = function (item) {
 
 
 /**
- * Validates that a value for this field has been provided in a data object
+ * Field has no input and is always valid
  *
- * @api public
+ * Deprecated
  */
 
-embedly.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
-	// TODO: I don't think embedly fields need to be validated...
+embedly.prototype.inputIsValid = function () {
 	return true;
 };
 

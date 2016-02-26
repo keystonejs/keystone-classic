@@ -119,6 +119,8 @@ name.prototype.format = function (item) {
 
 /**
  * Validates that a value for this field has been provided in a data object
+ *
+ * Deprecated
  */
 name.prototype.inputIsValid = function (data, required, item) {
 	// Input is valid if none was provided, but the item has data

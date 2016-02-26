@@ -79,7 +79,7 @@ markdown.prototype.format = function (item) {
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * @api public
+ * Deprecated
  */
 markdown.prototype.inputIsValid = function (data, required, item) {
 	if (!(this.path in data) && item && item.get(this.paths.md)) {

@@ -26,7 +26,7 @@ util.inherits(textarray, super_);
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * @api public
+ * Deprecated
  */
 
 textarray.prototype.inputIsValid = function (data, required, item) {

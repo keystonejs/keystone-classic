@@ -65,7 +65,7 @@ function isValidNumber (value) {
  *
  * An empty value clears the stored value and is considered valid
  *
- * @api public
+ * Deprecated
  */
 
 numberarray.prototype.inputIsValid = function (data, required, item) {

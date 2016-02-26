@@ -72,7 +72,7 @@ geopoint.prototype.format = function (item) {
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * @api public
+ * Deprecated
  */
 
 geopoint.prototype.inputIsValid = function (data, required, item) { // eslint-disable-line no-unused-vars

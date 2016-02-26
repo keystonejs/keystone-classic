@@ -190,6 +190,8 @@ location.prototype.isModified = function (item) {
  *
  * options.required specifies an array or space-delimited list of paths that
  * are required (defaults to street1, suburb)
+ *
+ * Deprecated
  */
 location.prototype.inputIsValid = function (data, required, item) {
 	if (!required) return true;

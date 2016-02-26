@@ -197,8 +197,8 @@ azurefile.prototype.isModified = function (item) {
 
 /**
  * Validates that a value for this field has been provided in a data object
- *
- * @api public
+ 
+ * Deprecated
  */
 
 azurefile.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars

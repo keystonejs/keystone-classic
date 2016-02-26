@@ -44,6 +44,8 @@ email.prototype.gravatarUrl = function (item, size, defaultImage, rating) {
 
 /**
  * Validates that a valid email has been provided in a data object
+ *
+ * Deprecated
  */
 email.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);

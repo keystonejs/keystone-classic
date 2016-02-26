@@ -126,6 +126,8 @@ select.prototype.addFilterToQuery = function (filter, query) {
 
 /**
  * Validates that a valid option has been provided in a data object
+ *
+ * Deprecated
  */
 select.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path]) {

@@ -315,7 +315,8 @@ Field.prototype.validateRequiredInput = function (item, data, callback) {
  * Validates that a value for this field has been provided in a data object
  * Overridden by some fieldType Classes
  *
- * Not a reliable public API; use inputIsValid, which is async, instead
+ * Not a reliable public API; use inputIsValid, which is async, instead.
+ * This method has been deprecated.
  */
 Field.prototype.inputIsValid = function (data, required, item) {
 	if (!required) return true;
