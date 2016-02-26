@@ -134,9 +134,10 @@ password.prototype.validateInput = function (data, callback) {
  * Asynchronously confirms that the provided password is valid
  */
 password.prototype.validateRequiredInput = function (item, data, callback) {
+	var hashValue = this.getValueFromData(data, '_hash');
 	var passwordValue = this.getValueFromData(data);
-	var result = passwordValue ? true : false;
-	if (!result && passwordValue === undefined && item.get(this.path)) result = true;
+	var result = hashValue || passwordValue ? true : false;
+	if (!result && passwordValue === undefined && hashValue === undefined && item.get(this.path)) result = true;
 	process.nextTick(function () { callback(result); });
 };
 
