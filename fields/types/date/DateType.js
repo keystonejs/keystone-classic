@@ -31,12 +31,9 @@ util.inherits(date, FieldType);
 date.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (filter.mode === 'between') {
-
 		if (filter.after && filter.before) {
-
 			filter.after = moment(filter.after);
 			filter.before = moment(filter.before);
-
 			if (filter.after.isValid() && filter.before.isValid()) {
 				query[this.path] = {
 					$gte: filter.after.startOf('day').toDate(),
@@ -44,15 +41,12 @@ date.prototype.addFilterToQuery = function (filter, query) {
 				};
 			}
 		}
-
 	} else if (filter.value) {
-
 		var day = {
 			moment: moment(filter.value),
 		};
 		day.start = day.moment.startOf('day').toDate();
 		day.end = moment(filter.value).endOf('day').toDate();
-
 		if (day.moment.isValid()) {
 			if (filter.mode === 'after') {
 				query[this.path] = { $gt: day.end };
@@ -62,13 +56,10 @@ date.prototype.addFilterToQuery = function (filter, query) {
 				query[this.path] = { $gte: day.start, $lte: day.end };
 			}
 		}
-
 	}
-
 	if (filter.inverted) {
 		query[this.path] = { $not: query[this.path] };
 	}
-
 	return query;
 };
 
