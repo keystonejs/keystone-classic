@@ -40,11 +40,12 @@ datetime.prototype.parse = DateType.prototype.parse;
  * Get the value from a data object; may be simple or a pair of fields
  */
 datetime.prototype.getInputFromData = function (data) {
-	if (this.paths.date in data && this.paths.time in data) {
-		return (data[this.paths.date] + ' ' + data[this.paths.time]).trim();
-	} else {
-		return data[this.path];
+	var dateValue = this.getValueFromData(data, '_date');
+	var timeValue = this.getValueFromData(data, '_time');
+	if (dateValue && timeValue) {
+		return dateValue + ' ' + timeValue;
 	}
+	return this.getValueFromData(data);
 };
 
 /**
