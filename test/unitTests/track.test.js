@@ -81,17 +81,6 @@ describe('List "track" option', function () {
 			});
 		});
 
-		// tasks to cleanup test User collection and indexes and add dummy users
-		tasks.push(function(done) {
-			User.model.collection.dropAllIndexes(function(err) {
-				if (err) {
-					console.error('List "track" option before: error: ' + err);
-					throw err;
-				}
-				done();
-			});
-		});
-
 		tasks.push(function(done) {
 			User.model.remove({}, function(err) {
 				if (err) {
