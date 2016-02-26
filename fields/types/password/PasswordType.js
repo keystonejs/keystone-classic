@@ -166,12 +166,12 @@ password.prototype.inputIsValid = function (data, required, item) {
  * @api public
  */
 password.prototype.updateItem = function (item, data, callback) {
-	// TODO: this is brittle and won't work with nested fields. needs better
-	// support of pulling nested paths out of objects before we can fix it.
-	if (this.path in data) {
-		item.set(this.path, data[this.path]);
-	} else if (this.paths.hash in data) {
-		item.set(this.paths.hash, data[this.paths.hash]);
+	var hashValue = this.getValueFromData(data, '_hash');
+	var passwordValue = this.getValueFromData(data);
+	if (passwordValue !== undefined) {
+		item.set(this.path, passwordValue);
+	} else if (hashValue !== undefined) {
+		item.set(this.paths.hash, hashValue);
 	}
 	process.nextTick(callback);
 };
