@@ -35,7 +35,6 @@ describe('List "track" option', function () {
 			if (id) {
 				Test.model.findById(id).exec(function(err, found) {
 					if (err) {
-						console.error('List "track" option before: getItem error: ' + err);
 						throw err;
 					}
 
@@ -59,7 +58,6 @@ describe('List "track" option', function () {
 				var updateHandler = item.getUpdateHandler(req);
 				updateHandler.process(req.body, function(err, data) {
 					if (err) {
-						console.error('List "track" option before: app.post(/using-update-handler/:id?) error: ' + err);
 						res.send('BAD');
 					} else {
 						res.send('GOOD');
@@ -75,7 +73,6 @@ describe('List "track" option', function () {
 				item.set(req.body);
 				item.save(function(err, data) {
 					if (err) {
-						console.error('List "track" option before: app.post(/using-save/:id?) error: ' + err);
 						res.send('BAD');
 					} else {
 						res.send('GOOD');
@@ -98,7 +95,6 @@ describe('List "track" option', function () {
 		tasks.push(function(done) {
 			User.model.remove({}, function(err) {
 				if (err) {
-					console.error('List "track" option before: removing user error: ' + err);
 					throw err;
 				}
 				done();
@@ -110,7 +106,6 @@ describe('List "track" option', function () {
 				'name': 'John Doe'
 			}).save(function(err, data) {
 				if (err) {
-					console.error('List "track" option before: creating/saving new user #1 error: ' + err);
 					throw err;
 				}
 				dummyUser1 = data;
@@ -123,7 +118,6 @@ describe('List "track" option', function () {
 				'name': 'Jane Doe'
 			}).save(function(err, data) {
 				if (err) {
-					console.error('List "track" option before: creating/saving new user #2 error: ' + err);
 					throw err;
 				}
 				dummyUser2 = data;
@@ -133,7 +127,6 @@ describe('List "track" option', function () {
 
 		async.series(tasks, function(err) {
 			if (err) {
-				console.error('List "track" option before: task error: ' + err);
 				throw err;
 			}
 			done();
