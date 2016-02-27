@@ -37,11 +37,9 @@ exports.text = {
 		utils.defer(callback, result);
 	},
 	required: function (item, data, callback) {
-		var value = this.getValueFromData(data);
-		var result = false;
-		if (value === undefined) {
-			if (item && item.get(this.path)) result = true;
-		} else if (typeof value === 'string' && value.length) {
+		var input = this.getValueFromData(data);
+		var result = !!input;
+		if (input === undefined && item.get(this.path)) {
 			result = true;
 		}
 		utils.defer(callback, result);
