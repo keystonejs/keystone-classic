@@ -103,16 +103,15 @@ datetime.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 datetime.prototype.updateItem = function (item, data, callback) {
-	if (!(this.path in data || (this.paths.date in data && this.paths.time in data))) {
-		return process.nextTick(callback);
-	}
-	var m = this.isUTC ? moment.utc : moment;
-	var newValue = m(this.getInputFromData(data), parseFormats);
+	var input = this.getInputFromData(data);
+	if (input === undefined) return process.nextTick(callback);
+	var newValue = this.parse(input);
+	var oldValue = item.get(this.path);
 	if (newValue.isValid()) {
-		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
+		if (!oldValue || !newValue.isSame(oldValue)) {
 			item.set(this.path, newValue.toDate());
 		}
-	} else if (item.get(this.path)) {
+	} else if (oldValue) {
 		item.set(this.path, null);
 	}
 	process.nextTick(callback);
