@@ -84,13 +84,12 @@ date.prototype.moment = function (item) {
 };
 
 /**
- * Parses input using moment, sets the value, and returns the moment object.
+ * Parses input with the correct moment version (normal or utc) and uses
+ * either the provided input format or the default for the field
  */
-date.prototype.parse = function (item) {
+date.prototype.parse = function (input, format) {
 	var m = this.isUTC ? moment.utc : moment;
-	var newValue = m.apply(m, Array.prototype.slice.call(arguments, 1));
-	item.set(this.path, (newValue && newValue.isValid()) ? newValue.toDate() : null);
-	return newValue;
+	return m(input, format || this.parseFormatString);
 };
 
 /**
