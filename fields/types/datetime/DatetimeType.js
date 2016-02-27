@@ -50,11 +50,12 @@ datetime.prototype.getInputFromData = function (data) {
 };
 
 /**
- * Asynchronously confirms that the provided date is valid
+ * Parses input with the correct moment version (normal or utc) and uses
+ * either the provided input format or the default set
  */
-datetime.prototype.parse = function (input) {
+datetime.prototype.parse = function (input, format) {
 	var m = this.isUTC ? moment.utc : moment;
-	return m(input, parseFormats);
+	return m(input, format || parseFormats);
 };
 
 /**
