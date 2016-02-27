@@ -46,7 +46,10 @@ module.exports = {
 		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__download')
 				      .to.be.visible;
 	},
+	// TODO:  For some reason the expand table width input control does not show in saucelabs' Firefox 44...why?
+	//		It shows fine with local selenium server and Firefox 44.0.2
 	//'List view must have an expand table width input': function (browser) {
+	//	browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__expand')
 	//	browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__expand')
 	//			      .to.be.visible;
 	//},
@@ -75,5 +78,27 @@ module.exports = {
 				      .to.be.visible;
 		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > thead > tr > th:nth-child(3)')
 				      .text.to.equal('Is Admin');
+	},
+	'List view items must a delete icon': function (browser) {
+		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td.ItemList__col--control.ItemList__col--delete > button')
+				      .to.be.visible;
+	},
+	'List view user item must have a name value': function (browser) {
+		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(2) > a')
+				      .to.be.visible;
+		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(2) > a')
+				      .text.to.equal('test e2e');
+	},
+	'List view user item must have a value in the email column': function (browser) {
+		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(3) > a')
+				      .to.be.visible;
+		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(3) > a')
+				      .text.to.equal('test@test.e2e');
+	},
+	'List view user item must have a value in the Is Admin column': function (browser) {
+		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(4) > div')
+				      .to.be.visible;
+		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(4) > div > span')
+				      .to.be.visible;
 	},
 };
