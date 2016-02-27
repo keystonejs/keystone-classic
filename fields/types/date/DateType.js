@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var moment = require('moment');
 var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * Date FieldType Constructor
@@ -90,6 +91,30 @@ date.prototype.moment = function (item) {
 date.prototype.parse = function (input, format) {
 	var m = this.isUTC ? moment.utc : moment;
 	return m(input, format || this.parseFormatString);
+};
+
+/**
+ * Asynchronously confirms that the provided date is valid
+ */
+date.prototype.validateInput = function (data, callback) {
+	var input = this.getInputFromData(data);
+	var result = true;
+	if (input) {
+		result = this.parse(input).isValid();
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that the provided date is valid
+ */
+date.prototype.validateRequiredInput = function (item, data, callback) {
+	var input = this.getInputFromData(data);
+	var result = !!input;
+	if (input === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
 };
 
 /**
