@@ -2,6 +2,7 @@ var _ = require('underscore');
 var bcrypt = require('bcrypt-nodejs');
 var FieldType = require('../Type');
 var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * password FieldType Constructor
@@ -127,7 +128,7 @@ password.prototype.validateInput = function (data, callback) {
 		detail = 'passwords must match';
 	}
 	// TODO: we could support a password complexity option (or regexp) here
-	process.nextTick(function () { callback(result, detail); });
+	utils.defer(callback, result, detail);
 };
 
 /**
@@ -138,7 +139,7 @@ password.prototype.validateRequiredInput = function (item, data, callback) {
 	var passwordValue = this.getValueFromData(data);
 	var result = hashValue || passwordValue ? true : false;
 	if (!result && passwordValue === undefined && hashValue === undefined && item.get(this.path)) result = true;
-	process.nextTick(function () { callback(result); });
+	utils.defer(callback, result);
 };
 
 /**
