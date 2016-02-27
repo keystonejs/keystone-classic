@@ -2,6 +2,7 @@ var moment = require('moment');
 var DateType = require('../date/DateType');
 var FieldType = require('../Type');
 var util = require('util');
+var utils = require('keystone-utils');
 
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
 
@@ -34,7 +35,8 @@ util.inherits(datetime, FieldType);
 datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
-datetime.prototype.parse = DateType.prototype.parse;
+datetime.prototype.validateInput = DateType.prototype.validateInput;
+datetime.prototype.validateRequiredInput = DateType.prototype.validateRequiredInput;
 
 /**
  * Get the value from a data object; may be simple or a pair of fields
@@ -46,6 +48,15 @@ datetime.prototype.getInputFromData = function (data) {
 		return dateValue + ' ' + timeValue;
 	}
 	return this.getValueFromData(data);
+};
+
+/**
+ * Parses input with the correct moment version (normal or utc) and uses
+ * either the provided input format or the default set
+ */
+datetime.prototype.parse = function (input, format) {
+	var m = this.isUTC ? moment.utc : moment;
+	return m(input, format || parseFormats);
 };
 
 /**
@@ -70,16 +81,15 @@ datetime.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 datetime.prototype.updateItem = function (item, data, callback) {
-	if (!(this.path in data || (this.paths.date in data && this.paths.time in data))) {
-		return process.nextTick(callback);
-	}
-	var m = this.isUTC ? moment.utc : moment;
-	var newValue = m(this.getInputFromData(data), parseFormats);
+	var input = this.getInputFromData(data);
+	if (input === undefined) return process.nextTick(callback);
+	var newValue = this.parse(input);
+	var oldValue = item.get(this.path);
 	if (newValue.isValid()) {
-		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
+		if (!oldValue || !newValue.isSame(oldValue)) {
 			item.set(this.path, newValue.toDate());
 		}
-	} else if (item.get(this.path)) {
+	} else if (oldValue) {
 		item.set(this.path, null);
 	}
 	process.nextTick(callback);

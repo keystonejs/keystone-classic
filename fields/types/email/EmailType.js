@@ -43,6 +43,30 @@ email.prototype.gravatarUrl = function (item, size, defaultImage, rating) {
 };
 
 /**
+ * Asynchronously confirms that the provided email is valid
+ */
+email.prototype.validateInput = function (data, callback) {
+	var input = this.getValueFromData(data);
+	var result = true;
+	if (input) {
+		result = utils.isEmail(input);
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that required input is present
+ */
+email.prototype.validateRequiredInput = function (item, data, callback) {
+	var input = this.getValueFromData(data);
+	var result = !!input;
+	if (input === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
+};
+
+/**
  * Validates that a valid email has been provided in a data object
  *
  * Deprecated
