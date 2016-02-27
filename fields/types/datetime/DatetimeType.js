@@ -2,6 +2,7 @@ var moment = require('moment');
 var DateType = require('../date/DateType');
 var FieldType = require('../Type');
 var util = require('util');
+var utils = require('keystone-utils');
 
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
 
@@ -46,6 +47,38 @@ datetime.prototype.getInputFromData = function (data) {
 		return dateValue + ' ' + timeValue;
 	}
 	return this.getValueFromData(data);
+};
+
+/**
+ * Asynchronously confirms that the provided date is valid
+ */
+datetime.prototype.parse = function (input) {
+	var m = this.isUTC ? moment.utc : moment;
+	return m(input, parseFormats);
+};
+
+/**
+ * Asynchronously confirms that the provided date is valid
+ */
+datetime.prototype.validateInput = function (data, callback) {
+	var input = this.getInputFromData(data);
+	var result = true;
+	if (input) {
+		result = this.parse(input).isValid();
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that the provided date is valid
+ */
+datetime.prototype.validateRequiredInput = function (item, data, callback) {
+	var input = this.getInputFromData(data);
+	var result = !!input;
+	if (input === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
 };
 
 /**
