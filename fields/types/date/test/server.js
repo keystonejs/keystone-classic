@@ -10,8 +10,9 @@ exports.initList = function (List) {
 exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should parse without error via underscore date', function () {
-		testItem._.date.parse('20131204', 'YYYYMMDD');
+	it('should parse date input and return a moment object', function () {
+		var m = List.fields.date.parse('2016-02-27');
+		demand(m.format('YYYY-MM-DD')).to.equal('2016-02-27');
 	});
 
 	it('should be the date we expect', function () {
