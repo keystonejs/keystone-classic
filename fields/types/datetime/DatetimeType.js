@@ -35,7 +35,8 @@ util.inherits(datetime, FieldType);
 datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
-datetime.prototype.parse = DateType.prototype.parse;
+datetime.prototype.validateInput = DateType.prototype.validateInput;
+datetime.prototype.validateRequiredInput = DateType.prototype.validateRequiredInput;
 
 /**
  * Get the value from a data object; may be simple or a pair of fields
@@ -56,30 +57,6 @@ datetime.prototype.getInputFromData = function (data) {
 datetime.prototype.parse = function (input, format) {
 	var m = this.isUTC ? moment.utc : moment;
 	return m(input, format || parseFormats);
-};
-
-/**
- * Asynchronously confirms that the provided date is valid
- */
-datetime.prototype.validateInput = function (data, callback) {
-	var input = this.getInputFromData(data);
-	var result = true;
-	if (input) {
-		result = this.parse(input).isValid();
-	}
-	utils.defer(callback, result);
-};
-
-/**
- * Asynchronously confirms that the provided date is valid
- */
-datetime.prototype.validateRequiredInput = function (item, data, callback) {
-	var input = this.getInputFromData(data);
-	var result = !!input;
-	if (input === undefined && item.get(this.path)) {
-		result = true;
-	}
-	utils.defer(callback, result);
 };
 
 /**
