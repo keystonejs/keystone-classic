@@ -19,6 +19,8 @@ module.exports = {
 	// or an error is thrown
 	asyncHookTimeout : 10000,
 
+	defaultPauseTimeout : 1000,
+
 	'default' : {
 	},
 

@@ -33,17 +33,17 @@ keystone.set('nav', {
 	'fields': ['name-fields'],
 });
 
-function checkKeystoneReady(callback, results){
+function checkKeystoneReady (callback, results) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: checking if KeystoneJS ready for request.');
 	request
 		.get('http://localhost:3000/keystone')
 		.end(callback);
 }
 
-function runNightwatch() {
+function runNightwatch () {
 	try {
-		Nightwatch.cli(function(argv) {
-			Nightwatch.runner(argv, function(){
+		Nightwatch.cli(function (argv) {
+			Nightwatch.runner(argv, function () {
 				process.exit();
 			});
 		});
@@ -57,10 +57,10 @@ function runNightwatch() {
 console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: starting KeystoneJS...');
 
 keystone.start({
-	onMount: function(){
+	onMount: function () {
 		console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: KeystoneJS mounted Successfuly');
 	},
-	onStart: function() {
+	onStart: function () {
 		console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: KeystoneJS Started Successfully');
 
 		// if --notest was specified then do not run the test; the user wants to
