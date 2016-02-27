@@ -46,10 +46,10 @@ module.exports = {
 		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__download')
 				      .to.be.visible;
 	},
-	'List view must have an expand table width input': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__expand')
-				      .to.be.visible;
-	},
+	//'List view must have an expand table width input': function (browser) {
+	//	browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__expand')
+	//			      .to.be.visible;
+	//},
 	'List view must have a create list item button': function (browser) {
 		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__create')
 				      .to.be.visible;
