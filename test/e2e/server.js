@@ -11,6 +11,9 @@ keystone.init({
 	'name': 'e2e',
 	'brand': 'e2e',
 
+	'host': process.env.KEYSTONEJS_HOST || 'localhost',
+	'port': process.env.KEYSTONEJS_PORT || 3000,
+
 	'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
