@@ -16,7 +16,7 @@ function boolean (list, path, options) {
 }
 util.inherits(boolean, FieldType);
 
-// Use boolean validators
+/* Use boolean validators */
 boolean.prototype.validateInput = validators.boolean.input;
 boolean.prototype.validateRequiredInput = validators.boolean.required;
 

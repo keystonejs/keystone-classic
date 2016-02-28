@@ -27,7 +27,7 @@ function date (list, path, options) {
 }
 util.inherits(date, FieldType);
 
-// Use text validators
+/* Use text validators */
 date.prototype.validateRequiredInput = validators.text.required;
 
 /**

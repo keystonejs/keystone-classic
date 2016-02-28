@@ -18,7 +18,7 @@ function html (list, path, options) {
 }
 util.inherits(html, FieldType);
 
-// Use text validators
+/* Use text validators */
 html.prototype.validateInput = validators.text.input;
 html.prototype.validateRequiredInput = validators.text.required;
 

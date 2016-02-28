@@ -16,7 +16,7 @@ function url (list, path, options) {
 }
 util.inherits(url, FieldType);
 
-// Use text validators
+/* Use text validators */
 // TODO: is it worth adding URL specific validation logic? it would have to be
 // robust so as to not trigger invalid cases on valid input, might be so
 // flexible that it's not worth adding.

@@ -18,7 +18,7 @@ function textarea (list, path, options) {
 }
 util.inherits(textarea, FieldType);
 
-// Use text validators
+/* Use text validators */
 textarea.prototype.validateInput = validators.text.input;
 textarea.prototype.validateRequiredInput = validators.text.required;
 

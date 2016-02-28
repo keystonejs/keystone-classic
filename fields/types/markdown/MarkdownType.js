@@ -22,7 +22,7 @@ function markdown (list, path, options) {
 }
 util.inherits(markdown, FieldType);
 
-// Use text validators
+/* Use text validators */
 markdown.prototype.validateInput = validators.text.input;
 markdown.prototype.validateRequiredInput = validators.text.required;
 

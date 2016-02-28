@@ -32,14 +32,14 @@ function datetime (list, path, options) {
 }
 util.inherits(datetime, FieldType);
 
+/* Use text validators */
+datetime.prototype.validateRequiredInput = validators.text.required;
+
 /* Inherit from DateType prototype */
 datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
 datetime.prototype.validateInput = DateType.prototype.validateInput;
-
-/* Use text validators */
-datetime.prototype.validateRequiredInput = validators.text.required;
 
 /**
  * Get the value from a data object; may be simple or a pair of fields

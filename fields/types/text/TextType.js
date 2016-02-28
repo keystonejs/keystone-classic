@@ -15,7 +15,7 @@ function text (list, path, options) {
 }
 util.inherits(text, FieldType);
 
-// Use text validators
+/* Use text validators */
 text.prototype.validateInput = validators.text.input;
 text.prototype.validateRequiredInput = validators.text.required;
 

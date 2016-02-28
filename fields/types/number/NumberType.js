@@ -21,7 +21,7 @@ function number (list, path, options) {
 }
 util.inherits(number, FieldType);
 
-// Use number validators
+/* Use number validators */
 number.prototype.validateInput = validators.number.input;
 number.prototype.validateRequiredInput = validators.number.required;
 

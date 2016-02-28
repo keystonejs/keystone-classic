@@ -14,7 +14,7 @@ function color (list, path, options) {
 }
 util.inherits(color, FieldType);
 
-// Use text validators
+/* Use text validators */
 color.prototype.validateInput = validators.text.input;
 color.prototype.validateRequiredInput = validators.text.required;
 
