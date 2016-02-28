@@ -12,8 +12,8 @@ function number (list, path, options) {
 	this._nativeType = Number;
 	this._fixedSize = 'small';
 	this._underscoreMethods = ['format'];
-	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
-	if (this._formatString && typeof this._formatString !== 'string') {
+	this.formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
+	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
 	number.super_.call(this, list, path, options);
@@ -56,10 +56,11 @@ number.prototype.addFilterToQuery = function (filter, query) {
  * Formats the field value
  */
 number.prototype.format = function (item, format) {
-	if (format || this._formatString) {
-		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
+	var value = item.get(this.path);
+	if (format || this.formatString) {
+		return (typeof value === 'number') ? numeral(value).format(format || this.formatString) : '';
 	} else {
-		return item.get(this.path) || '';
+		return value || '';
 	}
 };
 
