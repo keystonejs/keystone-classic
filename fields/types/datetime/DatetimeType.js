@@ -3,6 +3,7 @@ var DateType = require('../date/DateType');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+var validators = require('../validators');
 
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
 
@@ -36,7 +37,9 @@ datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
 datetime.prototype.validateInput = DateType.prototype.validateInput;
-datetime.prototype.validateRequiredInput = DateType.prototype.validateRequiredInput;
+
+/* Use text validators */
+datetime.prototype.validateRequiredInput = validators.text.required;
 
 /**
  * Get the value from a data object; may be simple or a pair of fields
