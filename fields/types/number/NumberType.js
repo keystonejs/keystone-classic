@@ -2,6 +2,7 @@ var FieldType = require('../Type');
 var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
+var validators = require('../validators');
 
 /**
  * Number FieldType Constructor
@@ -19,6 +20,10 @@ function number (list, path, options) {
 	number.super_.call(this, list, path, options);
 }
 util.inherits(number, FieldType);
+
+// Use number validators
+number.prototype.validateInput = validators.number.input;
+number.prototype.validateRequiredInput = validators.number.required;
 
 /**
  * Add filters to a query
