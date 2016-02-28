@@ -25,10 +25,6 @@ util.inherits(code, FieldType);
 code.prototype.validateInput = validators.text.input;
 code.prototype.validateRequiredInput = validators.text.required;
 
-// Use text validators
-code.prototype.validateInput = validators.text.input;
-code.prototype.validateRequiredInput = validators.text.required;
-
 /* Inherit from TextType prototype */
 code.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
 
