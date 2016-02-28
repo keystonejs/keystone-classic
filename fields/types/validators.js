@@ -52,7 +52,7 @@ exports.text = {
 // numbers. Required number fields don't allow an empty string or undefined.
 // Number fields aren't updated when an undefined value is provided.
 
-exports.text = {
+exports.number = {
 	input: function (data, callback) {
 		var value = this.getValueFromData(data);
 		var result = value === undefined || typeof value === 'number';
