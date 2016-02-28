@@ -37,9 +37,35 @@ exports.text = {
 		utils.defer(callback, result);
 	},
 	required: function (item, data, callback) {
-		var input = this.getValueFromData(data);
-		var result = !!input;
-		if (input === undefined && item.get(this.path)) {
+		var value = this.getValueFromData(data);
+		var result = !!value;
+		if (value === undefined && item.get(this.path)) {
+			result = true;
+		}
+		utils.defer(callback, result);
+	},
+};
+
+/* Number */
+
+// Number fields accept string or numeric input; strings are converted to
+// numbers. Required number fields don't allow an empty string or undefined.
+// Number fields aren't updated when an undefined value is provided.
+
+exports.text = {
+	input: function (data, callback) {
+		var value = this.getValueFromData(data);
+		var result = value === undefined || typeof value === 'number';
+		if (typeof value === 'string') {
+			value = utils.number(value);
+			result = !isNaN(value);
+		}
+		utils.defer(callback, result);
+	},
+	required: function (item, data, callback) {
+		var value = this.getValueFromData(data);
+		var result = !!(value || typeof value === 'number');
+		if (value === undefined && item.get(this.path)) {
 			result = true;
 		}
 		utils.defer(callback, result);
