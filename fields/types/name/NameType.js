@@ -134,6 +134,34 @@ name.prototype.getInputFromData = function (data) {
 
 /**
  * Validates that a value for this field has been provided in a data object
+ */
+name.prototype.validateInput = function (data, callback) {
+	var value = this.getInputFromData(data);
+	var result = value === undefined
+		|| typeof value === 'string'
+		|| (typeof value === 'object' && (
+			typeof value.first === 'string'
+			|| typeof value.last === 'string')
+		);
+	utils.defer(callback, result);
+};
+
+/**
+ * Validates that input has been provided
+ */
+name.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getInputFromData(data);
+	var result = (
+		typeof value === 'string' && value.length
+		|| typeof value === 'object' && (
+			typeof value.first === 'string' && value.first.length
+			|| typeof value.last === 'string' && value.last.length)
+		) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
+ * Validates that a value for this field has been provided in a data object
  *
  * Deprecated
  */
