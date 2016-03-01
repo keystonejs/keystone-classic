@@ -295,8 +295,6 @@ function validateInput (value) {
 
 /**
  * Validates that a value for this field has been provided in a data object
- *
- * @api public
  */
 cloudinaryimage.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
