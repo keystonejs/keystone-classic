@@ -118,6 +118,21 @@ name.prototype.format = function (item) {
 };
 
 /**
+ * Get the value from a data object; may be simple or a pair of fields
+ */
+name.prototype.getInputFromData = function (data) {
+	var first = this.getValueFromData(data, '_first');
+	var last = this.getValueFromData(data, '_last');
+	if (typeof first === 'string' || typeof last === 'string') {
+		return {
+			first: first,
+			last: last,
+		};
+	}
+	return this.getValueFromData(data);
+};
+
+/**
  * Validates that a value for this field has been provided in a data object
  *
  * Deprecated
