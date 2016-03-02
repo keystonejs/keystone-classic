@@ -131,6 +131,57 @@ relationship.prototype.format = function (item) {
 };
 
 /**
+ * Asynchronously confirms that the provided value is valid
+ *
+ * TODO: might be a good idea to check the value provided looks like a MongoID
+ * TODO: we're just testing for strings here, so actual MongoID Objects (from
+ * mongoose) would fail validation
+ */
+relationship.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = false;
+	if (this.many) {
+		if (!Array.isArray(value) && typeof value === 'string' && value.length) {
+			value = [value];
+		}
+		if (Array.isArray(value)) {
+			result = true;
+		}
+	} else {
+		if (typeof value === 'string' && value.length) {
+			result = true;
+		}
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that the provided value is present
+ */
+relationship.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = false;
+	if (typeof value === undefined && (
+		(this.many && item.get(this.path).length)
+		|| item.get(this.path))
+	) {
+		result = true;
+	} else if (this.many) {
+		if (!Array.isArray(value) && typeof value === 'string' && value.length) {
+			value = [value];
+		}
+		if (Array.isArray(value) && value.length) {
+			result = true;
+		}
+	} else {
+		if (value) {
+			result = true;
+		}
+	}
+	utils.defer(callback, result);
+};
+
+/**
  * Validates that a value for this field has been provided in a data object
  *
  * Deprecated
