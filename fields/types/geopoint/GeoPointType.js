@@ -54,10 +54,11 @@ geopoint.prototype.inputIsValid = function (data, required, item) { // eslint-di
 	var values = this.getValueFromData(data);
 	// Input is valid if the field is not required, and not present
 	if (values === undefined && !required) return true;
-	if (_.isArray(values)) {
-		values = _.compact(values).join(',');
+	if (Array.isArray(values)) {
+		values = values.length === 2 ? values.join(',') : '';
 	}
-	if (values === '' && !required) return true;
+	if (typeof values !== 'string') return false;
+	if ((values === '' || values.charAt(0) === ',' || values.charAt(values.length - 1) === ',') && !required) return true;
 	return REGEXP_LNGLAT.test(values);
 };
 
@@ -65,10 +66,9 @@ geopoint.prototype.inputIsValid = function (data, required, item) { // eslint-di
  * Updates the value for this field in the item from a data object
  */
 geopoint.prototype.updateItem = function (item, data, callback) {
-	if (!_.isObject(data)) return process.nextTick(callback);
 	var value = this.getValueFromData(data);
 	if (value === undefined) return process.nextTick(callback);
-	if (_.isString(value)) {
+	if (typeof value === 'string') {
 		// Value should be formatted lng,lat
 		var values = REGEXP_LNGLAT.exec(value);
 		if (values) {
@@ -76,7 +76,7 @@ geopoint.prototype.updateItem = function (item, data, callback) {
 		} else {
 			item.set(this.path, undefined);
 		}
-	} else if (_.isArray(value)) {
+	} else if (Array.isArray(value)) {
 		if (value.length === 2 && REGEXP_LNGLAT.test(_.compact(value).join(','))) {
 			item.set(this.path, value);
 		} else {
