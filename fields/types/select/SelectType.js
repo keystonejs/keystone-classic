@@ -128,11 +128,11 @@ select.prototype.addFilterToQuery = function (filter, query) {
  * Asynchronously confirms that the provided value is valid
  */
 select.prototype.validateInput = function (data, callback) {
-	var input = this.getValueFromData(data);
-	if (typeof input === 'string' && this.numeric) {
-		input = utils.number(input);
+	var value = this.getValueFromData(data);
+	if (typeof value === 'string' && this.numeric) {
+		value = utils.number(value);
 	}
-	var result = input === undefined || (input in this.map) ? true : false;
+	var result = value === undefined || (value in this.map) ? true : false;
 	utils.defer(callback, result);
 };
 
@@ -140,8 +140,8 @@ select.prototype.validateInput = function (data, callback) {
  * Asynchronously confirms that the provided value is present
  */
 select.prototype.validateRequiredInput = function (item, data, callback) {
-	var input = this.getValueFromData(data);
-	var result = input !== undefined || (input === undefined && item.get(this.path)) ? true : false;
+	var value = this.getValueFromData(data);
+	var result = value !== undefined || (value === undefined && item.get(this.path)) ? true : false;
 	utils.defer(callback, result);
 };
 
