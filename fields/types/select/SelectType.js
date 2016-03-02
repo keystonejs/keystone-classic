@@ -125,6 +125,27 @@ select.prototype.addFilterToQuery = function (filter, query) {
 };
 
 /**
+ * Asynchronously confirms that the provided value is valid
+ */
+select.prototype.validateInput = function (data, callback) {
+	var input = this.getValueFromData(data);
+	if (typeof input === 'string' && this.numeric) {
+		input = utils.number(input);
+	}
+	var result = input === undefined || (input in this.map) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that the provided value is present
+ */
+select.prototype.validateRequiredInput = function (item, data, callback) {
+	var input = this.getValueFromData(data);
+	var result = input !== undefined || (input === undefined && item.get(this.path)) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
  * Validates that a valid option has been provided in a data object
  *
  * Deprecated
