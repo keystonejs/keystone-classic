@@ -16,6 +16,7 @@ function numberarray (list, path, options) {
 	if (this._formatString && typeof this._formatString !== 'string') {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
+	this.separator = options.separator || ' | ';
 	numberarray.super_.call(this, list, path, options);
 }
 util.inherits(numberarray, FieldType);
@@ -23,12 +24,14 @@ util.inherits(numberarray, FieldType);
 /**
  * Formats the field value
  */
-numberarray.prototype.format = function (item, format) {
+numberarray.prototype.format = function (item, format, separator) {
+	var value = item.get(this.path);
 	if (format || this._formatString) {
-		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
-	} else {
-		return item.get(this.path) || '';
+		value = value.map(function (n) {
+			return numeral(n).format(format || this._formatString);
+		});
 	}
+	return value.join(separator || this.separator);
 };
 
 /**
