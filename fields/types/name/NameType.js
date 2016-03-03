@@ -122,9 +122,9 @@ name.prototype.format = function (item) {
  */
 name.prototype.getInputFromData = function (data) {
 	var first = this.getValueFromData(data, '_first');
-	if (first === undefined) first = this.getValueFromData('.first');
+	if (first === undefined) first = this.getValueFromData(data, '.first');
 	var last = this.getValueFromData(data, '_last');
-	if (last === undefined) last = this.getValueFromData('.last');
+	if (last === undefined) last = this.getValueFromData(data, '.last');
 	if (typeof first === 'string' || typeof last === 'string') {
 		return {
 			first: first,
