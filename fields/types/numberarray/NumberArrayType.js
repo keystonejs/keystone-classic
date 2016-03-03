@@ -1,47 +1,28 @@
-/*!
- * Module dependencies.
- */
-
-var util = require('util');
+var FieldType = require('../Type');
 var numeral = require('numeral');
+var util = require('util');
 var utils = require('keystone-utils');
-var super_ = require('../Type');
 
 /**
  * Number FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function numberarray (list, path, options) {
-
 	this._nativeType = [Number];
-
 	this._underscoreMethods = ['format'];
 	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
 	this._defaultSize = 'small';
-
 	if (this._formatString && typeof this._formatString !== 'string') {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
-
 	numberarray.super_.call(this, list, path, options);
-
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(numberarray, super_);
-
+util.inherits(numberarray, FieldType);
 
 /**
  * Formats the field value
- *
- * @api public
  */
-
 numberarray.prototype.format = function (item, format) {
 	if (format || this._formatString) {
 		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
@@ -52,10 +33,7 @@ numberarray.prototype.format = function (item, format) {
 
 /**
  * Checks if a value is a valid number
- *
- * @api private
  */
-
 function isValidNumber (value) {
 	return !isNaN(utils.number(value));
 }
@@ -67,10 +45,8 @@ function isValidNumber (value) {
  *
  * Deprecated
  */
-
 numberarray.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
-
 	if (required) {
 		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
@@ -82,13 +58,11 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
 			return false;
 		}
 	}
-
 	if (typeof value === 'string') {
 		if (!isValidNumber(value)) {
 			return false;
 		}
 	}
-
 	if (Array.isArray(value)) {
 		for (var index = 0; index < value.length; index++) {
 			if (!isValidNumber(value[index])) {
@@ -96,20 +70,14 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
 			}
 		}
 	}
-
 	return (value === undefined || Array.isArray(value) || (typeof value === 'string') || (typeof value === 'number'));
 };
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
-
 numberarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-
 	if (typeof value !== 'undefined') {
 		if (Array.isArray(value)) {
 			var temp = value.filter(function (temp) {
@@ -134,13 +102,8 @@ numberarray.prototype.updateItem = function (item, data, callback) {
 			item.set(this.path, value);
 		}
 	}
-
 	process.nextTick(callback);
 };
 
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 module.exports = numberarray;
