@@ -82,18 +82,19 @@ textarray.prototype.inputIsValid = function (data, required, item) {
 textarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (typeof value !== 'undefined') {
-		if (value === null) {
+		if (value === null || value === '') {
 			value = [];
 		}
-		if (typeof value === 'string') {
+		if (!Array.isArray(value)) {
 			value = [value];
 		}
-		if (typeof value === 'number') {
-			value = [value.toString()];
-		}
-		if (Array.isArray(value)) {
-			item.set(this.path, value);
-		}
+		value = value.filter(function (str) {
+			if (typeof str === 'number') {
+				str = str.toString();
+			}
+			return (typeof str === 'string' && str);
+		});
+		item.set(this.path, value);
 	}
 	process.nextTick(callback);
 };
