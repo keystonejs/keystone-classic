@@ -58,7 +58,7 @@ geopoint.prototype.validateInput = function (data, callback) {
 		if (Array.isArray(value)) {
 			value = value.length === 2 ? value.join(',') : '';
 		}
-		if (typeof values === 'string') {
+		if (typeof value === 'string') {
 			result = REGEXP_LNGLAT.test(value);
 		}
 	}
