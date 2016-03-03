@@ -35,7 +35,7 @@ numberarray.prototype.format = function (item, format) {
  * Checks if a value is a valid number
  */
 function isValidNumber (value) {
-	return !isNaN(utils.number(value));
+	return !Number.isNaN(utils.number(value));
 }
 
 /**
