@@ -9,9 +9,17 @@ var utils = require('keystone-utils');
  */
 function textarray (list, path, options) {
 	this._nativeType = [String];
+	this.separator = options.separator || ' | ';
 	textarray.super_.call(this, list, path, options);
 }
 util.inherits(textarray, FieldType);
+
+/**
+ * Formats the field value
+ */
+textarray.prototype.format = function (item, separator) {
+	return item.get(this.path).join(separator || this.separator);
+};
 
 /**
  * Asynchronously confirms that the provided value is valid
