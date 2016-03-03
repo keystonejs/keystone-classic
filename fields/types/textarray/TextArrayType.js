@@ -55,7 +55,10 @@ textarray.prototype.validateRequiredInput = function (item, data, callback) {
 		if (item.get(this.path) && item.get(this.path).length) {
 			result = true;
 		}
-	} else if (typeof value === 'string') {
+	} else if (value && value.toString) {
+		value = value.toString();
+	}
+	if (typeof value === 'string') {
 		result = true;
 	} else if (Array.isArray(value)) {
 		for (var i = 0; i < value.length; i++) {
