@@ -10,14 +10,6 @@ exports.initList = function (List) {
 	});
 };
 
-exports.createData = function (List) { // eslint-disable-line no-unused-vars
-
-};
-
-exports.testFilters = function (List) { // eslint-disable-line no-unused-vars
-
-};
-
 exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
