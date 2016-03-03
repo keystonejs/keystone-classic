@@ -79,28 +79,21 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
 numberarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (typeof value !== 'undefined') {
-		if (Array.isArray(value)) {
-			var temp = value.filter(function (temp) {
-				if (isValidNumber(temp)) {
-					return utils.number(temp);
-				}
-			});
-			value = temp;
-		}
-		if (value === null) {
+		if (value === null || value === '') {
 			value = [];
 		}
-		if (typeof value === 'string') {
-			if (isValidNumber(value)) {
-				value = [utils.number(value)];
-			}
-		}
-		if (typeof value === 'number') {
+		if (!Array.isArray(value)) {
 			value = [value];
 		}
-		if (Array.isArray(value)) {
-			item.set(this.path, value);
-		}
+		value = value.map(function (num) {
+			if (typeof num !== 'number') {
+				num = utils.number(num);
+			}
+			return num;
+		}).filter(function (num) {
+			return !Number.isNaN(num);
+		});
+		item.set(this.path, value);
 	}
 	process.nextTick(callback);
 };
