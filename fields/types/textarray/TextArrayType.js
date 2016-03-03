@@ -23,11 +23,16 @@ textarray.prototype.validateInput = function (data, callback) {
 		if (!Array.isArray(value)) {
 			value = [value];
 		}
-		value.forEach(function (str) {
-			if (typeof str !== 'string') {
-				result = false;
+		for (var i = 0; i < value.length; i++) {
+			var thisValue = value[i];
+			if (thisValue && thisValue.toString) {
+				thisValue = thisValue.toString();
 			}
-		});
+			if (typeof thisValue[i] !== 'string' && thisValue[i].length) {
+				result = false;
+				break;
+			}
+		}
 	}
 	utils.defer(callback, result);
 };
@@ -46,7 +51,11 @@ textarray.prototype.validateRequiredInput = function (item, data, callback) {
 		result = true;
 	} else if (Array.isArray(value)) {
 		for (var i = 0; i < value.length; i++) {
-			if (typeof value[i] === 'string' && value[i].length) {
+			var thisValue = value[i];
+			if (thisValue && thisValue.toString) {
+				thisValue = thisValue.toString();
+			}
+			if (typeof thisValue[i] === 'string' && thisValue[i].length) {
 				result = true;
 				break;
 			}
@@ -88,10 +97,12 @@ textarray.prototype.updateItem = function (item, data, callback) {
 		if (!Array.isArray(value)) {
 			value = [value];
 		}
-		value = value.filter(function (str) {
-			if (typeof str === 'number') {
+		value = value.map(function (str) {
+			if (str && str.toString) {
 				str = str.toString();
 			}
+			return str;
+		}).filter(function (str) {
 			return (typeof str === 'string' && str);
 		});
 		item.set(this.path, value);

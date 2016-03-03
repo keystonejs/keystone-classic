@@ -108,11 +108,12 @@ exports.testFieldType = function (List) {
 		});
 	});
 
-	it('should convert numbers to strings', function (done) {
+	it('should convert truthy values with toString methods to strings', function (done) {
+		var time = new Date();
 		List.fields.textarr.updateItem(testItem, {
-			textarr: 1,
+			textarr: [1, 'a', true, false, null, undefined, [], {}, time],
 		}, function () {
-			demand(testItem.textarr).eql(['1']);
+			demand(testItem.textarr).eql(['1', 'a', 'true', '[object Object]', String(time)]);
 			testItem.textarr = undefined;
 			done();
 		});
