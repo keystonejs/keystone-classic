@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import Field from '../Field';
 import React from 'react';
 import tinymce from 'tinymce';
