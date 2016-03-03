@@ -1,37 +1,25 @@
-/*!
- * Module dependencies.
- */
-
+var FieldType = require('../Type');
 var util = require('util');
-var super_ = require('../Type');
+var utils = require('keystone-utils');
 
 /**
  * TextArray FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function textarray (list, path, options) {
 	this._nativeType = [String];
-
 	textarray.super_.call(this, list, path, options);
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(textarray, super_);
+util.inherits(textarray, FieldType);
 
 /**
  * Validates that a value for this field has been provided in a data object
  *
  * Deprecated
  */
-
 textarray.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
-
 	if (required) {
 		if (value === undefined && item && item.get(this.path) && item.get(this.path).length) {
 			return true;
@@ -48,13 +36,9 @@ textarray.prototype.inputIsValid = function (data, required, item) {
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
 textarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-
 	if (typeof value !== 'undefined') {
 		if (value === null) {
 			value = [];
@@ -69,12 +53,8 @@ textarray.prototype.updateItem = function (item, data, callback) {
 			item.set(this.path, value);
 		}
 	}
-
 	process.nextTick(callback);
 };
 
-/*!
- * Export class
- */
-
+/* Export Field Type */
 module.exports = textarray;
