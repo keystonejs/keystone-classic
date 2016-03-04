@@ -1,5 +1,6 @@
 var demand = require('must');
 var UrlType = require('../UrlType');
+var validators = require('../../validators')
 
 exports.initList = function (List) {
 	List.add({
@@ -55,98 +56,11 @@ exports.testFieldType = function (List) {
 		});
 	});
 
-	it('should validate string input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: 'a' }, function (result) {
-			demand(result).be(true);
-			done();
-		});
+	it('should use the common url input validator', function () {
+		demand(List.fields.url.validateInput === validators.text.input);
 	});
 
-	it('should validate undefined input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({}, function (result) {
-			demand(result).be(true);
-			done();
-		});
-	});
-
-	it('should invalidate numeric input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: 1 }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate object input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: { things: 'stuff' } }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate array input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: [1, 2, 3] }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate Boolean input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: true }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate function input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: function () {} }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate regexp input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: /foo/ }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate date input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: Date.now() }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate null input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.url.validateInput({ url: null }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-
-	it('should validate input present', function (done) {
-		List.fields.url.validateRequiredInput(this, { url: 'a' }, function (result) {
-			demand(result).be(true);
-			done();
-		});
-	});
-
-	it('should invalidate input not present', function (done) {
-		List.fields.url.validateRequiredInput(this, { url: '' }, function (result) {
-			demand(result).be(false);
-			done();
-		});
+	it('should use the common url required validator', function () {
+		demand(List.fields.url.validateRequiredInput === validators.text.required);
 	});
 };

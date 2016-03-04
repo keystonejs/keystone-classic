@@ -1,5 +1,7 @@
 var demand = require('must');
 var CodeType = require('../CodeType');
+var validators = require('../../validators');
+
 
 exports.initList = function (List) {
 	List.add({
@@ -79,98 +81,11 @@ exports.testFieldType = function (List) {
 		demand(List.fields.codemirror.editor.value).be('codemirror value');
 	});
 
-	it('should validate string input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: 'a' }, function (result) {
-			demand(result).be(true);
-			done();
-		});
+	it('should use the common code input validator', function () {
+		demand(List.fields.code.validateInput === validators.text.input);
 	});
 
-	it('should validate undefined input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({}, function (result) {
-			demand(result).be(true);
-			done();
-		});
-	});
-
-	it('should invalidate numeric input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: 1 }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate object input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: { things: 'stuff' } }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate array input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: [1, 2, 3] }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate Boolean input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: true }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate function input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: function () {} }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate regexp input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: /foo/ }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate date input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: Date.now() }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-	it('should invalidate null input', function (done) {
-		// require the validators at the top of the document so we can access them
-		List.fields.code.validateInput({ code: null }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
-
-	it('should validate input present', function (done) {
-		List.fields.code.validateRequiredInput(this, { code: 'a' }, function (result) {
-			demand(result).be(true);
-			done();
-		});
-	});
-
-	it('should invalidate input not present', function (done) {
-		List.fields.code.validateRequiredInput(this, { code: '' }, function (result) {
-			demand(result).be(false);
-			done();
-		});
+	it('should use the common code required validator', function () {
+		demand(List.fields.code.validateRequiredInput === validators.text.required);
 	});
 };

@@ -2,4 +2,4 @@ test/unit
 --recursive
 --require must
 --growl
---reporter progress
+--reporter min

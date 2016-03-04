@@ -122,10 +122,67 @@ exports.testFieldType = function (List) {
 	});
 
 
-	// So is this duplicating the above now deprecated function?
-	// it('should validate boolean input', function () {
-	// 	List.fields.text.validateInput({ bool: true }, function (result) {
-	// 		demand(result).be(true);
-	// 	});
-	// });
+	// Ben tests below this point
+	it('should validate boolean input', function (done) {
+		List.fields.bool.validateInput({ bool: true }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate boolean input', function (done) {
+		List.fields.bool.validateInput({ bool: false }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate undefined input', function (done) {
+		List.fields.bool.validateInput({}, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate any string input', function (done) {
+		List.fields.bool.validateInput({ bool: 'abc' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate required input === true', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: true }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate required input with truthy string', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: 'abc' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should invalidate required input === ""', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: '' }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate required input === "false"', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: 'false' }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate required input === false', function (done) {
+		List.fields.bool.validateRequiredInput(testItem, { bool: false }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
 };
