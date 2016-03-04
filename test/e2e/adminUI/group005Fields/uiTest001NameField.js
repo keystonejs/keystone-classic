@@ -21,27 +21,27 @@ module.exports = {
 			.end();
 	},
 	'Name field initial modal should be visible': function (browser) {
-		browser.expect.element('body > div:nth-child(12) > div > div > div')
+		browser.expect.element('body > div:nth-child(11) > div > div > div')
 			.to.have.attribute('class').which.contains('Modal-content');
 	},
 	'Name field should be visible': function (browser) {
-		browser.expect.element('body > div:nth-child(12) > div > div > div > form > div.Modal__body > div')
+		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div')
 			.to.be.visible;
 	},
 	'Name field should be have a Name label': function (browser) {
-		browser.expect.element('body > div:nth-child(12) > div > div > div > form > div.Modal__body > div > label')
+		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > label')
 			.text.to.equal('Name');
 	},
 	'Name field should be have a first name input box': function (browser) {
-		browser.expect.element('body > div:nth-child(12) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(1) > input')
+		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(1) > input')
 			.to.have.attribute('name').which.contains('name.first');
-		browser.expect.element('body > div:nth-child(12) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(1) > input')
+		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(1) > input')
 			.to.have.attribute('class').which.contains('FormInput');
 	},
 	'Name field should be have a last name input box': function (browser) {
-		browser.expect.element('body > div:nth-child(12) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(2) > input')
+		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(2) > input')
 			.to.have.attribute('name').which.contains('name.last');
-		browser.expect.element('body > div:nth-child(12) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(2) > input')
+		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(2) > input')
 			.to.have.attribute('class').which.contains('FormInput');
 	},
 };
