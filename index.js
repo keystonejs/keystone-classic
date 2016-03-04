@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var express = require('express');
 var fs = require('fs');
 var grappling = require('grappling-hook');
