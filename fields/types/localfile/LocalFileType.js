@@ -4,7 +4,7 @@
 
 var fs = require('fs-extra');
 var path = require('path');
-var _ = require('underscore');
+var _ = require('lodash');
 var moment = require('moment');
 var grappling = require('grappling-hook');
 var util = require('util');
@@ -153,7 +153,7 @@ localfile.prototype.addToSchema = function () {
 		},
 	};
 
-	_.each(schemaMethods, function (fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
@@ -222,7 +222,7 @@ localfile.prototype.isModified = function (item) {
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * @api public
+ * Deprecated
  */
 
 localfile.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars

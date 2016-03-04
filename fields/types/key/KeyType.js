@@ -28,6 +28,8 @@ key.prototype.generateKey = function (str) {
 
 /**
  * Checks that a valid key has been provided in a data object
+ *
+ * Deprecated
  */
 key.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);

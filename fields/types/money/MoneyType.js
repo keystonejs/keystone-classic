@@ -2,6 +2,7 @@ var FieldType = require('../Type');
 var NumberType = require('../number/NumberType');
 var numeral = require('numeral');
 var util = require('util');
+var validators = require('../validators');
 
 /**
  * Money FieldType Constructor
@@ -21,6 +22,10 @@ function money (list, path, options) {
 	money.super_.call(this, list, path, options);
 }
 util.inherits(money, FieldType);
+
+/* Use number validators */
+money.prototype.validateInput = validators.number.input;
+money.prototype.validateRequiredInput = validators.number.required;
 
 /* Inherit from NumberType prototype */
 money.prototype.updateItem = NumberType.prototype.updateItem;

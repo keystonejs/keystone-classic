@@ -1,6 +1,8 @@
 var FieldType = require('../Type');
 var moment = require('moment');
 var util = require('util');
+var utils = require('keystone-utils');
+var validators = require('../validators');
 
 /**
  * Date FieldType Constructor
@@ -25,18 +27,18 @@ function date (list, path, options) {
 }
 util.inherits(date, FieldType);
 
+/* Use text validators */
+date.prototype.validateRequiredInput = validators.text.required;
+
 /**
  * Add filters to a query
  */
 date.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (filter.mode === 'between') {
-
 		if (filter.after && filter.before) {
-
 			filter.after = moment(filter.after);
 			filter.before = moment(filter.before);
-
 			if (filter.after.isValid() && filter.before.isValid()) {
 				query[this.path] = {
 					$gte: filter.after.startOf('day').toDate(),
@@ -44,15 +46,12 @@ date.prototype.addFilterToQuery = function (filter, query) {
 				};
 			}
 		}
-
 	} else if (filter.value) {
-
 		var day = {
 			moment: moment(filter.value),
 		};
 		day.start = day.moment.startOf('day').toDate();
 		day.end = moment(filter.value).endOf('day').toDate();
-
 		if (day.moment.isValid()) {
 			if (filter.mode === 'after') {
 				query[this.path] = { $gt: day.end };
@@ -62,13 +61,10 @@ date.prototype.addFilterToQuery = function (filter, query) {
 				query[this.path] = { $gte: day.start, $lte: day.end };
 			}
 		}
-
 	}
-
 	if (filter.inverted) {
 		query[this.path] = { $not: query[this.path] };
 	}
-
 	return query;
 };
 
@@ -93,18 +89,31 @@ date.prototype.moment = function (item) {
 };
 
 /**
- * Parses input using moment, sets the value, and returns the moment object.
+ * Parses input with the correct moment version (normal or utc) and uses
+ * either the provided input format or the default for the field
  */
-date.prototype.parse = function (item) {
+date.prototype.parse = function (input, format) {
 	var m = this.isUTC ? moment.utc : moment;
-	var newValue = m.apply(m, Array.prototype.slice.call(arguments, 1));
-	item.set(this.path, (newValue && newValue.isValid()) ? newValue.toDate() : null);
-	return newValue;
+	return m(input, format || this.parseFormatString);
+};
+
+/**
+ * Asynchronously confirms that the provided date is valid
+ */
+date.prototype.validateInput = function (data, callback) {
+	var input = this.getInputFromData(data);
+	var result = true;
+	if (input) {
+		result = this.parse(input).isValid();
+	}
+	utils.defer(callback, result);
 };
 
 /**
  * Checks that a valid date has been provided in a data object
  * An empty value clears the stored value and is considered valid
+ *
+ * Deprecated
  */
 date.prototype.inputIsValid = function (data, required, item) {
 	if (!(this.path in data) && item && item.get(this.path)) return true;

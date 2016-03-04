@@ -1,5 +1,6 @@
 var FieldType = require('../Type');
 var util = require('util');
+var validators = require('../validators');
 
 /**
  * Boolean FieldType Constructor
@@ -14,6 +15,10 @@ function boolean (list, path, options) {
 	boolean.super_.call(this, list, path, options);
 }
 util.inherits(boolean, FieldType);
+
+/* Use boolean validators */
+boolean.prototype.validateInput = validators.boolean.input;
+boolean.prototype.validateRequiredInput = validators.boolean.required;
 
 /**
  * Add filters to a query
@@ -31,6 +36,8 @@ boolean.prototype.addFilterToQuery = function (filter, query) {
 /**
  * Validates that a truthy value for this field has been provided in a data object.
  * Useful for checkboxes that are required to be true (e.g. agreed to terms and cond's)
+ *
+ * Deprecated
  */
 boolean.prototype.inputIsValid = function (data, required) {
 	if (required) {

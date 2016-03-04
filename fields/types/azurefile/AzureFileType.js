@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var _ = require('underscore');
+var _ = require('lodash');
 var moment = require('moment');
 var keystone = require('../../../');
 var util = require('util');
@@ -160,7 +160,7 @@ azurefile.prototype.addToSchema = function () {
 		},
 	};
 
-	_.each(schemaMethods, function (fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
@@ -197,8 +197,8 @@ azurefile.prototype.isModified = function (item) {
 
 /**
  * Validates that a value for this field has been provided in a data object
- *
- * @api public
+
+ * Deprecated
  */
 
 azurefile.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars

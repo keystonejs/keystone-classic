@@ -1,9 +1,10 @@
-var _ = require('underscore');
-var keystone = require('../../../');
-var util = require('util');
+var _ = require('lodash');
+var assign = require('object-assign');
 var cloudinary = require('cloudinary');
-var utils = require('keystone-utils');
+var keystone = require('../../../');
 var super_ = require('../Type');
+var util = require('util');
+var utils = require('keystone-utils');
 
 var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
 
@@ -166,7 +167,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		if (width) options.width = width;
 		if (height) options.height = height;
 		if (typeof other === 'object') {
-			Object.assign(options, other);
+			assign(options, other);
 		}
 		return options;
 	};
@@ -249,7 +250,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		},
 	};
 
-	_.each(schemaMethods, function (fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
@@ -294,8 +295,6 @@ function validateInput (value) {
 
 /**
  * Validates that a value for this field has been provided in a data object
- *
- * @api public
  */
 cloudinaryimage.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
@@ -312,7 +311,9 @@ cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback
 };
 
 /**
- * (Deprecated) always assumes the input is valid
+ * Always assumes the input is valid
+ *
+ * Deprecated
  */
 cloudinaryimage.prototype.inputIsValid = function () {
 	return true;
@@ -344,7 +345,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 	if (typeof value === 'object' && 'public_id' in value) {
 		// Cloudinary Image data provided
 		if (value.public_id) {
-			var v = Object.assign(getEmptyValue(), value);
+			var v = assign(getEmptyValue(), value);
 			item.set(this.path, v);
 		} else {
 			item.set(this.path, getEmptyValue());

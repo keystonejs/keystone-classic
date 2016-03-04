@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var async = require('async');
 var baby = require('babyparse');
 var keystone = require('../../../');
@@ -12,7 +12,7 @@ module.exports = function (req, res) {
 	var queryFilters = req.list.getSearchFilters(req.query.search, filters);
 	var relFields = [];
 
-	_.each(req.list.fields, function (field) {
+	_.forEach(req.list.fields, function (field) {
 		if (field.type === 'relationship') {
 			relFields.push(field.path);
 		}
@@ -26,7 +26,7 @@ module.exports = function (req, res) {
 			rowData[req.list.get('autokey').path] = i.get(req.list.get('autokey').path);
 		}
 
-		_.each(req.list.fields, function (field) {
+		_.forEach(req.list.fields, function (field) {
 			if (field.type === 'boolean') {
 				rowData[field.path] = i.get(field.path) ? 'true' : 'false';
 			} else if (field.type === 'relationship') {
@@ -138,14 +138,14 @@ module.exports = function (req, res) {
 				data = [];
 				if (includeRowData) {
 					// if row data is required, add it to the map for each iteration
-					_.each(results, function (i) {
+					_.forEach(results, function (i) {
 						var _map = _.clone(map);
 						_map.row = getRowData(i);
 						data.push(applyDeps(i.toCSV, i, _map));
 					});
 				} else {
 					// fast path: use the same map for each iteration
-					_.each(results, function (i) {
+					_.forEach(results, function (i) {
 						data.push(applyDeps(i.toCSV, i, map));
 					});
 				}
@@ -162,7 +162,7 @@ module.exports = function (req, res) {
 			 */
 
 			data = [];
-			_.each(results, function (i) {
+			_.forEach(results, function (i) {
 				data.push(getRowData(i));
 			});
 			return sendCSV(data);

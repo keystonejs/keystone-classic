@@ -54,7 +54,7 @@ datearray.prototype.format = function (item, format) {
  *
  * An empty value clears the stored value and is considered valid
  *
- * @api public
+ * Deprecated
  */
 
 datearray.prototype.inputIsValid = function (data, required, item) {

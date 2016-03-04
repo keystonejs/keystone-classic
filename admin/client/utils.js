@@ -1,4 +1,5 @@
 var inflect = require('i');
+var _ = require('lodash');
 
 
 /**

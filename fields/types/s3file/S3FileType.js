@@ -2,15 +2,15 @@
  * Module dependencies.
  */
 
-var _ = require('underscore');
-var moment = require('moment');
-var keystone = require('../../../');
-var util = require('util');
-var knox = require('knox');
-// var s3 = require('s3');
-var utils = require('keystone-utils');
+var _ = require('lodash');
+var assign = require('object-assign');
 var grappling = require('grappling-hook');
+var keystone = require('../../../');
+var knox = require('knox');
+var moment = require('moment');
 var super_ = require('../Type');
+var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * S3File FieldType Constructor
@@ -148,7 +148,7 @@ s3file.prototype.addToSchema = function () {
 		},
 	};
 
-	_.each(schemaMethods, function (fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
@@ -200,7 +200,7 @@ s3file.prototype.isModified = function (item) {
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * @api public
+ * Deprecated
  */
 
 s3file.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
@@ -244,7 +244,7 @@ var validateHeader = function (header, callback) {
 
 	filteredKeys = _.filter(_.keys(header), function (key) { return _.indexOf(validKeys, key) > -1; });
 
-	_.each(filteredKeys, function (key) {
+	_.forEach(filteredKeys, function (key) {
 		if (!_.isString(header[key])) {
 			return callback(new Error('Unsupported Header option: value for ' + key + ' header must be a String ' + header[key].toString()));
 		}
@@ -269,11 +269,11 @@ var validateHeaders = function (headers, callback) {
 		return callback(new Error('Unsupported Header option: headers must be an Object ' + JSON.stringify(headers)));
 	}
 
-	_.each(headers, function (value, key) {
+	_.forEach(headers, function (value, key) {
 		_headers.push({ name: key, value: value });
 	});
 
-	_.each(_headers, function (header) {
+	_.forEach(_headers, function (header) {
 		validateHeader(header, callback);
 	});
 
@@ -306,15 +306,15 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 	if (_.has(field.s3config, 'default headers')) {
 		defaultHeaders = field.s3config['default headers'];
 		if (_.isArray(defaultHeaders)) {
-			_.each(defaultHeaders, function (header) {
+			_.forEach(defaultHeaders, function (header) {
 				var _header = {};
 				if (validateHeader(header, callback)) {
 					_header[header.name] = header.value;
-					customHeaders = Object.assign(customHeaders, _header);
+					customHeaders = assign(customHeaders, _header);
 				}
 			});
 		} else if (_.isObject(defaultHeaders)) {
-			customHeaders = Object.assign(customHeaders, defaultHeaders);
+			customHeaders = assign(customHeaders, defaultHeaders);
 		} else {
 			return callback(new Error('Unsupported Header option: defaults headers must be either an Object or Array ' + JSON.stringify(defaultHeaders)));
 		}
@@ -327,34 +327,34 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 			computedHeaders = headersOption.call(field, item, file);
 
 			if (_.isArray(computedHeaders)) {
-				_.each(computedHeaders, function (header) {
+				_.forEach(computedHeaders, function (header) {
 					var _header = {};
 					if (validateHeader(header, callback)) {
 						_header[header.name] = header.value;
-						customHeaders = Object.assign(customHeaders, _header);
+						customHeaders = assign(customHeaders, _header);
 					}
 				});
 			} else if (_.isObject(computedHeaders)) {
-				customHeaders = Object.assign(customHeaders, computedHeaders);
+				customHeaders = assign(customHeaders, computedHeaders);
 			} else {
 				return callback(new Error('Unsupported Header option: computed headers must be either an Object or Array ' + JSON.stringify(computedHeaders)));
 			}
 
 		} else if (_.isArray(headersOption)) {
-			_.each(headersOption, function (header) {
+			_.forEach(headersOption, function (header) {
 				var _header = {};
 				if (validateHeader(header, callback)) {
 					_header[header.name] = header.value;
-					customHeaders = Object.assign(customHeaders, _header);
+					customHeaders = assign(customHeaders, _header);
 				}
 			});
 		} else if (_.isObject(headersOption)) {
-			customHeaders = Object.assign(customHeaders, headersOption);
+			customHeaders = assign(customHeaders, headersOption);
 		}
 	}
 
 	if (validateHeaders(customHeaders, callback)) {
-		headers = Object.assign(headers, customHeaders);
+		headers = assign(headers, customHeaders);
 	}
 
 	return headers;

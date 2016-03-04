@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
@@ -39,7 +39,7 @@ function select (list, path, options) {
 	// cached maps for options, labels and values
 	this.map = utils.optionsMap(this.ops);
 	this.labels = utils.optionsMap(this.ops, 'label');
-	this.values = _.pluck(this.ops, 'value');
+	this.values = _.map(this.ops, 'value');
 	select.super_.call(this, list, path, options);
 }
 util.inherits(select, FieldType);
@@ -125,7 +125,30 @@ select.prototype.addFilterToQuery = function (filter, query) {
 };
 
 /**
+ * Asynchronously confirms that the provided value is valid
+ */
+select.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	if (typeof value === 'string' && this.numeric) {
+		value = utils.number(value);
+	}
+	var result = value === undefined || (value in this.map) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that the provided value is present
+ */
+select.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value !== undefined || (value === undefined && item.get(this.path)) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
  * Validates that a valid option has been provided in a data object
+ *
+ * Deprecated
  */
 select.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path]) {
