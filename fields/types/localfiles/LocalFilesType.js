@@ -4,7 +4,7 @@
 
 var fs = require('fs-extra');
 var path = require('path');
-var _ = require('underscore');
+var _ = require('lodash');
 var moment = require('moment');
 var keystone = require('../../../');
 var util = require('util');
@@ -183,7 +183,7 @@ localfiles.prototype.addToSchema = function () {
 		},
 	};
 
-	_.each(schemaMethods, function (fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 

@@ -4,7 +4,7 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 	var stylusPaths = keystone.get('stylus');
 	var stylusOptions = keystone.get('stylus options') || {};
 	var debug = require('debug')('keystone:core:bindStylusMiddleware');
-	var _ = require('underscore');
+	var _ = require('lodash');
 
 	if (typeof stylusPaths === 'string') {
 		stylusPaths = [stylusPaths];

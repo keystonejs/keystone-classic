@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var _ = require('underscore');
+var _ = require('lodash');
 var moment = require('moment');
 var keystone = require('../../../');
 var util = require('util');
@@ -160,7 +160,7 @@ azurefile.prototype.addToSchema = function () {
 		},
 	};
 
-	_.each(schemaMethods, function (fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 

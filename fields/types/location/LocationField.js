@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import React from 'react';
 import Field from '../Field';
 import { Button, Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
@@ -23,7 +23,7 @@ module.exports = Field.create({
 
 	componentWillMount () {
 		var collapsedFields = {};
-		_.each(['number', 'name', 'street2', 'geo'], (i) => {
+		_.forEach(['number', 'name', 'street2', 'geo'], (i) => {
 			if (!this.props.value[i]) {
 				collapsedFields[i] = true;
 			}

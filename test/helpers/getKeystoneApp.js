@@ -1,6 +1,6 @@
 var keystone = require('../../index.js');
 var request = require('supertest');
-var _ = require('underscore');
+var _ = require('lodash');
 var exec = require('child_process').exec;
 
 function testApp(request, page , server, done) {

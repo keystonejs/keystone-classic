@@ -48,7 +48,7 @@ module.exports = Field.create({
 	buildFilters () {
 		var filters = {};
 
-		_.each(this.props.filters, (value, key) => {
+		_.forEach(this.props.filters, (value, key) => {
 			if (_.isString(value) && value[0] == ':') { // eslint-disable-line eqeqeq
 				var fieldName = value.slice(1);
 
@@ -70,7 +70,7 @@ module.exports = Field.create({
 
 		var parts = [];
 
-		_.each(filters, function (val, key) {
+		_.forEach(filters, function (val, key) {
 			parts.push('filters[' + key + '][value]=' + encodeURIComponent(val));
 		});
 

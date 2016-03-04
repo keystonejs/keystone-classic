@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
@@ -39,7 +39,7 @@ function select (list, path, options) {
 	// cached maps for options, labels and values
 	this.map = utils.optionsMap(this.ops);
 	this.labels = utils.optionsMap(this.ops, 'label');
-	this.values = _.pluck(this.ops, 'value');
+	this.values = _.map(this.ops, 'value');
 	select.super_.call(this, list, path, options);
 }
 util.inherits(select, FieldType);

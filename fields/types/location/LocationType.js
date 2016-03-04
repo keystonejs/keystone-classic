@@ -1,7 +1,7 @@
 /*!
  * Module dependencies.
  */
-var _ = require('underscore');
+var _ = require('lodash');
 var keystone = require('../../../');
 var querystring = require('querystring');
 var https = require('https');
@@ -240,7 +240,7 @@ location.prototype.updateItem = function (item, data, callback) {
 	}
 
 	// convert valuePaths to a map for easier usage
-	valuePaths = _.object(valueKeys, valuePaths);
+	valuePaths = _.zipObject(valueKeys, valuePaths);
 
 	var setValue = function (key) {
 		if (valuePaths[key] in values && values[valuePaths[key]] !== item.get(paths[key])) {
@@ -248,7 +248,7 @@ location.prototype.updateItem = function (item, data, callback) {
 		}
 	};
 
-	_.each(fieldKeys, setValue);
+	_.forEach(fieldKeys, setValue);
 
 	if (valuePaths.geo in values) {
 		var oldGeo = item.get(paths.geo) || [];
@@ -406,7 +406,7 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 
 		var location = {};
 
-		_.each(result.address_components, function (val) {
+		_.forEach(result.address_components, function (val) {
 			if (_.indexOf(val.types, 'street_number') >= 0) {
 				location.street1 = location.street1 || [];
 				location.street1.push(val.long_name);
@@ -447,7 +447,7 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 		if (update === 'overwrite') {
 			item.set(field.path, location);
 		} else if (update) {
-			_.each(location, function (value, key) {
+			_.forEach(location, function (value, key) {
 				if (key === 'geo') {
 					return;
 				}

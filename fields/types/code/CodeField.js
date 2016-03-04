@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import CodeMirror from 'codemirror';
 import Field from '../Field';
 import React from 'react';

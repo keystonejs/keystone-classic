@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var _ = require('underscore');
+var _ = require('lodash');
 var assign = require('object-assign');
 var grappling = require('grappling-hook');
 var keystone = require('../../../');
@@ -148,7 +148,7 @@ s3file.prototype.addToSchema = function () {
 		},
 	};
 
-	_.each(schemaMethods, function (fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
@@ -244,7 +244,7 @@ var validateHeader = function (header, callback) {
 
 	filteredKeys = _.filter(_.keys(header), function (key) { return _.indexOf(validKeys, key) > -1; });
 
-	_.each(filteredKeys, function (key) {
+	_.forEach(filteredKeys, function (key) {
 		if (!_.isString(header[key])) {
 			return callback(new Error('Unsupported Header option: value for ' + key + ' header must be a String ' + header[key].toString()));
 		}
@@ -269,11 +269,11 @@ var validateHeaders = function (headers, callback) {
 		return callback(new Error('Unsupported Header option: headers must be an Object ' + JSON.stringify(headers)));
 	}
 
-	_.each(headers, function (value, key) {
+	_.forEach(headers, function (value, key) {
 		_headers.push({ name: key, value: value });
 	});
 
-	_.each(_headers, function (header) {
+	_.forEach(_headers, function (header) {
 		validateHeader(header, callback);
 	});
 
@@ -306,7 +306,7 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 	if (_.has(field.s3config, 'default headers')) {
 		defaultHeaders = field.s3config['default headers'];
 		if (_.isArray(defaultHeaders)) {
-			_.each(defaultHeaders, function (header) {
+			_.forEach(defaultHeaders, function (header) {
 				var _header = {};
 				if (validateHeader(header, callback)) {
 					_header[header.name] = header.value;
@@ -327,7 +327,7 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 			computedHeaders = headersOption.call(field, item, file);
 
 			if (_.isArray(computedHeaders)) {
-				_.each(computedHeaders, function (header) {
+				_.forEach(computedHeaders, function (header) {
 					var _header = {};
 					if (validateHeader(header, callback)) {
 						_header[header.name] = header.value;
@@ -341,7 +341,7 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 			}
 
 		} else if (_.isArray(headersOption)) {
-			_.each(headersOption, function (header) {
+			_.forEach(headersOption, function (header) {
 				var _header = {};
 				if (validateHeader(header, callback)) {
 					_header[header.name] = header.value;

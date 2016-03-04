@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var _ = require('underscore');
+var _ = require('lodash');
 var keystone = require('../../../');
 var util = require('util');
 var EmbedlyAPI = require('embedly');

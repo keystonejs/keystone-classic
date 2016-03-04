@@ -1,7 +1,7 @@
 /*!
  * Module dependencies.
  */
-var _ = require('underscore');
+var _ = require('lodash');
 var assign = require('object-assign');
 var di = require('asyncdi');
 var marked = require('marked');
@@ -177,7 +177,7 @@ Field.prototype.getPreSaveWatcher = function () {
 		} else if (_.isObject(this.options.watch)) {
 			applyValue = function (item) {
 				var pass = false;
-				_.each(field.options.watch, function (value, path) {
+				_.forEach(field.options.watch, function (value, path) {
 					if (item.isModified(path) && item.get(path) === value) pass = true;
 				});
 				return pass;
