@@ -109,7 +109,7 @@ markdown.prototype.updateItem = function (item, data, callback) {
 	if (value !== undefined) {
 		item.set(this.paths.md, value);
 	}	else if (this.paths.md in data) {
-			item.set(this.paths.md, data[this.paths.md]);
+		item.set(this.paths.md, data[this.paths.md]);
 	}
 	process.nextTick(callback);
 };
