@@ -120,4 +120,12 @@ exports.testFieldType = function (List) {
 		demand(List.fields.bool.inputIsValid({ bool: '' }, true)).be(false);
 		demand(List.fields.bool.inputIsValid({ bool: undefined }, true)).be(false);
 	});
+
+
+	// So is this duplicating the above now deprecated function?
+	// it('should validate boolean input', function () {
+	// 	List.fields.text.validateInput({ bool: true }, function (result) {
+	// 		demand(result).be(true);
+	// 	});
+	// });
 };

@@ -43,4 +43,109 @@ exports.testFieldType = function (List) {
 			done();
 		});
 	});
+
+	it('should validate string input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: 'a' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate undefined input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({}, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should invalidate numeric input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: 1 }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate object input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: { things: 'stuff' } }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate array input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: [1, 2, 3] }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate Boolean input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: true }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate function input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: function () {} }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate regexp input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: /foo/ }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate date input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: Date.now() }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	it('should invalidate null input', function (done) {
+		// require the validators at the top of the document so we can access them
+		List.fields.text.validateInput({ text: null }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+
+	it('should validate input present', function (done) {
+		List.fields.text.validateRequiredInput(this, { text: 'a' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should invalidate input not present', function (done) {
+		List.fields.text.validateRequiredInput(this, { text: '' }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
+
+	//
+	// it('should check the required function', function (done) {
+	// 	List.fields.text.required(testItem, testItem.field.text,
+	// 		function () {
+	// 			demand(testItem).be(); // no, we are trying to demand what the callback be?
+	// 			done();
+	// 		});
+	// });
+
 };
