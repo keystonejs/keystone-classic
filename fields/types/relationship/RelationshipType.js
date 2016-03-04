@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var FieldType = require('../Type');
 var keystone = require('../../../');
 var util = require('util');
@@ -264,12 +264,12 @@ Object.defineProperty(relationship.prototype, 'hasFilters', {
  */
 // TODO: Deprecate this? Not sure it's used anywhere - JW
 relationship.prototype.addFilters = function (query, item) {
-	_.each(this.filters, function (filters, path) {
+	_.forEach(this.filters, function (filters, path) {
 		if (!utils.isObject(filters)) {
 			filters = { equals: filters };
 		}
 		query.where(path);
-		_.each(filters, function (value, method) {
+		_.forEach(filters, function (value, method) {
 			if (typeof value === 'string' && value.substr(0, 1) === ':') {
 				if (!item) {
 					return;

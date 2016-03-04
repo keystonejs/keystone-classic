@@ -1,7 +1,7 @@
 var keystone = require('../../../../index.js');
 var assert = require('core-assert');
 var async = require('async');
-var _ = require('underscore');
+var _ = require('lodash');
 
 keystone.import('../models');
 

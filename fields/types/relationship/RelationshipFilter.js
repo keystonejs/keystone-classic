@@ -85,12 +85,12 @@ var RelationshipFilter = React.createClass({
 	},
 	buildFilters () {
 		var filters = {};
-		_.each(this.props.field.filters, function (value, key) {
+		_.forEach(this.props.field.filters, function (value, key) {
 			filters[key] = value;
 		}, this);
 
 		var parts = [];
-		_.each(filters, function (val, key) {
+		_.forEach(filters, function (val, key) {
 			parts.push('filters[' + key + '][value]=' + encodeURIComponent(val));
 		});
 

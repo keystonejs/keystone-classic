@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var assign = require('object-assign');
 var async = require('async');
 var cloudinary = require('cloudinary');
