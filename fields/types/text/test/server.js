@@ -138,14 +138,4 @@ exports.testFieldType = function (List) {
 			done();
 		});
 	});
-
-	//
-	// it('should check the required function', function (done) {
-	// 	List.fields.text.required(testItem, testItem.field.text,
-	// 		function () {
-	// 			demand(testItem).be(); // no, we are trying to demand what the callback be?
-	// 			done();
-	// 		});
-	// });
-
 };
