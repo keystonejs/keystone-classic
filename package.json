@@ -145,7 +145,7 @@
     "build": "NODE_ENV=production gulp build-packages",
     "build-dev": "gulp build-packages",
     "release": "gulp release",
-    "pret-est": "npm run lint",
+    "pretest": "npm run lint",
     "test": "mocha",
     "test-all": "npm test && npm run test-e2e",
     "test-e2e": "node test/e2e/server.js --env default --config ./test/e2e/nightwatch.json",
