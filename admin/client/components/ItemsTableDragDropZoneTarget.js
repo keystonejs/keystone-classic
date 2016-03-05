@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropTarget as dropTarget } from 'react-dnd';
+import { DropTarget } from 'react-dnd';
 import CurrentListStore from '../stores/CurrentListStore';
 
 let timeoutID = false;
@@ -31,7 +31,7 @@ var ItemsTableDragDropZoneTarget = React.createClass({
 /**
  * Implements drag target.
  */
-const dropTargetConfig = {
+const dropTarget = {
 	drop (props, monitor, component) {
 		// we send manual data to endDrag to send this item to the correct page
 		const { page } = CurrentListStore.getDragBase();
@@ -89,9 +89,9 @@ const dropTargetConfig = {
  */
 function dropProps (connect, monitor) {
 	return {
-		connectDropTarget: connect.dropTargetConfig(),
+		connectDropTarget: connect.dropTarget(),
 		isOver: monitor.isOver(),
 	};
 };
 
-module.exports = dropTarget('item', dropTargetConfig, dropProps)(ItemsTableDragDropZoneTarget);
+module.exports = DropTarget('item', dropTarget, dropProps)(ItemsTableDragDropZoneTarget);

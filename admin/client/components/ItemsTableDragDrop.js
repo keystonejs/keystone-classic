@@ -1,5 +1,5 @@
 import React from 'react';
-import { DragDropContext as dragDropContext } from 'react-dnd';
+import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Sortable } from './ItemsTableRow';
 import DropZone from './ItemsTableDragDropZone';
@@ -36,4 +36,4 @@ var ItemsTableDragDrop = React.createClass({
 	},
 });
 
-module.exports = dragDropContext(HTML5Backend)(ItemsTableDragDrop);
+module.exports = DragDropContext(HTML5Backend)(ItemsTableDragDrop);

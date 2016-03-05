@@ -1,7 +1,7 @@
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
-import colorConverter from 'color';
+import Color from 'color';
 import E from '../constants';
 
 var Checkbox = React.createClass({
@@ -34,7 +34,7 @@ var Checkbox = React.createClass({
 		let { checked, readonly } = this.props;
 		let { active, focus, hover } = this.state;
 
-		let checkedColor = colorConverter('#3999fc');
+		let checkedColor = Color('#3999fc');
 
 		let background = (checked && !readonly) ? checkedColor.hexString() : 'white';
 		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.15) rgba(0,0,0,0.1) rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.3) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
