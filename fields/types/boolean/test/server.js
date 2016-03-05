@@ -121,8 +121,6 @@ exports.testFieldType = function (List) {
 		demand(List.fields.bool.inputIsValid({ bool: undefined }, true)).be(false);
 	});
 
-
-	// Ben tests below this point
 	it('should validate boolean input', function (done) {
 		List.fields.bool.validateInput({ bool: true }, function (result) {
 			demand(result).be(true);

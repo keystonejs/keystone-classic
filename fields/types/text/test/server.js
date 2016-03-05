@@ -45,7 +45,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should validate string input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: 'a' }, function (result) {
 			demand(result).be(true);
 			done();
@@ -53,7 +52,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should validate undefined input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({}, function (result) {
 			demand(result).be(true);
 			done();
@@ -61,7 +59,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate numeric input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: 1 }, function (result) {
 			demand(result).be(false);
 			done();
@@ -69,7 +66,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate object input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: { things: 'stuff' } }, function (result) {
 			demand(result).be(false);
 			done();
@@ -77,7 +73,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate array input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: [1, 2, 3] }, function (result) {
 			demand(result).be(false);
 			done();
@@ -85,7 +80,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate Boolean input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: true }, function (result) {
 			demand(result).be(false);
 			done();
@@ -93,7 +87,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate function input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: function () {} }, function (result) {
 			demand(result).be(false);
 			done();
@@ -101,7 +94,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate regexp input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: /foo/ }, function (result) {
 			demand(result).be(false);
 			done();
@@ -109,7 +101,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate date input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: Date.now() }, function (result) {
 			demand(result).be(false);
 			done();
@@ -117,7 +108,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate null input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.text.validateInput({ text: null }, function (result) {
 			demand(result).be(false);
 			done();

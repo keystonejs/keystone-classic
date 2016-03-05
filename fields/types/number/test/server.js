@@ -155,7 +155,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should validate numeric input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: 1 }, function (result) {
 			demand(result).be(true);
 			done();
@@ -171,7 +170,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should validate undefined input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({}, function (result) {
 			demand(result).be(true);
 			done();
@@ -179,7 +177,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate string input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: 'a' }, function (result) {
 			demand(result).be(false);
 			done();
@@ -188,7 +185,6 @@ exports.testFieldType = function (List) {
 
 
 	it('should invalidate object input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: { things: 'stuff' } }, function (result) {
 			demand(result).be(false);
 			done();
@@ -196,7 +192,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate array input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: [1, 2, 3] }, function (result) {
 			demand(result).be(false);
 			done();
@@ -204,7 +199,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate Boolean input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: true }, function (result) {
 			demand(result).be(false);
 			done();
@@ -212,7 +206,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate function input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: function () {} }, function (result) {
 			demand(result).be(false);
 			done();
@@ -220,7 +213,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate regexp input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: /foo/ }, function (result) {
 			demand(result).be(false);
 			done();
@@ -230,7 +222,6 @@ exports.testFieldType = function (List) {
 
 // This test is returning true, why?
 	it('should invalidate date input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: new Date() }, function (result) {
 			demand(result).be(false);
 			done();
@@ -238,7 +229,6 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should invalidate null input', function (done) {
-		// require the validators at the top of the document so we can access them
 		List.fields.number.validateInput({ number: null }, function (result) {
 			demand(result).be(false);
 			done();
