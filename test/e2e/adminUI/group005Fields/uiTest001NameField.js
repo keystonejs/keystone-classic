@@ -1,47 +1,44 @@
+var adminUI = require('../adminUI');
+
 module.exports = {
 	before: function (browser) {
 		browser
-			.url(browser.globals.adminUI.url)
-			.waitForElementVisible('#signin-view')
-			.setValue('input[name=email]', browser.globals.adminUI.login.email)
-			.setValue('input[name=password]', browser.globals.adminUI.login.password)
-			.click('button[type=submit]')
+			.url(adminUI.url)
+			.waitForElementVisible(adminUI.cssSelectors.signinView.id)
+			.setValue(adminUI.cssSelectors.signinView.emailInput, adminUI.login.email)
+			.setValue(adminUI.cssSelectors.signinView.passwordInput, adminUI.login.password)
 			.pause(browser.globals.defaultPauseTimeout)
-			.url(browser.globals.adminUI.url)
+			.click(adminUI.cssSelectors.signinView.submitButton)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click('#home-view > div > div > div > div.dashboard-groups > div > div:nth-child(2) > div.dashboard-group__lists > div > span > a.dashboard-group__list-create.octicon.octicon-plus')
+			.url(adminUI.url)
+			.waitForElementVisible(adminUI.cssSelectors.homeView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 	},
 	after: function (browser) {
 		browser
-			.url(browser.globals.adminUI.url)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click('#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--right > li:nth-child(2) > a')
+			.click(adminUI.cssSelectors.allView.logoutIconLink)
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Name field initial modal should be visible': function (browser) {
-		browser.expect.element('body > div:nth-child(11) > div > div > div')
-			.to.have.attribute('class').which.contains('Modal-content');
-	},
-	'Name field should be visible': function (browser) {
-		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div')
+	'Name field should be visible in initial modal': function (browser) {
+		browser
+			.click(adminUI.cssSelectors.homeView.plusIconLinkForNameFieldsTabUnderDashboardFieldsSubheading)
+			.waitForElementVisible(adminUI.cssSelectors.initialModalView.id)
+			.pause(browser.globals.defaultPauseTimeout);
+
+		browser.expect.element(adminUI.cssSelectors.initialModalView.field.name.label)
 			.to.be.visible;
-	},
-	'Name field should be have a Name label': function (browser) {
-		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > label')
+		browser.expect.element(adminUI.cssSelectors.initialModalView.field.name.label)
 			.text.to.equal('Name');
-	},
-	'Name field should be have a first name input box': function (browser) {
-		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(1) > input')
-			.to.have.attribute('name').which.contains('name.first');
-		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(1) > input')
-			.to.have.attribute('class').which.contains('FormInput');
-	},
-	'Name field should be have a last name input box': function (browser) {
-		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(2) > input')
-			.to.have.attribute('name').which.contains('name.last');
-		browser.expect.element('body > div:nth-child(11) > div > div > div > form > div.Modal__body > div > div > div > div:nth-child(2) > input')
-			.to.have.attribute('class').which.contains('FormInput');
+
+		browser.expect.element(adminUI.cssSelectors.initialModalView.field.name.first)
+			.to.be.visible;
+		browser.expect.element(adminUI.cssSelectors.initialModalView.field.name.firstPlaceholder)
+			.to.be.visible;
+
+		browser.expect.element(adminUI.cssSelectors.initialModalView.field.name.last)
+			.to.be.visible;
+		browser.expect.element(adminUI.cssSelectors.initialModalView.field.name.lastPlaceholder)
+			.to.be.visible;
 	},
 };

@@ -1,104 +1,100 @@
+var adminUI = require('../adminUI');
+
 module.exports = {
 	before: function (browser) {
 		browser
-			.url(browser.globals.adminUI.url)
-			.waitForElementVisible('#signin-view')
-			.setValue('input[name=email]', browser.globals.adminUI.login.email)
-			.setValue('input[name=password]', browser.globals.adminUI.login.password)
-			.click('button[type=submit]')
+			.url(adminUI.url)
+			.waitForElementVisible(adminUI.cssSelectors.signinView.id)
+			.setValue(adminUI.cssSelectors.signinView.emailInput, adminUI.login.email)
+			.setValue(adminUI.cssSelectors.signinView.passwordInput, adminUI.login.password)
 			.pause(browser.globals.defaultPauseTimeout)
-			.url(browser.globals.adminUI.url)
-			.waitForElementVisible('#home-view')
+			.click(adminUI.cssSelectors.signinView.submitButton)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click('#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--left > li:nth-child(2) > a')
-			.waitForElementVisible('#list-view')
+			.url(adminUI.url)
+			.waitForElementVisible(adminUI.cssSelectors.homeView.id)
+			.pause(browser.globals.defaultPauseTimeout)
+			.click(adminUI.cssSelectors.allView.accessMenu)
+			.waitForElementVisible(adminUI.cssSelectors.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 	},
 	after: function (browser) {
 		browser
-			.click('#list-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--left > li.active > a')
-			.waitForElementVisible('#list-view')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click('#list-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--right > li:nth-child(2) > a')
+			.click(adminUI.cssSelectors.allView.logoutIconLink)
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
 	'List view must have a search bar': function (browser) {
 		browser
-			.click('#list-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--left > li.active > a')
-			.waitForElementVisible('#list-view');
-		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.InputGroup_section--grow.ListHeader__search > input')
-				      .to.be.visible;
-	},
-	'List view must have a search button': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.InputGroup_section--grow.ListHeader__search > button')
+			.click(adminUI.cssSelectors.allView.accessMenu)
+			.waitForElementVisible(adminUI.cssSelectors.listView.id);
+
+		browser.expect.element(adminUI.cssSelectors.listView.searchInputField)
 				      .to.be.visible;
 	},
 	'List view must have a filter input': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__filter')
+		browser.expect.element(adminUI.cssSelectors.listView.filterDropdown)
 				      .to.be.visible;
 	},
 	'List view must have a column input': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__columns')
+		browser.expect.element(adminUI.cssSelectors.listView.columnDropdown)
 				      .to.be.visible;
 	},
 	'List view must have a download input': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__download')
+		browser.expect.element(adminUI.cssSelectors.listView.downloadDropdown)
 				      .to.be.visible;
 	},
 	// TODO:  For some reason the expand table width input control does not show in saucelabs' Firefox 44...why?
 	//		It shows fine with local selenium server and Firefox 44.0.2
 	//'List view must have an expand table width input': function (browser) {
-	//	browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__expand')
-	//	browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__expand')
+	//	browser.expect.element(adminUI.cssSelectors.listView.expandTableIcon)
 	//			      .to.be.visible;
 	//},
 	'List view must have a create list item button': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div.InputGroup.ListHeader__bar > div.InputGroup_section.ListHeader__create')
+		browser.expect.element(adminUI.cssSelectors.listView.createItemIconWhenListHasExistingItems)
 				      .to.be.visible;
 	},
-	'List view must have a Showing N items label': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div.ListHeader > div > div:nth-child(4) > div > div')
+	'List view must have a pagination count': function (browser) {
+		browser.expect.element(adminUI.cssSelectors.listView.paginationCount)
 				      .to.be.visible;
 	},
 	'List view must have a name column header': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > thead > tr > th:nth-child(1)')
+		browser.expect.element(adminUI.cssSelectors.listView.nameColumnHeaderForUserList)
 				      .to.be.visible;
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > thead > tr > th:nth-child(1)')
+		browser.expect.element(adminUI.cssSelectors.listView.nameColumnHeaderForUserList)
 				      .text.to.equal('Name');
 	},
 	'List view must have an email column header': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > thead > tr > th:nth-child(2)')
+		browser.expect.element(adminUI.cssSelectors.listView.emailColumnHeaderForUserList)
 				      .to.be.visible;
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > thead > tr > th:nth-child(2)')
+		browser.expect.element(adminUI.cssSelectors.listView.emailColumnHeaderForUserList)
 				      .text.to.equal('Email');
 	},
 	'List view must have an Is Admin column header': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > thead > tr > th:nth-child(3)')
+		browser.expect.element(adminUI.cssSelectors.listView.isAdminColumnHeaderForUserList)
 				      .to.be.visible;
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > thead > tr > th:nth-child(3)')
+		browser.expect.element(adminUI.cssSelectors.listView.isAdminColumnHeaderForUserList)
 				      .text.to.equal('Is Admin');
 	},
 	'List view items must a delete icon': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td.ItemList__col--control.ItemList__col--delete > button')
+		browser.expect.element(adminUI.cssSelectors.listView.deleteItemIconWhenListHasSingleItem)
 				      .to.be.visible;
 	},
 	'List view user item must have a name value': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(2) > a')
+		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForUserList)
 				      .to.be.visible;
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(2) > a')
+		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForUserList)
 				      .text.to.equal('test e2e');
 	},
 	'List view user item must have a value in the email column': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(3) > a')
+		browser.expect.element(adminUI.cssSelectors.listView.emailColumnValueForUserList)
 				      .to.be.visible;
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(3) > a')
+		browser.expect.element(adminUI.cssSelectors.listView.emailColumnValueForUserList)
 				      .text.to.equal('test@test.e2e');
 	},
 	'List view user item must have a value in the Is Admin column': function (browser) {
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(4) > div')
+		browser.expect.element(adminUI.cssSelectors.listView.isAdminColumnValueForUserList)
 				      .to.be.visible;
-		browser.expect.element('#list-view > div > div.keystone-body > div > div:nth-child(2) > div > table > tbody > tr > td:nth-child(4) > div > span')
+		browser.expect.element(adminUI.cssSelectors.listView.isAdminColumnValueForUserList)
 				      .to.be.visible;
 	},
 };

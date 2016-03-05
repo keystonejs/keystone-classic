@@ -8,10 +8,9 @@ var NameField = new keystone.List('NameField', {
 
 NameField.add({
     name: { type: Types.Name, required: true, index: true },
-    nameField: { type: Types.Name},
 });
 
-NameField.defaultColumns = 'name, nameField';
+NameField.defaultColumns = 'name';
 NameField.register();
 
 module.exports = NameField;

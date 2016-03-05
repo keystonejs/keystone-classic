@@ -1,21 +1,26 @@
+var adminUI = require('../adminUI');
+
 module.exports = {
 	before: function (browser) {
 		browser
-			.url(browser.globals.adminUI.url + 'users')
-			.waitForElementVisible('#signin-view')
-			.assert.urlEquals(browser.globals.adminUI.url + 'signin?from=/keystone/users')
+			.url(adminUI.url + 'users')
+			.waitForElementVisible(adminUI.cssSelectors.signinView.id)
+			.assert.urlEquals(adminUI.url + 'signin?from=/keystone/users')
 			.pause(browser.globals.defaultPauseTimeout);
 	},
 	after: function (browser) {
 		browser
+			.click(adminUI.cssSelectors.allView.logoutIconLink)
+			.waitForElementVisible(adminUI.cssSelectors.signinView.id)
+			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
 	'AdminUI should allow users to login and redirect to custom url': function (browser) {
 		browser
-			.setValue('input[name=email]', browser.globals.adminUI.login.email)
-			.setValue('input[name=password]', browser.globals.adminUI.login.password)
-			.click('button[type=submit]')
+			.setValue(adminUI.cssSelectors.signinView.emailInput, adminUI.login.email)
+			.setValue(adminUI.cssSelectors.signinView.passwordInput, adminUI.login.password)
 			.pause(browser.globals.defaultPauseTimeout)
-			.assert.urlEquals(browser.globals.adminUI.url + 'users')
-	}
+			.click(adminUI.cssSelectors.signinView.submitButton)
+			.assert.urlEquals(adminUI.url + 'users');
+	},
 };
