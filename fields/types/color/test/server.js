@@ -1,6 +1,6 @@
 var demand = require('must');
 var ColorType = require('../ColorType');
-var validators = require('../../validators')
+var validators = require('../../validators');
 
 exports.initList = function (List) {
 	List.add({

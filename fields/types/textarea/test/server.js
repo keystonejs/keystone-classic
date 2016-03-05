@@ -1,6 +1,6 @@
 var demand = require('must');
 var TextareaType = require('../TextareaType');
-var validators = require('../../validators')
+var validators = require('../../validators');
 exports.initList = function (List) {
 	List.add({
 		text: TextareaType,
