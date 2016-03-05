@@ -21,6 +21,7 @@ module.exports = {
 			.setValue(adminUI.cssSelectors.signinView.passwordInput, adminUI.login.password)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelectors.signinView.submitButton)
+			.waitForElementVisible(adminUI.cssSelectors.listView.id)
 			.assert.urlEquals(adminUI.url + 'users');
 	},
 };
