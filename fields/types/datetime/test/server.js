@@ -58,4 +58,18 @@ exports.testFieldType = function (List) {
 		});
 		demand(value).to.equal('2016-02-25 04:45:00');
 	});
+
+	it('should validate input present', function (done) {
+		List.fields.datetime.validateRequiredInput(this, { datetime: 'a' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should invalidate input not present', function (done) {
+		List.fields.datetime.validateRequiredInput(this, { datetime: '' }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
 };

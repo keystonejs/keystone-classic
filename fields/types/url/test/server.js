@@ -1,5 +1,6 @@
 var demand = require('must');
 var UrlType = require('../UrlType');
+var validators = require('../../validators');
 
 exports.initList = function (List) {
 	List.add({
@@ -53,5 +54,13 @@ exports.testFieldType = function (List) {
 			testItem.url = undefined;
 			done();
 		});
+	});
+
+	it('should use the common url input validator', function () {
+		demand(List.fields.url.validateInput === validators.text.input);
+	});
+
+	it('should use the common url required validator', function () {
+		demand(List.fields.url.validateRequiredInput === validators.text.required);
 	});
 };

@@ -1,5 +1,6 @@
 var demand = require('must');
 var ColorType = require('../ColorType');
+var validators = require('../../validators');
 
 exports.initList = function (List) {
 	List.add({
@@ -51,5 +52,13 @@ exports.testFieldType = function (List) {
 			testItem.nested.color = undefined;
 			done();
 		});
+	});
+
+	it('should use the common color input validator', function () {
+		demand(List.fields.color.validateInput === validators.text.input);
+	});
+
+	it('should use the common color required validator', function () {
+		demand(List.fields.color.validateRequiredInput === validators.text.required);
 	});
 };

@@ -1,5 +1,7 @@
 var demand = require('must');
 var CodeType = require('../CodeType');
+var validators = require('../../validators');
+
 
 exports.initList = function (List) {
 	List.add({
@@ -77,5 +79,13 @@ exports.testFieldType = function (List) {
 		demand(List.fields.codemirror.editor).be.object();
 		demand(List.fields.codemirror.editor.mode).be('html');
 		demand(List.fields.codemirror.editor.value).be('codemirror value');
+	});
+
+	it('should use the common code input validator', function () {
+		demand(List.fields.code.validateInput === validators.text.input);
+	});
+
+	it('should use the common code required validator', function () {
+		demand(List.fields.code.validateRequiredInput === validators.text.required);
 	});
 };

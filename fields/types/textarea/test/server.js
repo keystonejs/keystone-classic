@@ -1,6 +1,6 @@
 var demand = require('must');
 var TextareaType = require('../TextareaType');
-
+var validators = require('../../validators');
 exports.initList = function (List) {
 	List.add({
 		text: TextareaType,
@@ -83,5 +83,12 @@ exports.testFieldType = function (List) {
 			testItem.text = undefined;
 			done();
 		});
+	});
+	it('should use the common text input validator', function () {
+		demand(List.fields.text.validateInput === validators.text.input);
+	});
+
+	it('should use the common text required validator', function () {
+		demand(List.fields.text.validateRequiredInput === validators.text.required);
 	});
 };
