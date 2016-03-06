@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var moment = require('moment');
 var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * Date FieldType Constructor
@@ -33,6 +34,42 @@ datearray.prototype.format = function (item, format, separator) {
 		});
 	}
 	return value.join(separator || this.separator);
+};
+
+/**
+ * Asynchronously confirms that the provided value is valid
+ */
+datearray.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = true;
+	if (value !== undefined) {
+		if (!Array.isArray(value)) {
+			value = [value];
+		}
+		for (var i = 0; i < value.length; i++) {
+			if (!moment(value[i], this.parseFormatString).isValid()) {
+				result = false;
+				break;
+			}
+		}
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that the a value is present
+ */
+datearray.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = false;
+	if (value === undefined) {
+		if (item.get(this.path) && item.get(this.path).length) {
+			result = true;
+		}
+	} else if (typeof value === 'string' || typeof value === 'number' || Array.isArray(value) && value.length) {
+		result = true;
+	}
+	utils.defer(callback, result);
 };
 
 /**
