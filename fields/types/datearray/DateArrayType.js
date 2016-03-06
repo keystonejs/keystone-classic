@@ -1,46 +1,29 @@
-/*!
- * Module dependencies.
- */
-
-var util = require('util');
+var FieldType = require('../Type');
 var moment = require('moment');
-var super_ = require('../Type');
+var util = require('util');
 
 /**
  * Date FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function datearray (list, path, options) {
-
 	this._nativeType = [Date];
 	this._defaultSize = 'medium';
 	this._underscoreMethods = ['format'];
 	this._properties = ['formatString'];
-
 	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
-
 	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.Date: options.format must be a string.');
 	}
-
 	datearray.super_.call(this, list, path, options);
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(datearray, super_);
+util.inherits(datearray, FieldType);
 
 /**
  * Formats the field value
- *
- * @api public
  */
-
 datearray.prototype.format = function (item, format) {
 	if (format || this.formatString) {
 		return item.get(this.path) ? moment(item.get(this.path)).format(format || this.formatString) : '';
@@ -51,12 +34,10 @@ datearray.prototype.format = function (item, format) {
 
 /**
  * Checks that a valid array of dates has been provided in a data object
- *
  * An empty value clears the stored value and is considered valid
  *
  * Deprecated
  */
-
 datearray.prototype.inputIsValid = function (data, required, item) {
 
 	var value = this.getValueFromData(data);
@@ -103,10 +84,7 @@ datearray.prototype.inputIsValid = function (data, required, item) {
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
 datearray.prototype.updateItem = function (item, data, callback) {
 
 	var value = this.getValueFromData(data);
@@ -134,9 +112,5 @@ datearray.prototype.updateItem = function (item, data, callback) {
 	process.nextTick(callback);
 };
 
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 module.exports = datearray;
