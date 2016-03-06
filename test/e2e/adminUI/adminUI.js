@@ -4,7 +4,7 @@ module.exports = {
 		email: 'test@test.e2e',
 		password: 'test',
 	},
-	cssSelectors: {
+	cssSelector: {
 		allView: {
 			homeIconLink: '.octicon-home',
 			accessMenu: 'ul.app-nav:nth-child(2) > li:nth-child(2) > a:nth-child(1)',
