@@ -17,6 +17,7 @@ function datearray (list, path, options) {
 	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.Date: options.format must be a string.');
 	}
+	this.separator = options.separator || ' | ';
 	datearray.super_.call(this, list, path, options);
 }
 util.inherits(datearray, FieldType);
@@ -24,12 +25,14 @@ util.inherits(datearray, FieldType);
 /**
  * Formats the field value
  */
-datearray.prototype.format = function (item, format) {
+datearray.prototype.format = function (item, format, separator) {
+	var value = item.get(this.path);
 	if (format || this.formatString) {
-		return item.get(this.path) ? moment(item.get(this.path)).format(format || this.formatString) : '';
-	} else {
-		return item.get(this.path) || '';
+		value = value.map(function (d) {
+			return moment(d).format(format || this._formatString);
+		});
 	}
+	return value.join(separator || this.separator);
 };
 
 /**
