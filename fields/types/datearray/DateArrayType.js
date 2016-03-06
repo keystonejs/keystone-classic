@@ -107,7 +107,7 @@ datearray.prototype.updateItem = function (item, data, callback) {
 		if (Array.isArray(value)) {
 			item.set(this.path, value);
 		}
-	} else item.set(this.path, []);
+	}
 
 	process.nextTick(callback);
 };
