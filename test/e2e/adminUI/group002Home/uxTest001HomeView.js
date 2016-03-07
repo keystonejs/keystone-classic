@@ -60,7 +60,7 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNameFieldsTabUnderDashboardFieldsSubheading)
-					  .text.to.equal('0 Items');
+			.text.to.equal('0 Items');
 
 		browser
 			.click(adminUI.cssSelector.homeView.plusIconLinkForNameFieldsTabUnderDashboardFieldsSubheading)
