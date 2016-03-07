@@ -44,7 +44,14 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate object input', function (done) {
+		it('should validate item objects (object with id property)', function (done) {
+			List.fields.single.validateInput({ single: relatedItem }, function (result) {
+				demand(result).equal(true);
+				done();
+			});
+		});
+
+		it('should invalidate object input without id', function (done) {
 			List.fields.single.validateInput({ single: {} }, function (result) {
 				demand(result).equal(false);
 				done();
@@ -61,6 +68,14 @@ exports.testFieldType = function (List) {
 		it('should validate required present input', function (done) {
 			var testItem = new List.model();
 			List.fields.single.validateRequiredInput(testItem, { single: relatedItem.id }, function (result) {
+				demand(result).equal(true);
+				done();
+			});
+		});
+
+		it('should validate required present input with item', function (done) {
+			var testItem = new List.model();
+			List.fields.single.validateRequiredInput(testItem, { single: relatedItem }, function (result) {
 				demand(result).equal(true);
 				done();
 			});
