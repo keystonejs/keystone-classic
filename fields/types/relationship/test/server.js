@@ -67,6 +67,15 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate required present input with existing value', function (done) {
+			testItem.single = relatedItem.id;
+			List.fields.single.validateRequiredInput(testItem, { single: relatedItem.id }, function (result) {
+				demand(result).equal(true);
+				testItem.single = undefined;
+				done();
+			});
+		});
+
 		it('should invalidate required not present input', function (done) {
 			List.fields.single.validateRequiredInput(testItem, {}, function (result) {
 				demand(result).equal(false);
@@ -78,6 +87,15 @@ exports.testFieldType = function (List) {
 			testItem.single = relatedItem.id;
 			List.fields.single.validateRequiredInput(testItem, {}, function (result) {
 				demand(result).equal(true);
+				testItem.single = undefined;
+				done();
+			});
+		});
+
+		it('should invalidate required blank input with existing value', function (done) {
+			testItem.single = relatedItem.id;
+			List.fields.single.validateRequiredInput(testItem, { single: '' }, function (result) {
+				demand(result).equal(false);
 				testItem.single = undefined;
 				done();
 			});

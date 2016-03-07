@@ -135,7 +135,7 @@ relationship.prototype.format = function (item) {
  *
  * TODO: might be a good idea to check the value provided looks like a MongoID
  * TODO: we're just testing for strings here, so actual MongoID Objects (from
- * mongoose) would fail validation
+ * mongoose) would fail validation. not sure if this is an issue.
  */
 relationship.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
