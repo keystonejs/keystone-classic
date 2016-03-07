@@ -1,18 +1,28 @@
+var adminUI = require('../adminUI');
+
 module.exports = {
 	before: function (browser) {
 		browser
-			.url(browser.globals.adminUI.url)
-			.waitForElementVisible('#signin-view')
-			.setValue('input[name=email]', browser.globals.adminUI.login.email)
-			.setValue('input[name=password]', browser.globals.adminUI.login.password)
-			.click('button[type=submit]')
+			.url(adminUI.url)
+			.waitForElementVisible(adminUI.cssSelector.signinView.id)
+			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
+			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
 			.pause(browser.globals.defaultPauseTimeout)
-			.url(browser.globals.adminUI.url)
+			.click(adminUI.cssSelector.signinView.submitButton)
+			.pause(browser.globals.defaultPauseTimeout)
+			.url(adminUI.url)
+			.waitForElementVisible(adminUI.cssSelector.homeView.id)
+			.pause(browser.globals.defaultPauseTimeout)
+			.click(adminUI.cssSelector.allView.accessMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
+			.pause(browser.globals.defaultPauseTimeout)
+			.click(adminUI.cssSelector.listView.nameColumnValueForUserList)
+			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 	},
 	after: function (browser) {
 		browser
-			.click('#home-view > div > header > nav > div > ul.app-nav.app-nav--primary.app-nav--right > li:nth-child(2) > a')
+			.click(adminUI.cssSelector.allView.logoutIconLink)
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},

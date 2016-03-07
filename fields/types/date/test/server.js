@@ -26,4 +26,18 @@ exports.testFieldType = function (List) {
 		demand(testItem._.date.moment()._isAMomentObject);
 		demand(testItem._.date.moment().format('YYYYMMDD')).equal('20131204');
 	});
+
+	it('should validate input present', function (done) {
+		List.fields.date.validateRequiredInput(this, { date: 'a' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should invalidate input not present', function (done) {
+		List.fields.date.validateRequiredInput(this, { date: '' }, function (result) {
+			demand(result).be(false);
+			done();
+		});
+	});
 };

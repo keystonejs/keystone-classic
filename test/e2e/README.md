@@ -18,6 +18,7 @@ with a real keystone app server.
         server.js                               => keystone test app server
 
         adminUI                                 => adminUI e2e test suite
+            adminUI.js                          => adminUI test configuration (e.g., selectors, etc.)
             groupNNN<group-name>                => adminUI test group, where NNN is a group sequence number
                 uiTestNNN<test-name>            => UI test suite, where NNN is a test sequence number
                 uxTestNNN<test-name>            => UX/functional test suite, where NNN is a test sequence number
@@ -47,8 +48,14 @@ update the test suite so that any broken tests pass again.
 
         npm run test-e2e-saucelabs
 
+    If you want to run the e2e keystone test app server standalone then run as follows:
 
-## Writing new tests
+        export KEYSTONEJS_PORT=9999 && node test/e2e/server.js --notest
+
+    This allows you to experiment with the exact same setup the test do!
+
+
+## Adding New Tests
 You should consider adding new UI/UX/Functional tests if:
 
 - you introduce new UI elements (e.g., a new field type).
@@ -56,5 +63,15 @@ You should consider adding new UI/UX/Functional tests if:
 - you introduce new server side functionality that may cause a different UX experience.
 - you fix a bug that's does not have UI/UX/Functional test coverage
 
-The best approach is to use an existing test as an example and try to
-keep the test style consistent.  Lastly, please try to keep to the test file structure above.
+
+## Test Organization
+The best approach to keeping tests well organized is to:
+
+- when writing new tests, use an existing one as an example.
+- keep the test style consistent.
+- keep the test file structure consistent.
+- each test group must run on its own using the --group argument (that means, that each test within the group must undo
+any changes it does to the state of the UI)
+- each test within a group must run on its own using the --test argument (that means, that each test must undo
+any changes it does to the state of the UI)
+- when naming selectors (e.g., in adminUI.js) make sure to use a very descriptive name

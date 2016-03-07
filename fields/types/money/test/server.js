@@ -122,4 +122,10 @@ exports.testFieldType = function (List) {
 		testItem.money = -244;
 		demand(testItem._.money.format()).be('-$244.00');
 	});
+
+	it('should validate numeric input', function () {
+		List.fields.money.validateInput({ money: 1 }, function (result) {
+			demand(result).be(true);
+		});
+	});
 };

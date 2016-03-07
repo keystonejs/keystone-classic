@@ -135,21 +135,28 @@ relationship.prototype.format = function (item) {
  *
  * TODO: might be a good idea to check the value provided looks like a MongoID
  * TODO: we're just testing for strings here, so actual MongoID Objects (from
- * mongoose) would fail validation
+ * mongoose) would fail validation. not sure if this is an issue.
  */
 relationship.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
-	if (this.many) {
-		if (!Array.isArray(value) && typeof value === 'string' && value.length) {
-			value = [value];
-		}
-		if (Array.isArray(value)) {
-			result = true;
-		}
+	if (value === undefined) {
+		result = true;
 	} else {
-		if (typeof value === 'string' && value.length) {
-			result = true;
+		if (this.many) {
+			if (!Array.isArray(value) && typeof value === 'string' && value.length) {
+				value = [value];
+			}
+			if (Array.isArray(value)) {
+				result = true;
+			}
+		} else {
+			if (typeof value === 'string' && value.length) {
+				result = true;
+			}
+			if (typeof value === 'object' && value.id) {
+				result = true;
+			}
 		}
 	}
 	utils.defer(callback, result);
@@ -161,11 +168,16 @@ relationship.prototype.validateInput = function (data, callback) {
 relationship.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
-	if (typeof value === undefined && (
-		(this.many && item.get(this.path).length)
-		|| item.get(this.path))
-	) {
-		result = true;
+	if (value === undefined) {
+		if (this.many) {
+			if (item.get(this.path).length) {
+				result = true;
+			}
+		} else {
+			if (item.get(this.path)) {
+				result = true;
+			}
+		}
 	} else if (this.many) {
 		if (!Array.isArray(value) && typeof value === 'string' && value.length) {
 			value = [value];

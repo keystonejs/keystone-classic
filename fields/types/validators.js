@@ -30,6 +30,8 @@ exports.boolean = {
 // Text fields accept string input. Required text fields don't allow an empty
 // string. Text fields aren't updated when an undefined value is provided.
 
+// These methods are tested by the `text` field type unit tests
+
 exports.text = {
 	input: function (data, callback) {
 		var value = this.getValueFromData(data);
@@ -51,6 +53,8 @@ exports.text = {
 // Number fields accept string or numeric input; strings are converted to
 // numbers. Required number fields don't allow an empty string or undefined.
 // Number fields aren't updated when an undefined value is provided.
+
+// These methods are tested by the `number` field type unit tests
 
 exports.number = {
 	input: function (data, callback) {

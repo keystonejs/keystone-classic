@@ -47,11 +47,4 @@ module.exports = {
 		//console.log(results);
 		cb();
 	},
-	adminUI: {
-		url: 'http://localhost:3000/keystone/',
-		login: {
-			email: 'test@test.e2e',
-			password: 'test'
-		}
-	},
 };
