@@ -72,7 +72,6 @@ exports.testFieldType = function (List) {
 			});
 			List.fields.single.validateRequiredInput(testItem, { single: relatedItem.id }, function (result) {
 				demand(result).equal(true);
-				testItem.single = undefined;
 				done();
 			});
 		});
@@ -91,7 +90,6 @@ exports.testFieldType = function (List) {
 			});
 			List.fields.single.validateRequiredInput(testItem, {}, function (result) {
 				demand(result).equal(true);
-				testItem.single = undefined;
 				done();
 			});
 		});
@@ -102,7 +100,6 @@ exports.testFieldType = function (List) {
 			});
 			List.fields.single.validateRequiredInput(testItem, { single: '' }, function (result) {
 				demand(result).equal(false);
-				testItem.single = undefined;
 				done();
 			});
 		});
