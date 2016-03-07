@@ -154,6 +154,9 @@ relationship.prototype.validateInput = function (data, callback) {
 			if (typeof value === 'string' && value.length) {
 				result = true;
 			}
+			if (typeof value === 'object' && value.id) {
+				result = true;
+			}
 		}
 	}
 	utils.defer(callback, result);
