@@ -124,8 +124,23 @@ exports.testFieldType = function (List) {
 			List.fields.single.updateItem(testItem, { single: relatedItem.id }, function () {
 				// TODO: We should be testing for errors here
 				testItem.save(function (err, updatedItem) {
-					demand(String(updatedItem.single)).equal(String(relatedItem.id));
-					done();
+					List.model.findById(updatedItem.id, function (err, persistedData) {
+						demand(String(persistedData.single)).equal(String(relatedItem.id));
+						done();
+					});
+				});
+			});
+		});
+
+		it('should save the provided value with an item object', function (done) {
+			var testItem = new List.model();
+			List.fields.single.updateItem(testItem, { single: relatedItem }, function () {
+				// TODO: We should be testing for errors here
+				testItem.save(function (err, updatedItem) {
+					List.model.findById(updatedItem.id, function (err, persistedData) {
+						demand(String(persistedData.single)).equal(String(relatedItem.id));
+						done();
+					});
 				});
 			});
 		});
@@ -138,8 +153,10 @@ exports.testFieldType = function (List) {
 				List.fields.single.updateItem(testItem, { single: null }, function () {
 					// TODO: We should be testing for errors here
 					testItem.save(function (err, updatedItem) {
-						demand(updatedItem.single).equal(null);
-						done();
+						List.model.findById(updatedItem.id, function (err, persistedData) {
+							demand(persistedData.single).equal(null);
+							done();
+						});
 					});
 				});
 			});
@@ -153,8 +170,10 @@ exports.testFieldType = function (List) {
 				List.fields.single.updateItem(testItem, { single: '' }, function () {
 					// TODO: We should be testing for errors here
 					testItem.save(function (err, updatedItem) {
-						demand(updatedItem.single).equal(null);
-						done();
+						List.model.findById(updatedItem.id, function (err, persistedData) {
+							demand(persistedData.single).equal(null);
+							done();
+						});
 					});
 				});
 			});
