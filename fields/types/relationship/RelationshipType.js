@@ -165,11 +165,16 @@ relationship.prototype.validateInput = function (data, callback) {
 relationship.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
-	if (typeof value === undefined && (
-		(this.many && item.get(this.path).length)
-		|| item.get(this.path))
-	) {
-		result = true;
+	if (value === undefined) {
+		if (this.many) {
+			if (item.get(this.path).length) {
+				result = true;
+			}
+		} else {
+			if (item.get(this.path)) {
+				result = true;
+			}
+		}
 	} else if (this.many) {
 		if (!Array.isArray(value) && typeof value === 'string' && value.length) {
 			value = [value];
