@@ -140,16 +140,20 @@ relationship.prototype.format = function (item) {
 relationship.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
-	if (this.many) {
-		if (!Array.isArray(value) && typeof value === 'string' && value.length) {
-			value = [value];
-		}
-		if (Array.isArray(value)) {
-			result = true;
-		}
+	if (value === undefined) {
+		result = true;
 	} else {
-		if (typeof value === 'string' && value.length) {
-			result = true;
+		if (this.many) {
+			if (!Array.isArray(value) && typeof value === 'string' && value.length) {
+				value = [value];
+			}
+			if (Array.isArray(value)) {
+				result = true;
+			}
+		} else {
+			if (typeof value === 'string' && value.length) {
+				result = true;
+			}
 		}
 	}
 	utils.defer(callback, result);
