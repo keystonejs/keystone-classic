@@ -15,8 +15,6 @@ exports.testFieldType = function (List) {
 		relatedItem.save(done);
 	});
 
-	var testItem = new List.model();
-
 	describe('single', function () {
 		it('should validate id input', function (done) {
 			List.fields.single.validateInput({ single: relatedItem.id }, function (result) {
@@ -61,6 +59,7 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should validate required present input', function (done) {
+			var testItem = new List.model();
 			List.fields.single.validateRequiredInput(testItem, { single: relatedItem.id }, function (result) {
 				demand(result).equal(true);
 				done();
@@ -68,7 +67,9 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should validate required present input with existing value', function (done) {
-			testItem.single = relatedItem.id;
+			var testItem = new List.model({
+				single: relatedItem.id,
+			});
 			List.fields.single.validateRequiredInput(testItem, { single: relatedItem.id }, function (result) {
 				demand(result).equal(true);
 				testItem.single = undefined;
@@ -77,6 +78,7 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should invalidate required not present input', function (done) {
+			var testItem = new List.model();
 			List.fields.single.validateRequiredInput(testItem, {}, function (result) {
 				demand(result).equal(false);
 				done();
@@ -84,7 +86,9 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should validate required input with existing value', function (done) {
-			testItem.single = relatedItem.id;
+			var testItem = new List.model({
+				single: relatedItem.id,
+			});
 			List.fields.single.validateRequiredInput(testItem, {}, function (result) {
 				demand(result).equal(true);
 				testItem.single = undefined;
@@ -93,11 +97,54 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should invalidate required blank input with existing value', function (done) {
-			testItem.single = relatedItem.id;
+			var testItem = new List.model({
+				single: relatedItem.id,
+			});
 			List.fields.single.validateRequiredInput(testItem, { single: '' }, function (result) {
 				demand(result).equal(false);
 				testItem.single = undefined;
 				done();
+			});
+		});
+
+		it('should save the provided value', function (done) {
+			var testItem = new List.model();
+			List.fields.single.updateItem(testItem, { single: relatedItem.id }, function () {
+				// TODO: We should be testing for errors here
+				testItem.save(function (err, updatedItem) {
+					demand(String(updatedItem.single)).equal(String(relatedItem.id));
+					done();
+				});
+			});
+		});
+
+		it('should clear the current value when provided null', function (done) {
+			var testItem = new List.model({
+				single: relatedItem.id,
+			});
+			testItem.save(function (err) {
+				List.fields.single.updateItem(testItem, { single: null }, function () {
+					// TODO: We should be testing for errors here
+					testItem.save(function (err, updatedItem) {
+						demand(updatedItem.single).equal(null);
+						done();
+					});
+				});
+			});
+		});
+
+		it('should clear the current value when provided ""', function (done) {
+			var testItem = new List.model({
+				single: relatedItem.id,
+			});
+			testItem.save(function (err) {
+				List.fields.single.updateItem(testItem, { single: '' }, function () {
+					// TODO: We should be testing for errors here
+					testItem.save(function (err, updatedItem) {
+						demand(updatedItem.single).equal(null);
+						done();
+					});
+				});
 			});
 		});
 	});
