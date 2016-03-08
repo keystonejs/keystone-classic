@@ -89,6 +89,9 @@
     "watchify": "3.7.0",
     "xhr": "2.2.0"
   },
+  "optionalDependencies":{
+    "keystone-admin": "^0.4.0-alpha"
+  },
   "devDependencies": {
     "codeclimate-test-reporter": "0.3.1",
     "core-assert": "0.2.0",

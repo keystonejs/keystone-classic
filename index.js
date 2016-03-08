@@ -133,9 +133,17 @@ Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 var keystone = module.exports = new Keystone();
 
 // Expose modules and Classes
-keystone.Admin = {
-	Server: require('keystone-admin/server'),
-};
+try {
+  keystone.Admin = {
+	  Server: require('keystone-admin/server'),
+  };
+}
+catch(e) {
+  console.log("Note: Optional package keystone-admin is not installed. Keystone will run in\n" +
+              "      headless mode. run `npm install keystone-admin` to install the KeystoneJS\n" +
+              "      admin UI.");
+  keystone.set('headless', true);
+}
 keystone.Email = require('./lib/email');
 keystone.Field = require('./fields/types/Type');
 keystone.Field.Types = require('./lib/fieldTypes');
