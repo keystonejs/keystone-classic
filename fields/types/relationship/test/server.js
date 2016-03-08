@@ -5,6 +5,7 @@ exports.initList = function (List) {
 	// We can use relationships that refer to the same List to test
 	List.add({
 		single: { type: RelationshipType, ref: List.key },
+		many: { type: RelationshipType, ref: List.key, many: true },
 	});
 };
 
@@ -176,6 +177,43 @@ exports.testFieldType = function (List) {
 						});
 					});
 				});
+			});
+		});
+	});
+
+	describe('many', function () {
+		it('should validate id input', function (done) {
+			List.fields.many.validateInput({ many: relatedItem.id }, function (result) {
+				demand(result).equal(true);
+				done();
+			});
+		});
+
+		it('should validate empty array input', function (done) {
+			List.fields.many.validateInput({ many: [] }, function (result) {
+				demand(result).equal(true);
+				done();
+			});
+		});
+
+		it('should validate array input with ids', function (done) {
+			List.fields.many.validateInput({ many: [relatedItem.id] }, function (result) {
+				demand(result).equal(true);
+				done();
+			});
+		});
+
+		it('should validate arrays of item objects (object with id property)', function (done) {
+			List.fields.many.validateInput({ many: [relatedItem] }, function (result) {
+				demand(result).equal(true);
+				done();
+			});
+		});
+
+		it('should validate undefined input', function (done) {
+			List.fields.many.validateInput({}, function (result) {
+				demand(result).equal(true);
+				done();
 			});
 		});
 	});
