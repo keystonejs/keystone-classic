@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var fs = require('fs');
 var jade = require('jade');
+var keystone = require('keystone');
 
 /**
  * Renders a Keystone View
@@ -12,8 +13,7 @@ var templateCache = {};
 
 function render (req, res, view, ext) {
 
-	var keystone = this;
-	var templatePath = __dirname + '/../../admin/server/templates/' + view + '.jade';
+	var templatePath = __dirname + '/templates/' + view + '.jade';
 	var jadeOptions = {
 		filename: templatePath,
 		pretty: keystone.get('env') !== 'production',

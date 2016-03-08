@@ -120,7 +120,7 @@ Keystone.prototype.list = require('./lib/core/list');
 Keystone.prototype.openDatabaseConnection = require('./lib/core/openDatabaseConnection');
 Keystone.prototype.populateRelated = require('./lib/core/populateRelated');
 Keystone.prototype.redirect = require('./lib/core/redirect');
-Keystone.prototype.render = require('./lib/core/render');
+//Keystone.prototype.render = require('./lib/core/render'); //FIXME: this is ONLY used in the admin UI, moved to the admin folder -- LW March 8, 2016
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 

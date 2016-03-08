@@ -1,7 +1,7 @@
 var keystone = require('keystone');
 
 module.exports = function (req, res) {
-	keystone.render(req, res, 'signin', {
+	require('../render')(req, res, 'signin', {
 		submitted: req.body,
 		from: req.query.from,
 		redirect: keystone.get('signin redirect'),
