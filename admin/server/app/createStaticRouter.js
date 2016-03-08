@@ -42,6 +42,9 @@ module.exports = function createStaticRouter (keystone) {
 				customStylesPath: JSON.stringify(customStylesPath),
 				adminPath: JSON.stringify(keystone.get('admin path')),
 			},
+			paths: [
+			  path.join(path.dirname(require.resolve('keystone')), '..')
+			],
 		},
 	};
 

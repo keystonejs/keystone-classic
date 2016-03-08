@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var async = require('async');
-var keystone = require('../../../');
+var keystone = require('keystone');
 var moment = require('moment');
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;

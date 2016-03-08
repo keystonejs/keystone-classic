@@ -1,4 +1,4 @@
-var keystone = require('../../../');
+var keystone = require('keystone');
 
 module.exports = function (req, res) {
 	keystone.render(req, res, 'signin', {

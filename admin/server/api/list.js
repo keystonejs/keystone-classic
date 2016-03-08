@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var async = require('async');
-var keystone = require('../../../');
+var keystone = require('keystone');
 
 module.exports = function (req, res) {
 

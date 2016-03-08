@@ -1,0 +1,25 @@
+{
+  "name": "keystone",
+  "version": "0.4.0-alpha",
+  "description": "Admin GUI / Content Management System for Keystone",
+  "peerDependencies":
+  {
+    "keystone": "^0.4.0-alpha"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim",
+      ["babelify",
+      {
+        "presets": ["react", "es2015"]
+      }]
+    ]
+  },
+  "browserify-shim": {
+    "tinymce": "global:tinymce",
+    "jquery": "global:$",
+    "codemirror": "global:CodeMirror",
+    "underscore": "global:_",
+    "moment": "global.moment"
+  }
+}

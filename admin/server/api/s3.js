@@ -1,4 +1,4 @@
-var keystone = require('../../../');
+var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
 module.exports = {

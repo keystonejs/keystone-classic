@@ -1,6 +1,6 @@
 import React from 'react';
 import { Checkbox, FormField, SegmentedControl } from 'elemental';
-import PopoutList from '../../../admin/client/App/shared/Popout/PopoutList';
+import PopoutList from 'keystone-admin/client/App/shared/Popout/PopoutList';
 
 const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },

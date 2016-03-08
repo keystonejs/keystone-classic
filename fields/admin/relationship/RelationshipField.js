@@ -1,6 +1,6 @@
 import async from 'async';
 import Field from '../Field';
-import listsByKey from '../../../admin/client/utils/lists';
+import listsByKey from 'keystone-admin/client/utils/lists';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
@@ -192,10 +192,10 @@ module.exports = Field.create({
 
 	renderInputGroup () {
 		// TODO: find better solution
-		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/App/shared/CreateForm';
+		//   when importing the CreateForm using: import CreateForm from 'keystone-admin/client/App/shared/CreateForm';
 		//   CreateForm was imported as a blank object. This stack overflow post suggested lazilly requiring it:
 		// http://stackoverflow.com/questions/29807664/cyclic-dependency-returns-empty-object-in-react-native
-		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
+		const CreateForm = require('keystone-admin/client/App/shared/CreateForm');
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
