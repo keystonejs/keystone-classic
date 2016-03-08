@@ -134,7 +134,7 @@ var keystone = module.exports = new Keystone();
 
 // Expose modules and Classes
 keystone.Admin = {
-	Server: require('./admin/server'),
+	Server: require('keystone-admin/server'),
 };
 keystone.Email = require('./lib/email');
 keystone.Field = require('./fields/types/Type');
