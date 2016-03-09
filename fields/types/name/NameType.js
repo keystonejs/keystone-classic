@@ -17,7 +17,6 @@ function name (list, path, options) {
 }
 util.inherits(name, FieldType);
 
-
 /**
  * Registers the field on the List's Mongoose Schema.
  *
@@ -26,7 +25,6 @@ util.inherits(name, FieldType);
  *
  * @api public
  */
-
 name.prototype.addToSchema = function () {
 	var schema = this.list.schema;
 	var paths = this.paths = {
@@ -62,7 +60,6 @@ name.prototype.addToSchema = function () {
 /**
  * Gets the string to use for sorting by this field
  */
-
 name.prototype.getSortString = function (options) {
 	if (options.invert) {
 		return '-' + this.paths.first + ' -' + this.paths.last;
@@ -210,7 +207,6 @@ name.prototype.updateItem = function (item, data, callback) {
 	}
 	process.nextTick(callback);
 };
-
 
 /* Export Field Type */
 module.exports = name;

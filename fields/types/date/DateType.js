@@ -9,7 +9,6 @@ var validators = require('../validators');
  * @extends Field
  * @api public
  */
-
 function date (list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];

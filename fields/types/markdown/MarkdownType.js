@@ -8,7 +8,6 @@ var validators = require('../validators');
  * @extends Field
  * @api public
  */
-
 function markdown (list, path, options) {
 	this._defaultSize = 'full';
 
@@ -31,8 +30,6 @@ markdown.prototype.validateRequiredInput = validators.text.required;
  *
  * Adds String properties for .md and .html markdown, and a setter for .md
  * that generates html when it is updated.
- *
- * @api public
  */
 markdown.prototype.addToSchema = function () {
 
@@ -69,8 +66,6 @@ markdown.prototype.addToSchema = function () {
 
 /**
  * Formats the field value
- *
- * @api public
  */
 markdown.prototype.format = function (item) {
 	return item.get(this.paths.html);
@@ -90,8 +85,6 @@ markdown.prototype.inputIsValid = function (data, required, item) {
 
 /**
  * Detects whether the field has been modified
- *
- * @api public
  */
 markdown.prototype.isModified = function (item) {
 	return item.isModified(this.paths.md);
@@ -101,8 +94,6 @@ markdown.prototype.isModified = function (item) {
  * Updates the value for this field in the item from a data object
  *
  * Will accept either the field path, or paths.md
- *
- * @api public
  */
 markdown.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
