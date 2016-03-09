@@ -297,7 +297,7 @@ localfiles.prototype.uploadFiles = function (item, files, update, callback) {
 		var filename = prefix + file.name;
 		var filetype = file.mimetype || file.type;
 
-		if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
+		if (field.options.allowedTypes && !_.includes(field.options.allowedTypes, filetype)) {
 			return processedFile(new Error('Unsupported File Type: ' + filetype));
 		}
 
