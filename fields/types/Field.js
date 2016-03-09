@@ -71,7 +71,8 @@ var Base = module.exports.Base = {
 	renderUI () {
 		var wrapperClassName = classnames(
 			'field-type-' + this.props.type,
-			this.props.className
+			this.props.className,
+			{ 'field-monospace': this.props.monospace }
 		);
 		return (
 			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
