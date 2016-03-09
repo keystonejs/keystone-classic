@@ -148,6 +148,7 @@
     "pretest": "npm run lint",
     "test": "mocha",
     "test-all": "npm test && npm run test-e2e",
+    "test-unit": "mocha",
     "test-e2e": "node test/e2e/server.js --env default --config ./test/e2e/nightwatch.json",
     "test-e2e-saucelabs": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2e/server.js --env saucelabs-travis --config ./test/e2e/nightwatch.json; fi",
     "lint": "eslint .",
