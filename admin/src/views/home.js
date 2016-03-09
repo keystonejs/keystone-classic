@@ -33,7 +33,7 @@ var View = React.createClass({
 						</div>
 					);
 				})}
-				{() => {
+				{(() => {
 					if (!Keystone.orphanedLists.length) return;
 					return (
 						<div className="nav-section">
@@ -49,7 +49,7 @@ var View = React.createClass({
 							</ul>
 						</div>
 					);
-				}()}
+				})()}
 			</div>
 		);
 	},
