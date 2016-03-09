@@ -1,9 +1,20 @@
-
-.lang-en .field.vi {
-	display: none;
+.field.vi .field-label,
+.field.zh .field-label {
+	padding-left: 40px;
+	color: #999;
 }
 
-.lang-vi .field.en {
+.field.vi .field-label:after {
+	content: ' (VI)';
+}
+
+.field.zh .field-label:after{
+	content: ' (ZH)';
+	padding-left: 40px;
+	color: #999;
+}
+
+.language-selection {
 	display: none;
 }
 
