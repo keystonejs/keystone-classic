@@ -1,16 +1,20 @@
 .field.vi .field-label,
 .field.zh .field-label {
-	padding-left: 40px;
-	color: #999;
+	color: transparent;
+	position: relative;
 }
 
 .field.vi .field-label:after {
-	content: ' (VI)';
+	position: absolute;
+	right: 0;
+	content: '(VI)';
+	color: #999;
 }
 
 .field.zh .field-label:after{
-	content: ' (ZH)';
-	padding-left: 40px;
+	position: absolute;
+	right: 0;
+	content: '(ZH)';
 	color: #999;
 }
 
