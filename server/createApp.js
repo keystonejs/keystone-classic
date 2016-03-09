@@ -47,11 +47,11 @@ module.exports = function createApp (keystone, express) {
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Static Router for public resources
 	if (!keystone.get('headless')) {
-	  try {
-		  app.use('/' + keystone.get('admin path'), require('keystone-admin/server').createStaticRouter(keystone));
+		try {
+			app.use('/' + keystone.get('admin path'), require('keystone-admin/server').createStaticRouter(keystone));
 		}
-		catch(e) {
-		  console.log("Error loading admin UI, is the package keystone-admin installed? " + e.toString());
+		catch (e) {
+			console.log('Error loading admin UI, is the package keystone-admin installed? ' + e.toString());
 		}
 	}
 
@@ -80,11 +80,11 @@ module.exports = function createApp (keystone, express) {
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Dynamic Router
 	if (!keystone.get('headless')) {
-	  try {
-		  app.use('/' + keystone.get('admin path'), require('keystone-admin/server').createDynamicRouter(keystone));
+		try {
+			app.use('/' + keystone.get('admin path'), require('keystone-admin/server').createDynamicRouter(keystone));
 		}
-		catch(e) {
-		  console.log("Error loading admin UI, is the package keystone-admin installed? " + e.toString());
+		catch (e) {
+			console.log('Error loading admin UI, is the package keystone-admin installed? ' + e.toString());
 		}
 	}
 

@@ -120,7 +120,7 @@ Keystone.prototype.list = require('./lib/core/list');
 Keystone.prototype.openDatabaseConnection = require('./lib/core/openDatabaseConnection');
 Keystone.prototype.populateRelated = require('./lib/core/populateRelated');
 Keystone.prototype.redirect = require('./lib/core/redirect');
-//Keystone.prototype.render = require('./lib/core/render'); //FIXME: this is ONLY used in the admin UI, moved to the admin folder -- LW March 8, 2016
+// Keystone.prototype.render = require('./lib/core/render'); //FIXME: this is ONLY used in the admin UI, moved to the admin folder -- LW March 8, 2016
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
@@ -134,15 +134,15 @@ var keystone = module.exports = new Keystone();
 
 // Expose modules and Classes
 try {
-  keystone.Admin = {
-	  Server: require('keystone-admin/server'),
-  };
+	keystone.Admin = {
+		Server: require('keystone-admin/server'),
+	};
 }
-catch(e) {
-  console.log("Note: Optional package keystone-admin is not installed. Keystone will run in\n" +
-              "      headless mode. run `npm install keystone-admin` to install the KeystoneJS\n" +
-              "      admin UI.");
-  keystone.set('headless', true);
+catch (e) {
+	console.log('Note: Optional package keystone-admin is not installed. Keystone will run in\n'
+            + '      headless mode. run `npm install keystone-admin` to install the KeystoneJS\n'
+            + '      admin UI.');
+	keystone.set('headless', true);
 }
 keystone.Email = require('./lib/email');
 keystone.Field = require('./fields/types/Type');
