@@ -1,14 +1,10 @@
-/*!
- * Module dependencies.
- */
-
 var _ = require('lodash');
 var assign = require('object-assign');
+var FieldType = require('../Type');
 var grappling = require('grappling-hook');
 var keystone = require('../../../');
 var knox = require('knox');
 var moment = require('moment');
-var super_ = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
@@ -17,10 +13,9 @@ var utils = require('keystone-utils');
  * @extends Field
  * @api public
  */
-
 function s3file (list, path, options) {
-	grappling.mixin(this)
-		.allowHooks('pre:upload');
+	grappling.mixin(this).allowHooks('pre:upload');
+
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
 
@@ -48,30 +43,20 @@ function s3file (list, path, options) {
 	}
 
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(s3file, super_);
+util.inherits(s3file, FieldType);
 
 /**
  * Exposes the custom or keystone s3 config settings
  */
-
 Object.defineProperty(s3file.prototype, 's3config', {
 	get: function () {
 		return this.options.s3config || keystone.get('s3 config');
 	},
 });
 
-
 /**
  * Registers the field on the List's Mongoose Schema.
- *
- * @api public
  */
-
 s3file.prototype.addToSchema = function () {
 
 	var field = this;
@@ -160,13 +145,9 @@ s3file.prototype.addToSchema = function () {
 	this.bindUnderscoreMethods();
 };
 
-
 /**
  * Formats the field value
- *
- * @api public
  */
-
 s3file.prototype.format = function (item) {
 	if (this.hasFormatter()) {
 		return this.options.format(item, item[this.path]);
@@ -174,61 +155,44 @@ s3file.prototype.format = function (item) {
 	return item.get(this.paths.url);
 };
 
-
 /**
  * Detects the field have formatter function
- *
- * @api public
  */
-
 s3file.prototype.hasFormatter = function () {
 	return typeof this.options.format === 'function';
 };
 
-
 /**
  * Detects whether the field has been modified
- *
- * @api public
  */
-
 s3file.prototype.isModified = function (item) {
 	return item.isModified(this.paths.url);
 };
-
 
 /**
  * Validates that a value for this field has been provided in a data object
  *
  * Deprecated
  */
-
 s3file.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
 
-
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
 s3file.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
-
 
 /**
  * Validates a header option value provided for this item, throwing an error otherwise
  * @param header {Object} the header object to validate
  * @param callback {Function} a callback function to call when validation is complete
  * @return {Boolean}
- * @api private
  */
-
 var validateHeader = function (header, callback) {
 	var HEADER_NAME_KEY = 'name';
 	var HEADER_VALUE_KEY = 'value';
@@ -253,15 +217,12 @@ var validateHeader = function (header, callback) {
 	return true;
 };
 
-
 /**
  * Convenience method to validate a headers object
  * @param headers {Object} the headers object to validate
  * @param callback {Function} a callback function to call when validation is complete
  * @return {Boolean}
- * @api private
  */
-
 var validateHeaders = function (headers, callback) {
 	var _headers = [];
 
@@ -280,16 +241,13 @@ var validateHeaders = function (headers, callback) {
 	return true;
 };
 
-
 /**
  * Generates a headers object for this item to use during upload
  * @param item {Object} the list item
  * @param file {Object} the uploaded file
  * @param callback {Function} a callback function to call when validation is complete
  * @return {Object}
- * @api public
  */
-
 s3file.prototype.generateHeaders = function (item, file, callback) {
 	var field = this;
 	var filetype = file.mimetype || file.type;
@@ -361,13 +319,9 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
 
 };
 
-
 /**
  * Uploads the file for this field
- *
- * @api public
  */
-
 s3file.prototype.uploadFile = function (item, file, update, callback) {
 
 	var field = this;
@@ -438,17 +392,13 @@ s3file.prototype.uploadFile = function (item, file, update, callback) {
 
 };
 
-
 /**
  * Returns a callback that handles a standard form submission for the field
  *
  * Expected form parts are
  * - `field.paths.action` in `req.body` (`clear` or `delete`)
  * - `field.paths.upload` in `req.files` (uploads the file to s3file)
- *
- * @api public
  */
-
 s3file.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
@@ -482,20 +432,14 @@ s3file.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 };
 
-
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- *
- * @api public
  */
-
 s3file.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
-
 /*!
  * Export class
  */
-
 module.exports = s3file;
