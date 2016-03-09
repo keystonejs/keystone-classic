@@ -22,7 +22,10 @@ types.forEach(function(name) {
 	List.register();
 
 	if (test.testFieldType) {
-		describe(name, function () {
+		describe('FieldType ' + name, function () {
+			before(function(done) {
+				List.model.remove().exec(done);
+			});
 			test.testFieldType(List);
 		});
 	}
