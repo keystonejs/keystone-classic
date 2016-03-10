@@ -47,7 +47,7 @@ module.exports = {
 			noItemsFoundListNameText: '.BlankState__heading > span:nth-child(2)',
 			noItemsFoundFoundText: '.BlankState__heading > span:nth-child(3)',
 			singleItemDeleteIcon: '.ItemList__control',
-			searchInputField: '.FormInput',
+			searchInputField: '.ListHeader__searchbar-input',
 			searchInputFieldClearIcon: '.ListHeader__search__icon',
 			filterDropdown: '#listHeaderFilterButton',
 			columnDropdown: '#listHeaderColumnButton',
@@ -100,21 +100,64 @@ module.exports = {
 			itemResetButtonText: '.EditForm__footer button.Button:nth-child(2) > span:nth-child(1)',
 			itemDeleteButton: '.EditForm__footer button.Button:nth-child(3)',
 			itemDeleteButtonText: '.EditForm__footer button.Button:nth-child(3) > span:nth-child(1)',
+			flashMessage: '.Alert > span:nth-child(1)',
+
+			// NEED TO DUPLICATE AND KEEP IN SYNC THE FIELD IN initialModalView
+			// TODO: is there a way to give precedence to the initial modal view fields?  The field DOM shows in both
+			// the Initial Modal View and the Edit Item View but so far I cannot find a way to give precedence to the
+			// Initial Modal View when it is opened.  And thus the duplication of fields both here and in the
+			// initialModalView.
+			field: {
+				email: {
+					label: '.FormLabel',
+					value: '.EditForm-container .field-type-email input[name="email"]',
+				},
+				name: {
+					label: '.FormLabel',
+					first: '.EditForm-container .field-type-name input[name="name.first"]',
+					firstPlaceholder: '.EditForm-container .field-type-name input[placeholder="First name"]',
+					last: '.EditForm-container .field-type-name input[name="name.last"]',
+					lastPlaceholder: '.EditForm-container .field-type-name input[placeholder="Last name"]',
+				},
+				password: {
+					label: '.FormLabel',
+					value: '.EditForm-container .field-type-password input[name="password"]',
+					value_confirm: '.EditForm-container .field-type-password input[name="password_confirm"]',
+				},
+			},
 		},
 		initialModalView: {
 			id: '.Modal-content',
 			buttonCreate: '.Modal__footer > button:nth-child(1)',
+			// NEED TO DUPLICATE AND KEEP IN SYNC THE FIELD IN itemView
+			// TODO: is there a way to give precedence to the initial modal view fields?  The field DOM shows in both
+			// the Initial Modal View and the Edit Item View but so far I cannot find a way to give precedence to the
+			// Initial Modal View when it is opened.  And thus the duplication of fields both here and in the
+			// itemView.
 			field: {
+				email: {
+					label: '.FormLabel',
+					value: '.Modal-dialog .field-type-email input[name="email"]',
+				},
 				name: {
 					label: '.FormLabel',
-					first: '.is-open .Modal-content input[name="name.first"]',
-					firstPlaceholder: '.is-open .Modal-content input[name="name.first"],input[placeholder="First name"]',
-					last: '.is-open .Modal-content input[name="name.last"]',
-					lastPlaceholder: '.is-open .Modal-content input[name="name.first"],input[placeholder="Last name"]',
+					first: '.Modal-dialog .field-type-name input[name="name.first"]',
+					firstPlaceholder: '.Modal-dialog .field-type-name input[placeholder="First name"]',
+					last: '.Modal-dialog .field-type-name input[name="name.last"]',
+					lastPlaceholder: '.Modal-dialog .field-type-name input[placeholder="Last name"]',
+				},
+				password: {
+					label: '.FormLabel',
+					value: '.Modal-dialog .field-type-password input[name="password"]',
+					value_confirm: '.Modal-dialog .field-type-password input[name="password_confirm"]',
 				},
 			},
 		},
 		deleteConfirmationModalView: {
+			id: '.Modal-content',
+			buttonDelete: '.Button--danger',
+		},
+		resetConfirmationModalView: {
 			id: '.Modal-content',
 			buttonDelete: '.Button--danger',
 		},
