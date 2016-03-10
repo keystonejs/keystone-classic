@@ -11,54 +11,49 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
-
 	it('should update top level fields', function (done) {
+		var testItem = new List.model();
 		List.fields.select.updateItem(testItem, {
 			select: 'one',
 		}, function () {
 			demand(testItem.select).be('one');
-			testItem.select = undefined;
 			done();
 		});
 	});
 
 	it('should update nested fields', function (done) {
+		var testItem = new List.model();
 		List.fields['nested.select'].updateItem(testItem, {
 			nested: {
 				select: 'one',
 			},
 		}, function () {
 			demand(testItem.nested.select).be('one');
-			testItem.nested.select = undefined;
 			done();
 		});
 	});
 
 	it('should update nested fields with flat paths', function (done) {
+		var testItem = new List.model();
 		List.fields['nested.select'].updateItem(testItem, {
 			'nested.select': 'one',
 		}, function () {
 			demand(testItem.nested.select).be('one');
-			testItem.nested.select = undefined;
 			done();
 		});
 	});
 
 	it('should format values with the label of the option', function () {
-		testItem.select = 'one';
+		var testItem = new List.model({
+			select: 'one',
+		});
 		demand(List.fields.select.format(testItem)).be('One');
 		testItem.select = undefined;
 	});
 
 	it('should return a blank string when formatting an undefined value', function () {
+		var testItem = new List.model();
 		demand(List.fields.select.format(testItem)).be('');
-	});
-
-	it('should validate a valid option has been provided', function () {
-		testItem.select = 'one';
-		demand(List.fields.select.inputIsValid(testItem)).be(true);
-		testItem.select = 'undefined';
 	});
 
 	it('should return a shallow clone of the options', function () {
