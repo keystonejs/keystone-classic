@@ -10,36 +10,35 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
 
 	it('should update top level fields', function (done) {
+		var testItem = new List.model();
 		List.fields.text.updateItem(testItem, {
 			text: 'value',
 		}, function () {
 			demand(testItem.text).be('value');
-			testItem.text = undefined;
 			done();
 		});
 	});
 
 	it('should update nested fields', function (done) {
+		var testItem = new List.model();
 		List.fields['nested.text'].updateItem(testItem, {
 			nested: {
 				text: 'value',
 			},
 		}, function () {
 			demand(testItem.nested.text).be('value');
-			testItem.nested.text = undefined;
 			done();
 		});
 	});
 
 	it('should update nested fields with flat paths', function (done) {
+		var testItem = new List.model();
 		List.fields['nested.text'].updateItem(testItem, {
 			'nested.text': 'value',
 		}, function () {
 			demand(testItem.nested.text).be('value');
-			testItem.nested.text = undefined;
 			done();
 		});
 	});
