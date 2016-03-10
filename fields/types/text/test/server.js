@@ -33,6 +33,13 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	it('should truncate text with a length', function () {
+		var testItem = new List.model({
+			text: 'hello world',
+		});
+		demand(testItem._.text.crop(8)).be('hello wo');
+	});
+
 	it('should update nested fields with flat paths', function (done) {
 		var testItem = new List.model();
 		List.fields['nested.text'].updateItem(testItem, {
