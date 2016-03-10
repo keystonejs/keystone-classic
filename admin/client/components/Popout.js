@@ -35,7 +35,7 @@ var Popout = React.createClass({
 	calculatePosition () {
 		let posNode = document.getElementById(this.props.relativeToID);
 
-		let pos = {
+		const pos = {
 			top: 0,
 			left: 0,
 			width: posNode.offsetWidth,
@@ -47,8 +47,8 @@ var Popout = React.createClass({
 			posNode = posNode.offsetParent;
 		}
 
-		let leftOffset = pos.left + (pos.width / 2) - (this.props.width / 2);
-		let topOffset = pos.top + pos.height + sizes.arrowHeight;
+		const leftOffset = pos.left + (pos.width / 2) - (this.props.width / 2);
+		const topOffset = pos.top + pos.height + sizes.arrowHeight;
 
 		this.setState({
 			leftOffset: leftOffset,

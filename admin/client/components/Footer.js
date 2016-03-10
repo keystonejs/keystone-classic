@@ -12,7 +12,7 @@ var Footer = React.createClass({
 		version: React.PropTypes.string,
 	},
 	renderUser () {
-		let { User, user } = this.props;
+		const { User, user } = this.props;
 		if (!User || !user) return null;
 
 		return (
@@ -26,7 +26,7 @@ var Footer = React.createClass({
 		);
 	},
 	render () {
-		let { backUrl, brand, appversion, version } = this.props;
+		const { backUrl, brand, appversion, version } = this.props;
 
 		return (
 			<footer className="keystone-footer">

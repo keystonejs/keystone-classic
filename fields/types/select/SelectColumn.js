@@ -9,8 +9,8 @@ var SelectColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
-		let option = this.props.col.field.ops.filter(i => i.value === value)[0];
+		const value = this.props.data.fields[this.props.col.path];
+		const option = this.props.col.field.ops.filter(i => i.value === value)[0];
 
 		return option ? option.label : null;
 	},

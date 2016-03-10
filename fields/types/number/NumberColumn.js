@@ -10,10 +10,10 @@ var NumberColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value || isNaN(value)) return null;
 
-		let formattedValue = (this.props.col.path === 'money') ? numeral(value).format('$0,0.00') : value;
+		const formattedValue = (this.props.col.path === 'money') ? numeral(value).format('$0,0.00') : value;
 
 		return formattedValue;
 	},

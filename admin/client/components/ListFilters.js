@@ -38,9 +38,9 @@ const Filter = React.createClass({
 		CurrentListStore.clearFilter(this.props.filter.field.path);
 	},
 	render () {
-		let { filter } = this.props;
-		let filterId = `activeFilter__${filter.field.path}`;
-		let FilterComponent = filterComponents[filter.field.type];
+		const { filter } = this.props;
+		const filterId = `activeFilter__${filter.field.path}`;
+		const FilterComponent = filterComponents[filter.field.type];
 		return (
 			<span>
 				<Pill label={filter.field.label} onClick={this.open} onClear={this.removeFilter} type="primary" id={filterId} showClearButton />
@@ -77,7 +77,7 @@ const ListFilters = React.createClass({
 		this.setState(this.getStateFromStore());
 	},
 	getStateFromStore () {
-		let filters = CurrentListStore.getActiveFilters();
+		const filters = CurrentListStore.getActiveFilters();
 		return { filters };
 	},
 	clearAllFilters () {
@@ -86,7 +86,7 @@ const ListFilters = React.createClass({
 	render () {
 		if (!this.state.filters.length) return <div />;
 
-		let currentFilters = this.state.filters.map((filter, i) => {
+		const currentFilters = this.state.filters.map((filter, i) => {
 			return (
 				<Filter key={'f' + i} filter={filter} />
 			);

@@ -42,10 +42,10 @@ module.exports = Field.create({
 	},
 
 	renderLightbox () {
-		let { value } = this.props;
+		const { value } = this.props;
 		if (!value || !Object.keys(value).length) return;
 
-		let images = [value.url];
+		const images = [value.url];
 
 		return (
 			<Lightbox

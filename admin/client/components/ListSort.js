@@ -58,9 +58,9 @@ var ListSort = React.createClass({
 	},
 	renderSortOptions () {
 		// TODO: Handle multiple sort paths
-		let activeSortPath = CurrentListStore.getActiveSort().paths[0];
-		let availibleColumns = CurrentListStore.getAvailableColumns();
-		let { searchString } = this.state;
+		const activeSortPath = CurrentListStore.getActiveSort().paths[0];
+		const availibleColumns = CurrentListStore.getAvailableColumns();
+		const { searchString } = this.state;
 		let filteredColumns = availibleColumns;
 
 		if (searchString) {
@@ -74,10 +74,10 @@ var ListSort = React.createClass({
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
 
-			let path = el.field.path;
-			let isSelected = activeSortPath && activeSortPath.path === path;
-			let isInverted = isSelected && activeSortPath.invert;
-			let icon = this.state.altDown || (isSelected && !isInverted) ? 'chevron-up' : 'chevron-down';
+			const path = el.field.path;
+			const isSelected = activeSortPath && activeSortPath.path === path;
+			const isInverted = isSelected && activeSortPath.invert;
+			const icon = this.state.altDown || (isSelected && !isInverted) ? 'chevron-up' : 'chevron-down';
 
 			return (
 				<PopoutList.Item
@@ -93,7 +93,7 @@ var ListSort = React.createClass({
 	},
 	render () {
 		// TODO: Handle multiple sort paths
-		let activeSortPath = CurrentListStore.getActiveSort().paths[0];
+		const activeSortPath = CurrentListStore.getActiveSort().paths[0];
 		return (
 			<span>
 				{activeSortPath && (

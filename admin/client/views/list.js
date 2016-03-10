@@ -114,9 +114,9 @@ const ListView = React.createClass({
 		console.log('Update ALL the things!');
 	},
 	massDelete () {
-		let { checkedItems, list } = this.state;
-		let itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
-		let itemIds = Object.keys(checkedItems);
+		const { checkedItems, list } = this.state;
+		const itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
+		const itemIds = Object.keys(checkedItems);
 
 		this.setState({
 			confirmationDialog: {
@@ -188,24 +188,24 @@ const ListView = React.createClass({
 		// unless the KEYSTONE_DEV environment variable is set
 		if (!Keystone.devMode) return;
 
-		let { checkedItems, items, list, manageMode, pageSize } = this.state;
+		const { checkedItems, items, list, manageMode, pageSize } = this.state;
 		if (!items.count || (list.nodelete && list.noedit)) return;
 
-		let checkedItemCount = Object.keys(checkedItems).length;
-		let buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
+		const checkedItemCount = Object.keys(checkedItems).length;
+		const buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
 
 		// action buttons
-		let actionUpdateButton = !list.noedit ? (
+		const actionUpdateButton = !list.noedit ? (
 			<InputGroup.Section>
 				<Button onClick={this.toggleUpdateModal} disabled={!checkedItemCount}>Update</Button>
 			</InputGroup.Section>
 		) : null;
-		let actionDeleteButton = !list.nodelete ? (
+		const actionDeleteButton = !list.nodelete ? (
 			<InputGroup.Section>
 				<Button onClick={this.massDelete} disabled={!checkedItemCount}>Delete</Button>
 			</InputGroup.Section>
 		) : null;
-		let actionButtons = manageMode ? (
+		const actionButtons = manageMode ? (
 			<InputGroup.Section>
 				<InputGroup contiguous>
 					{actionUpdateButton}
@@ -215,12 +215,12 @@ const ListView = React.createClass({
 		) : null;
 
 		// select buttons
-		let selectAllButton = items.count > pageSize ? (
+		const selectAllButton = items.count > pageSize ? (
 			<InputGroup.Section>
 				<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
 			</InputGroup.Section>
 		) : null;
-		let selectButtons = manageMode ? (
+		const selectButtons = manageMode ? (
 			<InputGroup.Section>
 				<InputGroup contiguous>
 					{selectAllButton}
@@ -235,7 +235,7 @@ const ListView = React.createClass({
 		) : null;
 
 		// selected count text
-		let selectedCountText = manageMode ? (
+		const selectedCountText = manageMode ? (
 			<InputGroup.Section grow>
 				<span style={{ color: '#666', display: 'inline-block', lineHeight: '2.4em', margin: 1 }}>{checkedItemCount} selected</span>
 			</InputGroup.Section>
@@ -254,7 +254,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderPagination () {
-		let { currentPage, items, list, manageMode, pageSize } = this.state;
+		const { currentPage, items, list, manageMode, pageSize } = this.state;
 		if (manageMode || !items.count) return;
 
 		return (
@@ -272,7 +272,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderHeader () {
-		let { items, list } = this.state;
+		const { items, list } = this.state;
 		return (
 			<div className="ListHeader">
 				<Container>
@@ -309,8 +309,8 @@ const ListView = React.createClass({
 
 	checkTableItem (item, e) {
 		e.preventDefault();
-		let newCheckedItems = { ...this.state.checkedItems };
-		let itemId = item.id;
+		const newCheckedItems = { ...this.state.checkedItems };
+		const itemId = item.id;
 		if (this.state.checkedItems[itemId]) {
 			delete newCheckedItems[itemId];
 		} else {
@@ -321,7 +321,7 @@ const ListView = React.createClass({
 		});
 	},
 	checkAllTableItems () {
-		let checkedItems = {};
+		const checkedItems = {};
 		this.state.items.results.forEach(item => {
 			checkedItems[item.id] = true;
 		});
@@ -405,7 +405,7 @@ const ListView = React.createClass({
 	renderActiveState () {
 		if (this.state.showBlankState) return null;
 
-		let containerStyle = {
+		const containerStyle = {
 			transition: 'max-width 160ms ease-out',
 			msTransition: 'max-width 160ms ease-out',
 			MozTransition: 'max-width 160ms ease-out',

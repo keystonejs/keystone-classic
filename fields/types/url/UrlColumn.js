@@ -28,7 +28,7 @@ var UrlColumn = React.createClass({
 		);
 	},
 	render () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		return (
 			<ItemsTableCell>
 				{this.renderValue()}

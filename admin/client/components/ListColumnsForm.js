@@ -35,7 +35,7 @@ var ListColumnsForm = React.createClass({
 		});
 	},
 	toggleColumn (path, value) {
-		let newColumns = Object.assign({}, this.state.selectedColumns);
+		const newColumns = Object.assign({}, this.state.selectedColumns);
 
 		if (value) {
 			newColumns[path] = value;
@@ -55,8 +55,8 @@ var ListColumnsForm = React.createClass({
 		this.setState({ searchString: e.target.value });
 	},
 	renderColumns () {
-		let availibleColumns = CurrentListStore.getAvailableColumns();
-		let { searchString } = this.state;
+		const availibleColumns = CurrentListStore.getAvailableColumns();
+		const { searchString } = this.state;
 		let filteredColumns = availibleColumns;
 
 		if (searchString) {
@@ -70,8 +70,8 @@ var ListColumnsForm = React.createClass({
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
 
-			let path = el.field.path;
-			let selected = this.state.selectedColumns[path];
+			const path = el.field.path;
+			const selected = this.state.selectedColumns[path];
 
 			return (
 				<PopoutList.Item

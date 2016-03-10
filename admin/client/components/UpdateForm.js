@@ -35,7 +35,7 @@ var UpdateForm = React.createClass({
 		}
 	},
 	getOptions () {
-		let { fields } = this.props.list;
+		const { fields } = this.props.list;
 		return Object.keys(fields).map(key => ({ value: fields[key].path, label: fields[key].label }));
 	},
 	getFieldProps (field) {
@@ -65,13 +65,13 @@ var UpdateForm = React.createClass({
 	},
 
 	renderFields () {
-		let { list } = this.props;
-		let { fields } = this.state;
-		let formFields = [];
+		const { list } = this.props;
+		const { fields } = this.state;
+		const formFields = [];
 		let focusRef;
 
 		fields.forEach((fieldOption) => {
-			let field = list.fields[fieldOption.value];
+			const field = list.fields[fieldOption.value];
 
 			if (typeof Fields[field.type] !== 'function') {
 				formFields.push(React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path }));
@@ -84,7 +84,7 @@ var UpdateForm = React.createClass({
 			formFields.push(React.createElement(Fields[field.type], fieldProps));
 		});
 
-		let fieldsUI = formFields.length ? formFields : (
+		const fieldsUI = formFields.length ? formFields : (
 			<BlankState style={{ padding: '3em 2em' }}>
 				<BlankState.Heading style={{ fontSize: '1.5em' }}>Choose a field above to begin</BlankState.Heading>
 			</BlankState>
@@ -97,9 +97,9 @@ var UpdateForm = React.createClass({
 		);
 	},
 	renderForm () {
-		let { itemIds, list } = this.props;
-		let itemCount = plural(itemIds, ('* ' + list.singular), ('* ' + list.plural));
-		let formAction = `${Keystone.adminPath}/${list.path}`;
+		const { itemIds, list } = this.props;
+		const itemCount = plural(itemIds, ('* ' + list.singular), ('* ' + list.plural));
+		const formAction = `${Keystone.adminPath}/${list.path}`;
 
 		return (
 			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction}>

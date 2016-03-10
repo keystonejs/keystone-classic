@@ -38,7 +38,7 @@ var TextFilter = React.createClass({
 		};
 	},
 	updateFilter (key, val) {
-		let update = {};
+		const update = {};
 		update[key] = val;
 		this.props.onChange(Object.assign(this.props.filter, update));
 	},
@@ -50,7 +50,7 @@ var TextFilter = React.createClass({
 		this.updateFilter(e.target.name, e.target.value);
 	},
 	render () {
-		let { filter } = this.props;
+		const { filter } = this.props;
 
 		return (
 			<div>

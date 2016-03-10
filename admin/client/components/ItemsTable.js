@@ -40,15 +40,15 @@ const ItemsTable = React.createClass({
 		return <thead><tr>{cells}</tr></thead>;
 	},
 	render () {
-		let { items, list } = this.props;
+		const { items, list } = this.props;
 		if (!items.results.length) return null;
 
-		let currentPage = CurrentListStore.getCurrentPage();
-		let pageSize = CurrentListStore.getPageSize();
+		const currentPage = CurrentListStore.getCurrentPage();
+		const pageSize = CurrentListStore.getPageSize();
 
-		let totalPages = Math.ceil(items.count / pageSize);
+		const totalPages = Math.ceil(items.count / pageSize);
 
-		let tableBody = (this.props.list.sortable) ? (
+		const tableBody = (this.props.list.sortable) ? (
 			<DrapDrop { ...this.props } />
 		) : (
 			<tbody >

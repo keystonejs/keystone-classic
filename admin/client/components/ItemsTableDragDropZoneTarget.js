@@ -20,7 +20,8 @@ var ItemsTableDragDropZoneTarget = React.createClass({
 		}
 	},
 	render () {
-		let { className, pageItems, page, isOver } = this.props;
+		const { pageItems, page, isOver } = this.props;
+		let { className } = this.props;
 		if (isOver) {
 			className += (page === CurrentListStore.getCurrentPage()) ? ' is-available ' : ' is-waiting ';
 		}
@@ -51,7 +52,7 @@ const dropTarget = {
 		if (timeoutID) {
 			return;
 		}
-		let { page, getItem } = props;
+		const { page, getItem } = props;
 		const currentPage = CurrentListStore.getCurrentPage();
 		const original = CurrentListStore.getDragBase();
 

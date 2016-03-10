@@ -32,8 +32,8 @@ var LocalFilesFieldItem = React.createClass({
 	},
 
 	render () {
-		let { filename } = this.props;
-		let ext = filename.split('.').pop();
+		const { filename } = this.props;
+		const ext = filename.split('.').pop();
 
 		let iconName = '_blank';
 		if (_.includes(ICON_EXTS, ext)) iconName = ext;

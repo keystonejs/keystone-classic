@@ -9,8 +9,8 @@ var PopoutListHeading = React.createClass({
 		className: React.PropTypes.string,
 	},
 	render () {
-		let className = classnames('PopoutList__heading', this.props.className);
-		let props = blacklist(this.props, 'className');
+		const className = classnames('PopoutList__heading', this.props.className);
+		const props = blacklist(this.props, 'className');
 		return <div className={className} {...props} />;
 	},
 });

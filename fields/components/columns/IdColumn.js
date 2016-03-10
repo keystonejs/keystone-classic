@@ -10,7 +10,7 @@ var IdColumn = React.createClass({
 		list: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.id;
+		const value = this.props.data.id;
 		if (!value) return null;
 
 		return (

@@ -18,8 +18,8 @@ var PopoutPane = React.createClass({
 		this.props.onLayout(this.refs.el.offsetHeight);
 	},
 	render () {
-		let className = classnames('Popout__pane', this.props.className);
-		let props = blacklist(this.props, 'className', 'onLayout');
+		const className = classnames('Popout__pane', this.props.className);
+		const props = blacklist(this.props, 'className', 'onLayout');
 		return <div ref="el" className={className} {...props} />;
 	},
 });

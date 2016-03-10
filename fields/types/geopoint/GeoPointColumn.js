@@ -9,11 +9,11 @@ var GeoPointColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value || !value.length) return null;
 
-		let formattedValue = `${value[1]}, ${value[0]}`;
-		let formattedTitle = `Lat: ${value[1]} Lng: ${value[0]}`;
+		const formattedValue = `${value[1]}, ${value[0]}`;
+		const formattedTitle = `Lat: ${value[1]} Lng: ${value[0]}`;
 
 		return (
 			<ItemsTableValue title={formattedTitle} field={this.props.col.type}>

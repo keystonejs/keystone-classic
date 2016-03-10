@@ -21,8 +21,8 @@ const ItemsRow = React.createClass({
 		connectDragPreview: React.PropTypes.func, // eslint-disable-line react/jsx-sort-prop-types
 	},
 	renderRow (item) {
-		let itemId = item.id;
-		let rowClassname = classnames({
+		const itemId = item.id;
+		const rowClassname = classnames({
 			'ItemList__row--dragging': this.props.isDragging,
 			'ItemList__row--selected': this.props.checkedItems[itemId],
 			'ItemList__row--manage': this.props.manageMode,
@@ -76,7 +76,7 @@ module.exports = exports = ItemsRow;
  */
 const dragItem = {
 	beginDrag (props) {
-		let send = { ...props };
+		const send = { ...props };
 		CurrentListStore.setDragBase(props.item, props.index);
 		return { ...send };
 	},
