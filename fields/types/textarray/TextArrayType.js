@@ -9,6 +9,7 @@ var utils = require('keystone-utils');
  */
 function textarray (list, path, options) {
 	this._nativeType = [String];
+	this._underscoreMethods = ['format'];
 	this.separator = options.separator || ' | ';
 	textarray.super_.call(this, list, path, options);
 }
