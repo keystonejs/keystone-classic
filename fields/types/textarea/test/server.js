@@ -45,44 +45,32 @@ exports.testFieldType = function (List) {
 		});
 	});
 
-	it('should format to HTML', function (done) {
-		var testItem = new List.model();
-		List.fields.text.updateItem(testItem, {
-			text: 'foo\nbar',
-		}, function () {
-			demand(testItem._.text.format()).be('foo<br>bar');
-			done();
+	it('should format to HTML', function () {
+		var testItem = new List.model({
+			text: 'hello\nworld',
 		});
+		demand(testItem._.text.format()).be('hello<br>world');
 	});
 
-	it('should truncate text with a length', function (done) {
-		var testItem = new List.model();
-		List.fields.text.updateItem(testItem, {
-			text: 'foobar',
-		}, function () {
-			demand(testItem._.text.crop(5)).be('fooba');
-			done();
+	it('should truncate text with a length', function () {
+		var testItem = new List.model({
+			text: 'helloworld',
 		});
+		demand(testItem._.text.crop(7)).be('hellowo');
 	});
 
-	it('should truncate text with a length and custom append string', function (done) {
-		var testItem = new List.model();
-		List.fields.text.updateItem(testItem, {
-			text: 'foobar',
-		}, function () {
-			demand(testItem._.text.crop(5, '...')).be('fooba...');
-			done();
+	it('should truncate text with a length and custom append string', function () {
+		var testItem = new List.model({
+			text: 'helloworld',
 		});
+		demand(testItem._.text.crop(7, '$')).be('hellowo$');
 	});
 
-	it('should truncate text with and preserve words with a length, custom append string', function (done) {
-		var testItem = new List.model();
-		List.fields.text.updateItem(testItem, {
-			text: 'foo bar lol',
-		}, function () {
-			demand(testItem._.text.crop(5, '...', true)).be('foo bar...');
-			done();
+	it('should truncate text with and preserve words with a length, custom append string', function () {
+		var testItem = new List.model({
+			text: 'hello world something',
 		});
+		demand(testItem._.text.crop(7, '...', true)).be('hello world...');
 	});
 
 	it('should use the common text input validator', function () {
