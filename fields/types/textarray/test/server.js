@@ -11,9 +11,8 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
-
 	it('should default to an empty array', function () {
+		var testItem = new List.model();
 		demand(testItem.get('textarr')).eql([]);
 	});
 
@@ -27,6 +26,7 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should validate no input', function () {
+		var testItem = new List.model();
 		demand(List.fields.textarr.inputIsValid({})).be(true);
 		demand(List.fields.textarr.inputIsValid({}, true)).be(false);
 		testItem.textarr = ['a'];
@@ -47,6 +47,7 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should update top level fields', function (done) {
+		var testItem = new List.model();
 		List.fields.textarr.updateItem(testItem, {
 			textarr: ['a', 'b'],
 		}, function () {
@@ -57,6 +58,7 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should update nested fields', function (done) {
+		var testItem = new List.model();
 		List.fields['nested.textarr'].updateItem(testItem, {
 			nested: {
 				textarr: ['a', 'b'],
@@ -69,6 +71,7 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should update nested fields with flat paths', function (done) {
+		var testItem = new List.model();
 		List.fields['nested.textarr'].updateItem(testItem, {
 			'nested.textarr': ['a', 'b'],
 		}, function () {
@@ -79,6 +82,7 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should update empty arrays', function (done) {
+		var testItem = new List.model();
 		List.fields.textarr.updateItem(testItem, {
 			textarr: [],
 		}, function () {
@@ -89,6 +93,7 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should default on null', function (done) {
+		var testItem = new List.model();
 		List.fields.textarr.updateItem(testItem, {
 			textarr: null,
 		}, function () {
@@ -99,6 +104,7 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should allow a single string value', function (done) {
+		var testItem = new List.model();
 		List.fields.textarr.updateItem(testItem, {
 			textarr: 'a',
 		}, function () {
@@ -109,6 +115,7 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should convert truthy values with toString methods to strings', function (done) {
+		var testItem = new List.model();
 		var time = new Date();
 		List.fields.textarr.updateItem(testItem, {
 			textarr: [1, 'a', true, false, null, undefined, [], {}, time],
