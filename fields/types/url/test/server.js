@@ -2,12 +2,17 @@ var demand = require('must');
 var UrlType = require('../UrlType');
 var validators = require('../../validators');
 
+function customFormat (url) {
+	return url.toUpperCase();
+}
+
 exports.initList = function (List) {
 	List.add({
 		url: UrlType,
 		nested: {
 			url: UrlType,
 		},
+		customFormat: { type: UrlType, format: customFormat },
 	});
 };
 
@@ -50,6 +55,16 @@ exports.testFieldType = function (List) {
 			url: 'http://www.keystonejs.com',
 		}, function () {
 			demand(testItem._.url.format()).be('www.keystonejs.com');
+			done();
+		});
+	});
+
+	it('should call custom format methods', function (done) {
+		var testItem = new List.model();
+		List.fields.customFormat.updateItem(testItem, {
+			customFormat: 'http://www.keystonejs.com',
+		}, function () {
+			demand(testItem._.customFormat.format()).be('HTTP://WWW.KEYSTONEJS.COM');
 			done();
 		});
 	});
