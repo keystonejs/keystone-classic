@@ -32,7 +32,6 @@ exports.testFieldType = function (List) {
 		demand(List.fields.textarr.inputIsValid({}, true)).be(false);
 		testItem.textarr = ['a'];
 		demand(List.fields.textarr.inputIsValid({}, true, testItem)).be(true);
-		testItem.textarr = undefined;
 	});
 
 	it('should validate length when required', function () {
@@ -53,7 +52,6 @@ exports.testFieldType = function (List) {
 			textarr: ['a', 'b'],
 		}, function () {
 			demand(testItem.textarr).eql(['a', 'b']);
-			testItem.textarr = undefined;
 			done();
 		});
 	});
@@ -66,7 +64,6 @@ exports.testFieldType = function (List) {
 			},
 		}, function () {
 			demand(testItem.nested.textarr).eql(['a', 'b']);
-			testItem.nested.textarr = undefined;
 			done();
 		});
 	});
@@ -77,7 +74,6 @@ exports.testFieldType = function (List) {
 			'nested.textarr': ['a', 'b'],
 		}, function () {
 			demand(testItem.nested.textarr).eql(['a', 'b']);
-			testItem.nested.textarr = undefined;
 			done();
 		});
 	});
@@ -88,7 +84,6 @@ exports.testFieldType = function (List) {
 			textarr: [],
 		}, function () {
 			demand(testItem.textarr).eql([]);
-			testItem.textarr = undefined;
 			done();
 		});
 	});
@@ -99,7 +94,6 @@ exports.testFieldType = function (List) {
 			textarr: null,
 		}, function () {
 			demand(testItem.textarr).eql([]);
-			testItem.textarr = undefined;
 			done();
 		});
 	});
@@ -110,7 +104,6 @@ exports.testFieldType = function (List) {
 			textarr: 'a',
 		}, function () {
 			demand(testItem.textarr).eql(['a']);
-			testItem.textarr = undefined;
 			done();
 		});
 	});
@@ -122,7 +115,6 @@ exports.testFieldType = function (List) {
 			textarr: [1, 'a', true, false, null, undefined, [], {}, time],
 		}, function () {
 			demand(testItem.textarr).eql(['1', 'a', 'true', '[object Object]', String(time)]);
-			testItem.textarr = undefined;
 			done();
 		});
 	});
