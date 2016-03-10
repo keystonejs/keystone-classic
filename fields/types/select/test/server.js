@@ -7,6 +7,15 @@ exports.initList = function (List) {
 		nested: {
 			select: { type: SelectType, options: 'one, two, three' },
 		},
+		extraProps: { type: SelectType, options: [
+			{ value: 'one', label: 'One', custom: '1' },
+			{ value: 'two', label: 'Two', custom: '2' },
+		] },
+		numeric: { type: SelectType, numeric: true, options: [
+			{ value: 1, label: 'one' },
+			{ value: 2, label: 'two' },
+			{ value: 3, label: 'three' },
+		] },
 	});
 };
 
@@ -48,7 +57,13 @@ exports.testFieldType = function (List) {
 			select: 'one',
 		});
 		demand(List.fields.select.format(testItem)).be('One');
-		testItem.select = undefined;
+	});
+
+	it('should pluck custom properties from the selected option', function () {
+		var testItem = new List.model({
+			extraProps: 'two',
+		});
+		demand(testItem._.extraProps.pluck('custom')).be('2');
 	});
 
 	it('should return a blank string when formatting an undefined value', function () {
