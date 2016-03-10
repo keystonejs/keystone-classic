@@ -7,6 +7,7 @@ exports.initList = function (List) {
 		nested: {
 			textarr: TextArrayType,
 		},
+		customSeparator: { type: TextArrayType, separator: ' * ' },
 	});
 };
 
@@ -125,4 +126,26 @@ exports.testFieldType = function (List) {
 			done();
 		});
 	});
+
+	it('should use the default separator for formatting', function () {
+		var testItem = new List.model({
+			textarr: ['one', 'two', 'three'],
+		});
+		demand(testItem._.textarr.format()).be('one | two | three');
+	});
+
+	it('should use the provided separator for formatting', function () {
+		var testItem = new List.model({
+			textarr: ['one', 'two', 'three'],
+		});
+		demand(testItem._.textarr.format(', ')).be('one, two, three');
+	});
+
+	it('should use the specified separator for formatting', function () {
+		var testItem = new List.model({
+			customSeparator: ['one', 'two', 'three'],
+		});
+		demand(testItem._.customSeparator.format()).be('one * two * three');
+	});
+
 };
