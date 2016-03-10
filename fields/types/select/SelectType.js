@@ -12,7 +12,7 @@ function select (list, path, options) {
 	this.ui = options.ui || 'select';
 	this.numeric = options.numeric ? true : false;
 	this._nativeType = (options.numeric) ? Number : String;
-	this._underscoreMethods = ['format'];
+	this._underscoreMethods = ['format', 'pluck'];
 	this._properties = ['ops', 'numeric'];
 	if (typeof options.options === 'string') {
 		options.options = options.options.split(',');
@@ -79,11 +79,16 @@ select.prototype.addToSchema = function () {
 	schema.virtual(this.paths.map).get(function () {
 		return field.map;
 	});
-	this.underscoreMethod('pluck', function (property, d) {
-		var option = this.get(field.paths.data);
-		return (option) ? option[property] : d;
-	});
 	this.bindUnderscoreMethods();
+};
+
+/**
+ * Returns a key value from the selected option
+ */
+select.prototype.pluck = function (item, property, _default) {
+	var option = item.get(this.paths.data);
+	console.log(option);
+	return (option) ? option[property] : _default;
 };
 
 /**
