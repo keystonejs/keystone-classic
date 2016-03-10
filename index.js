@@ -147,6 +147,7 @@ catch (e) {
 keystone.Email = require('./lib/email');
 keystone.Field = require('./fields/types/Type');
 keystone.Field.Types = require('./lib/fieldTypes');
+keystone.Field.Components = require('./lib/fieldComponents');
 keystone.Keystone = Keystone;
 keystone.List = require('./lib/list');
 keystone.View = require('./lib/view');
