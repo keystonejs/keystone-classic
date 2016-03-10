@@ -12,46 +12,44 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
-
 	it('should update top level fields', function (done) {
+		var testItem = new List.model();
 		List.fields.url.updateItem(testItem, {
 			url: 'value',
 		}, function () {
 			demand(testItem.url).be('value');
-			testItem.url = undefined;
 			done();
 		});
 	});
 
 	it('should update nested fields', function (done) {
+		var testItem = new List.model();
 		List.fields['nested.url'].updateItem(testItem, {
 			nested: {
 				url: 'value',
 			},
 		}, function () {
 			demand(testItem.nested.url).be('value');
-			testItem.nested.url = undefined;
 			done();
 		});
 	});
 
 	it('should update nested fields with flat paths', function (done) {
+		var testItem = new List.model();
 		List.fields['nested.url'].updateItem(testItem, {
 			'nested.url': 'value',
 		}, function () {
 			demand(testItem.nested.url).be('value');
-			testItem.nested.url = undefined;
 			done();
 		});
 	});
 
 	it('should strip the protocol when formatting', function (done) {
+		var testItem = new List.model();
 		List.fields.url.updateItem(testItem, {
 			url: 'http://www.keystonejs.com',
 		}, function () {
 			demand(testItem._.url.format()).be('www.keystonejs.com');
-			testItem.url = undefined;
 			done();
 		});
 	});
