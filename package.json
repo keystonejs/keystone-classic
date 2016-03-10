@@ -75,7 +75,7 @@
     "react-dnd": "2.1.2",
     "react-dnd-html5-backend": "2.1.2",
     "react-dom": "0.14.7",
-    "react-router": "2.0.0",
+    "react-router": "2.0.1",
     "react-select": "1.0.0-beta9",
     "scmp": "1.0.0",
     "semver": "5.1.0",
