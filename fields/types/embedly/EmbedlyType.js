@@ -1,12 +1,8 @@
-/*!
- * Module dependencies.
- */
-
 var _ = require('lodash');
 var keystone = require('../../../');
 var util = require('util');
 var EmbedlyAPI = require('embedly');
-var super_ = require('../Type');
+var FieldType = require('../Type');
 
 /**
  * Embedly FieldType Constructor
@@ -17,12 +13,10 @@ var super_ = require('../Type');
  * @extends Field
  * @api public
  */
-
 function embedly (list, path, options) {
 
 	this._underscoreMethods = ['reset'];
 	this._fixedSize = 'full';
-
 	this.fromPath = options.from;
 	this.embedlyOptions = options.options || {};
 
@@ -50,22 +44,14 @@ function embedly (list, path, options) {
 	}
 
 	embedly.super_.call(this, list, path, options);
-
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(embedly, super_);
-
+util.inherits(embedly, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
  *
  * @api public
  */
-
 embedly.prototype.addToSchema = function () {
 
 	var field = this;
@@ -181,13 +167,11 @@ embedly.prototype.addToSchema = function () {
 
 };
 
-
 /**
  * Resets the value of the field
  *
  * @api public
  */
-
 embedly.prototype.reset = function (item) {
 	return item.set(item.set(this.path, {
 		exists: false,
@@ -209,47 +193,39 @@ embedly.prototype.reset = function (item) {
 	}));
 };
 
-
 /**
  * Formats the field value
  *
  * @api public
  */
-
 embedly.prototype.format = function (item) {
 	return item.get(this.paths.html);
 };
-
 
 /**
  * Detects whether the field has been modified
  *
  * @api public
  */
-
 embedly.prototype.isModified = function (item) {
 	// Assume that it has changed if the url is different
 	return item.isModified(this.paths.url);
 };
-
 
 /**
  * Field has no input and is always valid
  *
  * Deprecated
  */
-
 embedly.prototype.inputIsValid = function () {
 	return true;
 };
-
 
 /**
  * Updates the value for this field in the item from a data object
  *
  * @api public
  */
-
 embedly.prototype.updateItem = function (item, data, callback) {
 	// TODO: This could be more granular and check for actual changes to values,
 	// see the Location field for an example
@@ -274,9 +250,5 @@ embedly.prototype.updateItem = function (item, data, callback) {
 	process.nextTick(callback);
 };
 
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 module.exports = embedly;
