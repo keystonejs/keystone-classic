@@ -177,7 +177,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 			return exists(this);
 		},
 		folder: function () {
-			return field.folder();
+			return field.getFolder();
 		},
 		src: function (options) {
 			return src(this, options);
