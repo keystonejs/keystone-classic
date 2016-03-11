@@ -22,7 +22,7 @@ module.exports = {
 	},
 	'Name field should be visible in initial modal': function (browser) {
 		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForNameFieldsTabUnderDashboardFieldsSubheading)
+			.click(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 

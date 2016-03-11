@@ -39,9 +39,9 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 1 Name Field');
+			.text.to.equal('Showing 1 Name');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameItemWhenListHasSingleItem)
 			.text.to.equal('First1 Last1');
 	},
 	'List view should allow users to create more new list items': function (browser) {
@@ -61,12 +61,12 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 2 Name Fields');
+			.text.to.equal('Showing 2 Names');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
 			.text.to.equal('First1 Last1');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForSecondNameFieldItemWhenListHasMultipleItems)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForSecondNameItemWhenListHasMultipleItems)
 			.text.to.equal('First2 Last2');
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
@@ -74,7 +74,7 @@ module.exports = {
 			.click(adminUI.cssSelector.allView.fieldsMenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
+			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.allView.fieldsMenu)
@@ -86,7 +86,7 @@ module.exports = {
 			.click(adminUI.cssSelector.allView.fieldsMenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
+			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.itemView.listBreadcrumb)
@@ -101,9 +101,9 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 1 Name Field');
+			.text.to.equal('Showing 1 Name');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameItemWhenListHasSingleItem)
 			.text.to.equal('First2 Last2');
 	},
 	'List view should allow users to clear search filter': function (browser) {
@@ -112,12 +112,12 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 2 Name Fields');
+			.text.to.equal('Showing 2 Names');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
 			.text.to.equal('First1 Last1');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForSecondNameFieldItemWhenListHasMultipleItems)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForSecondNameItemWhenListHasMultipleItems)
 			.text.to.equal('First2 Last2');
 	},
 	'List view should allow users to delete items': function (browser) {
@@ -128,9 +128,9 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 1 Name Field');
+			.text.to.equal('Showing 1 Name');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameItemWhenListHasSingleItem)
 			.text.to.equal('First1 Last1');
 	},
 	'List view should allow users to delete last item': function (browser) {
@@ -144,7 +144,7 @@ module.exports = {
 			.text.to.equal('No');
 
 		browser.expect.element(adminUI.cssSelector.listView.noItemsFoundListNameText)
-			.text.to.equal('name fields');
+			.text.to.equal('names');
 
 		browser.expect.element(adminUI.cssSelector.listView.noItemsFoundFoundText)
 			.text.to.equal('found…');

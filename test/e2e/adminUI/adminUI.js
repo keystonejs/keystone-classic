@@ -32,8 +32,8 @@ module.exports = {
 			// Dashboard's Fields Group
 			dashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(1) > span:nth-child(2)',
 			nameFieldsTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForNameFieldsTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForNameFieldsTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			plusIconLinkForNamesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
+			itemCountForNamesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
 
 			// Dashboard's Others Group
 			dashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(1) > span:nth-child(2)',
@@ -68,14 +68,14 @@ module.exports = {
 			isAdminColumnValueForUserList: '.octicon-check',
 
 			// Name Field List Column Headers
-			nameColumnHeaderForNameFieldsList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(1)',
+			nameColumnHeaderForNamesList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(1)',
 
 			// Single Item Name Field List Values
-			nameColumnValueForNameFieldItemWhenListHasSingleItem: 'a.ItemList__value',
+			nameColumnValueForNameItemWhenListHasSingleItem: 'a.ItemList__value',
 
 			// Multi Item Name Field List Values
-			nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(1) > td:nth-child(2) > a:nth-child(1)',
-			nameColumnValueForSecondNameFieldItemWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(2) > td:nth-child(2) > a:nth-child(1)',
+			nameColumnValueForFirstNameItemWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(1) > td:nth-child(2) > a:nth-child(1)',
+			nameColumnValueForSecondNameItemWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(2) > td:nth-child(2) > a:nth-child(1)',
 
 			// Single Item List Delete Icon
 			deleteItemIconWhenListHasSingleItem: '.ItemList__control',
@@ -109,18 +109,27 @@ module.exports = {
 			// initialModalView.
 			field: {
 				email: {
-					label: '.FormLabel',
+					label: '.EditForm-container .field-type-email .FormLabel',
 					value: '.EditForm-container .field-type-email input[name="email"]',
 				},
 				name: {
-					label: '.FormLabel',
-					first: '.EditForm-container .field-type-name input[name="name.first"]',
-					firstPlaceholder: '.EditForm-container .field-type-name input[placeholder="First name"]',
-					last: '.EditForm-container .field-type-name input[name="name.last"]',
-					lastPlaceholder: '.EditForm-container .field-type-name input[placeholder="Last name"]',
+					label: '.EditForm-container .field-type-name[for="name"] .FormLabel',
+					first: '.EditForm-container .field-type-name[for="name"] input[name="name.first"]',
+					firstPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="First name"]',
+					last: '.EditForm-container .field-type-name[for="name"] input[name="name.last"]',
+					lastPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="Last name"]',
+
+					fieldLabel: '.EditForm-container .field-type-name[for="field"] .FormLabel',
+					fieldFirst: '.EditForm-container .field-type-name[for="field"] input[name="field.first"]',
+					fieldFirstPlaceholder: '.EditForm-container .field-type-name[for="field"] input[placeholder="First name"]',
+					fieldLast: '.EditForm-container .field-type-name[for="field"] input[name="field.last"]',
+					fieldLastPlaceholder: '.EditForm-container .field-type-name[for="field"] input[placeholder="Last name"]',
+
+					// edit form
+					itemHeader: '.EditForm__name-field > h2:nth-child(1)',
 				},
 				password: {
-					label: '.FormLabel',
+					label: '.EditForm-container .field-type-password .FormLabel',
 					value: '.EditForm-container .field-type-password input[name="password"]',
 					value_confirm: '.EditForm-container .field-type-password input[name="password_confirm"]',
 				},
@@ -136,18 +145,18 @@ module.exports = {
 			// itemView.
 			field: {
 				email: {
-					label: '.FormLabel',
+					label: '.Modal-dialog .field-type-email .FormLabel',
 					value: '.Modal-dialog .field-type-email input[name="email"]',
 				},
 				name: {
-					label: '.FormLabel',
+					label: '.Modal-dialog .field-type-name .FormLabel',
 					first: '.Modal-dialog .field-type-name input[name="name.first"]',
 					firstPlaceholder: '.Modal-dialog .field-type-name input[placeholder="First name"]',
 					last: '.Modal-dialog .field-type-name input[name="name.last"]',
 					lastPlaceholder: '.Modal-dialog .field-type-name input[placeholder="Last name"]',
 				},
 				password: {
-					label: '.FormLabel',
+					label: '.Modal-dialog .field-type-password .FormLabel',
 					value: '.Modal-dialog .field-type-password input[name="password"]',
 					value_confirm: '.Modal-dialog .field-type-password input[name="password_confirm"]',
 				},

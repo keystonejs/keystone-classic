@@ -59,11 +59,11 @@ module.exports = {
 			.waitForElementVisible(adminUI.cssSelector.homeView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNameFieldsTabUnderDashboardFieldsSubheading)
+		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNamesTabUnderDashboardFieldsSubheading)
 			.text.to.equal('0 Items');
 
 		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForNameFieldsTabUnderDashboardFieldsSubheading)
+			.click(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.setValue(adminUI.cssSelector.initialModalView.field.name.first, 'First')
 			.setValue(adminUI.cssSelector.initialModalView.field.name.last, 'Last')
@@ -72,7 +72,7 @@ module.exports = {
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.url(adminUI.url);
 
-		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNameFieldsTabUnderDashboardFieldsSubheading)
+		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNamesTabUnderDashboardFieldsSubheading)
 			.text.to.equal('1 Item');
 	},
 	'Home view should be accessible from any other non-modal view by clicking the Home link': function (browser) {

@@ -75,3 +75,12 @@ any changes it does to the state of the UI)
 - each test within a group must run on its own using the --test argument (that means, that each test must undo
 any changes it does to the state of the UI)
 - when naming selectors (e.g., in adminUI.js) make sure to use a very descriptive name
+
+
+## Adding Field Tests
+
+- add a model for the field to e2e\models\fields\<Field-Name>.js
+- add the field collection to the fields nav in e2e\server.js
+- add the selectors for the field to e2e\adminUI\adminUI.js (need to add to both itemview.field and initialModalView.field)
+- add uiTestNNN<Field-Name>Field.js to e2e\adminUI\group005Fields\
+- add uxTestNNN<Field-Name>Field.js to e2e\adminUI\group005Fields\

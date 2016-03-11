@@ -75,20 +75,20 @@ module.exports = {
 		browser.expect.element(adminUI.cssSelector.homeView.dashboardFieldsSubheading)
 			.text.to.equal('Fields');
 	},
-	'Home view should have a Name Fields tab under the Fields dashboard sub-heading': function (browser) {
+	'Home view should have a Names tab under the Fields dashboard sub-heading': function (browser) {
 		browser.expect.element(adminUI.cssSelector.homeView.nameFieldsTabUnderDashboardFieldsSubheading)
-			.text.to.equal('Name Fields');
+			.text.to.equal('Names');
 	},
-	'Home view should have a + link for the Name Fields tab under the Fields dashboard sub-heading': function (browser) {
-		browser.expect.element(adminUI.cssSelector.homeView.plusIconLinkForNameFieldsTabUnderDashboardFieldsSubheading)
+	'Home view should have a + link for the Names tab under the Fields dashboard sub-heading': function (browser) {
+		browser.expect.element(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
 			.to.be.visible;
 	},
-	'Home view should have a + icon for the Name Fields tab under the Fields dashboard sub-heading': function (browser) {
-		browser.expect.element(adminUI.cssSelector.homeView.plusIconLinkForNameFieldsTabUnderDashboardFieldsSubheading)
+	'Home view should have a + icon for the Names tab under the Fields dashboard sub-heading': function (browser) {
+		browser.expect.element(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
 			.to.have.attribute('class').which.contains('dashboard-group__list-create octicon octicon-plus');
 	},
-	'Home view should show 0 Items for the Name Fields tab under the Fields dashboard sub-heading': function (browser) {
-		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNameFieldsTabUnderDashboardFieldsSubheading)
+	'Home view should show 0 Items for the Names tab under the Fields dashboard sub-heading': function (browser) {
+		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNamesTabUnderDashboardFieldsSubheading)
 			.text.to.equal('0 Items');
 	},
 	'Home view should have a Other dashboard sub-heading': function (browser) {

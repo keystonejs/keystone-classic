@@ -38,7 +38,7 @@ keystone.import('models');
 
 keystone.set('nav', {
 	'access': ['users'],
-	'fields': ['name-fields'],
+	'fields': ['names'],
 });
 
 function dropTestDatabase(done) {
