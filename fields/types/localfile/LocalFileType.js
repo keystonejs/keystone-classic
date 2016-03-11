@@ -1,22 +1,17 @@
-/*!
- * Module dependencies.
- */
-
-var fs = require('fs-extra');
-var path = require('path');
 var _ = require('lodash');
-var moment = require('moment');
+var FieldType = require('../Type');
+var fs = require('fs-extra');
 var grappling = require('grappling-hook');
+var moment = require('moment');
+var path = require('path');
 var util = require('util');
 var utils = require('keystone-utils');
-var super_ = require('../Type');
 
 /**
  * localfile FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function localfile (list, path, options) {
 	grappling.mixin(this)
 		.allowHooks('move');
@@ -53,20 +48,13 @@ function localfile (list, path, options) {
 	}
 
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(localfile, super_);
-
+util.inherits(localfile, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
  *
  * @api public
  */
-
 localfile.prototype.addToSchema = function () {
 
 	var field = this;
@@ -165,14 +153,12 @@ localfile.prototype.addToSchema = function () {
 	this.bindUnderscoreMethods();
 };
 
-
 /**
  * Formats the field value
  *
  * Delegates to the options.format function if it exists.
  * @api public
  */
-
 localfile.prototype.format = function (item) {
 	if (!item.get(this.paths.filename)) return '';
 	if (this.hasFormatter()) {
@@ -183,72 +169,60 @@ localfile.prototype.format = function (item) {
 	return this.href(item);
 };
 
-
 /**
  * Detects whether the field has formatter function
  *
  * @api public
  */
-
 localfile.prototype.hasFormatter = function () {
 	return typeof this.options.format === 'function';
 };
-
 
 /**
  * Return the public href for the stored file
  *
  * @api public
  */
-
 localfile.prototype.href = function (item) {
 	if (!item.get(this.paths.filename)) return '';
 	var prefix = this.options.prefix ? this.options.prefix : item.get(this.paths.path);
 	return prefix + '/' + item.get(this.paths.filename);
 };
 
-
 /**
  * Detects whether the field has been modified
  *
  * @api public
  */
-
 localfile.prototype.isModified = function (item) {
 	return item.isModified(this.paths.path);
 };
-
 
 /**
  * Validates that a value for this field has been provided in a data object
  *
  * Deprecated
  */
-
 localfile.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
-
 
 /**
  * Updates the value for this field in the item from a data object
  *
  * @api public
  */
-
 localfile.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
-
 
 /**
  * Uploads the file for this field
  *
  * @api public
  */
-
 localfile.prototype.uploadFile = function (item, file, update, callback) {
 	var field = this;
 	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '';
@@ -303,7 +277,6 @@ localfile.prototype.uploadFile = function (item, file, update, callback) {
 	});
 };
 
-
 /**
  * Returns a callback that handles a standard form submission for the field
  *
@@ -313,7 +286,6 @@ localfile.prototype.uploadFile = function (item, file, update, callback) {
  *
  * @api public
  */
-
 localfile.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
@@ -347,20 +319,14 @@ localfile.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 };
 
-
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
  *
  * @api public
  */
-
 localfile.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 module.exports = localfile;
