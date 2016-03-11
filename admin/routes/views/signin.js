@@ -1,5 +1,6 @@
 var keystone = require('../../../');
 var session = require('../../../lib/session');
+var url = require('url');
 
 exports = module.exports = function(req, res) {
 
@@ -27,7 +28,12 @@ exports = module.exports = function(req, res) {
 		var onSuccess = function (user) {
 
 			if (req.query.from && req.query.from.match(/^(?!http|\/\/|javascript).+/)) {
-				res.redirect(req.query.from);
+				var parsed = url.parse(req.query.from);
+				if(parsed.host || parsed.protocol || parsed.auth){
+					res.redirect('/keystone');
+				}else{
+					res.redirect(parsed.path);
+				}			
 			} else if ('string' === typeof keystone.get('signin redirect')) {
 				res.redirect(keystone.get('signin redirect'));
 			} else if ('function' === typeof keystone.get('signin redirect')) {
