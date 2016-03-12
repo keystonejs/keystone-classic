@@ -177,7 +177,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 			return exists(this);
 		},
 		folder: function () {
-			return field.folder();
+			return field.getFolder();
 		},
 		src: function (options) {
 			return src(this, options);
@@ -327,7 +327,7 @@ cloudinaryimage.prototype.inputIsValid = function () {
 cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 	var field = this;
 	var paths = this.paths;
-	var value = this.getValueFromData(data);
+	var value = this.getValueFromData(data, '_upload');
 
 	// Allow field value reset
 	if (value === '' || value === 'null' || (typeof value === 'object' && !Object.keys(value).length)) {
