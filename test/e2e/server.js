@@ -8,7 +8,8 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var Nightwatch = require('nightwatch/lib/index.js');
 
-var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + '/e2e';
+var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
+var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
 
 keystone.init({
 	'name': 'e2e',

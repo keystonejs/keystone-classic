@@ -58,9 +58,9 @@ module.exports = {
 			paginationCount: '.Pagination__count',
 
 			// User List Column Headers
-			nameColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(1)',
-			emailColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(2)',
-			isAdminColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(3)',
+			nameColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(2)',
+			emailColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(3)',
+			isAdminColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(4)',
 
 			// Single Item User List Values
 			nameColumnValueForUserList: '.ItemList__value--name',
@@ -68,7 +68,7 @@ module.exports = {
 			isAdminColumnValueForUserList: '.octicon-check',
 
 			// Name Field List Column Headers
-			nameColumnHeaderForNamesList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(1)',
+			nameColumnHeaderForNamesList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(4)',
 
 			// Single Item Name Field List Values
 			nameColumnValueForNameItemWhenListHasSingleItem: 'a.ItemList__value',
