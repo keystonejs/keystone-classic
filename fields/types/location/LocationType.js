@@ -1,13 +1,10 @@
-/*!
- * Module dependencies.
- */
 var _ = require('lodash');
+var FieldType = require('../Type');
+var https = require('https');
 var keystone = require('../../../');
 var querystring = require('querystring');
-var https = require('https');
 var util = require('util');
 var utils = require('keystone-utils');
-var super_ = require('../Type');
 
 var RADIUS_KM = 6371;
 var RADIUS_MILES = 3959;
@@ -19,10 +16,8 @@ function location (list, path, options) {
 
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
 	this._fixedSize = 'full';
-
-	this.enableMapsAPI = (options.geocodeGoogle === true || (options.geocodeGoogle !== false && keystone.get('google server api key'))) ? true : false;
-
 	this._properties = ['enableMapsAPI'];
+	this.enableMapsAPI = (options.geocodeGoogle === true || (options.geocodeGoogle !== false && keystone.get('google server api key'))) ? true : false;
 
 	if (!options.defaults) {
 		options.defaults = {};
@@ -39,19 +34,15 @@ function location (list, path, options) {
 		// options.required should always be simplified to a boolean
 		options.required = true;
 	}
+
 	// default this.requiredPaths
 	if (!this.requiredPaths) {
 		this.requiredPaths = ['street1', 'suburb'];
 	}
 
 	location.super_.call(this, list, path, options);
-
 }
-
-/*!
- * Inherit from Field
- */
-util.inherits(location, super_);
+util.inherits(location, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
@@ -125,7 +116,6 @@ location.prototype.addToSchema = function () {
 	});
 
 	this.bindUnderscoreMethods();
-
 };
 
 /**
@@ -496,7 +486,5 @@ location.prototype.milesFrom = function (item, point) {
 	return calculateDistance(this.get(this.paths.geo), point) * RADIUS_MILES;
 };
 
-/*!
- * Export class
- */
+/* Export Field Type */
 module.exports = location;
