@@ -35,7 +35,7 @@ function buildQueryString (options) {
 	if (options.filters.length) query.filters = JSON.stringify(getFilters(options.filters));
 	if (options.columns) query.select = options.columns.map(i => i.path).join(',');
 	if (options.page && options.page.size) query.limit = options.page.size;
-	if (options.page && options.page.index > 1) query.skip = (options.page.index - 1) * options.page.size;
+	if (!options.search && options.page && options.page.index > 1) query.skip = (options.page.index - 1) * options.page.size;
 	if (options.sort) query.sort = getSortString(options.sort);
 	query.expandRelationshipFields = true;
 	return '?' + qs.stringify(query);
