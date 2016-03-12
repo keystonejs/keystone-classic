@@ -78,9 +78,9 @@ var ListFiltersAdd = React.createClass({
 		this.closePopout();
 	},
 	renderList () {
-		let activeFilterFields = this.state.activeFilters.map(obj => obj.field);
-		let activeFilterPaths = activeFilterFields.map(obj => obj.path);
-		let { availableFilters, searchString } = this.state;
+		const activeFilterFields = this.state.activeFilters.map(obj => obj.field);
+		const activeFilterPaths = activeFilterFields.map(obj => obj.path);
+		const { availableFilters, searchString } = this.state;
 		let filteredFilters = availableFilters;
 
 		if (searchString) {
@@ -124,9 +124,9 @@ var ListFiltersAdd = React.createClass({
 		);
 	},
 	render () {
-		let { selectedField } = this.state;
-		let popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
-		let popoutPanesClassname = classnames('Popout__panes', {
+		const { selectedField } = this.state;
+		const popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
+		const popoutPanesClassname = classnames('Popout__panes', {
 			'Popout__scrollable-area': !selectedField,
 		});
 

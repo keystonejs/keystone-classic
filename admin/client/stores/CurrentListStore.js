@@ -5,7 +5,7 @@ import useQueries from 'history/lib/useQueries';
 import Store from 'store-prototype';
 import List from '../lib/List';
 
-let history = useQueries(createHistory)();
+const history = useQueries(createHistory)();
 
 let _location = null;
 let _ready = false;
@@ -58,7 +58,7 @@ defaultRowAlert();
 
 function updateQueryParams (params, replace) {
 	if (!_location) return;
-	let newParams = Object.assign({}, _location.query);
+	const newParams = Object.assign({}, _location.query);
 	Object.keys(params).forEach(i => {
 		if (params[i]) {
 			newParams[i] = params[i];
@@ -107,7 +107,7 @@ const CurrentListStore = new Store({
 	setActiveSearch (str) {
 		// starting or clearing a search pushes a new history state, but updating
 		// the current search replaces it for nicer history navigation support
-		let replace = (str && this.getActiveSearch());
+		const replace = (str && this.getActiveSearch());
 		updateQueryParams({ search: str }, replace);
 	},
 	getActiveSort () {
@@ -131,7 +131,7 @@ const CurrentListStore = new Store({
 		if (filter) {
 			filter.value = value;
 		} else {
-			let field = _list.fields[path];
+			const field = _list.fields[path];
 			if (!field) {
 				console.warn('Invalid Filter path specified:', path);
 				return;

@@ -7,8 +7,8 @@ import xhr from 'xhr';
 import { Button, FormInput, InputGroup } from 'elemental';
 
 function compareValues (current, next) {
-	let currentLength = current ? current.length : 0;
-	let nextLength = next ? next.length : 0;
+	const currentLength = current ? current.length : 0;
+	const nextLength = next ? next.length : 0;
 	if (currentLength !== nextLength) return false;
 	for (let i = 0; i < currentLength; i++) {
 		if (current[i] !== next[i]) return false;
@@ -90,7 +90,7 @@ module.exports = Field.create({
 			});
 		};
 		values = Array.isArray(values) ? values : values.split(',');
-		let cachedValues = values.map(i => this._itemsCache[i]).filter(i => i);
+		const cachedValues = values.map(i => this._itemsCache[i]).filter(i => i);
 		if (cachedValues.length === values.length) {
 			this.setState({
 				loading: false,
@@ -125,7 +125,7 @@ module.exports = Field.create({
 	loadOptions (input, callback) {
 		// NOTE: this seems like the wrong way to add options to the Select
 		this.loadOptionsCallback = callback;
-		let filters = this.buildFilters();
+		const filters = this.buildFilters();
 		xhr({
 			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input + '&' + filters,
 			responseType: 'json',
@@ -159,7 +159,7 @@ module.exports = Field.create({
 		this.cacheItem(item);
 		if (Array.isArray(this.state.value)) {
 			// For many relationships, append the new item to the end
-			let values = this.state.value.map((item) => item.id);
+			const values = this.state.value.map((item) => item.id);
 			values.push(item.id);
 			this.valueChanged(values.join(','));
 		} else {
@@ -195,7 +195,7 @@ module.exports = Field.create({
 		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/components/CreateForm';
 		//   CreateForm was imported as a blank object. This stack overflow post suggested lazilly requiring it:
 		// http://stackoverflow.com/questions/29807664/cyclic-dependency-returns-empty-object-in-react-native
-		let CreateForm = require('../../../admin/client/components/CreateForm');
+		const CreateForm = require('../../../admin/client/components/CreateForm');
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>

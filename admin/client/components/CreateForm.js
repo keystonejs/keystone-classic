@@ -70,8 +70,8 @@ var CreateForm = React.createClass({
 		// 	of using a POST request to the list endpoint.
 		if (this.props.onCreate) {
 			event.preventDefault();
-			let createForm = this.refs.createForm.getDOMNode();
-			let formData = new FormData(createForm);
+			const createForm = this.refs.createForm.getDOMNode();
+			const formData = new FormData(createForm);
 			this.props.list.createItem(formData, (err, data) => {
 				if (data) {
 					this.props.onCreate(data);
@@ -91,7 +91,7 @@ var CreateForm = React.createClass({
 	renderAlerts () {
 		if (!this.state.err || !this.state.err.errors) return;
 
-		let errors = this.state.err.errors;
+		const errors = this.state.err.errors;
 		var alertContent;
 		var errorCount = Object.keys(errors).length;
 

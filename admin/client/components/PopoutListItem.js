@@ -24,16 +24,16 @@ var PopoutListItem = React.createClass({
 	},
 	renderIcon () {
 		if (!this.props.icon) return null;
-		let icon = this.state.hover && this.props.iconHover ? this.props.iconHover : this.props.icon;
-		let iconClassname = classnames('PopoutList__item__icon octicon', ('octicon-' + icon));
+		const icon = this.state.hover && this.props.iconHover ? this.props.iconHover : this.props.icon;
+		const iconClassname = classnames('PopoutList__item__icon octicon', ('octicon-' + icon));
 
 		return <span className={iconClassname} />;
 	},
 	render () {
-		let itemClassname = classnames('PopoutList__item', {
+		const itemClassname = classnames('PopoutList__item', {
 			'is-selected': this.props.isSelected,
 		});
-		let props = blacklist(this.props, 'className', 'icon', 'isSelected', 'label');
+		const props = blacklist(this.props, 'className', 'icon', 'isSelected', 'label');
 		return (
 			<button
 				type="button"

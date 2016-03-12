@@ -42,7 +42,7 @@ var ListDownloadForm = React.createClass({
 		});
 	},
 	toggleColumn (column, value) {
-		let newColumns = Object.assign({}, this.state.selectedColumns);
+		const newColumns = Object.assign({}, this.state.selectedColumns);
 		if (value) {
 			newColumns[column] = value;
 		} else {
@@ -58,7 +58,7 @@ var ListDownloadForm = React.createClass({
 		});
 	},
 	toggleCurrentlySelectedColumns (e) {
-		let newState = {
+		const newState = {
 			useCurrentColumns: e.target.checked,
 			selectedColumns: this.getDefaultSelectedColumns(),
 		};
@@ -71,13 +71,13 @@ var ListDownloadForm = React.createClass({
 	renderColumnSelect () {
 		if (this.state.useCurrentColumns) return null;
 
-		let possibleColumns = this.getListUIElements().map((el, i) => {
+		const possibleColumns = this.getListUIElements().map((el, i) => {
 			if (el.type === 'heading') {
 				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
 			}
 
-			let columnKey = el.field.path;
-			let columnValue = this.state.selectedColumns[columnKey];
+			const columnKey = el.field.path;
+			const columnValue = this.state.selectedColumns[columnKey];
 
 			return (
 				<PopoutList.Item
@@ -97,7 +97,7 @@ var ListDownloadForm = React.createClass({
 		);
 	},
 	render () {
-		let { useCurrentColumns } = this.state;
+		const { useCurrentColumns } = this.state;
 
 		return (
 			<InputGroup.Section className={this.props.className}>

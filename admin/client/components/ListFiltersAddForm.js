@@ -13,7 +13,7 @@ var ListFiltersAddForm = React.createClass({
 		onHeightChange: React.PropTypes.func,
 	},
 	getInitialState () {
-		let filterComponent = filters[this.props.field.type];
+		const filterComponent = filters[this.props.field.type];
 		let filterValue = CurrentListStore.getFilter(this.props.field.path);
 		if (filterValue) {
 			filterValue = filterValue.value;
@@ -27,9 +27,9 @@ var ListFiltersAddForm = React.createClass({
 	},
 	updateHeight (bodyHeight) {
 		bodyHeight += 40; // TODO: remove magic number, currently accounts for padding
-		let footerHeight = ReactDOM.findDOMNode(this.refs.footer).offsetHeight;
-		let maxBodyHeight = this.props.maxHeight - footerHeight;
-		let newHeight = bodyHeight + footerHeight;
+		const footerHeight = ReactDOM.findDOMNode(this.refs.footer).offsetHeight;
+		const maxBodyHeight = this.props.maxHeight - footerHeight;
+		const newHeight = bodyHeight + footerHeight;
 		// console.log(bodyHeight, maxBodyHeight, '|', newHeight, this.props.maxHeight);
 		this.setState({
 			bodyHeight: Math.min(bodyHeight, maxBodyHeight),

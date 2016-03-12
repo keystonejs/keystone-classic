@@ -28,11 +28,11 @@ var NumberFilter = React.createClass({
 	},
 
 	handleChangeBuilder (type) {
-		let self = this;
+		const self = this;
 		return function handleChange (e) {
-			let { value } = e.target;
-			let { modeValue } = self.state;
-			let { onChange } = self.props;
+			const { value } = e.target;
+			const { modeValue } = self.state;
+			const { onChange } = self.props;
 			self.setState({
 				[type]: value,
 			});
@@ -77,9 +77,9 @@ var NumberFilter = React.createClass({
 
 	renderControls () {
 		let controls;
-		let { field } = this.props;
-		let { modeLabel, modeValue } = this.state;
-		let placeholder = field.label + ' is ' + modeLabel.toLowerCase() + '...';
+		const { field } = this.props;
+		const { modeLabel, modeValue } = this.state;
+		const placeholder = field.label + ' is ' + modeLabel.toLowerCase() + '...';
 
 		if (modeValue === 'between') {
 			controls = (
@@ -104,7 +104,7 @@ var NumberFilter = React.createClass({
 	},
 
 	render () {
-		let { modeValue } = this.state;
+		const { modeValue } = this.state;
 
 		return (
 			<div>

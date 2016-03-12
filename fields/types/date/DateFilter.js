@@ -105,7 +105,7 @@ var DateFilter = React.createClass({
 	switchBetweenActiveInputFields (e, day, modifiers) {
 		if (modifiers.indexOf('disabled') > -1) return;
 		const { activeInputField } = this.state;
-		let send = {};
+		const send = {};
 		send[activeInputField] = day;
 		this.updateFilter(send);
 		const newActiveField = (activeInputField === 'before') ? 'after' : 'before';

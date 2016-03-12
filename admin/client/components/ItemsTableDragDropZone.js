@@ -12,19 +12,19 @@ var ItemsTableDragDropZone = React.createClass({
 		list: React.PropTypes.object,
 	},
 	renderPageDrops () {
-		let { items, list } = this.props;
-		let currentPage = CurrentListStore.getCurrentPage();
-		let pageSize = CurrentListStore.getPageSize();
+		const { items, list } = this.props;
+		const currentPage = CurrentListStore.getCurrentPage();
+		const pageSize = CurrentListStore.getPageSize();
 
-		let totalPages = Math.ceil(items.count / pageSize);
-		let style = { display: totalPages > 1 ? null : 'none' };
+		const totalPages = Math.ceil(items.count / pageSize);
+		const style = { display: totalPages > 1 ? null : 'none' };
 
-		let pages = [];
+		const pages = [];
 		for (let i = 0; i < totalPages; i++) {
-			let page = i + 1;
-			let pageItems = '' + (page * pageSize - (pageSize - 1)) + ' - ' + (page * pageSize);
-			let current = (page === currentPage);
-			let className = classnames('ItemList__dropzone--page', {
+			const page = i + 1;
+			const pageItems = '' + (page * pageSize - (pageSize - 1)) + ' - ' + (page * pageSize);
+			const current = (page === currentPage);
+			const className = classnames('ItemList__dropzone--page', {
 				'is-active': current,
 			});
 			/* eslint-disable no-loop-func */

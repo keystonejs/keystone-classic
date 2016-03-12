@@ -11,10 +11,10 @@ var LocationColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value || !Object.keys(value).length) return null;
 
-		let output = [];
+		const output = [];
 
 		SUB_FIELDS.map((i) => {
 			if (value[i]) {

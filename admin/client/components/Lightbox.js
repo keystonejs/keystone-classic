@@ -114,8 +114,8 @@ var Lightbox = React.createClass({
 		);
 	},
 	renderImages () {
-		let { images } = this.props;
-		let { currentImage } = this.state;
+		const { images } = this.props;
+		const { currentImage } = this.state;
 		if (!images || !images.length) return;
 
 		return (
@@ -125,7 +125,7 @@ var Lightbox = React.createClass({
 		);
 	},
 	render () {
-		let props = blacklist(this.props, 'backdropClosesModal', 'initialImage', 'height', 'images', 'isOpen', 'onCancel', 'showCloseButton', 'width');
+		const props = blacklist(this.props, 'backdropClosesModal', 'initialImage', 'height', 'images', 'isOpen', 'onCancel', 'showCloseButton', 'width');
 
 		return (
 			<Portal {...props}>

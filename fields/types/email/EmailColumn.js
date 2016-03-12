@@ -9,7 +9,7 @@ var EmailColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
 
 		return (
@@ -19,7 +19,7 @@ var EmailColumn = React.createClass({
 		);
 	},
 	render () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		return (
 			<ItemsTableCell>
 				{this.renderValue()}

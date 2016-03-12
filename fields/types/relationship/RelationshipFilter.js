@@ -97,8 +97,8 @@ var RelationshipFilter = React.createClass({
 		return parts.join('&');
 	},
 	loadSearchResults (thenPopulateValue) {
-		let searchString = this.state.searchString;
-		let filters = this.buildFilters();
+		const searchString = this.state.searchString;
+		const filters = this.buildFilters();
 		xhr({
 			url: Keystone.adminPath + '/api/' + this.props.field.refList.path + '?basic&search=' + searchString + '&' + filters,
 			responseType: 'json',
@@ -134,18 +134,18 @@ var RelationshipFilter = React.createClass({
 		this.setState({ searchString: e.target.value }, this.loadSearchResults);
 	},
 	selectItem (item) {
-		let value = this.props.filter.value.concat(item.id);
+		const value = this.props.filter.value.concat(item.id);
 		this.updateFilter({ value });
 	},
 	removeItem (item) {
-		let value = this.props.filter.value.filter(i => { return i !== item.id; });
+		const value = this.props.filter.value.filter(i => { return i !== item.id; });
 		this.updateFilter({ value });
 	},
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
 	renderItems (items, selected) {
-		let itemIconHover = selected ? 'x' : 'check';
+		const itemIconHover = selected ? 'x' : 'check';
 
 		return items.map((item, i) => {
 			return (
@@ -163,11 +163,11 @@ var RelationshipFilter = React.createClass({
 		});
 	},
 	render () {
-		let selectedItems = this.state.selectedItems;
-		let searchResults = this.state.searchResults.filter(i => {
+		const selectedItems = this.state.selectedItems;
+		const searchResults = this.state.searchResults.filter(i => {
 			return this.props.filter.value.indexOf(i.id) === -1;
 		});
-		let placeholder = this.isLoading() ? 'Loading...' : 'Find a ' + this.props.field.label + '...';
+		const placeholder = this.isLoading() ? 'Loading...' : 'Find a ' + this.props.field.label + '...';
 		return (
 			<div ref="container">
 				<FormField>

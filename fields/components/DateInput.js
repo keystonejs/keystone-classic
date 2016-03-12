@@ -19,9 +19,9 @@ module.exports = React.createClass({
 		};
 	},
 	getInitialState () {
-		let id = ++lastId;
+		const id = ++lastId;
 		let month = new Date();
-		let { format, value } = this.props;
+		const { format, value } = this.props;
 		if (moment(value, format, true).isValid()) {
 			month = moment(value, format).toDate();
 		}
@@ -81,7 +81,7 @@ module.exports = React.createClass({
 	},
 	handleBlur (e) {
 		let rt = e.relatedTarget;
-		let popout = this.refs.popout.getPortalDOMNode();
+		const popout = this.refs.popout.getPortalDOMNode();
 		while (rt) {
 			if (rt === popout) return;
 			rt = rt.parentNode;
@@ -92,7 +92,7 @@ module.exports = React.createClass({
 	},
 	render () {
 		const selectedDay = this.state.value;
-		let modifiers = {
+		const modifiers = {
 			selected: (day) => moment(day).format(this.props.format) === selectedDay,
 		};
 

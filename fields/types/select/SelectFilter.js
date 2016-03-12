@@ -42,11 +42,11 @@ var SelectFilter = React.createClass({
 		}
 	},
 	selectOption (option) {
-		let value = this.props.filter.value.concat(option.value);
+		const value = this.props.filter.value.concat(option.value);
 		this.updateFilter({ value });
 	},
 	removeOption (option) {
-		let value = this.props.filter.value.filter(i => i !== option.value);
+		const value = this.props.filter.value.filter(i => i !== option.value);
 		this.updateFilter({ value });
 	},
 	updateFilter (value) {
@@ -54,7 +54,7 @@ var SelectFilter = React.createClass({
 	},
 	renderOptions () {
 		return this.props.field.ops.map((option, i) => {
-			let selected = this.props.filter.value.indexOf(option.value) > -1;
+			const selected = this.props.filter.value.indexOf(option.value) > -1;
 			return (
 				<PopoutList.Item
 					key={`item-${i}-${option.value}`}

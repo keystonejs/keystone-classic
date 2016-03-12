@@ -89,7 +89,7 @@ var HomeView = React.createClass({
 		return ['dashboard-group__heading-icon', 'octicon', ...classes].join(' ');
 	},
 	renderFlatNav () {
-		let lists = this.props.navLists.map((list) => {
+		const lists = this.props.navLists.map((list) => {
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			return <ListTile key={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 		});

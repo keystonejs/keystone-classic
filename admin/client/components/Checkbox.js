@@ -31,16 +31,16 @@ var Checkbox = React.createClass({
 		window.removeEventListener('mouseup', this.handleMouseUp, false);
 	},
 	getStyles () {
-		let { checked, readonly } = this.props;
-		let { active, focus, hover } = this.state;
+		const { checked, readonly } = this.props;
+		const { active, focus, hover } = this.state;
 
-		let checkedColor = Color('#3999fc');
+		const checkedColor = Color('#3999fc');
 
 		let background = (checked && !readonly) ? checkedColor.hexString() : 'white';
 		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.15) rgba(0,0,0,0.1) rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.3) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
 		let boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 0 rgba(0,0,0,0.06)';
 		let color = (checked && !readonly) ? 'white' : '#bbb';
-		let textShadow = (checked && !readonly) ? '0 1px 0 rgba(0,0,0,0.2)' : null;
+		const textShadow = (checked && !readonly) ? '0 1px 0 rgba(0,0,0,0.2)' : null;
 
 		// pseudo state
 		if (hover && !focus && !readonly) {
@@ -122,9 +122,9 @@ var Checkbox = React.createClass({
 		this.props.onChange(!this.props.checked);
 	},
 	render () {
-		let { checked, readonly } = this.props;
+		const { checked, readonly } = this.props;
 
-		let props = blacklist(this.props, 'checked', 'component', 'onChange', 'readonly');
+		const props = blacklist(this.props, 'checked', 'component', 'onChange', 'readonly');
 		props.style = this.getStyles();
 		props.ref = 'checkbox';
 		props.className = classnames('octicon', {
@@ -145,7 +145,7 @@ var Checkbox = React.createClass({
 		props.onFocus = readonly ? null : () => this.toggleFocus(true);
 		props.onBlur = readonly ? null : () => this.toggleFocus(false);
 
-		let node = readonly ? 'span' : this.props.component;
+		const node = readonly ? 'span' : this.props.component;
 
 		return React.createElement(node, props);
 	},

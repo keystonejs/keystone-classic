@@ -16,8 +16,8 @@ var CloudinaryImagesColumn = React.createClass({
 	},
 	renderMany (value) {
 		if (!value || !value.length) return;
-		let refList = this.props.col.field.refList;
-		let items = [];
+		const refList = this.props.col.field.refList;
+		const items = [];
 		for (let i = 0; i < 3; i++) {
 			if (!value[i]) break;
 			items.push(<CloudinaryImageSummary key={'image' + i} image={value[i]} />);
@@ -34,8 +34,8 @@ var CloudinaryImagesColumn = React.createClass({
 
 	},
 	render () {
-		let value = this.props.data.fields[this.props.col.path];
-		let many = value.length > 1;
+		const value = this.props.data.fields[this.props.col.path];
+		const many = value.length > 1;
 
 		return (
 			<ItemsTableCell>

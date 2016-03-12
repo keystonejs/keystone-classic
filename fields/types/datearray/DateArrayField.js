@@ -26,7 +26,7 @@ module.exports = Field.create({
 
 	processInputValue (value) {
 		if (!value) return;
-		let m = moment(value);
+		const m = moment(value);
 		return m.isValid() ? m.format(this.props.inputFormat) : value;
 	},
 

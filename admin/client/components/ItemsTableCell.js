@@ -11,7 +11,7 @@ var ItemsTableCell = React.createClass({
 		};
 	},
 	render () {
-		let className = `ItemList__col ${this.props.className}`;
+		const className = `ItemList__col ${this.props.className}`;
 		return (
 			<td {...this.props} className={className} />
 		);

@@ -9,7 +9,7 @@ var PasswordColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		return value ? '********' : '';
 	},
 	render () {

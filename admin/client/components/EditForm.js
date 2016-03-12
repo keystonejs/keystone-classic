@@ -45,7 +45,7 @@ var EditForm = React.createClass({
 		return props;
 	},
 	handleChange (event) {
-		let values = Object.assign({}, this.state.values);
+		const values = Object.assign({}, this.state.values);
 
 		values[event.path] = event.value;
 		this.setState({ values });
@@ -79,7 +79,7 @@ var EditForm = React.createClass({
 		this.setState({ confirmationDialog });
 	},
 	handleDelete () {
-		let { data, list } = this.props;
+		const { data, list } = this.props;
 		list.deleteItem(data.id, err => {
 			if (err) {
 				console.error(`Problem deleting ${list.singular}: ${data.name}`);

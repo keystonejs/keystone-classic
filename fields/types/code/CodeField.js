@@ -77,7 +77,7 @@ module.exports = Field.create({
 	},
 
 	renderCodemirror () {
-		let className = classnames('CodeMirror-container', {
+		const className = classnames('CodeMirror-container', {
 			'is-focused': this.state.isFocused && this.shouldRenderField(),
 		});
 

@@ -10,11 +10,11 @@ var DateColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value) return null;
 
-		let format = (this.props.col.type === 'datetime') ? 'MMMM Do YYYY, h:mm:ss a' : 'MMMM Do YYYY';
-		let formattedValue = moment(value).format(format);
+		const format = (this.props.col.type === 'datetime') ? 'MMMM Do YYYY, h:mm:ss a' : 'MMMM Do YYYY';
+		const formattedValue = moment(value).format(format);
 
 		return (
 			<ItemsTableValue title={formattedValue} field={this.props.col.type}>
