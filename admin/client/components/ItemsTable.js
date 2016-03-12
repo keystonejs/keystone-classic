@@ -28,16 +28,21 @@ const ItemsTable = React.createClass({
 		return <colgroup>{cols}</colgroup>;
 	},
 	renderHeaders () {
-		var cells = this.props.columns.map((col, i) => {
-			// span first col for controls when present
-			var span = 1;
-			if (!i) {
-				if (this.props.list.sortable) span++;
-				if (!this.props.list.nodelete) span++;
-			}
-			return <th key={col.path} colSpan={span}>{col.label}</th>;
+		let listControls = 0;
+
+		if (this.props.list.sortable) listControls++;
+		if (!this.props.list.nodelete) listControls++;
+
+		// span first col for controls when present
+		let cellPadding = null;
+		if (listControls) {
+			cellPadding = <th colSpan={listControls}></th>;
+		}
+
+		let cells = this.props.columns.map((col, i) => {
+			return <th key={col.path} colSpan="1">{col.label}</th>;
 		});
-		return <thead><tr>{cells}</tr></thead>;
+		return <thead><tr>{cellPadding}{cells}</tr></thead>;
 	},
 	render () {
 		let { items, list } = this.props;
