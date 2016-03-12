@@ -1,24 +1,19 @@
-/*!
- * Module dependencies.
- */
-
-var fs = require('fs-extra');
-var path = require('path');
 var _ = require('lodash');
-var moment = require('moment');
+var async = require('async');
+var FieldType = require('../Type');
+var fs = require('fs-extra');
+var grappling = require('grappling-hook');
 var keystone = require('../../../');
+var moment = require('moment');
+var path = require('path');
 var util = require('util');
 var utils = require('keystone-utils');
-var super_ = require('../Type');
-var async = require('async');
-var grappling = require('grappling-hook');
 
 /**
  * localfiles FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function localfiles (list, path, options) {
 	grappling.mixin(this).allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFiles'];
@@ -53,22 +48,12 @@ function localfiles (list, path, options) {
 	if (options.post && options.post.move) {
 		this.post('move', options.post.move);
 	}
-
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(localfiles, super_);
-
+util.inherits(localfiles, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
- *
- * @api public
  */
-
 localfiles.prototype.addToSchema = function () {
 
 	var field = this;
@@ -159,16 +144,12 @@ localfiles.prototype.addToSchema = function () {
 		},
 		/**
 		 * Resets the value of the field
-		 *
-		 * @api public
 		 */
 		reset: function () {
 			reset(this);
 		},
 		/**
 		 * Deletes the file from localfiles and resets the field
-		 *
-		 * @api public
 		 */
 		delete: function (element_id) {
 			if (exists(this, element_id)) {
@@ -195,13 +176,9 @@ localfiles.prototype.addToSchema = function () {
 	this.bindUnderscoreMethods();
 };
 
-
 /**
  * Formats the field value
- *
- * @api public
  */
-
 localfiles.prototype.format = function (item, i) {
 	var files = item.get(this.path);
 	if (typeof i === 'undefined') {
@@ -216,72 +193,50 @@ localfiles.prototype.format = function (item, i) {
 	return file.filename;
 };
 
-
 /**
  * Detects whether the field has a formatter function
- *
- * @api public
  */
-
 localfiles.prototype.hasFormatter = function () {
 	return typeof this.options.format === 'function';
 };
 
-
 /**
  * Return the public href for a single stored file
- *
- * @api public
  */
-
 localfiles.prototype.href = function (file) {
 	if (!file.filename) return '';
 	var prefix = this.options.prefix ? this.options.prefix : file.path;
 	return prefix + '/' + file.filename;
 };
 
-
 /**
  * Detects whether the field has been modified
- *
- * @api public
  */
-
 localfiles.prototype.isModified = function (item) {
 	return item.isModified(this.paths.path);
 };
-
 
 /**
  * Validates that a value for this field has been provided in a data object
  *
  * Deprecated
  */
-
 localfiles.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
 
-
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
 localfiles.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
 
-
 /**
  * Uploads the file for this field
- *
- * @api public
  */
-
 localfiles.prototype.uploadFiles = function (item, files, update, callback) {
 
 	var field = this;
@@ -338,17 +293,13 @@ localfiles.prototype.uploadFiles = function (item, files, update, callback) {
 
 };
 
-
 /**
  * Returns a callback that handles a standard form submission for the field
  *
  * Expected form parts are
  * - `field.paths.action` in `req.body` (`clear` or `delete`)
  * - `field.paths.upload` in `req.files` (uploads the file to localfiles)
- *
- * @api public
  */
-
 localfiles.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
@@ -408,20 +359,13 @@ localfiles.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 };
 
-
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- *
- * @api public
  */
-
 localfiles.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
 
-/*!
- * Export class
- */
-
+/* Export Field Type */
 module.exports = localfiles;
