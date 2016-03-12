@@ -69,8 +69,8 @@ The best approach to keeping tests well organized is to:
 
 - when writing new tests, use an existing one as an example.
 - keep the test style consistent.
-- keep to the test file structure consistent.
-- each group must run on its own using the --group argument (that means, that each test within the group must undo
+- keep the test file structure consistent.
+- each test group must run on its own using the --group argument (that means, that each test within the group must undo
 any changes it does to the state of the UI)
 - each test within a group must run on its own using the --test argument (that means, that each test must undo
 any changes it does to the state of the UI)

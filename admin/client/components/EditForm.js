@@ -13,6 +13,17 @@ function upCase (str) {
 	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();
 };
 
+function getNameFromData (data) {
+	if (typeof data === 'object') {
+		if (typeof data.first === 'string' && typeof data.last === 'string') {
+			return data.first + ' ' + data.last;
+		} else if (data.id) {
+			return data.id;
+		}
+	}
+	return data;
+}
+
 var EditForm = React.createClass({
 	displayName: 'EditForm',
 	propTypes: {
@@ -223,13 +234,15 @@ var EditForm = React.createClass({
 
 		if (this.props.list.tracking.createdBy) {
 			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
-			if (data.createdBy) {
-				// todo: harden logic around user name
-				elements.push(
-					<FormField key="createdBy" label="Created by">
-						<FormInput noedit>{data.createdBy.name.first} {data.createdBy.name.last}</FormInput>
-					</FormField>
-				);
+			if (data.createdBy && data.createdBy.name) {
+				let createdByName = getNameFromData(data.createdBy.name);
+				if (createdByName) {
+					elements.push(
+						<FormField key="createdBy" label="Created by">
+							<FormInput noedit>{data.createdBy.name.first} {data.createdBy.name.last}</FormInput>
+						</FormField>
+					);
+				}
 			}
 		}
 
@@ -246,12 +259,15 @@ var EditForm = React.createClass({
 
 		if (this.props.list.tracking.updatedBy) {
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
-			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
-				elements.push(
-					<FormField key="updatedBy" label="Updated by">
-						<FormInput noedit>{data.updatedBy.name.first} {data.updatedBy.name.last}</FormInput>
-					</FormField>
-				);
+			if (data.updatedBy && data.updatedBy.name) {
+				let updatedByName = getNameFromData(data.updatedBy.name);
+				if (updatedByName) {
+					elements.push(
+						<FormField key="updatedBy" label="Updated by">
+							<FormInput noedit>{data.updatedBy.name.first} {data.updatedBy.name.last}</FormInput>
+						</FormField>
+					);
+				}
 			}
 		}
 

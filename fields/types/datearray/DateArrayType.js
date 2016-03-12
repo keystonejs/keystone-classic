@@ -1,62 +1,83 @@
-/*!
- * Module dependencies.
- */
-
-var util = require('util');
+var FieldType = require('../Type');
 var moment = require('moment');
-var super_ = require('../Type');
+var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * Date FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function datearray (list, path, options) {
-
 	this._nativeType = [Date];
 	this._defaultSize = 'medium';
 	this._underscoreMethods = ['format'];
 	this._properties = ['formatString'];
-
 	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
-
 	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.Date: options.format must be a string.');
 	}
-
+	this.separator = options.separator || ' | ';
 	datearray.super_.call(this, list, path, options);
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(datearray, super_);
+util.inherits(datearray, FieldType);
 
 /**
  * Formats the field value
- *
- * @api public
  */
-
-datearray.prototype.format = function (item, format) {
+datearray.prototype.format = function (item, format, separator) {
+	var value = item.get(this.path);
 	if (format || this.formatString) {
-		return item.get(this.path) ? moment(item.get(this.path)).format(format || this.formatString) : '';
-	} else {
-		return item.get(this.path) || '';
+		value = value.map(function (d) {
+			return moment(d).format(format || this._formatString);
+		});
 	}
+	return value.join(separator || this.separator);
+};
+
+/**
+ * Asynchronously confirms that the provided value is valid
+ */
+datearray.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = true;
+	if (value !== undefined) {
+		if (!Array.isArray(value)) {
+			value = [value];
+		}
+		for (var i = 0; i < value.length; i++) {
+			if (!moment(value[i], this.parseFormatString).isValid()) {
+				result = false;
+				break;
+			}
+		}
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that the a value is present
+ */
+datearray.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = false;
+	if (value === undefined) {
+		if (item.get(this.path) && item.get(this.path).length) {
+			result = true;
+		}
+	} else if (typeof value === 'string' || typeof value === 'number' || Array.isArray(value) && value.length) {
+		result = true;
+	}
+	utils.defer(callback, result);
 };
 
 /**
  * Checks that a valid array of dates has been provided in a data object
- *
  * An empty value clears the stored value and is considered valid
  *
  * Deprecated
  */
-
 datearray.prototype.inputIsValid = function (data, required, item) {
 
 	var value = this.getValueFromData(data);
@@ -103,10 +124,7 @@ datearray.prototype.inputIsValid = function (data, required, item) {
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
 datearray.prototype.updateItem = function (item, data, callback) {
 
 	var value = this.getValueFromData(data);
@@ -129,14 +147,10 @@ datearray.prototype.updateItem = function (item, data, callback) {
 		if (Array.isArray(value)) {
 			item.set(this.path, value);
 		}
-	} else item.set(this.path, []);
+	}
 
 	process.nextTick(callback);
 };
 
-
-/*!
- * Export class
- */
-
+/* Export Field Type */
 module.exports = datearray;

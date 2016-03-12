@@ -4,149 +4,149 @@ module.exports = {
 	before: function (browser) {
 		browser
 			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelectors.signinView.id)
-			.setValue(adminUI.cssSelectors.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelectors.signinView.passwordInput, adminUI.login.password)
+			.waitForElementVisible(adminUI.cssSelector.signinView.id)
+			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
+			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.signinView.submitButton)
+			.click(adminUI.cssSelector.signinView.submitButton)
 			.pause(browser.globals.defaultPauseTimeout)
 			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelectors.homeView.id)
+			.waitForElementVisible(adminUI.cssSelector.homeView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelectors.listView.id)
+			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 	},
 	after: function (browser) {
 		browser
-			.click(adminUI.cssSelectors.allView.logoutIconLink)
-			.waitForElementVisible(adminUI.cssSelectors.signinView.id)
+			.click(adminUI.cssSelector.allView.logoutIconLink)
+			.waitForElementVisible(adminUI.cssSelector.signinView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
 	'List view should allow users to create a new list item': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.listView.createItemIconWhenListHasNoExistingItems)
-			.waitForElementVisible(adminUI.cssSelectors.initialModalView.id)
-			.setValue(adminUI.cssSelectors.initialModalView.field.name.first, 'First1')
-			.setValue(adminUI.cssSelectors.initialModalView.field.name.last, 'Last1')
+			.click(adminUI.cssSelector.listView.createItemIconWhenListHasNoExistingItems)
+			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
+			.setValue(adminUI.cssSelector.initialModalView.field.name.first, 'First1')
+			.setValue(adminUI.cssSelector.initialModalView.field.name.last, 'Last1')
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelectors.itemView.id)
+			.click(adminUI.cssSelector.initialModalView.buttonCreate)
+			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelectors.listView.id)
+			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelectors.listView.paginationCount)
+		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
 			.text.to.equal('Showing 1 Name Field');
 
-		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
 			.text.to.equal('First1 Last1');
 	},
 	'List view should allow users to create more new list items': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelectors.listView.id)
+			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.listView.createItemIconWhenListHasExistingItems)
-			.setValue(adminUI.cssSelectors.initialModalView.field.name.first, 'First2')
-			.setValue(adminUI.cssSelectors.initialModalView.field.name.last, 'Last2')
+			.click(adminUI.cssSelector.listView.createItemIconWhenListHasExistingItems)
+			.setValue(adminUI.cssSelector.initialModalView.field.name.first, 'First2')
+			.setValue(adminUI.cssSelector.initialModalView.field.name.last, 'Last2')
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelectors.itemView.id)
+			.click(adminUI.cssSelector.initialModalView.buttonCreate)
+			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelectors.listView.id)
+			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelectors.listView.paginationCount)
+		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
 			.text.to.equal('Showing 2 Name Fields');
 
-		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
 			.text.to.equal('First1 Last1');
 
-		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForSecondNameFieldItemWhenListHasMultipleItems)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForSecondNameFieldItemWhenListHasMultipleItems)
 			.text.to.equal('First2 Last2');
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelectors.listView.id)
+			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
-			.waitForElementVisible(adminUI.cssSelectors.itemView.id)
+			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
+			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelectors.listView.id)
+			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelectors.listView.id)
+			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
-			.waitForElementVisible(adminUI.cssSelectors.itemView.id)
+			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
+			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.itemView.listBreadcrumb)
+			.click(adminUI.cssSelector.itemView.listBreadcrumb)
 			.pause(browser.globals.defaultPauseTimeout);
 	},
 	'List view should allow users to search for items': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelectors.listView.id)
+			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelectors.listView.searchInputField, 'First2 Last2')
+			.setValue(adminUI.cssSelector.listView.searchInputField, 'First2 Last2')
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelectors.listView.paginationCount)
+		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
 			.text.to.equal('Showing 1 Name Field');
 
-		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
 			.text.to.equal('First2 Last2');
 	},
 	'List view should allow users to clear search filter': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.listView.searchInputFieldClearIcon)
+			.click(adminUI.cssSelector.listView.searchInputFieldClearIcon)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelectors.listView.paginationCount)
+		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
 			.text.to.equal('Showing 2 Name Fields');
 
-		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems)
 			.text.to.equal('First1 Last1');
 
-		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForSecondNameFieldItemWhenListHasMultipleItems)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForSecondNameFieldItemWhenListHasMultipleItems)
 			.text.to.equal('First2 Last2');
 	},
 	'List view should allow users to delete items': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.listView.deleteSecondItemIconWhenListHasMultipleItems)
-			.waitForElementVisible(adminUI.cssSelectors.deleteConfirmationModalView.id)
-			.click(adminUI.cssSelectors.deleteConfirmationModalView.buttonDelete)
+			.click(adminUI.cssSelector.listView.deleteSecondItemIconWhenListHasMultipleItems)
+			.waitForElementVisible(adminUI.cssSelector.deleteConfirmationModalView.id)
+			.click(adminUI.cssSelector.deleteConfirmationModalView.buttonDelete)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelectors.listView.paginationCount)
+		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
 			.text.to.equal('Showing 1 Name Field');
 
-		browser.expect.element(adminUI.cssSelectors.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
+		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameFieldItemWhenListHasSingleItem)
 			.text.to.equal('First1 Last1');
 	},
 	'List view should allow users to delete last item': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.listView.deleteItemIconWhenListHasSingleItem)
-			.waitForElementVisible(adminUI.cssSelectors.deleteConfirmationModalView.id)
-			.click(adminUI.cssSelectors.deleteConfirmationModalView.buttonDelete)
+			.click(adminUI.cssSelector.listView.deleteItemIconWhenListHasSingleItem)
+			.waitForElementVisible(adminUI.cssSelector.deleteConfirmationModalView.id)
+			.click(adminUI.cssSelector.deleteConfirmationModalView.buttonDelete)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelectors.listView.noItemsFoundNoText)
+		browser.expect.element(adminUI.cssSelector.listView.noItemsFoundNoText)
 			.text.to.equal('No');
 
-		browser.expect.element(adminUI.cssSelectors.listView.noItemsFoundListNameText)
+		browser.expect.element(adminUI.cssSelector.listView.noItemsFoundListNameText)
 			.text.to.equal('name fields');
 
-		browser.expect.element(adminUI.cssSelectors.listView.noItemsFoundFoundText)
+		browser.expect.element(adminUI.cssSelector.listView.noItemsFoundFoundText)
 			.text.to.equal('found…');
 	},
 

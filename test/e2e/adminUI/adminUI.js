@@ -4,7 +4,7 @@ module.exports = {
 		email: 'test@test.e2e',
 		password: 'test',
 	},
-	cssSelectors: {
+	cssSelector: {
 		allView: {
 			homeIconLink: '.octicon-home',
 			accessMenu: 'ul.app-nav:nth-child(2) > li:nth-child(2) > a:nth-child(1)',
@@ -87,6 +87,19 @@ module.exports = {
 		itemView: {
 			id: '#item-view',
 			listBreadcrumb: 'a.Button',
+			breadcrumpForUsersList: 'a.Button > span:nth-child(2)',
+			searchInputIcon: '.EditForm__header__search-input',
+			newItemPlusButton: '.Button--success',
+			itemNameHeader: '.EditForm__name-field > h2:nth-child(1)',
+			itemId: '.EditForm__key-or-id',
+			itemIdValue: 'EditForm__key-or-id > .EditForm__key-or-id__field',
+			itemMetaHeader: '.EditForm__meta .form-heading',
+			itemMetaCreatedOn: '.EditForm__meta > div:nth-child(2)',
+			itemSaveButton: '.EditForm__footer .Button--primary',
+			itemResetButton: '.EditForm__footer button.Button:nth-child(2)',
+			itemResetButtonText: '.EditForm__footer button.Button:nth-child(2) > span:nth-child(1)',
+			itemDeleteButton: '.EditForm__footer button.Button:nth-child(3)',
+			itemDeleteButtonText: '.EditForm__footer button.Button:nth-child(3) > span:nth-child(1)',
 		},
 		initialModalView: {
 			id: '.Modal-content',

@@ -4,7 +4,7 @@ module.exports = {
 	before: function (browser) {
 		browser
 			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelectors.signinView.id)
+			.waitForElementVisible(adminUI.cssSelector.signinView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 	},
 	after: function (browser) {
@@ -13,19 +13,19 @@ module.exports = {
 	},
 	'AdminUI should allow users to login': function (browser) {
 		browser
-			.setValue(adminUI.cssSelectors.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelectors.signinView.passwordInput, adminUI.login.password)
+			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
+			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelectors.signinView.submitButton)
+			.click(adminUI.cssSelector.signinView.submitButton)
 			.pause(browser.globals.defaultPauseTimeout)
 			.url(adminUI.url)  // just in case we're redirected somewhere other than home page
-			.waitForElementVisible(adminUI.cssSelectors.homeView.id)
+			.waitForElementVisible(adminUI.cssSelector.homeView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 	},
 	'AdminUI should allow users to logout': function (browser) {
 		browser
-			.click(adminUI.cssSelectors.allView.logoutIconLink)
-			.waitForElementVisible(adminUI.cssSelectors.signinView.id)
+			.click(adminUI.cssSelector.allView.logoutIconLink)
+			.waitForElementVisible(adminUI.cssSelector.signinView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 	},
 };

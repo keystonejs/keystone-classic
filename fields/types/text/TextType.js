@@ -10,6 +10,7 @@ var validators = require('../validators');
  */
 function text (list, path, options) {
 	this._nativeType = String;
+	this._properties = ['monospace'];
 	this._underscoreMethods = ['crop'];
 	text.super_.call(this, list, path, options);
 }
