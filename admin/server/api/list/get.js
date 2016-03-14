@@ -23,27 +23,32 @@ module.exports = function (req, res) {
 		});
 	}
 	var sort = req.list.expandSort(req.query.sort);
-	async.series({
-		count: function (next) {
+	async.waterfall([
+		function (next) {
 			query.count(next);
 		},
-		items: function (next) {
+		function (count, next) {
+			var skipCount = Number(req.query.skip) || 0;
 			query.find();
 			query.limit(Number(req.query.limit) || 100);
-			query.skip(Number(req.query.skip) || 0);
+			if (count > skipCount) {
+				query.skip(skipCount);
+			}
 			query.sort(sort.string);
-			query.exec(next);
+			query.exec(function (err, items) {
+				next(err, count, items);
+			});
 		},
-	}, function (err, results) {
+	], function (err, count, items) {
 		if (err) {
 			res.logError('admin/server/api/list/get', 'database error finding items', err);
 			return res.apiError('database error', err);
 		}
 		return res.json({
-			results: results.items.map(function (item) {
+			results: items.map(function (item) {
 				return req.list.getData(item, req.query.select, req.query.expandRelationshipFields);
 			}),
-			count: results.count,
+			count: count,
 		});
 	});
 };
