@@ -55,7 +55,7 @@ var PrimaryNavigation = React.createClass({
 	renderFrontLink () {
 		return (
 			<ul className="app-nav app-nav--primary app-nav--right">
-				<PrimaryNavItem href="/" title={'Front page - ' + this.props.brand}>
+				<PrimaryNavItem href={Keystone.backUrl} title={'Front page - ' + this.props.brand}>
 					<span className="octicon octicon-globe" />
 				</PrimaryNavItem>
 				{this.renderSignout()}
