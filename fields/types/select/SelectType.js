@@ -87,7 +87,6 @@ select.prototype.addToSchema = function () {
  */
 select.prototype.pluck = function (item, property, _default) {
 	var option = item.get(this.paths.data);
-	console.log(option);
 	return (option) ? option[property] : _default;
 };
 
