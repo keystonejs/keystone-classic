@@ -168,7 +168,7 @@ module.exports = Field.create({
 
 		var files = event.target.files;
 		_.forEach(files, function (f) {
-			if (!_.contains(SUPPORTED_TYPES, f.type)) {
+			if (!_.includes(SUPPORTED_TYPES, f.type)) {
 				alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
 				return;
 			}
