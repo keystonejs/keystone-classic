@@ -65,8 +65,8 @@ module.exports = {
 		browser
 			.click(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.setValue(adminUI.cssSelector.initialModalView.field.name.first, 'First')
-			.setValue(adminUI.cssSelector.initialModalView.field.name.last, 'Last')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.first, 'First')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.last, 'Last')
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.initialModalView.buttonCreate)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)

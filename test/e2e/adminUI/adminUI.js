@@ -31,9 +31,14 @@ module.exports = {
 
 			// Dashboard's Fields Group
 			dashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(1) > span:nth-child(2)',
-			nameFieldsTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
+			// Names List Tab
+			namesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
 			plusIconLinkForNamesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
 			itemCountForNamesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			// Selects List Tab
+			selectsTabUnderDashboardFieldsSubheading: 'div.dashboard-group__list:nth-child(2) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
+			plusIconLinkForSelectsTabUnderDashboardFieldsSubheading: 'div.dashboard-group__list:nth-child(2) > span:nth-child(1) > a:nth-child(2)',
+			itemCountForSelectsTabUnderDashboardFieldsSubheading: 'div.dashboard-group__list:nth-child(2) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
 
 			// Dashboard's Others Group
 			dashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(1) > span:nth-child(2)',
@@ -101,64 +106,135 @@ module.exports = {
 			itemDeleteButton: '.EditForm__footer button.Button:nth-child(3)',
 			itemDeleteButtonText: '.EditForm__footer button.Button:nth-child(3) > span:nth-child(1)',
 			flashMessage: '.Alert > span:nth-child(1)',
+			itemHeader: '.EditForm__name-field > h2:nth-child(1)',
 
-			// NEED TO DUPLICATE AND KEEP IN SYNC THE FIELD IN initialModalView
-			// TODO: is there a way to give precedence to the initial modal view fields?  The field DOM shows in both
-			// the Initial Modal View and the Edit Item View but so far I cannot find a way to give precedence to the
-			// Initial Modal View when it is opened.  And thus the duplication of fields both here and in the
-			// initialModalView.
-			field: {
+			// The structure of the following fieldType JSON is as follows:
+			// 	fieldType: {
+			//		<field-type>: {
+			//			<list-used-in>: {
+			//				<field-name-within-list>: {
+			//					<field-path>:
+			//					...
+			//This allows for the flexibility of including a field type in any list and in as many fields of that list!
+			fieldType: {
 				email: {
-					label: '.EditForm-container .field-type-email .FormLabel',
-					value: '.EditForm-container .field-type-email input[name="email"]',
+					user: {
+						email: {
+							label: '.EditForm-container .field-type-email[for="email"] .FormLabel',
+							value: '.EditForm-container .field-type-email[for="email"] input[name="email"]',
+						},
+					},
 				},
 				name: {
-					label: '.EditForm-container .field-type-name[for="name"] .FormLabel',
-					first: '.EditForm-container .field-type-name[for="name"] input[name="name.first"]',
-					firstPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="First name"]',
-					last: '.EditForm-container .field-type-name[for="name"] input[name="name.last"]',
-					lastPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="Last name"]',
-
-					fieldLabel: '.EditForm-container .field-type-name[for="field"] .FormLabel',
-					fieldFirst: '.EditForm-container .field-type-name[for="field"] input[name="field.first"]',
-					fieldFirstPlaceholder: '.EditForm-container .field-type-name[for="field"] input[placeholder="First name"]',
-					fieldLast: '.EditForm-container .field-type-name[for="field"] input[name="field.last"]',
-					fieldLastPlaceholder: '.EditForm-container .field-type-name[for="field"] input[placeholder="Last name"]',
-
-					// edit form
-					itemHeader: '.EditForm__name-field > h2:nth-child(1)',
+					user: {
+						name: {
+							label: '.EditForm-container .field-type-name[for="name"] .FormLabel',
+							first: '.EditForm-container .field-type-name[for="name"] input[name="name.first"]',
+							firstPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="First name"]',
+							last: '.EditForm-container .field-type-name[for="name"] input[name="name.last"]',
+							lastPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="Last name"]',
+						},
+					},
+					name: {
+						name: {
+							label: '.EditForm-container .field-type-name[for="name"] .FormLabel',
+							first: '.EditForm-container .field-type-name[for="name"] input[name="name.first"]',
+							firstPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="First name"]',
+							last: '.EditForm-container .field-type-name[for="name"] input[name="name.last"]',
+							lastPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="Last name"]',
+						},
+						testA: {
+							label: '.EditForm-container .field-type-name[for="testA"] .FormLabel',
+							first: '.EditForm-container .field-type-name[for="testA"] input[name="testA.first"]',
+							firstPlaceholder: '.EditForm-container .field-type-name[for="testA"] input[placeholder="First name"]',
+							last: '.EditForm-container .field-type-name[for="testA"] input[name="testA.last"]',
+							lastPlaceholder: '.EditForm-container .field-type-name[for="testA"] input[placeholder="Last name"]',
+						},
+					},
 				},
 				password: {
-					label: '.EditForm-container .field-type-password .FormLabel',
-					value: '.EditForm-container .field-type-password input[name="password"]',
-					value_confirm: '.EditForm-container .field-type-password input[name="password_confirm"]',
+					user: {
+						password: {
+							label: '.EditForm-container .field-type-password[for="password"] .FormLabel',
+							value: '.EditForm-container .field-type-password[for="password"] input[name="password"]',
+							value_confirm: '.EditForm-container .field-type-password[for="password"] input[name="password_confirm"]',
+						},
+					},
+				},
+				select: {
+					select: {
+						name: {
+							label: '.EditForm-container .field-type-select[for="name"] .FormLabel',
+							placeholder: '.EditForm-container .field-type-name[for="name"] .Select-placeholder',
+							dropdownArrow: '.EditForm-container .field-type-name[for="name"] .Select-arrow',
+						},
+						testA: {
+							label: '.EditForm-container .field-type-select[for="testA"] .FormLabel',
+							placeholder: '.EditForm-container .field-type-name[for="testA"] .Select-placeholder',
+							dropdownArrow: '.EditForm-container .field-type-name[for="name"] .Select-arrow',
+						},
+					},
 				},
 			},
 		},
 		initialModalView: {
 			id: '.Modal-content',
 			buttonCreate: '.Modal__footer > button:nth-child(1)',
-			// NEED TO DUPLICATE AND KEEP IN SYNC THE FIELD IN itemView
-			// TODO: is there a way to give precedence to the initial modal view fields?  The field DOM shows in both
-			// the Initial Modal View and the Edit Item View but so far I cannot find a way to give precedence to the
-			// Initial Modal View when it is opened.  And thus the duplication of fields both here and in the
-			// itemView.
-			field: {
+
+			// The structure of the following fieldType JSON is as follows:
+			// 	fieldType: {
+			//		<field-type>: {
+			//			<list-used-in>: {
+			//				<field-name-within-list>: {
+			//					<field-path>:
+			//					...
+			//This allows for the flexibility of including a field type in any list and in as many fields of that list!
+			fieldType: {
 				email: {
-					label: '.Modal-dialog .field-type-email .FormLabel',
-					value: '.Modal-dialog .field-type-email input[name="email"]',
+					user: {
+						email: {
+							label: '.Modal-dialog .field-type-email[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-email[for="email"] input[name="email"]',
+						},
+					},
 				},
 				name: {
-					label: '.Modal-dialog .field-type-name .FormLabel',
-					first: '.Modal-dialog .field-type-name input[name="name.first"]',
-					firstPlaceholder: '.Modal-dialog .field-type-name input[placeholder="First name"]',
-					last: '.Modal-dialog .field-type-name input[name="name.last"]',
-					lastPlaceholder: '.Modal-dialog .field-type-name input[placeholder="Last name"]',
+					name: {
+						name: {
+							label: '.Modal-dialog .field-type-name[for="name"] .FormLabel',
+							first: '.Modal-dialog .field-type-name[for="name"] input[name="name.first"]',
+							firstPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="First name"]',
+							last: '.Modal-dialog .field-type-name[for="name"] input[name="name.last"]',
+							lastPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="Last name"]',
+						},
+					},
+					user: {
+						name: {
+							label: '.Modal-dialog .field-type-name[for="name"] .FormLabel',
+							first: '.Modal-dialog .field-type-name[for="name"] input[name="name.first"]',
+							firstPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="First name"]',
+							last: '.Modal-dialog .field-type-name[for="name"] input[name="name.last"]',
+							lastPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="Last name"]',
+						},
+					},
 				},
 				password: {
-					label: '.Modal-dialog .field-type-password .FormLabel',
-					value: '.Modal-dialog .field-type-password input[name="password"]',
-					value_confirm: '.Modal-dialog .field-type-password input[name="password_confirm"]',
+					user: {
+						password: {
+							label: '.Modal-dialog .field-type-password[for="password"] .FormLabel',
+							value: '.Modal-dialog .field-type-password[for="password"] input[name="password"]',
+							value_confirm: '.Modal-dialog .field-type-password[for="password"] input[name="password_confirm"]',
+						},
+					},
+				},
+				select: {
+					select: {
+						name: {
+							label: '.Modal-dialog .field-type-select[for="name"] .FormLabel',
+							placeholder: '.Modal-dialog .field-type-name[for="name"] .Select-placeholder',
+							dropdownArrow: '.Modal-dialog .field-type-name[for="name"] .Select-arrow',
+						},
+					},
 				},
 			},
 		},

@@ -8,7 +8,7 @@ var Name = new keystone.List('Name', {
 
 Name.add({
 	name: {type: Types.Name, initial: true, required: true, index: true},
-	field: {type: Types.Name, index: true},
+	testA: {type: Types.Name, index: true},
 });
 
 Name.defaultColumns = 'name';

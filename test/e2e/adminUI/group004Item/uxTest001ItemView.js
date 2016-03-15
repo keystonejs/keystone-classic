@@ -30,11 +30,11 @@ module.exports = {
 		browser
 			.click(adminUI.cssSelector.itemView.newItemPlusButton)
 			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.initialModalView.field.name.first, 'First1')
-			.setValue(adminUI.cssSelector.initialModalView.field.name.last, 'Last1')
-			.setValue(adminUI.cssSelector.initialModalView.field.email.value, 'first1.last1@test.e2e')
-			.setValue(adminUI.cssSelector.initialModalView.field.password.value, 'test')
-			.setValue(adminUI.cssSelector.initialModalView.field.password.value_confirm, 'test')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.user.name.first, 'First1')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.user.name.last, 'Last1')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.email.user.email.value, 'first1.last1@test.e2e')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.password.user.password.value, 'test')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.password.user.password.value_confirm, 'test')
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.initialModalView.buttonCreate)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
@@ -52,10 +52,10 @@ module.exports = {
 	},
 	'Item view should allow saving an item with changes': function (browser) {
 		browser
-			.clearValue(adminUI.cssSelector.itemView.field.name.first)
-			.setValue(adminUI.cssSelector.itemView.field.name.first, 'First1X')
-			.clearValue(adminUI.cssSelector.itemView.field.name.last)
-			.setValue(adminUI.cssSelector.itemView.field.name.last, 'Last1X')
+			.clearValue(adminUI.cssSelector.itemView.fieldType.name.user.name.first)
+			.setValue(adminUI.cssSelector.itemView.fieldType.name.user.name.first, 'First1X')
+			.clearValue(adminUI.cssSelector.itemView.fieldType.name.user.name.last)
+			.setValue(adminUI.cssSelector.itemView.fieldType.name.user.name.last, 'Last1X')
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.itemView.itemSaveButton);
 
@@ -64,19 +64,19 @@ module.exports = {
 	},
 	'Item view should allow resetting an item with changes': function (browser) {
 		browser
-			.clearValue(adminUI.cssSelector.itemView.field.name.first)
-			.setValue(adminUI.cssSelector.itemView.field.name.first, 'First1XXXXXXXXXX')
-			.clearValue(adminUI.cssSelector.itemView.field.name.last)
-			.setValue(adminUI.cssSelector.itemView.field.name.last, 'Last1XXXXXXXXXXX')
+			.clearValue(adminUI.cssSelector.itemView.fieldType.name.user.name.first)
+			.setValue(adminUI.cssSelector.itemView.fieldType.name.user.name.first, 'First1XXXXXXXXXX')
+			.clearValue(adminUI.cssSelector.itemView.fieldType.name.user.name.last)
+			.setValue(adminUI.cssSelector.itemView.fieldType.name.user.name.last, 'Last1XXXXXXXXXXX')
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.itemView.itemResetButton)
 			.waitForElementVisible(adminUI.cssSelector.resetConfirmationModalView.id)
 			.click(adminUI.cssSelector.resetConfirmationModalView.buttonDelete)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id);
 
-		browser.expect.element(adminUI.cssSelector.itemView.field.name.first)
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.user.name.first)
 			.to.have.value.that.equals('First1X');
-		browser.expect.element(adminUI.cssSelector.itemView.field.name.last)
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.user.name.last)
 			.to.have.value.that.equals('Last1X');
 	},
 	'Item view should allow deleting an item': function (browser) {

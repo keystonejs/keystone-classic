@@ -76,7 +76,7 @@ module.exports = {
 			.text.to.equal('Fields');
 	},
 	'Home view should have a Names tab under the Fields dashboard sub-heading': function (browser) {
-		browser.expect.element(adminUI.cssSelector.homeView.nameFieldsTabUnderDashboardFieldsSubheading)
+		browser.expect.element(adminUI.cssSelector.homeView.namesTabUnderDashboardFieldsSubheading)
 			.text.to.equal('Names');
 	},
 	'Home view should have a + link for the Names tab under the Fields dashboard sub-heading': function (browser) {

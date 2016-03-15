@@ -20,25 +20,15 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Name field should be visible in initial modal': function (browser) {
+	'Select field should be visible in initial modal': function (browser) {
 		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
+			.click(adminUI.cssSelector.homeView.plusIconLinkForSelectsTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.label)
 			.text.to.equal('Name');
-
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.first)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.firstPlaceholder)
-			.to.be.visible;
-
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.last)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.lastPlaceholder)
-			.to.be.visible;
 	},
 };
