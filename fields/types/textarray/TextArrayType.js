@@ -38,14 +38,9 @@ textarray.prototype.validateInput = function (data, callback) {
 		}
 		for (var i = 0; i < value.length; i++) {
 			var thisValue = value[i];
-			// If the current value is not a string, but can
-			// be converted, convert it
-			if (thisValue && thisValue.toString) {
-				thisValue = thisValue.toString();
-			}
-			// If the current value is not a string but exists
-			// and is neither false nor undefined, fail the validation
-			if (typeof thisValue !== 'string' && thisValue) {
+			// If the current value is not a string and is neither false nor
+			// undefined, fail the validation
+			if (typeof thisValue !== 'string') {
 				result = false;
 				break;
 			}
@@ -60,25 +55,30 @@ textarray.prototype.validateInput = function (data, callback) {
 textarray.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
+	// If the value is undefined and we have something stored already, validate
 	if (value === undefined) {
 		if (item.get(this.path) && item.get(this.path).length) {
 			result = true;
 		}
-	} else if (value && value.toString) {
-		value = value.toString();
 	}
+	// If it's a string that's not empty, validate
 	if (typeof value === 'string') {
-		result = true;
+		if (value !== '') {
+			result = true;
+		}
+	// If it's an array of only strings and/or strinigfy-able data, validate
 	} else if (Array.isArray(value)) {
+		var invalidContent = false;
 		for (var i = 0; i < value.length; i++) {
 			var thisValue = value[i];
-			if (thisValue && thisValue.toString) {
-				thisValue = thisValue.toString();
-			}
-			if (typeof thisValue[i] === 'string' && thisValue[i].length) {
-				result = true;
+			// If even a single item is not a string or an empty string, invalidate
+			if (typeof thisValue !== 'string' || thisValue === '') {
+				invalidContent = true;
 				break;
 			}
+		}
+		if (invalidContent === false) {
+			result = true;
 		}
 	}
 	utils.defer(callback, result);
