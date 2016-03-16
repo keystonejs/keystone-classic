@@ -17,34 +17,7 @@ exports.testFieldType = function (List) {
 		demand(testItem.get('textarr')).eql([]);
 	});
 
-	it('should validate input', function () {
-		demand(List.fields.textarr.inputIsValid({
-			textarr: ['a'],
-		})).be(true);
-		demand(List.fields.textarr.inputIsValid({
-			textarr: ['a', 'b'],
-		})).be(true);
-	});
 
-	it('should validate no input', function () {
-		var testItem = new List.model();
-		demand(List.fields.textarr.inputIsValid({})).be(true);
-		demand(List.fields.textarr.inputIsValid({}, true)).be(false);
-		testItem.textarr = ['a'];
-		demand(List.fields.textarr.inputIsValid({}, true, testItem)).be(true);
-	});
-
-	it('should validate length when required', function () {
-		demand(List.fields.textarr.inputIsValid({
-			textarr: [],
-		}, true)).be(false);
-	});
-
-	it('should invalidate arrays with complex values', function () {
-		demand(List.fields.textarr.inputIsValid({
-			textarr: [[]],
-		}, true)).be(false);
-	});
 
 	it('should update top level fields', function (done) {
 		var testItem = new List.model();
@@ -140,4 +113,34 @@ exports.testFieldType = function (List) {
 		demand(testItem._.customSeparator.format()).be('one * two * three');
 	});
 
+	/* Deprecated inputIsValid Tests */
+
+	it('should validate input', function () {
+		demand(List.fields.textarr.inputIsValid({
+			textarr: ['a'],
+		})).be(true);
+		demand(List.fields.textarr.inputIsValid({
+			textarr: ['a', 'b'],
+		})).be(true);
+	});
+
+	it('should validate no input', function () {
+		var testItem = new List.model();
+		demand(List.fields.textarr.inputIsValid({})).be(true);
+		demand(List.fields.textarr.inputIsValid({}, true)).be(false);
+		testItem.textarr = ['a'];
+		demand(List.fields.textarr.inputIsValid({}, true, testItem)).be(true);
+	});
+
+	it('should validate length when required', function () {
+		demand(List.fields.textarr.inputIsValid({
+			textarr: [],
+		}, true)).be(false);
+	});
+
+	it('should invalidate arrays with complex values', function () {
+		demand(List.fields.textarr.inputIsValid({
+			textarr: [[]],
+		}, true)).be(false);
+	});
 };
