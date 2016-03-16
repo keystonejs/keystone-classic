@@ -31,6 +31,10 @@ module.exports = {
 
 			// Dashboard's Fields Group
 			dashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(1) > span:nth-child(2)',
+			// Booleans List Tab
+			booleansTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(3) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
+			plusIconLinkForBooleansTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(3) > span:nth-child(1) > a:nth-child(2)',
+			itemCountForBooleansTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(3) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
 			// Names List Tab
 			namesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
 			plusIconLinkForNamesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
@@ -117,6 +121,18 @@ module.exports = {
 			//					...
 			//This allows for the flexibility of including a field type in any list and in as many fields of that list!
 			fieldType: {
+				bool: {
+					bool: {
+						name: {
+							value: '.EditForm-container .field-type-text input[name="name"]'
+						},
+						testA: {
+							button: '.EditForm-container .field-type-boolean button',
+							label: '.EditForm-container .field-type-boolean span',
+							value: '.EditForm-container .field-type-boolean input[name="testA"]'
+						}
+					}
+				},
 				email: {
 					user: {
 						email: {
@@ -190,6 +206,19 @@ module.exports = {
 			//					...
 			//This allows for the flexibility of including a field type in any list and in as many fields of that list!
 			fieldType: {
+				bool: {
+					bool: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]'
+						},
+						testA: {
+							button: '.Modal-dialog .field-type-boolean button',
+							label: '.Modal-dialog .field-type-boolean span',
+							value: '.Modal-dialog .field-type-boolean input[name="testA"]'
+						}
+					}
+				},
 				email: {
 					user: {
 						email: {
