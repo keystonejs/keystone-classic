@@ -28,7 +28,7 @@ textarray.prototype.format = function (item, separator) {
 textarray.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = true;
-	if (value !== undefined) {
+	if (value !== undefined && value !== null && value !== '') {
 		if (!Array.isArray(value)) {
 			value = [value];
 		}
