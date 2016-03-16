@@ -54,7 +54,7 @@ datearray.prototype.validateInput = function (data, callback) {
 			} else {
 				currentValue = moment(value[i], this.parseFormatString);
 			}
-
+			// If moment does not think it's a valid date, invalidate
 			if (!currentValue.isValid()) {
 				result = false;
 				break;
@@ -70,12 +70,36 @@ datearray.prototype.validateInput = function (data, callback) {
 datearray.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
+	// If the field is undefined but has a value saved already, validate
 	if (value === undefined) {
 		if (item.get(this.path) && item.get(this.path).length) {
 			result = true;
 		}
-	} else if (typeof value === 'string' || typeof value === 'number' || Array.isArray(value) && value.length) {
-		result = true;
+	}
+	if (typeof value === 'string' || typeof value === 'number') {
+		if (moment(value).isValid()) {
+			result = true;
+		}
+	// If it's an array of only dates and/or dateify-able data, validate
+	} else if (Array.isArray(value)) {
+		var invalidContent = false;
+		for (var i = 0; i < value.length; i++) {
+			var currentValue;
+			// If we pass it an epoch, parse it without the format string
+			if (typeof value[i] === 'number') {
+				currentValue = moment(value[i]);
+			} else {
+				currentValue = moment(value[i], this.parseFormatString);
+			}
+			// If even a single item is not a valid date, invalidate
+			if (!currentValue.isValid()) {
+				invalidContent = true;
+				break;
+			}
+		}
+		if (invalidContent === false) {
+			result = true;
+		}
 	}
 	utils.defer(callback, result);
 };
