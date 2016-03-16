@@ -18,34 +18,6 @@ exports.testFieldType = function (List) {
 	});
 
 	describe('validateInput', function () {
-		it('should validate empty arrays as input', function (done) {
-			List.fields.textarr.validateInput({ textarr: [] }, function (result) {
-				demand(result).be(true);
-				done();
-			});
-		});
-
-		it('should validate a blank string as input', function (done) {
-			List.fields.textarr.validateInput({ textarr: '' }, function (result) {
-				demand(result).be(true);
-				done();
-			});
-		});
-
-		it('should validate null input', function (done) {
-			List.fields.textarr.validateInput({ textarr: null }, function (result) {
-				demand(result).be(true);
-				done();
-			});
-		});
-
-		it('should validate undefined input', function (done) {
-			List.fields.textarr.validateInput({}, function (result) {
-				demand(result).be(true);
-				done();
-			});
-		});
-
 		it('should validate top level fields', function (done) {
 			List.fields.textarr.validateInput({
 				textarr: ['a', 'b'],
@@ -75,6 +47,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		// A single string will be coerced to an array, so we let it pass
 		it('should validate a single string value', function (done) {
 			List.fields.textarr.validateInput({
 				textarr: 'a',
@@ -84,12 +57,170 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should validate truthy values', function (done) {
-			var time = new Date();
+		// An empty array clears the value, so we let it pass
+		it('should validate an empty array', function (done) {
+			List.fields.textarr.validateInput({ textarr: [] }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		// A blank string clears the value, so we let it pass
+		it('should validate a blank string', function (done) {
+			List.fields.textarr.validateInput({ textarr: '' }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		// null clears the value, so we let it pass
+		it('should validate null', function (done) {
+			List.fields.textarr.validateInput({ textarr: null }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		// undefined doesn't change anything, so we let it pass
+		it('should validate undefined', function (done) {
 			List.fields.textarr.validateInput({
-				textarr: [1, 'a', true, false, null, undefined, [], {}, time],
+				textarr: undefined,
+			}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should invalidate false', function (done) {
+			List.fields.textarr.validateInput({ textarr: false }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate true', function (done) {
+			List.fields.textarr.validateInput({ textarr: true }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate a number', function (done) {
+			List.fields.textarr.validateInput({ textarr: 1 }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate an array of numbers', function (done) {
+			List.fields.textarr.validateInput({
+				textarr: [1, 2, 3],
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate an array with a numbers', function (done) {
+			List.fields.textarr.validateInput({
+				textarr: ['a', 2, 'b'],
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+	});
+
+	describe('validateRequiredInput', function () {
+		it('should validate an array of strings', function (done) {
+			var testItem = new List.model();
+			List.fields.textarr.validateRequiredInput(testItem, {
+				textarr: ['a', 'b'],
+			}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate a nested array of strings', function (done) {
+			var testItem = new List.model();
+			List.fields['nested.textarr'].validateRequiredInput(testItem, {
+				nested: {
+					textarr: ['a', 'b'],
+				},
+			}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate a nested array of strings with a flat paths', function (done) {
+			List.fields.textarr.validateInput({
+				'nested.textarr': ['a', 'b'],
 			}, function (result) {
 				demand(result).eql(true);
+				done();
+			});
+		});
+
+		it('should invalidate an empty string', function (done) {
+			var testItem = new List.model();
+			List.fields.textarr.validateRequiredInput(testItem, {
+				textarr: '',
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate undefined', function (done) {
+			var testItem = new List.model();
+			List.fields.textarr.validateRequiredInput(testItem, {
+				textarr: undefined,
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should validate undefined if a value exists', function (done) {
+			var testItem = new List.model({
+				textarr: ['a'],
+			});
+			List.fields.textarr.validateRequiredInput(testItem, {
+				textarr: undefined,
+			}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should invalidate null', function (done) {
+			var testItem = new List.model();
+			List.fields.textarr.validateRequiredInput(testItem, {
+				textarr: null,
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate an array with an empty string', function (done) {
+			var testItem = new List.model();
+			List.fields.textarr.validateRequiredInput(testItem, {
+				textarr: [''],
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate an array with empty strings', function (done) {
+			var testItem = new List.model();
+			List.fields.textarr.validateRequiredInput(testItem, {
+				textarr: ['a', 'b', ''],
+			}, function (result) {
+				demand(result).be(false);
 				done();
 			});
 		});
