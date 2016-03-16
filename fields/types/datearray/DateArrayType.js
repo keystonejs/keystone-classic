@@ -42,12 +42,20 @@ datearray.prototype.format = function (item, format, separator) {
 datearray.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = true;
-	if (value !== undefined) {
+	if (value !== undefined && value !== null && value !== '') {
 		if (!Array.isArray(value)) {
 			value = [value];
 		}
 		for (var i = 0; i < value.length; i++) {
-			if (!moment(value[i], this.parseFormatString).isValid()) {
+			var currentValue;
+			// If we pass it an epoch, parse it without the format string
+			if (typeof value[i] === 'number') {
+				currentValue = moment(value[i]);
+			} else {
+				currentValue = moment(value[i], this.parseFormatString);
+			}
+
+			if (!currentValue.isValid()) {
 				result = false;
 				break;
 			}
