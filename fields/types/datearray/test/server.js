@@ -162,6 +162,111 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('validateRequiredInput', function () {
+		it('should validate an array of dates', function (done) {
+			var testItem = new List.model();
+			List.fields.datearr.validateRequiredInput(testItem, {
+				datearr: ['2015-01-01', '2015-01-02'],
+			}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate a date', function (done) {
+			var testItem = new List.model();
+			List.fields.datearr.validateRequiredInput(testItem, {
+				datearr: '2015-01-01',
+			}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate a nested array of dates', function (done) {
+			var testItem = new List.model();
+			List.fields['nested.datearr'].validateRequiredInput(testItem, {
+				nested: {
+					datearr: ['2015-01-01', '2015-01-02'],
+				},
+			}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate a nested array of numbers with a flat paths', function (done) {
+			List.fields.datearr.validateInput({
+				'nested.datearr': ['2015-01-01', '2015-01-02'],
+			}, function (result) {
+				demand(result).eql(true);
+				done();
+			});
+		});
+
+		it('should invalidate an empty string', function (done) {
+			var testItem = new List.model();
+			List.fields.datearr.validateRequiredInput(testItem, {
+				datearr: '',
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate undefined', function (done) {
+			var testItem = new List.model();
+			List.fields.datearr.validateRequiredInput(testItem, {
+				datearr: undefined,
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should validate undefined if a value exists', function (done) {
+			var testItem = new List.model({
+				datearr: ['2015-01-01'],
+			});
+			List.fields.datearr.validateRequiredInput(testItem, {
+				datearr: undefined,
+			}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should invalidate null', function (done) {
+			var testItem = new List.model();
+			List.fields.datearr.validateRequiredInput(testItem, {
+				datearr: null,
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate an array with an empty string', function (done) {
+			var testItem = new List.model();
+			List.fields.datearr.validateRequiredInput(testItem, {
+				datearr: [''],
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate an array with empty strings', function (done) {
+			var testItem = new List.model();
+			List.fields.datearr.validateRequiredInput(testItem, {
+				datearr: ['2015-01-01', '', '2015-01-02'],
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+	});
+
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
 			List.fields.datearr.updateItem(testItem, {
