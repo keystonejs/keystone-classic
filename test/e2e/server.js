@@ -40,7 +40,7 @@ keystone.set('routes', require('./routes'));
 
 keystone.set('nav', {
 	'access': ['users'],
-	'fields': ['names', 'selects'],
+	'fields': ['names', 'selects', 'booleans'],
 });
 
 function dropTestDatabase(done) {
