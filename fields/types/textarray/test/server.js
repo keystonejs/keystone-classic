@@ -45,6 +45,54 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	it('should validate top level fields', function (done) {
+		List.fields.textarr.validateInput({
+			textarr: ['a', 'b'],
+		}, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate nested fields', function (done) {
+		List.fields.textarr.validateInput({
+			nested: {
+				textarr: ['a', 'b'],
+			},
+		}, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate nested fields with flat paths', function (done) {
+		List.fields.textarr.validateInput({
+			'nested.textarr': ['a', 'b'],
+		}, function (result) {
+			demand(result).eql(true);
+			done();
+		});
+	});
+
+	it('should validate a single string value', function (done) {
+		List.fields.textarr.validateInput({
+			textarr: 'a',
+		}, function (result) {
+			demand(result).eql(true);
+			done();
+		});
+	});
+
+	it('should validate truthy values', function (done) {
+		var time = new Date();
+		List.fields.textarr.validateInput({
+			textarr: [1, 'a', true, false, null, undefined, [], {}, time],
+		}, function (result) {
+			demand(result).eql(true);
+			done();
+		});
+	});
+
 	it('should update top level fields', function (done) {
 		var testItem = new List.model();
 		List.fields.textarr.updateItem(testItem, {
