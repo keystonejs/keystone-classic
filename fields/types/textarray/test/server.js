@@ -17,7 +17,33 @@ exports.testFieldType = function (List) {
 		demand(testItem.get('textarr')).eql([]);
 	});
 
+	it('should validate empty arrays as input', function (done) {
+		List.fields.textarr.validateInput({ textarr: [] }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
 
+	it('should validate a blank string as input', function (done) {
+		List.fields.textarr.validateInput({ textarr: '' }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate null input', function (done) {
+		List.fields.textarr.validateInput({ textarr: null }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
+	it('should validate undefined input', function (done) {
+		List.fields.textarr.validateInput({}, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
 
 	it('should update top level fields', function (done) {
 		var testItem = new List.model();
