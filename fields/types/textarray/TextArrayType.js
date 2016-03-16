@@ -28,16 +28,24 @@ textarray.prototype.format = function (item, separator) {
 textarray.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = true;
+	// If the value is null, undefined or an empty string
+	// bail early since updateItem sanitizes that just fine
 	if (value !== undefined && value !== null && value !== '') {
+		// If the value is not an array, convert it to one
+		// e.g. if textarr = 'somestring' (which is valid)
 		if (!Array.isArray(value)) {
 			value = [value];
 		}
 		for (var i = 0; i < value.length; i++) {
 			var thisValue = value[i];
+			// If the current value is not a string, but can
+			// be converted, convert it
 			if (thisValue && thisValue.toString) {
 				thisValue = thisValue.toString();
 			}
-			if (typeof thisValue[i] !== 'string' && thisValue[i].length) {
+			// If the current value is not a string but exists
+			// and is neither false nor undefined, fail the validation
+			if (typeof thisValue !== 'string' && thisValue) {
 				result = false;
 				break;
 			}
