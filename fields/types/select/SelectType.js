@@ -116,12 +116,10 @@ select.prototype.addFilterToQuery = function (filter, query) {
 			filter.value = [];
 		}
 	}
-	if (filter.value.length) {
-		if (filter.value.length > 1) {
-			query[this.path] = (filter.inverted) ? { $nin: filter.value } : { $in: filter.value };
-		} else {
-			query[this.path] = (filter.inverted) ? { $ne: filter.value } : filter.value;
-		}
+	if (filter.value.length > 1) {
+		query[this.path] = (filter.inverted) ? { $nin: filter.value } : { $in: filter.value };
+	} else if (filter.value.length === 1) {
+		query[this.path] = (filter.inverted) ? { $ne: filter.value[0] } : filter.value[0];
 	} else {
 		query[this.path] = (filter.inverted) ? { $nin: ['', null] } : { $in: ['', null] };
 	}
