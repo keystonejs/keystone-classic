@@ -47,15 +47,19 @@ function isValidNumber (value) {
 numberarray.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = true;
-	if (value !== undefined) {
+	// Let undefined, empty string and null pass
+	if (value !== undefined && value !== '' && value !== null) {
+		// Coerce a single value to an array
 		if (!Array.isArray(value)) {
 			value = [value];
 		}
 		for (var i = 0; i < value.length; i++) {
 			var thisValue = value[i];
+			// If it's a string, check if there's a number in the string
 			if (typeof thisValue === 'string') {
 				thisValue = utils.number(thisValue);
 			}
+			// If it's not a number or NaN invalidate
 			if (typeof thisValue !== 'number' || Number.isNaN(thisValue)) {
 				result = false;
 				break;
@@ -71,12 +75,33 @@ numberarray.prototype.validateInput = function (data, callback) {
 numberarray.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
+	// If the field is undefined but has a value saved already, validate
 	if (value === undefined) {
 		if (item.get(this.path) && item.get(this.path).length) {
 			result = true;
 		}
-	} else if (typeof value === 'string' || typeof value === 'number' || Array.isArray(value) && value.length) {
+	}
+	// If it's a string that's not empty, validate
+	if (typeof value === 'string' && value !== '') {
 		result = true;
+	// If it's an array of only numbers and/or numberify-able data, validate
+	} else if (Array.isArray(value)) {
+		var invalidContent = false;
+		for (var i = 0; i < value.length; i++) {
+			var thisValue = value[i];
+			// If it's a string, check if there's a number in the string
+			if (typeof thisValue === 'string') {
+				thisValue = utils.number(thisValue);
+			}
+			// If even a single item is not a number or NaN, invalidate
+			if (typeof thisValue !== 'number' || Number.isNaN(thisValue)) {
+				invalidContent = true;
+				break;
+			}
+		}
+		if (invalidContent === false) {
+			result = true;
+		}
 	}
 	utils.defer(callback, result);
 };
