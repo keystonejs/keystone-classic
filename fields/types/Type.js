@@ -277,7 +277,9 @@ Field.prototype.underscoreMethod = function (path, fn) {
  * @api public
  */
 Field.prototype.format = function (item) {
-	return item.get(this.path);
+	var value = item.get(this.path);
+	if (value === undefined) return '';
+	return value;
 };
 
 /**
