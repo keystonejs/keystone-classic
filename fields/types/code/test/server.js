@@ -80,11 +80,11 @@ exports.testFieldType = function (List) {
 		demand(List.fields.codemirror.editor.value).be('codemirror value');
 	});
 
-	it('should use the common code input validator', function () {
+	it('should use the common text input validator', function () {
 		demand(List.fields.code.validateInput === TextType.prototype.validateInput);
 	});
 
-	it('should use the common code required validator', function () {
+	it('should use the common text required validator', function () {
 		demand(List.fields.code.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 };
