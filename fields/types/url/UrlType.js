@@ -11,7 +11,6 @@ var util = require('util');
 function url (list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format'];
-	this._formatUrl = options.format || removeProtocolPrefix;
 	url.super_.call(this, list, path, options);
 }
 util.inherits(url, FieldType);
@@ -31,8 +30,14 @@ url.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
  * which strips the leading protocol from the value for simpler display
  */
 url.prototype.format = function (item) {
-	var url = (item.get(this.path) || '');
-	return this._formatUrl(url);
+	var url = item.get(this.path) || '';
+	if (this.options.format === false) {
+		return url;
+	} else if (typeof this.options.format === 'function') {
+		return this.options.format(url);
+	} else {
+		return removeProtocolPrefix(url);
+	}
 };
 
 /**
