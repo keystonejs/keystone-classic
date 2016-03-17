@@ -65,7 +65,7 @@ number.prototype.format = function (item, format) {
 	if (format || this.formatString) {
 		return (typeof value === 'number') ? numeral(value).format(format || this.formatString) : '';
 	} else {
-		return value || '';
+		return value || value === 0 ? String(value) : '';
 	}
 };
 
