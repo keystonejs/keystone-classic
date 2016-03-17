@@ -125,6 +125,24 @@ exports.testFieldType = function (List) {
 				done();
 			});
 		});
+
+		it('should invalidate true', function (done) {
+			List.fields.select.validateInput({
+				select: true,
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate false', function (done) {
+			List.fields.select.validateInput({
+				select: false,
+			}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
 	});
 
 	describe('validateRequiredInput', function () {
