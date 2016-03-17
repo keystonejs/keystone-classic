@@ -196,36 +196,64 @@ exports.testFieldType = function (List) {
 	});
 
 	describe('validateRequiredInput', function () {
-		it('should validate required input === true', function (done) {
+		it('should validate true', function (done) {
 			List.fields.bool.validateRequiredInput(testItem, { bool: true }, function (result) {
 				demand(result).be(true);
 				done();
 			});
 		});
 
-		it('should validate required input with truthy string', function (done) {
+		it('should validate a truthy string', function (done) {
 			List.fields.bool.validateRequiredInput(testItem, { bool: 'abc' }, function (result) {
 				demand(result).be(true);
 				done();
 			});
 		});
 
-		it('should invalidate required input === ""', function (done) {
-			List.fields.bool.validateRequiredInput(testItem, { bool: '' }, function (result) {
-				demand(result).be(false);
+		it('should validate a truthy number', function (done) {
+			List.fields.bool.validateRequiredInput(testItem, { bool: 2 }, function (result) {
+				demand(result).be(true);
 				done();
 			});
 		});
 
-		it('should invalidate required input === "false"', function (done) {
+		it('should invalidate "false"', function (done) {
 			List.fields.bool.validateRequiredInput(testItem, { bool: 'false' }, function (result) {
 				demand(result).be(false);
 				done();
 			});
 		});
 
-		it('should invalidate required input === false', function (done) {
+		it('should invalidate false', function (done) {
 			List.fields.bool.validateRequiredInput(testItem, { bool: false }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate ""', function (done) {
+			List.fields.bool.validateRequiredInput(testItem, { bool: '' }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate null', function (done) {
+			List.fields.bool.validateRequiredInput(testItem, { bool: null }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate undefined', function (done) {
+			List.fields.bool.validateRequiredInput(testItem, { bool: undefined }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate 0', function (done) {
+			List.fields.bool.validateRequiredInput(testItem, { bool: 0 }, function (result) {
 				demand(result).be(false);
 				done();
 			});
