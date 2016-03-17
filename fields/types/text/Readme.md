@@ -4,6 +4,10 @@ Stores a `String` in the model.
 
 ## Methods
 
+### `crop(length, append, preserveWords)`
+
+Uses the `cropString()` method from [keystone-utils](https://github.com/keystonejs/keystone-utils#conversion-utilities) to crop the value to the specified length.
+
 ### `format`
 
 Simply returns the stored string, or an empty string if the value is `undefined`.
