@@ -134,7 +134,7 @@ select.prototype.validateInput = function (data, callback) {
 	if (typeof value === 'string' && this.numeric) {
 		value = utils.number(value);
 	}
-	var result = value === undefined || (value in this.map) ? true : false;
+	var result = value === undefined || value === null || value === '' || (value in this.map) ? true : false;
 	utils.defer(callback, result);
 };
 
@@ -143,7 +143,19 @@ select.prototype.validateInput = function (data, callback) {
  */
 select.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	var result = value !== undefined || (value === undefined && item.get(this.path)) ? true : false;
+	var result = false;
+	if (typeof value === 'string' && this.numeric) {
+		value = utils.number(value);
+	}
+	if (value === undefined) {
+		if (item.get(this.path)) {
+			result = true;
+		}
+	} else if (typeof value === 'string' || typeof value === 'number') {
+		if (value !== '') {
+			result = true;
+		}
+	}
 	utils.defer(callback, result);
 };
 
