@@ -1,6 +1,6 @@
 # Number Field
 
-Stores a `Number` in the model.
+Stores a `Double` in the model.
 
 ## Methods
 

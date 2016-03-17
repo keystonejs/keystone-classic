@@ -12,20 +12,19 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
-
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
+			var testItem = new List.model();
 			List.fields.number.updateItem(testItem, {
 				number: 42,
 			}, function () {
 				demand(testItem.number).be(42);
-				testItem.number = undefined;
 				done();
 			});
 		});
 
 		it('should update nested fields', function (done) {
+			var testItem = new List.model();
 			List.fields['nested.number'].updateItem(testItem, {
 				nested: {
 					number: 42,
@@ -38,6 +37,7 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should update nested fields with flat paths', function (done) {
+			var testItem = new List.model();
 			List.fields['nested.number'].updateItem(testItem, {
 				'nested.number': 42,
 			}, function () {
@@ -48,45 +48,46 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should null value with empty string', function (done) {
+			var testItem = new List.model();
 			testItem.number = 1;
 			List.fields.number.updateItem(testItem, {
 				number: '',
 			}, function () {
 				demand(testItem.number).be(null);
-				testItem.number = undefined;
 				done();
 			});
 		});
 
 		it('should null value when null', function (done) {
+			var testItem = new List.model();
 			testItem.number = 1;
 			List.fields.number.updateItem(testItem, {
 				number: null,
 			}, function () {
 				demand(testItem.number).be(null);
-				testItem.number = undefined;
 				done();
 			});
 		});
 
 		it('should not null value when undefined', function (done) {
+			var testItem = new List.model();
 			testItem.number = 1;
 			List.fields.number.updateItem(testItem, {
 				number: undefined,
 			}, function () {
 				demand(testItem.number).be(1);
-				testItem.number = undefined;
 				done();
 			});
 		});
 
 		it('should convert string values', function (done) {
-			testItem.number = 1;
+			var testItem = new List.model({
+				number: 1,
+			});
 			List.fields.number.updateItem(testItem, {
 				number: '50.50',
 			}, function () {
 				demand(testItem.number).be(50.50);
-				testItem.number = undefined;
 				done();
 			});
 		});
@@ -99,6 +100,8 @@ exports.testFieldType = function (List) {
 	it('should use the common number required validator', function () {
 		demand(List.fields.number.validateRequiredInput === validators.number.required);
 	});
+
+	/* This field tests the common number validator - should be moved elsewhere? */
 
 	describe('validateInput', function () {
 		it('should validate numeric input', function (done) {
@@ -274,9 +277,10 @@ exports.testFieldType = function (List) {
 	it('should validate no input', function () {
 		demand(List.fields.number.inputIsValid({})).be(true);
 		demand(List.fields.number.inputIsValid({}, true)).be(false);
-		testItem.number = 1;
+		var testItem = new List.model({
+			number: 1,
+		});
 		demand(List.fields.number.inputIsValid({}, true, testItem)).be(true);
-		testItem.number = undefined;
 	});
 
 	it('should validate empty strings', function () {
@@ -286,11 +290,12 @@ exports.testFieldType = function (List) {
 		demand(List.fields.number.inputIsValid({
 			number: '',
 		}, true)).be(false);
-		testItem.number = 1;
+		var testItem = new List.model({
+			number: 1,
+		});
 		demand(List.fields.number.inputIsValid({
 			number: '',
 		}, true, testItem)).be(false);
-		testItem.number = undefined;
 	});
 
 	it('should invalidate invalid input', function () {
