@@ -2,7 +2,7 @@ var FieldType = require('../Type');
 var TextType = require('../text/TextType');
 var util = require('util');
 var utils = require('keystone-utils');
-var validators = require('../validators');
+
 
 /**
  * Text FieldType Constructor
@@ -18,9 +18,9 @@ function textarea (list, path, options) {
 }
 util.inherits(textarea, FieldType);
 
-/* Use text validators */
-textarea.prototype.validateInput = validators.text.input;
-textarea.prototype.validateRequiredInput = validators.text.required;
+
+textarea.prototype.validateInput = TextType.prototype.validateInput;
+textarea.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /* Inherit from TextType prototype */
 textarea.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;

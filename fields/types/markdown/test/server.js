@@ -1,6 +1,7 @@
 var demand = require('must');
 var MarkdownType = require('../MarkdownType');
-var validators = require('../../validators');
+var TextType = require('../../text/TextType');
+
 exports.initList = function (List) {
 	List.add({
 		markdown: { type: MarkdownType },
@@ -54,10 +55,10 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should use the common markdown input validator', function () {
-		demand(List.fields.markdown.validateInput === validators.text.input);
+		demand(List.fields.markdown.validateInput === TextType.prototype.validateInput);
 	});
 
 	it('should use the common markdown required validator', function () {
-		demand(List.fields.markdown.validateRequiredInput === validators.text.required);
+		demand(List.fields.markdown.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 };

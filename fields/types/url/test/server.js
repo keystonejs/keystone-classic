@@ -1,6 +1,6 @@
 var demand = require('must');
 var UrlType = require('../UrlType');
-var validators = require('../../validators');
+var TextType = require('../../text/TextType');
 
 function customFormat (url) {
 	return url.toUpperCase();
@@ -70,10 +70,10 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should use the common url input validator', function () {
-		demand(List.fields.url.validateInput === validators.text.input);
+		demand(List.fields.url.validateInput === TextType.prototype.validateInput);
 	});
 
 	it('should use the common url required validator', function () {
-		demand(List.fields.url.validateRequiredInput === validators.text.required);
+		demand(List.fields.url.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 };

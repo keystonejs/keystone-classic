@@ -2,7 +2,7 @@ var FieldType = require('../Type');
 var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
-var validators = require('../validators');
+
 
 /**
  * Number FieldType Constructor
@@ -21,9 +21,28 @@ function number (list, path, options) {
 }
 util.inherits(number, FieldType);
 
-/* Use number validators */
-number.prototype.validateInput = validators.number.input;
-number.prototype.validateRequiredInput = validators.number.required;
+number.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value === undefined || typeof value === 'number' || value === null;
+	if (typeof value === 'string') {
+		if (value === '') {
+			result = true;
+		} else {
+			value = utils.number(value);
+			result = !isNaN(value);
+		}
+	}
+	utils.defer(callback, result);
+};
+
+number.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = !!(value || typeof value === 'number');
+	if (value === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
+};
 
 /**
  * Add filters to a query

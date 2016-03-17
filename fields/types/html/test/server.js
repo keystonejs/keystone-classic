@@ -1,6 +1,6 @@
 var demand = require('must');
 var HtmlType = require('../HtmlType');
-var validators = require('../../validators');
+var TextType = require('../../text/TextType');
 
 exports.initList = function (List) {
 	List.add({
@@ -55,10 +55,10 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should use the common html input validator', function () {
-		demand(List.fields.html.validateInput === validators.text.input);
+		demand(List.fields.html.validateInput === TextType.prototype.validateInput);
 	});
 
 	it('should use the common html required validator', function () {
-		demand(List.fields.html.validateRequiredInput === validators.text.required);
+		demand(List.fields.html.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 };

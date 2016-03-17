@@ -1,6 +1,6 @@
 var FieldType = require('../Type');
+var utils = require('keystone-utils');
 var util = require('util');
-var validators = require('../validators');
 
 /**
  * Boolean FieldType Constructor
@@ -16,9 +16,24 @@ function boolean (list, path, options) {
 }
 util.inherits(boolean, FieldType);
 
-/* Use boolean validators */
-boolean.prototype.validateInput = validators.boolean.input;
-boolean.prototype.validateRequiredInput = validators.boolean.required;
+boolean.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = true;
+	if (value !== undefined
+		&& value !== null
+		&& typeof value !== 'string'
+		&& typeof value !== 'number'
+		&& typeof value !== 'boolean') {
+		result = false;
+	}
+	utils.defer(callback, result);
+};
+
+boolean.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = (value && value !== 'false') || item.get(this.path) ? true : false;
+	utils.defer(callback, result);
+};
 
 /**
  * Add filters to a query
