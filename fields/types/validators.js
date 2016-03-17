@@ -59,10 +59,14 @@ exports.text = {
 exports.number = {
 	input: function (data, callback) {
 		var value = this.getValueFromData(data);
-		var result = value === undefined || typeof value === 'number';
+		var result = value === undefined || typeof value === 'number' || value === null;
 		if (typeof value === 'string') {
-			value = utils.number(value);
-			result = !isNaN(value);
+			if (value === '') {
+				result = true;
+			} else {
+				value = utils.number(value);
+				result = !isNaN(value);
+			}
 		}
 		utils.defer(callback, result);
 	},
