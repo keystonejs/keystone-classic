@@ -1,4 +1,4 @@
-# Select Field
+# Text Field
 
 Stores a `String` in the model.
 
