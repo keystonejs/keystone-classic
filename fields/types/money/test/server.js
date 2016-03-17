@@ -1,5 +1,6 @@
 var demand = require('must');
 var MoneyType = require('../MoneyType');
+var NumberType = require('../../number/NumberType');
 
 exports.initList = function (List) {
 	List.add({
@@ -13,37 +14,65 @@ exports.initList = function (List) {
 exports.testFieldType = function (List) {
 	var testItem = new List.model();
 
-	it('should update top level fields', function (done) {
-		List.fields.money.updateItem(testItem, {
-			money: 42,
-		}, function () {
-			demand(testItem.money).be(42);
-			testItem.money = undefined;
-			done();
-		});
-	});
-
-	it('should update nested fields', function (done) {
-		List.fields['nested.money'].updateItem(testItem, {
-			nested: {
+	describe('updateItem', function () {
+		it('should update top level fields', function (done) {
+			List.fields.money.updateItem(testItem, {
 				money: 42,
-			},
-		}, function () {
-			demand(testItem.nested.money).be(42);
-			testItem.nested.money = undefined;
-			done();
+			}, function () {
+				demand(testItem.money).be(42);
+				testItem.money = undefined;
+				done();
+			});
+		});
+
+		it('should update nested fields', function (done) {
+			List.fields['nested.money'].updateItem(testItem, {
+				nested: {
+					money: 42,
+				},
+			}, function () {
+				demand(testItem.nested.money).be(42);
+				testItem.nested.money = undefined;
+				done();
+			});
+		});
+
+		it('should update nested fields with flat paths', function (done) {
+			List.fields['nested.money'].updateItem(testItem, {
+				'nested.money': 42,
+			}, function () {
+				demand(testItem.nested.money).be(42);
+				testItem.nested.money = undefined;
+				done();
+			});
 		});
 	});
 
-	it('should update nested fields with flat paths', function (done) {
-		List.fields['nested.money'].updateItem(testItem, {
-			'nested.money': 42,
-		}, function () {
-			demand(testItem.nested.money).be(42);
-			testItem.nested.money = undefined;
-			done();
+	it('should use the common number input validator', function () {
+		demand(List.fields.money.validateInput === NumberType.prototype.validateInput);
+	});
+
+	it('should use the common number required validator', function () {
+		demand(List.fields.money.validateRequiredInput === NumberType.prototype.validateRequiredInput);
+	});
+
+	describe('format', function () {
+		it('should properly format', function () {
+			testItem.money = 1234;
+			demand(testItem._.money.format()).be('$1,234.00');
+			testItem.money = -244;
+			demand(testItem._.money.format()).be('-$244.00');
+		});
+
+		it('should ignore formatting if the format option is false', function () {
+			testItem.money = 1234;
+			demand(testItem._.money.format()).be('$1,234.00');
+			testItem.money = -244;
+			demand(testItem._.money.format()).be('-$244.00');
 		});
 	});
+
+	/* Deprecated inputIsValid tests */
 
 	it('should validate numeric input', function () {
 		demand(List.fields.money.inputIsValid({
@@ -107,25 +136,5 @@ exports.testFieldType = function (List) {
 		demand(List.fields.money.inputIsValid({
 			money: 'a',
 		})).be(false);
-	});
-
-	it('should properly format', function () {
-		testItem.money = 1234;
-		demand(testItem._.money.format()).be('$1,234.00');
-		testItem.money = -244;
-		demand(testItem._.money.format()).be('-$244.00');
-	});
-
-	it('should ignore formatting if the format option is false', function () {
-		testItem.money = 1234;
-		demand(testItem._.money.format()).be('$1,234.00');
-		testItem.money = -244;
-		demand(testItem._.money.format()).be('-$244.00');
-	});
-
-	it('should validate numeric input', function () {
-		List.fields.money.validateInput({ money: 1 }, function (result) {
-			demand(result).be(true);
-		});
 	});
 };
