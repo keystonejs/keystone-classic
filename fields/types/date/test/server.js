@@ -1,5 +1,6 @@
 var demand = require('must');
 var DateType = require('../DateType');
+var TextType = require('../../text/TextType');
 
 exports.initList = function (List) {
 	List.add({
@@ -27,34 +28,85 @@ exports.testFieldType = function (List) {
 		demand(testItem._.date.moment().format('YYYYMMDD')).equal('20131204');
 	});
 
-	describe('validateRequiredInput', function () {
-		it('should validate input present', function (done) {
-			var testItem = new List.model();
-			List.fields.date.validateRequiredInput(testItem, { date: 'a' }, function (result) {
+	it('should use the common text input validator', function () {
+		demand(List.fields.date.validateRequiredInput === TextType.prototype.validateRequiredInput);
+	});
+
+	describe('validateInput', function () {
+		it('should validate date strings', function (done) {
+			List.fields.date.validateInput({ date: '2015-01-01' }, function (result) {
 				demand(result).be(true);
 				done();
 			});
 		});
 
-		it('should invalidate empty string', function (done) {
-			var testItem = new List.model();
-			List.fields.date.validateRequiredInput(testItem, { date: '' }, function (result) {
+		// TODO This shouldn't fail
+		it('should validate dates', function (done) {
+			List.fields.date.validateInput({ date: new Date() }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate empty strings', function (done) {
+			List.fields.date.validateInput({ date: '' }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate null', function (done) {
+			List.fields.date.validateInput({ date: null }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate undefined', function (done) {
+			List.fields.date.validateInput({ date: undefined }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should invalidate random strings', function (done) {
+			List.fields.date.validateInput({ date: 'a' }, function (result) {
 				demand(result).be(false);
 				done();
 			});
 		});
 
-		it('should invalidate null', function (done) {
-			var testItem = new List.model();
-			List.fields.date.validateRequiredInput(testItem, { date: null }, function (result) {
+
+		it('should invalidate objects', function (done) {
+			List.fields.date.validateInput({ date: { things: 'stuff' } }, function (result) {
 				demand(result).be(false);
 				done();
 			});
 		});
 
-		it('should invalidate undefined', function (done) {
-			var testItem = new List.model();
-			List.fields.date.validateRequiredInput(testItem, { date: undefined }, function (result) {
+		it('should invalidate arrays', function (done) {
+			List.fields.date.validateInput({ date: ['a', 'b'] }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate Booleans', function (done) {
+			List.fields.date.validateInput({ date: true }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate function', function (done) {
+			List.fields.date.validateInput({ date: function () {} }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate regexp', function (done) {
+			List.fields.date.validateInput({ date: /foo/ }, function (result) {
 				demand(result).be(false);
 				done();
 			});
