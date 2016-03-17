@@ -149,7 +149,7 @@ exports.testFieldType = function (List) {
 
 		it('should validate undefined if a previous value exists', function (done) {
 			var testItem = new List.model({
-				text: 'a'
+				text: 'a',
 			});
 			List.fields.text.validateRequiredInput(testItem, { text: undefined }, function (result) {
 				demand(result).be(true);
