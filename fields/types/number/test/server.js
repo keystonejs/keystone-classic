@@ -187,6 +187,58 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('validateRequiredInput', function () {
+		it('should validate numeric input', function (done) {
+			var testItem = new List.model();
+			List.fields.number.validateRequiredInput(testItem, { number: 1 }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate numeric string input', function (done) {
+			var testItem = new List.model();
+			List.fields.number.validateRequiredInput(testItem, { number: '1' }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should invalidate undefined input', function (done) {
+			var testItem = new List.model();
+			List.fields.number.validateRequiredInput(testItem, {}, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should validate undefined input if data exists', function (done) {
+			var testItem = new List.model({
+				number: 1,
+			});
+			List.fields.number.validateRequiredInput(testItem, {}, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should invalidate null input', function (done) {
+			var testItem = new List.model();
+			List.fields.number.validateRequiredInput(testItem, { number: null }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate empty string input', function (done) {
+			var testItem = new List.model();
+			List.fields.number.validateRequiredInput(testItem, { number: '' }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+	});
+
 	/* Deprecated inputIsValid method tests */
 
 	it('should validate numeric input', function () {
