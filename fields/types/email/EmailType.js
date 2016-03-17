@@ -57,14 +57,7 @@ email.prototype.validateInput = function (data, callback) {
 /**
  * Asynchronously confirms that required input is present
  */
-email.prototype.validateRequiredInput = function (item, data, callback) {
-	var input = this.getValueFromData(data);
-	var result = !!input;
-	if (input === undefined && item.get(this.path)) {
-		result = true;
-	}
-	utils.defer(callback, result);
-};
+email.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /**
  * Validates that a valid email has been provided in a data object
