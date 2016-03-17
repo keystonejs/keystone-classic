@@ -260,6 +260,46 @@ exports.testFieldType = function (List) {
 		demand(testItem._.extraProps.pluck('custom')).be('2');
 	});
 
+	it('should have the label in nameLabel', function () {
+		var testItem = new List.model({
+			extraProps: 'two',
+		});
+		demand(testItem.extraPropsLabel).be('Two');
+	});
+
+	it('should have the current data in nameData', function () {
+		var testItem = new List.model({
+			extraProps: 'two',
+		});
+		demand(testItem.extraPropsData).eql({
+			value: 'two', label: 'Two', custom: '2',
+		});
+	});
+
+	it('should have the options in nameOption', function () {
+		var testItem = new List.model({
+			extraProps: 'two',
+		});
+		demand(testItem.extraPropsOptions).eql([
+			{ value: 'one', label: 'One', custom: '1' },
+			{ value: 'two', label: 'Two', custom: '2' },
+		]);
+	});
+
+	it('should have the options map in nameOptionsMap', function () {
+		var testItem = new List.model({
+			extraProps: 'two',
+		});
+		demand(testItem.extraPropsOptionsMap).eql({
+			one: {
+				value: 'one', label: 'One', custom: '1',
+			},
+			two: {
+				value: 'two', label: 'Two', custom: '2',
+			},
+		});
+	});
+
 	it('should return a blank string when formatting an undefined value', function () {
 		var testItem = new List.model();
 		demand(List.fields.select.format(testItem)).be('');
