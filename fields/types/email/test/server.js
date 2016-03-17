@@ -116,7 +116,7 @@ exports.testFieldType = function (List) {
 				demand(result).be(false);
 				done();
 			});
-		})
+		});
 
 		it('should invalidate numeric input', function (done) {
 			List.fields.email.validateInput({ email: 1 }, function (result) {
