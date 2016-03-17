@@ -2,7 +2,7 @@ var FieldType = require('../Type');
 var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
-var validators = require('../validators');
+var TextType = require('../text/TextType');
 
 /**
  * Date FieldType Constructor
@@ -26,8 +26,8 @@ function date (list, path, options) {
 }
 util.inherits(date, FieldType);
 
-/* Use text validators */
-date.prototype.validateRequiredInput = validators.text.required;
+
+date.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /**
  * Add filters to a query

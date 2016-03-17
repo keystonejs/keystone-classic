@@ -1,7 +1,7 @@
 var FieldType = require('../Type');
 var TextType = require('../text/TextType');
 var util = require('util');
-var validators = require('../validators');
+
 
 /**
  * URL FieldType Constructor
@@ -16,12 +16,12 @@ function url (list, path, options) {
 }
 util.inherits(url, FieldType);
 
-/* Use text validators */
+
 // TODO: is it worth adding URL specific validation logic? it would have to be
 // robust so as to not trigger invalid cases on valid input, might be so
 // flexible that it's not worth adding.
-url.prototype.validateInput = validators.text.input;
-url.prototype.validateRequiredInput = validators.text.required;
+url.prototype.validateInput = TextType.prototype.validateInput;
+url.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /* Inherit from TextType prototype */
 url.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;

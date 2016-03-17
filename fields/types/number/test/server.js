@@ -1,6 +1,6 @@
 var demand = require('must');
 var NumberType = require('../NumberType');
-var validators = require('../../validators');
+
 
 exports.initList = function (List) {
 	List.add({
@@ -92,16 +92,6 @@ exports.testFieldType = function (List) {
 			});
 		});
 	});
-
-	it('should use the common number input validator', function () {
-		demand(List.fields.number.validateInput === validators.number.input);
-	});
-
-	it('should use the common number required validator', function () {
-		demand(List.fields.number.validateRequiredInput === validators.number.required);
-	});
-
-	/* This field tests the common number validator - should be moved elsewhere? */
 
 	describe('validateInput', function () {
 		it('should validate numeric input', function (done) {

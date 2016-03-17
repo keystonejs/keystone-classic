@@ -1,7 +1,6 @@
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
-var validators = require('../validators');
 
 /**
  * Text FieldType Constructor
@@ -16,9 +15,20 @@ function text (list, path, options) {
 }
 util.inherits(text, FieldType);
 
-/* Use text validators */
-text.prototype.validateInput = validators.text.input;
-text.prototype.validateRequiredInput = validators.text.required;
+text.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value === undefined || value === null || typeof value === 'string';
+	utils.defer(callback, result);
+};
+
+text.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = !!value;
+	if (value === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
+};
 
 /**
  * Add filters to a query

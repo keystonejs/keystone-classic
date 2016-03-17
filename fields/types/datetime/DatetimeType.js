@@ -3,7 +3,7 @@ var DateType = require('../date/DateType');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
-var validators = require('../validators');
+var TextType = require('../text/TextType');
 
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
 
@@ -32,8 +32,8 @@ function datetime (list, path, options) {
 }
 util.inherits(datetime, FieldType);
 
-/* Use text validators */
-datetime.prototype.validateRequiredInput = validators.text.required;
+
+datetime.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /* Inherit from DateType prototype */
 datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
