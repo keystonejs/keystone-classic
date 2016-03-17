@@ -16,7 +16,16 @@ var utils = require('keystone-utils');
 
 exports.boolean = {
 	input: function (data, callback) {
-		utils.defer(callback, true);
+		var value = this.getValueFromData(data);
+		var result = true;
+		if (value !== undefined
+			&& value !== null
+			&& typeof value !== 'string'
+			&& typeof value !== 'number'
+			&& typeof value !== 'boolean') {
+			result = false;
+		}
+		utils.defer(callback, result);
 	},
 	required: function (item, data, callback) {
 		var value = this.getValueFromData(data);
