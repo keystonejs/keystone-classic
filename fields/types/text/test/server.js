@@ -157,9 +157,17 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate input not present', function (done) {
+		it('should invalidate empty string', function (done) {
 			var testItem = new List.model();
 			List.fields.text.validateRequiredInput(testItem, { text: '' }, function (result) {
+				demand(result).be(false);
+				done();
+			});
+		});
+
+		it('should invalidate null', function (done) {
+			var testItem = new List.model();
+			List.fields.text.validateRequiredInput(testItem, { text: null }, function (result) {
 				demand(result).be(false);
 				done();
 			});
