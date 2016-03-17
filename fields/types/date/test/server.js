@@ -40,10 +40,9 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		// TODO This shouldn't fail
-		it('should validate dates', function (done) {
-			List.fields.date.validateInput({ date: new Date() }, function (result) {
-				demand(result).be(true);
+		it('should invalidate unformatted dates', function (done) {
+			List.fields.date.validateInput({ date: new Date(2015, 1, 1) }, function (result) {
+				demand(result).be(false);
 				done();
 			});
 		});
