@@ -93,7 +93,7 @@ date.prototype.moment = function (item) {
  */
 date.prototype.parse = function (value, format) {
 	var m = this.isUTC ? moment.utc : moment;
-	if (typeof value === 'number') {
+	if (typeof value === 'number' || value instanceof Date) {
 		return m(value);
 	} else {
 		return m(value, format || this.parseFormatString);
@@ -137,8 +137,7 @@ date.prototype.updateItem = function (item, data, callback) {
 	if (!(this.path in data)) {
 		return process.nextTick(callback);
 	}
-	var m = this.isUTC ? moment.utc : moment;
-	var newValue = m(data[this.path], this.parseFormatString);
+	var newValue = this.parse(data[this.path]);
 	if (newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
 			item.set(this.path, newValue.toDate());

@@ -1,10 +1,14 @@
 var demand = require('must');
 var DateType = require('../DateType');
 var TextType = require('../../text/TextType');
+var moment = require('moment');
 
 exports.initList = function (List) {
 	List.add({
 		date: DateType,
+		nested: {
+			date: DateType,
+		},
 	});
 };
 
@@ -28,6 +32,54 @@ exports.testFieldType = function (List) {
 		demand(testItem._.date.moment().format('YYYYMMDD')).equal('20131204');
 	});
 
+	describe('updateItem', function () {
+		it('should normalize dates with moment', function (done) {
+			var testItem = new List.model();
+			List.fields.date.updateItem(testItem, {
+				date: '2015-01-01',
+			}, function () {
+				demand(testItem.date).eql(testItem._.date.moment('2015-01-01').toDate());
+				done();
+			});
+		});
+
+		it('should clear the value when passed ""', function (done) {
+			var testItem = new List.model({
+				date: '2015-01-01',
+			});
+			List.fields.date.updateItem(testItem, {
+				date: '',
+			}, function () {
+				demand(testItem.date).be(null);
+				done();
+			});
+		});
+
+		it('should clear the value when passed null', function (done) {
+			var testItem = new List.model({
+				date: '2015-01-01',
+			});
+			List.fields.date.updateItem(testItem, {
+				date: null,
+			}, function () {
+				demand(testItem.date).be(null);
+				done();
+			});
+		});
+
+		it('should clear the value when passed undefined', function (done) {
+			var testItem = new List.model({
+				date: '2015-01-01',
+			});
+			List.fields.date.updateItem(testItem, {
+				date: undefined,
+			}, function () {
+				demand(testItem.date).be(null);
+				done();
+			});
+		});
+	});
+
 	it('should use the common text input validator', function () {
 		demand(List.fields.date.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
@@ -40,9 +92,9 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate unformatted dates', function (done) {
+		it('should validate JS "Date"s', function (done) {
 			List.fields.date.validateInput({ date: new Date(2015, 1, 1) }, function (result) {
-				demand(result).be(false);
+				demand(result).be(true);
 				done();
 			});
 		});
