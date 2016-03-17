@@ -44,7 +44,7 @@ exports.boolean = {
 exports.text = {
 	input: function (data, callback) {
 		var value = this.getValueFromData(data);
-		var result = value === undefined || typeof value === 'string';
+		var result = value === undefined || value === null || typeof value === 'string';
 		utils.defer(callback, result);
 	},
 	required: function (item, data, callback) {

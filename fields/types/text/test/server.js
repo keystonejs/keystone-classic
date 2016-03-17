@@ -64,6 +64,13 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	it('should validate null input', function (done) {
+		List.fields.text.validateInput({ text: null }, function (result) {
+			demand(result).be(true);
+			done();
+		});
+	});
+
 	it('should invalidate numeric input', function (done) {
 		List.fields.text.validateInput({ text: 1 }, function (result) {
 			demand(result).be(false);
@@ -112,14 +119,6 @@ exports.testFieldType = function (List) {
 			done();
 		});
 	});
-
-	it('should invalidate null input', function (done) {
-		List.fields.text.validateInput({ text: null }, function (result) {
-			demand(result).be(false);
-			done();
-		});
-	});
-
 
 	it('should validate input present', function (done) {
 		List.fields.text.validateRequiredInput(this, { text: 'a' }, function (result) {
