@@ -20,45 +20,45 @@ exports.testFilters = function (List) { // eslint-disable-line no-unused-vars
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
-
-	it('should update top level fields', function (done) {
-		List.fields.color.updateItem(testItem, {
-			color: '#ffffff',
-		}, function () {
-			demand(testItem.color).be('#ffffff');
-			testItem.color = undefined;
-			done();
-		});
-	});
-
-	it('should update nested fields', function (done) {
-		List.fields['nested.color'].updateItem(testItem, {
-			nested: {
+	describe('updateItem', function () {
+		it('should update top level fields', function (done) {
+			var testItem = new List.model();
+			List.fields.color.updateItem(testItem, {
 				color: '#ffffff',
-			},
-		}, function () {
-			demand(testItem.nested.color).be('#ffffff');
-			testItem.nested.color = undefined;
-			done();
+			}, function () {
+				demand(testItem.color).be('#ffffff');
+				done();
+			});
+		});
+
+		it('should update nested fields', function (done) {
+			var testItem = new List.model();
+			List.fields['nested.color'].updateItem(testItem, {
+				nested: {
+					color: '#ffffff',
+				},
+			}, function () {
+				demand(testItem.nested.color).be('#ffffff');
+				done();
+			});
+		});
+
+		it('should update nested fields with flat paths', function (done) {
+			var testItem = new List.model();
+			List.fields['nested.color'].updateItem(testItem, {
+				'nested.color': '#ffffff',
+			}, function () {
+				demand(testItem.nested.color).be('#ffffff');
+				done();
+			});
 		});
 	});
 
-	it('should update nested fields with flat paths', function (done) {
-		List.fields['nested.color'].updateItem(testItem, {
-			'nested.color': '#ffffff',
-		}, function () {
-			demand(testItem.nested.color).be('#ffffff');
-			testItem.nested.color = undefined;
-			done();
-		});
-	});
-
-	it('should use the common color input validator', function () {
+	it('should use the common text input validator', function () {
 		demand(List.fields.color.validateInput === TextType.prototype.validateInput);
 	});
 
-	it('should use the common color required validator', function () {
+	it('should use the common text required validator', function () {
 		demand(List.fields.color.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 };

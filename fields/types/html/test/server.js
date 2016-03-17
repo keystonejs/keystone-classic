@@ -20,45 +20,45 @@ exports.testFilters = function (List) { // eslint-disable-line no-unused-vars
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
-
-	it('should update top level fields', function (done) {
-		List.fields.html.updateItem(testItem, {
-			html: 'foobar',
-		}, function () {
-			demand(testItem.html).be('foobar');
-			testItem.html = undefined;
-			done();
-		});
-	});
-
-	it('should update nested fields', function (done) {
-		List.fields['nested.html'].updateItem(testItem, {
-			nested: {
+	describe('updateItem', function () {
+		it('should update top level fields', function (done) {
+			var testItem = new List.model();
+			List.fields.html.updateItem(testItem, {
 				html: 'foobar',
-			},
-		}, function () {
-			demand(testItem.nested.html).be('foobar');
-			testItem.nested.html = undefined;
-			done();
+			}, function () {
+				demand(testItem.html).be('foobar');
+				done();
+			});
+		});
+
+		it('should update nested fields', function (done) {
+			var testItem = new List.model();
+			List.fields['nested.html'].updateItem(testItem, {
+				nested: {
+					html: 'foobar',
+				},
+			}, function () {
+				demand(testItem.nested.html).be('foobar');
+				done();
+			});
+		});
+
+		it('should update nested fields with flat paths', function (done) {
+			var testItem = new List.model();
+			List.fields['nested.html'].updateItem(testItem, {
+				'nested.html': 'foobar',
+			}, function () {
+				demand(testItem.nested.html).be('foobar');
+				done();
+			});
 		});
 	});
 
-	it('should update nested fields with flat paths', function (done) {
-		List.fields['nested.html'].updateItem(testItem, {
-			'nested.html': 'foobar',
-		}, function () {
-			demand(testItem.nested.html).be('foobar');
-			testItem.nested.html = undefined;
-			done();
-		});
-	});
-
-	it('should use the common html input validator', function () {
+	it('should use the common text input validator', function () {
 		demand(List.fields.html.validateInput === TextType.prototype.validateInput);
 	});
 
-	it('should use the common html required validator', function () {
+	it('should use the common text required validator', function () {
 		demand(List.fields.html.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 };

@@ -91,19 +91,23 @@ date.prototype.moment = function (item) {
  * Parses input with the correct moment version (normal or utc) and uses
  * either the provided input format or the default for the field
  */
-date.prototype.parse = function (input, format) {
+date.prototype.parse = function (value, format) {
 	var m = this.isUTC ? moment.utc : moment;
-	return m(input, format || this.parseFormatString);
+	if (typeof value === 'number' || value instanceof Date) {
+		return m(value);
+	} else {
+		return m(value, format || this.parseFormatString);
+	}
 };
 
 /**
  * Asynchronously confirms that the provided date is valid
  */
 date.prototype.validateInput = function (data, callback) {
-	var input = this.getInputFromData(data);
+	var value = this.getValueFromData(data);
 	var result = true;
-	if (input) {
-		result = this.parse(input).isValid();
+	if (value) {
+		result = this.parse(value).isValid();
 	}
 	utils.defer(callback, result);
 };
@@ -133,8 +137,7 @@ date.prototype.updateItem = function (item, data, callback) {
 	if (!(this.path in data)) {
 		return process.nextTick(callback);
 	}
-	var m = this.isUTC ? moment.utc : moment;
-	var newValue = m(data[this.path], this.parseFormatString);
+	var newValue = this.parse(data[this.path]);
 	if (newValue.isValid()) {
 		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
 			item.set(this.path, newValue.toDate());
