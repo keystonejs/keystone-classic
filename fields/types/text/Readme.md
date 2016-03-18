@@ -26,10 +26,6 @@ Ensures the value, if provided, is a string.
 
 Allows `null` to clear the field value.
 
-_Uses the common text validator._
-
 ### `validateRequiredInput`
 
 Ensures a value has been provided. Empty strings are not valid.
-
-_Uses the common text validator._
