@@ -38,11 +38,20 @@ with a real keystone app server.
 Testing is a critical part of any keystone commit to ensure the commit has not introduced any
 UI or functional regressions.  Make sure to run all keystone tests prior to pushing any commits.
 If your commit fixes a bug but breaks the UI/functional test suite please make sure that you also
-update the test suite so that any broken tests pass again.
+update the test suite so that any broken tests pass again.  You can run any of the following
+from keystone's root directory:
 
-    Running in your local environment with local selenium server:
+    Running in your local environment:
 
         npm run test-e2e
+
+    Running a single group in your local environment:
+
+        node test/e2e/server.js --env default --config ./test/e2e/nightwatch.json --group test/e2e/adminUI/<group>
+
+    Running a single test in your local environment:
+
+        node test/e2e/server.js --env default --config ./test/e2e/nightwatch.json --test test/e2e/adminUI/<group>/<test>
 
     Travis builds will run:
 

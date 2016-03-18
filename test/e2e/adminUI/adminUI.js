@@ -181,13 +181,19 @@ module.exports = {
 					select: {
 						name: {
 							label: '.EditForm-container .field-type-select[for="name"] .FormLabel',
+							inputField: '.EditForm-container .field-type-select[for="name"] .Select',
+							inputValue: '.EditForm-container .field-type-select[for="name"] .Select-value-label',
 							placeholder: '.EditForm-container .field-type-name[for="name"] .Select-placeholder',
 							dropdownArrow: '.EditForm-container .field-type-name[for="name"] .Select-arrow',
+							options: '.EditForm-container .field-type-name[for="name"] .Select-menu-outer',
 						},
 						testA: {
 							label: '.EditForm-container .field-type-select[for="testA"] .FormLabel',
+							inputField: '.EditForm-container .field-type-select[for="testA"] .Select',
+							inputValue: '.EditForm-container .field-type-select[for="testA"] .Select-value-label',
 							placeholder: '.EditForm-container .field-type-name[for="testA"] .Select-placeholder',
-							dropdownArrow: '.EditForm-container .field-type-name[for="name"] .Select-arrow',
+							dropdownArrow: '.EditForm-container .field-type-name[for="testA"] .Select-arrow',
+							options: '.EditForm-container .field-type-name[for="testA"] .Select-menu-outer',
 						},
 					},
 				},
@@ -260,8 +266,11 @@ module.exports = {
 					select: {
 						name: {
 							label: '.Modal-dialog .field-type-select[for="name"] .FormLabel',
+							inputField: '.Modal-dialog .field-type-select[for="name"] .Select',
+							inputValue: '.Modal-dialog .field-type-select[for="name"] .Select-value-label',
 							placeholder: '.Modal-dialog .field-type-name[for="name"] .Select-placeholder',
-							dropdownArrow: '.Modal-dialog .field-type-name[for="name"] .Select-arrow',
+							dropdownArrow: '.Modal-dialog .field-type-name[for="name"] .Select-arrow-zone',
+							optionOne: '.Modal-dialog .field-type-name[for="name"] .Select-menu-outer option[value="One"]',
 						},
 					},
 				},
