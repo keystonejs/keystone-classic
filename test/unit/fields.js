@@ -8,7 +8,7 @@ var typesLoc = path.resolve('fields/types');
 var types = fs.readdirSync(typesLoc);
 
 types.forEach(function(name) {
-	var serverTestLoc = typesLoc + '/' + name + '/test/server.js';
+	var serverTestLoc = typesLoc + '/' + name + '/test/type.js';
 	if (!fs.existsSync(serverTestLoc)) return;
 
 	// nocreate option prevents warnings for required / not initial fields
