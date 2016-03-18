@@ -80,7 +80,23 @@ datetime.prototype.inputIsValid = function (data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-datetime.prototype.updateItem = DateType.prototype.updateItem;
+datetime.prototype.updateItem = function (item, data, callback) {
+	if (!(this.path in data)) {
+		return process.nextTick(callback);
+	}
+	// var newValue = this.parse(data[this.path]);
+	var value = this.getInputFromData(data);
+	console.log('update', value);
+	if (typeof value === 'object') {
+		if (typeof value.date === 'string' || value.first === null) {
+			item.set(this.path.date, value.date);
+		}
+		if (typeof value.time === 'string' || value.time === null) {
+			item.set(this.path.time, value.time);
+		}
+	}
+	process.nextTick(callback);
+};
 
 /* Export Field Type */
 module.exports = datetime;
