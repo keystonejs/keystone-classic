@@ -57,10 +57,7 @@ datetime.prototype.getInputFromData = function (data) {
  * Parses input with the correct moment version (normal or utc) and uses
  * either the provided input format or the default set
  */
-datetime.prototype.parse = function (input, format) {
-	var m = this.isUTC ? moment.utc : moment;
-	return m(input, format || parseFormats);
-};
+datetime.prototype.parse = DateType.prototype.parse;
 
 /**
  * Checks that a valid date has been provided in a data object
@@ -83,20 +80,7 @@ datetime.prototype.inputIsValid = function (data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-datetime.prototype.updateItem = function (item, data, callback) {
-	var input = this.getInputFromData(data);
-	if (input === undefined) return process.nextTick(callback);
-	var newValue = this.parse(input);
-	var oldValue = item.get(this.path);
-	if (newValue.isValid()) {
-		if (!oldValue || !newValue.isSame(oldValue)) {
-			item.set(this.path, newValue.toDate());
-		}
-	} else if (oldValue) {
-		item.set(this.path, null);
-	}
-	process.nextTick(callback);
-};
+datetime.prototype.updateItem = DateType.prototype.updateItem;
 
 /* Export Field Type */
 module.exports = datetime;
