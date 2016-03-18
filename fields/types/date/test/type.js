@@ -67,14 +67,14 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should clear the value when passed undefined', function (done) {
+		it('should not clear the value when a value exists and passed undefined', function (done) {
 			var testItem = new List.model({
 				date: '2015-01-01',
 			});
 			List.fields.date.updateItem(testItem, {
 				date: undefined,
 			}, function () {
-				demand(testItem.date).be(null);
+				demand(testItem.date).not.be.null();
 				done();
 			});
 		});
@@ -94,6 +94,13 @@ exports.testFieldType = function (List) {
 
 		it('should validate JS "Date"s', function (done) {
 			List.fields.date.validateInput({ date: new Date(2015, 1, 1) }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate epoch times', function (done) {
+			List.fields.date.validateInput({ date: 1458269216968 }, function (result) {
 				demand(result).be(true);
 				done();
 			});
