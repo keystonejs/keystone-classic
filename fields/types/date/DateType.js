@@ -136,7 +136,7 @@ date.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 date.prototype.updateItem = function (item, data, callback) {
-	if (!(this.path in data) || data[this.path] === undefined) {
+	if (!(this.path in data) || data[this.path] === undefined) {
 		return process.nextTick(callback);
 	}
 	var newValue = this.parse(data[this.path]);
