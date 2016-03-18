@@ -13,25 +13,6 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	it('should parse date input and return a moment object', function () {
-		var m = List.fields.date.parse('2016-02-27');
-		demand(m.format('YYYY-MM-DD')).equal('2016-02-27');
-	});
-
-	it('should format the date value using moment', function () {
-		var testItem = new List.model();
-		testItem.date = new Date(2013, 11, 4);
-		demand(testItem._.date.format()).equal('4th Dec 2013');
-		demand(testItem._.date.format('YYYYMMDD')).equal('20131204');
-	});
-
-	it('should return a moment object set to the field value', function () {
-		var testItem = new List.model();
-		testItem.date = new Date(2013, 11, 4);
-		demand(testItem._.date.moment()._isAMomentObject);
-		demand(testItem._.date.moment().format('YYYYMMDD')).equal('20131204');
-	});
-
 	describe('updateItem', function () {
 		it('should normalize dates with moment', function (done) {
 			var testItem = new List.model();
@@ -67,14 +48,14 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should clear the value when passed undefined', function (done) {
+		it('should not clear the value when a value exists and passed undefined', function (done) {
 			var testItem = new List.model({
 				date: '2015-01-01',
 			});
 			List.fields.date.updateItem(testItem, {
 				date: undefined,
 			}, function () {
-				demand(testItem.date).be(null);
+				demand(testItem.date).not.be.null();
 				done();
 			});
 		});
@@ -94,6 +75,13 @@ exports.testFieldType = function (List) {
 
 		it('should validate JS "Date"s', function (done) {
 			List.fields.date.validateInput({ date: new Date(2015, 1, 1) }, function (result) {
+				demand(result).be(true);
+				done();
+			});
+		});
+
+		it('should validate epoch times', function (done) {
+			List.fields.date.validateInput({ date: 1458269216968 }, function (result) {
 				demand(result).be(true);
 				done();
 			});
@@ -161,6 +149,32 @@ exports.testFieldType = function (List) {
 				demand(result).be(false);
 				done();
 			});
+		});
+	});
+
+	describe('format', function () {
+		it('should return an empty string if no date exists', function () {
+			var testItem = new List.model();
+			demand(testItem._.date.format()).equal('');
+		});
+
+		it('should parse date input and return a moment object', function () {
+			var m = List.fields.date.parse('2016-02-27');
+			demand(m.format('YYYY-MM-DD')).equal('2016-02-27');
+		});
+
+		it('should format the date value using moment', function () {
+			var testItem = new List.model();
+			testItem.date = new Date(2013, 11, 4);
+			demand(testItem._.date.format()).equal('4th Dec 2013');
+			demand(testItem._.date.format('YYYYMMDD')).equal('20131204');
+		});
+
+		it('should return a moment object set to the field value', function () {
+			var testItem = new List.model();
+			testItem.date = new Date(2013, 11, 4);
+			demand(testItem._.date.moment()._isAMomentObject);
+			demand(testItem._.date.moment().format('YYYYMMDD')).equal('20131204');
 		});
 	});
 };
