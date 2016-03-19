@@ -104,7 +104,7 @@
     "rimraf": "2.5.2",
     "sinon": "1.17.3",
     "supertest": "1.2.0",
-    "updtr": "0.1.8",
+    "updtr": "0.1.9",
     "vinyl-source-stream": "1.1.0",
     "watch": "0.17.1"
   },
