@@ -34,7 +34,7 @@ module.exports = Field.create({
 
 	valueChanged ({ value }) {
 		this.props.onChange({
-			path: this.props.path,
+			path: this.props.path, // TODO figure out if this does anything
 			value: value,
 		});
 	},

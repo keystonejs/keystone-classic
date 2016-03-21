@@ -10,9 +10,11 @@ let lastId = 0;
 module.exports = React.createClass({
 	displayName: 'DateInput',
 	propTypes: {
-		onChange: React.PropTypes.func,
+		format: React.PropTypes.string,
+		name: React.PropTypes.string,
+		onChange: React.PropTypes.func.isRequired,
 		path: React.PropTypes.string,
-		value: React.PropTypes.string,
+		value: React.PropTypes.string.isRequired,
 	},
 	getDefaultProps () {
 		return {
@@ -30,6 +32,7 @@ module.exports = React.createClass({
 			id: `_DateInput_${id}`,
 			month: month,
 			pickerIsOpen: false,
+			inputValue: value,
 		};
 	},
 	componentDidMount () {
