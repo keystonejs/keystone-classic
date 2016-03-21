@@ -39,7 +39,6 @@ datetime.prototype.validateRequiredInput = TextType.prototype.validateRequiredIn
 datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
-datetime.prototype.validateInput = DateType.prototype.validateInput;
 
 /**
  * Get the value from a data object; may be simple or a pair of fields
@@ -57,9 +56,21 @@ datetime.prototype.getInputFromData = function (data) {
  * Parses input with the correct moment version (normal or utc) and uses
  * either the provided input format or the default set
  */
-datetime.prototype.parse = function (input, format) {
-	var m = this.isUTC ? moment.utc : moment;
-	return m(input, format || parseFormats);
+datetime.prototype.parse = DateType.prototype.parse;
+
+/**
+ * Validates the input we get to be a valid date,
+ * undefined, null or an empty string
+ */
+datetime.prototype.validateInput = function (data, callback) {
+	var value = this.getInputFromData(data);
+	// If the value is null, undefined or an empty string
+	// bail early since updateItem sanitizes that just fine
+	var result = true;
+	if (value) {
+		result = this.parse(value, this.parseFormatString, true).isValid();
+	}
+	utils.defer(callback, result);
 };
 
 /**
@@ -84,16 +95,20 @@ datetime.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 datetime.prototype.updateItem = function (item, data, callback) {
-	var input = this.getInputFromData(data);
-	if (input === undefined) return process.nextTick(callback);
-	var newValue = this.parse(input);
-	var oldValue = item.get(this.path);
-	if (newValue.isValid()) {
-		if (!oldValue || !newValue.isSame(oldValue)) {
-			item.set(this.path, newValue.toDate());
+	// Get the values from the data
+	var value = this.getInputFromData(data);
+	if (value !== undefined) {
+		if (value !== null && value !== '') {
+			// If the value is not null, empty string or undefined, parse it
+			var newValue = this.parse(value, this.parseFormatString, true);
+			// If it's valid and not the same as the last value, save it
+			if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
+				item.set(this.path, newValue.toDate());
+			}
+		// If it's null or empty string, clear it out
+		} else {
+			item.set(this.path, null);
 		}
-	} else if (oldValue) {
-		item.set(this.path, null);
 	}
 	process.nextTick(callback);
 };
