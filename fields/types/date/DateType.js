@@ -136,15 +136,16 @@ date.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 date.prototype.updateItem = function (item, data, callback) {
-	if (!(this.path in data) || data[this.path] === undefined) {
-		return process.nextTick(callback);
-	}
-	var newValue = this.parse(data[this.path]);
-	if (newValue.isValid()) {
-		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
+	var value = this.getValueFromData(data);
+	if (value !== null && value !== '') {
+		// If the value is not null, empty string or undefined, parse it
+		var newValue = this.parse(value);
+		// If it's valid and not the same as the last value, save it
+		if (newValue.isValid() && (!item.get(this.path) || !newValue.isSame(item.get(this.path)))) {
 			item.set(this.path, newValue.toDate());
 		}
-	} else if (item.get(this.path)) {
+	} else {
+		// If it's null or empty string, clear it out
 		item.set(this.path, null);
 	}
 	process.nextTick(callback);
