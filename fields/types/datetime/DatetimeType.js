@@ -32,13 +32,13 @@ function datetime (list, path, options) {
 }
 util.inherits(datetime, FieldType);
 
-
-datetime.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
-
-/* Inherit from DateType prototype */
-datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
+/* Inherit generic methods */
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
+datetime.prototype.parse = DateType.prototype.parse;
+datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
+
+datetime.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /**
  * Get the value from a data object; may be simple or a pair of fields
@@ -51,12 +51,6 @@ datetime.prototype.getInputFromData = function (data) {
 	}
 	return this.getValueFromData(data);
 };
-
-/**
- * Parses input with the correct moment version (normal or utc) and uses
- * either the provided input format or the default set
- */
-datetime.prototype.parse = DateType.prototype.parse;
 
 /**
  * Validates the input we get to be a valid date,
