@@ -1,6 +1,6 @@
 # Fields
 
-Each field is a combination of four parts: The field react component, a filter, a column and a type.
+Each field is a combination of four parts: A type (e.g. `TextType`), a react input component for the admin interface (e.g. `TextField`), a filter for the admin ui (e.g. `TextFilter`) and a column for the admin ui model overview (e.g. `TextColumn`).
 
 ## Type
 
@@ -61,3 +61,15 @@ The Type is the part of the field users use in their Keystone models, e.g. `post
 		utils.defer(callback, result);
 	};
 	```
+
+## Field
+
+The field is the React component we render in the admin interface to let users enter their data. (e.g. for the `Text` type we render a simple text input) It inherits certain methods from the base `Field.js`, which has generic utility functions attached that can be overridden for more specific needs.
+
+## Filter
+
+The admin interface gives users powerful filters for their data. One can, for example, filter if text `contains`, `begins with`, `ends with` or ` matches` a certain string. The `TextFilter` is the react component that gets rendered in the interface for filtering.
+
+## Column
+
+Keystone lets users choose which data of their documents they want to display in the overview. Since we cannot display booleans, text, passwords, etc. all in the same way they each have a `Column` react component that dictates how they look there.
