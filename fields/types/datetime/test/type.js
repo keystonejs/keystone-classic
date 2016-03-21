@@ -1,18 +1,75 @@
 var demand = require('must');
 var TextType = require('../../text/TextType');
 var DateType = require('../../date/DateType');
+var DatetimeType = require('../DatetimeType');
 
 exports.initList = function (List) {
 	List.add({
-		datetime: Date,
+		datetime: DatetimeType,
 		nested: {
-			datetime: Date,
+			datetime: DatetimeType,
 		},
 	});
 };
 
 exports.testFieldType = function (List) {
 	var testItem = new List.model();
+
+	describe('updateItem', function () {
+		it('should update the date', function (done) {
+			var testItem = new List.model();
+			List.fields.datetime.updateItem(testItem, {
+				datetime: '2015-01-01 01:01:01 am',
+			}, function () {
+				demand(testItem.datetime.toDateString()).be('Thu Jan 01 2015');
+				done();
+			});
+		});
+
+		it('should null value with empty string', function (done) {
+			var testItem = new List.model();
+			testItem.datetime = '2014-12-31T14:01:01.000Z';
+			List.fields.datetime.updateItem(testItem, {
+				datetime: '',
+			}, function () {
+				demand(testItem.datetime).be.null();
+				done();
+			});
+		});
+
+		it('should null value when null', function (done) {
+			var testItem = new List.model();
+			testItem.datetime = '2014-12-31T14:01:01.000Z';
+			List.fields.datetime.updateItem(testItem, {
+				datetime: null,
+			}, function () {
+				demand(testItem.datetime).be.null();
+				done();
+			});
+		});
+
+		it('should not null value when undefined', function (done) {
+			var testItem = new List.model();
+			testItem.datetime = '2015-01-01 01:01:01 am';
+			List.fields.datetime.updateItem(testItem, {
+				datetime: undefined,
+			}, function () {
+				demand(testItem.datetime.toDateString()).be('Thu Jan 01 2015');
+				done();
+			});
+		});
+
+		it('should not accept invalid values', function (done) {
+			var testItem = new List.model();
+			testItem.datetime = '2015-01-01 01:01:01 am';
+			List.fields.datetime.updateItem(testItem, {
+				datetime: 'somestring',
+			}, function () {
+				demand(testItem.datetime.toDateString()).be('Thu Jan 01 2015');
+				done();
+			});
+		});
+	});
 
 	describe('getInputFromData', function () {
 		it('should get input from data', function () {

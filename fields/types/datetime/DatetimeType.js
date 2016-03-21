@@ -81,29 +81,22 @@ datetime.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 datetime.prototype.updateItem = function (item, data, callback) {
-	// Check if anything should be changed
-	var pathsInData = false;
-	Object.keys(this.paths).map(function (path) {
-		if ((this.paths[path] in data)) {
-			pathsInData = true;
-		}
-	}.bind(this));
-	// If not, skip straight to the callback
-	if (!pathsInData) {
-		return process.nextTick(callback);
-	}
-	// Otherwise get and parse the data
+	// Get the values from the data
 	var value = this.getInputFromData(data);
-	var newValue = this.parse(value, this.formatString);
-	// If it's valid and not the same as the last value, set it
-	if (newValue.isValid()) {
-		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
-			item.set(this.path, newValue.toDate());
+	if (value !== undefined) {
+		if (value !== null && value !== '') {
+			// If the value is not null, empty string or undefined, parse it
+			var newValue = this.parse(value, this.formatString);
+			// If it's valid and not the same as the last value, save it
+			if (newValue.isValid()) {
+				if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
+					item.set(this.path, newValue.toDate());
+				}
+			}
+		// If it's null or empty string, clear it out
+		} else {
+			item.set(this.path, null);
 		}
-	// If it's not valid and something existed, clear the value
-	// TODO Fix this
-	} else if (item.get(this.path)) {
-		item.set(this.path, null);
 	}
 	process.nextTick(callback);
 };
