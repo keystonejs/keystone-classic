@@ -91,12 +91,12 @@ date.prototype.moment = function (item) {
  * Parses input with the correct moment version (normal or utc) and uses
  * either the provided input format or the default for the field
  */
-date.prototype.parse = function (value, format) {
+date.prototype.parse = function (value, format, strict) {
 	var m = this.isUTC ? moment.utc : moment;
 	if (typeof value === 'number' || value instanceof Date) {
 		return m(value);
 	} else {
-		return m(value, format || this.parseFormatString);
+		return m(value, format || this.parseFormatString, strict);
 	}
 };
 

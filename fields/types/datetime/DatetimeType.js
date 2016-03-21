@@ -39,7 +39,6 @@ datetime.prototype.validateRequiredInput = TextType.prototype.validateRequiredIn
 datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
-datetime.prototype.validateInput = DateType.prototype.validateInput;
 
 /**
  * Get the value from a data object; may be simple or a pair of fields
@@ -58,6 +57,21 @@ datetime.prototype.getInputFromData = function (data) {
  * either the provided input format or the default set
  */
 datetime.prototype.parse = DateType.prototype.parse;
+
+/**
+ * Validates the input we get to be a valid date,
+ * undefined, null or an empty string
+ */
+datetime.prototype.validateInput = function (data, callback) {
+	var value = this.getInputFromData(data);
+	// If the value is null, undefined or an empty string
+	// bail early since updateItem sanitizes that just fine
+	var result = true;
+	if (value) {
+		result = this.parse(value, this.parseFormatString, true).isValid();
+	}
+	utils.defer(callback, result);
+};
 
 /**
  * Checks that a valid date has been provided in a data object
@@ -86,12 +100,10 @@ datetime.prototype.updateItem = function (item, data, callback) {
 	if (value !== undefined) {
 		if (value !== null && value !== '') {
 			// If the value is not null, empty string or undefined, parse it
-			var newValue = this.parse(value, this.formatString);
+			var newValue = this.parse(value, this.parseFormatString, true);
 			// If it's valid and not the same as the last value, save it
-			if (newValue.isValid()) {
-				if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
-					item.set(this.path, newValue.toDate());
-				}
+			if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
+				item.set(this.path, newValue.toDate());
 			}
 		// If it's null or empty string, clear it out
 		} else {
