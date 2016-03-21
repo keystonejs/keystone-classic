@@ -27,6 +27,7 @@ module.exports = Field.create({
 						<input type='checkbox' name={this.props.path} id={this.props.path} value='true' checked={this.props.value} onChange={this.valueChanged} />
 						{this.props.label}
 					</label>
+					{this.renderNote()}
 				</div>
 			);
 		} else {
@@ -36,6 +37,7 @@ module.exports = Field.create({
 				<div className={fieldClassName}>
 					<img src={imgSrc} width='16' height='16' className={state} style={{ marginRight: 5 }} />
 					<span>{this.props.label}</span>
+					<div>{this.renderNote()}</div>
 				</div>
 			);
 		}
