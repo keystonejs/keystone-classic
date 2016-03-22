@@ -24,6 +24,19 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
+	describe('invalid options', function () {
+		it('should throw when no options are passed', function (done) {
+			try {
+				List.add({
+					noOptions: { type: SelectType },
+				});
+			} catch (err) {
+				demand(err.message).eql('Select fields require an options array.');
+				done();
+			}
+		});
+	});
+
 	describe('validateInput', function () {
 		it('should validate top level selects', function (done) {
 			List.fields.select.validateInput({
