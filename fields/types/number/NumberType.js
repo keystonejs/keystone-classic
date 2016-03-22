@@ -51,7 +51,7 @@ number.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (filter.mode === 'equals' && !filter.value) {
 		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
-		return;
+		return query;
 	}
 	if (filter.mode === 'between') {
 		var min = utils.number(filter.value.min);
@@ -59,7 +59,7 @@ number.prototype.addFilterToQuery = function (filter, query) {
 		if (!isNaN(min) && !isNaN(max)) {
 			query[this.path] = filter.inverted ? { $gte: max, $lte: min } : { $gte: min, $lte: max };
 		}
-		return;
+		return query;
 	}
 	var value = utils.number(filter.value);
 	if (!isNaN(value)) {

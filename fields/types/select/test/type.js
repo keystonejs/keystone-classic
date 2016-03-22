@@ -264,6 +264,60 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		it('should filter by an array', function () {
+			var result = List.fields.select.addFilterToQuery({
+				value: ['Some', 'strings'],
+			});
+			demand(result.select).eql({
+				$in: ['Some', 'strings'],
+			});
+		});
+
+		it('should support inverted mode for an array', function () {
+			var result = List.fields.select.addFilterToQuery({
+				value: ['Some', 'strings'],
+				inverted: true,
+			});
+			demand(result.select).eql({
+				$nin: ['Some', 'strings'],
+			});
+		});
+
+		it('should filter by a string', function () {
+			var result = List.fields.select.addFilterToQuery({
+				value: 'a string',
+			});
+			demand(result.select).eql('a string');
+		});
+
+		it('should support inverted mode for a string', function () {
+			var result = List.fields.select.addFilterToQuery({
+				value: 'a string',
+				inverted: true,
+			});
+			demand(result.select).eql({
+				$ne: 'a string',
+			});
+		});
+
+		it('should filter by existance if no value exists', function () {
+			var result = List.fields.select.addFilterToQuery({});
+			demand(result.select).eql({
+				$in: ['', null],
+			});
+		});
+
+		it('should filter by non-existance if no value exists', function () {
+			var result = List.fields.select.addFilterToQuery({
+				inverted: true,
+			});
+			demand(result.select).eql({
+				$nin: ['', null],
+			});
+		});
+	});
+
 	it('should format values with the label of the option', function () {
 		var testItem = new List.model({
 			select: 'one',

@@ -1,5 +1,6 @@
 var demand = require('must');
 var KeyType = require('../KeyType');
+var TextType = require('../../text/TextType');
 
 exports.initList = function (List) {
 	List.add({
@@ -56,6 +57,11 @@ exports.testFieldType = function (List) {
 
 	it('generateKey should return a slug of the provided string', function () {
 		List.fields.key.generateKey('A b ç').must.be('a-b-c');
+	});
+
+
+	it('should use the common text addFilterToQuery method', function () {
+		demand(List.fields.key.addFilterToQuery === TextType.prototype.addFilterToQuery);
 	});
 
 	it('should invalidate input with stripped characters', function () {

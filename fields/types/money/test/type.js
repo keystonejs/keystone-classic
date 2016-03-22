@@ -56,6 +56,10 @@ exports.testFieldType = function (List) {
 		demand(List.fields.money.validateRequiredInput === NumberType.prototype.validateRequiredInput);
 	});
 
+	it('should use the common number addFilterToQuery', function () {
+		demand(List.fields.money.addFilterToQuery === NumberType.prototype.addFilterToQuery);
+	});
+
 	describe('format', function () {
 		it('should properly format', function () {
 			testItem.money = 1234;

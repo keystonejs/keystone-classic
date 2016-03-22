@@ -29,6 +29,7 @@ money.prototype.validateRequiredInput = NumberType.prototype.validateRequiredInp
 /* Inherit from NumberType prototype */
 money.prototype.updateItem = NumberType.prototype.updateItem;
 money.prototype.inputIsValid = NumberType.prototype.inputIsValid;
+money.prototype.addFilterToQuery = NumberType.prototype.addFilterToQuery;
 
 /**
  * Formats the field value

@@ -311,6 +311,27 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		it('should filter with the mongodb negation when passed false', function () {
+			var result = List.fields.bool.addFilterToQuery({ value: false });
+			demand(result.bool).eql({
+				$ne: true,
+			});
+		});
+
+		it('should filter with the mongodb negation when passed "false"', function () {
+			var result = List.fields.bool.addFilterToQuery({ value: 'false' });
+			demand(result.bool).eql({
+				$ne: true,
+			});
+		});
+
+		it('should filter true when passed true', function () {
+			var result = List.fields.bool.addFilterToQuery({ value: true });
+			demand(result.bool).be.true();
+		});
+	});
+
 	/* Deprecated inputIsValid tests */
 
 	it('should always validate when not required', function () {

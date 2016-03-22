@@ -152,6 +152,102 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		it('should filter a specific date', function () {
+			var result = List.fields.date.addFilterToQuery({
+				value: '2015-01-01',
+			});
+			demand(result.date).eql({
+				$gte: moment('2015-01-01').startOf('day').toDate(),
+				$lte: moment('2015-01-01').endOf('day').toDate(),
+			});
+		});
+
+		it('should filter after a specific date', function () {
+			var result = List.fields.date.addFilterToQuery({
+				mode: 'after',
+				value: '2015-01-01',
+			});
+			demand(result.date).eql({
+				$gt: moment('2015-01-01').endOf('day').toDate(),
+			});
+		});
+
+		it('should filter before a specific date', function () {
+			var result = List.fields.date.addFilterToQuery({
+				mode: 'before',
+				value: '2015-01-01',
+			});
+			demand(result.date).eql({
+				$lt: moment('2015-01-01').startOf('day').toDate(),
+			});
+		});
+
+		it('should filter between two specified dates', function () {
+			var result = List.fields.date.addFilterToQuery({
+				mode: 'between',
+				after: '2015-01-01',
+				before: '2016-01-01',
+			});
+			demand(result.date).eql({
+				$gte: moment('2015-01-01').startOf('day').toDate(),
+				$lte: moment('2016-01-01').endOf('day').toDate(),
+			});
+		});
+
+		it('should support inverted filtering', function () {
+			var result = List.fields.date.addFilterToQuery({
+				value: '2015-01-01',
+				inverted: true,
+			});
+			demand(result.date).eql({
+				$not: {
+					$gte: moment('2015-01-01').startOf('day').toDate(),
+					$lte: moment('2015-01-01').endOf('day').toDate(),
+				},
+			});
+		});
+
+		it('should not filter anything in between mode if no value is specified', function () {
+			var result = List.fields.date.addFilterToQuery({
+				mode: 'between',
+			});
+			demand(result.date).be.undefined();
+		});
+
+		it('should not filter anything in between mode without an after date', function () {
+			var result = List.fields.date.addFilterToQuery({
+				mode: 'between',
+				before: '2015-01-01',
+			});
+			demand(result.date).be.undefined();
+		});
+
+		it('should not filter anything in between mode without a before date', function () {
+			var result = List.fields.date.addFilterToQuery({
+				mode: 'between',
+				after: '2015-01-01',
+			});
+			demand(result.date).be.undefined();
+		});
+
+		it('should not filter anything in between mode with an invalid after date', function () {
+			var result = List.fields.date.addFilterToQuery({
+				mode: 'between',
+				after: 'notadate',
+			});
+			demand(result.date).be.undefined();
+		});
+
+		it('should not filter anything in between mode with an invalid before date', function () {
+			var result = List.fields.date.addFilterToQuery({
+				mode: 'between',
+				before: 'notadate',
+			});
+			demand(result.date).be.undefined();
+		});
+	});
+
 	describe('format', function () {
 		it('should return an empty string if no date exists', function () {
 			var testItem = new List.model();

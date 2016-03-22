@@ -37,7 +37,7 @@ text.prototype.addFilterToQuery = function (filter, query) {
 	query = query || {};
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.path] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
-		return;
+		return query;
 	}
 	var value = utils.escapeRegExp(filter.value);
 	if (filter.mode === 'startsWith') {

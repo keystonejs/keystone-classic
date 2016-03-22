@@ -218,4 +218,65 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		it('should filter arrays', function () {
+			var result = List.fields.single.addFilterToQuery({
+				value: ['Some', 'strings'],
+			});
+			demand(result.single).eql({
+				$in: ['Some', 'strings'],
+			});
+		});
+
+		it('should convert a single string to an array and filter that', function () {
+			var result = List.fields.single.addFilterToQuery({
+				value: 'a string',
+			});
+			demand(result.single).eql({
+				$in: ['a string'],
+			});
+		});
+
+		it('should support inverted filtering with an array', function () {
+			var result = List.fields.single.addFilterToQuery({
+				value: ['Some', 'strings'],
+				inverted: true,
+			});
+			demand(result.single).eql({
+				$nin: ['Some', 'strings'],
+			});
+		});
+
+		it('should filter by existance if no value is specified', function () {
+			var result = List.fields.single.addFilterToQuery({});
+			demand(result.single).eql(null);
+		});
+
+		it('should filter by non-existance if no value is specified', function () {
+			var result = List.fields.single.addFilterToQuery({
+				inverted: true,
+			});
+			demand(result.single).eql({
+				$ne: null,
+			});
+		});
+
+		it('should filter by emptiness if many is true and no value is specified', function () {
+			var result = List.fields.many.addFilterToQuery({});
+			demand(result.many).eql({
+				$size: 0,
+			});
+		});
+
+		it('should filter by non-emptiness if many is true and no value is specified', function () {
+			var result = List.fields.many.addFilterToQuery({
+				inverted: true,
+			});
+			demand(result.many).eql({
+				$not: {
+					$size: 0,
+				},
+			});
+		});
+	});
 };

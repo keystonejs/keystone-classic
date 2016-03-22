@@ -232,6 +232,136 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		it('should filter for a specific number', function () {
+			var result = List.fields.number.addFilterToQuery({
+				value: 10,
+			});
+			demand(result.number).eql(10);
+		});
+
+		it('should filter greater than a specific number', function () {
+			var result = List.fields.number.addFilterToQuery({
+				value: 0,
+				mode: 'gt',
+			});
+			demand(result.number).eql({
+				$gt: 0,
+			});
+		});
+
+		it('should filter less than a specific number', function () {
+			var result = List.fields.number.addFilterToQuery({
+				value: 10,
+				mode: 'lt',
+			});
+			demand(result.number).eql({
+				$lt: 10,
+			});
+		});
+
+		it('should support inverted less than', function () {
+			var result = List.fields.number.addFilterToQuery({
+				value: 10,
+				mode: 'lt',
+				inverted: true,
+			});
+			demand(result.number).eql({
+				$gt: 10,
+			});
+		});
+
+		it('should support inverted greater than', function () {
+			var result = List.fields.number.addFilterToQuery({
+				value: 10,
+				mode: 'gt',
+				inverted: true,
+			});
+			demand(result.number).eql({
+				$lt: 10,
+			});
+		});
+
+		it('should filter for existance', function () {
+			var result = List.fields.number.addFilterToQuery({
+				mode: 'equals',
+			});
+			demand(result.number).eql({
+				$in: ['', 0, null],
+			});
+		});
+
+		it('should filter for non-existance', function () {
+			var result = List.fields.number.addFilterToQuery({
+				mode: 'equals',
+				inverted: true,
+			});
+			demand(result.number).eql({
+				$nin: ['', 0, null],
+			});
+		});
+
+		it('should filter between two numbers', function () {
+			var result = List.fields.number.addFilterToQuery({
+				mode: 'between',
+				value: {
+					min: 0,
+					max: 10,
+				},
+			});
+			demand(result.number).eql({
+				$gte: 0,
+				$lte: 10,
+			});
+		});
+
+		it('should filter exluding a range between two numbers', function () {
+			var result = List.fields.number.addFilterToQuery({
+				mode: 'between',
+				value: {
+					min: 0,
+					max: 10,
+				},
+				inverted: true,
+			});
+			demand(result.number).eql({
+				$gte: 10,
+				$lte: 0,
+			});
+		});
+
+		it('should filter between two number strings', function () {
+			var result = List.fields.number.addFilterToQuery({
+				mode: 'between',
+				value: {
+					min: '0',
+					max: '10',
+				},
+			});
+			demand(result.number).eql({
+				$gte: 0,
+				$lte: 10,
+			});
+		});
+
+		it('should not filter if the value is NaN', function () {
+			var result = List.fields.number.addFilterToQuery({
+				value: NaN,
+			});
+			demand(result.number).eql(undefined);
+		});
+
+		it('should not filter between two numbers if one is NaN', function () {
+			var result = List.fields.number.addFilterToQuery({
+				mode: 'between',
+				value: {
+					min: NaN,
+					max: 10,
+				},
+			});
+			demand(result.number).eql(undefined);
+		});
+	});
 	/* Deprecated inputIsValid method tests */
 
 	it('should validate numeric input', function () {
