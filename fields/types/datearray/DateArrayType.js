@@ -16,7 +16,7 @@ function datearray (list, path, options) {
 	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
 	if (this.formatString && typeof this.formatString !== 'string') {
-		throw new Error('FieldType.Date: options.format must be a string.');
+		throw new Error('FieldType.DateArray: options.format must be a string.');
 	}
 	this.separator = options.separator || ' | ';
 	datearray.super_.call(this, list, path, options);
