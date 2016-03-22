@@ -17,14 +17,6 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	it('should use the common url input validator', function () {
-		demand(List.fields.url.validateInput === TextType.prototype.validateInput);
-	});
-
-	it('should use the common url required validator', function () {
-		demand(List.fields.url.validateRequiredInput === TextType.prototype.validateRequiredInput);
-	});
-
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
 			var testItem = new List.model();
@@ -57,6 +49,18 @@ exports.testFieldType = function (List) {
 				done();
 			});
 		});
+	});
+
+	it('should use the common text input validator', function () {
+		demand(List.fields.url.validateInput === TextType.prototype.validateInput);
+	});
+
+	it('should use the common text required validator', function () {
+		demand(List.fields.url.validateRequiredInput === TextType.prototype.validateRequiredInput);
+	});
+
+	it('should use the common text addFilterToQuery method', function () {
+		demand(List.fields.url.addFilterToQuery === TextType.prototype.addFilterToQuery);
 	});
 
 	describe('format', function () {
