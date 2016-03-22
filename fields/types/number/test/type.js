@@ -12,6 +12,19 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
+	describe('invalid options', function () {
+		it('should throw when no options are passed', function (done) {
+			try {
+				List.add({
+					noFormatString: { type: NumberType, format: /regexp/ },
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.Number: options.format must be a string.');
+				done();
+			}
+		});
+	});
+
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
 			var testItem = new List.model();

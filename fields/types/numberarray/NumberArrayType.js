@@ -14,7 +14,7 @@ function numberarray (list, path, options) {
 	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
 	this._defaultSize = 'small';
 	if (this._formatString && typeof this._formatString !== 'string') {
-		throw new Error('FieldType.Number: options.format must be a string.');
+		throw new Error('FieldType.NumberArray: options.format must be a string.');
 	}
 	this.separator = options.separator || ' | ';
 	numberarray.super_.call(this, list, path, options);

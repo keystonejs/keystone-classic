@@ -13,6 +13,19 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
+	describe('invalid options', function () {
+		it('should throw when format is not a string', function (done) {
+			try {
+				List.add({
+					invalidFormatOption: { type: DateType, format: /aregexp/ },
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.Date: options.format must be a string.');
+				done();
+			}
+		});
+	});
+
 	describe('updateItem', function () {
 		it('should normalize dates with moment', function (done) {
 			var testItem = new List.model();

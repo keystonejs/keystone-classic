@@ -11,9 +11,21 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
+	describe('invalid options', function () {
+		it('should throw when format is not a string', function (done) {
+			try {
+				List.add({
+					invalidFormatOption: { type: DateArrayType, format: /aregexp/ },
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.DateArray: options.format must be a string.');
+				done();
+			}
+		});
+	});
 
 	it('should default to an empty array', function () {
+		var testItem = new List.model();
 		demand(testItem.get('datearr')).eql([]);
 	});
 
@@ -269,28 +281,29 @@ exports.testFieldType = function (List) {
 
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
+			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {
 				datearr: ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04'],
 			}, function () {
 				demand(testItem.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
-				testItem.datearr = undefined;
 				done();
 			});
 		});
 
 		it('should update nested fields', function (done) {
+			var testItem = new List.model();
 			List.fields['nested.datearr'].updateItem(testItem, {
 				nested: {
 					datearr: ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04'],
 				},
 			}, function () {
 				demand(testItem.nested.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
-				testItem.nested.datearr = undefined;
 				done();
 			});
 		});
 
 		it('should update nested fields with flat paths', function (done) {
+			var testItem = new List.model();
 			List.fields['nested.datearr'].updateItem(testItem, {
 				'nested.datearr': ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04'],
 			}, function () {
@@ -301,31 +314,31 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should update empty arrays', function (done) {
+			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {
 				datearr: [],
 			}, function () {
 				demand(testItem.datearr).eql([]);
-				testItem.datearr = undefined;
 				done();
 			});
 		});
 
 		it('should default on null', function (done) {
+			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {
 				datearr: null,
 			}, function () {
 				demand(testItem.datearr).eql([]);
-				testItem.datearr = undefined;
 				done();
 			});
 		});
 
 		it('should allow a single date value', function (done) {
+			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {
 				datearr: '2015-01-01',
 			}, function () {
 				demand(testItem.datearr).eql([new Date('2015-01-01')]);
-				testItem.datearr = undefined;
 				done();
 			});
 		});
@@ -346,11 +359,11 @@ exports.testFieldType = function (List) {
 	});
 
 	it('should validate no input', function () {
+		var testItem = new List.model();
 		demand(List.fields.datearr.inputIsValid({})).be(true);
 		demand(List.fields.datearr.inputIsValid({}, true)).be(false);
 		testItem.datearr = ['2015-03-03'];
 		demand(List.fields.datearr.inputIsValid({}, true, testItem)).be(true);
-		testItem.datearr = undefined;
 	});
 
 	it('should validate length when required', function () {
