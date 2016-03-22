@@ -31,6 +31,53 @@ exports.testFieldType = function (List) {
 		testItem.set('location.customRequired', emptyLocationValues);
 	};
 
+	describe('addFilterToQuery', function () {
+		it('should allow to filter by street', function () {
+			var result = List.fields['location.basic'].addFilterToQuery({
+				street: 'Broadway',
+			});
+			demand(result['location.basic.street1']).eql(/Broadway/i);
+		});
+
+		it('should allow to filter by city', function () {
+			var result = List.fields['location.basic'].addFilterToQuery({
+				city: 'NYC',
+			});
+			demand(result['location.basic.suburb']).eql(/NYC/i);
+		});
+
+		it('should allow to filter by state', function () {
+			var result = List.fields['location.basic'].addFilterToQuery({
+				state: 'New York',
+			});
+			demand(result['location.basic.state']).eql(/New York/i);
+		});
+
+		it('should allow to filter by code', function () {
+			var result = List.fields['location.basic'].addFilterToQuery({
+				code: 10023,
+			});
+			demand(result['location.basic.postcode']).eql(/10023/i);
+		});
+
+		it('should allow to filter by country', function () {
+			var result = List.fields['location.basic'].addFilterToQuery({
+				country: 'USA',
+			});
+			demand(result['location.basic.country']).eql(/USA/i);
+		});
+
+		it('should support inverted mode', function () {
+			var result = List.fields['location.basic'].addFilterToQuery({
+				country: 'USA',
+				inverted: true,
+			});
+			demand(result['location.basic.country']).eql({
+				$not: /USA/i,
+			});
+		});
+	});
+
 	it('should update its value from flat paths', function (done) {
 		resetLocationValues();
 		List.fields['location.basic'].updateItem(testItem, {
