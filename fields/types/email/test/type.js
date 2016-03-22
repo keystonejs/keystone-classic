@@ -172,6 +172,10 @@ exports.testFieldType = function (List) {
 		demand(List.fields.email.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 
+	it('should use the common text addFilterToQuery method', function () {
+		demand(List.fields.email.addFilterToQuery === TextType.prototype.addFilterToQuery);
+	});
+
 	describe('gravatarUrl', function () {
 		var testItem;
 
