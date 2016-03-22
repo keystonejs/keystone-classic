@@ -5,8 +5,8 @@ var util = require('util');
 var utils = require('keystone-utils');
 var TextType = require('../text/TextType');
 
-var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
-
+// ISO_8601 is needed for the automatically created createdAt and updatedAt fields
+var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', moment.ISO_8601];
 /**
  * DateTime FieldType Constructor
  * @extends Field
