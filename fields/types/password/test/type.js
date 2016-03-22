@@ -158,7 +158,135 @@ exports.testFieldType = function (List) {
 	});
 
 	describe('validateRequiredInput', function () {
+		it('should validate a hash value', function (done) {
+			var testItem = new List.model();
+			List.fields.password.validateRequiredInput(testItem, {
+				password_hash: '12asdf34',
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
 
+		it('should validate a password value', function (done) {
+			var testItem = new List.model();
+			List.fields.password.validateRequiredInput(testItem, {
+				password: 'asdf',
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate a password and hash value', function (done) {
+			var testItem = new List.model();
+			List.fields.password.validateRequiredInput(testItem, {
+				password: 'asdf',
+				password_hash: '12asdf34',
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate undefined password and hash values if a value exists already', function (done) {
+			var testItem = new List.model({
+				password: 'asdf',
+			});
+			List.fields.password.validateRequiredInput(testItem, {}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should invalidate undefined password and hash values', function (done) {
+			var testItem = new List.model();
+			List.fields.password.validateRequiredInput(testItem, {}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate an empty password value', function (done) {
+			var testItem = new List.model();
+			List.fields.password.validateRequiredInput(testItem, {
+				password: '',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate an empty hash value', function (done) {
+			var testItem = new List.model();
+			List.fields.password.validateRequiredInput(testItem, {
+				password_hash: '',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate an empty hash and password value', function (done) {
+			var testItem = new List.model();
+			List.fields.password.validateRequiredInput(testItem, {
+				password: '',
+				password_hash: '',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate an empty hash and password value even if a value exists', function (done) {
+			var testItem = new List.model({
+				password: 'blabla',
+			});
+			List.fields.password.validateRequiredInput(testItem, {
+				password: '',
+				password_hash: '',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate null password value even if a value exists', function (done) {
+			var testItem = new List.model({
+				password: 'asdf',
+			});
+			List.fields.password.validateRequiredInput(testItem, {
+				password: null,
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate null hash value even if a value exists', function (done) {
+			var testItem = new List.model({
+				password: 'asdf',
+			});
+			List.fields.password.validateRequiredInput(testItem, {
+				password_hash: null,
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate null password and hash value even if a value exists', function (done) {
+			var testItem = new List.model({
+				password: 'asdf',
+			});
+			List.fields.password.validateRequiredInput(testItem, {
+				password: null,
+				password_hash: null,
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
 	});
 
 	describe('addFilterToQuery', function () {
