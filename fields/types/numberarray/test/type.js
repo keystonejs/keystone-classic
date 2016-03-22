@@ -11,6 +11,19 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
+	describe('invalid options', function () {
+		it('should throw when no options are passed', function (done) {
+			try {
+				List.add({
+					noFormatString: { type: NumberArrayType, format: /regexp/ },
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.NumberArray: options.format must be a string.');
+				done();
+			}
+		});
+	});
+
 	var testItem = new List.model();
 
 	it('should default to an empty array', function () {
