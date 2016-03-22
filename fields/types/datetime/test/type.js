@@ -17,7 +17,18 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
+	describe('invalid options', function () {
+		it('should throw when format is not a string', function (done) {
+			try {
+				List.add({
+					invalidFormatOption: { type: DatetimeType, format: /aregexp/ },
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.DateTime: options.format must be a string.');
+				done();
+			}
+		});
+	});
 
 	describe('updateItem', function () {
 		it('should update the date', function (done) {
