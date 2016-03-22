@@ -3,9 +3,7 @@ import Field from '../Field';
 import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({
-
 	displayName: 'URLField',
-
 	openValue () {
 		var href = this.props.value;
 		if (!href) return;
@@ -33,6 +31,5 @@ module.exports = Field.create({
 	},
 	renderValue () {
 		return <FormInput noedit onClick={this.openValue}>{this.props.value}</FormInput>;
-	}
-
+	},
 });

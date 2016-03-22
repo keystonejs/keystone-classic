@@ -1,0 +1,20 @@
+script(src="#{adminPath}/js/lib/moment/moment-1.7.2.min.js")
+script(src="#{adminPath}/js/lib/move/move-0.1.1.min.js")
+script(src="#{adminPath}/js/lib/jquery-placeholder-shim/jquery-placeholder-shim.js")
+if list.fieldTypes.wysiwyg
+	script(src="#{adminPath}/js/lib/tinymce/tinymce.min.js")
+if list.fieldTypes.code
+	script(src="#{adminPath}/js/lib/codemirror/codemirror-compressed.js")
+if cloudinary
+	script(src='#{adminPath}/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js')
+	script(src='#{adminPath}/js/lib/jqueryfileupload/jquery.iframe-transport.js')
+	script(src='#{adminPath}/js/lib/jqueryfileupload/jquery.fileupload.js')
+	script(src='#{adminPath}/js/lib/cloudinary/jquery.cloudinary.js')
+	| !{cloudinary_js_config}
+	script.
+		Keystone.cloudinary = {
+			cloud_name: "#{cloudinary.cloud_name}",
+			api_key: "#{cloudinary.api_key}",
+			timestamp: "#{cloudinary.timestamp}",
+			signature: "#{cloudinary.signature}"
+		}

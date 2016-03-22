@@ -2,6 +2,11 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.15 / 2015-10-15
+
+* added; new hooks in the app middleware setup are available, see [#1736](https://github.com/keystonejs/keystone/issues/1736) for documentation.
+* updated; all packages, including pre-build client side bundles
+
 ## v0.3.14 / 2015-08-25
 
 * improved; internal cleanup and refactoring

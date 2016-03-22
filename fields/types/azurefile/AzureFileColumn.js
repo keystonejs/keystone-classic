@@ -12,7 +12,7 @@ var AzureFileColumn = React.createClass({
 				<div className="ItemList__value ItemList__value--azure-file">{this.renderValue()}</div>
 			</td>
 		);
-	}
+	},
 });
 
 module.exports = AzureFileColumn;

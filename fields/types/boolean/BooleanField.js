@@ -1,6 +1,6 @@
 import React from 'react';
 import Field from '../Field';
-import Checkbox from '../../../admin/src/components/Checkbox';
+import Checkbox from '../../../admin/client/components/Checkbox';
 import { FormField, FormNote } from 'elemental';
 
 module.exports = Field.create({
@@ -19,7 +19,7 @@ module.exports = Field.create({
 	valueChanged (value) {
 		this.props.onChange({
 			path: this.props.path,
-			value: value
+			value: value,
 		});
 	},
 
@@ -49,6 +49,6 @@ module.exports = Field.create({
 				{this.renderNote()}
 			</FormField>
 		);
-	}
+	},
 
 });

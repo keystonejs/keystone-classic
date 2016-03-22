@@ -9,10 +9,10 @@ var uglify = require('gulp-uglify');
  * Build Tasks
  */
 
-gulp.task('build-packages', function() {
-	var packages = require('./admin/packages');
+gulp.task('build-packages', function () {
+	var packages = require('./admin/client/packages');
 	var b = browserify();
-	packages.forEach(function(i) { b.require(i); });
+	packages.forEach(function (i) { b.require(i); });
 	b = b.bundle().pipe(source('packages.js'));
 	if (process.env.NODE_ENV === 'production') {
 		b.pipe(streamify(uglify()));
@@ -24,7 +24,7 @@ gulp.task('build-packages', function() {
  * Release Tasks
  */
 
-gulp.task('publish:tag', function(done) {
+gulp.task('publish:tag', function (done) {
 	var pkg = JSON.parse(require('fs').readFileSync('./package.json'));
 	var v = 'v' + pkg.version;
 	var message = 'Release ' + v;
@@ -38,11 +38,10 @@ gulp.task('publish:tag', function(done) {
 	});
 });
 
-gulp.task('publish:npm', function(done) {
+gulp.task('publish:npm', function (done) {
 	require('child_process')
 		.spawn('npm', ['publish'], { stdio: 'inherit' })
 		.on('close', done);
 });
 
 gulp.task('release', ['publish:tag', 'publish:npm']);
-

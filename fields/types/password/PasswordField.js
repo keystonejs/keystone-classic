@@ -11,7 +11,7 @@ module.exports = Field.create({
 			passwordIsSet: this.props.value ? true : false,
 			showChangeUI: this.props.mode === 'create' ? true : false,
 			password: '',
-			confirm: ''
+			confirm: '',
 		};
 	},
 
@@ -23,13 +23,13 @@ module.exports = Field.create({
 
 	showChangeUI () {
 		this.setState({
-			showChangeUI: true
+			showChangeUI: true,
 		}, () => this.focus());
 	},
 
 	onCancel () {
 		this.setState({
-			showChangeUI: false
+			showChangeUI: false,
 		}, () => this.focus());
 	},
 
@@ -60,6 +60,6 @@ module.exports = Field.create({
 		return (
 			<Button ref="focusTarget" onClick={this.showChangeUI}>{label}</Button>
 		);
-	}
+	},
 
 });

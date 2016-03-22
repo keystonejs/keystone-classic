@@ -1,0 +1,21 @@
+script.
+	var Keystone = {};
+	Keystone.adminPath = !{JSON.stringify(adminPath)};
+	Keystone.backUrl = !{JSON.stringify(backUrl)};
+	Keystone.user = !{JSON.stringify(user)};
+	Keystone.version = !{JSON.stringify(version)};
+	Keystone.devMode = !{process.env.KEYSTONE_DEV ? 'true' : 'false'};
+	
+	Keystone.brand = !{JSON.stringify(brand)};
+	Keystone.nav = !{JSON.stringify(nav)};
+	Keystone.nav.currentSection = !{JSON.stringify(section)};
+	Keystone.messages = !{JSON.stringify(messages)};
+	Keystone.signoutUrl = !{JSON.stringify(signout)};
+	Keystone.csrf = function(obj) {
+		obj['#{csrf_token_key}'] = "#{csrf_token_value}";
+		return obj;
+	};
+	Keystone.csrf.header = { "!{csrf_header_key}": "!{csrf_token_value}" };
+	Keystone.csrf.key = "#{csrf_token_key}";
+	Keystone.csrf.value = "#{csrf_token_value}";
+	Keystone.csrf.query = "!{csrf_query}";

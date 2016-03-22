@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import React from 'react';
 import Field from '../Field';
 import { Button, Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
@@ -17,19 +17,19 @@ module.exports = Field.create({
 		return {
 			collapsedFields: {},
 			improve: false,
-			overwrite: false
+			overwrite: false,
 		};
 	},
 
 	componentWillMount () {
 		var collapsedFields = {};
-		_.each(['number', 'name', 'street2', 'geo'], function(i) {
+		_.forEach(['number', 'name', 'street2', 'geo'], (i) => {
 			if (!this.props.value[i]) {
 				collapsedFields[i] = true;
 			}
 		}, this);
 		this.setState({
-			collapsedFields: collapsedFields
+			collapsedFields: collapsedFields,
 		});
 	},
 
@@ -40,12 +40,12 @@ module.exports = Field.create({
 	},
 
 	shouldCollapse () {
-		return this.formatValue() ? false : true;
+		return this.props.collapse && !this.formatValue();
 	},
 
 	uncollapseFields () {
 		this.setState({
-			collapsedFields: {}
+			collapsedFields: {},
 		});
 	},
 
@@ -54,7 +54,7 @@ module.exports = Field.create({
 		value[path] = event.target.value;
 		this.props.onChange({
 			path: this.props.path,
-			value: value
+			value: value,
 		});
 	},
 
@@ -66,7 +66,7 @@ module.exports = Field.create({
 		value.geo[i] = event.target.value;
 		this.props.onChange({
 			path: this.props.path,
-			value: value
+			value: value,
 		});
 	},
 
@@ -79,7 +79,7 @@ module.exports = Field.create({
 			this.props.value.suburb,
 			this.props.value.state,
 			this.props.value.postcode,
-			this.props.value.country
+			this.props.value.country,
 		]).join(', ');
 	},
 
@@ -87,7 +87,7 @@ module.exports = Field.create({
 		return <FormInput noedit>{this.formatValue() || '(no value)'}</FormInput>;
 	},
 
-	renderField (path, label, collapse) {//eslint-disable-line no-unused-vars
+	renderField (path, label, collapse) { // eslint-disable-line no-unused-vars
 		if (this.state.collapsedFields[path]) {
 			return null;
 		}
@@ -213,6 +213,6 @@ module.exports = Field.create({
 				{this.renderNote()}
 			</div>
 		);
-	}
+	},
 
 });

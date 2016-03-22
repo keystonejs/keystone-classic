@@ -1,16 +1,15 @@
-module.exports = function evalDependsOn(dependsOn, values) {
-	if (!_.isObject(dependsOn)) return true;
-	var keys = _.keys(dependsOn);
-	return (keys.length) ? _.every(keys, function(key) {
-		var dependsValue = dependsOn[key];
-		if (_.isBoolean(dependsValue)) {
-			if (_.isBoolean(values[key])) {
-				return dependsValue === values[key];
-			} else {
-				return dependsValue !== _.isEmpty(values[key]);
-			}
-		}
-		var matches = _.isArray(dependsValue) ? dependsValue : [dependsValue];
-		return _.contains(matches, values[key]);
-	}, this) : true;
+var ExMatch = require('expression-match');
+
+function isObject (arg) {
+	return Object.prototype.toString.call(arg) === '[object Object]';
+};
+
+module.exports = function evalDependsOn (dependsOn, values) {
+	if (!isObject(dependsOn) || !Object.keys(dependsOn).length) {
+		return true;
+	}
+
+	var Match = new ExMatch(dependsOn, values, false);
+	return Match.match();
+
 };

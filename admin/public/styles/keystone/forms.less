@@ -5,25 +5,9 @@
 // ==============================
 
 
-
-// TEMP FIXES
-// ==============================
-
-.Select {
-	position: relative;
-}
-
-// ==============================
-// END TEMP FIXES
-
-
-
-
 // Deviations from Elemental
 // ------------------------------
 
-
-// form label
 .FormLabel {
 	.u-text-truncate();
 }
@@ -36,64 +20,19 @@
 	}
 }
 
-
-// radios + checkboxes
-
 .Radio,
 .Checkbox {
 	margin-bottom: 0;
 	margin-top: 0;
 }
 
-
-
-
-// Headings
-// ------------------------------
-
 .form-heading {
 	margin-top: 3em;
 }
 
-
-
-
-// Relational Button
-// sits to the right of a form field
-// used for things like clearing an array field or linking to related item
-// ------------------------------
-
-// HTML
-.field-type-html {
-	textarea {
-		.form-control;
-	}
+.field-monospace .FormInput {
+	font-family: @font-family-monospace;
 }
-
-// Code
-/*
--- TODO @jossmac: this update from the master branch may need to be brought forward
-.field-type-code {
-	.CodeMirror-container {
-		.form-control;
-		height: auto;
-		padding: 0;
-
-		&.is-focused {
-			@shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@link-color,50%);
-			.box-shadow(@shadow);
-			border-color: @input-border-focus lighten(@input-border-focus, 5%) lighten(@input-border-focus, 5%);
-		}
-	}
-	.CodeMirror {
-		background: transparent;
-		border-radius: @input-border-radius;
-	}
-	.CodeMirror-linenumber{
-		margin-left:-30px;
-	}
-}
-*/
 
 .keystone-relational-button {
 	.transition( all 140ms );

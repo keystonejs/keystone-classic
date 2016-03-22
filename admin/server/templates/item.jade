@@ -1,0 +1,128 @@
+include includes/flashMessages
+
+doctype html
+html
+	head
+		meta(charset="utf-8")
+		meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
+		meta(name="csrf-token", content="#{csrf_token_value}")
+		title= title
+		include includes/css/components
+		link(rel="stylesheet", href="#{adminPath}/styles/keystone.min.css")
+		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+
+	body
+		#item-view
+		//- Common
+		script(src="#{adminPath}/js/lib/jquery/jquery-1.10.2.min.js")
+
+		//- Components
+		include includes/script/keystone
+		include includes/script/components
+		script.
+			Keystone.lists = !{JSON.stringify(lists)};
+			Keystone.list = Keystone.lists[!{JSON.stringify(list.key)}];
+			Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
+			Keystone.itemId = '!{item.id}';
+		script(src='#{adminPath}/js/packages.js')
+		script(src='#{adminPath}/js/fields.js')
+		script(src='#{adminPath}/js/item.js')
+		include includes/script/ga
+
+// TODO: Rewrite relationships in React. Original source here for reference.
+
+//- mixin column(list, col, item)
+//- 	if col.type == 'relationship'
+//- 		- var refData = item.get(col.path)
+//- 		if col.field.many
+//- 			if Array.isArray(refData) && refData.length
+//- 				div.ItemList__value
+//- 					- var values = []
+//- 					- _.first(refData, 3).forEach(function(i) { values.push(col.subField ? col.subField.format(i) : i[col.refPath]) })
+//- 					= values.join(', ')
+//- 					if refData.length > 3
+//- 						| ... (#{refData.length - 3} more)
+//- 		else if refData
+//- 			if (col.subField && col.subField.type == 'boolean' && !col.many)
+//- 				+column_boolean(refData[col.refPath])
+//- 			else
+//- 				- var value = col.subField ? col.subField.format(refData) : refData[col.refPath]
+//- 				if col.refList && refData && refData.id
+//- 					+column_link(value, '#{adminPath}/' + col.refList.path + '/' + refData.id)
+//- 				else
+//- 					+column_basic(value)
+//- 	else if col.type == 'markdown'
+//- 		+column_html(utils.textToHTML(utils.cropString(item.get(col.field.paths.md), 200, '...', true)))
+//- 	else if col.type == 'html'
+//- 		+column_html(utils.cropHTMLString(item.get(col.field.path), 200, '...', true))
+//- 	else
+//- 		- var value = col.field ? col.field.format(item) : item.get(col.path)
+//- 		if col.isName
+//- 			+column_link(value || '(no name)', '#{adminPath}/' + list.path + '/' + item.id)
+//- 		else if col.type == 'email'
+//- 			if value && col.field.options.displayGravatar
+//- 				+column_gravatar(col.field.gravatarUrl(item,35))
+//- 			+column_link(value, 'mailto:' + value)
+//- 		else if col.type == 'boolean'
+//- 			+column_boolean(value)
+//- 		else if col.type == 'url'
+//- 			+column_link(value, value, true)
+//- 		else if col.type == 'color'
+//- 			+column_color(value)
+//- 		else if col.type == 'localfile'
+//- 			+column_html(value)
+//- 		else
+//- 			+column_basic(value)
+//-
+//- mixin column_link(value, href, newWindow)
+//- 	if value
+//- 		a(href=href, target=newWindow ? '_blank' : undefined)= value
+//-
+//- mixin column_gravatar(src)
+//- 	img(src=src).img-thumbnail
+//-
+//- mixin column_boolean(value)
+//- 	if (value)
+//- 		img(src='#{adminPath}/images/icons/16/checkbox-checked.png', width=16, height=16)
+//- 	else
+//- 		img(src='#{adminPath}/images/icons/16/checkbox-unchecked.png', width=16, height=16)
+//-
+//- mixin column_html(value)
+//- 	div.ItemList__value!= value
+//-
+//- mixin column_basic(value)
+//- 	div.ItemList__value= value
+//-
+//- mixin column_color(value)
+//- 	div.ItemList__value
+//- 		if (value)
+//- 			div.color-preview(style={'background-color': value})
+//- if showRelationships
+//- 	.EditForm__relationships
+//- 		.container
+//- 			h2.EditForm__relationships-heading Relationships
+//- 			each rel in relationships
+//- 				if rel.items.results.length
+//- 					h3.EditForm__relationships-subheading
+//- 						a(href='#{adminPath}/' + rel.list.path)= (rel.label) ? rel.label : rel.list.label
+//- 					if rel.note
+//- 						.field-note= rel.note
+//- 					- var firstColspan = 1
+//- 					table(cellpadding=0, cellspacing=0, class=rel.sortable ? 'sortable' : false, data-list-path=rel.list.path).Table.ItemList.relationships-list
+//- 						if rel.sortable
+//- 							- firstColspan++;
+//- 							col(width=26)
+//- 						each col in rel.columns
+//- 							col(width=col.width)
+//- 						thead
+//- 							tr
+//- 								each col, i in rel.columns
+//- 									th(colspan=i == 0 && firstColspan > 1 ? firstColspan : false)= col.label
+//- 						tbody
+//- 							each item in rel.items.results
+//- 								tr(id=item.id)
+//- 									if rel.sortable
+//- 										td.control: a(href=js).control-sort
+//- 									each col, i in rel.columns
+//- 										td
+//- 											+column(rel.list, col, item)

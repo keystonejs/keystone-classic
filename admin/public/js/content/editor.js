@@ -1,61 +1,62 @@
-jQuery(function($) {
-	
+jQuery(function ($) {
+
+	var adminPath = (typeof Keystone !== 'undefined' && Keystone.adminPath) ? Keystone.adminPath : '/keystone';
 	var refs = $('[data-ks-editable]');
-	
-	function addButton($editable, href, label) {
-		
+
+	function addButton ($editable, href, label) {
+
 		$editable.css({ position: 'relative' });
-		
+
 		var visible = false;
-		
+
 		var $btn = $('<a class="ks-editable-btn" href="' + href + '" target="_blank">' + label + '</a>')
 			.css({
 				opacity: 0,
 				top: 0,
-				right: 0
+				right: 0,
 			})
 			.appendTo($editable);
-		
-		$editable.on('mouseenter mousemove', function(e) {// eslint-disable-line no-unused-vars
+
+		$editable.on('mouseenter mousemove', function (e) { // eslint-disable-line no-unused-vars
 			if (visible) return;
 			visible = true;
 			$btn.css({ opacity: 1 });
-		}).on('mouseleave', function(e) {// eslint-disable-line no-unused-vars
+		}).on('mouseleave', function (e) { // eslint-disable-line no-unused-vars
 			visible = false;
 			$btn.css({ opacity: 0 });
 		});
-		
+
 	}
-	
-	refs.each(function(i, editable) {
-		
-		var $editable = $(editable),
-			data = $editable.data('ks-editable');
-		
+
+	refs.each(function (i, editable) {
+
+		var $editable = $(editable);
+		var data = $editable.data('ks-editable');
+
 		switch (data.type) {
-			
+
 			case 'list':
-				var href = '/keystone/' + data.path,
-					label = 'Manage ' + data.plural;
-				
+				var href = adminPath + '/' + data.path;
+				var label = 'Manage ' + data.plural;
+
 				if (data.id) {
 					href += '/' + data.id;
 					label = 'Edit ' + data.singular;
 				}
-				
+
 				addButton($editable, href, label);
-			break;
-			
+				break;
+
 			case 'content':
 				// TODO
-			break;
-			
+				break;
+
 			case 'error':
 				// TODO
-			break;
-			
+				break;
+
 		}
-		
+
 	});
-	
+
 });

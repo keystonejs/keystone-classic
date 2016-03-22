@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import Field from '../Field';
 import React from 'react';
 import tinymce from 'tinymce';
@@ -11,7 +11,7 @@ import { FormInput } from 'elemental';
 
 var lastId = 0;
 
-function getId() {
+function getId () {
 	return 'keystone-html-' + lastId++;
 }
 
@@ -22,7 +22,7 @@ module.exports = Field.create({
 	getInitialState () {
 		return {
 			id: getId(),
-			isFocused: false
+			isFocused: false,
 		};
 	},
 
@@ -72,7 +72,7 @@ module.exports = Field.create({
 
 	focusChanged (focused) {
 		this.setState({
-			isFocused: focused
+			isFocused: focused,
 		});
 	},
 
@@ -89,19 +89,19 @@ module.exports = Field.create({
 		this._currentValue = content;
 		this.props.onChange({
 			path: this.props.path,
-			value: content
+			value: content,
 		});
 	},
 
 	getOptions () {
-		var plugins = ['code', 'link'],
-			options = _.defaults(
+		var plugins = ['code', 'link'];
+		var options = Object.assign(
 				{},
-				this.props.wysiwyg,
-				Keystone.wysiwyg.options
-			),
-			toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | link',
-			i;
+				Keystone.wysiwyg.options,
+				this.props.wysiwyg
+			);
+		var toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | removeformat | link ';
+		var i;
 
 		if (options.enableImages) {
 			plugins.push('image');
@@ -130,10 +130,10 @@ module.exports = Field.create({
 			var importcssOptions = {
 				content_css: options.importcss,
 				importcss_append: true,
-				importcss_merge_classes: true
+				importcss_merge_classes: true,
 			};
 
-			_.extend(options.additionalOptions, importcssOptions);
+			Object.assign(options.additionalOptions, importcssOptions);
 		}
 
 		if (!options.overrideToolbar) {
@@ -142,26 +142,26 @@ module.exports = Field.create({
 
 		var opts = {
 			selector: '#' + this.state.id,
-			toolbar:  toolbar,
-			plugins:  plugins,
-			menubar:  options.menubar || false,
-			skin:     options.skin || 'keystone'
+			toolbar: toolbar,
+			plugins: plugins,
+			menubar: options.menubar || false,
+			skin: options.skin || 'keystone',
 		};
 
 		if (this.shouldRenderField()) {
-			opts.uploadimage_form_url = options.enableS3Uploads ? '/keystone/api/s3/upload' : '/keystone/api/cloudinary/upload';
+			opts.uploadimage_form_url = options.enableS3Uploads ? Keystone.adminPath + '/api/s3/upload' : Keystone.adminPath + '/api/cloudinary/upload';
 		} else {
-			_.extend(opts, {
+			Object.assign(opts, {
 				mode: 'textareas',
 				readonly: true,
 				menubar: false,
 				toolbar: 'code',
-				statusbar: false
+				statusbar: false,
 			});
 		}
 
-		if (options.additionalOptions){
-			_.extend(opts, options.additionalOptions);
+		if (options.additionalOptions) {
+			Object.assign(opts, options.additionalOptions);
 		}
 
 		return opts;
@@ -175,7 +175,7 @@ module.exports = Field.create({
 	renderField () {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
-			height: this.props.height
+			height: this.props.height,
 		};
 		return (
 			<div className={className}>
@@ -186,6 +186,6 @@ module.exports = Field.create({
 
 	renderValue () {
 		return <FormInput multiline noedit value={this.props.value} />;
-	}
+	},
 
 });

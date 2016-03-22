@@ -2,29 +2,38 @@ import React from 'react';
 
 import { SegmentedControl } from 'elemental';
 
-const OPTIONS = [
+const TOGGLE_OPTIONS = [
 	{ label: 'Is Set', value: true },
-	{ label: 'Is NOT Set', value: false }
+	{ label: 'Is NOT Set', value: false },
 ];
 
-var PasswordFilter = React.createClass({
+function getDefaultValue () {
+	return {
+		exists: true,
+	};
+}
 
-	getInitialState () {
+var PasswordFilter = React.createClass({
+	propTypes: {
+		filter: React.PropTypes.shape({
+			exists: React.PropTypes.oneOf(TOGGLE_OPTIONS.map(i => i.value)),
+		}),
+	},
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
+	getDefaultProps () {
 		return {
-			checked: this.props.value || true
+			filter: getDefaultValue(),
 		};
 	},
-
-	toggleChecked (checked) {
-		this.setState({
-			checked: checked
-		});
+	toggleExists (value) {
+		this.props.onChange({ exists: value });
 	},
-
 	render () {
-		return <SegmentedControl equalWidthSegments options={OPTIONS} value={this.state.checked} onChange={this.toggleChecked} />;
-	}
-
+		const { field, filter } = this.props;
+		return <SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={filter.exists} onChange={this.toggleExists} />;
+	},
 });
 
 module.exports = PasswordFilter;
