@@ -4,14 +4,19 @@ import { Container } from 'elemental';
 var SecondaryNavItem = React.createClass({
 	displayName: 'SecondaryNavItem',
 	propTypes: {
+		path: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
 		title: React.PropTypes.string,
 	},
 	render () {
+		var opts = {
+			"className": this.props.className,
+			"data-list": this.props.path,
+		};
 		return (
-			<li className={this.props.className}>
+			<li {...opts}>
 				<a href={this.props.href} title={this.props.title} tabIndex="-1">
 					{this.props.children}
 				</a>
@@ -47,7 +52,7 @@ var SecondaryNavigation = React.createClass({
 			const className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
 
 			return (
-				<SecondaryNavItem key={list.path} className={className} href={href}>
+				<SecondaryNavItem key={list.path} path={list.path} className={className} href={href}>
 					{list.label}
 				</SecondaryNavItem>
 			);
