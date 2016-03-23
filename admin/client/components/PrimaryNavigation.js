@@ -7,11 +7,16 @@ var PrimaryNavItem = React.createClass({
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
+		label: React.PropTypes.string,
 		title: React.PropTypes.string,
 	},
 	render () {
+		var opts = {
+			'className': this.props.className,
+			'data-section-label': this.props.label,
+		};
 		return (
-			<li className={this.props.className}>
+			<li {...opts}>
 				<a href={this.props.href} title={this.props.title} tabIndex="-1">
 					{this.props.children}
 				</a>
@@ -47,7 +52,7 @@ var PrimaryNavigation = React.createClass({
 		if (!this.props.signoutUrl) return null;
 
 		return (
-			<PrimaryNavItem href={this.props.signoutUrl} title="Sign Out">
+			<PrimaryNavItem label="octicon-sign-out" href={this.props.signoutUrl} title="Sign Out">
 				<span className="octicon octicon-sign-out" />
 			</PrimaryNavItem>
 		);
@@ -55,7 +60,7 @@ var PrimaryNavigation = React.createClass({
 	renderFrontLink () {
 		return (
 			<ul className="app-nav app-nav--primary app-nav--right">
-				<PrimaryNavItem href={Keystone.backUrl} title={'Front page - ' + this.props.brand}>
+				<PrimaryNavItem label="octicon-globe" href={Keystone.backUrl} title={'Front page - ' + this.props.brand}>
 					<span className="octicon octicon-globe" />
 				</PrimaryNavItem>
 				{this.renderSignout()}
@@ -65,7 +70,7 @@ var PrimaryNavigation = React.createClass({
 	renderBrand () {
 		// TODO: support navbarLogo from keystone config
 		return (
-			<PrimaryNavItem className={this.props.currentSectionKey === 'dashboard' ? 'active' : null} href={Keystone.adminPath} title={'Dashboard - ' + this.props.brand}>
+			<PrimaryNavItem label="octicon-home" className={this.props.currentSectionKey === 'dashboard' ? 'active' : null} href={Keystone.adminPath} title={'Dashboard - ' + this.props.brand}>
 				<span className="octicon octicon-home" />
 			</PrimaryNavItem>
 		);
@@ -78,7 +83,7 @@ var PrimaryNavigation = React.createClass({
 			const className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'active' : null;
 
 			return (
-				<PrimaryNavItem key={section.key} className={className} href={href}>
+				<PrimaryNavItem key={section.key} label={section.label} className={className} href={href}>
 					{section.label}
 				</PrimaryNavItem>
 			);

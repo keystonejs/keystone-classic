@@ -123,7 +123,8 @@ password.prototype.validateInput = function (data, callback) {
 	var result = true;
 	var confirmValue = this.getValueFromData(data, '_confirm');
 	var passwordValue = this.getValueFromData(data);
-	if (passwordValue !== undefined && confirmValue !== undefined && passwordValue !== confirmValue) {
+	if (confirmValue !== undefined
+		&& passwordValue !== confirmValue) {
 		result = false;
 		detail = 'passwords must match';
 	}
