@@ -18,6 +18,8 @@ util.inherits(key, FieldType);
 
 /* Inherit from TextType prototype */
 key.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
+key.prototype.validateInput = TextType.prototype.validateInput;
+key.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /**
  * Generates a valid key from a string
