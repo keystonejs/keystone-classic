@@ -265,7 +265,7 @@ const ListView = React.createClass({
 				pageSize={pageSize}
 				plural={list.plural}
 				singular={list.singular}
-				style={{ marginBottom: 0 }}
+				style={{ marginBottom: '30px' }}
 				total={items.count}
 				limit={10}
 				/>
@@ -430,6 +430,7 @@ const ListView = React.createClass({
 						rowAlert={this.state.rowAlert}
 						checkTableItem={this.checkTableItem}
 					/>
+					{this.renderPagination()}
 					{this.renderNoSearchResults()}
 				</Container>
 			</div>
