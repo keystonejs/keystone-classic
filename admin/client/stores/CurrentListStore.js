@@ -72,6 +72,15 @@ function updateQueryParams (params, replace) {
 	history[replace ? 'replaceState' : 'pushState'](null, _location.pathname, newParams);
 }
 
+/**
+ * Smooth-scrolls to a position on the page
+ * @param {number} [x=0] The x-coordinate to scroll to
+ */
+function scrollTo (x) {
+	var xPos = x || 0;
+	document.documentElement.scrollTop = xPos;
+}
+
 const CurrentListStore = new Store({
 	getList () {
 		return _list;
@@ -163,6 +172,7 @@ const CurrentListStore = new Store({
 	setCurrentPage (index) {
 		if (index === 1) index = undefined;
 		updateQueryParams({ page: index });
+		scrollTo(0);
 	},
 	isLoading () {
 		return _loading;
