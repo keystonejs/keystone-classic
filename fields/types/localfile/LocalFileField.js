@@ -97,12 +97,27 @@ module.exports = Field.create({
 		}
 	},
 
+	getFileWebPath: function(){
+		if (this.hasLocal()) {
+			return "";
+		} else {
+			return this.props.value.webpath;
+		}
+	},
+
 	renderFileDetails: function (add) {
 		var values = null;
+		var imgStyle = {
+			maxWidth: '100px'
+		};
+
 
 		if (this.hasFile() && !this.state.removeExisting) {
 			values = (
 				<div className='file-values'>
+					<div className='preview-value'>
+						<img src={this.getFileWebPath() + "/" + this.getFilename()} style={imgStyle}></img>
+					</div>
 					<div className='field-value'>{this.getFilename()}</div>
 				</div>
 			);
