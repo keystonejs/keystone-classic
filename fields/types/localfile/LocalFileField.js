@@ -99,7 +99,7 @@ module.exports = Field.create({
 
 	getFileWebPath: function(){
 		if (this.hasLocal()) {
-			return "";
+			return '';
 		} else {
 			return this.props.value.webpath;
 		}
@@ -116,7 +116,7 @@ module.exports = Field.create({
 			values = (
 				<div className='file-values'>
 					<div className='preview-value'>
-						<img src={this.getFileWebPath() + "/" + this.getFilename()} style={imgStyle}></img>
+						<img src={this.getFileWebPath() + '/' + this.getFilename()} style={imgStyle}></img>
 					</div>
 					<div className='field-value'>{this.getFilename()}</div>
 				</div>
