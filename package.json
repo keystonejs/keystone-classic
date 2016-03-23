@@ -157,7 +157,7 @@
     "pretest-cov": "npm run clean && npm run lint",
     "current": "updtr",
     "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
-    "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate < coverage/lcov.info; fi",
+    "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate-test-reporter < coverage/lcov.info; fi",
     "clean": "rimraf ./coverage"
   },
   "engines": {
