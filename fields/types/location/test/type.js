@@ -253,6 +253,10 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('validateInput', function () {
+
+	});
+
 	describe('addFilterToQuery', function () {
 		it('should allow to filter by street', function () {
 			var result = List.fields['location.basic'].addFilterToQuery({
