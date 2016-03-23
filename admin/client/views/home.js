@@ -16,14 +16,14 @@ Keystone.lists.forEach((list) => {
 
 var ListTile = React.createClass({
 	propTypes: {
-		path: React.PropTypes.string,
 		count: React.PropTypes.string,
 		href: React.PropTypes.string,
 		label: React.PropTypes.string,
+		path: React.PropTypes.string,
 	},
 	render () {
 		var opts = {
-			"data-list": this.props.path,
+			'data-list-path': this.props.path,
 		};
 		return (
 			<div className="dashboard-group__list" {...opts}>

@@ -4,16 +4,16 @@ import { Container } from 'elemental';
 var SecondaryNavItem = React.createClass({
 	displayName: 'SecondaryNavItem',
 	propTypes: {
-		path: React.PropTypes.string,
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
+		path: React.PropTypes.string,
 		title: React.PropTypes.string,
 	},
 	render () {
 		var opts = {
-			"className": this.props.className,
-			"data-list": this.props.path,
+			'className': this.props.className,
+			'data-list-path': this.props.path,
 		};
 		return (
 			<li {...opts}>
