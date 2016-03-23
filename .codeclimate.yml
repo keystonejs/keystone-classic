@@ -17,7 +17,7 @@ ratings:
 exclude_paths:
 - node_modules/
 - test/
-- test/
+- "**/test/"
 - admin/public/js/
 - admin/public/fonts/
 - fields/types/markdown/lib/
