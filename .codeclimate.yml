@@ -1,0 +1,5 @@
+exclude_paths:
+- test/**/*
+- "admin/public/js/**/*"
+- "admin/public/fonts/**/*"
+- "fields/types/markdown/lib/**/*"
