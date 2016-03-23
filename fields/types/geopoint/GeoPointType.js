@@ -52,7 +52,7 @@ geopoint.prototype.format = function (item) {
 geopoint.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
-	if (value === undefined) {
+	if (value === undefined || value === null || value === '') {
 		result = true;
 	} else {
 		if (Array.isArray(value)) {
