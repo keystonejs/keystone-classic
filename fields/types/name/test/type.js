@@ -9,7 +9,39 @@ exports.initList = function (List) {
 
 exports.testFieldType = function (List) {
 	describe('updateItem', function () {
+		it('should update the full name', function (done) {
+			var testItem = new List.model();
+			List.fields.name.updateItem(testItem, {
+				name: 'Max Mustermann',
+			}, function () {
+				demand(testItem.name.full).be('Max Mustermann');
+				done();
+			});
+		});
 
+		it('should update the first name', function (done) {
+			var testItem = new List.model();
+			List.fields.name.updateItem(testItem, {
+				name: {
+					first: 'Max',
+				},
+			}, function () {
+				demand(testItem.name.first).be('Max');
+				done();
+			});
+		});
+
+		it('should update the last name', function (done) {
+			var testItem = new List.model();
+			List.fields.name.updateItem(testItem, {
+				name: {
+					last: 'Max',
+				},
+			}, function () {
+				demand(testItem.name.last).be('Max');
+				done();
+			});
+		});
 	});
 
 	describe('validateInput', function () {
@@ -22,7 +54,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should validate emtpy string input', function (done) {
+		it('should validate empty string input', function (done) {
 			List.fields.name.validateInput({
 				name: '',
 			}, function (result) {
@@ -103,7 +135,7 @@ exports.testFieldType = function (List) {
 
 		it('should invalidate date input', function (done) {
 			List.fields.name.validateInput({
-				name: Date.now(),
+				name: new Date(),
 			}, function (result) {
 				demand(result).be(false);
 				done();
@@ -129,7 +161,18 @@ exports.testFieldType = function (List) {
 				});
 			});
 
-			it('should validate emtpy string input', function (done) {
+			it('should validate nested object', function (done) {
+				List.fields.name.validateInput({
+					name: {
+						first: 'Max',
+					},
+				}, function (result) {
+					demand(result).be(true);
+					done();
+				});
+			});
+
+			it('should validate empty string input', function (done) {
 				List.fields.name.validateInput({
 					name_first: '',
 				}, function (result) {
@@ -237,7 +280,18 @@ exports.testFieldType = function (List) {
 				});
 			});
 
-			it('should validate emtpy string input', function (done) {
+			it('should validate nested object', function (done) {
+				List.fields.name.validateInput({
+					name: {
+						last: 'Max',
+					},
+				}, function (result) {
+					demand(result).be(true);
+					done();
+				});
+			});
+
+			it('should validate empty string input', function (done) {
 				List.fields.name.validateInput({
 					name_last: '',
 				}, function (result) {
@@ -318,7 +372,7 @@ exports.testFieldType = function (List) {
 
 			it('should invalidate date input', function (done) {
 				List.fields.name.validateInput({
-					name_last: Date.now(),
+					name_last: new Date(),
 				}, function (result) {
 					demand(result).be(false);
 					done();
@@ -494,6 +548,10 @@ exports.testFieldType = function (List) {
 	});
 
 	describe('getSortString', function () {
+		// TODO Figure out how to test this
+	});
+
+	describe('format', function () {
 
 	});
 };
