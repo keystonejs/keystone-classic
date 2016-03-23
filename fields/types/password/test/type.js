@@ -135,17 +135,17 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate mismatching values', function (done) {
+		it('should validate undefined confirmation value', function (done) {
 			List.fields.password.validateInput({
 				password: 'something',
-				password_confirm: 'notsomething',
+				password_confirm: undefined,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be(true);
 				done();
 			});
 		});
 
-		it('should invalidate empty string confirmation value', function (done) {
+		it('should validate empty string confirmation value', function (done) {
 			List.fields.password.validateInput({
 				password: 'something',
 				password_confirm: '',
@@ -155,7 +155,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate null confirmation value', function (done) {
+		it('should validate null confirmation value', function (done) {
 			List.fields.password.validateInput({
 				password: 'something',
 				password_confirm: null,
@@ -165,30 +165,10 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate undefined confirmation value', function (done) {
+		it('should invalidate mismatching values', function (done) {
 			List.fields.password.validateInput({
 				password: 'something',
-				password_confirm: undefined,
-			}, function (result) {
-				demand(result).be(false);
-				done();
-			});
-		});
-
-		it('should invalidate true confirmation value', function (done) {
-			List.fields.password.validateInput({
-				password: 'something',
-				password_confirm: true,
-			}, function (result) {
-				demand(result).be(false);
-				done();
-			});
-		});
-
-		it('should invalidate true confirmation value', function (done) {
-			List.fields.password.validateInput({
-				password: 'something',
-				password_confirm: false,
+				password_confirm: 'notsomething',
 			}, function (result) {
 				demand(result).be(false);
 				done();
@@ -235,7 +215,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate true password value', function (done) {
+		it('should invalidate false password value', function (done) {
 			List.fields.password.validateInput({
 				password: false,
 				password_confirm: 'something',

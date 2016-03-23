@@ -123,16 +123,10 @@ password.prototype.validateInput = function (data, callback) {
 	var result = true;
 	var confirmValue = this.getValueFromData(data, '_confirm');
 	var passwordValue = this.getValueFromData(data);
-	if (passwordValue !== undefined
-		&& confirmValue !== undefined
+	if (confirmValue !== undefined
 		&& passwordValue !== confirmValue) {
 		result = false;
 		detail = 'passwords must match';
-	}
-	if ((passwordValue === undefined || confirmValue === undefined)
-		&& passwordValue !== confirmValue) {
-		result = false;
-		detail = 'both fields need to be filled';
 	}
 	// TODO: we could support a password complexity option (or regexp) here
 	utils.defer(callback, result, detail);
