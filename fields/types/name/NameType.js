@@ -118,11 +118,15 @@ name.prototype.format = function (item) {
  * Get the value from a data object; may be simple or a pair of fields
  */
 name.prototype.getInputFromData = function (data) {
+	// this.getValueFromData throws an error if we pass name: null
+	if (data[this.path] === null) {
+		return null;
+	}
 	var first = this.getValueFromData(data, '_first');
 	if (first === undefined) first = this.getValueFromData(data, '.first');
 	var last = this.getValueFromData(data, '_last');
 	if (last === undefined) last = this.getValueFromData(data, '.last');
-	if (typeof first === 'string' || typeof last === 'string') {
+	if (first !== undefined || last !== undefined) {
 		return {
 			first: first,
 			last: last,
@@ -137,10 +141,13 @@ name.prototype.getInputFromData = function (data) {
 name.prototype.validateInput = function (data, callback) {
 	var value = this.getInputFromData(data);
 	var result = value === undefined
+		|| value === null
 		|| typeof value === 'string'
 		|| (typeof value === 'object' && (
 			typeof value.first === 'string'
-			|| typeof value.last === 'string')
+			|| value.first === null
+			|| typeof value.last === 'string'
+			|| value.last === null)
 		);
 	utils.defer(callback, result);
 };
@@ -150,12 +157,23 @@ name.prototype.validateInput = function (data, callback) {
  */
 name.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getInputFromData(data);
-	var result = (
-		typeof value === 'string' && value.length
-		|| typeof value === 'object' && (
-			typeof value.first === 'string' && value.first.length
-			|| typeof value.last === 'string' && value.last.length)
-		) ? true : false;
+	var result;
+	if (value === null) {
+		result = false;
+	} else {
+		result = (
+			typeof value === 'string' && value.length
+			|| typeof value === 'object' && (
+				typeof value.first === 'string' && value.first.length
+				|| typeof value.last === 'string' && value.last.length)
+			|| (item.get(this.paths.full)
+				|| item.get(this.paths.first)
+				|| item.get(this.paths.last)) && (
+					value === undefined
+					|| (value.first === undefined
+						&& value.last === undefined))
+			) ? true : false;
+	}
 	utils.defer(callback, result);
 };
 
