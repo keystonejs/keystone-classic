@@ -107,6 +107,62 @@ numberarray.prototype.validateRequiredInput = function (item, data, callback) {
 };
 
 /**
+ * Add filters to a query
+ */
+numberarray.prototype.addFilterToQuery = function (filter, query) {
+	query = query || {};
+	if (filter.mode === 'equals' && !filter.value) {
+		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
+		return query;
+	}
+	if (filter.mode === 'between') {
+		var min = utils.number(filter.value.min);
+		var max = utils.number(filter.value.max);
+		if (!isNaN(min) && !isNaN(max)) {
+			query[this.path] = {
+				$elemMatch: filter.inverted ? {
+					$gte: max,
+					$lte: min,
+				} : {
+					$gte: min,
+					$lte: max,
+				},
+			};
+		}
+		return query;
+	}
+	var value = utils.number(filter.value);
+	if (!isNaN(value)) {
+		if (filter.mode === 'gt') {
+			query[this.path] = {
+				$elemMatch: filter.inverted ? {
+					$lt: value,
+				} : {
+					$gt: value,
+				},
+			};
+		}
+		else if (filter.mode === 'lt') {
+			query[this.path] = {
+				$elemMatch: filter.inverted ? {
+					$gt: value,
+				} : {
+					$lt: value,
+				},
+			};
+		}
+		else {
+			query[this.path] = {
+				$elemMatch: {
+					$eq: value,
+				},
+			};
+		}
+	}
+	return query;
+};
+
+/**
  * Checks that a valid array of number has been provided in a data object
  * An empty value clears the stored value and is considered valid
  *
