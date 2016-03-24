@@ -21,8 +21,8 @@ var SigninView = React.createClass({
 		};
 	},
 	componentDidMount () {
-		if (this.state.signedOut && window.history.replaceState) {
-			history.replaceState({}, window.location.pathname);
+		if (this.state.signedOut && window.history.replace) {
+			history.replace({}, window.location.pathname);
 		}
 		if (this.refs.email) {
 			ReactDOM.findDOMNode(this.refs.email).select();

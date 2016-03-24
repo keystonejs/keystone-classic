@@ -1,7 +1,6 @@
 'use strict';
 
-import createHistory from 'history/lib/createBrowserHistory';
-import useQueries from 'history/lib/useQueries';
+import { createHistory, useQueries } from 'history';
 import Store from 'store-prototype';
 import List from '../lib/List';
 
@@ -69,7 +68,10 @@ function updateQueryParams (params, replace) {
 			delete newParams[i];
 		}
 	});
-	history[replace ? 'replaceState' : 'pushState'](null, _location.pathname, newParams);
+	history[replace ? 'replace' : 'push']({
+		pathname: _location.pathname,
+		query: newParams,
+	});
 }
 
 const CurrentListStore = new Store({
