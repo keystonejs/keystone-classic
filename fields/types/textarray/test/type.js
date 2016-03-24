@@ -301,6 +301,100 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		it('should return a regex with the "i" flag set', function () {
+			var result = List.fields.textarr.addFilterToQuery({
+				value: 'abc',
+			});
+			demand(result.textarr).eql({
+				$elemMatch: {
+					$regex: /abc/i,
+				},
+			});
+		});
+
+		it('should allow case sensitive matching', function () {
+			var result = List.fields.textarr.addFilterToQuery({
+				value: 'abc',
+				caseSensitive: true,
+			});
+			demand(result.textarr).eql({
+				$elemMatch: {
+					$regex: /abc/,
+				},
+			});
+		});
+
+		it('should allow inverted matching', function () {
+			var result = List.fields.textarr.addFilterToQuery({
+				value: 'abc',
+				inverted: true,
+			});
+			demand(result.textarr).eql({
+				$not: /abc/i,
+			});
+		});
+
+		it('should allow exact matching', function () {
+			var result = List.fields.textarr.addFilterToQuery({
+				value: 'abc',
+				mode: 'exactly',
+			});
+			demand(result.textarr).eql({
+				$elemMatch: {
+					$regex: /^abc$/i,
+				},
+			});
+		});
+
+		it('should allow matching the end', function () {
+			var result = List.fields.textarr.addFilterToQuery({
+				value: 'abc',
+				mode: 'endsWith',
+			});
+			demand(result.textarr).eql({
+				$elemMatch: {
+					$regex: /abc$/i,
+				},
+			});
+		});
+
+		it('should allow matching the start', function () {
+			var result = List.fields.textarr.addFilterToQuery({
+				value: 'abc',
+				mode: 'beginsWith',
+			});
+			demand(result.textarr).eql({
+				$elemMatch: {
+					$regex: /^abc/i,
+				},
+			});
+		});
+
+		it('should allow matching empty values in exact mode', function () {
+			var result = List.fields.textarr.addFilterToQuery({
+				mode: 'exactly',
+			});
+			demand(result.textarr).eql({
+				$elemMatch: {
+					$in: ['', null],
+				},
+			});
+		});
+
+		it('should allow matching non-empty values in exact mode with the inverted option', function () {
+			var result = List.fields.textarr.addFilterToQuery({
+				mode: 'exactly',
+				inverted: true,
+			});
+			demand(result.textarr).eql({
+				$elemMatch: {
+					$nin: ['', null],
+				},
+			});
+		});
+	});
+
 	describe('format', function () {
 		it('should use the default separator for formatting', function () {
 			var testItem = new List.model({
