@@ -34,7 +34,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: ['2015-03-03', '2015-03-04'],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -45,7 +45,7 @@ exports.testFieldType = function (List) {
 					datearr: ['2015-03-03', '2015-03-04'],
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -54,7 +54,7 @@ exports.testFieldType = function (List) {
 			List.fields['nested.datearr'].validateInput({
 				'nested.datearr': ['2015-03-03', '2015-03-04'],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -63,7 +63,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: [1458162309111],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -73,7 +73,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: '2015-03-03',
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -83,7 +83,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: 1458162309111,
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -93,7 +93,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: [],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -103,7 +103,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -113,7 +113,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: null,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -123,7 +123,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -132,7 +132,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: false,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -141,7 +141,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: true,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -150,7 +150,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: 'aaa',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -159,7 +159,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: ['aaa'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -168,7 +168,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: ['2015-03-03', '2015-03-04', 'aaa'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -180,7 +180,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: ['2015-01-01', '2015-01-02'],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -190,7 +190,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: '2015-01-01',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -202,7 +202,7 @@ exports.testFieldType = function (List) {
 					datearr: ['2015-01-01', '2015-01-02'],
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -211,7 +211,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				'nested.datearr': ['2015-01-01', '2015-01-02'],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -221,7 +221,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -231,7 +231,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: undefined,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -243,7 +243,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -253,7 +253,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: null,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -263,7 +263,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: [''],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -273,7 +273,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: ['2015-01-01', '', '2015-01-02'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -349,38 +349,38 @@ exports.testFieldType = function (List) {
 	it('should validate input', function () {
 		demand(List.fields.datearr.inputIsValid({
 			datearr: '2015-03-03',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2015-03-03'],
-		})).be(true);
+		})).be.true();
 		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2015-03-03', '2015-03-04'],
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should validate no input', function () {
 		var testItem = new List.model();
-		demand(List.fields.datearr.inputIsValid({})).be(true);
-		demand(List.fields.datearr.inputIsValid({}, true)).be(false);
+		demand(List.fields.datearr.inputIsValid({})).be.true();
+		demand(List.fields.datearr.inputIsValid({}, true)).be.false();
 		testItem.datearr = ['2015-03-03'];
-		demand(List.fields.datearr.inputIsValid({}, true, testItem)).be(true);
+		demand(List.fields.datearr.inputIsValid({}, true, testItem)).be.true();
 	});
 
 	it('should validate length when required', function () {
 		demand(List.fields.datearr.inputIsValid({
 			datearr: [],
-		}, true)).be(false);
+		}, true)).be.false();
 	});
 
 	it('should invalidate arrays with invalid dates', function () {
 		demand(List.fields.datearr.inputIsValid({
 			datearr: 'not a real date',
-		})).be(false);
+		})).be.false();
 		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2001-01-35'],
-		})).be(false);
+		})).be.false();
 		demand(List.fields.datearr.inputIsValid({
 			datearr: ['35-34-3210', '2001-01-01'],
-		})).be(false);
+		})).be.false();
 	});
 };

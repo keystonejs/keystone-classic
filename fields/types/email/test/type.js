@@ -57,7 +57,7 @@ exports.testFieldType = function (List) {
 	describe('validateInput', function () {
 		it('should validate a common email', function (done) {
 			List.fields.email.validateInput({ email: 'hello@gmail.com' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -71,98 +71,98 @@ exports.testFieldType = function (List) {
 
 		it('should validate emtpy string input', function (done) {
 			List.fields.email.validateInput({ email: '' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.email.validateInput({}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate null input', function (done) {
 			List.fields.email.validateInput({ email: null }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate random string input', function (done) {
 			List.fields.email.validateInput({ email: 'asdf123' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate emails without a domain', function (done) {
 			List.fields.email.validateInput({ email: 'hello@' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate emails without an identifier', function (done) {
 			List.fields.email.validateInput({ email: '@gmail.com' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate emails without a TLD', function (done) {
 			List.fields.email.validateInput({ email: 'hello@gmail' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate numeric input', function (done) {
 			List.fields.email.validateInput({ email: 1 }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate object input', function (done) {
 			List.fields.email.validateInput({ email: { things: 'stuff' } }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate array input', function (done) {
 			List.fields.email.validateInput({ email: [1, 2, 3] }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate Boolean input', function (done) {
 			List.fields.email.validateInput({ email: true }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate function input', function (done) {
 			List.fields.email.validateInput({ email: function () {} }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate regexp input', function (done) {
 			List.fields.email.validateInput({ email: /foo/ }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate date input', function (done) {
 			List.fields.email.validateInput({ email: Date.now() }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -209,16 +209,16 @@ exports.testFieldType = function (List) {
 	/* Deprecated inputIsValid method tests */
 
 	it('should properly validate invalid emails', function () {
-		demand(List.fields.email.inputIsValid({ email: false }, true)).be(false);
-		demand(List.fields.email.inputIsValid({ email: null }, true)).be(false);
-		demand(List.fields.email.inputIsValid({ email: undefined }, true)).be(false);
-		demand(List.fields.email.inputIsValid({ email: '' }, true)).be(false);
-		demand(List.fields.email.inputIsValid({ email: 'false' }, true)).be(false);
-		demand(List.fields.email.inputIsValid({ email: true }, true)).be(false);
-		demand(List.fields.email.inputIsValid({ email: 'true' }, true)).be(false);
+		demand(List.fields.email.inputIsValid({ email: false }, true)).be.false();
+		demand(List.fields.email.inputIsValid({ email: null }, true)).be.false();
+		demand(List.fields.email.inputIsValid({ email: undefined }, true)).be.false();
+		demand(List.fields.email.inputIsValid({ email: '' }, true)).be.false();
+		demand(List.fields.email.inputIsValid({ email: 'false' }, true)).be.false();
+		demand(List.fields.email.inputIsValid({ email: true }, true)).be.false();
+		demand(List.fields.email.inputIsValid({ email: 'true' }, true)).be.false();
 	});
 
 	it('should properly validate valid emails', function () {
-		demand(List.fields.email.inputIsValid({ email: 'example@example.com' })).be(true);
+		demand(List.fields.email.inputIsValid({ email: 'example@example.com' })).be.true();
 	});
 };

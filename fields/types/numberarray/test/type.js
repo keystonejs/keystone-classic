@@ -24,9 +24,8 @@ exports.testFieldType = function (List) {
 		});
 	});
 
-	var testItem = new List.model();
-
 	it('should default to an empty array', function () {
+		var testItem = new List.model();
 		demand(testItem.get('numarr')).eql([]);
 	});
 
@@ -35,7 +34,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: [1, 2, 3],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -46,7 +45,7 @@ exports.testFieldType = function (List) {
 					numarr: [1, 2, 3],
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -55,7 +54,7 @@ exports.testFieldType = function (List) {
 			List.fields['nested.numarr'].validateInput({
 				'nested.numarr': [1, 2, 3],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -65,7 +64,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: 1,
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -75,7 +74,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: [],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -85,7 +84,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -95,7 +94,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: null,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -105,7 +104,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -114,7 +113,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: '1',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -123,7 +122,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: ['1', '2', '3'],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -132,7 +131,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: ['1', 2, '3', 4],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -141,7 +140,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: false,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -150,7 +149,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: true,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -159,7 +158,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: 'aaa',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -168,7 +167,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: ['aaa'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -177,7 +176,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				numarr: [1, 2, 'aaa', 4],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -189,7 +188,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateRequiredInput(testItem, {
 				numarr: [1, 2, 3],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -201,7 +200,7 @@ exports.testFieldType = function (List) {
 					numarr: [1, 2],
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -210,7 +209,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateInput({
 				'nested.numarr': [1, 2],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -220,7 +219,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateRequiredInput(testItem, {
 				numarr: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -230,7 +229,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateRequiredInput(testItem, {
 				numarr: undefined,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -242,7 +241,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateRequiredInput(testItem, {
 				numarr: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -252,7 +251,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateRequiredInput(testItem, {
 				numarr: null,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -262,7 +261,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateRequiredInput(testItem, {
 				numarr: [''],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -272,7 +271,7 @@ exports.testFieldType = function (List) {
 			List.fields.numarr.validateRequiredInput(testItem, {
 				numarr: [1, '', 2, '3'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -280,93 +279,93 @@ exports.testFieldType = function (List) {
 
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
+			var testItem = new List.model();
 			List.fields.numarr.updateItem(testItem, {
 				numarr: [1, 2, 3, 42],
 			}, function () {
 				demand(testItem.numarr).eql([1, 2, 3, 42]);
-				testItem.numarr = undefined;
 				done();
 			});
 		});
 
 		it('should update nested fields', function (done) {
+			var testItem = new List.model();
 			List.fields['nested.numarr'].updateItem(testItem, {
 				nested: {
 					numarr: [1, 2, 3, 42],
 				},
 			}, function () {
 				demand(testItem.nested.numarr).eql([1, 2, 3, 42]);
-				testItem.nested.numarr = undefined;
 				done();
 			});
 		});
 
 		it('should update nested fields with flat paths', function (done) {
+			var testItem = new List.model();
 			List.fields['nested.numarr'].updateItem(testItem, {
 				'nested.numarr': [1, 2, 3, 42],
 			}, function () {
 				demand(testItem.nested.numarr).eql([1, 2, 3, 42]);
-				testItem.nested.numarr = undefined;
 				done();
 			});
 		});
 
 		it('should update empty arrays', function (done) {
+			var testItem = new List.model();
 			List.fields.numarr.updateItem(testItem, {
 				numarr: [],
 			}, function () {
 				demand(testItem.numarr).eql([]);
-				testItem.numarr = undefined;
 				done();
 			});
 		});
 
 		it('should default on null', function (done) {
+			var testItem = new List.model();
 			List.fields.numarr.updateItem(testItem, {
 				numarr: null,
 			}, function () {
 				demand(testItem.numarr).eql([]);
-				testItem.numarr = undefined;
 				done();
 			});
 		});
 
 		it('should allow a single numeric value', function (done) {
+			var testItem = new List.model();
 			List.fields.numarr.updateItem(testItem, {
 				numarr: 1,
 			}, function () {
 				demand(testItem.numarr).eql([1]);
-				testItem.numarr = undefined;
 				done();
 			});
 		});
 
 		it('should convert strings to numbers', function (done) {
+			var testItem = new List.model();
 			List.fields.numarr.updateItem(testItem, {
 				numarr: '1',
 			}, function () {
 				demand(testItem.numarr).eql([1]);
-				testItem.numarr = undefined;
 				done();
 			});
 		});
 
 		it('should allow decimals', function (done) {
+			var testItem = new List.model();
 			List.fields.numarr.updateItem(testItem, {
 				numarr: [0.1, '0.2'],
 			}, function () {
 				demand(testItem.numarr).eql([0.1, 0.2]);
-				testItem.numarr = undefined;
 				done();
 			});
 		});
 
 		it('should ignore non-numeric strings and complex values', function (done) {
+			var testItem = new List.model();
 			List.fields.numarr.updateItem(testItem, {
 				numarr: ['1', 'two', {}, 42],
 			}, function () {
 				demand(testItem.numarr).eql([1, 42]);
-				testItem.numarr = undefined;
 				done();
 			});
 		});
@@ -377,41 +376,41 @@ exports.testFieldType = function (List) {
 	it('should validate input', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: [1],
-		})).be(true);
+		})).be.true();
 		demand(List.fields.numarr.inputIsValid({
 			numarr: [1, 2],
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should validate no input', function () {
-		demand(List.fields.numarr.inputIsValid({})).be(true);
-		demand(List.fields.numarr.inputIsValid({}, true)).be(false);
+		var testItem = new List.model();
+		demand(List.fields.numarr.inputIsValid({})).be.true();
+		demand(List.fields.numarr.inputIsValid({}, true)).be.false();
 		testItem.numarr = [1];
-		demand(List.fields.numarr.inputIsValid({}, true, testItem)).be(true);
-		testItem.numarr = undefined;
+		demand(List.fields.numarr.inputIsValid({}, true, testItem)).be.true();
 	});
 
 	it('should validate length when required', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: [],
-		}, true)).be(false);
+		}, true)).be.false();
 	});
 
 	it('should validate arrays with numeric string values', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: ['1'],
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should invalidate arrays with non-numeric string values', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: ['a'],
-		})).be(false);
+		})).be.false();
 	});
 
 	it('should invalidate arrays with complex values', function () {
 		demand(List.fields.numarr.inputIsValid({
 			numarr: [[]],
-		}, true)).be(false);
+		}, true)).be.false();
 	});
 };

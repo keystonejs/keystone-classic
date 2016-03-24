@@ -127,35 +127,35 @@ exports.testFieldType = function (List) {
 	describe('validateInput', function () {
 		it('should validate emtpy string input', function (done) {
 			List.fields.datetime.validateInput({ datetime: '' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.datetime.validateInput({}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate null input', function (done) {
 			List.fields.datetime.validateInput({ datetime: null }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate numeric input', function (done) {
 			List.fields.datetime.validateInput({ datetime: 1 }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate JS Date input', function (done) {
 			List.fields.datetime.validateInput({ datetime: Date.now() }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -164,7 +164,7 @@ exports.testFieldType = function (List) {
 			List.fields.datetime.validateInput({
 				datetime: '2016-02-25 04:45:00 am',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -173,7 +173,7 @@ exports.testFieldType = function (List) {
 			List.fields.customFormat.validateInput({
 				customFormat: '25.02.16 04:45 am',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -182,7 +182,7 @@ exports.testFieldType = function (List) {
 			List.fields.datetime.validateInput({
 				datetime: '25.02.16 04:45 am',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -191,42 +191,42 @@ exports.testFieldType = function (List) {
 			List.fields.customFormat.validateInput({
 				customFormat: '2016-02-25 04:45:00 am',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate object input', function (done) {
 			List.fields.datetime.validateInput({ datetime: { things: 'stuff' } }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate array input', function (done) {
 			List.fields.datetime.validateInput({ datetime: [1, 2, 3] }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate Boolean input', function (done) {
 			List.fields.datetime.validateInput({ datetime: true }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate function input', function (done) {
 			List.fields.datetime.validateInput({ datetime: function () {} }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate regexp input', function (done) {
 			List.fields.datetime.validateInput({ datetime: /foo/ }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
