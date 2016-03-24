@@ -105,7 +105,7 @@ var HomeView = React.createClass({
 				{this.props.navSections.map((navSection) => {
 					return (
 						<div className="dashboard-group" key={navSection.key}>
-							<div className="dashboard-group__heading">
+							<div className="dashboard-group__heading" data-section-label={navSection.label}>
 								<span className={this.getHeadingIconClasses(navSection.key)} />
 								{navSection.label}
 							</div>
@@ -124,11 +124,12 @@ var HomeView = React.createClass({
 	},
 	renderOrphanedLists () {
 		if (!this.props.orphanedLists.length) return;
+		let sectionLabel = 'Other';
 		return (
 			<div className="dashboard-group">
-				<div className="dashboard-group__heading">
+				<div className="dashboard-group__heading" data-section-label={sectionLabel}>
 					<span className="dashboard-group__heading-icon octicon octicon-database" />
-					Other
+					{sectionLabel}
 				</div>
 				<div className="dashboard-group__lists">
 					{this.props.orphanedLists.map((list) => {
