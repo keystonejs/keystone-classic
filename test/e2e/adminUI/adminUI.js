@@ -6,11 +6,18 @@ module.exports = {
 	},
 	cssSelector: {
 		allView: {
-			homeIconLink: '.octicon-home',
-			accessMenu: 'ul.app-nav:nth-child(2) > li:nth-child(2) > a:nth-child(1)',
-			fieldsMenu: 'ul.app-nav:nth-child(2) > li:nth-child(3) > a:nth-child(1)',
-			frontPageIconLink: '.octicon-globe',
-			logoutIconLink: '.octicon-sign-out',
+			homeIcon: '.primary-navbar [data-section-label="octicon-home"]',
+			homeIconLink: '.primary-navbar [data-section-label="octicon-home"] a',
+			accessMenu: '.primary-navbar [data-section-label="Access"]',
+			fieldsMenu: '.primary-navbar [data-section-label="Fields"]',
+			booleanFieldsSubmenu: '.secondary-navbar [data-list-path="booleans"]',
+			emailsFieldsSubmenu: '.secondary-navbar [data-list-path="emails"]',
+			namesFieldsSubmenu: '.secondary-navbar [data-list-path="names"]',
+			selectsFieldsSubmenu: '.secondary-navbar [data-list-path="selects"]',
+			frontPageIcon: '.primary-navbar [data-section-label="octicon-globe"]',
+			frontPageIconLink: '.primary-navbar [data-section-label="octicon-globe"] a',
+			logoutIcon: '.primary-navbar [data-section-label="octicon-sign-out"]',
+			logoutIconLink: '.primary-navbar [data-section-label="octicon-sign-out"] a',
 		},
 		signinView: {
 			id: '#signin-view',
@@ -24,38 +31,50 @@ module.exports = {
 			dashboardHeader: '.dashboard-heading',
 
 			// Dashboard's Access Group
-			dashboardAccessSubheading: 'div.dashboard-group:nth-child(1) > div:nth-child(1) > span:nth-child(2)',
-			usersTabUnderDashboardAccessSubheading: 'div.dashboard-group:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForUsersTabUnderDashboardAccessSubheading: 'div.dashboard-group:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForUsersTabUnderDashboardAccessSubheading: 'div.dashboard-group:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			dashboardAccessSubheading: '.dashboard-group__heading[data-section-label="Access"]',
+			// Users List Tab
+			usersTabUnderDashboardAccessSubheading: '.dashboard-group__list[data-list-path="users"]',
+			labelForUsersTabUnderDashboardAccessSubheading: '.dashboard-group__list[data-list-path="users"] .dashboard-group__list-label',
+			plusIconLinkForUsersTabUnderDashboardAccessSubheading: '.dashboard-group__list[data-list-path="users"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForUsersTabUnderDashboardAccessSubheading: '.dashboard-group__list[data-list-path="users"] .dashboard-group__list-count',
 
 			// Dashboard's Fields Group
-			dashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(1) > span:nth-child(2)',
+			dashboardFieldsSubheading: '.dashboard-group__heading[data-section-label="Fields"]',
 			// Booleans List Tab
-			booleansTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(3) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForBooleansTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(3) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForBooleansTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(3) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			booleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"]',
+			labelForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] .dashboard-group__list-label',
+			plusIconLinkForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] .dashboard-group__list-count',
+			// Email List Tab
+			emailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"]',
+			labelForEmailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"] .dashboard-group__list-label',
+			plusIconLinkForEmailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForEmailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"] .dashboard-group__list-count',
 			// Names List Tab
-			namesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForNamesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForNamesTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			namesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"]',
+			labelForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] .dashboard-group__list-label',
+			plusIconLinkForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] .dashboard-group__list-count',
 			// Selects List Tab
-			selectsTabUnderDashboardFieldsSubheading: 'div.dashboard-group__list:nth-child(2) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForSelectsTabUnderDashboardFieldsSubheading: 'div.dashboard-group__list:nth-child(2) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForSelectsTabUnderDashboardFieldsSubheading: 'div.dashboard-group__list:nth-child(2) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			selectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"]',
+			labelForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-label',
+			plusIconLinkForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-count',
 
 			// Dashboard's Others Group
-			dashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(1) > span:nth-child(2)',
-			otherListsTabUnderDashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForOtherListsTabUnderDashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForOtherListsTabUnderDashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			dashboardOthersSubheading: '.dashboard-group__heading[data-section-label="Other"]',
+			// Other Lists Tab
+			otherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"]',
+			labelForOtherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"] .dashboard-group__list-label',
+			plusIconLinkForOtherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForOtherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"] .dashboard-group__list-count',
 		},
 		listView: {
 			id: '#list-view',
 			noItemsFoundNoText: '.BlankState__heading > span:nth-child(1)',
 			noItemsFoundListNameText: '.BlankState__heading > span:nth-child(2)',
 			noItemsFoundFoundText: '.BlankState__heading > span:nth-child(3)',
-			singleItemDeleteIcon: '.ItemList__control',
+			singleItemDeleteIcon: '.ItemList__control--delete',
 			searchInputField: '.ListHeader__searchbar-input',
 			searchInputFieldClearIcon: '.ListHeader__search__icon',
 			filterDropdown: '#listHeaderFilterButton',

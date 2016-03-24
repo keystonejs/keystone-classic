@@ -39,8 +39,15 @@ keystone.import('models');
 keystone.set('routes', require('./routes'));
 
 keystone.set('nav', {
-	'access': ['users'],
-	'fields': ['names', 'selects', 'booleans'],
+	'access': [
+		'users',
+	],
+	'fields': [
+		'booleans',
+		'emails',
+		'names',
+		'selects',
+	],
 });
 
 function dropTestDatabase(done) {

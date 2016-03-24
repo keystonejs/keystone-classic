@@ -26,6 +26,8 @@ module.exports = {
 	},
 	'List view should allow users to create a new list item': function (browser) {
 		browser
+			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.click(adminUI.cssSelector.listView.createItemIconWhenListHasNoExistingItems)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.first, 'First1')
@@ -35,6 +37,8 @@ module.exports = {
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
+			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
@@ -49,6 +53,8 @@ module.exports = {
 			.click(adminUI.cssSelector.allView.fieldsMenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
+			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.click(adminUI.cssSelector.listView.createItemIconWhenListHasExistingItems)
 			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.first, 'First2')
 			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.last, 'Last2')
@@ -57,6 +63,8 @@ module.exports = {
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
+			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
@@ -73,6 +81,8 @@ module.exports = {
 		browser
 			.click(adminUI.cssSelector.allView.fieldsMenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
+			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
@@ -85,6 +95,8 @@ module.exports = {
 		browser
 			.click(adminUI.cssSelector.allView.fieldsMenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
+			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
@@ -95,6 +107,8 @@ module.exports = {
 	'List view should allow users to search for items': function (browser) {
 		browser
 			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
+			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.setValue(adminUI.cssSelector.listView.searchInputField, 'First2 Last2')

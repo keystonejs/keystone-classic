@@ -97,6 +97,8 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.allView.fieldsMenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
+			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
+			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.listView.singleItemDeleteIcon)
 			.waitForElementVisible(adminUI.cssSelector.deleteConfirmationModalView.id)
