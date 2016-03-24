@@ -23,6 +23,42 @@ textarray.prototype.format = function (item, separator) {
 };
 
 /**
+ * Add filters to a query
+ */
+textarray.prototype.addFilterToQuery = function (filter, query) {
+	query = query || {};
+	// Filter empty/non-empty arrays
+	if (filter.mode === 'exactly' && !filter.value) {
+		query[this.path] = {
+			$elemMatch: filter.inverted ? {
+				$nin: ['', null],
+			} : {
+				$in: ['', null],
+			},
+		};
+		return query;
+	}
+	var value = utils.escapeRegExp(filter.value);
+	if (filter.mode === 'beginsWith') {
+		value = '^' + value;
+	} else if (filter.mode === 'endsWith') {
+		value = value + '$';
+	} else if (filter.mode === 'exactly') {
+		value = '^' + value + '$';
+	}
+	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
+	// Filter if values do not exist in array
+	query[this.path] = filter.inverted ? {
+		$not: value,
+	} : {
+		$elemMatch: {
+			$regex: value,
+		},
+	};
+	return query;
+};
+
+/**
  * Asynchronously confirms that the provided value is valid
  */
 textarray.prototype.validateInput = function (data, callback) {
