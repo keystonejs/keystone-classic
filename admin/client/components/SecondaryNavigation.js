@@ -11,12 +11,8 @@ var SecondaryNavItem = React.createClass({
 		title: React.PropTypes.string,
 	},
 	render () {
-		var opts = {
-			'className': this.props.className,
-			'data-list-path': this.props.path,
-		};
 		return (
-			<li {...opts}>
+			<li className={this.props.className} data-list-path={this.props.path}>
 				<a href={this.props.href} title={this.props.title} tabIndex="-1">
 					{this.props.children}
 				</a>
