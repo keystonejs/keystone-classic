@@ -3,6 +3,7 @@ var FieldType = require('../Type');
 var keystone = require('../../../');
 var util = require('util');
 var utils = require('keystone-utils');
+var definePrototypeGetters = require('../../utils/definePrototypeGetters');
 
 /**
  * Relationship FieldType Constructor
@@ -244,29 +245,17 @@ relationship.prototype.updateItem = function (item, data, callback) {
 	process.nextTick(callback);
 };
 
-/**
- * Returns true if the relationship configuration is valid
- */
-Object.defineProperty(relationship.prototype, 'isValid', {
-	get: function () {
+definePrototypeGetters(relationship, {
+	// Returns true if the relationship configuration is valid
+	isValid: function () {
 		return keystone.list(this.options.ref) ? true : false;
 	},
-});
-
-/**
- * Returns the Related List
- */
-Object.defineProperty(relationship.prototype, 'refList', {
-	get: function () {
+	// Returns the Related List
+	refList: function () {
 		return keystone.list(this.options.ref);
 	},
-});
-
-/**
- * Whether the field has any filters defined
- */
-Object.defineProperty(relationship.prototype, 'hasFilters', {
-	get: function () {
+	// Whether the field has any filters defined
+	hasFilters: function () {
 		return (this.filters && _.keys(this.filters).length);
 	},
 });
