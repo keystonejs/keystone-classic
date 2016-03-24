@@ -147,91 +147,91 @@ exports.testFieldType = function (List) {
 	describe('validateInput', function () {
 		it('should validate true', function (done) {
 			List.fields.bool.validateInput({ bool: true }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate false', function (done) {
 			List.fields.bool.validateInput({ bool: false }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate "true"', function (done) {
 			List.fields.bool.validateInput({ bool: 'true' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate "false"', function (done) {
 			List.fields.bool.validateInput({ bool: 'false' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate 0', function (done) {
 			List.fields.bool.validateInput({ bool: 0 }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate 1', function (done) {
 			List.fields.bool.validateInput({ bool: 1 }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.bool.validateInput({}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate null', function (done) {
 			List.fields.bool.validateInput({ bool: null }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate an empty string', function (done) {
 			List.fields.bool.validateInput({ bool: '' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate any other string input', function (done) {
 			List.fields.bool.validateInput({ bool: 'abc' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate all numerical input > 2', function (done) {
 			List.fields.bool.validateInput({ bool: 2 }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate object input', function (done) {
 			List.fields.bool.validateInput({ bool: {} }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate array input', function (done) {
 			List.fields.bool.validateInput({ bool: [] }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -241,7 +241,7 @@ exports.testFieldType = function (List) {
 		it('should validate true', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: true }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -249,7 +249,7 @@ exports.testFieldType = function (List) {
 		it('should validate a truthy string', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: 'abc' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -257,7 +257,7 @@ exports.testFieldType = function (List) {
 		it('should validate a truthy number', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: 2 }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -265,7 +265,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate "false"', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: 'false' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -273,7 +273,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate false', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: false }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -281,7 +281,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate ""', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: '' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -289,7 +289,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate null', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: null }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -297,7 +297,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate undefined', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: undefined }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -305,7 +305,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate 0', function (done) {
 			var testItem = new List.model();
 			List.fields.bool.validateRequiredInput(testItem, { bool: 0 }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -335,20 +335,20 @@ exports.testFieldType = function (List) {
 	/* Deprecated inputIsValid tests */
 
 	it('should always validate when not required', function () {
-		demand(List.fields.bool.inputIsValid({ bool: 'true' }, false)).be(true);
-		demand(List.fields.bool.inputIsValid({ bool: true }, false)).be(true);
-		demand(List.fields.bool.inputIsValid({ bool: 'false' }, false)).be(true);
-		demand(List.fields.bool.inputIsValid({ bool: false }, false)).be(true);
-		demand(List.fields.bool.inputIsValid({ bool: '' }, false)).be(true);
-		demand(List.fields.bool.inputIsValid({ bool: undefined }, false)).be(true);
+		demand(List.fields.bool.inputIsValid({ bool: 'true' }, false)).be.true();
+		demand(List.fields.bool.inputIsValid({ bool: true }, false)).be.true();
+		demand(List.fields.bool.inputIsValid({ bool: 'false' }, false)).be.true();
+		demand(List.fields.bool.inputIsValid({ bool: false }, false)).be.true();
+		demand(List.fields.bool.inputIsValid({ bool: '' }, false)).be.true();
+		demand(List.fields.bool.inputIsValid({ bool: undefined }, false)).be.true();
 	});
 
 	it('should validate input properly when required', function () {
-		demand(List.fields.bool.inputIsValid({ bool: 'true' }, true)).be(true);
-		demand(List.fields.bool.inputIsValid({ bool: true }, true)).be(true);
-		demand(List.fields.bool.inputIsValid({ bool: 'false' }, true)).be(false);
-		demand(List.fields.bool.inputIsValid({ bool: false }, true)).be(false);
-		demand(List.fields.bool.inputIsValid({ bool: '' }, true)).be(false);
-		demand(List.fields.bool.inputIsValid({ bool: undefined }, true)).be(false);
+		demand(List.fields.bool.inputIsValid({ bool: 'true' }, true)).be.true();
+		demand(List.fields.bool.inputIsValid({ bool: true }, true)).be.true();
+		demand(List.fields.bool.inputIsValid({ bool: 'false' }, true)).be.false();
+		demand(List.fields.bool.inputIsValid({ bool: false }, true)).be.false();
+		demand(List.fields.bool.inputIsValid({ bool: '' }, true)).be.false();
+		demand(List.fields.bool.inputIsValid({ bool: undefined }, true)).be.false();
 	});
 };

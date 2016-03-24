@@ -95,64 +95,64 @@ exports.testFieldType = function (List) {
 	it('should validate numeric input', function () {
 		demand(List.fields.money.inputIsValid({
 			money: 0,
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: 1,
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: -1,
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: 1.1,
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should validate string input', function () {
 		demand(List.fields.money.inputIsValid({
 			money: '0',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: '1',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: '-1',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: '1.1',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: '$0',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: '$1',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: '$-1',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.money.inputIsValid({
 			money: '$1.1',
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should validate no input', function () {
 		var testItem = new List.model();
-		demand(List.fields.money.inputIsValid({})).be(true);
-		demand(List.fields.money.inputIsValid({}, true)).be(false);
-		demand(List.fields.money.inputIsValid({ money: '' })).be(true);
-		demand(List.fields.money.inputIsValid({ money: '' }, true)).be(false);
+		demand(List.fields.money.inputIsValid({})).be.true();
+		demand(List.fields.money.inputIsValid({}, true)).be.false();
+		demand(List.fields.money.inputIsValid({ money: '' })).be.true();
+		demand(List.fields.money.inputIsValid({ money: '' }, true)).be.false();
 		testItem.money = 1;
-		demand(List.fields.money.inputIsValid({}, true, testItem)).be(true);
+		demand(List.fields.money.inputIsValid({}, true, testItem)).be.true();
 	});
 
 	it('should invalidate invalid input', function () {
 		demand(List.fields.money.inputIsValid({
 			money: {},
-		})).be(false);
+		})).be.false();
 		demand(List.fields.money.inputIsValid({
 			money: [],
-		})).be(false);
+		})).be.false();
 		demand(List.fields.money.inputIsValid({
 			money: 'a',
-		})).be(false);
+		})).be.false();
 	});
 };

@@ -53,7 +53,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: [1, 2],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -62,7 +62,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: '3.1, 4.5',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -71,14 +71,14 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.geo.validateInput({}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -87,7 +87,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: null,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -96,7 +96,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: [1, 2, 3],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -105,7 +105,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: [1],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -114,7 +114,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: 'asdf',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -123,7 +123,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: { things: 'stuff' },
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -132,7 +132,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: [1, 2, 3],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -141,7 +141,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: true,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -150,7 +150,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: function () {},
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -159,7 +159,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: /foo/,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -168,7 +168,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateInput({
 				geo: new Date(),
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -180,7 +180,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateRequiredInput(testItem, {
 				geo: [2, 3],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -190,7 +190,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateRequiredInput(testItem, {
 				geo: '3.14, 1.59',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -200,7 +200,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateRequiredInput(testItem, {
 				geo: undefined,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -212,7 +212,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateRequiredInput(testItem, {
 				geo: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -222,7 +222,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateRequiredInput(testItem, {
 				geo: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -232,7 +232,7 @@ exports.testFieldType = function (List) {
 			List.fields.geo.validateRequiredInput(testItem, {
 				geo: null,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
