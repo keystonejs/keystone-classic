@@ -219,7 +219,7 @@ exports.testFieldType = function (List) {
 		it('should allow matching the start', function () {
 			var result = List.fields.text.addFilterToQuery({
 				value: 'abc',
-				mode: 'startsWith',
+				mode: 'beginsWith',
 			});
 			demand(result.text).eql(/^abc/i);
 		});

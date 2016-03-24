@@ -99,7 +99,7 @@ exports.testFieldType = function (List) {
 		it('should allow matching the start', function () {
 			var result = List.fields.markdown.addFilterToQuery({
 				value: 'abc',
-				mode: 'startsWith',
+				mode: 'beginsWith',
 			});
 			demand(result['markdown.md']).eql(/^abc/i);
 		});
