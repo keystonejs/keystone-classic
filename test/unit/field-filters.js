@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var fs = require('fs');
 var keystone = require('../../index.js');
 var path = require('path');
@@ -23,6 +24,18 @@ types.forEach(function (name) {
 	var testItems = {};
 	testItems[listKey] = test.getTestItems();
 
+	var filter = function (filters, prop, callback) {
+		if (typeof prop === 'function') {
+			callback = prop;
+			prop = null;
+		}
+		var where = List.addFiltersToQuery(filters);
+		List.model.find(where, function (err, results) {
+			results = prop ? _.map(results, prop) : results;
+			callback(results);
+		});
+	}
+
 	describe('FieldType: ' + name.substr(0,1).toUpperCase() + name.substr(1) + ': Filter', function () {
 		before(function (done) {
 			List.model.remove().exec(function (err) {
@@ -30,6 +43,6 @@ types.forEach(function (name) {
 				keystone.createItems(testItems, done);
 			});
 		});
-		test.testFilters(List);
+		test.testFilters(List, filter);
 	});
 });
