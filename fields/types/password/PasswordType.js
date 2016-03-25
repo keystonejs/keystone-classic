@@ -80,8 +80,8 @@ password.prototype.addToSchema = function () {
 /**
  * Add filters to a query
  */
-password.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+password.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	query[this.path] = (filter.exists) ? { $ne: null } : null;
 	return query;
 };

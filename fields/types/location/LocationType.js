@@ -128,8 +128,8 @@ var FILTER_PATH_MAP = {
 	code: 'postcode',
 	country: 'country',
 };
-location.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+location.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	var field = this;
 	['street', 'city', 'state', 'code', 'country'].forEach(function (i) {
 		if (!filter[i]) return;

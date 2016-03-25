@@ -25,8 +25,8 @@ textarray.prototype.format = function (item, separator) {
 /**
  * Add filters to a query
  */
-textarray.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+textarray.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	// Filter empty/non-empty arrays
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.path] = {
