@@ -7,13 +7,13 @@ keystone.init();
 var typesLoc = path.resolve('fields/types');
 var types = fs.readdirSync(typesLoc);
 
-types.forEach(function(name) {
-	var serverTestLoc = typesLoc + '/' + name + '/test/type.js';
-	if (!fs.existsSync(serverTestLoc)) return;
+types.forEach(function (name) {
+	var typeTestLoc = typesLoc + '/' + name + '/test/type.js';
+	if (!fs.existsSync(typeTestLoc)) return;
 
 	// nocreate option prevents warnings for required / not initial fields
 	var List = keystone.List(name + 'Test', { nocreate: true });
-	var test = require(serverTestLoc);
+	var test = require(typeTestLoc);
 
 	if (test.initList) {
 		test.initList(List);
@@ -23,7 +23,7 @@ types.forEach(function(name) {
 
 	if (test.testFieldType) {
 		describe('FieldType ' + name, function () {
-			before(function(done) {
+			before(function (done) {
 				List.model.remove().exec(done);
 			});
 			test.testFieldType(List);
