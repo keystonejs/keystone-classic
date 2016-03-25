@@ -120,7 +120,7 @@ const CurrentListStore = new Store({
 		updateQueryParams({ sort });
 	},
 	getAvailableFilters () {
-		return _list.columns.filter(col => col.field && col.field.hasFilterMethod);
+		return _list.columns.filter(col => (col.field && col.field.hasFilterMethod) || col.type === 'heading');
 	},
 	getActiveFilters () {
 		return active.filters;
