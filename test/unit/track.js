@@ -16,7 +16,7 @@ describe('List "track" option', function () {
 	var dummyUser2;
 	var post;
 
-	before(function(done) {
+	before(function (done) {
 		var tasks = [];
 
 		// in case model names were previously used and not cleaned up
@@ -33,7 +33,7 @@ describe('List "track" option', function () {
 
 		function getItem(id, done) {
 			if (id) {
-				Test.model.findById(id).exec(function(err, found) {
+				Test.model.findById(id).exec(function (err, found) {
 					if (err) {
 						throw err;
 					}
@@ -52,11 +52,11 @@ describe('List "track" option', function () {
 		}
 
 		// route to simulate use of updateHandler()
-		app.post('/using-update-handler/:id?', function(req, res) {
-			getItem(req.params.id, function(item) {
+		app.post('/using-update-handler/:id?', function (req, res) {
+			getItem(req.params.id, function (item) {
 				req.user = req.params.id ? dummyUser2 : dummyUser1;
 				var updateHandler = item.getUpdateHandler(req);
-				updateHandler.process(req.body, function(err, data) {
+				updateHandler.process(req.body, function (err, data) {
 					if (err) {
 						res.send('BAD');
 					} else {
@@ -67,11 +67,11 @@ describe('List "track" option', function () {
 		});
 
 		// route to simulate use of .save()
-		app.post('/using-save/:id?', function(req, res) {
-			getItem(req.params.id, function(item) {
+		app.post('/using-save/:id?', function (req, res) {
+			getItem(req.params.id, function (item) {
 				item._req_user = req.params.id ? dummyUser2 : dummyUser1;
 				item.set(req.body);
-				item.save(function(err, data) {
+				item.save(function (err, data) {
 					if (err) {
 						res.send('BAD');
 					} else {
@@ -81,8 +81,8 @@ describe('List "track" option', function () {
 			});
 		});
 
-		tasks.push(function(done) {
-			User.model.remove({}, function(err) {
+		tasks.push(function (done) {
+			User.model.remove({}, function (err) {
 				if (err) {
 					throw err;
 				}
@@ -90,10 +90,10 @@ describe('List "track" option', function () {
 			});
 		});
 
-		tasks.push(function(done) {
+		tasks.push(function (done) {
 			dummyUser1 = new User.model({
 				'name': 'John Doe'
-			}).save(function(err, data) {
+			}).save(function (err, data) {
 				if (err) {
 					throw err;
 				}
@@ -102,10 +102,10 @@ describe('List "track" option', function () {
 			});
 		});
 
-		tasks.push(function(done) {
+		tasks.push(function (done) {
 			dummyUser2 = new User.model({
 				'name': 'Jane Doe'
-			}).save(function(err, data) {
+			}).save(function (err, data) {
 				if (err) {
 					throw err;
 				}
@@ -114,7 +114,7 @@ describe('List "track" option', function () {
 			});
 		});
 
-		async.series(tasks, function(err) {
+		async.series(tasks, function (err) {
 			if (err) {
 				throw err;
 			}
@@ -124,7 +124,7 @@ describe('List "track" option', function () {
 
 	describe('when "track" option is not valid', function () {
 
-		afterEach(function() {
+		afterEach(function () {
 			removeModel(testModelName);
 		});
 
@@ -155,7 +155,7 @@ describe('List "track" option', function () {
 			badList.must.throw(/valid field options are/);
 		});
 
-		it('should not register the plugin if all fields are false', function() {
+		it('should not register the plugin if all fields are false', function () {
 			Test = keystone.List(testModelName, {
 				track: { createdAt: false, createdBy: false, updatedAt: false, updatedBy: false }
 			});
@@ -170,24 +170,24 @@ describe('List "track" option', function () {
 
 	});
 
-	describe('when "track" option is set to true', function() {
+	describe('when "track" option is set to true', function () {
 
 		describe('using updateHandler()', function () {
 
-			before(function() {
+			before(function () {
 				Test = keystone.List(testModelName, { track: true });
 				Test.add({ name: { type: String } });
 
-				Test.schema.post('save', function() {
+				Test.schema.post('save', function () {
 					post = this;
 				});
 
 				Test.register();
 			});
 
-			after(function(done) {
+			after(function (done) {
 				// post test cleanup
-				Test.model.remove({}, function(err) {
+				Test.model.remove({}, function (err) {
 					if (err) {
 						throw err;
 					}
@@ -207,12 +207,12 @@ describe('List "track" option', function () {
 				demand(Test.field('updatedBy').type).be('relationship');
 			});
 
-			it('should updated all fields when adding a document', function(done) {
+			it('should updated all fields when adding a document', function (done) {
 				request(app)
 					.post('/using-update-handler')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function (err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -228,14 +228,14 @@ describe('List "track" option', function () {
 					});
 			});
 
-			it('should updated "updatedAt/updatedBy" when modifying a document', function(done) {
+			it('should updated "updatedAt/updatedBy" when modifying a document', function (done) {
 
-				setTimeout(function() {
+				setTimeout(function () {
 					request(app)
 						.post('/using-update-handler/' + post.get('id'))
 						.send({ name: 'test2' })
 						.expect('GOOD')
-						.end(function(err, res){
+						.end(function (err, res) {
 							if (err) {
 								return done(err);
 							}
@@ -256,20 +256,20 @@ describe('List "track" option', function () {
 
 		describe('using .save()', function () {
 
-			before(function() {
+			before(function () {
 				Test = keystone.List(testModelName, { track: true });
 				Test.add({ name: { type: String } });
 
-				Test.schema.post('save', function() {
+				Test.schema.post('save', function () {
 					post = this;
 				});
 
 				Test.register();
 			});
 
-			after(function(done) {
+			after(function (done) {
 				// post test cleanup
-				Test.model.remove({}, function(err) {
+				Test.model.remove({}, function (err) {
 					if (err) {
 						throw err;
 					}
@@ -290,13 +290,13 @@ describe('List "track" option', function () {
 				demand(Test.field('updatedBy').type).be('relationship');
 			});
 
-			it('should updated all fields when adding a document', function(done) {
+			it('should updated all fields when adding a document', function (done) {
 
 				request(app)
 					.post('/using-save')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function (err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -313,14 +313,14 @@ describe('List "track" option', function () {
 
 			});
 
-			it('should updated "updatedAt/updatedBy" when modifying a document', function(done) {
+			it('should updated "updatedAt/updatedBy" when modifying a document', function (done) {
 
-				setTimeout(function() {
+				setTimeout(function () {
 					request(app)
 						.post('/using-save/' + post._id)
 						.send({ name: 'test2' })
 						.expect('GOOD')
-						.end(function(err, res){
+						.end(function (err, res) {
 							if (err) {
 								return done(err);
 							}
@@ -342,27 +342,27 @@ describe('List "track" option', function () {
 
 	});
 
-	describe('when "track" option fields are selectively enabled', function() {
+	describe('when "track" option fields are selectively enabled', function () {
 		var previousUpdatedAt;
 
-		describe('using updateHandler()', function() {
+		describe('using updateHandler()', function () {
 
-			before(function() {
+			before(function () {
 				Test = keystone.List(testModelName, {
 					track: { updatedAt: true, updatedBy: true }
 				});
 				Test.add({ name: { type: String } });
 
-				Test.schema.post('save', function() {
+				Test.schema.post('save', function () {
 					post = this;
 				});
 
 				Test.register();
 			});
 
-			after(function(done) {
+			after(function (done) {
 				// post test cleanup
-				Test.model.remove({}, function(err) {
+				Test.model.remove({}, function (err) {
 					if (err) {
 						throw err;
 					}
@@ -381,12 +381,12 @@ describe('List "track" option', function () {
 				demand(Test.field('updatedBy').type).be('relationship');
 			});
 
-			it('should updated all enabled fields when adding a document', function(done) {
+			it('should updated all enabled fields when adding a document', function (done) {
 				request(app)
 					.post('/using-update-handler')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function (err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -398,14 +398,14 @@ describe('List "track" option', function () {
 					});
 			});
 
-			it('should updated "updatedAt/updatedBy" when modifying a document', function(done) {
+			it('should updated "updatedAt/updatedBy" when modifying a document', function (done) {
 
-				setTimeout(function() {
+				setTimeout(function () {
 					request(app)
 						.post('/using-update-handler/' + post._id)
 						.send({ name: 'test2' })
 						.expect('GOOD')
-						.end(function(err, res){
+						.end(function (err, res) {
 							if (err) {
 								return done(err);
 							}
@@ -422,24 +422,24 @@ describe('List "track" option', function () {
 
 		});
 
-		describe('using .save()', function() {
+		describe('using .save()', function () {
 
-			before(function() {
+			before(function () {
 				Test = keystone.List(testModelName, {
 					track: { updatedAt: true, updatedBy: true }
 				});
 				Test.add({ name: { type: String } });
 
-				Test.schema.post('save', function() {
+				Test.schema.post('save', function () {
 					post = this;
 				});
 
 				Test.register();
 			});
 
-			after(function(done) {
+			after(function (done) {
 				// post test cleanup
-				Test.model.remove({}, function(err) {
+				Test.model.remove({}, function (err) {
 					if (err) {
 						throw err;
 					}
@@ -458,12 +458,12 @@ describe('List "track" option', function () {
 				demand(Test.field('updatedBy').type).be('relationship');
 			});
 
-			it('should updated all enabled fields when adding a document', function(done) {
+			it('should updated all enabled fields when adding a document', function (done) {
 				request(app)
 					.post('/using-save')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function (err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -475,14 +475,14 @@ describe('List "track" option', function () {
 					});
 			});
 
-			it('should updated "updatedAt/updatedBy" when modifying a document', function(done) {
+			it('should updated "updatedAt/updatedBy" when modifying a document', function (done) {
 
-				setTimeout(function() {
+				setTimeout(function () {
 					request(app)
 						.post('/using-save/' + post._id)
 						.send({ name: 'test2' })
 						.expect('GOOD')
-						.end(function(err, res){
+						.end(function (err, res) {
 							if (err) {
 								return done(err);
 							}
@@ -504,9 +504,9 @@ describe('List "track" option', function () {
 	describe('when "track" option has custom field names', function () {
 		var previousUpdatedAt;
 
-		describe('using updateHandler()', function() {
+		describe('using updateHandler()', function () {
 
-			before(function() {
+			before(function () {
 				Test = keystone.List(testModelName, {
 					track: {
 						createdAt: 'customCreatedAt',
@@ -517,16 +517,16 @@ describe('List "track" option', function () {
 				});
 				Test.add({ name: { type: String } });
 
-				Test.schema.post('save', function() {
+				Test.schema.post('save', function () {
 					post = this;
 				});
 
 				Test.register();
 			});
 
-			after(function(done) {
+			after(function (done) {
 				// post test cleanup
-				Test.model.remove({}, function(err) {
+				Test.model.remove({}, function (err) {
 					if (err) {
 						throw err;
 					}
@@ -554,12 +554,12 @@ describe('List "track" option', function () {
 				demand(Test.field('customUpdatedBy').type).be('relationship');
 			});
 
-			it('should updated all custom fields when adding a document', function(done) {
+			it('should updated all custom fields when adding a document', function (done) {
 				request(app)
 					.post('/using-update-handler')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function (err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -575,14 +575,14 @@ describe('List "track" option', function () {
 					});
 			});
 
-			it('should updated "UpdatedAt/UpdatedBy" custom when modifying a document', function(done) {
+			it('should updated "UpdatedAt/UpdatedBy" custom when modifying a document', function (done) {
 
-				setTimeout(function() {
+				setTimeout(function () {
 					request(app)
 						.post('/using-update-handler/' + post._id)
 						.send({ name: 'test2' })
 						.expect('GOOD')
-						.end(function(err, res){
+						.end(function (err, res) {
 							if (err) {
 								return done(err);
 							}
@@ -599,9 +599,9 @@ describe('List "track" option', function () {
 
 		});
 
-		describe('using save()', function() {
+		describe('using save()', function () {
 
-			before(function() {
+			before(function () {
 				Test = keystone.List(testModelName, {
 					track: {
 						createdAt: 'customCreatedAt',
@@ -612,16 +612,16 @@ describe('List "track" option', function () {
 				});
 				Test.add({ name: { type: String } });
 
-				Test.schema.post('save', function() {
+				Test.schema.post('save', function () {
 					post = this;
 				});
 
 				Test.register();
 			});
 
-			after(function(done) {
+			after(function (done) {
 				// post test cleanup
-				Test.model.remove({}, function(err) {
+				Test.model.remove({}, function (err) {
 					if (err) {
 						throw err;
 					}
@@ -649,12 +649,12 @@ describe('List "track" option', function () {
 				demand(Test.field('customUpdatedBy').type).be('relationship');
 			});
 
-			it('should updated all custom fields when adding a document', function(done) {
+			it('should updated all custom fields when adding a document', function (done) {
 				request(app)
 					.post('/using-save')
 					.send({ name: 'test1' })
 					.expect('GOOD')
-					.end(function(err, res){
+					.end(function (err, res) {
 						if (err) {
 							return done(err);
 						}
@@ -670,14 +670,14 @@ describe('List "track" option', function () {
 					});
 			});
 
-			it('should updated "UpdatedAt/UpdatedBy" custom when modifying a document', function(done) {
+			it('should updated "UpdatedAt/UpdatedBy" custom when modifying a document', function (done) {
 
-				setTimeout(function() {
+				setTimeout(function () {
 					request(app)
 						.post('/using-save/' + post._id)
 						.send({ name: 'test2' })
 						.expect('GOOD')
-						.end(function(err, res){
+						.end(function (err, res) {
 							if (err) {
 								return done(err);
 							}
