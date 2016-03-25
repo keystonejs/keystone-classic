@@ -1,4 +1,5 @@
 var async = require('async');
+var assign = require('object-assign');
 
 module.exports = function (req, res) {
 	var where = {};
@@ -8,10 +9,10 @@ module.exports = function (req, res) {
 		catch (e) { } // eslint-disable-line no-empty
 	}
 	if (typeof filters === 'object') {
-		req.list.addFiltersToQuery(filters, where);
+		where = assign({}, req.list.addFiltersToQuery(filters));
 	}
 	if (req.query.search) {
-		req.list.addSearchToQuery(req.query.search, where);
+		where = assign({}, req.list.addSearchToQuery(req.query.search));
 	}
 	var query = req.list.model.find(where);
 	if (req.query.populate) {
