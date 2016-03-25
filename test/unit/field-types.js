@@ -17,7 +17,7 @@ types.forEach(function (name) {
 
 	test.initList(List);
 	List.register();
-	describe('FieldType ' + name, function () {
+	describe('FieldType: ' + name.substr(0,1).toUpperCase() + name.substr(1), function () {
 		before(function (done) {
 			List.model.remove().exec(done);
 		});

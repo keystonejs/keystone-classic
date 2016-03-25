@@ -23,7 +23,7 @@ types.forEach(function (name) {
 	var testItems = {};
 	testItems[listKey] = test.getTestItems();
 
-	describe('FieldType ' + name, function () {
+	describe('FieldType: ' + name.substr(0,1).toUpperCase() + name.substr(1) + ': Filter', function () {
 		before(function (done) {
 			List.model.remove().exec(function (err) {
 				if (err) throw err;
