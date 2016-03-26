@@ -9,10 +9,10 @@ module.exports = function (req, res) {
 		catch (e) { } // eslint-disable-line no-empty
 	}
 	if (typeof filters === 'object') {
-		where = assign({}, req.list.addFiltersToQuery(filters));
+		assign(where, req.list.addFiltersToQuery(filters));
 	}
 	if (req.query.search) {
-		where = assign({}, req.list.addSearchToQuery(req.query.search));
+		assign(where, req.list.addSearchToQuery(req.query.search));
 	}
 	var query = req.list.model.find(where);
 	if (req.query.populate) {
