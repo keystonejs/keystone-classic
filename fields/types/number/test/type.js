@@ -300,7 +300,7 @@ exports.testFieldType = function (List) {
 				mode: 'equals',
 			});
 			demand(result.number).eql({
-				$in: ['', 0, null],
+				$in: ['', null],
 			});
 		});
 
@@ -310,7 +310,7 @@ exports.testFieldType = function (List) {
 				inverted: true,
 			});
 			demand(result.number).eql({
-				$nin: ['', 0, null],
+				$nin: ['', null],
 			});
 		});
 
