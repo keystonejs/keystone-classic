@@ -47,8 +47,8 @@ number.prototype.validateRequiredInput = function (item, data, callback) {
 /**
  * Add filters to a query
  */
-number.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+number.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'equals' && !filter.value) {
 		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
 		return query;

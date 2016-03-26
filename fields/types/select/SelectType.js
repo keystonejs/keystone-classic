@@ -107,8 +107,8 @@ select.prototype.cloneMap = function () {
 /**
  * Add filters to a query
  */
-select.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+select.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (!Array.isArray(filter.value)) {
 		if (filter.value) {
 			filter.value = [filter.value];

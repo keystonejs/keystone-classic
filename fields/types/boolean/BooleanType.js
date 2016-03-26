@@ -38,8 +38,8 @@ boolean.prototype.validateRequiredInput = function (item, data, callback) {
 /**
  * Add filters to a query
  */
-boolean.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+boolean.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (!filter.value || filter.value === 'false') {
 		query[this.path] = { $ne: true };
 	} else {

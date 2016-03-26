@@ -101,8 +101,8 @@ relationship.prototype.addToSchema = function () {
 /**
  * Add filters to a query
  */
-relationship.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+relationship.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (!Array.isArray(filter.value)) {
 		if (typeof filter.value === 'string' && filter.value) {
 			filter.value = [filter.value];
