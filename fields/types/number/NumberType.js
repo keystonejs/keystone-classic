@@ -70,7 +70,7 @@ number.prototype.addFilterToQuery = function (filter) {
 			query[this.path] = filter.inverted ? { $gt: value } : { $lt: value };
 		}
 		else {
-			query[this.path] = value;
+			query[this.path] = filter.inverted ? { $ne: value } : value;
 		}
 	}
 	return query;
