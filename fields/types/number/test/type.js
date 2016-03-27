@@ -337,9 +337,11 @@ exports.testFieldType = function (List) {
 				},
 				inverted: true,
 			});
-			demand(result.number).eql({
-				$gte: 10,
-				$lte: 0,
+			demand(result).eql({
+				$or: [
+					{ number: { $gt: 10 } },
+					{ number: { $lt: 0 } },
+				],
 			});
 		});
 
