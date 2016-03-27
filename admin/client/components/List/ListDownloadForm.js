@@ -1,7 +1,7 @@
 import React from 'react';
-import CurrentListStore from '../stores/CurrentListStore';
-import Popout from './Popout';
-import PopoutList from './PopoutList';
+import CurrentListStore from '../../stores/CurrentListStore';
+import Popout from '../Popout';
+import PopoutList from '../Popout/PopoutList';
 import { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
 
 const FORMAT_OPTIONS = [

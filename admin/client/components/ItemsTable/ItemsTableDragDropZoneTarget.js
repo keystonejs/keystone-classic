@@ -1,6 +1,6 @@
 import React from 'react';
 import { DropTarget } from 'react-dnd';
-import CurrentListStore from '../stores/CurrentListStore';
+import CurrentListStore from '../../stores/CurrentListStore';
 
 let timeoutID = false;
 

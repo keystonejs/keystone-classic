@@ -4,7 +4,7 @@ import xhr from 'xhr';
 
 import { Button, FormField, FormInput, InputGroup, SegmentedControl } from 'elemental';
 
-import PopoutList from '../../../admin/client/components/PopoutList';
+import PopoutList from '../../../admin/client/components/Popout/PopoutList';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Linked To', value: false },

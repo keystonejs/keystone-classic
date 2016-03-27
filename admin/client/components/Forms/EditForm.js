@@ -2,10 +2,10 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import moment from 'moment';
 import ConfirmationDialog from './ConfirmationDialog';
-import Fields from '../fields';
+import Fields from '../../fields';
 import FormHeading from './FormHeading';
 import AltText from './AltText';
-import FooterBar from './FooterBar';
+import FooterBar from '../FooterBar';
 import InvalidFieldType from './InvalidFieldType';
 import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
 
