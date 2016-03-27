@@ -105,9 +105,6 @@ exports.testFilters = function (List, filter) {
 			});
 		});
 
-		/*
-		TODO: inverted does not work with mode: between
-
 		it('inverted should match items outside the range', function (done) {
 			filter({
 				num1: {
@@ -126,7 +123,6 @@ exports.testFilters = function (List, filter) {
 				done();
 			});
 		});
-		*/
 	});
 
 	describe('gt', function () {
