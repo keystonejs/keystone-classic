@@ -46,9 +46,6 @@ number.prototype.validateRequiredInput = function (item, data, callback) {
 
 /**
  * Add filters to a query
- *
- * TODO: this filter may conflict with any other $or filter, including filters
- * on other "number" type fields; need to work out a better way to implement.
  */
 number.prototype.addFilterToQuery = function (filter) {
 	var query = {};
@@ -61,10 +58,8 @@ number.prototype.addFilterToQuery = function (filter) {
 		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
 			if (filter.inverted) {
-				var gte = {};
-				gte[this.path] = { $gt: max };
-				var lte = {};
-				lte[this.path] = { $lt: min };
+				var gte = {}; gte[this.path] = { $gt: max };
+				var lte = {}; lte[this.path] = { $lt: min };
 				query.$or = [gte, lte];
 			} else {
 				query[this.path] = { $gte: min, $lte: max };
