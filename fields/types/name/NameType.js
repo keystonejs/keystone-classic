@@ -93,15 +93,7 @@ name.prototype.addFilterToQuery = function (filter) {
 	} else {
 		var first = {}; first[this.paths.first] = value;
 		var last = {}; last[this.paths.last] = value;
-		var $or = [first, last];
-		if (query.$and) {
-			query.$and.push({ $or: $or });
-		} else if (query.$or) {
-			query.$and = [{ $or: query.$or }, { $or: $or }];
-			delete query.$or;
-		} else {
-			query.$or = $or;
-		}
+		query.$or = [first, last];
 	}
 	return query;
 };
