@@ -1,9 +1,9 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import Columns from '../columns';
-import CurrentListStore from '../stores/CurrentListStore';
-import ListControl from './ListControl';
+import Columns from '../../columns';
+import CurrentListStore from '../../stores/CurrentListStore';
+import ListControl from '../List/ListControl';
 import TableRow from './ItemsTableRow';
 import DrapDrop from './ItemsTableDragDrop';
 

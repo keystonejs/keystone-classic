@@ -1,5 +1,5 @@
 import React from 'react';
-import Fields from '../fields';
+import Fields from '../../fields';
 import InvalidFieldType from './InvalidFieldType';
 import { Alert, Button, Form, Modal } from 'elemental';
 import xhr from 'xhr';

@@ -1,7 +1,7 @@
 import React from 'react';
 import CloudinaryImageSummary from '../../components/columns/CloudinaryImageSummary';
-import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
+import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
 
 const moreIndicatorStyle = {
 	color: '#888',

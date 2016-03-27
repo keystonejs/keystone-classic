@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Columns from '../columns';
 import Lists from '../stores/Lists';
-import CreateForm from '../components/CreateForm';
-import EditForm from '../components/EditForm';
-import EditFormHeader from '../components/EditFormHeader';
+import CreateForm from '../components/Forms/CreateForm';
+import EditForm from '../components/Forms/EditForm';
+import EditFormHeader from '../components/Forms/EditFormHeader';
 import FlashMessages from '../components/FlashMessages';
 import Footer from '../components/Footer';
-import MobileNavigation from '../components/MobileNavigation';
-import PrimaryNavigation from '../components/PrimaryNavigation';
+import MobileNavigation from '../components/Navigation/MobileNavigation';
+import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
 import RelatedItemsList from '../components/RelatedItemsList';
-import SecondaryNavigation from '../components/SecondaryNavigation';
+import SecondaryNavigation from '../components/Navigation/SecondaryNavigation';
 import { Alert, Container, Spinner } from 'elemental';
 
 var ItemView = React.createClass({

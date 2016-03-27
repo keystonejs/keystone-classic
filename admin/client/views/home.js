@@ -6,8 +6,8 @@ import { Container } from 'elemental';
 import xhr from 'xhr';
 import { plural } from '../utils';
 import Footer from '../components/Footer';
-import MobileNavigation from '../components/MobileNavigation';
-import PrimaryNavigation from '../components/PrimaryNavigation';
+import MobileNavigation from '../components/Navigation/MobileNavigation';
+import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
 
 var listsByKey = {};
 Keystone.lists.forEach((list) => {

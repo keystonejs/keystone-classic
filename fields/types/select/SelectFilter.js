@@ -1,6 +1,6 @@
 import React from 'react';
 import { Checkbox, FormField, SegmentedControl } from 'elemental';
-import PopoutList from '../../../admin/client/components/PopoutList';
+import PopoutList from '../../../admin/client/components/Popout/PopoutList';
 
 const TOGGLE_OPTIONS = [
 	{ label: 'Matches', value: false },
