@@ -22,6 +22,9 @@ mixin column(list, col, item)
 		+column_html(utils.textToHTML(utils.cropString(item.get(col.field.paths.md), 200, '...', true)))
 	else if col.type == 'html'
 		+column_html(utils.cropHTMLString(item.get(col.field.path), 200, '...', true))
+	else if col.type == 'localfiles'
+		- var value = item.get( col.path ).map(function(v, i){ return col.field.format(item, i) }).join("")
+		+column_html(value)
 	else
 		- var value = col.field ? col.field.format(item) : item.get(col.path)
 		if col.isName
