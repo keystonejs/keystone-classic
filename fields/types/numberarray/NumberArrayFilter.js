@@ -39,7 +39,7 @@ var NumberArrayFilter = React.createClass({
 		const self = this;
 		return function handleChange (e) {
 			const { value } = e.target;
-			const { modeValue } = self.state;
+			const { modeValue, selectionValue } = self.state;
 			const { onChange } = self.props;
 			self.setState({
 				[type]: value,
@@ -49,6 +49,7 @@ var NumberArrayFilter = React.createClass({
 				case 'minValue':
 					onChange({
 						mode: modeValue,
+						selection: selectionValue,
 						value: {
 							min: value,
 							max: self.state.maxValue,
@@ -58,6 +59,7 @@ var NumberArrayFilter = React.createClass({
 				case 'maxValue':
 					onChange({
 						mode: modeValue,
+						selection: selectionValue,
 						value: {
 							max: value,
 							min: self.state.minValue,
@@ -67,6 +69,7 @@ var NumberArrayFilter = React.createClass({
 				case 'value':
 					onChange({
 						mode: modeValue,
+						selection: selectionValue,
 						value,
 					});
 			}

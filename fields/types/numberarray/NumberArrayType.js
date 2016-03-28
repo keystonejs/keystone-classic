@@ -2,6 +2,7 @@ var FieldType = require('../Type');
 var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
+var clone = require('lodash/clone');
 
 /**
  * Number FieldType Constructor
@@ -115,52 +116,67 @@ numberarray.prototype.addFilterToQuery = function (filter) {
 		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
 		return query;
 	}
+	if (filter.selection === 'none') {
+		// SELECT NONE THAT ARE SOMETHING
+	}
+
 	if (filter.mode === 'between') {
 		var min = utils.number(filter.value.min);
 		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
-			query[this.path] = {
-				$elemMatch: filter.inverted ? {
-					$gte: max,
-					$lte: min,
-				} : {
-					$gte: min,
-					$lte: max,
-				},
+			query[this.path] = filter.inverted ? {
+				$gte: max,
+				$lte: min,
+			} : {
+				$gte: min,
+				$lte: max,
 			};
+			query[this.path] = addElemMatch(filter, query[this.path]);
 		}
 		return query;
 	}
 	var value = utils.number(filter.value);
 	if (!isNaN(value)) {
 		if (filter.mode === 'gt') {
-			query[this.path] = {
-				$elemMatch: filter.inverted ? {
-					$lt: value,
-				} : {
-					$gt: value,
-				},
+			query[this.path] = filter.inverted ? {
+				$lt: value,
+			} : {
+				$gt: value,
 			};
 		}
 		else if (filter.mode === 'lt') {
-			query[this.path] = {
-				$elemMatch: filter.inverted ? {
-					$gt: value,
-				} : {
-					$lt: value,
-				},
+			query[this.path] = filter.inverted ? {
+				$gt: value,
+			} : {
+				$lt: value,
 			};
 		}
 		else {
 			query[this.path] = {
-				$elemMatch: {
-					$eq: value,
-				},
+				$eq: value,
 			};
 		}
+		query[this.path] = addElemMatch(filter, query[this.path]);
 	}
 	return query;
 };
+
+/**
+ * Adds $elemMatch if the filter.selection method is 'all'
+ * or undefined
+ *
+ * @param {Object} filter The current request filter
+ * @param {Object} query  The current request query
+ */
+function addElemMatch (filter, query) {
+	var newQuery;
+	if (!filter.selection || filter.selection === 'all') {
+		newQuery = {
+			$elemMatch: query,
+		};
+	}
+	return newQuery || query;
+}
 
 /**
  * Checks that a valid array of number has been provided in a data object
