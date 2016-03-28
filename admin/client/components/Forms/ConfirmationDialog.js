@@ -5,7 +5,7 @@ import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
 class ConfirmationDialog extends Component {
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.isOpen) {
-			setTimeout(e => {
+			setTimeout(() => {
 				const cancel = findDOMNode(this.refs.cancel);
 				cancel.focus();
 			}, 0);
@@ -36,12 +36,12 @@ class ConfirmationDialog extends Component {
 	}
 };
 ConfirmationDialog.propTypes = {
-	body: React.PropTypes.string,
-	cancelLabel: React.PropTypes.string,
-	confirmationLabel: React.PropTypes.string,
-	confirmationType: React.PropTypes.oneOf(['danger', 'warning', 'primary']),
-	onCancel: React.PropTypes.func,
-	onConfirmation: React.PropTypes.func,
+	body: PropTypes.string,
+	cancelLabel: PropTypes.string,
+	confirmationLabel: PropTypes.string,
+	confirmationType: PropTypes.oneOf(['danger', 'warning', 'primary']),
+	onCancel: PropTypes.func,
+	onConfirmation: PropTypes.func,
 };
 ConfirmationDialog.defaultProps = {
 	cancelLabel: 'Cancel',
