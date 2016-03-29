@@ -4,7 +4,7 @@ import Field from '../Field';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
-import { Button, FormInput, InputGroup } from 'elemental';
+import { Button, InputGroup } from 'elemental';
 
 function compareValues (current, next) {
 	const currentLength = current ? current.length : 0;

@@ -93,20 +93,20 @@ var Checkbox = React.createClass({
 		if (e.keyCode !== 32) return;
 		this.toggleActive(true);
 	},
-	handleKeyUp (e) {
+	handleKeyUp () {
 		this.toggleActive(false);
 	},
-	handleMouseOver (e) {
+	handleMouseOver () {
 		this.toggleHover(true);
 	},
-	handleMouseDown (e) {
+	handleMouseDown () {
 		this.toggleActive(true);
 		this.toggleFocus(true);
 	},
-	handleMouseUp (e) {
+	handleMouseUp () {
 		this.toggleActive(false);
 	},
-	handleMouseOut (e) {
+	handleMouseOut () {
 		this.toggleHover(false);
 	},
 	toggleActive (pseudo) {

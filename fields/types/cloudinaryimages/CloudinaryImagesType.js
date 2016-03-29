@@ -256,7 +256,6 @@ cloudinaryimages.prototype.inputIsValid = function (data) { // eslint-disable-li
  */
 cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 	var field = this;
-	var paths = this.paths;
 	var values = this.getValueFromData(data);
 
 	// Early exit path: reset value when falsy, or bail if no value was provided
