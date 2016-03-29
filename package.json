@@ -99,7 +99,7 @@
     "mocha": "2.4.5",
     "must": "0.13.1",
     "nightwatch": "^0.8.16",
-    "react-engine": "3.1.0",
+    "react-engine": "3.2.0",
     "rimraf": "2.5.2",
     "sinon": "1.17.3",
     "supertest": "1.2.0",
