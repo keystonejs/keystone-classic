@@ -109,17 +109,23 @@ numberarray.prototype.validateRequiredInput = function (item, data, callback) {
 
 /**
  * Add filters to a query
+ *
+ * @param {Object} filter 			   The data from the frontend
+ * @param {String} filter.mode  	   The filter mode, either one of "between",
+ *                                     "gt" or "lt"
+ * @param {String} filter.presence	   The presence mode, either on of
+ *                                     "none" and "some"
+ * @param {String|Object} filter.value The value that is filtered for
  */
 numberarray.prototype.addFilterToQuery = function (filter) {
 	var query = {};
+	var presence = filter.presence || 'some'; // Default: 'some' mode
+	// Filter empty/non-empty arrays
 	if (filter.mode === 'equals' && !filter.value) {
 		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
 		return query;
 	}
-	if (filter.selection === 'none') {
-		// SELECT NONE THAT ARE SOMETHING
-	}
-
+	// Filter between two numbers
 	if (filter.mode === 'between') {
 		var min = utils.number(filter.value.min);
 		var max = utils.number(filter.value.max);
@@ -131,11 +137,12 @@ numberarray.prototype.addFilterToQuery = function (filter) {
 				$gte: min,
 				$lte: max,
 			};
-			query[this.path] = addElemMatch(filter, query[this.path]);
+			query[this.path] = addPresenceToQuery(presence, query[this.path]);
 		}
 		return query;
 	}
 	var value = utils.number(filter.value);
+	// Filter greater than, less than and equals
 	if (!isNaN(value)) {
 		if (filter.mode === 'gt') {
 			query[this.path] = filter.inverted ? {
@@ -156,26 +163,34 @@ numberarray.prototype.addFilterToQuery = function (filter) {
 				$eq: value,
 			};
 		}
-		query[this.path] = addElemMatch(filter, query[this.path]);
+		query[this.path] = addPresenceToQuery(presence, query[this.path]);
 	}
 	return query;
 };
 
 /**
- * Adds $elemMatch if the filter.selection method is 'all'
- * or undefined
+ * Accounts for the presence choice when filtering
  *
- * @param {Object} filter The current request filter
- * @param {Object} query  The current request query
+ * @param {Object} presence  		The current presence choice
+ * @param {Object} currentPathQuery The current request query
  */
-function addElemMatch (filter, query) {
+function addPresenceToQuery (presence, currentPathQuery) {
 	var newQuery;
-	if (!filter.selection || filter.selection === 'all') {
+	// Adds $elemMatch if the presence choice is 'all'
+	// ('all' is the default)
+	if (presence === 'some') {
 		newQuery = {
-			$elemMatch: query,
+			$elemMatch: currentPathQuery,
+		};
+	// Adds $not if the presence is 'none'
+	} else if (presence === 'none') {
+		newQuery = {
+			$not: currentPathQuery,
 		};
 	}
-	return newQuery || query;
+	// Return the newQuery if the presence changed something
+	// otherwise return the original query
+	return newQuery || currentPathQuery;
 }
 
 /**

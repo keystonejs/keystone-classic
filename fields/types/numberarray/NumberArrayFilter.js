@@ -10,9 +10,8 @@ const CONTROL_OPTIONS = [
 	{ label: 'Between', value: 'between' },
 ];
 
-const SELECTION_OPTIONS = [
-	{ label: 'All elements', value: 'all' },
-	{ label: 'At least one element', value: 'moreThan' },
+const PRESENCE_OPTIONS = [
+	{ label: 'At least one element', value: 'some' },
 	{ label: 'No element', value: 'none' },
 ];
 
@@ -20,10 +19,10 @@ var NumberArrayFilter = React.createClass({
 
 	getInitialState () {
 		return {
-			modeValue: CONTROL_OPTIONS[0].value, // 'matches'
-			modeLabel: CONTROL_OPTIONS[0].label, // 'Matches'
-			selectionValue: SELECTION_OPTIONS[0].value,
-			selectionLabel: SELECTION_OPTIONS[0].label,
+			modeValue: CONTROL_OPTIONS[0].value, // 'equals'
+			modeLabel: CONTROL_OPTIONS[0].label, // 'Exactly'
+			presenceValue: PRESENCE_OPTIONS[0].value,
+			presenceLabel: PRESENCE_OPTIONS[0].label,
 			value: '',
 			minValue: '',
 			maxValue: '',
@@ -39,7 +38,7 @@ var NumberArrayFilter = React.createClass({
 		const self = this;
 		return function handleChange (e) {
 			const { value } = e.target;
-			const { modeValue, selectionValue } = self.state;
+			const { modeValue, presenceValue } = self.state;
 			const { onChange } = self.props;
 			self.setState({
 				[type]: value,
@@ -49,7 +48,7 @@ var NumberArrayFilter = React.createClass({
 				case 'minValue':
 					onChange({
 						mode: modeValue,
-						selection: selectionValue,
+						presence: presenceValue,
 						value: {
 							min: value,
 							max: self.state.maxValue,
@@ -59,7 +58,7 @@ var NumberArrayFilter = React.createClass({
 				case 'maxValue':
 					onChange({
 						mode: modeValue,
-						selection: selectionValue,
+						presence: presenceValue,
 						value: {
 							max: value,
 							min: self.state.minValue,
@@ -69,7 +68,7 @@ var NumberArrayFilter = React.createClass({
 				case 'value':
 					onChange({
 						mode: modeValue,
-						selection: selectionValue,
+						presence: presenceValue,
 						value,
 					});
 			}
@@ -86,22 +85,22 @@ var NumberArrayFilter = React.createClass({
 		ReactDOM.findDOMNode(this.refs.input).focus();
 	},
 
-	toggleSelection (selection) {
+	togglePresence (presence) {
 		this.setState({
-			selectionValue: selection,
-			selectionLabel: SELECTION_OPTIONS.find(currSelection => currSelection.value === selection).label,
+			presenceValue: presence,
+			presenceLabel: PRESENCE_OPTIONS.find(currPresence => currPresence.value === presence).label,
 		});
 
-		// focus the text input after a selection choice is made
+		// focus the text input after a presence choice is made
 		ReactDOM.findDOMNode(this.refs.input).focus();
 	},
 
 	renderControls () {
 		let controls;
 		const { field } = this.props;
-		const { modeLabel, modeValue, selectionLabel, selectionValue } = this.state;
-		const beingVerb = selectionValue === 'all' ? ' are ' : ' is ';
-		const placeholder = selectionLabel + beingVerb + modeLabel.toLowerCase() + '...';
+		const { modeLabel, modeValue, presenceLabel, presenceValue } = this.state;
+		const beingVerb = presenceValue === 'all' ? ' are ' : ' is ';
+		const placeholder = presenceLabel + beingVerb + modeLabel.toLowerCase() + '...';
 
 		if (modeValue === 'between') {
 			controls = (
@@ -126,12 +125,12 @@ var NumberArrayFilter = React.createClass({
 	},
 
 	render () {
-		const { modeValue, selectionValue } = this.state;
+		const { modeValue, presenceValue } = this.state;
 
 		return (
 			<div>
+				<FormSelect options={PRESENCE_OPTIONS} 	onChange={this.togglePresence} value={presenceValue} />
 				<FormSelect options={CONTROL_OPTIONS} onChange={this.toggleMode} value={modeValue} />
-				<FormSelect options={SELECTION_OPTIONS} onChange={this.toggleSelection} value={selectionValue} />
 				{this.renderControls()}
 			</div>
 		);
