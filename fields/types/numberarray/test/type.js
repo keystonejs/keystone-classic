@@ -442,21 +442,9 @@ exports.testFieldType = function (List) {
 			it('should filter for existance', function () {
 				var result = List.fields.numarr.addFilterToQuery({
 					presence: 'some',
-					mode: 'equals',
 				});
 				demand(result.numarr).eql({
-					$in: ['', 0, null],
-				});
-			});
-
-			it('should filter for non-existance', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					presence: 'some',
-					mode: 'equals',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$nin: ['', 0, null],
+					$size: 0,
 				});
 			});
 
@@ -603,21 +591,11 @@ exports.testFieldType = function (List) {
 			it('should filter for existance', function () {
 				var result = List.fields.numarr.addFilterToQuery({
 					presence: 'none',
-					mode: 'equals',
 				});
 				demand(result.numarr).eql({
-					$in: ['', 0, null],
-				});
-			});
-
-			it('should filter for non-existance', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					presence: 'none',
-					mode: 'equals',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$nin: ['', 0, null],
+					$not: {
+						$size: 0,
+					},
 				});
 			});
 
@@ -762,17 +740,7 @@ exports.testFieldType = function (List) {
 					mode: 'equals',
 				});
 				demand(result.numarr).eql({
-					$in: ['', 0, null],
-				});
-			});
-
-			it('should filter for non-existance', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					mode: 'equals',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$nin: ['', 0, null],
+					$size: 0,
 				});
 			});
 
