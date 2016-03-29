@@ -99,8 +99,7 @@ var NumberArrayFilter = React.createClass({
 		let controls;
 		const { field } = this.props;
 		const { modeLabel, modeValue, presenceLabel, presenceValue } = this.state;
-		const beingVerb = presenceValue === 'all' ? ' are ' : ' is ';
-		const placeholder = presenceLabel + beingVerb + modeLabel.toLowerCase() + '...';
+		const placeholder = presenceLabel + ' is ' + modeLabel.toLowerCase() + '...';
 
 		if (modeValue === 'between') {
 			controls = (
