@@ -367,15 +367,12 @@ exports.testFieldType = function (List) {
 				});
 			});
 
-			it('should allow matching empty values in exact mode', function () {
+			it('should allow matching empty values', function () {
 				var result = List.fields.textarr.addFilterToQuery({
 					presence: 'some',
-					mode: 'exactly',
 				});
 				demand(result.textarr).eql({
-					$elemMatch: {
-						$in: ['', null],
-					},
+					$size: 0,
 				});
 			});
 		});
@@ -435,14 +432,13 @@ exports.testFieldType = function (List) {
 				});
 			});
 
-			it('should allow matching empty values in exact mode', function () {
+			it('should allow matching non-empty values', function () {
 				var result = List.fields.textarr.addFilterToQuery({
 					presence: 'none',
-					mode: 'exactly',
 				});
 				demand(result.textarr).eql({
-					$elemMatch: {
-						$nin: ['', null],
+					$not: {
+						$size: 0,
 					},
 				});
 			});
@@ -510,13 +506,9 @@ exports.testFieldType = function (List) {
 			});
 
 			it('should allow matching empty values in exact mode', function () {
-				var result = List.fields.textarr.addFilterToQuery({
-					mode: 'exactly',
-				});
+				var result = List.fields.textarr.addFilterToQuery({});
 				demand(result.textarr).eql({
-					$elemMatch: {
-						$in: ['', null],
-					},
+					$size: 0,
 				});
 			});
 		});
