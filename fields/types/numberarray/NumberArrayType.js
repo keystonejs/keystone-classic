@@ -111,16 +111,16 @@ numberarray.prototype.validateRequiredInput = function (item, data, callback) {
 /**
  * Add filters to a query
  *
- * @param {Object} filter 			   The data from the frontend
- * @param {String} filter.mode  	   The filter mode, either one of "between",
- *                                     "gt" or "lt"
- * @param {String} filter.presence	   The presence mode, either on of
- *                                     "none" and "some"
- * @param {String|Object} filter.value The value that is filtered for
+ * @param {Object} filter 			   		The data from the frontend
+ * @param {String} filter.mode  	   		The filter mode, either one of
+ *                                     		"between", "gt" or "lt"
+ * @param {String} [filter.presence='some'] The presence mode, either on of
+ *                                          "none" and "some". Default: 'some'
+ * @param {String|Object} filter.value 		The value that is filtered for
  */
 numberarray.prototype.addFilterToQuery = function (filter) {
 	var query = {};
-	var presence = filter.presence || 'some'; // Default: 'some' mode
+	var presence = filter.presence || 'some';
 	// Filter empty/non-empty arrays
 	if (filter.mode === 'equals' && !filter.value) {
 		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
