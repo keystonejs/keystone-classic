@@ -2,6 +2,8 @@ var FieldType = require('../Type');
 var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
+var clone = require('lodash/clone');
+var addPresenceToQuery = require('../../utils/addPresenceToQuery');
 
 /**
  * Number FieldType Constructor
@@ -108,56 +110,67 @@ numberarray.prototype.validateRequiredInput = function (item, data, callback) {
 
 /**
  * Add filters to a query
+ *
+ * @param {Object} filter 			   		The data from the frontend
+ * @param {String} filter.mode			  	The filter mode, either one of
+ *                                     		"between", "gt" or "lt"
+ * @param {String} [filter.presence='some'] The presence mode, either on of
+ *                                          "none" and "some". Default: 'some'
+ * @param {String|Object} filter.value 		The value that is filtered for
  */
 numberarray.prototype.addFilterToQuery = function (filter) {
 	var query = {};
-	if (filter.mode === 'equals' && !filter.value) {
-		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
+	var presence = filter.presence || 'some';
+	// Filter empty/non-empty arrays (copied from textarray)
+	if (filter.value === undefined
+		|| filter.value === null
+		|| filter.value === '') {
+		// "At least one element contains nothing"
+		// This isn't 100% accurate because this will only return arrays that
+		// don't have elements, not ones that have empty elements, but it works
+		// fine for 99% of the usecase
+		query[this.path] = presence === 'some' ? {
+			$size: 0,
+		// "No elements contain nothing"
+		} : {
+			$not: {
+				$size: 0,
+			},
+		};
 		return query;
 	}
+	// Filter between two numbers
 	if (filter.mode === 'between') {
 		var min = utils.number(filter.value.min);
 		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
 			query[this.path] = {
-				$elemMatch: filter.inverted ? {
-					$gte: max,
-					$lte: min,
-				} : {
-					$gte: min,
-					$lte: max,
-				},
+				$gte: min,
+				$lte: max,
 			};
+			query[this.path] = addPresenceToQuery(presence, query[this.path]);
 		}
 		return query;
 	}
 	var value = utils.number(filter.value);
+	// Filter greater than, less than and equals
 	if (!isNaN(value)) {
 		if (filter.mode === 'gt') {
 			query[this.path] = {
-				$elemMatch: filter.inverted ? {
-					$lt: value,
-				} : {
-					$gt: value,
-				},
+				$gt: value,
 			};
 		}
 		else if (filter.mode === 'lt') {
 			query[this.path] = {
-				$elemMatch: filter.inverted ? {
-					$gt: value,
-				} : {
-					$lt: value,
-				},
+				$lt: value,
 			};
 		}
 		else {
 			query[this.path] = {
-				$elemMatch: {
-					$eq: value,
-				},
+				$eq: value,
 			};
 		}
+		query[this.path] = addPresenceToQuery(presence, query[this.path]);
 	}
 	return query;
 };
