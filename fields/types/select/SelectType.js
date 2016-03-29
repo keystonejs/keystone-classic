@@ -35,7 +35,7 @@ function select (list, path, options) {
 		options.emptyOption = true;
 	}
 	// ensure this.emptyOption is a boolean
-	this.emptyOption = options.emptyOption ? true : false;
+	this.emptyOption = !!options.emptyOption;
 	// cached maps for options, labels and values
 	this.map = utils.optionsMap(this.ops);
 	this.labels = utils.optionsMap(this.ops, 'label');
