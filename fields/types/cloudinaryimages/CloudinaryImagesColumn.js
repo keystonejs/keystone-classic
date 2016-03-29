@@ -16,7 +16,6 @@ var CloudinaryImagesColumn = React.createClass({
 	},
 	renderMany (value) {
 		if (!value || !value.length) return;
-		const refList = this.props.col.field.refList;
 		const items = [];
 		for (let i = 0; i < 3; i++) {
 			if (!value[i]) break;

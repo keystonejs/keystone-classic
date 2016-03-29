@@ -31,7 +31,7 @@ var PasswordFilter = React.createClass({
 		this.props.onChange({ exists: value });
 	},
 	render () {
-		const { field, filter } = this.props;
+		const { filter } = this.props;
 		return <SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={filter.exists} onChange={this.toggleExists} />;
 	},
 });

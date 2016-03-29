@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
 import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
