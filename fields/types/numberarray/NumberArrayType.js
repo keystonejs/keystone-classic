@@ -3,6 +3,7 @@ var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
 var clone = require('lodash/clone');
+var addPresenceToQuery = require('../../utils/addPresenceToQuery');
 
 /**
  * Number FieldType Constructor
@@ -167,31 +168,6 @@ numberarray.prototype.addFilterToQuery = function (filter) {
 	}
 	return query;
 };
-
-/**
- * Accounts for the presence choice when filtering
- *
- * @param {Object} presence  		The current presence choice
- * @param {Object} currentPathQuery The current request query
- */
-function addPresenceToQuery (presence, currentPathQuery) {
-	var newQuery;
-	// Adds $elemMatch if the presence choice is 'all'
-	// ('all' is the default)
-	if (presence === 'some') {
-		newQuery = {
-			$elemMatch: currentPathQuery,
-		};
-	// Adds $not if the presence is 'none'
-	} else if (presence === 'none') {
-		newQuery = {
-			$not: currentPathQuery,
-		};
-	}
-	// Return the newQuery if the presence changed something
-	// otherwise return the original query
-	return newQuery || currentPathQuery;
-}
 
 /**
  * Checks that a valid array of number has been provided in a data object
