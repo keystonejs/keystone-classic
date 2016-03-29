@@ -6,14 +6,14 @@ import { Button, FormField, FormInput, InputGroup, SegmentedControl } from 'elem
 
 import PopoutList from '../../../admin/client/components/Popout/PopoutList';
 
-const TOGGLE_OPTIONS = [
+const INVERTED_OPTIONS = [
 	{ label: 'Linked To', value: false },
 	{ label: 'NOT Linked To', value: true },
 ];
 
 function getDefaultValue () {
 	return {
-		inverted: TOGGLE_OPTIONS[0].value,
+		inverted: INVERTED_OPTIONS[0].value,
 		value: [],
 	};
 }
@@ -171,7 +171,7 @@ var RelationshipFilter = React.createClass({
 		return (
 			<div ref="container">
 				<FormField>
-					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.props.filter.inverted} onChange={this.toggleInverted} />
+					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={this.props.filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
 					<FormInput autofocus ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={placeholder} />
