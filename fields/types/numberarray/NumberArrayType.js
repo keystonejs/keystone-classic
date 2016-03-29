@@ -123,6 +123,7 @@ numberarray.prototype.addFilterToQuery = function (filter) {
 	var presence = filter.presence || 'some';
 	// Filter empty/non-empty arrays
 	if (filter.mode === 'equals' && !filter.value) {
+		// TODO Fix this, filter.inverted doesn't exist
 		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
 		return query;
 	}

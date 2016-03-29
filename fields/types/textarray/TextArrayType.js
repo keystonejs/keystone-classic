@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+var addPresenceToQuery = require('../../utils/addPresenceToQuery');
 
 /**
  * TextArray FieldType Constructor
@@ -24,11 +25,21 @@ textarray.prototype.format = function (item, separator) {
 
 /**
  * Add filters to a query
+ *
+ * @param {Object} filter 			   		The data from the frontend
+ * @param {String} filter.mode  	   		The filter mode, either one of
+ *                                     		"beginsWith", "endsWith", "exactly"
+ *                                     		or "contains"
+ * @param {String} [filter.presence='some'] The presence mode, either on of
+ *                                          "none" and "some". Default: 'some'
+ * @param {String|Object} filter.value 		The value that is filtered for
  */
 textarray.prototype.addFilterToQuery = function (filter) {
 	var query = {};
+	var presence = filter.presence || 'some';
 	// Filter empty/non-empty arrays
 	if (filter.mode === 'exactly' && !filter.value) {
+		// TODO Fix this, filter.inverted doesn't exist
 		query[this.path] = {
 			$elemMatch: filter.inverted ? {
 				$nin: ['', null],
@@ -47,14 +58,14 @@ textarray.prototype.addFilterToQuery = function (filter) {
 		value = '^' + value + '$';
 	}
 	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
-	// Filter if values do not exist in array
-	query[this.path] = filter.inverted ? {
-		$not: value,
-	} : {
-		$elemMatch: {
+	if (presence === 'none') {
+		query[this.path] = addPresenceToQuery(presence, value);
+	} else {
+		query[this.path] = addPresenceToQuery(presence, {
 			$regex: value,
-		},
-	};
+		});
+	}
+	console.log(query);
 	return query;
 };
 
