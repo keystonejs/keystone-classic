@@ -144,10 +144,7 @@ numberarray.prototype.addFilterToQuery = function (filter) {
 		var min = utils.number(filter.value.min);
 		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
-			query[this.path] = filter.inverted ? {
-				$gte: max,
-				$lte: min,
-			} : {
+			query[this.path] = {
 				$gte: min,
 				$lte: max,
 			};
@@ -159,16 +156,12 @@ numberarray.prototype.addFilterToQuery = function (filter) {
 	// Filter greater than, less than and equals
 	if (!isNaN(value)) {
 		if (filter.mode === 'gt') {
-			query[this.path] = filter.inverted ? {
-				$lt: value,
-			} : {
+			query[this.path] = {
 				$gt: value,
 			};
 		}
 		else if (filter.mode === 'lt') {
-			query[this.path] = filter.inverted ? {
-				$gt: value,
-			} : {
+			query[this.path] = {
 				$lt: value,
 			};
 		}

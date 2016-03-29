@@ -411,34 +411,6 @@ exports.testFieldType = function (List) {
 				});
 			});
 
-			it('should support inverted less than', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					presence: 'some',
-					value: 10,
-					mode: 'lt',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$elemMatch: {
-						$gt: 10,
-					},
-				});
-			});
-
-			it('should support inverted greater than', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					presence: 'some',
-					value: 0,
-					mode: 'gt',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$elemMatch: {
-						$lt: 0,
-					},
-				});
-			});
-
 			it('should filter for existance', function () {
 				var result = List.fields.numarr.addFilterToQuery({
 					presence: 'some',
@@ -461,24 +433,6 @@ exports.testFieldType = function (List) {
 					$elemMatch: {
 						$gte: 0,
 						$lte: 10,
-					},
-				});
-			});
-
-			it('should filter exluding a range between two numbers', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					presence: 'some',
-					mode: 'between',
-					value: {
-						min: 0,
-						max: 10,
-					},
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$elemMatch: {
-						$gte: 10,
-						$lte: 0,
 					},
 				});
 			});
@@ -560,34 +514,6 @@ exports.testFieldType = function (List) {
 				});
 			});
 
-			it('should support inverted less than', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					presence: 'none',
-					value: 10,
-					mode: 'lt',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$not: {
-						$gt: 10,
-					},
-				});
-			});
-
-			it('should support inverted greater than', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					presence: 'none',
-					value: 0,
-					mode: 'gt',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$not: {
-						$lt: 0,
-					},
-				});
-			});
-
 			it('should filter for existance', function () {
 				var result = List.fields.numarr.addFilterToQuery({
 					presence: 'none',
@@ -612,24 +538,6 @@ exports.testFieldType = function (List) {
 					$not: {
 						$gte: 0,
 						$lte: 10,
-					},
-				});
-			});
-
-			it('should filter exluding a range between two numbers', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					presence: 'none',
-					mode: 'between',
-					value: {
-						min: 0,
-						max: 10,
-					},
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$not: {
-						$gte: 10,
-						$lte: 0,
 					},
 				});
 			});
@@ -709,32 +617,6 @@ exports.testFieldType = function (List) {
 				});
 			});
 
-			it('should support inverted less than', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					value: 10,
-					mode: 'lt',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$elemMatch: {
-						$gt: 10,
-					},
-				});
-			});
-
-			it('should support inverted greater than', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					value: 0,
-					mode: 'gt',
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$elemMatch: {
-						$lt: 0,
-					},
-				});
-			});
-
 			it('should filter for existance', function () {
 				var result = List.fields.numarr.addFilterToQuery({
 					mode: 'equals',
@@ -756,23 +638,6 @@ exports.testFieldType = function (List) {
 					$elemMatch: {
 						$gte: 0,
 						$lte: 10,
-					},
-				});
-			});
-
-			it('should filter exluding a range between two numbers', function () {
-				var result = List.fields.numarr.addFilterToQuery({
-					mode: 'between',
-					value: {
-						min: 0,
-						max: 10,
-					},
-					inverted: true,
-				});
-				demand(result.numarr).eql({
-					$elemMatch: {
-						$gte: 10,
-						$lte: 0,
 					},
 				});
 			});
