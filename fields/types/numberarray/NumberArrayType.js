@@ -112,7 +112,7 @@ numberarray.prototype.validateRequiredInput = function (item, data, callback) {
  * Add filters to a query
  *
  * @param {Object} filter 			   		The data from the frontend
- * @param {String} filter.mode  	   		The filter mode, either one of
+ * @param {String} filter.mode			  	The filter mode, either one of
  *                                     		"between", "gt" or "lt"
  * @param {String} [filter.presence='some'] The presence mode, either on of
  *                                          "none" and "some". Default: 'some'
@@ -121,10 +121,22 @@ numberarray.prototype.validateRequiredInput = function (item, data, callback) {
 numberarray.prototype.addFilterToQuery = function (filter) {
 	var query = {};
 	var presence = filter.presence || 'some';
-	// Filter empty/non-empty arrays
-	if (filter.mode === 'equals' && !filter.value) {
-		// TODO Fix this, filter.inverted doesn't exist
-		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
+	// Filter empty/non-empty arrays (copied from textarray)
+	if (filter.value === undefined
+		|| filter.value === null
+		|| filter.value === '') {
+		// "At least one element contains nothing"
+		// This isn't 100% accurate because this will only return arrays that
+		// don't have elements, not ones that have empty elements, but it works
+		// fine for 99% of the usecase
+		query[this.path] = presence === 'some' ? {
+			$size: 0,
+		// "No elements contain nothing"
+		} : {
+			$not: {
+				$size: 0,
+			},
+		};
 		return query;
 	}
 	// Filter between two numbers
