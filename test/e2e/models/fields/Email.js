@@ -7,11 +7,12 @@ var Email = new keystone.List('Email', {
 });
 
 Email.add({
-	name: {type: Types.Email, initial: true, required: true, index: true},
-	testA: {type: Types.Email, index: true},
+	name: {type: String, initial: true, required: true, index: true},
+	fieldA: {type: Types.Email, initial: true, index: true},
+	fieldB: {type: Types.Email, index: true},
 });
 
-Email.defaultColumns = 'name';
+Email.defaultColumns = 'name, fieldA, fieldB';
 Email.register();
 
 module.exports = Email;

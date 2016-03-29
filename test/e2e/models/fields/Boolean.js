@@ -8,10 +8,11 @@ var Bool = new keystone.List('Boolean', {
 
 Bool.add({
 	name: {type: String, initial: true, required: true, index: true},
-	testA: {type: Boolean, initial: true, index: true}
+	fieldA: {type: Boolean, initial: true, index: true},
+	fieldB: {type: Boolean, index: true}
 });
 
-Bool.defaultColumns = 'name, testA';
+Bool.defaultColumns = 'name, fieldA, fieldB';
 Bool.register();
 
 module.exports = Bool;

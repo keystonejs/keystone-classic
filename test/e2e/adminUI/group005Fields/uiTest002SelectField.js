@@ -30,7 +30,14 @@ module.exports = {
 			.to.be.visible;
 		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.label)
 			.text.to.equal('Name');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.inputField)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.value)
+			.to.be.visible;
+
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.label)
+			.to.be.visible;
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.label)
+			.text.to.equal('Field A');
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.inputField)
 			.to.be.visible;
 	},
 };

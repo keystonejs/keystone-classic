@@ -31,9 +31,9 @@ module.exports = {
 		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.label)
 			.text.to.equal('Name');
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.testA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.fieldA.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.testA.label)
-			.text.to.equal('Test A');
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.fieldA.label)
+			.text.to.equal('Field A');
 	},
 };

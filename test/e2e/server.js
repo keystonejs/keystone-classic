@@ -33,6 +33,7 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 	'cookie secret': 'Secret',
+	'adminui custom styles': 'adminuiCustom/styles.less',
 });
 
 keystone.import('models');
