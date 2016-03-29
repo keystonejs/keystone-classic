@@ -38,13 +38,17 @@ textarray.prototype.addFilterToQuery = function (filter) {
 	var query = {};
 	var presence = filter.presence || 'some';
 	// Filter empty/non-empty arrays
-	if (filter.mode === 'exactly' && !filter.value) {
-		// TODO Fix this, filter.inverted doesn't exist
-		query[this.path] = {
-			$elemMatch: filter.inverted ? {
-				$nin: ['', null],
-			} : {
-				$in: ['', null],
+	if (!filter.value) {
+		// "At least one element contains nothing"
+		// This isn't 100% accurate because this will only return arrays that
+		// don't have elements, not ones that have empty elements, but it works
+		// fine for 99% of the usecase
+		query[this.path] = presence === 'some' ? {
+			$size: 0,
+		// "No elements contain nothing"
+		} : {
+			$not: {
+				$size: 0,
 			},
 		};
 		return query;
@@ -65,7 +69,6 @@ textarray.prototype.addFilterToQuery = function (filter) {
 			$regex: value,
 		});
 	}
-	console.log(query);
 	return query;
 };
 
