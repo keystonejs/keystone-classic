@@ -278,7 +278,9 @@ const ListView = React.createClass({
 				<Container>
 					<h2 className="ListHeader__title">
 						{plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
-						<ListSort />
+						<ListSort
+							handleSortSelect={this.handleSortSelect}
+						/>
 					</h2>
 					<InputGroup className="ListHeader__bar">
 						{this.renderSearch()}
@@ -370,6 +372,10 @@ const ListView = React.createClass({
 	// COMMON
 	// ==============================
 
+	handleSortSelect (path, inverted) {
+		if (inverted) path = '-' + path;
+		CurrentListStore.setActiveSort(path);
+	},
 	toggleCreateModal (visible) {
 		this.setState({
 			showCreateForm: visible,
@@ -421,14 +427,15 @@ const ListView = React.createClass({
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
 					<ItemsTable
-						deleteTableItem={this.deleteTableItem}
-						list={this.state.list}
-						columns={this.state.columns}
-						items={this.state.items}
-						manageMode={this.state.manageMode}
 						checkedItems={this.state.checkedItems}
-						rowAlert={this.state.rowAlert}
 						checkTableItem={this.checkTableItem}
+						columns={this.state.columns}
+						deleteTableItem={this.deleteTableItem}
+						handleSortSelect={this.handleSortSelect}
+						items={this.state.items}
+						list={this.state.list}
+						manageMode={this.state.manageMode}
+						rowAlert={this.state.rowAlert}
 					/>
 					{this.renderNoSearchResults()}
 				</Container>

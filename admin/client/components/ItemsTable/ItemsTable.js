@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
 import Columns from '../../columns';
@@ -7,42 +7,94 @@ import ListControl from '../List/ListControl';
 import TableRow from './ItemsTableRow';
 import DrapDrop from './ItemsTableDragDrop';
 
-const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
+import { TABLE_CONTROL_COLUMN_WIDTH } from '../../constants';
 
 const ItemsTable = React.createClass({
 	propTypes: {
-		columns: React.PropTypes.array,
-		items: React.PropTypes.object,
-		list: React.PropTypes.object,
+		checkedItems: PropTypes.object.isRequired,
+		columns: PropTypes.array.isRequired,
+		deleteTableItem: PropTypes.func.isRequired,
+		handleSortSelect: PropTypes.func.isRequired,
+		items: PropTypes.object.isRequired,
+		list: PropTypes.object.isRequired,
+		manageMode: PropTypes.bool.isRequired,
+		rowAlert: PropTypes.object.isRequired,
 	},
 	renderCols () {
-		var cols = this.props.columns.map((col) => <col width={col.width} key={col.path} />);
-		// add delete col when applicable
+		let cols = this.props.columns.map(col => (
+			<col key={col.path} width={col.width} />
+		));
+
+		// add delete col when available
 		if (!this.props.list.nodelete) {
-			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />);
+			cols.unshift(
+				<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />
+			);
 		}
-		// add sort col when applicable
+
+		// add sort col when available
 		if (this.props.list.sortable) {
-			cols.unshift(<col width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />);
+			cols.unshift(
+				<col width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />
+			);
 		}
-		return <colgroup>{cols}</colgroup>;
+
+		return (
+			<colgroup>
+				{cols}
+			</colgroup>
+		);
 	},
 	renderHeaders () {
-		let listControls = 0;
+		let listControlCount = 0;
 
-		if (this.props.list.sortable) listControls++;
-		if (!this.props.list.nodelete) listControls++;
+		if (this.props.list.sortable) listControlCount++;
+		if (!this.props.list.nodelete) listControlCount++;
 
-		// span first col for controls when present
-		let cellPadding = null;
-		if (listControls) {
-			cellPadding = <th colSpan={listControls}></th>;
-		}
+		// set active sort
+		const activeSortPath = CurrentListStore.getActiveSort().paths[0];
 
-		let cells = this.props.columns.map((col, i) => {
-			return <th key={col.path} colSpan="1">{col.label}</th>;
+		// pad first col when controls are available
+		const cellPad = listControlCount ? (
+			<th colSpan={listControlCount} />
+		) : null;
+
+		// map each heading column
+		const cellMap = this.props.columns.map(col => {
+			const isSelected = activeSortPath && activeSortPath.path === col.path;
+			const isInverted = isSelected && activeSortPath.invert;
+			const buttonTitle = `Sort by ${col.label}${isSelected && !isInverted ? ' (desc)' : ''}`;
+			const colClassName = classnames('ItemList__sort-button th-sort', {
+				'th-sort--asc': isSelected && !isInverted,
+				'th-sort--desc': isInverted,
+			});
+
+			return (
+				<th key={col.path} colSpan="1">
+					<button
+						className={colClassName}
+						onClick={() => {
+							this.props.handleSortSelect(
+								col.path,
+								isSelected && !isInverted
+							);
+						}}
+						title={buttonTitle}>
+						{col.label}
+						<span className="th-sort__icon" />
+					</button>
+				</th>
+			);
 		});
-		return <thead><tr>{cellPadding}{cells}</tr></thead>;
+
+		return (
+			<thead>
+				<tr>
+					{cellPad}
+					{cellMap}
+				</tr>
+			</thead>
+		);
 	},
 	render () {
 		const { items, list } = this.props;
@@ -71,6 +123,7 @@ const ItemsTable = React.createClass({
 				})}
 			</tbody>
 		);
+
 		return (
 			<div className="ItemList-wrapper">
 				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
