@@ -120,7 +120,7 @@ datearray.prototype.addFilterToQuery = function (filter) {
 	var dateTypeAddFilterToQuery = DateType.prototype.addFilterToQuery.bind(this);
 	var query = dateTypeAddFilterToQuery(filter);
 	if (query !== {} && query[this.path]) {
-		query[this.path] = addPresenceToQuery(filter.presence, query[this.path]);
+		query[this.path] = addPresenceToQuery(filter.presence || 'some', query[this.path]);
 	}
 	return query;
 };
