@@ -1,5 +1,6 @@
 var demand = require('must');
 var DateArrayType = require('../DateArrayType');
+var moment = require('moment');
 
 exports.initList = function (List) {
 	List.add({
@@ -344,6 +345,107 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		describe('"some" present', function () {
+			it('should filter a specific date', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gte: moment('2015-01-01').startOf('day').toDate(),
+						$lte: moment('2015-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter after a specific datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'after',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gt: moment('2015-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter before a specific datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'before',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$lt: moment('2015-01-01').startOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter between two specified datearrs', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					after: '2015-01-01',
+					before: '2016-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gte: moment('2015-01-01').startOf('day').toDate(),
+						$lte: moment('2016-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should not filter anything in between mode if no value is specified', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode without an after datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					before: '2015-01-01',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode without a before datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					after: '2015-01-01',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode with an invalid after datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					after: 'notadatearr',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode with an invalid before datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					before: 'notadatearr',
+				});
+				demand(result.datearr).be.undefined();
+			});
+		});
+	});
 	/* Deprecated inputIsValid tests */
 
 	it('should validate input', function () {
