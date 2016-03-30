@@ -3,6 +3,7 @@ var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
 var addPresenceToQuery = require('../../utils/addPresenceToQuery');
+var DateType = require('../date/DateType');
 
 /**
  * Date FieldType Constructor
@@ -116,35 +117,10 @@ datearray.prototype.validateRequiredInput = function (item, data, callback) {
  * @param {String|Object} filter.value 		The value that is filtered for
  */
 datearray.prototype.addFilterToQuery = function (filter) {
-	var query = {};
-	if (filter.mode === 'between') {
-		if (filter.after && filter.before) {
-			filter.after = moment(filter.after);
-			filter.before = moment(filter.before);
-			if (filter.after.isValid() && filter.before.isValid()) {
-				query[this.path] = {
-					$gte: filter.after.startOf('day').toDate(),
-					$lte: filter.before.endOf('day').toDate(),
-				};
-				query[this.path] = addPresenceToQuery(filter.presence, query[this.path]);
-			}
-		}
-	} else if (filter.value) {
-		var day = {
-			moment: moment(filter.value),
-		};
-		day.start = day.moment.startOf('day').toDate();
-		day.end = moment(filter.value).endOf('day').toDate();
-		if (day.moment.isValid()) {
-			if (filter.mode === 'after') {
-				query[this.path] = { $gt: day.end };
-			} else if (filter.mode === 'before') {
-				query[this.path] = { $lt: day.start };
-			} else {
-				query[this.path] = { $gte: day.start, $lte: day.end };
-			}
-			query[this.path] = addPresenceToQuery(filter.presence, query[this.path]);
-		}
+	var dateTypeAddFilterToQuery = DateType.prototype.addFilterToQuery.bind(this);
+	var query = dateTypeAddFilterToQuery(filter);
+	if (query !== {} && query[this.path]) {
+		query[this.path] = addPresenceToQuery(filter.presence, query[this.path]);
 	}
 	return query;
 };
