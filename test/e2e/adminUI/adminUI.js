@@ -146,11 +146,16 @@ module.exports = {
 							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
 						},
 						fieldA: {
-							button: '.EditForm-container .field-type-boolean[for="fieldA"] button',
-							label: '.EditForm-container .field-type-boolean[for="fieldA"] span',
-							value: '.EditForm-container .field-type-boolean[for="fieldA"] input[name="fieldA"]'
+							button: '.EditForm-container .field-type-boolean:nth-child(5) label button',
+							label: '.EditForm-container .field-type-boolean:nth-child(5) label span',
+							value: '.EditForm-container .field-type-boolean:nth-child(5) label input[name="fieldA"]'
 						},
-					},
+						fieldB: {
+							button: '.EditForm-container .field-type-boolean:nth-child(6) label button',
+							label: '.EditForm-container .field-type-boolean:nth-child(6) label span',
+							value: '.EditForm-container .field-type-boolean:nth-child(6) label input[name="fieldB"]'
+						}
+					}
 				},
 				email: {
 					user: {
@@ -269,8 +274,8 @@ module.exports = {
 							button: '.Modal-dialog .field-type-boolean button',
 							label: '.Modal-dialog .field-type-boolean span',
 							value: '.Modal-dialog .field-type-boolean input[name="fieldA"]',
-						},
-					},
+						}
+					}
 				},
 				email: {
 					user: {
