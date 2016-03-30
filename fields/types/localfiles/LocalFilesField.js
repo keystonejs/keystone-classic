@@ -88,7 +88,6 @@ module.exports = Field.create({
 
 	pushItem (args, thumbs) {
 		thumbs = thumbs || this.state.items;
-		var i = thumbs.length;
 		args.toggleDelete = this.removeItem.bind(this, args._id);
 		args.shouldRenderActionButton = this.shouldRenderField();
 		args.adminPath = Keystone.adminPath;

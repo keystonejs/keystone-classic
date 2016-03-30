@@ -72,10 +72,6 @@ exports.testFieldType = function (List) {
 		});
 	});
 
-	describe('validateRequiredInput', function () {
-
-	});
-
 	it('should use the common text validateInput method', function () {
 		demand(List.fields.key.validateInput === TextType.prototype.validateInput);
 	});

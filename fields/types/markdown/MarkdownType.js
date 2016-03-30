@@ -72,14 +72,14 @@ markdown.prototype.addToSchema = function () {
  * Add filters to a query (this is copy & pasted from the text field, with
  * the only difference being that the path isn't this.path but this.paths.md)
  */
-markdown.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+markdown.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.paths.md] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
 		return query;
 	}
 	var value = utils.escapeRegExp(filter.value);
-	if (filter.mode === 'startsWith') {
+	if (filter.mode === 'beginsWith') {
 		value = '^' + value;
 	} else if (filter.mode === 'endsWith') {
 		value = value + '$';

@@ -1,4 +1,2492 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+var list = [{ label: 'Alert', value: 'alert', className: 'octicon octicon-alert' }, { label: 'Arrow Down', value: 'arrow-down', className: 'octicon octicon-arrow-down' }, { label: 'Arrow Left', value: 'arrow-left', className: 'octicon octicon-arrow-left' }, { label: 'Arrow Right', value: 'arrow-right', className: 'octicon octicon-arrow-right' }, { label: 'Arrow Small-down', value: 'arrow-small-down', className: 'octicon octicon-arrow-small-down' }, { label: 'Arrow Small-left', value: 'arrow-small-left', className: 'octicon octicon-arrow-small-left' }, { label: 'Arrow Small-right', value: 'arrow-small-right', className: 'octicon octicon-arrow-small-right' }, { label: 'Arrow Small-up', value: 'arrow-small-up', className: 'octicon octicon-arrow-small-up' }, { label: 'Arrow Up', value: 'arrow-up', className: 'octicon octicon-arrow-up' }, { label: 'Microscope', value: 'microscope', className: 'octicon octicon-microscope' }, { label: 'Beaker', value: 'beaker', className: 'octicon octicon-beaker' }, { label: 'Bell', value: 'bell', className: 'octicon octicon-bell' }, { label: 'Book', value: 'book', className: 'octicon octicon-book' }, { label: 'Bookmark', value: 'bookmark', className: 'octicon octicon-bookmark' }, { label: 'Briefcase', value: 'briefcase', className: 'octicon octicon-briefcase' }, { label: 'Broadcast', value: 'broadcast', className: 'octicon octicon-broadcast' }, { label: 'Browser', value: 'browser', className: 'octicon octicon-browser' }, { label: 'Bug', value: 'bug', className: 'octicon octicon-bug' }, { label: 'Calendar', value: 'calendar', className: 'octicon octicon-calendar' }, { label: 'Check', value: 'check', className: 'octicon octicon-check' }, { label: 'Checklist', value: 'checklist', className: 'octicon octicon-checklist' }, { label: 'Chevron Down', value: 'chevron-down', className: 'octicon octicon-chevron-down' }, { label: 'Chevron Left', value: 'chevron-left', className: 'octicon octicon-chevron-left' }, { label: 'Chevron Right', value: 'chevron-right', className: 'octicon octicon-chevron-right' }, { label: 'Chevron Up', value: 'chevron-up', className: 'octicon octicon-chevron-up' }, { label: 'Circle Slash', value: 'circle-slash', className: 'octicon octicon-circle-slash' }, { label: 'Circuit Board', value: 'circuit-board', className: 'octicon octicon-circuit-board' }, { label: 'Clippy', value: 'clippy', className: 'octicon octicon-clippy' }, { label: 'Clock', value: 'clock', className: 'octicon octicon-clock' }, { label: 'Cloud Download', value: 'cloud-download', className: 'octicon octicon-cloud-download' }, { label: 'Cloud Upload', value: 'cloud-upload', className: 'octicon octicon-cloud-upload' }, { label: 'Code', value: 'code', className: 'octicon octicon-code' }, { label: 'Color Mode', value: 'color-mode', className: 'octicon octicon-color-mode' }, { label: 'Comment Add', value: 'comment-add', className: 'octicon octicon-comment-add' }, { label: 'Comment', value: 'comment', className: 'octicon octicon-comment' }, { label: 'Comment Discussion', value: 'comment-discussion', className: 'octicon octicon-comment-discussion' }, { label: 'Credit Card', value: 'credit-card', className: 'octicon octicon-credit-card' }, { label: 'Dash', value: 'dash', className: 'octicon octicon-dash' }, { label: 'Dashboard', value: 'dashboard', className: 'octicon octicon-dashboard' }, { label: 'Database', value: 'database', className: 'octicon octicon-database' }, { label: 'Clone', value: 'clone', className: 'octicon octicon-clone' }, { label: 'Desktop Download', value: 'desktop-download', className: 'octicon octicon-desktop-download' }, { label: 'Device Camera', value: 'device-camera', className: 'octicon octicon-device-camera' }, { label: 'Device Camera-video', value: 'device-camera-video', className: 'octicon octicon-device-camera-video' }, { label: 'Device Desktop', value: 'device-desktop', className: 'octicon octicon-device-desktop' }, { label: 'Device Mobile', value: 'device-mobile', className: 'octicon octicon-device-mobile' }, { label: 'Diff', value: 'diff', className: 'octicon octicon-diff' }, { label: 'Diff Added', value: 'diff-added', className: 'octicon octicon-diff-added' }, { label: 'Diff Ignored', value: 'diff-ignored', className: 'octicon octicon-diff-ignored' }, { label: 'Diff Modified', value: 'diff-modified', className: 'octicon octicon-diff-modified' }, { label: 'Diff Removed', value: 'diff-removed', className: 'octicon octicon-diff-removed' }, { label: 'Diff Renamed', value: 'diff-renamed', className: 'octicon octicon-diff-renamed' }, { label: 'Ellipsis', value: 'ellipsis', className: 'octicon octicon-ellipsis' }, { label: 'Eye Unwatch', value: 'eye-unwatch', className: 'octicon octicon-eye-unwatch' }, { label: 'Eye Watch', value: 'eye-watch', className: 'octicon octicon-eye-watch' }, { label: 'Eye', value: 'eye', className: 'octicon octicon-eye' }, { label: 'File Binary', value: 'file-binary', className: 'octicon octicon-file-binary' }, { label: 'File Code', value: 'file-code', className: 'octicon octicon-file-code' }, { label: 'File Directory', value: 'file-directory', className: 'octicon octicon-file-directory' }, { label: 'File Media', value: 'file-media', className: 'octicon octicon-file-media' }, { label: 'File Pdf', value: 'file-pdf', className: 'octicon octicon-file-pdf' }, { label: 'File Submodule', value: 'file-submodule', className: 'octicon octicon-file-submodule' }, { label: 'File Symlink-directory', value: 'file-symlink-directory', className: 'octicon octicon-file-symlink-directory' }, { label: 'File Symlink-file', value: 'file-symlink-file', className: 'octicon octicon-file-symlink-file' }, { label: 'File Text', value: 'file-text', className: 'octicon octicon-file-text' }, { label: 'File Zip', value: 'file-zip', className: 'octicon octicon-file-zip' }, { label: 'Flame', value: 'flame', className: 'octicon octicon-flame' }, { label: 'Fold', value: 'fold', className: 'octicon octicon-fold' }, { label: 'Gear', value: 'gear', className: 'octicon octicon-gear' }, { label: 'Gift', value: 'gift', className: 'octicon octicon-gift' }, { label: 'Gist', value: 'gist', className: 'octicon octicon-gist' }, { label: 'Gist Secret', value: 'gist-secret', className: 'octicon octicon-gist-secret' }, { label: 'Git Branch-create', value: 'git-branch-create', className: 'octicon octicon-git-branch-create' }, { label: 'Git Branch-delete', value: 'git-branch-delete', className: 'octicon octicon-git-branch-delete' }, { label: 'Git Branch', value: 'git-branch', className: 'octicon octicon-git-branch' }, { label: 'Git Commit', value: 'git-commit', className: 'octicon octicon-git-commit' }, { label: 'Git Compare', value: 'git-compare', className: 'octicon octicon-git-compare' }, { label: 'Git Merge', value: 'git-merge', className: 'octicon octicon-git-merge' }, { label: 'Git Pull-request-abandoned', value: 'git-pull-request-abandoned', className: 'octicon octicon-git-pull-request-abandoned' }, { label: 'Git Pull-request', value: 'git-pull-request', className: 'octicon octicon-git-pull-request' }, { label: 'Globe', value: 'globe', className: 'octicon octicon-globe' }, { label: 'Graph', value: 'graph', className: 'octicon octicon-graph' }, { label: 'Heart', value: 'heart', className: 'octicon octicon-heart' }, { label: 'History', value: 'history', className: 'octicon octicon-history' }, { label: 'Home', value: 'home', className: 'octicon octicon-home' }, { label: 'Horizontal Rule', value: 'horizontal-rule', className: 'octicon octicon-horizontal-rule' }, { label: 'Hubot', value: 'hubot', className: 'octicon octicon-hubot' }, { label: 'Inbox', value: 'inbox', className: 'octicon octicon-inbox' }, { label: 'Info', value: 'info', className: 'octicon octicon-info' }, { label: 'Issue Closed', value: 'issue-closed', className: 'octicon octicon-issue-closed' }, { label: 'Issue Opened', value: 'issue-opened', className: 'octicon octicon-issue-opened' }, { label: 'Issue Reopened', value: 'issue-reopened', className: 'octicon octicon-issue-reopened' }, { label: 'Jersey', value: 'jersey', className: 'octicon octicon-jersey' }, { label: 'Key', value: 'key', className: 'octicon octicon-key' }, { label: 'Keyboard', value: 'keyboard', className: 'octicon octicon-keyboard' }, { label: 'Law', value: 'law', className: 'octicon octicon-law' }, { label: 'Light Bulb', value: 'light-bulb', className: 'octicon octicon-light-bulb' }, { label: 'Link', value: 'link', className: 'octicon octicon-link' }, { label: 'Link External', value: 'link-external', className: 'octicon octicon-link-external' }, { label: 'List Ordered', value: 'list-ordered', className: 'octicon octicon-list-ordered' }, { label: 'List Unordered', value: 'list-unordered', className: 'octicon octicon-list-unordered' }, { label: 'Location', value: 'location', className: 'octicon octicon-location' }, { label: 'Gist Private', value: 'gist-private', className: 'octicon octicon-gist-private' }, { label: 'Mirror Private', value: 'mirror-private', className: 'octicon octicon-mirror-private' }, { label: 'Git Fork-private', value: 'git-fork-private', className: 'octicon octicon-git-fork-private' }, { label: 'Lock', value: 'lock', className: 'octicon octicon-lock' }, { label: 'Logo Github', value: 'logo-github', className: 'octicon octicon-logo-github' }, { label: 'Mail', value: 'mail', className: 'octicon octicon-mail' }, { label: 'Mail Read', value: 'mail-read', className: 'octicon octicon-mail-read' }, { label: 'Mail Reply', value: 'mail-reply', className: 'octicon octicon-mail-reply' }, { label: 'Mark Github', value: 'mark-github', className: 'octicon octicon-mark-github' }, { label: 'Markdown', value: 'markdown', className: 'octicon octicon-markdown' }, { label: 'Megaphone', value: 'megaphone', className: 'octicon octicon-megaphone' }, { label: 'Mention', value: 'mention', className: 'octicon octicon-mention' }, { label: 'Milestone', value: 'milestone', className: 'octicon octicon-milestone' }, { label: 'Mirror Public', value: 'mirror-public', className: 'octicon octicon-mirror-public' }, { label: 'Mirror', value: 'mirror', className: 'octicon octicon-mirror' }, { label: 'Mortar Board', value: 'mortar-board', className: 'octicon octicon-mortar-board' }, { label: 'Mute', value: 'mute', className: 'octicon octicon-mute' }, { label: 'No Newline', value: 'no-newline', className: 'octicon octicon-no-newline' }, { label: 'Octoface', value: 'octoface', className: 'octicon octicon-octoface' }, { label: 'Organization', value: 'organization', className: 'octicon octicon-organization' }, { label: 'Package', value: 'package', className: 'octicon octicon-package' }, { label: 'Paintcan', value: 'paintcan', className: 'octicon octicon-paintcan' }, { label: 'Pencil', value: 'pencil', className: 'octicon octicon-pencil' }, { label: 'Person Add', value: 'person-add', className: 'octicon octicon-person-add' }, { label: 'Person Follow', value: 'person-follow', className: 'octicon octicon-person-follow' }, { label: 'Person', value: 'person', className: 'octicon octicon-person' }, { label: 'Pin', value: 'pin', className: 'octicon octicon-pin' }, { label: 'Plug', value: 'plug', className: 'octicon octicon-plug' }, { label: 'Repo Create', value: 'repo-create', className: 'octicon octicon-repo-create' }, { label: 'Gist New', value: 'gist-new', className: 'octicon octicon-gist-new' }, { label: 'File Directory-create', value: 'file-directory-create', className: 'octicon octicon-file-directory-create' }, { label: 'File Add', value: 'file-add', className: 'octicon octicon-file-add' }, { label: 'Plus', value: 'plus', className: 'octicon octicon-plus' }, { label: 'Primitive Dot', value: 'primitive-dot', className: 'octicon octicon-primitive-dot' }, { label: 'Primitive Square', value: 'primitive-square', className: 'octicon octicon-primitive-square' }, { label: 'Pulse', value: 'pulse', className: 'octicon octicon-pulse' }, { label: 'Question', value: 'question', className: 'octicon octicon-question' }, { label: 'Quote', value: 'quote', className: 'octicon octicon-quote' }, { label: 'Radio Tower', value: 'radio-tower', className: 'octicon octicon-radio-tower' }, { label: 'Repo Delete', value: 'repo-delete', className: 'octicon octicon-repo-delete' }, { label: 'Repo', value: 'repo', className: 'octicon octicon-repo' }, { label: 'Repo Clone', value: 'repo-clone', className: 'octicon octicon-repo-clone' }, { label: 'Repo Force-push', value: 'repo-force-push', className: 'octicon octicon-repo-force-push' }, { label: 'Gist Fork', value: 'gist-fork', className: 'octicon octicon-gist-fork' }, { label: 'Repo Forked', value: 'repo-forked', className: 'octicon octicon-repo-forked' }, { label: 'Repo Pull', value: 'repo-pull', className: 'octicon octicon-repo-pull' }, { label: 'Repo Push', value: 'repo-push', className: 'octicon octicon-repo-push' }, { label: 'Rocket', value: 'rocket', className: 'octicon octicon-rocket' }, { label: 'Rss', value: 'rss', className: 'octicon octicon-rss' }, { label: 'Ruby', value: 'ruby', className: 'octicon octicon-ruby' }, { label: 'Screen Full', value: 'screen-full', className: 'octicon octicon-screen-full' }, { label: 'Screen Normal', value: 'screen-normal', className: 'octicon octicon-screen-normal' }, { label: 'Search Save', value: 'search-save', className: 'octicon octicon-search-save' }, { label: 'Search', value: 'search', className: 'octicon octicon-search' }, { label: 'Server', value: 'server', className: 'octicon octicon-server' }, { label: 'Settings', value: 'settings', className: 'octicon octicon-settings' }, { label: 'Shield', value: 'shield', className: 'octicon octicon-shield' }, { label: 'Log In', value: 'log-in', className: 'octicon octicon-log-in' }, { label: 'Sign In', value: 'sign-in', className: 'octicon octicon-sign-in' }, { label: 'Log Out', value: 'log-out', className: 'octicon octicon-log-out' }, { label: 'Sign Out', value: 'sign-out', className: 'octicon octicon-sign-out' }, { label: 'Squirrel', value: 'squirrel', className: 'octicon octicon-squirrel' }, { label: 'Star Add', value: 'star-add', className: 'octicon octicon-star-add' }, { label: 'Star Delete', value: 'star-delete', className: 'octicon octicon-star-delete' }, { label: 'Star', value: 'star', className: 'octicon octicon-star' }, { label: 'Stop', value: 'stop', className: 'octicon octicon-stop' }, { label: 'Repo Sync', value: 'repo-sync', className: 'octicon octicon-repo-sync' }, { label: 'Sync', value: 'sync', className: 'octicon octicon-sync' }, { label: 'Tag Remove', value: 'tag-remove', className: 'octicon octicon-tag-remove' }, { label: 'Tag Add', value: 'tag-add', className: 'octicon octicon-tag-add' }, { label: 'Tag', value: 'tag', className: 'octicon octicon-tag' }, { label: 'Telescope', value: 'telescope', className: 'octicon octicon-telescope' }, { label: 'Terminal', value: 'terminal', className: 'octicon octicon-terminal' }, { label: 'Three Bars', value: 'three-bars', className: 'octicon octicon-three-bars' }, { label: 'Thumbsdown', value: 'thumbsdown', className: 'octicon octicon-thumbsdown' }, { label: 'Thumbsup', value: 'thumbsup', className: 'octicon octicon-thumbsup' }, { label: 'Tools', value: 'tools', className: 'octicon octicon-tools' }, { label: 'Trashcan', value: 'trashcan', className: 'octicon octicon-trashcan' }, { label: 'Triangle Down', value: 'triangle-down', className: 'octicon octicon-triangle-down' }, { label: 'Triangle Left', value: 'triangle-left', className: 'octicon octicon-triangle-left' }, { label: 'Triangle Right', value: 'triangle-right', className: 'octicon octicon-triangle-right' }, { label: 'Triangle Up', value: 'triangle-up', className: 'octicon octicon-triangle-up' }, { label: 'Unfold', value: 'unfold', className: 'octicon octicon-unfold' }, { label: 'Unmute', value: 'unmute', className: 'octicon octicon-unmute' }, { label: 'Versions', value: 'versions', className: 'octicon octicon-versions' }, { label: 'Watch', value: 'watch', className: 'octicon octicon-watch' }, { label: 'Remove Close', value: 'remove-close', className: 'octicon octicon-remove-close' }, { label: 'X', value: 'x', className: 'octicon octicon-x' }, { label: 'Zap', value: 'zap', className: 'octicon octicon-zap' }];
+
+var map = {};
+list.forEach(function (icon) {
+	map[icon.value] = icon;
+});
+function pluck(arr, key) {
+	return arr.map(function (obj) {
+		return obj[key];
+	});
+}
+
+module.exports = {
+	list: list,
+	keys: pluck(list, 'value'),
+	map: map
+};
+},{}],2:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+
+var ALERT_TYPES = ['danger', 'error', // alias for danger
+'info', 'primary', 'success', 'warning'];
+
+module.exports = React.createClass({
+	displayName: 'ElementalAlert',
+	propTypes: {
+		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
+		type: React.PropTypes.oneOf(ALERT_TYPES).isRequired
+	},
+	render: function render() {
+		var componentClass = classNames('Alert', 'Alert--' + this.props.type, this.props.className);
+
+		return React.createElement(
+			'div',
+			{ className: componentClass },
+			this.props.children
+		);
+	}
+});
+},{"classnames":"classnames","react":"react"}],3:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: 'BlankState',
+	propTypes: {
+		children: React.PropTypes.node.isRequired
+	},
+	render: function render() {
+		return React.createElement('div', _extends({ className: 'BlankState' }, this.props));
+	}
+});
+
+module.exports.Heading = React.createClass({
+	displayName: 'BlankStateHeading',
+	propTypes: {
+		children: React.PropTypes.node.isRequired
+	},
+	render: function render() {
+		return React.createElement('h2', _extends({ className: 'BlankState__heading' }, this.props));
+	}
+});
+},{"react":"react"}],4:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+var blacklist = require('blacklist');
+
+var BUTTON_SIZES = ['lg', 'sm', 'xs'];
+
+var BUTTON_TYPES = ['default', 'default-primary', 'default-success', 'default-warning', 'default-danger', 'hollow-primary', 'hollow-success', 'hollow-warning', 'hollow-danger', 'primary', 'success', 'warning', 'danger', 'link', 'link-text', 'link-primary', 'link-success', 'link-warning', 'link-danger', 'link-cancel', 'link-delete'];
+
+module.exports = React.createClass({
+	displayName: 'Button',
+	propTypes: {
+		block: React.PropTypes.bool,
+		className: React.PropTypes.string,
+		component: React.PropTypes.element,
+		href: React.PropTypes.string,
+		isActive: React.PropTypes.bool,
+		size: React.PropTypes.oneOf(BUTTON_SIZES),
+		submit: React.PropTypes.bool,
+		type: React.PropTypes.oneOf(BUTTON_TYPES)
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			type: 'default'
+		};
+	},
+	render: function render() {
+		// classes
+		var componentClass = classNames('Button', 'Button--' + this.props.type, this.props.size ? 'Button--' + this.props.size : null, {
+			'Button--block': this.props.block,
+			'is-active': this.props.isActive
+		}, this.props.className);
+
+		// props
+		var props = blacklist(this.props, 'type', 'size', 'component', 'className');
+		props.className = componentClass;
+
+		if (this.props.component) {
+			return React.cloneElement(this.props.component, props);
+		}
+
+		var tag = 'button';
+		props.type = this.props.submit ? 'submit' : 'button';
+
+		if (props.href) {
+			tag = 'a';
+			delete props.type;
+		}
+
+		return React.createElement(tag, props, this.props.children);
+	}
+});
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],5:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var classnames = require('classnames');
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: 'ButtonGroup',
+	propTypes: {
+		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string
+	},
+	render: function render() {
+		var className = classnames('ButtonGroup', this.props.className);
+		return React.createElement('div', _extends({}, this.props, { className: className }));
+	}
+});
+},{"classnames":"classnames","react":"react"}],6:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'Card',
+	propTypes: {
+		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string
+	},
+	render: function render() {
+		var className = classNames('Card', this.props.className);
+
+		return React.createElement('div', _extends({}, this.props, { className: className }));
+	}
+});
+},{"classnames":"classnames","react":"react"}],7:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+var React = require('react');
+
+var Checkbox = React.createClass({
+	displayName: 'Checkbox',
+
+	propTypes: {
+		autofocus: React.PropTypes.bool,
+		className: React.PropTypes.string,
+		disabled: React.PropTypes.bool,
+		indeterminate: React.PropTypes.bool,
+		inline: React.PropTypes.bool,
+		label: React.PropTypes.string,
+		style: React.PropTypes.object,
+		title: React.PropTypes.string
+	},
+	componentDidMount: function componentDidMount() {
+		if (this.props.autofocus) {
+			this.refs.target.focus();
+		}
+		this.setIndeterminate(this.props.indeterminate);
+	},
+	componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+		this.setIndeterminate(nextProps.indeterminate);
+	},
+	setIndeterminate: function setIndeterminate(value) {
+		this.refs.target.indeterminate = value;
+	},
+	render: function render() {
+		var componentClass = classNames('Checkbox', {
+			'Checkbox--disabled': this.props.disabled,
+			'Checkbox--inline': this.props.inline
+		}, this.props.className);
+		var props = blacklist(this.props, 'className', 'label', 'style', 'title');
+		return React.createElement(
+			'label',
+			{ className: componentClass, style: this.props.style, title: this.props.title },
+			React.createElement('input', _extends({ ref: 'target', type: 'checkbox', className: 'Checkbox__input' }, props)),
+			this.props.label && React.createElement(
+				'span',
+				{ className: 'Checkbox__label' },
+				this.props.label
+			)
+		);
+	}
+});
+
+module.exports = Checkbox;
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],8:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _blacklist = require('blacklist');
+
+var _blacklist2 = _interopRequireDefault(_blacklist);
+
+var _constants = require('../constants');
+
+var _constants2 = _interopRequireDefault(_constants);
+
+module.exports = _react2['default'].createClass({
+	displayName: 'Col',
+	propTypes: {
+		/* eslint-disable react/jsx-sort-prop-types */
+		basis: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.number, // allow pixels
+		_react2['default'].PropTypes.string]),
+		// allow percentage
+		children: _react2['default'].PropTypes.node,
+		gutter: _react2['default'].PropTypes.number,
+		style: _react2['default'].PropTypes.object,
+		lg: _react2['default'].PropTypes.string, // width as a percentage or fraction
+		md: _react2['default'].PropTypes.string, // width as a percentage or fraction
+		sm: _react2['default'].PropTypes.string, // width as a percentage or fraction
+		xs: _react2['default'].PropTypes.string },
+	// width as a percentage or fraction
+	/* eslint-enable */
+	getDefaultProps: function getDefaultProps() {
+		return {
+			gutter: _constants2['default'].width.gutter
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			windowWidth: typeof window !== 'undefined' ? window.innerWidth : 0
+		};
+	},
+	componentDidMount: function componentDidMount() {
+		if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
+	},
+	componentWillUnmount: function componentWillUnmount() {
+		if (typeof window !== 'undefined') window.removeEventListener('resize', this.handleResize);
+	},
+	handleResize: function handleResize() {
+		this.setState({
+			windowWidth: typeof window !== 'undefined' ? window.innerWidth : 0
+		});
+	},
+	render: function render() {
+		var _props = this.props;
+		var basis = _props.basis;
+		var gutter = _props.gutter;
+		var xs = _props.xs;
+		var sm = _props.sm;
+		var md = _props.md;
+		var lg = _props.lg;
+		var windowWidth = this.state.windowWidth;
+
+		var columnStyle = {
+			minHeight: 1,
+			paddingLeft: gutter / 2,
+			paddingRight: gutter / 2
+		};
+
+		// if no width control is provided fill available space
+		if (!basis && !xs && !sm && !md && !lg) {
+			columnStyle.flex = '1 1 auto';
+			columnStyle.msFlex = '1 1 auto';
+			columnStyle.WebkitFlex = '1 1 auto';
+		}
+
+		// set widths / flex-basis
+		if (basis) {
+			columnStyle.flex = '1 0 ' + basis;
+			columnStyle.msFlex = '1 0 ' + basis;
+			columnStyle.WebkitFlex = '1 0 ' + basis;
+		} else if (windowWidth < _constants2['default'].breakpoint.xs) {
+			columnStyle.width = xs;
+		} else if (windowWidth < _constants2['default'].breakpoint.sm) {
+			columnStyle.width = sm || xs;
+		} else if (windowWidth < _constants2['default'].breakpoint.md) {
+			columnStyle.width = md || sm || xs;
+		} else {
+			columnStyle.width = lg || md || sm || xs;
+		}
+
+		if (!columnStyle.width) {
+			columnStyle.width = '100%';
+		}
+
+		if (columnStyle.width in _constants2['default'].fractions) {
+			columnStyle.width = _constants2['default'].fractions[columnStyle.width];
+		}
+
+		var props = (0, _blacklist2['default'])(this.props, 'basis', 'gutter', 'style', 'xs', 'sm', 'md', 'lg');
+
+		return _react2['default'].createElement('div', _extends({ style: _extends(columnStyle, this.props.style) }, props));
+	}
+});
+},{"../constants":40,"blacklist":"blacklist","react":"react"}],9:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _blacklist = require('blacklist');
+
+var _blacklist2 = _interopRequireDefault(_blacklist);
+
+var _constants = require('../constants');
+
+var _constants2 = _interopRequireDefault(_constants);
+
+module.exports = _react2['default'].createClass({
+	displayName: 'Container',
+	propTypes: {
+		children: _react2['default'].PropTypes.node.isRequired,
+		clearfix: _react2['default'].PropTypes.bool,
+		gutter: _react2['default'].PropTypes.number,
+		maxWidth: _react2['default'].PropTypes.number,
+		style: _react2['default'].PropTypes.object
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			gutter: _constants2['default'].width.gutter,
+			maxWidth: _constants2['default'].width.container
+		};
+	},
+	render: function render() {
+		var _props = this.props;
+		var gutter = _props.gutter;
+		var maxWidth = _props.maxWidth;
+
+		var containerStyle = {
+			marginLeft: 'auto',
+			marginRight: 'auto',
+			paddingLeft: gutter,
+			paddingRight: gutter,
+			maxWidth: maxWidth
+		};
+		var clearfixStyle = { clear: 'both', display: 'table' };
+		var props = (0, _blacklist2['default'])(this.props, 'gutter', 'maxWidth', 'style');
+
+		return this.props.clearfix ? _react2['default'].createElement(
+			'div',
+			_extends({ style: _extends(containerStyle, this.props.style) }, props),
+			_react2['default'].createElement('span', { style: clearfixStyle }),
+			this.props.children,
+			_react2['default'].createElement('span', { style: clearfixStyle })
+		) : _react2['default'].createElement('div', _extends({ style: _extends(containerStyle, this.props.style) }, props));
+	}
+});
+},{"../constants":40,"blacklist":"blacklist","react":"react"}],10:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var Transition = require('react-addons-css-transition-group');
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+var Button = require('./Button');
+
+var ESC_KEYCODE = 27;
+var NO_OP = function NO_OP() {
+	return undefined;
+};
+
+module.exports = React.createClass({
+	displayName: 'Dropdown',
+	propTypes: {
+		alignRight: React.PropTypes.bool,
+		buttonHasDisclosureArrow: React.PropTypes.bool,
+		buttonLabel: React.PropTypes.string,
+		buttonType: React.PropTypes.string,
+		children: React.PropTypes.element,
+		className: React.PropTypes.string,
+		isOpen: React.PropTypes.bool,
+		items: React.PropTypes.array.isRequired,
+		onSelect: React.PropTypes.func
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			buttonHasDisclosureArrow: true,
+			onSelect: NO_OP
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			isOpen: this.props.isOpen || false
+		};
+	},
+	componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
+		if (typeof window === 'undefined') return;
+		if (nextState.isOpen) {
+			window.addEventListener('keydown', this.handleKeyDown);
+		} else {
+			window.removeEventListener('keydown', this.handleKeyDown);
+		}
+	},
+	openDropdown: function openDropdown() {
+		this.setState({ isOpen: true });
+	},
+	closeDropdown: function closeDropdown() {
+		this.setState({ isOpen: false });
+	},
+	handleKeyDown: function handleKeyDown(e) {
+		if (e.keyCode === ESC_KEYCODE) {
+			this.closeDropdown();
+		}
+	},
+	renderChildren: function renderChildren() {
+		var _this = this;
+
+		return React.Children.map(this.props.children, function (child) {
+			return React.cloneElement(child, {
+				onClick: _this.state.isOpen ? _this.closeDropdown : _this.openDropdown,
+				className: classNames(child.props.className, 'Dropdown-toggle')
+			});
+		});
+	},
+	renderButton: function renderButton() {
+		var disclosureArrow = this.props.buttonHasDisclosureArrow ? React.createElement('span', { className: 'disclosure-arrow' }) : null;
+
+		return React.createElement(
+			Button,
+			{ type: this.props.buttonType, onClick: this.state.isOpen ? this.closeDropdown : this.openDropdown, className: 'Dropdown-toggle' },
+			this.props.buttonLabel,
+			disclosureArrow
+		);
+	},
+	onClick: function onClick(selectedItem) {
+		this.setState({
+			isOpen: !this.state.isOpen
+		});
+		this.props.onSelect(selectedItem);
+	},
+	renderDropdownMenu: function renderDropdownMenu() {
+		var self = this;
+		if (!this.state.isOpen) return null;
+
+		var dropdownMenuItems = this.props.items.map(function (item, i) {
+			var menuItem;
+			if (item.type === 'header') {
+				menuItem = React.createElement(
+					'li',
+					{ key: 'item-' + i, className: 'Dropdown-menu__header' },
+					item.label
+				);
+			} else if (item.type === 'divider') {
+				menuItem = React.createElement('li', { key: 'item-' + i, className: 'Dropdown-menu__divider' });
+			} else {
+				menuItem = React.createElement(
+					'li',
+					{ key: 'item-' + i, className: 'Dropdown-menu__item' },
+					React.createElement(
+						'span',
+						{ className: 'Dropdown-menu__action', onClick: self.onClick.bind(self, item.value) },
+						item.label
+					)
+				);
+			}
+			return menuItem;
+		});
+
+		return React.createElement(
+			'ul',
+			{ key: 'Dropdown-menu', className: 'Dropdown-menu', role: 'menu' },
+			dropdownMenuItems
+		);
+	},
+	renderDropdownMenuBackground: function renderDropdownMenuBackground() {
+		if (!this.state.isOpen) return null;
+		return React.createElement('div', { className: 'Dropdown-menu-backdrop', onClick: this.closeDropdown });
+	},
+	render: function render() {
+		// classes
+		var dropdownClass = classNames('Dropdown', {
+			'is-open': this.state.isOpen,
+			'align-right': this.props.alignRight
+		}, this.props.className);
+
+		// props
+		var props = blacklist(this.props, 'alignRight', 'buttonHasDisclosureArrow', 'buttonLabel', 'buttonType', 'className', 'isOpen', 'items');
+
+		return React.createElement(
+			'span',
+			_extends({ className: dropdownClass }, props),
+			React.Children.count(this.props.children) ? this.renderChildren() : this.renderButton(),
+			React.createElement(
+				Transition,
+				{ transitionName: 'Dropdown-menu', transitionEnterTimeout: 100, transitionLeaveTimeout: 100 },
+				this.renderDropdownMenu()
+			),
+			this.renderDropdownMenuBackground()
+		);
+	}
+});
+},{"./Button":4,"blacklist":"blacklist","classnames":"classnames","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],11:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+
+var REGEXP_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+function validateEmail(value) {
+	return REGEXP_EMAIL.test(value);
+}
+
+module.exports = React.createClass({
+	displayName: 'EmailInputGroup',
+	propTypes: {
+		alwaysValidate: React.PropTypes.bool,
+		className: React.PropTypes.string,
+		invalidMessage: React.PropTypes.string,
+		label: React.PropTypes.string,
+		onChange: React.PropTypes.func,
+		required: React.PropTypes.bool,
+		requiredMessage: React.PropTypes.string,
+		value: React.PropTypes.string
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			requiredMessage: 'Email address is required',
+			invalidMessage: 'Please enter a valid email address'
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			isValid: true,
+			validationIsActive: this.props.alwaysValidate
+		};
+	},
+	componentDidMount: function componentDidMount() {
+		if (this.state.validationIsActive) {
+			this.validateInput(this.props.value);
+		}
+	},
+	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+		if (this.state.validationIsActive) {
+			if (newProps.value !== this.props.value && newProps.value !== this._lastChangeValue && !newProps.alwaysValidate) {
+				// reset validation state if the value was changed outside the component
+				return this.setState({
+					isValid: true,
+					validationIsActive: false
+				});
+			}
+			this.validateInput(newProps.value);
+		}
+	},
+	handleChange: function handleChange(e) {
+		this._lastChangeValue = e.target.value;
+		if (this.props.onChange) this.props.onChange(e);
+	},
+	handleBlur: function handleBlur() {
+		if (!this.props.alwaysValidate) {
+			this.setState({ validationIsActive: false });
+		}
+		this.validateInput(this.props.value);
+	},
+	validateInput: function validateInput(value) {
+		var newState = {
+			isValid: true
+		};
+		if (value.length && !validateEmail(value) || !value.length && this.props.required) {
+			newState.isValid = false;
+		}
+		if (!newState.isValid) {
+			newState.validationIsActive = true;
+		}
+		this.setState(newState);
+	},
+	render: function render() {
+		var validationMessage;
+		if (!this.state.isValid) {
+			validationMessage = React.createElement(
+				'div',
+				{ className: 'form-validation is-invalid' },
+				this.props.value.length ? this.props.invalidMessage : this.props.requiredMessage
+			);
+		}
+		var formGroupClass = classNames('FormField', {
+			'is-invalid': !this.state.isValid
+		}, this.props.className);
+
+		var componentLabel = this.props.label ? React.createElement(
+			'label',
+			{ className: 'FormLabel', htmlFor: 'inputEmail' },
+			this.props.label
+		) : null;
+
+		return React.createElement(
+			'div',
+			{ className: formGroupClass },
+			componentLabel,
+			React.createElement('input', { onChange: this.handleChange, onBlur: this.handleBlur, value: this.props.value, type: 'email', className: 'FormInput', placeholder: 'Enter email', id: 'inputEmail' }),
+			validationMessage
+		);
+	}
+});
+},{"classnames":"classnames","react":"react"}],12:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+
+/*
+	Based on: https://github.com/paramaggarwal/react-dropzone
+*/
+
+var Dropzone = React.createClass({
+	displayName: 'Dropzone',
+
+	propTypes: {
+		className: React.PropTypes.string,
+		label: React.PropTypes.string,
+		labelActive: React.PropTypes.string,
+		onDrop: React.PropTypes.func.isRequired
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			label: 'Drag Files Here',
+			labelActive: 'Drop to Upload'
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			isDragActive: false
+		};
+	},
+	onDragLeave: function onDragLeave() {
+		this.setState({
+			isDragActive: false
+		});
+	},
+	onDragOver: function onDragOver(e) {
+		e.preventDefault();
+		e.dataTransfer.dropEffect = 'copy';
+		this.setState({
+			isDragActive: true
+		});
+	},
+	onDrop: function onDrop(e) {
+		e.preventDefault();
+
+		this.setState({
+			isDragActive: false
+		});
+
+		var files;
+		if (e.dataTransfer) {
+			files = e.dataTransfer.files;
+		} else if (e.target) {
+			files = e.target.files;
+		}
+
+		if (this.props.onDrop) {
+			files = Array.prototype.slice.call(files);
+			this.props.onDrop(files);
+		}
+	},
+	onClick: function onClick() {
+		this.refs.fileInput.click();
+	},
+	render: function render() {
+		var className = classNames('FileDragAndDrop', {
+			'active': this.state.isDragActive
+		}, this.props.className);
+		return React.createElement(
+			'button',
+			{ className: className, type: 'button', onClick: this.onClick, onDragLeave: this.onDragLeave, onDragOver: this.onDragOver, onDrop: this.onDrop },
+			React.createElement('input', { style: { display: 'none' }, type: 'file', multiple: true, ref: 'fileInput', onChange: this.onDrop }),
+			React.createElement(
+				'div',
+				{ className: 'FileDragAndDrop__label' },
+				this.state.isDragActive ? this.props.labelActive : this.props.label
+			),
+			this.props.children
+		);
+	}
+});
+
+module.exports = Dropzone;
+},{"classnames":"classnames","react":"react"}],13:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var blacklist = require('blacklist');
+
+var Button = require('./Button');
+var Spinner = require('./Spinner');
+
+module.exports = React.createClass({
+	displayName: 'FileUpload',
+	propTypes: {
+		buttonLabelChange: React.PropTypes.string,
+		buttonLabelInitial: React.PropTypes.string,
+		disabled: React.PropTypes.bool,
+		file: React.PropTypes.object, // https://developer.mozilla.org/en/docs/Using_files_from_web_applications
+		onChange: React.PropTypes.func
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			buttonLabelInitial: 'Upload File',
+			buttonLabelChange: 'Change File'
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			dataURI: null,
+			file: {},
+			loading: false
+		};
+	},
+	componentDidMount: function componentDidMount() {
+		this.refs.fileInput.addEventListener('click', function () {
+			this.value = '';
+		}, false);
+	},
+	triggerFileBrowser: function triggerFileBrowser() {
+		this.refs.fileInput.click();
+	},
+	handleChange: function handleChange(e) {
+		var _this = this;
+
+		var reader = new FileReader();
+		var file = e.target.files[0];
+
+		reader.readAsDataURL(file);
+
+		reader.onloadstart = function () {
+			_this.setState({
+				loading: true
+			});
+		};
+		reader.onloadend = function (upload) {
+			_this.setState({
+				loading: false,
+				file: file,
+				dataURI: upload.target.result
+			});
+			if (typeof _this.props.onChange === 'function') {
+				_this.props.onChange(e, {
+					file: file,
+					dataURI: upload.target.result
+				});
+			}
+		};
+	},
+	cancelUpload: function cancelUpload(e) {
+		this.setState({
+			dataURI: null,
+			file: {}
+		});
+		this.props.onChange(e, null);
+	},
+	render: function render() {
+		var _state = this.state;
+		var dataURI = _state.dataURI;
+		var file = _state.file;
+
+		// props
+		var props = blacklist(this.props, 'buttonClassChange', 'buttonClassInitial', 'buttonLabelChange', 'buttonLabelInitial', 'disabled', 'file', 'onChange');
+		// elements
+		var component = dataURI ? React.createElement(
+			'div',
+			{ className: 'FileUpload' },
+			React.createElement(
+				'div',
+				{ className: 'FileUpload__image' },
+				React.createElement('img', { className: 'FileUpload__image-src', src: dataURI })
+			),
+			React.createElement(
+				'div',
+				{ className: 'FileUpload__content' },
+				React.createElement(
+					'div',
+					{ className: 'FileUpload__message' },
+					file.name,
+					' (',
+					Math.round(file.size / 1024),
+					'Kb)'
+				),
+				React.createElement(
+					'div',
+					{ className: 'FileUpload__buttons' },
+					React.createElement(
+						Button,
+						{ onClick: this.triggerFileBrowser, disabled: this.state.loading },
+						this.state.loading && React.createElement(Spinner, null),
+						this.props.buttonLabelChange
+					),
+					React.createElement(
+						Button,
+						{ onClick: this.cancelUpload, type: 'link-cancel', disabled: this.state.loading },
+						'Cancel'
+					)
+				)
+			)
+		) : React.createElement(
+			Button,
+			{ onClick: this.triggerFileBrowser, disabled: this.props.disabled || this.state.loading },
+			this.state.loading ? React.createElement(Spinner, null) : null,
+			this.props.buttonLabelInitial
+		);
+
+		return React.createElement(
+			'div',
+			null,
+			component,
+			React.createElement('input', _extends({ style: { display: 'none' }, type: 'file', ref: 'fileInput', onChange: this.handleChange }, props))
+		);
+	}
+});
+},{"./Button":4,"./Spinner":38,"blacklist":"blacklist","react":"react"}],14:[function(require,module,exports){
+'use strict';
+
+var blacklist = require('blacklist');
+var classnames = require('classnames');
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: 'Form',
+	propTypes: {
+		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string,
+		component: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string]),
+		type: React.PropTypes.oneOf(['basic', 'horizontal', 'inline'])
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			component: 'form',
+			type: 'basic'
+		};
+	},
+	render: function render() {
+		var props = blacklist(this.props, 'children', 'type');
+		props.className = classnames('Form', 'Form--' + this.props.type, this.props.className);
+
+		return React.createElement(this.props.component, props, this.props.children);
+	}
+});
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],15:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'FormField',
+	propTypes: {
+		className: React.PropTypes.string,
+		htmlFor: React.PropTypes.string,
+		id: React.PropTypes.string,
+		label: React.PropTypes.string,
+		offsetAbsentLabel: React.PropTypes.bool,
+		width: React.PropTypes.oneOf(['one-half', 'two-quarters', 'three-sixths', 'one-quarter', 'three-quarters', 'one-third', 'two-sixths', 'two-thirds', 'four-sixths', 'one-fifth', 'two-fifths', 'three-fifths', 'four-fifths', 'one-sixth', 'five-sixths'])
+	},
+	render: function render() {
+		// classes
+		var componentClass = classNames('FormField', {
+			'offset-absent-label': this.props.offsetAbsentLabel
+		}, this.props.width, this.props.className);
+
+		// props
+		var props = blacklist(this.props, 'className', 'label', 'offsetAbsentLabel', 'width');
+
+		// elements
+		var componentLabel = this.props.label ? React.createElement(
+			'label',
+			{ className: 'FormLabel', htmlFor: this.props.id || this.props.htmlFor },
+			this.props.label
+		) : null;
+
+		return React.createElement(
+			'div',
+			_extends({ className: componentClass }, props),
+			componentLabel,
+			this.props.children
+		);
+	}
+});
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],16:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+var Spinner = require('./Spinner');
+
+var icons = require('../Octicons').map;
+
+module.exports = React.createClass({
+	displayName: 'FormIcon',
+	propTypes: {
+		className: React.PropTypes.string,
+		color: React.PropTypes.oneOf(['danger', 'default', 'muted', 'primary', 'success', 'warning']),
+		fill: React.PropTypes.oneOf(['danger', 'default', 'muted', 'primary', 'success', 'warning']),
+		icon: React.PropTypes.string,
+		isLoading: React.PropTypes.bool,
+		type: React.PropTypes.string
+	},
+	render: function render() {
+		// classes
+		var className = classNames('IconField__icon', icons[this.props.icon].className, this.props.fill ? 'IconField__icon-fill--' + this.props.fill : null, this.props.type ? 'IconField__icon-color--' + this.props.type : null, this.props.className);
+		var component = this.props.isLoading ? React.createElement(Spinner, { size: 'sm' }) : React.createElement('div', { className: className });
+		return component;
+	}
+});
+},{"../Octicons":1,"./Spinner":38,"classnames":"classnames","react":"react"}],17:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+
+var FormField = require('./FormField');
+var Spinner = require('./Spinner');
+
+var ICON_MAP = require('../Octicons').map;
+var ICON_KEYS = require('../Octicons').keys;
+var COLOR_VARIANTS = ['danger', 'default', 'primary', 'success', 'warning'];
+
+module.exports = React.createClass({
+	displayName: 'FormIconField',
+	propTypes: {
+		className: React.PropTypes.string,
+		iconColor: React.PropTypes.oneOf(COLOR_VARIANTS),
+		iconFill: React.PropTypes.oneOf(COLOR_VARIANTS),
+		iconIsLoading: React.PropTypes.bool,
+		iconKey: React.PropTypes.oneOf(ICON_KEYS).isRequired,
+		iconPosition: React.PropTypes.oneOf(['left', 'right'])
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			iconPosition: 'left'
+		};
+	},
+	render: function render() {
+		// props
+		var props = blacklist(this.props, 'children', 'iconPosition', 'iconKey', 'iconFill', 'iconColor', 'iconIsLoading');
+
+		// classes
+		var fieldClass = classNames('IconField', {
+			'has-fill-icon': this.props.iconFill,
+			'is-loading-icon': this.props.iconIsLoading
+		}, this.props.iconFill ? 'field-context-' + this.props.iconFill : null, this.props.iconColor ? 'field-context-' + this.props.iconColor : null, this.props.iconPosition);
+
+		var iconClass = classNames('IconField__icon', this.props.iconFill ? 'IconField__icon-fill--' + this.props.iconFill : null, this.props.iconColor ? 'IconField__icon-color--' + this.props.iconColor : null, ICON_MAP[this.props.iconKey].className);
+
+		var icon = this.props.iconIsLoading ? React.createElement(Spinner, { size: 'sm' }) : React.createElement('span', { className: iconClass });
+
+		return React.createElement(
+			FormField,
+			props,
+			React.createElement(
+				'div',
+				{ className: fieldClass },
+				this.props.children,
+				icon
+			)
+		);
+	}
+});
+},{"../Octicons":1,"./FormField":15,"./Spinner":38,"blacklist":"blacklist","classnames":"classnames","react":"react"}],18:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'FormInput',
+	propTypes: {
+		autofocus: React.PropTypes.bool,
+		className: React.PropTypes.string,
+		disabled: React.PropTypes.bool,
+		href: React.PropTypes.string,
+		id: React.PropTypes.string,
+		multiline: React.PropTypes.bool,
+		name: React.PropTypes.string,
+		noedit: React.PropTypes.bool,
+		onChange: React.PropTypes.func,
+		size: React.PropTypes.oneOf(['lg', 'sm', 'xs']),
+		type: React.PropTypes.string,
+		value: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
+	},
+
+	getDefaultProps: function getDefaultProps() {
+		return {
+			type: 'text'
+		};
+	},
+
+	componentDidMount: function componentDidMount() {
+		if (this.props.autofocus) {
+			this.focus();
+		}
+	},
+
+	focus: function focus() {
+		this.refs.input.focus();
+	},
+
+	render: function render() {
+		// classes
+		var className = classNames({
+			'FormInput-noedit': this.props.noedit,
+			'FormInput-noedit--multiline': this.props.noedit && this.props.multiline,
+			'FormInput': !this.props.noedit
+		}, this.props.size ? 'FormInput--' + this.props.size : null, this.props.className);
+		var props = _extends({}, this.props, { className: className, ref: 'input' });
+		var Element = 'input';
+		if (this.props.noedit && this.props.href) {
+			Element = 'a';
+			props.type = null;
+			props.children = props.children || props.value;
+		} else if (this.props.noedit) {
+			Element = 'div';
+			props.type = null;
+			props.children = props.children || props.value;
+		} else if (this.props.multiline) {
+			Element = 'textarea';
+		}
+
+		return React.createElement(Element, props);
+	}
+});
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],19:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'FormLabel',
+	propTypes: {
+		className: React.PropTypes.string,
+		htmlFor: React.PropTypes.string,
+		id: React.PropTypes.string,
+		style: React.PropTypes.object,
+		verticalAlign: React.PropTypes.oneOf(['baseline', 'bottom', 'inherit', 'initial', 'middle', 'sub', 'super', 'text-bottom', 'text-top', 'top'])
+	},
+	render: function render() {
+		// classes
+		var className = classNames('FormLabel', this.props.className);
+		// props
+		var props = blacklist(this.props, 'htmlFor', 'id', 'className', 'style');
+		// style
+		var style;
+		if (this.props.verticalAlign) {
+			style = {
+				verticalAlign: this.props.verticalAlign
+			};
+		}
+		return React.createElement(
+			'label',
+			_extends({ className: className, htmlFor: this.props.htmlFor || this.props.id, style: style || this.props.style }, props),
+			this.props.children
+		);
+	}
+});
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],20:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+
+var NOTE_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
+
+module.exports = React.createClass({
+	displayName: 'FormNote',
+	propTypes: {
+		className: React.PropTypes.string,
+		note: React.PropTypes.string,
+		type: React.PropTypes.oneOf(NOTE_TYPES)
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			type: 'default'
+		};
+	},
+	render: function render() {
+		// classes
+		var componentClass = classNames('FormNote', this.props.type ? 'FormNote--' + this.props.type : null, this.props.className);
+
+		// props
+		var props = blacklist(this.props, 'className', 'note', 'type');
+
+		// allow users to pass through the note as an attribute or as children
+		return React.createElement(
+			'div',
+			_extends({ className: componentClass, dangerouslySetInnerHTML: this.props.note ? { __html: this.props.note } : null }, props),
+			this.props.children
+		);
+	}
+});
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],21:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'FormRow',
+	propTypes: {
+		className: React.PropTypes.string
+	},
+	render: function render() {
+		var className = classNames('FormRow', this.props.className);
+
+		return React.createElement(
+			'div',
+			{ className: className },
+			this.props.children
+		);
+	}
+});
+},{"classnames":"classnames","react":"react"}],22:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _blacklist = require('blacklist');
+
+var _blacklist2 = _interopRequireDefault(_blacklist);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _icons = require('../icons');
+
+var _icons2 = _interopRequireDefault(_icons);
+
+module.exports = _react2['default'].createClass({
+	displayName: 'FormSelect',
+	propTypes: {
+		alwaysValidate: _react2['default'].PropTypes.bool,
+		className: _react2['default'].PropTypes.string,
+		disabled: _react2['default'].PropTypes.bool,
+		firstOption: _react2['default'].PropTypes.string,
+		htmlFor: _react2['default'].PropTypes.string,
+		id: _react2['default'].PropTypes.string,
+		label: _react2['default'].PropTypes.string,
+		onChange: _react2['default'].PropTypes.func.isRequired,
+		options: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.shape({
+			label: _react2['default'].PropTypes.string,
+			value: _react2['default'].PropTypes.string
+		})).isRequired,
+		prependEmptyOption: _react2['default'].PropTypes.bool,
+		required: _react2['default'].PropTypes.bool,
+		requiredMessage: _react2['default'].PropTypes.string,
+		value: _react2['default'].PropTypes.string
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			requiredMessage: 'This field is required'
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			isValid: true,
+			validationIsActive: this.props.alwaysValidate
+		};
+	},
+	componentDidMount: function componentDidMount() {
+		if (this.state.validationIsActive) {
+			this.validateInput(this.props.value);
+		}
+	},
+	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+		if (this.state.validationIsActive) {
+			if (newProps.value !== this.props.value && newProps.value !== this._lastChangeValue && !newProps.alwaysValidate) {
+				// reset validation state if the value was changed outside the component
+				return this.setState({
+					isValid: true,
+					validationIsActive: false
+				});
+			}
+			this.validateInput(newProps.value);
+		}
+	},
+	handleChange: function handleChange(e) {
+		this._lastChangeValue = e.target.value;
+		if (this.props.onChange) this.props.onChange(e.target.value);
+	},
+	handleBlur: function handleBlur() {
+		if (!this.props.alwaysValidate) {
+			this.setState({
+				validationIsActive: false
+			});
+		}
+		this.validateInput(this.props.value);
+	},
+	validateInput: function validateInput(value) {
+		var newState = {
+			isValid: true
+		};
+		if (this.props.required && (!value || value && !value.length)) {
+			newState.isValid = false;
+		}
+		if (!newState.isValid) {
+			newState.validationIsActive = true;
+		}
+		this.setState(newState);
+	},
+	renderIcon: function renderIcon(icon) {
+		var iconClassname = (0, _classnames2['default'])('FormSelect__arrows', {
+			'FormSelect__arrows--disabled': this.props.disabled
+		});
+		return _react2['default'].createElement('span', { dangerouslySetInnerHTML: { __html: icon }, className: iconClassname });
+	},
+	render: function render() {
+		// props
+		var props = (0, _blacklist2['default'])(this.props, 'prependEmptyOption', 'firstOption', 'alwaysValidate', 'htmlFor', 'id', 'label', 'onChange', 'options', 'required', 'requiredMessage', 'className');
+
+		// classes
+		var componentClass = (0, _classnames2['default'])('FormField', {
+			'is-invalid': !this.state.isValid
+		}, this.props.className);
+
+		// validation message
+		var validationMessage = undefined;
+		if (!this.state.isValid) {
+			validationMessage = _react2['default'].createElement(
+				'div',
+				{ className: 'form-validation is-invalid' },
+				this.props.requiredMessage
+			);
+		}
+
+		// dynamic elements
+		var forAndID = this.props.htmlFor || this.props.id;
+		var componentLabel = this.props.label ? _react2['default'].createElement(
+			'label',
+			{ className: 'FormLabel', htmlFor: forAndID },
+			this.props.label
+		) : null;
+
+		// options
+		var options = this.props.options.map(function (opt, i) {
+			return _react2['default'].createElement(
+				'option',
+				{ key: 'option-' + i, value: opt.value },
+				opt.label
+			);
+		});
+		if (this.props.prependEmptyOption || this.props.firstOption) {
+			options.unshift(_react2['default'].createElement(
+				'option',
+				{ key: 'option-blank', value: '' },
+				this.props.firstOption ? this.props.firstOption : 'Select...'
+			));
+		}
+
+		return _react2['default'].createElement(
+			'div',
+			{ className: componentClass },
+			componentLabel,
+			_react2['default'].createElement(
+				'div',
+				{ className: 'u-pos-relative' },
+				_react2['default'].createElement(
+					'select',
+					_extends({ className: 'FormInput FormSelect', id: forAndID, onChange: this.handleChange, onBlur: this.handleBlur }, props),
+					options
+				),
+				this.renderIcon(_icons2['default'].selectArrows)
+			),
+			validationMessage
+		);
+	}
+});
+},{"../icons":41,"blacklist":"blacklist","classnames":"classnames","react":"react"}],23:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+
+var icons = require('../Octicons').map;
+var validNames = require('../Octicons').keys;
+
+var Glyph = React.createClass({
+	displayName: 'Glyph',
+	propTypes: {
+		className: React.PropTypes.string,
+		icon: React.PropTypes.oneOf(validNames),
+		type: React.PropTypes.oneOf(['danger', 'default', 'muted', 'primary', 'success', 'warning'])
+	},
+	render: function render() {
+		// classes
+		var className = classNames('Glyph__icon', icons[this.props.icon].className, this.props.type ? 'IconField__icon-color--' + this.props.type : null, this.props.className);
+		return React.createElement('i', { className: className });
+	}
+});
+
+module.exports = Glyph;
+module.exports.names = validNames;
+},{"../Octicons":1,"classnames":"classnames","react":"react"}],24:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'InputGroup',
+	propTypes: {
+		className: React.PropTypes.string,
+		contiguous: React.PropTypes.bool
+	},
+	render: function render() {
+		// classes
+		var className = classNames('InputGroup', {
+			'InputGroup--contiguous': this.props.contiguous
+		}, this.props.className);
+
+		return React.createElement('div', _extends({}, this.props, { className: className }));
+	}
+});
+
+// expose the child to the top level export
+module.exports.Section = require('./InputGroupSection');
+},{"./InputGroupSection":25,"classnames":"classnames","react":"react"}],25:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'InputGroupSection',
+	propTypes: {
+		className: React.PropTypes.string,
+		grow: React.PropTypes.bool
+	},
+	render: function render() {
+		// classes
+		var className = classNames('InputGroup_section', {
+			'InputGroup_section--grow': this.props.grow
+		}, this.props.className);
+
+		return React.createElement('div', _extends({}, this.props, { className: className }));
+	}
+});
+},{"classnames":"classnames","react":"react"}],26:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
+
+var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
+
+var _blacklist = require('blacklist');
+
+var _blacklist2 = _interopRequireDefault(_blacklist);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _constants = require('../constants');
+
+var TransitionPortal = _react2['default'].createClass({
+	displayName: 'TransitionPortal',
+	componentDidMount: function componentDidMount() {
+		if (!_constants.canUseDOM) return;
+		var p = document.createElement('div');
+		document.body.appendChild(p);
+		this.portalElement = p;
+		this.componentDidUpdate();
+	},
+	componentDidUpdate: function componentDidUpdate() {
+		if (!_constants.canUseDOM) return;
+		_reactDom2['default'].render(_react2['default'].createElement(
+			_reactAddonsCssTransitionGroup2['default'],
+			this.props,
+			this.props.children
+		), this.portalElement);
+	},
+	componentWillUnmount: function componentWillUnmount() {
+		if (!_constants.canUseDOM) return;
+		document.body.removeChild(this.portalElement);
+	},
+	portalElement: null,
+	render: function render() {
+		return null;
+	}
+});
+
+module.exports = _react2['default'].createClass({
+	displayName: 'Modal',
+	propTypes: {
+		autofocusFirstElement: _react2['default'].PropTypes.bool,
+		backdropClosesModal: _react2['default'].PropTypes.bool,
+		className: _react2['default'].PropTypes.string,
+		isOpen: _react2['default'].PropTypes.bool,
+		onCancel: _react2['default'].PropTypes.func,
+		width: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.oneOf(['small', 'medium', 'large']), _react2['default'].PropTypes.number])
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			width: 'medium'
+		};
+	},
+	componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+		if (!_constants.canUseDOM) return;
+		if (!this.props.isOpen && nextProps.isOpen) {
+			// setTimeout(() => this.handleAccessibility());
+			document.body.style.overflow = 'hidden';
+		} else if (this.props.isOpen && !nextProps.isOpen) {
+			// setTimeout(() => this.removeAccessibilityHandlers());
+			document.body.style.overflow = null;
+		}
+	},
+	/*
+ handleAccessibility () {
+ 	// Remember the element that was focused before we opened the modal
+ 	// so we can return focus to it once we close the modal.
+ 	this.focusedElementBeforeModalOpened = document.activeElement;
+ 		// We're using a transition to reveal the modal,
+ 	// so wait until the element is visible, before
+ 	// finding the first keyboard focusable element
+ 	// and passing focus to it, otherwise the browser
+ 	// might scroll the document to reveal the element
+ 	// receiving focus
+ 	if (this.props.autofocusFirstElement) {
+ 		ally.when.visibleArea({
+ 			context: this.modalElement,
+ 			callback: function(context) {
+ 				// the modal is visible on screen, so find the first
+ 				// keyboard focusable element (giving any element with
+ 				// autofocus attribute precendence). If the modal does
+ 				// not contain any keyboard focusabe elements, focus will
+ 				// be given to the modal itself.
+ 				var element = ally.query.firstTabbable({
+ 					context: context,
+ 					defaultToContext: true,
+ 				});
+ 				element.focus();
+ 			},
+ 		});
+ 	}
+ 		// Make sure that no element outside of the modal
+ 	// can be interacted with while the modal is visible.
+ 	this.disabledHandle = ally.maintain.disabled({
+ 		filter: this.modalElement,
+ 	});
+ 		// Make sure that no element outside of the modal
+ 	// is exposed via the Accessibility Tree, to prevent
+ 	// screen readers from navigating to content it shouldn't
+ 	// be seeing while the modal is open.
+ 	this.hiddenHandle = ally.maintain.hidden({
+ 		filter: this.modalElement,
+ 	});
+ 		// React to escape keys as mandated by ARIA Practices
+ 	this.keyHandle = ally.when.key({
+ 		escape: this.handleClose,
+ 	});
+ },
+ removeAccessibilityHandlers () {
+ 	// undo listening to keyboard
+ 	this.keyHandle && this.keyHandle.disengage();
+ 		// undo hiding elements outside of the modal
+ 	this.hiddenHandle && this.hiddenHandle.disengage();
+ 		// undo disabling elements outside of the modal
+ 	this.disabledHandle && this.disabledHandle.disengage();
+ 		// return focus to where it was before we opened the modal
+ 	this.focusedElementBeforeModalOpened && this.focusedElementBeforeModalOpened.focus();
+ },
+ handleModalClick (event) {
+ 	if (event.target.dataset.modal) this.handleClose();
+ },
+ */
+	handleClose: function handleClose() {
+		this.props.onCancel();
+	},
+	renderDialog: function renderDialog() {
+		var _this = this;
+
+		if (!this.props.isOpen) return;
+		var dialogClassname = (0, _classnames2['default'])('Modal-dialog', this.props.width && isNaN(this.props.width) ? 'Modal-dialog--' + this.props.width : null);
+		return _react2['default'].createElement(
+			'div',
+			{ className: dialogClassname, style: this.props.width && !isNaN(this.props.width) ? { width: this.props.width + 20 } : null },
+			_react2['default'].createElement(
+				'div',
+				{ ref: function (ref) {
+						_this.modalElement = ref;
+					}, className: 'Modal-content' },
+				this.props.children
+			)
+		);
+	},
+	renderBackdrop: function renderBackdrop() {
+		if (!this.props.isOpen) return;
+		return _react2['default'].createElement('div', { className: 'Modal-backdrop', onClick: this.props.backdropClosesModal ? this.handleClose : null });
+	},
+	render: function render() {
+		var className = (0, _classnames2['default'])('Modal', {
+			'is-open': this.props.isOpen
+		}, this.props.className);
+		var props = (0, _blacklist2['default'])(this.props, 'backdropClosesModal', 'className', 'isOpen', 'onCancel');
+		return _react2['default'].createElement(
+			'div',
+			null,
+			_react2['default'].createElement(
+				TransitionPortal,
+				_extends({}, props, { 'data-modal': 'true', className: className, /*onClick={this.handleModalClick}*/transitionName: 'Modal-dialog', transitionEnterTimeout: 260, transitionLeaveTimeout: 140, component: 'div' }),
+				this.renderDialog()
+			),
+			_react2['default'].createElement(
+				TransitionPortal,
+				{ transitionName: 'Modal-background', transitionEnterTimeout: 140, transitionLeaveTimeout: 240, component: 'div' },
+				this.renderBackdrop()
+			)
+		);
+	}
+});
+
+// expose the children to the top level export
+module.exports.Body = require('./ModalBody');
+module.exports.Footer = require('./ModalFooter');
+module.exports.Header = require('./ModalHeader');
+},{"../constants":40,"./ModalBody":27,"./ModalFooter":28,"./ModalHeader":29,"blacklist":"blacklist","classnames":"classnames","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group","react-dom":"react-dom"}],27:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var classnames = require('classnames');
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: 'ModalBody',
+	propTypes: {
+		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string
+	},
+	render: function render() {
+		var className = classnames('Modal__body', this.props.className);
+		return React.createElement('div', _extends({}, this.props, { className: className }));
+	}
+});
+},{"classnames":"classnames","react":"react"}],28:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var classnames = require('classnames');
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: 'ModalFooter',
+	propTypes: {
+		children: React.PropTypes.node.isRequired,
+		className: React.PropTypes.string
+	},
+	render: function render() {
+		var className = classnames('Modal__footer', this.props.className);
+		return React.createElement('div', _extends({}, this.props, { className: className }));
+	}
+});
+},{"classnames":"classnames","react":"react"}],29:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var classnames = require('classnames');
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: 'ModalHeader',
+	propTypes: {
+		children: React.PropTypes.node,
+		className: React.PropTypes.string,
+		onClose: React.PropTypes.func,
+		showCloseButton: React.PropTypes.bool,
+		text: React.PropTypes.string
+	},
+	handleClose: function handleClose() {
+		document.body.style.overflow = null;
+		this.props.onClose();
+	},
+	render: function render() {
+
+		// elements
+		var className = classnames('Modal__header', this.props.className);
+		var close = this.props.showCloseButton ? React.createElement('button', { type: 'button', onClick: this.handleClose, className: 'Modal__header__close' }) : null;
+		var text = this.props.text ? React.createElement(
+			'h4',
+			{ className: 'Modal__header__text' },
+			this.props.text
+		) : null;
+		return React.createElement(
+			'div',
+			_extends({}, this.props, { className: className }),
+			close,
+			text,
+			this.props.children
+		);
+	}
+});
+},{"classnames":"classnames","react":"react"}],30:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+
+var Page = React.createClass({
+	displayName: 'Page',
+	propTypes: {
+		children: React.PropTypes.node,
+		label: React.PropTypes.string,
+		onSelect: React.PropTypes.func,
+		page: React.PropTypes.number,
+		selected: React.PropTypes.bool
+	},
+	onSelect: function onSelect() {
+		this.props.onSelect(this.props.page);
+	},
+	render: function render() {
+		var _props = this.props;
+		var children = _props.children;
+		var selected = _props.selected;
+		var label = _props.label;
+
+		var className = classNames('Pagination__list__item', {
+			'is-selected': selected
+		});
+		return React.createElement(
+			'button',
+			{ className: className, onClick: this.onSelect },
+			children
+		);
+	}
+});
+
+module.exports = React.createClass({
+	displayName: 'Pagination',
+	propTypes: {
+		className: React.PropTypes.string,
+		currentPage: React.PropTypes.number.isRequired,
+		limit: React.PropTypes.number,
+		onPageSelect: React.PropTypes.func,
+		pageSize: React.PropTypes.number.isRequired,
+		plural: React.PropTypes.string,
+		singular: React.PropTypes.string,
+		style: React.PropTypes.object,
+		total: React.PropTypes.number.isRequired
+	},
+	renderCount: function renderCount() {
+		var count = '';
+		var _props2 = this.props;
+		var currentPage = _props2.currentPage;
+		var pageSize = _props2.pageSize;
+		var plural = _props2.plural;
+		var singular = _props2.singular;
+		var total = _props2.total;
+
+		if (!total) {
+			count = 'No ' + (plural || 'records');
+		} else if (total > pageSize) {
+			var start = pageSize * (currentPage - 1) + 1;
+			var end = Math.min(start + pageSize - 1, total);
+			count = 'Showing ' + start + ' to ' + end + ' of ' + total;
+		} else {
+			count = 'Showing ' + total;
+			if (total > 1 && plural) {
+				count += ' ' + plural;
+			} else if (total === 1 && singular) {
+				count += ' ' + singular;
+			}
+		}
+		return React.createElement(
+			'div',
+			{ className: 'Pagination__count' },
+			count
+		);
+	},
+	onPageSelect: function onPageSelect(page) {
+		if (this.props.onPageSelect) {
+			this.props.onPageSelect(page);
+		}
+	},
+	renderPages: function renderPages() {
+		if (this.props.total <= this.props.pageSize) return null;
+
+		var pages = [];
+		var _props3 = this.props;
+		var currentPage = _props3.currentPage;
+		var pageSize = _props3.pageSize;
+		var total = _props3.total;
+		var limit = _props3.limit;
+
+		var totalPages = Math.ceil(total / pageSize);
+		var minPage = 1;
+		var maxPage = totalPages;
+
+		if (limit && limit < totalPages) {
+			var rightLimit = Math.floor(limit / 2);
+			var leftLimit = rightLimit + limit % 2 - 1;
+			minPage = currentPage - leftLimit;
+			maxPage = currentPage + rightLimit;
+
+			if (minPage < 1) {
+				maxPage = limit;
+				minPage = 1;
+			}
+			if (maxPage > totalPages) {
+				minPage = totalPages - limit + 1;
+				maxPage = totalPages;
+			}
+		}
+		if (minPage > 1) {
+			pages.push(React.createElement(
+				Page,
+				{ key: 'page_start', onSelect: this.onPageSelect, page: 1 },
+				'...'
+			));
+		}
+		for (var page = minPage; page <= maxPage; page++) {
+			var selected = page === currentPage;
+			/* eslint-disable no-loop-func */
+			pages.push(React.createElement(
+				Page,
+				{ key: 'page_' + page, selected: selected, onSelect: this.onPageSelect, page: page },
+				page
+			));
+			/* eslint-enable */
+		}
+		if (maxPage < totalPages) {
+			pages.push(React.createElement(
+				Page,
+				{ key: 'page_end', onSelect: this.onPageSelect, page: totalPages },
+				'...'
+			));
+		}
+		return React.createElement(
+			'div',
+			{ className: 'Pagination__list' },
+			pages
+		);
+	},
+	render: function render() {
+		var className = classNames('Pagination', this.props.className);
+		return React.createElement(
+			'div',
+			{ className: className, style: this.props.style },
+			this.renderCount(),
+			this.renderPages()
+		);
+	}
+});
+},{"classnames":"classnames","react":"react"}],31:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+
+function validatePassword(value) {
+	return value.length >= 8;
+}
+
+module.exports = React.createClass({
+	displayName: 'PasswordInputGroup',
+	propTypes: {
+		alwaysValidate: React.PropTypes.bool,
+		className: React.PropTypes.string,
+		invalidMessage: React.PropTypes.string,
+		label: React.PropTypes.string,
+		onChange: React.PropTypes.func,
+		required: React.PropTypes.bool,
+		requiredMessage: React.PropTypes.string,
+		validatePassword: React.PropTypes.func,
+		value: React.PropTypes.string
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			validatePassword: validatePassword,
+			requiredMessage: 'Password is required',
+			invalidMessage: 'Password must be at least 8 characters in length'
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			isValid: true,
+			validationIsActive: this.props.alwaysValidate
+		};
+	},
+	componentDidMount: function componentDidMount() {
+		if (this.state.validationIsActive) {
+			this.validateInput(this.props.value);
+		}
+	},
+	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+		if (this.state.validationIsActive) {
+			if (newProps.value !== this.props.value && newProps.value !== this._lastChangeValue && !newProps.alwaysValidate) {
+				// reset validation state if the value was changed outside the component
+				return this.setState({
+					isValid: true,
+					validationIsActive: false
+				});
+			}
+			this.validateInput(newProps.value);
+		}
+	},
+	handleChange: function handleChange(e) {
+		this._lastChangeValue = e.target.value;
+		if (this.props.onChange) this.props.onChange(e);
+	},
+	handleBlur: function handleBlur() {
+		if (!this.props.alwaysValidate) {
+			this.setState({ validationIsActive: false });
+		}
+		this.validateInput(this.props.value);
+	},
+	validateInput: function validateInput(value) {
+		var newState = {
+			isValid: true
+		};
+		if (value.length && !this.props.validatePassword(value) || !value.length && this.props.required) {
+			newState.isValid = false;
+		}
+		if (!newState.isValid) {
+			newState.validationIsActive = true;
+		}
+		this.setState(newState);
+	},
+	render: function render() {
+		var validationMessage;
+		if (!this.state.isValid) {
+			validationMessage = React.createElement(
+				'div',
+				{ className: 'form-validation is-invalid' },
+				this.props.value.length ? this.props.invalidMessage : this.props.requiredMessage
+			);
+		}
+		var formGroupClass = classNames('FormField', {
+			'is-invalid': !this.state.isValid
+		}, this.props.className);
+
+		var componentLabel = this.props.label ? React.createElement(
+			'label',
+			{ className: 'FormLabel', htmlFor: 'inputPassword' },
+			this.props.label
+		) : null;
+
+		return React.createElement(
+			'div',
+			{ className: formGroupClass },
+			componentLabel,
+			React.createElement('input', { onChange: this.handleChange, onBlur: this.handleBlur, value: this.props.value, type: 'password', className: 'FormInput', placeholder: 'Enter password', id: 'inputPassword' }),
+			validationMessage
+		);
+	}
+});
+},{"classnames":"classnames","react":"react"}],32:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+
+var ALERT_TYPES = ['danger', 'default', 'info', 'primary', 'success', 'warning', 'danger-inverted', 'default-inverted', 'info-inverted', 'primary-inverted', 'success-inverted', 'warning-inverted'];
+
+module.exports = React.createClass({
+	displayName: 'Pill',
+	propTypes: {
+		className: React.PropTypes.string,
+		label: React.PropTypes.string.isRequired,
+		onClear: React.PropTypes.func,
+		onClick: React.PropTypes.func,
+		type: React.PropTypes.oneOf(ALERT_TYPES)
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			type: 'default'
+		};
+	},
+	renderClearButton: function renderClearButton() {
+		if (!this.props.onClear) return null;
+		return React.createElement(
+			'button',
+			{ type: 'button', onClick: this.props.onClear, className: 'Pill__clear' },
+			'×'
+		);
+	},
+	render: function render() {
+		var componentClass = classNames('Pill', 'Pill--' + this.props.type, this.props.className);
+
+		var props = blacklist(this.props, 'className', 'label', 'onClear', 'onClick', 'type');
+		props.className = componentClass;
+
+		return React.createElement(
+			'div',
+			props,
+			React.createElement(
+				'button',
+				{ type: 'button', onClick: this.props.onClick, className: 'Pill__label' },
+				this.props.label
+			),
+			this.renderClearButton()
+		);
+	}
+});
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],33:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+var React = require('react');
+
+var Radio = React.createClass({
+	displayName: 'Radio',
+
+	propTypes: {
+		className: React.PropTypes.string,
+		disabled: React.PropTypes.bool,
+		inline: React.PropTypes.bool,
+		label: React.PropTypes.string
+	},
+	render: function render() {
+		var componentClass = classNames('Radio', {
+			'Radio--disabled': this.props.disabled,
+			'Radio--inline': this.props.inline
+		}, this.props.className);
+		var props = blacklist(this.props, 'className', 'label');
+
+		return React.createElement(
+			'label',
+			{ className: componentClass },
+			React.createElement('input', _extends({ type: 'radio', className: 'Radio__input' }, props)),
+			this.props.label && React.createElement(
+				'span',
+				{ className: 'Radio__label' },
+				this.props.label
+			)
+		);
+	}
+});
+
+module.exports = Radio;
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],34:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var React = require('react');
+var blacklist = require('blacklist');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'RadioGroup',
+	propTypes: {
+		alwaysValidate: React.PropTypes.bool,
+		className: React.PropTypes.string,
+		inline: React.PropTypes.bool,
+		label: React.PropTypes.string,
+		onChange: React.PropTypes.func.isRequired,
+		options: React.PropTypes.array.isRequired,
+		required: React.PropTypes.bool,
+		requiredMessage: React.PropTypes.string,
+		value: React.PropTypes.string
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			requiredMessage: 'This field is required'
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			isValid: true,
+			validationIsActive: this.props.alwaysValidate
+		};
+	},
+	componentDidMount: function componentDidMount() {
+		if (this.state.validationIsActive) {
+			this.validateInput(this.props.value);
+		}
+	},
+	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+		if (this.state.validationIsActive) {
+			if (newProps.value !== this.props.value && newProps.value !== this._lastChangeValue && !newProps.alwaysValidate) {
+				// reset validation state if the value was changed outside the component
+				return this.setState({
+					isValid: true,
+					validationIsActive: false
+				});
+			}
+			this.validateInput(newProps.value);
+		}
+	},
+	handleChange: function handleChange(e) {
+		this._lastChangeValue = e.target.value;
+		if (this.props.onChange) this.props.onChange(e.target.value);
+	},
+	handleBlur: function handleBlur() {
+		if (!this.props.alwaysValidate) {
+			this.setState({ validationIsActive: false });
+		}
+		this.validateInput(this.props.value);
+	},
+	validateInput: function validateInput(value) {
+		var newState = {
+			isValid: true
+		};
+		if (this.props.required && (!value || value && !value.length)) {
+			newState.isValid = false;
+		}
+		if (!newState.isValid) {
+			newState.validationIsActive = true;
+		}
+		this.setState(newState);
+	},
+	render: function render() {
+		var self = this;
+
+		// props
+		var props = blacklist(this.props, 'alwaysValidate', 'label', 'onChange', 'options', 'required', 'requiredMessage', 'value');
+
+		// classes
+		var componentClass = classNames('FormField', {
+			'is-invalid': !this.state.isValid
+		}, this.props.className);
+
+		// validation message
+		var validationMessage;
+		if (!this.state.isValid) {
+			validationMessage = React.createElement(
+				'div',
+				{ className: 'form-validation is-invalid' },
+				this.props.requiredMessage
+			);
+		}
+
+		// dynamic elements
+		var componentLabel = this.props.label ? React.createElement(
+			'label',
+			{ className: 'FormLabel' },
+			this.props.label
+		) : null;
+
+		// options
+		var radios = this.props.options.map(function (radio, i) {
+			return React.createElement(
+				'label',
+				{ key: 'radio-' + i, className: 'Radio' },
+				React.createElement('input', { value: radio.value, type: 'radio', onChange: self.handleChange, onBlur: self.handleBlur, name: self.props.name, className: 'Radio__input' }),
+				React.createElement(
+					'span',
+					{ className: 'Radio__label' },
+					radio.label
+				)
+			);
+		});
+		if (this.props.inline) {
+			radios = React.createElement(
+				'div',
+				{ className: 'inline-controls' },
+				radios
+			);
+		}
+
+		return React.createElement(
+			'div',
+			_extends({ className: componentClass }, props),
+			componentLabel,
+			radios,
+			validationMessage
+		);
+	}
+});
+},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],35:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _blacklist = require('blacklist');
+
+var _blacklist2 = _interopRequireDefault(_blacklist);
+
+var _constants = require('../constants');
+
+var _constants2 = _interopRequireDefault(_constants);
+
+module.exports = _react2['default'].createClass({
+	displayName: 'ResponsiveText',
+	propTypes: {
+		hiddenLG: _react2['default'].PropTypes.string,
+		hiddenMD: _react2['default'].PropTypes.string,
+		hiddenSM: _react2['default'].PropTypes.string,
+		hiddenXS: _react2['default'].PropTypes.string,
+		visibleLG: _react2['default'].PropTypes.string,
+		visibleMD: _react2['default'].PropTypes.string,
+		visibleSM: _react2['default'].PropTypes.string,
+		visibleXS: _react2['default'].PropTypes.string
+	},
+	getInitialState: function getInitialState() {
+		return {
+			windowWidth: typeof window !== 'undefined' ? window.innerWidth : 0
+		};
+	},
+	componentDidMount: function componentDidMount() {
+		if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
+	},
+	componentWillUnmount: function componentWillUnmount() {
+		if (typeof window !== 'undefined') window.removeEventListener('resize', this.handleResize);
+	},
+	handleResize: function handleResize() {
+		this.setState({
+			windowWidth: typeof window !== 'undefined' ? window.innerWidth : 0
+		});
+	},
+	render: function render() {
+		var _props = this.props;
+		var hiddenXS = _props.hiddenXS;
+		var hiddenSM = _props.hiddenSM;
+		var hiddenMD = _props.hiddenMD;
+		var hiddenLG = _props.hiddenLG;
+		var visibleXS = _props.visibleXS;
+		var visibleSM = _props.visibleSM;
+		var visibleMD = _props.visibleMD;
+		var visibleLG = _props.visibleLG;
+		var windowWidth = this.state.windowWidth;
+
+		var text = undefined;
+
+		// set widths / flex-basis
+		if (windowWidth < _constants2['default'].breakpoint.xs) {
+			text = visibleXS || hiddenSM || hiddenMD || hiddenLG;
+		} else if (windowWidth < _constants2['default'].breakpoint.sm) {
+			text = hiddenXS || visibleSM || hiddenMD || hiddenLG;
+		} else if (windowWidth < _constants2['default'].breakpoint.md) {
+			text = hiddenXS || hiddenSM || visibleMD || hiddenLG;
+		} else {
+			text = hiddenXS || hiddenSM || hiddenMD || visibleLG;
+		}
+
+		var props = (0, _blacklist2['default'])(this.props, {
+			'hiddenXS': true,
+			'hiddenSM': true,
+			'hiddenMD': true,
+			'hiddenLG': true,
+			'visibleXS': true,
+			'visibleSM': true,
+			'visibleMD': true,
+			'visibleLG': true
+		});
+
+		return _react2['default'].createElement(
+			'span',
+			props,
+			text
+		);
+	}
+});
+},{"../constants":40,"blacklist":"blacklist","react":"react"}],36:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _blacklist = require('blacklist');
+
+var _blacklist2 = _interopRequireDefault(_blacklist);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _constants = require('../constants');
+
+var _constants2 = _interopRequireDefault(_constants);
+
+module.exports = _react2['default'].createClass({
+	displayName: 'Row',
+	propTypes: {
+		children: _react2['default'].PropTypes.node.isRequired,
+		className: _react2['default'].PropTypes.string,
+		gutter: _react2['default'].PropTypes.number,
+		style: _react2['default'].PropTypes.object
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			gutter: _constants2['default'].width.gutter
+		};
+	},
+	render: function render() {
+		var gutter = this.props.gutter;
+
+		var rowStyle = {
+			display: 'flex',
+			flexWrap: 'wrap',
+			msFlexWrap: 'wrap',
+			WebkitFlexWrap: 'wrap',
+			marginLeft: gutter / -2,
+			marginRight: gutter / -2
+		};
+		var className = (0, _classnames2['default'])('Row', this.props.className);
+		var props = (0, _blacklist2['default'])(this.props, 'className', 'gutter', 'style');
+
+		return _react2['default'].createElement('div', _extends({}, props, { style: _extends(rowStyle, this.props.style), className: className }));
+	}
+});
+},{"../constants":40,"blacklist":"blacklist","classnames":"classnames","react":"react"}],37:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+module.exports = _react2['default'].createClass({
+	displayName: 'SegmentedControl',
+
+	propTypes: {
+		className: _react2['default'].PropTypes.string,
+		equalWidthSegments: _react2['default'].PropTypes.bool,
+		onChange: _react2['default'].PropTypes.func.isRequired,
+		options: _react2['default'].PropTypes.array.isRequired,
+		type: _react2['default'].PropTypes.oneOf(['default', 'muted', 'danger', 'info', 'primary', 'success', 'warning']),
+		value: _react2['default'].PropTypes.string
+	},
+
+	getDefaultProps: function getDefaultProps() {
+		return {
+			type: 'default'
+		};
+	},
+
+	onChange: function onChange(value) {
+		this.props.onChange(value);
+	},
+
+	render: function render() {
+		var _this = this;
+
+		var componentClassName = (0, _classnames2['default'])('SegmentedControl', 'SegmentedControl--' + this.props.type, {
+			'SegmentedControl--equal-widths': this.props.equalWidthSegments
+		}, this.props.className);
+
+		var options = this.props.options.map(function (op) {
+
+			var buttonClassName = (0, _classnames2['default'])('SegmentedControl__button', {
+				'is-selected': op.value === _this.props.value
+			});
+
+			return _react2['default'].createElement(
+				'span',
+				{ key: 'option-' + op.value, className: 'SegmentedControl__item' },
+				_react2['default'].createElement(
+					'button',
+					{ type: 'button', onClick: _this.onChange.bind(_this, op.value), className: buttonClassName },
+					op.label
+				)
+			);
+		});
+
+		return _react2['default'].createElement(
+			'div',
+			{ className: componentClassName },
+			options
+		);
+	}
+});
+},{"classnames":"classnames","react":"react"}],38:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var classNames = require('classnames');
+
+module.exports = React.createClass({
+	displayName: 'Spinner',
+	propTypes: {
+		className: React.PropTypes.string,
+		size: React.PropTypes.oneOf(['sm', 'md', 'lg']),
+		type: React.PropTypes.oneOf(['default', 'primary', 'inverted'])
+	},
+	getDefaultProps: function getDefaultProps() {
+		return {
+			type: 'default',
+			size: 'sm'
+		};
+	},
+	render: function render() {
+		var componentClass = classNames('Spinner', 'Spinner--' + this.props.type, 'Spinner--' + this.props.size, this.props.className);
+
+		return React.createElement(
+			'div',
+			{ className: componentClass },
+			React.createElement('span', { className: 'Spinner_dot Spinner_dot--first' }),
+			React.createElement('span', { className: 'Spinner_dot Spinner_dot--second' }),
+			React.createElement('span', { className: 'Spinner_dot Spinner_dot--third' })
+		);
+	}
+});
+},{"classnames":"classnames","react":"react"}],39:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+module.exports = _react2['default'].createClass({
+	displayName: 'Table',
+
+	propTypes: {
+		children: _react2['default'].PropTypes.any,
+		className: _react2['default'].PropTypes.string
+	},
+
+	render: function render() {
+		// classes
+		var className = (0, _classnames2['default'])('Table', this.props.className);
+
+		// render table element
+		return _react2['default'].createElement('table', _extends({}, this.props, { className: className }));
+	}
+});
+},{"classnames":"classnames","react":"react"}],40:[function(require,module,exports){
+'use strict';
+
+var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+
+exports.canUseDOM = canUseDOM;
+
+// breakpoints
+exports.breakpoint = {
+	xs: 480,
+	sm: 768,
+	md: 992,
+	lg: 1200
+};
+
+// border radii
+exports.borderRadius = {
+	xs: 2,
+	sm: 4,
+	md: 8,
+	lg: 16,
+	xl: 32
+};
+
+// color
+exports.color = {
+	appDanger: '#d64242',
+	appInfo: '#56cdfc',
+	appPrimary: '#1385e5',
+	appSuccess: '#34c240',
+	appWarning: '#fa9f47',
+	brandPrimary: '#31adb8'
+};
+
+// spacing
+exports.spacing = {
+	xs: 5,
+	sm: 10,
+	md: 20,
+	lg: 40,
+	xl: 80
+};
+
+// widths
+exports.width = {
+	container: 1170,
+	gutter: 20
+};
+
+// fractions (for col widths)
+
+function perc(n) {
+	return n * 100 + '%';
+}
+
+function denominators(n) {
+	for (var d = 2; d <= 20; d++) {
+		if (n < d) {
+			exports.fractions[n + '/' + d] = perc(n / d);
+		}
+	}
+}
+
+exports.fractions = {
+	'1': '100%'
+};
+
+for (var numerator = 1; numerator <= 19; numerator++) {
+	denominators(numerator);
+}
+},{}],41:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+	selectArrows: require('./selectArrows')
+};
+},{"./selectArrows":42}],42:[function(require,module,exports){
+'use strict';
+
+module.exports = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' + '<svg width="7px" height="11px" viewBox="0 0 7 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' + '<path d="M3.5,0 L7,4 L0,4 L3.5,0 Z M3.5,11 L7,7 L0,7 L3.5,11 Z" />' + '</svg>';
+},{}],43:[function(require,module,exports){
 /* MIT license */
 
 module.exports = {
@@ -698,7 +3186,7 @@ for (var key in cssKeywords) {
   reverseKeywords[JSON.stringify(cssKeywords[key])] = key;
 }
 
-},{}],2:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 var conversions = require("./conversions");
 
 var convert = function() {
@@ -791,7 +3279,7 @@ Converter.prototype.getValues = function(space) {
 });
 
 module.exports = convert;
-},{"./conversions":1}],3:[function(require,module,exports){
+},{"./conversions":43}],45:[function(require,module,exports){
 module.exports = {
 	"aliceblue": [240, 248, 255],
 	"antiquewhite": [250, 235, 215],
@@ -942,7 +3430,7 @@ module.exports = {
 	"yellow": [255, 255, 0],
 	"yellowgreen": [154, 205, 50]
 };
-},{}],4:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /* MIT license */
 var colorNames = require('color-name');
 
@@ -1165,7 +3653,7 @@ for (var name in colorNames) {
    reverseNames[colorNames[name]] = name;
 }
 
-},{"color-name":3}],5:[function(require,module,exports){
+},{"color-name":45}],47:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -1261,7 +3749,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":6,"./lib/keys.js":7}],6:[function(require,module,exports){
+},{"./lib/is_arguments.js":48,"./lib/keys.js":49}],48:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -1283,7 +3771,7 @@ function unsupported(object){
     false;
 };
 
-},{}],7:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -1294,7 +3782,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],8:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -1396,7 +3884,7 @@ var CompositeDisposable = (function () {
 
 exports['default'] = CompositeDisposable;
 module.exports = exports['default'];
-},{"./isDisposable":12}],9:[function(require,module,exports){
+},{"./isDisposable":54}],51:[function(require,module,exports){
 "use strict";
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
@@ -1436,7 +3924,7 @@ var Disposable = (function () {
 
 exports["default"] = Disposable;
 module.exports = exports["default"];
-},{}],10:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -1518,7 +4006,7 @@ var SerialDisposable = (function () {
 
 exports['default'] = SerialDisposable;
 module.exports = exports['default'];
-},{"./isDisposable":12}],11:[function(require,module,exports){
+},{"./isDisposable":54}],53:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -1548,7 +4036,7 @@ var _SerialDisposable2 = require('./SerialDisposable');
 var _SerialDisposable3 = _interopRequireWildcard(_SerialDisposable2);
 
 exports.SerialDisposable = _SerialDisposable3['default'];
-},{"./CompositeDisposable":8,"./Disposable":9,"./SerialDisposable":10,"./isDisposable":12}],12:[function(require,module,exports){
+},{"./CompositeDisposable":50,"./Disposable":51,"./SerialDisposable":52,"./isDisposable":54}],54:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1559,7 +4047,7 @@ function isDisposable(obj) {
 }
 
 module.exports = exports['default'];
-},{}],13:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1653,7 +4141,7 @@ var DragDropManager = (function () {
 
 exports['default'] = DragDropManager;
 module.exports = exports['default'];
-},{"./DragDropMonitor":14,"./HandlerRegistry":17,"./actions/dragDrop":18,"./reducers":25,"redux/lib/createStore":450}],14:[function(require,module,exports){
+},{"./DragDropMonitor":56,"./HandlerRegistry":59,"./actions/dragDrop":60,"./reducers":67,"redux/lib/createStore":450}],56:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1864,7 +4352,7 @@ var DragDropMonitor = (function () {
 
 exports['default'] = DragDropMonitor;
 module.exports = exports['default'];
-},{"./HandlerRegistry":17,"./reducers/dirtyHandlerIds":22,"./reducers/dragOffset":23,"./utils/matchesType":29,"invariant":129,"lodash/isArray":197}],15:[function(require,module,exports){
+},{"./HandlerRegistry":59,"./reducers/dirtyHandlerIds":64,"./reducers/dragOffset":65,"./utils/matchesType":71,"invariant":129,"lodash/isArray":197}],57:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1891,7 +4379,7 @@ var DragSource = (function () {
 
 exports["default"] = DragSource;
 module.exports = exports["default"];
-},{}],16:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1916,7 +4404,7 @@ var DropTarget = (function () {
 
 exports["default"] = DropTarget;
 module.exports = exports["default"];
-},{}],17:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2121,7 +4609,7 @@ var HandlerRegistry = (function () {
 
 exports['default'] = HandlerRegistry;
 module.exports = exports['default'];
-},{"./actions/registry":19,"./utils/getNextUniqueId":28,"asap":30,"invariant":129,"lodash/isArray":197}],18:[function(require,module,exports){
+},{"./actions/registry":61,"./utils/getNextUniqueId":70,"asap":72,"invariant":129,"lodash/isArray":197}],60:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2303,7 +4791,7 @@ function endDrag() {
     type: END_DRAG
   };
 }
-},{"../utils/matchesType":29,"invariant":129,"lodash/isArray":197,"lodash/isObject":203}],19:[function(require,module,exports){
+},{"../utils/matchesType":71,"invariant":129,"lodash/isArray":197,"lodash/isObject":203}],61:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2348,7 +4836,7 @@ function removeTarget(targetId) {
     targetId: targetId
   };
 }
-},{}],20:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2417,7 +4905,7 @@ function createBackend(manager) {
 }
 
 module.exports = exports['default'];
-},{"lodash/noop":210}],21:[function(require,module,exports){
+},{"lodash/noop":210}],63:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2439,7 +4927,7 @@ exports.DropTarget = _interopRequire(_DropTarget);
 var _backendsCreateTestBackend = require('./backends/createTestBackend');
 
 exports.createTestBackend = _interopRequire(_backendsCreateTestBackend);
-},{"./DragDropManager":13,"./DragSource":15,"./DropTarget":16,"./backends/createTestBackend":20}],22:[function(require,module,exports){
+},{"./DragDropManager":55,"./DragSource":57,"./DropTarget":58,"./backends/createTestBackend":62}],64:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2529,7 +5017,7 @@ function areDirty(state, handlerIds) {
 
   return _lodashIntersection2['default'](handlerIds, state).length > 0;
 }
-},{"../actions/dragDrop":18,"../actions/registry":19,"lodash/intersection":195,"lodash/xor":216}],23:[function(require,module,exports){
+},{"../actions/dragDrop":60,"../actions/registry":61,"lodash/intersection":195,"lodash/xor":216}],65:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2606,7 +5094,7 @@ function getDifferenceFromInitialOffset(state) {
     y: clientOffset.y - initialClientOffset.y
   };
 }
-},{"../actions/dragDrop":18}],24:[function(require,module,exports){
+},{"../actions/dragDrop":60}],66:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2689,7 +5177,7 @@ function dragOperation(state, action) {
 }
 
 module.exports = exports['default'];
-},{"../actions/dragDrop":18,"../actions/registry":19,"lodash/without":215}],25:[function(require,module,exports){
+},{"../actions/dragDrop":60,"../actions/registry":61,"lodash/without":215}],67:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2729,7 +5217,7 @@ exports['default'] = function (state, action) {
 };
 
 module.exports = exports['default'];
-},{"./dirtyHandlerIds":22,"./dragOffset":23,"./dragOperation":24,"./refCount":26,"./stateId":27}],26:[function(require,module,exports){
+},{"./dirtyHandlerIds":64,"./dragOffset":65,"./dragOperation":66,"./refCount":68,"./stateId":69}],68:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2753,7 +5241,7 @@ function refCount(state, action) {
 }
 
 module.exports = exports['default'];
-},{"../actions/registry":19}],27:[function(require,module,exports){
+},{"../actions/registry":61}],69:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -2766,7 +5254,7 @@ function stateId() {
 }
 
 module.exports = exports["default"];
-},{}],28:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -2778,7 +5266,7 @@ function getNextUniqueId() {
 }
 
 module.exports = exports["default"];
-},{}],29:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2801,7 +5289,7 @@ function matchesType(targetType, draggedItemType) {
 }
 
 module.exports = exports['default'];
-},{"lodash/isArray":197}],30:[function(require,module,exports){
+},{"lodash/isArray":197}],72:[function(require,module,exports){
 "use strict";
 
 // rawAsap provides everything we need except exception management.
@@ -2869,7 +5357,7 @@ RawTask.prototype.call = function () {
     }
 };
 
-},{"./raw":31}],31:[function(require,module,exports){
+},{"./raw":73}],73:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -3093,2504 +5581,6 @@ rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
 // https://github.com/tildeio/rsvp.js/blob/cddf7232546a9cf858524b75cde6f9edf72620a7/lib/rsvp/asap.js
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],32:[function(require,module,exports){
-'use strict';
-
-var list = [{ label: 'Alert', value: 'alert', className: 'octicon octicon-alert' }, { label: 'Arrow Down', value: 'arrow-down', className: 'octicon octicon-arrow-down' }, { label: 'Arrow Left', value: 'arrow-left', className: 'octicon octicon-arrow-left' }, { label: 'Arrow Right', value: 'arrow-right', className: 'octicon octicon-arrow-right' }, { label: 'Arrow Small-down', value: 'arrow-small-down', className: 'octicon octicon-arrow-small-down' }, { label: 'Arrow Small-left', value: 'arrow-small-left', className: 'octicon octicon-arrow-small-left' }, { label: 'Arrow Small-right', value: 'arrow-small-right', className: 'octicon octicon-arrow-small-right' }, { label: 'Arrow Small-up', value: 'arrow-small-up', className: 'octicon octicon-arrow-small-up' }, { label: 'Arrow Up', value: 'arrow-up', className: 'octicon octicon-arrow-up' }, { label: 'Microscope', value: 'microscope', className: 'octicon octicon-microscope' }, { label: 'Beaker', value: 'beaker', className: 'octicon octicon-beaker' }, { label: 'Bell', value: 'bell', className: 'octicon octicon-bell' }, { label: 'Book', value: 'book', className: 'octicon octicon-book' }, { label: 'Bookmark', value: 'bookmark', className: 'octicon octicon-bookmark' }, { label: 'Briefcase', value: 'briefcase', className: 'octicon octicon-briefcase' }, { label: 'Broadcast', value: 'broadcast', className: 'octicon octicon-broadcast' }, { label: 'Browser', value: 'browser', className: 'octicon octicon-browser' }, { label: 'Bug', value: 'bug', className: 'octicon octicon-bug' }, { label: 'Calendar', value: 'calendar', className: 'octicon octicon-calendar' }, { label: 'Check', value: 'check', className: 'octicon octicon-check' }, { label: 'Checklist', value: 'checklist', className: 'octicon octicon-checklist' }, { label: 'Chevron Down', value: 'chevron-down', className: 'octicon octicon-chevron-down' }, { label: 'Chevron Left', value: 'chevron-left', className: 'octicon octicon-chevron-left' }, { label: 'Chevron Right', value: 'chevron-right', className: 'octicon octicon-chevron-right' }, { label: 'Chevron Up', value: 'chevron-up', className: 'octicon octicon-chevron-up' }, { label: 'Circle Slash', value: 'circle-slash', className: 'octicon octicon-circle-slash' }, { label: 'Circuit Board', value: 'circuit-board', className: 'octicon octicon-circuit-board' }, { label: 'Clippy', value: 'clippy', className: 'octicon octicon-clippy' }, { label: 'Clock', value: 'clock', className: 'octicon octicon-clock' }, { label: 'Cloud Download', value: 'cloud-download', className: 'octicon octicon-cloud-download' }, { label: 'Cloud Upload', value: 'cloud-upload', className: 'octicon octicon-cloud-upload' }, { label: 'Code', value: 'code', className: 'octicon octicon-code' }, { label: 'Color Mode', value: 'color-mode', className: 'octicon octicon-color-mode' }, { label: 'Comment Add', value: 'comment-add', className: 'octicon octicon-comment-add' }, { label: 'Comment', value: 'comment', className: 'octicon octicon-comment' }, { label: 'Comment Discussion', value: 'comment-discussion', className: 'octicon octicon-comment-discussion' }, { label: 'Credit Card', value: 'credit-card', className: 'octicon octicon-credit-card' }, { label: 'Dash', value: 'dash', className: 'octicon octicon-dash' }, { label: 'Dashboard', value: 'dashboard', className: 'octicon octicon-dashboard' }, { label: 'Database', value: 'database', className: 'octicon octicon-database' }, { label: 'Clone', value: 'clone', className: 'octicon octicon-clone' }, { label: 'Desktop Download', value: 'desktop-download', className: 'octicon octicon-desktop-download' }, { label: 'Device Camera', value: 'device-camera', className: 'octicon octicon-device-camera' }, { label: 'Device Camera-video', value: 'device-camera-video', className: 'octicon octicon-device-camera-video' }, { label: 'Device Desktop', value: 'device-desktop', className: 'octicon octicon-device-desktop' }, { label: 'Device Mobile', value: 'device-mobile', className: 'octicon octicon-device-mobile' }, { label: 'Diff', value: 'diff', className: 'octicon octicon-diff' }, { label: 'Diff Added', value: 'diff-added', className: 'octicon octicon-diff-added' }, { label: 'Diff Ignored', value: 'diff-ignored', className: 'octicon octicon-diff-ignored' }, { label: 'Diff Modified', value: 'diff-modified', className: 'octicon octicon-diff-modified' }, { label: 'Diff Removed', value: 'diff-removed', className: 'octicon octicon-diff-removed' }, { label: 'Diff Renamed', value: 'diff-renamed', className: 'octicon octicon-diff-renamed' }, { label: 'Ellipsis', value: 'ellipsis', className: 'octicon octicon-ellipsis' }, { label: 'Eye Unwatch', value: 'eye-unwatch', className: 'octicon octicon-eye-unwatch' }, { label: 'Eye Watch', value: 'eye-watch', className: 'octicon octicon-eye-watch' }, { label: 'Eye', value: 'eye', className: 'octicon octicon-eye' }, { label: 'File Binary', value: 'file-binary', className: 'octicon octicon-file-binary' }, { label: 'File Code', value: 'file-code', className: 'octicon octicon-file-code' }, { label: 'File Directory', value: 'file-directory', className: 'octicon octicon-file-directory' }, { label: 'File Media', value: 'file-media', className: 'octicon octicon-file-media' }, { label: 'File Pdf', value: 'file-pdf', className: 'octicon octicon-file-pdf' }, { label: 'File Submodule', value: 'file-submodule', className: 'octicon octicon-file-submodule' }, { label: 'File Symlink-directory', value: 'file-symlink-directory', className: 'octicon octicon-file-symlink-directory' }, { label: 'File Symlink-file', value: 'file-symlink-file', className: 'octicon octicon-file-symlink-file' }, { label: 'File Text', value: 'file-text', className: 'octicon octicon-file-text' }, { label: 'File Zip', value: 'file-zip', className: 'octicon octicon-file-zip' }, { label: 'Flame', value: 'flame', className: 'octicon octicon-flame' }, { label: 'Fold', value: 'fold', className: 'octicon octicon-fold' }, { label: 'Gear', value: 'gear', className: 'octicon octicon-gear' }, { label: 'Gift', value: 'gift', className: 'octicon octicon-gift' }, { label: 'Gist', value: 'gist', className: 'octicon octicon-gist' }, { label: 'Gist Secret', value: 'gist-secret', className: 'octicon octicon-gist-secret' }, { label: 'Git Branch-create', value: 'git-branch-create', className: 'octicon octicon-git-branch-create' }, { label: 'Git Branch-delete', value: 'git-branch-delete', className: 'octicon octicon-git-branch-delete' }, { label: 'Git Branch', value: 'git-branch', className: 'octicon octicon-git-branch' }, { label: 'Git Commit', value: 'git-commit', className: 'octicon octicon-git-commit' }, { label: 'Git Compare', value: 'git-compare', className: 'octicon octicon-git-compare' }, { label: 'Git Merge', value: 'git-merge', className: 'octicon octicon-git-merge' }, { label: 'Git Pull-request-abandoned', value: 'git-pull-request-abandoned', className: 'octicon octicon-git-pull-request-abandoned' }, { label: 'Git Pull-request', value: 'git-pull-request', className: 'octicon octicon-git-pull-request' }, { label: 'Globe', value: 'globe', className: 'octicon octicon-globe' }, { label: 'Graph', value: 'graph', className: 'octicon octicon-graph' }, { label: 'Heart', value: 'heart', className: 'octicon octicon-heart' }, { label: 'History', value: 'history', className: 'octicon octicon-history' }, { label: 'Home', value: 'home', className: 'octicon octicon-home' }, { label: 'Horizontal Rule', value: 'horizontal-rule', className: 'octicon octicon-horizontal-rule' }, { label: 'Hubot', value: 'hubot', className: 'octicon octicon-hubot' }, { label: 'Inbox', value: 'inbox', className: 'octicon octicon-inbox' }, { label: 'Info', value: 'info', className: 'octicon octicon-info' }, { label: 'Issue Closed', value: 'issue-closed', className: 'octicon octicon-issue-closed' }, { label: 'Issue Opened', value: 'issue-opened', className: 'octicon octicon-issue-opened' }, { label: 'Issue Reopened', value: 'issue-reopened', className: 'octicon octicon-issue-reopened' }, { label: 'Jersey', value: 'jersey', className: 'octicon octicon-jersey' }, { label: 'Key', value: 'key', className: 'octicon octicon-key' }, { label: 'Keyboard', value: 'keyboard', className: 'octicon octicon-keyboard' }, { label: 'Law', value: 'law', className: 'octicon octicon-law' }, { label: 'Light Bulb', value: 'light-bulb', className: 'octicon octicon-light-bulb' }, { label: 'Link', value: 'link', className: 'octicon octicon-link' }, { label: 'Link External', value: 'link-external', className: 'octicon octicon-link-external' }, { label: 'List Ordered', value: 'list-ordered', className: 'octicon octicon-list-ordered' }, { label: 'List Unordered', value: 'list-unordered', className: 'octicon octicon-list-unordered' }, { label: 'Location', value: 'location', className: 'octicon octicon-location' }, { label: 'Gist Private', value: 'gist-private', className: 'octicon octicon-gist-private' }, { label: 'Mirror Private', value: 'mirror-private', className: 'octicon octicon-mirror-private' }, { label: 'Git Fork-private', value: 'git-fork-private', className: 'octicon octicon-git-fork-private' }, { label: 'Lock', value: 'lock', className: 'octicon octicon-lock' }, { label: 'Logo Github', value: 'logo-github', className: 'octicon octicon-logo-github' }, { label: 'Mail', value: 'mail', className: 'octicon octicon-mail' }, { label: 'Mail Read', value: 'mail-read', className: 'octicon octicon-mail-read' }, { label: 'Mail Reply', value: 'mail-reply', className: 'octicon octicon-mail-reply' }, { label: 'Mark Github', value: 'mark-github', className: 'octicon octicon-mark-github' }, { label: 'Markdown', value: 'markdown', className: 'octicon octicon-markdown' }, { label: 'Megaphone', value: 'megaphone', className: 'octicon octicon-megaphone' }, { label: 'Mention', value: 'mention', className: 'octicon octicon-mention' }, { label: 'Milestone', value: 'milestone', className: 'octicon octicon-milestone' }, { label: 'Mirror Public', value: 'mirror-public', className: 'octicon octicon-mirror-public' }, { label: 'Mirror', value: 'mirror', className: 'octicon octicon-mirror' }, { label: 'Mortar Board', value: 'mortar-board', className: 'octicon octicon-mortar-board' }, { label: 'Mute', value: 'mute', className: 'octicon octicon-mute' }, { label: 'No Newline', value: 'no-newline', className: 'octicon octicon-no-newline' }, { label: 'Octoface', value: 'octoface', className: 'octicon octicon-octoface' }, { label: 'Organization', value: 'organization', className: 'octicon octicon-organization' }, { label: 'Package', value: 'package', className: 'octicon octicon-package' }, { label: 'Paintcan', value: 'paintcan', className: 'octicon octicon-paintcan' }, { label: 'Pencil', value: 'pencil', className: 'octicon octicon-pencil' }, { label: 'Person Add', value: 'person-add', className: 'octicon octicon-person-add' }, { label: 'Person Follow', value: 'person-follow', className: 'octicon octicon-person-follow' }, { label: 'Person', value: 'person', className: 'octicon octicon-person' }, { label: 'Pin', value: 'pin', className: 'octicon octicon-pin' }, { label: 'Plug', value: 'plug', className: 'octicon octicon-plug' }, { label: 'Repo Create', value: 'repo-create', className: 'octicon octicon-repo-create' }, { label: 'Gist New', value: 'gist-new', className: 'octicon octicon-gist-new' }, { label: 'File Directory-create', value: 'file-directory-create', className: 'octicon octicon-file-directory-create' }, { label: 'File Add', value: 'file-add', className: 'octicon octicon-file-add' }, { label: 'Plus', value: 'plus', className: 'octicon octicon-plus' }, { label: 'Primitive Dot', value: 'primitive-dot', className: 'octicon octicon-primitive-dot' }, { label: 'Primitive Square', value: 'primitive-square', className: 'octicon octicon-primitive-square' }, { label: 'Pulse', value: 'pulse', className: 'octicon octicon-pulse' }, { label: 'Question', value: 'question', className: 'octicon octicon-question' }, { label: 'Quote', value: 'quote', className: 'octicon octicon-quote' }, { label: 'Radio Tower', value: 'radio-tower', className: 'octicon octicon-radio-tower' }, { label: 'Repo Delete', value: 'repo-delete', className: 'octicon octicon-repo-delete' }, { label: 'Repo', value: 'repo', className: 'octicon octicon-repo' }, { label: 'Repo Clone', value: 'repo-clone', className: 'octicon octicon-repo-clone' }, { label: 'Repo Force-push', value: 'repo-force-push', className: 'octicon octicon-repo-force-push' }, { label: 'Gist Fork', value: 'gist-fork', className: 'octicon octicon-gist-fork' }, { label: 'Repo Forked', value: 'repo-forked', className: 'octicon octicon-repo-forked' }, { label: 'Repo Pull', value: 'repo-pull', className: 'octicon octicon-repo-pull' }, { label: 'Repo Push', value: 'repo-push', className: 'octicon octicon-repo-push' }, { label: 'Rocket', value: 'rocket', className: 'octicon octicon-rocket' }, { label: 'Rss', value: 'rss', className: 'octicon octicon-rss' }, { label: 'Ruby', value: 'ruby', className: 'octicon octicon-ruby' }, { label: 'Screen Full', value: 'screen-full', className: 'octicon octicon-screen-full' }, { label: 'Screen Normal', value: 'screen-normal', className: 'octicon octicon-screen-normal' }, { label: 'Search Save', value: 'search-save', className: 'octicon octicon-search-save' }, { label: 'Search', value: 'search', className: 'octicon octicon-search' }, { label: 'Server', value: 'server', className: 'octicon octicon-server' }, { label: 'Settings', value: 'settings', className: 'octicon octicon-settings' }, { label: 'Shield', value: 'shield', className: 'octicon octicon-shield' }, { label: 'Log In', value: 'log-in', className: 'octicon octicon-log-in' }, { label: 'Sign In', value: 'sign-in', className: 'octicon octicon-sign-in' }, { label: 'Log Out', value: 'log-out', className: 'octicon octicon-log-out' }, { label: 'Sign Out', value: 'sign-out', className: 'octicon octicon-sign-out' }, { label: 'Squirrel', value: 'squirrel', className: 'octicon octicon-squirrel' }, { label: 'Star Add', value: 'star-add', className: 'octicon octicon-star-add' }, { label: 'Star Delete', value: 'star-delete', className: 'octicon octicon-star-delete' }, { label: 'Star', value: 'star', className: 'octicon octicon-star' }, { label: 'Stop', value: 'stop', className: 'octicon octicon-stop' }, { label: 'Repo Sync', value: 'repo-sync', className: 'octicon octicon-repo-sync' }, { label: 'Sync', value: 'sync', className: 'octicon octicon-sync' }, { label: 'Tag Remove', value: 'tag-remove', className: 'octicon octicon-tag-remove' }, { label: 'Tag Add', value: 'tag-add', className: 'octicon octicon-tag-add' }, { label: 'Tag', value: 'tag', className: 'octicon octicon-tag' }, { label: 'Telescope', value: 'telescope', className: 'octicon octicon-telescope' }, { label: 'Terminal', value: 'terminal', className: 'octicon octicon-terminal' }, { label: 'Three Bars', value: 'three-bars', className: 'octicon octicon-three-bars' }, { label: 'Thumbsdown', value: 'thumbsdown', className: 'octicon octicon-thumbsdown' }, { label: 'Thumbsup', value: 'thumbsup', className: 'octicon octicon-thumbsup' }, { label: 'Tools', value: 'tools', className: 'octicon octicon-tools' }, { label: 'Trashcan', value: 'trashcan', className: 'octicon octicon-trashcan' }, { label: 'Triangle Down', value: 'triangle-down', className: 'octicon octicon-triangle-down' }, { label: 'Triangle Left', value: 'triangle-left', className: 'octicon octicon-triangle-left' }, { label: 'Triangle Right', value: 'triangle-right', className: 'octicon octicon-triangle-right' }, { label: 'Triangle Up', value: 'triangle-up', className: 'octicon octicon-triangle-up' }, { label: 'Unfold', value: 'unfold', className: 'octicon octicon-unfold' }, { label: 'Unmute', value: 'unmute', className: 'octicon octicon-unmute' }, { label: 'Versions', value: 'versions', className: 'octicon octicon-versions' }, { label: 'Watch', value: 'watch', className: 'octicon octicon-watch' }, { label: 'Remove Close', value: 'remove-close', className: 'octicon octicon-remove-close' }, { label: 'X', value: 'x', className: 'octicon octicon-x' }, { label: 'Zap', value: 'zap', className: 'octicon octicon-zap' }];
-
-var map = {};
-list.forEach(function (icon) {
-	map[icon.value] = icon;
-});
-function pluck(arr, key) {
-	return arr.map(function (obj) {
-		return obj[key];
-	});
-}
-
-module.exports = {
-	list: list,
-	keys: pluck(list, 'value'),
-	map: map
-};
-},{}],33:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-
-var ALERT_TYPES = ['danger', 'error', // alias for danger
-'info', 'primary', 'success', 'warning'];
-
-module.exports = React.createClass({
-	displayName: 'ElementalAlert',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string,
-		type: React.PropTypes.oneOf(ALERT_TYPES).isRequired
-	},
-	render: function render() {
-		var componentClass = classNames('Alert', 'Alert--' + this.props.type, this.props.className);
-
-		return React.createElement(
-			'div',
-			{ className: componentClass },
-			this.props.children
-		);
-	}
-});
-},{"classnames":"classnames","react":"react"}],34:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-
-module.exports = React.createClass({
-	displayName: 'BlankState',
-	propTypes: {
-		children: React.PropTypes.node.isRequired
-	},
-	render: function render() {
-		return React.createElement('div', _extends({ className: 'BlankState' }, this.props));
-	}
-});
-
-module.exports.Heading = React.createClass({
-	displayName: 'BlankStateHeading',
-	propTypes: {
-		children: React.PropTypes.node.isRequired
-	},
-	render: function render() {
-		return React.createElement('h2', _extends({ className: 'BlankState__heading' }, this.props));
-	}
-});
-},{"react":"react"}],35:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-var blacklist = require('blacklist');
-
-var BUTTON_SIZES = ['lg', 'sm', 'xs'];
-
-var BUTTON_TYPES = ['default', 'default-primary', 'default-success', 'default-warning', 'default-danger', 'hollow-primary', 'hollow-success', 'hollow-warning', 'hollow-danger', 'primary', 'success', 'warning', 'danger', 'link', 'link-text', 'link-cancel', 'link-delete'];
-
-module.exports = React.createClass({
-	displayName: 'Button',
-	propTypes: {
-		block: React.PropTypes.bool,
-		className: React.PropTypes.string,
-		component: React.PropTypes.element,
-		href: React.PropTypes.string,
-		isActive: React.PropTypes.bool,
-		size: React.PropTypes.oneOf(BUTTON_SIZES),
-		submit: React.PropTypes.bool,
-		type: React.PropTypes.oneOf(BUTTON_TYPES)
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			type: 'default'
-		};
-	},
-	render: function render() {
-		// classes
-		var componentClass = classNames('Button', 'Button--' + this.props.type, this.props.size ? 'Button--' + this.props.size : null, {
-			'Button--block': this.props.block,
-			'is-active': this.props.isActive
-		}, this.props.className);
-
-		// props
-		var props = blacklist(this.props, 'type', 'size', 'component', 'className');
-		props.className = componentClass;
-
-		if (this.props.component) {
-			return React.cloneElement(this.props.component, props);
-		}
-
-		var tag = 'button';
-		props.type = this.props.submit ? 'submit' : 'button';
-
-		if (props.href) {
-			tag = 'a';
-			delete props.type;
-		}
-
-		return React.createElement(tag, props, this.props.children);
-	}
-});
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],36:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var classnames = require('classnames');
-var React = require('react');
-
-module.exports = React.createClass({
-	displayName: 'ButtonGroup',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string
-	},
-	render: function render() {
-		var className = classnames('ButtonGroup', this.props.className);
-		return React.createElement('div', _extends({}, this.props, { className: className }));
-	}
-});
-},{"classnames":"classnames","react":"react"}],37:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _constants = require('../constants');
-
-var _constants2 = _interopRequireDefault(_constants);
-
-var React = require('react');
-
-module.exports = React.createClass({
-	displayName: 'Card',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		style: React.PropTypes.object
-	},
-	render: function render() {
-		var style = {
-			backgroundColor: 'white',
-			borderRadius: _constants2['default'].borderRadius.sm,
-			boxShadow: '0 2px 3px rgba(0, 0, 0, 0.075), 0 0 0 1px rgba(0,0,0,0.1)',
-			marginBottom: _constants2['default'].spacing.md,
-			padding: _constants2['default'].spacing.md
-		};
-		return React.createElement('div', _extends({}, this.props, { style: _extends(style, this.props.style) }));
-	}
-});
-},{"../constants":71,"react":"react"}],38:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-var React = require('react');
-
-var Checkbox = React.createClass({
-	displayName: 'Checkbox',
-
-	propTypes: {
-		autofocus: React.PropTypes.bool,
-		className: React.PropTypes.string,
-		disabled: React.PropTypes.bool,
-		indeterminate: React.PropTypes.bool,
-		inline: React.PropTypes.bool,
-		label: React.PropTypes.string,
-		style: React.PropTypes.object,
-		title: React.PropTypes.string
-	},
-	componentDidMount: function componentDidMount() {
-		if (this.props.autofocus) {
-			this.refs.target.focus();
-		}
-		this.setIndeterminate(this.props.indeterminate);
-	},
-	componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-		this.setIndeterminate(nextProps.indeterminate);
-	},
-	setIndeterminate: function setIndeterminate(value) {
-		this.refs.target.indeterminate = value;
-	},
-	render: function render() {
-		var componentClass = classNames('Checkbox', {
-			'Checkbox--disabled': this.props.disabled,
-			'Checkbox--inline': this.props.inline
-		}, this.props.className);
-		var props = blacklist(this.props, 'className', 'label', 'style', 'title');
-		return React.createElement(
-			'label',
-			{ className: componentClass, style: this.props.style, title: this.props.title },
-			React.createElement('input', _extends({ ref: 'target', type: 'checkbox', className: 'Checkbox__input' }, props)),
-			this.props.label && React.createElement(
-				'span',
-				{ className: 'Checkbox__label' },
-				this.props.label
-			)
-		);
-	}
-});
-
-module.exports = Checkbox;
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],39:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _blacklist = require('blacklist');
-
-var _blacklist2 = _interopRequireDefault(_blacklist);
-
-var _constants = require('../constants');
-
-var _constants2 = _interopRequireDefault(_constants);
-
-module.exports = _react2['default'].createClass({
-	displayName: 'Col',
-	propTypes: {
-		/* eslint-disable react/jsx-sort-prop-types */
-		basis: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.number, // allow pixels
-		_react2['default'].PropTypes.string]),
-		// allow percentage
-		children: _react2['default'].PropTypes.node,
-		gutter: _react2['default'].PropTypes.number,
-		style: _react2['default'].PropTypes.object,
-		lg: _react2['default'].PropTypes.string, // width as a percentage or fraction
-		md: _react2['default'].PropTypes.string, // width as a percentage or fraction
-		sm: _react2['default'].PropTypes.string, // width as a percentage or fraction
-		xs: _react2['default'].PropTypes.string },
-	// width as a percentage or fraction
-	/* eslint-enable */
-	getDefaultProps: function getDefaultProps() {
-		return {
-			gutter: _constants2['default'].width.gutter
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			windowWidth: typeof window !== 'undefined' ? window.innerWidth : 0
-		};
-	},
-	componentDidMount: function componentDidMount() {
-		if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
-	},
-	componentWillUnmount: function componentWillUnmount() {
-		if (typeof window !== 'undefined') window.removeEventListener('resize', this.handleResize);
-	},
-	handleResize: function handleResize() {
-		this.setState({
-			windowWidth: typeof window !== 'undefined' ? window.innerWidth : 0
-		});
-	},
-	render: function render() {
-		var _props = this.props;
-		var basis = _props.basis;
-		var gutter = _props.gutter;
-		var xs = _props.xs;
-		var sm = _props.sm;
-		var md = _props.md;
-		var lg = _props.lg;
-		var windowWidth = this.state.windowWidth;
-
-		var columnStyle = {
-			minHeight: 1,
-			paddingLeft: gutter / 2,
-			paddingRight: gutter / 2
-		};
-
-		// if no width control is provided fill available space
-		if (!basis && !xs && !sm && !md && !lg) {
-			columnStyle.flex = '1 1 auto';
-			columnStyle.msFlex = '1 1 auto';
-			columnStyle.WebkitFlex = '1 1 auto';
-		}
-
-		// set widths / flex-basis
-		if (basis) {
-			columnStyle.flex = '1 0 ' + basis;
-			columnStyle.msFlex = '1 0 ' + basis;
-			columnStyle.WebkitFlex = '1 0 ' + basis;
-		} else if (windowWidth < _constants2['default'].breakpoint.xs) {
-			columnStyle.width = xs;
-		} else if (windowWidth < _constants2['default'].breakpoint.sm) {
-			columnStyle.width = sm || xs;
-		} else if (windowWidth < _constants2['default'].breakpoint.md) {
-			columnStyle.width = md || sm || xs;
-		} else {
-			columnStyle.width = lg || md || sm || xs;
-		}
-
-		if (!columnStyle.width) {
-			columnStyle.width = '100%';
-		}
-
-		if (columnStyle.width in _constants2['default'].fractions) {
-			columnStyle.width = _constants2['default'].fractions[columnStyle.width];
-		}
-
-		var props = (0, _blacklist2['default'])(this.props, 'basis', 'gutter', 'style', 'xs', 'sm', 'md', 'lg');
-
-		return _react2['default'].createElement('div', _extends({ style: _extends(columnStyle, this.props.style) }, props));
-	}
-});
-},{"../constants":71,"blacklist":"blacklist","react":"react"}],40:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _blacklist = require('blacklist');
-
-var _blacklist2 = _interopRequireDefault(_blacklist);
-
-var _constants = require('../constants');
-
-var _constants2 = _interopRequireDefault(_constants);
-
-module.exports = _react2['default'].createClass({
-	displayName: 'Container',
-	propTypes: {
-		children: _react2['default'].PropTypes.node.isRequired,
-		clearfix: _react2['default'].PropTypes.bool,
-		gutter: _react2['default'].PropTypes.number,
-		maxWidth: _react2['default'].PropTypes.number,
-		style: _react2['default'].PropTypes.object
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			gutter: _constants2['default'].width.gutter,
-			maxWidth: _constants2['default'].width.container
-		};
-	},
-	render: function render() {
-		var _props = this.props;
-		var gutter = _props.gutter;
-		var maxWidth = _props.maxWidth;
-
-		var containerStyle = {
-			marginLeft: 'auto',
-			marginRight: 'auto',
-			paddingLeft: gutter,
-			paddingRight: gutter,
-			maxWidth: maxWidth
-		};
-		var clearfixStyle = { clear: 'both', display: 'table' };
-		var props = (0, _blacklist2['default'])(this.props, 'gutter', 'maxWidth', 'style');
-
-		return this.props.clearfix ? _react2['default'].createElement(
-			'div',
-			_extends({ style: _extends(containerStyle, this.props.style) }, props),
-			_react2['default'].createElement('span', { style: clearfixStyle }),
-			this.props.children,
-			_react2['default'].createElement('span', { style: clearfixStyle })
-		) : _react2['default'].createElement('div', _extends({ style: _extends(containerStyle, this.props.style) }, props));
-	}
-});
-},{"../constants":71,"blacklist":"blacklist","react":"react"}],41:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var Transition = require('react-addons-css-transition-group');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-var Button = require('./Button');
-
-var ESC_KEYCODE = 27;
-var NO_OP = function NO_OP() {
-	return undefined;
-};
-
-module.exports = React.createClass({
-	displayName: 'Dropdown',
-	propTypes: {
-		alignRight: React.PropTypes.bool,
-		buttonHasDisclosureArrow: React.PropTypes.bool,
-		buttonLabel: React.PropTypes.string,
-		buttonType: React.PropTypes.string,
-		children: React.PropTypes.element,
-		className: React.PropTypes.string,
-		isOpen: React.PropTypes.bool,
-		items: React.PropTypes.array.isRequired,
-		onSelect: React.PropTypes.func
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			buttonHasDisclosureArrow: true,
-			onSelect: NO_OP
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			isOpen: this.props.isOpen || false
-		};
-	},
-	componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
-		if (typeof window === 'undefined') return;
-		if (nextState.isOpen) {
-			window.addEventListener('keydown', this.handleKeyDown);
-		} else {
-			window.removeEventListener('keydown', this.handleKeyDown);
-		}
-	},
-	openDropdown: function openDropdown() {
-		this.setState({ isOpen: true });
-	},
-	closeDropdown: function closeDropdown() {
-		this.setState({ isOpen: false });
-	},
-	handleKeyDown: function handleKeyDown(e) {
-		if (e.keyCode === ESC_KEYCODE) {
-			this.closeDropdown();
-		}
-	},
-	renderChildren: function renderChildren() {
-		var _this = this;
-
-		return React.Children.map(this.props.children, function (child) {
-			return React.cloneElement(child, {
-				onClick: _this.state.isOpen ? _this.closeDropdown : _this.openDropdown,
-				className: classNames(child.props.className, 'Dropdown-toggle')
-			});
-		});
-	},
-	renderButton: function renderButton() {
-		var disclosureArrow = this.props.buttonHasDisclosureArrow ? React.createElement('span', { className: 'disclosure-arrow' }) : null;
-
-		return React.createElement(
-			Button,
-			{ type: this.props.buttonType, onClick: this.state.isOpen ? this.closeDropdown : this.openDropdown, className: 'Dropdown-toggle' },
-			this.props.buttonLabel,
-			disclosureArrow
-		);
-	},
-	onClick: function onClick(selectedItem) {
-		this.setState({
-			isOpen: !this.state.isOpen
-		});
-		this.props.onSelect(selectedItem);
-	},
-	renderDropdownMenu: function renderDropdownMenu() {
-		var self = this;
-		if (!this.state.isOpen) return null;
-
-		var dropdownMenuItems = this.props.items.map(function (item, i) {
-			var menuItem;
-			if (item.type === 'header') {
-				menuItem = React.createElement(
-					'li',
-					{ key: 'item-' + i, className: 'Dropdown-menu__header' },
-					item.label
-				);
-			} else if (item.type === 'divider') {
-				menuItem = React.createElement('li', { key: 'item-' + i, className: 'Dropdown-menu__divider' });
-			} else {
-				menuItem = React.createElement(
-					'li',
-					{ key: 'item-' + i, className: 'Dropdown-menu__item' },
-					React.createElement(
-						'span',
-						{ className: 'Dropdown-menu__action', onClick: self.onClick.bind(self, item.value) },
-						item.label
-					)
-				);
-			}
-			return menuItem;
-		});
-
-		return React.createElement(
-			'ul',
-			{ key: 'Dropdown-menu', className: 'Dropdown-menu', role: 'menu' },
-			dropdownMenuItems
-		);
-	},
-	renderDropdownMenuBackground: function renderDropdownMenuBackground() {
-		if (!this.state.isOpen) return null;
-		return React.createElement('div', { className: 'Dropdown-menu-backdrop', onClick: this.closeDropdown });
-	},
-	render: function render() {
-		// classes
-		var dropdownClass = classNames('Dropdown', {
-			'is-open': this.state.isOpen,
-			'align-right': this.props.alignRight
-		}, this.props.className);
-
-		// props
-		var props = blacklist(this.props, 'alignRight', 'buttonHasDisclosureArrow', 'buttonLabel', 'buttonType', 'className', 'isOpen', 'items');
-
-		return React.createElement(
-			'span',
-			_extends({ className: dropdownClass }, props),
-			React.Children.count(this.props.children) ? this.renderChildren() : this.renderButton(),
-			React.createElement(
-				Transition,
-				{ transitionName: 'Dropdown-menu', transitionEnterTimeout: 100, transitionLeaveTimeout: 100 },
-				this.renderDropdownMenu()
-			),
-			this.renderDropdownMenuBackground()
-		);
-	}
-});
-},{"./Button":35,"blacklist":"blacklist","classnames":"classnames","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],42:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-
-var REGEXP_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-function validateEmail(value) {
-	return REGEXP_EMAIL.test(value);
-}
-
-module.exports = React.createClass({
-	displayName: 'EmailInputGroup',
-	propTypes: {
-		alwaysValidate: React.PropTypes.bool,
-		className: React.PropTypes.string,
-		invalidMessage: React.PropTypes.string,
-		label: React.PropTypes.string,
-		onChange: React.PropTypes.func,
-		required: React.PropTypes.bool,
-		requiredMessage: React.PropTypes.string,
-		value: React.PropTypes.string
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			requiredMessage: 'Email address is required',
-			invalidMessage: 'Please enter a valid email address'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			isValid: true,
-			validationIsActive: this.props.alwaysValidate
-		};
-	},
-	componentDidMount: function componentDidMount() {
-		if (this.state.validationIsActive) {
-			this.validateInput(this.props.value);
-		}
-	},
-	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-		if (this.state.validationIsActive) {
-			if (newProps.value !== this.props.value && newProps.value !== this._lastChangeValue && !newProps.alwaysValidate) {
-				// reset validation state if the value was changed outside the component
-				return this.setState({
-					isValid: true,
-					validationIsActive: false
-				});
-			}
-			this.validateInput(newProps.value);
-		}
-	},
-	handleChange: function handleChange(e) {
-		this._lastChangeValue = e.target.value;
-		if (this.props.onChange) this.props.onChange(e);
-	},
-	handleBlur: function handleBlur() {
-		if (!this.props.alwaysValidate) {
-			this.setState({ validationIsActive: false });
-		}
-		this.validateInput(this.props.value);
-	},
-	validateInput: function validateInput(value) {
-		var newState = {
-			isValid: true
-		};
-		if (value.length && !validateEmail(value) || !value.length && this.props.required) {
-			newState.isValid = false;
-		}
-		if (!newState.isValid) {
-			newState.validationIsActive = true;
-		}
-		this.setState(newState);
-	},
-	render: function render() {
-		var validationMessage;
-		if (!this.state.isValid) {
-			validationMessage = React.createElement(
-				'div',
-				{ className: 'form-validation is-invalid' },
-				this.props.value.length ? this.props.invalidMessage : this.props.requiredMessage
-			);
-		}
-		var formGroupClass = classNames('FormField', {
-			'is-invalid': !this.state.isValid
-		}, this.props.className);
-
-		var componentLabel = this.props.label ? React.createElement(
-			'label',
-			{ className: 'FormLabel', htmlFor: 'inputEmail' },
-			this.props.label
-		) : null;
-
-		return React.createElement(
-			'div',
-			{ className: formGroupClass },
-			componentLabel,
-			React.createElement('input', { onChange: this.handleChange, onBlur: this.handleBlur, value: this.props.value, type: 'email', className: 'FormInput', placeholder: 'Enter email', id: 'inputEmail' }),
-			validationMessage
-		);
-	}
-});
-},{"classnames":"classnames","react":"react"}],43:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-
-/*
-	Based on: https://github.com/paramaggarwal/react-dropzone
-*/
-
-var Dropzone = React.createClass({
-	displayName: 'Dropzone',
-
-	propTypes: {
-		className: React.PropTypes.string,
-		label: React.PropTypes.string,
-		labelActive: React.PropTypes.string,
-		onDrop: React.PropTypes.func.isRequired
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			label: 'Drag Files Here',
-			labelActive: 'Drop to Upload'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			isDragActive: false
-		};
-	},
-	onDragLeave: function onDragLeave() {
-		this.setState({
-			isDragActive: false
-		});
-	},
-	onDragOver: function onDragOver(e) {
-		e.preventDefault();
-		e.dataTransfer.dropEffect = 'copy';
-		this.setState({
-			isDragActive: true
-		});
-	},
-	onDrop: function onDrop(e) {
-		e.preventDefault();
-
-		this.setState({
-			isDragActive: false
-		});
-
-		var files;
-		if (e.dataTransfer) {
-			files = e.dataTransfer.files;
-		} else if (e.target) {
-			files = e.target.files;
-		}
-
-		if (this.props.onDrop) {
-			files = Array.prototype.slice.call(files);
-			this.props.onDrop(files);
-		}
-	},
-	onClick: function onClick() {
-		this.refs.fileInput.click();
-	},
-	render: function render() {
-		var className = classNames('FileDragAndDrop', {
-			'active': this.state.isDragActive
-		}, this.props.className);
-		return React.createElement(
-			'button',
-			{ className: className, onClick: this.onClick, onDragLeave: this.onDragLeave, onDragOver: this.onDragOver, onDrop: this.onDrop },
-			React.createElement('input', { style: { display: 'none' }, type: 'file', multiple: true, ref: 'fileInput', onChange: this.onDrop }),
-			React.createElement(
-				'div',
-				{ className: 'FileDragAndDrop__label' },
-				this.state.isDragActive ? this.props.labelActive : this.props.label
-			),
-			this.props.children
-		);
-	}
-});
-
-module.exports = Dropzone;
-},{"classnames":"classnames","react":"react"}],44:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var blacklist = require('blacklist');
-
-var Button = require('./Button');
-var Spinner = require('./Spinner');
-
-module.exports = React.createClass({
-	displayName: 'FileUpload',
-	propTypes: {
-		buttonLabelChange: React.PropTypes.string,
-		buttonLabelInitial: React.PropTypes.string,
-		disabled: React.PropTypes.bool,
-		file: React.PropTypes.object, // https://developer.mozilla.org/en/docs/Using_files_from_web_applications
-		onChange: React.PropTypes.func
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			buttonLabelInitial: 'Upload File',
-			buttonLabelChange: 'Change File'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			dataURI: null,
-			file: {},
-			loading: false
-		};
-	},
-	componentDidMount: function componentDidMount() {
-		this.refs.fileInput.addEventListener('click', function () {
-			this.value = '';
-		}, false);
-	},
-	triggerFileBrowser: function triggerFileBrowser() {
-		this.refs.fileInput.click();
-	},
-	handleChange: function handleChange(e) {
-		var _this = this;
-
-		var reader = new FileReader();
-		var file = e.target.files[0];
-
-		reader.readAsDataURL(file);
-
-		reader.onloadstart = function () {
-			_this.setState({
-				loading: true
-			});
-		};
-		reader.onloadend = function (upload) {
-			_this.setState({
-				loading: false,
-				file: file,
-				dataURI: upload.target.result
-			});
-			if (typeof _this.props.onChange === 'function') {
-				_this.props.onChange(e, {
-					file: file,
-					dataURI: upload.target.result
-				});
-			}
-		};
-	},
-	cancelUpload: function cancelUpload(e) {
-		this.setState({
-			dataURI: null,
-			file: {}
-		});
-		this.props.onChange(e, null);
-	},
-	render: function render() {
-		var _state = this.state;
-		var dataURI = _state.dataURI;
-		var file = _state.file;
-
-		// props
-		var props = blacklist(this.props, 'buttonClassChange', 'buttonClassInitial', 'buttonLabelChange', 'buttonLabelInitial', 'disabled', 'file', 'onChange');
-		// elements
-		var component = dataURI ? React.createElement(
-			'div',
-			{ className: 'FileUpload' },
-			React.createElement(
-				'div',
-				{ className: 'FileUpload__image' },
-				React.createElement('img', { className: 'FileUpload__image-src', src: dataURI })
-			),
-			React.createElement(
-				'div',
-				{ className: 'FileUpload__content' },
-				React.createElement(
-					'div',
-					{ className: 'FileUpload__message' },
-					file.name,
-					' (',
-					Math.round(file.size / 1024),
-					'Kb)'
-				),
-				React.createElement(
-					'div',
-					{ className: 'FileUpload__buttons' },
-					React.createElement(
-						Button,
-						{ onClick: this.triggerFileBrowser, disabled: this.state.loading },
-						this.state.loading && React.createElement(Spinner, null),
-						this.props.buttonLabelChange
-					),
-					React.createElement(
-						Button,
-						{ onClick: this.cancelUpload, type: 'link-cancel', disabled: this.state.loading },
-						'Cancel'
-					)
-				)
-			)
-		) : React.createElement(
-			Button,
-			{ onClick: this.triggerFileBrowser, disabled: this.props.disabled || this.state.loading },
-			this.state.loading ? React.createElement(Spinner, null) : null,
-			this.props.buttonLabelInitial
-		);
-
-		return React.createElement(
-			'div',
-			null,
-			component,
-			React.createElement('input', _extends({ style: { display: 'none' }, type: 'file', ref: 'fileInput', onChange: this.handleChange }, props))
-		);
-	}
-});
-},{"./Button":35,"./Spinner":69,"blacklist":"blacklist","react":"react"}],45:[function(require,module,exports){
-'use strict';
-
-var blacklist = require('blacklist');
-var classnames = require('classnames');
-var React = require('react');
-
-module.exports = React.createClass({
-	displayName: 'Form',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string,
-		component: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string]),
-		type: React.PropTypes.oneOf(['basic', 'horizontal', 'inline'])
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			component: 'form',
-			type: 'basic'
-		};
-	},
-	render: function render() {
-		var props = blacklist(this.props, 'children', 'type');
-		props.className = classnames('Form', 'Form--' + this.props.type, this.props.className);
-
-		return React.createElement(this.props.component, props, this.props.children);
-	}
-});
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],46:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-
-module.exports = React.createClass({
-	displayName: 'FormField',
-	propTypes: {
-		className: React.PropTypes.string,
-		htmlFor: React.PropTypes.string,
-		id: React.PropTypes.string,
-		label: React.PropTypes.string,
-		offsetAbsentLabel: React.PropTypes.bool,
-		width: React.PropTypes.oneOf(['one-half', 'two-quarters', 'three-sixths', 'one-quarter', 'three-quarters', 'one-third', 'two-sixths', 'two-thirds', 'four-sixths', 'one-fifth', 'two-fifths', 'three-fifths', 'four-fifths', 'one-sixth', 'five-sixths'])
-	},
-	render: function render() {
-		// classes
-		var componentClass = classNames('FormField', {
-			'offset-absent-label': this.props.offsetAbsentLabel
-		}, this.props.width, this.props.className);
-
-		// props
-		var props = blacklist(this.props, 'className', 'label', 'offsetAbsentLabel', 'width');
-
-		// elements
-		var componentLabel = this.props.label ? React.createElement(
-			'label',
-			{ className: 'FormLabel', htmlFor: this.props.id || this.props.htmlFor },
-			this.props.label
-		) : null;
-
-		return React.createElement(
-			'div',
-			_extends({ className: componentClass }, props),
-			componentLabel,
-			this.props.children
-		);
-	}
-});
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],47:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-var Spinner = require('./Spinner');
-
-var icons = require('../Octicons').map;
-
-module.exports = React.createClass({
-	displayName: 'FormIcon',
-	propTypes: {
-		className: React.PropTypes.string,
-		color: React.PropTypes.oneOf(['danger', 'default', 'muted', 'primary', 'success', 'warning']),
-		fill: React.PropTypes.oneOf(['danger', 'default', 'muted', 'primary', 'success', 'warning']),
-		icon: React.PropTypes.string,
-		isLoading: React.PropTypes.bool,
-		type: React.PropTypes.string
-	},
-	render: function render() {
-		// classes
-		var className = classNames('IconField__icon', icons[this.props.icon].className, this.props.fill ? 'IconField__icon-fill--' + this.props.fill : null, this.props.type ? 'IconField__icon-color--' + this.props.type : null, this.props.className);
-		var component = this.props.isLoading ? React.createElement(Spinner, { size: 'sm' }) : React.createElement('div', { className: className });
-		return component;
-	}
-});
-},{"../Octicons":32,"./Spinner":69,"classnames":"classnames","react":"react"}],48:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-
-var FormField = require('./FormField');
-var Spinner = require('./Spinner');
-
-var ICON_MAP = require('../Octicons').map;
-var ICON_KEYS = require('../Octicons').keys;
-var COLOR_VARIANTS = ['danger', 'default', 'primary', 'success', 'warning'];
-
-module.exports = React.createClass({
-	displayName: 'FormIconField',
-	propTypes: {
-		className: React.PropTypes.string,
-		iconColor: React.PropTypes.oneOf(COLOR_VARIANTS),
-		iconFill: React.PropTypes.oneOf(COLOR_VARIANTS),
-		iconIsLoading: React.PropTypes.bool,
-		iconKey: React.PropTypes.oneOf(ICON_KEYS).isRequired,
-		iconPosition: React.PropTypes.oneOf(['left', 'right'])
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			iconPosition: 'left'
-		};
-	},
-	render: function render() {
-		// props
-		var props = blacklist(this.props, 'children', 'iconPosition', 'iconKey', 'iconFill', 'iconColor', 'iconIsLoading');
-
-		// classes
-		var fieldClass = classNames('IconField', {
-			'has-fill-icon': this.props.iconFill,
-			'is-loading-icon': this.props.iconIsLoading
-		}, this.props.iconFill ? 'field-context-' + this.props.iconFill : null, this.props.iconColor ? 'field-context-' + this.props.iconColor : null, this.props.iconPosition);
-
-		var iconClass = classNames('IconField__icon', this.props.iconFill ? 'IconField__icon-fill--' + this.props.iconFill : null, this.props.iconColor ? 'IconField__icon-color--' + this.props.iconColor : null, ICON_MAP[this.props.iconKey].className);
-
-		var icon = this.props.iconIsLoading ? React.createElement(Spinner, { size: 'sm' }) : React.createElement('span', { className: iconClass });
-
-		return React.createElement(
-			FormField,
-			props,
-			React.createElement(
-				'div',
-				{ className: fieldClass },
-				this.props.children,
-				icon
-			)
-		);
-	}
-});
-},{"../Octicons":32,"./FormField":46,"./Spinner":69,"blacklist":"blacklist","classnames":"classnames","react":"react"}],49:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-
-module.exports = React.createClass({
-	displayName: 'FormInput',
-	propTypes: {
-		autofocus: React.PropTypes.bool,
-		className: React.PropTypes.string,
-		disabled: React.PropTypes.bool,
-		href: React.PropTypes.string,
-		id: React.PropTypes.string,
-		multiline: React.PropTypes.bool,
-		name: React.PropTypes.string,
-		noedit: React.PropTypes.bool,
-		onChange: React.PropTypes.func,
-		size: React.PropTypes.oneOf(['lg', 'sm', 'xs']),
-		type: React.PropTypes.string,
-		value: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
-	},
-
-	getDefaultProps: function getDefaultProps() {
-		return {
-			type: 'text'
-		};
-	},
-
-	componentDidMount: function componentDidMount() {
-		if (this.props.autofocus) {
-			this.focus();
-		}
-	},
-
-	focus: function focus() {
-		this.refs.input.focus();
-	},
-
-	render: function render() {
-		// classes
-		var className = classNames({
-			'FormInput-noedit': this.props.noedit,
-			'FormInput-noedit--multiline': this.props.noedit && this.props.multiline,
-			'FormInput': !this.props.noedit
-		}, this.props.size ? 'FormInput--' + this.props.size : null, this.props.className);
-		var props = _extends({}, this.props, { className: className, ref: 'input' });
-		var Element = 'input';
-		if (this.props.noedit && this.props.href) {
-			Element = 'a';
-			props.type = null;
-			props.children = props.children || props.value;
-		} else if (this.props.noedit) {
-			Element = 'div';
-			props.type = null;
-			props.children = props.children || props.value;
-		} else if (this.props.multiline) {
-			Element = 'textarea';
-		}
-
-		return React.createElement(Element, props);
-	}
-});
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],50:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-
-module.exports = React.createClass({
-	displayName: 'FormLabel',
-	propTypes: {
-		className: React.PropTypes.string,
-		htmlFor: React.PropTypes.string,
-		id: React.PropTypes.string,
-		style: React.PropTypes.object,
-		verticalAlign: React.PropTypes.oneOf(['baseline', 'bottom', 'inherit', 'initial', 'middle', 'sub', 'super', 'text-bottom', 'text-top', 'top'])
-	},
-	render: function render() {
-		// classes
-		var className = classNames('FormLabel', this.props.className);
-		// props
-		var props = blacklist(this.props, 'htmlFor', 'id', 'className', 'style');
-		// style
-		var style;
-		if (this.props.verticalAlign) {
-			style = {
-				verticalAlign: this.props.verticalAlign
-			};
-		}
-		return React.createElement(
-			'label',
-			_extends({ className: className, htmlFor: this.props.htmlFor || this.props.id, style: style || this.props.style }, props),
-			this.props.children
-		);
-	}
-});
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],51:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-
-var NOTE_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
-
-module.exports = React.createClass({
-	displayName: 'FormNote',
-	propTypes: {
-		className: React.PropTypes.string,
-		note: React.PropTypes.string,
-		type: React.PropTypes.oneOf(NOTE_TYPES)
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			type: 'default'
-		};
-	},
-	render: function render() {
-		// classes
-		var componentClass = classNames('FormNote', this.props.type ? 'FormNote--' + this.props.type : null, this.props.className);
-
-		// props
-		var props = blacklist(this.props, 'className', 'note', 'type');
-
-		// allow users to pass through the note as an attribute or as children
-		return React.createElement(
-			'div',
-			_extends({ className: componentClass, dangerouslySetInnerHTML: this.props.note ? { __html: this.props.note } : null }, props),
-			this.props.children
-		);
-	}
-});
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],52:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-
-module.exports = React.createClass({
-	displayName: 'FormRow',
-	propTypes: {
-		className: React.PropTypes.string
-	},
-	render: function render() {
-		var className = classNames('FormRow', this.props.className);
-
-		return React.createElement(
-			'div',
-			{ className: className },
-			this.props.children
-		);
-	}
-});
-},{"classnames":"classnames","react":"react"}],53:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _blacklist = require('blacklist');
-
-var _blacklist2 = _interopRequireDefault(_blacklist);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _icons = require('../icons');
-
-var _icons2 = _interopRequireDefault(_icons);
-
-module.exports = _react2['default'].createClass({
-	displayName: 'FormSelect',
-	propTypes: {
-		alwaysValidate: _react2['default'].PropTypes.bool,
-		className: _react2['default'].PropTypes.string,
-		disabled: _react2['default'].PropTypes.bool,
-		firstOption: _react2['default'].PropTypes.string,
-		htmlFor: _react2['default'].PropTypes.string,
-		id: _react2['default'].PropTypes.string,
-		label: _react2['default'].PropTypes.string,
-		onChange: _react2['default'].PropTypes.func.isRequired,
-		options: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.shape({
-			label: _react2['default'].PropTypes.string,
-			value: _react2['default'].PropTypes.string
-		})).isRequired,
-		prependEmptyOption: _react2['default'].PropTypes.bool,
-		required: _react2['default'].PropTypes.bool,
-		requiredMessage: _react2['default'].PropTypes.string,
-		value: _react2['default'].PropTypes.string
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			requiredMessage: 'This field is required'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			isValid: true,
-			validationIsActive: this.props.alwaysValidate
-		};
-	},
-	componentDidMount: function componentDidMount() {
-		if (this.state.validationIsActive) {
-			this.validateInput(this.props.value);
-		}
-	},
-	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-		if (this.state.validationIsActive) {
-			if (newProps.value !== this.props.value && newProps.value !== this._lastChangeValue && !newProps.alwaysValidate) {
-				// reset validation state if the value was changed outside the component
-				return this.setState({
-					isValid: true,
-					validationIsActive: false
-				});
-			}
-			this.validateInput(newProps.value);
-		}
-	},
-	handleChange: function handleChange(e) {
-		this._lastChangeValue = e.target.value;
-		if (this.props.onChange) this.props.onChange(e.target.value);
-	},
-	handleBlur: function handleBlur() {
-		if (!this.props.alwaysValidate) {
-			this.setState({
-				validationIsActive: false
-			});
-		}
-		this.validateInput(this.props.value);
-	},
-	validateInput: function validateInput(value) {
-		var newState = {
-			isValid: true
-		};
-		if (this.props.required && (!value || value && !value.length)) {
-			newState.isValid = false;
-		}
-		if (!newState.isValid) {
-			newState.validationIsActive = true;
-		}
-		this.setState(newState);
-	},
-	renderIcon: function renderIcon(icon) {
-		var iconClassname = (0, _classnames2['default'])('FormSelect__arrows', {
-			'FormSelect__arrows--disabled': this.props.disabled
-		});
-		return _react2['default'].createElement('span', { dangerouslySetInnerHTML: { __html: icon }, className: iconClassname });
-	},
-	render: function render() {
-		// props
-		var props = (0, _blacklist2['default'])(this.props, 'prependEmptyOption', 'firstOption', 'alwaysValidate', 'htmlFor', 'id', 'label', 'onChange', 'options', 'required', 'requiredMessage', 'className');
-
-		// classes
-		var componentClass = (0, _classnames2['default'])('FormField', {
-			'is-invalid': !this.state.isValid
-		}, this.props.className);
-
-		// validation message
-		var validationMessage = undefined;
-		if (!this.state.isValid) {
-			validationMessage = _react2['default'].createElement(
-				'div',
-				{ className: 'form-validation is-invalid' },
-				this.props.requiredMessage
-			);
-		}
-
-		// dynamic elements
-		var forAndID = this.props.htmlFor || this.props.id;
-		var componentLabel = this.props.label ? _react2['default'].createElement(
-			'label',
-			{ className: 'FormLabel', htmlFor: forAndID },
-			this.props.label
-		) : null;
-
-		// options
-		var options = this.props.options.map(function (opt, i) {
-			return _react2['default'].createElement(
-				'option',
-				{ key: 'option-' + i, value: opt.value },
-				opt.label
-			);
-		});
-		if (this.props.prependEmptyOption || this.props.firstOption) {
-			options.unshift(_react2['default'].createElement(
-				'option',
-				{ key: 'option-blank', value: '' },
-				this.props.firstOption ? this.props.firstOption : 'Select...'
-			));
-		}
-
-		return _react2['default'].createElement(
-			'div',
-			{ className: componentClass },
-			componentLabel,
-			_react2['default'].createElement(
-				'div',
-				{ className: 'u-pos-relative' },
-				_react2['default'].createElement(
-					'select',
-					_extends({ className: 'FormInput FormSelect', id: forAndID, onChange: this.handleChange, onBlur: this.handleBlur }, props),
-					options
-				),
-				this.renderIcon(_icons2['default'].selectArrows)
-			),
-			validationMessage
-		);
-	}
-});
-},{"../icons":72,"blacklist":"blacklist","classnames":"classnames","react":"react"}],54:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-
-var icons = require('../Octicons').map;
-var validNames = require('../Octicons').keys;
-
-var Glyph = React.createClass({
-	displayName: 'Glyph',
-	propTypes: {
-		className: React.PropTypes.string,
-		icon: React.PropTypes.oneOf(validNames),
-		type: React.PropTypes.oneOf(['danger', 'default', 'muted', 'primary', 'success', 'warning'])
-	},
-	render: function render() {
-		// classes
-		var className = classNames('Glyph__icon', icons[this.props.icon].className, this.props.type ? 'IconField__icon-color--' + this.props.type : null, this.props.className);
-		return React.createElement('i', { className: className });
-	}
-});
-
-module.exports = Glyph;
-module.exports.names = validNames;
-},{"../Octicons":32,"classnames":"classnames","react":"react"}],55:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var classNames = require('classnames');
-
-module.exports = React.createClass({
-	displayName: 'InputGroup',
-	propTypes: {
-		className: React.PropTypes.string,
-		contiguous: React.PropTypes.bool
-	},
-	render: function render() {
-		// classes
-		var className = classNames('InputGroup', {
-			'InputGroup--contiguous': this.props.contiguous
-		}, this.props.className);
-
-		return React.createElement('div', _extends({}, this.props, { className: className }));
-	}
-});
-
-// expose the child to the top level export
-module.exports.Section = require('./InputGroupSection');
-},{"./InputGroupSection":56,"classnames":"classnames","react":"react"}],56:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var classNames = require('classnames');
-
-module.exports = React.createClass({
-	displayName: 'InputGroupSection',
-	propTypes: {
-		className: React.PropTypes.string,
-		grow: React.PropTypes.bool
-	},
-	render: function render() {
-		// classes
-		var className = classNames('InputGroup_section', {
-			'InputGroup_section--grow': this.props.grow
-		}, this.props.className);
-
-		return React.createElement('div', _extends({}, this.props, { className: className }));
-	}
-});
-},{"classnames":"classnames","react":"react"}],57:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
-var _blacklist = require('blacklist');
-
-var _blacklist2 = _interopRequireDefault(_blacklist);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _constants = require('../constants');
-
-var TransitionPortal = _react2['default'].createClass({
-	displayName: 'TransitionPortal',
-	componentDidMount: function componentDidMount() {
-		if (!_constants.canUseDOM) return;
-		var p = document.createElement('div');
-		document.body.appendChild(p);
-		this.portalElement = p;
-		this.componentDidUpdate();
-	},
-	componentDidUpdate: function componentDidUpdate() {
-		if (!_constants.canUseDOM) return;
-		_reactDom2['default'].render(_react2['default'].createElement(
-			_reactAddonsCssTransitionGroup2['default'],
-			this.props,
-			this.props.children
-		), this.portalElement);
-	},
-	componentWillUnmount: function componentWillUnmount() {
-		if (!_constants.canUseDOM) return;
-		document.body.removeChild(this.portalElement);
-	},
-	portalElement: null,
-	render: function render() {
-		return null;
-	}
-});
-
-module.exports = _react2['default'].createClass({
-	displayName: 'Modal',
-	propTypes: {
-		autofocusFirstElement: _react2['default'].PropTypes.bool,
-		backdropClosesModal: _react2['default'].PropTypes.bool,
-		className: _react2['default'].PropTypes.string,
-		isOpen: _react2['default'].PropTypes.bool,
-		onCancel: _react2['default'].PropTypes.func,
-		width: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.oneOf(['small', 'medium', 'large']), _react2['default'].PropTypes.number])
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			width: 'medium'
-		};
-	},
-	componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-		if (!_constants.canUseDOM) return;
-		if (!this.props.isOpen && nextProps.isOpen) {
-			// setTimeout(() => this.handleAccessibility());
-			document.body.style.overflow = 'hidden';
-		} else if (this.props.isOpen && !nextProps.isOpen) {
-			// setTimeout(() => this.removeAccessibilityHandlers());
-			document.body.style.overflow = null;
-		}
-	},
-	/*
- handleAccessibility () {
- 	// Remember the element that was focused before we opened the modal
- 	// so we can return focus to it once we close the modal.
- 	this.focusedElementBeforeModalOpened = document.activeElement;
- 		// We're using a transition to reveal the modal,
- 	// so wait until the element is visible, before
- 	// finding the first keyboard focusable element
- 	// and passing focus to it, otherwise the browser
- 	// might scroll the document to reveal the element
- 	// receiving focus
- 	if (this.props.autofocusFirstElement) {
- 		ally.when.visibleArea({
- 			context: this.modalElement,
- 			callback: function(context) {
- 				// the modal is visible on screen, so find the first
- 				// keyboard focusable element (giving any element with
- 				// autofocus attribute precendence). If the modal does
- 				// not contain any keyboard focusabe elements, focus will
- 				// be given to the modal itself.
- 				var element = ally.query.firstTabbable({
- 					context: context,
- 					defaultToContext: true,
- 				});
- 				element.focus();
- 			},
- 		});
- 	}
- 		// Make sure that no element outside of the modal
- 	// can be interacted with while the modal is visible.
- 	this.disabledHandle = ally.maintain.disabled({
- 		filter: this.modalElement,
- 	});
- 		// Make sure that no element outside of the modal
- 	// is exposed via the Accessibility Tree, to prevent
- 	// screen readers from navigating to content it shouldn't
- 	// be seeing while the modal is open.
- 	this.hiddenHandle = ally.maintain.hidden({
- 		filter: this.modalElement,
- 	});
- 		// React to escape keys as mandated by ARIA Practices
- 	this.keyHandle = ally.when.key({
- 		escape: this.handleClose,
- 	});
- },
- removeAccessibilityHandlers () {
- 	// undo listening to keyboard
- 	this.keyHandle && this.keyHandle.disengage();
- 		// undo hiding elements outside of the modal
- 	this.hiddenHandle && this.hiddenHandle.disengage();
- 		// undo disabling elements outside of the modal
- 	this.disabledHandle && this.disabledHandle.disengage();
- 		// return focus to where it was before we opened the modal
- 	this.focusedElementBeforeModalOpened && this.focusedElementBeforeModalOpened.focus();
- },
- handleModalClick (event) {
- 	if (event.target.dataset.modal) this.handleClose();
- },
- */
-	handleClose: function handleClose() {
-		this.props.onCancel();
-	},
-	renderDialog: function renderDialog() {
-		var _this = this;
-
-		if (!this.props.isOpen) return;
-		var dialogClassname = (0, _classnames2['default'])('Modal-dialog', this.props.width && isNaN(this.props.width) ? 'Modal-dialog--' + this.props.width : null);
-		return _react2['default'].createElement(
-			'div',
-			{ className: dialogClassname, style: this.props.width && !isNaN(this.props.width) ? { width: this.props.width + 20 } : null },
-			_react2['default'].createElement(
-				'div',
-				{ ref: function (ref) {
-						_this.modalElement = ref;
-					}, className: 'Modal-content' },
-				this.props.children
-			)
-		);
-	},
-	renderBackdrop: function renderBackdrop() {
-		if (!this.props.isOpen) return;
-		return _react2['default'].createElement('div', { className: 'Modal-backdrop', onClick: this.props.backdropClosesModal ? this.handleClose : null });
-	},
-	render: function render() {
-		var className = (0, _classnames2['default'])('Modal', {
-			'is-open': this.props.isOpen
-		}, this.props.className);
-		var props = (0, _blacklist2['default'])(this.props, 'backdropClosesModal', 'className', 'isOpen', 'onCancel');
-		return _react2['default'].createElement(
-			'div',
-			null,
-			_react2['default'].createElement(
-				TransitionPortal,
-				_extends({}, props, { 'data-modal': 'true', className: className, /*onClick={this.handleModalClick}*/transitionName: 'Modal-dialog', transitionEnterTimeout: 260, transitionLeaveTimeout: 140, component: 'div' }),
-				this.renderDialog()
-			),
-			_react2['default'].createElement(
-				TransitionPortal,
-				{ transitionName: 'Modal-background', transitionEnterTimeout: 140, transitionLeaveTimeout: 240, component: 'div' },
-				this.renderBackdrop()
-			)
-		);
-	}
-});
-
-// expose the children to the top level export
-module.exports.Body = require('./ModalBody');
-module.exports.Footer = require('./ModalFooter');
-module.exports.Header = require('./ModalHeader');
-},{"../constants":71,"./ModalBody":58,"./ModalFooter":59,"./ModalHeader":60,"blacklist":"blacklist","classnames":"classnames","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group","react-dom":"react-dom"}],58:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var classnames = require('classnames');
-var React = require('react');
-
-module.exports = React.createClass({
-	displayName: 'ModalBody',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string
-	},
-	render: function render() {
-		var className = classnames('Modal__body', this.props.className);
-		return React.createElement('div', _extends({}, this.props, { className: className }));
-	}
-});
-},{"classnames":"classnames","react":"react"}],59:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var classnames = require('classnames');
-var React = require('react');
-
-module.exports = React.createClass({
-	displayName: 'ModalFooter',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string
-	},
-	render: function render() {
-		var className = classnames('Modal__footer', this.props.className);
-		return React.createElement('div', _extends({}, this.props, { className: className }));
-	}
-});
-},{"classnames":"classnames","react":"react"}],60:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var classnames = require('classnames');
-var React = require('react');
-
-module.exports = React.createClass({
-	displayName: 'ModalHeader',
-	propTypes: {
-		children: React.PropTypes.node,
-		className: React.PropTypes.string,
-		onClose: React.PropTypes.func,
-		showCloseButton: React.PropTypes.bool,
-		text: React.PropTypes.string
-	},
-	handleClose: function handleClose() {
-		document.body.style.overflow = null;
-		this.props.onClose();
-	},
-	render: function render() {
-
-		// elements
-		var className = classnames('Modal__header', this.props.className);
-		var close = this.props.showCloseButton ? React.createElement('button', { type: 'button', onClick: this.handleClose, className: 'Modal__header__close' }) : null;
-		var text = this.props.text ? React.createElement(
-			'h4',
-			{ className: 'Modal__header__text' },
-			this.props.text
-		) : null;
-		return React.createElement(
-			'div',
-			_extends({}, this.props, { className: className }),
-			close,
-			text,
-			this.props.children
-		);
-	}
-});
-},{"classnames":"classnames","react":"react"}],61:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-
-var Page = React.createClass({
-	displayName: 'Page',
-	propTypes: {
-		children: React.PropTypes.node,
-		label: React.PropTypes.string,
-		onSelect: React.PropTypes.func,
-		page: React.PropTypes.number,
-		selected: React.PropTypes.bool
-	},
-	onSelect: function onSelect() {
-		this.props.onSelect(this.props.page);
-	},
-	render: function render() {
-		var _props = this.props;
-		var children = _props.children;
-		var selected = _props.selected;
-		var label = _props.label;
-
-		var className = classNames('Pagination__list__item', {
-			'is-selected': selected
-		});
-		return React.createElement(
-			'button',
-			{ className: className, onClick: this.onSelect },
-			children
-		);
-	}
-});
-
-module.exports = React.createClass({
-	displayName: 'Pagination',
-	propTypes: {
-		className: React.PropTypes.string,
-		currentPage: React.PropTypes.number.isRequired,
-		limit: React.PropTypes.number,
-		onPageSelect: React.PropTypes.func,
-		pageSize: React.PropTypes.number.isRequired,
-		plural: React.PropTypes.string,
-		singular: React.PropTypes.string,
-		style: React.PropTypes.object,
-		total: React.PropTypes.number.isRequired
-	},
-	renderCount: function renderCount() {
-		var count = '';
-		var _props2 = this.props;
-		var currentPage = _props2.currentPage;
-		var pageSize = _props2.pageSize;
-		var plural = _props2.plural;
-		var singular = _props2.singular;
-		var total = _props2.total;
-
-		if (!total) {
-			count = 'No ' + (plural || 'records');
-		} else if (total > pageSize) {
-			var start = pageSize * (currentPage - 1) + 1;
-			var end = Math.min(start + pageSize - 1, total);
-			count = 'Showing ' + start + ' to ' + end + ' of ' + total;
-		} else {
-			count = 'Showing ' + total;
-			if (total > 1 && plural) {
-				count += ' ' + plural;
-			} else if (total === 1 && singular) {
-				count += ' ' + singular;
-			}
-		}
-		return React.createElement(
-			'div',
-			{ className: 'Pagination__count' },
-			count
-		);
-	},
-	onPageSelect: function onPageSelect(page) {
-		if (this.props.onPageSelect) {
-			this.props.onPageSelect(page);
-		}
-	},
-	renderPages: function renderPages() {
-		if (this.props.total <= this.props.pageSize) return null;
-
-		var pages = [];
-		var _props3 = this.props;
-		var currentPage = _props3.currentPage;
-		var pageSize = _props3.pageSize;
-		var total = _props3.total;
-		var limit = _props3.limit;
-
-		var totalPages = Math.ceil(total / pageSize);
-		var minPage = 1;
-		var maxPage = totalPages;
-
-		if (limit && limit < totalPages) {
-			var rightLimit = Math.floor(limit / 2);
-			var leftLimit = rightLimit + limit % 2 - 1;
-			minPage = currentPage - leftLimit;
-			maxPage = currentPage + rightLimit;
-
-			if (minPage < 1) {
-				maxPage = limit;
-				minPage = 1;
-			}
-			if (maxPage > totalPages) {
-				minPage = totalPages - limit + 1;
-				maxPage = totalPages;
-			}
-		}
-		if (minPage > 1) {
-			pages.push(React.createElement(
-				Page,
-				{ key: 'page_start', onSelect: this.onPageSelect },
-				'...'
-			));
-		}
-		for (var page = minPage; page <= maxPage; page++) {
-			var selected = page === currentPage;
-			/* eslint-disable no-loop-func */
-			pages.push(React.createElement(
-				Page,
-				{ key: 'page_' + page, selected: selected, onSelect: this.onPageSelect, page: page },
-				page
-			));
-			/* eslint-enable */
-		}
-		if (maxPage < totalPages) {
-			pages.push(React.createElement(
-				Page,
-				{ key: 'page_end', onSelect: this.onPageSelect, page: totalPages },
-				'...'
-			));
-		}
-		return React.createElement(
-			'div',
-			{ className: 'Pagination__list' },
-			pages
-		);
-	},
-	render: function render() {
-		var className = classNames('Pagination', this.props.className);
-		return React.createElement(
-			'div',
-			{ className: className, style: this.props.style },
-			this.renderCount(),
-			this.renderPages()
-		);
-	}
-});
-},{"classnames":"classnames","react":"react"}],62:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-
-function validatePassword(value) {
-	return value.length >= 8;
-}
-
-module.exports = React.createClass({
-	displayName: 'PasswordInputGroup',
-	propTypes: {
-		alwaysValidate: React.PropTypes.bool,
-		className: React.PropTypes.string,
-		invalidMessage: React.PropTypes.string,
-		label: React.PropTypes.string,
-		onChange: React.PropTypes.func,
-		required: React.PropTypes.bool,
-		requiredMessage: React.PropTypes.string,
-		validatePassword: React.PropTypes.func,
-		value: React.PropTypes.string
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			validatePassword: validatePassword,
-			requiredMessage: 'Password is required',
-			invalidMessage: 'Password must be at least 8 characters in length'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			isValid: true,
-			validationIsActive: this.props.alwaysValidate
-		};
-	},
-	componentDidMount: function componentDidMount() {
-		if (this.state.validationIsActive) {
-			this.validateInput(this.props.value);
-		}
-	},
-	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-		if (this.state.validationIsActive) {
-			if (newProps.value !== this.props.value && newProps.value !== this._lastChangeValue && !newProps.alwaysValidate) {
-				// reset validation state if the value was changed outside the component
-				return this.setState({
-					isValid: true,
-					validationIsActive: false
-				});
-			}
-			this.validateInput(newProps.value);
-		}
-	},
-	handleChange: function handleChange(e) {
-		this._lastChangeValue = e.target.value;
-		if (this.props.onChange) this.props.onChange(e);
-	},
-	handleBlur: function handleBlur() {
-		if (!this.props.alwaysValidate) {
-			this.setState({ validationIsActive: false });
-		}
-		this.validateInput(this.props.value);
-	},
-	validateInput: function validateInput(value) {
-		var newState = {
-			isValid: true
-		};
-		if (value.length && !this.props.validatePassword(value) || !value.length && this.props.required) {
-			newState.isValid = false;
-		}
-		if (!newState.isValid) {
-			newState.validationIsActive = true;
-		}
-		this.setState(newState);
-	},
-	render: function render() {
-		var validationMessage;
-		if (!this.state.isValid) {
-			validationMessage = React.createElement(
-				'div',
-				{ className: 'form-validation is-invalid' },
-				this.props.value.length ? this.props.invalidMessage : this.props.requiredMessage
-			);
-		}
-		var formGroupClass = classNames('FormField', {
-			'is-invalid': !this.state.isValid
-		}, this.props.className);
-
-		var componentLabel = this.props.label ? React.createElement(
-			'label',
-			{ className: 'FormLabel', htmlFor: 'inputPassword' },
-			this.props.label
-		) : null;
-
-		return React.createElement(
-			'div',
-			{ className: formGroupClass },
-			componentLabel,
-			React.createElement('input', { onChange: this.handleChange, onBlur: this.handleBlur, value: this.props.value, type: 'password', className: 'FormInput', placeholder: 'Enter password', id: 'inputPassword' }),
-			validationMessage
-		);
-	}
-});
-},{"classnames":"classnames","react":"react"}],63:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-
-var ALERT_TYPES = ['danger', 'default', 'info', 'primary', 'success', 'warning', 'danger-inverted', 'default-inverted', 'info-inverted', 'primary-inverted', 'success-inverted', 'warning-inverted'];
-
-module.exports = React.createClass({
-	displayName: 'Pill',
-	propTypes: {
-		className: React.PropTypes.string,
-		label: React.PropTypes.string.isRequired,
-		onClear: React.PropTypes.func,
-		onClick: React.PropTypes.func,
-		type: React.PropTypes.oneOf(ALERT_TYPES)
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			type: 'default'
-		};
-	},
-	renderClearButton: function renderClearButton() {
-		if (!this.props.onClear) return null;
-		return React.createElement(
-			'button',
-			{ type: 'button', onClick: this.props.onClear, className: 'Pill__clear' },
-			'×'
-		);
-	},
-	render: function render() {
-		var componentClass = classNames('Pill', 'Pill--' + this.props.type, this.props.className);
-
-		var props = blacklist(this.props, 'className', 'label', 'onClear', 'onClick', 'type');
-		props.className = componentClass;
-
-		return React.createElement(
-			'div',
-			props,
-			React.createElement(
-				'button',
-				{ type: 'button', onClick: this.props.onClick, className: 'Pill__label' },
-				this.props.label
-			),
-			this.renderClearButton()
-		);
-	}
-});
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],64:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-var React = require('react');
-
-var Radio = React.createClass({
-	displayName: 'Radio',
-
-	propTypes: {
-		className: React.PropTypes.string,
-		disabled: React.PropTypes.bool,
-		inline: React.PropTypes.bool,
-		label: React.PropTypes.string
-	},
-	render: function render() {
-		var componentClass = classNames('Radio', {
-			'Radio--disabled': this.props.disabled,
-			'Radio--inline': this.props.inline
-		}, this.props.className);
-		var props = blacklist(this.props, 'className', 'label');
-
-		return React.createElement(
-			'label',
-			{ className: componentClass },
-			React.createElement('input', _extends({ type: 'radio', className: 'Radio__input' }, props)),
-			this.props.label && React.createElement(
-				'span',
-				{ className: 'Radio__label' },
-				this.props.label
-			)
-		);
-	}
-});
-
-module.exports = Radio;
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],65:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var React = require('react');
-var blacklist = require('blacklist');
-var classNames = require('classnames');
-
-module.exports = React.createClass({
-	displayName: 'RadioGroup',
-	propTypes: {
-		alwaysValidate: React.PropTypes.bool,
-		className: React.PropTypes.string,
-		inline: React.PropTypes.bool,
-		label: React.PropTypes.string,
-		onChange: React.PropTypes.func.isRequired,
-		options: React.PropTypes.array.isRequired,
-		required: React.PropTypes.bool,
-		requiredMessage: React.PropTypes.string,
-		value: React.PropTypes.string
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			requiredMessage: 'This field is required'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			isValid: true,
-			validationIsActive: this.props.alwaysValidate
-		};
-	},
-	componentDidMount: function componentDidMount() {
-		if (this.state.validationIsActive) {
-			this.validateInput(this.props.value);
-		}
-	},
-	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-		if (this.state.validationIsActive) {
-			if (newProps.value !== this.props.value && newProps.value !== this._lastChangeValue && !newProps.alwaysValidate) {
-				// reset validation state if the value was changed outside the component
-				return this.setState({
-					isValid: true,
-					validationIsActive: false
-				});
-			}
-			this.validateInput(newProps.value);
-		}
-	},
-	handleChange: function handleChange(e) {
-		this._lastChangeValue = e.target.value;
-		if (this.props.onChange) this.props.onChange(e.target.value);
-	},
-	handleBlur: function handleBlur() {
-		if (!this.props.alwaysValidate) {
-			this.setState({ validationIsActive: false });
-		}
-		this.validateInput(this.props.value);
-	},
-	validateInput: function validateInput(value) {
-		var newState = {
-			isValid: true
-		};
-		if (this.props.required && (!value || value && !value.length)) {
-			newState.isValid = false;
-		}
-		if (!newState.isValid) {
-			newState.validationIsActive = true;
-		}
-		this.setState(newState);
-	},
-	render: function render() {
-		var self = this;
-
-		// props
-		var props = blacklist(this.props, 'alwaysValidate', 'label', 'onChange', 'options', 'required', 'requiredMessage', 'value');
-
-		// classes
-		var componentClass = classNames('FormField', {
-			'is-invalid': !this.state.isValid
-		}, this.props.className);
-
-		// validation message
-		var validationMessage;
-		if (!this.state.isValid) {
-			validationMessage = React.createElement(
-				'div',
-				{ className: 'form-validation is-invalid' },
-				this.props.requiredMessage
-			);
-		}
-
-		// dynamic elements
-		var componentLabel = this.props.label ? React.createElement(
-			'label',
-			{ className: 'FormLabel' },
-			this.props.label
-		) : null;
-
-		// options
-		var radios = this.props.options.map(function (radio, i) {
-			return React.createElement(
-				'label',
-				{ key: 'radio-' + i, className: 'Radio' },
-				React.createElement('input', { value: radio.value, type: 'radio', onChange: self.handleChange, onBlur: self.handleBlur, name: self.props.name, className: 'Radio__input' }),
-				React.createElement(
-					'span',
-					{ className: 'Radio__label' },
-					radio.label
-				)
-			);
-		});
-		if (this.props.inline) {
-			radios = React.createElement(
-				'div',
-				{ className: 'inline-controls' },
-				radios
-			);
-		}
-
-		return React.createElement(
-			'div',
-			_extends({ className: componentClass }, props),
-			componentLabel,
-			radios,
-			validationMessage
-		);
-	}
-});
-},{"blacklist":"blacklist","classnames":"classnames","react":"react"}],66:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _blacklist = require('blacklist');
-
-var _blacklist2 = _interopRequireDefault(_blacklist);
-
-var _constants = require('../constants');
-
-var _constants2 = _interopRequireDefault(_constants);
-
-module.exports = _react2['default'].createClass({
-	displayName: 'ResponsiveText',
-	propTypes: {
-		hiddenLG: _react2['default'].PropTypes.string,
-		hiddenMD: _react2['default'].PropTypes.string,
-		hiddenSM: _react2['default'].PropTypes.string,
-		hiddenXS: _react2['default'].PropTypes.string,
-		visibleLG: _react2['default'].PropTypes.string,
-		visibleMD: _react2['default'].PropTypes.string,
-		visibleSM: _react2['default'].PropTypes.string,
-		visibleXS: _react2['default'].PropTypes.string
-	},
-	getInitialState: function getInitialState() {
-		return {
-			windowWidth: typeof window !== 'undefined' ? window.innerWidth : 0
-		};
-	},
-	componentDidMount: function componentDidMount() {
-		if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
-	},
-	componentWillUnmount: function componentWillUnmount() {
-		if (typeof window !== 'undefined') window.removeEventListener('resize', this.handleResize);
-	},
-	handleResize: function handleResize() {
-		this.setState({
-			windowWidth: typeof window !== 'undefined' ? window.innerWidth : 0
-		});
-	},
-	render: function render() {
-		var _props = this.props;
-		var hiddenXS = _props.hiddenXS;
-		var hiddenSM = _props.hiddenSM;
-		var hiddenMD = _props.hiddenMD;
-		var hiddenLG = _props.hiddenLG;
-		var visibleXS = _props.visibleXS;
-		var visibleSM = _props.visibleSM;
-		var visibleMD = _props.visibleMD;
-		var visibleLG = _props.visibleLG;
-		var windowWidth = this.state.windowWidth;
-
-		var text = undefined;
-
-		// set widths / flex-basis
-		if (windowWidth < _constants2['default'].breakpoint.xs) {
-			text = visibleXS || hiddenSM || hiddenMD || hiddenLG;
-		} else if (windowWidth < _constants2['default'].breakpoint.sm) {
-			text = hiddenXS || visibleSM || hiddenMD || hiddenLG;
-		} else if (windowWidth < _constants2['default'].breakpoint.md) {
-			text = hiddenXS || hiddenSM || visibleMD || hiddenLG;
-		} else {
-			text = hiddenXS || hiddenSM || hiddenMD || visibleLG;
-		}
-
-		var props = (0, _blacklist2['default'])(this.props, {
-			'hiddenXS': true,
-			'hiddenSM': true,
-			'hiddenMD': true,
-			'hiddenLG': true,
-			'visibleXS': true,
-			'visibleSM': true,
-			'visibleMD': true,
-			'visibleLG': true
-		});
-
-		return _react2['default'].createElement(
-			'span',
-			props,
-			text
-		);
-	}
-});
-},{"../constants":71,"blacklist":"blacklist","react":"react"}],67:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _blacklist = require('blacklist');
-
-var _blacklist2 = _interopRequireDefault(_blacklist);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _constants = require('../constants');
-
-var _constants2 = _interopRequireDefault(_constants);
-
-module.exports = _react2['default'].createClass({
-	displayName: 'Row',
-	propTypes: {
-		children: _react2['default'].PropTypes.node.isRequired,
-		className: _react2['default'].PropTypes.string,
-		gutter: _react2['default'].PropTypes.number,
-		style: _react2['default'].PropTypes.object
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			gutter: _constants2['default'].width.gutter
-		};
-	},
-	render: function render() {
-		var gutter = this.props.gutter;
-
-		var rowStyle = {
-			display: 'flex',
-			flexWrap: 'wrap',
-			msFlexWrap: 'wrap',
-			WebkitFlexWrap: 'wrap',
-			marginLeft: gutter / -2,
-			marginRight: gutter / -2
-		};
-		var className = (0, _classnames2['default'])('Row', this.props.className);
-		var props = (0, _blacklist2['default'])(this.props, 'className', 'gutter', 'style');
-
-		return _react2['default'].createElement('div', _extends({}, props, { style: _extends(rowStyle, this.props.style), className: className }));
-	}
-});
-},{"../constants":71,"blacklist":"blacklist","classnames":"classnames","react":"react"}],68:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-module.exports = _react2['default'].createClass({
-	displayName: 'SegmentedControl',
-
-	propTypes: {
-		className: _react2['default'].PropTypes.string,
-		equalWidthSegments: _react2['default'].PropTypes.bool,
-		onChange: _react2['default'].PropTypes.func.isRequired,
-		options: _react2['default'].PropTypes.array.isRequired,
-		type: _react2['default'].PropTypes.oneOf(['default', 'muted', 'danger', 'info', 'primary', 'success', 'warning']),
-		value: _react2['default'].PropTypes.string
-	},
-
-	getDefaultProps: function getDefaultProps() {
-		return {
-			type: 'default'
-		};
-	},
-
-	onChange: function onChange(value) {
-		this.props.onChange(value);
-	},
-
-	render: function render() {
-		var _this = this;
-
-		var componentClassName = (0, _classnames2['default'])('SegmentedControl', 'SegmentedControl--' + this.props.type, {
-			'SegmentedControl--equal-widths': this.props.equalWidthSegments
-		}, this.props.className);
-
-		var options = this.props.options.map(function (op) {
-
-			var buttonClassName = (0, _classnames2['default'])('SegmentedControl__button', {
-				'is-selected': op.value === _this.props.value
-			});
-
-			return _react2['default'].createElement(
-				'span',
-				{ key: 'option-' + op.value, className: 'SegmentedControl__item' },
-				_react2['default'].createElement(
-					'button',
-					{ type: 'button', onClick: _this.onChange.bind(_this, op.value), className: buttonClassName },
-					op.label
-				)
-			);
-		});
-
-		return _react2['default'].createElement(
-			'div',
-			{ className: componentClassName },
-			options
-		);
-	}
-});
-},{"classnames":"classnames","react":"react"}],69:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
-
-module.exports = React.createClass({
-	displayName: 'Spinner',
-	propTypes: {
-		className: React.PropTypes.string,
-		size: React.PropTypes.oneOf(['sm', 'md', 'lg']),
-		type: React.PropTypes.oneOf(['default', 'primary', 'inverted'])
-	},
-	getDefaultProps: function getDefaultProps() {
-		return {
-			type: 'default',
-			size: 'sm'
-		};
-	},
-	render: function render() {
-		var componentClass = classNames('Spinner', 'Spinner--' + this.props.type, 'Spinner--' + this.props.size, this.props.className);
-
-		return React.createElement(
-			'div',
-			{ className: componentClass },
-			React.createElement('span', { className: 'Spinner_dot Spinner_dot--first' }),
-			React.createElement('span', { className: 'Spinner_dot Spinner_dot--second' }),
-			React.createElement('span', { className: 'Spinner_dot Spinner_dot--third' })
-		);
-	}
-});
-},{"classnames":"classnames","react":"react"}],70:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-module.exports = _react2['default'].createClass({
-	displayName: 'Table',
-
-	propTypes: {
-		children: _react2['default'].PropTypes.any,
-		className: _react2['default'].PropTypes.string
-	},
-
-	render: function render() {
-		// classes
-		var className = (0, _classnames2['default'])('Table', this.props.className);
-
-		// render table element
-		return _react2['default'].createElement('table', _extends({}, this.props, { className: className }));
-	}
-});
-},{"classnames":"classnames","react":"react"}],71:[function(require,module,exports){
-'use strict';
-
-var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
-
-exports.canUseDOM = canUseDOM;
-
-// breakpoints
-exports.breakpoint = {
-	xs: 480,
-	sm: 768,
-	md: 992,
-	lg: 1200
-};
-
-// border radii
-exports.borderRadius = {
-	xs: 2,
-	sm: 4,
-	md: 8,
-	lg: 16,
-	xl: 32
-};
-
-// color
-exports.color = {
-	appDanger: '#d64242',
-	appInfo: '#56cdfc',
-	appPrimary: '#1385e5',
-	appSuccess: '#34c240',
-	appWarning: '#fa9f47',
-	brandPrimary: '#31adb8'
-};
-
-// spacing
-exports.spacing = {
-	xs: 5,
-	sm: 10,
-	md: 20,
-	lg: 40,
-	xl: 80
-};
-
-// widths
-exports.width = {
-	container: 1170,
-	gutter: 20
-};
-
-// fractions (for col widths)
-
-function perc(n) {
-	return n * 100 + '%';
-}
-
-function denominators(n) {
-	for (var d = 2; d <= 20; d++) {
-		if (n < d) {
-			exports.fractions[n + '/' + d] = perc(n / d);
-		}
-	}
-}
-
-exports.fractions = {
-	'1': '100%'
-};
-
-for (var numerator = 1; numerator <= 19; numerator++) {
-	denominators(numerator);
-}
-},{}],72:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-	selectArrows: require('./selectArrows')
-};
-},{"./selectArrows":73}],73:[function(require,module,exports){
-'use strict';
-
-module.exports = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' + '<svg width="7px" height="11px" viewBox="0 0 7 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' + '<path d="M3.5,0 L7,4 L0,4 L3.5,0 Z M3.5,11 L7,7 L0,7 L3.5,11 Z" />' + '</svg>';
 },{}],74:[function(require,module,exports){
 (function (global){
 /**
@@ -19541,7 +19531,7 @@ function readState(key) {
   return null;
 }
 }).call(this,require('_process'))
-},{"_process":220,"warning":454}],108:[function(require,module,exports){
+},{"_process":220,"warning":457}],108:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -19673,7 +19663,7 @@ function parsePath(path) {
   };
 }
 }).call(this,require('_process'))
-},{"_process":220,"warning":454}],111:[function(require,module,exports){
+},{"_process":220,"warning":457}],111:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20144,7 +20134,7 @@ function createHashHistory() {
 exports['default'] = createHashHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":105,"./DOMStateStorage":107,"./DOMUtils":108,"./ExecutionEnvironment":109,"./PathUtils":110,"./createDOMHistory":112,"_process":220,"invariant":129,"warning":454}],114:[function(require,module,exports){
+},{"./Actions":105,"./DOMStateStorage":107,"./DOMUtils":108,"./ExecutionEnvironment":109,"./PathUtils":110,"./createDOMHistory":112,"_process":220,"invariant":129,"warning":457}],114:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20435,7 +20425,7 @@ function createHistory() {
 exports['default'] = createHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":105,"./AsyncUtils":106,"./PathUtils":110,"./createLocation":115,"./deprecate":117,"./runTransitionHook":120,"_process":220,"deep-equal":5,"warning":454}],115:[function(require,module,exports){
+},{"./Actions":105,"./AsyncUtils":106,"./PathUtils":110,"./createLocation":115,"./deprecate":117,"./runTransitionHook":120,"_process":220,"deep-equal":47,"warning":457}],115:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20489,7 +20479,7 @@ function createLocation() {
 exports['default'] = createLocation;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":105,"./PathUtils":110,"_process":220,"warning":454}],116:[function(require,module,exports){
+},{"./Actions":105,"./PathUtils":110,"_process":220,"warning":457}],116:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20646,7 +20636,7 @@ function createMemoryHistory() {
 exports['default'] = createMemoryHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":105,"./PathUtils":110,"./createHistory":114,"_process":220,"invariant":129,"warning":454}],117:[function(require,module,exports){
+},{"./Actions":105,"./PathUtils":110,"./createHistory":114,"_process":220,"invariant":129,"warning":457}],117:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20668,7 +20658,7 @@ function deprecate(fn, message) {
 exports['default'] = deprecate;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"_process":220,"warning":454}],118:[function(require,module,exports){
+},{"_process":220,"warning":457}],118:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -20729,7 +20719,7 @@ function runTransitionHook(hook, location, callback) {
 exports['default'] = runTransitionHook;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"_process":220,"warning":454}],121:[function(require,module,exports){
+},{"_process":220,"warning":457}],121:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -20979,7 +20969,7 @@ function useBeforeUnload(createHistory) {
 exports['default'] = useBeforeUnload;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./DOMUtils":108,"./ExecutionEnvironment":109,"./deprecate":117,"_process":220,"warning":454}],123:[function(require,module,exports){
+},{"./DOMUtils":108,"./ExecutionEnvironment":109,"./deprecate":117,"_process":220,"warning":457}],123:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21158,7 +21148,7 @@ function useQueries(createHistory) {
 exports['default'] = useQueries;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./PathUtils":110,"./deprecate":117,"./runTransitionHook":120,"_process":220,"query-string":224,"warning":454}],124:[function(require,module,exports){
+},{"./PathUtils":110,"./deprecate":117,"./runTransitionHook":120,"_process":220,"query-string":224,"warning":457}],124:[function(require,module,exports){
 // Default inflections
 module.exports = function (inflect) {
 
@@ -40074,7 +40064,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":103,"trim":453}],220:[function(require,module,exports){
+},{"for-each":103,"trim":456}],220:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -50347,7 +50337,7 @@ function DragDropContext(backendOrModule) {
 }
 
 module.exports = exports['default'];
-},{"./utils/checkDecoratorArguments":297,"dnd-core":21,"invariant":129,"react":"react"}],284:[function(require,module,exports){
+},{"./utils/checkDecoratorArguments":297,"dnd-core":63,"invariant":129,"react":"react"}],284:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51371,7 +51361,7 @@ function decorateHandler(_ref) {
 
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./utils/shallowEqual":300,"./utils/shallowEqualScalar":301,"_process":220,"disposables":11,"invariant":129,"lodash/isPlainObject":205,"react":"react"}],295:[function(require,module,exports){
+},{"./utils/shallowEqual":300,"./utils/shallowEqualScalar":301,"_process":220,"disposables":53,"invariant":129,"lodash/isPlainObject":205,"react":"react"}],295:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -70748,6 +70738,223 @@ module.exports = function (str) {
 };
 
 },{}],452:[function(require,module,exports){
+/**
+ * Check if `obj` is an object.
+ *
+ * @param {Object} obj
+ * @return {Boolean}
+ * @api private
+ */
+
+function isObject(obj) {
+  return null != obj && 'object' == typeof obj;
+}
+
+module.exports = isObject;
+
+},{}],453:[function(require,module,exports){
+/**
+ * Module of mixed-in functions shared between node and client code
+ */
+var isObject = require('./is-object');
+
+/**
+ * Clear previous timeout.
+ *
+ * @return {Request} for chaining
+ * @api public
+ */
+
+exports.clearTimeout = function _clearTimeout(){
+  this._timeout = 0;
+  clearTimeout(this._timer);
+  return this;
+};
+
+/**
+ * Force given parser
+ *
+ * Sets the body parser no matter type.
+ *
+ * @param {Function}
+ * @api public
+ */
+
+exports.parse = function parse(fn){
+  this._parser = fn;
+  return this;
+};
+
+/**
+ * Set timeout to `ms`.
+ *
+ * @param {Number} ms
+ * @return {Request} for chaining
+ * @api public
+ */
+
+exports.timeout = function timeout(ms){
+  this._timeout = ms;
+  return this;
+};
+
+/**
+ * Faux promise support
+ *
+ * @param {Function} fulfill
+ * @param {Function} reject
+ * @return {Request}
+ */
+
+exports.then = function then(fulfill, reject) {
+  return this.end(function(err, res) {
+    err ? reject(err) : fulfill(res);
+  });
+}
+
+/**
+ * Allow for extension
+ */
+
+exports.use = function use(fn) {
+  fn(this);
+  return this;
+}
+
+
+/**
+ * Get request header `field`.
+ * Case-insensitive.
+ *
+ * @param {String} field
+ * @return {String}
+ * @api public
+ */
+
+exports.get = function(field){
+  return this._header[field.toLowerCase()];
+};
+
+/**
+ * Get case-insensitive header `field` value.
+ * This is a deprecated internal API. Use `.get(field)` instead.
+ *
+ * (getHeader is no longer used internally by the superagent code base)
+ *
+ * @param {String} field
+ * @return {String}
+ * @api private
+ * @deprecated
+ */
+
+exports.getHeader = exports.get;
+
+/**
+ * Set header `field` to `val`, or multiple fields with one object.
+ * Case-insensitive.
+ *
+ * Examples:
+ *
+ *      req.get('/')
+ *        .set('Accept', 'application/json')
+ *        .set('X-API-Key', 'foobar')
+ *        .end(callback);
+ *
+ *      req.get('/')
+ *        .set({ Accept: 'application/json', 'X-API-Key': 'foobar' })
+ *        .end(callback);
+ *
+ * @param {String|Object} field
+ * @param {String} val
+ * @return {Request} for chaining
+ * @api public
+ */
+
+exports.set = function(field, val){
+  if (isObject(field)) {
+    for (var key in field) {
+      this.set(key, field[key]);
+    }
+    return this;
+  }
+  this._header[field.toLowerCase()] = val;
+  this.header[field] = val;
+  return this;
+};
+
+/**
+ * Remove header `field`.
+ * Case-insensitive.
+ *
+ * Example:
+ *
+ *      req.get('/')
+ *        .unset('User-Agent')
+ *        .end(callback);
+ *
+ * @param {String} field
+ */
+exports.unset = function(field){
+  delete this._header[field.toLowerCase()];
+  delete this.header[field];
+  return this;
+};
+
+/**
+ * Write the field `name` and `val` for "multipart/form-data"
+ * request bodies.
+ *
+ * ``` js
+ * request.post('/upload')
+ *   .field('foo', 'bar')
+ *   .end(callback);
+ * ```
+ *
+ * @param {String} name
+ * @param {String|Blob|File|Buffer|fs.ReadStream} val
+ * @return {Request} for chaining
+ * @api public
+ */
+exports.field = function(name, val) {
+  this._getFormData().append(name, val);
+  return this;
+};
+
+},{"./is-object":452}],454:[function(require,module,exports){
+// The node and browser modules expose versions of this with the
+// appropriate constructor function bound as first argument
+/**
+ * Issue a request:
+ *
+ * Examples:
+ *
+ *    request('GET', '/users').end(callback)
+ *    request('/users').end(callback)
+ *    request('/users', callback)
+ *
+ * @param {String} method
+ * @param {String|Function} url or callback
+ * @return {Request}
+ * @api public
+ */
+
+function request(RequestConstructor, method, url) {
+  // callback
+  if ('function' == typeof url) {
+    return new RequestConstructor('GET', method).end(url);
+  }
+
+  // url first
+  if (2 == arguments.length) {
+    return new RequestConstructor('GET', method);
+  }
+
+  return new RequestConstructor(method, url);
+}
+
+module.exports = request;
+
+},{}],455:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -70910,7 +71117,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],453:[function(require,module,exports){
+},{}],456:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -70926,7 +71133,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],454:[function(require,module,exports){
+},{}],457:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -70990,7 +71197,7 @@ if (process.env.NODE_ENV !== 'production') {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"_process":220}],455:[function(require,module,exports){
+},{"_process":220}],458:[function(require,module,exports){
 module.exports = once
 
 once.proto = once(function () {
@@ -71011,7 +71218,7 @@ function once (fn) {
   }
 }
 
-},{}],456:[function(require,module,exports){
+},{}],459:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -72977,7 +73184,7 @@ Color.prototype.setChannel = function (space, index, val) {
 
 module.exports = Color;
 
-},{"color-convert":2,"color-string":4}],"display-name":[function(require,module,exports){
+},{"color-convert":44,"color-string":46}],"display-name":[function(require,module,exports){
 (function () {
 
     /*
@@ -73088,7 +73295,7 @@ exports.RadioGroup = require('./components/RadioGroup');
 exports.SegmentedControl = require('./components/SegmentedControl');
 exports.Spinner = require('./components/Spinner');
 exports.Table = require('./components/Table');
-},{"./components/Alert":33,"./components/BlankState":34,"./components/Button":35,"./components/ButtonGroup":36,"./components/Card":37,"./components/Checkbox":38,"./components/Col":39,"./components/Container":40,"./components/Dropdown":41,"./components/EmailInputGroup":42,"./components/FileDragAndDrop":43,"./components/FileUpload":44,"./components/Form":45,"./components/FormField":46,"./components/FormIcon":47,"./components/FormIconField":48,"./components/FormInput":49,"./components/FormLabel":50,"./components/FormNote":51,"./components/FormRow":52,"./components/FormSelect":53,"./components/Glyph":54,"./components/InputGroup":55,"./components/InputGroupSection":56,"./components/Modal":57,"./components/ModalBody":58,"./components/ModalFooter":59,"./components/ModalHeader":60,"./components/Pagination":61,"./components/PasswordInputGroup":62,"./components/Pill":63,"./components/Radio":64,"./components/RadioGroup":65,"./components/ResponsiveText":66,"./components/Row":67,"./components/SegmentedControl":68,"./components/Spinner":69,"./components/Table":70}],"expression-match":[function(require,module,exports){
+},{"./components/Alert":2,"./components/BlankState":3,"./components/Button":4,"./components/ButtonGroup":5,"./components/Card":6,"./components/Checkbox":7,"./components/Col":8,"./components/Container":9,"./components/Dropdown":10,"./components/EmailInputGroup":11,"./components/FileDragAndDrop":12,"./components/FileUpload":13,"./components/Form":14,"./components/FormField":15,"./components/FormIcon":16,"./components/FormIconField":17,"./components/FormInput":18,"./components/FormLabel":19,"./components/FormNote":20,"./components/FormRow":21,"./components/FormSelect":22,"./components/Glyph":23,"./components/InputGroup":24,"./components/InputGroupSection":25,"./components/Modal":26,"./components/ModalBody":27,"./components/ModalFooter":28,"./components/ModalHeader":29,"./components/Pagination":30,"./components/PasswordInputGroup":31,"./components/Pill":32,"./components/Radio":33,"./components/RadioGroup":34,"./components/ResponsiveText":35,"./components/Row":36,"./components/SegmentedControl":37,"./components/Spinner":38,"./components/Table":39}],"expression-match":[function(require,module,exports){
 var _ = require ('lodash');
 
 var expressions = [
@@ -75220,7 +75427,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],"moment":[function(require,module,exports){
 //! moment.js
-//! version : 2.11.2
+//! version : 2.12.0
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -75244,7 +75451,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
     }
 
     function isArray(input) {
-        return Object.prototype.toString.call(input) === '[object Array]';
+        return input instanceof Array || Object.prototype.toString.call(input) === '[object Array]';
     }
 
     function isDate(input) {
@@ -75450,7 +75657,82 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         return diffs + lengthDiff;
     }
 
-    function Locale() {
+    function warn(msg) {
+        if (utils_hooks__hooks.suppressDeprecationWarnings === false &&
+                (typeof console !==  'undefined') && console.warn) {
+            console.warn('Deprecation warning: ' + msg);
+        }
+    }
+
+    function deprecate(msg, fn) {
+        var firstTime = true;
+
+        return extend(function () {
+            if (firstTime) {
+                warn(msg + '\nArguments: ' + Array.prototype.slice.call(arguments).join(', ') + '\n' + (new Error()).stack);
+                firstTime = false;
+            }
+            return fn.apply(this, arguments);
+        }, fn);
+    }
+
+    var deprecations = {};
+
+    function deprecateSimple(name, msg) {
+        if (!deprecations[name]) {
+            warn(msg);
+            deprecations[name] = true;
+        }
+    }
+
+    utils_hooks__hooks.suppressDeprecationWarnings = false;
+
+    function isFunction(input) {
+        return input instanceof Function || Object.prototype.toString.call(input) === '[object Function]';
+    }
+
+    function isObject(input) {
+        return Object.prototype.toString.call(input) === '[object Object]';
+    }
+
+    function locale_set__set (config) {
+        var prop, i;
+        for (i in config) {
+            prop = config[i];
+            if (isFunction(prop)) {
+                this[i] = prop;
+            } else {
+                this['_' + i] = prop;
+            }
+        }
+        this._config = config;
+        // Lenient ordinal parsing accepts just a number in addition to
+        // number + (possibly) stuff coming from _ordinalParseLenient.
+        this._ordinalParseLenient = new RegExp(this._ordinalParse.source + '|' + (/\d{1,2}/).source);
+    }
+
+    function mergeConfigs(parentConfig, childConfig) {
+        var res = extend({}, parentConfig), prop;
+        for (prop in childConfig) {
+            if (hasOwnProp(childConfig, prop)) {
+                if (isObject(parentConfig[prop]) && isObject(childConfig[prop])) {
+                    res[prop] = {};
+                    extend(res[prop], parentConfig[prop]);
+                    extend(res[prop], childConfig[prop]);
+                } else if (childConfig[prop] != null) {
+                    res[prop] = childConfig[prop];
+                } else {
+                    delete res[prop];
+                }
+            }
+        }
+        return res;
+    }
+
+    function Locale(config) {
+        if (config != null) {
+            this.set(config);
+        }
     }
 
     // internal storage for locale config files
@@ -75526,11 +75808,25 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         return globalLocale._abbr;
     }
 
-    function defineLocale (name, values) {
-        if (values !== null) {
-            values.abbr = name;
-            locales[name] = locales[name] || new Locale();
-            locales[name].set(values);
+    function defineLocale (name, config) {
+        if (config !== null) {
+            config.abbr = name;
+            if (locales[name] != null) {
+                deprecateSimple('defineLocaleOverride',
+                        'use moment.updateLocale(localeName, config) to change ' +
+                        'an existing locale. moment.defineLocale(localeName, ' +
+                        'config) should only be used for creating a new locale');
+                config = mergeConfigs(locales[name]._config, config);
+            } else if (config.parentLocale != null) {
+                if (locales[config.parentLocale] != null) {
+                    config = mergeConfigs(locales[config.parentLocale]._config, config);
+                } else {
+                    // treat as if there is no base config
+                    deprecateSimple('parentLocaleUndefined',
+                            'specified parentLocale is not defined yet');
+                }
+            }
+            locales[name] = new Locale(config);
 
             // backwards compat for now: also set the locale
             locale_locales__getSetGlobalLocale(name);
@@ -75541,6 +75837,31 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
             delete locales[name];
             return null;
         }
+    }
+
+    function updateLocale(name, config) {
+        if (config != null) {
+            var locale;
+            if (locales[name] != null) {
+                config = mergeConfigs(locales[name]._config, config);
+            }
+            locale = new Locale(config);
+            locale.parentLocale = locales[name];
+            locales[name] = locale;
+
+            // backwards compat for now: also set the locale
+            locale_locales__getSetGlobalLocale(name);
+        } else {
+            // pass null for config to unupdate, useful for tests
+            if (locales[name] != null) {
+                if (locales[name].parentLocale != null) {
+                    locales[name] = locales[name].parentLocale;
+                } else if (locales[name] != null) {
+                    delete locales[name];
+                }
+            }
+        }
+        return locales[name];
     }
 
     // returns locale data
@@ -75565,6 +75886,10 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         }
 
         return chooseLocale(key);
+    }
+
+    function locale_locales__listLocales() {
+        return Object.keys(locales);
     }
 
     var aliases = {};
@@ -75593,10 +75918,6 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         }
 
         return normalizedInput;
-    }
-
-    function isFunction(input) {
-        return input instanceof Function || Object.prototype.toString.call(input) === '[object Function]';
     }
 
     function makeGetSet (unit, keepTime) {
@@ -75932,12 +76253,15 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
             return mom;
         }
 
-        // TODO: Move this out of here!
         if (typeof value === 'string') {
-            value = mom.localeData().monthsParse(value);
-            // TODO: Another silent failure?
-            if (typeof value !== 'number') {
-                return mom;
+            if (/^\d+$/.test(value)) {
+                value = toInt(value);
+            } else {
+                value = mom.localeData().monthsParse(value);
+                // TODO: Another silent failure?
+                if (typeof value !== 'number') {
+                    return mom;
+                }
             }
         }
 
@@ -76055,36 +76379,6 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 
         return m;
     }
-
-    function warn(msg) {
-        if (utils_hooks__hooks.suppressDeprecationWarnings === false &&
-                (typeof console !==  'undefined') && console.warn) {
-            console.warn('Deprecation warning: ' + msg);
-        }
-    }
-
-    function deprecate(msg, fn) {
-        var firstTime = true;
-
-        return extend(function () {
-            if (firstTime) {
-                warn(msg + '\nArguments: ' + Array.prototype.slice.call(arguments).join(', ') + '\n' + (new Error()).stack);
-                firstTime = false;
-            }
-            return fn.apply(this, arguments);
-        }, fn);
-    }
-
-    var deprecations = {};
-
-    function deprecateSimple(name, msg) {
-        if (!deprecations[name]) {
-            warn(msg);
-            deprecations[name] = true;
-        }
-    }
-
-    utils_hooks__hooks.suppressDeprecationWarnings = false;
 
     // iso 8601 regex
     // 0000-00-00 0000-W00 or 0000-W00-0 + T + 00 or 00:00 or 00:00:00 or 00:00:00.000 + +00:00 or +0000 or +00)
@@ -76731,7 +77025,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
     }
 
     var prototypeMin = deprecate(
-         'moment().min is deprecated, use moment.min instead. https://github.com/moment/moment/issues/1548',
+         'moment().min is deprecated, use moment.max instead. https://github.com/moment/moment/issues/1548',
          function () {
              var other = local__createLocal.apply(null, arguments);
              if (this.isValid() && other.isValid()) {
@@ -76743,7 +77037,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
      );
 
     var prototypeMax = deprecate(
-        'moment().max is deprecated, use moment.max instead. https://github.com/moment/moment/issues/1548',
+        'moment().max is deprecated, use moment.min instead. https://github.com/moment/moment/issues/1548',
         function () {
             var other = local__createLocal.apply(null, arguments);
             if (this.isValid() && other.isValid()) {
@@ -77041,7 +77335,8 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 
     // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
     // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
-    var isoRegex = /^(-)?P(?:(?:([0-9,.]*)Y)?(?:([0-9,.]*)M)?(?:([0-9,.]*)D)?(?:T(?:([0-9,.]*)H)?(?:([0-9,.]*)M)?(?:([0-9,.]*)S)?)?|([0-9,.]*)W)$/;
+    // and further modified to allow for strings containing both week and day
+    var isoRegex = /^(-)?P(?:([0-9,.]*)Y)?(?:([0-9,.]*)M)?(?:([0-9,.]*)W)?(?:([0-9,.]*)D)?(?:T(?:([0-9,.]*)H)?(?:([0-9,.]*)M)?(?:([0-9,.]*)S)?)?$/;
 
     function create__createDuration (input, key) {
         var duration = input,
@@ -77079,11 +77374,11 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
             duration = {
                 y : parseIso(match[2], sign),
                 M : parseIso(match[3], sign),
-                d : parseIso(match[4], sign),
-                h : parseIso(match[5], sign),
-                m : parseIso(match[6], sign),
-                s : parseIso(match[7], sign),
-                w : parseIso(match[8], sign)
+                w : parseIso(match[4], sign),
+                d : parseIso(match[5], sign),
+                h : parseIso(match[6], sign),
+                m : parseIso(match[7], sign),
+                s : parseIso(match[8], sign)
             };
         } else if (duration == null) {// checks for null or undefined
             duration = {};
@@ -77147,6 +77442,14 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         return res;
     }
 
+    function absRound (number) {
+        if (number < 0) {
+            return Math.round(-1 * number) * -1;
+        } else {
+            return Math.round(number);
+        }
+    }
+
     // TODO: remove 'name' arg after deprecation is removed
     function createAdder(direction, name) {
         return function (val, period) {
@@ -77166,8 +77469,8 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 
     function add_subtract__addSubtract (mom, duration, isAdding, updateOffset) {
         var milliseconds = duration._milliseconds,
-            days = duration._days,
-            months = duration._months;
+            days = absRound(duration._days),
+            months = absRound(duration._months);
 
         if (!mom.isValid()) {
             // No op
@@ -77493,8 +77796,8 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
     }
 
     function toJSON () {
-        // JSON.stringify(new Date(NaN)) === 'null'
-        return this.isValid() ? this.toISOString() : 'null';
+        // new Date(NaN).toJSON() === null
+        return this.isValid() ? this.toISOString() : null;
     }
 
     function moment_valid__isValid () {
@@ -77604,7 +77907,6 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         var dayOfYearData = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy),
             date = createUTCDate(dayOfYearData.year, 0, dayOfYearData.dayOfYear);
 
-        // console.log("got", weekYear, week, weekday, "set", date.toISOString());
         this.year(date.getUTCFullYear());
         this.month(date.getUTCMonth());
         this.date(date.getUTCDate());
@@ -78314,21 +78616,6 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         return isFunction(format) ? format(output) : format.replace(/%s/i, output);
     }
 
-    function locale_set__set (config) {
-        var prop, i;
-        for (i in config) {
-            prop = config[i];
-            if (isFunction(prop)) {
-                this[i] = prop;
-            } else {
-                this['_' + i] = prop;
-            }
-        }
-        // Lenient ordinal parsing accepts just a number in addition to
-        // number + (possibly) stuff coming from _ordinalParseLenient.
-        this._ordinalParseLenient = new RegExp(this._ordinalParse.source + '|' + (/\d{1,2}/).source);
-    }
-
     var prototype__proto = Locale.prototype;
 
     prototype__proto._calendar       = defaultCalendar;
@@ -78792,7 +79079,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
     // Side effect imports
 
 
-    utils_hooks__hooks.version = '2.11.2';
+    utils_hooks__hooks.version = '2.12.0';
 
     setHookCallback(local__createLocal);
 
@@ -78815,6 +79102,8 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
     utils_hooks__hooks.monthsShort           = lists__listMonthsShort;
     utils_hooks__hooks.weekdaysMin           = lists__listWeekdaysMin;
     utils_hooks__hooks.defineLocale          = defineLocale;
+    utils_hooks__hooks.updateLocale          = updateLocale;
+    utils_hooks__hooks.locales               = locale_locales__listLocales;
     utils_hooks__hooks.weekdaysShort         = lists__listWeekdaysShort;
     utils_hooks__hooks.normalizeUnits        = normalizeUnits;
     utils_hooks__hooks.relativeTimeThreshold = duration_humanize__getSetRelativeTimeThreshold;
@@ -79632,7 +79921,6 @@ function createHTML5Backend(manager) {
   return new _HTML5Backend2['default'](manager);
 }
 },{"./HTML5Backend":276,"./NativeTypes":279,"./getEmptyImage":281}],"react-dnd":[function(require,module,exports){
-(function (process){
 'use strict';
 
 exports.__esModule = true;
@@ -79654,17 +79942,7 @@ exports.DragSource = _interopRequire(_DragSource);
 var _DropTarget = require('./DropTarget');
 
 exports.DropTarget = _interopRequire(_DropTarget);
-
-if (process.env.NODE_ENV !== 'production') {
-  Object.defineProperty(exports, 'default', {
-    get: function get() {
-      console.error( // eslint-disable-line no-console
-      'React DnD does not provide a default export. ' + 'You are probably missing the curly braces in the import statement. ' + 'Read more: http://gaearon.github.io/react-dnd/docs-troubleshooting.html#react-dnd-does-not-provide-a-default-export');
-    }
-  });
-}
-}).call(this,require('_process'))
-},{"./DragDropContext":283,"./DragLayer":284,"./DragSource":285,"./DropTarget":286,"_process":220}],"react-dom":[function(require,module,exports){
+},{"./DragDropContext":283,"./DragLayer":284,"./DragSource":285,"./DropTarget":286}],"react-dom":[function(require,module,exports){
 'use strict';
 
 module.exports = require('react/lib/ReactDOM');
@@ -80593,6 +80871,8 @@ module.exports = Store;
 
 var Emitter = require('emitter');
 var reduce = require('reduce');
+var requestBase = require('./request-base');
+var isObject = require('./is-object');
 
 /**
  * Root reference for iframes.
@@ -80638,6 +80918,12 @@ function isHost(obj) {
 }
 
 /**
+ * Expose `request`.
+ */
+
+var request = module.exports = require('./request').bind(null, Request);
+
+/**
  * Determine XHR.
  */
 
@@ -80666,18 +80952,6 @@ request.getXHR = function () {
 var trim = ''.trim
   ? function(s) { return s.trim(); }
   : function(s) { return s.replace(/(^\s*|\s*$)/g, ''); };
-
-/**
- * Check if `obj` is an object.
- *
- * @param {Object} obj
- * @return {Boolean}
- * @api private
- */
-
-function isObject(obj) {
-  return obj === Object(obj);
-}
 
 /**
  * Serialize the given `obj`.
@@ -80983,6 +81257,9 @@ Response.prototype.setHeaderProperties = function(header){
 
 Response.prototype.parseBody = function(str){
   var parse = request.parse[this.type];
+  if (!parse && isJSON(this.type)) {
+    parse = request.parse['application/json'];
+  }
   return parse && str && (str.length || str instanceof Object)
     ? parse(str)
     : null;
@@ -81077,12 +81354,11 @@ request.Response = Response;
 
 function Request(method, url) {
   var self = this;
-  Emitter.call(this);
   this._query = this._query || [];
   this.method = method;
   this.url = url;
-  this.header = {};
-  this._header = {};
+  this.header = {}; // preserves header name case
+  this._header = {}; // coerces header names to lowercase
   this.on('end', function(){
     var err = null;
     var res = null;
@@ -81095,6 +81371,8 @@ function Request(method, url) {
       err.original = e;
       // issue #675: return the raw response if the response parsing fails
       err.rawResponse = self.xhr && self.xhr.responseText ? self.xhr.responseText : null;
+      // issue #876: return the http status code if the response parsing fails
+      err.statusCode = self.xhr && self.xhr.status ? self.xhr.status : null;
       return self.callback(err);
     }
 
@@ -81118,45 +81396,13 @@ function Request(method, url) {
 }
 
 /**
- * Mixin `Emitter`.
+ * Mixin `Emitter` and `requestBase`.
  */
 
 Emitter(Request.prototype);
-
-/**
- * Allow for extension
- */
-
-Request.prototype.use = function(fn) {
-  fn(this);
-  return this;
+for (var key in requestBase) {
+  Request.prototype[key] = requestBase[key];
 }
-
-/**
- * Set timeout to `ms`.
- *
- * @param {Number} ms
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.timeout = function(ms){
-  this._timeout = ms;
-  return this;
-};
-
-/**
- * Clear previous timeout.
- *
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.clearTimeout = function(){
-  this._timeout = 0;
-  clearTimeout(this._timer);
-  return this;
-};
 
 /**
  * Abort the request, and clear potential timeout.
@@ -81172,70 +81418,6 @@ Request.prototype.abort = function(){
   this.clearTimeout();
   this.emit('abort');
   return this;
-};
-
-/**
- * Set header `field` to `val`, or multiple fields with one object.
- *
- * Examples:
- *
- *      req.get('/')
- *        .set('Accept', 'application/json')
- *        .set('X-API-Key', 'foobar')
- *        .end(callback);
- *
- *      req.get('/')
- *        .set({ Accept: 'application/json', 'X-API-Key': 'foobar' })
- *        .end(callback);
- *
- * @param {String|Object} field
- * @param {String} val
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.set = function(field, val){
-  if (isObject(field)) {
-    for (var key in field) {
-      this.set(key, field[key]);
-    }
-    return this;
-  }
-  this._header[field.toLowerCase()] = val;
-  this.header[field] = val;
-  return this;
-};
-
-/**
- * Remove header `field`.
- *
- * Example:
- *
- *      req.get('/')
- *        .unset('User-Agent')
- *        .end(callback);
- *
- * @param {String} field
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.unset = function(field){
-  delete this._header[field.toLowerCase()];
-  delete this.header[field];
-  return this;
-};
-
-/**
- * Get case-insensitive header `field` value.
- *
- * @param {String} field
- * @return {String}
- * @api private
- */
-
-Request.prototype.getHeader = function(field){
-  return this._header[field.toLowerCase()];
 };
 
 /**
@@ -81266,16 +81448,22 @@ Request.prototype.type = function(type){
 };
 
 /**
- * Force given parser
+ * Set responseType to `val`. Presently valid responseTypes are 'blob' and 
+ * 'arraybuffer'.
  *
- * Sets the body parser no matter type.
+ * Examples:
  *
- * @param {Function}
+ *      req.get('/')
+ *        .responseType('blob')
+ *        .end(callback);
+ *
+ * @param {String} val
+ * @return {Request} for chaining
  * @api public
  */
 
-Request.prototype.parse = function(fn){
-  this._parser = fn;
+Request.prototype.responseType = function(val){
+  this._responseType = val;
   return this;
 };
 
@@ -81309,13 +81497,29 @@ Request.prototype.accept = function(type){
  *
  * @param {String} user
  * @param {String} pass
+ * @param {Object} options with 'type' property 'auto' or 'basic' (default 'basic')
  * @return {Request} for chaining
  * @api public
  */
 
-Request.prototype.auth = function(user, pass){
-  var str = btoa(user + ':' + pass);
-  this.set('Authorization', 'Basic ' + str);
+Request.prototype.auth = function(user, pass, options){
+  if (!options) {
+    options = {
+      type: 'basic'
+    }
+  }
+
+  switch (options.type) {
+    case 'basic':
+      var str = btoa(user + ':' + pass);
+      this.set('Authorization', 'Basic ' + str);
+    break;
+
+    case 'auto':
+      this.username = user;
+      this.password = pass;
+    break;
+  }
   return this;
 };
 
@@ -81340,28 +81544,6 @@ Request.prototype.query = function(val){
 };
 
 /**
- * Write the field `name` and `val` for "multipart/form-data"
- * request bodies.
- *
- * ``` js
- * request.post('/upload')
- *   .field('foo', 'bar')
- *   .end(callback);
- * ```
- *
- * @param {String} name
- * @param {String|Blob|File} val
- * @return {Request} for chaining
- * @api public
- */
-
-Request.prototype.field = function(name, val){
-  if (!this._formData) this._formData = new root.FormData();
-  this._formData.append(name, val);
-  return this;
-};
-
-/**
  * Queue the given `file` as an attachment to the specified `field`,
  * with optional `filename`.
  *
@@ -81379,9 +81561,15 @@ Request.prototype.field = function(name, val){
  */
 
 Request.prototype.attach = function(field, file, filename){
-  if (!this._formData) this._formData = new root.FormData();
-  this._formData.append(field, file, filename || file.name);
+  this._getFormData().append(field, file, filename || file.name);
   return this;
+};
+
+Request.prototype._getFormData = function(){
+  if (!this._formData) {
+    this._formData = new root.FormData();
+  }
+  return this._formData;
 };
 
 /**
@@ -81426,7 +81614,7 @@ Request.prototype.attach = function(field, file, filename){
 
 Request.prototype.send = function(data){
   var obj = isObject(data);
-  var type = this.getHeader('Content-Type');
+  var type = this._header['content-type'];
 
   // merge
   if (obj && isObject(this._data)) {
@@ -81435,7 +81623,7 @@ Request.prototype.send = function(data){
     }
   } else if ('string' == typeof data) {
     if (!type) this.type('form');
-    type = this.getHeader('Content-Type');
+    type = this._header['content-type'];
     if ('application/x-www-form-urlencoded' == type) {
       this._data = this._data
         ? this._data + '&' + data
@@ -81449,6 +81637,22 @@ Request.prototype.send = function(data){
 
   if (!obj || isHost(data)) return this;
   if (!type) this.type('json');
+  return this;
+};
+
+/**
+ * @deprecated
+ */
+Response.prototype.parse = function serialize(fn){
+  if (root.console) {
+    console.warn("Client-side parse() method has been renamed to serialize(). This method is not compatible with superagent v2.0");
+  }
+  this.serialize(fn);
+  return this;
+};
+
+Response.prototype.serialize = function serialize(fn){
+  this._parser = fn;
   return this;
 };
 
@@ -81587,7 +81791,11 @@ Request.prototype.end = function(fn){
   }
 
   // initiate request
-  xhr.open(this.method, this.url, true);
+  if (this.username && this.password) {
+    xhr.open(this.method, this.url, true, this.username, this.password);
+  } else {
+    xhr.open(this.method, this.url, true);
+  }
 
   // CORS
   if (this._withCredentials) xhr.withCredentials = true;
@@ -81595,7 +81803,7 @@ Request.prototype.end = function(fn){
   // body
   if ('GET' != this.method && 'HEAD' != this.method && 'string' != typeof data && !isHost(data)) {
     // serialize stuff
-    var contentType = this.getHeader('Content-Type');
+    var contentType = this._header['content-type'];
     var serialize = this._parser || request.serialize[contentType ? contentType.split(';')[0] : ''];
     if (!serialize && isJSON(contentType)) serialize = request.serialize['application/json'];
     if (serialize) data = serialize(data);
@@ -81607,6 +81815,10 @@ Request.prototype.end = function(fn){
     xhr.setRequestHeader(field, this.header[field]);
   }
 
+  if (this._responseType) {
+    xhr.responseType = this._responseType;
+  }
+
   // send stuff
   this.emit('request', this);
 
@@ -81616,54 +81828,12 @@ Request.prototype.end = function(fn){
   return this;
 };
 
-/**
- * Faux promise support
- *
- * @param {Function} fulfill
- * @param {Function} reject
- * @return {Request}
- */
-
-Request.prototype.then = function (fulfill, reject) {
-  return this.end(function(err, res) {
-    err ? reject(err) : fulfill(res);
-  });
-}
 
 /**
  * Expose `Request`.
  */
 
 request.Request = Request;
-
-/**
- * Issue a request:
- *
- * Examples:
- *
- *    request('GET', '/users').end(callback)
- *    request('/users').end(callback)
- *    request('/users', callback)
- *
- * @param {String} method
- * @param {String|Function} url or callback
- * @return {Request}
- * @api public
- */
-
-function request(method, url) {
-  // callback
-  if ('function' == typeof url) {
-    return new Request('GET', method).end(url);
-  }
-
-  // url first
-  if (1 == arguments.length) {
-    return new Request('GET', method);
-  }
-
-  return new Request(method, url);
-}
 
 /**
  * GET `url` with optional callback `fn(res)`.
@@ -81773,13 +81943,7 @@ request.put = function(url, data, fn){
   return req;
 };
 
-/**
- * Expose `request`.
- */
-
-module.exports = request;
-
-},{"emitter":452,"reduce":449}],"vkey":[function(require,module,exports){
+},{"./is-object":452,"./request":454,"./request-base":453,"emitter":455,"reduce":449}],"vkey":[function(require,module,exports){
 var ua = typeof window !== 'undefined' ? window.navigator.userAgent : ''
   , isOSX = /OS X/.test(ua)
   , isOpera = /Opera/.test(ua)
@@ -82138,4 +82302,4 @@ function _createXHR(options) {
 
 function noop() {}
 
-},{"global/window":104,"is-function":130,"once":455,"parse-headers":219,"xtend":456}]},{},[]);
+},{"global/window":104,"is-function":130,"once":458,"parse-headers":219,"xtend":459}]},{},[]);

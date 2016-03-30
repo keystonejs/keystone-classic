@@ -25,26 +25,32 @@ module.exports = {
 			.click(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.first, 'First1')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.last, 'Last1')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.value, 'Name Field Test')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.first, 'First1')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.last, 'Last1')
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.initialModalView.buttonCreate)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('New Name First1 Last1 created.');
-		browser.expect.element(adminUI.cssSelector.itemView.itemHeader)
-			.text.to.equal('First1 Last1');
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.name.name.first)
+			.text.to.equal('New Name Name Field Test created.');
+
+		browser.getValue(adminUI.cssSelector.itemView.fieldType.name.name.name.value, function(result) {
+			this.assert.equal(typeof result, "object");
+			this.assert.equal(result.status, 0);
+			this.assert.equal(result.value, "Name Field Test");
+		});
+
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.name.fieldA.first)
 			.to.have.value.that.equals('First1');
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.name.name.last)
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.name.fieldA.last)
 			.to.have.value.that.equals('Last1');
 	},
 	'Name field can be created via the edit form': function (browser) {
 		browser
-			.setValue(adminUI.cssSelector.itemView.fieldType.name.name.testA.first, 'First1X')
-			.setValue(adminUI.cssSelector.itemView.fieldType.name.name.testA.last, 'Last1X')
+			.setValue(adminUI.cssSelector.itemView.fieldType.name.name.fieldB.first, 'First1X')
+			.setValue(adminUI.cssSelector.itemView.fieldType.name.name.fieldB.last, 'Last1X')
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.itemView.itemSaveButton)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
@@ -52,11 +58,16 @@ module.exports = {
 
 		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
 			.text.to.equal('Your changes have been saved.');
-		browser.expect.element(adminUI.cssSelector.itemView.itemHeader)
-			.text.to.equal('First1 Last1');
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.name.testA.first)
+
+		browser.getValue(adminUI.cssSelector.itemView.fieldType.name.name.name.value, function(result) {
+			this.assert.equal(typeof result, "object");
+			this.assert.equal(result.status, 0);
+			this.assert.equal(result.value, "Name Field Test");
+		});
+
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.name.fieldB.first)
 			.to.have.value.that.equals('First1X');
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.name.testA.last)
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.name.fieldB.last)
 			.to.have.value.that.equals('Last1X');
 	},
 };

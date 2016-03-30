@@ -4,7 +4,7 @@ import Field from '../Field';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
-import { Button, FormInput, InputGroup } from 'elemental';
+import { Button, InputGroup } from 'elemental';
 
 function compareValues (current, next) {
 	const currentLength = current ? current.length : 0;
@@ -195,7 +195,7 @@ module.exports = Field.create({
 		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/components/CreateForm';
 		//   CreateForm was imported as a blank object. This stack overflow post suggested lazilly requiring it:
 		// http://stackoverflow.com/questions/29807664/cyclic-dependency-returns-empty-object-in-react-native
-		const CreateForm = require('../../../admin/client/components/CreateForm');
+		const CreateForm = require('../../../admin/client/components/Forms/CreateForm');
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>

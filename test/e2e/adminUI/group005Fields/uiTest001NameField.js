@@ -30,15 +30,22 @@ module.exports = {
 			.to.be.visible;
 		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.label)
 			.text.to.equal('Name');
-
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.first)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.firstPlaceholder)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.value)
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.last)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.name.lastPlaceholder)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.label)
+			.text.to.equal('Field A');
+
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.first)
+			.to.be.visible;
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.firstPlaceholder)
+			.to.be.visible;
+
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.last)
+			.to.be.visible;
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.lastPlaceholder)
 			.to.be.visible;
 	},
 };

@@ -54,77 +54,77 @@ exports.testFieldType = function (List) {
 	describe('validateInput', function () {
 		it('should validate string input', function (done) {
 			List.fields.text.validateInput({ text: 'a' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate emtpy string input', function (done) {
 			List.fields.text.validateInput({ text: '' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.text.validateInput({}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate null input', function (done) {
 			List.fields.text.validateInput({ text: null }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate numeric input', function (done) {
 			List.fields.text.validateInput({ text: 1 }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate object input', function (done) {
 			List.fields.text.validateInput({ text: { things: 'stuff' } }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate array input', function (done) {
 			List.fields.text.validateInput({ text: [1, 2, 3] }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate Boolean input', function (done) {
 			List.fields.text.validateInput({ text: true }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate function input', function (done) {
 			List.fields.text.validateInput({ text: function () {} }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate regexp input', function (done) {
 			List.fields.text.validateInput({ text: /foo/ }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate date input', function (done) {
 			List.fields.text.validateInput({ text: Date.now() }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -134,7 +134,7 @@ exports.testFieldType = function (List) {
 		it('should validate input present', function (done) {
 			var testItem = new List.model();
 			List.fields.text.validateRequiredInput(testItem, { text: 'a' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -142,7 +142,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate undefined', function (done) {
 			var testItem = new List.model();
 			List.fields.text.validateRequiredInput(testItem, { text: undefined }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -152,7 +152,7 @@ exports.testFieldType = function (List) {
 				text: 'a',
 			});
 			List.fields.text.validateRequiredInput(testItem, { text: undefined }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -160,7 +160,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate empty string', function (done) {
 			var testItem = new List.model();
 			List.fields.text.validateRequiredInput(testItem, { text: '' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -168,7 +168,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate null', function (done) {
 			var testItem = new List.model();
 			List.fields.text.validateRequiredInput(testItem, { text: null }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -219,7 +219,7 @@ exports.testFieldType = function (List) {
 		it('should allow matching the start', function () {
 			var result = List.fields.text.addFilterToQuery({
 				value: 'abc',
-				mode: 'startsWith',
+				mode: 'beginsWith',
 			});
 			demand(result.text).eql(/^abc/i);
 		});

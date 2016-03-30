@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
-const CONTROL_OPTIONS = [
+const MODE_OPTIONS = [
 	{ label: 'Exactly', value: 'equals' },
 	{ label: 'Greater Than', value: 'gt' },
 	{ label: 'Less Than', value: 'lt' },
@@ -14,8 +14,8 @@ var NumberFilter = React.createClass({
 
 	getInitialState () {
 		return {
-			modeValue: CONTROL_OPTIONS[0].value, // 'matches'
-			modeLabel: CONTROL_OPTIONS[0].label, // 'Matches'
+			modeValue: MODE_OPTIONS[0].value, // 'matches'
+			modeLabel: MODE_OPTIONS[0].label, // 'Matches'
 			value: '',
 			minValue: '',
 			maxValue: '',
@@ -68,7 +68,7 @@ var NumberFilter = React.createClass({
 	toggleMode (mode) {
 		this.setState({
 			modeValue: mode,
-			modeLabel: CONTROL_OPTIONS.find(option => option.value === mode).label,
+			modeLabel: MODE_OPTIONS.find(option => option.value === mode).label,
 		});
 
 		// focus the text input after a mode selection is made
@@ -108,7 +108,7 @@ var NumberFilter = React.createClass({
 
 		return (
 			<div>
-				<FormSelect options={CONTROL_OPTIONS} onChange={this.toggleMode} value={modeValue} />
+				<FormSelect options={MODE_OPTIONS} onChange={this.toggleMode} value={modeValue} />
 				{this.renderControls()}
 			</div>
 		);

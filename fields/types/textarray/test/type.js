@@ -22,7 +22,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateInput({
 				textarr: ['a', 'b'],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -33,7 +33,7 @@ exports.testFieldType = function (List) {
 					textarr: ['a', 'b'],
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -42,7 +42,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateInput({
 				'nested.textarr': ['a', 'b'],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -52,7 +52,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateInput({
 				textarr: 'a',
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -60,7 +60,7 @@ exports.testFieldType = function (List) {
 		// An empty array clears the value, so we let it pass
 		it('should validate an empty array', function (done) {
 			List.fields.textarr.validateInput({ textarr: [] }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -68,7 +68,7 @@ exports.testFieldType = function (List) {
 		// A blank string clears the value, so we let it pass
 		it('should validate a blank string', function (done) {
 			List.fields.textarr.validateInput({ textarr: '' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -76,7 +76,7 @@ exports.testFieldType = function (List) {
 		// null clears the value, so we let it pass
 		it('should validate null', function (done) {
 			List.fields.textarr.validateInput({ textarr: null }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -86,28 +86,28 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateInput({
 				textarr: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate false', function (done) {
 			List.fields.textarr.validateInput({ textarr: false }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate true', function (done) {
 			List.fields.textarr.validateInput({ textarr: true }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate a number', function (done) {
 			List.fields.textarr.validateInput({ textarr: 1 }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -116,7 +116,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateInput({
 				textarr: [1, 2, 3],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -125,7 +125,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateInput({
 				textarr: ['a', 2, 'b'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -137,7 +137,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateRequiredInput(testItem, {
 				textarr: ['a', 'b'],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -149,7 +149,7 @@ exports.testFieldType = function (List) {
 					textarr: ['a', 'b'],
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -158,7 +158,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateInput({
 				'nested.textarr': ['a', 'b'],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -168,7 +168,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateRequiredInput(testItem, {
 				textarr: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -178,7 +178,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateRequiredInput(testItem, {
 				textarr: undefined,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -190,7 +190,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateRequiredInput(testItem, {
 				textarr: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -200,7 +200,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateRequiredInput(testItem, {
 				textarr: null,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -210,7 +210,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateRequiredInput(testItem, {
 				textarr: [''],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -220,7 +220,7 @@ exports.testFieldType = function (List) {
 			List.fields.textarr.validateRequiredInput(testItem, {
 				textarr: ['a', 'b', ''],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -301,6 +301,219 @@ exports.testFieldType = function (List) {
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		describe('"some" present', function () {
+			it('should return a regex with the "i" flag set', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'some',
+					value: 'abc',
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /abc/i,
+					},
+				});
+			});
+
+			it('should allow case sensitive matching', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'some',
+					value: 'abc',
+					caseSensitive: true,
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /abc/,
+					},
+				});
+			});
+
+			it('should allow exact matching', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'some',
+					value: 'abc',
+					mode: 'exactly',
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /^abc$/i,
+					},
+				});
+			});
+
+			it('should allow matching the end', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'some',
+					value: 'abc',
+					mode: 'endsWith',
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /abc$/i,
+					},
+				});
+			});
+
+			it('should allow matching the start', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'some',
+					value: 'abc',
+					mode: 'beginsWith',
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /^abc/i,
+					},
+				});
+			});
+
+			it('should allow matching empty values', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'some',
+				});
+				demand(result.textarr).eql({
+					$size: 0,
+				});
+			});
+		});
+
+		describe('"none" present', function () {
+			it('should return a regex with the "i" flag set', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'none',
+					value: 'abc',
+				});
+				demand(result.textarr).eql({
+					$not: /abc/i,
+				});
+			});
+
+			it('should allow case sensitive matching', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'none',
+					value: 'abc',
+					caseSensitive: true,
+				});
+				demand(result.textarr).eql({
+					$not: /abc/,
+				});
+			});
+
+			it('should allow exact matching', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'none',
+					value: 'abc',
+					mode: 'exactly',
+				});
+				demand(result.textarr).eql({
+					$not: /^abc$/i,
+				});
+			});
+
+			it('should allow matching the end', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'none',
+					value: 'abc',
+					mode: 'endsWith',
+				});
+				demand(result.textarr).eql({
+					$not: /abc$/i,
+				});
+			});
+
+			it('should allow matching the start', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'none',
+					value: 'abc',
+					mode: 'beginsWith',
+				});
+				demand(result.textarr).eql({
+					$not: /^abc/i,
+				});
+			});
+
+			it('should allow matching non-empty values', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					presence: 'none',
+				});
+				demand(result.textarr).eql({
+					$not: {
+						$size: 0,
+					},
+				});
+			});
+		});
+
+		// Presence undefined should behave exactly like presence === 'some'
+		describe('no presence option', function () {
+			it('should return a regex with the "i" flag set', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					value: 'abc',
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /abc/i,
+					},
+				});
+			});
+
+			it('should allow case sensitive matching', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					value: 'abc',
+					caseSensitive: true,
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /abc/,
+					},
+				});
+			});
+
+			it('should allow exact matching', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					value: 'abc',
+					mode: 'exactly',
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /^abc$/i,
+					},
+				});
+			});
+
+			it('should allow matching the end', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					value: 'abc',
+					mode: 'endsWith',
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /abc$/i,
+					},
+				});
+			});
+
+			it('should allow matching the start', function () {
+				var result = List.fields.textarr.addFilterToQuery({
+					value: 'abc',
+					mode: 'beginsWith',
+				});
+				demand(result.textarr).eql({
+					$elemMatch: {
+						$regex: /^abc/i,
+					},
+				});
+			});
+
+			it('should allow matching empty values in exact mode', function () {
+				var result = List.fields.textarr.addFilterToQuery({});
+				demand(result.textarr).eql({
+					$size: 0,
+				});
+			});
+		});
+	});
+
 	describe('format', function () {
 		it('should use the default separator for formatting', function () {
 			var testItem = new List.model({
@@ -329,29 +542,29 @@ exports.testFieldType = function (List) {
 	it('should validate input', function () {
 		demand(List.fields.textarr.inputIsValid({
 			textarr: ['a'],
-		})).be(true);
+		})).be.true();
 		demand(List.fields.textarr.inputIsValid({
 			textarr: ['a', 'b'],
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should validate no input', function () {
 		var testItem = new List.model();
-		demand(List.fields.textarr.inputIsValid({})).be(true);
-		demand(List.fields.textarr.inputIsValid({}, true)).be(false);
+		demand(List.fields.textarr.inputIsValid({})).be.true();
+		demand(List.fields.textarr.inputIsValid({}, true)).be.false();
 		testItem.textarr = ['a'];
-		demand(List.fields.textarr.inputIsValid({}, true, testItem)).be(true);
+		demand(List.fields.textarr.inputIsValid({}, true, testItem)).be.true();
 	});
 
 	it('should validate length when required', function () {
 		demand(List.fields.textarr.inputIsValid({
 			textarr: [],
-		}, true)).be(false);
+		}, true)).be.false();
 	});
 
 	it('should invalidate arrays with complex values', function () {
 		demand(List.fields.textarr.inputIsValid({
 			textarr: [[]],
-		}, true)).be(false);
+		}, true)).be.false();
 	});
 };

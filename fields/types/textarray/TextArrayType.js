@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+var addPresenceToQuery = require('../../utils/addPresenceToQuery');
 
 /**
  * TextArray FieldType Constructor
@@ -20,6 +21,55 @@ util.inherits(textarray, FieldType);
  */
 textarray.prototype.format = function (item, separator) {
 	return item.get(this.path).join(separator || this.separator);
+};
+
+/**
+ * Add filters to a query
+ *
+ * @param {Object} filter 			   		The data from the frontend
+ * @param {String} filter.mode  	   		The filter mode, either one of
+ *                                     		"beginsWith", "endsWith", "exactly"
+ *                                     		or "contains"
+ * @param {String} [filter.presence='some'] The presence mode, either on of
+ *                                          "none" and "some". Default: 'some'
+ * @param {String|Object} filter.value 		The value that is filtered for
+ */
+textarray.prototype.addFilterToQuery = function (filter) {
+	var query = {};
+	var presence = filter.presence || 'some';
+	// Filter empty/non-empty arrays
+	if (!filter.value) {
+		// "At least one element contains nothing"
+		// This isn't 100% accurate because this will only return arrays that
+		// don't have elements, not ones that have empty elements, but it works
+		// fine for 99% of the usecase
+		query[this.path] = presence === 'some' ? {
+			$size: 0,
+		// "No elements contain nothing"
+		} : {
+			$not: {
+				$size: 0,
+			},
+		};
+		return query;
+	}
+	var value = utils.escapeRegExp(filter.value);
+	if (filter.mode === 'beginsWith') {
+		value = '^' + value;
+	} else if (filter.mode === 'endsWith') {
+		value = value + '$';
+	} else if (filter.mode === 'exactly') {
+		value = '^' + value + '$';
+	}
+	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
+	if (presence === 'none') {
+		query[this.path] = addPresenceToQuery(presence, value);
+	} else {
+		query[this.path] = addPresenceToQuery(presence, {
+			$regex: value,
+		});
+	}
+	return query;
 };
 
 /**

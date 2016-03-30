@@ -113,14 +113,14 @@ exports.testFieldType = function (List) {
 				password: '',
 				password_confirm: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.password.validateInput({}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -130,7 +130,7 @@ exports.testFieldType = function (List) {
 				password: null,
 				password_confirm: null,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -140,7 +140,7 @@ exports.testFieldType = function (List) {
 				password: 'something',
 				password_confirm: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -150,7 +150,7 @@ exports.testFieldType = function (List) {
 				password: 'something',
 				password_confirm: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -160,7 +160,7 @@ exports.testFieldType = function (List) {
 				password: 'something',
 				password_confirm: null,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -170,7 +170,7 @@ exports.testFieldType = function (List) {
 				password: 'something',
 				password_confirm: 'notsomething',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -180,7 +180,7 @@ exports.testFieldType = function (List) {
 				password: '',
 				password_confirm: 'something',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -190,7 +190,7 @@ exports.testFieldType = function (List) {
 				password: null,
 				password_confirm: 'something',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -200,7 +200,7 @@ exports.testFieldType = function (List) {
 				password: undefined,
 				password_confirm: 'something',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -210,7 +210,7 @@ exports.testFieldType = function (List) {
 				password: true,
 				password_confirm: 'something',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -220,7 +220,7 @@ exports.testFieldType = function (List) {
 				password: false,
 				password_confirm: 'something',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -372,7 +372,7 @@ exports.testFieldType = function (List) {
 			var result = List.fields.password.addFilterToQuery({
 				exists: false,
 			});
-			demand(result.password).eql(null);
+			demand(result.password).be.null();
 		});
 	});
 };

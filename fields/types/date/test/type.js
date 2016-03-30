@@ -44,7 +44,7 @@ exports.testFieldType = function (List) {
 			List.fields.date.updateItem(testItem, {
 				date: '',
 			}, function () {
-				demand(testItem.date).be(null);
+				demand(testItem.date).be.null();
 				done();
 			});
 		});
@@ -56,7 +56,7 @@ exports.testFieldType = function (List) {
 			List.fields.date.updateItem(testItem, {
 				date: null,
 			}, function () {
-				demand(testItem.date).be(null);
+				demand(testItem.date).be.null();
 				done();
 			});
 		});
@@ -74,56 +74,52 @@ exports.testFieldType = function (List) {
 		});
 	});
 
-	it('should use the common text input validator', function () {
-		demand(List.fields.date.validateRequiredInput === TextType.prototype.validateRequiredInput);
-	});
-
 	describe('validateInput', function () {
 		it('should validate date strings', function (done) {
 			List.fields.date.validateInput({ date: '2015-01-01' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate JS "Date"s', function (done) {
 			List.fields.date.validateInput({ date: new Date(2015, 1, 1) }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate epoch times', function (done) {
 			List.fields.date.validateInput({ date: 1458269216968 }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate empty strings', function (done) {
 			List.fields.date.validateInput({ date: '' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate null', function (done) {
 			List.fields.date.validateInput({ date: null }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined', function (done) {
 			List.fields.date.validateInput({ date: undefined }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate random strings', function (done) {
 			List.fields.date.validateInput({ date: 'a' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -131,38 +127,42 @@ exports.testFieldType = function (List) {
 
 		it('should invalidate objects', function (done) {
 			List.fields.date.validateInput({ date: { things: 'stuff' } }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate arrays', function (done) {
 			List.fields.date.validateInput({ date: ['a', 'b'] }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate Booleans', function (done) {
 			List.fields.date.validateInput({ date: true }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate function', function (done) {
 			List.fields.date.validateInput({ date: function () {} }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate regexp', function (done) {
 			List.fields.date.validateInput({ date: /foo/ }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
+	});
+
+	it('should use the common text validateRequiredInput method', function () {
+		demand(List.fields.date.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 
 	describe('addFilterToQuery', function () {

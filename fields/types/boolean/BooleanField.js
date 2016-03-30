@@ -1,6 +1,6 @@
 import React from 'react';
 import Field from '../Field';
-import Checkbox from '../../../admin/client/components/Checkbox';
+import Checkbox from '../../components/Checkbox';
 import { FormField, FormNote } from 'elemental';
 
 module.exports = Field.create({
