@@ -25,17 +25,15 @@ module.exports = {
 			.click(adminUI.cssSelector.homeView.plusIconLinkForBooleansTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.value, 'One')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.initialModalView.fieldType.bool.bool.testA.button)
+			.click(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.button)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.initialModalView.buttonCreate)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('New Boolean One created.');
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.bool.bool.testA.value)
+			.text.to.equal('New Boolean true created.');
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.bool.bool.name.value)
 			.to.have.value.that.equals('true');
 	},
 	'Boolean field can be edited via the edit form': function (browser) {
@@ -49,6 +47,6 @@ module.exports = {
 		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
 			.text.to.equal('Your changes have been saved.');
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.bool.bool.testA.value)
-			.to.have.value.that.equals('false');
+			.to.have.value.that.equals('true');
 	},
 };
