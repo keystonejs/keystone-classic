@@ -542,4 +542,110 @@ exports.testFieldType = function (List) {
 			});
 		});
 	});
+
+	describe('addFilterToQuery', function () {
+		it('should return a regex with the "i" flag set', function () {
+			var result = List.fields.name.addFilterToQuery({
+				value: 'abc',
+			});
+
+			demand(result.$or[0]).eql({
+				'name.first': /abc/i,
+			});
+			demand(result.$or[1]).eql({
+				'name.last': /abc/i,
+			});
+		});
+
+		it('should allow case sensitive matching', function () {
+			var result = List.fields.name.addFilterToQuery({
+				value: 'abc',
+				caseSensitive: true,
+			});
+
+			demand(result.$or[0]).eql({
+				'name.first': /abc/,
+			});
+			demand(result.$or[1]).eql({
+				'name.last': /abc/,
+			});
+		});
+
+		it('should allow inverted matching', function () {
+			var result = List.fields.name.addFilterToQuery({
+				value: 'abc',
+				inverted: true,
+			});
+			demand(result['name.first']).eql({
+				$not: /abc/i,
+			});
+			demand(result['name.last']).eql({
+				$not: /abc/i,
+			});
+		});
+
+		it('should allow exact matching', function () {
+			var result = List.fields.name.addFilterToQuery({
+				value: 'abc',
+				mode: 'exactly',
+			});
+			demand(result.$or[0]).eql({
+				'name.first': /^abc$/i,
+			});
+			demand(result.$or[1]).eql({
+				'name.last': /^abc$/i,
+			});
+		});
+
+		it('should allow matching the end', function () {
+			var result = List.fields.name.addFilterToQuery({
+				value: 'abc',
+				mode: 'endsWith',
+			});
+			demand(result.$or[0]).eql({
+				'name.first': /abc$/i,
+			});
+			demand(result.$or[1]).eql({
+				'name.last': /abc$/i,
+			});
+		});
+
+		it('should allow matching the start', function () {
+			var result = List.fields.name.addFilterToQuery({
+				value: 'abc',
+				mode: 'beginsWith',
+			});
+			demand(result.$or[0]).eql({
+				'name.first': /^abc/i,
+			});
+			demand(result.$or[1]).eql({
+				'name.last': /^abc/i,
+			});
+		});
+
+		it('should allow matching empty values in exact mode', function () {
+			var result = List.fields.name.addFilterToQuery({
+				mode: 'exactly',
+			});
+			demand(result['name.first']).eql({
+				$in: ['', null],
+			});
+			demand(result['name.last']).eql({
+				$in: ['', null],
+			});
+		});
+
+		it('should allow matching non-empty values in exact mode with the inverted option', function () {
+			var result = List.fields.name.addFilterToQuery({
+				mode: 'exactly',
+				inverted: true,
+			});
+			demand(result['name.first']).eql({
+				$nin: ['', null],
+			});
+			demand(result['name.last']).eql({
+				$nin: ['', null],
+			});
+		});
+	});
 };
