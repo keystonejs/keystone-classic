@@ -32,3 +32,7 @@ exports.spacing = {
 	lg: 40,
 	xl: 80,
 };
+
+// table constants
+
+exports.TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
