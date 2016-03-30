@@ -7,11 +7,12 @@ var Name = new keystone.List('Name', {
 });
 
 Name.add({
-	name: {type: Types.Name, initial: true, required: true, index: true},
-	testA: {type: Types.Name, index: true},
+	name: {type: String, initial: true, required: true, index: true},
+	fieldA: {type: Types.Name, initial: true, index: true},
+	fieldB: {type: Types.Name, index: true},
 });
 
-Name.defaultColumns = 'name';
+Name.defaultColumns = 'name, fieldA, fieldB';
 Name.register();
 
 module.exports = Name;

@@ -29,3 +29,35 @@ Allows `null` to clear the field value.
 ### `validateRequiredInput`
 
 Ensures a value has been provided. Empty strings are not valid.
+
+## Filtering
+
+Accepts a value, mode, and can be inverted:
+
+```
+{
+	inverted: Boolean,
+	mode: String enum ['contains', 'exactly', 'beginsWith', 'endsWith'],
+	value: String,
+}
+```
+
+Inverting the filter finds all items **not** matching the value, according to the rules below.
+
+### Modes
+
+* `contains` (default)
+
+  Items containing the provided `value` at the field's path will be found using a regular expression.
+
+* `exactly`
+
+  Items with exactly the provided `value` at the field's path will be found.
+
+* `beginsWith`
+
+  Items with the provided `value` at the start of the stored value at field's path will be found using a regular expression.
+
+* `endsWith`
+
+  Items with the provided `value` at the end of the stored value at field's path will be found using a regular expression.

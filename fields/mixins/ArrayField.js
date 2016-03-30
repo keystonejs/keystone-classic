@@ -33,7 +33,6 @@ module.exports = {
 	},
 
 	addItem: function () {
-		var self = this;
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
 			values: newValues,

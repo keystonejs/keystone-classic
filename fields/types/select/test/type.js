@@ -42,7 +42,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: 'one',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -53,7 +53,7 @@ exports.testFieldType = function (List) {
 					select: 'one',
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -62,7 +62,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -71,7 +71,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: null,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -80,7 +80,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -89,7 +89,7 @@ exports.testFieldType = function (List) {
 			List.fields.emptyStringSelect.validateInput({
 				emptyStringSelect: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -98,7 +98,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: 1,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -107,7 +107,7 @@ exports.testFieldType = function (List) {
 			List.fields.numeric.validateInput({
 				numeric: 1,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -116,7 +116,7 @@ exports.testFieldType = function (List) {
 			List.fields.numeric.validateInput({
 				numeric: '1',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -125,7 +125,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: 'four',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -134,7 +134,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: 'one, two',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -143,7 +143,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: true,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -152,7 +152,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: false,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -164,7 +164,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: 'one',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -176,7 +176,7 @@ exports.testFieldType = function (List) {
 					select: 'one',
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -185,7 +185,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				'nested.select': ['a', 'b'],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -195,7 +195,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -205,7 +205,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: undefined,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -217,7 +217,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -227,7 +227,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: null,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -237,7 +237,7 @@ exports.testFieldType = function (List) {
 			List.fields.emptyStringSelect.validateRequiredInput(testItem, {
 				emptyStringSelect: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});

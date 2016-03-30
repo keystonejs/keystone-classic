@@ -14,3 +14,7 @@ Uses the `textToHTML()` method in [keystone-utils](https://github.com/keystonejs
 * `crop`
 * `validateInput`
 * `validateRequiredInput`
+
+## Filtering
+
+Uses the same logic and filter UI as the [`Text`](../text) field type.
