@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
-const CONTROL_OPTIONS = [
+const MODE_OPTIONS = [
 	{ label: 'Exactly', value: 'equals' },
 	{ label: 'Greater Than', value: 'gt' },
 	{ label: 'Less Than', value: 'lt' },
@@ -15,122 +15,136 @@ const PRESENCE_OPTIONS = [
 	{ label: 'No element', value: 'none' },
 ];
 
-var NumberArrayFilter = React.createClass({
+function getDefaultValue () {
+	return {
+		mode: MODE_OPTIONS[0].value,
+		presence: PRESENCE_OPTIONS[0].value,
+		value: '',
+	};
+}
 
-	getInitialState () {
+var NumberArrayFilter = React.createClass({
+	propTypes: {
+		filter: React.PropTypes.shape({
+			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
+			presence: React.PropTypes.oneOf(PRESENCE_OPTIONS.map(i => i.value)),
+			value: React.PropTypes.oneOf(
+				React.PropTypes.string,
+				React.PropTypes.shape({
+					min: React.PropTypes.number,
+					max: React.PropTypes.number,
+				})
+			),
+		}),
+	},
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
+	getDefaultProps () {
 		return {
-			modeValue: CONTROL_OPTIONS[0].value, // 'equals'
-			modeLabel: CONTROL_OPTIONS[0].label, // 'Exactly'
-			presenceValue: PRESENCE_OPTIONS[0].value,
-			presenceLabel: PRESENCE_OPTIONS[0].label,
-			value: '',
-			minValue: '',
-			maxValue: '',
+			filter: getDefaultValue(),
 		};
 	},
-
-	componentDidMount () {
-		// focus the text input
-		ReactDOM.findDOMNode(this.refs.input).focus();
-	},
-
-	handleChangeBuilder (type) {
-		const self = this;
-		return function handleChange (e) {
-			const { value } = e.target;
-			const { modeValue, presenceValue } = self.state;
-			const { onChange } = self.props;
-			self.setState({
-				[type]: value,
-			});
-
+	// Returns a function that handles a specific type of onChange events for
+	// either 'minValue', 'maxValue' or simply 'value'
+	handleValueChangeBuilder (type) {
+		var self = this;
+		return function (e) {
 			switch (type) {
 				case 'minValue':
-					onChange({
-						mode: modeValue,
-						presence: presenceValue,
+					self.updateFilter({
 						value: {
-							min: value,
-							max: self.state.maxValue,
+							min: e.target.value,
+							max: self.props.filter.value.max,
 						},
 					});
 					break;
 				case 'maxValue':
-					onChange({
-						mode: modeValue,
-						presence: presenceValue,
+					self.updateFilter({
 						value: {
-							max: value,
-							min: self.state.minValue,
+							min: self.props.filter.value.min,
+							max: e.target.value,
 						},
 					});
 					break;
 				case 'value':
-					onChange({
-						mode: modeValue,
-						presence: presenceValue,
-						value,
+					self.updateFilter({
+						value: e.target.value,
 					});
+					break;
 			}
 		};
 	},
-
-	toggleMode (mode) {
-		this.setState({
-			modeValue: mode,
-			modeLabel: CONTROL_OPTIONS.find(option => option.value === mode).label,
-		});
-
-		// focus the text input after a mode selection is made
-		ReactDOM.findDOMNode(this.refs.input).focus();
+	// Update the props with this.props.onChange
+	updateFilter (changedProp) {
+		this.props.onChange({ ...this.props.filter, ...changedProp });
 	},
-
-	togglePresence (presence) {
-		this.setState({
-			presenceValue: presence,
-			presenceLabel: PRESENCE_OPTIONS.find(currPresence => currPresence.value === presence).label,
-		});
-
-		// focus the text input after a presence choice is made
-		ReactDOM.findDOMNode(this.refs.input).focus();
+	// Update the filter mode
+	selectMode (mode) {
+		this.updateFilter({ mode });
+		ReactDOM.findDOMNode(this.refs.focusTarget).focus();
 	},
-
-	renderControls () {
+	// Update the presence selection
+	selectPresence (presence) {
+		this.updateFilter({ presence });
+		ReactDOM.findDOMNode(this.refs.focusTarget).focus();
+	},
+	// Render the controls, showing two inputs when the mode is "between"
+	renderControls (presence, mode) {
 		let controls;
-		const { field } = this.props;
-		const { modeLabel, modeValue, presenceLabel, presenceValue } = this.state;
-		const placeholder = presenceLabel + ' is ' + modeLabel.toLowerCase() + '...';
+		const placeholder = presence.label + ' is ' + mode.label.toLowerCase() + '...';
 
-		if (modeValue === 'between') {
+		if (mode.value === 'between') {
+			// Render "min" and "max" input
 			controls = (
 				<FormRow>
 					<FormField width="one-half" style={{ marginBottom: 0 }}>
-						<FormInput type="number" ref="input" placeholder="Min." onChange={this.handleChangeBuilder('minValue')} />
+						<FormInput
+							type="number"
+							ref="focusTarget"
+							placeholder="Min."
+							onChange={this.handleValueChangeBuilder('minValue')}
+							value={this.props.filter.value.min}
+						/>
 					</FormField>
 					<FormField width="one-half" style={{ marginBottom: 0 }}>
-						<FormInput type="number" placeholder="Max." onChange={this.handleChangeBuilder('maxValue')} />
+						<FormInput
+							type="number"
+							placeholder="Max."
+							onChange={this.handleValueChangeBuilder('maxValue')}
+							value={this.props.filter.value.max}
+						/>
 					</FormField>
 				</FormRow>
 			);
 		} else {
+			// Render one number input
 			controls = (
 				<FormField>
-					<FormInput type="number" ref="input" placeholder={placeholder} onChange={this.handleChangeBuilder('value')} />
+					<FormInput
+						type="number"
+						ref="focusTarget"
+						placeholder={placeholder}
+						onChange={this.handleValueChangeBuilder('value')}
+						value={this.props.filter.value}
+					/>
 				</FormField>
 			);
 		}
 
 		return controls;
 	},
-
 	render () {
-		const { modeValue, presenceValue } = this.state;
+		const { field, filter } = this.props;
+		// Get mode and presence based on their values with .filter
+		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
+		const presence = PRESENCE_OPTIONS.filter(i => i.value === filter.presence)[0];
 
 		return (
 			<div>
-				<FormSelect options={PRESENCE_OPTIONS} 	onChange={this.togglePresence} value={presenceValue} />
-				<FormSelect options={CONTROL_OPTIONS} onChange={this.toggleMode} value={modeValue} />
-				{this.renderControls()}
+				<FormSelect options={PRESENCE_OPTIONS} onChange={this.selectPresence} value={presence.value} />
+				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
+				{this.renderControls(presence, mode)}
 			</div>
 		);
 	},
