@@ -73,32 +73,32 @@ var renderMarkdown = function (component) {
 				data: [{
 					name: 'cmdH1',
 					title: 'Heading 1',
-					icon: 'octicon octicon-text-size',
-					btnText: '1',
+					icon: 'octicon octicon-text-size heading-1',
+					btnText: '',
 					callback: function (e) {
 						toggleHeading(e, '#');
 					},
 				}, {
 					name: 'cmdH2',
 					title: 'Heading 2',
-					icon: 'octicon octicon-text-size',
-					btnText: '2',
+					icon: 'octicon octicon-text-size heading-2',
+					btnText: '',
 					callback: function (e) {
 						toggleHeading(e, '##');
 					},
 				}, {
 					name: 'cmdH3',
 					title: 'Heading 3',
-					icon: 'octicon octicon-text-size',
-					btnText: '3',
+					icon: 'octicon octicon-text-size heading-3',
+					btnText: '',
 					callback: function (e) {
 						toggleHeading(e, '###');
 					},
 				}, {
 					name: 'cmdH4',
 					title: 'Heading 4',
-					icon: 'octicon octicon-text-size',
-					btnText: '4',
+					icon: 'octicon octicon-text-size heading-4',
+					btnText: '',
 					callback: function (e) {
 						toggleHeading(e, '####');
 					},
