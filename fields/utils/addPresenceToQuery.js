@@ -1,7 +1,7 @@
 /**
  * Accounts for the presence choice when filtering
  *
- * @param {Object} presence  		The current presence choice
+ * @param {String} presence  		The current presence choice
  * @param {Object} currentPathQuery The current request query
  */
 function addPresenceToQuery (presence, currentPathQuery) {

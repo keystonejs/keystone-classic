@@ -2,6 +2,8 @@ var FieldType = require('../Type');
 var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
+var addPresenceToQuery = require('../../utils/addPresenceToQuery');
+var DateType = require('../date/DateType');
 
 /**
  * Date FieldType Constructor
@@ -102,6 +104,25 @@ datearray.prototype.validateRequiredInput = function (item, data, callback) {
 		}
 	}
 	utils.defer(callback, result);
+};
+
+/**
+ * Add filters to a query
+ *
+ * @param {Object} filter 			   		The data from the frontend
+ * @param {String} filter.mode  	   		The filter mode, either one of "on",
+ *                                     		"after", "before" or "between"
+ * @param {String} [filter.presence='some'] The presence mode, either on of
+ *                                          "none" and "some". Default: 'some'
+ * @param {String|Object} filter.value 		The value that is filtered for
+ */
+datearray.prototype.addFilterToQuery = function (filter) {
+	var dateTypeAddFilterToQuery = DateType.prototype.addFilterToQuery.bind(this);
+	var query = dateTypeAddFilterToQuery(filter);
+	if (query[this.path]) {
+		query[this.path] = addPresenceToQuery(filter.presence || 'some', query[this.path]);
+	}
+	return query;
 };
 
 /**
