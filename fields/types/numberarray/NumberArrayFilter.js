@@ -135,7 +135,7 @@ var NumberArrayFilter = React.createClass({
 		return controls;
 	},
 	render () {
-		const { field, filter } = this.props;
+		const { filter } = this.props;
 		// Get mode and presence based on their values with .filter
 		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 		const presence = PRESENCE_OPTIONS.filter(i => i.value === filter.presence)[0];

@@ -4,14 +4,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import CurrentListStore from '../stores/CurrentListStore';
-import Columns from '../columns';
 import ConfirmationDialog from '../components/Forms/ConfirmationDialog';
 import CreateForm from '../components/Forms/CreateForm';
 import FlashMessages from '../components/FlashMessages';
 import Footer from '../components/Footer';
 import ItemsTable from '../components/ItemsTable/ItemsTable';
 import ListColumnsForm from '../components/List/ListColumnsForm';
-import ListControl from '../components/List/ListControl';
 import ListDownloadForm from '../components/List/ListDownloadForm';
 import ListFilters from '../components/List/ListFilters';
 import ListFiltersAdd from '../components/List/ListFiltersAdd';
@@ -22,8 +20,6 @@ import SecondaryNavigation from '../components/Navigation/SecondaryNavigation';
 import UpdateForm from '../components/Forms/UpdateForm';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
 import { plural } from '../utils';
-
-const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
 const ListView = React.createClass({
 	getInitialState () {

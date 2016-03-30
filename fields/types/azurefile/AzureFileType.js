@@ -3,7 +3,6 @@ var azure = require('azure');
 var FieldType = require('../Type');
 var grappling = require('grappling-hook');
 var keystone = require('../../../');
-var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
 
@@ -183,7 +182,7 @@ azurefile.prototype.inputIsValid = function (data) { // eslint-disable-line no-u
 /**
  * Updates the value for this field in the item from a data object
  */
-azurefile.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
+azurefile.prototype.updateItem = function (item, data, callback) {
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -194,7 +193,6 @@ azurefile.prototype.updateItem = function (item, data, callback) { // eslint-dis
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
 	var field = this;
-	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : ''; // eslint-disable-line no-unused-var
 	var filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
@@ -214,7 +212,7 @@ azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
 			if (err) return callback(err);
 
-			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) { // eslint-disable-line no-unused-vars
+			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) {
 
 				if (err) return callback(err);
 

@@ -215,17 +215,19 @@ const CurrentListStore = new Store({
 		return _items;
 	},
 	deleteItem (itemId) {
-		_list.deleteItem(itemId, (err, data) => {
-			// TODO: graceful error handling
+		_list.deleteItem(itemId, (err) => {
 			if (err) {
+				// TODO: graceful error handling
 				return this.resetItems(this.findItemById[itemId]);
 			}
 			this.loadItems();
 		});
 	},
 	deleteItems (itemIds) {
-		_list.deleteItems(itemIds, (err, data) => {
-			// TODO: graceful error handling
+		_list.deleteItems(itemIds, (err) => {
+			if (err) {
+				// TODO: graceful error handling
+			}
 			this.loadItems();
 		});
 	},

@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import classNames from 'classnames';
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 
-import { FormField, FormInput, FormRow, FormSelect, SegmentedControl } from 'elemental';
+import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
 const PRESENCE_OPTIONS = [
 	{ label: 'At least one element', value: 'some' },

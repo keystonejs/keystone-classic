@@ -19,7 +19,6 @@ var EmailColumn = React.createClass({
 		);
 	},
 	render () {
-		const value = this.props.data.fields[this.props.col.path];
 		return (
 			<ItemsTableCell>
 				{this.renderValue()}

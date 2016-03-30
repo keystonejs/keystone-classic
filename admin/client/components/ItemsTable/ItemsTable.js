@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
-import Columns from '../../columns';
 import CurrentListStore from '../../stores/CurrentListStore';
-import ListControl from '../List/ListControl';
 import TableRow from './ItemsTableRow';
 import DrapDrop from './ItemsTableDragDrop';
 
@@ -97,13 +95,8 @@ const ItemsTable = React.createClass({
 		);
 	},
 	render () {
-		const { items, list } = this.props;
+		const { items } = this.props;
 		if (!items.results.length) return null;
-
-		const currentPage = CurrentListStore.getCurrentPage();
-		const pageSize = CurrentListStore.getPageSize();
-
-		const totalPages = Math.ceil(items.count / pageSize);
 
 		const tableBody = (this.props.list.sortable) ? (
 			<DrapDrop { ...this.props } />
