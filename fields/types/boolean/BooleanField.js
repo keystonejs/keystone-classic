@@ -40,7 +40,7 @@ module.exports = Field.create({
 
 	renderUI () {
 		return (
-			<FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean">
+			<FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean" htmlFor={this.props.path}>
 				<label style={{ height: '2.3em' }}>
 					{this.renderFormInput()}
 					{this.renderCheckbox()}
