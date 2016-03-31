@@ -17,7 +17,6 @@ function name (list, path, options) {
 }
 util.inherits(name, FieldType);
 
-
 /**
  * Registers the field on the List's Mongoose Schema.
  *
@@ -26,7 +25,6 @@ util.inherits(name, FieldType);
  *
  * @api public
  */
-
 name.prototype.addToSchema = function () {
 	var schema = this.list.schema;
 	var paths = this.paths = {
@@ -62,7 +60,6 @@ name.prototype.addToSchema = function () {
 /**
  * Gets the string to use for sorting by this field
  */
-
 name.prototype.getSortString = function (options) {
 	if (options.invert) {
 		return '-' + this.paths.first + ' -' + this.paths.last;
@@ -72,18 +69,15 @@ name.prototype.getSortString = function (options) {
 
 /**
  * Add filters to a query
- *
- * TODO: this filter will conflict with any other $or filter, including filters
- * on other "name" type fields; need to work out a better way to implement.
  */
-name.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+name.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.paths.first] = query[this.paths.last] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
-		return;
+		return query;
 	}
 	var value = utils.escapeRegExp(filter.value);
-	if (filter.mode === 'startsWith') {
+	if (filter.mode === 'beginsWith') {
 		value = '^' + value;
 	} else if (filter.mode === 'endsWith') {
 		value = value + '$';
@@ -96,15 +90,7 @@ name.prototype.addFilterToQuery = function (filter, query) {
 	} else {
 		var first = {}; first[this.paths.first] = value;
 		var last = {}; last[this.paths.last] = value;
-		var $or = [first, last];
-		if (query.$and) {
-			query.$and.push({ $or: $or });
-		} else if (query.$or) {
-			query.$and = [{ $or: query.$or }, { $or: $or }];
-			delete query.$or;
-		} else {
-			query.$or = $or;
-		}
+		query.$or = [first, last];
 	}
 	return query;
 };
@@ -121,11 +107,15 @@ name.prototype.format = function (item) {
  * Get the value from a data object; may be simple or a pair of fields
  */
 name.prototype.getInputFromData = function (data) {
+	// this.getValueFromData throws an error if we pass name: null
+	if (data[this.path] === null) {
+		return null;
+	}
 	var first = this.getValueFromData(data, '_first');
 	if (first === undefined) first = this.getValueFromData(data, '.first');
 	var last = this.getValueFromData(data, '_last');
 	if (last === undefined) last = this.getValueFromData(data, '.last');
-	if (typeof first === 'string' || typeof last === 'string') {
+	if (first !== undefined || last !== undefined) {
 		return {
 			first: first,
 			last: last,
@@ -140,10 +130,13 @@ name.prototype.getInputFromData = function (data) {
 name.prototype.validateInput = function (data, callback) {
 	var value = this.getInputFromData(data);
 	var result = value === undefined
+		|| value === null
 		|| typeof value === 'string'
 		|| (typeof value === 'object' && (
 			typeof value.first === 'string'
-			|| typeof value.last === 'string')
+			|| value.first === null
+			|| typeof value.last === 'string'
+			|| value.last === null)
 		);
 	utils.defer(callback, result);
 };
@@ -153,12 +146,23 @@ name.prototype.validateInput = function (data, callback) {
  */
 name.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getInputFromData(data);
-	var result = (
-		typeof value === 'string' && value.length
-		|| typeof value === 'object' && (
-			typeof value.first === 'string' && value.first.length
-			|| typeof value.last === 'string' && value.last.length)
-		) ? true : false;
+	var result;
+	if (value === null) {
+		result = false;
+	} else {
+		result = (
+			typeof value === 'string' && value.length
+			|| typeof value === 'object' && (
+				typeof value.first === 'string' && value.first.length
+				|| typeof value.last === 'string' && value.last.length)
+			|| (item.get(this.paths.full)
+				|| item.get(this.paths.first)
+				|| item.get(this.paths.last)) && (
+					value === undefined
+					|| (value.first === undefined
+						&& value.last === undefined))
+			) ? true : false;
+	}
 	utils.defer(callback, result);
 };
 
@@ -210,7 +214,6 @@ name.prototype.updateItem = function (item, data, callback) {
 	}
 	process.nextTick(callback);
 };
-
 
 /* Export Field Type */
 module.exports = name;

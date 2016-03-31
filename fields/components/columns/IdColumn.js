@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
+import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
 
 var IdColumn = React.createClass({
 	displayName: 'IdColumn',
@@ -10,7 +10,7 @@ var IdColumn = React.createClass({
 		list: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.id;
+		const value = this.props.data.id;
 		if (!value) return null;
 
 		return (

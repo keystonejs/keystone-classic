@@ -33,43 +33,43 @@ var testData = {
 	}]
 };
 
-describe('When paginating results', function() {
+describe('When paginating results', function () {
 
-	beforeEach(function(done) {
+	beforeEach(function (done) {
 		// remove any Post documents
-		Post.model.find({}).remove(function(error) {
+		Post.model.find({}).remove(function (error) {
 			if (error) {
 				done(error);
 			}
 
 			// Add the test Post data
-			async.forEach(testData.posts, function(post, callback) {
+			async.forEach(testData.posts, function (post, callback) {
 				var newPost = new Post.model(post);
 				newPost.save(callback);
-			}, function(error) {
+			}, function (error) {
 				keystone.list('Post').model.collection.createIndex();
 				done(error);
 			});
 		});
 	});
 
-	after(function(done) {
+	after(function (done) {
 		// remove any remaining test data
-		Post.model.find({}).remove(function(error) {
+		Post.model.find({}).remove(function (error) {
 			done(error);
 		});
 	});
 
 	// regression test for pagination after adding `options.optionalExpression`
-	describe('without an optional expression', function() {
-		it('should return results plus pagination metadata', function(done) {
+	describe('without an optional expression', function () {
+		it('should return results plus pagination metadata', function (done) {
 
 			var regressionTestData = _.extend(testData, {
 				expectedPages: [1, 2, 3, 4],
 				perPage: 2
 			});
 
-			async.forEach(regressionTestData.expectedPages, function(pageNumber, callback) {
+			async.forEach(regressionTestData.expectedPages, function (pageNumber, callback) {
 
 				Post.paginate({
 					page: pageNumber,
@@ -77,7 +77,7 @@ describe('When paginating results', function() {
 					select: 'title'
 				}).sort({
 					title: 'asc'
-				}).exec(function(error, results) {
+				}).exec(function (error, results) {
 					if (!error) {
 						assert.equal(results.currentPage, pageNumber);
 						assert.equal(results.totalPages, regressionTestData.expectedPages.length);
@@ -110,15 +110,15 @@ describe('When paginating results', function() {
 					callback(error);
 				});
 
-			}, function(error) {
+			}, function (error) {
 				done(error);
 			});
 
 		});
 	});
 
-	describe('with an optional expression', function() {
-		it('should return results plus query metadata and pagination metadata', function(done) {
+	describe('with an optional expression', function () {
+		it('should return results plus query metadata and pagination metadata', function (done) {
 
 			var searchTestData = _.extend(testData, {
 				expectedPages: [1, 2],
@@ -128,7 +128,7 @@ describe('When paginating results', function() {
 			// Perform a $text search on a weighted 'keyword'. Since all of the
 			// test documents contain this keyword, we should get back the
 			// all Posts, but sorted by `textScore` descending.
-			async.forEach(searchTestData.expectedPages, function(pageNumber, callback) {
+			async.forEach(searchTestData.expectedPages, function (pageNumber, callback) {
 
 				Post.paginate({
 					page: pageNumber,
@@ -141,7 +141,7 @@ describe('When paginating results', function() {
 					}
 				}).sort({
 					score: { $meta: 'textScore' }
-				}).exec(function(error, results) {
+				}).exec(function (error, results) {
 
 					if (!error) {
 						// Ensure our optional $meta expression has added a value.
@@ -174,7 +174,7 @@ describe('When paginating results', function() {
 					callback(error);
 				});
 
-			}, function(error) {
+			}, function (error) {
 				done(error);
 			});
 		});

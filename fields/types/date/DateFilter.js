@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import classNames from 'classnames';
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 
 import { FormField, FormInput, FormRow, FormSelect, SegmentedControl } from 'elemental';
 
-const TOGGLE_OPTIONS = [
+const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },
 	{ label: 'Does NOT Match', value: true },
 ];
@@ -32,7 +31,7 @@ var DayPickerIndicator = React.createClass({
 function getDefaultValue () {
 	return {
 		mode: MODE_OPTIONS[0].value,
-		inverted: TOGGLE_OPTIONS[0].value,
+		inverted: INVERTED_OPTIONS[0].value,
 		value: moment(0, 'HH').format(),
 		before: moment(0, 'HH').format(),
 		after: moment(0, 'HH').format(),
@@ -105,7 +104,7 @@ var DateFilter = React.createClass({
 	switchBetweenActiveInputFields (e, day, modifiers) {
 		if (modifiers.indexOf('disabled') > -1) return;
 		const { activeInputField } = this.state;
-		let send = {};
+		const send = {};
 		send[activeInputField] = day;
 		this.updateFilter(send);
 		const newActiveField = (activeInputField === 'before') ? 'after' : 'before';
@@ -127,7 +126,7 @@ var DateFilter = React.createClass({
 		const { filter } = this.props;
 		return (
 			<FormField>
-				<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+				<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
 			</FormField>
 		);
 	},

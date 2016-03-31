@@ -41,11 +41,11 @@ var Thumbnail = React.createClass({
 
 	render () {
 		let iconClassName;
-		let { deleted, height, isQueued, url, width, openLightbox } = this.props;
-		let previewClassName = classnames('image-preview', {
+		const { deleted, height, isQueued, url, width, openLightbox } = this.props;
+		const previewClassName = classnames('image-preview', {
 			action: (deleted || isQueued),
 		});
-		let title = (width && height) ? (width + ' × ' + height) : '';
+		const title = (width && height) ? (width + ' × ' + height) : '';
 
 		if (deleted) {
 			iconClassName = classnames(iconClassDeleted);
@@ -99,7 +99,7 @@ module.exports = Field.create({
 	renderLightbox () {
 		if (!this.props.value || !this.props.value.length) return;
 
-		let images = this.props.value.map(image => image.url);
+		const images = this.props.value.map(image => image.url);
 
 		return (
 			<Lightbox
@@ -168,7 +168,7 @@ module.exports = Field.create({
 
 		var files = event.target.files;
 		_.forEach(files, function (f) {
-			if (!_.contains(SUPPORTED_TYPES, f.type)) {
+			if (!_.includes(SUPPORTED_TYPES, f.type)) {
 				alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
 				return;
 			}

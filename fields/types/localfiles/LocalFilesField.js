@@ -32,8 +32,8 @@ var LocalFilesFieldItem = React.createClass({
 	},
 
 	render () {
-		let { filename } = this.props;
-		let ext = filename.split('.').pop();
+		const { filename } = this.props;
+		const ext = filename.split('.').pop();
 
 		let iconName = '_blank';
 		if (_.includes(ICON_EXTS, ext)) iconName = ext;
@@ -88,7 +88,6 @@ module.exports = Field.create({
 
 	pushItem (args, thumbs) {
 		thumbs = thumbs || this.state.items;
-		var i = thumbs.length;
 		args.toggleDelete = this.removeItem.bind(this, args._id);
 		args.shouldRenderActionButton = this.shouldRenderField();
 		args.adminPath = Keystone.adminPath;

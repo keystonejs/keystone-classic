@@ -71,7 +71,7 @@ List.prototype.createItem = function (formData, callback) {
 List.prototype.expandColumns = function (input) {
 	let nameIncluded = false;
 	const cols = listToArray(input).map(i => {
-		let split = i.split('|');
+		const split = i.split('|');
 		let path = split[0];
 		if (path === '__name__') {
 			path = this.namePath;
@@ -79,7 +79,7 @@ List.prototype.expandColumns = function (input) {
 		if (path === this.namePath) {
 			nameIncluded = true;
 		}
-		let field = this.fields[path];
+		const field = this.fields[path];
 		if (!field) {
 			// TODO: Support arbitary document paths
 			console.warn('Invalid Column specified:', i);
@@ -141,7 +141,7 @@ List.prototype.loadItem = function (itemId, options, callback) {
 		options = null;
 	}
 	let url = Keystone.adminPath + '/api/' + this.path + '/' + itemId;
-	let query = qs.stringify(options);
+	const query = qs.stringify(options);
 	if (query.length) url += '?' + query;
 	xhr({
 		url: url,

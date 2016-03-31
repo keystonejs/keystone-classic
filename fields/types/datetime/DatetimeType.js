@@ -3,10 +3,10 @@ var DateType = require('../date/DateType');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
-var validators = require('../validators');
+var TextType = require('../text/TextType');
 
-var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'];
-
+// ISO_8601 is needed for the automatically created createdAt and updatedAt fields
+var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', moment.ISO_8601];
 /**
  * DateTime FieldType Constructor
  * @extends Field
@@ -32,14 +32,13 @@ function datetime (list, path, options) {
 }
 util.inherits(datetime, FieldType);
 
-/* Use text validators */
-datetime.prototype.validateRequiredInput = validators.text.required;
-
-/* Inherit from DateType prototype */
-datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
+/* Inherit generic methods */
 datetime.prototype.format = DateType.prototype.format;
 datetime.prototype.moment = DateType.prototype.moment;
-datetime.prototype.validateInput = DateType.prototype.validateInput;
+datetime.prototype.parse = DateType.prototype.parse;
+datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
+
+datetime.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /**
  * Get the value from a data object; may be simple or a pair of fields
@@ -54,12 +53,18 @@ datetime.prototype.getInputFromData = function (data) {
 };
 
 /**
- * Parses input with the correct moment version (normal or utc) and uses
- * either the provided input format or the default set
+ * Validates the input we get to be a valid date,
+ * undefined, null or an empty string
  */
-datetime.prototype.parse = function (input, format) {
-	var m = this.isUTC ? moment.utc : moment;
-	return m(input, format || parseFormats);
+datetime.prototype.validateInput = function (data, callback) {
+	var value = this.getInputFromData(data);
+	// If the value is null, undefined or an empty string
+	// bail early since updateItem sanitizes that just fine
+	var result = true;
+	if (value) {
+		result = this.parse(value, this.parseFormatString, true).isValid();
+	}
+	utils.defer(callback, result);
 };
 
 /**
@@ -84,16 +89,20 @@ datetime.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 datetime.prototype.updateItem = function (item, data, callback) {
-	var input = this.getInputFromData(data);
-	if (input === undefined) return process.nextTick(callback);
-	var newValue = this.parse(input);
-	var oldValue = item.get(this.path);
-	if (newValue.isValid()) {
-		if (!oldValue || !newValue.isSame(oldValue)) {
-			item.set(this.path, newValue.toDate());
+	// Get the values from the data
+	var value = this.getInputFromData(data);
+	if (value !== undefined) {
+		if (value !== null && value !== '') {
+			// If the value is not null, empty string or undefined, parse it
+			var newValue = this.parse(value, this.parseFormatString, true);
+			// If it's valid and not the same as the last value, save it
+			if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
+				item.set(this.path, newValue.toDate());
+			}
+		// If it's null or empty string, clear it out
+		} else {
+			item.set(this.path, null);
 		}
-	} else if (oldValue) {
-		item.set(this.path, null);
 	}
 	process.nextTick(callback);
 };

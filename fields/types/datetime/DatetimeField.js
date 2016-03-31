@@ -47,8 +47,8 @@ module.exports = Field.create({
 		return value ? this.moment(value).format(format) : '';
 	},
 
-	handleChange (dateValue, timeValue) {
-		var value = dateValue + ' ' + timeValue;
+	handleChange () {
+		var value = this.state.dateValue + ' ' + this.state.timeValue;
 		var datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
 		this.props.onChange({
 			path: this.props.path,
@@ -56,14 +56,14 @@ module.exports = Field.create({
 		});
 	},
 
-	dateChanged (value) {
+	dateChanged ({ value }) {
 		this.setState({ dateValue: value });
-		this.handleChange(value, this.state.timeValue);
+		this.handleChange();
 	},
 
-	timeChanged (event) {
-		this.setState({ timeValue: event.target.value });
-		this.handleChange(this.state.dateValue, event.target.value);
+	timeChanged (evt) {
+		this.setState({ timeValue: evt.target.value });
+		this.handleChange();
 	},
 
 	setNow () {
@@ -83,7 +83,6 @@ module.exports = Field.create({
 
 	renderUI () {
 		var input;
-		var fieldClassName = 'field-ui';
 		if (this.shouldRenderField()) {
 			input = (
 				<InputGroup>

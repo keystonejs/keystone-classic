@@ -4,26 +4,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import CurrentListStore from '../stores/CurrentListStore';
-import Columns from '../columns';
-import ConfirmationDialog from '../components/ConfirmationDialog';
-import CreateForm from '../components/CreateForm';
+import ConfirmationDialog from '../components/Forms/ConfirmationDialog';
+import CreateForm from '../components/Forms/CreateForm';
 import FlashMessages from '../components/FlashMessages';
 import Footer from '../components/Footer';
-import ItemsTable from '../components/ItemsTable';
-import ListColumnsForm from '../components/ListColumnsForm';
-import ListControl from '../components/ListControl';
-import ListDownloadForm from '../components/ListDownloadForm';
-import ListFilters from '../components/ListFilters';
-import ListFiltersAdd from '../components/ListFiltersAdd';
-import ListSort from '../components/ListSort';
-import MobileNavigation from '../components/MobileNavigation';
-import PrimaryNavigation from '../components/PrimaryNavigation';
-import SecondaryNavigation from '../components/SecondaryNavigation';
-import UpdateForm from '../components/UpdateForm';
+import ItemsTable from '../components/ItemsTable/ItemsTable';
+import ListColumnsForm from '../components/List/ListColumnsForm';
+import ListDownloadForm from '../components/List/ListDownloadForm';
+import ListFilters from '../components/List/ListFilters';
+import ListFiltersAdd from '../components/List/ListFiltersAdd';
+import ListSort from '../components/List/ListSort';
+import MobileNavigation from '../components/Navigation/MobileNavigation';
+import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
+import SecondaryNavigation from '../components/Navigation/SecondaryNavigation';
+import UpdateForm from '../components/Forms/UpdateForm';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
 import { plural } from '../utils';
-
-const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
 const ListView = React.createClass({
 	getInitialState () {
@@ -114,9 +110,9 @@ const ListView = React.createClass({
 		console.log('Update ALL the things!');
 	},
 	massDelete () {
-		let { checkedItems, list } = this.state;
-		let itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
-		let itemIds = Object.keys(checkedItems);
+		const { checkedItems, list } = this.state;
+		const itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
+		const itemIds = Object.keys(checkedItems);
 
 		this.setState({
 			confirmationDialog: {
@@ -188,24 +184,24 @@ const ListView = React.createClass({
 		// unless the KEYSTONE_DEV environment variable is set
 		if (!Keystone.devMode) return;
 
-		let { checkedItems, items, list, manageMode, pageSize } = this.state;
+		const { checkedItems, items, list, manageMode, pageSize } = this.state;
 		if (!items.count || (list.nodelete && list.noedit)) return;
 
-		let checkedItemCount = Object.keys(checkedItems).length;
-		let buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
+		const checkedItemCount = Object.keys(checkedItems).length;
+		const buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
 
 		// action buttons
-		let actionUpdateButton = !list.noedit ? (
+		const actionUpdateButton = !list.noedit ? (
 			<InputGroup.Section>
 				<Button onClick={this.toggleUpdateModal} disabled={!checkedItemCount}>Update</Button>
 			</InputGroup.Section>
 		) : null;
-		let actionDeleteButton = !list.nodelete ? (
+		const actionDeleteButton = !list.nodelete ? (
 			<InputGroup.Section>
 				<Button onClick={this.massDelete} disabled={!checkedItemCount}>Delete</Button>
 			</InputGroup.Section>
 		) : null;
-		let actionButtons = manageMode ? (
+		const actionButtons = manageMode ? (
 			<InputGroup.Section>
 				<InputGroup contiguous>
 					{actionUpdateButton}
@@ -215,12 +211,12 @@ const ListView = React.createClass({
 		) : null;
 
 		// select buttons
-		let selectAllButton = items.count > pageSize ? (
+		const selectAllButton = items.count > pageSize ? (
 			<InputGroup.Section>
 				<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
 			</InputGroup.Section>
 		) : null;
-		let selectButtons = manageMode ? (
+		const selectButtons = manageMode ? (
 			<InputGroup.Section>
 				<InputGroup contiguous>
 					{selectAllButton}
@@ -235,7 +231,7 @@ const ListView = React.createClass({
 		) : null;
 
 		// selected count text
-		let selectedCountText = manageMode ? (
+		const selectedCountText = manageMode ? (
 			<InputGroup.Section grow>
 				<span style={{ color: '#666', display: 'inline-block', lineHeight: '2.4em', margin: 1 }}>{checkedItemCount} selected</span>
 			</InputGroup.Section>
@@ -254,7 +250,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderPagination () {
-		let { currentPage, items, list, manageMode, pageSize } = this.state;
+		const { currentPage, items, list, manageMode, pageSize } = this.state;
 		if (manageMode || !items.count) return;
 
 		return (
@@ -272,13 +268,15 @@ const ListView = React.createClass({
 		);
 	},
 	renderHeader () {
-		let { items, list } = this.state;
+		const { items, list } = this.state;
 		return (
 			<div className="ListHeader">
 				<Container>
 					<h2 className="ListHeader__title">
 						{plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
-						<ListSort />
+						<ListSort
+							handleSortSelect={this.handleSortSelect}
+						/>
 					</h2>
 					<InputGroup className="ListHeader__bar">
 						{this.renderSearch()}
@@ -309,8 +307,8 @@ const ListView = React.createClass({
 
 	checkTableItem (item, e) {
 		e.preventDefault();
-		let newCheckedItems = { ...this.state.checkedItems };
-		let itemId = item.id;
+		const newCheckedItems = { ...this.state.checkedItems };
+		const itemId = item.id;
 		if (this.state.checkedItems[itemId]) {
 			delete newCheckedItems[itemId];
 		} else {
@@ -321,7 +319,7 @@ const ListView = React.createClass({
 		});
 	},
 	checkAllTableItems () {
-		let checkedItems = {};
+		const checkedItems = {};
 		this.state.items.results.forEach(item => {
 			checkedItems[item.id] = true;
 		});
@@ -370,6 +368,10 @@ const ListView = React.createClass({
 	// COMMON
 	// ==============================
 
+	handleSortSelect (path, inverted) {
+		if (inverted) path = '-' + path;
+		CurrentListStore.setActiveSort(path);
+	},
 	toggleCreateModal (visible) {
 		this.setState({
 			showCreateForm: visible,
@@ -405,7 +407,7 @@ const ListView = React.createClass({
 	renderActiveState () {
 		if (this.state.showBlankState) return null;
 
-		let containerStyle = {
+		const containerStyle = {
 			transition: 'max-width 160ms ease-out',
 			msTransition: 'max-width 160ms ease-out',
 			MozTransition: 'max-width 160ms ease-out',
@@ -421,14 +423,15 @@ const ListView = React.createClass({
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
 					<ItemsTable
-						deleteTableItem={this.deleteTableItem}
-						list={this.state.list}
-						columns={this.state.columns}
-						items={this.state.items}
-						manageMode={this.state.manageMode}
 						checkedItems={this.state.checkedItems}
-						rowAlert={this.state.rowAlert}
 						checkTableItem={this.checkTableItem}
+						columns={this.state.columns}
+						deleteTableItem={this.deleteTableItem}
+						handleSortSelect={this.handleSortSelect}
+						items={this.state.items}
+						list={this.state.list}
+						manageMode={this.state.manageMode}
+						rowAlert={this.state.rowAlert}
 					/>
 					{this.renderNoSearchResults()}
 				</Container>

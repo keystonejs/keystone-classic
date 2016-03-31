@@ -15,7 +15,7 @@ module.exports = {
 					if (result.error) {
 						res.send({ error: { message: result.error.message } });
 					} else {
-						res.send({ image: { url: result.url } });
+						res.send({ image: { url: (keystone.get('cloudinary secure') === true) ? result.secure_url : result.url } });
 					}
 				};
 

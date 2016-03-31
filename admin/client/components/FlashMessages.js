@@ -13,9 +13,9 @@ var FlashMessage = React.createClass({
 	renderMessage (message) {
 		if (typeof message === 'string') return <span>{message}</span>;
 
-		let title = message.title ? <h4>{message.title}</h4> : null;
-		let detail = message.detail ? <p>{message.detail}</p> : null;
-		let list = message.list ? (
+		const title = message.title ? <h4>{message.title}</h4> : null;
+		const detail = message.detail ? <p>{message.detail}</p> : null;
+		const list = message.list ? (
 			<ul style={{ marginBottom: 0 }}>
 				{message.list.map((item, i) => <li key={`i${i}`}>{item}</li>)}
 			</ul>

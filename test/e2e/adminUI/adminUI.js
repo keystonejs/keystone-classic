@@ -6,11 +6,18 @@ module.exports = {
 	},
 	cssSelector: {
 		allView: {
-			homeIconLink: '.octicon-home',
-			accessMenu: 'ul.app-nav:nth-child(2) > li:nth-child(2) > a:nth-child(1)',
-			fieldsMenu: 'ul.app-nav:nth-child(2) > li:nth-child(3) > a:nth-child(1)',
-			frontPageIconLink: '.octicon-globe',
-			logoutIconLink: '.octicon-sign-out',
+			homeIcon: '.primary-navbar [data-section-label="octicon-home"]',
+			homeIconLink: '.primary-navbar [data-section-label="octicon-home"] a',
+			accessMenu: '.primary-navbar [data-section-label="Access"]',
+			fieldsMenu: '.primary-navbar [data-section-label="Fields"]',
+			booleanFieldsSubmenu: '.secondary-navbar [data-list-path="booleans"]',
+			emailsFieldsSubmenu: '.secondary-navbar [data-list-path="emails"]',
+			namesFieldsSubmenu: '.secondary-navbar [data-list-path="names"]',
+			selectsFieldsSubmenu: '.secondary-navbar [data-list-path="selects"]',
+			frontPageIcon: '.primary-navbar [data-section-label="octicon-globe"]',
+			frontPageIconLink: '.primary-navbar [data-section-label="octicon-globe"] a',
+			logoutIcon: '.primary-navbar [data-section-label="octicon-sign-out"]',
+			logoutIconLink: '.primary-navbar [data-section-label="octicon-sign-out"] a',
 		},
 		signinView: {
 			id: '#signin-view',
@@ -24,30 +31,51 @@ module.exports = {
 			dashboardHeader: '.dashboard-heading',
 
 			// Dashboard's Access Group
-			dashboardAccessSubheading: 'div.dashboard-group:nth-child(1) > div:nth-child(1) > span:nth-child(2)',
-			usersTabUnderDashboardAccessSubheading: 'div.dashboard-group:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForUsersTabUnderDashboardAccessSubheading: 'div.dashboard-group:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForUsersTabUnderDashboardAccessSubheading: 'div.dashboard-group:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			dashboardAccessSubheading: '.dashboard-group__heading[data-section-label="Access"]',
+			// Users List Tab
+			usersTabUnderDashboardAccessSubheading: '.dashboard-group__list[data-list-path="users"]',
+			labelForUsersTabUnderDashboardAccessSubheading: '.dashboard-group__list[data-list-path="users"] .dashboard-group__list-label',
+			plusIconLinkForUsersTabUnderDashboardAccessSubheading: '.dashboard-group__list[data-list-path="users"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForUsersTabUnderDashboardAccessSubheading: '.dashboard-group__list[data-list-path="users"] .dashboard-group__list-count',
 
 			// Dashboard's Fields Group
-			dashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(1) > span:nth-child(2)',
-			nameFieldsTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForNameFieldsTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForNameFieldsTabUnderDashboardFieldsSubheading: 'div.dashboard-group:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			dashboardFieldsSubheading: '.dashboard-group__heading[data-section-label="Fields"]',
+			// Booleans List Tab
+			booleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"]',
+			labelForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] .dashboard-group__list-label',
+			plusIconLinkForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] .dashboard-group__list-count',
+			// Email List Tab
+			emailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"]',
+			labelForEmailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"] .dashboard-group__list-label',
+			plusIconLinkForEmailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForEmailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"] .dashboard-group__list-count',
+			// Names List Tab
+			namesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"]',
+			labelForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] .dashboard-group__list-label',
+			plusIconLinkForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] .dashboard-group__list-count',
+			// Selects List Tab
+			selectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"]',
+			labelForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-label',
+			plusIconLinkForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-count',
 
 			// Dashboard's Others Group
-			dashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(1) > span:nth-child(2)',
-			otherListsTabUnderDashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1)',
-			plusIconLinkForOtherListsTabUnderDashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(2)',
-			itemCountForOtherListsTabUnderDashboardOthersSubheading: 'div.dashboard-group:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1) > div:nth-child(2)',
+			dashboardOthersSubheading: '.dashboard-group__heading[data-section-label="Other"]',
+			// Other Lists Tab
+			otherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"]',
+			labelForOtherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"] .dashboard-group__list-label',
+			plusIconLinkForOtherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForOtherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"] .dashboard-group__list-count',
 		},
 		listView: {
 			id: '#list-view',
 			noItemsFoundNoText: '.BlankState__heading > span:nth-child(1)',
 			noItemsFoundListNameText: '.BlankState__heading > span:nth-child(2)',
 			noItemsFoundFoundText: '.BlankState__heading > span:nth-child(3)',
-			singleItemDeleteIcon: '.ItemList__control',
-			searchInputField: '.FormInput',
+			singleItemDeleteIcon: '.ItemList__control--delete',
+			searchInputField: '.ListHeader__searchbar-input',
 			searchInputFieldClearIcon: '.ListHeader__search__icon',
 			filterDropdown: '#listHeaderFilterButton',
 			columnDropdown: '#listHeaderColumnButton',
@@ -58,9 +86,9 @@ module.exports = {
 			paginationCount: '.Pagination__count',
 
 			// User List Column Headers
-			nameColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(1)',
-			emailColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(2)',
-			isAdminColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(3)',
+			nameColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(2)',
+			emailColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(3)',
+			isAdminColumnHeaderForUserList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(4)',
 
 			// Single Item User List Values
 			nameColumnValueForUserList: '.ItemList__value--name',
@@ -68,14 +96,14 @@ module.exports = {
 			isAdminColumnValueForUserList: '.octicon-check',
 
 			// Name Field List Column Headers
-			nameColumnHeaderForNameFieldsList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(1)',
+			nameColumnHeaderForNamesList: '.Table > thead:nth-child(2) > tr:nth-child(1) > th:nth-child(4)',
 
 			// Single Item Name Field List Values
-			nameColumnValueForNameFieldItemWhenListHasSingleItem: 'a.ItemList__value',
+			nameColumnValueForNameItemWhenListHasSingleItem: 'a.ItemList__value',
 
 			// Multi Item Name Field List Values
-			nameColumnValueForFirstNameFieldItemWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(1) > td:nth-child(2) > a:nth-child(1)',
-			nameColumnValueForSecondNameFieldItemWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(2) > td:nth-child(2) > a:nth-child(1)',
+			nameColumnValueForFirstNameItemWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(1) > td:nth-child(2) > a:nth-child(1)',
+			nameColumnValueForSecondNameItemWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(2) > td:nth-child(2) > a:nth-child(1)',
 
 			// Single Item List Delete Icon
 			deleteItemIconWhenListHasSingleItem: '.ItemList__control',
@@ -100,21 +128,235 @@ module.exports = {
 			itemResetButtonText: '.EditForm__footer button.Button:nth-child(2) > span:nth-child(1)',
 			itemDeleteButton: '.EditForm__footer button.Button:nth-child(3)',
 			itemDeleteButtonText: '.EditForm__footer button.Button:nth-child(3) > span:nth-child(1)',
+			flashMessage: '.Alert > span:nth-child(1)',
+
+			// The structure of the following fieldType JSON is as follows:
+			// 	fieldType: {
+			//		<field-type>: {
+			//			<list-used-in>: {
+			//				<field-name-within-list>: {
+			//					<field-path>:
+			//					...
+			//This allows for the flexibility of including a field type in any list and in as many fields of that list!
+			fieldType: {
+				bool: {
+					bool: {
+						name: {
+							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
+							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							button: '.EditForm-container .field-type-boolean:nth-child(5) label button',
+							label: '.EditForm-container .field-type-boolean:nth-child(5) label span',
+							value: '.EditForm-container .field-type-boolean:nth-child(5) label input[name="fieldA"]'
+						},
+						fieldB: {
+							button: '.EditForm-container .field-type-boolean:nth-child(6) label button',
+							label: '.EditForm-container .field-type-boolean:nth-child(6) label span',
+							value: '.EditForm-container .field-type-boolean:nth-child(6) label input[name="fieldB"]'
+						}
+					}
+				},
+				email: {
+					user: {
+						email: {
+							label: '.EditForm-container .field-type-email[for="email"] .FormLabel',
+							value: '.EditForm-container .field-type-email[for="email"] input[name="email"]',
+						},
+					},
+					email: {
+						name: {
+							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
+							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.EditForm-container .field-type-email[for="fieldA"] .FormLabel',
+							value: '.EditForm-container .field-type-email[for="fieldA"] input[name="fieldA"]',
+						},
+						fieldB: {
+							label: '.EditForm-container .field-type-email[for="fieldB"] .FormLabel',
+							value: '.EditForm-container .field-type-email[for="fieldB"] input[name="fieldB"]',
+						},
+					},
+				},
+				name: {
+					user: {
+						name: {
+							label: '.EditForm-container .field-type-name[for="name"] .FormLabel',
+							first: '.EditForm-container .field-type-name[for="name"] input[name="name.first"]',
+							firstPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="First name"]',
+							last: '.EditForm-container .field-type-name[for="name"] input[name="name.last"]',
+							lastPlaceholder: '.EditForm-container .field-type-name[for="name"] input[placeholder="Last name"]',
+						},
+					},
+					name: {
+						name: {
+							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
+							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.EditForm-container .field-type-name[for="fieldA"] .FormLabel',
+							first: '.EditForm-container .field-type-name[for="fieldA"] input[name="fieldA.first"]',
+							firstPlaceholder: '.EditForm-container .field-type-name[for="fieldA"] input[placeholder="First name"]',
+							last: '.EditForm-container .field-type-name[for="fieldA"] input[name="fieldA.last"]',
+							lastPlaceholder: '.EditForm-container .field-type-name[for="fieldA"] input[placeholder="Last name"]',
+						},
+						fieldB: {
+							label: '.EditForm-container .field-type-name[for="fieldB"] .FormLabel',
+							first: '.EditForm-container .field-type-name[for="fieldB"] input[name="fieldB.first"]',
+							firstPlaceholder: '.EditForm-container .field-type-name[for="fieldB"] input[placeholder="First name"]',
+							last: '.EditForm-container .field-type-name[for="fieldB"] input[name="fieldB.last"]',
+							lastPlaceholder: '.EditForm-container .field-type-name[for="fieldB"] input[placeholder="Last name"]',
+						},
+					},
+				},
+				password: {
+					user: {
+						password: {
+							label: '.EditForm-container .field-type-password[for="password"] .FormLabel',
+							value: '.EditForm-container .field-type-password[for="password"] input[name="password"]',
+							value_confirm: '.EditForm-container .field-type-password[for="password"] input[name="password_confirm"]',
+						},
+					},
+					password: {
+						name: {
+							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
+							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
+						},
+					},
+				},
+				select: {
+					select: {
+						name: {
+							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
+							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.EditForm-container .field-type-select[for="fieldA"] .FormLabel',
+							inputField: '.EditForm-container .field-type-select[for="fieldA"] .Select',
+							inputValue: '.EditForm-container .field-type-select[for="fieldA"] .Select-value-label',
+							placeholder: '.EditForm-container .field-type-name[for="fieldA"] .Select-placeholder',
+							dropdownArrow: '.EditForm-container .field-type-name[for="fieldA"] .Select-arrow',
+							options: '.EditForm-container .field-type-name[for="fieldA"] .Select-menu-outer',
+						},
+						fieldB: {
+							label: '.EditForm-container .field-type-select[for="fieldB"] .FormLabel',
+							inputField: '.EditForm-container .field-type-select[for="fieldB"] .Select',
+							inputValue: '.EditForm-container .field-type-select[for="fieldB"] .Select-value-label',
+							placeholder: '.EditForm-container .field-type-name[for="fieldB"] .Select-placeholder',
+							dropdownArrow: '.EditForm-container .field-type-name[for="fieldB"] .Select-arrow',
+							options: '.EditForm-container .field-type-name[for="fieldB"] .Select-menu-outer',
+						},
+					},
+				},
+			},
 		},
 		initialModalView: {
 			id: '.Modal-content',
 			buttonCreate: '.Modal__footer > button:nth-child(1)',
-			field: {
+
+			// The structure of the following fieldType JSON is as follows:
+			// 	fieldType: {
+			//		<field-type>: {
+			//			<list-used-in>: {
+			//				<field-name-within-list>: {
+			//					<field-path>:
+			//					...
+			//This allows for the flexibility of including a field type in any list and in as many fields of that list!
+			fieldType: {
+				bool: {
+					bool: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							button: '.Modal-dialog .field-type-boolean button',
+							label: '.Modal-dialog .field-type-boolean span',
+							value: '.Modal-dialog .field-type-boolean input[name="fieldA"]',
+						}
+					}
+				},
+				email: {
+					user: {
+						email: {
+							label: '.Modal-dialog .field-type-email[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-email[for="email"] input[name="email"]',
+						},
+					},
+					email: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.Modal-dialog .field-type-email[for="fieldA"] .FormLabel',
+							value: '.Modal-dialog .field-type-email[for="fieldA"] input[name="fieldA"]',
+						},
+					},
+				},
 				name: {
-					label: '.FormLabel',
-					first: '.is-open .Modal-content input[name="name.first"]',
-					firstPlaceholder: '.is-open .Modal-content input[name="name.first"],input[placeholder="First name"]',
-					last: '.is-open .Modal-content input[name="name.last"]',
-					lastPlaceholder: '.is-open .Modal-content input[name="name.first"],input[placeholder="Last name"]',
+					name: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.Modal-dialog .field-type-name[for="fieldA"] .FormLabel',
+							first: '.Modal-dialog .field-type-name[for="fieldA"] input[name="fieldA.first"]',
+							firstPlaceholder: '.Modal-dialog .field-type-name[for="fieldA"] input[placeholder="First name"]',
+							last: '.Modal-dialog .field-type-name[for="fieldA"] input[name="fieldA.last"]',
+							lastPlaceholder: '.Modal-dialog .field-type-name[for="fieldA"] input[placeholder="Last name"]',
+						},
+					},
+					user: {
+						name: {
+							label: '.Modal-dialog .field-type-name[for="name"] .FormLabel',
+							first: '.Modal-dialog .field-type-name[for="name"] input[name="name.first"]',
+							firstPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="First name"]',
+							last: '.Modal-dialog .field-type-name[for="name"] input[name="name.last"]',
+							lastPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="Last name"]',
+						},
+					},
+				},
+				password: {
+					user: {
+						password: {
+							label: '.Modal-dialog .field-type-password[for="password"] .FormLabel',
+							value: '.Modal-dialog .field-type-password[for="password"] input[name="password"]',
+							value_confirm: '.Modal-dialog .field-type-password[for="password"] input[name="password_confirm"]',
+						},
+					},
+					password: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+					},
+				},
+				select: {
+					select: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.Modal-dialog .field-type-select[for="fieldA"] .FormLabel',
+							inputField: '.Modal-dialog .field-type-select[for="fieldA"] .Select',
+							inputValue: '.Modal-dialog .field-type-select[for="fieldA"] .Select-value-label',
+							placeholder: '.Modal-dialog .field-type-name[for="fieldA"] .Select-placeholder',
+							dropdownArrow: '.Modal-dialog .field-type-name[for="fieldA"] .Select-arrow-zone',
+							optionOne: '.Modal-dialog .field-type-name[for="fieldA"] .Select-menu-outer option[value="One"]',
+						},
+					},
 				},
 			},
 		},
 		deleteConfirmationModalView: {
+			id: '.Modal-content',
+			buttonDelete: '.Button--danger',
+		},
+		resetConfirmationModalView: {
 			id: '.Modal-content',
 			buttonDelete: '.Button--danger',
 		},

@@ -2,7 +2,7 @@ var FieldType = require('../Type');
 var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
-var validators = require('../validators');
+
 
 /**
  * Number FieldType Constructor
@@ -21,26 +21,51 @@ function number (list, path, options) {
 }
 util.inherits(number, FieldType);
 
-/* Use number validators */
-number.prototype.validateInput = validators.number.input;
-number.prototype.validateRequiredInput = validators.number.required;
+number.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value === undefined || typeof value === 'number' || value === null;
+	if (typeof value === 'string') {
+		if (value === '') {
+			result = true;
+		} else {
+			value = utils.number(value);
+			result = !isNaN(value);
+		}
+	}
+	utils.defer(callback, result);
+};
+
+number.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = !!(value || typeof value === 'number');
+	if (value === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
+};
 
 /**
  * Add filters to a query
  */
-number.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+number.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'equals' && !filter.value) {
-		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
-		return;
+		query[this.path] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
+		return query;
 	}
 	if (filter.mode === 'between') {
 		var min = utils.number(filter.value.min);
 		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
-			query[this.path] = filter.inverted ? { $gte: max, $lte: min } : { $gte: min, $lte: max };
+			if (filter.inverted) {
+				var gte = {}; gte[this.path] = { $gt: max };
+				var lte = {}; lte[this.path] = { $lt: min };
+				query.$or = [gte, lte];
+			} else {
+				query[this.path] = { $gte: min, $lte: max };
+			}
 		}
-		return;
+		return query;
 	}
 	var value = utils.number(filter.value);
 	if (!isNaN(value)) {
@@ -51,7 +76,7 @@ number.prototype.addFilterToQuery = function (filter, query) {
 			query[this.path] = filter.inverted ? { $gt: value } : { $lt: value };
 		}
 		else {
-			query[this.path] = value;
+			query[this.path] = filter.inverted ? { $ne: value } : value;
 		}
 	}
 	return query;
@@ -65,7 +90,7 @@ number.prototype.format = function (item, format) {
 	if (format || this.formatString) {
 		return (typeof value === 'number') ? numeral(value).format(format || this.formatString) : '';
 	} else {
-		return value || '';
+		return value || value === 0 ? String(value) : '';
 	}
 };
 

@@ -8,6 +8,7 @@ var marked = require('marked');
 var Path = require('../../lib/path');
 var utils = require('keystone-utils');
 var evalDependsOn = require('../utils/evalDependsOn.js');
+var definePrototypeGetters = require('../utils/definePrototypeGetters.js');
 var debug = require('debug')('keystone:fields:types:Type');
 
 var DEFAULT_OPTION_KEYS = [
@@ -216,18 +217,20 @@ Field.prototype.getPreSaveWatcher = function () {
 module.exports = Field;
 
 /** Getter properties for the Field prototype */
-Object.defineProperty(Field.prototype, 'size', { get: function () { return this.getSize(); } });
-Object.defineProperty(Field.prototype, 'initial', { get: function () { return this.options.initial || false; } });
-Object.defineProperty(Field.prototype, 'required', { get: function () { return this.options.required || false; } });
-Object.defineProperty(Field.prototype, 'note', { get: function () { return this.options.note || ''; } });
-Object.defineProperty(Field.prototype, 'col', { get: function () { return this.options.col || false; } });
-Object.defineProperty(Field.prototype, 'noedit', { get: function () { return this.options.noedit || false; } });
-Object.defineProperty(Field.prototype, 'nocol', { get: function () { return this.options.nocol || false; } });
-Object.defineProperty(Field.prototype, 'nosort', { get: function () { return this.options.nosort || false; } });
-Object.defineProperty(Field.prototype, 'nofilter', { get: function () { return this.options.nofilter || false; } });
-Object.defineProperty(Field.prototype, 'collapse', { get: function () { return this.options.collapse || false; } });
-Object.defineProperty(Field.prototype, 'hidden', { get: function () { return this.options.hidden || false; } });
-Object.defineProperty(Field.prototype, 'dependsOn', { get: function () { return this.options.dependsOn || false; } });
+definePrototypeGetters(Field, {
+	size: function () { return this.getSize(); },
+	initial: function () { return this.options.initial || false; },
+	required: function () { return this.options.required || false; },
+	note: function () { return this.options.note || ''; },
+	col: function () { return this.options.col || false; },
+	noedit: function () { return this.options.noedit || false; },
+	nocol: function () { return this.options.nocol || false; },
+	nosort: function () { return this.options.nosort || false; },
+	nofilter: function () { return this.options.nofilter || false; },
+	collapse: function () { return this.options.collapse || false; },
+	hidden: function () { return this.options.hidden || false; },
+	dependsOn: function () { return this.options.dependsOn || false; },
+});
 
 /**
  * Default method to register the field on the List's Mongoose Schema.
@@ -277,7 +280,9 @@ Field.prototype.underscoreMethod = function (path, fn) {
  * @api public
  */
 Field.prototype.format = function (item) {
-	return item.get(this.path);
+	var value = item.get(this.path);
+	if (value === undefined) return '';
+	return value;
 };
 
 /**

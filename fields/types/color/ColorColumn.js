@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
+import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
 
 var ColorColumn = React.createClass({
 	displayName: 'ColorColumn',
@@ -9,10 +9,10 @@ var ColorColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value) return null;
 
-		let colorBoxStyle = {
+		const colorBoxStyle = {
 			backgroundColor: value,
 			borderRadius: 3,
 			display: 'inline-block',

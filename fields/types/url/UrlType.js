@@ -1,7 +1,7 @@
 var FieldType = require('../Type');
 var TextType = require('../text/TextType');
 var util = require('util');
-var validators = require('../validators');
+
 
 /**
  * URL FieldType Constructor
@@ -11,17 +11,16 @@ var validators = require('../validators');
 function url (list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format'];
-	this._formatUrl = options.format || removeProtocolPrefix;
 	url.super_.call(this, list, path, options);
 }
 util.inherits(url, FieldType);
 
-/* Use text validators */
+
 // TODO: is it worth adding URL specific validation logic? it would have to be
 // robust so as to not trigger invalid cases on valid input, might be so
 // flexible that it's not worth adding.
-url.prototype.validateInput = validators.text.input;
-url.prototype.validateRequiredInput = validators.text.required;
+url.prototype.validateInput = TextType.prototype.validateInput;
+url.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /* Inherit from TextType prototype */
 url.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
@@ -31,8 +30,14 @@ url.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
  * which strips the leading protocol from the value for simpler display
  */
 url.prototype.format = function (item) {
-	var url = (item.get(this.path) || '');
-	return this._formatUrl(url);
+	var url = item.get(this.path) || '';
+	if (this.options.format === false) {
+		return url;
+	} else if (typeof this.options.format === 'function') {
+		return this.options.format(url);
+	} else {
+		return removeProtocolPrefix(url);
+	}
 };
 
 /**

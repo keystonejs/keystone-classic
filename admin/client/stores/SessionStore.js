@@ -7,7 +7,7 @@ var csrfHeaders = {
 	[Keystone.csrf_header_key]: Keystone.csrf_token_value,
 };
 
-let { user, adminPath } = Keystone;
+const { user, adminPath } = Keystone;
 
 function callbackResponse (callback) {
 	return function (err, resp, body) {

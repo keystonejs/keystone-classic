@@ -6,7 +6,9 @@ var super_ = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
+/*
 var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
+*/
 
 function getEmptyValue () {
 	return {
@@ -177,7 +179,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 			return exists(this);
 		},
 		folder: function () {
-			return field.folder();
+			return field.getFolder();
 		},
 		src: function (options) {
 			return src(this, options);
@@ -227,7 +229,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		 */
 		delete: function () {
 			var _this = this;
-			var promise = new Promise(function (resolve, reject) {
+			var promise = new Promise(function (resolve) {
 				cloudinary.uploader.destroy(_this.get(paths.public_id), function (result) {
 					resolve(result);
 				});
@@ -241,7 +243,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		 * @api public
 		 */
 		upload: function (file, options) {
-			var promise = new Promise(function (resolve, reject) {
+			var promise = new Promise(function (resolve) {
 				cloudinary.uploader.upload(file, function (result) {
 					resolve(result);
 				}, options);
@@ -326,8 +328,12 @@ cloudinaryimage.prototype.inputIsValid = function () {
  */
 cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 	var field = this;
-	var paths = this.paths;
 	var value = this.getValueFromData(data);
+
+	// Allow value to be retrieved from the legacy `_upload` path if it is undefined
+	if (value === undefined) {
+		value = this.getValueFromData(data, '_upload');
+	}
 
 	// Allow field value reset
 	if (value === '' || value === 'null' || (typeof value === 'object' && !Object.keys(value).length)) {

@@ -94,7 +94,7 @@ var Keystone = function () {
 	};
 };
 
-_.extend(Keystone.prototype, require('./lib/core/options')());
+_.extend(Keystone.prototype, require('./lib/core/options'));
 
 
 Keystone.prototype.prefixModel = function (key) {

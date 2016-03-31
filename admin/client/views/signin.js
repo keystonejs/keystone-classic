@@ -21,15 +21,15 @@ var SigninView = React.createClass({
 		};
 	},
 	componentDidMount () {
-		if (this.state.signedOut && window.history.replaceState) {
-			history.replaceState({}, window.location.pathname);
+		if (this.state.signedOut && window.history.replace) {
+			history.replace({}, window.location.pathname);
 		}
 		if (this.refs.email) {
 			ReactDOM.findDOMNode(this.refs.email).select();
 		}
 	},
 	handleInputChange (e) {
-		let newState = {};
+		const newState = {};
 		newState[e.target.name] = e.target.value;
 		this.setState(newState);
 	},
@@ -87,7 +87,7 @@ var SigninView = React.createClass({
 	},
 	renderUserInfo () {
 		if (!this.props.user) return null;
-		let openKeystoneButton = this.props.userCanAccessKeystone ? <Button href={Keystone.adminPath} type="primary">Open Keystone</Button> : null;
+		const openKeystoneButton = this.props.userCanAccessKeystone ? <Button href={Keystone.adminPath} type="primary">Open Keystone</Button> : null;
 		return (
 			<div className="auth-box__col">
 				<p>Hi {this.props.user.name.first},</p>
@@ -128,7 +128,7 @@ var SigninView = React.createClass({
 		);
 	},
 	render () {
-		let boxClassname = classnames('auth-box', {
+		const boxClassname = classnames('auth-box', {
 			'auth-box--has-errors': this.state.isAnimating,
 		});
 		return (

@@ -2,18 +2,18 @@ import async from 'async';
 import React from 'react';
 import xhr from 'xhr';
 
-import { Button, FormField, FormInput, InputGroup, SegmentedControl } from 'elemental';
+import { FormField, FormInput, SegmentedControl } from 'elemental';
 
-import PopoutList from '../../../admin/client/components/PopoutList';
+import PopoutList from '../../../admin/client/components/Popout/PopoutList';
 
-const TOGGLE_OPTIONS = [
+const INVERTED_OPTIONS = [
 	{ label: 'Linked To', value: false },
 	{ label: 'NOT Linked To', value: true },
 ];
 
 function getDefaultValue () {
 	return {
-		inverted: TOGGLE_OPTIONS[0].value,
+		inverted: INVERTED_OPTIONS[0].value,
 		value: [],
 	};
 }
@@ -97,8 +97,8 @@ var RelationshipFilter = React.createClass({
 		return parts.join('&');
 	},
 	loadSearchResults (thenPopulateValue) {
-		let searchString = this.state.searchString;
-		let filters = this.buildFilters();
+		const searchString = this.state.searchString;
+		const filters = this.buildFilters();
 		xhr({
 			url: Keystone.adminPath + '/api/' + this.props.field.refList.path + '?basic&search=' + searchString + '&' + filters,
 			responseType: 'json',
@@ -134,18 +134,18 @@ var RelationshipFilter = React.createClass({
 		this.setState({ searchString: e.target.value }, this.loadSearchResults);
 	},
 	selectItem (item) {
-		let value = this.props.filter.value.concat(item.id);
+		const value = this.props.filter.value.concat(item.id);
 		this.updateFilter({ value });
 	},
 	removeItem (item) {
-		let value = this.props.filter.value.filter(i => { return i !== item.id; });
+		const value = this.props.filter.value.filter(i => { return i !== item.id; });
 		this.updateFilter({ value });
 	},
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
 	renderItems (items, selected) {
-		let itemIconHover = selected ? 'x' : 'check';
+		const itemIconHover = selected ? 'x' : 'check';
 
 		return items.map((item, i) => {
 			return (
@@ -163,15 +163,15 @@ var RelationshipFilter = React.createClass({
 		});
 	},
 	render () {
-		let selectedItems = this.state.selectedItems;
-		let searchResults = this.state.searchResults.filter(i => {
+		const selectedItems = this.state.selectedItems;
+		const searchResults = this.state.searchResults.filter(i => {
 			return this.props.filter.value.indexOf(i.id) === -1;
 		});
-		let placeholder = this.isLoading() ? 'Loading...' : 'Find a ' + this.props.field.label + '...';
+		const placeholder = this.isLoading() ? 'Loading...' : 'Find a ' + this.props.field.label + '...';
 		return (
 			<div ref="container">
 				<FormField>
-					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.props.filter.inverted} onChange={this.toggleInverted} />
+					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={this.props.filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
 					<FormInput autofocus ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={placeholder} />

@@ -2,6 +2,8 @@ var FieldType = require('../Type');
 var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
+var addPresenceToQuery = require('../../utils/addPresenceToQuery');
+var DateType = require('../date/DateType');
 
 /**
  * Date FieldType Constructor
@@ -16,7 +18,7 @@ function datearray (list, path, options) {
 	this.parseFormatString = options.parseFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
 	if (this.formatString && typeof this.formatString !== 'string') {
-		throw new Error('FieldType.Date: options.format must be a string.');
+		throw new Error('FieldType.DateArray: options.format must be a string.');
 	}
 	this.separator = options.separator || ' | ';
 	datearray.super_.call(this, list, path, options);
@@ -42,12 +44,20 @@ datearray.prototype.format = function (item, format, separator) {
 datearray.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = true;
-	if (value !== undefined) {
+	if (value !== undefined && value !== null && value !== '') {
 		if (!Array.isArray(value)) {
 			value = [value];
 		}
 		for (var i = 0; i < value.length; i++) {
-			if (!moment(value[i], this.parseFormatString).isValid()) {
+			var currentValue;
+			// If we pass it an epoch, parse it without the format string
+			if (typeof value[i] === 'number') {
+				currentValue = moment(value[i]);
+			} else {
+				currentValue = moment(value[i], this.parseFormatString);
+			}
+			// If moment does not think it's a valid date, invalidate
+			if (!currentValue.isValid()) {
 				result = false;
 				break;
 			}
@@ -62,14 +72,57 @@ datearray.prototype.validateInput = function (data, callback) {
 datearray.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
+	// If the field is undefined but has a value saved already, validate
 	if (value === undefined) {
 		if (item.get(this.path) && item.get(this.path).length) {
 			result = true;
 		}
-	} else if (typeof value === 'string' || typeof value === 'number' || Array.isArray(value) && value.length) {
-		result = true;
+	}
+	if (typeof value === 'string' || typeof value === 'number') {
+		if (moment(value).isValid()) {
+			result = true;
+		}
+	// If it's an array of only dates and/or dateify-able data, validate
+	} else if (Array.isArray(value)) {
+		var invalidContent = false;
+		for (var i = 0; i < value.length; i++) {
+			var currentValue;
+			// If we pass it an epoch, parse it without the format string
+			if (typeof value[i] === 'number') {
+				currentValue = moment(value[i]);
+			} else {
+				currentValue = moment(value[i], this.parseFormatString);
+			}
+			// If even a single item is not a valid date, invalidate
+			if (!currentValue.isValid()) {
+				invalidContent = true;
+				break;
+			}
+		}
+		if (invalidContent === false) {
+			result = true;
+		}
 	}
 	utils.defer(callback, result);
+};
+
+/**
+ * Add filters to a query
+ *
+ * @param {Object} filter 			   		The data from the frontend
+ * @param {String} filter.mode  	   		The filter mode, either one of "on",
+ *                                     		"after", "before" or "between"
+ * @param {String} [filter.presence='some'] The presence mode, either on of
+ *                                          "none" and "some". Default: 'some'
+ * @param {String|Object} filter.value 		The value that is filtered for
+ */
+datearray.prototype.addFilterToQuery = function (filter) {
+	var dateTypeAddFilterToQuery = DateType.prototype.addFilterToQuery.bind(this);
+	var query = dateTypeAddFilterToQuery(filter);
+	if (query[this.path]) {
+		query[this.path] = addPresenceToQuery(filter.presence || 'some', query[this.path]);
+	}
+	return query;
 };
 
 /**

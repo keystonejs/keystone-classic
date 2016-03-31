@@ -1,14 +1,14 @@
 var FieldType = require('../Type');
 var marked = require('marked');
 var util = require('util');
-var validators = require('../validators');
+var TextType = require('../text/TextType');
+var utils = require('keystone-utils');
 
 /**
  * Markdown FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function markdown (list, path, options) {
 	this._defaultSize = 'full';
 
@@ -22,17 +22,16 @@ function markdown (list, path, options) {
 }
 util.inherits(markdown, FieldType);
 
-/* Use text validators */
-markdown.prototype.validateInput = validators.text.input;
-markdown.prototype.validateRequiredInput = validators.text.required;
+
+markdown.prototype.validateInput = TextType.prototype.validateInput;
+markdown.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
+
 
 /**
  * Registers the field on the List's Mongoose Schema.
  *
  * Adds String properties for .md and .html markdown, and a setter for .md
  * that generates html when it is updated.
- *
- * @api public
  */
 markdown.prototype.addToSchema = function () {
 
@@ -68,9 +67,30 @@ markdown.prototype.addToSchema = function () {
 };
 
 /**
+ * Add filters to a query (this is copy & pasted from the text field, with
+ * the only difference being that the path isn't this.path but this.paths.md)
+ */
+markdown.prototype.addFilterToQuery = function (filter) {
+	var query = {};
+	if (filter.mode === 'exactly' && !filter.value) {
+		query[this.paths.md] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
+		return query;
+	}
+	var value = utils.escapeRegExp(filter.value);
+	if (filter.mode === 'beginsWith') {
+		value = '^' + value;
+	} else if (filter.mode === 'endsWith') {
+		value = value + '$';
+	} else if (filter.mode === 'exactly') {
+		value = '^' + value + '$';
+	}
+	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
+	query[this.paths.md] = filter.inverted ? { $not: value } : value;
+	return query;
+};
+
+/**
  * Formats the field value
- *
- * @api public
  */
 markdown.prototype.format = function (item) {
 	return item.get(this.paths.html);
@@ -90,8 +110,6 @@ markdown.prototype.inputIsValid = function (data, required, item) {
 
 /**
  * Detects whether the field has been modified
- *
- * @api public
  */
 markdown.prototype.isModified = function (item) {
 	return item.isModified(this.paths.md);
@@ -101,8 +119,6 @@ markdown.prototype.isModified = function (item) {
  * Updates the value for this field in the item from a data object
  *
  * Will accept either the field path, or paths.md
- *
- * @api public
  */
 markdown.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);

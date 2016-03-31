@@ -19,7 +19,7 @@ module.exports = function (keystone, app, created, callback) {
 	var port = keystone.get('ssl port') || 3001;
 	var message = (ssl === 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
 
-	var options = {};
+	var options = keystone.get('https server options') || {};
 	if (keystone.get('ssl cert') && fs.existsSync(keystone.getPath('ssl cert'))) {
 		options.cert = fs.readFileSync(keystone.getPath('ssl cert'));
 	}

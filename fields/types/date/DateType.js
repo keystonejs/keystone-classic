@@ -2,14 +2,13 @@ var FieldType = require('../Type');
 var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
-var validators = require('../validators');
+var TextType = require('../text/TextType');
 
 /**
  * Date FieldType Constructor
  * @extends Field
  * @api public
  */
-
 function date (list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
@@ -27,14 +26,14 @@ function date (list, path, options) {
 }
 util.inherits(date, FieldType);
 
-/* Use text validators */
-date.prototype.validateRequiredInput = validators.text.required;
+
+date.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /**
  * Add filters to a query
  */
-date.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+date.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'between') {
 		if (filter.after && filter.before) {
 			filter.after = moment(filter.after);
@@ -92,19 +91,25 @@ date.prototype.moment = function (item) {
  * Parses input with the correct moment version (normal or utc) and uses
  * either the provided input format or the default for the field
  */
-date.prototype.parse = function (input, format) {
+date.prototype.parse = function (value, format, strict) {
 	var m = this.isUTC ? moment.utc : moment;
-	return m(input, format || this.parseFormatString);
+	// TODO Check should maybe be if (typeof value === 'string')
+	// use the parseFormatString. Ever relevant?
+	if (typeof value === 'number' || value instanceof Date) {
+		return m(value);
+	} else {
+		return m(value, format || this.parseFormatString, strict);
+	}
 };
 
 /**
  * Asynchronously confirms that the provided date is valid
  */
 date.prototype.validateInput = function (data, callback) {
-	var input = this.getInputFromData(data);
+	var value = this.getValueFromData(data);
 	var result = true;
-	if (input) {
-		result = this.parse(input).isValid();
+	if (value) {
+		result = this.parse(value).isValid();
 	}
 	utils.defer(callback, result);
 };
@@ -131,16 +136,16 @@ date.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object
  */
 date.prototype.updateItem = function (item, data, callback) {
-	if (!(this.path in data)) {
-		return process.nextTick(callback);
-	}
-	var m = this.isUTC ? moment.utc : moment;
-	var newValue = m(data[this.path], this.parseFormatString);
-	if (newValue.isValid()) {
-		if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
+	var value = this.getValueFromData(data);
+	if (value !== null && value !== '') {
+		// If the value is not null, empty string or undefined, parse it
+		var newValue = this.parse(value);
+		// If it's valid and not the same as the last value, save it
+		if (newValue.isValid() && (!item.get(this.path) || !newValue.isSame(item.get(this.path)))) {
 			item.set(this.path, newValue.toDate());
 		}
-	} else if (item.get(this.path)) {
+	} else {
+		// If it's null or empty string, clear it out
 		item.set(this.path, null);
 	}
 	process.nextTick(callback);
