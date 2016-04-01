@@ -68,7 +68,11 @@ const ListView = React.createClass({
 	// ==============================
 	// HEADER
 	// ==============================
-
+	onCreate (item) {
+		// Redirect to newly created item path
+		let list = this.state.list;
+		top.location.href = `${Keystone.adminPath}/${list.path}/${item.id}`;
+	},
 	updateSearch (e) {
 		clearTimeout(this._searchTimeout);
 		this.setState({
@@ -490,6 +494,7 @@ const ListView = React.createClass({
 					isOpen={this.state.showCreateForm}
 					list={this.state.list}
 					onCancel={() => this.toggleCreateModal(false)}
+					onCreate={(item) => this.onCreate(item)}
 					values={this.props.createFormData} />
 				<UpdateForm
 					isOpen={this.state.showUpdateForm}

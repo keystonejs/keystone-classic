@@ -34,6 +34,11 @@ var ItemView = React.createClass({
 			this.setState({ itemData });
 		});
 	},
+	onCreate (item) {
+		// Redirect to newly created item path
+		let list = this.props.list;
+		top.location.href = `${Keystone.adminPath}/${list.path}/${item.id}`;
+	},
 	toggleCreate (visible) {
 		this.setState({
 			createIsOpen: visible,
@@ -85,7 +90,8 @@ var ItemView = React.createClass({
 						<CreateForm
 							list={this.props.list}
 							isOpen={this.state.createIsOpen}
-							onCancel={() => this.toggleCreate(false)} />
+							onCancel={() => this.toggleCreate(false)}
+							onCreate={(item) => this.onCreate(item)} />
 						<FlashMessages
 							messages={this.props.messages} />
 						<EditForm
