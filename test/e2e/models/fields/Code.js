@@ -1,7 +1,7 @@
 var keystone = require('../../../../index.js');
 var Types = keystone.Field.Types;
 
-var Email = new keystone.List('Email', {
+var Code = new keystone.List('Code', {
 	autokey: {
 		path: 'key',
 		from: 'name',
@@ -10,7 +10,7 @@ var Email = new keystone.List('Email', {
 	track: true,
 });
 
-Email.add({
+Code.add({
 	name: {
 		type: String,
 		initial: true,
@@ -18,17 +18,17 @@ Email.add({
 		index: true,
 	},
 	fieldA: {
-		type: Types.Email,
+		type: Types.Code,
 		initial: true,
-		index: true,
+		height: 200,
 	},
 	fieldB: {
-		type: Types.Email,
-		index: true,
+		type: Types.Code,
+		height: 200,
 	},
 });
 
-Email.defaultColumns = 'name, fieldA, fieldB';
-Email.register();
+Code.defaultColumns = 'name, fieldA, fieldB';
+Code.register();
 
-module.exports = Email;
+module.exports = Code;

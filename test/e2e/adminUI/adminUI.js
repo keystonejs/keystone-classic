@@ -45,6 +45,11 @@ module.exports = {
 			labelForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] .dashboard-group__list-label',
 			plusIconLinkForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] a.dashboard-group__list-create.octicon.octicon-plus',
 			itemCountForBooleansTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="booleans"] .dashboard-group__list-count',
+			// Code List Tab
+			codesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="codes"]',
+			labelForCodesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="codes"] .dashboard-group__list-label',
+			plusIconLinkForCodesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="codes"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForCodesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="codes"] .dashboard-group__list-count',
 			// Email List Tab
 			emailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"]',
 			labelForEmailsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="emails"] .dashboard-group__list-label',
@@ -156,6 +161,24 @@ module.exports = {
 							value: '.EditForm-container .field-type-boolean:nth-child(6) label input[name="fieldB"]'
 						}
 					}
+				},
+				code: {
+					code: {
+						name: {
+							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
+							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.EditForm-container .field-type-code[for="fieldA"] .FormLabel',
+							lineNumber: '.EditForm-container .field-type-code[for="fieldA"] .CodeMirror-linenumber',
+							codeMirror: '.EditForm-container .field-type-code[for="fieldA"] .CodeMirror-container',
+						},
+						fieldB: {
+							label: '.EditForm-container .field-type-code[for="fieldB"] .FormLabel',
+							lineNumber: '.EditForm-container .field-type-code[for="fieldB"] .CodeMirror-linenumber',
+							codeMirror: '.EditForm-container .field-type-code[for="fieldB"] .CodeMirror-container',
+						},
+					},
 				},
 				email: {
 					user: {
@@ -276,6 +299,19 @@ module.exports = {
 							value: '.Modal-dialog .field-type-boolean input[name="fieldA"]',
 						}
 					}
+				},
+				code: {
+					code: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.Modal-dialog .field-type-code[for="fieldA"] .FormLabel',
+							lineNumber: '.Modal-dialog .field-type-code[for="fieldA"] .CodeMirror-linenumber',
+							codeMirror: '.Modal-dialog .field-type-code[for="fieldA"] .CodeMirror-container',
+						},
+					},
 				},
 				email: {
 					user: {
