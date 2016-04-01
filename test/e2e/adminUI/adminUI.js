@@ -151,14 +151,14 @@ module.exports = {
 							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
 						},
 						fieldA: {
-							button: '.EditForm-container .field-type-boolean:nth-child(5) label button',
-							label: '.EditForm-container .field-type-boolean:nth-child(5) label span',
-							value: '.EditForm-container .field-type-boolean:nth-child(5) label input[name="fieldA"]'
+							button: '.EditForm-container .field-type-boolean[for="fieldA"] button',
+							label: '.EditForm-container .field-type-boolean[for="fieldA"] span',
+							value: '.EditForm-container .field-type-boolean[for="fieldA"] input[name="fieldA"]'
 						},
 						fieldB: {
-							button: '.EditForm-container .field-type-boolean:nth-child(6) label button',
-							label: '.EditForm-container .field-type-boolean:nth-child(6) label span',
-							value: '.EditForm-container .field-type-boolean:nth-child(6) label input[name="fieldB"]'
+							button: '.EditForm-container .field-type-boolean[for="fieldB"] button',
+							label: '.EditForm-container .field-type-boolean[for="fieldB"] span',
+							value: '.EditForm-container .field-type-boolean[for="fieldB"] input[name="fieldB"]'
 						}
 					}
 				},
@@ -294,9 +294,9 @@ module.exports = {
 							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
 						},
 						fieldA: {
-							button: '.Modal-dialog .field-type-boolean button',
-							label: '.Modal-dialog .field-type-boolean span',
-							value: '.Modal-dialog .field-type-boolean input[name="fieldA"]',
+							button: '.Modal-dialog .field-type-boolean[for="fieldA"] button',
+							label: '.Modal-dialog .field-type-boolean[for="fieldA"] span',
+							value: '.Modal-dialog .field-type-boolean[for="fieldA"] input[name="fieldA"]',
 						}
 					}
 				},
