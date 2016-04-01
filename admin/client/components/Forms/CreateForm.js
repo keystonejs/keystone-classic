@@ -80,7 +80,7 @@ var CreateForm = React.createClass({
 					}); // Clear form
 				} else {
 					this.setState({
-						err: err.detail,
+						err: err,
 					});
 				}
 			});
@@ -88,14 +88,14 @@ var CreateForm = React.createClass({
 	},
 
 	renderAlerts () {
-		if (!this.state.err || !this.state.err.errors) return;
+		if (!this.state.err || !this.state.err.detail) return;
 
-		const errors = this.state.err.errors;
+		let errors = this.state.err.detail;
 		var alertContent;
 		var errorCount = Object.keys(errors).length;
 
 		var messages = Object.keys(errors).map((path) => {
-			return errorCount > 1 ? <li key={path}>{errors[path].message}</li> : <div key={path}>{errors[path].message}</div>;
+			return errorCount > 1 ? <li key={path}>{errors[path].error}</li> : <div key={path}>{errors[path].error}</div>;
 		});
 
 		if (errorCount > 1) {
