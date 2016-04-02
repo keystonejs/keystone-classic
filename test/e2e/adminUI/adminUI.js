@@ -60,6 +60,11 @@ module.exports = {
 			labelForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] .dashboard-group__list-label',
 			plusIconLinkForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] a.dashboard-group__list-create.octicon.octicon-plus',
 			itemCountForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] .dashboard-group__list-count',
+			// Numbers List Tab
+			numbersTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="numbers"]',
+			labelForNumbersTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="numbers"] .dashboard-group__list-label',
+			plusIconLinkForNumbersTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="numbers"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForNumbersTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="numbers"] .dashboard-group__list-count',
 			// Selects List Tab
 			selectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"]',
 			labelForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-label',
@@ -233,6 +238,22 @@ module.exports = {
 						},
 					},
 				},
+				number: {
+					number: {
+						name: {
+							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
+							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.EditForm-container .field-type-number[for="fieldA"] label',
+							value: '.EditForm-container .field-type-number[for="fieldA"] input[name="fieldA"]'
+						},
+						fieldB: {
+							label: '.EditForm-container .field-type-number[for="fieldB"] label',
+							value: '.EditForm-container .field-type-number[for="fieldB"] input[name="fieldB"]'
+						}
+					}
+				},
 				password: {
 					user: {
 						password: {
@@ -354,6 +375,18 @@ module.exports = {
 							lastPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="Last name"]',
 						},
 					},
+				},
+				number: {
+					number: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.Modal-dialog .field-type-number[for="fieldA"] label',
+							value: '.Modal-dialog .field-type-number[for="fieldA"] input[name="fieldA"]',
+						}
+					}
 				},
 				password: {
 					user: {

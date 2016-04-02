@@ -48,6 +48,7 @@ keystone.set('nav', {
 		'codes',
 		'emails',
 		'names',
+		'numbers',
 		'selects',
 	],
 });
