@@ -37,5 +37,7 @@ module.exports = {
 			.to.be.visible;
 		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.label)
 			.text.to.equal('Field A');
-	}
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.value)
+			.to.be.visible;
+	},
 };

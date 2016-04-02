@@ -164,8 +164,8 @@ module.exports = {
 							button: '.EditForm-container .field-type-boolean[for="fieldB"] button',
 							label: '.EditForm-container .field-type-boolean[for="fieldB"] span',
 							value: '.EditForm-container .field-type-boolean[for="fieldB"] input[name="fieldB"]'
-						}
-					}
+						},
+					},
 				},
 				code: {
 					code: {
@@ -251,8 +251,8 @@ module.exports = {
 						fieldB: {
 							label: '.EditForm-container .field-type-number[for="fieldB"] label',
 							value: '.EditForm-container .field-type-number[for="fieldB"] input[name="fieldB"]'
-						}
-					}
+						},
+					},
 				},
 				password: {
 					user: {
@@ -318,8 +318,8 @@ module.exports = {
 							button: '.Modal-dialog .field-type-boolean[for="fieldA"] button',
 							label: '.Modal-dialog .field-type-boolean[for="fieldA"] span',
 							value: '.Modal-dialog .field-type-boolean[for="fieldA"] input[name="fieldA"]',
-						}
-					}
+						},
+					},
 				},
 				code: {
 					code: {
@@ -385,8 +385,8 @@ module.exports = {
 						fieldA: {
 							label: '.Modal-dialog .field-type-number[for="fieldA"] label',
 							value: '.Modal-dialog .field-type-number[for="fieldA"] input[name="fieldA"]',
-						}
-					}
+						},
+					},
 				},
 				password: {
 					user: {

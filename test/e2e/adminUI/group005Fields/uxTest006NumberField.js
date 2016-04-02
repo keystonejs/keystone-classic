@@ -51,5 +51,5 @@ module.exports = {
 
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.number.number.fieldB.value)
 			.to.have.value.that.equals('20');
-	}
+	},
 };
