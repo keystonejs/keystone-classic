@@ -158,12 +158,12 @@ module.exports = {
 						fieldA: {
 							button: '.EditForm-container .field-type-boolean[for="fieldA"] button',
 							label: '.EditForm-container .field-type-boolean[for="fieldA"] span',
-							value: '.EditForm-container .field-type-boolean[for="fieldA"] input[name="fieldA"]'
+							value: '.EditForm-container .field-type-boolean[for="fieldA"] input[name="fieldA"]',
 						},
 						fieldB: {
 							button: '.EditForm-container .field-type-boolean[for="fieldB"] button',
 							label: '.EditForm-container .field-type-boolean[for="fieldB"] span',
-							value: '.EditForm-container .field-type-boolean[for="fieldB"] input[name="fieldB"]'
+							value: '.EditForm-container .field-type-boolean[for="fieldB"] input[name="fieldB"]',
 						},
 					},
 				},
@@ -246,11 +246,11 @@ module.exports = {
 						},
 						fieldA: {
 							label: '.EditForm-container .field-type-number[for="fieldA"] label',
-							value: '.EditForm-container .field-type-number[for="fieldA"] input[name="fieldA"]'
+							value: '.EditForm-container .field-type-number[for="fieldA"] input[name="fieldA"]',
 						},
 						fieldB: {
 							label: '.EditForm-container .field-type-number[for="fieldB"] label',
-							value: '.EditForm-container .field-type-number[for="fieldB"] input[name="fieldB"]'
+							value: '.EditForm-container .field-type-number[for="fieldB"] input[name="fieldB"]',
 						},
 					},
 				},
