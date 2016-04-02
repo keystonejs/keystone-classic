@@ -25,6 +25,10 @@ function azurefile (list, path, options) {
 		throw new Error('Invalid Configuration\n\nAzureFile fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
+	var self = this;
+	options.filenameFormatter = options.filenameFormatter || function (item, filename) { return filename; };
+	options.containerFormatter = options.containerFormatter || function (item, filename) { return self.azurefileconfig.container; };// eslint-disable-line no-unused-vars
+
 	azurefile.super_.call(this, list, path, options);
 
 	// validate azurefile config (has to happen after super_.call)
@@ -39,10 +43,6 @@ function azurefile (list, path, options) {
 	process.env.AZURE_STORAGE_ACCESS_KEY = this.azurefileconfig.key;
 
 	this.azurefileconfig.container = this.azurefileconfig.container || 'keystone';
-
-	var self = this;
-	options.filenameFormatter = options.filenameFormatter || function (item, filename) { return filename; };
-	options.containerFormatter = options.containerFormatter || function (item, filename) { return self.azurefileconfig.container; };// eslint-disable-line no-unused-vars
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
