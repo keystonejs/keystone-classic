@@ -21,9 +21,6 @@ types.forEach(function (name) {
 	test.initList(List);
 	List.register();
 
-	var testItems = {};
-	testItems[listKey] = test.getTestItems();
-
 	var filter = function (filters, prop, callback) {
 		if (typeof prop === 'function') {
 			callback = prop;
@@ -40,7 +37,17 @@ types.forEach(function (name) {
 		before(function (done) {
 			List.model.remove().exec(function (err) {
 				if (err) throw err;
-				keystone.createItems(testItems, done);
+				var testItems = {};
+				if (test.getTestItems.length < 2) {
+					testItems[listKey] = test.getTestItems(List);
+					return keystone.createItems(testItems, done);
+				} else {
+					test.getTestItems(List, function (err, data) {
+						if (err) throw err;
+						testItems[listKey] = data;
+						keystone.createItems(testItems, done);
+					});
+				}
 			});
 		});
 		test.testFilters(List, filter);
