@@ -7,7 +7,9 @@ import FormHeading from './FormHeading';
 import AltText from './AltText';
 import FooterBar from '../FooterBar';
 import InvalidFieldType from './InvalidFieldType';
-import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+import { Alert, Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+import xhr from 'xhr';
+
 
 function upCase (str) {
 	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();
@@ -97,6 +99,80 @@ var EditForm = React.createClass({
 		this.setState({
 			confirmationDialog: null,
 		});
+	},
+	updateItem () {
+		const { data, list } = this.props;
+		const editForm = this.refs.editForm.getDOMNode();
+		const formData = new FormData(editForm);
+
+		// Clear alerts
+		this.setState({
+			err: null,
+			success: null,
+		});
+
+		// TODO: Prevent user from changing inputs mid update
+		xhr({
+			url: `${Keystone.adminPath}/api/${list.path}/${data.id}`,
+			responseType: 'json',
+			method: 'POST',
+			headers: Keystone.csrf.header,
+			body: formData,
+		}, (err, resp, data) => {
+			
+			// TODO: implement smooth scolling
+			scrollTo(0, 0); // Scroll to top
+
+			if (resp.statusCode === 200) {
+				// Success, display success flash messages, replace values
+				// TODO: Update key value
+				this.setState({
+					success: true,
+					values: data.fields,
+				});
+			} else {
+				// Error, display error flash messages
+				this.setState({
+					err: data
+				});
+			}
+		});
+	},
+	// TODO: Make AlertMessages component
+	renderSuccessAlerts () {
+		if (!this.state.success) return;
+
+		return	(
+			<Alert type="success">
+				<div>
+					<h4>Item updated successfully</h4>
+				</div>
+			</Alert>
+		);
+	},
+	renderAlerts () {
+		if (!this.state.err || !this.state.err.detail) return;
+
+		let errors = this.state.err.detail;
+		var alertContent;
+		var errorCount = Object.keys(errors).length;
+
+		var messages = Object.keys(errors).map((path) => {
+			return errorCount > 1 ? <li key={path}>{errors[path].error}</li> : <div key={path}>{errors[path].error}</div>;
+		});
+
+		if (errorCount > 1) {
+			alertContent = (
+				<div>
+					<h4>There were {errorCount} errors creating the new {this.props.list.singular}:</h4>
+					<ul>{messages}</ul>
+				</div>
+			);
+		} else {
+			alertContent = messages;
+		}
+
+		return <Alert type="danger">{alertContent}</Alert>;
 	},
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
@@ -195,7 +271,7 @@ var EditForm = React.createClass({
 	},
 	renderFooterBar () {
 		var buttons = [
-			<Button key="save" type="primary" submit>Save</Button>,
+			<Button key="save" type="primary" onClick={() => this.updateItem()}>Save</Button>,
 		];
 		buttons.push(
 			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
@@ -280,9 +356,11 @@ var EditForm = React.createClass({
 	},
 	render () {
 		return (
-			<form method="post" encType="multipart/form-data" className="EditForm-container">
+			<form ref="editForm" method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
 					<Col lg="3/4">
+						{this.renderAlerts()}
+						{this.renderSuccessAlerts()}
 						<Form type="horizontal" className="EditForm" component="div">
 							<input type="hidden" name="action" value="updateItem" />
 							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
