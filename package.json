@@ -54,7 +54,7 @@
     "knox": "0.9.2",
     "less-middleware": "2.1.0",
     "list-to-array": "1.1.0",
-    "lodash": "4.7.0",
+    "lodash": "4.8.0",
     "mandrill-api": "1.0.45",
     "marked": "0.3.5",
     "method-override": "2.3.5",
