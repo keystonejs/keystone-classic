@@ -17,6 +17,7 @@ function localfile (list, path, options) {
 		.allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
+	this.autoCleanup = options.autoCleanup || false;
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
