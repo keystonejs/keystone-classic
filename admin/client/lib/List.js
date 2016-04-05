@@ -148,8 +148,12 @@ List.prototype.loadItem = function (itemId, options, callback) {
 		responseType: 'json',
 	}, (err, resp, data) => {
 		if (err) return callback(err);
-		// TODO: check resp.statusCode
-		callback(err, data);
+		// Pass the data as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			callback(null, data);
+		} else {
+			callback(data);
+		}
 	});
 };
 
@@ -159,8 +163,13 @@ List.prototype.loadItems = function (options, callback) {
 		url: url,
 		responseType: 'json',
 	}, (err, resp, data) => {
-		// TODO: check resp.statusCode
-		callback(err, data);
+		if (err) callback(err);
+		// Pass the data as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			callback(null, data);
+		} else {
+			callback(data);
+		}
 	});
 };
 
@@ -190,14 +199,18 @@ List.prototype.deleteItems = function (itemIds, callback) {
 		headers: Keystone.csrf.header,
 	}, (err, resp, body) => {
 		if (err) return callback(err);
-		// TODO: check resp.statusCode
 		try {
 			body = JSON.parse(body);
 		} catch (e) {
 			console.log('Error parsing results json:', e, body);
 			return callback(e);
 		}
-		callback(null, body);
+		// Pass the body as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			callback(null, body);
+		} else {
+			callback(body);
+		}
 	});
 };
 
@@ -209,14 +222,18 @@ List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOp
 		headers: Keystone.csrf.header,
 	}, (err, resp, body) => {
 		if (err) return callback(err);
-		// TODO: check resp.statusCode
 		try {
 			body = JSON.parse(body);
 		} catch (e) {
 			console.log('Error parsing results json:', e, body);
 			return callback(e);
 		}
-		callback(null, body);
+		// Pass the body as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			callback(null, body);
+		} else {
+			callback(body);
+		}
 	});
 };
 
