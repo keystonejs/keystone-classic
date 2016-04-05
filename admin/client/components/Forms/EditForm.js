@@ -7,7 +7,7 @@ import FormHeading from './FormHeading';
 import AltText from './AltText';
 import FooterBar from '../FooterBar';
 import InvalidFieldType from './InvalidFieldType';
-import { Alert, Button, Col, Form, FormField, FormInput, ResponsiveText, Row } from 'elemental';
+import { Alert, Button, Col, Form, FormField, FormInput, ResponsiveText, Row, Spinner } from 'elemental';
 import xhr from 'xhr';
 
 
@@ -36,6 +36,7 @@ var EditForm = React.createClass({
 		return {
 			values: Object.assign({}, this.props.data.fields),
 			confirmationDialog: null,
+			loading: false,
 		};
 	},
 	getFieldProps (field) {
@@ -109,15 +110,16 @@ var EditForm = React.createClass({
 		this.setState({
 			err: null,
 			success: null,
+			loading: true,
 		});
 
-		// TODO: Prevent user from changing inputs mid update
 		list.updateItem(data.id, formData, (err, data) => {
 			// TODO: implement smooth scolling
 			scrollTo(0, 0); // Scroll to top
 			if (err) {
 				this.setState({
 					err: err,
+					loading: false,
 				});
 			} else {
 				// Success, display success flash messages, replace values
@@ -125,6 +127,7 @@ var EditForm = React.createClass({
 				this.setState({
 					success: true,
 					values: data.fields,
+					loading: false,
 				});
 			}
 		});
@@ -262,7 +265,21 @@ var EditForm = React.createClass({
 	},
 	renderFooterBar () {
 		var buttons = [
-			<Button key="save" type="primary" onClick={() => this.updateItem()}>Save</Button>,
+			<Button
+				key="save"
+				type="primary"
+				disabled={this.state.loading}
+				onClick={() => this.updateItem()}
+			>
+				{this.state.loading ? (
+					<span>
+						<Spinner type="inverted" />
+						&nbsp;Saving
+					</span>
+				) : (
+					'Save'
+				)}
+			</Button>,
 		];
 		buttons.push(
 			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
