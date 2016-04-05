@@ -119,7 +119,7 @@ var EditForm = React.createClass({
 			headers: Keystone.csrf.header,
 			body: formData,
 		}, (err, resp, data) => {
-			
+
 			// TODO: implement smooth scolling
 			scrollTo(0, 0); // Scroll to top
 
@@ -133,7 +133,7 @@ var EditForm = React.createClass({
 			} else {
 				// Error, display error flash messages
 				this.setState({
-					err: data
+					err: data,
 				});
 			}
 		});
