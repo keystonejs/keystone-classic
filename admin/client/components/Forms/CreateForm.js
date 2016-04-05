@@ -64,27 +64,25 @@ var CreateForm = React.createClass({
 	},
 
 	submitForm (event) {
-		// If there is an onCreate function,
-		// 	create new item using async create api instead
-		// 	of using a POST request to the list endpoint.
-		if (this.props.onCreate) {
-			event.preventDefault();
-			const createForm = this.refs.createForm.getDOMNode();
-			const formData = new FormData(createForm);
-			this.props.list.createItem(formData, (err, data) => {
-				if (data) {
+		event.preventDefault();
+		const createForm = this.refs.createForm.getDOMNode();
+		const formData = new FormData(createForm);
+		this.props.list.createItem(formData, (err, data) => {
+			if (data) {
+				if (this.props.onCreate) {
 					this.props.onCreate(data);
-					this.setState({
-						values: {},
-						err: null,
-					}); // Clear form
-				} else {
-					this.setState({
-						err: err,
-					});
 				}
-			});
-		}
+				// Clear form
+				this.setState({
+					values: {},
+					err: null,
+				});
+			} else {
+				this.setState({
+					err: err,
+				});
+			}
+		});
 	},
 
 	renderAlerts () {
@@ -116,7 +114,6 @@ var CreateForm = React.createClass({
 
 		var form = [];
 		var list = this.props.list;
-		var formAction = `${Keystone.adminPath}/${list.path}`;
 		var nameField = this.props.list.nameField;
 		var focusRef;
 
@@ -145,7 +142,7 @@ var CreateForm = React.createClass({
 		});
 
 		return (
-			<Form ref="createForm" type="horizontal" encType="multipart/form-data" method="post" action={formAction} onSubmit={this.submitForm} className="create-form">
+			<Form ref="createForm" type="horizontal" onSubmit={this.submitForm} className="create-form">
 				<input type="hidden" name="action" value="create" />
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				<Modal.Header text={'Create a new ' + list.singular} onClose={this.props.onCancel} showCloseButton />
