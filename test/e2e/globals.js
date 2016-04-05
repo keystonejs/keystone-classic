@@ -1,4 +1,5 @@
 module.exports = {
+	adminUiUrl: 'http://localhost:3000/keystone/',
 	// this controls whether to abort the test execution when an assertion failed and skip the rest
 	// it's being used in waitFor commands and expect assertions
 	abortOnAssertionFailure : true,
