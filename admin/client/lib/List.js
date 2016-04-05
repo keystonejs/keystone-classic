@@ -56,6 +56,7 @@ List.prototype.createItem = function (formData, callback) {
 		headers: Keystone.csrf.header,
 		body: formData,
 	}, (err, resp, data) => {
+		if (err) callback(err);
 		if (resp.statusCode === 200) {
 			callback(null, data);
 		} else {
@@ -64,6 +65,23 @@ List.prototype.createItem = function (formData, callback) {
 			//  sending the request. A HTTP 500 response is not
 			//  going to cause an error to be returned.
 			callback(data, null);
+		}
+	});
+};
+
+List.prototype.updateItem = function (id, formData, callback) {
+	xhr({
+		url: `${Keystone.adminPath}/api/${this.path}/${id}`,
+		responseType: 'json',
+		method: 'POST',
+		headers: Keystone.csrf.header,
+		body: formData,
+	}, (err, resp, data) => {
+		if (err) callback(err);
+		if (resp.statusCode === 200) {
+			callback(null, data);
+		} else {
+			callback(data);
 		}
 	});
 };

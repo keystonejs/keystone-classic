@@ -112,28 +112,19 @@ var EditForm = React.createClass({
 		});
 
 		// TODO: Prevent user from changing inputs mid update
-		xhr({
-			url: `${Keystone.adminPath}/api/${list.path}/${data.id}`,
-			responseType: 'json',
-			method: 'POST',
-			headers: Keystone.csrf.header,
-			body: formData,
-		}, (err, resp, data) => {
-
+		list.updateItem(data.id, formData, (err, data) => {
 			// TODO: implement smooth scolling
 			scrollTo(0, 0); // Scroll to top
-
-			if (resp.statusCode === 200) {
+			if (err) {
+				this.setState({
+					err: err,
+				});
+			} else {
 				// Success, display success flash messages, replace values
 				// TODO: Update key value
 				this.setState({
 					success: true,
 					values: data.fields,
-				});
-			} else {
-				// Error, display error flash messages
-				this.setState({
-					err: data,
 				});
 			}
 		});
