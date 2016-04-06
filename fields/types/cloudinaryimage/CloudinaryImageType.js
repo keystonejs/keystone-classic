@@ -46,7 +46,6 @@ function cloudinaryimage (list, path, options) {
 			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
 		);
 	}
-
 }
 
 /*!
@@ -71,7 +70,6 @@ cloudinaryimage.prototype.getFolder = function () {
 			folder = folderList.join('/');
 		}
 	}
-
 	return folder;
 };
 
@@ -373,6 +371,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 		if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
 			uploadOptions.public_id = value.originalname.substring(0, value.originalname.lastIndexOf('.'));
 		}
+
 		// TODO: implement autoCleanup; should delete existing images before uploading
 		cloudinary.uploader.upload(value.path, function (result) {
 			if (result.error) {
@@ -463,6 +462,17 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
 				}
 			} else if (field.options.filenameAsPublicID) {
 				uploadOptions.public_id = req.files[paths.upload].originalname.substring(0, req.files[paths.upload].originalname.lastIndexOf('.'));
+			}
+
+			if (field.options.folder) {
+				uploadOptions.folder = field.options.folder
+			}
+
+			if (field.options.useFilename) {
+				uploadOptions.use_filename = true; //default is false
+				if (!field.options.uniqueFilename) {
+					uploadOptions.unique_filename = false; //default is true
+				}
 			}
 
 			if (field.options.autoCleanup && item.get(field.paths.exists)) {
