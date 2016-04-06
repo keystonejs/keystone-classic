@@ -1,9 +1,6 @@
-var globals = require('../globals');
-
 module.exports = {
-	url: globals.adminUiUrl,
 	elements: {
-		container: {
+		view: {
 			selector: '#signin-view'
 		},
 		emailInput: {
