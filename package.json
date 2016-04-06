@@ -95,7 +95,7 @@
     "gulp": "3.9.1",
     "gulp-streamify": "1.0.2",
     "gulp-uglify": "1.5.3",
-    "istanbul": "0.4.2",
+    "istanbul": "0.4.3",
     "mocha": "2.4.5",
     "must": "0.13.1",
     "nightwatch": "0.8.18",
