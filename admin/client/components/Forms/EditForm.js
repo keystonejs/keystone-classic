@@ -1,6 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import moment from 'moment';
+import AlertMessages from '../AlertMessages';
 import ConfirmationDialog from './ConfirmationDialog';
 import Fields from '../../fields';
 import FormHeading from './FormHeading';
@@ -108,8 +109,7 @@ var EditForm = React.createClass({
 
 		// Clear alerts
 		this.setState({
-			err: null,
-			success: null,
+			alerts: null,
 			loading: true,
 		});
 
@@ -118,55 +118,25 @@ var EditForm = React.createClass({
 			scrollTo(0, 0); // Scroll to top
 			if (err) {
 				this.setState({
-					err: err,
+					alerts: {
+						error: err
+					},
 					loading: false,
 				});
 			} else {
 				// Success, display success flash messages, replace values
 				// TODO: Update key value
 				this.setState({
-					success: true,
+					alerts: {
+						success: {
+							success: 'update success'
+						}
+					},
 					values: data.fields,
 					loading: false,
 				});
 			}
 		});
-	},
-	// TODO: Make AlertMessages component
-	renderSuccessAlerts () {
-		if (!this.state.success) return;
-
-		return	(
-			<Alert type="success">
-				<div>
-					<h4>Item updated successfully</h4>
-				</div>
-			</Alert>
-		);
-	},
-	renderAlerts () {
-		if (!this.state.err || !this.state.err.detail) return;
-
-		let errors = this.state.err.detail;
-		var alertContent;
-		var errorCount = Object.keys(errors).length;
-
-		var messages = Object.keys(errors).map((path) => {
-			return errorCount > 1 ? <li key={path}>{errors[path].error}</li> : <div key={path}>{errors[path].error}</div>;
-		});
-
-		if (errorCount > 1) {
-			alertContent = (
-				<div>
-					<h4>There were {errorCount} errors creating the new {this.props.list.singular}:</h4>
-					<ul>{messages}</ul>
-				</div>
-			);
-		} else {
-			alertContent = messages;
-		}
-
-		return <Alert type="danger">{alertContent}</Alert>;
 	},
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
@@ -367,8 +337,7 @@ var EditForm = React.createClass({
 			<form ref="editForm" method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
 					<Col lg="3/4">
-						{this.renderAlerts()}
-						{this.renderSuccessAlerts()}
+						<AlertMessages alerts={this.state.alerts} />
 						<Form type="horizontal" className="EditForm" component="div">
 							<input type="hidden" name="action" value="updateItem" />
 							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />

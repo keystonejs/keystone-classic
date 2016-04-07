@@ -1,4 +1,5 @@
 import React from 'react';
+import AlertMessages from '../AlertMessages';
 import Fields from '../../fields';
 import InvalidFieldType from './InvalidFieldType';
 import { Alert, Button, Form, Modal } from 'elemental';
@@ -32,7 +33,7 @@ var CreateForm = React.createClass({
 		});
 		return {
 			values: values,
-			err: this.props.err,
+			alerts: {},
 		};
 	},
 	componentDidMount () {
@@ -75,39 +76,16 @@ var CreateForm = React.createClass({
 				// Clear form
 				this.setState({
 					values: {},
-					err: null,
+					alerts: {},
 				});
 			} else {
 				this.setState({
-					err: err,
+					alerts: {
+						error: err
+					},
 				});
 			}
 		});
-	},
-
-	renderAlerts () {
-		if (!this.state.err || !this.state.err.detail) return;
-
-		let errors = this.state.err.detail;
-		var alertContent;
-		var errorCount = Object.keys(errors).length;
-
-		var messages = Object.keys(errors).map((path) => {
-			return errorCount > 1 ? <li key={path}>{errors[path].error}</li> : <div key={path}>{errors[path].error}</div>;
-		});
-
-		if (errorCount > 1) {
-			alertContent = (
-				<div>
-					<h4>There were {errorCount} errors creating the new {this.props.list.singular}:</h4>
-					<ul>{messages}</ul>
-				</div>
-			);
-		} else {
-			alertContent = messages;
-		}
-
-		return <Alert type="danger">{alertContent}</Alert>;
 	},
 	renderForm () {
 		if (!this.props.isOpen) return;
@@ -147,7 +125,7 @@ var CreateForm = React.createClass({
 				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				<Modal.Header text={'Create a new ' + list.singular} onClose={this.props.onCancel} showCloseButton />
 				<Modal.Body>
-					{this.renderAlerts()}
+					<AlertMessages alerts={this.state.alerts} />
 					{form}
 				</Modal.Body>
 				<Modal.Footer>

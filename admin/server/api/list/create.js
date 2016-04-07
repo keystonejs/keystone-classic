@@ -5,6 +5,7 @@ module.exports = function (req, res) {
 	if (!keystone.security.csrf.validate(req)) {
 		return res.apiError(403, 'invalid csrf');
 	}
+	
 	var item = new req.list.model();
 	var data = assign({}, req.body, req.files);
 	req.list.validateInput(item, data, function (err) {
