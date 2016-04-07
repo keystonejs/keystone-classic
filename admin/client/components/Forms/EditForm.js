@@ -86,8 +86,12 @@ var EditForm = React.createClass({
 		const { data, list } = this.props;
 		list.deleteItem(data.id, err => {
 			if (err) {
-				console.error(`Problem deleting ${list.singular}: ${data.name}`);
-				// TODO: slow a flash message on form
+				this.removeConfirmationDialog();
+				this.setState({
+					alerts: {
+						error: err
+					}
+				});
 				return;
 			}
 			top.location.href = `${Keystone.adminPath}/${list.path}`;
