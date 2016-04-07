@@ -31,9 +31,9 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate empty input', function (done) {
+		it('should validate empty input', function (done) {
 			List.fields.single.validateInput({ single: '' }, function (result) {
-				demand(result).be.false();
+				demand(result).be.true();
 				done();
 			});
 		});
