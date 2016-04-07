@@ -14,7 +14,7 @@ module.exports = React.createClass({
 		document.body.removeChild(this.portalElement);
 	},
 	componentDidUpdate () {
-		ReactDOM.render(<div {...this.props}>{this.props.children}</div>, this.portalElement);
+		ReactDOM.render(<div {...this.props} />, this.portalElement);
 	},
 	getPortalDOMNode () {
 		return this.portalElement;
