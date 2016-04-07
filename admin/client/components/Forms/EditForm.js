@@ -10,7 +10,6 @@ import FooterBar from '../FooterBar';
 import InvalidFieldType from './InvalidFieldType';
 import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row, Spinner } from 'elemental';
 
-
 function upCase (str) {
 	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();
 };
@@ -40,7 +39,17 @@ var EditForm = React.createClass({
 		};
 	},
 	getFieldProps (field) {
-		var props = Object.assign({}, field);
+		const props = Object.assign({}, field);
+		const alerts = this.state.alerts;
+		// Display validation errors inline
+		if (alerts && alerts.error && alerts.error.error === 'validation errors') {
+			if (alerts.error.detail[field.path]) {
+				// NOTE: This won't work yet, as ElementalUI doesn't allow
+				// passed in isValid, only invalidates via internal state.
+				// PR to fix that: https://github.com/elementalui/elemental/pull/149
+				props.isValid = false;
+			}
+		}
 		props.value = this.state.values[field.path];
 		props.values = this.state.values;
 		props.onChange = this.handleChange;
@@ -340,7 +349,7 @@ var EditForm = React.createClass({
 			<form ref="editForm" method="post" encType="multipart/form-data" className="EditForm-container">
 				<Row>
 					<Col lg="3/4">
-						<AlertMessages alerts={this.state.alerts} />
+						{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
 						<Form type="horizontal" className="EditForm" component="div">
 							<input type="hidden" name="action" value="updateItem" />
 							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
