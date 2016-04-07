@@ -1,5 +1,6 @@
 import React from 'react';
 import Transition from 'react-addons-css-transition-group';
+import { Link } from 'react-router';
 
 var MobileListItem = React.createClass({
 	displayName: 'MobileListItem',
@@ -10,9 +11,9 @@ var MobileListItem = React.createClass({
 	},
 	render () {
 		return (
-			<a className={this.props.className} href={this.props.href} tabIndex="-1">
+			<Link className={this.props.className} to={this.props.href} tabIndex="-1">
 				{this.props.children}
-			</a>
+			</Link>
 		);
 	},
 });
@@ -26,6 +27,7 @@ var MobileSectionItem = React.createClass({
 		href: React.PropTypes.string.isRequired,
 		lists: React.PropTypes.array,
 	},
+	// TODO FIX THIS
 	renderLists () {
 		if (!this.props.lists || this.props.lists.length <= 1) return null;
 

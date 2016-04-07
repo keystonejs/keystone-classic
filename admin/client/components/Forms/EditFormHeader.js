@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Toolbar from '../Toolbar';
 import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
+import { Link } from 'react-router';
 
 var Header = React.createClass({
 	displayName: 'EditFormHeader',
@@ -47,7 +48,7 @@ var Header = React.createClass({
 			var links = [];
 
 			dd.items.forEach((el, i) => {
-				links.push(<a key={'dd' + i} href={el.href} title={dd.list.singular}>{el.label}</a>);
+				links.push(<Link key={'dd' + i} to={el.href} title={dd.list.singular}>{el.label}</Link>);
 				if (i < dd.items.length - 1) {
 					links.push(<span key={'ds' + i} className="separator">,</span>); // eslint-disable-line comma-spacing
 				}
@@ -65,16 +66,18 @@ var Header = React.createClass({
 
 		if (!els.length) {
 			return (
-				<Button type="link" href={`${Keystone.adminPath}/${list.path}`}>
-					<span className="octicon octicon-chevron-left" />
-					{list.plural}
+				<Button type="link">
+					<Link to={`${Keystone.adminPath}/${list.path}`}>
+						<span className="octicon octicon-chevron-left" />
+						{list.plural}
+					</Link>
 				</Button>
 			);
 		} else {
 			// add the current list
 			els.push(
 				<li key="back">
-					<a type="link" href={`${Keystone.adminPath}/${list.path}`}>{list.plural}</a>
+					<Link to={`${Keystone.adminPath}/${list.path}`}>{list.plural}</Link>
 				</li>
 			);
 			return <ul className="item-breadcrumbs" key="drilldown">{els}</ul>;

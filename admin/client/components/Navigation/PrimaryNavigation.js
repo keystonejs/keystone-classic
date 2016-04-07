@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from 'elemental';
+import { Link } from 'react-router';
 
 var PrimaryNavItem = React.createClass({
 	displayName: 'PrimaryNavItem',
@@ -13,9 +14,9 @@ var PrimaryNavItem = React.createClass({
 	render () {
 		return (
 			<li className={this.props.className} data-section-label={this.props.label}>
-				<a href={this.props.href} title={this.props.title} tabIndex="-1">
+				<Link to={this.props.href} title={this.props.title} tabIndex="-1">
 					{this.props.children}
-				</a>
+				</Link>
 			</li>
 		);
 	},

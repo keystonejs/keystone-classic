@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from 'elemental';
+import { Link } from 'react-router';
 
 var SecondaryNavItem = React.createClass({
 	displayName: 'SecondaryNavItem',
@@ -13,9 +14,9 @@ var SecondaryNavItem = React.createClass({
 	render () {
 		return (
 			<li className={this.props.className} data-list-path={this.props.path}>
-				<a href={this.props.href} title={this.props.title} tabIndex="-1">
+				<Link to={this.props.href} title={this.props.title} tabIndex="-1">
 					{this.props.children}
-				</a>
+				</Link>
 			</li>
 		);
 	},
@@ -39,11 +40,12 @@ var SecondaryNavigation = React.createClass({
 	},
 	handleResize () {
 		this.setState({
-			navIsVisible: this.props.lists && this.props.lists.length > 1 && window.innerWidth >= 768,
+			navIsVisible: this.props.lists && Object.keys(this.props.lists).length > 1 && window.innerWidth >= 768,
 		});
 	},
 	renderNavigation (lists) {
-		const navigation = lists.map((list) => {
+		const navigation = Object.keys(lists).map((key) => {
+			const list = lists[key];
 			const href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			const className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
 

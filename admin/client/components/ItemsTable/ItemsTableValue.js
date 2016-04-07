@@ -1,6 +1,7 @@
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
+import { Link } from 'react-router';
 
 var ItemsTableValue = React.createClass({
 	displayName: 'ItemsTableValue',
@@ -19,7 +20,7 @@ var ItemsTableValue = React.createClass({
 		};
 	},
 	render () {
-		const tag = this.props.href ? 'a' : 'div';
+		const tag = this.props.href ? Link : 'div';
 		const className = classnames('ItemList__value', (
 			this.props.field ? `ItemList__value--${this.props.field}` : null
 		), {
@@ -32,6 +33,7 @@ var ItemsTableValue = React.createClass({
 
 		var props = blacklist(this.props, 'children', 'className', 'exterior', 'field', 'interior', 'padded');
 		props.className = className;
+		props.to = props.href;
 
 		return React.createElement(
 			tag,

@@ -11,17 +11,11 @@ let _ready = false;
 let _loading = false;
 let _items = {};
 let _itemsResultsClone = [];
+let _list = {};
 
-const _list = new List(Keystone.list);
+let active = {};
 
-const active = {
-	columns: _list.expandColumns(_list.defaultColumns),
-	filters: [],
-	search: '',
-	sort: _list.expandSort(_list.defaultSort),
-};
-
-let page = defaultPage();
+let page = {};
 
 function defaultPage () {
 	return {
@@ -75,6 +69,29 @@ function updateQueryParams (params, replace) {
 }
 
 const CurrentListStore = new Store({
+	initialize (list) {
+		_list = new List(list);
+		_ready = false;
+		active = {
+			columns: _list.expandColumns(_list.defaultColumns),
+			filters: [],
+			search: '',
+			sort: _list.expandSort(_list.defaultSort),
+		};
+		page = defaultPage();
+		this.notifyChange();
+
+		history.listen(function (location) {
+			_location = location;
+			active.columns = _list.expandColumns(location.query.columns || _list.defaultColumns);
+			active.search = location.query.search || '';
+			active.sort = _list.expandSort(location.query.sort || _list.defaultSort);
+			page.index = Number(location.query.page);
+			if (isNaN(page.index)) page.index = 1;
+			CurrentListStore.loadItems();
+			CurrentListStore.notifyChange();
+		});
+	},
 	getList () {
 		return _list;
 	},
@@ -335,17 +352,6 @@ const CurrentListStore = new Store({
 		defaultDrag();
 		this.notifyChange();
 	},
-});
-
-history.listen(function (location) {
-	_location = location;
-	active.columns = _list.expandColumns(location.query.columns || _list.defaultColumns);
-	active.search = location.query.search || '';
-	active.sort = _list.expandSort(location.query.sort || _list.defaultSort);
-	page.index = Number(location.query.page);
-	if (isNaN(page.index)) page.index = 1;
-	CurrentListStore.loadItems();
-	CurrentListStore.notifyChange();
 });
 
 module.exports = CurrentListStore;

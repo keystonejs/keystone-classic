@@ -1,3 +1,10 @@
+/**
+ * Item View
+ *
+ * This is the item view, it is rendered when users visit a page of a specific
+ * item. This mainly renders the form to edit the item content in.
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Lists from '../stores/Lists';
@@ -14,17 +21,22 @@ import { Container, Spinner } from 'elemental';
 
 var ItemView = React.createClass({
 	displayName: 'ItemView',
+	contextTypes: {
+		router: React.PropTypes.object.isRequired,
+	},
 	getInitialState () {
 		return {
-			createIsOpen: false,
 			itemData: null,
+			createIsOpen: false,
 		};
 	},
+	// When we are mounted, start loading the data
 	componentDidMount () {
 		this.loadItemData();
 	},
+	// Load the data
 	loadItemData () {
-		this.props.list.loadItem(this.props.itemId, { drilldown: true }, (err, itemData) => {
+		Lists[this.props.params.listId].loadItem(this.props.params.itemId, { drilldown: true }, (err, itemData) => {
 			if (err || !itemData) {
 				// TODO: nicer error handling
 				console.log('Error loading item data', err);
@@ -35,17 +47,20 @@ var ItemView = React.createClass({
 		});
 	},
 	onCreate (item) {
-		// Redirect to newly created item path
-		let list = this.props.list;
-		top.location.href = `${Keystone.adminPath}/${list.path}/${item.id}`;
+		let list = Lists[this.props.params.listId];
+		// After we've created a new item, redirect to newly created item path
+		// TODO FIX THIS SO IT DOESNT THROW AN ERROR
+		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
 	},
+	// Open and close the create new item modal
 	toggleCreate (visible) {
 		this.setState({
 			createIsOpen: visible,
 		});
 	},
+	// TODO FIX THIS
 	renderRelationships () {
-		const { relationships } = this.props.list;
+		const { relationships } = Lists[this.props.params.listId];
 		const keys = Object.keys(relationships);
 		if (!keys.length) return;
 		return (
@@ -54,77 +69,44 @@ var ItemView = React.createClass({
 				{keys.map(key => {
 					const relationship = relationships[key];
 					const refList = Lists[relationship.ref];
-					return <RelatedItemsList key={relationship.path} list={this.props.list} refList={refList} relatedItemId={this.props.itemId} relationship={relationship} />;
+					return <RelatedItemsList key={relationship.path} list={Lists[this.props.params.listId]} refList={refList} relatedItemId={this.props.params.itemId} relationship={relationship} />;
 				})}
 			</div>
 		);
 	},
 	render () {
-		if (!this.state.itemData) return <div className="view-loading-indicator"><Spinner size="md" /></div>;
-		return (
-			<div className="keystone-wrapper">
-				<header className="keystone-header">
-					<MobileNavigation
-						brand={this.props.brand}
-						currentListKey={this.props.list.path}
-						currentSectionKey={this.props.nav.currentSection.key}
-						sections={this.props.nav.sections}
-						signoutUrl={this.props.signoutUrl}
-						/>
-					<PrimaryNavigation
-						currentSectionKey={this.props.nav.currentSection.key}
-						brand={this.props.brand}
-						sections={this.props.nav.sections}
-						signoutUrl={this.props.signoutUrl} />
-					<SecondaryNavigation
-						currentListKey={this.props.list.path}
-						lists={this.props.nav.currentSection.lists} />
-				</header>
-				<div className="keystone-body">
-					<EditFormHeader
-						list={this.props.list}
-						data={this.state.itemData}
-						drilldown={this.state.itemDrilldown}
-						toggleCreate={this.toggleCreate} />
-					<Container>
-						<CreateForm
-							list={this.props.list}
-							isOpen={this.state.createIsOpen}
-							onCancel={() => this.toggleCreate(false)}
-							onCreate={(item) => this.onCreate(item)} />
-						<FlashMessages
-							messages={this.props.messages} />
-						<EditForm
-							list={this.props.list}
-							data={this.state.itemData} />
-						{this.renderRelationships()}
-					</Container>
+		// If we don't have any data yet, show the loading indicator
+		if (!this.state.itemData) {
+			return (
+				<div className="view-loading-indicator">
+					<Spinner size="md" />
 				</div>
-				<Footer
-					appversion={this.props.appversion}
-					backUrl={this.props.backUrl}
-					brand={this.props.brand}
-					User={this.props.User}
-					user={this.props.user}
-					version={this.props.version} />
+			);
+		}
+		// When we have the data, render the item view with it
+		return (
+			<div>
+				<EditFormHeader
+					list={Lists[this.props.params.listId]}
+					data={this.state.itemData}
+					drilldown={this.state.itemDrilldown}
+					toggleCreate={this.toggleCreate} />
+				<Container>
+					<CreateForm
+						list={Lists[this.props.params.listId]}
+						isOpen={this.state.createIsOpen}
+						onCancel={() => this.toggleCreate(false)}
+						onCreate={(item) => this.onCreate(item)} />
+					<FlashMessages
+						messages={Keystone.messages} />
+					<EditForm
+						list={Lists[this.props.params.listId]}
+						data={this.state.itemData} />
+					{this.renderRelationships()}
+				</Container>
 			</div>
 		);
 	},
 });
 
-ReactDOM.render(
-	<ItemView
-		appversion={Keystone.appversion}
-		backUrl={Keystone.backUrl}
-		brand={Keystone.brand}
-		itemId={Keystone.itemId}
-		list={Lists[Keystone.list.key]}
-		messages={Keystone.messages}
-		nav={Keystone.nav}
-		signoutUrl={Keystone.signoutUrl}
-		User={Keystone.User}
-		user={Keystone.user}
-		version={Keystone.version}
-	/>,
-	document.getElementById('item-view')
-);
+module.exports = ItemView;

@@ -9,10 +9,9 @@ import Footer from '../components/Footer';
 import MobileNavigation from '../components/Navigation/MobileNavigation';
 import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
 
-var listsByKey = {};
-Keystone.lists.forEach((list) => {
-	listsByKey[list.key] = list;
-});
+import { Link } from 'react-router';
+
+var listsByKey = Keystone.lists;
 
 var ListTile = React.createClass({
 	propTypes: {
@@ -28,11 +27,11 @@ var ListTile = React.createClass({
 		return (
 			<div className="dashboard-group__list" {...opts}>
 				<span className="dashboard-group__list-inner">
-					<a href={this.props.href} className="dashboard-group__list-tile">
+					<Link to={this.props.href} className="dashboard-group__list-tile">
 						<div className="dashboard-group__list-label">{this.props.label}</div>
 						<div className="dashboard-group__list-count">{this.props.count}</div>
-					</a>
-					<a href={this.props.href + '?create'} className="dashboard-group__list-create octicon octicon-plus" title="Create" tabIndex="-1" />
+					</Link>
+					<Link to={this.props.href + '?create'} className="dashboard-group__list-create octicon octicon-plus" title="Create" tabIndex="-1" />
 				</span>
 			</div>
 		);
@@ -93,7 +92,7 @@ var HomeView = React.createClass({
 		return ['dashboard-group__heading-icon', 'octicon', ...classes].join(' ');
 	},
 	renderFlatNav () {
-		const lists = this.props.navLists.map((list) => {
+		const lists = Keystone.lists.map((list) => {
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 		});
@@ -102,7 +101,7 @@ var HomeView = React.createClass({
 	renderGroupedNav () {
 		return (
 			<div>
-				{this.props.navSections.map((navSection) => {
+				{Keystone.nav.sections.map((navSection) => {
 					return (
 						<div className="dashboard-group" key={navSection.key}>
 							<div className="dashboard-group__heading" data-section-label={navSection.label}>
@@ -123,7 +122,7 @@ var HomeView = React.createClass({
 		);
 	},
 	renderOrphanedLists () {
-		if (!this.props.orphanedLists.length) return;
+		if (!Keystone.orphanedLists.length) return;
 		let sectionLabel = 'Other';
 		return (
 			<div className="dashboard-group">
@@ -132,7 +131,7 @@ var HomeView = React.createClass({
 					{sectionLabel}
 				</div>
 				<div className="dashboard-group__lists">
-					{this.props.orphanedLists.map((list) => {
+					{Keystone.orphanedLists.map((list) => {
 						var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 						return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
 					})}
@@ -142,57 +141,16 @@ var HomeView = React.createClass({
 	},
 	render () {
 		return (
-			<div className="keystone-wrapper">
-				<header className="keystone-header">
-					<MobileNavigation
-						brand={this.props.brand}
-						currentSectionKey="dashboard"
-						sections={this.props.nav.sections}
-						signoutUrl={this.props.signoutUrl}
-						/>
-					<PrimaryNavigation
-						brand={this.props.brand}
-						currentSectionKey="dashboard"
-						sections={this.props.nav.sections}
-						signoutUrl={this.props.signoutUrl}
-						/>
-				</header>
-				<div className="keystone-body">
-					<Container>
-						<div className="dashboard-header">
-							<div className="dashboard-heading">{this.props.brand}</div>
-						</div>
-						<div className="dashboard-groups">
-							{this.props.navIsFlat ? this.renderFlatNav() : this.renderGroupedNav()}
-						</div>
-					</Container>
+			<Container>
+				<div className="dashboard-header">
+					<div className="dashboard-heading">{Keystone.brand}</div>
 				</div>
-				<Footer
-					appversion={this.props.appversion}
-					backUrl={this.props.backUrl}
-					brand={this.props.brand}
-					User={this.props.User}
-					user={this.props.user}
-					version={this.props.version} />
-			</div>
+				<div className="dashboard-groups">
+					{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}
+				</div>
+			</Container>
 		);
 	},
 });
 
-ReactDOM.render(
-	<HomeView
-		appversion={Keystone.appversion}
-		backUrl={Keystone.backUrl}
-		brand={Keystone.brand}
-		nav={Keystone.nav}
-		navIsFlat={Keystone.nav.flat}
-		navLists={Keystone.lists}
-		navSections={Keystone.nav.sections}
-		orphanedLists={Keystone.orphanedLists}
-		signoutUrl={Keystone.signoutUrl}
-		User={Keystone.User}
-		user={Keystone.user}
-		version={Keystone.version}
-	/>,
-	document.getElementById('home-view')
-);
+module.exports = HomeView;
