@@ -16,59 +16,59 @@ import { Alert } from 'elemental';
  *   to each invalid field and signin errors should promt the user to sign in.
  */
 var AlertMessages = React.createClass({
-  displayName: 'AlertMessages',
-  propTypes: {
-    alerts: React.PropTypes.shape({
-      error: React.PropTypes.Object,
-      success: React.PropTypes.Object,
-    })
-  },
-  getDefaultProps () {
-    return {
-      alerts: {},
-    };
-  },
-  renderValidationErrors () {
-    let errors = this.props.alerts.error.detail;
-    let errorCount = Object.keys(errors).length;
-    let alertContent;
-    let messages = Object.keys(errors).map((path) => {
-      return errorCount > 1 ? <li key={path}>{errors[path].error}</li> : <div key={path}>{errors[path].error}</div>;
-    });
+	displayName: 'AlertMessages',
+	propTypes: {
+		alerts: React.PropTypes.shape({
+			error: React.PropTypes.Object,
+			success: React.PropTypes.Object,
+		}),
+	},
+	getDefaultProps () {
+		return {
+			alerts: {},
+		};
+	},
+	renderValidationErrors () {
+		let errors = this.props.alerts.error.detail;
+		let errorCount = Object.keys(errors).length;
+		let alertContent;
+		let messages = Object.keys(errors).map((path) => {
+			return errorCount > 1 ? <li key={path}>{errors[path].error}</li> : <div key={path}>{errors[path].error}</div>;
+		});
 
-    if (errorCount > 1) {
-      alertContent = (
-        <div>
-          <h4>There were {errorCount} errors creating the new item:</h4>
-          <ul>{messages}</ul>
-        </div>
-      );
-    } else {
-      alertContent = messages;
-    }
+		if (errorCount > 1) {
+			alertContent = (
+				<div>
+					<h4>There were {errorCount} errors creating the new item:</h4>
+					<ul>{messages}</ul>
+				</div>
+			);
+		} else {
+			alertContent = messages;
+		}
 
-    return <Alert type="danger">{alertContent}</Alert>;
-  },
-  render () {
-    let { error, success } = this.props.alerts;
+		return <Alert type="danger">{alertContent}</Alert>;
+	},
+	render () {
+		let { error, success } = this.props.alerts;
 
-    if (error) {
-      // Render error alerts
-      switch (error.error) {
-        case 'validation errors':
-          return this.renderValidationErrors();
-        default:
-          return <Alert type="danger"><h4>{error.error}</h4></Alert>;
-      }
-    }
+		if (error) {
+			// Render error alerts
+			switch (error.error) {
+				case 'validation errors':
+					return this.renderValidationErrors();
+				default:
+					return <Alert type="danger"><h4>{error.error}</h4></Alert>;
+			}
+		}
 
-    if (success) {
-      // Render success alerts
-      return <Alert type="success"><h4>{success.success}</h4></Alert>
-    }
-    
-    return null; // No alerts, render nothing
-  },
+		if (success) {
+			// Render success alerts
+			return <Alert type="success"><h4>{success.success}</h4></Alert>;
+		}
+
+		return null; // No alerts, render nothing
+	},
 });
 
 module.exports = AlertMessages;

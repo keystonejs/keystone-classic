@@ -8,8 +8,7 @@ import FormHeading from './FormHeading';
 import AltText from './AltText';
 import FooterBar from '../FooterBar';
 import InvalidFieldType from './InvalidFieldType';
-import { Alert, Button, Col, Form, FormField, FormInput, ResponsiveText, Row, Spinner } from 'elemental';
-import xhr from 'xhr';
+import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row, Spinner } from 'elemental';
 
 
 function upCase (str) {
@@ -89,8 +88,8 @@ var EditForm = React.createClass({
 				this.removeConfirmationDialog();
 				this.setState({
 					alerts: {
-						error: err
-					}
+						error: err,
+					},
 				});
 				return;
 			}
@@ -123,7 +122,7 @@ var EditForm = React.createClass({
 			if (err) {
 				this.setState({
 					alerts: {
-						error: err
+						error: err,
 					},
 					loading: false,
 				});
@@ -133,8 +132,8 @@ var EditForm = React.createClass({
 				this.setState({
 					alerts: {
 						success: {
-							success: 'update success'
-						}
+							success: 'update success',
+						},
 					},
 					values: data.fields,
 					loading: false,

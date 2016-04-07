@@ -2,7 +2,7 @@ import React from 'react';
 import AlertMessages from '../AlertMessages';
 import Fields from '../../fields';
 import InvalidFieldType from './InvalidFieldType';
-import { Alert, Button, Form, Modal } from 'elemental';
+import { Button, Form, Modal } from 'elemental';
 
 var CreateForm = React.createClass({
 	displayName: 'CreateForm',
@@ -81,7 +81,7 @@ var CreateForm = React.createClass({
 			} else {
 				this.setState({
 					alerts: {
-						error: err
+						error: err,
 					},
 				});
 			}
