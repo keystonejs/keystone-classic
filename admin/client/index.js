@@ -1,3 +1,8 @@
+/**
+ * This is the main entry file, which we compile the main JS bundle from. It
+ * only contains the client side routing setup.
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';

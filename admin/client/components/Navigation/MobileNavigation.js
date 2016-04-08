@@ -27,7 +27,6 @@ var MobileSectionItem = React.createClass({
 		href: React.PropTypes.string.isRequired,
 		lists: React.PropTypes.array,
 	},
-	// TODO FIX THIS
 	renderLists () {
 		if (!this.props.lists || this.props.lists.length <= 1) return null;
 

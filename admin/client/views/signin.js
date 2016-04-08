@@ -1,4 +1,6 @@
-'use strict';
+/**
+ * The signin page, it renders a page with a username and password input form.
+ */
 
 import classnames from 'classnames';
 import React from 'react';

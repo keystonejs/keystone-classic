@@ -1,3 +1,8 @@
+/**
+ * The App component is the component that is rendered around all views, and
+ * contains common things like navigation, footer, etc.
+ */
+
 import React from 'react';
 import Lists from '../stores/Lists';
 
@@ -32,6 +37,7 @@ const App = (props) => {
 					sections={Keystone.nav.sections}
 					signoutUrl={Keystone.signoutUrl}
 				/>
+				{/* If a section is open currently, show the secondary nav */}
 				{(currentSection) ? (
 					<SecondaryNavigation
 						currentListKey={props.params.listId}

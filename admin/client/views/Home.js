@@ -1,4 +1,7 @@
-'use strict';
+/**
+ * The Home view is the view one sees at /keystone. It shows a list of all lists,
+ * grouped by their section.
+ */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -13,6 +16,9 @@ import { Link } from 'react-router';
 
 var listsByKey = Keystone.lists;
 
+/**
+ * Displays information about a list and lets you create a new one.
+ */
 var ListTile = React.createClass({
 	propTypes: {
 		count: React.PropTypes.string,
@@ -31,7 +37,14 @@ var ListTile = React.createClass({
 						<div className="dashboard-group__list-label">{this.props.label}</div>
 						<div className="dashboard-group__list-count">{this.props.count}</div>
 					</Link>
-					<Link to={this.props.href + '?create'} className="dashboard-group__list-create octicon octicon-plus" title="Create" tabIndex="-1" />
+					{/* If we want to create a new list, we append ?create, which opens the
+						create form on the new page! */}
+					<Link
+						to={this.props.href + '?create'}
+						className="dashboard-group__list-create octicon octicon-plus"
+						title="Create"
+						tabIndex="-1"
+					/>
 				</span>
 			</div>
 		);
@@ -45,6 +58,8 @@ var HomeView = React.createClass({
 			counts: {},
 		};
 	},
+	// When everything is rendered, start loading the item counts of the lists
+	// from the API
 	componentDidMount () {
 		this.loadCounts();
 	},
@@ -61,7 +76,8 @@ var HomeView = React.createClass({
 			if (body && body.counts) {
 				if (!this.isMounted()) return;
 				// Cache the counts in Keystone.counts to avoid ugly
-				// flashes of "0 items" when navigating back home
+				// flashes of "0 items" when navigating back home from another
+				// page
 				Keystone.counts = body.counts;
 				this.setState({
 					counts: body.counts,
@@ -69,6 +85,7 @@ var HomeView = React.createClass({
 			}
 		});
 	},
+	// Certain section name have an icon associated with the for a nicer view
 	getHeadingIconClasses (navSectionKey) {
 		const icons = [
 			{ icon: 'book', sections: ['books', 'posts', 'blog', 'blog-posts', 'stories', 'news-stories', 'content'] },
@@ -94,6 +111,8 @@ var HomeView = React.createClass({
 
 		return ['dashboard-group__heading-icon', 'octicon', ...classes].join(' ');
 	},
+	// Get the count of a list from either this.state or the Keystone.counts cache
+	// if the one in state is either non-existant or 0
 	getCount (key) {
 		const count = (this.state.counts[key] && this.state.counts[key] !== 0)
 			? this.state.counts[key]
@@ -103,7 +122,15 @@ var HomeView = React.createClass({
 	renderFlatNav () {
 		const lists = Keystone.lists.map((list) => {
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-			return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={this.getCount(list.key)} />;
+			return (
+				<ListTile
+					key={list.path}
+					path={list.path}
+					label={list.label}
+					href={href}
+					count={this.getCount(list.key)}
+				/>
+			);
 		});
 		return <div className="dashboard-group__lists">{lists}</div>;
 	},

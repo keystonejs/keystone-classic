@@ -1,4 +1,7 @@
-'use strict';
+/**
+ * The list view is a paginated table of all items in the list. It can show a
+ * variety of information about the individual items in columns.
+ */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -7,16 +10,12 @@ import CurrentListStore from '../stores/CurrentListStore';
 import ConfirmationDialog from '../components/Forms/ConfirmationDialog';
 import CreateForm from '../components/Forms/CreateForm';
 import FlashMessages from '../components/FlashMessages';
-import Footer from '../components/Footer';
 import ItemsTable from '../components/ItemsTable/ItemsTable';
 import ListColumnsForm from '../components/List/ListColumnsForm';
 import ListDownloadForm from '../components/List/ListDownloadForm';
 import ListFilters from '../components/List/ListFilters';
 import ListFiltersAdd from '../components/List/ListFiltersAdd';
 import ListSort from '../components/List/ListSort';
-import MobileNavigation from '../components/Navigation/MobileNavigation';
-import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
-import SecondaryNavigation from '../components/Navigation/SecondaryNavigation';
 import UpdateForm from '../components/Forms/UpdateForm';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
 import { plural } from '../utils';
@@ -38,12 +37,14 @@ const ListView = React.createClass({
 		};
 	},
 	componentDidMount () {
-		// Relevant when we directly navigate to a list
+		// When we directly navigate to a list without coming from another client
+		// side routed page before, we need to initialize the list
 		this.initializeList(this.props.params.listId);
 		CurrentListStore.addChangeListener(this.updateStateFromStore);
 	},
 	componentWillReceiveProps (nextProps) {
-		// We're going to a new list!
+		// We've opened a new list from the client side routing, so initialize
+		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.initializeList(nextProps.params.listId);
 		}
