@@ -48,7 +48,7 @@ module.exports = {
 	commands: [{
 		pause: function(secs) {
 			this.api.pause(secs || 1000);
-			return this.api;
+			return this;
 		},
 		logout: function() {
 			return this

@@ -2,7 +2,8 @@ module.exports = {
 	before: function (browser) {
 		browser.signinPage = browser.page.signin();
 
-		browser.signinPage.navigate();
+		browser.signinPage
+			.navigate();
 	},
 	after: function (browser) {
 		browser

@@ -5,7 +5,8 @@ module.exports = {
 		browser.adminUI = browser.page.spa();
 		browser.signinPage = browser.page.signin();
 
-		browser.signinPage.navigate();
+		browser.signinPage
+			.navigate();
 	},
 	after: function (browser) {
 		browser
