@@ -51,9 +51,9 @@ var MobileSectionItem = React.createClass({
 	render () {
 		return (
 			<div className={this.props.className}>
-				<a className="MobileNavigation__section-item" href={this.props.href} tabIndex="-1">
+				<Link className="MobileNavigation__section-item" to={this.props.href} tabIndex="-1">
 					{this.props.children}
-				</a>
+				</Link>
 				{this.renderLists()}
 			</div>
 		);
@@ -120,7 +120,13 @@ var MobileNavigation = React.createClass({
 			const className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'MobileNavigation__section is-active' : 'MobileNavigation__section';
 
 			return (
-				<MobileSectionItem key={section.key} className={className} href={href} lists={section.lists} currentListKey={this.props.currentListKey}>
+				<MobileSectionItem
+					key={section.key}
+					className={className}
+					href={href}
+					lists={section.lists}
+					currentListKey={this.props.currentListKey}
+				>
 					{section.label}
 				</MobileSectionItem>
 			);
