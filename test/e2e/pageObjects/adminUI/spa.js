@@ -51,9 +51,9 @@ module.exports = {
 			return this.api;
 		},
 		logout: function() {
-			this
-				.click('@logoutIconLink');
-			return this.api;
+			return this
+				.click('@logoutIconLink')
+				.waitForElementVisible('@signinView');
 		},
 	}],
 };
