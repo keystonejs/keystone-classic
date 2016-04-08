@@ -60,6 +60,9 @@ var HomeView = React.createClass({
 			}
 			if (body && body.counts) {
 				if (!this.isMounted()) return;
+				// Cache the counts in Keystone.counts to avoid ugly
+				// flashes of "0 items" when navigating back home
+				Keystone.counts = body.counts;
 				this.setState({
 					counts: body.counts,
 				});
@@ -91,10 +94,16 @@ var HomeView = React.createClass({
 
 		return ['dashboard-group__heading-icon', 'octicon', ...classes].join(' ');
 	},
+	getCount (key) {
+		const count = (this.state.counts[key] && this.state.counts[key] !== 0)
+			? this.state.counts[key]
+			: (Keystone.counts && Keystone.counts[key]);
+		return plural(count, '* Item', '* Items');
+	},
 	renderFlatNav () {
 		const lists = Keystone.lists.map((list) => {
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-			return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
+			return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={this.getCount(list.key)} />;
 		});
 		return <div className="dashboard-group__lists">{lists}</div>;
 	},
@@ -111,7 +120,7 @@ var HomeView = React.createClass({
 							<div className="dashboard-group__lists">
 								{navSection.lists.map((list) => {
 									var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-									return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
+									return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={this.getCount(list.key)} />;
 								})}
 							</div>
 						</div>
@@ -133,7 +142,7 @@ var HomeView = React.createClass({
 				<div className="dashboard-group__lists">
 					{Keystone.orphanedLists.map((list) => {
 						var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-						return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={plural(this.state.counts[list.key], '* Item', '* Items')} />;
+						return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={this.getCount(list.key)} />;
 					})}
 				</div>
 			</div>

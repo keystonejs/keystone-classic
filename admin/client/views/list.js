@@ -49,6 +49,7 @@ const ListView = React.createClass({
 		}
 	},
 	componentWillUnmount () {
+		CurrentListStore.reset();
 		CurrentListStore.removeChangeListener(this.updateStateFromStore);
 	},
 	initializeList (listId) {

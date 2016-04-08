@@ -70,8 +70,8 @@ function updateQueryParams (params, replace) {
 
 const CurrentListStore = new Store({
 	initialize (list) {
+		this.reset();
 		_list = new List(list);
-		_ready = false;
 		active = {
 			columns: _list.expandColumns(_list.defaultColumns),
 			filters: [],
@@ -91,6 +91,12 @@ const CurrentListStore = new Store({
 			CurrentListStore.loadItems();
 			CurrentListStore.notifyChange();
 		});
+	},
+	reset () {
+		_list = {};
+		_ready = false;
+		page = {};
+		active = {};
 	},
 	getList () {
 		return _list;
