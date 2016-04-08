@@ -32,7 +32,7 @@ const ListView = React.createClass({
 			constrainTableWidth: true,
 			manageMode: false,
 			searchString: '',
-			showCreateForm: window.location.search === '?create' || Keystone.createFormErrors,
+			showCreateForm: this.props.location.search === '?create' || Keystone.createFormErrors,
 			showUpdateForm: false,
 			...this.getStateFromStore(),
 		};
@@ -481,6 +481,18 @@ const ListView = React.createClass({
 			<div>
 				{this.renderBlankState()}
 				{this.renderActiveState()}
+				<CreateForm
+					err={Keystone.createFormErrors}
+					isOpen={this.state.showCreateForm}
+					list={this.state.list}
+					onCancel={() => this.toggleCreateModal(false)}
+					values={Keystone.createFormData} />
+				<UpdateForm
+					isOpen={this.state.showUpdateForm}
+					itemIds={Object.keys(this.state.checkedItems)}
+					list={this.state.list}
+					onCancel={() => this.toggleUpdateModal(false)} />
+				{this.renderConfirmationDialog()}
 			</div>
 		);
 	},
