@@ -58,7 +58,6 @@ var ItemView = React.createClass({
 			createIsOpen: visible,
 		});
 	},
-	// TODO FIX THIS
 	renderRelationships () {
 		const { relationships } = Lists[this.props.params.listId];
 		const keys = Object.keys(relationships);
@@ -68,8 +67,16 @@ var ItemView = React.createClass({
 				<h2>Relationships</h2>
 				{keys.map(key => {
 					const relationship = relationships[key];
-					const refList = Lists[relationship.ref];
-					return <RelatedItemsList key={relationship.path} list={Lists[this.props.params.listId]} refList={refList} relatedItemId={this.props.params.itemId} relationship={relationship} />;
+					const refList = Lists[relationship.path];
+					return (
+						<RelatedItemsList
+							key={relationship.path}
+							list={Lists[this.props.params.listId]}
+							refList={refList}
+							relatedItemId={this.props.params.itemId}
+							relationship={relationship}
+						/>
+					);
 				})}
 			</div>
 		);
