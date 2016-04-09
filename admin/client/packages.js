@@ -29,7 +29,6 @@ module.exports = [
 	'react-select',
 	'react',
 	'store-prototype',
-	'superagent',
 	'vkey',
 	'xhr',
 ];
