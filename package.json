@@ -79,7 +79,6 @@
     "semver": "5.1.0",
     "serve-favicon": "2.3.0",
     "store-prototype": "1.1.1",
-    "superagent": "1.8.3",
     "vkey": "1.0.0",
     "watchify": "3.7.0",
     "xhr": "2.2.0"
@@ -101,6 +100,7 @@
     "react-engine": "3.2.0",
     "rimraf": "2.5.2",
     "sinon": "1.17.3",
+    "superagent": "1.8.3",
     "supertest": "1.2.0",
     "updtr": "0.1.10",
     "vinyl-source-stream": "1.1.0",
