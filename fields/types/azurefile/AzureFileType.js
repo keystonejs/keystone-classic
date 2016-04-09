@@ -1,5 +1,4 @@
 var _ = require('lodash');
-var azure = require('azure');
 var FieldType = require('../Type');
 var grappling = require('grappling-hook');
 var keystone = require('../../../');
@@ -65,6 +64,8 @@ Object.defineProperty(azurefile.prototype, 'azurefileconfig', {
  * Registers the field on the List's Mongoose Schema.
  */
 azurefile.prototype.addToSchema = function () {
+
+	var azure = require('azure');
 
 	var field = this;
 	var schema = this.list.schema;
@@ -191,6 +192,8 @@ azurefile.prototype.updateItem = function (item, data, callback) {
  * Uploads the file for this field
  */
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
+
+	var azure = require('azure');
 
 	var field = this;
 	var filetype = file.mimetype || file.type;
