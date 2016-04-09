@@ -26,9 +26,6 @@ module.exports = {
                 .setValue('@passwordInput', 'test')
                 .click('@submitButton');
 
-			this.api.adminUI
-				.waitForElementVisible('@homeView');
-
 			return this;
 		},
 	}],

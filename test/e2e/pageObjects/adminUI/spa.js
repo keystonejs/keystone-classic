@@ -8,6 +8,9 @@ module.exports = {
 		homeView: {
 			selector: '#home-view',
 		},
+		listView: {
+			selector: '#list-view'
+		},
 		homeIcon: {
 			selector: '.primary-navbar [data-section-label="octicon-home"]',
 		},

@@ -15,6 +15,8 @@ module.exports = {
 	'Signin page should allow users to login': function (browser) {
 		browser.signinPage
 			.signin();
+		browser.adminUI
+			.waitForElementVisible('@homeView');
 	},
 	'Signin page should be presented upon logout': function (browser) {
 		browser.adminUI
