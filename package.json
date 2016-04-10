@@ -142,7 +142,6 @@
   "scripts": {
     "build": "NODE_ENV=production gulp build-packages",
     "build-dev": "gulp build-packages",
-    "release": "gulp release",
     "pretest": "npm run lint && node test/pretest.js",
     "test": "mocha",
     "test-all": "npm test && npm run test-e2e",
