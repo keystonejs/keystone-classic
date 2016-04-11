@@ -2,7 +2,7 @@
 
 import { createHistory, useQueries } from 'history';
 import Store from 'store-prototype';
-import List from '../lib/List';
+import List from '../utils/List';
 
 const history = useQueries(createHistory)();
 

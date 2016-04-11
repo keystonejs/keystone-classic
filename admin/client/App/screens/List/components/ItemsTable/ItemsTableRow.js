@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import Columns from '../../../../../columns';
+import Columns from '../../../../../utils/columns';
 import CurrentListStore from '../../../../../stores/CurrentListStore';
 import ListControl from '../List/ListControl';
 

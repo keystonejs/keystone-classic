@@ -1,6 +1,6 @@
 'use strict';
 
-import List from '../lib/List';
+import List from '../utils/List';
 
 for (const key in Keystone.lists) {
 	if ({}.hasOwnProperty.call(Keystone.lists, key)) {

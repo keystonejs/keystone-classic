@@ -19,7 +19,7 @@ import ListFilters from './components/List/ListFilters';
 import ListFiltersAdd from './components/List/ListFiltersAdd';
 import ListSort from './components/List/ListSort';
 import UpdateForm from './components/UpdateForm';
-import { plural } from '../../../utils';
+import { plural } from '../../../utils/string';
 import Lists from '../../../stores/Lists';
 
 const ListView = React.createClass({

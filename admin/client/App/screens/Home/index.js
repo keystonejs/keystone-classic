@@ -6,7 +6,7 @@
 import React from 'react';
 import { Container } from 'elemental';
 import xhr from 'xhr';
-import { plural } from '../../../utils';
+import { plural } from '../../../utils/string';
 
 import ListTile from './components/ListTile';
 

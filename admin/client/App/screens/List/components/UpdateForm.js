@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
-import Fields from '../../../../fields';
+import Fields from '../../../../utils/fields';
 import InvalidFieldType from '../../../shared/InvalidFieldType';
-import { plural } from '../../../../utils';
+import { plural } from '../../../../utils/string';
 import { BlankState, Button, Form, Modal } from 'elemental';
 
 var UpdateForm = React.createClass({
