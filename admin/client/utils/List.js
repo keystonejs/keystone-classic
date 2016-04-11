@@ -1,9 +1,19 @@
-'use strict';
+/**
+ * Helper method to handle List operations, e.g. creating items, deleting items,
+ * getting information about those lists, etc.
+ */
 
 const listToArray = require('list-to-array');
 const qs = require('qs');
 const xhr = require('xhr');
 
+/**
+ * Get the columns of a list, structured by fields and headings
+ *
+ * @param  {Object} list The list we want the columns of
+ *
+ * @return {Array}       The columns
+ */
 function getColumns (list) {
 	return list.uiElements.map((col) => {
 		if (col.type === 'heading') {
@@ -15,6 +25,13 @@ function getColumns (list) {
 	}).filter(i => i);
 }
 
+/**
+ * Make an array of filters an object keyed by the filtering path
+ *
+ * @param  {Array} filterArray The array of filters
+ *
+ * @return {Object}            The corrected filters, keyed by path
+ */
 function getFilters (filterArray) {
 	var filters = {};
 	filterArray.forEach((filter) => {
@@ -23,12 +40,22 @@ function getFilters (filterArray) {
 	return filters;
 };
 
+/**
+ * Get the sorting string for the URI
+ *
+ * @param  {Array} sort.paths The paths we want to sort
+ *
+ * @return {String}           All the sorting queries we want as a string
+ */
 function getSortString (sort) {
 	return sort.paths.map(i => {
 		return i.invert ? '-' + i.path : i.path;
 	}).filter(i => i).join(',');
 };
 
+/**
+ * Build a query string from a bunch of options
+ */
 function buildQueryString (options) {
 	const query = {};
 	if (options.search) query.search = options.search;
@@ -41,6 +68,11 @@ function buildQueryString (options) {
 	return '?' + qs.stringify(query);
 };
 
+/**
+ * The main list helper class
+ *
+ * @param {Object} options
+ */
 const List = function (options) {
 	Object.assign(this, options);
 	this.columns = getColumns(this);
@@ -48,6 +80,12 @@ const List = function (options) {
 	this.defaultColumnPaths = this.expandedDefaultColumns.map(i => i.path).join(',');
 };
 
+/**
+ * Create an item via the API
+ *
+ * @param  {FormData} formData The submitted form data
+ * @param  {Function} callback Called after the API call
+ */
 List.prototype.createItem = function (formData, callback) {
 	xhr({
 		url: `${Keystone.adminPath}/api/${this.path}/create`,
@@ -69,6 +107,13 @@ List.prototype.createItem = function (formData, callback) {
 	});
 };
 
+/**
+ * Update a specific item
+ *
+ * @param  {String}   id       The id of the item we want to update
+ * @param  {FormData} formData The submitted form data
+ * @param  {Function} callback Called after the API call
+ */
 List.prototype.updateItem = function (id, formData, callback) {
 	xhr({
 		url: `${Keystone.adminPath}/api/${this.path}/${id}`,
@@ -153,6 +198,13 @@ List.prototype.expandSort = function (input) {
 	return sort;
 };
 
+/**
+ * Load a specific item via the API
+ *
+ * @param  {String}   itemId   The id of the item we want to load
+ * @param  {Object}   options
+ * @param  {Function} callback
+ */
 List.prototype.loadItem = function (itemId, options, callback) {
 	if (arguments.length === 2 && typeof options === 'function') {
 		callback = options;
@@ -175,6 +227,13 @@ List.prototype.loadItem = function (itemId, options, callback) {
 	});
 };
 
+/**
+ * Load all items of a list, optionally passing objects to build a query string
+ * for sorting or searching
+ *
+ * @param  {Object}   options
+ * @param  {Function} callback
+ */
 List.prototype.loadItems = function (options, callback) {
 	const url = Keystone.adminPath + '/api/' + this.path + buildQueryString(options);
 	xhr({
@@ -191,6 +250,14 @@ List.prototype.loadItems = function (options, callback) {
 	});
 };
 
+/**
+ * Constructs a download URL to download a list with the current sorting, filtering,
+ * selection and searching options
+ *
+ * @param  {Object} options
+ *
+ * @return {String}         The download URL
+ */
 List.prototype.getDownloadURL = function (options) {
 	const url = Keystone.adminPath + '/api/' + this.path;
 	const parts = [];
@@ -205,10 +272,22 @@ List.prototype.getDownloadURL = function (options) {
 	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
 };
 
+/**
+ * Delete a specific item via the API
+ *
+ * @param  {String}   itemId   The id of the item we want to delete
+ * @param  {Function} callback
+ */
 List.prototype.deleteItem = function (itemId, callback) {
 	this.deleteItems([itemId], callback);
 };
 
+/**
+ * Delete multiple items at once via the API
+ *
+ * @param  {Array}   itemIds  An array of ids of items we want to delete
+ * @param  {Function} callback
+ */
 List.prototype.deleteItems = function (itemIds, callback) {
 	const url = Keystone.adminPath + '/api/' + this.path + '/' + itemIds.join(',') + '/delete';
 	xhr({

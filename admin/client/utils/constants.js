@@ -1,3 +1,7 @@
+/**
+ * Constants
+ */
+
 // breakpoints
 exports.breakpoint = {
 	xs: 480,

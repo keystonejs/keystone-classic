@@ -1,3 +1,7 @@
+/**
+ * Helper object of all filter components
+ */
+
 module.exports = {
 	azurefile: require('../../../fields/types/azurefile/AzureFileFilter'),
 	boolean: require('../../../fields/types/boolean/BooleanFilter'),

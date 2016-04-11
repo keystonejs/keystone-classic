@@ -1,3 +1,7 @@
+/**
+ * A few helper methods for strings
+ */
+
 var inflect = require('i');
 var _ = require('lodash');
 

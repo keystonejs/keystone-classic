@@ -1,3 +1,7 @@
+/**
+ * Helper object of all column components
+ */
+
 var Columns = {
 	azurefile: require('../../../fields/types/azurefile/AzureFileColumn'),
 	boolean: require('../../../fields/types/boolean/BooleanColumn'),

@@ -1,3 +1,7 @@
+/**
+ * Helper object of all field components
+ */
+
 module.exports = {
 	azurefile: require('../../../fields/types/azurefile/AzureFileField'),
 	boolean: require('../../../fields/types/boolean/BooleanField'),
