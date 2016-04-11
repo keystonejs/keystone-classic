@@ -13,20 +13,10 @@ var utils = require('keystone-utils');
  * @api public
  */
 function localfile (list, path, options) {
-	grappling.mixin(this)
-		.allowHooks('move');
+	grappling.mixin(this).allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
 	this.autoCleanup = options.autoCleanup || false;
-
-	// TODO: implement filtering, usage disabled for now
-	options.nofilter = true;
-
-	// TODO: implement initial form, usage disabled for now
-	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n'
-			+ 'localfile fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
-	}
 
 	if (options.overwrite !== false) {
 		options.overwrite = true;
