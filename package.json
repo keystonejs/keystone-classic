@@ -84,6 +84,7 @@
     "xhr": "2.2.0"
   },
   "devDependencies": {
+    "babel-loader": "6.2.4",
     "codeclimate-test-reporter": "0.3.1",
     "core-assert": "0.1.3",
     "disc": "1.3.2",
@@ -104,7 +105,18 @@
     "supertest": "1.2.0",
     "updtr": "0.1.10",
     "vinyl-source-stream": "1.1.0",
-    "watch": "0.17.1"
+    "watch": "0.17.1",
+    "webpack": "1.12.15"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-assign",
+      "transform-object-rest-spread"
+    ]
   },
   "browserify": {
     "transform": [
@@ -140,8 +152,8 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
-    "build": "NODE_ENV=production gulp build-packages",
-    "build-dev": "gulp build-packages",
+    "build": "NODE_ENV=production webpack",
+    "build-dev": "webpack",
     "pretest": "npm run lint && node test/pretest.js",
     "test": "mocha",
     "test-all": "npm test && npm run test-e2e",
