@@ -6,18 +6,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
-import CurrentListStore from '../../../stores/CurrentListStore';
-import ConfirmationDialog from '../../../components/Forms/ConfirmationDialog';
-import CreateForm from '../../../components/Forms/CreateForm';
-import FlashMessages from '../../../components/FlashMessages';
-import ItemsTable from '../../../components/ItemsTable/ItemsTable';
-import ListColumnsForm from '../../../components/List/ListColumnsForm';
-import ListDownloadForm from '../../../components/List/ListDownloadForm';
-import ListFilters from '../../../components/List/ListFilters';
-import ListFiltersAdd from '../../../components/List/ListFiltersAdd';
-import ListSort from '../../../components/List/ListSort';
-import UpdateForm from '../../../components/Forms/UpdateForm';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+
+import CurrentListStore from '../../../stores/CurrentListStore';
+import ConfirmationDialog from '../../shared/ConfirmationDialog';
+import CreateForm from '../../shared/CreateForm';
+import FlashMessages from '../../shared/FlashMessages';
+import ItemsTable from './components/ItemsTable/ItemsTable';
+import ListColumnsForm from './components/List/ListColumnsForm';
+import ListDownloadForm from './components/List/ListDownloadForm';
+import ListFilters from './components/List/ListFilters';
+import ListFiltersAdd from './components/List/ListFiltersAdd';
+import ListSort from './components/List/ListSort';
+import UpdateForm from './components/UpdateForm';
 import { plural } from '../../../utils';
 import Lists from '../../../stores/Lists';
 

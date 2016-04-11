@@ -1,7 +1,7 @@
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 import React from 'react';
-import Popout from '../../admin/client/components/Popout';
+import Popout from '../../admin/client/App/shared/Popout';
 import { FormInput } from 'elemental';
 
 let lastId = 0;

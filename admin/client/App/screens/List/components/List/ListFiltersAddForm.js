@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CurrentListStore from '../../stores/CurrentListStore';
-import filters from '../../filters';
-import Popout from '../Popout';
+import CurrentListStore from '../../../../../stores/CurrentListStore';
+import filters from '../../../../../filters';
+import Popout from '../../../../shared/Popout';
 
 var ListFiltersAddForm = React.createClass({
 	propTypes: {

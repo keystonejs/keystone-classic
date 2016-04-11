@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertMessages from '../AlertMessages';
+import AlertMessages from './AlertMessages';
 import Fields from '../../fields';
 import InvalidFieldType from './InvalidFieldType';
 import { Button, Form, Modal } from 'elemental';

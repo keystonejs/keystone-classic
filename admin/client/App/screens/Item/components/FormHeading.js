@@ -1,5 +1,5 @@
 import React from 'react';
-import evalDependsOn from '../../../../fields/utils/evalDependsOn';
+import evalDependsOn from '../../../../../../fields/utils/evalDependsOn';
 
 module.exports = React.createClass({
 	displayName: 'FormHeading',

@@ -1,7 +1,7 @@
 import React from 'react';
-import filterComponents from '../../filters';
-import CurrentListStore from '../../stores/CurrentListStore';
-import Popout from '../Popout';
+import filterComponents from '../../../../../filters';
+import CurrentListStore from '../../../../../stores/CurrentListStore';
+import Popout from '../../../../shared/Popout';
 import { Pill } from 'elemental';
 
 const Filter = React.createClass({

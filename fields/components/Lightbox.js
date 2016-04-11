@@ -1,6 +1,6 @@
 import React from 'react';
 import blacklist from 'blacklist';
-import Portal from './Portal';
+import Portal from '../../admin/client/App/shared/Portal';
 import Transition from 'react-addons-css-transition-group';
 
 const BODY = document.getElementsByTagName('body')[0];

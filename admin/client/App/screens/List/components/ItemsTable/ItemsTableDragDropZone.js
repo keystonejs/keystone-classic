@@ -1,5 +1,5 @@
 import React from 'react';
-import CurrentListStore from '../../stores/CurrentListStore';
+import CurrentListStore from '../../../../../stores/CurrentListStore';
 import DropZoneTarget from './ItemsTableDragDropZoneTarget';
 import classnames from 'classnames';
 

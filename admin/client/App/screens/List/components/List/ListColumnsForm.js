@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CurrentListStore from '../../stores/CurrentListStore';
-import Popout from '../Popout';
-import PopoutList from '../Popout/PopoutList';
+import CurrentListStore from '../../../../../stores/CurrentListStore';
+import Popout from '../../../../shared/Popout';
+import PopoutList from '../../../../shared/Popout/PopoutList';
 import { Button, InputGroup, FormField, FormInput } from 'elemental';
 
 var ListColumnsForm = React.createClass({

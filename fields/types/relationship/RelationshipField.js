@@ -192,10 +192,10 @@ module.exports = Field.create({
 
 	renderInputGroup () {
 		// TODO: find better solution
-		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/components/CreateForm';
+		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/App/shared/CreateForm';
 		//   CreateForm was imported as a blank object. This stack overflow post suggested lazilly requiring it:
 		// http://stackoverflow.com/questions/29807664/cyclic-dependency-returns-empty-object-in-react-native
-		const CreateForm = require('../../../admin/client/components/Forms/CreateForm');
+		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>

@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import Columns from '../../columns';
-import CurrentListStore from '../../stores/CurrentListStore';
+import Columns from '../../../../../columns';
+import CurrentListStore from '../../../../../stores/CurrentListStore';
 import ListControl from '../List/ListControl';
 
 import { DropTarget, DragSource } from 'react-dnd';

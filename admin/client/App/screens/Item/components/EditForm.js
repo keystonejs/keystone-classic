@@ -1,13 +1,13 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import moment from 'moment';
-import AlertMessages from '../AlertMessages';
-import ConfirmationDialog from './ConfirmationDialog';
-import Fields from '../../fields';
+import AlertMessages from '../../../shared/AlertMessages';
+import ConfirmationDialog from './../../../shared/ConfirmationDialog';
+import Fields from '../../../../fields';
 import FormHeading from './FormHeading';
 import AltText from './AltText';
-import FooterBar from '../FooterBar';
-import InvalidFieldType from './InvalidFieldType';
+import FooterBar from './FooterBar';
+import InvalidFieldType from '../../../shared/InvalidFieldType';
 import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row, Spinner } from 'elemental';
 
 function upCase (str) {

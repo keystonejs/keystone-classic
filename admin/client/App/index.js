@@ -6,10 +6,10 @@
 import React from 'react';
 import Lists from '../stores/Lists';
 
-import MobileNavigation from '../components/Navigation/MobileNavigation';
-import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
-import SecondaryNavigation from '../components/Navigation/SecondaryNavigation';
-import Footer from '../components/Footer';
+import MobileNavigation from './components/Navigation/MobileNavigation';
+import PrimaryNavigation from './components/Navigation/PrimaryNavigation';
+import SecondaryNavigation from './components/Navigation/SecondaryNavigation';
+import Footer from './components/Footer';
 
 const App = (props) => {
 	// If we're on either a list or an item view
