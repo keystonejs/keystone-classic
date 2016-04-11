@@ -189,6 +189,36 @@ localfile.prototype.isModified = function (item) {
 	return item.isModified(this.paths.path);
 };
 
+
+function validateInput (value) {
+	// undefined values are always valid
+	if (value === undefined) return true;
+	// TODO: strings may not actually be valid but this will be OK for now
+	// If a string is provided, assume it's a file path and move the file into
+	// place. Come back and check the file actually exists if a string is provided
+	if (typeof value === 'string') return true;
+	// If the value is an object with a path, it is valid
+	if (typeof value === 'object' && value.path) return true;
+	return false;
+}
+
+/**
+ * Validates that a value for this field has been provided in a data object
+ */
+localfile.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	utils.defer(callback, validateInput(value));
+};
+
+/**
+ * Validates that input has been provided
+ */
+localfile.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = (value || item.get(this.path).path) ? true : false;
+	utils.defer(callback, result);
+};
+
 /**
  * Validates that a value for this field has been provided in a data object
  *
