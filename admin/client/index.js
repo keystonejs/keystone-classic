@@ -7,10 +7,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
-import App from './views/App';
-import Home from './views/Home';
-import Item from './views/Item';
-import List from './views/List';
+import App from './App';
+import Home from './App/screens/Home';
+import Item from './App/screens/Item';
+import List from './App/screens/List';
 
 ReactDOM.render(
 	<Router history={browserHistory}>

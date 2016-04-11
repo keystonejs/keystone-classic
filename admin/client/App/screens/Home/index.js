@@ -7,14 +7,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Container } from 'elemental';
 import xhr from 'xhr';
-import { plural } from '../utils';
-import Footer from '../components/Footer';
-import MobileNavigation from '../components/Navigation/MobileNavigation';
-import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
+import { plural } from '../../../utils';
+import Footer from '../../../components/Footer';
+import MobileNavigation from '../../../components/Navigation/MobileNavigation';
+import PrimaryNavigation from '../../../components/Navigation/PrimaryNavigation';
 
 import { Link } from 'react-router';
-
-var listsByKey = Keystone.lists;
 
 /**
  * Displays information about a list and lets you create a new one.

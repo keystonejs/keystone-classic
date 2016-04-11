@@ -7,16 +7,16 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Lists from '../stores/Lists';
-import CreateForm from '../components/Forms/CreateForm';
-import EditForm from '../components/Forms/EditForm';
-import EditFormHeader from '../components/Forms/EditFormHeader';
-import FlashMessages from '../components/FlashMessages';
-import Footer from '../components/Footer';
-import MobileNavigation from '../components/Navigation/MobileNavigation';
-import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
-import RelatedItemsList from '../components/RelatedItemsList';
-import SecondaryNavigation from '../components/Navigation/SecondaryNavigation';
+import Lists from '../../../stores/Lists';
+import CreateForm from '../../../components/Forms/CreateForm';
+import EditForm from '../../../components/Forms/EditForm';
+import EditFormHeader from '../../../components/Forms/EditFormHeader';
+import FlashMessages from '../../../components/FlashMessages';
+import Footer from '../../../components/Footer';
+import MobileNavigation from '../../../components/Navigation/MobileNavigation';
+import PrimaryNavigation from '../../../components/Navigation/PrimaryNavigation';
+import RelatedItemsList from '../../../components/RelatedItemsList';
+import SecondaryNavigation from '../../../components/Navigation/SecondaryNavigation';
 import { Container, Spinner } from 'elemental';
 
 var ItemView = React.createClass({
