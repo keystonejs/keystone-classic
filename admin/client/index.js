@@ -14,7 +14,7 @@ import List from './App/screens/List';
 
 ReactDOM.render(
 	<Router history={browserHistory}>
-		<Route path="/keystone" component={App}>
+		<Route path={Keystone.adminPath} component={App}>
 			<IndexRoute component={Home} />
 			<Route path=":listId" component={List} />
 			<Route path=":listId/:itemId" component={Item} />
