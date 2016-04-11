@@ -6,6 +6,8 @@
 const listToArray = require('list-to-array');
 const qs = require('qs');
 const xhr = require('xhr');
+// Filters for truthy elements in an array
+const truthy = (i) => i;
 
 /**
  * Get the columns of a list, structured by fields and headings
@@ -22,7 +24,7 @@ function getColumns (list) {
 			var field = list.fields[col.field];
 			return field ? { type: 'field', field: field, title: field.label, path: field.path } : null;
 		}
-	}).filter(i => i);
+	}).filter(truthy);
 }
 
 /**
@@ -50,7 +52,7 @@ function getFilters (filterArray) {
 function getSortString (sort) {
 	return sort.paths.map(i => {
 		return i.invert ? '-' + i.path : i.path;
-	}).filter(i => i).join(',');
+	}).filter(truthy).join(',');
 };
 
 /**
@@ -154,7 +156,7 @@ List.prototype.expandColumns = function (input) {
 			label: field.label,
 			path: field.path,
 		};
-	}).filter(i => i);
+	}).filter(truthy);
 	if (!nameIncluded) {
 		cols.unshift({
 			type: 'id',
@@ -194,7 +196,7 @@ List.prototype.expandSort = function (input) {
 			path: field.path,
 			invert: invert,
 		};
-	}).filter(i => i);
+	}).filter(truthy);
 	return sort;
 };
 
@@ -269,7 +271,7 @@ List.prototype.getDownloadURL = function (options) {
 	parts.push(options.columns ? 'select=' + options.columns.map(i => i.path).join(',') : '');
 	parts.push(options.sort ? 'sort=' + getSortString(options.sort) : '');
 	parts.push('expandRelationshipFields=true');
-	return url + '/export.' + options.format + '?' + parts.filter(i => i).join('&');
+	return url + '/export.' + options.format + '?' + parts.filter(truthy).join('&');
 };
 
 /**
