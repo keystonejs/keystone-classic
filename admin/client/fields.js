@@ -28,5 +28,6 @@ module.exports = {
 	text: require('../../fields/types/text/TextField'),
 	textarea: require('../../fields/types/textarea/TextareaField'),
 	textarray: require('../../fields/types/textarray/TextArrayField'),
+	timeofday: require('../../fields/types/timeofday/TimeOfDayField'),
 	url: require('../../fields/types/url/UrlField'),
 };
