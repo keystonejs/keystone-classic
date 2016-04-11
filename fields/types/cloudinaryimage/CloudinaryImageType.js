@@ -309,7 +309,7 @@ cloudinaryimage.prototype.validateInput = function (data, callback) {
  */
 cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	var result = ((value && validateInput(value)) || item.get(this.path).public_id) ? true : false;
+	var result = (value || item.get(this.path).public_id) ? true : false;
 	utils.defer(callback, result);
 };
 
