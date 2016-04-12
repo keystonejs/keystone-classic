@@ -327,6 +327,7 @@ const ListView = React.createClass({
 							className="ListHeader__columns"
 						/>
 						<ListDownloadForm
+							dispatch={this.props.dispatch}
 							activeColumns={this.props.active.columns}
 							className="ListHeader__download"
 						/>

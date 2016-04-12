@@ -4,6 +4,7 @@ import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';
 import { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
 
+import { downloadItems } from '../../actions';
 const FORMAT_OPTIONS = [
 	{ label: 'CSV', value: 'csv' },
 	{ label: 'JSON', value: 'json' },
@@ -65,8 +66,7 @@ var ListDownloadForm = React.createClass({
 		this.setState(newState);
 	},
 	handleDownloadRequest () {
-		// this.props.dispatch(downloadItems(this.state.format, Object.keys(this.state.selectedColumns)));
-		// CurrentListStore.downloadItems(this.state.format, Object.keys(this.state.selectedColumns));
+		this.props.dispatch(downloadItems(this.state.format, Object.keys(this.state.selectedColumns)));
 		this.togglePopout(false);
 	},
 	renderColumnSelect () {

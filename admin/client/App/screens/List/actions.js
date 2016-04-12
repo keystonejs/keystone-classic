@@ -58,6 +58,21 @@ export function loadItems () {
 	};
 }
 
+export function downloadItems (format, columns) {
+	return (dispatch, getState) => {
+		const lists = getState().lists;
+		const currentList = lists.currentList;
+		const url = currentList.getDownloadURL({
+			search: lists.active.search,
+			filters: lists.active.filters,
+			sort: lists.active.sort,
+			columns: columns ? currentList.expandColumns(columns) : lists.active.columns,
+			format: format,
+		});
+		window.open(url);
+	};
+}
+
 export function itemsLoaded (items) {
 	return {
 		type: ITEMS_LOADED,

@@ -56,34 +56,6 @@ for (const name in initialLists) {
  */
 function lists (state = initialState, action) {
 	switch (action.type) {
-		case LOAD_ITEMS:
-			return Object.assign({}, state, {
-				loading: true,
-			});
-		case ITEMS_LOADED:
-			return Object.assign({}, state, {
-				loading: false,
-				ready: true,
-				items: action.items,
-				currentList: {
-					...state.currentList,
-					items: action.items,
-				},
-				data: {
-					...state.data,
-					// Cache items for next round
-					[state.currentList.path]: {
-						...state.currentList.path,
-						items: action.items,
-					},
-				},
-			});
-		case ITEM_LOADING_ERROR:
-			console.log('ERROR', action.err);
-			return Object.assign({}, state, {
-				loading: false,
-				ready: true,
-			});
 		case SELECT_LIST:
 			const list = state.data[action.id];
 			return Object.assign({}, state, {
@@ -99,6 +71,30 @@ function lists (state = initialState, action) {
 					...state.page,
 					perPage: list.perPage,
 				},
+			});
+		case LOAD_ITEMS:
+			return Object.assign({}, state, {
+				loading: true,
+			});
+		case ITEMS_LOADED:
+			return Object.assign({}, state, {
+				loading: false,
+				ready: true,
+				items: action.items,
+				data: {
+					...state.data,
+					// Cache items for next round
+					[state.currentList.path]: {
+						...state.currentList.path,
+						items: action.items,
+					},
+				},
+			});
+		case ITEM_LOADING_ERROR:
+			console.log('ERROR', action.err);
+			return Object.assign({}, state, {
+				loading: false,
+				ready: true,
 			});
 		case DELETE_ITEM:
 			// TODO Implementation
