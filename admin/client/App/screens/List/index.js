@@ -7,6 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+import { connect } from 'react-redux';
 
 import CurrentListStore from '../../../stores/CurrentListStore';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
@@ -21,6 +22,8 @@ import ListSort from './components/List/ListSort';
 import UpdateForm from './components/UpdateForm';
 import { plural } from '../../../utils/string';
 import Lists from '../../../stores/Lists';
+
+import { selectList } from './actions';
 
 const ListView = React.createClass({
 	getInitialState () {
@@ -50,11 +53,17 @@ const ListView = React.createClass({
 			this.initializeList(nextProps.params.listId);
 		}
 	},
+	shouldComponentUpdate (nextProps) {
+		return true;
+	},
 	componentWillUnmount () {
 		CurrentListStore.reset();
 		CurrentListStore.removeChangeListener(this.updateStateFromStore);
 	},
 	initializeList (listId) {
+		this.props.dispatch(selectList(listId));
+		// TODO This is only used in ListDownloadForm, remove Keystone.list and
+		// pass it down to the component directly
 		Keystone.list = Keystone.lists[listId];
 		CurrentListStore.initialize(Lists[listId]);
 	},
@@ -501,4 +510,9 @@ const ListView = React.createClass({
 	},
 });
 
-module.exports = ListView;
+module.exports = connect((state) => {
+	return {
+		lists: state.lists.data,
+		currentList: state.lists.currentList,
+	};
+})(ListView);
