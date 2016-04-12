@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 import TableRow from './ItemsTableRow';
 import DrapDrop from './ItemsTableDragDrop';
 
@@ -50,7 +49,7 @@ const ItemsTable = React.createClass({
 		if (!this.props.list.nodelete) listControlCount++;
 
 		// set active sort
-		const activeSortPath = CurrentListStore.getActiveSort().paths[0];
+		const activeSortPath = this.props.activeSort.paths[0];
 
 		// pad first col when controls are available
 		const cellPad = listControlCount ? (

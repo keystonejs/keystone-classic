@@ -25,26 +25,10 @@ var ListFiltersAdd = React.createClass({
 			isOpen: false,
 			searchString: '',
 			selectedField: false,
-			...this.getStateFromStore(),
 		};
-	},
-	componentDidMount () {
-		CurrentListStore.addChangeListener(this.updateStateFromStore);
 	},
 	componentWillReceiveProps (nextProps) {
 		this.setState({ isOpen: nextProps.isOpen });
-	},
-	componentWillUnmount () {
-		CurrentListStore.removeChangeListener(this.updateStateFromStore);
-	},
-	getStateFromStore () {
-		return {
-			activeFilters: CurrentListStore.getActiveFilters(),
-			availableFilters: CurrentListStore.getAvailableFilters(),
-		};
-	},
-	updateStateFromStore () {
-		this.setState(this.getStateFromStore());
 	},
 	updateSearch (e) {
 		this.setState({ searchString: e.target.value });
@@ -74,14 +58,15 @@ var ListFiltersAdd = React.createClass({
 		});
 	},
 	applyFilter (value) {
-		CurrentListStore.setFilter(this.state.selectedField.path, value);
+		// CurrentListStore.setFilter(this.state.selectedField.path, value);
+		// this.props.dispatch(setActiveFilter(this.state.selectedField.path, value));
 		this.closePopout();
 	},
 	renderList () {
-		const activeFilterFields = this.state.activeFilters.map(obj => obj.field);
+		const activeFilterFields = this.props.activeFilters.map(obj => obj.field);
 		const activeFilterPaths = activeFilterFields.map(obj => obj.path);
-		const { availableFilters, searchString } = this.state;
-		let filteredFilters = availableFilters;
+		const { searchString } = this.state;
+		let filteredFilters = this.props.availableFilters;
 
 		if (searchString) {
 			filteredFilters = filteredFilters

@@ -30,12 +30,14 @@ const Filter = React.createClass({
 		});
 	},
 	updateFilter (e) {
-		CurrentListStore.setFilter(this.props.filter.field.path, this.state.filterValue);
+		// this.props.dispatch(setFilter(this.props.filter.field.path, this.state.filterValue));
+		// CurrentListStore.setFilter(this.props.filter.field.path, this.state.filterValue);
 		this.close();
 		e.preventDefault();
 	},
 	removeFilter () {
-		CurrentListStore.clearFilter(this.props.filter.field.path);
+		// this.props.dispatch(clearFilter(this.props.filter.field.path));
+		// CurrentListStore.clearFilter(this.props.filter.field.path);
 	},
 	render () {
 		const { filter } = this.props;
@@ -64,29 +66,14 @@ const Filter = React.createClass({
 });
 
 const ListFilters = React.createClass({
-	getInitialState () {
-		return this.getStateFromStore();
-	},
-	componentDidMount () {
-		CurrentListStore.addChangeListener(this.updateStateFromStore);
-	},
-	componentWillUnmount () {
-		CurrentListStore.removeChangeListener(this.updateStateFromStore);
-	},
-	updateStateFromStore () {
-		this.setState(this.getStateFromStore());
-	},
-	getStateFromStore () {
-		const filters = CurrentListStore.getActiveFilters();
-		return { filters };
-	},
 	clearAllFilters () {
-		CurrentListStore.clearAllFilters();
+		// this.props.dispatch(clearAllFilters());
+		// CurrentListStore.clearAllFilters();
 	},
 	render () {
-		if (!this.state.filters.length) return <div />;
+		if (!this.props.filters.length) return <div />;
 
-		const currentFilters = this.state.filters.map((filter, i) => {
+		const currentFilters = this.props.filters.map((filter, i) => {
 			return (
 				<Filter key={'f' + i} filter={filter} />
 			);

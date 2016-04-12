@@ -79,6 +79,7 @@
     "react-router": "^2.0.1",
     "react-select": "1.0.0-beta9",
     "redux": "^3.4.0",
+    "redux-thunk": "^2.0.1",
     "scmp": "1.0.0",
     "semver": "5.1.0",
     "serve-favicon": "2.3.0",

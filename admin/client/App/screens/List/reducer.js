@@ -3,6 +3,7 @@ import {
 	SELECT_LIST,
 	ITEMS_LOADED,
 	LOAD_ITEMS,
+	ITEM_LOADING_ERROR,
 	DELETE_ITEM,
 	SET_ACTIVE_SEARCH,
 	SET_ACTIVE_SORT,
@@ -12,7 +13,27 @@ import {
 const initialState = {
 	currentList: null,
 	loading: false,
+	ready: false,
 	data: {},
+	filters: [],
+	items: {
+		results: [],
+		count: null,
+	},
+	page: {
+		size: null,
+		index: undefined,
+	},
+	active: {
+		columns: null,
+		filter: null,
+		search: null,
+		sort: null,
+	},
+	rowAlert: {
+		success: false,
+		fail: false,
+	},
 };
 
 // Rekey the lists in the state with their paths for easier matching with the
@@ -36,29 +57,69 @@ function lists (state = initialState, action) {
 				loading: true,
 			});
 		case ITEMS_LOADED:
-			return Object.assing({}, state, {
+			return Object.assign({}, state, {
 				loading: false,
+				ready: true,
+				items: action.items,
+				currentList: {
+					...state.currentList,
+					items: action.items,
+				},
 				data: {
 					...state.data,
-					[state.currentList]: action.items,
+					// Cache items for next round
+					[state.currentList.path]: {
+						...state.currentList.path,
+						items: action.items,
+					},
 				},
 			});
-		case SELECT_LIST:
+		case ITEM_LOADING_ERROR:
+			console.log('ERROR', action.err);
 			return Object.assign({}, state, {
-				currentList: new List(state.data[action.id]),
+				loading: false,
+				ready: true,
+			});
+		case SELECT_LIST:
+			const list = new List(state.data[action.id]);
+			return Object.assign({}, state, {
+				currentList: list,
+				active: {
+					...state.active,
+					columns: list.expandColumns(list.defaultColumns),
+					filters: [],
+					search: '',
+					sort: list.expandSort(list.defaultSort),
+				},
+				page: {
+					...state.page,
+					perPage: list.perPage,
+				},
 			});
 		case DELETE_ITEM:
 			// TODO Implementation
 			return state;
 		case SET_ACTIVE_SEARCH:
-			// TODO Implementation
-			return state;
+			return Object.assign({}, state, {
+				active: {
+					...state.active,
+					search: action.searchString,
+				},
+			});
 		case SET_ACTIVE_SORT:
-			// TODO Implementation
-			return state;
+			return Object.assign({}, state, {
+				active: {
+					...state.active,
+					sort: action.path,
+				},
+			});
 		case SET_CURRENT_PAGE:
-			// TODO Implementation
-			return state;
+			return Object.assign({}, state, {
+				page: {
+					...state.page,
+					index: action.index,
+				},
+			});
 		default:
 			return state;
 	}

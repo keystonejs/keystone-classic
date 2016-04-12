@@ -23,7 +23,7 @@ var ListDownloadForm = React.createClass({
 	},
 	getDefaultSelectedColumns () {
 		var selectedColumns = {};
-		CurrentListStore.getActiveColumns().forEach(col => {
+		this.props.activeColumns.forEach(col => {
 			selectedColumns[col.path] = true;
 		});
 		return selectedColumns;
@@ -65,7 +65,8 @@ var ListDownloadForm = React.createClass({
 		this.setState(newState);
 	},
 	handleDownloadRequest () {
-		CurrentListStore.downloadItems(this.state.format, Object.keys(this.state.selectedColumns));
+		// this.props.dispatch(downloadItems(this.state.format, Object.keys(this.state.selectedColumns)));
+		// CurrentListStore.downloadItems(this.state.format, Object.keys(this.state.selectedColumns));
 		this.togglePopout(false);
 	},
 	renderColumnSelect () {

@@ -30,6 +30,7 @@ module.exports = [
 	'react-select',
 	'react',
 	'redux',
+	'redux-thunk',
 	'store-prototype',
 	'superagent',
 	'vkey',

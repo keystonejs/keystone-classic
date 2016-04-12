@@ -29,6 +29,7 @@ import {
 	setActiveSort,
 	setCurrentPage,
 	selectList,
+	loadItems,
 } from './actions';
 
 const ListView = React.createClass({
@@ -59,6 +60,7 @@ const ListView = React.createClass({
 	},
 	initializeList (listId) {
 		this.props.dispatch(selectList(listId));
+		this.props.dispatch(loadItems());
 		// TODO This is only used in ListDownloadForm, remove Keystone.list and
 		// pass it down to the component directly
 		Keystone.list = Keystone.lists[listId];
@@ -79,7 +81,7 @@ const ListView = React.createClass({
 	// 	if (!this._searchTimeout) {
 	// 		state.searchString = state.search;
 	// 	}
-	// 	state.showBlankState = (state.ready && !state.loading && !state.items.results.length && !state.search && !state.filters.length);
+	// 	state.showBlankState = (state.ready && !state.loading && !props.items.results.length && !state.search && !state.filters.length);
 	// 	return state;
 	// },
 
@@ -169,22 +171,22 @@ const ListView = React.createClass({
 		);
 	},
 	renderCreateButton () {
-		if (this.props.list.nocreate) return null;
+		if (this.props.currentList.nocreate) return null;
 		var props = { type: 'success' };
-		if (this.props.list.autocreate) {
+		if (this.props.currentList.autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
 		} else {
 			props.onClick = () => this.toggleCreateModal(true);
 		}
 		return (
 			<InputGroup.Section className="ListHeader__create">
-				<Button {...props} title={'Create ' + this.props.list.singular}>
+				<Button {...props} title={'Create ' + this.props.currentList.singular}>
 					<span className="ListHeader__create__icon octicon octicon-plus" />
 					<span className="ListHeader__create__label">
 						Create
 					</span>
 					<span className="ListHeader__create__label--lg">
-						Create {this.props.list.singular}
+						Create {this.props.currentList.singular}
 					</span>
 				</Button>
 			</InputGroup.Section>
@@ -207,7 +209,8 @@ const ListView = React.createClass({
 		// unless the KEYSTONE_DEV environment variable is set
 		if (!Keystone.devMode) return;
 
-		const { checkedItems, items, manageMode, pageSize } = this.state;
+		const { checkedItems, manageMode, pageSize } = this.state;
+		const items = this.props.items;
 		const list = this.props.currentList;
 		if (!items.count || (list.nodelete && list.noedit)) return;
 
@@ -274,7 +277,8 @@ const ListView = React.createClass({
 		);
 	},
 	renderPagination () {
-		const { currentPage, items, manageMode, pageSize } = this.state;
+		const { currentPage, manageMode, pageSize } = this.state;
+		const items = this.props.items;
 		const list = this.props.currentList;
 		if (manageMode || !items.count) return;
 
@@ -289,11 +293,11 @@ const ListView = React.createClass({
 				style={{ marginBottom: 0 }}
 				total={items.count}
 				limit={10}
-				/>
+			/>
 		);
 	},
 	renderHeader () {
-		const { items } = this.state;
+		const items = this.props.items;
 		const list = this.props.currentList;
 		return (
 			<div className="ListHeader">
@@ -301,14 +305,29 @@ const ListView = React.createClass({
 					<h2 className="ListHeader__title">
 						{plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
 						<ListSort
+							activeSort={this.props.active.sort}
+							availableColumns={this.props.currentList.columns}
 							handleSortSelect={this.handleSortSelect}
 						/>
 					</h2>
 					<InputGroup className="ListHeader__bar">
 						{this.renderSearch()}
-						<ListFiltersAdd className="ListHeader__filter" />
-						<ListColumnsForm className="ListHeader__columns" />
-						<ListDownloadForm className="ListHeader__download" />
+						<ListFiltersAdd
+							activeFilters={this.props.active.filters}
+							availableFilters={this.props.currentList.columns.filter((col) => (
+								col.field && col.field.hasFilterMethod) || col.type === 'heading'
+							)}
+							className="ListHeader__filter"
+						/>
+						<ListColumnsForm
+							availableColumns={this.props.currentList.columns}
+							activeColumns={this.props.active.columns}
+							className="ListHeader__columns"
+						/>
+						<ListDownloadForm
+							activeColumns={this.props.active.columns}
+							className="ListHeader__download"
+						/>
 						<InputGroup.Section className="ListHeader__expand">
 							<Button isActive={!this.state.constrainTableWidth} onClick={this.toggleTableWidth} title="Expand table width">
 								<span className="octicon octicon-mirror" />
@@ -316,7 +335,9 @@ const ListView = React.createClass({
 						</InputGroup.Section>
 						{this.renderCreateButton()}
 					</InputGroup>
-					<ListFilters />
+					<ListFilters
+						filters={this.props.active.filters}
+					/>
 					<div style={{ height: 34, marginBottom: '2em' }}>
 						{this.renderManagement()}
 						{this.renderPagination()}
@@ -346,7 +367,7 @@ const ListView = React.createClass({
 	},
 	checkAllTableItems () {
 		const checkedItems = {};
-		this.state.items.results.forEach(item => {
+		this.props.items.results.forEach(item => {
 			checkedItems[item.id] = true;
 		});
 		this.setState({
@@ -420,8 +441,14 @@ const ListView = React.createClass({
 			</Button>
 		);
 	},
+	showBlankState () {
+		return !this.props.loading
+				&& !this.props.items.results.length
+				&& !this.props.search
+				&& !this.props.filters.length;
+	},
 	renderBlankState () {
-		if (!this.state.showBlankState) return null;
+		if (!this.showBlankState()) return null;
 		return (
 			<Container>
 				<FlashMessages messages={Keystone.messages} />
@@ -433,7 +460,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderActiveState () {
-		if (this.state.showBlankState) return null;
+		if (this.showBlankState()) return null;
 
 		const containerStyle = {
 			transition: 'max-width 160ms ease-out',
@@ -450,16 +477,18 @@ const ListView = React.createClass({
 				{this.renderHeader()}
 				<Container style={containerStyle}>
 					<FlashMessages messages={Keystone.messages} />
+					{/* TODO COLUMS HERE MIGHT BE ACTIVE COLUMNS */}
 					<ItemsTable
+						activeSort={this.props.active.sort}
 						checkedItems={this.state.checkedItems}
 						checkTableItem={this.checkTableItem}
-						columns={this.state.columns}
+						columns={this.props.active.columns}
 						deleteTableItem={this.deleteTableItem}
 						handleSortSelect={this.handleSortSelect}
-						items={this.state.items}
+						items={this.props.items}
 						list={this.props.currentList}
 						manageMode={this.state.manageMode}
-						rowAlert={this.state.rowAlert}
+						rowAlert={this.props.rowAlert}
 					/>
 					{this.renderNoSearchResults()}
 				</Container>
@@ -467,7 +496,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderNoSearchResults () {
-		if (this.state.items.results.length) return null;
+		if (this.props.items.results.length) return null;
 		let matching = this.state.search;
 		if (this.state.filters.length) {
 			matching += (matching ? ' and ' : '') + plural(this.state.filters.length, '* filter', '* filters');
@@ -481,7 +510,8 @@ const ListView = React.createClass({
 		);
 	},
 	render () {
-		if (!this.state.ready) {
+		console.log(this.props.lists);
+		if (!this.props.ready) {
 			return (
 				<div className="view-loading-indicator">
 					<Spinner size="md" />
@@ -511,7 +541,14 @@ const ListView = React.createClass({
 
 module.exports = connect((state) => {
 	return {
-		// lists: state.lists.data,
+		lists: state.lists,
+		loading: state.lists.loading,
 		currentList: state.lists.currentList,
+		items: state.lists.items,
+		page: state.lists.page,
+		active: state.lists.active,
+		filters: state.lists.filters,
+		ready: state.lists.ready,
+		rowAlert: state.lists.rowAlert,
 	};
 })(ListView);

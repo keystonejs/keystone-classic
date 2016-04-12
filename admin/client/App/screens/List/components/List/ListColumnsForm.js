@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';
 import { Button, InputGroup, FormField, FormInput } from 'elemental';
@@ -18,7 +17,7 @@ var ListColumnsForm = React.createClass({
 	},
 	getSelectedColumnsFromStore () {
 		var selectedColumns = {};
-		CurrentListStore.getActiveColumns().forEach(col => {
+		this.props.activeColumns.forEach(col => {
 			selectedColumns[col.path] = true;
 		});
 		return selectedColumns;
@@ -48,16 +47,17 @@ var ListColumnsForm = React.createClass({
 		});
 	},
 	applyColumns () {
-		CurrentListStore.setActiveColumns(Object.keys(this.state.selectedColumns));
+		// this.props.dispatch(setActiveColumns(Object.keys(this.state.selectedColumns)));
+		// CurrentListStore.setActiveColumns(Object.keys(this.state.selectedColumns));
 		this.togglePopout(false);
 	},
 	updateSearch (e) {
 		this.setState({ searchString: e.target.value });
 	},
 	renderColumns () {
-		const availibleColumns = CurrentListStore.getAvailableColumns();
+		const availableColumns = this.props.availableColumns;
 		const { searchString } = this.state;
-		let filteredColumns = availibleColumns;
+		let filteredColumns = availableColumns;
 
 		if (searchString) {
 			filteredColumns = filteredColumns

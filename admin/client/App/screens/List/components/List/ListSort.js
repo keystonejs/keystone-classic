@@ -4,7 +4,6 @@ import vkey from 'vkey';
 
 import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 
 var ListSort = React.createClass({
 	displayName: 'ListSort',
@@ -61,8 +60,8 @@ var ListSort = React.createClass({
 	},
 	renderSortOptions () {
 		// TODO: Handle multiple sort paths
-		const activeSortPath = CurrentListStore.getActiveSort().paths[0];
-		const availibleColumns = CurrentListStore.getAvailableColumns();
+		const activeSortPath = this.props.activeSort.paths[0];
+		const availibleColumns = this.props.availableColumns;
 		const { searchString } = this.state;
 		let filteredColumns = availibleColumns;
 
@@ -96,7 +95,7 @@ var ListSort = React.createClass({
 	},
 	render () {
 		// TODO: Handle multiple sort paths
-		const activeSortPath = CurrentListStore.getActiveSort().paths[0];
+		const activeSortPath = this.props.activeSort.paths[0];
 		const formFieldStyles = { borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' };
 
 		return (
