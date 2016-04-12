@@ -1,5 +1,6 @@
 import {
 	ADD_FILTER,
+	CLEAR_FILTER,
 	SELECT_LIST,
 	ITEMS_LOADED,
 	LOAD_ITEMS,
@@ -133,6 +134,13 @@ function addFilter (filter) {
 	return {
 		type: ADD_FILTER,
 		filter,
+	};
+}
+
+export function clearFilter (path) {
+	return {
+		type: CLEAR_FILTER,
+		path,
 	};
 }
 

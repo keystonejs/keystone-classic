@@ -4,7 +4,7 @@ import CurrentListStore from '../../../../../stores/CurrentListStore';
 import Popout from '../../../../shared/Popout';
 import { Pill } from 'elemental';
 
-import { setFilter } from '../../actions';
+import { setFilter, clearFilter } from '../../actions';
 
 const Filter = React.createClass({
 	propTypes: {
@@ -37,8 +37,7 @@ const Filter = React.createClass({
 		e.preventDefault();
 	},
 	removeFilter () {
-		// this.props.dispatch(clearFilter(this.props.filter.field.path));
-		// CurrentListStore.clearFilter(this.props.filter.field.path);
+		this.props.dispatch(clearFilter(this.props.filter.field.path));
 	},
 	render () {
 		const { filter } = this.props;
@@ -46,7 +45,14 @@ const Filter = React.createClass({
 		const FilterComponent = filterComponents[filter.field.type];
 		return (
 			<span>
-				<Pill label={filter.field.label} onClick={this.open} onClear={this.removeFilter} type="primary" id={filterId} showClearButton />
+				<Pill
+					label={filter.field.label}
+					onClick={this.open}
+					onClear={this.removeFilter}
+					type="primary"
+					id={filterId}
+					showClearButton
+				/>
 				<Popout isOpen={this.state.isOpen} onCancel={this.close} relativeToID={filterId}>
 					<form onSubmit={this.updateFilter}>
 						<Popout.Header title="Edit Filter" />
@@ -76,13 +82,23 @@ const ListFilters = React.createClass({
 
 		const currentFilters = this.props.filters.map((filter, i) => {
 			return (
-				<Filter key={'f' + i} filter={filter} />
+				<Filter
+					key={'f' + i}
+					filter={filter}
+					dispatch={this.props.dispatch}
+				/>
 			);
 		});
 
 		// append the clear button
 		if (currentFilters.length > 1) {
-			currentFilters.push(<Pill key="listFilters__clear" label="Clear All" onClick={this.clearAllFilters} />);
+			currentFilters.push(
+				<Pill
+					key="listFilters__clear"
+					label="Clear All"
+					onClick={this.clearAllFilters}
+				/>
+			);
 		}
 		return (
 			<div className="ListFilters mb-2">

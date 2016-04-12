@@ -8,3 +8,4 @@ export const SET_ACTIVE_SORT = 'app/List/SET_ACTIVE_SORT';
 export const SET_CURRENT_PAGE = 'app/List/SET_CURRENT_PAGE';
 export const SET_ACTIVE_COLUMNS = 'app/List/SET_ACTIVE_COLUMNS';
 export const ADD_FILTER = 'app/List/ADD_FILTER';
+export const CLEAR_FILTER = 'app/List/CLEAR_FILTER';

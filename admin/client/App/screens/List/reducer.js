@@ -1,8 +1,10 @@
 import map from 'lodash/map';
+import remove from 'lodash/remove';
 
 import List from '../../../utils/List';
 import {
 	ADD_FILTER,
+	CLEAR_FILTER,
 	SELECT_LIST,
 	ITEMS_LOADED,
 	LOAD_ITEMS,
@@ -149,15 +151,24 @@ function lists (state = initialState, action) {
 					}
 				});
 			}
-
-			const newState = Object.assign({}, state, {
+			return Object.assign({}, state, {
 				active: {
 					...state.active,
 					filters: filters,
 				},
 			});
-
-			return newState;
+		case CLEAR_FILTER:
+			let activeFilters = remove(state.active.filters, (filter) => {
+				console.log(filter.field.path, action.path);
+				return filter.field.path !== action.path;
+			});
+			console.log(activeFilters);
+			return Object.assign({}, state, {
+				active: {
+					...state.active,
+					filters: activeFilters,
+				},
+			});
 		default:
 			return state;
 	}
