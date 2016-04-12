@@ -3,8 +3,8 @@
  */
 
 var inflect = require('i');
-var _ = require('lodash');
-
+var size = require('lodash/size');
+var compact = require('lodash/compact');
 
 /**
  * Displays the singular or plural of a string based on a number
@@ -30,7 +30,7 @@ exports.plural = function (count, sn, pl) {
 	if (typeof count === 'string') {
 		count = Number(count);
 	} else if (typeof count !== 'number') {
-		count = _.size(count);
+		count = size(count);
 	}
 	return (count === 1 ? sn : pl).replace('*', count);
 };
@@ -84,7 +84,7 @@ exports.titlecase = function (str) {
 			parts[i] = exports.upcase(parts[i]);
 		}
 	}
-	return _.compact(parts).join(' ');
+	return compact(parts).join(' ');
 };
 
 
