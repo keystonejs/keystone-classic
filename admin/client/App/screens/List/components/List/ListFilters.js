@@ -4,6 +4,8 @@ import CurrentListStore from '../../../../../stores/CurrentListStore';
 import Popout from '../../../../shared/Popout';
 import { Pill } from 'elemental';
 
+import { setFilter } from '../../actions';
+
 const Filter = React.createClass({
 	propTypes: {
 		filter: React.PropTypes.object.isRequired,
@@ -30,8 +32,7 @@ const Filter = React.createClass({
 		});
 	},
 	updateFilter (e) {
-		// this.props.dispatch(setFilter(this.props.filter.field.path, this.state.filterValue));
-		// CurrentListStore.setFilter(this.props.filter.field.path, this.state.filterValue);
+		this.props.dispatch(setFilter(this.props.filter.field.path, this.state.filterValue));
 		this.close();
 		e.preventDefault();
 	},

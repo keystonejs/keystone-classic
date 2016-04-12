@@ -4,6 +4,8 @@ import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';
 import { Button, InputGroup, FormField, FormInput } from 'elemental';
 
+import { setActiveColumns } from '../../actions';
+
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
 	propTypes: {
@@ -47,8 +49,7 @@ var ListColumnsForm = React.createClass({
 		});
 	},
 	applyColumns () {
-		// this.props.dispatch(setActiveColumns(Object.keys(this.state.selectedColumns)));
-		// CurrentListStore.setActiveColumns(Object.keys(this.state.selectedColumns));
+		this.props.dispatch(setActiveColumns(Object.keys(this.state.selectedColumns)));
 		this.togglePopout(false);
 	},
 	updateSearch (e) {

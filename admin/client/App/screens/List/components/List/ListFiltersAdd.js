@@ -8,6 +8,8 @@ import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';
 import { Button, FormField, FormInput, InputGroup } from 'elemental';
 
+import { setFilter } from '../../actions';
+
 var ListFiltersAdd = React.createClass({
 	displayName: 'ListFiltersAdd',
 	propTypes: {
@@ -58,8 +60,7 @@ var ListFiltersAdd = React.createClass({
 		});
 	},
 	applyFilter (value) {
-		// CurrentListStore.setFilter(this.state.selectedField.path, value);
-		// this.props.dispatch(setActiveFilter(this.state.selectedField.path, value));
+		this.props.dispatch(setFilter(this.state.selectedField.path, value));
 		this.closePopout();
 	},
 	renderList () {
@@ -104,7 +105,16 @@ var ListFiltersAdd = React.createClass({
 	renderForm () {
 		return (
 			<Popout.Pane onLayout={this.setPopoutHeight} key="form">
-				<ListFiltersAddForm field={this.state.selectedField} onApply={this.applyFilter} onCancel={this.closePopout} onBack={this.navigateBack} maxHeight={this.props.maxHeight} onHeightChange={this.setPopoutHeight} />
+				<ListFiltersAddForm
+					activeFilters={this.props.activeFilters}
+					field={this.state.selectedField}
+					onApply={this.applyFilter}
+					onCancel={this.closePopout}
+					onBack={this.navigateBack}
+					maxHeight={this.props.maxHeight}
+					onHeightChange={this.setPopoutHeight}
+					dispatch={this.props.dispatch}
+				/>
 			</Popout.Pane>
 		);
 	},

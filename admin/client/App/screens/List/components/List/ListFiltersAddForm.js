@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 import filters from '../../../../../utils/filters';
 import Popout from '../../../../shared/Popout';
 
@@ -14,7 +13,7 @@ var ListFiltersAddForm = React.createClass({
 	},
 	getInitialState () {
 		const filterComponent = filters[this.props.field.type];
-		let filterValue = CurrentListStore.getFilter(this.props.field.path);
+		let filterValue = this.props.activeFilters.filter(i => i.field.path === this.props.field.path)[0];
 		if (filterValue) {
 			filterValue = filterValue.value;
 		} else {

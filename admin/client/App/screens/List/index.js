@@ -313,6 +313,7 @@ const ListView = React.createClass({
 					<InputGroup className="ListHeader__bar">
 						{this.renderSearch()}
 						<ListFiltersAdd
+							dispatch={this.props.dispatch}
 							activeFilters={this.props.active.filters}
 							availableFilters={this.props.currentList.columns.filter((col) => (
 								col.field && col.field.hasFilterMethod) || col.type === 'heading'
@@ -322,6 +323,7 @@ const ListView = React.createClass({
 						<ListColumnsForm
 							availableColumns={this.props.currentList.columns}
 							activeColumns={this.props.active.columns}
+							dispatch={this.props.dispatch}
 							className="ListHeader__columns"
 						/>
 						<ListDownloadForm
@@ -329,13 +331,18 @@ const ListView = React.createClass({
 							className="ListHeader__download"
 						/>
 						<InputGroup.Section className="ListHeader__expand">
-							<Button isActive={!this.state.constrainTableWidth} onClick={this.toggleTableWidth} title="Expand table width">
+							<Button
+								isActive={!this.state.constrainTableWidth}
+								onClick={this.toggleTableWidth}
+								title="Expand table width"
+							>
 								<span className="octicon octicon-mirror" />
 							</Button>
 						</InputGroup.Section>
 						{this.renderCreateButton()}
 					</InputGroup>
 					<ListFilters
+						dispatch={this.props.dispatch}
 						filters={this.props.active.filters}
 					/>
 					<div style={{ height: 34, marginBottom: '2em' }}>

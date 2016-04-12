@@ -1,5 +1,8 @@
+import map from 'lodash/map';
+
 import List from '../../../utils/List';
 import {
+	ADD_FILTER,
 	SELECT_LIST,
 	ITEMS_LOADED,
 	LOAD_ITEMS,
@@ -7,6 +10,7 @@ import {
 	DELETE_ITEM,
 	SET_ACTIVE_SEARCH,
 	SET_ACTIVE_SORT,
+	SET_ACTIVE_COLUMNS,
 	SET_CURRENT_PAGE,
 } from './constants';
 
@@ -26,8 +30,8 @@ const initialState = {
 	},
 	active: {
 		columns: null,
-		filter: null,
-		search: null,
+		filters: [],
+		search: '',
 		sort: null,
 	},
 	rowAlert: {
@@ -42,7 +46,7 @@ const initialLists = Keystone.lists;
 for (const name in initialLists) {
 	if ({}.hasOwnProperty.call(initialLists, name)) {
 		const currentList = initialLists[name];
-		initialState.data[currentList.path] = currentList;
+		initialState.data[currentList.path] = new List(currentList);
 		initialState.data[currentList.path].items = {};
 	}
 }
@@ -81,7 +85,7 @@ function lists (state = initialState, action) {
 				ready: true,
 			});
 		case SELECT_LIST:
-			const list = new List(state.data[action.id]);
+			const list = state.data[action.id];
 			return Object.assign({}, state, {
 				currentList: list,
 				active: {
@@ -113,6 +117,13 @@ function lists (state = initialState, action) {
 					sort: action.path,
 				},
 			});
+		case SET_ACTIVE_COLUMNS:
+			return Object.assign({}, state, {
+				active: {
+					...state.active,
+					columns: action.columns,
+				},
+			});
 		case SET_CURRENT_PAGE:
 			return Object.assign({}, state, {
 				page: {
@@ -120,6 +131,37 @@ function lists (state = initialState, action) {
 					index: action.index,
 				},
 			});
+		case ADD_FILTER:
+			let existsIndex;
+			let filters;
+			// Check if a filter for the passed path exists already, and save the
+			// index if it does
+			const filterExists = Object.keys(state.active.filters).some((filter, index) => {
+				existsIndex = index;
+				return state.active.filters[filter].field.path === action.filter.field.path;
+			});
+			// If a filter doesn't exists already, simply add it to the existing filters value
+			if (!filterExists) {
+				filters = state.active.filters.concat(action.filter);
+			// otherwise replace it with the new filter
+			} else {
+				filters = map(state.active.filters, (filter, index) => {
+					if (index === existsIndex) {
+						return action.filter;
+					} else {
+						return filter;
+					}
+				});
+			}
+
+			const newState = Object.assign({}, state, {
+				active: {
+					...state.active,
+					filters: filters,
+				},
+			});
+
+			return newState;
 		default:
 			return state;
 	}
