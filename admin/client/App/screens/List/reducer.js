@@ -5,6 +5,7 @@ import List from '../../../utils/List';
 import {
 	ADD_FILTER,
 	CLEAR_FILTER,
+	CLEAR_ALL_FILTERS,
 	SELECT_LIST,
 	ITEMS_LOADED,
 	LOAD_ITEMS,
@@ -167,6 +168,13 @@ function lists (state = initialState, action) {
 				active: {
 					...state.active,
 					filters: activeFilters,
+				},
+			});
+		case CLEAR_ALL_FILTERS:
+			return Object.assign({}, state, {
+				active: {
+					...state.active,
+					filters: [],
 				},
 			});
 		default:

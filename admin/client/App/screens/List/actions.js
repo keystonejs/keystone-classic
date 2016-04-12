@@ -1,6 +1,7 @@
 import {
 	ADD_FILTER,
 	CLEAR_FILTER,
+	CLEAR_ALL_FILTERS,
 	SELECT_LIST,
 	ITEMS_LOADED,
 	LOAD_ITEMS,
@@ -96,7 +97,11 @@ export function deleteItem (id) {
 }
 
 export function deleteItems (ids) {
-	// TODO IMPLEMENT WITH REDUX-THUNK
+	return (dispatch, getState) => {
+		for (var i = 0; i < ids.length; i++) {
+			dispatch(deleteItem(ids[i]));
+		}
+	};
 }
 
 export function setActiveSearch (searchString) {
@@ -141,6 +146,12 @@ export function clearFilter (path) {
 	return {
 		type: CLEAR_FILTER,
 		path,
+	};
+}
+
+export function clearAllFilters () {
+	return {
+		type: CLEAR_ALL_FILTERS,
 	};
 }
 

@@ -4,7 +4,7 @@ import CurrentListStore from '../../../../../stores/CurrentListStore';
 import Popout from '../../../../shared/Popout';
 import { Pill } from 'elemental';
 
-import { setFilter, clearFilter } from '../../actions';
+import { setFilter, clearFilter, clearAllFilters } from '../../actions';
 
 const Filter = React.createClass({
 	propTypes: {
@@ -74,8 +74,7 @@ const Filter = React.createClass({
 
 const ListFilters = React.createClass({
 	clearAllFilters () {
-		// this.props.dispatch(clearAllFilters());
-		// CurrentListStore.clearAllFilters();
+		this.props.dispatch(clearAllFilters());
 	},
 	render () {
 		if (!this.props.filters.length) return <div />;
