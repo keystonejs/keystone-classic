@@ -45,7 +45,7 @@ let config = {
 	},
 	plugins: [
 		new webpack.DefinePlugin({
-			ENV: process.env.NODE_ENV
+			ENV: JSON.stringify(process.env.NODE_ENV)
 		}),
 		new webpack.optimize.CommonsChunkPlugin('packages', 'packages.js')
 	]
@@ -63,7 +63,9 @@ function createProdConfig(config) {
 		    },
 		    mangle: true,
 		    output: {
-		    	comments: false
+		    	comments: false,
+		    	screw_ie8: true,
+				semicolons: false
 		   	}
 		})
 	];
