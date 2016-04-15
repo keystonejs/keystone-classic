@@ -9,22 +9,38 @@ var utils = require('keystone-utils');
  */
 function text (list, path, options) {
 	this._nativeType = String;
+	this._properties = ['monospace'];
 	this._underscoreMethods = ['crop'];
 	text.super_.call(this, list, path, options);
 }
 util.inherits(text, FieldType);
 
+text.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value === undefined || value === null || typeof value === 'string';
+	utils.defer(callback, result);
+};
+
+text.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = !!value;
+	if (value === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
+};
+
 /**
  * Add filters to a query
  */
-text.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+text.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.path] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
-		return;
+		return query;
 	}
 	var value = utils.escapeRegExp(filter.value);
-	if (filter.mode === 'startsWith') {
+	if (filter.mode === 'beginsWith') {
 		value = '^' + value;
 	} else if (filter.mode === 'endsWith') {
 		value = value + '$';

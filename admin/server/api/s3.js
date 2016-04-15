@@ -1,10 +1,11 @@
-var knox = require('knox');
 var keystone = require('../../../');
 var Types = keystone.Field.Types;
 
 module.exports = {
 
 	upload: function (req, res) {
+		var knox = require('knox');
+
 		if (!keystone.security.csrf.validate(req, req.body.authenticity_token)) {
 			return res.status(403).send({ error: { message: 'invalid csrf' } });
 		}
@@ -28,7 +29,7 @@ module.exports = {
 
 					if (s3Response) {
 						if (s3Response.statusCode !== 200) {
-							return res.send({ error: { message:'Amazon returned Http Code: ' + s3Response.statusCode } });
+							return res.send({ error: { message: 'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
 							return res.send({ image: { url: 'https://s3.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
 						}

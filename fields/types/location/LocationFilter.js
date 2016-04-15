@@ -2,14 +2,14 @@ import React from 'react';
 
 import { FormField, FormInput, FormRow, SegmentedControl } from 'elemental';
 
-const TOGGLE_OPTIONS = [
+const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },
 	{ label: 'Does NOT Match', value: true },
 ];
 
 function getDefaultValue () {
 	return {
-		inverted: TOGGLE_OPTIONS[0].value,
+		inverted: INVERTED_OPTIONS[0].value,
 		street: undefined,
 		city: undefined,
 		state: undefined,
@@ -38,7 +38,7 @@ var TextFilter = React.createClass({
 		};
 	},
 	updateFilter (key, val) {
-		let update = {};
+		const update = {};
 		update[key] = val;
 		this.props.onChange(Object.assign(this.props.filter, update));
 	},
@@ -50,12 +50,12 @@ var TextFilter = React.createClass({
 		this.updateFilter(e.target.name, e.target.value);
 	},
 	render () {
-		let { filter } = this.props;
+		const { filter } = this.props;
 
 		return (
 			<div>
 				<FormField>
-					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormField>
 					<FormInput autofocus ref="focusTarget" value={filter.street} onChange={this.updateValue} name="street" placeholder="Address" />

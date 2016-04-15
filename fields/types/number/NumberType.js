@@ -3,6 +3,7 @@ var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
 
+
 /**
  * Number FieldType Constructor
  * @extends Field
@@ -12,30 +13,59 @@ function number (list, path, options) {
 	this._nativeType = Number;
 	this._fixedSize = 'small';
 	this._underscoreMethods = ['format'];
-	this._formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
-	if (this._formatString && typeof this._formatString !== 'string') {
+	this.formatString = (options.format === false) ? false : (options.format || '0,0[.][000000000000]');
+	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
 	number.super_.call(this, list, path, options);
 }
 util.inherits(number, FieldType);
 
+number.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value === undefined || typeof value === 'number' || value === null;
+	if (typeof value === 'string') {
+		if (value === '') {
+			result = true;
+		} else {
+			value = utils.number(value);
+			result = !isNaN(value);
+		}
+	}
+	utils.defer(callback, result);
+};
+
+number.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = !!(value || typeof value === 'number');
+	if (value === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
+};
+
 /**
  * Add filters to a query
  */
-number.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+number.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'equals' && !filter.value) {
-		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
-		return;
+		query[this.path] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
+		return query;
 	}
 	if (filter.mode === 'between') {
 		var min = utils.number(filter.value.min);
 		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
-			query[this.path] = filter.inverted ? { $gte: max, $lte: min } : { $gte: min, $lte: max };
+			if (filter.inverted) {
+				var gte = {}; gte[this.path] = { $gt: max };
+				var lte = {}; lte[this.path] = { $lt: min };
+				query.$or = [gte, lte];
+			} else {
+				query[this.path] = { $gte: min, $lte: max };
+			}
 		}
-		return;
+		return query;
 	}
 	var value = utils.number(filter.value);
 	if (!isNaN(value)) {
@@ -46,7 +76,7 @@ number.prototype.addFilterToQuery = function (filter, query) {
 			query[this.path] = filter.inverted ? { $gt: value } : { $lt: value };
 		}
 		else {
-			query[this.path] = value;
+			query[this.path] = filter.inverted ? { $ne: value } : value;
 		}
 	}
 	return query;
@@ -56,16 +86,19 @@ number.prototype.addFilterToQuery = function (filter, query) {
  * Formats the field value
  */
 number.prototype.format = function (item, format) {
-	if (format || this._formatString) {
-		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
+	var value = item.get(this.path);
+	if (format || this.formatString) {
+		return (typeof value === 'number') ? numeral(value).format(format || this.formatString) : '';
 	} else {
-		return item.get(this.path) || '';
+		return value || value === 0 ? String(value) : '';
 	}
 };
 
 /**
  * Checks that a valid number has been provided in a data object
  * An empty value clears the stored value and is considered valid
+ *
+ * Deprecated
  */
 number.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);

@@ -1,5 +1,6 @@
 jQuery(function ($) {
 
+	var adminPath = (typeof Keystone !== 'undefined' && Keystone.adminPath) ? Keystone.adminPath : '/keystone';
 	var refs = $('[data-ks-editable]');
 
 	function addButton ($editable, href, label) {
@@ -35,7 +36,7 @@ jQuery(function ($) {
 		switch (data.type) {
 
 			case 'list':
-				var href = Keystone.adminPath + '/' + data.path;
+				var href = adminPath + '/' + data.path;
 				var label = 'Manage ' + data.plural;
 
 				if (data.id) {

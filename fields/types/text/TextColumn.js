@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
+import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
 
 var TextColumn = React.createClass({
 	displayName: 'TextColumn',
@@ -11,15 +11,16 @@ var TextColumn = React.createClass({
 	},
 	getValue () {
 		// cropping text is important for textarea, which uses this column
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		return value ? value.substr(0, 100) : null;
 	},
 	render () {
-		let value = this.getValue();
-		let empty = !value && this.props.linkTo ? true : false;
+		const value = this.getValue();
+		const empty = !value && this.props.linkTo ? true : false;
+		const className = this.props.col.field.monospace ? 'ItemList__value--monospace' : undefined;
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue href={this.props.linkTo} empty={empty} padded interior field={this.props.col.type}>
+				<ItemsTableValue className={className} href={this.props.linkTo} empty={empty} padded interior field={this.props.col.type}>
 					{value}
 				</ItemsTableValue>
 			</ItemsTableCell>

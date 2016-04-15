@@ -43,14 +43,33 @@ email.prototype.gravatarUrl = function (item, size, defaultImage, rating) {
 };
 
 /**
+ * Asynchronously confirms that the provided email is valid
+ */
+email.prototype.validateInput = function (data, callback) {
+	var input = this.getValueFromData(data);
+	var result = true;
+	if (input) {
+		result = utils.isEmail(input);
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that required input is present
+ */
+email.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
+
+/**
  * Validates that a valid email has been provided in a data object
+ *
+ * Deprecated
  */
 email.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
 	if (value) {
 		return utils.isEmail(value);
 	} else {
-		return (!required || (value !== undefined && item && item.get(this.path))) ? true : false;
+		return (!required || (item && item.get(this.path))) ? true : false;
 	}
 };
 

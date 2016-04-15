@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import Field from '../Field';
 import React from 'react';
 import tinymce from 'tinymce';
@@ -142,16 +142,14 @@ module.exports = Field.create({
 
 		var opts = {
 			selector: '#' + this.state.id,
-			toolbar:  toolbar,
-			plugins:  plugins,
-			menubar:  options.menubar || false,
-			skin:     options.skin || 'keystone',
+			toolbar: toolbar,
+			plugins: plugins,
+			menubar: options.menubar || false,
+			skin: options.skin || 'keystone',
 		};
 
 		if (this.shouldRenderField()) {
-			opts.uploadimage_form_url = options.enableS3Uploads ?
-				Keystone.adminPath + '/api/s3/upload' :
-				Keystone.adminPath + '/api/cloudinary/upload';
+			opts.uploadimage_form_url = options.enableS3Uploads ? Keystone.adminPath + '/api/s3/upload' : Keystone.adminPath + '/api/cloudinary/upload';
 		} else {
 			Object.assign(opts, {
 				mode: 'textareas',

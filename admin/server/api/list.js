@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var async = require('async');
 var keystone = require('../../../');
 
@@ -11,7 +11,7 @@ module.exports = function (req, res) {
 	var sendError = function (key, err, msg) {
 		msg = msg || 'API Error';
 		key = key || 'unknown error';
-		msg += ` (${key})`;
+		msg += ' (' + key + ')';
 		console.log(msg + (err ? ':' : ''));
 		if (err) {
 			console.log(err);
@@ -39,7 +39,7 @@ module.exports = function (req, res) {
 				var field = srcList.fields[req.query.field];
 				if (!field) return sendError('invalid field provided');
 
-				_.each(req.query.filters, function (value, key) {
+				_.forEach(req.query.filters, function (value, key) {
 					query.where(key).equals(value ? value : null);
 					count.where(key).equals(value ? value : null);
 				});
@@ -70,7 +70,7 @@ module.exports = function (req, res) {
 			if (typeof order === 'string') {
 				order = order.split(',');
 			}
-			_.each(order, function (id, i) {
+			_.forEach(order, function (id, i) {
 				queue.push(function (done) {
 					req.list.model.update({ _id: id }, { $set: { sortOrder: i } }, done);
 				});

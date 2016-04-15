@@ -1,4 +1,5 @@
 var inflect = require('i');
+var _ = require('lodash');
 
 
 /**
@@ -14,7 +15,7 @@ var inflect = require('i');
  * @api public
  */
 
-var plural = exports.plural = function (count, sn, pl) {
+exports.plural = function (count, sn, pl) {
 	if (arguments.length === 1) {
 		return inflect.pluralize(count);
 	}
@@ -39,7 +40,7 @@ var plural = exports.plural = function (count, sn, pl) {
  * @api public
  */
 
-var upcase = exports.upcase = function (str) {
+exports.upcase = function (str) {
 	if (str && str.toString) str = str.toString();
 	if (typeof str !== 'string' || !str.length) return '';
 	return (str.substr(0, 1).toUpperCase() + str.substr(1));
@@ -54,7 +55,7 @@ var upcase = exports.upcase = function (str) {
  * @api public
  */
 
-var downcase = exports.downcase = function (str) {
+exports.downcase = function (str) {
 	if (str && str.toString) str = str.toString();
 	if (typeof str !== 'string' || !str.length) return '';
 	return (str.substr(0, 1).toLowerCase() + str.substr(1));
@@ -69,14 +70,14 @@ var downcase = exports.downcase = function (str) {
  * @api public
  */
 
-var titlecase = exports.titlecase = function (str) {
+exports.titlecase = function (str) {
 	if (str && str.toString) str = str.toString();
 	if (typeof str !== 'string' || !str.length) return '';
 	str = str.replace(/([a-z])([A-Z])/g, '$1 $2');
 	var parts = str.split(/\s|_|\-/);
 	for (var i = 0; i < parts.length; i++) {
 		if (parts[i] && !/^[A-Z0-9]+$/.test(parts[i])) {
-			parts[i] = upcase(parts[i]);
+			parts[i] = exports.upcase(parts[i]);
 		}
 	}
 	return _.compact(parts).join(' ');
@@ -92,6 +93,6 @@ var titlecase = exports.titlecase = function (str) {
  * @api public
  */
 
-var camelcase = exports.camelcase = function (str, lc) {
+exports.camelcase = function (str, lc) {
 	return inflect.camelize(str, !(lc));
 };

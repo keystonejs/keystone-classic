@@ -4,7 +4,7 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 	var stylusPaths = keystone.get('stylus');
 	var stylusOptions = keystone.get('stylus options') || {};
 	var debug = require('debug')('keystone:core:bindStylusMiddleware');
-	var _ = require('underscore');
+	var _ = require('lodash');
 
 	if (typeof stylusPaths === 'string') {
 		stylusPaths = [stylusPaths];
@@ -18,9 +18,9 @@ module.exports = function bindStylusMiddleware (keystone, app) {
 		} catch (e) {
 			if (e.code === 'MODULE_NOT_FOUND') {
 				console.error(
-					'\nERROR: stylus not found.\n' +
-					'\nPlease install stylus from npm to use the `stylus` option.' +
-					'\nYou can do this by running "npm install stylus --save".\n'
+					'\nERROR: stylus not found.\n'
+					+ '\nPlease install stylus from npm to use the `stylus` option.'
+					+ '\nYou can do this by running "npm install stylus --save".\n'
 				);
 				process.exit(1);
 			} else {

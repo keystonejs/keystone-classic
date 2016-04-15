@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Field from '../Field';
@@ -41,11 +41,11 @@ var Thumbnail = React.createClass({
 
 	render () {
 		let iconClassName;
-		let { deleted, height, isQueued, url, width, openLightbox } = this.props;
-		let previewClassName = classnames('image-preview', {
+		const { deleted, height, isQueued, url, width, openLightbox } = this.props;
+		const previewClassName = classnames('image-preview', {
 			action: (deleted || isQueued),
 		});
-		let title = (width && height) ? (width + ' × ' + height) : '';
+		const title = (width && height) ? (width + ' × ' + height) : '';
 
 		if (deleted) {
 			iconClassName = classnames(iconClassDeleted);
@@ -74,7 +74,7 @@ module.exports = Field.create({
 		var thumbnails = [];
 		var self = this;
 
-		_.each(this.props.value, function (item) {
+		_.forEach(this.props.value, function (item) {
 			self.pushThumbnail(item, thumbnails);
 		});
 
@@ -99,7 +99,7 @@ module.exports = Field.create({
 	renderLightbox () {
 		if (!this.props.value || !this.props.value.length) return;
 
-		let images = this.props.value.map(image => image.url);
+		const images = this.props.value.map(image => image.url);
 
 		return (
 			<Lightbox
@@ -140,7 +140,7 @@ module.exports = Field.create({
 	getCount (key) {
 		var count = 0;
 
-		_.each(this.state.thumbnails, function (thumb) {
+		_.forEach(this.state.thumbnails, function (thumb) {
 			if (thumb && thumb.props[key]) count++;
 		});
 
@@ -167,8 +167,8 @@ module.exports = Field.create({
 		var self = this;
 
 		var files = event.target.files;
-		_.each(files, function (f) {
-			if (!_.contains(SUPPORTED_TYPES, f.type)) {
+		_.forEach(files, function (f) {
+			if (!_.includes(SUPPORTED_TYPES, f.type)) {
 				alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
 				return;
 			}
@@ -259,7 +259,7 @@ module.exports = Field.create({
 
 		var value = '';
 		var remove = [];
-		_.each(this.state.thumbnails, function (thumb) {
+		_.forEach(this.state.thumbnails, function (thumb) {
 			if (thumb && thumb.props.deleted) remove.push(thumb.props.public_id);
 		});
 		if (remove.length) value = 'remove:' + remove.join(',');

@@ -1,4 +1,5 @@
 var async = require('async');
+var assign = require('object-assign');
 
 module.exports = function (req, res) {
 	var where = {};
@@ -8,10 +9,10 @@ module.exports = function (req, res) {
 		catch (e) { } // eslint-disable-line no-empty
 	}
 	if (typeof filters === 'object') {
-		req.list.addFiltersToQuery(filters, where);
+		assign(where, req.list.addFiltersToQuery(filters));
 	}
 	if (req.query.search) {
-		req.list.addSearchToQuery(req.query.search, where);
+		assign(where, req.list.addSearchToQuery(req.query.search));
 	}
 	var query = req.list.model.find(where);
 	if (req.query.populate) {
@@ -23,27 +24,32 @@ module.exports = function (req, res) {
 		});
 	}
 	var sort = req.list.expandSort(req.query.sort);
-	async.series({
-		count: function (next) {
+	async.waterfall([
+		function (next) {
 			query.count(next);
 		},
-		items: function (next) {
+		function (count, next) {
+			var skipCount = Number(req.query.skip) || 0;
 			query.find();
 			query.limit(Number(req.query.limit) || 100);
-			query.skip(Number(req.query.skip) || 0);
+			if (count > skipCount) {
+				query.skip(skipCount);
+			}
 			query.sort(sort.string);
-			query.exec(next);
+			query.exec(function (err, items) {
+				next(err, count, items);
+			});
 		},
-	}, function (err, results) {
+	], function (err, count, items) {
 		if (err) {
 			res.logError('admin/server/api/list/get', 'database error finding items', err);
 			return res.apiError('database error', err);
 		}
 		return res.json({
-			results: results.items.map(function (item) {
+			results: items.map(function (item) {
 				return req.list.getData(item, req.query.select, req.query.expandRelationshipFields);
 			}),
-			count: results.count,
+			count: count,
 		});
 	});
 };

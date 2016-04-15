@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import CodeMirror from 'codemirror';
 import Field from '../Field';
 import React from 'react';
@@ -77,7 +77,7 @@ module.exports = Field.create({
 	},
 
 	renderCodemirror () {
-		let className = classnames('CodeMirror-container', {
+		const className = classnames('CodeMirror-container', {
 			'is-focused': this.state.isFocused && this.shouldRenderField(),
 		});
 

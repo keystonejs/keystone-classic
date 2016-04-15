@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
+import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
 
 var ArrayColumn = React.createClass({
 	displayName: 'ArrayColumn',
@@ -9,7 +9,7 @@ var ArrayColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value || !value.length) return null;
 
 		return value.join(', ');

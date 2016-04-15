@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
@@ -17,7 +17,6 @@ function name (list, path, options) {
 }
 util.inherits(name, FieldType);
 
-
 /**
  * Registers the field on the List's Mongoose Schema.
  *
@@ -26,7 +25,6 @@ util.inherits(name, FieldType);
  *
  * @api public
  */
-
 name.prototype.addToSchema = function () {
 	var schema = this.list.schema;
 	var paths = this.paths = {
@@ -62,7 +60,6 @@ name.prototype.addToSchema = function () {
 /**
  * Gets the string to use for sorting by this field
  */
-
 name.prototype.getSortString = function (options) {
 	if (options.invert) {
 		return '-' + this.paths.first + ' -' + this.paths.last;
@@ -72,18 +69,15 @@ name.prototype.getSortString = function (options) {
 
 /**
  * Add filters to a query
- *
- * TODO: this filter will conflict with any other $or filter, including filters
- * on other "name" type fields; need to work out a better way to implement.
  */
-name.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+name.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.paths.first] = query[this.paths.last] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
-		return;
+		return query;
 	}
 	var value = utils.escapeRegExp(filter.value);
-	if (filter.mode === 'startsWith') {
+	if (filter.mode === 'beginsWith') {
 		value = '^' + value;
 	} else if (filter.mode === 'endsWith') {
 		value = value + '$';
@@ -96,15 +90,7 @@ name.prototype.addFilterToQuery = function (filter, query) {
 	} else {
 		var first = {}; first[this.paths.first] = value;
 		var last = {}; last[this.paths.last] = value;
-		var $or = [first, last];
-		if (query.$and) {
-			query.$and.push({ $or: $or });
-		} else if (query.$or) {
-			query.$and = [{ $or: query.$or }, { $or: $or }];
-			delete query.$or;
-		} else {
-			query.$or = $or;
-		}
+		query.$or = [first, last];
 	}
 	return query;
 };
@@ -118,7 +104,72 @@ name.prototype.format = function (item) {
 };
 
 /**
+ * Get the value from a data object; may be simple or a pair of fields
+ */
+name.prototype.getInputFromData = function (data) {
+	// this.getValueFromData throws an error if we pass name: null
+	if (data[this.path] === null) {
+		return null;
+	}
+	var first = this.getValueFromData(data, '_first');
+	if (first === undefined) first = this.getValueFromData(data, '.first');
+	var last = this.getValueFromData(data, '_last');
+	if (last === undefined) last = this.getValueFromData(data, '.last');
+	if (first !== undefined || last !== undefined) {
+		return {
+			first: first,
+			last: last,
+		};
+	}
+	return this.getValueFromData(data);
+};
+
+/**
  * Validates that a value for this field has been provided in a data object
+ */
+name.prototype.validateInput = function (data, callback) {
+	var value = this.getInputFromData(data);
+	var result = value === undefined
+		|| value === null
+		|| typeof value === 'string'
+		|| (typeof value === 'object' && (
+			typeof value.first === 'string'
+			|| value.first === null
+			|| typeof value.last === 'string'
+			|| value.last === null)
+		);
+	utils.defer(callback, result);
+};
+
+/**
+ * Validates that input has been provided
+ */
+name.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getInputFromData(data);
+	var result;
+	if (value === null) {
+		result = false;
+	} else {
+		result = (
+			typeof value === 'string' && value.length
+			|| typeof value === 'object' && (
+				typeof value.first === 'string' && value.first.length
+				|| typeof value.last === 'string' && value.last.length)
+			|| (item.get(this.paths.full)
+				|| item.get(this.paths.first)
+				|| item.get(this.paths.last)) && (
+					value === undefined
+					|| (value.first === undefined
+						&& value.last === undefined))
+			) ? true : false;
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Validates that a value for this field has been provided in a data object
+ *
+ * Deprecated
  */
 name.prototype.inputIsValid = function (data, required, item) {
 	// Input is valid if none was provided, but the item has data
@@ -149,34 +200,20 @@ name.prototype.isModified = function (item) {
  * @api public
  */
 name.prototype.updateItem = function (item, data, callback) {
-	if (!_.isObject(data)) return process.nextTick(callback);
 	var paths = this.paths;
-	var setValue;
-	if (this.path in data && _.isString(data[this.path])) {
-		// Allow the root path as an alias to {path}.full
-		item.set(paths.full, data[this.path]);
-	} else if (this.path in data && _.isObject(data[this.path])) {
-		// Allow a nested object like { path: { first: 'Jed' } }
-		var valueObj = data[this.path];
-		setValue = function (key) {
-			if (key in valueObj && valueObj[key] !== item.get(paths[key])) {
-				item.set(paths[key], valueObj[key]);
-			}
-		};
-	} else {
-		// Default to flattened paths like { 'path.first': 'Jed' }
-		setValue = function (key) {
-			if (paths[key] in data && data[paths[key]] !== item.get(paths[key])) {
-				item.set(paths[key], data[paths[key]]);
-			}
-		};
-	}
-	if (setValue) {
-		_.each(['full', 'first', 'last'], setValue);
+	var value = this.getInputFromData(data);
+	if (typeof value === 'string' || value === null) {
+		item.set(paths.full, value);
+	} else if (typeof value === 'object') {
+		if (typeof value.first === 'string' || value.first === null) {
+			item.set(paths.first, value.first);
+		}
+		if (typeof value.last === 'string' || value.last === null) {
+			item.set(paths.last, value.last);
+		}
 	}
 	process.nextTick(callback);
 };
-
 
 /* Export Field Type */
 module.exports = name;

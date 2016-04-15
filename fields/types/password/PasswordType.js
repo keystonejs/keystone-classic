@@ -1,7 +1,8 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var bcrypt = require('bcrypt-nodejs');
 var FieldType = require('../Type');
 var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * password FieldType Constructor
@@ -33,8 +34,8 @@ password.prototype.addToSchema = function () {
 	var needs_hashing = '__' + field.path + '_needs_hashing';
 
 	this.paths = {
-		hash: this.options.hashPath || this._path.append('_hash'),
 		confirm: this.options.confirmPath || this._path.append('_confirm'),
+		hash: this.options.hashPath || this._path.append('_hash'),
 	};
 
 	schema.path(this.path, _.defaults({
@@ -79,8 +80,8 @@ password.prototype.addToSchema = function () {
 /**
  * Add filters to a query
  */
-password.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+password.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	query[this.path] = (filter.exists) ? { $ne: null } : null;
 	return query;
 };
@@ -115,13 +116,41 @@ password.prototype.compare = function (item, candidate, callback) {
 };
 
 /**
+ * Asynchronously confirms that the provided password is valid
+ */
+password.prototype.validateInput = function (data, callback) {
+	var detail;
+	var result = true;
+	var confirmValue = this.getValueFromData(data, '_confirm');
+	var passwordValue = this.getValueFromData(data);
+	if (confirmValue !== undefined
+		&& passwordValue !== confirmValue) {
+		result = false;
+		detail = 'passwords must match';
+	}
+	// TODO: we could support a password complexity option (or regexp) here
+	utils.defer(callback, result, detail);
+};
+
+/**
+ * Asynchronously confirms that the provided password is valid
+ */
+password.prototype.validateRequiredInput = function (item, data, callback) {
+	var hashValue = this.getValueFromData(data, '_hash');
+	var passwordValue = this.getValueFromData(data);
+	var result = hashValue || passwordValue ? true : false;
+	if (!result && passwordValue === undefined && hashValue === undefined && item.get(this.path)) result = true;
+	utils.defer(callback, result);
+};
+
+/**
  * If password fields are required, check that either a value has been
  * provided or already exists in the field.
  *
  * Otherwise, input is always considered valid, as providing an empty
  * value will not change the password.
  *
- * @api public
+ * Deprecated
  */
 password.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path] && this.paths.confirm in data) {
@@ -139,10 +168,12 @@ password.prototype.inputIsValid = function (data, required, item) {
  * @api public
  */
 password.prototype.updateItem = function (item, data, callback) {
-	if (this.path in data) {
-		item.set(this.path, data[this.path]);
-	} else if (this.paths.hash in data) {
-		item.set(this.paths.hash, data[this.paths.hash]);
+	var hashValue = this.getValueFromData(data, '_hash');
+	var passwordValue = this.getValueFromData(data);
+	if (passwordValue !== undefined) {
+		item.set(this.path, passwordValue);
+	} else if (hashValue !== undefined) {
+		item.set(this.paths.hash, hashValue);
 	}
 	process.nextTick(callback);
 };

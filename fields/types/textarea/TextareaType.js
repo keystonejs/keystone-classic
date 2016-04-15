@@ -3,6 +3,7 @@ var TextType = require('../text/TextType');
 var util = require('util');
 var utils = require('keystone-utils');
 
+
 /**
  * Text FieldType Constructor
  * @extends Field
@@ -16,6 +17,10 @@ function textarea (list, path, options) {
 	textarea.super_.call(this, list, path, options);
 }
 util.inherits(textarea, FieldType);
+
+
+textarea.prototype.validateInput = TextType.prototype.validateInput;
+textarea.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /* Inherit from TextType prototype */
 textarea.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;

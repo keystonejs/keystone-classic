@@ -32,7 +32,7 @@ module.exports = Field.create({
 		};
 	},
 
-	valueChanged (value) {
+	valueChanged ({ value }) {
 		this.props.onChange({
 			path: this.props.path,
 			value: value,
@@ -54,7 +54,9 @@ module.exports = Field.create({
 	},
 
 	setToday () {
-		this.valueChanged(this.moment(new Date()).format(this.props.inputFormat));
+		this.valueChanged({
+			value: this.moment(new Date()).format(this.props.inputFormat),
+		});
 	},
 
 	renderValue () {
@@ -63,11 +65,17 @@ module.exports = Field.create({
 
 	renderField () {
 		let value = this.moment(this.props.value);
-		value = this.props.value && value.isValid() ? value.format(this.props.formatString) : this.props.value;
+		value = this.props.value && value.isValid() ? value.format(this.props.inputFormat) : this.props.value;
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
-					<DateInput ref="dateInput" name={this.props.path} format={this.props.inputFormat} value={value} onChange={this.valueChanged} />
+					<DateInput
+						ref="dateInput"
+						name={this.props.path}
+						format={this.props.inputFormat}
+						value={value}
+						onChange={this.valueChanged}
+					/>
 				</InputGroup.Section>
 				<InputGroup.Section>
 					<Button onClick={this.setToday}>Today</Button>

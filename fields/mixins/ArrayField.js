@@ -6,6 +6,7 @@ var FormField = require('elemental').FormField;
 var FormInput = require('elemental').FormInput;
 
 var lastId = 0;
+var ENTER_KEYCODE = 13;
 
 function newItem (value) {
 	lastId = lastId + 1;
@@ -32,7 +33,6 @@ module.exports = {
 	},
 
 	addItem: function () {
-		var self = this;
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
 			values: newValues,
@@ -56,7 +56,8 @@ module.exports = {
 	updateItem: function (i, event) {
 		var updatedValues = this.state.values;
 		var updateIndex = updatedValues.indexOf(i);
-		updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(event.target.value) : event.target.value;
+		var newValue = event.value || event.target.value;
+		updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(newValue) : newValue;
 		this.setState({
 			values: updatedValues,
 		});
@@ -86,7 +87,7 @@ module.exports = {
 		if (this.props.nested) inputName = this.props.nested + '.' + inputName + '_' + this.props._id;
 		return (
 			<FormField key={item.key}>
-				<Input ref={'item_' + (index + 1)} name={inputName} value={value} onChange={this.updateItem.bind(this, item)} autoComplete="off" />
+				<Input ref={'item_' + (index + 1)} name={inputName} value={value} onChange={this.updateItem.bind(this, item)} onKeyDown={this.addItemOnEnter} autoComplete="off" />
 				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
 					<span className="octicon octicon-x" />
 				</Button>
@@ -113,5 +114,12 @@ module.exports = {
 	// Override shouldCollapse to check for array length
 	shouldCollapse: function () {
 		return this.props.collapse && !this.props.value.length;
+	},
+
+	addItemOnEnter: function (event) {
+		if (event.keyCode === ENTER_KEYCODE) {
+			this.addItem();
+			event.preventDefault();
+		}
 	},
 };

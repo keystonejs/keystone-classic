@@ -1,6 +1,5 @@
 var keystone = require('../../../');
-var _ = require('underscore');
-var querystring = require('querystring');
+var _ = require('lodash');
 
 module.exports = function (req, res) {
 

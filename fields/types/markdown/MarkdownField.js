@@ -135,10 +135,11 @@ module.exports = Field.create({
 			padding: 8,
 			height: this.props.height,
 		};
-		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="md-editor__input code" />;
+		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value !== undefined && this.props.value.md !== undefined ? this.props.value.md : ''} ref="markdownTextarea" className="md-editor__input code" />;
 	},
 
 	renderValue () {
-		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value.md.replace(/\n/g, '<br />') }} />;
+		// TODO: victoriafrench - is this the correct way to do this? the object should be creating a default md where one does not exist imo.
+		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value !== undefined && this.props.value.md !== undefined ? this.props.value.md.replace(/\n/g, '<br />') : '' }} />;
 	},
 });
