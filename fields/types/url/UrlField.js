@@ -21,6 +21,18 @@ module.exports = Field.create({
 			</Button>
 		);
 	},
+	renderField () {
+		return (
+			<FormInput
+				name={this.props.path}
+				ref="focusTarget"
+				value={this.props.value}
+				onChange={this.valueChanged}
+				autoComplete="off"
+				type="url"
+			/>
+		);
+	},
 	wrapField () {
 		return (
 			<div style={{ position: 'relative' }}>
