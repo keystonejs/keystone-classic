@@ -42,7 +42,7 @@
     "express-request-language": "1.1.4",
     "express-session": "1.13.0",
     "expression-match": "0.0.16",
-    "fs-extra": "0.26.7",
+    "fs-extra": "0.27.0",
     "grappling-hook": "3.0.0",
     "history": "2.0.2",
     "i": "0.3.4",
