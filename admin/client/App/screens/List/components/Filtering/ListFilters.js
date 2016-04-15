@@ -1,6 +1,5 @@
 import React from 'react';
 import filterComponents from '../../../../../utils/filters';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 import Popout from '../../../../shared/Popout';
 import { Pill } from 'elemental';
 

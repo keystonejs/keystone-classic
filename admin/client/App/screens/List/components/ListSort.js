@@ -2,8 +2,8 @@ import { FormNote, FormField, FormInput } from 'elemental';
 import React, { PropTypes } from 'react';
 import vkey from 'vkey';
 
-import Popout from '../../../../shared/Popout';
-import PopoutList from '../../../../shared/Popout/PopoutList';
+import Popout from '../../../shared/Popout';
+import PopoutList from '../../../shared/Popout/PopoutList';
 
 var ListSort = React.createClass({
 	displayName: 'ListSort',

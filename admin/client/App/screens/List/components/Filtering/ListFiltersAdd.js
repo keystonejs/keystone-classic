@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Transition from 'react-addons-css-transition-group';
 import classnames from 'classnames';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 import ListFiltersAddForm from './ListFiltersAddForm';
 import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';

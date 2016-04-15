@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import Columns from '../../../../../utils/columns';
 import CurrentListStore from '../../../../../stores/CurrentListStore';
-import ListControl from '../List/ListControl';
+import ListControl from '../ListControl';
 
 import { DropTarget, DragSource } from 'react-dnd';
 

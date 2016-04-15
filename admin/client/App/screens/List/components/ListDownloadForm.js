@@ -1,10 +1,9 @@
 import React from 'react';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
-import Popout from '../../../../shared/Popout';
-import PopoutList from '../../../../shared/Popout/PopoutList';
+import Popout from '../../../shared/Popout';
+import PopoutList from '../../../shared/Popout/PopoutList';
 import { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
 
-import { downloadItems } from '../../actions';
+import { downloadItems } from '../actions';
 const FORMAT_OPTIONS = [
 	{ label: 'CSV', value: 'csv' },
 	{ label: 'JSON', value: 'json' },

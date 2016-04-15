@@ -13,11 +13,11 @@ import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import CreateForm from '../../shared/CreateForm';
 import FlashMessages from '../../shared/FlashMessages';
 import ItemsTable from './components/ItemsTable/ItemsTable';
-import ListColumnsForm from './components/List/ListColumnsForm';
-import ListDownloadForm from './components/List/ListDownloadForm';
-import ListFilters from './components/List/ListFilters';
-import ListFiltersAdd from './components/List/ListFiltersAdd';
-import ListSort from './components/List/ListSort';
+import ListColumnsForm from './components/ListColumnsForm';
+import ListDownloadForm from './components/ListDownloadForm';
+import ListFilters from './components/Filtering/ListFilters';
+import ListFiltersAdd from './components/Filtering/ListFiltersAdd';
+import ListSort from './components/ListSort';
 import UpdateForm from './components/UpdateForm';
 import { plural } from '../../../utils/string';
 import Lists from '../../../stores/Lists';
@@ -65,25 +65,6 @@ const ListView = React.createClass({
 		// pass it down to the component directly
 		Keystone.list = Keystone.lists[listId];
 	},
-	// getStateFromStore () {
-	// 	var state = {
-	// 		columns: CurrentListStore.getActiveColumns(),
-	// 		currentPage: CurrentListStore.getCurrentPage(),
-	// 		filters: CurrentListStore.getActiveFilters(),
-	// 		items: CurrentListStore.getItems(),
-	// 		list: CurrentListStore.getList(),
-	// 		loading: CurrentListStore.isLoading(),
-	// 		pageSize: CurrentListStore.getPageSize(),
-	// 		ready: CurrentListStore.isReady(),
-	// 		search: CurrentListStore.getActiveSearch(),
-	// 		rowAlert: CurrentListStore.rowAlert(),
-	// 	};
-	// 	if (!this._searchTimeout) {
-	// 		state.searchString = state.search;
-	// 	}
-	// 	state.showBlankState = (state.ready && !state.loading && !props.items.results.length && !state.search && !state.filters.length);
-	// 	return state;
-	// },
 
 	// ==============================
 	// HEADER
@@ -453,7 +434,7 @@ const ListView = React.createClass({
 		return !this.props.loading
 				&& !this.props.items.results.length
 				&& !this.props.search
-				&& !this.props.filters.length;
+				&& !this.props.active.filters.length;
 	},
 	renderBlankState () {
 		if (!this.showBlankState()) return null;
@@ -518,7 +499,6 @@ const ListView = React.createClass({
 		);
 	},
 	render () {
-		console.log(this.props.lists);
 		if (!this.props.ready) {
 			return (
 				<div className="view-loading-indicator">
@@ -554,8 +534,7 @@ module.exports = connect((state) => {
 		currentList: state.lists.currentList,
 		items: state.lists.items,
 		page: state.lists.page,
-		active: state.lists.active,
-		filters: state.lists.filters,
+		active: state.active,
 		ready: state.lists.ready,
 		rowAlert: state.lists.rowAlert,
 	};

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Popout from '../../../../shared/Popout';
-import PopoutList from '../../../../shared/Popout/PopoutList';
+import Popout from '../../../shared/Popout';
+import PopoutList from '../../../shared/Popout/PopoutList';
 import { Button, InputGroup, FormField, FormInput } from 'elemental';
 
-import { setActiveColumns } from '../../actions';
+import { setActiveColumns } from '../actions';
 
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
