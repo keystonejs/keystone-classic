@@ -20,9 +20,14 @@ export function setActiveSearch (searchString) {
 }
 
 export function setActiveSort (path) {
-	return {
-		type: SET_ACTIVE_SORT,
-		path,
+	return (dispatch, getState) => {
+		// TODO Decouple from state somehow
+		const list = getState().lists.currentList;
+		const sort = list.expandSort(path);
+		dispatch({
+			type: SET_ACTIVE_SORT,
+			sort,
+		});
 	};
 }
 

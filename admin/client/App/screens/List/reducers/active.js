@@ -35,7 +35,7 @@ function active (state = initialState, action) {
 			});
 		case SET_ACTIVE_SORT:
 			return Object.assign({}, state, {
-				sort: action.path,
+				sort: action.sort,
 			});
 		case SET_ACTIVE_COLUMNS:
 			return Object.assign({}, state, {
