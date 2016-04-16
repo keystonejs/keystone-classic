@@ -460,7 +460,6 @@ const ListView = React.createClass({
 		if (!this.state.constrainTableWidth) {
 			containerStyle.maxWidth = '100%';
 		}
-
 		return (
 			<div>
 				{this.renderHeader()}
