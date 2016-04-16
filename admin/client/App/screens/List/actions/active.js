@@ -32,10 +32,6 @@ export function setActiveSort (path) {
 }
 
 export function setActiveColumns (columns) {
-	// TODO Figure out why we needed below checks in CurrentListSotre and
-	// add them back in
-	// if (Array.isArray(columns)) columns = columns.join(',');
-	// if (columns === _list.defaultColumnPaths) columns = undefined;
 	return (dispatch, getState) => {
 		// TODO Decouple from state somehow
 		const list = getState().lists.currentList;
