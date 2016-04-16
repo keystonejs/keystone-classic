@@ -48,8 +48,9 @@ const ListView = React.createClass({
 	},
 	componentDidMount () {
 		// When we directly navigate to a list without coming from another client
-		// side routed page before, we need to initialize the list
+		// side routed page before, we need to initialize the list and load the items
 		this.initializeList(this.props.params.listId);
+		this.props.dispatch(loadItems());
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
@@ -60,7 +61,6 @@ const ListView = React.createClass({
 	},
 	initializeList (listId) {
 		this.props.dispatch(selectList(listId));
-		this.props.dispatch(loadItems());
 		// TODO This is only used in ListDownloadForm, remove Keystone.list and
 		// pass it down to the component directly
 		Keystone.list = Keystone.lists[listId];

@@ -74,14 +74,6 @@ function lists (state = initialState, action) {
 				loading: false,
 				ready: true,
 				items: action.items,
-				data: {
-					...state.data,
-					// Cache items for next round
-					[state.currentList.path]: {
-						...state.currentList.path,
-						items: action.items,
-					},
-				},
 			});
 		case ITEM_LOADING_ERROR:
 			// TODO Show error messages
