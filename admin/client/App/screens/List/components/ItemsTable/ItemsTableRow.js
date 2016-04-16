@@ -2,10 +2,17 @@ import React from 'react';
 import classnames from 'classnames';
 
 import Columns from '../../../../../utils/columns';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 import ListControl from '../ListControl';
 
 import { DropTarget, DragSource } from 'react-dnd';
+
+import {
+	setDragBase,
+	resetItems,
+	reorderItems,
+	setRowAlert,
+	moveItem,
+} from '../../actions';
 
 const ItemsRow = React.createClass({
 	propTypes: {
@@ -15,10 +22,10 @@ const ItemsRow = React.createClass({
 		items: React.PropTypes.object,
 		list: React.PropTypes.object,
 		// Injected by React DnD:
-		isDragging: React.PropTypes.bool,         // eslint-disable-line react/sort-prop-types
-		connectDragSource: React.PropTypes.func,  // eslint-disable-line react/sort-prop-types
-		connectDropTarget: React.PropTypes.func,  // eslint-disable-line react/sort-prop-types
-		connectDragPreview: React.PropTypes.func, // eslint-disable-line react/sort-prop-types
+		isDragging: React.PropTypes.bool,         // eslint-disable-line react/jsx-sort-prop-types
+		connectDragSource: React.PropTypes.func,  // eslint-disable-line react/jsx-sort-prop-types
+		connectDropTarget: React.PropTypes.func,  // eslint-disable-line react/jsx-sort-prop-types
+		connectDragPreview: React.PropTypes.func, // eslint-disable-line react/jsx-sort-prop-types
 	},
 	renderRow (item) {
 		const itemId = item.id;
@@ -77,22 +84,23 @@ module.exports = exports = ItemsRow;
 const dragItem = {
 	beginDrag (props) {
 		const send = { ...props };
-		CurrentListStore.setDragBase(props.item, props.index);
+		props.dispatch(setDragBase(props.item, props.index));
 		return { ...send };
 	},
 	endDrag (props, monitor, component) {
 
 		if (!monitor.didDrop()) {
-			return CurrentListStore.resetItems(CurrentListStore.findClonedItemById(props.id).index);
+			props.dispatch(resetItems(props.id));
+			return;
 		}
 
-		const base = CurrentListStore.getDragBase();
-		const page = CurrentListStore.getCurrentPage();
+		const base = props.drag;
+		const page = props.currentPage;
 		const droppedOn = monitor.getDropResult();
 		// some drops provide the data for us in prevSortOrder
 		const prevSortOrder = droppedOn.prevSortOrder ? droppedOn.prevSortOrder : props.sortOrder;
 		// use a given newSortOrder prop or retrieve from the cloned items list
-		let newSortOrder = droppedOn.newSortOrder ? droppedOn.newSortOrder : CurrentListStore.findClonedItemByIndex(droppedOn.index).sortOrder;
+		let newSortOrder = droppedOn.newSortOrder ? droppedOn.newSortOrder : droppedOn.sortOrder;
 
 		// self
 		if (prevSortOrder === newSortOrder) {
@@ -101,25 +109,27 @@ const dragItem = {
 				if (droppedOn.index === 0) {
 					// item is first in the list
 					// save to the sortOrder of the 2nd item - 1
-					newSortOrder = CurrentListStore.findClonedItemByIndex(1).sortOrder - 1;
+					// newSortOrder = CurrentListStore.findClonedItemByIndex(1).sortOrder - 1;
 					droppedOn.goToPage = Number(page) - 1;
 				} else {
 					// item is last in the list
 					// save to the sortOrder of the 2nd to last item - 1
-					newSortOrder = CurrentListStore.findClonedItemByIndex(droppedOn.index - 1).sortOrder + 1;
+					// newSortOrder = CurrentListStore.findClonedItemByIndex(droppedOn.index - 1).sortOrder + 1;
 					droppedOn.goToPage = Number(page) + 1;
 				}
 				if (!newSortOrder || !droppedOn.goToPage) {
 					// something is wrong so reset
-					return CurrentListStore.resetItems(CurrentListStore.findClonedItemById(props.id).index);
+					this.props.dispatch(resetItems(props.id));
+					return;
 				}
 			} else {
-				return CurrentListStore.resetItems(CurrentListStore.findClonedItemById(props.id).index);
+				props.dispatch(resetItems(props.id));
+				return;
 			}
 		}
 		// dropped on a target
 		// droppedOn.goToPage is an optional page override for dropping items on a new page target
-		CurrentListStore.reorderItems(props.item, prevSortOrder, newSortOrder, Number(droppedOn.goToPage));
+		props.dispatch(reorderItems(props.item, prevSortOrder, newSortOrder, Number(droppedOn.goToPage)));
 	},
 };
 /**
@@ -132,7 +142,9 @@ const dropItem = {
 	hover (props, monitor, component) {
 		// reset row alerts
 		if (props.rowAlert.success || props.rowAlert.fail) {
-			CurrentListStore.rowAlert('reset');
+			props.dispatch(setRowAlert({
+				reset: true,
+			}));
 		}
 
 		const dragged = monitor.getItem().index;
@@ -143,7 +155,7 @@ const dropItem = {
 			return;
 		}
 
-		CurrentListStore.moveItem(dragged, over, props);
+		props.dispatch(moveItem(dragged, over, props));
 		monitor.getItem().index = over;
 	},
 };

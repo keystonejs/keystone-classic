@@ -5,7 +5,7 @@ import {
 	DELETE_ITEM,
 } from '../constants';
 
-export function loadItems () {
+export function loadItems (options = {}) {
 	return (dispatch, getState) => {
 		dispatch({ type: LOAD_ITEMS });
 		const state = getState();
@@ -28,6 +28,8 @@ export function loadItems () {
 				// }
 				// _itemsResultsClone = items.results.slice(0);
 				//
+
+				// TODO Reenable this
 				// if (options.success && options.id) {
 				// 	// flashes a success background on the row
 				// 	_rowAlert.success = options.id;

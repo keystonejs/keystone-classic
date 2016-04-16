@@ -38,6 +38,8 @@ var ItemsTableDragDropZone = React.createClass({
 					pageItems={pageItems}
 					pageSize={pageSize}
 					currentPage={currentPage}
+					drag={this.props.drag}
+					dispatch={this.props.dispatch}
 				/>
 			);
 		}

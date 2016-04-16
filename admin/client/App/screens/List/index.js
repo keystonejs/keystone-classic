@@ -487,6 +487,8 @@ const ListView = React.createClass({
 								rowAlert={this.props.rowAlert}
 								currentPage={this.props.lists.page.index}
 								pageSize={this.props.lists.page.size}
+								drag={this.props.lists.drag}
+								dispatch={this.props.dispatch}
 							/>
 							{this.renderNoSearchResults()}
 						</div>

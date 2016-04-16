@@ -53,6 +53,14 @@ import {
 	deleteItems,
 } from './actions/items';
 
+import {
+	setDragBase,
+	resetItems,
+	reorderItems,
+	setRowAlert,
+	moveItem,
+} from './actions/dragdrop';
+
 export {
 	setFilter,
 	clearFilter,
@@ -65,4 +73,9 @@ export {
 	itemLoadingError,
 	deleteItem,
 	deleteItems,
+	setDragBase,
+	resetItems,
+	reorderItems,
+	setRowAlert,
+	moveItem,
 };

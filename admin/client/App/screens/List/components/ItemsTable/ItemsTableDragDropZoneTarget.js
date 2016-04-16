@@ -6,7 +6,6 @@
 
 import React from 'react';
 import { DropTarget } from 'react-dnd';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 
 import { setCurrentPage } from '../../actions';
 
@@ -28,7 +27,7 @@ var ItemsTableDragDropZoneTarget = React.createClass({
 		}
 	},
 	render () {
-		const { pageItems, page, isOver } = this.props;
+		const { pageItems, page, isOver, dispatch } = this.props;
 		let { className } = this.props;
 		if (isOver) {
 			className += (page === this.props.currentPage) ? ' is-available ' : ' is-waiting ';
@@ -37,7 +36,7 @@ var ItemsTableDragDropZoneTarget = React.createClass({
 			<div
 				className={className}
 				onClick={(e) => {
-					this.props.dispatch(setCurrentPage(page));
+					dispatch(setCurrentPage(page));
 				}}
 			>
 				{pageItems}
@@ -51,9 +50,9 @@ var ItemsTableDragDropZoneTarget = React.createClass({
 const dropTarget = {
 	drop (props, monitor, component) {
 		// we send manual data to endDrag to send this item to the correct page
-		const { page } = CurrentListStore.getDragBase();
+		const { page } = props.drag;
 		const targetPage = props.page;
-		const pageSize = this.props.pageSize;
+		const pageSize = props.pageSize;
 
 		const item = monitor.getItem();
 		item.goToPage = props.page;
@@ -68,9 +67,8 @@ const dropTarget = {
 		if (timeoutID) {
 			return;
 		}
-		const { page } = props;
-		const currentPage = this.props.currentPage;
-		const original = CurrentListStore.getDragBase();
+		const { page, currentPage, drag } = props;
+		const original = drag;
 
 		// self
 		if (page === currentPage) {
@@ -78,9 +76,9 @@ const dropTarget = {
 		}
 		if (monitor.isOver()) {
 			timeoutID = setTimeout(() => {
-				const newIndex = (original.page === page) ? original.index : (currentPage < page) ? 0 : this.props.pageSize;
-
-				CurrentListStore.dragDropChangePage(page);
+				const newIndex = (original.page === page) ? original.index : (currentPage < page) ? 0 : props.pageSize;
+				console.log('SET PAGE MOTHERFUCKER')
+				props.dispatch(setCurrentPage(page));
 				monitor.getItem().index = newIndex;
 
 				clearTimeout(timeoutID);
@@ -93,7 +91,7 @@ const dropTarget = {
 		// if we want to stop this behaviour set return false
 		if (!Keystone.devMode) return;
 
-		const original = CurrentListStore.getDragBase();
+		const original = props.drag;
 		// self
 		if (original.page === props.page) {
 			return false;

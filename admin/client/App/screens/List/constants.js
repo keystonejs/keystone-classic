@@ -15,3 +15,10 @@ export const SET_ACTIVE_LIST = 'app/List/SET_ACTIVE_LIST';
 export const ADD_FILTER = 'app/List/ADD_FILTER';
 export const CLEAR_FILTER = 'app/List/CLEAR_FILTER';
 export const CLEAR_ALL_FILTERS = 'app/List/CLEAR_ALL_FILTERS';
+// Drag
+export const SET_ROW_ALERT = 'app/List/SET_ROW_ALERT';
+export const RESET_DRAG_PAGE = 'app/List/RESET_DRAG_PAGE';
+export const RESET_DRAG_ITEMS = 'app/List/RESET_DRAG_ITEMS';
+export const SET_DRAG_ITEM = 'app/List/SET_DRAG_ITEM';
+export const SET_DRAG_INDEX = 'app/List/SET_DRAG_INDEX';
+export const DRAG_MOVE_ITEM = 'app/List/DRAG_MOVE_ITEM';

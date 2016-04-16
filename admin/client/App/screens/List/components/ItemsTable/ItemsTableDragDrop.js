@@ -2,7 +2,7 @@ import React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Sortable } from './ItemsTableRow';
-// import DropZone from './ItemsTableDragDropZone';
+import DropZone from './ItemsTableDragDropZone';
 
 var ItemsTableDragDrop = React.createClass({
 	displayName: 'ItemsTableDragDrop',
@@ -27,7 +27,7 @@ var ItemsTableDragDrop = React.createClass({
 						/>
 					);
 				})}
-				{/* <DropZone { ...this.props } /> */}
+				<DropZone { ...this.props } />
 			</tbody>
 		);
 	},
