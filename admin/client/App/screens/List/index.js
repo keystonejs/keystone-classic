@@ -485,6 +485,8 @@ const ListView = React.createClass({
 								list={this.props.currentList}
 								manageMode={this.state.manageMode}
 								rowAlert={this.props.rowAlert}
+								currentPage={this.props.lists.page.index}
+								pageSize={this.props.lists.page.size}
 							/>
 							{this.renderNoSearchResults()}
 						</div>

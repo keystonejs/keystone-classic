@@ -72,6 +72,7 @@ function lists (state = initialState, action) {
 				},
 			});
 		case ITEM_LOADING_ERROR:
+			// TODO Show error messages
 			console.log('ERROR', action.err);
 			return Object.assign({}, state, {
 				loading: false,

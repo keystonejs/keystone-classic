@@ -17,7 +17,6 @@ export function loadItems () {
 			columns: state.active.columns,
 			page: state.lists.page,
 		}, (err, items) => {
-			// TODO: graceful error handling
 			if (items) {
 				// if (page.index !== drag.page && drag.item) {
 				// 	// add the dragging item

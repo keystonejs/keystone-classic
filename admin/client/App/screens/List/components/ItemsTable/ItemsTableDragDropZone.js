@@ -1,5 +1,10 @@
+/**
+ * THIS IS ORPHANED AND ISN'T RENDERED AT THE MOMENT
+ * THIS WAS DONE TO FINISH THE REDUX INTEGRATION, WILL REWRITE SOON
+ * - @mxstbr
+ */
+
 import React from 'react';
-import CurrentListStore from '../../../../../stores/CurrentListStore';
 import DropZoneTarget from './ItemsTableDragDropZoneTarget';
 import classnames from 'classnames';
 
@@ -12,9 +17,7 @@ var ItemsTableDragDropZone = React.createClass({
 		list: React.PropTypes.object,
 	},
 	renderPageDrops () {
-		const { items } = this.props;
-		const currentPage = CurrentListStore.getCurrentPage();
-		const pageSize = CurrentListStore.getPageSize();
+		const { items, currentPage, pageSize } = this.props;
 
 		const totalPages = Math.ceil(items.count / pageSize);
 		const style = { display: totalPages > 1 ? null : 'none' };
@@ -27,9 +30,16 @@ var ItemsTableDragDropZone = React.createClass({
 			const className = classnames('ItemList__dropzone--page', {
 				'is-active': current,
 			});
-			/* eslint-disable no-loop-func */
-			pages.push(<DropZoneTarget key={'page_' + page} page={page} className={className} pageItems={pageItems} />);
-			/* eslint-enable */
+			pages.push(
+				<DropZoneTarget
+					key={'page_' + page}
+					page={page}
+					className={className}
+					pageItems={pageItems}
+					pageSize={pageSize}
+					currentPage={currentPage}
+				/>
+			);
 		}
 
 		let cols = this.props.columns.length;

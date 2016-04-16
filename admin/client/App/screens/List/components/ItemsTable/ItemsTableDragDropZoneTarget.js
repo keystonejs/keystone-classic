@@ -1,6 +1,14 @@
+/**
+ * THIS IS ORPHANED AND ISN'T RENDERED AT THE MOMENT
+ * THIS WAS DONE TO FINISH THE REDUX INTEGRATION, WILL REWRITE SOON
+ * - @mxstbr
+ */
+
 import React from 'react';
 import { DropTarget } from 'react-dnd';
 import CurrentListStore from '../../../../../stores/CurrentListStore';
+
+import { setCurrentPage } from '../../actions';
 
 let timeoutID = false;
 
@@ -23,9 +31,17 @@ var ItemsTableDragDropZoneTarget = React.createClass({
 		const { pageItems, page, isOver } = this.props;
 		let { className } = this.props;
 		if (isOver) {
-			className += (page === CurrentListStore.getCurrentPage()) ? ' is-available ' : ' is-waiting ';
+			className += (page === this.props.currentPage) ? ' is-available ' : ' is-waiting ';
 		}
-		return this.props.connectDropTarget(<div className={className} onClick={(e) => { CurrentListStore.setCurrentPage(page); }} >{pageItems}</div>);
+		return this.props.connectDropTarget(
+			<div
+				className={className}
+				onClick={(e) => {
+					this.props.dispatch(setCurrentPage(page));
+				}}
+			>
+				{pageItems}
+			</div>);
 	},
 });
 
@@ -37,7 +53,7 @@ const dropTarget = {
 		// we send manual data to endDrag to send this item to the correct page
 		const { page } = CurrentListStore.getDragBase();
 		const targetPage = props.page;
-		const pageSize = CurrentListStore.getPageSize();
+		const pageSize = this.props.pageSize;
 
 		const item = monitor.getItem();
 		item.goToPage = props.page;
@@ -53,7 +69,7 @@ const dropTarget = {
 			return;
 		}
 		const { page } = props;
-		const currentPage = CurrentListStore.getCurrentPage();
+		const currentPage = this.props.currentPage;
 		const original = CurrentListStore.getDragBase();
 
 		// self
@@ -62,7 +78,7 @@ const dropTarget = {
 		}
 		if (monitor.isOver()) {
 			timeoutID = setTimeout(() => {
-				const newIndex = (original.page === page) ? original.index : (currentPage < page) ? 0 : CurrentListStore.getPageSize();
+				const newIndex = (original.page === page) ? original.index : (currentPage < page) ? 0 : this.props.pageSize;
 
 				CurrentListStore.dragDropChangePage(page);
 				monitor.getItem().index = newIndex;
