@@ -14,7 +14,12 @@ const initialState = {
 	columns: [],
 	filters: [],
 	search: '',
-	sort: {},
+	sort: {
+		input: '',
+		isDefaultSort: false,
+		paths: [],
+		rawInput: '',
+	},
 };
 
 /**

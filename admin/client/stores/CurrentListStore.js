@@ -81,16 +81,16 @@ const CurrentListStore = new Store({
 		page = defaultPage();
 		this.notifyChange();
 
-		history.listen(function (location) {
-			_location = location;
-			active.columns = _list.expandColumns(location.query.columns || _list.defaultColumns);
-			active.search = location.query.search || '';
-			active.sort = _list.expandSort(location.query.sort || _list.defaultSort);
-			page.index = Number(location.query.page);
-			if (isNaN(page.index)) page.index = 1;
-			CurrentListStore.loadItems();
-			CurrentListStore.notifyChange();
-		});
+		// history.listen(function (location) {
+		// 	_location = location;
+		// 	active.columns = _list.expandColumns(location.query.columns || _list.defaultColumns);
+		// 	active.search = location.query.search || '';
+		// 	active.sort = _list.expandSort(location.query.sort || _list.defaultSort);
+		// 	page.index = Number(location.query.page);
+		// 	if (isNaN(page.index)) page.index = 1;
+		// 	CurrentListStore.loadItems();
+		// 	CurrentListStore.notifyChange();
+		// });
 	},
 	reset () {
 		_list = {};

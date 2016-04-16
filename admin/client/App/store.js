@@ -6,6 +6,8 @@ import { routerReducer, routerMiddleware, push, replace } from 'react-router-red
 import ListsReducer from './screens/List/reducers/main';
 import ActiveReducer from './screens/List/reducers/active';
 
+import { loadItems } from './screens/List/actions';
+
 const reducers = combineReducers({
 	lists: ListsReducer,
 	active: ActiveReducer,
@@ -33,12 +35,14 @@ store.subscribe(() => {
 	// Get all the necessary data
 	const state = store.getState();
 	const list = state.lists.currentList;
-	if (!list) return;
+	const items = state.lists.items;
+	// If we aren't on a list, or haven't loaded any items yet don't do anything
+	if (!list || items.count < 1) return;
 	const search = state.active.search;
 	const location = state.routing.locationBeforeTransitions;
 
 	let columns = state.active.columns;
-	let sort = state.active.sort.input;
+	let sort = state.active.sort.rawInput;
 	let page = state.lists.page.index;
 
 	if (columns) {
@@ -58,30 +62,28 @@ store.subscribe(() => {
 	// Pagination
 	if (page === 1) page = undefined;
 
-	// If something changed, change the query parameter
+	// If at least one value is different from the cached value, change the query
+	// parameter
 	// This check is important because updateQueryParams dispatches an action
-	// so this would be an endless loop
-	if (
-		// At least one value is defined
-		(page || columns || sort || search)
-		// And at least one value is different from the cached value
-		&& (
-			(page !== cachedPage)
+	// so this would be an endless loop if we didn't check this
+	if ((page !== cachedPage)
 			|| (columns !== cachedColumns)
 			|| (sort !== cachedSort)
-			|| (search !== cachedSearch))
-		) {
+			|| (search !== cachedSearch)) {
 		// Cache the new values
 		cachedPage = page;
 		cachedColumns = columns;
 		cachedSort = sort;
 		cachedSearch = search;
+		// Update the query params
 		updateQueryParams({
 			page,
 			columns,
 			sort,
 			search,
 		}, false, location);
+		// After we've updated the query params, load the new items
+		store.dispatch(loadItems());
 	}
 });
 
