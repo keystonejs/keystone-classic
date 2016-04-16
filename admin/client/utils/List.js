@@ -183,6 +183,9 @@ List.prototype.expandSort = function (input) {
 			invert = true;
 			path = path.substr(1);
 		}
+		else if (path.charAt(0) === '+') {
+			path = path.substr(1);
+		}
 		const field = this.fields[path];
 		if (!field) {
 			// TODO: Support arbitary document paths
