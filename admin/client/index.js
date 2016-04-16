@@ -7,6 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 
 import App from './App';
 import Home from './App/screens/Home';
@@ -15,9 +16,11 @@ import List from './App/screens/List';
 
 import store from './App/store';
 
+const history = syncHistoryWithStore(browserHistory, store);
+
 ReactDOM.render(
 	<Provider store={store}>
-		<Router history={browserHistory}>
+		<Router history={history}>
 			<Route path={Keystone.adminPath} component={App}>
 				<IndexRoute component={Home} />
 				<Route path=":listId" component={List} />

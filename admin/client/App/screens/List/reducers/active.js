@@ -11,10 +11,10 @@ import {
 } from '../constants';
 
 const initialState = {
-	columns: null,
+	columns: [],
 	filters: [],
 	search: '',
-	sort: null,
+	sort: {},
 };
 
 /**
