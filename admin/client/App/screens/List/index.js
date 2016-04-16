@@ -190,7 +190,8 @@ const ListView = React.createClass({
 		// unless the KEYSTONE_DEV environment variable is set
 		if (!Keystone.devMode) return;
 
-		const { checkedItems, manageMode, pageSize } = this.state;
+		const { checkedItems, manageMode } = this.state;
+		const pageSize = this.props.lists.page.size;
 		const items = this.props.items;
 		const list = this.props.currentList;
 		if (!items.count || (list.nodelete && list.noedit)) return;
@@ -435,7 +436,7 @@ const ListView = React.createClass({
 	showBlankState () {
 		return !this.props.loading
 				&& !this.props.items.results.length
-				&& !this.props.search
+				&& !this.props.active.search
 				&& !this.props.active.filters.length;
 	},
 	renderBlankState () {
@@ -494,9 +495,9 @@ const ListView = React.createClass({
 	},
 	renderNoSearchResults () {
 		if (this.props.items.results.length) return null;
-		let matching = this.state.search;
-		if (this.state.filters.length) {
-			matching += (matching ? ' and ' : '') + plural(this.state.filters.length, '* filter', '* filters');
+		let matching = this.props.active.search;
+		if (this.props.active.filters.length) {
+			matching += (matching ? ' and ' : '') + plural(this.props.active.filters.length, '* filter', '* filters');
 		}
 		matching = matching ? ' found matching ' + matching : '.';
 		return (
