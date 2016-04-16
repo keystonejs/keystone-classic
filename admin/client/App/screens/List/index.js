@@ -467,20 +467,27 @@ const ListView = React.createClass({
 				{this.renderHeader()}
 				<Container style={containerStyle}>
 					<FlashMessages messages={Keystone.messages} />
-					{/* TODO COLUMS HERE MIGHT BE ACTIVE COLUMNS */}
-					<ItemsTable
-						activeSort={this.props.active.sort}
-						checkedItems={this.state.checkedItems}
-						checkTableItem={this.checkTableItem}
-						columns={this.props.active.columns}
-						deleteTableItem={this.deleteTableItem}
-						handleSortSelect={this.handleSortSelect}
-						items={this.props.items}
-						list={this.props.currentList}
-						manageMode={this.state.manageMode}
-						rowAlert={this.props.rowAlert}
-					/>
-					{this.renderNoSearchResults()}
+					{(this.props.loading) ? (
+						<div className="centered-loading-indicator">
+							<Spinner size="md" />
+						</div>
+					) : (
+						<div>
+							<ItemsTable
+								activeSort={this.props.active.sort}
+								checkedItems={this.state.checkedItems}
+								checkTableItem={this.checkTableItem}
+								columns={this.props.active.columns}
+								deleteTableItem={this.deleteTableItem}
+								handleSortSelect={this.handleSortSelect}
+								items={this.props.items}
+								list={this.props.currentList}
+								manageMode={this.state.manageMode}
+								rowAlert={this.props.rowAlert}
+							/>
+							{this.renderNoSearchResults()}
+						</div>
+					)}
 				</Container>
 			</div>
 		);
@@ -502,7 +509,7 @@ const ListView = React.createClass({
 	render () {
 		if (!this.props.ready) {
 			return (
-				<div className="view-loading-indicator">
+				<div className="centered-loading-indicator">
 					<Spinner size="md" />
 				</div>
 			);
