@@ -7,7 +7,7 @@ import {
 	SET_ACTIVE_COLUMNS,
 	SET_ACTIVE_LIST,
 } from '../constants';
-import { setCurrentPage } from '../actions';
+import { setCurrentPage, loadItems } from '../actions';
 
 /**
  * Active actions
@@ -54,22 +54,37 @@ export function setActiveList (list) {
  * Filtering actions
  */
 function addFilter (filter) {
-	return {
-		type: ADD_FILTER,
-		filter,
+	// TODO Make this a pure function again, find better way to call loadItems()
+	// after each filtering change!
+	return (dispatch) => {
+		dispatch({
+			type: ADD_FILTER,
+			filter,
+		});
+		dispatch(loadItems());
 	};
 }
 
 export function clearFilter (path) {
-	return {
-		type: CLEAR_FILTER,
-		path,
+	// TODO Make this a pure function again, find better way to call loadItems()
+	// after each filtering change!
+	return (dispatch) => {
+		dispatch({
+			type: CLEAR_FILTER,
+			path,
+		});
+		dispatch(loadItems());
 	};
 }
 
 export function clearAllFilters () {
-	return {
-		type: CLEAR_ALL_FILTERS,
+	// TODO Make this a pure function again, find better way to call loadItems()
+	// after each filtering change!
+	return (dispatch) => {
+		dispatch({
+			type: CLEAR_ALL_FILTERS,
+		});
+		dispatch(loadItems());
 	};
 }
 
@@ -96,6 +111,7 @@ export function setFilter (path, value) {
 			};
 		}
 		dispatch(addFilter(filter));
+		dispatch(loadItems());
 		dispatch(setCurrentPage(1));
 	};
 }
