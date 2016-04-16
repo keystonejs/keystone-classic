@@ -1,5 +1,5 @@
 import React from 'react';
-import InvalidFieldType from '../../../admin/client/components/InvalidFieldType';
+import InvalidFieldType from './Forms/InvalidFieldType';
 
 import { Button, Card, Col, Row } from 'elemental';
 
