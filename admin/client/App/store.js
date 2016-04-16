@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { browserHistory } from 'react-router';
 import { routerReducer, routerMiddleware, push, replace } from 'react-router-redux';
@@ -16,9 +16,12 @@ const reducers = combineReducers({
 
 const store = createStore(
 	reducers,
-	applyMiddleware(
-		thunk,
-		routerMiddleware(browserHistory)
+	compose(
+		applyMiddleware(
+			thunk,
+			routerMiddleware(browserHistory)
+		),
+		window.devToolsExtension ? window.devToolsExtension() : f => f
 	)
 );
 
@@ -66,10 +69,10 @@ store.subscribe(() => {
 	// parameter
 	// This check is important because updateQueryParams dispatches an action
 	// so this would be an endless loop if we didn't check this
-	if ((page !== cachedPage)
-			|| (columns !== cachedColumns)
-			|| (sort !== cachedSort)
-			|| (search !== cachedSearch)) {
+	if (page !== cachedPage
+		|| columns !== cachedColumns
+		|| sort !== cachedSort
+		|| search !== cachedSearch) {
 		// Cache the new values
 		cachedPage = page;
 		cachedColumns = columns;
