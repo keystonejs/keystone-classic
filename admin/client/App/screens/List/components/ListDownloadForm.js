@@ -29,10 +29,10 @@ var ListDownloadForm = React.createClass({
 		return selectedColumns;
 	},
 	getListUIElements () {
-		return Keystone.list.uiElements.map((el) => {
+		return this.props.list.uiElements.map((el) => {
 			return el.type === 'field' ? {
 				type: 'field',
-				field: Keystone.list.fields[el.field],
+				field: this.props.list.fields[el.field],
 			} : el;
 		});
 	},

@@ -61,9 +61,6 @@ const ListView = React.createClass({
 	},
 	initializeList (listId) {
 		this.props.dispatch(selectList(listId));
-		// TODO This is only used in ListDownloadForm, remove Keystone.list and
-		// pass it down to the component directly
-		Keystone.list = Keystone.lists[listId];
 	},
 
 	// ==============================
@@ -313,6 +310,7 @@ const ListView = React.createClass({
 						<ListDownloadForm
 							dispatch={this.props.dispatch}
 							activeColumns={this.props.active.columns}
+							list={Lists[this.props.params.listId]}
 							className="ListHeader__download"
 						/>
 						<InputGroup.Section className="ListHeader__expand">

@@ -51,6 +51,7 @@ import {
 	itemLoadingError,
 	deleteItem,
 	deleteItems,
+	downloadItems,
 } from './actions/items';
 
 import {
@@ -78,4 +79,5 @@ export {
 	reorderItems,
 	setRowAlert,
 	moveItem,
+	downloadItems,
 };
