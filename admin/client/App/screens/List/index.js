@@ -258,10 +258,12 @@ const ListView = React.createClass({
 		);
 	},
 	renderPagination () {
-		const { currentPage, manageMode, pageSize } = this.state;
 		const items = this.props.items;
+		if (this.state.manageMode || !items.count) return;
+
 		const list = this.props.currentList;
-		if (manageMode || !items.count) return;
+		const currentPage = this.props.lists.page.index;
+		const pageSize = this.props.lists.page.size;
 
 		return (
 			<Pagination

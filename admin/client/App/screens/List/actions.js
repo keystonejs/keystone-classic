@@ -27,7 +27,6 @@ export function selectList (id) {
  * @param {Number} index The page number we want to be on
  */
 export function setCurrentPage (index) {
-	if (index === 1) index = undefined;
 	return {
 		type: SET_CURRENT_PAGE,
 		index,

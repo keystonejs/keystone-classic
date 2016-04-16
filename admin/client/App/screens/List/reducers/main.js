@@ -49,7 +49,8 @@ function lists (state = initialState, action) {
 				currentList: list,
 				page: {
 					...state.page,
-					perPage: list.perPage,
+					index: 1,
+					size: list.perPage,
 				},
 			});
 		case LOAD_ITEMS:
