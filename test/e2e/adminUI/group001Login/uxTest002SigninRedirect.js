@@ -1,13 +1,12 @@
 module.exports = {
 	before: function (browser) {
-		browser.adminUI = browser.page.spa();
+		browser.spa = browser.page.spa();
 		browser.signinPage = browser.page.signin();
 
-		browser.url(browser.adminUI.url + 'users')
-		browser.adminUI
-			.waitForElementVisible('@signinView')
-			.assert.urlEquals(browser.adminUI.url + 'signin?from=/keystone/users')
-			.pause();
+		browser.url(browser.spa.url + 'users');
+		browser.spa
+			.waitForElementVisible('@signinPage')
+			.assert.urlEquals(browser.spa.url + 'signin?from=/keystone/users');
 	},
 	after: function (browser) {
 		browser.
@@ -16,8 +15,8 @@ module.exports = {
 	'AdminUI should allow users to login and redirect to custom url': function (browser) {
 		browser.signinPage
 			.signin();
-		browser.adminUI
-			.waitForElementVisible('@listView')
-			.assert.urlEquals(browser.adminUI.url + 'users');
+		browser.spa
+			.waitForElementVisible('@listPage')
+			.assert.urlEquals(browser.spa.url + 'users');
 	},
 };

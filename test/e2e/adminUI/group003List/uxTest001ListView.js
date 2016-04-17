@@ -1,172 +1,175 @@
-var adminUI = require('../adminUI');
-
 module.exports = {
 	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
+		browser.spa = browser.page.spa();
+		browser.signinPage = browser.page.signin();
+		browser.listPage = browser.page.list();
+		browser.itemPage = browser.page.item();
+		browser.initialFormPage = browser.page.initialForm();
+		browser.deleteConfirmationPage = browser.page.deleteConfirmation();
+
+		browser.spa.navigate();
+		browser.spa.waitForElementVisible('@signinPage');
+
+		browser.signinPage.signin();
+		browser.spa.waitForElementVisible('@homePage');
 	},
 	after: function (browser) {
+		browser.spa
+			.signout();
 		browser
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
 	'List view should allow users to create a new list item': function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.listView.createItemIconWhenListHasNoExistingItems)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.value, 'Name Field Test 1')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.first, 'First1')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.last, 'Last1')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.spa
+			.gotoListPage('names');
 
-		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 1 Name');
+		browser.listPage
+			.click('@createFirstItemButton');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameItemWhenListHasSingleItem)
-			.text.to.equal('Name Field Test 1');
+		browser.spa
+			.waitForElementVisible('@initialFormPage');
+
+		browser.initialFormPage
+			.fillNameListForm(browser.initialFormPage.section.form.section.nameList,'1');
+
+		browser.spa
+			.waitForElementVisible('@itemPage');
+
+		browser.spa
+			.gotoListPage('names');
+
+		browser.listPage
+			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
+
+		browser.listPage
+			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
 	},
 	'List view should allow users to create more new list items': function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.listView.createItemIconWhenListHasExistingItems)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.value, 'Name Field Test 2')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.first, 'First2')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.last, 'Last2')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.spa
+			.gotoListPage('names');
 
-		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 2 Names');
+		browser.listPage
+			.click('@createMoreItemsButton');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
-			.text.to.equal('Name Field Test 1');
+		browser.spa
+			.waitForElementVisible('@initialFormPage');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForSecondNameItemWhenListHasMultipleItems)
-			.text.to.equal('Name Field Test 2');
+		browser.initialFormPage
+			.fillNameListForm(browser.initialFormPage.section.form.section.nameList,'2');
+
+		browser.spa
+			.waitForElementVisible('@itemPage');
+
+		browser.spa
+			.gotoListPage('names');
+
+		browser.listPage
+			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
+
+		browser.listPage
+			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
+
+		browser.listPage
+			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.spa
+			.gotoListPage('names');
+
+		browser.listPage
+			.click('@firstItemNameValue');
+
+		browser.spa
+			.waitForElementVisible('@itemPage');
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.itemView.listBreadcrumb)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.spa
+			.gotoListPage('names');
+
+		browser.listPage
+			.click('@firstItemNameValue');
+
+		browser.spa
+			.waitForElementVisible('@itemPage');
+
+		browser.itemPage
+			.click('@listBreadcrumb');
+
+		browser.spa
+			.waitForElementVisible('@listPage');
 	},
 	'List view should allow users to search for items': function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.listView.searchInputField, 'Name Field Test 2')
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.spa
+			.gotoListPage('names');
 
-		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 1 Name');
+		browser.listPage
+			.setValue('@searchInputField', 'Name Field Test 2');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameItemWhenListHasSingleItem)
-			.text.to.equal('Name Field Test 2');
+		browser.spa
+			.waitForElementVisible('@listPage');
+
+		browser.listPage
+			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
+
+		browser.listPage
+			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to clear search filter': function (browser) {
-		browser
-			.click(adminUI.cssSelector.listView.searchInputFieldClearIcon)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.listPage
+			.click('@searchInputFieldClearIcon');
 
-		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 2 Names');
+		browser.spa
+			.waitForElementVisible('@listPage');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForFirstNameItemWhenListHasMultipleItems)
-			.text.to.equal('Name Field Test 1');
+		browser.listPage
+			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForSecondNameItemWhenListHasMultipleItems)
-			.text.to.equal('Name Field Test 2');
+		browser.listPage
+			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
+
+		browser.listPage
+			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to delete items': function (browser) {
-		browser
-			.click(adminUI.cssSelector.listView.deleteSecondItemIconWhenListHasMultipleItems)
-			.waitForElementVisible(adminUI.cssSelector.deleteConfirmationModalView.id)
-			.click(adminUI.cssSelector.deleteConfirmationModalView.buttonDelete)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.listPage
+			.click('@firstItemDeleteIcon');
 
-		browser.expect.element(adminUI.cssSelector.listView.paginationCount)
-			.text.to.equal('Showing 1 Name');
+		browser.spa
+			.waitForElementVisible('@deleteConfirmationPage');
 
-		browser.expect.element(adminUI.cssSelector.listView.nameColumnValueForNameItemWhenListHasSingleItem)
-			.text.to.equal('Name Field Test 1');
+		browser.deleteConfirmationPage
+			.click('@deleteButton');
+
+		browser.spa
+			.waitForElementVisible('@listPage');
+
+		browser.listPage
+			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
+
+		browser.listPage
+			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to delete last item': function (browser) {
-		browser
-			.click(adminUI.cssSelector.listView.deleteItemIconWhenListHasSingleItem)
-			.waitForElementVisible(adminUI.cssSelector.deleteConfirmationModalView.id)
-			.click(adminUI.cssSelector.deleteConfirmationModalView.buttonDelete)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.spa
+			.gotoListPage('names');
 
-		browser.expect.element(adminUI.cssSelector.listView.noItemsFoundNoText)
-			.text.to.equal('No');
+		browser.listPage
+			.click('@firstItemDeleteIcon');
 
-		browser.expect.element(adminUI.cssSelector.listView.noItemsFoundListNameText)
-			.text.to.equal('names');
+		browser.spa
+			.waitForElementVisible('@deleteConfirmationPage');
 
-		browser.expect.element(adminUI.cssSelector.listView.noItemsFoundFoundText)
-			.text.to.equal('found…');
+		browser.deleteConfirmationPage
+			.click('@deleteButton');
+
+		browser.spa
+			.waitForElementVisible('@listPage');
+
+		browser.listPage
+			.expect.element('@noItemsFoundNoText').text.to.equal('No names found…');
 	},
 
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
-	'List view ... undoing any state changes': function (browser) {
+	'List view ... resetting state changes': function (browser) {
 	},
 };

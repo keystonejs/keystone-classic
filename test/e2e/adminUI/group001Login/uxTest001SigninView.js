@@ -1,25 +1,22 @@
-var adminUI = require('../adminUI');
-
 module.exports = {
 	before: function (browser) {
-		browser.adminUI = browser.page.spa();
+		browser.spa = browser.page.spa();
 		browser.signinPage = browser.page.signin();
 
-		browser.signinPage
-			.navigate();
+		browser.spa.navigate();
+		browser.spa.waitForElementVisible('@signinPage');
 	},
 	after: function (browser) {
-		browser
-			.end();
+		browser.end();
 	},
 	'Signin page should allow users to login': function (browser) {
 		browser.signinPage
 			.signin();
-		browser.adminUI
-			.waitForElementVisible('@homeView');
+		browser.spa
+			.waitForElementVisible('@homePage');
 	},
-	'Signin page should be presented upon logout': function (browser) {
-		browser.adminUI
-			.logout();
+	'Signin page should be presented upon signout': function (browser) {
+		browser.spa
+			.signout();
 	},
 };
