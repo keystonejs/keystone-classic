@@ -17,7 +17,7 @@ export function selectList (id) {
 			type: SELECT_LIST,
 			id,
 		});
-		dispatch(setActiveList(getState().lists.data[id]));
+		dispatch(setActiveList(getState().lists.data[id], id));
 	};
 }
 

@@ -29,6 +29,7 @@ function active (state = initialState, action) {
 	switch (action.type) {
 		case SET_ACTIVE_LIST:
 			return Object.assign({}, state, {
+				id: action.id,
 				columns: action.list.expandColumns(action.list.defaultColumns),
 				filters: [],
 				search: '',

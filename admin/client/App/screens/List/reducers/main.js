@@ -46,7 +46,10 @@ for (const name in initialLists) {
 	if ({}.hasOwnProperty.call(initialLists, name)) {
 		const currentList = initialLists[name];
 		initialState.data[currentList.path] = new List(currentList);
-		initialState.data[currentList.path].items = {};
+		initialState.data[currentList.path].items = {
+			results: [],
+			count: null,
+		};
 	}
 }
 
@@ -57,13 +60,20 @@ function lists (state = initialState, action) {
 	switch (action.type) {
 		case SELECT_LIST:
 			const list = state.data[action.id];
+			list.id = action.id;
+			let items = {
+				results: [],
+				count: null,
+			};
+			// If we have cached items, instead of resetting state.items put the
+			// cached items in the state
+			if (list.items.count !== null) {
+				items = list.items;
+			}
 			return Object.assign({}, state, {
 				currentList: list,
 				ready: false,
-				items: {
-					results: [],
-					count: null,
-				},
+				items: items,
 				page: {
 					...state.page,
 					index: 1,
@@ -71,14 +81,32 @@ function lists (state = initialState, action) {
 				},
 			});
 		case LOAD_ITEMS:
+			let loading = true;
+			let ready = state.ready;
+			// If we have cached items ready, don't show a loading indicator
+			// while we fetch the new items in the background
+			if (state.items.count !== null) {
+				loading = false;
+				ready = true;
+			}
 			return Object.assign({}, state, {
-				loading: true,
+				loading,
+				ready,
 			});
 		case ITEMS_LOADED:
+			// Cache the items in state.data so we can show the already existing
+			// items on the next round trip while fetching the new items in the
+			// background
+			const cachedList = state.data[state.currentList.id];
+			cachedList.items = action.items;
 			return Object.assign({}, state, {
 				loading: false,
 				ready: true,
 				items: action.items,
+				data: {
+					...state.data,
+					[state.currentList.id]: cachedList,
+				},
 			});
 		case ITEM_LOADING_ERROR:
 			// TODO Show error messages
@@ -142,16 +170,16 @@ function lists (state = initialState, action) {
 			});
 		case DRAG_MOVE_ITEM:
 			// TODO: option to use manageMode for sortOrder
-			const items = state.items.results;
-			const item = items[action.prevIndex];
+			const currentItems = state.items.results;
+			const item = currentItems[action.prevIndex];
 			// Remove item at prevIndex from array and save that array in
 			// itemsWithoutItem
-			let itemsWithoutItem = items
+			let itemsWithoutItem = currentItems
 				.slice(0, action.prevIndex)
 				.concat(
-					items.slice(
+					currentItems.slice(
 						action.prevIndex + 1,
-						items.length
+						currentItems.length
 					)
 				);
 			// Add item back in at new index

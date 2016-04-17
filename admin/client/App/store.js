@@ -96,7 +96,11 @@ store.subscribe(() => {
 			search,
 		}, false, location);
 		// After we've updated the query params, load the changed items
-		store.dispatch(loadItems());
+		// but not if we just changed to a new list and the active id and old
+		// id don't match anymore
+		if (state.lists.id === state.active.id) {
+			store.dispatch(loadItems());
+		}
 	}
 });
 

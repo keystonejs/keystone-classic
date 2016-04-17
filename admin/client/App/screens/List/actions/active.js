@@ -43,10 +43,11 @@ export function setActiveColumns (columns) {
 	};
 }
 
-export function setActiveList (list) {
+export function setActiveList (list, id) {
 	return {
 		type: SET_ACTIVE_LIST,
 		list,
+		id,
 	};
 }
 
