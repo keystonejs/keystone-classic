@@ -4,45 +4,21 @@
  */
 
 import React from 'react';
-import { Container } from 'elemental';
-import xhr from 'xhr';
-import { plural } from '../../../utils/string';
+import { Container, Spinner } from 'elemental';
+import { connect } from 'react-redux';
 
+import { plural } from '../../../utils/string';
 import ListTile from './components/ListTile';
+import {
+	loadCounts,
+} from './actions';
 
 var HomeView = React.createClass({
 	displayName: 'HomeView',
-	getInitialState () {
-		return {
-			counts: {},
-		};
-	},
 	// When everything is rendered, start loading the item counts of the lists
 	// from the API
 	componentDidMount () {
-		this.loadCounts();
-	},
-	loadCounts () {
-		xhr({
-			url: `${Keystone.adminPath}/api/counts`,
-		}, (err, resp, body) => {
-			try {
-				body = JSON.parse(body);
-			} catch (e) {
-				console.log('Error parsing results json:', e, body);
-				return;
-			}
-			if (body && body.counts) {
-				if (!this.isMounted()) return;
-				// Cache the counts in Keystone.counts to avoid ugly
-				// flashes of "0 items" when navigating back home from another
-				// page
-				Keystone.counts = body.counts;
-				this.setState({
-					counts: body.counts,
-				});
-			}
-		});
+		this.props.dispatch(loadCounts());
 	},
 	// Certain section name have an icon associated with the for a nicer view
 	getHeadingIconClasses (navSectionKey) {
@@ -70,14 +46,6 @@ var HomeView = React.createClass({
 
 		return ['dashboard-group__heading-icon', 'octicon', ...classes].join(' ');
 	},
-	// Get the count of a list from either this.state or the Keystone.counts cache
-	// if the one in state is either non-existant or 0
-	getCount (key) {
-		const count = (this.state.counts[key] && this.state.counts[key] !== 0)
-			? this.state.counts[key]
-			: (Keystone.counts && Keystone.counts[key]);
-		return plural(count, '* Item', '* Items');
-	},
 	renderFlatNav () {
 		const lists = Keystone.lists.map((list) => {
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
@@ -87,7 +55,7 @@ var HomeView = React.createClass({
 					path={list.path}
 					label={list.label}
 					href={href}
-					count={this.getCount(list.key)}
+					count={plural(this.props.counts[list.key], '* Item', '* Items')}
 				/>
 			);
 		});
@@ -106,7 +74,15 @@ var HomeView = React.createClass({
 							<div className="dashboard-group__lists">
 								{navSection.lists.map((list) => {
 									var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-									return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={this.getCount(list.key)} />;
+									return (
+										<ListTile
+											key={list.path}
+											path={list.path}
+											label={list.label}
+											href={href}
+											count={plural(this.props.counts[list.key], '* Item', '* Items')}
+										/>
+									);
 								})}
 							</div>
 						</div>
@@ -128,13 +104,28 @@ var HomeView = React.createClass({
 				<div className="dashboard-group__lists">
 					{Keystone.orphanedLists.map((list) => {
 						var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-						return <ListTile key={list.path} path={list.path} label={list.label} href={href} count={this.getCount(list.key)} />;
+						return (
+							<ListTile
+								key={list.path}
+								path={list.path}
+								label={list.label}
+								href={href}
+								count={this.getCount(list.key)}
+							/>
+						);
 					})}
 				</div>
 			</div>
 		);
 	},
 	render () {
+		if (this.props.loading && Object.keys(this.props.counts) === 0) {
+			return (
+				<div className="centered-loading-indicator">
+					<Spinner size="md" />
+				</div>
+			);
+		}
 		return (
 			<Container>
 				<div className="dashboard-header">
@@ -148,4 +139,7 @@ var HomeView = React.createClass({
 	},
 });
 
-module.exports = HomeView;
+module.exports = connect((state) => ({
+	counts: state.home.counts,
+	loading: state.home.loading,
+}))(HomeView);
