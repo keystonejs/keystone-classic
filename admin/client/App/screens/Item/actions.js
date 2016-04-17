@@ -5,6 +5,11 @@ import {
 	DATA_LOADING_ERROR,
 } from './constants';
 
+/**
+ * Select an item
+ *
+ * @param  {String} itemId The item ID
+ */
 export function selectItem (itemId) {
 	return {
 		type: SELECT_ITEM,
@@ -12,6 +17,9 @@ export function selectItem (itemId) {
 	};
 }
 
+/**
+ * Load the item data of the current item
+ */
 export function loadItemData () {
 	return (dispatch, getState) => {
 		dispatch({
@@ -19,17 +27,23 @@ export function loadItemData () {
 		});
 		const state = getState();
 		const list = state.lists.currentList;
+		// Load a specific item with the utils/List.js helper
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
 			if (err || !itemData) {
 				console.log('Error loading item data', err);
 				dispatch(dataLoadingError(err));
-				return;
+			} else {
+				dispatch(dataLoaded(itemData));
 			}
-			dispatch(dataLoaded(itemData));
 		});
 	};
 }
 
+/**
+ * Called when data of the current item is loaded
+ *
+ * @param  {Object} data The item data
+ */
 export function dataLoaded (data) {
 	return {
 		type: DATA_LOADING_SUCCESS,
@@ -37,6 +51,11 @@ export function dataLoaded (data) {
 	};
 }
 
+/**
+ * Called when there was an error during the loading of the current item data
+ *
+ * @param  {Object} error The error
+ */
 export function dataLoadingError (error) {
 	return {
 		type: DATA_LOADING_ERROR,

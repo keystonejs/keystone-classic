@@ -49,14 +49,19 @@ var ItemView = React.createClass({
 			this.initializeItem(nextProps.params.itemId);
 		}
 	},
+	// Initialize an item
 	initializeItem (itemId) {
 		this.props.dispatch(selectItem(itemId));
 		this.props.dispatch(loadItemData());
 	},
+	// Called when a new item is created
 	onCreate (item) {
-		let list = Lists[this.props.params.listId];
-		// After we've created a new item, redirect to newly created item path
-		// TODO FIX THIS SO IT DOESNT THROW AN ERROR
+		// Hide the create form
+		this.setState({
+			createIsOpen: false,
+		});
+		// Redirect to newly created item path
+		const list = this.props.currentList.path;
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
 	},
 	// Open and close the create new item modal
@@ -65,8 +70,9 @@ var ItemView = React.createClass({
 			createIsOpen: visible,
 		});
 	},
+	// Render this items relationships
 	renderRelationships () {
-		const { relationships } = Lists[this.props.params.listId];
+		const { relationships } = this.props.currentList;
 		const keys = Object.keys(relationships);
 		if (!keys.length) return;
 		return (
@@ -78,7 +84,7 @@ var ItemView = React.createClass({
 					return (
 						<RelatedItemsList
 							key={relationship.path}
-							list={Lists[this.props.params.listId]}
+							list={this.props.currentList}
 							refList={refList}
 							relatedItemId={this.props.params.itemId}
 							relationship={relationship}
@@ -101,20 +107,20 @@ var ItemView = React.createClass({
 		return (
 			<div>
 				<EditFormHeader
-					list={Lists[this.props.params.listId]}
+					list={this.props.currentList}
 					data={this.props.data}
 					toggleCreate={this.toggleCreate}
 				/>
 				<Container>
 					<CreateForm
-						list={Lists[this.props.params.listId]}
+						list={this.props.currentList}
 						isOpen={this.state.createIsOpen}
 						onCancel={() => this.toggleCreate(false)}
 						onCreate={(item) => this.onCreate(item)}
 					/>
 					<FlashMessages messages={Keystone.messages} />
 					<EditForm
-						list={Lists[this.props.params.listId]}
+						list={this.props.currentList}
 						data={this.props.data}
 					/>
 					{this.renderRelationships()}
@@ -128,4 +134,5 @@ module.exports = connect((state) => ({
 	data: state.item.data,
 	loading: state.item.loading,
 	ready: state.item.ready,
+	currentList: state.lists.currentList,
 }))(ItemView);

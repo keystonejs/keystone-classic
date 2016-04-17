@@ -1,3 +1,7 @@
+/**
+ * Item reducer, handles the item data and loading
+ */
+
 import {
 	SELECT_ITEM,
 	LOAD_DATA,
@@ -18,6 +22,7 @@ function item (state = initialState, action) {
 			return Object.assign({}, state, {
 				ready: false,
 				id: action.id,
+				data: null,
 			});
 		case LOAD_DATA:
 			return Object.assign({}, state, {
