@@ -25,6 +25,7 @@ import Lists from '../../../stores/Lists';
 import {
 	deleteItem,
 	deleteItems,
+	setActiveColumns,
 	setActiveSearch,
 	setActiveSort,
 	setCurrentPage,
@@ -51,8 +52,10 @@ const ListView = React.createClass({
 	},
 	componentDidMount () {
 		// When we directly navigate to a list without coming from another client
-		// side routed page before, we need to initialize the list
+		// side routed page before, we need to initialize the list and parse
+		// possibly specified query parameters
 		this.initializeList(this.props.params.listId);
+		this.parseQueryParams();
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
@@ -64,6 +67,33 @@ const ListView = React.createClass({
 	initializeList (listId) {
 		this.props.dispatch(selectList(listId));
 		this.props.dispatch(loadItems());
+	},
+	/**
+	 * Parse the current query parameters and change the state accordingly
+	 * Only called when directly opening a list
+	 */
+	parseQueryParams () {
+		const query = this.props.location.query;
+		Object.keys(query).forEach((key) => {
+			switch (key) {
+				case 'columns':
+					this.props.dispatch(setActiveColumns(query[key]));
+					break;
+				case 'page':
+					this.props.dispatch(setCurrentPage(query[key]));
+					break;
+				case 'search':
+					// Fill the search input field with the current search
+					this.setState({
+						searchString: query[key],
+					});
+					this.props.dispatch(setActiveSearch(query[key]));
+					break;
+				case 'sort':
+					this.props.dispatch(setActiveSort(query[key]));
+					break;
+			}
+		});
 	},
 
 	// ==============================
