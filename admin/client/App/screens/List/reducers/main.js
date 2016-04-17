@@ -59,6 +59,11 @@ function lists (state = initialState, action) {
 			const list = state.data[action.id];
 			return Object.assign({}, state, {
 				currentList: list,
+				ready: false,
+				items: {
+					results: [],
+					count: null,
+				},
 				page: {
 					...state.page,
 					index: 1,
