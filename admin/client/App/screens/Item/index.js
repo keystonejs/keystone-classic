@@ -61,7 +61,7 @@ var ItemView = React.createClass({
 			createIsOpen: false,
 		});
 		// Redirect to newly created item path
-		const list = this.props.currentList.path;
+		const list = this.props.currentList;
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
 	},
 	// Open and close the create new item modal

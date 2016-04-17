@@ -33,6 +33,9 @@ import {
 } from './actions';
 
 const ListView = React.createClass({
+	contextTypes: {
+		router: React.PropTypes.object.isRequired,
+	},
 	getInitialState () {
 		return {
 			confirmationDialog: {
@@ -66,10 +69,15 @@ const ListView = React.createClass({
 	// ==============================
 	// HEADER
 	// ==============================
+	// Called when a new item is created
 	onCreate (item) {
+		// Hide the create form
+		this.setState({
+			showCreateForm: false,
+		});
 		// Redirect to newly created item path
-		let list = this.props.currentList;
-		top.location.href = `${Keystone.adminPath}/${list.path}/${item.id}`;
+		const list = this.props.currentList;
+		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
 	},
 	updateSearch (e) {
 		clearTimeout(this._searchTimeout);
@@ -526,12 +534,15 @@ const ListView = React.createClass({
 					isOpen={this.state.showCreateForm}
 					list={this.props.currentList}
 					onCancel={() => this.toggleCreateModal(false)}
-					values={Keystone.createFormData} />
+					onCreate={this.onCreate}
+					values={Keystone.createFormData}
+				/>
 				<UpdateForm
 					isOpen={this.state.showUpdateForm}
 					itemIds={Object.keys(this.state.checkedItems)}
 					list={this.props.currentList}
-					onCancel={() => this.toggleUpdateModal(false)} />
+					onCancel={() => this.toggleUpdateModal(false)}
+				/>
 				{this.renderConfirmationDialog()}
 			</div>
 		);
