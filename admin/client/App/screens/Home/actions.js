@@ -5,6 +5,9 @@ import {
 	COUNTS_LOADING_ERROR,
 } from './constants';
 
+/**
+ * Load the counts of all lists
+ */
 export function loadCounts () {
 	return (dispatch) => {
 		dispatch({
@@ -31,6 +34,11 @@ export function loadCounts () {
 	};
 }
 
+/**
+ * Dispatched when the counts were loaded
+ *
+ * @param  {Object} counts The counts object as returned by the API
+ */
 export function countsLoaded (counts) {
 	return {
 		type: COUNTS_LOADING_SUCCESS,
@@ -38,6 +46,11 @@ export function countsLoaded (counts) {
 	};
 }
 
+/**
+ * Dispatched when unsuccessfully trying to load the counts
+ *
+ * @param  {object} error The error
+ */
 export function countsLoadingError (error) {
 	return {
 		type: COUNTS_LOADING_ERROR,

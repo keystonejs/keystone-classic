@@ -119,6 +119,9 @@ var HomeView = React.createClass({
 		);
 	},
 	render () {
+		// If we have previous counts already saved, show them while we fetch
+		// the new ones. The counts can change e.g. if items were created since
+		// the last visit to the homepage
 		if (this.props.loading && Object.keys(this.props.counts) === 0) {
 			return (
 				<div className="centered-loading-indicator">
