@@ -6,13 +6,25 @@
  */
 
 import React from 'react';
+import { Container, Spinner } from 'elemental';
+import { connect } from 'react-redux';
+
 import Lists from '../../../stores/Lists';
 import CreateForm from '../../shared/CreateForm';
 import EditForm from './components/EditForm';
 import EditFormHeader from './components/EditFormHeader';
 import RelatedItemsList from './components/RelatedItemsList';
 import FlashMessages from '../../shared/FlashMessages';
-import { Container, Spinner } from 'elemental';
+
+import {
+	selectItem,
+	loadItemData,
+} from './actions';
+
+import {
+	selectList,
+	loadItems,
+} from '../List/actions';
 
 var ItemView = React.createClass({
 	displayName: 'ItemView',
@@ -21,25 +33,25 @@ var ItemView = React.createClass({
 	},
 	getInitialState () {
 		return {
-			itemData: null,
 			createIsOpen: false,
 		};
 	},
-	// When we are mounted, start loading the data
 	componentDidMount () {
-		this.loadItemData();
+		// When we directly navigate to an item without coming from another client
+		// side routed page before, we need to select the list before initializing the item
+		this.props.dispatch(selectList(this.props.params.listId));
+		this.initializeItem(this.props.params.itemId);
 	},
-	// Load the data
-	loadItemData () {
-		Lists[this.props.params.listId].loadItem(this.props.params.itemId, { drilldown: true }, (err, itemData) => {
-			if (err || !itemData) {
-				// TODO: nicer error handling
-				console.log('Error loading item data', err);
-				alert('Error loading data (details logged to console)');
-				return;
-			}
-			this.setState({ itemData });
-		});
+	componentWillReceiveProps (nextProps) {
+		// We've opened a new item from the client side routing, so initialize
+		// again with the new item id
+		if (nextProps.params.itemId !== this.props.params.itemId) {
+			this.initializeItem(nextProps.params.itemId);
+		}
+	},
+	initializeItem (itemId) {
+		this.props.dispatch(selectItem(itemId));
+		this.props.dispatch(loadItemData());
 	},
 	onCreate (item) {
 		let list = Lists[this.props.params.listId];
@@ -78,9 +90,9 @@ var ItemView = React.createClass({
 	},
 	render () {
 		// If we don't have any data yet, show the loading indicator
-		if (!this.state.itemData) {
+		if (!this.props.ready) {
 			return (
-				<div className="view-loading-indicator">
+				<div className="centered-loading-indicator">
 					<Spinner size="md" />
 				</div>
 			);
@@ -90,20 +102,21 @@ var ItemView = React.createClass({
 			<div>
 				<EditFormHeader
 					list={Lists[this.props.params.listId]}
-					data={this.state.itemData}
-					drilldown={this.state.itemDrilldown}
-					toggleCreate={this.toggleCreate} />
+					data={this.props.data}
+					toggleCreate={this.toggleCreate}
+				/>
 				<Container>
 					<CreateForm
 						list={Lists[this.props.params.listId]}
 						isOpen={this.state.createIsOpen}
 						onCancel={() => this.toggleCreate(false)}
-						onCreate={(item) => this.onCreate(item)} />
-					<FlashMessages
-						messages={Keystone.messages} />
+						onCreate={(item) => this.onCreate(item)}
+					/>
+					<FlashMessages messages={Keystone.messages} />
 					<EditForm
 						list={Lists[this.props.params.listId]}
-						data={this.state.itemData} />
+						data={this.props.data}
+					/>
 					{this.renderRelationships()}
 				</Container>
 			</div>
@@ -111,4 +124,8 @@ var ItemView = React.createClass({
 	},
 });
 
-module.exports = ItemView;
+module.exports = connect((state) => ({
+	data: state.item.data,
+	loading: state.item.loading,
+	ready: state.item.ready,
+}))(ItemView);
