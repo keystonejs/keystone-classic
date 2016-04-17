@@ -1,9 +1,9 @@
 import {
 	SELECT_LIST,
 	SET_CURRENT_PAGE,
-} from './constants';
+} from '../constants';
 
-import { setActiveList } from './actions/active';
+import { setActiveList } from './active';
 
 /**
  * Select a list, and set it as the active list. Called whenever the main
@@ -43,7 +43,7 @@ import {
 	setActiveSearch,
 	setActiveColumns,
 	setActiveSort,
-} from './actions/active';
+} from './active';
 
 import {
 	loadItems,
@@ -52,7 +52,7 @@ import {
 	deleteItem,
 	deleteItems,
 	downloadItems,
-} from './actions/items';
+} from './items';
 
 import {
 	setDragBase,
@@ -60,7 +60,7 @@ import {
 	reorderItems,
 	setRowAlert,
 	moveItem,
-} from './actions/dragdrop';
+} from './dragdrop';
 
 export {
 	setFilter,
