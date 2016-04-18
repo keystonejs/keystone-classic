@@ -110,7 +110,7 @@ var HomeView = React.createClass({
 								path={list.path}
 								label={list.label}
 								href={href}
-								count={this.getCount(list.key)}
+								count={plural(list.key, '* Item', '* Items')}
 							/>
 						);
 					})}
