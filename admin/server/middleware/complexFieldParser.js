@@ -1,12 +1,22 @@
 module.exports = function (req, res, next) {
 	if (req.method.toUpperCase() != 'POST') return next();
 
+	var nativeKeystoneFields = [
+		// Name field
+		'.first',
+		'.last',
+		'.full'
+	];
+
 	var fields = {};
 	var nestMapper = {};
 
 	Object.keys(req.body).forEach((key) => {
 		var props = key.split('.');
 		if (props.length == 1) return;
+
+		hasNativeField = nativeKeystoneFields.filter(function (field) { return key.indexOf(field) >= 0 });
+		if (hasNativeField.length > 0) return;
 
 		var parentProp = props.splice(0, 1)[0];
 
@@ -62,6 +72,8 @@ module.exports = function (req, res, next) {
 		var props = prop.split('_');
 		return { prop: props[0], id: props[1] };
 	}
+
+	console.log('Sphinx', req.body);
 
 	return next();
 }
