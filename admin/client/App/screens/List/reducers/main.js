@@ -4,7 +4,6 @@ import {
 	ITEMS_LOADED,
 	LOAD_ITEMS,
 	ITEM_LOADING_ERROR,
-	DELETE_ITEM,
 	SET_CURRENT_PAGE,
 	SET_ROW_ALERT,
 	RESET_DRAG_PAGE,
@@ -13,6 +12,10 @@ import {
 	SET_DRAG_INDEX,
 	DRAG_MOVE_ITEM,
 } from '../constants';
+
+import {
+	DELETE_ITEM,
+} from '../../Item/constants';
 
 const initialState = {
 	currentList: null,

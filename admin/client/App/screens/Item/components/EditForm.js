@@ -21,7 +21,7 @@ import AltText from './AltText';
 import FooterBar from './FooterBar';
 import InvalidFieldType from '../../../shared/InvalidFieldType';
 
-import { deleteItem } from '../../List/actions';
+import { deleteItem } from '../actions';
 
 function upCase (str) {
 	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();

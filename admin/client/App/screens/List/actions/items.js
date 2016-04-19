@@ -5,6 +5,10 @@ import {
 	DELETE_ITEM,
 } from '../constants';
 
+import {
+	deleteItem,
+} from '../../Item/actions';
+
 export function loadItems (options = {}) {
 	return (dispatch, getState) => {
 		dispatch({ type: LOAD_ITEMS });
@@ -73,29 +77,6 @@ export function itemLoadingError (err) {
 	return {
 		type: ITEM_LOADING_ERROR,
 		err,
-	};
-}
-
-export function deleteItem (id, router) {
-	return (dispatch, getState) => {
-		const list = getState().lists.currentList;
-		list.deleteItem(id, (err) => {
-			// If a router is passed, redirect to the current list path,
-			// otherwise stay where we are
-			if (router) {
-				router.push(`${Keystone.adminPath}/${list.path}`);
-			}
-			// TODO Proper error handling
-			if (err) {
-				alert('Error deleting item, please try again!');
-				console.log(err);
-			} else {
-				dispatch({
-					type: DELETE_ITEM,
-					id,
-				});
-			}
-		});
 	};
 }
 

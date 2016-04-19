@@ -23,7 +23,6 @@ import { plural } from '../../../utils/string';
 import Lists from '../../../stores/Lists';
 
 import {
-	deleteItem,
 	deleteItems,
 	setActiveColumns,
 	setActiveSearch,
@@ -32,6 +31,10 @@ import {
 	selectList,
 	loadItems,
 } from './actions';
+
+import {
+	deleteItem,
+} from '../Item/actions';
 
 const ListView = React.createClass({
 	contextTypes: {

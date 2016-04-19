@@ -5,7 +5,6 @@ export const SET_CURRENT_PAGE = 'app/List/SET_CURRENT_PAGE';
 export const LOAD_ITEMS = 'app/List/LOAD_ITEMS';
 export const ITEMS_LOADED = 'app/List/ITEMS_LOADED';
 export const ITEM_LOADING_ERROR = 'app/List/ITEM_LOADING_ERROR';
-export const DELETE_ITEM = 'app/List/DELETE_ITEM';
 // Active
 export const SET_ACTIVE_SEARCH = 'app/List/SET_ACTIVE_SEARCH';
 export const SET_ACTIVE_SORT = 'app/List/SET_ACTIVE_SORT';

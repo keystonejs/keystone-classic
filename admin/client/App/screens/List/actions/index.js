@@ -49,7 +49,6 @@ import {
 	loadItems,
 	itemsLoaded,
 	itemLoadingError,
-	deleteItem,
 	deleteItems,
 	downloadItems,
 } from './items';
@@ -72,7 +71,6 @@ export {
 	loadItems,
 	itemsLoaded,
 	itemLoadingError,
-	deleteItem,
 	deleteItems,
 	setDragBase,
 	resetItems,
