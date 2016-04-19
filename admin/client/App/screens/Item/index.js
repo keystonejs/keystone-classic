@@ -122,6 +122,8 @@ var ItemView = React.createClass({
 					<EditForm
 						list={this.props.currentList}
 						data={this.props.data}
+						dispatch={this.props.dispatch}
+						router={this.context.router}
 					/>
 					{this.renderRelationships()}
 				</Container>

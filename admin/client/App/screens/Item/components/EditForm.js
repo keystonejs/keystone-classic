@@ -1,14 +1,27 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import moment from 'moment';
+import {
+	Button,
+	Col,
+	Form,
+	FormField,
+	FormInput,
+	ResponsiveText,
+	Row,
+	Spinner,
+} from 'elemental';
+
 import AlertMessages from '../../../shared/AlertMessages';
 import ConfirmationDialog from './../../../shared/ConfirmationDialog';
 import Fields from '../../../../utils/fields';
+
 import FormHeading from './FormHeading';
 import AltText from './AltText';
 import FooterBar from './FooterBar';
 import InvalidFieldType from '../../../shared/InvalidFieldType';
-import { Button, Col, Form, FormField, FormInput, ResponsiveText, Row, Spinner } from 'elemental';
+
+import { deleteItem } from '../../List/actions';
 
 function upCase (str) {
 	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();
@@ -92,18 +105,7 @@ var EditForm = React.createClass({
 	},
 	handleDelete () {
 		const { data, list } = this.props;
-		list.deleteItem(data.id, err => {
-			if (err) {
-				this.removeConfirmationDialog();
-				this.setState({
-					alerts: {
-						error: err,
-					},
-				});
-				return;
-			}
-			top.location.href = `${Keystone.adminPath}/${list.path}`;
-		});
+		this.props.dispatch(deleteItem(data.id, this.props.router));
 	},
 	handleKeyFocus () {
 		const input = findDOMNode(this.refs.keyOrIdInput);

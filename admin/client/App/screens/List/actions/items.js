@@ -76,10 +76,15 @@ export function itemLoadingError (err) {
 	};
 }
 
-export function deleteItem (id) {
+export function deleteItem (id, router) {
 	return (dispatch, getState) => {
 		const list = getState().lists.currentList;
 		list.deleteItem(id, (err) => {
+			// If a router is passed, redirect to the current list path,
+			// otherwise stay where we are
+			if (router) {
+				router.push(`${Keystone.adminPath}/${list.path}`);
+			}
 			// TODO Proper error handling
 			if (err) {
 				alert('Error deleting item, please try again!');
