@@ -73,8 +73,6 @@ module.exports = function (req, res, next) {
 		return { prop: props[0], id: props[1] };
 	}
 
-	console.log('Sphinx', req.body);
-
 	return next();
 }
 
