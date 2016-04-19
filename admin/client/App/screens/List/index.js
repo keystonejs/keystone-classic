@@ -112,6 +112,18 @@ const ListView = React.createClass({
 		const list = this.props.currentList;
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
 	},
+	createAutocreate () {
+		const list = this.props.currentList;
+		list.createItem(null, (err, data) => {
+			if (err) {
+				// TODO Proper error handling
+				alert('Something went wrong, please try again!');
+				console.log(err);
+			} else {
+				this.context.router.push(`${Keystone.adminPath}/${list.path}/${data.id}`);
+			}
+		});
+	},
 	updateSearch (e) {
 		clearTimeout(this._searchTimeout);
 		this.setState({
@@ -193,7 +205,7 @@ const ListView = React.createClass({
 		if (this.props.currentList.nocreate) return null;
 		var props = { type: 'success' };
 		if (this.props.currentList.autocreate) {
-			props.href = '?new' + Keystone.csrf.query;
+			props.onClick = () => this.createAutocreate();
 		} else {
 			props.onClick = () => this.toggleCreateModal(true);
 		}
@@ -461,7 +473,7 @@ const ListView = React.createClass({
 		const list = this.props.currentList;
 		if (list.nocreate) return null;
 		if (list.autocreate) {
-			props.href = '?new' + Keystone.csrf.query;
+			props.onClick = () => this.createAutocreate();
 		} else {
 			props.onClick = () => this.toggleCreateModal(true);
 		}
