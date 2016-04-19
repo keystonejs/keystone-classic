@@ -494,7 +494,13 @@ const ListView = React.createClass({
 		if (!this.showBlankState()) return null;
 		return (
 			<Container>
-				<FlashMessages messages={Keystone.messages} />
+				{(this.props.error) ? (
+					<FlashMessages
+						messages={{ error: [{
+							title: "There is a problem with the network, we're trying to reconnect...",
+						}] }}
+					/>
+				) : null}
 				<BlankState style={{ marginTop: 40 }}>
 					<BlankState.Heading>No {this.props.currentList.plural.toLowerCase()} found&hellip;</BlankState.Heading>
 					{this.renderBlankStateCreateButton()}
@@ -518,7 +524,13 @@ const ListView = React.createClass({
 			<div>
 				{this.renderHeader()}
 				<Container style={containerStyle}>
-					<FlashMessages messages={Keystone.messages} />
+					{(this.props.error) ? (
+						<FlashMessages
+							messages={{ error: [{
+								title: "There is a problem with the network, we're trying to reconnect..",
+							}] }}
+						/>
+					) : null}
 					{(this.props.loading) ? (
 						<div className="centered-loading-indicator">
 							<Spinner size="md" />
@@ -598,11 +610,12 @@ module.exports = connect((state) => {
 	return {
 		lists: state.lists,
 		loading: state.lists.loading,
+		error: state.lists.error,
 		currentList: state.lists.currentList,
 		items: state.lists.items,
 		page: state.lists.page,
-		active: state.active,
 		ready: state.lists.ready,
 		rowAlert: state.lists.rowAlert,
+		active: state.active,
 	};
 })(ListView);

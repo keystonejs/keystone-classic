@@ -8,6 +8,7 @@ import {
 import {
 	deleteItem,
 } from '../../Item/actions';
+import { NETWORK_ERROR_RETRY_DELAY } from '../../../../utils/constants';
 
 export function loadItems (options = {}) {
 	return (dispatch, getState) => {
@@ -73,10 +74,19 @@ export function itemsLoaded (items) {
 	};
 }
 
-export function itemLoadingError (err) {
-	return {
-		type: ITEM_LOADING_ERROR,
-		err,
+/**
+ * Dispatched when unsuccessfully trying to load the items, will redispatch
+ * loadItems after NETWORK_ERROR_RETRY_DELAY milliseconds until we get items back
+ */
+export function itemLoadingError () {
+	return (dispatch) => {
+		dispatch({
+			type: ITEM_LOADING_ERROR,
+			err: 'Network request failed',
+		});
+		setTimeout(() => {
+			dispatch(loadItems());
+		}, NETWORK_ERROR_RETRY_DELAY);
 	};
 }
 

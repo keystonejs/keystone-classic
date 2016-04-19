@@ -21,6 +21,7 @@ const initialState = {
 	currentList: null,
 	loading: false,
 	ready: false,
+	error: null,
 	data: {},
 	items: {
 		results: [],
@@ -88,7 +89,7 @@ function lists (state = initialState, action) {
 			let ready = state.ready;
 			// If we have cached items ready, don't show a loading indicator
 			// while we fetch the new items in the background
-			if (state.items.count !== null) {
+			if (state.items.count !== null && loading === false) {
 				loading = false;
 				ready = true;
 			}
@@ -105,6 +106,7 @@ function lists (state = initialState, action) {
 			return Object.assign({}, state, {
 				loading: false,
 				ready: true,
+				error: null,
 				items: action.items,
 				data: {
 					...state.data,
@@ -112,11 +114,10 @@ function lists (state = initialState, action) {
 				},
 			});
 		case ITEM_LOADING_ERROR:
-			// TODO Show error messages
-			console.log('ERROR', action.err);
 			return Object.assign({}, state, {
-				loading: false,
+				loading: true,
 				ready: true,
+				error: action.err,
 			});
 		case DELETE_ITEM:
 			const newItems = {
@@ -134,6 +135,7 @@ function lists (state = initialState, action) {
 			});
 		case SET_CURRENT_PAGE:
 			return Object.assign({}, state, {
+				loading: true,
 				page: {
 					...state.page,
 					index: action.index,
