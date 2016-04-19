@@ -2,7 +2,6 @@ var FieldType = require('../Type');
 var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
-var clone = require('lodash/clone');
 var addPresenceToQuery = require('../../utils/addPresenceToQuery');
 
 /**

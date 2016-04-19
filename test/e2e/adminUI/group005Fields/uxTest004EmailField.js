@@ -36,9 +36,7 @@ module.exports = {
 			.text.to.equal('New Email Email Field Test created.');
 
 		browser.getValue(adminUI.cssSelector.itemView.fieldType.email.email.name.value, function(result) {
-			this.assert.equal(typeof result, "object");
-			this.assert.equal(result.status, 0);
-			this.assert.equal(result.value, "Email Field Test");
+			this.assert.equal(result.value, 'Email Field Test');
 		});
 
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.email.email.fieldA.value)
@@ -56,9 +54,7 @@ module.exports = {
 			.text.to.equal('Your changes have been saved.');
 
 		browser.getValue(adminUI.cssSelector.itemView.fieldType.email.email.name.value, function(result) {
-			this.assert.equal(typeof result, "object");
-			this.assert.equal(result.status, 0);
-			this.assert.equal(result.value, "Email Field Test");
+			this.assert.equal(result.value, 'Email Field Test');
 		});
 
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.email.email.fieldB.value)

@@ -29,6 +29,7 @@ var DEFAULT_OPTION_KEYS = [
 	'hidden',
 	'collapse',
 	'dependsOn',
+	'autoCleanup',
 ];
 
 /**

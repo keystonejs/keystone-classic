@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
+import { FormField, FormInput, FormSelect } from 'elemental';
 
 const MODE_OPTIONS = [
 	{ label: 'Contains', value: 'contains' },
@@ -54,7 +54,7 @@ var TextArrayFilter = React.createClass({
 		this.updateFilter({ value: e.target.value });
 	},
 	render () {
-		const { field, filter } = this.props;
+		const { filter } = this.props;
 		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 		const presence = PRESENCE_OPTIONS.filter(i => i.value === filter.presence)[0];
 		const beingVerb = mode.value === 'exactly' ? ' is ' : ' ';

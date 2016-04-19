@@ -69,15 +69,12 @@ name.prototype.getSortString = function (options) {
 
 /**
  * Add filters to a query
- *
- * TODO: this filter will conflict with any other $or filter, including filters
- * on other "name" type fields; need to work out a better way to implement.
  */
 name.prototype.addFilterToQuery = function (filter) {
 	var query = {};
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.paths.first] = query[this.paths.last] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
-		return;
+		return query;
 	}
 	var value = utils.escapeRegExp(filter.value);
 	if (filter.mode === 'beginsWith') {

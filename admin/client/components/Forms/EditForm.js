@@ -280,7 +280,7 @@ var EditForm = React.createClass({
 	},
 	render () {
 		return (
-			<form method="post" encType="multipart/form-data" className="EditForm-container">
+			<form method="post" encType="multipart/form-data" className="EditForm-container" noValidate="true">
 				<Row>
 					<Col lg="3/4">
 						<Form type="horizontal" className="EditForm" component="div">

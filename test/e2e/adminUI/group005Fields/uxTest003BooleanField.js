@@ -25,7 +25,7 @@ module.exports = {
 			.click(adminUI.cssSelector.homeView.plusIconLinkForBooleansTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.value, 'Boolean1')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.value, 'Boolean Field Test')
 			.click(adminUI.cssSelector.initialModalView.fieldType.bool.bool.fieldA.button)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.initialModalView.buttonCreate)
@@ -33,7 +33,7 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('New Boolean Boolean1 created.');
+			.text.to.equal('New Boolean Boolean Field Test created.');
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.bool.bool.fieldA.value)
 			.to.have.value.that.equals('true');
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.bool.bool.fieldB.value)

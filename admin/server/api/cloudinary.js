@@ -1,8 +1,8 @@
-var cloudinary = require('cloudinary');
 var keystone = require('../../../');
 
 module.exports = {
 	upload: function (req, res) {
+		var cloudinary = require('cloudinary');
 		if (req.files && req.files.file) {
 			var options = {};
 
@@ -31,6 +31,7 @@ module.exports = {
 		}
 	},
 	autocomplete: function (req, res) {
+		var cloudinary = require('cloudinary');
 		var max = req.query.max || 10;
 		var prefix = req.query.prefix || '';
 		var next = req.query.next || null;
@@ -52,6 +53,7 @@ module.exports = {
 		});
 	},
 	get: function (req, res) {
+		var cloudinary = require('cloudinary');
 		cloudinary.api.resource(req.query.id, function (result) {
 			if (result.error) {
 				res.json({ error: { message: result.error.message } });

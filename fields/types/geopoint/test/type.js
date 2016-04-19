@@ -237,4 +237,108 @@ exports.testFieldType = function (List) {
 			});
 		});
 	});
+
+	describe('addFilterToQuery', function () {
+		it('should filter for a latitude and a longitude with a maximum distance', function () {
+			var result = List.fields.geo.addFilterToQuery({
+				lat: 33,
+				lon: 151,
+				distance: {
+					mode: 'max',
+					value: 100,
+				},
+			});
+
+			demand(result.geo).eql({
+				$near: {
+					$geometry: {
+						type: 'Point',
+						coordinates: [151, 33],
+					},
+					$maxDistance: 100000,
+				},
+			});
+		});
+
+		it('should filter for a latitude and a longitude with a minimum distance', function () {
+			var result = List.fields.geo.addFilterToQuery({
+				lat: 31,
+				lon: 151,
+				distance: {
+					mode: 'min',
+					value: 100,
+				},
+			});
+
+			demand(result.geo).eql({
+				$near: {
+					$geometry: {
+						type: 'Point',
+						coordinates: [151, 31],
+					},
+					$minDistance: 100000,
+				},
+			});
+		});
+
+		it('should default to max distance', function () {
+			var result = List.fields.geo.addFilterToQuery({
+				lat: 31,
+				lon: 151,
+				distance: {
+					mode: undefined,
+					value: 100,
+				},
+			});
+
+			demand(result.geo).eql({
+				$near: {
+					$geometry: {
+						type: 'Point',
+						coordinates: [151, 31],
+					},
+					$maxDistance: 100000,
+				},
+			});
+		});
+
+		it('should default to a 500km radius', function () {
+			var result = List.fields.geo.addFilterToQuery({
+				lat: 31,
+				lon: 151,
+				distance: {
+					mode: 'max',
+					value: undefined,
+				},
+			});
+
+			demand(result.geo).eql({
+				$near: {
+					$geometry: {
+						type: 'Point',
+						coordinates: [151, 31],
+					},
+					$maxDistance: 500000,
+				},
+			});
+		});
+
+		it('should not filter anything if the latitude is undefined', function () {
+			var result = List.fields.geo.addFilterToQuery({
+				lat: undefined,
+				lon: 151,
+			});
+
+			demand(result.geo).be.undefined();
+		});
+
+		it('should not filter anything if the longitude is undefined', function () {
+			var result = List.fields.geo.addFilterToQuery({
+				lat: 31,
+				lon: undefined,
+			});
+
+			demand(result.geo).be.undefined();
+		});
+	});
 };

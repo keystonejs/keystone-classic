@@ -1,9 +1,9 @@
-var baby = require('babyparse');
 var keystone = require('../../../../');
 var moment = require('moment');
 var assign = require('object-assign');
 
 module.exports = function (req, res) {
+	var baby = require('babyparse');
 	var format = req.params.format.split('.')[1]; // json or csv
 	var where = {};
 	var filters = req.query.filters;

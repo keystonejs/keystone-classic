@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import classNames from 'classnames';
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 

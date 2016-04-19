@@ -1,5 +1,5 @@
 import { FormNote, FormField, FormInput } from 'elemental';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Popout from '../Popout';
 import PopoutList from '../Popout/PopoutList';
 import vkey from 'vkey';
@@ -7,6 +7,9 @@ import CurrentListStore from '../../stores/CurrentListStore';
 
 var ListSort = React.createClass({
 	displayName: 'ListSort',
+	propTypes: {
+		handleSortSelect: PropTypes.func.isRequired,
+	},
 	getInitialState () {
 		return {
 			altDown: false,
@@ -34,6 +37,11 @@ var ListSort = React.createClass({
 			altDown: false,
 		});
 	},
+	handleSortSelect (path, inverted) {
+		if (this.state.altDown) inverted = true;
+		this.props.handleSortSelect(path, inverted);
+		this.closePopout();
+	},
 	openPopout () {
 		this.setState({
 			popoutIsOpen: true,
@@ -46,12 +54,6 @@ var ListSort = React.createClass({
 			popoutIsOpen: false,
 			searchString: '',
 		});
-	},
-	handleSortSelect (path, inverted) {
-		if (this.state.altDown) inverted = true;
-		if (inverted) path = '-' + path;
-		this.closePopout();
-		CurrentListStore.setActiveSort(path);
 	},
 	updateSearch (e) {
 		this.setState({ searchString: e.target.value });
@@ -94,6 +96,8 @@ var ListSort = React.createClass({
 	render () {
 		// TODO: Handle multiple sort paths
 		const activeSortPath = CurrentListStore.getActiveSort().paths[0];
+		const formFieldStyles = { borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' };
+
 		return (
 			<span>
 				{activeSortPath && (
@@ -108,14 +112,21 @@ var ListSort = React.createClass({
 				)}
 				<Popout isOpen={this.state.popoutIsOpen} onCancel={this.closePopout} relativeToID="listHeaderSortButton">
 					<Popout.Header title="Sort" />
+
 					<Popout.Body scrollable>
-						<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-							<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a field..." />
+						<FormField style={formFieldStyles}>
+							<FormInput
+								ref="search"
+								value={this.state.searchString}
+								onChange={this.updateSearch}
+								placeholder="Find a field..."
+							/>
 						</FormField>
 						<PopoutList>
 							{this.renderSortOptions()}
 						</PopoutList>
 					</Popout.Body>
+
 					<Popout.Footer>
 						<FormNote>Hold <kbd>alt</kbd> to toggle ascending/descending</FormNote>
 					</Popout.Footer>
