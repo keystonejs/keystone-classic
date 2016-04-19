@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 import { plural } from '../../../utils/string';
 import ListTile from './components/ListTile';
+import AlertMessages from '../../shared/AlertMessages';
 import {
 	loadCounts,
 } from './actions';
@@ -55,11 +56,23 @@ var HomeView = React.createClass({
 					path={list.path}
 					label={list.label}
 					href={href}
-					count={plural(this.props.counts[list.key], '* Item', '* Items')}
+					count={this.getCount(list.key)}
 				/>
 			);
 		});
 		return <div className="dashboard-group__lists">{lists}</div>;
+	},
+	getCount (key) {
+		// If we have previous counts already saved, show them while we fetch
+		// the new ones. The counts can change e.g. if items were created since
+		// the last visit to the homepage
+		if (Object.keys(this.props.counts).length === 0
+			&& (this.props.error || this.props.loading)) {
+			return (
+				<Spinner />
+			);
+		}
+		return plural(this.props.counts[key], '* Item', '* Items');
 	},
 	renderGroupedNav () {
 		return (
@@ -80,7 +93,7 @@ var HomeView = React.createClass({
 											path={list.path}
 											label={list.label}
 											href={href}
-											count={plural(this.props.counts[list.key], '* Item', '* Items')}
+											count={this.getCount(list.key)}
 										/>
 									);
 								})}
@@ -110,7 +123,7 @@ var HomeView = React.createClass({
 								path={list.path}
 								label={list.label}
 								href={href}
-								count={plural(list.key, '* Item', '* Items')}
+								count={this.getCount(list.key)}
 							/>
 						);
 					})}
@@ -119,22 +132,19 @@ var HomeView = React.createClass({
 		);
 	},
 	render () {
-		// If we have previous counts already saved, show them while we fetch
-		// the new ones. The counts can change e.g. if items were created since
-		// the last visit to the homepage
-		if (this.props.loading && Object.keys(this.props.counts) === 0) {
-			return (
-				<div className="centered-loading-indicator">
-					<Spinner size="md" />
-				</div>
-			);
-		}
 		return (
 			<Container>
 				<div className="dashboard-header">
 					<div className="dashboard-heading">{Keystone.brand}</div>
 				</div>
 				<div className="dashboard-groups">
+					{(this.props.error) ? (
+						<AlertMessages
+							alerts={{ error: { error:
+								"There is a problem with the network, we're trying to reconnect...",
+							} }}
+						/>
+					) : null}
 					{Keystone.nav.flat ? this.renderFlatNav() : this.renderGroupedNav()}
 				</div>
 			</Container>
@@ -145,4 +155,5 @@ var HomeView = React.createClass({
 module.exports = connect((state) => ({
 	counts: state.home.counts,
 	loading: state.home.loading,
+	error: state.home.error,
 }))(HomeView);

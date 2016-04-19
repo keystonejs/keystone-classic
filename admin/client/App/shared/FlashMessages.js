@@ -34,6 +34,21 @@ var FlashMessage = React.createClass({
 	},
 });
 
+
+/**
+ * Use like this:
+ * <FlashMessages
+ *   messages={{
+ *	   error: [{
+ *	     title: 'There is a network problem',
+ *	     detail: 'Please try again later...',
+ *	   }],
+ *   }}
+ * />
+ *
+ * Instead of error, it can also be hilight, info, success or warning
+ */
+
 var FlashMessages = React.createClass({
 	displayName: 'FlashMessages',
 	propTypes: {

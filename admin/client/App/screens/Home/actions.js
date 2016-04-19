@@ -47,13 +47,19 @@ export function countsLoaded (counts) {
 }
 
 /**
- * Dispatched when unsuccessfully trying to load the counts
+ * Dispatched when unsuccessfully trying to load the counts, will redispatch
+ * loadCounts after 500ms until we get counts back
  *
  * @param  {object} error The error
  */
 export function countsLoadingError (error) {
-	return {
-		type: COUNTS_LOADING_ERROR,
-		error,
+	return (dispatch, getState) => {
+		dispatch({
+			type: COUNTS_LOADING_ERROR,
+			error,
+		});
+		setTimeout(() => {
+			dispatch(loadCounts());
+		}, 500);
 	};
 }

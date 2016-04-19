@@ -7,6 +7,7 @@ import {
 const initialState = {
 	counts: {},
 	loading: false,
+	error: null,
 };
 
 function home (state = initialState, action) {
@@ -19,11 +20,13 @@ function home (state = initialState, action) {
 			return Object.assign({}, state, {
 				loading: false,
 				counts: action.counts,
+				error: null,
 			});
 		case COUNTS_LOADING_ERROR:
-			// TODO Error handling
+			console.log(action.error);
 			return Object.assign({}, state, {
 				loading: false,
+				error: action.error,
 			});
 		default:
 			return state;
