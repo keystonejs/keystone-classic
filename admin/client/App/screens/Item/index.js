@@ -106,27 +106,36 @@ var ItemView = React.createClass({
 		// When we have the data, render the item view with it
 		return (
 			<div>
-				<EditFormHeader
-					list={this.props.currentList}
-					data={this.props.data}
-					toggleCreate={this.toggleCreate}
-				/>
-				<Container>
-					<CreateForm
-						list={this.props.currentList}
-						isOpen={this.state.createIsOpen}
-						onCancel={() => this.toggleCreate(false)}
-						onCreate={(item) => this.onCreate(item)}
+				{(this.props.error) ? (
+					<FlashMessages
+						messages={{
+							error: [{
+								title: "There's a problem with the network, we're trying to reconnect...",
+							}],
+						}}
 					/>
-					<FlashMessages messages={Keystone.messages} />
-					<EditForm
-						list={this.props.currentList}
-						data={this.props.data}
-						dispatch={this.props.dispatch}
-						router={this.context.router}
-					/>
-					{this.renderRelationships()}
-				</Container>
+				) : (
+					<Container>
+						<EditFormHeader
+							list={this.props.currentList}
+							data={this.props.data}
+							toggleCreate={this.toggleCreate}
+						/>
+						<CreateForm
+							list={this.props.currentList}
+							isOpen={this.state.createIsOpen}
+							onCancel={() => this.toggleCreate(false)}
+							onCreate={(item) => this.onCreate(item)}
+						/>
+						<EditForm
+							list={this.props.currentList}
+							data={this.props.data}
+							dispatch={this.props.dispatch}
+							router={this.context.router}
+						/>
+						{this.renderRelationships()}
+					</Container>
+				)}
 			</div>
 		);
 	},
@@ -136,5 +145,6 @@ module.exports = connect((state) => ({
 	data: state.item.data,
 	loading: state.item.loading,
 	ready: state.item.ready,
+	error: state.item.error,
 	currentList: state.lists.currentList,
 }))(ItemView);

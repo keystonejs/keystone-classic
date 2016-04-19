@@ -14,6 +14,7 @@ const initialState = {
 	id: null,
 	loading: false,
 	ready: false,
+	error: null,
 };
 
 function item (state = initialState, action) {
@@ -33,13 +34,14 @@ function item (state = initialState, action) {
 				data: action.data,
 				loading: false,
 				ready: true,
+				error: null,
 			});
 		case DATA_LOADING_ERROR:
-			// TODO: Show error message from action.error
 			return Object.assign({}, state, {
 				data: null,
 				loading: false,
 				ready: true,
+				error: action.error,
 			});
 		default:
 			return state;

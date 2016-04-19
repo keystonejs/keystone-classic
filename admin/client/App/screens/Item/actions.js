@@ -5,6 +5,7 @@ import {
 	DATA_LOADING_ERROR,
 	DELETE_ITEM,
 } from './constants';
+import { NETWORK_ERROR_RETRY_DELAY } from '../../../utils/constants';
 
 /**
  * Select an item
@@ -53,14 +54,20 @@ export function dataLoaded (data) {
 }
 
 /**
- * Called when there was an error during the loading of the current item data
+ * Called when there was an error during the loading of the current item data,
+ * will retry loading the data ever NETWORK_ERROR_RETRY_DELAY milliseconds
  *
  * @param  {Object} error The error
  */
-export function dataLoadingError (error) {
-	return {
-		type: DATA_LOADING_ERROR,
-		error,
+export function dataLoadingError () {
+	return (dispatch) => {
+		dispatch({
+			type: DATA_LOADING_ERROR,
+			error: 'Loading error',
+		});
+		setTimeout(() => {
+			dispatch(loadItemData());
+		}, NETWORK_ERROR_RETRY_DELAY);
 	};
 }
 
