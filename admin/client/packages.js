@@ -10,7 +10,7 @@ module.exports = [
 	'classnames',
 	'color',
 	'display-name',
-	'elemental',
+	'elemental-octicons-3.5.0',
 	'expression-match',
 	'history',
 	'i',
