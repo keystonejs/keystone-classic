@@ -116,8 +116,19 @@ function lists (state = initialState, action) {
 				ready: true,
 			});
 		case DELETE_ITEM:
-			// TODO Implementation
-			return state;
+			const newItems = {
+				results: state.items.results.filter((el) => (el.id !== action.id)),
+				count: state.items.count - 1,
+			};
+			const newCachedList = state.data[state.currentList.id];
+			newCachedList.items = newItems;
+			return Object.assign({}, state, {
+				items: newItems,
+				data: {
+					...state.data,
+					[state.currentList.id]: newCachedList,
+				},
+			});
 		case SET_CURRENT_PAGE:
 			return Object.assign({}, state, {
 				page: {

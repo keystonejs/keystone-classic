@@ -77,9 +77,20 @@ export function itemLoadingError (err) {
 }
 
 export function deleteItem (id) {
-	return {
-		type: DELETE_ITEM,
-		id,
+	return (dispatch, getState) => {
+		const list = getState().lists.currentList;
+		list.deleteItem(id, (err) => {
+			// TODO Proper error handling
+			if (err) {
+				alert('Error deleting item, please try again!');
+				console.log(err);
+			} else {
+				dispatch({
+					type: DELETE_ITEM,
+					id,
+				});
+			}
+		});
 	};
 }
 
