@@ -89,7 +89,10 @@ var EditForm = React.createClass({
 		this.setState({ confirmationDialog });
 	},
 	handleReset () {
-		window.location.reload();
+		this.setState({
+			values: Object.assign({}, this.props.data.fields),
+			confirmationDialog: null,
+		});
 	},
 	confirmDelete () {
 		const confirmationDialog = (
