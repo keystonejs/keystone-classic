@@ -121,7 +121,7 @@ var EditForm = React.createClass({
 	},
 	updateItem () {
 		const { data, list } = this.props;
-		const editForm = this.refs.editForm.getDOMNode();
+		const editForm = this.refs.editForm;
 		const formData = new FormData(editForm);
 
 		// Clear alerts
