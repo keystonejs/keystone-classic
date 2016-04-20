@@ -10,7 +10,9 @@ import { FormInput } from 'elemental';
 
 // Scope jQuery and the bootstrap-markdown editor so it will mount
 var $ = require('jquery');
+var marked = require('marked');
 require('./lib/bootstrap-markdown');
+require('./lib/dropzone');
 
 // Append/remove ### surround the selection
 // Source: https://github.com/toopay/bootstrap-markdown/blob/master/js/bootstrap-markdown.js#L909
@@ -59,41 +61,50 @@ var renderMarkdown = function (component) {
 		savable: false,
 		resize: 'vertical',
 		height: component.props.height,
+		dropZoneOptions: component.props.dropZoneOptions,
+		parser: marked,
+		iconlibrary: 'octicons',
 		hiddenButtons: ['Heading'],
 
 		// Heading buttons
-		additionalButtons: [{
-			name: 'groupHeaders',
-			data: [{
-				name: 'cmdH1',
-				title: 'Heading 1',
-				btnText: 'H1',
-				callback: function (e) {
-					toggleHeading(e, '#');
-				},
-			}, {
-				name: 'cmdH2',
-				title: 'Heading 2',
-				btnText: 'H2',
-				callback: function (e) {
-					toggleHeading(e, '##');
-				},
-			}, {
-				name: 'cmdH3',
-				title: 'Heading 3',
-				btnText: 'H3',
-				callback: function (e) {
-					toggleHeading(e, '###');
-				},
-			}, {
-				name: 'cmdH4',
-				title: 'Heading 4',
-				btnText: 'H4',
-				callback: function (e) {
-					toggleHeading(e, '####');
-				},
+		additionalButtons: [
+			[{
+				name: 'groupHeaders',
+				data: [{
+					name: 'cmdH1',
+					title: 'Heading 1',
+					icon: 'octicon octicon-text-size heading-1',
+					btnText: '',
+					callback: function (e) {
+						toggleHeading(e, '#');
+					},
+				}, {
+					name: 'cmdH2',
+					title: 'Heading 2',
+					icon: 'octicon octicon-text-size heading-2',
+					btnText: '',
+					callback: function (e) {
+						toggleHeading(e, '##');
+					},
+				}, {
+					name: 'cmdH3',
+					title: 'Heading 3',
+					icon: 'octicon octicon-text-size heading-3',
+					btnText: '',
+					callback: function (e) {
+						toggleHeading(e, '###');
+					},
+				}, {
+					name: 'cmdH4',
+					title: 'Heading 4',
+					icon: 'octicon octicon-text-size heading-4',
+					btnText: '',
+					callback: function (e) {
+						toggleHeading(e, '####');
+					},
+				}],
 			}],
-		}],
+		],
 
 		// Insert Header buttons into the toolbar
 		reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil'],
