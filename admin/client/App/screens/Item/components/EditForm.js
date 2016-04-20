@@ -23,9 +23,7 @@ import InvalidFieldType from '../../../shared/InvalidFieldType';
 
 import { deleteItem } from '../actions';
 
-function upCase (str) {
-	return str.slice(0, 1).toUpperCase() + str.substr(1).toLowerCase();
-};
+import { upcase } from '../../../../utils/string';
 
 function getNameFromData (data) {
 	if (typeof data === 'object') {
@@ -146,7 +144,7 @@ var EditForm = React.createClass({
 				this.setState({
 					alerts: {
 						success: {
-							success: 'update success',
+							success: 'Update success',
 						},
 					},
 					values: data.fields,
@@ -163,7 +161,7 @@ var EditForm = React.createClass({
 			return (
 				<div className={className}>
 					<AltText
-						normal={`${upCase(list.autokey.path)}: `}
+						normal={`${upcase(list.autokey.path)}: `}
 						modified="ID:"
 						component="span"
 						title="Press <alt> to reveal the ID"
