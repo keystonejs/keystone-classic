@@ -60,13 +60,13 @@ var AlertMessages = React.createClass({
 				case 'validation errors':
 					return this.renderValidationErrors();
 				default:
-					return <Alert type="danger"><h4>{upcase(error.error)}</h4></Alert>;
+					return <Alert type="danger">{upcase(error.error)}</Alert>;
 			}
 		}
 
 		if (success) {
 			// Render success alerts
-			return <Alert type="success"><h4>{upcase(success.success)}</h4></Alert>;
+			return <Alert type="success">{upcase(success.success)}</Alert>;
 		}
 
 		return null; // No alerts, render nothing

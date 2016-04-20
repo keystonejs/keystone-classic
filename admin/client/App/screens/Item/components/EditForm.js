@@ -122,9 +122,8 @@ var EditForm = React.createClass({
 		const editForm = this.refs.editForm;
 		const formData = new FormData(editForm);
 
-		// Clear alerts
+		// Show loading indicator
 		this.setState({
-			alerts: null,
 			loading: true,
 		});
 
