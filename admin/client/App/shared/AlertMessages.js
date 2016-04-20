@@ -1,6 +1,8 @@
 import React from 'react';
 import { Alert } from 'elemental';
 
+import { upcase } from '../../utils/string';
+
 /**
  * This renders alerts for API success and error responses.
  *   Error format: {
@@ -33,7 +35,7 @@ var AlertMessages = React.createClass({
 		let errorCount = Object.keys(errors).length;
 		let alertContent;
 		let messages = Object.keys(errors).map((path) => {
-			return errorCount > 1 ? <li key={path}>{errors[path].error}</li> : <div key={path}>{errors[path].error}</div>;
+			return errorCount > 1 ? <li key={path}>{upcase(errors[path].error)}</li> : <div key={path}>{upcase(errors[path].error)}</div>;
 		});
 
 		if (errorCount > 1) {
@@ -58,13 +60,13 @@ var AlertMessages = React.createClass({
 				case 'validation errors':
 					return this.renderValidationErrors();
 				default:
-					return <Alert type="danger"><h4>{error.error}</h4></Alert>;
+					return <Alert type="danger"><h4>{upcase(error.error)}</h4></Alert>;
 			}
 		}
 
 		if (success) {
 			// Render success alerts
-			return <Alert type="success"><h4>{success.success}</h4></Alert>;
+			return <Alert type="success"><h4>{upcase(success.success)}</h4></Alert>;
 		}
 
 		return null; // No alerts, render nothing
