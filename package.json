@@ -97,7 +97,7 @@
     "mocha": "2.4.5",
     "must": "0.13.1",
     "nightwatch": "0.8.18",
-    "react-engine": "3.2.1",
+    "react-engine": "3.2.2",
     "rimraf": "2.5.2",
     "sinon": "1.17.3",
     "superagent": "1.8.3",
