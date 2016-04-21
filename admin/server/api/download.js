@@ -1,12 +1,13 @@
 var _ = require('lodash');
 var async = require('async');
-var baby = require('babyparse');
 var keystone = require('../../../');
 var moment = require('moment');
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 
 module.exports = function (req, res) {
+
+	var baby = require('babyparse');
 
 	var filters = req.list.processFilters(req.query.q);
 	var queryFilters = req.list.getSearchFilters(req.query.search, filters);

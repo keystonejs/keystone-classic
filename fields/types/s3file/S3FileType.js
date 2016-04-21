@@ -3,7 +3,6 @@ var assign = require('object-assign');
 var FieldType = require('../Type');
 var grappling = require('grappling-hook');
 var keystone = require('../../../');
-var knox = require('knox');
 var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
@@ -59,6 +58,7 @@ Object.defineProperty(s3file.prototype, 's3config', {
  */
 s3file.prototype.addToSchema = function () {
 
+	var knox = require('knox');
 	var field = this;
 	var schema = this.list.schema;
 
@@ -324,6 +324,7 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
  */
 s3file.prototype.uploadFile = function (item, file, update, callback) {
 
+	var knox = require('knox');
 	var field = this;
 	var path = field.options.s3path ? field.options.s3path + '/' : '';
 	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '';

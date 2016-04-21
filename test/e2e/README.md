@@ -93,3 +93,49 @@ any changes it does to the state of the UI)
 - add the selectors for the field to e2e\adminUI\adminUI.js (need to add to both itemview.field and initialModalView.field)
 - add uiTestNNN<Field-Name>Field.js to e2e\adminUI\group005Fields\
 - add uxTestNNN<Field-Name>Field.js to e2e\adminUI\group005Fields\
+
+
+## Some about nightwatch Page Objects(PO)
+Since we use nightwatch Page Objects(PO) quite a bit in e2e then here are some notes to keep in mind:
+
+- a PO is basically an abstraction of a view/page.  It defines:
+
+    - elements and their selectors.  For example:
+
+        elements: {
+            elem1: 'a-selector-could-be-defined-via-a-simple-string'
+        }
+        or,
+        elements: {
+            elem1: {
+                selector: 'a-selector-could-be-defined-via-the-selector-property-if-need-to-provide-a-strategy',
+                locateStrategy: 'xpath',
+            }
+        }
+
+    - commands.  For example:
+
+        commands: [{
+            waitForElem1ToShowUp: function () {
+                return this
+                    .waitForElementVisible('@elem1');
+            },
+        }],
+
+    - tests `before:` should define all POs the test will need to interact with.  For example:
+
+        before: function (browser) {
+            browser.spa = browser.page.spa();
+            browser.spa.navigate();
+        }
+
+        then in tests you can access the spa PO as follows:
+
+            browser.spa
+                .click('@fieldsMenu')
+
+        in PO commands you can access the POs as follows:
+
+            this.api.spa
+                .click('@fieldsMenu')
+

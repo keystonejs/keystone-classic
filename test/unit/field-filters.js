@@ -8,6 +8,13 @@ keystone.init();
 var typesLoc = path.resolve('fields/types');
 var types = fs.readdirSync(typesLoc);
 
+function stringifyValue (value) {
+	if (Array.isArray(value)) {
+		return value.map(stringifyValue);
+	}
+	return value !== undefined ? String(value) : value;
+}
+
 types.forEach(function (name) {
 	var filtersTestPath = typesLoc + '/' + name + '/test/filters.js';
 	if (!fs.existsSync(filtersTestPath)) return;
@@ -21,17 +28,23 @@ types.forEach(function (name) {
 	test.initList(List);
 	List.register();
 
-	var testItems = {};
-	testItems[listKey] = test.getTestItems();
-
-	var filter = function (filters, prop, callback) {
-		if (typeof prop === 'function') {
+	var filter = function (filters, prop, stringify, callback) {
+		if (typeof stringify === 'function' && !callback) {
+			callback = stringify;
+			stringify = false;
+		}
+		if (typeof prop === 'function' && !callback) {
 			callback = prop;
 			prop = null;
 		}
 		var where = List.addFiltersToQuery(filters);
 		List.model.find(where, function (err, results) {
-			results = prop ? _.map(results, prop) : results;
+			if (prop) {
+				results = _.map(results, prop);
+				if (stringify) {
+					results = results.map(stringifyValue);
+				}
+			}
 			callback(results);
 		});
 	}
@@ -40,7 +53,17 @@ types.forEach(function (name) {
 		before(function (done) {
 			List.model.remove().exec(function (err) {
 				if (err) throw err;
-				keystone.createItems(testItems, done);
+				var testItems = {};
+				if (test.getTestItems.length < 2) {
+					testItems[listKey] = test.getTestItems(List);
+					return keystone.createItems(testItems, done);
+				} else {
+					test.getTestItems(List, function (err, data) {
+						if (err) throw err;
+						testItems[listKey] = data;
+						keystone.createItems(testItems, done);
+					});
+				}
 			});
 		});
 		test.testFilters(List, filter);
