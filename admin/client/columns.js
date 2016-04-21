@@ -28,6 +28,7 @@ var Columns = {
 	text: require('../../fields/types/text/TextColumn'),
 	textarea: require('../../fields/types/textarea/TextareaColumn'),
 	textarray: require('../../fields/types/textarray/TextArrayColumn'),
+	timeofday: require('../../fields/types/timeofday/TimeOfDayColumn'),
 	url: require('../../fields/types/url/UrlColumn'),
 };
 
