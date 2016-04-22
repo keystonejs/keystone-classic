@@ -90,9 +90,6 @@
     "eslint": "2.8.0",
     "eslint-config-keystone": "2.2.0",
     "eslint-plugin-react": "5.0.1",
-    "gulp": "3.9.1",
-    "gulp-streamify": "1.0.2",
-    "gulp-uglify": "1.5.3",
     "istanbul": "0.4.3",
     "mocha": "2.4.5",
     "must": "0.13.1",
@@ -102,8 +99,8 @@
     "sinon": "1.17.3",
     "superagent": "1.8.3",
     "supertest": "1.2.0",
+    "uglify-js": "2.6.2",
     "updtr": "0.1.10",
-    "vinyl-source-stream": "1.1.0",
     "watch": "0.17.1"
   },
   "browserify": {
@@ -140,8 +137,9 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
-    "build": "NODE_ENV=production gulp build-packages",
-    "build-dev": "gulp build-packages",
+    "bundle": "node build.js > ./admin/public/js/packages.bundle.js",
+    "build": "npm run bundle && uglifyjs ./admin/public/js/packages.bundle.js -mc warnings=false --source-map ./admin/public/js/packages.js.map > ./admin/public/js/packages.js",
+    "build-dev": "node build.js > ./admin/public/js/packages.js",
     "pretest": "npm run lint && node test/pretest.js",
     "test": "mocha",
     "test-all": "npm test && npm run test-e2e",
