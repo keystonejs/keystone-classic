@@ -1,8 +1,8 @@
 import React from 'react';
-import { Alert} from 'elemental';
+import { Alert } from 'elemental';
 
 var AlertView = React.createClass({
-	render: function(){
+	render: function() {
 		if (this.props.isInvalid) {
 			return <Alert key="error" type="danger" style={{ textAlign: 'center' }}>{this.props.invalidMessage}</Alert>;
 		} else if (this.props.signedOut) {

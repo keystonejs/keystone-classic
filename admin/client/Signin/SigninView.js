@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import SessionStore from '../stores/SessionStore';
-import { Button, Form, FormField, FormInput } from 'elemental';
 import { createHistory } from 'history';
 
 import AlertView from './components/AlertView';
@@ -76,28 +75,28 @@ var SigninView = React.createClass({
 		return (
 			<div className="auth-wrapper">
 				<AlertView 
-					isInvalid = {this.state.isInvalid}
-					signedOut = {this.state.signedOut}
+					isInvalid={this.state.isInvalid}
+					signedOut={this.state.signedOut}
 					invalidMessage={this.state.invalidMessage}
 				/>
-				<div className = {boxClassname}>
+				<div className={boxClassname}>
 					<h1 className="u-hidden-visually">{this.props.brand ? this.props.brand : 'Keystone'} Sign In </h1>
 					<div className="auth-box__inner">
 						<Brand 
-							logo = {this.props.isInvalid}
-							brand = {this.props.brand}
+							logo={this.props.isInvalid}
+							brand={this.props.brand}
 						/>
 						<UserInfo 
-							user = {this.props.user}
-							userCanAccessKeystone = {this.props.userCanAccessKeystone}
+							user={this.props.user}
+							userCanAccessKeystone={this.props.userCanAccessKeystone}
 						/>
 						<LoginForm
-							user = {this.props.user}
-							handleSubmit = {this.handleSubmit}
-							handleInputChange = {this.handleInputChange}
-							email = {this.state.email}
-							password = {this.state.password}
-							animating = {this.state.animating}
+							user={this.props.user}
+							handleSubmit={this.handleSubmit}
+							handleInputChange={this.handleInputChange}
+							email={this.state.email}
+							password={this.state.password}
+							animating={this.state.animating}
 						/>
 					</div>
 				</div>
