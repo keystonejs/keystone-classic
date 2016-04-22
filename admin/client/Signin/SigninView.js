@@ -83,24 +83,22 @@ var SigninView = React.createClass({
 				<div className = {boxClassname}>
 					<h1 className="u-hidden-visually">{this.props.brand ? this.props.brand : 'Keystone'} Sign In </h1>
 					<div className="auth-box__inner">
-					
-					<Brand 
-						logo = {this.props.isInvalid}
-						brand = {this.props.brand}
-					/>
-					<UserInfo 
-						user = {this.props.user}
-						userCanAccessKeystone = {this.props.userCanAccessKeystone}
-					/>
-
-					<LoginForm
-						user = {this.props.user}
-						handleSubmit = {this.handleSubmit}
-						handleInputChange = {this.handleInputChange}
-						email = {this.state.email}
-						password = {this.state.password}
-						animating = {this.state.animating}
-					/>
+						<Brand 
+							logo = {this.props.isInvalid}
+							brand = {this.props.brand}
+						/>
+						<UserInfo 
+							user = {this.props.user}
+							userCanAccessKeystone = {this.props.userCanAccessKeystone}
+						/>
+						<LoginForm
+							user = {this.props.user}
+							handleSubmit = {this.handleSubmit}
+							handleInputChange = {this.handleInputChange}
+							email = {this.state.email}
+							password = {this.state.password}
+							animating = {this.state.animating}
+						/>
 					</div>
 				</div>
 				<div className="auth-footer">
