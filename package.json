@@ -38,6 +38,7 @@
     "elemental": "0.5.14",
     "embedly": "1.0.4",
     "errorhandler": "1.4.3",
+    "es6-promise": "^3.1.2",
     "express": "4.13.4",
     "express-request-language": "1.1.4",
     "express-session": "1.13.0",
