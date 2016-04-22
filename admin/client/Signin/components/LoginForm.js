@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Form, FormField, FormInput } from 'elemental';
 
 var LoginForm = React.createClass({
-	render: function() {
+	render: function () {
 		if (this.props.user) return null;
 		return (
 			<div className="auth-box__col">
@@ -18,7 +18,7 @@ var LoginForm = React.createClass({
 				</Form>
 			</div>
 		);
-	}
+	},
 });
 
 

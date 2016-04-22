@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert } from 'elemental';
 
 var AlertView = React.createClass({
-	render: function() {
+	render: function () {
 		if (this.props.isInvalid) {
 			return <Alert key="error" type="danger" style={{ textAlign: 'center' }}>{this.props.invalidMessage}</Alert>;
 		} else if (this.props.signedOut) {
@@ -14,7 +14,7 @@ var AlertView = React.createClass({
 			return <div key="fake" className="Alert Alert--placeholder">&nbsp;</div>;
 			/* eslint-enable */
 		}
-	}
+	},
 });
 
 module.exports = AlertView;

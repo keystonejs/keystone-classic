@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button} from 'elemental';
+import { Button } from 'elemental';
 
 
 var UserInfo = React.createClass({
-	render: function(){
+	render: function () {
 		if (!this.props.user) return null;
 		const openKeystoneButton = this.props.userCanAccessKeystone ? <Button href={Keystone.adminPath} type="primary">Open Keystone</Button> : null;
 		return (
@@ -14,7 +14,7 @@ var UserInfo = React.createClass({
 				<Button href={`${Keystone.adminPath}/signout`} type="link-cancel">Sign Out</Button>
 			</div>
 			);
-	}
+	},
 });
 
 module.exports = UserInfo;

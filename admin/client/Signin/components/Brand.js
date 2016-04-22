@@ -2,7 +2,7 @@ import React from 'react';
 
 
 var Brand = React.createClass({
-	render: function() {
+	render: function () {
 		let logo = { src: `${Keystone.adminPath}/images/logo.png`, width: 205, height: 68 };
 		if (this.props.logo) {
 			logo = typeof this.props.logo === 'string' ? { src: this.props.logo } : this.props.logo;
@@ -20,7 +20,7 @@ var Brand = React.createClass({
 				</div>
 			</div>
 		);
-	}
+	},
 });
 
 module.exports = Brand;
