@@ -14,7 +14,7 @@ function textarea (list, path, options) {
 	this._underscoreMethods = ['format', 'crop'];
 	this.height = options.height || 90;
 	this.multiline = true;
-	this._properties = ['height','multiline'];
+	this._properties = ['height', 'multiline'];
 	textarea.super_.call(this, list, path, options);
 }
 util.inherits(textarea, FieldType);
