@@ -9,6 +9,8 @@ module.exports = function (req, res) {
 			return keystone.get('signout redirect')(req, res);
 		} else {
 			return res.redirect('/' + keystone.get('admin path') + '/signin?signedout');
+			// After logging out, the user will be redirected to /signin?signedout
+			// It shows a bar on top of the sign in panel saying "You have been signed out".
 		}
 	});
 };
