@@ -138,8 +138,7 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
-    "bundle": "node build.js > ./admin/public/js/packages.bundle.js",
-    "build": "NODE_ENV=production npm run bundle && uglifyjs ./admin/public/js/packages.bundle.js -mc warnings=false --source-map ./admin/public/js/packages.js.map > ./admin/public/js/packages.js",
+    "build": "NODE_ENV=production node build.js | uglifyjs -mc warnings=false > ./admin/public/js/packages.js",
     "build-dev": "node build.js > ./admin/public/js/packages.js",
     "pretest": "npm run lint && node test/pretest.js",
     "test": "mocha",
