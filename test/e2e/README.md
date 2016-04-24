@@ -100,7 +100,8 @@ any changes it does to the state of the UI)
 
 - add a model for the field to test/e2e/models/fields/<Field-Name>.js
 - add the field collection to the fields nav in test/e2e/server.js
-- add the selectors for the field to test/e2e/adminUI/pages/list
+- add a page object for the field to test/e2e/adminUI/pages/fieldTypes
+- add a page object for the list testing the field to test/e2e/adminUI/pages/lists
 - add uiTest<Field-Name>Field.js to test/e2e/adminUI/group005Fields
 - add uxTest<Field-Name>Field.js to test/e2e/adminUI/group005Fields
 
@@ -155,4 +156,4 @@ Since we use nightwatch Page Objects(PO) quite a bit in e2e then here are some n
 	are commands per field in the list).  Unlike other page objects, list objects are not meant to be directly created.
 	Instead, these are required by other page objects (e.g., the item page object).  All selector lookups and commands
 	executed against a list are done in the context of the page that required the list.
-	
+

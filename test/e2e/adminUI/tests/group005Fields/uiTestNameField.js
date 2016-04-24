@@ -32,7 +32,7 @@ module.exports = {
 		browser.initialFormPage.section.form.section.nameList
 			.verifyUI();
 
-		browser.initialFormPage.section.form.section.nameList.section.nameField
+		browser.initialFormPage.section.form.section.nameList.section.name
 			.verifyUI();
 
 		browser.initialFormPage.section.form.section.nameList.section.fieldA

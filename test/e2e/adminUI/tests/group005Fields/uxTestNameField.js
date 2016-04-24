@@ -31,10 +31,10 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormPage');
 
-		browser.initialFormPage.section.form.section.nameList.section.nameField
+		browser.initialFormPage.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 1'});
 
-		browser.initialFormPage.section.form.section.nameList.section.nameField
+		browser.initialFormPage.section.form.section.nameList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 
 		browser.initialFormPage.section.form.section.nameList.section.fieldA
@@ -50,11 +50,11 @@ module.exports = {
 			.expect.element('@flashMessage')
 			.text.to.equal('New Name Name Field Test 1 created.');
 
-		browser.itemPage.section.form.section.nameList.section.nameField
+		browser.itemPage.section.form.section.nameList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 	},
 	'Name field can be created via the edit form': function (browser) {
-		browser.itemPage.section.form.section.nameList.section.nameField
+		browser.itemPage.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 2'});
 
 		browser.itemPage.section.form.section.nameList.section.fieldA
@@ -69,7 +69,7 @@ module.exports = {
 		browser.itemPage
 			.expect.element('@flashMessage').text.to.equal('Your changes have been saved.');
 
-		browser.itemPage.section.form.section.nameList.section.nameField
+		browser.itemPage.section.form.section.nameList.section.name
 			.verifyInput({value: 'Name Field Test 2'});
 
 		browser.itemPage.section.form.section.nameList.section.fieldA

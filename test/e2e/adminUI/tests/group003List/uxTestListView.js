@@ -29,10 +29,10 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormPage');
 
-		browser.initialFormPage.section.form.section.nameList.section.nameField
+		browser.initialFormPage.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 1'});
 
-		browser.initialFormPage.section.form.section.nameList.section.nameField
+		browser.initialFormPage.section.form.section.nameList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 
 		browser.initialFormPage.section.form.section.nameList.section.fieldA
@@ -63,10 +63,10 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormPage');
 
-		browser.initialFormPage.section.form.section.nameList.section.nameField
+		browser.initialFormPage.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 2'});
 
-		browser.initialFormPage.section.form.section.nameList.section.nameField
+		browser.initialFormPage.section.form.section.nameList.section.name
 			.verifyInput({value: 'Name Field Test 2'});
 
 		browser.initialFormPage.section.form.section.nameList.section.fieldA
