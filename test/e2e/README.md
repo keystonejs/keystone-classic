@@ -12,16 +12,19 @@ for nightwatch specific structure as well as partly based on a typical keystone 
 with a real keystone app server.
 
     test/e2e
-        nightwatch.json                         => nightwatch config
         global.js                               => common nightwatch test environment config
 
         server.js                               => keystone test app server
 
         adminUI                                 => adminUI e2e test suite
+            nightwatch.json                     => nightwatch config
             adminUI.js                          => adminUI test configuration (e.g., selectors, etc.)
-            groupNNN<group-name>                => adminUI test group, where NNN is a group sequence number
-                uiTestNNN<test-name>            => UI test suite, where NNN is a test sequence number
-                uxTestNNN<test-name>            => UX/functional test suite, where NNN is a test sequence number
+            pages
+                ...                             => page objects representing an AdminUI screen/page
+            tests
+                groupNNN<group-name>            => adminUI test group, where NNN is a group sequence number
+                    uiTest<test-name>           => UI test suite
+                    uxTest<test-name>           => UX/functional test suite
 
         bin                                     => any required e2e binaries
            selenium-server-standalone-x.y.z.jar => selenium driver for local testing
@@ -41,17 +44,24 @@ If your commit fixes a bug but breaks the UI/functional test suite please make s
 update the test suite so that any broken tests pass again.  You can run any of the following
 from keystone's root directory:
 
+    Pre-requisites:
+        - Make sure that you have a local mongo instance running.
+        - Make sure that port 3000 is available; if not please tell the e2e server what port it
+          should bind to.  For example, to use port 9999 do the following (in a bash shell):
+
+            export KEYSTONEJS_PORT=9999
+
     Running in your local environment:
 
         npm run test-e2e
 
     Running a single group in your local environment:
 
-        node test/e2e/server.js --env default --config ./test/e2e/nightwatch.json --group test/e2e/adminUI/<group>
+        node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json --group test/e2e/adminUI/tests/<group>
 
     Running a single test in your local environment:
 
-        node test/e2e/server.js --env default --config ./test/e2e/nightwatch.json --test test/e2e/adminUI/<group>/<test>
+        node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json --test test/e2e/adminUI/tests/<group>/<test>
 
     Travis builds will run:
 
@@ -79,20 +89,20 @@ The best approach to keeping tests well organized is to:
 - when writing new tests, use an existing one as an example.
 - keep the test style consistent.
 - keep the test file structure consistent.
-- each test group must run on its own using the --group argument (that means, that each test within the group must undo
+- each test group must run on its own using the `--group` argument (that means, that each test within the group must undo
 any changes it does to the state of the UI)
-- each test within a group must run on its own using the --test argument (that means, that each test must undo
+- each test within a group must run on its own using the `--test` argument (that means, that each test must undo
 any changes it does to the state of the UI)
 - when naming selectors (e.g., in adminUI.js) make sure to use a very descriptive name
 
 
 ## Adding Field Tests
 
-- add a model for the field to e2e\models\fields\<Field-Name>.js
-- add the field collection to the fields nav in e2e\server.js
-- add the selectors for the field to e2e\adminUI\adminUI.js (need to add to both itemview.field and initialModalView.field)
-- add uiTestNNN<Field-Name>Field.js to e2e\adminUI\group005Fields\
-- add uxTestNNN<Field-Name>Field.js to e2e\adminUI\group005Fields\
+- add a model for the field to test/e2e/models/fields/<Field-Name>.js
+- add the field collection to the fields nav in test/e2e/server.js
+- add the selectors for the field to test/e2e/adminUI/pages/list
+- add uiTest<Field-Name>Field.js to test/e2e/adminUI/group005Fields
+- add uxTest<Field-Name>Field.js to test/e2e/adminUI/group005Fields
 
 
 ## Some about nightwatch Page Objects(PO)
@@ -139,3 +149,10 @@ Since we use nightwatch Page Objects(PO) quite a bit in e2e then here are some n
             this.api.spa
                 .click('@fieldsMenu')
 
+- list POs are very special.  The abstract a list and its fields.  They also include the commands that can be executed
+	against the list.  They should all have the same format.  The only things that may vary are the field names, the
+	number of fields, and the selectors, and the number of commands (the more fields the more commands since there
+	are commands per field in the list).  Unlike other page objects, list objects are not meant to be directly created.
+	Instead, these are required by other page objects (e.g., the item page object).  All selector lookups and commands
+	executed against a list are done in the context of the page that required the list.
+	

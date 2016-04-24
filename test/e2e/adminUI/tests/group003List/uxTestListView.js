@@ -29,8 +29,17 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormPage');
 
-		browser.initialFormPage
-			.fillNameListForm(browser.initialFormPage.section.form.section.nameList,'1');
+		browser.initialFormPage.section.form.section.nameList.section.nameField
+			.fillInput({value: 'Name Field Test 1'});
+
+		browser.initialFormPage.section.form.section.nameList.section.nameField
+			.verifyInput({value: 'Name Field Test 1'});
+
+		browser.initialFormPage.section.form.section.nameList.section.fieldA
+			.fillInput({firstName: 'First 1', lastName: 'Last 1'});
+
+		browser.initialFormPage.section.form
+			.click('@createButton');
 
 		browser.app
 			.waitForElementVisible('@itemPage');
@@ -54,8 +63,17 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormPage');
 
-		browser.initialFormPage
-			.fillNameListForm(browser.initialFormPage.section.form.section.nameList,'2');
+		browser.initialFormPage.section.form.section.nameList.section.nameField
+			.fillInput({value: 'Name Field Test 2'});
+
+		browser.initialFormPage.section.form.section.nameList.section.nameField
+			.verifyInput({value: 'Name Field Test 2'});
+
+		browser.initialFormPage.section.form.section.nameList.section.fieldA
+			.fillInput({firstName: 'First 2', lastName: 'Last 2'});
+
+		browser.initialFormPage.section.form
+			.click('@createButton');
 
 		browser.app
 			.waitForElementVisible('@itemPage');
