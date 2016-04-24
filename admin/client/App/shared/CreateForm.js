@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import AlertMessages from './AlertMessages';
 import Fields from '../../utils/fields';
 import InvalidFieldType from './InvalidFieldType';
@@ -66,18 +67,23 @@ var CreateForm = React.createClass({
 
 	submitForm (event) {
 		event.preventDefault();
-		const createForm = this.refs.createForm.getDOMNode();
+		const createForm = ReactDOM.findDOMNode(this.refs.createForm);
 		const formData = new FormData(createForm);
 		this.props.list.createItem(formData, (err, data) => {
 			if (data) {
 				if (this.props.onCreate) {
 					this.props.onCreate(data);
+				} else {
+					// Clear form
+					this.setState({
+						values: {},
+						alerts: {
+							success: {
+								success: 'Item created',
+							},
+						},
+					});
 				}
-				// Clear form
-				this.setState({
-					values: {},
-					alerts: {},
-				});
 			} else {
 				this.setState({
 					alerts: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
-import SessionStore from '../stores/SessionStore';
+import xhr from 'xhr';
 import { createHistory } from 'history';
 
 import AlertView from './components/AlertView';
@@ -9,6 +9,9 @@ import Brand from './components/Brand';
 import UserInfo from './components/UserInfo';
 import LoginForm from './components/LoginForm';
 
+var csrfHeaders = {
+	[Keystone.csrf_header_key]: Keystone.csrf_token_value,
+};
 var history = createHistory();
 
 var SigninView = React.createClass({
@@ -40,12 +43,18 @@ var SigninView = React.createClass({
 		if (!this.state.email || !this.state.password) {
 			return this.displayError('Please enter an email address and password to sign in.');
 		}
-		SessionStore.signin({
-			email: this.state.email,
-			password: this.state.password,
-		}, (err, data) => {
-			if (err || data && data.error) {
-				this.displayError('The email and password you entered are not valid.');
+
+		xhr({
+			url: `${Keystone.adminPath}/api/session/signin`,
+			method: 'post',
+			json: {
+				email: this.state.email,
+				password: this.state.password,
+			},
+			headers: csrfHeaders,
+		}, (err, resp, body) => {
+			if (err || body && body.error) {
+				return this.displayError('The email and password you entered are not valid.');
 			} else {
 				top.location.href = this.props.from ? this.props.from : Keystone.adminPath;
 			}
