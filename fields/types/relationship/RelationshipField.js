@@ -104,7 +104,7 @@ module.exports = Field.create({
 		});
 		async.map(values, (value, done) => {
 			xhr({
-				url: Keystone.adminPath + '/api/' + this.props.refList.path + '/' + value + '?basic',
+				url: Keystone.adminPath + '/api/' + this.props.refList.path + '/' + value + (!this.props.populate ? '?basic' : ''),
 				responseType: 'json',
 			}, (err, resp, data) => {
 				if (err || !data) return done(err);
@@ -117,6 +117,7 @@ module.exports = Field.create({
 				loading: false,
 				value: this.props.many ? expanded : expanded[0],
 			});
+			if (!this.props.many && this.props.populate) this.populateFields(expanded[0]);
 		});
 	},
 
@@ -135,6 +136,7 @@ module.exports = Field.create({
 				return callback(null, []);
 			}
 			data.results.forEach(this.cacheItem);
+
 			callback(null, {
 				options: data.results,
 				complete: data.results.length === data.count,
@@ -146,7 +148,28 @@ module.exports = Field.create({
 		this.props.onChange({
 			path: this.props.path,
 			value: value,
-		});
+		}, function () {
+			if (this.props.populate) {
+				this.populateFields(value);
+			}
+		}.bind(this));
+	},
+
+	populateFields (value) {
+		var id = value;
+
+		if (typeof value !== 'string') {
+			if (!value.id) return;
+			id = value.id;
+		}
+
+		var options = this.props.populate;
+		var cachedValue = Object.assign({}, this._itemsCache[id]);
+
+		if (!cachedValue.fields[options.mapField]) return;
+
+		var subFields = cachedValue.fields[options.mapField];
+		this.props.onChange({ path: options.field, value: typeof value === 'string' ? [] : value, subFields: subFields });
 	},
 
 	toggleCreate (visible) {
@@ -175,13 +198,16 @@ module.exports = Field.create({
 	},
 
 	renderSelect (noedit) {
+		var fieldName = this.props.path;
+		if (this.props.nested) fieldName = this.props.nested + '.' + this.props.path + '_' + this.props._id;
+
 		return (
 			<Select.Async
 				multi={this.props.many}
 				disabled={noedit}
 				loadOptions={this.loadOptions}
 				labelKey="name"
-				name={this.props.path}
+				name={fieldName}
 				onChange={this.valueChanged}
 				simpleValue
 				value={this.state.value}

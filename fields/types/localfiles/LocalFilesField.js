@@ -17,7 +17,6 @@ var LocalFilesFieldItem = React.createClass({
 		deleted: React.PropTypes.bool,
 		filename: React.PropTypes.string,
 		isQueued: React.PropTypes.bool,
-		key: React.PropTypes.number,
 		size: React.PropTypes.number,
 		toggleDelete: React.PropTypes.func,
 	},
@@ -60,6 +59,8 @@ var LocalFilesFieldItem = React.createClass({
 
 });
 
+var tempId = 0;
+
 module.exports = Field.create({
 
 	getInitialState () {
@@ -77,10 +78,11 @@ module.exports = Field.create({
 		var thumbs = [];
 		var self = this;
 		_.forEach(this.state.items, function (thumb) {
+			var newProps = Object.assign({}, thumb.props);
 			if (thumb.props._id === id) {
-				thumb.props.deleted = !thumb.props.deleted;
+				newProps.deleted = !thumb.props.deleted;
 			}
-			self.pushItem(thumb.props, thumbs);
+			self.pushItem(newProps, thumbs);
 		});
 
 		this.setState({ items: thumbs });
@@ -91,7 +93,7 @@ module.exports = Field.create({
 		args.toggleDelete = this.removeItem.bind(this, args._id);
 		args.shouldRenderActionButton = this.shouldRenderField();
 		args.adminPath = Keystone.adminPath;
-		thumbs.push(<LocalFilesFieldItem key={args._id} {...args} />);
+		thumbs.push(<LocalFilesFieldItem key={args._id || tempId++} {...args} />);
 	},
 
 	fileFieldNode () {

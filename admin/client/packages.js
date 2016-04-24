@@ -31,4 +31,5 @@ module.exports = [
 	'store-prototype',
 	'vkey',
 	'xhr',
+	'json-cycle'
 ];
