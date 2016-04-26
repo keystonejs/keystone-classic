@@ -8,10 +8,10 @@ module.exports = {
 		browser.deleteConfirmationPage = browser.page.deleteConfirmation();
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinPage');
+		browser.app.waitForElementVisible('@signinScreen');
 
 		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homePage');
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
 		browser.app
@@ -21,13 +21,13 @@ module.exports = {
 	},
 	'List view should allow users to create a new list item': function (browser) {
 		browser.app
-			.gotoListPage('names');
+			.gotoListScreen('names');
 
 		browser.listPage
 			.click('@createFirstItemButton');
 
 		browser.app
-			.waitForElementVisible('@initialFormPage');
+			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 1'});
@@ -42,10 +42,10 @@ module.exports = {
 			.click('@createButton');
 
 		browser.app
-			.waitForElementVisible('@itemPage');
+			.waitForElementVisible('@itemScreen');
 
 		browser.app
-			.gotoListPage('names');
+			.gotoListScreen('names');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
@@ -55,13 +55,13 @@ module.exports = {
 	},
 	'List view should allow users to create more new list items': function (browser) {
 		browser.app
-			.gotoListPage('names');
+			.gotoListScreen('names');
 
 		browser.listPage
 			.click('@createMoreItemsButton');
 
 		browser.app
-			.waitForElementVisible('@initialFormPage');
+			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 2'});
@@ -76,10 +76,10 @@ module.exports = {
 			.click('@createButton');
 
 		browser.app
-			.waitForElementVisible('@itemPage');
+			.waitForElementVisible('@itemScreen');
 
 		browser.app
-			.gotoListPage('names');
+			.gotoListScreen('names');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
@@ -92,39 +92,39 @@ module.exports = {
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
 		browser.app
-			.gotoListPage('names');
+			.gotoListScreen('names');
 
 		browser.listPage
 			.click('@firstItemNameValue');
 
 		browser.app
-			.waitForElementVisible('@itemPage');
+			.waitForElementVisible('@itemScreen');
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
 		browser.app
-			.gotoListPage('names');
+			.gotoListScreen('names');
 
 		browser.listPage
 			.click('@firstItemNameValue');
 
 		browser.app
-			.waitForElementVisible('@itemPage');
+			.waitForElementVisible('@itemScreen');
 
 		browser.itemPage
 			.click('@listBreadcrumb');
 
 		browser.app
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 	},
 	'List view should allow users to search for items': function (browser) {
 		browser.app
-			.gotoListPage('names');
+			.gotoListScreen('names');
 
 		browser.listPage
 			.setValue('@searchInputField', 'Name Field Test 2');
 
 		browser.app
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
@@ -137,7 +137,7 @@ module.exports = {
 			.click('@searchInputFieldClearIcon');
 
 		browser.app
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
@@ -153,13 +153,13 @@ module.exports = {
 			.click('@firstItemDeleteIcon');
 
 		browser.app
-			.waitForElementVisible('@deleteConfirmationPage');
+			.waitForElementVisible('@deleteConfirmationScreen');
 
 		browser.deleteConfirmationPage
 			.click('@deleteButton');
 
 		browser.app
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
@@ -169,19 +169,19 @@ module.exports = {
 	},
 	'List view should allow users to delete last item': function (browser) {
 		browser.app
-			.gotoListPage('names');
+			.gotoListScreen('names');
 
 		browser.listPage
 			.click('@firstItemDeleteIcon');
 
 		browser.app
-			.waitForElementVisible('@deleteConfirmationPage');
+			.waitForElementVisible('@deleteConfirmationScreen');
 
 		browser.deleteConfirmationPage
 			.click('@deleteButton');
 
 		browser.app
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.expect.element('@noItemsFoundNoText').text.to.equal('No names found…');

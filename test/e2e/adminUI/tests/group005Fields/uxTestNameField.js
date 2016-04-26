@@ -7,10 +7,10 @@ module.exports = {
 		browser.initialFormPage = browser.page.initialForm();
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinPage');
+		browser.app.waitForElementVisible('@signinScreen');
 
 		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homePage');
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
 		browser.app
@@ -21,15 +21,15 @@ module.exports = {
 	'Name field can be created via the initial modal': function (browser) {
 		browser.app
 			.click('@fieldsMenu')
-			.waitForElementVisible('@listPage')
+			.waitForElementVisible('@listScreen')
 			.click('@namesFieldsSubmenu')
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.click('@createFirstItemButton');
 
 		browser.app
-			.waitForElementVisible('@initialFormPage');
+			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 1'});
@@ -44,7 +44,7 @@ module.exports = {
 			.click('@createButton');
 
 		browser.app
-			.waitForElementVisible('@itemPage');
+			.waitForElementVisible('@itemScreen');
 
 		browser.itemPage
 			.expect.element('@flashMessage')

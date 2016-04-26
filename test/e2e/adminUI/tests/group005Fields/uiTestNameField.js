@@ -7,10 +7,10 @@ module.exports = {
 		browser.initialFormPage = browser.page.initialForm();
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinPage');
+		browser.app.waitForElementVisible('@signinScreen');
 
 		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homePage');
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
 		browser.app.signout();
@@ -19,15 +19,15 @@ module.exports = {
 	'Name field should be visible in initial modal': function (browser) {
 		browser.app
 			.click('@fieldsMenu')
-			.waitForElementVisible('@listPage')
+			.waitForElementVisible('@listScreen')
 			.click('@namesFieldsSubmenu')
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.click('@createFirstItemButton');
 
 		browser.app
-			.waitForElementVisible('@initialFormPage');
+			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.nameList.section.name
 			.verifyUI();
@@ -41,6 +41,6 @@ module.exports = {
 			.click('@cancelButton');
 
 		browser.app
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 	},
 };
