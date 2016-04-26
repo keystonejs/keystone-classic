@@ -1,18 +1,21 @@
+/**
+ * The actual Sign In view, with the login form
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import xhr from 'xhr';
-import { createHistory } from 'history';
 
-import AlertView from './components/AlertView';
+import Alert from './components/Alert';
 import Brand from './components/Brand';
 import UserInfo from './components/UserInfo';
 import LoginForm from './components/LoginForm';
 
+// Save the CSRF headers
 var csrfHeaders = {
 	[Keystone.csrf_header_key]: Keystone.csrf_token_value,
 };
-var history = createHistory();
 
 var SigninView = React.createClass({
 	getInitialState () {
@@ -26,20 +29,20 @@ var SigninView = React.createClass({
 		};
 	},
 	componentDidMount () {
-		if (this.state.signedOut && window.history.replace) {
-			history.replace({}, window.location.pathname);
-		}
+		// Focus the email field when we're mounted
 		if (this.refs.email) {
 			ReactDOM.findDOMNode(this.refs.email).select();
 		}
 	},
 	handleInputChange (e) {
+		// Set the new state when the input changes
 		const newState = {};
 		newState[e.target.name] = e.target.value;
 		this.setState(newState);
 	},
 	handleSubmit (e) {
 		e.preventDefault();
+		// If either password or mail are missing, show an error
 		if (!this.state.email || !this.state.password) {
 			return this.displayError('Please enter an email address and password to sign in.');
 		}
@@ -56,10 +59,16 @@ var SigninView = React.createClass({
 			if (err || body && body.error) {
 				return this.displayError('The email and password you entered are not valid.');
 			} else {
+				// Redirect to where we came from or to the default admin path
 				top.location.href = this.props.from ? this.props.from : Keystone.adminPath;
 			}
 		});
 	},
+	/**
+	 * Display an error message
+	 *
+	 * @param  {String} message The message you want to show
+	 */
 	displayError (message) {
 		this.setState({
 			isAnimating: true,
@@ -68,7 +77,9 @@ var SigninView = React.createClass({
 		});
 		setTimeout(this.finishAnimation, 750);
 	},
+	// Finish the animation and select the email field
 	finishAnimation () {
+		// TODO isMounted was deprecated, find out if we need this guard
 		if (!this.isMounted()) return;
 		if (this.refs.email) {
 			ReactDOM.findDOMNode(this.refs.email).select();
@@ -83,7 +94,7 @@ var SigninView = React.createClass({
 		});
 		return (
 			<div className="auth-wrapper">
-				<AlertView
+				<Alert
 					isInvalid={this.state.isInvalid}
 					signedOut={this.state.signedOut}
 					invalidMessage={this.state.invalidMessage}
