@@ -1,5 +1,5 @@
 import async from 'async';
-import Lists from '../../../admin/client/stores/Lists';
+import Lists from '../../../admin/client/utils/ListsByKey';
 import Field from '../Field';
 import React from 'react';
 import Select from 'react-select';
