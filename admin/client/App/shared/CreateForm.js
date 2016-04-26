@@ -85,6 +85,11 @@ var CreateForm = React.createClass({
 					});
 				}
 			} else {
+				// If we get a database error, show the database error message
+				// instead of only saying "Database error"
+				if (err.error === 'database error') {
+					err.error = err.detail.errmsg;
+				}
 				this.setState({
 					alerts: {
 						error: err,
