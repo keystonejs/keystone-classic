@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import Lists from '../stores/Lists';
+import Lists from '../utils/ListsByKey';
 
 import MobileNavigation from './components/Navigation/MobileNavigation';
 import PrimaryNavigation from './components/Navigation/PrimaryNavigation';

@@ -20,7 +20,7 @@ import ListFiltersAdd from './components/Filtering/ListFiltersAdd';
 import ListSort from './components/ListSort';
 import UpdateForm from './components/UpdateForm';
 import { plural } from '../../../utils/string';
-import Lists from '../../../stores/Lists';
+import Lists from '../../../utils/ListsByKey';
 
 import {
 	deleteItems,

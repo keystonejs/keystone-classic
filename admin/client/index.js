@@ -16,6 +16,7 @@ import List from './App/screens/List';
 
 import store from './App/store';
 
+// Sync the browser history to the Redux store
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
