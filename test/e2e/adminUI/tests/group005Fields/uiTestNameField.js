@@ -29,9 +29,6 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormPage');
 
-		browser.initialFormPage.section.form.section.nameList
-			.verifyUI();
-
 		browser.initialFormPage.section.form.section.nameList.section.name
 			.verifyUI();
 

@@ -151,9 +151,28 @@ Since we use nightwatch Page Objects(PO) quite a bit in e2e then here are some n
                 .click('@fieldsMenu')
 
 - list POs are very special.  The abstract a list and its fields.  They also include the commands that can be executed
-	against the list.  They should all have the same format.  The only things that may vary are the field names, the
-	number of fields, and the selectors, and the number of commands (the more fields the more commands since there
-	are commands per field in the list).  Unlike other page objects, list objects are not meant to be directly created.
-	Instead, these are required by other page objects (e.g., the item page object).  All selector lookups and commands
-	executed against a list are done in the context of the page that required the list.
+    against the list.  They should all have the same format.  The only things that may vary are the field names, the
+    number of fields, and the selectors, and the number of commands (the more fields the more commands since there
+    are commands per field in the list).  Unlike other page objects, list objects are not meant to be directly created.
+    Instead, these are required by other page objects (e.g., the item page object).  All selector lookups and commands
+    executed against a list are done in the context of the page that required the list.
+
+
+## Some Don'ts
+Here are some don'ts that may cross your mind as good ideas but shouldn't:
+
+- don't do something like the following in the lists.  Although it may sound like a good idea at first, think about it
+    a bit more shows some pitfalls the main one being that lists do not know in which form they are being used.  For
+    example, the initial modal form may only show fields that the user marked as _initial_ when defining the keystone
+    list.
+
+        verifyUI: function() {
+            this.expect.section('@name').to.be.visible;
+            this.expect.section('@fieldA').to.be.visible;
+        }
+
+- in [here](http://martinfowler.com/bliki/PageObject.html) Martin Fowler suggests that no assertions be done in page
+    objects.  For the most part we are sticking to that suggestion.  The only place where we currently do assertions
+    is in the field type definitions, since the fields know better about their contained path elements.  So please
+    try not to add assertions anywhere else in page objects as doing so may have subtle pitfalls.
 

@@ -1,13 +1,13 @@
 var utils = require('../../../utils');
 
-module.exports = function NameType(fieldName) {
+module.exports = function NameType(config) {
 	return  {
-		selector: '.field-type-name[for="' + fieldName + '"]',
+		selector: '.field-type-name[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
-			firstName: 'input[name="' + fieldName + '.first"]',
+			firstName: 'input[name="' + config.fieldName + '.first"]',
 			firstNamePlaceholder: 'input[placeholder="First name"]',
-			lastName: 'input[name="' + fieldName + '.last"]',
+			lastName: 'input[name="' + config.fieldName + '.last"]',
 			lastNamePlaceholder: 'input[placeholder="Last name"]',
 		},
 		commands: [{
@@ -15,7 +15,7 @@ module.exports = function NameType(fieldName) {
 				this
 					.expect.element('@label').to.be.visible;
 				this
-					.expect.element('@label').text.to.equal(utils.titlecase(fieldName));
+					.expect.element('@label').text.to.equal(utils.titlecase(config.fieldName));
 				this
 					.expect.element('@firstName').to.be.visible;
 				this

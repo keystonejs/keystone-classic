@@ -1,18 +1,18 @@
 var utils = require('../../../utils');
 
-module.exports = function TextType(fieldName) {
+module.exports = function TextType(config) {
 	return  {
-		selector: '.field-type-text[for="' + fieldName + '"]',
+		selector: '.field-type-text[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
-			value: 'input[name="' + fieldName + '"]',
+			value: 'input[name="' + config.fieldName + '"]',
 		},
 		commands: [{
 			verifyUI: function () {
 				this
 					.expect.element('@label').to.be.visible;
 				this
-					.expect.element('@label').text.to.equal(utils.titlecase(fieldName));
+					.expect.element('@label').text.to.equal(utils.titlecase(config.fieldName));
 				this
 					.expect.element('@value').to.be.visible;
 				return this;
