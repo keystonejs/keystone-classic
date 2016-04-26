@@ -77,7 +77,6 @@ const dropTarget = {
 		if (monitor.isOver()) {
 			timeoutID = setTimeout(() => {
 				const newIndex = (original.page === page) ? original.index : (currentPage < page) ? 0 : props.pageSize;
-				console.log('SET PAGE MOTHERFUCKER')
 				props.dispatch(setCurrentPage(page));
 				monitor.getItem().index = newIndex;
 

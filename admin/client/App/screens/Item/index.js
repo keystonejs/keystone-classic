@@ -23,7 +23,6 @@ import {
 
 import {
 	selectList,
-	loadItems,
 } from '../List/actions';
 
 var ItemView = React.createClass({

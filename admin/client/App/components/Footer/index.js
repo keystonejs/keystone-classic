@@ -8,7 +8,7 @@ var Footer = React.createClass({
 		backUrl: React.PropTypes.string,
 		brand: React.PropTypes.string,
 		user: React.PropTypes.object,
-		User: React.PropTypes.object, // eslint-disable-line react/sort-prop-types
+		User: React.PropTypes.object, // eslint-disable-line react/jsx-sort-prop-types
 		version: React.PropTypes.string,
 	},
 	renderUser () {

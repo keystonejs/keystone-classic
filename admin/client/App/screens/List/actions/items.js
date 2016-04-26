@@ -2,7 +2,6 @@ import {
 	LOAD_ITEMS,
 	ITEMS_LOADED,
 	ITEM_LOADING_ERROR,
-	DELETE_ITEM,
 } from '../constants';
 
 import {

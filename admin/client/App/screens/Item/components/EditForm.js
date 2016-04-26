@@ -105,7 +105,7 @@ var EditForm = React.createClass({
 		this.setState({ confirmationDialog });
 	},
 	handleDelete () {
-		const { data, list } = this.props;
+		const { data } = this.props;
 		this.props.dispatch(deleteItem(data.id, this.props.router));
 	},
 	handleKeyFocus () {
