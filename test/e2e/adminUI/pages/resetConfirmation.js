@@ -1,5 +1,6 @@
 module.exports = {
 	elements: {
-		resetButton: '.Button--danger',
+		resetButton: 'button.Button.Button--danger',
+		cancelButton: 'button.Button.Button--link-cancel',
 	},
 };
