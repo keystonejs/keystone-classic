@@ -31,7 +31,6 @@ module.exports = [
 	'react',
 	'redux',
 	'redux-thunk',
-	'store-prototype',
 	'superagent',
 	'vkey',
 	'xhr',
