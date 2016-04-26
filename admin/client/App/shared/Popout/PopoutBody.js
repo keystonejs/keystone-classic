@@ -1,3 +1,7 @@
+/**
+ * Render the body of a popout
+ */
+
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
@@ -14,7 +18,10 @@ var PopoutBody = React.createClass({
 			'Popout__scrollable-area': this.props.scrollable,
 		}, this.props.className);
 		const props = blacklist(this.props, 'className', 'scrollable');
-		return <div className={className} {...props} />;
+
+		return (
+			<div className={className} {...props} />
+		);
 	},
 });
 

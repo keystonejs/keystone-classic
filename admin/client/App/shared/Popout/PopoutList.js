@@ -1,8 +1,12 @@
+/**
+ * Render a popout list. Can also use PopoutListItem and PopoutListHeading
+ */
+
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
 
-var PopoutList = React.createClass({
+const PopoutList = React.createClass({
 	displayName: 'PopoutList',
 	propTypes: {
 		children: React.PropTypes.node.isRequired,
@@ -11,9 +15,13 @@ var PopoutList = React.createClass({
 	render () {
 		const className = classnames('PopoutList', this.props.className);
 		const props = blacklist(this.props, 'className');
-		return <div className={className} {...props} />;
+
+		return (
+			<div className={className} {...props} />
+		);
 	},
 });
+
 module.exports = PopoutList;
 
 // expose the child to the top level export

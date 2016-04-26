@@ -1,3 +1,7 @@
+/**
+ * Render a popout list item
+ */
+
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
@@ -22,6 +26,7 @@ var PopoutListItem = React.createClass({
 	unhover () {
 		this.setState({ hover: false });
 	},
+	// Render an icon
 	renderIcon () {
 		if (!this.props.icon) return null;
 		const icon = this.state.hover && this.props.iconHover ? this.props.iconHover : this.props.icon;
@@ -44,9 +49,11 @@ var PopoutListItem = React.createClass({
 				onMouseOver={this.hover}
 				onMouseOut={this.unhover}
 				{...props}
-				>
+			>
 				{this.renderIcon()}
-				<span className="PopoutList__item__label">{this.props.label}</span>
+				<span className="PopoutList__item__label">
+					{this.props.label}
+				</span>
 			</button>
 		);
 	},

@@ -1,3 +1,7 @@
+/**
+ * Render a popout list heading
+ */
+
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
@@ -11,7 +15,10 @@ var PopoutListHeading = React.createClass({
 	render () {
 		const className = classnames('PopoutList__heading', this.props.className);
 		const props = blacklist(this.props, 'className');
-		return <div className={className} {...props} />;
+
+		return (
+			<div className={className} {...props} />
+		);
 	},
 });
 

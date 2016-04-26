@@ -1,3 +1,9 @@
+/**
+ * A Popout component.
+ * One can also add a Header (Popout/Header), a Footer
+ * (Popout/Footer), a Body (Popout/Body) and a Pan (Popout/Pane).
+ */
+
 import React from 'react';
 import Portal from '../Portal';
 import Transition from 'react-addons-css-transition-group';
@@ -23,15 +29,18 @@ var Popout = React.createClass({
 	getInitialState () {
 		return {};
 	},
+	// If we mounted open, calculate the position
 	componentDidMount () {
 		if (this.props.isOpen) this.calculatePosition();
 	},
+	// If we change to being open from not being open, calculate the position
 	componentWillReceiveProps (nextProps) {
 		if (!this.props.isOpen && nextProps.isOpen) this.calculatePosition();
 	},
 	getPortalDOMNode () {
 		return this.refs.portal.getPortalDOMNode();
 	},
+	// Calculate the position of the popout
 	calculatePosition () {
 		let posNode = document.getElementById(this.props.relativeToID);
 
@@ -55,11 +64,19 @@ var Popout = React.createClass({
 			topOffset: topOffset,
 		});
 	},
+	// Render the popout
 	renderPopout () {
 		if (!this.props.isOpen) return;
 
 		return (
-			<div className="Popout" style={{ left: this.state.leftOffset, top: this.state.topOffset, width: this.props.width }}>
+			<div
+				className="Popout"
+				style={{
+					left: this.state.leftOffset,
+					top: this.state.topOffset,
+					width: this.props.width,
+				}}
+			>
 				<span className="Popout__arrow" />
 				<div className="Popout__inner">
 					{this.props.children}
@@ -67,6 +84,7 @@ var Popout = React.createClass({
 			</div>
 		);
 	},
+	// Render a blockout
 	renderBlockout () {
 		if (!this.props.isOpen) return;
 		return <div className="blockout" onClick={this.props.onCancel} />;
@@ -74,7 +92,13 @@ var Popout = React.createClass({
 	render () {
 		return (
 			<Portal className="Popout-wrapper" ref="portal">
-				<Transition className="Popout-animation" transitionEnterTimeout={200} transitionLeaveTimeout={200} transitionName="Popout" component="div">
+				<Transition
+					className="Popout-animation"
+					transitionEnterTimeout={200}
+					transitionLeaveTimeout={200}
+					transitionName="Popout"
+					component="div"
+				>
 					{this.renderPopout()}
 				</Transition>
 				{this.renderBlockout()}

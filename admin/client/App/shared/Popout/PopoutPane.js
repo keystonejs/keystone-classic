@@ -1,3 +1,7 @@
+/**
+ * Render a popout pane, calls props.onLayout when the component mounts
+ */
+
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
@@ -20,7 +24,10 @@ var PopoutPane = React.createClass({
 	render () {
 		const className = classnames('Popout__pane', this.props.className);
 		const props = blacklist(this.props, 'className', 'onLayout');
-		return <div ref="el" className={className} {...props} />;
+
+		return (
+			<div ref="el" className={className} {...props} />
+		);
 	},
 });
 
