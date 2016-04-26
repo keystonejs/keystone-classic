@@ -1,4 +1,4 @@
-var adminUI = require('../../adminUI');
+var adminUI = require('../../../adminUI');
 
 module.exports = {
 	before: function (browser) {
@@ -20,24 +20,24 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Select field should show correctly in the initial modal': function (browser) {
+	'Email field should be visible in initial modal': function (browser) {
 		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForSelectsTabUnderDashboardFieldsSubheading)
+			.click(adminUI.cssSelector.homeView.plusIconLinkForEmailsTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.name.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.name.label)
 			.text.to.equal('Name');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.value)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.name.value)
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.fieldA.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.fieldA.label)
 			.text.to.equal('Field A');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.inputField)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.fieldA.value)
 			.to.be.visible;
 	},
 };

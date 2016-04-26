@@ -1,4 +1,4 @@
-var adminUI = require('../../adminUI');
+var adminUI = require('../../../adminUI');
 
 module.exports = {
 	before: function (browser) {
@@ -20,26 +20,24 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Code field should be visible in initial modal': function (browser) {
+	'Number field should be visible in initial modal': function (browser) {
 		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForCodesTabUnderDashboardFieldsSubheading)
+			.click(adminUI.cssSelector.homeView.plusIconLinkForNumbersTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.label)
 			.text.to.equal('Name');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.name.value)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.value)
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.label)
 			.text.to.equal('Field A');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.lineNumber)
-			.text.to.equal('1');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.codeMirror)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.value)
 			.to.be.visible;
 	},
 };

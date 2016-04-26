@@ -1,4 +1,4 @@
-var adminUI = require('../../adminUI');
+var adminUI = require('../../../adminUI');
 
 module.exports = {
 	before: function (browser) {
@@ -20,24 +20,26 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Number field should be visible in initial modal': function (browser) {
+	'Code field should be visible in initial modal': function (browser) {
 		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForNumbersTabUnderDashboardFieldsSubheading)
+			.click(adminUI.cssSelector.homeView.plusIconLinkForCodesTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.name.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.name.label)
 			.text.to.equal('Name');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.value)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.name.value)
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.label)
 			.text.to.equal('Field A');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.value)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.lineNumber)
+			.text.to.equal('1');
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.codeMirror)
 			.to.be.visible;
 	},
 };

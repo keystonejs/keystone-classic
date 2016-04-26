@@ -1,4 +1,4 @@
-var adminUI = require('../../adminUI');
+var adminUI = require('../../../adminUI');
 
 module.exports = {
 	before: function (browser) {
@@ -20,27 +20,31 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Number field can be created via the initial modal': function (browser) {
+	'Email field can be created via the initial modal': function (browser) {
 		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForNumbersTabUnderDashboardFieldsSubheading)
+			.click(adminUI.cssSelector.homeView.plusIconLinkForEmailsTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.number.number.name.value, 'Number Field Test')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.value, '10')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.email.email.name.value, 'Email Field Test')
+			.setValue(adminUI.cssSelector.initialModalView.fieldType.email.email.fieldA.value, 'email1@test.e2e')
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.initialModalView.buttonCreate)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
 		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('New Number Number Field Test created.');
+			.text.to.equal('New Email Email Field Test created.');
 
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.number.number.fieldA.value)
-			.to.have.value.that.equals('10');
+		browser.getValue(adminUI.cssSelector.itemView.fieldType.email.email.name.value, function(result) {
+			this.assert.equal(result.value, 'Email Field Test');
+		});
+
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.email.email.fieldA.value)
+			.to.have.value.that.equals('email1@test.e2e');
 	},
-	'Name field can be created via the edit form': function (browser) {
+	'Email field can be created via the edit form': function (browser) {
 		browser
-			.setValue(adminUI.cssSelector.itemView.fieldType.number.number.fieldB.value, '20')
+			.setValue(adminUI.cssSelector.itemView.fieldType.email.email.fieldB.value, 'email2@test.e2e')
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.itemView.itemSaveButton)
 			.waitForElementVisible(adminUI.cssSelector.itemView.id)
@@ -49,7 +53,11 @@ module.exports = {
 		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
 			.text.to.equal('Your changes have been saved.');
 
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.number.number.fieldB.value)
-			.to.have.value.that.equals('20');
+		browser.getValue(adminUI.cssSelector.itemView.fieldType.email.email.name.value, function(result) {
+			this.assert.equal(result.value, 'Email Field Test');
+		});
+
+		browser.expect.element(adminUI.cssSelector.itemView.fieldType.email.email.fieldB.value)
+			.to.have.value.that.equals('email2@test.e2e');
 	},
 };
