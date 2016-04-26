@@ -51,6 +51,7 @@ function getFilters (filterArray) {
  */
 function getSortString (sort) {
 	return sort.paths.map(i => {
+		// If we want to sort inverted, we prefix a "-" before the sort path
 		return i.invert ? '-' + i.path : i.path;
 	}).filter(truthy).join(',');
 };
@@ -76,6 +77,7 @@ function buildQueryString (options) {
  * @param {Object} options
  */
 const List = function (options) {
+	// TODO these options are possibly unused
 	Object.assign(this, options);
 	this.columns = getColumns(this);
 	this.expandedDefaultColumns = this.expandColumns(this.defaultColumns);
