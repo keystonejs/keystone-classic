@@ -1,3 +1,8 @@
+/**
+ * The global Footer, displays a link to the website and the current Keystone
+ * version in use
+ */
+
 import React from 'react';
 import { Container } from 'elemental';
 
@@ -11,8 +16,10 @@ var Footer = React.createClass({
 		User: React.PropTypes.object, // eslint-disable-line react/sort-prop-types
 		version: React.PropTypes.string,
 	},
+	// Render the user
 	renderUser () {
 		const { User, user } = this.props;
+		// TODO Figure out when both of those should be specified
 		if (!User || !user) return null;
 
 		return (
@@ -31,9 +38,22 @@ var Footer = React.createClass({
 		return (
 			<footer className="keystone-footer">
 				<Container>
-					<a href={backUrl} tabIndex="-1" className="keystone-footer__link">{brand + (appversion ? (' ' + appversion) : '')}</a>
+					<a
+						href={backUrl}
+						tabIndex="-1"
+						className="keystone-footer__link"
+					>
+						{brand + (appversion ? (' ' + appversion) : '')}
+					</a>
 					<span> powered by </span>
-					<a href="http://keystonejs.com" target="_blank" className="keystone-footer__link" tabIndex="-1">KeystoneJS</a>
+					<a
+						href="http://keystonejs.com"
+						target="_blank"
+						className="keystone-footer__link"
+						tabIndex="-1"
+					>
+						KeystoneJS
+					</a>
 					<span> version {version}.</span>
 					{this.renderUser()}
 				</Container>
