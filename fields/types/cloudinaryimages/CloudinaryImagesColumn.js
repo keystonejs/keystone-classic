@@ -1,7 +1,7 @@
 import React from 'react';
 import CloudinaryImageSummary from '../../components/columns/CloudinaryImageSummary';
-import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
+import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
 
 const moreIndicatorStyle = {
 	color: '#888',
@@ -16,7 +16,6 @@ var CloudinaryImagesColumn = React.createClass({
 	},
 	renderMany (value) {
 		if (!value || !value.length) return;
-		const refList = this.props.col.field.refList;
 		const items = [];
 		for (let i = 0; i < 3; i++) {
 			if (!value[i]) break;

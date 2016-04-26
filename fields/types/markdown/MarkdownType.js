@@ -2,6 +2,7 @@ var FieldType = require('../Type');
 var marked = require('marked');
 var util = require('util');
 var TextType = require('../text/TextType');
+var utils = require('keystone-utils');
 
 /**
  * Markdown FieldType Constructor
@@ -24,6 +25,7 @@ util.inherits(markdown, FieldType);
 
 markdown.prototype.validateInput = TextType.prototype.validateInput;
 markdown.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
+
 
 /**
  * Registers the field on the List's Mongoose Schema.
@@ -62,6 +64,29 @@ markdown.prototype.addToSchema = function () {
 	}, this.path + '.');
 
 	this.bindUnderscoreMethods();
+};
+
+/**
+ * Add filters to a query (this is copy & pasted from the text field, with
+ * the only difference being that the path isn't this.path but this.paths.md)
+ */
+markdown.prototype.addFilterToQuery = function (filter) {
+	var query = {};
+	if (filter.mode === 'exactly' && !filter.value) {
+		query[this.paths.md] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
+		return query;
+	}
+	var value = utils.escapeRegExp(filter.value);
+	if (filter.mode === 'beginsWith') {
+		value = '^' + value;
+	} else if (filter.mode === 'endsWith') {
+		value = value + '$';
+	} else if (filter.mode === 'exactly') {
+		value = '^' + value + '$';
+	}
+	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
+	query[this.paths.md] = filter.inverted ? { $not: value } : value;
+	return query;
 };
 
 /**

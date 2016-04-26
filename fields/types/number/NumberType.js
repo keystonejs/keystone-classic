@@ -47,17 +47,23 @@ number.prototype.validateRequiredInput = function (item, data, callback) {
 /**
  * Add filters to a query
  */
-number.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+number.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'equals' && !filter.value) {
-		query[this.path] = filter.inverted ? { $nin: ['', 0, null] } : { $in: ['', 0, null] };
+		query[this.path] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
 		return query;
 	}
 	if (filter.mode === 'between') {
 		var min = utils.number(filter.value.min);
 		var max = utils.number(filter.value.max);
 		if (!isNaN(min) && !isNaN(max)) {
-			query[this.path] = filter.inverted ? { $gte: max, $lte: min } : { $gte: min, $lte: max };
+			if (filter.inverted) {
+				var gte = {}; gte[this.path] = { $gt: max };
+				var lte = {}; lte[this.path] = { $lt: min };
+				query.$or = [gte, lte];
+			} else {
+				query[this.path] = { $gte: min, $lte: max };
+			}
 		}
 		return query;
 	}
@@ -70,7 +76,7 @@ number.prototype.addFilterToQuery = function (filter, query) {
 			query[this.path] = filter.inverted ? { $gt: value } : { $lt: value };
 		}
 		else {
-			query[this.path] = value;
+			query[this.path] = filter.inverted ? { $ne: value } : value;
 		}
 	}
 	return query;

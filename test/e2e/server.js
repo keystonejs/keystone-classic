@@ -33,14 +33,26 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 	'cookie secret': 'Secret',
+	'adminui custom styles': 'adminuiCustom/styles.less',
+
+	'cloudinary config': 'cloudinary://api_key:api_secret@cloud_name',
 });
 
 keystone.import('models');
 keystone.set('routes', require('./routes'));
 
 keystone.set('nav', {
-	'access': ['users'],
-	'fields': ['names', 'selects', 'booleans'],
+	'access': [
+		'users',
+	],
+	'fields': [
+		'booleans',
+		'codes',
+		'emails',
+		'names',
+		'numbers',
+		'selects',
+	],
 });
 
 function dropTestDatabase(done) {

@@ -80,8 +80,8 @@ password.prototype.addToSchema = function () {
 /**
  * Add filters to a query
  */
-password.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+password.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	query[this.path] = (filter.exists) ? { $ne: null } : null;
 	return query;
 };
@@ -123,7 +123,8 @@ password.prototype.validateInput = function (data, callback) {
 	var result = true;
 	var confirmValue = this.getValueFromData(data, '_confirm');
 	var passwordValue = this.getValueFromData(data);
-	if (passwordValue !== undefined && confirmValue !== undefined && passwordValue !== confirmValue) {
+	if (confirmValue !== undefined
+		&& passwordValue !== confirmValue) {
 		result = false;
 		detail = 'passwords must match';
 	}

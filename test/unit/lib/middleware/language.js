@@ -60,7 +60,7 @@ function getCookieLanguage (res) {
 	return res.cookie.getCall(0).args[COOKIE_LANGUAGE_ARG];
 }
 
-describe('language', function() {
+describe('language', function () {
 	it('must allow Accept-Language selection', function () {
 		var keystone = keystoneOptions({
 			'language options': {
@@ -79,10 +79,10 @@ describe('language', function() {
 		demand(getCookieLanguage(res)).eql(expected);
 	});
 
-	describe('must set language', function() {
+	describe('must set language', function () {
 		describe('with default options', function () {
 
-			it('must create a language cookie', function(done) {
+			it('must create a language cookie', function (done) {
 
 				var keystone = keystoneOptions();
 				var res = mockResponse();
@@ -98,7 +98,7 @@ describe('language', function() {
 		});
 
 		describe('with custom cookie name', function () {
-			it('must create a custom language cookie', function(done) {
+			it('must create a custom language cookie', function (done) {
 
 				var keystone = keystoneOptions({
 					'language options': {

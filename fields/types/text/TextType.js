@@ -33,14 +33,14 @@ text.prototype.validateRequiredInput = function (item, data, callback) {
 /**
  * Add filters to a query
  */
-text.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+text.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'exactly' && !filter.value) {
 		query[this.path] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
 		return query;
 	}
 	var value = utils.escapeRegExp(filter.value);
-	if (filter.mode === 'startsWith') {
+	if (filter.mode === 'beginsWith') {
 		value = '^' + value;
 	} else if (filter.mode === 'endsWith') {
 		value = value + '$';

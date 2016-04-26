@@ -19,49 +19,49 @@ exports.testFieldType = function (List) {
 	describe('single', function () {
 		it('should validate id input', function (done) {
 			List.fields.single.validateInput({ single: relatedItem.id }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.single.validateInput({}, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate empty input', function (done) {
 			List.fields.single.validateInput({ single: '' }, function (result) {
-				demand(result).equal(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate boolean input', function (done) {
 			List.fields.single.validateInput({ single: true }, function (result) {
-				demand(result).equal(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should validate item objects (object with id property)', function (done) {
 			List.fields.single.validateInput({ single: relatedItem }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate object input without id', function (done) {
 			List.fields.single.validateInput({ single: {} }, function (result) {
-				demand(result).equal(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate array input', function (done) {
 			List.fields.single.validateInput({ single: [] }, function (result) {
-				demand(result).equal(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -69,7 +69,7 @@ exports.testFieldType = function (List) {
 		it('should validate required present input', function (done) {
 			var testItem = new List.model();
 			List.fields.single.validateRequiredInput(testItem, { single: relatedItem.id }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -77,7 +77,7 @@ exports.testFieldType = function (List) {
 		it('should validate required present input with item', function (done) {
 			var testItem = new List.model();
 			List.fields.single.validateRequiredInput(testItem, { single: relatedItem }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -87,7 +87,7 @@ exports.testFieldType = function (List) {
 				single: relatedItem.id,
 			});
 			List.fields.single.validateRequiredInput(testItem, { single: relatedItem.id }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -95,7 +95,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate required not present input', function (done) {
 			var testItem = new List.model();
 			List.fields.single.validateRequiredInput(testItem, {}, function (result) {
-				demand(result).equal(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -105,7 +105,7 @@ exports.testFieldType = function (List) {
 				single: relatedItem.id,
 			});
 			List.fields.single.validateRequiredInput(testItem, {}, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -115,7 +115,7 @@ exports.testFieldType = function (List) {
 				single: relatedItem.id,
 			});
 			List.fields.single.validateRequiredInput(testItem, { single: '' }, function (result) {
-				demand(result).equal(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -155,7 +155,7 @@ exports.testFieldType = function (List) {
 					// TODO: We should be testing for errors here
 					testItem.save(function (err, updatedItem) {
 						List.model.findById(updatedItem.id, function (err, persistedData) {
-							demand(persistedData.single).equal(null);
+							demand(persistedData.single).be.null();
 							done();
 						});
 					});
@@ -172,7 +172,7 @@ exports.testFieldType = function (List) {
 					// TODO: We should be testing for errors here
 					testItem.save(function (err, updatedItem) {
 						List.model.findById(updatedItem.id, function (err, persistedData) {
-							demand(persistedData.single).equal(null);
+							demand(persistedData.single).be.null();
 							done();
 						});
 					});
@@ -184,35 +184,35 @@ exports.testFieldType = function (List) {
 	describe('many', function () {
 		it('should validate id input', function (done) {
 			List.fields.many.validateInput({ many: relatedItem.id }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate empty array input', function (done) {
 			List.fields.many.validateInput({ many: [] }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate array input with ids', function (done) {
 			List.fields.many.validateInput({ many: [relatedItem.id] }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate arrays of item objects (object with id property)', function (done) {
 			List.fields.many.validateInput({ many: [relatedItem] }, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.many.validateInput({}, function (result) {
-				demand(result).equal(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -249,7 +249,7 @@ exports.testFieldType = function (List) {
 
 		it('should filter by existance if no value is specified', function () {
 			var result = List.fields.single.addFilterToQuery({});
-			demand(result.single).eql(null);
+			demand(result.single).be.null();
 		});
 
 		it('should filter by non-existance if no value is specified', function () {

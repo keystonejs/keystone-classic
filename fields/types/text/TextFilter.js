@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
 
-const TOGGLE_OPTIONS = [
+const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },
 	{ label: 'Does NOT Match', value: true },
 ];
@@ -18,7 +18,7 @@ const MODE_OPTIONS = [
 function getDefaultValue () {
 	return {
 		mode: MODE_OPTIONS[0].value,
-		inverted: TOGGLE_OPTIONS[0].value,
+		inverted: INVERTED_OPTIONS[0].value,
 		value: '',
 	};
 }
@@ -61,7 +61,7 @@ var TextFilter = React.createClass({
 		return (
 			<div>
 				<FormField>
-					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
 				<FormField>

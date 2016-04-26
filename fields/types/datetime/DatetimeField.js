@@ -83,7 +83,6 @@ module.exports = Field.create({
 
 	renderUI () {
 		var input;
-		var fieldClassName = 'field-ui';
 		if (this.shouldRenderField()) {
 			input = (
 				<InputGroup>

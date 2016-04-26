@@ -8,7 +8,7 @@ module.exports = function (req, res) {
 			counts[list.key] = count;
 			next(err);
 		});
-	}, function (err, results) {
+	}, function (err) {
 		if (err) return res.apiError('database error', err);
 		return res.json({
 			counts: counts,

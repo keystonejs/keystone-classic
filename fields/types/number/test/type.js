@@ -12,6 +12,19 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
+	describe('invalid options', function () {
+		it('should throw when no options are passed', function (done) {
+			try {
+				List.add({
+					noFormatString: { type: NumberType, format: /regexp/ },
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.Number: options.format must be a string.');
+				done();
+			}
+		});
+	});
+
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
 			var testItem = new List.model();
@@ -53,7 +66,7 @@ exports.testFieldType = function (List) {
 			List.fields.number.updateItem(testItem, {
 				number: '',
 			}, function () {
-				demand(testItem.number).be(null);
+				demand(testItem.number).be.null();
 				done();
 			});
 		});
@@ -64,7 +77,7 @@ exports.testFieldType = function (List) {
 			List.fields.number.updateItem(testItem, {
 				number: null,
 			}, function () {
-				demand(testItem.number).be(null);
+				demand(testItem.number).be.null();
 				done();
 			});
 		});
@@ -96,42 +109,42 @@ exports.testFieldType = function (List) {
 	describe('validateInput', function () {
 		it('should validate numeric input', function (done) {
 			List.fields.number.validateInput({ number: 1 }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate undefined input', function (done) {
 			List.fields.number.validateInput({}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate null input', function (done) {
 			List.fields.number.validateInput({ number: null }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate empty string input', function (done) {
 			List.fields.number.validateInput({ number: '' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate numeric string input', function (done) {
 			List.fields.number.validateInput({ number: '1' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate string input', function (done) {
 			List.fields.number.validateInput({ number: 'a' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -139,42 +152,42 @@ exports.testFieldType = function (List) {
 
 		it('should invalidate object input', function (done) {
 			List.fields.number.validateInput({ number: { things: 'stuff' } }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate array input', function (done) {
 			List.fields.number.validateInput({ number: [1, 2, 3] }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate Boolean input', function (done) {
 			List.fields.number.validateInput({ number: true }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate function input', function (done) {
 			List.fields.number.validateInput({ number: function () {} }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate regexp input', function (done) {
 			List.fields.number.validateInput({ number: /foo/ }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate date input', function (done) {
 			List.fields.number.validateInput({ number: new Date() }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -184,7 +197,7 @@ exports.testFieldType = function (List) {
 		it('should validate numeric input', function (done) {
 			var testItem = new List.model();
 			List.fields.number.validateRequiredInput(testItem, { number: 1 }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -192,7 +205,7 @@ exports.testFieldType = function (List) {
 		it('should validate numeric string input', function (done) {
 			var testItem = new List.model();
 			List.fields.number.validateRequiredInput(testItem, { number: '1' }, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -200,7 +213,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate undefined input', function (done) {
 			var testItem = new List.model();
 			List.fields.number.validateRequiredInput(testItem, {}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -210,7 +223,7 @@ exports.testFieldType = function (List) {
 				number: 1,
 			});
 			List.fields.number.validateRequiredInput(testItem, {}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -218,7 +231,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate null input', function (done) {
 			var testItem = new List.model();
 			List.fields.number.validateRequiredInput(testItem, { number: null }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -226,7 +239,7 @@ exports.testFieldType = function (List) {
 		it('should invalidate empty string input', function (done) {
 			var testItem = new List.model();
 			List.fields.number.validateRequiredInput(testItem, { number: '' }, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -287,7 +300,7 @@ exports.testFieldType = function (List) {
 				mode: 'equals',
 			});
 			demand(result.number).eql({
-				$in: ['', 0, null],
+				$in: ['', null],
 			});
 		});
 
@@ -297,7 +310,7 @@ exports.testFieldType = function (List) {
 				inverted: true,
 			});
 			demand(result.number).eql({
-				$nin: ['', 0, null],
+				$nin: ['', null],
 			});
 		});
 
@@ -324,9 +337,11 @@ exports.testFieldType = function (List) {
 				},
 				inverted: true,
 			});
-			demand(result.number).eql({
-				$gte: 10,
-				$lte: 0,
+			demand(result).eql({
+				$or: [
+					{ number: { $gt: 10 } },
+					{ number: { $lt: 0 } },
+				],
 			});
 		});
 
@@ -348,7 +363,7 @@ exports.testFieldType = function (List) {
 			var result = List.fields.number.addFilterToQuery({
 				value: NaN,
 			});
-			demand(result.number).eql(undefined);
+			demand(result.number).be.undefined();
 		});
 
 		it('should not filter between two numbers if one is NaN', function () {
@@ -359,74 +374,75 @@ exports.testFieldType = function (List) {
 					max: 10,
 				},
 			});
-			demand(result.number).eql(undefined);
+			demand(result.number).be.undefined();
 		});
 	});
+
 	/* Deprecated inputIsValid method tests */
 
 	it('should validate numeric input', function () {
 		demand(List.fields.number.inputIsValid({
 			number: 0,
-		})).be(true);
+		})).be.true();
 		demand(List.fields.number.inputIsValid({
 			number: 1,
-		})).be(true);
+		})).be.true();
 		demand(List.fields.number.inputIsValid({
 			number: -1,
-		})).be(true);
+		})).be.true();
 		demand(List.fields.number.inputIsValid({
 			number: 1.1,
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should validate string input', function () {
 		demand(List.fields.number.inputIsValid({
 			number: '0',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.number.inputIsValid({
 			number: '1',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.number.inputIsValid({
 			number: '-1',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.number.inputIsValid({
 			number: '1.1',
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should validate no input', function () {
-		demand(List.fields.number.inputIsValid({})).be(true);
-		demand(List.fields.number.inputIsValid({}, true)).be(false);
+		demand(List.fields.number.inputIsValid({})).be.true();
+		demand(List.fields.number.inputIsValid({}, true)).be.false();
 		var testItem = new List.model({
 			number: 1,
 		});
-		demand(List.fields.number.inputIsValid({}, true, testItem)).be(true);
+		demand(List.fields.number.inputIsValid({}, true, testItem)).be.true();
 	});
 
 	it('should validate empty strings', function () {
 		demand(List.fields.number.inputIsValid({
 			number: '',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.number.inputIsValid({
 			number: '',
-		}, true)).be(false);
+		}, true)).be.false();
 		var testItem = new List.model({
 			number: 1,
 		});
 		demand(List.fields.number.inputIsValid({
 			number: '',
-		}, true, testItem)).be(false);
+		}, true, testItem)).be.false();
 	});
 
 	it('should invalidate invalid input', function () {
 		demand(List.fields.number.inputIsValid({
 			number: {},
-		})).be(false);
+		})).be.false();
 		demand(List.fields.number.inputIsValid({
 			number: [],
-		})).be(false);
+		})).be.false();
 		demand(List.fields.number.inputIsValid({
 			number: 'a',
-		})).be(false);
+		})).be.false();
 	});
 };

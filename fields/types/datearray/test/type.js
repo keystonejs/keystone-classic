@@ -1,5 +1,6 @@
 var demand = require('must');
 var DateArrayType = require('../DateArrayType');
+var moment = require('moment');
 
 exports.initList = function (List) {
 	List.add({
@@ -11,9 +12,21 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
-	var testItem = new List.model();
+	describe('invalid options', function () {
+		it('should throw when format is not a string', function (done) {
+			try {
+				List.add({
+					invalidFormatOption: { type: DateArrayType, format: /aregexp/ },
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.DateArray: options.format must be a string.');
+				done();
+			}
+		});
+	});
 
 	it('should default to an empty array', function () {
+		var testItem = new List.model();
 		demand(testItem.get('datearr')).eql([]);
 	});
 
@@ -22,7 +35,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: ['2015-03-03', '2015-03-04'],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -33,7 +46,7 @@ exports.testFieldType = function (List) {
 					datearr: ['2015-03-03', '2015-03-04'],
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -42,7 +55,7 @@ exports.testFieldType = function (List) {
 			List.fields['nested.datearr'].validateInput({
 				'nested.datearr': ['2015-03-03', '2015-03-04'],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -51,7 +64,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: [1458162309111],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -61,7 +74,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: '2015-03-03',
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -71,7 +84,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: 1458162309111,
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -81,7 +94,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: [],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -91,7 +104,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -101,7 +114,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: null,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -111,7 +124,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -120,7 +133,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: false,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -129,7 +142,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: true,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -138,7 +151,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: 'aaa',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -147,7 +160,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: ['aaa'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -156,7 +169,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				datearr: ['2015-03-03', '2015-03-04', 'aaa'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -168,7 +181,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: ['2015-01-01', '2015-01-02'],
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -178,7 +191,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: '2015-01-01',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -190,7 +203,7 @@ exports.testFieldType = function (List) {
 					datearr: ['2015-01-01', '2015-01-02'],
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -199,7 +212,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateInput({
 				'nested.datearr': ['2015-01-01', '2015-01-02'],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -209,7 +222,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -219,7 +232,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: undefined,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -231,7 +244,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -241,7 +254,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: null,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -251,7 +264,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: [''],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -261,7 +274,7 @@ exports.testFieldType = function (List) {
 			List.fields.datearr.validateRequiredInput(testItem, {
 				datearr: ['2015-01-01', '', '2015-01-02'],
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -269,28 +282,29 @@ exports.testFieldType = function (List) {
 
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
+			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {
 				datearr: ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04'],
 			}, function () {
 				demand(testItem.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
-				testItem.datearr = undefined;
 				done();
 			});
 		});
 
 		it('should update nested fields', function (done) {
+			var testItem = new List.model();
 			List.fields['nested.datearr'].updateItem(testItem, {
 				nested: {
 					datearr: ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04'],
 				},
 			}, function () {
 				demand(testItem.nested.datearr).eql([new Date('2015-01-01'), new Date('2015-01-02'), new Date('2015-01-03'), new Date('2015-01-04')]);
-				testItem.nested.datearr = undefined;
 				done();
 			});
 		});
 
 		it('should update nested fields with flat paths', function (done) {
+			var testItem = new List.model();
 			List.fields['nested.datearr'].updateItem(testItem, {
 				'nested.datearr': ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04'],
 			}, function () {
@@ -301,73 +315,366 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should update empty arrays', function (done) {
+			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {
 				datearr: [],
 			}, function () {
 				demand(testItem.datearr).eql([]);
-				testItem.datearr = undefined;
 				done();
 			});
 		});
 
 		it('should default on null', function (done) {
+			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {
 				datearr: null,
 			}, function () {
 				demand(testItem.datearr).eql([]);
-				testItem.datearr = undefined;
 				done();
 			});
 		});
 
 		it('should allow a single date value', function (done) {
+			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {
 				datearr: '2015-01-01',
 			}, function () {
 				demand(testItem.datearr).eql([new Date('2015-01-01')]);
-				testItem.datearr = undefined;
 				done();
 			});
 		});
 	});
 
+	describe('addFilterToQuery', function () {
+		describe('"some" present', function () {
+			it('should filter a specific date', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gte: moment('2015-01-01').startOf('day').toDate(),
+						$lte: moment('2015-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter after a specific datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'after',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gt: moment('2015-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter before a specific datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'before',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$lt: moment('2015-01-01').startOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter between two specified datearrs', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					after: '2015-01-01',
+					before: '2016-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gte: moment('2015-01-01').startOf('day').toDate(),
+						$lte: moment('2016-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should not filter anything in between mode if no value is specified', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode without an after datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					before: '2015-01-01',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode without a before datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					after: '2015-01-01',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode with an invalid after datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					after: 'notadatearr',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode with an invalid before datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'some',
+					mode: 'between',
+					before: 'notadatearr',
+				});
+				demand(result.datearr).be.undefined();
+			});
+		});
+
+		describe('"none" present', function () {
+			it('should filter a specific date', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$not: {
+						$gte: moment('2015-01-01').startOf('day').toDate(),
+						$lte: moment('2015-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter after a specific datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					mode: 'after',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$not: {
+						$gt: moment('2015-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter before a specific datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					mode: 'before',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$not: {
+						$lt: moment('2015-01-01').startOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter between two specified datearrs', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					mode: 'between',
+					after: '2015-01-01',
+					before: '2016-01-01',
+				});
+				demand(result.datearr).eql({
+					$not: {
+						$gte: moment('2015-01-01').startOf('day').toDate(),
+						$lte: moment('2016-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should not filter anything in between mode if no value is specified', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					mode: 'between',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode without an after datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					mode: 'between',
+					before: '2015-01-01',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode without a before datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					mode: 'between',
+					after: '2015-01-01',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode with an invalid after datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					mode: 'between',
+					after: 'notadatearr',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode with an invalid before datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					presence: 'none',
+					mode: 'between',
+					before: 'notadatearr',
+				});
+				demand(result.datearr).be.undefined();
+			});
+		});
+
+		// Should default to "some" present behaviour
+		describe('no presence option specified', function () {
+			it('should filter a specific date', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gte: moment('2015-01-01').startOf('day').toDate(),
+						$lte: moment('2015-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter after a specific datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					mode: 'after',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gt: moment('2015-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter before a specific datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					mode: 'before',
+					value: '2015-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$lt: moment('2015-01-01').startOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should filter between two specified datearrs', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					mode: 'between',
+					after: '2015-01-01',
+					before: '2016-01-01',
+				});
+				demand(result.datearr).eql({
+					$elemMatch: {
+						$gte: moment('2015-01-01').startOf('day').toDate(),
+						$lte: moment('2016-01-01').endOf('day').toDate(),
+					},
+				});
+			});
+
+			it('should not filter anything in between mode if no value is specified', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					mode: 'between',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode without an after datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					mode: 'between',
+					before: '2015-01-01',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode without a before datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					mode: 'between',
+					after: '2015-01-01',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode with an invalid after datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					mode: 'between',
+					after: 'notadatearr',
+				});
+				demand(result.datearr).be.undefined();
+			});
+
+			it('should not filter anything in between mode with an invalid before datearr', function () {
+				var result = List.fields.datearr.addFilterToQuery({
+					mode: 'between',
+					before: 'notadatearr',
+				});
+				demand(result.datearr).be.undefined();
+			});
+		});
+	});
 	/* Deprecated inputIsValid tests */
 
 	it('should validate input', function () {
 		demand(List.fields.datearr.inputIsValid({
 			datearr: '2015-03-03',
-		})).be(true);
+		})).be.true();
 		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2015-03-03'],
-		})).be(true);
+		})).be.true();
 		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2015-03-03', '2015-03-04'],
-		})).be(true);
+		})).be.true();
 	});
 
 	it('should validate no input', function () {
-		demand(List.fields.datearr.inputIsValid({})).be(true);
-		demand(List.fields.datearr.inputIsValid({}, true)).be(false);
+		var testItem = new List.model();
+		demand(List.fields.datearr.inputIsValid({})).be.true();
+		demand(List.fields.datearr.inputIsValid({}, true)).be.false();
 		testItem.datearr = ['2015-03-03'];
-		demand(List.fields.datearr.inputIsValid({}, true, testItem)).be(true);
-		testItem.datearr = undefined;
+		demand(List.fields.datearr.inputIsValid({}, true, testItem)).be.true();
 	});
 
 	it('should validate length when required', function () {
 		demand(List.fields.datearr.inputIsValid({
 			datearr: [],
-		}, true)).be(false);
+		}, true)).be.false();
 	});
 
 	it('should invalidate arrays with invalid dates', function () {
 		demand(List.fields.datearr.inputIsValid({
 			datearr: 'not a real date',
-		})).be(false);
+		})).be.false();
 		demand(List.fields.datearr.inputIsValid({
 			datearr: ['2001-01-35'],
-		})).be(false);
+		})).be.false();
 		demand(List.fields.datearr.inputIsValid({
 			datearr: ['35-34-3210', '2001-01-01'],
-		})).be(false);
+		})).be.false();
 	});
 };

@@ -1,9 +1,7 @@
 var _ = require('lodash');
-var azure = require('azure');
 var FieldType = require('../Type');
 var grappling = require('grappling-hook');
 var keystone = require('../../../');
-var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
 
@@ -26,6 +24,10 @@ function azurefile (list, path, options) {
 		throw new Error('Invalid Configuration\n\nAzureFile fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
+	var self = this;
+	options.filenameFormatter = options.filenameFormatter || function (item, filename) { return filename; };
+	options.containerFormatter = options.containerFormatter || function (item, filename) { return self.azurefileconfig.container; };// eslint-disable-line no-unused-vars
+
 	azurefile.super_.call(this, list, path, options);
 
 	// validate azurefile config (has to happen after super_.call)
@@ -40,10 +42,6 @@ function azurefile (list, path, options) {
 	process.env.AZURE_STORAGE_ACCESS_KEY = this.azurefileconfig.key;
 
 	this.azurefileconfig.container = this.azurefileconfig.container || 'keystone';
-
-	var self = this;
-	options.filenameFormatter = options.filenameFormatter || function (item, filename) { return filename; };
-	options.containerFormatter = options.containerFormatter || function (item, filename) { return self.azurefileconfig.container; };// eslint-disable-line no-unused-vars
 
 	// Could be more pre- hooks, just upload for now
 	if (options.pre && options.pre.upload) {
@@ -66,6 +64,8 @@ Object.defineProperty(azurefile.prototype, 'azurefileconfig', {
  * Registers the field on the List's Mongoose Schema.
  */
 azurefile.prototype.addToSchema = function () {
+
+	var azure = require('azure');
 
 	var field = this;
 	var schema = this.list.schema;
@@ -183,7 +183,7 @@ azurefile.prototype.inputIsValid = function (data) { // eslint-disable-line no-u
 /**
  * Updates the value for this field in the item from a data object
  */
-azurefile.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
+azurefile.prototype.updateItem = function (item, data, callback) {
 	// TODO - direct updating of data (not via upload)
 	process.nextTick(callback);
 };
@@ -193,8 +193,9 @@ azurefile.prototype.updateItem = function (item, data, callback) { // eslint-dis
  */
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
+	var azure = require('azure');
+
 	var field = this;
-	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : ''; // eslint-disable-line no-unused-var
 	var filetype = file.mimetype || file.type;
 
 	if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
@@ -214,7 +215,7 @@ azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
 			if (err) return callback(err);
 
-			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) { // eslint-disable-line no-unused-vars
+			blobService.createBlockBlobFromLocalFile(container, field.options.filenameFormatter(item, file.name), file.path, function (err, blob, res) {
 
 				if (err) return callback(err);
 

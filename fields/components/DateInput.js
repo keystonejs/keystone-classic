@@ -1,7 +1,6 @@
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Popout from '../../admin/client/components/Popout';
 import { FormInput } from 'elemental';
 
@@ -56,7 +55,6 @@ module.exports = React.createClass({
 	handleKeyPress (e) {
 		if (e.key === 'Enter') {
 			e.preventDefault();
-			const parsedDate = moment(this.state.inputValue, this.props.format);
 			// If the date is strictly equal to the format string, dispatch onChange
 			if (moment(this.state.inputValue, this.props.format, true).isValid()) {
 				this.props.onChange({ value: this.state.inputValue });

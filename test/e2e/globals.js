@@ -35,7 +35,7 @@ module.exports = {
 		//console.log(results);
 		cb();
 	},
-	keyStrokes: {
+	keyStroke: {
 		enterKey: ['\uE006'],
 		downArrowKey: ['\uE015']
 	},

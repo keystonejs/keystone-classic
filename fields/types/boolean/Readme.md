@@ -28,3 +28,17 @@ Ensures the value can be interpreted using the rules above. Other complex values
 ### `validateRequiredInput`
 
 Ensures the value matches one of the rules above that will store `true`
+
+## Filtering
+
+Accepts a single boolean value:
+
+```
+{
+	value: Boolean,
+}
+```
+
+When `value` is `true`, any items containing `true` in the field's path will be matched.
+
+When `value` is `false`, items containing `false` in the field's path or with no value in the field's path will be matched.
