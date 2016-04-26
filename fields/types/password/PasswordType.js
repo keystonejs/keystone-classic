@@ -61,7 +61,7 @@ password.prototype.addToSchema = function () {
 		}
 		var item = this;
 
-		if(!item.isEncrypted) {
+		if (!item.isEncrypted) {
 			bcrypt.genSalt(field.workFactor, function (err, salt) {
 				if (err) {
 					return next(err);
