@@ -1,12 +1,20 @@
+/**
+ * Renders an "Invalid Field Type" error
+ */
+
 import React from 'react';
 
-module.exports = React.createClass({
-	displayName: 'InvalidFieldType',
-	propTypes: {
-		path: React.PropTypes.string,
-		type: React.PropTypes.string,
-	},
-	render () {
-		return <div className="alert alert-danger">Invalid field type <strong>{this.props.type}</strong> at path <strong>{this.props.path}</strong></div>;
-	},
-});
+const InvalidFieldType = function (props) {
+	return (
+		<div className="alert alert-danger">
+			Invalid field type <strong>{props.type}</strong> at path <strong>{props.path}</strong>
+		</div>
+	);
+};
+
+InvalidFieldType.propTypes = {
+	path: React.PropTypes.string,
+	type: React.PropTypes.string,
+};
+
+module.exports = InvalidFieldType;

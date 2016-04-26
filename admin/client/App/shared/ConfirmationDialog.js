@@ -1,9 +1,14 @@
+/**
+ * Renders a confirmation dialog modal
+ */
+
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
 
 class ConfirmationDialog extends Component {
 	componentWillReceiveProps (nextProps) {
+		// Focus the cancel button when the confirmation dialog is opened
 		if (nextProps.isOpen) {
 			setTimeout(() => {
 				const cancel = findDOMNode(this.refs.cancel);
@@ -17,9 +22,22 @@ class ConfirmationDialog extends Component {
 		};
 	}
 	render () {
-		const { cancelLabel, confirmationLabel, confirmationType, isOpen, onCancel, onConfirmation } = this.props;
+		const {
+			cancelLabel,
+			confirmationLabel,
+			confirmationType,
+			isOpen,
+			onCancel,
+			onConfirmation,
+		} = this.props;
+
 		return (
-			<Modal onCancel={onCancel} width={400} isOpen={isOpen} backdropClosesModal>
+			<Modal
+				onCancel={onCancel}
+				width={400}
+				isOpen={isOpen}
+				backdropClosesModal
+			>
 				<ModalBody>
 					<div dangerouslySetInnerHTML={this.getBodyHtml()} />
 				</ModalBody>

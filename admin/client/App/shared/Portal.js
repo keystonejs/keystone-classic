@@ -1,3 +1,8 @@
+/**
+ * Used by the Popout component and the Lightbox component of the fields for
+ * popouts. Renders a non-react DOM node.
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
