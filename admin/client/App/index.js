@@ -6,9 +6,9 @@
 import React from 'react';
 import Lists from '../utils/ListsByKey';
 
-import MobileNavigation from './components/Navigation/MobileNavigation';
-import PrimaryNavigation from './components/Navigation/PrimaryNavigation';
-import SecondaryNavigation from './components/Navigation/SecondaryNavigation';
+import MobileNavigation from './components/Navigation/Mobile';
+import PrimaryNavigation from './components/Navigation/Primary';
+import SecondaryNavigation from './components/Navigation/Secondary';
 import Footer from './components/Footer';
 
 const App = (props) => {

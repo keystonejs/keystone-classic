@@ -5,57 +5,7 @@
 
 import React from 'react';
 import { Container } from 'elemental';
-import { Link } from 'react-router';
-
-/**
- * A item in the primary navigation. If it has a "to" prop it'll render a
- * react-router "Link", if it has a "href" prop it'll render a simple "a" tag
- */
-var PrimaryNavItem = React.createClass({
-	displayName: 'PrimaryNavItem',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string,
-		href: React.PropTypes.string,
-		label: React.PropTypes.string,
-		title: React.PropTypes.string,
-		to: React.PropTypes.string,
-	},
-	render () {
-		let Button;
-		if (this.props.to) {
-			Button = (
-				<Link
-					to={this.props.to}
-					title={this.props.title}
-					key={this.props.title}
-					tabIndex="-1"
-				>
-					{this.props.children}
-				</Link>
-			);
-		} else if (this.props.href) {
-			Button = (
-				<a
-					href={this.props.href}
-					title={this.props.title}
-					key={this.props.title}
-					tabIndex="-1"
-				>
-					{this.props.children}
-				</a>
-			);
-		}
-		return (
-			<li
-				className={this.props.className}
-				data-section-label={this.props.label}
-			>
-				{Button}
-			</li>
-		);
-	},
-});
+import PrimaryNavItem from './NavItem';
 
 var PrimaryNavigation = React.createClass({
 	displayName: 'PrimaryNavigation',
@@ -68,6 +18,7 @@ var PrimaryNavigation = React.createClass({
 	getInitialState () {
 		return {};
 	},
+	// Handle resizing, hide this navigation on mobile (i.e. < 768px) screens
 	componentDidMount () {
 		this.handleResize();
 		window.addEventListener('resize', this.handleResize);
@@ -80,19 +31,29 @@ var PrimaryNavigation = React.createClass({
 			navIsVisible: window.innerWidth >= 768,
 		});
 	},
+	// Render the sign out button
 	renderSignout () {
 		if (!this.props.signoutUrl) return null;
 
 		return (
-			<PrimaryNavItem label="octicon-sign-out" href={this.props.signoutUrl} title="Sign Out">
+			<PrimaryNavItem
+				label="octicon-sign-out"
+				href={this.props.signoutUrl}
+				title="Sign Out"
+			>
 				<span className="octicon octicon-sign-out" />
 			</PrimaryNavItem>
 		);
 	},
+	// Render the link to the webpage
 	renderFrontLink () {
 		return (
 			<ul className="app-nav app-nav--primary app-nav--right">
-				<PrimaryNavItem label="octicon-globe" href={Keystone.backUrl} title={'Front page - ' + this.props.brand}>
+				<PrimaryNavItem
+					label="octicon-globe"
+					href={Keystone.backUrl}
+					title={'Front page - ' + this.props.brand}
+				>
 					<span className="octicon octicon-globe" />
 				</PrimaryNavItem>
 				{this.renderSignout()}
@@ -102,20 +63,32 @@ var PrimaryNavigation = React.createClass({
 	renderBrand () {
 		// TODO: support navbarLogo from keystone config
 		return (
-			<PrimaryNavItem label="octicon-home" className={this.props.currentSectionKey === 'dashboard' ? 'active' : null} to={Keystone.adminPath} title={'Dashboard - ' + this.props.brand}>
+			<PrimaryNavItem
+				label="octicon-home"
+				className={this.props.currentSectionKey === 'dashboard' ? 'active' : null}
+				to={Keystone.adminPath}
+				title={'Dashboard - ' + this.props.brand}
+			>
 				<span className="octicon octicon-home" />
 			</PrimaryNavItem>
 		);
 	},
+	// Render the navigation
 	renderNavigation () {
 		if (!this.props.sections || !this.props.sections.length) return null;
 
 		return this.props.sections.map((section) => {
+			// Get the link and the class name
 			const href = section.lists[0].external ? section.lists[0].path : `${Keystone.adminPath}/${section.lists[0].path}`;
 			const className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'active' : null;
 
 			return (
-				<PrimaryNavItem key={section.key} label={section.label} className={className} to={href}>
+				<PrimaryNavItem
+					key={section.key}
+					label={section.label}
+					className={className}
+					to={href}
+				>
 					{section.label}
 				</PrimaryNavItem>
 			);

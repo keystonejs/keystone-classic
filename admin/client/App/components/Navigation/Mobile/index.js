@@ -1,65 +1,16 @@
+/**
+ * The mobile navigation, displayed on screens < 768px
+ */
+
 import React from 'react';
 import Transition from 'react-addons-css-transition-group';
-import { Link } from 'react-router';
 
-var MobileListItem = React.createClass({
-	displayName: 'MobileListItem',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string,
-		href: React.PropTypes.string.isRequired,
-	},
-	render () {
-		return (
-			<Link className={this.props.className} to={this.props.href} tabIndex="-1">
-				{this.props.children}
-			</Link>
-		);
-	},
-});
+import MobileListItem from './ListItem';
+import MobileSectionItem from './SectionItem';
 
-var MobileSectionItem = React.createClass({
-	displayName: 'MobileSectionItem',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string,
-		currentListKey: React.PropTypes.string,
-		href: React.PropTypes.string.isRequired,
-		lists: React.PropTypes.array,
-	},
-	renderLists () {
-		if (!this.props.lists || this.props.lists.length <= 1) return null;
+const ESCAPE_KEY_CODE = 27;
 
-		const navLists = this.props.lists.map((item) => {
-			const href = item.external ? item.path : `${Keystone.adminPath}/${item.path}`;
-			const className = (this.props.currentListKey && this.props.currentListKey === item.path) ? 'MobileNavigation__list-item is-active' : 'MobileNavigation__list-item';
-
-			return (
-				<MobileListItem key={item.path} href={href} className={className}>
-					{item.label}
-				</MobileListItem>
-			);
-		});
-
-		return (
-			<div className="MobileNavigation__lists">
-				{navLists}
-			</div>
-		);
-	},
-	render () {
-		return (
-			<div className={this.props.className}>
-				<Link className="MobileNavigation__section-item" to={this.props.href} tabIndex="-1">
-					{this.props.children}
-				</Link>
-				{this.renderLists()}
-			</div>
-		);
-	},
-});
-
-var MobileNavigation = React.createClass({
+const MobileNavigation = React.createClass({
 	displayName: 'MobileNavigation',
 	propTypes: {
 		brand: React.PropTypes.string,
@@ -73,6 +24,8 @@ var MobileNavigation = React.createClass({
 			barIsVisible: false,
 		};
 	},
+	// Handle showing and hiding the menu based on the window size when
+	// resizing
 	componentDidMount () {
 		this.handleResize();
 		window.addEventListener('resize', this.handleResize);
@@ -85,29 +38,33 @@ var MobileNavigation = React.createClass({
 			barIsVisible: window.innerWidth < 768,
 		});
 	},
+	// Toggle the menu
 	toggleMenu () {
 		this[this.state.menuIsVisible ? 'hideMenu' : 'showMenu']();
 	},
+	// Show the menu
 	showMenu () {
 		this.setState({
 			menuIsVisible: true,
 		});
 
+		// Make the body unscrollable, so you can only scroll in the menu
 		document.body.style.overflow = 'hidden';
 		document.body.addEventListener('keyup', this.handleEscapeKey, false);
 	},
+	// Hide the menu
 	hideMenu () {
 		this.setState({
 			menuIsVisible: false,
 		});
 
+		// Make the body scrollable again
 		document.body.style.overflow = null;
 		document.body.removeEventListener('keyup', this.handleEscapeKey, false);
 	},
+	// If the escape key was pressed, hide the menu
 	handleEscapeKey (event) {
-		const escapeKeyCode = 27;
-
-		if (event.which === escapeKeyCode) {
+		if (event.which === ESCAPE_KEY_CODE) {
 			this.hideMenu();
 		}
 	},
@@ -115,9 +72,11 @@ var MobileNavigation = React.createClass({
 		if (!this.props.sections || !this.props.sections.length) return null;
 
 		return this.props.sections.map((section) => {
+			// Get the link and the classname
 			const href = section.lists[0].external ? section.lists[0].path : `${Keystone.adminPath}/${section.lists[0].path}`;
 			const className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'MobileNavigation__section is-active' : 'MobileNavigation__section';
 
+			// Render a SectionItem
 			return (
 				<MobileSectionItem
 					key={section.key}
@@ -131,11 +90,13 @@ var MobileNavigation = React.createClass({
 			);
 		});
 	},
+	// Render a blockout
 	renderBlockout () {
 		if (!this.state.menuIsVisible) return null;
 
 		return <div className="MobileNavigation__blockout" onClick={this.toggleMenu} />;
 	},
+	// Render the sidebar menu
 	renderMenu () {
 		if (!this.state.menuIsVisible) return null;
 
@@ -153,19 +114,36 @@ var MobileNavigation = React.createClass({
 		return (
 			<div className="MobileNavigation">
 				<div className="MobileNavigation__bar">
-					<button type="button" onClick={this.toggleMenu} className="MobileNavigation__bar__button MobileNavigation__bar__button--menu">
+					<button
+						type="button"
+						onClick={this.toggleMenu}
+						className="MobileNavigation__bar__button MobileNavigation__bar__button--menu"
+					>
 						<span className={'MobileNavigation__bar__icon octicon octicon-' + (this.state.menuIsVisible ? 'x' : 'three-bars')} />
 					</button>
-					<span className="MobileNavigation__bar__label">{this.props.brand}</span>
-					<a href={this.props.signoutUrl} className="MobileNavigation__bar__button MobileNavigation__bar__button--signout">
+					<span className="MobileNavigation__bar__label">
+						{this.props.brand}
+					</span>
+					<a
+						href={this.props.signoutUrl}
+						className="MobileNavigation__bar__button MobileNavigation__bar__button--signout"
+					>
 						<span className="MobileNavigation__bar__icon octicon octicon-sign-out" />
 					</a>
 				</div>
 				<div className="MobileNavigation__bar--placeholder" />
-				<Transition transitionName="MobileNavigation__menu" transitionEnterTimeout={260} transitionLeaveTimeout={200}>
+				<Transition
+					transitionName="MobileNavigation__menu"
+					transitionEnterTimeout={260}
+					transitionLeaveTimeout={200}
+				>
 					{this.renderMenu()}
 				</Transition>
-				<Transition transitionName="react-transitiongroup-fade">
+				<Transition
+					transitionName="react-transitiongroup-fade"
+					transitionEnterTimeout={0}
+					transitionLeaveTimeout={0}
+				>
 					{this.renderBlockout()}
 				</Transition>
 			</div>

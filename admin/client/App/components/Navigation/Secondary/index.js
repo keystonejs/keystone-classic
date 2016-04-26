@@ -1,26 +1,11 @@
+/**
+ * The secondary navigation links to inidvidual lists of a section
+ */
+
 import React from 'react';
 import { Container } from 'elemental';
-import { Link } from 'react-router';
 
-var SecondaryNavItem = React.createClass({
-	displayName: 'SecondaryNavItem',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string,
-		href: React.PropTypes.string.isRequired,
-		path: React.PropTypes.string,
-		title: React.PropTypes.string,
-	},
-	render () {
-		return (
-			<li className={this.props.className} data-list-path={this.props.path}>
-				<Link to={this.props.href} title={this.props.title} tabIndex="-1">
-					{this.props.children}
-				</Link>
-			</li>
-		);
-	},
-});
+import SecondaryNavItem from './NavItem';
 
 var SecondaryNavigation = React.createClass({
 	displayName: 'SecondaryNavigation',
@@ -31,6 +16,7 @@ var SecondaryNavigation = React.createClass({
 	getInitialState () {
 		return {};
 	},
+	// Handle resizing and hide this nav on mobile (i.e. < 768px) screens
 	componentDidMount () {
 		this.handleResize();
 		window.addEventListener('resize', this.handleResize);
@@ -43,14 +29,21 @@ var SecondaryNavigation = React.createClass({
 			navIsVisible: this.props.lists && Object.keys(this.props.lists).length > 1 && window.innerWidth >= 768,
 		});
 	},
+	// Render the navigation
 	renderNavigation (lists) {
 		const navigation = Object.keys(lists).map((key) => {
 			const list = lists[key];
+			// Get the link and the classname
 			const href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			const className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
 
 			return (
-				<SecondaryNavItem key={list.path} path={list.path} className={className} href={href}>
+				<SecondaryNavItem
+					key={list.path}
+					path={list.path}
+					className={className}
+					href={href}
+				>
 					{list.label}
 				</SecondaryNavItem>
 			);
