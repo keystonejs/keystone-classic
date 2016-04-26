@@ -1,5 +1,3 @@
-var adminUI = require('../../adminUI');
-
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
