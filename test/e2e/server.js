@@ -52,6 +52,7 @@ keystone.set('nav', {
 		'names',
 		'numbers',
 		'selects',
+		'texts'
 	],
 });
 
