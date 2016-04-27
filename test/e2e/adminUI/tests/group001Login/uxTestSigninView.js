@@ -4,7 +4,7 @@ module.exports = {
 		browser.signinPage = browser.page.signin();
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinPage');
+		browser.app.waitForElementVisible('@signinScreen');
 	},
 	after: function (browser) {
 		browser.end();
@@ -13,7 +13,7 @@ module.exports = {
 		browser.signinPage
 			.signin();
 		browser.app
-			.waitForElementVisible('@homePage');
+			.waitForElementVisible('@homeScreen');
 	},
 	'Signin page should be presented upon signout': function (browser) {
 		browser.app

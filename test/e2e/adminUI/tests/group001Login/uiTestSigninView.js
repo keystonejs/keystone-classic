@@ -4,14 +4,14 @@ module.exports = {
 		browser.signinPage = browser.page.signin();
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinPage');
+		browser.app.waitForElementVisible('@signinScreen');
 	},
 	after: function (browser) {
 		browser.end();
 	},
 	'AdminUI should have a signin page': function (browser) {
 		browser.app
-			.expect.element('@signinPage').to.be.visible;
+			.expect.element('@signinScreen').to.be.visible;
 	},
 	'Signin page should have an email field': function (browser) {
 		browser.signinPage

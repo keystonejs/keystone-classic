@@ -8,10 +8,10 @@ module.exports = {
 		browser.deleteConfirmationPage = browser.page.deleteConfirmation();
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinPage');
+		browser.app.waitForElementVisible('@signinScreen');
 
 		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homePage');
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
 		browser.app.signout();
@@ -20,7 +20,7 @@ module.exports = {
 	'List view must have a search bar': function (browser) {
 		browser.app
 			.click('@accessMenu')
-			.waitForElementVisible('@listPage');
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.expect.element('@searchInputField').to.be.visible;

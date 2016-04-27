@@ -5,7 +5,7 @@ module.exports = {
 
 		browser.url(browser.app.url + 'users');
 		browser.app
-			.waitForElementVisible('@signinPage')
+			.waitForElementVisible('@signinScreen')
 			.assert.urlEquals(browser.app.url + 'signin?from=/keystone/users');
 	},
 	after: function (browser) {
@@ -16,7 +16,7 @@ module.exports = {
 		browser.signinPage
 			.signin();
 		browser.app
-			.waitForElementVisible('@listPage')
+			.waitForElementVisible('@listScreen')
 			.assert.urlEquals(browser.app.url + 'users');
 	},
 };
