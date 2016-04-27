@@ -2,6 +2,13 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.18 / 2016-04-27
+
+* fixed; make localfiles previews properly show up in admin ui column, thanks [Gabor K](https://github.com/krksgbr)
+* improved; allow adding headers when sending email, thanks [Joss Mackison](https://github.com/JossMac)
+
+This is a hotfix release to allow for adding headers when sending emails.
+
 ## v0.3.17 / 2016-03-23
 
 * fixed; issue when keystone is a dependency of a global package, thanks [Robert Jensen](https://github.com/erg0dic)
