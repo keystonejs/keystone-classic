@@ -475,13 +475,13 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
 			}
 
 			if (field.options.folder) {
-				uploadOptions.folder = field.options.folder
+				uploadOptions.folder = field.options.folder;
 			}
 
 			if (field.options.useFilename) {
-				uploadOptions.use_filename = true; //default is false
+				uploadOptions.use_filename = true; // default is false
 				if (!field.options.uniqueFilename) {
-					uploadOptions.unique_filename = false; //default is true
+					uploadOptions.unique_filename = false; // default is true
 				}
 			}
 

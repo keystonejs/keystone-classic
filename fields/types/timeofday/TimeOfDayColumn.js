@@ -1,7 +1,7 @@
-import React from 'react'
-import moment from 'moment'
-import ItemsTableCell from '../../../admin/client/components/ItemsTableCell'
-import ItemsTableValue from '../../../admin/client/components/ItemsTableValue'
+import React from 'react';
+import moment from 'moment';
+import ItemsTableCell from '../../../admin/client/components/ItemsTableCell';
+import ItemsTableValue from '../../../admin/client/components/ItemsTableValue';
 
 var TimeOfDayColumn = React.createClass({
 	displayName: 'TimeOfDayColumn',
@@ -10,25 +10,25 @@ var TimeOfDayColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		const value = this.props.data.fields[this.props.col.path]
-		if (!value) return null
+		const value = this.props.data.fields[this.props.col.path];
+		if (!value) return null;
 
-		const format = 'h:mm a'
-		const formattedValue = moment(value).utc().format(format)
+		const format = 'h:mm a';
+		const formattedValue = moment(value).utc().format(format);
 
 		return (
 			<ItemsTableValue title={formattedValue} field={this.props.col.type}>
 				{formattedValue}
 			</ItemsTableValue>
-		)
+		);
 	},
 	render () {
 		return (
 			<ItemsTableCell>
 				{this.renderValue()}
 			</ItemsTableCell>
-		)
+		);
 	},
-})
+});
 
-module.exports = TimeOfDayColumn
+module.exports = TimeOfDayColumn;
