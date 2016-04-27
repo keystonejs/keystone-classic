@@ -1,7 +1,7 @@
 var utils = require('../../../utils');
 
 module.exports = function TextType(config) {
-	return  {
+	var self = {
 		selector: '.field-type-text[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
@@ -35,4 +35,6 @@ module.exports = function TextType(config) {
 			},
 		}],
 	};
+
+	return self;
 };

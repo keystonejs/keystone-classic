@@ -52,6 +52,9 @@ module.exports = {
 
 		browser.itemPage.section.form.section.nameList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
+
+		browser.itemPage.section.form.section.nameList.section.fieldA
+			.verifyInput({firstName: 'First 1', lastName: 'Last 1'});
 	},
 	'Name field can be created via the edit form': function (browser) {
 		browser.itemPage.section.form.section.nameList.section.name
@@ -74,5 +77,8 @@ module.exports = {
 
 		browser.itemPage.section.form.section.nameList.section.fieldA
 			.verifyInput({firstName: 'First 2', lastName: 'Last 2'});
+	},
+	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
+	'restoring test state': function (browser) {
 	},
 };

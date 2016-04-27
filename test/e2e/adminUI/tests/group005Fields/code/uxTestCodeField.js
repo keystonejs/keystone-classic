@@ -2,83 +2,83 @@ var adminUI = require('../../../adminUI');
 
 module.exports = {
 	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app = browser.page.app();
+		browser.signinPage = browser.page.signin();
+		browser.listPage = browser.page.list();
+		browser.itemPage = browser.page.item();
+		browser.initialFormPage = browser.page.initialForm();
+
+		browser.app.navigate();
+		browser.app.waitForElementVisible('@signinScreen');
+
+		browser.signinPage.signin();
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
+		browser.app
+			.signout();
 		browser
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
 	'Code field can be created via the initial modal': function (browser) {
-		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForCodesTabUnderDashboardFieldsSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.code.code.name.value, 'Code Field Test')
-			.execute(function (selector) {
-				var x = document.querySelector(selector);
-				var y = x.getElementsByClassName('CodeMirror')[0];
-				y.CodeMirror.setValue('Some Test Code for Field A');
-			}, [adminUI.cssSelector.initialModalView.fieldType.code.code.fieldA.codeMirror])
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app
+			.click('@fieldsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@codesFieldsSubmenu')
+			.waitForElementVisible('@listScreen');
 
-		browser
-			.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('New Code Code Field Test created.');
+		browser.listPage
+			.click('@createFirstItemButton');
 
-		browser.getValue(adminUI.cssSelector.itemView.fieldType.code.code.name.value, function (result) {
-			browser.assert.equal(result.value, 'Code Field Test');
-		});
+		browser.app
+			.waitForElementVisible('@initialFormScreen');
 
-		browser
-			.execute(function (selector) {
-				 var x = document.querySelector(selector);
-				 var y = x.getElementsByClassName('CodeMirror')[0];
-				 return y.CodeMirror.getValue();
-			}, [adminUI.cssSelector.itemView.fieldType.code.code.fieldA.codeMirror], function (result) {
-				this.assert.equal(result.value, 'Some Test Code for Field A');
-			});
+		browser.initialFormPage.section.form.section.codeList.section.name
+			.fillInput({value: 'Name Field Test 1'});
+
+		browser.initialFormPage.section.form.section.codeList.section.name
+			.verifyInput({value: 'Name Field Test 1'});
+
+		browser.initialFormPage.section.form.section.codeList.section.fieldA
+			.fillInput({value: 'Some Test Code for Field A'});
+
+		browser.initialFormPage.section.form
+			.click('@createButton');
+
+		browser.app
+			.waitForElementVisible('@itemScreen');
+
+		browser.itemPage
+			.expect.element('@flashMessage')
+			.text.to.equal('New Code Name Field Test 1 created.');
+
+		browser.itemPage.section.form.section.codeList.section.name
+			.verifyInput({value: 'Name Field Test 1'});
+
+		browser.itemPage.section.form.section.codeList.section.fieldA
+			.verifyInput({value: 'Some Test Code for Field A'});
 	},
 	'Code field can be created via the edit form': function (browser) {
-		browser
-			.execute(function(selector) {
-				var x = document.querySelector(selector);
-				var y = x.getElementsByClassName('CodeMirror')[0];
-				y.CodeMirror.setValue('Some Test Code for Field B');
-			}, [adminUI.cssSelector.itemView.fieldType.code.code.fieldB.codeMirror])
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.itemView.itemSaveButton)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.itemPage.section.form.section.codeList.section.fieldB
+			.fillInput({value: 'Some Test Code for Field B'});
 
-		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
+		browser.itemPage.section.form
+			.click('@saveButton');
+
+		browser.app
+			.waitForElementVisible('@itemScreen');
+
+		browser.itemPage
+			.expect.element('@flashMessage')
 			.text.to.equal('Your changes have been saved.');
 
-		browser.getValue(adminUI.cssSelector.itemView.fieldType.code.code.name.value, function(result) {
-			browser.assert.equal(result.value, 'Code Field Test');
-		});
+		browser.itemPage.section.form.section.codeList.section.name
+			.verifyInput({value: 'Name Field Test 1'});
 
-		browser
-			.execute(function (selector) {
-				var x = document.querySelector(selector);
-				var y = x.getElementsByClassName('CodeMirror')[0];
-				return y.CodeMirror.getValue();
-			}, [adminUI.cssSelector.itemView.fieldType.code.code.fieldB.codeMirror], function (result) {
-				browser.assert.equal(result.value, 'Some Test Code for Field B');
-			});
+		browser.itemPage.section.form.section.codeList.section.fieldB
+			.verifyInput({value: 'Some Test Code for Field B'});
+	},
+	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
+	'restoring test state': function (browser) {
 	},
 };
