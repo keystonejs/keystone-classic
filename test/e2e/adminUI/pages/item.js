@@ -1,3 +1,4 @@
+var CodeList = require('./lists/code');
 var NameList = require('./lists/name');
 
 module.exports = {
@@ -8,6 +9,7 @@ module.exports = {
 				//
 				// DEFINE ALL LISTS
 				//
+				codeList: new CodeList(),
 				nameList: new NameList(),
 			},
 			elements: {

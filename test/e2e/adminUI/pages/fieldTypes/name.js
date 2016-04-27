@@ -1,7 +1,7 @@
 var utils = require('../../../utils');
 
 module.exports = function NameType(config) {
-	return  {
+	var self = {
 		selector: '.field-type-name[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
@@ -47,4 +47,6 @@ module.exports = function NameType(config) {
 			},
 		}],
 	};
+
+	return self;
 };
