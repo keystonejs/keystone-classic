@@ -1,4 +1,5 @@
 var NameList = require('./lists/name');
+var TextList = require('./lists/text');
 
 module.exports = {
 	sections: {
@@ -9,6 +10,7 @@ module.exports = {
 				// DEFINE ALL LISTS
 				//
 				nameList: new NameList(),
+				textList: new TextList(),
 			},
 			elements: {
 				//

@@ -1,63 +1,78 @@
-var adminUI = require('../../../adminUI');
-
 module.exports = {
 	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app = browser.page.app();
+		browser.signinPage = browser.page.signin();
+		browser.listPage = browser.page.list();
+		browser.itemPage = browser.page.item();
+		browser.initialFormPage = browser.page.initialForm();
+
+		browser.app.navigate();
+		browser.app.waitForElementVisible('@signinScreen');
+
+		browser.signinPage.signin();
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
+		browser.app
+			.signout();
 		browser
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Text field can be created via the initial modal': function (browser) {
-		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForTextsTabUnderDashboardFieldsSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.text.text.name.value, 'Text Field Test')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.text.text.fieldA.value, 'Test Text 1')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+	'Name field can be created via the initial modal': function (browser) {
+		browser.app
+			.click('@fieldsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@textsFieldsSubmenu')
+			.waitForElementVisible('@listScreen');
 
-		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('New Text Text Field Test created.');
+		browser.listPage
+			.click('@createFirstItemButton');
 
-		browser.getValue(adminUI.cssSelector.itemView.fieldType.text.text.name.value, function(result) {
-			this.assert.equal(result.value, 'Text Field Test');
-		});
+		browser.app
+			.waitForElementVisible('@initialFormScreen');
 
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.text.text.fieldA.value)
-			.to.have.value.that.equals('Test Text 1');
+		browser.initialFormPage.section.form.section.textList.section.name
+			.fillInput({value: 'Text Field Test 1'});
+
+		browser.initialFormPage.section.form.section.textList.section.name
+			.verifyInput({value: 'Text Field Test 1'});
+
+		browser.initialFormPage.section.form.section.textList.section.fieldA
+			.fillInput({value: 'Text Field Test Text 1'});
+
+		browser.initialFormPage.section.form
+			.click('@createButton');
+
+		browser.app
+			.waitForElementVisible('@itemScreen');
+
+		browser.itemPage
+			.expect.element('@flashMessage')
+			.text.to.equal('New Text Text Field Test 1 created.');
+
+		browser.itemPage.section.form.section.textList.section.name
+			.verifyInput({value: 'Text Field Test 1'});
 	},
-	'Text field can be created via the edit form': function (browser) {
-		browser
-			.setValue(adminUI.cssSelector.itemView.fieldType.text.text.fieldB.value, 'Test Text 2')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.itemView.itemSaveButton)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+	'Name field can be created via the edit form': function (browser) {
+		browser.itemPage.section.form.section.textList.section.name
+			.fillInput({value: 'Text Field Test 2'});
 
-		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('Your changes have been saved.');
+		browser.itemPage.section.form.section.textList.section.fieldA
+			.fillInput({value: 'Text Field Test Text 2'});
 
-		browser.getValue(adminUI.cssSelector.itemView.fieldType.text.text.name.value, function(result) {
-			this.assert.equal(result.value, 'Text Field Test');
-		});
+		browser.itemPage.section.form
+			.click('@saveButton');
 
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.text.text.fieldB.value)
-			.to.have.value.that.equals('Test Text 2');
+		browser.itemPage
+			.waitForElementVisible('@flashMessage');
+
+		browser.itemPage
+			.expect.element('@flashMessage').text.to.equal('Your changes have been saved.');
+
+		browser.itemPage.section.form.section.textList.section.name
+			.verifyInput({value: 'Text Field Test 2'});
+
+		browser.itemPage.section.form.section.textList.section.fieldA
+			.verifyInput({value: 'Text Field Test Text 2'});
 	},
 };

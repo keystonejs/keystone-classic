@@ -70,11 +70,6 @@ module.exports = {
 			labelForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-label',
 			plusIconLinkForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] a.dashboard-group__list-create.octicon.octicon-plus',
 			itemCountForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-count',
-			// Text List Tab
-			textsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="texts"]',
-			labelForTextsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="texts"] .dashboard-group__list-label',
-			plusIconLinkForTextsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="texts"] a.dashboard-group__list-create.octicon.octicon-plus',
-			itemCountForTextsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="texts"] .dashboard-group__list-count',
 
 			// Dashboard's Others Group
 			dashboardOthersSubheading: '.dashboard-group__heading[data-section-label="Other"]',
@@ -298,28 +293,6 @@ module.exports = {
 						},
 					},
 				},
-				text: {
-					user: {
-						text: {
-							label: '.EditForm-container .field-type-text[for="text"] .FormLabel',
-							value: '.EditForm-container .field-type-text[for="text"] input[name="text"]',
-						},
-					},
-					text: {
-						name: {
-							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
-							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
-						},
-						fieldA: {
-							label: '.EditForm-container .field-type-text[for="fieldA"] .FormLabel',
-							value: '.EditForm-container .field-type-text[for="fieldA"] input[name="fieldA"]',
-						},
-						fieldB: {
-							label: '.EditForm-container .field-type-text[for="fieldB"] .FormLabel',
-							value: '.EditForm-container .field-type-text[for="fieldB"] input[name="fieldB"]',
-						},
-					},
-				},
 			},
 		},
 		initialModalView: {
@@ -443,24 +416,6 @@ module.exports = {
 							placeholder: '.Modal-dialog .field-type-name[for="fieldA"] .Select-placeholder',
 							dropdownArrow: '.Modal-dialog .field-type-name[for="fieldA"] .Select-arrow-zone',
 							optionOne: '.Modal-dialog .field-type-name[for="fieldA"] .Select-menu-outer option[value="One"]',
-						},
-					},
-				},
-				text: {
-					user: {
-						text: {
-							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
-							value: '.Modal-dialog .field-type-text[for="text"] input[name="text"]',
-						},
-					},
-					text: {
-						name: {
-							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
-							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
-						},
-						fieldA: {
-							label: '.Modal-dialog .field-type-text[for="fieldA"] .FormLabel',
-							value: '.Modal-dialog .field-type-text[for="fieldA"] input[name="fieldA"]',
 						},
 					},
 				},

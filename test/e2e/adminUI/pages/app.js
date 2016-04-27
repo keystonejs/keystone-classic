@@ -21,6 +21,7 @@ module.exports = {
 		emailsFieldsSubmenu: '.secondary-navbar [data-list-path="emails"]',
 		namesFieldsSubmenu: '.secondary-navbar [data-list-path="names"]',
 		selectsFieldsSubmenu: '.secondary-navbar [data-list-path="selects"]',
+		textsFieldsSubmenu: '.secondary-navbar [data-list-path="texts"]',
 		frontPageIcon: '.primary-navbar [data-section-label="octicon-globe"]',
 		frontPageIconLink: '.primary-navbar [data-section-label="octicon-globe"] a',
 		logoutIcon: '.primary-navbar [data-section-label="octicon-sign-out"]',
