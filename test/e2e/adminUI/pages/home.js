@@ -4,9 +4,9 @@ module.exports = {
 	},
 	sections: {
 		accessGroup: {
-			selector: '.dashboard-group:nth-child(1)',
+			selector: '.dashboard-group[data-section-label="Access"]',
 			elements: {
-				subheading: '.dashboard-group__heading[data-section-label="Access"]',
+				subheading: '.dashboard-group__heading',
 			},
 			sections: {
 				usersTab: {
@@ -20,9 +20,9 @@ module.exports = {
 			},
 		},
 		fieldsGroup: {
-			selector: '.dashboard-group:nth-child(2)',
+			selector: '.dashboard-group[data-section-label="Fields"]',
 			elements: {
-				subheading: '.dashboard-group__heading[data-section-label="Fields"]',
+				subheading: '.dashboard-group__heading',
 			},
 			sections: {
 				booleansTab: {
@@ -76,9 +76,9 @@ module.exports = {
 			},
 		},
 		otherGroup: {
-			selector: '.dashboard-group:nth-child(3)',
+			selector: '.dashboard-group[data-section-label="Other"]',
 			elements: {
-				subheading: '.dashboard-group__heading[data-section-label="Other"]',
+				subheading: '.dashboard-group__heading',
 			},
 			sections: {
 				otherListsTab: {

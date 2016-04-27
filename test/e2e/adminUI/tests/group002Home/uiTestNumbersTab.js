@@ -1,14 +1,14 @@
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
+		browser.signinScreen = browser.page.signin();
 		browser.numbersTab = browser.page.home().section.fieldsGroup.section.numbersTab;
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinPage');
+		browser.app.waitForElementVisible('@signinScreen');
 
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homePage');
+		browser.signinScreen.signin();
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
 		browser.app.signout();

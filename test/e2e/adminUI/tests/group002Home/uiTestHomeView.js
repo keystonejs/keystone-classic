@@ -1,21 +1,21 @@
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.homePage = browser.page.home();
+		browser.signinScreen = browser.page.signin();
+		browser.homeScreen = browser.page.home();
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinPage');
+		browser.app.waitForElementVisible('@signinScreen');
 
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homePage');
+		browser.signinScreen.signin();
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
 		browser.app.signout();
 		browser.end();
 	},
 	'AdminUI should have a home view': function (browser) {
-		browser.app.expect.element('@homePage')
+		browser.app.expect.element('@homeScreen')
 			.to.be.visible;
 	},
 	'Home view should have a home icon': function (browser) {
@@ -51,19 +51,19 @@ module.exports = {
 			.to.have.attribute('title').which.contains('Sign Out');
 	},
 	'Home view should have a dashboard header': function (browser) {
-		browser.homePage.expect.element('@dashboardHeader')
+		browser.homeScreen.expect.element('@dashboardHeader')
 			.text.to.equal('e2e');
 	},
 	'Home view should have a Access dashboard sub-heading': function (browser) {
-		browser.homePage.section.accessGroup.expect.element('@subheading')
+		browser.homeScreen.section.accessGroup.expect.element('@subheading')
 			.text.to.equal('Access');
 	},
 	'Home view should have a Fields dashboard sub-heading': function (browser) {
-		browser.homePage.section.fieldsGroup.expect.element('@subheading')
+		browser.homeScreen.section.fieldsGroup.expect.element('@subheading')
 			.text.to.equal('Fields');
 	},
 	'Home view should have a Other dashboard sub-heading': function (browser) {
-		browser.homePage.section.otherGroup.expect.element('@subheading')
+		browser.homeScreen.section.otherGroup.expect.element('@subheading')
 			.text.to.equal('Other');
 	},
 };
