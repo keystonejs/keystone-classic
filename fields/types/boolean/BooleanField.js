@@ -1,6 +1,6 @@
 import React from 'react';
 import Field from '../Field';
-import Checkbox from '../../../admin/client/components/Checkbox';
+import Checkbox from '../../components/Checkbox';
 import { FormField, FormNote } from 'elemental';
 
 module.exports = Field.create({
@@ -40,7 +40,7 @@ module.exports = Field.create({
 
 	renderUI () {
 		return (
-			<FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean">
+			<FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean" htmlFor={this.props.path}>
 				<label style={{ height: '2.3em' }}>
 					{this.renderFormInput()}
 					{this.renderCheckbox()}

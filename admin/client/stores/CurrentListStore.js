@@ -1,7 +1,6 @@
 'use strict';
 
-import createHistory from 'history/lib/createBrowserHistory';
-import useQueries from 'history/lib/useQueries';
+import { createHistory, useQueries } from 'history';
 import Store from 'store-prototype';
 import List from '../lib/List';
 
@@ -69,7 +68,10 @@ function updateQueryParams (params, replace) {
 			delete newParams[i];
 		}
 	});
-	history[replace ? 'replaceState' : 'pushState'](null, _location.pathname, newParams);
+	history[replace ? 'replace' : 'push']({
+		pathname: _location.pathname,
+		query: newParams,
+	});
 }
 
 const CurrentListStore = new Store({
@@ -118,7 +120,7 @@ const CurrentListStore = new Store({
 		updateQueryParams({ sort });
 	},
 	getAvailableFilters () {
-		return _list.columns.filter(col => col.field && col.field.hasFilterMethod);
+		return _list.columns.filter(col => (col.field && col.field.hasFilterMethod) || col.type === 'heading');
 	},
 	getActiveFilters () {
 		return active.filters;
@@ -213,17 +215,19 @@ const CurrentListStore = new Store({
 		return _items;
 	},
 	deleteItem (itemId) {
-		_list.deleteItem(itemId, (err, data) => {
-			// TODO: graceful error handling
+		_list.deleteItem(itemId, (err) => {
 			if (err) {
+				// TODO: graceful error handling
 				return this.resetItems(this.findItemById[itemId]);
 			}
 			this.loadItems();
 		});
 	},
 	deleteItems (itemIds) {
-		_list.deleteItems(itemIds, (err, data) => {
-			// TODO: graceful error handling
+		_list.deleteItems(itemIds, (err) => {
+			if (err) {
+				// TODO: graceful error handling
+			}
 			this.loadItems();
 		});
 	},

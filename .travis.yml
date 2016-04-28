@@ -2,6 +2,9 @@ language: node_js
 node_js:
   - "0.12"
 
+before_install:
+  - npm install -g npm@3
+
 before_script:
   - npm run lint
   - sleep 15
@@ -30,7 +33,7 @@ cache:
 addons:
   apt:
     sources:
-      - mongodb-3.0-precise
+      - mongodb-3.2-precise
     packages:
       - mongodb-org-server
   sauce_connect: true

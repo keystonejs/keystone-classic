@@ -25,16 +25,16 @@ var options = {
 	'session': true,
 	'auth': true,
 	'user model': 'User',
-	'cookie secret': 'Secret'
+	'cookie secret': 'Secret',
 
 };
 
 describe("initViewEngine", function () {
-  var keystone = require('../../../index.js');
-  var app = express();
-  keystone.init(options);
-  keystone.set('app', app);
-  it("should set view", function() {
-    demand(typeof app.get('view')).must.be('function');
-  });
+	var keystone = require('../../../index.js');
+	var app = express();
+	keystone.init(options);
+	keystone.set('app', app);
+	it("should set view", function () {
+		demand(typeof app.get('view')).must.be('function');
+	});
 });

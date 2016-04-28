@@ -24,12 +24,25 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
+	describe('invalid options', function () {
+		it('should throw when no options are passed', function (done) {
+			try {
+				List.add({
+					noOptions: { type: SelectType },
+				});
+			} catch (err) {
+				demand(err.message).eql('Select fields require an options array.');
+				done();
+			}
+		});
+	});
+
 	describe('validateInput', function () {
 		it('should validate top level selects', function (done) {
 			List.fields.select.validateInput({
 				select: 'one',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -40,7 +53,7 @@ exports.testFieldType = function (List) {
 					select: 'one',
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -49,7 +62,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -58,7 +71,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: null,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -67,7 +80,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -76,7 +89,7 @@ exports.testFieldType = function (List) {
 			List.fields.emptyStringSelect.validateInput({
 				emptyStringSelect: '',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -85,7 +98,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: 1,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -94,7 +107,7 @@ exports.testFieldType = function (List) {
 			List.fields.numeric.validateInput({
 				numeric: 1,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -103,7 +116,7 @@ exports.testFieldType = function (List) {
 			List.fields.numeric.validateInput({
 				numeric: '1',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -112,7 +125,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: 'four',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -121,7 +134,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: 'one, two',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -130,7 +143,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: true,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -139,7 +152,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				select: false,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -151,7 +164,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: 'one',
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -163,7 +176,7 @@ exports.testFieldType = function (List) {
 					select: 'one',
 				},
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -172,7 +185,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateInput({
 				'nested.select': ['a', 'b'],
 			}, function (result) {
-				demand(result).eql(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -182,7 +195,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -192,7 +205,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: undefined,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -204,7 +217,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: undefined,
 			}, function (result) {
-				demand(result).be(true);
+				demand(result).be.true();
 				done();
 			});
 		});
@@ -214,7 +227,7 @@ exports.testFieldType = function (List) {
 			List.fields.select.validateRequiredInput(testItem, {
 				select: null,
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -224,7 +237,7 @@ exports.testFieldType = function (List) {
 			List.fields.emptyStringSelect.validateRequiredInput(testItem, {
 				emptyStringSelect: '',
 			}, function (result) {
-				demand(result).be(false);
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -260,6 +273,60 @@ exports.testFieldType = function (List) {
 			}, function () {
 				demand(testItem.nested.select).be('one');
 				done();
+			});
+		});
+	});
+
+	describe('addFilterToQuery', function () {
+		it('should filter by an array', function () {
+			var result = List.fields.select.addFilterToQuery({
+				value: ['Some', 'strings'],
+			});
+			demand(result.select).eql({
+				$in: ['Some', 'strings'],
+			});
+		});
+
+		it('should support inverted mode for an array', function () {
+			var result = List.fields.select.addFilterToQuery({
+				value: ['Some', 'strings'],
+				inverted: true,
+			});
+			demand(result.select).eql({
+				$nin: ['Some', 'strings'],
+			});
+		});
+
+		it('should filter by a string', function () {
+			var result = List.fields.select.addFilterToQuery({
+				value: 'a string',
+			});
+			demand(result.select).eql('a string');
+		});
+
+		it('should support inverted mode for a string', function () {
+			var result = List.fields.select.addFilterToQuery({
+				value: 'a string',
+				inverted: true,
+			});
+			demand(result.select).eql({
+				$ne: 'a string',
+			});
+		});
+
+		it('should filter by existance if no value exists', function () {
+			var result = List.fields.select.addFilterToQuery({});
+			demand(result.select).eql({
+				$in: ['', null],
+			});
+		});
+
+		it('should filter by non-existance if no value exists', function () {
+			var result = List.fields.select.addFilterToQuery({
+				inverted: true,
+			});
+			demand(result.select).eql({
+				$nin: ['', null],
 			});
 		});
 	});

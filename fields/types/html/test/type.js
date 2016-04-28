@@ -61,4 +61,8 @@ exports.testFieldType = function (List) {
 	it('should use the common text required validator', function () {
 		demand(List.fields.html.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
+
+	it('should use the common text addFilterToQuery method', function () {
+		demand(List.fields.html.addFilterToQuery === TextType.prototype.addFilterToQuery);
+	});
 };

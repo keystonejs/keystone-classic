@@ -1,12 +1,13 @@
 var _ = require('lodash');
 var assign = require('object-assign');
-var cloudinary = require('cloudinary');
 var keystone = require('../../../');
 var super_ = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
+/*
 var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
+*/
 
 function getEmptyValue () {
 	return {
@@ -79,6 +80,8 @@ cloudinaryimage.prototype.getFolder = function () {
  * @api public
  */
 cloudinaryimage.prototype.addToSchema = function () {
+
+	var cloudinary = require('cloudinary');
 
 	var field = this;
 	var schema = this.list.schema;
@@ -225,7 +228,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		 */
 		delete: function () {
 			var _this = this;
-			var promise = new Promise(function (resolve, reject) {
+			var promise = new Promise(function (resolve) {
 				cloudinary.uploader.destroy(_this.get(paths.public_id), function (result) {
 					resolve(result);
 				});
@@ -239,7 +242,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		 * @api public
 		 */
 		upload: function (file, options) {
-   			var promise = new Promise(function (resolve, reject) {
+			var promise = new Promise(function (resolve) {
 				cloudinary.uploader.upload(file, function (result) {
 					resolve(result);
 				}, options);
@@ -304,7 +307,7 @@ cloudinaryimage.prototype.validateInput = function (data, callback) {
  */
 cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	var result = ((value && validateInput(value)) || item.get(this.path).public_id) ? true : false;
+	var result = (value || item.get(this.path).public_id) ? true : false;
 	utils.defer(callback, result);
 };
 
@@ -323,9 +326,15 @@ cloudinaryimage.prototype.inputIsValid = function () {
  * @api public
  */
 cloudinaryimage.prototype.updateItem = function (item, data, callback) {
+
+	var cloudinary = require('cloudinary');
 	var field = this;
-	var paths = this.paths;
-	var value = this.getValueFromData(data, '_upload');
+	var value = this.getValueFromData(data);
+
+	// Allow value to be retrieved from the legacy `_upload` path if it is undefined
+	if (value === undefined) {
+		value = this.getValueFromData(data, '_upload');
+	}
 
 	// Allow field value reset
 	if (value === '' || value === 'null' || (typeof value === 'object' && !Object.keys(value).length)) {
@@ -397,6 +406,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
  * @api public
  */
 cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callback) {
+	var cloudinary = require('cloudinary');
 	var field = this;
 
 	if (utils.isFunction(paths)) {
@@ -464,13 +474,13 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
 			}
 
 			if (field.options.folder) {
-				uploadOptions.folder = field.options.folder
+				uploadOptions.folder = field.options.folder;
 			}
 
 			if (field.options.useFilename) {
-				uploadOptions.use_filename = true; //default is false
+				uploadOptions.use_filename = true; // default is false
 				if (!field.options.uniqueFilename) {
-					uploadOptions.unique_filename = false; //default is true
+					uploadOptions.unique_filename = false; // default is true
 				}
 			}
 

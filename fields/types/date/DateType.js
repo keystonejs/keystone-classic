@@ -32,8 +32,8 @@ date.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 /**
  * Add filters to a query
  */
-date.prototype.addFilterToQuery = function (filter, query) {
-	query = query || {};
+date.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (filter.mode === 'between') {
 		if (filter.after && filter.before) {
 			filter.after = moment(filter.after);

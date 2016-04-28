@@ -4,26 +4,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import CurrentListStore from '../stores/CurrentListStore';
-import Columns from '../columns';
-import ConfirmationDialog from '../components/ConfirmationDialog';
-import CreateForm from '../components/CreateForm';
+import ConfirmationDialog from '../components/Forms/ConfirmationDialog';
+import CreateForm from '../components/Forms/CreateForm';
 import FlashMessages from '../components/FlashMessages';
 import Footer from '../components/Footer';
-import ItemsTable from '../components/ItemsTable';
-import ListColumnsForm from '../components/ListColumnsForm';
-import ListControl from '../components/ListControl';
-import ListDownloadForm from '../components/ListDownloadForm';
-import ListFilters from '../components/ListFilters';
-import ListFiltersAdd from '../components/ListFiltersAdd';
-import ListSort from '../components/ListSort';
-import MobileNavigation from '../components/MobileNavigation';
-import PrimaryNavigation from '../components/PrimaryNavigation';
-import SecondaryNavigation from '../components/SecondaryNavigation';
-import UpdateForm from '../components/UpdateForm';
+import ItemsTable from '../components/ItemsTable/ItemsTable';
+import ListColumnsForm from '../components/List/ListColumnsForm';
+import ListDownloadForm from '../components/List/ListDownloadForm';
+import ListFilters from '../components/List/ListFilters';
+import ListFiltersAdd from '../components/List/ListFiltersAdd';
+import ListSort from '../components/List/ListSort';
+import MobileNavigation from '../components/Navigation/MobileNavigation';
+import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
+import SecondaryNavigation from '../components/Navigation/SecondaryNavigation';
+import UpdateForm from '../components/Forms/UpdateForm';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
 import { plural } from '../utils';
-
-const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
 
 const ListView = React.createClass({
 	getInitialState () {
@@ -278,7 +274,9 @@ const ListView = React.createClass({
 				<Container>
 					<h2 className="ListHeader__title">
 						{plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
-						<ListSort />
+						<ListSort
+							handleSortSelect={this.handleSortSelect}
+						/>
 					</h2>
 					<InputGroup className="ListHeader__bar">
 						{this.renderSearch()}
@@ -370,6 +368,10 @@ const ListView = React.createClass({
 	// COMMON
 	// ==============================
 
+	handleSortSelect (path, inverted) {
+		if (inverted) path = '-' + path;
+		CurrentListStore.setActiveSort(path);
+	},
 	toggleCreateModal (visible) {
 		this.setState({
 			showCreateForm: visible,
@@ -421,14 +423,15 @@ const ListView = React.createClass({
 				<Container style={containerStyle}>
 					<FlashMessages messages={this.props.messages} />
 					<ItemsTable
-						deleteTableItem={this.deleteTableItem}
-						list={this.state.list}
-						columns={this.state.columns}
-						items={this.state.items}
-						manageMode={this.state.manageMode}
 						checkedItems={this.state.checkedItems}
-						rowAlert={this.state.rowAlert}
 						checkTableItem={this.checkTableItem}
+						columns={this.state.columns}
+						deleteTableItem={this.deleteTableItem}
+						handleSortSelect={this.handleSortSelect}
+						items={this.state.items}
+						list={this.state.list}
+						manageMode={this.state.manageMode}
+						rowAlert={this.state.rowAlert}
 					/>
 					{this.renderNoSearchResults()}
 				</Container>

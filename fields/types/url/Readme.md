@@ -15,3 +15,7 @@ You can override the default formatter by providing a method as the `format` opt
 * `addFilterToQuery`
 * `validateInput`
 * `validateRequiredInput`
+
+## Filtering
+
+Uses the same logic and filter UI as the [`Text`](../text) field type.

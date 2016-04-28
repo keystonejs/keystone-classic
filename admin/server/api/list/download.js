@@ -1,8 +1,9 @@
-var baby = require('babyparse');
 var keystone = require('../../../../');
 var moment = require('moment');
+var assign = require('object-assign');
 
 module.exports = function (req, res) {
+	var baby = require('babyparse');
 	var format = req.params.format.split('.')[1]; // json or csv
 	var where = {};
 	var filters = req.query.filters;
@@ -11,10 +12,10 @@ module.exports = function (req, res) {
 		catch (e) { } // eslint-disable-line no-empty
 	}
 	if (typeof filters === 'object') {
-		req.list.addFiltersToQuery(filters, where);
+		assign(where, req.list.addFiltersToQuery(filters));
 	}
 	if (req.query.search) {
-		req.list.addSearchToQuery(req.query.search, where);
+		assign(where, req.list.addSearchToQuery(req.query.search));
 	}
 	var query = req.list.model.find(where);
 	if (req.query.populate) {

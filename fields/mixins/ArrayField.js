@@ -33,7 +33,6 @@ module.exports = {
 	},
 
 	addItem: function () {
-		var self = this;
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
 			values: newValues,
@@ -57,7 +56,8 @@ module.exports = {
 	updateItem: function (i, event) {
 		var updatedValues = this.state.values;
 		var updateIndex = updatedValues.indexOf(i);
-		updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(event.target.value) : event.target.value;
+		var newValue = event.value || event.target.value;
+		updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(newValue) : newValue;
 		this.setState({
 			values: updatedValues,
 		});
