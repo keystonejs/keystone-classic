@@ -54,6 +54,7 @@ keystone.set('nav', {
 		'selects',
 		'texts',
 		'textareas',
+		'urls',
 	],
 });
 
