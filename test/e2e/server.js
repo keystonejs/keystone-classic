@@ -48,6 +48,7 @@ keystone.set('nav', {
 	'fields': [
 		'booleans',
 		'codes',
+		'colors',
 		'emails',
 		'names',
 		'numbers',
