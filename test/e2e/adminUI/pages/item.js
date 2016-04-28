@@ -3,6 +3,7 @@ var NameList = require('./lists/name');
 var SelectList = require('./lists/select');
 var TextList = require('./lists/text');
 var TextareaList = require('./lists/textarea');
+var UrlList = require('./lists/url');
 
 module.exports = {
 	sections: {
@@ -17,6 +18,7 @@ module.exports = {
 				selectList: new SelectList(),
 				textList: new TextList(),
 				textareaList: new TextareaList(),
+				urlList: new UrlList(),
 			},
 			elements: {
 				//
