@@ -44,11 +44,10 @@ module.exports = Field.create({
 	},
 
 	showVideo(url, format) {
-		return <div id="videoDialog">
+
 			<video controls='' autoplay='' name='media'>
 				<source src={url} type={format} />
 			</video>
-			</div>
 	},
 
 	renderLightbox () {
@@ -109,8 +108,6 @@ module.exports = Field.create({
 	 * Check support for input files on input change.
 	 */
 	fileChanged (event) {
-
-		console.log('CloudinaryMediaField fileChanged', event)
 		var self = this;
 
 		if (window.FileReader) {
@@ -215,14 +212,10 @@ module.exports = Field.create({
 
 		var url = this.getMediaURL();
 
-				console.log('************ renderMediaPreview', body)
-
 		if (url) {
 			if (this.props.value.resource_type === 'video') {
 				var format = 'video/' + this.props.value.format; 
 				body = <a className="img-thumbnail" href={this.getMediaURL()} onClick={this.showVideo(url, format)} target="__blank">{body}</a>;
-				
-				console.log('MediaPreview', body)
 			} else {
 				body = <a className="img-thumbnail" href={this.getMediaURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</a>;
 			}
@@ -248,8 +241,7 @@ module.exports = Field.create({
 		} else {
 			url = this.getMediaSource();
 		}
-
-		console.log('************ renderMediaPreviewThumbnail ', url)
+		
 		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={{ height: '90' }} src={url} />;
 	},
 
@@ -416,8 +408,6 @@ module.exports = Field.create({
 
 		// listen for changes
 		var onChange = function onChange (data) {
-
-			console.log('CloudinaryMediaField onChange', data)
 			if (data && data.value) {
 				self.setState({ selectedCloudinaryMedia: data.value });
 			} else {

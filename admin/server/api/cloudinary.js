@@ -55,7 +55,7 @@ module.exports = {
 		});
 	},
 	autocompletemedia: function (req, res) {
-
+		var cloudinary = require('cloudinary')
 		var imageResult
 
 		var max = req.query.max || 10;
