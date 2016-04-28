@@ -1,43 +1,46 @@
-var adminUI = require('../../../adminUI');
-
 module.exports = {
 	before: function (browser) {
 		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app = browser.page.app();
+		browser.signinPage = browser.page.signin();
+		browser.listPage = browser.page.list();
+		browser.initialFormPage = browser.page.initialForm();
+
+		browser.app.navigate();
+		browser.app.waitForElementVisible('@signinScreen');
+
+		browser.signinPage.signin();
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
-			.end();
+		browser.app.signout();
+		browser.end();
 	},
 	'Select field should show correctly in the initial modal': function (browser) {
-		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForSelectsTabUnderDashboardFieldsSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app
+			.click('@fieldsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@selectsFieldsSubmenu')
+			.waitForElementVisible('@listScreen');
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.label)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.label)
-			.text.to.equal('Name');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.name.value)
-			.to.be.visible;
+		browser.listPage
+			.click('@createFirstItemButton');
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.label)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.label)
-			.text.to.equal('Field A');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.select.select.fieldA.inputField)
-			.to.be.visible;
+		browser.app
+			.waitForElementVisible('@initialFormScreen');
+
+		browser.initialFormPage.section.form.section.selectList.section.name
+			.verifyUI();
+
+		browser.initialFormPage.section.form.section.selectList.section.fieldA
+			.verifyUI();
+	},
+	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
+	'restoring test state': function (browser) {
+		browser.initialFormPage.section.form
+			.click('@cancelButton');
+
+		browser.app
+			.waitForElementVisible('@listScreen');
 	},
 };

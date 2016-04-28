@@ -1,13 +1,13 @@
-var CodeType = require('../fieldTypes/code');
+var SelectType = require('../fieldTypes/select');
 var TextType = require('../fieldTypes/text');
 
-module.exports = function CodeList(config) {
+module.exports = function SelectList(config) {
 	return {
 		selector: '.Form',
 		sections: {
 			name: new TextType({fieldName: 'name'}),
-			fieldA: new CodeType({fieldName: 'fieldA'}),
-			fieldB: new CodeType({fieldName: 'fieldB'}),
+			fieldA: new SelectType({fieldName: 'fieldA'}),
+			fieldB: new SelectType({fieldName: 'fieldA'}),
 		},
 		commands: [{
 			//

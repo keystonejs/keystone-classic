@@ -13,12 +13,10 @@ module.exports = {
 		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
-		browser.app
-			.signout();
-		browser
-			.end();
+		browser.app.signout();
+		browser.end();
 	},
-	'Name field can be created via the initial modal': function (browser) {
+	'Name field can be filled via the initial modal': function (browser) {
 		browser.app
 			.click('@fieldsMenu')
 			.waitForElementVisible('@listScreen')
@@ -56,7 +54,7 @@ module.exports = {
 		browser.itemPage.section.form.section.nameList.section.fieldA
 			.verifyInput({firstName: 'First 1', lastName: 'Last 1'});
 	},
-	'Name field can be created via the edit form': function (browser) {
+	'Name field can be filled via the edit form': function (browser) {
 		browser.itemPage.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 2'});
 

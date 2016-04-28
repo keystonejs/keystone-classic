@@ -1,5 +1,3 @@
-var adminUI = require('../../../adminUI');
-
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
@@ -15,12 +13,10 @@ module.exports = {
 		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
-		browser.app
-			.signout();
-		browser
-			.end();
+		browser.app.signout();
+		browser.end();
 	},
-	'Code field can be created via the initial modal': function (browser) {
+	'Code field can be filled via the initial modal': function (browser) {
 		browser.app
 			.click('@fieldsMenu')
 			.waitForElementVisible('@listScreen')
@@ -58,7 +54,7 @@ module.exports = {
 		browser.itemPage.section.form.section.codeList.section.fieldA
 			.verifyInput({value: 'Some Test Code for Field A'});
 	},
-	'Code field can be created via the edit form': function (browser) {
+	'Code field can be filled via the edit form': function (browser) {
 		browser.itemPage.section.form.section.codeList.section.fieldB
 			.fillInput({value: 'Some Test Code for Field B'});
 

@@ -20,7 +20,7 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Email field can be created via the initial modal': function (browser) {
+	'Email field can be filled via the initial modal': function (browser) {
 		browser
 			.click(adminUI.cssSelector.homeView.plusIconLinkForEmailsTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
@@ -42,7 +42,7 @@ module.exports = {
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.email.email.fieldA.value)
 			.to.have.value.that.equals('email1@test.e2e');
 	},
-	'Email field can be created via the edit form': function (browser) {
+	'Email field can be filled via the edit form': function (browser) {
 		browser
 			.setValue(adminUI.cssSelector.itemView.fieldType.email.email.fieldB.value, 'email2@test.e2e')
 			.pause(browser.globals.defaultPauseTimeout)

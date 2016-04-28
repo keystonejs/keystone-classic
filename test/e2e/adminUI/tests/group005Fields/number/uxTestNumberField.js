@@ -20,7 +20,7 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Number field can be created via the initial modal': function (browser) {
+	'Number field can be filled via the initial modal': function (browser) {
 		browser
 			.click(adminUI.cssSelector.homeView.plusIconLinkForNumbersTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
@@ -38,7 +38,7 @@ module.exports = {
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.number.number.fieldA.value)
 			.to.have.value.that.equals('10');
 	},
-	'Name field can be created via the edit form': function (browser) {
+	'Name field can be filled via the edit form': function (browser) {
 		browser
 			.setValue(adminUI.cssSelector.itemView.fieldType.number.number.fieldB.value, '20')
 			.pause(browser.globals.defaultPauseTimeout)
