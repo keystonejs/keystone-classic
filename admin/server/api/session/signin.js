@@ -21,7 +21,7 @@ function signin (req, res) {
 							});
 						});
 					} else if (err) {
-						return res.status(500).json({ error: 'bcrypt error', detail: err });
+						return res.status(400).json({ error: 'bcrypt error', detail: err });
 					} else {
 						return res.json({ error: 'invalid details' });
 					}
