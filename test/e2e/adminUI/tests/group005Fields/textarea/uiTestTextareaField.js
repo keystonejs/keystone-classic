@@ -29,7 +29,7 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormScreen');
 
-		browser.initialFormPage.section.form.section.textList.section.name
+		browser.initialFormPage.section.form.section.textareaList.section.name
 			.verifyUI();
 
 		browser.initialFormPage.section.form.section.textareaList.section.fieldA

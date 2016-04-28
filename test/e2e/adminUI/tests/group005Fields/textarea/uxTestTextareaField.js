@@ -29,10 +29,10 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormScreen');
 
-		browser.initialFormPage.section.form.section.textList.section.name
+		browser.initialFormPage.section.form.section.textareaList.section.name
 			.fillInput({value: 'Name Field Test 1'});
 
-		browser.initialFormPage.section.form.section.textList.section.name
+		browser.initialFormPage.section.form.section.textareaList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 
 		browser.initialFormPage.section.form.section.textareaList.section.fieldA
@@ -51,7 +51,7 @@ module.exports = {
 			.expect.element('@flashMessage')
 			.text.to.equal('New Textarea Name Field Test 1 created.');
 
-		browser.itemPage.section.form.section.textList.section.name
+		browser.itemPage.section.form.section.textareaList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 
 		browser.itemPage.section.form.section.textareaList.section.fieldA
@@ -71,7 +71,7 @@ module.exports = {
 			.expect.element('@flashMessage')
 			.text.to.equal('Your changes have been saved.');
 
-		browser.itemPage.section.form.section.textList.section.name
+		browser.itemPage.section.form.section.textareaList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 
 		browser.itemPage.section.form.section.textareaList.section.fieldB
