@@ -9,7 +9,7 @@ module.exports = function UrlType(config) {
 		},
 		commands: [{
 			verifyUI: function() {
-        this
+				this
 					.expect.element('@label').to.be.visible;
 				this
 					.expect.element('@label').text.to.equal(utils.titlecase(config.fieldName));
