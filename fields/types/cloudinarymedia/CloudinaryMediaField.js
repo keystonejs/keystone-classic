@@ -43,13 +43,6 @@ module.exports = Field.create({
 		});
 	},
 
-	showVideo(url, format) {
-
-			<video controls='' autoplay='' name='media'>
-				<source src={url} type={format} />
-			</video>
-	},
-
 	renderLightbox () {
 		const { value } = this.props;
 		if (!value || !Object.keys(value).length) return;
@@ -58,6 +51,7 @@ module.exports = Field.create({
 
 		return (
 			<Lightbox
+				mediaType={this.props.value.resource_type}
 				images={images}
 				initialMedia={this.state.lightboxMediaIndex}
 				isOpen={this.state.lightboxIsVisible}
@@ -194,8 +188,6 @@ module.exports = Field.create({
 	 */
 	renderMediaPreview () {
 
-		//TODO: handle videos
-
 		var iconClassName;
 		var className = ['image-preview'];
 
@@ -213,12 +205,7 @@ module.exports = Field.create({
 		var url = this.getMediaURL();
 
 		if (url) {
-			if (this.props.value.resource_type === 'video') {
-				var format = 'video/' + this.props.value.format; 
-				body = <a className="img-thumbnail" href={this.getMediaURL()} onClick={this.showVideo(url, format)} target="__blank">{body}</a>;
-			} else {
-				body = <a className="img-thumbnail" href={this.getMediaURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</a>;
-			}
+			body = <a className="img-thumbnail" href={this.getMediaURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</a>;
 		} else {
 			body = <div className="img-thumbnail">{body}</div>;
 		}
