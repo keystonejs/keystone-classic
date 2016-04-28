@@ -16,11 +16,11 @@ module.exports = {
 		browser.app.signout();
 		browser.end();
 	},
-	'Text field should be visible in initial modal': function (browser) {
+	'Textarea field should show correctly in the initial modal': function (browser) {
 		browser.app
 			.click('@fieldsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@textsFieldsSubmenu')
+			.click('@textareasFieldsSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage
@@ -32,7 +32,7 @@ module.exports = {
 		browser.initialFormPage.section.form.section.textList.section.name
 			.verifyUI();
 
-		browser.initialFormPage.section.form.section.textList.section.fieldA
+		browser.initialFormPage.section.form.section.textareaList.section.fieldA
 			.verifyUI();
 	},
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
