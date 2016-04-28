@@ -19,6 +19,7 @@ module.exports = {
 		fieldsMenu: '.primary-navbar [data-section-label="Fields"]',
 		booleansFieldsSubmenu: '.secondary-navbar [data-list-path="booleans"]',
 		codesFieldsSubmenu: '.secondary-navbar [data-list-path="codes"]',
+		datesFieldsSubmenu: '.secondary-navbar [data-list-path="dates"]',
 		emailsFieldsSubmenu: '.secondary-navbar [data-list-path="emails"]',
 		namesFieldsSubmenu: '.secondary-navbar [data-list-path="names"]',
 		selectsFieldsSubmenu: '.secondary-navbar [data-list-path="selects"]',
