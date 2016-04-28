@@ -3,6 +3,7 @@ var Columns = {
 	boolean: require('../../fields/types/boolean/BooleanColumn'),
 	cloudinaryimage: require('../../fields/types/cloudinaryimage/CloudinaryImageColumn'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesColumn'),
+	cloudinarymedia: require('../../fields/types/cloudinarymedia/CloudinaryMediaColumn'),
 	code: require('../../fields/types/code/CodeColumn'),
 	color: require('../../fields/types/color/ColorColumn'),
 	date: require('../../fields/types/date/DateColumn'),
@@ -28,6 +29,7 @@ var Columns = {
 	text: require('../../fields/types/text/TextColumn'),
 	textarea: require('../../fields/types/textarea/TextareaColumn'),
 	textarray: require('../../fields/types/textarray/TextArrayColumn'),
+	timeofday: require('../../fields/types/timeofday/TimeOfDayColumn'),
 	url: require('../../fields/types/url/UrlColumn'),
 };
 
