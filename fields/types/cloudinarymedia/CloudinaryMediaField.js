@@ -8,7 +8,9 @@ import Lightbox from '../../../admin/client/components/Lightbox';
 import classnames from 'classnames';
 
 
-const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
+const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 
+'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 
+'image/vnd.adobe.photoshop', 'image/svg+xml', 'video/mp4', 'video/mov'];
 
 const iconClassUploadPending = [
 	'upload-pending',
@@ -24,21 +26,29 @@ const iconClassDeletePending = [
 
 module.exports = Field.create({
 
-	displayName: 'CloudinaryImageField',
+	displayName: 'CloudinaryMediaField',
 
 	openLightbox (index) {
 		event.preventDefault();
 		this.setState({
 			lightboxIsVisible: true,
-			lightboxImageIndex: index,
+			lightboxMediaIndex: index,
 		});
 	},
 
 	closeLightbox () {
 		this.setState({
 			lightboxIsVisible: false,
-			lightboxImageIndex: null,
+			lightboxMediaIndex: null,
 		});
+	},
+
+	showVideo(url, format) {
+		return <div id="videoDialog">
+			<video controls='' autoplay='' name='media'>
+				<source src={url} type={format} />
+			</video>
+			</div>
 	},
 
 	renderLightbox () {
@@ -50,7 +60,7 @@ module.exports = Field.create({
 		return (
 			<Lightbox
 				images={images}
-				initialImage={this.state.lightboxImageIndex}
+				initialMedia={this.state.lightboxMediaIndex}
 				isOpen={this.state.lightboxIsVisible}
 				onCancel={this.closeLightbox}
 			/>
@@ -61,12 +71,13 @@ module.exports = Field.create({
 		return ReactDOM.findDOMNode(this.refs.fileField);
 	},
 
-	changeImage () {
+	changeMedia () {
 		this.fileFieldNode().click();
 	},
 
-	getImageSource () {
+	getMediaSource () {
 		if (this.hasLocal()) {
+
 			return this.state.localSource;
 		} else if (this.hasExisting()) {
 			return this.props.value.url;
@@ -75,7 +86,7 @@ module.exports = Field.create({
 		}
 	},
 
-	getImageURL () {
+	getMediaURL () {
 		if (!this.hasLocal() && this.hasExisting()) {
 			return this.props.value.url;
 		}
@@ -98,14 +109,16 @@ module.exports = Field.create({
 	 * Check support for input files on input change.
 	 */
 	fileChanged (event) {
+
+		console.log('CloudinaryMediaField fileChanged', event)
 		var self = this;
 
 		if (window.FileReader) {
 			var files = event.target.files;
 			Array.prototype.forEach.call(files, function (f) {
 				if (SUPPORTED_TYPES.indexOf(f.type) === -1) {
-					self.removeImage();
-					alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
+					self.removeMedia();
+					alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG, MP4, MOV');
 					return false;
 				}
 
@@ -129,7 +142,7 @@ module.exports = Field.create({
 	/**
 	 * If we have a local file added then remove it and reset the file field.
 	 */
-	removeImage  (e) {
+	removeMedia  (e) {
 		var state = {
 			localSource: null,
 			origin: false,
@@ -168,7 +181,7 @@ module.exports = Field.create({
 	/**
 	 * Do we have an image preview to display?
 	 */
-	hasImage () {
+	hasMedia () {
 		return this.hasExisting() || this.hasLocal();
 	},
 
@@ -182,7 +195,10 @@ module.exports = Field.create({
 	/**
 	 * Render an image preview
 	 */
-	renderImagePreview () {
+	renderMediaPreview () {
+
+		//TODO: handle videos
+
 		var iconClassName;
 		var className = ['image-preview'];
 
@@ -194,13 +210,22 @@ module.exports = Field.create({
 		}
 		className = classnames(className);
 
-		var body = [this.renderImagePreviewThumbnail()];
+		var body = [this.renderMediaPreviewThumbnail()];
 		if (iconClassName) body.push(<div key={this.props.path + '_preview_icon'} className={iconClassName} />);
 
-		var url = this.getImageURL();
+		var url = this.getMediaURL();
+
+				console.log('************ renderMediaPreview', body)
 
 		if (url) {
-			body = <a className="img-thumbnail" href={this.getImageURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</a>;
+			if (this.props.value.resource_type === 'video') {
+				var format = 'video/' + this.props.value.format; 
+				body = <a className="img-thumbnail" href={this.getMediaURL()} onClick={this.showVideo(url, format)} target="__blank">{body}</a>;
+				
+				console.log('MediaPreview', body)
+			} else {
+				body = <a className="img-thumbnail" href={this.getMediaURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</a>;
+			}
 		} else {
 			body = <div className="img-thumbnail">{body}</div>;
 		}
@@ -208,16 +233,23 @@ module.exports = Field.create({
 		return <div key={this.props.path + '_preview'} className={className}>{body}</div>;
 	},
 
-	renderImagePreviewThumbnail () {
-		var url = this.getImageURL();
+	renderMediaPreviewThumbnail () {
+
+
+		var url = this.getMediaURL();
 
 		if (url) {
-			// add cloudinary thumbnail parameters to the url
 			url = url.replace(/image\/upload/, 'image/upload/c_thumb,g_face,h_90,w_90');
+
+			if (this.props.value.resource_type === 'video') {
+				var format = this.props.value.format
+				url = url.replace(format, 'jpg')
+			}
 		} else {
-			url = this.getImageSource();
+			url = this.getMediaSource();
 		}
 
+		console.log('************ renderMediaPreviewThumbnail ', url)
 		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={{ height: '90' }} src={url} />;
 	},
 
@@ -225,7 +257,7 @@ module.exports = Field.create({
 	 * Render image details - leave these out if we're uploading a local file or
 	 * the existing file is to be removed.
 	 */
-	renderImageDetails  (add) {
+	renderMediaDetails  (add) {
 		var values = null;
 
 		if (!this.hasLocal() && !this.state.removeExisting) {
@@ -234,7 +266,7 @@ module.exports = Field.create({
 					<FormInput noedit>{this.props.value.url}</FormInput>
 					{/*
 						TODO: move this somewhere better when appropriate
-						this.renderImageDimensions()
+						this.renderMediaDimensions()
 					*/}
 				</div>
 			);
@@ -248,7 +280,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderImageDimensions () {
+	renderMediaDimensions () {
 		return <FormInput noedit>{this.props.value.width} x {this.props.value.height}</FormInput>;
 	},
 
@@ -262,15 +294,15 @@ module.exports = Field.create({
 	renderAlert () {
 		if (this.hasLocal()) {
 			return (
-				<FormInput noedit>Image selected - save to upload</FormInput>
+				<FormInput noedit>Media selected - save to upload</FormInput>
 			);
 		} else if (this.state.origin === 'cloudinary') {
 			return (
-				<FormInput noedit>Image selected from Cloudinary</FormInput>
+				<FormInput noedit>Media selected from Cloudinary</FormInput>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<FormInput noedit>Image {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</FormInput>
+				<FormInput noedit>Media {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</FormInput>
 			);
 		} else {
 			return null;
@@ -295,10 +327,10 @@ module.exports = Field.create({
 			if (this.hasLocal()) {
 				clearText = 'Cancel';
 			} else {
-				clearText = (this.props.autoCleanup ? 'Delete Image' : 'Remove Image');
+				clearText = (this.props.autoCleanup ? 'Delete Media' : 'Remove Media');
 			}
 			return (
-				<Button type="link-cancel" onClick={this.removeImage}>
+				<Button type="link-cancel" onClick={this.removeMedia}>
 					{clearText}
 				</Button>
 			);
@@ -313,27 +345,27 @@ module.exports = Field.create({
 		return <input type="hidden" name={this.props.paths.action} className="field-action" value={this.state.action} />;
 	},
 
-	renderImageToolbar () {
+	renderMediaToolbar () {
 		return (
 			<div key={this.props.path + '_toolbar'} className="image-toolbar">
 				<div className="u-float-left">
-					<Button onClick={this.changeImage}>
-						{this.hasImage() ? 'Change' : 'Upload'} Image
+					<Button onClick={this.changeMedia}>
+						{this.hasMedia() ? 'Change' : 'Upload'} Media
 					</Button>
-					{this.hasImage() && this.renderClearButton()}
+					{this.hasMedia() && this.renderClearButton()}
 				</div>
-				{this.props.select && this.renderImageSelect()}
+				{this.props.select && this.renderMediaSelect()}
 			</div>
 		);
 	},
 
-	renderImageSelect () {
+	renderMediaSelect () {
 		var selectPrefix = this.props.selectPrefix;
 		var self = this;
 		var getOptions = function (input, callback) {
 
 			// build our url, accounting for selectPrefix
-			var uri = Keystone.adminPath + '/api/cloudinary/autocomplete?type=image';
+			var uri = Keystone.adminPath + '/api/cloudinary/autocompletemedia';
 			if (selectPrefix) {
 				uri = uri + '?prefix=' + selectPrefix;
 			}
@@ -384,10 +416,12 @@ module.exports = Field.create({
 
 		// listen for changes
 		var onChange = function onChange (data) {
+
+			console.log('CloudinaryMediaField onChange', data)
 			if (data && data.value) {
-				self.setState({ selectedCloudinaryImage: data.value });
+				self.setState({ selectedCloudinaryMedia: data.value });
 			} else {
-				self.setState({ selectedCloudinaryImage: null });
+				self.setState({ selectedCloudinaryMedia: null });
 			}
 		};
 
@@ -396,7 +430,7 @@ module.exports = Field.create({
 				<Select.Async
 					placeholder="Search for an image from Cloudinary ..."
 					name={this.props.paths.select}
-					value={this.state.selectedCloudinaryImage}
+					value={this.state.selectedCloudinaryMedia}
 					onChange={onChange}
 					id={'field_' + this.props.paths.select}
 					loadOptions={getOptions}
@@ -413,18 +447,18 @@ module.exports = Field.create({
 	renderUI () {
 		var container = [];
 		var body = [];
-		var hasImage = this.hasImage();
+		var hasMedia = this.hasMedia();
 
 		if (this.shouldRenderField()) {
-			if (hasImage) {
-				container.push(this.renderImagePreview());
-				container.push(this.renderImageDetails(this.renderAlert()));
+			if (hasMedia) {
+				container.push(this.renderMediaPreview());
+				container.push(this.renderMediaDetails(this.renderAlert()));
 			}
-			body.push(this.renderImageToolbar());
+			body.push(this.renderMediaToolbar());
 		} else {
-			if (hasImage) {
-				container.push(this.renderImagePreview());
-				container.push(this.renderImageDetails());
+			if (hasMedia) {
+				container.push(this.renderMediaPreview());
+				container.push(this.renderMediaDetails());
 			} else {
 				container.push(<div className="help-block">no image</div>);
 			}
