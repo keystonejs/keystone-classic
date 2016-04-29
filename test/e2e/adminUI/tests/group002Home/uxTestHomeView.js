@@ -31,7 +31,7 @@ module.exports = {
 			.url(adminUI.url)
 			.waitForElementVisible(adminUI.cssSelector.homeView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.click(adminUI.cssSelector.allView.fieldListsMenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 	},
@@ -96,9 +96,9 @@ module.exports = {
 			.url(adminUI.url)
 			.waitForElementVisible(adminUI.cssSelector.homeView.id)
 			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldsMenu)
+			.click(adminUI.cssSelector.allView.fieldListsMenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
+			.click(adminUI.cssSelector.allView.nameListSubmenu)
 			.waitForElementVisible(adminUI.cssSelector.listView.id)
 			.pause(browser.globals.defaultPauseTimeout)
 			.click(adminUI.cssSelector.listView.singleItemDeleteIcon)

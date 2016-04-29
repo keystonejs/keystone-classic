@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Url field should show correctly in the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@urlsFieldsSubmenu')
+			.click('@urlListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage

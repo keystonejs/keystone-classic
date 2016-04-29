@@ -21,7 +21,7 @@ module.exports = {
 	},
 	'List view should allow users to create a new list item': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.gotoListScreen('name');
 
 		browser.listPage
 			.click('@createFirstItemButton');
@@ -45,7 +45,7 @@ module.exports = {
 			.waitForElementVisible('@itemScreen');
 
 		browser.app
-			.gotoListScreen('names');
+			.gotoListScreen('name');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
@@ -55,7 +55,7 @@ module.exports = {
 	},
 	'List view should allow users to create more new list items': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.gotoListScreen('name');
 
 		browser.listPage
 			.click('@createMoreItemsButton');
@@ -79,7 +79,7 @@ module.exports = {
 			.waitForElementVisible('@itemScreen');
 
 		browser.app
-			.gotoListScreen('names');
+			.gotoListScreen('name');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
@@ -92,7 +92,7 @@ module.exports = {
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.gotoListScreen('name');
 
 		browser.listPage
 			.click('@firstItemNameValue');
@@ -102,7 +102,7 @@ module.exports = {
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.gotoListScreen('name');
 
 		browser.listPage
 			.click('@firstItemNameValue');
@@ -118,7 +118,7 @@ module.exports = {
 	},
 	'List view should allow users to search for items': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.gotoListScreen('name');
 
 		browser.listPage
 			.setValue('@searchInputField', 'Name Field Test 2');
@@ -169,7 +169,7 @@ module.exports = {
 	},
 	'List view should allow users to delete last item': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.gotoListScreen('name');
 
 		browser.listPage
 			.click('@firstItemDeleteIcon');

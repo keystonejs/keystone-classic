@@ -20,9 +20,9 @@ module.exports = {
 	},
 	'Text field can be filled via the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@textsFieldsSubmenu')
+			.click('@textListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage

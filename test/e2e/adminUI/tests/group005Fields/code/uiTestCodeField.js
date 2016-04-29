@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Code field should be visible in initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@codesFieldsSubmenu')
+			.click('@codeListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage

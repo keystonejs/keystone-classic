@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Select field can be filled via the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@selectsFieldsSubmenu')
+			.click('@selectListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage

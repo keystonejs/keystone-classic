@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Url field can be filled via the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@urlsFieldsSubmenu')
+			.click('@urlListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage

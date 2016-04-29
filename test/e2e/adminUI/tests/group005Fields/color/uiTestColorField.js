@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Color field should show correctly in the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@colorsFieldsSubmenu')
+			.click('@colorListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage
