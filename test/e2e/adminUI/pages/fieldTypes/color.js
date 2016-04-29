@@ -38,6 +38,7 @@ module.exports = function ColorType(config) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.value);
 					});
+				return this;
 			},
 		}],
 	};
