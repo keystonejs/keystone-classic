@@ -16,11 +16,11 @@ module.exports = {
 		browser.app.signout();
 		browser.end();
 	},
-	'Date field should show correctly in the initial modal': function (browser) {
+	'Datetime field should show correctly in the initial modal': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@datesListSubmenu')
+			.click('@datetimesListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage
@@ -29,10 +29,10 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormScreen');
 
-		browser.initialFormPage.section.form.section.dateList.section.name
+		browser.initialFormPage.section.form.section.datetimeList.section.name
 			.verifyUI();
 
-		browser.initialFormPage.section.form.section.dateList.section.fieldA
+		browser.initialFormPage.section.form.section.datetimeList.section.fieldA
 			.verifyUI();
 	},
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
