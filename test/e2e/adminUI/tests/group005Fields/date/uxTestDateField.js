@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Date field can be filled via the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@datesFieldsSubmenu')
+			.click('@dateListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage

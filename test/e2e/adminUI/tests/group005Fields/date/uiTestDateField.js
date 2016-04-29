@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Date field should show correctly in the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@datesFieldsSubmenu')
+			.click('@dateListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage
