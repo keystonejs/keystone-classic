@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Textarea field can be filled via the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@textareasFieldsSubmenu')
+			.click('@textareaListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage

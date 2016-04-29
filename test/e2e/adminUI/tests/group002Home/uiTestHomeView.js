@@ -31,7 +31,7 @@ module.exports = {
 			.text.to.equal('Access');
 	},
 	'Home view should have an Fields menu': function (browser) {
-		browser.app.expect.element('@fieldsMenu')
+		browser.app.expect.element('@fieldListsMenu')
 			.text.to.equal('Fields');
 	},
 	'Home view should have a Front Page Icon': function (browser) {

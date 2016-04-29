@@ -16,11 +16,11 @@ module.exports = {
 		browser.app.signout();
 		browser.end();
 	},
-	'Code field can be filled via the initial modal': function (browser) {
+	'Color field can be filled via the initial modal': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@codeListSubmenu')
+			.click('@colorListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage
@@ -29,14 +29,17 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormScreen');
 
-		browser.initialFormPage.section.form.section.codeList.section.name
+		browser.initialFormPage.section.form.section.colorList.section.name
 			.fillInput({value: 'Name Field Test 1'});
 
-		browser.initialFormPage.section.form.section.codeList.section.name
+		browser.initialFormPage.section.form.section.colorList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 
-		browser.initialFormPage.section.form.section.codeList.section.fieldA
-			.fillInput({value: 'Some Test Code for Field A'});
+		browser.initialFormPage.section.form.section.colorList.section.fieldA
+			.fillInput({value: '#002147'});
+
+		browser.initialFormPage.section.form.section.colorList.section.fieldA
+			.verifyInput({value: '#002147'});
 
 		browser.initialFormPage.section.form
 			.click('@createButton');
@@ -46,17 +49,17 @@ module.exports = {
 
 		browser.itemPage
 			.expect.element('@flashMessage')
-			.text.to.equal('New Code Name Field Test 1 created.');
+			.text.to.equal('New Color Name Field Test 1 created.');
 
-		browser.itemPage.section.form.section.codeList.section.name
+		browser.itemPage.section.form.section.colorList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 
-		browser.itemPage.section.form.section.codeList.section.fieldA
-			.verifyInput({value: 'Some Test Code for Field A'});
+		browser.itemPage.section.form.section.colorList.section.fieldA
+			.verifyInput({value: '#002147'});
 	},
-	'Code field can be filled via the edit form': function (browser) {
-		browser.itemPage.section.form.section.codeList.section.fieldB
-			.fillInput({value: 'Some Test Code for Field B'});
+	'Color field can be filled via the edit form': function (browser) {
+		browser.itemPage.section.form.section.colorList.section.fieldB
+			.fillInput({value: '#f8e71c'});
 
 		browser.itemPage.section.form
 			.click('@saveButton');
@@ -68,11 +71,11 @@ module.exports = {
 			.expect.element('@flashMessage')
 			.text.to.equal('Your changes have been saved.');
 
-		browser.itemPage.section.form.section.codeList.section.name
+		browser.itemPage.section.form.section.colorList.section.name
 			.verifyInput({value: 'Name Field Test 1'});
 
-		browser.itemPage.section.form.section.codeList.section.fieldB
-			.verifyInput({value: 'Some Test Code for Field B'});
+		browser.itemPage.section.form.section.colorList.section.fieldB
+			.verifyInput({value: '#f8e71c'});
 	},
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
 	'restoring test state': function (browser) {

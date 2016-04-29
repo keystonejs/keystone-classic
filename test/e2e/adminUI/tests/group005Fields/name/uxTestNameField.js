@@ -18,9 +18,9 @@ module.exports = {
 	},
 	'Name field can be filled via the initial modal': function (browser) {
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@namesFieldsSubmenu')
+			.click('@nameListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage

@@ -16,11 +16,11 @@ module.exports = {
 		browser.app.signout();
 		browser.end();
 	},
-	'Url field should show correctly in the initial modal': function (browser) {
+	'Color field should show correctly in the initial modal': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen')
-			.click('@urlListSubmenu')
+			.click('@colorListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listPage
@@ -29,10 +29,10 @@ module.exports = {
 		browser.app
 			.waitForElementVisible('@initialFormScreen');
 
-		browser.initialFormPage.section.form.section.urlList.section.name
+		browser.initialFormPage.section.form.section.colorList.section.name
 			.verifyUI();
 
-		browser.initialFormPage.section.form.section.urlList.section.fieldA
+		browser.initialFormPage.section.form.section.colorList.section.fieldA
 			.verifyUI();
 	},
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
