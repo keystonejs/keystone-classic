@@ -45,6 +45,7 @@ update the test suite so that any broken tests pass again.  You can run any of t
 from keystone's root directory:
 
     Pre-requisites:
+        - Make sure that you have Firefox installed as this is the default browser used.
         - Make sure that you have a local mongo instance running.
         - Make sure that port 3000 is available; if not please tell the e2e server what port it
           should bind to.  For example, to use port 9999 do the following (in a bash shell):

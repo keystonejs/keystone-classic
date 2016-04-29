@@ -6,7 +6,7 @@ module.exports = {
 	url: 'http://localhost:3000/keystone/',
 	pause: 1000,
 	elements: {
-		// SCREENS
+		// ADMIN UI APP SCREENS
 		signinScreen: '#signin-view',
 		homeScreen: '#home-view',
 		listScreen: '#list-view',
@@ -37,13 +37,6 @@ module.exports = {
 		urlListSubmenu: '.secondary-navbar [data-list-path="urls"]',
 	},
 	commands: [{
-		gotoListScreen: function(list) {
-			return this
-				.click('@fieldListsMenu')
-				.waitForElementVisible('@listScreen')
-				.click('@'+list+'ListSubmenu')
-				.waitForElementVisible('@listScreen');
-		},
 		signout: function() {
 			this.api.pause(500);
 			return this
