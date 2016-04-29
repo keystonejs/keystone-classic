@@ -15,12 +15,14 @@ var Lightbox = React.createClass({
 		images: React.PropTypes.array,
 		initialImage: React.PropTypes.number,
 		isOpen: React.PropTypes.bool,
+		mediaType: React.PropTypes.oneOf(['image', 'video']),
 		onCancel: React.PropTypes.func,
 		showCloseButton: React.PropTypes.bool,
 		width: React.PropTypes.number,
 	},
 	getDefaultProps () {
 		return {
+			mediaType: 'image',
 			backdropClosesModal: true,
 			enableKeyboardInput: true,
 			initialImage: 0,
@@ -118,15 +120,24 @@ var Lightbox = React.createClass({
 		const { currentImage } = this.state;
 		if (!images || !images.length) return;
 
-		return (
-			<Transition transitionName="react-transitiongroup-fade" style={styles.imageContainer} component="div" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
-				<img key={'image' + currentImage} src={images[currentImage]} style={styles.image} />
-			</Transition>
-		);
+		if (this.props.mediaType === 'video') {
+			return (
+				<Transition transitionName="react-transitiongroup-fade" style={styles.imageContainer} component="div" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+					<video controls name={"media"}><source src={images[currentImage]} type={"video/mp4"}/></video>
+				</Transition>
+			);
+		} else {
+			return (
+				<Transition transitionName="react-transitiongroup-fade" style={styles.imageContainer} component="div" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+					<img key={'image' + currentImage} src={images[currentImage]} style={styles.image} />
+				</Transition>
+			);
+		}
+
+
 	},
 	render () {
 		const props = blacklist(this.props, 'backdropClosesModal', 'initialImage', 'height', 'images', 'isOpen', 'onCancel', 'showCloseButton', 'width');
-
 		return (
 			<Portal {...props}>
 				<Transition transitionName="react-transitiongroup-fade" component="div" transitionEnterTimeout={200} transitionLeaveTimeout={200}>

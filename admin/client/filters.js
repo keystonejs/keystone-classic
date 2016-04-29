@@ -2,6 +2,7 @@ module.exports = {
 	azurefile: require('../../fields/types/azurefile/AzureFileFilter'),
 	boolean: require('../../fields/types/boolean/BooleanFilter'),
 	cloudinaryimage: require('../../fields/types/cloudinaryimage/CloudinaryImageFilter'),
+	cloudinarymedia: require('../../fields/types/cloudinarymedia/CloudinaryMediaFilter'),
 	cloudinaryimages: require('../../fields/types/cloudinaryimages/CloudinaryImagesFilter'),
 	code: require('../../fields/types/code/CodeFilter'),
 	color: require('../../fields/types/color/ColorFilter'),

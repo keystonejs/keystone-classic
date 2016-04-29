@@ -1,13 +1,10 @@
 var _ = require('lodash');
 var assign = require('object-assign');
+var cloudinary = require('cloudinary');
 var keystone = require('../../../');
 var super_ = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
-
-/*
-var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
-*/
 
 function getEmptyValue () {
 	return {
@@ -24,11 +21,11 @@ function getEmptyValue () {
 }
 
 /**
- * CloudinaryImage FieldType Constructor
+ * CloudinaryMedia FieldType Constructor
  * @extends Field
  * @api public
  */
-function cloudinaryimage (list, path, options) {
+function cloudinarymedia (list, path, options) {
 
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
@@ -37,13 +34,13 @@ function cloudinaryimage (list, path, options) {
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
 
-	cloudinaryimage.super_.call(this, list, path, options);
+	cloudinarymedia.super_.call(this, list, path, options);
 
 	// validate cloudinary config
 	if (!keystone.get('cloudinary config')) {
 		throw new Error(
 			'Invalid Configuration\n\n'
-			+ 'CloudinaryImage fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
+			+ 'CloudinaryMedia fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
 			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
 		);
 	}
@@ -53,12 +50,12 @@ function cloudinaryimage (list, path, options) {
  * Inherit from Field
  */
 
-util.inherits(cloudinaryimage, super_);
+util.inherits(cloudinarymedia, super_);
 
 /**
  * Gets the folder for images in this field
  */
-cloudinaryimage.prototype.getFolder = function () {
+cloudinarymedia.prototype.getFolder = function () {
 	var folder = null;
 
 	if (keystone.get('cloudinary folders') || this.options.folder) {
@@ -79,9 +76,7 @@ cloudinaryimage.prototype.getFolder = function () {
  *
  * @api public
  */
-cloudinaryimage.prototype.addToSchema = function () {
-
-	var cloudinary = require('cloudinary');
+cloudinarymedia.prototype.addToSchema = function () {
 
 	var field = this;
 	var schema = this.list.schema;
@@ -228,7 +223,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		 */
 		delete: function () {
 			var _this = this;
-			var promise = new Promise(function (resolve) {
+			var promise = new Promise(function (resolve, reject) {
 				cloudinary.uploader.destroy(_this.get(paths.public_id), function (result) {
 					resolve(result);
 				});
@@ -242,7 +237,7 @@ cloudinaryimage.prototype.addToSchema = function () {
 		 * @api public
 		 */
 		upload: function (file, options) {
-			var promise = new Promise(function (resolve) {
+			var promise = new Promise(function (resolve, reject) {
 				cloudinary.uploader.upload(file, function (result) {
 					resolve(result);
 				}, options);
@@ -268,7 +263,7 @@ cloudinaryimage.prototype.addToSchema = function () {
  *
  * @api public
  */
-cloudinaryimage.prototype.format = function (item) {
+cloudinarymedia.prototype.format = function (item) {
 	return item.get(this.paths.url);
 };
 
@@ -277,7 +272,7 @@ cloudinaryimage.prototype.format = function (item) {
  *
  * @api public
  */
-cloudinaryimage.prototype.isModified = function (item) {
+cloudinarymedia.prototype.isModified = function (item) {
 	return item.isModified(this.paths.public_id);
 };
 
@@ -297,7 +292,7 @@ function validateInput (value) {
 /**
  * Validates that a value for this field has been provided in a data object
  */
-cloudinaryimage.prototype.validateInput = function (data, callback) {
+cloudinarymedia.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	utils.defer(callback, validateInput(value));
 };
@@ -305,9 +300,9 @@ cloudinaryimage.prototype.validateInput = function (data, callback) {
 /**
  * Validates that input has been provided
  */
-cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback) {
+cloudinarymedia.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	var result = (value || item.get(this.path).public_id) ? true : false;
+	var result = ((value && validateInput(value)) || item.get(this.path).public_id) ? true : false;
 	utils.defer(callback, result);
 };
 
@@ -316,7 +311,7 @@ cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback
  *
  * Deprecated
  */
-cloudinaryimage.prototype.inputIsValid = function () {
+cloudinarymedia.prototype.inputIsValid = function () {
 	return true;
 };
 
@@ -325,16 +320,9 @@ cloudinaryimage.prototype.inputIsValid = function () {
  *
  * @api public
  */
-cloudinaryimage.prototype.updateItem = function (item, data, callback) {
-
-	var cloudinary = require('cloudinary');
+cloudinarymedia.prototype.updateItem = function (item, data, callback) {
 	var field = this;
-	var value = this.getValueFromData(data);
-
-	// Allow value to be retrieved from the legacy `_upload` path if it is undefined
-	if (value === undefined) {
-		value = this.getValueFromData(data, '_upload');
-	}
+	var value = this.getValueFromData(data, '_upload');
 
 	// Allow field value reset
 	if (value === '' || value === 'null' || (typeof value === 'object' && !Object.keys(value).length)) {
@@ -405,8 +393,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
  *
  * @api public
  */
-cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callback) {
-	var cloudinary = require('cloudinary');
+cloudinarymedia.prototype.getRequestHandler = function (item, req, paths, callback) {
 	var field = this;
 
 	if (utils.isFunction(paths)) {
@@ -429,18 +416,29 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
 		}
 
 		if (req.body && req.body[paths.select]) {
-
+			// TODO: waterfall this shizzle
 			cloudinary.api.resource(req.body[paths.select], function (result) {
 				if (result.error) {
-					callback(result.error);
+					console.log('Error as image; trying video', result.error);
+					cloudinary.api.resource(req.body[paths.select], function (result) {
+						if (result.error) {
+							callback(result.error);
+						} else {
+							item.set(field.path, result);
+							callback();
+						}
+					}, {
+						resource_type: 'video',
+					});
 				} else {
 					item.set(field.path, result);
 					callback();
 				}
+			}, {
+				resource_type: 'image',
 			});
 
 		} else if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
-
 			var tp = keystone.get('cloudinary prefix') || '';
 			var imageDelete;
 
@@ -527,11 +525,12 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
  *
  * @api public
  */
-cloudinaryimage.prototype.handleRequest = function (item, req, paths, callback) {
+cloudinarymedia.prototype.handleRequest = function (item, req, paths, callback) {
+	console.log('****** CloudinaryMediaType handleRequest');
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
 /*!
  * Export class
  */
-module.exports = cloudinaryimage;
+module.exports = cloudinarymedia;
