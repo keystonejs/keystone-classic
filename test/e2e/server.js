@@ -49,6 +49,7 @@ keystone.set('nav', {
 		'booleans',
 		'codes',
 		'colors',
+		'dates',
 		'emails',
 		'names',
 		'numbers',

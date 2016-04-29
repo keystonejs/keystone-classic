@@ -1,5 +1,6 @@
 var CodeList = require('./lists/code');
 var ColorList = require('./lists/color');
+var DateList = require('./lists/date');
 var NameList = require('./lists/name');
 var SelectList = require('./lists/select');
 var TextList = require('./lists/text');
@@ -16,6 +17,7 @@ module.exports = {
 				//
 				codeList: new CodeList(),
 				colorList: new ColorList(),
+				dateList: new DateList(),
 				nameList: new NameList(),
 				selectList: new SelectList(),
 				textList: new TextList(),
