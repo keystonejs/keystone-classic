@@ -6,8 +6,6 @@ var super_ = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
-var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
-
 function getEmptyValue () {
 	return {
 		public_id: '',
@@ -324,7 +322,6 @@ cloudinarymedia.prototype.inputIsValid = function () {
  */
 cloudinarymedia.prototype.updateItem = function (item, data, callback) {
 	var field = this;
-	var paths = this.paths;
 	var value = this.getValueFromData(data, '_upload');
 
 	// Allow field value reset
@@ -419,40 +416,29 @@ cloudinarymedia.prototype.getRequestHandler = function (item, req, paths, callba
 		}
 
 		if (req.body && req.body[paths.select]) {
-
-			
-
-			console.log('***** CloudinaryMediaType getRequestHandler req.body', req.body[paths.select])
-			//TODO: waterfall this shizzle
-
+			// TODO: waterfall this shizzle
 			cloudinary.api.resource(req.body[paths.select], function (result) {
 				if (result.error) {
-					console.log('Error as image; trying video', result.error)
+					console.log('Error as image; trying video', result.error);
 					cloudinary.api.resource(req.body[paths.select], function (result) {
 						if (result.error) {
-							console.log('***************ERR', result.error)
 							callback(result.error);
 						} else {
-							console.log('***************RESULT', result)
 							item.set(field.path, result);
 							callback();
 						}
 					}, {
-						resource_type: 'video'
-					})
+						resource_type: 'video',
+					});
 				} else {
-					console.log('***************RESULT', result)
 					item.set(field.path, result);
 					callback();
 				}
 			}, {
-				resource_type: 'image'
+				resource_type: 'image',
 			});
 
 		} else if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
-
-			console.log('***** CloudinaryMediaType getRequestHandler req.files', req.files)
-
 			var tp = keystone.get('cloudinary prefix') || '';
 			var imageDelete;
 
@@ -486,13 +472,13 @@ cloudinarymedia.prototype.getRequestHandler = function (item, req, paths, callba
 			}
 
 			if (field.options.folder) {
-				uploadOptions.folder = field.options.folder
+				uploadOptions.folder = field.options.folder;
 			}
 
 			if (field.options.useFilename) {
-				uploadOptions.use_filename = true; //default is false
+				uploadOptions.use_filename = true; // default is false
 				if (!field.options.uniqueFilename) {
-					uploadOptions.unique_filename = false; //default is true
+					uploadOptions.unique_filename = false; // default is true
 				}
 			}
 
@@ -540,7 +526,7 @@ cloudinarymedia.prototype.getRequestHandler = function (item, req, paths, callba
  * @api public
  */
 cloudinarymedia.prototype.handleRequest = function (item, req, paths, callback) {
-	console.log('****** CloudinaryMediaType handleRequest')
+	console.log('****** CloudinaryMediaType handleRequest');
 	this.getRequestHandler(item, req, paths, callback)();
 };
 

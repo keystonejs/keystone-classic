@@ -8,7 +8,6 @@ const BODY = document.getElementsByTagName('body')[0];
 var Lightbox = React.createClass({
 	displayName: 'Lightbox',
 	propTypes: {
-		mediaType: React.PropTypes.oneOf(['image', 'video']),
 		backdropClosesModal: React.PropTypes.bool,
 		className: React.PropTypes.string,
 		enableKeyboardInput: React.PropTypes.bool,
@@ -16,6 +15,7 @@ var Lightbox = React.createClass({
 		images: React.PropTypes.array,
 		initialImage: React.PropTypes.number,
 		isOpen: React.PropTypes.bool,
+		mediaType: React.PropTypes.oneOf(['image', 'video']),
 		onCancel: React.PropTypes.func,
 		showCloseButton: React.PropTypes.bool,
 		width: React.PropTypes.number,
@@ -119,7 +119,7 @@ var Lightbox = React.createClass({
 		const { images } = this.props;
 		const { currentImage } = this.state;
 		if (!images || !images.length) return;
-		
+
 		if (this.props.mediaType === 'video') {
 			return (
 				<Transition transitionName="react-transitiongroup-fade" style={styles.imageContainer} component="div" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
@@ -133,8 +133,8 @@ var Lightbox = React.createClass({
 				</Transition>
 			);
 		}
-		
-		
+
+
 	},
 	render () {
 		const props = blacklist(this.props, 'backdropClosesModal', 'initialImage', 'height', 'images', 'isOpen', 'onCancel', 'showCloseButton', 'width');

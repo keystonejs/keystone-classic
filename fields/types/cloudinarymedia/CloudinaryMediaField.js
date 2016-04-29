@@ -8,8 +8,8 @@ import Lightbox from '../../../admin/client/components/Lightbox';
 import classnames from 'classnames';
 
 
-const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 
-'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 
+const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon',
+'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript',
 'image/vnd.adobe.photoshop', 'image/svg+xml', 'video/mp4', 'video/mov'];
 
 const iconClassUploadPending = [
@@ -222,13 +222,13 @@ module.exports = Field.create({
 			url = url.replace(/image\/upload/, 'image/upload/c_thumb,g_face,h_90,w_90');
 
 			if (this.props.value.resource_type === 'video') {
-				var format = this.props.value.format
-				url = url.replace(format, 'jpg')
+				var format = this.props.value.format;
+				url = url.replace(format, 'jpg');
 			}
 		} else {
 			url = this.getMediaSource();
 		}
-		
+
 		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={{ height: '90' }} src={url} />;
 	},
 

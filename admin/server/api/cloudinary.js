@@ -32,7 +32,7 @@ module.exports = {
 	},
 	autocomplete: function (req, res) {
 		var cloudinary = require('cloudinary');
-		var type = req.params.type
+		var type = req.params.type;
 		var max = req.query.max || 10;
 		var prefix = req.query.prefix || '';
 		var next = req.query.next || null;
@@ -55,8 +55,8 @@ module.exports = {
 		});
 	},
 	autocompletemedia: function (req, res) {
-		var cloudinary = require('cloudinary')
-		var imageResult
+		var cloudinary = require('cloudinary');
+		var imageResult;
 
 		var max = req.query.max || 10;
 		var prefix = req.query.prefix || '';
@@ -68,15 +68,15 @@ module.exports = {
 			} else {
 				imageResult = imgResult.resources;
 				cloudinary.api.resources(function (videoResult) {
-				if (videoResult.error) {
-					res.json({ error: { message: videoResult.error.message } });
-				} else {
-					var combinedResult = imageResult.concat(videoResult.resources);
-					res.json({
-						next: videoResult.next_cursor,
-						items: combinedResult,
-					});
-				}
+					if (videoResult.error) {
+						res.json({ error: { message: videoResult.error.message } });
+					} else {
+						var combinedResult = imageResult.concat(videoResult.resources);
+						res.json({
+							next: videoResult.next_cursor,
+							items: combinedResult,
+						});
+					}
 				}, {
 					resource_type: 'video',
 					type: 'upload',
