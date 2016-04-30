@@ -213,11 +213,9 @@ relationship.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object.
  * Only updates the value if it has changed.
  * Treats an empty string as a null value.
+ * If data object does not contain the path field, then delete the field. 
  */
 relationship.prototype.updateItem = function (item, data, callback) {
-	if (!(this.path in data)) {
-		return process.nextTick(callback);
-	}
 	if (item.populated(this.path)) {
 		throw new Error('fieldTypes.relationship.updateItem() Error - You cannot update populated relationships.');
 	}
