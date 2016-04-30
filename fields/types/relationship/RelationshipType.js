@@ -213,7 +213,7 @@ relationship.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object.
  * Only updates the value if it has changed.
  * Treats an empty string as a null value.
- * If data object does not contain the path field, then delete the field. 
+ * If data object does not contain the path field, then delete the field.
  */
 relationship.prototype.updateItem = function (item, data, callback) {
 	if (item.populated(this.path)) {
