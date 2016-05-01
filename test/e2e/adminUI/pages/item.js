@@ -2,6 +2,7 @@ var CodeList = require('./lists/code');
 var ColorList = require('./lists/color');
 var DateList = require('./lists/date');
 var DatetimeList = require('./lists/datetime');
+var HtmlList = require('./lists/html');
 var NameList = require('./lists/name');
 var SelectList = require('./lists/select');
 var TextList = require('./lists/text');
@@ -20,6 +21,7 @@ module.exports = {
 				colorList: new ColorList(),
 				dateList: new DateList(),
 				datetimeList: new DatetimeList(),
+				htmlList: new HtmlList(),
 				nameList: new NameList(),
 				selectList: new SelectList(),
 				textList: new TextList(),
