@@ -30,10 +30,10 @@ module.exports = {
 			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.codeList.section.name
-			.fillInput({value: 'Name Field Test 1'});
+			.fillInput({value: 'Code Field Test 1'});
 
 		browser.initialFormPage.section.form.section.codeList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Code Field Test 1'});
 
 		browser.initialFormPage.section.form.section.codeList.section.fieldA
 			.fillInput({value: 'Some Test Code for Field A'});
@@ -46,10 +46,10 @@ module.exports = {
 
 		browser.itemPage
 			.expect.element('@flashMessage')
-			.text.to.equal('New Code Name Field Test 1 created.');
+			.text.to.equal('New Code Code Field Test 1 created.');
 
 		browser.itemPage.section.form.section.codeList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Code Field Test 1'});
 
 		browser.itemPage.section.form.section.codeList.section.fieldA
 			.verifyInput({value: 'Some Test Code for Field A'});
@@ -69,7 +69,7 @@ module.exports = {
 			.text.to.equal('Your changes have been saved.');
 
 		browser.itemPage.section.form.section.codeList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Code Field Test 1'});
 
 		browser.itemPage.section.form.section.codeList.section.fieldB
 			.verifyInput({value: 'Some Test Code for Field B'});

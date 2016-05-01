@@ -30,10 +30,10 @@ module.exports = {
 			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.dateList.section.name
-			.fillInput({value: 'Name Field Test 1'});
+			.fillInput({value: 'Date Field Test 1'});
 
 		browser.initialFormPage.section.form.section.dateList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Date Field Test 1'});
 
 		browser.initialFormPage.section.form.section.dateList.section.fieldA
 			.fillInput({value: '2016-01-01'});
@@ -49,10 +49,10 @@ module.exports = {
 
 		browser.itemPage
 			.expect.element('@flashMessage')
-			.text.to.equal('New Date Name Field Test 1 created.');
+			.text.to.equal('New Date Date Field Test 1 created.');
 
 		browser.itemPage.section.form.section.dateList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Date Field Test 1'});
 
 		browser.itemPage.section.form.section.dateList.section.fieldA
 			.verifyInput({value: '2016-01-01'});
@@ -72,7 +72,7 @@ module.exports = {
 			.text.to.equal('Your changes have been saved.');
 
 		browser.itemPage.section.form.section.dateList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Date Field Test 1'});
 
 		browser.itemPage.section.form.section.dateList.section.fieldB
 			.verifyInput({value: '2016-01-02'});

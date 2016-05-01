@@ -30,10 +30,10 @@ module.exports = {
 			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.selectList.section.name
-			.fillInput({value: 'Name Field Test 1'});
+			.fillInput({value: 'Select Field Test 1'});
 
 		browser.initialFormPage.section.form.section.selectList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Select Field Test 1'});
 
 		browser.initialFormPage.section.form.section.selectList.section.fieldA
 			.fillInput({value: ''});
@@ -49,10 +49,10 @@ module.exports = {
 
 		browser.itemPage
 			.expect.element('@flashMessage')
-			.text.to.equal('New Select Name Field Test 1 created.');
+			.text.to.equal('New Select Select Field Test 1 created.');
 
 		browser.itemPage.section.form.section.selectList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Select Field Test 1'});
 
 		browser.itemPage.section.form.section.selectList.section.fieldA
 			.verifyInput({value: 'One'});
@@ -72,7 +72,7 @@ module.exports = {
 			.text.to.equal('Your changes have been saved.');
 
 		browser.itemPage.section.form.section.selectList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Select Field Test 1'});
 
 		browser.itemPage.section.form.section.selectList.section.fieldB
 			.verifyInput({value: 'Two'});

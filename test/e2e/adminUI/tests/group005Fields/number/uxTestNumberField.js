@@ -38,7 +38,7 @@ module.exports = {
 		browser.expect.element(adminUI.cssSelector.itemView.fieldType.number.number.fieldA.value)
 			.to.have.value.that.equals('10');
 	},
-	'Name field can be filled via the edit form': function (browser) {
+	'Number field can be filled via the edit form': function (browser) {
 		browser
 			.setValue(adminUI.cssSelector.itemView.fieldType.number.number.fieldB.value, '20')
 			.pause(browser.globals.defaultPauseTimeout)
