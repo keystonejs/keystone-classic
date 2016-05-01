@@ -2,107 +2,121 @@ var adminUI = require('../../adminUI');
 
 module.exports = {
 	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app = browser.page.app();
+		browser.signinScreen = browser.page.signin();
+		browser.homeScreen = browser.page.home();
+		browser.initialForm = browser.page.initialForm();
+		browser.listScreen = browser.page.list();
+		browser.deleteConfirmation = browser.page.deleteConfirmation();
+
+		browser.app.navigate();
+		browser.app.waitForElementVisible('@signinScreen');
+
+		browser.signinScreen.signin();
+		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
-			.end();
+		browser.app.signout();
+		browser.end();
 	},
-	'Home view should allow clicking a nav menu item such as Access to show the list of items': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.accessMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldListsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+	'Home view should allow clicking a nav menu item such as Access and Fields to show the list of items': function (browser) {
+		browser.app
+			.navigate()
+			.waitForElementVisible('@homeScreen')
+			.click('@accessMenu')
+			.waitForElementVisible('@listScreen')
+			.navigate()
+			.waitForElementVisible('@homeScreen')
+			.click('@fieldsMenu')
+			.waitForElementVisible('@listScreen');
 	},
 	'Home view should allow clicking a card list item such as Users to should show the list of those items': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.homeView.usersTabUnderDashboardAccessSubheading)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app
+			.navigate()
+			.waitForElementVisible('@homeScreen');
+
+		browser.homeScreen.section.accessGroup.section.users
+			.click('@label');
+
+		browser.app
+			.waitForElementVisible('@listScreen');
 	},
 	'Home view should allow an admin to create a new list item such as a user': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.homeView.plusIconLinkForUsersTabUnderDashboardAccessSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app
+			.navigate()
+			.waitForElementVisible('@homeScreen');
+
+		browser.homeScreen.section.accessGroup.section.users
+			.click('@plusIconLink');
+
+		browser.initialForm.section.form
+			.waitForElementVisible('@createButton');
 	},
 	'Home view should allow an admin to create a new list item and increment the item count': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app
+			.navigate()
+			.waitForElementVisible('@homeScreen');
 
-		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNamesTabUnderDashboardFieldsSubheading)
-			.text.to.equal('0 Items');
+		browser.homeScreen.section.fieldsGroup.section.names
+			.expect.element('@itemCount').text.to.equal('0 Items');
+		browser.homeScreen.section.fieldsGroup.section.names
+			.click('@plusIconLink');
 
-		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.value, 'Name Field Test')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.first, 'First')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.last, 'Last')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.url(adminUI.url);
+		browser.initialForm.section.form
+			.waitForElementVisible('@createButton');
 
-		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNamesTabUnderDashboardFieldsSubheading)
-			.text.to.equal('1 Item');
+		browser.initialForm.section.form.section.nameList.section.name
+			.fillInput({value: 'Name Field Test'});
+		browser.initialForm.section.form.section.nameList.section.fieldA
+			.fillInput({firstName: 'First', lastName: 'Last'});
+
+		browser.initialForm.section.form
+			.click('@createButton');
+
+		browser.app
+			.waitForElementVisible('@itemScreen')
+			.navigate()
+			.waitForElementVisible('@homeScreen');
+
+		browser.homeScreen.section.fieldsGroup.section.names
+			.expect.element('@itemCount').text.to.equal('1 Item');
 	},
 	'Home view should be accessible from any other non-modal view by clicking the Home link': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.homeView.usersTabUnderDashboardAccessSubheading)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.homeIconLink)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
-	},
+		browser.app
+			.navigate()
+			.waitForElementVisible('@homeScreen');
 
+		browser.homeScreen.section.accessGroup.section.users
+			.click('@label');
+		browser.app
+			.waitForElementVisible('@listScreen');
+
+		browser.app
+			.click('@homeIconLink')
+			.waitForElementVisible('@homeScreen');
+	},
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
 	'Home view ... undoing any state changes': function (browser) {
 		// Delete the Name Field added
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldListsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.allView.nameListSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.listView.singleItemDeleteIcon)
-			.waitForElementVisible(adminUI.cssSelector.deleteConfirmationModalView.id)
-			.click(adminUI.cssSelector.deleteConfirmationModalView.buttonDelete);
+		browser.app
+			.navigate()
+			.waitForElementVisible('@homeScreen');
+
+		browser.app
+			.click('@fieldsMenu')
+			.waitForElementVisible('@listScreen');
+
+		browser.app
+			.click('@namesFieldsSubmenu')
+			.waitForElementVisible('@listScreen');
+
+		browser.listScreen
+			.click('@singleItemDeleteIcon');
+
+		browser.deleteConfirmation
+			.waitForElementVisible('@deleteButton');
+
+		browser.deleteConfirmation
+			.click('@deleteButton');
 	},
 };
