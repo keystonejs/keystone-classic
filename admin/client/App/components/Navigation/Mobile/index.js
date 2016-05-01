@@ -5,7 +5,6 @@
 import React from 'react';
 import Transition from 'react-addons-css-transition-group';
 
-import MobileListItem from './ListItem';
 import MobileSectionItem from './SectionItem';
 
 const ESCAPE_KEY_CODE = 27;
