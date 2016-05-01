@@ -30,10 +30,10 @@ module.exports = {
 			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.colorList.section.name
-			.fillInput({value: 'Name Field Test 1'});
+			.fillInput({value: 'Color Field Test 1'});
 
 		browser.initialFormPage.section.form.section.colorList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Color Field Test 1'});
 
 		browser.initialFormPage.section.form.section.colorList.section.fieldA
 			.fillInput({value: '#002147'});
@@ -49,10 +49,10 @@ module.exports = {
 
 		browser.itemPage
 			.expect.element('@flashMessage')
-			.text.to.equal('New Color Name Field Test 1 created.');
+			.text.to.equal('New Color Color Field Test 1 created.');
 
 		browser.itemPage.section.form.section.colorList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Color Field Test 1'});
 
 		browser.itemPage.section.form.section.colorList.section.fieldA
 			.verifyInput({value: '#002147'});
@@ -72,7 +72,7 @@ module.exports = {
 			.text.to.equal('Your changes have been saved.');
 
 		browser.itemPage.section.form.section.colorList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Color Field Test 1'});
 
 		browser.itemPage.section.form.section.colorList.section.fieldB
 			.verifyInput({value: '#f8e71c'});

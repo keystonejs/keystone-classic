@@ -30,10 +30,10 @@ module.exports = {
 			.waitForElementVisible('@initialFormScreen');
 
 		browser.initialFormPage.section.form.section.urlList.section.name
-			.fillInput({value: 'Name Field Test 1'});
+			.fillInput({value: 'Url Field Test 1'});
 
 		browser.initialFormPage.section.form.section.urlList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Url Field Test 1'});
 
 		browser.initialFormPage.section.form.section.urlList.section.fieldA
 			.fillInput({value: 'www.example1.com'});
@@ -49,10 +49,10 @@ module.exports = {
 
 		browser.itemPage
 			.expect.element('@flashMessage')
-			.text.to.equal('New Url Name Field Test 1 created.');
+			.text.to.equal('New Url Url Field Test 1 created.');
 
 		browser.itemPage.section.form.section.urlList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Url Field Test 1'});
 
 		browser.itemPage.section.form.section.urlList.section.fieldA
 			.verifyInput({value: 'www.example1.com'});
@@ -72,7 +72,7 @@ module.exports = {
 			.text.to.equal('Your changes have been saved.');
 
 		browser.itemPage.section.form.section.urlList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.verifyInput({value: 'Url Field Test 1'});
 
 		browser.itemPage.section.form.section.urlList.section.fieldB
 			.verifyInput({value: 'www.example2.com'});
