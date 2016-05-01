@@ -66,4 +66,13 @@ module.exports = {
 		browser.homeScreen.section.otherGroup.expect.element('@subheading')
 			.text.to.equal('Other');
 	},
+	'Home view should have tabs under Access dashboard group': function (browser) {
+		browser.homeScreen.section.accessGroup.verifyUI();
+	},
+	'Home view should have tabs under Fields dashboard group': function (browser) {
+		browser.homeScreen.section.fieldsGroup.verifyUI();
+	},
+	'Home view should have tabs under Other dashboard group': function (browser) {
+		browser.homeScreen.section.otherGroup.verifyUI();
+	},
 };
