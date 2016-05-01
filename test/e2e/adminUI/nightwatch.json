@@ -33,7 +33,8 @@
         "browserName": "firefox",
         "javascriptEnabled": true,
         "acceptSslCerts": true
-      }
+      },
+			"exclude": "test/e2e/adminUI/tests/group005Fields/commonFieldTestUtils.js"
     },
     "saucelabs-travis": {
       "selenium_host": "ondemand.saucelabs.com",
