@@ -30,6 +30,7 @@ module.exports = {
 		codeListSubmenu: '.secondary-navbar [data-list-path="codes"]',
 		colorListSubmenu: '.secondary-navbar [data-list-path="colors"]',
 		dateListSubmenu: '.secondary-navbar [data-list-path="dates"]',
+		datetimeListSubmenu: '.secondary-navbar [data-list-path="datetimes"]',
 		emailListSubmenu: '.secondary-navbar [data-list-path="emails"]',
 		nameListSubmenu: '.secondary-navbar [data-list-path="names"]',
 		selectListSubmenu: '.secondary-navbar [data-list-path="selects"]',
