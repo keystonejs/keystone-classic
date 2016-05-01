@@ -51,6 +51,7 @@ keystone.set('nav', {
 		'colors',
 		'dates',
 		'datetimes',
+		'htmls',
 		'emails',
 		'names',
 		'numbers',
