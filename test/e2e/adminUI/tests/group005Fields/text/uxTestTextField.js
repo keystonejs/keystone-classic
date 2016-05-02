@@ -1,78 +1,52 @@
+var fieldTests = require('../commonFieldTestUtils.js');
+
 module.exports = {
-	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
-
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
-	},
-	after: function (browser) {
-		browser.app
-			.signout();
-		browser
-			.end();
-	},
-	'Text field can be filled via the initial modal': function (browser) {
-		browser.app
-			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
-			.click('@textListSubmenu')
-			.waitForElementVisible('@listScreen');
-
-		browser.listPage
-			.click('@createFirstItemButton');
-
-		browser.app
-			.waitForElementVisible('@initialFormScreen');
-
-		browser.initialFormPage.section.form.section.textList.section.name
-			.fillInput({value: 'Text Field Test 1'});
-
-		browser.initialFormPage.section.form.section.textList.section.name
-			.verifyInput({value: 'Text Field Test 1'});
-
-		browser.initialFormPage.section.form.section.textList.section.fieldA
-			.fillInput({value: 'Text Field Test Text 1'});
-
-		browser.initialFormPage.section.form
-			.click('@createButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('New Text Text Field Test 1 created.');
-
-		browser.itemPage.section.form.section.textList.section.name
-			.verifyInput({value: 'Text Field Test 1'});
-	},
-	'Text field can be filled via the edit form': function (browser) {
-		browser.itemPage.section.form.section.textList.section.name
-			.fillInput({value: 'Text Field Test 2'});
-
-		browser.itemPage.section.form.section.textList.section.fieldA
-			.fillInput({value: 'Text Field Test Text 2'});
-
-		browser.itemPage.section.form
-			.click('@saveButton');
-
-		browser.itemPage
-			.waitForElementVisible('@flashMessage');
-
-		browser.itemPage
-			.expect.element('@flashMessage').text.to.equal('Your changes have been saved.');
-
-		browser.itemPage.section.form.section.textList.section.name
-			.verifyInput({value: 'Text Field Test 2'});
-
-		browser.itemPage.section.form.section.textList.section.fieldA
-			.verifyInput({value: 'Text Field Test Text 2'});
-	},
+	before: fieldTests.before,
+	after: fieldTests.after,
+	'Text field initial modal can be opened': fieldTests.openInitialFormUX({
+		listName: 'Text',
+	}),
+	'Text field can be filled via the initial modal': fieldTests.fillInitialFormUX({
+		listName: 'Text',
+		inputs: {
+			'name': {value: 'Text Field Test 1'},
+			'fieldA': {value: 'Some test text for field A'},
+		}
+	}),
+	'Text field filled correctly via the initial modal': fieldTests.assertInitialFormUX({
+		listName: 'Text',
+		inputs: {
+			'name': {value: 'Text Field Test 1'},
+			'fieldA': {value: 'Some test text for field A'},
+		}
+	}),
+	'Text field can be created via the initial modal': fieldTests.saveInitialFormUX(),
+	'New Text field flash message is visible': fieldTests.assertFlashMessage({
+		message: 'New Text Text Field Test 1 created.'
+	}),
+	'Text field has been created correctly': fieldTests.assertEditFormUX({
+		listName: 'Text',
+		inputs: {
+			'name': {value: 'Text Field Test 1'},
+			'fieldA': {value: 'Some test text for field A'}
+		}
+	}),
+	'Text field can be filled via the edit form': fieldTests.fillEditFormUX({
+		listName: 'Text',
+		inputs: {
+			'fieldB': {value: 'Some test text for field B'}
+		}
+	}),
+	'Text field changes can be saved via the edit form': fieldTests.saveEditFormUX(),
+	'Updated Text field flash message is visible': fieldTests.assertFlashMessage({
+		message: 'Your changes have been saved.'
+	}),
+	'Text field has been filled correctly': fieldTests.assertEditFormUX({
+		listName: 'Text',
+		inputs: {
+			'name': {value: 'Text Field Test 1'},
+			'fieldA': {value: 'Some test text for field A'},
+			'fieldB': {value: 'Some test text for field B'}
+		}
+	})
 };
