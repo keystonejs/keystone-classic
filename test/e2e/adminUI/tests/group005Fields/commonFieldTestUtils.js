@@ -38,10 +38,10 @@ module.exports = {
 			});
 		}
 	},
-	assertInitialFormUX: function(config){
+	openInitialFormUX: function(config) {
 		var list = config.listName.toLowerCase() + 'List';
 		var listSubmenu = '@' + list + 'Submenu';
-		return function (browser) {
+		return function (browser){
 			browser.app
 				.click('@fieldListsMenu')
 				.waitForElementVisible('@listScreen')
@@ -53,30 +53,51 @@ module.exports = {
 
 			browser.app
 				.waitForElementVisible('@initialFormScreen');
-
+		}
+	},
+	fillInitialFormUX: function(config) {
+		var list = config.listName.toLowerCase() + 'List';
+		return function (browser) {
 			fields = Object.keys(config.inputs);
 			fields.forEach(function(field) {
 				browser.initialFormPage.section.form.section[list].section[field]
 					.fillInput(config.inputs[field]);
-
+			});
+		}
+	},
+	assertInitialFormUX: function(config) {
+		var list = config.listName.toLowerCase() + 'List';
+		return function (browser) {
+			fields = Object.keys(config.inputs);
+			fields.forEach(function(field) {
 				browser.initialFormPage.section.form.section[list].section[field]
 					.verifyInput(config.inputs[field]);
 			});
-
+		}
+	},
+	saveInitialFormUX: function() {
+		return function(browser) {
 			browser.initialFormPage.section.form
 				.click('@createButton');
+		}
+	},
+	fillEditFormUX: function(config) {
+		var list = config.listName.toLowerCase() + 'List';
+		var listSubmenu = '@' + list + 'Submenu';
+		return function (browser) {
 
-			browser.app
-				.waitForElementVisible('@itemScreen');
-
-			browser.itemPage
-				.expect.element('@flashMessage')
-				.text.to.equal('New ' + config.listName + ' ' + config.inputs.name.value + ' created.');
+			fields = Object.keys(config.inputs);
 
 			fields.forEach(function(field) {
 				browser.itemPage.section.form.section[list].section[field]
-					.verifyInput(config.inputs[field]);
+					.fillInput(config.inputs[field]);
 			});
+		}
+	},
+	saveEditFormUX: function(config) {
+		return function(browser) {
+		browser.itemPage.section.form
+			.click('@saveButton');
 		}
 	},
 	assertEditFormUX: function(config) {
@@ -88,23 +109,19 @@ module.exports = {
 
 			fields.forEach(function(field) {
 				browser.itemPage.section.form.section[list].section[field]
-					.fillInput(config.inputs[field]);
+					.verifyInput(config.inputs[field]);
 			});
-
-			browser.itemPage.section.form
-				.click('@saveButton');
-
+		}
+	},
+	assertFlashMessage: function(config) {
+		var message = config.message;
+		return function(browser) {
 			browser.app
 				.waitForElementVisible('@itemScreen');
 
 			browser.itemPage
 				.expect.element('@flashMessage')
-				.text.to.equal('Your changes have been saved.');
-
-			fields.forEach(function(field) {
-				browser.itemPage.section.form.section[list].section[field]
-					.verifyInput(config.inputs[field]);
-			});
+				.text.to.equal(message);
 		}
 	},
 	restore: function (browser) {
