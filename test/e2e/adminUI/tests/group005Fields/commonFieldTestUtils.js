@@ -17,12 +17,13 @@ module.exports = {
 		browser.end();
 	},
 	assertInitialFormUI: function (config) {
-		var nameLowercase = config.fieldName.toLowerCase();
+		var list = config.listName.toLowerCase() + 'List';
+		var listSubmenu = '@' + list + 'Submenu';
 		return function (browser) {
 			browser.app
 				.click('@fieldListsMenu')
 				.waitForElementVisible('@listScreen')
-				.click('@' + nameLowercase + 'ListSubmenu')
+				.click(listSubmenu)
 				.waitForElementVisible('@listScreen');
 
 			browser.listPage
@@ -32,18 +33,19 @@ module.exports = {
 				.waitForElementVisible('@initialFormScreen');
 
 			config.fields.forEach(function(field) {
-				browser.initialFormPage.section.form.section[ nameLowercase + 'List' ].section[field]
+				browser.initialFormPage.section.form.section[list].section[field]
 					.verifyUI();
 			});
 		}
 	},
 	assertInitialFormUX: function(config){
-		var nameLowercase = config.fieldName.toLowerCase();
+		var list = config.listName.toLowerCase() + 'List';
+		var listSubmenu = '@' + list + 'Submenu';
 		return function (browser) {
 			browser.app
 				.click('@fieldListsMenu')
 				.waitForElementVisible('@listScreen')
-				.click('@' + nameLowercase + 'ListSubmenu')
+				.click(listSubmenu)
 				.waitForElementVisible('@listScreen');
 
 			browser.listPage
@@ -54,10 +56,10 @@ module.exports = {
 
 			fields = Object.keys(config.inputs);
 			fields.forEach(function(field) {
-				browser.initialFormPage.section.form.section[ nameLowercase + 'List' ].section[field]
+				browser.initialFormPage.section.form.section[list].section[field]
 					.fillInput(config.inputs[field]);
 
-				browser.initialFormPage.section.form.section[ nameLowercase + 'List' ].section[field]
+				browser.initialFormPage.section.form.section[list].section[field]
 					.verifyInput(config.inputs[field]);
 			});
 
@@ -69,22 +71,23 @@ module.exports = {
 
 			browser.itemPage
 				.expect.element('@flashMessage')
-				.text.to.equal('New ' + config.fieldName + ' ' + config.inputs.name.value + ' created.');
+				.text.to.equal('New ' + config.listName + ' ' + config.inputs.name.value + ' created.');
 
 			fields.forEach(function(field) {
-				browser.itemPage.section.form.section[ nameLowercase + 'List' ].section[field]
+				browser.itemPage.section.form.section[list].section[field]
 					.verifyInput(config.inputs[field]);
 			});
 		}
 	},
 	assertEditFormUX: function(config) {
-		var nameLowercase = config.fieldName.toLowerCase();
+		var list = config.listName.toLowerCase() + 'List';
+		var listSubmenu = '@' + list + 'Submenu';
 		return function (browser) {
 
 			fields = Object.keys(config.inputs);
 
 			fields.forEach(function(field) {
-				browser.itemPage.section.form.section[ nameLowercase + 'List' ].section[field]
+				browser.itemPage.section.form.section[list].section[field]
 					.fillInput(config.inputs[field]);
 			});
 
@@ -99,7 +102,7 @@ module.exports = {
 				.text.to.equal('Your changes have been saved.');
 
 			fields.forEach(function(field) {
-				browser.itemPage.section.form.section[ nameLowercase + 'List' ].section[field]
+				browser.itemPage.section.form.section[list].section[field]
 					.verifyInput(config.inputs[field]);
 			});
 		}
