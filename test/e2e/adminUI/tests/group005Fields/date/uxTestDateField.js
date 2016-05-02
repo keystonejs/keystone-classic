@@ -1,83 +1,52 @@
+var fieldTests = require('../commonFieldTestUtils.js');
+
 module.exports = {
-	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
-
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
-	},
-	after: function (browser) {
-		browser.app.signout();
-		browser.end();
-	},
-	'Date field can be filled via the initial modal': function (browser) {
-		browser.app
-			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
-			.click('@dateListSubmenu')
-			.waitForElementVisible('@listScreen');
-
-		browser.listPage
-			.click('@createFirstItemButton');
-
-		browser.app
-			.waitForElementVisible('@initialFormScreen');
-
-		browser.initialFormPage.section.form.section.dateList.section.name
-			.fillInput({value: 'Date Field Test 1'});
-
-		browser.initialFormPage.section.form.section.dateList.section.name
-			.verifyInput({value: 'Date Field Test 1'});
-
-		browser.initialFormPage.section.form.section.dateList.section.fieldA
-			.fillInput({value: '2016-01-01'});
-
-		browser.initialFormPage.section.form.section.dateList.section.fieldA
-			.verifyInput({value: '2016-01-01'});
-
-		browser.initialFormPage.section.form
-			.click('@createButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('New Date Date Field Test 1 created.');
-
-		browser.itemPage.section.form.section.dateList.section.name
-			.verifyInput({value: 'Date Field Test 1'});
-
-		browser.itemPage.section.form.section.dateList.section.fieldA
-			.verifyInput({value: '2016-01-01'});
-	},
-	'Date field can be filled via the edit form': function (browser) {
-		browser.itemPage.section.form.section.dateList.section.fieldB
-			.fillInput({value: '2016-01-02'});
-
-		browser.itemPage.section.form
-			.click('@saveButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('Your changes have been saved.');
-
-		browser.itemPage.section.form.section.dateList.section.name
-			.verifyInput({value: 'Date Field Test 1'});
-
-		browser.itemPage.section.form.section.dateList.section.fieldB
-			.verifyInput({value: '2016-01-02'});
-	},
-	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
-	'restoring test state': function (browser) {
-	},
+	before: fieldTests.before,
+	after: fieldTests.after,
+	'Date field initial modal can be opened': fieldTests.openInitialForm({
+		listName: 'Date',
+	}),
+	'Date field can be filled via the initial modal': fieldTests.fillInitialForm({
+		listName: 'Date',
+		fields: {
+			'name': {value: 'Date Field Test 1'},
+			'fieldA': {value: '2016-01-01'},
+		}
+	}),
+	'Date field filled correctly via the initial modal': fieldTests.assertInitialFormUX({
+		listName: 'Date',
+		fields: {
+			'name': {value: 'Date Field Test 1'},
+			'fieldA': {value: '2016-01-01'},
+		}
+	}),
+	'Date field can be created via the initial modal': fieldTests.saveInitialForm(),
+	'New Date field flash message is visible': fieldTests.assertFlashMessageUX({
+		message: 'New Date Date Field Test 1 created.'
+	}),
+	'Date field has been created correctly': fieldTests.assertEditFormUX({
+		listName: 'Date',
+		fields: {
+			'name': {value: 'Date Field Test 1'},
+			'fieldA': {value: '2016-01-01'}
+		}
+	}),
+	'Date field can be filled via the edit form': fieldTests.fillEditForm({
+		listName: 'Date',
+		fields: {
+			'fieldB': {value: '2016-01-02'}
+		}
+	}),
+	'Date field changes can be saved via the edit form': fieldTests.saveEditForm(),
+	'Updated Date field flash message is visible': fieldTests.assertFlashMessageUX({
+		message: 'Your changes have been saved.'
+	}),
+	'Date field has been filled correctly': fieldTests.assertEditFormUX({
+		listName: 'Date',
+		fields: {
+			'name': {value: 'Date Field Test 1'},
+			'fieldA': {value: '2016-01-01'},
+			'fieldB': {value: '2016-01-02'}
+		}
+	})
 };

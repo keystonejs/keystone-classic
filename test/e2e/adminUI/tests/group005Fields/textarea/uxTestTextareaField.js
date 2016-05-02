@@ -1,83 +1,52 @@
+var fieldTests = require('../commonFieldTestUtils.js');
+
 module.exports = {
-	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
-
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
-	},
-	after: function (browser) {
-		browser.app.signout();
-		browser.end();
-	},
-	'Textarea field can be filled via the initial modal': function (browser) {
-		browser.app
-			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
-			.click('@textareaListSubmenu')
-			.waitForElementVisible('@listScreen');
-
-		browser.listPage
-			.click('@createFirstItemButton');
-
-		browser.app
-			.waitForElementVisible('@initialFormScreen');
-
-		browser.initialFormPage.section.form.section.textareaList.section.name
-			.fillInput({value: 'Textarea Field Test 1'});
-
-		browser.initialFormPage.section.form.section.textareaList.section.name
-			.verifyInput({value: 'Textarea Field Test 1'});
-
-		browser.initialFormPage.section.form.section.textareaList.section.fieldA
-			.fillInput({value: 'Textarea Field Test 1'});
-
-		browser.initialFormPage.section.form.section.textareaList.section.fieldA
-			.verifyInput({value: 'Textarea Field Test 1'});
-
-		browser.initialFormPage.section.form
-			.click('@createButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('New Textarea Textarea Field Test 1 created.');
-
-		browser.itemPage.section.form.section.textareaList.section.name
-			.verifyInput({value: 'Textarea Field Test 1'});
-
-		browser.itemPage.section.form.section.textareaList.section.fieldA
-			.verifyInput({value: 'Textarea Field Test 1'});
-	},
-	'Textarea field can be filled via the edit form': function (browser) {
-		browser.itemPage.section.form.section.textareaList.section.fieldB
-			.fillInput({value: 'Textarea Field Test 2'});
-
-		browser.itemPage.section.form
-			.click('@saveButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('Your changes have been saved.');
-
-		browser.itemPage.section.form.section.textareaList.section.name
-			.verifyInput({value: 'Textarea Field Test 1'});
-
-		browser.itemPage.section.form.section.textareaList.section.fieldB
-			.verifyInput({value: 'Textarea Field Test 2'});
-	},
-	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
-	'restoring test state': function (browser) {
-	},
+	before: fieldTests.before,
+	after: fieldTests.after,
+	'Textarea field initial modal can be opened': fieldTests.openInitialForm({
+		listName: 'Textarea',
+	}),
+	'Textarea field can be filled via the initial modal': fieldTests.fillInitialForm({
+		listName: 'Textarea',
+		fields: {
+			'name': {value: 'Textarea Field Test 1'},
+			'fieldA': {value: 'Some test text for field A'},
+		}
+	}),
+	'Textarea field filled correctly via the initial modal': fieldTests.assertInitialFormUX({
+		listName: 'Textarea',
+		fields: {
+			'name': {value: 'Textarea Field Test 1'},
+			'fieldA': {value: 'Some test text for field A'},
+		}
+	}),
+	'Textarea field can be created via the initial modal': fieldTests.saveInitialForm(),
+	'New Textarea field flash message is visible': fieldTests.assertFlashMessageUX({
+		message: 'New Textarea Textarea Field Test 1 created.'
+	}),
+	'Textarea field has been created correctly': fieldTests.assertEditFormUX({
+		listName: 'Textarea',
+		fields: {
+			'name': {value: 'Textarea Field Test 1'},
+			'fieldA': {value: 'Some test text for field A'}
+		}
+	}),
+	'Textarea field can be filled via the edit form': fieldTests.fillEditForm({
+		listName: 'Textarea',
+		fields: {
+			'fieldB': {value: 'Some test text for field B'}
+		}
+	}),
+	'Textarea field changes can be saved via the edit form': fieldTests.saveEditForm(),
+	'Updated Textarea field flash message is visible': fieldTests.assertFlashMessageUX({
+		message: 'Your changes have been saved.'
+	}),
+	'Textarea field has been filled correctly': fieldTests.assertEditFormUX({
+		listName: 'Textarea',
+		fields: {
+			'name': {value: 'Textarea Field Test 1'},
+			'fieldA': {value: 'Some test text for field A'},
+			'fieldB': {value: 'Some test text for field B'}
+		}
+	})
 };

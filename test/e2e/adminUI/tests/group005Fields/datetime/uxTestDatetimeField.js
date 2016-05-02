@@ -1,86 +1,54 @@
+var fieldTests = require('../commonFieldTestUtils.js');
+
 module.exports = {
-	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
-
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
-	},
-	after: function (browser) {
-		browser.app.signout();
-		browser.end();
-	},
-	'Datetime field can be filled via the initial modal': function (browser) {
-		browser.app
-			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
-			.click('@datetimeListSubmenu')
-			.waitForElementVisible('@listScreen');
-
-		browser.listPage
-			.click('@createFirstItemButton');
-
-		browser.app
-			.waitForElementVisible('@initialFormScreen');
-
-		browser.initialFormPage.section.form.section.datetimeList.section.name
-			.fillInput({value: 'Datetime Field Test 1'});
-
-		browser.initialFormPage.section.form.section.datetimeList.section.name
-			.verifyInput({value: 'Datetime Field Test 1'});
-
-		browser.initialFormPage.section.form.section.datetimeList.section.fieldA
-			.fillInput({date: '2016-01-01', time: '12:00:00 am'});
-
-		browser.initialFormPage.section.form.section.datetimeList.section.fieldA
-			.verifyInput({date: '2016-01-01', time: '12:00:00 am'});
-
-		browser.initialFormPage.section.form
-			.click('@createButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('New Datetime Datetime Field Test 1 created.');
-
-		browser.itemPage.section.form.section.datetimeList.section.name
-			.verifyInput({value: 'Datetime Field Test 1'});
-
-		browser.itemPage.section.form.section.datetimeList.section.fieldA
-			.verifyInput({date: '2016-01-01', time: '12:00:00 am'});
-	},
-	'Datetime field can be filled via the edit form': function (browser) {
-		// Commented out pending a fix for issue #2715
-		// browser.itemPage.section.form.section.datetimeList.section.fieldB
-		// 	.fillInput({date: '2016-01-02', time: '12:00:00 am'});
-
-
-		browser.itemPage.section.form
-			.click('@saveButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('Your changes have been saved.');
-
-		browser.itemPage.section.form.section.datetimeList.section.name
-			.verifyInput({value: 'Datetime Field Test 1'});
-
-		// Commented out pending a fix for issue #2715
-		// browser.itemPage.section.form.section.datetimeList.section.fieldB
-		//	.verifyInput({date: '2016-01-02', time: '12:00:00 am'});
-	},
-	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
-	'restoring test state': function (browser) {
-	},
+	before: fieldTests.before,
+	after: fieldTests.after,
+	'Datetime field initial modal can be opened': fieldTests.openInitialForm({
+		listName: 'Datetime',
+	}),
+	'Datetime field can be filled via the initial modal': fieldTests.fillInitialForm({
+		listName: 'Datetime',
+		fields: {
+			'name': {value: 'Datetime Field Test 1'},
+			'fieldA': {date: '2016-01-01', time: '12:00:00 am'},
+		}
+	}),
+	'Datetime field filled correctly via the initial modal': fieldTests.assertInitialFormUX({
+		listName: 'Datetime',
+		fields: {
+			'name': {value: 'Datetime Field Test 1'},
+			'fieldA': {date: '2016-01-01', time: '12:00:00 am'},
+		}
+	}),
+	'Datetime field can be created via the initial modal': fieldTests.saveInitialForm(),
+	'New Datetime field flash message is visible': fieldTests.assertFlashMessageUX({
+		message: 'New Datetime Datetime Field Test 1 created.'
+	}),
+	'Datetime field has been created correctly': fieldTests.assertEditFormUX({
+		listName: 'Datetime',
+		fields: {
+			'name': {value: 'Datetime Field Test 1'},
+			'fieldA': {date: '2016-01-01', time: '12:00:00 am'}
+		}
+	}),
+	/* TODO pending a fix for issue #2715
+	'Datetime field can be filled via the edit form': fieldTests.fillEditForm({
+		listName: 'Datetime',
+		fields: {
+			'fieldB': {date: '2016-01-02', time: '12:00:00 am'}
+		}
+	}),
+	'Datetime field changes can be saved via the edit form': fieldTests.saveEditForm(),
+	'Updated Datetime field flash message is visible': fieldTests.assertFlashMessageUX({
+		message: 'Your changes have been saved.'
+	}),
+	'Datetime field has been filled correctly': fieldTests.assertEditFormUX({
+		listName: 'Datetime',
+		fields: {
+			'name': {value: 'Datetime Field Test 1'},
+			'fieldA': {date: '2016-01-01', time: '12:00:00 am'},
+			'fieldB': {date: '2016-01-02', time: '12:00:00 am'}
+		}
+	})
+	*/
 };
