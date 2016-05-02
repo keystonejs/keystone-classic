@@ -123,18 +123,16 @@ var Lightbox = React.createClass({
 		if (this.props.mediaType === 'video') {
 			return (
 				<Transition transitionName="react-transitiongroup-fade" style={styles.imageContainer} component="div" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
-					<video controls name={"media"}><source src={images[currentImage]} type={"video/mp4"}/></video>
+					<video controls name={"media"}><source src={images[currentImage]} type={"video/mp4"} style={styles.image} /></video>
 				</Transition>
 			);
-		} else {
+		} else { 
 			return (
 				<Transition transitionName="react-transitiongroup-fade" style={styles.imageContainer} component="div" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
 					<img key={'image' + currentImage} src={images[currentImage]} style={styles.image} />
 				</Transition>
 			);
 		}
-
-
 	},
 	render () {
 		const props = blacklist(this.props, 'backdropClosesModal', 'initialImage', 'height', 'images', 'isOpen', 'onCancel', 'showCloseButton', 'width');

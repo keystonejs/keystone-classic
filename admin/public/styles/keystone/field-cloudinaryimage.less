@@ -2,7 +2,10 @@
 // Cloudinary Image
 // ==============================
 
-
+.img-thumbnail {
+	border: 1px solid #333;
+	background: #ccc;
+}
 
 
 // Common
@@ -28,8 +31,8 @@
 	.upload-pending,
 	.delete-pending {
 		bottom: @thumbnail-gutter-width;
-		background-color: rgba(0, 0, 0, 0.5);
-		color: white;
+		background-color: #C8EECD;
+		color: #ccc;
 		left: @thumbnail-gutter-width;
 		line-height: 90px;
 		position: absolute;
@@ -125,8 +128,8 @@
 		&:hover,
 		&.hover {
 			.img-thumbnail {
-				border: 1px solid #C8EECD;
-				background: #EFFDF0;
+				border: 1px solid #333;
+				background: #ccc;
 				.img-uploading {
 					color: #0B851A;
 				}
