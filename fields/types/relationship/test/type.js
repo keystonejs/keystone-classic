@@ -38,6 +38,13 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate null input', function (done) {
+			List.fields.single.validateInput({ single: null }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
 		it('should invalidate boolean input', function (done) {
 			List.fields.single.validateInput({ single: true }, function (result) {
 				demand(result).be.false();
@@ -207,6 +214,13 @@ exports.testFieldType = function (List) {
 
 		it('should validate empty array input', function (done) {
 			List.fields.many.validateInput({ many: [] }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate null input', function (done) {
+			List.fields.many.validateInput({ many: null }, function (result) {
 				demand(result).be.true();
 				done();
 			});
