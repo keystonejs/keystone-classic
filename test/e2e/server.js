@@ -22,7 +22,7 @@ keystone.init({
 
 	'less': 'public',
 	'static': 'public',
-	'favicon': 'public/favicon.ico',
+	'favicon': 'adminuiCustom/favicon.ico',
 	'views': 'templates/views',
 	'view engine': '.jsx',
 	'custom engine': engine,
