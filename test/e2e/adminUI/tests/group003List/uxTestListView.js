@@ -34,7 +34,7 @@ module.exports = {
 			.fillInput({value: 'Name Field Test 1'});
 
 		browser.initialFormPage.section.form.section.nameList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.assertInput({value: 'Name Field Test 1'});
 
 		browser.initialFormPage.section.form.section.nameList.section.fieldA
 			.fillInput({firstName: 'First 1', lastName: 'Last 1'});
@@ -74,7 +74,7 @@ module.exports = {
 			.fillInput({value: 'Name Field Test 2'});
 
 		browser.initialFormPage.section.form.section.nameList.section.name
-			.verifyInput({value: 'Name Field Test 2'});
+			.assertInput({value: 'Name Field Test 2'});
 
 		browser.initialFormPage.section.form.section.nameList.section.fieldA
 			.fillInput({firstName: 'First 2', lastName: 'Last 2'});

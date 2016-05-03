@@ -40,6 +40,14 @@ module.exports = {
 		urlListSubmenu: '.secondary-navbar [data-list-path="urls"]',
 	},
 	commands: [{
+		openFieldList: function(field) {
+				var list = field.toLowerCase() + 'List';
+				var listSubmenu = '@' + list + 'Submenu';
+				return this.click('@fieldListsMenu')
+					.waitForElementVisible('@listScreen')
+					.click(listSubmenu)
+					.waitForElementVisible('@listScreen');
+		},
 		signout: function() {
 			this.api.pause(500);
 			return this
@@ -47,5 +55,17 @@ module.exports = {
 				.click('@logoutIconLink')
 				.waitForElementVisible('@signinScreen');
 		},
+		waitForInitialFormScreen() {
+			return this
+				.waitForElementVisible('@initialFormScreen');
+		},
+		waitForItemScreen() {
+			return this
+				.waitForElementVisible('@itemScreen');
+		},
+		waitForListScreen() {
+			return this
+				.waitForElementVisible('@listScreen');
+		}
 	}],
 };

@@ -31,7 +31,7 @@ module.exports = function CodeType(config) {
 					}, [self.elements.codeMirror, input]);
 				return this;
 			},
-			verifyInput: function(input) {
+			assertInput: function(input) {
 				this.api
 					.execute(function (selector) {
 						 var x = document.querySelector(selector);

@@ -41,7 +41,7 @@ module.exports = function DatetimeType(config) {
 
 				return this;
 			},
-			verifyInput: function(input) {
+			assertInput: function(input) {
 				this
 					.getValue('@date', function(result) {
 						this.api.assert.equal(result.value, input.date);

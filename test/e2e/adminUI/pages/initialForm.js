@@ -51,5 +51,47 @@ module.exports = {
 		//
 		// PAGE LEVEL COMMANDS
 		//
+		assertUI: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field].verifyUI();
+				tasks.push(task);
+			});
+			return tasks;
+		},
+		cancel: function (config) {
+			return this.section.form
+				.click('@cancelButton');
+		},
+		fillInputs: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			var fields = Object.keys(config.fields);
+			fields.forEach( function(field) {
+				var task = form.section[list].section[field]
+					.fillInput(config.fields[field]);
+				tasks.push(task);
+			});
+			return tasks;
+		},
+		save: function() {
+			return this.section.form
+				.click('@createButton');
+		},
+		assertInputs: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			var fields = Object.keys(config.fields);
+			fields.forEach( function(field) {
+				var task = form.section[list].section[field]
+					.assertInput(config.fields[field]);
+				tasks.push(task);
+			});
+			return tasks;
+		},
 	}],
 };

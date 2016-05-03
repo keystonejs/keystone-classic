@@ -23,7 +23,7 @@ module.exports = function TextType(config) {
 					.setValue('@value', input.value);
 				return this;
 			},
-			verifyInput: function (input) {
+			assertInput: function (input) {
 				this
 					.waitForElementVisible('@value');
 				this
