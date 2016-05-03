@@ -7,6 +7,7 @@ module.exports = function NameList(config) {
 		sections: {
 			name: new TextType({fieldName: 'name'}),
 			fieldA: new NameType({fieldName: 'fieldA'}),
+			fieldB: new NameType({fieldName: 'fieldB'}),
 		},
 		commands: [{
 			//

@@ -1,83 +1,54 @@
+var fieldTests = require('../commonFieldTestUtils.js');
+
 module.exports = {
-	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
-
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
-	},
-	after: function (browser) {
-		browser.app.signout();
-		browser.end();
-	},
-	'Select field can be filled via the initial modal': function (browser) {
-		browser.app
-			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
-			.click('@selectListSubmenu')
-			.waitForElementVisible('@listScreen');
-
-		browser.listPage
-			.click('@createFirstItemButton');
-
-		browser.app
-			.waitForElementVisible('@initialFormScreen');
-
-		browser.initialFormPage.section.form.section.selectList.section.name
-			.fillInput({value: 'Select Field Test 1'});
-
-		browser.initialFormPage.section.form.section.selectList.section.name
-			.verifyInput({value: 'Select Field Test 1'});
-
-		browser.initialFormPage.section.form.section.selectList.section.fieldA
-			.fillInput({value: ''});
-
-		browser.initialFormPage.section.form.section.selectList.section.fieldA
-			.verifyInput({value: 'One'});
-
-		browser.initialFormPage.section.form
-			.click('@createButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('New Select Select Field Test 1 created.');
-
-		browser.itemPage.section.form.section.selectList.section.name
-			.verifyInput({value: 'Select Field Test 1'});
-
-		browser.itemPage.section.form.section.selectList.section.fieldA
-			.verifyInput({value: 'One'});
-	},
-	'Select field can be filled via the edit form': function (browser) {
-		browser.itemPage.section.form.section.selectList.section.fieldB
-			.fillInput({value: 'Two'});
-
-		browser.itemPage.section.form
-			.click('@saveButton');
-
-		browser.app
-			.waitForElementVisible('@itemScreen');
-
-		browser.itemPage
-			.expect.element('@flashMessage')
-			.text.to.equal('Your changes have been saved.');
-
-		browser.itemPage.section.form.section.selectList.section.name
-			.verifyInput({value: 'Select Field Test 1'});
-
-		browser.itemPage.section.form.section.selectList.section.fieldB
-			.verifyInput({value: 'Two'});
-	},
-	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
-	'restoring test state': function (browser) {
-	},
+	before: fieldTests.before,
+	after: fieldTests.after,
+	'Select field initial modal can be opened': fieldTests.openInitialForm({
+		listName: 'Select',
+	}),
+	'Select field can be filled via the initial modal': fieldTests.fillInitialForm({
+		listName: 'Select',
+		fields: {
+			'name': {value: 'Select Field Test 1'},
+			'fieldA': {value: 'One'},
+		}
+	}),
+	'Select field filled correctly via the initial modal': fieldTests.assertInitialFormUX({
+		listName: 'Select',
+		fields: {
+			'name': {value: 'Select Field Test 1'},
+			'fieldA': {value: 'One'},
+		}
+	}),
+	'Select field can be created via the initial modal': fieldTests.saveInitialForm(),
+	'New Select field flash message is visible': fieldTests.assertFlashMessageUX({
+		message: 'New Select Select Field Test 1 created.'
+	}),
+	'Select field has been created correctly': fieldTests.assertEditFormUX({
+		listName: 'Select',
+		fields: {
+			'name': {value: 'Select Field Test 1'},
+			'fieldA': {value: 'One'}
+		}
+	}),
+	/* TODO pending select's fillInput function actually filling the correct field
+	'Select field can be filled via the edit form': fieldTests.fillEditForm({
+		listName: 'Select',
+		fields: {
+			'fieldB': {value: 'Two'}
+		}
+	}),
+	'Select field changes can be saved via the edit form': fieldTests.saveEditForm(),
+	'Updated Select field flash message is visible': fieldTests.assertFlashMessageUX({
+		message: 'Your changes have been saved.'
+	}),
+	'Select field has been filled correctly': fieldTests.assertEditFormUX({
+		listName: 'Select',
+		fields: {
+			'name': {value: 'Select Field Test 1'},
+			'fieldA': {value: 'One'},
+			'fieldB': {value: 'Two'}
+		}
+	})
+	*/
 };
