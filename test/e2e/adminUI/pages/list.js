@@ -58,5 +58,9 @@ module.exports = {
 			return this
 				.click(selector);
 		},
+		createFirstItem: function() {
+			return this
+				.click('@createFirstItemButton');
+		}
 	}],
 };

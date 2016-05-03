@@ -26,7 +26,7 @@ module.exports = function DateType(config) {
 					.setValue('@value', input.value);
 				return this;
 			},
-			verifyInput: function(input) {
+			assertInput: function(input) {
 				this
 					.waitForElementVisible('@value');
 				this

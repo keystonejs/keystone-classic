@@ -31,7 +31,7 @@ module.exports = function SelectType(config) {
 					.api.keys([input.value, this.api.Keys.ENTER]);
 				return this;
 			},
-			verifyInput: function(input) {
+			assertInput: function(input) {
 				this
 					.expect.element('@selectValue')
 					.text.to.equals(input.value);
