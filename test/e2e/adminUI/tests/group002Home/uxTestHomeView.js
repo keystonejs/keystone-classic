@@ -27,7 +27,7 @@ module.exports = {
 			.waitForElementVisible('@listScreen')
 			.navigate()
 			.waitForElementVisible('@homeScreen')
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen');
 	},
 	'Home view should allow clicking a card list item such as Users to should show the list of those items': function (browser) {
@@ -103,11 +103,11 @@ module.exports = {
 			.waitForElementVisible('@homeScreen');
 
 		browser.app
-			.click('@fieldsMenu')
+			.click('@fieldListsMenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.app
-			.click('@namesFieldsSubmenu')
+			.click('@nameListSubmenu')
 			.waitForElementVisible('@listScreen');
 
 		browser.listScreen
