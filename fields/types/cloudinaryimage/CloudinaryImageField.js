@@ -335,7 +335,7 @@ module.exports = Field.create({
 			// build our url, accounting for selectPrefix
 			var uri = Keystone.adminPath + '/api/cloudinary/autocomplete?type=image';
 			if (selectPrefix) {
-				uri = uri + '?prefix=' + selectPrefix;
+				uri = uri + '&prefix=' + selectPrefix;
 			}
 
 			// make the request
