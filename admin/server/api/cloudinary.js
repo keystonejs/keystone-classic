@@ -37,14 +37,19 @@ module.exports = {
 
 		var collection = []
 		iterateCloudinary(collection, type, max, prefix, null,
-			function(callbackResult) {
-				res.json({
-					items: callbackResult.sort(sortById)
-				});
+			function(error, callbackResult) {
+				if (error) {
+					res.json(error)
+				} else {
+					res.json({
+						items: callbackResult.sort(sortById)
+					});
+				}
 		})
 	},
 	autocompletemedia: function (req, res) {
 		var cloudinary = require('cloudinary');
+		var async = require('async');
 
 		var type = req.params.type || 'image';
 		var max = req.query.max || 50;
@@ -53,17 +58,22 @@ module.exports = {
 
 		var collection = []
 
-		//todo: async.parallel!
-		iterateCloudinary(collection, 'image', max, prefix, null,
-			function(callbackResult) {
-				callbackResult.sort(sortById)
-				iterateCloudinary(callbackResult, 'video', max, prefix, null,
-					function(callbackResult) {
-						res.json({
-							items: callbackResult
-						});
-					});
-			});
+		async.parallel([
+			function(callback) { iterateCloudinary(collection, 'image', max, prefix, null, callback) },
+			function(callback) { iterateCloudinary(collection, 'video', max, prefix, null, callback) }
+		],
+		function(error, results){
+			if (error) {
+				res.json(error)
+			} else {
+				results[0].sort(sortById)
+				results[1].sort(sortById)
+
+				res.json({
+					items: results[0].concat(results[1])
+				});
+			}
+		})
 	},
 
 	get: function (req, res) {
@@ -82,7 +92,7 @@ function iterateCloudinary(collection, type, max, prefix, next, callback) {
 	var cloudinary = require('cloudinary')
 	cloudinary.api.resources(function (result) {
 		if (result.error) {
-			return [{ error: { message: result.error.message } }]
+			callback({ error: { message: result.error.message } }, null)
 		} else {
 			if (collection.length === 0) {
 				collection = result.resources
@@ -92,7 +102,7 @@ function iterateCloudinary(collection, type, max, prefix, next, callback) {
 			if (result.next_cursor) {
 				iterateCloudinary(collection, type, max, prefix, result.next_cursor, callback)
 			} else {
-				callback(collection)
+				callback(null, collection)
 			}
 		};
 	}, {
