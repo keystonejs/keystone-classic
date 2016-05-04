@@ -1,7 +1,7 @@
 module.exports = {
 	url: 'http://localhost:3000/keystone/',
 	login: {
-		email: 'test@test.e2e',
+		email: 'user@test.e2e',
 		password: 'test',
 	},
 	cssSelector: {

@@ -13,7 +13,7 @@ module.exports = {
 	commands: [{
 		signin: function () {
 			return this
-				.setValue('@emailInput', 'test@test.e2e')
+				.setValue('@emailInput', 'user@test.e2e')
 				.setValue('@passwordInput', 'test')
 				.click('@submitButton');
 		},

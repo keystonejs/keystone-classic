@@ -47,8 +47,46 @@ module.exports = {
 		//
 		// PAGE LEVEL ELEMENTS
 		//
-		listBreadcrumb: 'a.Button',
-		flashMessage: '.Alert > span:nth-child(1)',
+		listBreadcrumb: '.Toolbar__section a[class="Button Button--link"',
+		searchInputIcon: '.EditForm__header__search input[class="FormInput EditForm__header__search-input"',
+		newItemButton: '.Toolbar__section button[class="Button Button--success"',
+
+		flashMessage: 'div[class="flash-messages"]',
+
+		readOnlyNameHeader: '.EditForm__name-field h2',
+		editableNameHeader: '.EditForm__name-field input[class*="item-name-field"',
+		idLabel: '.EditForm__key-or-id span[class="EditForm__key-or-id__label"]',
+		idValue: '.EditForm__key-or-id span[class="EditForm__key-or-id__field"]',
+		metaHeader: '.EditForm__meta h3[class="form-heading"]',
+		metaCreatedOnLabel: {
+			locateStrategy: 'xpath',
+			selector: '//div[contains(@class, "EditForm__meta")]/div[contains(@class, "FormField")][1]/label[contains(@class, "FormLabel")]',
+		},
+		metaCreatedOnValue: {
+			locateStrategy: 'xpath',
+			selector: '//div[contains(@class, "EditForm__meta")]/div[contains(@class, "FormField")][1]/div[contains(@class,"FormInput-noedit")]',
+		},
+		metaCreatedByLabel: {
+			locateStrategy: 'xpath',
+			selector: '//div[contains(@class, "EditForm__meta")]/div[contains(@class, "FormField")][2]/label[contains(@class, "FormLabel")]',
+		},
+		metaCreatedByValue: {
+			locateStrategy: 'xpath',
+			selector: '//div[contains(@class, "EditForm__meta")]/div[contains(@class, "FormField")][2]/div[contains(@class,"FormInput-noedit")]',
+		},
+		metaUpdatedByLabel: {
+			locateStrategy: 'xpath',
+			selector: '//div[contains(@class, "EditForm__meta")]/div[contains(@class, "FormField")][3]/label[contains(@class, "FormLabel")]',
+		},
+		metaUpdatedByValue: {
+			locateStrategy: 'xpath',
+			selector: '//div[contains(@class, "EditForm__meta")]/div[contains(@class, "FormField")][3]/div[contains(@class,"FormInput-noedit")]',
+		},
+		saveButton: '.EditForm-container button[class="Button Button--primary"]',
+		resetButton: '.EditForm-container button[class="Button Button--link-cancel"]',
+		resetButtonText: '.EditForm-container button[class="Button Button--link-cancel"] span',
+		deleteButton: '.EditForm-container button[class="Button Button--link-delete u-float-right"]',
+		deleteButtonText: '.EditForm-container button[class="Button Button--link-delete u-float-right"] span',
 	},
 	commands: [{
 		//

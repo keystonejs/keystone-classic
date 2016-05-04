@@ -1,88 +1,142 @@
-var adminUI = require('../../adminUI');
-
 module.exports = {
 	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.accessMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.listView.nameColumnValueForUserList)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.app = browser.page.app();
+		browser.signinPage = browser.page.signin();
+		browser.listPage = browser.page.list();
+		browser.itemPage = browser.page.item();
+		browser.initialFormPage = browser.page.initialForm();
+		browser.deleteConfirmationPage = browser.page.deleteConfirmation();
+
+		browser.app
+			.navigate();
+
+		browser.app
+			.waitForElementVisible('@signinScreen');
+
+		browser.signinPage.signin();
+
+		browser.app
+			.waitForElementVisible('@homeScreen');
+
+		browser.app
+			.click('@accessMenu')
+			.waitForElementVisible('@listScreen');
+
+		browser.listPage
+			.click('@secondItemLink');
+
+		browser.app
+			.waitForElementVisible('@itemScreen');
 	},
 	after: function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
-			.end();
+		browser.app
+			.signout();
+		browser.end();
 	},
-	'Item view should have a search input icon to search for list items': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.searchInputIcon)
+	'Item screen should show a search input icon to search for list items': function (browser) {
+		browser.itemPage
+			.expect.element('@searchInputIcon')
 			.to.be.visible;
 	},
 	// FIXME: TODO
-	// 'Item view should have breadcrumb links to go back to the origin list': function (browser) {
-	// 	browser.expect.element(adminUI.cssSelector.itemView.breadcrumpForUsersList)
+	// 'Item screen should show breadcrumb links to go back to the origin list': function (browser) {
+	// 	browser.itemPage.expect.element(adminUI.cssSelector.itemView.breadcrumpForUsersList)
 	// 		.to.be.visible;
 	//
-	// 	browser.expect.element(adminUI.cssSelector.itemView.breadcrumpForUsersList)
+	// 	browser.itemPage.expect.element(adminUI.cssSelector.itemView.breadcrumpForUsersList)
 	// 		.text.to.equal('Users');
 	// },
-	'Item view should have a + New <item> button to create new items': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.newItemPlusButton)
+	'Item screen should show a + New <item> button to create new items': function (browser) {
+		browser.itemPage
+			.expect.element('@newItemButton')
 			.to.be.visible;
 	},
-	'Item view should have an item name header': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.itemNameHeader)
+	'Item screen should show an item name header': function (browser) {
+		browser.itemPage
+			.expect.element('@readOnlyNameHeader')
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.itemView.itemNameHeader)
-			.text.to.equal('test e2e');
+		browser.itemPage
+			.expect.element('@readOnlyNameHeader')
+			.text.to.equal('e2e user');
 	},
-	'Item view should have an item id': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.itemId)
+	'Item screen should show an item id label': function (browser) {
+		browser.itemPage
+			.expect.element('@idLabel')
 			.to.be.visible;
 	},
-	'Item view should have an item Meta header': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.itemMetaHeader)
+	'Item screen should show an item id value': function (browser) {
+		browser.itemPage
+			.expect.element('@idValue')
+			.to.be.visible;
+	},
+	'Item screen should show an item Meta header': function (browser) {
+		browser.itemPage
+			.expect.element('@metaHeader')
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.itemView.itemMetaHeader)
+		browser.itemPage
+			.expect.element('@metaHeader')
 			.text.to.equal('Meta');
 	},
-	'Item view should have an item meta Created On': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.itemMetaCreatedOn)
+	'Item screen should show an item meta Created On label': function (browser) {
+		browser.itemPage
+			.expect.element('@metaCreatedOnLabel')
 			.to.be.visible;
 	},
-	'Item view should have an item save button': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.itemSaveButton)
+	'Item screen should show an item meta Created On value': function (browser) {
+		browser.itemPage
+			.expect.element('@metaCreatedOnValue')
+			.to.be.visible;
+	},
+	// TODO:  The following are only testable with lists updated via a user session;
+	//		  Currently the admin User is not created via a user session.
+	//		  These assertions should be done by the fields!
+	// 'Item screen should show an item meta Created By label': function (browser) {
+	// 	browser.itemPage
+	// 		.expect.element('@metaCreatedByLabel')
+	// 		.to.be.visible;
+	// },
+	// 'Item screen should show an item meta Created By value': function (browser) {
+	// 	browser.itemPage
+	// 		.expect.element('@metaCreatedByValue')
+	// 		.to.be.visible;
+	// },
+	// 'Item screen should show an item meta Updated By label': function (browser) {
+	// 	browser.itemPage
+	// 		.expect.element('@metaUpdatedByLabel')
+	// 		.to.be.visible;
+	// },
+	// 'Item screen should show an item meta Updated By value': function (browser) {
+	// 	browser.itemPage
+	// 		.expect.element('@metaUpdatedByValue')
+	// 		.to.be.visible;
+	// },
+	'Item screen should show an item save button': function (browser) {
+		browser.itemPage
+			.expect.element('@saveButton')
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.itemView.itemSaveButton)
+		browser.itemPage
+			.expect.element('@saveButton')
 			.text.to.equal('Save');
 	},
-	'Item view should have an item reset button': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.itemResetButton)
+	'Item screen should show an item reset button': function (browser) {
+		browser.itemPage
+			.expect.element('@resetButton')
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.itemView.itemResetButtonText)
+		browser.itemPage
+			.expect.element('@resetButtonText')
 			.text.to.equal('reset changes');
 	},
-	'Item view should have an item delete button': function (browser) {
-		browser.expect.element(adminUI.cssSelector.itemView.itemDeleteButton)
+	'Item screen should show an item delete button': function (browser) {
+		browser.itemPage
+			.expect.element('@deleteButton')
 			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.itemView.itemDeleteButtonText)
+		browser.itemPage
+			.expect.element('@deleteButtonText')
 			.text.to.equal('delete user');
 	},
 };

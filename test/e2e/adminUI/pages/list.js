@@ -22,35 +22,75 @@ module.exports = {
 		paginationCount: '.Pagination__count',
 		firstColumnHeader: {
 			locateStrategy: 'xpath',
-			selector: '//thead/tr[1]/th[2]/button[contains(concat(" ", normalize-space(@class), " "), "ItemList__sort-button th-sort")]',
+			selector: '//thead/tr[1]/th[2]/button[contains(@class, "ItemList__sort-button th-sort")]',
 		},
 		secondColumnHeader: {
 			locateStrategy: 'xpath',
-			selector: '//thead/tr[1]/th[3]/button[contains(concat(" ", normalize-space(@class), " "), "ItemList__sort-button th-sort")]',
+			selector: '//thead/tr[1]/th[3]/button[contains(@class, "ItemList__sort-button th-sort")]',
 		},
 		thirdColumnHeader: {
 			locateStrategy: 'xpath',
-			selector: '//thead/tr[1]/th[4]/button[contains(concat(" ", normalize-space(@class), " "), "ItemList__sort-button th-sort")]',
+			selector: '//thead/tr[1]/th[4]/button[contains(@class, "ItemList__sort-button th-sort")]',
 		},
-		firstColumnValue: {
+		firstItemFirstColumnValue: {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[1]/td[2]',
 		},
-		secondColumnValue: {
+		firstItemSecondColumnValue: {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[1]/td[3]',
 		},
-		thirdColumnValue: {
+		firstItemThirdColumnValue: {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[1]/td[4]',
 		},
+		secondItemFirstColumnValue: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[2]/td[2]',
+		},
+		secondItemSecondColumnValue: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[2]/td[3]',
+		},
+		secondItemThirdColumnValue: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[2]/td[4]',
+		},
+		firstUserItemIsNotAdmin: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[1]/td[4]/div/span[contains(@class, "octicon-x")]',
+		},
+		firstUserItemIsMember: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[1]/td[5]/div/span[contains(@class, "octicon-check")]',
+		},
+		secondUserItemIsAdmin: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[2]/td[4]/div/span[contains(@class, "octicon-check")]',
+		},
+		secondUserItemIsNotMember: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[2]/td[5]/div/span[contains(@class, "octicon-x")]',
+		},
+		firstItemLink: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[1]/td[2]/a',
+		},
+		secondItemLink: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[2]/td[2]/a',
+		},
+		thirdItemLink: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[3]/td[2]/a',
+		},
 		firstItemNameValue: {
 			locateStrategy: 'xpath',
-			selector: '//tbody/tr[1]/td/a[contains(concat(" ", normalize-space(@class), " "), "ItemList__value ItemList__value--text")][1]',
+			selector: '//tbody/tr[1]/td/a[contains(@class, "ItemList__value ItemList__value--text")][1]',
 		},
 		secondItemNameValue: {
 			locateStrategy: 'xpath',
-			selector: '//tbody/tr[2]/td/a[contains(concat(" ", normalize-space(@class), " "), "ItemList__value ItemList__value--text")][1]',
+			selector: '//tbody/tr[2]/td/a[contains(@class, "ItemList__value ItemList__value--text")][1]',
 		},
 	},
 	commands: [{
