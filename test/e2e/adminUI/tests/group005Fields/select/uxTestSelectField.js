@@ -32,7 +32,6 @@ module.exports = {
 			}
 		})
 	},
-	/* Pending select's assertInput actually checking the given field
 	'Select field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Select',
@@ -51,5 +50,4 @@ module.exports = {
 			}
 		})
 	},
-	*/
 };

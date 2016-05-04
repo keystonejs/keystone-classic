@@ -7,7 +7,7 @@ module.exports = function SelectList(config) {
 		sections: {
 			name: new TextType({fieldName: 'name'}),
 			fieldA: new SelectType({fieldName: 'fieldA'}),
-			fieldB: new SelectType({fieldName: 'fieldA'}),
+			fieldB: new SelectType({fieldName: 'fieldB'}),
 		},
 		commands: [{
 			//
