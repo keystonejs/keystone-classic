@@ -55,6 +55,7 @@ keystone.set('nav', {
 		'htmls',
 		'names',
 		'numbers',
+		'markdowns',
 		'selects',
 		'texts',
 		'textareas',
