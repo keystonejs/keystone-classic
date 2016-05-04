@@ -28,7 +28,7 @@ module.exports = function CodeType(config) {
 						var x = document.querySelector(selector);
 						var y = x.getElementsByClassName('CodeMirror')[0];
 						y.CodeMirror.setValue(input.value);
-					}, [self.elements.codeMirror, input]);
+					}, [self.selector, input]);
 				return this;
 			},
 			assertInput: function(input) {
@@ -37,7 +37,7 @@ module.exports = function CodeType(config) {
 						 var x = document.querySelector(selector);
 						 var y = x.getElementsByClassName('CodeMirror')[0];
 						 return y.CodeMirror.getValue();
-					}, [self.elements.codeMirror], function (result) {
+					}, [self.selector], function (result) {
 						this.assert.equal(result.value, input.value);
 					});
 				return this;

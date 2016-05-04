@@ -32,7 +32,6 @@ module.exports = {
 			}
 		})
 	},
-	/* TODO Pending Code's assertInput checking the given field
 	'Code field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Code',
@@ -51,5 +50,4 @@ module.exports = {
 			}
 		})
 	},
-	*/
 };
