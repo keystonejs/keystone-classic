@@ -33,7 +33,7 @@ module.exports = {
 	autocomplete: function (req, res) {
 		var cloudinary = require('cloudinary');
 		var type = req.params.type;
-		var max = req.query.max || 10;
+		var max = req.query.max || 100;
 		var prefix = req.query.prefix || '';
 		var next = req.query.next || null;
 
@@ -58,7 +58,7 @@ module.exports = {
 		var cloudinary = require('cloudinary');
 		var imageResult;
 
-		var max = req.query.max || 10;
+		var max = req.query.max || 100;
 		var prefix = req.query.prefix || '';
 		var next = req.query.next || null;
 
