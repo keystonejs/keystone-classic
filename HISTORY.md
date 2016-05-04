@@ -2,6 +2,11 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.19 / 2016-05-04
+
+* added; support for Mailgun, thanks [Wolfgang](https://github.com/w01fgang)
+* fixed; issues with connect-mongo on Node 0.12, thanks [gemscng](https://github.com/gemscng)
+
 ## v0.3.18 / 2016-04-27
 
 * fixed; make localfiles previews properly show up in admin ui column, thanks [Gabor K](https://github.com/krksgbr)
