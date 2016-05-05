@@ -33,6 +33,10 @@ var FooterBar = React.createClass({
 		window.addEventListener('resize', this.recalcPosition, false);
 		this.recalcPosition();
 	},
+	componentWillUnmount () {
+		window.removeEventListener('scroll', this.recalcPosition, false);
+		window.removeEventListener('resize', this.recalcPosition, false);
+	},
 	getWindowSize () {
 		return {
 			x: window.innerWidth,
