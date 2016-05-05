@@ -56,17 +56,33 @@ module.exports = {
 				.click('@logoutIconLink')
 				.waitForElementVisible('@signinScreen');
 		},
-		waitForInitialFormScreen() {
+		waitForSigninScreen: function() {
+			return this
+				.waitForElementVisible('@signinScreen');
+		},
+		waitForHomeScreen: function() {
+			return this
+				.waitForElementVisible('@homeScreen');
+		},
+		waitForInitialFormScreen: function() {
 			return this
 				.waitForElementVisible('@initialFormScreen');
 		},
-		waitForItemScreen() {
+		waitForDeleteConfirmationScreen: function() {
+			return this
+				.waitForElementVisible('@deleteConfirmationScreen');
+		},
+		waitForResetConfirmationScreen: function() {
+			return this
+				.waitForElementVisible('@resetConfirmationScreen');
+		},
+		waitForListScreen: function() {
+			return this
+				.waitForElementVisible('@listScreen');
+		},
+		waitForItemScreen: function() {
 			return this
 				.waitForElementVisible('@itemScreen');
 		},
-		waitForListScreen() {
-			return this
-				.waitForElementVisible('@listScreen');
-		}
 	}],
 };

@@ -7,30 +7,22 @@ module.exports = {
 		browser.initialFormPage = browser.page.initialForm();
 		browser.deleteConfirmationPage = browser.page.deleteConfirmation();
 
-		browser.app
-			.navigate();
+		browser.app.navigate();
 
-		browser.app
-			.waitForElementVisible('@signinScreen');
+		browser.app.waitForSigninScreen();
 
 		browser.signinPage.signin();
 
-		browser.app
-			.waitForElementVisible('@homeScreen');
+		browser.app.waitForElementVisible('@homeScreen');
 
-		browser.app
-			.click('@accessMenu')
-			.waitForElementVisible('@listScreen');
+		browser.app.click('@accessMenu').waitForListScreen();
 
-		browser.listPage
-			.click('@secondItemLink');
+		browser.listPage.click('@secondItemLink');
 
-		browser.app
-			.waitForElementVisible('@itemScreen');
+		browser.app.waitForItemScreen();
 	},
 	after: function (browser) {
-		browser.app
-			.signout();
+		browser.app.signout();
 		browser.end();
 	},
 	'Item screen should show a search input icon to search for list items': function (browser) {
@@ -38,14 +30,13 @@ module.exports = {
 			.expect.element('@searchInputIcon')
 			.to.be.visible;
 	},
-	// FIXME: TODO
-	// 'Item screen should show breadcrumb links to go back to the origin list': function (browser) {
-	// 	browser.itemPage.expect.element(adminUI.cssSelector.itemView.breadcrumpForUsersList)
-	// 		.to.be.visible;
-	//
-	// 	browser.itemPage.expect.element(adminUI.cssSelector.itemView.breadcrumpForUsersList)
-	// 		.text.to.equal('Users');
-	// },
+	'Item screen should show breadcrumb links to go back to the origin list': function (browser) {
+		browser.itemPage.expect.element('@listBreadcrumb')
+			.to.be.visible;
+
+		browser.itemPage.expect.element('@listBreadcrumb')
+			.text.to.equal('Users');
+	},
 	'Item screen should show a + New <item> button to create new items': function (browser) {
 		browser.itemPage
 			.expect.element('@newItemButton')

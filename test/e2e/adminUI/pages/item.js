@@ -9,6 +9,7 @@ var SelectList = require('./lists/select');
 var TextList = require('./lists/text');
 var TextareaList = require('./lists/textarea');
 var UrlList = require('./lists/url');
+var UserList = require('./lists/user');
 
 module.exports = {
 	sections: {
@@ -29,6 +30,7 @@ module.exports = {
 				textList: new TextList(),
 				textareaList: new TextareaList(),
 				urlList: new UrlList(),
+				userList: new UserList(),
 			},
 			elements: {
 				//
@@ -94,9 +96,21 @@ module.exports = {
 		//
 		// PAGE LEVEL COMMANDS
 		//
-		assertFlashMessage: function (message) {
-			return this.expect.element('@flashMessage')
-			.text.to.equal(message);
+		new: function() {
+			return this
+				.click('@newItemButton');
+		},
+		save: function() {
+			return this.section.form
+				.click('@saveButton');
+		},
+		reset: function() {
+			return this.section.form
+				.click('@resetButton');
+		},
+		delete: function() {
+			return this.section.form
+				.click('@deleteButton');
 		},
 		fillInputs: function (config) {
 			var list = config.listName.toLowerCase() + 'List';
@@ -110,10 +124,6 @@ module.exports = {
 			});
 			return tasks;
 		},
-		save: function() {
-			return this.section.form
-				.click('@saveButton');
-		},
 		assertInputs: function (config) {
 			var list = config.listName.toLowerCase() + 'List';
 			var tasks = [];
@@ -125,6 +135,10 @@ module.exports = {
 				tasks.push(task);
 			});
 			return tasks;
+		},
+		assertFlashMessage: function (message) {
+			return this.expect.element('@flashMessage')
+				.text.to.equal(message);
 		},
 	}],
 };

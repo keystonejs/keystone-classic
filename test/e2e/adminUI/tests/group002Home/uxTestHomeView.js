@@ -1,5 +1,3 @@
-var adminUI = require('../../adminUI');
-
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
@@ -118,5 +116,7 @@ module.exports = {
 
 		browser.deleteConfirmation
 			.click('@deleteButton');
+
+		browser.app.waitForListScreen();
 	},
 };
