@@ -324,6 +324,20 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should be delete all items in the array when the data object is undefined', function (done) {
+			var testItem = new List.model();
+			List.fields.datearr.updateItem(testItem, {
+				datearr: ['2015-01-01', '2015-01-02', '2015-01-03', '2015-01-04'],
+			}, function () {
+				List.fields.datearr.updateItem(testItem, {
+					datearr: undefined,
+				}, function () {
+					demand(testItem.datearr).eql([]);
+					done();
+				});
+			});
+		});
+
 		it('should default on null', function (done) {
 			var testItem = new List.model();
 			List.fields.datearr.updateItem(testItem, {

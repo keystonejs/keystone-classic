@@ -3,8 +3,9 @@ var ColorList = require('./lists/color');
 var DateList = require('./lists/date');
 var DatetimeList = require('./lists/datetime');
 var HtmlList = require('./lists/html');
-var NameList = require('./lists/name');
 var MarkdownList = require('./lists/markdown');
+var NameList = require('./lists/name');
+var PasswordList = require('./lists/password');
 var SelectList = require('./lists/select');
 var TextList = require('./lists/text');
 var TextareaList = require('./lists/textarea');
@@ -24,8 +25,9 @@ module.exports = {
 				dateList: new DateList(),
 				datetimeList: new DatetimeList(),
 				htmlList: new HtmlList(),
-				nameList: new NameList(),
 				markdownList: new MarkdownList(),
+				nameList: new NameList(),
+				passwordList: new PasswordList(),
 				selectList: new SelectList(),
 				textList: new TextList(),
 				textareaList: new TextareaList(),
@@ -50,11 +52,16 @@ module.exports = {
 		//
 		// PAGE LEVEL ELEMENTS
 		//
+		flashError: '.Alert--danger'
 	},
 	commands: [{
 		//
 		// PAGE LEVEL COMMANDS
 		//
+		assertFlashError: function (message) {
+			return this.expect.element('@flashError')
+				.text.to.equal(message);
+		},
 		assertUI: function (config) {
 			var list = config.listName.toLowerCase() + 'List';
 			var tasks = [];
