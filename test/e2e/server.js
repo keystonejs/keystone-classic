@@ -22,7 +22,7 @@ keystone.init({
 
 	'less': 'public',
 	'static': 'public',
-	'favicon': 'public/favicon.ico',
+	'favicon': 'adminuiCustom/favicon.ico',
 	'views': 'templates/views',
 	'view engine': '.jsx',
 	'custom engine': engine,
@@ -34,6 +34,8 @@ keystone.init({
 	'user model': 'User',
 	'cookie secret': 'Secret',
 	'adminui custom styles': 'adminuiCustom/styles.less',
+
+	'cloudinary config': 'cloudinary://api_key:api_secret@cloud_name',
 });
 
 keystone.import('models');
@@ -46,9 +48,18 @@ keystone.set('nav', {
 	'fields': [
 		'booleans',
 		'codes',
+		'colors',
+		'dates',
+		'datetimes',
 		'emails',
+		'htmls',
 		'names',
+		'numbers',
+		'markdowns',
 		'selects',
+		'texts',
+		'textareas',
+		'urls',
 	],
 });
 

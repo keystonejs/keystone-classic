@@ -31,7 +31,7 @@ module.exports = Field.create({
 	},
 
 	formatValue (value) {
-		return value ? this.moment(value).format(this.props.formatString) : '';
+		return value ? moment(value).format(this.props.formatString) : '';
 	},
 
 	getInputComponent () {

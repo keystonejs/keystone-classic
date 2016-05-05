@@ -1,6 +1,5 @@
 var _ = require('lodash');
 var assign = require('object-assign');
-var cloudinary = require('cloudinary');
 var keystone = require('../../../');
 var super_ = require('../Type');
 var util = require('util');
@@ -83,6 +82,8 @@ cloudinaryimage.prototype.getFolder = function () {
  * @api public
  */
 cloudinaryimage.prototype.addToSchema = function () {
+
+	var cloudinary = require('cloudinary');
 
 	var field = this;
 	var schema = this.list.schema;
@@ -308,7 +309,7 @@ cloudinaryimage.prototype.validateInput = function (data, callback) {
  */
 cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	var result = ((value && validateInput(value)) || item.get(this.path).public_id) ? true : false;
+	var result = (value || item.get(this.path).public_id) ? true : false;
 	utils.defer(callback, result);
 };
 
@@ -327,6 +328,8 @@ cloudinaryimage.prototype.inputIsValid = function () {
  * @api public
  */
 cloudinaryimage.prototype.updateItem = function (item, data, callback) {
+
+	var cloudinary = require('cloudinary');
 	var field = this;
 	var value = this.getValueFromData(data);
 
@@ -405,6 +408,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, callback) {
  */
 cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callback) {
 
+	var cloudinary = require('cloudinary');
 	var field = this;
 
 	if (utils.isFunction(paths)) {

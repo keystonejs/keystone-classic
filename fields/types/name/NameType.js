@@ -121,7 +121,7 @@ name.prototype.getInputFromData = function (data) {
 			last: last,
 		};
 	}
-	return this.getValueFromData(data);
+	return this.getValueFromData(data) || this.getValueFromData(data, '.full');
 };
 
 /**

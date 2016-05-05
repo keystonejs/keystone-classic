@@ -259,6 +259,30 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should update nested fields non-empty arrays to empty arrays when the data is empty', function (done) {
+			var testItem = new List.model();
+			List.fields['nested.textarr'].updateItem(testItem, {
+				'nested.textarr': ['a', 'b'],
+			}, function () {
+				List.fields['nested.textarr'].updateItem(testItem, {}, function () {
+					demand(testItem.nested.textarr).eql([]);
+					done();
+				});
+			});
+		});
+
+		it('should update non-empty arrays to empty arrays when the data is empty', function (done) {
+			var testItem = new List.model();
+			List.fields.textarr.updateItem(testItem, {
+				textarr: ['a', 'b'],
+			}, function () {
+				List.fields.textarr.updateItem(testItem, {}, function () {
+					demand(testItem.textarr).eql([]);
+					done();
+				});
+			});
+		});
+
 		it('should update empty arrays', function (done) {
 			var testItem = new List.model();
 			List.fields.textarr.updateItem(testItem, {

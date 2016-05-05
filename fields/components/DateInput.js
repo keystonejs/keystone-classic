@@ -90,7 +90,7 @@ module.exports = React.createClass({
 		this.showPicker();
 	},
 	handleBlur (e) {
-		let rt = e.relatedTarget;
+		let rt = e.relatedTarget || e.nativeEvent.explicitOriginalTarget;
 		const popout = this.refs.popout.getPortalDOMNode();
 		while (rt) {
 			if (rt === popout) return;

@@ -40,8 +40,8 @@ module.exports = function createApp (keystone, express) {
 
 	// Serve static assets
 
-	if (keystone.get('favico')) {
-		app.use(favicon(keystone.getPath('favico')));
+	if (keystone.get('favicon')) {
+		app.use(favicon(keystone.getPath('favicon')));
 	}
 
 	// unless the headless option is set (which disables the Admin UI),

@@ -233,7 +233,7 @@ describe('List "track" option', function () {
 				setTimeout(function () {
 					request(app)
 						.post('/using-update-handler/' + post.get('id'))
-						.send({ name: 'test2' })
+						.send({ name: 'test2', 'updatedBy': dummyUser2.get('id'), 'createdBy': dummyUser1.get('id') })
 						.expect('GOOD')
 						.end(function (err, res) {
 							if (err) {

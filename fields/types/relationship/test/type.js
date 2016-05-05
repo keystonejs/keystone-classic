@@ -38,6 +38,13 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate null input', function (done) {
+			List.fields.single.validateInput({ single: null }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
 		it('should invalidate boolean input', function (done) {
 			List.fields.single.validateInput({ single: true }, function (result) {
 				demand(result).be.false();
@@ -179,6 +186,22 @@ exports.testFieldType = function (List) {
 				});
 			});
 		});
+
+		it('should clear the current value when data object does not contain the field', function (done) {
+			var testItem = new List.model({
+				single: relatedItem.id,
+			});
+			testItem.save(function (err) {
+				List.fields.single.updateItem(testItem, {}, function () {
+					testItem.save(function (err, updatedItem) {
+						List.model.findById(updatedItem.id, function (err, persistedData) {
+							demand(persistedData.single).be.null();
+							done();
+						});
+					});
+				});
+			});
+		});
 	});
 
 	describe('many', function () {
@@ -191,6 +214,13 @@ exports.testFieldType = function (List) {
 
 		it('should validate empty array input', function (done) {
 			List.fields.many.validateInput({ many: [] }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate null input', function (done) {
+			List.fields.many.validateInput({ many: null }, function (result) {
 				demand(result).be.true();
 				done();
 			});
@@ -214,6 +244,38 @@ exports.testFieldType = function (List) {
 			List.fields.many.validateInput({}, function (result) {
 				demand(result).be.true();
 				done();
+			});
+		});
+
+		it('should clear the current values when data object does not contain the field', function (done) {
+			var testItem = new List.model({
+				many: [relatedItem.id, relatedItem.id],
+			});
+			testItem.save(function (err) {
+				List.fields.many.updateItem(testItem, {}, function () {
+					testItem.save(function (err, updatedItem) {
+						List.model.findById(updatedItem.id, function (err, persistedData) {
+							demand(persistedData.many).to.eql([]);
+							done();
+						});
+					});
+				});
+			});
+		});
+
+		it('should update the current values with the new values from the data object', function (done) {
+			var testItem = new List.model({
+				many: [relatedItem.id, relatedItem.id, relatedItem.id],
+			});
+			testItem.save(function (err) {
+				List.fields.many.updateItem(testItem, { many: [relatedItem.id, relatedItem.id] }, function () {
+					testItem.save(function (err, updatedItem) {
+						List.model.findById(updatedItem.id, function (err, persistedData) {
+							demand(String(persistedData.many)).to.eql(String([relatedItem.id, relatedItem.id]));
+							done();
+						});
+					});
+				});
 			});
 		});
 	});

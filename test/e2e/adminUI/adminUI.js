@@ -1,7 +1,7 @@
 module.exports = {
 	url: 'http://localhost:3000/keystone/',
 	login: {
-		email: 'test@test.e2e',
+		email: 'user@test.e2e',
 		password: 'test',
 	},
 	cssSelector: {
@@ -9,11 +9,11 @@ module.exports = {
 			homeIcon: '.primary-navbar [data-section-label="octicon-home"]',
 			homeIconLink: '.primary-navbar [data-section-label="octicon-home"] a',
 			accessMenu: '.primary-navbar [data-section-label="Access"]',
-			fieldsMenu: '.primary-navbar [data-section-label="Fields"]',
+			fieldListsMenu: '.primary-navbar [data-section-label="Fields"]',
 			booleanFieldsSubmenu: '.secondary-navbar [data-list-path="booleans"]',
-			emailsFieldsSubmenu: '.secondary-navbar [data-list-path="emails"]',
-			namesFieldsSubmenu: '.secondary-navbar [data-list-path="names"]',
-			selectsFieldsSubmenu: '.secondary-navbar [data-list-path="selects"]',
+			emailListSubmenu: '.secondary-navbar [data-list-path="emails"]',
+			nameListSubmenu: '.secondary-navbar [data-list-path="names"]',
+			selectListSubmenu: '.secondary-navbar [data-list-path="selects"]',
 			frontPageIcon: '.primary-navbar [data-section-label="octicon-globe"]',
 			frontPageIconLink: '.primary-navbar [data-section-label="octicon-globe"] a',
 			logoutIcon: '.primary-navbar [data-section-label="octicon-sign-out"]',
@@ -60,6 +60,11 @@ module.exports = {
 			labelForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] .dashboard-group__list-label',
 			plusIconLinkForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] a.dashboard-group__list-create.octicon.octicon-plus',
 			itemCountForNamesTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="names"] .dashboard-group__list-count',
+			// Numbers List Tab
+			numbersTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="numbers"]',
+			labelForNumbersTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="numbers"] .dashboard-group__list-label',
+			plusIconLinkForNumbersTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="numbers"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForNumbersTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="numbers"] .dashboard-group__list-count',
 			// Selects List Tab
 			selectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"]',
 			labelForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-label',
@@ -151,16 +156,16 @@ module.exports = {
 							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
 						},
 						fieldA: {
-							button: '.EditForm-container .field-type-boolean:nth-child(5) label button',
-							label: '.EditForm-container .field-type-boolean:nth-child(5) label span',
-							value: '.EditForm-container .field-type-boolean:nth-child(5) label input[name="fieldA"]'
+							button: '.EditForm-container .field-type-boolean[for="fieldA"] button',
+							label: '.EditForm-container .field-type-boolean[for="fieldA"] span',
+							value: '.EditForm-container .field-type-boolean[for="fieldA"] input[name="fieldA"]',
 						},
 						fieldB: {
-							button: '.EditForm-container .field-type-boolean:nth-child(6) label button',
-							label: '.EditForm-container .field-type-boolean:nth-child(6) label span',
-							value: '.EditForm-container .field-type-boolean:nth-child(6) label input[name="fieldB"]'
-						}
-					}
+							button: '.EditForm-container .field-type-boolean[for="fieldB"] button',
+							label: '.EditForm-container .field-type-boolean[for="fieldB"] span',
+							value: '.EditForm-container .field-type-boolean[for="fieldB"] input[name="fieldB"]',
+						},
+					},
 				},
 				code: {
 					code: {
@@ -233,6 +238,22 @@ module.exports = {
 						},
 					},
 				},
+				number: {
+					number: {
+						name: {
+							label: '.EditForm-container .field-type-text[for="name"] .FormLabel',
+							value: '.EditForm-container .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.EditForm-container .field-type-number[for="fieldA"] label',
+							value: '.EditForm-container .field-type-number[for="fieldA"] input[name="fieldA"]',
+						},
+						fieldB: {
+							label: '.EditForm-container .field-type-number[for="fieldB"] label',
+							value: '.EditForm-container .field-type-number[for="fieldB"] input[name="fieldB"]',
+						},
+					},
+				},
 				password: {
 					user: {
 						password: {
@@ -294,11 +315,11 @@ module.exports = {
 							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
 						},
 						fieldA: {
-							button: '.Modal-dialog .field-type-boolean button',
-							label: '.Modal-dialog .field-type-boolean span',
-							value: '.Modal-dialog .field-type-boolean input[name="fieldA"]',
-						}
-					}
+							button: '.Modal-dialog .field-type-boolean[for="fieldA"] button',
+							label: '.Modal-dialog .field-type-boolean[for="fieldA"] span',
+							value: '.Modal-dialog .field-type-boolean[for="fieldA"] input[name="fieldA"]',
+						},
+					},
 				},
 				code: {
 					code: {
@@ -352,6 +373,18 @@ module.exports = {
 							firstPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="First name"]',
 							last: '.Modal-dialog .field-type-name[for="name"] input[name="name.last"]',
 							lastPlaceholder: '.Modal-dialog .field-type-name[for="name"] input[placeholder="Last name"]',
+						},
+					},
+				},
+				number: {
+					number: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+						fieldA: {
+							label: '.Modal-dialog .field-type-number[for="fieldA"] label',
+							value: '.Modal-dialog .field-type-number[for="fieldA"] input[name="fieldA"]',
 						},
 					},
 				},
