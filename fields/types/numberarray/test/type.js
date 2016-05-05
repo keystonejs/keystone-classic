@@ -320,6 +320,20 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should delete all items of the array if the data object is undefined', function (done) {
+			var testItem = new List.model();
+			List.fields.numarr.updateItem(testItem, {
+				numarr: [1, 2, 3, 42],
+			}, function () {
+				List.fields.numarr.updateItem(testItem, {
+					numarr: undefined,
+				}, function () {
+					demand(testItem.numarr).eql([]);
+					done();
+				});
+			});
+		});
+
 		it('should default on null', function (done) {
 			var testItem = new List.model();
 			List.fields.numarr.updateItem(testItem, {
