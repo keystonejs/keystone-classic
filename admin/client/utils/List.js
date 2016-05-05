@@ -92,7 +92,7 @@ const List = function (options) {
  */
 List.prototype.createItem = function (formData, callback) {
 	xhr({
-		url: `${Keystone.adminPath}/api/${this.path}/create`,
+		url: `${Keystone.adminPath}/api/legacy/${this.path}/create`,
 		responseType: 'json',
 		method: 'POST',
 		headers: Keystone.csrf.header,
@@ -120,7 +120,7 @@ List.prototype.createItem = function (formData, callback) {
  */
 List.prototype.updateItem = function (id, formData, callback) {
 	xhr({
-		url: `${Keystone.adminPath}/api/${this.path}/${id}`,
+		url: `${Keystone.adminPath}/api/legacy/${this.path}/${id}`,
 		responseType: 'json',
 		method: 'POST',
 		headers: Keystone.csrf.header,
