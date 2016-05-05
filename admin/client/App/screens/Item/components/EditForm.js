@@ -143,7 +143,7 @@ var EditForm = React.createClass({
 				this.setState({
 					alerts: {
 						success: {
-							success: 'Update success',
+							success: 'Your changes have been saved successfully',
 						},
 					},
 					values: data.fields,
