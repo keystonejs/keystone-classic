@@ -2,7 +2,7 @@ import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
 import Color from 'color';
-import E from '../../admin/client/constants';
+import E from '../../admin/client/utils/constants';
 
 var Checkbox = React.createClass({
 	displayName: 'Checkbox',

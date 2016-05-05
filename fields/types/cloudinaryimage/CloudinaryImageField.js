@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Field from '../Field';
 import Select from 'react-select';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
-import Lightbox from '../../../admin/client/components/Lightbox';
+import Lightbox from '../../components/Lightbox';
 import classnames from 'classnames';
 
 

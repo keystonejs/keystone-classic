@@ -45,7 +45,7 @@ module.exports = function createDynamicRouter (keystone) {
 	}
 
 	// #3: Home route
-	router.get('/', require('../routes/home'));
+	router.get('/', require('../routes/index'));
 
 	// #4: Cloudinary and S3 specific APIs
 	// TODO: poor separation of concerns; should / could this happen elsewhere?
@@ -83,8 +83,8 @@ module.exports = function createDynamicRouter (keystone) {
 	router.post('/api/:list/:id/sortOrder/:sortOrder/:newOrder', initList(), require('../api/item/sortOrder'));
 
 	// #6: List Routes
-	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list'));
-	router.all('/:list/:item', initList(true), require('../routes/item'));
+	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/index'));
+	router.all('/:list/:item', initList(true), require('../routes/index'));
 
 	// TODO: catch 404s and errors with Admin-UI specific handlers
 
