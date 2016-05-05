@@ -405,7 +405,7 @@ module.exports = Field.create({
 		return (
 			<div className="image-select">
 				<Select.Async
-					placeholder="Search for an image from Cloudinary ..."
+					placeholder="Search for an image or video from Cloudinary ..."
 					name={this.props.paths.select}
 					value={this.state.selectedCloudinaryMedia}
 					onChange={onChange}

@@ -31,70 +31,51 @@ module.exports = {
 		}
 	},
 	autocomplete: function (req, res) {
-		var cloudinary = require('cloudinary');
-		var type = req.params.type;
-		var max = req.query.max || 10;
+		var type = req.params.type || 'image';
+		var max = req.query.max || 50;
 		var prefix = req.query.prefix || '';
-		var next = req.query.next || null;
 
-		cloudinary.api.resources(function (result) {
-			if (result.error) {
-				res.json({ error: { message: result.error.message } });
-			} else {
-				res.json({
-					next: result.next_cursor,
-					items: result.resources,
-				});
-			};
-		}, {
-			resource_type: type,
-			type: 'upload',
-			prefix: prefix,
-			max_results: max,
-			next_cursor: next,
-		});
+		var collection = [];
+		iterateCloudinary(collection, type, max, prefix, null,
+			function (error, callbackResult) {
+				if (error) {
+					res.json(error);
+				} else {
+					res.json({
+						items: callbackResult.sort(sortById),
+					});
+				}
+			});
 	},
 	autocompletemedia: function (req, res) {
-		var cloudinary = require('cloudinary');
-		var imageResult;
+		var async = require('async');
 
-		var max = req.query.max || 10;
+		var max = req.query.max || 50;
 		var prefix = req.query.prefix || '';
-		var next = req.query.next || null;
 
-		cloudinary.api.resources(function (imgResult) {
-			if (imgResult.error) {
-				res.json({ error: { message: imgResult.error.message } });
+		var collection = [];
+
+		async.parallel([
+			function (callback) { iterateCloudinary(collection, 'image', max, prefix, null, callback); },
+			function (callback) { iterateCloudinary(collection, 'video', max, prefix, null, callback); },
+		],
+		function (error, results) {
+			if (error) {
+				res.json(error);
 			} else {
-				imageResult = imgResult.resources;
-				cloudinary.api.resources(function (videoResult) {
-					if (videoResult.error) {
-						res.json({ error: { message: videoResult.error.message } });
-					} else {
-						var combinedResult = imageResult.concat(videoResult.resources);
-						res.json({
-							next: videoResult.next_cursor,
-							items: combinedResult,
-						});
-					}
-				}, {
-					resource_type: 'video',
-					type: 'upload',
-					prefix: prefix,
-					max_results: max,
-					next_cursor: next,
+				results[0].sort(sortById);
+				results[1].sort(sortById);
+
+				res.json({
+					items: results[0].concat(results[1]),
 				});
-			};
-		}, {
-			resource_type: 'image',
-			type: 'upload',
-			prefix: prefix,
-			max_results: max,
-			next_cursor: next,
+			}
 		});
 	},
+
 	get: function (req, res) {
 		var cloudinary = require('cloudinary');
+
 		cloudinary.api.resource(req.query.id, function (result) {
 			if (result.error) {
 				res.json({ error: { message: result.error.message } });
@@ -104,3 +85,43 @@ module.exports = {
 		});
 	},
 };
+
+function iterateCloudinary (collection, type, max, prefix, next, callback) {
+	var cloudinary = require('cloudinary');
+
+	cloudinary.api.resources(function (result) {
+		if (result.error) {
+			callback({ error: { message: result.error.message } }, null);
+		} else {
+			if (collection.length === 0) {
+				collection = result.resources;
+			} else {
+				collection = collection.concat(result.resources);
+			}
+			if (result.next_cursor) {
+				iterateCloudinary(collection, type, max, prefix, result.next_cursor, callback);
+			} else {
+				callback(null, collection);
+			}
+		};
+	}, {
+		resource_type: type,
+		type: 'upload',
+		prefix: prefix,
+		max_results: max,
+		next_cursor: next,
+	});
+}
+
+function sortById (a, b) {
+	if (a.public_id < b.public_id) {
+		return -1;
+	}
+	else if (a.public_id > b.public_id) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
