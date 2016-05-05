@@ -85,7 +85,6 @@
     "scmp": "1.0.0",
     "semver": "5.1.0",
     "serve-favicon": "2.3.0",
-    "superagent": "1.8.3",
     "vkey": "1.0.0",
     "watchify": "3.7.0",
     "xhr": "2.2.0"
