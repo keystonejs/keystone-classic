@@ -3,8 +3,9 @@ var ColorList = require('./lists/color');
 var DateList = require('./lists/date');
 var DatetimeList = require('./lists/datetime');
 var HtmlList = require('./lists/html');
-var NameList = require('./lists/name');
 var MarkdownList = require('./lists/markdown');
+var NameList = require('./lists/name');
+var PasswordList = require('./lists/password');
 var SelectList = require('./lists/select');
 var TextList = require('./lists/text');
 var TextareaList = require('./lists/textarea');
@@ -24,8 +25,9 @@ module.exports = {
 				dateList: new DateList(),
 				datetimeList: new DatetimeList(),
 				htmlList: new HtmlList(),
-				nameList: new NameList(),
 				markdownList: new MarkdownList(),
+				nameList: new NameList(),
+				passwordList: new PasswordList(),
 				selectList: new SelectList(),
 				textList: new TextList(),
 				textareaList: new TextareaList(),
@@ -56,6 +58,8 @@ module.exports = {
 		newItemButton: '.Toolbar__section button[class="Button Button--success"',
 
 		flashMessage: 'div[class="flash-messages"]',
+		flashMessageTitle: 'div[class="flash-messages"] h4',
+		flashMessageDetail: 'div[class="flash-messages"] li',
 
 		readOnlyNameHeader: '.EditForm__name-field h2',
 		editableNameHeader: '.EditForm__name-field input[class*="item-name-field"',
@@ -138,6 +142,14 @@ module.exports = {
 		},
 		assertFlashMessage: function (message) {
 			return this.expect.element('@flashMessage')
+				.text.to.equal(message);
+		},
+		assertFlashMessageTitle: function (message) {
+			return this.expect.element('@flashMessageTitle')
+				.text.to.equal(message);
+		},
+		assertFlashMessageDetail: function (message) {
+			return this.expect.element('@flashMessageDetail')
 				.text.to.equal(message);
 		},
 	}],
