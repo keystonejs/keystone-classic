@@ -79,8 +79,8 @@ var HomeView = React.createClass({
 			<div>
 				{Keystone.nav.sections.map((navSection) => {
 					return (
-						<div className="dashboard-group" key={navSection.key}>
-							<div className="dashboard-group__heading" data-section-label={navSection.label}>
+						<div className="dashboard-group" key={navSection.key} data-section-label={navSection.label}>
+							<div className="dashboard-group__heading">
 								<span className={this.getHeadingIconClasses(navSection.key)} />
 								{navSection.label}
 							</div>
@@ -109,8 +109,8 @@ var HomeView = React.createClass({
 		if (!Keystone.orphanedLists.length) return;
 		let sectionLabel = 'Other';
 		return (
-			<div className="dashboard-group">
-				<div className="dashboard-group__heading" data-section-label={sectionLabel}>
+			<div className="dashboard-group" data-section-label={sectionLabel}>
+				<div className="dashboard-group__heading">
 					<span className="dashboard-group__heading-icon octicon octicon-database" />
 					{sectionLabel}
 				</div>
