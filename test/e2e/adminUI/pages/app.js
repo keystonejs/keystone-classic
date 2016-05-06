@@ -8,9 +8,9 @@ module.exports = {
 	elements: {
 		// ADMIN UI APP SCREENS
 		signinScreen: '#signin-view',
-		homeScreen: '#home-view',
-		listScreen: '#list-view',
-		itemScreen: '#item-view',
+		homeScreen: 'div[data-screen-id="home"]',
+		listScreen: 'div[data-screen-id="list"]',
+		itemScreen: 'div[data-screen-id="item"]',
 		initialFormScreen: '.Modal-dialog',
 		deleteConfirmationScreen: '.Modal-dialog',
 		resetConfirmationScreen: '.Modal-dialog',

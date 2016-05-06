@@ -53,9 +53,9 @@ module.exports = {
 		//
 		// PAGE LEVEL ELEMENTS
 		//
-		listBreadcrumb: '.Toolbar__section a[class="Button Button--link"',
-		searchInputIcon: '.EditForm__header__search input[class="FormInput EditForm__header__search-input"',
-		newItemButton: '.Toolbar__section button[class="Button Button--success"',
+		listBreadcrumb: '.EditForm__header__back',
+		searchInputIcon: '.EditForm__header__search input[class="FormInput EditForm__header__search-input"]',
+		newItemButton: '.Toolbar__section button[class="Button Button--success"]',
 
 		flashMessage: 'div[class="flash-messages"]',
 		flashMessageTitle: 'div[class="flash-messages"] h4',
