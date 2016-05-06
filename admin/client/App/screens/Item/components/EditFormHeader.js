@@ -66,18 +66,16 @@ var Header = React.createClass({
 
 		if (!els.length) {
 			return (
-				<Button type="link">
-					<Link to={`${Keystone.adminPath}/${list.path}`}>
-						<span className="octicon octicon-chevron-left" />
-						{list.plural}
-					</Link>
-				</Button>
+				<Link className="EditForm__header__back" to={`${Keystone.adminPath}/${list.path}`}>
+					<span className="octicon octicon-chevron-left" />
+					{list.plural}
+				</Link>
 			);
 		} else {
 			// add the current list
 			els.push(
 				<li key="back">
-					<Link to={`${Keystone.adminPath}/${list.path}`}>{list.plural}</Link>
+					<Link className="EditForm__header__back" to={`${Keystone.adminPath}/${list.path}`}>{list.plural}</Link>
 				</li>
 			);
 			return <ul className="item-breadcrumbs" key="drilldown">{els}</ul>;
