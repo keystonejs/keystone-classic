@@ -577,13 +577,13 @@ const ListView = React.createClass({
 	render () {
 		if (!this.props.ready) {
 			return (
-				<div className="centered-loading-indicator">
+				<div className="centered-loading-indicator" data-screen-id="list">
 					<Spinner size="md" />
 				</div>
 			);
 		}
 		return (
-			<div>
+			<div data-screen-id="list">
 				{this.renderBlankState()}
 				{this.renderActiveState()}
 				<CreateForm

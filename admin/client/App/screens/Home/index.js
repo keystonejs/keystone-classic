@@ -133,7 +133,7 @@ var HomeView = React.createClass({
 	},
 	render () {
 		return (
-			<Container>
+			<Container data-screen-id="home">
 				<div className="dashboard-header">
 					<div className="dashboard-heading">{Keystone.brand}</div>
 				</div>

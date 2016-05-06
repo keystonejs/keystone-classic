@@ -97,14 +97,14 @@ var ItemView = React.createClass({
 		// If we don't have any data yet, show the loading indicator
 		if (!this.props.ready) {
 			return (
-				<div className="centered-loading-indicator">
+				<div className="centered-loading-indicator" data-screen-id="item">
 					<Spinner size="md" />
 				</div>
 			);
 		}
 		// When we have the data, render the item view with it
 		return (
-			<div>
+			<div data-screen-id="item">
 				{(this.props.error) ? (
 					<FlashMessages
 						messages={{
