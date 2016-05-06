@@ -1,3 +1,4 @@
+var BooleanList = require('./lists/boolean');
 var CodeList = require('./lists/code');
 var ColorList = require('./lists/color');
 var DateList = require('./lists/date');
@@ -20,6 +21,7 @@ module.exports = {
 				//
 				// DEFINE ALL LISTS
 				//
+				booleanList: new BooleanList(),
 				codeList: new CodeList(),
 				colorList: new ColorList(),
 				dateList: new DateList(),
