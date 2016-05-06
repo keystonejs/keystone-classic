@@ -47,6 +47,7 @@ var EditForm = React.createClass({
 			values: Object.assign({}, this.props.data.fields),
 			confirmationDialog: null,
 			loading: false,
+			lastValues: null, // used for resetting
 		};
 	},
 	getFieldProps (field) {
@@ -88,7 +89,7 @@ var EditForm = React.createClass({
 	},
 	handleReset () {
 		this.setState({
-			values: Object.assign({}, this.props.data.fields),
+			values: Object.assign({}, this.state.lastValues || this.props.data.fields),
 			confirmationDialog: null,
 		});
 	},
@@ -146,6 +147,7 @@ var EditForm = React.createClass({
 							success: 'Your changes have been saved successfully',
 						},
 					},
+					lastValues: this.state.values,
 					values: data.fields,
 					loading: false,
 				});
