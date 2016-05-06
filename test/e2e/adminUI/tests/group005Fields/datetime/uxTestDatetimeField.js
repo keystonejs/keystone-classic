@@ -23,7 +23,7 @@ module.exports = {
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('New Datetime Datetime Field Test 1 created.');
+		
 		browser.itemPage.assertInputs({
 			listName: 'Datetime',
 			fields: {
@@ -41,7 +41,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
-		browser.itemPage.assertFlashMessage('Your changes have been saved.');
+		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemPage.assertInputs({
 			listName: 'Datetime',
 			fields: {

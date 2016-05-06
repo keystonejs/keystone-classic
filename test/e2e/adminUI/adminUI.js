@@ -26,7 +26,7 @@ module.exports = {
 			submitButton: 'button[type=submit]',
 		},
 		homeView: {
-			id: '#home-view',
+			id: 'div[data-screen-id="home"]',
 
 			dashboardHeader: '.dashboard-heading',
 
@@ -80,7 +80,7 @@ module.exports = {
 			itemCountForOtherListsTabUnderDashboardOthersSubheading: '.dashboard-group__list[data-list-path="other-lists"] .dashboard-group__list-count',
 		},
 		listView: {
-			id: '#list-view',
+			id: 'div[data-screen-id="list"]',
 			noItemsFoundNoText: '.BlankState__heading > span:nth-child(1)',
 			noItemsFoundListNameText: '.BlankState__heading > span:nth-child(2)',
 			noItemsFoundFoundText: '.BlankState__heading > span:nth-child(3)',
@@ -123,7 +123,7 @@ module.exports = {
 			deleteSecondItemIconWhenListHasMultipleItems: '.Table > tbody:nth-child(3) > tr:nth-child(2) > td:nth-child(1) > button:nth-child(1)',
 		},
 		itemView: {
-			id: '#item-view',
+			id: 'div[data-screen-id="item"]',
 			listBreadcrumb: 'a.Button',
 			breadcrumpForUsersList: 'a.Button > span:nth-child(2)',
 			searchInputIcon: '.EditForm__header__search-input',

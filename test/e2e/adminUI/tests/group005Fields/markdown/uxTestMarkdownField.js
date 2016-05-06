@@ -31,7 +31,7 @@ module.exports = {
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('New Markdown Markdown Field Test 1 created.');
+
 		browser.itemPage.assertInputs({
 			listName: 'Markdown',
 			fields: {
@@ -48,7 +48,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
-		browser.itemPage.assertFlashMessage('Your changes have been saved.');
+		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemPage.assertInputs({
 			listName: 'Markdown',
 			fields: {

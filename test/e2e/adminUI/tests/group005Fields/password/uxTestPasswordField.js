@@ -15,7 +15,7 @@ module.exports = {
 			}
 		});
 		browser.initialFormPage.save();
-		browser.initialFormPage.assertFlashError("Passwords must match");
+		browser.initialFormPage.assertFlashError("Error");
 		browser.initialFormPage.fillInputs({
 			listName: 'Password',
 			fields: {
@@ -30,7 +30,7 @@ module.exports = {
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('New Password Password Field Test 1 created.');
+
 		browser.itemPage.assertInputs({
 			listName: 'Password',
 			fields: {
@@ -47,8 +47,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
-		browser.itemPage.assertFlashMessageTitle('There was a problem saving your changes:');
-		browser.itemPage.assertFlashMessageDetail('Passwords must match');
+		browser.itemPage.assertFlashError('Error');
 		browser.itemPage.section.form.section.passwordList.section.fieldB.clickSetPassword();
 		browser.itemPage.fillInputs({
 			listName: 'Password',
@@ -57,7 +56,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
-		browser.itemPage.assertFlashMessage('Your changes have been saved.');
+		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemPage.assertInputs({
 			listName: 'Password',
 			fields: {
