@@ -67,7 +67,7 @@ var SigninView = React.createClass({
 		});
 	},
 	renderBrand () {
-		let logo = { src: `${Keystone.adminPath}/images/logo.png`, width: 205, height: 68 };
+		let logo = { src: `${Keystone.adminPath}/images/logo.png`, width: 205 };
 		if (this.props.logo) {
 			logo = typeof this.props.logo === 'string' ? { src: this.props.logo } : this.props.logo;
 			// TODO: Deprecate this
@@ -87,7 +87,7 @@ var SigninView = React.createClass({
 	},
 	renderUserInfo () {
 		if (!this.props.user) return null;
-		const openKeystoneButton = this.props.userCanAccessKeystone ? <Button href={Keystone.adminPath} type="primary">Open Keystone</Button> : null;
+		const openKeystoneButton = this.props.userCanAccessKeystone ? <Button href={Keystone.adminPath} type="primary">Open Wellstone</Button> : null;
 		return (
 			<div className="auth-box__col">
 				<p>Hi {this.props.user.name.first},</p>
@@ -135,7 +135,7 @@ var SigninView = React.createClass({
 			<div className="auth-wrapper">
 				{this.renderAlert()}
 				<div className={boxClassname}>
-					<h1 className="u-hidden-visually">{this.props.brand ? this.props.brand : 'Keystone'} Sign In </h1>
+					<h1 className="u-hidden-visually">{this.props.brand ? this.props.brand : 'Wellstone'} Sign In </h1>
 					<div className="auth-box__inner">
 						{this.renderBrand()}
 						{this.renderUserInfo()}
