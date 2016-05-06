@@ -48,12 +48,12 @@ module.exports = {
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('New User First 1 Last 1 created.');
+
 	},
 	'Item screen should allow saving an item without changes': function (browser) {
 		browser.itemPage.save();
 
-		browser.itemPage.assertFlashMessage('Your changes have been saved.');
+		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
 		browser.itemPage.fillInputs({
@@ -70,7 +70,7 @@ module.exports = {
 		});
 		browser.itemPage.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved.');
+		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
 		browser.itemPage.fillInputs({

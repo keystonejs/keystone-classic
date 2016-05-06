@@ -57,9 +57,8 @@ module.exports = {
 		searchInputIcon: '.EditForm__header__search input[class="FormInput EditForm__header__search-input"]',
 		newItemButton: '.Toolbar__section button[class="Button Button--success"]',
 
-		flashMessage: 'div[class="flash-messages"]',
-		flashMessageTitle: 'div[class="flash-messages"] h4',
-		flashMessageDetail: 'div[class="flash-messages"] li',
+		flashMessage: '.Alert--success',
+		flashError: '.Alert--danger',
 
 		readOnlyNameHeader: '.EditForm__name-field h2',
 		editableNameHeader: '.EditForm__name-field input[class*="item-name-field"',
@@ -144,12 +143,8 @@ module.exports = {
 			return this.expect.element('@flashMessage')
 				.text.to.equal(message);
 		},
-		assertFlashMessageTitle: function (message) {
-			return this.expect.element('@flashMessageTitle')
-				.text.to.equal(message);
-		},
-		assertFlashMessageDetail: function (message) {
-			return this.expect.element('@flashMessageDetail')
+		assertFlashError: function (message) {
+			return this.expect.element('@flashError')
 				.text.to.equal(message);
 		},
 	}],
