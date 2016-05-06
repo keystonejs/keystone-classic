@@ -48,7 +48,6 @@ module.exports = {
 		});
 		browser.itemPage.save();
 		browser.itemPage.assertFlashError('Error');
-		browser.itemPage.section.form.section.passwordList.section.fieldB.clickSetPassword();
 		browser.itemPage.fillInputs({
 			listName: 'Password',
 			fields: {
