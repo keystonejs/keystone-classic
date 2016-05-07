@@ -32,10 +32,25 @@ var AlertMessages = React.createClass({
 	},
 	renderValidationErrors () {
 		let errors = this.props.alerts.error.detail;
+		if (errors.name === 'ValidationError') {
+			errors = errors.errors;
+		}
 		let errorCount = Object.keys(errors).length;
 		let alertContent;
 		let messages = Object.keys(errors).map((path) => {
-			return errorCount > 1 ? <li key={path}>{upcase(errors[path].error)}</li> : <div key={path}>{upcase(errors[path].error)}</div>;
+			if (errorCount > 1) {
+				return (
+					<li key={path}>
+						{upcase(errors[path].error || errors[path].message)}
+					</li>
+				);
+			} else {
+				return (
+					<div key={path}>
+						{upcase(errors[path].error || errors[path].message)}
+					</div>
+				);
+			}
 		});
 
 		if (errorCount > 1) {
@@ -59,6 +74,12 @@ var AlertMessages = React.createClass({
 			switch (error.error) {
 				case 'validation errors':
 					return this.renderValidationErrors();
+				case 'error':
+					if (error.detail.name === 'ValidationError') {
+						return this.renderValidationErrors();
+					} else {
+						return <Alert type="danger">{upcase(error.error)}</Alert>;
+					}
 				default:
 					return <Alert type="danger">{upcase(error.error)}</Alert>;
 			}
