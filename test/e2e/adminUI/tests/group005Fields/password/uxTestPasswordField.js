@@ -15,7 +15,7 @@ module.exports = {
 			}
 		});
 		browser.initialFormPage.save();
-		browser.initialFormPage.assertFlashError("Error");
+		browser.initialFormPage.assertFlashError("Passwords must match");
 		browser.initialFormPage.fillInputs({
 			listName: 'Password',
 			fields: {
@@ -47,7 +47,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
-		browser.itemPage.assertFlashError('Error');
+		browser.itemPage.assertFlashError('Passwords must match');
 		browser.itemPage.fillInputs({
 			listName: 'Password',
 			fields: {
