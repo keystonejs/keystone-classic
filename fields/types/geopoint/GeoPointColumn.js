@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var GeoPointColumn = React.createClass({
 	displayName: 'GeoPointColumn',
@@ -9,11 +9,11 @@ var GeoPointColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value || !value.length) return null;
 
-		let formattedValue = `${value[1]}, ${value[0]}`;
-		let formattedTitle = `Lat: ${value[1]} Lng: ${value[0]}`;
+		const formattedValue = `${value[1]}, ${value[0]}`;
+		const formattedTitle = `Lat: ${value[1]} Lng: ${value[0]}`;
 
 		return (
 			<ItemsTableValue title={formattedTitle} field={this.props.col.type}>
@@ -27,7 +27,7 @@ var GeoPointColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = GeoPointColumn;

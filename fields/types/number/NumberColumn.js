@@ -1,7 +1,7 @@
 import React from 'react';
 import numeral from 'numeral';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var NumberColumn = React.createClass({
 	displayName: 'NumberColumn',
@@ -10,10 +10,10 @@ var NumberColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value || isNaN(value)) return null;
 
-		let formattedValue = (this.props.col.path === 'money') ? numeral(value).format('$0,0.00') : value;
+		const formattedValue = (this.props.col.path === 'money') ? numeral(value).format('$0,0.00') : value;
 
 		return formattedValue;
 	},
@@ -25,7 +25,7 @@ var NumberColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = NumberColumn;

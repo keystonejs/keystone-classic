@@ -1,7 +1,7 @@
 import React from 'react';
 import CloudinaryImageSummary from '../../components/columns/CloudinaryImageSummary';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 const moreIndicatorStyle = {
 	color: '#888',
@@ -16,8 +16,7 @@ var CloudinaryImagesColumn = React.createClass({
 	},
 	renderMany (value) {
 		if (!value || !value.length) return;
-		let refList = this.props.col.field.refList;
-		let items = [];
+		const items = [];
 		for (let i = 0; i < 3; i++) {
 			if (!value[i]) break;
 			items.push(<CloudinaryImageSummary key={'image' + i} image={value[i]} />);
@@ -34,8 +33,8 @@ var CloudinaryImagesColumn = React.createClass({
 
 	},
 	render () {
-		let value = this.props.data.fields[this.props.col.path];
-		let many = value.length > 1;
+		const value = this.props.data.fields[this.props.col.path];
+		const many = value.length > 1;
 
 		return (
 			<ItemsTableCell>
@@ -44,7 +43,7 @@ var CloudinaryImagesColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = CloudinaryImagesColumn;

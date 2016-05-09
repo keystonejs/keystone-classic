@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var SelectColumn = React.createClass({
 	displayName: 'SelectColumn',
@@ -9,8 +9,8 @@ var SelectColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
-		let option = this.props.col.field.ops.filter(i => i.value === value)[0];
+		const value = this.props.data.fields[this.props.col.path];
+		const option = this.props.col.field.ops.filter(i => i.value === value)[0];
 
 		return option ? option.label : null;
 	},
@@ -22,7 +22,7 @@ var SelectColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = SelectColumn;

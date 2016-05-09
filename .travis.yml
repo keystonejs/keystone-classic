@@ -1,15 +1,19 @@
 language: node_js
 node_js:
   - "0.12"
-  - "4.0"
+
+before_install:
+  - npm install -g npm@3
 
 before_script:
   - npm run lint
+  - sleep 15
 
 script:
   - npm run test-cov
+  - npm run test-e2e-saucelabs
 
-sudo: false
+sudo: required
 
 notifications:
   email:
@@ -25,3 +29,11 @@ git:
 cache:
   directories:
     - node_modules
+
+addons:
+  apt:
+    sources:
+      - mongodb-3.2-precise
+    packages:
+      - mongodb-org-server
+  sauce_connect: true

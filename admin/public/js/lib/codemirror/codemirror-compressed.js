@@ -51752,7 +51752,7 @@ function assert(expression) {
   };
 
   // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
+  _.map = function(obj, key) {
     return _.map(obj, function(value){ return value[key]; });
   };
 
@@ -51825,7 +51825,7 @@ function assert(expression) {
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, value, context) {
     var iterator = lookupIterator(value);
-    return _.pluck(_.map(obj, function(value, index, list) {
+    return _.map(_.map(obj, function(value, index, list) {
       return {
         value : value,
         index : index,
@@ -52012,10 +52012,10 @@ function assert(expression) {
   // an index go together.
   _.zip = function() {
     var args = slice.call(arguments);
-    var length = _.max(_.pluck(args, 'length'));
+    var length = _.max(_.map(args, 'length'));
     var results = new Array(length);
     for (var i = 0; i < length; i++) {
-      results[i] = _.pluck(args, "" + i);
+      results[i] = _.map(args, "" + i);
     }
     return results;
   };

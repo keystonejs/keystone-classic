@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
@@ -8,11 +8,11 @@ var utils = require('keystone-utils');
  * @extends Field
  * @api public
  */
-function select(list, path, options) {
+function select (list, path, options) {
 	this.ui = options.ui || 'select';
 	this.numeric = options.numeric ? true : false;
 	this._nativeType = (options.numeric) ? Number : String;
-	this._underscoreMethods = ['format'];
+	this._underscoreMethods = ['format', 'pluck'];
 	this._properties = ['ops', 'numeric'];
 	if (typeof options.options === 'string') {
 		options.options = options.options.split(',');
@@ -20,7 +20,7 @@ function select(list, path, options) {
 	if (!Array.isArray(options.options)) {
 		throw new Error('Select fields require an options array.');
 	}
-	this.ops = options.options.map(function(i) {
+	this.ops = options.options.map(function (i) {
 		var op = _.isString(i) ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
 		if (!_.isObject(op)) {
 			op = { label: '' + i, value: '' + i };
@@ -35,11 +35,11 @@ function select(list, path, options) {
 		options.emptyOption = true;
 	}
 	// ensure this.emptyOption is a boolean
-	this.emptyOption = options.emptyOption ? true : false;
+	this.emptyOption = !!options.emptyOption;
 	// cached maps for options, labels and values
 	this.map = utils.optionsMap(this.ops);
 	this.labels = utils.optionsMap(this.ops, 'label');
-	this.values = _.pluck(this.ops, 'value');
+	this.values = _.map(this.ops, 'value');
 	select.super_.call(this, list, path, options);
 }
 util.inherits(select, FieldType);
@@ -51,21 +51,21 @@ util.inherits(select, FieldType);
  * and statics to the Schema for converting a value to a label,
  * and retrieving all of the defined options.
  */
-select.prototype.addToSchema = function() {
+select.prototype.addToSchema = function () {
 	var field = this;
 	var schema = this.list.schema;
 	this.paths = {
 		data: this.options.dataPath || this._path.append('Data'),
 		label: this.options.labelPath || this._path.append('Label'),
 		options: this.options.optionsPath || this._path.append('Options'),
-		map: this.options.optionsMapPath || this._path.append('OptionsMap')
+		map: this.options.optionsMapPath || this._path.append('OptionsMap'),
 	};
 	schema.path(this.path, _.defaults({
 		type: this._nativeType,
 		enum: this.values,
-		set: function(val) {
+		set: function (val) {
 			return (val === '' || val === null || val === false) ? undefined : val;
-		}
+		},
 	}, this.options));
 	schema.virtual(this.paths.data).get(function () {
 		return field.map[this.get(field.path)];
@@ -73,50 +73,99 @@ select.prototype.addToSchema = function() {
 	schema.virtual(this.paths.label).get(function () {
 		return field.labels[this.get(field.path)];
 	});
-	schema.virtual(this.paths.options).get(function() {
+	schema.virtual(this.paths.options).get(function () {
 		return field.ops;
 	});
-	schema.virtual(this.paths.map).get(function() {
+	schema.virtual(this.paths.map).get(function () {
 		return field.map;
-	});
-	this.underscoreMethod('pluck', function(property, d) {
-		var option = this.get(field.paths.data);
-		return (option) ? option[property] : d;
 	});
 	this.bindUnderscoreMethods();
 };
 
 /**
+ * Returns a key value from the selected option
+ */
+select.prototype.pluck = function (item, property, _default) {
+	var option = item.get(this.paths.data);
+	return (option) ? option[property] : _default;
+};
+
+/**
  * Retrieves a shallow clone of the options array
  */
-select.prototype.cloneOps = function() {
+select.prototype.cloneOps = function () {
 	return _.map(this.ops, _.clone);
 };
 
 /**
  * Retrieves a shallow clone of the options map
  */
-select.prototype.cloneMap = function() {
+select.prototype.cloneMap = function () {
 	return utils.optionsMap(this.ops, true);
 };
 
 /**
  * Add filters to a query
  */
-select.prototype.addFilterToQuery = function(filter, query) {
-	query = query || {};
-	if (filter.value) {
-		query[this.path] = (filter.invert) ? { $ne: filter.value } : filter.value;
+select.prototype.addFilterToQuery = function (filter) {
+	var query = {};
+	if (!Array.isArray(filter.value)) {
+		if (filter.value) {
+			filter.value = [filter.value];
+		} else {
+			filter.value = [];
+		}
+	}
+	if (filter.value.length > 1) {
+		query[this.path] = (filter.inverted) ? { $nin: filter.value } : { $in: filter.value };
+	} else if (filter.value.length === 1) {
+		query[this.path] = (filter.inverted) ? { $ne: filter.value[0] } : filter.value[0];
 	} else {
-		query[this.path] = (filter.inverse) ? { $nin: ['', null] } : { $in: ['', null] };
+		query[this.path] = (filter.inverted) ? { $nin: ['', null] } : { $in: ['', null] };
 	}
 	return query;
 };
 
 /**
- * Validates that a valid option has been provided in a data object
+ * Asynchronously confirms that the provided value is valid
  */
-select.prototype.validateInput = function(data, required, item) {
+select.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	if (typeof value === 'string' && this.numeric) {
+		value = utils.number(value);
+	}
+	var result = value === undefined || value === null || value === '' || (value in this.map) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
+ * Asynchronously confirms that the provided value is present
+ */
+select.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = false;
+	if (value === undefined) {
+		if (item.get(this.path)) {
+			result = true;
+		}
+	} else if (value) {
+		if (value !== '') {
+			// This is already checkind in validateInput, but it doesn't hurt
+			// to check again for security
+			if (value in this.map) {
+				result = true;
+			}
+		}
+	}
+	utils.defer(callback, result);
+};
+
+/**
+ * Validates that a valid option has been provided in a data object
+ *
+ * Deprecated
+ */
+select.prototype.inputIsValid = function (data, required, item) {
 	if (data[this.path]) {
 		return (data[this.path] in this.map) ? true : false;
 	} else {
@@ -127,9 +176,9 @@ select.prototype.validateInput = function(data, required, item) {
 /**
  * Formats the field value
  */
-select.prototype.format = function(item) {
-	return this.labels[item.get(this.path)];
+select.prototype.format = function (item) {
+	return this.labels[item.get(this.path)] || '';
 };
 
 /* Export Field Type */
-exports = module.exports = select;
+module.exports = select;

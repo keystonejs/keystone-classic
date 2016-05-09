@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var EmailColumn = React.createClass({
 	displayName: 'EmailColumn',
@@ -9,23 +9,22 @@ var EmailColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
 
 		return (
-			<ItemsTableValue href={'mailto:'+ value} padded exterior field={this.props.col.type}>
+			<ItemsTableValue href={'mailto:' + value} padded exterior field={this.props.col.type}>
 				{value}
 			</ItemsTableValue>
 		);
 	},
 	render () {
-		let value = this.props.data.fields[this.props.col.path];
 		return (
 			<ItemsTableCell>
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = EmailColumn;

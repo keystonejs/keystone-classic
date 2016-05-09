@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var PasswordColumn = React.createClass({
 	displayName: 'PasswordColumn',
@@ -9,7 +9,7 @@ var PasswordColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		return value ? '********' : '';
 	},
 	render () {
@@ -20,7 +20,7 @@ var PasswordColumn = React.createClass({
 				</ItemsTableValue>
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = PasswordColumn;

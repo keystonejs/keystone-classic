@@ -108,9 +108,8 @@
 	color: @gray-light;
 	display: block;
 	line-height: 1;
-	height: 80px;
 	padding: 15px;
-	padding-right: 39px; // make room for the create button
+	padding-right: 54px; // make room for the create button
 	position: relative;
 
 	&:focus {
@@ -144,7 +143,11 @@
 	display: inline-block;
 	font-size: 1.25em;
 	font-weight: 500;
-	margin-bottom: .3em;
+	padding-bottom: .05em; // prevent decenders being cropped
+	margin-bottom: .2em;
+}
+.dashboard-group__list-count {
+	padding-bottom: .2em;
 }
 
 

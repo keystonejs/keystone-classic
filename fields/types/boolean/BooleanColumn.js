@@ -1,8 +1,7 @@
 import React from 'react';
-import classnames from 'classnames';
-import Checkbox from '../../../admin/src/components/Checkbox';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import Checkbox from '../../components/Checkbox';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var BooleanColumn = React.createClass({
 	displayName: 'BooleanColumn',
@@ -23,7 +22,7 @@ var BooleanColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = BooleanColumn;

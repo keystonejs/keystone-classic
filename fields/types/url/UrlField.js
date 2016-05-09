@@ -3,9 +3,7 @@ import Field from '../Field';
 import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({
-
 	displayName: 'URLField',
-
 	openValue () {
 		var href = this.props.value;
 		if (!href) return;
@@ -23,6 +21,18 @@ module.exports = Field.create({
 			</Button>
 		);
 	},
+	renderField () {
+		return (
+			<FormInput
+				name={this.props.path}
+				ref="focusTarget"
+				value={this.props.value}
+				onChange={this.valueChanged}
+				autoComplete="off"
+				type="url"
+			/>
+		);
+	},
 	wrapField () {
 		return (
 			<div style={{ position: 'relative' }}>
@@ -33,6 +43,5 @@ module.exports = Field.create({
 	},
 	renderValue () {
 		return <FormInput noedit onClick={this.openValue}>{this.props.value}</FormInput>;
-	}
-
+	},
 });

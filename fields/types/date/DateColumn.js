@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var DateColumn = React.createClass({
 	displayName: 'DateColumn',
@@ -10,11 +10,11 @@ var DateColumn = React.createClass({
 		data: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.fields[this.props.col.path];
+		const value = this.props.data.fields[this.props.col.path];
 		if (!value) return null;
 
-		let format = (this.props.col.path === 'dateTime') ? 'MMMM Do YYYY, h:mm:ss a' : 'MMMM Do YYYY';
-		let formattedValue = moment(value).format(format);
+		const format = (this.props.col.type === 'datetime') ? 'MMMM Do YYYY, h:mm:ss a' : 'MMMM Do YYYY';
+		const formattedValue = moment(value).format(format);
 
 		return (
 			<ItemsTableValue title={formattedValue} field={this.props.col.type}>
@@ -28,7 +28,7 @@ var DateColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = DateColumn;

@@ -12,6 +12,13 @@
 	margin-bottom: 3em;
 }
 
+.EditForm__header__back {
+	line-height: 1.5em;
+}
+
+.EditForm__header__back .octicon-chevron-left {
+	margin-right: .5em;
+}
 
 
 
@@ -37,6 +44,7 @@
 	background: transparent;
 	border-color: transparent;
 	box-shadow: none;
+	display: inline-block;
 
 	// set the width to only be as long as if it were a button initially
 	// this is updated on focus to a more comfortable typing length
@@ -122,14 +130,25 @@
 // ------------------------------
 
 .EditForm__key-or-id {
+	.display-flex();
 	color: @input-placeholder-color;
 	font-family: @font-family-monospace;
 	margin-bottom: 1.6em;
 	margin-top: -1em;
-
-	&::first-letter {
-		text-transform: uppercase;
-	}
+}
+.EditForm__key-or-id__label {
+	margin-right: .5em;
+}
+.EditForm__key-or-id__field {
+	.flex(1, 0, auto);
+}
+.EditForm__key-or-id__input {
+	background: none;
+	border: none;
+	outline: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
 }
 
 

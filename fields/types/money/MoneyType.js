@@ -8,28 +8,33 @@ var util = require('util');
  * @extends Field
  * @api public
  */
-function money(list, path, options) {
+function money (list, path, options) {
 	this.currency = options.currency;
 	this._nativeType = Number;
 	this._underscoreMethods = ['format'];
 	this._properties = ['currency'];
 	this._fixedSize = 'small';
 	this._formatString = (options.format === false) ? false : (options.format || '$0,0.00');
-	if (this._formatString && 'string' !== typeof this._formatString) {
+	if (this._formatString && typeof this._formatString !== 'string') {
 		throw new Error('FieldType.Money: options.format must be a string.');
 	}
 	money.super_.call(this, list, path, options);
 }
 util.inherits(money, FieldType);
 
+
+money.prototype.validateInput = NumberType.prototype.validateInput;
+money.prototype.validateRequiredInput = NumberType.prototype.validateRequiredInput;
+
 /* Inherit from NumberType prototype */
 money.prototype.updateItem = NumberType.prototype.updateItem;
-money.prototype.validateInput = NumberType.prototype.validateInput;
+money.prototype.inputIsValid = NumberType.prototype.inputIsValid;
+money.prototype.addFilterToQuery = NumberType.prototype.addFilterToQuery;
 
 /**
  * Formats the field value
  */
-money.prototype.format = function(item, format) {
+money.prototype.format = function (item, format) {
 	if (this.currency) {
 		try {
 			numeral.language(this.currency, require('numeral/languages/' + this.currency));
@@ -39,11 +44,11 @@ money.prototype.format = function(item, format) {
 		}
 	}
 	if (format || this._formatString) {
-		return ('number' === typeof item.get(this.path)) ? numeral(item.get(this.path)).format(format || this._formatString) : '';
+		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
 	} else {
 		return item.get(this.path) || '';
 	}
 };
 
 /* Export Field Type */
-exports = module.exports = money;
+module.exports = money;

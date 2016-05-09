@@ -15,24 +15,24 @@
 	display: inline-block;
 	vertical-align: middle;
 
-	&.fieldicon-text            { background-image: url( "/keystone/images/icons/16/field-text.png" ); }
-	&.fieldicon-textarea        { background-image: url( "/keystone/images/icons/16/field-textarea.png" ); }
-	&.fieldicon-name            { background-image: url( "/keystone/images/icons/16/field-name.png" ); }
-	&.fieldicon-html            { background-image: url( "/keystone/images/icons/16/field-html.png" ); }
-	&.fieldicon-url             { background-image: url( "/keystone/images/icons/16/field-url.png" ); }
-	&.fieldicon-key             { background-image: url( "/keystone/images/icons/16/field-key.png" ); }
-	&.fieldicon-email           { background-image: url( "/keystone/images/icons/16/field-email.png" ); }
-	&.fieldicon-select          { background-image: url( "/keystone/images/icons/16/field-select.png" ); }
-	&.fieldicon-location        { background-image: url( "/keystone/images/icons/16/field-location.png" ); }
-	&.fieldicon-boolean         { background-image: url( "/keystone/images/icons/16/field-boolean.png" ); }
-	&.fieldicon-cloudinaryimage { background-image: url( "/keystone/images/icons/16/field-image.png" ); }
-	&.fieldicon-s3file          { background-image: url( "/keystone/images/icons/16/field-file.png" ); }
-	&.fieldicon-relationship    { background-image: url( "/keystone/images/icons/16/field-numericSelect.png" ); }
-	&.fieldicon-date            { background-image: url( "/keystone/images/icons/16/field-date.png" ); }
-	&.fieldicon-datetime        { background-image: url( "/keystone/images/icons/16/field-dateTime.png" ); }
-	&.fieldicon-money           { background-image: url( "/keystone/images/icons/16/field-money.png" ); }
-	&.fieldicon-number          { background-image: url( "/keystone/images/icons/16/field-number.png" ); }
-	&.fieldicon-sort            { background-image: url( "/keystone/images/icons/16/field-sort.png" ); }
+	&.fieldicon-text            { background-image: url( "@{adminPath}/images/icons/16/field-text.png" ); }
+	&.fieldicon-textarea        { background-image: url( "@{adminPath}/images/icons/16/field-textarea.png" ); }
+	&.fieldicon-name            { background-image: url( "@{adminPath}/images/icons/16/field-name.png" ); }
+	&.fieldicon-html            { background-image: url( "@{adminPath}/images/icons/16/field-html.png" ); }
+	&.fieldicon-url             { background-image: url( "@{adminPath}/images/icons/16/field-url.png" ); }
+	&.fieldicon-key             { background-image: url( "@{adminPath}/images/icons/16/field-key.png" ); }
+	&.fieldicon-email           { background-image: url( "@{adminPath}/images/icons/16/field-email.png" ); }
+	&.fieldicon-select          { background-image: url( "@{adminPath}/images/icons/16/field-select.png" ); }
+	&.fieldicon-location        { background-image: url( "@{adminPath}/images/icons/16/field-location.png" ); }
+	&.fieldicon-boolean         { background-image: url( "@{adminPath}/images/icons/16/field-boolean.png" ); }
+	&.fieldicon-cloudinaryimage { background-image: url( "@{adminPath}/images/icons/16/field-image.png" ); }
+	&.fieldicon-s3file          { background-image: url( "@{adminPath}/images/icons/16/field-file.png" ); }
+	&.fieldicon-relationship    { background-image: url( "@{adminPath}/images/icons/16/field-numericSelect.png" ); }
+	&.fieldicon-date            { background-image: url( "@{adminPath}/images/icons/16/field-date.png" ); }
+	&.fieldicon-datetime        { background-image: url( "@{adminPath}/images/icons/16/field-dateTime.png" ); }
+	&.fieldicon-money           { background-image: url( "@{adminPath}/images/icons/16/field-money.png" ); }
+	&.fieldicon-number          { background-image: url( "@{adminPath}/images/icons/16/field-number.png" ); }
+	&.fieldicon-sort            { background-image: url( "@{adminPath}/images/icons/16/field-sort.png" ); }
 }
 .dropdown-menu .fieldicon {
 	margin-right: 10px;
@@ -59,6 +59,14 @@
 	margin-bottom: 60px;
 	table-layout: fixed;
 	width: 100%;
+}
+
+.Relationship {
+	margin-bottom: 30px;
+}
+
+.Relationship__noresults {
+	color: #999;
 }
 
 
@@ -121,6 +129,22 @@
 }
 
 
+// Drag and Drop
+// ------------------------------
+
+.ItemList__row--dragging {
+	background-color: white;
+	cursor: move;
+	opacity: 1;
+}
+.ItemList__row--success,
+.ItemList__row--failure {
+	animation: listitem-finished-dragging 1.8s;
+}
+
+@-webkit-keyframes listitem-finished-dragging {
+	from { background-color: #fff6c0; }
+}
 
 
 // Links
@@ -180,7 +204,8 @@
 .ItemList__value--key,
 .ItemList__value--html,
 .ItemList__value--htmlWYSIWYG,
-.ItemList__value--id {
+.ItemList__value--id,
+.ItemList__value--monospace {
 	font-family: @font-family-monospace;
 }
 
@@ -240,3 +265,4 @@
 
 @import "./list-controls";
 @import "./list-filters";
+@import "./list-sort";

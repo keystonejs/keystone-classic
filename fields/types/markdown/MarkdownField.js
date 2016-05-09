@@ -1,5 +1,6 @@
 import Field from '../Field';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { FormInput } from 'elemental';
 
 /**
@@ -13,8 +14,13 @@ require('./lib/bootstrap-markdown');
 
 // Append/remove ### surround the selection
 // Source: https://github.com/toopay/bootstrap-markdown/blob/master/js/bootstrap-markdown.js#L909
-var toggleHeading = function(e, level) {
-	var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
+var toggleHeading = function (e, level) {
+	var chunk;
+	var cursor;
+	var selected = e.getSelection();
+	var content = e.getContent();
+	var pointer;
+	var prevChar;
 
 	if (selected.length === 0) {
 		// Give extra word
@@ -42,7 +48,7 @@ var toggleHeading = function(e, level) {
 	e.setSelection(cursor, cursor + chunk.length);
 };
 
-var renderMarkdown = function(component) {
+var renderMarkdown = function (component) {
 	// dependsOn means that sometimes the component is mounted as a null, so account for that & noop
 	if (!component.refs.markdownTextarea) {
 		return;
@@ -62,43 +68,43 @@ var renderMarkdown = function(component) {
 				name: 'cmdH1',
 				title: 'Heading 1',
 				btnText: 'H1',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '#');
-				}
+				},
 			}, {
 				name: 'cmdH2',
 				title: 'Heading 2',
 				btnText: 'H2',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '##');
-				}
+				},
 			}, {
 				name: 'cmdH3',
 				title: 'Heading 3',
 				btnText: 'H3',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '###');
-				}
+				},
 			}, {
 				name: 'cmdH4',
 				title: 'Heading 4',
 				btnText: 'H4',
-				callback: function(e) {
+				callback: function (e) {
 					toggleHeading(e, '####');
-				}
-			}]
+				},
+			}],
 		}],
 
 		// Insert Header buttons into the toolbar
-		reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil']
+		reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil'],
 	};
 
 	if (component.props.toolbarOptions.hiddenButtons) {
-		var hiddenButtons = ('string' === typeof component.props.toolbarOptions.hiddenButtons) ? component.props.toolbarOptions.hiddenButtons.split(',') : component.props.toolbarOptions.hiddenButtons;
+		var hiddenButtons = (typeof component.props.toolbarOptions.hiddenButtons === 'string') ? component.props.toolbarOptions.hiddenButtons.split(',') : component.props.toolbarOptions.hiddenButtons;
 		options.hiddenButtons = options.hiddenButtons.concat(hiddenButtons);
 	}
 
-	$(component.refs.markdownTextarea.getDOMNode()).markdown(options);
+	$(ReactDOM.findDOMNode(component.refs.markdownTextarea)).markdown(options);
 };
 
 module.exports = Field.create({
@@ -127,12 +133,13 @@ module.exports = Field.create({
 	renderField () {
 		var styles = {
 			padding: 8,
-			height: this.props.height
+			height: this.props.height,
 		};
-		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value.md} ref="markdownTextarea" className="md-editor__input code" />;
+		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value !== undefined && this.props.value.md !== undefined ? this.props.value.md : ''} ref="markdownTextarea" className="md-editor__input code" />;
 	},
 
 	renderValue () {
-		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value.md.replace(/\n/g, '<br />') }} />;
-	}
+		// TODO: victoriafrench - is this the correct way to do this? the object should be creating a default md where one does not exist imo.
+		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value !== undefined && this.props.value.md !== undefined ? this.props.value.md.replace(/\n/g, '<br />') : '' }} />;
+	},
 });

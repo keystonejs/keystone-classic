@@ -1,27 +1,21 @@
-/*!
- * Module dependencies.
- */
-
-var fs = require('fs-extra'),
-	path = require('path'),
-	_ = require('underscore'),
-	moment = require('moment'),
-	keystone = require('../../../'),
-	util = require('util'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type'),
-	async = require('async'),
-	grappling = require('grappling-hook');
+var _ = require('lodash');
+var async = require('async');
+var FieldType = require('../Type');
+var fs = require('fs-extra');
+var grappling = require('grappling-hook');
+var keystone = require('../../../');
+var moment = require('moment');
+var path = require('path');
+var util = require('util');
+var utils = require('keystone-utils');
 
 /**
  * localfiles FieldType Constructor
  * @extends Field
  * @api public
  */
-
-function localfiles(list, path, options) {
-	grappling.mixin(this)
-		.allowHooks('move');
+function localfiles (list, path, options) {
+	grappling.mixin(this).allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFiles'];
 	this._fixedSize = 'full';
 
@@ -30,8 +24,8 @@ function localfiles(list, path, options) {
 
 	// TODO: implement initial form, usage disabled for now
 	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n' +
-			'localfiles fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'localfiles fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
 	}
 
 	if (options.overwrite !== false) {
@@ -42,8 +36,8 @@ function localfiles(list, path, options) {
 
 	// validate destination dir
 	if (!options.dest) {
-		throw new Error('Invalid Configuration\n\n' +
-			'localfiles fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
+		throw new Error('Invalid Configuration\n\n'
+			+ 'localfiles fields (' + list.key + '.' + path + ') require the "dest" option to be set.');
 	}
 
 	// Allow hook into before and after
@@ -54,58 +48,48 @@ function localfiles(list, path, options) {
 	if (options.post && options.post.move) {
 		this.post('move', options.post.move);
 	}
-
 }
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(localfiles, super_);
-
+util.inherits(localfiles, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
- *
- * @api public
  */
+localfiles.prototype.addToSchema = function () {
 
-localfiles.prototype.addToSchema = function() {
-
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 	var mongoose = keystone.mongoose;
 
 	var paths = this.paths = {
 		// fields
-		filename:		this._path.append('.filename'),
-		path:			this._path.append('.path'),
-		originalname:	this._path.append('.originalname'),
-		size:			this._path.append('.size'),
-		filetype:		this._path.append('.filetype'),
+		filename: this._path.append('.filename'),
+		path: this._path.append('.path'),
+		originalname: this._path.append('.originalname'),
+		size: this._path.append('.size'),
+		filetype: this._path.append('.filetype'),
 		// virtuals
-		exists:			this._path.append('.exists'),
-		upload:			this._path.append('_upload'),
-		action:			this._path.append('_action'),
-		order: 			this._path.append('_order')
+		exists: this._path.append('.exists'),
+		upload: this._path.append('_upload'),
+		action: this._path.append('_action'),
+		order: this._path.append('_order'),
 	};
 
 	var schemaPaths = new mongoose.Schema({
-		filename:		String,
-		originalname:	String,
-		path:			String,
-		size:			Number,
-		filetype:		String
+		filename: String,
+		originalname: String,
+		path: String,
+		size: Number,
+		filetype: String,
 	});
 
 	// The .href virtual returns the public path of the file
-	schemaPaths.virtual('href').get(function() {
-		return field.href.call(field, this);
+	schemaPaths.virtual('href').get(function () {
+		return field.href(this);
 	});
 
 	schema.add(this._path.addTo({}, [schemaPaths]));
 
-	var exists = function(item, element_id) {
+	var exists = function (item, element_id) {
 		var values = item.get(field.path);
 		var value;
 
@@ -117,15 +101,16 @@ localfiles.prototype.addToSchema = function() {
 		if (typeof element_id === 'undefined') {
 			value = values[0];
 		} else {
-			value = _.findWhere(values, { 'id': element_id });
+			// allow implicit type coercion to compare string IDs with MongoID objects
+			value = values.find(function (val) { return val._id == element_id; }); // eslint-disable-line eqeqeq
 		}
 
 		if (typeof value === 'undefined') {
 			return false;
 		}
 
-		var filepaths = value.path,
-			filename = value.filename;
+		var filepaths = value.path;
+		var filename = value.filename;
 
 		if (!filepaths || !filename) {
 			return false;
@@ -135,71 +120,66 @@ localfiles.prototype.addToSchema = function() {
 	};
 
 	// The .exists virtual indicates whether a file is stored
-	schema.virtual(paths.exists).get(function() {
+	schema.virtual(paths.exists).get(function () {
 		return schemaMethods.exists.apply(this);
 	});
 
-	var reset = function(item, element_id) {
+	var reset = function (item, element_id) {
 		if (typeof element_id === 'undefined') {
 			item.set(field.path, []);
 		} else {
 			var values = item.get(field.path);
-			var value = _.findWhere(values, { 'id': element_id });
+			// allow implicit type coercion to compare string IDs with MongoID objects
+			var value = values.find(function (val) { return val._id == element_id; }); // eslint-disable-line eqeqeq
 			if (typeof value !== 'undefined') {
 				values.splice(values.indexOf(value), 1);
+				item.set(field.path, values);
 			}
 		}
 	};
 
 	var schemaMethods = {
-		exists: function() {
+		exists: function () {
 			return exists(this);
 		},
 		/**
 		 * Resets the value of the field
-		 *
-		 * @api public
 		 */
-		reset: function() {
+		reset: function () {
 			reset(this);
 		},
 		/**
 		 * Deletes the file from localfiles and resets the field
-		 *
-		 * @api public
 		 */
-		delete: function(element_id) {
+		delete: function (element_id) {
 			if (exists(this, element_id)) {
 				var values = this.get(field.path);
-				var value = _.findWhere(values, { 'id': element_id });
+				// allow implicit type coercion to compare string IDs with MongoID objects
+				var value = values.find(function (val) { return val._id == element_id; }); // eslint-disable-line eqeqeq
 				if (typeof value !== 'undefined') {
 					fs.unlinkSync(path.join(value.path, value.filename));
 				}
 			}
 			reset(this, element_id);
-		}
+		},
 	};
 
-	_.each(schemaMethods, function(fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
 	// expose a method on the field to call schema methods
-	this.apply = function(item, method) {
+	this.apply = function (item, method) {
 		return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
 	};
 
 	this.bindUnderscoreMethods();
 };
 
-
 /**
  * Formats the field value
- *
- * @api public
  */
-
-localfiles.prototype.format = function(item, i) {
+localfiles.prototype.format = function (item, i) {
 	var files = item.get(this.path);
 	if (typeof i === 'undefined') {
 		return utils.plural(files.length, '* File');
@@ -213,122 +193,97 @@ localfiles.prototype.format = function(item, i) {
 	return file.filename;
 };
 
-
 /**
  * Detects whether the field has a formatter function
- *
- * @api public
  */
-
-localfiles.prototype.hasFormatter = function() {
-	return 'function' === typeof this.options.format;
+localfiles.prototype.hasFormatter = function () {
+	return typeof this.options.format === 'function';
 };
-
 
 /**
  * Return the public href for a single stored file
- *
- * @api public
  */
-
-localfiles.prototype.href = function(file) {
+localfiles.prototype.href = function (file) {
 	if (!file.filename) return '';
 	var prefix = this.options.prefix ? this.options.prefix : file.path;
 	return prefix + '/' + file.filename;
 };
 
-
 /**
  * Detects whether the field has been modified
- *
- * @api public
  */
-
-localfiles.prototype.isModified = function(item) {
+localfiles.prototype.isModified = function (item) {
 	return item.isModified(this.paths.path);
 };
-
 
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * @api public
+ * Deprecated
  */
-
-localfiles.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
+localfiles.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
 	// TODO - how should file field input be validated?
 	return true;
 };
 
-
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
-
-localfiles.prototype.updateItem = function(item, data) {//eslint-disable-line no-unused-vars
+localfiles.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
 	// TODO - direct updating of data (not via upload)
+	process.nextTick(callback);
 };
-
 
 /**
  * Uploads the file for this field
- *
- * @api public
  */
-
-localfiles.prototype.uploadFiles = function(item, files, update, callback) {
+localfiles.prototype.uploadFiles = function (item, files, update, callback) {
 
 	var field = this;
 
-	if ('function' === typeof update) {
+	if (typeof update === 'function') {
 		callback = update;
 		update = false;
 	}
 
-	async.map(files, function(file, processedFile) {
+	async.map(files, function (file, processedFile) {
 
-		var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '',
-			filename = prefix + file.name,
-			filetype = file.mimetype || file.type;
+		var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '';
+		var filename = prefix + file.name;
+		var filetype = file.mimetype || file.type;
 
-		if (field.options.allowedTypes && !_.contains(field.options.allowedTypes, filetype)) {
+		if (field.options.allowedTypes && !_.includes(field.options.allowedTypes, filetype)) {
 			return processedFile(new Error('Unsupported File Type: ' + filetype));
 		}
 
-		var doMove = function(doneMove) {
+		var doMove = function (doneMove) {
 
-			if ('function' === typeof field.options.filename) {
+			if (typeof field.options.filename === 'function') {
 				filename = field.options.filename(item, file);
 			}
 
-			fs.move(file.path, path.join(field.options.dest, filename), { clobber: field.options.overwrite }, function(err) {
+			fs.move(file.path, path.join(field.options.dest, filename), { clobber: field.options.overwrite }, function (err) {
 				if (err) return doneMove(err);
-
 				var fileData = {
 					filename: filename,
 					originalname: file.originalname,
 					path: field.options.dest,
 					size: file.size,
-					filetype: filetype
+					filetype: filetype,
 				};
-
 				if (update) {
 					item.get(field.path).push(fileData);
 				}
-
 				doneMove(null, fileData);
 			});
 
 		};
 
-		field.callHook('pre:move', item, file, function(err) {
+		field.callHook('pre:move', item, file, function (err) {
 			if (err) return processedFile(err);
-
-			doMove(function(err, fileData) {
+			doMove(function (err, fileData) {
 				if (err) return processedFile(err);
-				field.callHook('post:move', item, file, fileData, function(err) {
+				field.callHook('post:move', item, file, fileData, function (err) {
 					return processedFile(err, fileData);
 				});
 			});
@@ -338,18 +293,14 @@ localfiles.prototype.uploadFiles = function(item, files, update, callback) {
 
 };
 
-
 /**
  * Returns a callback that handles a standard form submission for the field
  *
  * Expected form parts are
  * - `field.paths.action` in `req.body` (`clear` or `delete`)
  * - `field.paths.upload` in `req.files` (uploads the file to localfiles)
- *
- * @api public
  */
-
-localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
+localfiles.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	var field = this;
 
@@ -360,16 +311,15 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
 		paths = field.paths;
 	}
 
-	callback = callback || function() {};
+	callback = callback || function () {};
 
-	return function() {
+	return function () {
 
 		// Order
 		if (req.body[paths.order]) {
-			var files = item.get(field.path),
-				newOrder = req.body[paths.order].split(',');
-
-			files.sort(function(a, b) {
+			var files = item.get(field.path);
+			var newOrder = req.body[paths.order].split(',');
+			files.sort(function (a, b) {
 				return (newOrder.indexOf(a._id.toString()) > newOrder.indexOf(b._id.toString())) ? 1 : -1;
 			});
 		}
@@ -377,38 +327,27 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
 		// Removals
 		if (req.body && req.body[paths.action]) {
 			var actions = req.body[paths.action].split('|');
-
-			actions.forEach(function(action) {
-
+			actions.forEach(function (action) {
 				action = action.split(':');
-
-				var method = action[0],
-					ids = action[1];
-
+				var method = action[0];
+				var ids = action[1];
 				if (!(/^(delete|reset)$/.test(method)) || !ids) return;
-
-				ids.split(',').forEach(function(id) {
+				ids.split(',').forEach(function (id) {
 					field.apply(item, method, id);
 				});
-
 			});
 		}
 
 		// Upload new files
 		if (req.files) {
-
 			var upFiles = req.files[paths.upload];
 			if (upFiles) {
 				if (!Array.isArray(upFiles)) {
 					upFiles = [upFiles];
 				}
-
 				if (upFiles.length > 0) {
-					upFiles = _.filter(upFiles, function(f) { return typeof f.name !== 'undefined' && f.name.length > 0; });
-
+					upFiles = _.filter(upFiles, function (f) { return typeof f.name !== 'undefined' && f.name.length > 0; });
 					if (upFiles.length > 0) {
-						console.log('uploading files:');
-						console.log(upFiles);
 						return field.uploadFiles(item, upFiles, true, callback);
 					}
 				}
@@ -420,20 +359,13 @@ localfiles.prototype.getRequestHandler = function(item, req, paths, callback) {
 
 };
 
-
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- *
- * @api public
  */
-
-localfiles.prototype.handleRequest = function(item, req, paths, callback) {
+localfiles.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
 
-/*!
- * Export class
- */
-
-exports = module.exports = localfiles;
+/* Export Field Type */
+module.exports = localfiles;

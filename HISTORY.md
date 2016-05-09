@@ -2,6 +2,37 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.19 / 2016-05-04
+
+* added; support for Mailgun, thanks [Wolfgang](https://github.com/w01fgang)
+* fixed; issues with connect-mongo on Node 0.12, thanks [gemscng](https://github.com/gemscng)
+
+## v0.3.18 / 2016-04-27
+
+* fixed; make localfiles previews properly show up in admin ui column, thanks [Gabor K](https://github.com/krksgbr)
+* improved; allow adding headers when sending email, thanks [Joss Mackison](https://github.com/JossMac)
+
+This is a hotfix release to allow for adding headers when sending emails.
+
+## v0.3.17 / 2016-03-23
+
+* fixed; issue when keystone is a dependency of a global package, thanks [Robert Jensen](https://github.com/erg0dic)
+* added; allow custom logging middleware, thanks [Greg Meyer](https://github.com/gmmeyer)
+* improved; allow negative numbers in the number field, thanks [Brett Newman](https://github.com/snowkeeper)
+* improved; allow seeding an s3file field with an application update, thanks [Younes Riad](https://github.com/yn5)
+* improved; allow the deletion of localfiles, thanks [Jacob Jenkins](https://github.com/jacobj)
+* updated; update babel to v6, thanks [Alexandre Joly](https://github.com/kilokilo)
+* improved; tighten redirection destination sanitation after successful sign in, thanks [Camille Reynders](https://github.com/creynders)
+* improved; handle missing relations in the relationship field, thanks [Wout Mertens](https://github.com/wmertens)
+* fixed; show validation errors in pre save, thanks [gemng888](https://github.com/gemng888)
+* updated; update tinymce and add the imagetools, thanks [Riyadh Al Nur](https://github.com/riyadhalnur)
+* fixed; show notes in boolean field, thanks [Camille Reynders](https://github.com/creynders)
+
+## v0.3.15 / 2015-10-15
+
+* added; new hooks in the app middleware setup are available, see [#1736](https://github.com/keystonejs/keystone/issues/1736) for documentation.
+* updated; all packages, including pre-build client side bundles
+
 ## v0.3.14 / 2015-08-25
 
 * improved; internal cleanup and refactoring

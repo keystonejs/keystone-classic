@@ -1,4 +1,5 @@
 var FieldType = require('../Type');
+var utils = require('keystone-utils');
 var util = require('util');
 
 /**
@@ -6,7 +7,7 @@ var util = require('util');
  * @extends Field
  * @api public
  */
-function boolean(list, path, options) {
+function boolean (list, path, options) {
 	this._nativeType = Boolean;
 	this._properties = ['indent'];
 	this._fixedSize = 'full';
@@ -15,11 +16,30 @@ function boolean(list, path, options) {
 }
 util.inherits(boolean, FieldType);
 
+boolean.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = true;
+	if (value !== undefined
+		&& value !== null
+		&& typeof value !== 'string'
+		&& typeof value !== 'number'
+		&& typeof value !== 'boolean') {
+		result = false;
+	}
+	utils.defer(callback, result);
+};
+
+boolean.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = (value && value !== 'false') || item.get(this.path) ? true : false;
+	utils.defer(callback, result);
+};
+
 /**
  * Add filters to a query
  */
-boolean.prototype.addFilterToQuery = function(filter, query) {
-	query = query || {};
+boolean.prototype.addFilterToQuery = function (filter) {
+	var query = {};
 	if (!filter.value || filter.value === 'false') {
 		query[this.path] = { $ne: true };
 	} else {
@@ -31,8 +51,10 @@ boolean.prototype.addFilterToQuery = function(filter, query) {
 /**
  * Validates that a truthy value for this field has been provided in a data object.
  * Useful for checkboxes that are required to be true (e.g. agreed to terms and cond's)
+ *
+ * Deprecated
  */
-boolean.prototype.validateInput = function(data, required) {
+boolean.prototype.inputIsValid = function (data, required) {
 	if (required) {
 		return (data[this.path] === true || data[this.path] === 'true') ? true : false;
 	} else {
@@ -45,7 +67,7 @@ boolean.prototype.validateInput = function(data, required) {
  * Only updates the value if it has changed.
  * Treats a falsy value or the string "false" as false, everything else as true.
  */
-boolean.prototype.updateItem = function(item, data) {
+boolean.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (!value || value === 'false') {
 		if (item.get(this.path) !== false) {
@@ -54,7 +76,8 @@ boolean.prototype.updateItem = function(item, data) {
 	} else if (!item.get(this.path)) {
 		item.set(this.path, true);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */
-exports = module.exports = boolean;
+module.exports = boolean;

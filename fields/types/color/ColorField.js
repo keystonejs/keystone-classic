@@ -1,23 +1,23 @@
-import ColorPicker from '@jedwatson/react-color';
+import ColorPicker from 'react-color';
 import Field from '../Field';
 import React from 'react';
 import { FormInput, InputGroup } from 'elemental';
 
 const PICKER_TYPES = ['chrome', 'compact', 'material', 'photoshop', 'sketch', 'slider', 'swatches'];
-const TRANSPARENT_BG =
-`<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<g fill="#CCCCCC">
-		<path d="M0,0 L8,0 L8,8 L0,8 L0,0 Z M8,8 L16,8 L16,16 L8,16 L8,8 Z M0,16 L8,16 L8,24 L0,24 L0,16 Z M16,0 L24,0 L24,8 L16,8 L16,0 Z M16,16 L24,16 L24,24 L16,24 L16,16 Z" />
-	</g>
-</svg>`;
+const TRANSPARENT_BG
+	= `<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<g fill="#CCCCCC">
+			<path d="M0,0 L8,0 L8,8 L0,8 L0,0 Z M8,8 L16,8 L16,16 L8,16 L8,8 Z M0,16 L8,16 L8,24 L0,24 L0,16 Z M16,0 L24,0 L24,8 L16,8 L16,0 Z M16,16 L24,16 L24,24 L16,24 L16,16 Z" />
+		</g>
+	</svg>`;
 
 module.exports = Field.create({
 	displayName: 'ColorField',
 
 	propTypes: {
-		pickerType: React.PropTypes.oneOf(PICKER_TYPES),
 		onChange: React.PropTypes.func,
 		path: React.PropTypes.string,
+		pickerType: React.PropTypes.oneOf(PICKER_TYPES),
 		value: React.PropTypes.string,
 	},
 
@@ -29,14 +29,14 @@ module.exports = Field.create({
 
 	getDefaultProps () {
 		return {
-			pickerType: 'sketch'
+			pickerType: 'sketch',
 		};
 	},
 
 	updateValue (value) {
 		this.props.onChange({
 			path: this.props.path,
-			value: value
+			value: value,
 		});
 	},
 
@@ -50,11 +50,11 @@ module.exports = Field.create({
 		this.updateValue(newValue);
 	},
 
-	handleClick() {
+	handleClick () {
 		this.setState({ displayColorPicker: !this.state.displayColorPicker });
 	},
 
-	handleClose() {
+	handleClose () {
 		this.setState({ displayColorPicker: false });
 	},
 
@@ -92,13 +92,13 @@ module.exports = Field.create({
 						color={this.props.value}
 						display={this.state.displayColorPicker}
 						onChangeComplete={this.handlePickerChange}
-						onClose={ this.handleClose }
+						onClose={this.handleClose}
 						position={window.innerWidth > 480 ? 'right' : 'below'}
 						type={this.props.pickerType}
 						/>
 				</div>
 			</div>
 		);
-	}
+	},
 
 });

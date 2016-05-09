@@ -12,13 +12,13 @@ module.exports = Field.create({
 		this.props.value[which] = event.target.value;
 		this.props.onChange({
 			path: this.props.path,
-			value: this.props.value
+			value: this.props.value,
 		});
 	},
 
 	renderValue () {
 		if (this.props.value[1] && this.props.value[0]) {
-			return <FormInput noedit>{this.props.value[1]}, {this.props.value[0]}</FormInput>;//eslint-disable-line comma-spacing
+			return <FormInput noedit>{this.props.value[1]}, {this.props.value[0]}</FormInput>; // eslint-disable-line comma-spacing
 		}
 		return <FormInput noedit>(not set)</FormInput>;
 	},
@@ -34,6 +34,6 @@ module.exports = Field.create({
 				</FormField>
 			</FormRow>
 		);
-	}
+	},
 
 });

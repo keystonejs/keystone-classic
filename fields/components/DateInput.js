@@ -1,71 +1,112 @@
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 import React from 'react';
-import Popout from '../../admin/src/components/Popout';
+import Popout from '../../admin/client/App/shared/Popout';
 import { FormInput } from 'elemental';
 
-function isSameDay(d1, d2) {
-	d1.setHours(0, 0, 0, 0);
-	d2.setHours(0, 0, 0, 0);
-	
-	return d1.getTime() === d2.getTime();
-}
+let lastId = 0;
 
 module.exports = React.createClass({
-	
 	displayName: 'DateInput',
-	
-	// set default properties
+	propTypes: {
+		format: React.PropTypes.string,
+		name: React.PropTypes.string,
+		onChange: React.PropTypes.func.isRequired,
+		path: React.PropTypes.string,
+		value: React.PropTypes.string.isRequired,
+	},
 	getDefaultProps () {
 		return {
-			format: 'YYYY-MM-DD'
+			format: 'YYYY-MM-DD',
 		};
 	},
-	
 	getInitialState () {
+		const id = ++lastId;
+		let month = new Date();
+		const { format, value } = this.props;
+		if (moment(value, format, true).isValid()) {
+			month = moment(value, format).toDate();
+		}
 		return {
-			selectedDay: new Date(),
-			id: Math.round(Math.random() * 100000),
-			pickerIsOpen: false
+			id: `_DateInput_${id}`,
+			month: month,
+			pickerIsOpen: false,
+			inputValue: value,
 		};
 	},
-	
-	// componentWillReceiveProps: function(newProps) {
-	// 	console.log(moment(newProps.value).format("ddd MMMM DD YYYY hh:mm:ss a Z"));
-	// 	if (newProps.value === this.state.selectedDay) return;
-	// 	this.setState({
-	// 		selectedDay: moment(newProps.value).format("ddd MMMM DD YYYY hh:mm:ss a Z")
-	// 	});
-	// },
-	
-	handleChange (e, day) {
+	componentDidMount () {
+		this.showCurrentMonth();
+	},
+	componentWillReceiveProps: function (newProps) {
+		if (newProps.value === this.props.value) return;
 		this.setState({
-			selectedDay: day
-		}, () => {
-			setTimeout(() => {
+			month: moment(newProps.value, this.props.format).toDate(),
+			inputValue: newProps.value,
+		}, this.showCurrentMonth);
+	},
+	focus () {
+		if (!this.refs.input) return;
+		this.refs.input.focus();
+	},
+	handleInputChange (e) {
+		const { value } = e.target;
+		this.setState({ inputValue: value }, this.showCurrentMonth);
+	},
+	handleKeyPress (e) {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			// If the date is strictly equal to the format string, dispatch onChange
+			if (moment(this.state.inputValue, this.props.format, true).isValid()) {
+				this.props.onChange({ value: this.state.inputValue });
+			// If the date is not strictly equal, only change the tab that is displayed
+			} else if (moment(this.state.inputValue, this.props.format).isValid()) {
 				this.setState({
-					pickerIsOpen: false
-				});
-			}, 200);
-		});
+					month: moment(this.state.inputValue, this.props.format).toDate(),
+				}, this.showCurrentMonth);
+			}
+		}
 	},
-	
-	handleFocus (e) {
+	handleDaySelect (e, date, modifiers) {
+		if (modifiers.indexOf('disabled') > -1) {
+			return;
+		}
+		var value = moment(date).format(this.props.format);
+		this.props.onChange({ value });
 		this.setState({
-			pickerIsOpen: true
+			pickerIsOpen: false,
+			month: date,
+			inputValue: value,
 		});
 	},
-	
-	handleBlur (e) {
+	showPicker () {
+		this.setState({ pickerIsOpen: true }, this.showCurrentMonth);
 	},
-
+	showCurrentMonth () {
+		if (!this.refs.picker) return;
+		this.refs.picker.showMonth(this.state.month);
+	},
+	handleFocus (e) {
+		if (this.state.pickerIsOpen) return;
+		this.showPicker();
+	},
+	handleBlur (e) {
+		let rt = e.relatedTarget || e.nativeEvent.explicitOriginalTarget;
+		const popout = this.refs.popout.getPortalDOMNode();
+		while (rt) {
+			if (rt === popout) return;
+			rt = rt.parentNode;
+		}
+		this.setState({
+			pickerIsOpen: false,
+		});
+	},
 	render () {
-		let { selectedDay } = this.state;
-		
-		let modifiers = {
-			'selected': (day) => isSameDay(selectedDay, day)
+		const selectedDay = this.props.value;
+		// react-day-picker adds a class to the selected day based on this
+		const modifiers = {
+			selected: (day) => moment(day).format(this.props.format) === selectedDay,
 		};
-		
+
 		return (
 			<div>
 				<FormInput
@@ -74,23 +115,24 @@ module.exports = React.createClass({
 					name={this.props.name}
 					onBlur={this.handleBlur}
 					onFocus={this.handleFocus}
-					onChange={this.handleChange}
+					onChange={this.handleInputChange}
 					placeholder={this.props.format}
-					value={moment(selectedDay).format(this.props.format)} />
+					ref="input"
+					onKeyPress={this.handleKeyPress}
+					value={this.state.inputValue} />
 				<Popout
+					ref="popout"
 					isOpen={this.state.pickerIsOpen}
 					onCancel={() => this.setState({ pickerIsOpen: false })}
 					relativeToID={this.state.id}
 					width={260}>
 					<DayPicker
-						modifiers={ modifiers }
-						onDayClick={ this.handleChange }
-						style={{ marginBottom: 9 }}
+						ref="picker"
+						modifiers={modifiers}
+						onDayClick={this.handleDaySelect}
 						tabIndex={-1} />
 				</Popout>
 			</div>
 		);
-		// return <FormInput name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" />;
-	}
-	
+	},
 });

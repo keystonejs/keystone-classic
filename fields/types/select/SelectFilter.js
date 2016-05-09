@@ -1,84 +1,90 @@
 import React from 'react';
 import { Checkbox, FormField, SegmentedControl } from 'elemental';
-import PopoutList from '../../../admin/src/components/PopoutList';
+import PopoutList from '../../../admin/client/App/shared/Popout/PopoutList';
 
-const TOGGLE_OPTIONS = [
+const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },
-	{ label: 'Does NOT Match', value: true }
+	{ label: 'Does NOT Match', value: true },
 ];
 
-var SelectFilter = React.createClass({
+function getDefaultValue () {
+	return {
+		inverted: INVERTED_OPTIONS[0].value,
+		value: [],
+	};
+}
 
-	getInitialState () {
+var SelectFilter = React.createClass({
+	propTypes: {
+		field: React.PropTypes.object,
+		filter: React.PropTypes.shape({
+			inverted: React.PropTypes.boolean,
+			value: React.PropTypes.array,
+		}),
+	},
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
+	getDefaultProps () {
 		return {
-			inverted: TOGGLE_OPTIONS[0].value,
-			selectedOptions: {},
-			allSelected: false,
-			indeterminate: false
+			filter: getDefaultValue(),
 		};
 	},
-
+	toggleInverted (inverted) {
+		this.updateFilter({ inverted });
+	},
 	toggleAllOptions () {
-		this.props.field.ops.map(opt => this.toggleOption(opt.value, !this.state.allSelected));
-	},
-
-	toggleOption (option, value) {
-		let newOptions = this.state.selectedOptions;
-
-		if (value) {
-			newOptions[option] = value;
+		const { field, filter } = this.props;
+		if (filter.value.length < field.ops.length) {
+			this.updateFilter({ value: field.ops.map(i => i.value) });
 		} else {
-			delete newOptions[option];
+			this.updateFilter({ value: [] });
 		}
-
-		let optionCount = Object.keys(newOptions).length;
-
-		this.setState({
-			selectedOptions: newOptions,
-			indeterminate: !!optionCount && optionCount !== this.props.field.ops.length,
-			allSelected: optionCount === this.props.field.ops.length
-		});
 	},
-
-	renderToggle () {
-		return (
-			<FormField>
-				<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={() => this.setState({ inverted: !this.state.inverted })} />
-			</FormField>
-		);
+	selectOption (option) {
+		const value = this.props.filter.value.concat(option.value);
+		this.updateFilter({ value });
 	},
-
+	removeOption (option) {
+		const value = this.props.filter.value.filter(i => i !== option.value);
+		this.updateFilter({ value });
+	},
+	updateFilter (value) {
+		this.props.onChange({ ...this.props.filter, ...value });
+	},
 	renderOptions () {
-		let options = this.props.field.ops.map((opt) => {
-
-			let optionKey = opt.value;
-			let optionValue = this.state.selectedOptions[optionKey];
-
+		return this.props.field.ops.map((option, i) => {
+			const selected = this.props.filter.value.indexOf(option.value) > -1;
 			return (
 				<PopoutList.Item
-					key={'item_' + opt.value}
-					icon={optionValue ? 'check' : 'dash'}
-					isSelected={optionValue}
-					label={opt.label}
-					onClick={this.toggleOption.bind(this, optionKey, !optionValue)} />
+					key={`item-${i}-${option.value}`}
+					icon={selected ? 'check' : 'dash'}
+					isSelected={selected}
+					label={option.label}
+					onClick={() => {
+						if (selected) this.removeOption(option);
+						else this.selectOption(option);
+					}}
+				/>
 			);
 		});
-
-		return options;
 	},
-
 	render () {
+		const { field, filter } = this.props;
+		const allSelected = filter.value.length;
+		const indeterminate = filter.value.lenght === field.ops.length;
 		return (
 			<div>
-				{this.renderToggle()}
+				<FormField>
+					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+				</FormField>
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-					<Checkbox focusOnMount onChange={this.toggleAllOptions} label="Select all options" value={true} checked={this.state.allSelected} indeterminate={this.state.indeterminate} />
+					<Checkbox autofocus onChange={this.toggleAllOptions} label="Select all options" checked={allSelected} indeterminate={indeterminate} />
 				</FormField>
 				{this.renderOptions()}
 			</div>
 		);
-	}
-
+	},
 });
 
 module.exports = SelectFilter;

@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/src/components/ItemsTableCell';
-import ItemsTableValue from '../../../admin/src/components/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var IdColumn = React.createClass({
 	displayName: 'IdColumn',
@@ -10,11 +10,11 @@ var IdColumn = React.createClass({
 		list: React.PropTypes.object,
 	},
 	renderValue () {
-		let value = this.props.data.id;
+		const value = this.props.data.id;
 		if (!value) return null;
 
 		return (
-			<ItemsTableValue padded interior title={value} href={'/keystone/' + this.props.list.path + '/' + value} field={this.props.col.type}>
+			<ItemsTableValue padded interior title={value} href={Keystone.adminPath + '/' + this.props.list.path + '/' + value} field={this.props.col.type}>
 				{value}
 			</ItemsTableValue>
 		);
@@ -25,7 +25,7 @@ var IdColumn = React.createClass({
 				{this.renderValue()}
 			</ItemsTableCell>
 		);
-	}
+	},
 });
 
 module.exports = IdColumn;

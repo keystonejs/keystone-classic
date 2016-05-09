@@ -72,6 +72,6 @@ module.exports = Field.create({
 				{this.renderDimensions()}
 			</div>
 		);
-	}
+	},
 
 });

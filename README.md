@@ -7,7 +7,7 @@
 
 Check out [keystonejs.com](http://keystonejs.com) for documentation and guides.
 
-You can also deploy a starter project to [Heroku](https://heroku.com) for free to try it out:
+You can also deploy a starter project to [Heroku](https://www.heroku.com/) for free to try it out:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
 
@@ -17,6 +17,8 @@ You can also deploy a starter project to [Heroku](https://heroku.com) for free t
 We've been working on a major update to Keystone for several months now, rewriting the Admin UI as a ReactJS App.
 
 Work on this has now been merged into our `master` branch, which is currently not stable (but which we encourage you to try out and give us feedback on!). Stable `0.3.x` releases will continue to be published from the `0.3.x` branch.
+
+Our [demo site](http://demo.keystonejs.com/) has been updated to the new version - check it out and let us know what you think!
 
 For more information on the upcoming version, including how to try it out and get involved, check out [issue #1612](https://github.com/keystonejs/keystone/issues/1612)
 
@@ -38,8 +40,7 @@ Keystone gives you:
 
 Use our [Yeoman Generator](https://github.com/keystonejs/generator-keystone) to get up and running with KeystoneJS quickly, then check out our getting started guide &amp; docs at [keystonejs.com/docs/getting-started](http://keystonejs.com/docs/getting-started).
 
-We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/JedWatson/keystone-demo) to see how it was built.
-
+We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/keystonejs/keystone-demo) to see how it was built.
 
 ### Community
 
@@ -48,6 +49,7 @@ We have a friendly, growing community and welcome everyone to get involved.
 Here are some ways:
 
 * Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements
+* Vote on the next features on [ProductPains](https://productpains.com/product/keystonejs)
 * Chat with us [![Join the chat at https://gitter.im/keystonejs/keystone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keystonejs/keystone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 * If you've got ideas, questions or need some advice, check out the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
 * Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs`
@@ -64,7 +66,7 @@ If you are using KeystoneJS in any projects we encourage you to add it to our [R
 
 If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
 
-If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards).
+If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [CONTRIBUTING.md](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
 
 
 ## Usage
@@ -180,7 +182,7 @@ relationships between different models.
 ### Running KeystoneJS in Production
 
 When you deploy your KeystoneJS app to production, be sure to set your `ENV` environment variable to `production`.
-You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](https://github.com/scottmotte/dotenv).
+You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](https://github.com/motdotla/dotenv).
 
 Setting your environment enables certain features, including template caching, simpler error reporting and html minification, that are important in production but annoying in development.
 
@@ -210,16 +212,16 @@ Thanks to the following companies and projects whose work we have used or taken 
 * [Node.js](http://nodejs.org)
 * [Thinkmill](http://thinkmill.com.au)
 * [ExpressJS](http://expressjs.com)
-* [MongoDB](http://www.mongodb.org)
+* [MongoDB](https://www.mongodb.org/)
 * [Mongoose](http://mongoosejs.com)
 * [React](http://facebook.github.io/react/)
 * [jQuery](http://jquery.com)
 * [Underscore](http://underscorejs.org)
 * [Bootstrap](http://getbootstrap.com)
 * [Amazon](http://aws.amazon.com)
-* [Heroku](http://www.heroku.com)
+* [Heroku](https://www.heroku.com/)
 * [Google](https://developers.google.com)
-* [Cloudinary](https://cloudinary.com)
+* [Cloudinary](http://cloudinary.com/)
 * [Embedly](http://embed.ly)
 * [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/)
 

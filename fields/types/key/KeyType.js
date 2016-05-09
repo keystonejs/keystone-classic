@@ -8,7 +8,7 @@ var utils = require('keystone-utils');
  * @extends Field
  * @api public
  */
-function key(list, path, options) {
+function key (list, path, options) {
 	this._nativeType = String;
 	this._defaultSize = 'medium';
 	this.separator = options.separator || '-';
@@ -18,18 +18,22 @@ util.inherits(key, FieldType);
 
 /* Inherit from TextType prototype */
 key.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
+key.prototype.validateInput = TextType.prototype.validateInput;
+key.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /**
  * Generates a valid key from a string
  */
-key.prototype.generateKey = function(str) {
+key.prototype.generateKey = function (str) {
 	return utils.slug(String(str), this.separator);
 };
 
 /**
  * Checks that a valid key has been provided in a data object
+ *
+ * Deprecated
  */
-key.prototype.validateInput = function(data, required, item) {
+key.prototype.inputIsValid = function (data, required, item) {
 	var value = this.getValueFromData(data);
 	if (value === undefined && item && item.get(this.path)) {
 		return true;
@@ -41,16 +45,17 @@ key.prototype.validateInput = function(data, required, item) {
 /**
  * Updates the value for this field in the item from a data object
  */
-key.prototype.updateItem = function(item, data) {
+key.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value === undefined) {
-		return;
+		return process.nextTick(callback);
 	}
 	value = this.generateKey(value);
 	if (item.get(this.path) !== value) {
 		item.set(this.path, value);
 	}
+	process.nextTick(callback);
 };
 
 /* Export Field Type */
-exports = module.exports = key;
+module.exports = key;

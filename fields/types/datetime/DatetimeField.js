@@ -19,14 +19,14 @@ module.exports = Field.create({
 
 	getInitialState () {
 		return {
-			dateValue: this.props.value ? this.moment(this.props.value).format(this.dateInputFormat) : '',
-			timeValue: this.props.value ? this.moment(this.props.value).format(this.timeInputFormat) : ''
+			dateValue: this.props.value && this.moment(this.props.value).format(this.dateInputFormat),
+			timeValue: this.props.value && this.moment(this.props.value).format(this.timeInputFormat),
 		};
 	},
 
 	getDefaultProps () {
 		return {
-			formatString: 'Do MMM YYYY, h:mm:ss a'
+			formatString: 'Do MMM YYYY, h:mm:ss a',
 		};
 	},
 
@@ -47,23 +47,23 @@ module.exports = Field.create({
 		return value ? this.moment(value).format(format) : '';
 	},
 
-	handleChange (dateValue, timeValue) {
-		var value = dateValue + ' ' + timeValue;
+	handleChange () {
+		var value = this.state.dateValue + ' ' + this.state.timeValue;
 		var datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
 		this.props.onChange({
 			path: this.props.path,
-			value: this.isValid(value) ? moment(value, datetimeFormat).toISOString() : null
+			value: this.isValid(value) ? moment(value, datetimeFormat).toISOString() : null,
 		});
 	},
 
-	dateChanged (value) {
+	dateChanged ({ value }) {
 		this.setState({ dateValue: value });
-		this.handleChange(value, this.state.timeValue);
+		this.handleChange();
 	},
 
-	timeChanged (event) {
-		this.setState({ timeValue: event.target.value });
-		this.handleChange(this.state.dateValue, event.target.value);
+	timeChanged (evt) {
+		this.setState({ timeValue: evt.target.value });
+		this.handleChange();
 	},
 
 	setNow () {
@@ -71,7 +71,7 @@ module.exports = Field.create({
 		var timeValue = moment().format(this.timeInputFormat);
 		this.setState({
 			dateValue: dateValue,
-			timeValue: timeValue
+			timeValue: timeValue,
 		});
 		this.handleChange(dateValue, timeValue);
 	},
@@ -83,7 +83,6 @@ module.exports = Field.create({
 
 	renderUI () {
 		var input;
-		var fieldClassName = 'field-ui';
 		if (this.shouldRenderField()) {
 			input = (
 				<InputGroup>
@@ -107,5 +106,5 @@ module.exports = Field.create({
 				{this.renderNote()}
 			</FormField>
 		);
-	}
+	},
 });

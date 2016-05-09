@@ -1,0 +1,23 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+  eslint:
+    enabled: true
+    config:
+      config: .eslintrc
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "**.js"
+exclude_paths:
+- node_modules/
+- test/
+- "**/test/"
+- admin/public/js/
+- admin/public/fonts/
+- fields/types/markdown/lib/

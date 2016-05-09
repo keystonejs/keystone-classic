@@ -1,145 +1,134 @@
-/*!
- * Module dependencies.
- */
-
-var util = require('util'),
-	marked = require('marked'),
-	super_ = require('../Type');
+var FieldType = require('../Type');
+var marked = require('marked');
+var util = require('util');
+var TextType = require('../text/TextType');
+var utils = require('keystone-utils');
 
 /**
  * Markdown FieldType Constructor
  * @extends Field
  * @api public
  */
-
-function markdown(list, path, options) {
-	
+function markdown (list, path, options) {
 	this._defaultSize = 'full';
-	
-	// TODO: implement filtering, usage disabled for now
-	options.nofilter = true;
 
 	this.toolbarOptions = options.toolbarOptions || {};
+	this.markedOptions = options.markedOptions || {};
 	this.height = options.height || 90;
-
-	// since wysiwyg option can be falsey this needs to use `in` instead of ||
 	this.wysiwyg = ('wysiwyg' in options) ? options.wysiwyg : true;
 
 	this._properties = ['wysiwyg', 'height', 'toolbarOptions'];
-
 	markdown.super_.call(this, list, path, options);
-
 }
+util.inherits(markdown, FieldType);
 
-/*!
- * Inherit from Field
- */
 
-util.inherits(markdown, super_);
+markdown.prototype.validateInput = TextType.prototype.validateInput;
+markdown.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 
 /**
  * Registers the field on the List's Mongoose Schema.
  *
- * Adds String properties for .markdown and .html markdown, and a setter
- * for .markdown that generates html when it is updated.
- *
- * @api public
+ * Adds String properties for .md and .html markdown, and a setter for .md
+ * that generates html when it is updated.
  */
-
-markdown.prototype.addToSchema = function() {
+markdown.prototype.addToSchema = function () {
 
 	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		md: this._path.append('.md'),
-		html: this._path.append('.html')
+		html: this._path.append('.html'),
 	};
 
-	var setMarkdown = function(value) {
+	var markedOptions = this.markedOptions;
 
+	var setMarkdown = function (value) {
 		if (value === this.get(paths.md)) {
 			return value;
 		}
-
 		if (typeof value === 'string') {
-			this.set(paths.html, marked(value));
+			this.set(paths.html, marked(value, markedOptions));
 			return value;
 		} else {
 			this.set(paths.html, undefined);
 			return undefined;
 		}
-
 	};
 
 	schema.nested[this.path] = true;
 	schema.add({
 		html: { type: String },
-		md: { type: String, set: setMarkdown }
+		md: { type: String, set: setMarkdown },
 	}, this.path + '.');
 
 	this.bindUnderscoreMethods();
 };
 
+/**
+ * Add filters to a query (this is copy & pasted from the text field, with
+ * the only difference being that the path isn't this.path but this.paths.md)
+ */
+markdown.prototype.addFilterToQuery = function (filter) {
+	var query = {};
+	if (filter.mode === 'exactly' && !filter.value) {
+		query[this.paths.md] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
+		return query;
+	}
+	var value = utils.escapeRegExp(filter.value);
+	if (filter.mode === 'beginsWith') {
+		value = '^' + value;
+	} else if (filter.mode === 'endsWith') {
+		value = value + '$';
+	} else if (filter.mode === 'exactly') {
+		value = '^' + value + '$';
+	}
+	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
+	query[this.paths.md] = filter.inverted ? { $not: value } : value;
+	return query;
+};
 
 /**
  * Formats the field value
- *
- * @api public
  */
-
-markdown.prototype.format = function(item) {
+markdown.prototype.format = function (item) {
 	return item.get(this.paths.html);
 };
-
 
 /**
  * Validates that a value for this field has been provided in a data object
  *
- * Will accept either the field path, or paths.md
- *
- * @api public
+ * Deprecated
  */
-
-markdown.prototype.validateInput = function(data, required, item) {
-	if (!(this.path in data || this.paths.md in data) && item && item.get(this.paths.md)) {
+markdown.prototype.inputIsValid = function (data, required, item) {
+	if (!(this.path in data) && item && item.get(this.paths.md)) {
 		return true;
 	}
-	return (!required || data[this.path] || data[this.paths.md]) ? true : false;
+	return (!required || data[this.path]) ? true : false;
 };
-
 
 /**
  * Detects whether the field has been modified
- *
- * @api public
  */
-
-markdown.prototype.isModified = function(item) {
+markdown.prototype.isModified = function (item) {
 	return item.isModified(this.paths.md);
 };
-
 
 /**
  * Updates the value for this field in the item from a data object
  *
  * Will accept either the field path, or paths.md
- *
- * @api public
  */
-
-markdown.prototype.updateItem = function(item, data) {
+markdown.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	if (value !== undefined) {
 		item.set(this.paths.md, value);
-	} else if (this.paths.md in data) {
+	}	else if (this.paths.md in data) {
 		item.set(this.paths.md, data[this.paths.md]);
 	}
+	process.nextTick(callback);
 };
 
-
-/*!
- * Export class
- */
-
-exports = module.exports = markdown;
+/* Export Field Type */
+module.exports = markdown;

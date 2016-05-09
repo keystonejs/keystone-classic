@@ -1,22 +1,34 @@
-/*!
- * Module dependencies.
- */
+var _ = require('lodash');
+var assign = require('object-assign');
+var keystone = require('../../../');
+var super_ = require('../Type');
+var util = require('util');
+var utils = require('keystone-utils');
 
-var _ = require('underscore'),
-	keystone = require('../../../'),
-	util = require('util'),
-	cloudinary = require('cloudinary'),
-	MPromise = require('mpromise'),
-	utils = require('keystone-utils'),
-	super_ = require('../Type');
+/*
+var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
+*/
+
+function getEmptyValue () {
+	return {
+		public_id: '',
+		version: 0,
+		signature: '',
+		format: '',
+		resource_type: '',
+		url: '',
+		width: 0,
+		height: 0,
+		secure_url: '',
+	};
+}
 
 /**
  * CloudinaryImage FieldType Constructor
  * @extends Field
  * @api public
  */
-
-function cloudinaryimage(list, path, options) {
+function cloudinaryimage (list, path, options) {
 
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
@@ -25,22 +37,14 @@ function cloudinaryimage(list, path, options) {
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
 
-	// TODO: implement initial form, usage disabled for now
-	if (options.initial) {
-		throw new Error(
-			'Invalid Configuration\n\n' +
-			'CloudinaryImage fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n'
-		);
-	}
-
 	cloudinaryimage.super_.call(this, list, path, options);
 
 	// validate cloudinary config
 	if (!keystone.get('cloudinary config')) {
 		throw new Error(
-			'Invalid Configuration\n\n' +
-			'CloudinaryImage fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n' +
-			'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
+			'Invalid Configuration\n\n'
+			+ 'CloudinaryImage fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
+			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
 		);
 	}
 
@@ -52,90 +56,93 @@ function cloudinaryimage(list, path, options) {
 
 util.inherits(cloudinaryimage, super_);
 
+/**
+ * Gets the folder for images in this field
+ */
+cloudinaryimage.prototype.getFolder = function () {
+	var folder = null;
+
+	if (keystone.get('cloudinary folders') || this.options.folder) {
+		if (typeof this.options.folder === 'string') {
+			folder = this.options.folder;
+		} else {
+			var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
+			folderList.push(this.list.path);
+			folderList.push(this.path);
+			folder = folderList.join('/');
+		}
+	}
+
+	return folder;
+};
 
 /**
  * Registers the field on the List's Mongoose Schema.
  *
  * @api public
  */
+cloudinaryimage.prototype.addToSchema = function () {
 
-cloudinaryimage.prototype.addToSchema = function() {
+	var cloudinary = require('cloudinary');
 
-	var field = this,
-		schema = this.list.schema;
+	var field = this;
+	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// cloudinary fields
-		public_id: 		this._path.append('.public_id'),
-		version: 		this._path.append('.version'),
-		signature: 		this._path.append('.signature'),
-		format: 		this._path.append('.format'),
-		resource_type: 	this._path.append('.resource_type'),
-		url: 			this._path.append('.url'),
-		width: 			this._path.append('.width'),
-		height: 		this._path.append('.height'),
-		secure_url: 	this._path.append('.secure_url'),
+		public_id: this._path.append('.public_id'),
+		version: this._path.append('.version'),
+		signature: this._path.append('.signature'),
+		format: this._path.append('.format'),
+		resource_type: this._path.append('.resource_type'),
+		url: this._path.append('.url'),
+		width: this._path.append('.width'),
+		height: this._path.append('.height'),
+		secure_url: this._path.append('.secure_url'),
 		// virtuals
-		exists: 		this._path.append('.exists'),
-		folder: 		this._path.append('.folder'),
+		exists: this._path.append('.exists'),
+		folder: this._path.append('.folder'),
 		// form paths
-		upload: 		this._path.append('_upload'),
-		action: 		this._path.append('_action'),
-		select: 		this._path.append('_select')
+		upload: this._path.append('_upload'),
+		action: this._path.append('_action'),
+		select: this._path.append('_select'),
 	};
 
 	var schemaPaths = this._path.addTo({}, {
-		public_id:		String,
-		version:		Number,
-		signature:		String,
-		format:			String,
-		resource_type:	String,
-		url:			String,
-		width:			Number,
-		height:			Number,
-		secure_url:		String
+		public_id: String,
+		version: Number,
+		signature: String,
+		format: String,
+		resource_type: String,
+		url: String,
+		width: Number,
+		height: Number,
+		secure_url: String,
 	});
 
 	schema.add(schemaPaths);
 
-	var exists = function(item) {
+	var exists = function (item) {
 		return (item.get(paths.public_id) ? true : false);
 	};
 
 	// The .exists virtual indicates whether an image is stored
-	schema.virtual(paths.exists).get(function() {
+	schema.virtual(paths.exists).get(function () {
 		return schemaMethods.exists.apply(this);
 	});
 
-	var folder = function(item) {//eslint-disable-line no-unused-vars
-		var folderValue = null;
-
-		if (keystone.get('cloudinary folders')) {
-			if (field.options.folder) {
-				folderValue = field.options.folder;
-			} else {
-				var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
-				folderList.push(field.list.path);
-				folderList.push(field.path);
-				folderValue = folderList.join('/');
-			}
-		}
-
-		return folderValue;
-	};
-
 	// The .folder virtual returns the cloudinary folder used to upload/select images
-	schema.virtual(paths.folder).get(function() {
+	schema.virtual(paths.folder).get(function () {
 		return schemaMethods.folder.apply(this);
 	});
 
-	var src = function(item, options) {
+	var src = function (item, options) {
 
 		if (!exists(item)) {
 			return '';
 		}
 
-		options = ('object' === typeof options) ? options : {};
+		options = (typeof options === 'object') ? options : {};
 
 		if (!('fetch_format' in options) && keystone.get('cloudinary webp') !== false) {
 			options.fetch_format = 'auto';
@@ -155,67 +162,57 @@ cloudinaryimage.prototype.addToSchema = function() {
 
 	};
 
-	var reset = function(item) {
-		item.set(field.path, {
-			public_id: '',
-			version: 0,
-			signature: '',
-			format: '',
-			resource_type: '',
-			url: '',
-			width: 0,
-			height: 0,
-			secure_url: ''
-		});
+	var reset = function (item) {
+		item.set(field.path, getEmptyValue());
 	};
 
-	var addSize = function(options, width, height, other) {
+	var addSize = function (options, width, height, other) {
 		if (width) options.width = width;
 		if (height) options.height = height;
-		if ('object' === typeof other) {
-			_.extend(options, other);
+		if (typeof other === 'object') {
+			assign(options, other);
 		}
 		return options;
 	};
 
 	var schemaMethods = {
-		exists: function() {
+		exists: function () {
 			return exists(this);
 		},
-		folder: function() {
-			return folder(this);
+		folder: function () {
+			return field.getFolder();
 		},
-		src: function(options) {
+		src: function (options) {
 			return src(this, options);
 		},
-		tag: function(options) {
-			return exists(this) ? cloudinary.image(this.get(field.path), options) : '';
+		tag: function (options) {
+			return exists(this) ? cloudinary.image(this.get(field.path).public_id, options) : '';
 		},
-		scale: function(width, height, options) {
+		scale: function (width, height, options) {
 			return src(this, addSize({ crop: 'scale' }, width, height, options));
 		},
-		fill: function(width, height, options) {
+		fill: function (width, height, options) {
 			return src(this, addSize({ crop: 'fill', gravity: 'faces' }, width, height, options));
 		},
-		lfill: function(width, height, options) {
+		lfill: function (width, height, options) {
 			return src(this, addSize({ crop: 'lfill', gravity: 'faces' }, width, height, options));
 		},
-		fit: function(width, height, options) {
+		fit: function (width, height, options) {
 			return src(this, addSize({ crop: 'fit' }, width, height, options));
 		},
-		limit: function(width, height, options) {
+		limit: function (width, height, options) {
 			return src(this, addSize({ crop: 'limit' }, width, height, options));
 		},
-		pad: function(width, height, options) {
+		pad: function (width, height, options) {
 			return src(this, addSize({ crop: 'pad' }, width, height, options));
 		},
-		lpad: function(width, height, options) {
+		lpad: function (width, height, options) {
 			return src(this, addSize({ crop: 'lpad' }, width, height, options));
 		},
-		crop: function(width, height, options) {
+		crop: function (width, height, options) {
 			return src(this, addSize({ crop: 'crop', gravity: 'faces' }, width, height, options));
 		},
-		thumbnail: function(width, height, options) {
+		thumbnail: function (width, height, options) {
 			return src(this, addSize({ crop: 'thumb', gravity: 'faces' }, width, height, options));
 		},
 		/**
@@ -223,7 +220,7 @@ cloudinaryimage.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		reset: function() {
+		reset: function () {
 			reset(this);
 		},
 		/**
@@ -231,14 +228,14 @@ cloudinaryimage.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		delete: function() {
-			var promise = new MPromise();
-
-			cloudinary.uploader.destroy(this.get(paths.public_id), function(result) {
-				promise.fulfill(result);
+		delete: function () {
+			var _this = this;
+			var promise = new Promise(function (resolve) {
+				cloudinary.uploader.destroy(_this.get(paths.public_id), function (result) {
+					resolve(result);
+				});
 			});
 			reset(this);
-
 			return promise;
 		},
 		/**
@@ -246,88 +243,159 @@ cloudinaryimage.prototype.addToSchema = function() {
 		 *
 		 * @api public
 		 */
-		upload: function(file, options) {
-			var promise = new MPromise();
-
-			cloudinary.uploader.upload(file, function(result) {
-				promise.fulfill(result);
-			}, options);
-
+		upload: function (file, options) {
+			var promise = new Promise(function (resolve) {
+				cloudinary.uploader.upload(file, function (result) {
+					resolve(result);
+				}, options);
+			});
 			return promise;
-		}
+		},
 	};
 
-	_.each(schemaMethods, function(fn, key) {
+	_.forEach(schemaMethods, function (fn, key) {
 		field.underscoreMethod(key, fn);
 	});
 
 	// expose a method on the field to call schema methods
-	this.apply = function(item, method) {
+	this.apply = function (item, method) {
 		return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
 	};
 
 	this.bindUnderscoreMethods();
 };
 
-
 /**
  * Formats the field value
  *
  * @api public
  */
-
-cloudinaryimage.prototype.format = function(item) {
+cloudinaryimage.prototype.format = function (item) {
 	return item.get(this.paths.url);
 };
-
 
 /**
  * Detects whether the field has been modified
  *
  * @api public
  */
-
-cloudinaryimage.prototype.isModified = function(item) {
-	return item.isModified(this.paths.url);
+cloudinaryimage.prototype.isModified = function (item) {
+	return item.isModified(this.paths.public_id);
 };
 
+
+function validateInput (value) {
+	// undefined values are always valid
+	if (value === undefined) return true;
+	// TODO: strings may not actually be valid but this will be OK for now
+	if (typeof value === 'string') return true;
+	// If the value is an object and has a cloudinary public_id, it is valid
+	if (typeof value === 'object' && value.public_id) return true;
+	// If the value is an uploaded file, it is valid
+	if (typeof value === 'object' && value.path) return true;
+	return false;
+}
 
 /**
  * Validates that a value for this field has been provided in a data object
- *
- * @api public
  */
-
-cloudinaryimage.prototype.validateInput = function(data) {//eslint-disable-line no-unused-vars
-	// TODO - how should image field input be validated?
-	return true;
+cloudinaryimage.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	utils.defer(callback, validateInput(value));
 };
 
+/**
+ * Validates that input has been provided
+ */
+cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	var result = (value || item.get(this.path).public_id) ? true : false;
+	utils.defer(callback, result);
+};
+
+/**
+ * Always assumes the input is valid
+ *
+ * Deprecated
+ */
+cloudinaryimage.prototype.inputIsValid = function () {
+	return true;
+};
 
 /**
  * Updates the value for this field in the item from a data object
  *
  * @api public
  */
+cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 
-cloudinaryimage.prototype.updateItem = function(item, data) {
-	var paths = this.paths;
+	var cloudinary = require('cloudinary');
+	var field = this;
+	var value = this.getValueFromData(data);
 
-	var setValue = function(key) {
-		if (paths[key]) {
-			var index = paths[key].indexOf('.');
-			var field = paths[key].substr(0, index);
-			// Note we allow implicit conversion here so that numbers submitted as strings in the data object
-			// aren't treated as different values to the stored Number values
-			if (data[field] && data[field][key] && data[field][key] != item.get(paths[key])) { // eslint-disable-line eqeqeq
-				item.set(paths[key], data[field][key] || null);
-			}
+	// Allow value to be retrieved from the legacy `_upload` path if it is undefined
+	if (value === undefined) {
+		value = this.getValueFromData(data, '_upload');
+	}
+
+	// Allow field value reset
+	if (value === '' || value === 'null' || (typeof value === 'object' && !Object.keys(value).length)) {
+		item.set(this.path, getEmptyValue());
+		return process.nextTick(callback);
+	}
+
+	// When the value is a string, assume it's base64 data or a remote URL and
+	// upload it to cloudinary as a file path. More logic could be added here to
+	// detect/prevent invalid uploads
+	if (typeof value === 'string') {
+		value = { path: value };
+	}
+
+	if (typeof value === 'object' && 'public_id' in value) {
+		// Cloudinary Image data provided
+		if (value.public_id) {
+			var v = assign(getEmptyValue(), value);
+			item.set(this.path, v);
+		} else {
+			item.set(this.path, getEmptyValue());
 		}
-	};
-
-	_.each(['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'], setValue);
+		return process.nextTick(callback);
+	} else if (typeof value === 'object' && value.path) {
+		// File provided - upload it
+		var tagPrefix = keystone.get('cloudinary prefix') || '';
+		var uploadOptions = {
+			tags: [],
+		};
+		if (tagPrefix.length) {
+			uploadOptions.tags.push(tagPrefix);
+			tagPrefix += '_';
+		}
+		uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
+		if (keystone.get('env') !== 'production') {
+			uploadOptions.tags.push(tagPrefix + 'dev');
+		}
+		var folder = this.getFolder();
+		if (folder) {
+			uploadOptions.folder = folder;
+		}
+		// NOTE: field.options.publicID has been deprecated (tbc)
+		if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
+			uploadOptions.public_id = value.originalname.substring(0, value.originalname.lastIndexOf('.'));
+		}
+		// TODO: implement autoCleanup; should delete existing images before uploading
+		cloudinary.uploader.upload(value.path, function (result) {
+			if (result.error) {
+				return callback(result.error);
+			} else {
+				item.set(field.path, result);
+				return callback();
+			}
+		}, uploadOptions);
+	} else {
+		// Nothing to do
+		return process.nextTick(callback);
+	}
 };
-
 
 /**
  * Returns a callback that handles a standard form submission for the field
@@ -338,9 +406,9 @@ cloudinaryimage.prototype.updateItem = function(item, data) {
  *
  * @api public
  */
+cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callback) {
 
-cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callback) {
-
+	var cloudinary = require('cloudinary');
 	var field = this;
 
 	if (utils.isFunction(paths)) {
@@ -350,9 +418,9 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 		paths = field.paths;
 	}
 
-	callback = callback || function() {};
+	callback = callback || function () {};
 
-	return function() {
+	return function () {
 
 		if (req.body) {
 			var action = req.body[paths.action];
@@ -364,7 +432,7 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 
 		if (req.body && req.body[paths.select]) {
 
-			cloudinary.api.resource(req.body[paths.select], function(result) {
+			cloudinary.api.resource(req.body[paths.select], function (result) {
 				if (result.error) {
 					callback(result.error);
 				} else {
@@ -383,7 +451,7 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 			}
 
 			var uploadOptions = {
-				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id]
+				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id],
 			};
 
 			if (keystone.get('cloudinary folders')) {
@@ -413,7 +481,7 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 			}
 
 			// callback to be called upon completion of the 'upload' method
-			var uploadComplete = function(result) {
+			var uploadComplete = function (result) {
 				if (result.error) {
 					callback(result.error);
 				} else {
@@ -424,15 +492,15 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 
 			// upload immediately if image is not being delete
 			if (typeof imageDelete === 'undefined') {
-				field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).onFulfill(uploadComplete);
+				field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).then(uploadComplete);
 			} else {
 				// otherwise wait until image is deleted before uploading
 				// this avoids problems when deleting/uploading images with the same public_id (issue #598)
-				imageDelete.onFulfill(function(result) {
+				imageDelete.then(function (result) {
 					if (result.error) {
 						callback(result.error);
 					} else {
-						field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).onFulfill(uploadComplete);
+						field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).then(uploadComplete);
 					}
 				});
 			}
@@ -445,20 +513,16 @@ cloudinaryimage.prototype.getRequestHandler = function(item, req, paths, callbac
 
 };
 
-
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
  *
  * @api public
  */
-
-cloudinaryimage.prototype.handleRequest = function(item, req, paths, callback) {
+cloudinaryimage.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
-
 
 /*!
  * Export class
  */
-
-exports = module.exports = cloudinaryimage;
+module.exports = cloudinaryimage;

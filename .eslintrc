@@ -1,51 +1,17 @@
 {
-	"parser": "babel-eslint",
-	"env": {
-		"browser": true,
-		"node": true
-	},
-	"plugins": [
-		"react"
-	],
-	"rules": {
-		"camelcase": 0,
-		"consistent-return": 0,
-		"curly": [2, "multi-line"],
-		"jsx-quotes": 1,
-		"key-spacing": 0,
-		"new-cap": 0,
-		"no-alert": 0,
-		"no-caller": 0,
-		"no-mixed-requires": 0,
-		"no-path-concat": 0,
-		"no-process-exit": 0,
-		"no-proto": 0,
-		"no-shadow": 0,
-		"no-trailing-spaces": 0,
-		"no-underscore-dangle": 0,
-		"no-use-before-define": 0,
-		"object-curly-spacing": [1, "always"],
-		"quotes": [2, "single", "avoid-escape"],
-		"react/jsx-boolean-value": 0,
-		"react/jsx-no-undef": 1,
-		"react/jsx-uses-react": 1,
-		"react/jsx-uses-vars": 1,
-		"react/no-did-mount-set-state": 1,
-		"react/no-did-update-set-state": 1,
-		"react/no-unknown-property": 1,
-		"react/react-in-jsx-scope": 1,
-		"react/self-closing-comp": 1,
-		"react/wrap-multilines": 1,
-		"semi": [2, "always"],
-		"space-infix-ops": 0,
-		"strict": 0,
-		"yoda": 0
-	},
-	"globals": {
-		"$": true,
-		"_": true,
-		"it": true,
-		"jQuery": true,
-		"Keystone": true
-	}
+  "extends": [
+     "keystone"
+  ],
+  "globals": {
+    "_": true,
+    "$": true,
+    "after": true,
+    "afterEach": true,
+    "before": true,
+    "beforeEach": true,
+    "describe": true,
+    "it": true,
+    "jQuery": true,
+    "Keystone": true
+  }
 }

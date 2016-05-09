@@ -1,71 +1,82 @@
-import _ from 'underscore';
-import classNames from 'classnames';
 import React from 'react';
 
 import { FormField, FormInput, FormRow, SegmentedControl } from 'elemental';
 
-const MODE_OPTIONS = [
-	{ label: 'Exactly',     value: 'exactly' },
-	{ label: 'Contains',    value: 'contains' }
+const INVERTED_OPTIONS = [
+	{ label: 'Matches', value: false },
+	{ label: 'Does NOT Match', value: true },
 ];
 
-const TOGGLE_OPTIONS = [
-	{ label: 'Matches', value: false },
-	{ label: 'Does NOT Match', value: true }
-];
+function getDefaultValue () {
+	return {
+		inverted: INVERTED_OPTIONS[0].value,
+		street: undefined,
+		city: undefined,
+		state: undefined,
+		code: undefined,
+		country: undefined,
+	};
+}
 
 var TextFilter = React.createClass({
-
-	getInitialState () {
+	propTypes: {
+		filter: React.PropTypes.shape({
+			inverted: React.PropTypes.boolean,
+			street: React.PropTypes.string,
+			city: React.PropTypes.string,
+			state: React.PropTypes.string,
+			code: React.PropTypes.string,
+			country: React.PropTypes.string,
+		}),
+	},
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
+	getDefaultProps () {
 		return {
-			inverted: TOGGLE_OPTIONS[0].value,
-			city: '',
-			state: '',
-			code: '',
-			country: ''
+			filter: getDefaultValue(),
 		};
 	},
-
-	componentDidMount () {
-		// focus the text focusTarget
-		React.findDOMNode(this.refs.focusTarget).focus();
+	updateFilter (key, val) {
+		const update = {};
+		update[key] = val;
+		this.props.onChange(Object.assign(this.props.filter, update));
 	},
-
 	toggleInverted (value) {
-		this.setState({
-			inverted: value
-		});
+		this.updateFilter('inverted', value);
+		this.refs.focusTarget.focus();
 	},
-
+	updateValue (e) {
+		this.updateFilter(e.target.name, e.target.value);
+	},
 	render () {
-		let { modeLabel, modeValue } = this.state;
+		const { filter } = this.props;
 
 		return (
 			<div>
 				<FormField>
-					<SegmentedControl equalWidthSegments options={TOGGLE_OPTIONS} value={this.state.inverted} onChange={this.toggleInverted} />
+					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormField>
-					<FormInput ref="focusTarget" placeholder="Address" />
+					<FormInput autofocus ref="focusTarget" value={filter.street} onChange={this.updateValue} name="street" placeholder="Address" />
 				</FormField>
 				<FormRow>
 					<FormField width="two-thirds">
-						<FormInput placeholder="City" value={this.state.city} />
+						<FormInput value={filter.city} onChange={this.updateValue} name="city" placeholder="City" />
 					</FormField>
 					<FormField width="one-third">
-						<FormInput placeholder="State" value={this.state.state} />
+						<FormInput value={filter.state} onChange={this.updateValue} name="state" placeholder="State" />
 					</FormField>
 					<FormField width="one-third" style={{ marginBottom: 0 }}>
-						<FormInput placeholder="Postcode" value={this.state.code} />
+						<FormInput value={filter.code} onChange={this.updateValue} name="code" placeholder="Postcode" />
 					</FormField>
 					<FormField width="two-thirds" style={{ marginBottom: 0 }}>
-						<FormInput placeholder="Country" value={this.state.country} />
+						<FormInput value={filter.country} onChange={this.updateValue} name="country" placeholder="Country" />
 					</FormField>
 				</FormRow>
 			</div>
 		);
-	}
-
+	},
 });
 
 module.exports = TextFilter;
