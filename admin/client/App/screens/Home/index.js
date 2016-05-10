@@ -48,7 +48,9 @@ var HomeView = React.createClass({
 		return ['dashboard-group__heading-icon', 'octicon', ...classes].join(' ');
 	},
 	renderFlatNav () {
-		const lists = Keystone.lists.map((list) => {
+		var keys = Object.keys(Keystone.lists);
+		const lists = keys.map((key) => {
+			var list = Keystone.lists[key];
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			return (
 				<ListTile
