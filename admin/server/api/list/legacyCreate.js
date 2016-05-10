@@ -5,7 +5,7 @@ module.exports = function (req, res) {
 		return res.apiError(403, 'invalid csrf');
 	}
 	var item = new req.list.model();
-	item.getUpdateHandler(req).process(req.body, { flashErrors: false, logErrors: true }, function (err) {
+	item.getUpdateHandler(req).process(req.body, { flashErrors: false, logErrors: true, ignoreNoedit: true }, function (err) {
 		if (err) {
 			if (err.name === 'ValidationErrors') {
 				return res.apiError(400, 'validation errors', err.errors);
