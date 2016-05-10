@@ -101,7 +101,7 @@ module.exports = Field.create({
 			input = <FormInput noedit>{this.format(this.props.value, this.props.formatString)}</FormInput>;
 		}
 		return (
-			<FormField label={this.props.label} className="field-type-datetime">
+			<FormField label={this.props.label} className="field-type-datetime" htmlFor={this.props.path}>
 				{input}
 				{this.renderNote()}
 			</FormField>

@@ -23,7 +23,7 @@ module.exports = {
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
-		
+
 		browser.itemPage.assertInputs({
 			listName: 'Datetime',
 			fields: {
@@ -32,7 +32,6 @@ module.exports = {
 			}
 		})
 	},
-	/* TODO Pending a fix for issue #2715
 	'Datetime field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Datetime',
@@ -51,5 +50,4 @@ module.exports = {
 			}
 		})
 	},
-	*/
 };
