@@ -81,7 +81,6 @@ var ItemView = React.createClass({
 					{keys.map(key => {
 						const relationship = relationships[key];
 						const refList = Lists[relationship.path];
-						console.log('renderRelationships', relationship.path);
 						return (
 							<RelatedItemsList
 								key={relationship.path}
