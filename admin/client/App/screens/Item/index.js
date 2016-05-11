@@ -75,21 +75,24 @@ var ItemView = React.createClass({
 		const keys = Object.keys(relationships);
 		if (!keys.length) return;
 		return (
-			<div>
-				<h2>Relationships</h2>
-				{keys.map(key => {
-					const relationship = relationships[key];
-					const refList = Lists[relationship.path];
-					return (
-						<RelatedItemsList
-							key={relationship.path}
-							list={this.props.currentList}
-							refList={refList}
-							relatedItemId={this.props.params.itemId}
-							relationship={relationship}
-						/>
-					);
-				})}
+			<div className="Relationships">
+				<Container>
+					<h2>Relationships</h2>
+					{keys.map(key => {
+						const relationship = relationships[key];
+						const refList = Lists[relationship.path];
+						console.log('renderRelationships', relationship.path);
+						return (
+							<RelatedItemsList
+								key={relationship.path}
+								list={this.props.currentList}
+								refList={refList}
+								relatedItemId={this.props.params.itemId}
+								relationship={relationship}
+							/>
+						);
+					})}
+				</Container>
 			</div>
 		);
 	},
@@ -114,26 +117,28 @@ var ItemView = React.createClass({
 						}}
 					/>
 				) : (
-					<Container>
-						<EditFormHeader
-							list={this.props.currentList}
-							data={this.props.data}
-							toggleCreate={this.toggleCreate}
-						/>
-						<CreateForm
-							list={this.props.currentList}
-							isOpen={this.state.createIsOpen}
-							onCancel={() => this.toggleCreate(false)}
-							onCreate={(item) => this.onCreate(item)}
-						/>
-						<EditForm
-							list={this.props.currentList}
-							data={this.props.data}
-							dispatch={this.props.dispatch}
-							router={this.context.router}
-						/>
+					<div>
+						<Container>
+							<EditFormHeader
+								list={this.props.currentList}
+								data={this.props.data}
+								toggleCreate={this.toggleCreate}
+							/>
+							<CreateForm
+								list={this.props.currentList}
+								isOpen={this.state.createIsOpen}
+								onCancel={() => this.toggleCreate(false)}
+								onCreate={(item) => this.onCreate(item)}
+							/>
+							<EditForm
+								list={this.props.currentList}
+								data={this.props.data}
+								dispatch={this.props.dispatch}
+								router={this.context.router}
+							/>
+						</Container>
 						{this.renderRelationships()}
-					</Container>
+					</div>
 				)}
 			</div>
 		);
