@@ -382,7 +382,7 @@ const ListView = React.createClass({
 						dispatch={this.props.dispatch}
 						filters={this.props.active.filters}
 					/>
-					<div style={{ height: 35, marginBottom: '0.33em' }}>
+					<div style={{ height: 35, marginBottom: '1em' }}>
 						{this.renderManagement()}
 						{this.renderPagination()}
 						<span style={{ clear: 'both', display: 'table' }} />
