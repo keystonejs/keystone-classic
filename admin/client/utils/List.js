@@ -140,6 +140,7 @@ List.prototype.expandColumns = function (input) {
 	const cols = listToArray(input).map(i => {
 		const split = i.split('|');
 		let path = split[0];
+		let width = split[1];
 		if (path === '__name__') {
 			path = this.namePath;
 		}
@@ -154,9 +155,10 @@ List.prototype.expandColumns = function (input) {
 		}
 		return {
 			field: field,
-			type: field.type,
 			label: field.label,
 			path: field.path,
+			type: field.type,
+			width: width,
 		};
 	}).filter(truthy);
 	if (!nameIncluded) {
