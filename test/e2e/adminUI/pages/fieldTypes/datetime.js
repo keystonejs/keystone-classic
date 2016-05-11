@@ -2,10 +2,7 @@ var utils = require('../../../utils');
 
 module.exports = function DatetimeType(config) {
 	var self = {
-		// TODO
-		// Pending a fix for issue #2715 the selector line should read the following
-		// selector: '.field-type-datetime[for="' + config.fieldName + '"]',
-		selector: '.field-type-datetime',
+		selector: '.field-type-datetime[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
 			nowButton: '.Button--default',
