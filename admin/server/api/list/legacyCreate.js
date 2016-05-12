@@ -7,7 +7,7 @@ module.exports = function (req, res) {
 	var item = new req.list.model();
 	item.getUpdateHandler(req).process(req.body, { flashErrors: false, logErrors: true, ignoreNoedit: true }, function (err) {
 		if (err) {
-			if (err.name === 'ValidationErrors') {
+			if (err.name === 'ValidationError' || err.name === 'ValidationErrors') {
 				return res.apiError(400, 'validation errors', err.errors);
 			} else {
 				return res.apiError(500, 'error', err);
