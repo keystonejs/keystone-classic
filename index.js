@@ -139,6 +139,13 @@ try {
 	};
 }
 catch (e) {
+	if (e.code !== 'MODULE_NOT_FOUND') {
+		throw e;
+	}
+	if (e.message.indexOf('keystone-admin') === -1) {
+		throw e;
+	}
+
 	console.log('Note: Optional package keystone-admin is not installed. Keystone will run in\n'
             + '      headless mode. run `npm install keystone-admin` to install the KeystoneJS\n'
             + '      admin UI.');
