@@ -5,6 +5,9 @@ var NumberType = require('../NumberType');
 exports.initList = function (List) {
 	List.add({
 		number: { type: NumberType },
+		number2: { type: NumberType, validation: { minValue: 0, maxValue: 4 } },
+		number3: { type: NumberType, validation: { mustBeEven: true } },
+		number4: { type: NumberType, validation: { mustBeOdd: true } },
 		nested: {
 			number: { type: NumberType },
 		},
@@ -191,6 +194,63 @@ exports.testFieldType = function (List) {
 				done();
 			});
 		});
+
+		it('should validate if more than min', function (done) {
+			List.fields.number2.validateInput({ number2: 2 }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should not validate if less than min', function (done) {
+			List.fields.number2.validateInput({ number2: -1 }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should validate if less than max', function (done) {
+			List.fields.number2.validateInput({ number2: 4 }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should not validate if more than max', function (done) {
+			List.fields.number2.validateInput({ number2: 5 }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should validate if number is even', function (done) {
+			List.fields.number3.validateInput({ number3: 4 }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should not validate if number is odd', function (done) {
+			List.fields.number3.validateInput({ number3: 5 }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should validate if number is odd', function (done) {
+			List.fields.number4.validateInput({ number4: 77 }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should not validate if number is even', function (done) {
+			List.fields.number4.validateInput({ number4: 2 }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
 	});
 
 	describe('validateRequiredInput', function () {
