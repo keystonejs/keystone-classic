@@ -23,7 +23,6 @@ module.exports = function MarkdownType(config) {
 		},
 		commands: [{
 			togglePreview: function(){
-				this.api.pause(500);
 				return this
 					.click('@previewToggle')
 					.waitForElementVisible('@preview');

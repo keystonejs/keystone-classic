@@ -47,6 +47,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
+		browser.app.waitForItemScreen();
 		browser.itemPage.assertFlashError('Passwords must match');
 		browser.itemPage.fillInputs({
 			listName: 'Password',
@@ -55,6 +56,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
+		browser.app.waitForItemScreen();
 		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemPage.assertInputs({
 			listName: 'Password',
