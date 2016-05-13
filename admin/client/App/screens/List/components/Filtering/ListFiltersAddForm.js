@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import filters from '../../../../../utils/filters';
+import filters from '../../../../../fields/filters';
 import Popout from '../../../../shared/Popout';
 
 var ListFiltersAddForm = React.createClass({

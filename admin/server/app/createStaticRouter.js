@@ -16,7 +16,7 @@ module.exports = function createStaticRouter (keystone) {
 
 	/* Prepare browserify bundles */
 	var bundles = {
-		fields: browserify('utils/fields.js', 'FieldTypes'),
+		fields: browserify('fields/types.js', 'FieldTypes'),
 		signin: browserify('Signin/index.js'),
 		index: browserify('index.js'),
 	};

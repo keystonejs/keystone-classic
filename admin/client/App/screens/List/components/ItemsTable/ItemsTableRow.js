@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import Columns from '../../../../../utils/columns';
+import Columns from '../../../../../fields/columns';
 import ListControl from '../ListControl';
 
 import { DropTarget, DragSource } from 'react-dnd';

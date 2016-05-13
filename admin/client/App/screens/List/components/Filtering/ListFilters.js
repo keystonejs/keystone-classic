@@ -1,5 +1,5 @@
 import React from 'react';
-import filterComponents from '../../../../../utils/filters';
+import filterComponents from '../../../../../fields/filters';
 import Popout from '../../../../shared/Popout';
 import { Pill } from 'elemental';
 
