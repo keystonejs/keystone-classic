@@ -70,6 +70,11 @@ module.exports = {
 			labelForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-label',
 			plusIconLinkForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] a.dashboard-group__list-create.octicon.octicon-plus',
 			itemCountForSelectsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="selects"] .dashboard-group__list-count',
+			// Relationships List Tab
+			relationshipsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="relationships"]',
+			labelForRelationshipsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="relationships"] .dashboard-group__list-label',
+			plusIconLinkForRelationshipsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="relationships"] a.dashboard-group__list-create.octicon.octicon-plus',
+			itemCountForRelationshipsTabUnderDashboardFieldsSubheading: '.dashboard-group__list[data-list-path="relationships"] .dashboard-group__list-count',
 
 			// Dashboard's Others Group
 			dashboardOthersSubheading: '.dashboard-group__heading[data-section-label="Other"]',
@@ -400,6 +405,22 @@ module.exports = {
 						name: {
 							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
 							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+					},
+				},
+				relationship: {
+					relationship: {
+						name: {
+							label: '.Modal-dialog .field-type-text[for="name"] .FormLabel',
+							value: '.Modal-dialog .field-type-text[for="name"] input[name="name"]',
+						},
+						parent: {
+							label: '.Modal-dialog .field-type-relationship[for="parent"] .FormLabel',
+							inputField: '.Modal-dialog .field-type-relationship[for="parent"] .Select',
+							inputValue: '.Modal-dialog .field-type-relationship[for="parent"] .Select-value-label',
+							placeholder: '.Modal-dialog .field-type-name[for="parent"] .Select-placeholder',
+							dropdownArrow: '.Modal-dialog .field-type-name[for="parent"] .Select-arrow-zone',
+							optionOne: '.Modal-dialog .field-type-name[for="parent"] .Select-menu-outer option[value="One"]',
 						},
 					},
 				},
