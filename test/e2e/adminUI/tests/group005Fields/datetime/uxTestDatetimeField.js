@@ -43,6 +43,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
+		browser.app.waitForItemScreen();
 		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.itemPage.assertInputs({

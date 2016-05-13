@@ -40,6 +40,7 @@ module.exports = {
 			}
 		});
 		browser.itemPage.save();
+		browser.app.waitForItemScreen();
 		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemPage.assertInputs({
 			listName: 'Url',
