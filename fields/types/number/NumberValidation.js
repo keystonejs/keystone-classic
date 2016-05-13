@@ -4,14 +4,14 @@ module.exports = {
 
 		if (rules.minValue !== undefined && rules.minValue !== null) {
 			if (value < rules.minValue) {
-				field.options.invalidMessage = 'The number in the ' + field.label + ' field must be greater than or equal to' + rules.minValue + '.';
+				field.options.invalidMessage = 'The number in the ' + field.label + ' field must be greater than or equal to ' + rules.minValue + '.';
 				return false;
 			}
 		}
 
 		if (rules.maxValue !== undefined && rules.maxValue !== null) {
 			if (value > rules.maxValue) {
-				field.options.invalidMessage = 'The number in the ' + field.label + ' field must be less than or equal to' + rules.maxValue + '.';
+				field.options.invalidMessage = 'The number in the ' + field.label + ' field must be less than or equal to ' + rules.maxValue + '.';
 				return false;
 			}
 		}
