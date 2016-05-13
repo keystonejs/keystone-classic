@@ -14,7 +14,7 @@ import {
 
 import AlertMessages from '../../../shared/AlertMessages';
 import ConfirmationDialog from './../../../shared/ConfirmationDialog';
-import Fields from '../../../../utils/fields';
+import Fields from 'FieldTypes';
 
 import FormHeading from './FormHeading';
 import AltText from './AltText';

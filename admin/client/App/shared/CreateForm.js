@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AlertMessages from './AlertMessages';
-import Fields from '../../utils/fields';
+import Fields from 'FieldTypes';
 import InvalidFieldType from './InvalidFieldType';
 import { Button, Form, Modal } from 'elemental';
 
