@@ -15,6 +15,7 @@ module.exports = [
 	'history',
 	'i',
 	'list-to-array',
+	'lodash',
 	'marked',
 	'moment',
 	'numeral',
