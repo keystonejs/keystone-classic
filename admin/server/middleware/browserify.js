@@ -4,7 +4,7 @@ var chalk = require('chalk');
 var crypto = require('crypto');
 var fs = require('fs-extra');
 var moment = require('moment');
-var packages = require('../../client/utils/packages');
+var packages = require('../../client/packages');
 var path = require('path');
 var watchify = require('watchify');
 
