@@ -10,7 +10,8 @@ module.exports = {
 
 		browser.initialFormPage.assertUI({
 			listName: 'Select',
-			fields: ['name', 'fieldA']
+			fields: ['name', 'fieldA'],
+			args: {'editForm': false}, // To check for @value instead of @button
 		});
 	},
 	'restoring test state': function(browser) {
@@ -45,6 +46,13 @@ module.exports = {
 				'fieldA': {value: 'One'},
 			}
 		})
+	},
+	'Select field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Select',
+			fields: ['fieldA', 'fieldB'],
+			args: {'editForm': true},
+		});
 	},
 	'Select field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({

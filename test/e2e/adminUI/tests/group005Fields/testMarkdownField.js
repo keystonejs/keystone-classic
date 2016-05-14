@@ -54,6 +54,12 @@ module.exports = {
 			}
 		})
 	},
+	'Markdown field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Markdown',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Markdown field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Markdown',

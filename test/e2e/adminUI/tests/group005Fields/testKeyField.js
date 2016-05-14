@@ -46,6 +46,12 @@ module.exports = {
 			}
 		})
 	},
+	'Key field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Key',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Key field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Key',

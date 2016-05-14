@@ -49,6 +49,12 @@ module.exports = {
 		})
 		*/
 	},
+	'Date field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Date',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Date field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Date',

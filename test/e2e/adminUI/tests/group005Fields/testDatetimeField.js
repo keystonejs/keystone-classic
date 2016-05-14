@@ -49,6 +49,12 @@ module.exports = {
 		})
 		*/
 	},
+	'Datetime field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Datetime',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Datetime field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Datetime',

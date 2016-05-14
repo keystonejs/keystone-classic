@@ -46,6 +46,12 @@ module.exports = {
 			}
 		})
 	},
+	'Url field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Url',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Url field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Url',

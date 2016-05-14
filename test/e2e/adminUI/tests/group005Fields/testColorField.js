@@ -46,6 +46,12 @@ module.exports = {
 			}
 		})
 	},
+	'Color field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Color',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Color field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Color',
