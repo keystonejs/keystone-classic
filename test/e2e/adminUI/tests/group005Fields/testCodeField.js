@@ -46,6 +46,12 @@ module.exports = {
 			}
 		})
 	},
+	'Code field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Code',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Code field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Code',

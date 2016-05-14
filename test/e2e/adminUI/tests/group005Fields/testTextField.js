@@ -46,6 +46,12 @@ module.exports = {
 			}
 		})
 	},
+	'Text field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Text',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Text field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Text',

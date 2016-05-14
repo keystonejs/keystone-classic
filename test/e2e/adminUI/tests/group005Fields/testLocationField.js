@@ -89,8 +89,25 @@ module.exports = {
 			}
 		})
 	},
-	'Location field can be filled via the edit form': function(browser) {
+	'Location field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Location',
+			fields: ['fieldA'],
+			args: { 'showMore': true },
+		});
+		browser.itemPage.assertUI({
+			listName: 'Location',
+			fields: ['fieldB'],
+			args: { 'showMore': false },
+		});
 		browser.itemPage.section.form.section.locationList.section.fieldB.showMore();
+		browser.itemPage.assertUI({
+			listName: 'Location',
+			fields: ['fieldB'],
+			args: { 'showMore': true },
+		});
+	},
+	'Location field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Location',
 			fields: {

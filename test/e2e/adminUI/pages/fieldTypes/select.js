@@ -12,15 +12,18 @@ module.exports = function SelectType(config) {
 			optionOne: '.Select-menu-outer option[value="One"]',
 		},
 		commands: [{
-			verifyUI: function() {
+			verifyUI: function(args) {
 				this
 					.expect.element('@label').to.be.visible;
 				this
 					.expect.element('@label').text.to.equal(utils.titlecase(config.fieldName));
 				this
 					.expect.element('@selectField').to.be.visible;
-				this
-					.expect.element('@placeholder').to.be.visible;
+				if(!args.editForm) {
+					// Placeholder won't be there in the edit form as the select will be filled.
+					this
+						.expect.element('@placeholder').to.be.visible;
+				}
 				this
 					.expect.element('@dropdownArrow').to.be.visible;
 				return this;

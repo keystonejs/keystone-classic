@@ -10,7 +10,8 @@ module.exports = {
 
 		browser.initialFormPage.assertUI({
 			listName: 'Password',
-			fields: ['name', 'fieldA']
+			fields: ['name', 'fieldA'],
+			args: {'editForm': false}, // To check for @value instead of @button
 		});
 	},
 	'restoring test state': function(browser) {
@@ -51,6 +52,13 @@ module.exports = {
 				'name': {value: 'Password Field Test 1'},
 			}
 		})
+	},
+	'Password field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Password',
+			fields: ['fieldA', 'fieldB'],
+			args: {'editForm': true}, // To check for @button instead of @value
+		});
 	},
 	'Password field can be filled via the edit form': function(browser) {
 		browser.itemPage.section.form.section.passwordList.section.fieldB.clickSetPassword();

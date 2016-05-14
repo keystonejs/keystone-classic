@@ -46,6 +46,12 @@ module.exports = {
 			}
 		})
 	},
+	'Name field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Name',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Name field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Name',

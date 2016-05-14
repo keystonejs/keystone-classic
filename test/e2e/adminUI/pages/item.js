@@ -103,6 +103,17 @@ module.exports = {
 		//
 		// PAGE LEVEL COMMANDS
 		//
+		assertUI: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field]
+					.verifyUI(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
 		new: function() {
 			return this
 				.click('@newItemButton');

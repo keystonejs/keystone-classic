@@ -46,6 +46,12 @@ module.exports = {
 			}
 		})
 	},
+	'Html field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Html',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Html field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Html',

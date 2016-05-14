@@ -46,6 +46,12 @@ module.exports = {
 			}
 		})
 	},
+	'Textarea field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Textarea',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
 	'Textarea field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Textarea',
