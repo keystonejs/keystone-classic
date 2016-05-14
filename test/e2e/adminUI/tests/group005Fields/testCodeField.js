@@ -1,8 +1,22 @@
-var fieldTests = require('../commonFieldTestUtils.js');
+var fieldTests = require('./commonFieldTestUtils.js');
 
 module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
+	'Code field should show correctly in the initial modal': function (browser) {
+		browser.app.openFieldList('Code');
+		browser.listPage.createFirstItem();
+		browser.app.waitForInitialFormScreen();
+
+		browser.initialFormPage.assertUI({
+			listName: 'Code',
+			fields: ['name', 'fieldA']
+		});
+	},
+	'restoring test state': function(browser) {
+		browser.initialFormPage.cancel();
+		browser.app.waitForListScreen();
+	},
 	'Code field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('Code');
 		browser.listPage.createFirstItem();
@@ -50,5 +64,9 @@ module.exports = {
 				'fieldB': {value: 'Some test code for field B'}
 			}
 		})
+	},
+	'restoring test state': function(browser) {
+		browser.initialFormPage.cancel();
+		browser.app.waitForListScreen();
 	},
 };

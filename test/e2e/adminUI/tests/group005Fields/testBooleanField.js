@@ -1,4 +1,4 @@
-var adminUI = require('../../../adminUI');
+var adminUI = require('../../adminUI');
 
 module.exports = {
 	before: function (browser) {
@@ -20,24 +20,20 @@ module.exports = {
 			.pause(browser.globals.defaultPauseTimeout)
 			.end();
 	},
-	'Email field should be visible in initial modal': function (browser) {
+	'Boolean field should be visible in initial modal': function (browser) {
 		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForEmailsTabUnderDashboardFieldsSubheading)
+			.click(adminUI.cssSelector.homeView.plusIconLinkForBooleansTabUnderDashboardFieldsSubheading)
 			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
 			.pause(browser.globals.defaultPauseTimeout);
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.name.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.label)
 			.text.to.equal('Name');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.name.value)
-			.to.be.visible;
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.fieldA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.fieldA.label)
 			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.fieldA.label)
+		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.fieldA.label)
 			.text.to.equal('Field A');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.email.email.fieldA.value)
-			.to.be.visible;
 	},
 };
