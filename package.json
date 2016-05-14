@@ -89,7 +89,7 @@
     "watchify": "3.7.0",
     "xhr": "2.2.0"
   },
-  "optionalDependencies":{
+  "bundledDependencies":{
     "keystone-admin": "^0.4.0-alpha"
   },
   "devDependencies": {
