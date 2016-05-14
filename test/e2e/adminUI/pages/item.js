@@ -3,6 +3,8 @@ var ColorList = require('./lists/color');
 var DateList = require('./lists/date');
 var DatetimeList = require('./lists/datetime');
 var HtmlList = require('./lists/html');
+var KeyList = require('./lists/key');
+var LocationList = require('./lists/location');
 var MarkdownList = require('./lists/markdown');
 var NameList = require('./lists/name');
 var PasswordList = require('./lists/password');
@@ -25,6 +27,8 @@ module.exports = {
 				dateList: new DateList(),
 				datetimeList: new DatetimeList(),
 				htmlList: new HtmlList(),
+				keyList: new KeyList(),
+				locationList: new LocationList(),
 				markdownList: new MarkdownList(),
 				nameList: new NameList(),
 				passwordList: new PasswordList(),
