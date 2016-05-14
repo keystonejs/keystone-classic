@@ -53,6 +53,8 @@ keystone.set('nav', {
 		'datetimes',
 		'emails',
 		'htmls',
+		'keys',
+		'locations',
 		'markdowns',
 		'names',
 		'numbers',
