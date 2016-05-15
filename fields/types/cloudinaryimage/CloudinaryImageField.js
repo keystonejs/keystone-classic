@@ -430,7 +430,7 @@ module.exports = Field.create({
 			}
 		}
 		return (
-			<FormField label={this.props.label} className="field-type-cloudinaryimage">
+			<FormField label={this.props.label} className="field-type-cloudinaryimage" htmlFor={this.props.path}>
 				{this.renderFileField()}
 				{this.renderFileAction()}
 				<div className="image-container">{container}</div>

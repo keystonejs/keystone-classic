@@ -1,3 +1,5 @@
+var CloudinaryImageList = require('./lists/cloudinaryImage.js');
+var CloudinaryImagexList = require('./lists/cloudinaryImagex.js');
 var CodeList = require('./lists/code');
 var ColorList = require('./lists/color');
 var DateList = require('./lists/date');
@@ -22,6 +24,8 @@ module.exports = {
 				//
 				// DEFINE ALL LISTS
 				//
+				cloudinaryimageList: new CloudinaryImageList(),
+				cloudinaryimagexList: new CloudinaryImagexList(),
 				codeList: new CodeList(),
 				colorList: new ColorList(),
 				dateList: new DateList(),
