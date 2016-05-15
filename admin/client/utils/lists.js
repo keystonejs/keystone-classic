@@ -5,9 +5,14 @@
 
 import List from './List';
 
+exports.listsByKey = {};
+exports.listsByPath = {};
+
 for (const key in Keystone.lists) {
 	// Guard for-ins
 	if ({}.hasOwnProperty.call(Keystone.lists, key)) {
-		exports[Keystone.lists[key].path] = new List(Keystone.lists[key]);
+		var list = new List(Keystone.lists[key]);
+		exports.listsByKey[key] = list;
+		exports.listsByPath[list.path] = list;
 	}
 }

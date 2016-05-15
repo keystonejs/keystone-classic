@@ -9,7 +9,7 @@ import React from 'react';
 import { Container, Spinner } from 'elemental';
 import { connect } from 'react-redux';
 
-import Lists from '../../../utils/ListsByKey';
+import { listsByKey } from '../../../utils/lists';
 import CreateForm from '../../shared/CreateForm';
 import EditForm from './components/EditForm';
 import EditFormHeader from './components/EditFormHeader';

@@ -1,6 +1,6 @@
 import async from 'async';
-import Lists from '../../../admin/client/utils/ListsByKey';
 import Field from '../Field';
+import listsByKey from '../../../admin/client/utils/lists';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
@@ -205,7 +205,7 @@ module.exports = Field.create({
 					<Button onClick={() => this.toggleCreate(true)} type="success">+</Button>
 				</InputGroup.Section>
 				<CreateForm
-					list={Lists[this.props.refList.key]}
+					list={listsByKey[this.props.refList.key]}
 					isOpen={this.state.createIsOpen}
 					onCreate={(data) => this.onCreate(data)}
 					onCancel={() => this.toggleCreate(false)} />

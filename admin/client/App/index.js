@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import Lists from '../utils/ListsByKey';
+import { listsByPath } from '../utils/lists';
 
 import MobileNavigation from './components/Navigation/Mobile';
 import PrimaryNavigation from './components/Navigation/Primary';
@@ -15,7 +15,7 @@ const App = (props) => {
 	// If we're on either a list or an item view
 	let currentList, currentSection;
 	if (props.params.listId) {
-		currentList = Lists[props.params.listId];
+		currentList = listsByPath[props.params.listId];
 		// Get the current section we're in for the navigation
 		currentSection = Keystone.nav.by.list[currentList.key];
 	}

@@ -20,7 +20,7 @@ import ListFiltersAdd from './components/Filtering/ListFiltersAdd';
 import ListSort from './components/ListSort';
 import UpdateForm from './components/UpdateForm';
 import { plural } from '../../../utils/string';
-import Lists from '../../../utils/ListsByKey';
+import { listsByPath } from '../../../utils/lists';
 
 import {
 	deleteItems,
@@ -364,7 +364,7 @@ const ListView = React.createClass({
 						<ListDownloadForm
 							dispatch={this.props.dispatch}
 							activeColumns={this.props.active.columns}
-							list={Lists[this.props.params.listId]}
+							list={listsByPath[this.props.params.listId]}
 							className="ListHeader__download"
 						/>
 						<InputGroup.Section className="ListHeader__expand">
