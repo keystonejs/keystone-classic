@@ -47,6 +47,8 @@ keystone.set('nav', {
 	],
 	'fields': [
 		'booleans',
+		'cloudinary-images',
+		'cloudinary-imagexes',
 		'codes',
 		'colors',
 		'dates',
