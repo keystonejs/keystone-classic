@@ -80,16 +80,16 @@ var ItemView = React.createClass({
 					<h2>Relationships</h2>
 					{keys.map(key => {
 						const relationship = relationships[key];
-						// const refList = Lists[relationship.path];
-						// return (
-						// 	<RelatedItemsList
-						// 		key={relationship.path}
-						// 		list={this.props.currentList}
-						// 		refList={refList}
-						// 		relatedItemId={this.props.params.itemId}
-						// 		relationship={relationship}
-						// 	/>
-						// );
+						const refList = listsByKey[relationship.ref];
+						return (
+							<RelatedItemsList
+								key={relationship.path}
+								list={this.props.currentList}
+								refList={refList}
+								relatedItemId={this.props.params.itemId}
+								relationship={relationship}
+							/>
+						);
 					})}
 				</Container>
 			</div>
