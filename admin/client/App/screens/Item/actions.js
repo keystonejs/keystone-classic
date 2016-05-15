@@ -5,7 +5,7 @@ import {
 	DATA_LOADING_ERROR,
 	DELETE_ITEM,
 } from './constants';
-import { NETWORK_ERROR_RETRY_DELAY } from '../../../utils/constants';
+import { NETWORK_ERROR_RETRY_DELAY } from '../../../constants';
 
 /**
  * Select an item

@@ -7,7 +7,7 @@ import {
 import {
 	deleteItem,
 } from '../../Item/actions';
-import { NETWORK_ERROR_RETRY_DELAY } from '../../../../utils/constants';
+import { NETWORK_ERROR_RETRY_DELAY } from '../../../../constants';
 
 export function loadItems (options = {}) {
 	return (dispatch, getState) => {

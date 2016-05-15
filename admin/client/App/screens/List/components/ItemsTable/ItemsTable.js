@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import TableRow from './ItemsTableRow';
 import DrapDrop from './ItemsTableDragDrop';
 
-import { TABLE_CONTROL_COLUMN_WIDTH } from '../../../../../utils/constants';
+import { TABLE_CONTROL_COLUMN_WIDTH } from '../../../../../constants';
 
 const ItemsTable = React.createClass({
 	propTypes: {

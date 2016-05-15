@@ -4,7 +4,7 @@ import {
 	COUNTS_LOADING_SUCCESS,
 	COUNTS_LOADING_ERROR,
 } from './constants';
-import { NETWORK_ERROR_RETRY_DELAY } from '../../../utils/constants';
+import { NETWORK_ERROR_RETRY_DELAY } from '../../../constants';
 
 /**
  * Load the counts of all lists
