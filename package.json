@@ -150,6 +150,7 @@
     "test-all": "npm test && npm run test-e2e",
     "test-unit": "node test/pretest.js && mocha",
     "test-e2e": "node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json",
+    "test-e2e-bg": "node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json",
     "test-e2e-saucelabs": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2e/server.js --env saucelabs-travis --config ./test/e2e/adminUI/nightwatch.json; fi",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",

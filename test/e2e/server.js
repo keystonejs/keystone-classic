@@ -7,6 +7,8 @@ var request = require('superagent');
 var moment = require('moment');
 var mongoose = require('mongoose');
 var Nightwatch = require('nightwatch/lib/index.js');
+var child_process = require('child_process');
+var path = require('path');
 
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
 var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
@@ -95,6 +97,39 @@ function checkKeystoneReady (done, results) {
 		.end(done);
 }
 
+/*
+On some machines, selenium fails with a timeout error when nightwatch tries to connect due to a
+deadlock situation. The following is a temporary workaround that starts selenium without a pipe
+from stdin until this issue is fixed in nightwatch:
+https://github.com/nightwatchjs/nightwatch/issues/470
+*/
+function runSeleniumInBackground (done) {
+	var selenium = child_process.spawn('java',
+	[
+		'-jar',
+		path.join(__dirname, 'bin/selenium-server-standalone-2.53.0.jar')
+	],
+	{
+		stdio: ['ignore', 'pipe', 'pipe']
+	});
+	var running = false;
+
+	selenium.stderr.on('data', function (buffer)
+	{
+	  var line = buffer.toString();
+	  if(line.search(/Selenium Server is up and running/g) != -1) {
+			running = true;
+			done(null, selenium);
+	  }
+	});
+
+	selenium.on('close', function (code) {
+		if(!running) {
+			done(new Error('Selenium exited with error code ' + code));
+		}
+	});
+}
+
 function runNightwatch () {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: starting tests...');
 
@@ -144,7 +179,19 @@ function start() {
 		console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: starting setup');
 
 		if (!err) {
-			runKeystone();
+		  if (process.argv.indexOf('--selenium-in-background') == -1) {
+				runKeystone();
+			}
+			else {
+				runSeleniumInBackground(function (err, selenium) {
+					if(err) {
+						console.error('\nCould not start selenium in the background:\n\n');
+						console.error(err);
+						process.exit(3);
+					}
+					runKeystone();
+				});
+			}
 		} else {
 			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: failed to drop e2e test database: ' + err);
 		}
