@@ -12,7 +12,7 @@ module.exports = function SelectType(config) {
 			optionOne: '.Select-menu-outer option[value="One"]',
 		},
 		commands: [{
-			verifyUI: function(args) {
+			assertUI: function(args) {
 				this
 					.expect.element('@label').to.be.visible;
 				this

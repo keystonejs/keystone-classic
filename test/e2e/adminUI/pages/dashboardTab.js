@@ -9,7 +9,7 @@ module.exports = function dashboardTab (config) {
 			itemCount: '.dashboard-group__list[data-list-path="' + config.name + '"] .dashboard-group__list-count',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').text.to.equal(utils.titlecase(config.name));
 				this

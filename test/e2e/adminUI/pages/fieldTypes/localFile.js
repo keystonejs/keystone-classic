@@ -8,7 +8,7 @@ module.exports = function LocalFileType(config) {
 			button: '.file-toolbar .Button--default',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

@@ -9,7 +9,7 @@ module.exports = function DateType(config) {
 			todayButton: '.Button--default',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

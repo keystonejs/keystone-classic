@@ -1,14 +1,14 @@
 var utils = require('../../../utils');
 
-module.exports = function CloudinaryImagexType(config) {
+module.exports = function LocalFileMultipleType(config) {
 	var self = {
-		selector: '.field-type-cloudinaryimages[for="' + config.fieldName + '"]',
+		selector: '.field-type-localfiles[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
-			button: '.images-toolbar .Button--default',
+			button: '.files-toolbar .Button--default',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

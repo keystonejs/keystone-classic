@@ -11,7 +11,7 @@ module.exports = function NameType(config) {
 			lastNamePlaceholder: 'input[placeholder="Last name"]',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

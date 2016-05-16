@@ -8,7 +8,7 @@ module.exports = function TextareaType(config) {
 			value: 'textarea[name="' + config.fieldName + '"]',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
         this
 					.expect.element('@label').to.be.visible;
 				this

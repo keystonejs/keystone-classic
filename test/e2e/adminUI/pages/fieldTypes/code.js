@@ -9,7 +9,7 @@ module.exports = function CodeType(config) {
 			codeMirror: '.CodeMirror-container',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

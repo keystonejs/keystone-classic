@@ -167,7 +167,7 @@ Here are some don'ts that may cross your mind as good ideas but shouldn't:
     example, the initial modal form may only show fields that the user marked as _initial_ when defining the keystone
     list.
 
-        verifyUI: function() {
+        assertUI: function() {
             this.expect.section('@name').to.be.visible;
             this.expect.section('@fieldA').to.be.visible;
         }
@@ -176,4 +176,3 @@ Here are some don'ts that may cross your mind as good ideas but shouldn't:
     objects.  For the most part we are sticking to that suggestion.  The only place where we currently do assertions
     is in the field type definitions, since the fields know better about their contained path elements.  So please
     try not to add assertions anywhere else in page objects as doing so may have subtle pitfalls.
-

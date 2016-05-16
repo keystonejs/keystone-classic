@@ -11,7 +11,7 @@ module.exports = function ColorType(config) {
       picker: '.field-type-color__picker',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

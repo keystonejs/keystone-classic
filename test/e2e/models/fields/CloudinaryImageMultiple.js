@@ -1,7 +1,7 @@
 var keystone = require('../../../../index.js');
 var Types = keystone.Field.Types;
 
-var CloudinaryImagex = new keystone.List('CloudinaryImagex', {
+var CloudinaryImageMultiple = new keystone.List('CloudinaryImageMultiple', {
 	autokey: {
 		path: 'key',
 		from: 'name',
@@ -10,7 +10,7 @@ var CloudinaryImagex = new keystone.List('CloudinaryImagex', {
 	track: true,
 });
 
-CloudinaryImagex.add({
+CloudinaryImageMultiple.add({
 	name: {
 		type: String,
 		initial: true,
@@ -25,7 +25,7 @@ CloudinaryImagex.add({
 	},
 });
 
-CloudinaryImagex.defaultColumns = 'name, fieldA, fieldB';
-CloudinaryImagex.register();
+CloudinaryImageMultiple.defaultColumns = 'name, fieldA, fieldB';
+CloudinaryImageMultiple.register();
 
-module.exports = CloudinaryImagex;
+module.exports = CloudinaryImageMultiple;

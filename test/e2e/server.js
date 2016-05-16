@@ -50,7 +50,7 @@ keystone.set('nav', {
 	'fields': [
 		'booleans',
 		'cloudinary-images',
-		'cloudinary-imagexes',
+		'cloudinary-image-multiples',
 		'codes',
 		'colors',
 		'dates',
@@ -60,7 +60,7 @@ keystone.set('nav', {
 		'htmls',
 		'keys',
 		'local-files',
-		'local-filexes',
+		'local-file-multiples',
 		'locations',
 		'markdowns',
 		'names',
