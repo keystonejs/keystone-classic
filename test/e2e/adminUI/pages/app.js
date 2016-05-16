@@ -41,6 +41,7 @@ module.exports = {
 		localfilemultipleListSubmenu: '.secondary-navbar [data-list-path="local-file-multiples"]',
 		locationListSubmenu: '.secondary-navbar [data-list-path="locations"]',
 		markdownListSubmenu: '.secondary-navbar [data-list-path="markdowns"]',
+		moneyListSubmenu: '.secondary-navbar [data-list-path="money"]',
 		nameListSubmenu: '.secondary-navbar [data-list-path="names"]',
 		passwordListSubmenu: '.secondary-navbar [data-list-path="passwords"]',
 		selectListSubmenu: '.secondary-navbar [data-list-path="selects"]',
