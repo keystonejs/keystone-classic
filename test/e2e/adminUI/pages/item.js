@@ -11,6 +11,7 @@ var LocalFileList = require('./lists/localFile');
 var LocalFileMultipleList = require('./lists/localFileMultiple');
 var LocationList = require('./lists/location');
 var MarkdownList = require('./lists/markdown');
+var MoneyList = require('./lists/money');
 var NameList = require('./lists/name');
 var PasswordList = require('./lists/password');
 var SelectList = require('./lists/select');
@@ -40,6 +41,7 @@ module.exports = {
 				localfilemultipleList: new LocalFileMultipleList(),
 				locationList: new LocationList(),
 				markdownList: new MarkdownList(),
+				moneyList: new MoneyList(),
 				nameList: new NameList(),
 				passwordList: new PasswordList(),
 				selectList: new SelectList(),
