@@ -32,7 +32,7 @@ module.exports = function LocationType(config) {
 			geoLngValue: 'input[name="' + config.fieldName + '.geo"][placeholder="Longitude"]',
 		},
 		commands: [{
-			verifyUI: function(args) {
+			assertUI: function(args) {
 				this
 					.expect.element('@label').to.be.visible;
 				this

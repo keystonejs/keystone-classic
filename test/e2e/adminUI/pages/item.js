@@ -1,5 +1,5 @@
 var CloudinaryImageList = require('./lists/cloudinaryImage.js');
-var CloudinaryImagexList = require('./lists/cloudinaryImagex.js');
+var CloudinaryImageMultipleList = require('./lists/cloudinaryImageMultiple.js');
 var CodeList = require('./lists/code');
 var ColorList = require('./lists/color');
 var DateList = require('./lists/date');
@@ -8,7 +8,7 @@ var DatetimeList = require('./lists/datetime');
 var HtmlList = require('./lists/html');
 var KeyList = require('./lists/key');
 var LocalFileList = require('./lists/localFile');
-var LocalFilexList = require('./lists/localFilex');
+var LocalFileMultipleList = require('./lists/localFileMultiple');
 var LocationList = require('./lists/location');
 var MarkdownList = require('./lists/markdown');
 var NameList = require('./lists/name');
@@ -28,7 +28,7 @@ module.exports = {
 				// DEFINE ALL LISTS
 				//
 				cloudinaryimageList: new CloudinaryImageList(),
-				cloudinaryimagexList: new CloudinaryImagexList(),
+				cloudinaryimagemultipleList: new CloudinaryImageMultipleList(),
 				codeList: new CodeList(),
 				colorList: new ColorList(),
 				dateList: new DateList(),
@@ -37,7 +37,7 @@ module.exports = {
 				htmlList: new HtmlList(),
 				keyList: new KeyList(),
 				localfileList: new LocalFileList(),
-				localfilexList: new LocalFilexList(),
+				localfilemultipleList: new LocalFileMultipleList(),
 				locationList: new LocationList(),
 				markdownList: new MarkdownList(),
 				nameList: new NameList(),
@@ -119,7 +119,7 @@ module.exports = {
 			var form = this.section.form;
 			config.fields.forEach( function(field) {
 				var task = form.section[list].section[field]
-					.verifyUI(config.args);
+					.assertUI(config.args);
 				tasks.push(task);
 			});
 			return tasks;

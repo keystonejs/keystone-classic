@@ -12,7 +12,7 @@ module.exports = function DatetimeType(config) {
 			timePlaceholder: 'input[placeholder="HH:MM:SS am/pm"]',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

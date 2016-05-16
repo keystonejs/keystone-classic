@@ -8,7 +8,7 @@ module.exports = function CloudinaryImageType(config) {
 			button: '.image-toolbar .Button--default',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

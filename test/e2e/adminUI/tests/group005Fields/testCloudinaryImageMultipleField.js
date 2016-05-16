@@ -3,13 +3,13 @@ var fieldTests = require('./commonFieldTestUtils.js');
 module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
-	'CloudinaryImagex field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('CloudinaryImagex');
+	'CloudinaryImageMultiple field should show correctly in the initial modal': function (browser) {
+		browser.app.openFieldList('CloudinaryImageMultiple');
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
 		browser.initialFormPage.assertUI({
-			listName: 'CloudinaryImagex',
+			listName: 'CloudinaryImageMultiple',
 			fields: ['name']
 		});
 	},
@@ -17,35 +17,35 @@ module.exports = {
 		browser.initialFormPage.cancel();
 		browser.app.waitForListScreen();
 	},
-	'CloudinaryImagex field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('CloudinaryImagex');
+	'CloudinaryImageMultiple field can be filled via the initial modal': function(browser) {
+		browser.app.openFieldList('CloudinaryImageMultiple');
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormPage.fillInputs({
-			listName: 'CloudinaryImagex',
+			listName: 'CloudinaryImageMultiple',
 			fields: {
-				'name': {value: 'CloudinaryImagex Field Test 1'},
+				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		});
 		browser.initialFormPage.assertInputs({
-			listName: 'CloudinaryImagex',
+			listName: 'CloudinaryImageMultiple',
 			fields: {
-				'name': {value: 'CloudinaryImagex Field Test 1'},
+				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
 
 		browser.itemPage.assertInputs({
-			listName: 'CloudinaryImagex',
+			listName: 'CloudinaryImageMultiple',
 			fields: {
-				'name': {value: 'CloudinaryImagex Field Test 1'},
+				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		})
 	},
-	'CloudinaryImagex field should show correctly in the edit form': function(browser) {
+	'CloudinaryImageMultiple field should show correctly in the edit form': function(browser) {
 		browser.itemPage.assertUI({
-			listName: 'CloudinaryImagex',
+			listName: 'CloudinaryImageMultiple',
 			fields: ['fieldA', 'fieldB']
 		});
 	},

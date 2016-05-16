@@ -67,12 +67,12 @@ module.exports = {
 			.text.to.equal('Other');
 	},
 	'Home view should have tabs under Access dashboard group': function (browser) {
-		browser.homeScreen.section.accessGroup.verifyUI();
+		browser.homeScreen.section.accessGroup.assertUI();
 	},
 	'Home view should have tabs under Fields dashboard group': function (browser) {
-		browser.homeScreen.section.fieldsGroup.verifyUI();
+		browser.homeScreen.section.fieldsGroup.assertUI();
 	},
 	'Home view should have tabs under Other dashboard group': function (browser) {
-		browser.homeScreen.section.otherGroup.verifyUI();
+		browser.homeScreen.section.otherGroup.assertUI();
 	},
 };

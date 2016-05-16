@@ -18,7 +18,7 @@ module.exports = function DateArrayType(config) {
 			date10: '#_DateInput_10',
 		},
 		commands: [{
-			verifyUI: function(args) {
+			assertUI: function(args) {
 				this
 					.expect.element('@label').to.be.visible;
 				this

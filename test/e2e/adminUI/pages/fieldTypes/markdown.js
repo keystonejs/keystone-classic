@@ -27,7 +27,7 @@ module.exports = function MarkdownType(config) {
 					.click('@previewToggle')
 					.waitForElementVisible('@preview');
 			},
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this

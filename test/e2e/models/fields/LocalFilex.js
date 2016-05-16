@@ -1,7 +1,7 @@
 var keystone = require('../../../../index.js');
 var Types = keystone.Field.Types;
 
-var LocalFilex = new keystone.List('LocalFilex', {
+var LocalFileMultiple = new keystone.List('LocalFileMultiple', {
 	autokey: {
 		path: 'key',
 		from: 'name',
@@ -10,7 +10,7 @@ var LocalFilex = new keystone.List('LocalFilex', {
 	track: true,
 });
 
-LocalFilex.add({
+LocalFileMultiple.add({
 	name: {
 		type: String,
 		initial: true,
@@ -27,7 +27,7 @@ LocalFilex.add({
 	},
 });
 
-LocalFilex.defaultColumns = 'name, fieldA, fieldB';
-LocalFilex.register();
+LocalFileMultiple.defaultColumns = 'name, fieldA, fieldB';
+LocalFileMultiple.register();
 
-module.exports = LocalFilex;
+module.exports = LocalFileMultiple;

@@ -16,7 +16,7 @@ module.exports = function PasswordType(config) {
 					.waitForElementVisible('@value');
 				return this;
 			},
-			verifyUI: function(args) {
+			assertUI: function(args) {
 				this
 					.expect.element('@label').to.be.visible;
 				this
