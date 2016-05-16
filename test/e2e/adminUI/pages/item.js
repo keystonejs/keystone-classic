@@ -6,6 +6,8 @@ var DateList = require('./lists/date');
 var DatetimeList = require('./lists/datetime');
 var HtmlList = require('./lists/html');
 var KeyList = require('./lists/key');
+var LocalFileList = require('./lists/localFile.js');
+var LocalFilexList = require('./lists/localFilex.js');
 var LocationList = require('./lists/location');
 var MarkdownList = require('./lists/markdown');
 var NameList = require('./lists/name');
@@ -32,6 +34,8 @@ module.exports = {
 				datetimeList: new DatetimeList(),
 				htmlList: new HtmlList(),
 				keyList: new KeyList(),
+				localfileList: new LocalFileList(),
+				localfilexList: new LocalFilexList(),
 				locationList: new LocationList(),
 				markdownList: new MarkdownList(),
 				nameList: new NameList(),

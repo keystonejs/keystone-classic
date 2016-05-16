@@ -56,6 +56,8 @@ keystone.set('nav', {
 		'emails',
 		'htmls',
 		'keys',
+		'local-files',
+		'local-filexes',
 		'locations',
 		'markdowns',
 		'names',
