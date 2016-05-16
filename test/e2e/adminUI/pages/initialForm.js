@@ -1,13 +1,14 @@
-var CloudinaryImageList = require('./lists/cloudinaryImage.js');
-var CloudinaryImagexList = require('./lists/cloudinaryImagex.js');
+var CloudinaryImageList = require('./lists/cloudinaryImage');
+var CloudinaryImagexList = require('./lists/cloudinaryImagex');
 var CodeList = require('./lists/code');
 var ColorList = require('./lists/color');
 var DateList = require('./lists/date');
+var DateArrayList = require('./lists/dateArray');
 var DatetimeList = require('./lists/datetime');
 var HtmlList = require('./lists/html');
 var KeyList = require('./lists/key');
-var LocalFileList = require('./lists/localFile.js');
-var LocalFilexList = require('./lists/localFilex.js');
+var LocalFileList = require('./lists/localFile');
+var LocalFilexList = require('./lists/localFilex');
 var LocationList = require('./lists/location');
 var MarkdownList = require('./lists/markdown');
 var NameList = require('./lists/name');
@@ -31,6 +32,7 @@ module.exports = {
 				codeList: new CodeList(),
 				colorList: new ColorList(),
 				dateList: new DateList(),
+				datearrayList: new DateArrayList(),
 				datetimeList: new DatetimeList(),
 				htmlList: new HtmlList(),
 				keyList: new KeyList(),

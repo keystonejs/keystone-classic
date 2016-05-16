@@ -32,6 +32,7 @@ module.exports = {
 		codeListSubmenu: '.secondary-navbar [data-list-path="codes"]',
 		colorListSubmenu: '.secondary-navbar [data-list-path="colors"]',
 		dateListSubmenu: '.secondary-navbar [data-list-path="dates"]',
+		datearrayListSubmenu: '.secondary-navbar [data-list-path="date-arrays"]',
 		datetimeListSubmenu: '.secondary-navbar [data-list-path="datetimes"]',
 		emailListSubmenu: '.secondary-navbar [data-list-path="emails"]',
 		htmlListSubmenu: '.secondary-navbar [data-list-path="htmls"]',
