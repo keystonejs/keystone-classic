@@ -28,13 +28,14 @@ module.exports = function (req, res) {
 	}
 	var deletedCount = 0;
 	var deletedIds = [];
+
 	req.list.model.find().where('_id').in(ids).exec(function (err, results) {
 		if (err) {
 			console.log('Error deleting ' + req.list.key + ' items:', err);
 			return res.apiError('database error', err);
 		}
 		async.forEachLimit(results, 10, function (item, next) {
-			item.remove(function (err) {
+			item.softDelete(req.user.id, function (err) {
 				if (err) return next(err);
 				deletedCount++;
 				deletedIds.push(item.id);
