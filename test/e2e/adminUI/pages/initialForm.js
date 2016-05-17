@@ -1,3 +1,4 @@
+var BooleanList = require('./lists/boolean');
 var CloudinaryImageList = require('./lists/cloudinaryImage');
 var CloudinaryImageMultipleList = require('./lists/cloudinaryImageMultiple');
 var CodeList = require('./lists/code');
@@ -28,6 +29,7 @@ module.exports = {
 				//
 				// DEFINE ALL LISTS
 				//
+				booleanList: new BooleanList(),
 				cloudinaryimageList: new CloudinaryImageList(),
 				cloudinaryimagemultipleList: new CloudinaryImageMultipleList(),
 				codeList: new CodeList(),
