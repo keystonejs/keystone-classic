@@ -1,39 +1,74 @@
-var adminUI = require('../../adminUI');
+var fieldTests = require('./commonFieldTestUtils.js');
 
 module.exports = {
-	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
-	},
-	after: function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
-			.end();
-	},
-	'Boolean field should be visible in initial modal': function (browser) {
-		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForBooleansTabUnderDashboardFieldsSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+	before: fieldTests.before,
+	after: fieldTests.after,
+	'Boolean field should show correctly in the initial modal': function (browser) {
+		browser.app.openFieldList('Boolean');
+		browser.listPage.createFirstItem();
+		browser.app.waitForInitialFormScreen();
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.label)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.name.label)
-			.text.to.equal('Name');
+		browser.initialFormPage.assertUI({
+			listName: 'Boolean',
+			fields: ['name', 'fieldA']
+		});
+	},
+	'restoring test state': function(browser) {
+		browser.initialFormPage.cancel();
+		browser.app.waitForListScreen();
+	},
+	'Boolean field can be filled via the initial modal': function(browser) {
+		browser.app.openFieldList('Boolean');
+		browser.listPage.createFirstItem();
+		browser.app.waitForInitialFormScreen();
+		browser.initialFormPage.fillInputs({
+			listName: 'Boolean',
+			fields: {
+				'name': {value: 'Boolean Field Test 1'},
+				'fieldA': {value: 'true'},
+			}
+		});
+		browser.initialFormPage.assertInputs({
+			listName: 'Boolean',
+			fields: {
+				'name': {value: 'Boolean Field Test 1'},
+				'fieldA': {value: 'true'},
+			}
+		});
+		browser.initialFormPage.save();
+		browser.app.waitForItemScreen();
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.fieldA.label)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.bool.bool.fieldA.label)
-			.text.to.equal('Field A');
+		browser.itemPage.assertInputs({
+			listName: 'Boolean',
+			fields: {
+				'name': {value: 'Boolean Field Test 1'},
+				'fieldA': {value: 'true'},
+			}
+		})
+	},
+	'Boolean field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Boolean',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
+	'Boolean field can be filled via the edit form': function(browser) {
+		browser.itemPage.fillInputs({
+			listName: 'Boolean',
+			fields: {
+				'fieldB': {value: 'false'}
+			}
+		});
+		browser.itemPage.save();
+		browser.app.waitForItemScreen();
+		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemPage.assertInputs({
+			listName: 'Boolean',
+			fields: {
+				'name': {value: 'Boolean Field Test 1'},
+				'fieldA': {value: 'true'},
+				'fieldB': {value: 'false'}
+			}
+		})
 	},
 };
