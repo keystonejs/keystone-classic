@@ -1,43 +1,74 @@
-var adminUI = require('../../adminUI');
+var fieldTests = require('./commonFieldTestUtils.js');
 
 module.exports = {
-	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
-	},
-	after: function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
-			.end();
-	},
-	'Number field should be visible in initial modal': function (browser) {
-		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForNumbersTabUnderDashboardFieldsSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+	before: fieldTests.before,
+	after: fieldTests.after,
+	'Number field should show correctly in the initial modal': function (browser) {
+		browser.app.openFieldList('Number');
+		browser.listPage.createFirstItem();
+		browser.app.waitForInitialFormScreen();
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.label)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.label)
-			.text.to.equal('Name');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.name.value)
-			.to.be.visible;
+		browser.initialFormPage.assertUI({
+			listName: 'Number',
+			fields: ['name', 'fieldA']
+		});
+	},
+	'restoring test state': function(browser) {
+		browser.initialFormPage.cancel();
+		browser.app.waitForListScreen();
+	},
+	'Number field can be filled via the initial modal': function(browser) {
+		browser.app.openFieldList('Number');
+		browser.listPage.createFirstItem();
+		browser.app.waitForInitialFormScreen();
+		browser.initialFormPage.fillInputs({
+			listName: 'Number',
+			fields: {
+				'name': {value: 'Number Field Test 1'},
+				'fieldA': {value: '1'},
+			}
+		});
+		browser.initialFormPage.assertInputs({
+			listName: 'Number',
+			fields: {
+				'name': {value: 'Number Field Test 1'},
+				'fieldA': {value: '1'},
+			}
+		});
+		browser.initialFormPage.save();
+		browser.app.waitForItemScreen();
 
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.label)
-			.to.be.visible;
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.label)
-			.text.to.equal('Field A');
-		browser.expect.element(adminUI.cssSelector.initialModalView.fieldType.number.number.fieldA.value)
-			.to.be.visible;
+		browser.itemPage.assertInputs({
+			listName: 'Number',
+			fields: {
+				'name': {value: 'Number Field Test 1'},
+				'fieldA': {value: '1'},
+			}
+		})
+	},
+	'Number field should show correctly in the edit form': function(browser) {
+		browser.itemPage.assertUI({
+			listName: 'Number',
+			fields: ['fieldA', 'fieldB']
+		});
+	},
+	'Number field can be filled via the edit form': function(browser) {
+		browser.itemPage.fillInputs({
+			listName: 'Number',
+			fields: {
+				'fieldB': {value: '2'}
+			}
+		});
+		browser.itemPage.save();
+		browser.app.waitForItemScreen();
+		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemPage.assertInputs({
+			listName: 'Number',
+			fields: {
+				'name': {value: 'Number Field Test 1'},
+				'fieldA': {value: '1'},
+				'fieldB': {value: '2'}
+			}
+		})
 	},
 };
