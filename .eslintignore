@@ -4,6 +4,6 @@ admin/public/js/packages.js
 bundles/*
 coverage/*
 docs/*
-fields/types/**/lib/*
+fields/**/lib/*
 node_modules/*
 test/*

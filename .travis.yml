@@ -5,6 +5,9 @@ node_js:
   - "5"
   - "6"
 
+before_install:
+  - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
+
 before_script:
   - npm run lint
   - sleep 15
