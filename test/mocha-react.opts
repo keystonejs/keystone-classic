@@ -1,0 +1,4 @@
+**/*.test.jsx
+--growl
+--reporter progress
+--compilers js:babel-core/register
