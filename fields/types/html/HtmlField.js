@@ -15,6 +15,15 @@ function getId () {
 	return 'keystone-html-' + lastId++;
 }
 
+// Workaround for #2834 found here https://github.com/tinymce/tinymce/issues/794#issuecomment-203701329
+function removeTinyMCEInstance (editor) {
+	var oldLength = tinymce.editors.length;
+	tinymce.remove(editor);
+	if (oldLength === tinymce.editors.length) {
+		tinymce.editors.remove(editor);
+	}
+}
+
 module.exports = Field.create({
 
 	displayName: 'HtmlField',
@@ -48,13 +57,15 @@ module.exports = Field.create({
 			this.initWysiwyg();
 		}
 
-		if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)
-			&& !_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
-			var instance = tinymce.get(prevState.id);
-			if (instance) {
-				tinymce.EditorManager.execCommand('mceRemoveEditor', true, prevState.id);
-				this.initWysiwyg();
-			} else {
+		if (!_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
+			if (_.isEqual(prevProps.dependsOn, prevProps.currentDependencies)) {
+				var instance = tinymce.get(prevState.id);
+				if (instance) {
+					removeTinyMCEInstance(instance);
+				}
+			}
+
+			if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)) {
 				this.initWysiwyg();
 			}
 		}
