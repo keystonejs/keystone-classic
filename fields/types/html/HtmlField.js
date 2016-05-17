@@ -19,7 +19,7 @@ function getId () {
 function removeTinyMCEInstance (editor) {
 	var oldLength = tinymce.editors.length;
 	tinymce.remove(editor);
-	if (oldLength == tinymce.editors.length) {
+	if (oldLength === tinymce.editors.length) {
 		tinymce.editors.remove(editor);
 	}
 }
@@ -57,19 +57,16 @@ module.exports = Field.create({
 			this.initWysiwyg();
 		}
 
-		if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)
-			&& !_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
-			var instance = tinymce.get(prevState.id);
-			if (instance) {
-				this.initWysiwyg();
-			} else {
-				this.initWysiwyg();
+		if (!_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
+			if (_.isEqual(prevProps.dependsOn, prevProps.currentDependencies)) {
+				var instance = tinymce.get(prevState.id);
+				if (instance) {
+					removeTinyMCEInstance(instance);
+				}
 			}
-		}
-		else if (_.isEqual(prevProps.dependsOn, prevProps.currentDependencies)) {
-			var instance = tinymce.get(prevState.id);
-			if (instance) {
-				removeTinyMCEInstance(instance);
+
+			if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)) {
+				this.initWysiwyg();
 			}
 		}
 	},
