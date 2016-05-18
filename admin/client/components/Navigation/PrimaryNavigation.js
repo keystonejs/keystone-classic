@@ -60,7 +60,7 @@ var PrimaryNavigation = React.createClass({
 		};
 		return (
 			<PrimaryNavItem href={Keystone.backUrl} title={'Front page - ' + this.props.brand} style={s}>
-				<span><img src='http://res.cloudinary.com/welltok/image/upload/v1463589575/wellstone_logo_white.png' height='40px'/></span>
+				<span><img src='http://res.cloudinary.com/welltok/image/upload/v1463605288/wellstone_logo_white.png' height='40px'/></span>
 			</PrimaryNavItem>
 		);
 	},
