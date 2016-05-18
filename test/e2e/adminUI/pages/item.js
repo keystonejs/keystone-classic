@@ -16,6 +16,7 @@ var MarkdownList = require('./lists/markdown');
 var MoneyList = require('./lists/money');
 var NameList = require('./lists/name');
 var NumberList = require('./lists/number');
+var NumberArrayList = require('./lists/numberArray');
 var PasswordList = require('./lists/password');
 var SelectList = require('./lists/select');
 var TextList = require('./lists/text');
@@ -49,6 +50,7 @@ module.exports = {
 				moneyList: new MoneyList(),
 				nameList: new NameList(),
 				numberList: new NumberList(),
+				numberarrayList: new NumberArrayList(),
 				passwordList: new PasswordList(),
 				selectList: new SelectList(),
 				textList: new TextList(),

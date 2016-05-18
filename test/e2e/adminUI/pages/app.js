@@ -44,6 +44,7 @@ module.exports = {
 		moneyListSubmenu: '.secondary-navbar [data-list-path="money"]',
 		nameListSubmenu: '.secondary-navbar [data-list-path="names"]',
 		numberListSubmenu: '.secondary-navbar [data-list-path="numbers"]',
+		numberarrayListSubmenu: '.secondary-navbar [data-list-path="number-arrays"]',
 		passwordListSubmenu: '.secondary-navbar [data-list-path="passwords"]',
 		selectListSubmenu: '.secondary-navbar [data-list-path="selects"]',
 		textListSubmenu: '.secondary-navbar [data-list-path="texts"]',
