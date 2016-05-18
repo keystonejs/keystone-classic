@@ -12,7 +12,7 @@ types.forEach(function (name) {
 	if (!fs.existsSync(typeTestPath)) return;
 
 	// nocreate option prevents warnings for required / not initial fields
-	var List = keystone.List(name + 'Test', { nocreate: true });
+	var List = keystone.List(name + 'Test', { nocreate: true, softDelete: false });
 	var test = require(typeTestPath);
 
 	test.initList(List);

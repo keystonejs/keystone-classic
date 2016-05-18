@@ -22,7 +22,7 @@ types.forEach(function (name) {
 	var listKey = name + 'FiltersTest';
 
 	// nocreate option prevents warnings for required / not initial fields
-	var List = keystone.List(listKey, { nocreate: true });
+	var List = keystone.List(listKey, { nocreate: true, softDelete: false });
 	var test = require(filtersTestPath);
 
 	test.initList(List);

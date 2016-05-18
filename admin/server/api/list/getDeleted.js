@@ -2,8 +2,7 @@ var async = require('async');
 var assign = require('object-assign');
 
 module.exports = function (req, res) {
-	var where = { deletedAt: { $eq: null } };
-
+	var where = { deletedAt: { $ne: null } };
 	var filters = req.query.filters;
 	if (filters && typeof filters === 'string') {
 		try { filters = JSON.parse(req.query.filters); }
