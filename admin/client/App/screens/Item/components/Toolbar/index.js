@@ -1,18 +1,10 @@
-import React from 'react';
-import { Container } from 'elemental';
+import React, { PropTypes } from 'react';
 
-module.exports = React.createClass({
-	displayName: 'Toolbar',
-	render () {
-		return (
-			<div {...this.props} className="Toolbar">
-				<Container clearfix >
-					{this.props.children}
-				</Container>
-			</div>
-		);
-	},
-});
+const Toolbar = (props) => <div {...props} className="Toolbar" />;
 
-// expose the children to the top level export
-module.exports.Section = require('./ToolbarSection');
+Toolbar.displayName = 'Toolbar';
+Toolbar.propTypes = {
+	children: PropTypes.node.isRequired,
+};
+
+module.exports = Toolbar;

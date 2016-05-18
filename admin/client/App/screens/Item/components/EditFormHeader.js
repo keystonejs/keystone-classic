@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Toolbar from './Toolbar';
+import ToolbarSection from './ToolbarSection';
 import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
 import { Link } from 'react-router';
 
@@ -33,10 +34,10 @@ var Header = React.createClass({
 	},
 	renderDrilldown () {
 		return (
-			<Toolbar.Section left>
+			<ToolbarSection left>
 				{this.renderDrilldownItems()}
 				{this.renderSearch()}
-			</Toolbar.Section>
+			</ToolbarSection>
 		);
 	},
 	renderDrilldownItems () {
@@ -101,9 +102,9 @@ var Header = React.createClass({
 	},
 	renderInfo () {
 		return (
-			<Toolbar.Section right>
+			<ToolbarSection right>
 				{this.renderCreateButton()}
-			</Toolbar.Section>
+			</ToolbarSection>
 		);
 	},
 	renderCreateButton () {
