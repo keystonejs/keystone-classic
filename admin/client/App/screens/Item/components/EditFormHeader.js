@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Toolbar from './Toolbar';
-import ToolbarSection from './ToolbarSection';
+import ToolbarSection from './Toolbar/ToolbarSection';
 import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
 import { Link } from 'react-router';
 
