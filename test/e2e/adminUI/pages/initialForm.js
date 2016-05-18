@@ -21,6 +21,7 @@ var PasswordList = require('./lists/password');
 var SelectList = require('./lists/select');
 var TextList = require('./lists/text');
 var TextareaList = require('./lists/textarea');
+var TextArrayList = require('./lists/textArray');
 var UrlList = require('./lists/url');
 var UserList = require('./lists/user');
 
@@ -55,6 +56,7 @@ module.exports = {
 				selectList: new SelectList(),
 				textList: new TextList(),
 				textareaList: new TextareaList(),
+				textarrayList: new TextArrayList(),
 				urlList: new UrlList(),
 				userList: new UserList(),
 			},
