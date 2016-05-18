@@ -6,16 +6,10 @@ module.exports = function DateArrayType(config) {
 		elements: {
 			label: '.FormLabel',
 			addButton: '.Button--default',
-			date1: '#_DateInput_1',
-			date2: '#_DateInput_2',
-			date3: '#_DateInput_3',
-			date4: '#_DateInput_4',
-			date5: '#_DateInput_5',
-			date6: '#_DateInput_6',
-			date7: '#_DateInput_7',
-			date8: '#_DateInput_8',
-			date9: '#_DateInput_9',
-			date10: '#_DateInput_10',
+			date1: '.FormField:nth-of-type(1) input[type="text"]',
+			date2: '.FormField:nth-of-type(2) input[type="text"]',
+			date1Delete: '.FormField:nth-of-type(1) .Button--link-cancel',
+			date2Delete: '.FormField:nth-of-type(2) .Button--link-cancel',
 		},
 		commands: [{
 			assertUI: function(args) {
@@ -30,6 +24,8 @@ module.exports = function DateArrayType(config) {
 					args.dateInputs.forEach(function(dateInput) {
 						self
 							.expect.element('@' + dateInput).to.be.visible;
+						self
+							.expect.element('@' + dateInput + 'Delete').to.be.visible;
 					});
 				}
 				return this;
