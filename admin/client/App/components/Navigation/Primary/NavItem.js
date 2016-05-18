@@ -2,56 +2,54 @@
  * A item in the primary navigation. If it has a "to" prop it'll render a
  * react-router "Link", if it has a "href" prop it'll render a simple "a" tag
  */
-import React from 'react';
+
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import { Link } from 'react-router';
 
-var PrimaryNavItem = React.createClass({
-	displayName: 'PrimaryNavItem',
-	propTypes: {
-		children: React.PropTypes.node.isRequired,
-		className: React.PropTypes.string,
-		href: React.PropTypes.string,
-		label: React.PropTypes.string,
-		title: React.PropTypes.string,
-		to: React.PropTypes.string,
-	},
-	render () {
-		let Button;
-		// If we have a "to" prop, render a react-router Link component for
-		// client-side routing without page reloads
-		if (this.props.to) {
-			Button = (
-				<Link
-					to={this.props.to}
-					title={this.props.title}
-					key={this.props.title}
-					tabIndex="-1"
-				>
-					{this.props.children}
-				</Link>
-			);
-		// Otherwise, if we have a "href" prop, render a normal link
-		} else if (this.props.href) {
-			Button = (
-				<a
-					href={this.props.href}
-					title={this.props.title}
-					key={this.props.title}
-					tabIndex="-1"
-				>
-					{this.props.children}
-				</a>
-			);
-		}
-		return (
-			<li
-				className={this.props.className}
-				data-section-label={this.props.label}
-			>
-				{Button}
-			</li>
-		);
-	},
-});
+const PrimaryNavItem = ({ children, className, href, label, title, to }) => {
+	const itemClassName = classnames('primary-navbar__item', className);
+
+	const Button = to ? (
+		<Link
+			className="primary-navbar__link"
+			key={title}
+			tabIndex="-1"
+			title={title}
+			to={to}
+		>
+			{children}
+		</Link>
+	) : (
+		<a
+			className="primary-navbar__link"
+			href={href}
+			key={title}
+			tabIndex="-1"
+			title={title}
+		>
+			{children}
+		</a>
+	);
+
+	return (
+		<li
+			className={itemClassName}
+			data-section-label={label}
+		>
+			{Button}
+		</li>
+	);
+};
+
+PrimaryNavItem.displayName = 'PrimaryNavItem';
+PrimaryNavItem.propTypes = {
+	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
+	href: PropTypes.string,
+	label: PropTypes.string,
+	title: PropTypes.string,
+	to: PropTypes.string,
+};
 
 module.exports = PrimaryNavItem;
