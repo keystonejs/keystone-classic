@@ -1,14 +1,11 @@
 import React from 'react';
-import { Container } from 'elemental';
 
 module.exports = React.createClass({
 	displayName: 'Toolbar',
 	render () {
 		return (
 			<div {...this.props} className="Toolbar">
-				<Container clearfix >
-					{this.props.children}
-				</Container>
+				{this.props.children}
 			</div>
 		);
 	},
