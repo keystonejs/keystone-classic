@@ -351,9 +351,9 @@ var EditForm = React.createClass({
 	render () {
 		return (
 			<form ref="editForm" method="post" encType="multipart/form-data" className="EditForm-container">
+				{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
 				<Row>
 					<Col lg="3/4">
-						{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
 						<Form type="horizontal" className="EditForm" component="div">
 							<input type="hidden" name="action" value="updateItem" />
 							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
