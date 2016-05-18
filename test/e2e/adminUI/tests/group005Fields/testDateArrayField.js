@@ -43,7 +43,7 @@ module.exports = {
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
 			}
-		})
+		});
 		*/
 	},
 	'DateArray field should show correctly in the edit form': function(browser) {
@@ -61,27 +61,27 @@ module.exports = {
 		browser.itemPage.assertUI({
 			listName: 'DateArray',
 			fields: ['fieldA'],
-			args: {'dateInputs': ['date3']}
+			args: {'dateInputs': ['date1', 'date2']}
 		});
 		browser.itemPage.section.form.section.datearrayList.section.fieldB.addDate();
 		browser.itemPage.section.form.section.datearrayList.section.fieldB.addDate();
 		browser.itemPage.assertUI({
 			listName: 'DateArray',
 			fields: ['fieldB'],
-			args: {'dateInputs': ['date5', 'date6']}
+			args: {'dateInputs': ['date1', 'date2']}
 		});
 	},
 	'DateArray field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'DateArray',
 			fields: {
-				'fieldA': {date2: '2016-01-01', date3: '2016-01-02'}
+				'fieldA': {date1: '2016-01-01', date2: '2016-01-02'}
 			}
 		});
 		browser.itemPage.fillInputs({
 			listName: 'DateArray',
 			fields: {
-				'fieldB': {date5: '2016-01-03', date6: '2016-01-04'}
+				'fieldB': {date1: '2016-01-03', date2: '2016-01-04'}
 			}
 		});
 		browser.itemPage.save();
@@ -92,10 +92,10 @@ module.exports = {
 			listName: 'DateArray',
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
-				'fieldA': {date7: '2016-01-01', date8: '2016-01-02'},
-				'fieldB': {date9: '2016-01-03', date10: '2016-01-04'},
+				'fieldA': {date1: '2016-01-01', date2: '2016-01-02'},
+				'fieldB': {date1: '2016-01-03', date2: '2016-01-04'},
 			}
-		})
+		});
 		*/
 	},
 };
