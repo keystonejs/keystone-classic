@@ -12,8 +12,14 @@
 	margin-bottom: 3em;
 }
 
+// back button
+// 1. account for height of sibling input + improve hit-area
+// 2. align with sibling input
 .EditForm__header__back {
-	line-height: 1.5em;
+	display: inline-block; // 2
+	height: @component-height; // 1
+	line-height: @component-line-height; // 1
+	vertical-align: middle; // 2
 }
 
 .EditForm__header__back .octicon-chevron-left {
@@ -27,6 +33,7 @@
 
 .EditForm__header__search {
 	display: inline-block;
+	margin-left: 1em;
 }
 .EditForm__header__search-field {
 	margin-bottom: 0;
@@ -86,7 +93,7 @@
 		}
 	}
 }
-// hide the searc field on small devices
+// hide the search field on small devices
 @media (max-width: 480px) {
 	.EditForm__header__search {
 		display: none;
