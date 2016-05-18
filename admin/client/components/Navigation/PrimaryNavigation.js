@@ -9,11 +9,12 @@ var PrimaryNavItem = React.createClass({
 		href: React.PropTypes.string.isRequired,
 		label: React.PropTypes.string,
 		title: React.PropTypes.string,
+		style: React.PropTypes.string,
 	},
 	render () {
 		return (
 			<li className={this.props.className} data-section-label={this.props.label}>
-				<a href={this.props.href} title={this.props.title} tabIndex="-1">
+				<a href={this.props.href} title={this.props.title} tabIndex="-1" style={this.props.style}>
 					{this.props.children}
 				</a>
 			</li>
@@ -54,20 +55,20 @@ var PrimaryNavigation = React.createClass({
 		);
 	},
 	renderFrontLink () {
+		var s = {
+			paddingTop: '0px',
+		};
 		return (
-			<ul className="app-nav app-nav--primary app-nav--right">
-				<PrimaryNavItem label="octicon-globe" href={Keystone.backUrl} title={'Front page - ' + this.props.brand}>
-					<span className="octicon octicon-globe" />
-				</PrimaryNavItem>
-				{this.renderSignout()}
-			</ul>
+			<PrimaryNavItem href={Keystone.backUrl} title={'Front page - ' + this.props.brand} style={s}>
+				<span><img src='http://res.cloudinary.com/welltok/image/upload/v1463589575/wellstone_logo_white.png' height='40px'/></span>
+			</PrimaryNavItem>
 		);
 	},
 	renderBrand () {
 		// TODO: support navbarLogo from keystone config
 		return (
 			<PrimaryNavItem label="octicon-home" className={this.props.currentSectionKey === 'dashboard' ? 'active' : null} href={Keystone.adminPath} title={'Dashboard - ' + this.props.brand}>
-				<span className="octicon octicon-home" />
+				<span>All</span>
 			</PrimaryNavItem>
 		);
 	},
@@ -92,10 +93,13 @@ var PrimaryNavigation = React.createClass({
 			<nav className="primary-navbar">
 				<Container clearfix>
 					<ul className="app-nav app-nav--primary app-nav--left">
+						{this.renderFrontLink()}
 						{this.renderBrand()}
 						{this.renderNavigation()}
 					</ul>
-					{this.renderFrontLink()}
+					<ul className="app-nav app-nav--primary app-nav--right">
+						{this.renderSignout()}
+					</ul>
 				</Container>
 			</nav>
 		);
