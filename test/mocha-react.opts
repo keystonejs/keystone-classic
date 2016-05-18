@@ -1,4 +1,4 @@
 **/*.test.jsx
 --growl
---reporter progress
+--reporter spec
 --compilers js:babel-core/register
