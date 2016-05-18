@@ -4,7 +4,7 @@ import ItemsTableCell from '../ItemsTableCell';
 import demand from 'must';
 
 describe('ItemsTableCell tests', () => {
-  it('should render the greeting', () => {
+  it('should render the ItemsTableCell', () => {
     const renderer = TestUtils.createRenderer();
     renderer.render(<ItemsTableCell p1='v1' p2='v2' className='mock-class'/>);
     const result = renderer.getRenderOutput();
