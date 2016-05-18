@@ -526,7 +526,6 @@ cloudinarymedia.prototype.getRequestHandler = function (item, req, paths, callba
  * @api public
  */
 cloudinarymedia.prototype.handleRequest = function (item, req, paths, callback) {
-	console.log('****** CloudinaryMediaType handleRequest');
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
