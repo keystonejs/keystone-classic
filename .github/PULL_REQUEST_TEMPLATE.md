@@ -9,6 +9,8 @@ Please make sure the following is filled in before submitting your Pull Request 
 
 ## Testing
 
-- [ ] Check that `npm run lint` passes.
-- [ ] Check that `npm run test-unit` passes.
-- [ ] Check that `npm run test-e2e` passes. If selenium fails with "Bad Request", try running `npm run test-e2e-bg` instead.
+- [ ] Please confirm that you have successfully ran `npm run test-all`.
+
+Notes:
+- If you are developing in Windows you may run into linebreak linting issues. One possible workaround is to remove the "linebreak-style" rule in `node_modules/eslint-config-keystone/eslintrc.json`.
+
