@@ -8,8 +8,8 @@ var PrimaryNavItem = React.createClass({
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
 		label: React.PropTypes.string,
-		title: React.PropTypes.string,
 		style: React.PropTypes.string,
+		title: React.PropTypes.string,
 	},
 	render () {
 		return (
@@ -60,7 +60,7 @@ var PrimaryNavigation = React.createClass({
 		};
 		return (
 			<PrimaryNavItem href={Keystone.backUrl} title={'Front page - ' + this.props.brand} style={s}>
-				<span><img src='http://res.cloudinary.com/welltok/image/upload/v1463605288/wellstone_logo_white.png' height='40px'/></span>
+				<span><img src="http://res.cloudinary.com/welltok/image/upload/v1463605288/wellstone_logo_white.png" height="40px"/></span>
 			</PrimaryNavItem>
 		);
 	},

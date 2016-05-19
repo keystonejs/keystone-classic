@@ -67,7 +67,7 @@ var SigninView = React.createClass({
 		});
 	},
 	renderBrand () {
-		let logo = { src: `http://res.cloudinary.com/welltok/image/upload/v1463589575/wellstone_logo.png`, width: 205 };
+		let logo = { src: 'http://res.cloudinary.com/welltok/image/upload/v1463589575/wellstone_logo.png', width: 205 };
 		if (this.props.logo) {
 			logo = typeof this.props.logo === 'string' ? { src: this.props.logo } : this.props.logo;
 			// TODO: Deprecate this
