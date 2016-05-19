@@ -10,4 +10,5 @@ Please make sure the following is filled in before submitting your Pull Request 
 ## Testing
 
 - [ ] Check that `npm run lint` passes.
-- [ ] Check that `npm run test-e2e` passes. If selenium fails with "Bad Request", try running `npm run test-e2e-bg` instead
+- [ ] Check that `npm run test-unit` passes.
+- [ ] Check that `npm run test-e2e` passes. If selenium fails with "Bad Request", try running `npm run test-e2e-bg` instead.
