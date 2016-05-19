@@ -77,7 +77,7 @@
     "react-dnd-html5-backend": "2.1.2",
     "react-dom": "15.0.2",
     "react-redux": "^4.4.2",
-    "react-router": "2.4.0",
+    "react-router": "2.4.1",
     "react-router-redux": "^4.0.2",
     "react-select": "1.0.0-beta12",
     "redux": "^3.4.0",
