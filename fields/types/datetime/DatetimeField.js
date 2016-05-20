@@ -13,6 +13,7 @@ module.exports = Field.create({
 	// default input formats
 	dateInputFormat: 'YYYY-MM-DD',
 	timeInputFormat: 'h:mm:ss a',
+	tzOffsetInputFormat: 'Z',
 
 	// parse formats (duplicated from lib/fieldTypes/datetime.js)
 	parseFormats: ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'],
@@ -21,6 +22,7 @@ module.exports = Field.create({
 		return {
 			dateValue: this.props.value && this.moment(this.props.value).format(this.dateInputFormat),
 			timeValue: this.props.value && this.moment(this.props.value).format(this.timeInputFormat),
+			tzOffsetValue: this.props.value ? this.moment(this.props.value).format(this.tzOffsetInputFormat) : this.moment().format(this.tzOffsetInputFormat),
 		};
 	},
 
@@ -30,15 +32,14 @@ module.exports = Field.create({
 		};
 	},
 
-	moment (value) {
-		var m = moment(value);
-		if (this.props.isUTC) m.utc();
-		return m;
+	moment () {
+		if (this.props.isUTC) return moment.utc.apply(moment, arguments);
+		else return moment.apply(undefined, arguments);
 	},
 
 	// TODO: Move isValid() so we can share with server-side code
 	isValid (value) {
-		return moment(value, this.parseFormats).isValid();
+		return this.moment(value, this.parseFormats).isValid();
 	},
 
 	// TODO: Move format() so we can share with server-side code
@@ -47,33 +48,46 @@ module.exports = Field.create({
 		return value ? this.moment(value).format(format) : '';
 	},
 
-	handleChange () {
-		var value = this.state.dateValue + ' ' + this.state.timeValue;
+	handleChange (dateValue, timeValue, tzOffsetValue) {
+		var value = dateValue + ' ' + timeValue;
 		var datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
+
+		// if the change included a timezone offset, include that in the calculation (so NOW works correctly during DST changes)
+		if (typeof tzOffsetValue !== 'undefined') {
+			value += ' ' + tzOffsetValue;
+			datetimeFormat += ' ' + this.tzOffsetInputFormat;
+		}
+		// if not, calculate the timezone offset based on the date (respect different DST values)
+		else {
+			this.setState({ tzOffsetValue: this.moment(value, datetimeFormat).format(this.tzOffsetInputFormat) });
+		}
+
 		this.props.onChange({
 			path: this.props.path,
-			value: this.isValid(value) ? moment(value, datetimeFormat).toISOString() : null,
+			value: this.isValid(value) ? this.moment(value, datetimeFormat).toISOString() : null,
 		});
 	},
 
 	dateChanged ({ value }) {
 		this.setState({ dateValue: value });
-		this.handleChange();
+		this.handleChange(value, this.state.timeValue);
 	},
 
 	timeChanged (evt) {
 		this.setState({ timeValue: evt.target.value });
-		this.handleChange();
+		this.handleChange(this.state.dateValue, evt.target.value);
 	},
 
 	setNow () {
-		var dateValue = moment().format(this.dateInputFormat);
-		var timeValue = moment().format(this.timeInputFormat);
+		var dateValue = this.moment().format(this.dateInputFormat);
+		var timeValue = this.moment().format(this.timeInputFormat);
+		var tzOffsetValue = this.moment().format(this.tzOffsetInputFormat);
 		this.setState({
 			dateValue: dateValue,
 			timeValue: timeValue,
+			tzOffsetValue: tzOffsetValue,
 		});
-		this.handleChange(dateValue, timeValue);
+		this.handleChange(dateValue, timeValue, tzOffsetValue);
 	},
 
 	renderNote () {
@@ -95,6 +109,7 @@ module.exports = Field.create({
 					<InputGroup.Section>
 						<Button onClick={this.setNow}>Now</Button>
 					</InputGroup.Section>
+					<input type="hidden" name={this.props.paths.tzOffset} value={this.state.tzOffsetValue} />
 				</InputGroup>
 			);
 		} else {
