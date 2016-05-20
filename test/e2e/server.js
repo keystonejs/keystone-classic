@@ -56,6 +56,7 @@ keystone.set('nav', {
 		'date-arrays',
 		'datetimes',
 		'emails',
+		'geo-points',
 		'htmls',
 		'keys',
 		'local-files',

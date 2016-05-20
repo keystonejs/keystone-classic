@@ -7,6 +7,7 @@ var DateArrayList = require('./lists/dateArray');
 var DateList = require('./lists/date');
 var DatetimeList = require('./lists/datetime');
 var EmailList = require('./lists/email');
+var GeoPointList = require('./lists/geoPoint');
 var HtmlList = require('./lists/html');
 var KeyList = require('./lists/key');
 var LocalFileList = require('./lists/localFile');
@@ -43,6 +44,7 @@ module.exports = {
 				datetimeList: new DatetimeList(),
 				htmlList: new HtmlList(),
 				emailList: new EmailList(),
+				geopointList: new GeoPointList(),
 				keyList: new KeyList(),
 				localfileList: new LocalFileList(),
 				localfilemultipleList: new LocalFileMultipleList(),

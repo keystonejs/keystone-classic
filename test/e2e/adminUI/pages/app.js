@@ -35,6 +35,7 @@ module.exports = {
 		dateListSubmenu: '.secondary-navbar [data-list-path="dates"]',
 		datetimeListSubmenu: '.secondary-navbar [data-list-path="datetimes"]',
 		emailListSubmenu: '.secondary-navbar [data-list-path="emails"]',
+		geopointListSubmenu: '.secondary-navbar [data-list-path="geo-points"]',
 		htmlListSubmenu: '.secondary-navbar [data-list-path="htmls"]',
 		keyListSubmenu: '.secondary-navbar [data-list-path="keys"]',
 		localfileListSubmenu: '.secondary-navbar [data-list-path="local-files"]',
