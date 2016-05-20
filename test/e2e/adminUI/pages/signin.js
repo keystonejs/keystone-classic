@@ -17,5 +17,14 @@ module.exports = {
 				.setValue('@passwordInput', 'test')
 				.click('@submitButton');
 		},
+		assertUI: function () {
+			this
+				.expect.element('@emailInput').to.be.visible;
+			this
+				.expect.element('@emailInput').to.be.visible;
+			this
+				.expect.element('@emailInput').to.be.visible;
+			return this;
+		}
 	}],
 };
