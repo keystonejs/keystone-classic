@@ -60,7 +60,7 @@
     "marked": "0.3.5",
     "method-override": "2.3.6",
     "moment": "2.13.0",
-    "mongoose": "4.4.17",
+    "mongoose": "4.4.19",
     "morgan": "1.7.0",
     "multer": "0.1.8",
     "numeral": "1.5.3",
