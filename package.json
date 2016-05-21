@@ -58,7 +58,7 @@
     "mailgun-js": "^0.7.11",
     "mandrill-api": "1.0.45",
     "marked": "0.3.5",
-    "method-override": "2.3.5",
+    "method-override": "2.3.6",
     "moment": "2.13.0",
     "mongoose": "4.4.17",
     "morgan": "1.7.0",
