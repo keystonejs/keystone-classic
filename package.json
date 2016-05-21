@@ -101,7 +101,7 @@
     "mocha": "2.4.5",
     "must": "0.13.1",
     "nightwatch": "0.8.18",
-    "react-addons-test-utils": "^15.0.2",
+    "react-addons-test-utils": "^15.1.0",
     "react-engine": "3.4.1",
     "rimraf": "2.5.2",
     "sinon": "1.17.4",
