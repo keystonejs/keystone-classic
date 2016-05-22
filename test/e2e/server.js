@@ -68,6 +68,7 @@ keystone.set('nav', {
 		'numbers',
 		'number-arrays',
 		'passwords',
+		'relationships',
 		'selects',
 		'texts',
 		'text-arrays',

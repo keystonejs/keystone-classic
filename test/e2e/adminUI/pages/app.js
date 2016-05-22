@@ -47,6 +47,7 @@ module.exports = {
 		numberarrayListSubmenu: '.secondary-navbar [data-list-path="number-arrays"]',
 		numberListSubmenu: '.secondary-navbar [data-list-path="numbers"]',
 		passwordListSubmenu: '.secondary-navbar [data-list-path="passwords"]',
+		relationshipListSubmenu: '.secondary-navbar [data-list-path="relationships"]',
 		selectListSubmenu: '.secondary-navbar [data-list-path="selects"]',
 		textareaListSubmenu: '.secondary-navbar [data-list-path="textareas"]',
 		textarrayListSubmenu: '.secondary-navbar [data-list-path="text-arrays"]',
