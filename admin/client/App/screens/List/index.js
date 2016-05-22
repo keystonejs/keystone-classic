@@ -480,8 +480,7 @@ const ListView = React.createClass({
 		}
 		return (
 			<Button {...props}>
-				<span className="octicon octicon-plus" />
-				Create {list.singular}
+				<span className="octicon octicon-plus" /> Create {list.singular}
 			</Button>
 		);
 	},
