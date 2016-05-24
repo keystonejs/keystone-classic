@@ -2,7 +2,7 @@ var async = require('async');
 var keystone = require('../../../../');
 
 // lists which user.id will be validated through collection ids to avoid self-delete
-var LISTS_TO_CHECK_USER_PERMISSIONS = ['user']
+var LISTS_TO_CHECK_USER_PERMISSIONS = ['user'];
 
 module.exports = function (req, res) {
 	if (!keystone.security.csrf.validate(req)) {
@@ -22,14 +22,14 @@ module.exports = function (req, res) {
 	}
 
 	if (req.user) {
-		var checkResourceId = (LISTS_TO_CHECK_USER_PERMISSIONS.indexOf(req.list.key.toLowerCase()) >= 0)
+		var checkResourceId = (LISTS_TO_CHECK_USER_PERMISSIONS.indexOf(req.list.key.toLowerCase()) >= 0);
 		var userId = String(req.user.id);
 		// check if user can delete this resources based on resources ids and userId
 		if (checkResourceId && ids.some(function (id) {
 			return id === userId;
 		})) {
 			console.log('Refusing to delete ' + req.list.key + ' items; resources ids contains current User id');
-			return res.apiError(403, 'not allowed', "You can not delete this resource");
+			return res.apiError(403, 'not allowed', 'You can not delete this resource');
 		}
 	}
 	var deletedCount = 0;
