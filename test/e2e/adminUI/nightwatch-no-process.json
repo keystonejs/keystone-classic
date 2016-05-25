@@ -34,7 +34,10 @@
         "javascriptEnabled": true,
         "acceptSslCerts": true
       },
-			"exclude": "test/e2e/adminUI/tests/group005Fields/commonFieldTestUtils.js"
+      "exclude": [
+        "test/e2e/adminUI/tests/group005Fields/commonFieldTestUtils.js",
+        "test/e2e/adminUI/tests/group999FixMe/*"
+      ]
     },
     "saucelabs-travis": {
       "selenium_host": "ondemand.saucelabs.com",
