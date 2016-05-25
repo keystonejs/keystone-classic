@@ -29,6 +29,7 @@ var UserList = require('./lists/user');
 // MISC LISTS:
 var DependsOnList = require('./lists/misc/dependsOn');
 var HiddenRelationshipList = require('./lists/misc/hiddenRelationship');
+var InlineRelationshipList = require('./lists/misc/inlineRelationship');
 var NoDefaultColumnList = require('./lists/misc/noDefaultColumns');
 
 module.exports = {
@@ -72,6 +73,7 @@ module.exports = {
 				//
 				dependsonList: new DependsOnList(),
 				hiddenrelationshipList: new HiddenRelationshipList(),
+				inlinerelationshipList: new InlineRelationshipList(),
 				nodefaultcolumnList: new NoDefaultColumnList(),
 			},
 			elements: {

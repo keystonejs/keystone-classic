@@ -1,7 +1,7 @@
 var BooleanType = require('../../fieldTypes/boolean');
 var SelectType = require('../../fieldTypes/select');
 
-module.exports = function NoDefaultColumnsList(config) {
+module.exports = function DependsOnList(config) {
 	return {
 		selector: '.Form',
 		sections: {

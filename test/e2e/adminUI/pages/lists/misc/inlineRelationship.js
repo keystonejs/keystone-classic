@@ -1,6 +1,6 @@
 var RelationshipType = require('../../fieldTypes/relationship');
 
-module.exports = function HiddenRelationshipList(config) {
+module.exports = function InlineRelationshipList(config) {
 	return {
 		selector: '.Form',
 		sections: {
