@@ -26,6 +26,7 @@ module.exports = {
 		// LIST NAV MENU
 		accessMenu: '.primary-navbar [data-section-label="Access"]',
 		fieldListsMenu: '.primary-navbar [data-section-label="Fields"]',
+		fixMeListsMenu: '.primary-navbar [data-section-label="Fix Mes"]',
 		booleanListSubmenu: '.secondary-navbar [data-list-path="booleans"]',
 		cloudinaryimageListSubmenu: '.secondary-navbar [data-list-path="cloudinary-images"]',
 		cloudinaryimagemultipleListSubmenu: '.secondary-navbar [data-list-path="cloudinary-image-multiples"]',
@@ -53,8 +54,20 @@ module.exports = {
 		textarrayListSubmenu: '.secondary-navbar [data-list-path="text-arrays"]',
 		textListSubmenu: '.secondary-navbar [data-list-path="texts"]',
 		urlListSubmenu: '.secondary-navbar [data-list-path="urls"]',
+
+		// FIX ME NAV MENU
+
+		nodefaultcolumnListSubmenu: '.secondary-navbar [data-list-path="no-default-columns"]'
 	},
 	commands: [{
+		openFixMeList: function(field) {
+			var list = field.toLowerCase() + 'List';
+			var listSubmenu = '@' + list + 'Submenu';
+			return this.click('@fixMeListsMenu')
+		//		.waitForElementVisible('@listScreen')
+		//		.click(listSubmenu)
+				.waitForElementVisible('@listScreen');
+		},
 		openFieldList: function(field) {
 				var list = field.toLowerCase() + 'List';
 				var listSubmenu = '@' + list + 'Submenu';

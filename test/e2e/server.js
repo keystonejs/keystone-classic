@@ -75,6 +75,9 @@ keystone.set('nav', {
 		'textareas',
 		'urls',
 	],
+	'fixMes': [
+		'no-default-columns',
+	]
 });
 
 function dropTestDatabase(done) {
