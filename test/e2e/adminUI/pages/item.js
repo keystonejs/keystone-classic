@@ -26,8 +26,9 @@ var TextArrayList = require('./lists/textArray');
 var TextList = require('./lists/text');
 var UrlList = require('./lists/url');
 var UserList = require('./lists/user');
-// FIX ME LISTS:
-var NoDefaultColumnList = require('./lists/fixme/noDefaultColumns.js');
+// MISC LISTS:
+var DependsOnList = require('./lists/misc/dependsOn');
+var NoDefaultColumnList = require('./lists/misc/noDefaultColumns');
 
 module.exports = {
 	sections: {
@@ -66,8 +67,9 @@ module.exports = {
 				urlList: new UrlList(),
 				userList: new UserList(),
 				//
-				// FIX ME LISTS
+				// MISC LISTS
 				//
+				dependsonList: new DependsOnList(),
 				nodefaultcolumnList: new NoDefaultColumnList(),
 			},
 			elements: {

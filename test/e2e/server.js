@@ -75,7 +75,8 @@ keystone.set('nav', {
 		'textareas',
 		'urls',
 	],
-	'fixMes': [
+	'Miscs': [
+		'depends-ons',
 		'no-default-columns',
 	]
 });

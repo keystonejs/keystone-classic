@@ -18,7 +18,7 @@ module.exports = {
 	},
 	'Demonstrate issue 2945': function(browser) {
 		// Create items
-		browser.app.openFixMeList('NoDefaultColumn');
+		browser.app.openMiscList('NoDefaultColumn');
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormPage.fillInputs({

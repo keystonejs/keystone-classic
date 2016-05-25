@@ -26,7 +26,7 @@ module.exports = {
 		// LIST NAV MENU
 		accessMenu: '.primary-navbar [data-section-label="Access"]',
 		fieldListsMenu: '.primary-navbar [data-section-label="Fields"]',
-		fixMeListsMenu: '.primary-navbar [data-section-label="Fix Mes"]',
+		miscListsMenu: '.primary-navbar [data-section-label="Miscs"]',
 		booleanListSubmenu: '.secondary-navbar [data-list-path="booleans"]',
 		cloudinaryimageListSubmenu: '.secondary-navbar [data-list-path="cloudinary-images"]',
 		cloudinaryimagemultipleListSubmenu: '.secondary-navbar [data-list-path="cloudinary-image-multiples"]',
@@ -56,16 +56,16 @@ module.exports = {
 		urlListSubmenu: '.secondary-navbar [data-list-path="urls"]',
 
 		// FIX ME NAV MENU
-
+		dependsonListSubmenu: '.secondary-navbar [data-list-path="depends-ons"]',
 		nodefaultcolumnListSubmenu: '.secondary-navbar [data-list-path="no-default-columns"]'
 	},
 	commands: [{
-		openFixMeList: function(field) {
+		openMiscList: function(field) {
 			var list = field.toLowerCase() + 'List';
 			var listSubmenu = '@' + list + 'Submenu';
-			return this.click('@fixMeListsMenu')
-		//		.waitForElementVisible('@listScreen')
-		//		.click(listSubmenu)
+			return this.click('@miscListsMenu')
+				.waitForElementVisible('@listScreen')
+				.click(listSubmenu)
 				.waitForElementVisible('@listScreen');
 		},
 		openFieldList: function(field) {
