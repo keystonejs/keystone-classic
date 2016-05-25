@@ -78,6 +78,7 @@ keystone.set('nav', {
 	'Miscs': [
 		'depends-ons',
 		'no-default-columns',
+		'hidden-relationships',
 	]
 });
 
