@@ -16,21 +16,20 @@ module.exports = {
 		browser.app.signout();
 		browser.end();
 	},
-	'Demonstrate issue 2855': function(browser) {
+	'Should be able to create an inline relationship': function(browser) {
 		// Create items
 		browser.app.openMiscList('InlineRelationship');
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormPage.save();
 
-		// Issue demonstration: The item screen never loads.
 		browser.app.waitForItemScreen();
 		browser.itemPage.assertUI({
 			listName: 'Relationship',
 			fields: ['fieldA']
 		});
 
-
+		// TODO: test button and create form
 
 	}
 };

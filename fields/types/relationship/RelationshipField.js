@@ -1,6 +1,6 @@
 import async from 'async';
 import Field from '../Field';
-import listsByKey from '../../../admin/client/utils/lists';
+import { listsByKey } from '../../../admin/client/utils/lists';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
