@@ -7,10 +7,10 @@ module.exports = {
 		browser.initialFormPage = browser.page.initialForm();
 
 		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
+		browser.app.waitForSigninScreen();
 
 		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
+		browser.app.waitForHomeScreen();
 	},
 	after: function (browser) {
 		browser.app.signout();

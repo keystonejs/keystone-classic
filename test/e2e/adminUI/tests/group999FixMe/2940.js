@@ -23,14 +23,14 @@ module.exports = {
 
 		browser.initialFormPage.assertUI({
 			listName: 'TargetRelationship',
-			fields: ['name']
+			fields: ['name'],
 		});
 
 		browser.initialFormPage.fillInputs({
 			listName: 'TargetRelationship',
 			fields: {
 				'name': {value: 'Test Target 1'},
-			}
+			},
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
@@ -41,14 +41,14 @@ module.exports = {
 
 		browser.initialFormPage.assertUI({
 			listName: 'SourceRelationship',
-			fields: ['name']
+			fields: ['name'],
 		});
 
 		browser.initialFormPage.fillInputs({
 			listName: 'SourceRelationship',
 			fields: {
 				'name': {value: 'Test Source 1'},
-			}
+			},
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
@@ -58,7 +58,7 @@ module.exports = {
 			fields: {
 				'fieldA': {value: 'Test Target 1'},
 				//'fieldA': {option: 'option1'},
-			}
+			},
 		});
 		browser.itemPage.save();
 		browser.app.waitForItemScreen();
@@ -73,7 +73,7 @@ module.exports = {
 			listName: 'TargetRelationship',
 			fields: {
 				'name': {value: 'Test Target 1'},
-			}
+			},
 		});
 
 		browser.itemPage.navitageToFirstRelationship();
@@ -84,7 +84,7 @@ module.exports = {
 			listName: 'SourceRelationship',
 			fields: {
 				'name': {value: 'Select Field Test 1'},
-			}
+			},
 		});
-	}
+	},
 };

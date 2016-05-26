@@ -12,8 +12,7 @@ module.exports = {
 			listName: 'Relationship',
 			fields: ['name', 'fieldA']
 		});
-	},
-	'restoring test state': function(browser) {
+
 		browser.initialFormPage.cancel();
 		browser.app.waitForListScreen();
 	},

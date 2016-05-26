@@ -7,6 +7,7 @@ module.exports = function RelationshipType(config) {
 			label: '.FormLabel',
 			placeholder: '.Select-placeholder',
 			value: 'input',
+			filledValue: '.Select-value-label',
 			arrow: '.Select-arrow-zone',
 			clear: '.Select-clear-zone',
 			option1: '.Select-option:nth-of-type(1)',
@@ -37,9 +38,9 @@ module.exports = function RelationshipType(config) {
 			},
 			assertInput: function(input) {
 				this
-					.waitForElementVisible('@value');
+					.waitForElementVisible('@filledValue');
 				this
-					.getText('@value', function (result) {
+					.getText('@filledValue', function (result) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.value);
 					});

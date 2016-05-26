@@ -140,7 +140,7 @@ module.exports = {
 		resetButtonText: '.EditForm-container button[class="Button Button--link-cancel"] span',
 		deleteButton: '.EditForm-container button[class="Button Button--link-delete u-float-right"]',
 		deleteButtonText: '.EditForm-container button[class="Button Button--link-delete u-float-right"] span',
-		firstRelationshipItemLink: '#react-root > div > div > div > div > div.Relationships > div > div > div > table > tbody > tr > td > a',
+		firstRelationshipItemLink: 'div.Relationships > div > div > div > table > tbody > tr > td > a',
 	},
 	commands: [{
 		//
