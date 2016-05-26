@@ -14,7 +14,7 @@
     "host": "127.0.0.1",
     "port": 4444,
     "cli_args": {
-      "webdriver.chrome.driver": "",
+      "webdriver.chrome.driver": "test/e2e/drivers/chrome/linux64/chromedriver",
       "webdriver.ie.driver": ""
     }
   },
@@ -87,6 +87,46 @@
         "browserName": "chrome",
         "javascriptEnabled": true,
         "acceptSslCerts": true
+      }
+    },
+    "chrome-win32": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/win32/chromedriver.exe"
+      }
+    },
+    "chrome-mac32": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/mac32/chromedriver"
+      }
+    },
+    "chrome-linux64": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/linux64/chromedriver"
+      }
+    },
+    "chrome-linux32": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/linux32/chromedriver"
       }
     }
   }
