@@ -141,7 +141,7 @@ Field.prototype.getSize = function () {
  * Gets default value for the field, based on the option or default for the type
  */
 Field.prototype.getDefaultValue = function () {
-	return this.options.default || '';
+	return typeof this.options.default !== 'undefined' ? this.options.default : '';
 };
 
 /**

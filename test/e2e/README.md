@@ -18,7 +18,6 @@ with a real keystone app server.
 
         adminUI                                 => adminUI e2e test suite
             nightwatch.json                     => nightwatch config
-            adminUI.js                          => adminUI test configuration (e.g., selectors, etc.)
             pages
                 ...                             => page objects representing an AdminUI screen/page
             tests

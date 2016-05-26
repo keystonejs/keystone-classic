@@ -26,6 +26,13 @@ var TextArrayList = require('./lists/textArray');
 var TextList = require('./lists/text');
 var UrlList = require('./lists/url');
 var UserList = require('./lists/user');
+// MISC LISTS:
+var DependsOnList = require('./lists/misc/dependsOn');
+var HiddenRelationshipList = require('./lists/misc/hiddenRelationship');
+var InlineRelationshipList = require('./lists/misc/inlineRelationship');
+var NoDefaultColumnList = require('./lists/misc/noDefaultColumns');
+var SourceRelationshipList = require('./lists/misc/sourceRelationship');
+var TargetRelationshipList = require('./lists/misc/targetRelationship');
 
 module.exports = {
 	sections: {
@@ -63,6 +70,15 @@ module.exports = {
 				textList: new TextList(),
 				urlList: new UrlList(),
 				userList: new UserList(),
+				//
+				// MISC LISTS
+				//
+				dependsonList: new DependsOnList(),
+				hiddenrelationshipList: new HiddenRelationshipList(),
+				inlinerelationshipList: new InlineRelationshipList(),
+				nodefaultcolumnList: new NoDefaultColumnList(),
+				sourcerelationshipList: new SourceRelationshipList(),
+				targetrelationshipList: new TargetRelationshipList(),
 			},
 			elements: {
 				//

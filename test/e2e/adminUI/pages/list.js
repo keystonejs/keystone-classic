@@ -101,6 +101,10 @@ module.exports = {
 		createFirstItem: function() {
 			return this
 				.click('@createFirstItemButton');
+		},
+		navigateToFirstItem: function() {
+			return this
+				.click('@firstItemLink');
 		}
 	}],
 };

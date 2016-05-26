@@ -75,6 +75,14 @@ keystone.set('nav', {
 		'textareas',
 		'urls',
 	],
+	'Miscs': [
+		'depends-ons',
+		'no-default-columns',
+		'inline-relationships',
+		'hidden-relationships',
+		'source-relationships',
+		'target-relationships',
+	]
 });
 
 function dropTestDatabase(done) {
