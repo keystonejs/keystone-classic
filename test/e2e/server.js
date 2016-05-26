@@ -80,6 +80,8 @@ keystone.set('nav', {
 		'no-default-columns',
 		'inline-relationships',
 		'hidden-relationships',
+		'source-relationships',
+		'target-relationships',
 	]
 });
 

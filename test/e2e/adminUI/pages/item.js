@@ -31,6 +31,8 @@ var DependsOnList = require('./lists/misc/dependsOn');
 var HiddenRelationshipList = require('./lists/misc/hiddenRelationship');
 var InlineRelationshipList = require('./lists/misc/inlineRelationship');
 var NoDefaultColumnList = require('./lists/misc/noDefaultColumns');
+var SourceRelationshipList = require('./lists/misc/sourceRelationship');
+var TargetRelationshipList = require('./lists/misc/targetRelationship');
 
 module.exports = {
 	sections: {
@@ -75,6 +77,8 @@ module.exports = {
 				hiddenrelationshipList: new HiddenRelationshipList(),
 				inlinerelationshipList: new InlineRelationshipList(),
 				nodefaultcolumnList: new NoDefaultColumnList(),
+				sourcerelationshipList: new SourceRelationshipList(),
+				targetrelationshipList: new TargetRelationshipList(),
 			},
 			elements: {
 				//
@@ -136,6 +140,7 @@ module.exports = {
 		resetButtonText: '.EditForm-container button[class="Button Button--link-cancel"] span',
 		deleteButton: '.EditForm-container button[class="Button Button--link-delete u-float-right"]',
 		deleteButtonText: '.EditForm-container button[class="Button Button--link-delete u-float-right"] span',
+		firstRelationshipItemLink: '#react-root > div > div > div > div > div.Relationships > div > div > div > table > tbody > tr > td > a',
 	},
 	commands: [{
 		//
@@ -199,6 +204,10 @@ module.exports = {
 		assertFlashError: function (message) {
 			return this.expect.element('@flashError')
 				.text.to.equal(message);
+		},
+		navitageToFirstRelationship: function() {
+			return this
+				.click('@firstRelationshipItemLink');
 		},
 	}],
 };

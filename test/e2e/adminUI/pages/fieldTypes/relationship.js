@@ -1,12 +1,12 @@
 var utils = require('../../../utils');
 
-module.exports = function UrlType(config) {
+module.exports = function RelationshipType(config) {
 	var self = {
 		selector: '.field-type-relationship[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
 			placeholder: '.Select-placeholder',
-			value: '.Select-value-label',
+			value: 'input',
 			arrow: '.Select-arrow-zone',
 			clear: '.Select-clear-zone',
 			option1: '.Select-option:nth-of-type(1)',
@@ -23,10 +23,16 @@ module.exports = function UrlType(config) {
 				return this;
 			},
 			fillInput: function(input) {
-				this
-					.click('@arrow')
-					.waitForElementVisible('@option1')
-					.click('@' + input.option);
+				if (input.option) {
+					this
+						.click('@arrow')
+						.waitForElementVisible('@option1')
+						.click('@' + input.option);
+				} else if (input.value) {
+					this
+						.clearValue('@value')
+						.api.keys([input.value, this.api.Keys.ENTER]);
+				}
 				return this;
 			},
 			assertInput: function(input) {

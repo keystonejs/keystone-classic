@@ -31,6 +31,8 @@ var DependsOnList = require('./lists/misc/dependsOn');
 var HiddenRelationshipList = require('./lists/misc/hiddenRelationship');
 var InlineRelationshipList = require('./lists/misc/inlineRelationship');
 var NoDefaultColumnList = require('./lists/misc/noDefaultColumns');
+var SourceRelationshipList = require('./lists/misc/sourceRelationship');
+var TargetRelationshipList = require('./lists/misc/targetRelationship');
 
 module.exports = {
 	sections: {
@@ -75,6 +77,8 @@ module.exports = {
 				hiddenrelationshipList: new HiddenRelationshipList(),
 				inlinerelationshipList: new InlineRelationshipList(),
 				nodefaultcolumnList: new NoDefaultColumnList(),
+				sourcerelationshipList: new SourceRelationshipList(),
+				targetrelationshipList: new TargetRelationshipList(),
 			},
 			elements: {
 				//

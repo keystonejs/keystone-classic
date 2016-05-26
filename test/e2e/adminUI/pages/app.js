@@ -59,7 +59,9 @@ module.exports = {
 		dependsonListSubmenu: '.secondary-navbar [data-list-path="depends-ons"]',
 		hiddenrelationshipListSubmenu: '.secondary-navbar [data-list-path="hidden-relationships"]',
 		inlinerelationshipListSubmenu: '.secondary-navbar [data-list-path="inline-relationships"]',
-		nodefaultcolumnListSubmenu: '.secondary-navbar [data-list-path="no-default-columns"]'
+		nodefaultcolumnListSubmenu: '.secondary-navbar [data-list-path="no-default-columns"]',
+		sourcerelationshipListSubmenu: '.secondary-navbar [data-list-path="source-relationships"]',
+		targetrelationshipListSubmenu: '.secondary-navbar [data-list-path="target-relationships"]',
 	},
 	commands: [{
 		openMiscList: function(field) {

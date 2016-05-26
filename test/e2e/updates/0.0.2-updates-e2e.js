@@ -8,8 +8,8 @@ module.exports = function(done) {
 	var Member = keystone.list('User');
 	Member.model.findOneAndUpdate({isMember: true}, {$set: {isAdmin: false}}, {new: true}).exec(function (err, member) {
 		if (!err && member) {
-			console.log("***updated member: " + JSON.stringify(member.id));
-			console.log("***member is admin: " + JSON.stringify(member.isAdmin));
+			//console.log("***updated member: " + JSON.stringify(member.id));
+			//console.log("***member is admin: " + JSON.stringify(member.isAdmin));
 		} else if (err) {
 			console.error("***failed to read member: "+ err);
 		} else if (!member) {
