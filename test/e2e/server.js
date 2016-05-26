@@ -105,7 +105,7 @@ function dropTestDatabase(done) {
 function checkKeystoneReady (done, results) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: checking if KeystoneJS ready for request');
 	request
-		.get('http://localhost:3000/keystone')
+		.get('http://' + keystone.get('host') + ':' + keystone.get('port') + '/keystone')
 		.end(done);
 }
 

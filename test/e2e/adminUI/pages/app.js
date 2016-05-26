@@ -2,8 +2,10 @@
 	This page object describes global admin UI configuration and commands that are or should be
 	most likely available in all pages.
  */
+var keystone = require('../../../..');
+
 module.exports = {
-	url: 'http://localhost:3000/keystone/',
+	url: 'http://' + keystone.get('host') + ':' + keystone.get('port') + '/keystone/',
 	pause: 1000,
 	elements: {
 		// ADMIN UI APP SCREENS
