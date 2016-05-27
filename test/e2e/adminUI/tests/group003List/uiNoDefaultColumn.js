@@ -16,7 +16,7 @@ module.exports = {
 		browser.app.signout();
 		browser.end();
 	},
-	'Demonstrate issue 2945': function(browser) {
+	'List screen must show ID column if it has neither default nor name columns': function(browser) {
 		// Create items
 		browser.app.openMiscList('NoDefaultColumn');
 		browser.listPage.createFirstItem();
@@ -30,11 +30,12 @@ module.exports = {
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
 
-		// Issue demonstration #1. If no default is set, the ID should be used.
+		// If no default is set, the ID should be used.
 		browser.app.navigate('http://localhost:3000/keystone/no-default-columns');
 		browser.listPage.expect.element('@firstColumnHeader').text.to.equal('ID');
-
-		// Issue demonstration #2. If specific columns have been requested, they should be shown.
+	},
+	'List screen must show requested columns': function(browser) {
+		// If specific columns have been requested, they should be shown.
 		browser.app.navigate('http://localhost:3000/keystone/no-default-columns?columns=id%2CfieldA');
 		browser.listPage.expect.element('@firstColumnHeader').text.to.equal('ID');
 		browser.listPage.expect.element('@secondColumnHeader').text.to.equal('Field A');
