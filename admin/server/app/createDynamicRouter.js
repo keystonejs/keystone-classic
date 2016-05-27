@@ -77,10 +77,13 @@ module.exports = function createDynamicRouter (keystone) {
 	router.post('/api/:list/delete', initList(), require('../api/list/delete'));
 	// items
 	router.get('/api/:list/:id', initList(), require('../api/item/get'));
+	router.get('/api/:list/history/:id', initList(), require('../api/item/history').history);
 	router.post('/api/:list/:id', initList(), require('../api/item/update'));
 	router.post('/api/:list/:id/delete', initList(), require('../api/list/delete'));
 	router.post('/api/:list/:id/sortOrder/:sortOrder/:newOrder', initList(), require('../api/item/sortOrder'));
+
 	// #6: List Routes
+	router.get('/:list/:id/history', initList(true), require('../routes/history'));
 	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list'));
 	router.all('/:list/:item', initList(true), require('../routes/item'));
 
