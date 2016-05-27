@@ -48,7 +48,7 @@ function Field (list, path, options) {
 	this.path = path;
 
 	this.type = this.constructor.name;
-	this.options = utils.options(this.defaults, options);
+	this.options = _.defaults({}, options, this.defaults);
 	this.label = options.label || utils.keyToLabel(this.path);
 	this.typeDescription = options.typeDescription || this.typeDescription || this.type;
 
