@@ -19,6 +19,7 @@ module.exports = function createStaticRouter (keystone) {
 		fields: browserify('fields.js', 'FieldTypes'),
 		signin: browserify('views/signin.js'),
 		home: browserify('views/home.js'),
+		history: browserify('views/history.js'),
 		item: browserify('views/item.js'),
 		list: browserify('views/list.js'),
 	};
@@ -29,6 +30,7 @@ module.exports = function createStaticRouter (keystone) {
 		bundles.fields.build();
 		bundles.signin.build();
 		bundles.home.build();
+		bundles.history.build();
 		bundles.item.build();
 		bundles.list.build();
 	});
@@ -55,6 +57,7 @@ module.exports = function createStaticRouter (keystone) {
 	router.get('/js/fields.js', bundles.fields.serve);
 	router.get('/js/signin.js', bundles.signin.serve);
 	router.get('/js/home.js', bundles.home.serve);
+	router.get('/js/history.js', bundles.history.serve);
 	router.get('/js/item.js', bundles.item.serve);
 	router.get('/js/list.js', bundles.list.serve);
 	router.use(express.static(path.resolve(__dirname + '/../../public')));

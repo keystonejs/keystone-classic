@@ -8,39 +8,17 @@ html
 		meta(name="csrf-token", content="#{csrf_token_value}")
 		title= title
 		link(rel="stylesheet", href="#{adminPath}/styles/keystone.min.css")
+		link(rel="stylesheet", href="#{adminPath}/styles/keystone/history.css")
 		link(rel="stylesheet", href="#{adminPath}/../../styles/bootstrap/bootstrap.css")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
-		style.
-			.fieldName {
-				color: #101010;
-				font-weight: bold;
-			}
-			.change {
-				color: #000;
-				background-color: #cae6cb;
-				font-weight: normal;
-			}
 	body
-		.container
-				.page-header
-					h3 !{title}
-				.row
-					.col-md-12
-						table.table.table-striped.table-bordered
-							thead
-								tr 
-									th change date
-									th changed by
-									th fields changed
-							tbody
-								each key in history
-									tr
-									td !{key.changedAt}
-									td !{key.changedBy.name}
-									td
-										each change in key.changes
-											span.fieldName !{change.fieldName} : 
-												span.change !{change.newValue}
-												br
+		body
+		#history-view
+		include includes/script/keystone
+		script.
+			Keystone.title = !{JSON.stringify(title)};
+			Keystone.history = !{JSON.stringify(history)};
 		script(src="#{adminPath}/js/lib/jquery/jquery-1.10.2.min.js")
-		
+		script(src="#{adminPath}/js/packages.js")
+		script(src="#{adminPath}/js/history.js")
+		include includes/script/ga

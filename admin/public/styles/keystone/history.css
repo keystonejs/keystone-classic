@@ -1,0 +1,11 @@
+.history_fieldName {
+	color: #101010;
+	font-weight: 500;
+}
+.history_change {
+	color: #000;
+	background-color: #cae6cb;
+	font-weight: normal;
+	margin-left: 10px;
+	padding: 5px;
+}
