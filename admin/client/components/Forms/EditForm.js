@@ -197,9 +197,16 @@ var EditForm = React.createClass({
 		var buttons = [
 			<Button key="save" type="primary" submit>Save</Button>,
 		];
+		var historyUrl = `${Keystone.adminPath}/${this.props.list.label.toLowerCase()}/${this.props.data.id}/history`;
 		buttons.push(
 			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
+			</Button>
+		);
+		buttons.push(
+			<Button key="history" href={historyUrl} target="_blank" type="link-cancel">
+				<span className="octicon octicon-versions" />
+				<ResponsiveText hiddenXS="show document history" visibleXS="history" />
 			</Button>
 		);
 		if (!this.props.list.nodelete) {

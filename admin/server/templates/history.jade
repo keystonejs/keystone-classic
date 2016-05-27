@@ -1,0 +1,24 @@
+include includes/flashMessages
+
+doctype html
+html
+	head
+		meta(charset="utf-8")
+		meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
+		meta(name="csrf-token", content="#{csrf_token_value}")
+		title= title
+		link(rel="stylesheet", href="#{adminPath}/styles/keystone.min.css")
+		link(rel="stylesheet", href="#{adminPath}/styles/keystone/history.css")
+		link(rel="stylesheet", href="#{adminPath}/../../styles/bootstrap/bootstrap.css")
+		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+	body
+		body
+		#history-view
+		include includes/script/keystone
+		script.
+			Keystone.title = !{JSON.stringify(title)};
+			Keystone.history = !{JSON.stringify(history)};
+		script(src="#{adminPath}/js/lib/jquery/jquery-1.10.2.min.js")
+		script(src="#{adminPath}/js/packages.js")
+		script(src="#{adminPath}/js/history.js")
+		include includes/script/ga
