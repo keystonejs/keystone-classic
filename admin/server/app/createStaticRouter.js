@@ -21,7 +21,6 @@ module.exports = function createStaticRouter (keystone) {
 		home: browserify('views/home.js'),
 		item: browserify('views/item.js'),
 		list: browserify('views/list.js'),
-		history: browserify('views/history.js'),
 	};
 
 	// prebuild static resources on the next tick
@@ -32,7 +31,6 @@ module.exports = function createStaticRouter (keystone) {
 		bundles.home.build();
 		bundles.item.build();
 		bundles.list.build();
-		bundles.history.build();
 	});
 
 	/* Prepare LESS options */
