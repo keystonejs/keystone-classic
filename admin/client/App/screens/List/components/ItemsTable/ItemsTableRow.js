@@ -98,9 +98,9 @@ const dragItem = {
 		const page = props.currentPage;
 		const droppedOn = monitor.getDropResult();
 		// some drops provide the data for us in prevSortOrder
-		const prevSortOrder = droppedOn.prevSortOrder ? droppedOn.prevSortOrder : props.sortOrder;
+		const prevSortOrder = typeof droppedOn.prevSortOrder === 'number' ? droppedOn.prevSortOrder : props.sortOrder;
 		// use a given newSortOrder prop or retrieve from the cloned items list
-		let newSortOrder = droppedOn.newSortOrder ? droppedOn.newSortOrder : droppedOn.sortOrder;
+		let newSortOrder = typeof droppedOn.newSortOrder === 'number' ? droppedOn.newSortOrder : droppedOn.index;
 
 		// self
 		if (prevSortOrder === newSortOrder) {
