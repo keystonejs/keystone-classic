@@ -59,16 +59,20 @@ const ListView = React.createClass({
 		// possibly specified query parameters
 		this.initializeList(this.props.params.listId);
 		this.parseQueryParams();
+		this.loadItems();
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.initializeList(nextProps.params.listId);
+			this.loadItems();
 		}
 	},
 	initializeList (listId) {
 		this.props.dispatch(selectList(listId));
+	},
+	loadItems () {
 		this.props.dispatch(loadItems());
 	},
 	/**

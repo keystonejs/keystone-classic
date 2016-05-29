@@ -144,14 +144,14 @@ List.prototype.expandColumns = function (input) {
 		if (path === '__name__') {
 			path = this.namePath;
 		}
-		if (path === this.namePath) {
-			nameIncluded = true;
-		}
 		const field = this.fields[path];
 		if (!field) {
 			// TODO: Support arbitary document paths
 			console.warn('Invalid Column specified:', i);
 			return;
+		}
+		if (path === this.namePath) {
+			nameIncluded = true;
 		}
 		return {
 			field: field,
