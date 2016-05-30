@@ -1,9 +1,6 @@
 var async = require('async');
 var keystone = require('../../../../');
 
-// lists which user.id will be validated through collection ids to avoid self-delete
-var LISTS_TO_CHECK_USER_PERMISSIONS = ['user'];
-
 module.exports = function (req, res) {
 	if (!keystone.security.csrf.validate(req)) {
 		console.log('Refusing to delete ' + req.list.key + ' items; CSRF failure');
@@ -22,7 +19,8 @@ module.exports = function (req, res) {
 	}
 
 	if (req.user) {
-		var checkResourceId = (LISTS_TO_CHECK_USER_PERMISSIONS.indexOf(req.list.key.toLowerCase()) >= 0);
+		var checkResourceId = (keystone.get('user model') === req.list.key);
+
 		var userId = String(req.user.id);
 		// check if user can delete this resources based on resources ids and userId
 		if (checkResourceId && ids.some(function (id) {
