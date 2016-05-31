@@ -45,7 +45,7 @@
     "expression-match": "0.0.17",
     "fs-extra": "0.30.0",
     "grappling-hook": "3.0.0",
-    "history": "2.1.1",
+    "history": "3.0.0",
     "i": "0.3.5",
     "jade": "1.11.0",
     "juice": "^2.0.0",
