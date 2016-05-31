@@ -15,7 +15,6 @@ module.exports = [
 	'display-name',
 	'elemental',
 	'expression-match',
-	'history',
 	'i',
 	'list-to-array',
 	'lodash',
