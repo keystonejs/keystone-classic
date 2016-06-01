@@ -26,8 +26,8 @@ module.exports = function (req, res) {
 		if (checkResourceId && ids.some(function (id) {
 			return id === userId;
 		})) {
-			console.log('Refusing to delete ' + req.list.key + ' items; resources ids contains current User id');
-			return res.apiError(403, 'not allowed', 'You can not delete this resource');
+			console.log('Refusing to delete ' + req.list.key + ' items; ids contains current User id');
+			return res.apiError(403, 'not allowed', 'You can not delete yourself');
 		}
 	}
 	var deletedCount = 0;
