@@ -23,7 +23,7 @@
     "body-parser": "1.15.1",
     "browserify": "13.0.1",
     "browserify-shim": "3.8.12",
-    "bytes": "2.3.0",
+    "bytes": "2.4.0",
     "caller-id": "0.1.0",
     "chalk": "1.1.3",
     "classnames": "2.2.5",
