@@ -5,6 +5,9 @@ node_js:
   - "5"
   - "6"
 
+env:
+- KEYSTONE_PREBUILD_ADMIN=true
+
 before_script:
   - npm run lint
   - sleep 15

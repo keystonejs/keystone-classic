@@ -112,7 +112,7 @@ module.exports = {
 		},
 		waitForListScreen: function() {
 			return this
-				.waitForElementVisible('@listScreen', 20000);
+				.waitForElementVisible('@listScreen');
 		},
 		waitForItemScreen: function() {
 			return this
