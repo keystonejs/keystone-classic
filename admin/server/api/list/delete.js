@@ -17,12 +17,16 @@ module.exports = function (req, res) {
 	if (!Array.isArray(ids)) {
 		ids = [ids];
 	}
+
 	if (req.user) {
+		var checkResourceId = (keystone.get('user model') === req.list.key);
+
 		var userId = String(req.user.id);
-		if (ids.some(function (id) {
+		// check if user can delete this resources based on resources ids and userId
+		if (checkResourceId && ids.some(function (id) {
 			return id === userId;
 		})) {
-			console.log('Refusing to delete ' + req.list.key + ' items; ids contains current User');
+			console.log('Refusing to delete ' + req.list.key + ' items; ids contains current User id');
 			return res.apiError(403, 'not allowed', 'You can not delete yourself');
 		}
 	}
