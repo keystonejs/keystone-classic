@@ -45,6 +45,7 @@ var ItemView = React.createClass({
 		// We've opened a new item from the client side routing, so initialize
 		// again with the new item id
 		if (nextProps.params.itemId !== this.props.params.itemId) {
+			this.props.dispatch(selectList(nextProps.params.listId));
 			this.initializeItem(nextProps.params.itemId);
 		}
 	},
