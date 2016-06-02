@@ -38,6 +38,8 @@ keystone.init({
 	'adminui custom styles': 'adminuiCustom/styles.less',
 
 	'cloudinary config': 'cloudinary://api_key:api_secret@cloud_name',
+	
+	'codemirror url path': '/keystone/js/lib/codemirror'
 });
 
 keystone.import('models');

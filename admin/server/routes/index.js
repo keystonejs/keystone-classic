@@ -6,7 +6,8 @@ module.exports = function (req, res) {
 	var codemirrorPath = keystone.get('codemirror url path')
 												? path.join('/', keystone.get('codemirror url path'))
 												: path.join('/', keystone.get('admin path'), '/js/lib/codemirror');
-
+	codemirrorPath = codemirrorPath.replace(/\\/g,'/');	// ensure for windows :-)											
+													
 	keystone.render(req, res, 'index', {
 		// section: keystone.nav.by.list[req.list.key] || {},
 		title: appName,
