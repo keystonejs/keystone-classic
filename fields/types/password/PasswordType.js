@@ -59,25 +59,23 @@ password.prototype.addToSchema = function() {
 			return next();
 		}
 		var item = this;
-		if(!item.isEncrypted) {
-            bcrypt.genSalt(field.workFactor, function(err, salt) {
+        bcrypt.genSalt(field.workFactor, function(err, salt) {
+            if (err) {
+                return next(err);
+            }
+            bcrypt.hash(item.get(field.path), salt, function () {}, function(err, hash) {
                 if (err) {
                     return next(err);
                 }
-                bcrypt.hash(item.get(field.path), salt, function () {}, function(err, hash) {
-                    if (err) {
-                        return next(err);
-                    }
-                    // override the cleartext password with the hashed one
-                    item.set(field.path, hash);
-                    // inherited models save twice, this ensures the encrypted password hash won't be encrypted a second time
-                    item.isEncrypted = true;
-                    next();
-                });
+                // override the cleartext password with the hashed one
+                item.set(field.path, hash);
+                // reset the [needs_hashing] flag so that new values can't be hashed more than once
+				// (inherited models double up on pre save handlers for password fields)
+				item[needs_hashing] = false;
+
+                next();
             });
-        } else {
-            return next();
-        }
+        });
 	});
 	this.bindUnderscoreMethods();
 };
