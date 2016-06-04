@@ -167,6 +167,7 @@ function runNightwatch (done) {
 	try {
 		Nightwatch.cli(function (argv) {
 			Nightwatch.runner(argv, function () {
+				console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: finished tests...');
 				done();
 			});
 		});
@@ -236,8 +237,11 @@ function start() {
 			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: ' + err);
 			exitProcess = true;
 		}
-		if (runTests && selenium) {
+		if (selenium) {
 			selenium.kill('SIGHUP');
+			exitProcess = true;
+		}
+		if (runTests) {
 			exitProcess = true;
 		}
 		if (exitProcess) {
