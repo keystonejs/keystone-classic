@@ -46,7 +46,7 @@ var AltText = React.createClass({
 	},
 	render () {
 		var props = blacklist(this.props, 'component', 'modifier', 'normal', 'modified');
-		var modifiedOrNormal = this.state.modified 
+		var modifiedOrNormal = this.state.modified
 										? this.props.modifiedLabel || this.props.modifiedValue
 										: this.props.normalLabel || this.props.normalValue;
 		return React.createElement(this.props.component, props, modifiedOrNormal);
