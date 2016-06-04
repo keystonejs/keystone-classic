@@ -10,6 +10,7 @@ var ListTile = React.createClass({
 		href: React.PropTypes.string,
 		label: React.PropTypes.string,
 		path: React.PropTypes.string,
+		spinner: React.PropTypes.object,
 	},
 	render () {
 		var opts = {
@@ -20,7 +21,7 @@ var ListTile = React.createClass({
 				<span className="dashboard-group__list-inner">
 					<Link to={this.props.href} className="dashboard-group__list-tile">
 						<div className="dashboard-group__list-label">{this.props.label}</div>
-						<div className="dashboard-group__list-count">{this.props.count}</div>
+						<div className="dashboard-group__list-count">{this.props.spinner || this.props.count}</div>
 					</Link>
 					{/* If we want to create a new list, we append ?create, which opens the
 						create form on the new page! */}
