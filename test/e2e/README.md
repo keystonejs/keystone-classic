@@ -28,6 +28,9 @@ with a real keystone app server.
         bin                                     => any required e2e binaries
            selenium-server-standalone-x.y.z.jar => selenium driver for local testing
 
+        drivers
+            <browser drivers>                   => all required browser drivers
+            
         updates                                 => all schema update/migration files
            0.0.1-updates-e2e.js                 => keystone updates
 
@@ -92,6 +95,11 @@ from keystone's root directory:
     If you want to run the e2e keystone test app server standalone then run as follows:
 
         export KEYSTONEJS_PORT=9999 && node test/e2e/server.js --notest
+
+    If you want to run the e2e keystone test app server standalone without dropping the database then run as follows:
+
+        export KEYSTONEJS_PORT=9999 && node test/e2e/server.js --notest --nodrop
+
 
     This allows you to experiment with the exact same setup the test do!
 
