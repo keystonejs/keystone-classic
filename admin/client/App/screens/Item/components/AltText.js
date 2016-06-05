@@ -5,9 +5,11 @@ import vkey from 'vkey';
 var AltText = React.createClass({
 	propTypes: {
 		component: React.PropTypes.string,
-		modified: React.PropTypes.string,
+		modifiedLabel: React.PropTypes.string,
+		modifiedValue: React.PropTypes.object,
 		modifier: React.PropTypes.string,
-		normal: React.PropTypes.string,
+		normalLabel: React.PropTypes.string,
+		normalValue: React.PropTypes.object,
 	},
 	getDefaultProps () {
 		return {
@@ -44,7 +46,10 @@ var AltText = React.createClass({
 	},
 	render () {
 		var props = blacklist(this.props, 'component', 'modifier', 'normal', 'modified');
-		return React.createElement(this.props.component, props, this.state.modified ? this.props.modified : this.props.normal);
+		var modifiedOrNormal = this.state.modified
+										? this.props.modifiedLabel || this.props.modifiedValue
+										: this.props.normalLabel || this.props.normalValue;
+		return React.createElement(this.props.component, props, modifiedOrNormal);
 	},
 });
 

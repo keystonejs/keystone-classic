@@ -47,6 +47,21 @@ var HomeView = React.createClass({
 
 		return ['dashboard-group__heading-icon', 'octicon', ...classes].join(' ');
 	},
+	getCount (key) {
+		// If we have previous counts already saved, show them while we fetch
+		// the new ones. The counts can change e.g. if items were created since
+		// the last visit to the homepage
+		return plural(this.props.counts[key], '* Item', '* Items');
+	},
+	getSpinner () {
+		if (Object.keys(this.props.counts).length === 0
+			&& (this.props.error || this.props.loading)) {
+			return (
+				<Spinner />
+			);
+		}
+		return null;
+	},
 	renderFlatNav () {
 		var keys = Object.keys(Keystone.lists);
 		const lists = keys.map((key) => {
@@ -59,22 +74,11 @@ var HomeView = React.createClass({
 					label={list.label}
 					href={href}
 					count={this.getCount(list.key)}
+					spinner={this.getSpinner()}
 				/>
 			);
 		});
 		return <div className="dashboard-group__lists">{lists}</div>;
-	},
-	getCount (key) {
-		// If we have previous counts already saved, show them while we fetch
-		// the new ones. The counts can change e.g. if items were created since
-		// the last visit to the homepage
-		if (Object.keys(this.props.counts).length === 0
-			&& (this.props.error || this.props.loading)) {
-			return (
-				<Spinner />
-			);
-		}
-		return plural(this.props.counts[key], '* Item', '* Items');
 	},
 	renderGroupedNav () {
 		return (
@@ -96,6 +100,7 @@ var HomeView = React.createClass({
 											label={list.label}
 											href={href}
 											count={this.getCount(list.key)}
+											spinner={this.getSpinner()}
 										/>
 									);
 								})}
@@ -126,6 +131,7 @@ var HomeView = React.createClass({
 								label={list.label}
 								href={href}
 								count={this.getCount(list.key)}
+								spinner={this.getSpinner()}
 							/>
 						);
 					})}
