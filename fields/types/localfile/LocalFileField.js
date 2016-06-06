@@ -87,7 +87,7 @@ module.exports = Field.create({
 	},
 
 	hasExisting () {
-		return !!this.props.value.filename;
+		return this.props.value && !!this.props.value.filename;
 	},
 
 	getFilename () {
