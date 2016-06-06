@@ -26,7 +26,7 @@ var SecondaryNavigation = React.createClass({
 	},
 	handleResize () {
 		this.setState({
-			navIsVisible: this.props.lists && Object.keys(this.props.lists).length > 1 && window.innerWidth >= 768,
+			navIsVisible: this.props.lists && Object.keys(this.props.lists).length > 0 && window.innerWidth >= 768,
 		});
 	},
 	// Render the navigation
