@@ -5,7 +5,7 @@ var NumberType = require('../NumberType');
 exports.initList = function (List) {
 	List.add({
 		number: { type: NumberType },
-		number2: { type: NumberType, validation: { minValue: 0, maxValue: 4 } },
+		number2: { type: NumberType, validation: { minValue: -5, maxValue: 4 } },
 		number3: { type: NumberType, validation: { mustBeEven: true } },
 		number4: { type: NumberType, validation: { mustBeOdd: true } },
 		nested: {
@@ -202,8 +202,15 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should not validate if less than min', function (done) {
+		it('should validate if more than min', function (done) {
 			List.fields.number2.validateInput({ number2: -1 }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should not validate if less than min', function (done) {
+			List.fields.number2.validateInput({ number2: -10 }, function (result) {
 				demand(result).be.false();
 				done();
 			});
