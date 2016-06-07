@@ -35,7 +35,7 @@ number.prototype.validateInput = function (data, callback) {
 	}
 
 	if (this._validation) {
-		result = validation.ValidateNumber(value, this._validation, this);
+		result = validation.validateNumber(value, this._validation, this);
 	}
 
 	utils.defer(callback, result);
@@ -113,8 +113,11 @@ number.prototype.inputIsValid = function (data, required, item) {
 	}
 	if (value !== undefined && value !== '') {
 		var newValue = utils.number(value);
-		if (isNaN(newValue)) return false;
-		if (this._validation) return validation.ValidateNumber(value, this._validation, this);
+		if (isNaN(newValue)) {
+			this.options.invalidMessage = 'The value "' + value + '" is not a valid number.';
+			return false;
+		}
+		if (this._validation) return validation.validateNumber(value, this._validation, this);
 		return true;
 	} else {
 		return (required) ? false : true;
