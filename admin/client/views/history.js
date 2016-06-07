@@ -24,7 +24,7 @@ var HistoryTable = React.createClass({
 	render: function () {
 		var rows = [];
 		this.props.history.forEach(function (event) {
-			rows.push(<HistoryRow changedAt={event.changedAt} changedBy={event.changedBy ? event.changedBy.name : ' '} changes={event.changes}/>);
+			rows.push(<HistoryRow changedAt={event.changedAt} changedBy={event.changedBy.name} changes={event.changes}/>);
 		});
 		return (
 			<table className="table table-striped">

@@ -9,7 +9,7 @@ module.exports = function (req, res) {
 		result.forEach(function (item) {
 			var change = {
 				changedAt: item.t,
-				changedBy: item.u ? { id: item.u._id, name: item.u.name.first + ' ' + item.u.name.last } : null,
+				changedBy: item.u ? { id: item.u._id, name: item.u.name.first + ' ' + item.u.name.last } : { id: 'null', name: 'null' },
 				changes: [],
 			};
 
