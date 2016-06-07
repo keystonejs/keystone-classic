@@ -45,11 +45,10 @@ var PrimaryNavigation = React.createClass({
 			navIsVisible: window.innerWidth >= 768,
 		});
 	},
-	renderUser() {
+	renderUser () {
 		if (!Keystone.user) return null;
 
-		var userLink = "/keystone/users/" + Keystone.user.id;
-		
+		var userLink = '/keystone/users/' + Keystone.user.id;
 		return (
 			<PrimaryNavItem label="octicon-sign-out" href={userLink} title="User">
 				<span>{Keystone.user.name.first}</span>
