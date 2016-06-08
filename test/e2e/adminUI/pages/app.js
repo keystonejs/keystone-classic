@@ -59,6 +59,7 @@ module.exports = {
 
 		// FIX ME NAV MENU
 		dependsonListSubmenu: '.secondary-navbar [data-list-path="depends-ons"]',
+		hiddenbooleanListSubmenu: '.secondary-navbar [data-list-path="hidden-booleans"]',
 		hiddenrelationshipListSubmenu: '.secondary-navbar [data-list-path="hidden-relationships"]',
 		inlinerelationshipListSubmenu: '.secondary-navbar [data-list-path="inline-relationships"]',
 		manyrelationshipListSubmenu: '.secondary-navbar [data-list-path="many-relationships"]',

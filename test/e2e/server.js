@@ -40,7 +40,7 @@ keystone.init({
 	'adminui custom styles': 'adminuiCustom/styles.less',
 
 	'cloudinary config': 'cloudinary://api_key:api_secret@cloud_name',
-	
+
 	'codemirror url path': '/keystone/js/lib/codemirror'
 });
 
@@ -84,6 +84,7 @@ keystone.set('nav', {
 		'no-default-columns',
 		'inline-relationships',
 		'many-relationships',
+		'hidden-booleans',
 		'hidden-relationships',
 		'source-relationships',
 		'target-relationships',
@@ -109,7 +110,7 @@ function dropTestDatabase(done) {
 
 function checkKeystoneReady (done) {
 	async.retry({
-		times: 10, 
+		times: 10,
 		interval: 3000
 	}, function(done, result) {
 		console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: checking if KeystoneJS ready for request');
@@ -195,26 +196,26 @@ function runKeystone(cb) {
 function start() {
 	var runTests = process.argv.indexOf('--notest') === -1;
 	var dropDB = process.argv.indexOf('--nodrop') === -1;
-	var runSelenium = !(process.argv.indexOf('--selenium-in-background') === -1);  
+	var runSelenium = !(process.argv.indexOf('--selenium-in-background') === -1);
 
 	async.series([
-	
+
 		function (cb) {
 			if (dropDB) {
-				dropTestDatabase(cb);		
+				dropTestDatabase(cb);
 			}	else {
 				cb();
 			}
-		},	
-		
+		},
+
 		function (cb) {
 			runKeystone(cb);
 		},
 
 		function (cb) {
 			checkKeystoneReady(cb);
-		},		
-		
+		},
+
 		function (cb) {
 			if (runTests && runSelenium) {
 				runSeleniumInBackground(cb)
@@ -222,7 +223,7 @@ function start() {
 				cb();
 			}
 		},
-		
+
 		function (cb) {
 			if (runTests) {
 				runNightwatch(cb);
@@ -230,7 +231,7 @@ function start() {
 				cb();
 			}
 		}
-		
+
 	], function(err) {
 		var exitProcess = false;
 		if (err) {
@@ -245,7 +246,7 @@ function start() {
 			exitProcess = true;
 		}
 		if (exitProcess) {
-			process.exit();		
+			process.exit();
 		}
 	});
 }

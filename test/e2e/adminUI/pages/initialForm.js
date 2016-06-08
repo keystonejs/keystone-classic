@@ -28,6 +28,7 @@ var UrlList = require('./lists/url');
 var UserList = require('./lists/user');
 // MISC LISTS:
 var DependsOnList = require('./lists/misc/dependsOn');
+var HiddenBooleanList = require('./lists/misc/hiddenBoolean');
 var HiddenRelationshipList = require('./lists/misc/hiddenRelationship');
 var InlineRelationshipList = require('./lists/misc/inlineRelationship');
 var ManyRelationshipList = require('./lists/misc/manyRelationship');
@@ -75,6 +76,7 @@ module.exports = {
 				// MISC LISTS
 				//
 				dependsonList: new DependsOnList(),
+				hiddenbooleanList: new HiddenBooleanList(),
 				hiddenrelationshipList: new HiddenRelationshipList(),
 				inlinerelationshipList: new InlineRelationshipList(),
 				manyrelationshipList: new ManyRelationshipList(),
