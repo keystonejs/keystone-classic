@@ -6,35 +6,45 @@ module.exports = function (req, res) {
 	var items = [];
 
 	historyAPI.getHistory(id, req.list.model.modelName, function (err, result) {
-		result.forEach(function (item) {
+		for (var i = 0; i < result.length; i++) {
+
+			var item = result[i];
+
 			var change = {
 				changedAt: item.t,
-				changedBy: item.u ? { id: item.u._id, name: item.u.name.first + ' ' + item.u.name.last } : { id: 'null', name: 'null' },
+				changedBy: item.u ? { id: item.u._id, name: item.u.name.first + ' ' + item.u.name.last } : { id: 'null', name: 'unknown user' },
 				changes: [],
 			};
 
-			item.c.forEach(function (field) {
+			for (var c = 0; c < item.c.length; c++) {
+				var field = item.c[c];
 				if (field !== 'updatedAt' && field !== 'updatedBy') {
-					var fieldName, newValue;
+					var fieldName, newValue, nextOldestValue;
+					var nextOldest = result[i + 1];
 
+					// handle markdown types
 					if (item.d[field].md !== undefined && item.d[field].md !== null) {
-						fieldName = field + ' (markdown shown)';
+						fieldName = field + ' (only markdown shown)';
 						newValue = item.d[field].md;
+						if (nextOldest) nextOldestValue = nextOldest.d[field].md;
 					} else {
 						fieldName = field;
 						newValue = item.d[field];
+						if (nextOldest) {
+							nextOldestValue = nextOldest.d[field];
+						}
 					}
 
 					if (newValue === '') newValue = '(deleted)';
-
 					change.changes.push({
 						fieldName: fieldName,
 						newValue: newValue,
+						oldValue: nextOldestValue,
 					});
 				}
-			});
+			}
 			items.push(change);
-		});
+		};
 
 		var renderView = function () {
 			var appName = keystone.get('name') || 'Keystone';
