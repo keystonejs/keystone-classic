@@ -7,8 +7,15 @@ var HistoryRow = React.createClass({
 	render: function () {
 		var changes = [];
 		this.props.changes.forEach(function (c) {
-			changes.push(<div className="history_fieldName">{c.fieldName}<div className="history_change">{c.newValue}</div><br/></div>);
+			if (typeof (c.newValue) === 'object') {
+				c.newValue = JSON.stringify(c.newValue);
+			}
+			if (typeof (c.oldValue) === 'object') {
+				c.oldValue = JSON.stringify(c.oldValue);
+			}
+			changes.push(<div className="history_fieldName">{c.fieldName}<table className="table table-striped embeddedTable"><tr><td className="value_header">new:</td><td className="new_value">{c.newValue}</td></tr><tr><td className="value_header">old:</td><td className="old_value">{c.oldValue}</td></tr></table></div>);
 		});
+
 		return (
 			<tr>
 				<td>{this.props.changedAt}</td>
@@ -18,7 +25,6 @@ var HistoryRow = React.createClass({
 		);
 	},
 });
-
 
 var HistoryTable = React.createClass({
 	render: function () {

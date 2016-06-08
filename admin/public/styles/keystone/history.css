@@ -2,10 +2,37 @@
 	color: #101010;
 	font-weight: 500;
 }
-.history_change {
+.value_header {
+	color: #000;
+	font-weight: 300;
+	padding-left: 10px;
+	padding-bottom: 3px;
+	width:45px;
+}
+.new_value {
 	color: #000;
 	background-color: #cae6cb;
 	font-weight: normal;
-	margin-left: 10px;
 	padding: 5px;
+	word-break:break-all;
+}
+.old_value {
+	color: #333;
+	background-color: #FFDADA;
+	font-weight: 200;
+	padding: 5px;
+	word-break:break-all;
+}
+.embeddedTable {
+	table-layout: fixed;
+}
+hr {
+	padding-top:0px;
+	margin-top:0px;
+	padding-bottom:0px;
+	margin-bottom:0px;
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #eee, #aaa, #eee);
 }

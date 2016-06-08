@@ -45,12 +45,22 @@ var PrimaryNavigation = React.createClass({
 			navIsVisible: window.innerWidth >= 768,
 		});
 	},
+	renderUser () {
+		if (!Keystone.user) return null;
+
+		var userLink = '/keystone/users/' + Keystone.user.id;
+		return (
+			<PrimaryNavItem label="octicon-sign-out" href={userLink} title="User">
+				<span>{Keystone.user.name.first}</span>
+			</PrimaryNavItem>
+		);
+	},
 	renderSignout () {
 		if (!this.props.signoutUrl) return null;
 
 		return (
 			<PrimaryNavItem label="octicon-sign-out" href={this.props.signoutUrl} title="Sign Out">
-				<span className="octicon octicon-sign-out" />
+				<span className="octicon octicon-sign-out" /> Sign Out
 			</PrimaryNavItem>
 		);
 	},
@@ -98,6 +108,7 @@ var PrimaryNavigation = React.createClass({
 						{this.renderNavigation()}
 					</ul>
 					<ul className="app-nav app-nav--primary app-nav--right">
+						{this.renderUser()}
 						{this.renderSignout()}
 					</ul>
 				</Container>

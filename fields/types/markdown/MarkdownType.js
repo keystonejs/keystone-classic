@@ -93,6 +93,10 @@ markdown.prototype.addFilterToQuery = function (filter) {
  * Formats the field value
  */
 markdown.prototype.format = function (item) {
+	return item.get(this.paths.html);
+};
+
+markdown.prototype.getMarkdown = function (item) {
 	return item.get(this.paths.md);
 };
 
