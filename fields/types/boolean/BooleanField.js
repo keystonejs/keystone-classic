@@ -2,24 +2,28 @@ var React = require('react'),
 	Field = require('../Field');
 
 module.exports = Field.create({
-	
+
 	displayName: 'BooleanField',
-	
+
 	valueChanged: function(event) {
 		this.props.onChange({
 			path: this.props.path,
 			value: event.target.checked
 		});
 	},
-	
+
 	renderUI: function() {
-		
+
+		if (this.props.hidden) {
+			return <input type='hidden' name={this.props.path} value={this.props.value} />;
+		}
+
 		var input, fieldClassName = 'field-ui';
-		
+
 		if (this.props.indent) {
 			fieldClassName += ' field-indented';
 		}
-		
+
 		if (this.shouldRenderField()) {
 			input = (
 				<div className={fieldClassName}>
@@ -41,8 +45,8 @@ module.exports = Field.create({
 				</div>
 			);
 		}
-		
+
 		return <div className="field field-type-boolean">{input}</div>;
 	}
-	
+
 });
