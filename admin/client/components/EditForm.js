@@ -21,7 +21,9 @@ var EditForm = React.createClass({
 		};
 	},
 	getFieldProps (field) {
-		var props = Object.assign({}, field);
+		const {key} = this.props.list
+		const {id} = this.props.data
+		var props = Object.assign({listKey: key, itemId: id}, field);
 		props.value = this.state.values[field.path];
 		props.values = this.state.values;
 		props.onChange = this.handleChange;
