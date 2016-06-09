@@ -3,23 +3,23 @@ var Pikaday = require('pikaday');
 var React = require('react');
 
 module.exports = React.createClass({
-	
+
 	displayName: 'DateInput',
-	
+
 	// set default properties
 	getDefaultProps: function() {
 		return {
 			format: 'YYYY-MM-DD'
 		};
 	},
-	
+
 	getInitialState: function() {
 		return {
 			value: this.props.value,
 			id: Math.round(Math.random() * 100000)
 		};
 	},
-	
+
 	componentWillReceiveProps: function(newProps) {
 		if (newProps.value === this.state.value) return;
 		this.setState({
@@ -29,7 +29,7 @@ module.exports = React.createClass({
 	},
 
 	componentDidMount: function() {
-		this.picker = new Pikaday({ 
+		this.picker = new Pikaday({
 			field: this.getDOMNode(),
 			format: this.props.format,
 			yearRange: this.props.yearRange,
@@ -38,18 +38,18 @@ module.exports = React.createClass({
 					this.props.onChange(this.picker.toString());
 				}
 			}
-		});			
+		});
 	},
 
 	componentWillUnmount: function() {
 		this.picker.destroy();
 	},
-	
+
 	handleChange: function(e) {
 		if (e.target.value === this.state.value) return;
 		this.setState({ value: e.target.value });
 	},
-	
+
 	handleBlur: function(e) { // eslint-disable-line no-unused-vars
 		if (this.state.value === this.props.value) return;
 		var newValue = moment(this.state.value, this.props.format);
@@ -62,7 +62,7 @@ module.exports = React.createClass({
 	},
 
 	render: function() {
-		return <input type="text" name={this.props.name} value={this.state.value} placeholder={this.props.format} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" className="form-control" />;
+		return <input type="text" name={this.props.name} value={this.state.value} placeholder={this.props.placeholder} onChange={this.handleChange} onBlur={this.handleBlur} autoComplete="off" className="form-control" />;
 	}
-	
+
 });
