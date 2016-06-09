@@ -119,8 +119,7 @@
     "tinymce": "global:tinymce",
     "jquery": "global:$",
     "codemirror": "global:CodeMirror",
-    "underscore": "global:_",
-    "moment": "global.moment"
+    "underscore": "global:_"
   },
   "author": "Jed Watson",
   "homepage": "http://keystonejs.com/",
