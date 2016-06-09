@@ -156,27 +156,26 @@ textarray.prototype.inputIsValid = function (data, required, item) {
 };
 
 /**
- * Updates the value for this field in the item from a data object
+ * Updates the value for this field in the item from a data object.
+ * If the data object does not contain the value, then the value is set to empty array.
  */
 textarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	if (typeof value !== 'undefined') {
-		if (value === null || value === '') {
-			value = [];
-		}
-		if (!Array.isArray(value)) {
-			value = [value];
-		}
-		value = value.map(function (str) {
-			if (str && str.toString) {
-				str = str.toString();
-			}
-			return str;
-		}).filter(function (str) {
-			return (typeof str === 'string' && str);
-		});
-		item.set(this.path, value);
+	if (value === undefined || value === null || value === '') {
+		value = [];
 	}
+	if (!Array.isArray(value)) {
+		value = [value];
+	}
+	value = value.map(function (str) {
+		if (str && str.toString) {
+			str = str.toString();
+		}
+		return str;
+	}).filter(function (str) {
+		return (typeof str === 'string' && str);
+	});
+	item.set(this.path, value);
 	process.nextTick(callback);
 };
 

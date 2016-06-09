@@ -17,7 +17,8 @@ module.exports = function createStaticRouter (keystone) {
 	/* Prepare browserify bundles */
 	var bundles = {
 		fields: browserify('fields.js', 'FieldTypes'),
-		signin: browserify('views/signin.js'),
+		signin: browserify('Signin/index.js'),
+		index: browserify('index.js'),
 		home: browserify('views/home.js'),
 		history: browserify('views/history.js'),
 		item: browserify('views/item.js'),
@@ -26,14 +27,16 @@ module.exports = function createStaticRouter (keystone) {
 
 	// prebuild static resources on the next tick
 	// improves first-request performance
-	process.nextTick(function () {
-		bundles.fields.build();
-		bundles.signin.build();
-		bundles.home.build();
-		bundles.history.build();
-		bundles.item.build();
-		bundles.list.build();
-	});
+	if (process.env.KEYSTONE_DEV === 'true' || process.env.KEYSTONE_PREBUILD_ADMIN) {
+		process.nextTick(function () {
+			bundles.fields.build();
+			bundles.signin.build();
+			bundles.home.build();
+			bundles.history.build();
+			bundles.item.build();
+			bundles.list.build();
+		});
+	}
 
 	/* Prepare LESS options */
 	var elementalPath = path.join(path.dirname(require.resolve('elemental')), '..');
@@ -60,6 +63,7 @@ module.exports = function createStaticRouter (keystone) {
 	router.get('/js/history.js', bundles.history.serve);
 	router.get('/js/item.js', bundles.item.serve);
 	router.get('/js/list.js', bundles.list.serve);
+	router.get('/js/index.js', bundles.index.serve);
 	router.use(express.static(path.resolve(__dirname + '/../../public')));
 
 	return router;

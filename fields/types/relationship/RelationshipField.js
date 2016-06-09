@@ -1,6 +1,6 @@
 import async from 'async';
-import Lists from '../../../admin/client/stores/Lists';
 import Field from '../Field';
+import { listsByKey } from '../../../admin/client/utils/lists';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
@@ -192,10 +192,10 @@ module.exports = Field.create({
 
 	renderInputGroup () {
 		// TODO: find better solution
-		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/components/CreateForm';
+		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/App/shared/CreateForm';
 		//   CreateForm was imported as a blank object. This stack overflow post suggested lazilly requiring it:
 		// http://stackoverflow.com/questions/29807664/cyclic-dependency-returns-empty-object-in-react-native
-		const CreateForm = require('../../../admin/client/components/Forms/CreateForm');
+		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
@@ -205,7 +205,7 @@ module.exports = Field.create({
 					<Button onClick={() => this.toggleCreate(true)} type="success">+</Button>
 				</InputGroup.Section>
 				<CreateForm
-					list={Lists[this.props.refList.key]}
+					list={listsByKey[this.props.refList.key]}
 					isOpen={this.state.createIsOpen}
 					onCreate={(data) => this.onCreate(data)}
 					onCancel={() => this.toggleCreate(false)} />

@@ -31,7 +31,7 @@ module.exports = {
 			.text.to.equal('Access');
 	},
 	'Home view should have an Fields menu': function (browser) {
-		browser.app.expect.element('@fieldsMenu')
+		browser.app.expect.element('@fieldListsMenu')
 			.text.to.equal('Fields');
 	},
 	'Home view should have a Front Page Icon': function (browser) {
@@ -65,5 +65,14 @@ module.exports = {
 	'Home view should have a Other dashboard sub-heading': function (browser) {
 		browser.homeScreen.section.otherGroup.expect.element('@subheading')
 			.text.to.equal('Other');
+	},
+	'Home view should have tabs under Access dashboard group': function (browser) {
+		browser.homeScreen.section.accessGroup.assertUI();
+	},
+	'Home view should have tabs under Fields dashboard group': function (browser) {
+		browser.homeScreen.section.fieldsGroup.assertUI();
+	},
+	'Home view should have tabs under Other dashboard group': function (browser) {
+		browser.homeScreen.section.otherGroup.assertUI();
 	},
 };

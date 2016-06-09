@@ -113,54 +113,41 @@ embedly.prototype.addToSchema = function () {
 
 		var post = this;
 
-		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function (err, api) { // eslint-disable-line no-new
+		var api = new EmbedlyAPI({ key: keystone.get('embedly api key') });
+		var opts = _.defaults({ url: fromValue }, field.embedlyOptions);
 
+		api.oembed(opts, function (err, objs) {
 			if (err) {
-				console.error('Error creating Embedly api:');
-				console.error(err, api);
-				field.reset(this);
-				return next();
-			}
-
-			var opts = _.defaults({ url: fromValue }, field.embedlyOptions);
-
-			api.oembed(opts, function (err, objs) {
-
-				if (err) {
-					console.error('Embedly API Error:');
-					console.error(err, objs);
-					field.reset(post);
+				console.error('Embedly API Error:');
+				console.error(err, objs);
+				field.reset(post);
+			} else {
+				var data = objs[0];
+				if (data && data.type !== 'error') {
+					post.set(field.path, {
+						exists: true,
+						type: data.type,
+						title: data.title,
+						url: data.url,
+						width: data.width,
+						height: data.height,
+						version: data.version,
+						description: data.description,
+						html: data.html,
+						authorName: data.author_name,
+						authorUrl: data.author_url,
+						providerName: data.provider_name,
+						providerUrl: data.provider_url,
+						thumbnailUrl: data.thumbnail_url,
+						thumbnailWidth: data.thumbnail_width,
+						thumbnailHeight: data.thumbnail_height,
+					});
 				} else {
-					var data = objs[0];
-					if (data && data.type !== 'error') {
-						post.set(field.path, {
-							exists: true,
-							type: data.type,
-							title: data.title,
-							url: data.url,
-							width: data.width,
-							height: data.height,
-							version: data.version,
-							description: data.description,
-							html: data.html,
-							authorName: data.author_name,
-							authorUrl: data.author_url,
-							providerName: data.provider_name,
-							providerUrl: data.provider_url,
-							thumbnailUrl: data.thumbnail_url,
-							thumbnailWidth: data.thumbnail_width,
-							thumbnailHeight: data.thumbnail_height,
-						});
-
-					} else {
-						field.reset(post);
-					}
+					field.reset(post);
 				}
-				return next();
-
-			});
+			}
+			return next();
 		});
-
 	});
 
 	this.bindUnderscoreMethods();

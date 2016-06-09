@@ -6,7 +6,7 @@ var utils = require('keystone-utils');
 var TextType = require('../text/TextType');
 
 // ISO_8601 is needed for the automatically created createdAt and updatedAt fields
-var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', moment.ISO_8601];
+var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', 'YYYY-MM-DD h:mm:s a Z', moment.ISO_8601];
 /**
  * DateTime FieldType Constructor
  * @extends Field
@@ -28,6 +28,7 @@ function datetime (list, path, options) {
 	this.paths = {
 		date: this._path.append('_date'),
 		time: this._path.append('_time'),
+		tzOffset: this._path.append('_tzOffset'),
 	};
 }
 util.inherits(datetime, FieldType);
@@ -46,9 +47,15 @@ datetime.prototype.validateRequiredInput = TextType.prototype.validateRequiredIn
 datetime.prototype.getInputFromData = function (data) {
 	var dateValue = this.getValueFromData(data, '_date');
 	var timeValue = this.getValueFromData(data, '_time');
+	var tzOffsetValue = this.getValueFromData(data, '_tzOffset');
 	if (dateValue && timeValue) {
-		return dateValue + ' ' + timeValue;
+		var ret = dateValue + ' ' + timeValue;
+		if (typeof tzOffsetValue !== 'undefined') {
+			ret += ' ' + tzOffsetValue;
+		}
+		return ret;
 	}
+
 	return this.getValueFromData(data);
 };
 

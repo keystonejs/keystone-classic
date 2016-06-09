@@ -14,14 +14,15 @@ module.exports = {
 		browser.app.waitForElementVisible('@homeScreen');
 	},
 	after: function (browser) {
-		browser.app
-			.signout();
-		browser
-			.end();
+		browser.app.signout();
+		browser.end();
 	},
 	'List view should allow users to create a new list item': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.click('@fieldListsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@nameListSubmenu')
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.click('@createFirstItemButton');
@@ -33,7 +34,7 @@ module.exports = {
 			.fillInput({value: 'Name Field Test 1'});
 
 		browser.initialFormPage.section.form.section.nameList.section.name
-			.verifyInput({value: 'Name Field Test 1'});
+			.assertInput({value: 'Name Field Test 1'});
 
 		browser.initialFormPage.section.form.section.nameList.section.fieldA
 			.fillInput({firstName: 'First 1', lastName: 'Last 1'});
@@ -45,7 +46,10 @@ module.exports = {
 			.waitForElementVisible('@itemScreen');
 
 		browser.app
-			.gotoListScreen('names');
+			.click('@fieldListsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@nameListSubmenu')
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
@@ -55,7 +59,10 @@ module.exports = {
 	},
 	'List view should allow users to create more new list items': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.click('@fieldListsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@nameListSubmenu')
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.click('@createMoreItemsButton');
@@ -67,7 +74,7 @@ module.exports = {
 			.fillInput({value: 'Name Field Test 2'});
 
 		browser.initialFormPage.section.form.section.nameList.section.name
-			.verifyInput({value: 'Name Field Test 2'});
+			.assertInput({value: 'Name Field Test 2'});
 
 		browser.initialFormPage.section.form.section.nameList.section.fieldA
 			.fillInput({firstName: 'First 2', lastName: 'Last 2'});
@@ -79,7 +86,10 @@ module.exports = {
 			.waitForElementVisible('@itemScreen');
 
 		browser.app
-			.gotoListScreen('names');
+			.click('@fieldListsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@nameListSubmenu')
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
@@ -92,7 +102,10 @@ module.exports = {
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.click('@fieldListsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@nameListSubmenu')
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.click('@firstItemNameValue');
@@ -102,7 +115,10 @@ module.exports = {
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.click('@fieldListsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@nameListSubmenu')
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.click('@firstItemNameValue');
@@ -118,7 +134,10 @@ module.exports = {
 	},
 	'List view should allow users to search for items': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.click('@fieldListsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@nameListSubmenu')
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.setValue('@searchInputField', 'Name Field Test 2');
@@ -169,7 +188,10 @@ module.exports = {
 	},
 	'List view should allow users to delete last item': function (browser) {
 		browser.app
-			.gotoListScreen('names');
+			.click('@fieldListsMenu')
+			.waitForElementVisible('@listScreen')
+			.click('@nameListSubmenu')
+			.waitForElementVisible('@listScreen');
 
 		browser.listPage
 			.click('@firstItemDeleteIcon');

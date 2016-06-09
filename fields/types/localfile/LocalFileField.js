@@ -87,7 +87,7 @@ module.exports = Field.create({
 	},
 
 	hasExisting () {
-		return !!this.props.value.filename;
+		return this.props.value && !!this.props.value.filename;
 	},
 
 	getFilename () {
@@ -213,7 +213,7 @@ module.exports = Field.create({
 		}
 
 		return (
-			<FormField label={this.props.label} className="field-type-localfile">
+			<FormField label={this.props.label} className="field-type-localfile" htmlFor={this.props.path}>
 
 				{this.renderFileField()}
 				{this.renderFileAction()}

@@ -16,6 +16,10 @@ function boolean (list, path, options) {
 }
 util.inherits(boolean, FieldType);
 
+boolean.prototype.defaults = {
+	default: false,
+};
+
 boolean.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = true;

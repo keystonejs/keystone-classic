@@ -1,7 +1,7 @@
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 import React from 'react';
-import Popout from '../../admin/client/components/Popout';
+import Popout from '../../admin/client/App/shared/Popout';
 import { FormInput } from 'elemental';
 
 let lastId = 0;
@@ -90,7 +90,7 @@ module.exports = React.createClass({
 		this.showPicker();
 	},
 	handleBlur (e) {
-		let rt = e.relatedTarget;
+		let rt = e.relatedTarget || e.nativeEvent.explicitOriginalTarget;
 		const popout = this.refs.popout.getPortalDOMNode();
 		while (rt) {
 			if (rt === popout) return;

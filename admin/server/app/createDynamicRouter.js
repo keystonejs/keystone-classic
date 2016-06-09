@@ -45,7 +45,7 @@ module.exports = function createDynamicRouter (keystone) {
 	}
 
 	// #3: Home route
-	router.get('/', require('../routes/home'));
+	router.get('/', require('../routes/index'));
 
 	// #4: Cloudinary and S3 specific APIs
 	// TODO: poor separation of concerns; should / could this happen elsewhere?
@@ -60,13 +60,16 @@ module.exports = function createDynamicRouter (keystone) {
 	}
 
 	// #5: Core Lists API
+	var initList = require('../middleware/initList')(keystone);
 
 	// Init API request helpers
 	router.use('/api', require('../middleware/apiError'));
 	router.use('/api', require('../middleware/logError'));
 
-	// Init req with list
-	var initList = require('../middleware/initList')(keystone);
+	// Legacy API endpoints
+	router.post('/api/legacy/:list/create', initList(), require('../api/list/legacyCreate'));
+	router.post('/api/legacy/:list/:id', initList(), require('../api/item/legacyUpdate'));
+
 	// lists
 	router.all('/api/counts', require('../api/counts'));
 	router.get('/api/:list', initList(), require('../api/list/get'));
@@ -84,8 +87,8 @@ module.exports = function createDynamicRouter (keystone) {
 
 	// #6: List Routes
 	router.get('/:list/:id/history', initList(true), require('../routes/history'));
-	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/list'));
-	router.all('/:list/:item', initList(true), require('../routes/item'));
+	router.all('/:list/:page([0-9]{1,5})?', initList(true), require('../routes/index'));
+	router.all('/:list/:item', initList(true), require('../routes/index'));
 
 	// TODO: catch 404s and errors with Admin-UI specific handlers
 

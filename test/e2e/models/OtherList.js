@@ -7,7 +7,11 @@ var OtherList = new keystone.List('OtherList', {
 });
 
 OtherList.add({
-	name: {type: Types.Name, required: true, index: true},
+	name: {
+		type: Types.Name, 
+		required: true, 
+		index: true
+	},
 });
 
 OtherList.defaultColumns = 'name';

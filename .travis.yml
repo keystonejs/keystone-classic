@@ -1,9 +1,12 @@
 language: node_js
 node_js:
   - "0.12"
+  - "4"
+  - "5"
+  - "6"
 
-before_install:
-  - npm install -g npm@3
+env:
+- KEYSTONE_PREBUILD_ADMIN=true
 
 before_script:
   - npm run lint
@@ -12,6 +15,7 @@ before_script:
 script:
   - npm run test-cov
   - npm run test-e2e-saucelabs
+  - npm run test-react
 
 sudo: required
 

@@ -11,7 +11,7 @@ module.exports = function NameType(config) {
 			lastNamePlaceholder: 'input[placeholder="Last name"]',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this
@@ -34,7 +34,7 @@ module.exports = function NameType(config) {
 					.setValue('@lastName', input.lastName);
 				return this;
 			},
-			verifyInput: function(input) {
+			assertInput: function(input) {
 				this
 					.getValue('@firstName', function(result) {
 						this.api.assert.equal(result.value, input.firstName);

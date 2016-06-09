@@ -20,7 +20,7 @@ function reduceValues (values) {
 module.exports = {
 	getInitialState: function () {
 		return {
-			values: this.props.value.map(newItem),
+			values: Array.isArray(this.props.value) ? this.props.value.map(newItem) : this.props.value,
 		};
 	},
 

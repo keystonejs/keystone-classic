@@ -13,9 +13,18 @@ module.exports = {
 	commands: [{
 		signin: function () {
 			return this
-				.setValue('@emailInput', 'test@test.e2e')
+				.setValue('@emailInput', 'user@test.e2e')
 				.setValue('@passwordInput', 'test')
 				.click('@submitButton');
 		},
+		assertUI: function () {
+			this
+				.expect.element('@emailInput').to.be.visible;
+			this
+				.expect.element('@emailInput').to.be.visible;
+			this
+				.expect.element('@emailInput').to.be.visible;
+			return this;
+		}
 	}],
 };

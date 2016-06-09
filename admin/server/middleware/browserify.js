@@ -1,12 +1,9 @@
-var babelify = require('babelify');
-var browserify = require('browserify');
 var chalk = require('chalk');
 var crypto = require('crypto');
 var fs = require('fs-extra');
 var moment = require('moment');
 var packages = require('../../client/packages');
 var path = require('path');
-var watchify = require('watchify');
 
 var basedir = path.resolve(__dirname + '/../../client/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
@@ -54,6 +51,9 @@ module.exports = function (file, name) {
 	function build () {
 		if (building) return;
 		building = true;
+		var babelify = require('babelify');
+		var browserify = require('browserify');
+		var watchify = require('watchify');
 		var opts = { basedir: basedir };
 		if (devMode) {
 			logInit(file);
