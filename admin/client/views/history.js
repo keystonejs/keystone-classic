@@ -2,6 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Footer from '../components/Footer';
+import MobileNavigation from '../components/Navigation/MobileNavigation';
+import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
 
 var HistoryRow = React.createClass({
 	render: function () {
@@ -45,18 +48,40 @@ var HistoryTable = React.createClass({
 
 var HistoryView = React.createClass({
 	displayName: 'HistoryView',
-
 	render: function () {
 		return (
-			<div className="container">
-				<div className="page-header">
-					<h3>{this.props.title}</h3>
-				</div>
-				<div className="row">
-					<div className="col-md-12">
-						<HistoryTable history={this.props.history}/>
+			<div className="keystone-wrapper">
+				<header className="keystone-header">
+					<MobileNavigation
+						brand={this.props.brand}
+						currentSectionKey="dashboard"
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
+						/>
+					<PrimaryNavigation
+						brand={this.props.brand}
+						currentSectionKey="dashboard"
+						sections={this.props.nav.sections}
+						signoutUrl={this.props.signoutUrl}
+						/>
+				</header>
+				<div className="keystone-body container">
+					<div className="dashboard-header">
+						<div className="dashboard-heading">{this.props.title}</div>
+					</div>
+					<div className="row">
+						<div className="col-md-12">
+							<HistoryTable history={this.props.history}/>
+						</div>
 					</div>
 				</div>
+				<Footer
+					appversion={this.props.appversion}
+					backUrl={this.props.backUrl}
+					brand={this.props.brand}
+					User={this.props.User}
+					user={this.props.user}
+					version={this.props.version} />
 			</div>
 		);
 	},
@@ -67,6 +92,18 @@ ReactDOM.render(
 	<HistoryView
 		title={Keystone.title}
 		history={Keystone.history}
+		appversion={Keystone.appversion}
+		backUrl={Keystone.backUrl}
+		brand={Keystone.brand}
+		nav={Keystone.nav}
+		navIsFlat={Keystone.nav.flat}
+		navLists={Keystone.lists}
+		navSections={Keystone.nav.sections}
+		orphanedLists={Keystone.orphanedLists}
+		signoutUrl={Keystone.signoutUrl}
+		User={Keystone.User}
+		user={Keystone.user}
+		version={Keystone.version}
 	/>,
 	document.getElementById('history-view')
 );

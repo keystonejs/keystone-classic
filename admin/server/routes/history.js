@@ -22,7 +22,6 @@ module.exports = function (req, res) {
 					var fieldName, newValue, nextOldestValue;
 					var nextOldest = result[i + 1];
 
-					// handle markdown types
 					if (item.d[field].md !== undefined && item.d[field].md !== null) {
 						fieldName = field + ' (only markdown shown)';
 						newValue = item.d[field].md;
@@ -47,10 +46,13 @@ module.exports = function (req, res) {
 		};
 
 		var renderView = function () {
-			var appName = keystone.get('name') || 'Keystone';
 			keystone.render(req, res, 'history', {
+				section: 'home',
+				page: 'home',
+				orphanedLists: keystone.getOrphanedLists(),
+				brand: keystone.get('name'),
 				history: items,
-				title: appName + ' ' + req.list.singular.toLowerCase() + ' \'' + id + '\' history',
+				title: req.list.singular.toLowerCase() + ' \'' + id + '\' history',
 			});
 		};
 
