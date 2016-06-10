@@ -17,6 +17,7 @@ function geopoint (list, path, options) {
 	options.nofilter = true;
 	geopoint.super_.call(this, list, path, options);
 }
+geopoint.properName = 'GeoPoint';
 util.inherits(geopoint, FieldType);
 
 /**

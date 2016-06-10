@@ -49,6 +49,7 @@ function cloudinaryimage (list, path, options) {
 	}
 
 }
+cloudinaryimage.properName = 'CloudinaryImage';
 
 /*!
  * Inherit from Field

@@ -16,6 +16,7 @@ function html (list, path, options) {
 	this._properties = ['wysiwyg', 'height'];
 	html.super_.call(this, list, path, options);
 }
+html.properName = 'Html';
 util.inherits(html, FieldType);
 
 

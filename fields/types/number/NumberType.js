@@ -19,6 +19,7 @@ function number (list, path, options) {
 	}
 	number.super_.call(this, list, path, options);
 }
+number.properName = 'Number';
 util.inherits(number, FieldType);
 
 number.prototype.validateInput = function (data, callback) {

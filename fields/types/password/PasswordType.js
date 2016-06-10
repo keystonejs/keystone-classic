@@ -19,6 +19,7 @@ function password (list, path, options) {
 	this.workFactor = options.workFactor || 10;
 	password.super_.call(this, list, path, options);
 }
+password.properName = 'Password';
 util.inherits(password, FieldType);
 
 /**

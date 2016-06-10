@@ -42,6 +42,7 @@ function s3file (list, path, options) {
 	}
 
 }
+s3file.properName = 'S3File';
 util.inherits(s3file, FieldType);
 
 /**

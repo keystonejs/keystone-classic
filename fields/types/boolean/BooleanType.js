@@ -14,6 +14,7 @@ function boolean (list, path, options) {
 	this.indent = (options.indent) ? true : false;
 	boolean.super_.call(this, list, path, options);
 }
+boolean.properName = 'Boolean';
 util.inherits(boolean, FieldType);
 
 boolean.prototype.defaults = {

@@ -13,6 +13,7 @@ function url (list, path, options) {
 	this._underscoreMethods = ['format'];
 	url.super_.call(this, list, path, options);
 }
+url.properName = 'Url';
 util.inherits(url, FieldType);
 
 
