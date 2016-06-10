@@ -1,6 +1,6 @@
 import React from 'react';
-import filterComponents from '../../../../../fields/filters';
 import Popout from '../../../../shared/Popout';
+import { Filters } from 'FieldTypes';
 import { Pill } from 'elemental';
 
 import { setFilter, clearFilter, clearAllFilters } from '../../actions';
@@ -41,7 +41,7 @@ const Filter = React.createClass({
 	render () {
 		const { filter } = this.props;
 		const filterId = `activeFilter__${filter.field.path}`;
-		const FilterComponent = filterComponents[filter.field.type];
+		const FilterComponent = Filters[filter.field.type];
 		return (
 			<span>
 				<Pill

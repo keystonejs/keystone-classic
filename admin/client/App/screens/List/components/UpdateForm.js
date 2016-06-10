@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
-import Fields from 'FieldTypes';
+import { Fields } from 'FieldTypes';
 import InvalidFieldType from '../../../shared/InvalidFieldType';
 import { plural } from '../../../../utils/string';
 import { BlankState, Button, Form, Modal } from 'elemental';
