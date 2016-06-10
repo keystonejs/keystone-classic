@@ -20,6 +20,7 @@ function relationship (list, path, options) {
 	this._properties = ['isValid', 'many', 'filters', 'createInline'];
 	relationship.super_.call(this, list, path, options);
 }
+relationship.properName = 'Relationship';
 util.inherits(relationship, FieldType);
 
 /**

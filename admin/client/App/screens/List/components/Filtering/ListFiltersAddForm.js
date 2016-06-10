@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import filters from '../../../../../fields/filters';
 import Popout from '../../../../shared/Popout';
+
+import { Filters } from 'FieldTypes';
 
 var ListFiltersAddForm = React.createClass({
 	propTypes: {
@@ -12,7 +13,7 @@ var ListFiltersAddForm = React.createClass({
 		onHeightChange: React.PropTypes.func,
 	},
 	getInitialState () {
-		const filterComponent = filters[this.props.field.type];
+		const filterComponent = Filters[this.props.field.type];
 		let filterValue = this.props.activeFilters.filter(i => i.field.path === this.props.field.path)[0];
 		if (filterValue) {
 			filterValue = filterValue.value;

@@ -11,10 +11,10 @@ import {
 	Row,
 	Spinner,
 } from 'elemental';
+import { Fields } from 'FieldTypes';
 
 import AlertMessages from '../../../shared/AlertMessages';
 import ConfirmationDialog from './../../../shared/ConfirmationDialog';
-import Fields from 'FieldTypes';
 
 import FormHeading from './FormHeading';
 import AltText from './AltText';

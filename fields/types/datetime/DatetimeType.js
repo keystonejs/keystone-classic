@@ -31,6 +31,7 @@ function datetime (list, path, options) {
 		tzOffset: this._path.append('_tzOffset'),
 	};
 }
+datetime.properName = 'Datetime';
 util.inherits(datetime, FieldType);
 
 /* Inherit generic methods */

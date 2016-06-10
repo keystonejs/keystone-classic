@@ -10,13 +10,27 @@ var browserify = require('../middleware/browserify');
 var express = require('express');
 var less = require('less-middleware');
 var path = require('path');
+var str = require('string-to-stream');
+
+function buildFieldTypesStream (fieldTypes) {
+	var src = '';
+	var types = Object.keys(fieldTypes);
+	['Column', 'Field', 'Filter'].forEach(function (i) {
+		src += 'exports.' + i + 's = {\n';
+		types.forEach(function (type) {
+			src += type + ': require("../../fields/types/' + type + '/' + fieldTypes[type] + i + '"),\n';
+		});
+		src += '};\n';
+	});
+	return str(src);
+}
 
 module.exports = function createStaticRouter (keystone) {
 	var router = express.Router();
 
 	/* Prepare browserify bundles */
 	var bundles = {
-		fields: browserify('fields.js', 'FieldTypes'),
+		fields: browserify(buildFieldTypesStream(keystone.fieldTypes), 'FieldTypes'),
 		signin: browserify('Signin/index.js'),
 		index: browserify('index.js'),
 		home: browserify('views/home.js'),

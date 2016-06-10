@@ -20,6 +20,7 @@ function numberarray (list, path, options) {
 	this.separator = options.separator || ' | ';
 	numberarray.super_.call(this, list, path, options);
 }
+numberarray.properName = 'NumberArray';
 util.inherits(numberarray, FieldType);
 
 /**

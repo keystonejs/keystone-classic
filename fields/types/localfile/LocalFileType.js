@@ -39,6 +39,7 @@ function localfile (list, path, options) {
 	}
 
 }
+localfile.properName = 'LocalFile';
 util.inherits(localfile, FieldType);
 
 /**

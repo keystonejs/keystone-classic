@@ -23,6 +23,7 @@ function datearray (list, path, options) {
 	this.separator = options.separator || ' | ';
 	datearray.super_.call(this, list, path, options);
 }
+datearray.properName = 'DateArray';
 util.inherits(datearray, FieldType);
 
 /**

@@ -1,5 +1,5 @@
 import React from 'react';
-import Columns from '../../../../fields/columns';
+import { Columns } from 'FieldTypes';
 import { Alert, Spinner } from 'elemental';
 
 const RelatedItemsList = React.createClass({

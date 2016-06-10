@@ -45,6 +45,7 @@ function embedly (list, path, options) {
 
 	embedly.super_.call(this, list, path, options);
 }
+embedly.properName = 'Embedly';
 util.inherits(embedly, FieldType);
 
 /**

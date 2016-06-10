@@ -49,6 +49,7 @@ function localfiles (list, path, options) {
 		this.post('move', options.post.move);
 	}
 }
+localfiles.properName = 'LocalFiles';
 util.inherits(localfiles, FieldType);
 
 /**

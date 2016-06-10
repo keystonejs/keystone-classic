@@ -42,6 +42,7 @@ function location (list, path, options) {
 
 	location.super_.call(this, list, path, options);
 }
+location.properName = 'Location';
 util.inherits(location, FieldType);
 
 /**

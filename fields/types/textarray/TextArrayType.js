@@ -14,6 +14,7 @@ function textarray (list, path, options) {
 	this.separator = options.separator || ' | ';
 	textarray.super_.call(this, list, path, options);
 }
+textarray.properName = 'TextArray';
 util.inherits(textarray, FieldType);
 
 /**

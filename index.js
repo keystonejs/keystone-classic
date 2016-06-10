@@ -26,6 +26,7 @@ var moduleRoot = (function (_rootPath) {
 var Keystone = function () {
 	grappling.mixin(this).allowHooks('pre:static', 'pre:bodyparser', 'pre:session', 'pre:routes', 'pre:render', 'updates', 'signout', 'signin', 'pre:logger');
 	this.lists = {};
+	this.fieldTypes = {};
 	this.paths = {};
 	this._options = {
 		'name': 'Keystone',

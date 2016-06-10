@@ -20,6 +20,7 @@ function markdown (list, path, options) {
 	this._properties = ['wysiwyg', 'height', 'toolbarOptions'];
 	markdown.super_.call(this, list, path, options);
 }
+markdown.properName = 'Markdown';
 util.inherits(markdown, FieldType);
 
 

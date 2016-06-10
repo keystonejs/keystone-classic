@@ -15,6 +15,7 @@ function email (list, path, options) {
 	this.typeDescription = 'email address';
 	email.super_.call(this, list, path, options);
 }
+email.properName = 'Email';
 util.inherits(email, FieldType);
 
 /* Inherit from TextType prototype */
