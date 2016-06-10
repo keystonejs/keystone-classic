@@ -159,7 +159,9 @@ cloudinaryimage.prototype.addToSchema = function () {
 
 		options.version = item.get(paths.version);
 
-		return cloudinary.url(item.get(paths.public_id) + '.' + item.get(paths.format), options);
+		options.format = options.format || item.get(paths.format);
+
+		return cloudinary.url(item.get(paths.public_id), options);
 
 	};
 
