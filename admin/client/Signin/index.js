@@ -7,10 +7,10 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SigninView from './SigninView';
+import Signin from './Signin';
 
 ReactDOM.render(
-	<SigninView
+	<Signin
 		brand={Keystone.brand}
 		from={Keystone.from}
 		logo={Keystone.logo}

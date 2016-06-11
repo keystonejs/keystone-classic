@@ -9,7 +9,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 
-import App from './App';
+import App from './App/App';
 import Home from './App/screens/Home';
 import Item from './App/screens/Item';
 import List from './App/screens/List';
