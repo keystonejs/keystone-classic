@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var assign = require('object-assign');
 var async = require('async');
+var FieldType = require('../Type');
 var keystone = require('../../../');
 var super_ = require('../Type');
 var util = require('util');
@@ -26,8 +27,6 @@ function truthy (value) {
 
 /**
  * CloudinaryImages FieldType Constructor
- * @extends Field
- * @api public
  */
 function cloudinaryimages (list, path, options) {
 
@@ -37,11 +36,6 @@ function cloudinaryimages (list, path, options) {
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
-	// TODO: implement initial form, usage disabled for now
-	if (options.initial) {
-		throw new Error('Invalid Configuration\n\n'
-			+ 'CloudinaryImages fields (' + list.key + '.' + path + ') do not currently support being used as initial fields.\n');
-	}
 
 	cloudinaryimages.super_.call(this, list, path, options);
 
