@@ -32,7 +32,7 @@ module.exports = function createStaticRouter (keystone) {
 	var bundles = {
 		fields: browserify(buildFieldTypesStream(keystone.fieldTypes), 'FieldTypes'),
 		signin: browserify('./Signin/index.js'),
-		index: browserify('./index.js'),
+		admin: browserify('./App/index.js'),
 	};
 
 	// prebuild static resources on the next tick in keystone dev mode; this
@@ -40,7 +40,7 @@ module.exports = function createStaticRouter (keystone) {
 	if (process.env.KEYSTONE_DEV === 'true' || process.env.KEYSTONE_PREBUILD_ADMIN) {
 		bundles.fields.build();
 		bundles.signin.build();
-		bundles.index.build();
+		bundles.admin.build();
 	}
 
 	/* Prepare LESS options */
@@ -64,7 +64,7 @@ module.exports = function createStaticRouter (keystone) {
 	router.use('/styles/fonts', express.static(path.resolve(__dirname + '/../../public/js/lib/tinymce/skins/keystone/fonts')));
 	router.get('/js/fields.js', bundles.fields.serve);
 	router.get('/js/signin.js', bundles.signin.serve);
-	router.get('/js/index.js', bundles.index.serve);
+	router.get('/js/admin.js', bundles.admin.serve);
 	router.use(express.static(path.resolve(__dirname + '/../../public')));
 
 	return router;
