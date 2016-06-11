@@ -29,7 +29,6 @@ function truthy (value) {
  * CloudinaryImages FieldType Constructor
  */
 function cloudinaryimages (list, path, options) {
-
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
 	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
@@ -45,14 +44,9 @@ function cloudinaryimages (list, path, options) {
 			+ 'CloudinaryImages fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
 			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n');
 	}
-
 }
 cloudinaryimages.properName = 'CloudinaryImage';
-
-/*!
- * Inherit from Field
- */
-util.inherits(cloudinaryimages, super_);
+util.inherits(cloudinaryimages, FieldType);
 
 /**
  * Gets the folder for images in this field
@@ -76,8 +70,6 @@ cloudinaryimages.prototype.getFolder = function () {
 
 /**
  * Registers the field on the List's Mongoose Schema.
- *
- * @api public
  */
 cloudinaryimages.prototype.addToSchema = function () {
 
@@ -147,43 +139,33 @@ cloudinaryimages.prototype.addToSchema = function () {
 		}
 		return options;
 	};
-
 	ImageSchema.method('src', function (options) {
 		return src(this, options);
 	});
-
 	ImageSchema.method('scale', function (width, height, options) {
 		return src(this, addSize({ crop: 'scale' }, width, height, options));
 	});
-
 	ImageSchema.method('fill', function (width, height, options) {
 		return src(this, addSize({ crop: 'fill', gravity: 'faces' }, width, height, options));
 	});
-
 	ImageSchema.method('lfill', function (width, height, options) {
 		return src(this, addSize({ crop: 'lfill', gravity: 'faces' }, width, height, options));
 	});
-
 	ImageSchema.method('fit', function (width, height, options) {
 		return src(this, addSize({ crop: 'fit' }, width, height, options));
 	});
-
 	ImageSchema.method('limit', function (width, height, options) {
 		return src(this, addSize({ crop: 'limit' }, width, height, options));
 	});
-
 	ImageSchema.method('pad', function (width, height, options) {
 		return src(this, addSize({ crop: 'pad' }, width, height, options));
 	});
-
 	ImageSchema.method('lpad', function (width, height, options) {
 		return src(this, addSize({ crop: 'lpad' }, width, height, options));
 	});
-
 	ImageSchema.method('crop', function (width, height, options) {
 		return src(this, addSize({ crop: 'crop', gravity: 'faces' }, width, height, options));
 	});
-
 	ImageSchema.method('thumbnail', function (width, height, options) {
 		return src(this, addSize({ crop: 'thumb', gravity: 'faces' }, width, height, options));
 	});
@@ -210,22 +192,17 @@ cloudinaryimages.prototype.addToSchema = function () {
 			item.save((typeof callback !== 'function') ? callback : undefined);
 		}
 	};
-
 	this.underscoreMethod('remove', function (id, callback) {
 		field.removeImage(this, id, 'remove', callback);
 	});
-
 	this.underscoreMethod('delete', function (id, callback) {
 		field.removeImage(this, id, 'delete', callback);
 	});
-
 	this.bindUnderscoreMethods();
 };
 
 /**
  * Formats the field value
- *
- * @api public
  */
 cloudinaryimages.prototype.format = function (item) {
 	return _.map(item.get(this.path), function (img) {
@@ -245,8 +222,6 @@ cloudinaryimages.prototype.inputIsValid = function (data) { // eslint-disable-li
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
 cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 
@@ -349,8 +324,6 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
  * Expected form parts are
  * - `field.paths.action` in `req.body` in syntax `delete:public_id,public_id|remove:public_id,public_id`
  * - `field.paths.upload` in `req.files` (uploads the images to cloudinary)
- *
- * @api public
  */
 cloudinaryimages.prototype.getRequestHandler = function (item, req, paths, callback) {
 
@@ -459,8 +432,6 @@ cloudinaryimages.prototype.getRequestHandler = function (item, req, paths, callb
 
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- *
- * @api public
  */
 cloudinaryimages.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
