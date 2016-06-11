@@ -142,7 +142,8 @@ cloudinaryimages.prototype.addToSchema = function () {
 			options = options || {};
 			options.secure = true;
 		}
-		return img.public_id ? cloudinary.url(img.public_id + '.' + img.format, options) : '';
+		options.format = options.format || img.format;
+		return img.public_id ? cloudinary.url(img.public_id, options) : '';
 	};
 
 	var addSize = function (options, width, height, other) {
