@@ -38,11 +38,9 @@ module.exports = function createStaticRouter (keystone) {
 	// prebuild static resources on the next tick in keystone dev mode; this
 	// improves first-request performance but delays server start
 	if (process.env.KEYSTONE_DEV === 'true' || process.env.KEYSTONE_PREBUILD_ADMIN) {
-		process.nextTick(function () {
-			bundles.fields.build();
-			bundles.signin.build();
-			bundles.index.build();
-		});
+		bundles.fields.build();
+		bundles.signin.build();
+		bundles.index.build();
 	}
 
 	/* Prepare LESS options */
