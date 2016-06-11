@@ -3,7 +3,6 @@ var assign = require('object-assign');
 var async = require('async');
 var FieldType = require('../Type');
 var keystone = require('../../../');
-var super_ = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
@@ -45,7 +44,7 @@ function cloudinaryimages (list, path, options) {
 			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n');
 	}
 }
-cloudinaryimages.properName = 'CloudinaryImage';
+cloudinaryimages.properName = 'CloudinaryImages';
 util.inherits(cloudinaryimages, FieldType);
 
 /**
