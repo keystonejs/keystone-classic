@@ -1,5 +1,5 @@
-import remove from 'lodash/remove';
-import map from 'lodash/map';
+import { remove, map } from 'lodash';
+
 import {
 	ADD_FILTER,
 	CLEAR_FILTER,
