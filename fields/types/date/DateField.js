@@ -12,13 +12,13 @@ module.exports = Field.create({
 
 	getInitialState: function() {
 		return {
-			value: this.props.value ? this.moment(this.props.value).format(this.props.formatString) : ''
+			value: this.props.value ? this.moment(this.props.value).format(this.props.dateFormat) : ''
 		};
 	},
 
 	getDefaultProps: function() {
 		return {
-			formatString: 'YYYY-MM-DD'
+			dateFormat: 'YYYY-MM-DD'
 		};
 	},
 
@@ -30,12 +30,12 @@ module.exports = Field.create({
 
 	// TODO: Move isValid() so we can share with server-side code
 	isValid: function(value) {
-		return moment(value, this.inputFormat).isValid();
+		return moment(value, this.props.dateFormat).isValid();
 	},
 
 	// TODO: Move format() so we can share with server-side code
 	format: function(dateValue, format) {
-		format = format || this.inputFormat;
+		format = format || this.props.dateFormat;
 		return dateValue ? this.moment(this.props.dateValue).format(format) : '';
 	},
 
@@ -48,7 +48,7 @@ module.exports = Field.create({
 	},
 
 	setToday: function() {
-		this.setDate(moment().format(this.props.formatString));
+		this.setDate(moment().format(this.props.dateFormat));
 	},
 
 	valueChanged: function(value) {
@@ -63,14 +63,14 @@ module.exports = Field.create({
 		if (this.shouldRenderField()) {
 			input = (
 				<div className={fieldClassName}>
-					<DateInput ref="dateInput" name={this.props.path} format={this.props.formatString} value={this.state.value} placeholder={this.props.placeholder} onChange={this.valueChanged} yearRange={this.props.yearRange} />
+					<DateInput ref="dateInput" name={this.props.path} format={this.props.dateFormat} value={this.state.value} placeholder={this.props.datePlaceholder} onChange={this.valueChanged} yearRange={this.props.yearRange} />
 					<button type="button" className="btn btn-default btn-set-today" onClick={this.setToday}>Today</button>
 				</div>
 			);
 		} else {
 			input = (
 				<div className={fieldClassName}>
-					<div className="field-value">{this.format(this.props.value, this.props.formatString)}</div>
+					<div className="field-value">{this.format(this.props.value, this.props.dateFormat)}</div>
 				</div>
 			);
 		}
