@@ -84,6 +84,11 @@ module.exports = {
 				'fieldB': {date1: '2016-01-03', date2: '2016-01-04'}
 			}
 		});
+		// Drop focus on the date field so the popup disappears. 
+		browser.execute(function() {
+			document.activeElement.blur();
+		});
+
 		browser.itemPage.save();
 		browser.app.waitForItemScreen();
 		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
