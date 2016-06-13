@@ -180,6 +180,24 @@ module.exports = Field.create({
 	},
 
 	/**
+	 * Apply Cloudinary transforms to url
+	 */
+	applyTranforms (url) {
+		var format = this.props.value.format;
+
+		if (format === 'pdf') {
+			// support cloudinary pdf previews in jpg format
+			url = url.substr(0, url.lastIndexOf('.')) + '.jpg';
+			url = url.replace(/image\/upload/, 'image/upload/c_thumb,h_90,w_90');
+		} else {
+			// add cloudinary thumbnail parameters to the url
+			url = url.replace(/image\/upload/, 'image/upload/c_thumb,g_face,h_90,w_90');
+		}
+
+		return url;
+	},
+
+	/**
 	 * Render an image preview
 	 */
 	renderImagePreview () {
@@ -198,8 +216,11 @@ module.exports = Field.create({
 		if (iconClassName) body.push(<div key={this.props.path + '_preview_icon'} className={iconClassName} />);
 
 		var url = this.getImageURL();
+		var format = this.props.value.format;
 
-		if (url) {
+		if (format === 'pdf') {
+			body = <a className="img-thumbnail" href={this.getImageURL()} target="__blank">{body}</a>;
+		} else if (url) {
 			body = <a className="img-thumbnail" href={this.getImageURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</a>;
 		} else {
 			body = <div className="img-thumbnail">{body}</div>;
@@ -212,8 +233,7 @@ module.exports = Field.create({
 		var url = this.getImageURL();
 
 		if (url) {
-			// add cloudinary thumbnail parameters to the url
-			url = url.replace(/image\/upload/, 'image/upload/c_thumb,g_face,h_90,w_90');
+			url = this.applyTranforms(url);
 		} else {
 			url = this.getImageSource();
 		}
