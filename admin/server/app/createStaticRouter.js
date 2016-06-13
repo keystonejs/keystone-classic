@@ -18,6 +18,7 @@ function buildFieldTypesStream (fieldTypes) {
 	['Column', 'Field', 'Filter'].forEach(function (i) {
 		src += 'exports.' + i + 's = {\n';
 		types.forEach(function (type) {
+			if (typeof fieldTypes[type] !== 'string') return;
 			src += type + ': require("../../fields/types/' + type + '/' + fieldTypes[type] + i + '"),\n';
 		});
 		src += '};\n';
