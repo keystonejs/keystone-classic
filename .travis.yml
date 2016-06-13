@@ -1,43 +1,35 @@
 language: node_js
 node_js:
-  - "0.12"
-  - "4"
-  - "5"
-  - "6"
-
+- '0.12'
+- '4'
+- '5'
+- '6'
 env:
 - KEYSTONE_PREBUILD_ADMIN=true
-
 before_script:
-  - npm run lint
-  - sleep 15
-
+- npm run lint
+- sleep 15
 script:
-  - npm run test-cov
-  - npm run test-e2e-saucelabs
-  - npm run test-react
-
+- npm run test-cov
+- npm run test-e2e-saucelabs
+- npm run test-react
 sudo: required
-
 notifications:
   email:
-    - jed@keystonejs.com
-
+  - jed@keystonejs.com
+  slack:
+    secure: AqayzYjoHTlwE85pgB0h5yqpyBDWbdrpiXKXhb8tSqWPKi6unhkfZ4r11kQRowoDQXb+fue9367u+lJ9lKBfMv+SSFnKY+OccasfrW6JwJ8Wi258aB7bjcSP9kUtUfvbbvPSwQjY6Z8+9TlMxP6kyabeZ69SGnhnaJNt+vbAJzc=
 services:
-  - mongodb
-
+- mongodb
 git:
-  depth:
-    10
-
+  depth: 10
 cache:
   directories:
-    - node_modules
-
+  - node_modules
 addons:
   apt:
     sources:
-      - mongodb-3.2-precise
+    - mongodb-3.2-precise
     packages:
-      - mongodb-org-server
+    - mongodb-org-server
   sauce_connect: true
