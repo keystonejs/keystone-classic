@@ -1,63 +1,33 @@
 /**
- * The App component is the component that is rendered around all views, and
- * contains common things like navigation, footer, etc.
+ * This is the main entry file, which we compile the main JS bundle from. It
+ * only contains the client side routing setup.
  */
 
 import React from 'react';
-import { listsByPath } from '../utils/lists';
+import ReactDOM from 'react-dom';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { Provider } from 'react-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 
-import MobileNavigation from './components/Navigation/Mobile';
-import PrimaryNavigation from './components/Navigation/Primary';
-import SecondaryNavigation from './components/Navigation/Secondary';
-import Footer from './components/Footer';
+import App from './App';
+import Home from './screens/Home';
+import Item from './screens/Item';
+import List from './screens/List';
 
-const App = (props) => {
-	// If we're on either a list or an item view
-	let currentList, currentSection;
-	if (props.params.listId) {
-		currentList = listsByPath[props.params.listId];
-		// Get the current section we're in for the navigation
-		currentSection = Keystone.nav.by.list[currentList.key];
-	}
-	// Default current section key to dashboard
-	const currentSectionKey = (currentSection && currentSection.key) || 'dashboard';
-	return (
-		<div className="keystone-wrapper">
-			<header className="keystone-header">
-				<MobileNavigation
-					brand={Keystone.brand}
-					currentListKey={props.params.listId}
-					currentSectionKey={currentSectionKey}
-					sections={Keystone.nav.sections}
-					signoutUrl={Keystone.signoutUrl}
-				/>
-				<PrimaryNavigation
-					currentSectionKey={currentSectionKey}
-					brand={Keystone.brand}
-					sections={Keystone.nav.sections}
-					signoutUrl={Keystone.signoutUrl}
-				/>
-				{/* If a section is open currently, show the secondary nav */}
-				{(currentSection) ? (
-					<SecondaryNavigation
-						currentListKey={props.params.listId}
-						lists={currentSection.lists}
-					/>
-				) : null}
-			</header>
-			<div className="keystone-body">
-				{props.children}
-			</div>
-			<Footer
-				appversion={Keystone.appversion}
-				backUrl={Keystone.backUrl}
-				brand={Keystone.brand}
-				User={Keystone.User}
-				user={Keystone.user}
-				version={Keystone.version}
-			/>
-		</div>
-	);
-};
+import store from './store';
 
-module.exports = App;
+// Sync the browser history to the Redux store
+const history = syncHistoryWithStore(browserHistory, store);
+
+ReactDOM.render(
+	<Provider store={store}>
+		<Router history={history}>
+			<Route path={Keystone.adminPath} component={App}>
+				<IndexRoute component={Home} />
+				<Route path=":listId" component={List} />
+				<Route path=":listId/:itemId" component={Item} />
+			</Route>
+		</Router>
+	</Provider>,
+	document.getElementById('react-root')
+);

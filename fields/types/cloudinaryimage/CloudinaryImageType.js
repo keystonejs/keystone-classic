@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var assign = require('object-assign');
+var FieldType = require('../Type');
 var keystone = require('../../../');
-var super_ = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
@@ -29,7 +29,6 @@ function getEmptyValue () {
  * @api public
  */
 function cloudinaryimage (list, path, options) {
-
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
 	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
@@ -38,7 +37,6 @@ function cloudinaryimage (list, path, options) {
 	options.nofilter = true;
 
 	cloudinaryimage.super_.call(this, list, path, options);
-
 	// validate cloudinary config
 	if (!keystone.get('cloudinary config')) {
 		throw new Error(
@@ -47,22 +45,15 @@ function cloudinaryimage (list, path, options) {
 			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
 		);
 	}
-
 }
 cloudinaryimage.properName = 'CloudinaryImage';
-
-/*!
- * Inherit from Field
- */
-
-util.inherits(cloudinaryimage, super_);
+util.inherits(cloudinaryimage, FieldType);
 
 /**
  * Gets the folder for images in this field
  */
 cloudinaryimage.prototype.getFolder = function () {
 	var folder = null;
-
 	if (keystone.get('cloudinary folders') || this.options.folder) {
 		if (typeof this.options.folder === 'string') {
 			folder = this.options.folder;
@@ -73,14 +64,11 @@ cloudinaryimage.prototype.getFolder = function () {
 			folder = folderList.join('/');
 		}
 	}
-
 	return folder;
 };
 
 /**
  * Registers the field on the List's Mongoose Schema.
- *
- * @api public
  */
 cloudinaryimage.prototype.addToSchema = function () {
 
@@ -138,29 +126,23 @@ cloudinaryimage.prototype.addToSchema = function () {
 	});
 
 	var src = function (item, options) {
-
 		if (!exists(item)) {
 			return '';
 		}
-
 		options = (typeof options === 'object') ? options : {};
-
 		if (!('fetch_format' in options) && keystone.get('cloudinary webp') !== false) {
 			options.fetch_format = 'auto';
 		}
-
 		if (!('progressive' in options) && keystone.get('cloudinary progressive') !== false) {
 			options.progressive = true;
 		}
-
 		if (!('secure' in options) && keystone.get('cloudinary secure')) {
 			options.secure = true;
 		}
-
 		options.version = item.get(paths.version);
+		options.format = options.format || item.get(paths.format);
 
-		return cloudinary.url(item.get(paths.public_id) + '.' + item.get(paths.format), options);
-
+		return cloudinary.url(item.get(paths.public_id), options);
 	};
 
 	var reset = function (item) {
@@ -268,8 +250,6 @@ cloudinaryimage.prototype.addToSchema = function () {
 
 /**
  * Formats the field value
- *
- * @api public
  */
 cloudinaryimage.prototype.format = function (item) {
 	return item.get(this.paths.url);
@@ -277,8 +257,6 @@ cloudinaryimage.prototype.format = function (item) {
 
 /**
  * Detects whether the field has been modified
- *
- * @api public
  */
 cloudinaryimage.prototype.isModified = function (item) {
 	return item.isModified(this.paths.public_id);
@@ -325,8 +303,6 @@ cloudinaryimage.prototype.inputIsValid = function () {
 
 /**
  * Updates the value for this field in the item from a data object
- *
- * @api public
  */
 cloudinaryimage.prototype.updateItem = function (item, data, callback) {
 
@@ -411,28 +387,22 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
 
 	var cloudinary = require('cloudinary');
 	var field = this;
-
 	if (utils.isFunction(paths)) {
 		callback = paths;
 		paths = field.paths;
 	} else if (!paths) {
 		paths = field.paths;
 	}
-
 	callback = callback || function () {};
 
 	return function () {
-
 		if (req.body) {
 			var action = req.body[paths.action];
-
 			if (/^(delete|reset)$/.test(action)) {
 				field.apply(item, action);
 			}
 		}
-
 		if (req.body && req.body[paths.select]) {
-
 			cloudinary.api.resource(req.body[paths.select], function (result) {
 				if (result.error) {
 					callback(result.error);
@@ -441,32 +411,24 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
 					callback();
 				}
 			});
-
 		} else if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
-
 			var tp = keystone.get('cloudinary prefix') || '';
 			var imageDelete;
-
 			if (tp.length) {
 				tp += '_';
 			}
-
 			var uploadOptions = {
 				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id],
 			};
-
 			if (keystone.get('cloudinary folders')) {
 				uploadOptions.folder = item.get(paths.folder);
 			}
-
 			if (keystone.get('cloudinary prefix')) {
 				uploadOptions.tags.push(keystone.get('cloudinary prefix'));
 			}
-
 			if (keystone.get('env') !== 'production') {
 				uploadOptions.tags.push(tp + 'dev');
 			}
-
 			if (field.options.publicID) {
 				var publicIdValue = item.get(field.options.publicID);
 				if (publicIdValue) {
@@ -505,25 +467,18 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
 					}
 				});
 			}
-
 		} else {
 			callback();
 		}
-
 	};
-
 };
 
 /**
  * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- *
- * @api public
  */
 cloudinaryimage.prototype.handleRequest = function (item, req, paths, callback) {
 	this.getRequestHandler(item, req, paths, callback)();
 };
 
-/*!
- * Export class
- */
+/* Export Field Type */
 module.exports = cloudinaryimage;

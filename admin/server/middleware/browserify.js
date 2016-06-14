@@ -33,12 +33,14 @@ module.exports = function (file, name) {
 	var ready;
 	var src;
 	var logName = typeof file === 'string' ? file.replace(/^\.\//, '') : name;
+	var fileName = logName;
+	if (fileName.substr(-3) !== '.js') fileName += '.js';
 	function writeBundle (buff) {
 		if (devWriteBundles) {
-			fs.outputFile(path.resolve(path.join(__dirname, '../../bundles/js', file)), buff, 'utf8');
+			fs.outputFile(path.resolve(path.join(__dirname, '../../bundles/js', fileName)), buff, 'utf8');
 		}
 		if (devWriteDisc) {
-			var discFile = file.replace('.js', '.html');
+			var discFile = fileName.replace('.js', '.html');
 			require('disc').bundle(buff, function (err, html) {
 				if (err) {
 					logError(discFile, err);

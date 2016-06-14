@@ -2,9 +2,8 @@
  * A few helper methods for strings
  */
 
-var inflect = require('i');
-var size = require('lodash/size');
-var compact = require('lodash/compact');
+import inflect from 'i';
+import { compact, size } from 'lodash';
 
 /**
  * Displays the singular or plural of a string based on a number
