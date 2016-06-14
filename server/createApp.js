@@ -58,7 +58,18 @@ module.exports = function createApp (keystone, express) {
 
 	// Log dynamic requests
 	if (keystone.get('logger')) {
-		app.use(morgan(keystone.get('logger'), keystone.get('logger options')));
+		// custome logger option
+		var loggerOptions = keystone.get('logger options');
+		var hasOwnProperty = Object.prototype.hasOwnProperty;
+		if (loggerOptions && typeof loggerOptions.tokens === 'object') {
+			for (var key in loggerOptions.tokens) {
+				if (hasOwnProperty.call(loggerOptions.tokens, key) && typeof loggerOptions.tokens[key] === 'function') {
+					morgan.token(key, loggerOptions.tokens[key]);
+				}
+			}
+		}
+
+		app.use(morgan(keystone.get('logger'), loggerOptions));
 	}
 
 	// If the user wants to define their own middleware for logging,
