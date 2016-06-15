@@ -13,16 +13,7 @@ module.exports = {
 		browser.app
 			.expect.element('@signinScreen').to.be.visible;
 	},
-	'Signin page should have an email field': function (browser) {
-		browser.signinPage
-			.expect.element('@emailInput').to.be.visible;
-	},
-	'Signin page should have an password field': function (browser) {
-		browser.signinPage
-			.expect.element('@passwordInput').to.be.visible;
-	},
-	'Signin page should have a submit button': function (browser) {
-		browser.signinPage
-			.expect.element('@submitButton').to.be.visible;
+	'Signin page should show correctly': function (browser) {
+		browser.signinPage.assertUI();
 	},
 };

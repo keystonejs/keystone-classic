@@ -9,7 +9,7 @@ module.exports = function CodeType(config) {
 			codeMirror: '.CodeMirror-container',
 		},
 		commands: [{
-			verifyUI: function() {
+			assertUI: function() {
 				this
 					.expect.element('@label').to.be.visible;
 				this
@@ -28,16 +28,16 @@ module.exports = function CodeType(config) {
 						var x = document.querySelector(selector);
 						var y = x.getElementsByClassName('CodeMirror')[0];
 						y.CodeMirror.setValue(input.value);
-					}, [self.elements.codeMirror, input]);
+					}, [self.selector, input]);
 				return this;
 			},
-			verifyInput: function(input) {
+			assertInput: function(input) {
 				this.api
 					.execute(function (selector) {
 						 var x = document.querySelector(selector);
 						 var y = x.getElementsByClassName('CodeMirror')[0];
 						 return y.CodeMirror.getValue();
-					}, [self.elements.codeMirror], function (result) {
+					}, [self.selector], function (result) {
 						this.assert.equal(result.value, input.value);
 					});
 				return this;

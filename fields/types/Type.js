@@ -48,7 +48,7 @@ function Field (list, path, options) {
 	this.path = path;
 
 	this.type = this.constructor.name;
-	this.options = utils.options(this.defaults, options);
+	this.options = _.defaults({}, options, this.defaults);
 	this.label = options.label || utils.keyToLabel(this.path);
 	this.typeDescription = options.typeDescription || this.typeDescription || this.type;
 
@@ -141,7 +141,7 @@ Field.prototype.getSize = function () {
  * Gets default value for the field, based on the option or default for the type
  */
 Field.prototype.getDefaultValue = function () {
-	return this.options.default || '';
+	return typeof this.options.default !== 'undefined' ? this.options.default : '';
 };
 
 /**

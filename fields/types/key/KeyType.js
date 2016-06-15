@@ -14,6 +14,7 @@ function key (list, path, options) {
 	this.separator = options.separator || '-';
 	key.super_.call(this, list, path, options);
 }
+key.properName = 'Key';
 util.inherits(key, FieldType);
 
 /* Inherit from TextType prototype */

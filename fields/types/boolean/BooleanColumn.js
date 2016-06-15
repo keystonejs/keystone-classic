@@ -1,7 +1,7 @@
 import React from 'react';
 import Checkbox from '../../components/Checkbox';
-import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var BooleanColumn = React.createClass({
 	displayName: 'BooleanColumn',
