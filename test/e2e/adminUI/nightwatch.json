@@ -33,7 +33,11 @@
         "browserName": "firefox",
         "javascriptEnabled": true,
         "acceptSslCerts": true
-      }
+      },
+			"exclude": [
+        "test/e2e/adminUI/tests/group005Fields/commonFieldTestUtils.js",
+        "test/e2e/adminUI/tests/group999FixMe/*"
+      ]
     },
     "saucelabs-travis": {
       "selenium_host": "ondemand.saucelabs.com",
@@ -83,6 +87,46 @@
         "browserName": "chrome",
         "javascriptEnabled": true,
         "acceptSslCerts": true
+      }
+    },
+    "chrome-win32": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/win32/chromedriver.exe"
+      }
+    },
+    "chrome-mac32": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/mac32/chromedriver"
+      }
+    },
+    "chrome-linux64": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/linux64/chromedriver"
+      }
+    },
+    "chrome-linux32": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/linux32/chromedriver"
       }
     }
   }

@@ -20,6 +20,7 @@ function relationship (list, path, options) {
 	this._properties = ['isValid', 'many', 'filters', 'createInline'];
 	relationship.super_.call(this, list, path, options);
 }
+relationship.properName = 'Relationship';
 util.inherits(relationship, FieldType);
 
 /**
@@ -141,7 +142,7 @@ relationship.prototype.format = function (item) {
 relationship.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = false;
-	if (value === undefined) {
+	if (value === undefined || value === null || value === '') {
 		result = true;
 	} else {
 		if (this.many) {
@@ -213,11 +214,9 @@ relationship.prototype.inputIsValid = function (data, required, item) {
  * Updates the value for this field in the item from a data object.
  * Only updates the value if it has changed.
  * Treats an empty string as a null value.
+ * If data object does not contain the path field, then delete the field.
  */
 relationship.prototype.updateItem = function (item, data, callback) {
-	if (!(this.path in data)) {
-		return process.nextTick(callback);
-	}
 	if (item.populated(this.path)) {
 		throw new Error('fieldTypes.relationship.updateItem() Error - You cannot update populated relationships.');
 	}

@@ -13,6 +13,7 @@ function text (list, path, options) {
 	this._underscoreMethods = ['crop'];
 	text.super_.call(this, list, path, options);
 }
+text.properName = 'Text';
 util.inherits(text, FieldType);
 
 text.prototype.validateInput = function (data, callback) {

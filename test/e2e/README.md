@@ -18,7 +18,6 @@ with a real keystone app server.
 
         adminUI                                 => adminUI e2e test suite
             nightwatch.json                     => nightwatch config
-            adminUI.js                          => adminUI test configuration (e.g., selectors, etc.)
             pages
                 ...                             => page objects representing an AdminUI screen/page
             tests
@@ -29,6 +28,9 @@ with a real keystone app server.
         bin                                     => any required e2e binaries
            selenium-server-standalone-x.y.z.jar => selenium driver for local testing
 
+        drivers
+            <browser drivers>                   => all required browser drivers
+            
         updates                                 => all schema update/migration files
            0.0.1-updates-e2e.js                 => keystone updates
 
@@ -45,23 +47,46 @@ update the test suite so that any broken tests pass again.  You can run any of t
 from keystone's root directory:
 
     Pre-requisites:
+        - Make sure that you have Firefox(or Chrome) installed.  Firefox is the default browser used.
+          Using Chrome requires specifying a different --env parameter (see below).  For any tests below
+          you may replace the "--env default" parameter with one of the following:
+          
+            --env chrome, if you are on a linux 64-bit system
+            --env chrome-linux32, if you are on a linux 32-bit system
+            --env chrome-mac32, if you are on a mac system
+            --env chrome-win32, if you are on a windows system
+            
         - Make sure that you have a local mongo instance running.
         - Make sure that port 3000 is available; if not please tell the e2e server what port it
           should bind to.  For example, to use port 9999 do the following (in a bash shell):
 
             export KEYSTONEJS_PORT=9999
 
-    Running in your local environment:
+    Running in your local environment using all defaults (good to do before doing a commit):
 
         npm run test-e2e
+        
+    If the above npm run command does not work for you then there are some issues with selenium and some platforms.
+    Try the following instead:
+    
+        npm run test-e2e-bg
 
-    Running a single group in your local environment:
+    If you are in active development and just want to run a single group in your local environment:
 
         node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json --group test/e2e/adminUI/tests/<group>
+        
+        or, if the above doesn't work in your platform try: 
+        
+        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --group test/e2e/adminUI/tests/<group> 
 
     Running a single test in your local environment:
 
         node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json --test test/e2e/adminUI/tests/<group>/<test>
+        
+        or, if the above doesn't work in your platform try: 
+        
+        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --test test/e2e/adminUI/tests/<group>/<test> 
+        
 
     Travis builds will run:
 
@@ -70,6 +95,11 @@ from keystone's root directory:
     If you want to run the e2e keystone test app server standalone then run as follows:
 
         export KEYSTONEJS_PORT=9999 && node test/e2e/server.js --notest
+
+    If you want to run the e2e keystone test app server standalone without dropping the database then run as follows:
+
+        export KEYSTONEJS_PORT=9999 && node test/e2e/server.js --notest --nodrop
+
 
     This allows you to experiment with the exact same setup the test do!
 
@@ -166,7 +196,7 @@ Here are some don'ts that may cross your mind as good ideas but shouldn't:
     example, the initial modal form may only show fields that the user marked as _initial_ when defining the keystone
     list.
 
-        verifyUI: function() {
+        assertUI: function() {
             this.expect.section('@name').to.be.visible;
             this.expect.section('@fieldA').to.be.visible;
         }
@@ -175,4 +205,3 @@ Here are some don'ts that may cross your mind as good ideas but shouldn't:
     objects.  For the most part we are sticking to that suggestion.  The only place where we currently do assertions
     is in the field type definitions, since the fields know better about their contained path elements.  So please
     try not to add assertions anywhere else in page objects as doing so may have subtle pitfalls.
-

@@ -24,6 +24,7 @@ function date (list, path, options) {
 	}
 	date.super_.call(this, list, path, options);
 }
+date.properName = 'Date';
 util.inherits(date, FieldType);
 
 

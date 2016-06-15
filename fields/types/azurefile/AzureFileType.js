@@ -49,6 +49,7 @@ function azurefile (list, path, options) {
 	}
 
 }
+azurefile.properName = 'AzureFile';
 util.inherits(azurefile, FieldType);
 
 /**

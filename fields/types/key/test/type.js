@@ -20,7 +20,6 @@ exports.testFieldType = function (List) {
 				key: 'foobar',
 			}, function () {
 				demand(testItem.key).be('foobar');
-				testItem.key = undefined;
 				done();
 			});
 		});
@@ -33,7 +32,6 @@ exports.testFieldType = function (List) {
 				},
 			}, function () {
 				demand(testItem.nested.key).be('foobar');
-				testItem.nested.key = undefined;
 				done();
 			});
 		});
@@ -44,7 +42,6 @@ exports.testFieldType = function (List) {
 				'nested.key': 'foobar',
 			}, function () {
 				demand(testItem.nested.key).be('foobar');
-				testItem.nested.key = undefined;
 				done();
 			});
 		});
@@ -55,7 +52,6 @@ exports.testFieldType = function (List) {
 				key: 'A b ç',
 			}, function () {
 				demand(testItem.key).be('a-b-c');
-				testItem.key = undefined;
 				done();
 			});
 		});

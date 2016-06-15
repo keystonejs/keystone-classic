@@ -1,5 +1,6 @@
 var keystone = require('../../../index.js');
 var sinon = require('sinon');
+var demand = require('must');
 
 describe('Keystone.session', function () {
 
@@ -280,8 +281,57 @@ describe('Keystone.session', function () {
 
 	});
 
-	// TODO: test keystone.session.signout()
-	// describe('keystone.session.signout()');
+	describe('keystone.session.signout()', function () {
+
+		var res = { cookie: sinon.stub() };
+		var user;
+		var req;
+
+		function resetMocks() {
+			user = {
+				id: 'USERID',
+				password: 'PASSWORD',
+			};
+			req = {
+				user: null,
+				session: {
+					userId: null,
+					regenerate: function (callback) {
+						callback();
+					}
+				}
+			};
+		}
+
+		before(function () {
+			keystone.get('cookie secret', 'SECRET');
+			keystone.set('user model', 'User');
+		});
+
+		beforeEach(function () {
+			resetMocks();
+			sinon.spy(req.session, 'regenerate');
+		});
+
+		afterEach(function () {
+			req.session.regenerate.reset();
+			res.cookie.reset();
+		});
+
+		it('should unset user, session.userId and cookie', function () {
+			keystone.set('cookie signin', true);
+			keystone.session.signinWithUser(user, req, res, function() {
+				keystone.session.signout(req, res, function() {
+					demand(req.user).be.null();
+					demand(req.session.userId).be.null();
+
+					sinon.assert.calledOnce(res.clearCookie);
+					sinon.assert.calledWith(res.clearCookie, 'keystone.uid');
+				});
+			});
+		});
+
+	});
 
 	// TODO: test keystone.session.persist()
 	// describe('keystone.session.persist()');

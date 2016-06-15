@@ -198,7 +198,7 @@ module.exports = Field.create({
 		/* eslint-enable */
 
 		return (
-			<div>
+			<div className="field-type-location" htmlFor={this.props.path}>
 				<FormField label={this.props.label}>
 					{showMore}
 				</FormField>

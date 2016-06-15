@@ -23,6 +23,7 @@ function datearray (list, path, options) {
 	this.separator = options.separator || ' | ';
 	datearray.super_.call(this, list, path, options);
 }
+datearray.properName = 'DateArray';
 util.inherits(datearray, FieldType);
 
 /**
@@ -182,24 +183,22 @@ datearray.prototype.updateItem = function (item, data, callback) {
 
 	var value = this.getValueFromData(data);
 
-	if (value !== undefined) {
-		if (Array.isArray(value)) {
-			// Only save valid dates
-			value = value.filter(function (date) {
-				return moment(date).isValid();
-			});
+	if (Array.isArray(value)) {
+		// Only save valid dates
+		value = value.filter(function (date) {
+			return moment(date).isValid();
+		});
+	}
+	if (value === null || value === undefined) {
+		value = [];
+	}
+	if (typeof value === 'string') {
+		if (moment(value).isValid()) {
+			value = [value];
 		}
-		if (value === null) {
-			value = [];
-		}
-		if (typeof value === 'string') {
-			if (moment(value).isValid()) {
-				value = [value];
-			}
-		}
-		if (Array.isArray(value)) {
-			item.set(this.path, value);
-		}
+	}
+	if (Array.isArray(value)) {
+		item.set(this.path, value);
 	}
 
 	process.nextTick(callback);

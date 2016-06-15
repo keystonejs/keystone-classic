@@ -15,6 +15,7 @@ function name (list, path, options) {
 	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	name.super_.call(this, list, path, options);
 }
+name.properName = 'Name';
 util.inherits(name, FieldType);
 
 /**
@@ -121,7 +122,7 @@ name.prototype.getInputFromData = function (data) {
 			last: last,
 		};
 	}
-	return this.getValueFromData(data);
+	return this.getValueFromData(data) || this.getValueFromData(data, '.full');
 };
 
 /**

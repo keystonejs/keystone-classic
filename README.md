@@ -18,7 +18,7 @@ We've been working on a major update to Keystone for several months now, rewriti
 
 Work on this has now been merged into our `master` branch, which is currently not stable (but which we encourage you to try out and give us feedback on!). Stable `0.3.x` releases will continue to be published from the `0.3.x` branch.
 
-**UPDATE:** Our [demo site](http://demo.keystonejs.com/) has been updated to the new version - check it out and let us know what you think!
+Our [demo site](http://demo.keystonejs.com/) has been updated to the new version - check it out and let us know what you think!
 
 For more information on the upcoming version, including how to try it out and get involved, check out [issue #1612](https://github.com/keystonejs/keystone/issues/1612)
 
@@ -42,7 +42,6 @@ Use our [Yeoman Generator](https://github.com/keystonejs/generator-keystone) to 
 
 We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/keystonejs/keystone-demo) to see how it was built.
 
-
 ### Community
 
 We have a friendly, growing community and welcome everyone to get involved.
@@ -50,6 +49,7 @@ We have a friendly, growing community and welcome everyone to get involved.
 Here are some ways:
 
 * Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements
+* Vote on the next features on [ProductPains](https://productpains.com/product/keystonejs)
 * Chat with us [![Join the chat at https://gitter.im/keystonejs/keystone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keystonejs/keystone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 * If you've got ideas, questions or need some advice, check out the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
 * Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs`

@@ -42,6 +42,7 @@ function select (list, path, options) {
 	this.values = _.map(this.ops, 'value');
 	select.super_.call(this, list, path, options);
 }
+select.properName = 'Select';
 util.inherits(select, FieldType);
 
 /**

@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Field from '../Field';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
-import Lightbox from '../../../admin/client/components/Lightbox';
+import Lightbox from '../../components/Lightbox';
 import classnames from 'classnames';
 
 const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
@@ -279,7 +279,7 @@ module.exports = Field.create({
 
 	renderUI () {
 		return (
-			<FormField label={this.props.label} className="field-type-cloudinaryimages">
+			<FormField label={this.props.label} className="field-type-cloudinaryimages" htmlFor={this.props.path}>
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}

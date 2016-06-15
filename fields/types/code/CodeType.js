@@ -19,6 +19,7 @@ function code (list, path, options) {
 	this.editor = assign({ mode: this.lang }, this.codemirror);
 	code.super_.call(this, list, path, options);
 }
+code.properName = 'Code';
 util.inherits(code, FieldType);
 
 

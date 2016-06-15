@@ -12,8 +12,8 @@ function color (list, path, options) {
 	this._nativeType = String;
 	color.super_.call(this, list, path, options);
 }
+color.properName = 'Color';
 util.inherits(color, FieldType);
-
 
 color.prototype.validateInput = TextType.prototype.validateInput;
 color.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;

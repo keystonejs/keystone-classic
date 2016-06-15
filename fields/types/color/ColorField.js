@@ -1,4 +1,4 @@
-import ColorPicker from 'react-color';
+import ColorPicker from '@jedwatson/react-color';
 import Field from '../Field';
 import React from 'react';
 import { FormInput, InputGroup } from 'elemental';

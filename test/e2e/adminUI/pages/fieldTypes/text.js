@@ -8,7 +8,7 @@ module.exports = function TextType(config) {
 			value: 'input[name="' + config.fieldName + '"]',
 		},
 		commands: [{
-			verifyUI: function () {
+			assertUI: function () {
 				this
 					.expect.element('@label').to.be.visible;
 				this
@@ -23,7 +23,7 @@ module.exports = function TextType(config) {
 					.setValue('@value', input.value);
 				return this;
 			},
-			verifyInput: function (input) {
+			assertInput: function (input) {
 				this
 					.waitForElementVisible('@value');
 				this
