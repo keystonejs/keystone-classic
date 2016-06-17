@@ -40,7 +40,7 @@
     "embedly": "2.0.1",
     "errorhandler": "1.4.3",
     "es6-promise": "3.2.1",
-    "express": "4.13.4",
+    "express": "4.14.0",
     "express-request-language": "1.1.4",
     "express-session": "1.13.0",
     "expression-match": "0.0.17",
