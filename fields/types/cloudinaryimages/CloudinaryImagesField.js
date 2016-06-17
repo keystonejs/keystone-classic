@@ -68,9 +68,8 @@ var Thumbnail = React.createClass({
 			iconClassName = classnames(iconClassQueued);
 		}
 
-		let shouldOpenLightbox = true;
+		const shouldOpenLightbox = (format !== 'pdf');
 		let thumbUrl = this.applyTransforms(url);
-		if (format === 'pdf') shouldOpenLightbox = false;
 
 		return (
 			<div className="image-field image-sortable" title={title}>
