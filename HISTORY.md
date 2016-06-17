@@ -2,6 +2,14 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v0.3.20 / 2016-06-17
+
+* fixed; Boolean fields with noedit:false and hidden:true do not retain value
+* fixed; Default formatString for Datetime fields didn't show minutes with a leading 0
+* fixed; Date format option works correctly, thanks [Jared Collier](https://github.com/autoboxer)
+* fixed; Datetime format option works correctly, thanks [Jared Collier](https://github.com/autoboxer)
+* fixed; Double password-hashing issue when the Users list inherits from another list, thanks [Jared Collier](https://github.com/autoboxer)
+
 ## v0.3.19 / 2016-05-04
 
 * added; support for Mailgun, thanks [Wolfgang](https://github.com/w01fgang)
