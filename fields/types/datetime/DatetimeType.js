@@ -18,7 +18,8 @@ function datetime(list, path, options) {
 	this._properties = ['formatString', 'dateFormat', 'timeFormat', 'datePlaceholder', 'timePlaceholder', 'isUTC'];
 	this.typeDescription = 'date and time';
 	this.parseFormatString = options.parseFormat || parseFormats;
-	this.formatString = (options.format === false) ? false : (options.format || 'YYYY-MM-DD h:mm a');
+	this.formatString = (options.format === false) ? false : (options.format || 'YYYY-MM-DD h:mm:ss a');
+
 	// Create an array of moment time format characters to help find where the time portion of the format string beings
 	var timeOptions = ['h', 'H', 'm', 's', 'S'];
 	var timeIndex = -1;
