@@ -182,7 +182,7 @@ module.exports = Field.create({
 	/**
 	 * Apply Cloudinary transforms to url
 	 */
-	applyTranforms (url) {
+	applyTransforms (url) {
 		var format = this.props.value.format;
 
 		if (format === 'pdf') {
@@ -233,7 +233,7 @@ module.exports = Field.create({
 		var url = this.getImageURL();
 
 		if (url) {
-			url = this.applyTranforms(url);
+			url = this.applyTransforms(url);
 		} else {
 			url = this.getImageSource();
 		}

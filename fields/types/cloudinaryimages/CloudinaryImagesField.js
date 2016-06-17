@@ -34,7 +34,7 @@ var Thumbnail = React.createClass({
 		width: React.PropTypes.number,
 	},
 
-	applyTranforms (url) {
+	applyTransforms (url) {
 		var format = this.props.format;
 
 		if (format === 'pdf') {
@@ -69,7 +69,7 @@ var Thumbnail = React.createClass({
 		}
 
 		let shouldOpenLightbox = true;
-		let thumbUrl = this.applyTranforms(url);
+		let thumbUrl = this.applyTransforms(url);
 		if (format === 'pdf') shouldOpenLightbox = false;
 
 		return (
