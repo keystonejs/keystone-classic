@@ -107,7 +107,7 @@
     "sinon": "1.17.4",
     "superagent": "1.8.3",
     "supertest": "1.2.0",
-    "uglify-js": "2.6.2",
+    "uglify-js": "2.6.3",
     "updtr": "0.1.15",
     "watch": "0.18.0"
   },
