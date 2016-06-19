@@ -57,8 +57,11 @@ module.exports = function createApp (keystone, express) {
 	require('./bindSessionMiddleware')(keystone, app);
 
 	// Log dynamic requests
+	app.use(function (req, res, next) {
+		keystone.callHook('pre:logger', req, res, next);
+	});
+	// Bind default logger (morgan)
 	if (keystone.get('logger')) {
-		// custome logger option
 		var loggerOptions = keystone.get('logger options');
 		var hasOwnProperty = Object.prototype.hasOwnProperty;
 		if (loggerOptions && typeof loggerOptions.tokens === 'object') {
@@ -71,17 +74,10 @@ module.exports = function createApp (keystone, express) {
 
 		app.use(morgan(keystone.get('logger'), loggerOptions));
 	}
-
-	// If the user wants to define their own middleware for logging,
-	// they should be able to
+	// Bind custom logging middleware
 	if (keystone.get('logging middleware')) {
 		app.use(keystone.get('logging middleware'));
 	}
-
-	// We should also allow custom logging middleware to exist in the normal middleware flow
-	app.use(function (req, res, next) {
-		keystone.callHook('pre:logger', req, res, next);
-	});
 
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Dynamic Router
