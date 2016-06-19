@@ -82,6 +82,9 @@ module.exports = function createApp (keystone, express) {
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Dynamic Router
 	if (!keystone.get('headless')) {
+		app.use(function (req, res, next) {
+			keystone.callHook('pre:admin', req, res, next);
+		});
 		app.use('/' + keystone.get('admin path'), require('../admin/server').createDynamicRouter(keystone));
 	}
 
