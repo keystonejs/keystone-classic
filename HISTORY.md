@@ -2,6 +2,11 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+
+## v0.3.21 / 2016-06-19
+
+* fixed; Issue preventing you from specifying the `pretty` option in the `locals` setting
+
 ## v0.3.20 / 2016-06-17
 
 * fixed; Boolean fields with noedit:false and hidden:true do not retain value
