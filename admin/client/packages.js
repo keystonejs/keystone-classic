@@ -7,7 +7,7 @@ admin/server/middleware/browserify.js
 */
 
 module.exports = [
-	'@jedwatson/react-color',
+	'react-color',
 	'async',
 	'blacklist',
 	'bytes',
