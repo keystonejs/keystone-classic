@@ -23,11 +23,11 @@ var ItemsTableDragDrop = React.createClass({
 							sortOrder={item.sortOrder || 0}
 							id={item.id}
 							item={item}
-							{ ...this.props }
+							{...this.props}
 						/>
 					);
 				})}
-				<DropZone { ...this.props } />
+				<DropZone {...this.props} />
 			</tbody>
 		);
 	},
