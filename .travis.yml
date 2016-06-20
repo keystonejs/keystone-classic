@@ -11,7 +11,6 @@ before_script:
 - sleep 15
 script:
 - npm run test-cov
-- npm run test-e2e-saucelabs
 - npm run test-react
 sudo: required
 notifications:
@@ -32,4 +31,3 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
-  sauce_connect: true
