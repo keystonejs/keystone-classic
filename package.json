@@ -21,7 +21,7 @@
     "babyparse": "0.4.6",
     "bcrypt-nodejs": "~0.0.3",
     "blacklist": "1.1.2",
-    "body-parser": "1.15.1",
+    "body-parser": "1.15.2",
     "browserify": "13.0.1",
     "browserify-shim": "3.8.12",
     "bytes": "2.4.0",
