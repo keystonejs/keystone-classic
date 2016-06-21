@@ -1,6 +1,7 @@
 import React from 'react';
 import { Columns } from 'FieldTypes';
 import { Alert, Spinner } from 'elemental';
+import { titlecase } from '../../../../utils/string';
 
 const RelatedItemsList = React.createClass({
 	propTypes: {
@@ -22,7 +23,7 @@ const RelatedItemsList = React.createClass({
 	getColumns () {
 		const { relationship, refList } = this.props;
 		const columns = refList.expandColumns(refList.defaultColumns);
-		return columns.filter(i => i.path !== relationship.refPath);
+		return columns.filter(i => i.path === refList.nameField.path || i.path === relationship.refPath);
 	},
 	loadItems () {
 		const { refList, relatedItemId, relationship } = this.props;
@@ -62,13 +63,13 @@ const RelatedItemsList = React.createClass({
 	},
 	renderTableCols () {
 		const cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
-		return <colgroup>{cols}</colgroup>;
+		return <colgroup>{[<col key="Relationship" />].concat([<col key="Parent" />]).concat(cols)}</colgroup>;
 	},
 	renderTableHeaders () {
 		const cells = this.state.columns.map((col) => {
 			return <th key={col.path}>{col.label}</th>;
 		});
-		return <thead><tr>{cells}</tr></thead>;
+		return <thead><tr>{[<th key="Relationship">Relationship</th>].concat([<th key="Parent">Parent</th>]).concat(cells)}</tr></thead>;
 	},
 	renderTableRow (item) {
 		const cells = this.state.columns.map((col, i) => {
@@ -76,16 +77,17 @@ const RelatedItemsList = React.createClass({
 			const linkTo = !i ? `${Keystone.adminPath}/${this.props.refList.path}/${item.id}` : undefined;
 			return <ColumnType key={col.path} list={this.props.refList} col={col} data={item} linkTo={linkTo} />;
 		});
-		return <tr key={'i' + item.id}>{cells}</tr>;
+		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
+		const relationshipCol = [<td key={'Relationship' + item.id}>{this.props.relationship.label || titlecase(this.props.relationship.path)}</td>];
+		const parentCol = [<td key={'Parent' + item.id} className="Relationship__link"><a href={listHref}>{this.props.refList.label}</a></td>];
+		return <tr key={'i' + item.id}>{relationshipCol.concat(parentCol).concat(cells)}</tr>;
 	},
 	render () {
 		if (this.state.err) {
 			return <div className="Relationship">{this.state.err}</div>;
 		}
-		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
 		return (
 			<div className="Relationship">
-				<h3 className="Relationship__link"><a href={listHref}>{this.props.refList.label}</a></h3>
 				{this.state.items ? this.renderItems() : <Spinner size="sm" />}
 			</div>
 		);

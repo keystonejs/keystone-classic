@@ -13,7 +13,13 @@ TargetRelationship.add({
 TargetRelationship.relationship({
 	ref: 'SourceRelationship',
 	refPath: 'fieldA',
-	path: 'sourceFieldA'
+	path: 'sourceFieldA',
+	label: 'Source Relationship A References'
+});
+TargetRelationship.relationship({
+	ref: 'SourceRelationship',
+	refPath: 'fieldB',
+	path: 'sourceFieldB'
 });
 
 TargetRelationship.register();

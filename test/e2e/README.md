@@ -47,7 +47,7 @@ update the test suite so that any broken tests pass again.  You can run any of t
 from keystone's root directory:
 
     Pre-requisites:
-        - Make sure that you have Firefox(or Chrome) installed.  Firefox is the default browser used.
+        - Make sure that you have Firefox(or Chrome) installed and in the system path.  Firefox is the default browser used.
           Using Chrome requires specifying a different --env parameter (see below).  For any tests below
           you may replace the "--env default" parameter with one of the following:
           
