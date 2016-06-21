@@ -97,7 +97,7 @@
     "eslint": "2.13.0",
     "eslint-config-keystone": "2.4.0",
     "eslint-plugin-react": "5.2.2",
-    "istanbul": "0.4.3",
+    "istanbul": "0.4.4",
     "mocha": "2.5.3",
     "must": "0.13.1",
     "nightwatch": "0.9.4",
