@@ -94,7 +94,7 @@
     "core-assert": "0.2.0",
     "disc": "1.3.2",
     "enzyme": "2.3.0",
-    "eslint": "2.13.0",
+    "eslint": "2.13.1",
     "eslint-config-keystone": "2.4.0",
     "eslint-plugin-react": "5.2.2",
     "istanbul": "0.4.3",
