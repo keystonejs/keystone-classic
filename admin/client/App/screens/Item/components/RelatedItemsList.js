@@ -23,7 +23,9 @@ const RelatedItemsList = React.createClass({
 	getColumns () {
 		const { relationship, refList } = this.props;
 		const columns = refList.expandColumns(refList.defaultColumns);
-		return columns.filter(i => i.path === refList.nameField.path || i.path === relationship.refPath);
+		const refListNameColumn = columns.filter(i => i.path === refList.nameField.path);
+		const refListRelationshipFieldColumn = columns.filter(i => i.path === relationship.refPath);
+		return [refListNameColumn[0], refListRelationshipFieldColumn[0]];
 	},
 	loadItems () {
 		const { refList, relatedItemId, relationship } = this.props;
@@ -48,49 +50,69 @@ const RelatedItemsList = React.createClass({
 	},
 	renderItems () {
 		return this.state.items.results.length ? (
-			<div className="ItemList-wrapper">
-				<table cellPadding="0" cellSpacing="0" className="Table ItemList">
-					{this.renderTableCols()}
-					{this.renderTableHeaders()}
-					<tbody>
-						{this.state.items.results.map(this.renderTableRow)}
-					</tbody>
-				</table>
+			<div>
+				{this.renderTableCols()}
+				{this.state.items.results.map(this.renderTableRow)}
 			</div>
 		) : (
 			<h4 className="Relationship__noresults">No related {this.props.refList.plural}</h4>
 		);
 	},
-	renderTableCols () {
-		const cols = this.state.columns.map((col) => <col width={col.width} key={col.path} />);
-		return <colgroup>{[<col key="Relationship" />].concat([<col key="Parent" />]).concat(cols)}</colgroup>;
+	renderRelationshipColumn (item) {
+		return <td key={'Relationship' + item.id || ''}>{this.props.relationship.label || titlecase(this.props.relationship.path)}</td>;
 	},
-	renderTableHeaders () {
-		const cells = this.state.columns.map((col) => {
-			return <th key={col.path}>{col.label}</th>;
-		});
-		return <thead><tr>{[<th key="Relationship">Relationship</th>].concat([<th key="Parent">Parent</th>]).concat(cells)}</tr></thead>;
+	renderParentColumn (item) {
+		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
+		return <td key={'Parent' + item.id} className="Relationship__link"><a href={listHref}>{this.props.refList.label}</a></td>;
+	},
+	renderNameColumn (item) {
+		const column = this.state.columns[0];
+		const ColumnType = Columns[column.type] || Columns.__unrecognised__;
+		const linkTo = `${Keystone.adminPath}/${this.props.refList.path}/${item.id}`;
+		return <ColumnType key={column.path} list={this.props.refList} col={column} data={item} linkTo={linkTo} />;
+	},
+	renderFieldColumn (item) {
+		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
+		const linkValue = this.state.columns[1] ? <a href={listHref}>{this.state.columns[1].label}</a> : null;
+		return <td key={'Field' + item.id} className="Relationship__link">{linkValue}</td>;
+	},
+	renderValueColumn (item) {
+		const column = this.state.columns[1];
+		const ColumnType = Columns[column.type] || Columns.__unrecognised__;
+		const linkTo = `${Keystone.adminPath}/${this.props.refList.path}/${item.id}`;
+		return <ColumnType key={column.path} list={this.props.refList} col={column} data={item} linkTo={linkTo} />;
 	},
 	renderTableRow (item) {
-		const cells = this.state.columns.map((col, i) => {
-			const ColumnType = Columns[col.type] || Columns.__unrecognised__;
-			const linkTo = !i ? `${Keystone.adminPath}/${this.props.refList.path}/${item.id}` : undefined;
-			return <ColumnType key={col.path} list={this.props.refList} col={col} data={item} linkTo={linkTo} />;
-		});
-		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
-		const relationshipCol = [<td key={'Relationship' + item.id}>{this.props.relationship.label || titlecase(this.props.relationship.path)}</td>];
-		const parentCol = [<td key={'Parent' + item.id} className="Relationship__link"><a href={listHref}>{this.props.refList.label}</a></td>];
-		return <tr key={'i' + item.id}>{relationshipCol.concat(parentCol).concat(cells)}</tr>;
+		return (
+			<tr key={'i' + item.id}>{[
+				this.renderRelationshipColumn(item),
+				this.renderParentColumn(item),
+				this.renderNameColumn(item),
+				this.renderFieldColumn(item),
+				this.renderValueColumn(item),
+			]}</tr>
+		);
 	},
 	render () {
+		let tbody = <tr><td><Spinner size="sm" /></td></tr>;
 		if (this.state.err) {
-			return <div className="Relationship">{this.state.err}</div>;
+			tbody = <tr><td>{this.state.err}</td></tr>;
+		} else if (this.state.items && this.state.items.results && this.state.items.results.length) {
+			tbody = this.state.items.results.map(this.renderTableRow);
+		} else if (this.state.items && this.state.items.results && !this.state.items.results.length) {
+			const relationshipColumn = this.renderRelationshipColumn({});
+			tbody = (
+				<tr>
+					{relationshipColumn}
+					<td><h4 className="Relationship__noresults">No related {this.props.refList.plural}</h4></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			);
 		}
-		return (
-			<div className="Relationship">
-				{this.state.items ? this.renderItems() : <Spinner size="sm" />}
-			</div>
-		);
+
+		return <tbody className="Relationship">{tbody}</tbody>;
 	},
 });
 
