@@ -21,6 +21,17 @@ TargetRelationship.relationship({
 	refPath: 'fieldB',
 	path: 'sourceFieldB'
 });
+TargetRelationship.relationship({
+	ref: 'NamelessRelationship',
+	refPath: 'fieldA',
+	path: 'namelessFieldA',
+	label: 'Nameless Field A'
+});
+TargetRelationship.relationship({
+	ref: 'NamelessRelationship',
+	refPath: 'fieldB',
+	path: 'namelessFieldB'
+});
 
 TargetRelationship.register();
 TargetRelationship.defaultColumns = 'name';

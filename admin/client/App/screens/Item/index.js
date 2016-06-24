@@ -71,7 +71,8 @@ var ItemView = React.createClass({
 		});
 	},
 	renderTableCols () {
-		return (<col key="Relationship" />,
+		return (
+		<col key="Relationship" />,
 			<col key="Parent" />,
 			<col key="Item" />,
 			<col key="Field" />,
@@ -79,13 +80,14 @@ var ItemView = React.createClass({
 		);
 	},
 	renderRelationshipTableHeaders () {
-		return (<thead><tr>{[
-			<th key="Relationship">Relationship Name</th>,
-			<th key="Parent">Reference List</th>,
-			<th key="Item">Reference Item</th>,
-			<th key="Field">Reference Field</th>,
-			<th key="Value">Reference Field Value</th>,
-		]}</tr></thead>
+		return (
+			<thead><tr>{[
+				<th key="Relationship">Relationship Name</th>,
+				<th key="Parent">Reference List</th>,
+				<th key="Item">Reference Item</th>,
+				<th key="Field">Reference Field</th>,
+				<th key="Value">Reference Field Value</th>,
+			]}</tr></thead>
 		);
 	},
 	// Render this items relationships

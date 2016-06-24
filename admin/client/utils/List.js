@@ -196,9 +196,12 @@ List.prototype.expandSort = function (input) {
 		else if (path.charAt(0) === '+') {
 			path = path.substr(1);
 		}
-		const field = this.fields[path];
+		let field = this.fields[path];
 		if (!field) {
-			// TODO: Support arbitary document paths
+			var candidates = Object.keys(this.fields).filter(key => !(this.fields[key].hidden || false));
+			field = candidates && candidates.length ? this.fields[candidates[0]] : null;
+		}
+		if (!field) {
 			console.warn('Invalid Sort specified:', path);
 			return;
 		}

@@ -23,9 +23,12 @@ const RelatedItemsList = React.createClass({
 	getColumns () {
 		const { relationship, refList } = this.props;
 		const columns = refList.expandColumns(refList.defaultColumns);
-		const refListNameColumn = columns.filter(i => i.path === refList.nameField.path);
-		const refListRelationshipFieldColumn = columns.filter(i => i.path === relationship.refPath);
+		const refListNameColumn = columns.filter(column => column.path === refList.namePath || (column.path === 'id' && refList.namePath === '_id'));
+		const refListRelationshipFieldColumn = columns.filter(column => column.path === relationship.refPath);
 		return [refListNameColumn[0], refListRelationshipFieldColumn[0]];
+	},
+	getColumnType (type) {
+		return Columns[type] || Columns.text;
 	},
 	loadItems () {
 		const { refList, relatedItemId, relationship } = this.props;
@@ -67,7 +70,7 @@ const RelatedItemsList = React.createClass({
 	},
 	renderNameColumn (item) {
 		const column = this.state.columns[0];
-		const ColumnType = Columns[column.type] || Columns.__unrecognised__;
+		let ColumnType = this.getColumnType(column.type);
 		const linkTo = `${Keystone.adminPath}/${this.props.refList.path}/${item.id}`;
 		return <ColumnType key={column.path} list={this.props.refList} col={column} data={item} linkTo={linkTo} />;
 	},
@@ -78,13 +81,13 @@ const RelatedItemsList = React.createClass({
 	},
 	renderValueColumn (item) {
 		const column = this.state.columns[1];
-		const ColumnType = Columns[column.type] || Columns.__unrecognised__;
+		let ColumnType = this.getColumnType(column.type);
 		const linkTo = `${Keystone.adminPath}/${this.props.refList.path}/${item.id}`;
 		return <ColumnType key={column.path} list={this.props.refList} col={column} data={item} linkTo={linkTo} />;
 	},
 	renderTableRow (item) {
 		return (
-			<tr key={'i' + item.id}>{[
+			<tr key={'table-row-item-' + item.id}>{[
 				this.renderRelationshipColumn(item),
 				this.renderParentColumn(item),
 				this.renderNameColumn(item),

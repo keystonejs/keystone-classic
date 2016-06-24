@@ -81,11 +81,12 @@ keystone.set('nav', {
 	],
 	'Miscs': [
 		'depends-ons',
-		'no-default-columns',
 		'inline-relationships',
-		'many-relationships',
 		'hidden-booleans',
 		'hidden-relationships',
+		'many-relationships',
+		'nameless-relationships',
+		'no-default-columns',
 		'source-relationships',
 		'target-relationships',
 	]
