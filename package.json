@@ -82,7 +82,7 @@
     "redux": "3.5.2",
     "redux-thunk": "2.1.0",
     "scmp": "1.0.0",
-    "semver": "5.1.0",
+    "semver": "5.1.1",
     "serve-favicon": "2.3.0",
     "string-to-stream": "^1.1.0",
     "vkey": "1.0.0",
