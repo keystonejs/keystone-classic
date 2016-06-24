@@ -8,13 +8,14 @@
 import React from 'react';
 import { Container, Spinner } from 'elemental';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import { listsByKey } from '../../../utils/lists';
 import CreateForm from '../../shared/CreateForm';
 import EditForm from './components/EditForm';
 import EditFormHeader from './components/EditFormHeader';
 import RelatedItemsList from './components/RelatedItemsList';
-import FlashMessages from '../../shared/FlashMessages';
+// import FlashMessages from '../../shared/FlashMessages';
 
 import {
 	selectItem,
@@ -96,6 +97,35 @@ var ItemView = React.createClass({
 			</div>
 		);
 	},
+	// Handle errors
+	handleError (error) {
+		const detail = error.detail;
+		if (detail) {
+			// Item not found
+			if (detail.name === 'CastError'
+				&& detail.path === '_id') {
+				return (
+					<Container>
+						<p>Item not found!</p>
+						<Link to={`${Keystone.adminPath}/${this.props.routeParams.listId}`}>
+							Go to list
+						</Link>
+					</Container>
+				);
+			}
+		}
+		if (error.message) {
+			// Server down + possibly other errors
+			if (error.message === 'Internal XMLHttpRequest Error') {
+				return (
+					<Container>
+						<p>We encountered some network problems, please try refreshing!</p>
+					</Container>
+				);
+			}
+		}
+		return (<p>Error!</p>);
+	},
 	render () {
 		// If we don't have any data yet, show the loading indicator
 		if (!this.props.ready) {
@@ -105,18 +135,11 @@ var ItemView = React.createClass({
 				</div>
 			);
 		}
+
 		// When we have the data, render the item view with it
 		return (
 			<div data-screen-id="item">
-				{(this.props.error) ? (
-					<FlashMessages
-						messages={{
-							error: [{
-								title: "There's a problem with the network, we're trying to reconnect...",
-							}],
-						}}
-					/>
-				) : (
+				{(this.props.error) ? this.handleError(this.props.error) : (
 					<div>
 						<Container>
 							<EditFormHeader
