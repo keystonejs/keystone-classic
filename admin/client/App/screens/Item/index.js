@@ -114,7 +114,17 @@ var ItemView = React.createClass({
 				);
 			}
 		}
-		return error;
+		if (error.message) {
+			// Server down + possibly other errors
+			if (error.message === 'Internal XMLHttpRequest Error') {
+				return (
+					<Container>
+						<p>We encountered some network problems, please try refreshing!</p>
+					</Container>
+				);
+			}
+		}
+		return (<p>Error!</p>);
 	},
 	render () {
 		// If we don't have any data yet, show the loading indicator
