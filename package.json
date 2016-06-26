@@ -100,7 +100,7 @@
     "istanbul": "0.4.4",
     "mocha": "2.5.3",
     "must": "0.13.1",
-    "nightwatch": "0.9.4",
+    "nightwatch": "0.9.5",
     "react-addons-test-utils": "^15.1.0",
     "react-engine": "3.4.1",
     "rimraf": "2.5.2",
