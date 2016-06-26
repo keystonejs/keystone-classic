@@ -103,12 +103,11 @@ const RelatedItemsList = React.createClass({
 		} else if (this.state.items && this.state.items.results && this.state.items.results.length) {
 			tbody = this.state.items.results.map(this.renderTableRow);
 		} else if (this.state.items && this.state.items.results && !this.state.items.results.length) {
-			const relationshipColumn = this.renderRelationshipColumn({});
 			tbody = (
 				<tr>
-					{relationshipColumn}
-					<td><h4 className="Relationship__noresults">No related {this.props.refList.plural}</h4></td>
-					<td></td>
+					{this.renderRelationshipColumn({})}
+					{this.renderParentColumn({})}
+					<td>None</td>
 					<td></td>
 					<td></td>
 				</tr>
