@@ -56,6 +56,13 @@ from keystone's root directory:
             --env chrome-mac32, if you are on a mac system
             --env chrome-win32, if you are on a windows system
             
+        - Beginning with version 47, Firefox is not working without a platform-specific driver binary
+          anymore. You need to replace the "--env default" parameter with one of the following:
+          
+            --env firefox-linux64, if you are on a linux 64-bit system
+            --env firefox-mac32, if you are on a mac system
+            --env firefox-win32, if you are on a windows system
+          
         - Make sure that you have a local mongo instance running.
         - Make sure that port 3000 is available; if not please tell the e2e server what port it
           should bind to.  For example, to use port 9999 do the following (in a bash shell):
