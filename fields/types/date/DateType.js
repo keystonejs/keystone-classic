@@ -13,7 +13,7 @@ function date(list, path, options) {
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'large';
 	this._properties = ['dateFormat', 'datePlaceholder', 'yearRange', 'isUTC'];
-	this.parseDateFormat = options.parseFormat || 'YYYY-MM-DD';
+	this.parseDateFormat = options.format || 'YYYY-MM-DD';
 	this.dateFormat = (options.format === false) ? false : (options.format || 'YYYY-MM-DD');
 	this.datePlaceholder = this.dateFormat ? 'e.g. ' + moment().format(this.parseDateFormat) : '';
 	this.yearRange = options.yearRange;
