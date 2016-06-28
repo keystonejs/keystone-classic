@@ -84,7 +84,6 @@ keystone.set('nav', {
 		'no-default-columns',
 		'inline-relationships',
 		'many-relationships',
-		'hidden-booleans',
 		'hidden-relationships',
 		'source-relationships',
 		'target-relationships',

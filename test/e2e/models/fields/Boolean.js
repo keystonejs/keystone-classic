@@ -26,6 +26,18 @@ Bool.add({
 		type: Boolean, 
 		index: true,
 	},
+	fieldC:
+	{
+		type: Types.Boolean,
+		hidden: true,
+		default: true
+	},
+	fieldD:
+	{
+		type: String,
+		initial: true,
+		dependsOn: { fieldC: true }
+	},
 });
 
 Bool.defaultColumns = 'name, fieldA, fieldB';
