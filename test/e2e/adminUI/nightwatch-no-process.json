@@ -128,6 +128,39 @@
       "cli_args": {
         "webdriver.chrome.driver": "test/e2e/drivers/chrome/linux32/chromedriver"
       }
+    },
+    "firefox-win32": {
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "marionette": true
+      },
+      "cli_args": {
+        "webdriver.gecko.driver": "test/e2e/drivers/firefox/win32/geckodriver.exe"
+      }
+    },
+    "firefox-mac32": {
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "marionette": true
+      },
+      "cli_args": {
+        "webdriver.gecko.driver": "test/e2e/drivers/firefox/mac32/geckodriver"
+      }
+    },
+    "firefox-linux64": {
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "marionette": true
+      },
+      "cli_args": {
+        "webdriver.gecko.driver": "test/e2e/drivers/firefox/linux64/geckodriver"
+      }
     }
   }
 }
