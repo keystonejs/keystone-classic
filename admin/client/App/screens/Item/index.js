@@ -77,7 +77,7 @@ var ItemView = React.createClass({
 				<col key="Parent" />,
 				<col key="Item" />,
 				<col key="Field" />,
-				<col key="Values" />
+				<col key="Values" />,
 			]}</colgroup>
 		);
 	},
