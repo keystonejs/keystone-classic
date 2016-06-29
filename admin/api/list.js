@@ -24,8 +24,8 @@ exports = module.exports = function(req, res) {
 	switch (req.params.action) {
 
 		case 'autocomplete':
-			var limit = req.query.limit || 50;
-			var page = req.query.page || 1;
+			var limit = Number(req.query.limit) || 50;
+			var page = Number(req.query.page) || 1;
 			var skip = limit * (page - 1);
 				
 			var filters = req.list.getSearchFilters(req.query.q);
@@ -153,7 +153,7 @@ exports = module.exports = function(req, res) {
 			(function() {
 
 				var queryFilters = req.list.getSearchFilters(req.query.search, req.query.filters);
-				var skip = parseInt(req.query.items.last) - 1;
+				var skip = Number(req.query.items.last) - 1;
 				var querystring = require('querystring');
 				var link_to = function(params) {
 						var p = params.page || '';
