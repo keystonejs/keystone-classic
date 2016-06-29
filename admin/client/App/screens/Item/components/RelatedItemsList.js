@@ -51,16 +51,6 @@ const RelatedItemsList = React.createClass({
 			this.setState({ items });
 		});
 	},
-	renderItems () {
-		return this.state.items.results.length ? (
-			<div>
-				{this.renderTableCols()}
-				{this.state.items.results.map(this.renderTableRow)}
-			</div>
-		) : (
-			<h4 className="Relationship__noresults">No related {this.props.refList.plural}</h4>
-		);
-	},
 	renderRelationshipColumn (item) {
 		return <td key={'Relationship' + item.id || ''}>{this.props.relationship.label || titlecase(this.props.relationship.path)}</td>;
 	},
@@ -96,25 +86,43 @@ const RelatedItemsList = React.createClass({
 			]}</tr>
 		);
 	},
-	render () {
-		let tbody = <tr><td><Spinner size="sm" /></td></tr>;
+	renderItems () {
+		return this.state.items.results.map(this.renderTableRow);
+	},
+	renderSpinner () {
+		return <tr><td><Spinner size="sm" /></td></tr>;
+	},
+	renderNoRelationships () {
+		return (
+			<tr>
+				{this.renderRelationshipColumn({})}
+				{this.renderParentColumn({})}
+				<td>None</td>
+				<td></td>
+				<td></td>
+			</tr>
+		);
+	},
+	renderError () {
+		return <tr><td>{this.state.err}</td></tr>;
+	},
+	renderRelationshipTableBody () {
+		const loadedItems = this.state.items;
+		const results = this.state.items && this.state.items.results;
+		let tbody = null;
 		if (this.state.err) {
-			tbody = <tr><td>{this.state.err}</td></tr>;
-		} else if (this.state.items && this.state.items.results && this.state.items.results.length) {
-			tbody = this.state.items.results.map(this.renderTableRow);
-		} else if (this.state.items && this.state.items.results && !this.state.items.results.length) {
-			tbody = (
-				<tr>
-					{this.renderRelationshipColumn({})}
-					{this.renderParentColumn({})}
-					<td>None</td>
-					<td></td>
-					<td></td>
-				</tr>
-			);
+			tbody = this.renderError();
+		} else if (loadedItems && results.length) {
+			tbody = this.renderItems();
+		} else if (loadedItems && !results.length) {
+			tbody = this.renderNoRelationships();
+		} else {
+			tbody = this.renderSpinner();
 		}
-
-		return <tbody className="Relationship">{tbody}</tbody>;
+		return tbody;
+	},
+	render () {
+		return <tbody className="Relationship">{this.renderRelationshipTableBody()}</tbody>;
 	},
 });
 
