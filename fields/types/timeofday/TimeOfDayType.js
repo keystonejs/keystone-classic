@@ -24,6 +24,9 @@ function timeofday (list, path, options) {
 		time: this._path.append('_time'),
 	};
 }
+
+timeofday.properName = 'TimeOfDay';
+
 util.inherits(timeofday, FieldType);
 
 timeofday.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;

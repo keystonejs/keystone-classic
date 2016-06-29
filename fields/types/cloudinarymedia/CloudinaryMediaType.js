@@ -46,6 +46,8 @@ function cloudinarymedia (list, path, options) {
 	}
 }
 
+cloudinarymedia.properName = 'CloudinaryMedia';
+
 /*!
  * Inherit from Field
  */
