@@ -46,7 +46,7 @@ module.exports = Field.create({
 	renderLightbox () {
 		const { value } = this.props;
 		if (!value || !Object.keys(value).length) return;
-
+		value.url = value.url.indexOf('vc_auto') === -1 ? value.url.replace('\/upload\/', '\/upload\/vc_auto\/') : value.url;
 		const images = [value.url];
 
 		return (
