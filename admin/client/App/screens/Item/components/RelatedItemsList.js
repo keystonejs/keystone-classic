@@ -54,22 +54,24 @@ const RelatedItemsList = React.createClass({
 	renderRelationshipColumn (item) {
 		return <td key={'Relationship' + item.id || ''}>{this.props.relationship.label || titlecase(this.props.relationship.path)}</td>;
 	},
-	renderParentColumn (item) {
+	renderReferenceListColumn (item) {
 		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
 		return <td key={'Parent' + item.id} className="Relationship__link"><a href={listHref}>{this.props.refList.label}</a></td>;
 	},
-	renderNameColumn (item) {
+	renderReferenceItemColumn (item) {
 		const column = this.state.columns[0];
 		let ColumnType = this.getColumnType(column.type);
 		const linkTo = `${Keystone.adminPath}/${this.props.refList.path}/${item.id}`;
 		return <ColumnType key={column.path} list={this.props.refList} col={column} data={item} linkTo={linkTo} />;
 	},
-	renderFieldColumn (item) {
-		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
-		const linkValue = this.state.columns[1] ? <a href={listHref}>{this.state.columns[1].label}</a> : null;
+	renderReferenceFieldColumn (item) {
+		const column = this.state.columns[0];
+		let ColumnType = this.getColumnType(column.type);
+		const linkTo = `${Keystone.adminPath}/${this.props.refList.path}/${item.id}`;
+		const linkValue = this.state.columns[1] ? <a href={linkTo}>{this.state.columns[1].label}</a> : null;
 		return <td key={'Field' + item.id} className="Relationship__link">{linkValue}</td>;
 	},
-	renderValueColumn (item) {
+	renderReferenceFieldValueColumn (item) {
 		const column = this.state.columns[1];
 		let ColumnType = this.getColumnType(column.type);
 		const linkTo = `${Keystone.adminPath}/${this.props.refList.path}/${item.id}`;
@@ -79,10 +81,10 @@ const RelatedItemsList = React.createClass({
 		return (
 			<tr key={'table-row-item-' + item.id}>{[
 				this.renderRelationshipColumn(item),
-				this.renderParentColumn(item),
-				this.renderNameColumn(item),
-				this.renderFieldColumn(item),
-				this.renderValueColumn(item),
+				this.renderReferenceListColumn(item),
+				this.renderReferenceItemColumn(item),
+				this.renderReferenceFieldColumn(item),
+				this.renderReferenceFieldValueColumn(item),
 			]}</tr>
 		);
 	},
@@ -96,7 +98,7 @@ const RelatedItemsList = React.createClass({
 		return (
 			<tr>
 				{this.renderRelationshipColumn({})}
-				{this.renderParentColumn({})}
+				{this.renderReferenceListColumn({})}
 				<td>None</td>
 				<td></td>
 				<td></td>
@@ -107,14 +109,13 @@ const RelatedItemsList = React.createClass({
 		return <tr><td>{this.state.err}</td></tr>;
 	},
 	renderRelationshipTableBody () {
-		const loadedItems = this.state.items;
 		const results = this.state.items && this.state.items.results;
 		let tbody = null;
 		if (this.state.err) {
 			tbody = this.renderError();
-		} else if (loadedItems && results.length) {
+		} else if (results && results.length) {
 			tbody = this.renderItems();
-		} else if (loadedItems && !results.length) {
+		} else if (results && !results.length) {
 			tbody = this.renderNoRelationships();
 		} else {
 			tbody = this.renderSpinner();
