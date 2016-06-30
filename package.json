@@ -144,7 +144,7 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
-    "build": "NODE_ENV=production node build.js | uglifyjs -mc warnings=false > ./admin/public/js/packages.js",
+    "build": "NODE_ENV=production node build.js | uglifyjs -mc warnings=false,screw_ie8=true -b beautify=false,semicolons=false > ./admin/public/js/packages.js",
     "build-dev": "node build.js > ./admin/public/js/packages.js",
     "pretest": "npm run lint && node test/pretest.js",
     "test": "mocha",
