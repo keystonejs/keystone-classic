@@ -8,6 +8,8 @@ module.exports = function BooleanList(config) {
 			name: new TextType({fieldName: 'name'}),
 			fieldA: new BooleanType({fieldName: 'fieldA'}),
 			fieldB: new BooleanType({fieldName: 'fieldB'}),
+			fieldC: new BooleanType({fieldName: 'fieldC'}),
+			fieldD: new TextType({fieldName: 'fieldD'}),
 		},
 	};
 };

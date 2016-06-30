@@ -26,6 +26,7 @@ module.exports = {
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
 				'fieldA': {value: 'true'},
+				'fieldD': {value: 'Test'},
 			}
 		});
 		browser.initialFormPage.assertInputs({
@@ -50,6 +51,14 @@ module.exports = {
 		browser.itemPage.assertUI({
 			listName: 'Boolean',
 			fields: ['fieldA', 'fieldB']
+		});
+	},
+	'Boolean field should have its default value if hidden': function(browser) {
+		// The hidden boolean field fieldC should have its default value true, meaning that fieldD should be visible.
+		// This used not to be correct as per issue https://github.com/keystonejs/keystone/issues/3029
+		browser.itemPage.assertUI({
+			listName: 'Boolean',
+			fields: ['fieldD'],
 		});
 	},
 	'Boolean field can be filled via the edit form': function(browser) {
