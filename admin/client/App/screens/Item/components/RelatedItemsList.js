@@ -65,8 +65,6 @@ const RelatedItemsList = React.createClass({
 		return <ColumnType key={column.path} list={this.props.refList} col={column} data={item} linkTo={linkTo} />;
 	},
 	renderReferenceFieldColumn (item) {
-		const column = this.state.columns[0];
-		let ColumnType = this.getColumnType(column.type);
 		const linkTo = `${Keystone.adminPath}/${this.props.refList.path}/${item.id}`;
 		const linkValue = this.state.columns[1] ? <a href={linkTo}>{this.state.columns[1].label}</a> : null;
 		return <td key={'Field' + item.id} className="Relationship__link">{linkValue}</td>;
