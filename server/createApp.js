@@ -4,7 +4,6 @@ var methodOverride = require('method-override');
 var morgan = require('morgan');
 
 var language = require('../lib/middleware/language');
-var createComponentRouter = require('./createComponentRouter');
 
 module.exports = function createApp (keystone, express) {
 
@@ -117,11 +116,6 @@ module.exports = function createApp (keystone, express) {
 	app.use(function (req, res, next) {
 		keystone.callHook('pre:routes', req, res, next);
 	});
-
-	// Configure React routes
-	if (keystone.get('react routes')) {
-		app.use('/', createComponentRouter(keystone.get('react routes')));
-	}
 
 	// Configure application routes
 	if (typeof keystone.get('routes') === 'function') {
