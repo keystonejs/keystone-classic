@@ -102,7 +102,7 @@
     "must": "0.13.1",
     "nightwatch": "0.9.5",
     "react-addons-test-utils": "^15.1.0",
-    "react-engine": "3.4.1",
+    "react-engine": "4.0.0",
     "rimraf": "2.5.2",
     "sinon": "1.17.4",
     "superagent": "1.8.3",
