@@ -18,24 +18,20 @@ const CreateForm = React.createClass({
 		list: React.PropTypes.object,
 		onCancel: React.PropTypes.func,
 		onCreate: React.PropTypes.func,
-		values: React.PropTypes.object,
 	},
 	getDefaultProps () {
 		return {
 			err: null,
-			values: {},
 			isOpen: false,
 		};
 	},
 	getInitialState () {
-		var values = Object.assign({}, this.props.values);
-
 		// Set the field values to their default values when first rendering the
 		// form. (If they have a default value, that is)
+		var values = {};
 		Object.keys(this.props.list.fields).forEach(key => {
 			var field = this.props.list.fields[key];
-
-			if (!values[field.path]) {
+			if (field.defaultValue) {
 				values[field.path] = field.defaultValue;
 			}
 		});
