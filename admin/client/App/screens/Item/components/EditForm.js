@@ -354,7 +354,7 @@ var EditForm = React.createClass({
 	},
 	render () {
 		return (
-			<form ref="editForm" method="post" encType="multipart/form-data" className="EditForm-container">
+			<form ref="editForm" className="EditForm-container">
 				{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
 				<Row>
 					<Col lg="3/4">

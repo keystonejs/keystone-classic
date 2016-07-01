@@ -596,7 +596,6 @@ const ListView = React.createClass({
 					list={this.props.currentList}
 					onCancel={() => this.toggleCreateModal(false)}
 					onCreate={this.onCreate}
-					values={Keystone.createFormData}
 				/>
 				<UpdateForm
 					isOpen={this.state.showUpdateForm}

@@ -12,11 +12,6 @@ import Brand from './components/Brand';
 import UserInfo from './components/UserInfo';
 import LoginForm from './components/LoginForm';
 
-// Save the CSRF headers
-var csrfHeaders = {
-	[Keystone.csrf_header_key]: Keystone.csrf_token_value,
-};
-
 var SigninView = React.createClass({
 	getInitialState () {
 		return {
@@ -54,7 +49,7 @@ var SigninView = React.createClass({
 				email: this.state.email,
 				password: this.state.password,
 			},
-			headers: csrfHeaders,
+			headers: Keystone.csrf.header,
 		}, (err, resp, body) => {
 			if (err || body && body.error) {
 				return this.displayError('The email and password you entered are not valid.');
