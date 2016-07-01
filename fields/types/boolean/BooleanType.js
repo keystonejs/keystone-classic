@@ -74,6 +74,9 @@ boolean.prototype.inputIsValid = function (data, required) {
  */
 boolean.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
+	if (typeof value === 'undefined') {
+		return process.nextTick(callback);
+	}
 	if (!value || value === 'false') {
 		if (item.get(this.path) !== false) {
 			item.set(this.path, false);

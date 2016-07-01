@@ -5,6 +5,8 @@
 import React from 'react';
 import { Button, Form, FormField, FormInput } from 'elemental';
 
+// TODO FIGURE OUT IF THE BELOW NOTE IS STILL RELEVANT AND WE NEED THE REFS
+// OR IF WE CAN CHANGE THIS TO A STATELESS COMPONENT
 // NOTE: This is not a stateless components because those can't have refs
 // attached to them
 class LoginForm extends React.Component {

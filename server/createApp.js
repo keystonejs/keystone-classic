@@ -4,7 +4,6 @@ var methodOverride = require('method-override');
 var morgan = require('morgan');
 
 var language = require('../lib/middleware/language');
-var createComponentRouter = require('./createComponentRouter');
 
 module.exports = function createApp (keystone, express) {
 
@@ -57,24 +56,34 @@ module.exports = function createApp (keystone, express) {
 	require('./bindSessionMiddleware')(keystone, app);
 
 	// Log dynamic requests
+	app.use(function (req, res, next) {
+		keystone.callHook('pre:logger', req, res, next);
+	});
+	// Bind default logger (morgan)
 	if (keystone.get('logger')) {
-		app.use(morgan(keystone.get('logger'), keystone.get('logger options')));
-	}
+		var loggerOptions = keystone.get('logger options');
+		var hasOwnProperty = Object.prototype.hasOwnProperty;
+		if (loggerOptions && typeof loggerOptions.tokens === 'object') {
+			for (var key in loggerOptions.tokens) {
+				if (hasOwnProperty.call(loggerOptions.tokens, key) && typeof loggerOptions.tokens[key] === 'function') {
+					morgan.token(key, loggerOptions.tokens[key]);
+				}
+			}
+		}
 
-	// If the user wants to define their own middleware for logging,
-	// they should be able to
+		app.use(morgan(keystone.get('logger'), loggerOptions));
+	}
+	// Bind custom logging middleware
 	if (keystone.get('logging middleware')) {
 		app.use(keystone.get('logging middleware'));
 	}
 
-	// We should also allow custom logging middleware to exist in the normal middleware flow
-	app.use(function (req, res, next) {
-		keystone.callHook('pre:logger', req, res, next);
-	});
-
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Dynamic Router
 	if (!keystone.get('headless')) {
+		app.use(function (req, res, next) {
+			keystone.callHook('pre:admin', req, res, next);
+		});
 		app.use('/' + keystone.get('admin path'), require('../admin/server').createDynamicRouter(keystone));
 	}
 
@@ -107,11 +116,6 @@ module.exports = function createApp (keystone, express) {
 	app.use(function (req, res, next) {
 		keystone.callHook('pre:routes', req, res, next);
 	});
-
-	// Configure React routes
-	if (keystone.get('react routes')) {
-		app.use('/', createComponentRouter(keystone.get('react routes')));
-	}
 
 	// Configure application routes
 	if (typeof keystone.get('routes') === 'function') {

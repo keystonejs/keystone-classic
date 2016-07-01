@@ -1,4 +1,4 @@
-import ColorPicker from '@jedwatson/react-color';
+import { SketchPicker } from 'react-color';
 import Field from '../Field';
 import React from 'react';
 import { FormInput, InputGroup } from 'elemental';
@@ -59,7 +59,7 @@ module.exports = Field.create({
 	},
 
 	handlePickerChange (color) {
-		var newValue = '#' + color.hex;
+		var newValue = color.hex;
 
 		if (newValue === this.props.value) return;
 
@@ -75,6 +75,8 @@ module.exports = Field.create({
 	},
 
 	renderField () {
+		const { displayColorPicker } = this.state;
+
 		return (
 			<div className="field-type-color__wrapper">
 				<InputGroup>
@@ -87,16 +89,21 @@ module.exports = Field.create({
 						</button>
 					</InputGroup.Section>
 				</InputGroup>
-				<div className="field-type-color__picker">
-					<ColorPicker
-						color={this.props.value}
-						display={this.state.displayColorPicker}
-						onChangeComplete={this.handlePickerChange}
-						onClose={this.handleClose}
-						position={window.innerWidth > 480 ? 'right' : 'below'}
-						type={this.props.pickerType}
+				{displayColorPicker && (
+					<div>
+						<div
+							className="field-type-color__popover__cover"
+							onClick={this.handleClose}
 						/>
-				</div>
+						<div className="field-type-color__popover" onClick={e => e.stopPropagation()}>
+							<SketchPicker
+								color={this.props.value}
+								onChangeComplete={this.handlePickerChange}
+								onClose={this.handleClose}
+							/>
+						</div>
+					</div>
+				)}
 			</div>
 		);
 	},

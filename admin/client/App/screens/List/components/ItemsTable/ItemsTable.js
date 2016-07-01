@@ -98,7 +98,7 @@ const ItemsTable = React.createClass({
 		if (!items.results.length) return null;
 
 		const tableBody = (this.props.list.sortable) ? (
-			<DragDrop { ...this.props } />
+			<DragDrop {...this.props} />
 		) : (
 			<tbody >
 				{items.results.map((item, i) => {
@@ -109,7 +109,7 @@ const ItemsTable = React.createClass({
 							sortOrder={item.sortOrder || 0}
 							id={item.id}
 							item={item}
-							{ ...this.props }
+							{...this.props}
 						/>
 					);
 				})}

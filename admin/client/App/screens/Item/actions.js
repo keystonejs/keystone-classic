@@ -5,7 +5,6 @@ import {
 	DATA_LOADING_ERROR,
 	DELETE_ITEM,
 } from './constants';
-import { NETWORK_ERROR_RETRY_DELAY } from '../../../constants';
 
 /**
  * Select an item
@@ -59,15 +58,12 @@ export function dataLoaded (data) {
  *
  * @param  {Object} error The error
  */
-export function dataLoadingError () {
+export function dataLoadingError (err) {
 	return (dispatch) => {
 		dispatch({
 			type: DATA_LOADING_ERROR,
-			error: 'Loading error',
+			error: err,
 		});
-		setTimeout(() => {
-			dispatch(loadItemData());
-		}, NETWORK_ERROR_RETRY_DELAY);
 	};
 }
 

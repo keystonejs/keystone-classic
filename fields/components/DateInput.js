@@ -67,10 +67,10 @@ module.exports = React.createClass({
 		}
 	},
 	handleDaySelect (e, date, modifiers) {
-		if (modifiers.indexOf('disabled') > -1) {
-			return;
-		}
+		if (modifiers && modifiers.disabled) return;
+
 		var value = moment(date).format(this.props.format);
+
 		this.props.onChange({ value });
 		this.setState({
 			pickerIsOpen: false,
