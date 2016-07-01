@@ -159,16 +159,6 @@ const CreateForm = React.createClass({
 				onSubmit={this.submitForm}
 				className="create-form"
 			>
-				{/*
-					TODO Figure out if we still need this hidden inputs now that
-					we use the API for creation
-				*/}
-				<input type="hidden" name="action" value="create" />
-				<input
-					type="hidden"
-					name={Keystone.csrf.key}
-					value={Keystone.csrf.value}
-				/>
 				<Modal.Header
 					text={'Create a new ' + list.singular}
 					onClose={this.props.onCancel}
