@@ -20,6 +20,13 @@ describe('<PopoutBody />', () => {
 			.eql('Popout__body Popout__scrollable-area');
 	});
 
+	it('should have a class of PopoutBody even when another class is passed', () => {
+		const classname = 'something__else';
+		const component = shallow(<PopoutBody className={classname} />);
+		demand(component.find('div').prop('className')).include('Popout__body');
+		demand(component.find('div').prop('className')).include(classname);
+	});
+
 	it('should render its children', () => {
 		const children = (<h1>Hello World!</h1>);
 		const component = shallow(
