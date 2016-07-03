@@ -53,7 +53,9 @@ var SigninView = React.createClass({
 			headers: assign({}, Keystone.csrf.header),
 		}, (err, resp, body) => {
 			if (err || body && body.error) {
-				return this.displayError('The email and password you entered are not valid.');
+				return body.error === 'invalid csrf'
+					? this.displayError('Something went wrong; please refresh your browser and try again.')
+					: this.displayError('The email and password you entered are not valid.');
 			} else {
 				// Redirect to where we came from or to the default admin path
 				if (Keystone.redirect) {
