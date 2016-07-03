@@ -2,9 +2,10 @@
  * The actual Sign In view, with the login form
  */
 
+import assign from 'object-assign';
+import classnames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import classnames from 'classnames';
 import xhr from 'xhr';
 
 import Alert from './components/Alert';
@@ -49,7 +50,7 @@ var SigninView = React.createClass({
 				email: this.state.email,
 				password: this.state.password,
 			},
-			headers: Keystone.csrf.header,
+			headers: assign({}, Keystone.csrf.header),
 		}, (err, resp, body) => {
 			if (err || body && body.error) {
 				return this.displayError('The email and password you entered are not valid.');
