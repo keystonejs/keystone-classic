@@ -17,6 +17,10 @@ module.exports = function createDynamicRouter (keystone) {
 	router.use(bodyParser.urlencoded({ extended: true }));
 	router.use(multer({ includeEmptyFields: true }));
 
+	// Init API request helpers
+	router.use('/api', require('../middleware/apiError'));
+	router.use('/api', require('../middleware/logError'));
+
 	// #1: Session API
 	// TODO: this should respect keystone auth options
 	router.get('/api/session', require('../api/session/get'));
@@ -60,10 +64,6 @@ module.exports = function createDynamicRouter (keystone) {
 
 	// #5: Core Lists API
 	var initList = require('../middleware/initList')(keystone);
-
-	// Init API request helpers
-	router.use('/api', require('../middleware/apiError'));
-	router.use('/api', require('../middleware/logError'));
 
 	// Legacy API endpoints
 	router.post('/api/legacy/:list/create', initList(), require('../api/list/legacyCreate'));
