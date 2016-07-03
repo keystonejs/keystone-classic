@@ -13,7 +13,7 @@ html
 			var Keystone = {
 				adminPath: !{JSON.stringify(adminPath)},
 				brand: !{JSON.stringify(brand || '')},
-				csrf: { '#{csrf_token_key}': "#{csrf_token_value}" },
+				csrf: { header: { '#{csrf_token_key}': "#{csrf_token_value}" } },
 				from: !{JSON.stringify(from || '')},
 				logo: !{JSON.stringify(logo || '')},
 				redirect: !{JSON.stringify(redirect || '')},
