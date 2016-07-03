@@ -42,7 +42,7 @@
     "es6-promise": "3.2.1",
     "express": "4.14.0",
     "express-request-language": "1.1.4",
-    "express-session": "1.13.0",
+    "express-session": "1.14.0",
     "expression-match": "0.0.17",
     "fs-extra": "0.30.0",
     "grappling-hook": "3.0.0",
