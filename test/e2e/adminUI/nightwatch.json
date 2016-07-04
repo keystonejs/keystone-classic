@@ -140,6 +140,17 @@
         "webdriver.gecko.driver": "test/e2e/drivers/firefox/win32/geckodriver.exe"
       }
     },
+    "firefox-win64": {
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "marionette": true
+      },
+      "cli_args": {
+        "webdriver.gecko.driver": "test/e2e/drivers/firefox/win64/geckodriver.exe"
+      }
+    },
     "firefox-mac32": {
       "desiredCapabilities": {
         "browserName": "firefox",
