@@ -30,7 +30,7 @@ describe('<Item /> actions', () => {
 
 		it('should pass on the data', () => {
 			const data = { some: 'field' };
-			demand(dataLoaded(data).id).eql(data);
+			demand(dataLoaded(data).data).eql(data);
 		});
 	});
 
@@ -41,7 +41,7 @@ describe('<Item /> actions', () => {
 
 		it('should pass on the error', () => {
 			const error = { some: 'error' };
-			demand(dataLoadingError(error).id).eql(error);
+			demand(dataLoadingError(error).error).eql(error);
 		});
 	});
 });

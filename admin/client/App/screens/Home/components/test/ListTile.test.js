@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 
 import { Link } from 'react-router';
 
-describe.only('<ListTile />', () => {
+describe('<ListTile />', () => {
 	it('should render a div', () => {
 		const component = shallow(<ListTile />);
 		demand(component.find('div').length).gt(0);
