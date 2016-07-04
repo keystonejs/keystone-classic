@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import assign from 'object-assign';
+
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
 import { Button, InputGroup, FormField, FormInput } from 'elemental';
@@ -36,7 +38,7 @@ var ListColumnsForm = React.createClass({
 		});
 	},
 	toggleColumn (path, value) {
-		const newColumns = Object.assign({}, this.state.selectedColumns);
+		const newColumns = assign({}, this.state.selectedColumns);
 
 		if (value) {
 			newColumns[path] = value;

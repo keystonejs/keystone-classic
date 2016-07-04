@@ -1,6 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import moment from 'moment';
+import assign from 'object-assign';
 import {
 	Button,
 	Col,
@@ -44,14 +45,14 @@ var EditForm = React.createClass({
 	},
 	getInitialState () {
 		return {
-			values: Object.assign({}, this.props.data.fields),
+			values: assign({}, this.props.data.fields),
 			confirmationDialog: null,
 			loading: false,
 			lastValues: null, // used for resetting
 		};
 	},
 	getFieldProps (field) {
-		const props = Object.assign({}, field);
+		const props = assign({}, field);
 		const alerts = this.state.alerts;
 		// Display validation errors inline
 		if (alerts && alerts.error && alerts.error.error === 'validation errors') {
@@ -69,7 +70,7 @@ var EditForm = React.createClass({
 		return props;
 	},
 	handleChange (event) {
-		const values = Object.assign({}, this.state.values);
+		const values = assign({}, this.state.values);
 
 		values[event.path] = event.value;
 		this.setState({ values });
@@ -89,7 +90,7 @@ var EditForm = React.createClass({
 	},
 	handleReset () {
 		this.setState({
-			values: Object.assign({}, this.state.lastValues || this.props.data.fields),
+			values: assign({}, this.state.lastValues || this.props.data.fields),
 			confirmationDialog: null,
 		});
 	},

@@ -1,5 +1,6 @@
 import React from 'react';
 import blacklist from 'blacklist';
+import assign from 'object-assign';
 
 var FooterBar = React.createClass({
 	propTypes: {
@@ -87,7 +88,7 @@ var FooterBar = React.createClass({
 			position: 'relative',
 		};
 		var footerProps = blacklist(this.props, 'children', 'style');
-		var footerStyle = Object.assign({}, this.props.style, {
+		var footerStyle = assign({}, this.props.style, {
 			position: this.state.position,
 			top: this.state.top,
 			width: this.state.width,
