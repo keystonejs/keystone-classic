@@ -1,7 +1,7 @@
 /**
  * Item reducer, handles the item data and loading
  */
-
+import assign from 'object-assign';
 import {
 	SELECT_ITEM,
 	LOAD_DATA,
@@ -20,24 +20,24 @@ const initialState = {
 function item (state = initialState, action) {
 	switch (action.type) {
 		case SELECT_ITEM:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				ready: false,
 				id: action.id,
 				data: null,
 			});
 		case LOAD_DATA:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				loading: true,
 			});
 		case DATA_LOADING_SUCCESS:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				data: action.data,
 				loading: false,
 				ready: true,
 				error: null,
 			});
 		case DATA_LOADING_ERROR:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				data: null,
 				loading: false,
 				ready: true,

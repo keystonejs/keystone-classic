@@ -5,6 +5,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import assign from 'object-assign';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
 import InvalidFieldType from './InvalidFieldType';
@@ -60,7 +61,7 @@ const CreateForm = React.createClass({
 	},
 	// Handle input change events
 	handleChange (event) {
-		var values = Object.assign({}, this.state.values);
+		var values = assign({}, this.state.values);
 		values[event.path] = event.value;
 		this.setState({
 			values: values,
@@ -68,7 +69,7 @@ const CreateForm = React.createClass({
 	},
 	// Set the props of a field
 	getFieldProps (field) {
-		var props = Object.assign({}, field);
+		var props = assign({}, field);
 		props.value = this.state.values[field.path];
 		props.values = this.state.values;
 		props.onChange = this.handleChange;

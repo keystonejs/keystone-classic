@@ -1,4 +1,4 @@
-**/*.test.jsx
+admin/**/*.test.js
 --growl
 --reporter spec
 --compilers js:babel-core/register

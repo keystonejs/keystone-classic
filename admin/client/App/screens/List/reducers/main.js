@@ -1,3 +1,4 @@
+import assign from 'object-assign';
 import List from '../../../../utils/List';
 import {
 	SELECT_LIST,
@@ -74,7 +75,7 @@ function lists (state = initialState, action) {
 			if (list.items.count !== null) {
 				items = list.items;
 			}
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				currentList: list,
 				ready: false,
 				items: items,
@@ -93,7 +94,7 @@ function lists (state = initialState, action) {
 				loading = false;
 				ready = true;
 			}
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				loading,
 				ready,
 			});
@@ -103,7 +104,7 @@ function lists (state = initialState, action) {
 			// background
 			const cachedList = state.data[state.currentList.id];
 			cachedList.items = action.items;
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				loading: false,
 				ready: true,
 				error: null,
@@ -114,7 +115,7 @@ function lists (state = initialState, action) {
 				},
 			});
 		case ITEM_LOADING_ERROR:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				loading: true,
 				ready: true,
 				error: action.err,
@@ -126,7 +127,7 @@ function lists (state = initialState, action) {
 			};
 			const newCachedList = state.data[state.currentList.id];
 			newCachedList.items = newItems;
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				items: newItems,
 				data: {
 					...state.data,
@@ -134,7 +135,7 @@ function lists (state = initialState, action) {
 				},
 			});
 		case SET_CURRENT_PAGE:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				loading: true,
 				page: {
 					...state.page,
@@ -143,42 +144,42 @@ function lists (state = initialState, action) {
 			});
 		case SET_ROW_ALERT:
 			if (action.data.reset === true) {
-				return Object.assign({}, state, {
+				return assign({}, state, {
 					rowAlert: {
 						success: false,
 						fail: false,
 					},
 				});
 			}
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				rowAlert: {
 					...state.rowAlert,
 					...action.data,
 				},
 			});
 		case RESET_DRAG_PAGE:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				drag: {
 					...state.drag,
 					page: state.page.index,
 				},
 			});
 		case RESET_DRAG_ITEMS:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				drag: {
 					...state.drag,
 					clonedItems: state.items,
 				},
 			});
 		case SET_DRAG_ITEM:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				drag: {
 					...state.drag,
 					item: action.item,
 				},
 			});
 		case SET_DRAG_INDEX:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				drag: {
 					...state.drag,
 					index: action.index,
@@ -200,7 +201,7 @@ function lists (state = initialState, action) {
 				);
 			// Add item back in at new index
 			itemsWithoutItem.splice(action.newIndex, 0, item);
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				items: {
 					...state.items,
 					results: itemsWithoutItem,

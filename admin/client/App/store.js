@@ -2,6 +2,7 @@ import { routerReducer, routerMiddleware, push, replace } from 'react-router-red
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { browserHistory } from 'react-router';
 import thunk from 'redux-thunk';
+import assign from 'object-assign';
 
 import listsReducer from './screens/List/reducers/main';
 import activeReducer from './screens/List/reducers/active';
@@ -113,7 +114,7 @@ store.subscribe(() => {
  */
 function updateQueryParams (params, shouldReplace, location) {
 	if (!location) return;
-	const newParams = Object.assign({}, location.query);
+	const newParams = assign({}, location.query);
 	// Stringify nested objects inside the parameters
 	Object.keys(params).forEach(i => {
 		if (params[i]) {

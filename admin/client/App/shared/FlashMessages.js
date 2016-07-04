@@ -15,6 +15,8 @@
  */
 
 import React from 'react';
+import _ from 'lodash';
+
 import FlashMessage from './FlashMessage';
 
 var FlashMessages = React.createClass({
@@ -48,7 +50,7 @@ var FlashMessages = React.createClass({
 
 		return (
 			<div className="flash-messages">
-				{this.renderTypes(this.props.messages)}
+				{_.isPlainObject(this.props.messages) && this.renderTypes(this.props.messages)}
 			</div>
 		);
 	},

@@ -6,6 +6,7 @@
 const listToArray = require('list-to-array');
 const qs = require('qs');
 const xhr = require('xhr');
+const assign = require('object-assign');
 // Filters for truthy elements in an array
 const truthy = (i) => i;
 
@@ -78,7 +79,7 @@ function buildQueryString (options) {
  */
 const List = function (options) {
 	// TODO these options are possibly unused
-	Object.assign(this, options);
+	assign(this, options);
 	this.columns = getColumns(this);
 	this.expandedDefaultColumns = this.expandColumns(this.defaultColumns);
 	this.defaultColumnPaths = this.expandedDefaultColumns.map(i => i.path).join(',');
