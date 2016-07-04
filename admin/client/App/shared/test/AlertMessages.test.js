@@ -125,5 +125,5 @@ describe('<AlertMessages />', () => {
 		demand(component.contains(errors['some/path'].error)).true();
 		demand(component.contains(errors['some/other/path'].error)).true();
 		demand(component.find('li').length).equal(2);
-	})
+	});
 });
