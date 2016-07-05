@@ -11,7 +11,7 @@ var child_process = require('child_process');
 var path = require('path');
 
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
-var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
+var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || '127.0.0.1') + dbName;
 
 var selenium = null;
 
@@ -19,7 +19,7 @@ keystone.init({
 	'name': 'e2e',
 	'brand': 'e2e',
 
-	'host': process.env.KEYSTONEJS_HOST || 'localhost',
+	'host': process.env.KEYSTONEJS_HOST || '127.0.0.1',
 	'port': process.env.KEYSTONEJS_PORT || 3000,
 
 	'mongo': mongoUri,
@@ -81,10 +81,12 @@ keystone.set('nav', {
 	],
 	'Miscs': [
 		'depends-ons',
-		'no-default-columns',
 		'inline-relationships',
 		'many-relationships',
 		'hidden-relationships',
+		'many-relationships',
+		'nameless-relationships',
+		'no-default-columns',
 		'source-relationships',
 		'target-relationships',
 	]
@@ -149,6 +151,7 @@ function runSeleniumInBackground (done) {
 	{
 	  var line = buffer.toString();
 	  if(line.search(/Selenium Server is up and running/g) != -1) {
+			console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: selenium server running in background...');
 			running = true;
 			done();
 	  }
@@ -156,6 +159,7 @@ function runSeleniumInBackground (done) {
 
 	selenium.on('close', function (code) {
 		if(!running) {
+			console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: selenium server run error...');
 			done(new Error('Selenium exited with error code ' + code));
 		}
 	});
@@ -195,7 +199,7 @@ function runKeystone(cb) {
 function start() {
 	var runTests = process.argv.indexOf('--notest') === -1;
 	var dropDB = process.argv.indexOf('--nodrop') === -1;
-	var runSelenium = !(process.argv.indexOf('--selenium-in-background') === -1);
+	var runSelenium = process.argv.indexOf('--selenium-in-background') !== -1;
 
 	async.series([
 

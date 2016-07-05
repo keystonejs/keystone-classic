@@ -71,28 +71,60 @@ var ItemView = React.createClass({
 			createIsOpen: visible,
 		});
 	},
-	// Render this items relationships
-	renderRelationships () {
-		const { relationships } = this.props.currentList;
+	renderRelationshipTableCols () {
+		return (
+			<colgroup>{[
+				<col key="Relationship" />,
+				<col key="Parent" />,
+				<col key="Item" />,
+				<col key="Field" />,
+				<col key="Values" />,
+			]}</colgroup>
+		);
+	},
+	renderRelationshipTableHeaders () {
+		return (
+			<thead><tr>{[
+				<th key="Relationship">Relationship Name</th>,
+				<th key="Parent">Reference List</th>,
+				<th key="Item">Reference Item</th>,
+				<th key="Field">Reference Field</th>,
+				<th key="Value">Reference Field Value</th>,
+			]}</tr></thead>
+		);
+	},
+	renderRelationshipTableBody () {
+		const currentList = this.props.currentList;
+		const { relationships } = currentList;
 		const keys = Object.keys(relationships);
 		if (!keys.length) return;
+		return keys.map(key => {
+			const relationship = relationships[key];
+			const refList = listsByKey[relationship.ref];
+			return (
+				<RelatedItemsList
+					key={relationship.path}
+					list={currentList}
+					refList={refList}
+					relatedItemId={this.props.params.itemId}
+					relationship={relationship}
+				/>
+			);
+		});
+	},
+	// Render this items relationships
+	renderRelationships () {
 		return (
 			<div className="Relationships">
 				<Container>
 					<h2>Relationships</h2>
-					{keys.map(key => {
-						const relationship = relationships[key];
-						const refList = listsByKey[relationship.ref];
-						return (
-							<RelatedItemsList
-								key={relationship.path}
-								list={this.props.currentList}
-								refList={refList}
-								relatedItemId={this.props.params.itemId}
-								relationship={relationship}
-							/>
-						);
-					})}
+					<div className="ItemList-wrapper">
+						<table cellPadding="0" cellSpacing="0" className="Table ItemList">
+							{this.renderRelationshipTableCols()}
+							{this.renderRelationshipTableHeaders()}
+							{this.renderRelationshipTableBody()}
+						</table>
+					</div>
 				</Container>
 			</div>
 		);
@@ -135,7 +167,6 @@ var ItemView = React.createClass({
 				</div>
 			);
 		}
-
 		// When we have the data, render the item view with it
 		return (
 			<div data-screen-id="item">
