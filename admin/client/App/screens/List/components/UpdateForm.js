@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
+import assign from 'object-assign';
 import { Fields } from 'FieldTypes';
 import InvalidFieldType from '../../../shared/InvalidFieldType';
 import { plural } from '../../../../utils/string';
@@ -39,7 +40,7 @@ var UpdateForm = React.createClass({
 		return Object.keys(fields).map(key => ({ value: fields[key].path, label: fields[key].label }));
 	},
 	getFieldProps (field) {
-		var props = Object.assign({}, field);
+		var props = assign({}, field);
 		props.value = this.state.fields[field.path];
 		props.values = this.state.fields;
 		props.onChange = this.handleChange;

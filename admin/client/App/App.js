@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import { listsByPath } from '../utils/lists';
 
 import MobileNavigation from './components/Navigation/Mobile';
 import PrimaryNavigation from './components/Navigation/Primary';
@@ -12,6 +11,7 @@ import SecondaryNavigation from './components/Navigation/Secondary';
 import Footer from './components/Footer';
 
 const App = (props) => {
+	const listsByPath = require('../utils/lists').listsByPath;
 	// If we're on either a list or an item view
 	let currentList, currentSection;
 	if (props.params.listId) {

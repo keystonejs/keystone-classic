@@ -1,4 +1,5 @@
 import React from 'react';
+import assign from 'object-assign';
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
 import { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
@@ -42,7 +43,7 @@ var ListDownloadForm = React.createClass({
 		});
 	},
 	toggleColumn (column, value) {
-		const newColumns = Object.assign({}, this.state.selectedColumns);
+		const newColumns = assign({}, this.state.selectedColumns);
 		if (value) {
 			newColumns[column] = value;
 		} else {

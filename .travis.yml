@@ -11,7 +11,7 @@ before_script:
 - sleep 15
 script:
 - npm run test-cov
-- npm run test-react
+- npm run test-admin
 sudo: required
 notifications:
   email:

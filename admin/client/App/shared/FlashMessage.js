@@ -10,7 +10,7 @@ const FlashMessage = React.createClass({
 		message: React.PropTypes.oneOfType([
 			React.PropTypes.object,
 			React.PropTypes.string,
-		]),
+		]).isRequired,
 		type: React.PropTypes.string,
 	},
 	// Render the message

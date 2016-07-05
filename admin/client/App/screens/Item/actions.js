@@ -59,11 +59,9 @@ export function dataLoaded (data) {
  * @param  {Object} error The error
  */
 export function dataLoadingError (err) {
-	return (dispatch) => {
-		dispatch({
-			type: DATA_LOADING_ERROR,
-			error: err,
-		});
+	return {
+		type: DATA_LOADING_ERROR,
+		error: err,
 	};
 }
 

@@ -1,4 +1,5 @@
 import { remove, map } from 'lodash';
+import assign from 'object-assign';
 
 import {
 	ADD_FILTER,
@@ -28,7 +29,7 @@ const initialState = {
 function active (state = initialState, action) {
 	switch (action.type) {
 		case SET_ACTIVE_LIST:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				id: action.id,
 				columns: action.list.expandColumns(action.list.defaultColumns),
 				filters: [],
@@ -36,15 +37,15 @@ function active (state = initialState, action) {
 				sort: action.list.expandSort(action.list.defaultSort),
 			});
 		case SET_ACTIVE_SEARCH:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				search: action.searchString,
 			});
 		case SET_ACTIVE_SORT:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				sort: action.sort,
 			});
 		case SET_ACTIVE_COLUMNS:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				columns: action.columns,
 			});
 		case ADD_FILTER:
@@ -70,18 +71,18 @@ function active (state = initialState, action) {
 					}
 				});
 			}
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				filters,
 			});
 		case CLEAR_FILTER:
 			let newFilters = remove(state.filters, (filter) => {
 				return filter.field.path !== action.path;
 			});
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				filters: newFilters,
 			});
 		case CLEAR_ALL_FILTERS:
-			return Object.assign({}, state, {
+			return assign({}, state, {
 				filters: [],
 			});
 		default:
