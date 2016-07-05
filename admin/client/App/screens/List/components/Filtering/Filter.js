@@ -115,6 +115,17 @@ class Filter extends Component {
 				return `${field.label} ${mode} ${formattedValue}`;
 			}
 
+			// RELATIONSHIP
+			// TODO populate relationship
+			case 'relationship': {
+				let joiner = value.inverted ? 'is NOT' : 'is';
+				let formattedValue = (value.value.length > 1)
+					? value.value.join(', or ')
+					: value.value[0];
+
+				return `${field.label} ${joiner} ${formattedValue}`;
+			}
+
 			// SELECT
 			case 'select': {
 				let joiner = value.inverted ? 'is NOT' : 'is';
