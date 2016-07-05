@@ -260,7 +260,7 @@ var EditForm = React.createClass({
 				key="save"
 				type="primary"
 				disabled={this.state.loading}
-				onClick={() => this.updateItem()}
+				onClick={this.updateItem}
 			>
 				{this.state.loading ? (
 					<span>
