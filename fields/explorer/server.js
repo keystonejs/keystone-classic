@@ -9,7 +9,7 @@ const packages = require('../../admin/client/packages');
 const app = new express();
 
 // Serve script bundles
-app.use('/js/explorer.js', browserify('./index.js', {
+app.use('/js/explorer.js', browserify('./fields/explorer/index.js', {
 	external: packages,
 	transform: [babelify.configure({
 		plugins: [require('babel-plugin-transform-object-rest-spread'), require('babel-plugin-transform-object-assign')],
@@ -31,13 +31,13 @@ const lessOptions = {
 		},
 	},
 };
-app.use('/styles', less(path.resolve('../../admin/public/styles'), lessOptions));
-app.use('/styles/fonts', express.static(path.resolve('../../admin/public/js/lib/tinymce/skins/keystone/fonts')));
-app.use(express.static('../../admin/public'));
+app.use('/styles', less(path.resolve('./admin/public/styles'), lessOptions));
+app.use('/styles/fonts', express.static(path.resolve('./admin/public/js/lib/tinymce/skins/keystone/fonts')));
+app.use(express.static('./admin/public'));
 
 // Serve the index template
-app.use('/', (req, res) => res.sendFile(path.resolve('./index.html')));
+app.use('/', (req, res) => res.sendFile(path.resolve('./fields/explorer/index.html')));
 
 app.listen(8000, function () {
-	console.log('Field Types Explorer listening on http://localhost:8000');
+	console.log('Field Types Explorer ready on http://localhost:8000');
 });
