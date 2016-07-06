@@ -144,12 +144,15 @@ var DateFilter = React.createClass({
 	},
 	renderControls () {
 		let controls;
+		const { activeInputField } = this.state;
 		const { field, filter } = this.props;
 		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 		const placeholder = field.label + ' is ' + mode.label.toLowerCase() + '...';
 
-		// DayPicker stuff
-		const modifiers = {
+		// DayPicker Modifiers - Selected Day
+		let modifiers = filter.mode === 'between' ? {
+			selected: (day) => moment(filter[activeInputField]).isSame(day),
+		} : {
 			selected: (day) => moment(filter.value).isSame(day),
 		};
 
@@ -180,7 +183,7 @@ var DateFilter = React.createClass({
 							className="DayPicker--chrome"
 							onDayClick={this.switchBetweenActiveInputFields}
 						/>
-						<DayPickerIndicator activeInputField={this.state.activeInputField} />
+						<DayPickerIndicator activeInputField={activeInputField} />
 					</div>
 				</div>
 			);
