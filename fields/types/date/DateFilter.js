@@ -17,16 +17,16 @@ const MODE_OPTIONS = [
 	{ label: 'Between', value: 'between' },
 ];
 
-var DayPickerIndicator = React.createClass({
-	render () {
-		return (
-			<span className="DayPicker-Indicator">
-				<span className="DayPicker-Indicator__border" />
-				<span className="DayPicker-Indicator__bg" />
-			</span>
-		);
-	},
-});
+const DayPickerIndicator = ({ activeInputField }) => {
+	const style = activeInputField === 'before' ? { left: '11rem' } : null;
+
+	return (
+		<span className="DayPicker-Indicator" style={style}>
+			<span className="DayPicker-Indicator__border" />
+			<span className="DayPicker-Indicator__bg" />
+		</span>
+	);
+};
 
 function getDefaultValue () {
 	return {
@@ -180,7 +180,7 @@ var DateFilter = React.createClass({
 							className="DayPicker--chrome"
 							onDayClick={this.switchBetweenActiveInputFields}
 						/>
-						<DayPickerIndicator />
+						<DayPickerIndicator activeInputField={this.state.activeInputField} />
 					</div>
 				</div>
 			);
