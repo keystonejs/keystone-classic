@@ -1,3 +1,4 @@
+import Domify from 'react-domify';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -24,7 +25,8 @@ const FieldType = React.createClass({
 		};
 	},
 	onFieldChange (e) {
-		console.log(`${this.props.type} field value changed:`, e.value);
+		var logValue = typeof e.value === 'string' ? `"${e.value}"` : e.value;
+		console.log(`${this.props.type} field value changed:`, logValue);
 		this.setState({
 			value: e.value,
 		});
@@ -42,24 +44,22 @@ const FieldType = React.createClass({
 		return (
 			<div className="ExplorerField">
 				<h2>{this.props.type}</h2>
+				<h3>Field</h3>
 				<Row>
 					<Col sm="1/3">
-						<h3>Field</h3>
-						<FieldComponent path={spec.path} onChange={this.onFieldChange} value={this.state.value} />
+						<FieldComponent {...spec} onChange={this.onFieldChange} value={this.state.value} />
 					</Col>
 					<Col sm="2/3">
-						<h4>Value</h4>
-						{JSON.stringify(this.state.value)}
+						<Domify value={{ value: this.state.value }} />
 					</Col>
 				</Row>
+				<h3>Filter</h3>
 				<Row>
 					<Col sm="1/3">
-						<h3>Filter</h3>
 						<FilterComponent field={spec} onChange={this.onFilterChange} filter={this.state.filter} />
 					</Col>
 					<Col sm="2/3">
-						<h4>Value</h4>
-						{JSON.stringify(this.state.filter)}
+						<Domify value={this.state.filter} />
 					</Col>
 				</Row>
 			</div>
