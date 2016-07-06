@@ -5,5 +5,5 @@ module.exports = {
 		label: 'Text Field',
 		path: 'text',
 	},
-	value: '',
+	value: 'Hello World',
 };

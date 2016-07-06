@@ -6,7 +6,17 @@ import { Col, Row } from 'elemental';
 
 const Types = {
 	Boolean: require('../types/boolean/test/explorer'),
+	Color: require('../types/color/test/explorer'),
+	Date: require('../types/date/test/explorer'),
+	Datetime: require('../types/datetime/test/explorer'),
+	Email: require('../types/email/test/explorer'),
+	Key: require('../types/key/test/explorer'),
+	Name: require('../types/name/test/explorer'),
+	Password: require('../types/password/test/explorer'),
 	Text: require('../types/text/test/explorer'),
+	Textarea: require('../types/textarea/test/explorer'),
+	Textarray: require('../types/textarray/test/explorer'),
+	Url: require('../types/url/test/explorer'),
 };
 const TypeKeys = Object.keys(Types);
 
