@@ -75,18 +75,21 @@ var DateFilter = React.createClass({
 	},
 	toggleInverted (value) {
 		this.updateFilter({ inverted: value });
-		findDOMNode(this.refs.input).focus();
+		this.setFocus(this.props.filter.mode);
 	},
 	selectMode (mode) {
 		this.updateFilter({ mode });
+		this.setFocus(mode);
+	},
+	setFocus (mode) {
 		if (mode === 'between') {
 			setTimeout(() => {
 				findDOMNode(this.refs[this.state.activeInputField]).focus();
-			}, 100);
+			}, 50);
 		} else {
 			setTimeout(() => {
 				findDOMNode(this.refs.input).focus();
-			}, 100);
+			}, 50);
 		}
 	},
 	handleInputChange (e) {
