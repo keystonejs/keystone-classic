@@ -73,6 +73,13 @@ function getFilterLabel (field, value) {
 			return `${presence} ${label} ${resolveNumberFormat(value, 'are')}`;
 		}
 
+		// PASSWORD
+		case 'password': {
+			return value.exists
+				? `${label} is set`
+				: `${label} is NOT set`;
+		}
+
 		// RELATIONSHIP
 		// TODO populate relationship, currently rendering an ID
 		case 'relationship': {
