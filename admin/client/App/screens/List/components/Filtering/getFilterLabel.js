@@ -101,29 +101,51 @@ function getFilterLabel (field, value) {
 			return `${label} ${joiner} ${formattedValue}`;
 		}
 
-		// TEXT
-		// Code, Color, Email, HTML, Key, Markdown, Name, Textarea, Url
-		default: {
+		// TEXT-LIKE
+		case 'code':
+		case 'color':
+		case 'email':
+		case 'html':
+		case 'key':
+		case 'markdown':
+		case 'name':
+		case 'text':
+		case 'textarea':
+		case 'url': {
 			let mode = '';
-			if (value.mode && value.mode === 'beginsWith') {
-				mode = value.inverted
-					? 'does NOT begin with'
-					: 'begins with';
-			} else if (value.mode && value.mode === 'endsWith') {
-				mode = value.inverted
-					? 'does NOT end with'
-					: 'ends with';
-			} else if (value.mode && value.mode === 'exactly') {
-				mode = value.inverted
-					? 'is NOT exactly'
-					: 'is exactly';
-			} else if (value.mode && value.mode === 'contains') {
-				mode = value.inverted
-					? 'does NOT contain'
-					: 'contains';
+			if (value.mode === 'beginsWith') {
+				mode = value.inverted ? 'does NOT begin with' : 'begins with';
+			} else if (value.mode === 'endsWith') {
+				mode = value.inverted ? 'does NOT end with' : 'ends with';
+			} else if (value.mode === 'exactly') {
+				mode = value.inverted ? 'is NOT exactly' : 'is exactly';
+			} else if (value.mode === 'contains') {
+				mode = value.inverted ? 'does NOT contain' : 'contains';
 			}
 
 			return `${label} ${mode} "${value.value}"`;
+		}
+
+		// TEXTARRAY
+		case 'textarray': {
+			const presence = value.presence === 'some' ? 'Some' : 'No';
+			let mode = '';
+			if (value.mode === 'beginsWith') {
+				mode = value.inverted ? 'do NOT begin with' : 'begin with';
+			} else if (value.mode === 'endsWith') {
+				mode = value.inverted ? 'do NOT end with' : 'end with';
+			} else if (value.mode === 'exactly') {
+				mode = value.inverted ? 'are NOT exactly' : 'are exactly';
+			} else if (value.mode === 'contains') {
+				mode = value.inverted ? 'do NOT contain' : 'contain';
+			}
+
+			return `${presence} ${label} ${mode} "${value.value}"`;
+		}
+
+		// CATCHALL
+		default: {
+			return `${label} "${value.value}"`;
 		}
 	}
 };
