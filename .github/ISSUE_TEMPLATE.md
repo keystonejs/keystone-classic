@@ -9,8 +9,8 @@
   * https://productpains.com/product/keystonejs
  -->
 
+### Steps to reproduce the behavior
+
 ### Expected behavior
 
 ### Actual behavior
-
-### Steps to reproduce the behavior
