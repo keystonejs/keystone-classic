@@ -18,7 +18,7 @@ const Field = React.createClass({
 		const FilterComponent = Types[this.props.type].Filter;
 		const spec = Types[this.props.type].spec;
 		return (
-			<div>
+			<div className="ExplorerField">
 				<h2>{this.props.type}</h2>
 				<h3>Field</h3>
 				<FieldComponent path={spec.path} onChange={(e) => console.log(e)} />
