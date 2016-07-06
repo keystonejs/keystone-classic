@@ -8,7 +8,6 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
-    "react-color": "2.2.0",
     "async": "1.5.2",
     "asyncdi": "1.1.0",
     "azure": "0.10.6",
@@ -23,6 +22,7 @@
     "blacklist": "1.1.2",
     "body-parser": "1.15.2",
     "browserify": "13.0.1",
+    "browserify-middleware": "^7.0.0",
     "browserify-shim": "3.8.12",
     "bytes": "2.4.0",
     "caller-id": "0.1.0",
@@ -71,6 +71,7 @@
     "react": "15.2.0",
     "react-addons-css-transition-group": "15.2.0",
     "react-alt-text": "2.0.0",
+    "react-color": "2.2.0",
     "react-day-picker": "2.3.3",
     "react-dnd": "2.1.4",
     "react-dnd-html5-backend": "2.1.2",
