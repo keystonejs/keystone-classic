@@ -52,7 +52,7 @@
     "kerberos": "0.0.21",
     "keystone-utils": "0.4.0",
     "knox": "0.9.2",
-    "less-middleware": "2.1.0",
+    "less-middleware": "2.2.0",
     "list-to-array": "1.1.0",
     "lodash": "4.13.1",
     "mailgun-js": "^0.7.11",
