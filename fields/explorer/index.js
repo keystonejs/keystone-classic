@@ -5,15 +5,7 @@ import ReactDOM from 'react-dom';
 import { Col, Row } from 'elemental';
 
 const Types = {
-	Text: {
-		Field: require('../types/text/TextField'),
-		Filter: require('../types/text/TextFilter'),
-		spec: {
-			label: 'Text Field',
-			path: 'textField',
-		},
-		value: '',
-	},
+	Text: require('../types/text/test/explorer'),
 };
 
 const FieldType = React.createClass({
