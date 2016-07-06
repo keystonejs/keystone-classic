@@ -5,8 +5,10 @@ import ReactDOM from 'react-dom';
 import { Col, Row } from 'elemental';
 
 const Types = {
+	Boolean: require('../types/boolean/test/explorer'),
 	Text: require('../types/text/test/explorer'),
 };
+const TypeKeys = Object.keys(Types);
 
 const FieldType = React.createClass({
 	getInitialState () {
@@ -62,7 +64,7 @@ const FieldType = React.createClass({
 ReactDOM.render(
 	<div>
 		<h1>Fields Explorer</h1>
-		<FieldType type="Text" />
+		{TypeKeys.map(type => <FieldType key={type} type={type} />)}
 	</div>,
 	document.getElementById('explorer')
 );

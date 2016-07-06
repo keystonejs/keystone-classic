@@ -3,7 +3,7 @@ module.exports = {
 	Filter: require('../TextFilter'),
 	spec: {
 		label: 'Text Field',
-		path: 'textField',
+		path: 'text',
 	},
 	value: '',
 };
