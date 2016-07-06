@@ -4,48 +4,33 @@ const DATE_FORMAT = 'MMM D YYYY';
 const DATETIME_FORMAT = 'MMM D YYYY h:mm:ss';
 
 function getFilterLabel (field, value) {
+	const label = field.label;
 
-	console.log('field', field);
-	console.log('value', value);
+	console.log(field.type, value);
 
 	switch (field.type) {
 		// BOOLEAN
 		case 'boolean': {
 			return value.value
-				? field.label
-				: `NOT ${field.label}`;
+				? label
+				: `NOT ${label}`;
 		}
 
 		// DATE
 		case 'date': {
-			const joiner = value.inverted ? 'is NOT' : 'is';
-			const mode = value.mode === 'on' ? '' : value.mode;
-			const formattedValue = value.mode === 'between'
-				? `${moment(value.after).format(DATE_FORMAT)} and ${moment(value.before).format(DATE_FORMAT)}`
-				: moment(value.value).format(DATE_FORMAT);
-
-			return `${field.label} ${joiner} ${mode} ${formattedValue}`;
+			return `${label} ${resolveDateFormat(value, DATE_FORMAT)}`;
 		}
 
 		// DATE ARRAY
 		case 'datearray': {
 			const presence = value.presence === 'some' ? 'Some' : 'No';
-			const formattedValue = value.mode === 'between'
-				? `${moment(value.after).format(DATE_FORMAT)} and ${moment(value.before).format(DATE_FORMAT)}`
-				: moment(value.value).format(DATE_FORMAT);
 
-			return `${presence} ${field.label} are ${value.mode} ${formattedValue}`;
+			return `${presence} ${label} ${resolveDateFormat(value, DATETIME_FORMAT, 'are')}`;
 		}
 
 		// DATETIME
 		case 'datetime': {
-			const joiner = value.inverted ? 'is NOT' : 'is';
-			const mode = value.mode === 'on' ? '' : value.mode;
-			const formattedValue = value.mode === 'between'
-				? `${moment(value.after).format(DATETIME_FORMAT)} and ${moment(value.before).format(DATETIME_FORMAT)}`
-				: moment(value.value).format(DATETIME_FORMAT);
-
-			return `${field.label} ${joiner} ${mode} ${formattedValue}`;
+			return `${label} ${resolveDateFormat(value, DATETIME_FORMAT)}`;
 		}
 
 		// GEOPOINT
@@ -56,7 +41,7 @@ function getFilterLabel (field, value) {
 			const conjunction = value.distance.mode === 'max' ? 'of' : 'from';
 			const latlong = `${value.lat}, ${value.lon}`;
 
-			return `${field.label} ${mode} ${distance} ${conjunction} ${latlong}`;
+			return `${label} ${mode} ${distance} ${conjunction} ${latlong}`;
 		}
 
 		// LOCATION
@@ -72,22 +57,20 @@ function getFilterLabel (field, value) {
 				value.country,
 			].join(' ').trim();
 
-			return `${field.label} ${joiner} "${formattedValue}"`;
+			return `${label} ${joiner} "${formattedValue}"`;
 		}
 
 		// NUMBER & MONEY
 		case 'number':
 		case 'money': {
-			let mode;
-			if (value.mode === 'equals') mode = 'is';
-			else if (value.mode === 'gt') mode = 'is greater than';
-			else if (value.mode === 'lt') mode = 'is less than';
-			else if (value.mode === 'between') mode = '';
-			const formattedValue = value.mode === 'between'
-				? `is between ${value.value.min} and ${value.value.max}`
-				: value.value;
+			return `${label} ${resolveNumberFormat(value)}`;
+		}
 
-			return `${field.label} ${mode} ${formattedValue}`;
+		// NUMBER ARRAY
+		case 'numberarray': {
+			const presence = value.presence === 'some' ? 'Some' : 'No';
+
+			return `${presence} ${label} ${resolveNumberFormat(value, 'are')}`;
 		}
 
 		// RELATIONSHIP
@@ -98,7 +81,7 @@ function getFilterLabel (field, value) {
 				? value.value.join(', or ')
 				: value.value[0];
 
-			return `${field.label} ${joiner} ${formattedValue}`;
+			return `${label} ${joiner} ${formattedValue}`;
 		}
 
 		// SELECT
@@ -108,7 +91,7 @@ function getFilterLabel (field, value) {
 				? value.value.join(', or ')
 				: value.value[0];
 
-			return `${field.label} ${joiner} ${formattedValue}`;
+			return `${label} ${joiner} ${formattedValue}`;
 		}
 
 		// TEXT
@@ -133,9 +116,32 @@ function getFilterLabel (field, value) {
 					: 'contains';
 			}
 
-			return `${field.label} ${mode} "${value.value}"`;
+			return `${label} ${mode} "${value.value}"`;
 		}
 	}
 };
+
+function resolveNumberFormat (value, conjunction = 'is') {
+	let mode = '';
+	if (value.mode === 'equals') mode = conjunction;
+	else if (value.mode === 'gt') mode = `${conjunction} greater than`;
+	else if (value.mode === 'lt') mode = `${conjunction} less than`;
+
+	const formattedValue = value.mode === 'between'
+		? `is between ${value.value.min} and ${value.value.max}`
+		: value.value;
+
+	return `${mode} ${formattedValue}`;
+}
+
+function resolveDateFormat (value, format, conjunction = 'is') {
+	const joiner = value.inverted ? `${conjunction} NOT` : conjunction;
+	const mode = value.mode === 'on' ? '' : value.mode;
+	const formattedValue = value.mode === 'between'
+		? `${moment(value.after).format(format)} and ${moment(value.before).format(format)}`
+		: moment(value.value).format(format);
+
+	return `${joiner} ${mode} ${formattedValue}`;
+}
 
 module.exports = getFilterLabel;
