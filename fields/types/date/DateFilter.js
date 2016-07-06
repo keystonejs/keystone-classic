@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 
@@ -41,9 +41,9 @@ function getDefaultValue () {
 var DateFilter = React.createClass({
 	displayName: 'DateFilter',
 	propTypes: {
-		filter: React.PropTypes.shape({
-			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
-			inverted: React.PropTypes.boolean,
+		filter: PropTypes.shape({
+			mode: PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
+			inverted: PropTypes.boolean,
 		}),
 	},
 	statics: {
@@ -65,9 +65,9 @@ var DateFilter = React.createClass({
 	componentDidMount () {
 		// focus the text input
 		if (this.props.filter.mode === 'between') {
-			ReactDOM.findDOMNode(this.refs[this.state.activeInputField]).focus();
+			findDOMNode(this.refs[this.state.activeInputField]).focus();
 		} else {
-			ReactDOM.findDOMNode(this.refs.input).focus();
+			findDOMNode(this.refs.input).focus();
 		}
 	},
 	updateFilter (value) {
@@ -75,20 +75,24 @@ var DateFilter = React.createClass({
 	},
 	toggleInverted (value) {
 		this.updateFilter({ inverted: value });
-		ReactDOM.findDOMNode(this.refs.input).focus();
+		findDOMNode(this.refs.input).focus();
 	},
 	selectMode (mode) {
 		this.updateFilter({ mode });
 		if (mode === 'between') {
-			setTimeout(() => { ReactDOM.findDOMNode(this.refs[this.state.activeInputField]).focus(); }, 200);
+			setTimeout(() => {
+				findDOMNode(this.refs[this.state.activeInputField]).focus();
+			}, 100);
 		} else {
-			ReactDOM.findDOMNode(this.refs.input).focus();
+			setTimeout(() => {
+				findDOMNode(this.refs.input).focus();
+			}, 100);
 		}
 	},
 	handleInputChange (e) {
 		const { value } = e.target;
 		let { month } = this.state;
-			// Change the current month only if the value entered by the user is a valid
+		// Change the current month only if the value entered by the user is a valid
 		// date, according to the `L` format
 		if (moment(value, 'L', true).isValid()) {
 			month = moment(value, 'L').toDate();
@@ -106,13 +110,15 @@ var DateFilter = React.createClass({
 
 		const { activeInputField } = this.state;
 		const send = {};
+		const newActiveField = activeInputField === 'before'
+			? 'after'
+			: 'before';
 		send[activeInputField] = day;
 		this.updateFilter(send);
-		const newActiveField = (activeInputField === 'before') ? 'after' : 'before';
 		this.setState(
 			{ activeInputField: newActiveField },
 			() => {
-				ReactDOM.findDOMNode(this.refs[newActiveField]).focus();
+				findDOMNode(this.refs[newActiveField]).focus();
 			}
 		);
 	},
@@ -127,7 +133,12 @@ var DateFilter = React.createClass({
 		const { filter } = this.props;
 		return (
 			<FormField>
-				<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+				<SegmentedControl
+					equalWidthSegments
+					options={INVERTED_OPTIONS}
+					value={filter.inverted}
+					onChange={this.toggleInverted}
+				/>
 			</FormField>
 		);
 	},
@@ -147,10 +158,20 @@ var DateFilter = React.createClass({
 				<div>
 					<FormRow>
 						<FormField width="one-half">
-							<FormInput ref="after" placeholder="From" onFocus={(e) => { this.setActiveField('after'); }} value={moment(filter.after).format(this.props.format)} />
+							<FormInput
+								ref="after"
+								placeholder="From"
+								onFocus={() => this.setActiveField('after')}
+								value={moment(filter.after).format(this.props.format)}
+							/>
 						</FormField>
 						<FormField width="one-half">
-							<FormInput ref="before" placeholder="To" onFocus={(e) => { this.setActiveField('before'); }} value={moment(filter.before).format(this.props.format)} />
+							<FormInput
+								ref="before"
+								placeholder="To"
+								onFocus={() => this.setActiveField('before')}
+								value={moment(filter.before).format(this.props.format)}
+							/>
 						</FormField>
 					</FormRow>
 					<div style={{ position: 'relative' }}>
@@ -196,7 +217,11 @@ var DateFilter = React.createClass({
 		return (
 			<div>
 				{this.renderToggle()}
-				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
+				<FormSelect
+					options={MODE_OPTIONS}
+					onChange={this.selectMode}
+					value={mode.value}
+				/>
 				{this.renderControls()}
 			</div>
 		);
