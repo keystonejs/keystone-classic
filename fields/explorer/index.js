@@ -38,13 +38,12 @@ const FieldType = React.createClass({
 		return (
 			<div className="ExplorerField">
 				<h2>{this.props.type}</h2>
-				<h3>Field</h3>
 				<Row>
 					<Col sm="1/3">
 						<FieldComponent {...spec} onChange={this.onFieldChange} value={this.state.value} />
 					</Col>
-					<Col sm="2/3">
-						<Domify value={{ value: this.state.value }} />
+					<Col sm="2/3" style={{ paddingLeft: 50 }}>
+						<Domify className="Domify" value={{ value: this.state.value }} />
 					</Col>
 				</Row>
 				<h3>Filter</h3>
@@ -52,8 +51,8 @@ const FieldType = React.createClass({
 					<Col sm="1/3">
 						<FilterComponent field={spec} onChange={this.onFilterChange} filter={this.state.filter} />
 					</Col>
-					<Col sm="2/3">
-						<Domify value={this.state.filter} />
+					<Col sm="2/3" style={{ paddingLeft: 50 }}>
+						<Domify className="Domify" value={this.state.filter} />
 					</Col>
 				</Row>
 			</div>
