@@ -22,8 +22,8 @@ var EditForm = React.createClass({
 			value: this.state.values[field.path],
 			values: this.state.values,
 			onChange: this.handleChange,
-			mode: 'edit'
-		})
+			mode: 'edit',
+		});
 	},
 
 	handleChange: function(event) {
@@ -33,12 +33,12 @@ var EditForm = React.createClass({
 			values: values
 		});
 	},
-	
+
 	renderNameField: function() {
-		
+
 		var nameField = this.props.list.nameField,
 			nameIsEditable = this.props.list.nameIsEditable;
-		
+
 		function wrapNameField(field) {
 			return (
 				<div className="field item-name">
@@ -48,33 +48,35 @@ var EditForm = React.createClass({
 				</div>
 			);
 		}
-		
+
 		if (nameIsEditable) {
-			
+
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.className = 'item-name-field';
 			nameFieldProps.placeholder = nameField.label;
 			nameFieldProps.label = false;
-			
-			return wrapNameField(
-				React.createElement(Fields[nameField.type], nameFieldProps)
-			);
-			
+
+			var fieldType = Fields[nameField.type];
+			console.log('fieldType', fieldType)
+			var FieldType = React.createElement(fieldType, nameFieldProps);
+
+			return wrapNameField(FieldType);
+
 		} else {
 			return wrapNameField(
 				<h2 className="form-heading name-value">{this.props.data.name || '(no name)'}</h2>
 			);
 		}
 	},
-	
+
 	renderTrackingMeta: function() {
-		
+
 		if (!this.props.list.tracking) return null;
-		
+
 		var elements = {},
 			data = {},
 			label;
-		
+
 		if (this.props.list.tracking.createdAt) {
 			data.createdAt = this.props.data.fields[this.props.list.tracking.createdAt];
 			if (data.createdAt) {
@@ -86,7 +88,7 @@ var EditForm = React.createClass({
 				);
 			}
 		}
-		
+
 		if (this.props.list.tracking.createdBy) {
 			data.createdBy = this.props.data.fields[this.props.list.tracking.createdBy];
 			if (data.createdBy) {
@@ -100,7 +102,7 @@ var EditForm = React.createClass({
 				);
 			}
 		}
-		
+
 		if (this.props.list.tracking.updatedAt) {
 			data.updatedAt = this.props.data.fields[this.props.list.tracking.updatedAt];
 			if (data.updatedAt && (!data.createdAt || data.createdAt !== data.updatedAt)) {
@@ -112,7 +114,7 @@ var EditForm = React.createClass({
 				);
 			}
 		}
-		
+
 		if (this.props.list.tracking.updatedBy) {
 			data.updatedBy = this.props.data.fields[this.props.list.tracking.updatedBy];
 			if (data.updatedBy && (!data.createdBy || data.createdBy.id !== data.updatedBy.id || elements.updatedAt)) {
@@ -125,26 +127,26 @@ var EditForm = React.createClass({
 				);
 			}
 		}
-		
+
 		return Object.keys(elements).length ? <div className="item-details-meta">{elements}</div> : null;
-		
+
 	},
-	
+
 	renderFormElements: function() {
-		
+
 		var elements = {},
 			headings = 0;
-		
+
 		_.each(this.props.list.uiElements, function(el) {
-			
+
 			if (el.type === 'heading') {
-				
+
 				headings++;
 				el.options.values = this.state.values;
 				elements['h-' + headings] = React.createElement(FormHeading, el);
-				
+
 			} else if (el.type === 'field') {
-				
+
 				var field = this.props.list.fields[el.field],
 					props = this.getFieldProps(field);
 
