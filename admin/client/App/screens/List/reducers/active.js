@@ -49,30 +49,12 @@ function active (state = initialState, action) {
 				columns: action.columns,
 			});
 		case ADD_FILTER:
-			let existsIndex;
-			let filters;
-			let activeFilters = state.filters;
-			// Check if a filter for the passed path exists already, and save the
-			// index if it does
-			const filterExists = Object.keys(activeFilters).some((filter, index) => {
-				existsIndex = index;
-				return activeFilters[filter].field.path === action.filter.field.path;
-			});
-			// If a filter doesn't exists already, simply add it to the existing filters value
-			if (!filterExists) {
-				filters = activeFilters.concat(action.filter);
-			// otherwise replace it with the new filter
-			} else {
-				filters = _.map(activeFilters, (filter, index) => {
-					if (index === existsIndex) {
-						return action.filter;
-					} else {
-						return filter;
-					}
-				});
-			}
 			return assign({}, state, {
-				filters,
+				// Override existing filter with field path,
+				// otherwise add to filters array
+				filters: _.unionWith([action.filter], state.filters, (stateFilter, actionFilter) => {
+					return stateFilter.field.path === actionFilter.field.path;
+				}),
 			});
 		case CLEAR_FILTER:
 			let newFilters = _.filter(state.filters, (filter) => {
