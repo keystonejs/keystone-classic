@@ -1,4 +1,4 @@
-import { remove, map } from 'lodash';
+import _ from 'lodash';
 import assign from 'object-assign';
 
 import {
@@ -63,7 +63,7 @@ function active (state = initialState, action) {
 				filters = activeFilters.concat(action.filter);
 			// otherwise replace it with the new filter
 			} else {
-				filters = map(activeFilters, (filter, index) => {
+				filters = _.map(activeFilters, (filter, index) => {
 					if (index === existsIndex) {
 						return action.filter;
 					} else {
@@ -75,7 +75,7 @@ function active (state = initialState, action) {
 				filters,
 			});
 		case CLEAR_FILTER:
-			let newFilters = remove(state.filters, (filter) => {
+			let newFilters = _.filter(state.filters, (filter) => {
 				return filter.field.path !== action.path;
 			});
 			return assign({}, state, {
