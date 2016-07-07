@@ -248,9 +248,9 @@ Field.prototype.addToSchema = function () {
  * Must be called by the field type's `addToSchema` method
  * Always includes the `update` method
  */
-Field.prototype.bindUnderscoreMethods = function (methods) {
+Field.prototype.bindUnderscoreMethods = function () {
 	var field = this;
-	(this._underscoreMethods || []).concat({ fn: 'updateItem', as: 'update' }, (methods || [])).forEach(function (method) {
+	(this._underscoreMethods || []).concat({ fn: 'updateItem', as: 'update' }).forEach(function (method) {
 		if (typeof method === 'string') {
 			method = { fn: method, as: method };
 		}
