@@ -8,9 +8,21 @@
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		<link href="/styles/keystone.css" rel="stylesheet">
 		<style type="text/css">
-			body {
-				padding: 20px;
+			/* LAYOUT */
+			.fx-sidebar {
+				background-color: #2C3F4C;
+				position: fixed;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				width: 240px;
+				overflow-y: auto;
 			}
+			.fx-body {
+				padding-left: 240px;
+			}
+
+			/* TYPOGRAPHY */
 			h2 {
 				background: white;
 				border-bottom: 1px solid #ddd;
@@ -35,6 +47,87 @@
 			.Domify {
 				font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 				font-size: 0.9em;
+			}
+
+			/* PAGE */
+			.fx-page__content {
+				padding: 80px 20px;
+			}
+
+			.fx-page__header {
+				background-color: #fafafa;
+				border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+				bottom: 0;
+				color: rgba(0, 0, 0, 0.4);
+				display: block;
+				font-size: 2rem;
+				font-weight: 500;
+				height: 60px;
+				left: 240px;
+				line-height: 60px;
+				margin: 0 1.2rem 1.2rem;
+				position: fixed;
+				right: 0;
+				top: 0;
+				z-index: 1;
+			}
+
+			/* SIDEBAR */
+
+			/* header */
+			.fx-sidebar__header {
+				color: rgba(255, 255, 255, 0.4);
+				display: block;
+				font-weight: 500;
+				font-size: 2rem;
+				height: 60px;
+				line-height: 60px;
+				margin: 0 1.2rem 1.2rem;
+				border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+			}
+
+			/* items */
+			.fx-sidebar__item {
+				color: white;
+				display: block;
+				font-weight: 300;
+				letter-spacing: 0.05em;
+				padding: 0.6rem 1.2rem;
+			}
+			.fx-sidebar__item:hover,
+			.fx-sidebar__item:focus {
+				background-color: rgba(255, 255, 255, 0.1);
+				color: white;
+				outline: 0;
+				text-decoration: none;
+			}
+			.fx-sidebar__item:active {
+				background-color: rgba(0, 0, 0, 0.1);
+			}
+			.fx-sidebar__item--active {
+				background-color: #1385E5;
+				color: white;
+				font-weight: 500;
+			}
+			.fx-sidebar__item--active:hover,
+			.fx-sidebar__item--active:focus {
+				background-color: #1385E5;
+			}
+
+			/* WELCOME */
+			.fx-welcome {
+				height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.fx-welcome__inner {
+				text-align: center;
+			}
+			.fx-welcome__heading {}
+			.fx-welcome__content {
+				color: #999;
+				font-size: 1.25rem;
 			}
 		</style>
 	</head>
