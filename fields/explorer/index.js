@@ -7,6 +7,7 @@ const Types = {
 	Boolean: require('../types/boolean/test/explorer'),
 	Color: require('../types/color/test/explorer'),
 	Date: require('../types/date/test/explorer'),
+	Datearray: require('../types/datearray/test/explorer'),
 	Datetime: require('../types/datetime/test/explorer'),
 	Email: require('../types/email/test/explorer'),
 	Key: require('../types/key/test/explorer'),
