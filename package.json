@@ -92,6 +92,7 @@
     "xhr": "2.2.0"
   },
   "devDependencies": {
+    "babel-preset-stage-2": "^6.11.0",
     "codeclimate-test-reporter": "0.3.3",
     "core-assert": "0.2.0",
     "disc": "1.3.2",
