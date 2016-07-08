@@ -160,7 +160,11 @@ var HomeView = React.createClass({
 	},
 });
 
-module.exports = connect((state) => ({
+export {
+	HomeView,
+};
+
+export default connect((state) => ({
 	counts: state.home.counts,
 	loading: state.home.loading,
 	error: state.home.error,
