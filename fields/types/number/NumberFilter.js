@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
@@ -10,92 +10,108 @@ const MODE_OPTIONS = [
 	{ label: 'Between', value: 'between' },
 ];
 
-var NumberFilter = React.createClass({
+function getDefaultValue () {
+	return {
+		mode: MODE_OPTIONS[0].value,
+		value: '',
+	};
+}
 
-	getInitialState () {
+var NumberFilter = React.createClass({
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
+	getDefaultProps () {
 		return {
-			modeValue: MODE_OPTIONS[0].value, // 'matches'
-			modeLabel: MODE_OPTIONS[0].label, // 'Matches'
-			value: '',
-			minValue: '',
-			maxValue: '',
+			filter: getDefaultValue(),
 		};
 	},
 
 	componentDidMount () {
 		// focus the text input
-		ReactDOM.findDOMNode(this.refs.input).focus();
+		findDOMNode(this.refs.focusTarget).focus();
 	},
 
 	handleChangeBuilder (type) {
 		const self = this;
 		return function handleChange (e) {
-			const { value } = e.target;
-			const { modeValue } = self.state;
-			const { onChange } = self.props;
-			self.setState({
-				[type]: value,
-			});
+			const { filter, onChange } = self.props;
 
 			switch (type) {
 				case 'minValue':
 					onChange({
-						mode: modeValue,
+						mode: filter.mode,
 						value: {
-							min: value,
-							max: self.state.maxValue,
+							min: e.target.value,
+							max: filter.value.max,
 						},
 					});
 					break;
 				case 'maxValue':
 					onChange({
-						mode: modeValue,
+						mode: filter.mode,
 						value: {
-							max: value,
-							min: self.state.minValue,
+							min: filter.value.min,
+							max: e.target.value,
 						},
 					});
 					break;
 				case 'value':
 					onChange({
-						mode: modeValue,
-						value,
+						mode: filter.mode,
+						value: e.target.value,
 					});
 			}
 		};
 	},
+	// Update the props with this.props.onChange
+	updateFilter (changedProp) {
+		this.props.onChange({ ...this.props.filter, ...changedProp });
+	},
+	// Update the filter mode
+	selectMode (mode) {
+		this.updateFilter({ mode });
 
-	toggleMode (mode) {
-		this.setState({
-			modeValue: mode,
-			modeLabel: MODE_OPTIONS.find(option => option.value === mode).label,
-		});
-
-		// focus the text input after a mode selection is made
-		ReactDOM.findDOMNode(this.refs.input).focus();
+		// focus on next tick
+		setTimeout(() => {
+			findDOMNode(this.refs.focusTarget).focus();
+		}, 0);
 	},
 
-	renderControls () {
+	renderControls (mode) {
 		let controls;
 		const { field } = this.props;
-		const { modeLabel, modeValue } = this.state;
-		const placeholder = field.label + ' is ' + modeLabel.toLowerCase() + '...';
+		const placeholder = field.label + ' is ' + mode.label.toLowerCase() + '...';
 
-		if (modeValue === 'between') {
+		if (mode.value === 'between') {
 			controls = (
 				<FormRow>
 					<FormField width="one-half" style={{ marginBottom: 0 }}>
-						<FormInput type="number" ref="input" placeholder="Min." onChange={this.handleChangeBuilder('minValue')} />
+						<FormInput
+							onChange={this.handleChangeBuilder('minValue')}
+							placeholder="Min."
+							ref="focusTarget"
+							type="number"
+						/>
 					</FormField>
 					<FormField width="one-half" style={{ marginBottom: 0 }}>
-						<FormInput type="number" placeholder="Max." onChange={this.handleChangeBuilder('maxValue')} />
+						<FormInput
+							onChange={this.handleChangeBuilder('maxValue')}
+							placeholder="Max."
+							type="number"
+						/>
 					</FormField>
 				</FormRow>
 			);
 		} else {
 			controls = (
 				<FormField>
-					<FormInput type="number" ref="input" placeholder={placeholder} onChange={this.handleChangeBuilder('value')} />
+					<FormInput
+						onChange={this.handleChangeBuilder('value')}
+						placeholder={placeholder}
+						ref="focusTarget"
+						type="number"
+					/>
 				</FormField>
 			);
 		}
@@ -104,12 +120,17 @@ var NumberFilter = React.createClass({
 	},
 
 	render () {
-		const { modeValue } = this.state;
+		const { filter } = this.props;
+		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 
 		return (
 			<div>
-				<FormSelect options={MODE_OPTIONS} onChange={this.toggleMode} value={modeValue} />
-				{this.renderControls()}
+				<FormSelect
+					onChange={this.selectMode}
+					options={MODE_OPTIONS}
+					value={mode.value}
+				/>
+				{this.renderControls(mode)}
 			</div>
 		);
 	},
