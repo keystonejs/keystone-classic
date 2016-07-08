@@ -69,8 +69,10 @@ const ExplorerFieldType = React.createClass({
 		});
 	},
 	render () {
-		const { FieldComponent, FilterComponent, spec } = this.props;
+		const { FieldComponent, FilterComponent, readme, spec } = this.props;
 		const { readmeIsVisible } = this.state;
+
+		console.log('readme', readme);
 		// const Readme = Types[type].Readme;
 
 		return (
@@ -125,7 +127,7 @@ const ExplorerFieldType = React.createClass({
 							<Col width={380}>
 								<Markdown
 									className="Markdown"
-									source={STUB_README}
+									source={readme}
 								/>
 							</Col>
 						)}

@@ -5,6 +5,7 @@ import FieldType from './field';
 
 const Types = {
 	Boolean: require('../types/boolean/test/explorer'),
+	Code: require('../types/code/test/explorer'),
 	Color: require('../types/color/test/explorer'),
 	Date: require('../types/date/test/explorer'),
 	Datearray: require('../types/datearray/test/explorer'),
@@ -81,6 +82,7 @@ const App = (props) => {
 					FieldComponent: Type.Field,
 					FilterComponent: Type.Filter,
 					filter: Type.Field.getDefaultProps(),
+					readme: Type.readme,
 					section: Type.section,
 					spec: Type.spec,
 					value: Type.value,
