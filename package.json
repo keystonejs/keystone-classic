@@ -88,7 +88,7 @@
     "string-to-stream": "^1.1.0",
     "vkey": "1.0.0",
     "watchify": "3.7.0",
-    "xhr": "2.2.0"
+    "xhr": "2.2.1"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "0.3.3",
