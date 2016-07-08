@@ -138,73 +138,73 @@ var EditForm = React.createClass({
 
 		return Object.keys(elements).length
 			? (
-				<div className="item-details-meta">
-					{this.renderCreatedAt(this.props)}
-					{this.renderCreatedBy(this.props)}
-					{this.renderUpdatedAt(this.props)}
-					{this.renderUpdatedBy(this.props)}
-				</div>
-			)
+					<div className="item-details-meta">
+						{this.renderCreatedAt(this.props)}
+						{this.renderCreatedBy(this.props)}
+						{this.renderUpdatedAt(this.props)}
+						{this.renderUpdatedBy(this.props)}
+						{elements}
+					</div>
+				)
 			: null;
 
 	},
 
 	renderFormElements: function() {
 
-		var list = this.props.list,
-			elements = [],
-			headings = 0,
-			_this = this;
+			var elements = {},
+				headings = 0;
 
-		function renderHeading(el) {
-				headings++;
-				el.options.values = _this.state.values;
+			_.each(this.props.list.uiElements, function(el) {
 
-				return React.createElement(FormHeading, el);
-				// elements['h-' + headings] = React.createElement(FormHeading, el);
+				if (el.type === 'heading') {
 
-		};
+					headings++;
+					el.options.values = this.state.values;
+					elements['h-' + headings] = {
+						component: FormHeading,
+						props: el
+					};
 
-		return _.each(list.uiElements, function (el) {
-			if (el.type === 'heading') return renderHeading(el);
+				} else if (el.type === 'field') {
 
-		});
-
-		_.each(list.uiElements, function(el) {
-
-			if (el.type === 'heading') {
-
-				headings++;
-				el.options.values = this.state.values;
-				elements['h-' + headings] = React.createElement(FormHeading, el);
-
-			} else if (el.type === 'field') {
-
-				var field = list.fields[el.field],
-					props = this.getFieldProps(field);
+					var field = this.props.list.fields[el.field],
+						props = this.getFieldProps(field);
 
 
-				if ('function' !== typeof Fields[field.type]) {
-					elements[field.path] = React.createElement(InvalidFieldType, { type: field.type, path: field.path });
-					return;
+					if ('function' !== typeof Fields[field.type]) {
+						elements[field.path] = {
+							component: InvalidFieldType,
+							props: {
+								type: field.type,
+								path: field.path
+							}
+						}
+						return;
+					}
+
+					if (props.dependsOn) {
+						props.currentDependencies = {};
+						Object.keys(props.dependsOn).forEach(function (dep) {
+							props.currentDependencies[dep] = this.state.values[dep];
+						}, this);
+					}
+
+					elements[field.path] = {
+						component: Fields[field.type],
+						props: props,
+					};
+
 				}
 
-				if (props.dependsOn) {
-					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(function (dep) {
-						props.currentDependencies[dep] = this.state.values[dep];
-					}, this);
-				}
+			}, this);
 
-				elements[field.path] = React.createElement(Fields[field.type], props);
-
-			}
-
-		}, this);
-
-		console.log('elements', elements)
-
-		return elements;
+			console.log('ELEMENTS', elements)
+			return Object.keys(elements).map(function (key, index) {
+				var element = elements[key];
+				var Component = element.component;
+				return <Component key={index} {...element.props} />
+			});
 
 	},
 
@@ -246,23 +246,15 @@ var EditForm = React.createClass({
 
 	render: function() {
 		return (
-			<div>
+			<form method="post" encType="multipart/form-data" className="item-details">
+				<input type="hidden" name="action" value="updateItem" />
+				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 				{this.renderNameField()}
 				{this.renderTrackingMeta()}
 				{this.renderFormElements()}
 				{this.renderToolbar()}
-	   </div>
-	 );
-		// return (
-		// 	<form method="post" encType="multipart/form-data" className="item-details">
-		// 		<input type="hidden" name="action" value="updateItem" />
-		// 		<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
-		// 		{this.renderNameField()}
-		// 		{this.renderTrackingMeta()}
-		// 		{this.renderFormElements()}
-		// 		{this.renderToolbar()}
-		// 	</form>
-		// );
+			</form>
+		);
 	}
 
 });

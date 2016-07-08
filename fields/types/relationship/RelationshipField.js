@@ -85,6 +85,7 @@ module.exports = Field.create({
 		this._itemsCache[item.id] = item;
 	},
 
+<<<<<<< HEAD
 	loadValue (values) {
 		if (!values) {
 			return this.setState({
@@ -113,6 +114,27 @@ module.exports = Field.create({
 				if (err || !data) return done(err);
 				this.cacheItem(data);
 				done(err, data);
+=======
+	getOptions: function(input, callback) {
+		superagent
+			.get('/keystone/api/' + this.props.refList.path + '/autocomplete?' + this.buildOptionQuery(input))
+			.set('Accept', 'application/json')
+			.end(function (err, res) {
+				if (err) throw err;
+
+				var data = res.body;
+
+				callback(null, {
+					options: data.items.map(function (item) {
+						return {
+							key: item.id,
+							value: item.id,
+							label: item.name
+						};
+					}),
+					complete: data.total === data.items.length
+				});
+>>>>>>> be7940b... cleaning up errors
 			});
 		}, (err, expanded) => {
 			if (!this.isMounted()) return;
