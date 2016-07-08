@@ -8,6 +8,7 @@ var utils = require('keystone-utils');
  * @api public
  */
 function text (list, path, options) {
+	this.options = options;
 	this._nativeType = String;
 	this._properties = ['monospace'];
 	this._underscoreMethods = ['crop'];
@@ -17,8 +18,12 @@ text.properName = 'Text';
 util.inherits(text, FieldType);
 
 text.prototype.validateInput = function (data, callback) {
+	var max = this.options.max;
 	var value = this.getValueFromData(data);
 	var result = value === undefined || value === null || typeof value === 'string';
+	if (max && typeof value === 'string') {
+		result = value.length < max;
+	}
 	utils.defer(callback, result);
 };
 
