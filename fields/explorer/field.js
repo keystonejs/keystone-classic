@@ -2,21 +2,6 @@ import Domify from 'react-domify';
 import React from 'react';
 import Markdown from 'react-markdown';
 
-const Types = {
-	Boolean: require('../types/boolean/test/explorer'),
-	Color: require('../types/color/test/explorer'),
-	Date: require('../types/date/test/explorer'),
-	Datetime: require('../types/datetime/test/explorer'),
-	Email: require('../types/email/test/explorer'),
-	Key: require('../types/key/test/explorer'),
-	Name: require('../types/name/test/explorer'),
-	Password: require('../types/password/test/explorer'),
-	Text: require('../types/text/test/explorer'),
-	Textarea: require('../types/textarea/test/explorer'),
-	Textarray: require('../types/textarray/test/explorer'),
-	Url: require('../types/url/test/explorer'),
-};
-
 const Row = (props) => {
 	const styles = {
 		display: 'flex',
@@ -56,19 +41,18 @@ const Col = (props) => {
 
 const ExplorerFieldType = React.createClass({
 	getInitialState () {
-		const FilterComponent = Types[this.props.params.type].Filter;
 		return {
 			readmeIsVisible: true,
-			filter: FilterComponent.getDefaultValue(),
-			value: Types[this.props.params.type].value,
+			filter: this.props.FilterComponent.getDefaultValue(),
+			value: this.props.value,
 		};
 	},
 	componentWillReceiveProps (newProps) {
 		if (this.props.params.type === newProps.params.type) return;
-		const FilterComponent = Types[newProps.params.type].Filter;
+
 		this.setState({
-			value: Types[newProps.params.type].value,
-			filter: FilterComponent.getDefaultValue(),
+			filter: newProps.FilterComponent.getDefaultValue(),
+			value: newProps.value,
 		});
 	},
 	onFieldChange (e) {
@@ -85,16 +69,14 @@ const ExplorerFieldType = React.createClass({
 		});
 	},
 	render () {
-		const { type } = this.props.params;
+		const { FieldComponent, FilterComponent, spec } = this.props;
 		const { readmeIsVisible } = this.state;
 		// const Readme = Types[type].Readme;
-		const FieldComponent = Types[type].Field;
-		const FilterComponent = Types[type].Filter;
-		const spec = Types[type].spec;
+
 		return (
 			<div className="fx-page">
 				<div className="fx-page__header">
-					<div className="fx-page__header__title">{type}</div>
+					<div className="fx-page__header__title">{spec.label}</div>
 					<button
 						className="fx-page__header__button mega-octicon octicon-file-text"
 						onClick={() => this.setState({ readmeIsVisible: !readmeIsVisible })}

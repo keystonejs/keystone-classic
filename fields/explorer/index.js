@@ -1,29 +1,36 @@
-import React from 'react';
+import React, { Children, cloneElement } from 'react';
 import { Link, Router, Route, browserHistory, IndexRoute } from 'react-router';
 import ReactDOM from 'react-dom';
 import FieldType from './field';
 
-const TypeKeys = {
-	Text: [
-		'Color',
-		'Email',
-		'Key',
-		'Name',
-		'Text',
-		'Textarea',
-		'Textarray',
-		'Url',
-	],
-	Date: [
-		'Date',
-		'Datetime',
-	],
-	Number: [],
-	Miscellaneous: [
-		'Boolean',
-		'Password',
-	],
+const Types = {
+	Boolean: require('../types/boolean/test/explorer'),
+	Color: require('../types/color/test/explorer'),
+	Date: require('../types/date/test/explorer'),
+	Datetime: require('../types/datetime/test/explorer'),
+	Email: require('../types/email/test/explorer'),
+	Key: require('../types/key/test/explorer'),
+	Name: require('../types/name/test/explorer'),
+	Number: require('../types/number/test/explorer'),
+	Numberarray: require('../types/numberarray/test/explorer'),
+	Password: require('../types/password/test/explorer'),
+	Text: require('../types/text/test/explorer'),
+	Textarea: require('../types/textarea/test/explorer'),
+	Textarray: require('../types/textarray/test/explorer'),
+	Url: require('../types/url/test/explorer'),
 };
+
+function generateNavSections (arr) {
+	const navSections = {};
+	arr.forEach((t) => {
+		if (!navSections[t.section]) navSections[t.section] = [];
+	});
+	arr.forEach(t => navSections[t.section].push(t.spec.label));
+
+	return navSections;
+}
+
+const navSections = generateNavSections(Object.keys(Types).map(i => Types[i]));
 
 const App = (props) => {
 	return (
@@ -33,21 +40,26 @@ const App = (props) => {
 					? <Link to="/" className="fx-sidebar__header__link">Exploring</Link>
 					: 'Ready'}
 				</div>
-				{Object.keys(TypeKeys).map(section => {
-					const types = TypeKeys[section].map(type => {
+				{Object.keys(navSections).map(section => {
+					let currentSection;
+					const types = navSections[section].map(type => {
+
+						if (Types[props.params.type]) {
+							currentSection = Types[props.params.type].section;
+						}
 
 						const itemClassName = props.params.type === type
 							? 'fx-sidebar__item fx-sidebar__item--active'
 							: 'fx-sidebar__item';
 
 						return (
-							<Link key={type} to={`/${section}/${type}`} className={itemClassName}>
-								{upcase(type)}
+							<Link key={type} to={`/${type}`} className={itemClassName}>
+								{type}
 							</Link>
 						);
 					});
 
-					const sectionClassName = props.params.section === section
+					const sectionClassName = currentSection === section
 						? 'fx-sidebar__section fx-sidebar__section--active'
 						: 'fx-sidebar__section';
 
@@ -59,7 +71,20 @@ const App = (props) => {
 					);
 				})}
 			</div>
-			<div className="fx-body">{props.children}</div>
+			<div className="fx-body">{Children.map(props.children, (child) => {
+				if (!props.params.type) return child;
+
+				const Type = Types[props.params.type];
+
+				return cloneElement(child, {
+					FieldComponent: Type.Field,
+					FilterComponent: Type.Filter,
+					filter: Type.Field.getDefaultProps(),
+					section: Type.section,
+					spec: Type.spec,
+					value: Type.value,
+				});
+			})}</div>
 		</div>
 	);
 };
@@ -79,7 +104,7 @@ ReactDOM.render(
 	<Router history={browserHistory}>
 		<Route path="/" component={App}>
 			<IndexRoute component={Home} />
-			<Route path=":section/:type" component={FieldType} />
+			<Route path=":type" component={FieldType} />
 		</Route>
 	</Router>,
 	document.getElementById('explorer')
