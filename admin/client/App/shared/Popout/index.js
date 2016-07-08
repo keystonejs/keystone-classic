@@ -8,8 +8,10 @@ import React from 'react';
 import Portal from '../Portal';
 import Transition from 'react-addons-css-transition-group';
 
-const sizes = {
+const SIZES = {
 	arrowHeight: 12,
+	arrowWidth: 16,
+	horizontalMargin: 20,
 };
 
 var Popout = React.createClass({
@@ -29,19 +31,19 @@ var Popout = React.createClass({
 	getInitialState () {
 		return {};
 	},
-	// If we mounted open, calculate the position
-	componentDidMount () {
-		if (this.props.isOpen) this.calculatePosition();
-	},
-	// If we change to being open from not being open, calculate the position
 	componentWillReceiveProps (nextProps) {
-		if (!this.props.isOpen && nextProps.isOpen) this.calculatePosition();
+		if (!this.props.isOpen && nextProps.isOpen) {
+			window.addEventListener('resize', this.calculatePosition);
+			this.calculatePosition(nextProps.isOpen);
+		} else if (this.props.isOpen && !nextProps.isOpen) {
+			window.removeEventListener('resize', this.calculatePosition);
+		}
 	},
 	getPortalDOMNode () {
 		return this.refs.portal.getPortalDOMNode();
 	},
-	// Calculate the position of the popout
-	calculatePosition () {
+	calculatePosition (isOpen) {
+		if (!isOpen) return;
 		let posNode = document.getElementById(this.props.relativeToID);
 
 		const pos = {
@@ -56,35 +58,55 @@ var Popout = React.createClass({
 			posNode = posNode.offsetParent;
 		}
 
-		const leftOffset = pos.left + (pos.width / 2) - (this.props.width / 2);
-		const topOffset = pos.top + pos.height + sizes.arrowHeight;
+		let leftOffset = Math.max(pos.left + (pos.width / 2) - (this.props.width / 2), SIZES.horizontalMargin);
+		let topOffset = pos.top + pos.height + SIZES.arrowHeight;
 
-		this.setState({
-			leftOffset: leftOffset,
-			topOffset: topOffset,
-		});
+		var spaceOnRight = window.innerWidth - (leftOffset + this.props.width + SIZES.horizontalMargin);
+		if (spaceOnRight < 0) {
+			leftOffset = leftOffset + spaceOnRight;
+		}
+
+		const arrowLeftOffset = leftOffset === SIZES.horizontalMargin
+			? pos.left + (pos.width / 2) - (SIZES.arrowWidth / 2) - SIZES.horizontalMargin
+			: null;
+
+		const newStateAvaliable = this.state.leftOffset !== leftOffset
+			|| this.state.topOffset !== topOffset
+			|| this.state.arrowLeftOffset !== arrowLeftOffset;
+
+		if (newStateAvaliable) {
+			this.setState({
+				leftOffset: leftOffset,
+				topOffset: topOffset,
+				arrowLeftOffset: arrowLeftOffset,
+			});
+		}
 	},
-	// Render the popout
 	renderPopout () {
 		if (!this.props.isOpen) return;
+
+		const { arrowLeftOffset, leftOffset, topOffset } = this.state;
+
+		const arrowStyles = arrowLeftOffset
+			? { left: 0, marginLeft: arrowLeftOffset }
+			: null;
 
 		return (
 			<div
 				className="Popout"
 				style={{
-					left: this.state.leftOffset,
-					top: this.state.topOffset,
+					left: leftOffset,
+					top: topOffset,
 					width: this.props.width,
 				}}
 			>
-				<span className="Popout__arrow" />
+				<span className="Popout__arrow" style={arrowStyles} />
 				<div className="Popout__inner">
 					{this.props.children}
 				</div>
 			</div>
 		);
 	},
-	// Render a blockout
 	renderBlockout () {
 		if (!this.props.isOpen) return;
 		return <div className="blockout" onClick={this.props.onCancel} />;
@@ -94,8 +116,8 @@ var Popout = React.createClass({
 			<Portal className="Popout-wrapper" ref="portal">
 				<Transition
 					className="Popout-animation"
-					transitionEnterTimeout={200}
-					transitionLeaveTimeout={200}
+					transitionEnterTimeout={190}
+					transitionLeaveTimeout={190}
 					transitionName="Popout"
 					component="div"
 				>
