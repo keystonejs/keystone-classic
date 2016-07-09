@@ -7,7 +7,6 @@ import React from 'react';
 import { Container, Spinner } from 'elemental';
 import { connect } from 'react-redux';
 
-import { plural } from '../../../utils/string';
 import Lists from './components/Lists';
 import Section from './components/Section';
 import AlertMessages from '../../shared/AlertMessages';
@@ -22,12 +21,6 @@ var HomeView = React.createClass({
 	componentDidMount () {
 		this.props.dispatch(loadCounts());
 	},
-	getCount (key) {
-		// If we have previous counts already saved, show them while we fetch
-		// the new ones. The counts can change e.g. if items were created since
-		// the last visit to the homepage
-		return plural(this.props.counts[key], '* Item', '* Items');
-	},
 	getSpinner () {
 		if (Object.keys(this.props.counts).length === 0
 			&& (this.props.error || this.props.loading)) {
@@ -39,13 +32,11 @@ var HomeView = React.createClass({
 	},
 	renderFlatNav () {
 		return (
-			<div className="dashboard-group__lists">
-				<Lists
-					counts={this.props.counts}
-					lists={Keystone.lists}
-					spinner={this.getSpinner()}
-				/>
-			</div>
+			<Lists
+				counts={this.props.counts}
+				lists={Keystone.lists}
+				spinner={this.getSpinner()}
+			/>
 		);
 	},
 	renderGroupedNav () {
@@ -54,13 +45,11 @@ var HomeView = React.createClass({
 				{Keystone.nav.sections.map((navSection) => {
 					return (
 						<Section key={navSection.key} id={navSection.key} label={navSection.label}>
-							<div className="dashboard-group__lists">
-								<Lists
-									counts={this.props.counts}
-									lists={navSection.lists}
-									spinner={this.getSpinner()}
-								/>
-							</div>
+							<Lists
+								counts={this.props.counts}
+								lists={navSection.lists}
+								spinner={this.getSpinner()}
+							/>
 						</Section>
 					);
 				})}
@@ -72,13 +61,11 @@ var HomeView = React.createClass({
 		if (!Keystone.orphanedLists.length) return;
 		return (
 			<Section label="Other" iconClass="dashboard-group__heading-icon octicon octicon-database">
-				<div className="dashboard-group__lists">
-					<Lists
-						counts={this.props.counts}
-						lists={Keystone.orphanedLists}
-						spinner={this.getSpinner()}
-					/>
-				</div>
+				<Lists
+					counts={this.props.counts}
+					lists={Keystone.orphanedLists}
+					spinner={this.getSpinner()}
+				/>
 			</Section>
 		);
 	},

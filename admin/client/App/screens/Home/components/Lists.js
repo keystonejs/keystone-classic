@@ -7,7 +7,7 @@ import ListTile from './ListTile';
 class Lists extends React.Component {
 	render () {
 		return (
-			<div>
+			<div className="dashboard-group__lists">
 				{_.map(this.props.lists, (list, key) => {
 					// If an object is passed in the key is the index,
 					// if an array is passed in the key is at list.key
