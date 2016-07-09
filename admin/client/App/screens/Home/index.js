@@ -8,7 +8,7 @@ import { Container, Spinner } from 'elemental';
 import { connect } from 'react-redux';
 
 import { plural } from '../../../utils/string';
-import ListTile from './components/ListTile';
+import Lists from './components/Lists';
 import AlertMessages from '../../shared/AlertMessages';
 import {
 	loadCounts,
@@ -63,22 +63,15 @@ var HomeView = React.createClass({
 		return null;
 	},
 	renderFlatNav () {
-		var keys = Object.keys(Keystone.lists);
-		const lists = keys.map((key) => {
-			var list = Keystone.lists[key];
-			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-			return (
-				<ListTile
-					key={list.path}
-					path={list.path}
-					label={list.label}
-					href={href}
-					count={this.getCount(list.key)}
+		return (
+			<div className="dashboard-group__lists">
+				<Lists
+					counts={this.props.counts}
+					lists={Keystone.lists}
 					spinner={this.getSpinner()}
 				/>
-			);
-		});
-		return <div className="dashboard-group__lists">{lists}</div>;
+			</div>
+		);
 	},
 	renderGroupedNav () {
 		return (
@@ -91,19 +84,11 @@ var HomeView = React.createClass({
 								{navSection.label}
 							</div>
 							<div className="dashboard-group__lists">
-								{navSection.lists.map((list) => {
-									var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-									return (
-										<ListTile
-											key={list.path}
-											path={list.path}
-											label={list.label}
-											href={href}
-											count={this.getCount(list.key)}
-											spinner={this.getSpinner()}
-										/>
-									);
-								})}
+								<Lists
+									counts={this.props.counts}
+									lists={navSection.lists}
+									spinner={this.getSpinner()}
+								/>
 							</div>
 						</div>
 					);
@@ -122,19 +107,11 @@ var HomeView = React.createClass({
 					{sectionLabel}
 				</div>
 				<div className="dashboard-group__lists">
-					{Keystone.orphanedLists.map((list) => {
-						var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-						return (
-							<ListTile
-								key={list.path}
-								path={list.path}
-								label={list.label}
-								href={href}
-								count={this.getCount(list.key)}
-								spinner={this.getSpinner()}
-							/>
-						);
-					})}
+					<Lists
+						counts={this.props.counts}
+						lists={Keystone.orphanedLists}
+						spinner={this.getSpinner()}
+					/>
 				</div>
 			</div>
 		);
