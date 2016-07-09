@@ -17,8 +17,8 @@ describe('<Section />', () => {
 	});
 
 	it('should allow an icon classname to be passed in', () => {
-		const iconClassname = 'ocitcon-someicon';
-		const component = shallow(<Section iconClass={iconClassname} />);
+		const iconClassname = 'octicon-someicon';
+		const component = shallow(<Section icon={iconClassname} />);
 		demand(component.find(`.${iconClassname}`).length).eql(1);
 	});
 

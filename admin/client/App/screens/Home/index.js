@@ -68,7 +68,7 @@ var HomeView = React.createClass({
 							})}
 							{/* Render orphaned lists */}
 							{Keystone.orphanedLists.length && (
-								<Section label="Other" iconClass="dashboard-group__heading-icon octicon octicon-database">
+								<Section label="Other" icon="octicon-database">
 									<Lists
 										counts={this.props.counts}
 										lists={Keystone.orphanedLists}
