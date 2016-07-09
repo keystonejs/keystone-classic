@@ -22,10 +22,10 @@ export default function getRelatedIconClass (string) {
 	];
 	const classes = icons
 		.filter(obj => obj.sections.indexOf(string) !== -1)
-		.map(obj => `octicon-${obj.icon}`);
+		.map(obj => `octicon octicon-${obj.icon}`);
 
 	if (!classes.length) {
-		classes.push('octicon-primitive-dot');
+		classes.push('octicon octicon-primitive-dot');
 	}
 
 	return classes.join(' ');

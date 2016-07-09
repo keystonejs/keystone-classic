@@ -7,7 +7,7 @@ class Section extends React.Component {
 		return (
 			<div className="dashboard-group" data-section-label={this.props.label}>
 				<div className="dashboard-group__heading">
-					<span className={`dashboard-group__heading-icon octicon ${iconClass}`} />
+					<span className={`dashboard-group__heading-icon ${iconClass}`} />
 					{this.props.label}
 				</div>
 				{this.props.children}
