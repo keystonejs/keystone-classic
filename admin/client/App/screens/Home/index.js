@@ -22,7 +22,7 @@ var HomeView = React.createClass({
 		this.props.dispatch(loadCounts());
 	},
 	getSpinner () {
-		if (Object.keys(this.props.counts).length === 0
+		if (this.props.counts && Object.keys(this.props.counts).length === 0
 			&& (this.props.error || this.props.loading)) {
 			return (
 				<Spinner />
