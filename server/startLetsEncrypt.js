@@ -55,7 +55,7 @@ module.exports = function (keystone, app, callback) {
 	var sslHost = keystone.get('ssl host') || host;
 	var sslPort = keystone.get('ssl port') || port + 1;
 
-	var options = keystone.get('letsencrypt ');
+	var options = keystone.get('letsencrypt');
 	var email = options.email;
 	var domains = options.domains;
 	var approveRegistration;
