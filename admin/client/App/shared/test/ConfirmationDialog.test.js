@@ -20,7 +20,7 @@ describe('<ConfirmationDialog />', () => {
 			/>
 		);
 
-		demand(component.find('div').prop('dangerouslySetInnerHTML')).eql({
+		demand(component.find('div').at(0).prop('dangerouslySetInnerHTML')).eql({
 			__html: HTML,
 		});
 	});
