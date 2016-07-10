@@ -32,17 +32,31 @@ Ensures a value has been provided. Empty strings are not valid.
 
 ## Filtering
 
-Accepts a value, mode, and can be inverted:
+Accepts a value, mode, and can be inverted. It can also be case sensitive.
 
 ```
 {
 	inverted: Boolean,
+	caseSensitive: Boolean,
 	mode: String enum ['contains', 'exactly', 'beginsWith', 'endsWith'],
 	value: String,
 }
 ```
 
-Inverting the filter finds all items **not** matching the value, according to the rules below.
+An empty `value` will match items containing `null` or `""` stored in the field path.
+
+Inverting the filter finds all items **not** matching the value.
+
+Default filter arguments are:
+
+```
+{
+	inverted: false,
+	caseSensitive: false,
+	mode: 'contains',
+	value: '',
+}
+```
 
 ### Modes
 
