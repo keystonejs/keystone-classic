@@ -11,6 +11,7 @@ const Types = {
 	Datearray: require('../types/datearray/test/explorer'),
 	Datetime: require('../types/datetime/test/explorer'),
 	Email: require('../types/email/test/explorer'),
+	Geopoint: require('../types/geopoint/test/explorer'),
 	Key: require('../types/key/test/explorer'),
 	Location: require('../types/location/test/explorer'),
 	Money: require('../types/money/test/explorer'),
