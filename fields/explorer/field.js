@@ -92,37 +92,41 @@ const ExplorerFieldType = React.createClass({
 					<Row>
 						<Col>
 							<div className="fx-page__content__inner">
-								<Row>
-									<Col width={300}>
-										<FieldComponent
-											{...spec}
-											onChange={this.onFieldChange}
-											value={this.state.value}
-										/>
-									</Col>
-									<Col>
-										<Domify
-											className="Domify"
-											value={{ value: this.state.value }}
-										/>
-									</Col>
-								</Row>
-								<h3>Filter</h3>
-								<Row>
-									<Col width={300}>
-										<FilterComponent
-											field={spec}
-											filter={this.state.filter}
-											onChange={this.onFilterChange}
-										/>
-									</Col>
-									<Col>
-										<Domify
-											className="Domify"
-											value={this.state.filter}
-										/>
-									</Col>
-								</Row>
+								<div className="fx-page__field">
+									<Row>
+										<Col width={300}>
+											<FieldComponent
+												{...spec}
+												onChange={this.onFieldChange}
+												value={this.state.value}
+											/>
+										</Col>
+										<Col>
+											<Domify
+												className="Domify"
+												value={{ value: this.state.value }}
+											/>
+										</Col>
+									</Row>
+								</div>
+								<div className="fx-page__filter">
+									<div className="fx-page__filter__title">Filter</div>
+									<Row>
+										<Col width={300}>
+											<FilterComponent
+												field={spec}
+												filter={this.state.filter}
+												onChange={this.onFilterChange}
+											/>
+										</Col>
+										<Col>
+											<Domify
+												className="Domify"
+												value={this.state.filter}
+											/>
+										</Col>
+									</Row>
+								</div>
 							</div>
 						</Col>
 						{!!readmeIsVisible && (
