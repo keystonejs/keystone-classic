@@ -22,7 +22,7 @@ module.exports = function (req, res) {
 					var fieldName, newValue, nextOldestValue;
 					var nextOldest = result[i + 1];
 
-					if (item.d[field].md !== undefined && item.d[field].md !== null) {
+					if (item.d[field] && (item.d[field].md !== undefined && item.d[field].md !== null)) {
 						fieldName = field + ' (only markdown shown)';
 						newValue = item.d[field].md;
 						if (nextOldest) nextOldestValue = nextOldest.d[field].md;
