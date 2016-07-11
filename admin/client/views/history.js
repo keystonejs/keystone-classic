@@ -2,9 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Footer from '../components/Footer';
-import MobileNavigation from '../components/Navigation/MobileNavigation';
-import PrimaryNavigation from '../components/Navigation/PrimaryNavigation';
+import Footer from '../App/components/Footer';
+import MobileNavigation from '../App/components/Navigation/Mobile';
+import PrimaryNavigation from '../App/components/Navigation/Primary';
 
 var HistoryRow = React.createClass({
 	render: function () {
