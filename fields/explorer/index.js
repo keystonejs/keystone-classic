@@ -5,13 +5,14 @@ import FieldType from './field';
 
 const Types = {
 	Boolean: require('../types/boolean/test/explorer'),
-	Code: require('../types/code/test/explorer'),
+	// Code: require('../types/code/test/explorer'), // Not ready
 	Color: require('../types/color/test/explorer'),
 	Date: require('../types/date/test/explorer'),
 	Datearray: require('../types/datearray/test/explorer'),
 	Datetime: require('../types/datetime/test/explorer'),
 	Email: require('../types/email/test/explorer'),
 	Key: require('../types/key/test/explorer'),
+	Money: require('../types/money/test/explorer'),
 	Name: require('../types/name/test/explorer'),
 	Number: require('../types/number/test/explorer'),
 	Numberarray: require('../types/numberarray/test/explorer'),
@@ -113,6 +114,6 @@ ReactDOM.render(
 	document.getElementById('explorer')
 );
 
-function upcase (str) {
+function upcase (str = '') {
 	return (str.substr(0, 1).toUpperCase() + str.substr(1));
 };
