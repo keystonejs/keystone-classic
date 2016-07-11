@@ -8,7 +8,6 @@ script.
 	
 	Keystone.brand = !{JSON.stringify(brand)};
 	Keystone.nav = !{JSON.stringify(nav)};
-	Keystone.messages = !{JSON.stringify(messages)};
 	Keystone.signoutUrl = !{JSON.stringify(signout)};
 	Keystone.csrf = function(obj) {
 		obj['#{csrf_token_key}'] = "#{csrf_token_value}";
