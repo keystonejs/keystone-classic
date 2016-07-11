@@ -52,6 +52,9 @@ const ExplorerFieldType = React.createClass({
 
 		this.setState({
 			filter: newProps.FilterComponent.getDefaultValue(),
+			readmeIsVisible: newProps.readme
+				? this.state.readmeIsVisible
+				: false,
 			value: newProps.value,
 		});
 	},
@@ -72,19 +75,18 @@ const ExplorerFieldType = React.createClass({
 		const { FieldComponent, FilterComponent, readme, spec } = this.props;
 		const { readmeIsVisible } = this.state;
 
-		console.log('readme', readme);
-		// const Readme = Types[type].Readme;
-
 		return (
 			<div className="fx-page">
 				<div className="fx-page__header">
 					<div className="fx-page__header__title">{spec.label}</div>
-					<button
-						className="fx-page__header__button mega-octicon octicon-file-text"
-						onClick={() => this.setState({ readmeIsVisible: !readmeIsVisible })}
-						title={readmeIsVisible ? 'Hide Readme' : 'Show Readme'}
-						type="button"
-					/>
+					{!!readme && (
+						<button
+							className="fx-page__header__button mega-octicon octicon-file-text"
+							onClick={() => this.setState({ readmeIsVisible: !readmeIsVisible })}
+							title={readmeIsVisible ? 'Hide Readme' : 'Show Readme'}
+							type="button"
+						/>
+					)}
 				</div>
 				<div className="fx-page__content">
 					<Row>
