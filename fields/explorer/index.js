@@ -12,6 +12,7 @@ const Types = {
 	Datetime: require('../types/datetime/test/explorer'),
 	Email: require('../types/email/test/explorer'),
 	Key: require('../types/key/test/explorer'),
+	Location: require('../types/location/test/explorer'),
 	Money: require('../types/money/test/explorer'),
 	Name: require('../types/name/test/explorer'),
 	Number: require('../types/number/test/explorer'),
