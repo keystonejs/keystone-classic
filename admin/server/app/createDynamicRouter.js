@@ -86,8 +86,8 @@ module.exports = function createDynamicRouter (keystone) {
 	router.post('/api/:list/:id/sortOrder/:sortOrder/:newOrder', initList(), require('../api/item/sortOrder'));
 
 	// #6: List Routes
-	router.all('/:list/:page([0-9]{1,5})?', initList(true), IndexRoute);
-	router.all('/:list/:item', initList(true), IndexRoute);
+	router.all('/:list/:page([0-9]{1,5})?', IndexRoute);
+	router.all('/:list/:item', IndexRoute);
 
 	// TODO: catch 404s and errors with Admin-UI specific handlers
 
