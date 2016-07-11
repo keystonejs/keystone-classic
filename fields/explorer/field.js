@@ -42,7 +42,7 @@ const Col = (props) => {
 const ExplorerFieldType = React.createClass({
 	getInitialState () {
 		return {
-			readmeIsVisible: true,
+			readmeIsVisible: !!this.props.readme,
 			filter: this.props.FilterComponent.getDefaultValue(),
 			value: this.props.value,
 		};
