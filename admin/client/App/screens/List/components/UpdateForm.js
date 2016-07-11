@@ -103,9 +103,7 @@ var UpdateForm = React.createClass({
 		const formAction = `${Keystone.adminPath}/${list.path}`;
 
 		return (
-			<Form type="horizontal" encType="multipart/form-data" method="post" action={formAction} noValidate="true">
-				<input type="hidden" name="action" value="update" />
-				<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
+			<Form type="horizontal" action={formAction} noValidate="true">
 				<Modal.Header text={'Update ' + itemCount} onClose={this.handleClose} showCloseButton />
 				<Modal.Body>
 					<Select ref="initialFocusTarget" onChange={this.updateOptions} options={this.getOptions()} value={this.state.fields} key="field-select" multi />

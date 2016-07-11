@@ -260,7 +260,7 @@ var EditForm = React.createClass({
 				key="save"
 				type="primary"
 				disabled={this.state.loading}
-				onClick={() => this.updateItem()}
+				onClick={this.updateItem}
 			>
 				{this.state.loading ? (
 					<span>
@@ -360,8 +360,6 @@ var EditForm = React.createClass({
 				<Row>
 					<Col lg="3/4">
 						<Form type="horizontal" className="EditForm" component="div">
-							<input type="hidden" name="action" value="updateItem" />
-							<input type="hidden" name={Keystone.csrf.key} value={Keystone.csrf.value} />
 							{this.renderNameField()}
 							{this.renderKeyOrId()}
 							{this.renderFormElements()}

@@ -8,7 +8,6 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
-    "react-color": "2.2.0",
     "async": "1.5.2",
     "asyncdi": "1.1.0",
     "azure": "0.10.6",
@@ -22,7 +21,9 @@
     "bcrypt-nodejs": "~0.0.3",
     "blacklist": "1.1.2",
     "body-parser": "1.15.2",
+    "brfs": "^1.4.3",
     "browserify": "13.0.1",
+    "browserify-middleware": "^7.0.0",
     "browserify-shim": "3.8.12",
     "bytes": "2.4.0",
     "caller-id": "0.1.0",
@@ -52,7 +53,7 @@
     "kerberos": "0.0.21",
     "keystone-utils": "0.4.0",
     "knox": "0.9.2",
-    "less-middleware": "2.1.0",
+    "less-middleware": "2.2.0",
     "list-to-array": "1.1.0",
     "lodash": "4.13.1",
     "mailgun-js": "^0.7.11",
@@ -72,10 +73,13 @@
     "react": "15.2.0",
     "react-addons-css-transition-group": "15.2.0",
     "react-alt-text": "2.0.0",
-    "react-day-picker": "2.3.2",
+    "react-color": "2.2.0",
+    "react-day-picker": "2.3.3",
     "react-dnd": "2.1.4",
     "react-dnd-html5-backend": "2.1.2",
     "react-dom": "15.2.0",
+    "react-domify": "^0.2.6",
+    "react-markdown": "^2.3.0",
     "react-redux": "4.4.5",
     "react-router": "2.5.2",
     "react-router-redux": "4.0.5",
@@ -162,7 +166,8 @@
     "current": "updtr",
     "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
     "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate-test-reporter < coverage/lcov.info; fi",
-    "clean": "rimraf ./coverage"
+    "clean": "rimraf ./coverage",
+    "fields-explorer": "node ./fields/explorer/server.js"
   },
   "engines": {
     "node": ">= 0.12.0",
