@@ -54,7 +54,7 @@ const App = (props) => {
 						: 'Ready'}
 					<div className="fx-sidebar__header__border"></div>
 				</div>
-				{Object.keys(navSections).map(section => {
+				{Object.keys(navSections).sort().map(section => {
 					let currentSection;
 					const types = navSections[section].map(type => {
 
