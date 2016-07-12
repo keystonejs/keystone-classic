@@ -94,7 +94,7 @@ const ExplorerFieldType = React.createClass({
 							<div className="fx-page__content__inner">
 								<div className="fx-page__field">
 									<Row>
-										<Col width={300}>
+										<Col width={readmeIsVisible ? 300 : null} style={{ minWidth: 300, maxWidth: 640 }}>
 											<FieldComponent
 												{...spec}
 												onChange={this.onFieldChange}
@@ -102,7 +102,7 @@ const ExplorerFieldType = React.createClass({
 											/>
 										</Col>
 										<Col>
-											<div style={{ marginLeft: 30 }}>
+											<div style={{ marginLeft: 30, marginTop: 26 }}>
 												<Domify
 													className="Domify"
 													value={{ value: this.state.value }}
