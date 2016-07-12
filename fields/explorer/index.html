@@ -9,15 +9,6 @@
 		<link href="/styles/keystone.css" rel="stylesheet">
 		<style type="text/css">
 			/* LAYOUT */
-			.fx-sidebar {
-				background-color: #2C3F4C;
-				bottom: 0;
-				left: 0;
-				overflow-y: auto;
-				position: fixed;
-				top: 0;
-				width: 240px;
-			}
 			.fx-body {
 				padding-left: 240px;
 			}
@@ -47,11 +38,12 @@
 
 			/* code OUTSIDE of pre tags */
 			.Markdown code {
-				background-color: #f9f2f4;
+				background-color: rgba(199, 37, 78, 0.03);
+				border: 1px solid rgba(199, 37, 78, 0.09);
 				border-radius: 4px;
-				color: #c7254e;
+				color: rgba(199, 37, 78, 1);
 				font-size: 90%;
-				padding: 2px 4px;
+				padding: 0.1em 0.3em;
 				white-space: nowrap;
 			}
 			.Markdown pre {
@@ -73,6 +65,7 @@
 			/* code INSIDE of pre tags */
 			.Markdown pre > code {
 				background: none;
+				border: 0;
 				border-radius: 0;
 				color: black;
 				font-size: 90%;
@@ -141,16 +134,33 @@
 			}
 
 			/* SIDEBAR */
+			.fx-sidebar {
+				background-color: #2C3F4C;
+				bottom: 0;
+				left: 0;
+				overflow-y: auto;
+				padding-top: 80px;
+				position: fixed;
+				top: 0;
+				width: 240px;
+			}
 
 			/* header */
 			.fx-sidebar__header {
+				background-color: #2C3F4C;
 				color: rgba(255, 255, 255, 0.4);
 				display: block;
-				font-weight: 500;
 				font-size: 2rem;
+				font-weight: 500;
 				height: 60px;
 				line-height: 60px;
-				margin: 0 20px 20px;
+				padding: 0 20px 20px;
+				position: fixed;
+				top: 0;
+				width: 240px;
+				z-index: 1;
+			}
+			.fx-sidebar__header__border {
 				border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 			}
 			.fx-sidebar__header__link { color: inherit; }
@@ -175,7 +185,7 @@
 				color: rgba(255, 255, 255, 0.4);
 				font-size: 0.85rem;
 				font-weight: 500;
-				padding: 0.6rem;
+				padding: 0.6rem 17px; /* less the border */
 				text-transform: uppercase;
 			}
 
@@ -189,7 +199,7 @@
 				height: 32px;
 				letter-spacing: 0.05em;
 				line-height: 32px;
-				padding: 0 20px;
+				padding: 0 17px; /* less the border */
 				position: relative;
 			}
 			.fx-sidebar__item::before {

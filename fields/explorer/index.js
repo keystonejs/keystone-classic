@@ -48,9 +48,11 @@ const App = (props) => {
 	return (
 		<div className="fx-wrapper">
 			<div className="fx-sidebar">
-				<div className="fx-sidebar__header">{props.params.type
-					? <Link to="/" className="fx-sidebar__header__link">Exploring</Link>
-					: 'Ready'}
+				<div className="fx-sidebar__header">
+					{props.params.type
+						? <Link to="/" className="fx-sidebar__header__link">Exploring</Link>
+						: 'Ready'}
+					<div className="fx-sidebar__header__border"></div>
 				</div>
 				{Object.keys(navSections).map(section => {
 					let currentSection;
