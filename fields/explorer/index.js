@@ -5,7 +5,8 @@ import FieldType from './field';
 
 const Types = {
 	Boolean: require('../types/boolean/test/explorer'),
-	// Code: require('../types/code/test/explorer'), // Not ready
+	// CodeField.js:38 CodeMirror is undefined
+	// Code: require('../types/code/test/explorer'),
 	Color: require('../types/color/test/explorer'),
 	CloudinaryImage: require('../types/cloudinaryimage/test/explorer'),
 	CloudinaryImages: require('../types/cloudinaryimages/test/explorer'),
@@ -17,6 +18,8 @@ const Types = {
 	Html: require('../types/html/test/explorer'),
 	Key: require('../types/key/test/explorer'),
 	Location: require('../types/location/test/explorer'),
+	// bootstrap-markdown.js:863 $ (jQuery) is undefined
+	// Markdown: require('../types/markdown/test/explorer'),
 	Money: require('../types/money/test/explorer'),
 	Name: require('../types/name/test/explorer'),
 	Number: require('../types/number/test/explorer'),
