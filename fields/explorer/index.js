@@ -85,7 +85,7 @@ const App = (props) => {
 				return cloneElement(child, {
 					FieldComponent: Type.Field,
 					FilterComponent: Type.Filter,
-					filter: Type.Field.getDefaultProps(),
+					filter: Type.Filter.getDefaultValue(),
 					readme: Type.readme,
 					section: Type.section,
 					spec: Type.spec,
