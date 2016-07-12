@@ -102,10 +102,12 @@ const ExplorerFieldType = React.createClass({
 											/>
 										</Col>
 										<Col>
-											<Domify
-												className="Domify"
-												value={{ value: this.state.value }}
-											/>
+											<div style={{ marginLeft: 30 }}>
+												<Domify
+													className="Domify"
+													value={{ value: this.state.value }}
+												/>
+											</div>
 										</Col>
 									</Row>
 								</div>
@@ -120,10 +122,12 @@ const ExplorerFieldType = React.createClass({
 											/>
 										</Col>
 										<Col>
-											<Domify
-												className="Domify"
-												value={this.state.filter}
-											/>
+											<div style={{ marginLeft: 30 }}>
+												<Domify
+													className="Domify"
+													value={this.state.filter}
+												/>
+											</div>
 										</Col>
 									</Row>
 								</div>
