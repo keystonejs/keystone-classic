@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SegmentedControl } from 'elemental';
 
-const EXISTS_OPTIONS = [
+const OPTIONS = [
 	{ label: 'Is Set', value: true },
 	{ label: 'Is NOT Set', value: false },
 ];
@@ -16,7 +16,7 @@ function getDefaultValue () {
 var CloudinaryImageFilter = React.createClass({
 	propTypes: {
 		filter: React.PropTypes.shape({
-			exists: React.PropTypes.oneOf(EXISTS_OPTIONS.map(i => i.value)),
+			exists: React.PropTypes.oneOf(OPTIONS.map(i => i.value)),
 		}),
 	},
 	statics: {
@@ -37,7 +37,7 @@ var CloudinaryImageFilter = React.createClass({
 			<SegmentedControl
 				equalWidthSegments
 				onChange={this.toggleExists}
-				options={EXISTS_OPTIONS}
+				options={OPTIONS}
 				value={filter.exists}
 			/>
 		);
