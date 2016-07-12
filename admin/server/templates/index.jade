@@ -65,13 +65,8 @@ html
 		if wysiwygOptions
 			script.
 				Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
-
-		//- Bundles
-		script(src="#{adminPath}/js/packages.js")
-		script(src='#{adminPath}/js/fields.js')
-		script(src="#{adminPath}/js/admin.js")
 				
-		// Google Analytics
+		// Initialize Google Analytics
 		script
 			| window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 			if env == 'production' && ga.domain && ga.property
@@ -79,8 +74,11 @@ html
 				| 
 				| ga('create', '#{ga.property}', '#{ga.domain}');
 				| ga('send', 'pageview');
-			// Admin interface analytics
-			| 
-			| ga('create', 'UA-49258834-9', 'auto', 'adminui');
-			| ga('adminui.send', 'pageview');
+		
+		//- Bundles
+		script(src="#{adminPath}/js/packages.js")
+		script(src='#{adminPath}/js/fields.js')
+		script(src="#{adminPath}/js/admin.js")
+		
+		// Google Analytics Script
 		script(async='', src='https://www.google-analytics.com/analytics.js')
