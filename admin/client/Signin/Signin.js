@@ -13,6 +13,8 @@ import Brand from './components/Brand';
 import UserInfo from './components/UserInfo';
 import LoginForm from './components/LoginForm';
 
+import Analytics from '../utils/Analytics';
+
 var SigninView = React.createClass({
 	getInitialState () {
 		return {
@@ -25,6 +27,8 @@ var SigninView = React.createClass({
 		};
 	},
 	componentDidMount () {
+		Analytics.init();
+		Analytics.sendEvent('Page', 'render', 'Signin');
 		// Focus the email field when we're mounted
 		if (this.refs.email) {
 			ReactDOM.findDOMNode(this.refs.email).select();
