@@ -10,6 +10,10 @@
 		<style type="text/css">
 			/* LAYOUT */
 			.fx-body {
+				padding-left: 0;
+				transition: padding-left 200ms ease-out;
+			}
+			.fx-wrapper--sidebar-is-open .fx-body {
 				padding-left: 240px;
 			}
 
@@ -88,13 +92,17 @@
 				bottom: 0;
 				display: flex;
 				height: 60px;
-				justify-content: space-between;;
-				left: 240px;
+				justify-content: space-between;
 				margin: 0 20px;
 				position: fixed;
+				left: 0;
 				right: 0;
 				top: 0;
+				transition: left 200ms ease-out;
 				z-index: 1;
+			}
+			.fx-wrapper--sidebar-is-open .fx-page__header {
+				left: 240px;
 			}
 			.fx-page__header__title {
 				font-size: 2rem;
@@ -104,11 +112,17 @@
 				background: none;
 				border: 0;
 				outline: 0;
+				padding: 0;
 				transition: color 150ms;
 			}
-			.fx-page__header__button:hover,
-			.fx-page__header__button:focus {
+			.fx-page__header__button:hover {
 				color: #1385E5;
+			}
+			.fx-page__header__button:active {
+				transform: scale(0.9);
+			}
+			.fx-page__header__button--sidebar {
+				margin-right: 10px;
 			}
 
 			.fx-page__field {}
@@ -142,7 +156,12 @@
 				padding-top: 80px;
 				position: fixed;
 				top: 0;
+				transform: translateX(-100%);
+				transition: transform 200ms ease-out;
 				width: 240px;
+			}
+			.fx-wrapper--sidebar-is-open .fx-sidebar {
+				transform: translateX(0);
 			}
 
 			/* header */

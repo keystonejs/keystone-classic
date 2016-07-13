@@ -1,4 +1,4 @@
-import React, { Children, cloneElement } from 'react';
+import React, { Children, cloneElement, Component } from 'react';
 import { Link, Router, Route, browserHistory, IndexRoute } from 'react-router';
 import ReactDOM from 'react-dom';
 import FieldType from './field';
@@ -44,64 +44,78 @@ function generateNavSections (arr) {
 
 const navSections = generateNavSections(Object.keys(Types).map(i => Types[i]));
 
-const App = (props) => {
-	return (
-		<div className="fx-wrapper">
-			<div className="fx-sidebar">
-				<div className="fx-sidebar__header">
-					{props.params.type
-						? <Link to="/" className="fx-sidebar__header__link">Exploring</Link>
-						: 'Ready'}
-					<div className="fx-sidebar__header__border"></div>
-				</div>
-				{Object.keys(navSections).sort().map(section => {
-					let currentSection;
-					const types = navSections[section].map(type => {
+class App extends Component {
+	constructor () {
+		super();
+		this.toggleSidebar = this.toggleSidebar.bind(this);
+		this.state = { sidebarIsOpen: true };
+	}
+	toggleSidebar () {
+		this.setState({ sidebarIsOpen: !this.state.sidebarIsOpen });
+	}
+	render () {
+		const { children, params } = this.props;
+		const { sidebarIsOpen } = this.state;
 
-						if (Types[props.params.type]) {
-							currentSection = Types[props.params.type].section;
-						}
+		return (
+			<div className={`fx-wrapper ${sidebarIsOpen ? 'fx-wrapper--sidebar-is-open' : ''}`}>
+				<div className="fx-sidebar">
+					<div className="fx-sidebar__header">
+						{params.type
+							? <Link to="/" className="fx-sidebar__header__link">Field Types</Link>
+							: 'Ready'}
+						<div className="fx-sidebar__header__border"></div>
+					</div>
+					{Object.keys(navSections).sort().map(section => {
+						let currentSection;
+						const types = navSections[section].map(type => {
 
-						const itemClassName = props.params.type === type
-							? 'fx-sidebar__item fx-sidebar__item--active'
-							: 'fx-sidebar__item';
+							if (Types[params.type]) {
+								currentSection = Types[params.type].section;
+							}
+
+							const itemClassName = params.type === type
+								? 'fx-sidebar__item fx-sidebar__item--active'
+								: 'fx-sidebar__item';
+
+							return (
+								<Link key={type} to={`/${type}`} className={itemClassName}>
+									{type}
+								</Link>
+							);
+						});
+
+						const sectionClassName = currentSection === section
+							? 'fx-sidebar__section fx-sidebar__section--active'
+							: 'fx-sidebar__section';
 
 						return (
-							<Link key={type} to={`/${type}`} className={itemClassName}>
-								{type}
-							</Link>
+							<div key={section} className={sectionClassName}>
+								<div key={section} className="fx-sidebar__section__title">{section}</div>
+								{types}
+							</div>
 						);
+					})}
+				</div>
+				<div className="fx-body">{Children.map(children, (child) => {
+					if (!params.type) return child;
+
+					const Type = Types[params.type];
+
+					return cloneElement(child, {
+						FieldComponent: Type.Field,
+						FilterComponent: Type.Filter,
+						filter: Type.Filter.getDefaultValue(),
+						readme: Type.readme,
+						section: Type.section,
+						spec: Type.spec,
+						toggleSidebar: this.toggleSidebar,
+						value: Type.value,
 					});
-
-					const sectionClassName = currentSection === section
-						? 'fx-sidebar__section fx-sidebar__section--active'
-						: 'fx-sidebar__section';
-
-					return (
-						<div key={section} className={sectionClassName}>
-							<div key={section} className="fx-sidebar__section__title">{section}</div>
-							{types}
-						</div>
-					);
-				})}
+				})}</div>
 			</div>
-			<div className="fx-body">{Children.map(props.children, (child) => {
-				if (!props.params.type) return child;
-
-				const Type = Types[props.params.type];
-
-				return cloneElement(child, {
-					FieldComponent: Type.Field,
-					FilterComponent: Type.Filter,
-					filter: Type.Filter.getDefaultValue(),
-					readme: Type.readme,
-					section: Type.section,
-					spec: Type.spec,
-					value: Type.value,
-				});
-			})}</div>
-		</div>
-	);
+		);
+	}
 };
 
 const Home = (props) => {

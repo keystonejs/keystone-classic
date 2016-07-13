@@ -72,16 +72,23 @@ const ExplorerFieldType = React.createClass({
 		});
 	},
 	render () {
-		const { FieldComponent, FilterComponent, readme, spec } = this.props;
+		const { FieldComponent, FilterComponent, readme, spec, toggleSidebar } = this.props;
 		const { readmeIsVisible } = this.state;
 
 		return (
 			<div className="fx-page">
 				<div className="fx-page__header">
-					<div className="fx-page__header__title">{spec.label}</div>
+					<div className="fx-page__header__title">
+						<button
+							className="fx-page__header__button fx-page__header__button--sidebar mega-octicon octicon-three-bars"
+							onClick={toggleSidebar}
+							type="button"
+						/>
+						{spec.label}
+					</div>
 					{!!readme && (
 						<button
-							className="fx-page__header__button mega-octicon octicon-file-text"
+							className="fx-page__header__button fx-page__header__button--readme mega-octicon octicon-file-text"
 							onClick={() => this.setState({ readmeIsVisible: !readmeIsVisible })}
 							title={readmeIsVisible ? 'Hide Readme' : 'Show Readme'}
 							type="button"
