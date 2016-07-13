@@ -8,7 +8,7 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
-    "async": "1.5.2",
+    "async": "2.0.0",
     "asyncdi": "1.1.0",
     "azure": "0.10.6",
     "babel-core": "6.10.4",
