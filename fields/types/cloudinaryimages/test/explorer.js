@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../CloudinaryImagesField'),
 	Filter: require('../CloudinaryImagesFilter'),
-	section: 'Text',
+	section: 'Miscellaneous',
 	spec: {
 		label: 'CloudinaryImages',
 		path: 'cloudinaryimages',
