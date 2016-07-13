@@ -19,7 +19,7 @@ module.exports = function SigninRoute (keystone) {
 		ejs.renderFile(templatePath, locals, {}, function (err, str) {
 			if (err) {
 				console.error('Could not render Admin UI Signin Template:', err);
-				return res.status(500).send(keystone.wrapHTMLError('Error rendering Signin template', err.message));
+				return res.status(500).send(keystone.wrapHTMLError('Error Rendering Signin', err.message));
 			}
 			res.send(str);
 		});
