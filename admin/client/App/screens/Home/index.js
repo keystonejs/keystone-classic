@@ -67,7 +67,7 @@ var HomeView = React.createClass({
 								);
 							})}
 							{/* Render orphaned lists */}
-							{Keystone.orphanedLists.length && (
+							{Keystone.orphanedLists.length ? (
 								<Section label="Other" icon="octicon-database">
 									<Lists
 										counts={this.props.counts}
@@ -75,7 +75,7 @@ var HomeView = React.createClass({
 										spinner={spinner}
 									/>
 								</Section>
-							)}
+							) : null}
 						</div>
 					)}
 				</div>
