@@ -52,6 +52,7 @@ module.exports = function IndexRoute (keystone) {
 			adminPath: keystoneData.adminPath,
 			cloudinaryScript: false,
 			codemirrorPath: codemirrorPath,
+			env: keystone.get('env'),
 			fieldTypes: keystone.fieldTypes,
 			ga: {
 				property: keystone.get('ga property'),
