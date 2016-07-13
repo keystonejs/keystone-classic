@@ -100,7 +100,10 @@ var renderMarkdown = function (component) {
 	};
 
 	if (component.props.toolbarOptions.hiddenButtons) {
-		var hiddenButtons = (typeof component.props.toolbarOptions.hiddenButtons === 'string') ? component.props.toolbarOptions.hiddenButtons.split(',') : component.props.toolbarOptions.hiddenButtons;
+		var hiddenButtons = (typeof component.props.toolbarOptions.hiddenButtons === 'string')
+			? component.props.toolbarOptions.hiddenButtons.split(',')
+			: component.props.toolbarOptions.hiddenButtons;
+
 		options.hiddenButtons = options.hiddenButtons.concat(hiddenButtons);
 	}
 
@@ -108,10 +111,9 @@ var renderMarkdown = function (component) {
 };
 
 module.exports = Field.create({
-
 	displayName: 'MarkdownField',
 
-	// Override `shouldCollapse` to check the markdown field correctly
+	// override `shouldCollapse` to check the markdown field correctly
 	shouldCollapse () {
 		return this.props.collapse && !this.props.value.md;
 	},
@@ -131,15 +133,46 @@ module.exports = Field.create({
 	},
 
 	renderField () {
-		var styles = {
+		const styles = {
 			padding: 8,
 			height: this.props.height,
 		};
-		return <textarea name={this.props.paths.md} style={styles} defaultValue={this.props.value !== undefined && this.props.value.md !== undefined ? this.props.value.md : ''} ref="markdownTextarea" className="md-editor__input code" />;
+		console.log('Markdown renderField:', this.props.value, this.props.value.md);
+		const defaultValue = (
+			this.props.value !== undefined
+			&& this.props.value.md !== undefined
+		)
+		? this.props.value.md
+		: '';
+
+		return (
+			<textarea
+				className="md-editor__input code"
+				defaultValue={defaultValue}
+				name={this.props.paths.md}
+				ref="markdownTextarea"
+				style={styles}
+			/>
+		);
 	},
 
 	renderValue () {
-		// TODO: victoriafrench - is this the correct way to do this? the object should be creating a default md where one does not exist imo.
-		return <FormInput multiline noedit dangerouslySetInnerHTML={{ __html: this.props.value !== undefined && this.props.value.md !== undefined ? this.props.value.md.replace(/\n/g, '<br />') : '' }} />;
+		// TODO: victoriafrench - is this the correct way to do this? the object
+		// should be creating a default md where one does not exist imo.
+
+		const innerHtml = (
+			this.props.value !== undefined
+			&& this.props.value.md !== undefined
+		)
+		? this.props.value.md.replace(/\n/g, '<br />')
+		: '';
+
+		return (
+			<FormInput
+				dangerouslySetInnerHTML={{ __html: innerHtml }}
+				multiline
+				noedit
+			/>
+		);
 	},
 });
