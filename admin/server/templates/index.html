@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="<%= adminPath %>/js/lib/codemirror/codemirror.css">
+    <link rel="stylesheet" href="<%= adminPath %>/styles/keystone.min.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+<%# React Mount Element %>
+    <div id="react-root"></div>
+<%# Keystone Config %>
+    <script>
+      var Keystone = <%- JSON.stringify(keystone) %>;
+    </script>
+<%# Old jQuery, editor and Cloudinary scripts %>
+    <script src="<%= adminPath %>/js/lib/jquery/jquery-1.10.2.min.js"></script>
+<% if (fieldTypes.wysiwyg) { -%>
+    <script src="<%= adminPath %>/js/lib/tinymce/tinymce.min.js"></script>
+<% if (cloudinaryScript) { -%>
+    <script src="<%= adminPath %>/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js"></script>
+    <script src="<%= adminPath %>/js/lib/jqueryfileupload/jquery.iframe-transport.js"></script>
+    <script src="<%= adminPath %>/js/lib/jqueryfileupload/jquery.fileupload.js"></script>
+    <script src="<%= adminPath %>/js/lib/cloudinary/jquery.cloudinary.js"></script>
+    <%- cloudinaryScript %>
+<% } } -%>
+<% if (fieldTypes.code) { -%>
+    <script src="<%= codemirrorPath %>/codemirror-compressed.js"></script>
+<% } -%>
+    <script src="/keystone/js/packages.js"></script>
+    <script src="/keystone/js/fields.js"></script>
+    <script src="/keystone/js/admin.js"></script>
+<% if (ga.property && ga.domain) { -%>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', '<%= ga.property %>', '<%= ga.domain %>');
+      ga('send', 'pageview');
+    </script>
+<% } -%>
+  </body>
+</html>

@@ -56,12 +56,6 @@ html
 				}
 				
 		//- Lists Meta
-		- var getListMeta = function(list) { return _.pick(list, ['key', 'label', 'path']); }
-		script.
-			Keystone.lists = !{JSON.stringify(lists)};
-		if orphanedLists
-			script.
-				Keystone.orphanedLists = !{JSON.stringify(orphanedLists.map(getListMeta))};
 		if wysiwygOptions
 			script.
 				Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
