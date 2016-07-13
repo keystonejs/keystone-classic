@@ -10,6 +10,11 @@ module.exports = {
 			html: 'markdown.html',
 			md: 'markdown.md',
 		},
+		wysiwyg: true,
+		toolbarOptions: {},
 	},
-	value: '*Hello World!*',
+	value: {
+		html: '<p><em>Hello World!</em></p>',
+		md: '*Hello World!*',
+	},
 };

@@ -6,6 +6,7 @@
 		<meta http-equiv="Content-Language" content="en">
 		<title>Keystone Fields Explorer</title>
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="/js/lib/codemirror/codemirror.css">
 		<link href="/styles/keystone.css" rel="stylesheet">
 		<style type="text/css">
 			/* LAYOUT */
@@ -271,7 +272,23 @@
 	</head>
 	<body>
 		<div id="explorer"></div>
-		<script>var Keystone = {};</script>
+		<script src="/js/lib/jquery/jquery-1.10.2.min.js"></script>
+		<script src="/js/lib/tinymce/tinymce.min.js"></script>
+		<script src="/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js"></script>
+		<script src="/js/lib/jqueryfileupload/jquery.iframe-transport.js"></script>
+		<script src="/js/lib/jqueryfileupload/jquery.fileupload.js"></script>
+		<script src="/js/lib/cloudinary/jquery.cloudinary.js"></script>
+		<script src="/js/lib/codemirror/codemirror-compressed.js"></script>
+		<script type='text/javascript'>
+			$.cloudinary.config({"api_key":"333779167276662","cloud_name":"keystone-demo","private_cdn":false});
+			var Keystone = {};
+			Keystone.cloudinary = {
+				cloud_name: "keystone-demo",
+				api_key: "333779167276662",
+				timestamp: "1468389288",
+				signature: "26c83a021bcebe6f3ec906b2aa23ccd84afaa8c1",
+			}
+		</script>
 		<script src="/js/packages.js"></script>
 		<script src="/js/explorer.js"></script>
 	</body>
