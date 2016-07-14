@@ -12,7 +12,7 @@ exports.initList = function (List) {
 		},
 		minChar: {
 			type: String,
-			min: 5,
+			min: 10,
 		},
 	});
 };
