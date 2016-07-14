@@ -6,6 +6,7 @@ module.exports = {
 	spec: {
 		label: 'Html',
 		path: 'html',
+		wysiwyg: true,
 	},
 	value: '<p>Hello World!</p>',
 };

@@ -281,7 +281,9 @@
 		<script src="/js/lib/codemirror/codemirror-compressed.js"></script>
 		<script type='text/javascript'>
 			$.cloudinary.config({"api_key":"333779167276662","cloud_name":"keystone-demo","private_cdn":false});
-			var Keystone = {};
+			var Keystone = {
+				wysiwyg: {}
+			};
 			Keystone.cloudinary = {
 				cloud_name: "keystone-demo",
 				api_key: "333779167276662",
