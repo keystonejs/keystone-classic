@@ -3,8 +3,7 @@
      "keystone"
   ],
   "rules": {
-    "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
-    "quote-props": ["error", "as-needed"]
+    "no-unused-vars": [2, {"vars": "all", "args": "after-used"}]
   },
   "globals": {
     "_": true,
