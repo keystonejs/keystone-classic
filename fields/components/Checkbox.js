@@ -1,7 +1,7 @@
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
-import { fadeColor, shadeColor } from '../../admin/client/utils/color';
+import { darken, fade } from '../../admin/client/utils/color';
 import E from '../../admin/client/constants';
 
 var Checkbox = React.createClass({
@@ -47,13 +47,13 @@ var Checkbox = React.createClass({
 			borderColor = (checked) ? 'rgba(0,0,0,0.1) rgba(0,0,0,0.15) rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.35) rgba(0,0,0,0.3) rgba(0,0,0,0.25)';
 		}
 		if (active) {
-			background = (checked && !readonly) ? shadeColor(checkedColor, -20) : '#eee';
+			background = (checked && !readonly) ? darken(checkedColor, 20) : '#eee';
 			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.4) rgba(0,0,0,0.35) rgba(0,0,0,0.3)';
 			boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 3px rgba(0,0,0,0.2)';
 		}
 		if (focus && !active) {
 			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : checkedColor;
-			boxShadow = (checked && !readonly) ? `0 0 0 3px ${fadeColor(checkedColor, 15)}` : `inset 0 1px 2px rgba(0,0,0,0.15), 0 0 0 3px ${fadeColor(checkedColor, 15)}`;
+			boxShadow = (checked && !readonly) ? `0 0 0 3px ${fade(checkedColor, 15)}` : `inset 0 1px 2px rgba(0,0,0,0.15), 0 0 0 3px ${fade(checkedColor, 15)}`;
 		}
 
 		// noedit
