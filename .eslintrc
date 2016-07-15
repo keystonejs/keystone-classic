@@ -2,6 +2,10 @@
   "extends": [
      "keystone"
   ],
+  "rules": {
+    "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
+    "quote-props": ["error", "as-needed"]
+  },
   "globals": {
     "_": true,
     "$": true,

@@ -1,18 +1,86 @@
-var keystone = require('../../../');
+var _ = require('lodash');
+var ejs = require('ejs');
 var path = require('path');
 
-module.exports = function (req, res) {
-	var appName = keystone.get('name') || 'Keystone';
-	var codemirrorPath = keystone.get('codemirror url path')
-												? path.join('/', keystone.get('codemirror url path'))
-												: path.join('/', keystone.get('admin path'), '/js/lib/codemirror');
-	// ensure for windows :-)
-	codemirrorPath = codemirrorPath.replace(/\\/g, '/');
-	keystone.render(req, res, 'index', {
-		// section: keystone.nav.by.list[req.list.key] || {},
-		title: appName,
-		list: req.list,
-		orphanedLists: keystone.getOrphanedLists(),
-		codemirrorPath: codemirrorPath,
-	});
+var templatePath = path.resolve(__dirname, '../templates/index.html');
+
+module.exports = function IndexRoute (keystone) {
+	return function (req, res) {
+
+		var lists = {};
+		_.forEach(keystone.lists, function (list, key) {
+			lists[key] = list.getOptions();
+		});
+
+		var orphanedLists = keystone.getOrphanedLists().map(function (list) {
+			return _.pick(list, ['key', 'label', 'path']);
+		});
+
+		var keystoneData = {
+			adminPath: '/' + keystone.get('admin path'),
+			appversion: keystone.get('appversion'),
+			backUrl: keystone.get('back url') || '/',
+			brand: keystone.get('brand'),
+			csrf: { header: {} },
+			devMode: !!process.env.KEYSTONE_DEV,
+			lists: lists,
+			nav: keystone.nav,
+			orphanedLists: orphanedLists,
+			signoutUrl: keystone.get('signout url'),
+			user: req.user,
+			version: keystone.version,
+			wysiwyg: { options: {
+				enableImages: keystone.get('wysiwyg images') ? true : false,
+				enableCloudinaryUploads: keystone.get('wysiwyg cloudinary images') ? true : false,
+				enableS3Uploads: keystone.get('wysiwyg s3 images') ? true : false,
+				additionalButtons: keystone.get('wysiwyg additional buttons') || '',
+				additionalPlugins: keystone.get('wysiwyg additional plugins') || '',
+				additionalOptions: keystone.get('wysiwyg additional options') || {},
+				overrideToolbar: keystone.get('wysiwyg override toolbar'),
+				skin: keystone.get('wysiwyg skin') || 'keystone',
+				menubar: keystone.get('wysiwyg menubar'),
+				importcss: keystone.get('wysiwyg importcss') || '',
+			} },
+		};
+		keystoneData.csrf.header[keystone.security.csrf.CSRF_HEADER_KEY] = keystone.security.csrf.getToken(req, res);
+
+		var codemirrorPath = keystone.get('codemirror url path')
+			? '/' + keystone.get('codemirror url path')
+			: '/' + keystone.get('admin path') + '/js/lib/codemirror';
+
+		var locals = {
+			adminPath: keystoneData.adminPath,
+			cloudinaryScript: false,
+			codemirrorPath: codemirrorPath,
+			env: keystone.get('env'),
+			fieldTypes: keystone.fieldTypes,
+			ga: {
+				property: keystone.get('ga property'),
+				domain: keystone.get('ga domain'),
+			},
+			keystone: keystoneData,
+			title: keystone.get('name') || 'Keystone',
+		};
+
+		var cloudinaryConfig = keystone.get('cloudinary config');
+		if (cloudinaryConfig) {
+			var cloudinary = require('cloudinary');
+			var cloudinaryUpload = cloudinary.uploader.direct_upload();
+			keystone.cloudinary = {
+				cloud_name: keystone.get('cloudinary config').cloud_name,
+				api_key: keystone.get('cloudinary config').api_key,
+				timestamp: cloudinaryUpload.hidden_fields.timestamp,
+				signature: cloudinaryUpload.hidden_fields.signature,
+			};
+			locals.cloudinaryScript = cloudinary.cloudinary_js_config();
+		};
+
+		ejs.renderFile(templatePath, locals, {}, function (err, str) {
+			if (err) {
+				console.error('Could not render Admin UI Index Template:', err);
+				return res.status(500).send(keystone.wrapHTMLError('Error Rendering Admin UI', err.message));
+			}
+			res.send(str);
+		});
+	};
 };
