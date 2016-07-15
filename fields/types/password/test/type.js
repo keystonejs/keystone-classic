@@ -4,6 +4,10 @@ var PasswordType = require('../PasswordType');
 exports.initList = function (List) {
 	List.add({
 		password: PasswordType,
+		minChar: {
+			type: PasswordType,
+			min: 6,
+		},
 	});
 };
 
@@ -224,6 +228,16 @@ exports.testFieldType = function (List) {
 				done();
 			});
 		});
+
+		it('should invalidate password shorter than min characters', function (done) {
+			List.fields.minChar.validateInput({
+				minChar: '1234',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
 	});
 
 	describe('validateRequiredInput', function () {

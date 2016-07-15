@@ -10,6 +10,7 @@ var utils = require('keystone-utils');
  * @api public
  */
 function password (list, path, options) {
+	this.options = options;
 	this._nativeType = String;
 	this._underscoreMethods = ['format', 'compare'];
 	this._fixedSize = 'full';
@@ -125,6 +126,7 @@ password.prototype.compare = function (item, candidate, callback) {
 password.prototype.validateInput = function (data, callback) {
 	var detail;
 	var result = true;
+	var min = this.options.min;
 	var confirmValue = this.getValueFromData(data, '_confirm');
 	var passwordValue = this.getValueFromData(data);
 	if (confirmValue !== undefined
@@ -133,6 +135,9 @@ password.prototype.validateInput = function (data, callback) {
 		detail = 'passwords must match';
 	}
 	// TODO: we could support a password complexity option (or regexp) here
+	if (min && typeof passwordValue === 'string') {
+		result = passwordValue.length > min;
+	}
 	utils.defer(callback, result, detail);
 };
 
