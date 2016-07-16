@@ -98,6 +98,7 @@ theme.button = {
 	paddingHorizontal: '1em',
 };
 
+/*
 default-color:              theme.color.primary,
 default-border:             mix(theme.color.primary, @body-bg, 60%),
 default-disabled-bg:        darken(@body-bg, 4%),
@@ -119,6 +120,7 @@ danger-bg:                  @app-danger,
 danger-border:              mix(@button-danger-bg, @body-bg, 60%),
 
 link-disabled-color:        @gray-light,
+*/
 
 // form
 

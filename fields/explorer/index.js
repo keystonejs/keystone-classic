@@ -136,7 +136,3 @@ ReactDOM.render(
 	</Router>,
 	document.getElementById('explorer')
 );
-
-function upcase (str = '') {
-	return (str.substr(0, 1).toUpperCase() + str.substr(1));
-};
