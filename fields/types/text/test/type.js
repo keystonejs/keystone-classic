@@ -6,6 +6,14 @@ exports.initList = function (List) {
 		nested: {
 			text: String,
 		},
+		maxChar: {
+			type: String,
+			max: 55,
+		},
+		minChar: {
+			type: String,
+			min: 10,
+		},
 	});
 };
 
@@ -128,6 +136,21 @@ exports.testFieldType = function (List) {
 				done();
 			});
 		});
+
+		it('should invalidate string over max characters', function (done) {
+			List.fields.maxChar.validateInput({ maxChar: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate string shorter than min characters', function (done) {
+			List.fields.minChar.validateInput({ minChar: 'Short' }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
 	});
 
 	describe('validateRequiredInput', function () {

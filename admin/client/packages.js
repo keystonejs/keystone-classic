@@ -12,7 +12,6 @@ module.exports = [
 	'blacklist',
 	'bytes',
 	'classnames',
-	'color',
 	'display-name',
 	'elemental',
 	'expression-match',

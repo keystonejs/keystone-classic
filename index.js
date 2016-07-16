@@ -121,7 +121,6 @@ Keystone.prototype.list = require('./lib/core/list');
 Keystone.prototype.openDatabaseConnection = require('./lib/core/openDatabaseConnection');
 Keystone.prototype.populateRelated = require('./lib/core/populateRelated');
 Keystone.prototype.redirect = require('./lib/core/redirect');
-Keystone.prototype.render = require('./lib/core/render');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
@@ -133,6 +132,14 @@ Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
  */
 var keystone = module.exports = new Keystone();
 
+/*
+	Note: until #1777 is complete, the order of execution here with the requires
+	(specifically, they happen _after_ the module.exports above) is really
+	important. As soon as the circular dependencies are sorted out to get their
+	keystone instance from a closure or reference on {this} we can move these
+	bindings into the Keystone constructor.
+*/
+
 // Expose modules and Classes
 keystone.Admin = {
 	Server: require('./admin/server'),
@@ -141,7 +148,7 @@ keystone.Email = require('./lib/email');
 keystone.Field = require('./fields/types/Type');
 keystone.Field.Types = require('./lib/fieldTypes');
 keystone.Keystone = Keystone;
-keystone.List = require('./lib/list');
+keystone.List = require('./lib/list')(keystone);
 keystone.Storage = require('./lib/storage');
 keystone.View = require('./lib/view');
 
