@@ -42,7 +42,7 @@ const Col = (props) => {
 const ExplorerFieldType = React.createClass({
 	getInitialState () {
 		return {
-			readmeIsVisible: true,
+			readmeIsVisible: !!this.props.readme,
 			filter: this.props.FilterComponent.getDefaultValue(),
 			value: this.props.value,
 		};
@@ -52,6 +52,9 @@ const ExplorerFieldType = React.createClass({
 
 		this.setState({
 			filter: newProps.FilterComponent.getDefaultValue(),
+			readmeIsVisible: newProps.readme
+				? this.state.readmeIsVisible
+				: false,
 			value: newProps.value,
 		});
 	},
@@ -69,58 +72,72 @@ const ExplorerFieldType = React.createClass({
 		});
 	},
 	render () {
-		const { FieldComponent, FilterComponent, readme, spec } = this.props;
+		const { FieldComponent, FilterComponent, readme, spec, toggleSidebar } = this.props;
 		const { readmeIsVisible } = this.state;
-
-		console.log('readme', readme);
-		// const Readme = Types[type].Readme;
 
 		return (
 			<div className="fx-page">
 				<div className="fx-page__header">
-					<div className="fx-page__header__title">{spec.label}</div>
-					<button
-						className="fx-page__header__button mega-octicon octicon-file-text"
-						onClick={() => this.setState({ readmeIsVisible: !readmeIsVisible })}
-						title={readmeIsVisible ? 'Hide Readme' : 'Show Readme'}
-						type="button"
-					/>
+					<div className="fx-page__header__title">
+						<button
+							className="fx-page__header__button fx-page__header__button--sidebar mega-octicon octicon-three-bars"
+							onClick={toggleSidebar}
+							type="button"
+						/>
+						{spec.label}
+					</div>
+					{!!readme && (
+						<button
+							className="fx-page__header__button fx-page__header__button--readme mega-octicon octicon-file-text"
+							onClick={() => this.setState({ readmeIsVisible: !readmeIsVisible })}
+							title={readmeIsVisible ? 'Hide Readme' : 'Show Readme'}
+							type="button"
+						/>
+					)}
 				</div>
 				<div className="fx-page__content">
 					<Row>
 						<Col>
 							<div className="fx-page__content__inner">
-								<Row>
-									<Col width={300}>
-										<FieldComponent
-											{...spec}
-											onChange={this.onFieldChange}
-											value={this.state.value}
-										/>
-									</Col>
-									<Col>
-										<Domify
-											className="Domify"
-											value={{ value: this.state.value }}
-										/>
-									</Col>
-								</Row>
-								<h3>Filter</h3>
-								<Row>
-									<Col width={300}>
-										<FilterComponent
-											field={spec}
-											filter={this.state.filter}
-											onChange={this.onFilterChange}
-										/>
-									</Col>
-									<Col>
-										<Domify
-											className="Domify"
-											value={this.state.filter}
-										/>
-									</Col>
-								</Row>
+								<div className="fx-page__field">
+									<Row>
+										<Col width={readmeIsVisible ? 300 : null} style={{ minWidth: 300, maxWidth: 640 }}>
+											<FieldComponent
+												{...spec}
+												onChange={this.onFieldChange}
+												value={this.state.value}
+											/>
+										</Col>
+										<Col>
+											<div style={{ marginLeft: 30, marginTop: 26 }}>
+												<Domify
+													className="Domify"
+													value={{ value: this.state.value }}
+												/>
+											</div>
+										</Col>
+									</Row>
+								</div>
+								<div className="fx-page__filter">
+									<div className="fx-page__filter__title">Filter</div>
+									<Row>
+										<Col width={300}>
+											<FilterComponent
+												field={spec}
+												filter={this.state.filter}
+												onChange={this.onFilterChange}
+											/>
+										</Col>
+										<Col>
+											<div style={{ marginLeft: 30 }}>
+												<Domify
+													className="Domify"
+													value={this.state.filter}
+												/>
+											</div>
+										</Col>
+									</Row>
+								</div>
 							</div>
 						</Col>
 						{!!readmeIsVisible && (
@@ -137,38 +154,5 @@ const ExplorerFieldType = React.createClass({
 		);
 	},
 });
-
-const STUB_README = `
-# Boolean Field
-
-Stores a \`Boolean\` in the model.
-
-## Methods
-
-### \`format\`
-
-Returns the string \`"true"\` or \`"false"\`.
-
-### \`updateItem\`
-
-Because \`FormData\` can only submit \`String\` values, and HTML Forms won't submit fields at all when checkbox inputs are not checked, there are a few unusual behaviours when updating Boolean fields:
-
-* The stored value is always updated, even when \`undefined\` is provided
-* Any falsy value, including \`undefined\`, \`null\`, \`false\`, \`""\` and \`0\` will store \`false\`
-* The string \`"false"\` will store \`false\`
-* Any other truthy string will store \`true\`
-* Any truthy number will store \`true\`
-* The boolean \`true\` will store \`true\`
-
-There is no way to use \`updateItem\` to remove Boolean field values from the item.
-
-### \`validateInput\`
-
-Ensures the value can be interpreted using the rules above. Other complex values (objects that aren't null, dates, arrays, etc) are not valid input.
-
-### \`validateRequiredInput\`
-
-Ensures the value matches one of the rules above that will store \`true\`
-`;
 
 module.exports = ExplorerFieldType;
