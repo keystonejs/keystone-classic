@@ -3,6 +3,8 @@ var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
+var debug = require('debug')('keystone:fields:file');
+
 /**
  * File FieldType Constructor
  */
@@ -50,9 +52,10 @@ file.prototype.addToSchema = function () {
  */
 file.prototype.upload = function (item, file, callback) {
 	var field = this;
+	debug('[%s.%s] Uploading file for item %s:', this.list.key, this.path, item.id, file);
 	this.storage.uploadFile(file, function (err, result) {
 		if (err) return callback(err);
-		console.log('Uploaded File; Setting ' + field.path + ' to value:', result);
+		debug('[%s.%s] Uploaded file for item %s with result:', this.list.key, this.path, item.id, result);
 		item.set(field.path, result);
 		callback(null, result);
 	});
@@ -116,7 +119,10 @@ function validateInput (value) {
  */
 file.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
-	utils.defer(callback, validateInput(value));
+	debug('[%s.%s] Validating input: ', this.list.key, this.path, value);
+	var result = validateInput(value);
+	debug('[%s.%s] Validation result: ', this.list.key, this.path, result);
+	utils.defer(callback, result);
 };
 
 /**
@@ -124,7 +130,9 @@ file.prototype.validateInput = function (data, callback) {
  */
 file.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
+	debug('[%s.%s] Validating required input: ', this.list.key, this.path, value);
 	var result = (value || item.get(this.paths.filename)) ? true : false;
+	debug('[%s.%s] Validation result: ', this.list.key, this.path, result);
 	utils.defer(callback, result);
 };
 
@@ -146,6 +154,7 @@ file.prototype.updateItem = function (item, data, callback) {
 	if (value && value.path) {
 		return this.upload(item, value, callback);
 	}
+	debug('[%s.%s] Updating item %s with value:', this.list.key, this.path, item.id, value);
 	item.set(this.path, value);
 	utils.defer(callback);
 };
