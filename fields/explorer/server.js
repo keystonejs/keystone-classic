@@ -12,9 +12,15 @@ const app = new express();
 app.use('/js/explorer.js', browserify('./fields/explorer/index.js', {
 	external: packages,
 	transform: [babelify.configure({
-		plugins: [require('babel-plugin-transform-object-rest-spread'), require('babel-plugin-transform-object-assign')],
-		presets: [require('babel-preset-es2015'), require('babel-preset-react')],
-	})],
+		plugins: [
+			require('babel-plugin-transform-object-rest-spread'),
+			require('babel-plugin-transform-object-assign'),
+		],
+		presets: [
+			require('babel-preset-es2015'),
+			require('babel-preset-react'),
+		],
+	}), require('brfs')],
 }));
 
 
@@ -32,7 +38,9 @@ const lessOptions = {
 	},
 };
 app.use('/styles', less(path.resolve('./admin/public/styles'), lessOptions));
-app.use('/styles/fonts', express.static(path.resolve('./admin/public/js/lib/tinymce/skins/keystone/fonts')));
+app.use('/styles/fonts', express.static(
+	path.resolve('./admin/public/js/lib/tinymce/skins/keystone/fonts')
+));
 app.use(express.static('./admin/public'));
 
 // Serve the index template

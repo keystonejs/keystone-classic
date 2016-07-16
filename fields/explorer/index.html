@@ -8,19 +8,21 @@
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		<link href="/styles/keystone.css" rel="stylesheet">
 		<style type="text/css">
-			body {
-				padding: 20px;
+			/* LAYOUT */
+			.fx-sidebar {
+				background-color: #2C3F4C;
+				bottom: 0;
+				left: 0;
+				overflow-y: auto;
+				position: fixed;
+				top: 0;
+				width: 240px;
 			}
-			h2 {
-				background: white;
-				border-bottom: 1px solid #ddd;
-				border-top: 1px solid #ddd;
-				font-size: 1em;
-				font-weight: bold;
-				margin: 15px -20px;
-				padding: 10px 20px;
-				text-transform: uppercase;
+			.fx-body {
+				padding-left: 240px;
 			}
+
+			/* TYPOGRAPHY */
 			h3 {
 				border-top: 1px solid #ddd;
 				color: #666;
@@ -29,12 +31,154 @@
 				padding-top: 15px;
 				text-transform: uppercase;
 			}
-			.ExplorerField {
-				margin-bottom: 20px;
+			.Markdown {
+				border-left: 2px solid rgba(0, 0, 0, 0.1);
+				height: calc(100vh - 60px);
+				overflow-y: auto;
+				padding: 20px;
+				position: fixed;
 			}
 			.Domify {
 				font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 				font-size: 0.9em;
+			}
+
+			/* PAGE */
+			.fx-page__content {
+				padding: 60px 20px 20px;
+			}
+			.fx-page__content__inner {
+				padding-top: 20px;
+			}
+
+			.fx-page__header {
+				align-items: center;
+				background-color: #fafafa;
+				border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+				bottom: 0;
+				color: rgba(0, 0, 0, 0.4);
+				display: flex;
+				height: 60px;
+				justify-content: space-between;;
+				left: 240px;
+				margin: 0 20px;
+				position: fixed;
+				right: 0;
+				top: 0;
+				z-index: 1;
+			}
+			.fx-page__header__title {
+				font-size: 2rem;
+				font-weight: 500;
+			}
+			.fx-page__header__button {
+				background: none;
+				border: 0;
+				outline: 0;
+				transition: color 150ms;
+			}
+			.fx-page__header__button:hover,
+			.fx-page__header__button:focus {
+				color: #1385E5;
+			}
+
+			/* SIDEBAR */
+
+			/* header */
+			.fx-sidebar__header {
+				color: rgba(255, 255, 255, 0.4);
+				display: block;
+				font-weight: 500;
+				font-size: 2rem;
+				height: 60px;
+				line-height: 60px;
+				margin: 0 20px 20px;
+				border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+			}
+			.fx-sidebar__header__link { color: inherit; }
+			.fx-sidebar__header__link:hover { color: rgba(255, 255, 255, 0.6); text-decoration: none; }
+
+			/* sections */
+			.fx-sidebar__section {
+				border-left: 3px solid transparent;
+				color: white;
+				display: block;
+				font-weight: 300;
+				letter-spacing: 0.05em;
+				margin-bottom: 20px;
+				padding-bottom: 0.6rem;
+				padding-right: 20px;
+			}
+			.fx-sidebar__section--active {
+				border-left-color: #1385E5;
+				background-color: rgba(0, 0, 0, 0.1);
+			}
+			.fx-sidebar__section__title {
+				color: rgba(255, 255, 255, 0.4);
+				font-size: 0.85rem;
+				font-weight: 500;
+				padding: 0.6rem;
+				text-transform: uppercase;
+			}
+
+			/* items */
+			.fx-sidebar__item {
+				border-bottom-right-radius: 0.3rem;
+				border-top-right-radius: 0.3rem;
+				color: white;
+				display: block;
+				font-weight: 300;
+				height: 32px;
+				letter-spacing: 0.05em;
+				line-height: 32px;
+				padding: 0 20px;
+				position: relative;
+			}
+			.fx-sidebar__item::before {
+				border: 8px solid transparent;
+				content: "";
+				height: 0;
+				left: -3px;
+				margin-top: -8px;
+				position: absolute;
+				top: 50%;
+				width: 0;
+			}
+			.fx-sidebar__item:hover,
+			.fx-sidebar__item:focus {
+				color: white;
+				outline: 0;
+				text-decoration: none;
+			}
+			.fx-sidebar__item:hover::before { border-left-color: #1385E5; }
+			.fx-sidebar__item:focus::before { border-left-color: #1385E5; }
+			.fx-sidebar__item--active {
+				background-color: #1385E5;
+				color: white;
+			}
+			.fx-sidebar__item--active:hover,
+			.fx-sidebar__item--active:focus {
+				background-color: #1385E5;
+			}
+
+			/* WELCOME */
+			.fx-welcome {
+				height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.fx-welcome__inner {
+				background-color: white;
+				border-radius: 0.33rem;
+				box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+				padding: 10vh 8vw;
+				text-align: center;
+			}
+			.fx-welcome__heading {}
+			.fx-welcome__content {
+				color: #999;
+				font-size: 1.25rem;
 			}
 		</style>
 	</head>
