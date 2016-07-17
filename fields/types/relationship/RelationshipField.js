@@ -201,6 +201,7 @@ module.exports = Field.create({
 		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/App/shared/CreateForm';
 		//   CreateForm was imported as a blank object. This stack overflow post suggested lazilly requiring it:
 		// http://stackoverflow.com/questions/29807664/cyclic-dependency-returns-empty-object-in-react-native
+		// TODO: Implement this somewhere higher in the app, it breaks the encapsulation of the RelationshipField component
 		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
 			<InputGroup>

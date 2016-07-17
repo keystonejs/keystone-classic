@@ -24,6 +24,7 @@ const Types = {
 	Numberarray: require('../types/numberarray/test/explorer'),
 	Password: require('../types/password/test/explorer'),
 	Select: require('../types/select/test/explorer'),
+	Relationship: require('../types/relationship/test/explorer'),
 	Text: require('../types/text/test/explorer'),
 	Textarea: require('../types/textarea/test/explorer'),
 	Textarray: require('../types/textarray/test/explorer'),
