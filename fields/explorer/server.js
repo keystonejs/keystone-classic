@@ -10,7 +10,7 @@ const app = new express();
 
 // Serve script bundles
 app.use('/js/explorer.js', browserify('./fields/explorer/index.js', {
-	external: packages,
+	external: packages.concat(['FieldTypes']),
 	transform: [babelify.configure({
 		plugins: [
 			require('babel-plugin-transform-object-rest-spread'),
