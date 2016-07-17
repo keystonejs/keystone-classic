@@ -28,6 +28,7 @@ module.exports = function IndexRoute (keystone) {
 			orphanedLists: orphanedLists,
 			signoutUrl: keystone.get('signout url'),
 			user: req.user,
+			User: keystone.get('user model'),
 			version: keystone.version,
 			wysiwyg: { options: {
 				enableImages: keystone.get('wysiwyg images') ? true : false,
