@@ -149,9 +149,15 @@ module.exports = Field.create({
 		});
 	},
 
-	toggleCreate (visible) {
+	openCreate () {
 		this.setState({
-			createIsOpen: visible,
+			createIsOpen: true,
+		});
+	},
+
+	closeCreate () {
+		this.setState({
+			createIsOpen: false,
 		});
 	},
 
@@ -202,13 +208,13 @@ module.exports = Field.create({
 					{this.renderSelect()}
 				</InputGroup.Section>
 				<InputGroup.Section>
-					<Button onClick={() => this.toggleCreate(true)} type="success">+</Button>
+					<Button onClick={this.openCreate} type="success">+</Button>
 				</InputGroup.Section>
 				<CreateForm
 					list={listsByKey[this.props.refList.key]}
 					isOpen={this.state.createIsOpen}
-					onCreate={(data) => this.onCreate(data)}
-					onCancel={() => this.toggleCreate(false)} />
+					onCreate={this.onCreate}
+					onCancel={this.closeCreate} />
 			</InputGroup>
 		);
 	},
