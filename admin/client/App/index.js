@@ -19,6 +19,10 @@ import store from './store';
 // Sync the browser history to the Redux store
 const history = syncHistoryWithStore(browserHistory, store);
 
+// Initialise Keystone.User list
+import { listsByKey } from '../utils/lists';
+Keystone.User = listsByKey[Keystone.userList];
+
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>
