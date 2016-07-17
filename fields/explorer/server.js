@@ -46,6 +46,16 @@ app.use('/styles/fonts', express.static(
 ));
 app.use(express.static('./admin/public'));
 
+// Stub API for Relationships
+app.get('/api/flavours', (req, res) => res.json({
+	results: [
+		{ id: 'chocolate', name: 'Chocolate' },
+		{ id: 'vanilla', name: 'Vanilla' },
+		{ id: 'strawberry', name: 'Strawberry' },
+	],
+	count: 3,
+}));
+
 // Serve the index template
 app.use('/', (req, res) => res.sendFile(path.resolve('./fields/explorer/index.html')));
 
