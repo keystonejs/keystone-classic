@@ -8,8 +8,11 @@ const packages = require('../../admin/client/packages');
 
 const app = new express();
 
+// Serve the explorer stylesheet
+app.get('/index.css', (req, res) => res.sendFile(path.resolve('./fields/explorer/index.css')));
+
 // Serve script bundles
-app.use('/js/explorer.js', browserify('./fields/explorer/index.js', {
+app.get('/js/explorer.js', browserify('./fields/explorer/index.js', {
 	external: packages.concat(['FieldTypes']),
 	transform: [babelify.configure({
 		plugins: [
