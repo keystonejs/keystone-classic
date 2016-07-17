@@ -5,6 +5,6 @@ module.exports = {
 	spec: {
 		label: 'Email',
 		path: 'email',
+		value: 'user@keystonejs.com',
 	},
-	value: 'user@keystonejs.com',
 };

@@ -6,6 +6,6 @@ module.exports = {
 	spec: {
 		label: 'Boolean',
 		path: 'boolean',
+		value: false,
 	},
-	value: false,
 };

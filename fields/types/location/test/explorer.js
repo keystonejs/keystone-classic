@@ -20,12 +20,12 @@ module.exports = {
 			street2: 'location.street2',
 			suburb: 'location.suburb',
 		},
-	},
-	value: {
-		country: null,
-		postcode: null,
-		state: null,
-		street1: null,
-		suburb: null,
+		value: {
+			country: null,
+			postcode: null,
+			state: null,
+			street1: null,
+			suburb: null,
+		},
 	},
 };

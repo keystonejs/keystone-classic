@@ -5,6 +5,6 @@ module.exports = {
 	spec: {
 		label: 'Datearray',
 		path: 'datearray',
+		value: ['2016-07-11', '2016-04-23', '2014-11-12'],
 	},
-	value: ['2016-07-11', '2016-04-23', '2014-11-12'],
 };

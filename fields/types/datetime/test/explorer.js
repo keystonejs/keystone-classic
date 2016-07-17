@@ -9,6 +9,6 @@ module.exports = {
 			date: 'datetime.date',
 			time: 'datetime.time',
 		},
+		value: new Date(),
 	},
-	value: new Date(),
 };

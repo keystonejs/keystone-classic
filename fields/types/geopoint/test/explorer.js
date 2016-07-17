@@ -5,6 +5,6 @@ module.exports = {
 	spec: {
 		label: 'Geopoint',
 		path: 'geopoint',
+		value: [],
 	},
-	value: [],
 };

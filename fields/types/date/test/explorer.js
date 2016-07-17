@@ -6,6 +6,6 @@ module.exports = {
 	spec: {
 		label: 'Date',
 		path: 'date',
+		value: '2016-07-11',
 	},
-	value: '2016-07-11',
 };

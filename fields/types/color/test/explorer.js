@@ -6,6 +6,6 @@ module.exports = {
 	spec: {
 		label: 'Color',
 		path: 'color',
+		value: 'white',
 	},
-	value: 'white',
 };

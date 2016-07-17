@@ -8,6 +8,6 @@ module.exports = {
 		paths: {
 			confirm: 'password_confirm',
 		},
+		value: undefined,
 	},
-	value: undefined,
 };

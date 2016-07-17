@@ -6,6 +6,6 @@ module.exports = {
 	spec: {
 		label: 'Textarea',
 		path: 'textarea',
+		value: 'Hello World',
 	},
-	value: 'Hello World',
 };

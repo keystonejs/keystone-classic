@@ -12,6 +12,6 @@ module.exports = {
 			{ label: 'Strawberry', value: 'strawberry' },
 			{ label: 'Vanilla', value: 'vanilla' },
 		],
+		value: 'chocolate',
 	},
-	value: 'chocolate',
 };

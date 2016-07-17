@@ -5,6 +5,6 @@ module.exports = {
 	spec: {
 		label: 'Key',
 		path: 'key',
+		value: 'keystone',
 	},
-	value: 'keystone',
 };

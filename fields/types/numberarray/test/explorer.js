@@ -5,6 +5,6 @@ module.exports = {
 	spec: {
 		label: 'Numberarray',
 		path: 'textarray',
+		value: [4, 15, 2838],
 	},
-	value: [4, 15, 2838],
 };

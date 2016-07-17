@@ -108,7 +108,7 @@ class App extends Component {
 						section: Type.section,
 						spec: Type.spec,
 						toggleSidebar: this.toggleSidebar,
-						value: Type.value,
+						value: Type.spec.value,
 					});
 				})}</div>
 			</div>

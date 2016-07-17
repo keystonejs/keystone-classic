@@ -9,9 +9,9 @@ module.exports = {
 			first: 'name.first',
 			last: 'name.last',
 		},
-	},
-	value: {
-		first: 'Jed',
-		last: 'Watson',
+		value: {
+			first: 'Jed',
+			last: 'Watson',
+		},
 	},
 };

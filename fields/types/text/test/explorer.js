@@ -6,6 +6,6 @@ module.exports = {
 	spec: {
 		label: 'Text',
 		path: 'text',
+		value: 'Hello World',
 	},
-	value: 'Hello World',
 };

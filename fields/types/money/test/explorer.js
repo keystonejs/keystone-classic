@@ -6,6 +6,6 @@ module.exports = {
 	spec: {
 		label: 'Money',
 		path: 'text',
+		value: 0,
 	},
-	value: 0,
 };

@@ -12,6 +12,6 @@ module.exports = {
 			upload: 'cloudinaryimages_upload',
 			uploads: 'cloudinaryimages_uploads',
 		},
+		value: [],
 	},
-	value: [],
 };

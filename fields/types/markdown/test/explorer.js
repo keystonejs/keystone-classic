@@ -12,9 +12,9 @@ module.exports = {
 		},
 		wysiwyg: true,
 		toolbarOptions: {},
-	},
-	value: {
-		html: '<p><em>Hello World!</em></p>',
-		md: '*Hello World!*',
+		value: {
+			html: '<p><em>Hello World!</em></p>',
+			md: '*Hello World!*',
+		},
 	},
 };

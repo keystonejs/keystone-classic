@@ -6,6 +6,6 @@ module.exports = {
 	spec: {
 		label: 'Url',
 		path: 'textarea',
+		value: 'http://keystonejs.com',
 	},
-	value: 'http://keystonejs.com',
 };
