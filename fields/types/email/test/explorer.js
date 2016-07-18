@@ -1,9 +1,10 @@
 module.exports = {
 	Field: require('../EmailField'),
 	Filter: require('../EmailFilter'),
+	section: 'Text',
 	spec: {
-		label: 'Email Field',
+		label: 'Email',
 		path: 'email',
+		value: 'user@keystonejs.com',
 	},
-	value: 'user@keystonejs.com',
 };

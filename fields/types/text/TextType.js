@@ -19,10 +19,14 @@ util.inherits(text, FieldType);
 
 text.prototype.validateInput = function (data, callback) {
 	var max = this.options.max;
+	var min = this.options.min;
 	var value = this.getValueFromData(data);
 	var result = value === undefined || value === null || typeof value === 'string';
 	if (max && typeof value === 'string') {
 		result = value.length < max;
+	}
+	if (min && typeof value === 'string') {
+		result = value.length > min;
 	}
 	utils.defer(callback, result);
 };

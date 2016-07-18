@@ -12,6 +12,8 @@ module.exports = function IndexRoute (keystone) {
 			lists[key] = list.getOptions();
 		});
 
+		var UserList = keystone.list(keystone.get('user model'));
+
 		var orphanedLists = keystone.getOrphanedLists().map(function (list) {
 			return _.pick(list, ['key', 'label', 'path']);
 		});
@@ -27,7 +29,11 @@ module.exports = function IndexRoute (keystone) {
 			nav: keystone.nav,
 			orphanedLists: orphanedLists,
 			signoutUrl: keystone.get('signout url'),
-			user: req.user,
+			user: {
+				id: req.user.id,
+				name: UserList.getDocumentName(req.user),
+			},
+			userList: UserList.key,
 			version: keystone.version,
 			wysiwyg: { options: {
 				enableImages: keystone.get('wysiwyg images') ? true : false,

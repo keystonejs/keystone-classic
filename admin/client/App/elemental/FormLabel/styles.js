@@ -5,7 +5,7 @@
 import theme from '../../../theme';
 
 module.exports = {
-	FormLabel: {
+	'FormLabel': {
 		color: theme.form.label.color,
 		fontSize: theme.form.label.fontSize,
 		fontWeight: theme.form.label.fontWeight,

@@ -19,14 +19,13 @@ var Footer = React.createClass({
 	// Render the user
 	renderUser () {
 		const { User, user } = this.props;
-		// TODO Figure out when both of those should be specified
-		if (!User || !user) return null;
+		if (!user) return null;
 
 		return (
 			<span>
-				<span>Signed in as </span>
+				<span> Signed in as </span>
 				<a href={`${Keystone.adminPath}/${User.path}/${user.id}`} tabIndex="-1" className="keystone-footer__link">
-					{User.getDocumentName(user)}
+					{user.name}
 				</a>
 				<span>.</span>
 			</span>

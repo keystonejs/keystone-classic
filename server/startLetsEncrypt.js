@@ -22,10 +22,18 @@ var path = require('path');
 var letsencrypt = require('letsencrypt-express');
 var letsencryptDir = path.join(require('os').homedir(), 'letsencrypt', 'etc');
 
-function sslRedirect (req, res) {
-	res.setHeader('Location', 'https://' + req.headers.host + req.url);
-	res.statusCode = 302;
-	res.end();
+function makeSslRedirect (app) {
+	return function sslRedirect (req, res) {
+		// This runs outside Express, so use pure NodeJS only
+		const s = req.socket
+		if (s && s.remoteAddress === '127.0.0.1' && s.localAddress === '127.0.0.1' && !req.headers['x-forwarded-for']) {
+			return app(req, res);
+		} else {
+			res.setHeader('Location', 'https://' + req.headers.host + req.url);
+			res.statusCode = 302;
+			res.end();
+		}
+	}
 }
 
 function autoRegister (domains, email) {
@@ -76,7 +84,7 @@ module.exports = function (keystone, app, callback) {
 
 	async.parallel([
 		function (done) {
-			var serve = (forceSsl) ? sslRedirect : app;
+			var serve = (forceSsl) ? makeSslRedirect(app) : app;
 			keystone.httpServer = http.createServer(
 				letsencrypt.createAcmeResponder(instance, serve)
 			).listen(port, host, done);

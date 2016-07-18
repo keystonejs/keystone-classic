@@ -2,25 +2,46 @@ import React from 'react';
 
 import { SegmentedControl } from 'elemental';
 
-var PasswordFilter = React.createClass({
-	getInitialState () {
+const OPTIONS = [
+	{ label: 'Is Set', value: true },
+	{ label: 'Is NOT Set', value: false },
+];
+
+function getDefaultValue () {
+	return {
+		exists: true,
+	};
+}
+
+var CloudinaryImageFilter = React.createClass({
+	propTypes: {
+		filter: React.PropTypes.shape({
+			exists: React.PropTypes.oneOf(OPTIONS.map(i => i.value)),
+		}),
+	},
+	statics: {
+		getDefaultValue: getDefaultValue,
+	},
+	getDefaultProps () {
 		return {
-			checked: this.props.value || true,
+			filter: getDefaultValue(),
 		};
 	},
-	toggleChecked (checked) {
-		this.setState({
-			checked: checked,
-		});
+	toggleExists (value) {
+		this.props.onChange({ exists: value });
 	},
 	render () {
-		const options = [
-			{ label: 'Is Set', value: true },
-			{ label: 'Is NOT Set', value: false },
-		];
+		const { filter } = this.props;
 
-		return <SegmentedControl equalWidthSegments options={options} value={this.state.checked} onChange={this.toggleChecked} />;
+		return (
+			<SegmentedControl
+				equalWidthSegments
+				onChange={this.toggleExists}
+				options={OPTIONS}
+				value={filter.exists}
+			/>
+		);
 	},
 });
 
-module.exports = PasswordFilter;
+module.exports = CloudinaryImageFilter;

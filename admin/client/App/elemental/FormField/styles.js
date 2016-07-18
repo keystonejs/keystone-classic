@@ -27,10 +27,10 @@ module.exports = {
 	// when inside an inline form
 
 	'FormField--form-layout-inline': {
-		display: 'inline-block',
-		paddingLeft: '0.25em',
-		paddingRight: '0.25em',
-		verticalAlign: 'top',
+		'display': 'inline-block',
+		'paddingLeft': '0.25em',
+		'paddingRight': '0.25em',
+		'verticalAlign': 'top',
 
 		':first-child': { paddingLeft: 0 },
 		':last-child': { paddingRight: 0 },

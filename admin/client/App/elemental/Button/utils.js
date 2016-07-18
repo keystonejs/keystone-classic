@@ -32,11 +32,11 @@ function buttonFillVariant (textColor, bgColor) {
 
 	return {
 		...gradientVertical(lighten(bgColor, 5), darken(bgColor, 5), bgColor),
-		borderColor: `${darken(bgColor, 5)} ${darken(bgColor, 10)} ${darken(bgColor, 15)}`,
-		boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-		color: textColor,
-		fontWeight: 400,
-		textShadow: '0 -1px 0 rgba(0, 0, 0, 0.25)',
+		'borderColor': `${darken(bgColor, 5)} ${darken(bgColor, 10)} ${darken(bgColor, 15)}`,
+		'boxShadow': 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+		'color': textColor,
+		'fontWeight': 400,
+		'textShadow': '0 -1px 0 rgba(0, 0, 0, 0.25)',
 
 		':hover': {
 			...gradientVertical(lighten(bgColor, 10), bgColor),
@@ -60,9 +60,9 @@ function buttonFillVariant (textColor, bgColor) {
 function buttonDefaultVariant (textColor) {
 	return {
 		...gradientVertical('#fafafa', '#eaeaea'),
-		border: `1px solid ${theme.input.border.color}`,
-		borderColor: `${theme.input.border.color} ${darken(theme.input.border.color, 6)} ${darken(theme.input.border.color, 12)}`,
-		color: textColor,
+		'border': `1px solid ${theme.input.border.color}`,
+		'borderColor': `${theme.input.border.color} ${darken(theme.input.border.color, 6)} ${darken(theme.input.border.color, 12)}`,
+		'color': textColor,
 		':hover': {
 			...gradientVertical(lighten(textColor, 4), darken(textColor, 4)),
 			borderColor: `${darken(textColor, 6)} ${darken(textColor, 12)} ${darken(textColor, 18)}`,
@@ -108,10 +108,9 @@ function buttonHollowVariant (textColor, borderColor) {
 	};
 
 	return {
-		background: 'none',
-		borderColor: borderColor,
-		color: textColor,
-
+		'background': 'none',
+		'borderColor': borderColor,
+		'color': textColor,
 		':hover': focusAndHoverStyles,
 		':focus ': Object.assign(focusAndHoverStyles, focusOnlyStyles),
 		'&.is-focus ': Object.assign(focusAndHoverStyles, focusOnlyStyles),
@@ -141,8 +140,8 @@ function buttonLinkVariant (textColor, hoverColor) {
 
 	return {
 		...baseStyles,
-		color: textColor,
-		fontWeight: 'normal',
+		'color': textColor,
+		'fontWeight': 'normal',
 
 		':active': baseStyles,
 		'[disabled]': baseStyles,
