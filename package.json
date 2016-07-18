@@ -8,6 +8,7 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
+    "aphrodite": "^0.4.1",
     "async": "2.0.0",
     "asyncdi": "1.1.0",
     "azure": "0.10.6",
