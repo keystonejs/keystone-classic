@@ -8,13 +8,22 @@ const packages = require('../../admin/client/packages');
 
 const app = new express();
 
+// Serve the explorer stylesheet
+app.get('/index.css', (req, res) => res.sendFile(path.resolve('./fields/explorer/index.css')));
+
 // Serve script bundles
-app.use('/js/explorer.js', browserify('./fields/explorer/index.js', {
-	external: packages,
+app.get('/js/explorer.js', browserify('./fields/explorer/index.js', {
+	external: packages.concat(['FieldTypes']),
 	transform: [babelify.configure({
-		plugins: [require('babel-plugin-transform-object-rest-spread'), require('babel-plugin-transform-object-assign')],
-		presets: [require('babel-preset-es2015'), require('babel-preset-react')],
-	})],
+		plugins: [
+			require('babel-plugin-transform-object-rest-spread'),
+			require('babel-plugin-transform-object-assign'),
+		],
+		presets: [
+			require('babel-preset-es2015'),
+			require('babel-preset-react'),
+		],
+	}), require('brfs')],
 }));
 
 
@@ -32,8 +41,20 @@ const lessOptions = {
 	},
 };
 app.use('/styles', less(path.resolve('./admin/public/styles'), lessOptions));
-app.use('/styles/fonts', express.static(path.resolve('./admin/public/js/lib/tinymce/skins/keystone/fonts')));
+app.use('/styles/fonts', express.static(
+	path.resolve('./admin/public/js/lib/tinymce/skins/keystone/fonts')
+));
 app.use(express.static('./admin/public'));
+
+// Stub API for Relationships
+app.get('/api/flavours', (req, res) => res.json({
+	results: [
+		{ id: 'chocolate', name: 'Chocolate' },
+		{ id: 'vanilla', name: 'Vanilla' },
+		{ id: 'strawberry', name: 'Strawberry' },
+	],
+	count: 3,
+}));
 
 // Serve the index template
 app.use('/', (req, res) => res.sendFile(path.resolve('./fields/explorer/index.html')));

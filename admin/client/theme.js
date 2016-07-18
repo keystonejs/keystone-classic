@@ -1,6 +1,6 @@
 /* eslint-disable key-spacing */
 const theme = {};
-const { fade } = require('../utils/colors');
+const { blend, fade, lighten } = require('./utils/color');
 
 // ==============================
 // COMMON
@@ -29,8 +29,9 @@ theme.breakpoint = {
 // color
 
 theme.color = {
-	light:               '#fcfcfc',
-
+	body:                '#FDFDFD',
+	link:                '#1385e5',
+	linkHover:           lighten('#1385e5', 10),
 	text:                '#1A1A1A',
 
 	// contextual
@@ -70,7 +71,7 @@ theme.color = {
 
 theme.borderRadius = {
 	small: '0.125rem',
-	default: '0.25rem',
+	default: '0.3rem',
 	large: '0.5rem',
 };
 
@@ -96,36 +97,60 @@ theme.button = {
 		weight: 500,
 	},
 	paddingHorizontal: '1em',
+	default: {
+		bgColor: theme.color.primary,
+		borderColor: blend(theme.color.primary, theme.color.body, 60),
+		textColor: theme.color.primary,
+	},
+	primary: {
+		bgColor: theme.color.primary,
+		borderColor: blend(theme.color.primary, theme.color.body, 60),
+		textColor: theme.color.primary,
+	},
+	success: {
+		bgColor: theme.color.success,
+		borderColor: blend(theme.color.success, theme.color.body, 60),
+		textColor: theme.color.success,
+	},
+	warning: {
+		bgColor: theme.color.warning,
+		borderColor: blend(theme.color.warning, theme.color.body, 60),
+		textColor: theme.color.warning,
+	},
+	danger: {
+		bgColor: theme.color.danger,
+		borderColor: blend(theme.color.danger, theme.color.body, 60),
+		textColor: theme.color.danger,
+	},
 };
 
-default-color:              theme.color.primary,
-default-border:             mix(theme.color.primary, @body-bg, 60%),
-default-disabled-bg:        darken(@body-bg, 4%),
+// font
 
-primary-color:              theme.color.primary,
-primary-bg:                 theme.color.primary,
-primary-border:             mix(@button-primary-bg, @body-bg, 60%),
-
-success-color:              @app-success,
-success-bg:                 @app-success,
-success-border:             mix(@button-success-bg, @body-bg, 60%),
-
-warning-color:              @app-warning,
-warning-bg:                 @app-warning,
-warning-border:             mix(@button-warning-bg, @body-bg, 60%),
-
-danger-color:               @app-danger,
-danger-bg:                  @app-danger,
-danger-border:              mix(@button-danger-bg, @body-bg, 60%),
-
-link-disabled-color:        @gray-light,
+theme.font = {
+	family: {
+		mono: 'Menlo, Monaco, Consolas, "Courier New", monospace',
+		sansSerif: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+		serif: 'Georgia, Times New Roman, Times, serif',
+	},
+	size: {
+		xxsmall: '0.65rem',
+		xsmall: '0.75rem',
+		small: '0.85rem',
+		default: '1rem',
+		medium: '1.2rem',
+		large: '1.6rem',
+		xlarge: '2.4rem',
+		xxlarge: '3.2rem',
+	},
+};
 
 // form
 
 theme.form = {
 	label: {
-		color: theme.color.gray60,
-		fontSize: '0.9em',
+		color: theme.color.gray50,
+		fontSize: '1rem',
+		fontWeight: 'normal',
 		width: 180,
 	},
 	note: {

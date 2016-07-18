@@ -87,6 +87,7 @@ var Thumbnail = React.createClass({
 });
 
 module.exports = Field.create({
+	displayName: 'CloudinaryImagesField',
 
 	getInitialState () {
 		var thumbnails = [];

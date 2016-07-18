@@ -3,8 +3,8 @@
 // ==============================
 
 import { gradientVertical } from '../utils';
-import { darken, fade, lighten } from '../../utils/colors';
-import { theme } from '../../../site';
+import { blend, darken, fade, lighten } from '../../../utils/color';
+import theme from '../../../theme';
 
 // TODO: work out how to add missing combination classes
 // - .hover
@@ -32,11 +32,11 @@ function buttonFillVariant (textColor, bgColor) {
 
 	return {
 		...gradientVertical(lighten(bgColor, 5), darken(bgColor, 5), bgColor),
-		borderColor: `${darken(bgColor, 5)} ${darken(bgColor, 10)} ${darken(bgColor, 15)}`,
-		boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-		color: textColor,
-		fontWeight: 400,
-		textShadow: '0 -1px 0 rgba(0, 0, 0, 0.25)',
+		'borderColor': `${darken(bgColor, 5)} ${darken(bgColor, 10)} ${darken(bgColor, 15)}`,
+		'boxShadow': 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+		'color': textColor,
+		'fontWeight': 400,
+		'textShadow': '0 -1px 0 rgba(0, 0, 0, 0.25)',
 
 		':hover': {
 			...gradientVertical(lighten(bgColor, 10), bgColor),
@@ -60,9 +60,9 @@ function buttonFillVariant (textColor, bgColor) {
 function buttonDefaultVariant (textColor) {
 	return {
 		...gradientVertical('#fafafa', '#eaeaea'),
-		border: `1px solid ${theme.input.border.color}`,
-		borderColor: `${theme.input.border.color} ${darken(theme.input.border.color, 6)} ${darken(theme.input.border.color, 12)}`,
-		color: textColor,
+		'border': `1px solid ${theme.input.border.color}`,
+		'borderColor': `${theme.input.border.color} ${darken(theme.input.border.color, 6)} ${darken(theme.input.border.color, 12)}`,
+		'color': textColor,
 		':hover': {
 			...gradientVertical(lighten(textColor, 4), darken(textColor, 4)),
 			borderColor: `${darken(textColor, 6)} ${darken(textColor, 12)} ${darken(textColor, 18)}`,
@@ -98,6 +98,7 @@ function buttonDefaultVariant (textColor) {
 function buttonHollowVariant (textColor, borderColor) {
 	const focusAndHoverStyles = {
 		backgroundImage: 'none',
+		backgroundColor: blend(borderColor, theme.color.body, 8),
 		borderColor: darken(borderColor, 10),
 		color: textColor,
 		outline: 'none',
@@ -107,10 +108,9 @@ function buttonHollowVariant (textColor, borderColor) {
 	};
 
 	return {
-		background: 'none',
-		borderColor: borderColor,
-		color: textColor,
-
+		'background': 'none',
+		'borderColor': borderColor,
+		'color': textColor,
 		':hover': focusAndHoverStyles,
 		':focus ': Object.assign(focusAndHoverStyles, focusOnlyStyles),
 		'&.is-focus ': Object.assign(focusAndHoverStyles, focusOnlyStyles),
@@ -125,7 +125,7 @@ function buttonHollowVariant (textColor, borderColor) {
 
 // Link
 
-function buttonLinkVariant (textColor, hoverColor, hoverDecoration) {
+function buttonLinkVariant (textColor, hoverColor) {
 	const baseStyles = {
 		background: 'none',
 		border: 0,
@@ -135,13 +135,13 @@ function buttonLinkVariant (textColor, hoverColor, hoverDecoration) {
 	const hoverAndFocusStyles = {
 		...baseStyles,
 		color: hoverColor,
-		textDecoration: hoverDecoration,
+		textDecoration: 'underline',
 	};
 
 	return {
 		...baseStyles,
-		color: textColor,
-		fontWeight: 'normal',
+		'color': textColor,
+		'fontWeight': 'normal',
 
 		':active': baseStyles,
 		'[disabled]': baseStyles,

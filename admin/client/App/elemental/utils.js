@@ -18,9 +18,9 @@
 	}
 */
 
-function linearGradient (sideOrCorner, top, bottom, base) {
+function linearGradient (direction, top, bottom, base) {
 	return {
-		background: `linear-gradient(to bottom, ${top}, ${bottom}) ${base}`,
+		background: `linear-gradient(${direction}, ${top} 0%, ${bottom} 100% ) ${base}`.trim(),
 	};
 }
 

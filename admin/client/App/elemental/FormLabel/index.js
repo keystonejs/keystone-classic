@@ -1,25 +1,24 @@
-import classnames from 'classnames';
-import React, { Component, PropTypes } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import classnames from 'classnames';
+import React, { PropTypes } from 'react';
 import styles from './styles';
 
 const classes = StyleSheet.create(styles);
 
-class FormLabel extends Component {
-	render () {
-		const { formFieldId, formLayout } = this.context;
-		const { className, component, htmlFor } = this.props;
-		let consumedProps = Object.assign({}, this.props);
-		consumedProps.htmlFor = htmlFor || formFieldId;
+const FormLabel = (props, context) => {
+	const { formFieldId, formLayout } = context;
+	const { className, component, htmlFor } = props;
+	const consumedProps = Object.assign({}, props);
+	consumedProps.htmlFor = htmlFor || formFieldId;
+	delete consumedProps.component;
 
-		consumedProps.className = classnames(
-			css(classes.FormLabel), {
-				[css(classes['FormLabel--form-layout-' + formLayout])]: formLayout,
-			}, className
-		);
+	consumedProps.className = classnames(
+		css(classes.FormLabel), {
+			[css(classes['FormLabel--form-layout-' + formLayout])]: formLayout,
+		}, className
+	);
 
-		return React.createElement(component, consumedProps);
-	}
+	return React.createElement(component, consumedProps);
 };
 
 
