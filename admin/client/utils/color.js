@@ -9,7 +9,7 @@
 */
 
 function validateHex (color) {
-	var hex = color.replace('#', '');
+	const hex = color.replace('#', '');
 
 	if (hex.length === 3) {
 		return hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
@@ -35,19 +35,20 @@ function validateHex (color) {
 */
 
 function fade (color, opacity = 100) {
-	var hex = validateHex(color);
+	const decimalFraction = opacity / 100;
+	const hex = validateHex(color);
 
 	// 1.
-	let r = parseInt(hex.substring(0, 2), 16);
-	let g = parseInt(hex.substring(2, 4), 16);
-	let b = parseInt(hex.substring(4, 6), 16);
+	const r = parseInt(hex.substring(0, 2), 16);
+	const g = parseInt(hex.substring(2, 4), 16);
+	const b = parseInt(hex.substring(4, 6), 16);
 
 	// 2.
-	let result = 'rgba('
+	const result = 'rgba('
 		+ r + ','
 		+ g + ','
 		+ b + ','
-		+ opacity / 100
+		+ decimalFraction
 		+ ')';
 
 	return result;
@@ -68,12 +69,13 @@ function fade (color, opacity = 100) {
 */
 
 function shade (color, percent) {
-	var hex = validateHex(color);
+	const decimalFraction = percent / 100;
+	const hex = validateHex(color);
 
 	// 1.
 	let f = parseInt(hex, 16);
-	let t = percent < 0 ? 0 : 255;
-	let p = percent < 0 ? percent * -1 : percent;
+	let t = decimalFraction < 0 ? 0 : 255;
+	let p = decimalFraction < 0 ? decimalFraction * -1 : decimalFraction;
 
 	const R = f >> 16;
 	const G = f >> 8 & 0x00FF;
