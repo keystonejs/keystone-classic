@@ -2,7 +2,7 @@
 // Form Input
 // ==============================
 
-import { theme } from '../../../site';
+import theme from '../../../theme';
 
 module.exports = {
 	FormInput: {

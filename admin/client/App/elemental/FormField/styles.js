@@ -2,11 +2,11 @@
 // Form Field
 // ==============================
 
-import { theme } from '../../../site';
+import theme from '../../../theme';
 
 module.exports = {
 	FormField: {
-		marginBottom: theme.spacing.default,
+		marginBottom: '1em',
 		position: 'relative',
 	},
 

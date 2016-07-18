@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Button, Form, FormField, FormInput } from 'elemental';
+import { Button, Form, FormField, FormInput } from '../../App/elemental';
 
 // TODO FIGURE OUT IF THE BELOW NOTE IS STILL RELEVANT AND WE NEED THE REFS
 // OR IF WE CAN CHANGE THIS TO A STATELESS COMPONENT
@@ -35,8 +35,8 @@ class LoginForm extends React.Component {
 					</FormField>
 					<Button
 						disabled={this.props.animating}
-						type="primary"
-						submit
+						kind="primary"
+						type="submit"
 					>
 						Sign In
 					</Button>

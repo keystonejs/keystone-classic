@@ -1,7 +1,8 @@
+import { StyleSheet, css } from 'aphrodite';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, css } from 'aphrodite';
+
 import styles from './styles';
 import FormLabel from '../FormLabel';
 
@@ -22,24 +23,25 @@ class FormField extends Component {
 		const { children, className, label, offsetAbsentLabel } = this.props;
 
 		// classes
-		var componentClass = classnames(
+		const componentClass = classnames(
 			css(classes.FormField), {
 				[css(classes['FormField--offset-absent-label'])]: offsetAbsentLabel,
 				[css(classes['FormField--form-layout-' + formLayout])]: formLayout,
 			}, className);
 
 		// props
-		var props = blacklist(this.props, 'className', 'label', 'offsetAbsentLabel');
+		const consumedProps = blacklist(this.props, 'className', 'component', 'label', 'offsetAbsentLabel', 'variant');
+		consumedProps.className = componentClass;
 
 		// elements
-		var componentLabel = label ? (
+		const componentLabel = label ? (
 			<FormLabel>
 				{label}
 			</FormLabel>
 		) : null;
 
 		return (
-			<div className={componentClass} {...props}>
+			<div {...consumedProps}>
 				{componentLabel}
 				{children}
 			</div>

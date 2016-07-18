@@ -1,6 +1,7 @@
+import { StyleSheet, css } from 'aphrodite';
+import blacklist from 'blacklist';
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import styles from './styles';
 
 const classes = StyleSheet.create(styles);
@@ -13,13 +14,14 @@ class Form extends Component {
 	}
 	render () {
 		const { className, component, layout } = this.props;
-		let consumedProps = Object.assign({}, this.props);
 
-		consumedProps.className = classnames(
+		const componentClass = classnames(
 			css(classes.Form),
 			css(classes['Form__' + layout]),
 			className
 		);
+		const consumedProps = blacklist(this.props, 'className', 'component', 'layout');
+		consumedProps.className = componentClass;
 
 		return React.createElement(component, consumedProps);
 	}

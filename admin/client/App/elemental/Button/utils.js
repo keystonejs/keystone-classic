@@ -3,8 +3,8 @@
 // ==============================
 
 import { gradientVertical } from '../utils';
-import { darken, fade, lighten } from '../../utils/colors';
-import { theme } from '../../../site';
+import { blend, darken, fade, lighten } from '../../../utils/color';
+import theme from '../../../theme';
 
 // TODO: work out how to add missing combination classes
 // - .hover
@@ -98,6 +98,7 @@ function buttonDefaultVariant (textColor) {
 function buttonHollowVariant (textColor, borderColor) {
 	const focusAndHoverStyles = {
 		backgroundImage: 'none',
+		backgroundColor: blend(borderColor, theme.color.body, 8),
 		borderColor: darken(borderColor, 10),
 		color: textColor,
 		outline: 'none',
@@ -125,7 +126,7 @@ function buttonHollowVariant (textColor, borderColor) {
 
 // Link
 
-function buttonLinkVariant (textColor, hoverColor, hoverDecoration) {
+function buttonLinkVariant (textColor, hoverColor) {
 	const baseStyles = {
 		background: 'none',
 		border: 0,
@@ -135,7 +136,7 @@ function buttonLinkVariant (textColor, hoverColor, hoverDecoration) {
 	const hoverAndFocusStyles = {
 		...baseStyles,
 		color: hoverColor,
-		textDecoration: hoverDecoration,
+		textDecoration: 'underline',
 	};
 
 	return {

@@ -2,15 +2,15 @@
 // Form Label
 // ==============================
 
-import { theme } from '../../../site';
+import theme from '../../../theme';
 
 module.exports = {
 	FormLabel: {
 		color: theme.form.label.color,
 		fontSize: theme.form.label.fontSize,
-		fontWeight: theme.font.weight.bold,
+		fontWeight: theme.form.label.fontWeight,
 		display: 'inline-block',
-		marginBottom: theme.spacing.small,
+		marginBottom: '0.5em',
 	},
 
 	// when inside a horizontal form
