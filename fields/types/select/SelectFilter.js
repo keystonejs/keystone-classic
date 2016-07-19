@@ -15,6 +15,31 @@ function getDefaultValue () {
 	};
 }
 
+class FilterOption extends Component {
+	constructor () {
+		super();
+
+		bindFunctions.call(this, [
+			'handleClick',
+		]);
+	}
+	handleClick () {
+		const { option, selected } = this.props;
+		this.props.onClick(option, selected);
+	}
+	render () {
+		const { option, selected } = this.props;
+		return (
+			<PopoutList.Item
+				icon={selected ? 'check' : 'dash'}
+				isSelected={selected}
+				label={option.label}
+				onClick={this.handleClick}
+			/>
+		);
+	}
+}
+
 class SelectFilter extends Component {
 	constructor () {
 		super();
@@ -111,12 +136,11 @@ class SelectFilter extends Component {
 		return this.props.field.ops.map((option, i) => {
 			const selected = this.props.filter.value.indexOf(option.value) > -1;
 			return (
-				<PopoutList.Item
+				<FilterOption
 					key={`item-${i}-${option.value}`}
-					icon={selected ? 'check' : 'dash'}
-					isSelected={selected}
-					label={option.label}
-					onClick={() => this.handleClick(option, selected)}
+					option={option}
+					selected={selected}
+					onClick={this.handleClick}
 				/>
 			);
 		});
