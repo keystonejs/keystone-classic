@@ -45,3 +45,49 @@ Allows `null` and `""` to clear the field value.
 ### Inherits from [`Text`](../text)
 
 * `validateRequiredInput`
+
+## Filtering
+
+Accepts either value or before +/ after depending on the mode. Can be inverted.
+
+```
+{
+	after: Date,
+	before: Date,
+	inverted: Boolean,
+	mode: String enum ['on', after', 'before', 'between'],
+	value: Date,
+}
+```
+
+Inverting the filter finds all items **not** matching the value.
+
+Default filter arguments are:
+
+```
+{
+	after: '',
+	before: '',
+	inverted: false,
+	mode: 'on',
+	value: '',
+}
+```
+
+### Modes
+
+* `on`
+
+  Items with the day of the `value` in the field's path will be found. An empty `value` will match items containing `null` or `""` stored in the field path.
+
+* `after`
+
+  Items after the end of the day of `after` in the field's path will be found. `after` must be a valid date.
+
+* `before`
+
+  Items before the start of the day of `after` in the field's path will be found. `before` must be a valid date.
+
+* `between`
+
+  Items after the start of the day of `after` AND before the end of the day of `before` in the field's path will be found. Both `after` and `before` must be a valid date.
