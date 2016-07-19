@@ -1,31 +1,37 @@
-import React from 'react';
-import { Button } from 'elemental';
+import React, { PropTypes } from 'react';
+import { Button } from '../../App/elemental';
 
-const UserInfo = function (props) {
-	// Cannot return "null" from stateless components
-	if (!props.user) return <span />;
+// TODO Figure out if we should change "Keystone" to "Admin area"
+
+const UserInfo = ({
+	adminPath,
+	signoutPath,
+	userCanAccessKeystone,
+	userName,
+}) => {
+	const adminButton = userCanAccessKeystone && (
+		<Button href={adminPath} kind="primary">
+			Open Keystone
+		</Button>
+	);
+
 	return (
 		<div className="auth-box__col">
-			<p>Hi {props.user.name.first},</p>
+			<p>Hi {userName},</p>
 			<p>You're already signed in.</p>
-			{/* If the user can access Keystone, render an "Open Keystone" button */}
-			{/* TODO Figure out if we should change "Keystone" to "Admin area" */}
-			{props.userCanAccessKeystone ? (
-				<Button
-					href={Keystone.adminPath}
-					type="primary"
-				>
-					Open Keystone
-				</Button>
-			) : null}
-			<Button
-				href={`${Keystone.adminPath}/signout`}
-				type="link-cancel"
-			>
+			{adminButton}
+			<Button href={signoutPath} kind="link-cancel">
 				Sign Out
 			</Button>
 		</div>
 	);
+};
+
+UserInfo.propTypes = {
+	adminPath: PropTypes.string.isRequired,
+	signoutPath: PropTypes.string.isRequired,
+	userCanAccessKeystone: PropTypes.bool,
+	userName: PropTypes.string.isRequired,
 };
 
 module.exports = UserInfo;

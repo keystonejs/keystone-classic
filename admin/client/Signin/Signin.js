@@ -108,18 +108,22 @@ var SigninView = React.createClass({
 							logo={this.props.logo}
 							brand={this.props.brand}
 						/>
-						<UserInfo
-							user={this.props.user}
-							userCanAccessKeystone={this.props.userCanAccessKeystone}
-						/>
-						<LoginForm
-							user={this.props.user}
-							handleSubmit={this.handleSubmit}
-							handleInputChange={this.handleInputChange}
-							email={this.state.email}
-							password={this.state.password}
-							animating={this.state.animating}
-						/>
+						{this.props.user ? (
+							<UserInfo
+								adminPath={Keystone.adminPath}
+								signoutPath={`${Keystone.adminPath}/signout`}
+								userCanAccessKeystone={this.props.userCanAccessKeystone}
+								userName={this.props.user.name.first}
+							/>
+						) : (
+							<LoginForm
+								email={this.state.email}
+								handleInputChange={this.handleInputChange}
+								handleSubmit={this.handleSubmit}
+								isAnimating={this.state.isAnimating}
+								password={this.state.password}
+							/>
+						)}
 					</div>
 				</div>
 				<div className="auth-footer">
