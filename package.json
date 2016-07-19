@@ -84,7 +84,7 @@
     "react-domify": "^0.2.6",
     "react-markdown": "^2.3.0",
     "react-redux": "4.4.5",
-    "react-router": "2.5.2",
+    "react-router": "2.6.0",
     "react-router-redux": "4.0.5",
     "react-select": "1.0.0-beta14",
     "redux": "3.5.2",
