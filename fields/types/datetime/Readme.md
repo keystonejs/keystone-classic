@@ -24,13 +24,17 @@ Ensures the value, if provided, is either a Date object, a number that can be in
 
 Allows `null` and `""` to clear the field value.
 
-### Inherits from `Date`
+### Inherits from [`Date`](../date)
 
-- [`format()`](../date)
-- [`moment()`](../date)
-- [`addFilterToQuery()`](../date)
-- [`parse()`](../date)
+- `format()`
+- `moment()`
+- `addFilterToQuery()`
+- `parse()`
 
-### Inherits from `Text`
+### Inherits from [`Text`](../text)
 
-- [`validateRequiredInput()`](../text)
+- `validateRequiredInput()`
+
+## Filtering
+
+Uses the same logic and filter UI as the [`Date`](../date) field type.
