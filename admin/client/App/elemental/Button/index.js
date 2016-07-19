@@ -33,15 +33,19 @@ const BUTTON_KINDS = [
 const Button = (props) => {
 	let consumedProps = Object.assign({}, props, {
 		className: classnames(css(classes.button), {
-			[css(classes.layout__block)]: props.block,
-			[css(classes.layout__disabled)]: props.disabled,
 			[css(classes['kind__' + props.kind])]: props.kind,
 			[css(classes['kind__' + props.kind + '__is-active'])]: props.isActive,
+			[css(classes['kind__' + props.kind + '__is-disabled'])]: props.isDisabled,
 			[css(classes['size__' + props.size])]: props.size,
+			[css(classes['is-active'])]: props.isActive,
+			[css(classes['is-block'])]: props.isBlock,
+			[css(classes['is-disabled'])]: props.isDisabled,
 		}, props.className),
+		disabled: props.isDisabled,
 	});
-	delete consumedProps.block;
 	delete consumedProps.isActive;
+	delete consumedProps.isBlock;
+	delete consumedProps.isDisabled;
 	delete consumedProps.kind;
 	delete consumedProps.size;
 
@@ -59,11 +63,12 @@ const Button = (props) => {
 };
 
 Button.propTypes = {
-	block: PropTypes.bool,
 	className: PropTypes.string,
 	component: PropTypes.element,
 	href: PropTypes.string,
 	isActive: PropTypes.bool,
+	isBlock: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 	kind: PropTypes.oneOf(BUTTON_KINDS),
 	size: PropTypes.oneOf(BUTTON_SIZES),
 	type: PropTypes.oneOf(['button', 'submit']),

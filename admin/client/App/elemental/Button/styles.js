@@ -53,11 +53,6 @@ module.exports = {
 		':hover': baseHoverAndFocusStyles,
 		':focus': baseHoverAndFocusStyles,
 		'&.is-focus': baseHoverAndFocusStyles,
-
-		'[disabled]': {
-			opacity: 0.4,
-			pointerEvents: 'none',
-		},
 	},
 
 	// Kinds
@@ -143,11 +138,16 @@ module.exports = {
 	// Layout
 	// ------------------------------
 
-	layout__block: {
+	'is-block': {
 		display: 'block',
 		paddingLeft: 0,
 		paddingRight: 0,
 		width: '100%',
+	},
+
+	'is-disabled': {
+		opacity: 0.4,
+		pointerEvents: 'none',
 	},
 };
 
