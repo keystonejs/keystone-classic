@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import vkey from 'vkey';
 import { Button, FormField, FormNote, SegmentedControl } from 'elemental';
 import PopoutList from '../../../admin/client/App/shared/Popout/PopoutList';
+import bindFunctions from '../../utils/bindFunctions';
 
 const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },
@@ -183,19 +184,6 @@ class SelectFilter extends Component {
 		);
 	}
 };
-
-/*
-	Tidier binding for component methods
-	====================================
-
-	constructor() {
-		super();
-		bindFunctions.call(this, ['handleClick', 'handleOther']);
-	}
-*/
-function bindFunctions (functions) {
-	functions.forEach(f => (this[f] = this[f].bind(this)));
-}
 
 
 SelectFilter.propTypes = {
