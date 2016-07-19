@@ -2,14 +2,14 @@
 // Button
 // ==============================
 
-import { gradientVertical } from '../utils';
+import { gradientVertical } from '../mixins';
 import { darken, fade, lighten } from '../../../utils/color';
 import theme from '../../../theme';
 import {
 	buttonFillVariant,
 	buttonHollowVariant,
 	buttonLinkVariant,
-} from './utils';
+} from './mixins';
 
 const baseHoverAndFocusStyles = {
 	color: theme.button.default.textColor,
@@ -84,12 +84,12 @@ module.exports = {
 			outline: 'none',
 		},
 		':active': defaultActiveStyles,
-		'&.is-active': defaultActiveStyles,
 
 		'[disabled]': {
 			backgroundColor: theme.color.gray10,
 		},
 	},
+	'kind__default__is-active': defaultActiveStyles,
 
 	// fill styles
 	kind__primary: buttonFillVariant('white', theme.button.primary.bgColor),

@@ -36,8 +36,8 @@ const Button = (props) => {
 			[css(classes.layout__block)]: props.block,
 			[css(classes.layout__disabled)]: props.disabled,
 			[css(classes['kind__' + props.kind])]: props.kind,
+			[css(classes['kind__' + props.kind + '__is-active'])]: props.isActive,
 			[css(classes['size__' + props.size])]: props.size,
-			[css(classes['is-active'])]: props.isActive,
 		}, props.className),
 	});
 	delete consumedProps.block;

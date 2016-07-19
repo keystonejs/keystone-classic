@@ -2,7 +2,7 @@
 // Button variants
 // ==============================
 
-import { gradientVertical } from '../utils';
+import { gradientVertical } from '../mixins';
 import { blend, darken, fade, lighten } from '../../../utils/color';
 import theme from '../../../theme';
 
