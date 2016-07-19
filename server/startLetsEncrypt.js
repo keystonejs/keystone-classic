@@ -25,7 +25,7 @@ var letsencryptDir = path.join(require('os').homedir(), 'letsencrypt', 'etc');
 function makeSslRedirect (app) {
 	return function sslRedirect (req, res) {
 		// This runs outside Express, so use pure NodeJS only
-		const s = req.socket
+		const s = req.socket;
 		if (s && s.remoteAddress === '127.0.0.1' && s.localAddress === '127.0.0.1' && !req.headers['x-forwarded-for']) {
 			return app(req, res);
 		} else {
@@ -33,7 +33,7 @@ function makeSslRedirect (app) {
 			res.statusCode = 302;
 			res.end();
 		}
-	}
+	};
 }
 
 function autoRegister (domains, email) {
