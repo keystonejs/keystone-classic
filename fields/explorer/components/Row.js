@@ -14,7 +14,7 @@ const Row = (props) => {
 			{...props}
 			className={props.className || 'Row'}
 			style={styles}
-			/>
+		/>
 	);
 };
 

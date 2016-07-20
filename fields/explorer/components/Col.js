@@ -15,7 +15,7 @@ const Col = (props) => {
 			{...props}
 			className={props.className || 'Col'}
 			style={styles}
-			/>
+		/>
 	);
 };
 

@@ -36,7 +36,7 @@ function generateNavSections (arr) {
 	arr.forEach((t) => {
 		if (!navSections[t.section]) navSections[t.section] = [];
 	});
-	arr.forEach(t => navSections[t.section].push(t.spec.label));
+	arr.forEach(t => navSections[t.section].push(t.Field.type));
 
 	return navSections;
 }
