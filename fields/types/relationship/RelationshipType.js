@@ -84,18 +84,6 @@ relationship.prototype.addToSchema = function () {
 	schema.virtual(this.paths.refList).get(function () {
 		return keystone.list(field.options.ref);
 	});
-	if (this.many) {
-		this.underscoreMethod('contains', function (find) {
-			var value = this.populated(field.path) || this.get(field.path);
-			if (typeof find === 'object') {
-				find = find.id;
-			}
-			var result = _.some(value, function (value) {
-				return (value + '' === find);
-			});
-			return result;
-		});
-	}
 	this.bindUnderscoreMethods();
 };
 
