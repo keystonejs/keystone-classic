@@ -27,6 +27,9 @@ function removeTinyMCEInstance (editor) {
 module.exports = Field.create({
 
 	displayName: 'HtmlField',
+	statics: {
+		type: 'Html',
+	},
 
 	getInitialState () {
 		return {

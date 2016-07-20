@@ -6,6 +6,9 @@ import { FormField, FormNote } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'BooleanField',
+	statics: {
+		type: 'Boolean',
+	},
 
 	propTypes: {
 		indent: React.PropTypes.bool,

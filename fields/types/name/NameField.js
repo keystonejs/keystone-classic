@@ -5,6 +5,9 @@ import { FormField, FormInput, FormRow } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'NameField',
+	statics: {
+		type: 'Name',
+	},
 
 	focusTargetRef: 'first',
 

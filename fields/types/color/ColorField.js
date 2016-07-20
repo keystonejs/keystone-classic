@@ -13,6 +13,9 @@ const TRANSPARENT_BG
 
 module.exports = Field.create({
 	displayName: 'ColorField',
+	statics: {
+		type: 'Color',
+	},
 
 	propTypes: {
 		onChange: React.PropTypes.func,

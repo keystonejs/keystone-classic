@@ -5,6 +5,9 @@ import { FormField, FormInput } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'EmbedlyField',
+	statics: {
+		type: 'Embedly',
+	},
 
 	// always defers to renderValue; there is no form UI for this field
 	renderField () {

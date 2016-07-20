@@ -5,6 +5,9 @@ import { FormRow, FormField, FormInput } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'GeopointField',
+	statics: {
+		type: 'Geopoint',
+	},
 
 	focusTargetRef: 'lat',
 

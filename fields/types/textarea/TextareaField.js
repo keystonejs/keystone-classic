@@ -3,6 +3,9 @@ import React from 'react';
 
 module.exports = Field.create({
 	displayName: 'TextareaField',
+	statics: {
+		type: 'Textarea',
+	},
 	renderField () {
 		var styles = {
 			height: this.props.height,

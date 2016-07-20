@@ -4,6 +4,9 @@ import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({
 	displayName: 'URLField',
+	statics: {
+		type: 'Url',
+	},
 	openValue () {
 		var href = this.props.value;
 		if (!href) return;

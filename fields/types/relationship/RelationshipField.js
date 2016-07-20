@@ -19,6 +19,9 @@ function compareValues (current, next) {
 module.exports = Field.create({
 
 	displayName: 'RelationshipField',
+	statics: {
+		type: 'Relationship',
+	},
 
 	getInitialState () {
 		return {

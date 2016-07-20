@@ -112,6 +112,9 @@ var renderMarkdown = function (component) {
 
 module.exports = Field.create({
 	displayName: 'MarkdownField',
+	statics: {
+		type: 'Markdown',
+	},
 
 	// override `shouldCollapse` to check the markdown field correctly
 	shouldCollapse () {
