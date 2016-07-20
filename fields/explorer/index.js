@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, Component } from 'react';
 import { Link, Router, Route, browserHistory, IndexRoute } from 'react-router';
 import ReactDOM from 'react-dom';
-import FieldType from './field';
+import FieldType from './components/FieldType';
 
 const Types = {
 	Boolean: require('../types/boolean/test/explorer'),
