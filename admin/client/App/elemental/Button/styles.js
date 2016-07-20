@@ -31,24 +31,24 @@ const linkDeleteHoverAndFocusStyles = {
 };
 
 module.exports = {
-	button: {
-		appearance: 'none',
-		background: 'none',
-		border: '1px solid transparent',
-		borderRadius: theme.borderRadius.default,
-		cursor: 'pointer',
-		display: 'inline-block',
-		fontWeight: theme.button.font.weight,
-		height: theme.component.height,
-		lineHeight: theme.component.lineHeight,
-		marginBottom: 0,
-		padding: `0 ${theme.button.paddingHorizontal}`,
-		outline: 0,
-		textAlign: 'center',
-		touchAction: 'manipulation',
-		userSelect: 'none',
-		verticalAlign: 'middle',
-		whiteSpace: 'nowrap',
+	'button': {
+		'appearance': 'none',
+		'background': 'none',
+		'border': '1px solid transparent',
+		'borderRadius': theme.borderRadius.default,
+		'cursor': 'pointer',
+		'display': 'inline-block',
+		'fontWeight': theme.button.font.weight,
+		'height': theme.component.height,
+		'lineHeight': theme.component.lineHeight,
+		'marginBottom': 0,
+		'padding': `0 ${theme.button.paddingHorizontal}`,
+		'outline': 0,
+		'textAlign': 'center',
+		'touchAction': 'manipulation',
+		'userSelect': 'none',
+		'verticalAlign': 'middle',
+		'whiteSpace': 'nowrap',
 
 		':hover': baseHoverAndFocusStyles,
 		':focus': baseHoverAndFocusStyles,
@@ -59,12 +59,12 @@ module.exports = {
 	// ------------------------------
 
 	// special case for the default button
-	kind__default: {
+	'kind__default': {
 		...gradientVertical('#fafafa', '#eaeaea'),
-		border: `1px solid ${theme.input.border.color}`,
-		borderColor: `${theme.input.border.color} ${darken(theme.input.border.color, 6)} ${darken(theme.input.border.color, 12)}`,
-		color: theme.color.text,
-		textShadow: '0 1px 0 white',
+		'border': `1px solid ${theme.input.border.color}`,
+		'borderColor': `${theme.input.border.color} ${darken(theme.input.border.color, 6)} ${darken(theme.input.border.color, 12)}`,
+		'color': theme.color.text,
+		'textShadow': '0 1px 0 white',
 
 		':hover': {
 			...gradientVertical('#fff', '#eee'),
@@ -87,10 +87,10 @@ module.exports = {
 	'kind__default__is-active': defaultActiveStyles,
 
 	// fill styles
-	kind__primary: buttonFillVariant('white', theme.button.primary.bgColor),
-	kind__success: buttonFillVariant('white', theme.button.success.bgColor),
-	kind__warning: buttonFillVariant('white', theme.button.warning.bgColor),
-	kind__danger: buttonFillVariant('white', theme.button.danger.bgColor),
+	'kind__primary': buttonFillVariant('white', theme.button.primary.bgColor),
+	'kind__success': buttonFillVariant('white', theme.button.success.bgColor),
+	'kind__warning': buttonFillVariant('white', theme.button.warning.bgColor),
+	'kind__danger': buttonFillVariant('white', theme.button.danger.bgColor),
 
 	// hollow styles
 	'kind__hollow-primary': buttonHollowVariant(theme.button.primary.bgColor, theme.button.primary.borderColor),
@@ -99,7 +99,7 @@ module.exports = {
 	'kind__hollow-danger': buttonHollowVariant(theme.button.danger.bgColor, theme.button.danger.borderColor),
 
 	// link styles
-	kind__link: buttonLinkVariant(theme.color.link, theme.color.linkHover),
+	'kind__link': buttonLinkVariant(theme.color.link, theme.color.linkHover),
 	'kind__link-primary': buttonLinkVariant(theme.color.primary, theme.color.primary),
 	'kind__link-success': buttonLinkVariant(theme.color.success, theme.color.success),
 	'kind__link-warning': buttonLinkVariant(theme.color.warning, theme.color.warning),
@@ -125,10 +125,10 @@ module.exports = {
 	// Sizes
 	// ------------------------------
 
-	size__large: { fontSize: theme.font.size.large },
-	size__default: { fontSize: theme.font.size.default },
-	size__small: { fontSize: theme.font.size.small },
-	size__xsmall: {
+	'size__large': { fontSize: theme.font.size.large },
+	'size__default': { fontSize: theme.font.size.default },
+	'size__small': { fontSize: theme.font.size.small },
+	'size__xsmall': {
 		fontSize: theme.font.size.xsmall,
 		lineHeight: '1.9',
 		paddingLeft: '.66em',

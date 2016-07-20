@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import vkey from 'vkey';
 import { Button, FormField, FormNote, SegmentedControl } from 'elemental';
 import PopoutList from '../../../admin/client/App/shared/Popout/PopoutList';
+import bindFunctions from '../../utils/bindFunctions';
 
 const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },
@@ -13,6 +14,31 @@ function getDefaultValue () {
 		inverted: INVERTED_OPTIONS[0].value,
 		value: [],
 	};
+}
+
+class FilterOption extends Component {
+	constructor () {
+		super();
+
+		bindFunctions.call(this, [
+			'handleClick',
+		]);
+	}
+	handleClick () {
+		const { option, selected } = this.props;
+		this.props.onClick(option, selected);
+	}
+	render () {
+		const { option, selected } = this.props;
+		return (
+			<PopoutList.Item
+				icon={selected ? 'check' : 'dash'}
+				isSelected={selected}
+				label={option.label}
+				onClick={this.handleClick}
+			/>
+		);
+	}
 }
 
 class SelectFilter extends Component {
@@ -111,12 +137,11 @@ class SelectFilter extends Component {
 		return this.props.field.ops.map((option, i) => {
 			const selected = this.props.filter.value.indexOf(option.value) > -1;
 			return (
-				<PopoutList.Item
+				<FilterOption
 					key={`item-${i}-${option.value}`}
-					icon={selected ? 'check' : 'dash'}
-					isSelected={selected}
-					label={option.label}
-					onClick={() => this.handleClick(option, selected)}
+					option={option}
+					selected={selected}
+					onClick={this.handleClick}
 				/>
 			);
 		});
@@ -159,19 +184,6 @@ class SelectFilter extends Component {
 		);
 	}
 };
-
-/*
-	Tidier binding for component methods
-	====================================
-
-	constructor() {
-		super();
-		bindFunctions.call(this, ['handleClick', 'handleOther']);
-	}
-*/
-function bindFunctions (functions) {
-	functions.forEach(f => (this[f] = this[f].bind(this)));
-}
 
 
 SelectFilter.propTypes = {
