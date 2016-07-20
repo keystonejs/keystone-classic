@@ -247,27 +247,5 @@ definePrototypeGetters(relationship, {
 	},
 });
 
-/**
- * Adds relationship filters to a query
- */
-// TODO: Deprecate this? Not sure it's used anywhere - JW
-relationship.prototype.addFilters = function (query, item) {
-	_.forEach(this.filters, function (filters, path) {
-		if (!utils.isObject(filters)) {
-			filters = { equals: filters };
-		}
-		query.where(path);
-		_.forEach(filters, function (value, method) {
-			if (typeof value === 'string' && value.substr(0, 1) === ':') {
-				if (!item) {
-					return;
-				}
-				value = item.get(value.substr(1));
-			}
-			query[method](value);
-		});
-	});
-};
-
 /* Export Field Type */
 module.exports = relationship;
