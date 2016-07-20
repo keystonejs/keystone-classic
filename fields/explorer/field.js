@@ -71,6 +71,9 @@ const ExplorerFieldType = React.createClass({
 			filter: value,
 		});
 	},
+	toggleReadme () {
+		this.setState({ readmeIsVisible: !this.state.readmeIsVisible });
+	},
 	renderSpecs () {
 		const { FieldComponent, FilterComponent } = this.props;
 		const { readmeIsVisible } = this.state;
@@ -143,7 +146,7 @@ const ExplorerFieldType = React.createClass({
 					{!!readme && (
 						<button
 							className="fx-page__header__button fx-page__header__button--readme mega-octicon octicon-file-text"
-							onClick={() => this.setState({ readmeIsVisible: !readmeIsVisible })}
+							onClick={this.toggleReadme}
 							title={readmeIsVisible ? 'Hide Readme' : 'Show Readme'}
 							type="button"
 						/>
