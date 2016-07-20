@@ -1,3 +1,4 @@
+<<<<<<< HEAD:admin/client/App/screens/Item/components/FooterBar.js
 import React from 'react';
 import blacklist from 'blacklist';
 import assign from 'object-assign';
@@ -12,6 +13,18 @@ var FooterBar = React.createClass({
 		};
 	},
 	getInitialState () {
+=======
+var _ = require('underscore'),
+	ReactDOM = require('react-dom'),
+	React = require('react'),
+	blacklist = require('blacklist');
+
+var Toolbar = React.createClass({
+
+	displayName: 'Toolbar',
+
+	getInitialState: function() {
+>>>>>>> be7940b... cleaning up errors:admin/src/components/Toolbar.js
 		return {
 			position: 'relative',
 			width: 'auto',
@@ -19,6 +32,7 @@ var FooterBar = React.createClass({
 			top: 0,
 		};
 	},
+<<<<<<< HEAD:admin/client/App/screens/Item/components/FooterBar.js
 	componentDidMount () {
 		// Bail in IE8 because React doesn't support the onScroll event in that browser
 		// Conveniently (!) IE8 doesn't have window.getComputedStyle which we also use here
@@ -48,6 +62,43 @@ var FooterBar = React.createClass({
 		var wrapper = this.refs.wrapper;
 
 		this.footerSize.x = wrapper.offsetWidth;
+=======
+
+	componentDidMount: function() {
+
+		// Bail in IE8 because React doesn't support the onScroll event in that browser
+		// Conveniently (!) IE8 doesn't have window.getComputedStyle which we also use here
+		if (!window.getComputedStyle) return;
+
+		var toolbar = ReactDOM.findDOMNode(this.refs.toolbar);
+
+		this.windowSize = this.getWindowSize();
+
+		var toolbarStyle = window.getComputedStyle(toolbar);
+
+		this.toolbarSize = {
+			x: toolbar.offsetWidth,
+			y: toolbar.offsetHeight + parseInt(toolbarStyle.marginTop || '0')
+		};
+
+		window.addEventListener('scroll', this.recalcPosition, false);
+		window.addEventListener('resize', this.recalcPosition, false);
+
+		this.recalcPosition();
+	},
+
+	getWindowSize: function() {
+		return {
+			x: window.innerWidth,
+			y: window.innerHeight
+		};
+	},
+
+	recalcPosition: function() {
+		var wrapper = this.refs.wrapper.getDOMNode();
+
+		this.toolbarSize.x = wrapper.offsetWidth;
+>>>>>>> be7940b... cleaning up errors:admin/src/components/Toolbar.js
 
 		var offsetTop = 0;
 		var offsetEl = wrapper;
@@ -57,7 +108,11 @@ var FooterBar = React.createClass({
 			offsetEl = offsetEl.offsetParent;
 		}
 
+<<<<<<< HEAD:admin/client/App/screens/Item/components/FooterBar.js
 		var maxY = offsetTop + this.footerSize.y;
+=======
+		var maxY = offsetTop + this.toolbarSize.y;
+>>>>>>> be7940b... cleaning up errors:admin/src/components/Toolbar.js
 		var viewY = window.scrollY + window.innerHeight;
 
 		var newSize = this.getWindowSize();
@@ -81,7 +136,12 @@ var FooterBar = React.createClass({
 			this.setState(newState);
 		}
 	},
+<<<<<<< HEAD:admin/client/App/screens/Item/components/FooterBar.js
 	render () {
+=======
+
+	render: function() {
+>>>>>>> be7940b... cleaning up errors:admin/src/components/Toolbar.js
 		var wrapperStyle = {
 			height: this.state.height,
 			marginTop: 60,
