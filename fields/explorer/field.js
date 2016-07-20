@@ -71,9 +71,63 @@ const ExplorerFieldType = React.createClass({
 			filter: value,
 		});
 	},
-	render () {
-		const { FieldComponent, FilterComponent, readme, spec, toggleSidebar } = this.props;
+	renderSpecs () {
+		const { FieldComponent, FilterComponent } = this.props;
 		const { readmeIsVisible } = this.state;
+		const specs = Array.isArray(this.props.spec) ? this.props.spec : [this.props.spec];
+
+		return specs.map((spec, i) => {
+			return (
+				<div key={i}>
+					<div className="fx-page__field">
+						<Row>
+							<Col width={readmeIsVisible ? 300 : null} style={{ minWidth: 300, maxWidth: 640 }}>
+								<FieldComponent
+									{...spec}
+									onChange={this.onFieldChange}
+									value={this.state.value}
+								/>
+							</Col>
+							<Col>
+								<div style={{ marginLeft: 30, marginTop: 26 }}>
+									<Domify
+										className="Domify"
+										value={{ value: this.state.value }}
+									/>
+								</div>
+							</Col>
+						</Row>
+					</div>
+					<div className="fx-page__filter">
+						<div className="fx-page__filter__title">Filter</div>
+						<Row>
+							<Col width={300}>
+								<FilterComponent
+									field={spec}
+									filter={this.state.filter}
+									onChange={this.onFilterChange}
+								/>
+							</Col>
+							<Col>
+								<div style={{ marginLeft: 30 }}>
+									<Domify
+										className="Domify"
+										value={this.state.filter}
+									/>
+								</div>
+							</Col>
+						</Row>
+					</div>
+				</div>
+			);
+		});
+	},
+	render () {
+		const { readme, toggleSidebar } = this.props;
+		const { readmeIsVisible } = this.state;
+
+		// const spec = Array.isArray(this.props.spec) ? this.props.spec : [this.props.spec];
+		const spec = this.props.spec;
 
 		return (
 			<div className="fx-page">
@@ -99,45 +153,7 @@ const ExplorerFieldType = React.createClass({
 					<Row>
 						<Col>
 							<div className="fx-page__content__inner">
-								<div className="fx-page__field">
-									<Row>
-										<Col width={readmeIsVisible ? 300 : null} style={{ minWidth: 300, maxWidth: 640 }}>
-											<FieldComponent
-												{...spec}
-												onChange={this.onFieldChange}
-												value={this.state.value}
-											/>
-										</Col>
-										<Col>
-											<div style={{ marginLeft: 30, marginTop: 26 }}>
-												<Domify
-													className="Domify"
-													value={{ value: this.state.value }}
-												/>
-											</div>
-										</Col>
-									</Row>
-								</div>
-								<div className="fx-page__filter">
-									<div className="fx-page__filter__title">Filter</div>
-									<Row>
-										<Col width={300}>
-											<FilterComponent
-												field={spec}
-												filter={this.state.filter}
-												onChange={this.onFilterChange}
-											/>
-										</Col>
-										<Col>
-											<div style={{ marginLeft: 30 }}>
-												<Domify
-													className="Domify"
-													value={this.state.filter}
-												/>
-											</div>
-										</Col>
-									</Row>
-								</div>
+								{this.renderSpecs()}
 							</div>
 						</Col>
 						{!!readmeIsVisible && (
