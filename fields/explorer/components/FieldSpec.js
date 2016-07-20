@@ -13,21 +13,22 @@ const ExplorerFieldType = React.createClass({
 	},
 	onFieldChange (e) {
 		var logValue = typeof e.value === 'string' ? `"${e.value}"` : e.value;
-		console.log(`${this.props.params.type} field value changed:`, logValue);
+		console.log(`${this.props.FieldComponent.type} field value changed:`, logValue);
 		this.setState({
 			value: e.value,
 		});
 	},
 	onFilterChange (value) {
-		console.log(`${this.props.params.type} filter value changed:`, value);
+		console.log(`${this.props.FieldComponent.type} filter value changed:`, value);
 		this.setState({
 			filter: value,
 		});
 	},
 	render () {
 		const { FieldComponent, FilterComponent, readmeIsVisible, spec } = this.props;
+		const className = this.props.i ? 'fx-page__field__bordered' : undefined;
 		return (
-			<div>
+			<div className={className}>
 				<div className="fx-page__field">
 					<Row>
 						<Col width={readmeIsVisible ? 300 : null} style={{ minWidth: 300, maxWidth: 640 }}>

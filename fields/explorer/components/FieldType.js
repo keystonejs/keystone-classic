@@ -40,24 +40,10 @@ const ExplorerFieldType = React.createClass({
 	toggleReadme () {
 		this.setState({ readmeIsVisible: !this.state.readmeIsVisible });
 	},
-	renderSpecs () {
-		const { FieldComponent, FilterComponent } = this.props;
+	render () {
+		const { FieldComponent, FilterComponent, readme, toggleSidebar } = this.props;
 		const { readmeIsVisible } = this.state;
 		const specs = Array.isArray(this.props.spec) ? this.props.spec : [this.props.spec];
-
-		return specs.map((spec, i) => (
-			<FieldSpec
-				key={spec.path}
-				FieldComponent={FieldComponent}
-				FilterComponent={FilterComponent}
-				spec={spec}
-				readmeIsVisible={readmeIsVisible}
-			/>
-		));
-	},
-	render () {
-		const { FieldComponent, readme, spec, toggleSidebar } = this.props;
-		const { readmeIsVisible } = this.state;
 
 		return (
 			<div className="fx-page">
@@ -83,7 +69,16 @@ const ExplorerFieldType = React.createClass({
 					<Row>
 						<Col>
 							<div className="fx-page__content__inner">
-								{this.renderSpecs()}
+								{specs.map((spec, i) => (
+									<FieldSpec
+										key={spec.path}
+										i={i}
+										FieldComponent={FieldComponent}
+										FilterComponent={FilterComponent}
+										spec={spec}
+										readmeIsVisible={readmeIsVisible}
+									/>
+								))}
 							</div>
 						</Col>
 						{!!readmeIsVisible && (
