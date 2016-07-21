@@ -34,7 +34,53 @@ function gradientHorizontal (top, bottom, base) {
 	return linearGradient('to right', top, bottom, base);
 }
 
+/**
+	Border Radius
+	==============================
+
+	Short-hand helper for border radii
+*/
+
+// top
+function borderTopRadius (radius) {
+	return {
+		borderTopLeftRadius: radius,
+		borderTopRightRadius: radius,
+	};
+}
+
+// right
+function borderRightRadius (radius) {
+	return {
+		borderBottomRightRadius: radius,
+		borderTopRightRadius: radius,
+	};
+}
+
+// bottom
+function borderBottomRadius (radius) {
+	return {
+		borderBottomLeftRadius: radius,
+		borderBottomRightRadius: radius,
+	};
+}
+
+// left
+function borderLeftRadius (radius) {
+	return {
+		borderBottomLeftRadius: radius,
+		borderTopLeftRadius: radius,
+	};
+}
+
+// Return
+
 module.exports = {
+	borderTopRadius,
+	borderRightRadius,
+	borderBottomRadius,
+	borderLeftRadius,
+
 	gradientHorizontal,
 	gradientVertical,
 };
