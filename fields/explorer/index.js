@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, Component } from 'react';
 import { Link, Router, Route, browserHistory, IndexRoute } from 'react-router';
 import ReactDOM from 'react-dom';
-import FieldType from './field';
+import FieldType from './components/FieldType';
 
 const Types = {
 	Boolean: require('../types/boolean/test/explorer'),
@@ -36,7 +36,7 @@ function generateNavSections (arr) {
 	arr.forEach((t) => {
 		if (!navSections[t.section]) navSections[t.section] = [];
 	});
-	arr.forEach(t => navSections[t.section].push(t.spec.label));
+	arr.forEach(t => navSections[t.section].push(t.Field.type));
 
 	return navSections;
 }

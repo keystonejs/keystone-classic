@@ -116,6 +116,11 @@
 }
 
 .fx-page__field {}
+.fx-page__field__bordered {
+	margin-top: 20px;
+	border-top: 2px solid rgba(0, 0, 0, 0.1);
+	padding-top: 20px;
+}
 .fx-page__filter {
 	border-top: 2px solid rgba(0, 0, 0, 0.1);
 	margin-top: 20px;

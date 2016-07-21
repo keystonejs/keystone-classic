@@ -7,6 +7,9 @@ import { Button, FormField, FormInput, FormNote, InputGroup } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'DatetimeField',
+	statics: {
+		type: 'Datetime',
+	},
 
 	focusTargetRef: 'dateInput',
 

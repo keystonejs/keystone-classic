@@ -12,6 +12,9 @@ import { Button, Checkbox, FormField, FormInput, FormNote, FormRow } from 'eleme
 module.exports = Field.create({
 
 	displayName: 'LocationField',
+	statics: {
+		type: 'Location',
+	},
 
 	getInitialState () {
 		return {

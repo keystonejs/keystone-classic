@@ -5,6 +5,9 @@ import { FormInput } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'MoneyField',
+	statics: {
+		type: 'Money',
+	},
 
 	valueChanged (event) {
 		var newValue = event.target.value.replace(/[^\d\s\,\.\$€£¥]/g, '');

@@ -5,6 +5,11 @@ import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 module.exports = Field.create({
 
+	displayName: 'FileField',
+	statics: {
+		type: 'File',
+	},
+
 	shouldCollapse () {
 		return this.props.collapse && !this.hasExisting();
 	},

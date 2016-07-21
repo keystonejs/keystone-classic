@@ -14,6 +14,9 @@ const DEFAULT_FORMAT_STRING = 'Do MMM YYYY';
 module.exports = Field.create({
 
 	displayName: 'DateField',
+	statics: {
+		type: 'Date',
+	},
 
 	propTypes: {
 		formatString: React.PropTypes.string,

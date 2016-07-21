@@ -9,6 +9,9 @@ const NAME_SHAPE = {
 
 module.exports = Field.create({
 	displayName: 'NameField',
+	statics: {
+		type: 'Name',
+	},
 	focusTargetRef: 'first',
 	propTypes: {
 		onChange: PropTypes.func.isRequired,

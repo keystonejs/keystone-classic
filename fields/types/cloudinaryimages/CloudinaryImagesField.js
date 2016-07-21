@@ -88,6 +88,9 @@ var Thumbnail = React.createClass({
 
 module.exports = Field.create({
 	displayName: 'CloudinaryImagesField',
+	statics: {
+		type: 'CloudinaryImages',
+	},
 
 	getInitialState () {
 		var thumbnails = [];

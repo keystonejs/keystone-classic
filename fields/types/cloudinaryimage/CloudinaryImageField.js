@@ -25,6 +25,9 @@ const iconClassDeletePending = [
 module.exports = Field.create({
 
 	displayName: 'CloudinaryImageField',
+	statics: {
+		type: 'CloudinaryImage',
+	},
 
 	openLightbox (index) {
 		event.preventDefault();

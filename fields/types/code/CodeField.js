@@ -17,6 +17,9 @@ import classnames from 'classnames';
 module.exports = Field.create({
 
 	displayName: 'CodeField',
+	statics: {
+		type: 'Code',
+	},
 
 	getInitialState () {
 		return {
