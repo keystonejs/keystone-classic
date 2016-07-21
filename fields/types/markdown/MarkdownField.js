@@ -140,7 +140,6 @@ module.exports = Field.create({
 			padding: 8,
 			height: this.props.height,
 		};
-		console.log('Markdown renderField:', this.props.value, this.props.value.md);
 		const defaultValue = (
 			this.props.value !== undefined
 			&& this.props.value.md !== undefined
