@@ -4,12 +4,10 @@ import Checkbox from '../../components/Checkbox';
 import { FormField, FormNote } from 'elemental';
 
 module.exports = Field.create({
-
 	displayName: 'BooleanField',
 	statics: {
 		type: 'Boolean',
 	},
-
 	propTypes: {
 		indent: React.PropTypes.bool,
 		label: React.PropTypes.string,
@@ -25,33 +23,47 @@ module.exports = Field.create({
 			value: value,
 		});
 	},
-
 	renderNote () {
-		if (!this.props.note) return null;
+		if (!this.props.note) return;
+
 		return <FormNote note={this.props.note} />;
 	},
-
 	renderFormInput () {
 		if (!this.shouldRenderField()) return;
-		return <input type="hidden" name={this.props.path} value={this.props.value ? 'true' : 'false'} />;
-	},
 
+		return (
+			<input
+				name={this.props.path}
+				type="hidden"
+				value={!!this.props.value}
+			/>
+		);
+	},
 	renderCheckbox () {
-		if (!this.shouldRenderField()) return <Checkbox readonly checked={this.props.value} />;
-		return <Checkbox checked={this.props.value} onChange={this.valueChanged} />;
+		return !this.shouldRenderField() ? (
+			<Checkbox
+				checked={this.props.value}
+				readonly
+			/>
+		) : (
+			<Checkbox
+				checked={this.props.value}
+				onChange={this.valueChanged}
+			/>
+		);
 	},
-
 	renderUI () {
 		return (
-			<FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean" htmlFor={this.props.path}>
+			<FormField offsetAbsentLabel={this.props.indent}>
 				<label style={{ height: '2.3em' }}>
 					{this.renderFormInput()}
 					{this.renderCheckbox()}
-					<span style={{ marginLeft: '.75em' }}>{this.props.label}</span>
+					<span style={{ marginLeft: '.75em' }}>
+						{this.props.label}
+					</span>
 				</label>
 				{this.renderNote()}
 			</FormField>
 		);
 	},
-
 });

@@ -1,5 +1,8 @@
 var utils = require('../../../utils');
 
+// NOTE removed unused class ".field-type-boolean" from the Field Type
+// TODO resolve test issues
+
 module.exports = function BooleanType(config) {
 	var self = {
 		selector: '.field-type-boolean[for="' + config.fieldName + '"]',
