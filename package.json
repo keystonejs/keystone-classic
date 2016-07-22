@@ -95,7 +95,7 @@
     "string-to-stream": "^1.1.0",
     "vkey": "1.0.0",
     "watchify": "3.7.0",
-    "xhr": "2.2.1"
+    "xhr": "2.2.2"
   },
   "devDependencies": {
     "babel-preset-stage-2": "^6.11.0",
