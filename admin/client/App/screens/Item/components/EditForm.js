@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import moment from 'moment';
 import assign from 'object-assign';
 import {
@@ -111,7 +110,7 @@ var EditForm = React.createClass({
 		this.props.dispatch(deleteItem(data.id, this.props.router));
 	},
 	handleKeyFocus () {
-		const input = findDOMNode(this.refs.keyOrIdInput);
+		const input = this.refs.keyOrIdInput;
 		input.select();
 	},
 	removeConfirmationDialog () {

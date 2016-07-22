@@ -1,6 +1,5 @@
 import xhr from 'xhr';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Field from '../Field';
 import Select from 'react-select';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
@@ -61,7 +60,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return ReactDOM.findDOMNode(this.refs.fileField);
+		return this.refs.fileField;
 	},
 
 	changeImage () {

@@ -2,7 +2,6 @@ import _ from 'lodash';
 import bytes from 'bytes';
 import Field from '../Field';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 const ICON_EXTS = [
@@ -97,7 +96,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return ReactDOM.findDOMNode(this.refs.fileField);
+		return this.refs.fileField;
 	},
 
 	renderFileField () {
