@@ -97,6 +97,11 @@ const CreateForm = React.createClass({
 					});
 				}
 			} else {
+				if (!err) {
+					err = {
+						error: 'connection error',
+					};
+				}
 				// If we get a database error, show the database error message
 				// instead of only saying "Database error"
 				if (err.error === 'database error') {

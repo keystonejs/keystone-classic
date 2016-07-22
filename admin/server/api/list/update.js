@@ -33,7 +33,7 @@ module.exports = function (req, res) {
 				res.status(err.statusCode);
 				delete err.statusCode;
 			}
-			res.json(err);
+			return res.json(err);
 		}
 		res.json({
 			success: true,
