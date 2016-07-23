@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import assign from 'object-assign';
 
 import Popout from '../../../shared/Popout';
@@ -33,7 +32,7 @@ var ListColumnsForm = React.createClass({
 			searchString: '',
 		}, () => {
 			if (visible) {
-				ReactDOM.findDOMNode(this.refs.search).focus();
+				this.refs.search.focus();
 			}
 		});
 	},

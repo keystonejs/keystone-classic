@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import assign from 'object-assign';
 import { Fields } from 'FieldTypes';
@@ -52,7 +51,7 @@ var UpdateForm = React.createClass({
 		this.setState({
 			fields: fields,
 		}, () => {
-			ReactDOM.findDOMNode(this.refs.focusTarget).focus();
+			this.refs.focusTarget.focus();
 		});
 	},
 	handleChange (value) {

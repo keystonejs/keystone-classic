@@ -5,7 +5,6 @@
 import assign from 'object-assign';
 import classnames from 'classnames';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import xhr from 'xhr';
 
 import Alert from './components/Alert';
@@ -27,7 +26,7 @@ var SigninView = React.createClass({
 	componentDidMount () {
 		// Focus the email field when we're mounted
 		if (this.refs.email) {
-			ReactDOM.findDOMNode(this.refs.email).select();
+			this.refs.email.select();
 		}
 	},
 	handleInputChange (e) {
@@ -84,7 +83,7 @@ var SigninView = React.createClass({
 		// TODO isMounted was deprecated, find out if we need this guard
 		if (!this.isMounted()) return;
 		if (this.refs.email) {
-			ReactDOM.findDOMNode(this.refs.email).select();
+			this.refs.email.select();
 		}
 		this.setState({
 			isAnimating: false,

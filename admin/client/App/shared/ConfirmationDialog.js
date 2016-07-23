@@ -3,14 +3,13 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { findDOMNode } from 'react-dom';
 import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
 
 class ConfirmationDialog extends Component {
 	componentWillReceiveProps (nextProps) {
 		if (!this.props.isOpen && nextProps.isOpen) {
 			setTimeout(() => {
-				findDOMNode(this.refs.confirm).focus();
+				this.refs.confirm.focus();
 			}, 0);
 		}
 	}

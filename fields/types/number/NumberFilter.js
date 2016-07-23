@@ -1,6 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
 const MODE_OPTIONS = [
@@ -29,7 +27,7 @@ var NumberFilter = React.createClass({
 
 	componentDidMount () {
 		// focus the text input
-		findDOMNode(this.refs.focusTarget).focus();
+		this.refs.focusTarget.focus();
 	},
 
 	handleChangeBuilder (type) {
@@ -74,7 +72,7 @@ var NumberFilter = React.createClass({
 
 		// focus on next tick
 		setTimeout(() => {
-			findDOMNode(this.refs.focusTarget).focus();
+			this.refs.focusTarget.focus();
 		}, 0);
 	},
 
