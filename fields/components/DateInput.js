@@ -89,6 +89,9 @@ module.exports = React.createClass({
 		if (this.state.pickerIsOpen) return;
 		this.showPicker();
 	},
+	handleCancel () {
+		this.setState({ pickerIsOpen: false });
+	},
 	handleBlur (e) {
 		let rt = e.relatedTarget || e.nativeEvent.explicitOriginalTarget;
 		const popout = this.refs.popout.getPortalDOMNode();
@@ -114,23 +117,26 @@ module.exports = React.createClass({
 					id={this.state.id}
 					name={this.props.name}
 					onBlur={this.handleBlur}
-					onFocus={this.handleFocus}
 					onChange={this.handleInputChange}
+					onFocus={this.handleFocus}
+					onKeyPress={this.handleKeyPress}
 					placeholder={this.props.format}
 					ref="input"
-					onKeyPress={this.handleKeyPress}
-					value={this.state.inputValue} />
+					value={this.state.inputValue}
+				/>
 				<Popout
-					ref="popout"
 					isOpen={this.state.pickerIsOpen}
-					onCancel={() => this.setState({ pickerIsOpen: false })}
+					onCancel={this.handleCancel}
+					ref="popout"
 					relativeToID={this.state.id}
-					width={260}>
+					width={260}
+					>
 					<DayPicker
-						ref="picker"
 						modifiers={modifiers}
 						onDayClick={this.handleDaySelect}
-						tabIndex={-1} />
+						ref="picker"
+						tabIndex={-1}
+					/>
 				</Popout>
 			</div>
 		);
