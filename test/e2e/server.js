@@ -78,6 +78,7 @@ keystone.set('nav', {
 		'urls',
 	],
 	'Miscs': [
+		'date-field-maps',
 		'depends-ons',
 		'no-default-columns',
 		'inline-relationships',

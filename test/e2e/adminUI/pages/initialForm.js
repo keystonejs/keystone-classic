@@ -27,6 +27,7 @@ var TextList = require('./lists/text');
 var UrlList = require('./lists/url');
 var UserList = require('./lists/user');
 // MISC LISTS:
+var DateFieldMapList = require('./lists/misc/dateFieldMap');
 var DependsOnList = require('./lists/misc/dependsOn');
 var HiddenRelationshipList = require('./lists/misc/hiddenRelationship');
 var InlineRelationshipList = require('./lists/misc/inlineRelationship');
@@ -74,6 +75,7 @@ module.exports = {
 				//
 				// MISC LISTS
 				//
+				datefieldmapList: new DateFieldMapList(),
 				dependsonList: new DependsOnList(),
 				hiddenrelationshipList: new HiddenRelationshipList(),
 				inlinerelationshipList: new InlineRelationshipList(),
