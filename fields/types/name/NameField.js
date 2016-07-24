@@ -12,7 +12,6 @@ module.exports = Field.create({
 	statics: {
 		type: 'Name',
 	},
-	focusTargetRef: 'first',
 	propTypes: {
 		onChange: PropTypes.func.isRequired,
 		path: PropTypes.string.isRequired,
@@ -21,51 +20,61 @@ module.exports = Field.create({
 	},
 
 	valueChanged: function (which, event) {
-		this.props.value[which] = event.target.value;
-		this.props.onChange({
-			path: this.props.path,
-			value: this.props.value,
+		const { value = {}, path, onChange } = this.props;
+		onChange({
+			path,
+			value: {
+				...value,
+				[which]: event.target.value,
+			},
 		});
+	},
+	changeFirst: function (event) {
+		return this.valueChanged('first', event);
+	},
+	changeLast: function (event) {
+		return this.valueChanged('last', event);
 	},
 	renderValue () {
 		const inputStyle = { width: '100%' };
+		const { value = {} } = this.props;
 
 		return (
 			<FormRow>
 				<FormField width="one-half">
 					<FormInput noedit style={inputStyle}>
-						{this.props.value.first}
+						{value.first}
 					</FormInput>
 				</FormField>
 				<FormField width="one-half">
 					<FormInput noedit style={inputStyle}>
-						{this.props.value.last}
+						{value.last}
 					</FormInput>
 				</FormField>
 			</FormRow>
 		);
 	},
 	renderField () {
+		const { value = {}, paths } = this.props;
 		return (
 			<FormRow>
 				<FormField width="one-half">
 					<FormInput
+						autofocus
 						autoComplete="off"
-						name={this.props.paths.first}
-						onChange={this.valueChanged.bind(this, 'first')}
+						name={paths.first}
+						onChange={this.changeFirst}
 						placeholder="First name"
-						ref="first"
-						value={this.props.value.first}
+						value={value.first}
 					/>
 				</FormField>
 				<FormField width="one-half">
 					<FormInput
 						autoComplete="off"
-						name={this.props.paths.last}
-						onChange={this.valueChanged.bind(this, 'last')}
+						name={paths.last}
+						onChange={this.changeLast}
 						placeholder="Last name"
-						ref="last"
-						value={this.props.value.last}
+						value={value.last}
 					/>
 				</FormField>
 			</FormRow>

@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import assign from 'object-assign';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
@@ -80,7 +79,7 @@ const CreateForm = React.createClass({
 	// Create a new item when the form is submitted
 	submitForm (event) {
 		event.preventDefault();
-		const createForm = ReactDOM.findDOMNode(this.refs.createForm);
+		const createForm = this.refs.createForm;
 		const formData = new FormData(createForm);
 		this.props.list.createItem(formData, (err, data) => {
 			if (data) {
@@ -98,6 +97,11 @@ const CreateForm = React.createClass({
 					});
 				}
 			} else {
+				if (!err) {
+					err = {
+						error: 'connection error',
+					};
+				}
 				// If we get a database error, show the database error message
 				// instead of only saying "Database error"
 				if (err.error === 'database error') {

@@ -1,7 +1,6 @@
 import classnames from 'classnames';
 import evalDependsOn from '../utils/evalDependsOn.js';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import blacklist from 'blacklist';
 
@@ -49,7 +48,7 @@ var Base = module.exports.Base = {
 	},
 	focus () {
 		if (!this.refs[this.spec.focusTargetRef]) return;
-		ReactDOM.findDOMNode(this.refs[this.spec.focusTargetRef]).focus();
+		this.refs[this.spec.focusTargetRef].focus();
 	},
 	renderNote () {
 		if (!this.props.note) return null;

@@ -25,21 +25,14 @@ module.exports = Field.create({
 	},
 
 	componentWillMount () {
+		const { value = [] } = this.props;
 		var collapsedFields = {};
 		_.forEach(['number', 'name', 'street2', 'geo'], (i) => {
-			if (!this.props.value[i]) {
+			if (!value[i]) {
 				collapsedFields[i] = true;
 			}
 		}, this);
-		this.setState({
-			collapsedFields: collapsedFields,
-		});
-	},
-
-	componentDidUpdate (prevProps, prevState) {
-		if (prevState.fieldsCollapsed && !this.state.fieldsCollapsed) {
-			this.refs.number.getDOMNode().focus();
-		}
+		this.setState({ collapsedFields });
 	},
 
 	shouldCollapse () {
@@ -52,37 +45,52 @@ module.exports = Field.create({
 		});
 	},
 
-	fieldChanged (path, event) {
-		var value = this.props.value;
-		value[path] = event.target.value;
-		this.props.onChange({
-			path: this.props.path,
-			value: value,
+	fieldChanged (fieldPath, event) {
+		const { value = {}, path, onChange } = this.props;
+		onChange({
+			path,
+			value: {
+				...value,
+				[fieldPath]: event.target.value,
+			},
 		});
+	},
+
+	makeChanger (fieldPath) {
+		return this.fieldChanged.bind(this, fieldPath);
 	},
 
 	geoChanged (i, event) {
-		var value = this.props.value;
-		if (!value.geo) {
-			value.geo = ['', ''];
-		}
-		value.geo[i] = event.target.value;
-		this.props.onChange({
-			path: this.props.path,
-			value: value,
+		const { value = {}, path, onChange } = this.props;
+		const newVal = event.target.value;
+		const geo = [
+			i === 0 ? newVal : value.geo ? value.geo[0] : '',
+			i === 1 ? newVal : value.geo ? value.geo[1] : '',
+		];
+		onChange({
+			path,
+			value: {
+				...value,
+				geo,
+			},
 		});
 	},
 
+	makeGeoChanger (fieldPath) {
+		return this.geoChanged.bind(this, fieldPath);
+	},
+
 	formatValue () {
+		const { value = {} } = this.props;
 		return _.compact([
-			this.props.value.number,
-			this.props.value.name,
-			this.props.value.street1,
-			this.props.value.street2,
-			this.props.value.suburb,
-			this.props.value.state,
-			this.props.value.postcode,
-			this.props.value.country,
+			value.number,
+			value.name,
+			value.street1,
+			value.street2,
+			value.suburb,
+			value.state,
+			value.postcode,
+			value.country,
 		]).join(', ');
 	},
 
@@ -90,26 +98,28 @@ module.exports = Field.create({
 		return <FormInput noedit>{this.formatValue() || '(no value)'}</FormInput>;
 	},
 
-	renderField (path, label, collapse) { // eslint-disable-line no-unused-vars
-		if (this.state.collapsedFields[path]) {
+	renderField (fieldPath, label, collapse, autofocus) {
+		if (this.state.collapsedFields[fieldPath]) {
 			return null;
 		}
+		const { value = {}, path } = this.props;
 		return (
-			<FormField label={label} className="form-field--secondary" htmlFor={this.props.path + '.' + path}>
-				<FormInput name={this.props.path + '.' + path} ref={path} value={this.props.value[path]} onChange={this.fieldChanged.bind(this, path)} placeholder={label} />
+			<FormField label={label} className="form-field--secondary" htmlFor={path + '.' + fieldPath}>
+				<FormInput autofocus={autofocus} name={path + '.' + fieldPath} value={value[fieldPath]} onChange={this.makeChanger(fieldPath)} placeholder={label} />
 			</FormField>
 		);
 	},
 
 	renderSuburbState () {
+		const { value = {}, path } = this.props;
 		return (
-			<FormField label="Suburb / State" className="form-field--secondary" htmlFor={this.props.path + '.suburb'}>
+			<FormField label="Suburb / State" className="form-field--secondary" htmlFor={path + '.suburb'}>
 				<FormRow>
 					<FormField width="two-thirds" className="form-field--secondary">
-						<FormInput name={this.props.path + '.suburb'} ref="suburb" value={this.props.value.suburb} onChange={this.fieldChanged.bind(this, 'suburb')} placeholder="Suburb" />
+						<FormInput name={path + '.suburb'} value={value.suburb} onChange={this.makeChanger('suburb')} placeholder="Suburb" />
 					</FormField>
 					<FormField width="one-third" className="form-field--secondary">
-						<FormInput name={this.props.path + '.state'} ref="state" value={this.props.value.state} onChange={this.fieldChanged.bind(this, 'state')} placeholder="State" />
+						<FormInput name={path + '.state'} value={value.state} onChange={this.makeChanger('state')} placeholder="State" />
 					</FormField>
 				</FormRow>
 			</FormField>
@@ -117,14 +127,15 @@ module.exports = Field.create({
 	},
 
 	renderPostcodeCountry () {
+		const { value = {}, path } = this.props;
 		return (
-			<FormField label="Postcode / Country" className="form-field--secondary" htmlFor={this.props.path + '.postcode'}>
+			<FormField label="Postcode / Country" className="form-field--secondary" htmlFor={path + '.postcode'}>
 				<FormRow>
 					<FormField width="one-third" className="form-field--secondary">
-						<FormInput name={this.props.path + '.postcode'} ref="postcode" value={this.props.value.postcode} onChange={this.fieldChanged.bind(this, 'postcode')} placeholder="Post Code" />
+						<FormInput name={path + '.postcode'} value={value.postcode} onChange={this.makeChanger('postcode')} placeholder="Post Code" />
 					</FormField>
 					<FormField width="two-thirds" className="form-field--secondary">
-						<FormInput name={this.props.path + '.country'} ref="country" value={this.props.value.country} onChange={this.fieldChanged.bind(this, 'country')} placeholder="Country" />
+						<FormInput name={path + '.country'} value={value.country} onChange={this.makeChanger('country')} placeholder="Country" />
 					</FormField>
 				</FormRow>
 			</FormField>
@@ -135,14 +146,16 @@ module.exports = Field.create({
 		if (this.state.collapsedFields.geo) {
 			return null;
 		}
+		const { value = {}, paths } = this.props;
+		const geo = value.geo || [];
 		return (
-			<FormField label="Lat / Lng" className="form-field--secondary" htmlFor={this.props.paths.geo}>
+			<FormField label="Lat / Lng" className="form-field--secondary" htmlFor={paths.geo}>
 				<FormRow>
 					<FormField width="one-half" className="form-field--secondary">
-						<FormInput name={this.props.paths.geo} ref="geo1" value={this.props.value.geo ? this.props.value.geo[1] : ''} onChange={this.geoChanged.bind(this, 1)} placeholder="Latitude" />
+						<FormInput name={paths.geo} value={geo[1]} onChange={this.makeGeoChanger(1)} placeholder="Latitude" />
 					</FormField>
 					<FormField width="one-half" className="form-field--secondary">
-						<FormInput name={this.props.paths.geo} ref="geo0" value={this.props.value.geo ? this.props.value.geo[0] : ''} onChange={this.geoChanged.bind(this, 0)} placeholder="Longitude" />
+						<FormInput name={paths.geo} value={geo[0]} onChange={this.makeGeoChanger(0)} placeholder="Longitude" />
 					</FormField>
 				</FormRow>
 			</FormField>
@@ -155,21 +168,27 @@ module.exports = Field.create({
 		this.setState(newState);
 	},
 
+	makeGoogler (key) {
+		return this.updateGoogleOption.bind(this, key);
+	},
+
+
 	renderGoogleOptions () {
-		if (!this.props.enableMapsAPI) return null;
+		const { paths, enableMapsAPI } = this.props;
+		if (!enableMapsAPI) return null;
 		var replace = this.state.improve ? (
 			<Checkbox
 				label="Replace existing data"
-				name={this.props.paths.overwrite}
-				onChange={this.updateGoogleOption.bind(this, 'overwrite')}
+				name={paths.overwrite}
+				onChange={this.makeGoogler('overwrite')}
 				checked={this.state.overwrite} />
 		) : null;
 		return (
 			<FormField offsetAbsentLabel>
 				<Checkbox
 					label="Autodetect and improve location on save"
-					name={this.props.paths.improve}
-					onChange={this.updateGoogleOption.bind(this, 'improve')}
+					name={paths.improve}
+					onChange={this.makeGoogler('improve')}
 					checked={this.state.improve}
 					title="When checked, this will attempt to fill missing fields. It will also get the lat/long" />
 				{replace}
@@ -178,10 +197,11 @@ module.exports = Field.create({
 	},
 
 	renderNote () {
-		if (!this.props.note) return null;
+		const { note } = this.props;
+		if (!note) return null;
 		return (
 			<FormField offsetAbsentLabel>
-				<FormNote note={this.props.note} />
+				<FormNote note={note} />
 			</FormField>
 		);
 	},
@@ -200,12 +220,13 @@ module.exports = Field.create({
 			: null;
 		/* eslint-enable */
 
+		const { label, path } = this.props;
 		return (
-			<div className="field-type-location" htmlFor={this.props.path}>
-				<FormField label={this.props.label}>
+			<div className="field-type-location" htmlFor={path}>
+				<FormField label={label}>
 					{showMore}
 				</FormField>
-				{this.renderField('number', 'PO Box / Shop', true)}
+				{this.renderField('number', 'PO Box / Shop', true, true)}
 				{this.renderField('name', 'Building Name', true)}
 				{this.renderField('street1', 'Street Address')}
 				{this.renderField('street2', 'Street Address 2', true)}

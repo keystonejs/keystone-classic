@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "aphrodite": "^0.5.0",
-    "async": "2.0.0",
+    "async": "2.0.1",
     "asyncdi": "1.1.0",
     "azure": "0.10.6",
     "babel-core": "6.10.4",
@@ -32,7 +32,6 @@
     "chalk": "1.1.3",
     "classnames": "2.2.5",
     "cloudinary": "1.4.1",
-    "codemirror": "5.16.0",
     "compression": "1.6.2",
     "connect-flash": "0.1.1",
     "cookie-parser": "1.4.3",
@@ -72,7 +71,7 @@
     "object-assign": "4.1.0",
     "qs": "4.0.0",
     "queryfilter": "0.0.4",
-    "range_check": "1.2.0",
+    "range_check": "1.4.0",
     "react": "15.2.1",
     "react-addons-css-transition-group": "15.2.1",
     "react-alt-text": "2.0.0",
@@ -96,7 +95,7 @@
     "string-to-stream": "^1.1.0",
     "vkey": "1.0.0",
     "watchify": "3.7.0",
-    "xhr": "2.2.1"
+    "xhr": "2.2.2"
   },
   "devDependencies": {
     "babel-preset-stage-2": "^6.11.0",
@@ -109,11 +108,11 @@
     "eslint-plugin-react": "5.2.2",
     "istanbul": "0.4.4",
     "mocha": "2.5.3",
-    "must": "0.13.1",
+    "must": "0.13.2",
     "nightwatch": "0.9.5",
     "react-addons-test-utils": "^15.2.1",
     "react-engine": "4.0.0",
-    "rimraf": "2.5.3",
+    "rimraf": "2.5.4",
     "sinon": "1.17.4",
     "superagent": "1.8.3",
     "supertest": "1.2.0",

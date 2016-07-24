@@ -1,6 +1,5 @@
 import Field from '../Field';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 module.exports = Field.create({
@@ -15,7 +14,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return ReactDOM.findDOMNode(this.refs.fileField);
+		return this.refs.fileField;
 	},
 
 	changeFile () {
