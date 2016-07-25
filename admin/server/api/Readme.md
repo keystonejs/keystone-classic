@@ -130,6 +130,133 @@ Any error will cause HTTP `500` to be sent. For example:
 
 Manages creating, listing, updating and deleting items in a List.
 
+### Get Items
+
+```
+GET /api/{list}
+```
+
+Loads items in the list. This endpoint is very flexible and has several features:
+
+* Find all items (default), or query items by a search string and/or field filters
+* Sort by any field in the list (defaults based on list options)
+* Pagination is supported through the skip and limit options (limit defaults to 100)
+* Return the count of all items found and/or an array of items (both are included by default)
+* When returning results, you can get data for all fields in the list, a subset of fields, or just the basic `{ id, name }` for each item
+* Relationship fields can optional be expanded into `{ id, name }` objects.
+
+#### Query Params
+
+* `search` (String) searches for items using the list Search feature
+* `filters` (Object or JSON) field filters to apply to the query
+* `sort` (String) field to sort by, prepend `-` to reverse the sort order
+* `skip` (Number `0`) count of items to skip
+* `limit` (Number `100`) maximum number of items to return
+* `count` (Boolean `true`) whether to include the count of total items found
+* `results` (Boolean `true`) whether to include the results array (contains an object for each item)
+* `fields` (String or Boolean `true`) comma-delimited list of fields to include in the results; set to `false` or `""` to exclude all field data, or `true` to include all field data (default). Can also include arbitrary paths stored in the database but not referenced in the List schema.
+* `expandRelationshipFields` (Boolean) populates all relationship fields with `{ id, name }` data
+
+#### Examples
+
+Search for users named "Jed" and return all data:
+
+```
+GET /api/users?search=Jed
+```
+
+```js
+{
+	count: 1,
+	results: [
+		{
+			id: '5f66cede-5266-11e6-beb8-9e71128cae77',
+			name: 'Jed Watson',
+			fields: {
+				name: { first: 'Jed', last: 'Watson' },
+				email: 'user@keystonejs.com',
+				isAdmin: true,
+				company: 'f4782f72-90a2-49db-b43c-2ed8b7b04104'
+			}
+		}
+	]
+}
+```
+
+Filter for all admins and return the company field, expanding relationships and only returning the first two results sorted by name, skipping the first 3, excluding the count:
+
+```
+GET /api/users?count=false&fields=email&filters={isAdmin:true}&limit=2&skip=3&sort=name
+```
+
+```js
+{
+	results: [
+		{
+			id: '5f66cede-5266-11e6-beb8-9e71128cae77',
+			name: 'Jed Watson',
+			fields: {
+				company: {
+					id: 'f4782f72-90a2-49db-b43c-2ed8b7b04104',
+					name: 'Thinkmill'
+				}
+			}
+		},
+		{
+			id: '869408c8-1da7-4f0c-ab6b-2ef7cf611abc',
+			name: 'Joss Mackison',
+			fields: {
+				company: {
+					id: 'f4782f72-90a2-49db-b43c-2ed8b7b04104',
+					name: 'Thinkmill'
+				}
+			}
+		}
+	]
+}
+```
+
+Count all admins, excluding results:
+
+```
+GET /api/users?filters={isAdmin:true}&results=false
+```
+
+```js
+{
+	count: 9,
+}
+```
+
+Find all companies, with just the basic data set (no fields):
+
+```
+GET /api/companies?fields=false
+```
+
+```js
+{
+	count: 1,
+	results: [
+		{
+			id: 'f4782f72-90a2-49db-b43c-2ed8b7b04104',
+			name: 'Thinkmill'
+		}
+	]
+}
+
+#### Errors
+
+A database error executing the query will cause HTTP `500` to be sent, for example:
+
+```js
+// 500 database error
+{
+	error: 'database error',
+	detail: err
+}
+```
+
 ## Items
 
 Single-item implementations of List APIs for get, update and delete.
