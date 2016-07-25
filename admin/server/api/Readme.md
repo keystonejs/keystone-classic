@@ -16,11 +16,11 @@ All POST API endpoints are protected with CSRF. If the CSRF check fails, `403` w
 }
 ```
 
-## Session
+# Session API
 
 Manages creating, destroying and validating KeystoneJS sessions (specifically, logged in users)
 
-### Get
+## Get
 
 ```
 GET /api/session
@@ -28,7 +28,7 @@ GET /api/session
 
 Returns the currently logged in user, or `undefined`.
 
-#### Response
+### Response
 
 ```js
 {
@@ -36,7 +36,7 @@ Returns the currently logged in user, or `undefined`.
 }
 ```
 
-### Sign In
+## Sign In
 
 ```
 POST /api/session/signin
@@ -46,7 +46,7 @@ Signs in with the provided credentials. Returns the matched user, or error infor
 
 Must include CSRF token in headers.
 
-#### POST Data
+### POST Data
 
 * `email` (String; required) the email to find
 * `password` (String; required) the password to check
@@ -62,7 +62,7 @@ For example:
 }
 ```
 
-#### Response
+### Response
 
 A successful login will return success with the data from the user item. For example:
 
@@ -97,7 +97,7 @@ If either `username` or `email` is not provided, or the login fails, HTTP `401` 
 }
 ```
 
-### Sign In
+## Sign In
 
 ```
 POST /api/session/signout
@@ -105,7 +105,7 @@ POST /api/session/signout
 
 Signs the current user out (if any). Takes no data.
 
-#### Response
+### Response
 
 A successful sign-out will return `success: true`. For example:
 
@@ -126,11 +126,11 @@ Any error will cause HTTP `500` to be sent. For example:
 ```
 
 
-## Lists
+# Lists API
 
 Manages creating, listing, updating and deleting items in a List.
 
-### Create a new Item
+## Create a new Item
 
 ```
 POST /api/{list}/create
@@ -164,7 +164,7 @@ Returns the following:
 }
 ```
 
-#### Errors
+### Errors
 
 This endpoint will first validate the data; validation errors are returned with HTTP `400`. For example, creating a new user when name, email and password are all required:
 
@@ -260,7 +260,7 @@ Other errors are returned with HTTP `500`. For example, if the provided values c
 }
 ```
 
-### Get an Item
+## Get an Item
 
 ```
 GET /api/{list}/:id
@@ -284,7 +284,7 @@ Retrieves the data for an item by ID. For example, getting user `57961c4249b4a30
 }
 ```
 
-#### Errors
+### Errors
 
 Requesting an ID that doesn't exist will return HTTP `404`:
 
@@ -306,7 +306,7 @@ Any other error (e.g. database error) will return HTTP `500`:
 }
 ```
 
-### Get Items
+## Get Items
 
 ```
 GET /api/{list}
@@ -321,7 +321,7 @@ Loads items in the list. This endpoint is very flexible and has several features
 * When returning results, you can get data for all fields in the list, a subset of fields, or just the basic `{ id, name }` for each item
 * Relationship fields can optional be expanded into `{ id, name }` objects.
 
-#### Query Params
+### Query Params
 
 * `search` (String) searches for items using the list Search feature
 * `filters` (Object or JSON) field filters to apply to the query
@@ -333,7 +333,7 @@ Loads items in the list. This endpoint is very flexible and has several features
 * `fields` (String or Boolean `true`) comma-delimited list of fields to include in the results; set to `false` or `""` to exclude all field data, or `true` to include all field data (default). Can also include arbitrary paths stored in the database but not referenced in the List schema.
 * `expandRelationshipFields` (Boolean) populates all relationship fields with `{ id, name }` data
 
-#### Examples
+### Examples
 
 Search for users named "Jed" and return all data:
 
@@ -422,7 +422,7 @@ GET /api/companies?fields=false
 }
 ```
 
-#### Errors
+### Errors
 
 A database error executing the query will cause HTTP `500` to be sent, for example:
 
@@ -435,7 +435,7 @@ A database error executing the query will cause HTTP `500` to be sent, for examp
 ```
 
 
-### Get List Counts
+## Get List Counts
 
 ```
 GET /api/counts
@@ -452,7 +452,7 @@ Retrieves total item counts for all registered lists, by List Key:
 }
 ```
 
-#### Errors
+### Errors
 
 A database error executing the query will cause HTTP `500` to be sent, for example:
 
