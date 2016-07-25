@@ -9,8 +9,28 @@
 
 /* DOMIFY */
 .Domify {
+	background-color: #f5f5f5;
+	border-radius: 4px;
+	border: 1px solid #ccc;
 	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 	font-size: 0.9em;
+	padding: 1em;
+}
+/* lol; because CSS */
+.Domify > div > div > span[style^="padding-right: 5px"] {
+	float: left;
+}
+.Domify > div > div > div > span[style^="color: rgb(11, 137, 182)"]:first-child::before,
+.Domify > div > div > div > span[style^="color: rgb(102, 102, 102)"]:first-child::before {
+	background: #f5f5f5;
+	border-right: 100px solid #f5f5f5;
+	position: absolute;
+}
+.Domify > div > div > div > span[style^="color: rgb(11, 137, 182)"]:first-child::before {
+	content: "{";
+}
+.Domify > div > div > div > span[style^="color: rgb(102, 102, 102)"]:first-child::before {
+	content: "[";
 }
 
 /* MARKDOWN */
