@@ -13,6 +13,7 @@ const initialState = {
 	data: null,
 	id: null,
 	loading: false,
+	loadingRef: null,
 	ready: false,
 	error: null,
 };

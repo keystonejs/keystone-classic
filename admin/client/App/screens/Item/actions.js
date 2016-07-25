@@ -23,14 +23,17 @@ export function selectItem (itemId) {
  */
 export function loadItemData () {
 	return (dispatch, getState) => {
+		const thisLoadRef = {};
 		dispatch({
 			type: LOAD_DATA,
+			loadingRef: thisLoadRef,
 		});
 		const state = getState();
 		const list = state.lists.currentList;
 		// Load a specific item with the utils/List.js helper
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
 			if (err || !itemData) {
+				if (getState().loadingRef !== thisLoadRef) return;
 				console.log('Error loading item data', err);
 				dispatch(dataLoadingError(err));
 			} else {
@@ -48,6 +51,7 @@ export function loadItemData () {
 export function dataLoaded (data) {
 	return {
 		type: DATA_LOADING_SUCCESS,
+		loadingRef: null,
 		data,
 	};
 }
@@ -61,6 +65,7 @@ export function dataLoaded (data) {
 export function dataLoadingError (err) {
 	return {
 		type: DATA_LOADING_ERROR,
+		loadingRef: null,
 		error: err,
 	};
 }
