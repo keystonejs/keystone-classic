@@ -58,7 +58,7 @@ var TextFilter = React.createClass({
 					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormField>
-					<FormInput autofocus ref="focusTarget" value={filter.street} onChange={this.updateValue} name="street" placeholder="Address" />
+					<FormInput autoFocus ref="focusTarget" value={filter.street} onChange={this.updateValue} name="street" placeholder="Address" />
 				</FormField>
 				<FormRow>
 					<FormField width="two-thirds">

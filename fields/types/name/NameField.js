@@ -60,7 +60,7 @@ module.exports = Field.create({
 			<FormRow>
 				<FormField width="one-half">
 					<FormInput
-						autofocus
+						autoFocus
 						autoComplete="off"
 						name={paths.first}
 						onChange={this.changeFirst}

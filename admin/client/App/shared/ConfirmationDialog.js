@@ -6,13 +6,6 @@ import React, { Component, PropTypes } from 'react';
 import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
 
 class ConfirmationDialog extends Component {
-	componentWillReceiveProps (nextProps) {
-		if (!this.props.isOpen && nextProps.isOpen) {
-			setTimeout(() => {
-				this.refs.confirm.focus();
-			}, 0);
-		}
-	}
 	getBodyHtml () {
 		return {
 			__html: this.props.body,
@@ -37,7 +30,7 @@ class ConfirmationDialog extends Component {
 			>
 				<ModalBody dangerouslySetInnerHTML={this.getBodyHtml()} />
 				<ModalFooter>
-					<Button ref="confirm" size="sm" type={confirmationType} onClick={onConfirmation}>
+					<Button autoFocus size="sm" type={confirmationType} onClick={onConfirmation}>
 						{confirmationLabel}
 					</Button>
 					<Button size="sm" type="link-cancel" onClick={onCancel}>

@@ -174,7 +174,7 @@ var RelationshipFilter = React.createClass({
 					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={this.props.filter.inverted} onChange={this.toggleInverted} />
 				</FormField>
 				<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-					<FormInput autofocus ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={placeholder} />
+					<FormInput autoFocus ref="focusTarget" value={this.state.searchString} onChange={this.updateSearch} placeholder={placeholder} />
 				</FormField>
 				{selectedItems.length ? (
 					<PopoutList>
