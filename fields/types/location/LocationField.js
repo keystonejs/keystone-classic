@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
 import Field from '../Field';
-import { Button, Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
+import { Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
+import CollapsedFieldLabel from '../../components/CollapsedFieldLabel';
 
 /**
  * TODO:
@@ -216,7 +217,7 @@ module.exports = Field.create({
 
 		/* eslint-disable no-script-url */
 		var showMore = !_.isEmpty(this.state.collapsedFields)
-			? <Button type="link" className="collapsed-field-label" onClick={this.uncollapseFields}>(show more fields)</Button>
+			? <CollapsedFieldLabel onClick={this.uncollapseFields}>(show more fields)</CollapsedFieldLabel>
 			: null;
 		/* eslint-enable */
 
