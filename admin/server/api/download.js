@@ -1,3 +1,10 @@
+/*
+TODO: Deprecate.
+
+Has been replaced by the new implementation in list/download, but this version
+supports more features at the moment (custom .toCSV method on lists, etc)
+*/
+
 var _ = require('lodash');
 var async = require('async');
 var keystone = require('../../../');

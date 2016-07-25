@@ -1,3 +1,10 @@
+/*
+Deprecated.
+
+This exists to support the legacy format of data submitted from the Admin UI,
+which we are working to replace ASAP.
+*/
+
 var keystone = require('../../../../');
 
 module.exports = function (req, res) {
