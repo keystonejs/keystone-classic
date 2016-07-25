@@ -1,10 +1,11 @@
 var _ = require('underscore');
 var async = require('async');
-var keystone = require('../../');
 var jade = require('jade');
 
 exports = module.exports = function(req, res) {
 
+	var keystone = req.keystone;
+	
 	var sendResponse = function(status) {
 		res.json(status);
 	};

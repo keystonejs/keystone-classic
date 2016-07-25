@@ -1,9 +1,10 @@
 var cloudinary = require('cloudinary');
-var keystone = require('../../');
 
 exports = module.exports = {
 
 	upload: function(req, res) {
+		var keystone = req.keystone;
+		
 		if(req.files && req.files.file){
 			var options = {};
 
