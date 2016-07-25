@@ -1,6 +1,7 @@
 module.exports = {
 	Field: require('../LocationField'),
 	Filter: require('../LocationFilter'),
+	readme: require('fs').readFileSync('./fields/types/location/Readme.md', 'utf8'),
 	section: 'Text',
 	spec: {
 		label: 'Location',
