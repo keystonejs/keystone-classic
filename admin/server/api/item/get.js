@@ -1,14 +1,12 @@
 var _ = require('lodash');
 var async = require('async');
-var keystone = require('../../../../');
 var listToArray = require('list-to-array');
 
 module.exports = function (req, res) {
-
+	var keystone = req.keystone;
 	var query = req.list.model.findById(req.params.id);
 
 	var fields = req.query.fields;
-
 	if (fields === 'false') {
 		fields = false;
 	}

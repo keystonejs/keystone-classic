@@ -1,6 +1,5 @@
-var keystone = require('../../../../');
-
 function signout (req, res) {
+	var keystone = req.keystone;
 	if (!keystone.security.csrf.validate(req)) {
 		return res.apiError(403, 'invalid csrf');
 	}

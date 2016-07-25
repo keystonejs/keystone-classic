@@ -2,11 +2,11 @@
 TODO: Needs Review and Spec
 */
 
-var keystone = require('../../../');
-
 module.exports = {
 	upload: function (req, res) {
 		var cloudinary = require('cloudinary');
+		var keystone = req.keystone;
+
 		if (req.files && req.files.file) {
 			var options = {};
 

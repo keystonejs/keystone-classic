@@ -5,9 +5,8 @@ This exists to support the legacy format of data submitted from the Admin UI,
 which we are working to replace ASAP.
 */
 
-var keystone = require('../../../../');
-
 module.exports = function (req, res) {
+	var keystone = req.keystone;
 	if (!keystone.security.csrf.validate(req)) {
 		return res.apiError(403, 'invalid csrf');
 	}

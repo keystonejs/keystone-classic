@@ -2,10 +2,10 @@
 TODO: Needs Review and Spec
 */
 
-var keystone = require('../../../../');
 var getList = require('../list/get');
 
 module.exports = function (req, res) {
+	var keystone = req.keystone;
 	if (!keystone.security.csrf.validate(req)) {
 		console.log('Refusing to reorder ' + req.list.key + ' ' + req.params.id + '; CSRF failure');
 		return res.apiError(403, 'invalid csrf');

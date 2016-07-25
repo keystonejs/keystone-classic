@@ -2,13 +2,12 @@
 TODO: Needs Review and Spec
 */
 
-var keystone = require('../../../');
-var Types = keystone.Field.Types;
-
 module.exports = {
 
 	upload: function (req, res) {
 		var knox = require('knox');
+		var keystone = req.keystone;
+		var Types = keystone.Field.Types;
 
 		if (!keystone.security.csrf.validate(req, req.body.authenticity_token)) {
 			return res.status(403).send({ error: { message: 'invalid csrf' } });
