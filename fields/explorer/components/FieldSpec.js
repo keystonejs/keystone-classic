@@ -1,5 +1,6 @@
 import Domify from 'react-domify';
 import React from 'react';
+import { Form } from 'elemental';
 
 import Col from './Col';
 import Row from './Row';
@@ -29,7 +30,7 @@ const ExplorerFieldType = React.createClass({
 		const className = this.props.i ? 'fx-page__field__bordered' : undefined;
 		return (
 			<div className={className}>
-				<div className="fx-page__field">
+				<Form type="horizontal" component="div">
 					<Row isCollapsed={readmeIsVisible}>
 						<Col width={readmeIsVisible ? 300 : null} style={{ minWidth: 300, maxWidth: 640 }}>
 							<FieldComponent
@@ -45,7 +46,7 @@ const ExplorerFieldType = React.createClass({
 							/>
 						</Col>
 					</Row>
-				</div>
+				</Form>
 				<div className="fx-page__filter">
 					<div className="fx-page__filter__title">Filter</div>
 					<Row>
