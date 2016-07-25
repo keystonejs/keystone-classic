@@ -1,14 +1,22 @@
 var _ = require('lodash');
 var async = require('async');
 var keystone = require('../../../../');
+var listToArray = require('list-to-array');
 
 module.exports = function (req, res) {
 
 	var query = req.list.model.findById(req.params.id);
 
 	var fields = req.query.fields;
-	if (req.query.basic !== undefined) {
+
+	if (fields === 'false') {
 		fields = false;
+	}
+	if (typeof fields === 'string') {
+		fields = listToArray(fields);
+	}
+	if (fields && !Array.isArray(fields)) {
+		return res.status(401).json({ error: 'fields must be undefined, a string, or an array' });
 	}
 
 	if (req.list.tracking && req.list.tracking.createdBy) {
