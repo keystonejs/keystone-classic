@@ -263,7 +263,7 @@ Other errors are returned with HTTP `500`. For example, if the provided values c
 ## Get an Item
 
 ```
-GET /api/{list}/:id
+GET /api/{list}/{id}
 ```
 
 Retrieves the data for an item by ID. For example, getting user `57961c4249b4a30ad983b33d` returns the following:
@@ -453,6 +453,70 @@ Retrieves total item counts for all registered lists, by List Key:
 ```
 
 ### Errors
+
+A database error executing the query will cause HTTP `500` to be sent, for example:
+
+```js
+// 500 database error
+{
+	error: 'database error',
+	detail: err
+}
+```
+
+
+## Delete Item(s)
+
+```
+[3] POST /api/{list}/{id}/delete
+[2] POST /api/{list}/delete?ids=1,2,3
+[1] POST /api/{list}/delete
+```
+
+Deletes one or more items in a List. This endpoint supports [1] a single ID parameter in the URL, [2] a comma-delimited list of IDs in the query string, or [3] an array of IDs in the POST Body:
+
+```js
+{
+	'ids': [
+		'5f66cede-5266-11e6-beb8-9e71128cae77',
+		'869408c8-1da7-4f0c-ab6b-2ef7cf611abc'
+	]
+}
+```
+
+When items are successfully deleted, a count and the deleted IDs will be returned:
+
+```js
+{
+	success: true,
+	count: 2,
+	ids: [
+		'5f66cede-5266-11e6-beb8-9e71128cae77',
+		'869408c8-1da7-4f0c-ab6b-2ef7cf611abc'
+	]
+}
+```
+
+### Errors
+
+You cannot delete the user you are currently logged in as. If you are deleting items in the `user model`, and include the session user's ID, it will return HTTP `403`:
+
+```js
+// 403 not allowed
+{
+	error: 'not allowed',
+	detail: 'You can not delete yourself'
+}
+```
+
+If a List has the `{ nodelete: true }` option set, this endpoint will refuse to delete the items with HTTP `400` and the following error:
+
+```js
+// 400 nodelete
+{
+	error: 'nodelete'
+}
+```
 
 A database error executing the query will cause HTTP `500` to be sent, for example:
 
