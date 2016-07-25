@@ -30,7 +30,7 @@ const ExplorerFieldType = React.createClass({
 		return (
 			<div className={className}>
 				<div className="fx-page__field">
-					<Row>
+					<Row isCollapsed={readmeIsVisible}>
 						<Col width={readmeIsVisible ? 300 : null} style={{ minWidth: 300, maxWidth: 640 }}>
 							<FieldComponent
 								{...spec}
@@ -39,12 +39,10 @@ const ExplorerFieldType = React.createClass({
 							/>
 						</Col>
 						<Col>
-							<div style={{ marginLeft: 30, marginTop: 26 }}>
-								<Domify
-									className="Domify"
-									value={{ value: this.state.value }}
-								/>
-							</div>
+							<Domify
+								className="Domify"
+								value={{ value: this.state.value }}
+							/>
 						</Col>
 					</Row>
 				</div>

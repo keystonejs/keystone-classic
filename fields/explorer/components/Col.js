@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 
-const Col = (props) => {
-	const { className, gutter, style, width, ...incidentalProps } = props;
-	const __style__ = {
+const ExplorerCol = (props, context) => {
+	const { className, gutter, style = {}, width, ...incidentalProps } = props;
+	const { isCollapsed } = context;
+	const __style__ = isCollapsed ? style : {
 		flex: width ? null : '1 1 0',
 		minHeight: 1,
 		paddingLeft: gutter,
@@ -10,7 +11,7 @@ const Col = (props) => {
 		width: width || '100%',
 		...style,
 	};
-	const __className__ = 'Col' + (className
+	const __className__ = 'ExplorerCol' + (className
 		? ' ' + className
 		: '');
 
@@ -22,14 +23,17 @@ const Col = (props) => {
 		/>
 	);
 };
-Col.propTypes = {
+ExplorerCol.contextTypes = {
+	isCollapsed: PropTypes.bool,
+};
+ExplorerCol.propTypes = {
 	className: PropTypes.string,
 	gutter: PropTypes.number,
 	style: PropTypes.string,
 	width: PropTypes.number,
 };
-Col.defaultProps = {
+ExplorerCol.defaultProps = {
 	gutter: 10,
 };
 
-module.exports = Col;
+module.exports = ExplorerCol;
