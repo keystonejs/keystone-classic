@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormField, FormLabel } from 'elemental';
 
-const NestedFormField = (props) => {
+function NestedFormField (props) {
 	const { children, label, ...incidentalProps } = props;
 	const labelStyles = {
 		color: '#999',
