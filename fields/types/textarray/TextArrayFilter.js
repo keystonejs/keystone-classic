@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 
 import { FormField, FormInput, FormSelect } from 'elemental';
 
@@ -43,11 +44,11 @@ var TextArrayFilter = React.createClass({
 	},
 	selectMode (mode) {
 		this.updateFilter({ mode });
-		this.refs.focusTarget.focus();
+		findDOMNode(this.refs.focusTarget).focus();
 	},
 	selectPresence (presence) {
 		this.updateFilter({ presence });
-		this.refs.focusTarget.focus();
+		findDOMNode(this.refs.focusTarget).focus();
 	},
 	updateValue (e) {
 		this.updateFilter({ value: e.target.value });

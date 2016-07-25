@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import assign from 'object-assign';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
@@ -55,7 +56,7 @@ const CreateForm = React.createClass({
 	// Focus the first input field
 	focusTarget () {
 		if (this.refs.focusTarget) {
-			this.refs.focusTarget.focus();
+			findDOMNode(this.refs.focusTarget).focus();
 		}
 	},
 	// Handle input change events

@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
@@ -81,12 +82,12 @@ var NumberArrayFilter = React.createClass({
 	// Update the filter mode
 	selectMode (mode) {
 		this.updateFilter({ mode });
-		this.refs.focusTarget.focus();
+		findDOMNode(this.refs.focusTarget).focus();
 	},
 	// Update the presence selection
 	selectPresence (presence) {
 		this.updateFilter({ presence });
-		this.refs.focusTarget.focus();
+		findDOMNode(this.refs.focusTarget).focus();
 	},
 	// Render the controls, showing two inputs when the mode is "between"
 	renderControls (presence, mode) {

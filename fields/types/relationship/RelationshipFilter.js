@@ -1,5 +1,6 @@
 import async from 'async';
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import xhr from 'xhr';
 
 import { FormField, FormInput, SegmentedControl } from 'elemental';
@@ -76,7 +77,7 @@ var RelationshipFilter = React.createClass({
 				valueIsLoading: false,
 				selectedItems: items || [],
 			}, () => {
-				this.refs.focusTarget.focus();
+				findDOMNode(this.refs.focusTarget).focus();
 			});
 		});
 	},

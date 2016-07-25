@@ -2,6 +2,7 @@ import _ from 'lodash';
 import CodeMirror from 'codemirror';
 import Field from '../Field';
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import { FormInput } from 'elemental';
 import classnames from 'classnames';
 
@@ -34,7 +35,7 @@ module.exports = Field.create({
 			readOnly: this.shouldRenderField() ? false : true,
 		});
 
-		this.codeMirror = CodeMirror.fromTextArea(this.refs.codemirror, options);
+		this.codeMirror = CodeMirror.fromTextArea(findDOMNode(this.refs.codemirror), options);
 		this.codeMirror.setSize(null, this.props.height);
 		this.codeMirror.on('change', this.codemirrorValueChanged);
 		this.codeMirror.on('focus', this.focusChanged.bind(this, true));

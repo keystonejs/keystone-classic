@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 
 import { FormField, FormInput, FormRow, SegmentedControl } from 'elemental';
 
@@ -44,7 +45,7 @@ var TextFilter = React.createClass({
 	},
 	toggleInverted (value) {
 		this.updateFilter('inverted', value);
-		this.refs.focusTarget.focus();
+		findDOMNode(this.refs.focusTarget).focus();
 	},
 	updateValue (e) {
 		this.updateFilter(e.target.name, e.target.value);
