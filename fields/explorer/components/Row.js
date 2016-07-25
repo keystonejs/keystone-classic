@@ -2,22 +2,22 @@ import React, { PropTypes } from 'react';
 
 const Row = (props) => {
 	const { className, gutter, style, ...incidentalProps } = props;
-	const styles = {
+	const __style__ = {
 		display: 'flex',
 		flexWrap: 'wrap',
 		marginLeft: gutter * -1,
 		marginRight: gutter * -1,
 		...style,
 	};
-	const klass = 'Row' + (className
+	const __className__ = 'Row' + (className
 		? ' ' + className
 		: '');
 
 	return (
 		<div
 			{...incidentalProps}
-			className={klass}
-			style={styles}
+			className={__className__}
+			style={__style__}
 		/>
 	);
 };

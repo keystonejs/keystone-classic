@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 const Col = (props) => {
 	const { className, gutter, style, width, ...incidentalProps } = props;
-	const styles = {
+	const __style__ = {
 		flex: width ? null : '1 1 0',
 		minHeight: 1,
 		paddingLeft: gutter,
@@ -10,15 +10,15 @@ const Col = (props) => {
 		width: width || '100%',
 		...style,
 	};
-	const klass = 'Col' + (className
+	const __className__ = 'Col' + (className
 		? ' ' + className
 		: '');
 
 	return (
 		<div
 			{...incidentalProps}
-			className={klass}
-			style={styles}
+			className={__className__}
+			style={__style__}
 		/>
 	);
 };
