@@ -66,6 +66,13 @@
 	padding: 0;
 	white-space: pre;
 }
+.Markdown blockquote {
+	color: #999;
+	font-style: italic;
+	margin: 1em 0 0;
+	padding-left: 10px;
+	width: 340px;
+}
 
 /* PAGE */
 .fx-page__content {
