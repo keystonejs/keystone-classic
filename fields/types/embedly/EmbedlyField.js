@@ -1,6 +1,7 @@
 import React from 'react';
 import Field from '../Field';
 import { FormField, FormInput } from 'elemental';
+import ImageThumbnail from '../../components/ImageThumbnail';
 import NestedFormField from '../../components/NestedFormField';
 
 module.exports = Field.create({
@@ -44,9 +45,11 @@ module.exports = Field.create({
 		var image = <img width={this.props.value.thumbnailWidth} height={this.props.value.thumbnailHeight} src={this.props.value.thumbnailUrl} />;
 
 		var preview = this.props.value.url ? (
-			<a href={this.props.value.url} target="_blank" className="img-thumbnail">{image}</a>
+			<ImageThumbnail component="a" href={this.props.value.url} target="_blank">
+				{image}
+			</ImageThumbnail>
 		) : (
-			<div className="img-thumbnail">{image}</div>
+			<ImageThumbnail>{image}</ImageThumbnail>
 		);
 
 		return (
