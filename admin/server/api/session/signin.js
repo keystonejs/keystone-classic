@@ -14,26 +14,26 @@ function signin (req, res) {
 	User.model.findOne({ email: emailRegExp }).exec(function (err, user) {
 		if (user) {
 			keystone.callHook(user, 'pre:signin', function (err) {
-				if (err) return res.json({ error: 'pre:signin error', detail: err });
+				if (err) return res.status(500).json({ error: 'pre:signin error', detail: err });
 				user._.password.compare(req.body.password, function (err, isMatch) {
 					if (isMatch) {
 						session.signinWithUser(user, req, res, function () {
 							keystone.callHook(user, 'post:signin', function (err) {
-								if (err) return res.json({ error: 'post:signin error', detail: err });
+								if (err) return res.status(500).json({ error: 'post:signin error', detail: err });
 								res.json({ success: true, user: user });
 							});
 						});
 					} else if (err) {
 						return res.status(500).json({ error: 'bcrypt error', detail: err });
 					} else {
-						return res.json({ error: 'invalid details' });
+						return res.status(401).json({ error: 'invalid details' });
 					}
 				});
 			});
 		} else if (err) {
 			return res.status(500).json({ error: 'database error', detail: err });
 		} else {
-			return res.json({ error: 'invalid details' });
+			return res.status(401).json({ error: 'invalid details' });
 		}
 	});
 }
