@@ -97,7 +97,7 @@ If either `username` or `email` is not provided, or the login fails, HTTP `401` 
 }
 ```
 
-## Sign In
+## Sign Out
 
 ```
 POST /api/session/signout
@@ -477,7 +477,7 @@ Deletes one or more items in a List. This endpoint supports [1] a single ID para
 
 ```js
 {
-	'ids': [
+	ids: [
 		'5f66cede-5266-11e6-beb8-9e71128cae77',
 		'869408c8-1da7-4f0c-ab6b-2ef7cf611abc'
 	]
