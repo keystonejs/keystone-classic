@@ -260,7 +260,7 @@ Other errors are returned with HTTP `500`. For example, if the provided values c
 }
 ```
 
-### Get Item
+### Get an Item
 
 ```
 GET /api/{list}/:id
@@ -420,6 +420,7 @@ GET /api/companies?fields=false
 		}
 	]
 }
+```
 
 #### Errors
 
@@ -433,6 +434,32 @@ A database error executing the query will cause HTTP `500` to be sent, for examp
 }
 ```
 
-## Items
 
-Single-item implementations of List APIs for get, update and delete.
+### Get List Counts
+
+```
+GET /api/counts
+```
+
+Retrieves total item counts for all registered lists, by List Key:
+
+```js
+{
+	'counts': {
+		'Company': 1,
+		'User': 9
+	}
+}
+```
+
+#### Errors
+
+A database error executing the query will cause HTTP `500` to be sent, for example:
+
+```js
+// 500 database error
+{
+	error: 'database error',
+	detail: err
+}
+```
