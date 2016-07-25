@@ -79,7 +79,7 @@ const CreateForm = React.createClass({
 	// Create a new item when the form is submitted
 	submitForm (event) {
 		event.preventDefault();
-		const createForm = this.refs.createForm;
+		const createForm = event.target;
 		const formData = new FormData(createForm);
 		this.props.list.createItem(formData, (err, data) => {
 			if (data) {
@@ -159,7 +159,6 @@ const CreateForm = React.createClass({
 
 		return (
 			<Form
-				ref="createForm"
 				type="horizontal"
 				onSubmit={this.submitForm}
 				className="create-form"
