@@ -14,7 +14,6 @@
     "azure": "0.10.6",
     "babel-core": "6.10.4",
     "babel-plugin-transform-object-assign": "6.8.0",
-    "babel-plugin-transform-object-rest-spread": "6.8.0",
     "babel-preset-es2015": "6.9.0",
     "babel-preset-react": "6.11.1",
     "babel-preset-stage-2": "^6.11.0",
