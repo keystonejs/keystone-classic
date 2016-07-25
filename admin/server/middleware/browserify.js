@@ -73,10 +73,7 @@ module.exports = function (file, name) {
 		} else {
 			b = browserify(file, opts);
 		}
-		b.transform(babelify.configure({
-			plugins: [require('babel-plugin-transform-object-rest-spread'), require('babel-plugin-transform-object-assign')],
-			presets: [require('babel-preset-es2015'), require('babel-preset-react')],
-		}));
+		b.transform(babelify);
 		b.exclude('FieldTypes');
 		packages.forEach(function (i) {
 			b.exclude(i);

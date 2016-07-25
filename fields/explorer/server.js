@@ -14,16 +14,7 @@ app.get('/index.css', (req, res) => res.sendFile(path.resolve('./fields/explorer
 // Serve script bundles
 app.get('/js/explorer.js', browserify('./fields/explorer/index.js', {
 	external: packages.concat(['FieldTypes']),
-	transform: [babelify.configure({
-		plugins: [
-			require('babel-plugin-transform-object-rest-spread'),
-			require('babel-plugin-transform-object-assign'),
-		],
-		presets: [
-			require('babel-preset-es2015'),
-			require('babel-preset-react'),
-		],
-	}), require('brfs')],
+	transform: [babelify, require('brfs')],
 }));
 
 
