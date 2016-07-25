@@ -3,6 +3,7 @@ import React from 'react';
 import Field from '../Field';
 import { Checkbox, FormField, FormInput, FormNote, FormRow } from 'elemental';
 import CollapsedFieldLabel from '../../components/CollapsedFieldLabel';
+import NestedFormField from '../../components/NestedFormField';
 
 /**
  * TODO:
@@ -105,41 +106,41 @@ module.exports = Field.create({
 		}
 		const { value = {}, path } = this.props;
 		return (
-			<FormField label={label} className="form-field--secondary" htmlFor={path + '.' + fieldPath}>
+			<NestedFormField label={label}>
 				<FormInput autofocus={autofocus} name={path + '.' + fieldPath} value={value[fieldPath]} onChange={this.makeChanger(fieldPath)} placeholder={label} />
-			</FormField>
+			</NestedFormField>
 		);
 	},
 
 	renderSuburbState () {
 		const { value = {}, path } = this.props;
 		return (
-			<FormField label="Suburb / State" className="form-field--secondary" htmlFor={path + '.suburb'}>
+			<NestedFormField label="Suburb / State">
 				<FormRow>
-					<FormField width="two-thirds" className="form-field--secondary">
+					<FormField width="two-thirds">
 						<FormInput name={path + '.suburb'} value={value.suburb} onChange={this.makeChanger('suburb')} placeholder="Suburb" />
 					</FormField>
-					<FormField width="one-third" className="form-field--secondary">
+					<FormField width="one-third">
 						<FormInput name={path + '.state'} value={value.state} onChange={this.makeChanger('state')} placeholder="State" />
 					</FormField>
 				</FormRow>
-			</FormField>
+			</NestedFormField>
 		);
 	},
 
 	renderPostcodeCountry () {
 		const { value = {}, path } = this.props;
 		return (
-			<FormField label="Postcode / Country" className="form-field--secondary" htmlFor={path + '.postcode'}>
+			<NestedFormField label="Postcode / Country">
 				<FormRow>
-					<FormField width="one-third" className="form-field--secondary">
+					<FormField width="one-third">
 						<FormInput name={path + '.postcode'} value={value.postcode} onChange={this.makeChanger('postcode')} placeholder="Post Code" />
 					</FormField>
-					<FormField width="two-thirds" className="form-field--secondary">
+					<FormField width="two-thirds">
 						<FormInput name={path + '.country'} value={value.country} onChange={this.makeChanger('country')} placeholder="Country" />
 					</FormField>
 				</FormRow>
-			</FormField>
+			</NestedFormField>
 		);
 	},
 
@@ -150,16 +151,16 @@ module.exports = Field.create({
 		const { value = {}, paths } = this.props;
 		const geo = value.geo || [];
 		return (
-			<FormField label="Lat / Lng" className="form-field--secondary" htmlFor={paths.geo}>
+			<NestedFormField label="Lat / Lng">
 				<FormRow>
-					<FormField width="one-half" className="form-field--secondary">
+					<FormField width="one-half">
 						<FormInput name={paths.geo} value={geo[1]} onChange={this.makeGeoChanger(1)} placeholder="Latitude" />
 					</FormField>
-					<FormField width="one-half" className="form-field--secondary">
+					<FormField width="one-half">
 						<FormInput name={paths.geo} value={geo[0]} onChange={this.makeGeoChanger(0)} placeholder="Longitude" />
 					</FormField>
 				</FormRow>
-			</FormField>
+			</NestedFormField>
 		);
 	},
 
@@ -221,9 +222,9 @@ module.exports = Field.create({
 			: null;
 		/* eslint-enable */
 
-		const { label, path } = this.props;
+		const { label } = this.props;
 		return (
-			<div className="field-type-location" htmlFor={path}>
+			<div>
 				<FormField label={label}>
 					{showMore}
 				</FormField>
