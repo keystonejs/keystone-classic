@@ -130,6 +130,182 @@ Any error will cause HTTP `500` to be sent. For example:
 
 Manages creating, listing, updating and deleting items in a List.
 
+### Create a new Item
+
+```
+POST /api/{list}/create
+```
+
+Creates a new item with the provided data. Successful calls return the data of the new item, similar to `GET /api/{list}/:id`. For example, creating a new user:
+
+```js
+{
+	name: 'Test User',
+	email: 'user-1469454400942@keystonejs.com',
+	password: 'test1234'
+}
+```
+
+Returns the following:
+
+```js
+{
+	id: '5796198d49b4a30ad983b339',
+	name: 'Test User',
+	fields: {
+		name: {
+			first: 'Test',
+			last: 'User'
+		}
+		email: 'user-1469454400942@keystonejs.com',
+		password: '******',
+		isAdmin: false
+	}
+}
+```
+
+#### Errors
+
+This endpoint will first validate the data; validation errors are returned with HTTP `400`. For example, creating a new user when name, email and password are all required:
+
+```js
+{
+	name: '',
+	email: '',
+	password: ''
+}
+```
+
+```js
+// 400 validation error
+{
+	error: 'validation errors',
+	detail: {
+		name: {
+			type: 'required',
+			error: 'name is required'
+		},
+		email: {
+			type: 'required',
+			error: 'email is required'
+		},
+		password: {
+			type: 'required',
+			error: 'password is required'
+		}
+	}
+}
+```
+
+Some fields have additional validation rules. For example, Email fields must match a valid email pattern and password fields support a confirmation entry:
+
+```js
+{
+	name: 'Jed Watson',
+	email: 'not an email',
+	password: 'abcd',
+	password_confirm: '1234'
+}
+```
+
+```js
+// 400 validation error
+{
+	error: 'validation errors',
+	detail: {
+		email: {
+			type: 'invalid',
+			error: 'email is invalid'
+		},
+		password: {
+			type: 'invalid',
+			error: 'passwords must match'
+		}
+	}
+}
+```
+
+Other errors are returned with HTTP `500`. For example, if the provided values cause a lower-level database error (e.g. a unique index on a field) the response will look like this:
+
+```js
+{
+	'name.full': 'Test User',
+	email: 'user@keystonejs.com', // already exists in the database
+	password: 'test1234',
+	password_confirm: 'test1234'
+}
+```
+
+```js
+// 500 database error
+{
+	error: 'database error'
+	detail: {
+		code: 11000
+		index: 0
+		errmsg: 'E11000 duplicate key error index: keystone-test.users.$email_1 dup key: { "user@keystonejs.com" }',
+		op: {
+			password: '******',
+			email: 'user@keystonejs.com',
+			isProtected: false,
+			isAdmin: false,
+			name: {
+				last: 'User',
+				first: 'Test',
+			},
+			_id: '5796184049b4a30ad983b338',
+			__v: 0
+		}
+	}
+}
+```
+
+### Get Item
+
+```
+GET /api/{list}/:id
+```
+
+Retrieves the data for an item by ID. For example, getting user `57961c4249b4a30ad983b33d` returns the following:
+
+```js
+{
+	id: '57961c4249b4a30ad983b33d',
+	name: 'Jed Watson',
+	fields: {
+		name: {
+			first: 'Jed',
+			last: 'Watson'
+		}
+		email: 'user@keystonejs.com',
+		password: '******',
+		isAdmin: false
+	}
+}
+```
+
+#### Errors
+
+Requesting an ID that doesn't exist will return HTTP `404`:
+
+```js
+// 404 not found
+{
+	err: 'not found',
+	id: '1234567890'
+}
+```
+
+Any other error (e.g. database error) will return HTTP `500`:
+
+```js
+// 500 database error
+{
+	err: 'database error',
+	detail: err,
+}
+```
+
 ### Get Items
 
 ```
