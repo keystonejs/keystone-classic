@@ -1,9 +1,10 @@
-var keystone = require('../../../');
 var _ = require('underscore');
 var async = require('async');
 
 exports = module.exports = function(req, res) {
 
+	var keystone = req.keystone;
+	
 	var itemQuery = req.list.model.findById(req.params.item).select();
 
 	itemQuery.exec(function(err, item) {
