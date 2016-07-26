@@ -11,6 +11,9 @@ import { FormInput } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'SelectField',
+	statics: {
+		type: 'Select',
+	},
 
 	valueChanged (newValue) {
 		// TODO: This should be natively handled by the Select component

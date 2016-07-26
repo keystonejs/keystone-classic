@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Field from '../Field';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 import Lightbox from '../../components/Lightbox';
@@ -88,6 +87,9 @@ var Thumbnail = React.createClass({
 
 module.exports = Field.create({
 	displayName: 'CloudinaryImagesField',
+	statics: {
+		type: 'CloudinaryImages',
+	},
 
 	getInitialState () {
 		var thumbnails = [];
@@ -153,7 +155,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return ReactDOM.findDOMNode(this.refs.fileField);
+		return this.refs.fileField;
 	},
 
 	getCount (key) {

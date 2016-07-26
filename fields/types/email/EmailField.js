@@ -10,6 +10,9 @@ import { FormInput } from 'elemental';
 
 module.exports = Field.create({
 	displayName: 'EmailField',
+	statics: {
+		type: 'Email',
+	},
 	renderField () {
 		return (
 			<FormInput

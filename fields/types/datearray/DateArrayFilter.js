@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 
@@ -65,9 +65,9 @@ var DateFilter = React.createClass({
 	componentDidMount () {
 		// focus the text input
 		if (this.props.filter.mode === 'between') {
-			ReactDOM.findDOMNode(this.refs[this.state.activeInputField]).focus();
+			findDOMNode(this.refs[this.state.activeInputField]).focus();
 		} else {
-			ReactDOM.findDOMNode(this.refs.input).focus();
+			findDOMNode(this.refs.input).focus();
 		}
 	},
 	updateFilter (value) {
@@ -75,14 +75,14 @@ var DateFilter = React.createClass({
 	},
 	selectPresence (presence) {
 		this.updateFilter({ presence });
-		ReactDOM.findDOMNode(this.refs.input).focus();
+		findDOMNode(this.refs.input).focus();
 	},
 	selectMode (mode) {
 		this.updateFilter({ mode });
 		if (mode === 'between') {
-			setTimeout(() => { ReactDOM.findDOMNode(this.refs[this.state.activeInputField]).focus(); }, 200);
+			setTimeout(() => { findDOMNode(this.refs[this.state.activeInputField]).focus(); }, 200);
 		} else {
-			ReactDOM.findDOMNode(this.refs.input).focus();
+			findDOMNode(this.refs.input).focus();
 		}
 	},
 	handleInputChange (e) {
@@ -111,7 +111,7 @@ var DateFilter = React.createClass({
 		this.setState(
 			{ activeInputField: newActiveField },
 			() => {
-				ReactDOM.findDOMNode(this.refs[newActiveField]).focus();
+				findDOMNode(this.refs[newActiveField]).focus();
 			}
 		);
 	},

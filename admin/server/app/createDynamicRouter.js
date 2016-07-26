@@ -11,14 +11,20 @@ module.exports = function createDynamicRouter (keystone) {
 	}
 
 	var router = express.Router();
-	var IndexRoute = require('../routes/index')(keystone);
-	var SigninRoute = require('../routes/signin')(keystone);
-	var SignoutRoute = require('../routes/signout')(keystone);
+	var IndexRoute = require('../routes/index');
+	var SigninRoute = require('../routes/signin');
+	var SignoutRoute = require('../routes/signout');
 
 	// Use bodyParser and multer to parse request bodies and file uploads
 	router.use(bodyParser.json({}));
 	router.use(bodyParser.urlencoded({ extended: true }));
 	router.use(multer({ includeEmptyFields: true }));
+
+	// Bind the request to the keystone instance
+	router.use(function (req, res, next) {
+		req.keystone = keystone;
+		next();
+	});
 
 	// Init API request helpers
 	router.use('/api', require('../middleware/apiError'));
@@ -66,7 +72,7 @@ module.exports = function createDynamicRouter (keystone) {
 	}
 
 	// #5: Core Lists API
-	var initList = require('../middleware/initList')(keystone);
+	var initList = require('../middleware/initList');
 
 	// Legacy API endpoints
 	router.post('/api/legacy/:list/create', initList, require('../api/list/legacyCreate'));

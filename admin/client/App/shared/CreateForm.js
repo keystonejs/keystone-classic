@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import assign from 'object-assign';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
@@ -56,7 +56,7 @@ const CreateForm = React.createClass({
 	// Focus the first input field
 	focusTarget () {
 		if (this.refs.focusTarget) {
-			this.refs.focusTarget.focus();
+			findDOMNode(this.refs.focusTarget).focus();
 		}
 	},
 	// Handle input change events
@@ -80,7 +80,7 @@ const CreateForm = React.createClass({
 	// Create a new item when the form is submitted
 	submitForm (event) {
 		event.preventDefault();
-		const createForm = ReactDOM.findDOMNode(this.refs.createForm);
+		const createForm = event.target;
 		const formData = new FormData(createForm);
 		this.props.list.createItem(formData, (err, data) => {
 			if (data) {
@@ -98,6 +98,11 @@ const CreateForm = React.createClass({
 					});
 				}
 			} else {
+				if (!err) {
+					err = {
+						error: 'connection error',
+					};
+				}
 				// If we get a database error, show the database error message
 				// instead of only saying "Database error"
 				if (err.error === 'database error') {
@@ -155,7 +160,6 @@ const CreateForm = React.createClass({
 
 		return (
 			<Form
-				ref="createForm"
 				type="horizontal"
 				onSubmit={this.submitForm}
 				className="create-form"

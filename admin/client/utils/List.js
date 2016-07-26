@@ -64,7 +64,7 @@ function buildQueryString (options) {
 	const query = {};
 	if (options.search) query.search = options.search;
 	if (options.filters.length) query.filters = JSON.stringify(getFilters(options.filters));
-	if (options.columns) query.select = options.columns.map(i => i.path).join(',');
+	if (options.columns) query.fields = options.columns.map(i => i.path).join(',');
 	if (options.page && options.page.size) query.limit = options.page.size;
 	if (options.page && options.page.index > 1) query.skip = (options.page.index - 1) * options.page.size;
 	if (options.sort) query.sort = getSortString(options.sort);

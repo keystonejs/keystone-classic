@@ -1,6 +1,5 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-
 import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
 
 const MODE_OPTIONS = [

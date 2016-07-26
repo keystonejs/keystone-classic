@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import Transition from 'react-addons-css-transition-group';
 import classnames from 'classnames';
 import ListFiltersAddForm from './ListFiltersAddForm';
@@ -51,7 +51,7 @@ var ListFiltersAdd = React.createClass({
 		}, this.focusSearch);
 	},
 	focusSearch () {
-		ReactDOM.findDOMNode(this.refs.search).focus();
+		findDOMNode(this.refs.search).focus();
 	},
 	selectField (field) {
 		this.setState({

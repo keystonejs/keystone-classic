@@ -1,7 +1,11 @@
+/*
+TODO: Needs Review and Spec
+*/
+
 var async = require('async');
-var keystone = require('../../../../');
 
 module.exports = function (req, res) {
+	var keystone = req.keystone;
 	if (!keystone.security.csrf.validate(req)) {
 		return res.apiError(403, 'invalid csrf');
 	}
@@ -33,7 +37,7 @@ module.exports = function (req, res) {
 				res.status(err.statusCode);
 				delete err.statusCode;
 			}
-			res.json(err);
+			return res.json(err);
 		}
 		res.json({
 			success: true,

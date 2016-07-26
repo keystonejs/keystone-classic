@@ -10,6 +10,9 @@ const DEFAULT_FORMAT_STRING = 'Do MMM YYYY';
 module.exports = Field.create({
 
 	displayName: 'DateArrayField',
+	statics: {
+		type: 'DateArray',
+	},
 	mixins: [ArrayFieldMixin],
 
 	propTypes: {

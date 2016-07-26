@@ -1,9 +1,9 @@
 import xhr from 'xhr';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Field from '../Field';
 import Select from 'react-select';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
+import ImageThumbnail from '../../components/ImageThumbnail';
 import Lightbox from '../../components/Lightbox';
 import classnames from 'classnames';
 
@@ -25,6 +25,9 @@ const iconClassDeletePending = [
 module.exports = Field.create({
 
 	displayName: 'CloudinaryImageField',
+	statics: {
+		type: 'CloudinaryImage',
+	},
 
 	openLightbox (index) {
 		event.preventDefault();
@@ -58,7 +61,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return ReactDOM.findDOMNode(this.refs.fileField);
+		return this.refs.fileField;
 	},
 
 	changeImage () {
@@ -219,11 +222,11 @@ module.exports = Field.create({
 		var format = this.props.value.format;
 
 		if (format === 'pdf') {
-			body = <a className="img-thumbnail" href={this.getImageURL()} target="__blank">{body}</a>;
+			body = <ImageThumbnail component="a" href={this.getImageURL()} target="__blank">{body}</ImageThumbnail>;
 		} else if (url) {
-			body = <a className="img-thumbnail" href={this.getImageURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</a>;
+			body = <ImageThumbnail component="a" href={this.getImageURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</ImageThumbnail>;
 		} else {
-			body = <div className="img-thumbnail">{body}</div>;
+			body = <ImageThumbnail component="div">{body}</ImageThumbnail>;
 		}
 
 		return <div key={this.props.path + '_preview'} className={className}>{body}</div>;

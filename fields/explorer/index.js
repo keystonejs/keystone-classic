@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, Component } from 'react';
 import { Link, Router, Route, browserHistory, IndexRoute } from 'react-router';
 import ReactDOM from 'react-dom';
-import FieldType from './field';
+import FieldType from './components/FieldType';
 
 const Types = {
 	Boolean: require('../types/boolean/test/explorer'),
@@ -10,7 +10,7 @@ const Types = {
 	CloudinaryImage: require('../types/cloudinaryimage/test/explorer'),
 	CloudinaryImages: require('../types/cloudinaryimages/test/explorer'),
 	Date: require('../types/date/test/explorer'),
-	Datearray: require('../types/datearray/test/explorer'),
+	DateArray: require('../types/datearray/test/explorer'),
 	Datetime: require('../types/datetime/test/explorer'),
 	Email: require('../types/email/test/explorer'),
 	Geopoint: require('../types/geopoint/test/explorer'),
@@ -21,13 +21,13 @@ const Types = {
 	Money: require('../types/money/test/explorer'),
 	Name: require('../types/name/test/explorer'),
 	Number: require('../types/number/test/explorer'),
-	Numberarray: require('../types/numberarray/test/explorer'),
+	NumberArray: require('../types/numberarray/test/explorer'),
 	Password: require('../types/password/test/explorer'),
 	Select: require('../types/select/test/explorer'),
 	Relationship: require('../types/relationship/test/explorer'),
 	Text: require('../types/text/test/explorer'),
 	Textarea: require('../types/textarea/test/explorer'),
-	Textarray: require('../types/textarray/test/explorer'),
+	TextArray: require('../types/textarray/test/explorer'),
 	Url: require('../types/url/test/explorer'),
 };
 
@@ -36,7 +36,7 @@ function generateNavSections (arr) {
 	arr.forEach((t) => {
 		if (!navSections[t.section]) navSections[t.section] = [];
 	});
-	arr.forEach(t => navSections[t.section].push(t.spec.label));
+	arr.forEach(t => navSections[t.section].push(t.Field.type));
 
 	return navSections;
 }

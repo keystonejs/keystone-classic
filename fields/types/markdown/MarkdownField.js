@@ -1,6 +1,5 @@
 import Field from '../Field';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { FormInput } from 'elemental';
 
 /**
@@ -107,11 +106,14 @@ var renderMarkdown = function (component) {
 		options.hiddenButtons = options.hiddenButtons.concat(hiddenButtons);
 	}
 
-	$(ReactDOM.findDOMNode(component.refs.markdownTextarea)).markdown(options);
+	$(component.refs.markdownTextarea).markdown(options);
 };
 
 module.exports = Field.create({
 	displayName: 'MarkdownField',
+	statics: {
+		type: 'Markdown',
+	},
 
 	// override `shouldCollapse` to check the markdown field correctly
 	shouldCollapse () {
@@ -137,7 +139,6 @@ module.exports = Field.create({
 			padding: 8,
 			height: this.props.height,
 		};
-		console.log('Markdown renderField:', this.props.value, this.props.value.md);
 		const defaultValue = (
 			this.props.value !== undefined
 			&& this.props.value.md !== undefined
