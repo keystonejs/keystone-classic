@@ -8,6 +8,16 @@ exports.initList = function (List) {
 			type: PasswordType,
 			min: 6,
 		},
+		validation: {
+			type: PasswordType,
+			complexity: {
+				digitChar: true,
+				spChar: false,
+				asciiChar: true,
+				lowChar: false,
+				upperChar: false,
+			},
+		},
 	});
 };
 
@@ -237,7 +247,14 @@ exports.testFieldType = function (List) {
 				done();
 			});
 		});
-
+		it('should invalidate password not meeting compexity requirements', function (done) {
+			List.fields.validation.validateInput({
+				validation: 'оленька!',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
 	});
 
 	describe('validateRequiredInput', function () {

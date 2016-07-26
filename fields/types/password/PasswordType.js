@@ -4,6 +4,20 @@ var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
+var regexChunk = {
+	digitChar: /\d/,
+	spChar: /[!@#\$%\^&\*()\+]/,
+	asciiChar: /^[\u0020-\u007E]+$/,
+	lowChar: /[a-z]/,
+	upperChar: /[A-Z]/,
+};
+var detailMsg = {
+	digitChar: 'Enter at least one digit.',
+	spChar: 'Enter at least one special characters.',
+	asciiChar: 'Only ASCII characters are allowed.',
+	lowChar: 'Use at least one lower case character.',
+	upperChar: 'Use at least one upper case character.',
+};
 /**
  * password FieldType Constructor
  * @extends Field
@@ -124,9 +138,10 @@ password.prototype.compare = function (item, candidate, callback) {
  * Asynchronously confirms that the provided password is valid
  */
 password.prototype.validateInput = function (data, callback) {
-	var detail;
+	var detail = '';
 	var result = true;
 	var min = this.options.min;
+	var complexity = this.options.complexity;
 	var confirmValue = this.getValueFromData(data, '_confirm');
 	var passwordValue = this.getValueFromData(data);
 	if (confirmValue !== undefined
@@ -137,6 +152,14 @@ password.prototype.validateInput = function (data, callback) {
 	// TODO: we could support a password complexity option (or regexp) here
 	if (min && typeof passwordValue === 'string') {
 		result = passwordValue.length > min;
+	}
+	for (var prop in complexity) {
+		if (complexity[prop] && typeof passwordValue === 'string') {
+			result = (regexChunk[prop]).test(passwordValue);
+			if (!result) {
+				detail += detailMsg[prop] + '\n';
+			}
+		}
 	}
 	utils.defer(callback, result, detail);
 };
