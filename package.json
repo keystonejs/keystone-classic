@@ -38,7 +38,7 @@
     "display-name": "0.1.0",
     "ejs": "^2.4.2",
     "elemental": "0.5.14",
-    "embedly": "2.0.2",
+    "embedly": "2.1.0",
     "errorhandler": "1.4.3",
     "es6-promise": "3.2.1",
     "express": "4.14.0",
