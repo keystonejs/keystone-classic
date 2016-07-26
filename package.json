@@ -23,7 +23,7 @@
     "blacklist": "1.1.4",
     "body-parser": "1.15.2",
     "brfs": "^1.4.3",
-    "browserify": "13.0.1",
+    "browserify": "13.1.0",
     "browserify-middleware": "^7.0.0",
     "browserify-shim": "3.8.12",
     "bytes": "2.4.0",
