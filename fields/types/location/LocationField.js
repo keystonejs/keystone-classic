@@ -100,14 +100,14 @@ module.exports = Field.create({
 		return <FormInput noedit>{this.formatValue() || '(no value)'}</FormInput>;
 	},
 
-	renderField (fieldPath, label, collapse, autofocus) {
+	renderField (fieldPath, label, collapse, autoFocus) {
 		if (this.state.collapsedFields[fieldPath]) {
 			return null;
 		}
 		const { value = {}, path } = this.props;
 		return (
 			<NestedFormField label={label}>
-				<FormInput autofocus={autofocus} name={path + '.' + fieldPath} value={value[fieldPath]} onChange={this.makeChanger(fieldPath)} placeholder={label} />
+				<FormInput autoFocus={autoFocus} name={path + '.' + fieldPath} value={value[fieldPath]} onChange={this.makeChanger(fieldPath)} placeholder={label} />
 			</NestedFormField>
 		);
 	},

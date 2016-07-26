@@ -1,6 +1,7 @@
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import Popout from '../../admin/client/App/shared/Popout';
 import { FormInput } from 'elemental';
 
@@ -46,7 +47,7 @@ module.exports = React.createClass({
 	},
 	focus () {
 		if (!this.refs.input) return;
-		this.refs.input.focus();
+		findDOMNode(this.refs.input).focus();
 	},
 	handleInputChange (e) {
 		const { value } = e.target;

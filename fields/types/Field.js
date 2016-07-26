@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import evalDependsOn from '../utils/evalDependsOn.js';
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import { FormField, FormInput, FormNote } from 'elemental';
 import blacklist from 'blacklist';
 import CollapsedFieldLabel from '../components/CollapsedFieldLabel';
@@ -49,7 +50,7 @@ var Base = module.exports.Base = {
 	},
 	focus () {
 		if (!this.refs[this.spec.focusTargetRef]) return;
-		this.refs[this.spec.focusTargetRef].focus();
+		findDOMNode(this.refs[this.spec.focusTargetRef]).focus();
 	},
 	renderNote () {
 		if (!this.props.note) return null;
