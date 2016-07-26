@@ -37,7 +37,7 @@
     "debug": "2.2.0",
     "display-name": "0.1.0",
     "ejs": "^2.5.1",
-    "elemental": "0.5.14",
+    "elemental": "0.6.0",
     "embedly": "2.1.0",
     "errorhandler": "1.4.3",
     "es6-promise": "3.2.1",
