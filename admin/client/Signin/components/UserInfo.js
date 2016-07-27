@@ -9,11 +9,11 @@ const UserInfo = ({
 	userCanAccessKeystone,
 	userName,
 }) => {
-	const adminButton = userCanAccessKeystone && (
+	const adminButton = userCanAccessKeystone ? (
 		<Button href={adminPath} color="primary">
 			Open Keystone
 		</Button>
-	);
+	) : null;
 
 	return (
 		<div className="auth-box__col">
