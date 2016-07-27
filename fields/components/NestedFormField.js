@@ -1,20 +1,22 @@
 import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
 import { FormField, FormLabel } from 'elemental';
+import theme from '../../admin/client/theme';
 
-function NestedFormField (props) {
-	const { children, label, ...incidentalProps } = props;
-	const labelStyles = {
-		color: '#999',
-		fontSize: '.9rem',
-		paddingLeft: '1em',
-	};
-
+function NestedFormField ({ children, className, label, ...props }) {
 	return (
-		<FormField {...incidentalProps}>
-			<FormLabel style={labelStyles}>{label}</FormLabel>
+		<FormField {...props}>
+			<FormLabel className={css(classes.label)}>{label}</FormLabel>
 			{children}
 		</FormField>
 	);
 };
+const classes = StyleSheet.create({
+	label: {
+		color: theme.color.gray40,
+		fontSize: theme.font.size.small,
+		paddingLeft: '1em',
+	},
+});
 
 module.exports = NestedFormField;

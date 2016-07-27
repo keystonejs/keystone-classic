@@ -21,7 +21,7 @@ const BUTTON_SIZES = ['large', 'medium', 'small', 'xsmall'];
 const BUTTON_VARIANTS = ['fill', 'hollow', 'link'];
 const BUTTON_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'cancel', 'delete'];
 
-const Button = ({
+function Button ({
 	color,
 	component,
 	isActive,
@@ -30,7 +30,7 @@ const Button = ({
 	size,
 	variant,
 	...props,
-}) => {
+}) {
 	// get the styles
 	const variantClasses = getStyleSheet(variant, color);
 	props.className = cssClassNames([

@@ -4,8 +4,7 @@ import { Button } from 'elemental';
 // NOTE marginBottom of 1px stops things jumping around
 // TODO find out why this is necessary
 
-function CollapsedFieldLabel (props) {
-	const { style, ...incidentalProps } = props;
+function CollapsedFieldLabel ({ style, ...props }) {
 	const __style__ = {
 		marginBottom: 1,
 		paddingLeft: 0,
@@ -14,7 +13,7 @@ function CollapsedFieldLabel (props) {
 	};
 
 	return (
-		<Button type="link" style={__style__} {...incidentalProps} />
+		<Button type="link" style={__style__} {...props} />
 	);
 };
 
