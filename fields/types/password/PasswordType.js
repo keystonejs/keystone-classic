@@ -12,11 +12,11 @@ var regexChunk = {
 	upperChar: /[A-Z]/,
 };
 var detailMsg = {
-	digitChar: 'Enter at least one digit.',
-	spChar: 'Enter at least one special characters.',
-	asciiChar: 'Only ASCII characters are allowed.',
-	lowChar: 'Use at least one lower case character.',
-	upperChar: 'Use at least one upper case character.',
+	digitChar: 'enter at least one digit',
+	spChar: 'enter at least one special character',
+	asciiChar: 'only ASCII characters are allowed',
+	lowChar: 'use at least one lower case character',
+	upperChar: 'use at least one upper case character',
 };
 /**
  * password FieldType Constructor
@@ -146,21 +146,22 @@ password.prototype.validateInput = function (data, callback) {
 	var passwordValue = this.getValueFromData(data);
 	if (confirmValue !== undefined
 		&& passwordValue !== confirmValue) {
-		result = false;
-		detail = 'passwords must match';
+		detail = 'passwords must match\n';
 	}
-	// TODO: we could support a password complexity option (or regexp) here
-	if (min && typeof passwordValue === 'string') {
-		result = passwordValue.length > min;
+
+	if (min && typeof passwordValue === 'string' && passwordValue.length < min) {
+		detail += 'password must be longer than ' + min + ' characters\n';
 	}
 	for (var prop in complexity) {
 		if (complexity[prop] && typeof passwordValue === 'string') {
-			result = (regexChunk[prop]).test(passwordValue);
-			if (!result) {
+			var complexityCheck = (regexChunk[prop]).test(passwordValue);
+			if (!complexityCheck) {
 				detail += detailMsg[prop] + '\n';
 			}
 		}
 	}
+	result = detail.length === 0;
+
 	utils.defer(callback, result, detail);
 };
 
