@@ -4,15 +4,6 @@ import demand from 'must';
 import LoginForm from '../LoginForm';
 
 describe('<LoginForm />', () => {
-	it('should return null when a user is passed', () => {
-		const component = shallow(<LoginForm user="truthy" />);
-		demand(component.type()).eql(null);
-	});
-
-	it('should render if no user is passed', () => {
-		const component = shallow(<LoginForm />);
-		demand(component.find('div').length).gt(0);
-	});
 
 	it('should render a Form', () => {
 		const component = shallow(<LoginForm />);
@@ -81,6 +72,6 @@ describe('<LoginForm />', () => {
 	it('should render a submit button', () => {
 		const component = shallow(<LoginForm />);
 		demand(component.find('Button').length).eql(1);
-		demand(component.find('Button').prop('submit')).true();
+		demand(component.find('Button').prop('type')).eql('submit');
 	});
 });
