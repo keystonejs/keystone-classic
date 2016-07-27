@@ -1,4 +1,5 @@
 var React = require('react');
+import { findDOMNode } from 'react-dom';
 
 var Button = require('elemental').Button;
 var FormField = require('elemental').FormField;
@@ -37,7 +38,7 @@ module.exports = {
 			values: newValues,
 		}, () => {
 			if (!this.state.values.length) return;
-			this.refs['item_' + this.state.values.length].focus();
+			findDOMNode(this.refs['item_' + this.state.values.length]).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
 	},
@@ -47,7 +48,7 @@ module.exports = {
 		this.setState({
 			values: newValues,
 		}, function () {
-			this.refs.button.focus();
+			findDOMNode(this.refs.button).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
 	},

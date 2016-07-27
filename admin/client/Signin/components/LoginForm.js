@@ -32,7 +32,7 @@ const LoginForm = ({
 						value={password}
 					/>
 				</FormField>
-				<Button isDisabled={isAnimating} kind="primary" type="submit">
+				<Button isDisabled={isAnimating} color="primary" type="submit">
 					Sign In
 				</Button>
 			</Form>

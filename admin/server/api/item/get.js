@@ -1,14 +1,20 @@
 var _ = require('lodash');
 var async = require('async');
-var keystone = require('../../../../');
+var listToArray = require('list-to-array');
 
 module.exports = function (req, res) {
-
+	var keystone = req.keystone;
 	var query = req.list.model.findById(req.params.id);
 
 	var fields = req.query.fields;
-	if (req.query.basic !== undefined) {
+	if (fields === 'false') {
 		fields = false;
+	}
+	if (typeof fields === 'string') {
+		fields = listToArray(fields);
+	}
+	if (fields && !Array.isArray(fields)) {
+		return res.status(401).json({ error: 'fields must be undefined, a string, or an array' });
 	}
 
 	if (req.list.tracking && req.list.tracking.createdBy) {
@@ -26,7 +32,6 @@ module.exports = function (req, res) {
 
 		var tasks = [];
 		var drilldown;
-		var relationships;
 
 		/* Drilldown (optional, provided if ?drilldown=true in querystring) */
 		if (req.query.drilldown === 'true' && req.list.get('drilldown')) {
@@ -105,44 +110,6 @@ module.exports = function (req, res) {
 			});
 		}
 
-		/* Relationships (optional, provided if ?relationships=true in querystring) */
-
-		if (req.query.relationships === 'true') {
-			tasks.push(function (cb) {
-
-				relationships = _.values(_.compact(_.map(req.list.relationships, function (i) {
-					if (i.isValid) {
-						return _.clone(i);
-					} else {
-						keystone.console.err('Relationship Configuration Error', 'Relationship: ' + i.path + ' on list: ' + req.list.key + ' links to an invalid list: ' + i.ref);
-						return null;
-					}
-				})));
-
-				async.each(relationships, function (rel, done) {
-
-					// TODO: Handle invalid relationship config
-					rel.list = keystone.list(rel.ref);
-					rel.sortable = (rel.list.get('sortable') && rel.list.get('sortContext') === req.list.key + ':' + rel.path);
-
-					// TODO: Handle relationships with more than 1 page of results
-					var q = rel.list.paginate({ page: 1, perPage: 100 })
-						.where(rel.refPath).equals(item.id)
-						.sort(rel.list.defaultSort);
-
-					// rel.columns = _.reject(rel.list.defaultColumns, function(col) { return (col.type == 'relationship' && col.refList == req.list) });
-					rel.columns = rel.list.defaultColumns;
-					rel.list.selectColumns(q, rel.columns);
-
-					q.exec(function (err, results) {
-						rel.items = results;
-						done(err);
-					});
-
-				}, cb);
-			});
-		}
-
 		/* Process tasks & return */
 		async.parallel(tasks, function (err) {
 			if (err) {
@@ -153,7 +120,6 @@ module.exports = function (req, res) {
 			}
 			res.json(_.assign(req.list.getData(item, fields), {
 				drilldown: drilldown,
-				relationships: relationships,
 			}));
 		});
 	});

@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import Popout from '../../../../shared/Popout';
 
 import { Filters } from 'FieldTypes';
@@ -26,7 +27,7 @@ var ListFiltersAddForm = React.createClass({
 	},
 	updateHeight (bodyHeight) {
 		bodyHeight += 40; // TODO: remove magic number, currently accounts for padding
-		const footerHeight = this.refs.footer.offsetHeight;
+		const footerHeight = findDOMNode(this.refs.footer).offsetHeight;
 		const maxBodyHeight = this.props.maxHeight - footerHeight;
 		const newHeight = bodyHeight + footerHeight;
 		// console.log(bodyHeight, maxBodyHeight, '|', newHeight, this.props.maxHeight);

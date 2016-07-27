@@ -3,25 +3,28 @@ var path = require('path');
 
 var templatePath = path.resolve(__dirname, '../templates/signin.html');
 
-module.exports = function SigninRoute (keystone) {
-	return function (req, res) {
-		var locals = {
-			adminPath: '/' + keystone.get('admin path'),
-			brand: keystone.get('brand'),
-			csrf: { header: {} },
-			from: req.query.from,
-			logo: keystone.get('signin logo'),
-			redirect: keystone.get('signin redirect'),
-			user: req.user,
-			userCanAccessKeystone: !!(req.user && req.user.canAccessKeystone),
-		};
-		locals.csrf.header[keystone.security.csrf.CSRF_HEADER_KEY] = keystone.security.csrf.getToken(req, res);
-		ejs.renderFile(templatePath, locals, {}, function (err, str) {
-			if (err) {
-				console.error('Could not render Admin UI Signin Template:', err);
-				return res.status(500).send(keystone.wrapHTMLError('Error Rendering Signin', err.message));
-			}
-			res.send(str);
-		});
+module.exports = function SigninRoute (req, res) {
+	var keystone = req.keystone;
+	var UserList = keystone.list(keystone.get('user model'));
+	var locals = {
+		adminPath: '/' + keystone.get('admin path'),
+		brand: keystone.get('brand'),
+		csrf: { header: {} },
+		from: req.query.from,
+		logo: keystone.get('signin logo'),
+		redirect: keystone.get('signin redirect'),
+		user: {
+			id: req.user.id,
+			name: UserList.getDocumentName(req.user) || '(no name)',
+		},
+		userCanAccessKeystone: !!(req.user && req.user.canAccessKeystone),
 	};
+	locals.csrf.header[keystone.security.csrf.CSRF_HEADER_KEY] = keystone.security.csrf.getToken(req, res);
+	ejs.renderFile(templatePath, locals, {}, function (err, str) {
+		if (err) {
+			console.error('Could not render Admin UI Signin Template:', err);
+			return res.status(500).send(keystone.wrapHTMLError('Error Rendering Signin', err.message));
+		}
+		res.send(str);
+	});
 };

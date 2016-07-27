@@ -1,8 +1,10 @@
 import classnames from 'classnames';
 import evalDependsOn from '../utils/evalDependsOn.js';
 import React from 'react';
-import { Button, FormField, FormInput, FormNote } from 'elemental';
+import { findDOMNode } from 'react-dom';
+import { FormField, FormInput, FormNote } from 'elemental';
 import blacklist from 'blacklist';
+import CollapsedFieldLabel from '../components/CollapsedFieldLabel';
 
 function isObject (arg) {
 	return Object.prototype.toString.call(arg) === '[object Object]';
@@ -48,7 +50,7 @@ var Base = module.exports.Base = {
 	},
 	focus () {
 		if (!this.refs[this.spec.focusTargetRef]) return;
-		this.refs[this.spec.focusTargetRef].focus();
+		findDOMNode(this.refs[this.spec.focusTargetRef]).focus();
 	},
 	renderNote () {
 		if (!this.props.note) return null;
@@ -105,7 +107,7 @@ var Mixins = module.exports.Mixins = {
 			if (!this.shouldRenderField()) return null;
 			return (
 				<FormField>
-					<Button type="link" className="collapsed-field-label" onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</Button>
+					<CollapsedFieldLabel onClick={this.uncollapse}>+ Add {this.props.label.toLowerCase()}</CollapsedFieldLabel>
 				</FormField>
 			);
 		},

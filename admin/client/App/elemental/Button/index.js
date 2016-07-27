@@ -1,81 +1,73 @@
-import { StyleSheet, css } from 'aphrodite';
-import classnames from 'classnames';
+import { StyleSheet, css } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import styles from './styles';
 
-const classes = StyleSheet.create(styles);
+const commonClasses = StyleSheet.create(styles.common);
+const stylesheetCache = {};
+function getStyleSheet (variant, color) {
+	const cacheKey = `${variant}-${color}`;
+	if (!stylesheetCache[cacheKey]) {
+		const variantStyles = styles[variant](color);
+		stylesheetCache[cacheKey] = StyleSheet.create(variantStyles);
+	}
+	return stylesheetCache[cacheKey];
+}
+const truthy = i => i;
+function cssClassNames (arr) {
+	return css.apply(undefined, arr.filter(truthy));
+}
 
 const BUTTON_SIZES = ['large', 'medium', 'small', 'xsmall'];
-const BUTTON_KINDS = [
-	'default',
-	'default-primary',
-	'default-success',
-	'default-warning',
-	'default-danger',
-	'hollow-primary',
-	'hollow-success',
-	'hollow-warning',
-	'hollow-danger',
-	'primary',
-	'success',
-	'warning',
-	'danger',
-	'link',
-	'link-text',
-	'link-primary',
-	'link-success',
-	'link-warning',
-	'link-danger',
-	'link-cancel',
-	'link-delete',
-];
+const BUTTON_VARIANTS = ['fill', 'hollow', 'link'];
+const BUTTON_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'cancel', 'delete'];
 
-const Button = (props) => {
-	let consumedProps = Object.assign({}, props, {
-		className: classnames(css(classes.button), {
-			[css(classes['kind__' + props.kind])]: props.kind,
-			[css(classes['kind__' + props.kind + '__is-active'])]: props.isActive,
-			[css(classes['kind__' + props.kind + '__is-disabled'])]: props.isDisabled,
-			[css(classes['size__' + props.size])]: props.size,
-			[css(classes['is-active'])]: props.isActive,
-			[css(classes['is-block'])]: props.isBlock,
-			[css(classes['is-disabled'])]: props.isDisabled,
-		}, props.className),
-		disabled: props.isDisabled,
-	});
-	delete consumedProps.isActive;
-	delete consumedProps.isBlock;
-	delete consumedProps.isDisabled;
-	delete consumedProps.kind;
-	delete consumedProps.size;
-
-	// return the given component if provided
-	if (props.component) {
-		return React.cloneElement(props.component, consumedProps);
-	}
-
+const Button = ({
+	color,
+	component,
+	isActive,
+	isBlock,
+	isDisabled,
+	size,
+	variant,
+	...props,
+}) => {
+	// get the styles
+	const variantClasses = getStyleSheet(variant, color);
+	props.className = cssClassNames([
+		commonClasses.base,
+		commonClasses[size],
+		variantClasses.base,
+		isActive ? variantClasses.active : null,
+		isBlock ? commonClasses.block : null,
+		isDisabled ? commonClasses.disabled : null,
+	]);
 	// return an anchor or button
-	const node = props.href ? 'a' : 'button';
-	if (node !== 'button') {
-		delete consumedProps.type;
+	if (!component) {
+		component = props.href ? 'a' : 'button';
 	}
-	return React.createElement(node, consumedProps);
+	// Ensure buttons don't submit by default
+	if (component === 'button' && !props.type) {
+		props.type = 'button';
+	}
+	if (isDisabled) {
+		props.disabled = 'disabled';
+	}
+	return React.createElement(component, props);
 };
 
 Button.propTypes = {
-	className: PropTypes.string,
+	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.element,
 	href: PropTypes.string,
 	isActive: PropTypes.bool,
 	isBlock: PropTypes.bool,
 	isDisabled: PropTypes.bool,
-	kind: PropTypes.oneOf(BUTTON_KINDS),
 	size: PropTypes.oneOf(BUTTON_SIZES),
-	type: PropTypes.oneOf(['button', 'submit']),
+	variant: PropTypes.oneOf(BUTTON_VARIANTS),
 };
 Button.defaultProps = {
-	kind: 'default',
-	type: 'button',
+	color: 'default',
+	variant: 'fill',
 };
 
 module.exports = Button;
