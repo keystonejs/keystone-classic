@@ -4,11 +4,11 @@ import { StyleSheet, css } from 'aphrodite';
 import React, { PropTypes } from 'react';
 import theme from '../../admin/client/theme';
 
-function ImageThumbnail (props) {
-	const { component, className, ...incidentalProps } = props;
-	const componentProps = Object.assign(incidentalProps, {
+function ImageThumbnail ({ component, className, ...props }) {
+	const componentProps = {
+		...props,
 		className: `${css(classes.base)}${className ? className : ''}`,
-	});
+	};
 
 	return React.createElement(component, componentProps);
 };

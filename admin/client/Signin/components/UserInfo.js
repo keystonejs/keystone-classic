@@ -10,7 +10,7 @@ const UserInfo = ({
 	userName,
 }) => {
 	const adminButton = userCanAccessKeystone && (
-		<Button href={adminPath} kind="primary">
+		<Button href={adminPath} color="primary">
 			Open Keystone
 		</Button>
 	);
@@ -20,7 +20,7 @@ const UserInfo = ({
 			<p>Hi {userName},</p>
 			<p>You're already signed in.</p>
 			{adminButton}
-			<Button href={signoutPath} kind="link-cancel">
+			<Button href={signoutPath} variant="link" color="cancel">
 				Sign Out
 			</Button>
 		</div>
