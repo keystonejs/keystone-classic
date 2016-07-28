@@ -1,5 +1,5 @@
 /**
-Deperecated.
+Deprecated.
 
 This FieldType will be removed shortly in favour of the new generic File type,
 in conjunction with the Azure storage adapter.
