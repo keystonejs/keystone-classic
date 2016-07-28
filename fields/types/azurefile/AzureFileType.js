@@ -1,3 +1,10 @@
+/**
+Deperecated.
+
+This FieldType will be removed shortly in favour of the new generic File type,
+in conjunction with the Azure storage adapter.
+*/
+
 var _ = require('lodash');
 var FieldType = require('../Type');
 var grappling = require('grappling-hook');

@@ -1,3 +1,10 @@
+/**
+Deperecated.
+
+This FieldType will be removed shortly in favour of the new generic File type,
+in conjunction with the S3 storage adapter.
+*/
+
 var _ = require('lodash');
 var assign = require('object-assign');
 var FieldType = require('../Type');

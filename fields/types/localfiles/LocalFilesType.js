@@ -1,3 +1,10 @@
+/**
+Deperecated.
+
+This FieldType will be removed shortly in favour of the new generic File type,
+in conjunction with the FS storage adapter.
+*/
+
 var _ = require('lodash');
 var async = require('async');
 var FieldType = require('../Type');
