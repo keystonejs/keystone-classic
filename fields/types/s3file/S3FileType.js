@@ -14,12 +14,21 @@ var moment = require('moment');
 var util = require('util');
 var utils = require('keystone-utils');
 
+var loggedWarning = false;
+
 /**
  * S3File FieldType Constructor
  * @extends Field
  * @api public
  */
 function s3file (list, path, options) {
+
+	if (!loggedWarning) {
+		loggedWarning = true;
+		console.warn('The S3FileType field type has been deprecated and will be removed '
+			+ 'very soon. Please see https://github.com/keystonejs/keystone/issues/3228');
+	}
+
 	grappling.mixin(this).allowHooks('pre:upload');
 
 	this._underscoreMethods = ['format', 'uploadFile'];

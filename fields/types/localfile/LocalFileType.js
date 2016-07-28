@@ -14,12 +14,21 @@ var path = require('path');
 var util = require('util');
 var utils = require('keystone-utils');
 
+var loggedWarning = false;
+
 /**
  * localfile FieldType Constructor
  * @extends Field
  * @api public
  */
 function localfile (list, path, options) {
+
+	if (!loggedWarning) {
+		loggedWarning = true;
+		console.warn('The LocalFile field type has been deprecated and will be removed '
+			+ 'very soon. Please see https://github.com/keystonejs/keystone/issues/3228');
+	}
+
 	grappling.mixin(this).allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFile'];
 	this._fixedSize = 'full';
