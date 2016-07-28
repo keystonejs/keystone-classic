@@ -14,10 +14,10 @@ module.exports = function SigninRoute (req, res) {
 		from: req.query.from,
 		logo: keystone.get('signin logo'),
 		redirect: keystone.get('signin redirect'),
-		user: {
+		user: req.user ? {
 			id: req.user.id,
 			name: UserList.getDocumentName(req.user) || '(no name)',
-		},
+		} : undefined,
 		userCanAccessKeystone: !!(req.user && req.user.canAccessKeystone),
 	};
 	locals.csrf.header[keystone.security.csrf.CSRF_HEADER_KEY] = keystone.security.csrf.getToken(req, res);
