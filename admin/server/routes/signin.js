@@ -6,6 +6,7 @@ var templatePath = path.resolve(__dirname, '../templates/signin.html');
 module.exports = function SigninRoute (req, res) {
 	var keystone = req.keystone;
 	var UserList = keystone.list(keystone.get('user model'));
+	console.log(Object.keys(req));
 	var locals = {
 		adminPath: '/' + keystone.get('admin path'),
 		brand: keystone.get('brand'),

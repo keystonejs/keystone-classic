@@ -75,5 +75,17 @@ module.exports = function (req, res) {
 				? count
 				: undefined,
 		});
+		// return setTimeout(() => {
+		// 	res.json({
+		// 		results: includeResults
+		// 			? items.map(function (item) {
+		// 				return req.list.getData(item, fields, req.query.expandRelationshipFields);
+		// 			})
+		// 			: undefined,
+		// 		count: includeCount
+		// 			? count
+		// 			: undefined,
+		// 	});
+		// }, 1300);
 	});
 };
