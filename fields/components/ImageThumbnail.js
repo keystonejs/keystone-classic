@@ -1,6 +1,6 @@
 /* eslint quote-props: ["error", "as-needed"] */
 
-import { StyleSheet, css } from 'aphrodite';
+import { StyleSheet, css } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import theme from '../../admin/client/theme';
 
