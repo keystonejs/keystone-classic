@@ -33,6 +33,14 @@ function password (list, path, options) {
 	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	this.workFactor = options.workFactor || 10;
 	password.super_.call(this, list, path, options);
+	for (var key in this.options.complexity) {
+		if (key in regexChunk !== key in this.options.complexity) {
+			throw new Error('FieldType.Password: options.complexity - option does not exist.');
+		}
+		if (typeof this.options.complexity[key] !== 'boolean') {
+			throw new Error('FieldType.Password: options.complexity - Value must be boolean.');
+		}
+	}
 }
 password.properName = 'Password';
 util.inherits(password, FieldType);

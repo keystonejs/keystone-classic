@@ -518,4 +518,37 @@ exports.testFieldType = function (List) {
 			demand(result.password).be.null();
 		});
 	});
+
+	describe('invalid complexity options', function () {
+		it('should throw an error when non-existing complexity options are passed', function (done) {
+			try {
+				List.add({
+					doesntExist: {
+						type: PasswordType,
+						complexity: {
+							doesntExist: true,
+						},
+					},
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.Password: options.complexity - option does not exist.');
+				done();
+			}
+		});
+		it('should throw an error when a non-boolean value is passed for complexity options', function (done) {
+			try {
+				List.add({
+					doesntExist: {
+						type: PasswordType,
+						complexity: {
+							spChar: 'squirrel',
+						},
+					},
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.Password: options.complexity - Value must be boolean.');
+				done();
+			}
+		});
+	});
 };
