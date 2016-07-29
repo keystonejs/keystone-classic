@@ -55,7 +55,7 @@ file.prototype.upload = function (item, file, callback) {
 	debug('[%s.%s] Uploading file for item %s:', this.list.key, this.path, item.id, file);
 	this.storage.uploadFile(file, function (err, result) {
 		if (err) return callback(err);
-		debug('[%s.%s] Uploaded file for item %s with result:', this.list.key, this.path, item.id, result);
+		debug('[%s.%s] Uploaded file for item %s with result:', field.list.key, field.path, item.id, result);
 		item.set(field.path, result);
 		callback(null, result);
 	});
