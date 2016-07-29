@@ -260,6 +260,8 @@ Other errors are returned with HTTP `500`. For example, if the provided values c
 }
 ```
 
+Note that the error detail in this case is passed up directly from Mongoose.
+
 ## Get an Item
 
 ```

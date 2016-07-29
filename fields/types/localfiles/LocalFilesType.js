@@ -1,3 +1,10 @@
+/**
+Deprecated.
+
+This FieldType will be removed shortly in favour of the new generic File type,
+in conjunction with the FS storage adapter.
+*/
+
 var _ = require('lodash');
 var async = require('async');
 var FieldType = require('../Type');
@@ -9,12 +16,21 @@ var path = require('path');
 var util = require('util');
 var utils = require('keystone-utils');
 
+var loggedWarning = false;
+
 /**
  * localfiles FieldType Constructor
  * @extends Field
  * @api public
  */
 function localfiles (list, path, options) {
+
+	if (!loggedWarning) {
+		loggedWarning = true;
+		console.warn('The LocalFiles field type has been deprecated and will be removed '
+			+ 'very soon. Please see https://github.com/keystonejs/keystone/issues/3228');
+	}
+
 	grappling.mixin(this).allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFiles'];
 	this._fixedSize = 'full';
