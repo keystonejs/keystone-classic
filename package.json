@@ -59,7 +59,7 @@
     "lodash": "4.14.0",
     "mailgun-js": "^0.7.11",
     "mandrill-api": "1.0.45",
-    "marked": "0.3.5",
+    "marked": "0.3.6",
     "method-override": "2.3.6",
     "mime-types": "^2.1.11",
     "moment": "2.14.1",
