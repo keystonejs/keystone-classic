@@ -38,11 +38,11 @@ module.exports = function NameType(config) {
 				this
 					.getValue('@firstName', function(result) {
 						this.api.assert.equal(result.value, input.firstName);
-					});
+					}.bind(this));
 				this
 					.getValue('@lastName', function(result) {
 						this.api.assert.equal(result.value, input.lastName);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],
