@@ -113,7 +113,7 @@
     "react-engine": "4.0.1",
     "rimraf": "2.5.4",
     "sinon": "1.17.5",
-    "superagent": "1.8.3",
+    "superagent": "2.1.0",
     "supertest": "1.2.0",
     "uglify-js": "2.7.0",
     "updtr": "0.2.1",
