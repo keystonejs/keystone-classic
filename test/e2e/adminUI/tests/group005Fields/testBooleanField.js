@@ -8,7 +8,7 @@ module.exports = {
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormPage.assertUIVisible({
 			listName: 'Boolean',
 			fields: ['name', 'fieldA']
 		});
@@ -48,7 +48,7 @@ module.exports = {
 		})
 	},
 	'Boolean field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemPage.assertUIVisible({
 			listName: 'Boolean',
 			fields: ['fieldA', 'fieldB']
 		});
@@ -56,7 +56,7 @@ module.exports = {
 	'Boolean field should have its default value if hidden': function(browser) {
 		// The hidden boolean field fieldC should have its default value true, meaning that fieldD should be visible.
 		// This used not to be correct as per issue https://github.com/keystonejs/keystone/issues/3029
-		browser.itemPage.assertUI({
+		browser.itemPage.assertUIVisible({
 			listName: 'Boolean',
 			fields: ['fieldD'],
 		});

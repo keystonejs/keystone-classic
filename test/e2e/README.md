@@ -55,12 +55,18 @@ from keystone's root directory:
             --env chrome-linux32, if you are on a linux 32-bit system
             --env chrome-mac32, if you are on a mac system
             --env chrome-win32, if you are on a windows system
-            
+
+          For browser compatibility, see http://www.seleniumhq.org/about/platforms.jsp#browsers
+
         - Make sure that you have a local mongo instance running.
         - Make sure that port 3000 is available; if not please tell the e2e server what port it
           should bind to.  For example, to use port 9999 do the following (in a bash shell):
 
             export KEYSTONEJS_PORT=9999
+
+        - Make sure to:
+
+            export KEYSTONE_PREBUILD_ADMIN=true
 
     Running in your local environment using all defaults (good to do before doing a commit):
 

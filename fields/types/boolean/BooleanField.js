@@ -53,17 +53,20 @@ module.exports = Field.create({
 		);
 	},
 	renderUI () {
+		const { label, path } = this.props;
 		return (
-			<FormField offsetAbsentLabel={this.props.indent}>
-				<label style={{ height: '2.3em' }}>
-					{this.renderFormInput()}
-					{this.renderCheckbox()}
-					<span style={{ marginLeft: '.75em' }}>
-						{this.props.label}
-					</span>
-				</label>
-				{this.renderNote()}
-			</FormField>
+			<div data-field-name={path} data-field-type="boolean">
+				<FormField offsetAbsentLabel={this.props.indent}>
+					<label style={{ height: '2.3em' }}>
+						{this.renderFormInput()}
+						{this.renderCheckbox()}
+						<span style={{ marginLeft: '.75em' }}>
+							{label}
+						</span>
+					</label>
+					{this.renderNote()}
+				</FormField>
+			</div>
 		);
 	},
 });
