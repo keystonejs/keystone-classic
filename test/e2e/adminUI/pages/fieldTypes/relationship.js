@@ -43,7 +43,7 @@ module.exports = function RelationshipType(config) {
 					.getText('@filledValue', function (result) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.value);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],
