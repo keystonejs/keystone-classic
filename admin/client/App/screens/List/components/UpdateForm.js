@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Select from 'react-select';
+import { findDOMNode } from 'react-dom';
 import assign from 'object-assign';
 import { Fields } from 'FieldTypes';
 import InvalidFieldType from '../../../shared/InvalidFieldType';
@@ -26,13 +26,14 @@ var UpdateForm = React.createClass({
 		};
 	},
 	componentDidMount () {
-		if (this.refs.focusTarget) {
-			this.refs.focusTarget.focus();
-		}
+		this.doFocus();
 	},
 	componentDidUpdate () {
+		this.doFocus();
+	},
+	doFocus () {
 		if (this.refs.focusTarget) {
-			this.refs.focusTarget.focus();
+			findDOMNode(this.refs.focusTarget).focus();
 		}
 	},
 	getOptions () {
@@ -51,9 +52,7 @@ var UpdateForm = React.createClass({
 	updateOptions (fields) {
 		this.setState({
 			fields: fields,
-		}, () => {
-			ReactDOM.findDOMNode(this.refs.focusTarget).focus();
-		});
+		}, this.doFocus);
 	},
 	handleChange (value) {
 		console.log('handleChange:', value);

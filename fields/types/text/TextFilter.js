@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 
 import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
 
@@ -44,11 +44,11 @@ var TextFilter = React.createClass({
 	},
 	selectMode (mode) {
 		this.updateFilter({ mode });
-		ReactDOM.findDOMNode(this.refs.focusTarget).focus();
+		findDOMNode(this.refs.focusTarget).focus();
 	},
 	toggleInverted (inverted) {
 		this.updateFilter({ inverted });
-		ReactDOM.findDOMNode(this.refs.focusTarget).focus();
+		findDOMNode(this.refs.focusTarget).focus();
 	},
 	updateValue (e) {
 		this.updateFilter({ value: e.target.value });
@@ -65,7 +65,7 @@ var TextFilter = React.createClass({
 				</FormField>
 				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
 				<FormField>
-					<FormInput autofocus ref="focusTarget" value={this.props.filter.value} onChange={this.updateValue} placeholder={placeholder} />
+					<FormInput autoFocus ref="focusTarget" value={this.props.filter.value} onChange={this.updateValue} placeholder={placeholder} />
 				</FormField>
 			</div>
 		);

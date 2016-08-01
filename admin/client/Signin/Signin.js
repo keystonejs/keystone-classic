@@ -5,7 +5,6 @@
 import assign from 'object-assign';
 import classnames from 'classnames';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import xhr from 'xhr';
 
 import Alert from './components/Alert';
@@ -27,7 +26,7 @@ var SigninView = React.createClass({
 	componentDidMount () {
 		// Focus the email field when we're mounted
 		if (this.refs.email) {
-			ReactDOM.findDOMNode(this.refs.email).select();
+			this.refs.email.select();
 		}
 	},
 	handleInputChange (e) {
@@ -84,7 +83,7 @@ var SigninView = React.createClass({
 		// TODO isMounted was deprecated, find out if we need this guard
 		if (!this.isMounted()) return;
 		if (this.refs.email) {
-			ReactDOM.findDOMNode(this.refs.email).select();
+			this.refs.email.select();
 		}
 		this.setState({
 			isAnimating: false,
@@ -108,18 +107,22 @@ var SigninView = React.createClass({
 							logo={this.props.logo}
 							brand={this.props.brand}
 						/>
-						<UserInfo
-							user={this.props.user}
-							userCanAccessKeystone={this.props.userCanAccessKeystone}
-						/>
-						<LoginForm
-							user={this.props.user}
-							handleSubmit={this.handleSubmit}
-							handleInputChange={this.handleInputChange}
-							email={this.state.email}
-							password={this.state.password}
-							animating={this.state.animating}
-						/>
+						{this.props.user ? (
+							<UserInfo
+								adminPath={Keystone.adminPath}
+								signoutPath={`${Keystone.adminPath}/signout`}
+								userCanAccessKeystone={this.props.userCanAccessKeystone}
+								userName={this.props.user.name}
+							/>
+						) : (
+							<LoginForm
+								email={this.state.email}
+								handleInputChange={this.handleInputChange}
+								handleSubmit={this.handleSubmit}
+								isAnimating={this.state.isAnimating}
+								password={this.state.password}
+							/>
+						)}
 					</div>
 				</div>
 				<div className="auth-footer">

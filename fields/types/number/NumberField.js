@@ -4,6 +4,9 @@ import { FormInput } from 'elemental';
 
 module.exports = Field.create({
 	displayName: 'NumberField',
+	statics: {
+		type: 'Number',
+	},
 	valueChanged (event) {
 		var newValue = event.target.value;
 		if (/^-?\d*\.?\d*$/.test(newValue)) {
@@ -21,7 +24,6 @@ module.exports = Field.create({
 				value={this.props.value}
 				onChange={this.valueChanged}
 				autoComplete="off"
-				type="number"
 			/>
 		);
 	},

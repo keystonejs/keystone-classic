@@ -67,7 +67,7 @@ var DateFilter = React.createClass({
 		if (this.props.filter.mode === 'between') {
 			findDOMNode(this.refs[this.state.activeInputField]).focus();
 		} else {
-			findDOMNode(this.refs.input).focus();
+			this.refs.input.focus();
 		}
 	},
 	updateFilter (value) {
@@ -88,7 +88,7 @@ var DateFilter = React.createClass({
 			}, 50);
 		} else {
 			setTimeout(() => {
-				findDOMNode(this.refs.input).focus();
+				this.refs.input.focus();
 			}, 50);
 		}
 	},

@@ -5,6 +5,7 @@ import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
 import { Button, InputGroup } from 'elemental';
+import _ from 'lodash';
 
 function compareValues (current, next) {
 	const currentLength = current ? current.length : 0;
@@ -19,6 +20,9 @@ function compareValues (current, next) {
 module.exports = Field.create({
 
 	displayName: 'RelationshipField',
+	statics: {
+		type: 'Relationship',
+	},
 
 	getInitialState () {
 		return {
@@ -149,9 +153,15 @@ module.exports = Field.create({
 		});
 	},
 
-	toggleCreate (visible) {
+	openCreate () {
 		this.setState({
-			createIsOpen: visible,
+			createIsOpen: true,
+		});
+	},
+
+	closeCreate () {
+		this.setState({
+			createIsOpen: false,
 		});
 	},
 
@@ -195,6 +205,7 @@ module.exports = Field.create({
 		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/App/shared/CreateForm';
 		//   CreateForm was imported as a blank object. This stack overflow post suggested lazilly requiring it:
 		// http://stackoverflow.com/questions/29807664/cyclic-dependency-returns-empty-object-in-react-native
+		// TODO: Implement this somewhere higher in the app, it breaks the encapsulation of the RelationshipField component
 		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
 			<InputGroup>
@@ -202,13 +213,13 @@ module.exports = Field.create({
 					{this.renderSelect()}
 				</InputGroup.Section>
 				<InputGroup.Section>
-					<Button onClick={() => this.toggleCreate(true)} type="success">+</Button>
+					<Button onClick={this.openCreate} type="success">+</Button>
 				</InputGroup.Section>
 				<CreateForm
 					list={listsByKey[this.props.refList.key]}
 					isOpen={this.state.createIsOpen}
-					onCreate={(data) => this.onCreate(data)}
-					onCancel={() => this.toggleCreate(false)} />
+					onCreate={this.onCreate}
+					onCancel={this.closeCreate} />
 			</InputGroup>
 		);
 	},

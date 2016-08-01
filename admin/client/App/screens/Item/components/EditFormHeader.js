@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import Toolbar from './Toolbar';
 import ToolbarSection from './Toolbar/ToolbarSection';
 import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
@@ -29,7 +29,7 @@ var Header = React.createClass({
 		const escapeKeyCode = 27;
 
 		if (event.which === escapeKeyCode) {
-			ReactDOM.findDOMNode(this.refs.searchField).blur();
+			findDOMNode(this.refs.searchField).blur();
 		}
 	},
 	renderDrilldown () {

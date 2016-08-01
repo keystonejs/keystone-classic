@@ -1,8 +1,13 @@
+/*
+TODO: Needs Review and Spec
+*/
+
 var _ = require('lodash');
 var async = require('async');
-var keystone = require('../../../');
 
 module.exports = function (req, res) {
+
+	var keystone = req.keystone;
 
 	var sendResponse = function (status) {
 		res.json(status);

@@ -5,6 +5,9 @@ import { Button, FormInput, InputGroup } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'PasswordField',
+	statics: {
+		type: 'Password',
+	},
 
 	getInitialState () {
 		return {

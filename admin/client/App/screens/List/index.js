@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import classnames from 'classnames';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
 import { connect } from 'react-redux';
@@ -142,7 +142,7 @@ const ListView = React.createClass({
 	handleSearchClear () {
 		this.props.dispatch(setActiveSearch(''));
 		this.setState({ searchString: '' });
-		ReactDOM.findDOMNode(this.refs.listSearchInput).focus();
+		findDOMNode(this.refs.listSearchInput).focus();
 	},
 	handleSearchKey (e) {
 		// clear on esc

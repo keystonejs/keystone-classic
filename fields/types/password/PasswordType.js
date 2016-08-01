@@ -4,12 +4,27 @@ var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 
+var regexChunk = {
+	digitChar: /\d/,
+	spChar: /[!@#\$%\^&\*()\+]/,
+	asciiChar: /^[\u0020-\u007E]+$/,
+	lowChar: /[a-z]/,
+	upperChar: /[A-Z]/,
+};
+var detailMsg = {
+	digitChar: 'enter at least one digit',
+	spChar: 'enter at least one special character',
+	asciiChar: 'only ASCII characters are allowed',
+	lowChar: 'use at least one lower case character',
+	upperChar: 'use at least one upper case character',
+};
 /**
  * password FieldType Constructor
  * @extends Field
  * @api public
  */
 function password (list, path, options) {
+	this.options = options;
 	this._nativeType = String;
 	this._underscoreMethods = ['format', 'compare'];
 	this._fixedSize = 'full';
@@ -18,6 +33,16 @@ function password (list, path, options) {
 	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	this.workFactor = options.workFactor || 10;
 	password.super_.call(this, list, path, options);
+	for (var key in this.options.complexity) {
+		if ({}.hasOwnProperty.call(this.options.complexity, key)) {
+			if (key in regexChunk !== key in this.options.complexity) {
+				throw new Error('FieldType.Password: options.complexity - option does not exist.');
+			}
+			if (typeof this.options.complexity[key] !== 'boolean') {
+				throw new Error('FieldType.Password: options.complexity - Value must be boolean.');
+			}
+		}
+	}
 }
 password.properName = 'Password';
 util.inherits(password, FieldType);
@@ -123,16 +148,30 @@ password.prototype.compare = function (item, candidate, callback) {
  * Asynchronously confirms that the provided password is valid
  */
 password.prototype.validateInput = function (data, callback) {
-	var detail;
+	var detail = '';
 	var result = true;
+	var min = this.options.min;
+	var complexity = this.options.complexity;
 	var confirmValue = this.getValueFromData(data, '_confirm');
 	var passwordValue = this.getValueFromData(data);
 	if (confirmValue !== undefined
 		&& passwordValue !== confirmValue) {
-		result = false;
-		detail = 'passwords must match';
+		detail = 'passwords must match\n';
 	}
-	// TODO: we could support a password complexity option (or regexp) here
+
+	if (min && typeof passwordValue === 'string' && passwordValue.length < min) {
+		detail += 'password must be longer than ' + min + ' characters\n';
+	}
+	for (var prop in complexity) {
+		if (complexity[prop] && typeof passwordValue === 'string') {
+			var complexityCheck = (regexChunk[prop]).test(passwordValue);
+			if (!complexityCheck) {
+				detail += detailMsg[prop] + '\n';
+			}
+		}
+	}
+	result = detail.length === 0;
+
 	utils.defer(callback, result, detail);
 };
 

@@ -27,6 +27,9 @@ function removeTinyMCEInstance (editor) {
 module.exports = Field.create({
 
 	displayName: 'HtmlField',
+	statics: {
+		type: 'Html',
+	},
 
 	getInitialState () {
 		return {
@@ -87,14 +90,12 @@ module.exports = Field.create({
 		});
 	},
 
-	valueChanged  () {
+	valueChanged  (event) {
 		var content;
 		if (this.editor) {
 			content = this.editor.getContent();
-		} else if (this.refs.editor) {
-			content = this.refs.editor.getDOMNode().value;
 		} else {
-			return;
+			content = event.target.value;
 		}
 
 		this._currentValue = content;
@@ -190,7 +191,7 @@ module.exports = Field.create({
 		};
 		return (
 			<div className={className}>
-				<FormInput multiline ref="editor" style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} value={this.props.value} />
+				<FormInput multiline style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} value={this.props.value} />
 			</div>
 		);
 	},
