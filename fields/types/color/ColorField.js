@@ -1,10 +1,12 @@
 import { SketchPicker } from 'react-color';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import Field from '../Field';
 import React from 'react';
-import { FormInput, InputGroup } from 'elemental';
-import swatch from './transparent-swatch';
+import { Button, FormInput, InputGroup } from 'elemental';
+import transparentSwatch from './transparent-swatch';
+import theme from '../../../admin/client/theme';
 
-module.exports = Field.create({
+const ColorField = Field.create({
 	displayName: 'ColorField',
 	statics: {
 		type: 'Color',
@@ -49,7 +51,7 @@ module.exports = Field.create({
 		this.updateValue(newValue);
 	},
 	renderSwatch () {
-		const className = 'field-type-color__swatch';
+		const className = `${css(classes.swatch)} e2e-type-color__swatch`;
 
 		return (this.props.value) ? (
 			<span
@@ -59,16 +61,17 @@ module.exports = Field.create({
 		) : (
 			<span
 				className={className}
-				dangerouslySetInnerHTML={{ __html: swatch }}
+				dangerouslySetInnerHTML={{ __html: transparentSwatch }}
 			/>
 		);
 	},
 	renderField () {
 		const { displayColorPicker } = this.state;
-		const buttonClassName = 'FormInput FormSelect field-type-color__button';
+		const blockoutClassName = `${css(classes.blockout)} e2e-type-color__blockout`;
+		const popoverClassName = `${css(classes.popover)} e2e-type-color__popover`;
 
 		return (
-			<div className="field-type-color__wrapper">
+			<div className="e2e-type-color__wrapper" style={{ position: 'relative' }}>
 				<InputGroup>
 					<InputGroup.Section grow>
 						<FormInput
@@ -80,18 +83,18 @@ module.exports = Field.create({
 						/>
 					</InputGroup.Section>
 					<InputGroup.Section>
-						<button type="button" onClick={this.handleClick} className={buttonClassName}>
+						<Button onClick={this.handleClick} className={`${css(classes.button)} e2e-type-color__button`}>
 							{this.renderSwatch()}
-						</button>
+						</Button>
 					</InputGroup.Section>
 				</InputGroup>
 				{displayColorPicker && (
 					<div>
 						<div
-							className="field-type-color__popover__cover"
+							className={blockoutClassName}
 							onClick={this.handleClose}
 						/>
-						<div className="field-type-color__popover" onClick={e => e.stopPropagation()}>
+						<div className={popoverClassName} onClick={e => e.stopPropagation()}>
 							<SketchPicker
 								color={this.props.value}
 								onChangeComplete={this.handlePickerChange}
@@ -104,3 +107,39 @@ module.exports = Field.create({
 		);
 	},
 });
+
+/* eslint quote-props: ["error", "as-needed"] */
+const classes = StyleSheet.create({
+	button: {
+		background: 'white',
+		padding: 4,
+		width: theme.component.height,
+
+		':hover': {
+			background: 'white',
+		},
+	},
+	blockout: {
+		bottom: 0,
+		left: 0,
+		position: 'fixed',
+		right: 0,
+		top: 0,
+		zIndex: 1,
+	},
+	popover: {
+		marginTop: 10,
+		position: 'absolute',
+		right: 0,
+		zIndex: 2,
+	},
+	swatch: {
+		borderRadius: 1,
+		boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.1)',
+		display: 'block',
+		height: '100%',
+		width: '100%',
+	},
+});
+
+module.exports = ColorField;

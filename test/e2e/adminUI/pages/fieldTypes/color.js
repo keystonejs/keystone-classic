@@ -1,14 +1,14 @@
 var utils = require('../../../utils');
 
 module.exports = function ColorType(config) {
+	console.log('config.fieldName', config.fieldName);
 	var self = {
 		selector: '.field-type-color[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
 			value: 'input[name="' + config.fieldName + '"]',
-      button: '.field-type-color__button',
-      swatch: '.field-type-color__swatch',
-      picker: '.field-type-color__swatch',
+			button: '.e2e-type-color__button',
+			swatch: '.e2e-type-color__swatch',
 		},
 		commands: [{
 			assertUI: function() {
@@ -20,8 +20,6 @@ module.exports = function ColorType(config) {
 					.expect.element('@value').to.be.visible;
 				this
 					.expect.element('@button').to.be.visible;
-				this
-					.expect.element('@picker').to.be.visible;
 				return this;
 			},
 			fillInput: function(input) {
