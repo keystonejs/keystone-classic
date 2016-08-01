@@ -39,7 +39,7 @@ module.exports = function CodeType(config) {
 						 return y.CodeMirror.getValue();
 					}, [self.selector], function (result) {
 						this.assert.equal(result.value, input.value);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],

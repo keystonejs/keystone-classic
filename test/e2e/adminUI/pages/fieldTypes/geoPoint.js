@@ -36,14 +36,14 @@ module.exports = function UrlType(config) {
 					.getValue('@valueLat', function (result) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.lat);
-					});
+					}.bind(this));
 				this
 					.waitForElementVisible('@valueLng');
 				this
 					.getValue('@valueLng', function (result) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.lng);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],

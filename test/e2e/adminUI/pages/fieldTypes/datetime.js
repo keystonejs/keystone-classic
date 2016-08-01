@@ -42,11 +42,11 @@ module.exports = function DatetimeType(config) {
 				this
 					.getValue('@date', function(result) {
 						this.api.assert.equal(result.value, input.date);
-					});
+					}.bind(this));
 				this
 					.getValue('@time', function(result) {
 						this.api.assert.equal(result.value, input.time);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],
