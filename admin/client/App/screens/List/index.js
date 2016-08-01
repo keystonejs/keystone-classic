@@ -62,7 +62,7 @@ const ListView = React.createClass({
 		this.loadItems();
 	},
 	componentWillReceiveProps (nextProps) {
-		// We'nve opened a new list from the client side routing, so initialize
+		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.initializeList(nextProps.params.listId);
