@@ -62,7 +62,7 @@ const ListView = React.createClass({
 		this.loadItems();
 	},
 	componentWillReceiveProps (nextProps) {
-		// We've opened a new list from the client side routing, so initialize
+		// We'nve opened a new list from the client side routing, so initialize
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.initializeList(nextProps.params.listId);
@@ -200,8 +200,20 @@ const ListView = React.createClass({
 		});
 		return (
 			<InputGroup.Section grow className="ListHeader__search">
-				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
-				<button ref="listSearchClear" type="button" title="Clear search query" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
+				<FormInput
+					ref="listSearchInput"
+					value={this.state.searchString}
+					onChange={this.updateSearch}
+					onKeyUp={this.handleSearchKey}
+					placeholder="Search"
+					className="ListHeader__searchbar-input"
+				/>
+				<button
+					ref="listSearchClear"
+					type="button"
+					title="Clear search query"
+					onClick={this.handleSearchClear}
+					disabled={!this.state.searchString.length} className={searchClearIcon} />
 			</InputGroup.Section>
 		);
 	},

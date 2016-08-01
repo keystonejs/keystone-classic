@@ -65,6 +65,7 @@ module.exports = function (req, res) {
 			res.logError('admin/server/api/list/get', 'database error finding items', err);
 			return res.apiError('database error', err);
 		}
+
 		return res.json({
 			results: includeResults
 				? items.map(function (item) {
@@ -75,17 +76,5 @@ module.exports = function (req, res) {
 				? count
 				: undefined,
 		});
-		// return setTimeout(() => {
-		// 	res.json({
-		// 		results: includeResults
-		// 			? items.map(function (item) {
-		// 				return req.list.getData(item, fields, req.query.expandRelationshipFields);
-		// 			})
-		// 			: undefined,
-		// 		count: includeCount
-		// 			? count
-		// 			: undefined,
-		// 	});
-		// }, 1300);
 	});
 };

@@ -34,7 +34,6 @@ export function loadItemData () {
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
 			if (err || !itemData) {
 				if (getState().loadingRef !== thisLoadRef) return;
-				console.log('Error loading item data', err);
 				dispatch(dataLoadingError(err));
 			} else {
 				dispatch(dataLoaded(itemData));
@@ -89,7 +88,6 @@ export function deleteItem (id, router) {
 			// TODO Proper error handling
 			if (err) {
 				alert('Error deleting item, please try again!');
-				console.log(err);
 			} else {
 				dispatch({
 					type: DELETE_ITEM,

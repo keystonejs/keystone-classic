@@ -47,8 +47,9 @@ store.subscribe(() => {
 	const state = store.getState();
 	const list = state.lists.currentList;
 	const items = state.lists.items;
+
 	// If we aren't on a list, or haven't loaded any items yet don't do anything
-	if (!list || items.count < 1) return;
+	if (!list) return;
 	const search = state.active.search;
 	const location = state.routing.locationBeforeTransitions;
 
@@ -80,6 +81,7 @@ store.subscribe(() => {
 	// parameter
 	// This check is important because updateQueryParams dispatches an action
 	// so this would be an endless loop if we didn't check this
+
 	if (page !== cachedPage
 		|| columns !== cachedColumns
 		|| sort !== cachedSort
@@ -99,6 +101,7 @@ store.subscribe(() => {
 		// After we've updated the query params, load the changed items
 		// but not if we just changed to a new list and the active id and old
 		// id don't match anymore
+
 		if (state.lists.currentList.id === state.active.id) {
 			store.dispatch(loadItems());
 		}
