@@ -134,8 +134,12 @@ const CreateForm = React.createClass({
 		}
 
 		// Render inputs for all initial fields
-		Object.keys(list.initialFields).forEach(key => {
-			var field = list.fields[list.initialFields[key]];
+		for (var initialField of list.initialFields) {
+			let field = list.fields[initialField];
+			// don't output hidden fields
+			if (field.hidden) {
+				continue;
+			}
 			// If there's something weird passed in as field type, render the
 			// invalid field type component
 			if (typeof Fields[field.type] !== 'function') {
@@ -143,7 +147,7 @@ const CreateForm = React.createClass({
 				return;
 			}
 			// Get the props for the input field
-			var fieldProps = this.getFieldProps(field);
+			let fieldProps = this.getFieldProps(field);
 			// If there was no focusRef set previously, set the current field to
 			// be the one to be focussed. Generally the first input field, if
 			// there's an initial name field that takes precedence.
@@ -151,7 +155,7 @@ const CreateForm = React.createClass({
 				fieldProps.ref = focusRef = 'focusTarget';
 			}
 			form.push(React.createElement(Fields[field.type], fieldProps));
-		});
+		}
 
 		return (
 			<Form

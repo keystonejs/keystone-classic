@@ -23,10 +23,10 @@ module.exports = {
 		browser.app.waitForInitialFormScreen();
 
 
-		// Issue demonstration - the field should not be visible, but it is.
+		// Issue demonstration - the field should not be present, but it is.
 
 		browser.initialFormPage.section.form.section.hiddenrelationshipList.section.fieldA
-			.expect.element('@label').to.not.be.visible;
+			.expect.element('@label').to.not.be.present;
 
 		browser.initialFormPage.cancel();
 
