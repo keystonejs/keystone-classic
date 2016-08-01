@@ -154,10 +154,10 @@ module.exports = Field.create({
 			<NestedFormField label="Lat / Lng" data-field-location-path={path + '.geo'}>
 				<FormRow>
 					<FormField width="one-half" data-field-location-path="latitude">
-						<FormInput name={paths.geo} value={geo[1]} onChange={this.makeGeoChanger(1)} placeholder="Latitude" />
+						<FormInput name={paths.geo + '[1]'} value={geo[1]} onChange={this.makeGeoChanger(1)} placeholder="Latitude" />
 					</FormField>
 					<FormField width="one-half" data-field-location-path="longitude">
-						<FormInput name={paths.geo} value={geo[0]} onChange={this.makeGeoChanger(0)} placeholder="Longitude" />
+						<FormInput name={paths.geo + '[0]'} value={geo[0]} onChange={this.makeGeoChanger(0)} placeholder="Longitude" />
 					</FormField>
 				</FormRow>
 			</NestedFormField>
