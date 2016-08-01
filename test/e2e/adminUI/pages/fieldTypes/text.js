@@ -56,12 +56,13 @@ module.exports = function TextType(config) {
 				return this;
 			},
 			assertInput: function (input) {
+				var self = this;
 				this
 					.waitForElementVisible('@value');
 				this
 					.getValue('@value', function (result) {
-						this.api.assert.equal(result.state, "success");
-						this.api.assert.equal(result.value, input.value);
+						self.api.assert.equal(result.state, "success");
+						self.api.assert.equal(result.value, input.value);
 					});
 				return this;
 			},
