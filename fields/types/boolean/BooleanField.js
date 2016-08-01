@@ -1,7 +1,7 @@
 import React from 'react';
 import Field from '../Field';
 import Checkbox from '../../components/Checkbox';
-import { FormField, FormNote } from 'elemental';
+import { FormField } from 'elemental';
 
 module.exports = Field.create({
 	displayName: 'BooleanField',
@@ -11,9 +11,8 @@ module.exports = Field.create({
 	propTypes: {
 		indent: React.PropTypes.bool,
 		label: React.PropTypes.string,
-		note: React.PropTypes.string,
-		onChange: React.PropTypes.func,
-		path: React.PropTypes.string,
+		onChange: React.PropTypes.func.isRequired,
+		path: React.PropTypes.string.isRequired,
 		value: React.PropTypes.bool,
 	},
 
@@ -22,11 +21,6 @@ module.exports = Field.create({
 			path: this.props.path,
 			value: value,
 		});
-	},
-	renderNote () {
-		if (!this.props.note) return;
-
-		return <FormNote note={this.props.note} />;
 	},
 	renderFormInput () {
 		if (!this.shouldRenderField()) return;
@@ -39,27 +33,20 @@ module.exports = Field.create({
 			/>
 		);
 	},
-	renderCheckbox () {
-		return !this.shouldRenderField() ? (
-			<Checkbox
-				checked={this.props.value}
-				readonly
-			/>
-		) : (
-			<Checkbox
-				checked={this.props.value}
-				onChange={this.valueChanged}
-			/>
-		);
-	},
 	renderUI () {
+		const { indent, value, label } = this.props;
+
 		return (
-			<FormField offsetAbsentLabel={this.props.indent}>
+			<FormField offsetAbsentLabel={indent}>
 				<label style={{ height: '2.3em' }}>
 					{this.renderFormInput()}
-					{this.renderCheckbox()}
+					<Checkbox
+						checked={value}
+						onChange={this.shouldRenderField() && this.valueChanged}
+						readonly={!this.shouldRenderField()}
+					/>
 					<span style={{ marginLeft: '.75em' }}>
-						{this.props.label}
+						{label}
 					</span>
 				</label>
 				{this.renderNote()}
