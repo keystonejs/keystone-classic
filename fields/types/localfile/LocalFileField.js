@@ -162,31 +162,33 @@ module.exports = Field.create({
 		);
 
 		return (
-			<FormField label={this.props.label} htmlFor={this.props.path}>
-				{this.shouldRenderField() ? (
-					<div>
-						{this.hasFile() && this.renderFileNameAndOptionalMessage(true)}
-						{buttons}
-						<HiddenFileInput
-							name={this.props.paths.upload}
-							onChange={this.handleFileChange}
-							ref="fileInput"
-						/>
-						<input
-							name={this.props.paths.action}
-							type="hidden"
-							value={this.state.action}
-						/>
-					</div>
-				) : (
-					<div>
-						{this.hasFile()
-							? this.renderFileNameAndOptionalMessage()
-							: <FormInput noedit>no file</FormInput>}
-					</div>
-				)}
-				{!!this.props.note && <FormNote note={this.props.note} />}
-			</FormField>
+			<div data-field-name={this.props.path} data-field-type="localfile">
+				<FormField label={this.props.label} htmlFor={this.props.path}>
+					{this.shouldRenderField() ? (
+						<div>
+							{this.hasFile() && this.renderFileNameAndOptionalMessage(true)}
+							{buttons}
+							<HiddenFileInput
+								name={this.props.paths.upload}
+								onChange={this.handleFileChange}
+								ref="fileInput"
+							/>
+							<input
+								name={this.props.paths.action}
+								type="hidden"
+								value={this.state.action}
+							/>
+						</div>
+					) : (
+						<div>
+							{this.hasFile()
+								? this.renderFileNameAndOptionalMessage()
+								: <FormInput noedit>no file</FormInput>}
+						</div>
+					)}
+					{!!this.props.note && <FormNote note={this.props.note} />}
+				</FormField>
+			</div>
 		);
 	},
 

@@ -1,13 +1,45 @@
 var utils = require('../../../utils');
 
 module.exports = function TextType(config) {
-	var self = {
+	return {
 		selector: '.field-type-text[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
 			value: 'input[name="' + config.fieldName + '"]',
 		},
 		commands: [{
+			assertUIVisible: function () {
+				this
+					.expect.element('@label').to.be.visible;
+				this
+					.expect.element('@label').text.to.equal(utils.titlecase(config.fieldName));
+				this
+					.expect.element('@value').to.be.visible;
+				return this;
+			},
+			assertUINotVisible: function () {
+				this
+					.expect.element('@label').to.not.be.visible;
+				this
+					.expect.element('@label').text.to.equal(utils.titlecase(config.fieldName));
+				this
+					.expect.element('@value').to.not.be.visible;
+				return this;
+			},
+			assertUIPresent: function () {
+				this
+					.expect.element('@label').to.be.present;
+				this
+					.expect.element('@value').to.be.present;
+				return this;
+			},
+			assertUINotPresent: function () {
+				this
+					.expect.element('@label').to.not.be.present;
+				this
+					.expect.element('@value').to.not.be.present;
+				return this;
+			},
 			assertUI: function () {
 				this
 					.expect.element('@label').to.be.visible;
@@ -30,11 +62,9 @@ module.exports = function TextType(config) {
 					.getValue('@value', function (result) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.value);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],
 	};
-
-	return self;
 };

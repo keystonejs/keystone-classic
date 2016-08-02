@@ -1,8 +1,7 @@
 var utils = require('../../../utils');
 
 module.exports = function ColorType(config) {
-	console.log('config.fieldName', config.fieldName);
-	var self = {
+	return {
 		selector: '.field-type-color[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
@@ -35,11 +34,9 @@ module.exports = function ColorType(config) {
 					.getValue('@value', function (result) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.value);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],
 	};
-
-	return self;
 };

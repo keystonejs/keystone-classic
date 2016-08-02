@@ -1,11 +1,11 @@
 var utils = require('../../../utils');
 
 module.exports = function LocalFileType(config) {
-	var self = {
-		selector: '.field-type-localfile[for="' + config.fieldName + '"]',
+	return {
+		selector: '[data-field-name=' + config.fieldName + '][data-field-type=localfile]',
 		elements: {
 			label: '.FormLabel',
-			button: '.file-toolbar .Button--default',
+			button: '.Button.Button--default',
 		},
 		commands: [{
 			assertUI: function() {
@@ -19,6 +19,4 @@ module.exports = function LocalFileType(config) {
 			},
 		}],
 	};
-
-	return self;
 };
