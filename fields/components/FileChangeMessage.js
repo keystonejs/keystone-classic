@@ -4,7 +4,11 @@ import { fade } from '../../admin/client/utils/color';
 import theme from '../../admin/client/theme';
 
 function FileChangeMessage ({ style, type, ...props }) {
-	const styles = { marginRight: 10, ...style };
+	const styles = {
+		marginRight: 10,
+		minWidth: 0,
+		...style,
+	};
 
 	if (type === 'danger' || type === 'success') {
 		styles.backgroundColor = fade(theme.color[type], 10);

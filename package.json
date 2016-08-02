@@ -31,6 +31,7 @@
     "chalk": "1.1.3",
     "classnames": "2.2.5",
     "cloudinary": "1.4.1",
+    "cloudinary-microurl": "^1.0.2",
     "compression": "1.6.2",
     "connect-flash": "0.1.1",
     "cookie-parser": "1.4.3",
