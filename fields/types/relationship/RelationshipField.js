@@ -184,6 +184,13 @@ module.exports = Field.create({
 		}
 	},
 
+	handleOptionLabelClick: function(value, event) {
+		var refPath = this.props.refList.path;
+		if(value && value.value && refPath) {
+			window.open('/keystone/'+refPath+'/'+value.value);
+		}
+	},
+
 	renderField: function() {
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
@@ -198,7 +205,7 @@ module.exports = Field.create({
 			);
 		}
 
-		body.push(<Select multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />);
+		body.push(<Select multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} onOptionLabelClick={this.handleOptionLabelClick} />);
 
 		return body;
 	}
