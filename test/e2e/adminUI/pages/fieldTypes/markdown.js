@@ -81,9 +81,9 @@ module.exports = function MarkdownType(config) {
 						.execute(function (selector) {
 							 var x = document.querySelector(selector);
 							 return  x.innerHTML;
-						}.bind(this), [self.elements.preview], function (result) {
+						}, [self.elements.preview], function (result) {
 							this.assert.equal(result.value, input.html);
-						}.bind(this));
+						});
 				}
 				return this;
 			},
