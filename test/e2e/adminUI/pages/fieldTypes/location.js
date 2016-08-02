@@ -404,70 +404,70 @@ module.exports = function LocationType(config) {
 					.getValue('@numberValue', function (result) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.number);
-					});
+					}.bind(this));
 					this
 						.waitForElementVisible('@nameValue');
 					this
 						.getValue('@nameValue', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.name);
-					});
+					}.bind(this));
 					this
 						.waitForElementVisible('@street1Value');
 					this
 						.getValue('@street1Value', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.street1);
-					});
+					}.bind(this));
 					this
 						.waitForElementVisible('@street2Value');
 					this
 						.getValue('@street2Value', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.street2);
-					});
+					}.bind(this));
 					this
 						.waitForElementVisible('@suburbValue');
 					this
 						.getValue('@suburbValue', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.suburb);
-						});
+					}.bind(this));
 					this
 						.waitForElementVisible('@stateValue');
 					this
 						.getValue('@stateValue', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.state);
-					});
+					}.bind(this));
 					this
 						.waitForElementVisible('@postcodeValue');
 					this
 						.getValue('@postcodeValue', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.postcode);
-					});
+					}.bind(this));
 					this
 						.waitForElementVisible('@countryValue');
 					this
 						.getValue('@countryValue', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.country);
-					});
+					}.bind(this));
 					this
 						.waitForElementVisible('@geoLatValue');
 					this
 						.getValue('@geoLatValue', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.geoLat);
-					});
+					}.bind(this));
 					this
 						.waitForElementVisible('@geoLngValue');
 					this
 						.getValue('@geoLngValue', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.geoLng);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],

@@ -57,7 +57,7 @@ module.exports = function BooleanType(config) {
 				this
 					.getValue('@value', function(result) {
 						this.api.assert.equal(result.value, input.value);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],
