@@ -1,6 +1,11 @@
 # Text Field
 
 Stores a `String` in the model.
+Displayed as a text field in the Admin UI.
+
+```js
+	{ type: Types.Text }
+```
 
 ## Methods
 
