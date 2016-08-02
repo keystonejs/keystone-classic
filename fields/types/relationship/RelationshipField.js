@@ -181,7 +181,7 @@ module.exports = Field.create({
 			complete: true,
 			options: Object.keys(this._itemsCache).map((k) => this._itemsCache[k]),
 		});
-		this.toggleCreate(false);
+		this.closeCreate();
 	},
 
 	renderSelect (noedit) {
