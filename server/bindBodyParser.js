@@ -1,7 +1,7 @@
 var multer = require('multer');
 var bodyParser = require('body-parser');
 
-module.exports = function bindIPRestrictions (keystone, app) {
+module.exports = function bindBodyParser (keystone, app) {
 	// Set up body options and cookie parser
 	var bodyParserParams = {};
 	if (keystone.get('file limit')) {
