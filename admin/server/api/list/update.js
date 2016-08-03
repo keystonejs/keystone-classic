@@ -20,7 +20,7 @@ module.exports = function (req, res) {
 					err.statusCode = 400;
 					return done(err);
 				}
-				req.list.updateItem(item, data, function (err) {
+				req.list.updateItem(item, data, { files: req.files }, function (err) {
 					if (err) {
 						err.id = data.id;
 						err.statusCode = 500;
