@@ -42,7 +42,7 @@ module.exports = function initRouter (router, routesFunc) {
 	require('./bindStaticMiddleware')(keystone, router);
 	require('./bindSessionMiddleware')(keystone, router);
 
-	// We should also allow custom logging middleware to exist in the normal middleware flow
+	// Log dynamic requests
 	router.use(function (req, res, next) {
 		keystone.callHook('pre:logger', req, res, next);
 	});
