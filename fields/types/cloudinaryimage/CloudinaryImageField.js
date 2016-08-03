@@ -12,7 +12,7 @@ import Lightbox from '../../components/Lightbox';
 const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
 
 const buildInitialState = () => ({
-	action: null,
+	action: '',
 	removeExisting: false,
 	userSelectedFile: null,
 });

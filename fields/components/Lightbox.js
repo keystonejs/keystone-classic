@@ -125,7 +125,7 @@ var Lightbox = React.createClass({
 		);
 	},
 	render () {
-		const props = blacklist(this.props, 'backdropClosesModal', 'initialImage', 'height', 'images', 'isOpen', 'onCancel', 'showCloseButton', 'width');
+		const props = blacklist(this.props, 'backdropClosesModal', 'enableKeyboardInput', 'initialImage', 'height', 'images', 'isOpen', 'onCancel', 'showCloseButton', 'width');
 
 		return (
 			<Portal {...props}>

@@ -1,19 +1,16 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
-const ToolbarSection = (props) => {
-	const className = classNames('Toolbar__section', {
+function ToolbarSection ({ className, left, right, ...props }) {
+	props.className = classNames('Toolbar__section', {
 		'Toolbar__section--left': props.left,
 		'Toolbar__section--right': props.right,
-	}, props.className);
+	}, className);
 
-	return <div {...props} className={className} />;
+	return <div {...props} />;
 };
 
-ToolbarSection.displayName = 'ToolbarSection';
 ToolbarSection.propTypes = {
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string,
 	left: PropTypes.bool,
 	right: PropTypes.bool,
 };
