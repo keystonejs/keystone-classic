@@ -1,5 +1,6 @@
 /*
-TODO: Needs Review and Spec
+Deprecated. Any remaining usage of these functions needs to be replaced
+with calls to the new API endpoints.
 */
 
 var _ = require('lodash');
@@ -86,47 +87,6 @@ module.exports = function (req, res) {
 					success: true,
 				});
 			});
-			break;
-
-		case 'create':
-			if (!keystone.security.csrf.validate(req)) {
-				return sendError('invalid csrf');
-			}
-			var item = new req.list.model();
-			var updateHandler = item.getUpdateHandler(req);
-			var data = (req.method === 'POST') ? req.body : req.query;
-
-			var processUpdateHandler = function () {
-				updateHandler.process(data, {
-					flashErrors: true,
-					logErrors: true,
-					fields: req.list.initialFields,
-				}, function (err) {
-					if (err) {
-						return sendResponse({
-							success: false,
-							err: err,
-						});
-					} else {
-						return sendResponse({
-							success: true,
-							name: req.list.getDocumentName(item, false),
-							id: item.id,
-						});
-					}
-				});
-			};
-
-			if (req.list.nameIsInitial) {
-				if (req.list.nameField.inputIsValid(data)) {
-					req.list.nameField.updateItem(item, data, processUpdateHandler);
-				} else {
-					updateHandler.addValidationError(req.list.nameField.path, 'Name is required.');
-					processUpdateHandler();
-				}
-			} else {
-				processUpdateHandler();
-			}
 			break;
 
 	}
