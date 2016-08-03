@@ -1,6 +1,13 @@
 # Boolean Field
 
 Stores a `Boolean` in the model.
+Displayed as a checkbox in the Admin UI.
+
+## Example
+
+```js
+{ type: Types.Boolean }
+```
 
 ## Methods
 
