@@ -1,5 +1,6 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
+import { StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
+import cssClassNames from '../../../utils/cssClassNames';
 import styles from './styles';
 
 const commonClasses = StyleSheet.create(styles.common);
@@ -11,10 +12,6 @@ function getStyleSheet (variant, color) {
 		stylesheetCache[cacheKey] = StyleSheet.create(variantStyles);
 	}
 	return stylesheetCache[cacheKey];
-}
-const truthy = i => i;
-function cssClassNames (arr) {
-	return css.apply(undefined, arr.filter(truthy));
 }
 
 const BUTTON_SIZES = ['large', 'medium', 'small', 'xsmall'];
