@@ -29,7 +29,7 @@ theme.breakpoint = {
 // color
 
 theme.color = {
-	body:                '#FDFDFD',
+	body:                '#fafafa',
 	link:                '#1385e5',
 	linkHover:           lighten('#1385e5', 10),
 	text:                '#1A1A1A',
@@ -183,6 +183,24 @@ theme.input = {
 	boxShadow: 'inset 0 1px 1px rgba(0, 0, 0, 0.075)',
 	boxShadowFocus: `inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px ${fade(theme.color.info, 10)}`,
 	paddingHorizontal: '.75em',
+};
+
+// spinner
+
+theme.spinner = {
+	color: {
+		danger: theme.color.danger,
+		default: theme.color.gray40,
+		inverted: 'white',
+		primary: theme.color.primary,
+		success: theme.color.success,
+		warning: theme.color.warning,
+	},
+	size: {
+		small:	4,
+		medium:	8,
+		large:	16,
+	},
 };
 
 module.exports = theme;

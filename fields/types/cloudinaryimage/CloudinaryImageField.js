@@ -1,14 +1,15 @@
 import React, { PropTypes } from 'react';
 import Field from '../Field';
-import { Button, FormField, FormInput, FormNote } from 'elemental';
+import { FormField, FormInput, FormNote } from 'elemental';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
+import { Button } from '../../../admin/client/App/elemental';
 
 import ImageThumbnail from '../../components/ImageThumbnail';
 import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
 import Lightbox from '../../components/Lightbox';
 
-const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
+const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
 
 const buildInitialState = () => ({
 	action: null,
@@ -189,7 +190,7 @@ module.exports = Field.create({
 				target="__blank"
 				style={{ float: 'left', marginRight: '1em' }}
 			>
-				<img src={url} style={{ height: '90' }} />
+				<img src={url} style={{ height: 90 }} />
 			</ImageThumbnail>
 		);
 	},
@@ -229,32 +230,19 @@ module.exports = Field.create({
 		}
 	},
 
-	/**
-	 * Output clear/delete/remove button.
-	 *
-	 *  - On removal of existing image, output "undo remove" button.
-	 *  - Otherwise output Cancel/Delete image button.
-	 */
+	// Output [cancel/remove/undo] button
 	renderClearButton () {
-		if (this.state.removeExisting) {
-			return (
-				<Button type="link" onClick={this.undoRemove}>
-					Undo Remove
-				</Button>
-			);
-		} else {
-			var clearText;
-			if (this.hasLocal()) {
-				clearText = 'Cancel';
-			} else {
-				clearText = 'Remove Image';
-			}
-			return (
-				<Button type="link-cancel" onClick={this.handleRemove}>
-					{clearText}
-				</Button>
-			);
-		}
+		const clearText = this.hasLocal() ? 'Cancel' : 'Remove Image';
+
+		return this.state.removeExisting ? (
+			<Button variant="link" onClick={this.undoRemove}>
+				Undo Remove
+			</Button>
+		) : (
+			<Button variant="link" color="cancel" onClick={this.handleRemove}>
+				{clearText}
+			</Button>
+		);
 	},
 
 	renderImageToolbar () {
@@ -272,7 +260,7 @@ module.exports = Field.create({
 		const { label, note, path, paths } = this.props;
 
 		const imageContainer = (
-			<div style={{ marginBottom: '1em' }}>
+			<div style={this.hasImage() ? { marginBottom: '1em' } : null}>
 				{this.hasImage() && this.renderImagePreview()}
 				{this.hasImage() && this.renderFileNameAndOptionalMessage(this.shouldRenderField())}
 			</div>
@@ -282,10 +270,10 @@ module.exports = Field.create({
 			? this.renderImageToolbar()
 			: <FormInput noedit>no image</FormInput>;
 
-		const hiddenInputs = this.shouldRenderField() ? (
+		const hiddenInputs = this.shouldRenderField() && (
 			<div>
 				<HiddenFileInput
-					accept={SUPPORTED_TYPES}
+					accept={SUPPORTED_TYPES.join()}
 					ref="fileInput"
 					name={paths.upload}
 					onChange={this.handleImageChange}
@@ -296,15 +284,15 @@ module.exports = Field.create({
 					value={this.state.action}
 				/>
 			</div>
-		) : null;
+		);
 
 		return (
 			<FormField label={label} className="field-type-cloudinaryimage" htmlFor={path}>
-				{hiddenInputs}
 				{imageContainer}
 				{toolbar}
 				{!!note && <FormNote note={note} />}
 				{this.renderLightbox()}
+				{hiddenInputs}
 			</FormField>
 		);
 	},
