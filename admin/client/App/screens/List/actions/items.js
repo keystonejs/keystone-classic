@@ -11,9 +11,16 @@ import { NETWORK_ERROR_RETRY_DELAY } from '../../../../constants';
 
 export function loadItems (options = {}) {
 	return (dispatch, getState) => {
-		dispatch({ type: LOAD_ITEMS });
+		// Crete an empty object to reference a point in memory.
+		// Dispatch this reference to our redux store to hold on to as a 'loadingRef'.
+		const thisLoadRef = {};
+		dispatch({
+			type: LOAD_ITEMS,
+			loadingRef: thisLoadRef,
+		});
 		const state = getState();
 		const currentList = state.lists.currentList;
+
 		currentList.loadItems({
 			search: state.active.search,
 			filters: state.active.filters,
@@ -21,6 +28,17 @@ export function loadItems (options = {}) {
 			columns: state.active.columns,
 			page: state.lists.page,
 		}, (err, items) => {
+
+			// Once this async request has fired this callback, check that
+			// the point in memory referenced by thisLoadRef is the same point in memory
+			// referenced by loadingRef in the redux store.
+
+			// If it is, then this is the latest request, and it is safe to resolve it normally.
+			// If it is not a reference the same point in memory however,
+			// this means that this request is NOT the latest fired request,
+			// and so we'll bail out of it early.
+
+			if (getState().lists.loadingRef !== thisLoadRef) return;
 			if (items) {
 				// if (page.index !== drag.page && drag.item) {
 				// 	// add the dragging item

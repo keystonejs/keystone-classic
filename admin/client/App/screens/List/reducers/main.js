@@ -19,6 +19,7 @@ import {
 } from '../../Item/constants';
 
 const initialState = {
+	loadingRef: null,
 	currentList: null,
 	loading: false,
 	ready: false,
@@ -97,6 +98,7 @@ function lists (state = initialState, action) {
 			return assign({}, state, {
 				loading,
 				ready,
+				loadingRef: action.loadingRef,
 			});
 		case ITEMS_LOADED:
 			// Cache the items in state.data so we can show the already existing

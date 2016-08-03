@@ -23,6 +23,8 @@ export function selectItem (itemId) {
  */
 export function loadItemData () {
 	return (dispatch, getState) => {
+		// Crete an empty object to reference a point in memory.
+		// Dispatch this reference to our redux store to hold on to as a 'loadingRef'.
 		const thisLoadRef = {};
 		dispatch({
 			type: LOAD_DATA,
@@ -32,7 +34,15 @@ export function loadItemData () {
 		const list = state.lists.currentList;
 
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
-			if (state.item.loadingRef !== thisLoadRef) return;
+			// Once this async request has fired this callback, check that
+			// the point in memory referenced by thisLoadRef is the same point in memory
+			// referenced by loadingRef in the redux store.
+
+			// If it is, then this is the latest request, and it is safe to resolve it normally.
+			// If it is not a reference the same point in memory however,
+			// this means that this request is NOT the latest fired request,
+			// and so we'll bail out of it early.
+			if (getState().item.loadingRef !== thisLoadRef) return;
 			if (err || !itemData) {
 				dispatch(dataLoadingError(err));
 			} else {
