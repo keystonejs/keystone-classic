@@ -19,11 +19,11 @@ const BUTTON_VARIANTS = ['fill', 'hollow', 'link'];
 const BUTTON_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'cancel', 'delete'];
 
 function Button ({
+	active,
+	block,
 	color,
 	component,
-	isActive,
-	isBlock,
-	isDisabled,
+	disabled,
 	size,
 	variant,
 	...props,
@@ -34,9 +34,9 @@ function Button ({
 		commonClasses.base,
 		commonClasses[size],
 		variantClasses.base,
-		isActive ? variantClasses.active : null,
-		isBlock ? commonClasses.block : null,
-		isDisabled ? commonClasses.disabled : null,
+		active ? variantClasses.active : null,
+		block ? commonClasses.block : null,
+		disabled ? commonClasses.disabled : null,
 	]);
 	// return an anchor or button
 	if (!component) {
@@ -46,19 +46,17 @@ function Button ({
 	if (component === 'button' && !props.type) {
 		props.type = 'button';
 	}
-	if (isDisabled) {
-		props.disabled = 'disabled';
-	}
+
 	return React.createElement(component, props);
 };
 
 Button.propTypes = {
+	active: PropTypes.bool,
+	block: PropTypes.bool,
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.element,
+	disabled: PropTypes.bool,
 	href: PropTypes.string,
-	isActive: PropTypes.bool,
-	isBlock: PropTypes.bool,
-	isDisabled: PropTypes.bool,
 	size: PropTypes.oneOf(BUTTON_SIZES),
 	variant: PropTypes.oneOf(BUTTON_VARIANTS),
 };

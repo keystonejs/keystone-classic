@@ -1,6 +1,6 @@
 import { StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
-import { Spinner } from 'elemental';
+import { Spinner } from '../../admin/client/App/elemental';
 import theme from '../../admin/client/theme';
 import cssClassNames from '../../admin/client/utils/cssClassNames';
 
@@ -14,7 +14,7 @@ function ImageThumbnail ({ children, className, component, mask, ...props }) {
 	const maskUI = mask ? (
 		<div className={cssClassNames([classes.mask], ICON_MAP[mask])}>
 			{mask === 'loading'
-				? <Spinner size="md" type="inverted" />
+				? <Spinner color="inverted" />
 				: null}
 		</div>
 	) : null;
@@ -33,7 +33,7 @@ function ImageThumbnail ({ children, className, component, mask, ...props }) {
 
 ImageThumbnail.propTypes = {
 	component: PropTypes.oneOf(['a', 'button', 'div', 'span']),
-	mask: PropTypes.oneOf(['upload', 'remove']),
+	mask: PropTypes.oneOf(['loading', 'remove', 'upload']),
 };
 ImageThumbnail.defaultProps = {
 	component: 'span',
