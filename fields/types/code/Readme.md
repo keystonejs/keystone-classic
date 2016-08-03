@@ -11,10 +11,10 @@ Displayed with CodeMirror in the Admin UI.
 
 ## Options
 
-### `height` Number
+### `height` `Number`
 The height of the field (in pixels). Default: 180
 
-### `language` String
+### `language` `String`
 The language in the code field.
 
 Supported languages:
