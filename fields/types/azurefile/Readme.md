@@ -27,7 +27,7 @@ Function with arguments current model and client file name to return the new fil
 Function with arguments current model and client file name to return the new container name (container are a root folder in Azure Storage Account).
 
 ```js
-{ type: Types.AzureFile, containerFormatter: containerFormatter: function(item, filename) {
+{ type: Types.AzureFile, containerFormatter: function(item, filename) {
 	return item.modelProperty;
 } }
 ```
