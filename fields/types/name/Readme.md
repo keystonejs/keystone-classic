@@ -1,4 +1,4 @@
-# Name field
+# Name Field
 
 `Object` — Displayed as **firstname lastname** fields in the Admin UI.
 

@@ -1,4 +1,4 @@
-# LocalFile field
+# LocalFile Field
 
 `Object` — Displayed as a file upload field in the Admin UI
 

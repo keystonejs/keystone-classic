@@ -1,4 +1,4 @@
-# CloudinaryImages field
+# CloudinaryImages Field
 
 `Array` — Displayed as a series of images, and an upload field in the Admin UI.
 
