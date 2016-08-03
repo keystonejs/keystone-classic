@@ -30,10 +30,10 @@ export function loadItemData () {
 		});
 		const state = getState();
 		const list = state.lists.currentList;
-		// Load a specific item with the utils/List.js helper
+
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
+			if (state.item.loadingRef !== thisLoadRef) return;
 			if (err || !itemData) {
-				if (getState().loadingRef !== thisLoadRef) return;
 				dispatch(dataLoadingError(err));
 			} else {
 				dispatch(dataLoaded(itemData));

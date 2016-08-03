@@ -46,8 +46,6 @@ store.subscribe(() => {
 	// Get all the necessary data
 	const state = store.getState();
 	const list = state.lists.currentList;
-	// const items = state.lists.items;
-
 	// If we aren't on a list, or haven't loaded any items yet don't do anything
 	if (!list) return;
 	const search = state.active.search;
@@ -103,6 +101,7 @@ store.subscribe(() => {
 		// id don't match anymore
 
 		if (state.lists.currentList.id === state.active.id) {
+
 			store.dispatch(loadItems());
 		}
 	}

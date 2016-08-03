@@ -198,6 +198,7 @@ List.prototype.expandSort = function (input) {
 			path = path.substr(1);
 		}
 		const field = this.fields[path];
+		console.log(field);
 		if (!field) {
 			// TODO: Support arbitary document paths
 			console.warn('Invalid Sort specified:', path);

@@ -213,7 +213,8 @@ const ListView = React.createClass({
 					type="button"
 					title="Clear search query"
 					onClick={this.handleSearchClear}
-					disabled={!this.state.searchString.length} className={searchClearIcon} />
+					disabled={!this.state.searchString.length} className={searchClearIcon}
+				/>
 			</InputGroup.Section>
 		);
 	},
