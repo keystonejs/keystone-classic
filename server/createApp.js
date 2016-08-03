@@ -5,60 +5,48 @@ var morgan = require('morgan');
 
 var language = require('../lib/middleware/language');
 
-module.exports = function createApp (keystone, express) {
+module.exports = function initRouter (router, routesFunc) {
 
-	if (!keystone.app) {
-		if (!express) {
-			express = require('express');
-		}
-		keystone.app = express();
-	}
+	var keystone = this;
 
-	var app = keystone.app;
-
-	keystone.initDatabase();
-	keystone.initExpressSession(keystone.mongoose);
-
-	require('./initTrustProxy')(keystone, app);
-	require('./initViewEngine')(keystone, app);
-	require('./initViewLocals')(keystone, app);
-	require('./bindIPRestrictions')(keystone, app);
+	require('./bindIPRestrictions')(keystone, router);
 
 	// Compress response bodies
 	if (keystone.get('compress')) {
-		app.use(compression());
+		router.use(compression());
 	}
 
 	// Pre static config
 	if (typeof keystone.get('pre:static') === 'function') {
-		keystone.get('pre:static')(app);
+		keystone.get('pre:static')(router);
 	}
-	app.use(function (req, res, next) {
+	router.use(function (req, res, next) {
 		keystone.callHook('pre:static', req, res, next);
 	});
 
 	// Serve static assets
 
 	if (keystone.get('favicon')) {
-		app.use(favicon(keystone.getPath('favicon')));
+		router.use(favicon(keystone.getPath('favicon')));
 	}
 
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Static Router for public resources
 	if (!keystone.get('headless')) {
-		app.use('/' + keystone.get('admin path'), require('../admin/server').createStaticRouter(keystone));
+		router.use('/' + keystone.get('admin path'), require('../admin/server').createStaticRouter(keystone));
 	}
 
-	require('./bindLessMiddleware')(keystone, app);
-	require('./bindSassMiddleware')(keystone, app);
-	require('./bindStylusMiddleware')(keystone, app);
-	require('./bindStaticMiddleware')(keystone, app);
-	require('./bindSessionMiddleware')(keystone, app);
+	require('./bindLessMiddleware')(keystone, router);
+	require('./bindSassMiddleware')(keystone, router);
+	require('./bindStylusMiddleware')(keystone, router);
+	require('./bindStaticMiddleware')(keystone, router);
+	require('./bindSessionMiddleware')(keystone, router);
 
-	// Log dynamic requests
-	app.use(function (req, res, next) {
+	// We should also allow custom logging middleware to exist in the normal middleware flow
+	router.use(function (req, res, next) {
 		keystone.callHook('pre:logger', req, res, next);
 	});
+
 	// Bind default logger (morgan)
 	if (keystone.get('logger')) {
 		var loggerOptions = keystone.get('logger options');
@@ -71,69 +59,65 @@ module.exports = function createApp (keystone, express) {
 			}
 		}
 
-		app.use(morgan(keystone.get('logger'), loggerOptions));
+		router.use(morgan(keystone.get('logger'), loggerOptions));
 	}
 	// Bind custom logging middleware
 	if (keystone.get('logging middleware')) {
-		app.use(keystone.get('logging middleware'));
+		router.use(keystone.get('logging middleware'));
 	}
 
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Dynamic Router
 	if (!keystone.get('headless')) {
-		app.use(function (req, res, next) {
+		router.use(function (req, res, next) {
 			keystone.callHook('pre:admin', req, res, next);
 		});
-		app.use('/' + keystone.get('admin path'), require('../admin/server').createDynamicRouter(keystone));
+		router.use('/' + keystone.get('admin path'), require('../admin/server').createDynamicRouter(keystone));
 	}
 
 	// Pre bodyparser middleware
 	if (typeof keystone.get('pre:bodyparser') === 'function') {
-		keystone.get('pre:bodyparser')(app);
+		keystone.get('pre:bodyparser')(router);
 	}
-	app.use(function (req, res, next) {
+	router.use(function (req, res, next) {
 		keystone.callHook('pre:bodyparser', req, res, next);
 	});
 
-	require('./bindBodyParser')(keystone, app);
-	app.use(methodOverride());
+	require('./bindBodyParser')(keystone, router);
+	router.use(methodOverride());
 
 	// Set language preferences
 	var languageOptions = keystone.get('language options') || {};
 	if (!languageOptions.disable) {
-		app.use(language(keystone));
+		router.use(language(keystone));
 	}
 
 	// Add 'X-Frame-Options' to response header for ClickJacking protection
 	if (keystone.get('frame guard')) {
-		app.use(require('../lib/security/frameGuard')(keystone));
+		router.use(require('../lib/security/frameGuard')(keystone));
 	}
 
 	// Pre route config
 	if (typeof keystone.get('pre:routes') === 'function') {
-		keystone.get('pre:routes')(app);
+		keystone.get('pre:routes')(router);
 	}
-	app.use(function (req, res, next) {
+	router.use(function (req, res, next) {
 		keystone.callHook('pre:routes', req, res, next);
 	});
 
-	// Configure application routes
-	if (typeof keystone.get('routes') === 'function') {
-		keystone.get('routes')(app);
+	// Configure supplied routes
+	if (typeof routesFunc === 'function') {
+		routesFunc(router);
 	}
 
-
-	require('./bindRedirectsHandler')(keystone, app);
+	require('./bindRedirectsHandler')(keystone, router);
 
 	// Error config
 	if (typeof keystone.get('pre:error') === 'function') {
-		keystone.get('pre:error')(app);
+		keystone.get('pre:error')(router);
 	}
-	app.use(function (req, res, next) {
+	router.use(function (req, res, next) {
 		keystone.callHook('pre:error', req, res, next);
 	});
-	require('./bindErrorHandlers')(keystone, app);
-
-	return app;
-
+	require('./bindErrorHandlers')(keystone, router);
 };
