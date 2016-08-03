@@ -32,7 +32,7 @@ export function loadItemData () {
 		});
 		const state = getState();
 		const list = state.lists.currentList;
-
+		// Load a specific item with the utils/List.js helper
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
 			// Once this async request has fired this callback, check that
 			// the point in memory referenced by thisLoadRef is the same point in memory
