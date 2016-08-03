@@ -60,7 +60,7 @@ file.updateItem(item, {
 		filename: 'xyz123.jpg',
 		size: '43233',
 		mimetype: 'image/jpeg',
-		path: '/public/uploads'
+		path: '/public/uploads',
 		originalname: 'photo.jpg',
 		url: '/uploads/xyz123.jpg',
 	}
