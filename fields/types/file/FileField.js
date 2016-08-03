@@ -4,9 +4,12 @@ import { Button, FormField, FormInput, FormNote } from 'elemental';
 import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
 
-const buildInitialState = () => ({
+let uploadInc = 0;
+
+const buildInitialState = (props) => ({
 	action: null,
 	removeExisting: false,
+	uploadFieldPath: `${props.path}-${++uploadInc}`,
 	userSelectedFile: null,
 });
 
@@ -17,10 +20,6 @@ module.exports = Field.create({
 		label: PropTypes.string,
 		note: PropTypes.string,
 		path: PropTypes.string.isRequired,
-		paths: PropTypes.shape({
-			action: PropTypes.string.isRequired,
-			upload: PropTypes.string.isRequired,
-		}).isRequired,
 		value: PropTypes.shape({
 			filename: PropTypes.string,
 			// TODO: these are present but not used in the UI,
@@ -32,7 +31,7 @@ module.exports = Field.create({
 		}),
 	},
 	getInitialState () {
-		return buildInitialState();
+		return buildInitialState(this.props);
 	},
 	shouldCollapse () {
 		return this.props.collapse && !this.hasExisting();
@@ -94,7 +93,7 @@ module.exports = Field.create({
 		this.setState(state);
 	},
 	undoRemove () {
-		this.setState(buildInitialState());
+		this.setState(buildInitialState(this.props));
 	},
 
 	// ==============================
@@ -151,6 +150,24 @@ module.exports = Field.create({
 			);
 		}
 	},
+	renderActionInput () {
+		// If the user has selected a file for uploading, we need to point at
+		// the upload field. If the file is being deleted, we submit that.
+		if (this.state.userSelectedFile || this.state.action) {
+			const value = this.state.userSelectedFile
+				? `upload:${this.state.uploadFieldPath}`
+				: (this.state.action === 'delete' ? 'remove' : '');
+			return (
+				<input
+					name={this.props.path}
+					type="hidden"
+					value={value}
+				/>
+			);
+		} else {
+			return null;
+		}
+	},
 	renderUI () {
 		const buttons = (
 			<div style={this.hasFile() ? { marginTop: '1em' } : null}>
@@ -169,15 +186,11 @@ module.exports = Field.create({
 							{this.hasFile() && this.renderFileNameAndOptionalMessage(true)}
 							{buttons}
 							<HiddenFileInput
-								name={this.props.paths.upload}
+								name={this.state.uploadFieldPath}
 								onChange={this.handleFileChange}
 								ref="fileInput"
 							/>
-							<input
-								name={this.props.paths.action}
-								type="hidden"
-								value={this.state.action}
-							/>
+							{this.renderActionInput()}
 						</div>
 					) : (
 						<div>
