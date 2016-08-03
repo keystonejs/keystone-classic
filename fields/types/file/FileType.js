@@ -62,7 +62,7 @@ file.prototype.upload = function (item, file, callback) {
  */
 file.prototype.reset = function (item) {
 	var value = {};
-	Object.keys(this.storageSchema).forEach(function (path) {
+	Object.keys(this.storage.schema).forEach(function (path) {
 		value[path] = null;
 	});
 	item.set(this.path, value);
@@ -100,8 +100,8 @@ file.prototype.isModified = function (item) {
 
 
 function validateInput (value) {
-	// undefined values are always valid
-	if (value === undefined || value === null) return true;
+	// undefined, null and empty values are always valid
+	if (value === undefined || value === null || value === '') return true;
 	// If a string is provided, check it is an upload or delete instruction
 	if (typeof value === 'string' && /^(upload\:)|(delete$)/.test(value)) return true;
 	// If the value is an object with a filename property, it is a stored value
