@@ -4,6 +4,11 @@ import webpack from 'webpack';
 let config = {
 	// admin ui bundle
 	admin: path.resolve(__dirname, './admin/client/index'),
+	// fields/filters bundle
+	fields: [
+		path.resolve(__dirname, './admin/client/fields'),
+		path.resolve(__dirname, './admin/client/filters')
+	],
 	// packages bundle
 	entry: {
 		packages: [
