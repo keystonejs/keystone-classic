@@ -1,0 +1,128 @@
+# File Field
+
+The File fields stores a file using Keystone Storage and a Storage Adapter (e.g. `FS`, `S3`, etc). You have to configure a `Storage` instance first then provide it in the options for the field, e.g.
+
+```js
+var storage = new keystone.Storage({
+	adapter: keystone.Storage.Adapters.FS,
+	fs: {
+		path: 'uploads',
+		publicPath: '/public/uploads/',
+	}
+});
+MyList.add({
+	file: { type: Types.File, storage: storage }
+});
+```
+
+The field stores a nested `Object` in the model. The nested schema is based on the schema provided by the Storage Adapter, which for the `FS` adapter defaults to:
+
+```js
+{
+	filename: String,
+	size: Number,
+	mimetype: String,
+	path: String,
+	originalname: String,
+	url: String,
+}
+```
+
+Different adapters may add additional paths to the field schema - see the documentation for the Adapter you're using for more information.
+
+## Options
+
+> TODO
+
+## Updates
+
+```js
+file.updateItem(item, data, files, ({ err }) => { /* done */ })
+```
+
+The update method requires an item, update data, files and a callback. `files` is optional unless a file is being uploaded.
+
+Update data must be an object containing a value with the field's path (can be nested or flattened). Uploaded files must be provided in the `files` argument (which is securely provided by Multer when processing requests) and referenced in the value of the field.
+
+The examples below are based on updating an item with the following List configuration:
+
+```js
+MyList.add({
+	file: { type: Types.File, storage: storage }
+});
+```
+
+### Update the field value
+
+```js
+file.updateItem(item, {
+	file: {
+		filename: 'xyz123.jpg',
+		size: '43233',
+		mimetype: 'image/jpeg',
+		path: '/public/uploads'
+		originalname: 'photo.jpg',
+		url: '/uploads/xyz123.jpg',
+	}
+});
+```
+
+### Upload a new file (result will be stored in the field)
+
+```js
+file.updateItem(item, {
+	// data object contains a reference to a path in the files object
+	file: 'upload:az12xy89',
+}, {
+	// files object contains file fields as processed by multer
+	az12xy89: {
+		originalname,
+		mimetype,
+		size,
+		path,
+	}
+});
+```
+
+### Remove the file
+
+To delete the stored file and reset the field value, provide the strong `"remove"`:
+
+```js
+{
+	file: 'remove',
+}
+```
+
+### Reset the field value
+
+To reset the field value _without_ deleting the stored file, provide an empty / `null` value:
+
+```js
+{
+	file: '',
+}
+```
+
+## Methods
+
+### `format`
+
+> TODO
+
+### `upload`
+
+> TODO
+
+### `remove`
+
+> TODO
+
+### `reset`
+
+> TODO
+
+
+## Filtering
+
+> TODO
