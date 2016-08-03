@@ -44,6 +44,7 @@ export function loadItemData () {
 			// and so we'll bail out of it early.
 			if (getState().item.loadingRef !== thisLoadRef) return;
 			if (err || !itemData) {
+				console.log('Error loading item data', err);
 				dispatch(dataLoadingError(err));
 			} else {
 				dispatch(dataLoaded(itemData));
