@@ -2,7 +2,9 @@ import path from 'path';
 import webpack from 'webpack';
 
 let config = {
+	// admin ui bundle
 	admin: path.resolve(__dirname, './admin/client/index'),
+	// packages bundle
 	entry: {
 		packages: [
 			'async',
@@ -35,7 +37,7 @@ let config = {
 		]
 	},
 	output: {
-		filename: '[name].js',
+		filename: '[name].bundle.js',
 		path: path.resolve(__dirname, './admin/public/js')
 	},
 	module: {
@@ -47,7 +49,7 @@ let config = {
 		new webpack.DefinePlugin({
 			ENV: JSON.stringify(process.env.NODE_ENV)
 		}),
-		new webpack.optimize.CommonsChunkPlugin('packages', 'packages.js')
+		new webpack.optimize.CommonsChunkPlugin('packages', 'packages.bundle.js')
 	]
 }
 
