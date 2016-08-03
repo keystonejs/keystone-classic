@@ -47,7 +47,7 @@ module.exports = function PasswordType(config) {
 					.getValue('@value', function (result) {
 						this.api.assert.equal(result.state, "success");
 						this.api.assert.equal(result.value, input.value);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],

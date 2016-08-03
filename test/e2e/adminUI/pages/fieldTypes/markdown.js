@@ -75,7 +75,7 @@ module.exports = function MarkdownType(config) {
 						.getValue('@value', function (result) {
 							this.api.assert.equal(result.state, "success");
 							this.api.assert.equal(result.value, input.md);
-						});
+						}.bind(this));
 				} else if (input.html !== undefined) {
 					this.api
 						.execute(function (selector) {

@@ -106,7 +106,7 @@ module.exports = Field.create({
 		}
 		const { value = {}, path } = this.props;
 		return (
-			<NestedFormField label={label}>
+			<NestedFormField label={label} data-field-location-path={path + '.' + fieldPath}>
 				<FormInput autoFocus={autoFocus} name={path + '.' + fieldPath} value={value[fieldPath]} onChange={this.makeChanger(fieldPath)} placeholder={label} />
 			</NestedFormField>
 		);
@@ -115,12 +115,12 @@ module.exports = Field.create({
 	renderSuburbState () {
 		const { value = {}, path } = this.props;
 		return (
-			<NestedFormField label="Suburb / State">
+			<NestedFormField label="Suburb / State" data-field-location-path={path + '.suburb_state'}>
 				<FormRow>
-					<FormField width="two-thirds">
+					<FormField width="two-thirds" data-field-location-path={path + '.suburb'}>
 						<FormInput name={path + '.suburb'} value={value.suburb} onChange={this.makeChanger('suburb')} placeholder="Suburb" />
 					</FormField>
-					<FormField width="one-third">
+					<FormField width="one-third" data-field-location-path={path + '.state'}>
 						<FormInput name={path + '.state'} value={value.state} onChange={this.makeChanger('state')} placeholder="State" />
 					</FormField>
 				</FormRow>
@@ -131,12 +131,12 @@ module.exports = Field.create({
 	renderPostcodeCountry () {
 		const { value = {}, path } = this.props;
 		return (
-			<NestedFormField label="Postcode / Country">
+			<NestedFormField label="Postcode / Country" data-field-location-path={path + '.postcode_country'}>
 				<FormRow>
-					<FormField width="one-third">
+					<FormField width="one-third" data-field-location-path={path + '.postcode'}>
 						<FormInput name={path + '.postcode'} value={value.postcode} onChange={this.makeChanger('postcode')} placeholder="Post Code" />
 					</FormField>
-					<FormField width="two-thirds">
+					<FormField width="two-thirds" data-field-location-path={path + '.country'}>
 						<FormInput name={path + '.country'} value={value.country} onChange={this.makeChanger('country')} placeholder="Country" />
 					</FormField>
 				</FormRow>
@@ -148,16 +148,16 @@ module.exports = Field.create({
 		if (this.state.collapsedFields.geo) {
 			return null;
 		}
-		const { value = {}, paths } = this.props;
+		const { value = {}, path, paths } = this.props;
 		const geo = value.geo || [];
 		return (
-			<NestedFormField label="Lat / Lng">
+			<NestedFormField label="Lat / Lng" data-field-location-path={path + '.geo'}>
 				<FormRow>
-					<FormField width="one-half">
-						<FormInput name={paths.geo} value={geo[1]} onChange={this.makeGeoChanger(1)} placeholder="Latitude" />
+					<FormField width="one-half" data-field-location-path="latitude">
+						<FormInput name={paths.geo + '[1]'} value={geo[1]} onChange={this.makeGeoChanger(1)} placeholder="Latitude" />
 					</FormField>
-					<FormField width="one-half">
-						<FormInput name={paths.geo} value={geo[0]} onChange={this.makeGeoChanger(0)} placeholder="Longitude" />
+					<FormField width="one-half" data-field-location-path="longitude">
+						<FormInput name={paths.geo + '[0]'} value={geo[0]} onChange={this.makeGeoChanger(0)} placeholder="Longitude" />
 					</FormField>
 				</FormRow>
 			</NestedFormField>
@@ -222,9 +222,9 @@ module.exports = Field.create({
 			: null;
 		/* eslint-enable */
 
-		const { label } = this.props;
+		const { label, path } = this.props;
 		return (
-			<div>
+			<div data-field-name={path} data-field-type="location">
 				<FormField label={label}>
 					{showMore}
 				</FormField>

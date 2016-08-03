@@ -4,21 +4,46 @@ var utils = require('../../../utils');
 // TODO resolve test issues
 
 module.exports = function BooleanType(config) {
-	var self = {
-		selector: '.field-type-boolean[for="' + config.fieldName + '"]',
+	return {
+		selector: '[data-field-name=' + config.fieldName + '][data-field-type=boolean]',
 		elements: {
 			button: 'button',
 			label: 'span',
 			value: 'label input[name="' + config.fieldName + '"]',
 		},
 		commands: [{
-			assertUI: function() {
+			assertUIVisible: function(args) {
 				this
 					.expect.element('@label').to.be.visible;
 				this
 					.expect.element('@label').text.to.equal(utils.titlecase(config.fieldName));
 				this
 					.expect.element('@button').to.be.visible;
+			},
+			assertUINotVisible: function(args) {
+				this
+					.expect.element('@label').to.not.be.visible;
+				this
+					.expect.element('@label').text.to.not.equal(utils.titlecase(config.fieldName));
+				this
+					.expect.element('@button').to.not.be.visible;
+			},
+			assertUIPresent: function(args) {
+				this
+					.expect.element('@label').to.be.present;
+				this
+					.expect.element('@label').text.to.equal(utils.titlecase(config.fieldName));
+				this
+					.expect.element('@button').to.be.present;
+			},
+			assertUINotPresent: function(args) {
+				this
+					.expect.element('@label').to.not.be.present;
+				this
+					.expect.element('@button').to.not.be.present;
+			},
+			assertUI: function(args) {
+				this.assertUIVisible(args)
 			},
 			fillInput: function(input) {
 				var self = this;
@@ -32,11 +57,9 @@ module.exports = function BooleanType(config) {
 				this
 					.getValue('@value', function(result) {
 						this.api.assert.equal(result.value, input.value);
-					});
+					}.bind(this));
 				return this;
 			},
 		}],
 	};
-
-	return self;
-}
+};
