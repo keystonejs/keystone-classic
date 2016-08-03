@@ -1,4 +1,4 @@
-import { css } from 'aphrodite';
+import { css } from 'aphrodite/no-important';
 
 const truthy = i => i;
 
