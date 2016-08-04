@@ -81,7 +81,7 @@ function Field (list, path, options) {
 	}
 
 	// Add the field to the schema
-	this.addToSchema();
+	this.addToSchema(this.list.schema);
 
 	// Add pre-save handler to the list if this field watches others
 	if (this.options.watch) {
@@ -239,9 +239,9 @@ definePrototypeGetters(Field, {
  * Default method to register the field on the List's Mongoose Schema.
  * Overridden by some fieldType Classes
  */
-Field.prototype.addToSchema = function () {
+Field.prototype.addToSchema = function (schema) {
 	var ops = (this._nativeType) ? _.defaults({ type: this._nativeType }, this.options) : this.options;
-	this.list.schema.path(this.path, ops);
+	schema.path(this.path, ops);
 	this.bindUnderscoreMethods();
 };
 
