@@ -81,6 +81,7 @@ list.prototype.addToSchema = function () {
 		}
 		// Tell the Field that it is nested, this changes the constructor slightly
 		options._isNested = true;
+		options._nestedSchema = itemSchema;
 		var nestedField = new options.type(field.list, path, options);
 		fields[path] = nestedField;
 	}
