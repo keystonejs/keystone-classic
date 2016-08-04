@@ -13,7 +13,14 @@ matrix:
     addons:
       sauce_connect: true
     script:
-      - npm run test-e2e-saucelabs
+      - npm run test-e2e-saucelabs-fields-only
+matrix:
+  include:
+    node_js: '6'
+    addons:
+      sauce_connect: true
+    script:
+      - npm run test-e2e-saucelabs-not-fields
 before_script:
 - npm run lint
 - sleep 15
