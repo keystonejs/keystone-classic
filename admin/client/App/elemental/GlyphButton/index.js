@@ -1,3 +1,5 @@
+/* eslint quote-props: ["error", "as-needed"] */
+
 import React, { PropTypes } from 'react';
 import { css, StyleSheet } from 'aphrodite/no-important';
 import Button from '../Button';
@@ -8,11 +10,6 @@ function GlyphButton ({ children, glyph, glyphColor, glyphSize, position, ...pro
 	const isLeft = position === 'left';
 	const isRight = position === 'right';
 
-	// determine if margin is necessary
-	const glyphStyles = {};
-	if (isLeft) glyphStyles.marginRight = '0.5em';
-	if (isRight) glyphStyles.marginLeft = '0.5em';
-
 	// prepare the icon
 	const icon = (
 		<Glyph
@@ -20,7 +17,6 @@ function GlyphButton ({ children, glyph, glyphColor, glyphSize, position, ...pro
 			color={glyphColor}
 			name={glyph}
 			size={glyphSize}
-			style={glyphStyles}
 		/>
 	);
 
@@ -50,8 +46,20 @@ GlyphButton.defaultProps = {
 const classes = StyleSheet.create({
 	glyph: {
 		display: 'inline-block',
-		marginTop: '-0.1em', // fix icon alignment
+		marginTop: '-0.125em', // fix icon alignment
 		verticalAlign: 'middle',
+
+		// add spacing
+		':first-child': {
+			marginRight: '0.5em',
+		},
+		':last-child': {
+			marginLeft: '0.5em',
+		},
+		':only-child': {
+			marginLeft: 0,
+			marginRight: 0,
+		},
 	},
 });
 
