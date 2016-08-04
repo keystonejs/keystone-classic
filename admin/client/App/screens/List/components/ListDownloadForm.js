@@ -2,7 +2,8 @@ import React from 'react';
 import assign from 'object-assign';
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
-import { Button, Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
+import { Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
+import HeaderButton from './HeaderButton';
 
 import { downloadItems } from '../actions';
 const FORMAT_OPTIONS = [
@@ -102,11 +103,13 @@ var ListDownloadForm = React.createClass({
 
 		return (
 			<InputGroup.Section className={this.props.className}>
-				<Button id="listHeaderDownloadButton" isActive={this.state.isOpen} onClick={() => this.togglePopout(!this.state.isOpen)}>
-					<span className={this.props.className + '__icon octicon octicon-cloud-download'} />
-					<span className={this.props.className + '__label'}>Download</span>
-					<span className="disclosure-arrow" />
-				</Button>
+				<HeaderButton
+					active={this.state.isOpen}
+					id="listHeaderDownloadButton"
+					glyph="cloud-download"
+					label="Download"
+					onClick={() => this.togglePopout(!this.state.isOpen)}
+				/>
 				<Popout isOpen={this.state.isOpen} onCancel={() => this.togglePopout(false)} relativeToID="listHeaderDownloadButton">
 					<Popout.Header title="Download" />
 					<Popout.Body scrollable>

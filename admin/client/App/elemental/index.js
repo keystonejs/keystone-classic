@@ -1,5 +1,6 @@
 module.exports = {
 	Button: require('./Button'),
+	DropdownButton: require('./DropdownButton'),
 	Form: require('./Form'),
 	FormField: require('./FormField'),
 	FormInput: require('./FormInput'),
