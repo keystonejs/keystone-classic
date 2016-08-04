@@ -32,6 +32,7 @@ export function loadItemData () {
 		});
 		const state = getState();
 		const list = state.lists.currentList;
+		const itemID = state.item.id;
 		// Load a specific item with the utils/List.js helper
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
 			// Once this async request has fired this callback, check that
@@ -42,7 +43,7 @@ export function loadItemData () {
 			// If it is not a reference the same point in memory however,
 			// this means that this request is NOT the latest fired request,
 			// and so we'll bail out of it early.
-			if (getState().item.loadingRef !== thisLoadRef) return;
+			if (getState().item.id !== itemID) return;
 			if (err || !itemData) {
 				console.log('Error loading item data', err);
 				dispatch(dataLoadingError(err));
