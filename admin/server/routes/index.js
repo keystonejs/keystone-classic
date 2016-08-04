@@ -17,10 +17,12 @@ module.exports = function IndexRoute (req, res) {
 		return _.pick(list, ['key', 'label', 'path']);
 	});
 
+	var backUrl = keystone.get('back url') || keystone.get('back url') === undefined ? keystone.get('back url') : '/';
+
 	var keystoneData = {
 		adminPath: '/' + keystone.get('admin path'),
 		appversion: keystone.get('appversion'),
-		backUrl: (_.isString(keystone.get('back url')) || _.isUndefined(keystone.get('back url'))) ? keystone.get('back url') : '/',
+		backUrl: backUrl,
 		brand: keystone.get('brand'),
 		csrf: { header: {} },
 		devMode: !!process.env.KEYSTONE_DEV,
