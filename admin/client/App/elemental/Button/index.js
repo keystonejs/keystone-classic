@@ -54,7 +54,10 @@ Button.propTypes = {
 	active: PropTypes.bool,
 	block: PropTypes.bool,
 	color: PropTypes.oneOf(BUTTON_COLORS),
-	component: PropTypes.element,
+	component: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.func,
+	]),
 	disabled: PropTypes.bool,
 	href: PropTypes.string,
 	size: PropTypes.oneOf(BUTTON_SIZES),

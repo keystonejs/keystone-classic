@@ -17,7 +17,10 @@ class FormNote extends Component {
 	}
 };
 FormNote.propTypes = {
-	component: PropTypes.node,
+	component: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.func,
+	]),
 };
 FormNote.defaultProps = {
 	component: 'div',

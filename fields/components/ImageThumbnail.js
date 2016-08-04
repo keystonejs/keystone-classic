@@ -32,7 +32,10 @@ function ImageThumbnail ({ children, className, component, mask, ...props }) {
 };
 
 ImageThumbnail.propTypes = {
-	component: PropTypes.oneOf(['a', 'button', 'div', 'span']),
+	component: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.func,
+	]),
 	mask: PropTypes.oneOf(['loading', 'remove', 'upload']),
 };
 ImageThumbnail.defaultProps = {

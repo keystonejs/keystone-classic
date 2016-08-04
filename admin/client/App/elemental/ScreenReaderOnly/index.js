@@ -1,18 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { StyleSheet } from 'aphrodite/no-important';
 import cssClassNames from '../../../utils/cssClassNames';
 
-function ScreenReaderOnly ({ component, className, ...props }) {
+function ScreenReaderOnly ({ className, ...props }) {
 	props.className = cssClassNames([classes.hidden], className);
 
-	return React.createElement(component, props);
-};
-
-ScreenReaderOnly.propTypes = {
-	component: PropTypes.node,
-};
-ScreenReaderOnly.defaultProps = {
-	component: 'span',
+	return <span {...props} />;
 };
 
 const classes = StyleSheet.create({
