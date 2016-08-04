@@ -112,6 +112,7 @@
     "react-addons-test-utils": "^15.3.0",
     "react-engine": "4.0.1",
     "rimraf": "2.5.4",
+    "selenium-server-standalone-jar": "^2.53.1",
     "sinon": "1.17.5",
     "superagent": "1.8.3",
     "supertest": "1.2.0",
