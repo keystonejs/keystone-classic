@@ -11,14 +11,12 @@ import { NETWORK_ERROR_RETRY_DELAY } from '../../../../constants';
 
 export function loadItems (options = {}) {
 	return (dispatch, getState) => {
-		// Crete an empty object to reference a point in memory.
-		// Dispatch this reference to our redux store to hold on to as a 'loadingRef'.
-		const thisLoadRef = {};
 		dispatch({
 			type: LOAD_ITEMS,
-			loadingRef: thisLoadRef,
 		});
+		// Take a snapshot of the current redux state.
 		const state = getState();
+		// Hold a reference to the currentList in state.
 		const currentList = state.lists.currentList;
 
 		currentList.loadItems({
@@ -28,17 +26,12 @@ export function loadItems (options = {}) {
 			columns: state.active.columns,
 			page: state.lists.page,
 		}, (err, items) => {
-
-			// Once this async request has fired this callback, check that
-			// the point in memory referenced by thisLoadRef is the same point in memory
-			// referenced by loadingRef in the redux store.
-
-			// If it is, then this is the latest request, and it is safe to resolve it normally.
-			// If it is not a reference the same point in memory however,
-			// this means that this request is NOT the latest fired request,
-			// and so we'll bail out of it early.
-
-			if (getState().lists.loadingRef !== thisLoadRef) return;
+			// Create a new state snapshot and compare the current active list id
+			// to the id of the currentList referenced above.
+			// If they are the same, then this is the latest fetch request, we may resolve this normally.
+			// If these are not the same, then it means that this is not the latest fetch request.
+			// BAIL OUT!
+			if (getState().active.id !== currentList.id) return;
 			if (items) {
 				// if (page.index !== drag.page && drag.item) {
 				// 	// add the dragging item

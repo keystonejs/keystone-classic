@@ -98,7 +98,7 @@ function lists (state = initialState, action) {
 			return assign({}, state, {
 				loading,
 				ready,
-				loadingRef: action.loadingRef,
+				// loadingRef: action.loadingRef,
 			});
 		case ITEMS_LOADED:
 			// Cache the items in state.data so we can show the already existing

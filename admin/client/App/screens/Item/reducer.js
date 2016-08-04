@@ -13,7 +13,6 @@ const initialState = {
 	data: null,
 	id: null,
 	loading: false,
-	loadingRef: null,
 	ready: false,
 	error: null,
 };
@@ -29,7 +28,6 @@ function item (state = initialState, action) {
 		case LOAD_DATA:
 			return assign({}, state, {
 				loading: true,
-				loadingRef: action.loadingRef,
 			});
 		case DATA_LOADING_SUCCESS:
 			return assign({}, state, {

@@ -14,7 +14,6 @@ describe('<Item /> reducer', () => {
 			id: null,
 			loading: false,
 			ready: false,
-			loadingRef: null,
 			error: null,
 		});
 	});

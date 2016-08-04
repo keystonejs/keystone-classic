@@ -23,29 +23,30 @@ export function selectItem (itemId) {
  */
 export function loadItemData () {
 	return (dispatch, getState) => {
-		// Crete an empty object to reference a point in memory.
+		// Hold on to the id of the item we currently want to load.
 		// Dispatch this reference to our redux store to hold on to as a 'loadingRef'.
-		const thisLoadRef = {};
+		const currentItemID = getState().item.id;
 		dispatch({
 			type: LOAD_DATA,
-			loadingRef: thisLoadRef,
+			// loadingRef: thisLoadRef,
 		});
 		const state = getState();
 		const list = state.lists.currentList;
-		const itemID = state.item.id;
+
+		// const itemID = state.item.id;
 		// Load a specific item with the utils/List.js helper
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
 			// Once this async request has fired this callback, check that
-			// the point in memory referenced by thisLoadRef is the same point in memory
+			// the item id referenced by thisLoadRef is the same id
 			// referenced by loadingRef in the redux store.
 
 			// If it is, then this is the latest request, and it is safe to resolve it normally.
-			// If it is not a reference the same point in memory however,
+			// If it is not the same id however,
 			// this means that this request is NOT the latest fired request,
 			// and so we'll bail out of it early.
-			if (getState().item.id !== itemID) return;
+
+			if (getState().item.id !== currentItemID) return;
 			if (err || !itemData) {
-				console.log('Error loading item data', err);
 				dispatch(dataLoadingError(err));
 			} else {
 				dispatch(dataLoaded(itemData));
