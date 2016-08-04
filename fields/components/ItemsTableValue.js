@@ -17,7 +17,7 @@ function ItemsTableValue ({
 }) {
 	// TODO remove in the next release
 	if (href) {
-		console.warn('Warning: `href` will be deprecated in the next release, use `to`.');
+		console.warn('ItemsTableValue: `href` will be deprecated in the next release, use `to`.');
 	}
 	const linkRef = to || href;
 	const Component = linkRef ? Link : component;
