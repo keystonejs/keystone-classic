@@ -9,7 +9,7 @@
   "globals_path": "test/e2e/globals.js",
   "selenium": {
     "start_process": true,
-    "server_path": "test/e2e/bin/selenium-server-standalone-2.53.1.jar",
+    "server_path": "${SELENIUM_SERVER}",
     "log_path": "",
     "host": "127.0.0.1",
     "port": 4444,
