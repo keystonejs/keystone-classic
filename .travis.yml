@@ -5,7 +5,15 @@ node_js:
 - '5'
 - '6'
 env:
-- KEYSTONE_PREBUILD_ADMIN=true
+  global:
+    - KEYSTONE_PREBUILD_ADMIN=true
+matrix:
+  include:
+    node_js: '6'
+    addons:
+      sauce_connect: true
+    script:
+      - npm run test-e2e-saucelabs
 before_script:
 - npm run lint
 - sleep 15
