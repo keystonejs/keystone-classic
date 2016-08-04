@@ -70,12 +70,11 @@ cloudinaryimage.prototype.getFolder = function () {
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-cloudinaryimage.prototype.addToSchema = function () {
+cloudinaryimage.prototype.addToSchema = function (schema) {
 
 	var cloudinary = require('cloudinary');
 
 	var field = this;
-	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// cloudinary fields

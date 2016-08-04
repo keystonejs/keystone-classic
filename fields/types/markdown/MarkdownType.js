@@ -34,9 +34,7 @@ markdown.prototype.validateRequiredInput = TextType.prototype.validateRequiredIn
  * Adds String properties for .md and .html markdown, and a setter for .md
  * that generates html when it is updated.
  */
-markdown.prototype.addToSchema = function () {
-
-	var schema = this.list.schema;
+markdown.prototype.addToSchema = function (schema) {
 
 	var paths = this.paths = {
 		md: this._path.append('.md'),

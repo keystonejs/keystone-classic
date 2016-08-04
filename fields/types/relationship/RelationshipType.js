@@ -67,9 +67,8 @@ relationship.prototype.getExpandedData = function (item) {
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-relationship.prototype.addToSchema = function () {
+relationship.prototype.addToSchema = function (schema) {
 	var field = this;
-	var schema = this.list.schema;
 	var def = {
 		type: this._nativeType,
 		ref: this.options.ref,

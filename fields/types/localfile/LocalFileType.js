@@ -63,10 +63,9 @@ util.inherits(localfile, FieldType);
  *
  * @api public
  */
-localfile.prototype.addToSchema = function () {
+localfile.prototype.addToSchema = function (schema) {
 
 	var field = this;
-	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// fields

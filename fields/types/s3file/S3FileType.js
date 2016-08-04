@@ -73,11 +73,10 @@ Object.defineProperty(s3file.prototype, 's3config', {
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-s3file.prototype.addToSchema = function () {
+s3file.prototype.addToSchema = function (schema) {
 
 	var knox = require('knox');
 	var field = this;
-	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// fields
