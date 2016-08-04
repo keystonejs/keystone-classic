@@ -45,8 +45,6 @@ exports.common = {
 	// ----------------
 	block: {
 		display: 'block',
-		paddingLeft: 0,
-		paddingRight: 0,
 		width: '100%',
 	},
 	// Disabled
