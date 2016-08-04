@@ -20,7 +20,7 @@ module.exports = function IndexRoute (req, res) {
 	var keystoneData = {
 		adminPath: '/' + keystone.get('admin path'),
 		appversion: keystone.get('appversion'),
-		backUrl: keystone.get('back url') || '/',
+		backUrl: (_.isString(keystone.get('back url')) || _.isUndefined(keystone.get('back url'))) ? keystone.get('back url') : '/',
 		brand: keystone.get('brand'),
 		csrf: { header: {} },
 		devMode: !!process.env.KEYSTONE_DEV,
