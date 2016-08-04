@@ -14,7 +14,6 @@ matrix:
       sauce_connect: true
     script:
       - npm run test-e2e-saucelabs-fields-only
-matrix:
   include:
     node_js: '6'
     addons:
