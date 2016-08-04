@@ -9,6 +9,9 @@ var mongoose = require('mongoose');
 var Nightwatch = require('nightwatch/lib/index.js');
 var child_process = require('child_process');
 var path = require('path');
+var selenium = require('selenium-server-standalone-jar');
+
+process.env['SELENIUM_SERVER'] = selenium.path;
 
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
 var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
