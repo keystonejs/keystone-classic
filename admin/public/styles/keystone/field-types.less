@@ -24,39 +24,11 @@
 // Colour
 // ------------------------------
 
-.field-type-color__wrapper {
-	position: relative;
-}
-.field-type-color__popover {
-	margin-top: 10px;
-	position: absolute;
-	right: 0;
-	z-index: 2;
-}
-.field-type-color__popover__cover {
-	bottom: 0;
-	left: 0;
-	position: fixed;
-	right: 0;
-	top: 0;
-	z-index: 1;
-}
-.field-type-color__button {
-	padding: 4px;
-	width: @component-height;
-}
-.field-type-color__swatch {
-	border-radius: 1px;
-	box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
-	display: block;
-	height: 100%;
-	width: 100%;
-}
-
+// NOTE
 // fix sizing issues with https://github.com/casesandberg/react-color
 // component doesn't play nice with border-box
 
-.field-type-color__popover {
+.e2e-type-color__popover {
 	div,
 	input,
 	span {

@@ -1,5 +1,6 @@
 import Field from '../Field';
 import React from 'react';
+import { FormInput } from 'elemental';
 
 module.exports = Field.create({
 	displayName: 'TextareaField',
@@ -7,9 +8,22 @@ module.exports = Field.create({
 		type: 'Textarea',
 	},
 	renderField () {
-		var styles = {
-			height: this.props.height,
+		const { height, path, style, value } = this.props;
+
+		const styles = {
+			height: height,
+			...style,
 		};
-		return <textarea name={this.props.path} styles={styles} ref="focusTarget" value={this.props.value} onChange={this.valueChanged} autoComplete="off" className="FormInput" />;
+		return (
+			<FormInput
+				autoComplete="off"
+				multiline
+				name={path}
+				onChange={this.valueChanged}
+				ref="focusTarget"
+				style={styles}
+				value={value}
+			/>
+		);
 	},
 });

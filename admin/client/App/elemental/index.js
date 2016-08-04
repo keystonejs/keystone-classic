@@ -5,4 +5,7 @@ module.exports = {
 	FormInput: require('./FormInput'),
 	FormLabel: require('./FormLabel'),
 	FormNote: require('./FormNote'),
+	LoadingButton: require('./LoadingButton'),
+	ScreenReaderOnly: require('./ScreenReaderOnly'),
+	Spinner: require('./Spinner'),
 };

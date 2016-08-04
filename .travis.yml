@@ -12,6 +12,7 @@ before_script:
 script:
 - npm run test-cov
 - npm run test-admin
+- npm run test-e2e-saucelabs
 sudo: required
 notifications:
   email:
@@ -31,3 +32,5 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
+  sauce_connect: true
+  

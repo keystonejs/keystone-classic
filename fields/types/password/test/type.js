@@ -4,6 +4,44 @@ var PasswordType = require('../PasswordType');
 exports.initList = function (List) {
 	List.add({
 		password: PasswordType,
+		minChar: {
+			type: PasswordType,
+			min: 6,
+		},
+		digitChar: {
+			type: PasswordType,
+			complexity: {
+				digitChar: true,
+			},
+		},
+
+		spChar: {
+			type: PasswordType,
+			complexity: {
+				spChar: true,
+			},
+		},
+
+		asciiChar: {
+			type: PasswordType,
+			complexity: {
+				asciiChar: true,
+			},
+		},
+
+		lowChar: {
+			type: PasswordType,
+			complexity: {
+				lowChar: true,
+			},
+		},
+
+		upperChar: {
+			type: PasswordType,
+			complexity: {
+				upperChar: true,
+			},
+		},
 	});
 };
 
@@ -165,6 +203,51 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate password with at least one digit when digits are required', function (done) {
+			List.fields.digitChar.validateInput({
+				digitChar: 'digits123',
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate password with at least one special char when spchars are required', function (done) {
+			List.fields.spChar.validateInput({
+				spChar: 'specialchars!&',
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate password with ASCII chars only when ASCII only is required', function (done) {
+			List.fields.asciiChar.validateInput({
+				asciiChar: 'asciionly',
+			}, function (result, detail) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate password with at least one lowercase char when lowercase is required', function (done) {
+			List.fields.lowChar.validateInput({
+				lowChar: 'lowercase123',
+			}, function (result, detail) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate password with at least one uppercase char when uppercase is required', function (done) {
+			List.fields.upperChar.validateInput({
+				upperChar: 'UpperCase',
+			}, function (result, detail) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
 		it('should invalidate mismatching values', function (done) {
 			List.fields.password.validateInput({
 				password: 'something',
@@ -224,6 +307,66 @@ exports.testFieldType = function (List) {
 				done();
 			});
 		});
+
+		it('should invalidate password shorter than min characters', function (done) {
+			List.fields.minChar.validateInput({
+				minChar: '1234',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate password with no digits when digits are required', function (done) {
+			List.fields.digitChar.validateInput({
+				digitChar: 'nodigits',
+			}, function (result, detail) {
+				demand(result).be.false();
+				demand(detail).be('enter at least one digit\n');
+				done();
+			});
+		});
+
+		it('should invalidate password with no special characters when spchars are required', function (done) {
+			List.fields.spChar.validateInput({
+				spChar: 'nospecialchars',
+			}, function (result, detail) {
+				demand(result).be.false();
+				demand(detail).be('enter at least one special character\n');
+				done();
+			});
+		});
+
+		it('should invalidate password with non-ASCII chars when ASCII is required', function (done) {
+			List.fields.asciiChar.validateInput({
+				asciiChar: 'םגפשבך',
+			}, function (result, detail) {
+				demand(result).be.false();
+				demand(detail).be('only ASCII characters are allowed\n');
+				done();
+			});
+		});
+
+		it('should invalidate password with no lowercase chars when lowercase is required', function (done) {
+			List.fields.lowChar.validateInput({
+				lowChar: 'NOLOWERCASE',
+			}, function (result, detail) {
+				demand(result).be.false();
+				demand(detail).be('use at least one lower case character\n');
+				done();
+			});
+		});
+
+		it('should invalidate password with no uppercase chars when uppercase is required', function (done) {
+			List.fields.upperChar.validateInput({
+				upperChar: 'nouppercase',
+			}, function (result, detail) {
+				demand(result).be.false();
+				demand(detail).be('use at least one upper case character\n');
+				done();
+			});
+		});
+
 	});
 
 	describe('validateRequiredInput', function () {
@@ -373,6 +516,39 @@ exports.testFieldType = function (List) {
 				exists: false,
 			});
 			demand(result.password).be.null();
+		});
+	});
+
+	describe('invalid complexity options', function () {
+		it('should throw an error when non-existing complexity options are passed', function (done) {
+			try {
+				List.add({
+					doesntExist: {
+						type: PasswordType,
+						complexity: {
+							doesntExist: true,
+						},
+					},
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.Password: options.complexity - option does not exist.');
+				done();
+			}
+		});
+		it('should throw an error when a non-boolean value is passed for complexity options', function (done) {
+			try {
+				List.add({
+					doesntExist: {
+						type: PasswordType,
+						complexity: {
+							spChar: 'squirrel',
+						},
+					},
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.Password: options.complexity - Value must be boolean.');
+				done();
+			}
 		});
 	});
 };

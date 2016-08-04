@@ -1,4 +1,4 @@
-import { StyleSheet, css } from 'aphrodite';
+import { StyleSheet, css } from 'aphrodite/no-important';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';

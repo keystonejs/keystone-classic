@@ -122,6 +122,46 @@ module.exports = {
 			});
 			return tasks;
 		},
+		assertUIVisible: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field].assertUIVisible(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
+		assertUINotVisible: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field].assertUINotVisible(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
+		assertUIPresent: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field].assertUIPresent(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
+		assertUINotPresent: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field].assertUINotPresent(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
 		cancel: function (config) {
 			return this.section.form
 				.click('@cancelButton');

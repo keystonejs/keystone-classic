@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, css } from 'aphrodite';
+import { StyleSheet, css } from 'aphrodite/no-important';
 import styles from './styles';
 
 const classes = StyleSheet.create(styles);

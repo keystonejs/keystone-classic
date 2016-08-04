@@ -1,465 +1,298 @@
-import xhr from 'xhr';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Field from '../Field';
-import Select from 'react-select';
-import { Button, FormField, FormInput, FormNote } from 'elemental';
+import { FormField, FormInput, FormNote } from 'elemental';
+import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
+import { Button } from '../../../admin/client/App/elemental';
+
 import ImageThumbnail from '../../components/ImageThumbnail';
+import FileChangeMessage from '../../components/FileChangeMessage';
+import HiddenFileInput from '../../components/HiddenFileInput';
 import Lightbox from '../../components/Lightbox';
-import classnames from 'classnames';
 
+const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
 
-const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
-
-const iconClassUploadPending = [
-	'upload-pending',
-	'mega-octicon',
-	'octicon-cloud-upload',
-];
-
-const iconClassDeletePending = [
-	'delete-pending',
-	'mega-octicon',
-	'octicon-x',
-];
+const buildInitialState = () => ({
+	action: '',
+	removeExisting: false,
+	userSelectedFile: null,
+});
 
 module.exports = Field.create({
-
+	propTypes: {
+		collapse: PropTypes.bool,
+		label: PropTypes.string,
+		note: PropTypes.string,
+		path: PropTypes.string.isRequired,
+		paths: PropTypes.shape({
+			action: PropTypes.string.isRequired,
+			upload: PropTypes.string.isRequired,
+		}).isRequired,
+		value: PropTypes.shape({
+			format: PropTypes.string,
+			height: PropTypes.number,
+			public_id: PropTypes.string,
+			resource_type: PropTypes.string,
+			secure_url: PropTypes.string,
+			signature: PropTypes.string,
+			url: PropTypes.string,
+			version: PropTypes.number,
+			width: PropTypes.number,
+		}),
+	},
 	displayName: 'CloudinaryImageField',
 	statics: {
 		type: 'CloudinaryImage',
 	},
+	getInitialState () {
+		return buildInitialState();
+	},
 
+	// ==============================
+	// HELPERS
+	// ==============================
+
+	hasLocal () {
+		return !!this.state.userSelectedFile;
+	},
+	hasExisting () {
+		return !!this.props.value.url;
+	},
+	hasImage () {
+		return this.hasExisting() || this.hasLocal();
+	},
+	getFilename () {
+		const { format, height, public_id, width } = this.props.value;
+
+		return this.state.userSelectedFile
+			? this.state.userSelectedFile.name
+			: `${public_id}.${format} (${width}×${height})`;
+	},
+	getImageSource (height = 90) {
+		let src;
+		if (this.hasLocal()) {
+			src = this.state.dataUri;
+		} else if (this.hasExisting()) {
+			src = cloudinaryResize(this.props.value.public_id, {
+				crop: 'fit',
+				height: height,
+				format: 'jpg',
+			});
+		}
+
+		return src;
+	},
+
+	// ==============================
+	// METHODS
+	// ==============================
+
+	triggerFileBrowser () {
+		this.refs.fileInput.clickDomNode();
+	},
+	handleFileChange (event) {
+		const userSelectedFile = event.target.files[0];
+
+		this.setState({ userSelectedFile });
+	},
+
+	// Toggle the lightbox
 	openLightbox (index) {
 		event.preventDefault();
 		this.setState({
 			lightboxIsVisible: true,
-			lightboxImageIndex: index,
 		});
 	},
-
 	closeLightbox () {
 		this.setState({
 			lightboxIsVisible: false,
-			lightboxImageIndex: null,
 		});
 	},
+
+	// Handle image selection in file browser
+	handleImageChange (e) {
+		if (!window.FileReader) {
+			return alert('File reader not supported by browser.');
+		}
+
+		var reader = new FileReader();
+		var file = e.target.files[0];
+		if (!file) return;
+
+		reader.readAsDataURL(file);
+
+		reader.onloadstart = () => {
+			this.setState({
+				loading: true,
+			});
+		};
+		reader.onloadend = (upload) => {
+			this.setState({
+				dataUri: upload.target.result,
+				loading: false,
+				userSelectedFile: file,
+			});
+			this.props.onChange({ file: file });
+		};
+	},
+
+	// If we have a local file added then remove it and reset the file field.
+	handleRemove (e) {
+		var state = {};
+
+		if (this.state.userSelectedFile) {
+			state.userSelectedFile = null;
+		} else if (this.hasExisting()) {
+			state.removeExisting = true;
+			state.action = 'reset';
+		}
+
+		this.setState(state);
+	},
+	undoRemove () {
+		this.setState(buildInitialState());
+	},
+
+	// ==============================
+	// RENDERERS
+	// ==============================
 
 	renderLightbox () {
 		const { value } = this.props;
 		if (!value || !Object.keys(value).length) return;
 
-		const images = [value.url];
-
 		return (
 			<Lightbox
-				images={images}
-				initialImage={this.state.lightboxImageIndex}
+				images={[this.getImageSource(600)]}
+				initialImage={0}
 				isOpen={this.state.lightboxIsVisible}
 				onCancel={this.closeLightbox}
 			/>
 		);
 	},
-
-	fileFieldNode () {
-		return this.refs.fileField;
-	},
-
-	changeImage () {
-		this.fileFieldNode().click();
-	},
-
-	getImageSource () {
-		if (this.hasLocal()) {
-			return this.state.localSource;
-		} else if (this.hasExisting()) {
-			return this.props.value.url;
-		} else {
-			return null;
-		}
-	},
-
-	getImageURL () {
-		if (!this.hasLocal() && this.hasExisting()) {
-			return this.props.value.url;
-		}
-	},
-
-	/**
-	 * Reset origin and removal.
-	 */
-	undoRemove () {
-		this.fileFieldNode().value = '';
-		this.setState({
-			removeExisting: false,
-			localSource: null,
-			origin: false,
-			action: null,
-		});
-	},
-
-	/**
-	 * Check support for input files on input change.
-	 */
-	fileChanged (event) {
-		var self = this;
-
-		if (window.FileReader) {
-			var files = event.target.files;
-			Array.prototype.forEach.call(files, function (f) {
-				if (SUPPORTED_TYPES.indexOf(f.type) === -1) {
-					self.removeImage();
-					alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
-					return false;
-				}
-
-				var fileReader = new FileReader();
-				fileReader.onload = function (e) {
-					if (!self.isMounted()) return;
-					self.setState({
-						localSource: e.target.result,
-						origin: 'local',
-					});
-				};
-				fileReader.readAsDataURL(f);
-			});
-		} else {
-			this.setState({
-				origin: 'local',
-			});
-		}
-	},
-
-	/**
-	 * If we have a local file added then remove it and reset the file field.
-	 */
-	removeImage  (e) {
-		var state = {
-			localSource: null,
-			origin: false,
-		};
-
-		if (this.hasLocal()) {
-			this.fileFieldNode().value = '';
-		} else if (this.hasExisting()) {
-			state.removeExisting = true;
-
-			if (this.props.autoCleanup) {
-				if (e.altKey) {
-					state.action = 'reset';
-				} else {
-					state.action = 'delete';
-				}
-			} else {
-				if (e.altKey) {
-					state.action = 'delete';
-				} else {
-					state.action = 'reset';
-				}
-			}
-		}
-
-		this.setState(state);
-	},
-
-	/**
-	 * Is the currently active image uploaded in this session?
-	 */
-	hasLocal () {
-		return this.state.origin === 'local';
-	},
-
-	/**
-	 * Do we have an image preview to display?
-	 */
-	hasImage () {
-		return this.hasExisting() || this.hasLocal();
-	},
-
-	/**
-	 * Do we have an existing file?
-	 */
-	hasExisting () {
-		return !!this.props.value.url;
-	},
-
-	/**
-	 * Apply Cloudinary transforms to url
-	 */
-	applyTransforms (url) {
-		var format = this.props.value.format;
-
-		if (format === 'pdf') {
-			// support cloudinary pdf previews in jpg format
-			url = url.substr(0, url.lastIndexOf('.')) + '.jpg';
-			url = url.replace(/image\/upload/, 'image/upload/c_thumb,h_90,w_90');
-		} else {
-			// add cloudinary thumbnail parameters to the url
-			url = url.replace(/image\/upload/, 'image/upload/c_thumb,g_face,h_90,w_90');
-		}
-
-		return url;
-	},
-
-	/**
-	 * Render an image preview
-	 */
 	renderImagePreview () {
-		var iconClassName;
-		var className = ['image-preview'];
+		const { value } = this.props;
 
-		if (this.hasLocal()) {
-			iconClassName = classnames(iconClassUploadPending);
-		} else if (this.state.removeExisting) {
-			className.push(' removed');
-			iconClassName = classnames(iconClassDeletePending);
-		}
-		className = classnames(className);
+		// render icon feedback for intent
+		let mask;
+		if (this.hasLocal()) mask = 'upload';
+		else if (this.state.removeExisting) mask = 'remove';
+		else if (this.state.loading) mask = 'loading';
 
-		var body = [this.renderImagePreviewThumbnail()];
-		if (iconClassName) body.push(<div key={this.props.path + '_preview_icon'} className={iconClassName} />);
-
-		var url = this.getImageURL();
-		var format = this.props.value.format;
-
-		if (format === 'pdf') {
-			body = <ImageThumbnail component="a" href={this.getImageURL()} target="__blank">{body}</ImageThumbnail>;
-		} else if (url) {
-			body = <ImageThumbnail component="a" href={this.getImageURL()} onClick={this.openLightbox.bind(this, 0)} target="__blank">{body}</ImageThumbnail>;
-		} else {
-			body = <ImageThumbnail component="div">{body}</ImageThumbnail>;
-		}
-
-		return <div key={this.props.path + '_preview'} className={className}>{body}</div>;
-	},
-
-	renderImagePreviewThumbnail () {
-		var url = this.getImageURL();
-
-		if (url) {
-			url = this.applyTransforms(url);
-		} else {
-			url = this.getImageSource();
-		}
-
-		return <img key={this.props.path + '_preview_thumbnail'} className="img-load" style={{ height: '90' }} src={url} />;
-	},
-
-	/**
-	 * Render image details - leave these out if we're uploading a local file or
-	 * the existing file is to be removed.
-	 */
-	renderImageDetails  (add) {
-		var values = null;
-
-		if (!this.hasLocal() && !this.state.removeExisting) {
-			values = (
-				<div className="image-values">
-					<FormInput noedit>{this.props.value.url}</FormInput>
-					{/*
-						TODO: move this somewhere better when appropriate
-						this.renderImageDimensions()
-					*/}
-				</div>
-			);
-		}
+		const url = this.getImageSource();
+		const shouldOpenLightbox = value.format !== 'pdf';
 
 		return (
-			<div key={this.props.path + '_details'} className="image-details">
-				{values}
-				{add}
+			<ImageThumbnail
+				component="a"
+				href={url}
+				onClick={shouldOpenLightbox && this.openLightbox}
+				mask={mask}
+				target="__blank"
+				style={{ float: 'left', marginRight: '1em' }}
+			>
+				<img src={url} style={{ height: 90 }} />
+			</ImageThumbnail>
+		);
+	},
+	renderFileNameAndOptionalMessage (showChangeMessage = false) {
+		return (
+			<div>
+				{this.hasImage() ? (
+					<FileChangeMessage>
+						{this.getFilename()}
+					</FileChangeMessage>
+				) : null}
+				{showChangeMessage && this.renderChangeMessage()}
 			</div>
 		);
 	},
-
-	renderImageDimensions () {
-		return <FormInput noedit>{this.props.value.width} x {this.props.value.height}</FormInput>;
-	},
-
-	/**
-	 * Render an alert.
-	 *
-	 *  - On a local file, output a "to be uploaded" message.
-	 *  - On a cloudinary file, output a "from cloudinary" message.
-	 *  - On removal of existing file, output a "save to remove" message.
-	 */
-	renderAlert () {
-		if (this.hasLocal()) {
+	renderChangeMessage () {
+		if (this.state.userSelectedFile) {
 			return (
-				<FormInput noedit>Image selected - save to upload</FormInput>
+				<FileChangeMessage type="success">
+					Save to Upload
+				</FileChangeMessage>
 			);
 		} else if (this.state.origin === 'cloudinary') {
 			return (
-				<FormInput noedit>Image selected from Cloudinary</FormInput>
+				<FileChangeMessage type="success">
+					Selected from Cloudinary
+				</FileChangeMessage>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<FormInput noedit>Image {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</FormInput>
+				<FileChangeMessage type="danger">
+					Save to Remove
+				</FileChangeMessage>
 			);
 		} else {
 			return null;
 		}
 	},
 
-	/**
-	 * Output clear/delete/remove button.
-	 *
-	 *  - On removal of existing image, output "undo remove" button.
-	 *  - Otherwise output Cancel/Delete image button.
-	 */
+	// Output [cancel/remove/undo] button
 	renderClearButton () {
-		if (this.state.removeExisting) {
-			return (
-				<Button type="link" onClick={this.undoRemove}>
-					Undo Remove
-				</Button>
-			);
-		} else {
-			var clearText;
-			if (this.hasLocal()) {
-				clearText = 'Cancel';
-			} else {
-				clearText = (this.props.autoCleanup ? 'Delete Image' : 'Remove Image');
-			}
-			return (
-				<Button type="link-cancel" onClick={this.removeImage}>
-					{clearText}
-				</Button>
-			);
-		}
-	},
+		const clearText = this.hasLocal() ? 'Cancel' : 'Remove Image';
 
-	renderFileField () {
-		return <input ref="fileField" type="file" name={this.props.paths.upload} className="field-upload" onChange={this.fileChanged} tabIndex="-1" />;
-	},
-
-	renderFileAction () {
-		return <input type="hidden" name={this.props.paths.action} className="field-action" value={this.state.action} />;
+		return this.state.removeExisting ? (
+			<Button variant="link" onClick={this.undoRemove}>
+				Undo Remove
+			</Button>
+		) : (
+			<Button variant="link" color="cancel" onClick={this.handleRemove}>
+				{clearText}
+			</Button>
+		);
 	},
 
 	renderImageToolbar () {
 		return (
 			<div key={this.props.path + '_toolbar'} className="image-toolbar">
-				<div className="u-float-left">
-					<Button onClick={this.changeImage}>
-						{this.hasImage() ? 'Change' : 'Upload'} Image
-					</Button>
-					{this.hasImage() && this.renderClearButton()}
-				</div>
-				{this.props.select && this.renderImageSelect()}
+				<Button onClick={this.triggerFileBrowser}>
+					{this.hasImage() ? 'Change' : 'Upload'} Image
+				</Button>
+				{this.hasImage() && this.renderClearButton()}
 			</div>
 		);
-	},
-
-	renderImageSelect () {
-		var selectPrefix = this.props.selectPrefix;
-		var self = this;
-		var getOptions = function (input, callback) {
-
-			// build our url, accounting for selectPrefix
-			var uri = Keystone.adminPath + '/api/cloudinary/autocomplete';
-			if (selectPrefix) {
-				uri = uri + '?prefix=' + selectPrefix;
-			}
-
-			// make the request
-			xhr({
-				body: JSON.stringify({
-					q: input,
-				}),
-				uri: uri,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			}, function (err, resp, body) {
-
-				// callback with err
-				if (err) {
-					callback(null, {
-						options: [],
-						complete: false,
-					});
-					return;
-				}
-
-				// try and parse the response
-				try {
-					var data = JSON.parse(body);
-					var options = [];
-
-					data.items.forEach(function (item) {
-						options.push({
-							value: item.public_id,
-							label: item.public_id,
-						});
-					});
-					callback(null, {
-						options: options,
-						complete: true,
-					});
-				} catch (e) {
-					callback(null, {
-						options: [],
-						complete: false,
-					});
-				}
-			});
-		};
-
-		// listen for changes
-		var onChange = function onChange (data) {
-			if (data && data.value) {
-				self.setState({ selectedCloudinaryImage: data.value });
-			} else {
-				self.setState({ selectedCloudinaryImage: null });
-			}
-		};
-
-		return (
-			<div className="image-select">
-				<Select.Async
-					placeholder="Search for an image from Cloudinary ..."
-					name={this.props.paths.select}
-					value={this.state.selectedCloudinaryImage}
-					onChange={onChange}
-					id={'field_' + this.props.paths.select}
-					loadOptions={getOptions}
-				/>
-			</div>
-		);
-	},
-
-	renderNote () {
-		if (!this.props.note) return null;
-		return <FormNote note={this.props.note} />;
 	},
 
 	renderUI () {
-		var container = [];
-		var body = [];
-		var hasImage = this.hasImage();
+		const { label, note, path, paths } = this.props;
 
-		if (this.shouldRenderField()) {
-			if (hasImage) {
-				container.push(this.renderImagePreview());
-				container.push(this.renderImageDetails(this.renderAlert()));
-			}
-			body.push(this.renderImageToolbar());
-		} else {
-			if (hasImage) {
-				container.push(this.renderImagePreview());
-				container.push(this.renderImageDetails());
-			} else {
-				container.push(<div className="help-block">no image</div>);
-			}
-		}
+		const imageContainer = (
+			<div style={this.hasImage() ? { marginBottom: '1em' } : null}>
+				{this.hasImage() && this.renderImagePreview()}
+				{this.hasImage() && this.renderFileNameAndOptionalMessage(this.shouldRenderField())}
+			</div>
+		);
+
+		const toolbar = this.shouldRenderField()
+			? this.renderImageToolbar()
+			: <FormInput noedit>no image</FormInput>;
+
+		const hiddenInputs = this.shouldRenderField() && (
+			<div>
+				<HiddenFileInput
+					accept={SUPPORTED_TYPES.join()}
+					ref="fileInput"
+					name={paths.upload}
+					onChange={this.handleImageChange}
+				/>
+				<input
+					name={paths.action}
+					type="hidden"
+					value={this.state.action}
+				/>
+			</div>
+		);
+
 		return (
-			<FormField label={this.props.label} className="field-type-cloudinaryimage" htmlFor={this.props.path}>
-				{this.renderFileField()}
-				{this.renderFileAction()}
-				<div className="image-container">{container}</div>
-				{body}
-				{this.renderNote()}
+			<FormField label={label} className="field-type-cloudinaryimage" htmlFor={path}>
+				{imageContainer}
+				{toolbar}
+				{!!note && <FormNote note={note} />}
 				{this.renderLightbox()}
+				{hiddenInputs}
 			</FormField>
 		);
 	},

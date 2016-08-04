@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { css, StyleSheet } from 'aphrodite';
+import { css, StyleSheet } from 'aphrodite/no-important';
 
 class GridRow extends Component {
 	getChildContext () {

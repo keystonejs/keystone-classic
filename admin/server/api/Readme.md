@@ -260,6 +260,8 @@ Other errors are returned with HTTP `500`. For example, if the provided values c
 }
 ```
 
+Note that the error detail in this case is passed up directly from Mongoose.
+
 ## Get an Item
 
 ```
@@ -362,7 +364,7 @@ GET /api/users?search=Jed
 Filter for all admins and return the company field, expanding relationships and only returning the first two results sorted by name, skipping the first 3, excluding the count:
 
 ```
-GET /api/users?count=false&fields=email&filters={isAdmin:true}&limit=2&skip=3&sort=name
+GET /api/users?count=false&fields=company&expandRelationshipFields=true&filters={isAdmin:true}&limit=2&skip=3&sort=name
 ```
 
 ```js
@@ -468,9 +470,9 @@ A database error executing the query will cause HTTP `500` to be sent, for examp
 ## Delete Item(s)
 
 ```
-[3] POST /api/{list}/{id}/delete
+[1] POST /api/{list}/{id}/delete
 [2] POST /api/{list}/delete?ids=1,2,3
-[1] POST /api/{list}/delete
+[3] POST /api/{list}/delete
 ```
 
 Deletes one or more items in a List. This endpoint supports [1] a single ID parameter in the URL, [2] a comma-delimited list of IDs in the query string, or [3] an array of IDs in the POST Body:

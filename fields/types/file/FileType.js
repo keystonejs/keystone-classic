@@ -35,11 +35,6 @@ file.prototype.addToSchema = function () {
 	Object.keys(this.storage.schema).forEach(function (path) {
 		field.paths[path] = field._path.append('.' + path);
 	});
-	assign(this.paths, {
-		// modifiers
-		upload: this._path.append('_upload'),
-		action: this._path.append('_action'), // 'delete'
-	});
 
 	var schemaPaths = this._path.addTo({}, this.storage.schema);
 	schema.add(schemaPaths);
@@ -52,10 +47,11 @@ file.prototype.addToSchema = function () {
  */
 file.prototype.upload = function (item, file, callback) {
 	var field = this;
+	// TODO; Validate there is actuall a file to upload
 	debug('[%s.%s] Uploading file for item %s:', this.list.key, this.path, item.id, file);
 	this.storage.uploadFile(file, function (err, result) {
 		if (err) return callback(err);
-		debug('[%s.%s] Uploaded file for item %s with result:', this.list.key, this.path, item.id, result);
+		debug('[%s.%s] Uploaded file for item %s with result:', field.list.key, field.path, item.id, result);
 		item.set(field.path, result);
 		callback(null, result);
 	});
@@ -66,7 +62,7 @@ file.prototype.upload = function (item, file, callback) {
  */
 file.prototype.reset = function (item) {
 	var value = {};
-	Object.keys(this.storageSchema).forEach(function (path) {
+	Object.keys(this.storage.schema).forEach(function (path) {
 		value[path] = null;
 	});
 	item.set(this.path, value);
@@ -75,6 +71,7 @@ file.prototype.reset = function (item) {
 /**
  * Deletes the stored file and resets the field value
  */
+// TODO: Should we accept a callback here? Seems like a good idea.
 file.prototype.remove = function (item) {
 	this.storage.removeFile(item.get(this.path));
 	this.reset();
@@ -103,13 +100,12 @@ file.prototype.isModified = function (item) {
 
 
 function validateInput (value) {
-	// undefined values are always valid
-	if (value === undefined) return true;
-	// If a string is provided, assume it's a file to be uploaded or null value
-	if (typeof value === 'string') return true;
-	// If the value is an object with a path, it is a file to be uploaded
-	if (typeof value === 'object' && value.path) return true;
+	// undefined, null and empty values are always valid
+	if (value === undefined || value === null || value === '') return true;
+	// If a string is provided, check it is an upload or delete instruction
+	if (typeof value === 'string' && /^(upload\:)|(delete$)/.test(value)) return true;
 	// If the value is an object with a filename property, it is a stored value
+	// TODO: Need to actually check a dynamic path based on the adapter
 	if (typeof value === 'object' && value.filename) return true;
 	return false;
 }
@@ -131,6 +127,8 @@ file.prototype.validateInput = function (data, callback) {
 file.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	debug('[%s.%s] Validating required input: ', this.list.key, this.path, value);
+	// TODO: Need to actually check a dynamic path based on the adapter
+	// TODO: This incorrectly allows empty values in the object to pass validation
 	var result = (value || item.get(this.paths.filename)) ? true : false;
 	debug('[%s.%s] Validation result: ', this.list.key, this.path, result);
 	utils.defer(callback, result);
@@ -139,20 +137,32 @@ file.prototype.validateRequiredInput = function (item, data, callback) {
 /**
  * Updates the value for this field in the item from a data object
  */
-file.prototype.updateItem = function (item, data, callback) {
+file.prototype.updateItem = function (item, data, files, callback) {
+	if (typeof files === 'function') {
+		callback = files;
+		files = {};
+	}
+
 	var value = this.getValueFromData(data);
 
 	// Allow field value reset
-	if (value === '' || (typeof value === 'object' && !Object.keys(value).length)) {
+	if (value === null || value === '' || (typeof value === 'object' && !Object.keys(value).length)) {
 		this.reset(item);
-		return process.nextTick(callback);
+		return utils.defer(callback);
 	}
 
 	if (typeof value === 'string') {
-		value = { path: value };
-	}
-	if (value && value.path) {
-		return this.upload(item, value, callback);
+		if (value === 'remove') {
+			this.remove(item);
+			return utils.defer(callback);
+		} else if (value.substr(0, 7) === 'upload:') {
+			var uploadFieldPath = value.substr(7);
+			var fileToUpload = files[uploadFieldPath];
+			// TODO: Check there's actuall a file to upload
+			return this.upload(item, fileToUpload, callback);
+		}
+		// TODO: Validation should have prevented us from getting here,
+		// but we should check anyway
 	}
 	debug('[%s.%s] Updating item %s with value:', this.list.key, this.path, item.id, value);
 	item.set(this.path, value);

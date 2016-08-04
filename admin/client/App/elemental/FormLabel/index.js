@@ -1,4 +1,4 @@
-import { StyleSheet, css } from 'aphrodite';
+import { StyleSheet, css } from 'aphrodite/no-important';
 import classnames from 'classnames';
 import React, { PropTypes } from 'react';
 import styles from './styles';
