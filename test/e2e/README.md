@@ -25,9 +25,6 @@ with a real keystone app server.
                     uiTest<test-name>           => UI test suite
                     uxTest<test-name>           => UX/functional test suite
 
-        bin                                     => any required e2e binaries
-           selenium-server-standalone-x.y.z.jar => selenium driver for local testing
-
         drivers
             <browser drivers>                   => all required browser drivers
             
