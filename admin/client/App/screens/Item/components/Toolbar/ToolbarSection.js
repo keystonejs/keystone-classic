@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 function ToolbarSection ({ className, left, right, ...props }) {
 	props.className = classNames('Toolbar__section', {
-		'Toolbar__section--left': props.left,
-		'Toolbar__section--right': props.right,
+		'Toolbar__section--left': left,
+		'Toolbar__section--right': right,
 	}, className);
 
 	return <div {...props} />;
