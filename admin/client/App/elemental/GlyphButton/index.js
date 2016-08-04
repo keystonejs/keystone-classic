@@ -1,0 +1,58 @@
+import React, { PropTypes } from 'react';
+import { css, StyleSheet } from 'aphrodite/no-important';
+import Button from '../Button';
+import Glyph from '../Glyph';
+
+function GlyphButton ({ children, glyph, glyphColor, glyphSize, position, ...props }) {
+	const isDefault = position === 'default';
+	const isLeft = position === 'left';
+	const isRight = position === 'right';
+
+	// determine if margin is necessary
+	const glyphStyles = {};
+	if (isLeft) glyphStyles.marginRight = '0.5em';
+	if (isRight) glyphStyles.marginLeft = '0.5em';
+
+	// prepare the icon
+	const icon = (
+		<Glyph
+			className={css(classes.glyph)}
+			color={glyphColor}
+			name={glyph}
+			size={glyphSize}
+			style={glyphStyles}
+		/>
+	);
+
+	// render that shit
+	return (
+		<Button {...props}>
+			{(isDefault || isLeft) && icon}
+			{children}
+			{isRight && icon}
+		</Button>
+	);
+};
+
+// For props "glyph", "glyphColor", and "glyphSize":
+// prop type validation will occur within the Glyph component, no need to
+// duplicate, just pass it through.
+GlyphButton.propTypes = {
+	glyph: PropTypes.string,
+	glyphColor: PropTypes.string,
+	glyphSize: PropTypes.string,
+	position: PropTypes.oneOf(['default', 'left', 'right']),
+};
+GlyphButton.defaultProps = {
+	position: 'default', // no margin, assumes no children
+};
+
+const classes = StyleSheet.create({
+	glyph: {
+		display: 'inline-block',
+		marginTop: '-0.1em', // fix icon alignment
+		verticalAlign: 'middle',
+	},
+});
+
+module.exports = GlyphButton;

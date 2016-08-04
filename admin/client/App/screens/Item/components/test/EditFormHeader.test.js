@@ -38,8 +38,8 @@ describe('<EditFormHeader />', () => {
 					}}
 				/>
 			);
-			demand(component.find('.EditForm__header__back').length).eql(1);
-			demand(component.find('.EditForm__header__back').at(0).prop('to')).eql('/' + path);
+			demand(component.find('.e2e-editform-header-back').length).eql(1);
+			demand(component.find('.e2e-editform-header-back').at(0).prop('to')).eql('/' + path);
 		});
 
 		it('should render items passed in', () => {
@@ -120,7 +120,7 @@ describe('<EditFormHeader />', () => {
 					list={{}}
 				/>
 			);
-			demand(component.find('.EditForm__header__back').length).eql(1);
+			demand(component.find('.e2e-editform-header-back').length).eql(1);
 		});
 
 		it('should render a search form', () => {

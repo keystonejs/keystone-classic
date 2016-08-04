@@ -2,8 +2,11 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import Toolbar from './Toolbar';
 import ToolbarSection from './Toolbar/ToolbarSection';
-import { Button, FormIconField, FormInput, ResponsiveText } from 'elemental';
+import { FormIconField, FormInput, ResponsiveText } from 'elemental';
 import { Link } from 'react-router';
+
+import Drilldown from './Drilldown';
+import { GlyphButton } from '../../../elemental';
 
 var Header = React.createClass({
 	displayName: 'EditFormHeader',
@@ -41,46 +44,54 @@ var Header = React.createClass({
 		);
 	},
 	renderDrilldownItems () {
+		const { data, list } = this.props;
+		const items = data.drilldown ? data.drilldown.items : [];
 
-		var list = this.props.list;
-		var items = this.props.data.drilldown ? this.props.data.drilldown.items : [];
+		const backPath = `${Keystone.adminPath}/${list.path}`;
+		const backStyles = { paddingLeft: 0, paddingRight: 0 };
 
-		var els = items.map((dd, i) => {
-			var links = [];
-
-			dd.items.forEach((el, i) => {
-				links.push(<Link key={'dd' + i} to={el.href} title={dd.list.singular}>{el.label}</Link>);
-				if (i < dd.items.length - 1) {
-					links.push(<span key={'ds' + i} className="separator">,</span>); // eslint-disable-line comma-spacing
-				}
-			});
-
-			var more = dd.more ? <span>...</span> : '';
-
+		// return a single back button when no drilldown exists
+		if (!items.length) {
 			return (
-				<li key={`dd-${i}`}>
-					{links}
-					{more}
-				</li>
+				<GlyphButton
+					className="e2e-editform-header-back"
+					component={Link}
+					glyph="chevron-left"
+					position="left"
+					style={backStyles}
+					to={backPath}
+					variant="link"
+					>
+					{list.plural}
+				</GlyphButton>
 			);
+		}
+
+		// prepare the drilldown elements
+		const drilldown = [];
+		items.forEach((item, idx) => {
+			// FIXME @jedwatson
+			// we used to support relationships of type MANY where items were
+			// represented as siblings inside a single list item; this got a
+			// bit messy...
+			item.items.forEach(link => {
+				drilldown.push({
+					href: link.href,
+					label: link.label,
+					title: item.list.singular,
+				});
+			});
 		});
 
-		if (!els.length) {
-			return (
-				<Link className="EditForm__header__back" to={`${Keystone.adminPath}/${list.path}`}>
-					<span className="octicon octicon-chevron-left" />
-					{list.plural}
-				</Link>
-			);
-		} else {
-			// add the current list
-			els.push(
-				<li key="back">
-					<Link className="EditForm__header__back" to={`${Keystone.adminPath}/${list.path}`}>{list.plural}</Link>
-				</li>
-			);
-			return <ul className="item-breadcrumbs" key="drilldown">{els}</ul>;
-		}
+		// add the current list to the drilldown
+		drilldown.push({
+			href: backPath,
+			label: list.plural,
+		});
+
+		return (
+			<Drilldown items={drilldown} />
+		);
 	},
 	renderSearch () {
 		var list = this.props.list;
@@ -108,19 +119,20 @@ var Header = React.createClass({
 		);
 	},
 	renderCreateButton () {
-		if (this.props.list.nocreate) return null;
+		const { nocreate, autocreate, singular } = this.props.list;
 
-		var props = {};
-		if (this.props.list.autocreate) {
+		if (nocreate) return null;
+
+		let props = {};
+		if (autocreate) {
 			props.href = '?new' + Keystone.csrf.query;
 		} else {
 			props.onClick = () => { this.toggleCreate(true); };
 		}
 		return (
-			<Button type="success" {...props}>
-				<span className="octicon octicon-plus" />
-				<ResponsiveText hiddenXS={`New ${this.props.list.singular}`} visibleXS="Create" />
-			</Button>
+			<GlyphButton color="success" glyph="plus" position="left" {...props}>
+				<ResponsiveText hiddenXS={`New ${singular}`} visibleXS="Create" />
+			</GlyphButton>
 		);
 	},
 	render () {

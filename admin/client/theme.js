@@ -185,6 +185,24 @@ theme.input = {
 	paddingHorizontal: '.75em',
 };
 
+// glyph
+
+theme.glyph = {
+	color: {
+		danger: theme.color.danger,
+		inherit: 'inherit',
+		inverted: 'white',
+		primary: theme.color.primary,
+		success: theme.color.success,
+		warning: theme.color.warning,
+	},
+	size: {
+		small: 16,
+		medium: 32,
+		large: 64,
+	},
+};
+
 // spinner
 
 theme.spinner = {
