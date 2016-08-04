@@ -88,9 +88,9 @@ module.exports = {
 				//
 				// FORM LEVEL ELEMENTS
 				//
-				saveButton: 'button[class="Button Button--primary"]',
-				resetButton: 'button[class="Button Button--link-cancel"]',
-				deleteButton: 'button[class="Button Button--link-delete u-float-right"]',
+				saveButton: 'button[data-button=update]',
+				resetButton: 'button[data-button=reset]',
+				deleteButton: 'button[data-button=delete]',
 			},
 			commands: [{
 				//
@@ -139,11 +139,11 @@ module.exports = {
 			locateStrategy: 'xpath',
 			selector: '//div[contains(@class, "EditForm__meta")]/div[contains(@class, "FormField")][3]/div[contains(@class,"FormInput-noedit")]',
 		},
-		saveButton: '.EditForm-container button[class="Button Button--primary"]',
-		resetButton: '.EditForm-container button[class="Button Button--link-cancel"]',
-		resetButtonText: '.EditForm-container button[class="Button Button--link-cancel"] span',
-		deleteButton: '.EditForm-container button[class="Button Button--link-delete u-float-right"]',
-		deleteButtonText: '.EditForm-container button[class="Button Button--link-delete u-float-right"] span',
+		saveButton: '.EditForm-container button[data-button=update]',
+		resetButton: '.EditForm-container button[data-button=reset]',
+		resetButtonText: '.EditForm-container button[data-button=reset] span',
+		deleteButton: '.EditForm-container button[data-button=delete]',
+		deleteButtonText: '.EditForm-container button[data-button=delete] span',
 		firstRelationshipItemLink: 'div.Relationships > div > div > div > table > tbody > tr > td > a',
 	},
 	commands: [{
@@ -155,8 +155,7 @@ module.exports = {
 			var tasks = [];
 			var form = this.section.form;
 			config.fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.assertUIVisible(config.args);
+				var task = form.section[list].section[field].assertUIVisible(config.args);
 				tasks.push(task);
 			});
 			return tasks;
@@ -166,8 +165,7 @@ module.exports = {
 			var tasks = [];
 			var form = this.section.form;
 			config.fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.assertUIVisible(config.args);
+				var task = form.section[list].section[field].assertUIVisible(config.args);
 				tasks.push(task);
 			});
 			return tasks;
@@ -177,8 +175,7 @@ module.exports = {
 			var tasks = [];
 			var form = this.section.form;
 			config.fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.assertUIPresent(config.args);
+				var task = form.section[list].section[field].assertUIPresent(config.args);
 				tasks.push(task);
 			});
 			return tasks;
@@ -188,8 +185,7 @@ module.exports = {
 			var tasks = [];
 			var form = this.section.form;
 			config.fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.assertUINotPresent(config.args);
+				var task = form.section[list].section[field].assertUINotPresent(config.args);
 				tasks.push(task);
 			});
 			return tasks;
@@ -199,8 +195,7 @@ module.exports = {
 			var tasks = [];
 			var form = this.section.form;
 			config.fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.assertUI(config.args);
+				var task = form.section[list].section[field].assertUI(config.args);
 				tasks.push(task);
 			});
 			return tasks;
@@ -225,14 +220,23 @@ module.exports = {
 			return this.section.form
 				.click('@deleteButton');
 		},
+		showMoreFields: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field].showMoreFields(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
 		fillInputs: function (config) {
 			var list = config.listName.toLowerCase() + 'List';
 			var tasks = [];
 			var form = this.section.form;
 			var fields = Object.keys(config.fields);
 			fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.fillInput(config.fields[field]);
+				var task = form.section[list].section[field].fillInput(config.fields[field]);
 				tasks.push(task);
 			});
 			return tasks;
@@ -243,8 +247,7 @@ module.exports = {
 			var form = this.section.form;
 			var fields = Object.keys(config.fields);
 			fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.assertInput(config.fields[field]);
+				var task = form.section[list].section[field].assertInput(config.fields[field]);
 				tasks.push(task);
 			});
 			return tasks;

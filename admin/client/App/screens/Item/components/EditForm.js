@@ -260,6 +260,7 @@ var EditForm = React.createClass({
 				type="primary"
 				disabled={this.state.loading}
 				onClick={this.updateItem}
+				data-button="update"
 			>
 				{this.state.loading ? (
 					<span>
@@ -272,13 +273,13 @@ var EditForm = React.createClass({
 			</Button>,
 		];
 		buttons.push(
-			<Button key="reset" onClick={this.confirmReset} type="link-cancel">
+			<Button key="reset" onClick={this.confirmReset} type="link-cancel" data-button="reset">
 				<ResponsiveText hiddenXS="reset changes" visibleXS="reset" />
 			</Button>
 		);
 		if (!this.props.list.nodelete) {
 			buttons.push(
-				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right">
+				<Button key="del" onClick={this.confirmDelete} type="link-delete" className="u-float-right" data-button="delete">
 					<ResponsiveText hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`} visibleXS="delete" />
 				</Button>
 			);
