@@ -52,7 +52,9 @@ function Field (list, path, options) {
 	this.label = options.label || utils.keyToLabel(this.path);
 	this.typeDescription = options.typeDescription || this.typeDescription || this.type;
 
-	this.list.automap(this);
+	if (!options._isNested) {
+		this.list.automap(this);
+	}
 
 	// Warn on required fields that aren't initial
 	if (this.options.required
