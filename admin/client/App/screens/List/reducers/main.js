@@ -20,6 +20,7 @@ import {
 
 const initialState = {
 	loadingRef: null,
+	loadCounter: 0,
 	currentList: null,
 	loading: false,
 	ready: false,
@@ -98,7 +99,7 @@ function lists (state = initialState, action) {
 			return assign({}, state, {
 				loading,
 				ready,
-				// loadingRef: action.loadingRef,
+				loadCounter: action.loadCounter,
 			});
 		case ITEMS_LOADED:
 			// Cache the items in state.data so we can show the already existing
@@ -115,12 +116,14 @@ function lists (state = initialState, action) {
 					...state.data,
 					[state.currentList.id]: cachedList,
 				},
+				loadCounter: 0,
 			});
 		case ITEM_LOADING_ERROR:
 			return assign({}, state, {
 				loading: true,
 				ready: true,
 				error: action.err,
+				loadCounter: 0,
 			});
 		case DELETE_ITEM:
 			const newItems = {

@@ -11,9 +11,13 @@ import { NETWORK_ERROR_RETRY_DELAY } from '../../../../constants';
 
 export function loadItems (options = {}) {
 	return (dispatch, getState) => {
+		let currentLoadCounter = getState().lists.loadCounter + 1;
+
 		dispatch({
 			type: LOAD_ITEMS,
+			loadCounter: currentLoadCounter,
 		});
+
 		// Take a snapshot of the current redux state.
 		const state = getState();
 		// Hold a reference to the currentList in state.
@@ -26,13 +30,17 @@ export function loadItems (options = {}) {
 			columns: state.active.columns,
 			page: state.lists.page,
 		}, (err, items) => {
+
 			// Create a new state snapshot and compare the current active list id
 			// to the id of the currentList referenced above.
 			// If they are the same, then this is the latest fetch request, we may resolve this normally.
 			// If these are not the same, then it means that this is not the latest fetch request.
 			// BAIL OUT!
+
 			if (getState().active.id !== currentList.id) return;
+			if (getState().lists.loadCounter > currentLoadCounter) return;
 			if (items) {
+
 				// if (page.index !== drag.page && drag.item) {
 				// 	// add the dragging item
 				// 	if (page.index > drag.page) {
@@ -53,8 +61,11 @@ export function loadItems (options = {}) {
 				// 	// flashes a failure background on the row
 				// 	_rowAlert.fail = options.id;
 				// }
+
+				// Successfully resolve this request in redux and set the loadCounter back to zero.
 				dispatch(itemsLoaded(items));
 			} else {
+				// Catch this error in redux and set the loadCounter back to zero.
 				dispatch(itemLoadingError(err));
 			}
 		});

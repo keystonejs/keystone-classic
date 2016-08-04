@@ -27,9 +27,13 @@ export function selectList (id) {
  * @param {Number} index The page number we want to be on
  */
 export function setCurrentPage (index) {
-	return {
-		type: SET_CURRENT_PAGE,
-		index,
+	return (dispatch, getState) => {
+		// If the index in state is the same as the index we're trying to pass through, don't return an action.
+		if (getState().lists.page.index === index) return;
+		return dispatch({
+			type: SET_CURRENT_PAGE,
+			index,
+		});
 	};
 }
 

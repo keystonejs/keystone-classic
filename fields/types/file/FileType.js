@@ -1,4 +1,3 @@
-// var assign = require('object-assign');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');

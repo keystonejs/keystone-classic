@@ -28,7 +28,6 @@ export function loadItemData () {
 		const currentItemID = getState().item.id;
 		dispatch({
 			type: LOAD_DATA,
-			// loadingRef: thisLoadRef,
 		});
 		const state = getState();
 		const list = state.lists.currentList;
@@ -36,6 +35,7 @@ export function loadItemData () {
 		// const itemID = state.item.id;
 		// Load a specific item with the utils/List.js helper
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
+
 			// Once this async request has fired this callback, check that
 			// the item id referenced by thisLoadRef is the same id
 			// referenced by loadingRef in the redux store.
