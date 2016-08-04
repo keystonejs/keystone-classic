@@ -14,7 +14,10 @@ module.exports = {
 			args: { 'showMore': false },
 		});
 
-		browser.initialFormPage.section.form.section.locationList.section.fieldA.showMore();
+		browser.initialFormPage.showMoreFields({
+			listName: 'Location',
+			fields: ['fieldA'],
+		});
 
 		browser.initialFormPage.assertUIVisible({
 			listName: 'Location',
@@ -30,7 +33,10 @@ module.exports = {
 		browser.app.openFieldList('Location');
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.section.form.section.locationList.section.fieldA.showMore();
+		browser.initialFormPage.showMoreFields({
+			listName: 'Location',
+			fields: ['fieldA'],
+		});
 		browser.initialFormPage.fillInputs({
 			listName: 'Location',
 			fields: {
@@ -100,7 +106,10 @@ module.exports = {
 			fields: ['fieldB'],
 			args: { 'showMore': false },
 		});
-		browser.itemPage.section.form.section.locationList.section.fieldB.showMore();
+		browser.itemPage.showMoreFields({
+			listName: 'Location',
+			fields: ['fieldB'],
+		});
 		browser.itemPage.assertUIVisible({
 			listName: 'Location',
 			fields: ['fieldB'],
