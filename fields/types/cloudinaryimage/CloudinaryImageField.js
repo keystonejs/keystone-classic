@@ -96,7 +96,7 @@ module.exports = Field.create({
 	},
 
 	// Toggle the lightbox
-	openLightbox (index) {
+	openLightbox (event) {
 		event.preventDefault();
 		this.setState({
 			lightboxIsVisible: true,
@@ -178,19 +178,18 @@ module.exports = Field.create({
 		else if (this.state.removeExisting) mask = 'remove';
 		else if (this.state.loading) mask = 'loading';
 
-		const url = this.getImageSource();
 		const shouldOpenLightbox = value.format !== 'pdf';
 
 		return (
 			<ImageThumbnail
 				component="a"
-				href={url}
+				href={this.getImageSource(600)}
 				onClick={shouldOpenLightbox && this.openLightbox}
 				mask={mask}
 				target="__blank"
 				style={{ float: 'left', marginRight: '1em' }}
 			>
-				<img src={url} style={{ height: 90 }} />
+				<img src={this.getImageSource()} style={{ height: 90 }} />
 			</ImageThumbnail>
 		);
 	},
