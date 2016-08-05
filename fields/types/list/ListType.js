@@ -144,8 +144,8 @@ list.prototype.addFilterToQuery = function (filter) { };
  */
 list.prototype.validateInput = function (data, callback) {
 	// TODO
-	var value = this.getValueFromData(data);
-	var result = !!value;
+	// var value = this.getValueFromData(data);
+	var result = true;
 	utils.defer(callback, result);
 };
 
@@ -154,8 +154,8 @@ list.prototype.validateInput = function (data, callback) {
  */
 list.prototype.validateRequiredInput = function (item, data, callback) {
 	// TODO
-	var value = this.getValueFromData(data);
-	var result = !!value;
+	// var value = this.getValueFromData(data);
+	var result = true;
 	utils.defer(callback, result);
 };
 
