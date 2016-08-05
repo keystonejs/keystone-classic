@@ -56,7 +56,6 @@ before_script:
 - sleep 15
 script:
 - npm run test-admin
-- npm run test-e2e-saucelabs
 sudo: required
 notifications:
   email:
@@ -77,4 +76,3 @@ addons:
     packages:
     - mongodb-org-server
   sauce_connect: true
-  
