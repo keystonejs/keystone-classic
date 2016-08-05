@@ -7,6 +7,8 @@ const os = require('os');
 const path = require('path');
 const request = require('request');
 
+const nameFunctions = require('../../lib/storage/nameFunctions');
+
 const DUMMY_CONTENT = 'oh hi there this is some test data';
 
 // Create a test suite for the specified keystone FS adapter, using the named
@@ -20,7 +22,10 @@ module.exports = function (Adapter, options, schema) {
 		});
 
 		beforeEach(function () {
-			this.adapter = new Adapter(options, schema);
+			const _options = Object.assign({}, {
+				generateFilename: nameFunctions.randomFilename
+			}, options);
+			this.adapter = new Adapter(_options, schema);
 		});
 
 		it('should have a compatibilityLevel of 1', function () {
@@ -28,25 +33,31 @@ module.exports = function (Adapter, options, schema) {
 		});
 
 		it('can round-trip files', function (done) {
-			const adapter = this.adapter; // urgh ES5.
+			var adapter = this.adapter; // urgh ES5. My kingdom for a =>
 			adapter.uploadFile({
 				name: 'abcde.txt',
 				mimetype: 'text/plain',
 				originalname: 'originalname.txt',
 				path: this.pathname,
 				size: fs.statSync(this.pathname).size,
-			}, function (err, result) {
+			}, function (err, file) {
 				if (err) throw err;
-				const url = adapter.getFileURL(result);
+				const url = adapter.getFileURL(file);
 
 				request(url, function (err, res) {
 					if (err) throw err;
 					assert.strictEqual(res.body, DUMMY_CONTENT);
-					done();
+
+					adapter.removeFile(file, function (err) {
+						if (err) throw Error(err);
+						done();
+					});
 				});
 			});
 
 		});
+
+		it('deletes the file when you call removeFile');
 
 	};
 };
