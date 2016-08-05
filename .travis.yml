@@ -75,4 +75,3 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
-  sauce_connect: true
