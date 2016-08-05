@@ -29,19 +29,19 @@ theme.breakpoint = {
 // color
 
 theme.color = {
-	body:                '#FDFDFD',
+	body:                '#fafafa',
 	link:                '#1385e5',
 	linkHover:           lighten('#1385e5', 10),
 	text:                '#1A1A1A',
 
 	// contextual
-	success:             '#00b368',
-	create:              '#00b368', // alias for success
+	success:             '#34c240',
+	create:              '#34c240', // alias for success
 	primary:             '#1385e5',
 	info:                '#1385e5', // alias for primary
 	warning:             '#FA3',
-	danger:              '#bf0020',
-	error:               '#bf0020', // alias for danger
+	danger:              '#d64242',
+	error:               '#d64242', // alias for danger
 
 	// neutrals
 	gray90:              '#1A1A1A',
@@ -183,6 +183,42 @@ theme.input = {
 	boxShadow: 'inset 0 1px 1px rgba(0, 0, 0, 0.075)',
 	boxShadowFocus: `inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px ${fade(theme.color.info, 10)}`,
 	paddingHorizontal: '.75em',
+};
+
+// glyph
+
+theme.glyph = {
+	color: {
+		danger: theme.color.danger,
+		inherit: 'inherit',
+		inverted: 'white',
+		primary: theme.color.primary,
+		success: theme.color.success,
+		warning: theme.color.warning,
+	},
+	size: {
+		small: 16,
+		medium: 32,
+		large: 64,
+	},
+};
+
+// spinner
+
+theme.spinner = {
+	color: {
+		danger: theme.color.danger,
+		default: theme.color.gray40,
+		inverted: 'white',
+		primary: theme.color.primary,
+		success: theme.color.success,
+		warning: theme.color.warning,
+	},
+	size: {
+		small:	4,
+		medium:	8,
+		large:	16,
+	},
 };
 
 module.exports = theme;

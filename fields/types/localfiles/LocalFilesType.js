@@ -71,10 +71,9 @@ util.inherits(localfiles, FieldType);
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-localfiles.prototype.addToSchema = function () {
+localfiles.prototype.addToSchema = function (schema) {
 
 	var field = this;
-	var schema = this.list.schema;
 	var mongoose = keystone.mongoose;
 
 	var paths = this.paths = {

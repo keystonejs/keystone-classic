@@ -126,6 +126,11 @@ Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 
+/* Deprecation / Change warnings for 0.4 */
+Keystone.prototype.routes = function () {
+	throw new Error('keystone.routes(fn) has been removed, use keystone.set(\'routes\', fn)');
+};
+
 
 /**
  * The exports object is an instance of Keystone.

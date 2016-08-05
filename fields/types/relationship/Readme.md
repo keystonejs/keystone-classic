@@ -1,8 +1,23 @@
-# Text Field
+# Relationship Field
 
 Stores an `ObjectID` in the model, which belongs to another List in the system.
 
 When the `many: true` option is set, it stores an Array `[ObjectID]` instead.
+
+Displayed as an auto-suggest field in the Admin UI.
+
+Specify the related Model using the `ref` option. For a many-many relationship, set the `many` option to `true`.
+
+## Example
+
+Linking to a **Post** model to a single **Author** and many **PostCategories** can be done like this:
+
+```js
+Post.add({
+    author: { type: Types.Relationship, ref: 'User' },
+    categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
+});
+```
 
 ## Methods
 
@@ -18,7 +33,7 @@ The relationship path must be populated or this method will return unexpected re
 
 #### Example
 
-```
+```js
 Post.model.findOne(id)
 	.populate('author') // author is a relationship to the User list
 	.exec((err, post) => {

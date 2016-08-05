@@ -32,7 +32,10 @@ Form.childContextTypes = {
 };
 Form.propTypes = {
 	children: PropTypes.node.isRequired,
-	component: PropTypes.node,
+	component: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.func,
+	]),
 	layout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
 };
 Form.defaultProps = {

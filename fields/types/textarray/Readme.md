@@ -4,7 +4,7 @@ Stores an `Array` of `String` values in the model.
 
 ## Options
 
-### `separator` String
+### `separator` `String`
 
 Used to join the strings in the array to create a single formatted value.
 

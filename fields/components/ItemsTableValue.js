@@ -1,46 +1,58 @@
-import React from 'react';
-import blacklist from 'blacklist';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import { Link } from 'react-router';
 
-var ItemsTableValue = React.createClass({
-	displayName: 'ItemsTableValue',
-	propTypes: {
-		className: React.PropTypes.string,
-		exterior: React.PropTypes.bool,
-		field: React.PropTypes.string,
-		href: React.PropTypes.string,
-		interior: React.PropTypes.bool,
-		padded: React.PropTypes.bool,
-		truncate: React.PropTypes.bool,
-	},
-	getDefaultProps () {
-		return {
-			truncate: true,
-		};
-	},
-	render () {
-		const tag = this.props.href ? Link : 'div';
-		const className = classnames('ItemList__value', (
-			this.props.field ? `ItemList__value--${this.props.field}` : null
-		), {
-			'ItemList__value--truncate': this.props.truncate,
-			'ItemList__link--empty': this.props.empty,
-			'ItemList__link--exterior': this.props.href && this.props.exterior,
-			'ItemList__link--interior': this.props.href && this.props.interior,
-			'ItemList__link--padded': this.props.href && this.props.padded,
-		}, this.props.className);
+function ItemsTableValue ({
+	className,
+	component,
+	empty,
+	exterior,
+	field,
+	href,
+	interior,
+	padded,
+	to,
+	truncate,
+	...props,
+}) {
+	// TODO remove in the next release
+	if (href) {
+		console.warn('ItemsTableValue: `href` will be deprecated in the next release, use `to`.');
+	}
+	const linkRef = to || href;
+	const Component = linkRef ? Link : component;
 
-		var props = blacklist(this.props, 'children', 'className', 'exterior', 'field', 'interior', 'padded');
-		props.className = className;
-		props.to = props.href;
+	props.className = classnames('ItemList__value', (
+		field ? `ItemList__value--${field}` : null
+	), {
+		'ItemList__link--empty': empty,
+		'ItemList__link--exterior': linkRef && exterior,
+		'ItemList__link--interior': linkRef && interior,
+		'ItemList__link--padded': linkRef && padded,
+		'ItemList__value--truncate': truncate,
+	}, className);
+	props.to = linkRef;
 
-		return React.createElement(
-			tag,
-			props,
-			this.props.children
-		);
-	},
-});
+	return <Component {...props} />;
+};
+
+ItemsTableValue.propTypes = {
+	component: PropTypes.oneOfType([
+		React.PropTypes.string,
+		React.PropTypes.func,
+	]),
+	empty: PropTypes.bool,
+	exterior: PropTypes.bool, // FIXME this should be "external" e.g. an external link
+	field: PropTypes.string,
+	href: PropTypes.string, // TODO remove in next release
+	interior: PropTypes.bool, // FIXME this should be "internal" e.g. an internal link
+	padded: PropTypes.bool,
+	to: PropTypes.string,
+	truncate: PropTypes.bool,
+};
+ItemsTableValue.defaultProps = {
+	component: 'div',
+	truncate: true,
+};
 
 module.exports = ItemsTableValue;

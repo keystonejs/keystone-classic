@@ -1,66 +1,77 @@
 import Field from '../Field';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
+import FileChangeMessage from '../../components/FileChangeMessage';
+import HiddenFileInput from '../../components/HiddenFileInput';
+
+let uploadInc = 0;
+
+const buildInitialState = (props) => ({
+	action: null,
+	removeExisting: false,
+	uploadFieldPath: `${props.path}-${++uploadInc}`,
+	userSelectedFile: null,
+});
 
 module.exports = Field.create({
-
-	displayName: 'FileField',
-	statics: {
-		type: 'File',
+	propTypes: {
+		autoCleanup: PropTypes.bool,
+		collapse: PropTypes.bool,
+		label: PropTypes.string,
+		note: PropTypes.string,
+		path: PropTypes.string.isRequired,
+		value: PropTypes.shape({
+			filename: PropTypes.string,
+			// TODO: these are present but not used in the UI,
+			//       should we start using them?
+			// filetype: PropTypes.string,
+			// originalname: PropTypes.string,
+			// path: PropTypes.string,
+			// size: PropTypes.number,
+		}),
 	},
-
+	getInitialState () {
+		return buildInitialState(this.props);
+	},
 	shouldCollapse () {
 		return this.props.collapse && !this.hasExisting();
 	},
 
-	fileFieldNode () {
-		return this.refs.fileField;
+	// ==============================
+	// HELPERS
+	// ==============================
+
+	hasFile () {
+		return this.hasExisting() || !!this.state.userSelectedFile;
+	},
+	hasExisting () {
+		return this.props.value && !!this.props.value.filename;
+	},
+	getFilename () {
+		return this.state.userSelectedFile
+			? this.state.userSelectedFile.name
+			: this.props.value.filename;
 	},
 
-	changeFile () {
-		this.fileFieldNode().click();
-	},
+	// ==============================
+	// METHODS
+	// ==============================
 
-	getFileSource () {
-		if (this.hasLocal()) {
-			return this.state.localSource;
-		} else if (this.hasExisting()) {
-			return this.props.value.url;
-		} else {
-			return null;
-		}
+	triggerFileBrowser () {
+		this.refs.fileInput.clickDomNode();
 	},
+	handleFileChange (event) {
+		const userSelectedFile = event.target.files[0];
 
-	getFileURL () {
-		if (!this.hasLocal() && this.hasExisting()) {
-			return this.props.value.url;
-		}
-	},
-
-	undoRemove () {
-		this.fileFieldNode().value = '';
 		this.setState({
-			removeExisting: false,
-			localSource: null,
-			origin: false,
-			action: null,
+			userSelectedFile: userSelectedFile,
 		});
 	},
+	handleRemove (e) {
+		var state = {};
 
-	fileChanged (event) { // eslint-disable-line no-unused-vars
-		this.setState({
-			origin: 'local',
-		});
-	},
-
-	removeFile (e) {
-		var state = {
-			localSource: null,
-			origin: false,
-		};
-
-		if (this.hasLocal()) {
-			this.fileFieldNode().value = '';
+		if (this.state.userSelectedFile) {
+			state.userSelectedFile = null;
 		} else if (this.hasExisting()) {
 			state.removeExisting = true;
 
@@ -81,73 +92,43 @@ module.exports = Field.create({
 
 		this.setState(state);
 	},
-
-	hasLocal () {
-		return this.state.origin === 'local';
+	undoRemove () {
+		this.setState(buildInitialState(this.props));
 	},
 
-	hasExisting () {
-		return this.props.value && !!this.props.value.filename;
-	},
+	// ==============================
+	// RENDERERS
+	// ==============================
 
-	hasFile () {
-		return this.hasExisting() || this.hasLocal();
-	},
-
-	getFilename () {
-		if (this.hasLocal()) {
-			return this.fileFieldNode().value.split('\\').pop();
-		} else {
-			return this.props.value.filename;
-		}
-	},
-
-	renderFileDetails (add) {
-		var details = null;
-		var href = this.getFileURL();
-
-		if (this.hasFile() && !this.state.removeExisting) {
-			details = (
-				<div className="file-values">
-					<FormInput noedit>{href ? (
-						<a href={href}>{this.getFilename()}</a>
-					) : this.getFilename()}</FormInput>
-				</div>
-			);
-		}
-
+	renderFileNameAndOptionalMessage (showChangeMessage = false) {
 		return (
-			<div key={this.props.path + '_details'} className="file-details">
-				{details}
-				{add}
+			<div>
+				{(this.hasFile() && !this.state.removeExisting) ? (
+					<FileChangeMessage>
+						{this.getFilename()}
+					</FileChangeMessage>
+				) : null}
+				{showChangeMessage && this.renderChangeMessage()}
 			</div>
 		);
 	},
-
-	renderAlert () {
-		if (this.hasLocal()) {
+	renderChangeMessage () {
+		if (this.state.userSelectedFile) {
 			return (
-				<div className="file-values upload-queued">
-					<FormInput noedit>File selected - save to upload</FormInput>
-				</div>
-			);
-		} else if (this.state.origin === 'cloudinary') {
-			return (
-				<div className="file-values select-queued">
-					<FormInput noedit>File selected from Cloudinary</FormInput>
-				</div>
+				<FileChangeMessage type="success">
+					File selected - save to upload
+				</FileChangeMessage>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<div className="file-values delete-queued">
-					<FormInput noedit>File {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm</FormInput>
-				</div>
+				<FileChangeMessage type="danger">
+					File {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm
+				</FileChangeMessage>
 			);
 		} else {
 			return null;
 		}
 	},
-
 	renderClearButton () {
 		if (this.state.removeExisting) {
 			return (
@@ -157,79 +138,70 @@ module.exports = Field.create({
 			);
 		} else {
 			var clearText;
-			if (this.hasLocal()) {
+			if (this.state.userSelectedFile) {
 				clearText = 'Cancel Upload';
 			} else {
 				clearText = (this.props.autoCleanup ? 'Delete File' : 'Remove File');
 			}
 			return (
-				<Button type="link-cancel" onClick={this.removeFile}>
+				<Button type="link-cancel" onClick={this.handleRemove}>
 					{clearText}
 				</Button>
 			);
 		}
 	},
-
-	renderFileField () {
-		if (!this.shouldRenderField()) return null;
-
-		return <input ref="fileField" type="file" name={this.props.paths.upload} className="field-upload" onChange={this.fileChanged} tabIndex="-1" />;
+	renderActionInput () {
+		// If the user has selected a file for uploading, we need to point at
+		// the upload field. If the file is being deleted, we submit that.
+		if (this.state.userSelectedFile || this.state.action) {
+			const value = this.state.userSelectedFile
+				? `upload:${this.state.uploadFieldPath}`
+				: (this.state.action === 'delete' ? 'remove' : '');
+			return (
+				<input
+					name={this.props.path}
+					type="hidden"
+					value={value}
+				/>
+			);
+		} else {
+			return null;
+		}
 	},
-
-	renderFileAction () {
-		if (!this.shouldRenderField()) return null;
-
-		return <input type="hidden" name={this.props.paths.action} className="field-action" value={this.state.action} />;
-	},
-
-	renderFileToolbar () {
-		return (
-			<div key={this.props.path + '_toolbar'} className="file-toolbar">
-				<div className="u-float-left">
-					<Button onClick={this.changeFile}>
-						{this.hasFile() ? 'Change' : 'Upload'} File
-					</Button>
-					{this.hasFile() && this.renderClearButton()}
-				</div>
+	renderUI () {
+		const buttons = (
+			<div style={this.hasFile() ? { marginTop: '1em' } : null}>
+				<Button onClick={this.triggerFileBrowser}>
+					{this.hasFile() ? 'Change' : 'Upload'} File
+				</Button>
+				{this.hasFile() && this.renderClearButton()}
 			</div>
 		);
-	},
-
-	renderNote () {
-		if (!this.props.note) return null;
-
-		return <FormNote note={this.props.note} />;
-	},
-
-	renderUI () {
-		var container = [];
-		var body = [];
-		var hasFile = this.hasFile();
-
-		if (this.shouldRenderField()) {
-			if (hasFile) {
-				container.push(this.renderFileDetails(this.renderAlert()));
-			}
-			body.push(this.renderFileToolbar());
-		} else {
-			if (hasFile) {
-				container.push(this.renderFileDetails());
-			} else {
-				container.push(<FormInput noedit>no file</FormInput>);
-			}
-		}
 
 		return (
-			<FormField label={this.props.label} className="field-type-localfile" htmlFor={this.props.path}>
-
-				{this.renderFileField()}
-				{this.renderFileAction()}
-
-				<div className="file-container">{container}</div>
-				{body}
-				{this.renderNote()}
-
-			</FormField>
+			<div data-field-name={this.props.path} data-field-type="file">
+				<FormField label={this.props.label} htmlFor={this.props.path}>
+					{this.shouldRenderField() ? (
+						<div>
+							{this.hasFile() && this.renderFileNameAndOptionalMessage(true)}
+							{buttons}
+							<HiddenFileInput
+								name={this.state.uploadFieldPath}
+								onChange={this.handleFileChange}
+								ref="fileInput"
+							/>
+							{this.renderActionInput()}
+						</div>
+					) : (
+						<div>
+							{this.hasFile()
+								? this.renderFileNameAndOptionalMessage()
+								: <FormInput noedit>no file</FormInput>}
+						</div>
+					)}
+					{!!this.props.note && <FormNote note={this.props.note} />}
+				</FormField>
+			</div>
 		);
 	},
 

@@ -5,6 +5,7 @@ import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
 import { Button, InputGroup } from 'elemental';
+import _ from 'lodash';
 
 function compareValues (current, next) {
 	const currentLength = current ? current.length : 0;
@@ -180,7 +181,7 @@ module.exports = Field.create({
 			complete: true,
 			options: Object.keys(this._itemsCache).map((k) => this._itemsCache[k]),
 		});
-		this.toggleCreate(false);
+		this.closeCreate();
 	},
 
 	renderSelect (noedit) {
