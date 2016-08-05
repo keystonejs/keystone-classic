@@ -9,9 +9,9 @@ var isReserved = require('../../../lib/list/isReserved');
  * @extends Field
  * @api public
  */
-function list (list, path, options) {
+function list (keystoneList, path, options) {
 	this._underscoreMethods = ['format'];
-	list.super_.call(this, list, path, options);
+	list.super_.call(this, keystoneList, path, options);
 }
 list.properName = 'List';
 util.inherits(list, FieldType);
@@ -163,7 +163,7 @@ list.prototype.updateItem = function (item, data, callback) {
 	if (!Array.isArray(value)) {
 		value = [value];
 	}
-	// TODO - do we need more processing here?
+	// TODO - actually loop over fields, using updateItem()
 	item.set(this.path, value);
 	utils.defer(callback);
 };
