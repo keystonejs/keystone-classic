@@ -20,7 +20,7 @@ module.exports = Field.create({
 	renderField () {
 		return (
 			<FormInput
-				name={this.props.path}
+				name={this.getInputName(this.props.path)}
 				ref="focusTarget"
 				value={this.props.value}
 				onChange={this.valueChanged}

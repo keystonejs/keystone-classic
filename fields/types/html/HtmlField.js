@@ -191,7 +191,7 @@ module.exports = Field.create({
 		};
 		return (
 			<div className={className}>
-				<FormInput multiline style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.props.path} value={this.props.value} />
+				<FormInput multiline style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.getInputName(this.props.path)} value={this.props.value} />
 			</div>
 		);
 	},

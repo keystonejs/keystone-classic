@@ -191,7 +191,7 @@ module.exports = Field.create({
 				disabled={noedit}
 				loadOptions={this.loadOptions}
 				labelKey="name"
-				name={this.props.path}
+				name={this.getInputName(this.props.path)}
 				onChange={this.valueChanged}
 				simpleValue
 				value={this.state.value}

@@ -42,10 +42,10 @@ module.exports = Field.create({
 		return (
 			<FormRow>
 				<FormField width="one-half">
-					<FormInput name={path + '[1]'} placeholder="Latitude" ref="lat" value={value[1]} onChange={this.handleLat} autoComplete="off" />
+					<FormInput name={this.getInputName(path + '[1]')} placeholder="Latitude" ref="lat" value={value[1]} onChange={this.handleLat} autoComplete="off" />
 				</FormField>
 				<FormField width="one-half">
-					<FormInput name={path + '[0]'} placeholder="Longitude" ref="lng" value={value[0]} onChange={this.handleLong} autoComplete="off" />
+					<FormInput name={this.getInputName(path + '[0]')} placeholder="Longitude" ref="lng" value={value[0]} onChange={this.handleLong} autoComplete="off" />
 				</FormField>
 			</FormRow>
 		);

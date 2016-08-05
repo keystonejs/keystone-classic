@@ -34,6 +34,13 @@ var Base = module.exports.Base = {
 			size: 'full',
 		};
 	},
+	getInputName (path) {
+		// This correctly creates the path for field inputs, and supports the
+		// inputPathPrefix prop that is required for nested fields to work
+		return this.props.inputPathPrefix
+			? `${this.props.inputPathPrefix}[${path}]`
+			: path;
+	},
 	valueChanged (event) {
 		this.props.onChange({
 			path: this.props.path,
@@ -59,7 +66,7 @@ var Base = module.exports.Base = {
 	renderField () {
 		var props = Object.assign(this.props.inputProps, {
 			autoComplete: 'off',
-			name: this.props.path,
+			name: this.getInputName(this.props.path),
 			onChange: this.valueChanged,
 			ref: 'focusTarget',
 			value: this.props.value,

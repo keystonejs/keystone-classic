@@ -35,7 +35,7 @@ module.exports = Field.create({
 		// TODO: This should be natively handled by the Select component
 		var ops = (this.props.numeric) ? this.props.ops.map(function (i) { return { label: i.label, value: String(i.value) }; }) : this.props.ops;
 		var value = (typeof this.props.value === 'number') ? String(this.props.value) : this.props.value;
-		return <Select simpleValue name={this.props.path} value={value} options={ops} onChange={this.valueChanged} />;
+		return <Select simpleValue name={this.getInputName(this.props.path)} value={value} options={ops} onChange={this.valueChanged} />;
 	},
 
 });

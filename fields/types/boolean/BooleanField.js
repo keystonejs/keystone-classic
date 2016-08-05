@@ -27,7 +27,7 @@ module.exports = Field.create({
 
 		return (
 			<input
-				name={this.props.path}
+				name={this.getInputName(this.props.path)}
 				type="hidden"
 				value={!!this.props.value}
 			/>
