@@ -48,6 +48,7 @@ list.prototype.addToSchema = function () {
 	var mongoose = this.list.keystone.mongoose;
 
 	var fields = this.fields = {};
+	var fieldsArray = this.fieldsArray = [];
 	var fieldsSpec = this.options.fields;
 	var itemSchema = new mongoose.Schema();
 
@@ -58,7 +59,7 @@ list.prototype.addToSchema = function () {
 		);
 	}
 
-	function addField (path, options) {
+	function createField (path, options) {
 		if (typeof options === 'function') {
 			options = { type: options };
 		}
@@ -82,8 +83,7 @@ list.prototype.addToSchema = function () {
 		// Tell the Field that it is nested, this changes the constructor slightly
 		options._isNested = true;
 		options._nestedSchema = itemSchema;
-		var nestedField = new options.type(field.list, path, options);
-		fields[path] = nestedField;
+		return new options.type(field.list, path, options);
 	}
 
 	Object.keys(fieldsSpec).forEach(function (path) {
@@ -100,7 +100,8 @@ list.prototype.addToSchema = function () {
 				+ field.list.key + '.' + field.path + ' is a reserved path'
 			);
 		}
-		fields[path] = addField(path, fieldsSpec[path]);
+		fields[path] = createField(path, fieldsSpec[path]);
+		fieldsArray.push(path);
 	});
 
 	if (this.options.decorateSchema) {
@@ -109,6 +110,19 @@ list.prototype.addToSchema = function () {
 
 	this.list.schema.add(this._path.addTo({}, [itemSchema]));
 	this.bindUnderscoreMethods();
+};
+
+/**
+ * Provides additional properties for the Admin UI
+ */
+list.prototype.getProperties = function (item, separator) {
+	var fields = {};
+	this.fieldsArray.forEach(function (path) {
+		fields[path] = this.fields[path].getOptions();
+	}, this);
+	return {
+		fields: fields,
+	};
 };
 
 /**
