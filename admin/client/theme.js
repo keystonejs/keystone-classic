@@ -11,8 +11,8 @@ const { blend, fade, lighten } = require('./utils/color');
 theme.breakpointNumeric = {
 	mobile:           480,
 	tabletPortrait:   768,
-	tabletLandscape:  1024,
-	desktop:          1280,
+	tabletLandscape:  992,
+	desktop:          1200,
 };
 theme.breakpoint = {
 	tabletPortraitMin:  (theme.breakpointNumeric.mobile + 1) + 'px',
