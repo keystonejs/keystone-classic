@@ -27,7 +27,10 @@ module.exports = Field.create({
 	},
 	addItem () {
 		const value = this.props.value.slice();
-		value.push({ _id: generateId() });
+		value.push({
+			_id: generateId(),
+			_isNew: true,
+		});
 		this.props.onChange({
 			path: this.props.path,
 			value: value,
@@ -63,6 +66,7 @@ module.exports = Field.create({
 			props.onChange = this.handleFieldChange.bind(this, index);
 			props.mode = 'edit';
 			props.key = field.path;
+			// TODO ?
 			// if (props.dependsOn) {
 			// 	props.currentDependencies = {};
 			// 	Object.keys(props.dependsOn).forEach(dep => {
@@ -75,14 +79,17 @@ module.exports = Field.create({
 	renderItems () {
 		return (
 			<div>
-				{this.props.value.map((value, i) => (
+				{this.props.value.map((value, index) => (
 					<div key={`item${value._id}`} style={{
 						borderTop: '2px solid #eee',
 						paddingTop: 15,
 					}}>
-						{this.renderFieldsForItem(i, value)}
+						{!value._isNew ? (
+							<input type="hidden" name={`${this.props.path}[${index}][id]`} value={value._id} />
+						) : null}
+						{this.renderFieldsForItem(index, value)}
 						<div style={{ textAlign: 'right', paddingBottom: 10 }}>
-							<Button size="xsmall" color="danger" onClick={e => this.removeItem(i)}>
+							<Button size="xsmall" color="danger" onClick={e => this.removeItem(index)}>
 								remove
 							</Button>
 						</div>
