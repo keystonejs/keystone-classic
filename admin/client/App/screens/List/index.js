@@ -7,6 +7,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import classnames from 'classnames';
 import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
+import numeral from 'numeral';
 import { connect } from 'react-redux';
 
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
@@ -342,7 +343,8 @@ const ListView = React.createClass({
 			<div className="ListHeader">
 				<Container>
 					<h2 className="ListHeader__title">
-						{plural(items.count, ('* ' + list.singular), ('* ' + list.plural))}
+						{numeral(items.count).format()}
+						{plural(items.count, ' ' + list.singular, ' ' + list.plural)}
 						<ListSort
 							activeSort={this.props.active.sort}
 							availableColumns={this.props.currentList.columns}
