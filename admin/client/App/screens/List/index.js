@@ -5,10 +5,21 @@
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import classnames from 'classnames';
-import { BlankState, Button, Container, FormInput, InputGroup, Pagination, Spinner } from 'elemental';
 import numeral from 'numeral';
+import {
+	BlankState,
+	Button,
+	Container,
+	FormInput,
+	InputGroup,
+	Pagination,
+	Spinner,
+} from 'elemental';
 import { connect } from 'react-redux';
+
+import { GlyphButton, ResponsiveText } from '../../elemental';
 
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import CreateForm from '../../shared/CreateForm';
@@ -36,6 +47,27 @@ import {
 import {
 	deleteItem,
 } from '../Item/actions';
+
+function CreateButton ({ listName, onClick, ...props }) {
+	return (
+		<GlyphButton
+			block
+			className={css(classes.createButton)}
+			color="success"
+			glyph="plus"
+			onClick={onClick}
+			position="left"
+			title={`Create ${listName}`}
+			{...props}
+		>
+			<ResponsiveText
+				visibleSM="Create"
+				visibleMD="Create"
+				visibleLG={`Create ${listName}`}
+			/>
+		</GlyphButton>
+	);
+};
 
 const ListView = React.createClass({
 	contextTypes: {
@@ -207,24 +239,20 @@ const ListView = React.createClass({
 		);
 	},
 	renderCreateButton () {
-		if (this.props.currentList.nocreate) return null;
-		var props = { type: 'success' };
-		if (this.props.currentList.autocreate) {
-			props.onClick = () => this.createAutocreate();
-		} else {
-			props.onClick = () => this.toggleCreateModal(true);
-		}
+		const { autocreate, nocreate, singular } = this.props.currentList;
+
+		if (nocreate) return null;
+
+		const onClick = autocreate
+			? this.createAutocreate
+			: () => this.toggleCreateModal(true);
+
 		return (
 			<InputGroup.Section className="ListHeader__create">
-				<Button {...props} title={'Create ' + this.props.currentList.singular}>
-					<span className="ListHeader__create__icon octicon octicon-plus" />
-					<span className="ListHeader__create__label">
-						Create
-					</span>
-					<span className="ListHeader__create__label--lg">
-						Create {this.props.currentList.singular}
-					</span>
-				</Button>
+				<CreateButton
+					listName={singular}
+					onClick={onClick}
+				/>
 			</InputGroup.Section>
 		);
 	},
@@ -374,13 +402,12 @@ const ListView = React.createClass({
 							className="ListHeader__download"
 						/>
 						<InputGroup.Section className="ListHeader__expand">
-							<Button
-								isActive={!this.state.constrainTableWidth}
+							<GlyphButton
+								active={!this.state.constrainTableWidth}
+								glyph="mirror"
 								onClick={this.toggleTableWidth}
 								title="Expand table width"
-							>
-								<span className="octicon octicon-mirror" />
-							</Button>
+							/>
 						</InputGroup.Section>
 						{this.renderCreateButton()}
 					</InputGroup>
@@ -608,6 +635,12 @@ const ListView = React.createClass({
 				{this.renderConfirmationDialog()}
 			</div>
 		);
+	},
+});
+
+const classes = StyleSheet.create({
+	createButton: {
+
 	},
 });
 

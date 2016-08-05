@@ -5,22 +5,32 @@ import { css, StyleSheet } from 'aphrodite/no-important';
 import Button from '../Button';
 import Glyph from '../Glyph';
 
-function GlyphButton ({ children, glyph, glyphColor, glyphSize, position, ...props }) {
+function GlyphButton ({
+	children,
+	glyph,
+	glyphColor,
+	glyphSize,
+	position,
+	...props,
+}) {
 	const isDefault = position === 'default';
 	const isLeft = position === 'left';
 	const isRight = position === 'right';
 
-	// prepare the icon
+	const glyphStyles = {};
+	if (isLeft) glyphStyles.marginRight = '0.5em';
+	if (isRight) glyphStyles.marginLeft = '0.5em';
+
 	const icon = (
 		<Glyph
 			className={css(classes.glyph)}
 			color={glyphColor}
 			name={glyph}
 			size={glyphSize}
+			style={glyphStyles}
 		/>
 	);
 
-	// render that shit
 	return (
 		<Button {...props}>
 			{(isDefault || isLeft) && icon}
@@ -48,18 +58,6 @@ const classes = StyleSheet.create({
 		display: 'inline-block',
 		marginTop: '-0.125em', // fix icon alignment
 		verticalAlign: 'middle',
-
-		// add spacing
-		':first-child': {
-			marginRight: '0.5em',
-		},
-		':last-child': {
-			marginLeft: '0.5em',
-		},
-		':only-child': {
-			marginLeft: 0,
-			marginRight: 0,
-		},
 	},
 });
 
