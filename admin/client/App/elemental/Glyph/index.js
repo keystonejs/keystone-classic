@@ -12,14 +12,15 @@ const classes = StyleSheet.create(styles);
 // FIXME static octicon classes leaning on Elemental to avoid duplicate
 // font and CSS; inflating the project size
 
-function Glyph ({ className, color, name, size, ...props }) {
+function Glyph ({ className, color, component, name, size, ...props }) {
+	const Component = component;
 	props.className = cssClassNames([
 		classes.glyph,
 		classes['color__' + color],
 		classes['size__' + size],
 	], cssStaticNames([octicons[name], className]));
 
-	return <span {...props} />;
+	return <Component {...props} />;
 };
 
 Glyph.propTypes = {
@@ -28,6 +29,7 @@ Glyph.propTypes = {
 	size: PropTypes.oneOf(Object.keys(sizes)),
 };
 Glyph.defaultProps = {
+	component: 'i',
 	color: 'inherit',
 	size: 'small',
 };
