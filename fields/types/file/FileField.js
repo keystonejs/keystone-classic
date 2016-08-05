@@ -36,6 +36,14 @@ module.exports = Field.create({
 	shouldCollapse () {
 		return this.props.collapse && !this.hasExisting();
 	},
+	componentWillUpdate (nextProps) {
+		// Show the new filename when it's finished uploading
+		if (this.props.value.filename !== nextProps.value.filename) {
+			this.setState({
+				userSelectedFile: null,
+			});
+		}
+	},
 
 	// ==============================
 	// HELPERS
