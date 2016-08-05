@@ -152,7 +152,9 @@ const ListView = React.createClass({
 		}
 	},
 	handlePageSelect (i) {
-		this.props.dispatch(setCurrentPage(i));
+		// If the current page index is the same as the index we are intending to pass to redux, bail out.
+		if (i === this.props.lists.page.index) return;
+		return this.props.dispatch(setCurrentPage(i));
 	},
 	toggleManageMode (filter = !this.state.manageMode) {
 		this.setState({
