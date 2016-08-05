@@ -65,6 +65,7 @@ module.exports = Field.create({
 			props.values = value;
 			props.onChange = this.handleFieldChange.bind(this, index);
 			props.mode = 'edit';
+			props.inputNamePrefix = `${this.props.path}[${index}]`;
 			props.key = field.path;
 			// TODO ?
 			// if (props.dependsOn) {
