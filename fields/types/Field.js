@@ -36,9 +36,9 @@ var Base = module.exports.Base = {
 	},
 	getInputName (path) {
 		// This correctly creates the path for field inputs, and supports the
-		// inputPathPrefix prop that is required for nested fields to work
-		return this.props.inputPathPrefix
-			? `${this.props.inputPathPrefix}[${path}]`
+		// inputNamePrefix prop that is required for nested fields to work
+		return this.props.inputNamePrefix
+			? `${this.props.inputNamePrefix}[${path}]`
 			: path;
 	},
 	valueChanged (event) {
