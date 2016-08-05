@@ -131,14 +131,14 @@ var EditForm = React.createClass({
 		});
 
 		list.updateItem(data.id, formData, (err, data) => {
-			function scrollToTop () {
+			function smoothScrollTop () {
 				if (document.body.scrollTop || document.documentElement.scrollTop) {
 					window.scrollBy(0, -50);
-					var timeOut = setTimeout(scrollToTop, 20);
+					var timeOut = setTimeout(smoothScrollTop, 20);
 				}
 				else clearTimeout(timeOut);
 			}
-			scrollToTop(); // Smooth scroll to top
+			smoothScrollTop();
 			if (err) {
 				this.setState({
 					alerts: {
