@@ -82,7 +82,7 @@ Object.defineProperty(azurefile.prototype, 'azurefileconfig', {
  */
 azurefile.prototype.addToSchema = function (schema) {
 
-	var azure = require('azure');
+	var azure = require('azure-storage');
 
 	var field = this;
 
@@ -209,7 +209,7 @@ azurefile.prototype.updateItem = function (item, data, callback) {
  */
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
-	var azure = require('azure');
+	var azure = require('azure-storage');
 
 	var field = this;
 	var filetype = file.mimetype || file.type;

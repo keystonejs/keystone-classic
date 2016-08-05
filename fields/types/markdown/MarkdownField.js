@@ -150,7 +150,7 @@ module.exports = Field.create({
 			<textarea
 				className="md-editor__input code"
 				defaultValue={defaultValue}
-				name={this.props.paths.md}
+				name={this.getInputName(this.props.paths.md)}
 				ref="markdownTextarea"
 				style={styles}
 			/>

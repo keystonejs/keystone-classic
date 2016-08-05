@@ -274,11 +274,11 @@ module.exports = Field.create({
 				<HiddenFileInput
 					accept={SUPPORTED_TYPES.join()}
 					ref="fileInput"
-					name={paths.upload}
+					name={this.getInputName(paths.upload)}
 					onChange={this.handleImageChange}
 				/>
 				<input
-					name={paths.action}
+					name={this.getInputName(paths.action)}
 					type="hidden"
 					value={this.state.action}
 				/>

@@ -81,7 +81,7 @@ module.exports = Field.create({
 				<FormInput
 					autoComplete="off"
 					multiline
-					name={this.props.path}
+					name={this.getInputName(this.props.path)}
 					onChange={this.valueChanged}
 					ref="codemirror"
 					value={this.props.value}

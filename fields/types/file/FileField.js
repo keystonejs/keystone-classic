@@ -36,6 +36,14 @@ module.exports = Field.create({
 	shouldCollapse () {
 		return this.props.collapse && !this.hasExisting();
 	},
+	componentWillUpdate (nextProps) {
+		// Show the new filename when it's finished uploading
+		if (this.props.value.filename !== nextProps.value.filename) {
+			this.setState({
+				userSelectedFile: null,
+			});
+		}
+	},
 
 	// ==============================
 	// HELPERS
@@ -159,7 +167,7 @@ module.exports = Field.create({
 				: (this.state.action === 'delete' ? 'remove' : '');
 			return (
 				<input
-					name={this.props.path}
+					name={this.getInputName(this.props.path)}
 					type="hidden"
 					value={value}
 				/>
@@ -186,7 +194,7 @@ module.exports = Field.create({
 							{this.hasFile() && this.renderFileNameAndOptionalMessage(true)}
 							{buttons}
 							<HiddenFileInput
-								name={this.state.uploadFieldPath}
+								name={this.getInputName(this.state.uploadFieldPath)}
 								onChange={this.handleFileChange}
 								ref="fileInput"
 							/>

@@ -2,6 +2,9 @@
   "extends": [
      "keystone"
   ],
+  "rules": {
+    "react/jsx-no-bind": 0
+  },
   "globals": {
     "_": true,
     "$": true,

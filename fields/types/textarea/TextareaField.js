@@ -18,7 +18,7 @@ module.exports = Field.create({
 			<FormInput
 				autoComplete="off"
 				multiline
-				name={path}
+				name={this.getInputName(path)}
 				onChange={this.valueChanged}
 				ref="focusTarget"
 				style={styles}

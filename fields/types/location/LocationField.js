@@ -107,7 +107,7 @@ module.exports = Field.create({
 		const { value = {}, path } = this.props;
 		return (
 			<NestedFormField label={label} data-field-location-path={path + '.' + fieldPath}>
-				<FormInput autoFocus={autoFocus} name={path + '.' + fieldPath} value={value[fieldPath]} onChange={this.makeChanger(fieldPath)} placeholder={label} />
+				<FormInput autoFocus={autoFocus} name={this.getInputName(path + '.' + fieldPath)} value={value[fieldPath]} onChange={this.makeChanger(fieldPath)} placeholder={label} />
 			</NestedFormField>
 		);
 	},
@@ -118,10 +118,10 @@ module.exports = Field.create({
 			<NestedFormField label="Suburb / State" data-field-location-path={path + '.suburb_state'}>
 				<FormRow>
 					<FormField width="two-thirds" data-field-location-path={path + '.suburb'}>
-						<FormInput name={path + '.suburb'} value={value.suburb} onChange={this.makeChanger('suburb')} placeholder="Suburb" />
+						<FormInput name={this.getInputName(path + '.suburb')} value={value.suburb} onChange={this.makeChanger('suburb')} placeholder="Suburb" />
 					</FormField>
 					<FormField width="one-third" data-field-location-path={path + '.state'}>
-						<FormInput name={path + '.state'} value={value.state} onChange={this.makeChanger('state')} placeholder="State" />
+						<FormInput name={this.getInputName(path + '.state')} value={value.state} onChange={this.makeChanger('state')} placeholder="State" />
 					</FormField>
 				</FormRow>
 			</NestedFormField>
@@ -134,10 +134,10 @@ module.exports = Field.create({
 			<NestedFormField label="Postcode / Country" data-field-location-path={path + '.postcode_country'}>
 				<FormRow>
 					<FormField width="one-third" data-field-location-path={path + '.postcode'}>
-						<FormInput name={path + '.postcode'} value={value.postcode} onChange={this.makeChanger('postcode')} placeholder="Post Code" />
+						<FormInput name={this.getInputName(path + '.postcode')} value={value.postcode} onChange={this.makeChanger('postcode')} placeholder="Post Code" />
 					</FormField>
 					<FormField width="two-thirds" data-field-location-path={path + '.country'}>
-						<FormInput name={path + '.country'} value={value.country} onChange={this.makeChanger('country')} placeholder="Country" />
+						<FormInput name={this.getInputName(path + '.country')} value={value.country} onChange={this.makeChanger('country')} placeholder="Country" />
 					</FormField>
 				</FormRow>
 			</NestedFormField>
@@ -154,10 +154,10 @@ module.exports = Field.create({
 			<NestedFormField label="Lat / Lng" data-field-location-path={path + '.geo'}>
 				<FormRow>
 					<FormField width="one-half" data-field-location-path="latitude">
-						<FormInput name={paths.geo + '[1]'} value={geo[1]} onChange={this.makeGeoChanger(1)} placeholder="Latitude" />
+						<FormInput name={this.getInputName(paths.geo + '[1]')} value={geo[1]} onChange={this.makeGeoChanger(1)} placeholder="Latitude" />
 					</FormField>
 					<FormField width="one-half" data-field-location-path="longitude">
-						<FormInput name={paths.geo + '[0]'} value={geo[0]} onChange={this.makeGeoChanger(0)} placeholder="Longitude" />
+						<FormInput name={this.getInputName(paths.geo + '[0]')} value={geo[0]} onChange={this.makeGeoChanger(0)} placeholder="Longitude" />
 					</FormField>
 				</FormRow>
 			</NestedFormField>
@@ -181,7 +181,7 @@ module.exports = Field.create({
 		var replace = this.state.improve ? (
 			<Checkbox
 				label="Replace existing data"
-				name={paths.overwrite}
+				name={this.getInputName(paths.overwrite)}
 				onChange={this.makeGoogler('overwrite')}
 				checked={this.state.overwrite} />
 		) : null;
@@ -189,7 +189,7 @@ module.exports = Field.create({
 			<FormField offsetAbsentLabel>
 				<Checkbox
 					label="Autodetect and improve location on save"
-					name={paths.improve}
+					name={this.getInputName(paths.improve)}
 					onChange={this.makeGoogler('improve')}
 					checked={this.state.improve}
 					title="When checked, this will attempt to fill missing fields. It will also get the lat/long" />
