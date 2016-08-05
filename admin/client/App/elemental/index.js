@@ -11,4 +11,5 @@ module.exports = {
 	LoadingButton: require('./LoadingButton'),
 	ScreenReaderOnly: require('./ScreenReaderOnly'),
 	Spinner: require('./Spinner'),
+	ResponsiveText: require('./ResponsiveText'),
 };

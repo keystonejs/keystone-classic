@@ -80,12 +80,11 @@ Object.defineProperty(azurefile.prototype, 'azurefileconfig', {
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-azurefile.prototype.addToSchema = function () {
+azurefile.prototype.addToSchema = function (schema) {
 
-	var azure = require('azure');
+	var azure = require('azure-storage');
 
 	var field = this;
-	var schema = this.list.schema;
 
 	var paths = this.paths = {
 		// fields
@@ -210,7 +209,7 @@ azurefile.prototype.updateItem = function (item, data, callback) {
  */
 azurefile.prototype.uploadFile = function (item, file, update, callback) {
 
-	var azure = require('azure');
+	var azure = require('azure-storage');
 
 	var field = this;
 	var filetype = file.mimetype || file.type;

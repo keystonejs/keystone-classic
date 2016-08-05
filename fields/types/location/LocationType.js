@@ -48,10 +48,9 @@ util.inherits(location, FieldType);
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-location.prototype.addToSchema = function () {
+location.prototype.addToSchema = function (schema) {
 
 	var field = this;
-	var schema = this.list.schema;
 	var options = this.options;
 
 	var paths = this.paths = {

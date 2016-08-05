@@ -24,10 +24,9 @@ util.inherits(file, FieldType);
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-file.prototype.addToSchema = function () {
+file.prototype.addToSchema = function (schema) {
 
 	var field = this;
-	var schema = this.list.schema;
 
 	this.paths = {};
 	// add field paths from the storage schema

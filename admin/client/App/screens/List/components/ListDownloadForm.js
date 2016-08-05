@@ -3,7 +3,7 @@ import assign from 'object-assign';
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
 import { Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
-import HeaderButton from './HeaderButton';
+import ListHeaderButton from './ListHeaderButton';
 
 import { downloadItems } from '../actions';
 const FORMAT_OPTIONS = [
@@ -103,7 +103,7 @@ var ListDownloadForm = React.createClass({
 
 		return (
 			<InputGroup.Section className={this.props.className}>
-				<HeaderButton
+				<ListHeaderButton
 					active={this.state.isOpen}
 					id="listHeaderDownloadButton"
 					glyph="cloud-download"
