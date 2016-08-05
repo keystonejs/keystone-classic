@@ -13,14 +13,10 @@ matrix:
   include:
     - node_js: '6'
       script:
+        - npm run lint
         - npm run test-cov
       env:
-        - JOB=test-cov
-    - node_js: '6'
-      script:
-        - npm run lint
-      env:
-        - JOB=lint
+        - JOB=lint-and-test-cov
     - node_js: '6'
       addons:
         sauce_connect: true
