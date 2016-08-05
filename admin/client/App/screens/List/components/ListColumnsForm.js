@@ -4,7 +4,7 @@ import assign from 'object-assign';
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
 import { InputGroup, FormField, FormInput } from 'elemental';
-import HeaderButton from './HeaderButton';
+import ListHeaderButton from './ListHeaderButton';
 
 import { setActiveColumns } from '../actions';
 
@@ -86,7 +86,7 @@ var ListColumnsForm = React.createClass({
 	render () {
 		return (
 			<InputGroup.Section className={this.props.className}>
-				<HeaderButton
+				<ListHeaderButton
 					active={this.state.isOpen}
 					id="listHeaderColumnButton"
 					glyph="list-unordered"

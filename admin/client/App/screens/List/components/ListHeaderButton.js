@@ -2,7 +2,7 @@ import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import { DropdownButton, Glyph } from '../../../elemental';
 
-function HeaderButton ({ className, label, glyph, ...props }) {
+function ListHeaderButton ({ className, label, glyph, ...props }) {
 	return (
 		<DropdownButton block {...props}>
 			<Glyph name={glyph} className={css(classes.glyph)} />
@@ -11,7 +11,7 @@ function HeaderButton ({ className, label, glyph, ...props }) {
 	);
 };
 
-HeaderButton.propTypes = {
+ListHeaderButton.propTypes = {
 	glyph: PropTypes.string.isRequired,
 };
 
@@ -34,4 +34,4 @@ const classes = StyleSheet.create({
 	},
 });
 
-module.exports = HeaderButton;
+module.exports = ListHeaderButton;

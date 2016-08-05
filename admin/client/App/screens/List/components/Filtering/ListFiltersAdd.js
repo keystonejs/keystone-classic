@@ -6,7 +6,7 @@ import ListFiltersAddForm from './ListFiltersAddForm';
 import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';
 import { FormField, FormInput, InputGroup } from 'elemental';
-import HeaderButton from '../HeaderButton';
+import ListHeaderButton from '../ListHeaderButton';
 
 import { setFilter } from '../../actions';
 
@@ -127,7 +127,7 @@ var ListFiltersAdd = React.createClass({
 
 		return (
 			<InputGroup.Section className={this.props.className}>
-				<HeaderButton
+				<ListHeaderButton
 					active={this.state.isOpen}
 					id="listHeaderFilterButton"
 					glyph="eye"
