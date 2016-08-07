@@ -38,6 +38,15 @@ function getNameFromData (data) {
 	return data;
 }
 
+function smoothScrollTop () {
+	if (document.body.scrollTop || document.documentElement.scrollTop) {
+		window.scrollBy(0, -50);
+		var timeOut = setTimeout(smoothScrollTop, 20);
+	}	else {
+		clearTimeout(timeOut);
+	}
+}
+
 var EditForm = React.createClass({
 	displayName: 'EditForm',
 	propTypes: {
@@ -131,13 +140,6 @@ var EditForm = React.createClass({
 		});
 
 		list.updateItem(data.id, formData, (err, data) => {
-			function smoothScrollTop () {
-				if (document.body.scrollTop || document.documentElement.scrollTop) {
-					window.scrollBy(0, -50);
-					var timeOut = setTimeout(smoothScrollTop, 20);
-				}
-				else clearTimeout(timeOut);
-			}
 			smoothScrollTop();
 			if (err) {
 				this.setState({
