@@ -38,6 +38,15 @@ function getNameFromData (data) {
 	return data;
 }
 
+function smoothScrollTop () {
+	if (document.body.scrollTop || document.documentElement.scrollTop) {
+		window.scrollBy(0, -50);
+		var timeOut = setTimeout(smoothScrollTop, 20);
+	}	else {
+		clearTimeout(timeOut);
+	}
+}
+
 var EditForm = React.createClass({
 	displayName: 'EditForm',
 	propTypes: {
@@ -131,8 +140,7 @@ var EditForm = React.createClass({
 		});
 
 		list.updateItem(data.id, formData, (err, data) => {
-			// TODO: implement smooth scolling
-			scrollTo(0, 0); // Scroll to top
+			smoothScrollTop();
 			if (err) {
 				this.setState({
 					alerts: {
