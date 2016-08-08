@@ -262,7 +262,7 @@ cloudinaryimage.prototype.isModified = function (item) {
 
 function validateInput (value) {
 	// undefined values are always valid
-	if (value === undefined || value === null) return true;
+	if (value === undefined || value === null || value === '') return true;
 	// If a string is provided, check it is an upload or delete instruction
 	// TODO: This should really validate files as well, but that's not pased to this method
 	if (typeof value === 'string' && /^(upload\:)|(delete$)|(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) return true;
@@ -277,7 +277,8 @@ function validateInput (value) {
  */
 cloudinaryimage.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
-	utils.defer(callback, validateInput(value));
+	var result = validateInput(value);
+	utils.defer(callback, result);
 };
 
 /**
@@ -317,6 +318,11 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	// Allow value to be retrieved from the legacy `_upload` path if it is undefined
 	if (value === undefined) {
 		value = this.getValueFromData(data, '_upload');
+	}
+
+	// If the value is still undefined, bail early
+	if (value === undefined) {
+		return utils.defer(callback);
 	}
 
 	// Allow field value reset
