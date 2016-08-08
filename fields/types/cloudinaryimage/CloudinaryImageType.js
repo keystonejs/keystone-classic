@@ -264,11 +264,11 @@ function validateInput (value) {
 	// undefined values are always valid
 	if (value === undefined || value === null) return true;
 	// If a string is provided, check it is an upload or delete instruction
-	if (typeof value === 'string' && /^(upload\:)|(delete$)/.test(value)) return true;
+	// TODO: This should really validate files as well, but that's not pased to this method
+	if (typeof value === 'string' && /^(upload\:)|(delete$)|(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) return true;
 	// If the value is an object and has a cloudinary public_id, it is valid
 	if (typeof value === 'object' && value.public_id) return true;
-	// If the value is an uploaded file, it is valid
-	if (typeof value === 'object' && value.path) return true;
+	// None of the above? we can't recognise it.
 	return false;
 }
 
@@ -285,6 +285,7 @@ cloudinaryimage.prototype.validateInput = function (data, callback) {
  */
 cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
+	// TODO: This should be much more robust
 	var result = (value || item.get(this.path).public_id) ? true : false;
 	utils.defer(callback, result);
 };
@@ -305,6 +306,8 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	if (typeof files === 'function') {
 		callback = files;
 		files = {};
+	} else if (!files) {
+		files = {};
 	}
 
 	var cloudinary = require('cloudinary');
@@ -317,53 +320,81 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	}
 
 	// Allow field value reset
-	if (value === '' || value === 'null' || (typeof value === 'object' && !Object.keys(value).length)) {
-		item.set(this.path, getEmptyValue());
-		return utils.defer(callback);
+	if (value === '' || value === null || (typeof value === 'object' && !Object.keys(value).length)) {
+		value = getEmptyValue();
 	}
 
-	// When the value is a string, assume it's base64 data or a remote URL and
-	// upload it to cloudinary as a file path. More logic could be added here to
-	// detect/prevent invalid uploads
+	/*
+		When the value is a string, it is one of:
+		* a reference to an uploaded file in multipart data (provided in files)
+		* base64 data to upload
+		* a remote URL to upload
+		* a direction to delete the current file ("remove")
+	*/
+
+	if (value === 'remove') {
+		cloudinary.uploader.destroy(item.get(field.paths.public_id), function (result) {
+			if (result.error) {
+				callback(result.error);
+			} else {
+				item.set(field.path, getEmptyValue());
+				callback();
+			}
+		});
+		return;
+	}
+
 	if (typeof value === 'string') {
-		if (value === 'remove') {
-			// TODO FIGURE OUT HOW TO REMOVE
-		} else if (value.substr(0, 7) === 'upload:') {
-			console.log('UPLOAD');
+		// detect file upload (field value must be a reference to a field in the
+		// uploaded files object provided by multer)
+		if (value.substr(0, 7) === 'upload:') {
 			var uploadFieldPath = value.substr(7);
-			var fileToUpload = files[uploadFieldPath];
-			// File provided - upload it
-			var tagPrefix = keystone.get('cloudinary prefix') || '';
-			var uploadOptions = {
-				tags: [],
-			};
-			if (tagPrefix.length) {
-				uploadOptions.tags.push(tagPrefix);
-				tagPrefix += '_';
-			}
-			uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
-			if (keystone.get('env') !== 'production') {
-				uploadOptions.tags.push(tagPrefix + 'dev');
-			}
-			var folder = this.getFolder();
-			if (folder) {
-				uploadOptions.folder = folder;
-			}
-			// NOTE: field.options.publicID has been deprecated (tbc)
-			if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
-				uploadOptions.public_id = value.originalname.substring(0, value.originalname.lastIndexOf('.'));
-			}
-			// TODO: implement autoCleanup; should delete existing images before uploading
-			cloudinary.uploader.upload(value.path, function (result) {
-				if (result.error) {
-					return callback(result.error);
-				} else {
-					item.set(field.path, result);
-					return callback();
-				}
-			}, uploadOptions);
+			value = files[uploadFieldPath];
+		}
+		// detect a URL or Base64 Data
+		else if (/^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
+			value = { path: value };
 		}
 	}
+
+	// if an object with a path has been provided, upload the value in the path
+	if (typeof value === 'object' && value.path) {
+		var tagPrefix = keystone.get('cloudinary prefix') || '';
+		var uploadOptions = {
+			tags: [],
+		};
+		if (tagPrefix.length) {
+			uploadOptions.tags.push(tagPrefix);
+			tagPrefix += '_';
+		}
+		uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
+		if (keystone.get('env') !== 'production') {
+			uploadOptions.tags.push(tagPrefix + 'dev');
+		}
+		var folder = this.getFolder();
+		if (folder) {
+			uploadOptions.folder = folder;
+		}
+		// NOTE: field.options.publicID has been deprecated (tbc)
+		if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
+			uploadOptions.public_id = value.originalname.substring(0, value.originalname.lastIndexOf('.'));
+		}
+		// TODO: implement autoCleanup; should delete existing images before uploading
+		cloudinary.uploader.upload(value.path, function (result) {
+			if (result.error) {
+				return callback(result.error);
+			} else {
+				item.set(field.path, result);
+				return callback();
+			}
+		}, uploadOptions);
+
+		return;
+	}
+
+	// otherwise, simply set the value on the field
+	item.set(field.path, value);
+	utils.defer(callback);
 };
 
 /**
