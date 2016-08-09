@@ -16,10 +16,7 @@ class ResponsiveText extends Component {
 	constructor () {
 		super();
 		this.handleResize = this.handleResize.bind(this);
-		this.state = {};
-	}
-	getInitialState () {
-		return {
+		this.state = {
 			windowWidth: canUseDOM ? window.innerWidth : 0,
 		};
 	}

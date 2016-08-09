@@ -20,7 +20,7 @@ var TextColumn = React.createClass({
 		const className = this.props.col.field.monospace ? 'ItemList__value--monospace' : undefined;
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue className={className} href={this.props.linkTo} empty={empty} padded interior field={this.props.col.type}>
+				<ItemsTableValue className={className} to={this.props.linkTo} empty={empty} padded interior field={this.props.col.type}>
 					{value}
 				</ItemsTableValue>
 			</ItemsTableCell>

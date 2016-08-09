@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { css, StyleSheet } from 'aphrodite/no-important';
 import classnames from 'classnames';
 import numeral from 'numeral';
 import {
@@ -52,8 +51,8 @@ function CreateButton ({ listName, onClick, ...props }) {
 	return (
 		<GlyphButton
 			block
-			className={css(classes.createButton)}
 			color="success"
+			data-e2e-list-create-button="header"
 			glyph="plus"
 			onClick={onClick}
 			position="left"
@@ -245,7 +244,7 @@ const ListView = React.createClass({
 
 		const onClick = autocreate
 			? this.createAutocreate
-			: () => this.toggleCreateModal(true);
+			: this.openCreateModal;
 
 		return (
 			<InputGroup.Section className="ListHeader__create">
@@ -502,20 +501,11 @@ const ListView = React.createClass({
 			showCreateForm: visible,
 		});
 	},
-	renderBlankStateCreateButton () {
-		var props = { type: 'success' };
-		const list = this.props.currentList;
-		if (list.nocreate) return null;
-		if (list.autocreate) {
-			props.onClick = () => this.createAutocreate();
-		} else {
-			props.onClick = () => this.toggleCreateModal(true);
-		}
-		return (
-			<Button {...props}>
-				<span className="octicon octicon-plus" /> Create {list.singular}
-			</Button>
-		);
+	openCreateModal () {
+		this.toggleCreateModal(true);
+	},
+	closeCreateModal () {
+		this.toggleCreateModal(false);
 	},
 	showBlankState () {
 		return !this.props.loading
@@ -524,7 +514,22 @@ const ListView = React.createClass({
 				&& !this.props.active.filters.length;
 	},
 	renderBlankState () {
+		const { currentList } = this.props;
+
 		if (!this.showBlankState()) return null;
+
+		// create and nav directly to the item view, or open the create modal
+		const onClick = currentList.autocreate
+			? this.createAutocreate
+			: this.openCreateModal;
+
+		// display the button if create allowed
+		const button = !currentList.nocreate ? (
+			<GlyphButton color="success" glyph="plus" position="left" onClick={onClick} data-e2e-list-create-button="no-results">
+				Create {currentList.singular}
+			</GlyphButton>
+		) : null;
+
 		return (
 			<Container>
 				{(this.props.error) ? (
@@ -536,7 +541,7 @@ const ListView = React.createClass({
 				) : null}
 				<BlankState style={{ marginTop: 40 }}>
 					<BlankState.Heading>No {this.props.currentList.plural.toLowerCase()} found&hellip;</BlankState.Heading>
-					{this.renderBlankStateCreateButton()}
+					{button}
 				</BlankState>
 			</Container>
 		);
@@ -623,7 +628,7 @@ const ListView = React.createClass({
 					err={Keystone.createFormErrors}
 					isOpen={this.state.showCreateForm}
 					list={this.props.currentList}
-					onCancel={() => this.toggleCreateModal(false)}
+					onCancel={this.closeCreateModal}
 					onCreate={this.onCreate}
 				/>
 				<UpdateForm
@@ -635,12 +640,6 @@ const ListView = React.createClass({
 				{this.renderConfirmationDialog()}
 			</div>
 		);
-	},
-});
-
-const classes = StyleSheet.create({
-	createButton: {
-
 	},
 });
 

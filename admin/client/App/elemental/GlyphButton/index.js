@@ -1,7 +1,7 @@
 /* eslint quote-props: ["error", "as-needed"] */
 
 import React, { PropTypes } from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { StyleSheet } from 'aphrodite/no-important';
 import Button from '../Button';
 import Glyph from '../Glyph';
 
@@ -23,7 +23,7 @@ function GlyphButton ({
 
 	const icon = (
 		<Glyph
-			className={css(classes.glyph)}
+			className={classes.glyph}
 			color={glyphColor}
 			name={glyph}
 			size={glyphSize}

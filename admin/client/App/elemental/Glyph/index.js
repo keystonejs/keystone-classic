@@ -1,7 +1,6 @@
-import { StyleSheet } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 
-import cssClassNames from '../../../utils/cssClassNames';
 import octicons from './octicons';
 import colors from './colors';
 import sizes from './sizes';
@@ -14,11 +13,12 @@ const classes = StyleSheet.create(styles);
 
 function Glyph ({ className, color, component, name, size, ...props }) {
 	const Component = component;
-	props.className = cssClassNames([
+	props.className = css(
 		classes.glyph,
 		classes['color__' + color],
 		classes['size__' + size],
-	], cssStaticNames([octicons[name], className]));
+		className
+	) + ` ${octicons[name]}`;
 
 	return <Component {...props} />;
 };
@@ -33,11 +33,5 @@ Glyph.defaultProps = {
 	color: 'inherit',
 	size: 'small',
 };
-
-function cssStaticNames (arr) {
-	if (!arr.length || !Array.isArray(arr)) return '';
-
-	return arr.filter(i => i).join(' ');
-}
 
 module.exports = Glyph;

@@ -1,21 +1,18 @@
-import { StyleSheet } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import DrilldownItem from './DrilldownItem';
 
-import cssClassNames from '../../../../utils/cssClassNames';
-
 function Drilldown ({ className, items, ...props }) {
-	props.className = cssClassNames([
-		classes.drilldown,
-	], className);
+	props.className = css(classes.drilldown, className);
 
 	return (
 		<ul {...props}>
 			{items.map((item, idx) => (
 				<DrilldownItem
+					href={item.href}
 					key={idx}
+					label={item.label}
 					separate={idx < items.length - 1}
-					{...item}
 				/>
 			))}
 		</ul>
@@ -23,8 +20,12 @@ function Drilldown ({ className, items, ...props }) {
 };
 
 Drilldown.propTypes = {
-	children: PropTypes.arrayOf(
-		PropTypes.instanceOf(DrilldownItem)
+	items: PropTypes.arrayOf(
+		PropTypes.shape({
+			href: PropTypes.string.isRequired,
+			label: PropTypes.string.isRequired,
+			separate: PropTypes.bool, // FIXME verb; could be better
+		})
 	).isRequired,
 };
 

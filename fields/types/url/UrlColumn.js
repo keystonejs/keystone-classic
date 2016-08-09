@@ -22,7 +22,7 @@ var UrlColumn = React.createClass({
 		var label = value.replace(/^https?\:\/\//i, '');
 
 		return (
-			<ItemsTableValue href={href} padded exterior field={this.props.col.type}>
+			<ItemsTableValue to={href} padded exterior field={this.props.col.type}>
 				{label}
 			</ItemsTableValue>
 		);
