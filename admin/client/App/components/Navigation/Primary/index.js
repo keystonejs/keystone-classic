@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Container } from 'elemental';
+import { Container } from '../../../elemental';
 import PrimaryNavItem from './NavItem';
 
 var PrimaryNavigation = React.createClass({
@@ -103,7 +103,7 @@ var PrimaryNavigation = React.createClass({
 
 		return (
 			<nav className="primary-navbar">
-				<Container clearfix>
+				<Container clearFloatingChildren>
 					<ul className="app-nav app-nav--primary app-nav--left">
 						{this.renderBrand()}
 						{this.renderNavigation()}
