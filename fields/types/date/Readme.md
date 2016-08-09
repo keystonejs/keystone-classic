@@ -17,7 +17,7 @@ String parsing with moment will be done using the `inputFormat` option, which de
 
 ## Options
 
-* `format` `string`
+* `format` `String`
 
 The default format pattern to use, defaults to Do MMM YYYY
 
