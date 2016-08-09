@@ -39,9 +39,7 @@ module.exports = Field.create({
 	componentWillUpdate (nextProps) {
 		// Show the new filename when it's finished uploading
 		if (this.props.value.filename !== nextProps.value.filename) {
-			this.setState({
-				userSelectedFile: null,
-			});
+			this.setState(buildInitialState(nextProps));
 		}
 	},
 
@@ -79,7 +77,7 @@ module.exports = Field.create({
 		var state = {};
 
 		if (this.state.userSelectedFile) {
-			state.userSelectedFile = null;
+			state = buildInitialState(this.props);
 		} else if (this.hasExisting()) {
 			state.removeExisting = true;
 
@@ -194,6 +192,7 @@ module.exports = Field.create({
 							{this.hasFile() && this.renderFileNameAndOptionalMessage(true)}
 							{buttons}
 							<HiddenFileInput
+								key={this.state.uploadFieldPath}
 								name={this.getInputName(this.state.uploadFieldPath)}
 								onChange={this.handleFileChange}
 								ref="fileInput"
