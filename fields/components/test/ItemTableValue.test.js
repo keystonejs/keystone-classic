@@ -31,7 +31,7 @@ describe('<ItemsTableValue/> tests', () => {
 
 	it('should render <Link> with default properties and css class', () => {
 		const actualUrl = 'http://hello.world';
-		const tableValue = shallow(<ItemsTableValue href={actualUrl} />);
+		const tableValue = shallow(<ItemsTableValue to={actualUrl} />);
 
 		demand(tableValue.name()).eql('Link');
 		demand(tableValue.prop('href')).eql(actualUrl);

@@ -18,7 +18,7 @@ var NameColumn = React.createClass({
 	render () {
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue href={this.props.linkTo} padded interior field={this.props.col.type}>
+				<ItemsTableValue to={this.props.linkTo} padded interior field={this.props.col.type}>
 					{this.renderValue()}
 				</ItemsTableValue>
 			</ItemsTableCell>

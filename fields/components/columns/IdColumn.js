@@ -14,7 +14,7 @@ var IdColumn = React.createClass({
 		if (!value) return null;
 
 		return (
-			<ItemsTableValue padded interior title={value} href={Keystone.adminPath + '/' + this.props.list.path + '/' + value} field={this.props.col.type}>
+			<ItemsTableValue padded interior title={value} to={Keystone.adminPath + '/' + this.props.list.path + '/' + value} field={this.props.col.type}>
 				{value}
 			</ItemsTableValue>
 		);
