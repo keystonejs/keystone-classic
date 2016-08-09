@@ -1,17 +1,16 @@
 import React, { PropTypes } from 'react';
 import { css, StyleSheet } from 'aphrodite/no-important';
-import cssClassNames from '../../../utils/cssClassNames';
 import styles from './styles';
 import ScreenReaderOnly from '../ScreenReaderOnly';
 import colors from './colors';
 import sizes from './sizes';
 
 function Spinner ({ className, size, color, ...props }) {
-	props.className = cssClassNames([
+	props.className = css(
 		classes.base,
 		classes[size],
-		className,
-	]);
+		className
+	);
 
 	return (
 		<div {...props}>

@@ -1,14 +1,9 @@
-import { StyleSheet } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import DrilldownItem from './DrilldownItem';
 
-import cssClassNames from '../../../../utils/cssClassNames';
-
 function Drilldown ({ className, items, ...props }) {
-	props.className = cssClassNames([
-		classes.drilldown,
-		className,
-	]);
+	props.className = css(classes.drilldown, className);
 
 	return (
 		<ul {...props}>

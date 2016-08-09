@@ -3,14 +3,10 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Button, Glyph } from '../../../elemental';
 
-import cssClassNames from '../../../../utils/cssClassNames';
 import theme from '../../../../theme';
 
 function DrilldownItem ({ className, href, label, separate, separator, style, ...props }) {
-	props.className = cssClassNames([
-		classes.item,
-		className,
-	]);
+	props.className = css(classes.item, className);
 
 	// remove horizontal padding
 	const styles = {

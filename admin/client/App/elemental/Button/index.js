@@ -1,6 +1,5 @@
-import { StyleSheet } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
-import cssClassNames from '../../../utils/cssClassNames';
 import styles from './styles';
 
 const commonClasses = StyleSheet.create(styles.common);
@@ -31,15 +30,15 @@ function Button ({
 }) {
 	// get the styles
 	const variantClasses = getStyleSheet(variant, color);
-	props.className = cssClassNames([
+	props.className = css(
 		commonClasses.base,
 		commonClasses[size],
 		variantClasses.base,
 		active ? variantClasses.active : null,
 		block ? commonClasses.block : null,
 		disabled ? commonClasses.disabled : null,
-		className,
-	]);
+		className
+	);
 
 	// return an anchor or button
 	if (!component) {

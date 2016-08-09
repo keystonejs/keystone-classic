@@ -1,8 +1,7 @@
-import { StyleSheet } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import styles from './styles';
 import sizes from './sizes';
-import cssClassNames from '../../../utils/cssClassNames';
 
 const classes = StyleSheet.create(styles);
 
@@ -15,12 +14,12 @@ function Container ({
 }) {
 	const Component = component;
 
-	props.className = cssClassNames([
+	props.className = css(
 		classes.container,
 		classes[width],
 		clearFloatingChildren ? classes.clearfix : null,
-		className,
-	]);
+		className
+	);
 
 	return <Component {...props} />;
 };

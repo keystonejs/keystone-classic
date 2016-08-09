@@ -1,7 +1,6 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { cloneElement, Children, PropTypes } from 'react';
 import styles from './styles';
-import cssClassNames from '../../../utils/cssClassNames';
 import colors from './colors';
 
 const classes = StyleSheet.create(styles);
@@ -17,11 +16,11 @@ const cloneWithClassnames = (c) => {
 
 function Alert ({ children, className, color, component, ...props }) {
 	const Component = component;
-	props.className = cssClassNames([
+	props.className = css(
 		classes.alert,
 		classes[color],
-		className,
-	]);
+		className
+	);
 	props.children = Children.map(children, cloneWithClassnames);
 
 	return <Component {...props} />;
