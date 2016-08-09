@@ -104,6 +104,8 @@ theme.spacing = {
 // button
 
 theme.button = {
+	borderRadius: theme.borderRadius.default,
+	borderWidth: 1,
 	font: {
 		weight: 500,
 	},

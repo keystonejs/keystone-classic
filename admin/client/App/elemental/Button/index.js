@@ -28,6 +28,14 @@ function Button ({
 	variant,
 	...props,
 }) {
+	// Support Arrays of Classnames
+	//
+	// force classname prop into an array (possibly of arrays) then flatten.
+	// this array of objects is spread into the `css` function
+	const classNameArray = [className].reduce((a, b) => {
+		return a.concat(b);
+	}, []);
+
 	// get the styles
 	const variantClasses = getStyleSheet(variant, color);
 	props.className = css(
@@ -37,7 +45,7 @@ function Button ({
 		active ? variantClasses.active : null,
 		block ? commonClasses.block : null,
 		disabled ? commonClasses.disabled : null,
-		className
+		...classNameArray
 	);
 
 	// return an anchor or button
@@ -52,9 +60,18 @@ function Button ({
 	return React.createElement(component, props);
 };
 
+const classNameShape = {
+	_definition: PropTypes.object,
+	_name: PropTypes.string,
+};
+
 Button.propTypes = {
 	active: PropTypes.bool,
 	block: PropTypes.bool,
+	className: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(classNameShape)),
+		PropTypes.shape(classNameShape),
+	]),
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.oneOfType([
 		PropTypes.func,

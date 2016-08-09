@@ -16,8 +16,10 @@ exports.common = {
 	base: {
 		'appearance': 'none',
 		'background': 'none',
-		'border': '1px solid transparent',
-		'borderRadius': theme.borderRadius.default,
+		'borderWidth': theme.button.borderWidth,
+		'borderStyle': 'solid',
+		'borderColor': 'transparent',
+		'borderRadius': theme.button.borderRadius,
 		'cursor': 'pointer',
 		'display': 'inline-block',
 		'fontWeight': theme.button.font.weight,
