@@ -229,7 +229,7 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 	var values = this.getValueFromData(data);
 
 	// Early exit path: reset value when falsy, or bail if no value was provided
-	if (!values || values === 'null') {
+	if (!values) {
 		if (values !== undefined) {
 			item.set(field.path, []);
 		}
@@ -263,6 +263,8 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 	}
 
 	async.map(values, function (value, next) {
+		// TODO: Do we actually want to support JSON encoded data here? Seems messy
+
 		// When the value is a string, it may be JSON serialised data. If so, parse
 		// it. Otherwiser, we assume it's base64 data or a remote URL and upload it
 		// to cloudinary as a file path. More logic could be added here to
