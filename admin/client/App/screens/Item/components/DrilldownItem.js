@@ -12,23 +12,20 @@ function DrilldownItem ({ className, href, label, separate, separator, style, ..
 		className,
 	]);
 
+	// remove horizontal padding
 	const styles = {
 		paddingLeft: 0,
 		paddingRight: 0,
 		...style,
 	};
 
-	console.log('DrilldownItem separate', separate, separator);
-
 	return (
 		<li {...props}>
 			<Button
-				className="e2e-editform-header-back"
 				component={Link}
 				style={styles}
 				to={href}
 				variant="link"
-				{...props}
 				>
 				{label}
 			</Button>
@@ -45,12 +42,13 @@ DrilldownItem.propTypes = {
 	href: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	separate: PropTypes.bool, // FIXME verb; could be better
-	separator: PropTypes.string,
+	separator: PropTypes.oneOfType([
+		PropTypes.element,
+		PropTypes.string,
+	]),
 };
 DrilldownItem.defaultProps = {
-	separator: (
-		<Glyph name="chevron-right" />
-	),
+	separator: <Glyph name="chevron-right" />,
 };
 
 const classes = StyleSheet.create({

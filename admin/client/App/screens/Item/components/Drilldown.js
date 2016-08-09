@@ -14,9 +14,10 @@ function Drilldown ({ className, items, ...props }) {
 		<ul {...props}>
 			{items.map((item, idx) => (
 				<DrilldownItem
+					href={item.href}
 					key={idx}
+					label={item.label}
 					separate={idx < items.length - 1}
-					{...item}
 				/>
 			))}
 		</ul>
@@ -24,8 +25,12 @@ function Drilldown ({ className, items, ...props }) {
 };
 
 Drilldown.propTypes = {
-	children: PropTypes.arrayOf(
-		PropTypes.instanceOf(DrilldownItem)
+	items: PropTypes.arrayOf(
+		PropTypes.shape({
+			href: PropTypes.string.isRequired,
+			label: PropTypes.string.isRequired,
+			separate: PropTypes.bool, // FIXME verb; could be better
+		})
 	).isRequired,
 };
 
