@@ -9,7 +9,8 @@ import theme from '../../../../theme';
 function DrilldownItem ({ className, href, label, separate, separator, style, ...props }) {
 	props.className = cssClassNames([
 		classes.item,
-	], className);
+		className,
+	]);
 
 	const styles = {
 		paddingLeft: 0,

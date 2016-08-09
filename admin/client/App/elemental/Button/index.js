@@ -21,6 +21,7 @@ const BUTTON_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'ca
 function Button ({
 	active,
 	block,
+	className,
 	color,
 	component,
 	disabled,
@@ -37,7 +38,9 @@ function Button ({
 		active ? variantClasses.active : null,
 		block ? commonClasses.block : null,
 		disabled ? commonClasses.disabled : null,
+		className,
 	]);
+
 	// return an anchor or button
 	if (!component) {
 		component = props.href ? 'a' : 'button';
@@ -55,8 +58,8 @@ Button.propTypes = {
 	block: PropTypes.bool,
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.oneOfType([
-		PropTypes.string,
 		PropTypes.func,
+		PropTypes.string,
 	]),
 	disabled: PropTypes.bool,
 	href: PropTypes.string,

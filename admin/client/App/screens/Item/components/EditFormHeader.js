@@ -54,8 +54,8 @@ var Header = React.createClass({
 		if (!items.length) {
 			return (
 				<GlyphButton
-					className="e2e-editform-header-back"
 					component={Link}
+					data-e2e-editform-header-back
 					glyph="chevron-left"
 					position="left"
 					style={backStyles}

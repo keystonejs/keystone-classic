@@ -17,7 +17,11 @@ const cloneWithClassnames = (c) => {
 
 function Alert ({ children, className, color, component, ...props }) {
 	const Component = component;
-	props.className = cssClassNames([classes.alert, classes[color]], className);
+	props.className = cssClassNames([
+		classes.alert,
+		classes[color],
+		className,
+	]);
 	props.children = Children.map(children, cloneWithClassnames);
 
 	return <Component {...props} />;

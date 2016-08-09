@@ -7,7 +7,8 @@ import cssClassNames from '../../../../utils/cssClassNames';
 function Drilldown ({ className, items, ...props }) {
 	props.className = cssClassNames([
 		classes.drilldown,
-	], className);
+		className,
+	]);
 
 	return (
 		<ul {...props}>

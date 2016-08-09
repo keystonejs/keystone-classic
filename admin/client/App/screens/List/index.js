@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { css, StyleSheet } from 'aphrodite/no-important';
 import classnames from 'classnames';
 import numeral from 'numeral';
 import {
@@ -52,7 +51,6 @@ function CreateButton ({ listName, onClick, ...props }) {
 	return (
 		<GlyphButton
 			block
-			className={css(classes.createButton)}
 			color="success"
 			data-e2e-list-create-button="header"
 			glyph="plus"
@@ -642,12 +640,6 @@ const ListView = React.createClass({
 				{this.renderConfirmationDialog()}
 			</div>
 		);
-	},
-});
-
-const classes = StyleSheet.create({
-	createButton: {
-
 	},
 });
 

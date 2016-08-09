@@ -18,7 +18,8 @@ function Glyph ({ className, color, component, name, size, ...props }) {
 		classes.glyph,
 		classes['color__' + color],
 		classes['size__' + size],
-	], cssStaticNames([octicons[name], className]));
+		className,
+	], octicons[name]);
 
 	return <Component {...props} />;
 };
@@ -33,11 +34,5 @@ Glyph.defaultProps = {
 	color: 'inherit',
 	size: 'small',
 };
-
-function cssStaticNames (arr) {
-	if (!arr.length || !Array.isArray(arr)) return '';
-
-	return arr.filter(i => i).join(' ');
-}
 
 module.exports = Glyph;

@@ -3,7 +3,7 @@ import { StyleSheet } from 'aphrodite/no-important';
 import cssClassNames from '../../../utils/cssClassNames';
 
 function ScreenReaderOnly ({ className, ...props }) {
-	props.className = cssClassNames([classes.hidden], className);
+	props.className = cssClassNames([classes.hidden, className]);
 
 	return <span {...props} />;
 };
