@@ -185,6 +185,38 @@ theme.input = {
 	paddingHorizontal: '.75em',
 };
 
+// alert
+
+theme.alert = {
+	padding: '0.75em  1em',
+	margin: '0 0 1em',
+	borderWidth: 1,
+	borderRadius: theme.borderRadius.default,
+
+	color: {
+		danger: {
+			background: fade(theme.color.danger, 10),
+			border: fade(theme.color.danger, 10),
+			text: theme.color.danger,
+		},
+		info: {
+			background: fade(theme.color.primary, 10),
+			border: fade(theme.color.primary, 10),
+			text: theme.color.primary,
+		},
+		success: {
+			background: fade(theme.color.success, 10),
+			border: fade(theme.color.success, 10),
+			text: theme.color.success,
+		},
+		warning: {
+			background: fade(theme.color.warning, 10),
+			border: fade(theme.color.warning, 10),
+			text: theme.color.warning,
+		},
+	},
+};
+
 // glyph
 
 theme.glyph = {
