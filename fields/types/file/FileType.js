@@ -156,7 +156,9 @@ file.prototype.updateItem = function (item, data, files, callback) {
 		} else if (value.substr(0, 7) === 'upload:') {
 			var uploadFieldPath = value.substr(7);
 			var fileToUpload = files[uploadFieldPath];
-			// TODO: Check there's actuall a file to upload
+			if (!fileToUpload) {
+				return utils.defer(callback);
+			}
 			return this.upload(item, fileToUpload, callback);
 		}
 		// TODO: Validation should have prevented us from getting here,
