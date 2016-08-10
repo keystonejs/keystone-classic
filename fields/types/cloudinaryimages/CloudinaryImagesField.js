@@ -1,107 +1,57 @@
-import _ from 'lodash';
-import React from 'react';
+import React, { cloneElement } from 'react';
 import Field from '../Field';
-import { Button, FormField, FormInput, FormNote } from 'elemental';
+import { FormField, FormNote } from 'elemental';
+import { Button } from '../../../admin/client/App/elemental';
 import Lightbox from '../../components/Lightbox';
-import classnames from 'classnames';
+import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
+import Thumbnail from './CloudinaryImagesThumbnail';
+import FileChangeMessage from '../../components/FileChangeMessage';
 
-const SUPPORTED_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/x-icon', 'application/pdf', 'image/x-tiff', 'image/x-tiff', 'application/postscript', 'image/vnd.adobe.photoshop', 'image/svg+xml'];
-
-const iconClassDeleted = [
-	'delete-pending',
-	'mega-octicon',
-	'octicon-x',
-];
-
-const iconClassQueued = [
-	'img-uploading',
-	'mega-octicon',
-	'octicon-cloud-upload',
-];
-
-var Thumbnail = React.createClass({
-	displayName: 'CloudinaryImagesFieldThumbnail',
-
-	propTypes: {
-		deleted: React.PropTypes.bool,
-		height: React.PropTypes.number,
-		isQueued: React.PropTypes.bool,
-		openLightbox: React.PropTypes.func,
-		shouldRenderActionButton: React.PropTypes.bool,
-		toggleDelete: React.PropTypes.func,
-		url: React.PropTypes.string,
-		width: React.PropTypes.number,
-	},
-
-	applyTransforms (url) {
-		var format = this.props.format;
-
-		if (format === 'pdf') {
-			// support cloudinary pdf previews in jpg format
-			url = url.substr(0, url.lastIndexOf('.')) + '.jpg';
-			url = url.replace(/image\/upload/, 'image/upload/c_thumb,h_90,w_90');
-		} else {
-			// add cloudinary thumbnail parameters to the url
-			url = url.replace(/image\/upload/, 'image/upload/c_thumb,g_face,h_90,w_90');
-		}
-
-		return url;
-	},
-
-	renderActionButton () {
-		if (!this.props.shouldRenderActionButton || this.props.isQueued) return null;
-		return <Button type={this.props.deleted ? 'link-text' : 'link-cancel'} block onClick={this.props.toggleDelete}>{this.props.deleted ? 'Undo' : 'Remove'}</Button>;
-	},
-
-	render () {
-		let iconClassName;
-		const { deleted, height, isQueued, url, width, openLightbox, format } = this.props;
-		const previewClassName = classnames('image-preview', {
-			action: (deleted || isQueued),
-		});
-		const title = (width && height) ? (width + ' × ' + height) : '';
-
-		if (deleted) {
-			iconClassName = classnames(iconClassDeleted);
-		} else if (isQueued) {
-			iconClassName = classnames(iconClassQueued);
-		}
-
-		const shouldOpenLightbox = (format !== 'pdf');
-		let thumbUrl = this.applyTransforms(url);
-
-		return (
-			<div className="image-field image-sortable" title={title}>
-				<div className={previewClassName}>
-					<a href={url} onClick={shouldOpenLightbox ? openLightbox : null} className="img-thumbnail" target="_blank">
-						<img style={{ height: '90' }} className="img-load" src={thumbUrl} />
-						<span className={iconClassName} />
-					</a>
-				</div>
-				{this.renderActionButton()}
-			</div>
-		);
-	},
-
-});
+const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
+const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
+const RESIZE_DEFAULTS = {
+	crop: 'fit',
+	format: 'jpg',
+};
 
 module.exports = Field.create({
 	displayName: 'CloudinaryImagesField',
 	statics: {
 		type: 'CloudinaryImages',
 	},
-
 	getInitialState () {
-		var thumbnails = [];
-		var self = this;
+		const thumbnails = [];
 
-		_.forEach(this.props.value, function (item) {
-			self.pushThumbnail(item, thumbnails);
+		this.props.value.forEach((item) => {
+			this.pushThumbnail({
+				imageSourceSmall: cloudinaryResize(item.public_id, {
+					...RESIZE_DEFAULTS,
+					height: 90,
+				}),
+				imageSourceLarge: cloudinaryResize(item.public_id, {
+					...RESIZE_DEFAULTS,
+					height: 600,
+					width: 900,
+				}),
+			}, thumbnails);
 		});
 
 		return { thumbnails: thumbnails };
 	},
 
+	// ==============================
+	// HELPERS
+	// ==============================
+
+	changeImage () {
+		this.fileFieldNode().click();
+	},
+	fileFieldNode () {
+		return this.refs.fileField;
+	},
+	hasFiles () {
+		return this.refs.fileField && this.fileFieldNode().value;
+	},
 	openLightbox (index) {
 		event.preventDefault();
 		this.setState({
@@ -109,7 +59,6 @@ module.exports = Field.create({
 			lightboxImageIndex: index,
 		});
 	},
-
 	closeLightbox () {
 		this.setState({
 			lightboxIsVisible: false,
@@ -117,10 +66,119 @@ module.exports = Field.create({
 		});
 	},
 
-	renderLightbox () {
-		if (!this.props.value || !this.props.value.length) return;
+	// ==============================
+	// METHODS
+	// ==============================
 
-		const images = this.props.value.map(image => image.url);
+	removeThumbnail (i) {
+		const newThumbnails = this.state.thumbnails;
+		const target = newThumbnails[i];
+
+		// if the image is just in the queue (and not uploaded yet)
+		// remove it from the array
+		if (target.props.isQueued) {
+			newThumbnails.splice(i, 1);
+
+		// React > 0.14 the props object is frozen
+		// https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#breaking-changes
+		// Using splice + clone to toggle target thumb props
+		} else {
+			newThumbnails.splice(i, 1, cloneElement(target, {
+				isDeleted: !target.props.isDeleted,
+			}));
+		}
+
+		this.setState({ thumbnails: newThumbnails });
+	},
+	pushThumbnail (args, thumbs = this.state.thumbnails) {
+		const i = thumbs.length;
+
+		thumbs.push(
+			<Thumbnail
+				key={i}
+				openLightbox={this.openLightbox.bind(this, i)}
+				shouldRenderActionButton={this.shouldRenderField()}
+				toggleDelete={this.removeThumbnail.bind(this, i)}
+				{...args}
+			/>
+		);
+	},
+	getCount (key) {
+		var count = 0;
+
+		this.state.thumbnails.forEach((thumb) => {
+			if (thumb && thumb.props[key]) count++;
+		});
+
+		return count;
+	},
+	clearFiles () {
+		this.fileFieldNode().value = '';
+
+		this.setState({
+			thumbnails: this.state.thumbnails.filter(function (thumb) {
+				return !thumb.props.isQueued;
+			}),
+		});
+	},
+	uploadFile (event) {
+		if (!window.FileReader) {
+			return alert('File reader not supported by browser.');
+		}
+		const files = event.target.files;
+
+		// FileList not a real Array; forEach not supported
+		for (let i = 0; i < files.length; i++) {
+			const reader = new FileReader();
+			const f = files[i];
+
+			if (!f.type.match(SUPPORTED_REGEX)) {
+				return alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
+			}
+
+			// TODO use `onloadstart` + `onloadend` to display a loading indicator
+			// for each thumbnail when applicable
+
+			reader.readAsDataURL(f);
+			reader.onload = (e) => {
+				this.pushThumbnail({
+					isQueued: true,
+					imageSourceSmall: e.target.result,
+				});
+				this.forceUpdate();
+			};
+		}
+	},
+
+	// ==============================
+	// RENDERERS
+	// ==============================
+
+	renderFileField () {
+		if (!this.shouldRenderField()) return null;
+
+		return (
+			<input
+				accept={SUPPORTED_TYPES.join()}
+				ref="fileField"
+				type="file"
+				name={this.getInputName(this.props.paths.upload)}
+				multiple
+				className="field-upload"
+				onChange={this.uploadFile}
+				tabIndex="-1"
+			/>
+		);
+	},
+	renderLightbox () {
+		const { value } = this.props;
+		if (!value || !value.length) return;
+
+		const images = value.map(image => cloudinaryResize(image.public_id, {
+			...RESIZE_DEFAULTS,
+			height: 600,
+			width: 900,
+		}));
 
 		return (
 			<Lightbox
@@ -131,182 +189,100 @@ module.exports = Field.create({
 			/>
 		);
 	},
-
-	removeThumbnail (i) {
-		var thumbs = this.state.thumbnails;
-		var thumb = thumbs[i];
-
-		if (thumb.props.isQueued) {
-			thumbs[i] = null;
-		} else {
-			thumb.props.deleted = !thumb.props.deleted;
-		}
-
-		this.setState({ thumbnails: thumbs });
-	},
-
-	pushThumbnail (args, thumbs) {
-		thumbs = thumbs || this.state.thumbnails;
-		var i = thumbs.length;
-		args.toggleDelete = this.removeThumbnail.bind(this, i);
-		args.shouldRenderActionButton = this.shouldRenderField();
-		args.openLightbox = this.openLightbox.bind(this, i);
-		thumbs.push(<Thumbnail key={i} {...args} />);
-	},
-
-	fileFieldNode () {
-		return this.refs.fileField;
-	},
-
-	getCount (key) {
-		var count = 0;
-
-		_.forEach(this.state.thumbnails, function (thumb) {
-			if (thumb && thumb.props[key]) count++;
-		});
-
-		return count;
-	},
-
-	renderFileField () {
-		if (!this.shouldRenderField()) return null;
-
-		return <input ref="fileField" type="file" name={this.getInputName(this.props.paths.upload)} multiple className="field-upload" onChange={this.uploadFile} tabIndex="-1" />;
-	},
-
-	clearFiles () {
-		this.fileFieldNode().value = '';
-
-		this.setState({
-			thumbnails: this.state.thumbnails.filter(function (thumb) {
-				return !thumb.props.isQueued;
-			}),
-		});
-	},
-
-	uploadFile (event) {
-		var self = this;
-
-		var files = event.target.files;
-		_.forEach(files, function (f) {
-			if (!_.includes(SUPPORTED_TYPES, f.type)) {
-				alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
-				return;
-			}
-
-			if (window.FileReader) {
-				var fileReader = new FileReader();
-				fileReader.onload = function (e) {
-					self.pushThumbnail({ isQueued: true, url: e.target.result });
-					self.forceUpdate();
-				};
-				fileReader.readAsDataURL(f);
-			} else {
-				self.pushThumbnail({ isQueued: true, url: '#' });
-				self.forceUpdate();
-			}
-		});
-	},
-
-	changeImage () {
-		this.fileFieldNode().click();
-	},
-
-	hasFiles () {
-		return this.refs.fileField && this.fileFieldNode().value;
-	},
-
 	renderToolbar () {
 		if (!this.shouldRenderField()) return null;
 
-		var body = [];
+		const uploadCount = this.getCount('isQueued');
+		const deleteCount = this.getCount('isDeleted');
 
-		var push = function (queueType, alertType, count, action) {
-			if (count <= 0) return;
+		// provide a gutter for the change message
+		// only required when no cancel button, which has equiv. padding
+		const uploadButtonStyles = !this.hasFiles()
+			? { marginRight: 10 }
+			: {};
 
-			var imageText = count === 1 ? 'image' : 'images';
+		// prepare the change message
+		const changeMessage = uploadCount || deleteCount ? (
+			<FileChangeMessage>
+				{uploadCount && deleteCount ? `${uploadCount} added and ${deleteCount} removed` : null}
+				{uploadCount && !deleteCount ? `${uploadCount} image added` : null}
+				{!uploadCount && deleteCount ? `${deleteCount} image removed` : null}
+			</FileChangeMessage>
+		) : null;
 
-			body.push(<div key={queueType + '-toolbar'} className={queueType + '-queued' + ' u-float-left'}>
-				<FormInput noedit>{count} {imageText} {action}</FormInput>
-			</div>);
+		// prepare the save message
+		const saveMessage = uploadCount || deleteCount ? (
+			<FileChangeMessage color={!deleteCount ? 'success' : 'danger'}>
+				Save to {!deleteCount ? 'Upload' : 'Confirm'}
+			</FileChangeMessage>
+		) : null;
+
+		// clear floating images above
+		const toolbarStyles = {
+			clear: 'both',
 		};
 
-		push('upload', 'success', this.getCount('isQueued'), 'selected - save to upload');
-		push('delete', 'danger', this.getCount('deleted'), 'removed - save to confirm');
-
-		var clearFilesButton;
-		if (this.hasFiles()) {
-			clearFilesButton = <Button type="link-cancel" onClick={this.clearFiles} className="ml-5">Clear selection</Button>;
-		}
-
 		return (
-			<div className="images-toolbar">
-				<div className="u-float-left">
-					<Button onClick={this.changeImage}>Upload Images</Button>
-					{clearFilesButton}
-				</div>
-				{body}
+			<div style={toolbarStyles}>
+				<Button onClick={this.changeImage} style={uploadButtonStyles}>
+					Upload Images
+				</Button>
+				{this.hasFiles() && (
+					<Button variant="link" color="cancel" onClick={this.clearFiles}>
+						Clear selection
+					</Button>
+				)}
+				{changeMessage}
+				{saveMessage}
 			</div>
 		);
 	},
-
-	renderPlaceholder () {
-		return (
-			<div className="image-field image-field--upload" onClick={this.changeImage}>
-				<div className="image-preview">
-					<span className="img-thumbnail">
-						<span className="img-dropzone" />
-						<div className="img-uploading mega-octicon octicon-file-media" />
-					</span>
-				</div>
-
-				<div className="image-details">
-					<span className="image-message">Click to upload</span>
-				</div>
-			</div>
-		);
-	},
-
-	renderContainer () {
-		return (
-			<div className="images-container">
-				{this.state.thumbnails}
-			</div>
-		);
-	},
-
 	renderFieldAction () {
 		if (!this.shouldRenderField()) return null;
 
 		var value = '';
 		var remove = [];
-		_.forEach(this.state.thumbnails, function (thumb) {
-			if (thumb && thumb.props.deleted) remove.push(thumb.props.public_id);
+		this.state.thumbnails.forEach((thumb) => {
+			if (thumb && thumb.props.isDeleted) remove.push(thumb.props.public_id);
 		});
 		if (remove.length) value = 'remove:' + remove.join(',');
 
-		return <input ref="action" className="field-action" type="hidden" value={value} name={this.getInputName(this.props.paths.action)} />;
+		return (
+			<input
+				className="field-action"
+				name={this.getInputName(this.props.paths.action)}
+				ref="action"
+				type="hidden"
+				value={value}
+			/>
+		);
 	},
-
 	renderUploadsField () {
 		if (!this.shouldRenderField()) return null;
 
-		return <input ref="uploads" className="field-uploads" type="hidden" name={this.getInputName(this.props.paths.uploads)} />;
-	},
-
-	renderNote () {
-		return this.props.note ? <FormNote note={this.props.note} /> : null;
-	},
-
-	renderUI () {
 		return (
-			<FormField label={this.props.label} className="field-type-cloudinaryimages" htmlFor={this.props.path}>
+			<input
+				className="field-uploads"
+				name={this.getInputName(this.props.paths.uploads)}
+				ref="uploads"
+				type="hidden"
+			/>
+		);
+	},
+	renderUI () {
+		const { label, note, path } = this.props;
+		const { thumbnails } = this.state;
+
+		return (
+			<FormField label={label} className="field-type-cloudinaryimages" htmlFor={path}>
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}
-				{this.renderContainer()}
+				<div>
+					{thumbnails}
+				</div>
 				{this.renderToolbar()}
-				{this.renderNote()}
+				{!!note && <FormNote note={note} />}
 				{this.renderLightbox()}
 			</FormField>
 		);

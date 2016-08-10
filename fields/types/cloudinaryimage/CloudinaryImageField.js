@@ -16,6 +16,7 @@ import HiddenFileInput from '../../components/HiddenFileInput';
 import Lightbox from '../../components/Lightbox';
 
 const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
+const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
 
 let uploadInc = 0;
 
@@ -51,7 +52,7 @@ module.exports = Field.create({
 		return buildInitialState(this.props);
 	},
 	componentWillReceiveProps (nextProps) {
-		console.log('CloudinaryImageField nextProps:', nextProps);
+		// console.log('CloudinaryImageField nextProps:', nextProps);
 	},
 	componentWillUpdate (nextProps) {
 		// Reset the action state when the value changes
@@ -135,6 +136,10 @@ module.exports = Field.create({
 		var reader = new FileReader();
 		var file = e.target.files[0];
 		if (!file) return;
+
+		if (!file.type.match(SUPPORTED_REGEX)) {
+			return alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
+		}
 
 		reader.readAsDataURL(file);
 
@@ -225,13 +230,13 @@ module.exports = Field.create({
 	renderChangeMessage () {
 		if (this.state.userSelectedFile) {
 			return (
-				<FileChangeMessage type="success">
+				<FileChangeMessage color="success">
 					Save to Upload
 				</FileChangeMessage>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<FileChangeMessage type="danger">
+				<FileChangeMessage color="danger">
 					Save to Remove
 				</FileChangeMessage>
 			);
