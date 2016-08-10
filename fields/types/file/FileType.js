@@ -143,6 +143,11 @@ file.prototype.updateItem = function (item, data, files, callback) {
 
 	var value = this.getValueFromData(data);
 
+	// Ignore undefined values
+	if (value === undefined) {
+		return utils.defer(callback);
+	}
+
 	// Allow field value reset
 	if (value === null || value === '' || (typeof value === 'object' && !Object.keys(value).length)) {
 		this.reset(item);
@@ -156,7 +161,9 @@ file.prototype.updateItem = function (item, data, files, callback) {
 		} else if (value.substr(0, 7) === 'upload:') {
 			var uploadFieldPath = value.substr(7);
 			var fileToUpload = files[uploadFieldPath];
-			// TODO: Check there's actuall a file to upload
+			if (!fileToUpload) {
+				return utils.defer(callback);
+			}
 			return this.upload(item, fileToUpload, callback);
 		}
 		// TODO: Validation should have prevented us from getting here,
