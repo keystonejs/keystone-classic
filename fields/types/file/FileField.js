@@ -106,15 +106,16 @@ module.exports = Field.create({
 	// RENDERERS
 	// ==============================
 
-	renderFileNameAndOptionalMessage (showChangeMessage = false) {
+	renderFileNameAndChangeMessage () {
+		const href = this.props.value ? this.props.value.url : undefined;
 		return (
 			<div>
 				{(this.hasFile() && !this.state.removeExisting) ? (
-					<FileChangeMessage>
+					<FileChangeMessage href={href} target="_blank">
 						{this.getFilename()}
 					</FileChangeMessage>
 				) : null}
-				{showChangeMessage && this.renderChangeMessage()}
+				{this.renderChangeMessage()}
 			</div>
 		);
 	},
@@ -189,7 +190,7 @@ module.exports = Field.create({
 				<FormField label={this.props.label} htmlFor={this.props.path}>
 					{this.shouldRenderField() ? (
 						<div>
-							{this.hasFile() && this.renderFileNameAndOptionalMessage(true)}
+							{this.hasFile() && this.renderFileNameAndChangeMessage()}
 							{buttons}
 							<HiddenFileInput
 								key={this.state.uploadFieldPath}
@@ -202,7 +203,7 @@ module.exports = Field.create({
 					) : (
 						<div>
 							{this.hasFile()
-								? this.renderFileNameAndOptionalMessage()
+								? this.renderFileNameAndChangeMessage()
 								: <FormInput noedit>no file</FormInput>}
 						</div>
 					)}
