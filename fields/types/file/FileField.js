@@ -47,8 +47,10 @@ module.exports = Field.create({
 		return this.props.collapse && !this.hasExisting();
 	},
 	componentWillUpdate (nextProps) {
+		const value = this.props.value || {};
+		const nextVal = nextProps.value || {};
 		// Show the new filename when it's finished uploading
-		if (this.props.value.filename !== nextProps.value.filename) {
+		if (value.filename !== nextVal.filename) {
 			this.setState(buildInitialState(nextProps));
 		}
 	},
@@ -66,7 +68,7 @@ module.exports = Field.create({
 	getFilename () {
 		return this.state.userSelectedFile
 			? this.state.userSelectedFile.name
-			: this.props.value.filename;
+			: this.props.value && this.props.value.filename;
 	},
 
 	// ==============================
@@ -74,7 +76,7 @@ module.exports = Field.create({
 	// ==============================
 
 	triggerFileBrowser () {
-		this.refs.fileInput.clickDomNode();
+		this.fileInput && this.fileInput.clickDomNode();
 	},
 	handleFileChange (event) {
 		const userSelectedFile = event.target.files[0];
@@ -206,15 +208,17 @@ module.exports = Field.create({
 								key={this.state.uploadFieldPath}
 								name={this.state.uploadFieldPath}
 								onChange={this.handleFileChange}
-								ref="fileInput"
+								ref={el => { this.fileInput = el; }}
 							/>
 							{this.renderActionInput()}
 						</div>
 					) : (
 						<div>
-							{this.hasFile()
-								? this.renderFileNameAndChangeMessage()
-								: <FormInput noedit>no file</FormInput>}
+							{this.hasFile() ? (
+								this.renderFileNameAndChangeMessage()
+							) : (
+								<FormInput noedit>no file</FormInput>
+							)}
 						</div>
 					)}
 					{!!this.props.note && <FormNote note={this.props.note} />}
